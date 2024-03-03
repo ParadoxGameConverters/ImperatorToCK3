@@ -3,7 +3,6 @@ using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,9 +11,6 @@ namespace ImperatorToCK3.CK3.Dynasties;
 
 public class DynastyCollection : ConcurrentIdObjectCollection<string, Dynasty> {
 	public void ImportImperatorFamilies(Imperator.World irWorld, CultureMapper cultureMapper, LocDB locDB, Date date) {
-		var stopWatch = new Stopwatch(); // TODO: REMOVE THIS
-		stopWatch.Start();
-		
 		Logger.Info("Importing Imperator families...");
 
 		var imperatorCharacters = irWorld.Characters;
@@ -30,8 +26,6 @@ public class DynastyCollection : ConcurrentIdObjectCollection<string, Dynasty> {
 			Interlocked.Increment(ref importedCount);
 		});
 		Logger.Info($"{importedCount} total families imported.");
-		stopWatch.Stop();
-		Logger.Error($"Importing families WITH PARALLELISM took {stopWatch.ElapsedMilliseconds}ms."); // TODO: REMOVE THIS
 
 		Logger.IncrementProgress();
 	}
