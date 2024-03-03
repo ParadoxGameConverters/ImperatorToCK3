@@ -51,7 +51,7 @@ public static class ProvincesOutputter {
 		if (alreadyOutputtedProvinces.Count != provinces.Count) {
 			var mappingsPath = $"output/{outputModName}/history/province_mapping/province_mapping.txt";
 			using var mappingsWriter = FileOpeningHelper.OpenWriteWithRetries(mappingsPath, System.Text.Encoding.UTF8);
-			var threadSafeWriter = TextWriter.Synchronized(mappingsWriter);
+			using var threadSafeWriter = TextWriter.Synchronized(mappingsWriter);
 
 			foreach (var province in provinces) {
 				if (alreadyOutputtedProvinces.Contains(province.Id)) {
