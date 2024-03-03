@@ -3,25 +3,35 @@ using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Dynasties;
 
-public class DynastyCollection : IdObjectCollection<string, Dynasty> {
+public class DynastyCollection : ConcurrentIdObjectCollection<string, Dynasty> {
 	public void ImportImperatorFamilies(Imperator.World irWorld, CultureMapper cultureMapper, LocDB locDB, Date date) {
-		Logger.Info("Importing Imperator Families...");
+		var stopWatch = new Stopwatch(); // TODO: REMOVE THIS
+		stopWatch.Start();
+		
+		Logger.Info("Importing Imperator families...");
 
 		var imperatorCharacters = irWorld.Characters;
 		// The collection only holds dynasties converted from Imperator families, as vanilla ones aren't modified.
-		foreach (var family in irWorld.Families) {
+		int importedCount = 0;
+		Parallel.ForEach(irWorld.Families, family => {
 			if (family.Minor) {
-				continue;
+				return;
 			}
 
 			var newDynasty = new Dynasty(family, imperatorCharacters, irWorld.CulturesDB, cultureMapper, locDB, date);
 			Add(newDynasty);
-		}
-		Logger.Info($"{Count} total families imported.");
+			Interlocked.Increment(ref importedCount);
+		});
+		Logger.Info($"{importedCount} total families imported.");
+		stopWatch.Stop();
+		Logger.Error($"Importing families WITH PARALLELISM took {stopWatch.ElapsedMilliseconds}ms."); // TODO: REMOVE THIS
 
 		Logger.IncrementProgress();
 	}
