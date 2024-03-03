@@ -168,6 +168,7 @@ public class Character : IIdentifiable<string> {
 		.WithSimpleField("learning", "learning", null)
 		.WithSimpleField("prowess", "prowess", null)
 		.WithSimpleField("health", "health", null)
+		.WithSimpleField("fertility", "fertility", null)
 		.WithDiffField("languages", new OrderedSet<string> {"learn_language"}, new OrderedSet<string>())
 		.WithLiteralField("learn_language_of_culture", "learn_language_of_culture")
 		.WithSimpleField("culture", new OrderedSet<string> {"culture", "set_culture"}, null)
