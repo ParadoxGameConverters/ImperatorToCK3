@@ -261,11 +261,11 @@ public partial class Title {
 			Configuration config,
 			List<KeyValuePair<Country, Dependency?>> countyLevelCountries
 		) {
-			Logger.Info("Importing Imperator Countries...");
+			Logger.Info("Importing Imperator countries...");
 
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
 			// add new ones from Imperator tags.
-			var counter = 0;
+			int counter = 0;
 			
 			// We don't need pirates, barbarians etc.
 			var realCountries = imperatorCountries.Where(c => c.CountryType == CountryType.real).ToImmutableList();

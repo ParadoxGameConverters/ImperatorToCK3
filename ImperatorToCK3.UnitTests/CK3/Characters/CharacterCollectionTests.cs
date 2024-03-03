@@ -1,6 +1,5 @@
 using commonItems;
 using commonItems.Colors;
-using commonItems.Localization;
 using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
@@ -99,7 +98,7 @@ public class CharacterCollectionTests {
 			endDate,
 			configuration);
 
-		Assert.Collection(ck3Characters,
+		Assert.Collection(ck3Characters.OrderBy(c => c.Id),
 			ck3Male => {
 				var marriageDate = ck3Male.History.Fields["spouses"].DateToEntriesDict.FirstOrDefault().Key;
 				Assert.Equal(new Date(899, 3, 27, AUC: true), marriageDate);
@@ -143,7 +142,7 @@ public class CharacterCollectionTests {
 			endDate,
 			configuration);
 
-		Assert.Collection(ck3Characters,
+		Assert.Collection(ck3Characters.OrderBy(c => c.Id),
 			ck3Male => {
 				Assert.Equal(new Date(899, 3, 27, AUC: true),
 					ck3Male.History.Fields["spouses"].DateToEntriesDict.FirstOrDefault().Key);
@@ -353,7 +352,7 @@ public class CharacterCollectionTests {
 		// Due to 0.5 currency rate, from Imperator country's 200 gold we have 100 CK3 gold.
 		// Gold is divided among ruler and vassals, with ruler having weight of 2.
 		// So from 100 gold, ruler gets 50 and both governor-vassals get 25 each.
-		Assert.Collection(characters,
+		Assert.Collection(characters.OrderBy(c => c.Id),
 			ck3Monarch => {
 				Assert.Equal("imperator1000", ck3Monarch.Id);
 				Assert.Equal(50, ck3Monarch.Gold);

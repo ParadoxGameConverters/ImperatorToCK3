@@ -166,7 +166,11 @@ public class Character : IIdentifiable<string> {
 		.WithSimpleField("stewardship", "stewardship", null)
 		.WithSimpleField("intrigue", "intrigue", null)
 		.WithSimpleField("learning", "learning", null)
+		.WithSimpleField("prowess", "prowess", null)
+		.WithSimpleField("health", "health", null)
+		.WithSimpleField("fertility", "fertility", null)
 		.WithDiffField("languages", new OrderedSet<string> {"learn_language"}, new OrderedSet<string>())
+		.WithLiteralField("learn_language_of_culture", "learn_language_of_culture")
 		.WithSimpleField("culture", new OrderedSet<string> {"culture", "set_culture"}, null)
 		.WithSimpleField("faith", new OrderedSet<string> { "faith", "religion" }, null)
 		.WithSimpleField("government", "change_government", null)
@@ -206,6 +210,7 @@ public class Character : IIdentifiable<string> {
 		.WithLiteralField("contract_disease_effect", "contract_disease_effect")
 		.WithLiteralField("spawn_army", "spawn_army")
 		.WithLiteralField("if", "if")
+		.WithSimpleField("sexuality", "sexuality", null)
 		.Build();
 	public History History { get; } = historyFactory.GetHistory();
 

@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Provinces;
 
@@ -114,32 +116,36 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		Configuration config
 	) {
 		Logger.Info("Importing Imperator provinces...");
-		var importedIRProvsCount = 0;
-		var modifiedCK3ProvsCount = 0;
+		
+		int importedIRProvsCount = 0;
+		int modifiedCK3ProvsCount = 0;
 		// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
-		foreach (var province in this) {
+		Parallel.ForEach(this, province => {
 			var sourceProvinceIds = provinceMapper.GetImperatorProvinceNumbers(province.Id);
 			// Provinces we're not affecting will not be in this list.
 			if (sourceProvinceIds.Count == 0) {
-				continue;
+				return;
 			}
+
 			// Next, we find what province to use as its primary initializing source.
 			var primarySource = DeterminePrimarySourceProvince(sourceProvinceIds, irWorld);
 			if (primarySource is null) {
 				Logger.Warn($"Could not determine primary source province for CK3 province {province.Id}!");
-				continue;
+				return;
 			}
+
 			var secondarySourceProvinces = irWorld.Provinces
 				.Where(p => sourceProvinceIds.Contains(p.Id) && p.Id != primarySource.Id)
 				.ToOrderedSet();
 			// And finally, initialize it.
-			province.InitializeFromImperator(primarySource, secondarySourceProvinces, titles, cultureMapper, religionMapper, conversionDate, config);
+			province.InitializeFromImperator(primarySource, secondarySourceProvinces, titles, cultureMapper,
+				religionMapper, conversionDate, config);
 
-			importedIRProvsCount += sourceProvinceIds.Count;
-			++modifiedCK3ProvsCount;
-		}
+			Interlocked.Add(ref importedIRProvsCount, sourceProvinceIds.Count);
+			Interlocked.Increment(ref modifiedCK3ProvsCount);
+		});
 		Logger.Info($"{importedIRProvsCount} I:R provinces imported into {modifiedCK3ProvsCount} CK3 provinces.");
-
+		
 		Logger.IncrementProgress();
 	}
 
@@ -183,9 +189,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 			}
 
 			theClaims[ownerId].Add(irProvince);
-			if (!theShares.ContainsKey(ownerId)) {
-				theShares[ownerId] = 0;
-			}
+			theShares.TryAdd(ownerId, 0);
 			theShares[ownerId] += irProvince.CivilizationValue;
 		}
 		
