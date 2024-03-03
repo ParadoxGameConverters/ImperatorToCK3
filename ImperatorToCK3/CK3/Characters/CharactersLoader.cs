@@ -26,7 +26,6 @@ public partial class CharacterCollection {
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("history/characters", ck3ModFS, "txt", recursive: true, parallel: true);
 		
-
 		foreach (var character in loadedCharacters) {
 			character.UpdateChildrenCacheOfParents();
 		}
