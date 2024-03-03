@@ -34,11 +34,14 @@ public class DynastiesOutputterTests {
 
 		var characters = new CharacterCollection();
 		var dynasties = new DynastyCollection();
+		var cultures = new CulturesDB();
+		
 		var family1 = new Family(1);
-		var dynasty1 = new Dynasty(family1, characters, new CulturesDB(), cultureMapper, locDB, ConversionDate);
+		var dynasty1 = new Dynasty(family1, characters, cultures, cultureMapper, locDB, ConversionDate);
 		dynasties.Add(dynasty1);
+		
 		var family2 = new Family(2);
-		var dynasty2 = new Dynasty(family2, characters, new CulturesDB(), cultureMapper, locDB, ConversionDate) {
+		var dynasty2 = new Dynasty(family2, characters, cultures, cultureMapper, locDB, ConversionDate) {
 			CultureId = "roman"
 		};
 		dynasties.Add(dynasty2);
