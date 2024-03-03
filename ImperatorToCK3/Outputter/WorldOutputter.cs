@@ -28,7 +28,7 @@ public static class WorldOutputter {
 		DynastiesOutputter.OutputDynasties(outputName, ck3World.Dynasties);
 		Logger.IncrementProgress();
 
-		Logger.Info("Writing Provinces...");
+		Logger.Info("Writing provinces...");
 		ProvincesOutputter.OutputProvinces(outputName, ck3World.Provinces, ck3World.LandedTitles);
 		Logger.IncrementProgress();
 
