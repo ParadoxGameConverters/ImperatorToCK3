@@ -6,6 +6,7 @@ using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Mappers.Gene;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -17,9 +18,9 @@ public sealed class DNAFactory {
 	private readonly IPixelCollection<ushort> irSkinPalettePixels;
 	private readonly IPixelCollection<ushort> irEyePalettePixels;
 
-	private readonly Dictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3HairColorToPaletteCoordinatesDict = new();
-	private readonly Dictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3SkinColorToPaletteCoordinatesDict = new();
-	private readonly Dictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3EyeColorToPaletteCoordinatesDict = new();
+	private readonly ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3HairColorToPaletteCoordinatesDict = new();
+	private readonly ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3SkinColorToPaletteCoordinatesDict = new();
+	private readonly ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3EyeColorToPaletteCoordinatesDict = new();
 	
 	private readonly GenesDB ck3GenesDB;
 	private readonly AccessoryGeneMapper accessoryGeneMapper = new("configurables/accessory_genes_map.txt");
@@ -445,7 +446,7 @@ public sealed class DNAFactory {
 	private static DNA.PaletteCoordinates GetPaletteCoordinates(
 		PaletteCoordinates irPaletteCoordinates,
 		IPixelCollection<ushort> irPalettePixels,
-		IDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3ColorToCoordinatesDict
+		ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3ColorToCoordinatesDict
 	) {
 		var irColor = irPalettePixels.GetPixel(irPaletteCoordinates.X, irPaletteCoordinates.Y).ToColor();
 		if (irColor is not null) {
@@ -459,7 +460,7 @@ public sealed class DNAFactory {
 	
 	private static DNA.PaletteCoordinates GetCoordinatesOfClosestCK3Color(
 		IMagickColor<ushort> irColor,
-		IDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3ColorToCoordinatesDict
+		ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3ColorToCoordinatesDict
 	) {
 		if (ck3ColorToCoordinatesDict.TryGetValue(irColor, out var foundCoordinates)) {
 			return foundCoordinates;
