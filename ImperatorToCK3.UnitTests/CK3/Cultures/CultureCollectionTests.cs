@@ -31,4 +31,18 @@ public class CultureCollectionTests {
 		var expectedColor = new Color(colorHash.R, colorHash.G, colorHash.B);
 		Assert.Equal(expectedColor, cultureWithoutDefinedColor.Color);
 	}
+
+	[Fact]
+	public void ConverterHeritageCanBeMergedIntoExistingHeritage() {
+		// Existing heritage: "heritage_arberian" with culture "arberian"
+		// Converter heritage: "heritage_arvanite" with cultures "albanian" and "arvanite"
+		// Expected result: "heritage_arberian" with cultures "albanian" and "arvanite"
+		
+		var cultures = new CultureCollection(ColorFactory, Pillars);
+		cultures.LoadNameLists(CK3ModFS);
+		cultures.LoadCultures(CK3ModFS);
+		
+		var cultureGroup = cultures["arberian"];
+		
+	}
 }
