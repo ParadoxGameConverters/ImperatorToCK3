@@ -23,11 +23,11 @@ public class PillarCollection : IdObjectCollection<string, Pillar> {
 		parser.ParseGameFolder("common/culture/pillars", ck3ModFS, "txt", true);
 	}
 
-	public void LoadConverterPillars(string converterCulturesPath){
+	public void LoadConverterPillars(string converterPillarsPath) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, pillarId) => LoadPillar(pillarId, reader));
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseFolder(converterCulturesPath, "txt", true, logFilePaths: true);
+		parser.ParseFolder(converterPillarsPath, "txt", true, logFilePaths: true);
 	}
 	
 	private void LoadPillar(string pillarId, BufferedReader pillarReader) {

@@ -8,15 +8,22 @@ namespace ImperatorToCK3.UnitTests.TestHelpers;
 public class TestCK3CultureCollection() : CultureCollection(new ColorFactory(), TestCulturalPillars) {
 	private static readonly PillarCollection TestCulturalPillars = new(new ColorFactory());
 	
-	static TestCK3CultureCollection() {
-		TestCulturalPillars.Add(new Pillar("test_heritage", new PillarData { Type = "heritage" }));
+	public void LoadConverterPillars(string filePath) {
+		TestCulturalPillars.LoadConverterPillars(filePath);
 	}
 
-	public void GenerateTestCulture(string id) {
+	public void GenerateTestCulture(string id, string heritageId = "test_heritage") {
 		const string nameListId = "name_list_test";
 		var nameList = new NameList(nameListId, new BufferedReader());
+		
+		var heritage = TestCulturalPillars.Heritages.FirstOrDefault(p => p.Id == heritageId);
+		if (heritage is null) {
+			heritage = new Pillar(heritageId, new PillarData { Type = "heritage" });
+			TestCulturalPillars.Add(heritage);
+		}
+		
 		var cultureData = new CultureData {
-			Heritage = TestCulturalPillars.Heritages.First(p => p.Id == "test_heritage"),
+			Heritage = heritage,
 			NameLists = {nameList}
 		};
 		var culture = new Culture(id, cultureData);

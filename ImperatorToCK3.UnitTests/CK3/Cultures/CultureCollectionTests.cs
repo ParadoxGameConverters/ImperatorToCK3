@@ -3,7 +3,9 @@ using commonItems.Colors;
 using commonItems.Mods;
 using Fernandezja.ColorHashSharp;
 using ImperatorToCK3.CK3.Cultures;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
+using System.Linq;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Cultures; 
@@ -35,14 +37,16 @@ public class CultureCollectionTests {
 	[Fact]
 	public void ConverterHeritageCanBeMergedIntoExistingHeritage() {
 		// Existing heritage: "heritage_arberian" with culture "arberian"
-		// Converter heritage: "heritage_arvanite" with cultures "albanian" and "arvanite"
-		// Expected result: "heritage_arberian" with cultures "albanian" and "arvanite"
+		// Converter heritage: "heritage_arvanite" with cultures "albanian" and "dalmatian"
+		// Expected result: "heritage_arberian" with cultures "arberian" and "dalmatian"
 		
-		var cultures = new CultureCollection(ColorFactory, Pillars);
-		cultures.LoadNameLists(CK3ModFS);
-		cultures.LoadCultures(CK3ModFS);
+		var cultures = new TestCK3CultureCollection();
+		cultures.GenerateTestCulture("arberian", "heritage_arberian");
+		cultures.LoadConverterPillars("TestFiles/configurables/converter_pillars.txt"); // TODO: FIX PATH
+		cultures.LoadConverterCultures("TestFiles/configurables/converter_cultures.txt"); // TODO: FIX PATH
 		
-		var cultureGroup = cultures["arberian"];
-		
+		Assert.Equal(2, cultures.Count);
+		Assert.Equal("heritage_arberian", cultures["arberian"].Heritage.Id);
+		Assert.Equal("heritage_arberian", cultures["dalmatian"].Heritage.Id);
 	}
 }
