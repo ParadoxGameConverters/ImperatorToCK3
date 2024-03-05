@@ -49,3 +49,6 @@ additional_fatimids_1
 109607
 6878
 107590
+
+# Characters referenced in legend seeds:
+7627
