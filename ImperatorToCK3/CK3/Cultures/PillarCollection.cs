@@ -10,10 +10,19 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Cultures; 
 
 public class PillarCollection : IdObjectCollection<string, Pillar> {
-	public IEnumerable<Pillar> Heritages => this.Where(p => p.Type == "heritage").ToImmutableList();
+	private readonly Dictionary<string, string> mergedPillarsDict = [];
 
 	public PillarCollection(ColorFactory colorFactory) {
 		InitPillarDataParser(colorFactory);
+	}
+
+	public Pillar? GetHeritageForId(string heritageId) {
+		var heritages = this.Where(p => p.Type == "heritage").ToHashSet();
+		if (mergedPillarsDict.TryGetValue(heritageId, out var mergedHeritageId)) {
+			return heritages.FirstOrDefault(p => p.Id == mergedHeritageId);
+		}
+		
+		return heritages.FirstOrDefault(p => p.Id == heritageId);
 	}
 
 	public void LoadPillars(ModFilesystem ck3ModFS) {
@@ -23,11 +32,11 @@ public class PillarCollection : IdObjectCollection<string, Pillar> {
 		parser.ParseGameFolder("common/culture/pillars", ck3ModFS, "txt", true);
 	}
 
-	public void LoadConverterPillars(string converterCulturesPath){
+	public void LoadConverterPillars(string converterPillarsPath) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, pillarId) => LoadPillar(pillarId, reader));
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseFolder(converterCulturesPath, "txt", true, logFilePaths: true);
+		parser.ParseFolder(converterPillarsPath, "txt", true, logFilePaths: true);
 	}
 	
 	private void LoadPillar(string pillarId, BufferedReader pillarReader) {
@@ -41,6 +50,7 @@ public class PillarCollection : IdObjectCollection<string, Pillar> {
 					continue;
 				}
 				Logger.Debug($"Pillar {pillarId} is invalidated by existing {existingPillar.Id}.");
+				mergedPillarsDict[pillarId] = existingPillar.Id;
 				return;
 			}
 			Logger.Debug($"Loading optional pillar {pillarId}...");
@@ -53,7 +63,7 @@ public class PillarCollection : IdObjectCollection<string, Pillar> {
 	}
 
 	private void InitPillarDataParser(ColorFactory colorFactory) {
-		pillarDataParser.RegisterKeyword("INVALIDATED_BY", reader => {
+		pillarDataParser.RegisterKeyword("REPLACED_BY", reader => {
 			pillarData.InvalidatingPillarIds = reader.GetStrings();
 		});
 		pillarDataParser.RegisterKeyword("type", reader => {

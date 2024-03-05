@@ -1,6 +1,6 @@
 ﻿
 language_venetic = {
-    INVALIDATED_BY = { language_venetic }
+    REPLACED_BY = { language_venetic }
 
 	type = language
 	is_shown = {

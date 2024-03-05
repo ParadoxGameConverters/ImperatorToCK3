@@ -1,6 +1,6 @@
 ﻿
 heritage_venetic = {
-    INVALIDATED_BY = { heritage_venetic }
+    REPLACED_BY = { heritage_venetic }
 
 	type = heritage
 	parameters = {
