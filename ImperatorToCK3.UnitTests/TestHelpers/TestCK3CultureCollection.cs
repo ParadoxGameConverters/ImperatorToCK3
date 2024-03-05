@@ -12,11 +12,15 @@ public class TestCK3CultureCollection() : CultureCollection(new ColorFactory(), 
 		TestCulturalPillars.LoadConverterPillars(filePath);
 	}
 
+	public void AddNameList(NameList nameList) {
+		NameListCollection.Add(nameList);
+	}
+
 	public void GenerateTestCulture(string id, string heritageId = "test_heritage") {
 		const string nameListId = "name_list_test";
 		var nameList = new NameList(nameListId, new BufferedReader());
-		
-		var heritage = TestCulturalPillars.Heritages.FirstOrDefault(p => p.Id == heritageId);
+
+		var heritage = TestCulturalPillars.GetHeritageForId(heritageId);
 		if (heritage is null) {
 			heritage = new Pillar(heritageId, new PillarData { Type = "heritage" });
 			TestCulturalPillars.Add(heritage);
