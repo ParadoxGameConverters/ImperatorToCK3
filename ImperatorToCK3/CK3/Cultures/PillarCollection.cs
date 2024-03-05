@@ -24,6 +24,15 @@ public class PillarCollection : IdObjectCollection<string, Pillar> {
 		
 		return heritages.FirstOrDefault(p => p.Id == heritageId);
 	}
+	
+	public Pillar? GetLanguageForId(string languageId) {
+		var languages = this.Where(p => p.Type == "language").ToHashSet();
+		if (mergedPillarsDict.TryGetValue(languageId, out var mergedLanguageId)) {
+			return languages.FirstOrDefault(p => p.Id == mergedLanguageId);
+		}
+		
+		return languages.FirstOrDefault(p => p.Id == languageId);
+	}
 
 	public void LoadPillars(ModFilesystem ck3ModFS) {
 		var parser = new Parser();

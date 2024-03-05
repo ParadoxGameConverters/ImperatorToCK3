@@ -53,4 +53,24 @@ public class CultureCollectionTests {
 		Assert.Equal("heritage_arberian", cultures["arberian"].Heritage.Id);
 		Assert.Equal("heritage_arberian", cultures["dalmatian"].Heritage.Id);
 	}
+
+	[Fact]
+	public void ConverterLanguageCanBeMergedIntoExistingLanguage() {
+		// Existing language: "language_illyrian"
+		// Converter language: "language_albanian" used by cultures "albanian" and "dalmatian"
+		// Expected result: "language_illyrian" used by cultures "albanian" and "dalmatian"
+
+		var cultures = new TestCK3CultureCollection();
+		Assert.Empty(cultures);
+		
+		cultures.AddPillar(new("language_illyrian", new() {Type = "language"}));
+		
+		cultures.AddNameList(new NameList("name_list_albanian", new BufferedReader()));
+		cultures.LoadConverterPillars("TestFiles/CK3/CultureCollectionTests/configurables/converter_pillars");
+		cultures.LoadConverterCultures("TestFiles/CK3/CultureCollectionTests/configurables/converter_cultures.txt");
+		
+		Assert.Equal(2, cultures.Count);
+		Assert.Equal("language_illyrian", cultures["albanian"].Language.Id);
+		Assert.Equal("language_illyrian", cultures["dalmatian"].Language.Id);
+	}
 }
