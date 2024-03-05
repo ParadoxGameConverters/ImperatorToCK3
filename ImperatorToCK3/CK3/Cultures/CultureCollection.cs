@@ -11,7 +11,7 @@ namespace ImperatorToCK3.CK3.Cultures;
 
 public class CultureCollection : IdObjectCollection<string, Culture> {
 	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection) {
-		this.pillarCollection = pillarCollection;
+		this.PillarCollection = pillarCollection;
 		InitCultureDataParser(colorFactory);
 	}
 
@@ -31,9 +31,16 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		});
 		cultureDataParser.RegisterKeyword("heritage", reader => {
 			var heritageId = reader.GetString();
-			cultureData.Heritage = pillarCollection.GetHeritageForId(heritageId);
+			cultureData.Heritage = PillarCollection.GetHeritageForId(heritageId);
 			if (cultureData.Heritage is null) {
 				Logger.Warn($"Found unrecognized heritage when parsing cultures: {heritageId}");
+			}
+		});
+		cultureDataParser.RegisterKeyword("language", reader => {
+			var languageId = reader.GetString();
+			cultureData.Language = PillarCollection.GetLanguageForId(languageId);
+			if (cultureData.Language is null) {
+				Logger.Warn($"Found unrecognized language when parsing cultures: {languageId}");
 			}
 		});
 		cultureDataParser.RegisterKeyword("traditions", reader => {
@@ -123,7 +130,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 
 	private readonly IDictionary<string, string> cultureReplacements = new Dictionary<string, string>(); // replaced culture -> replacing culture
 	
-	private readonly PillarCollection pillarCollection;
+	protected readonly PillarCollection PillarCollection;
 	protected readonly IdObjectCollection<string, NameList> NameListCollection = new();
 	
 	private CultureData cultureData = new();
