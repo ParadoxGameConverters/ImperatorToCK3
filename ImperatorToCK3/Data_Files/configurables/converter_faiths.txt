@@ -4605,8 +4605,6 @@ hurrian_religion_group = {
 	doctrine = doctrine_adultery_men_shunned
 	doctrine = doctrine_adultery_women_crime
 	doctrine = doctrine_kinslaying_close_kin_crime
-	#Infanticide
-	doctrine = doctrine_infanticide_any
 
 	#Clerical Functions
 	doctrine = doctrine_clerical_gender_either
