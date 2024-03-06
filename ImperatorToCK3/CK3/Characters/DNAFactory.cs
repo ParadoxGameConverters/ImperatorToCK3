@@ -262,7 +262,7 @@ public sealed class DNAFactory {
 		morphDNAValues.Add("gene_age", GetAgeGeneValue(irCharacter));
 
 		// Convert baldness.
-		if (irCharacter.IsBald) {
+		if (irCharacter.IsBald) {  // TODO: CHECK IF BALD CHARACTERS STILL CORRECTLY APPEAR BALD IN CK3
 			morphDNAValues["gene_baldness"] = new DNAGeneValue {
 				TemplateName = "male_pattern_baldness",
 				IntSliderValue = 255,
@@ -276,6 +276,14 @@ public sealed class DNAFactory {
 					TemplateName = "no_hairstyles", IntSliderValue = 0
 				};
 			}
+
+			morphDNAValues["gene_balding_hair_effect"] = new DNAGeneValue {
+				TemplateName =
+					"baldness_stage_2", // TODO: CHECK, MAYBE shaved_baldness OR baldness_stage_1 IS CLOSER TO I:R BALDNESS
+				IntSliderValue = 255,
+				TemplateRecessiveName = "baldness_stage_2",
+				IntSliderValueRecessive = 255
+			};
 		} else {
 			morphDNAValues["gene_baldness"] = new DNAGeneValue {
 				TemplateName = "no_baldness",
