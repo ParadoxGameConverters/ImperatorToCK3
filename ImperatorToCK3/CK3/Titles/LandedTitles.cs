@@ -621,7 +621,11 @@ public partial class Title {
 
 		private void SetDeJureKingdoms(Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure kingdoms...");
-			foreach (var duchy in this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0)) {
+
+			var duchies = this.Where(t => t.Rank == TitleRank.duchy).ToHashSet();
+			var duchiesWithDeJureVassals = duchies.Where(d => d.DeJureVassals.Count > 0).ToHashSet();
+
+			foreach (var duchy in duchiesWithDeJureVassals) {
 				// If capital county belongs to a kingdom, make the kingdom a de jure liege of the duchy.
 				var capitalRealm = duchy.CapitalCounty?.GetRealmOfRank(TitleRank.kingdom, ck3BookmarkDate);
 				if (capitalRealm is not null) {
@@ -644,6 +648,14 @@ public partial class Title {
 					duchy.DeJureLiege = this[biggestShare.Key];
 				}
 			}
+
+			// Duchies without de jure vassals should not be de jure part of any kingdom.
+			var duchiesWithoutDeJureVassals = duchies.Except(duchiesWithDeJureVassals);
+			foreach (var duchy in duchiesWithoutDeJureVassals) {
+				Logger.Debug($"Duchy {duchy.Id} has no de jure vassals. Removing de jure liege.");
+				duchy.DeJureLiege = null;
+			}
+
 			Logger.IncrementProgress();
 		}
 
