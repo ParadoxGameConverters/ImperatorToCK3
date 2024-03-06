@@ -1,6 +1,7 @@
 heritage_arvanite = {
     REPLACED_BY = { heritage_arberian heritage_arvanite }
 	type = heritage
+	audio_parameter = european
 }
 
 language_albanian = {

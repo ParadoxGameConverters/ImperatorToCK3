@@ -1,84 +1,101 @@
 ﻿heritage_nuragic = {
     REPLACED_BY = { heritage_nuragic }
 	type = heritage
+	audio_parameter = european
 }
 
 heritage_anatolian = {
     REPLACED_BY = { heritage_anatolian }
 	type = heritage
+	audio_parameter = european
 }
 
 heritage_hittite = {
     REPLACED_BY = { heritage_hittite }
 	type = heritage
+	audio_parameter = european
 }
 
 heritage_arvanite = {
     REPLACED_BY = { heritage_arvanite }
 	type = heritage
+	audio_parameter = european
 }
 
 heritage_chaldean = {
     REPLACED_BY = { heritage_chaldean }
 	type = heritage
+	audio_parameter = european
 }
 
 heritage_gaulish = {
     REPLACED_BY = { heritage_gaulish }
 	type = heritage
+	audio_parameter = european
 }
 
 heritage_iberian_celtic = { # https://en.wikipedia.org/wiki/List_of_ancient_Celtic_peoples_and_tribes#Hispano-Celts_/_Celts_of_Hispania
 	REPLACED_BY = { heritage_iberian_celtic }
 	type = heritage
+	audio_parameter = european
 }
 
 heritage_punic = {
     REPLACED_BY = { heritage_punic }
 	type = heritage
+	audio_parameter = mena
 }
 
 heritage_romano_british = {
     REPLACED_BY = { heritage_romano_british }
 	type = heritage
+	audio_parameter = european
 }
 
 heritage_romano_germanic = {
     REPLACED_BY = { heritage_romano_germanic }
 	type = heritage
+	audio_parameter = european
 }
 
 heritage_east_germanic = {
     REPLACED_BY = { heritage_east_germanic }
 	type = heritage
+	audio_parameter = european
 }
 
 heritage_south_germanic = {
     REPLACED_BY = { heritage_south_germanic }
 	type = heritage
+	audio_parameter = european
 }
 
 heritage_thracian = {
     REPLACED_BY = { heritage_thracian }
 	type = heritage
+	audio_parameter = european
 }
 
 heritage_tyrrhenian = {
     REPLACED_BY = { heritage_tyrrhenian }
 	type = heritage
+	audio_parameter = european
 }
 
 heritage_tai = {
     REPLACED_BY = { heritage_tai }
 	type = heritage
+	audio_parameter = european
 }
 
 heritage_palaungic = {
     REPLACED_BY = { heritage_palaungic }
 	type = heritage
+	audio_parameter = european
 }
 
 heritage_caucasian = {
     REPLACED_BY = { heritage_caucasian }
 	type = heritage
+	audio_parameter = european
 }

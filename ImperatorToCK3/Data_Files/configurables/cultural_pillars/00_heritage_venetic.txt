@@ -7,4 +7,5 @@ heritage_venetic = {
 		heritage_group_latin = yes
 		heritage_family_european = yes
 	}
+	audio_parameter = european
 }
