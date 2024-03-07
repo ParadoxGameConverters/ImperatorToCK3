@@ -231,6 +231,11 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 			}
 
 			foreach (var irFriendId in irCharacter.FriendIds) {
+				// Make sure to only add this relation once.
+				if (irCharacter.Id.CompareTo(irFriendId) > 0) {
+					continue;
+				}
+
 				var irFriend = irCharacters[irFriendId];
 				var ck3Friend = irFriend.CK3Character;
 				
@@ -254,6 +259,11 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 			}
 
 			foreach (var irRivalId in irCharacter.RivalIds) {
+				// Make sure to only add this relation once.
+				if (irCharacter.Id.CompareTo(irRivalId) > 0) {
+					continue;
+				}
+
 				var irRival = irCharacters[irRivalId];
 				var ck3Rival = irRival.CK3Character;
 				

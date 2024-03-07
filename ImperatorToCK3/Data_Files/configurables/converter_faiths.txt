@@ -4605,8 +4605,6 @@ hurrian_religion_group = {
 	doctrine = doctrine_adultery_men_shunned
 	doctrine = doctrine_adultery_women_crime
 	doctrine = doctrine_kinslaying_close_kin_crime
-	#Infanticide
-	doctrine = doctrine_infanticide_any
 
 	#Clerical Functions
 	doctrine = doctrine_clerical_gender_either
@@ -4774,6 +4772,7 @@ hurrian_religion_group = {
 
 			color = hsv { 0.5 0.8 0.7 }
 			icon = custom_faith_7
+			reformed_icon = custom_faith_7
 
 			# IRToCK3: Holy sites copied from mesopotamian_pagan, this "Hurrian" is revivalist anyway.
 			holy_site = babylon

@@ -44,6 +44,10 @@ public class WeightBlock {
 		}
 		throw new KeyNotFoundException($"Set entry {objectName} not found!");
 	}
+
+	public byte GetSliderValueForObject(string objectName) {
+		return (byte)Math.Ceiling(GetMatchingPercentage(objectName) * 255);
+	}
 	public string? GetMatchingObject(double percentAsDecimal) { // argument must be in range <0; 1>
 		if (percentAsDecimal < 0 || percentAsDecimal > 1) {
 			throw new ArgumentOutOfRangeException($"percentAsDecimal is {percentAsDecimal}, should be >=0 and <=1");
