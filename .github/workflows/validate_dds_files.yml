@@ -12,7 +12,7 @@ jobs:
   validate-dds-files:
     strategy:
       matrix:
-        os: [[self-hosted, windows]]
+        os: [[self-hosted, linux]]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
@@ -20,7 +20,7 @@ jobs:
         submodules: recursive
     - name: "Install ImageMagick"
       run: |
-        winget install -e --id ImageMagick.ImageMagick
+        sudo apt-get install -y imagemagick
     - name: "Validate faith icons"
       shell: python
       run: |
