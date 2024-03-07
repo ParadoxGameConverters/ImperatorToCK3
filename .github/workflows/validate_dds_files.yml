@@ -20,7 +20,7 @@ jobs:
         submodules: recursive
     - name: "Install ImageMagick"
       run: |
-        choco install imagemagick
+        winget install -e --id ImageMagick.ImageMagick
     - name: "Validate faith icons"
       shell: python
       run: |
