@@ -39,11 +39,13 @@ jobs:
             exit(1)
 
           # check if the file is 100x100 pixels
-          if os.system(f"magick identify -format %w {faith_icon}") != 100:
-            print(f"Incorrect width: {faith_icon}")
+          width = os.system(f"magick identify -format %w {faith_icon}")
+          if width != 100:
+            print(f"Incorrect width: {faith_icon} ({width})")
             exit(1)
-          if os.system(f"magick identify -format %h {faith_icon}") != 100:
-            print(f"Incorrect height: {faith_icon}")
+          height = os.system(f"magick identify -format %h {faith_icon}")
+          if height != 100:
+            print(f"Incorrect height: {faith_icon}" ({height}))
             exit(1)
 
           # check if the file is 32bit-A8R8G8B8
