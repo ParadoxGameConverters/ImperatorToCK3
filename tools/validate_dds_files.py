@@ -36,9 +36,6 @@ for faith_icon in faith_icons:
         errors_found = True
 
     # check if the file has no mipmaps
-    
-    #mipmaps = subprocess.check_output(f"magick identify --verbose \"{faith_icon}\" | grep -c \"mipmap\"", shell=True)
-
     identify_output = subprocess.check_output(f"magick identify -verbose \"{faith_icon}\"", shell=True).decode("utf-8")
     has_mipmaps = "mipmap" in identify_output
     if has_mipmaps:
