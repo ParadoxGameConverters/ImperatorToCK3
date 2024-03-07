@@ -15,30 +15,34 @@ errors_found = False
 # check each file
 for faith_icon in faith_icons:
     # check if the file is a valid .dds file
-    # if os.system(f"magick identify -format %m {faith_icon}") != 0:
-    #     print(f"Invalid .dds file: {faith_icon}")
-    #     errors_found = True
+    if subprocess.check_output(f"magick identify -format %m \"{faith_icon}\"", shell=True).decode('utf-8') != 'DDS':
+        print(f"Invalid .dds file: {faith_icon}")
+        errors_found = True
 
     # check if the file is 100x100 pixels
-    width = subprocess.check_output(f"magick identify -format %w {faith_icon}", shell=True)
-    if width != b'100':
+    width = subprocess.check_output(f"magick identify -format %w \"{faith_icon}\"", shell=True).decode('utf-8')
+    if width != '100':
         print(f"Incorrect width: {faith_icon} ({width})")
         errors_found = True
-    height = subprocess.check_output(f"magick identify -format %h {faith_icon}", shell=True)
-    if height != b'100':
+    height = subprocess.check_output(f"magick identify -format %h \"{faith_icon}\"", shell=True).decode('utf-8')
+    if height != '100':
         print(f"Incorrect height: {faith_icon} ({height})")
         errors_found = True
 
     # check if the file is 32bit-A8R8G8B8
-    format = subprocess.check_output(f"magick identify -format %z {faith_icon}", shell=True)
-    if format != b'8':
+    format = subprocess.check_output(f"magick identify -format %z \"{faith_icon}\"", shell=True).decode('utf-8')
+    if format != '8':
         print(f"Incorrect format: {faith_icon} ({format})")
         errors_found = True
 
     # check if the file has no mipmaps
-    mipmaps = subprocess.check_output(f"magick identify -format %m {faith_icon}", shell=True)
-    if mipmaps != b'0':
-        print(f"Has mipmaps: {faith_icon}")
+    
+    #mipmaps = subprocess.check_output(f"magick identify --verbose \"{faith_icon}\" | grep -c \"mipmap\"", shell=True)
+
+    identify_output = subprocess.check_output(f"magick identify -verbose \"{faith_icon}\"", shell=True).decode("utf-8")
+    has_mipmaps = "mipmap" in identify_output
+    if has_mipmaps:
+        print(f"Mipmaps found: {faith_icon}")
         errors_found = True
 
 if errors_found:
