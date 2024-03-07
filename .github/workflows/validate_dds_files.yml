@@ -16,6 +16,9 @@ jobs:
       with:
         submodules: recursive
     - uses: mfinelli/setup-imagemagick@v5
+      with:
+        cache: true
+        install-libfuse2: true
     - name: "Validate faith icons"
       shell: python
       run: |
