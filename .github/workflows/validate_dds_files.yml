@@ -27,7 +27,7 @@ jobs:
 
         # find all .dds files in the faith icons directory
         import os
-        faith_icons_dir = "ImperatorToCK3/Data_Files/blankMod/output/gfx/icons/faith/"
+        faith_icons_dir = "ImperatorToCK3/Data_Files/blankMod/output/gfx/interface/icons/faith/"
         faith_icons = [faith_icons_dir + f for f in os.listdir(faith_icons_dir) if f.endswith(".dds")]
 
         # check each file
