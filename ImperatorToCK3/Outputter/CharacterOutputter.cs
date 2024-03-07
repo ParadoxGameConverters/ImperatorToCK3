@@ -10,14 +10,17 @@ public static class CharacterOutputter {
 		// Output ID.
 		output.WriteLine($"{character.Id}={{");
 		
-		// Don't output traits and attributes of dead characters (not needed).
 		if (character.Dead) {
+			// Don't output traits and attributes of dead characters (not needed).
 			var fieldsToRemove = new[] {"traits", "employer", "diplomacy", "martial", "stewardship", "intrigue", "learning"};
 			foreach (var field in fieldsToRemove) {
 				character.History.Fields.Remove(field);
 			}
-			output.WriteLine("\tdisallow_random_traits=yes");
+
+			// Disallow random traits for dead characters.
+			character.History.AddFieldValue(null, "disallow_random_traits", "disallow_random_traits", "yes");
 		}
+		
 
 		// Add DNA to history.
 		if (character.DNA is not null) {
