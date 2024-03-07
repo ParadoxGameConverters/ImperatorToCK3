@@ -19,7 +19,6 @@ jobs:
         install-libfuse2: true
     - name: "Install Wand library"
       run: |
-        sudo apt-get install libmagickwand-dev
         pip3 install Wand
     - name: "Validate faith icons"
       run: |
