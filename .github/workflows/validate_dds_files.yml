@@ -10,10 +10,7 @@ concurrency:
 
 jobs:
   validate-dds-files:
-    strategy:
-      matrix:
-        os: [[self-hosted, linux]]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
       with:
