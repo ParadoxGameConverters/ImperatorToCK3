@@ -13,8 +13,6 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
-      with:
-        submodules: recursive
     - uses: mfinelli/setup-imagemagick@v5
       with:
         cache: true
