@@ -7,5 +7,11 @@ heritage_venetic = {
 		heritage_group_latin = yes
 		heritage_family_european = yes
 	}
+
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_venetic
+		}
+	}
 	audio_parameter = european
 }

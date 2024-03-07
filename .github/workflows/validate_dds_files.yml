@@ -1,0 +1,41 @@
+name: "Validate DDS files"
+
+on:
+  pull_request:
+  merge_group:
+
+concurrency:
+  group: ci-validate-dds-files-${{ github.ref }}-1
+  cancel-in-progress: true
+
+jobs:
+  validate-dds-files:
+    strategy:
+      matrix:
+        os: [[self-hosted, windows]]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: recursive
+    - name: "Install ImageMagick"
+      run: |
+        choco install imagemagick
+    - name: "Validate faith icons"
+      shell: python
+      run: |
+        # make sure every file in ImperatorToCK3/Data_Files/blankMod/output/gfx/icons/faith/ is valid: .dds, 100x100 pixels, format: 32bit-A8R8G8B8, no mipmaps
+        # Based on CK3 mod coop FAQ on DDS files:
+        # https://discord.com/channels/735413460439007241/948759032326410240/1214691391737823263
+
+        # find all files in the faith folder
+        find ImperatorToCK3/Data_Files/blankMod/output/gfx/icons/faith/ -type f -name "*.dds" | while read file; do
+          # check if the file is a valid DDS file
+          magick identify -format "%[channels]" "$file" | grep -q "rgba" || { echo "File $file is not a valid DDS file"; exit 1; }
+          # check if the file is 100x100 pixels
+          magick identify -format "%[width]x%[height]" "$file" | grep -q "100x100" || { echo "File $file is not 100x100 pixels"; exit 1; }
+          # check if the file is 32bit-A8R8G8B8
+          magick identify -format "%[depth]" "$file" | grep -q "8" || { echo "File $file is not 32bit-A8R8G8B8"; exit 1; }
+          # check if the file has no mipmaps
+          magick identify -format "%[mipmaps]" "$file" | grep -q "0" || { echo "File $file has mipmaps"; exit 1; }
+        done
