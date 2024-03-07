@@ -3,34 +3,47 @@
 # https://discord.com/channels/735413460439007241/948759032326410240/1214691391737823263
 
 # find all .dds files in the faith icons directory
+
 import os
+import subprocess
 
 faith_icons_dir = "ImperatorToCK3/Data_Files/blankMod/output/gfx/interface/icons/faith/"
 faith_icons = [faith_icons_dir + f for f in os.listdir(faith_icons_dir) if f.endswith(".dds")]
 
+errors_found = False
+
 # check each file
 for faith_icon in faith_icons:
     # check if the file is a valid .dds file
-    if os.system(f"magick identify -format %m {faith_icon}") != 0:
-        print(f"Invalid .dds file: {faith_icon}")
-        exit(1)
+    # if os.system(f"magick identify -format %m {faith_icon}") != 0:
+    #     print(f"Invalid .dds file: {faith_icon}")
+    #     errors_found = True
 
     # check if the file is 100x100 pixels
-    width = os.system(f"magick identify -format %w {faith_icon}")
-    if width != 100:
+    width = subprocess.check_output(f"magick identify -format %w {faith_icon}", shell=True)
+    if width != b'100':
         print(f"Incorrect width: {faith_icon} ({width})")
-        exit(1)
-    height = os.system(f"magick identify -format %h {faith_icon}")
-    if height != 100:
-        print(f"Incorrect height: {faith_icon}" ({height}))
-        exit(1)
+        errors_found = True
+    height = subprocess.check_output(f"magick identify -format %h {faith_icon}", shell=True)
+    if height != b'100':
+        print(f"Incorrect height: {faith_icon} ({height})")
+        errors_found = True
 
     # check if the file is 32bit-A8R8G8B8
-    if os.system(f"magick identify -format %z {faith_icon}") != "32":
-        print(f"Incorrect format: {faith_icon}")
-        exit(1)
+    format = subprocess.check_output(f"magick identify -format %z {faith_icon}", shell=True)
+    if format != b'8':
+        print(f"Incorrect format: {faith_icon} ({format})")
+        errors_found = True
 
     # check if the file has no mipmaps
-    if os.system(f"magick identify -format %m {faith_icon}") != "1":
+    mipmaps = subprocess.check_output(f"magick identify -format %m {faith_icon}", shell=True)
+    if mipmaps != b'0':
         print(f"Has mipmaps: {faith_icon}")
-        exit(1)
+        errors_found = True
+
+if errors_found:
+    print("Errors found")
+    exit(1)
+else:
+    print("No errors found")
+    exit(0)
