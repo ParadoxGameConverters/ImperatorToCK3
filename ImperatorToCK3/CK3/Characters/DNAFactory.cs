@@ -261,29 +261,7 @@ public sealed class DNAFactory {
 		
 		morphDNAValues.Add("gene_age", GetAgeGeneValue(irCharacter));
 
-		// Convert baldness.
-		if (irCharacter.IsBald) {
-			morphDNAValues["gene_baldness"] = new DNAGeneValue {
-				TemplateName = "male_pattern_baldness",
-				IntSliderValue = 255,
-				TemplateRecessiveName = "male_pattern_baldness",
-				IntSliderValueRecessive = 127
-			};
-			// CK3 does not seem to actually support baldness (as of CK3 1.8.1) despite the gene being there.
-			// So we just remove the hair.
-			if (accessoryDNAValues.TryGetValue("hairstyles", out var hairstylesGeneValue)) {
-				accessoryDNAValues["hairstyles"] = hairstylesGeneValue with {
-					TemplateName = "no_hairstyles", IntSliderValue = 0
-				};
-			}
-		} else {
-			morphDNAValues["gene_baldness"] = new DNAGeneValue {
-				TemplateName = "no_baldness",
-				IntSliderValue = 127,
-				TemplateRecessiveName = "no_baldness",
-				IntSliderValueRecessive = 127
-			};
-		}
+		ConvertBaldness(irCharacter, morphDNAValues, accessoryDNAValues);
 
 		// Use middle values for the rest of the genes.
 		var missingMorphGenes = ck3GenesDB.MorphGenes
@@ -324,7 +302,62 @@ public sealed class DNAFactory {
 
 		return new DNA(id, colorDNAValues, morphDNAValues, accessoryDNAValues);
 	}
+
+	private void ConvertBaldness(Imperator.Characters.Character irCharacter, Dictionary<string, DNAGeneValue> morphDNAValues, Dictionary<string, DNAGeneValue> accessoryDNAValues) {
+		if (irCharacter.IsBald) {  // TODO: CHECK IF BALD CHARACTERS STILL CORRECTLY APPEAR BALD IN CK3
+			morphDNAValues["gene_baldness"] = new DNAGeneValue {
+				TemplateName = "male_pattern_baldness",
+				IntSliderValue = 127,
+				TemplateRecessiveName = "male_pattern_baldness",
+				IntSliderValueRecessive = 127
+			};
+			
+			// If m_hair_fp4_indian_01_full_bald (which is close to I:R baldness) exists, use it.
+			DNAGeneValue? hairstylesGeneValue = null;
+			if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("hairstyles", out var hairstylesGene)) {
+				const string baldnessObjectName = "m_hair_fp4_indian_01_full_bald";
 	
+				if (hairstylesGene.GeneTemplates.TryGetValue("fp4_bald_hairstyles", out var ck3GeneTemplate)) {
+					var ageSexWeightBlock = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex];
+					
+					if (ageSexWeightBlock.ContainsObject(baldnessObjectName)) {
+						hairstylesGeneValue = new DNAGeneValue {
+							TemplateName = ck3GeneTemplate.Id,
+							IntSliderValue = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex]
+								.GetSliderValueForObject(baldnessObjectName),
+							TemplateRecessiveName = ck3GeneTemplate.Id,
+							IntSliderValueRecessive = 128
+						};
+					}
+				}
+			}
+			// Otherwise, just use the no_hairstyles template.
+			if (hairstylesGeneValue is null && accessoryDNAValues.TryGetValue("hairstyles", out var existingHairStylesGeneValue)) {
+				hairstylesGeneValue = existingHairStylesGeneValue with {
+					TemplateName = "no_hairstyles", IntSliderValue = 0
+				};
+			}
+
+			if (hairstylesGeneValue.HasValue) {
+				accessoryDNAValues["hairstyles"] = hairstylesGeneValue.Value;
+			}
+
+			morphDNAValues["gene_balding_hair_effect"] = new DNAGeneValue {
+				TemplateName = "baldness_stage_2",
+				IntSliderValue = 255,
+				TemplateRecessiveName = "baldness_stage_2",
+				IntSliderValueRecessive = 255
+			};
+		} else {
+			morphDNAValues["gene_baldness"] = new DNAGeneValue {
+				TemplateName = "no_baldness",
+				IntSliderValue = 127,
+				TemplateRecessiveName = "no_baldness",
+				IntSliderValueRecessive = 127
+			};
+		}
+	}
+
 	/// Returns CK3 gene value string after object-to-object matching
 	/// (for example I:R male_beard_1 to CK3 male_beard_western_03).
 	private DNAGeneValue? MatchAccessoryGeneValueByObject(
@@ -359,19 +392,14 @@ public sealed class DNAFactory {
 			Logger.Warn($"No template found for {convertedSetEntryRecessive} in CK3 gene {ck3Gene.Id}!");
 			return null;
 		}
-		
-		var matchingPercentage = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex]
-			.GetMatchingPercentage(convertedSetEntry);
-		var matchingPercentageRecessive = ck3GeneTemplateRecessive.AgeSexWeightBlocks[irCharacter.AgeSex]
-			.GetMatchingPercentage(convertedSetEntryRecessive);
-		byte intSliderValue = (byte)Math.Ceiling(matchingPercentage * 255);
-		byte intSliderValueRecessive = (byte)Math.Ceiling(matchingPercentageRecessive * 255);
 
 		return new DNAGeneValue {
 			TemplateName = ck3GeneTemplate.Id,
-			IntSliderValue = intSliderValue,
+			IntSliderValue = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex]
+				.GetSliderValueForObject(convertedSetEntry),
 			TemplateRecessiveName = ck3GeneTemplateRecessive.Id,
-			IntSliderValueRecessive = intSliderValueRecessive
+			IntSliderValueRecessive = ck3GeneTemplateRecessive.AgeSexWeightBlocks[irCharacter.AgeSex]
+				.GetSliderValueForObject(convertedSetEntryRecessive),
 		};
 	}
 	

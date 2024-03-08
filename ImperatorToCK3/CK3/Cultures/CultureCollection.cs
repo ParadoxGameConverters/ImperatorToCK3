@@ -11,7 +11,7 @@ namespace ImperatorToCK3.CK3.Cultures;
 
 public class CultureCollection : IdObjectCollection<string, Culture> {
 	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection) {
-		this.pillarCollection = pillarCollection;
+		this.PillarCollection = pillarCollection;
 		InitCultureDataParser(colorFactory);
 	}
 
@@ -31,9 +31,16 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		});
 		cultureDataParser.RegisterKeyword("heritage", reader => {
 			var heritageId = reader.GetString();
-			cultureData.Heritage = pillarCollection.Heritages.FirstOrDefault(p => p.Id == heritageId);
+			cultureData.Heritage = PillarCollection.GetHeritageForId(heritageId);
 			if (cultureData.Heritage is null) {
 				Logger.Warn($"Found unrecognized heritage when parsing cultures: {heritageId}");
+			}
+		});
+		cultureDataParser.RegisterKeyword("language", reader => {
+			var languageId = reader.GetString();
+			cultureData.Language = PillarCollection.GetLanguageForId(languageId);
+			if (cultureData.Language is null) {
+				Logger.Warn($"Found unrecognized language when parsing cultures: {languageId}");
 			}
 		});
 		cultureDataParser.RegisterKeyword("traditions", reader => {
@@ -41,7 +48,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		});
 		cultureDataParser.RegisterKeyword("name_list", reader => {
 			var nameListId = reader.GetString();
-			if (nameListCollection.TryGetValue(nameListId, out var nameList)) {
+			if (NameListCollection.TryGetValue(nameListId, out var nameList)) {
 				cultureData.NameLists.Add(nameList);
 			} else {
 				Logger.Warn($"Found unrecognized name list when parsing culture: {nameListId}");
@@ -115,7 +122,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	public void LoadNameLists(ModFilesystem ck3ModFS) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, nameListId) => {
-			nameListCollection.AddOrReplace(new NameList(nameListId, reader));
+			NameListCollection.AddOrReplace(new NameList(nameListId, reader));
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/culture/name_lists", ck3ModFS, "txt", recursive: true, logFilePaths: true);
@@ -123,8 +130,8 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 
 	private readonly IDictionary<string, string> cultureReplacements = new Dictionary<string, string>(); // replaced culture -> replacing culture
 	
-	private readonly PillarCollection pillarCollection;
-	private readonly IdObjectCollection<string, NameList> nameListCollection = new();
+	protected readonly PillarCollection PillarCollection;
+	protected readonly IdObjectCollection<string, NameList> NameListCollection = new();
 	
 	private CultureData cultureData = new();
 	private readonly Parser cultureDataParser = new();

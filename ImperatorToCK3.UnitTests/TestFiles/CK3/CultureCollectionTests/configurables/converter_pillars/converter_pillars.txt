@@ -1,0 +1,16 @@
+heritage_arvanite = {
+    REPLACED_BY = { heritage_arberian heritage_arvanite }
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_arvanite
+		}
+	}
+	audio_parameter = european
+}
+
+language_albanian = {
+	REPLACED_BY = { language_illyrian language_albanian }
+	type = language
+	color = hsv { 0.2 0.25 0.5 }
+}
