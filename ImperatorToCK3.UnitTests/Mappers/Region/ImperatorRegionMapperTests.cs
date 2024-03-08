@@ -119,7 +119,7 @@ public class ImperatorRegionMapperTests {
 	public void WrongParentLocationsReturnNull() {
 		const string imperatorPath = "TestFiles/ImperatorRegionMapper/test6";
 		var imperatorRoot = Path.Combine(imperatorPath, "game");
-		var imperatorModFS = new ModFilesystem(imperatorRoot, new List<Mod>());
+		var imperatorModFS = new ModFilesystem(imperatorRoot, []);
 		var irProvinces = new ProvinceCollection();
 		var areas = new AreaCollection();
 		areas.LoadAreas(imperatorModFS, irProvinces);

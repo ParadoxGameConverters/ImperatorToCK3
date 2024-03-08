@@ -149,7 +149,7 @@ public sealed class MapData {
 
 	private bool IsColorableImpassable(ulong provinceId) => ProvinceDefinitions[provinceId].IsColorableImpassable;
 
-	public bool IsImpassable(ulong provinceId) => ProvinceDefinitions[provinceId].IsImpassable;
+	public bool IsImpassable(ulong provinceId) => ProvinceDefinitions.TryGetValue(provinceId, out var province) && province.IsImpassable;
 
 	private bool IsStaticWater(ulong provinceId) => ProvinceDefinitions[provinceId].IsStaticWater;
 
