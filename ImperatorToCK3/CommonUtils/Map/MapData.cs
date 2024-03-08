@@ -2,7 +2,6 @@
 using commonItems.Mods;
 using CsvHelper;
 using CsvHelper.Configuration;
-using Open.Collections;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
@@ -225,7 +224,9 @@ public sealed class MapData {
 			var beginning = provIds[0];
 			var end = provIds[^1];
 			for (var id = beginning; id <= end; ++id) {
-				ProvinceDefinitions[id].AddSpecialCategory(category);
+				if (ProvinceDefinitions.TryGetValue(id, out var province)) {
+					province.AddSpecialCategory(category);
+				}
 			}
 		} else {
 			foreach (var p in ProvinceDefinitions.Where(p => provIds.Contains(p.Id))) {

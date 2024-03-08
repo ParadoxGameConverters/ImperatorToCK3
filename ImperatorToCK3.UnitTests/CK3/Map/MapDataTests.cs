@@ -14,7 +14,7 @@ public class MapDataTests {
 	[Fact]
 	public void NeighborsDictDefaultsToEmpty() {
 		const string ck3Root = "TestFiles/MapData/CK3_1_province_map/game";
-		var ck3ModFS = new ModFilesystem(ck3Root, Array.Empty<Mod>());
+		var ck3ModFS = new ModFilesystem(ck3Root, []);
 		var data = new MapData(ck3ModFS);
 		
 		new ulong[] { 0, 1, 2, 3 }.ToList().ForEach(id => Assert.Empty(data.GetNeighborProvinceIds(id)));
@@ -25,7 +25,7 @@ public class MapDataTests {
 		const string ck3Root = "TestFiles/MapData/CK3_all_prov_defs/game";
 		const ulong byzantionId = 496;
 
-		var ck3ModFS = new ModFilesystem(ck3Root, Array.Empty<Mod>());
+		var ck3ModFS = new ModFilesystem(ck3Root, []);
 		var data = new MapData(ck3ModFS);
 		Assert.True(data.ProvinceDefinitions.ProvinceToColorDict.ContainsKey(byzantionId));
 
@@ -46,7 +46,7 @@ public class MapDataTests {
 		Console.SetOut(output);
 
 		const string ck3Root = "TestFiles/MapData/CK3_all_prov_defs/game";
-		var ck3ModFS = new ModFilesystem(ck3Root, Array.Empty<Mod>());
+		var ck3ModFS = new ModFilesystem(ck3Root, []);
 		_ = new MapData(ck3ModFS);
 		Assert.Contains("Province not found for color Rgb24(30, 30, 30)", output.ToString());
 	}
@@ -62,7 +62,7 @@ public class MapDataTests {
 	
 	public void AreProvincesAdjacentReturnsCorrectValues(ulong prov1Id, ulong prov2Id, int maxWaterTilesDistance, bool isAdjacent) {
 		const string ck3Root = "TestFiles/MapData/CK3_all_prov_defs/game";
-		var ck3ModFS = new ModFilesystem(ck3Root, Array.Empty<Mod>());
+		var ck3ModFS = new ModFilesystem(ck3Root, []);
 		var mapData = new MapData(ck3ModFS);
 		
 		Assert.Equal(isAdjacent, mapData.AreProvincesAdjacent(prov1Id, prov2Id, maxWaterTilesDistance));
