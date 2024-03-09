@@ -17,7 +17,6 @@ public readonly struct DNAAccessoryGeneValue(
 		WeightBlock weightBlock
 	) : this(templateName, objectName, weightBlock, templateName, objectName, weightBlock) { }
 	
-	
 	public string TemplateName { get; } = templateName;
 	public string ObjectName { get; } = objectName;
 	public byte IntSliderValue => weightBlock.GetSliderValueForObject(ObjectName);
