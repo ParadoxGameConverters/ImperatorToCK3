@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -15,8 +16,8 @@ public class DNA {
 	
 	private readonly Dictionary<string, DNAColorGeneValue> colorDNAValues;
 	private readonly Dictionary<string, DNAGeneValue> morphDNAValues;
-	private readonly Dictionary<string, DNAGeneValue> accessoryDNAValues;
-	public IReadOnlyDictionary<string, DNAGeneValue> AccessoryDNAValues => accessoryDNAValues;
+	private readonly Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues;
+	public IReadOnlyDictionary<string, DNAAccessoryGeneValue> AccessoryDNAValues => accessoryDNAValues;
 
 	public IEnumerable<string> DNALines {
 		get {
@@ -34,12 +35,12 @@ public class DNA {
 		string id,
 		IDictionary<string, DNAColorGeneValue> colorDNAValues,
 		IDictionary<string, DNAGeneValue> morphDNAValues,
-		IDictionary<string, DNAGeneValue> accessoryDNAValues
+		IDictionary<string, DNAAccessoryGeneValue> accessoryDNAValues
 	) {
 		Id = id;
-		this.colorDNAValues = new Dictionary<string, DNAColorGeneValue>(colorDNAValues);
-		this.morphDNAValues = new Dictionary<string, DNAGeneValue>(morphDNAValues);
-		this.accessoryDNAValues = new Dictionary<string, DNAGeneValue>(accessoryDNAValues);
+		this.colorDNAValues = new(colorDNAValues);
+		this.morphDNAValues = new(morphDNAValues);
+		this.accessoryDNAValues = new(accessoryDNAValues);
 	}
 
 	public void OutputGenes(StreamWriter output) {
