@@ -7,7 +7,7 @@ using System.Linq;
 namespace ImperatorToCK3.Mappers.Trait;
 
 public class TraitMapper {
-	protected Dictionary<string, string> ImpToCK3TraitMap = new();
+	protected IDictionary<string, string> ImperatorToCK3TraitMap = new Dictionary<string, string>();
 	protected IdObjectCollection<string, CK3.Characters.Trait> CK3Traits = new();
 
 	public TraitMapper() { }
@@ -20,7 +20,7 @@ public class TraitMapper {
 		var parser = new Parser();
 		RegisterKeys(parser);
 		parser.ParseFile(mappingsPath);
-		Logger.Info($"Loaded {ImpToCK3TraitMap.Count} trait links.");
+		Logger.Info($"Loaded {ImperatorToCK3TraitMap.Count} trait links.");
 
 		Logger.IncrementProgress();
 	}
@@ -31,23 +31,23 @@ public class TraitMapper {
 			if (mapping.CK3Trait is null) {
 				return;
 			}
-			foreach (var imperatorTrait in mapping.ImpTraits) {
+			foreach (var imperatorTrait in mapping.ImperatorTraits) {
 				var ck3TraitId = mapping.CK3Trait;
 				if (!CK3Traits.ContainsKey(ck3TraitId)) {
 					Logger.Warn($"Couldn't find definition for CK3 trait {ck3TraitId}!");
 				}
-				ImpToCK3TraitMap.Add(imperatorTrait, ck3TraitId);
+				ImperatorToCK3TraitMap.Add(imperatorTrait, ck3TraitId);
 			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
 	public string? GetCK3TraitForImperatorTrait(string impTrait) {
-		return ImpToCK3TraitMap.TryGetValue(impTrait, out var ck3Trait) ? ck3Trait : null;
+		return ImperatorToCK3TraitMap.TryGetValue(impTrait, out var ck3Trait) ? ck3Trait : null;
 	}
-	public ISet<string> GetCK3TraitsForImperatorTraits(IEnumerable<string> impTraits) {
+	public ISet<string> GetCK3TraitsForImperatorTraits(IEnumerable<string> irTraits) {
 		ISet<string> ck3TraitsToReturn = new HashSet<string>();
-		foreach (var impTrait in impTraits) {
-			var ck3Trait = GetCK3TraitForImperatorTrait(impTrait);
+		foreach (var irTrait in irTraits) {
+			var ck3Trait = GetCK3TraitForImperatorTrait(irTrait);
 			if (ck3Trait is null) {
 				continue;
 			}

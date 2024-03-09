@@ -4,6 +4,7 @@ using commonItems.Mods;
 using commonItems.Serialization;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,8 +14,7 @@ namespace ImperatorToCK3.Outputter;
 public static class MenAtArmsOutputter {
 	private static void OutputHiddenEvent(string outputModName, IEnumerable<Character> charactersWithMaa) {
 		var outputPath = Path.Combine("output", outputModName, "events", "irtock3_hidden_events.txt");
-		using var outputStream = File.OpenWrite(outputPath);
-		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 
 		output.WriteLine("namespace = irtock3_hidden_events");
 		output.WriteLine();
@@ -40,8 +40,7 @@ public static class MenAtArmsOutputter {
 		Logger.Info("Writing men-at-arms types...");
 
 		var outputPath = Path.Combine("output", outputModName, "common/men_at_arms_types/IRToCK3_generated_types.txt");
-		using var outputStream = File.OpenWrite(outputPath);
-		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 
 		foreach (var type in menAtArmsTypes.Where(t=>t.ToBeOutputted)) {
 			output.WriteLine($"{type.Id}={PDXSerializer.Serialize(type)}");
@@ -59,8 +58,7 @@ public static class MenAtArmsOutputter {
 		string guiText = File.ReadAllText(hudTopGuiPath);
 
 		var outputPath = Path.Combine("output", outputModName, relativeHudTopGuiPath);
-		using var outputStream = File.OpenWrite(outputPath);
-		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 
 		output.WriteLine(guiText.TrimEnd().TrimEnd('}'));
 		output.WriteLine("\tcontainer={");

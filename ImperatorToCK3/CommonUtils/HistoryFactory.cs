@@ -7,12 +7,12 @@ using System.IO;
 namespace ImperatorToCK3.CommonUtils;
 public sealed class HistoryFactory {
 	public class HistoryFactoryBuilder {
-		private readonly List<SimpleFieldDef> simpleFieldDefs = new(); // fieldName, setters, initialValue
-		private readonly List<SimpleFieldDef> literalFieldDefs = new(); // fieldName, setters, initialValue
-		private readonly List<DiffFieldDef> diffFieldDefs = new(); // fieldName, inserter, remover, initialValue
+		private readonly List<SimpleFieldDef> simpleFieldDefs = []; // fieldName, setters, initialValue
+		private readonly List<SimpleFieldDef> literalFieldDefs = []; // fieldName, setters, initialValue
+		private readonly List<DiffFieldDef> diffFieldDefs = []; // fieldName, inserter, remover, initialValue
 
 		public HistoryFactoryBuilder WithSimpleField(string fieldName, string setter, object? initialValue) {
-			return WithSimpleField(fieldName, new OrderedSet<string> { setter }, initialValue);
+			return WithSimpleField(fieldName, [setter], initialValue);
 		}
 		public HistoryFactoryBuilder WithSimpleField(string fieldName, OrderedSet<string> setters, object? initialValue) {
 			simpleFieldDefs.Add(new SimpleFieldDef {
@@ -51,7 +51,10 @@ public sealed class HistoryFactory {
 		this.simpleFieldDefs = simpleFieldDefs;
 		this.literalFieldDefs = literalFieldDefs;
 		this.diffFieldDefs = diffFieldDefs;
+	}
 
+	private Parser GetParser(History history) {
+		var parser = new Parser();
 		foreach (var def in this.simpleFieldDefs) {
 			foreach (var setter in def.Setters) {
 				parser.RegisterKeyword(setter, reader => {
@@ -106,9 +109,11 @@ public sealed class HistoryFactory {
 			dateBlockParser.ParseStream(dateBlockReader);
 		});
 		parser.IgnoreAndStoreUnregisteredItems(history.IgnoredKeywords);
+
+		return parser;
 	}
 
-	private void InitializeHistory() {
+	private void InitializeHistory(History history) {
 		foreach (var def in simpleFieldDefs) {
 			history.Fields.TryAdd(new SimpleHistoryField(def.FieldName, def.Setters, def.InitialValue));
 		}
@@ -120,15 +125,15 @@ public sealed class HistoryFactory {
 		}
 	}
 	public History GetHistory() {
-		history = new History();
-		InitializeHistory();
+		var history = new History();
+		InitializeHistory(history);
 		return history;
 	}
 	public History GetHistory(BufferedReader reader) {
-		history = new History();
-		InitializeHistory();
+		var history = new History();
+		InitializeHistory(history);
 
-		parser.ParseStream(reader);
+		GetParser(history).ParseStream(reader);
 
 		if (history.IgnoredKeywords.Count > 0) {
 			Logger.Debug($"Ignored history keywords: {history.IgnoredKeywords}");
@@ -136,9 +141,10 @@ public sealed class HistoryFactory {
 		return history;
 	}
 	public History GetHistory(string historyPath, ModFilesystem ck3ModFS) {
-		history = new History();
-		InitializeHistory();
+		var history = new History();
+		InitializeHistory(history);
 
+		var parser = GetParser(history);
 		if (File.Exists(historyPath)) {
 			parser.ParseGameFile(historyPath, ck3ModFS);
 		} else {
@@ -152,10 +158,9 @@ public sealed class HistoryFactory {
 	}
 
 	public void UpdateHistory(History existingHistory, BufferedReader reader) {
-		history = existingHistory;
-		InitializeHistory();
+		InitializeHistory(existingHistory);
 
-		parser.ParseStream(reader);
+		GetParser(existingHistory).ParseStream(reader);
 	}
 
 	public static object GetValue(string str) {
@@ -179,6 +184,4 @@ public sealed class HistoryFactory {
 	private readonly List<SimpleFieldDef> simpleFieldDefs;
 	private readonly List<SimpleFieldDef> literalFieldDefs;
 	private readonly List<DiffFieldDef> diffFieldDefs;
-	private readonly Parser parser = new();
-	private History history = new();
 }

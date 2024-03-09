@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.7
+﻿# Last updated: CK3 patch 1.9.2
 ####################################
 #   FRENCH CUSTOM LOCALISATION     #
 #      By Xavier Zimmermann        #
@@ -45,8 +45,6 @@
 # FR_AuxAles (vassaux\vassales, égaux\égales ; Pluriel ; Sans espace avant)
 # FR_Es (assis\assises ; Pluriel ; Sans espace avant)
 # FR_SEs (amis\amies ; Pluriel ; Sans espace avant)
-# FR_EuxElles (eux\elles ; Pluriel)
-# FR_IlsElles (ils\elles ; Pluriel)
 # FR_STes (tous\toutes ; Pluriel ; Sans espace avant)
 # FR_XSes (pieux\pieuses ; Pluriel ; Sans espace avant)
 # FR_AinIne (copain\copine ; Sans espace avant)
@@ -61,7 +59,9 @@
 # FR_CeluiCelle
 # FR_IlElle
 # FR_LuiElle
-
+# FR_LequelLaquelle
+# FR_EuxElles (eux\elles ; Pluriel)
+# FR_IlsElles (ils\elles ; Pluriel)
 # FR_EluiElle (e lui\’elle ; Sans espace avant)
 # FR_SilSielle (s’il\si elle)
 # FR_SilsSielles (s’ils\si elles ; Pluriel)
@@ -81,9 +81,9 @@
 # FR_GarconFille (Pluriel)
 # FR_ServiteurServante (Pluriel)
 
-###########################################
-# II. REMPLACEMENT DE COMMANDES ANGLAISES #
-###########################################
+#################################
+# II. REMPLACEMENT DE COMMANDES #
+#################################
 # FR_RelationToMe_OnA - mon\ma + RelationToMe
 # FR_RelationToMe_Le - le\la + RelationToMe
 # FR_RelationToMeShort_OnA - mon\ma + RelationToMeShort
@@ -121,20 +121,14 @@
 # FR_GetInspirationTypeVerb_Inf pour GetInspirationTypeVerb
 # FR_au_BG_GameType pour BG_GameType
 # FR_de_BG_GameType pour BG_GameType
+# FR_CouncilPosition_Le pour CouncilPosition
+# FR_GetRandomWonContest_Le pour GetRandomWonContest
 
 # FR_FaithGenderedAdj - GetFaith.GetAdjective\GetFaith.GetAdherentName (scope: character)
-# FR_LocalAnimal_e - "e" du féminin pour LocalAnimal
-# FR_LocalAnimal_d - de\d’ pour LocalAnimal (Sans espace après)
-# FR_LocalAnimal_he - "he" du féminin pour LocalAnimal (blanc/blanche)
-# FR_LocalAnimal_le - devant LocalAnimal (Sans espace après)
 # FR_Scheme_FullAction - GetActionName - SCHEME_FULL_ACTION_NAME
-# FR_CatStory_e
-# FR_CatStory_le
-# FR_DogStory_e
-# FR_DogStory_le
 
 ##################################
-# III. ARTICLES DEVANT COMMANDES #
+# III. COMMANDES SUPPLEMENTAIRES #
 ##################################
 # - Char:    commande de base
 # - Char_L:  affiche "le/la" pour "sans terre"
@@ -166,7 +160,7 @@
 # FR_du_Char
 # FR_au_Char
 
-# FR_only_de_HouseOfWorshipPlural devant HouseOfWorshipPlural (Sans espace après)
+# FR_De_HouseOfWorshipPlural devant HouseOfWorshipPlural (Sans espace après)
 # FR_GetInspirationOwnerType_OnA devant GetInspirationOwnerType (Sans espace avant ; Sans espace après)
 # FR_GetInspirationTypeRoom_Le devant GetInspirationTypeRoom (Sans espace après)
 # FR_GetInspirationTypeRoom_Du devant GetInspirationTypeRoom (Sans espace après)
@@ -178,12 +172,97 @@
 # FR_GetInspirationTypeObject_Le devant GetInspirationTypeObject (Sans espace apres)
 # FR_InspirationSmithBaseType_OnA devant InspirationSmithBaseType (Sans espace avant ; Sans espace apres)
 # FR_InspirationSmithBaseType_Le devant InspirationSmithBaseType (Sans espace apres)
+# FR_Le_GetVersusRound devant GetVersusRound
+
 # FR_Artifact_OnA devant une commande d'artefact (Avec espace apres)
+# FR_Le_ArtifactType devant le type d'artefact (Sans espace apres)
+# FR_E_ArtifactType pour le type d'artefact
+
+# FR_ActivityShort_template
+# FR_Le_ActivityShort devant l'activité GetShortName (Sans espace apres)
+# FR_Au_ActivityShort devant l'activité GetShortName (Sans espace apres)
+# FR_Du_ActivityShort devant l'activité GetShortName (Sans espace apres)
+# FR_E_Activity devant l'activité GetName ou GetShortName (Sans espace apres)
+# FR_ActivityFull_template
+# FR_Le_ActivityFull devant l'activité GetName (Sans espace apres)
+# FR_Au_ActivityFull devant l'activité GetName (Sans espace apres)
+# FR_Du_ActivityFull devant l'activité GetName (Sans espace apres)
+
+# FR_ActivityPhase_template
+# FR_Le_ActivityPhase
+# FR_Du_ActivityPhase
+# FR_Au_ActivityPhase
+# FR_E_ActivityPhase
+
+# FR_Le_ArtifactAnimalType
+# FR_Du_ArtifactAnimalType
+# FR_Au_ArtifactAnimalType
+# FR_De_ArtifactAnimalType
+# FR_E_ArtifactAnimalType
+# FR_Le_GetAnimalType
+# FR_Du_GetAnimalType
+# FR_Au_GetAnimalType
+# FR_De_GetAnimalType devant GetAnimalType ou GetAnimalPlural
+# FR_E_GetAnimalType pour GetAnimalType ou GetAnimalPlural
+# FR_Le_GetAnimalTypeCaptive
+# FR_Du_GetAnimalTypeCaptive
+# FR_Au_GetAnimalTypeCaptive
+# FR_De_GetAnimalTypeCaptive
+# FR_E_GetAnimalTypeCaptive
+# FR_Le_GetAnimalTypeGamebird
+# FR_Du_GetAnimalTypeGamebird
+# FR_Au_GetAnimalTypeGamebird
+# FR_De_GetAnimalTypeGamebird
+# FR_E_GetAnimalTypeGamebird
+# FR_Le_GetAnimalTypeKill
+# FR_Du_GetAnimalTypeKill
+# FR_Au_GetAnimalTypeKill
+# FR_De_GetAnimalTypeKill
+# FR_E_GetAnimalTypeKill
+# FR_Le_GetAnimalTypeMismanaged
+# FR_Du_GetAnimalTypeMismanaged
+# FR_Au_GetAnimalTypeMismanaged
+# FR_De_GetAnimalTypeMismanaged
+# FR_E_GetAnimalTypeMismanaged
+# FR_Le_GetAnimalTypeTame
+# FR_Du_GetAnimalTypeTame
+# FR_Au_GetAnimalTypeTame
+# FR_De_GetAnimalTypeTame
+# FR_E_GetAnimalTypeTame
+# FR_Le_GetAnimalTypeWaterfowl
+# FR_Du_GetAnimalTypeWaterfowl
+# FR_Au_GetAnimalTypeWaterfowl
+# FR_De_GetAnimalTypeWaterfowl
+# FR_E_GetAnimalTypeWaterfowl
+# FR_Le_GetRaptorType
+# FR_Du_GetRaptorType
+# FR_Au_GetRaptorType
+# FR_De_GetRaptorType
+# FR_E_GetRaptorType
+# FR_Le_GetRegionalDeerType
+# FR_Du_GetRegionalDeerType
+# FR_Au_GetRegionalDeerType
+# FR_De_GetRegionalDeerType
+# FR_E_GetRegionalDeerType
+# FR_Le_GetRegionalEagleType
+# FR_Du_GetRegionalEagleType
+# FR_Au_GetRegionalEagleType
+# FR_De_GetRegionalEagleType
+# FR_E_GetRegionalEagleType
+# FR_Le_GetRegionalWolfType
+# FR_Du_GetRegionalWolfType
+# FR_Au_GetRegionalWolfType
+# FR_De_GetRegionalWolfType
+# FR_E_GetRegionalWolfType
+# FR_Le_RegionalFerociousAnimal
+# FR_Du_RegionalFerociousAnimal
+# FR_Au_RegionalFerociousAnimal
+# FR_De_RegionalFerociousAnimal
+# FR_E_RegionalFerociousAnimal
+# FR_E_GetRandomRegionalSmallGame
 
 ##################################################################
 ##################################################################
-
-# log_loc_errors = no # peut être ajouté pour masquer les erreurs
 
 FR_gender_template = { # all basic gendered character custom commands are based on it
 	type = character
@@ -191,14 +270,14 @@ FR_gender_template = { # all basic gendered character custom commands are based 
 	text = {
 		trigger = {
 			trigger_if = { # one character (Custom)
-				limit = {
+				limit = { 
 					exists = this
 					NOT = { exists = scope:second }
 				}
 				this = { is_female = yes }
 			}
 			trigger_if = { # two characters (Custom2)
-				limit = {
+				limit = { 
 					exists = this
 					exists = scope:second
 				}
@@ -214,569 +293,611 @@ FR_gender_template = { # all basic gendered character custom commands are based 
 	}
 }
 
-FR_AlAla = {
+FR_AlAla = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = AlAla
 }
-FR_AuAla = {
+FR_AuAla = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = AuAla
 }
-FR_AuxAles = {
+FR_AuxAles = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = AuxAles
 }
-FR_CeluiCelle = {
+FR_CeluiCelle = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = CeluiCelle
 }
-FR_DDe = {
+FR_DDe = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = DDe
 }
-FR_DuDela = {
+FR_DuDela = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = DuDela
 }
-FR_E = {
+FR_E = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = E
 }
-FR_EauElle = {
+FR_EauElle = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = EauElle
 }
-FR_EauxElles = {
+FR_EauxElles = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = EauxElles
 }
-FR_EEsse = {
+FR_EEsse = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = EEsse
 }
-FR_EEtte = {
+FR_EEtte = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = EEtte
 }
-FR_EfEve = {
+FR_EfEve = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = EfEve
 }
-FR_EluiElle = {
+FR_EluiElle = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = EluiElle
 }
-FR_EOpp = {
+FR_EOpp = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = EOpp
 }
-FR_EpouxEpouse = {
+FR_EpouxEpouse = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = EpouxEpouse
 }
-FR_EpouxEpouseOpp = {
+FR_EpouxEpouseOpp = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = EpouxEpouseOpp
 }
-FR_ErEre = {
+FR_ErEre = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = ErEre
 }
-FR_Eresse = {
+FR_Eresse = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = Eresse
 }
-FR_Es = {
+FR_Es = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = Es
 }
-FR_SEs = {
+FR_SEs = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = SEs
 }
-FR_EteEtesse = {
+FR_EteEtesse = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = EteEtesse
 }
-FR_EtEte = {
+FR_EtEte = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = EtEte
 }
-FR_EtEtte = {
+FR_EtEtte = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = EtEtte
 }
-FR_EurEresse = {
+FR_EurEresse = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = EurEresse
 }
-FR_EurRice = {
+FR_EurRice = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = EurRice
 }
-FR_EuxElles = {
+FR_EuxElles = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = EuxElles
 }
-FR_FVe = {
+FR_FVe = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = FVe
 }
-FR_GarconFille = {
+FR_GarconFille = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = GarconFille
 }
-FR_He = {
+FR_He = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = He
 }
-FR_Hesse = {
+FR_Hesse = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = Hesse
 }
-FR_IeuxIeille = {
+FR_IeuxIeille = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = IeuxIeille
 }
-FR_IlElle = {
+FR_IlElle = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = IlElle
 }
-FR_IlsElles = {
+FR_IlsElles = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = IlsElles
 }
-FR_LeLa = {
+FR_LeLa = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = LeLa
 }
-FR_LeLaOpp = {
+FR_LeLaOpp = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = LeLaOpp
 }
-FR_LLa = {
+FR_LLa = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = LLa
 }
-FR_LLle = {
+FR_LLle = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = LLle
 }
-FR_LuiElle = {
+FR_LuiElle = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = LuiElle
 }
-FR_MonseigneurMadame = {
+FR_MonseigneurMadame = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = MonseigneurMadame
 }
-FR_NNne = {
+FR_NNne = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = NNne
 }
-FR_OnA = {
+FR_OnA = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = OnA
 }
-FR_OnAOpp = {
+FR_OnAOpp = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = OnAOpp
 }
-FR_OuOlle = {
+FR_OuOlle = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = OuOlle
 }
-FR_PaternelMaternel = {
+FR_PaternelMaternel = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = PaternelMaternel
 }
-FR_RSe = {
+FR_RSe = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = RSe
 }
-FR_SeigneurDame = {
+FR_SeigneurDame = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = SeigneurDame
 }
-FR_ServiteurServante = {
+FR_ServiteurServante = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = ServiteurServante
 }
-FR_SieurDame = {
+FR_SieurDame = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = SieurDame
 }
-FR_SilSielle = {
+FR_SilSielle = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = SilSielle
 }
-FR_SilsSielles = {
+FR_SilsSielles = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = SilsSielles
 }
-FR_SSse = {
+FR_SSse = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = SSse
 }
-FR_STes = {
+FR_STes = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = STes
 }
-FR_XSes = {
+FR_XSes = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = XSes
 }
-FR_Te = {
+FR_Te = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = Te
 }
-FR_TTte = {
+FR_TTte = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = TTte
 }
-FR_XCe = {
+FR_XCe = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = XCe
 }
-FR_XSe = {
+FR_XSe = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = XSe
 }
-FR_XSeOpp = {
+FR_XSeOpp = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = XSeOpp
 }
-FR_XSse = {
+FR_XSse = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = XSse
 }
-FR_AinIne = {
+FR_AinIne = { 
 	log_loc_errors = no
 	parent = FR_gender_template
 	suffix = AinIne
 }
+FR_LequelLaquelle = { 
+	log_loc_errors = no
+	parent = FR_gender_template
+	suffix = LequelLaquelle
+}
 #############################################
 #############################################
-FR_RelationToMe_OnA = {
+FR_RelationToMe_OnA = { 
 	log_loc_errors = no
 	parent = RelationToMe
 	suffix = _FR_OnA
 }
 
-FR_RelationToMe_Le = {
+FR_RelationToMe_Le = { 
 	log_loc_errors = no
 	parent = RelationToMe
 	suffix = _FR_Le
 }
 
-FR_RelationToMeShort_OnA = {
+FR_RelationToMeShort_OnA = { 
 	log_loc_errors = no
 	parent = RelationToMeShort
 	suffix = _FR_OnA
 }
 
-FR_RelationToMeShort_Le = {
+FR_RelationToMeShort_Le = { 
 	log_loc_errors = no
 	parent = RelationToMeShort
 	suffix = _FR_Le
 }
 
-FR_Du_signature_weapon = {
+FR_Du_signature_weapon = { 
 	log_loc_errors = no
 	parent = signature_weapon
 	suffix = _FR_Du
 }
 
-FR_OnA_signature_weapon = {
+FR_OnA_signature_weapon = { 
 	log_loc_errors = no
 	parent = signature_weapon
 	suffix = _FR_OnA
 }
 
-FR_Un_signature_weapon = {
+FR_Un_signature_weapon = { 
 	log_loc_errors = no
 	parent = signature_weapon
 	suffix = _FR_Un
 }
 
-FR_CompositionType_lela = {
+FR_CompositionType_lela = { 
 	log_loc_errors = no
 	parent = CompositionType
 	suffix = _FR_Le
 }
 
-FR_Le_PointOfRidicule = {
+FR_Le_PointOfRidicule = { 
 	log_loc_errors = no
 	parent = PointOfRidicule
 	suffix = _FR_Le
 }
 
-FR_du_CharacterIntroductionSupportNoComma = {
+FR_du_CharacterIntroductionSupportNoComma = { 
 	log_loc_errors = no
 	parent = CharacterIntroductionSupportNoComma
 	suffix = _FR_Du
 }
 
-FR_du_MyCharacterIntroductionNoComma = {
+FR_du_MyCharacterIntroductionNoComma = { 
 	log_loc_errors = no
 	parent = MyCharacterIntroductionNoComma
 	suffix = _FR_Du
 }
 
-FR_du_YourCharacterIntroductionNoComma = {
+FR_du_YourCharacterIntroductionNoComma = { 
 	log_loc_errors = no
 	parent = YourCharacterIntroductionNoComma
 	suffix = _FR_Du
 }
 
-FR_du_HerHisCharacterIntroductionNoComma = {
+FR_du_HerHisCharacterIntroductionNoComma = { 
 	log_loc_errors = no
 	parent = HerHisCharacterIntroductionNoComma
 	suffix = _FR_Du
 }
 
-FR_du_MyCharacterIntroduction = {
+FR_du_MyCharacterIntroduction = { 
 	log_loc_errors = no
 	parent = MyCharacterIntroduction
 	suffix = _FR_Du
 }
 
-FR_du_YourCharacterIntroduction = {
+FR_du_YourCharacterIntroduction = { 
 	log_loc_errors = no
 	parent = YourCharacterIntroduction
 	suffix = _FR_Du
 }
 
-FR_du_HerHisCharacterIntroduction = {
+FR_du_HerHisCharacterIntroduction = { 
 	log_loc_errors = no
 	parent = HerHisCharacterIntroduction
 	suffix = _FR_Du
 }
 
-FR_au_CharacterIntroductionSupportNoComma = {
+FR_au_CharacterIntroductionSupportNoComma = { 
 	log_loc_errors = no
 	parent = CharacterIntroductionSupportNoComma
 	suffix = _FR_Au
 }
 
-FR_au_MyCharacterIntroductionNoComma = {
+FR_au_MyCharacterIntroductionNoComma = { 
 	log_loc_errors = no
 	parent = MyCharacterIntroductionNoComma
 	suffix = _FR_Au
 }
 
-FR_au_YourCharacterIntroductionNoComma = {
+FR_au_YourCharacterIntroductionNoComma = { 
 	log_loc_errors = no
 	parent = YourCharacterIntroductionNoComma
 	suffix = _FR_Au
 }
 
-FR_au_HerHisCharacterIntroductionNoComma = {
+FR_au_HerHisCharacterIntroductionNoComma = { 
 	log_loc_errors = no
 	parent = HerHisCharacterIntroductionNoComma
 	suffix = _FR_Au
 }
 
-FR_au_MyCharacterIntroduction = {
+FR_au_MyCharacterIntroduction = { 
 	log_loc_errors = no
 	parent = MyCharacterIntroduction
 	suffix = _FR_Au
 }
 
-FR_au_YourCharacterIntroduction = {
+FR_au_YourCharacterIntroduction = { 
 	log_loc_errors = no
 	parent = YourCharacterIntroduction
 	suffix = _FR_Au
 }
 
-FR_au_HerHisCharacterIntroduction = {
+FR_au_HerHisCharacterIntroduction = { 
 	log_loc_errors = no
 	parent = HerHisCharacterIntroduction
 	suffix = _FR_Au
 }
 
-FR_education_focus_Du = {
+FR_education_focus_Du = { 
 	log_loc_errors = no
 	parent = education_focus
 	suffix = _FR_Du
 }
 
-FR_education_focus_child_Du = {
+FR_education_focus_child_Du = { 
 	log_loc_errors = no
 	parent = education_focus_child
 	suffix = _FR_Du
 }
 
-FR_quirk_neg_adjective_Char = {
+FR_quirk_neg_adjective_Char = { 
 	log_loc_errors = no
 	parent = quirk_neg_adjective
 	suffix = _FR_Char
 }
 
-FR_TerrainTypeProvince_Plural = {
+FR_TerrainTypeProvince_Plural = { 
 	log_loc_errors = no
 	parent = TerrainTypeProvince
 	suffix = _FR_Plural
 }
 
-FR_GetDisability_Adj_Char = {
+FR_GetDisability_Adj_Char = { 
 	log_loc_errors = no
 	parent = GetDisability
 	suffix = _FR_Adj_Char
 }
 
-FR_GetFaithGrandTemple_Au = {
+FR_GetFaithGrandTemple_Au = { 
 	log_loc_errors = no
 	parent = GetFaithGrandTemple
 	suffix = _FR_au
 }
 
-FR_GetYoungMiddleAgedOld_Un = {
+FR_GetYoungMiddleAgedOld_Un = { 
 	log_loc_errors = no
 	parent = GetYoungMiddleAgedOld
 	suffix = _FR_un
 }
 
-FR_get_hold_court_8100_parent_Son = {
+FR_get_hold_court_8100_parent_Son = { 
 	log_loc_errors = no
 	parent = get_hold_court_8100_parent
 	suffix = _FR_son
 }
 
-FR_GetUnbelieverTerm_Plural = {
+FR_GetUnbelieverTerm_Plural = { 
 	log_loc_errors = no
 	parent = GetUnbelieverTerm
 	suffix = _FR_Plural
 }
 
-FR_GetUnbelieverTerm_Gender = {
+FR_GetUnbelieverTerm_Gender = { 
 	log_loc_errors = no
 	parent = GetUnbelieverTerm
 	suffix = _FR_Gender
 }
 
-FR_GetCrime_Nickname = {
+FR_GetCrime_Nickname = { 
 	log_loc_errors = no
 	parent = GetCrime
 	suffix = _FR_nickname
 }
 
-FR_GetMAAType1_On = {
+FR_GetMAAType1_On = { 
 	log_loc_errors = no
 	parent = GetMAAType1
 	suffix = _FR_On
 }
 
-FR_GetMAAType2_On = {
+FR_GetMAAType2_On = { 
 	log_loc_errors = no
 	parent = GetMAAType2
 	suffix = _FR_On
 }
 
-FR_ThisArtifactType_Le = {
+FR_ThisArtifactType_Le = { 
 	log_loc_errors = no
 	parent = ThisArtifactType
 	suffix = _FR_Le
 }
 
-FR_GetInspirationTypeVerb_Inf = {
+FR_GetInspirationTypeVerb_Inf = { 
 	log_loc_errors = no
 	parent = GetInspirationTypeVerb
 	suffix = _FR_Inf
 }
 
-FR_GetTutorEducation_Du = {
+FR_GetTutorEducation_Du = { 
 	log_loc_errors = no
 	parent = GetTutorEducation
 	suffix = _FR_Du
 }
 
-FR_get_region_flower_type_plural_Fix = {
+FR_get_region_flower_type_plural_Fix = { 
 	log_loc_errors = no
 	parent = get_region_flower_type_plural
 	suffix = _FR_Fix
 }
 
-FR_au_BG_GameType = {
+FR_au_BG_GameType = { 
 	log_loc_errors = no
 	parent = BG_GameType
 	suffix = _FR_Au
 }
 
-FR_de_BG_GameType = {
+FR_de_BG_GameType = { 
 	log_loc_errors = no
 	parent = BG_GameType
 	suffix = _FR_De
 }
 
+FR_CouncilPosition_Le = { 
+	log_loc_errors = no
+	parent = CouncilPosition
+	suffix = _FR_Le
+}
+
+FR_au_ContestBoardGameType = { 
+	log_loc_errors = no
+	parent = ContestBoardGameType
+	suffix = _FR_Au
+}
+
+FR_de_ContestBoardGameType = { 
+	log_loc_errors = no
+	parent = ContestBoardGameType
+	suffix = _FR_De
+}
+
+FR_GetRandomWonContest_Le = { 
+	log_loc_errors = no
+	parent = GetRandomWonContest
+	suffix = _FR_Le
+}
+
+FR_get_region_root_vegetable_Un = { 
+	log_loc_errors = no
+	parent = get_region_root_vegetable
+	suffix = _FR_Un
+}
+
+FR_GetRandomRegionalWildDaytimeBird_Plural = { 
+	log_loc_errors = no
+	parent = GetRandomRegionalWildDaytimeBird
+	suffix = _FR_Plural
+}
+
 #############################################
 #############################################
-FR_FaithGenderedAdj = {
+FR_FaithGenderedAdj = { 
 	type = character
 	log_loc_errors = no
+
 	text = {
 		trigger = {
 			trigger_if = {
-				limit = {
+				limit = { 
 					exists = this
 				}
 				this = { is_female = yes }
@@ -790,77 +911,7 @@ FR_FaithGenderedAdj = {
 	}
 }
 
-FR_LocalAnimal_e = {
-	type = character
-	log_loc_errors = no
-
-	text = {
-		localization_key = CustomLoc_FR_female_E
-		trigger = {
-			var:local_animal = flag:unicorn
-		}
-	}
-	text = {
-		localization_key = CustomLoc_FR_empty
-		fallback = yes
-	}
-}
-
-FR_LocalAnimal_d = {
-	type = character
-	log_loc_errors = no
-
-	text = {
-		localization_key = CustomLoc_FR_d
-		trigger = {
-			var:local_animal = flag:bear
-		}
-	}
-	text = {
-		localization_key = CustomLoc_FR_de
-		fallback = yes
-	}
-}
-
-FR_LocalAnimal_he = {
-	type = character
-	log_loc_errors = no
-
-	text = {
-		localization_key = CustomLoc_FR_female_He
-		trigger = {
-			var:local_animal = flag:unicorn
-		}
-	}
-	text = {
-		localization_key = CustomLoc_FR_empty
-		fallback = yes
-	}
-}
-
-FR_LocalAnimal_le = {
-	type = character
-	log_loc_errors = no
-
-	text = {
-		localization_key = CustomLoc_FR_l
-		trigger = {
-			var:local_animal = flag:bear
-		}
-	}
-	text = {
-		localization_key = CustomLoc_FR_la
-		trigger = {
-			var:local_animal = flag:unicorn
-		}
-	}
-	text = {
-		localization_key = CustomLoc_FR_le
-		fallback = yes
-	}
-}
-
-FR_le_Char_L = {
+FR_le_Char_L = { 
 	type = character
 	log_loc_errors = no
 	text = {
@@ -883,7 +934,7 @@ FR_le_Char_L = {
 	}
 }
 
-FR_le_Char_U_Pi = {
+FR_le_Char_U_Pi = { 
 	type = character
 	log_loc_errors = no
 	text = {
@@ -907,7 +958,7 @@ FR_le_Char_U_Pi = {
 	}
 }
 
-FR_le_Char_U_P = {
+FR_le_Char_U_P = { 
 	type = character
 	log_loc_errors = no
 	text = {
@@ -922,7 +973,7 @@ FR_le_Char_U_P = {
 	}
 }
 
-FR_le_Char_Pi = {
+FR_le_Char_Pi = { 
 	type = character
 	log_loc_errors = no
 	text = {
@@ -940,7 +991,7 @@ FR_le_Char_Pi = {
 	}
 }
 
-FR_le_Char_P = {
+FR_le_Char_P = { 
 	type = character
 	log_loc_errors = no
 	text = {
@@ -1001,7 +1052,7 @@ FR_le_Char_P = {
 	}
 }
 
-FR_le_Char = {
+FR_le_Char = { 
 	type = character
 	log_loc_errors = no
 	text = { # chef de foi
@@ -1050,11 +1101,11 @@ FR_le_Char = {
 						religion = religion:anatolian_religion
 						religion = religion:arabic_religion
 						religion = religion:armenian_religion
-						religion = religion:berber_religion
+						religion = religion:north_african_religion
 						religion = religion:caucasian_religion
 						religion = religion:canaanite_religion
 						religion = religion:celtic_religion
-						religion = religion:dacian_religion
+						religion = religion:paleo_balkan_religion
 						religion = religion:iberic_religion
 						religion = religion:mesopotamian_religion
 						religion = religion:scythian_religion
@@ -1072,7 +1123,7 @@ FR_le_Char = {
 				AND = { # duke_feudal_male_turkish (Atabeg), duke_feudal_female_turkish (Atabegum)
 					highest_held_title_tier = tier_duchy
 					OR = {
-						AND = {
+						AND = { 
 							exists = top_liege
 							top_liege = {
 								OR = {
@@ -1103,7 +1154,7 @@ FR_le_Char = {
 				}
 				AND = {
 					trigger_if = {
-						limit = {
+						limit = { 
 							exists = top_liege
 						}
 						top_liege = {
@@ -1131,7 +1182,7 @@ FR_le_Char = {
 				}
 				AND = { # duke_feudal_male_arabic_group (Émir), duke_feudal_female_arabic_group (Émiresse)
 					trigger_if = {
-						limit = {
+						limit = { 
 							exists = top_liege
 						}
 						top_liege = {
@@ -1155,7 +1206,7 @@ FR_le_Char = {
 				}
 				AND = { # duke_clan_male_iberian_group (Émir), duke_clan_female_iberian_group (Émiresse)
 					trigger_if = {
-						limit = {
+						limit = { 
 							exists = top_liege
 						}
 						top_liege = {
@@ -1177,7 +1228,7 @@ FR_le_Char = {
 				# 	OR = {
 				# 		AND = { # count_feudal_male_english (Earl)
 				# 			has_government = feudal_government
-				# 			primary_title = {
+				# 			primary_title = { 
 				# 				target_is_de_jure_liege_or_above = title:e_britannia
 				# 				NOT = { target_is_de_jure_liege_or_above = title:k_wales } # count_feudal_male_k_wales (Lord)
 				# 			}
@@ -1255,7 +1306,7 @@ FR_le_Char = {
 	}
 }
 
-FR_du_Char_L = {
+FR_du_Char_L = { 
 	type = character
 	log_loc_errors = no
 	text = {
@@ -1278,7 +1329,7 @@ FR_du_Char_L = {
 	}
 }
 
-FR_du_Char_U_Pi = {
+FR_du_Char_U_Pi = { 
 	type = character
 	log_loc_errors = no
 	text = {
@@ -1302,7 +1353,7 @@ FR_du_Char_U_Pi = {
 	}
 }
 
-FR_du_Char_U_P = {
+FR_du_Char_U_P = { 
 	type = character
 	log_loc_errors = no
 	text = {
@@ -1317,7 +1368,7 @@ FR_du_Char_U_P = {
 	}
 }
 
-FR_du_Char_Pi = {
+FR_du_Char_Pi = { 
 	type = character
 	log_loc_errors = no
 	text = {
@@ -1335,7 +1386,7 @@ FR_du_Char_Pi = {
 	}
 }
 
-FR_du_Char_P = {
+FR_du_Char_P = { 
 	type = character
 	log_loc_errors = no
 	text = {
@@ -1396,7 +1447,7 @@ FR_du_Char_P = {
 	}
 }
 
-FR_du_Char = {
+FR_du_Char = { 
 	type = character
 	log_loc_errors = no
 	text = { # chef de foi
@@ -1445,11 +1496,11 @@ FR_du_Char = {
 						religion = religion:anatolian_religion
 						religion = religion:arabic_religion
 						religion = religion:armenian_religion
-						religion = religion:berber_religion
+						religion = religion:north_african_religion
 						religion = religion:caucasian_religion
 						religion = religion:canaanite_religion
 						religion = religion:celtic_religion
-						religion = religion:dacian_religion
+						religion = religion:paleo_balkan_religion
 						religion = religion:iberic_religion
 						religion = religion:mesopotamian_religion
 						religion = religion:scythian_religion
@@ -1467,7 +1518,7 @@ FR_du_Char = {
 				AND = { # duke_feudal_male_turkish (Atabeg), duke_feudal_female_turkish (Atabegum)
 					highest_held_title_tier = tier_duchy
 					OR = {
-						AND = {
+						AND = { 
 							exists = top_liege
 							top_liege = {
 								OR = {
@@ -1498,7 +1549,7 @@ FR_du_Char = {
 				}
 				AND = {
 					trigger_if = {
-						limit = {
+						limit = { 
 							exists = top_liege
 						}
 						top_liege = {
@@ -1526,7 +1577,7 @@ FR_du_Char = {
 				}
 				AND = { # duke_feudal_male_arabic_group (Émir), duke_feudal_female_arabic_group (Émiresse)
 					trigger_if = {
-						limit = {
+						limit = { 
 							exists = top_liege
 						}
 						top_liege = {
@@ -1550,7 +1601,7 @@ FR_du_Char = {
 				}
 				AND = { # duke_clan_male_iberian_group (Émir), duke_clan_female_iberian_group (Émiresse)
 					trigger_if = {
-						limit = {
+						limit = { 
 							exists = top_liege
 						}
 						top_liege = {
@@ -1572,7 +1623,7 @@ FR_du_Char = {
 				# 	OR = {
 				# 		AND = { # count_feudal_male_english (Earl)
 				# 			has_government = feudal_government
-				# 			primary_title = {
+				# 			primary_title = { 
 				# 				target_is_de_jure_liege_or_above = title:e_britannia
 				# 				NOT = { target_is_de_jure_liege_or_above = title:k_wales } # count_feudal_male_k_wales (Lord)
 				# 			}
@@ -1650,7 +1701,7 @@ FR_du_Char = {
 	}
 }
 
-FR_au_Char_L = {
+FR_au_Char_L = { 
 	type = character
 	log_loc_errors = no
 	text = {
@@ -1665,7 +1716,7 @@ FR_au_Char_L = {
 			holds_landed_title = no
 			is_female = yes
 		}
-		localization_key = CustomLoc_FR_ala
+		localization_key = CustomLoc_FR_a_la
 	}
 	text = {
 		localization_key = CustomLoc_FR_au_Char
@@ -1673,14 +1724,14 @@ FR_au_Char_L = {
 	}
 }
 
-FR_au_Char_U_Pi = {
+FR_au_Char_U_Pi = { 
 	type = character
 	log_loc_errors = no
 	text = {
 		trigger = {
 			is_local_player = yes
 		}
-		localization_key = CustomLoc_FR_a
+		localization_key = CustomLoc_FR_a_accent
 	}
 	text = {
 		trigger = {
@@ -1697,14 +1748,14 @@ FR_au_Char_U_Pi = {
 	}
 }
 
-FR_au_Char_U_P = {
+FR_au_Char_U_P = { 
 	type = character
 	log_loc_errors = no
 	text = {
 		trigger = {
 			is_local_player = yes
 		}
-		localization_key = CustomLoc_FR_a
+		localization_key = CustomLoc_FR_a_accent
 	}
 	text = {
 		localization_key = CustomLoc_FR_au_Char_P
@@ -1712,7 +1763,7 @@ FR_au_Char_U_P = {
 	}
 }
 
-FR_au_Char_Pi = {
+FR_au_Char_Pi = { 
 	type = character
 	log_loc_errors = no
 	text = {
@@ -1730,7 +1781,7 @@ FR_au_Char_Pi = {
 	}
 }
 
-FR_au_Char_P = {
+FR_au_Char_P = { 
 	type = character
 	log_loc_errors = no
 	text = {
@@ -1740,7 +1791,7 @@ FR_au_Char_P = {
 			any_child = { primary_title.tier = tier_kingdom }
 			primary_title.tier < tier_kingdom
 		}
-		localization_key = CustomLoc_FR_ala
+		localization_key = CustomLoc_FR_a_la
 	}
 	text = {
 		trigger = {
@@ -1759,7 +1810,7 @@ FR_au_Char_P = {
 				}
 			}
 		}
-		localization_key = CustomLoc_FR_al
+		localization_key = CustomLoc_FR_a_l
 	}
 	text = {
 		trigger = { # Prince
@@ -1783,7 +1834,7 @@ FR_au_Char_P = {
 			}
 			any_parent = { even_if_dead = yes primary_title.tier >= tier_kingdom }
 		}
-		localization_key = CustomLoc_FR_ala
+		localization_key = CustomLoc_FR_a_la
 	}
 	text = {
 		localization_key = CustomLoc_FR_au_Char
@@ -1791,7 +1842,7 @@ FR_au_Char_P = {
 	}
 }
 
-FR_au_Char = {
+FR_au_Char = { 
 	type = character
 	log_loc_errors = no
 	text = { # chef de foi
@@ -1840,11 +1891,11 @@ FR_au_Char = {
 						religion = religion:anatolian_religion
 						religion = religion:arabic_religion
 						religion = religion:armenian_religion
-						religion = religion:berber_religion
+						religion = religion:north_african_religion
 						religion = religion:caucasian_religion
 						religion = religion:canaanite_religion
 						religion = religion:celtic_religion
-						religion = religion:dacian_religion
+						religion = religion:paleo_balkan_religion
 						religion = religion:iberic_religion
 						religion = religion:mesopotamian_religion
 						religion = religion:scythian_religion
@@ -1862,7 +1913,7 @@ FR_au_Char = {
 				AND = { # duke_feudal_male_turkish (Atabeg), duke_feudal_female_turkish (Atabegum)
 					highest_held_title_tier = tier_duchy
 					OR = {
-						AND = {
+						AND = { 
 							exists = top_liege
 							top_liege = {
 								OR = {
@@ -1893,7 +1944,7 @@ FR_au_Char = {
 				}
 				AND = {
 					trigger_if = {
-						limit = {
+						limit = { 
 							exists = top_liege
 						}
 						top_liege = {
@@ -1921,7 +1972,7 @@ FR_au_Char = {
 				}
 				AND = { # duke_feudal_male_arabic_group (Émir), duke_feudal_female_arabic_group (Émiresse)
 					trigger_if = {
-						limit = {
+						limit = { 
 							exists = top_liege
 						}
 						top_liege = {
@@ -1945,7 +1996,7 @@ FR_au_Char = {
 				}
 				AND = { # duke_clan_male_iberian_group (Émir), duke_clan_female_iberian_group (Émiresse)
 					trigger_if = {
-						limit = {
+						limit = { 
 							exists = top_liege
 						}
 						top_liege = {
@@ -1967,7 +2018,7 @@ FR_au_Char = {
 				# 	OR = {
 				# 		AND = { # count_feudal_male_english (Earl)
 				# 			has_government = feudal_government
-				# 			primary_title = {
+				# 			primary_title = { 
 				# 				target_is_de_jure_liege_or_above = title:e_britannia
 				# 				NOT = { target_is_de_jure_liege_or_above = title:k_wales } # count_feudal_male_k_wales (Lord)
 				# 			}
@@ -2017,7 +2068,7 @@ FR_au_Char = {
 				primary_title = title:k_austria # archduke (Archiduc), archduchess (Archiduchesse)
 			}
 		}
-		localization_key = CustomLoc_FR_al
+		localization_key = CustomLoc_FR_a_l
 	}
 	text = {
 		trigger = {
@@ -2037,15 +2088,15 @@ FR_au_Char = {
 				any_spouse = { primary_title.tier >= tier_barony }
 			}
 		}
-		localization_key = CustomLoc_FR_ala
+		localization_key = CustomLoc_FR_a_la
 	}
 	text = {
-		localization_key = CustomLoc_FR_a
+		localization_key = CustomLoc_FR_a_accent
 		fallback = yes
 	}
 }
 
-FR_only_de_HouseOfWorshipPlural = {
+FR_De_HouseOfWorshipPlural = { 
 	type = character
 	log_loc_errors = no
 	text = {
@@ -2066,7 +2117,7 @@ FR_only_de_HouseOfWorshipPlural = {
 	}
 }
 
-FR_Scheme_FullAction = {
+FR_Scheme_FullAction = { 
 	type = scheme
 	log_loc_errors = no
 	text = {
@@ -2231,199 +2282,127 @@ FR_Scheme_FullAction = {
 	}
 }
 
-FR_DogStory_fake = {
-	type = character
-	log_loc_errors = no
-
-	text = {
-		trigger = {
-			any_owned_story = {
-				story_type = story_cycle_pet_dog
-				var:dog_gender = flag:female
-			}
-		}
-		localization_key = FR_dog_female
-	}
-	text = {
-		trigger = {
-			any_owned_story = {
-				story_type = story_cycle_pet_dog
-				var:dog_gender = flag:male
-			}
-		}
-		localization_key = FR_dog_male
-	}
-}
-
-FR_DogStory_e = {
-	log_loc_errors = no
-	parent = FR_DogStory_fake
-	suffix = _e
-}
-
-FR_DogStory_le = {
-	log_loc_errors = no
-	parent = FR_DogStory_fake
-	suffix = _le
-}
-
-FR_CatStory_fake = {
-	type = character
-	log_loc_errors = no
-
-	text = {
-		trigger = {
-			any_owned_story = {
-				story_type = story_cycle_pet_cat
-				var:cat_gender = flag:female
-			}
-		}
-		localization_key = FR_cat_female
-	}
-	text = {
-		trigger = {
-			any_owned_story = {
-				story_type = story_cycle_pet_cat
-				var:cat_gender = flag:male
-			}
-		}
-		localization_key = FR_cat_male
-	}
-}
-
-FR_CatStory_e = {
-	log_loc_errors = no
-	parent = FR_CatStory_fake
-	suffix = _e
-}
-
-FR_CatStory_le = {
-	log_loc_errors = no
-	parent = FR_CatStory_fake
-	suffix = _le
-}
-
-FR_InspirationTypeDescription_Inf = {
+FR_InspirationTypeDescription_Inf = { 
 	log_loc_errors = no
 	parent = InspirationTypeDescription
 	suffix = _FR_Inf
 }
 
-FR_GetInspirationOwnerType_OnA = {
+FR_GetInspirationOwnerType_OnA = { 
 	log_loc_errors = no
 	parent = GetInspirationOwnerType
 	suffix = _FR_On
 }
 
-FR_GetInspirationTypeRoom_Le = {
+FR_GetInspirationTypeRoom_Le = { 
 	log_loc_errors = no
 	parent = GetInspirationTypeRoom
 	suffix = _FR_Le
 }
 
-FR_GetInspirationTypeRoom_Du = {
+FR_GetInspirationTypeRoom_Du = { 
 	log_loc_errors = no
 	parent = GetInspirationTypeRoom
 	suffix = _FR_Du
 }
 
-FR_GetInspirationTypeRoom_OnA = {
+FR_GetInspirationTypeRoom_OnA = { 
 	log_loc_errors = no
 	parent = GetInspirationTypeRoom
 	suffix = _FR_On
 }
 
-FR_InspirationAdventureDestination_En = {
+FR_InspirationAdventureDestination_En = { 
 	log_loc_errors = no
 	parent = InspirationAdventureDestination
 	suffix = _FR_en
 }
 
-FR_GetInspirationMaterialType_Du = {
+FR_GetInspirationMaterialType_Du = { 
 	log_loc_errors = no
 	parent = GetInspirationMaterialType
 	suffix = _FR_Du
 }
 
-FR_GetInspirationMaterialType_OnA = {
+FR_GetInspirationMaterialType_OnA = { 
 	log_loc_errors = no
 	parent = GetInspirationMaterialType
 	suffix = _FR_On
 }
 
-FR_GetInspirationTypeObject_OnA = {
+FR_GetInspirationTypeObject_OnA = { 
 	log_loc_errors = no
 	parent = GetInspirationTypeObject
 	suffix = _FR_On
 }
 
-FR_GetInspirationTypeObject_Le = {
+FR_GetInspirationTypeObject_Le = { 
 	log_loc_errors = no
 	parent = GetInspirationTypeObject
 	suffix = _FR_Le
 }
 
-FR_InspirationSmithBaseType_OnA = {
+FR_InspirationSmithBaseType_OnA = { 
 	log_loc_errors = no
 	parent = InspirationSmithBaseType
 	suffix = _FR_On
 }
 
-FR_InspirationSmithBaseType_Le = {
+FR_InspirationSmithBaseType_Le = { 
 	log_loc_errors = no
 	parent = InspirationSmithBaseType
 	suffix = _FR_Le
 }
 
-FR_InspirationArtisanBaseType_OnA = {
+FR_InspirationArtisanBaseType_OnA = { 
 	log_loc_errors = no
 	parent = InspirationArtisanBaseType
 	suffix = _FR_On
 }
 
-FR_InspirationArtisanBaseType_Le = {
+FR_InspirationArtisanBaseType_Le = { 
 	log_loc_errors = no
 	parent = InspirationArtisanBaseType
 	suffix = _FR_Le
 }
 
-FR_ArtifactArmorTypeLowercase_OnA = {
+FR_ArtifactArmorTypeLowercase_OnA = { 
 	log_loc_errors = no
 	parent = ArtifactArmorTypeLowercase
 	suffix = _FR_On
 }
 
-FR_ArtifactArmorTypeLowercase_Le = {
+FR_ArtifactArmorTypeLowercase_Le = { 
 	log_loc_errors = no
 	parent = ArtifactArmorTypeLowercase
 	suffix = _FR_Le
 }
 
-FR_ArtifactArmorTypeLowercase_E = {
+FR_ArtifactArmorTypeLowercase_E = { 
 	log_loc_errors = no
 	parent = ArtifactArmorTypeLowercase
 	suffix = _FR_E
 }
 
-FR_ArtifactWeaponBaseType_OnA = {
+FR_ArtifactWeaponBaseType_OnA = { 
 	log_loc_errors = no
 	parent = ArtifactWeaponBaseType
 	suffix = _FR_On
 }
 
-FR_ArtifactWeaponBaseType_Le = {
+FR_ArtifactWeaponBaseType_Le = { 
 	log_loc_errors = no
 	parent = ArtifactWeaponBaseType
 	suffix = _FR_Le
 }
 
-FR_GetRandomPositiveTrait_OnA = {
+FR_GetRandomPositiveTrait_OnA = { 
 	log_loc_errors = no
 	parent = GetRandomPositiveTrait
 	suffix = _FR_On
 }
 
-FR_Artifact_OnA = {
+FR_Artifact_OnA = { 
 	type = artifact
 	log_loc_errors = no
 	text = {
@@ -2461,4 +2440,897 @@ FR_Artifact_OnA = {
 		localization_key = CustomLoc_FR_male_OnA
 		fallback = yes
 	}
+}
+
+FR_Le_ArtifactType = { 
+	type = artifact
+	log_loc_errors = no
+	text = {
+		trigger = {
+			OR = {
+				artifact_type = animal_hide
+				artifact_type = animal_hide_big
+				artifact_type = axe
+				artifact_type = brooch
+				artifact_type = ring
+				artifact_type = spear
+				artifact_type = dagger
+				artifact_type = goblet
+				artifact_type = jug
+				artifact_type = mace
+				artifact_type = panacea
+				artifact_type = philosophers_stone
+				artifact_type = tapestry
+			}
+		}
+		localization_key = CustomLoc_FR_la
+	}
+	text = {
+		trigger = {
+			OR = {
+				artifact_type = armor_brigandine
+				artifact_type = armor_lamellar
+				artifact_type = armor_laminar
+				artifact_type = armor_mail
+				artifact_type = armor_plate
+				artifact_type = armor_scale
+				artifact_type = bow
+				artifact_type = composite
+				artifact_type = elixir
+				artifact_type = longbow
+				artifact_type = pedestal
+				artifact_type = regalia
+				artifact_type = regalia_simple
+				artifact_type = scientific_apparatus
+				artifact_type = sword
+			}
+		}
+		localization_key = CustomLoc_FR_l
+	}
+	text = {
+		localization_key = CustomLoc_FR_le
+		fallback = yes
+	}
+}
+
+FR_Du_ArtifactType = { 
+	type = artifact
+	log_loc_errors = no
+	text = {
+		trigger = {
+			OR = {
+				artifact_type = animal_hide
+				artifact_type = animal_hide_big
+				artifact_type = axe
+				artifact_type = brooch
+				artifact_type = ring
+				artifact_type = spear
+				artifact_type = dagger
+				artifact_type = goblet
+				artifact_type = jug
+				artifact_type = mace
+				artifact_type = panacea
+				artifact_type = philosophers_stone
+				artifact_type = tapestry
+			}
+		}
+		localization_key = CustomLoc_FR_dela
+	}
+	text = {
+		trigger = {
+			OR = {
+				artifact_type = armor_brigandine
+				artifact_type = armor_lamellar
+				artifact_type = armor_laminar
+				artifact_type = armor_mail
+				artifact_type = armor_plate
+				artifact_type = armor_scale
+				artifact_type = bow
+				artifact_type = composite
+				artifact_type = elixir
+				artifact_type = longbow
+				artifact_type = pedestal
+				artifact_type = regalia
+				artifact_type = regalia_simple
+				artifact_type = scientific_apparatus
+				artifact_type = sword
+			}
+		}
+		localization_key = CustomLoc_FR_del
+	}
+	text = {
+		localization_key = CustomLoc_FR_du
+		fallback = yes
+	}
+}
+
+FR_E_ArtifactType = { 
+	type = artifact
+	log_loc_errors = no
+	text = {
+		trigger = {
+			OR = {
+				artifact_type = animal_hide
+				artifact_type = animal_hide_big
+				artifact_type = armor_brigandine
+				artifact_type = armor_lamellar
+				artifact_type = armor_laminar
+				artifact_type = armor_mail
+				artifact_type = armor_plate
+				artifact_type = armor_scale
+				artifact_type = axe
+				artifact_type = brooch
+				artifact_type = dagger
+				artifact_type = goblet
+				artifact_type = jug
+				artifact_type = mace
+				artifact_type = panacea
+				artifact_type = philosophers_stone
+				artifact_type = ring
+				artifact_type = spear
+				artifact_type = sword
+				artifact_type = tapestry
+			}
+		}
+		localization_key = CustomLoc_FR_female_E
+	}
+	text = {
+		localization_key = CustomLoc_FR_empty
+		fallback = yes
+	}
+}
+
+FR_ActivityShort_template = { 
+	type = activity
+	log_loc_errors = no
+	text = {
+		trigger = { has_activity_type = activity_feast }
+		localization_key = FR_activity_feast # Festin
+	}
+	text = {
+		trigger = { has_activity_type = activity_gruesome_festival }
+		localization_key = FR_activity_gruesome_festival # Fête sacrificielle
+	}
+	text = {
+		trigger = { has_activity_type = activity_hunt }
+		localization_key = FR_activity_hunt # Chasse
+	}
+	text = {
+		trigger = { has_activity_type = activity_pilgrimage }
+		localization_key = FR_activity_pilgrimage # Pèlerinage
+	}
+	text = {
+		trigger = { has_activity_type = activity_playdate }
+		localization_key = FR_activity_playdate # Rencontre des pairs
+	}
+	text = {
+		trigger = { has_activity_type = activity_tour }
+		localization_key = FR_activity_tour # Grande tournée
+	}
+	text = {
+		trigger = { has_activity_type = activity_tournament }
+		localization_key = FR_activity_tournament # Grand tournoi
+	}
+	text = {
+		trigger = { has_activity_type = activity_wedding }
+		localization_key = FR_activity_wedding # Grand mariage
+	}
+	text = {
+		trigger = { has_activity_type = activity_witch_ritual }
+		localization_key = FR_activity_witch_ritual # Grand rite
+	}
+	text = {
+		localization_key = FR_activity_fallback
+		fallback = yes
+	}
+}
+
+FR_Le_ActivityShort = { 
+	log_loc_errors = no
+	parent = FR_ActivityShort_template
+	suffix = _Le
+}
+
+FR_Au_ActivityShort = { 
+	log_loc_errors = no
+	parent = FR_ActivityShort_template
+	suffix = _Au
+}
+
+FR_Du_ActivityShort = { 
+	log_loc_errors = no
+	parent = FR_ActivityShort_template
+	suffix = _Du
+}
+
+FR_E_ActivityShort = { 
+	log_loc_errors = no
+	parent = FR_ActivityShort_template
+	suffix = _E
+}
+
+FR_ActivityFull_template = { 
+	type = activity
+	log_loc_errors = no
+	text = {
+		trigger = {
+			activity_host = {
+				is_local_player = yes
+			}
+		 }
+		localization_key = FR_activity_localplayer
+	}
+	text = {
+		trigger = { has_activity_type = activity_feast } # Festin
+		localization_key = FR_activity_feast
+	}
+	text = {
+		trigger = { has_activity_type = activity_gruesome_festival } # Fête sacrificielle
+		localization_key = FR_activity_gruesome_festival
+	}
+	text = {
+		trigger = { has_activity_type = activity_hunt } # Chasse
+		localization_key = FR_activity_hunt
+	}
+	text = {
+		trigger = { has_activity_type = activity_pilgrimage } # Pèlerinage
+		localization_key = FR_activity_pilgrimage
+	}
+	text = {
+		trigger = { has_activity_type = activity_playdate } # Rencontre des pairs
+		localization_key = FR_activity_playdate
+	}
+	text = {
+		trigger = { has_activity_type = activity_tour } # Grande tournée
+		localization_key = FR_activity_tour
+	}
+	text = {
+		trigger = { has_activity_type = activity_tournament } # Grand tournoi
+		localization_key = FR_activity_tournament
+	}
+	text = {
+		trigger = { has_activity_type = activity_wedding } # Grand mariage
+		localization_key = FR_activity_wedding
+	}
+	text = {
+		trigger = { has_activity_type = activity_witch_ritual } # Grand rite
+		localization_key = FR_activity_witch_ritual
+	}
+	text = {
+		localization_key = FR_activity_fallback
+		fallback = yes
+	}
+}
+
+FR_Le_ActivityFull = { 
+	log_loc_errors = no
+	parent = FR_ActivityFull_template
+	suffix = _Le
+}
+
+FR_Au_ActivityFull = { 
+	log_loc_errors = no
+	parent = FR_ActivityFull_template
+	suffix = _Au
+}
+
+FR_Du_ActivityFull = { 
+	log_loc_errors = no
+	parent = FR_ActivityFull_template
+	suffix = _Du
+}
+
+# ArtifactAnimalType
+FR_Le_ArtifactAnimalType = { 
+	log_loc_errors = no
+	parent = ArtifactAnimalType
+	suffix = _FR_Le
+}
+
+FR_Du_ArtifactAnimalType = { 
+	log_loc_errors = no
+	parent = ArtifactAnimalType
+	suffix = _FR_Du
+}
+
+FR_Au_ArtifactAnimalType = { 
+	log_loc_errors = no
+	parent = ArtifactAnimalType
+	suffix = _FR_Au
+}
+
+FR_De_ArtifactAnimalType = { 
+	log_loc_errors = no
+	parent = ArtifactAnimalType
+	suffix = _FR_De
+}
+
+FR_E_ArtifactAnimalType = { 
+	log_loc_errors = no
+	parent = ArtifactAnimalType
+	suffix = _FR_E
+}
+
+# GetAnimalType
+FR_Le_GetAnimalType = { 
+	log_loc_errors = no
+	parent = GetAnimalType
+	suffix = _FR_Le
+}
+
+FR_Du_GetAnimalType = { 
+	log_loc_errors = no
+	parent = GetAnimalType
+	suffix = _FR_Du
+}
+
+FR_Au_GetAnimalType = { 
+	log_loc_errors = no
+	parent = GetAnimalType
+	suffix = _FR_Au
+}
+
+FR_De_GetAnimalType = { 
+	log_loc_errors = no
+	parent = GetAnimalType
+	suffix = _FR_De
+}
+
+FR_E_GetAnimalType = { 
+	log_loc_errors = no
+	parent = GetAnimalType
+	suffix = _FR_E
+}
+
+FR_Color_GetAnimalType = { 
+	log_loc_errors = no
+	parent = GetAnimalType
+	suffix = _FR_Color
+}
+
+# GetAnimalTypeCaptive
+FR_Le_GetAnimalTypeCaptive = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeCaptive
+	suffix = _FR_Le
+}
+
+FR_Du_GetAnimalTypeCaptive = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeCaptive
+	suffix = _FR_Du
+}
+
+FR_Au_GetAnimalTypeCaptive = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeCaptive
+	suffix = _FR_Au
+}
+
+FR_De_GetAnimalTypeCaptive = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeCaptive
+	suffix = _FR_De
+}
+
+FR_E_GetAnimalTypeCaptive = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeCaptive
+	suffix = _FR_E
+}
+
+# GetAnimalTypeGamebird
+FR_Le_GetAnimalTypeGamebird = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeGamebird
+	suffix = _FR_Le
+}
+
+FR_Du_GetAnimalTypeGamebird = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeGamebird
+	suffix = _FR_Du
+}
+
+FR_Au_GetAnimalTypeGamebird = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeGamebird
+	suffix = _FR_Au
+}
+
+FR_De_GetAnimalTypeGamebird = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeGamebird
+	suffix = _FR_De
+}
+
+FR_E_GetAnimalTypeGamebird = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeGamebird
+	suffix = _FR_E
+}
+
+# GetAnimalTypeKill
+FR_Le_GetAnimalTypeKill = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeKill
+	suffix = _FR_Le
+}
+
+FR_Du_GetAnimalTypeKill = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeKill
+	suffix = _FR_Du
+}
+
+FR_Au_GetAnimalTypeKill = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeKill
+	suffix = _FR_Au
+}
+
+FR_De_GetAnimalTypeKill = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeKill
+	suffix = _FR_De
+}
+
+FR_E_GetAnimalTypeKill = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeKill
+	suffix = _FR_E
+}
+
+# GetAnimalTypeMismanaged
+FR_Le_GetAnimalTypeMismanaged = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeMismanaged
+	suffix = _FR_Le
+}
+
+FR_Du_GetAnimalTypeMismanaged = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeMismanaged
+	suffix = _FR_Du
+}
+
+FR_Au_GetAnimalTypeMismanaged = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeMismanaged
+	suffix = _FR_Au
+}
+
+FR_De_GetAnimalTypeMismanaged = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeMismanaged
+	suffix = _FR_De
+}
+
+FR_E_GetAnimalTypeMismanaged = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeMismanaged
+	suffix = _FR_E
+}
+
+# GetAnimalTypeTame
+FR_Le_GetAnimalTypeTame = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeTame
+	suffix = _FR_Le
+}
+
+FR_Du_GetAnimalTypeTame = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeTame
+	suffix = _FR_Du
+}
+
+FR_Au_GetAnimalTypeTame = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeTame
+	suffix = _FR_Au
+}
+
+FR_De_GetAnimalTypeTame = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeTame
+	suffix = _FR_De
+}
+
+FR_E_GetAnimalTypeTame = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeTame
+	suffix = _FR_E
+}
+
+# GetAnimalTypeWaterfowl
+FR_Le_GetAnimalTypeWaterfowl = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeWaterfowl
+	suffix = _FR_Le
+}
+
+FR_Du_GetAnimalTypeWaterfowl = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeWaterfowl
+	suffix = _FR_Du
+}
+
+FR_Au_GetAnimalTypeWaterfowl = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeWaterfowl
+	suffix = _FR_Au
+}
+
+FR_De_GetAnimalTypeWaterfowl = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeWaterfowl
+	suffix = _FR_De
+}
+
+FR_E_GetAnimalTypeWaterfowl = { 
+	log_loc_errors = no
+	parent = GetAnimalTypeWaterfowl
+	suffix = _FR_E
+}
+
+# GetRaptorType
+FR_Le_GetRaptorType = { 
+	log_loc_errors = no
+	parent = GetRaptorType
+	suffix = _FR_Le
+}
+
+FR_Du_GetRaptorType = { 
+	log_loc_errors = no
+	parent = GetRaptorType
+	suffix = _FR_Du
+}
+
+FR_Au_GetRaptorType = { 
+	log_loc_errors = no
+	parent = GetRaptorType
+	suffix = _FR_Au
+}
+
+FR_De_GetRaptorType = { 
+	log_loc_errors = no
+	parent = GetRaptorType
+	suffix = _FR_De
+}
+
+FR_E_GetRaptorType = { 
+	log_loc_errors = no
+	parent = GetRaptorType
+	suffix = _FR_E
+}
+
+# GetRegionalDeerType
+FR_Le_GetRegionalDeerType = { 
+	log_loc_errors = no
+	parent = GetRegionalDeerType
+	suffix = _FR_Le
+}
+
+FR_Du_GetRegionalDeerType = { 
+	log_loc_errors = no
+	parent = GetRegionalDeerType
+	suffix = _FR_Du
+}
+
+FR_Au_GetRegionalDeerType = { 
+	log_loc_errors = no
+	parent = GetRegionalDeerType
+	suffix = _FR_Au
+}
+
+FR_De_GetRegionalDeerType = { 
+	log_loc_errors = no
+	parent = GetRegionalDeerType
+	suffix = _FR_De
+}
+
+FR_E_GetRegionalDeerType = { 
+	log_loc_errors = no
+	parent = GetRegionalDeerType
+	suffix = _FR_E
+}
+
+# GetRegionalEagleType
+FR_Le_GetRegionalEagleType = { 
+	log_loc_errors = no
+	parent = GetRegionalEagleType
+	suffix = _FR_Le
+}
+
+FR_Du_GetRegionalEagleType = { 
+	log_loc_errors = no
+	parent = GetRegionalEagleType
+	suffix = _FR_Du
+}
+
+FR_Au_GetRegionalEagleType = { 
+	log_loc_errors = no
+	parent = GetRegionalEagleType
+	suffix = _FR_Au
+}
+
+FR_De_GetRegionalEagleType = { 
+	log_loc_errors = no
+	parent = GetRegionalEagleType
+	suffix = _FR_De
+}
+
+FR_E_GetRegionalEagleType = { 
+	log_loc_errors = no
+	parent = GetRegionalEagleType
+	suffix = _FR_E
+}
+
+# GetRegionalWolfType
+FR_Le_GetRegionalWolfType = { 
+	log_loc_errors = no
+	parent = GetRegionalWolfType
+	suffix = _FR_Le
+}
+
+FR_Du_GetRegionalWolfType = { 
+	log_loc_errors = no
+	parent = GetRegionalWolfType
+	suffix = _FR_Du
+}
+
+FR_Au_GetRegionalWolfType = { 
+	log_loc_errors = no
+	parent = GetRegionalWolfType
+	suffix = _FR_Au
+}
+
+FR_De_GetRegionalWolfType = { 
+	log_loc_errors = no
+	parent = GetRegionalWolfType
+	suffix = _FR_De
+}
+
+FR_E_GetRegionalWolfType = { 
+	log_loc_errors = no
+	parent = GetRegionalWolfType
+	suffix = _FR_E
+}
+
+# RegionalFerociousAnimal
+FR_Le_RegionalFerociousAnimal = { 
+	log_loc_errors = no
+	parent = RegionalFerociousAnimal
+	suffix = _FR_Le
+}
+
+FR_Du_RegionalFerociousAnimal = { 
+	log_loc_errors = no
+	parent = RegionalFerociousAnimal
+	suffix = _FR_Du
+}
+
+FR_Au_RegionalFerociousAnimal = { 
+	log_loc_errors = no
+	parent = RegionalFerociousAnimal
+	suffix = _FR_Au
+}
+
+FR_De_RegionalFerociousAnimal = { 
+	log_loc_errors = no
+	parent = RegionalFerociousAnimal
+	suffix = _FR_De
+}
+
+FR_E_RegionalFerociousAnimal = { 
+	log_loc_errors = no
+	parent = RegionalFerociousAnimal
+	suffix = _FR_E
+}
+
+FR_E_GetRandomRegionalSmallGame = { 
+	log_loc_errors = no
+	parent = GetRandomRegionalSmallGame
+	suffix = _FR_E
+}
+
+FR_ActivityPhase_template = { 
+	type = activity
+	log_loc_errors = no
+	text = {
+		trigger = {
+			has_activity_type = activity_witch_ritual
+			has_current_phase = witch_ritual_phase
+		}
+		localization_key = FR_witch_ritual_phase # Rituel des ténèbres
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_feast
+			has_current_phase = feast_phase_meal
+		}
+		localization_key = FR_feast_phase_meal # Banquet
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_feast
+			has_current_phase = feast_phase_toast
+		}
+		localization_key = FR_feast_phase_toast # Trinquée
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_pilgrimage
+			has_current_phase = pilgrimage_phase_solo
+		}
+		localization_key = FR_pilgrimage_phase_solo # Pèlerinage
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_playdate
+			has_current_phase = playdate_phase
+		}
+		localization_key = FR_playdate_phase # Rencontre
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_wedding
+			has_current_phase = wedding_phase_ceremony
+		}
+		localization_key = FR_wedding_phase_ceremony # Cérémonie de mariage
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_wedding
+			has_current_phase = wedding_phase_banquet
+		}
+		localization_key = FR_wedding_phase_banquet # Repas de noces
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_wedding
+			has_current_phase = wedding_phase_wnight
+		}
+		localization_key = FR_wedding_phase_wnight # Nuit de noces
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_tournament
+			has_current_phase = tournament_phase_melee
+		}
+		localization_key = FR_tournament_phase_melee # Mêlée
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_tournament
+			has_current_phase = tournament_phase_archery
+		}
+		localization_key = FR_tournament_phase_archery # Tir à l’arc
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_tournament
+			has_current_phase = tournament_phase_recital
+		}
+		localization_key = FR_tournament_phase_recital # Récital
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_tournament
+			has_current_phase = tournament_phase_joust
+		}
+		localization_key = FR_tournament_phase_joust # Joute
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_tournament
+			has_current_phase = tournament_phase_duel
+		}
+		localization_key = FR_tournament_phase_duel # Duel
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_tournament
+			has_current_phase = tournament_phase_wrestling
+		}
+		localization_key = FR_tournament_phase_wrestling # Lutte
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_tournament
+			has_current_phase = tournament_phase_board_game
+		}
+		localization_key = FR_tournament_phase_board_game # Jeu de plateau
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_tournament
+			has_current_phase = tournament_phase_horse_race
+		}
+		localization_key = FR_tournament_phase_horse_race # Course de chevaux
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_tournament
+			has_current_phase = tournament_phase_ceremony
+		}
+		localization_key = FR_tournament_phase_ceremony # Cérémonie
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_tour
+			has_current_phase = tour_phase_tour_grounds
+		}
+		localization_key = FR_tour_phase_tour_grounds # Visite des terres
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_tour
+			has_current_phase = tour_phase_dinner
+		}
+		localization_key = FR_tour_phase_dinner # Dîner organisé
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_tour
+			has_current_phase = tour_phase_cultural_festival
+		}
+		localization_key = FR_tour_phase_cultural_festival # Festival culturel
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_tour
+			has_current_phase = tour_phase_journey_home
+		}
+		localization_key = FR_tour_phase_journey_home # Retour
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_gruesome_festival
+			has_current_phase = gruesome_festival_phase
+		}
+		localization_key = FR_gruesome_festival_phase # Fête sacrificielle
+	}
+	text = {
+		trigger = {
+			has_activity_type = activity_hunt
+			has_current_phase = hunt_phase
+		}
+		localization_key = FR_hunt_phase # Chasse
+	}
+	text = {
+		localization_key = FR_activity_phase_fallback
+		fallback = yes
+	}
+}
+
+FR_Le_ActivityPhase = { 
+	log_loc_errors = no
+	parent = FR_ActivityPhase_template
+	suffix = _Le
+}
+
+FR_Du_ActivityPhase = { 
+	log_loc_errors = no
+	parent = FR_ActivityPhase_template
+	suffix = _Du
+}
+
+FR_Au_ActivityPhase = { 
+	log_loc_errors = no
+	parent = FR_ActivityPhase_template
+	suffix = _Au
+}
+
+FR_E_ActivityPhase = { 
+	log_loc_errors = no
+	parent = FR_ActivityPhase_template
+	suffix = _E
+}
+
+FR_Le_GetVersusRound = { 
+	log_loc_errors = no
+	parent = GetVersusRound
+	suffix = _FR_Le
 }

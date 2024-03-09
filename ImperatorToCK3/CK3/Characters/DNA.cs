@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using commonItems;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -13,24 +14,33 @@ public class DNA {
 
 	public string Id { get; }
 	
-	private readonly Dictionary<string, string> colorAndMorphDNAValues;
-	private readonly Dictionary<string, AccessoryGeneValue> accessoryDNAValues;
-	public IReadOnlyDictionary<string, AccessoryGeneValue> AccessoryDNAValues => accessoryDNAValues;
+	private readonly Dictionary<string, DNAColorGeneValue> colorDNAValues;
+	private readonly Dictionary<string, DNAGeneValue> morphDNAValues;
+	private readonly Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues;
+	public IReadOnlyDictionary<string, DNAAccessoryGeneValue> AccessoryDNAValues => accessoryDNAValues;
 
 	public IEnumerable<string> DNALines {
 		get {
-			var colorAndMorphGeneLines = colorAndMorphDNAValues
+			var colorLines = colorDNAValues
+				.Select(kvp => $"{kvp.Key}={{ {kvp.Value} }}");
+			var morphGeneLines = morphDNAValues
 				.Select(kvp => $"{kvp.Key}={{ {kvp.Value} }}");
 			var accessoryGeneLines = accessoryDNAValues
 				.Select(kvp => $"{kvp.Key}={{ {kvp.Value} }}");
-			return colorAndMorphGeneLines.Concat(accessoryGeneLines);
+			return colorLines.Concat(morphGeneLines).Concat(accessoryGeneLines);
 		}
 	}
 
-	public DNA(string id, IDictionary<string, string> colorAndMorphDNAValues, IDictionary<string, AccessoryGeneValue> accessoryDNAValues) {
+	public DNA(
+		string id,
+		IDictionary<string, DNAColorGeneValue> colorDNAValues,
+		IDictionary<string, DNAGeneValue> morphDNAValues,
+		IDictionary<string, DNAAccessoryGeneValue> accessoryDNAValues
+	) {
 		Id = id;
-		this.colorAndMorphDNAValues = new Dictionary<string, string>(colorAndMorphDNAValues);
-		this.accessoryDNAValues = new Dictionary<string, AccessoryGeneValue>(accessoryDNAValues);
+		this.colorDNAValues = new(colorDNAValues);
+		this.morphDNAValues = new(morphDNAValues);
+		this.accessoryDNAValues = new(accessoryDNAValues);
 	}
 
 	public void OutputGenes(StreamWriter output) {

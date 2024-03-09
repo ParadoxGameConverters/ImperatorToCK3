@@ -13,6 +13,7 @@ public class CharacterTests {
 	private readonly GenesDB genesDB = new();
 	[Fact]
 	public void FieldsCanBeSet() {
+		var dnaStr = "AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==";
 		var reader = new BufferedReader(
 			"= {" +
 			"\tcountry=69" +
@@ -48,7 +49,7 @@ public class CharacterTests {
 			"\t}\n" +
 			"\tnickname = \"the Great\"\n" +
 			"\tattributes={ martial=1 finesse=2 charisma=3 zeal=4 }" +
-			"\tdna=\"paradoxianDna\"" +
+			"\tdna=\"" + dnaStr + "\"" +
 			"\tage=56\n" +
 			"\tprovince=69" +
 			"\tprisoner_home=68" +
@@ -57,7 +58,7 @@ public class CharacterTests {
 		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
 		var spouse1Reader = new BufferedReader(string.Empty);
 		var spouse2Reader = new BufferedReader(string.Empty);
-		character.Spouses = new() {
+		character.Spouses = new Dictionary<ulong, ImperatorToCK3.Imperator.Characters.Character> {
 			{ 3, ImperatorToCK3.Imperator.Characters.Character.Parse(spouse1Reader, "3", genesDB) },
 			{ 4, ImperatorToCK3.Imperator.Characters.Character.Parse(spouse2Reader, "4", genesDB) }
 		};
@@ -156,7 +157,7 @@ public class CharacterTests {
 		Assert.Equal(2, character.Attributes.Finesse);
 		Assert.Equal(3, character.Attributes.Charisma);
 		Assert.Equal(4, character.Attributes.Zeal);
-		Assert.Equal("paradoxianDna", character.DNA);
+		Assert.Equal(dnaStr, character.DNA);
 		Assert.Equal((uint)56, character.Age);
 		Assert.Equal((ulong)69, character.ProvinceId);
 	}
@@ -205,10 +206,10 @@ public class CharacterTests {
 	}
 
 	[Fact]
-	public void PortraitDataIsNotExtractedFromDnaOfWrongLength() {
+	public void PortraitDataIsNotExtractedFromEmptyDNAString() {
 		var reader = new BufferedReader(
 			// ReSharper disable once StringLiteralTypo
-			"={dna=\"AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/==\"}"
+			"={dna=\"\"}"
 		);
 		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
 		Assert.Null(character.PortraitData);

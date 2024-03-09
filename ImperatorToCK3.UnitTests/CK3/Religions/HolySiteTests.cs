@@ -66,7 +66,7 @@ public class HolySiteTests {
 		
 		var religions = new ReligionCollection(new Title.LandedTitles());
 		var testReligion = new Religion("test_religion", new BufferedReader("{}"), religions, new ColorFactory());
-		var faith = new Faith("test_faith", new BufferedReader(), testReligion, new ColorFactory());
+		var faith = new Faith("test_faith", new FaithData(), testReligion);
 
 		var site = new HolySite(titles["b_barony"], faith, titles, imperatorEffects, holySiteEffectMapper);
 

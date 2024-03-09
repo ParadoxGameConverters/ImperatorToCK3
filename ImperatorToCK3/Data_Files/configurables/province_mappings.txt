@@ -1,5 +1,424 @@
 imperator_invictus = {
 	link = { comment = "=== NEW MAPPINGS BY IHT ===" }
+	link = { comment = "ETHIOPIA BY IHT" }
+	link = { imp = 7552 imp = 7553 ck3 = 6380 } # Deresa, Aqiq -> BADI
+	link = { imp = 8608 ck3 = 6383 } # Tabot -> UPPER_AMUR
+	link = { imp = 8550 ck3 = 6389 } # Meroe Desert -> SHUNQAYR
+	link = { imp = 3321 imp = 630 imp = 632 imp = 3322 ck3 = 6356 } # Rocat, Scammos, Abale, Borassa -> ATBARA
+	link = { imp = 628 ck3 = 6355 } # Alana -> BERBER
+	link = { imp = 8615 imp = 7584 ck3 = 6353 } # Hashim, Hashem -> TARFAYA
+	link = { imp = 8609 ck3 = 6382 } # Misrar -> WADI_AMUR
+	link = { imp = 8612 ck3 = 6385 } # Talguharai -> BAQLIN-NORTH
+	link = { imp = 8663 ck3 = 6438 } # Akordat -> QATAA
+	link = { imp = 8666 imp = 8740 ck3 = 6442 } # Tokolay, Hambok -> TO_LUS
+	link = { imp = 8665 imp = 5972 ck3 = 8283 ck3 = 8434 } # MANY-TO-MANY: Tokore, Ona Mountains -> SERAYE, WELAMO-WEST
+	link = { imp = 8636 imp = 3328 imp = 8634 imp = 8635 imp = 8738 imp = 8638 ck3 = 6412 } # Kassala, Thana, Gamal, Matamir, Haykota, Gash -> KASSALA
+	link = { imp = 7590 imp = 3331 imp = 7591 ck3 = 6437 } # Demora, Zithaa, Acranoe -> SHOWAK
+	link = { imp = 8623 imp = 8633 imp = 8629 imp = 8624 imp = 8622 imp = 7589 ck3 = 6418 } # Thalathun, Rumaylah, Qadarif, Qigi, Kawahilah, Abliata -> BUTANA
+	link = { imp = 8642 imp = 8643 ck3 = 6436 } # Baqbaqah, Gabub -> WOLQAYT
+	link = { imp = 8729 imp = 8728 ck3 = 6445 } # Samtarru, Kura -> WAD_ABU_NAHL
+	link = { imp = 8649 ck3 = 8303 } # Haria -> KOSOGE
+	link = { imp = 8646 imp = 8645 ck3 = 8292 } # Metemmeh, Boval -> WALDABBA
+	link = { imp = 8644 ck3 = 6444 } # Barakit -> SHOWAK_SOUTH
+	link = { imp = 633 imp = 8739 ck3 = 6443 } # Druka, Mareb -> GASH
+	link = { imp = 8664 imp = 8741 ck3 = 8290 } # Tucul, Durna -> SOUTH_SERAYE
+	link = { imp = 8652 imp = 8656 imp = 8654 ck3 = 8293 } # Enda Cherqos, Tembien, Seglamen -> JOHA
+	link = { imp = 7505 ck3 = 8296 } # Yeha -> QIHA
+	link = { imp = 5354 ck3 = 6413 ck3 = 6440 ck3 = 6414 } # IP 355 -> KHAWR_BARAKA, DHERBE, DJARIN
+	link = { imp = 5336 ck3 = 8335 ck3 = 8334 ck3 = 8333 } # IP 337 -> AFERA, AMARTA, RAGALI
+	link = { imp = 7544 ck3 = 8336 } # Karmille -> DABAHU
+	link = { imp = 7543 ck3 = 8337 } # Kebranitia -> SOUTH_DANAKIL
+	link = { imp = 8736 imp = 8735 ck3 = 8326 } # Weama, Weki -> HAYQ
+	link = { imp = 7545 ck3 = 8301 } # Awash -> LALIBELA
+	link = { imp = 7511 ck3 = 8308 ck3 = 8299 } # Roha -> ANGOT, ADAFA
+	link = { imp = 7508 ck3 = 8295 } # Uikra -> INTARTA
+	link = { imp = 7514 ck3 = 8300 } # Esheta -> DOBA
+	link = { imp = 7510 ck3 = 8294 } # Adi Gelamo -> WIQRO
+	link = { imp = 7513 imp = 8658 ck3 = 8288 } # Matara, Mezber -> MATARA
+	link = { imp = 7504 ck3 = 8284 } # Qohaito -> QOHAITO
+	link = { imp = 8659 imp = 8661 imp = 8660 imp = 8657 ck3 = 8285 } # Sembel, Debarwa, Adi Ugri, Tsirhan -> SHIMAZANA
+	link = { imp = 651 imp = 7540 imp = 7593 ck3 = 8291 } # Sumita, Shire, Tanachtala -> TIGRE
+	link = { imp = 7539 ck3 = 8305 ck3 = 8304 } # D'bark -> FALASHA, SEMIEN
+	link = { imp = 8651 imp = 7536 ck3 = 8307 } # Uacne, Gwara -> DEMBIYA
+	link = { imp = 8722 ck3 = 8313 } # Weyto -> GALILA
+	link = { imp = 8730 ck3 = 8312 ck3 = 8311 } # Gondar -> GONDAR, GOUZARA
+	link = { imp = 7519 ck3 = 8339 } # Abasenia -> AFAR
+	link = { imp = 8731 ck3 = 8343 } # Yoboki -> MORA-AWSSA
+	link = { imp = 7546 ck3 = 8338 } # Beilul -> NORTH_AFAR
+	link = { imp = 7517 imp = 7516 ck3 = 8340 } # Arsinoe, Smyrnophoros Chora -> ASSAB
+	link = { imp = 7518 ck3 = 8341 ck3 = 8342 } # Deire -> AWBUK, TADJOURA
+	link = { imp = 7547 ck3 = 8332 } # Undulli -> EDD
+	link = { imp = 7548 ck3 = 8331 } # Thio -> EDD-NORTH
+	link = { imp = 7549 ck3 = 8287 ck3 = 8330 } # Ras Andada -> BUR, SAHO
+	link = { imp = 7507 ck3 = 8286 } # Oreine -> BURI
+	link = { imp = 7503 ck3 = 8279 } # Adouli -> DEHONO
+	link = { imp = 7502 ck3 = 8280 ck3 = 8281 } # Alalaiou -> DAHLAK_KEBIR, GIMHILE
+	link = { imp = 8648 imp = 8647 imp = 8650 ck3 = 8302 } # Gherma, Tawirda, Maganan -> WEGERA
+	link = { imp = 7512 ck3 = 8298 } # Muchera -> LASTA
+	link = { imp = 7537 ck3 = 8306 } # Roza -> BELASA
+	link = { imp = 7538 ck3 = 8309 } # Agawe -> BEGEMDIR
+	link = { imp = 8655 ck3 = 8297 } # Gijet -> TEKEZE
+	link = { imp = 7506 imp = 8653 imp = 7509 ck3 = 8289 } # Aksum, Mai Adrasha, Sazila -> AKSUM
+	link = { imp = 7515 imp = 8662 imp = 8742 ck3 = 8282 } # Naamen, Taille, Gher -> HAMASEN
+	link = { imp = 5332 ck3 = 6384 ck3 = 6372 ck3 = 6374 ck3 = 6375 ck3 = 6373 } # IP 333 -> NAQIS-SOUTH, WADI_ODIB, NAQIS-NORTH, KHAWR_NUBT, GEBEIT
+	link = { imp = 8611 ck3 = 6387 } # Tohamiyam -> BAQLIN-EAST
+	link = { imp = 8641 imp = 8614 imp = 8613 ck3 = 6386 } # Kalakoy, Qoqay, Mahaneit -> BAQLIN-WEST
+	link = { imp = 3323 imp = 8637 imp = 8640 imp = 8639 ck3 = 6411 } # Durai, Hagiz, Tuwesat, Taragaga -> MIDDLE_ATBARA
+	link = { imp = 8607 imp = 8610 ck3 = 6376 } # Sinkat, Hamdab -> SINKAT
+	link = { imp = 8744 ck3 = 6439 } # Afabet -> MARYA
+	link = { imp = 8743 ck3 = 6423 } # Nakfa -> JEBEL_BEJA
+	link = { imp = 7551 ck3 = 6441 } # Gulbub -> KA'BIR
+	link = { imp = 7550 ck3 = 8278 } # Imberimi -> MASSAWA
+	link = { imp = 7500 ck3 = 6381 ck3 = 6379 } # Ptolemais Theron -> BAZIN, AKIK
+	link = { imp = 8606 imp = 7501 ck3 = 6378 } # Kaweit, Elephanton Chora -> TOKAR
+	link = { imp = 7599 ck3 = 6377 } # Setronon -> SUAKIN
+	link = { imp = 7595 imp = 7596 ck3 = 6371 } # Arachos, Canarbis -> DUNGUNAB
+	link = { comment = "NUBIA BY IHT" }
+	link = { imp = 8092 imp = 8093 imp = 8094 imp = 8095 imp = 8096 ck3 = 6354 } # Duweb, Hidiglib, Murrat, Sufar, Doum -> KOROSKO-ROAD
+	link = { imp = 8091 ck3 = 6352 ck3 = 6370 ck3 = 6369 } # Biyar -> ABU-HAMMAD, AL-HAJAR_NUBIA, KUWEIB
+	link = { imp = 3312 imp = 8104 imp = 8102 ck3 = 6390 } # Petta, Fashfash, Baggura -> SHAHEINAB
+	link = { imp = 3310 imp = 8103 imp = 8101 ck3 = 6366 } # Ameta, Samra, Bum -> WAD_HAMID
+	link = { imp = 635 imp = 636 imp = 639 imp = 631 imp = 629 imp = 8065 ck3 = 6357 } # Galim, Seserem, Tadu, Gora, Sankole, Kurmut -> AL-BAWGA
+	link = { imp = 643 imp = 640 imp = 8063 ck3 = 6365 } # Araba, Epis, Tulih -> KELI
+	link = { imp = 645 imp = 627 ck3 = 6351 } # Kurgus, Marru -> KURGUS
+	link = { imp = 626 ck3 = 6368 } # Napata -> REDAB
+	link = { imp = 7586 ck3 = 6348 } # Kuru -> KAREIMA
+	link = { imp = 620 imp = 621 imp = 623 ck3 = 6360 } # Arcas, Tergendum, Dumuna -> DIFFAR
+	link = { imp = 617 imp = 614 ck3 = 6344 } # Breues, Bagada -> OLD-DONGOLA
+	link = { imp = 613 imp = 612 ck3 = 6342 } # Patigga, Direla -> KEMNA
+	link = { imp = 610 ck3 = 6341 } # Prummu -> TUMBUS
+	link = { imp = 7582 imp = 7583 imp = 608 ck3 = 6340 } # Soleb, Kedurma, Paroa -> DELGO
+	link = { imp = 607 imp = 605 ck3 = 6359 } # Gugo, Noa -> KASSI-MARKOL
+	link = { imp = 611 imp = 609 imp = 618 ck3 = 6343 } # Orsum, Acina, Urbim -> DONGOLA
+	link = { imp = 3315 imp = 8723 imp = 8105 imp = 8724 ck3 = 6393 } # Gurnah, Bana, Muqaddam, Kigeira -> USHARA
+	link = { imp = 622 imp = 619 imp = 615 imp = 616 ck3 = 6345 } # Zamnes, Segasa, Pago, Mulon -> DEBBA
+	link = { imp = 606 ck3 = 6339 } # Saye -> SAI
+	link = { imp = 3314 ck3 = 6395 ck3 = 6397 } # Alwa -> ALTI, KAMLIN
+	link = { imp = 604 ck3 = 6337 } # Semna Nubia -> SEMNA
+	link = { imp = 8630 imp = 8727 imp = 8632 imp = 8115 ck3 = 6404 } # Dinder, Gisi, Simsim, Northern Bayuda Desert -> ABU_GEILI
+	link = { imp = 7580 imp = 7579 imp = 7581 ck3 = 6338 } # Tila, Firke, Pderme -> AKASHA
+	link = { imp = 8626 imp = 8605 imp = 8625 ck3 = 6406 } # Ghorani, Harazah, Azraq -> BASHARGA
+	link = { imp = 3318 imp = 3320 imp = 8110 ck3 = 6396 } # Kuria, Korin, Kawah -> GETEINA
+	link = { imp = 8627 imp = 8628 imp = 8631 ck3 = 6405 } # Fao, Singda, Qalbi -> EL-ELEILA
+	link = { imp = 8107 ck3 = 6400 } # Sennar -> SENNAR
+	link = { imp = 5330 ck3 = 6415 } # IP 331 -> WADI_EL-MILK
+	link = { imp = 3317 imp = 3319 ck3 = 6398 } # Attrah, Syuta -> ARBAJI
+	link = { imp = 8604 imp = 8601 imp = 8619 imp = 5975 imp = 8621 imp = 8620 ck3 = 6410 } # Keili, Suriba, Essayal, Sudan Impassable, Shirayyet, Mirikh -> JEBEL_GEILI
+	link = { imp = 7587 imp = 7588 imp = 8618 imp = 8617 ck3 = 6409 } # Anak, Dmut, Bagarah, Hufrah -> UMM_USUDA
+	link = { imp = 8067 imp = 8069 imp = 8070 imp = 8116 imp = 8100 ck3 = 6350 } # Kalas, Khafur, Barkol, Southern Bayuda Desert, Hosh -> AL-GHAZALI
+	link = { imp = 8591 imp = 8593 imp = 8594 imp = 8602 imp = 8603 ck3 = 6407 } # Nagaa, Mahdood, Hissuna, Adabda, Zariba -> NAGA
+	link = { imp = 8114 ck3 = 6402 } # Sabbalo -> JEBEL_MOYA
+	link = { imp = 634 imp = 7592 imp = 637 ck3 = 6358 } # Darou, Ganagaras, Mallo -> ED-DAMER
+	link = { imp = 8112 imp = 8726 ck3 = 6403 } # Singa, Abal -> SINGA
+	link = { imp = 8725 ck3 = 6429 } # Santah -> KOSTI
+	link = { imp = 7585 imp = 8068 ck3 = 6349 } # Nuri, Kuweib -> NURI
+	link = { imp = 646 ck3 = 6367 } # Fourth Cataract -> SHEMKHIYA
+	link = { imp = 624 imp = 8099 ck3 = 6346 } # Mambil, Meragh -> GRNETTI
+	link = { imp = 8066 imp = 8064 ck3 = 6417 } # Halfa, Fura -> BAYUDA_EAST
+	link = { imp = 638 imp = 641 imp = 642 ck3 = 6363 } # Sakolche, Meroe, Summarum -> AL-ABWAB
+	link = { imp = 625 ck3 = 6347 } # Cortum -> TANKASI
+	link = { imp = 644 imp = 8590 ck3 = 6364 } # Wad ban Naqa, Aborepi -> SHENDI
+	link = { imp = 8616 imp = 8598 imp = 8599 imp = 8600 ck3 = 6408 } # Kakabi, Hamadab, Bafalil, Hatab -> BASA
+	link = { imp = 3311 imp = 8592 imp = 8596 ck3 = 6391 ck3 = 6392 } # MANY-TO-MANY: Toprate, Kasir, Sayyidab -> GEILI, KADERO
+	link = { imp = 8109 imp = 8113 ck3 = 6401 } # Rabak, Surayj -> SAQADI
+	link = { imp = 3313 imp = 8595 imp = 8597 ck3 = 6394 } # Soba, Surayriyah, Hejeilat -> SOBA
+	link = { imp = 8108 imp = 8111 imp = 8106 ck3 = 6399 } # Jebel Moya, Manaqil, Amara -> UM_SUNT
+	link = { comment = "EGYPT AND CYRENAICA BY IHT" }
+	link = { imp = 7690 imp = 508 ck3 = 6046 } # Tamiathis, Tanis -> DUMIYAT
+	link = { imp = 524 imp = 534 imp = 7689 ck3 = 6043 } # Pharbaithos, Mendes, Hermopolis -> DAQAHLA
+	link = { imp = 513 imp = 503 imp = 504 ck3 = 6041 } # Athribis, Bubastis, Leontopolis -> QALYUB
+	link = { imp = 7668 imp = 507 ck3 = 6040 } # Bilbeis, Leonton Polis -> BILBAYS
+	link = { imp = 514 imp = 512 ck3 = 6056 } # Nikiou, Letopolis -> ABU_GHALIB
+	link = { imp = 511 imp = 655 imp = 502 ck3 = 6044 } # Phakoussai, Serapieion, Heroopolis -> FAQUS
+	link = { imp = 505 ck3 = 6039 } # Klysma -> QUZLUM
+	link = { imp = 523 ck3 = 6048 } # Pakhnemounis -> BURULLUS
+	link = { imp = 7691 imp = 533 imp = 518 ck3 = 6049 } # Perseos Skope, Chemmis, Buto -> NASTARAWA
+	link = { imp = 519 imp = 520 ck3 = 6050 } # Sais, Xois -> IBYAR
+	link = { imp = 526 imp = 528 ck3 = 6051 } # Onouphis Ano, Isieion -> MINUF
+	link = { imp = 522 imp = 521 ck3 = 6047 } # Diospolis Kato, Sebennytos -> SAMANNUD
+	link = { imp = 7688 imp = 510 ck3 = 6045 } # Thenessos, Daphnai -> TINNIS
+	link = { imp = 5543 imp = 5541 imp = 5529 imp = 5530 imp = 5527 imp = 5542 ck3 = 6090 } # Magrab, Shunne, Poka, Mandish, Tablamum, Murta -> BAWITI
+	link = { imp = 5531 ck3 = 6089 } # Parva -> AL-BAHRIYA
+	link = { imp = 5535 imp = 5534 imp = 5533 ck3 = 6091 } # Colira, Varam, Berku -> AL-HARRA
+	link = { imp = 568 imp = 569 imp = 572 ck3 = 6077 } # Petemout, Diospolis Magna, Hermonthis -> QUS
+	link = { imp = 580 imp = 582 ck3 = 6109 } # Myos Hormos, Siqdit -> QUSAYR
+	link = { imp = 590 ck3 = 6119 } # Novum Hydreuma -> CENTRAL_JBL_QUZLUM
+	link = { imp = 588 imp = 589 imp = 578 imp = 586 ck3 = 6118 } # Aristonis, Falacro, Dunqash, Sukkari -> NORTH_JBL_QUZLUM
+	link = { imp = 565 ck3 = 6114 } # Ghuzza -> EASTERN DESERT
+	link = { imp = 650 imp = 649 imp = 647 imp = 581 ck3 = 6122 } # Drepanum, Lykabettus-Porphyrites, Quei, Semna -> SAFAGA
+	link = { imp = 564 imp = 566 imp = 579 ck3 = 6076 } # Kaine, Koptos, Persou -> QINA
+	link = { imp = 561 ck3 = 6075 } # Polybiane -> FAW
+	link = { imp = 557 imp = 559 ck3 = 6072 } # Panopolis, Ptolemais Hermeiou -> IKHMIN
+	link = { imp = 553 imp = 556 ck3 = 6071 } # Lykopolis, Antaiopolis -> BAWIT
+	link = { imp = 548 imp = 551 imp = 552 ck3 = 6068 } # Alabastronpolis, Monkanei, Koussai -> ANSINA
+	link = { imp = 546 imp = 542 ck3 = 6064 } # Kynopolis, Ankyronpolis -> IHRIT
+	link = { imp = 577 imp = 575 imp = 574 ck3 = 6080 } # Omboi, Eileithyiopolis, Latopolis -> ZARNIKH
+	link = { imp = 591 ck3 = 6081 } # Syene -> ASWAN
+	link = { imp = 583 imp = 584 imp = 585 imp = 587 imp = 8071 ck3 = 1108 } # Berenike, Vetus Hydreuma, Lahami, Nechesia, Ileigha -> EASTERN DESERT
+	link = { imp = 8076 imp = 8072 imp = 8077 ck3 = 6121 } # Asele, Abraq, Ghaloa -> UM SHASHOBA
+	link = { imp = 8074 imp = 8075 ck3 = 6120 } # Shabbabah, Karim -> SOUTH_JBL_QUZLUM
+	link = { imp = 593 imp = 8073 ck3 = 6361 } # Pselkis, Hudi -> SABAGURA
+	link = { imp = 601 imp = 602 ck3 = 6335 } # Serra, Tamania -> SERRA
+	link = { imp = 597 ck3 = 6334 } # Tene -> QASR_IBRIM
+	link = { imp = 596 imp = 8097 ck3 = 6332 } # Aramum, Gabgaba -> KOROSKO
+	link = { imp = 594 ck3 = 6331 } # Tachampso -> SAYALA
+	link = { imp = 8082 imp = 8079 imp = 8080 imp = 8081 imp = 8083 imp = 8098 ck3 = 6112 } # Heimur, Contra Pselchis, Hairiri, Dhahab, Garaiyat, Dayyub -> HAIMUR
+	link = { imp = 8086 imp = 8087 imp = 8085 imp = 8084 ck3 = 6113 } # Allaqi, Fas, Shoshoba, Seiga -> ALLAQI
+	link = { imp = 8089 imp = 8078 imp = 8088 ck3 = 6111 } # Berenike Pancrysia, Tuyur, Eigat -> DERAHIB
+	link = { imp = 7594 ck3 = 6110 } # Sabraiton -> AYDHAB
+	link = { imp = 7598 imp = 7597 imp = 8090 ck3 = 6388 } # Sabaste, Erascum, Gidmib -> LOWER_ODIB
+	link = { imp = 562 imp = 560 ck3 = 6073 } # Diospolis, Thinis -> IBSHAYA
+	link = { imp = 576 ck3 = 6079 ck3 = 6082 } # Apollinopolis Megale -> UDFU, ASWAN-WEST
+	link = { imp = 567 imp = 570 imp = 571 imp = 573 ck3 = 6078 } # Apollinopolis Mikra, Memnonia, Terkythis, Pathyris -> ARMANT
+	link = { imp = 563 ck3 = 6074 } # Tenthyris -> HUW
+	link = { imp = 592 ck3 = 6362 } # Talmis -> KALABSHA
+	link = { imp = 600 imp = 5521 imp = 5520 imp = 603 ck3 = 6336 } # Pachora, Boron, Cataphri, Boon -> FARAS
+	link = { imp = 598 imp = 599 imp = 5519 imp = 5518 ck3 = 6333 } # Premis, Kambousis, Simbel, Hameka -> SHEIKH_DAWUD
+	link = { imp = 595 ck3 = 6329 ck3 = 6330 } # Kortia -> QURTA, IKHMINDI
+	link = { imp = 545 imp = 5532 imp = 547 ck3 = 6063 } # Oxyrhynchus, Kom Namrud, Chysis -> AL-BAHNASA
+	link = { imp = 544 imp = 5546 ck3 = 6062 } # Herakleopolis, Pseneros -> AHNAS
+	link = { imp = 5547 imp = 5548 ck3 = 6061 } # Philoteris, Kerkethoris -> IQNA
+	link = { imp = 5538 imp = 5555 imp = 5537 imp = 5539 imp = 8122 imp = 8121 ck3 = 6093 } # Gargara, Carnasa, Ammon, Zethin, Jaghbub, Tubat -> SIWA
+	link = { imp = 5506 imp = 5507 imp = 5508 imp = 5515 imp = 5517 ck3 = 6084 } # Tchonemyris, Tabenesse, Kysis, Sykaminia, Precariton -> BARIS
+	link = { imp = 5504 imp = 5503 imp = 5502 ck3 = 6083 } # Hibis, Gibra, Gebara -> KHARGA
+	link = { imp = 549 imp = 550 ck3 = 6067 } # Hermopolis Magna, Thynis -> AL-USHMUNAIN
+	link = { imp = 554 imp = 5501 ck3 = 6069 } # Pokis, Pohe -> MANFALUT
+	link = { imp = 558 imp = 5500 imp = 555 ck3 = 6070 } # Tripheion, Erebe, Hypsele -> ASYUT
+	link = { imp = 5509 imp = 5510 imp = 5522 ck3 = 6085 } # Kellis, Mothis, Debiri -> MUT
+	link = { imp = 5512 imp = 5513 imp = 5516 imp = 5505 ck3 = 6086 } # Thenete, Parammon, Perusekh, Amura -> TUNAYDA
+	link = { imp = 5511 ck3 = 6087 } # Trimithis -> AL-QASR-DAKHLA
+	link = { imp = 5523 imp = 5528 imp = 5524 imp = 5525 imp = 5526 imp = 5545 imp = 5514 ck3 = 6088 } # Farafra, Elassa, Bishaya, Tawar, Minqar, Thumat, Farafra -> AL-FARAFRA
+	link = { imp = 5540 imp = 5551 imp = 5536 imp = 5544 ck3 = 6092 } # Areg, Varias, Sitra, Gerum -> AIN_AL-GHANBI
+	link = { imp = 5554 imp = 5550 imp = 5552 imp = 5556 imp = 5553 ck3 = 6117 } # Sanus, Alexandrou Parembole, Klimax, Abid, Graias -> QARA
+	link = { imp = 5339 ck3 = 6116 } # IP 340 -> WADI_NATRUN
+	link = { imp = 543 ck3 = 6065 } # Neiloupolis -> ATFIH
+	link = { imp = 537 imp = 538 ck3 = 6066 } # Panarachthis, Aphroditopolis -> HULWAN-CAIRO
+	link = { imp = 5549 imp = 500 ck3 = 6057 } # Takyris, Memphis -> GIZA
+	link = { imp = 541 ck3 = 6058 ck3 = 6059 } # Karanis -> BUSIR, TIRSA
+	link = { imp = 540 imp = 539 ck3 = 6060 } # Dionysias, Krokodilopolis -> AL-FAYYUM
+	link = { imp = 515 imp = 527 ck3 = 6055 } # Naukratis, Atarbechis-Aphroditopolis -> RAMSIS
+	link = { imp = 517 imp = 531 ck3 = 6054 } # Hermopolis Mikra, Psenemphaia -> DAMANHUR
+	link = { imp = 536 imp = 501 ck3 = 6042 } # Babylon, Heliopolis -> CAIRO
+	link = { imp = 529 imp = 530 imp = 532 ck3 = 6052 } # Kanopos, Bolbitine, Chaireon -> RASHID
+	link = { imp = 516 imp = 453 ck3 = 6053 } # Alexandria, Taposiris -> ALEXANDRIA
+	link = { imp = 3477 imp = 3478 imp = 445 ck3 = 6094 } # Pedonia, Derras, Dyme -> AL-HAMAM
+	link = { imp = 3379 imp = 3380 imp = 3476 ck3 = 6095 } # Kallias, Leuke Akte Kyrenaike, Pnigeus -> QASR_ASH_SHAMMAS
+	link = { imp = 3376 imp = 3377 imp = 3378 ck3 = 6096 } # Selenis, Apis, Paraetonium -> KANAIS_AL-HADID
+	link = { imp = 3375 imp = 3374 imp = 3373 ck3 = 6097 } # Chettaia, Nesus, Catabathmus Maior -> SULLUM
+	link = { imp = 3370 imp = 3368 imp = 3369 imp = 3371 imp = 3372 ck3 = 6098 } # Antipyrgos, Batrachos, Gonia, Kyrthanion, Menelaos -> TOBRUK
+	link = { imp = 3357 imp = 3351 imp = 5993 ck3 = 6102 } # Barke, Chairekla, Cyrenaica -> WADI MASUS
+	link = { imp = 3364 imp = 3367 imp = 3362 imp = 3359 ck3 = 6100 } # Marandis, Petras Mikros, Agabis, Balagrae -> WADI_MAKHIL
+	link = { imp = 3363 imp = 3365 imp = 3366 ck3 = 6099 } # Darnis, Aziris, Paliouros -> DERNA
+	link = { imp = 3361 imp = 3360 imp = 3358 ck3 = 6101 } # Apollonia Kyrenaike, Kyrene, Phykous -> MARAWA
+	link = { imp = 3352 imp = 3353 imp = 3354 ck3 = 6104 } # Hadrianopolis, Taucheira, Ptolemais -> BARQA-AL-MARJ
+	link = { imp = 3349 imp = 3347 ck3 = 6103 } # Zau Taberna, Talliamunera -> JABAL_AL-GHARBI
+	link = { imp = 3344 imp = 3346 imp = 3348 imp = 3350 ck3 = 6105 } # Serapeion, Amastor, Chersis, Euesperides -> BENGHAZI
+	link = { imp = 3341 imp = 3342 imp = 3343 imp = 3345 ck3 = 4551 } # Astrochonda, Kainon, Corniclanum, Chorotus -> AJADABIYA
+	link = { comment = "LIBYA BY IHT" }
+	link = { imp = 8146 imp = 8147 imp = 8149 imp = 8152 ck3 = 6459 } # Tamshin, Mughattah, Umm Abid, Brak -> TAMZAWA
+	link = { imp = 8162 imp = 8163 imp = 8171 imp = 8161 ck3 = 6448 } # Sabha, Chlef, Gadduwah, Samnu -> SABHA
+	link = { imp = 8181 imp = 8182 imp = 9136 imp = 8190 imp = 8189 ck3 = 6447 } # Zuwila, Tmessa, Sahara Impassable, Terbu, Majdul -> ZAWILA
+	link = { imp = 9139 ck3 = 6601 } # Sahara Impassable -> WADI_IRAWAN
+	link = { imp = 8184 ck3 = 6661 ck3 = 6460 } # Tisit -> GHAT_ROUTE, GHAT
+	link = { imp = 8175 imp = 8178 imp = 8179 ck3 = 6450 } # Dujal, Sharraba, Baghira -> TASSAWA
+	link = { imp = 8174 ck3 = 6451 } # Murzuq -> MURZUK
+	link = { imp = 8192 imp = 8193 ck3 = 6667 } # Qatrun, Tajhiri -> FEZZAN_ROUTE
+	link = { imp = 8173 imp = 8194 imp = 8191 ck3 = 6669 } # Traghen, Mastutah, Izam -> TRAGHAN
+	link = { imp = 8168 imp = 8166 imp = 8169 imp = 8164 ck3 = 6449 } # Garama, Lecksair, Zinchekra, Gelah -> GERMA
+	link = { imp = 8139 imp = 8140 imp = 8141 ck3 = 6446 } # Zala, Jufrah, Fuqaha -> ZALHA
+	link = { imp = 8128 imp = 8131 imp = 8240 imp = 8132 ck3 = 6106 } # Augila, Kalanshah, Sand Sea, Jabbanah -> AWJILA
+	link = { imp = 8130 imp = 8129 ck3 = 6108 } # Sahabi, Bu Athla -> JAKHARRAD
+	link = { imp = 8127 imp = 8126 imp = 8125 ck3 = 6107 } # Gialo, Gicherra, Mawahi -> JALU
+	link = { imp = 8137 imp = 8151 imp = 8136 imp = 8133 imp = 8138 imp = 8150 imp = 8134 ck3 = 4553 } # Tagrifet, Harawa, Talhah, Maradah, Meduin, Psyllic Desert, Jafr -> TAJRIFT
+	link = { imp = 8231 imp = 8236 ck3 = 6321 } # Sinawen, Zar -> SINAWIN
+	link = { imp = 8232 ck3 = 4571 } # Derg -> DARADJ
+	link = { imp = 9140 imp = 8180 imp = 8172 ck3 = 6602 } # Sahara Impassable, Harakat, Daydaban -> ERG_GHATI
+	link = { imp = 8233 imp = 8234 ck3 = 4570 } # Cydamus, Debdeb -> GHADAMES
+	link = { imp = 8214 ck3 = 4558 } # Thenteos -> TIRI
+	link = { imp = 8227 imp = 8225 imp = 8212 imp = 8213 imp = 8177 imp = 8215 imp = 8216 ck3 = 4569 } # Ajdab, Scemech, Mizda, Centenarium, Desert, Vinaza, Garian -> TAMAZDA
+	link = { imp = 8211 imp = 8210 imp = 8209 imp = 8207 imp = 8206 imp = 8204 imp = 8203 imp = 8222 imp = 8208 imp = 8205 imp = 8197 imp = 8167 imp = 8224 imp = 8170 ck3 = 4564 } # Shawi, Schiueref, Sherbia, Gharbya, Duraybikah, Ghirza, Faschia, Khnafes, Tabaqah, Scedeua, Zayden, Zamzam Desert, Lebr, Ninah -> TININAI
+	link = { imp = 8142 imp = 8199 imp = 8200 imp = 8201 imp = 8143 imp = 8195 imp = 8196 imp = 8144 imp = 8145 ck3 = 4563 } # Waddan, Manfuchia, Nagdiyah, Qarinah, Hun, Jashalam, Gholaia, Socna, Wilyan -> WADDAN
+	link = { imp = 3337 imp = 3338 imp = 3339 imp = 3340 ck3 = 4550 } # Digdida Selorum, Arae Philaenorum, Automalax, Mendrion -> AL-AGHAILA
+	link = { imp = 3330 imp = 3332 imp = 3333 imp = 3334 imp = 3335 imp = 3336 imp = 8202 ck3 = 4552 } # Auxiu, Dysopon, Euphranta, Iscina, Aulazon, Ad Palmam, Majdubiyah -> SURT
+	link = { imp = 3326 imp = 3327 imp = 3329 imp = 8220 imp = 8176 imp = 8198 ck3 = 4554 } # Base, Thebunte, Annesel, Banat, Desert, Auxiqua -> TAWURGHA
+	link = { imp = 3325 imp = 8226 imp = 8221 imp = 8223 ck3 = 4555 } # Thubactis, Rimoniana, Sdada, Bularkan -> MISURATA
+	link = { imp = 3306 imp = 3324 imp = 5947 imp = 8228 ck3 = 4556 } # Leptis Magna, Kinyps, Sahara Impassable, Dnar -> LABDA
+	link = { imp = 3303 imp = 3304 imp = 3305 imp = 8218 imp = 8219 imp = 8217 ck3 = 4557 } # Oea, Amarea, Gaphara, Mesphe, Subututtu, Thenadassa -> TRIPOLIS
+	link = { imp = 3301 imp = 3302 ck3 = 4568 } # Sabratha, Zanazia -> SABRATHA
+	link = { imp = 3298 imp = 3299 imp = 3300 ck3 = 4561 } # Zouchis, Pisida, Locri -> ZUWARA
+	link = { imp = 3295 imp = 3296 imp = 3297 imp = 8250 ck3 = 4565 } # Gergis, Zitha, Putea Pallene, Naffatiyah -> JARJIS
+	link = { imp = 8188 ck3 = 4567 } # Desert -> FURSATA
+	link = { imp = 8229 imp = 8230 ck3 = 4559 } # Giosc, Tabuinati -> DJADO
+	link = { imp = 8235 imp = 8238 ck3 = 4560 } # Praesidium, Tillibari -> NALUT
+	link = { imp = 3293 imp = 8243 imp = 8242 imp = 8244 imp = 8245 ck3 = 4566 } # Gigthis, Augemmi, Tabalati, Recheb, Mahalla -> BUGHRARA
+	link = { imp = 3294 ck3 = 4562 } # Tipasa -> JERBA
+	link = { comment = "AFRICA PROCONSULARIS BY IHT" }
+	link = { imp = 3283 imp = 3287 imp = 3285 imp = 3284 ck3 = 4575 } # Usula, Taparura, Thaenae, Cercina -> SFAX
+	link = { imp = 3201 ck3 = 4599 } # Tabira -> QAFSA
+	link = { imp = 3267 imp = 3265 imp = 3268 imp = 3264 ck3 = 4589 } # Numluli, Thimida Bure, Aunobaris, Septimia -> BAJA
+	link = { imp = 3218 imp = 3217 imp = 3220 ck3 = 4628 } # Tipasa, Madauros, Saltus Sorothensis -> TIFASH
+	link = { imp = 3231 imp = 3221 ck3 = 4629 } # Pagus Malarensium, Zattara -> TUBURSHIQ
+	link = { imp = 3223 imp = 3228 imp = 3224 ck3 = 4630 } # Calama, Celtianis, Asuccuris -> QALAMA
+	link = { imp = 3161 imp = 3227 ck3 = 4752 } # Chullu, Rusicade -> IZAN
+	link = { imp = 3225 imp = 3226 ck3 = 4588 } # Hippo Regius, Culucitanis -> ANNABA
+	link = { imp = 3229 ck3 = 4587 } # Tuniza -> MANSA'L-KHARAZ
+	link = { imp = 3230 ck3 = 4586 } # Thabraca -> TABARQA
+	link = { imp = 3258 imp = 3262 imp = 3260 imp = 3263 ck3 = 4585 } # Hippo Diarrhytus, Kinna Thabracania, Matar, Rucuma -> BANZART
+	link = { imp = 3256 imp = 3257 imp = 3261 ck3 = 4583 } # Carthago, Utica, Thisika -> QARTAJANA
+	link = { imp = 3259 imp = 3250 ck3 = 4582 } # Uzali Sar, Uthina -> TUNIS
+	link = { imp = 3271 imp = 3266 imp = 3270 ck3 = 4753 } # Thignica, Ureu, Bisica Lucana -> SILYANA
+	link = { imp = 3235 imp = 3269 imp = 3237 ck3 = 4591 } # Lares, Thugga, Obba -> AL-ARIBUS
+	link = { imp = 3169 imp = 3187 imp = 3185 imp = 3176 ck3 = 4622 } # Badias, Midili, Leges Maiores, Aurasius Inferior -> BADIS
+	link = { imp = 3209 imp = 3248 imp = 3247 imp = 3205 ck3 = 4624 } # Thala Musulamia, Thugga Terebenthina, Althiburos, Menegesum -> TALA
+	link = { imp = 3182 imp = 3184 imp = 3167 imp = 3168 imp = 3170 imp = 3174 ck3 = 4627 } # Bagai, Thalades, Macomades, Mascula Tiberia, Lambafundi, Claudi -> BAGHAYA
+	link = { imp = 3166 ck3 = 4620 } # Gadiaufala -> QASR AL-IFRIQI
+	link = { imp = 3164 imp = 3355 imp = 3181 imp = 3165 ck3 = 4632 } # Thibilis, Fabatianum, Sigus, Nattabutum -> TIJIS
+	link = { imp = 3234 imp = 3232 imp = 3216 imp = 3233 ck3 = 4590 } # Sicca Veneria, Simitthus, Funda Thavagalensis, Bulla Regia -> SIQQABANARIYA
+	link = { imp = 3214 imp = 3208 ck3 = 4625 } # Thaesactum, Ammaedara -> MAYDARA
+	link = { imp = 3215 imp = 3219 imp = 3213 ck3 = 4626 } # Casaea, Marcimeni, Vasampus -> MASKIYANA
+	link = { imp = 3203 imp = 3206 imp = 3207 ck3 = 4623 } # Theveste, Ad Aquas Caesaris, Vegesela -> TABASSA
+	link = { imp = 3204 imp = 3186 ck3 = 4607 } # Vatari, Ubaza Castellum -> MADILA
+	link = { imp = 3199 imp = 3197 imp = 3198 imp = 3194 ck3 = 4598 } # Nara Maxyesia, Sufetula, Cillium, Thelepte -> AL-QASRAYN
+	link = { imp = 3292 imp = 8247 imp = 8246 imp = 8239 imp = 8135 imp = 8237 ck3 = 4572 } # Arelliorum, Tibubuci, Tisavar, Dekrlet, Desert, Bourma -> BIR AMIR
+	link = { imp = 8256 imp = 8255 ck3 = 4604 } # Rjim Maatoug, Faouar -> SOUF
+	link = { imp = 8257 ck3 = 4608 } # Talib -> AJLU
+	link = { imp = 8249 imp = 8254 imp = 5948 imp = 8253 imp = 8251 imp = 8241 ck3 = 4605 } # Tabria, Ghidma, Desert, Jamnah, Turris Tamaleni, Jebil -> DOUZ
+	link = { imp = 3291 imp = 8252 imp = 8248 ck3 = 4573 } # Tacape, Aquae Tacapitanae, Bezereos -> QABIS
+	link = { imp = 3195 imp = 3193 imp = 3189 imp = 3188 ck3 = 4606 } # Gemellia, Cerva, Ad Speculum, Casae Nigrae -> MADAS
+	link = { imp = 3191 ck3 = 4603 ck3 = 4601 } # Castra Neptitana -> NAFTA, TOZEUR
+	link = { imp = 3190 ck3 = 4602 } # Thiges -> HAMMA
+	link = { imp = 3202 imp = 3196 ck3 = 4600 } # Silesva, Capsa Iustiniana -> TAQYUS
+	link = { imp = 3288 imp = 3289 imp = 3290 ck3 = 4574 } # Macomades Minores, Bennafa, Aves -> AL-HAMMA
+	link = { imp = 3246 imp = 3211 imp = 3212 imp = 3210 ck3 = 4593 } # Mactaris, Masclinae, Aquae Regiae, Sufes -> SABIBA
+	link = { imp = 3241 imp = 3238 imp = 3239 imp = 3236 ck3 = 4592 } # Furnos Maius, Zama Regia, Uzappa, Assuras -> JALULA
+	link = { imp = 3272 imp = 3242 imp = 3240 ck3 = 4594 } # Muzuc, Abthugni, Seressi -> KAIROUAN
+	link = { imp = 3279 ck3 = 4596 } # Vicus Augusti -> MANSURIYA
+	link = { imp = 3273 ck3 = 4595 } # Aquae Casae -> RAQQADA
+	link = { imp = 3286 ck3 = 4597 } # Aeliae -> AL-ABBASIYA
+	link = { imp = 3200 ck3 = 4576 } # Oviscae -> EL-JEM
+	link = { imp = 3280 imp = 3282 imp = 3281 ck3 = 4577 } # Acholla, Thysdrus, Bararus -> SLAKTA
+	link = { imp = 3277 imp = 3278 ck3 = 4578 } # Leptis Minor, Thapsus -> MAHDIYA
+	link = { imp = 3276 ck3 = 4579 } # Hadrametum -> MONASTIR
+	link = { imp = 3243 imp = 3275 imp = 3274 ck3 = 4580 } # Feradi Maius, Ulizibbira, Mediccera -> SUSA
+	link = { imp = 3249 imp = 3244 imp = 3251 ck3 = 4581 } # Ziqua, Pupput, Membressa -> ZAGHWAN
+	link = { imp = 3245 imp = 3252 imp = 3255 imp = 3254 imp = 1470 imp = 3253 ck3 = 4584 } # Curubis, Carpis, Missua, Kerkouane, Cossyra, Nepheris -> NABEUL
+	link = { comment = "ALGERIA BY IHT" }
+	link = { imp = 3146 imp = 3147 imp = 3148 ck3 = 4639 } # Satafis, Sitifis, Mopth -> SATIF
+	link = { imp = 3163 imp = 3180 ck3 = 4631 } # Cirta, Thenebrestia -> CONSTANTINE
+	link = { imp = 3149 ck3 = 4638 } # Cuicul -> IKJAN
+	link = { imp = 3150 imp = 3160 imp = 3145 ck3 = 4636 } # Igilgili, Tucca, Choba -> JIJEL
+	link = { imp = 3126 imp = 3135 imp = 3143 imp = 3144 ck3 = 4637 } # Saldae, Tubusuctu, Lesbia, Muslubium -> BEJAYA
+	link = { imp = 3104 ck3 = 4659 } # Cenavicum -> TAHART
+	link = { imp = 3103 imp = 3099 ck3 = 4660 } # Breucorum, Ala Miliaria -> QALA'A IBN SALAMA
+	link = { imp = 8376 imp = 8378 imp = 8381 imp = 8383 imp = 8385 ck3 = 4645 } # Errich, Gahra, Hamel, Moudjebara, Ibel -> BOU SAADA
+	link = { imp = 8384 imp = 8382 ck3 = 4646 } # Djelfa, Chioukh -> ASHIR-BANYA
+	link = { imp = 3128 ck3 = 4647 } # Phruraesius Mons -> ASHIR-YASHIR
+	link = { imp = 3127 imp = 3105 ck3 = 4658 } # Cinnaba Mons, Columnata -> AL-'UBBAD
+	link = { imp = 3110 imp = 3112 imp = 3114 imp = 3115 ck3 = 4654 } # Tingitanum, Castra Germanorum, Oppidum Definum, Zucchabar -> MILIYANA
+	link = { imp = 3107 ck3 = 4655 } # Caudium Castra -> YALALA
+	link = { imp = 3100 imp = 3102 ck3 = 4656 } # Castra Nova, Mina -> QALA'A B_HUWARA
+	link = { imp = 3098 ck3 = 4657 } # Aquae Sirenses -> AL-GABAL
+	link = { imp = 3117 imp = 3131 imp = 3130 imp = 3129 ck3 = 4762 } # Sufasar, Auzia, Rapidum, Thanaramusa Castra -> SERSOU
+	link = { imp = 3136 imp = 3137 imp = 3119 ck3 = 4648 } # Ausum, Bessemium, Lambdia -> MEDEA
+	link = { imp = 8366 imp = 8367 imp = 8368 imp = 8369 ck3 = 4661 } # Laghouat, Aflou, Bayadh, Krakda -> ASKEDAL
+	link = { imp = 8374 imp = 8375 ck3 = 4619 } # Messaad, Dechret Kamra -> AL-AGHWAT
+	link = { imp = 3133 imp = 3132 imp = 8386 imp = 3134 imp = 3142 imp = 8377 ck3 = 4641 } # Zabi, Tatiliti, Teboucha, Equizeto, Aras, Khoubana -> AL-MASILA
+	link = { imp = 3139 imp = 3140 imp = 3157 imp = 3141 ck3 = 4640 } # Vanisnesi, Ad Sava Municipium, Lemellia, Sertei -> QALA'A B_HAMMAD
+	link = { imp = 3151 imp = 8380 imp = 3158 ck3 = 4642 } # Macri, Mcif, Lobrinia -> MAGRA
+	link = { imp = 3156 imp = 3173 ck3 = 4643 } # Nicivibus, Burgus Gaetulia -> NGAOUS
+	link = { imp = 3153 imp = 3172 ck3 = 4621 } # Mesarietta, Aurasius Superior -> BISKRA
+	link = { imp = 3152 imp = 3155 imp = 8379 ck3 = 4644 } # Thubunae, Aqua Viva, Slimane -> TUBNA
+	link = { imp = 3154 ck3 = 4754 } # Gemellae -> WAGHLANAT
+	link = { imp = 3171 ck3 = 4633 } # Tabudium -> SIDI UQBA
+	link = { imp = 3183 imp = 3159 imp = 3177 imp = 3179 imp = 3178 ck3 = 4634 } # Subzuaritanum, Zarai, Lamasba, Verecunda, Diana Veteranorum -> BILIZMA
+	link = { imp = 3162 ck3 = 4635 } # Milevum -> MILA
+	link = { imp = 3121 imp = 3122 imp = 3123 imp = 3124 ck3 = 4649 } # Rusuccuru, Rusippisir, Rusazus, Bida -> TADALLIS
+	link = { imp = 3118 imp = 3120 ck3 = 4650 } # Icosium, Rusguniae -> ALGIERS
+	link = { imp = 3116 ck3 = 4651 } # Iol -> MATTIJA
+	link = { imp = 3111 imp = 3113 ck3 = 4652 } # Cartili, Gunugu -> SHARSHAL
+	link = { imp = 3109 imp = 3106 imp = 3108 ck3 = 4653 } # Portus Magulus, Arsennaria, Cartennae -> TANAS
+	link = { imp = 3101 ck3 = 4664 } # Quiza Xenitana -> MARSA FARUKH
+	link = { imp = 3095 ck3 = 4665 } # Portus Magnus -> ARZEW
+	link = { imp = 3089 imp = 3087 ck3 = 4671 } # Altava, Pomaria -> AIN TEKBALET
+	link = { imp = 3097 imp = 3096 imp = 3094 ck3 = 4663 } # Lucu, Tasaccora, Caputtasaccora -> MUASKAR
+	link = { imp = 3093 imp = 3088 ck3 = 4667 } # Regiae, Albulae -> QASR IBN SINAN
+	link = { imp = 3091 imp = 3092 ck3 = 4666 } # Castra Puerorum, Portus Divinus -> ORAN
+	link = { imp = 3086 imp = 3090 ck3 = 4668 } # Siga, Tepidae -> ARSGUL
+	link = { comment = "SICILY AND MALTA BY IHT" }
+	link = { imp = 90 imp = 7843 ck3 = 2645 } # Hippana, Adranon -> CALATAFIMI
+	link = { imp = 91 imp = 93 ck3 = 2644 } # Heraclea Minoa, Selinus -> MAZARA
+	link = { imp = 86 ck3 = 2637 } # Acragas -> GIRGENTI
+	link = { imp = 85 imp = 7840 ck3 = 2642 } # Gela, Menae -> CALTAGIRONE
+	link = { imp = 84 imp = 87 imp = 101 ck3 = 2638 } # Syracusae, Acrae, Camarina -> SYRACUSE
+	link = { imp = 83 imp = 7837 imp = 5148 ck3 = 2643 } # Leontini, Megara, IMPASSIBLE TERRAIN 148 -> LENTINI
+	link = { imp = 82 imp = 7838 imp = 5000 ck3 = 2639 } # Catana, Centuripae, Aetna Volcano -> CATANIA
+	link = { imp = 80 imp = 99 imp = 1472 imp = 7861 imp = 81 imp = 5147 ck3 = 2633 } # Messana, Tyndaris, Liparae, Strongyle Volcano, Tauromenium, IMPASSIBLE TERRAIN 147 -> MESSINA
+	link = { imp = 98 imp = 100 imp = 5150 ck3 = 2634 } # Cephaloedium, Calacte, IMPASSIBLE TERRAIN 150 -> CEFALU
+	link = { imp = 88 ck3 = 2641 } # Murgantia -> CALTANISETTA
+	link = { imp = 89 imp = 7839 imp = 7841 imp = 5149 ck3 = 2640 } # Henna, Capitium, Myttistraton, IMPASSIBLE TERRAIN 149 -> CASTROGIOVANNI
+	link = { imp = 96 imp = 7842 imp = 97 ck3 = 2635 } # Panorumus, Soluntum, Thermai -> PALERMO
+	link = { imp = 94 imp = 95 imp = 92 ck3 = 2636 } # Lilybaeum, Eryx, Egesta -> TRAPANI
+	link = { imp = 1471 ck3 = 2646 } # Melita -> MALTA
+	link = { comment = "MALDIVES BY IHT" }
+	link = { imp = 8282 imp = 8281 imp = 8283 ck3 = 8712 } # Laccadives, Amindivi, Minicoy -> Thiladhunmathi
+	link = { imp = 8343 imp = 8387 imp = 8342 imp = 8338 ck3 = 1360 } # Huvadhoo, Kolhumadulu, Male, Boduthiladhunmathi -> Maldives
+	link = { comment = "SRI LANKA BY IHT" }
+	link = { imp = 6975 ck3 = 3285 } # Mihintale -> VAVUNIYA
+	link = { imp = 8289 ck3 = 3278 } # Gampola -> SENKADAGALAPURA
+	link = { imp = 8290 ck3 = 3288 } # Bandarawela -> MALAYA RATA
+	link = { imp = 6966 ck3 = 3267 } # Rohanada -> KATARGAMA
+	link = { imp = 8287 imp = 6980 ck3 = 3269 } # Mahiyanganaya, Salikhaprava -> MAHIYANGANA
+	link = { imp = 8286 imp = 6970 ck3 = 3273 } # Polonnaruwa, Vijitanagara -> POLONNARUWA
+	link = { imp = 5314 ck3 = 3274 } # Palaiogonoi -> DAMBADENIYA
+	link = { imp = 6978 ck3 = 3282 } # Avakana -> DHAMBALLAI
+	link = { imp = 8285 imp = 6974 ck3 = 3279 } # Matale, Etalava -> MATALE
+	link = { imp = 6973 ck3 = 3284 } # Upatissagama -> KURUNAGALA
+	link = { imp = 6950 ck3 = 3272 } # Anuradhapura -> ANURADHAPURA
+	link = { imp = 6976 ck3 = 3281 } # Girikandi -> TRINCOMALEE
+	link = { imp = 6968 ck3 = 3287 } # Modoutou -> MULLAITIVU
+	link = { imp = 6953 ck3 = 3266 } # Mahagrama -> MAGAMPURA
+	link = { imp = 6977 ck3 = 3270 } # Dighavapi -> DIGHAVAPI
+	link = { imp = 6967 imp = 6981 ck3 = 3280 } # Gokanna, Litta -> BATTICALOA
+	link = { imp = 6952 ck3 = 3268 } # Dagana -> GODAWAYA
+	link = { imp = 6951 imp = 6965 ck3 = 3271 } # Odoka, Oulippada -> GIMHATHITHTHA
+	link = { imp = 6982 imp = 8284 ck3 = 3277 } # Nabartha, Dedigama -> SITAWAKA
+	link = { imp = 8288 imp = 6971 ck3 = 3276 } # Migamuva, Kalyani -> KOTTE
+	link = { imp = 6979 ck3 = 3283 } # Simhalava -> PUTTALAM
+	link = { imp = 6972 ck3 = 3286 } # Mahatittha -> MANNAR
+	link = { imp = 6969 ck3 = 3275 } # Jambukola Pattana -> JAFFNA
+	link = { comment = "HORN OF AFRICA BY IHT" }
+	link = { imp = 8713 imp = 8714 imp = 8712 ck3 = 8505 } # Garowe, Laanle, Bililicweyn -> UPPER_NUGAAL
+	link = { imp = 8718 imp = 8715 imp = 8700 imp = 8702 ck3 = 8504 } # Somali Desert, Sool, Bohol, Jidbaaley -> LOWER_TOGDHEER
+	link = { imp = 8687 imp = 8685 imp = 8684 ck3 = 8427 } # Mindigale, Hadaaftimo, Jidali -> HAYLAN
+	link = { imp = 8689 imp = 8686 ck3 = 8428 } # Kob Dehad, Kalabeyr -> QUMBUCUL
+	link = { imp = 8716 ck3 = 1049 } # Somali Desert -> OGADEN_DESERT
+	link = { imp = 8688 imp = 8690 ck3 = 8508 } # Iskushuban, Hodmane -> JACEYL_BID
+	link = { imp = 8703 imp = 8717 ck3 = 8507 } # Raas Xoor, Somali Desert -> DHUUDO
+	link = { imp = 5942 ck3 = 8513 ck3 = 8512 ck3 = 8510 ck3 = 8472 ck3 = 8471 ck3 = 8406 ck3 = 8408 ck3 = 8422 ck3 = 8500 ck3 = 8420 ck3 = 8499 ck3 = 8501 ck3 = 8407 ck3 = 8394 ck3 = 8392 ck3 = 8410 ck3 = 8411 ck3 = 8416 ck3 = 8421 ck3 = 8423 ck3 = 8395 ck3 = 8396 ck3 = 8346 } # Somalian Impassable -> MUDUG-NORTH, NUDUG-SOUTH, GALKAYO, DHUSAMAREB, EL_BUUR, DAKKAR, HARGAYA, GIDAYA-NORTH, FAFAN-SOUTH, FAFAN, GODE, HANAN, HARAR, WEST_ADAL, SITTI, JEBEL_AHMAR, HARGAYA-WEST, HARGAYA-SOUTH, GIDAYA, GIDAYA-EAST, BATE, GENDEBELO, MIDDLE_AWASH
+	link = { imp = 8704 imp = 8707 ck3 = 8509 } # Apocopa, Gallacoodday -> BARBACADLE
+	link = { imp = 8708 ck3 = 8511 ck3 = 8466 } # Garacad -> HOBYO-NORTH, HOBYO
+	link = { imp = 8706 imp = 8711 imp = 8710 imp = 8705 imp = 8709 ck3 = 8506 } # Qarxis, Afdugweyne, Mulug, Dalmoxor, Moqor Yar -> LOWER_NUGAAL
+	link = { imp = 7531 imp = 8679 imp = 7528 ck3 = 8432 } # Pano, Bandarbeyla, Opone -> RAS_HAFUN
+	link = { imp = 8667 imp = 7522 imp = 7534 ck3 = 8404 } # Isis, Malao, Amaitaia -> BERBERA
+	link = { imp = 7535 ck3 = 8403 ck3 = 8401 } # Maphoris -> GOGESA, AMUD
+	link = { imp = 8673 imp = 8696 imp = 8674 imp = 8672 ck3 = 8502 } # Gidheys, Xood, Seeto, Suuqsade -> SHEIKH
+	link = { imp = 8671 ck3 = 8402 } # Gebiilay -> AW_BARRE
+	link = { imp = 9135 ck3 = 8393 } # Somali Impassable -> ADAL
+	link = { imp = 9133 imp = 8676 ck3 = 8441 } # Somali Impassable, Lafaha -> OGADEN_DESERT
+	link = { imp = 8670 imp = 8677 imp = 8668 imp = 8669 imp = 9134 imp = 8675 ck3 = 8405 } # Hargeysa, Goyar, Bagan, Barkhadle, Somali Impassable, Haqayo Malaas -> HARGEISA
+	link = { imp = 8734 imp = 8733 ck3 = 8345 } # Mille, Logiya -> AWASH
+	link = { imp = 8732 imp = 7542 ck3 = 8344 } # Gehar, Rhammanitai -> AWSSA
+	link = { imp = 7541 ck3 = 8391 } # Handoga -> ABBE
+	link = { imp = 7520 ck3 = 8399 } # Anchitaia -> GHOUBET
+	link = { imp = 7521 ck3 = 8398 ck3 = 8400 } # Aualites -> ABASA, ZAILA
+	link = { imp = 8701 imp = 8697 imp = 8699 imp = 8695 imp = 8694 imp = 8698 ck3 = 8503 } # Afweyn, Danano, Gar Adag, Aelal, Berberia Desert, Qoridheere -> TOGDHEER
+	link = { imp = 8682 imp = 7527 ck3 = 8424 } # Shalcaw, Khoor Shoora -> MAKHIR
+	link = { imp = 7533 imp = 7523 imp = 8683 ck3 = 8425 } # Salweyn, Moundou, Ceerigabo -> MAIT
+	link = { imp = 7524 ck3 = 8426 } # Macajilayn -> LAAS_QORAY
+	link = { imp = 7532 ck3 = 8429 } # Mosylon -> EL-AYO
+	link = { imp = 7525 imp = 8681 imp = 8691 ck3 = 8430 } # Elephanton Limen, Qandala, Aromata Desert -> BOSASO
+	link = { imp = 7526 imp = 7529 imp = 8680 ck3 = 8431 } # Aromata, Yehta, Mudun -> GARDAFUUL
+	link = { imp = 7530 ck3 = 1369 ck3 = 1310 } # Dioscoridus -> Socotra, Qualnsiyah
 	link = { comment = "BURMA BY IHT" }
 	link = { imp = 8796 ck3 = 9625 ck3 = 826 } # Burma Mountains -> Chin, Manipur
 	link = { imp = 8805 ck3 = 9624 } # Thanbauk -> Kale
@@ -65,8 +484,8 @@ imperator_invictus = {
 	link = { imp = 4566 imp = 4567 imp = 7600 ck3 = 5296 } # Bata, Torikos, Sabiranum -> Bata
 	link = { imp = 4563 imp = 4562 imp = 4565 imp = 4564 ck3 = 598 } # Phanagoria, Hermonassa, Gorgippia, Labrys -> Tmutarakan
 	link = { comment = "NORTH CAUCASIAN SEA COAST BY IHT" }
-	link = { imp = 5914 ck3 = 7231 } # Kholan -> Zarapan
-	link = { imp = 5915 ck3 = 7066 } # Alsita -> Azgyl
+	link = { imp = 8933 imp = 8931 ck3 = 7231 } # Aksha, Kenbay -> Zarapan
+	link = { imp = 8930 ck3 = 7066 } # Imankara -> Azgyl
 	link = { imp = 6221 imp = 6220 imp = 5904 imp = 6218 imp = 5902 ck3 = 5334 } # Zhelk, Uryennik, Mylla, Mennichak, Reama -> Yenotayevka
 	link = { imp = 5905 imp = 5906 imp = 5903 imp = 5917 imp = 5898 ck3 = 604 } # Iska, Vorena, Gonnema, Yonnav, Shachel -> Khazaran
 	link = { imp = 6217 imp = 6213 imp = 6212 imp = 6208 ck3 = 605 } # Ogron, Achkhacsh, Ygrre, Khochy -> Beksima
@@ -76,18 +495,64 @@ imperator_invictus = {
 	link = { imp = 6214 imp = 6206 imp = 6207 imp = 6205 ck3 = 5315 } # Zhuna, Ketsk, Urviygra, Uyoro -> Aksay
 	link = { imp = 5876 imp = 5919 imp = 5920 imp = 5918 imp = 5922 ck3 = 5312 } # Sechtra, Kurnsck, Ermel, Chroda, Kumetta -> Sara
 	link = { imp = 8050 imp = 5908 imp = 5907 ck3 = 5311 } # Uyra, Gyashech, Taksaty -> Astrakhan
-	link = { imp = 6219 imp = 6222 ck3 = 5345 } # Uyennik, Arzhahk -> Chyorny Yar
-	link = { imp = 6225 imp = 6226 imp = 6230 imp = 6227 imp = 6223 imp = 6224 ck3 = 620 } # Monok, Urmonok, Arkhonnt, Zale, Khorolats, Vhingad -> Itil
+	link = { imp = 6219 imp = 6222 imp = 8960 imp = 8959 imp = 8968 ck3 = 5345 } # Uyennik, Arzhahk, Shungay, Mukhat, Saykhin -> Chyorny Yar
+	link = { imp = 6225 imp = 6226 imp = 6230 imp = 6227 imp = 6223 imp = 6224 imp = 8956 ck3 = 620 } # Monok, Urmonok, Arkhonnt, Zale, Khorolats, Vhingad, Suyindik -> Itil
 	link = { imp = 5877 imp = 5909 imp = 6228 imp = 6229 ck3 = 5313 } # Enim, Norom, Arzhale, Khonnt -> Saqsin
 	link = { imp = 5878 imp = 5910 imp = 6231 ck3 = 5346 } # Atar, Uvra, Ashina -> Ryn
-	link = { imp = 5879 imp = 5911 imp = 6232 ck3 = 5317 } # Gyoria, Usch, Schelats -> Saraychiq
-	link = { imp = 7640 ck3 = 7222 ck3 = 5318 } # Caspica -> Taisugan, Kalmikovsky
-	link = { imp = 5912 imp = 5880 ck3 = 618 } # Azgar, Ruta -> Atyrau
-	link = { imp = 5913 ck3 = 7228 ck3 = 7230 } # Nassin -> Hyan, Kainar
-	link = { imp = 5881 ck3 = 7229 } # Gyechk -> Bakash-aul
-	link = { imp = 5499 ck3 = 7065 } # Satticha -> Qoshagyl
-	link = { imp = 5498 ck3 = 7072 } # Vyoros -> Kumstan
-	link = { imp = 5496 ck3 = 7073 } # Donom -> Tengiz
+	link = { imp = 5879 imp = 5911 imp = 6232 imp = 8944 imp = 8939 ck3 = 5317 } # Gyoria, Usch, Schelats, Bangazy, Orlik -> Saraychiq
+	link = { imp = 8916 ck3 = 7093 } # Karabulak -> Kashkarata
+	link = { imp = 8918 imp = 8917 ck3 = 7068 } # Tobusken, Dzhaindy -> Namastau
+	link = { imp = 8910 imp = 8919 ck3 = 7237 } # Sagiz, Ashchiy -> Tulugai Sor
+	link = { imp = 8901 imp = 8900 imp = 5489 imp = 6064 ck3 = 623 } # Kucherquduq, Kektikshe, Vyache, Aral -> Kassarma
+	link = { imp = 8899 ck3 = 7091 } # Bozoy -> Kulandy
+	link = { imp = 8898 imp = 8904 ck3 = 7092 } # Kez Kara, Quqyq -> Kugaral
+	link = { imp = 8926 imp = 8927 imp = 8925 ck3 = 7071 } # Shomishtikol, Beyneu, Turush -> Chumishtikul
+	link = { imp = 8924 imp = 8923 ck3 = 7070 } # Matay, Qosbulaq -> Kos-Buwak
+	link = { imp = 8922 imp = 8928 ck3 = 621 } # Tugyrakshan, Tugarakchan -> Akkityk
+	link = { imp = 8921 imp = 8929 ck3 = 7067 } # Karaoba, Azgyl -> Issenjau
+	link = { imp = 8915 imp = 8920 ck3 = 7069 } # Chagan, Qamysty -> Asheh-Atrik
+	link = { imp = 8905 imp = 8903 ck3 = 7096 } # Shalkar, Baykadam -> Barsuki
+	link = { imp = 8906 ck3 = 7094 } # Kaynbulak -> Djamantau
+	link = { imp = 8913 ck3 = 7233 ck3 = 7235 ck3 = 7234 } # Babatay -> Basagha, Ak Su, Temir
+	link = { imp = 8912 imp = 9116 ck3 = 7225 } # Segizsay, Dhokia -> Isanbai
+	link = { imp = 9114 ck3 = 7219 } # Sparga -> Barbastau
+	link = { imp = 9111 ck3 = 7218 } # Levedi -> Santas
+	link = { imp = 8909 imp = 8914 ck3 = 7238 } # Kenkiyak, Embi -> Baisary
+	link = { imp = 8908 ck3 = 7240 ck3 = 7239 ck3 = 7241 } # Sel -> Airyk, Kos Uba, Kos Biryuk
+	link = { imp = 9036 ck3 = 7099 } # Zoza -> Airyuk
+	link = { imp = 8907 ck3 = 7095 } # Sapibulak -> Emba
+	link = { imp = 8902 ck3 = 7098 } # Shagar -> Chushka-Kol
+	link = { imp = 8897 ck3 = 7097 } # Saksaul -> Agyspe
+	link = { imp = 9110 imp = 9115 ck3 = 7352 } # Raiwant, Bartatu -> Western Kazakh Steppe
+	link = { imp = 9105 imp = 9106 ck3 = 7221 } # Kissar, Amazo -> Manatau
+	link = { imp = 9107 imp = 9108 imp = 9109 ck3 = 7223 } # Oirpata, Opoin, Oitosyros -> Kyz Imchik
+	link = { imp = 8942 ck3 = 7224 } # Kamekol -> Jaksybai
+	link = { imp = 8941 ck3 = 7222 } # Chokun -> Taisugan
+	link = { imp = 5971 ck3 = 616 } # Even More Steppes Impassable -> Pecheneg
+	link = { imp = 9089 imp = 9090 imp = 9095 imp = 9098 imp = 8952 imp = 8948 imp = 8945 imp = 8949 imp = 8950 imp = 8951 imp = 8955 imp = 8954 imp = 8953 imp = 8958 imp = 8957 ck3 = 5513 } # Api, Tabiti, Tavah, Datah, Burli, Kazanka, Ardembey, Dymar, Sasyktau, Zhanashu, Sapargali, Sapak, Nausha, Sasan, Kokkamys -> Ryn Desert
+	link = { imp = 9091 imp = 9094 imp = 9092 ck3 = 617 } # Xsay, Arya, Airma -> Uzens
+	link = { imp = 9093 ck3 = 608 } # Wantah -> Ukek
+	link = { imp = 9096 ck3 = 5314 } # Darga -> Verchina Uzen
+	link = { imp = 9097 imp = 9101 ck3 = 5348 } # Partu, Baivar -> Chelykla
+	link = { imp = 9100 imp = 9099 ck3 = 602 } # Saioi, Skula -> Tasqala
+	link = { imp = 9112 imp = 9113 ck3 = 5319 } # Uase, Uluki -> Yaitsk
+	link = { imp = 9103 imp = 8947 imp = 9104 imp = 9102 ck3 = 5349 } # Batya, Zhanaqala, Hurasa, Batesa -> Zhaltyr
+	link = { imp = 8940 imp = 8943 imp = 8946 ck3 = 5318 } # Inder, Krugli, Taskuduk -> Kalmikovsky
+	link = { imp = 5912 imp = 5880 imp = 8938 ck3 = 618 } # Azgar, Ruta, Tortkuduk -> Atyrau
+	link = { imp = 8911 ck3 = 7236 } # Koptogay -> Sorkul
+	link = { imp = 8935 ck3 = 7226 ck3 = 7232 } # Kuyandy -> Ulu-Uil, Jarkul
+	link = { imp = 8936 imp = 8937 ck3 = 7227 } # Shoba, Zelshargan -> Sagiz
+	link = { imp = 8934 ck3 = 7230 } # Mukur -> Kainar
+	link = { imp = 8932 ck3 = 7228 } # Makat -> Hyan
+	link = { imp = 5881 imp = 5913 imp = 5914 ck3 = 7229 } # Gyechk, Nassin, Kholan -> Bakash-aul
+	link = { imp = 5499 imp = 5498 ck3 = 7065 } # Satticha, Vyoros -> Qoshagyl
+	link = { imp = 5495 ck3 = 7075 } # Gyranchi -> Sam
+	link = { imp = 5915 imp = 5916 ck3 = 7072 } # Alsita, Chevka -> Kumstan
+	link = { imp = 5496 imp = 5497 ck3 = 7073 } # Donom, Kylorica -> Tengiz
+	link = { imp = 5883 ck3 = 7209 } # Fors -> Ustyurt Plateau
+	link = { imp = 5490 imp = 5882 ck3 = 1489 } # Yanmal, Multen -> Ustyurt Plateau
+	link = { imp = 5488 imp = 5485 imp = 5487 ck3 = 7090 } # Tirim, Gran, Thema -> Davlet-Girei
+	link = { imp = 5494 imp = 5491 imp = 5492 ck3 = 7076 } # Kurchina, Gyoshach, Erim -> Churuk
 	link = { comment = "NOVORUSSIA BY IHT" }
 	link = { imp = 6124 imp = 6144 imp = 6146 imp = 6147 ck3 = 5278 } # Syti, Borysthenia, Aegha, Ruti -> Kakovka
 	link = { imp = 6135 imp = 6134 imp = 6137 imp = 6136 ck3 = 5320 } # Thense, Annike, Voynor, Skurtisk -> Lozova
@@ -101,7 +566,6 @@ imperator_invictus = {
 	link = { imp = 6191 imp = 6198 imp = 6186 imp = 6185 imp = 6188 ck3 = 5290 } # Khang, Urgast, Urgenkh, Ollo, Vyrni -> Golden Hills
 	link = { imp = 6199 imp = 6196 imp = 6197 imp = 6194 imp = 6200 ck3 = 594 } # Ydologh, Volat, Urghno, Urzhev, Urvel -> Kazarki
 	link = { imp = 8555 imp = 8556 imp = 8557 imp = 8558 imp = 6195 ck3 = 5292 } # Bolshoi, Berezovaya, Tikhaya, Olkhovaya, Urvolat -> Ust-Donvokhi
-	link = { imp = 7641 ck3 = 595 ck3 = 619 } # Alania -> Sarysyn, Saray
 	link = { imp = 8551 imp = 8552 imp = 8554 imp = 8553 ck3 = 5291 } # Krepkaya, Liska, Kalmykovskii, Bazki -> Siyahtepe
 	link = { imp = 6182 imp = 6181 imp = 6184 imp = 6183 ck3 = 5326 } # Ighkoy, Achkach, Yovolat, Yuty -> Millerovo
 	link = { imp = 8559 imp = 8560 imp = 8562 ck3 = 5287 } # Bogucharka, Titarevka, Kurennoe -> Kazanskaya
@@ -252,11 +716,12 @@ imperator_invictus = {
 	link = { imp = 6256 ck3 = 535 } # Venediana -> Volodymyr
 	link = { imp = 6292 ck3 = 5048 } # Trakylli -> Luboml
 	link = { imp = 7824 imp = 6298 ck3 = 5058 } # Revacia, Bostor -> Kobryn
-	link = { imp = 8461 ck3 = 5202 } # Hrabiv -> Surazichi
-	link = { imp = 8471 ck3 = 5205 ck3 = 5224 } # Mglin -> Mglin, Klimavichy
+	link = { imp = 9122 imp = 9125 ck3 = 5202 } # Meno, Zeme -> Surazichi
+	link = { imp = 9123 imp = 9124 ck3 = 5205 } # Zwaisda, Neba -> Mglin
 	link = { imp = 8463 ck3 = 5204 } # Slot -> Trubetsk
-	link = { imp = 8465 ck3 = 576 } # Rechitsa -> Debryansk
-	link = { imp = 8466 ck3 = 933 } # Blagoveshchenskaya -> Roslavl
+	link = { imp = 9127 ck3 = 5224 } # Bartei -> Klimavichy
+	link = { imp = 8465 imp = 8471 ck3 = 576 } # Rechitsa, Mglin -> Debryansk
+	link = { imp = 8466 imp = 9129 ck3 = 933 } # Blagoveshchenskaya, Sirdis -> Roslavl
 	link = { imp = 8462 ck3 = 5203 } # Zamhlay -> Starodub
 	link = { imp = 8399 imp = 8408 ck3 = 5182 } # Gelon, Hlynsk -> Akhtyr
 	link = { imp = 8470 imp = 8475 ck3 = 5198 } # Sejm, Kursk -> Sudzha
@@ -270,10 +735,17 @@ imperator_invictus = {
 	link = { imp = 8473 imp = 8469 ck3 = 5197 } # Medovyi, Grunya -> Rylsk
 	link = { imp = 8480 ck3 = 5207 } # Rybnitsa -> Ust-Livny
 	link = { imp = 8468 ck3 = 5206 } # Turochka -> Sevsk
-	link = { imp = 8474 ck3 = 5210 } # Zhuchok -> Krom
+	link = { imp = 9131 ck3 = 5220 } # Ungnis -> Yelnya
+	link = { imp = 9132 ck3 = 5212 } # Asras -> Kozelsk
+	link = { imp = 9128 imp = 9126 ck3 = 551 } # Bajatei, Nawas -> Mstislavl
+	link = { imp = 9121 ck3 = 5225 } # Sulnis -> Cherykaw
+	link = { imp = 9130 ck3 = 568 ck3 = 5219 } # Gintei -> Smolensk, Dorogobyzh
+	link = { imp = 8474 imp = 9052 ck3 = 5210 } # Zhuchok, Swo -> Krom
 	link = { imp = 8467 imp = 8464 ck3 = 5208 } # Lupuznya, Sudist -> Lokot
 	link = { imp = 8472 ck3 = 5209 } # Snezhet -> Karachev
-	link = { imp = 8479 ck3 = 5196 } # Belaya -> Kursk
+	link = { imp = 9053 ck3 = 5211 } # Ranka -> Oryol
+	link = { imp = 9049 imp = 9050 imp = 9054 ck3 = 5215 } # Medja, Lapas, Inzu -> Novosil
+	link = { imp = 8479 imp = 9048 ck3 = 5196 } # Belaya, Derwa -> Kursk
 	link = { imp = 8477 imp = 8402 imp = 8414 ck3 = 5284 } # Orlik, Vorskla, Moshchenoe -> Chally-Kala
 	link = { imp = 8400 imp = 8401 imp = 8403 ck3 = 5283 } # Merla, Trostyanets, Zolochiv -> Bohodukhiv
 	link = { imp = 8405 imp = 8404 imp = 7644 ck3 = 565 } # Merefa, Vovchansk, Donetsk -> Kharka
@@ -292,7 +764,8 @@ imperator_invictus = {
 	link = { imp = 8454 imp = 8425 ck3 = 5201 } # Snov, Krasne -> Unenezh
 	link = { imp = 8460 imp = 8452 ck3 = 5192 } # Ret, Desna -> Glukhov
 	link = { imp = 8457 imp = 8456 ck3 = 567 } # Tyutyunnytsya, Kuchynivka -> Novgorod Seversky
-	link = { imp = 8455 ck3 = 553 } # Lyubech -> Lyubech
+	link = { imp = 7641 ck3 = 5216 ck3 = 5223 ck3 = 5221 ck3 = 5129 ck3 = 5135 ck3 = 5222 ck3 = 5130 ck3 = 5214 } # Alania -> Mtensk, Dukhovshchina, Gnezdovo, Polotsk, Haradok, Velizh, Drysa, Belev
+	link = { imp = 8455 imp = 8461 ck3 = 553 } # Lyubech, Hrabiv -> Lyubech
 	link = { imp = 8424 ck3 = 554 } # Teteriv -> Chernigov
 	link = { imp = 8451 imp = 8450 ck3 = 5200 } # Gomel, Dnipro -> Gomel
 	link = { imp = 8447 imp = 8449 ck3 = 5122 } # Vasilievicy, Brahin -> Rechytsa
@@ -324,9 +797,30 @@ imperator_invictus = {
 	link = { imp = 6145 imp = 6141 imp = 6142 ck3 = 5273 } # Gerrhos, Enke, Ghasett -> Nikopol
 	link = { imp = 7191 imp = 6123 imp = 6118 ck3 = 5272 } # Uttar, Shuchshek, Kin -> Beryslav
 	link = { imp = 7188 imp = 6102 ck3 = 5269 } # Yendi, Korulin -> Kherson
+	link = { imp = 9056 imp = 9057 ck3 = 5286 } # Krauja, Sausas -> Khursa
+	link = { imp = 9046 imp = 9047 imp = 9051 imp = 9055 ck3 = 5285 } # Zweris, Kirmis, Karo, Ragas -> Khorysdan
+	link = { imp = 5970 ck3 = 5498 ck3 = 5391 ck3 = 5389 ck3 = 5354 ck3 = 5375 ck3 = 5374 ck3 = 5352 ck3 = 5350 ck3 = 5232 } # Pontic Steppe Impassable -> Repnoye, Treliaka, Kolychev, Szava, Lejlotka, Teluchezeva, Usman, Voronezh, Yelets
+	link = { imp = 8962 imp = 8961 imp = 8966 imp = 8969 imp = 8967 ck3 = 619 } # Sary Su, Akhtuba, Ilicha, Bulukhta, Zhitkur -> Saray
+	link = { imp = 9081 imp = 9082 imp = 9087 imp = 9086 ck3 = 5316 } # Riza, Mauka, Waru, Zyrenka -> Nikolaievsk
+	link = { imp = 9088 ck3 = 5347 } # Stana -> Engels
+	link = { imp = 7640 ck3 = 592 ck3 = 5509 ck3 = 5508 ck3 = 5392 ck3 = 5377 } # Caspica -> Saratov, Atkarsk, Peschanka, Alchanka, Balachev
+	link = { imp = 9078 imp = 9083 ck3 = 5410 } # Cigra, Vaski -> Tersa
+	link = { imp = 9071 imp = 9070 ck3 = 5295 } # Kalm, Cyxt -> Yelan
+	link = { imp = 9072 imp = 9074 ck3 = 5293 } # Arv, Carm -> Frolovo
+	link = { imp = 9062 ck3 = 5376 } # Peus -> Trotskhoper
+	link = { imp = 9061 ck3 = 5382 } # Tab -> Manina
+	link = { imp = 9064 ck3 = 5381 } # Mud -> Kriucha
+	link = { imp = 9063 ck3 = 5380 } # Vite -> Bychok
+	link = { imp = 9059 imp = 9060 ck3 = 5371 } # Naktis, Kirsnas -> Karatayak
+	link = { imp = 9058 ck3 = 5372 ck3 = 5373 } # Wetusas -> Babrov, Pavlovsk
+	link = { imp = 9068 ck3 = 5378 } # Aerdyn -> Khoper
+	link = { imp = 9067 imp = 9066 imp = 9069 imp = 9065 ck3 = 593 } # Aerac, Citras, Paoi, Cyrg -> Khopyor
+	link = { imp = 9073 imp = 9077 ck3 = 5379 } # Rast, Ajam -> Viazovka
+	link = { imp = 9076 imp = 9080 imp = 9075 imp = 9084 imp = 9085 imp = 9079 ck3 = 5294 } # Medu, Gaita, Capi, Vadasz, Zurka, Nahapana -> Kamyshin
+	link = { imp = 8963 imp = 8964 imp = 8965 ck3 = 595 } # Karpovka, Ilovlya, Olene -> Sarysyn
 	link = { comment = "BALTICS BY IHT" }
 	link = { imp = 6286 ck3 = 3213 } # Marone -> OSTERODE
-	link = { imp = 6282 ck3 = 3201 } # Cureta -> Mohrungen
+	link = { imp = 6282 ck3 = 3201 } # Cureta -> Mohrungen 
 	link = { imp = 6283 ck3 = 3202 } # Anacureta -> BRIESEN
 	link = { imp = 6281 ck3 = 3199 } # Follia -> TORUN
 	link = { imp = 7811 ck3 = 111 ck3 = 128 } # Turuntia -> CEKLIS, TELSIAI
@@ -422,10 +916,10 @@ imperator_invictus = {
 	link = { imp = 8273 imp = 8270 ck3 = 4718 } # Marrakech, Guerir -> MARRAKESH
 	link = { imp = 8271 ck3 = 4713 ck3 = 4712 } # Laattaouia -> AIT IYAT, AIT ITAB
 	link = { imp = 8314 imp = 8313 imp = 8312 imp = 8311 ck3 = 4743 } # Orjane, Missour, Ksabi, Izdeg -> TIKOUTAMINE
-	link = { imp = 8315 ck3 = 4676 } # Tindite -> DEBDOU
+	link = { imp = 8393 imp = 8392 ck3 = 4676 } # Magoura, Iberia Impassable -> DEBDOU
 	link = { imp = 8318 imp = 8319 imp = 3081 ck3 = 4748 } # Taddart, Maghessel, Visum Montis -> NADOR
 	link = { imp = 8321 imp = 8398 imp = 8317 imp = 8320 imp = 8316 ck3 = 4675 } # Ouidane, Gafait, Guercif, Lamrija, Oufriden -> SAA
-	link = { imp = 8395 imp = 8396 ck3 = 4697 } # Agourai, Kandar -> SEFROU
+	link = { imp = 8396 imp = 8397 ck3 = 4697 } # Kandar, Guigou -> SEFROU
 	link = { imp = 6470 imp = 8324 imp = 8325 imp = 8307 ck3 = 4711 } # Rob'a, Atlas Pass, Atlas Pass, Aghbala -> AFZA
 	link = { imp = 6302 ck3 = 4708 } # Zemour -> WAWMANA
 	link = { imp = 6473 imp = 6487 ck3 = 4706 } # Ouardigha, Mdakra -> MRIRA
@@ -434,15 +928,17 @@ imperator_invictus = {
 	link = { imp = 6480 imp = 6474 imp = 6489 ck3 = 4746 } # Amrane, Meskine, Mzamza -> EL-BOROUJ
 	link = { imp = 6486 imp = 6481 imp = 6477 imp = 7221 imp = 6479 ck3 = 4747 } # Ziaida, Haouzia, Frej, Mizab, Bouzerrara -> TIT-AN-WAGURRAMT
 	link = { imp = 6476 imp = 6485 ck3 = 4693 } # Khedis, Tiflet -> BAHT
-	link = { imp = 3071 ck3 = 4691 ck3 = 4699 } # Thamusida Australis -> WALILA, MEKNES
+	link = { imp = 8395 ck3 = 4699 } # Agourai -> MEKNES
+	link = { imp = 3071 ck3 = 4691 } # Thamusida Australis -> WALILA
 	link = { imp = 3070 imp = 3069 ck3 = 4692 } # Banasa, Tocolosida -> WARZIGH
 	link = { imp = 3074 ck3 = 4689 } # Aelia -> IZERHAN
 	link = { imp = 3078 imp = 3077 imp = 3076 ck3 = 4686 } # Ad Mercuri, Oppidum Novum, Tremulae -> TAHLIT
 	link = { imp = 3075 ck3 = 4688 } # Viposcianae -> WARGHA
 	link = { imp = 3067 imp = 3073 imp = 3072 ck3 = 4695 } # Volubilis, Gilda, Aquae Dacicae -> AL-ALIYA
 	link = { imp = 3079 ck3 = 4696 ck3 = 4694 } # Mons Semita -> SUBU, FES
-	link = { imp = 8397 ck3 = 4745 } # Guigou -> MISSOUR
+	link = { imp = 8315 ck3 = 4745 } # Tindite -> MISSOUR
 	link = { imp = 3082 ck3 = 4674 } # Mons Ambulatis -> WAJDA
+	link = { imp = 5321 ck3 = 4673 ck3 = 4662 ck3 = 4751 } # Western Gaetulia -> TAFRAOUA-SEBDOU, HISN LAWATA, MECHERIA
 	link = { imp = 3084 ck3 = 4672 } # Syrorum -> TLEMCEN
 	link = { imp = 8322 imp = 8323 ck3 = 4670 } # Zaio, Laatamna -> NADRUMA
 	link = { imp = 3083 ck3 = 4669 } # Lemnis -> HUNAYN
@@ -457,11 +953,12 @@ imperator_invictus = {
 	link = { imp = 8280 ck3 = 4716 } # Timlilt -> TINMALLAL
 	link = { imp = 8299 imp = 8276 ck3 = 4714 } # Mountain Pass, Aghmat -> AGHMAT
 	link = { imp = 8297 ck3 = 4733 } # Isli -> TASAGDAH
-	link = { imp = 8393 ck3 = 4673 } # Magoura -> TAFRAOUA-SEBDOU
-	link = { imp = 8365 imp = 8389 imp = 8390 imp = 8391 imp = 8392 ck3 = 4750 } # Bourzeg, Sfissifa, Sloughia, Keri Kera, Brazzia -> AIN SEFRA
-	link = { imp = 8360 imp = 8364 imp = 8359 imp = 8363 imp = 8358 imp = 8362 imp = 8361 imp = 8357 imp = 8356 ck3 = 4749 } # Figuig, Fendi, Lahmar, Goumi, Bechar, Taghit, Abadla, Guir, Boudenib -> FIGUIG
+	link = { imp = 8372 imp = 8371 imp = 8370 imp = 8373 ck3 = 4750 } # Sefra, Boussemghoun, Arbaouats, Brezina -> AIN SEFRA
+	link = { imp = 8362 ck3 = 4759 ck3 = 4612 ck3 = 6469 } # Taghit -> TAOUZ, TABALBALA, WADI_DAOURA
+	link = { imp = 8360 imp = 8364 imp = 8359 imp = 8363 imp = 8358 imp = 8357 imp = 8356 imp = 8365 imp = 8389 imp = 8390 imp = 8391 ck3 = 4749 } # Figuig, Fendi, Lahmar, Goumi, Bechar, Guir, Boudenib, Bourzeg, Sfissifa, Iberia Impassable, Keri Kera -> FIGUIG
 	link = { imp = 8331 imp = 8334 imp = 8332 imp = 8333 ck3 = 4737 } # Sijilmasa, Tisserdmine, Merzouga, Ouzina -> SIJILMASA
-	link = { imp = 8329 imp = 8328 imp = 8330 ck3 = 4739 } # Errachidia, Goulmima, Jorf -> ZIZ
+	link = { imp = 8330 ck3 = 4738 } # Jorf -> TAFILALT
+	link = { imp = 8329 imp = 8328 ck3 = 4739 } # Errachidia, Goulmima -> ZIZ
 	link = { imp = 8335 ck3 = 4742 } # Atlas Pass -> GHAZWAN
 	link = { imp = 8310 imp = 8308 imp = 8309 ck3 = 4744 } # Boumia, Zarhour, Tounfit -> EL-KSABI
 	link = { imp = 8306 ck3 = 4707 } # Kerrouchen -> WAZEQQUR
@@ -1387,7 +1884,7 @@ imperator_invictus = {
 	link = { imp = 2493 ck3 = 2188 } # Isara -> NOYON
 	link = { imp = 3032 imp = 2445 ck3 = 2189 } # Curmiliaca, Augustomagus -> CLERMONT
 	link = { imp = 3031 ck3 = 2185 } # Teucera -> CORBIE
-	link = { imp = 3037 ck3 = 2135 } # Durocoregum -> HESDIN
+	link = { imp = 3037 ck3 = 2135 } # Durocoregum -> HESDIN 
 	link = { imp = 3039 ck3 = 2134 } # Estia -> AIRE
 	link = { imp = 3038 ck3 = 2127 ck3 = 2186 } # Nemetocenna -> TOURNAI, PERONNE
 	link = { imp = 3040 ck3 = 2126 } # Minariacum -> LILLE
@@ -1400,7 +1897,7 @@ imperator_invictus = {
 	link = { imp = 2140 ck3 = 2167 } # Ingena -> AVRANCHES
 	link = { imp = 2212 ck3 = 2152 } # Namnetum -> NANTES
 	link = { imp = 2153 ck3 = 2153 } # Grannona -> GUERANDE
-	link = { imp = 2351 ck3 = 2264 } # Brucironno -> SABLE
+	link = { imp = 2351 ck3 = 2264 } # Brucironno -> SABLE 
 	link = { imp = 2456 ck3 = 2270 ck3 = 2272 } # Labrinum -> LE MANS, COURCILLON
 	link = { imp = 2426 ck3 = 2283 } # Navicellis -> VENDOME
 	link = { imp = 2463 imp = 2461 ck3 = 2324 } # Condate, Carnutia Occidentalis -> MORTAGNE
@@ -1409,7 +1906,7 @@ imperator_invictus = {
 	link = { imp = 2444 ck3 = 2190 ck3 = 2357 } # Catalacus -> BEAUMONT, SAINT-DENIS
 	link = { imp = 2473 imp = 2472 imp = 2474 ck3 = 2181 } # Avalocum, Briva Isarae, Nemetodurum -> MANTES
 	link = { imp = 2443 ck3 = 2179 } # Rotomagus -> ROUEN
-	link = { imp = 2469 ck3 = 2180 } # Ritumagus -> GISORS
+	link = { imp = 2469 ck3 = 2180 } # Ritumagus -> GISORS 
 	link = { imp = 2460 ck3 = 2323 } # Carnutia Orientalis -> NOGENT-LE-ROTROU
 	link = { imp = 2462 imp = 2441 ck3 = 2322 } # Dorocas, Autricum -> CHARTRES
 	link = { imp = 2446 ck3 = 2183 } # Caesaromagus -> BEAUVAIS
@@ -1786,7 +2283,7 @@ imperator_invictus = {
 	link = { imp = 2109 ck3 = 1680 ck3 = 1685 ck3 = 1684 } # Novantae -> MAYBOLE, GIRVAN, WIGTOWN
 	link = { imp = 2112 ck3 = 1686 ck3 = 1737 ck3 = 1683 } # Damnonii -> KYLE, LANARK, SANQUHAR
 	link = { imp = 2111 ck3 = 1728 ck3 = 1676 ck3 = 1675 ck3 = 1729 } # Otadini -> HADDINGTON, DUNBAR, BERWICK, GALASHIELS
-	link = { imp = 2114 ck3 = 1731 ck3 = 1732 ck3 = 1730 ck3 = 1739 } # Veluniate -> LINLITHGOW, QUEENSFERRY, PENICUICK, BIGGAR
+	link = { imp = 2114 ck3 = 1731 ck3 = 1732 ck3 = 1730 ck3 = 1739 ck3 = 1727 } # Veluniate -> LINLITHGOW, QUEENSFERRY, PENICUICK, BIGGAR, EDINBURGH
 	link = { imp = 2124 ck3 = 1687 ck3 = 1688 ck3 = 1738 } # Lindon -> STRATHGRYTE, CUNNINGHAM, CADYOU
 	link = { imp = 2127 ck3 = 1691 ck3 = 1689 } # Malaios -> MULL, ISLAY
 	link = { imp = 2118 ck3 = 1711 ck3 = 35 } # Creones Boreales -> GLENFINNAN, ARDNAMURCHON
@@ -1998,9 +2495,9 @@ imperator_invictus = {
 	link = { imp = 4255 imp = 4254 imp = 4257 ck3 = 3695 } # Tomis, Callatis, Sacidava -> Mangalia
 	link = { imp = 4250 imp = 4249 imp = 4256 ck3 = 509 } # Tirizis, Krounoi, Tropaeum -> Karvuna
 	link = { imp = 4248 imp = 4247 ck3 = 3693 } # Odessus, Erite -> Varna
-	link = { imp = 4515 imp = 4512 imp = 4513 ck3 = 510 } # Skenopsis, Axiopolis, Histria -> Constantia
+	link = { imp = 4515 imp = 4512 imp = 4513 ck3 = 510 } # Capidava, Axiopolis, Histria -> Constantia
 	link = { imp = 4519 ck3 = 5010 } # Halmyris -> Sulina
-	link = { imp = 4520 imp = 4518 imp = 4514 imp = 4517 imp = 4516 ck3 = 3694 } # Troesmis, Beroe Skythike, Kios Skythike, Libida, Argamum -> Tulcha
+	link = { imp = 4520 imp = 4518 imp = 4514 imp = 4517 imp = 4516 ck3 = 3694 } # Troesmis, Troismis, Carsium, Libida, Argamum -> Tulcha
 	link = { comment = "# Northern Greece" }
 	link = { imp = 392 ck3 = 489 } # Kasthaneia -> Thessalia
 	link = { imp = 395 ck3 = 3796 ck3 = 3797 ck3 = 3703 } # Pialeia -> Stagoi, Trikala, Gardiki
@@ -2317,40 +2814,25 @@ imperator_invictus = {
 	link = { imp = 78 ck3 = 2625 ck3 = 8753 } # Croton -> COTRONE, Catanzaro
 	link = { imp = 75 imp = 5002 imp = 74 imp = 76 ck3 = 2626 ck3 = 8751 } # MANY-TO-MANY: Hipponium, Serrae, Stylacium, Temesa -> SQUILLUCE, Tropea
 	link = { imp = 72 imp = 73 imp = 5001 ck3 = 2627 } # Rhegium, Locri, Aspromons -> REGGIO
-	link = { comment = "# Sicilia and Malta" }
-	link = { imp = 90 imp = 7843 ck3 = 2645 } # Hippana, Adranon -> CALATAFIMI
-	link = { imp = 91 imp = 93 ck3 = 2644 } # Heraclea Minoa, Selinus -> MAZARA
-	link = { imp = 7839 imp = 89 imp = 5149 imp = 7841 ck3 = 2640 } # Capitium, Henna, IMPASSIBLE TERRAIN 149, Myttistraton -> CASTROGIOVANNI
-	link = { imp = 88 ck3 = 2641 } # Murgantia -> CALTANISETTA
-	link = { imp = 86 ck3 = 2637 } # Acragas -> GIRGENTI
-	link = { imp = 85 imp = 7840 ck3 = 2642 } # Gela, Menae -> CALTAGIRONE
-	link = { imp = 95 imp = 94 imp = 92 ck3 = 2636 } # Eryx, Lilybaeum, Egesta -> TRAPANI
-	link = { imp = 7842 imp = 97 imp = 96 ck3 = 2635 } # Soluntum, Thermai, Panorumus -> PALERMO
-	link = { imp = 100 imp = 98 imp = 5150 ck3 = 2634 } # Calacte, Cephaloedium, IMPASSIBLE TERRAIN 150 -> CEFALU
-	link = { imp = 80 imp = 81 imp = 5000 imp = 99 imp = 5147 imp = 1472 imp = 7861 ck3 = 2633 } # Messana, Tauromenium, Aetna Volcano, Tyndaris, IMPASSIBLE TERRAIN 147, Liparae, Strongyle Volcano -> MESSINA
-	link = { imp = 82 imp = 7838 ck3 = 2639 } # Catana, Centuripae -> CATANIA
-	link = { imp = 83 imp = 7837 imp = 5148 ck3 = 2643 } # Leontini, Megara, IMPASSIBLE TERRAIN 148 -> LENTINI
-	link = { imp = 84 imp = 87 imp = 101 ck3 = 2638 } # Syracusae, Acrae, Camarina -> SYRACUSE
-	link = { imp = 1471 ck3 = 2646 } # Melita -> MALTA
 	link = { comment = "# Sardinia et Corsica" }
-	link = { imp = 3513 imp = 3514 imp = 3516 imp = 3512 ck3 = 2647 } # Kentourinon, Mariana, Sermigion, Rhopikon -> BASTIA
-	link = { imp = 3510 imp = 3511 ck3 = 2649 } # Ourkinion, Alouka -> CALVI
+	link = { imp = 3513 imp = 3514 imp = 3516 imp = 3512 ck3 = 2647 } # Kanelate, Ouagon, Sermigion, Rhopikon -> BASTIA
+	link = { imp = 3510 imp = 3511 ck3 = 2649 } # Saone, Alouka -> CALVI
 	link = { imp = 3509 imp = 5054 ck3 = 2650 } # Pauka, IMPASSIBLE TERRAIN 054 -> AJACCIO
 	link = { imp = 3515 ck3 = 2648 } # Aleria -> CORTE
 	link = { imp = 3507 ck3 = 2651 } # Rhoubra -> VECCHIO
 	link = { imp = 3508 ck3 = 2652 } # Phikaria -> BONIFACIO
-	link = { imp = 3501 imp = 3496 ck3 = 2662 } # Erycinum, Gurulis -> SASSARI
-	link = { imp = 3498 imp = 3502 imp = 5055 ck3 = 2663 } # Makopsis, Sorabile, IMPASSIBLE TERRAIN 055 -> ARDARA
-	link = { imp = 3491 imp = 3495 ck3 = 2661 } # Lesa, Aquae Hypsitanae -> ISILI
-	link = { imp = 3504 imp = 3506 imp = 3505 ck3 = 2658 } # Olbia, Viniolae, Portus Tibulae -> OLBIA
-	link = { imp = 3489 imp = 3503 ck3 = 2657 } # Fanum Carisi, Coclearia -> GALTELLI
-	link = { imp = 3488 ck3 = 2656 } # Sulcis -> TORTOLI
-	link = { imp = 3499 imp = 3500 ck3 = 2664 } # Nymphaios Limen, Turris Libisonis -> PORTO TORRES
-	link = { imp = 3494 imp = 3497 ck3 = 2665 } # Cornus, Hermaion Akron -> ALGHERO
-	link = { imp = 3490 ck3 = 2660 } # Sestis -> SAMASSI
-	link = { imp = 3485 imp = 3493 imp = 3492 imp = 3482 ck3 = 2659 } # Sardopatoris, Tharros, Neapolis Sardoa, Hydata Neapolitana -> ORISTANO
-	link = { imp = 3486 imp = 3487 ck3 = 2655 } # Ferraria, Porticenses -> CARBONARA
-	link = { imp = 3483 imp = 3484 ck3 = 2653 } # Nora, Caralis -> CAGLIARI
+	link = { imp = 3501 imp = 3496 ck3 = 2662 } # Luguido, Gurulis -> SASSARI
+	link = { imp = 3498 imp = 3502 imp = 5055 ck3 = 2663 } # Makopsis, Lesa, IMPASSIBLE TERRAIN 055 -> ARDARA
+	link = { imp = 3491 imp = 3495 ck3 = 2661 } # Lacon, Hydata -> ISILI
+	link = { imp = 3504 imp = 3506 imp = 3505 ck3 = 2658 } # Phausiane, Longones, Tibula -> OLBIA
+	link = { imp = 3489 imp = 3503 ck3 = 2657 } # Kares, Thorpè -> GALTELLI
+	link = { imp = 3488 ck3 = 2656 } # Sulki Tyrsen -> TORTOLI
+	link = { imp = 3499 imp = 3500 ck3 = 2664 } # Nure, Libisonis -> PORTO TORRES
+	link = { imp = 3494 imp = 3497 ck3 = 2665 } # Sanaphar, Carbia -> ALGHERO
+	link = { imp = 3490 ck3 = 2660 } # Serdan -> SAMASSI
+	link = { imp = 3485 imp = 3493 imp = 3492 imp = 3482 ck3 = 2659 } # Gurgua, Tharros, Othoca, Samas -> ORISTANO
+	link = { imp = 3486 imp = 3487 ck3 = 2655 } # Sarcapos, Tyrsenia -> CARBONARA
+	link = { imp = 3483 imp = 3484 ck3 = 2653 } # Nura, Karali -> CAGLIARI
 	link = { imp = 3481 ck3 = 2654 } # Sulcis -> IGLESIAS
 	link = { comment = "# Northern Anatolia" }
 	link = { imp = 1790 imp = 1791 imp = 1833 imp = 7993 imp = 7998 ck3 = 5598 } # Komana Pontike, Ibora, Dazimon, Amaseia Mountains, Gazioura -> Comana Pontica
@@ -2656,7 +3138,7 @@ imperator_invictus = {
 	link = { imp = 824 ck3 = 4883 } # Qatnu -> MAKISIN
 	link = { imp = 957 ck3 = 4809 } # Turshan -> AS-SINN
 	link = { imp = 883 ck3 = 4836 } # Ashur -> AIN AL-QAYYARA
-	link = { imp = 861 imp = 5440 ck3 = 4839 } # Apqu, Syria Deserta -> TALL_AFAR
+	link = { imp = 861 imp = 5440 ck3 = 4839 } # Apqu, Syria Desert -> TALL_AFAR
 	link = { imp = 831 ck3 = 4848 ck3 = 4849 } # Singara -> SINJAR, AL-HAYYAL
 	link = { imp = 875 imp = 773 ck3 = 4843 } # Zagurae, Vicat -> BASHAZZA
 	link = { imp = 822 ck3 = 4846 } # Nabada -> DARA
@@ -2796,10 +3278,7 @@ imperator_invictus = {
 	link = { imp = 5464 imp = 5465 ck3 = 624 } # Karon, Mroshika -> Aktau
 	link = { imp = 5467 ck3 = 7081 } # Teike -> Fort Aleksandrovkiy
 	link = { imp = 5457 imp = 5468 ck3 = 7079 } # Ustret, Shachkra -> Koizak
-	link = { imp = 5497 imp = 5916 ck3 = 7071 } # Kylorica, Chevka -> Chumishtikul
 	link = { imp = 6759 ck3 = 4355 ck3 = 4354 ck3 = 2667 } # Samti -> Badakhshan, Kishm, PERSIAN IMPASSABLE
-	link = { imp = 5494 ck3 = 7076 } # Kurchina -> Churuk
-	link = { imp = 5495 imp = 5491 imp = 5492 ck3 = 7075 } # Gyranchi, Gyoshach, Erim -> Sam
 	link = { imp = 5493 ck3 = 7074 ck3 = 7077 } # Thurissa -> Beyneu, Fort Novoaleksandrovkiy
 	link = { imp = 5471 imp = 5478 ck3 = 7078 } # Tamaasan, Zhanit -> Kajdak
 	link = { comment = "# Crimea" }
@@ -3072,8 +3551,6 @@ imperator_invictus = {
 	link = { imp = 7255 imp = 7279 imp = 7252 ck3 = 900 } # Palisha, Masht, Lek -> Yangikent
 	link = { imp = 7256 ck3 = 7115 } # Zantak -> Koskul
 	link = { imp = 7258 imp = 7257 ck3 = 7114 } # Birim, Qala -> Buzai
-	link = { imp = 6064 imp = 5489 imp = 5487 imp = 5490 ck3 = 623 ck3 = 7070 ck3 = 7091 ck3 = 7092 ck3 = 7096 ck3 = 7093 ck3 = 7094 ck3 = 7068 ck3 = 7069 ck3 = 7067 ck3 = 621 ck3 = 7097 ck3 = 7098 ck3 = 7095 ck3 = 7099 } # MANY-TO-MANY: Aral, Vyache, Thema, Yanmal -> Kassarma, Kos-Buwak, Kulandy, Kugaral, Barsuki, Kashkarata, Djamantau, Namastau, Asheh-Atrik, Issenjau, Akkityk, Agyspe, Chushka-Kol, Emba, Airyuk
-	link = { imp = 5488 imp = 5485 ck3 = 7090 } # Tirim, Gran -> Davlet-Girei
 	link = { imp = 5483 ck3 = 4457 } # Tubek -> JITH
 	link = { imp = 5482 ck3 = 1378 } # Gyesch -> Gurganj
 	link = { imp = 5484 ck3 = 4458 ck3 = 4460 } # Cammei -> MADMINIYA, KURDAR
@@ -3235,18 +3712,18 @@ imperator_invictus = {
 	link = { imp = 707 imp = 706 imp = 708 ck3 = 5972 } # Arieldela, Bossia, Kalgouia -> ARANDAL
 	link = { imp = 509 imp = 525 ck3 = 6038 } # Pelusium, Sile -> FARAMA
 	link = { comment = "# Arabia" }
-	link = { imp = 7568 imp = 7569 ck3 = 6317 } # Arabia Relicta, Arabia Relicta -> HASIK
+	link = { imp = 7568 imp = 7569 ck3 = 6317 } # Shuwaymiyyah, Watif -> HASIK
 	link = { imp = 4709 ck3 = 6316 } # Sidh -> MIRBA
 	link = { imp = 7213 ck3 = 6135 } # Dirma Omana -> BATINA-EAST
 	link = { imp = 942 ck3 = 6020 ck3 = 6022 } # Apologos -> AL-UBULLA, AL-BASRA
 	link = { imp = 6049 ck3 = 6153 ck3 = 1335 ck3 = 6253 ck3 = 6251 ck3 = 6254 ck3 = 6255 ck3 = 6252 ck3 = 6249 ck3 = 6250 ck3 = 6248 ck3 = 6256 ck3 = 6257 ck3 = 6258 ck3 = 6259 ck3 = 6173 ck3 = 6262 ck3 = 6261 ck3 = 6260 ck3 = 6246 ck3 = 6245 ck3 = 6247 } # Arabia Deserta Ulterior -> AL-MUSHAQQAR, AD-DAHNA DESERT, YAMAMA, AL-KHADARIM, AL-ARID, UBAD, AL-KHARJ, QASR-AL-ADI, FALAJ, AL-HADDAR, NUFUD-AD-DIHI, NUFUD-AS-SURRAH, JIBAL-AL-URD, JIBALA, NUFUD-AS-SIRR, UNAYZA, AL-QARYATAN-QASIM, AN-NIBAJ, AQIQ_TAMRA, DAM, SARBA
-	link = { imp = 5407 imp = 5408 ck3 = 6152 } # Arabia Deserta, Efa -> AL-HAJAR
-	link = { imp = 5406 imp = 5405 imp = 5404 ck3 = 6154 } # Arabia Deserta, Arabia Deserta, Arabia Deserta -> AL-HASA
-	link = { imp = 5403 ck3 = 6160 } # Arabia Deserta -> THAJ
-	link = { imp = 5402 ck3 = 6166 } # Arabia Deserta -> AS-SAMMAN
-	link = { imp = 5401 ck3 = 6162 } # Arabia Deserta -> AR-RUQAII
-	link = { imp = 5400 ck3 = 6024 } # Arabia Deserta -> AR-RUKHAIL
-	link = { imp = 964 imp = 944 imp = 5399 ck3 = 6025 } # Teredon, Akkaz, Arabia Deserta -> HIFAIR
+	link = { imp = 5407 imp = 5408 ck3 = 6152 } # Agarum, Efa -> AL-HAJAR
+	link = { imp = 5406 imp = 5405 imp = 5404 ck3 = 6154 } # Urayarah, Thaj, Mulayjah -> AL-HASA
+	link = { imp = 5403 ck3 = 6160 } # Niqirah -> THAJ
+	link = { imp = 5402 ck3 = 6166 } # Kabrit -> AS-SAMMAN
+	link = { imp = 5401 ck3 = 6162 } # Hamatiyat -> AR-RUQAII
+	link = { imp = 5400 ck3 = 6024 } # Mahzul -> AR-RUKHAIL
+	link = { imp = 964 imp = 944 imp = 5399 ck3 = 6025 } # Teredon, Akkaz, Hawmah -> HIFAIR
 	link = { imp = 7196 ck3 = 6161 } # Adros -> KAZIMA
 	link = { imp = 965 imp = 963 ck3 = 6019 } # Apphana, Failaka -> BALJAN
 	link = { imp = 7197 ck3 = 6159 } # Itamos -> AL-JUBAYL
@@ -3257,15 +3734,15 @@ imperator_invictus = {
 	link = { imp = 7203 ck3 = 6150 } # Gylus -> MURWAB
 	link = { imp = 5409 ck3 = 6163 } # Largis -> YABRIN
 	link = { imp = 7204 imp = 5410 ck3 = 6151 } # Sarkoi, Utea -> MASHQAR
-	link = { imp = 5412 imp = 5413 ck3 = 6149 } # Arabia Deserta, Arabia Deserta -> AL-JIWA
-	link = { imp = 7206 imp = 7205 imp = 5411 ck3 = 6148 } # Attiaca, Labrys Omana, Arabia Deserta -> AZ-DHAFRA
-	link = { imp = 5419 ck3 = 6140 ck3 = 6142 ck3 = 6139 } # Mazir -> NIZWA, JEBEL AKHDAR, BAHLA
+	link = { imp = 5412 imp = 5413 ck3 = 6149 } # Suwaytiyah, Liwa -> AL-JIWA
+	link = { imp = 7206 imp = 7205 imp = 5411 ck3 = 6148 } # Attiaca, Labrys Omana, Ghirban -> AZ-DHAFRA
+	link = { imp = 5419 ck3 = 6140 ck3 = 6142 ck3 = 6139 } # Samad -> NIZWA, JEBEL AKHDAR, BAHLA
 	link = { imp = 5418 ck3 = 6136 ck3 = 6138 } # Vatum -> RUSTAQ-OMAN, DHANK
 	link = { imp = 5417 ck3 = 6137 } # Ialla -> HAFIT
 	link = { imp = 7209 ck3 = 6134 } # Omana -> SUHAR
-	link = { imp = 7207 imp = 5414 ck3 = 6130 } # Kanepsa, Arabia Deserta -> TAWWAM-WEST
+	link = { imp = 7207 imp = 5414 ck3 = 6130 } # Kanepsa, Murkhan -> TAWWAM-WEST
 	link = { imp = 7211 ck3 = 6131 } # Kalas -> JULFAR
-	link = { imp = 5430 imp = 5415 imp = 5416 ck3 = 6129 } # Trazel, Motta Omania, Ecrune -> TAWWAM
+	link = { imp = 5430 imp = 5415 imp = 5416 ck3 = 6129 } # Trazel, Saruq, Ecrune -> TAWWAM
 	link = { imp = 7208 imp = 5429 ck3 = 6133 } # Regna, Iepana -> DABBA
 	link = { imp = 7210 ck3 = 6132 } # Heliou Limen -> MUSANDAM
 	link = { imp = 7212 ck3 = 6143 ck3 = 6144 } # Kryptos Limen -> MATRAH, MASQAT
@@ -3274,7 +3751,7 @@ imperator_invictus = {
 	link = { imp = 7217 ck3 = 6147 } # Ganta -> JAALAN
 	link = { imp = 7214 ck3 = 6146 } # Artemidos -> SUR
 	link = { imp = 7216 imp = 5421 ck3 = 6268 } # Sarapis, Acte -> WAHIBA
-	link = { imp = 4707 imp = 7570 imp = 7571 imp = 7572 imp = 7573 ck3 = 6315 ck3 = 6269 } # MANY-TO-MANY: Moscha, Arabia Relicta, Arabia Relicta, Arabia Relicta, Jiddat al-Harasis -> DHUFAR, DUQM
+	link = { imp = 4707 imp = 7570 imp = 7571 imp = 7572 imp = 7573 ck3 = 6315 ck3 = 6269 } # MANY-TO-MANY: Samharam, Quwayrah, Madrakah, Nafun, Khaluf -> DHUFAR, DUQM
 	link = { imp = 4708 ck3 = 6314 } # Saliah -> RAYSUT
 	link = { imp = 4705 imp = 4706 ck3 = 6313 } # Ausara Hadhramut, Neogilla -> AL-ASA
 	link = { imp = 6044 ck3 = 6124 } # Syrian Desert -> SYRIAN DESERT
@@ -3438,7 +3915,7 @@ imperator_invictus = {
 	link = { imp = 5940 ck3 = 6167 } # Arabian Impassable -> AD-DAHNA DESERT
 	link = { imp = 5303 ck3 = 6164 ck3 = 6165 ck3 = 6170 ck3 = 6176 ck3 = 6174 } # Mesopotamian Desert -> HAFAR, AL-MAWIYA, LINA, SAKAKA, AS-SUMAINA
 	link = { imp = 7564 imp = 7563 ck3 = 6000 } # Arabia Deserta, Arabia Deserta -> WAQISA
-	link = { imp = 4721 imp = 7561 imp = 7723 imp = 7562 ck3 = 6169 ck3 = 6021 ck3 = 6023 } # MANY-TO-MANY: Durnatha, Arabia Deserta, Durum, Arabia Deserta -> ZUBALA, MATARA-IRAQ, AIN_SAID
+	link = { imp = 4721 imp = 7561 imp = 7723 imp = 7562 ck3 = 6169 ck3 = 6021 ck3 = 6023 } # MANY-TO-MANY: Durnatha, Sakaka, Durum, Arabia Deserta -> ZUBALA, MATARA-IRAQ, AIN_SAID
 	link = { imp = 7558 ck3 = 6177 } # Arabia Deserta -> AL-QARA
 	link = { imp = 7557 ck3 = 6178 } # Arabia Deserta -> AL-JAWF
 	link = { imp = 7555 imp = 7556 ck3 = 5989 } # Arabia Deserta, Arabia Deserta -> QURAQIR
@@ -3515,293 +3992,6 @@ imperator_invictus = {
 	link = { imp = 4682 ck3 = 6276 } # Sanaa -> SANAA
 	link = { imp = 4687 ck3 = 6289 } # Qatabia -> MUSAYMIR
 	link = { imp = 4650 ck3 = 6290 } # 'Adan -> ADEN
-	link = { comment = "# East Africa south of Egypt" }
-	link = { imp = 7528 imp = 7531 ck3 = 8432 ck3 = 8508 ck3 = 8507 ck3 = 8506 ck3 = 8463 ck3 = 8461 ck3 = 8462 } # MANY-TO-MANY: Opone, Pano -> RAS_HAFUN, JACEYL_BID, DHUUDO, LOWER_NUGAAL, MOGADISHU, MARKA, AFGOOYE
-	link = { imp = 7525 imp = 7532 ck3 = 8430 } # Elephanton Limen, Mosylon -> BOSASO
-	link = { imp = 583 imp = 7597 imp = 584 imp = 585 ck3 = 1108 } # Berenike, Erascum, Vetus Hydreuma, Lahami -> EASTERN DESERT
-	link = { imp = 7598 ck3 = 6388 ck3 = 6372 } # Sabaste -> LOWER_ODIB, WADI_ODIB
-	link = { imp = 7594 ck3 = 6110 } # Sabraiton -> AYDHAB
-	link = { imp = 7595 ck3 = 6371 ck3 = 6373 } # Arachos -> DUNGUNAB, GEBEIT
-	link = { imp = 7596 imp = 7599 ck3 = 6377 ck3 = 1050 ck3 = 6376 ck3 = 6385 ck3 = 6375 } # MANY-TO-MANY: Canarbis, Setronon -> SUAKIN, JEBEL_BEJA, SINKAT, BAQLIN-NORTH, KHAWR_NUBT
-	link = { imp = 7501 ck3 = 6378 ck3 = 6387 ck3 = 6413 } # Elephanton Chora -> TOKAR, BAQLIN-EAST, KHAWR_BARAKA
-	link = { imp = 7500 ck3 = 6379 ck3 = 6381 } # Ptolemais Theron -> AKIK, BAZIN
-	link = { imp = 7552 imp = 7553 ck3 = 6380 ck3 = 6423 ck3 = 6439 ck3 = 6414 ck3 = 6438 } # MANY-TO-MANY: Deresa, Aqiq -> BADI, JEBEL_BEJA, MARYA, DJARIN, QATAA
-	link = { imp = 7551 ck3 = 6441 ck3 = 8282 } # Gulbub -> KA'BIR, HAMASEN
-	link = { imp = 7550 ck3 = 8278 } # Imberimi -> MASSAWA
-	link = { imp = 7503 ck3 = 8279 } # Adouli -> DEHONO
-	link = { imp = 7502 ck3 = 8280 ck3 = 8281 } # Alalaiou -> DAHLAK_KEBIR, GIMHILE
-	link = { imp = 7506 ck3 = 8289 } # Aksum -> AKSUM
-	link = { imp = 7590 ck3 = 6437 } # Demora -> SHOWAK
-	link = { imp = 3312 ck3 = 6390 } # Petta -> SHAHEINAB
-	link = { imp = 3320 ck3 = 6401 } # Korin -> SAQADI
-	link = { imp = 3318 ck3 = 6396 } # Kuria -> GETEINA
-	link = { imp = 3319 imp = 3317 ck3 = 6398 } # Syuta, Attrah -> ARBAJI
-	link = { imp = 3315 ck3 = 6393 ck3 = 6429 } # Gurnah -> USHARA, KOSTI
-	link = { imp = 3313 ck3 = 6394 ck3 = 6392 } # Soba -> SOBA, KADERO
-	link = { imp = 3314 ck3 = 6395 ck3 = 6397 } # Alwa -> ALTI, KAMLIN
-	link = { imp = 3310 ck3 = 6366 } # Ameta -> WAD_HAMID
-	link = { imp = 3311 ck3 = 6391 } # Toprate -> GEILI
-	link = { imp = 644 ck3 = 6364 } # Wad ban Naqa -> SHENDI
-	link = { imp = 643 } # Araba -> DROPPED
-	link = { imp = 640 ck3 = 6365 } # Epis -> KELI
-	link = { imp = 639 ck3 = 6363 } # Tadu -> AL-ABWAB
-	link = { imp = 641 imp = 642 ck3 = 6408 } # Meroe, Summarum -> BASA
-	link = { imp = 638 imp = 7592 imp = 7587 imp = 637 imp = 634 ck3 = 6358 } # Sakolche, Ganagaras, Anak, Mallo, Darou -> ED-DAMER
-	link = { imp = 631 imp = 635 imp = 636 ck3 = 6357 } # Gora, Galim, Seserem -> AL-BAWGA
-	link = { imp = 630 ck3 = 6389 ck3 = 1068 } # Scammos -> SHUNQAYR, NUBIAN_DESERT_SOUTH
-	link = { imp = 632 ck3 = 6355 } # Abale -> BERBER
-	link = { imp = 3322 imp = 3321 ck3 = 6356 ck3 = 6420 ck3 = 6386 } # MANY-TO-MANY: Borassa, Rocat -> ATBARA, NUBIAN_DESERT_SOUTH, BAQLIN-WEST
-	link = { imp = 7588 ck3 = 6409 } # Dmut -> UMM_USUDA
-	link = { imp = 5329 ck3 = 6410 ck3 = 6407 ck3 = 6406 ck3 = 6405 ck3 = 6399 ck3 = 6404 ck3 = 6400 ck3 = 6402 } # IP 330 -> JEBEL_GEILI, NAGA, BASHARGA, EL-ELEILA, UM_SUNT, ABU_GEILI, SENNAR, JEBEL_MOYA
-	link = { imp = 7589 ck3 = 6418 } # Abliata -> BUTANA
-	link = { imp = 3323 ck3 = 6411 ck3 = 6419 } # Durai -> MIDDLE_ATBARA, BUTANA_NORTH
-	link = { imp = 3328 imp = 3331 ck3 = 6412 ck3 = 6440 } # MANY-TO-MANY: Thana, Zithaa -> KASSALA, DHERBE
-	link = { imp = 7593 ck3 = 8291 } # Tanachtala -> TIGRE
-	link = { imp = 633 imp = 7591 ck3 = 6443 ck3 = 6442 } # MANY-TO-MANY: Druka, Acranoe -> GASH, TO_LUS
-	link = { imp = 651 ck3 = 8290 ck3 = 8283 } # Sumita -> SOUTH_SERAYE, SERAYE
-	link = { imp = 7504 imp = 7513 ck3 = 8284 } # Qohaito, Matara -> QOHAITO
-	link = { imp = 7537 ck3 = 8309 } # Roza -> BEGEMDIR
-	link = { imp = 7511 ck3 = 8299 ck3 = 8448 ck3 = 8308 } # Roha -> ADAFA, WOLLO_HIGHLANDS, ANGOT
-	link = { imp = 7545 ck3 = 8301 } # Awash -> LALIBELA
-	link = { imp = 7512 ck3 = 8297 ck3 = 8298 ck3 = 8306 } # Muchera -> TEKEZE, LASTA, BELASA
-	link = { imp = 7538 ck3 = 8311 } # Agawe -> GOUZARA
-	link = { imp = 7536 ck3 = 8304 ck3 = 8307 ck3 = 8303 ck3 = 8292 ck3 = 6444 ck3 = 8302 } # Gwara -> SEMIEN, DEMBIYA, KOSOGE, WALDABBA, SHOWAK_SOUTH, WEGERA
-	link = { imp = 7539 ck3 = 8305 } # D'bark -> FALASHA
-	link = { imp = 7540 ck3 = 8293 } # Shire -> JOHA
-	link = { imp = 7508 ck3 = 8296 } # Uikra -> QIHA
-	link = { imp = 7514 ck3 = 8294 ck3 = 8295 ck3 = 8300 ck3 = 1088 } # Esheta -> WIQRO, INTARTA, DOBA, WOLLO_HIGHLANDS
-	link = { imp = 7510 imp = 7505 ck3 = 8288 } # Adi Gelamo, Yeha -> MATARA
-	link = { imp = 7515 imp = 7509 ck3 = 8285 } # Naamen, Sazila -> SHIMAZANA
-	link = { imp = 7507 ck3 = 8286 ck3 = 8287 ck3 = 8330 ck3 = 8333 ck3 = 8335 ck3 = 8336 ck3 = 1080 ck3 = 8443 } # Oreine -> BURI, BUR, SAHO, RAGALI, AFERA, DABAHU, WOLLO_HIGHLANDS, DANAKIL_DESERT
-	link = { imp = 7549 } # Ras Andada -> DROPPED
-	link = { imp = 7548 ck3 = 8331 ck3 = 8334 ck3 = 8337 ck3 = 8442 ck3 = 1334 } # Thio -> EDD-NORTH, AMARTA, SOUTH_DANAKIL, DANAKIL_HILLS, DANAKIL_HILLS
-	link = { imp = 7547 ck3 = 8332 ck3 = 8338 } # Undulli -> EDD, NORTH_AFAR
-	link = { imp = 7516 imp = 7546 ck3 = 8340 } # Smyrnophoros Chora, Beilul -> ASSAB
-	link = { imp = 7518 imp = 7517 ck3 = 8341 } # Deire, Arsinoe -> AWBUK
-	link = { imp = 7519 ck3 = 8342 ck3 = 8343 ck3 = 8339 } # Abasenia -> TADJOURA, MORA-AWSSA, AFAR
-	link = { imp = 7533 ck3 = 8426 } # Salweyn -> LAAS_QORAY
-	link = { imp = 7524 ck3 = 8429 ck3 = 8428 ck3 = 1049 ck3 = 8505 } # Macajilayn -> EL-AYO, QUMBUCUL, OGADEN_DESERT, UPPER_NUGAAL
-	link = { imp = 7523 ck3 = 8425 ck3 = 8427 ck3 = 8504 } # Moundou -> MAIT, HAYLAN, LOWER_TOGDHEER
-	link = { imp = 7534 imp = 7527 ck3 = 8424 ck3 = 8503 } # MANY-TO-MANY: Amaitaia, Khoor Shoora -> MAKHIR, TOGDHEER
-	link = { imp = 7522 ck3 = 8404 ck3 = 8403 ck3 = 8405 ck3 = 8502 } # Malao -> BERBERA, GOGESA, HARGEISA, SHEIKH
-	link = { imp = 7535 ck3 = 8401 ck3 = 8402 ck3 = 8406 } # Maphoris -> AMUD, AW_BARRE, DAKKAR
-	link = { imp = 7544 ck3 = 8345 ck3 = 8346 } # Karmille -> AWASH, MIDDLE_AWASH
-	link = { imp = 7543 ck3 = 8326 } # Kebranitia -> HAYQ
-	link = { imp = 7542 ck3 = 8344 } # Rhammanitai -> AWSSA
-	link = { imp = 7541 ck3 = 8398 ck3 = 8399 ck3 = 8391 ck3 = 8393 ck3 = 8392 ck3 = 8394 ck3 = 8407 ck3 = 8410 } # Handoga -> ABASA, GHOUBET, ABBE, ADAL, SITTI, WEST_ADAL, HARAR, JEBEL_AHMAR
-	link = { imp = 7520 imp = 7521 ck3 = 8400 } # Anchitaia, Aualites -> ZAILA
-	link = { imp = 7526 imp = 7529 ck3 = 8431 } # Aromata, Yehta -> GARDAFUUL
-	link = { imp = 7530 ck3 = 1369 ck3 = 1310 } # Dioscoridus -> Socotra, Qualnsiyah
-	link = { imp = 5942 ck3 = 8441 ck3 = 8513 ck3 = 8509 ck3 = 8511 ck3 = 8512 ck3 = 8510 ck3 = 8466 ck3 = 8472 ck3 = 8471 ck3 = 8420 ck3 = 8500 ck3 = 8499 ck3 = 8501 ck3 = 8423 ck3 = 8422 ck3 = 8421 ck3 = 8408 ck3 = 8416 ck3 = 8411 ck3 = 8417 ck3 = 8413 ck3 = 8412 ck3 = 8444 ck3 = 8409 ck3 = 8354 ck3 = 8414 ck3 = 8384 ck3 = 8395 ck3 = 8397 ck3 = 8396 ck3 = 8419 ck3 = 8418 ck3 = 8383 ck3 = 8382 ck3 = 8492 ck3 = 8493 ck3 = 8490 ck3 = 8494 ck3 = 8445 ck3 = 8368 ck3 = 8357 ck3 = 8385 ck3 = 8415 ck3 = 8355 ck3 = 8356 ck3 = 8374 ck3 = 8364 ck3 = 8389 ck3 = 8433 ck3 = 8362 ck3 = 8369 ck3 = 8370 ck3 = 8365 ck3 = 8388 ck3 = 8387 ck3 = 8363 ck3 = 8373 } # Somalian Impassable -> OGADEN_DESERT, MUDUG-NORTH, BARBACADLE, HOBYO-NORTH, NUDUG-SOUTH, GALKAYO, HOBYO, DHUSAMAREB, EL_BUUR, FAFAN, FAFAN-SOUTH, GODE, HANAN, GIDAYA-EAST, GIDAYA-NORTH, GIDAYA, HARGAYA, HARGAYA-SOUTH, HARGAYA-WEST, SHABELLE, ARUSI-SOUTH, ARUSI-NORTH, AHMAR_MOUNTAINS, GABAL_SOUTH, KARAYU, DAWARO, BOKE, BATE, GABAL, GENDEBELO, BALI, BALI-EAST, DUMALI, BALI-WEST, GANALE, AUDO, GESTRO, MIDDLE-SHEBELLE, MENDEBO, KAMBATA, MUNESA, GEBERGE, DAWARO-WEST, SHARKA, HADYA, GANZ, WAJ, GIBE_INNARYA, GOMMA, INNARYA, JIBAT, DAMOT-WEST, BIZAMO, BOSHA, GAMBO, GURAGE, JANJERO
-	link = { comment = "# Egypt" }
-	link = { imp = 577 imp = 575 imp = 578 ck3 = 6080 } # Omboi, Eileithyiopolis, Dunqash -> ZARNIKH
-	link = { imp = 576 imp = 573 ck3 = 6079 ck3 = 6078 } # MANY-TO-MANY: Apollinopolis Megale, Pathyris -> UDFU, ARMANT
-	link = { imp = 599 ck3 = 6334 } # Kambousis -> QASR_IBRIM
-	link = { imp = 600 imp = 5519 imp = 5521 ck3 = 6333 } # Pachora, Simbel, Boron -> SHEIKH_DAWUD
-	link = { imp = 597 ck3 = 6332 } # Tene -> KOROSKO
-	link = { imp = 598 imp = 596 ck3 = 6330 ck3 = 6331 ck3 = 6112 } # MANY-TO-MANY: Premis, Aramum -> IKHMINDI, SAYALA, HAIMUR
-	link = { imp = 601 imp = 602 ck3 = 6335 } # Serra, Tamania -> SERRA
-	link = { imp = 603 ck3 = 6336 } # Boon -> FARAS
-	link = { imp = 618 imp = 616 imp = 615 ck3 = 6345 } # Urbim, Mulon, Pago -> DEBBA
-	link = { imp = 617 imp = 613 ck3 = 6342 } # Breues, Patigga -> KEMNA
-	link = { imp = 609 imp = 611 ck3 = 6343 } # Acina, Orsum -> DONGOLA
-	link = { imp = 612 imp = 610 imp = 608 ck3 = 6341 } # Direla, Prummu, Paroa -> TUMBUS
-	link = { imp = 7581 imp = 7582 imp = 7583 ck3 = 6340 } # Pderme, Soleb, Kedurma -> DELGO
-	link = { imp = 620 imp = 614 ck3 = 6344 } # Arcas, Bagada -> OLD-DONGOLA
-	link = { imp = 627 imp = 629 ck3 = 6351 } # Marru, Sankole -> KURGUS
-	link = { imp = 628 ck3 = 6353 ck3 = 6382 ck3 = 6383 } # Alana -> TARFAYA, WADI_AMUR, UPPER_AMUR
-	link = { imp = 7584 ck3 = 6370 } # Hashem -> AL-HAJAR_NUBIA
-	link = { imp = 645 ck3 = 6352 ck3 = 6354 } # Kurgus -> ABU-HAMMAD, KOROSKO-ROAD
-	link = { imp = 626 ck3 = 6369 } # Napata -> KUWEIB
-	link = { imp = 7586 ck3 = 6368 } # Kuru -> REDAB
-	link = { imp = 7585 imp = 646 ck3 = 6367 } # Nuri, Fourth Cataract -> SHEMKHIYA
-	link = { imp = 625 ck3 = 6349 } # Cortum -> NURI
-	link = { imp = 624 ck3 = 6347 ck3 = 6350 } # Mambil -> TANKASI, AL-GHAZALI
-	link = { imp = 623 ck3 = 6348 } # Dumuna -> KAREIMA
-	link = { imp = 622 imp = 619 ck3 = 6346 } # Zamnes, Segasa -> GRNETTI
-	link = { imp = 621 ck3 = 6360 } # Tergendum -> DIFFAR
-	link = { imp = 607 imp = 605 ck3 = 6359 } # Gugo, Noa -> KASSI-MARKOL
-	link = { imp = 606 ck3 = 6339 } # Saye -> SAI
-	link = { imp = 7580 imp = 7579 ck3 = 6338 } # Tila, Firke -> AKASHA
-	link = { imp = 604 ck3 = 6337 } # Semna Nubia -> SEMNA
-	link = { imp = 593 imp = 594 ck3 = 6361 } # Pselkis, Tachampso -> SABAGURA
-	link = { imp = 592 ck3 = 6362 } # Talmis -> KALABSHA
-	link = { imp = 595 ck3 = 6329 } # Kortia -> QURTA
-	link = { imp = 591 ck3 = 6081 ck3 = 6082 } # Syene -> ASWAN, ASWAN-WEST
-	link = { imp = 5525 imp = 5526 ck3 = 6087 } # Tawar, Minqar -> AL-QASR-DAKHLA
-	link = { imp = 5514 ck3 = 6085 } # Siwa -> MUT
-	link = { imp = 5511 imp = 5509 ck3 = 6086 } # Trimithis, Kellis -> TUNAYDA
-	link = { imp = 5534 ck3 = 6089 } # Varam -> AL-BAHRIYA
-	link = { imp = 5529 imp = 5530 imp = 5531 imp = 5541 ck3 = 6090 } # Poka, Mandish, Parva, Shunne -> BAWITI
-	link = { imp = 5535 imp = 5533 ck3 = 6091 } # Colira, Berku -> AL-HARRA
-	link = { imp = 544 imp = 5546 ck3 = 6062 } # Herakleopolis, Pseneros -> AHNAS
-	link = { imp = 546 imp = 542 ck3 = 6064 } # Kynopolis, Ankyronpolis -> IHRIT
-	link = { imp = 545 imp = 5532 imp = 547 imp = 5548 ck3 = 6063 } # Oxyrhynchus, Kom Namrud, Chysis, Kerkethoris -> AL-BAHNASA
-	link = { imp = 512 ck3 = 6057 } # Letopolis -> GIZA
-	link = { imp = 527 imp = 514 ck3 = 6056 } # Atarbechis-Aphroditopolis, Nikiou -> ABU_GHALIB
-	link = { imp = 515 ck3 = 6055 } # Naukratis -> RAMSIS
-	link = { imp = 537 ck3 = 6066 } # Panarachthis -> HULWAN-CAIRO
-	link = { imp = 538 imp = 543 ck3 = 6065 } # Aphroditopolis, Neiloupolis -> ATFIH
-	link = { imp = 541 ck3 = 6058 } # Karanis -> BUSIR
-	link = { imp = 5549 ck3 = 6059 } # Takyris -> TIRSA
-	link = { imp = 539 ck3 = 6060 } # Krokodilopolis -> AL-FAYYUM
-	link = { imp = 540 imp = 5547 ck3 = 6061 } # Dionysias, Philoteris -> IQNA
-	link = { imp = 501 imp = 507 imp = 7668 imp = 503 ck3 = 6040 } # Heliopolis, Leonton Polis, Bilbeis, Bubastis -> BILBAYS
-	link = { imp = 502 imp = 655 imp = 505 ck3 = 6039 } # Heroopolis, Serapieion, Klysma -> QUZLUM
-	link = { imp = 3364 imp = 3362 imp = 3359 ck3 = 6100 } # Marandis, Agabis, Balagrae -> WADI_MAKHIL
-	link = { imp = 536 imp = 500 ck3 = 6042 } # Babylon, Memphis -> CAIRO
-	link = { imp = 453 imp = 516 ck3 = 6053 } # Taposiris, Alexandria -> ALEXANDRIA
-	link = { imp = 554 imp = 552 ck3 = 6069 } # Pokis, Koussai -> MANFALUT
-	link = { imp = 548 imp = 551 ck3 = 6068 } # Alabastronpolis, Monkanei -> ANSINA
-	link = { imp = 549 imp = 550 ck3 = 6067 } # Hermopolis Magna, Thynis -> AL-USHMUNAIN
-	link = { imp = 518 imp = 519 imp = 520 ck3 = 6050 } # Buto, Sais, Xois -> IBYAR
-	link = { imp = 526 imp = 528 ck3 = 6051 } # Onouphis Ano, Isieion -> MINUF
-	link = { imp = 522 imp = 521 ck3 = 6047 } # Diospolis Kato, Sebennytos -> SAMANNUD
-	link = { imp = 523 ck3 = 6048 } # Pakhnemounis -> BURULLUS
-	link = { imp = 7691 imp = 533 ck3 = 6049 } # Perseos Skope, Chemmis -> NASTARAWA
-	link = { imp = 5523 imp = 5528 imp = 5527 imp = 5545 imp = 5524 ck3 = 6088 } # Farafra, Elassa, Tablamum, Thumat, Bishaya -> AL-FARAFRA
-	link = { imp = 5556 imp = 5554 imp = 5552 imp = 5553 imp = 5550 ck3 = 6117 } # Abid, Sanus, Klimax, Graias, Alexandrou Parembole -> QARA
-	link = { imp = 5504 imp = 5505 ck3 = 6084 } # Hibis, Amura -> BARIS
-	link = { imp = 5501 imp = 5500 imp = 5502 imp = 5503 imp = 5522 ck3 = 6083 } # Pohe, Erebe, Gebara, Gibra, Debiri -> KHARGA
-	link = { imp = 567 imp = 568 imp = 569 imp = 572 imp = 574 ck3 = 6077 } # Apollinopolis Mikra, Petemout, Diospolis Magna, Hermonthis, Latopolis -> QUS
-	link = { imp = 563 ck3 = 6075 } # Tenthyris -> FAW
-	link = { imp = 556 imp = 557 imp = 559 ck3 = 6072 } # Antaiopolis, Panopolis, Ptolemais Hermeiou -> IKHMIN
-	link = { imp = 560 imp = 558 imp = 555 ck3 = 6073 } # Thinis, Tripheion, Hypsele -> IBSHAYA
-	link = { imp = 590 imp = 589 ck3 = 6119 ck3 = 6120 ck3 = 1280 ck3 = 6121 ck3 = 6111 ck3 = 6113 ck3 = 6374 ck3 = 6384 } # MANY-TO-MANY: Novum Hydreuma, Falacro -> CENTRAL_JBL_QUZLUM, SOUTH_JBL_QUZLUM, EASTERN DESERT, UM SHASHOBA, DERAHIB, ALLAQI, NAQIS-NORTH, NAQIS-SOUTH
-	link = { imp = 5944 ck3 = 6416 ck3 = 6426 } # Nubian Impassable -> BAYUDA_WEST, DAR_HAMID
-	link = { imp = 5330 ck3 = 6417 } # IP 331 -> BAYUDA_EAST
-	link = { imp = 5332 ck3 = 6421 } # IP 333 -> NUBIAN_DESERT_EAST
-	link = { imp = 5331 ck3 = 6422 } # IP 332 -> NUBIAN_DESERT_WEST
-	link = { imp = 5338 imp = 6497 ck3 = 6327 } # Farfara, More Egyptian Desert -> WAHAT-DESERT
-	link = { imp = 5292 imp = 5293 imp = 5294 ck3 = 6114 } # IMPASSIBLE TERRAIN 292, Troikon Oros, Desert of Klysma -> EASTERN DESERT
-	link = { imp = 5352 imp = 5286 ck3 = 1107 } # Troglodytica, IMPASSIBLE TERRAIN 286 -> EASTERN DESERT
-	link = { imp = 588 imp = 586 ck3 = 6118 } # Aristonis, Sukkari -> NORTH_JBL_QUZLUM
-	link = { imp = 580 imp = 579 imp = 582 imp = 587 ck3 = 6109 } # Myos Hormos, Persou, Siqdit, Nechesia -> QUSAYR
-	link = { imp = 649 imp = 650 imp = 647 imp = 581 ck3 = 6122 } # Lykabettus-Porphyrites, Drepanum, Quei, Semna -> SAFAGA
-	link = { imp = 566 imp = 564 imp = 565 ck3 = 6076 } # Koptos, Kaine, Ghuzza -> QINA
-	link = { imp = 570 imp = 571 imp = 562 imp = 561 ck3 = 6074 } # Memnonia, Terkythis, Diospolis, Polybiane -> HUW
-	link = { imp = 553 ck3 = 6070 ck3 = 6071 } # Lykopolis -> ASYUT, BAWIT
-	link = { imp = 5555 imp = 5538 ck3 = 6093 } # Carnasa, Gargara -> SIWA
-	link = { imp = 5551 imp = 5537 imp = 5540 imp = 5539 ck3 = 6092 } # Varias, Ammon, Areg, Zethin -> AIN_AL-GHANBI
-	link = { imp = 3378 imp = 3377 imp = 3376 imp = 3375 ck3 = 6096 } # Paraetonium, Apis, Selenis, Chettaia -> KANAIS_AL-HADID
-	link = { imp = 3476 imp = 3380 imp = 3379 ck3 = 6095 } # Pnigeus, Leuke Akte Kyrenaike, Kallias -> QASR_ASH_SHAMMAS
-	link = { imp = 445 imp = 3478 imp = 3477 ck3 = 6094 } # Dyme, Derras, Pedonia -> AL-HAMAM
-	link = { imp = 513 imp = 504 ck3 = 6041 } # Athribis, Leontopolis -> QALYUB
-	link = { imp = 7689 imp = 534 ck3 = 6043 } # Hermopolis, Mendes -> DAQAHLA
-	link = { imp = 511 imp = 524 ck3 = 6044 } # Phakoussai, Pharbaithos -> FAQUS
-	link = { imp = 7688 imp = 510 imp = 508 ck3 = 6045 } # Thenessos, Daphnai, Tanis -> TINNIS
-	link = { imp = 7690 ck3 = 6046 } # Tamiathis -> DUMIYAT
-	link = { imp = 517 ck3 = 6054 } # Hermopolis Mikra -> DAMANHUR
-	link = { imp = 531 ck3 = 6116 } # Psenemphaia -> WADI_NATRUN
-	link = { imp = 530 imp = 529 imp = 532 ck3 = 6052 } # Bolbitine, Kanopos, Chaireon -> RASHID
-	link = { imp = 3373 imp = 3374 ck3 = 6097 } # Catabathmus Maior, Nesus -> SULLUM
-	link = { imp = 3367 imp = 3368 imp = 3369 imp = 3372 imp = 3371 imp = 3370 ck3 = 6098 } # Petras Mikros, Batrachos, Gonia, Menelaos, Kyrthanion, Antipyrgos -> TOBRUK
-	link = { imp = 3363 imp = 3365 imp = 3366 ck3 = 6099 } # Darnis, Aziris, Paliouros -> DERNA
-	link = { imp = 5992 ck3 = 6106 ck3 = 6107 } # Desert -> AWJILA, JALU
-	link = { imp = 3345 imp = 3343 ck3 = 6108 } # Chorotus, Corniclanum -> JAKHARRAD
-	link = { imp = 5993 imp = 3357 ck3 = 6102 } # Cyrenaica, Barke -> WADI MASUS
-	link = { imp = 3358 imp = 3360 imp = 3361 ck3 = 6101 } # Phykous, Kyrene, Apollonia Kyrenaike -> MARAWA
-	link = { imp = 3353 imp = 3352 imp = 3354 ck3 = 6104 } # Taucheira, Hadrianopolis, Ptolemais -> BARQA-AL-MARJ
-	link = { imp = 3349 imp = 3347 imp = 3351 ck3 = 6103 } # Zau Taberna, Talliamunera, Chairekla -> JABAL_AL-GHARBI
-	link = { imp = 3346 imp = 3348 imp = 3350 ck3 = 6105 } # Amastor, Chersis, Euesperides -> BENGHAZI
-	link = { imp = 3340 imp = 3341 imp = 3342 imp = 3344 ck3 = 4551 } # Mendrion, Astrochonda, Kainon, Serapeion -> AJADABIYA
-	link = { comment = "# Africa Proconsularis" }
-	link = { imp = 3265 imp = 3233 imp = 3268 imp = 3267 ck3 = 4589 } # Thimida Bure, Bulla Regia, Aunobaris, Numluli -> BAJA
-	link = { imp = 3230 ck3 = 4586 } # Thabraca -> TABARQA
-	link = { imp = 3258 imp = 3262 imp = 3263 imp = 3264 ck3 = 4585 } # Hippo Diarrhytus, Kinna Thabracania, Rucuma, Septimia -> BANZART
-	link = { imp = 3257 imp = 3260 imp = 3261 ck3 = 4583 } # Utica, Matar, Thisika -> QARTAJANA
-	link = { imp = 3337 imp = 3338 imp = 3339 ck3 = 4550 } # Digdida Selorum, Arae Philaenorum, Automalax -> AL-AGHAILA
-	link = { imp = 3329 imp = 3330 imp = 3332 imp = 3333 imp = 3334 imp = 3335 imp = 3336 ck3 = 4552 } # Annesel, Auxiu, Dysopon, Euphranta, Iscina, Aulazon, Ad Palmam -> SURT
-	link = { imp = 5991 ck3 = 4553 ck3 = 6446 ck3 = 6607 ck3 = 6447 ck3 = 6669 ck3 = 6451 ck3 = 6667 ck3 = 6453 ck3 = 6454 ck3 = 6455 ck3 = 6456 ck3 = 6457 ck3 = 6659 ck3 = 6660 ck3 = 6658 ck3 = 6560 ck3 = 6563 ck3 = 6562 ck3 = 6561 ck3 = 6458 ck3 = 6657 ck3 = 6666 ck3 = 6499 ck3 = 6498 ck3 = 6497 ck3 = 6496 ck3 = 6495 ck3 = 6494 ck3 = 6493 ck3 = 6665 } # Zalatan Desert -> TAJRIFT, ZALHA, JUFRA, ZAWILA, TRAGHAN, MURZUK, FEZZAN_ROUTE, TUMMO, SAKADAME, GISSEBI, DIRKU, BILMA, FACHI, FACHI_ROUTE, AIR_ROUTE, MARANDET, AIR, TAKKEDA, AGADEZ, DIBELA, KAWAR_ROAD, TIBESTI_ROUTE, BARDAI, TIBESTI-CENTRAL, TIBESTI-SOUTH, AIN_GALAKKA, FAYA, BORKOU, KORO_TORO, BAHR_EL-GHAZAL_ROUTE
-	link = { imp = 5947 imp = 5948 ck3 = 4564 ck3 = 6449 ck3 = 6448 ck3 = 6459 ck3 = 4563 ck3 = 6450 ck3 = 6661 ck3 = 6460 ck3 = 6461 ck3 = 6462 ck3 = 6668 ck3 = 6452 ck3 = 6464 ck3 = 6463 ck3 = 6662 ck3 = 6663 ck3 = 6664 ck3 = 6565 ck3 = 6564 ck3 = 6590 ck3 = 6591 ck3 = 6322 ck3 = 4617 ck3 = 4613 ck3 = 6465 ck3 = 6466 ck3 = 6467 ck3 = 4614 ck3 = 4615 ck3 = 6321 ck3 = 6595 ck3 = 4571 ck3 = 4570 ck3 = 4611 ck3 = 4610 ck3 = 4609 ck3 = 4608 ck3 = 4604 ck3 = 4603 ck3 = 4601 ck3 = 4605 ck3 = 4616 ck3 = 4618 ck3 = 6566 ck3 = 6567 ck3 = 6601 ck3 = 6602 } # MANY-TO-MANY: Sahara Impassable, Desert -> TININAI, GERMA, SABHA, TAMZAWA, WADDAN, TASSAWA, GHAT_ROUTE, GHAT, AL-FEWET, AL-BARKAT, DJADO_ROUTE, DJADO, EFERI, DJANET, EAST_AHAGGAR, AHAGGAR, TADMEKKA_ROUTE, ADRAR_IFOGHAS, TESSALIT, TIDIKELT, HAMADAT_TINGHERT, TEDMAIT, AL-QULAYA, SADRATA, REGGANE, TAMENTIT, ADRAR_TIMMI, KARIMA, WARGLA, SINAWIN, JEBEL_NAFUSA, DARADJ, GHADAMES, TAGHYART, TUGGURT, ARIGH, AJLU, SOUF, NAFTA, TOZEUR, DOUZ, GHARDAIA, TILGHEMT, TADMEKKA, KIDAL, WADI_IRAWAN, ERG_GHATI
-	link = { imp = 3326 imp = 3327 ck3 = 4554 } # Base, Thebunte -> TAWURGHA
-	link = { imp = 3325 imp = 3324 ck3 = 4555 } # Thubactis, Kinyps -> MISURATA
-	link = { imp = 3306 ck3 = 4556 } # Leptis Magna -> LABDA
-	link = { imp = 3302 imp = 3303 imp = 3304 imp = 3305 ck3 = 4557 ck3 = 4569 } # MANY-TO-MANY: Zanazia, Oea, Amarea, Gaphara -> TRIPOLIS, TAMAZDA
-	link = { imp = 3300 imp = 3301 ck3 = 4568 ck3 = 4558 } # MANY-TO-MANY: Locri, Sabratha -> SABRATHA, TIRI
-	link = { imp = 3297 imp = 3298 imp = 3299 ck3 = 4561 ck3 = 4559 } # MANY-TO-MANY: Putea Pallene, Zouchis, Pisida -> ZUWARA, DJADO
-	link = { imp = 3295 imp = 3296 ck3 = 4565 ck3 = 4560 } # MANY-TO-MANY: Gergis, Zitha -> JARJIS, NALUT
-	link = { imp = 3293 ck3 = 4566 } # Gigthis -> BUGHRARA
-	link = { imp = 3294 ck3 = 4562 } # Tipasa -> JERBA
-	link = { imp = 3291 imp = 3292 imp = 3290 ck3 = 4573 ck3 = 4572 } # MANY-TO-MANY: Tacape, Arelliorum, Aves -> QABIS, BIR AMIR
-	link = { imp = 3289 ck3 = 4574 } # Bennafa -> AL-HAMMA
-	link = { imp = 3284 imp = 3285 imp = 3287 imp = 3283 imp = 3288 ck3 = 4575 } # Cercina, Thaenae, Taparura, Usula, Macomades Minores -> SFAX
-	link = { imp = 3286 imp = 3282 ck3 = 4576 } # Aeliae, Thysdrus -> EL-JEM
-	link = { imp = 3278 imp = 3280 imp = 3281 ck3 = 4577 } # Thapsus, Acholla, Bararus -> SLAKTA
-	link = { imp = 3277 ck3 = 4578 } # Leptis Minor -> MAHDIYA
-	link = { imp = 3276 ck3 = 4579 } # Hadrametum -> MONASTIR
-	link = { imp = 3249 imp = 3242 ck3 = 4594 } # Ziqua, Abthugni -> KAIROUAN
-	link = { imp = 3279 ck3 = 4597 } # Vicus Augusti -> AL-ABBASIYA
-	link = { imp = 3274 ck3 = 4596 } # Mediccera -> MANSURIYA
-	link = { imp = 3244 imp = 3243 imp = 3275 ck3 = 4580 } # Pupput, Feradi Maius, Ulizibbira -> SUSA
-	link = { imp = 3255 imp = 3254 imp = 3252 imp = 3245 ck3 = 4584 } # Missua, Kerkouane, Carpis, Curubis -> NABEUL
-	link = { comment = "# Algeria" }
-	link = { imp = 3253 imp = 3250 ck3 = 4581 } # Nepheris, Uthina -> ZAGHWAN
-	link = { imp = 3256 imp = 3259 ck3 = 4582 } # Carthago, Uzali Sar -> TUNIS
-	link = { imp = 3271 imp = 3270 imp = 3266 imp = 3251 ck3 = 4753 } # Thignica, Bisica Lucana, Ureu, Membressa -> SILYANA
-	link = { imp = 3272 imp = 3239 imp = 3246 imp = 3212 imp = 3240 imp = 3241 imp = 3238 ck3 = 4592 } # Muzuc, Uzappa, Mactaris, Aquae Regiae, Seressi, Furnos Maius, Zama Regia -> JALULA
-	link = { imp = 3235 imp = 3236 imp = 3269 ck3 = 4591 } # Lares, Assuras, Thugga -> AL-ARIBUS
-	link = { imp = 3216 imp = 3234 imp = 3237 ck3 = 4590 } # Funda Thavagalensis, Sicca Veneria, Obba -> SIQQABANARIYA
-	link = { imp = 3232 ck3 = 4628 } # Simitthus -> TIFASH
-	link = { imp = 3191 ck3 = 4602 } # Castra Neptitana -> HAMMA
-	link = { imp = 3209 imp = 3205 imp = 3198 imp = 3248 imp = 3247 ck3 = 4624 } # Thala Musulamia, Menegesum, Cillium, Thugga Terebenthina, Althiburos -> TALA
-	link = { imp = 3199 imp = 3197 imp = 3210 imp = 3211 ck3 = 4593 } # Nara Maxyesia, Sufetula, Sufes, Masclinae -> SABIBA
-	link = { imp = 3273 imp = 3200 ck3 = 4595 } # Aquae Casae, Oviscae -> RAQQADA
-	link = { imp = 3201 ck3 = 4599 } # Tabira -> QAFSA
-	link = { imp = 3193 imp = 3194 imp = 3195 ck3 = 4598 } # Cerva, Thelepte, Gemellia -> AL-QASRAYN
-	link = { imp = 3202 imp = 3190 imp = 3196 ck3 = 4600 } # Silesva, Thiges, Capsa Iustiniana -> TAQYUS
-	link = { imp = 3189 imp = 3188 ck3 = 4606 } # Ad Speculum, Casae Nigrae -> MADAS
-	link = { imp = 3207 imp = 3206 imp = 3203 imp = 3186 imp = 3204 ck3 = 4607 } # Vegesela, Ad Aquas Caesaris, Theveste, Ubaza Castellum, Vatari -> MADILA
-	link = { imp = 3223 imp = 3224 imp = 3228 ck3 = 4630 } # Calama, Asuccuris, Celtianis -> QALAMA
-	link = { imp = 3221 imp = 3164 imp = 3355 ck3 = 4632 } # Zattara, Thibilis, Fabatianum -> TIJIS
-	link = { imp = 3218 imp = 3165 ck3 = 4620 } # Tipasa, Nattabutum -> QASR AL-IFRIQI
-	link = { imp = 3184 imp = 3166 imp = 3182 imp = 3167 ck3 = 4627 } # Thalades, Gadiaufala, Bagai, Macomades -> BAGHAYA
-	link = { imp = 3217 imp = 3220 ck3 = 4626 } # Madauros, Saltus Sorothensis -> MASKIYANA
-	link = { imp = 3214 imp = 3213 imp = 3219 imp = 3215 ck3 = 4623 } # Thaesactum, Vasampus, Marcimeni, Casaea -> TABASSA
-	link = { imp = 3208 ck3 = 4625 } # Ammaedara -> MAYDARA
-	link = { imp = 3231 ck3 = 4629 } # Pagus Malarensium -> TUBURSHIQ
-	link = { imp = 3229 ck3 = 4587 } # Tuniza -> MANSA'L-KHARAZ
-	link = { imp = 3226 imp = 3225 ck3 = 4588 } # Culucitanis, Hippo Regius -> ANNABA
-	link = { imp = 3179 imp = 3177 ck3 = 4643 } # Verecunda, Lamasba -> NGAOUS
-	link = { imp = 3168 imp = 3174 imp = 3170 ck3 = 807 } # Mascula Tiberia, Claudi, Lambafundi -> Tell Atlas Mountains 8
-	link = { imp = 3187 imp = 3185 ck3 = 4622 } # Midili, Leges Maiores -> BADIS
-	link = { imp = 3171 imp = 3169 ck3 = 4633 } # Tabudium, Badias -> SIDI UQBA
-	link = { imp = 3172 imp = 3176 ck3 = 4621 } # Aurasius Superior, Aurasius Inferior -> BISKRA
-	link = { imp = 3155 imp = 3153 imp = 3154 ck3 = 4754 } # Aqua Viva, Mesarietta, Gemellae -> WAGHLANAT
-	link = { imp = 3152 imp = 3173 ck3 = 4644 } # Thubunae, Burgus Gaetulia -> TUBNA
-	link = { imp = 3183 imp = 3181 imp = 3178 ck3 = 4634 } # Subzuaritanum, Sigus, Diana Veteranorum -> BILIZMA
-	link = { imp = 3132 imp = 3133 ck3 = 4641 ck3 = 4645 ck3 = 4619 } # MANY-TO-MANY: Tatiliti, Zabi -> AL-MASILA, BOU SAADA, AL-AGHWAT
-	link = { imp = 3149 imp = 3146 ck3 = 4638 } # Cuicul, Satafis -> IKJAN
-	link = { imp = 3148 imp = 3147 imp = 3159 imp = 3158 ck3 = 4639 } # Mopth, Sitifis, Zarai, Lobrinia -> SATIF
-	link = { imp = 3163 imp = 3180 ck3 = 4631 } # Cirta, Thenebrestia -> CONSTANTINE
-	link = { imp = 3162 ck3 = 4635 } # Milevum -> MILA
-	link = { imp = 3161 imp = 3227 ck3 = 4752 } # Chullu, Rusicade -> IZAN
-	link = { imp = 3160 imp = 3150 imp = 3145 ck3 = 4636 } # Tucca, Igilgili, Choba -> JIJEL
-	link = { imp = 3156 imp = 3151 ck3 = 4642 } # Nicivibus, Macri -> MAGRA
-	link = { imp = 3126 imp = 3144 imp = 3135 imp = 3143 imp = 3141 ck3 = 4637 } # Saldae, Muslubium, Tubusuctu, Lesbia, Sertei -> BEJAYA
-	link = { imp = 3110 imp = 3112 imp = 3114 imp = 3115 ck3 = 4654 } # Tingitanum, Castra Germanorum, Oppidum Definum, Zucchabar -> MILIYANA
-	link = { imp = 3102 ck3 = 4655 } # Mina -> YALALA
-	link = { imp = 3100 ck3 = 4656 } # Castra Nova -> QALA'A B_HUWARA
-	link = { imp = 3121 imp = 3122 imp = 3123 imp = 3124 ck3 = 4649 } # Rusuccuru, Rusippisir, Rusazus, Bida -> TADALLIS
-	link = { imp = 3129 imp = 3128 imp = 3130 imp = 3117 imp = 3131 ck3 = 4762 ck3 = 4647 ck3 = 4646 ck3 = 3294 } # MANY-TO-MANY: Thanaramusa Castra, Phruraesius Mons, Rapidum, Sufasar, Auzia -> SERSOU, ASHIR-YASHIR, ASHIR-BANYA, Tell Atlas Mountains 9
-	link = { imp = 3119 imp = 5154 imp = 3137 imp = 3138 imp = 3136 ck3 = 4648 } # Lambdia, IMPASSIBLE TERRAIN 154, Bessemium, BessemiumSeptentrionalis, Ausum -> MEDEA
-	link = { imp = 3118 imp = 3120 ck3 = 4650 } # Icosium, Rusguniae -> ALGIERS
-	link = { imp = 3116 ck3 = 4651 } # Iol -> MATTIJA
-	link = { imp = 3108 imp = 3111 imp = 3113 ck3 = 4652 } # Cartennae, Cartili, Gunugu -> SHARSHAL
-	link = { imp = 3101 imp = 3109 imp = 3106 imp = 3107 ck3 = 4653 } # Quiza Xenitana, Portus Magulus, Arsennaria, Caudium Castra -> TANAS
-	link = { imp = 3091 ck3 = 4666 } # Castra Puerorum -> ORAN
-	link = { imp = 3095 ck3 = 4664 } # Portus Magnus -> MARSA FARUKH
-	link = { imp = 5950 } # Gaetuli Impassable -> DROPPED
-	link = { imp = 3142 imp = 3134 imp = 3157 imp = 3139 imp = 3140 ck3 = 4640 } # Aras, Equizeto, Lemellia, Vanisnesi, Ad Sava Municipium -> QALA'A B_HAMMAD
-	link = { imp = 5152 imp = 3127 imp = 3105 ck3 = 4658 } # IMPASSIBLE TERRAIN 152, Cinnaba Mons, Columnata -> AL-'UBBAD
-	link = { imp = 5151 imp = 3104 ck3 = 4659 } # Atlas, Cenavicum -> TAHART
-	link = { imp = 3098 ck3 = 4657 } # Aquae Sirenses -> AL-GABAL
-	link = { imp = 3103 ck3 = 4661 } # Breucorum -> ASKEDAL
-	link = { imp = 3099 ck3 = 4660 ck3 = 4662 } # Ala Miliaria -> QALA'A IBN SALAMA, HISN LAWATA
-	link = { imp = 3094 imp = 3096 imp = 3097 ck3 = 4663 } # Caputtasaccora, Tasaccora, Lucu -> MUASKAR
-	link = { imp = 3088 imp = 3093 ck3 = 4667 } # Albulae, Regiae -> QASR IBN SINAN
-	link = { imp = 3092 ck3 = 4665 } # Portus Divinus -> ARZEW
-	link = { imp = 3086 ck3 = 4668 } # Siga -> ARSGUL
 	link = { comment = "# Finland" }
 	link = { imp = 5976 ck3 = 902 ck3 = 397 ck3 = 398 ck3 = 399 ck3 = 391 ck3 = 387 ck3 = 388 ck3 = 390 ck3 = 400 ck3 = 3264 ck3 = 401 ck3 = 418 ck3 = 402 ck3 = 404 ck3 = 405 ck3 = 406 ck3 = 935 ck3 = 403 ck3 = 409 ck3 = 408 ck3 = 425 ck3 = 426 ck3 = 444 ck3 = 445 ck3 = 443 ck3 = 442 ck3 = 213 ck3 = 215 ck3 = 214 ck3 = 216 ck3 = 217 ck3 = 180 ck3 = 179 ck3 = 183 ck3 = 185 ck3 = 210 ck3 = 186 ck3 = 184 ck3 = 178 ck3 = 177 ck3 = 206 ck3 = 205 ck3 = 211 ck3 = 212 ck3 = 209 ck3 = 207 ck3 = 208 ck3 = 175 ck3 = 176 ck3 = 197 ck3 = 187 ck3 = 188 ck3 = 447 ck3 = 651 ck3 = 448 ck3 = 650 ck3 = 446 ck3 = 450 ck3 = 3262 ck3 = 420 ck3 = 419 ck3 = 415 ck3 = 416 ck3 = 414 ck3 = 413 ck3 = 412 ck3 = 411 ck3 = 410 ck3 = 407 ck3 = 454 ck3 = 455 ck3 = 203 ck3 = 190 ck3 = 189 ck3 = 181 ck3 = 182 ck3 = 449 ck3 = 417 ck3 = 8786 ck3 = 8788 ck3 = 8789 ck3 = 8790 ck3 = 8791 ck3 = 8792 ck3 = 8787 ck3 = 451 ck3 = 652 ck3 = 204 ck3 = 174 ck3 = 200 ck3 = 452 ck3 = 219 ck3 = 453 } # Finland Impassable -> KOLA IMPASSIBLE TERRAIN, AVIOVARA, LAGGUJAKKA, OHCEJOHKA, AANAARJAVRI, SUADIGIL, KEMIJAVRI, SOMBIO, PEACCAM, KOLA IMPASSIBLE TERRAIN, SUONNJEL, KOULAJARVI, MUETKK, KIILT, KOARDEGK, MASELK, KOLA IMPASSIBLE TERRAIN, NUOTTJAURR, AKKEL, SAARVESJAURR, GIEPMA, IIJOKI, OULU, LIMINKA, VETELI, PEDERSORE, MUSTASAARI, LEVANLUHTA, MERIKARVIA, SUND, JOMALA, RAUMA, TURKU, LIINMAA, ULVILA, VUOHIJARVI, PIRKKALA, TELJA, RIKALA, RASEBORG, SOMERO, HAMEENLINNA, MESSUKYLA, RUOVESI, PAIJALA, SYSMA, LAHTI, PORVOO, ESPOO, VEHKALAHTI, SAVITAIPALE, MIKKELI, KONNEVESI, FINNISH IMPASSABLE 3, KEITELE, FINNISH IMPASSABLE 2, PUOLANKA, KAJAANI, FINNISH IMPASSIBLE TERRAIN 1, MAANSELKA, KITKA, JOVVKUJ, PENNE, KINTUS, GUODDEMJAVVR, ARSJOGK, LEJJAVVR, LUJAVVR, CUKKSUAL, KOUTAJOKI, TIIKSJARVI, SUOPARSAARI, OLAVINLINNA, SULKAVA, PARIKKALA, VIIPURI, PIELINEN, SOSNEVKE, Kuusama, Suenekele, Skolt, Peliza, Varsiga, Cascarena, Kaddlhutt, NUOKKIJARVI, FINNISH IMPASSABLE 4, TOHMAJARVI, SORTAVALA, TOVAJARVI, TUNGUT, KEM, KUUSEMA
 	link = { comment = "# North India" }
@@ -3961,8 +4151,8 @@ imperator_invictus = {
 	link = { imp = 7400 ck3 = 1152 } # Jayapura -> Mudgagiri
 	link = { imp = 7329 ck3 = 858 ck3 = 1233 } # Chandraketugarh -> Kumarhati, Saptagrama
 	link = { imp = 7393 ck3 = 862 ck3 = 863 } # Kasipur -> Sagardwip, Chatrabhog
-	link = { imp = 7796 ck3 = 864 } # Sundarbans -> Chandraketugarh
-	link = { imp = 7357 imp = 7358 ck3 = 836 } # Sundarbans, Khulna -> Ishwaripur
+	link = { imp = 7796 ck3 = 864 } # Bidyadhari -> Chandraketugarh
+	link = { imp = 7357 imp = 7358 ck3 = 836 } # Kotta, Khulna -> Ishwaripur
 	link = { imp = 7336 imp = 7397 ck3 = 856 } # Selampoura, Jessore -> Santipura
 	link = { imp = 7337 imp = 7398 ck3 = 1243 } # Aganagara, Kushtia -> Karnasubarna
 	link = { imp = 7328 ck3 = 1239 ck3 = 855 ck3 = 845 } # Vardhamana -> Vijayapura, Attahasa, Gopbhum
@@ -4257,7 +4447,7 @@ imperator_invictus = {
 	link = { imp = 4395 ck3 = 3426 } # Turvasha -> Kamalia
 	link = { imp = 4380 ck3 = 1361 } # Mallava -> Shorkot
 	link = { imp = 4382 ck3 = 3413 ck3 = 3412 } # Anatachara -> Kabirwala, Tulamba
-	link = { imp = 4349 ck3 = 1338 } # Malava -> Multan
+	link = { imp = 4349 ck3 = 1338 } # Mallia -> Multan
 	link = { imp = 4391 ck3 = 3434 ck3 = 7945 ck3 = 9047 } # Udambhara -> Kangra, Brahmapura, Kardang
 	link = { imp = 4344 ck3 = 7946 } # Chhamb -> Campa2
 	link = { imp = 4394 ck3 = 3432 } # Adrestai -> Pathankot
@@ -4550,31 +4740,9 @@ imperator_invictus = {
 	link = { imp = 5647 ck3 = 9265 } # Drena -> Gedang
 	link = { imp = 5643 ck3 = 9271 } # Buchu -> Burqug
 	link = { imp = 5646 ck3 = 9275 ck3 = 9276 } # Tsosong -> Nyingchi, Lunang
-	link = { comment = "# Sri Lanka" }
-	link = { imp = 6980 imp = 6966 ck3 = 3269 } # Salikhaprava, Rohanada -> MAHIYANGANA
-	link = { imp = 6970 ck3 = 3273 } # Vijitanagara -> POLONNARUWA
-	link = { imp = 6952 ck3 = 3268 ck3 = 3267 } # Dagana -> GODAWAYA, KATARGAMA
-	link = { imp = 6953 ck3 = 3266 } # Mahagrama -> MAGAMPURA
-	link = { imp = 6977 ck3 = 3270 } # Dighavapi -> DIGHAVAPI
-	link = { imp = 6967 imp = 6981 ck3 = 3280 } # Gokanna, Litta -> BATTICALOA
-	link = { imp = 6965 ck3 = 3288 } # Oulippada -> MALAYA RATA
-	link = { imp = 6951 ck3 = 3271 } # Odoka -> GIMHATHITHTHA
-	link = { imp = 6982 ck3 = 3277 } # Nabartha -> SITAWAKA
-	link = { imp = 6978 ck3 = 3282 } # Avakana -> DHAMBALLAI
-	link = { imp = 6974 imp = 6950 ck3 = 3284 } # Etalava, Anuradhapura -> KURUNAGALA
-	link = { imp = 5314 ck3 = 3278 ck3 = 3279 } # Palaiogonoi -> SENKADAGALAPURA, MATALE
-	link = { imp = 6971 ck3 = 3276 ck3 = 3274 } # Kalyani -> KOTTE, DAMBADENIYA
-	link = { imp = 6979 ck3 = 3283 } # Simhalava -> PUTTALAM
-	link = { imp = 6973 ck3 = 3272 } # Upatissagama -> ANURADHAPURA
-	link = { imp = 6975 ck3 = 3285 } # Mihintale -> VAVUNIYA
-	link = { imp = 6968 ck3 = 3287 } # Modoutou -> MULLAITIVU
-	link = { imp = 6976 ck3 = 3281 } # Girikandi -> TRINCOMALEE
-	link = { imp = 6969 ck3 = 3275 } # Jambukola Pattana -> JAFFNA
-	link = { imp = 6972 ck3 = 3286 } # Mahatittha -> MANNAR
+	link = { comment = "# Misc" }
 	link = { imp = 5266 imp = 5396 imp = 5397 imp = 5267 ck3 = 4444 ck3 = 4445 ck3 = 4446 ck3 = 4447 ck3 = 4448 ck3 = 7210 } # MANY-TO-MANY: IMPASSIBLE TERRAIN 266, Ghore, Shenia, IMPASSIBLE TERRAIN 267 -> NUKFAGH, ARDAKHIVAH, WAYIKHAN, GHARDAMAN, KATH, Kyzylkum
-	link = { imp = 5305 imp = 5306 imp = 5304 imp = 5308 ck3 = 7936 ck3 = 1360 ck3 = 8712 } # MANY-TO-MANY: South Nilgiri, IP 307, IP 305, North Nilgiri -> Southwestern Ghats, Maldives, Thiladhunmathi
-	link = { imp = 5945 ck3 = 6427 ck3 = 6415 ck3 = 6428 ck3 = 6882 ck3 = 6883 ck3 = 6884 ck3 = 6430 ck3 = 6431 ck3 = 6899 ck3 = 6901 ck3 = 6900 ck3 = 6898 ck3 = 6897 ck3 = 6881 ck3 = 6880 ck3 = 6879 ck3 = 6895 ck3 = 6887 ck3 = 6904 ck3 = 6896 ck3 = 6885 ck3 = 6886 ck3 = 6868 ck3 = 6874 ck3 = 6867 ck3 = 6866 ck3 = 6871 ck3 = 6872 ck3 = 6878 ck3 = 6877 ck3 = 6869 ck3 = 6890 ck3 = 6876 ck3 = 6888 ck3 = 6889 ck3 = 6873 ck3 = 6875 ck3 = 6870 ck3 = 6432 } # Nubian Impassable -> JEBEL_ABU_NEGILA, WADI_EL-MILK, BIR_EL-KAI, WEST_KORDOFAN, EL-OBEID, EAST_KORDOFAN, TAGALI, TAGALI_SOUTH, LIGURI, SIDRAH, CENTRAL_KORDOFAN, SHATT, LAGOWA, EN_NAHUD, GHUBAYSH, UMM_GAFALA, EAST_DARFUR, UMM_KEDADA, DARFUR_DESERT, UPPER_MILK, MALHA, KERKER, KUBAYH, URI, KABKABIYA, WADI_AZWA, DAR_WONA, KUNDI, HURAYZ, HILEILA, EL-FASHER, SIMIAT, MAO_DARFUR, TAGABO, TEIGA, MASA, AIN_FARAH, TURRA, RENK
-	link = { imp = 5337 imp = 5336 imp = 5335 imp = 5355 ck3 = 8378 ck3 = 8349 ck3 = 8348 ck3 = 8350 ck3 = 8386 ck3 = 8323 ck3 = 8366 ck3 = 8375 ck3 = 8371 ck3 = 6434 ck3 = 6435 ck3 = 8315 ck3 = 8439 ck3 = 6445 ck3 = 6436 ck3 = 8314 ck3 = 8316 ck3 = 8320 ck3 = 8372 ck3 = 8321 ck3 = 8322 ck3 = 8447 ck3 = 8317 ck3 = 8310 ck3 = 8519 ck3 = 8312 ck3 = 8313 ck3 = 8318 ck3 = 8367 ck3 = 8352 ck3 = 8351 ck3 = 8353 ck3 = 8446 ck3 = 8347 ck3 = 8327 ck3 = 8328 ck3 = 8329 ck3 = 8324 ck3 = 8319 ck3 = 8325 ck3 = 6433 ck3 = 6403 ck3 = 8514 ck3 = 8516 ck3 = 8515 } # MANY-TO-MANY: Puntic Highlands, IP 337, IP 336, Koha -> FATAGAR, SILALISH, WARJIH, WARAB, INDEGABTAN, DIMA, GAFAT, ABBAY-AGAW, AGAW_MEDER, AL-RUSAYRISI, FAZUGHLI-EAST, DINDER, METEKEL_DESERT, WAD_ABU_NAHL, WOLQAYT, UPPER_DINDER, BAD, BAHIR _GIYORGIS, WEST_GOJJAM, GOJJAM, WARQ, GOJJAM_HIGHLANDS, KIBRAN, SANA, LAKE_TANA, GONDAR, GALILA, BASHILA, MUGAR, KATATA, SARMAT, DEBRE_LIBANOS, SHOA_HIGHLANDS, IFAT, GIDIM, WAGDA, WALAQA, AMHARA, GISHE, EAST_AMHARA, FAZUGHLI, SINGA, GUMUZ-NORTH, GUMUZ-SOUTH, GUMUZ-WEST
+	link = { imp = 5305 imp = 5306 imp = 5304 imp = 5308 ck3 = 7936 } # South Nilgiri, IP 307, IP 305, North Nilgiri -> Southwestern Ghats
 	link = { imp = 5282 ck3 = 7153 ck3 = 7154 ck3 = 7152 ck3 = 7148 ck3 = 7149 ck3 = 7150 ck3 = 7151 } # IMPASSIBLE TERRAIN 282 -> Barskhan, Balasaghun, Narin, Sayaq, Tinimseyit, Bagish, Cherik
 	link = { imp = 5385 ck3 = 9060 ck3 = 5997 ck3 = 9040 ck3 = 9031 ck3 = 9032 ck3 = 9035 ck3 = 9036 ck3 = 9033 ck3 = 9041 ck3 = 5913 ck3 = 9042 ck3 = 3612 } # IP 386 -> Chaka, TIBET IMPASSABLE, Changmar, Nischu, Sumna, Sumdo, Chungtash, Thaldat, Memar, TIBET IMPASSABLE, Bangdag, KUNLUNSHAN
 }
@@ -5483,7 +5651,7 @@ imperator_vanilla = {
 	link = { imp = 2493 ck3 = 2188 } # Isara -> NOYON
 	link = { imp = 3032 imp = 2445 ck3 = 2189 } # Curmiliaca, Augustomagus -> CLERMONT
 	link = { imp = 3031 ck3 = 2185 } # Teucera -> CORBIE
-	link = { imp = 3037 ck3 = 2135 } # Durocoregum -> HESDIN
+	link = { imp = 3037 ck3 = 2135 } # Durocoregum -> HESDIN 
 	link = { imp = 3039 ck3 = 2134 } # Estia -> AIRE
 	link = { imp = 3038 ck3 = 2127 ck3 = 2186 } # Nemetocenna -> TOURNAI, PERONNE
 	link = { imp = 3040 ck3 = 2126 } # Minariacum -> LILLE
@@ -5496,7 +5664,7 @@ imperator_vanilla = {
 	link = { imp = 2140 ck3 = 2167 } # Ingena -> AVRANCHES
 	link = { imp = 2212 ck3 = 2152 } # Namnetum -> NANTES
 	link = { imp = 2153 ck3 = 2153 } # Grannona -> GUERANDE
-	link = { imp = 2351 ck3 = 2264 } # Brucironno -> SABLE
+	link = { imp = 2351 ck3 = 2264 } # Brucironno -> SABLE 
 	link = { imp = 2456 ck3 = 2270 ck3 = 2272 } # Labrinum -> LE MANS, COURCILLON
 	link = { imp = 2426 ck3 = 2283 } # Navicellis -> VENDOME
 	link = { imp = 2463 imp = 2461 ck3 = 2324 } # Condate, Carnutia Occidentalis -> MORTAGNE
@@ -5505,7 +5673,7 @@ imperator_vanilla = {
 	link = { imp = 2444 ck3 = 2190 ck3 = 2357 } # Catalacus -> BEAUMONT, SAINT-DENIS
 	link = { imp = 2473 imp = 2472 imp = 2474 ck3 = 2181 } # Avalocum, Briva Isarae, Nemetodurum -> MANTES
 	link = { imp = 2443 ck3 = 2179 } # Rotomagus -> ROUEN
-	link = { imp = 2469 ck3 = 2180 } # Ritumagus -> GISORS
+	link = { imp = 2469 ck3 = 2180 } # Ritumagus -> GISORS 
 	link = { imp = 2460 ck3 = 2323 } # Carnutia Orientalis -> NOGENT-LE-ROTROU
 	link = { imp = 2462 imp = 2441 ck3 = 2322 } # Dorocas, Autricum -> CHARTRES
 	link = { imp = 2446 ck3 = 2183 } # Caesaromagus -> BEAUVAIS
@@ -6094,9 +6262,9 @@ imperator_vanilla = {
 	link = { imp = 4255 imp = 4254 imp = 4257 ck3 = 3695 } # Tomis, Callatis, Sacidava -> Mangalia
 	link = { imp = 4250 imp = 4249 imp = 4256 ck3 = 509 } # Tirizis, Krounoi, Tropaeum -> Karvuna
 	link = { imp = 4248 imp = 4247 ck3 = 3693 } # Odessus, Erite -> Varna
-	link = { imp = 4515 imp = 4512 imp = 4513 ck3 = 510 } # Skenopsis, Axiopolis, Histria -> Constantia
+	link = { imp = 4515 imp = 4512 imp = 4513 ck3 = 510 } # Capidava, Axiopolis, Histria -> Constantia
 	link = { imp = 4519 ck3 = 5010 } # Halmyris -> Sulina
-	link = { imp = 4520 imp = 4518 imp = 4514 imp = 4517 imp = 4516 ck3 = 3694 } # Troesmis, Beroe Skythike, Kios Skythike, Libida, Argamum -> Tulcha
+	link = { imp = 4520 imp = 4518 imp = 4514 imp = 4517 imp = 4516 ck3 = 3694 } # Troesmis, Troismis, Carsium, Libida, Argamum -> Tulcha
 	link = { comment = "# Northern Greece" }
 	link = { imp = 392 ck3 = 489 } # Kasthaneia -> Thessalia
 	link = { imp = 395 ck3 = 3796 ck3 = 3797 ck3 = 3703 } # Pialeia -> Stagoi, Trikala, Gardiki
@@ -6315,7 +6483,7 @@ imperator_vanilla = {
 	link = { comment = "# North & West Poland" }
 	link = { imp = 4002 ck3 = 3067 ck3 = 3065 ck3 = 3064 } # Budorigum -> SPROTTAU, BYTOM, GRUNBERG
 	link = { imp = 4887 ck3 = 527 ck3 = 4965 } # Cracovia -> Krakow, Tarnow
-	link = { imp = 6282 ck3 = 3201 } # Cureta -> Mohrungen
+	link = { imp = 6282 ck3 = 3201 } # Cureta -> Mohrungen 
 	link = { imp = 4864 ck3 = 3217 ck3 = 2835 ck3 = 3218 } # Venedica -> BRAUNSBERG, ELBLAG, LAUKITTEN
 	link = { imp = 4863 ck3 = 3197 } # Voreynica -> GRAUDENZ
 	link = { imp = 4862 ck3 = 2831 ck3 = 2834 } # Vistuliana -> WISLANA, MALBORK
@@ -6544,24 +6712,24 @@ imperator_vanilla = {
 	link = { imp = 84 imp = 87 imp = 101 ck3 = 2638 } # Syracusae, Acrae, Camarina -> SYRACUSE
 	link = { imp = 1471 ck3 = 2646 } # Melita -> MALTA
 	link = { comment = "# Sardinia et Corsica" }
-	link = { imp = 3513 imp = 3514 imp = 3516 imp = 3512 ck3 = 2647 } # Kentourinon, Mariana, Sermigion, Rhopikon -> BASTIA
-	link = { imp = 3510 imp = 3511 ck3 = 2649 } # Ourkinion, Alouka -> CALVI
+	link = { imp = 3513 imp = 3514 imp = 3516 imp = 3512 ck3 = 2647 } # Kanelate, Ouagon, Sermigion, Rhopikon -> BASTIA
+	link = { imp = 3510 imp = 3511 ck3 = 2649 } # Saone, Alouka -> CALVI
 	link = { imp = 3509 imp = 5054 ck3 = 2650 } # Pauka, IMPASSIBLE TERRAIN 054 -> AJACCIO
 	link = { imp = 3515 ck3 = 2648 } # Aleria -> CORTE
 	link = { imp = 3507 ck3 = 2651 } # Rhoubra -> VECCHIO
 	link = { imp = 3508 ck3 = 2652 } # Phikaria -> BONIFACIO
-	link = { imp = 3501 imp = 3496 ck3 = 2662 } # Erycinum, Gurulis -> SASSARI
-	link = { imp = 3498 imp = 3502 imp = 5055 ck3 = 2663 } # Makopsis, Sorabile, IMPASSIBLE TERRAIN 055 -> ARDARA
-	link = { imp = 3491 imp = 3495 ck3 = 2661 } # Lesa, Aquae Hypsitanae -> ISILI
-	link = { imp = 3504 imp = 3506 imp = 3505 ck3 = 2658 } # Olbia, Viniolae, Portus Tibulae -> OLBIA
-	link = { imp = 3489 imp = 3503 ck3 = 2657 } # Fanum Carisi, Coclearia -> GALTELLI
-	link = { imp = 3488 ck3 = 2656 } # Sulcis -> TORTOLI
-	link = { imp = 3499 imp = 3500 ck3 = 2664 } # Nymphaios Limen, Turris Libisonis -> PORTO TORRES
-	link = { imp = 3494 imp = 3497 ck3 = 2665 } # Cornus, Hermaion Akron -> ALGHERO
-	link = { imp = 3490 ck3 = 2660 } # Sestis -> SAMASSI
-	link = { imp = 3485 imp = 3493 imp = 3492 imp = 3482 ck3 = 2659 } # Sardopatoris, Tharros, Neapolis Sardoa, Hydata Neapolitana -> ORISTANO
-	link = { imp = 3486 imp = 3487 ck3 = 2655 } # Ferraria, Porticenses -> CARBONARA
-	link = { imp = 3483 imp = 3484 ck3 = 2653 } # Nora, Caralis -> CAGLIARI
+	link = { imp = 3501 imp = 3496 ck3 = 2662 } # Luguido, Gurulis -> SASSARI
+	link = { imp = 3498 imp = 3502 imp = 5055 ck3 = 2663 } # Makopsis, Lesa, IMPASSIBLE TERRAIN 055 -> ARDARA
+	link = { imp = 3491 imp = 3495 ck3 = 2661 } # Lacon, Hydata -> ISILI
+	link = { imp = 3504 imp = 3506 imp = 3505 ck3 = 2658 } # Phausiane, Longones, Tibula -> OLBIA
+	link = { imp = 3489 imp = 3503 ck3 = 2657 } # Kares, Thorpè -> GALTELLI
+	link = { imp = 3488 ck3 = 2656 } # Sulki Tyrsen -> TORTOLI
+	link = { imp = 3499 imp = 3500 ck3 = 2664 } # Nure, Libisonis -> PORTO TORRES
+	link = { imp = 3494 imp = 3497 ck3 = 2665 } # Sanaphar, Carbia -> ALGHERO
+	link = { imp = 3490 ck3 = 2660 } # Serdan -> SAMASSI
+	link = { imp = 3485 imp = 3493 imp = 3492 imp = 3482 ck3 = 2659 } # Gurgua, Tharros, Othoca, Samas -> ORISTANO
+	link = { imp = 3486 imp = 3487 ck3 = 2655 } # Sarcapos, Tyrsenia -> CARBONARA
+	link = { imp = 3483 imp = 3484 ck3 = 2653 } # Nura, Karali -> CAGLIARI
 	link = { imp = 3481 ck3 = 2654 } # Sulcis -> IGLESIAS
 	link = { comment = "# Northern Anatolia" }
 	link = { imp = 1790 imp = 1791 imp = 1833 imp = 7993 imp = 7998 ck3 = 5598 } # Komana Pontike, Ibora, Dazimon, Amaseia Mountains, Gazioura -> Comana Pontica
@@ -6867,7 +7035,7 @@ imperator_vanilla = {
 	link = { imp = 824 ck3 = 4883 } # Qatnu -> MAKISIN
 	link = { imp = 957 ck3 = 4809 } # Turshan -> AS-SINN
 	link = { imp = 883 ck3 = 4836 } # Ashur -> AIN AL-QAYYARA
-	link = { imp = 861 imp = 5440 ck3 = 4839 } # Apqu, Syria Deserta -> TALL_AFAR
+	link = { imp = 861 imp = 5440 ck3 = 4839 } # Apqu, Syria Desert -> TALL_AFAR
 	link = { imp = 831 ck3 = 4848 ck3 = 4849 } # Singara -> SINJAR, AL-HAYYAL
 	link = { imp = 875 imp = 773 ck3 = 4843 } # Zagurae, Vicat -> BASHAZZA
 	link = { imp = 822 ck3 = 4846 } # Nabada -> DARA
@@ -7590,18 +7758,18 @@ imperator_vanilla = {
 	link = { imp = 707 imp = 706 imp = 708 ck3 = 5972 } # Arieldela, Bossia, Kalgouia -> ARANDAL
 	link = { imp = 509 imp = 525 ck3 = 6038 } # Pelusium, Sile -> FARAMA
 	link = { comment = "# Arabia" }
-	link = { imp = 7568 imp = 7569 ck3 = 6317 } # Arabia Relicta, Arabia Relicta -> HASIK
+	link = { imp = 7568 imp = 7569 ck3 = 6317 } # Shuwaymiyyah, Watif -> HASIK
 	link = { imp = 4709 ck3 = 6316 } # Sidh -> MIRBA
 	link = { imp = 7213 ck3 = 6135 } # Dirma Omana -> BATINA-EAST
 	link = { imp = 942 ck3 = 6020 ck3 = 6022 } # Apologos -> AL-UBULLA, AL-BASRA
 	link = { imp = 6049 ck3 = 6153 ck3 = 1335 ck3 = 6253 ck3 = 6251 ck3 = 6254 ck3 = 6255 ck3 = 6252 ck3 = 6249 ck3 = 6250 ck3 = 6248 ck3 = 6256 ck3 = 6257 ck3 = 6258 ck3 = 6259 ck3 = 6173 ck3 = 6262 ck3 = 6261 ck3 = 6260 ck3 = 6246 ck3 = 6245 ck3 = 6247 } # Arabia Deserta Ulterior -> AL-MUSHAQQAR, AD-DAHNA DESERT, YAMAMA, AL-KHADARIM, AL-ARID, UBAD, AL-KHARJ, QASR-AL-ADI, FALAJ, AL-HADDAR, NUFUD-AD-DIHI, NUFUD-AS-SURRAH, JIBAL-AL-URD, JIBALA, NUFUD-AS-SIRR, UNAYZA, AL-QARYATAN-QASIM, AN-NIBAJ, AQIQ_TAMRA, DAM, SARBA
-	link = { imp = 5407 imp = 5408 ck3 = 6152 } # Arabia Deserta, Efa -> AL-HAJAR
-	link = { imp = 5406 imp = 5405 imp = 5404 ck3 = 6154 } # Arabia Deserta, Arabia Deserta, Arabia Deserta -> AL-HASA
-	link = { imp = 5403 ck3 = 6160 } # Arabia Deserta -> THAJ
-	link = { imp = 5402 ck3 = 6166 } # Arabia Deserta -> AS-SAMMAN
-	link = { imp = 5401 ck3 = 6162 } # Arabia Deserta -> AR-RUQAII
-	link = { imp = 5400 ck3 = 6024 } # Arabia Deserta -> AR-RUKHAIL
-	link = { imp = 964 imp = 944 imp = 5399 ck3 = 6025 } # Teredon, Akkaz, Arabia Deserta -> HIFAIR
+	link = { imp = 5407 imp = 5408 ck3 = 6152 } # Agarum, Efa -> AL-HAJAR
+	link = { imp = 5406 imp = 5405 imp = 5404 ck3 = 6154 } # Urayarah, Thaj, Mulayjah -> AL-HASA
+	link = { imp = 5403 ck3 = 6160 } # Niqirah -> THAJ
+	link = { imp = 5402 ck3 = 6166 } # Kabrit -> AS-SAMMAN
+	link = { imp = 5401 ck3 = 6162 } # Hamatiyat -> AR-RUQAII
+	link = { imp = 5400 ck3 = 6024 } # Mahzul -> AR-RUKHAIL
+	link = { imp = 964 imp = 944 imp = 5399 ck3 = 6025 } # Teredon, Akkaz, Hawmah -> HIFAIR
 	link = { imp = 7196 ck3 = 6161 } # Adros -> KAZIMA
 	link = { imp = 965 imp = 963 ck3 = 6019 } # Apphana, Failaka -> BALJAN
 	link = { imp = 7197 ck3 = 6159 } # Itamos -> AL-JUBAYL
@@ -7612,15 +7780,15 @@ imperator_vanilla = {
 	link = { imp = 7203 ck3 = 6150 } # Gylus -> MURWAB
 	link = { imp = 5409 ck3 = 6163 } # Largis -> YABRIN
 	link = { imp = 7204 imp = 5410 ck3 = 6151 } # Sarkoi, Utea -> MASHQAR
-	link = { imp = 5412 imp = 5413 ck3 = 6149 } # Arabia Deserta, Arabia Deserta -> AL-JIWA
-	link = { imp = 7206 imp = 7205 imp = 5411 ck3 = 6148 } # Attiaca, Labrys Omana, Arabia Deserta -> AZ-DHAFRA
-	link = { imp = 5419 ck3 = 6140 ck3 = 6142 ck3 = 6139 } # Mazir -> NIZWA, JEBEL AKHDAR, BAHLA
+	link = { imp = 5412 imp = 5413 ck3 = 6149 } # Suwaytiyah, Liwa -> AL-JIWA
+	link = { imp = 7206 imp = 7205 imp = 5411 ck3 = 6148 } # Attiaca, Labrys Omana, Ghirban -> AZ-DHAFRA
+	link = { imp = 5419 ck3 = 6140 ck3 = 6142 ck3 = 6139 } # Samad -> NIZWA, JEBEL AKHDAR, BAHLA
 	link = { imp = 5418 ck3 = 6136 ck3 = 6138 } # Vatum -> RUSTAQ-OMAN, DHANK
 	link = { imp = 5417 ck3 = 6137 } # Ialla -> HAFIT
 	link = { imp = 7209 ck3 = 6134 } # Omana -> SUHAR
-	link = { imp = 7207 imp = 5414 ck3 = 6130 } # Kanepsa, Arabia Deserta -> TAWWAM-WEST
+	link = { imp = 7207 imp = 5414 ck3 = 6130 } # Kanepsa, Murkhan -> TAWWAM-WEST
 	link = { imp = 7211 ck3 = 6131 } # Kalas -> JULFAR
-	link = { imp = 5430 imp = 5415 imp = 5416 ck3 = 6129 } # Trazel, Motta Omania, Ecrune -> TAWWAM
+	link = { imp = 5430 imp = 5415 imp = 5416 ck3 = 6129 } # Trazel, Saruq, Ecrune -> TAWWAM
 	link = { imp = 7208 imp = 5429 ck3 = 6133 } # Regna, Iepana -> DABBA
 	link = { imp = 7210 ck3 = 6132 } # Heliou Limen -> MUSANDAM
 	link = { imp = 7212 ck3 = 6143 ck3 = 6144 } # Kryptos Limen -> MATRAH, MASQAT
@@ -7629,7 +7797,7 @@ imperator_vanilla = {
 	link = { imp = 7217 ck3 = 6147 } # Ganta -> JAALAN
 	link = { imp = 7214 ck3 = 6146 } # Artemidos -> SUR
 	link = { imp = 7216 imp = 5421 ck3 = 6268 } # Sarapis, Acte -> WAHIBA
-	link = { imp = 4707 imp = 7570 imp = 7571 imp = 7572 imp = 7573 ck3 = 6315 ck3 = 6269 } # MANY-TO-MANY: Moscha, Arabia Relicta, Arabia Relicta, Arabia Relicta, Jiddat al-Harasis -> DHUFAR, DUQM
+	link = { imp = 4707 imp = 7570 imp = 7571 imp = 7572 imp = 7573 ck3 = 6315 ck3 = 6269 } # MANY-TO-MANY: Samharam, Quwayrah, Madrakah, Nafun, Khaluf -> DHUFAR, DUQM
 	link = { imp = 4708 ck3 = 6314 } # Saliah -> RAYSUT
 	link = { imp = 4705 imp = 4706 ck3 = 6313 } # Ausara Hadhramut, Neogilla -> AL-ASA
 	link = { imp = 6044 ck3 = 6124 } # Syrian Desert -> SYRIAN DESERT
@@ -7793,7 +7961,7 @@ imperator_vanilla = {
 	link = { imp = 5940 ck3 = 6167 } # Arabian Impassable -> AD-DAHNA DESERT
 	link = { imp = 5303 ck3 = 6164 ck3 = 6165 ck3 = 6170 ck3 = 6176 ck3 = 6174 } # Mesopotamian Desert -> HAFAR, AL-MAWIYA, LINA, SAKAKA, AS-SUMAINA
 	link = { imp = 7564 imp = 7563 ck3 = 6000 } # Arabia Deserta, Arabia Deserta -> WAQISA
-	link = { imp = 4721 imp = 7561 imp = 7723 imp = 7562 ck3 = 6169 ck3 = 6021 ck3 = 6023 } # MANY-TO-MANY: Durnatha, Arabia Deserta, Durum, Arabia Deserta -> ZUBALA, MATARA-IRAQ, AIN_SAID
+	link = { imp = 4721 imp = 7561 imp = 7723 imp = 7562 ck3 = 6169 ck3 = 6021 ck3 = 6023 } # MANY-TO-MANY: Durnatha, Sakaka, Durum, Arabia Deserta -> ZUBALA, MATARA-IRAQ, AIN_SAID
 	link = { imp = 7558 ck3 = 6177 } # Arabia Deserta -> AL-QARA
 	link = { imp = 7557 ck3 = 6178 } # Arabia Deserta -> AL-JAWF
 	link = { imp = 7555 imp = 7556 ck3 = 5989 } # Arabia Deserta, Arabia Deserta -> QURAQIR
@@ -7984,7 +8152,7 @@ imperator_vanilla = {
 	link = { imp = 595 ck3 = 6329 } # Kortia -> QURTA
 	link = { imp = 591 ck3 = 6081 ck3 = 6082 } # Syene -> ASWAN, ASWAN-WEST
 	link = { imp = 5525 imp = 5526 ck3 = 6087 } # Tawar, Minqar -> AL-QASR-DAKHLA
-	link = { imp = 5514 ck3 = 6085 } # Siwa -> MUT
+	link = { imp = 5514 ck3 = 6085 } # Farafra -> MUT
 	link = { imp = 5511 imp = 5509 ck3 = 6086 } # Trimithis, Kellis -> TUNAYDA
 	link = { imp = 5534 ck3 = 6089 } # Varam -> AL-BAHRIYA
 	link = { imp = 5529 imp = 5530 imp = 5531 imp = 5541 ck3 = 6090 } # Poka, Mandish, Parva, Shunne -> BAWITI
@@ -8027,7 +8195,7 @@ imperator_vanilla = {
 	link = { imp = 5330 ck3 = 6417 } # IP 331 -> BAYUDA_EAST
 	link = { imp = 5332 ck3 = 6421 } # IP 333 -> NUBIAN_DESERT_EAST
 	link = { imp = 5331 ck3 = 6422 } # IP 332 -> NUBIAN_DESERT_WEST
-	link = { imp = 5338 imp = 6497 ck3 = 6327 } # Farfara, More Egyptian Desert -> WAHAT-DESERT
+	link = { imp = 5338 imp = 6497 ck3 = 6327 } # Farafra, More Egyptian Desert -> WAHAT-DESERT
 	link = { imp = 5292 imp = 5293 imp = 5294 ck3 = 6114 } # IMPASSIBLE TERRAIN 292, Troikon Oros, Desert of Klysma -> EASTERN DESERT
 	link = { imp = 5352 imp = 5286 ck3 = 1107 } # Troglodytica, IMPASSIBLE TERRAIN 286 -> EASTERN DESERT
 	link = { imp = 588 imp = 586 ck3 = 6118 } # Aristonis, Sukkari -> NORTH_JBL_QUZLUM
@@ -8067,7 +8235,7 @@ imperator_vanilla = {
 	link = { imp = 3257 imp = 3260 imp = 3261 ck3 = 4583 } # Utica, Matar, Thisika -> QARTAJANA
 	link = { imp = 3337 imp = 3338 imp = 3339 ck3 = 4550 } # Digdida Selorum, Arae Philaenorum, Automalax -> AL-AGHAILA
 	link = { imp = 3329 imp = 3330 imp = 3332 imp = 3333 imp = 3334 imp = 3335 imp = 3336 ck3 = 4552 } # Annesel, Auxiu, Dysopon, Euphranta, Iscina, Aulazon, Ad Palmam -> SURT
-	link = { imp = 5991 ck3 = 4553 ck3 = 6446 ck3 = 6607 ck3 = 6447 ck3 = 6669 ck3 = 6451 ck3 = 6667 ck3 = 6453 ck3 = 6454 ck3 = 6455 ck3 = 6456 ck3 = 6457 ck3 = 6659 ck3 = 6660 ck3 = 6658 ck3 = 6560 ck3 = 6563 ck3 = 6562 ck3 = 6561 ck3 = 6458 ck3 = 6657 ck3 = 6666 ck3 = 6499 ck3 = 6498 ck3 = 6497 ck3 = 6496 ck3 = 6495 ck3 = 6494 ck3 = 6493 ck3 = 6665 } # Zalatan Desert -> TAJRIFT, ZALHA, JUFRA, ZAWILA, TRAGHAN, MURZUK, FEZZAN_ROUTE, TUMMO, SAKADAME, GISSEBI, DIRKU, BILMA, FACHI, FACHI_ROUTE, AIR_ROUTE, MARANDET, AIR, TAKKEDA, AGADEZ, DIBELA, KAWAR_ROAD, TIBESTI_ROUTE, BARDAI, TIBESTI-CENTRAL, TIBESTI-SOUTH, AIN_GALAKKA, FAYA, BORKOU, KORO_TORO, BAHR_EL-GHAZAL_ROUTE
+	link = { imp = 5991 ck3 = 4553 ck3 = 6446 ck3 = 6607 ck3 = 6447 ck3 = 6669 ck3 = 6451 ck3 = 6667 ck3 = 6453 ck3 = 6454 ck3 = 6455 ck3 = 6456 ck3 = 6457 ck3 = 6659 ck3 = 6660 ck3 = 6658 ck3 = 6560 ck3 = 6563 ck3 = 6562 ck3 = 6561 ck3 = 6458 ck3 = 6657 ck3 = 6666 ck3 = 6499 ck3 = 6498 ck3 = 6497 ck3 = 6496 ck3 = 6495 ck3 = 6494 ck3 = 6493 ck3 = 6665 } # Jungle -> TAJRIFT, ZALHA, JUFRA, ZAWILA, TRAGHAN, MURZUK, FEZZAN_ROUTE, TUMMO, SAKADAME, GISSEBI, DIRKU, BILMA, FACHI, FACHI_ROUTE, AIR_ROUTE, MARANDET, AIR, TAKKEDA, AGADEZ, DIBELA, KAWAR_ROAD, TIBESTI_ROUTE, BARDAI, TIBESTI-CENTRAL, TIBESTI-SOUTH, AIN_GALAKKA, FAYA, BORKOU, KORO_TORO, BAHR_EL-GHAZAL_ROUTE
 	link = { imp = 5947 imp = 5948 ck3 = 4564 ck3 = 6449 ck3 = 6448 ck3 = 6459 ck3 = 4563 ck3 = 6450 ck3 = 6661 ck3 = 6460 ck3 = 6461 ck3 = 6462 ck3 = 6668 ck3 = 6452 ck3 = 6464 ck3 = 6463 ck3 = 6662 ck3 = 6663 ck3 = 6664 ck3 = 6565 ck3 = 6564 ck3 = 6590 ck3 = 6591 ck3 = 6322 ck3 = 4617 ck3 = 4613 ck3 = 6465 ck3 = 6466 ck3 = 6467 ck3 = 4614 ck3 = 4615 ck3 = 6321 ck3 = 6595 ck3 = 4571 ck3 = 4570 ck3 = 4611 ck3 = 4610 ck3 = 4609 ck3 = 4608 ck3 = 4604 ck3 = 4603 ck3 = 4601 ck3 = 4605 ck3 = 4616 ck3 = 4618 ck3 = 6566 ck3 = 6567 ck3 = 6601 ck3 = 6602 } # MANY-TO-MANY: Sahara Impassable, Desert -> TININAI, GERMA, SABHA, TAMZAWA, WADDAN, TASSAWA, GHAT_ROUTE, GHAT, AL-FEWET, AL-BARKAT, DJADO_ROUTE, DJADO, EFERI, DJANET, EAST_AHAGGAR, AHAGGAR, TADMEKKA_ROUTE, ADRAR_IFOGHAS, TESSALIT, TIDIKELT, HAMADAT_TINGHERT, TEDMAIT, AL-QULAYA, SADRATA, REGGANE, TAMENTIT, ADRAR_TIMMI, KARIMA, WARGLA, SINAWIN, JEBEL_NAFUSA, DARADJ, GHADAMES, TAGHYART, TUGGURT, ARIGH, AJLU, SOUF, NAFTA, TOZEUR, DOUZ, GHARDAIA, TILGHEMT, TADMEKKA, KIDAL, WADI_IRAWAN, ERG_GHATI
 	link = { imp = 3326 imp = 3327 ck3 = 4554 } # Base, Thebunte -> TAWURGHA
 	link = { imp = 3325 imp = 3324 ck3 = 4555 } # Thubactis, Kinyps -> MISURATA
@@ -8393,8 +8561,8 @@ imperator_vanilla = {
 	link = { imp = 7400 ck3 = 1152 } # Jayapura -> Mudgagiri
 	link = { imp = 7329 ck3 = 858 ck3 = 1233 } # Chandraketugarh -> Kumarhati, Saptagrama
 	link = { imp = 7393 ck3 = 862 ck3 = 863 } # Kasipur -> Sagardwip, Chatrabhog
-	link = { imp = 7796 ck3 = 864 } # Sundarbans -> Chandraketugarh
-	link = { imp = 7357 imp = 7358 ck3 = 836 } # Sundarbans, Khulna -> Ishwaripur
+	link = { imp = 7796 ck3 = 864 } # Bidyadhari -> Chandraketugarh
+	link = { imp = 7357 imp = 7358 ck3 = 836 } # Kotta, Khulna -> Ishwaripur
 	link = { imp = 7336 imp = 7397 ck3 = 856 } # Selampoura, Jessore -> Santipura
 	link = { imp = 7337 imp = 7398 ck3 = 1243 } # Aganagara, Kushtia -> Karnasubarna
 	link = { imp = 7328 ck3 = 1239 ck3 = 855 ck3 = 845 } # Vardhamana -> Vijayapura, Attahasa, Gopbhum
@@ -8688,7 +8856,7 @@ imperator_vanilla = {
 	link = { imp = 4395 ck3 = 3426 } # Turvasha -> Kamalia
 	link = { imp = 4380 ck3 = 1361 } # Mallava -> Shorkot
 	link = { imp = 4382 ck3 = 3413 ck3 = 3412 } # Anatachara -> Kabirwala, Tulamba
-	link = { imp = 4349 ck3 = 1338 } # Malava -> Multan
+	link = { imp = 4349 ck3 = 1338 } # Mallia -> Multan
 	link = { imp = 4391 ck3 = 3434 ck3 = 7945 ck3 = 9047 } # Udambhara -> Kangra, Brahmapura, Kardang
 	link = { imp = 4344 ck3 = 7946 } # Chhamb -> Campa2
 	link = { imp = 4394 ck3 = 3432 } # Adrestai -> Pathankot

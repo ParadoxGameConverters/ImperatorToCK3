@@ -5,6 +5,7 @@ using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Characters;
@@ -16,6 +17,7 @@ using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Imperator.States;
+using ImperatorToCK3.Mappers.Region;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -43,20 +45,24 @@ public class World : Parser {
 	public ProvinceCollection Provinces { get; } = new();
 	public CountryCollection Countries { get; } = new();
 	public AreaCollection Areas { get; } = new();
+	public ImperatorRegionMapper ImperatorRegionMapper { get; }
 	public StateCollection States { get; } = new();
-	public List<War> Wars { get; private set; } = new();
-	public Jobs.Jobs Jobs { get; private set; } = new();
+	public IReadOnlyCollection<War> Wars { get; private set; } = Array.Empty<War>();
+	public IReadOnlyCollection<Dependency> Dependencies { get; private set; } = Array.Empty<Dependency>();
+	public Jobs.JobsDB JobsDB { get; private set; } = new();
 	public UnitCollection Units { get; } = new();
 	public CulturesDB CulturesDB { get; } = new();
 	public ReligionCollection Religions { get; private set; }
 	private GenesDB genesDB = new();
+	public ColorFactory ColorFactory { get; } = new();
 
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 	private SaveType saveType = SaveType.Invalid;
 
 	public World(Configuration config) {
-		ModFS = new ModFilesystem(Path.Combine(config.ImperatorPath, "game"), new Mod[] { });
+		ModFS = new ModFilesystem(Path.Combine(config.ImperatorPath, "game"), Array.Empty<Mod>());
 		Religions = new ReligionCollection(new ScriptValueCollection());
+		ImperatorRegionMapper = new ImperatorRegionMapper(Areas);
 	}
 	public World(Configuration config, ConverterVersion converterVersion): this(config) {
 		Logger.Info("*** Hello Imperator, Roma Invicta! ***");
@@ -155,7 +161,7 @@ public class World : Parser {
 			statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader, Areas, Countries));
 			statesBlocParser.IgnoreAndLogUnregisteredItems();
 			statesBlocParser.ParseStream(reader);
-			Logger.Debug($"Ignored state keywords: {State.IgnoredKeywords}");
+			Logger.Debug($"Ignored state keywords: {StateCollection.IgnoredStateKeywords}");
 			Logger.Info($"Loaded {States.Count} states.");
 			Logger.IncrementProgress();
 		});
@@ -189,19 +195,24 @@ public class World : Parser {
 		});
 		RegisterKeyword("diplomacy", reader => {
 			Logger.Info("Loading diplomacy...");
-			var diplomacy = new Diplomacy.Diplomacy(reader);
+			var diplomacy = new Diplomacy.DiplomacyDB(reader);
 			Wars = diplomacy.Wars;
+			Dependencies = diplomacy.Dependencies;
 			Logger.IncrementProgress();
 		});
 		RegisterKeyword("jobs", reader => {
 			Logger.Info("Loading Jobs...");
-			Jobs = new Jobs.Jobs(reader);
-			Logger.Info($"Loaded {Jobs.Governorships.Capacity} governorships.");
+			JobsDB = new Jobs.JobsDB(reader, Countries, ImperatorRegionMapper);
+			Logger.Info($"Loaded {JobsDB.Governorships.Count} governorships.");
 			Logger.IncrementProgress();
 		});
 		RegisterKeyword("deity_manager", reader => {
 			Religions.LoadHolySiteDatabase(reader);
 		});
+		RegisterKeyword("meta_player_name", ParserHelpers.IgnoreItem);
+		RegisterKeyword("speed", ParserHelpers.IgnoreItem);
+		RegisterKeyword("random_seed", ParserHelpers.IgnoreItem);
+		RegisterKeyword("tutorial_disable", ParserHelpers.IgnoreItem);
 		var playerCountriesToLog = new OrderedSet<string>();
 		RegisterKeyword("played_country", reader => {
 			var playedCountryBlocParser = new Parser();
@@ -331,11 +342,15 @@ public class World : Parser {
 
 		Logger.Info("Loading named colors...");
 		NamedColors.LoadNamedColors("common/named_colors", ModFS);
+		ColorFactory.AddNamedColorDict(NamedColors);
+		
 		Logger.IncrementProgress();
 
 		ParseGenes();
 
 		Areas.LoadAreas(ModFS, Provinces);
+		ImperatorRegionMapper.LoadRegions(ModFS, ColorFactory);
+		
 		Country.LoadGovernments(ModFS);
 
 		CulturesDB.Load(ModFS);
@@ -362,7 +377,7 @@ public class World : Parser {
 		}
 	}
 	private void VerifySave(string saveGamePath) {
-		using var saveStream = File.Open(saveGamePath, FileMode.Open);
+		using var saveStream = File.Open(saveGamePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 		var buffer = new byte[10];
 		var bytesRead = saveStream.Read(buffer, 0, 4);
 		if (bytesRead < 4) {
@@ -396,11 +411,18 @@ public class World : Parser {
 		}
 	}
 	private static BufferedReader ProcessDebugModeSave(string saveGamePath) {
-		return new BufferedReader(File.Open(saveGamePath, FileMode.Open));
+		try {
+			var fileStream = File.Open(saveGamePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+			return new BufferedReader(fileStream);
+		} catch (IOException e) {
+			Logger.Debug($"Failed to open save file \"{saveGamePath}\": {e.Message}");
+			throw new UserErrorException("Could not open the save file! " +
+			                             "Close Imperator: Rome before running the converter.");
+		}
 	}
 	private static BufferedReader ProcessCompressedEncodedSave(string saveGamePath) {
 		Helpers.RakalyCaller.MeltSave(saveGamePath);
-		return new BufferedReader(File.Open("temp/melted_save.rome", FileMode.Open));
+		return new BufferedReader(File.Open("temp/melted_save.rome", FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
 	}
 
 	private readonly IgnoredKeywordsSet ignoredTokens = new();

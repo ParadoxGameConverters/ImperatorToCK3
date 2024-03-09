@@ -70,7 +70,7 @@ public class CharacterCollection : IdObjectCollection<ulong, Character> {
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, charIdStr) => {
 			var newCharacter = Character.Parse(reader, charIdStr, GenesDB);
-			Add(newCharacter);
+			AddOrReplace(newCharacter);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 	}

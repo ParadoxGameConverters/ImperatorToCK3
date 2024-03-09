@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Provinces;
 
@@ -30,7 +32,20 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		}
 
 		var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture) {
-			Delimiter = ";", HasHeaderRecord = false, AllowComments = true
+			Delimiter = ";",
+			HasHeaderRecord = false,
+			AllowComments = true,
+			TrimOptions = TrimOptions.Trim,
+			IgnoreBlankLines = true,
+			ShouldSkipRecord = (args => {
+				string? cell = args.Row[0];
+				if (cell is null) {
+					return true;
+				}
+
+				cell = cell.Trim();
+				return cell.Length == 0 || cell[0] == '#';
+			}),
 		};
 		var provinceDefinition = new {
 			Id = default(ulong),
@@ -97,35 +112,40 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		CultureMapper cultureMapper,
 		ReligionMapper religionMapper,
 		ProvinceMapper provinceMapper,
+		Date conversionDate,
 		Configuration config
 	) {
 		Logger.Info("Importing Imperator provinces...");
-		var importedIRProvsCount = 0;
-		var modifiedCK3ProvsCount = 0;
+		
+		int importedIRProvsCount = 0;
+		int modifiedCK3ProvsCount = 0;
 		// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
-		foreach (var province in this) {
+		Parallel.ForEach(this, province => {
 			var sourceProvinceIds = provinceMapper.GetImperatorProvinceNumbers(province.Id);
 			// Provinces we're not affecting will not be in this list.
 			if (sourceProvinceIds.Count == 0) {
-				continue;
+				return;
 			}
+
 			// Next, we find what province to use as its primary initializing source.
 			var primarySource = DeterminePrimarySourceProvince(sourceProvinceIds, irWorld);
 			if (primarySource is null) {
 				Logger.Warn($"Could not determine primary source province for CK3 province {province.Id}!");
-				continue;
+				return;
 			}
+
 			var secondarySourceProvinces = irWorld.Provinces
 				.Where(p => sourceProvinceIds.Contains(p.Id) && p.Id != primarySource.Id)
 				.ToOrderedSet();
 			// And finally, initialize it.
-			province.InitializeFromImperator(primarySource, secondarySourceProvinces, titles, cultureMapper, religionMapper, config);
+			province.InitializeFromImperator(primarySource, secondarySourceProvinces, titles, cultureMapper,
+				religionMapper, conversionDate, config);
 
-			importedIRProvsCount += sourceProvinceIds.Count;
-			++modifiedCK3ProvsCount;
-		}
+			Interlocked.Add(ref importedIRProvsCount, sourceProvinceIds.Count);
+			Interlocked.Increment(ref modifiedCK3ProvsCount);
+		});
 		Logger.Info($"{importedIRProvsCount} I:R provinces imported into {modifiedCK3ProvsCount} CK3 provinces.");
-
+		
 		Logger.IncrementProgress();
 	}
 
@@ -145,32 +165,37 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	}
 
 	private static Imperator.Provinces.Province? DeterminePrimarySourceProvince(
-		List<ulong> impProvinceNumbers,
+		IEnumerable<ulong> irProvinceIds,
 		Imperator.World irWorld
 	) {
-		// determine ownership by province development.
-		var theClaims = new Dictionary<ulong, List<Imperator.Provinces.Province>>(); // owner, offered province sources
-		var theShares = new Dictionary<ulong, int>(); // owner, development
-		ulong? winner = null;
-		long maxDev = -1;
-
-		foreach (var imperatorProvinceId in impProvinceNumbers) {
-			if (!irWorld.Provinces.TryGetValue(imperatorProvinceId, out var impProvince)) {
-				Logger.Warn($"Source province {imperatorProvinceId} is not on the list of known provinces!");
-				continue; // Broken mapping, or loaded a mod changing provinces without using it.
+		var irProvinces = new OrderedSet<Imperator.Provinces.Province>();
+		foreach (var provId in irProvinceIds) {
+			if (!irWorld.Provinces.TryGetValue(provId, out var irProvince)) {
+				// Broken mapping, or loaded a mod changing provinces without using it.
+				Logger.Warn($"Source province {provId} is not on the list of known provinces!");
+				continue;
 			}
 
-			var ownerId = impProvince.OwnerCountry?.Id ?? 0;
-			if (!theClaims.ContainsKey(ownerId)) {
-				theClaims[ownerId] = new List<Imperator.Provinces.Province>();
-			}
-
-			theClaims[ownerId].Add(impProvince);
-
-			var devValue = (int)impProvince.BuildingCount + impProvince.GetPopCount();
-			theShares[ownerId] = devValue;
+			irProvinces.Add(irProvince);
 		}
+		
+		// Determine ownership by province development.
+		var theClaims = new Dictionary<ulong, OrderedSet<Imperator.Provinces.Province>>(); // owner, offered province sources
+		var theShares = new Dictionary<ulong, double>(); // owner, sum of development
+		foreach (var irProvince in irProvinces) {
+			var ownerId = irProvince.OwnerCountry?.Id ?? 0;
+			if (!theClaims.ContainsKey(ownerId)) {
+				theClaims[ownerId] = new OrderedSet<Imperator.Provinces.Province>();
+			}
+
+			theClaims[ownerId].Add(irProvince);
+			theShares.TryAdd(ownerId, 0);
+			theShares[ownerId] += irProvince.CivilizationValue;
+		}
+		
 		// Let's see who the lucky winner is.
+		ulong? winner = null;
+		double maxDev = -1;
 		foreach (var (owner, development) in theShares) {
 			if (development > maxDev) {
 				winner = owner;
@@ -181,19 +206,8 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 			return null;
 		}
 
-		// Now that we have a winning owner, let's find its largest province to use as a source.
-		maxDev = -1; // We can have winning provinces with weight = 0.
-
-		Imperator.Provinces.Province? provinceToReturn = null;
-		foreach (var province in theClaims[winner.Value]) {
-			long provinceWeight = province.BuildingCount + province.GetPopCount();
-
-			if (provinceWeight > maxDev) {
-				provinceToReturn = province;
-				maxDev = provinceWeight;
-			}
-		}
-
-		return provinceToReturn;
+		// Now that we have a winning owner, let's find the most developed province to use as a source.
+		return theClaims[winner.Value]
+			.MaxBy(p => p.CivilizationValue);
 	}
 }

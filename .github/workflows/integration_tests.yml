@@ -1,4 +1,4 @@
-﻿name: "Integration tests"
+name: "Integration tests"
 
 on:
   release:
@@ -16,13 +16,13 @@ jobs:
       matrix:
         save_url:
           # 2.0 vanilla
-          - https://mega.nz/file/TR13kB7D#QWT2yFzoS3rSIu9-EkUEdcc-X8jJnhZdXbJvw9jC-dg  # Benchmark.rome
+          - https://mega.nz/file/HEF2HDgD#lM6J00wp1NGbcdsS5d330UAzztoci2xKLltSfNjxXXk  # 453.12.28 - Dumnoniens.rome
           # 2.0 with mods
-          - https://mega.nz/file/id90lRYD#4OBL6N6_87-Nu28wNssm-O-3jmxli0iFzOtI7XVdN1E  # Mega_Campaign.rome
-          - https://mega.nz/file/zQ0wDKya#eiFQCiJ2sjTaolAJGnfQ0_0OS2Q1kf48dIGDlrEoJ9I  # Erreinu Atlantikoa Debug Over NameFix.rome
-          - https://mega.nz/file/yd1nAZpB#6pXqexexEAXgE04Kll1XYwz_IhRPr42juVIJQ4uKXM8  # The New Rome.rome
+          - https://mega.nz/file/jYdn3SQT#-vILaPKF30pFEiPUbuOm0KryNFrR2CpZBkNpWcoCrkI  # 1229.9.5 - Nabhaka.rome
+          - https://mega.nz/file/bd0EAZCL#ZTDCCDpyBrlByX2rOCn0z4FtvHRDQ0H-7i6b7netSnY  # 450.10.1 - Rome.rome
+          - https://mega.nz/file/aIlRRQgI#CaVRD2wIKuN2jwGvsXUAR4hVblUobICZzys-rHyBloc  # 753.12.31 - The Kingdom of Fezzan.rome
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         submodules: recursive
@@ -32,7 +32,7 @@ jobs:
         ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator\mod"
         ls "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
     - name: "Build converter backend"

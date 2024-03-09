@@ -2,6 +2,7 @@ name: "Test"
 
 on:
   pull_request:
+  merge_group:
 
 concurrency:
   group: ci-tests-${{ github.ref }}-1
@@ -9,14 +10,14 @@ concurrency:
 
 jobs:
   test_and_check_coverage:
-    runs-on: [ubuntu-latest]
+    runs-on: [self-hosted, linux]
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         submodules: recursive
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
     - name: "Test"
@@ -25,13 +26,14 @@ jobs:
       run: |
        $env:CoverletOutput='./TestResults/coverage.info'
        $env:CoverletOutputFormat='lcov'
-       dotnet test /p:CollectCoverage=true /p:Exclude="[commonItems]*"
+       dotnet test /p:CollectCoverage=true
     - name: "Publish coverage report to coveralls.io"
-      uses: coverallsapp/github-action@master
+      uses: coverallsapp/github-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: ImperatorToCK3.UnitTests/TestResults/coverage.info
-
+        format: lcov
+        debug: true
 
   test:
     strategy:
@@ -39,12 +41,12 @@ jobs:
         os: [[self-hosted, windows], macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0
         submodules: recursive
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
     - name: "Test"

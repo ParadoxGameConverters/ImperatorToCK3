@@ -2,16 +2,19 @@
 using commonItems.Collections;
 using commonItems.Localization;
 using commonItems.Serialization;
+using commonItems.SourceGenerators;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Mappers.Culture;
+using Open.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Dynasties;
 
-public class Dynasty : IPDXSerializable, IIdentifiable<string> {
+[SerializationByProperties]
+public partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 	public Dynasty(Family irFamily, CharacterCollection irCharacters, CulturesDB irCulturesDB, CultureMapper cultureMapper, LocDB locDB, Date date) {
 		Id = $"dynn_irtock3_{irFamily.Id}";
 		Name = Id;
@@ -74,7 +77,14 @@ public class Dynasty : IPDXSerializable, IIdentifiable<string> {
 
 		// Try to set culture from family.
 		var irCultureId = irFamily.Culture;
-		var ck3CultureId = cultureMapper.NonReligiousMatch(irCultureId, string.Empty, 0, 0, string.Empty);
+		var irProvinceIdForMapping = irMembers
+			.Select(m => m.ProvinceId)
+			.Where(id => id != 0)
+			.NullableFirstOrDefault();
+		var countryTag = irMembers
+			.Select(m => m.Country?.HistoricalTag)
+			.FirstOrDefault(tag => tag is not null, defaultValue: null);
+		var ck3CultureId = cultureMapper.Match(irCultureId, null, irProvinceIdForMapping, countryTag);
 		if (ck3CultureId is not null) {
 			CultureId = ck3CultureId;
 			return;

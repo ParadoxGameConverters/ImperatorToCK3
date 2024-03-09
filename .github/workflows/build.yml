@@ -2,6 +2,7 @@ name: Build
 
 on:
   pull_request:
+  merge_group:
 
 concurrency:
   group: ci-build-${{ github.ref }}-1
@@ -14,11 +15,11 @@ jobs:
         os: [[self-hosted, windows], [self-hosted, linux], macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: recursive
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
     - name: "Build converter backend"

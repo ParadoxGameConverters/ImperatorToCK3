@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.6.0
+﻿# Last updated: CK3 patch 1.9.2.1
 ### SPANISH CUSTOM LOCALIZATION
 ### Por Jaime Ortega
 
@@ -8,8 +8,10 @@
 ##################
 # ES_XA (luchador/luchadora ; Permite S, sin espacio delante)
 # ES_XAOpp (luchadora/luchador Permite S, sin espacio delante)
-# ES_OA (loco/loca ; Permite S, Sin espacio delante)
+# ES_OA (loco/loca ; Permite S, sin espacio delante)
+# ES_OAOpp (loca/loco ; Permite S, sin espacio delante)
 # ES_EEsa (conde/condesa ; sin espacio delante)
+# ES_EsEsa (marqués, maarquesa ; sin espacio delante)
 # ES_InIna (parlanchín/parlanchina ; Sin espacio delante)
 # ES_OnOnesa (barón/baronesa ; Permite S, sin espacio delante)
 # ES_TaTisa (poeta/poetisa ; Permite S, sin espacio delante)
@@ -22,7 +24,7 @@
 # ES_OnOna (simplón/simplona ; Permite S, sin espacio delante)
 # ES_XIssa (sebastocrátor/sebastocrátorissa ; Sin espacio delante)
 # ES_EA (este/esta ; Sin espacio delante)
-# ES_EAOpp (Sin espacio delante)
+# ES_EAOpp (esta/este; Sin espacio delante)
 # ES_UxOgaresa (dux/ogaresa ; Sin espacio delante)
 # ES_OsAs (vasallos/vasallas, todos/todas ; Plural)
 # ES_EsSas (duques/duquesas, barones/baronesas ; Plural)
@@ -31,7 +33,7 @@
 ##################
 #### ARTICLES ####
 ##################
-# ES_AlAla (al/a la ; Sin espacio delante)
+# ES_AlAla (al/a la ; Sin espacio delante) 
 # ES_DelDela (del/de la ; Sin espacio delante)
 # ES_LoLa (lo/la ; Sin espacio delante)
 # ES_LoLaOpp (la/lo ; Sin espacio delante)
@@ -55,6 +57,11 @@
 # ES_ReyReina (rey/reina)
 # ES_HijoHija (hijo/hija)
 # ES_SirvienteSirvienta (sirviente/sirvienta)
+
+##################################
+# II. REEMPLAZO DE COMANDOS EN INGLÉS
+##################################
+# ES_FaithGenderedAdj - GetFaith.GetAdjective\GetFaith.GetAdherentName (scope: CHARACTER)
 
 ##################################
 # II. ARTICULOS DELANTE DE COMANDOS #
@@ -243,6 +250,36 @@ ES_LeLaOpp = {
 	}
 }
 
+ES_OAOpp = {
+	type = character
+	log_loc_errors = no
+	text = {
+		trigger = {
+			trigger_if = {
+				limit = {
+					exists = this
+					NOT = { exists = scope:second }
+				}
+				this = { is_female = yes }
+			}
+			trigger_if = {
+				limit = {
+					exists = this
+					exists = scope:second
+				}
+				this = { is_female = yes }
+				scope:second = { is_female = yes }
+			}
+		}
+		localization_key = CustomLoc_ES_OAOpp_female
+	}
+	text = {
+		localization_key = CustomLoc_ES_OAOpp_male
+		fallback = yes
+	}
+}
+
+
 ES_DelDela = {
 	type = character
 	log_loc_errors = no
@@ -355,6 +392,64 @@ ES_EEsa = {
 	}
 	text = {
 		localization_key = CustomLoc_ES_EEsa_male
+		fallback = yes
+	}
+}
+
+ES_EsEsa = {
+	type = character
+	log_loc_errors = no
+	text = {
+		trigger = {
+			trigger_if = {
+				limit = {
+					exists = this
+					NOT = { exists = scope:second }
+				}
+				this = { is_female = yes }
+			}
+			trigger_if = {
+				limit = {
+					exists = this
+					exists = scope:second
+				}
+				this = { is_female = yes }
+				scope:second = { is_female = yes }
+			}
+		}
+		localization_key = CustomLoc_ES_EsEsa_female
+	}
+	text = {
+		localization_key = CustomLoc_ES_EsEsa_male
+		fallback = yes
+	}
+}
+
+ES_EsSas = {
+	type = character
+	log_loc_errors = no
+	text = {
+		trigger = {
+			trigger_if = {
+				limit = {
+					exists = this
+					NOT = { exists = scope:second }
+				}
+				this = { is_female = yes }
+			}
+			trigger_if = {
+				limit = {
+					exists = this
+					exists = scope:second
+				}
+				this = { is_female = yes }
+				scope:second = { is_female = yes }
+			}
+		}
+		localization_key = CustomLoc_ES_EsSas_female
+	}
+	text = {
+		localization_key = CustomLoc_ES_EsSas_male
 		fallback = yes
 	}
 }
@@ -906,6 +1001,35 @@ ES_UxOgaresa = {
 	}
 	text = {
 		localization_key = CustomLoc_ES_UxOgaresa_male
+		fallback = yes
+	}
+}
+
+ES_SesSas = {
+	type = character
+	log_loc_errors = no
+	text = {
+		trigger = {
+			trigger_if = {
+				limit = {
+					exists = this
+					NOT = { exists = scope:second }
+				}
+				this = { is_female = yes }
+			}
+			trigger_if = {
+				limit = {
+					exists = this
+					exists = scope:second
+				}
+				this = { is_female = yes }
+				scope:second = { is_female = yes }
+			}
+		}
+		localization_key = CustomLoc_ES_SesSas_female
+	}
+	text = {
+		localization_key = CustomLoc_ES_SesSas_male
 		fallback = yes
 	}
 }
@@ -1980,7 +2104,7 @@ ES_ElLa_Relation = {
 		trigger = {
 			scope:second = {
 				is_female = yes
-				has_relation_rival = root
+				has_relation_rival = root				
 			}
 			any_vassal_or_below = {
 				this = scope:second
@@ -1993,7 +2117,7 @@ ES_ElLa_Relation = {
 		trigger = {
 			scope:second = {
 				is_female = no
-				has_relation_rival = root
+				has_relation_rival = root				
 			}
 			any_vassal_or_below = {
 				this = scope:second
@@ -2200,7 +2324,7 @@ ES_ElLa_Relation = {
 		localization_key = CustomLoc_ES_ElLa_Relation_councillor_female
 		trigger = {
 			scope:second = {
-				is_female = yes
+				is_female = yes			
 				is_councillor_of = root
 			}
 		}
@@ -2210,7 +2334,7 @@ ES_ElLa_Relation = {
 		localization_key = CustomLoc_ES_ElLa_Relation_councillor_male
 		trigger = {
 			scope:second = {
-				is_female = no
+				is_female = no				
 				is_councillor_of = root
 			}
 		}
@@ -2220,7 +2344,11 @@ ES_ElLa_Relation = {
 		localization_key = CustomLoc_ES_ElLa_Relation_court_physician_female
 		trigger = {
 			scope:second = { is_female = yes }
-			has_relation_court_physician = scope:second
+			has_court_position = court_physician_court_position
+			is_court_position_employer = {
+		        court_position = court_physician_court_position
+		        who = root
+		    }
 		}
 	}
 
@@ -2228,7 +2356,11 @@ ES_ElLa_Relation = {
 		localization_key = CustomLoc_ES_ElLa_Relation_court_physician_female
 		trigger = {
 			scope:second = { is_male = yes }
-			has_relation_court_physician = scope:second
+			has_court_position = court_physician_court_position
+			is_court_position_employer = {
+		        court_position = court_physician_court_position
+		        who = root
+		    }
 		}
 	}
 
@@ -2236,7 +2368,7 @@ ES_ElLa_Relation = {
 		localization_key = CustomLoc_ES_ElLa_Relation_vassal_female
 		trigger = {
 			scope:second = {
-				is_female = yes
+				is_female = yes			
 			}
 			any_vassal_or_below = {
 				this = scope:second
@@ -2248,7 +2380,7 @@ ES_ElLa_Relation = {
 		localization_key = CustomLoc_ES_ElLa_Relation_vassal_male
 		trigger = {
 			scope:second = {
-				is_female = no
+				is_female = no				
 			}
 			any_vassal_or_below = {
 				this = scope:second
@@ -2393,6 +2525,26 @@ ES_ElLa_Relation = {
 	}
 }
 
+ES_FaithGenderedAdj = { 
+	type = character
+	log_loc_errors = no
+	text = {
+		trigger = {
+			trigger_if = {
+				limit = { 
+					exists = this
+				}
+				this = { is_female = yes }
+			}
+		}
+		localization_key = CustomLoc_ES_FaithGenderedAdj_female
+	}
+	text = {
+		localization_key = CustomLoc_ES_FaithGenderedAdj_male
+		fallback = yes
+	}
+}
+
 ES_only_el_GetTitledFirstName = {
 	type = character
 	log_loc_errors = no
@@ -2401,8 +2553,8 @@ ES_only_el_GetTitledFirstName = {
 			is_female = no
 			primary_title.tier <= tier_kingdom
 			OR = {
-				has_government = feudal_government
-				has_government = clan_government
+				government_has_flag = government_is_feudal
+				government_has_flag = government_is_clan
 			}
 			OR = {
 				AND = {
@@ -2422,8 +2574,8 @@ ES_only_el_GetTitledFirstName = {
 			is_female = yes
 			primary_title.tier <= tier_kingdom
 			OR = {
-				has_government = feudal_government
-				has_government = clan_government
+				government_has_flag = government_is_feudal
+				government_has_flag = government_is_clan
 			}
 			OR = {
 				AND = {
@@ -2441,7 +2593,7 @@ ES_only_el_GetTitledFirstName = {
 	text = {
 		trigger = { # Reina madre
 			is_female = yes
-			has_government = feudal_government
+			government_has_flag = government_is_feudal
 			any_child = { primary_title.tier = tier_kingdom }
 			primary_title.tier < tier_kingdom
 		}
@@ -2454,14 +2606,13 @@ ES_only_el_GetTitledFirstName = {
 					holds_landed_title = yes
 					primary_title.tier = tier_empire
 					NOT = {
-						culture = culture:german # Kaiser
-						culture = culture:greek # Basileus
+						culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
+						culture = { has_name_list = name_list_greek } # Basileus
 						has_title = title:d_shiite # Califa
 						has_title = title:d_sunni # Califa
 						has_title = title:k_papal_state
 						has_title = title:k_orthodox
 						has_title = title:d_iconoclast
-						has_title = title:d_rabbinism
 						has_title = title:d_conversos
 						has_title = title:d_karaism
 						has_title = title:d_haymanot
@@ -2480,7 +2631,7 @@ ES_only_el_GetTitledFirstName = {
 				AND = { # duke_theocracy_male_paganism_religion (Arcipreste), duke_theocracy_female_paganism_religion (Archisacerdotisa)
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:paganism_religion
 					religion = religion:taoism_religion
 					religion = religion:bon_religion
@@ -2493,11 +2644,11 @@ ES_only_el_GetTitledFirstName = {
 					religion = religion:anatolian_religion
 					religion = religion:arabic_religion
 					religion = religion:armenian_religion
-					religion = religion:berber_religion
+					religion = religion:north_african_religion
 					religion = religion:caucasian_religion
 					religion = religion:canaanite_religion
 					religion = religion:celtic_religion
-					religion = religion:dacian_religion
+					religion = religion:paleo_balkan_religion
 					religion = religion:iberic_religion
 					religion = religion:mesopotamian_religion
 					religion = religion:scythian_religion
@@ -2505,11 +2656,11 @@ ES_only_el_GetTitledFirstName = {
 				AND = { # king_feudal_male_uyghur (Idiqut), king_feudal_female_uyghur (Idiqut)
 					holds_landed_title = yes
 					primary_title.tier = tier_kingdom
-					culture = culture:uyghur
+					culture = { has_name_list = name_list_uyghur }
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
-						has_government = tribal_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
+						government_has_flag = government_is_tribal
 					}
 				}
 				AND = { # prince_male_iberian_group (Infante), prince_female_iberian_group (Infanta)
@@ -2517,16 +2668,16 @@ ES_only_el_GetTitledFirstName = {
 					holds_landed_title = yes
 					primary_title.tier >= tier_kingdom
 					culture = { has_cultural_pillar = heritage_iberian }
-					has_government = feudal_government
+					government_has_flag = government_is_feudal
 				}
 				AND = { # duke_feudal_male_sogdian (Ikhshide)
 					is_female = no
-					culture = culture:sogdian
+					culture = { has_name_list = name_list_sogdian }
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
 					}
 				}
 				AND = {
@@ -2535,44 +2686,44 @@ ES_only_el_GetTitledFirstName = {
 					primary_title.tier = tier_county
 					OR = {
 						AND = { # count_feudal_male_english (Earl)
-							has_government = feudal_government
+							government_has_flag = government_is_feudal
 							primary_title = { target_is_de_jure_liege_or_above = title:e_britannia }
 						}
 						AND = { # count_feudal_male_e_britannia (Earl)
 							OR = {
-								has_government = feudal_government
-								has_government = tribal_government
+								government_has_flag = government_is_feudal
+								government_has_flag = government_is_tribal
 							}
-							culture = culture:english
-							culture = culture:anglo_saxon
-							culture = culture:scottish
+							culture = { has_name_list = name_list_english }
+							culture = { has_name_list = name_list_anglo_saxon }
+							culture = { has_name_list = name_list_scottish }
 						}
 					}
 				}
 				AND = { # count_theocracy_male_ismaili (Ayatolá), count_theocracy_female_ismaili (Ayatolá)
 					holds_landed_title = yes
 					primary_title.tier = tier_county
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					faith = faith:ismaili
 				}
 				AND = { # baron_theocracy_male_zoroastrianism_religion (Ervad), baron_theocracy_female_zoroastrianism_religion (Ervad)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:zoroastrianism_religion
 				}
 				AND = { # baron_theocracy_male_west_african_bori_religion (Adjingi)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:west_african_bori_religion
 				}
 				AND = { # baron_feudal_male_iranian_group (Argbadh)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
 					}
 					culture = { has_cultural_pillar = heritage_iranian }
 				}
@@ -2615,8 +2766,8 @@ ES_only_del_GetTitledFirstName = {
 			is_female = no
 			primary_title.tier <= tier_kingdom
 			OR = {
-				has_government = feudal_government
-				has_government = clan_government
+				government_has_flag = government_is_feudal
+				government_has_flag = government_is_clan
 			}
 			OR = {
 				AND = {
@@ -2636,8 +2787,8 @@ ES_only_del_GetTitledFirstName = {
 			is_female = yes
 			primary_title.tier <= tier_kingdom
 			OR = {
-				has_government = feudal_government
-				has_government = clan_government
+				government_has_flag = government_is_feudal
+				government_has_flag = government_is_clan
 			}
 			OR = {
 				AND = {
@@ -2655,7 +2806,7 @@ ES_only_del_GetTitledFirstName = {
 	text = {
 		trigger = { # Reina madre
 			is_female = yes
-			has_government = feudal_government
+			government_has_flag = government_is_feudal
 			any_child = { primary_title.tier = tier_kingdom }
 			primary_title.tier < tier_kingdom
 		}
@@ -2668,14 +2819,13 @@ ES_only_del_GetTitledFirstName = {
 					holds_landed_title = yes
 					primary_title.tier = tier_empire
 					NOT = {
-						culture = culture:german # Kaiser
-						culture = culture:greek # Basileus
+						culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
+						culture = { has_name_list = name_list_greek } # Basileus
 						has_title = title:d_shiite # Califa
 						has_title = title:d_sunni # Califa
 						has_title = title:k_papal_state
 						has_title = title:k_orthodox
 						has_title = title:d_iconoclast
-						has_title = title:d_rabbinism
 						has_title = title:d_conversos
 						has_title = title:d_karaism
 						has_title = title:d_haymanot
@@ -2694,7 +2844,7 @@ ES_only_del_GetTitledFirstName = {
 				AND = { # duke_theocracy_male_paganism_religion (Arcipreste), duke_theocracy_female_paganism_religion (Archisacerdotisa)
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:paganism_religion
 					religion = religion:taoism_religion
 					religion = religion:bon_religion
@@ -2707,11 +2857,11 @@ ES_only_del_GetTitledFirstName = {
 					religion = religion:anatolian_religion
 					religion = religion:arabic_religion
 					religion = religion:armenian_religion
-					religion = religion:berber_religion
+					religion = religion:north_african_religion
 					religion = religion:caucasian_religion
 					religion = religion:canaanite_religion
 					religion = religion:celtic_religion
-					religion = religion:dacian_religion
+					religion = religion:paleo_balkan_religion
 					religion = religion:iberic_religion
 					religion = religion:mesopotamian_religion
 					religion = religion:scythian_religion
@@ -2719,11 +2869,11 @@ ES_only_del_GetTitledFirstName = {
 				AND = { # king_feudal_male_uyghur (Idiqut), king_feudal_female_uyghur (Idiqut)
 					holds_landed_title = yes
 					primary_title.tier = tier_kingdom
-					culture = culture:uyghur
+					culture = { has_name_list = name_list_uyghur }
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
-						has_government = tribal_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
+						government_has_flag = government_is_tribal
 					}
 				}
 				AND = { # prince_male_iberian_group (Infante), prince_female_iberian_group (Infanta)
@@ -2731,16 +2881,16 @@ ES_only_del_GetTitledFirstName = {
 					holds_landed_title = yes
 					primary_title.tier >= tier_kingdom
 					culture = { has_cultural_pillar = heritage_iberian }
-					has_government = feudal_government
+					government_has_flag = government_is_feudal
 				}
 				AND = { # duke_feudal_male_sogdian (Ikhshide)
 					is_female = no
-					culture = culture:sogdian
+					culture = { has_name_list = name_list_sogdian }
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
 					}
 				}
 				AND = {
@@ -2749,44 +2899,44 @@ ES_only_del_GetTitledFirstName = {
 					primary_title.tier = tier_county
 					OR = {
 						AND = { # count_feudal_male_english (Earl)
-							has_government = feudal_government
+							government_has_flag = government_is_feudal
 							primary_title = { target_is_de_jure_liege_or_above = title:e_britannia }
 						}
 						AND = { # count_feudal_male_e_britannia (Earl)
 							OR = {
-								has_government = feudal_government
-								has_government = tribal_government
+								government_has_flag = government_is_feudal
+								government_has_flag = government_is_tribal
 							}
-							culture = culture:english
-							culture = culture:anglo_saxon
-							culture = culture:scottish
+							culture = { has_name_list = name_list_english }
+							culture = { has_name_list = name_list_anglo_saxon }
+							culture = { has_name_list = name_list_scottish }
 						}
 					}
 				}
 				AND = { # count_theocracy_male_ismaili (Ayatolá), count_theocracy_female_ismaili (Ayatolá)
 					holds_landed_title = yes
 					primary_title.tier = tier_county
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					faith = faith:ismaili
 				}
 				AND = { # baron_theocracy_male_zoroastrianism_religion (Ervad), baron_theocracy_female_zoroastrianism_religion (Ervad)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:zoroastrianism_religion
 				}
 				AND = { # baron_theocracy_male_west_african_bori_religion (Adjingi)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:west_african_bori_religion
 				}
 				AND = { # baron_feudal_male_iranian_group (Argbadh)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
 					}
 					culture = { has_cultural_pillar = heritage_iranian }
 				}
@@ -2829,8 +2979,8 @@ ES_only_al_GetTitledFirstName = {
 			is_female = no
 			primary_title.tier <= tier_kingdom
 			OR = {
-				has_government = feudal_government
-				has_government = clan_government
+				government_has_flag = government_is_feudal
+				government_has_flag = government_is_clan
 			}
 			OR = {
 				AND = {
@@ -2850,8 +3000,8 @@ ES_only_al_GetTitledFirstName = {
 			is_female = yes
 			primary_title.tier <= tier_kingdom
 			OR = {
-				has_government = feudal_government
-				has_government = clan_government
+				government_has_flag = government_is_feudal
+				government_has_flag = government_is_clan
 			}
 			OR = {
 				AND = {
@@ -2869,7 +3019,7 @@ ES_only_al_GetTitledFirstName = {
 	text = {
 		trigger = { # Reina madre
 			is_female = yes
-			has_government = feudal_government
+			government_has_flag = government_is_feudal
 			any_child = { primary_title.tier = tier_kingdom }
 			primary_title.tier < tier_kingdom
 		}
@@ -2882,14 +3032,13 @@ ES_only_al_GetTitledFirstName = {
 					holds_landed_title = yes
 					primary_title.tier = tier_empire
 					NOT = {
-						culture = culture:german # Kaiser
-						culture = culture:greek # Basileus
+						culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
+						culture = { has_name_list = name_list_greek } # Basileus
 						has_title = title:d_shiite # Califa
 						has_title = title:d_sunni # Califa
 						has_title = title:k_papal_state
 						has_title = title:k_orthodox
 						has_title = title:d_iconoclast
-						has_title = title:d_rabbinism
 						has_title = title:d_conversos
 						has_title = title:d_karaism
 						has_title = title:d_haymanot
@@ -2908,7 +3057,7 @@ ES_only_al_GetTitledFirstName = {
 				AND = { # duke_theocracy_male_paganism_religion (Arcipreste), duke_theocracy_female_paganism_religion (Archisacerdotisa)
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:paganism_religion
 					religion = religion:taoism_religion
 					religion = religion:bon_religion
@@ -2921,11 +3070,11 @@ ES_only_al_GetTitledFirstName = {
 					religion = religion:anatolian_religion
 					religion = religion:arabic_religion
 					religion = religion:armenian_religion
-					religion = religion:berber_religion
+					religion = religion:north_african_religion
 					religion = religion:caucasian_religion
 					religion = religion:canaanite_religion
 					religion = religion:celtic_religion
-					religion = religion:dacian_religion
+					religion = religion:paleo_balkan_religion
 					religion = religion:iberic_religion
 					religion = religion:mesopotamian_religion
 					religion = religion:scythian_religion
@@ -2933,11 +3082,11 @@ ES_only_al_GetTitledFirstName = {
 				AND = { # king_feudal_male_uyghur (Idiqut), king_feudal_female_uyghur (Idiqut)
 					holds_landed_title = yes
 					primary_title.tier = tier_kingdom
-					culture = culture:uyghur
+					culture = { has_name_list = name_list_uyghur }
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
-						has_government = tribal_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
+						government_has_flag = government_is_tribal
 					}
 				}
 				AND = { # prince_male_iberian_group (Infante), prince_female_iberian_group (Infanta)
@@ -2945,16 +3094,16 @@ ES_only_al_GetTitledFirstName = {
 					holds_landed_title = yes
 					primary_title.tier >= tier_kingdom
 					culture = { has_cultural_pillar = heritage_iberian }
-					has_government = feudal_government
+					government_has_flag = government_is_feudal
 				}
 				AND = { # duke_feudal_male_sogdian (Ikhshide)
 					is_female = no
-					culture = culture:sogdian
+					culture = { has_name_list = name_list_sogdian }
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
 					}
 				}
 				AND = {
@@ -2963,44 +3112,44 @@ ES_only_al_GetTitledFirstName = {
 					primary_title.tier = tier_county
 					OR = {
 						AND = { # count_feudal_male_english (Earl)
-							has_government = feudal_government
+							government_has_flag = government_is_feudal
 							primary_title = { target_is_de_jure_liege_or_above = title:e_britannia }
 						}
 						AND = { # count_feudal_male_e_britannia (Earl)
 							OR = {
-								has_government = feudal_government
-								has_government = tribal_government
+								government_has_flag = government_is_feudal
+								government_has_flag = government_is_tribal
 							}
-							culture = culture:english
-							culture = culture:anglo_saxon
-							culture = culture:scottish
+							culture = { has_name_list = name_list_english }
+							culture = { has_name_list = name_list_anglo_saxon }
+							culture = { has_name_list = name_list_scottish }
 						}
 					}
 				}
 				AND = { # count_theocracy_male_ismaili (Ayatolá), count_theocracy_female_ismaili (Ayatolá)
 					holds_landed_title = yes
 					primary_title.tier = tier_county
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					faith = faith:ismaili
 				}
 				AND = { # baron_theocracy_male_zoroastrianism_religion (Ervad), baron_theocracy_female_zoroastrianism_religion (Ervad)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:zoroastrianism_religion
 				}
 				AND = { # baron_theocracy_male_west_african_bori_religion (Adjingi)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:west_african_bori_religion
 				}
 				AND = { # baron_feudal_male_iranian_group (Argbadh)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
 					}
 					culture = { has_cultural_pillar = heritage_iranian }
 				}
@@ -3049,8 +3198,8 @@ ES_only_el_GetShortUIName = {
 			is_female = no
 			primary_title.tier <= tier_kingdom
 			OR = {
-				has_government = feudal_government
-				has_government = clan_government
+				government_has_flag = government_is_feudal
+				government_has_flag = government_is_clan
 			}
 			OR = {
 				AND = {
@@ -3070,8 +3219,8 @@ ES_only_el_GetShortUIName = {
 			is_female = yes
 			primary_title.tier <= tier_kingdom
 			OR = {
-				has_government = feudal_government
-				has_government = clan_government
+				government_has_flag = government_is_feudal
+				government_has_flag = government_is_clan
 			}
 			OR = {
 				AND = {
@@ -3089,7 +3238,7 @@ ES_only_el_GetShortUIName = {
 	text = {
 		trigger = { # Reina madre
 			is_female = yes
-			has_government = feudal_government
+			government_has_flag = government_is_feudal
 			any_child = { primary_title.tier = tier_kingdom }
 			primary_title.tier < tier_kingdom
 		}
@@ -3102,14 +3251,13 @@ ES_only_el_GetShortUIName = {
 					holds_landed_title = yes
 					primary_title.tier = tier_empire
 					NOT = {
-						culture = culture:german # Kaiser
-						culture = culture:greek # Basileus
+						culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
+						culture = { has_name_list = name_list_greek } # Basileus
 						has_title = title:d_shiite # Califa
 						has_title = title:d_sunni # Califa
 						has_title = title:k_papal_state
 						has_title = title:k_orthodox
 						has_title = title:d_iconoclast
-						has_title = title:d_rabbinism
 						has_title = title:d_conversos
 						has_title = title:d_karaism
 						has_title = title:d_haymanot
@@ -3128,7 +3276,7 @@ ES_only_el_GetShortUIName = {
 				AND = { # duke_theocracy_male_paganism_religion (Arcipreste), duke_theocracy_female_paganism_religion (Archisacerdotisa)
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:paganism_religion
 					religion = religion:taoism_religion
 					religion = religion:bon_religion
@@ -3141,11 +3289,11 @@ ES_only_el_GetShortUIName = {
 					religion = religion:anatolian_religion
 					religion = religion:arabic_religion
 					religion = religion:armenian_religion
-					religion = religion:berber_religion
+					religion = religion:north_african_religion
 					religion = religion:caucasian_religion
 					religion = religion:canaanite_religion
 					religion = religion:celtic_religion
-					religion = religion:dacian_religion
+					religion = religion:paleo_balkan_religion
 					religion = religion:iberic_religion
 					religion = religion:mesopotamian_religion
 					religion = religion:scythian_religion
@@ -3153,11 +3301,11 @@ ES_only_el_GetShortUIName = {
 				AND = { # king_feudal_male_uyghur (Idiqut), king_feudal_female_uyghur (Idiqut)
 					holds_landed_title = yes
 					primary_title.tier = tier_kingdom
-					culture = culture:uyghur
+					culture = { has_name_list = name_list_uyghur }
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
-						has_government = tribal_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
+						government_has_flag = government_is_tribal
 					}
 				}
 				AND = { # prince_male_iberian_group (Infante), prince_female_iberian_group (Infante)
@@ -3165,16 +3313,16 @@ ES_only_el_GetShortUIName = {
 					holds_landed_title = yes
 					primary_title.tier >= tier_kingdom
 					culture = { has_cultural_pillar = heritage_iberian }
-					has_government = feudal_government
+					government_has_flag = government_is_feudal
 				}
 				AND = { # duke_feudal_male_sogdian (Ikhshide)
 					is_female = no
-					culture = culture:sogdian
+					culture = { has_name_list = name_list_sogdian }
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
 					}
 				}
 				AND = {
@@ -3183,44 +3331,44 @@ ES_only_el_GetShortUIName = {
 					primary_title.tier = tier_county
 					OR = {
 						AND = { # count_feudal_male_english (Earl)
-							has_government = feudal_government
+							government_has_flag = government_is_feudal
 							primary_title = { target_is_de_jure_liege_or_above = title:e_britannia }
 						}
 						AND = { # count_feudal_male_e_britannia (Earl)
 							OR = {
-								has_government = feudal_government
-								has_government = tribal_government
+								government_has_flag = government_is_feudal
+								government_has_flag = government_is_tribal
 							}
-							culture = culture:english
-							culture = culture:anglo_saxon
-							culture = culture:scottish
+							culture = { has_name_list = name_list_english }
+							culture = { has_name_list = name_list_anglo_saxon }
+							culture = { has_name_list = name_list_scottish }
 						}
 					}
 				}
 				AND = { # count_theocracy_male_ismaili (Ayatolá), count_theocracy_female_ismaili (Ayatolá)
 					holds_landed_title = yes
 					primary_title.tier = tier_county
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					faith = faith:ismaili
 				}
 				AND = { # baron_theocracy_male_zoroastrianism_religion (Ervad), baron_theocracy_female_zoroastrianism_religion (Ervad)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:zoroastrianism_religion
 				}
 				AND = { # baron_theocracy_male_west_african_bori_religion (Adjingi)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:west_african_bori_religion
 				}
 				AND = { # baron_feudal_male_iranian_group (Argbadh)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
 					}
 					culture = { has_cultural_pillar = heritage_iranian }
 				}
@@ -3269,8 +3417,8 @@ ES_only_de_GetShortUIName = {
 			is_female = no
 			primary_title.tier <= tier_kingdom
 			OR = {
-				has_government = feudal_government
-				has_government = clan_government
+				government_has_flag = government_is_feudal
+				government_has_flag = government_is_clan
 			}
 			OR = {
 				AND = {
@@ -3290,8 +3438,8 @@ ES_only_de_GetShortUIName = {
 			is_female = yes
 			primary_title.tier <= tier_kingdom
 			OR = {
-				has_government = feudal_government
-				has_government = clan_government
+				government_has_flag = government_is_feudal
+				government_has_flag = government_is_clan
 			}
 			OR = {
 				AND = {
@@ -3309,7 +3457,7 @@ ES_only_de_GetShortUIName = {
 	text = {
 		trigger = { # Reina madre
 			is_female = yes
-			has_government = feudal_government
+			government_has_flag = government_is_feudal
 			any_child = { primary_title.tier = tier_kingdom }
 			primary_title.tier < tier_kingdom
 		}
@@ -3322,14 +3470,13 @@ ES_only_de_GetShortUIName = {
 					holds_landed_title = yes
 					primary_title.tier = tier_empire
 					NOT = {
-						culture = culture:german # Kaiser
-						culture = culture:greek # Basileus
+						culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
+						culture = { has_name_list = name_list_greek } # Basileus
 						has_title = title:d_shiite # Califa
 						has_title = title:d_sunni # Califa
 						has_title = title:k_papal_state
 						has_title = title:k_orthodox
 						has_title = title:d_iconoclast
-						has_title = title:d_rabbinism
 						has_title = title:d_conversos
 						has_title = title:d_karaism
 						has_title = title:d_haymanot
@@ -3348,7 +3495,7 @@ ES_only_de_GetShortUIName = {
 				AND = { # duke_theocracy_male_paganism_religion (Arcipreste), duke_theocracy_female_paganism_religion (Archisacerdotisa)
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:paganism_religion
 					religion = religion:taoism_religion
 					religion = religion:bon_religion
@@ -3361,11 +3508,11 @@ ES_only_de_GetShortUIName = {
 					religion = religion:anatolian_religion
 					religion = religion:arabic_religion
 					religion = religion:armenian_religion
-					religion = religion:berber_religion
+					religion = religion:north_african_religion
 					religion = religion:caucasian_religion
 					religion = religion:canaanite_religion
 					religion = religion:celtic_religion
-					religion = religion:dacian_religion
+					religion = religion:paleo_balkan_religion
 					religion = religion:iberic_religion
 					religion = religion:mesopotamian_religion
 					religion = religion:scythian_religion
@@ -3373,11 +3520,11 @@ ES_only_de_GetShortUIName = {
 				AND = { # king_feudal_male_uyghur (Idiqut), king_feudal_female_uyghur (Idiqut)
 					holds_landed_title = yes
 					primary_title.tier = tier_kingdom
-					culture = culture:uyghur
+					culture = { has_name_list = name_list_uyghur }
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
-						has_government = tribal_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
+						government_has_flag = government_is_tribal
 					}
 				}
 				AND = { # prince_male_iberian_group (Infante), prince_female_iberian_group (Infante)
@@ -3385,16 +3532,16 @@ ES_only_de_GetShortUIName = {
 					holds_landed_title = yes
 					primary_title.tier >= tier_kingdom
 					culture = { has_cultural_pillar = heritage_iberian }
-					has_government = feudal_government
+					government_has_flag = government_is_feudal
 				}
 				AND = { # duke_feudal_male_sogdian (Ikhshide)
 					is_female = no
-					culture = culture:sogdian
+					culture = { has_name_list = name_list_sogdian }
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
 					}
 				}
 				AND = {
@@ -3403,44 +3550,44 @@ ES_only_de_GetShortUIName = {
 					primary_title.tier = tier_county
 					OR = {
 						AND = { # count_feudal_male_english (Earl)
-							has_government = feudal_government
+							government_has_flag = government_is_feudal
 							primary_title = { target_is_de_jure_liege_or_above = title:e_britannia }
 						}
 						AND = { # count_feudal_male_e_britannia (Earl)
 							OR = {
-								has_government = feudal_government
-								has_government = tribal_government
+								government_has_flag = government_is_feudal
+								government_has_flag = government_is_tribal
 							}
-							culture = culture:english
-							culture = culture:anglo_saxon
-							culture = culture:scottish
+							culture = { has_name_list = name_list_english }
+							culture = { has_name_list = name_list_anglo_saxon }
+							culture = { has_name_list = name_list_scottish }
 						}
 					}
 				}
 				AND = { # count_theocracy_male_ismaili (Ayatolá), count_theocracy_female_ismaili (Ayatolá)
 					holds_landed_title = yes
 					primary_title.tier = tier_county
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					faith = faith:ismaili
 				}
 				AND = { # baron_theocracy_male_zoroastrianism_religion (Ervad), baron_theocracy_female_zoroastrianism_religion (Ervad)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:zoroastrianism_religion
 				}
 				AND = { # baron_theocracy_male_west_african_bori_religion (Adjingi)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:west_african_bori_religion
 				}
 				AND = { # baron_feudal_male_iranian_group (Argbadh)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
 					}
 					culture = { has_cultural_pillar = heritage_iranian }
 				}
@@ -3489,8 +3636,8 @@ ES_only_a_GetShortUIName = {
 			is_female = no
 			primary_title.tier <= tier_kingdom
 			OR = {
-				has_government = feudal_government
-				has_government = clan_government
+				government_has_flag = government_is_feudal
+				government_has_flag = government_is_clan
 			}
 			OR = {
 				AND = {
@@ -3510,8 +3657,8 @@ ES_only_a_GetShortUIName = {
 			is_female = yes
 			primary_title.tier <= tier_kingdom
 			OR = {
-				has_government = feudal_government
-				has_government = clan_government
+				government_has_flag = government_is_feudal
+				government_has_flag = government_is_clan
 			}
 			OR = {
 				AND = {
@@ -3529,7 +3676,7 @@ ES_only_a_GetShortUIName = {
 	text = {
 		trigger = { # Reina madre
 			is_female = yes
-			has_government = feudal_government
+			government_has_flag = government_is_feudal
 			any_child = { primary_title.tier = tier_kingdom }
 			primary_title.tier < tier_kingdom
 		}
@@ -3542,14 +3689,13 @@ ES_only_a_GetShortUIName = {
 					holds_landed_title = yes
 					primary_title.tier = tier_empire
 					NOT = {
-						culture = culture:german # Kaiser
-						culture = culture:greek # Basileus
+						culture = { has_cultural_pillar = heritage_central_germanic } # Kaiser
+						culture = { has_name_list = name_list_greek } # Basileus
 						has_title = title:d_shiite # Califa
 						has_title = title:d_sunni # Califa
 						has_title = title:k_papal_state
 						has_title = title:k_orthodox
 						has_title = title:d_iconoclast
-						has_title = title:d_rabbinism
 						has_title = title:d_conversos
 						has_title = title:d_karaism
 						has_title = title:d_haymanot
@@ -3568,7 +3714,7 @@ ES_only_a_GetShortUIName = {
 				AND = { # duke_theocracy_male_paganism_religion (Arcipreste), duke_theocracy_female_paganism_religion (Archisacerdotisa)
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:paganism_religion
 					religion = religion:taoism_religion
 					religion = religion:bon_religion
@@ -3581,11 +3727,11 @@ ES_only_a_GetShortUIName = {
 					religion = religion:anatolian_religion
 					religion = religion:arabic_religion
 					religion = religion:armenian_religion
-					religion = religion:berber_religion
+					religion = religion:north_african_religion
 					religion = religion:caucasian_religion
 					religion = religion:canaanite_religion
 					religion = religion:celtic_religion
-					religion = religion:dacian_religion
+					religion = religion:paleo_balkan_religion
 					religion = religion:iberic_religion
 					religion = religion:mesopotamian_religion
 					religion = religion:scythian_religion
@@ -3593,11 +3739,11 @@ ES_only_a_GetShortUIName = {
 				AND = { # king_feudal_male_uyghur (Idiqut), king_feudal_female_uyghur (Idiqut)
 					holds_landed_title = yes
 					primary_title.tier = tier_kingdom
-					culture = culture:uyghur
+					culture = { has_name_list = name_list_uyghur }
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
-						has_government = tribal_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
+						government_has_flag = government_is_tribal
 					}
 				}
 				AND = { # prince_male_iberian_group (Infante), prince_female_iberian_group (Infante)
@@ -3605,16 +3751,16 @@ ES_only_a_GetShortUIName = {
 					holds_landed_title = yes
 					primary_title.tier >= tier_kingdom
 					culture = { has_cultural_pillar = heritage_iberian }
-					has_government = feudal_government
+					government_has_flag = government_is_feudal
 				}
 				AND = { # duke_feudal_male_sogdian (Ikhshide)
 					is_female = no
-					culture = culture:sogdian
+					culture = { has_name_list = name_list_sogdian }
 					holds_landed_title = yes
 					primary_title.tier = tier_duchy
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
 					}
 				}
 				AND = {
@@ -3623,44 +3769,44 @@ ES_only_a_GetShortUIName = {
 					primary_title.tier = tier_county
 					OR = {
 						AND = { # count_feudal_male_english (Earl)
-							has_government = feudal_government
+							government_has_flag = government_is_feudal
 							primary_title = { target_is_de_jure_liege_or_above = title:e_britannia }
 						}
 						AND = { # count_feudal_male_e_britannia (Earl)
 							OR = {
-								has_government = feudal_government
-								has_government = tribal_government
+								government_has_flag = government_is_feudal
+								government_has_flag = government_is_tribal
 							}
-							culture = culture:english
-							culture = culture:anglo_saxon
-							culture = culture:scottish
+							culture = { has_name_list = name_list_english }
+							culture = { has_name_list = name_list_anglo_saxon }
+							culture = { has_name_list = name_list_scottish }
 						}
 					}
 				}
 				AND = { # count_theocracy_male_ismaili (Ayatolá), count_theocracy_female_ismaili (Ayatolá)
 					holds_landed_title = yes
 					primary_title.tier = tier_county
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					faith = faith:ismaili
 				}
 				AND = { # baron_theocracy_male_zoroastrianism_religion (Ervad), baron_theocracy_female_zoroastrianism_religion (Ervad)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:zoroastrianism_religion
 				}
 				AND = { # baron_theocracy_male_west_african_bori_religion (Adjingi)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
-					has_government = theocracy_government
+					government_has_flag = government_is_theocracy
 					religion = religion:west_african_bori_religion
 				}
 				AND = { # baron_feudal_male_iranian_group (Argbadh)
 					holds_landed_title = yes
 					primary_title.tier = tier_barony
 					OR = {
-						has_government = feudal_government
-						has_government = clan_government
+						government_has_flag = government_is_feudal
+						government_has_flag = government_is_clan
 					}
 					culture = { has_cultural_pillar = heritage_iranian }
 				}

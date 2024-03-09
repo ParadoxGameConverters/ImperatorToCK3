@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.6.0
+﻿# ImperatorToCK3: Last updated CK3 patch 1.11.0.1
 
 ToleranceValue = {
 	type = character
@@ -382,6 +382,12 @@ GetUnbelieverTerm = {
 	}
 }
 
+GetUnbelieverTermPlural = {
+	type = character
+	parent = GetUnbelieverTerm
+	suffix = _plural
+}
+
 GetUnbelieverTermAdjective = {
 	type = character
 
@@ -621,39 +627,39 @@ GetActualBishopTitle = {
 	text = {
 		trigger = {
 			liege.highest_held_title_tier >= tier_kingdom
-			faith.religion = faith:mazdayasna.religion
 			is_female = no
+			fp3_custom_divinity_for_zoroastrianism_faiths = yes
 		}
 		localization_key = councillor_court_chaplain_zoroastrianism_religion_kingdom
 	}
 	text = {
 		trigger = {
 			liege.highest_held_title_tier >= tier_kingdom
-			faith.religion = faith:mazdayasna.religion
 			is_female = yes
+			fp3_custom_divinity_for_zoroastrianism_faiths = yes
 		}
 		localization_key = councillor_court_chaplain_zoroastrianism_religion_kingdom_female
 	}
 	text = {
 		trigger = {
 			liege.highest_held_title_tier >= tier_duchy
-			faith.religion = faith:mazdayasna.religion
 			is_female = no
+			fp3_custom_divinity_for_zoroastrianism_faiths = yes
 		}
 		localization_key = councillor_court_chaplain_zoroastrianism_religion_duchy
 	}
 	text = {
 		trigger = {
 			liege.highest_held_title_tier >= tier_duchy
-			faith.religion = faith:mazdayasna.religion
 			is_female = yes
+			fp3_custom_divinity_for_zoroastrianism_faiths = yes
 		}
 		localization_key = councillor_court_chaplain_zoroastrianism_religion_duchy_female
 	}
 	text = {
 		trigger = {
 			liege.highest_held_title_tier < tier_duchy
-			faith.religion = faith:mazdayasna.religion
+			fp3_custom_divinity_for_zoroastrianism_faiths = yes
 		}
 		localization_key = councillor_court_chaplain_zoroastrianism_religion_county
 	}
@@ -686,7 +692,7 @@ GetActualBishopTitle = {
 		}
 		localization_key = councillor_court_chaplain_west_african_religion_duchy
 	}
-
+	
 	# Tengrism
 	text = {
 		trigger = {
@@ -742,7 +748,7 @@ GetActualBishopTitle = {
 		}
 		localization_key = councillor_court_chaplain_finno_ugric_religion_duchy
 	}
-
+	
 	#Slavic
 	text = {
 		trigger = {
@@ -858,7 +864,7 @@ GetActualBishopTitle = {
 		}
 		localization_key = councillor_court_chaplain_judaism_religion_county
 	}
-
+	
 	#Hellenic
 	text = {
 		trigger = {
@@ -1332,7 +1338,7 @@ GetActualBishopTitlePossessive = {
 		}
 		localization_key = councillor_court_chaplain_west_african_religion_duchy_possessive
 	}
-
+	
 	# Tengrism
 	text = {
 		trigger = {
@@ -1388,7 +1394,7 @@ GetActualBishopTitlePossessive = {
 		}
 		localization_key = councillor_court_chaplain_finno_ugric_religion_duchy_possessive
 	}
-
+	
 	#Slavic
 	text = {
 		trigger = {
@@ -1504,7 +1510,7 @@ GetActualBishopTitlePossessive = {
 		}
 		localization_key = councillor_court_chaplain_judaism_religion_county_possessive
 	}
-
+	
 	#Hellenic
 	text = {
 		trigger = {
@@ -1889,7 +1895,7 @@ GetBirthOmen = {
 		localization_key = birth_omen_finger
 	}
 	text = {
-		localization_key = birth_omen_birthmark
+		localization_key = birth_omen_birthmark	
 	}
 }
 
@@ -1957,5 +1963,53 @@ GetRiteEcumenismFullOrEmpty = {
 			}
 		}
 		localization_key = GetRiteEcumenismFullOrEmpty_empty
+	}
+}
+
+# Does the character's faith have Armed Pilgrimages or Struggle & Submission?
+ghw_from_which_tenet = {
+	type = character
+
+	text = {
+		trigger = {
+			faith = { has_doctrine = tenet_armed_pilgrimages }
+		}
+		localization_key = ghw_from_which_tenet_armed_pilgrimages
+	}
+
+	text = {
+		trigger = {
+			faith = { has_doctrine = tenet_struggle_submission }
+		}
+		localization_key = ghw_from_which_tenet_struggle_submission
+	}
+
+	text = {
+		trigger = {
+			faith = { has_doctrine = tenet_warmonger }
+		}
+		localization_key = ghw_from_which_tenet_warmonger
+	}
+}
+
+# Which institutions would be exempt from tax in this faith?
+GetFaithTaxExemptInstitution = {
+	type = character
+
+	# Theocratic clergy faiths exempt the Church.
+	text = {
+		trigger = {
+			faith = { has_doctrine_parameter = theocracy_temple_lease }
+		}
+		localization_key = faithtaxexemption_the_church
+	}
+
+	# Lay clergy faiths exempt charities.
+	text = {
+		trigger = {
+			faith = { has_doctrine_parameter = lay_clergy }
+		}
+		fallback = yes
+		localization_key = faithtaxexemption_charities
 	}
 }

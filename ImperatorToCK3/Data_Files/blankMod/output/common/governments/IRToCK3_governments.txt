@@ -19,6 +19,7 @@
 			has_variable = IRToCK3_eremite_flag
 		}
 		current_date <= 900.1.1
+		exists = title:d_iceland
 		capital_county = {
 			target_is_de_jure_liege_or_above = title:d_iceland
 		}

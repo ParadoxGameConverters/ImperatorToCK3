@@ -2,9 +2,9 @@ name: "Find braces mismatches"
 on: [push]
 jobs:
   find_braces_mismatches:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: "Download and run script"
         run: |
           cd ImperatorToCK3/Data_Files/blankMod/output

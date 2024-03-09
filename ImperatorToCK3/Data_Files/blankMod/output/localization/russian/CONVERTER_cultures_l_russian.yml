@@ -84,9 +84,9 @@
  vandal_collective_noun: "Вандальск"
  vandal_prefix: "Вандало"
 
- iberian: "Иберы"
- iberian_collective_noun: "Иберск"
- iberian_prefix: "Иберо"
+ non_indo_european_iberian: "Иберы"
+ non_indo_european_iberian_collective_noun: "Иберск"
+ non_indo_european_iberian_prefix: "Иберо"
 
  nuragic: "Нураги"
  nuragic_collective_noun: "Нурагическ"
@@ -332,8 +332,8 @@
  romano_british_group_collective_noun: "Романобританск"
  romano_german_group: "Романогерманск"
  romano_german_group_collective_noun: "Романогерманск"
- aboriginal_group: "Туземск"
- aboriginal_group_collective_noun: "Туземск"
+ nuragic_group: "нурагический"
+ nuragic_group_collective_noun: "нурагики"
  tyrrhenian: "Тиррены"
  tyrrhenian_collective_noun: "Тирренск"
  tyrrhenian_prefix: "Тирренo"

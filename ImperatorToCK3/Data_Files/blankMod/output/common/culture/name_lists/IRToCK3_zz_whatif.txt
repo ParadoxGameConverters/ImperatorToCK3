@@ -2,75 +2,61 @@
 
 name_list_romano-sanskrit = {
 	cadet_dynasty_names = {
-		Akule Agrikola Agrippa Ahāla Ahenobarba
-		Albīna Alba Ambusta Annāli Akvila
-		Akvilīna Aruīna Asellioni Asina Atella
-		Auīta Balba Barba Barbāta Bassa Besti
-		Bibākula Bibula Blaesa Brokkha Brūta Bubulka
-		Bukkoni Bulba Būtea Kaeka Kaepioni Kaesari Kalida
-		Kaluīna Kalua Kamilla Kanīna Kāna Kapitoni Karboni
-		Katilīna Katoni Katula Keleri Kelsa Kethega Kikeroni
-		Kikurīna Kīloni Kinkinnāta Kinna Korda Kornikini
-		Kornūta Koruīna Korua Kossa Kosta Kotta Krassipodi
-		Krassa Krīspīna Krīspa Kullea Kūri Kursori Kuru
-		Dentāta Denteri Dentoni Dīuiti Dolābella Dorsuoni Drūsa
-		Phigula Phimbri Phlakka Phlāu Phlora Phrontoni Phulloni
-		Phūsa Galeoni Gemella Glabrioni Grakkha Gurgīti Habita
-		Helu Imperiosa Iulla Labea Laktūka Laenāti Lānāta
-		Laeuīni Laterensi Lentula Lepida Liboni Likina Longa
-		Lūkulla Lupa Lurkoni Makri Makula Malleola Māmerka
-		Mārkella Maroni Merenda Merga Merula Messalla Metella
-		Mūrena Mūri Muska Nāsīka Nāsoni Natta Nepoti Neroni
-		Nerua Nigri Nouella Okella Pakila Paeta Pānsa
-		Papa Paterkula Paulla Pāuoni Pera Piktori Pīsoni
-		Planka Plauta Poplikola Postuma Potita Praekonīna
-		Praetekṣtāta Prīska Prokula Pūblikola Pulkhri Pulla
-		Puluilla Purpurea Kvadrāta Ralla Regilla Regula
-		Rūpha Rūga Rulla Rutila Salīnātori Sāturnīna Skaeu
-		Skaeuola Skapula Skaura Skīpioni Skropha Seneka Seuera
-		Sīlāna Sīloni Sīla Stoloni Straboni Strūkta Sulla Sura
-		Taura Triāri Trigemina Trīoni Tūberoni Tūberta Tubula
-		Tuditāna Tulla Turda Uarroni Uāra Uati Uerriti
-		Uespilloni Ueta Uitula Uolusa
+		Akule Agrikola Agrippa Ahala Ahenobarba Albina Alba Ambusta
+		Annali Akvila Akvilina Aruina Asellioni Asina Atella Auita Balba
+		Barba Barbata Bassa Besti Bibakula Bibula Blaesa Brokkha Bruta
+		Bubulka Bukkoni Bulba Butea Kaeka Kaepioni Kaesari Kalida Kaluina
+		Kalua Kamilla Kanina Kana Kapitoni Karboni Katilina Katoni Katula
+		Keleri Kelsa Kethega Kikeroni Kikurina Kiloni Kinkinnata Kinna Korda
+		Kornikini Kornuta Koruina Korua Kossa Kosta Kotta Krassipodi Krassa
+		Krispina Krispa Kullea Kuri Kursori Kuru Dentata Denteri Dentoni Diuiti
+		Dolabella Dorsuoni Drusa Phigula Phimbri Phlakka Phlau Phlora
+		Phrontoni Phulloni Phusa Galeoni Gemella Glabrioni Grakkha Gurgiti
+		Habita Helu Imperiosa Iulla Labea Laktuka Laenati Lanata Laeuini
+		Laterensi Lentula Lepida Liboni Likina Longa Lukulla Lupa Lurkoni
+		Makri Makula Malleola Mamerka Markella Maroni Merenda Merga Merula
+		Messalla Metella Murena Muri Muska Nasika Nasoni Natta Nepoti Neroni
+		Nerua Nigri Nouella Okella Pakila Paeta Pansa Papa Paterkula Paulla
+		Pauoni Pera Piktori Pisoni Planka Plauta Poplikola Postuma Potita Praekonina 
+		Praetekstata Priska Prokula Publikola Pulkhri Pulla Puluilla Purpurea
+		Kvadrata Ralla Regilla Regula Rupha Ruga Rulla Rutila Salinatori Saturnina Skaeu 
+		Skaeuola Skapula Skaura Skipioni Skropha Seneka Seuera Silana Siloni Sila Stoloni
+		Straboni Strukta Sulla Sura Taura Triari Trigemina Trioni Tuberoni Tuberta Tubula 
+		Tuditana Tulla Turda Uarroni Uara Uati Uerriti Uespilloni Ueta Uitula Uolusa 
 	}
 
 	dynasty_names = {
-		Aimili Antoni Atīli Ati Auphidi Aureli Kaekili Kalpurni Kassi Klaudi
-		Klodi Korneli Domiti Phabi Phlāui Phului Phūri Gabīni Galeri Horāti Iūli
-		Iuni Likini Līui Luki Mamili Mānli Mari Memmi Nigidī Oktāui Papīri Plīni
-		Postumi Pompei Rabiri Kvīnkti Salui Skriboni Semproni Sertori Sili Titi
-		Tulli Ulpi Ualeri Uesuui Uiniki Uiridi Uitelli
+		Aimili Antoni Atili Ati Auphidi Aureli Kaekili Kalpurni Kassi Klaudi Klodi Korneli
+		Domiti Phabi Phlaui Phului Phuri Gabini Galeri Horati Iuli Iuni Likini Liui Luki
+		Mamili Manli Mari Memmi Nigidi Oktaui Papiri Plini Postumi Pompei Rabiri Kvinkti
+		Salui Skriboni Semproni Sertori Sili Titi Tulli Ulpi Ualeri Uesuui Uiniki Uiridi Uitelli 
 	}
 
 	male_names = {
-		Gāia Lūki Mārka Pūbli Kvīnta Tita Tiberi Sekṣta
-		Aula Dekima Ṅaea Spuri Māni Serui Appi Numeri
-		Uibi
-		Aemūli Kamilla Deki Drūsa Phausta Phlāui Galla
-		Heri Hosta Opiteri Oktāui Postuma Prīma Prokula
-		Sekunda Terti Anka
+		Gaia Luuki Marka Publi Kvinta Tita Tiberi Seksta Aula Dekima Naea Spuri Mani Serui
+		Appi Numeri Uibi Aemuli Kamilla Deki Drusa Phausta Phlaui Galla Heri Hosta Opiteri 
+		Oktaui Postuma Prima Prokula Sekunda Terti Anka 
 	}
 	female_names = {
-		Gāia Luki Marka Publi Kvīnta Tīta Tiberi Sekṣta Aula Dekima
-		Ṅae Spuri Māni Serui Appi Numeri Uibi
-		Muli Kamilla Deki Drūsa Phausta Phlāui Galla Heri
-		Hosta Opiteri Oktāui Postuma Prīma Prokula Sekunda Terti Anka
+		Gaia Luki Marka Publi Kvinta Tita Tiberi Seksta Aula Dekima Nae Spuri Mani Serui Appi
+		Numeri Uibi Muli Kamilla Deki Drusa Phausta Phlaui Galla Heri Hosta Opiteri Oktaui 
+		Postuma Prima Prokula Sekunda Terti Anka 
 	}
-
+	
 	founder_named_dynasties = yes
-
-
+	
+	
 	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
 	pat_grf_name_chance = 50
 	mat_grf_name_chance = 25
 	father_name_chance = 25
-
+	
 	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
 	pat_grm_name_chance = 25
 	mat_grm_name_chance = 25
 	mother_name_chance = 0
-
-
+	
+	
 
 	mercenary_names = {
 		{ name = "mercenary_company_company_of_many_colours" }

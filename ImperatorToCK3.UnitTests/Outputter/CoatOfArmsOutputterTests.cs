@@ -1,11 +1,14 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
@@ -17,6 +20,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Outputter;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Xunit;
@@ -27,7 +31,11 @@ public class CoatOfArmsOutputterTests {
 	private const string ImperatorRoot = "TestFiles/CoatOfArmsOutputterTests/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
+	
+	public CoatOfArmsOutputterTests() {
+		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
+	}
 
 	[Fact]
 	public void CoaIsOutputtedForCountryWithFlagSet() {
@@ -45,19 +53,21 @@ public class CoatOfArmsOutputterTests {
 		var ck3Religions = new ReligionCollection(titles);
 		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(countries,
+			Array.Empty<Dependency>(),
 			new TagTitleMapper(),
 			new LocDB("english"),
 			new ProvinceMapper(),
 			new CoaMapper(irModFS),
-			new GovernmentMapper(),
+			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
-			new CultureMapper(irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper, new CultureCollection(new ColorFactory(), new PillarCollection(new ColorFactory()))),
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(400, 1, 1),
-			new Configuration()
+			new Configuration(),
+			new List<KeyValuePair<Country, Dependency?>>()
 		);
 
 		CoatOfArmsOutputter.OutputCoas(outputModName, titles, new List<Dynasty>());
@@ -65,7 +75,7 @@ public class CoatOfArmsOutputterTests {
 		using var file = File.OpenRead(outputPath);
 		var reader = new StreamReader(file);
 
-		Assert.Equal("d_IMPTOCK3_ADI={", reader.ReadLine());
+		Assert.Equal("d_IRTOCK3_ADI={", reader.ReadLine());
 		Assert.Equal("\tpattern=\"pattern_solid.tga\"", reader.ReadLine());
 		Assert.Equal("\tcolor1=red color2=green color3=blue", reader.ReadLine());
 		Assert.Equal("}", reader.ReadLine());
@@ -87,19 +97,21 @@ public class CoatOfArmsOutputterTests {
 		var ck3Religions = new ReligionCollection(titles);
 		var ck3RegionMapper = new CK3RegionMapper();
 		titles.ImportImperatorCountries(countries,
+			Array.Empty<Dependency>(),
 			new TagTitleMapper(),
 			new LocDB("english"),
 			new ProvinceMapper(),
 			new CoaMapper(irModFS),
-			new GovernmentMapper(),
+			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
-			new CultureMapper(irRegionMapper, ck3RegionMapper),
+			new CultureMapper(irRegionMapper, ck3RegionMapper, new CultureCollection(new ColorFactory(), new PillarCollection(new ColorFactory()))),
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(400, 1, 1),
-			new Configuration()
+			new Configuration(),
+			new List<KeyValuePair<Country, Dependency?>>()
 		);
 
 		CoatOfArmsOutputter.OutputCoas(outputModName, titles, new List<Dynasty>());

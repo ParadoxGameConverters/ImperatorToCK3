@@ -80,9 +80,9 @@
  vandal_collective_noun: "Vandalen"
  vandal_prefix: "vandalo"
 
- iberian: "iberisch"
- iberian_collective_noun: "Iberer"
- iberian_prefix: "ibero"
+ non_indo_european_iberian: "iberisch"
+ non_indo_european_iberian_collective_noun: "Iberer"
+ non_indo_european_iberian_prefix: "ibero"
 
  nuragic: "nuragisch"
  nuragic_collective_noun: "Nuragen-Leute"
@@ -327,8 +327,8 @@
  romano_british_group_collective_noun: "Romano-Briten"
  romano_german_group: "romano-germanisch"
  romano_german_group_collective_noun: "Romano-Germanen"
- aboriginal_group: "ureinwohnerisch"
- aboriginal_group_collective_noun: "Ureinwohner"
+ nuragic_group: "nuraghisch"
+ nuragic_group_collective_noun: "Nuraghen"
  tyrrhenian: "tyrrhenisch"
  tyrrhenian_collective_noun: "Tyrrhener"
  rhaetian: "rhätisch"

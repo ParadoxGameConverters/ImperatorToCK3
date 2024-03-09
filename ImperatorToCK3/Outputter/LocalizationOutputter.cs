@@ -1,6 +1,8 @@
 ﻿using commonItems;
+using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
 
@@ -11,20 +13,11 @@ public static class LocalizationOutputter {
 		var baseLocDir = Path.Join(outputPath, "localization");
 		var baseReplaceLocDir = Path.Join(baseLocDir, "replace");
 
-		// copy character/family names localization
-		foreach (var languageName in ConverterGlobals.SupportedLanguages) {
-			var locFileLocation = irModFS.GetActualFileLocation($"localization/{languageName}/character_names_l_{languageName}.yml");
-			if (locFileLocation is not null) {
-				SystemUtils.TryCopyFile(locFileLocation,
-					Path.Combine(outputPath, $"localization/replace/{languageName}/IMPERATOR_character_names_l_{languageName}.yml")
-				);
-			}
-		}
+		CopyCharacterAndFamilyNamesLocalization(irModFS, outputPath);
 
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			var locFilePath = Path.Join(baseReplaceLocDir, language, $"converter_l_{language}.yml");
-			using var locFileStream = File.OpenWrite(locFilePath);
-			using var locWriter = new StreamWriter(locFileStream, encoding: System.Text.Encoding.UTF8);
+			using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, encoding: System.Text.Encoding.UTF8);
 
 			locWriter.WriteLine($"l_{language}:");
 
@@ -52,8 +45,7 @@ public static class LocalizationOutputter {
 		// dynasty localization
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			var dynastyLocFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_dynasty_l_{language}.yml");
-			using var dynastyLocStream = File.OpenWrite(dynastyLocFilePath);
-			using var dynastyLocWriter = new StreamWriter(dynastyLocStream, System.Text.Encoding.UTF8);
+			using var dynastyLocWriter = FileOpeningHelper.OpenWriteWithRetries(dynastyLocFilePath, System.Text.Encoding.UTF8);
 
 			dynastyLocWriter.WriteLine($"l_{language}:");
 
@@ -65,6 +57,63 @@ public static class LocalizationOutputter {
 					Logger.Warn($"Dynasty {dynasty.Id} has no localizations!");
 					dynastyLocWriter.WriteLine($" {dynasty.Name}: \"{dynasty.Name}\"");
 				}
+			}
+		}
+		
+		OutputFallbackLockForMissingSecondaryLanguageLoc(baseLocDir, ck3World.ModFS);
+	}
+
+	private static void CopyCharacterAndFamilyNamesLocalization(ModFilesystem irModFS, string outputPath) {
+		foreach (var languageName in ConverterGlobals.SupportedLanguages) {
+			var locFileLocation = irModFS.GetActualFileLocation($"localization/{languageName}/character_names_l_{languageName}.yml");
+			if (locFileLocation is not null) {
+				SystemUtils.TryCopyFile(locFileLocation,
+					Path.Combine(outputPath, $"localization/replace/{languageName}/IMPERATOR_character_names_l_{languageName}.yml")
+				);
+			}
+		}
+	}
+
+	private static void OutputFallbackLockForMissingSecondaryLanguageLoc(string baseLocDir, ModFilesystem ck3ModFS) {
+		var primaryLanguage = ConverterGlobals.PrimaryLanguage;
+		var secondaryLanguages = ConverterGlobals.SecondaryLanguages;
+		
+		var ck3LocDB = new LocDB(primaryLanguage, secondaryLanguages);
+		ck3LocDB.ScrapeLocalizations(ck3ModFS);
+
+		var languageToLocLinesDict = new Dictionary<string, List<string>>();
+		foreach (var language in secondaryLanguages) {
+			languageToLocLinesDict[language] = new List<string>();
+		}
+		
+		foreach (var locBlock in ck3LocDB) {
+			if (!locBlock.HasLocForLanguage(primaryLanguage)) {
+				continue;
+			}
+
+			foreach (var secondaryLanguage in secondaryLanguages) {
+				if (locBlock.HasLocForLanguage(secondaryLanguage)) {
+					continue;
+				}
+				
+				languageToLocLinesDict[secondaryLanguage].Add(locBlock.GetYmlLocLineForLanguage(primaryLanguage));
+			}
+		}
+
+		foreach (var language in secondaryLanguages) {
+			var linesToOutput = languageToLocLinesDict[language];
+			if (linesToOutput.Count == 0) {
+				continue;
+			}
+			
+			Logger.Debug($"Outputting {linesToOutput.Count} fallback loc lines for {language}...");
+			
+			var locFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_fallback_loc_l_{language}.yml");
+			using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, System.Text.Encoding.UTF8);
+
+			locWriter.WriteLine($"l_{language}:");
+			foreach (var line in linesToOutput) {
+				locWriter.WriteLine(line);
 			}
 		}
 	}

@@ -17,8 +17,8 @@ public partial class Country : IIdentifiable<ulong> {
 	public Character? Monarch { get; private set; }
 	public string? PrimaryCulture { get; private set; }
 	public string? Religion { get; private set; }
-	public List<RulerTerm> RulerTerms { get; set; } = new();
-	public Dictionary<string, int> HistoricalRegnalNumbers { get; private set; } = new();
+	public IList<RulerTerm> RulerTerms { get; set; } = new List<RulerTerm>();
+	public IDictionary<string, int> HistoricalRegnalNumbers { get; private set; } = new Dictionary<string, int>();
 	public string Tag { get; private set; } = "";
 	private string? historicalTag;
 	public string HistoricalTag {
@@ -43,9 +43,9 @@ public partial class Country : IIdentifiable<ulong> {
 	public Color? Color2 { get; private set; }
 	public Color? Color3 { get; private set; }
 	public CountryCurrencies Currencies { get; private set; } = new();
-	private readonly HashSet<ulong> parsedFamilyIds = new();
-	public Dictionary<ulong, Family> Families { get; private set; } = new();
-	private readonly HashSet<Province> ownedProvinces = new();
+	private readonly HashSet<ulong> parsedFamilyIds = [];
+	public IDictionary<ulong, Family> Families { get; private set; } = new Dictionary<ulong, Family>();
+	private readonly HashSet<Province> ownedProvinces = [];
 
 	public CK3.Titles.Title? CK3Title { get; set; }
 
@@ -60,25 +60,17 @@ public partial class Country : IIdentifiable<ulong> {
 			_ => monarchyLaws,
 		};
 	}
+	public int TerritoriesCount => ownedProvinces.Count;
 	public CountryRank Rank {
 		get {
-			var provCount = ownedProvinces.Count;
-			if (provCount == 0) {
-				return CountryRank.migrantHorde;
-			}
-			if (provCount == 1) {
-				return CountryRank.cityState;
-			}
-			if (provCount <= 24) {
-				return CountryRank.localPower;
-			}
-			if (provCount <= 99) {
-				return CountryRank.regionalPower;
-			}
-			if (provCount <= 499) {
-				return CountryRank.majorPower;
-			}
-			return CountryRank.greatPower;
+			return TerritoriesCount switch {
+				0 => CountryRank.migrantHorde,
+				1 => CountryRank.cityState,
+				<= 24 => CountryRank.localPower,
+				<= 99 => CountryRank.regionalPower,
+				<= 499 => CountryRank.majorPower,
+				_ => CountryRank.greatPower
+			};
 		}
 	}
 	public void RegisterProvince(Province province) {

@@ -25,7 +25,9 @@ DebugIntermediate/
 ImperatorToCK3.UnitTests/obj/
 ImperatorToCK3/obj/
 Publish/
+Output/
 
 
 log.txt
 *.user
+.vscode/settings.json

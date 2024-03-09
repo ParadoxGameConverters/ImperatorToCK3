@@ -60,8 +60,8 @@
  vandal: "vándala"
  vandal_collective_noun: "Vándalos"
 
- iberian: "ibérica"
- iberian_collective_noun: "Iberos"
+ non_indo_european_iberian: "ibérica"
+ non_indo_european_iberian_collective_noun: "Iberos"
 
  nuragic: "nurágica"
  nuragic_collective_noun: "Nurágicos"
@@ -250,8 +250,8 @@
  romano_british_group_collective_noun: "Romano-Británicos"
  romano_german_group: "romano-germánica"
  romano_german_group_collective_noun: "Romano-Germános"
- aboriginal_group: "aborígena"
- aboriginal_group_collective_noun: "Aborígenes"
+ nuragic_group: "nurágico"
+ nuragic_group_collective_noun: "Nurágicos"
  tyrrhenian: "tirrena"
  tyrrhenian_collective_noun: "Tirrenos"
  rhaetian: "rética"

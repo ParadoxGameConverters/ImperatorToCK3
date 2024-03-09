@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -9,37 +10,37 @@ namespace ImperatorToCK3.Outputter;
 
 public static class CharactersOutputter {
 	public static void OutputCharacters(string outputModName, CharacterCollection characters, Date conversionDate) {
+		// Portrait modifiers need to be outputted before characters themselves,
+		// because while outputting the portrait modifiers we're adding character flags to character history.
+		var charactersWithDNA = characters
+			.Where(c => c.DNA is not null)
+			.ToImmutableList();
+		OutputPortraitModifiers(outputModName, charactersWithDNA, conversionDate);
+		
 		var charactersFromIR = characters.Where(c => c.FromImperator).ToImmutableList();
 		var charactersFromCK3 = characters.Except(charactersFromIR).ToImmutableList();
 		
 		var pathForCharactersFromIR = $"output/{outputModName}/history/characters/IRToCK3_fromImperator.txt";
-		using var stream = File.OpenWrite(pathForCharactersFromIR);
-		using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromIR);
 		foreach (var character in charactersFromIR) {
 			CharacterOutputter.OutputCharacter(output, character, conversionDate);
 		}
 
 		var pathForCharactersFromCK3 = $"output/{outputModName}/history/characters/IRToCK3_fromCK3.txt";
-		using var stream2 = File.OpenWrite(pathForCharactersFromCK3);
-		using var output2 = new StreamWriter(stream2, System.Text.Encoding.UTF8);
+		using var output2 = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromCK3, System.Text.Encoding.UTF8);
 		foreach (var character in charactersFromCK3) {
 			CharacterOutputter.OutputCharacter(output2, character, conversionDate);
 		}
-		
-		var charactersWithDNA = characters
-			.Where(c => c.DNA is not null)
-			.ToImmutableList();
 		OutputCharactersDNA(outputModName, charactersWithDNA);
-		OutputPortraitModifiers(outputModName, charactersWithDNA);
 	}
 
-	private static void OutputCharactersDNA(string outputModName, IReadOnlyCollection<Character> charactersWithDNA) {
+	private static void OutputCharactersDNA(string outputModName, IEnumerable<Character> charactersWithDNA) {
 		Logger.Info("Outputting DNA...");
 		// Dump all into one file.
 		var path = Path.Combine("output", outputModName, "common/dna_data/IRToCK3_dna_data.txt");
-		using var stream = File.OpenWrite(path);
-		using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(path, System.Text.Encoding.UTF8);
 		foreach (var character in charactersWithDNA) {
+			Logger.Error($"OUTPUTTING DNA FOR CHARACTER {character.Id}");
 			var dna = character.DNA!;
 			output.WriteLine($"{dna.Id}={{");
 			output.WriteLine("\tportrait_info={");
@@ -52,58 +53,63 @@ public static class CharactersOutputter {
 		}
 	}
 
-	private static void OutputPortraitModifiers(string outputModName, IReadOnlyCollection<Character> charactersWithDNA) {
+	private static void OutputPortraitModifiers(string outputModName, IReadOnlyCollection<Character> charactersWithDNA, Date conversionDate) {
 		Logger.Debug("Outputting portrait modifiers...");
 		// Enforce hairstyles and beards (otherwise CK3 they will only be used on bookmark screen).
 		// https://ck3.paradoxwikis.com/Characters_modding#Changing_appearance_through_scripts
 		var portraitModifiersOutputPath = Path.Combine("output", outputModName, "gfx/portraits/portrait_modifiers/IRToCK3_portrait_modifiers.txt");
-		using var stream = File.OpenWrite(portraitModifiersOutputPath);
-		using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(portraitModifiersOutputPath, System.Text.Encoding.UTF8);
 
-		OutputPortraitModifiersForGene("hairstyles", charactersWithDNA, output);
+		OutputPortraitModifiersForGene("hairstyles", charactersWithDNA, output, conversionDate);
 		var malesWithBeards = charactersWithDNA
 			.Where(c => !c.Female && c.DNA!.AccessoryDNAValues.ContainsKey("beards"))
 			.ToImmutableList();
-		OutputPortraitModifiersForGene("beards", malesWithBeards, output);
+		OutputPortraitModifiersForGene("beards", malesWithBeards, output, conversionDate);
 	}
 
 	private static void OutputPortraitModifiersForGene(
 		string geneName,
 		IReadOnlyCollection<Character> charactersWithDNA,
-		TextWriter output
+		TextWriter output,
+		Date conversionDate
 	) {
 		var charactersByGeneValue = charactersWithDNA
+			.Where(c => c.DNA!.AccessoryDNAValues.ContainsKey(geneName))
 			.GroupBy(c => new {
 				c.DNA!.AccessoryDNAValues[geneName].TemplateName,
-				c.DNA!.AccessoryDNAValues[geneName].IntSliderValue
+				c.DNA!.AccessoryDNAValues[geneName].ObjectName
 			});
 		output.WriteLine($"IRToCK3_{geneName}_overrides = {{");
 		output.WriteLine("\tusage = game");
 		output.WriteLine("\tselection_behavior = max");
 		foreach (var grouping in charactersByGeneValue) {
 			var templateName = grouping.Key.TemplateName;
-			var intSliderValue = grouping.Key.IntSliderValue;
+			var accessoryName = grouping.Key.ObjectName;
+
+			var characterFlagName = $"portrait_modifier_{templateName}_obj_{accessoryName}";
+			var characterEffectStr = $"{{ add_character_flag = {characterFlagName} }}";
+
+			foreach (Character character in grouping) {
+				character.History.AddFieldValue(conversionDate, "effects", "effect", characterEffectStr);
+			}
 			
-			output.WriteLine($"\t{templateName}_{intSliderValue} = {{");
+			output.WriteLine($"\t{templateName}_obj_{accessoryName} = {{");
 			output.WriteLine("\t\tdna_modifiers = {");
 			output.WriteLine("\t\t\taccessory = {");
 			output.WriteLine("\t\t\t\tmode = add");
 			output.WriteLine($"\t\t\t\tgene = {geneName}");
 			output.WriteLine($"\t\t\t\ttemplate = {templateName}");
-			output.WriteLine($"\t\t\t\tvalue = {(intSliderValue / 255.0):0.###}");
+			output.WriteLine($"\t\t\t\taccessory = {accessoryName}");
 			output.WriteLine("\t\t\t}");
 			output.WriteLine("\t\t}");
 			
 			output.WriteLine("\t\tweight = {");
 			output.WriteLine("\t\t\tbase = 0");
-			foreach (var character in grouping) {
-				output.WriteLine("\t\t\tmodifier = {");
-				output.WriteLine("\t\t\t\tadd = 999");
-				output.WriteLine("\t\t\t\texists = this");
-				output.WriteLine($"\t\t\t\texists = character:{character.Id}");
-				output.WriteLine($"\t\t\t\tthis = character:{character.Id}");
-				output.WriteLine("\t\t\t}");
-			}
+			output.WriteLine("\t\t\tmodifier = {");
+			output.WriteLine("\t\t\t\tadd = 999");
+			output.WriteLine($"\t\t\t\thas_character_flag = {characterFlagName}");
+			output.WriteLine("\t\t\t}");
+			
 			output.WriteLine("\t\t}");
 			output.WriteLine("\t}");
 		}

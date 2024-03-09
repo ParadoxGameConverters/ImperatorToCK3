@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
 
@@ -8,8 +9,7 @@ public static class SuccessionTriggersOutputter {
 	public static void OutputSuccessionTriggers(string outputModName, Title.LandedTitles landedTitles, Date ck3BookmarkDate) {
 		var outputPath = Path.Combine("output", outputModName, "common", "scripted_triggers", "IRToCK3_succession_triggers.txt");
 
-		using var outputStream = File.OpenWrite(outputPath);
-		using var output = new StreamWriter(outputStream, System.Text.Encoding.UTF8);
+		using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 
 		var primogenitureTitles = new List<string>();
 		var seniorityTitles = new List<string>();

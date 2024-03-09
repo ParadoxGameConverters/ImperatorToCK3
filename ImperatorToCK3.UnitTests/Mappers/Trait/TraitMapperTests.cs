@@ -9,10 +9,12 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Trait;
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class TraitMapperTests {
 	public class TestTraitMapper : TraitMapper {
-		public TestTraitMapper(Dictionary<string, string> impToCK3TraitMap, IdObjectCollection<string, ImperatorToCK3.CK3.Characters.Trait> ck3Traits) {
-			ImpToCK3TraitMap = impToCK3TraitMap;
+		public TestTraitMapper(Dictionary<string, string> irToCK3TraitMap, IdObjectCollection<string, ImperatorToCK3.CK3.Characters.Trait> ck3Traits) {
+			ImperatorToCK3TraitMap = irToCK3TraitMap;
 			CK3Traits = ck3Traits;
 		}
 	}

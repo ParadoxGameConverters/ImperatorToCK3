@@ -1,6 +1,5 @@
 ﻿using commonItems;
 using commonItems.Collections;
-using System;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
@@ -8,7 +7,7 @@ namespace ImperatorToCK3.CommonUtils.Genes;
 public class AccessoryGeneTemplate : IIdentifiable<string> {
 	public string Id { get; }
 	public uint Index { get; private set; } = 0;
-	public Dictionary<string, WeightBlock> AgeSexWeightBlocks { get; } = new();
+	public IDictionary<string, WeightBlock> AgeSexWeightBlocks { get; } = new Dictionary<string, WeightBlock>();
 
 	public AccessoryGeneTemplate(string id, BufferedReader reader) {
 		Id = id;

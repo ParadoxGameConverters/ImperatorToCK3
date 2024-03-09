@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -16,6 +17,13 @@ public partial class Province {
 			_ => null
 		};
 	}
+
+	public void SetFaithIdAndOverrideExistingEntries(string faithId) {
+		var faithHistoryField = History.Fields["faith"];
+		faithHistoryField.RemoveAllEntries();
+		faithHistoryField.AddEntryToHistory(null, "faith", faithId);
+	}
+	
 	public void SetFaithId(string faithId, Date? date) {
 		History.AddFieldValue(date, "faith", "faith", faithId);
 	}
@@ -23,13 +31,25 @@ public partial class Province {
 	public string? GetCultureId(Date date) {
 		var historyValue = History.GetFieldValue("culture", date);
 		return historyValue switch {
-			StringOfItem stringOfItem => stringOfItem.ToString(),
-			string cultureStr => cultureStr,
+			StringOfItem stringOfItem => stringOfItem.ToString().RemQuotes(),
+			string cultureStr => cultureStr.RemQuotes(),
 			_ => null
 		};
 	}
 	public void SetCultureId(string cultureId, Date? date) {
 		History.AddFieldValue(date, "culture", "culture", cultureId);
+	}
+	
+	public Culture? GetCulture(Date date, CultureCollection cultures) {
+		var cultureId = GetCultureId(date);
+		if (cultureId is null) {
+			return null;
+		}
+		if (cultures.TryGetValue(cultureId, out var culture)) {
+			return culture;
+		}
+		Logger.Warn($"Culture with ID {cultureId} not found!");
+		return null;
 	}
 
 	public string? GetHoldingType(Date date) {

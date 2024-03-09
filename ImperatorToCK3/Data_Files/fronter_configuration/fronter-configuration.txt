@@ -3,6 +3,8 @@ converterFolder = ImperatorToCK3
 backendExePath = ImperatorToCK3Converter
 displayName = IMPDISPLAYNAME
 
+sentryDsn = "https://9b108bcd89e348018522fc56be7ac112@o4505568167460864.ingest.sentry.io/4505568179257344"
+
 sourceGame = IMPGAME
 targetGame = CK3GAME
 
@@ -13,7 +15,6 @@ converterReleaseForumThread = "https://forum.paradoxplaza.com/forum/threads/impe
 pagesCommitIdUrl = "https://paradoxgameconverters.com/commit_ids/ImperatorToCK3.txt"
 
 autoGenerateModsFrom = targetGameModPath
-overwritePlayset = true
 progressOnCopyingComplete = 100 # Final progressbar value after completion of mod copying.
 
 requiredFolder = {
@@ -21,8 +22,9 @@ requiredFolder = {
 	displayName = IMPFOLDER
 	tooltip = IMPFOLDERTIP
 	mandatory = true
-	searchPathType = steamFolder
-	searchPathID = 859580
+	searchPathType = storeFolder
+	steamGameID = 859580
+	gogGameID = 2131232214
 }
 requiredFolder = {
 	name = ImperatorDocDirectory
@@ -37,8 +39,8 @@ requiredFolder = {
 	displayName = CK3FOLDER
 	tooltip = CK3FOLDERTIP
 	mandatory = true
-	searchPathType = steamFolder
-	searchPathID = 1158310
+	searchPathType = storeFolder
+	steamGameID = 1158310
 }
 requiredFolder = {
 	name = targetGameModPath

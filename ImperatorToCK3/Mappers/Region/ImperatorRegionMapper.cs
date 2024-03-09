@@ -1,34 +1,35 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.Imperator.Geography;
 
 namespace ImperatorToCK3.Mappers.Region;
 
-public class ImperatorRegionMapper {
+public sealed class ImperatorRegionMapper {
 	public IdObjectCollection<string, ImperatorRegion> Regions { get; } = new();
 	private readonly AreaCollection areas;
 
-	public ImperatorRegionMapper(ModFilesystem imperatorModFS, AreaCollection areaCollection) {
+	public ImperatorRegionMapper(AreaCollection areaCollection) {
 		areas = areaCollection;
+	}
 
+	public void LoadRegions(ModFilesystem imperatorModFS, ColorFactory colorFactory) {
 		Logger.Info("Initializing Imperator geography...");
-
-		var parser = new Parser();
 
 		const string regionsFilePath = "map_data/regions.txt";
 		Logger.Debug($"Imperator regions file location: {imperatorModFS.GetActualFileLocation(regionsFilePath)}");
-
-		RegisterRegionKeys(parser);
+		
+		var parser = new Parser();
+		RegisterRegionKeys(parser, colorFactory);
 		parser.ParseGameFile(regionsFilePath, imperatorModFS);
-
-		LinkRegions();
 
 		Logger.IncrementProgress();
 	}
-	private void RegisterRegionKeys(Parser parser) {
+	
+	private void RegisterRegionKeys(Parser parser, ColorFactory colorFactory) {
 		parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => {
-			Regions.AddOrReplace(new ImperatorRegion(regionName, reader));
+			Regions.AddOrReplace(new ImperatorRegion(regionName, reader, areas, colorFactory));
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 	}
@@ -61,10 +62,5 @@ public class ImperatorRegionMapper {
 		}
 		Logger.Warn($"I:R province ID {provinceId} has no parent area name!");
 		return null;
-	}
-	private void LinkRegions() {
-		foreach (var region in Regions) {
-			region.LinkAreas(areas);
-		}
 	}
 }

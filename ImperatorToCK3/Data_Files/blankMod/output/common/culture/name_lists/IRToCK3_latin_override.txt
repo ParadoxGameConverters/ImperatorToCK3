@@ -44,7 +44,7 @@
 	agn_Plancus agn_Plautus agn_Poplicola agn_Postumus agn_Potitus agn_Praeconinus
 	agn_Praetextatus agn_Priscus agn_Proculus agn_Publicola agn_Pulcher agn_Pullus
 	agn_Pulvillus agn_Purpureo agn_Quadratus agn_Ralla agn_Regillus agn_Regulus
-	agn_Rufus agn_Ruga gn_Rullus agn_Rutilus agn_Salinator agn_Saturninus agn_Scaeva
+	agn_Rufus agn_Ruga agn_Rullus agn_Rutilus agn_Salinator agn_Saturninus agn_Scaeva
 	agn_Scaevola agn_Scapula agn_Scaurus agn_Scipio agn_Scrofa agn_Seneca agn_Severus
 	agn_Silanus agn_Silo agn_Silus agn_Stolo agn_Strabo agn_Structus agn_Sulla agn_Sura
 	agn_Taurus agn_Triarius agn_Trigeminus agn_Trio agn_Tubero agn_Tubertus agn_Tubulus

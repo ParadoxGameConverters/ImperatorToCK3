@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Colors;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Provinces;
@@ -11,6 +12,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region;
 
 public class ImperatorRegionTests {
 	private readonly ProvinceCollection provinces = new();
+	private static readonly ColorFactory ColorFactory = new();
 
 	public ImperatorRegionTests() {
 		provinces.LoadProvinces(new BufferedReader(
@@ -21,36 +23,33 @@ public class ImperatorRegionTests {
 	[Fact]
 	public void BlankRegionLoadsWithNoAreas() {
 		var reader = new BufferedReader(string.Empty);
-		var region = new ImperatorRegion("region1", reader);
+		var region = new ImperatorRegion("region1", reader, new AreaCollection(), ColorFactory);
 
 		Assert.Empty(region.Areas);
 	}
 
 	[Fact]
 	public void RegionCanBeLinkedToArea() {
-		var reader1 = new BufferedReader("areas = { test1 }");
-		var region = new ImperatorRegion("region1", reader1);
-
 		var reader2 = new BufferedReader("{ provinces  = { 3 6 2 }}");
 		var area = new Area("test1", reader2, provinces);
 		var areas = new IdObjectCollection<string, Area> { area };
-		region.LinkAreas(areas);
+		
+		var reader1 = new BufferedReader("areas = { test1 }");
+		var region = new ImperatorRegion("region1", reader1, areas, ColorFactory);
 
 		Assert.NotNull(region.Areas["test1"]);
 	}
 
 	[Fact]
-	public void MultipleAreasCanBeLoaded() {
-		var reader = new BufferedReader("areas = { test1 test2 test3 }");
-		var region = new ImperatorRegion("region1", reader);
-
-		var emptyReader = new BufferedReader(string.Empty);
+	public void MultipleAreasCanBeLoaded() {var emptyReader = new BufferedReader(string.Empty);
 		var area1 = new Area("test1", emptyReader, provinces);
 		var area2 = new Area("test2", emptyReader, provinces);
 		var area3 = new Area("test3", emptyReader, provinces);
 		var areas = new IdObjectCollection<string, Area> { area1, area2, area3 };
-		region.LinkAreas(areas);
 
+		var reader = new BufferedReader("areas = { test1 test2 test3 }");
+		var region = new ImperatorRegion("region1", reader, areas, ColorFactory);
+		
 		Assert.Collection(region.Areas,
 			item => Assert.Equal("test1", item.Id),
 			item => Assert.Equal("test2", item.Id),
@@ -60,26 +59,24 @@ public class ImperatorRegionTests {
 
 	[Fact]
 	public void LinkedRegionCanLocateProvince() {
-		var reader1 = new BufferedReader("{ areas={area1} }");
-		var region = new ImperatorRegion("region1", reader1);
-
 		var reader2 = new BufferedReader("{ provinces = { 3 6 2 }}");
 		var area = new Area("area1", reader2, provinces);
 		var areas = new IdObjectCollection<string, Area> { area };
-		region.LinkAreas(areas);
-
+		
+		var reader1 = new BufferedReader("{ areas={area1} }");
+		var region = new ImperatorRegion("region1", reader1, areas, ColorFactory);
+		
 		Assert.True(region.ContainsProvince(6));
 	}
 
 	[Fact]
 	public void LinkedRegionWillFailForProvinceMismatch() {
-		var reader1 = new BufferedReader("{ areas={area1} }");
-		var region = new ImperatorRegion("region1", reader1);
-
 		var reader2 = new BufferedReader("{ provinces  = { 3 6 2 }}");
 		var area = new Area("area1", reader2, provinces);
 		var areas = new IdObjectCollection<string, Area> { area };
-		region.LinkAreas(areas);
+
+		var reader1 = new BufferedReader("{ areas={area1} }");
+		var region = new ImperatorRegion("region1", reader1, areas, ColorFactory);
 
 		Assert.False(region.ContainsProvince(7));
 	}

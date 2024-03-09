@@ -1,89 +1,89 @@
 # Usage:
-# link = { ck3 = ck3Trait imp = impTrait }
-# Multiples of imp are allowed.
+# link = { ck3 = ck3Trait ir = irTrait }
+# Multiples of ir are allowed.
 
 
 # Personality
-link = { ck3 = brave imp = brave }
-link = { ck3 = craven imp = coward }
+link = { ck3 = brave ir = brave }
+link = { ck3 = craven ir = coward }
 
-link = { ck3 = lustful imp = lustful }
-link = { ck3 = chaste imp = chaste }
+link = { ck3 = lustful ir = lustful }
+link = { ck3 = chaste ir = chaste }
 
-link = { ck3 = gluttonous imp = gluttonous }
-link = { ck3 = temperate imp = self_controlled }
+link = { ck3 = gluttonous ir = gluttonous }
+link = { ck3 = temperate ir = self_controlled }
 
-link = { ck3 = diligent imp = energetic imp = obsessive }
-link = { ck3 = lazy imp = lazy }
+link = { ck3 = diligent ir = energetic ir = obsessive }
+link = { ck3 = lazy ir = lazy }
 
-link = { ck3 = ambitious imp = ambitious }
-link = { ck3 = content imp = content }
+link = { ck3 = ambitious ir = ambitious }
+link = { ck3 = content ir = content }
 
-link = { ck3 = arrogant imp = arrogant imp = proud imp = sarcastic }
-link = { ck3 = humble imp = modest imp = modest }
+link = { ck3 = arrogant ir = arrogant ir = proud ir = sarcastic }
+link = { ck3 = humble ir = modest ir = modest }
 
-link = { ck3 = zealous imp = devout imp = zealous imp = pious }
-link = { ck3 = cynical imp = lapsed imp = sceptical }
+link = { ck3 = zealous ir = devout ir = zealous ir = pious }
+link = { ck3 = cynical ir = lapsed ir = sceptical }
 
-link = { ck3 = just imp = just }
-link = { ck3 = arbitrary imp = arbitrary }
+link = { ck3 = just ir = just }
+link = { ck3 = arbitrary ir = arbitrary }
 
-link = { ck3 = generous imp = generous }
-link = { ck3 = greedy imp = selfish imp = miserly }
+link = { ck3 = generous ir = generous }
+link = { ck3 = greedy ir = selfish ir = miserly }
 
-link = { ck3 = honest imp = honest imp = blunt imp = plain_speaking }
-link = { ck3 = deceitful imp = deceitful }
+link = { ck3 = honest ir = honest ir = blunt ir = plain_speaking }
+link = { ck3 = deceitful ir = deceitful }
 
-link = { ck3 = intellect_good_2 imp = intelligent }
-link = { ck3 = intellect_bad_2 imp = dumb }
+link = { ck3 = intellect_good_2 ir = intelligent }
+link = { ck3 = intellect_bad_2 ir = dumb }
 
-link = { ck3 = paranoid imp = shrewd imp = suspicious }
-link = { ck3 = trusting imp = foolish imp = trusting imp = guileless }
+link = { ck3 = paranoid ir = shrewd ir = suspicious }
+link = { ck3 = trusting ir = foolish ir = trusting ir = guileless }
 
-link = { ck3 = reckless imp = reckless imp = confident }
-link = { ck3 = cautious_leader imp = cautious }
+link = { ck3 = reckless ir = reckless ir = confident }
+link = { ck3 = cautious_leader ir = cautious }
 
-link = { ck3 = vengeful imp = vengeful }
-link = { ck3 = forgiving imp = forgiving }
+link = { ck3 = vengeful ir = vengeful }
+link = { ck3 = forgiving ir = forgiving }
 
-link = { ck3 = education_diplomacy_3 imp = silver_tongued }
+link = { ck3 = education_diplomacy_3 ir = silver_tongued }
 
-link = { ck3 = education_intrigue_3 imp = crafty }
+link = { ck3 = education_intrigue_3 ir = crafty }
 
-link = { ck3 = callous imp = cruel imp = cold}
-link = { ck3 = compassionate imp = merciful imp = loving }
+link = { ck3 = callous ir = cruel ir = cold}
+link = { ck3 = compassionate ir = merciful ir = loving }
 
-link = { ck3 = mystic_1 imp = scholar imp = polymath }
-link = { ck3 = stubborn imp = narrowminded imp = stubborn }
-link = { ck3 = fickle imp = weak_willed }
+link = { ck3 = lifestyle_mystic ir = scholar ir = polymath }
+link = { ck3 = stubborn ir = narrowminded ir = stubborn }
+link = { ck3 = fickle ir = weak_willed }
 
 
 
 # Health
-link = { ck3 = hunchbacked imp = hunchback }
-link = { ck3 = inbred imp = inbred }
-link = { ck3 = stuttering imp = stutter }
-link = { ck3 = blind imp = blind }
-link = { ck3 = one_eyed imp = one_eyed }
-link = { ck3 = cancer imp = cancer }
-link = { ck3 = gout_ridden imp = gout }
-link = { ck3 = physique_bad_2 imp = frail }
-link = { ck3 = maimed imp = maimed }
-link = { ck3 = eunuch imp = castrated }
-link = { ck3 = leper imp = leper }
-link = { ck3 = pneumonic imp = pneumonia }
-link = { ck3 = beauty_bad_2 imp = ugly }
-link = { ck3 = lisping imp = lisp }
-link = { ck3 = lovers_pox imp = pox }
-link = { ck3 = lunatic_genetic imp = lunatic imp = schizophrenic }
-link = { ck3 = smallpox imp = plague }
-link = { ck3 = depressed_1 imp = depressed }
-link = { ck3 = wounded_2 imp = wounded }
+link = { ck3 = hunchbacked ir = hunchback }
+link = { ck3 = inbred ir = inbred }
+link = { ck3 = stuttering ir = stutter }
+link = { ck3 = blind ir = blind }
+link = { ck3 = one_eyed ir = one_eyed }
+link = { ck3 = cancer ir = cancer }
+link = { ck3 = gout_ridden ir = gout }
+link = { ck3 = physique_bad_2 ir = frail }
+link = { ck3 = maimed ir = maimed }
+link = { ck3 = eunuch ir = castrated }
+link = { ck3 = leper ir = leper }
+link = { ck3 = pneumonic ir = pneumonia }
+link = { ck3 = beauty_bad_2 ir = ugly }
+link = { ck3 = lisping ir = lisp }
+link = { ck3 = lovers_pox ir = pox }
+link = { ck3 = lunatic_genetic ir = lunatic ir = schizophrenic }
+link = { ck3 = smallpox ir = plague }
+link = { ck3 = depressed_1 ir = depressed }
+link = { ck3 = wounded_2 ir = wounded }
 
 # Military
-link = { ck3 = aggressive_attacker imp = aggressive }
-link = { ck3 = unyielding_defender imp = steadfast }
-link = { ck3 = forder imp = coastal_raider imp = squadron_leader imp = oarmaster imp = seadog imp = improviser imp = princeps imp = daring imp = tough }
-link = { ck3 = flexible_leader imp = tactician }
-link = { ck3 = military_engineer imp = original_thinker }
-link = { ck3 = organizer imp = disciplined }
+link = { ck3 = aggressive_attacker ir = aggressive }
+link = { ck3 = unyielding_defender ir = steadfast }
+link = { ck3 = forder ir = coastal_raider ir = squadron_leader ir = oarmaster ir = seadog ir = improviser ir = princeps ir = daring ir = tough }
+link = { ck3 = flexible_leader ir = tactician }
+link = { ck3 = military_engineer ir = original_thinker }
+link = { ck3 = organizer ir = disciplined }

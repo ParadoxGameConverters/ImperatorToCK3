@@ -6,6 +6,7 @@ using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Mappers.Gene;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -17,9 +18,9 @@ public sealed class DNAFactory {
 	private readonly IPixelCollection<ushort> irSkinPalettePixels;
 	private readonly IPixelCollection<ushort> irEyePalettePixels;
 
-	private readonly Dictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3HairColorToPaletteCoordinatesDict = new();
-	private readonly Dictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3SkinColorToPaletteCoordinatesDict = new();
-	private readonly Dictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3EyeColorToPaletteCoordinatesDict = new();
+	private readonly ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3HairColorToPaletteCoordinatesDict = new();
+	private readonly ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3SkinColorToPaletteCoordinatesDict = new();
+	private readonly ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3EyeColorToPaletteCoordinatesDict = new();
 	
 	private readonly GenesDB ck3GenesDB;
 	private readonly AccessoryGeneMapper accessoryGeneMapper = new("configurables/accessory_genes_map.txt");
@@ -27,26 +28,39 @@ public sealed class DNAFactory {
 
 	public DNAFactory(ModFilesystem irModFS, ModFilesystem ck3ModFS) {
 		Logger.Debug("Reading color palettes...");
-		var irHairPalettePath = irModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds") ??
-		                        throw new ConverterException("Could not find Imperator hair palette!");
-		irHairPalettePixels = new MagickImage(irHairPalettePath).GetPixels();
+		
 		var ck3HairPalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds") ??
 		                         throw new ConverterException("Could not find CK3 hair palette!");
 		var ck3HairPalettePixels = new MagickImage(ck3HairPalettePath).GetPixels();
+		var irHairPalettePath = irModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds");
+		if (irHairPalettePath is null) {
+			Logger.Warn("Could not find Imperator hair palette, using CK3 palette as fallback!");
+			irHairPalettePixels = ck3HairPalettePixels;
+		} else {
+			irHairPalettePixels = new MagickImage(irHairPalettePath).GetPixels();
+		}
 
-		var irSkinPalettePath = irModFS.GetActualFileLocation("gfx/portraits/skin_palette.dds") ??
-		                        throw new ConverterException("Could not find Imperator skin palette!");
-		irSkinPalettePixels = new MagickImage(irSkinPalettePath).GetPixels();
 		var ck3SkinPalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/skin_palette.dds") ??
 		                         throw new ConverterException("Could not find CK3 skin palette!");
 		var ck3SkinPalettePixels = new MagickImage(ck3SkinPalettePath).GetPixels();
+		var irSkinPalettePath = irModFS.GetActualFileLocation("gfx/portraits/skin_palette.dds");
+		if (irSkinPalettePath is null) {
+			Logger.Warn("Could not find Imperator skin palette, using CK3 palette as fallback!");
+			irSkinPalettePixels = ck3SkinPalettePixels;
+		} else {
+			irSkinPalettePixels = new MagickImage(irSkinPalettePath).GetPixels();
+		}
 
-		var irEyePalettePath = irModFS.GetActualFileLocation("gfx/portraits/eye_palette.dds") ??
-		                       throw new ConverterException("Could not find Imperator eye palette!");
-		irEyePalettePixels = new MagickImage(irEyePalettePath).GetPixels();
 		var ck3EyePalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/eye_palette.dds") ??
 		                        throw new ConverterException("Could not find CK3 eye palette!");
 		var ck3EyePalettePixels = new MagickImage(ck3EyePalettePath).GetPixels();
+		var irEyePalettePath = irModFS.GetActualFileLocation("gfx/portraits/eye_palette.dds");
+		if (irEyePalettePath is null) {
+			Logger.Warn("Could not find Imperator eye palette, using CK3 palette as fallback!");
+			irEyePalettePixels = ck3EyePalettePixels;
+		} else {
+			irEyePalettePixels = new MagickImage(irEyePalettePath).GetPixels();
+		}
 		
 		Logger.Debug("Initializing genes database...");
 		ck3GenesDB = new GenesDB(ck3ModFS);
@@ -57,8 +71,9 @@ public sealed class DNAFactory {
 	
 	public DNA GenerateDNA(Imperator.Characters.Character irCharacter, PortraitData irPortraitData) {
 		var id = $"dna_{irCharacter.Id}";
-		
-		var colorAndMorphDNAValues = new Dictionary<string, string>();
+
+		var colorDNAValues = new Dictionary<string, DNAColorGeneValue>();
+		var morphDNAValues = new Dictionary<string, DNAGeneValue>();
 
 		// Convert colors. Palettes are 512x512, but we need a 0-255 value, so we divide the coordinates by 2.
 		var hairCoordinates = GetPaletteCoordinates(
@@ -67,8 +82,12 @@ public sealed class DNAFactory {
 		var hairCoordinates2 = GetPaletteCoordinates(
 			irPortraitData.HairColor2PaletteCoordinates, irHairPalettePixels, ck3HairColorToPaletteCoordinatesDict
 		);
-		var hairValue = $"{hairCoordinates.X/2} {hairCoordinates.Y/2} {hairCoordinates2.X/2} {hairCoordinates2.Y/2}";
-		colorAndMorphDNAValues.Add("hair_color", hairValue);
+		colorDNAValues.Add("hair_color", new DNAColorGeneValue {
+			X = (byte)(hairCoordinates.X/2),
+			Y = (byte)(hairCoordinates.Y/2),
+			XRecessive = (byte)(hairCoordinates2.X/2),
+			YRecessive = (byte)(hairCoordinates2.Y/2)
+		});
 
 		var skinCoordinates = GetPaletteCoordinates(
 			irPortraitData.SkinColorPaletteCoordinates, irSkinPalettePixels, ck3SkinColorToPaletteCoordinatesDict
@@ -76,8 +95,12 @@ public sealed class DNAFactory {
 		var skinCoordinates2 = GetPaletteCoordinates(
 			irPortraitData.SkinColor2PaletteCoordinates, irSkinPalettePixels, ck3SkinColorToPaletteCoordinatesDict
 		);
-		var skinValue = $"{skinCoordinates.X/2} {skinCoordinates.Y/2} {skinCoordinates2.X/2} {skinCoordinates2.Y/2}";
-		colorAndMorphDNAValues.Add("skin_color", skinValue);
+		colorDNAValues.Add("skin_color", new DNAColorGeneValue {
+			X = (byte)(skinCoordinates.X/2),
+			Y = (byte)(skinCoordinates.Y/2),
+			XRecessive = (byte)(skinCoordinates2.X/2),
+			YRecessive = (byte)(skinCoordinates2.Y/2)
+		});
 
 		var eyeCoordinates = GetPaletteCoordinates(
 			irPortraitData.EyeColorPaletteCoordinates, irEyePalettePixels, ck3EyeColorToPaletteCoordinatesDict
@@ -85,35 +108,112 @@ public sealed class DNAFactory {
 		var eyeCoordinates2 = GetPaletteCoordinates(
 			irPortraitData.EyeColor2PaletteCoordinates, irEyePalettePixels, ck3EyeColorToPaletteCoordinatesDict
 		);
-		var eyeValue = $"{eyeCoordinates.X/2} {eyeCoordinates.Y/2} {eyeCoordinates2.X/2} {eyeCoordinates2.Y/2}";
-		colorAndMorphDNAValues.Add("eye_color", eyeValue);
+		colorDNAValues.Add("eye_color", new DNAColorGeneValue {
+			X = (byte)(eyeCoordinates.X/2),
+			Y = (byte)(eyeCoordinates.Y/2),
+			XRecessive = (byte)(eyeCoordinates2.X/2),
+			YRecessive = (byte)(eyeCoordinates2.Y/2)
+		});
 		
 		// Convert some accessory genes.
-		var accessoryDNAValues = new Dictionary<string, AccessoryGeneValue>();
+		var accessoryDNAValues = new Dictionary<string, DNAAccessoryGeneValue>();
 		
-		var beardGeneValue = MatchAccessoryGeneValueByObject(
-			irCharacter, 
-			irPortraitData, 
-			"beards",
-			ck3GenesDB.SpecialAccessoryGenes["beards"]
-		);
-		if (beardGeneValue is not null) {
-			accessoryDNAValues.Add("beards", beardGeneValue.Value);
+		if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("beards", out var beardGene)) {
+			var beardGeneValue = MatchAccessoryGeneValueByObject(
+				irCharacter, 
+				irPortraitData, 
+				"beards",
+				beardGene
+			);
+			if (beardGeneValue is not null) {
+				accessoryDNAValues.Add("beards", beardGeneValue.Value);
+			}
+		} else {
+			Logger.Warn("beards not found in CK3 special accessory genes!");
 		}
 
-		var hairstylesGeneValue = MatchAccessoryGeneValueByObject(
-			irCharacter,
-			irPortraitData,
-			"hairstyles",
-			ck3GenesDB.SpecialAccessoryGenes["hairstyles"]
-		);
-		if (hairstylesGeneValue is not null) {
-			accessoryDNAValues.Add("hairstyles", hairstylesGeneValue.Value);
+		if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("hairstyles", out var hairstylesGene)) {
+			var hairstylesGeneValue = MatchAccessoryGeneValueByObject(
+				irCharacter,
+				irPortraitData,
+				"hairstyles",
+				hairstylesGene
+			);
+			if (hairstylesGeneValue is not null) {
+				accessoryDNAValues.Add("hairstyles", hairstylesGeneValue.Value);
+			}
+		} else {
+			Logger.Warn("hairstyles not found in CK3 special accessory genes!");
 		}
-
-		var clothesGeneValue = MatchAccessoryGeneValueByTemplate(irCharacter, irPortraitData, "clothes");
-		if (clothesGeneValue is not null) {
-			accessoryDNAValues.Add("clothes", clothesGeneValue.Value);
+		
+		if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("clothes", out var ck3ClothesGene)) {
+			var clothesGeneValue = MatchAccessoryGeneValueByTemplate(irCharacter, irPortraitData, "clothes", ck3ClothesGene);
+			if (clothesGeneValue is not null) {
+				accessoryDNAValues.Add(ck3ClothesGene.Id, clothesGeneValue.Value);
+			}
+		} else {
+			Logger.Warn("clothes not found in CK3 special accessory genes!");
+		}
+		
+		// Convert eye accessories.
+		var irEyeAccessoryGeneTemplateName = irPortraitData.AccessoryGenesDict["eye_accessory"].GeneTemplate;
+		switch (irEyeAccessoryGeneTemplateName) {
+			case "normal_eyes":
+				break;
+			case "eyepatch_1":
+			case "eyepatch_2": // TODO: check if this is correctly added to portrait modifiers if needed
+				var eyePatchTemplate = ck3GenesDB.SpecialAccessoryGenes["special_headgear_eye_patch"]
+					.GeneTemplates["eye_patch"];
+				var eyePatchWeighBlock = eyePatchTemplate.AgeSexWeightBlocks[irCharacter.AgeSex];
+				var eyePatchObjectName = eyePatchWeighBlock.GetMatchingObject(1) ?? eyePatchWeighBlock.ObjectNames.Last();
+				accessoryDNAValues["special_headgear_eye_patch"] =
+					new DNAAccessoryGeneValue(eyePatchTemplate.Id, eyePatchObjectName, eyePatchWeighBlock);
+				break;
+			case "blindfold_1": // TODO: check if this is correctly added to portrait modifiers if needed
+				var blindfoldTemplate = ck3GenesDB.SpecialAccessoryGenes["special_headgear_blindfold"]
+					.GeneTemplates["blindfold"];
+				var blindfoldWeighBlock = blindfoldTemplate.AgeSexWeightBlocks[irCharacter.AgeSex];
+				var blindfoldObjectName = blindfoldWeighBlock.GetMatchingObject(1) ?? blindfoldWeighBlock.ObjectNames.Last();
+				accessoryDNAValues["special_headgear_blindfold"] =
+					new DNAAccessoryGeneValue(blindfoldTemplate.Id, blindfoldObjectName, blindfoldWeighBlock);
+				break;
+			case "blind_eyes": // TODO: check if this is correctly added to portrait modifiers if needed
+				var blindEyesTemplate = ck3GenesDB.AccessoryGenes["eye_accessory"]
+					.GeneTemplates["blind_eyes"];
+				var blindEyesWeighBlock = blindEyesTemplate.AgeSexWeightBlocks[irCharacter.AgeSex];
+				var blindEyesObjectName = blindEyesWeighBlock.GetMatchingObject(1) ?? blindEyesWeighBlock.ObjectNames.Last();
+				accessoryDNAValues["eye_accessory"] = new DNAAccessoryGeneValue(blindEyesTemplate.Id, blindEyesObjectName, blindEyesWeighBlock);
+				break;
+			case "red_eyes": // TODO: check if this is correctly converted
+				var magickRed = new MagickColor("#ff0000");
+				var redEyeCoordinates = GetCoordinatesOfClosestCK3Color(magickRed, ck3EyeColorToPaletteCoordinatesDict);
+				colorDNAValues["eye_color"] = colorDNAValues["eye_color"] with {
+					X = (byte)(redEyeCoordinates.X/2),
+					Y = (byte)(redEyeCoordinates.Y/2)
+				};
+				break;
+			default:
+				Logger.Warn($"Unhandled eye accessory gene template name: {irEyeAccessoryGeneTemplateName}");
+				break;
+		}
+		if (irCharacter.Traits.Contains("blind")) {
+			var blindEyesTemplate = ck3GenesDB.AccessoryGenes["eye_accessory"].GeneTemplates["blind_eyes"];
+			var blindEyesWeighBlock = blindEyesTemplate.AgeSexWeightBlocks[irCharacter.AgeSex];
+			var blindEyesObjectName = blindEyesWeighBlock.GetMatchingObject(1) ?? blindEyesWeighBlock.ObjectNames.Last();
+			accessoryDNAValues["eye_accessory"] = new DNAAccessoryGeneValue(blindEyesTemplate.Id, blindEyesObjectName, blindEyesWeighBlock); // TODO: check if this is correctly added to portrait modifiers if needed
+			
+			var blindfoldTemplate = ck3GenesDB.SpecialAccessoryGenes["special_headgear_blindfold"]
+				.GeneTemplates["blindfold"];
+			var blindfoldWeighBlock = blindfoldTemplate.AgeSexWeightBlocks[irCharacter.AgeSex];
+			var blindfoldObjectName = blindfoldWeighBlock.GetMatchingObject(1) ?? blindfoldWeighBlock.ObjectNames.Last();
+			accessoryDNAValues["special_headgear_blindfold"] = new DNAAccessoryGeneValue(blindfoldTemplate.Id, blindfoldObjectName, blindfoldWeighBlock); // TODO: check if this is correctly added to portrait modifiers if needed
+		} else if (irCharacter.Traits.Contains("one_eyed")) {
+			var eyePatchTemplate = ck3GenesDB.SpecialAccessoryGenes["special_headgear_eye_patch"]
+				.GeneTemplates["eye_patch"];
+			var eyePatchWeighBlock = eyePatchTemplate.AgeSexWeightBlocks[irCharacter.AgeSex];
+			var eyePatchObjectName = eyePatchWeighBlock.GetMatchingObject(1) ?? eyePatchWeighBlock.ObjectNames.Last();
+			accessoryDNAValues["special_headgear_eye_patch"] =
+				new DNAAccessoryGeneValue(eyePatchTemplate.Id, eyePatchObjectName, eyePatchWeighBlock); // TODO: check if this is correctly added to portrait modifiers if needed
 		}
 		
 		
@@ -138,7 +238,7 @@ public sealed class DNAFactory {
 			{"gene_forehead_brow_outerHeight", "gene_bs_forehead_brow_outer_height"}
 		};
 		foreach (var (irGeneName, ck3GeneName) in eyebrowGenesDict) {
-			ConvertMorphGene(irGeneName, ck3GeneName, irPortraitData, colorAndMorphDNAValues);
+			ConvertMorphGene(irGeneName, ck3GeneName, irPortraitData, morphDNAValues);
 		}
 		
 
@@ -157,26 +257,25 @@ public sealed class DNAFactory {
 			"complexion"
 		};
 		foreach (var geneName in irMorphGenesWithDirectEquivalents) {
-			ConvertMorphGene(geneName, geneName, irPortraitData, colorAndMorphDNAValues);
+			ConvertMorphGene(geneName, geneName, irPortraitData, morphDNAValues);
 		}
 		
-		colorAndMorphDNAValues.Add("gene_age", GetAgeGeneValue(irCharacter));
+		morphDNAValues.Add("gene_age", GetAgeGeneValue(irCharacter));
 
-		// Convert baldness.
-		if (irCharacter.IsBald) {
-			colorAndMorphDNAValues["gene_baldness"] = "\"male_pattern_baldness\" 255 \"no_baldness\" 127";
-			// CK3 does not seem to actually support baldness (as of CK3 1.8.1) despite the gene being there.
-			// So we just remove the hair.
-			accessoryDNAValues["hairstyles"] = accessoryDNAValues["hairstyles"] with {
-				TemplateName = "no_hairstyles", IntSliderValue = 0
-			};
-		} else {
-			colorAndMorphDNAValues["gene_baldness"] = "\"no_baldness\" 127 \"no_baldness\" 127";
-		}
+		ConvertBaldness(irCharacter, morphDNAValues, accessoryDNAValues);
 		
+		// Use normal teeth for everyone. I:R doesn't have characters with no teeth.
+		var teethGeneTemplate = ck3GenesDB.AccessoryGenes["teeth_accessory"].GeneTemplates["normal_teeth"];
+		var teethWeightBlock = teethGeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex];
+		accessoryDNAValues["teeth_accessory"] = new DNAAccessoryGeneValue(
+			teethGeneTemplate.Id,
+			teethWeightBlock.GetMatchingObject(0.5) ?? teethWeightBlock.ObjectNames.First(),
+			teethWeightBlock
+		);
+
 		// Use middle values for the rest of the genes.
 		var missingMorphGenes = ck3GenesDB.MorphGenes
-			.Where(g => !colorAndMorphDNAValues.ContainsKey(g.Id));
+			.Where(g => !morphDNAValues.ContainsKey(g.Id));
 		foreach (var gene in missingMorphGenes) {
 			if (irCharacter.Id == 14) { // TODO: remove this
 				Logger.Error($"MORPH GENE: {gene.Id}");
@@ -190,8 +289,12 @@ public sealed class DNAFactory {
 			var geneTemplatesToUse = visibleGeneTemplates.Count > 0 ? visibleGeneTemplates : geneTemplates;
 			// Get middle gene template.
 			var templateName = geneTemplatesToUse.ElementAt(geneTemplatesToUse.Count / 2).Id;
-			var geneValue = $"\"{templateName}\" 128 \"{templateName}\" 128";
-			colorAndMorphDNAValues.Add(gene.Id, geneValue);
+			morphDNAValues.Add(gene.Id, new DNAGeneValue {
+				TemplateName = templateName,
+				IntSliderValue = 128,
+				TemplateRecessiveName = templateName,
+				IntSliderValueRecessive = 128
+			});
 		}
 
 		var missingAccessoryGenes = ck3GenesDB.AccessoryGenes
@@ -204,21 +307,109 @@ public sealed class DNAFactory {
 				.OrderBy(t => t.Index)
 				.ToImmutableList();
 			// Get middle gene template.
-			var templateName = geneTemplates.ElementAt(geneTemplates.Count / 2).Id;
-			accessoryDNAValues.Add(gene.Id, new AccessoryGeneValue {
-				TemplateName = templateName,
-				IntSliderValue = 128,
-				TemplateRecessiveName = templateName,
-				IntSliderValueRecessive = 128
-			});
+			var middleTemplate = geneTemplates.ElementAt(geneTemplates.Count / 2);
+			var middleTemplateWeightBlock = middleTemplate.AgeSexWeightBlocks[irCharacter.AgeSex];
+			var middleObjectName = middleTemplateWeightBlock.GetMatchingObject(0.5);
+			accessoryDNAValues.Add(gene.Id, new DNAAccessoryGeneValue(middleTemplate.Id, middleObjectName, middleTemplateWeightBlock));
 		}
-		
-		return new DNA(id, colorAndMorphDNAValues, accessoryDNAValues);
+
+		return new DNA(id, colorDNAValues, morphDNAValues, accessoryDNAValues);
 	}
-	
+
+	private void ConvertBaldness(Imperator.Characters.Character irCharacter, Dictionary<string, DNAGeneValue> morphDNAValues, Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues) {
+		if (irCharacter.IsBald) {  // TODO: CHECK IF BALD CHARACTERS STILL CORRECTLY APPEAR BALD IN CK3
+			morphDNAValues["gene_baldness"] = new DNAGeneValue {
+				TemplateName = "male_pattern_baldness",
+				IntSliderValue = 127,
+				TemplateRecessiveName = "male_pattern_baldness",
+				IntSliderValueRecessive = 127
+			};
+			
+			if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("hairstyles", out var hairstylesGene)) {
+				DNAAccessoryGeneValue? hairstylesGeneValue = null;
+				
+				// If m_hair_fp4_indian_01_full_bald (which is close to I:R baldness) exists, use it.
+				const string indianBaldnessObjectName = "m_hair_fp4_indian_01_full_bald";
+				if (hairstylesGene.GeneTemplates.TryGetValue("fp4_bald_hairstyles", out var ck3GeneTemplate)) {
+					var ageSexWeightBlock = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex];
+					
+					if (ageSexWeightBlock.ContainsObject(indianBaldnessObjectName)) {
+						hairstylesGeneValue = new DNAAccessoryGeneValue(ck3GeneTemplate.Id, indianBaldnessObjectName, ageSexWeightBlock);
+					}
+				}
+				
+				// Otherwise, just use the no_hairstyles template.
+				const string baldnessObjectName = "bald";
+				if (hairstylesGeneValue is null && hairstylesGene.GeneTemplates.TryGetValue("no_hairstyles", out var noHairStylesTemplate)) {
+					var ageSexWeightBlock = noHairStylesTemplate.AgeSexWeightBlocks[irCharacter.AgeSex];
+					
+					if (ageSexWeightBlock.ContainsObject(baldnessObjectName)) {
+						hairstylesGeneValue = new DNAAccessoryGeneValue(noHairStylesTemplate.Id, baldnessObjectName, ageSexWeightBlock);
+					}
+				}
+				
+				if (hairstylesGeneValue.HasValue) {
+					accessoryDNAValues["hairstyles"] = hairstylesGeneValue.Value;
+				}
+			}
+			
+			morphDNAValues["gene_balding_hair_effect"] = new DNAGeneValue {
+				TemplateName = "baldness_stage_2",
+				IntSliderValue = 255,
+				TemplateRecessiveName = "baldness_stage_2",
+				IntSliderValueRecessive = 255
+			};
+		} else {
+			morphDNAValues["gene_baldness"] = new DNAGeneValue {
+				TemplateName = "no_baldness",
+				IntSliderValue = 127,
+				TemplateRecessiveName = "no_baldness",
+				IntSliderValueRecessive = 127
+			};
+		}
+	}
+
 	/// Returns CK3 gene value string after object-to-object matching
 	/// (for example I:R male_beard_1 to CK3 male_beard_western_03).
-	private AccessoryGeneValue? MatchAccessoryGeneValueByObject(
+	private DNAAccessoryGeneValue? MatchAccessoryGeneValueByObject(
+		Imperator.Characters.Character irCharacter,
+		PortraitData irPortraitData,
+		string irGeneName,
+		AccessoryGene ck3Gene
+	) {
+		if (!irPortraitData.AccessoryGenesDict.TryGetValue(irGeneName, out var geneInfo)) {
+			return null;
+		}
+		
+		var convertedSetEntry = accessoryGeneMapper.GetObjectFromObject(irGeneName, geneInfo.ObjectName);
+		if (convertedSetEntry is null) {
+			Logger.Warn($"No object mappings found for {geneInfo.ObjectName} in gene {irGeneName}!");
+			return null;
+		}
+		var ck3GeneTemplate = ck3Gene.GeneTemplates
+			.FirstOrDefault(t => t.AgeSexWeightBlocks[irCharacter.AgeSex].ContainsObject(convertedSetEntry));
+		if (ck3GeneTemplate is null) {
+			Logger.Warn($"No template found for {convertedSetEntry} in CK3 gene {ck3Gene.Id}!");
+			return null;
+		}
+		var convertedSetEntryRecessive = accessoryGeneMapper.GetObjectFromObject(irGeneName, geneInfo.ObjectNameRecessive);
+		if (convertedSetEntryRecessive is null) {
+			Logger.Warn($"No object mappings found for {geneInfo.ObjectNameRecessive} in gene {irGeneName}!");
+			return null;
+		}
+		var ck3GeneTemplateRecessive = ck3Gene.GeneTemplates
+			.FirstOrDefault(t => t.AgeSexWeightBlocks[irCharacter.AgeSex].ContainsObject(convertedSetEntryRecessive));
+		if (ck3GeneTemplateRecessive is null) {
+			Logger.Warn($"No template found for {convertedSetEntryRecessive} in CK3 gene {ck3Gene.Id}!");
+			return null;
+		}
+
+		return new DNAAccessoryGeneValue(ck3GeneTemplate.Id, convertedSetEntry, ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex], ck3GeneTemplateRecessive.Id, convertedSetEntryRecessive, ck3GeneTemplateRecessive.AgeSexWeightBlocks[irCharacter.AgeSex]);
+	}
+	
+	/// Returns CK3 gene value string after template-to-template matching
+	/// (for example I:R roman_clothes to CK3 byzantine_low_nobility_clothes).
+	private DNAAccessoryGeneValue? MatchAccessoryGeneValueByTemplate(
 		Imperator.Characters.Character irCharacter,
 		PortraitData irPortraitData,
 		string imperatorGeneName,
@@ -227,52 +418,39 @@ public sealed class DNAFactory {
 		if (!irPortraitData.AccessoryGenesDict.TryGetValue(imperatorGeneName, out var geneInfo)) {
 			return null;
 		}
+		
+		var validCK3TemplateIds = ck3Gene.GeneTemplates
+			.Select(template => template.Id)
+			.ToList();
 
-		var objectMappings = accessoryGeneMapper.ObjectToObjectMappings[imperatorGeneName];
-		var convertedSetEntry = objectMappings[geneInfo.ObjectName];
-		var ck3GeneTemplate = ck3Gene.GeneTemplates
-			.First(t => t.AgeSexWeightBlocks[irCharacter.AgeSex].ContainsObject(convertedSetEntry));
-		var convertedSetEntryRecessive = objectMappings[geneInfo.ObjectNameRecessive];
-		var ck3GeneTemplateRecessive = ck3Gene.GeneTemplates
-			.First(t => t.AgeSexWeightBlocks[irCharacter.AgeSex].ContainsObject(convertedSetEntryRecessive));
-
-		var matchingPercentage = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex]
-			.GetMatchingPercentage(convertedSetEntry);
-		var matchingPercentageRecessive = ck3GeneTemplateRecessive.AgeSexWeightBlocks[irCharacter.AgeSex]
-			.GetMatchingPercentage(convertedSetEntryRecessive);
-		byte intSliderValue = (byte)Math.Ceiling(matchingPercentage * 255);
-		byte intSliderValueRecessive = (byte)Math.Ceiling(matchingPercentageRecessive * 255);
-
-		return new AccessoryGeneValue {
-			TemplateName = ck3GeneTemplate.Id,
-			IntSliderValue = intSliderValue,
-			TemplateRecessiveName = ck3GeneTemplateRecessive.Id,
-			IntSliderValueRecessive = intSliderValueRecessive
-		};
-	}
-	
-	/// Returns CK3 gene value string after template-to-template matching
-	/// (for example I:R roman_clothes to CK3 byzantine_low_nobility_clothes).
-	private AccessoryGeneValue? MatchAccessoryGeneValueByTemplate(
-		Imperator.Characters.Character irCharacter,
-		PortraitData irPortraitData,
-		string imperatorGeneName
-	) {
-		if (!irPortraitData.AccessoryGenesDict.TryGetValue(imperatorGeneName, out var geneInfo)) {
-			return null;
+		var ck3GeneTemplateName = accessoryGeneMapper.GetTemplateFromTemplate(imperatorGeneName, geneInfo.GeneTemplate, validCK3TemplateIds);
+		if (ck3GeneTemplateName is null) {
+			Logger.Warn($"No template-to-template mapping found for gene {imperatorGeneName} and template {geneInfo.GeneTemplate}!");
+			// Try to return first found template as a fallback.
+			var fallbackTemplateName = accessoryGeneMapper.GetFallbackTemplateForGene(imperatorGeneName, validCK3TemplateIds);
+			if (fallbackTemplateName is not null) {
+				ck3GeneTemplateName = fallbackTemplateName;
+			} else {
+				return null;
+			}
 		}
-
-		var templateMappings = accessoryGeneMapper.TemplateToTemplateMappings[imperatorGeneName];
-		var ck3GeneTemplateName = templateMappings[geneInfo.GeneTemplate];
-		var ck3GeneTemplateNameRecessive = templateMappings[geneInfo.GeneTemplateRecessive];
-		var intSliderValue = (byte)(irCharacter.Id % 256);
-
-		return new AccessoryGeneValue {
-			TemplateName = ck3GeneTemplateName,
-			IntSliderValue = intSliderValue,
-			TemplateRecessiveName = ck3GeneTemplateNameRecessive,
-			IntSliderValueRecessive = intSliderValue
-		};
+		var ck3GeneTemplateNameRecessive = accessoryGeneMapper.GetTemplateFromTemplate(imperatorGeneName, geneInfo.GeneTemplateRecessive, validCK3TemplateIds);
+		if (ck3GeneTemplateNameRecessive is null) {
+			Logger.Warn($"No template-to-template mapping found for gene {imperatorGeneName} and recessive template {geneInfo.GeneTemplateRecessive}!");
+			// Use dominant template as a fallback.
+			ck3GeneTemplateNameRecessive = ck3GeneTemplateName;
+		}
+		double percentage = (irCharacter.Id % 100) / 100.0;
+		
+		var ck3GeneTemplate = ck3Gene.GeneTemplates.First(t => t.Id == ck3GeneTemplateName);
+		var ck3WeightBlock = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex];
+		var ck3ObjectName = ck3WeightBlock.GetMatchingObject(percentage) ?? ck3WeightBlock.ObjectNames.First();
+		
+		var ck3GeneTemplateRecessive = ck3Gene.GeneTemplates.First(t => t.Id == ck3GeneTemplateNameRecessive);
+		var ck3WeightBlockRecessive = ck3GeneTemplateRecessive.AgeSexWeightBlocks[irCharacter.AgeSex];
+		var ck3ObjectNameRecessive = ck3WeightBlockRecessive.GetMatchingObject(percentage) ?? ck3WeightBlockRecessive.ObjectNames.First();
+		
+		return new DNAAccessoryGeneValue(ck3GeneTemplateName, ck3ObjectName, ck3WeightBlock, ck3GeneTemplateNameRecessive, ck3ObjectNameRecessive, ck3WeightBlockRecessive);
 	}
 
 	private void BuildColorConversionCaches(
@@ -303,14 +481,22 @@ public sealed class DNAFactory {
 	private static DNA.PaletteCoordinates GetPaletteCoordinates(
 		PaletteCoordinates irPaletteCoordinates,
 		IPixelCollection<ushort> irPalettePixels,
-		IDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3ColorToCoordinatesDict
+		ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3ColorToCoordinatesDict
 	) {
 		var irColor = irPalettePixels.GetPixel(irPaletteCoordinates.X, irPaletteCoordinates.Y).ToColor();
-		if (irColor is null) {
-			Logger.Warn($"Cannot get color from palette {irPalettePixels}!");
-			return new DNA.PaletteCoordinates();
+		if (irColor is not null) {
+			return GetCoordinatesOfClosestCK3Color(irColor, ck3ColorToCoordinatesDict);
 		}
-		
+
+		Logger.Warn($"Cannot get color from palette {irPalettePixels}!");
+		return new DNA.PaletteCoordinates();
+
+	}
+	
+	private static DNA.PaletteCoordinates GetCoordinatesOfClosestCK3Color(
+		IMagickColor<ushort> irColor,
+		ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3ColorToCoordinatesDict
+	) {
 		if (ck3ColorToCoordinatesDict.TryGetValue(irColor, out var foundCoordinates)) {
 			return foundCoordinates;
 		}
@@ -323,7 +509,7 @@ public sealed class DNAFactory {
 		return closestColorCoordinates;
 	}
 
-	private void ConvertMorphGene(string irGeneName, string ck3GeneName, PortraitData irPortraitData, IDictionary<string, string> morphGeneValues) {
+	private void ConvertMorphGene(string irGeneName, string ck3GeneName, PortraitData irPortraitData, IDictionary<string, DNAGeneValue> morphGeneValues) {
 		var irGeneData = irPortraitData.MorphGenesDict[irGeneName];
 		var ck3Gene = ck3GenesDB.MorphGenes.First(g => g.Id == ck3GeneName);
 
@@ -339,11 +525,15 @@ public sealed class DNAFactory {
 			return;
 		}
 
-		var geneValueStr = $"{ck3TemplateName} {irGeneData.Value} {ck3GeneTemplateRecessiveName} {irGeneData.ValueRecessive}";
-		morphGeneValues.Add(ck3GeneName, geneValueStr);
+		morphGeneValues.Add(ck3GeneName, new DNAGeneValue {
+			TemplateName = ck3TemplateName!,
+			IntSliderValue = irGeneData.Value,
+			TemplateRecessiveName = ck3GeneTemplateRecessiveName!,
+			IntSliderValueRecessive = irGeneData.ValueRecessive
+		});
 	}
 
-	private string GetAgeGeneValue(Imperator.Characters.Character irCharacter) {
+	private DNAGeneValue GetAgeGeneValue(Imperator.Characters.Character irCharacter) {
 		// Age is not stored in I:R character DNA.
 		const string ck3AgeGeneName = "gene_age";
 		var ck3Gene = ck3GenesDB.MorphGenes.First(g => g.Id == ck3AgeGeneName);
@@ -354,6 +544,11 @@ public sealed class DNAFactory {
 		var selectedTemplateName = possibleAgeTemplates[(int)(irCharacter.Id % (ulong)possibleAgeTemplates.Count)].Id;
 		var selectedTemplateRecessiveName = possibleAgeTemplates[(int)(irCharacter.Age % possibleAgeTemplates.Count)].Id;
 
-		return $"{selectedTemplateName} 128 {selectedTemplateRecessiveName} 128";
+		return new DNAGeneValue {
+			TemplateName = selectedTemplateName,
+			IntSliderValue = 128,
+			TemplateRecessiveName = selectedTemplateRecessiveName,
+			IntSliderValueRecessive = 128
+		};
 	}
 }

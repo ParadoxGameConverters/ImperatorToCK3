@@ -12,35 +12,28 @@ namespace ImperatorToCK3.CK3.Religions;
 public class Faith : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 	public Religion Religion { get; }
-	public Color? Color { get; private set; }
-	public string? ReligiousHeadTitleId { get; private set; }
-	public bool ModifiedByConverter { get; private set; } = false;
-	public OrderedSet<string> DoctrineIds { get; } = new();
+	public Color? Color { get; }
+	public string? ReligiousHeadTitleId { get; }
+	public OrderedSet<string> DoctrineIds { get; }
 
-	public Faith(string id, BufferedReader faithReader, Religion religion, ColorFactory colorFactory) {
+	public Faith(string id, FaithData faithData, Religion religion) {
 		Id = id;
 		Religion = religion;
-
-		var parser = new Parser();
-		parser.RegisterKeyword("color", reader => Color = colorFactory.GetColor(reader));
-		parser.RegisterKeyword("religious_head", reader => ReligiousHeadTitleId = reader.GetString());
-		parser.RegisterKeyword("holy_site", reader => holySiteIds.Add(reader.GetString()));
-		parser.RegisterKeyword("doctrine", reader => DoctrineIds.Add(reader.GetString()));
-		parser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
-			attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
-		});
-		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseStream(faithReader);
+		
+		Color = faithData.Color;
+		ReligiousHeadTitleId = faithData.ReligiousHeadTitleId;
+		DoctrineIds = faithData.DoctrineIds.ToOrderedSet();
+		holySiteIds = faithData.HolySiteIds.ToOrderedSet();
+		attributes = faithData.Attributes.ToList();
 	}
 
-	private readonly OrderedSet<string> holySiteIds = new();
+	private readonly OrderedSet<string> holySiteIds;
 	public IReadOnlyCollection<string> HolySiteIds => holySiteIds.ToImmutableArray();
-	private readonly List<KeyValuePair<string, StringOfItem>> attributes = new();
+	private readonly List<KeyValuePair<string, StringOfItem>> attributes;
 
 	public void ReplaceHolySiteId(string oldId, string newId) {
 		if (holySiteIds.Remove(oldId)) {
 			holySiteIds.Add(newId);
-			ModifiedByConverter = true;
 		} else {
 			Logger.Warn($"{oldId} does not belong to holy sites of faith {Id} and cannot be replaced!");
 		}

@@ -106,16 +106,6 @@ object_to_object = {
 		female_hair_egyptian_1 = female_hair_sub_saharan_03
 		female_hair_egyptian_2 = female_hair_sub_saharan_01  # could not find anything close
 	}
-    
-	eye_accessory = {
-		male_blindfold_1=special_headgear_blindfold.blindfold.male_headgear_special_blindfold_01
-		female_blindfold_1=special_headgear_blindfold.blindfold.female_headgear_special_blindfold_01
-		
-		male_eyepatch_1=special_headgear_eye_patch.eye_patch.male_headgear_special_eye_patch_01
-		female_eyepatch_1=special_headgear_eye_patch.eye_patch.female_headgear_special_eye_patch_01
-		male_eyepatch_2=special_headgear_eye_patch.eye_patch.male_headgear_special_eye_patch_01
-		female_eyepatch_2=special_headgear_eye_patch.eye_patch.female_headgear_special_eye_patch_01
-	}
 }
 
 template_to_template = {
@@ -155,6 +145,8 @@ template_to_template = {
 		mauryan_soldier_clothes_template = indian_war_nobility_clothes
 		ethiopian_soldier_clothes_template = sub_saharan_war_nobility_clothes
 		bactrian_soldier_clothes_template = steppe_war_nobility_clothes
+
+		chinese_clothes = steppe_high_nobility_clothes
 	}
 }
 

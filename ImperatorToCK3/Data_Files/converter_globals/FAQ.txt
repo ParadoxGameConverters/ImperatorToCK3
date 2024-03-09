@@ -12,10 +12,19 @@ Q: I have an ironman save. Can it be converted?
 A: Yes.
 
 Q: What about mods?
-A: The converter officially supports these mods:
+A: The converter officially supports these Imperator mods:
 - Imperator: Invictus (https://steamcommunity.com/workshop/filedetails/?id=2532715348)
 - Timeline Extension for Invictus (https://steamcommunity.com/sharedfiles/filedetails/?id=2845446001)
 - TE : Crisis of the third century (https://steamcommunity.com/sharedfiles/filedetails/?id=2858320715)
+- Full Mechanical Overhaul (https://steamcommunity.com/sharedfiles/filedetails/?id=2805839904)
+- Imperator: Invictus - More Cultural Names (https://steamcommunity.com/sharedfiles/filedetails/?id=2827761791)
+- Culture Conflation (for Invictus) (https://steamcommunity.com/sharedfiles/filedetails/?id=2660131665)
+- Virtual Limes (Invictus) (https://steamcommunity.com/sharedfiles/filedetails/?id=3020434697)
+- Realistic Tribes (https://steamcommunity.com/sharedfiles/filedetails/?id=3166956790)
+- Medieval 1066 Total Conversion Beta (https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649)
+- 2.0 Better UI (https://steamcommunity.com/sharedfiles/filedetails/?id=1845165876)
+The converter also supports these CK3 mods:
+- The Fallen Eagle (https://steamcommunity.com/sharedfiles/filedetails/?id=2243307127)
 As for other mods, unless they change the map or how cultures, religions or flags work, you can probably use them.
 Total map overhauls are not supported (of course), and whatever new cultures and religions are brought by the mod - you'll have to add manually in the files in configurables folder.
 
@@ -25,6 +34,10 @@ specific conversion results.
 
 
 ### Quick Troubleshooting:
+
+Q: I can't run ConverterFrontend on MacOS.
+A: You might need to remove the quarantine from the converter by executing this command in the terminal:
+    xattr -d com.apple.quarantine -r <directory containing the ConverterFrontend binary>
 
 Q: When starting conversion, conversion immediately fails, not producing anything.
 A: It's probably caused by your antivirus. Add the converter files to your antivirus' exclusion list. If you don't know how to, completely disable the antivirus. If this doesn't help, upload your save and log.txt to this thread, specifying your active antivirus.

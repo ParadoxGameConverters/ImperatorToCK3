@@ -1,4 +1,6 @@
 ﻿using commonItems;
+using ImperatorToCK3.Exceptions;
+using log4net.Core;
 using System;
 using System.Globalization;
 
@@ -21,9 +23,14 @@ public static class Program {
 			Converter.ConvertImperatorToCK3(converterVersion);
 			return 0;
 		} catch (Exception e) {
-			Logger.Error($"{e.GetType()}: {e.Message}");
+			Logger.Log(Level.Fatal, e is UserErrorException ? e.Message : $"{e.GetType()}: {e.Message}");
 			if (e.StackTrace is not null) {
 				Logger.Debug(e.StackTrace);
+			}
+
+			// Return exit code 1 for user errors. They should not be reported to Sentry.
+			if (e is UserErrorException) {
+				return 1;
 			}
 			return -1;
 		}

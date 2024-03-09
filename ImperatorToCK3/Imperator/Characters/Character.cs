@@ -65,11 +65,11 @@ public class Character : IIdentifiable<ulong> {
 	public bool IsDead => DeathDate is not null;
 	public string? DeathReason { get; set; }
 	private HashSet<ulong> parsedSpouseIds = new();
-	public Dictionary<ulong, Character> Spouses { get; set; } = new();
+	public IDictionary<ulong, Character> Spouses { get; set; } = new Dictionary<ulong, Character>();
 	public OrderedSet<ulong> FriendIds { get; } = new();
 	public OrderedSet<ulong> RivalIds { get; } = new();
 	private HashSet<ulong> parsedChildrenIds = new();
-	public Dictionary<ulong, Character> Children { get; set; } = new();
+	public IDictionary<ulong, Character> Children { get; set; } = new Dictionary<ulong, Character>();
 	private ulong? parsedMotherId;
 	public Character? Mother { get; set; }
 	private ulong? parsedFatherId;
@@ -85,7 +85,7 @@ public class Character : IIdentifiable<ulong> {
 			family = value;
 		}
 	}
-	public List<string> Traits { get; set; } = new();
+	public IList<string> Traits { get; set; } = new List<string>();
 	public CharacterAttributes Attributes { get; private set; } = new();
 	public IReadOnlySet<string> Variables { get; private set; } = ImmutableHashSet<string>.Empty;
 	public bool IsBald => Variables.Contains("bald");
@@ -189,7 +189,7 @@ public class Character : IIdentifiable<ulong> {
 		parser.ParseStream(reader);
 		if (genesDB is null) {
 			Logger.Warn($"GenesDB is null when parsing character {idString}!");
-		} else if (parsedCharacter.DNA?.Length == 552) {
+		} else if (parsedCharacter.DNA?.Length > 0) {
 			parsedCharacter.PortraitData = new PortraitData(parsedCharacter.DNA, genesDB, parsedCharacter.AgeSex);
 		}
 
