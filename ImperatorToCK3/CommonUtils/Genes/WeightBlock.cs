@@ -42,7 +42,7 @@ public class WeightBlock {
 			}
 			sumOfPrecedingAbsoluteWeights += value;
 		}
-		throw new KeyNotFoundException($"Set entry {objectName} not found!");
+		throw new KeyNotFoundException($"Set entry {objectName} not found! Valid entries are: {string.Join(", ", ObjectNames)}");
 	}
 
 	public byte GetSliderValueForObject(string objectName) {
@@ -69,4 +69,6 @@ public class WeightBlock {
 	public bool ContainsObject(string objectName) {
 		return objectsList.Any(entry => entry.Key == objectName);
 	}
+	
+	public IEnumerable<string> ObjectNames => objectsList.Select(entry => entry.Key);
 }
