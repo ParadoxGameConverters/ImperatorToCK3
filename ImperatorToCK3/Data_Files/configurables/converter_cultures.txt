@@ -347,7 +347,7 @@ egyptian = {  # override of vanilla culture
 
 	# ImperatorToCK3: Make Arabic Egyptian a hybrid of Bedouin and Old Egyptian
 	created = 640.1.1
-	parents = { bedouin old_egyptian }
+	parents = { bedouin ancient_egyptian }
 
 	ethos = ethos_spiritual
 	heritage = heritage_arabic
@@ -428,14 +428,13 @@ albanian = {
 	unit_gfx = { eastern_unit_gfx }
 }
 
-old_egyptian = {
-    INVALIDATED_BY = { old_egyptian kemetic }
+ancient_egyptian = {  # fallback in case some mod removes vanilla ancient_egyptian
+    INVALIDATED_BY = { ancient_egyptian kemetic }
     
 	color = hsv { 0.15  1  0.7 }
 
-	name_list = name_list_old_egyptian
-	# heritage = heritage_kemetic
-	heritage = heritage_berber
+	name_list = name_list_ancient_egyptian
+	heritage = heritage_egyptian
 	language = language_kemetic
 	martial_custom = martial_custom_male_only
 
