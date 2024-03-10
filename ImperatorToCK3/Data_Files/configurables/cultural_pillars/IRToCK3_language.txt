@@ -415,7 +415,7 @@ language_siculian = {
 language_hunnic = {
     REPLACED_BY = {
 		tfe = { language_hunnic }
-		vanilla = { language_hunnic }  # TODO: find vanilla ID
+		vanilla = { language_hunnic }
 	}
     
 	type = language
