@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using ImperatorToCK3.Exceptions;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
@@ -247,5 +248,13 @@ public class Configuration {
 			Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires maximum v{converterVersion.MaxTarget.ToShortString()}!");
 			throw new UserErrorException("Converter vs CK3 installation mismatch!");
 		}
+	}
+
+	public ICollection<string> GetCK3ModFlags() {
+		var flags = new HashSet<string>();
+		if (FallenEagleEnabled) {
+			flags.Add("tfe");
+		}
+		return flags;
 	}
 }

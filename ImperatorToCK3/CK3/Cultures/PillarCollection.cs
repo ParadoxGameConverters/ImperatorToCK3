@@ -2,9 +2,9 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Mods;
+using ImperatorToCK3.CommonUtils;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Cultures; 
@@ -12,8 +12,8 @@ namespace ImperatorToCK3.CK3.Cultures;
 public class PillarCollection : IdObjectCollection<string, Pillar> {
 	private readonly Dictionary<string, string> mergedPillarsDict = [];
 
-	public PillarCollection(ColorFactory colorFactory) {
-		InitPillarDataParser(colorFactory);
+	public PillarCollection(ColorFactory colorFactory, ICollection<string> ck3ModFlags) {
+		InitPillarDataParser(colorFactory, ck3ModFlags);
 	}
 
 	public Pillar? GetHeritageForId(string heritageId) {
@@ -46,6 +46,8 @@ public class PillarCollection : IdObjectCollection<string, Pillar> {
 		parser.RegisterRegex(CommonRegexes.String, (reader, pillarId) => LoadPillar(pillarId, reader));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseFolder(converterPillarsPath, "txt", true, logFilePaths: true);
+		
+		Logger.Debug($"Ignored mods flags when loading pillars: {ignoredModFlags}");
 	}
 	
 	private void LoadPillar(string pillarId, BufferedReader pillarReader) {
@@ -71,10 +73,8 @@ public class PillarCollection : IdObjectCollection<string, Pillar> {
 		AddOrReplace(new Pillar(pillarId, pillarData));
 	}
 
-	private void InitPillarDataParser(ColorFactory colorFactory) {
-		pillarDataParser.RegisterKeyword("REPLACED_BY", reader => {
-			pillarData.InvalidatingPillarIds = reader.GetStrings();
-		});
+	private void InitPillarDataParser(ColorFactory colorFactory, ICollection<string> ck3ModFlags) {
+		pillarDataParser.RegisterKeyword("REPLACED_BY", reader => LoadInvalidatingPillarIds(ck3ModFlags, reader));
 		pillarDataParser.RegisterKeyword("type", reader => {
 			pillarData.Type = reader.GetString();
 		});
@@ -91,6 +91,28 @@ public class PillarCollection : IdObjectCollection<string, Pillar> {
 		pillarDataParser.IgnoreAndLogUnregisteredItems();
 	}
 	
+	private void LoadInvalidatingPillarIds(ICollection<string> ck3ModFlags, BufferedReader reader) {
+		var pillarIdsPerModFlagParser = new Parser();
+		
+		if (ck3ModFlags.Count == 0) {
+			pillarIdsPerModFlagParser.RegisterKeyword("vanilla", modPillarIdsReader => {
+				pillarData.InvalidatingPillarIds = modPillarIdsReader.GetStrings();
+			});
+		} else {
+			foreach (var modFlag in ck3ModFlags) {
+				pillarIdsPerModFlagParser.RegisterKeyword(modFlag, modPillarIdsReader => {
+					pillarData.InvalidatingPillarIds = modPillarIdsReader.GetStrings();
+				});
+			}
+		}
+		
+		// Ignore pillar IDs from mods that haven't been selected.
+		pillarIdsPerModFlagParser.IgnoreAndStoreUnregisteredItems(ignoredModFlags);
+		pillarIdsPerModFlagParser.ParseStream(reader);
+	}
+	
 	private PillarData pillarData = new();
 	private readonly Parser pillarDataParser = new();
+	
+	private IgnoredKeywordsSet ignoredModFlags = [];
 }

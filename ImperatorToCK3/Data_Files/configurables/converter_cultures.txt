@@ -1786,7 +1786,6 @@ hunnic = { # ImperatorToCK3
     
 	color = { 254 204 50 }
 
-	# heritage = heritage_???
 	heritage = heritage_mongolic
 	language = language_hunnic
 

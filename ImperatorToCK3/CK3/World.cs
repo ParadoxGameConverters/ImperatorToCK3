@@ -106,7 +106,7 @@ public class World {
 		
 		// Load CK3 cultures from CK3 mod filesystem.
 		Logger.Info("Loading cultural pillars...");
-		CulturalPillars = new(ck3ColorFactory);
+		CulturalPillars = new(ck3ColorFactory, config.GetCK3ModFlags());
 		CulturalPillars.LoadPillars(ModFS);
 		Logger.Info("Loading converter cultural pillars...");
 		CulturalPillars.LoadConverterPillars("configurables/cultural_pillars");
