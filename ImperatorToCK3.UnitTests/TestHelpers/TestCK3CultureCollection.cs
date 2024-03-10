@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.UnitTests.TestHelpers; 
 
-public class TestCK3CultureCollection() : CultureCollection(colorFactory, new PillarCollection(colorFactory, ck3ModFlags)) {
+public class TestCK3CultureCollection() : CultureCollection(colorFactory, new PillarCollection(colorFactory, ck3ModFlags), ck3ModFlags) {
 	private static readonly ColorFactory colorFactory = new();
 	private static readonly List<string> ck3ModFlags = [];
 	

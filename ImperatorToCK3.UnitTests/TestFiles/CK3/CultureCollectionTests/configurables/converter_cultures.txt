@@ -1,5 +1,8 @@
 dalmatian = {
-    INVALIDATED_BY = { dalmatian }
+    INVALIDATED_BY = {
+    	tfe = { dalmatian }
+    	vanilla = { dalmatian }
+	}
     
 	color = rgb { 246 223 15 }
 
@@ -27,7 +30,10 @@ dalmatian = {
 }
 
 albanian = {
-    INVALIDATED_BY = { arberian albanian }
+    INVALIDATED_BY = {
+    	tfe = { arberian albanian }
+    	vanilla = { arberian albanian }
+	}
     
 	color = { 0.4 0.01 0.02 }
 	parents = { dalmatian }
