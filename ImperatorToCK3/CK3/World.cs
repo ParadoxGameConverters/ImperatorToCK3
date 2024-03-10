@@ -6,6 +6,8 @@ using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
+using ImperatorToCK3.CK3.Legends;
+using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
@@ -52,6 +54,7 @@ public class World {
 	public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes { get; } = new();
 	public MapData MapData { get; }
 	public IList<Wars.War> Wars { get; } = new List<Wars.War>();
+	public LegendSeedCollection LegendSeeds { get; } = [];
 
 	/// <summary>
 	/// Date based on I:R save date, but normalized for CK3 purposes.
@@ -302,6 +305,9 @@ public class World {
 		
 		Religions.GenerateMissingReligiousHeads(LandedTitles, Characters, Provinces, Cultures, config.CK3BookmarkDate);
 		Logger.IncrementProgress();
+		
+		LegendSeeds.LoadSeeds(ModFS);
+		LegendSeeds.RemoveAnachronisticSeeds("configurables/legend_seeds_to_remove.txt");
 	}
 
 	private void ImportImperatorWars(Imperator.World irWorld, Date ck3BookmarkDate) {
