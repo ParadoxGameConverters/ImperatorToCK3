@@ -1942,15 +1942,49 @@ siculian = {
 	}
 }
 
-hunnic = { # ImperatorToCK3
-    INVALIDATED_BY = {
+# Move vanilla CK3 roman culture from Hellenic to Latin heritage.
+roman = {
+	INVALIDATED_BY = {
+		tfe = { roman } # Don't overwrite the TFE Roman culture.
+	}
+	
+	color = { 0.8 0.1 0.1 }
+	
+	ethos = ethos_bellicose
+	heritage = heritage_latin
+	language = language_latin
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_formation_fighting
+		tradition_legalistic
+		tradition_roman_legacy
+		tradition_poetry
+		tradition_hereditary_hierarchy
+		tradition_noble_adoption
+	}
+	
+	name_list = name_list_roman
+
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+	building_gfx = { mediterranean_building_gfx } 
+	clothing_gfx = { byzantine_clothing_gfx } 
+	clothing_gfx = { western_clothing_gfx } 
+	unit_gfx = { eastern_unit_gfx } 		
+
+	ethnicities = {
+		10 = mediterranean
+	}
+}
+
+hunnic = { # fallback in case some mod removes vanilla hunnic culture
+	INVALIDATED_BY = {
 		tfe = { hunnic hun }
 		vanilla = { hunnic hun }
 	}
     
 	color = { 254 204 50 }
 
-	heritage = heritage_mongolic
+	heritage = heritage_hunnic
 	language = language_hunnic
 
 	name_list = name_list_hunnic
