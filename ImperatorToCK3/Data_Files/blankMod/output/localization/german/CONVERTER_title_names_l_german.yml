@@ -1,9 +1,9 @@
 ﻿l_german:
 # Pharaoh
- king_feudal_male_old_egyptian: "Pharao"
- king_feudal_female_old_egyptian: "Pharao"
- emperor_feudal_male_old_egyptian: "Pharao"
- emperor_feudal_female_old_egyptian: "Pharao"
+ king_feudal_male_ancient_egyptian: "Pharao"
+ king_feudal_female_ancient_egyptian: "Pharao"
+ emperor_feudal_male_ancient_egyptian: "Pharao"
+ emperor_feudal_female_ancient_egyptian: "Pharao"
 
 # Carthage
  duke_republic_male_carthaginian: "Sufet"

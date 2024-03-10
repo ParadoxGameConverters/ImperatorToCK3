@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Mods;
 using Fernandezja.ColorHashSharp;
+using ImperatorToCK3.CommonUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,13 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Cultures; 
 
 public class CultureCollection : IdObjectCollection<string, Culture> {
-	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection) {
+	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection, ICollection<string> ck3ModFlags) {
 		this.PillarCollection = pillarCollection;
-		InitCultureDataParser(colorFactory);
+		InitCultureDataParser(colorFactory, ck3ModFlags);
 	}
 
-	private void InitCultureDataParser(ColorFactory colorFactory) {
-		cultureDataParser.RegisterKeyword("INVALIDATED_BY", reader => {
-			cultureData.InvalidatingCultureIds = reader.GetStrings();
-		});
+	private void InitCultureDataParser(ColorFactory colorFactory, ICollection<string> ck3ModFlags) {
+		cultureDataParser.RegisterKeyword("INVALIDATED_BY", reader => LoadInvalidatingCultureIds(ck3ModFlags, reader));
 		cultureDataParser.RegisterKeyword("color", reader => {
 			try {
 				cultureData.Color = colorFactory.GetColor(reader);
@@ -58,6 +57,26 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 			cultureData.Attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
 		});
 		cultureDataParser.IgnoreAndLogUnregisteredItems();
+	}
+	
+	private void LoadInvalidatingCultureIds(ICollection<string> ck3ModFlags, BufferedReader reader) {
+		var cultureIdsPerModFlagParser = new Parser();
+		
+		if (ck3ModFlags.Count == 0) {
+			cultureIdsPerModFlagParser.RegisterKeyword("vanilla", modCultureIdsReader => {
+				cultureData.InvalidatingCultureIds = modCultureIdsReader.GetStrings();
+			});
+		} else {
+			foreach (var modFlag in ck3ModFlags) {
+				cultureIdsPerModFlagParser.RegisterKeyword(modFlag, modCultureIdsReader => {
+					cultureData.InvalidatingCultureIds = modCultureIdsReader.GetStrings();
+				});
+			}
+		}
+		
+		// Ignore culture IDs from mods that haven't been selected.
+		cultureIdsPerModFlagParser.IgnoreAndStoreUnregisteredItems(ignoredModFlags);
+		cultureIdsPerModFlagParser.ParseStream(reader);
 	}
 	
 	public void LoadCultures(ModFilesystem ck3ModFS) {
@@ -135,4 +154,5 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	
 	private CultureData cultureData = new();
 	private readonly Parser cultureDataParser = new();
+	private readonly IgnoredKeywordsSet ignoredModFlags = [];
 }

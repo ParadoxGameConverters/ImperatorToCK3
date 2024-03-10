@@ -1,9 +1,9 @@
 ﻿# ImperatorToCK3: Last updated CK3 patch 1.11.5
 # potentially useful resource: https://en.wiktionary.org/wiki/Category:English_prefixes
 l_english:
- old_egyptian: "Old Egyptian"
- old_egyptian_collective_noun: "Fellahim"
- old_egyptian_prefix: "Egypto" # found 'Egypto-Roman'
+ ancient_egyptian: "Old Egyptian"
+ ancient_egyptian_collective_noun: "Fellahim"
+ ancient_egyptian_prefix: "Egypto" # found 'Egypto-Roman'
 
  numidian: "Numidian"
  numidian_collective_noun: "Numidians"

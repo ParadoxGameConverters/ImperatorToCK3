@@ -1,5 +1,5 @@
-﻿# Last updated: CK3 patch 1.9.2.1
-emperor_feudal_male_old_egyptian = { # Pharaoh
+﻿# Last updated: CK3 patch 1.12.2.1
+emperor_feudal_male_ancient_egyptian = { # Pharaoh
     type = character
 	gender = male
 	special = holder
@@ -10,7 +10,7 @@ emperor_feudal_male_old_egyptian = { # Pharaoh
 	top_liege = yes
 }
 
-emperor_feudal_female_old_egyptian = { # Pharaohess
+emperor_feudal_female_ancient_egyptian = { # Pharaohess
     type = character
 	gender = female
 	special = holder
