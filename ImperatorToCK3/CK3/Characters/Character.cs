@@ -405,6 +405,10 @@ public class Character : IIdentifiable<string> {
 		History.AddFieldValue(null, "intrigue", "intrigue", intrigue);
 		History.AddFieldValue(null, "learning", "learning", ImperatorCharacter.Attributes.Zeal);
 
+		if (impCharacter.Fertility.HasValue) {
+			History.AddFieldValue(null, "fertility", "fertility", impCharacter.Fertility.Value);
+		}
+
 		if (impCharacter.Health is not null) {
 			// In I:R, health is a value between 0 and 100, with 100 being the best.
 			// In CK3, 0 means near death, ≥ 7 means excellent health.
