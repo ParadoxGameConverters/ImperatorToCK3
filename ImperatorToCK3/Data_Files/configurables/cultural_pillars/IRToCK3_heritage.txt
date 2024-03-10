@@ -1,5 +1,8 @@
 ﻿heritage_nuragic = {
-    REPLACED_BY = { heritage_nuragic }
+    REPLACED_BY = {
+    	tfe = { heritage_nuragic }
+    	vanilla = { heritage_nuragic }
+    }
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -10,7 +13,10 @@
 }
 
 heritage_anatolian = {
-    REPLACED_BY = { heritage_anatolian }
+    REPLACED_BY = {
+		tfe = { heritage_anatolian }
+		vanilla = { heritage_anatolian }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -21,7 +27,10 @@ heritage_anatolian = {
 }
 
 heritage_hittite = {
-    REPLACED_BY = { heritage_hittite }
+    REPLACED_BY = {
+    	tfe = { heritage_hittite }
+    	vanilla = { heritage_hittite }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -32,7 +41,10 @@ heritage_hittite = {
 }
 
 heritage_arvanite = {
-    REPLACED_BY = { heritage_arvanite }
+    REPLACED_BY = {
+		tfe = { heritage_arvanite }
+		vanilla = { heritage_arvanite }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -43,7 +55,10 @@ heritage_arvanite = {
 }
 
 heritage_chaldean = {
-    REPLACED_BY = { heritage_chaldean }
+    REPLACED_BY = {
+		tfe = { heritage_chaldean }
+		vanilla = { heritage_chaldean }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -54,7 +69,10 @@ heritage_chaldean = {
 }
 
 heritage_gaulish = {
-    REPLACED_BY = { heritage_gaulish }
+    REPLACED_BY = {
+		tfe = { heritage_gaulish }
+		vanilla = { heritage_gaulish }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -65,7 +83,10 @@ heritage_gaulish = {
 }
 
 heritage_iberian_celtic = { # https://en.wikipedia.org/wiki/List_of_ancient_Celtic_peoples_and_tribes#Hispano-Celts_/_Celts_of_Hispania
-	REPLACED_BY = { heritage_iberian_celtic }
+    REPLACED_BY = {
+		tfe = { heritage_iberian_celtic }
+		vanilla = { heritage_iberian_celtic }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -76,7 +97,10 @@ heritage_iberian_celtic = { # https://en.wikipedia.org/wiki/List_of_ancient_Celt
 }
 
 heritage_punic = {
-    REPLACED_BY = { heritage_punic }
+    REPLACED_BY = {
+		tfe = { heritage_punic }
+		vanilla = { heritage_punic }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -87,7 +111,10 @@ heritage_punic = {
 }
 
 heritage_romano_british = {
-    REPLACED_BY = { heritage_romano_british }
+    REPLACED_BY = {
+		tfe = { heritage_romano_british }
+		vanilla = { heritage_romano_british }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -98,7 +125,10 @@ heritage_romano_british = {
 }
 
 heritage_romano_germanic = {
-    REPLACED_BY = { heritage_romano_germanic }
+    REPLACED_BY = {
+		tfe = { heritage_romano_germanic }
+		vanilla = { heritage_romano_germanic }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -109,7 +139,10 @@ heritage_romano_germanic = {
 }
 
 heritage_east_germanic = {
-    REPLACED_BY = { heritage_east_germanic }
+    REPLACED_BY = {
+		tfe = { heritage_east_germanic }
+		vanilla = { heritage_east_germanic }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -120,7 +153,10 @@ heritage_east_germanic = {
 }
 
 heritage_south_germanic = {
-    REPLACED_BY = { heritage_south_germanic }
+    REPLACED_BY = {
+		tfe = { heritage_south_germanic }
+		vanilla = { heritage_south_germanic }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -131,7 +167,10 @@ heritage_south_germanic = {
 }
 
 heritage_thracian = {
-    REPLACED_BY = { heritage_thracian }
+    REPLACED_BY = {
+		tfe = { heritage_thracian }
+		vanilla = { heritage_thracian }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -142,7 +181,10 @@ heritage_thracian = {
 }
 
 heritage_tyrrhenian = {
-    REPLACED_BY = { heritage_tyrrhenian }
+    REPLACED_BY = {
+		tfe = { heritage_tyrrhenian }
+		vanilla = { heritage_tyrrhenian }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -153,7 +195,10 @@ heritage_tyrrhenian = {
 }
 
 heritage_tai = {
-    REPLACED_BY = { heritage_tai }
+    REPLACED_BY = {
+		tfe = { heritage_tai }
+		vanilla = { heritage_tai }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -164,7 +209,10 @@ heritage_tai = {
 }
 
 heritage_palaungic = {
-    REPLACED_BY = { heritage_palaungic }
+    REPLACED_BY = {
+		tfe = { heritage_palaungic }
+		vanilla = { heritage_palaungic }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -175,7 +223,10 @@ heritage_palaungic = {
 }
 
 heritage_caucasian = {
-    REPLACED_BY = { heritage_caucasian }
+    REPLACED_BY = {
+		tfe = { heritage_caucasian }
+		vanilla = { heritage_caucasian }
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {

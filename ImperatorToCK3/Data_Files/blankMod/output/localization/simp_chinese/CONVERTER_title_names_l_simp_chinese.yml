@@ -1,9 +1,9 @@
 ﻿l_simp_chinese:
 # Pharaoh
- king_feudal_male_old_egyptian: "法老王"
- king_feudal_female_old_egyptian: "法老王"
- emperor_feudal_male_old_egyptian: "法老王"
- emperor_feudal_female_old_egyptian: "法老王"
+ king_feudal_male_ancient_egyptian: "法老王"
+ king_feudal_female_ancient_egyptian: "法老王"
+ emperor_feudal_male_ancient_egyptian: "法老王"
+ emperor_feudal_female_ancient_egyptian: "法老王"
 
 # Carthage
  duke_republic_male_carthaginian: "蘇斐特"

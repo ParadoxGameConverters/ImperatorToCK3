@@ -60,7 +60,8 @@ public class CharacterCollectionTests {
 		irRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		irRegionMapper.LoadRegions(irModFS, colorFactory);
 		
-		cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory));
+		var ck3ModFlags = new List<string>();
+		cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory, ck3ModFlags), ck3ModFlags);
 	}
 
 	[Fact]

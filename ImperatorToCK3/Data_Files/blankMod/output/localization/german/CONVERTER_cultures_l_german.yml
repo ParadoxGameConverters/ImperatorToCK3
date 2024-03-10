@@ -1,8 +1,8 @@
 ﻿l_german:
  # version 0.1
- old_egyptian: "urägyptisch"
- old_egyptian_collective_noun: "Fellahim"
- old_egyptian_prefix: "ägypto"
+ ancient_egyptian: "urägyptisch"
+ ancient_egyptian_collective_noun: "Fellahim"
+ ancient_egyptian_prefix: "ägypto"
 
  numidian: "numidisch"
  numidian_collective_noun: "Numidier"

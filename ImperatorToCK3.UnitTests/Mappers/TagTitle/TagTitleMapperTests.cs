@@ -42,8 +42,9 @@ public class TagTitleMapperTests {
 	private static readonly ColorFactory ColorFactory = new();
 	
 	static TagTitleMapperTests() {
-		var pillars = new PillarCollection(ColorFactory);
-		cultures = new CultureCollection(ColorFactory, pillars);
+		var ck3ModFlags = new List<string>();
+		var pillars = new PillarCollection(ColorFactory, ck3ModFlags);
+		cultures = new CultureCollection(ColorFactory, pillars, ck3ModFlags);
 	}
 	
 	public TagTitleMapperTests() {

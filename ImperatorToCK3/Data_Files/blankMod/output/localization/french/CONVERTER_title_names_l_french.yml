@@ -1,9 +1,9 @@
 ﻿l_french:
 # Pharaoh
- king_feudal_male_old_egyptian: "Pharaon"
- king_feudal_female_old_egyptian: "Pharaonne"
- emperor_feudal_male_old_egyptian: "Pharaon"
- emperor_feudal_female_old_egyptian: "Pharaonne"
+ king_feudal_male_ancient_egyptian: "Pharaon"
+ king_feudal_female_ancient_egyptian: "Pharaonne"
+ emperor_feudal_male_ancient_egyptian: "Pharaon"
+ emperor_feudal_female_ancient_egyptian: "Pharaonne"
 
 # Carthage
  duke_republic_male_carthaginian: "Suffète"
