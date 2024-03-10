@@ -101,6 +101,7 @@ public class Character : IIdentifiable<ulong> {
 		}
 	}
 	public bool Female { get; set; } = false;
+	public double? Fertility { get; private set; }
 	public double Wealth { get; set; } = 0;
 	public ImmutableList<Unborn> Unborns { get; private set; } = ImmutableList<Unborn>.Empty;
 
@@ -120,6 +121,7 @@ public class Character : IIdentifiable<ulong> {
 		parser.RegisterKeyword("province", reader => parsedCharacter.ProvinceId = reader.GetULong());
 		parser.RegisterKeyword("culture", reader => parsedCharacter.culture = reader.GetString());
 		parser.RegisterKeyword("religion", reader => parsedCharacter.Religion = reader.GetString());
+		parser.RegisterKeyword("fertility", reader => parsedCharacter.Fertility = reader.GetDouble());
 		parser.RegisterKeyword("health", reader => parsedCharacter.Health = reader.GetDouble());
 		parser.RegisterKeyword("family", reader => parsedCharacter.parsedFamilyId = reader.GetULong());
 		parser.RegisterKeyword("traits", reader => parsedCharacter.Traits = reader.GetStrings());
