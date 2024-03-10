@@ -47,7 +47,7 @@ public class PillarCollection : IdObjectCollection<string, Pillar> {
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseFolder(converterPillarsPath, "txt", true, logFilePaths: true);
 		
-		Logger.Debug($"Ignored mods flags when loading pillars: {ignoredModFlags}");
+		Logger.Debug($"Ignored mod flags when loading pillars: {ignoredModFlags}");
 	}
 	
 	private void LoadPillar(string pillarId, BufferedReader pillarReader) {
@@ -114,5 +114,5 @@ public class PillarCollection : IdObjectCollection<string, Pillar> {
 	private PillarData pillarData = new();
 	private readonly Parser pillarDataParser = new();
 	
-	private IgnoredKeywordsSet ignoredModFlags = [];
+	private readonly IgnoredKeywordsSet ignoredModFlags = [];
 }
