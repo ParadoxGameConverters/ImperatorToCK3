@@ -23,7 +23,6 @@ public static class BookmarkOutputter {
 		Logger.Info("Creating bookmark...");
 
 		OutputBookmarkGroup(config);
-		Logger.IncrementProgress();
 
 		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/bookmarks/00_bookmarks.txt");
 		using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
@@ -115,9 +114,8 @@ public static class BookmarkOutputter {
 		output.WriteLine("}");
 
 		OutputBookmarkLoc(config, localizations);
-		Logger.IncrementProgress();
-
 		DrawBookmarkMap(config, playerTitles, world);
+		Logger.IncrementProgress();
 	}
 
 	private static void OutputBookmarkGroup(Configuration config) {
@@ -209,8 +207,6 @@ public static class BookmarkOutputter {
 		var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.png");
 		bookmarkMapImage.SaveAsPng(outputPath);
 		ResaveImageAsDDS(outputPath);
-
-		Logger.IncrementProgress();
 	}
 
 	private static void DrawPlayerTitleOnMap(
@@ -269,7 +265,7 @@ public static class BookmarkOutputter {
 
 	private static HashSet<ulong> GetImpassableProvincesToColor(MapData mapData, ISet<ulong> heldProvinceIds) {
 		var provinceIdsToColor = new HashSet<ulong>(heldProvinceIds);
-		var impassableIds = mapData.ColorableImpassableProvinceIds.ToHashSet();
+		var impassableIds = GetColorableImpassablesExceptMapEdgeProvinces(mapData);
 		foreach (ulong impassableId in impassableIds) {
 			var nonImpassableNeighborProvIds = mapData.GetNeighborProvinceIds(impassableId)
 				.Except(impassableIds)
