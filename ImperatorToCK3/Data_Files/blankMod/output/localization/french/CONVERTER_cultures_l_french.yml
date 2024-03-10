@@ -1,8 +1,8 @@
 ﻿l_french:
  # version 0.1
- old_egyptian: "vieux-égyptienne"
- old_egyptian_collective_noun: "Fellahims"
- old_egyptian_prefix: "égypto"
+ ancient_egyptian: "vieux-égyptienne"
+ ancient_egyptian_collective_noun: "Fellahims"
+ ancient_egyptian_prefix: "égypto"
 
  numidian: "numide"
  numidian_collective_noun: "Numides"

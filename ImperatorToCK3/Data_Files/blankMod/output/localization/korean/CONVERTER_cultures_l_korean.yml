@@ -1,8 +1,8 @@
 ﻿l_korean:
  # version 0.1
- old_egyptian: "고대 이집트"
- old_egyptian_collective_noun: "고대 이집트인"
- old_egyptian_prefix: "고대 이집트"
+ ancient_egyptian: "고대 이집트"
+ ancient_egyptian_collective_noun: "고대 이집트인"
+ ancient_egyptian_prefix: "고대 이집트"
 
  numidian: "누미디안"
  numidian_collective_noun: "누미디안"
