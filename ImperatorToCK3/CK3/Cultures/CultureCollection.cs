@@ -117,6 +117,10 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 			Logger.Warn($"Culture {cultureId} has no heritage defined! Skipping.");
 			return;
 		}
+		if (cultureData.Language is null) {
+			Logger.Warn($"Culture {cultureId} has no language defined! Skipping.");
+			return;
+		}
 		if (cultureData.NameLists.Count == 0) {
 			Logger.Warn($"Culture {cultureId} has no name list defined! Skipping.");
 			return;

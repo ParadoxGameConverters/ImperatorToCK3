@@ -17,7 +17,10 @@ public class CultureCollectionTests {
 	private static readonly List<string> ck3ModFlags = [];
 
 	static CultureCollectionTests() {
-		pillars = new PillarCollection(colorFactory, []) { new("test_heritage", new PillarData { Type = "heritage" }) };
+		pillars = new PillarCollection(colorFactory, []) {
+			new("test_heritage", new PillarData { Type = "heritage" }),
+			new("test_language", new PillarData { Type = "language" })
+		};
 	}
 	
 	[Fact]
