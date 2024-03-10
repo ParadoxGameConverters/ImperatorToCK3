@@ -40,7 +40,6 @@ public static class CharactersOutputter {
 		var path = Path.Combine("output", outputModName, "common/dna_data/IRToCK3_dna_data.txt");
 		using var output = FileOpeningHelper.OpenWriteWithRetries(path, System.Text.Encoding.UTF8);
 		foreach (var character in charactersWithDNA) {
-			Logger.Error($"OUTPUTTING DNA FOR CHARACTER {character.Id}");
 			var dna = character.DNA!;
 			output.WriteLine($"{dna.Id}={{");
 			output.WriteLine("\tportrait_info={");
