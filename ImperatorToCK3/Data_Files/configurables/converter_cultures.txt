@@ -598,31 +598,34 @@ arakanese = {  # https://en.wikipedia.org/wiki/Rakhine_people
 	}
 }
 
+# Move vanilla CK3 macedonian culture from heritage_ancient_greek to heritage_byzantine
 macedonian = {
     INVALIDATED_BY = {
 		tfe = { macedonian }
-		vanilla = { macedonian }
 	}
     
-	heritage = heritage_byzantine
-	language = language_greek
-	color = { 0.8 0.55 0.6 }
+	color = { 0.7 0.6 0.95 }
 
-	name_list = name_list_ancient_greek
-	martial_custom = martial_custom_male_only
 	ethos = ethos_bellicose
-	ethnicities = {
-		10 = mediterranean_byzantine
-	}
-
+	heritage = heritage_byzantine # IRToCK3: moved from heritage_ancient_greek
+	language = language_greek # IRToCK3: moved from language_ancient_greek
+	martial_custom = martial_custom_male_only
 	traditions = {
-		tradition_swords_for_hire
+		tradition_philosopher_culture
+		tradition_legalistic
+		tradition_astute_diplomats
 	}
-
+	
+	name_list = name_list_trojan # seems wrong but is localized as "Ancient Greek"
+	
 	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
+	
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
 }
 
 hellenistic = {
