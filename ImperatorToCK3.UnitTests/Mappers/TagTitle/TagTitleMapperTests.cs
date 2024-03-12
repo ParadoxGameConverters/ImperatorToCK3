@@ -51,12 +51,6 @@ public class TagTitleMapperTests {
 	}
 
 	[Fact]
-	public void EmpireKingdomAndDuchyKeywordsAreLoadedFromRankMappingsFile() {
-		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath, rankMappingsPath);
-		
-	}
-
-	[Fact]
 	public void TitleCanBeMatchedFromTag() {
 		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath, rankMappingsPath); // reads title_map.txt from TestFiles
 		var country = Country.Parse(new BufferedReader("tag=CRT"), 1);
@@ -333,5 +327,10 @@ public class TagTitleMapperTests {
 			tag8.RegisterProvince(province);
 		}
 		Assert.Equal('e', mapper.GetTitleForTag(tag8)![0]);
+		Assert.Equal('e', mapper.GetTitleForTag(tag8, "Testonia")![0]);
+		// Rank can be overridden by name containing "Duchy", "Principality" or "Dukedom".
+		Assert.Equal('d', mapper.GetTitleForTag(tag8, "Test Duchy")![0]);
+		Assert.Equal('d', mapper.GetTitleForTag(tag8, "Test Principality")![0]);
+		Assert.Equal('d', mapper.GetTitleForTag(tag8, "Test Dukedom")![0]);
 	}
 }
