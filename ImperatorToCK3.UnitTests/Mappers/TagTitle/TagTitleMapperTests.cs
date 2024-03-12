@@ -326,11 +326,25 @@ public class TagTitleMapperTests {
 			var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 			tag8.RegisterProvince(province);
 		}
-		Assert.Equal('e', mapper.GetTitleForTag(tag8)![0]);
-		Assert.Equal('e', mapper.GetTitleForTag(tag8, "Testonia")![0]);
+		Assert.Equal('e', mapper.GetTitleForTag(tag8, "Testonia", maxTitleRank: TitleRank.empire)![0]);
+		
 		// Rank can be overridden by name containing "Duchy", "Principality" or "Dukedom".
-		Assert.Equal('d', mapper.GetTitleForTag(tag8, "Test Duchy")![0]);
-		Assert.Equal('d', mapper.GetTitleForTag(tag8, "Test Principality")![0]);
-		Assert.Equal('d', mapper.GetTitleForTag(tag8, "Test Dukedom")![0]);
+		var tag9 = Country.Parse(new BufferedReader("tag=TEST_TAG9"), 9);
+		for (ulong i = 1; i < 501; ++i) { // makes the country a great power
+			tag9.RegisterProvince(new(i));
+		}
+		Assert.Equal('d', mapper.GetTitleForTag(tag9, "Test Duchy", maxTitleRank: TitleRank.empire)![0]);
+		
+		var tag10 = Country.Parse(new BufferedReader("tag=TEST_TAG10"), 10);
+		for (ulong i = 1; i < 501; ++i) { // makes the country a great power
+			tag10.RegisterProvince(new(i));
+		}
+		Assert.Equal('d', mapper.GetTitleForTag(tag10, "Test Principality", maxTitleRank: TitleRank.empire)![0]);
+		
+		var tag11 = Country.Parse(new BufferedReader("tag=TEST_TAG11"), 11);
+		for (ulong i = 1; i < 501; ++i) { // makes the country a great power
+			tag11.RegisterProvince(new(i));
+		}
+		Assert.Equal('d', mapper.GetTitleForTag(tag11, "Test Dukedom", maxTitleRank: TitleRank.empire)![0]);
 	}
 }
