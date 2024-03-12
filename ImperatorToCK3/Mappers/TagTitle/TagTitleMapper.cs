@@ -1,7 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Helpers;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
@@ -196,13 +195,13 @@ public class TagTitleMapper {
 		// Split the name into words.
 		var words = localizedTitleName.Split(' ');
 		
-		if (empireKeywords.Any(words.Contains)) {
+		if (empireKeywords.Any(kw => words.Contains(kw, StringComparer.OrdinalIgnoreCase))) {
 			return TitleRank.empire;
 		}
-		if (kingdomKeywords.Any(words.Contains)) {
+		if (kingdomKeywords.Any(kw => words.Contains(kw, StringComparer.OrdinalIgnoreCase))) {
 			return TitleRank.kingdom;
 		}
-		if (duchyKeywords.Any(words.Contains)) {
+		if (duchyKeywords.Any(kw => words.Contains(kw, StringComparer.OrdinalIgnoreCase))) {
 			return TitleRank.duchy;
 		}
 
@@ -223,8 +222,8 @@ public class TagTitleMapper {
 			}
 		}
 		
-		Logger.Warn($"No rank mapping found for country rank: {countryRankStr} with {country.TerritoriesCount} territories! Defaulting to kingdom.");
-		return TitleRank.kingdom;
+		Logger.Warn($"No rank mapping found for country rank: {countryRankStr} with {country.TerritoriesCount} territories! Defaulting to duchy.");
+		return TitleRank.duchy;
 	}
 	private static TitleRank GetCK3GovernorshipRank(string ck3LiegeTitleId) {
 		var ck3LiegeRank = Title.GetRankForId(ck3LiegeTitleId);
@@ -277,9 +276,9 @@ public class TagTitleMapper {
 	private readonly Dictionary<string, string> registeredGovernorshipTitles = new(); // We store already mapped governorships here.
 	private readonly SortedSet<string> usedTitles = new();
 
-	private readonly HashSet<string> empireKeywords = [];
-	private readonly HashSet<string> kingdomKeywords = [];
-	private readonly HashSet<string> duchyKeywords = [];
+	private readonly HashSet<string> empireKeywords = ["empire"];
+	private readonly HashSet<string> kingdomKeywords = ["kingdom"];
+	private readonly HashSet<string> duchyKeywords = ["duchy"];
 	private readonly List<RankMapping> rankMappings = [];
 
 	private const string GeneratedCK3TitlePrefix = "IRTOCK3_";
