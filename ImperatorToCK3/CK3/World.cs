@@ -919,7 +919,8 @@ public class World {
 	private readonly SuccessionLawMapper successionLawMapper = new(Path.Combine("configurables", "succession_law_map.txt"));
 	private readonly TagTitleMapper tagTitleMapper = new(
 		tagTitleMappingsPath: Path.Combine("configurables", "title_map.txt"),
-		governorshipTitleMappingsPath: Path.Combine("configurables", "governorMappings.txt")
+		governorshipTitleMappingsPath: Path.Combine("configurables", "governorMappings.txt"),
+		rankMappingsPath: "configurables/country_rank_map.txt"
 	);
 	private readonly UnitTypeMapper unitTypeMapper = new("configurables/unit_types_map.txt");
 	private readonly CK3RegionMapper ck3RegionMapper;

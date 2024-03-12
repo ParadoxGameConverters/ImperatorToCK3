@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.TagTitle;
 
-public class Mapping {
+public class TitleMapping {
 	public string? RankMatch(string irTagOrRegion, TitleRank rank, TitleRank maxTitleRank) {
 		if (imperatorTagOrRegion != irTagOrRegion) {
 			return null;
@@ -66,30 +66,19 @@ public class Mapping {
 	private TitleRank CK3TitleRank => Title.GetRankForId(ck3TitleId);
 
 	private static readonly Parser parser = new();
-	private static Mapping mappingToReturn = new();
-	static Mapping() {
+	private static TitleMapping mappingToReturn = new();
+	static TitleMapping() {
 		parser.RegisterKeyword("ck3", reader => mappingToReturn.ck3TitleId = reader.GetString());
 		parser.RegisterKeyword("ir", reader => mappingToReturn.imperatorTagOrRegion = reader.GetString());
 		parser.RegisterKeyword("rank", reader => {
-			var ranksToAdd = reader.GetString().ToCharArray().Select(CharToTitleRank);
+			var ranksToAdd = reader.GetString().ToCharArray().Select(TitleRankUtils.CharToTitleRank);
 			mappingToReturn.ranks.AddRange(ranksToAdd);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 	}
-	public static Mapping Parse(BufferedReader reader) {
-		mappingToReturn = new Mapping();
+	public static TitleMapping Parse(BufferedReader reader) {
+		mappingToReturn = new TitleMapping();
 		parser.ParseStream(reader);
 		return mappingToReturn;
-	}
-
-	private static TitleRank CharToTitleRank(char c) {
-		return c switch {
-			'e' => TitleRank.empire,
-			'k' => TitleRank.kingdom,
-			'd' => TitleRank.duchy,
-			'c' => TitleRank.county,
-			'b' => TitleRank.barony,
-			_ => throw new ArgumentOutOfRangeException(nameof(c))
-		};
 	}
 }
