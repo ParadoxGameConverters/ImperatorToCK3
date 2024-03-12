@@ -1,12 +1,12 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Helpers;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
+using Open.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +15,15 @@ namespace ImperatorToCK3.Mappers.TagTitle;
 
 public class TagTitleMapper {
 	public TagTitleMapper() { }
-	public TagTitleMapper(string tagTitleMappingsPath, string governorshipTitleMappingsPath) {
-		Logger.Info("Parsing Title mappings...");
+	public TagTitleMapper(string tagTitleMappingsPath, string governorshipTitleMappingsPath, string rankMappingsPath) {
+		Logger.Info("Parsing title mappings...");
 		var parser = new Parser();
 		RegisterKeys(parser);
 		parser.ParseFile(tagTitleMappingsPath);
 		parser.ParseFile(governorshipTitleMappingsPath);
-		Logger.Info($"{mappings.Count} title mappings loaded.");
+		Logger.Info($"{titleMappings.Count} title mappings loaded.");
+		
+		LoadRankMappings(rankMappingsPath);
 
 		Logger.IncrementProgress();
 	}
@@ -49,7 +51,7 @@ public class TagTitleMapper {
 
 		// Attempt a title match.
 		var rank = EnumHelper.Min(GetCK3TitleRank(country, localizedTitleName), maxTitleRank);
-		foreach (var mapping in mappings) {
+		foreach (var mapping in titleMappings) {
 			var match = mapping.RankMatch(tagForMapping, rank, maxTitleRank);
 			if (match is not null) {
 				if (usedTitles.Contains(match)) {
@@ -103,7 +105,7 @@ public class TagTitleMapper {
 		}
 
 		// Attempt a title match
-		foreach (var mapping in mappings) {
+		foreach (var mapping in titleMappings) {
 			var match = mapping.GovernorshipMatch(rank, titles, governorship, provMapper, irProvinces);
 			if (match is null) {
 				continue;
@@ -172,36 +174,56 @@ public class TagTitleMapper {
 	}
 
 	private void RegisterKeys(Parser parser) {
-		parser.RegisterKeyword("link", reader => mappings.Add(Mapping.Parse(reader)));
+		parser.RegisterKeyword("link", reader => titleMappings.Add(TitleMapping.Parse(reader)));
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
-	private static TitleRank GetCK3TitleRank(Country country, string localizedTitleName) {
-		if (localizedTitleName.Contains("Empire", StringComparison.Ordinal)) {
+	
+	private void LoadRankMappings(string rankMappingsPath) {
+		Logger.Info("Parsing country rank mappings...");
+		var parser = new Parser();
+		parser.RegisterKeyword("empire_keywords", reader => empireKeywords.AddRange(reader.GetStrings()));
+		parser.RegisterKeyword("kingdom_keywords", reader => kingdomKeywords.AddRange(reader.GetStrings()));
+		parser.RegisterKeyword("duchy_keywords", reader => duchyKeywords.AddRange(reader.GetStrings()));
+		parser.RegisterKeyword("link", reader => rankMappings.Add(new RankMapping(reader)));
+
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseFile(rankMappingsPath);
+		Logger.Info($"{rankMappings.Count} rank mappings loaded.");
+	}
+	
+	private TitleRank GetCK3TitleRank(Country country, string localizedTitleName) {
+		// Split the name into words.
+		var words = localizedTitleName.Split(' ');
+		
+		if (empireKeywords.Any(kw => words.Contains(kw, StringComparer.OrdinalIgnoreCase))) {
 			return TitleRank.empire;
 		}
-
-		if (localizedTitleName.Contains("Kingdom", StringComparison.Ordinal)) {
+		if (kingdomKeywords.Any(kw => words.Contains(kw, StringComparer.OrdinalIgnoreCase))) {
 			return TitleRank.kingdom;
 		}
-		
-		// Major power rank is very broad (from 100 to 499 territories). Consider 300+ territories as empire material.
-		if (country is {Rank: CountryRank.majorPower, TerritoriesCount: >= 300}) {
-			return TitleRank.empire;
+		if (duchyKeywords.Any(kw => words.Contains(kw, StringComparer.OrdinalIgnoreCase))) {
+			return TitleRank.duchy;
+		}
+
+		var countryRankStr = country.Rank switch {
+			CountryRank.migrantHorde => "migrant_horde",
+			CountryRank.cityState => "city_power",
+			CountryRank.localPower => "local_power",
+			CountryRank.regionalPower => "regional_power",
+			CountryRank.majorPower => "major_power",
+			CountryRank.greatPower => "great_power",
+			_ => throw new ArgumentOutOfRangeException($"Invalid country rank: {country.Rank}!")
+		};
+
+		foreach (var mapping in rankMappings) {
+			var match = mapping.Match(countryRankStr, country.TerritoriesCount);
+			if (match is not null) {
+				return match.Value;
+			}
 		}
 		
-		switch (country.Rank) {
-			case CountryRank.migrantHorde:
-			case CountryRank.cityState:
-				return TitleRank.duchy;
-			case CountryRank.localPower:
-			case CountryRank.regionalPower:
-			case CountryRank.majorPower:
-				return TitleRank.kingdom;
-			case CountryRank.greatPower:
-				return TitleRank.empire;
-			default:
-				return TitleRank.duchy;
-		}
+		Logger.Warn($"No rank mapping found for country rank: {countryRankStr} with {country.TerritoriesCount} territories! Defaulting to duchy.");
+		return TitleRank.duchy;
 	}
 	private static TitleRank GetCK3GovernorshipRank(string ck3LiegeTitleId) {
 		var ck3LiegeRank = Title.GetRankForId(ck3LiegeTitleId);
@@ -213,7 +235,7 @@ public class TagTitleMapper {
 			_ => throw new ArgumentException($"Title {ck3LiegeTitleId} has invalid rank to have governorships!", nameof(ck3LiegeTitleId))
 		};
 	}
-	private static string GenerateNewTitleId(Country country, string localizedTitleName, TitleRank maxTitleRank) {
+	private string GenerateNewTitleId(Country country, string localizedTitleName, TitleRank maxTitleRank) {
 		var ck3Rank = EnumHelper.Min(GetCK3TitleRank(country, localizedTitleName), maxTitleRank);
 		
 		var ck3TitleId = GetTitlePrefixForRank(ck3Rank);
@@ -249,10 +271,15 @@ public class TagTitleMapper {
 		};
 	}
 
-	private readonly List<Mapping> mappings = new();
+	private readonly List<TitleMapping> titleMappings = new();
 	private readonly Dictionary<ulong, string> registeredCountryTitles = new(); // We store already mapped countries here.
 	private readonly Dictionary<string, string> registeredGovernorshipTitles = new(); // We store already mapped governorships here.
 	private readonly SortedSet<string> usedTitles = new();
+
+	private readonly HashSet<string> empireKeywords = ["empire"];
+	private readonly HashSet<string> kingdomKeywords = ["kingdom"];
+	private readonly HashSet<string> duchyKeywords = ["duchy"];
+	private readonly List<RankMapping> rankMappings = [];
 
 	private const string GeneratedCK3TitlePrefix = "IRTOCK3_";
 }

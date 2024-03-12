@@ -30,8 +30,6 @@ using System.Text;
 
 namespace ImperatorToCK3.CK3.Titles;
 
-public enum TitleRank { barony, county, duchy, kingdom, empire }
-
 [SerializationByProperties]
 public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public override string ToString() {
