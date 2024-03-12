@@ -20,11 +20,11 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle;
 
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
-public class MappingTests {
+public class TitleMappingTests {
 	[Fact]
 	public void SimpleTagMatch() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM }");
-		var mapping = Mapping.Parse(reader);
+		var mapping = TitleMapping.Parse(reader);
 		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Equal("e_roman_empire", match);
@@ -33,7 +33,7 @@ public class MappingTests {
 	[Fact]
 	public void SimpleTagMatchFailsOnWrongTag() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = REM }");
-		var mapping = Mapping.Parse(reader);
+		var mapping = TitleMapping.Parse(reader);
 		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Null(match);
@@ -42,7 +42,7 @@ public class MappingTests {
 	[Fact]
 	public void SimpleTagMatchFailsOnNoTag() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire }");
-		var mapping = Mapping.Parse(reader);
+		var mapping = TitleMapping.Parse(reader);
 		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Null(match);
@@ -51,7 +51,7 @@ public class MappingTests {
 	[Fact]
 	public void TagRankMatch() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM rank = e }");
-		var mapping = Mapping.Parse(reader);
+		var mapping = TitleMapping.Parse(reader);
 		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Equal("e_roman_empire", match);
@@ -60,7 +60,7 @@ public class MappingTests {
 	[Fact]
 	public void TagRankMatchFailsOnWrongRank() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM rank = k }");
-		var mapping = Mapping.Parse(reader);
+		var mapping = TitleMapping.Parse(reader);
 		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Null(match);
@@ -69,7 +69,7 @@ public class MappingTests {
 	[Fact]
 	public void TagRankMatchSucceedsOnNoRank() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM }");
-		var mapping = Mapping.Parse(reader);
+		var mapping = TitleMapping.Parse(reader);
 		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Equal("e_roman_empire", match);
@@ -133,7 +133,7 @@ public class MappingTests {
 		Assert.Contains(duchyId, titles.GetDeJureDuchies().Select(d => d.Id));
 		
 		var mappingReader = new BufferedReader($"{{ ck3={duchyId} ir={irRegionId} rank=d }}");
-		var mapping = Mapping.Parse(mappingReader);
+		var mapping = TitleMapping.Parse(mappingReader);
 
 		// Governorship holds 0/3 provinces in the duchy, so it should not be mapped to the duchy.
 		irGovernorship.GetIRProvinces(irProvinces).Should().BeEmpty();
