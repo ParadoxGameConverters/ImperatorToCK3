@@ -1,7 +1,9 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
+using commonItems.Serialization;
 using ImperatorToCK3.CK3;
+using ImperatorToCK3.CK3.Legends;
 using ImperatorToCK3.CommonUtils;
 using System.IO;
 using System.Text;
@@ -43,7 +45,6 @@ public static class WorldOutputter {
 		CulturesOutputter.OutputCultures(outputName, ck3World.Cultures);
 
 		ReligionsOutputter.OutputHolySites(outputName, ck3World.Religions);
-		Logger.IncrementProgress();
 		ReligionsOutputter.OutputReligions(outputName, ck3World.Religions);
 		Logger.IncrementProgress();
 
@@ -79,7 +80,8 @@ public static class WorldOutputter {
 		var outputPath = Path.Combine("output", config.OutputModName);
 
 		WriteDummyStruggleHistory(outputPath);
-
+		OutputLegendSeeds(outputPath, ck3World.LegendSeeds);
+		
 		NamedColorsOutputter.OutputNamedColors(outputName, imperatorWorld.NamedColors, ck3World.NamedColors);
 
 		CoatOfArmsEmblemsOutputter.CopyEmblems(config, imperatorWorld.ModFS);
@@ -98,6 +100,14 @@ public static class WorldOutputter {
 		// Just to make sure the history/struggles folder exists.
 		string struggleDummyPath = Path.Combine(outputPath, "history/struggles/IRToCK3_dummy.txt");
 		File.WriteAllText(struggleDummyPath, string.Empty, Encoding.UTF8);
+	}
+
+	private static void OutputLegendSeeds(string outputPath, LegendSeedCollection legendSeeds) {
+		Logger.Info("Writing legend seeds...");
+		File.WriteAllText(
+			Path.Combine(outputPath, "common/legends/legend_seeds/IRtoCK3_all_legend_seeds.txt"),
+			PDXSerializer.Serialize(legendSeeds, indent: "", withBraces: false)
+		);
 	}
 
 	private static void CopyBlankModFilesToOutput(string outputPath) {
@@ -154,6 +164,7 @@ public static class WorldOutputter {
 		modFileBuilder.AppendLine("replace_path=\"common/culture/cultures\"");
 		modFileBuilder.AppendLine("replace_path=\"common/culture/pillars\"");
 		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");
+		modFileBuilder.AppendLine("replace_path=\"common/legends/legend_seeds\"");
 		modFileBuilder.AppendLine("replace_path=\"common/religion/religions\"");
 		modFileBuilder.AppendLine("replace_path=\"history/characters\"");
 		modFileBuilder.AppendLine("replace_path=\"history/province_mapping\"");
@@ -194,6 +205,7 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dna_data"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "legends", "legend_seeds"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "men_at_arms_types"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "on_action"));

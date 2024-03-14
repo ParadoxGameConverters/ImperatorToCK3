@@ -1079,8 +1079,8 @@ kushitism_religion = {
 				HouseOfWorship = paganism_house_of_worship
 				HouseOfWorshipPlural = paganism_house_of_worship_plural
 				ReligiousText = atenist_religious_text
-				ReligiousHeadName = king_feudal_male_old_egyptian
-				ReligiousHeadTitleName = king_feudal_male_old_egyptian
+				ReligiousHeadName = king_feudal_male_ancient_egyptian
+				ReligiousHeadTitleName = king_feudal_male_ancient_egyptian
 
 				DeathDeityName = atenist_high_god_name
 				DeathDeityNamePossessive = atenist_high_god_name_possessive

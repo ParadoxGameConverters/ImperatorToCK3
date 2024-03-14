@@ -104,8 +104,9 @@ public class ProvincesTests {
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irWorld.Provinces);
 		var irRegionMapper = new ImperatorRegionMapper(areas);
-		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
-		var cultures = new CultureCollection(new ColorFactory(), new PillarCollection(new ColorFactory()));
+		var colorFactory = new ColorFactory();
+		irRegionMapper.LoadRegions(irModFS, colorFactory);
+		var cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory, []), []);
 		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper, cultures);
 		var religions = new ReligionCollection(titles);
 		var religionMapper = new ReligionMapper(religions, irRegionMapper, ck3RegionMapper);

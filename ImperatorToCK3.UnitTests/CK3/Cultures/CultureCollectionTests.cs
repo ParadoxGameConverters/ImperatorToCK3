@@ -5,6 +5,7 @@ using Fernandezja.ColorHashSharp;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Cultures; 
@@ -13,14 +14,18 @@ public class CultureCollectionTests {
 	private static readonly ModFilesystem ck3ModFS = new("TestFiles/CK3/game", Array.Empty<Mod>());
 	private static readonly PillarCollection pillars;
 	private static readonly ColorFactory colorFactory = new();
+	private static readonly List<string> ck3ModFlags = [];
 
 	static CultureCollectionTests() {
-		pillars = new PillarCollection(colorFactory) { new("test_heritage", new PillarData { Type = "heritage" }) };
+		pillars = new PillarCollection(colorFactory, []) {
+			new("test_heritage", new PillarData { Type = "heritage" }),
+			new("test_language", new PillarData { Type = "language" })
+		};
 	}
 	
 	[Fact]
 	public void ColorIsLoadedIfDefinedOrGeneratedIfMissing() {
-		var cultures = new CultureCollection(colorFactory, pillars);
+		var cultures = new CultureCollection(colorFactory, pillars, ck3ModFlags);
 		cultures.LoadNameLists(ck3ModFS);
 		cultures.LoadCultures(ck3ModFS);
 

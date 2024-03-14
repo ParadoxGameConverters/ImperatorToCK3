@@ -4,9 +4,9 @@
 # [normal adjective]: something-ск, without dots or endings
 
  # version 0.1
- old_egyptian: "Египетяне"
- old_egyptian_collective_noun: "Египетск"
- old_egyptian_prefix: "Египто"
+ ancient_egyptian: "Египетяне"
+ ancient_egyptian_collective_noun: "Египетск"
+ ancient_egyptian_prefix: "Египто"
 
  numidian: "Нумидийцы"
  numidian_collective_noun: "Нумидийск"

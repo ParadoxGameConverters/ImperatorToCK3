@@ -6,6 +6,7 @@ using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
+using ImperatorToCK3.CK3.Legends;
 using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
@@ -52,6 +53,7 @@ public class World {
 	public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes { get; } = new();
 	public MapData MapData { get; }
 	public IList<Wars.War> Wars { get; } = new List<Wars.War>();
+	public LegendSeedCollection LegendSeeds { get; } = [];
 
 	/// <summary>
 	/// Date based on I:R save date, but normalized for CK3 purposes.
@@ -60,6 +62,8 @@ public class World {
 
 	public World(Imperator.World impWorld, Configuration config) {
 		Logger.Info("*** Hello CK3, let's get painting. ***");
+		
+		warMapper.DetectUnmappedWarGoals(impWorld.ModFS);
 
 		// Initialize fields that depend on other fields.
 		Religions = new ReligionCollection(LandedTitles);
@@ -106,11 +110,11 @@ public class World {
 		
 		// Load CK3 cultures from CK3 mod filesystem.
 		Logger.Info("Loading cultural pillars...");
-		CulturalPillars = new(ck3ColorFactory);
+		CulturalPillars = new(ck3ColorFactory, config.GetCK3ModFlags());
 		CulturalPillars.LoadPillars(ModFS);
 		Logger.Info("Loading converter cultural pillars...");
 		CulturalPillars.LoadConverterPillars("configurables/cultural_pillars");
-		Cultures = new CultureCollection(ck3ColorFactory, CulturalPillars);
+		Cultures = new CultureCollection(ck3ColorFactory, CulturalPillars, config.GetCK3ModFlags());
 		Logger.Info("Loading name lists...");
 		Cultures.LoadNameLists(ModFS);
 		Logger.Info("Loading cultures...");
@@ -299,6 +303,9 @@ public class World {
 		
 		Religions.GenerateMissingReligiousHeads(LandedTitles, Characters, Provinces, Cultures, config.CK3BookmarkDate);
 		Logger.IncrementProgress();
+		
+		LegendSeeds.LoadSeeds(ModFS);
+		LegendSeeds.RemoveAnachronisticSeeds("configurables/legend_seeds_to_remove.txt");
 	}
 
 	private void ImportImperatorWars(Imperator.World irWorld, Date ck3BookmarkDate) {
@@ -912,7 +919,8 @@ public class World {
 	private readonly SuccessionLawMapper successionLawMapper = new(Path.Combine("configurables", "succession_law_map.txt"));
 	private readonly TagTitleMapper tagTitleMapper = new(
 		tagTitleMappingsPath: Path.Combine("configurables", "title_map.txt"),
-		governorshipTitleMappingsPath: Path.Combine("configurables", "governorMappings.txt")
+		governorshipTitleMappingsPath: Path.Combine("configurables", "governorMappings.txt"),
+		rankMappingsPath: "configurables/country_rank_map.txt"
 	);
 	private readonly UnitTypeMapper unitTypeMapper = new("configurables/unit_types_map.txt");
 	private readonly CK3RegionMapper ck3RegionMapper;

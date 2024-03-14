@@ -30,8 +30,6 @@ using System.Text;
 
 namespace ImperatorToCK3.CK3.Titles;
 
-public enum TitleRank { barony, county, duchy, kingdom, empire }
-
 [SerializationByProperties]
 public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public override string ToString() {
@@ -423,7 +421,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public static string? DetermineId(Governorship governorship, LandedTitles titles, Imperator.Provinces.ProvinceCollection irProvinces, ProvinceCollection ck3Provinces, ImperatorRegionMapper imperatorRegionMapper, TagTitleMapper tagTitleMapper, ProvinceMapper provMapper) {
 		var country = governorship.Country;
 		if (country.CK3Title is null) {
-			throw new ArgumentException($"{country.Tag} governorship of {governorship.Region.Id} could not be mapped to CK3 title: country has no CK3Title!");
+			Logger.Debug($"{country.Tag} governorship of {governorship.Region.Id} could not be mapped to CK3 title: country has no CK3Title.");
+			return null;
 		}
 		return tagTitleMapper.GetTitleForGovernorship(governorship, titles, irProvinces, ck3Provinces, imperatorRegionMapper, provMapper);
 	}

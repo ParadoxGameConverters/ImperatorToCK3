@@ -1,6 +1,9 @@
 ﻿
 heritage_venetic = {
-    REPLACED_BY = { heritage_venetic }
+    REPLACED_BY = {
+		tfe = { heritage_venetic }
+		vanilla = { heritage_venetic }
+    }
 
 	type = heritage
 	parameters = {
