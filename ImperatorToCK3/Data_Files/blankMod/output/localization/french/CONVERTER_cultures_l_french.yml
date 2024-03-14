@@ -1,8 +1,8 @@
 ﻿l_french:
  # version 0.1
- old_egyptian: "vieux-égyptienne"
- old_egyptian_collective_noun: "Fellahims"
- old_egyptian_prefix: "égypto"
+ ancient_egyptian: "vieux-égyptienne"
+ ancient_egyptian_collective_noun: "Fellahims"
+ ancient_egyptian_prefix: "égypto"
 
  numidian: "numide"
  numidian_collective_noun: "Numides"
@@ -328,8 +328,8 @@
  romano_british_group_collective_noun: "Romano-Britanniques"
  romano_german_group: "romano-allemande"
  romano_german_group_collective_noun: "Romano-Allemands"
- aboriginal_group: "aborigène"
- aboriginal_group_collective_noun: "Aborigènes"
+ nuragic_group: "nuragique"
+ nuragic_group_collective_noun: "nuragiques"
  tyrrhenian: "tyrrhénienne"
  tyrrhenian_collective_noun: "Tyrrhéniens"
  rhaetian: "rhétique"

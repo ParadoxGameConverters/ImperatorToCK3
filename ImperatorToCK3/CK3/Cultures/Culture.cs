@@ -13,6 +13,7 @@ public sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 	public Color Color { get; }
 	public OrderedSet<string> ParentCultureIds { get; set; } = new();
 	public Pillar Heritage { get; }
+	public Pillar Language { get; }
 	private readonly OrderedSet<string> traditionIds;
 	public IReadOnlyCollection<string> TraditionIds => traditionIds;
 	private readonly OrderedSet<NameList> nameLists;
@@ -26,6 +27,7 @@ public sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 		Color = cultureData.Color!;
 		ParentCultureIds = cultureData.ParentCultureIds;
 		Heritage = cultureData.Heritage!;
+		Language = cultureData.Language!;
 		traditionIds = cultureData.TraditionIds;
 		nameLists = cultureData.NameLists;
 		attributes = new List<KeyValuePair<string, StringOfItem>>(cultureData.Attributes);
@@ -47,6 +49,7 @@ public sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 			sb.Append(contentIndent).AppendLine($"parents={PDXSerializer.Serialize(ParentCultureIds)}");
 		}
 		sb.Append(contentIndent).AppendLine($"heritage={Heritage.Id}");
+		sb.Append(contentIndent).AppendLine($"language={Language.Id}");
 		sb.Append(contentIndent).AppendLine($"traditions={PDXSerializer.Serialize(TraditionIds)}");
 		foreach (var nameList in NameLists) {
 			sb.Append(contentIndent).AppendLine($"name_list={nameList.Id}");

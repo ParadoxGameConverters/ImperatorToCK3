@@ -52,7 +52,7 @@ public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 	public HolySite(Title barony, Faith faith, Title.LandedTitles titles) {
 		IsGeneratedByConverter = true;
 		Id = GenerateHolySiteId(barony, faith);
-		County = titles.GetCountyForProvince(barony.Province!.Value)!;
+		County = titles.GetCountyForProvince(barony.ProvinceId!.Value)!;
 		Barony = barony;
 	}
 	public HolySite(

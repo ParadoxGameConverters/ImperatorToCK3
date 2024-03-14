@@ -30,28 +30,29 @@ public partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 			var ck3Member = member.CK3Character;
 			ck3Member?.SetDynastyId(Id, null);
 		}
-
-		var irFamilyLocKey = irFamily.GetMaleForm(irCulturesDB);
-		var irFamilyLoc = locDB.GetLocBlockForKey(irFamilyLocKey);
-		if (irFamilyLoc is not null) {
-			LocalizedName = new LocBlock(Name, irFamilyLoc);
-			LocalizedName.ModifyForEveryLanguage(irFamilyLoc, (orig, other, lang) => {
-				if (!string.IsNullOrEmpty(orig)) {
-					return orig;
-				}
-				return !string.IsNullOrEmpty(other) ? other : irFamilyLoc.Id;
-			});
-		} else { // fallback: use unlocalized Imperator family key
-			LocalizedName = new LocBlock(Name, ConverterGlobals.PrimaryLanguage) {
-				[ConverterGlobals.PrimaryLanguage] = irFamilyLocKey
-			};
-		}
+		
+		SetLocFromImperatorFamilyName(irFamily.GetMaleForm(irCulturesDB), locDB);
 	}
+
+	public Dynasty(CK3.Characters.Character character, string irFamilyName, CulturesDB irCulturesDB, LocDB locDB, Date date) {
+		Id = $"dynn_irtock3_from_{character.Id}";
+		Name = Id;
+
+		CultureId = character.GetCultureId(date) ?? character.Father?.GetCultureId(date);
+		if (CultureId is null) {
+			Logger.Warn($"Couldn't determine culture for dynasty {Id}, needs manual setting!");
+		}
+		
+		character.SetDynastyId(Id, null);
+		
+		SetLocFromImperatorFamilyName(Family.GetMaleForm(irFamilyName, irCulturesDB), locDB);
+	}
+	
 	[NonSerialized] public string Id { get; }
 	[SerializedName("name")] public string Name { get; }
 	[SerializedName("culture")] public string? CultureId { get; set; }
 
-	[NonSerialized] public LocBlock? LocalizedName { get; }
+	[NonSerialized] public LocBlock? LocalizedName { get; private set; }
 	[NonSerialized] public StringOfItem? CoA { get; set; }
 
 	private void SetCultureFromImperator(Family irFamily, IReadOnlyList<Character> irMembers, CultureMapper cultureMapper, Date date) {
@@ -91,5 +92,22 @@ public partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		Logger.Warn($"Couldn't determine culture for dynasty {Id}, needs manual setting!");
+	}
+
+	private void SetLocFromImperatorFamilyName(string irFamilyLocKey, LocDB locDB) {
+		var irFamilyLoc = locDB.GetLocBlockForKey(irFamilyLocKey);
+		if (irFamilyLoc is not null) {
+			LocalizedName = new LocBlock(Name, irFamilyLoc);
+			LocalizedName.ModifyForEveryLanguage(irFamilyLoc, (orig, other, lang) => {
+				if (!string.IsNullOrEmpty(orig)) {
+					return orig;
+				}
+				return !string.IsNullOrEmpty(other) ? other : irFamilyLoc.Id;
+			});
+		} else { // fallback: use unlocalized Imperator family key
+			LocalizedName = new LocBlock(Name, ConverterGlobals.PrimaryLanguage) {
+				[ConverterGlobals.PrimaryLanguage] = irFamilyLocKey
+			};
+		}
 	}
 }

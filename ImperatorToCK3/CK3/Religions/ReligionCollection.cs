@@ -142,7 +142,7 @@ public class ReligionCollection(Title.LandedTitles landedTitles) : IdObjectColle
 	}
 
 	private static Imperator.Provinces.Province? GetImperatorProvinceForBarony(Title barony, ProvinceCollection ck3Provinces) {
-		var provinceId = barony.Province;
+		var provinceId = barony.ProvinceId;
 		if (provinceId is null) {
 			return null;
 		}

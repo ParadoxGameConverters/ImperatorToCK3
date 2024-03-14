@@ -1,8 +1,8 @@
 ﻿l_german:
  # version 0.1
- old_egyptian: "urägyptisch"
- old_egyptian_collective_noun: "Fellahim"
- old_egyptian_prefix: "ägypto"
+ ancient_egyptian: "urägyptisch"
+ ancient_egyptian_collective_noun: "Fellahim"
+ ancient_egyptian_prefix: "ägypto"
 
  numidian: "numidisch"
  numidian_collective_noun: "Numidier"
@@ -327,8 +327,8 @@
  romano_british_group_collective_noun: "Romano-Briten"
  romano_german_group: "romano-germanisch"
  romano_german_group_collective_noun: "Romano-Germanen"
- aboriginal_group: "ureinwohnerisch"
- aboriginal_group_collective_noun: "Ureinwohner"
+ nuragic_group: "nuraghisch"
+ nuragic_group_collective_noun: "Nuraghen"
  tyrrhenian: "tyrrhenisch"
  tyrrhenian_collective_noun: "Tyrrhener"
  rhaetian: "rhätisch"

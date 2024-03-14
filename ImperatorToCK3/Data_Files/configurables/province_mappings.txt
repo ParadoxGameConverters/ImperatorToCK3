@@ -1160,7 +1160,7 @@ imperator_invictus = {
 	link = { imp = 8273 imp = 8270 ck3 = 4718 } # Marrakech, Guerir -> MARRAKESH
 	link = { imp = 8271 ck3 = 4713 ck3 = 4712 } # Laattaouia -> AIT IYAT, AIT ITAB
 	link = { imp = 8314 imp = 8313 imp = 8312 imp = 8311 ck3 = 4743 } # Orjane, Missour, Ksabi, Izdeg -> TIKOUTAMINE
-	link = { imp = 8393 imp = 8392 ck3 = 4676 } # Magoura, Brazzia -> DEBDOU
+	link = { imp = 8393 imp = 8392 ck3 = 4676 } # Magoura, Iberia Impassable -> DEBDOU
 	link = { imp = 8318 imp = 8319 imp = 3081 ck3 = 4748 } # Taddart, Maghessel, Visum Montis -> NADOR
 	link = { imp = 8321 imp = 8398 imp = 8317 imp = 8320 imp = 8316 ck3 = 4675 } # Ouidane, Gafait, Guercif, Lamrija, Oufriden -> SAA
 	link = { imp = 8396 imp = 8397 ck3 = 4697 } # Kandar, Guigou -> SEFROU
@@ -1199,7 +1199,7 @@ imperator_invictus = {
 	link = { imp = 8297 ck3 = 4733 } # Isli -> TASAGDAH
 	link = { imp = 8372 imp = 8371 imp = 8370 imp = 8373 ck3 = 4750 } # Sefra, Boussemghoun, Arbaouats, Brezina -> AIN SEFRA
 	link = { imp = 8362 ck3 = 4759 ck3 = 4612 ck3 = 6469 } # Taghit -> TAOUZ, TABALBALA, WADI_DAOURA
-	link = { imp = 8360 imp = 8364 imp = 8359 imp = 8363 imp = 8358 imp = 8357 imp = 8356 imp = 8365 imp = 8389 imp = 8390 imp = 8391 ck3 = 4749 } # Figuig, Fendi, Lahmar, Goumi, Bechar, Guir, Boudenib, Bourzeg, Sfissifa, Sloughia, Keri Kera -> FIGUIG
+	link = { imp = 8360 imp = 8364 imp = 8359 imp = 8363 imp = 8358 imp = 8357 imp = 8356 imp = 8365 imp = 8389 imp = 8390 imp = 8391 ck3 = 4749 } # Figuig, Fendi, Lahmar, Goumi, Bechar, Guir, Boudenib, Bourzeg, Sfissifa, Iberia Impassable, Keri Kera -> FIGUIG
 	link = { imp = 8331 imp = 8334 imp = 8332 imp = 8333 ck3 = 4737 } # Sijilmasa, Tisserdmine, Merzouga, Ouzina -> SIJILMASA
 	link = { imp = 8330 ck3 = 4738 } # Jorf -> TAFILALT
 	link = { imp = 8329 imp = 8328 ck3 = 4739 } # Errachidia, Goulmima -> ZIZ
@@ -2527,7 +2527,7 @@ imperator_invictus = {
 	link = { imp = 2109 ck3 = 1680 ck3 = 1685 ck3 = 1684 } # Novantae -> MAYBOLE, GIRVAN, WIGTOWN
 	link = { imp = 2112 ck3 = 1686 ck3 = 1737 ck3 = 1683 } # Damnonii -> KYLE, LANARK, SANQUHAR
 	link = { imp = 2111 ck3 = 1728 ck3 = 1676 ck3 = 1675 ck3 = 1729 } # Otadini -> HADDINGTON, DUNBAR, BERWICK, GALASHIELS
-	link = { imp = 2114 ck3 = 1731 ck3 = 1732 ck3 = 1730 ck3 = 1739 } # Veluniate -> LINLITHGOW, QUEENSFERRY, PENICUICK, BIGGAR
+	link = { imp = 2114 ck3 = 1731 ck3 = 1732 ck3 = 1730 ck3 = 1739 ck3 = 1727 } # Veluniate -> LINLITHGOW, QUEENSFERRY, PENICUICK, BIGGAR, EDINBURGH
 	link = { imp = 2124 ck3 = 1687 ck3 = 1688 ck3 = 1738 } # Lindon -> STRATHGRYTE, CUNNINGHAM, CADYOU
 	link = { imp = 2127 ck3 = 1691 ck3 = 1689 } # Malaios -> MULL, ISLAY
 	link = { imp = 2118 ck3 = 1711 ck3 = 35 } # Creones Boreales -> GLENFINNAN, ARDNAMURCHON
@@ -2739,9 +2739,9 @@ imperator_invictus = {
 	link = { imp = 4255 imp = 4254 imp = 4257 ck3 = 3695 } # Tomis, Callatis, Sacidava -> Mangalia
 	link = { imp = 4250 imp = 4249 imp = 4256 ck3 = 509 } # Tirizis, Krounoi, Tropaeum -> Karvuna
 	link = { imp = 4248 imp = 4247 ck3 = 3693 } # Odessus, Erite -> Varna
-	link = { imp = 4515 imp = 4512 imp = 4513 ck3 = 510 } # Skenopsis, Axiopolis, Histria -> Constantia
+	link = { imp = 4515 imp = 4512 imp = 4513 ck3 = 510 } # Capidava, Axiopolis, Histria -> Constantia
 	link = { imp = 4519 ck3 = 5010 } # Halmyris -> Sulina
-	link = { imp = 4520 imp = 4518 imp = 4514 imp = 4517 imp = 4516 ck3 = 3694 } # Troesmis, Beroe Skythike, Kios Skythike, Libida, Argamum -> Tulcha
+	link = { imp = 4520 imp = 4518 imp = 4514 imp = 4517 imp = 4516 ck3 = 3694 } # Troesmis, Troismis, Carsium, Libida, Argamum -> Tulcha
 	link = { comment = "# Northern Greece" }
 	link = { imp = 392 ck3 = 489 } # Kasthaneia -> Thessalia
 	link = { imp = 395 ck3 = 3796 ck3 = 3797 ck3 = 3703 } # Pialeia -> Stagoi, Trikala, Gardiki
@@ -6179,9 +6179,9 @@ imperator_vanilla = {
 	link = { imp = 4255 imp = 4254 imp = 4257 ck3 = 3695 } # Tomis, Callatis, Sacidava -> Mangalia
 	link = { imp = 4250 imp = 4249 imp = 4256 ck3 = 509 } # Tirizis, Krounoi, Tropaeum -> Karvuna
 	link = { imp = 4248 imp = 4247 ck3 = 3693 } # Odessus, Erite -> Varna
-	link = { imp = 4515 imp = 4512 imp = 4513 ck3 = 510 } # Skenopsis, Axiopolis, Histria -> Constantia
+	link = { imp = 4515 imp = 4512 imp = 4513 ck3 = 510 } # Capidava, Axiopolis, Histria -> Constantia
 	link = { imp = 4519 ck3 = 5010 } # Halmyris -> Sulina
-	link = { imp = 4520 imp = 4518 imp = 4514 imp = 4517 imp = 4516 ck3 = 3694 } # Troesmis, Beroe Skythike, Kios Skythike, Libida, Argamum -> Tulcha
+	link = { imp = 4520 imp = 4518 imp = 4514 imp = 4517 imp = 4516 ck3 = 3694 } # Troesmis, Troismis, Carsium, Libida, Argamum -> Tulcha
 	link = { comment = "# Northern Greece" }
 	link = { imp = 392 ck3 = 489 } # Kasthaneia -> Thessalia
 	link = { imp = 395 ck3 = 3796 ck3 = 3797 ck3 = 3703 } # Pialeia -> Stagoi, Trikala, Gardiki

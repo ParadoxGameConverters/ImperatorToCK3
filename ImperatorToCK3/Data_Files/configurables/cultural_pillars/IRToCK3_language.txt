@@ -1,5 +1,8 @@
 ﻿language_gothic = { # https://en.wikipedia.org/wiki/East_Germanic_languages
-    INVALIDATED_BY = { language_gothic }
+    REPLACED_BY = {
+		tfe = { language_gothic }
+		vanilla = { language_gothic }
+	}
 
 	type = language
 	is_shown = {
@@ -19,7 +22,10 @@
 }
 
 language_nuragic = {
-    INVALIDATED_BY = { language_nuragic }
+    REPLACED_BY = {
+		tfe = { language_nuragic }
+		vanilla = { language_nuragic }
+	}
     
 	type = language
 	is_shown = {
@@ -39,7 +45,10 @@ language_nuragic = {
 }
 
 language_luwian = {
-    INVALIDATED_BY = { language_luwian }
+    REPLACED_BY = {
+		tfe = { language_luwian }
+		vanilla = { language_luwian }
+	}
 
 	type = language
 	is_shown = {
@@ -59,7 +68,10 @@ language_luwian = {
 }
 
 language_lydian = {
-    INVALIDATED_BY = { language_lydian }
+    REPLACED_BY = {
+		tfe = { language_lydian }
+		vanilla = { language_lydian }
+	}
     
 	type = language
 	is_shown = {
@@ -79,7 +91,10 @@ language_lydian = {
 }
 
 language_hittite = {
-    INVALIDATED_BY = { language_hittite }
+    REPLACED_BY = {
+		tfe = { language_hittite }
+		vanilla = { language_hittite }
+	}
     
 	type = language
 	is_shown = {
@@ -99,7 +114,10 @@ language_hittite = {
 }
 
 language_phrygian = {
-    INVALIDATED_BY = { language_phrygian }
+    REPLACED_BY = {
+		tfe = { language_phrygian }
+		vanilla = { language_phrygian }
+	}
     
 	type = language
 	is_shown = {
@@ -119,7 +137,10 @@ language_phrygian = {
 }
 
 language_albanian = {
-    INVALIDATED_BY = { language_albanian }
+    REPLACED_BY = {
+		tfe = { language_albanian }
+		vanilla = { language_albanian }
+	}
     
 	type = language
 	is_shown = {
@@ -139,7 +160,10 @@ language_albanian = {
 }
 
 language_kemetic = {
-    INVALIDATED_BY = { language_kemetic }
+    REPLACED_BY = {
+		tfe = { language_kemetic }
+		vanilla = { language_kemetic }  # TODO: replace with vanilla Ancient Egyptian ID
+	}
     
 	type = language
 	is_shown = {
@@ -159,7 +183,10 @@ language_kemetic = {
 }
 
 language_aramaic = {
-    INVALIDATED_BY = { language_aramaic }
+    REPLACED_BY = {
+		tfe = { language_aramaic }
+		vanilla = { language_aramaic }
+	}
     
 	type = language
 	is_shown = {
@@ -179,12 +206,15 @@ language_aramaic = {
 }
 
 language_babylonian = {
-    INVALIDATED_BY = { language_babylonian }
+    REPLACED_BY = {
+		tfe = { language_babylonian }
+		vanilla = { language_babylonian }
+	}
     
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_babylonian
+			LANGUAGE = language_babylonian
 		}
 	}
 	ai_will_do = {
@@ -199,7 +229,10 @@ language_babylonian = {
 }
 
 language_gaulish = {
-    INVALIDATED_BY = { language_gaulish }
+    REPLACED_BY = {
+		tfe = { language_gaulish }
+		vanilla = { language_gaulish }
+	}
     
 	type = language
 	is_shown = {
@@ -219,7 +252,10 @@ language_gaulish = {
 }
 
 language_hebrew = {
-    INVALIDATED_BY = { language_hebrew }
+    REPLACED_BY = {
+		tfe = { language_hebrew }
+		vanilla = { language_hebrew }
+	}
     
 	type = language
 	is_shown = {
@@ -239,12 +275,15 @@ language_hebrew = {
 }
 
 language_oscan = {
-    INVALIDATED_BY = { language_oscan }
+    REPLACED_BY = {
+		tfe = { language_oscan }
+		vanilla = { language_oscan }
+	}
     
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_oscan
+			LANGUAGE = language_oscan
 		}
 	}
 	ai_will_do = {
@@ -259,12 +298,15 @@ language_oscan = {
 }
 
 language_samnite = {
-    INVALIDATED_BY = { language_samnite }
+    REPLACED_BY = {
+		tfe = { language_samnite }
+		vanilla = { language_samnite }
+	}
     
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_samnite
+			LANGUAGE = language_samnite
 		}
 	}
 	ai_will_do = {
@@ -279,12 +321,15 @@ language_samnite = {
 }
 
 language_ligustic = {
-    INVALIDATED_BY = { language_ligustic }
+    REPLACED_BY = {
+		tfe = { language_ligustic }
+		vanilla = { language_ligustic }
+	}
     
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_ligustic
+			LANGUAGE = language_ligustic
 		}
 	}
 	ai_will_do = {
@@ -299,12 +344,15 @@ language_ligustic = {
 }
 
 language_messapic = {
-    INVALIDATED_BY = { language_messapic }
+    REPLACED_BY = {
+		tfe = { language_messapic }
+		vanilla = { language_messapic }
+	}
     
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_messapic
+			LANGUAGE = language_messapic
 		}
 	}
 	ai_will_do = {
@@ -319,12 +367,15 @@ language_messapic = {
 }
 
 language_sardonian = {
-    INVALIDATED_BY = { language_sardonian }
+    REPLACED_BY = {
+		tfe = { language_sardonian }
+		vanilla = { language_sardonian }
+	}
     
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_sardonian
+			LANGUAGE = language_sardonian
 		}
 	}
 	ai_will_do = {
@@ -339,12 +390,15 @@ language_sardonian = {
 }
 
 language_siculian = {
-    INVALIDATED_BY = { language_siculian }
+    REPLACED_BY = {
+		tfe = { language_siculian }
+		vanilla = { language_siculian }
+	}
     
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_siculian
+			LANGUAGE = language_siculian
 		}
 	}
 	ai_will_do = {
@@ -359,12 +413,15 @@ language_siculian = {
 }
 
 language_hunnic = {
-    INVALIDATED_BY = { language_hunnic }
+    REPLACED_BY = {
+		tfe = { language_hunnic }
+		vanilla = { language_hunnic }
+	}
     
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_hunnic
+			LANGUAGE = language_hunnic
 		}
 	}
 	ai_will_do = {
@@ -379,7 +436,10 @@ language_hunnic = {
 }
 
 language_punic = {
-    INVALIDATED_BY = { language_punic }
+    REPLACED_BY = {
+		tfe = { language_punic }
+		vanilla = { language_punic }
+	}
     
 	type = language
 	is_shown = {
@@ -399,7 +459,10 @@ language_punic = {
 }
 
 language_breathanach = {
-    INVALIDATED_BY = { language_breathanach }
+    REPLACED_BY = {
+		tfe = { language_breathanach }
+		vanilla = { language_breathanach }
+	}
     
 	type = language
 	is_shown = {
@@ -419,7 +482,10 @@ language_breathanach = {
 }
 
 language_laessin = {
-    INVALIDATED_BY = { language_laessin }
+    REPLACED_BY = {
+		tfe = { language_laessin }
+		vanilla = { language_laessin }
+	}
     
 	type = language
 	is_shown = {
@@ -439,7 +505,10 @@ language_laessin = {
 }
 
 language_thracian = {
-    INVALIDATED_BY = { language_thracian }
+    REPLACED_BY = {
+		tfe = { language_thracian }
+		vanilla = { language_thracian }
+	}
     
 	type = language
 	is_shown = {
@@ -459,7 +528,10 @@ language_thracian = {
 }
 
 language_dacian = {
-    INVALIDATED_BY = { language_dacian }
+    REPLACED_BY = {
+		tfe = { language_dacian }
+		vanilla = { language_dacian }
+	}
     
 	type = language
 	is_shown = {
@@ -479,12 +551,15 @@ language_dacian = {
 }
 
 language_etruscan = {
-    INVALIDATED_BY = { language_etruscan }
+    REPLACED_BY = {
+		tfe = { language_etruscan }
+		vanilla = { language_etruscan }
+	}
     
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_etruscan
+			LANGUAGE = language_etruscan
 		}
 	}
 	ai_will_do = {
@@ -499,7 +574,10 @@ language_etruscan = {
 }
 
 language_elamite = {
-    INVALIDATED_BY = { language_elamite }
+    REPLACED_BY = {
+		tfe = { language_elamite }
+		vanilla = { language_elamite }
+	}
     
 	type = language
 	is_shown = {
@@ -519,7 +597,10 @@ language_elamite = {
 }
 
 language_tai = {
-    INVALIDATED_BY = { language_tai }
+    REPLACED_BY = {
+		tfe = { language_tai }
+		vanilla = { language_tai }
+	}
     
 	type = language
 	is_shown = {
@@ -539,7 +620,10 @@ language_tai = {
 }
 
 language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/sharedfiles/filedetails/?id=2706635752 as of 2022-12-29
-    INVALIDATED_BY = { language_palaungic }
+    REPLACED_BY = {
+		tfe = { language_palaungic }
+		vanilla = { language_palaungic }
+	}
     
 	type = language
 	is_shown = {

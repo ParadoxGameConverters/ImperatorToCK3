@@ -42,7 +42,11 @@ public class WeightBlock {
 			}
 			sumOfPrecedingAbsoluteWeights += value;
 		}
-		throw new KeyNotFoundException($"Set entry {objectName} not found!");
+		throw new KeyNotFoundException($"Set entry {objectName} not found! Valid entries are: {string.Join(", ", ObjectNames)}");
+	}
+
+	public byte GetSliderValueForObject(string objectName) {
+		return (byte)Math.Ceiling(GetMatchingPercentage(objectName) * 255);
 	}
 	public string? GetMatchingObject(double percentAsDecimal) { // argument must be in range <0; 1>
 		if (percentAsDecimal < 0 || percentAsDecimal > 1) {
@@ -65,4 +69,6 @@ public class WeightBlock {
 	public bool ContainsObject(string objectName) {
 		return objectsList.Any(entry => entry.Key == objectName);
 	}
+	
+	public IEnumerable<string> ObjectNames => objectsList.Select(entry => entry.Key);
 }

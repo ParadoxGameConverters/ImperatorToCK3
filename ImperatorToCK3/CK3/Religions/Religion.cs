@@ -36,6 +36,8 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 		religionParser.ParseStream(religionReader);
 	}
 	private void LoadFaith(string faithId, BufferedReader faithReader) {
+		faithData = new FaithData();
+		
 		faithDataParser.ParseStream(faithReader);
 		if (faithData.InvalidatingFaithIds.Any()) { // Faith is an optional faith.
 			foreach (var existingFaith in ReligionCollection.Faiths) {
@@ -52,10 +54,8 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 		foreach (var otherReligion in ReligionCollection) {
 			otherReligion.Faiths.Remove(faithId);
 		}
-				
+		
 		Faiths.AddOrReplace(new Faith(faithId, faithData, this));
-		// Reset faith data for the next faith.
-		faithData = new FaithData();
 	}
 
 	private void InitFaithDataParser() {
