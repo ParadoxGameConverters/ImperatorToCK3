@@ -275,7 +275,7 @@ public class World {
 		GenerateFillerHoldersForUnownedLands(Cultures, config);
 		Logger.IncrementProgress();
 		if (!config.StaticDeJure) {
-			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Cultures, Characters, MapData, ck3RegionMapper);
+			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Cultures, Characters, MapData);
 		}
 		
 		Dynasties.SetCoasForRulingDynasties(LandedTitles, config.CK3BookmarkDate);

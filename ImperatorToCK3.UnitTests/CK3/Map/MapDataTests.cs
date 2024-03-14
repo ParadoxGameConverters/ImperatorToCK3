@@ -67,6 +67,6 @@ public class MapDataTests {
 		var titles = new Title.LandedTitles();
 		var ck3RegionMapper = new CK3RegionMapper(ck3ModFS, titles);
 		
-		Assert.Equal(isAdjacent, mapData.AreProvincesAdjacent(prov1Id, prov2Id, ck3RegionMapper));
+		Assert.Equal(isAdjacent, mapData.AreProvincesAdjacent(prov1Id, prov2Id));
 	}
 }

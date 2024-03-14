@@ -688,7 +688,7 @@ public partial class Title {
 			Logger.IncrementProgress();
 		}
 
-		private void SetDeJureEmpires(CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3RegionMapper ck3RegionMapper, Date ck3BookmarkDate) {
+		private void SetDeJureEmpires(CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure empires...");
 			var deJureKingdoms = GetDeJureKingdoms();
 			
@@ -740,7 +740,7 @@ public partial class Title {
 				string kingdomId = kingdom.Id;
 				var kingdomProvinceIds = provincesPerKingdomDict[kingdomId];
 				
-				FindKingdomsAdjacentToKingdom(ck3MapData, ck3RegionMapper, deJureKingdoms, kingdomId, provincesPerKingdomDict, kingdomAdjacencies);
+				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdomId, provincesPerKingdomDict, kingdomAdjacencies);
 			});
 			
 			// TODO: If one separated kingdom is separated from the rest of its de jure empire, try to get the second dominant heritage in the kingdom.
@@ -797,7 +797,7 @@ public partial class Title {
 		}
 
 		private static void FindKingdomsAdjacentToKingdom(
-			MapData ck3MapData, CK3RegionMapper ck3RegionMapper,
+			MapData ck3MapData,
 			IReadOnlyCollection<Title> deJureKingdoms,
 			string kingdomId, Dictionary<string, HashSet<ulong>> provincesPerKingdomDict,
 			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacencies)
@@ -809,7 +809,7 @@ public partial class Title {
 					continue;
 				}
 
-				if (!AreTitlesAdjacent(provincesPerKingdomDict[kingdomId], provincesPerKingdomDict[otherKingdom.Id], ck3MapData, ck3RegionMapper)) {
+				if (!AreTitlesAdjacent(provincesPerKingdomDict[kingdomId], provincesPerKingdomDict[otherKingdom.Id], ck3MapData)) {
 					continue;
 				}
 
@@ -921,9 +921,9 @@ public partial class Title {
 			}
 		}
 
-		private static bool AreTitlesAdjacent(HashSet<ulong> title1ProvinceIds, HashSet<ulong> title2ProvinceIds, MapData mapData, CK3RegionMapper ck3RegionMapper) {
+		private static bool AreTitlesAdjacent(HashSet<ulong> title1ProvinceIds, HashSet<ulong> title2ProvinceIds, MapData mapData) {
 			foreach (var t1Prov in title1ProvinceIds) {
-				if (title2ProvinceIds.Any(t2Prov => mapData.AreProvincesAdjacent(t1Prov, t2Prov, ck3RegionMapper))) {
+				if (title2ProvinceIds.Any(t2Prov => mapData.AreProvincesAdjacent(t1Prov, t2Prov))) {
 					return true;
 				}
 			}
@@ -956,9 +956,9 @@ public partial class Title {
 			}
 		}
 
-		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3RegionMapper ck3RegionMapper) {
+		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData) {
 			SetDeJureKingdoms(ck3BookmarkDate);
-			SetDeJureEmpires(ck3Cultures, ck3Characters, ck3MapData, ck3RegionMapper, ck3BookmarkDate);
+			SetDeJureEmpires(ck3Cultures, ck3Characters, ck3MapData, ck3BookmarkDate);
 		}
 
 		private HashSet<string> GetCountyHolderIds(Date date) {
