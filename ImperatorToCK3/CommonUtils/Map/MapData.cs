@@ -382,23 +382,33 @@ public sealed class MapData {
 	// Function for checking if two land provinces are connected to the same water body.
 	private bool AreProvincesConnectedByWaterBody(ulong prov1Id, ulong prov2Id) {
 		var prov1WaterNeighbors = new HashSet<ulong>();
-		var prov2WaterNeighbors = new HashSet<ulong>();
-		
 		if (NeighborsDict.TryGetValue(prov1Id, out var prov1Neighbors)) {
 			foreach (ulong neighbor in prov1Neighbors.Where(IsStaticWater)) {
 				prov1WaterNeighbors.Add(neighbor);
 			}
+		} else {
+			return false;
 		}
+		if (prov1WaterNeighbors.Count == 0) {
+			return false;
+		}
+		
+		var prov2WaterNeighbors = new HashSet<ulong>();
 		if (NeighborsDict.TryGetValue(prov2Id, out var prov2Neighbors)) {
 			foreach (ulong neighbor in prov2Neighbors.Where(IsStaticWater)) {
 				prov2WaterNeighbors.Add(neighbor);
 			}
+		} else {
+			return false;
+		}
+		if (prov2WaterNeighbors.Count == 0) {
+			return false;
 		}
 
 		var prov1WaterBodies = prov1WaterNeighbors.Select(id => waterBodiesDict[id]).ToHashSet();
-		var prov2WaterBodies = prov2WaterNeighbors.Select(id => waterBodiesDict[id]).ToHashSet();
-		
-		return prov1WaterBodies.Overlaps(prov2WaterBodies);
+
+		return prov2WaterNeighbors
+			.Any(prov2WaterNeighbor => prov1WaterBodies.Contains(waterBodiesDict[prov2WaterNeighbor]));
 	}
 
 	private void LoadAdjacencies(string adjacenciesFilename, ModFilesystem modFS) {

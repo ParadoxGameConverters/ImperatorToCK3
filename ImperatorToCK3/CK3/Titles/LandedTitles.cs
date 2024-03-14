@@ -736,11 +736,8 @@ public partial class Title {
 					k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToHashSet()
 				);
 			var kingdomAdjacencies = deJureKingdoms.ToDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
-			Parallel.ForEach(deJureKingdoms, kingdom =>{
-				string kingdomId = kingdom.Id;
-				var kingdomProvinceIds = provincesPerKingdomDict[kingdomId];
-				
-				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdomId, provincesPerKingdomDict, kingdomAdjacencies);
+			Parallel.ForEach(deJureKingdoms, kingdom => {
+				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdom.Id, provincesPerKingdomDict, kingdomAdjacencies);
 			});
 			
 			// TODO: If one separated kingdom is separated from the rest of its de jure empire, try to get the second dominant heritage in the kingdom.
