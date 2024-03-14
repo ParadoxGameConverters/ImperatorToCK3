@@ -19,10 +19,11 @@ using ImperatorToCK3.Mappers.UnitType;
 using Open.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Characters;
 
-public partial class CharacterCollection : IdObjectCollection<string, Character> {
+public partial class CharacterCollection : ConcurrentIdObjectCollection<string, Character> {
 	public void ImportImperatorCharacters(
 		Imperator.World impWorld,
 		ReligionMapper religionMapper,
@@ -38,9 +39,9 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 	) {
 		Logger.Info("Importing Imperator Characters...");
 
-		foreach (var character in impWorld.Characters) {
+		Parallel.ForEach(impWorld.Characters, irCharacter => {
 			ImportImperatorCharacter(
-				character,
+				irCharacter,
 				religionMapper,
 				cultureMapper,
 				traitMapper,
@@ -52,8 +53,8 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 				conversionDate,
 				config
 			);
-		}
-		Logger.Info($"{Count} total characters recognized.");
+		});
+		Logger.Info($"Imported {impWorld.Characters.Count} characters.");
 
 		LinkMothersAndFathers();
 		LinkSpouses(conversionDate);
@@ -71,7 +72,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 	}
 
 	private void ImportImperatorCharacter(
-		Imperator.Characters.Character character,
+		Imperator.Characters.Character irCharacter,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
 		TraitMapper traitMapper,
@@ -83,9 +84,9 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 		Date endDate,
 		Configuration config
 	) {
-		// Create a new CK3 character
+		// Create a new CK3 character.
 		var newCharacter = new Character(
-			character,
+			irCharacter,
 			this,
 			religionMapper,
 			cultureMapper,
@@ -98,7 +99,7 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			endDate,
 			config
 		);
-		character.CK3Character = newCharacter;
+		irCharacter.CK3Character = newCharacter;
 		AddOrReplace(newCharacter);
 	}
 
@@ -235,6 +236,11 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			}
 
 			foreach (var irFriendId in irCharacter.FriendIds) {
+				// Make sure to only add this relation once.
+				if (irCharacter.Id.CompareTo(irFriendId) > 0) {
+					continue;
+				}
+
 				var irFriend = irCharacters[irFriendId];
 				var ck3Friend = irFriend.CK3Character;
 				
@@ -258,6 +264,11 @@ public partial class CharacterCollection : IdObjectCollection<string, Character>
 			}
 
 			foreach (var irRivalId in irCharacter.RivalIds) {
+				// Make sure to only add this relation once.
+				if (irCharacter.Id.CompareTo(irRivalId) > 0) {
+					continue;
+				}
+
 				var irRival = irCharacters[irRivalId];
 				var ck3Rival = irRival.CK3Character;
 				

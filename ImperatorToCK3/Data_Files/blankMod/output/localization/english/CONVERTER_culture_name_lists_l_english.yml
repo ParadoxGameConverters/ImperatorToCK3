@@ -1,6 +1,6 @@
 ﻿l_english:
  name_list_nabatean: "Nabatean"
- name_list_old_egyptian: "Kemetic"
+ name_list_ancient_egyptian: "Kemetic"
  name_list_numidian: "Numidian"
  name_list_brythonic: "Brythonic"
  name_list_urslavic: "Proto-Slavic"
@@ -38,3 +38,4 @@
  name_list_palaungic: "Palaungic"
  name_list_venetic: "Venetic"
  name_list_romano-sanskrit: "Romano-Sanskrit"
+ name_list_oscan: "Oscan"

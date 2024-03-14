@@ -8,6 +8,7 @@ using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
@@ -129,6 +130,7 @@ public partial class Title {
 
 		public Title Add(
 			Country country,
+			Dependency? dependency,
 			CountryCollection imperatorCountries,
 			LocDB locDB,
 			ProvinceMapper provinceMapper,
@@ -146,6 +148,7 @@ public partial class Title {
 		) {
 			var newTitle = new Title(this,
 				country,
+				dependency,
 				imperatorCountries,
 				locDB,
 				provinceMapper,
@@ -238,6 +241,7 @@ public partial class Title {
 
 		public void ImportImperatorCountries(
 			CountryCollection imperatorCountries,
+			IReadOnlyCollection<Dependency> dependencies,
 			TagTitleMapper tagTitleMapper,
 			LocDB locDB,
 			ProvinceMapper provinceMapper,
@@ -250,17 +254,26 @@ public partial class Title {
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters,
 			Date conversionDate,
-			Configuration config
+			Configuration config,
+			List<KeyValuePair<Country, Dependency?>> countyLevelCountries
 		) {
-			Logger.Info("Importing Imperator Countries...");
+			Logger.Info("Importing Imperator countries...");
 
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
 			// add new ones from Imperator tags.
-			var counter = 0;
+			int counter = 0;
+			
 			// We don't need pirates, barbarians etc.
-			foreach (var country in imperatorCountries.Where(c => c.CountryType == CountryType.real)) {
+			var realCountries = imperatorCountries.Where(c => c.CountryType == CountryType.real).ToImmutableList();
+			
+			// Import independent countries first, then subjects.
+			var independentCountries = realCountries.Where(c => dependencies.All(d => d.SubjectId != c.Id)).ToImmutableList();
+			var subjects = realCountries.Except(independentCountries).ToImmutableList();
+			
+			foreach (var country in independentCountries) {
 				ImportImperatorCountry(
 					country,
+					dependency: null,
 					imperatorCountries,
 					tagTitleMapper,
 					locDB,
@@ -274,7 +287,30 @@ public partial class Title {
 					nicknameMapper,
 					characters,
 					conversionDate,
-					config
+					config,
+					countyLevelCountries
+				);
+				++counter;
+			}
+			foreach (var country in subjects) {
+				ImportImperatorCountry(
+					country,
+					dependency: dependencies.FirstOrDefault(d => d.SubjectId == country.Id),
+					imperatorCountries,
+					tagTitleMapper,
+					locDB,
+					provinceMapper,
+					coaMapper,
+					governmentMapper,
+					successionLawMapper,
+					definiteFormMapper,
+					religionMapper,
+					cultureMapper,
+					nicknameMapper,
+					characters,
+					conversionDate,
+					config,
+					countyLevelCountries
 				);
 				++counter;
 			}
@@ -283,6 +319,7 @@ public partial class Title {
 
 		private void ImportImperatorCountry(
 			Country country,
+			Dependency? dependency,
 			CountryCollection imperatorCountries,
 			TagTitleMapper tagTitleMapper,
 			LocDB locDB,
@@ -296,14 +333,21 @@ public partial class Title {
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters,
 			Date conversionDate,
-			Configuration config
-		) {
+			Configuration config,
+			List<KeyValuePair<Country, Dependency?>> countyLevelCountries) {
 			// Create a new title or update existing title.
-			var name = DetermineId(country, imperatorCountries, tagTitleMapper, locDB);
+			var titleId = DetermineId(country, dependency, imperatorCountries, tagTitleMapper, locDB);
 
-			if (TryGetValue(name, out var existingTitle)) {
+			if (GetRankForId(titleId) == TitleRank.county) {
+				countyLevelCountries.Add(new(country, dependency));
+				Logger.Debug($"Country {country.Id} can only be converted as county level.");
+				return;
+			}
+
+			if (TryGetValue(titleId, out var existingTitle)) {
 				existingTitle.InitializeFromTag(
 					country,
+					dependency,
 					imperatorCountries,
 					locDB,
 					provinceMapper,
@@ -321,6 +365,7 @@ public partial class Title {
 			} else {
 				Add(
 					country,
+					dependency,
 					imperatorCountries,
 					locDB,
 					provinceMapper,
@@ -349,7 +394,7 @@ public partial class Title {
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
 			CoaMapper coaMapper,
-			List<Governorship> countryLevelGovernorships
+			List<Governorship> countyLevelGovernorships
 		) {
 			Logger.Info("Importing Imperator Governorships...");
 
@@ -375,7 +420,7 @@ public partial class Title {
 					definiteFormMapper,
 					imperatorRegionMapper,
 					coaMapper,
-					countryLevelGovernorships
+					countyLevelGovernorships
 				);
 				++counter;
 			}
@@ -396,7 +441,7 @@ public partial class Title {
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
 			CoaMapper coaMapper,
-			ICollection<Governorship> countryLevelGovernorships
+			ICollection<Governorship> countyLevelGovernorships
 		) {
 			var country = governorship.Country;
 
@@ -406,8 +451,8 @@ public partial class Title {
 				return;
 			}
 
-			if (id.StartsWith("c_")) {
-				countryLevelGovernorships.Add(governorship);
+			if (GetRankForId(id) == TitleRank.county) {
+				countyLevelGovernorships.Add(governorship);
 				return;
 			}
 
@@ -576,7 +621,11 @@ public partial class Title {
 
 		private void SetDeJureKingdoms(Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure kingdoms...");
-			foreach (var duchy in this.Where(t => t.Rank == TitleRank.duchy && t.DeJureVassals.Count > 0)) {
+
+			var duchies = this.Where(t => t.Rank == TitleRank.duchy).ToHashSet();
+			var duchiesWithDeJureVassals = duchies.Where(d => d.DeJureVassals.Count > 0).ToHashSet();
+
+			foreach (var duchy in duchiesWithDeJureVassals) {
 				// If capital county belongs to a kingdom, make the kingdom a de jure liege of the duchy.
 				var capitalRealm = duchy.CapitalCounty?.GetRealmOfRank(TitleRank.kingdom, ck3BookmarkDate);
 				if (capitalRealm is not null) {
@@ -599,6 +648,14 @@ public partial class Title {
 					duchy.DeJureLiege = this[biggestShare.Key];
 				}
 			}
+
+			// Duchies without de jure vassals should not be de jure part of any kingdom.
+			var duchiesWithoutDeJureVassals = duchies.Except(duchiesWithDeJureVassals);
+			foreach (var duchy in duchiesWithoutDeJureVassals) {
+				Logger.Debug($"Duchy {duchy.Id} has no de jure vassals. Removing de jure liege.");
+				duchy.DeJureLiege = null;
+			}
+
 			Logger.IncrementProgress();
 		}
 

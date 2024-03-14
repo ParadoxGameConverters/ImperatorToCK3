@@ -1,7 +1,7 @@
 ﻿l_simp_chinese:
  # version 0.1
- old_egyptian: "古埃及"
- old_egyptian_collective_noun: "古埃及人"
+ ancient_egyptian: "古埃及"
+ ancient_egyptian_collective_noun: "古埃及人"
 
  numidian: "努米迪亚"
  numidian_collective_noun: "努米迪亚人"
@@ -250,8 +250,8 @@
  romano_british_group_collective_noun: "罗马英人"
  romano_german_group: "罗马德"
  romano_german_group_collective_noun: "罗马德人"
- aboriginal_group: "土著"
- aboriginal_group_collective_noun: "土著人"
+ nuragic_group: "努拉吉奇"
+ nuragic_group_collective_noun: "努拉吉斯"
  tyrrhenian: "第勒尼安"
  tyrrhenian_collective_noun: "第勒尼安"
  rhaetian: "拉蒂安"

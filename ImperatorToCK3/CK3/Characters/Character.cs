@@ -166,7 +166,11 @@ public class Character : IIdentifiable<string> {
 		.WithSimpleField("stewardship", "stewardship", null)
 		.WithSimpleField("intrigue", "intrigue", null)
 		.WithSimpleField("learning", "learning", null)
+		.WithSimpleField("prowess", "prowess", null)
+		.WithSimpleField("health", "health", null)
+		.WithSimpleField("fertility", "fertility", null)
 		.WithDiffField("languages", new OrderedSet<string> {"learn_language"}, new OrderedSet<string>())
+		.WithLiteralField("learn_language_of_culture", "learn_language_of_culture")
 		.WithSimpleField("culture", new OrderedSet<string> {"culture", "set_culture"}, null)
 		.WithSimpleField("faith", new OrderedSet<string> { "faith", "religion" }, null)
 		.WithSimpleField("government", "change_government", null)
@@ -206,6 +210,7 @@ public class Character : IIdentifiable<string> {
 		.WithLiteralField("contract_disease_effect", "contract_disease_effect")
 		.WithLiteralField("spawn_army", "spawn_army")
 		.WithLiteralField("if", "if")
+		.WithSimpleField("sexuality", "sexuality", null)
 		.Build();
 	public History History { get; } = historyFactory.GetHistory();
 
@@ -399,6 +404,10 @@ public class Character : IIdentifiable<string> {
 		var intrigue = (ImperatorCharacter.Attributes.Finesse + ImperatorCharacter.Attributes.Charisma) / 2;
 		History.AddFieldValue(null, "intrigue", "intrigue", intrigue);
 		History.AddFieldValue(null, "learning", "learning", ImperatorCharacter.Attributes.Zeal);
+
+		if (impCharacter.Fertility.HasValue) {
+			History.AddFieldValue(null, "fertility", "fertility", impCharacter.Fertility.Value);
+		}
 
 		if (impCharacter.Health is not null) {
 			// In I:R, health is a value between 0 and 100, with 100 being the best.

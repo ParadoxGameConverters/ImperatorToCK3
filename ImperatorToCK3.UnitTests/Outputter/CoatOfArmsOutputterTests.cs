@@ -8,6 +8,7 @@ using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
@@ -51,7 +52,9 @@ public class CoatOfArmsOutputterTests {
 
 		var ck3Religions = new ReligionCollection(titles);
 		var ck3RegionMapper = new CK3RegionMapper();
+		var ck3ModFlags = new List<string>();
 		titles.ImportImperatorCountries(countries,
+			Array.Empty<Dependency>(),
 			new TagTitleMapper(),
 			new LocDB("english"),
 			new ProvinceMapper(),
@@ -60,11 +63,12 @@ public class CoatOfArmsOutputterTests {
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
-			new CultureMapper(irRegionMapper, ck3RegionMapper, new CultureCollection(new ColorFactory(), new PillarCollection(new ColorFactory()))),
+			new CultureMapper(irRegionMapper, ck3RegionMapper, new CultureCollection(new ColorFactory(), new PillarCollection(new ColorFactory(), ck3ModFlags), ck3ModFlags)),
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(400, 1, 1),
-			new Configuration()
+			new Configuration(),
+			new List<KeyValuePair<Country, Dependency?>>()
 		);
 
 		CoatOfArmsOutputter.OutputCoas(outputModName, titles, new List<Dynasty>());
@@ -93,7 +97,9 @@ public class CoatOfArmsOutputterTests {
 
 		var ck3Religions = new ReligionCollection(titles);
 		var ck3RegionMapper = new CK3RegionMapper();
+		var ck3ModFlags = new List<string>();
 		titles.ImportImperatorCountries(countries,
+			Array.Empty<Dependency>(),
 			new TagTitleMapper(),
 			new LocDB("english"),
 			new ProvinceMapper(),
@@ -102,11 +108,12 @@ public class CoatOfArmsOutputterTests {
 			new SuccessionLawMapper(),
 			new DefiniteFormMapper(),
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
-			new CultureMapper(irRegionMapper, ck3RegionMapper, new CultureCollection(new ColorFactory(), new PillarCollection(new ColorFactory()))),
+			new CultureMapper(irRegionMapper, ck3RegionMapper, new CultureCollection(new ColorFactory(), new PillarCollection(new ColorFactory(), ck3ModFlags), ck3ModFlags)),
 			new NicknameMapper(),
 			new CharacterCollection(),
 			new Date(400, 1, 1),
-			new Configuration()
+			new Configuration(),
+			new List<KeyValuePair<Country, Dependency?>>()
 		);
 
 		CoatOfArmsOutputter.OutputCoas(outputModName, titles, new List<Dynasty>());

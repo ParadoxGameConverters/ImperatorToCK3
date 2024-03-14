@@ -2,14 +2,20 @@
 # of a conversion to The Fallen Eagle or When the World Stopped Making Sense mods.
 
 # For example: converter's gallic culture is made redundant by TFE's gaul culture.
-# It's also not needed if any selected CK3 mod already has a gallic culture.
+# It's also not needed if any selected CK3 mod (that doesn't have its own mod flag) already has a gallic culture.
 # To prevent including the culture in the conversion, add a list of cultures that
 # invalidate it to the culture's definition:
-# INVALIDATED_BY = { gallic gaul }
+# INVALIDATED_BY = {
+# 	tfe = { gaul }
+# 	vanilla = { gallic }
+# }
 
 
 khasi = {
-    INVALIDATED_BY = { khasi }
+    INVALIDATED_BY = {
+		tfe = { khasi }
+		vanilla = { khasi }
+	}
 
 	color = { 106 91 140 }
 
@@ -42,7 +48,7 @@ khasi = {
 non_indo_european_iberian = {
 	color = hsv { 0.07 1.0 1.0 }
 
-	heritage = heritage_aboriginal
+	heritage = heritage_iberian
 	language = language_basque
 	martial_custom = martial_custom_male_only
 	ethos = ethos_courtly # Iberian system of obligation
@@ -64,11 +70,14 @@ non_indo_european_iberian = {
 	unit_gfx = { mena_unit_gfx }
 }
 nuragic = {
-    INVALIDATED_BY = { nuragic }
+    INVALIDATED_BY = {
+		tfe = { nuragic }
+		vanilla = { nuragic }
+	}
     
 	color = hsv { 0.2 0.25 0.5 }
 
-	heritage = heritage_aboriginal
+	heritage = heritage_nuragic
 	language = language_nuragic
 	ethos = ethos_communal # Tribal society
 	martial_custom = martial_custom_male_only
@@ -90,7 +99,10 @@ nuragic = {
 }
 
 luwian = { # https://en.wikipedia.org/wiki/Luwians
-    INVALIDATED_BY = { luwian }
+    INVALIDATED_BY = {
+		tfe = { luwian }
+		vanilla = { luwian }
+	}
     
 	color = hsv { 0.32 0.45 0.9 }
 
@@ -123,7 +135,10 @@ luwian = { # https://en.wikipedia.org/wiki/Luwians
 }
 
 cilician = { # https://en.wikipedia.org/wiki/History_of_Cilicia
-    INVALIDATED_BY = { cilician }
+    INVALIDATED_BY = {
+		tfe = { cilician }
+		vanilla = { cilician }
+	}
     
 	color = { 0.61 0.82 0.72 }
 
@@ -156,7 +171,10 @@ cilician = { # https://en.wikipedia.org/wiki/History_of_Cilicia
 }
 
 lydian = {
-    INVALIDATED_BY = { lydian }
+    INVALIDATED_BY = {
+		tfe = { lydian }
+		vanilla = { lydian }
+	}
 
 	color = rgb { 149 101 186 }
 
@@ -189,7 +207,10 @@ lydian = {
 }
 
 hittite = {
-    INVALIDATED_BY = { hittite }
+    INVALIDATED_BY = {
+		tfe = { hittite }
+		vanilla = { hittite }
+	}
 
 	color = hsv { 0.42 0.45 0.3 }
 
@@ -222,7 +243,10 @@ hittite = {
 }
 
 phrygian = {
-    INVALIDATED_BY = { phrygian }
+    INVALIDATED_BY = {
+		tfe = { phrygian }
+		vanilla = { phrygian }
+	}
     
 	color = rgb { 246 223 15 }
 
@@ -254,7 +278,10 @@ phrygian = {
 }
 
 nabatean = { # https://en.wikipedia.org/wiki/Nabataeans
-    INVALIDATED_BY = { nabatean }
+    INVALIDATED_BY = {
+		tfe = { nabatean }
+		vanilla = { nabatean }
+	}
     
 	color = rgb { 14  20  31 }
 
@@ -284,7 +311,10 @@ nabatean = { # https://en.wikipedia.org/wiki/Nabataeans
 }
 
 adnanite = { # https://en.wikipedia.org/wiki/Adnanites
-    INVALIDATED_BY = { adnanite }
+    INVALIDATED_BY = {
+		tfe = { adnanite }
+		vanilla = { adnanite }
+	}
 
 	color = { 0.1 0.5 0.1 }
 
@@ -312,7 +342,10 @@ adnanite = { # https://en.wikipedia.org/wiki/Adnanites
 }
 
 qahtanite = { # https://en.wikipedia.org/wiki/Qahtanite
-    INVALIDATED_BY = { qahtanite }
+    INVALIDATED_BY = {
+		tfe = { qahtanite }
+		vanilla = { qahtanite }
+	}
 
 	color = { 0.2 0.4 0.2 }
 
@@ -347,7 +380,7 @@ egyptian = {  # override of vanilla culture
 
 	# ImperatorToCK3: Make Arabic Egyptian a hybrid of Bedouin and Old Egyptian
 	created = 640.1.1
-	parents = { bedouin old_egyptian }
+	parents = { bedouin ancient_egyptian }
 
 	ethos = ethos_spiritual
 	heritage = heritage_arabic
@@ -373,7 +406,10 @@ egyptian = {  # override of vanilla culture
 }
 
 dalmatian = {
-    INVALIDATED_BY = { dalmatian }
+    INVALIDATED_BY = {
+		tfe = { dalmatian }
+		vanilla = { dalmatian }
+	}
     
 	color = rgb { 246 223 15 }
 
@@ -400,7 +436,10 @@ dalmatian = {
 	unit_gfx = { eastern_unit_gfx }
 }
 albanian = {
-    INVALIDATED_BY = { albanian }
+    INVALIDATED_BY = {
+		tfe = { albanian }
+		vanilla = { albanian }
+	}
     
 	color = { 0.4 0.01 0.02 }
 	parents = { dalmatian }
@@ -428,14 +467,16 @@ albanian = {
 	unit_gfx = { eastern_unit_gfx }
 }
 
-old_egyptian = {
-    INVALIDATED_BY = { old_egyptian kemetic }
+ancient_egyptian = {  # fallback in case some mod removes vanilla ancient_egyptian
+    INVALIDATED_BY = {
+		tfe = { ancient_egyptian kemetic }
+		vanilla = { ancient_egyptian kemetic }
+	}
     
 	color = hsv { 0.15  1  0.7 }
 
-	name_list = name_list_old_egyptian
-	# heritage = heritage_kemetic
-	heritage = heritage_berber
+	name_list = name_list_ancient_egyptian
+	heritage = heritage_egyptian
 	language = language_kemetic
 	martial_custom = martial_custom_male_only
 
@@ -458,7 +499,10 @@ old_egyptian = {
 }
 
 numidian = {
-    INVALIDATED_BY = { numidian }
+    INVALIDATED_BY = {
+		tfe = { numidian }
+		vanilla = { numidian }
+	}
     
 	color = hsv { 0.05  0.5  0.4 }
 
@@ -487,7 +531,10 @@ numidian = {
 }
 
 brythonic = {
-    INVALIDATED_BY = { brythonic }
+    INVALIDATED_BY = {
+		tfe = { brythonic }
+		vanilla = { brythonic }
+	}
     
 	color = hsv { 0.57 0.7 0.4 }
 
@@ -519,7 +566,10 @@ brythonic = {
 arakanese = {  # https://en.wikipedia.org/wiki/Rakhine_people
 	# based on Burmese
 	
-    INVALIDATED_BY = { arakanese }
+    INVALIDATED_BY = {
+		tfe = { arakanese }
+		vanilla = { arakanese }
+	}
     
 	color = arakanese
 
@@ -548,32 +598,41 @@ arakanese = {  # https://en.wikipedia.org/wiki/Rakhine_people
 	}
 }
 
+# Move vanilla CK3 macedonian culture from heritage_ancient_greek to heritage_byzantine
 macedonian = {
-    INVALIDATED_BY = { macedonian }
+    INVALIDATED_BY = {
+		tfe = { macedonian }
+	}
     
-	heritage = heritage_byzantine
-	language = language_greek
-	color = { 0.8 0.55 0.6 }
+	color = { 0.7 0.6 0.95 }
 
-	name_list = name_list_ancient_greek
-	martial_custom = martial_custom_male_only
 	ethos = ethos_bellicose
-	ethnicities = {
-		10 = mediterranean_byzantine
-	}
-
+	heritage = heritage_byzantine # IRToCK3: moved from heritage_ancient_greek
+	language = language_greek # IRToCK3: moved from language_ancient_greek
+	martial_custom = martial_custom_male_only
 	traditions = {
-		tradition_swords_for_hire
+		tradition_philosopher_culture
+		tradition_legalistic
+		tradition_astute_diplomats
 	}
-
+	
+	name_list = name_list_trojan # seems wrong but is localized as "Ancient Greek"
+	
 	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
+	
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
 }
 
 hellenistic = {
-    INVALIDATED_BY = { hellenistic }
+    INVALIDATED_BY = {
+		tfe = { hellenistic }
+		vanilla = { hellenistic }
+	}
     
 	color = hsv { 0.65 0.7 0.8 }
 
@@ -612,7 +671,10 @@ hellenistic = {
 }
 
 indogreek = {
-    INVALIDATED_BY = { indogreek }
+    INVALIDATED_BY = {
+		tfe = { indogreek }
+		vanilla = { indogreek }
+	}
     
 	color = hsv { 0.03 0.7 0.7 }
 	heritage = heritage_byzantine
@@ -641,7 +703,10 @@ indogreek = {
 # https://en.wikipedia.org/wiki/Greeks_in_Italy
 # https://en.wikipedia.org/wiki/Italiotes
 italiote = {
-    INVALIDATED_BY = { italiote }
+    INVALIDATED_BY = {
+		tfe = { italiote }
+		vanilla = { italiote }
+	}
     
 	parents = { greek }
 	created = 2.1.1
@@ -720,7 +785,10 @@ georgian = { # override of vanilla culture
 }
 
 pemis = {
-    INVALIDATED_BY = { pemis }
+    INVALIDATED_BY = {
+		tfe = { pemis }
+		vanilla = { pemis }
+	}
     
 	color = { 89 73 47 }
 	parents = { german czech }
@@ -752,7 +820,10 @@ pemis = {
 }
 
 aramaic = {
-    INVALIDATED_BY = { aramaic }
+    INVALIDATED_BY = {
+		tfe = { aramaic }
+		vanilla = { aramaic }
+	}
     
 	color = { 0.05 1.0 0.5 }
 
@@ -784,7 +855,10 @@ aramaic = {
 }
 
 babylonian = {
-    INVALIDATED_BY = { babylonian }
+    INVALIDATED_BY = {
+		tfe = { babylonian }
+		vanilla = { babylonian }
+	}
     
 	color = hsv { 0.7 0.15 0.77 }
 
@@ -824,7 +898,10 @@ babylonian = {
 }
 
 bazramani = {
-    INVALIDATED_BY = { bazramani }
+    INVALIDATED_BY = {
+		tfe = { bazramani }
+		vanilla = { bazramani }
+	}
     
 	color = { 0.4 0.6 0.0 }
 
@@ -855,7 +932,10 @@ bazramani = {
 }
 
 judajca = {
-    INVALIDATED_BY = { judajca }
+    INVALIDATED_BY = {
+		tfe = { judajca }
+		vanilla = { judajca }
+	}
     
 	color = { 0.0 0.3 0.6 }
 
@@ -886,7 +966,10 @@ judajca = {
 }
 
 vandilian = { # https://en.wikipedia.org/wiki/East_Germanic_peoples
-    INVALIDATED_BY = { vandilian }
+    INVALIDATED_BY = {
+		tfe = { vandilian }
+		vanilla = { vandilian }
+	}
     
 	color = rgb { 215 246 166 }
 	heritage = heritage_east_germanic
@@ -911,7 +994,10 @@ vandilian = { # https://en.wikipedia.org/wiki/East_Germanic_peoples
 }
 
 gothic = { # https://en.wikipedia.org/wiki/Goths
-    INVALIDATED_BY = { gothic }
+    INVALIDATED_BY = {
+		tfe = { gothic }
+		vanilla = { }
+	}
     
 	color = gothic
 	heritage = heritage_east_germanic
@@ -964,7 +1050,10 @@ visigothic = { # override of vanilla culture
 }
 
 ostrogothic = { # https://en.wikipedia.org/wiki/Ostrogoths
-    INVALIDATED_BY = { ostrogothic }
+    INVALIDATED_BY = {
+		tfe = { ostrogothic }
+		vanilla = { ostrogothic }
+	}
     
 	color = rgb { 114 162 166 }
 	parents = { gothic }
@@ -992,7 +1081,10 @@ ostrogothic = { # https://en.wikipedia.org/wiki/Ostrogoths
 }
 
 gepid = { # https://en.wikipedia.org/wiki/Gepids
-    INVALIDATED_BY = { gepid }
+    INVALIDATED_BY = {
+		tfe = { gepid }
+		vanilla = { gepid }
+	}
     
 	color = rgb { 91 66 30 }
 	heritage = heritage_east_germanic
@@ -1018,7 +1110,10 @@ gepid = { # https://en.wikipedia.org/wiki/Gepids
 }
 
 vandal = { # https://en.wikipedia.org/wiki/Vandals
-    INVALIDATED_BY = { vandal }
+    INVALIDATED_BY = {
+		tfe = { vandal }
+		vanilla = { vandal }
+	}
     
 	heritage = heritage_east_germanic
 	language = language_gothic
@@ -1047,7 +1142,10 @@ vandal = { # https://en.wikipedia.org/wiki/Vandals
 
 # Proto-Slavic
 urslavic = {
-    INVALIDATED_BY = { urslavic }
+    INVALIDATED_BY = {
+		tfe = { urslavic }
+		vanilla = { urslavic }
+	}
     
 	color = { 0.2 0.1 0.4 }
 	heritage = heritage_east_slavic
@@ -1074,7 +1172,10 @@ urslavic = {
 }
 
 celtic_pannonian = {
-    INVALIDATED_BY = { celtic_pannonian }
+    INVALIDATED_BY = {
+		tfe = { celtic_pannonian }
+		vanilla = { celtic_pannonian }
+	}
     
 	color = hsv { 0.25 0.85 0.25 }
 
@@ -1103,11 +1204,14 @@ celtic_pannonian = {
 	unit_gfx = { western_unit_gfx }
 }
 celtiberian = {
-    INVALIDATED_BY = { celtiberian }
+    INVALIDATED_BY = {
+		tfe = { celtiberian }
+		vanilla = { celtiberian }
+	}
     
 	color = hsv { 0.2 0.8 0.6 }
 
-	heritage = heritage_gaulish
+	heritage = heritage_iberian_celtic
 	language = language_gaulish
 	martial_custom = martial_custom_equal
 	traditions = {
@@ -1132,7 +1236,10 @@ celtiberian = {
 	unit_gfx = { western_unit_gfx }
 }
 belgae = {
-    INVALIDATED_BY = { belgae }
+    INVALIDATED_BY = {
+		tfe = { belgae }
+		vanilla = { belgae }
+	}
     
 	color = hsv { 0.45 0.8 0.45 }
 	parents = { german gallic }
@@ -1163,7 +1270,10 @@ belgae = {
 	unit_gfx = { western_unit_gfx }
 }
 gallic = {
-    INVALIDATED_BY = { gallic gaul }
+    INVALIDATED_BY = {
+		tfe = { gallic gaul }
+		vanilla = { gallic gaul }
+	}
     
 	color = hsv { 0.3 0.7 0.4 }
 
@@ -1192,13 +1302,16 @@ gallic = {
 	unit_gfx = { western_unit_gfx }
 }
 lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
-    INVALIDATED_BY = { lusoiberian }
+    INVALIDATED_BY = {
+		tfe = { lusoiberian }
+		vanilla = { lusoiberian }
+	}
     
 	color = hsv { 0.6 0.8 0.2 }
 	parents = { celtiberian non_indo_european_iberian }
 	created = 2.1.1
 
-	heritage = heritage_gaulish
+	heritage = heritage_iberian_celtic
 	language = language_gaulish
 	martial_custom = martial_custom_equal
 
@@ -1223,7 +1336,10 @@ lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
 	unit_gfx = { western_unit_gfx }
 }
 galatian = {
-    INVALIDATED_BY = { galatian }
+    INVALIDATED_BY = {
+		tfe = { galatian }
+		vanilla = { galatian }
+	}
     
 	color = rgb { 159 255 135 }
 
@@ -1258,7 +1374,10 @@ galatian = {
 }
 
 neo_mitanni = { # IRToCK3: a culture for Invictus revival meme Neo-Mitanni culture
-    INVALIDATED_BY = { neo_mitanni }
+    INVALIDATED_BY = {
+		tfe = { neo_mitanni }
+		vanilla = { neo_mitanni }
+	}
     
 	# Everything apart from color copied from vanilla CK3 Sindhi culture,
 	# which is probably the westernmost Indo-Aryan culture in the game.
@@ -1287,7 +1406,10 @@ neo_mitanni = { # IRToCK3: a culture for Invictus revival meme Neo-Mitanni cultu
 }
 
 bactrian = {
-    INVALIDATED_BY = { bactrian }
+    INVALIDATED_BY = {
+		tfe = { bactrian }
+		vanilla = { bactrian }
+	}
     
 	color = hsv { 0.03 0.7 0.7 }
 
@@ -1343,7 +1465,10 @@ bactrian = {
 }
 
 scythian = {
-    INVALIDATED_BY = { scythian }
+    INVALIDATED_BY = {
+		tfe = { scythian }
+		vanilla = { scythian }
+	}
     
 	color = hsv { 0.2 0.5 0.8 }
 
@@ -1375,7 +1500,10 @@ scythian = {
 }
 
 sarmatian = {
-    INVALIDATED_BY = { sarmatian }
+    INVALIDATED_BY = {
+		tfe = { sarmatian }
+		vanilla = { sarmatian }
+	}
     
 	color = rgb { 222 124 28 }
 
@@ -1408,7 +1536,10 @@ sarmatian = {
 }
 
 parthian = {
-    INVALIDATED_BY = { parthian }
+    INVALIDATED_BY = {
+		tfe = { parthian }
+		vanilla = { parthian }
+	}
     
 	color = hsv { 0.52 0.77 0.72 }
 
@@ -1450,7 +1581,10 @@ parthian = {
 }
 
 elamite = { # https://en.wikipedia.org/wiki/Elam
-    INVALIDATED_BY = { elamite }
+    INVALIDATED_BY = {
+		tfe = { elamite }
+		vanilla = { elamite }
+	}
     
 	color = elamite
 
@@ -1506,7 +1640,10 @@ alan = { # override of vanilla culture
 }
 
 hebrew = { # https://en.wikipedia.org/wiki/Hebrews
-    INVALIDATED_BY = { hebrew }
+    INVALIDATED_BY = {
+		tfe = { hebrew }
+		vanilla = { hebrew }
+	}
     
 	color = rgb { 99 193 217 }
 
@@ -1534,7 +1671,10 @@ hebrew = { # https://en.wikipedia.org/wiki/Hebrews
 }
 
 shuadit = { # https://en.wikipedia.org/wiki/Shuadit
-    INVALIDATED_BY = { shuadit }
+    INVALIDATED_BY = {
+		tfe = { shuadit }
+		vanilla = { shuadit }
+	}
     
 	color = { 0.2 0.2 0.7 }
 	parents = { hebrew occitan }
@@ -1564,7 +1704,10 @@ shuadit = { # https://en.wikipedia.org/wiki/Shuadit
 }
 
 zarphatic = { # https://en.wikipedia.org/wiki/Zarphatic_language
-    INVALIDATED_BY = { zarphatic }
+    INVALIDATED_BY = {
+		tfe = { zarphatic }
+		vanilla = { zarphatic }
+	}
     
 	color = { 0.7 0.2 0.2 }
 	parents = { hebrew french }
@@ -1595,7 +1738,10 @@ zarphatic = { # https://en.wikipedia.org/wiki/Zarphatic_language
 
 # Old Italian
 oscan = {
-    INVALIDATED_BY = { oscan }
+    INVALIDATED_BY = {
+		tfe = { oscan }
+		vanilla = { oscan }
+	}
     
 	color = { 117 131 50 }
 	# heritage = heritage_proto_italic
@@ -1603,7 +1749,7 @@ oscan = {
 	language = language_oscan
 	martial_custom = martial_custom_male_only
 
-	name_list = name_list_roman
+	name_list = name_list_oscan
 
 	ethos = ethos_egalitarian
 
@@ -1620,7 +1766,10 @@ oscan = {
 	}
 }
 samnite = {
-    INVALIDATED_BY = { samnite }
+    INVALIDATED_BY = {
+		tfe = { samnite }
+		vanilla = { samnite }
+	}
     
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
@@ -1646,7 +1795,10 @@ samnite = {
 	}
 }
 venetic = { # https://en.wikipedia.org/wiki/Adriatic_Veneti
-    INVALIDATED_BY = { venetic }
+    INVALIDATED_BY = {
+		tfe = { venetic }
+		vanilla = { venetic }
+	}
     
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
@@ -1677,7 +1829,10 @@ venetic = { # https://en.wikipedia.org/wiki/Adriatic_Veneti
     }
 }
 ligustic = {
-    INVALIDATED_BY = { ligustic }
+    INVALIDATED_BY = {
+		tfe = { ligustic }
+		vanilla = { ligustic }
+	}
     
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
@@ -1703,7 +1858,10 @@ ligustic = {
 	}
 }
 messapic = {
-    INVALIDATED_BY = { messapic }
+    INVALIDATED_BY = {
+		tfe = { messapic }
+		vanilla = { messapic }
+	}
     
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
@@ -1729,7 +1887,10 @@ messapic = {
 	}
 }
 sardonian = {
-    INVALIDATED_BY = { sardonian }
+    INVALIDATED_BY = {
+		tfe = { sardonian }
+		vanilla = { sardonian }
+	}
     
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
@@ -1755,7 +1916,10 @@ sardonian = {
 	}
 }
 siculian = {
-    INVALIDATED_BY = { siculian }
+    INVALIDATED_BY = {
+		tfe = { siculian }
+		vanilla = { siculian }
+	}
     
 	# heritage = heritage_proto_italic
 	heritage = heritage_latin
@@ -1781,13 +1945,49 @@ siculian = {
 	}
 }
 
-hunnic = { # ImperatorToCK3
-    INVALIDATED_BY = { hunnic hun }
+# Move vanilla CK3 roman culture from Hellenic to Latin heritage.
+roman = {
+	INVALIDATED_BY = {
+		tfe = { roman } # Don't overwrite the TFE Roman culture.
+	}
+	
+	color = { 0.8 0.1 0.1 }
+	
+	ethos = ethos_bellicose
+	heritage = heritage_latin
+	language = language_latin
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_formation_fighting
+		tradition_legalistic
+		tradition_roman_legacy
+		tradition_poetry
+		tradition_hereditary_hierarchy
+		tradition_noble_adoption
+	}
+	
+	name_list = name_list_roman
+
+	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+	building_gfx = { mediterranean_building_gfx } 
+	clothing_gfx = { byzantine_clothing_gfx } 
+	clothing_gfx = { western_clothing_gfx } 
+	unit_gfx = { eastern_unit_gfx } 		
+
+	ethnicities = {
+		10 = mediterranean
+	}
+}
+
+hunnic = { # fallback in case some mod removes vanilla hunnic culture
+	INVALIDATED_BY = {
+		tfe = { hunnic hun }
+		vanilla = { hunnic hun }
+	}
     
 	color = { 254 204 50 }
 
-	# heritage = heritage_???
-	heritage = heritage_mongolic
+	heritage = heritage_hunnic
 	language = language_hunnic
 
 	name_list = name_list_hunnic
@@ -1819,7 +2019,10 @@ hunnic = { # ImperatorToCK3
 }
 
 varangian = {
-    INVALIDATED_BY = { varangian }
+    INVALIDATED_BY = {
+		tfe = { varangian }
+		vanilla = { varangian }
+	}
     
 	color = { 0.3 0.55 0.8 }
 
@@ -1850,7 +2053,10 @@ varangian = {
 	}
 }
 mikligardrish = {
-    INVALIDATED_BY = { mikligardrish }
+    INVALIDATED_BY = {
+		tfe = { mikligardrish }
+		vanilla = { mikligardrish }
+	}
     
 	heritage = heritage_north_germanic
 	language = language_norse
@@ -1882,7 +2088,10 @@ mikligardrish = {
 }
 
 palaungic = {  # from AsiaExtended mod https://steamcommunity.com/sharedfiles/filedetails/?id=2706635752 as of 2022-12-29
-    INVALIDATED_BY = { palaungic }
+    INVALIDATED_BY = {
+		tfe = { palaungic }
+		vanilla = { palaungic }
+	}
     
 	# https://en.wikipedia.org/wiki/Palaung_people
 	color = rgb { 217 189 104 }
@@ -1912,7 +2121,10 @@ palaungic = {  # from AsiaExtended mod https://steamcommunity.com/sharedfiles/fi
 }
 
 carthaginian = {
-    INVALIDATED_BY = { carthaginian punic }
+    INVALIDATED_BY = {
+		tfe = { carthaginian punic }
+		vanilla = { carthaginian punic }
+	}
     
 	color = rgb { 74 174 85 }
 	parents = { phoenician }
@@ -1940,7 +2152,10 @@ carthaginian = {
 	unit_gfx = { mena_unit_gfx }
 }
 phoenician = {
-    INVALIDATED_BY = { phoenician }
+    INVALIDATED_BY = {
+		tfe = { phoenician }
+		vanilla = { phoenician }
+	}
     
 	color = hsv { 0.75 0.9 0.73	}
 
@@ -1967,7 +2182,10 @@ phoenician = {
 }
 
 breathanach = {
-    INVALIDATED_BY = { breathanach }
+    INVALIDATED_BY = {
+		tfe = { breathanach }
+		vanilla = { breathanach }
+	}
     
 	color = rgb { 127 143 104 }
 	parents = { roman irish }
@@ -1997,7 +2215,10 @@ breathanach = {
 	ethos = ethos_stoic
 }
 transadrianic = {
-    INVALIDATED_BY = { transadrianic }
+    INVALIDATED_BY = {
+		tfe = { transadrianic }
+		vanilla = { transadrianic }
+	}
     
 	color = rgb { 127 143 104 }
 	parents = { roman pictish }
@@ -2027,7 +2248,10 @@ transadrianic = {
 	ethos = ethos_stoic
 }
 brythenig = {
-    INVALIDATED_BY = { brythenig }
+    INVALIDATED_BY = {
+		tfe = { brythenig }
+		vanilla = { brythenig }
+	}
     
 	color = rgb { 127 143 104 }
 	parents = { roman brythonic }
@@ -2058,7 +2282,10 @@ brythenig = {
 }
 
 laessin = {
-    INVALIDATED_BY = { laessin }
+    INVALIDATED_BY = {
+		tfe = { laessin }
+		vanilla = { laessin }
+	}
     
 	color = rgb { 166 160 148 }
 	parents = { roman german }
@@ -2088,7 +2315,10 @@ laessin = {
 	ethos = ethos_stoic
 }
 wenedyk = {
-    INVALIDATED_BY = { wenedyk }
+    INVALIDATED_BY = {
+		tfe = { wenedyk }
+		vanilla = { wenedyk }
+	}
     
 	color = rgb { 179 101 78 }
 	parents = { roman urslavic }
@@ -2119,7 +2349,10 @@ wenedyk = {
 }
 
 shan = {  # https://en.wikipedia.org/wiki/Shan_people
-    INVALIDATED_BY = { shan }
+    INVALIDATED_BY = {
+		tfe = { shan }
+		vanilla = { shan }
+	}
     
 	color = shan
 
@@ -2149,7 +2382,10 @@ shan = {  # https://en.wikipedia.org/wiki/Shan_people
 }
 
 thracian = {
-    INVALIDATED_BY = { thracian }
+    INVALIDATED_BY = {
+		tfe = { thracian }
+		vanilla = { thracian }
+	}
     
 	color = rgb { 5 162 25 }
 
@@ -2175,7 +2411,10 @@ thracian = {
 	ethos = ethos_stoic
 }
 dacian = {
-    INVALIDATED_BY = { dacian }
+    INVALIDATED_BY = {
+		tfe = { dacian }
+		vanilla = { dacian }
+	}
     
 	color = hsv { 0.0 0.5 1.0 }
 
@@ -2201,7 +2440,10 @@ dacian = {
 	ethos = ethos_stoic
 }
 getian = {
-    INVALIDATED_BY = { getian }
+    INVALIDATED_BY = {
+		tfe = { getian }
+		vanilla = { getian }
+	}
     
 	color = rgb { 112 190 71 }
 	parents = { thracian }
@@ -2230,7 +2472,10 @@ getian = {
 }
 
 etruscan = {
-    INVALIDATED_BY = { etruscan }
+    INVALIDATED_BY = {
+		tfe = { etruscan }
+		vanilla = { etruscan }
+	}
     
 	color = rgb { 48 30 180 }
 
@@ -2256,7 +2501,10 @@ etruscan = {
 	ethos = ethos_courtly
 }
 rhaetian = {
-    INVALIDATED_BY = { rhaetian }
+    INVALIDATED_BY = {
+		tfe = { rhaetian }
+		vanilla = { rhaetian }
+	}
     
 	color = rgb { 175 178 102 }
 	# Hybrid with Latin: Rhaeto-Romansch
@@ -2269,7 +2517,7 @@ rhaetian = {
 		tradition_mountain_homes
 	}
 
-	name_list = name_list_etruscan
+	name_list = name_list_raetic
 
 	ethnicities = {
 		10 = mediterranean
@@ -2283,7 +2531,10 @@ rhaetian = {
 	ethos = ethos_stoic
 }
 lemnian = {
-    INVALIDATED_BY = { lemnian }
+    INVALIDATED_BY = {
+		tfe = { lemnian }
+		vanilla = { lemnian }
+	}
     
 	color = rgb { 148 26 254 }
 	parents = { etruscan greek }
@@ -2312,7 +2563,10 @@ lemnian = {
 }
 
 angle = { # https://en.wikipedia.org/wiki/Angles
-    INVALIDATED_BY = { angle }
+    INVALIDATED_BY = {
+		tfe = { angle }
+		vanilla = { angle }
+	}
     
 	color = rgb { 142 66 30 }
 
@@ -2346,7 +2600,10 @@ angle = { # https://en.wikipedia.org/wiki/Angles
 }
 
 iweric = {
-    INVALIDATED_BY = { iweric }
+    INVALIDATED_BY = {
+		tfe = { iweric }
+		vanilla = { iweric }
+	}
     
 	parents = { old_saxon irish }
 	created = 20.1.1

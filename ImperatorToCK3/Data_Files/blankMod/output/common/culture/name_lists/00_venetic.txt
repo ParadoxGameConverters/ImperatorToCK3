@@ -1,4 +1,6 @@
-﻿name_list_venetic = {
+﻿# from "Venetic Culture" mod (https://steamcommunity.com/sharedfiles/filedetails/?id=2830456287)
+
+name_list_venetic = {
 	cadet_dynasty_names = {
 	    "dynn_Aimio" "dynn_Aklonio" "dynn_Andetio" "dynn_Afrinio" "dynn_Aplisinio" "dynn_Arsoetigio" "dynn_Bagsonio" "dynn_Egotorio"
 		"dynn_Egestio" "dynn_Ersinio" "dynn_Egotorio" "dynn_Egetorio" "dynn_Enogenio"

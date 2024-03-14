@@ -1,6 +1,5 @@
 using commonItems;
 using commonItems.Colors;
-using commonItems.Localization;
 using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
@@ -9,6 +8,7 @@ using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Imperator.States;
@@ -58,7 +58,8 @@ public class CharacterCollectionTests {
 		irRegionMapper = new ImperatorRegionMapper(areas);
 		irRegionMapper.LoadRegions(irModFS, colorFactory);
 		
-		cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory));
+		var ck3ModFlags = new List<string>();
+		cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory, ck3ModFlags), ck3ModFlags);
 	}
 
 	[Fact]
@@ -96,7 +97,7 @@ public class CharacterCollectionTests {
 			endDate,
 			configuration);
 
-		Assert.Collection(ck3Characters,
+		Assert.Collection(ck3Characters.OrderBy(c => c.Id),
 			ck3Male => {
 				var marriageDate = ck3Male.History.Fields["spouses"].DateToEntriesDict.FirstOrDefault().Key;
 				Assert.Equal(new Date(899, 3, 27, AUC: true), marriageDate);
@@ -140,7 +141,7 @@ public class CharacterCollectionTests {
 			endDate,
 			configuration);
 
-		Assert.Collection(ck3Characters,
+		Assert.Collection(ck3Characters.OrderBy(c => c.Id),
 			ck3Male => {
 				Assert.Equal(new Date(899, 3, 27, AUC: true),
 					ck3Male.History.Fields["spouses"].DateToEntriesDict.FirstOrDefault().Key);
@@ -312,6 +313,7 @@ public class CharacterCollectionTests {
 		// Import country 589.
 		titles.ImportImperatorCountries(
 			imperatorWorld.Countries,
+			Array.Empty<Dependency>(),
 			tagTitleMapper,
 			imperatorWorld.LocDB,
 			provinceMapper,
@@ -324,7 +326,8 @@ public class CharacterCollectionTests {
 			nicknameMapper,
 			characters,
 			conversionDate,
-			config);
+			config,
+			new List<KeyValuePair<Country, Dependency?>>());
 
 		var provinces = new ProvinceCollection(ck3ModFS);
 		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
@@ -339,7 +342,7 @@ public class CharacterCollectionTests {
 			definiteFormMapper,
 			imperatorWorld.ImperatorRegionMapper,
 			coaMapper,
-			countryLevelGovernorships: new List<Governorship>());
+			countyLevelGovernorships: new List<Governorship>());
 
 		var ck3Country = titles["e_IRTOCK3_PRY"];
 		Assert.Equal("imperator1000", ck3Country.GetHolderId(conversionDate));
@@ -348,7 +351,7 @@ public class CharacterCollectionTests {
 		// Due to 0.5 currency rate, from Imperator country's 200 gold we have 100 CK3 gold.
 		// Gold is divided among ruler and vassals, with ruler having weight of 2.
 		// So from 100 gold, ruler gets 50 and both governor-vassals get 25 each.
-		Assert.Collection(characters,
+		Assert.Collection(characters.OrderBy(c => c.Id),
 			ck3Monarch => {
 				Assert.Equal("imperator1000", ck3Monarch.Id);
 				Assert.Equal(50, ck3Monarch.Gold);

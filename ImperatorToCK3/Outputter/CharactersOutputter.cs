@@ -76,29 +76,29 @@ public static class CharactersOutputter {
 			.Where(c => c.DNA!.AccessoryDNAValues.ContainsKey(geneName))
 			.GroupBy(c => new {
 				c.DNA!.AccessoryDNAValues[geneName].TemplateName,
-				c.DNA!.AccessoryDNAValues[geneName].IntSliderValue
+				c.DNA!.AccessoryDNAValues[geneName].ObjectName
 			});
 		output.WriteLine($"IRToCK3_{geneName}_overrides = {{");
 		output.WriteLine("\tusage = game");
 		output.WriteLine("\tselection_behavior = max");
 		foreach (var grouping in charactersByGeneValue) {
 			var templateName = grouping.Key.TemplateName;
-			var intSliderValue = grouping.Key.IntSliderValue;
+			var accessoryName = grouping.Key.ObjectName;
 
-			var characterFlagName = $"portrait_modifier_{templateName}_{intSliderValue}";
+			var characterFlagName = $"portrait_modifier_{templateName}_obj_{accessoryName}";
 			var characterEffectStr = $"{{ add_character_flag = {characterFlagName} }}";
 
 			foreach (Character character in grouping) {
 				character.History.AddFieldValue(conversionDate, "effects", "effect", characterEffectStr);
 			}
 			
-			output.WriteLine($"\t{templateName}_{intSliderValue} = {{");
+			output.WriteLine($"\t{templateName}_obj_{accessoryName} = {{");
 			output.WriteLine("\t\tdna_modifiers = {");
 			output.WriteLine("\t\t\taccessory = {");
 			output.WriteLine("\t\t\t\tmode = add");
 			output.WriteLine($"\t\t\t\tgene = {geneName}");
 			output.WriteLine($"\t\t\t\ttemplate = {templateName}");
-			output.WriteLine($"\t\t\t\tvalue = {(intSliderValue / 255.0):0.###}");
+			output.WriteLine($"\t\t\t\taccessory = {accessoryName}");
 			output.WriteLine("\t\t\t}");
 			output.WriteLine("\t\t}");
 			

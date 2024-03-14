@@ -74,6 +74,8 @@ public class Character : IIdentifiable<ulong> {
 	public Character? Mother { get; set; }
 	private ulong? parsedFatherId;
 	public Character? Father { get; set; }
+	
+	public string? FamilyName { get; private set; } // For characters from minor families, this contains their actual family name.
 	private ulong? parsedFamilyId;
 	private Family? family;
 	public Family? Family {
@@ -85,6 +87,7 @@ public class Character : IIdentifiable<ulong> {
 			family = value;
 		}
 	}
+	
 	public IList<string> Traits { get; set; } = new List<string>();
 	public CharacterAttributes Attributes { get; private set; } = new();
 	public IReadOnlySet<string> Variables { get; private set; } = ImmutableHashSet<string>.Empty;
@@ -101,6 +104,7 @@ public class Character : IIdentifiable<ulong> {
 		}
 	}
 	public bool Female { get; set; } = false;
+	public double? Fertility { get; private set; }
 	public double Wealth { get; set; } = 0;
 	public ImmutableList<Unborn> Unborns { get; private set; } = ImmutableList<Unborn>.Empty;
 
@@ -115,11 +119,13 @@ public class Character : IIdentifiable<ulong> {
 			parsedCharacter.Name = characterName.Name;
 			parsedCharacter.CustomName = characterName.CustomName;
 		});
+		parser.RegisterKeyword("family_name", reader => parsedCharacter.FamilyName = reader.GetString());
 		parser.RegisterKeyword("country", reader => parsedCharacter.parsedCountryId = reader.GetULong());
 		parser.RegisterKeyword("home_country", reader => parsedCharacter.parsedHomeCountryId = reader.GetULong());
 		parser.RegisterKeyword("province", reader => parsedCharacter.ProvinceId = reader.GetULong());
 		parser.RegisterKeyword("culture", reader => parsedCharacter.culture = reader.GetString());
 		parser.RegisterKeyword("religion", reader => parsedCharacter.Religion = reader.GetString());
+		parser.RegisterKeyword("fertility", reader => parsedCharacter.Fertility = reader.GetDouble());
 		parser.RegisterKeyword("health", reader => parsedCharacter.Health = reader.GetDouble());
 		parser.RegisterKeyword("family", reader => parsedCharacter.parsedFamilyId = reader.GetULong());
 		parser.RegisterKeyword("traits", reader => parsedCharacter.Traits = reader.GetStrings());

@@ -1,9 +1,9 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.5.0.1
+﻿# ImperatorToCK3: Last updated CK3 patch 1.11.5
 # potentially useful resource: https://en.wiktionary.org/wiki/Category:English_prefixes
 l_english:
- old_egyptian: "Old Egyptian"
- old_egyptian_collective_noun: "Fellahim"
- old_egyptian_prefix: "Egypto" # found 'Egypto-Roman'
+ ancient_egyptian: "Old Egyptian"
+ ancient_egyptian_collective_noun: "Fellahim"
+ ancient_egyptian_prefix: "Egypto" # found 'Egypto-Roman'
 
  numidian: "Numidian"
  numidian_collective_noun: "Numidians"
@@ -136,6 +136,9 @@ l_english:
  gaulish_group: "Gaulish"
  gaulish_group_collective_noun: "Gauls"
  #gaulish_group_prefix: "Gaulish"
+ 
+ iberian_celtic_group: "Iberian Celtic"
+ iberian_celtic_group_collective_noun: "Iberian Celts"
 
  thracian_group: "Thracian"
  thracian_group_collective_noun: "Thracians"
@@ -300,9 +303,9 @@ l_english:
  romano_german_group: "Romano-German"
  romano_german_group_collective_noun: "Romano-Germans"
  #romano_german_group_prefix: "Romano-German"
- aboriginal_group: "Aboriginal"
- aboriginal_group_collective_noun: "Aborigines"
- aboriginal_prefix: "Aboriginal"
+ nuragic_group: "Nuragic"
+ nuragic_group_collective_noun: "Nuragics"
+ #nuragic_group_prefix: "Nurago"
  tyrrhenian: "Tyrrhenian"
  tyrrhenian_collective_noun: "Tyrrhenians"
  tyrrhenian_prefix: "Tyrrheno" # found 'Tyrrheno-Pelasgians' in: Thucydides. The Peloponnesian War (English) [ Thuc. book 4 chapter 109 section 4 ]

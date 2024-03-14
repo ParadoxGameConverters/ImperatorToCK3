@@ -1,0 +1,30 @@
+# This file contains a whitespace-separated list of legend seed IDs to be removed from the generated mod.
+# For example, Charlemagne was born after I:R start, so the "carolingian" seed doesn't make sense.
+# Comments are allowed and start with a hash (#) character.
+
+king_arthur
+carolingian
+el_cid
+alfred_of_wessex
+sons_of_david
+peasant_emperor
+the_wheelwright
+vercingetorix
+saman_khudah
+bahram_gur
+cadell
+gothic_kings
+sons_of_rurik
+william_gellones
+edward_the_martyr
+yazdagird_iii
+sceafa
+pyusawhti
+tosny
+kings_of_semien
+hunnic_heritage
+premysl
+borjigin
+hieros_gamos_skirnismal
+the_red_hand
+ragnarr

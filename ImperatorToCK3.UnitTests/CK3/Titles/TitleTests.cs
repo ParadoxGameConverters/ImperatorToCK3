@@ -50,13 +50,16 @@ public class TitleTests {
 		private readonly Title.LandedTitles landedTitles = new();
 		private ProvinceMapper provinceMapper = new();
 		private CoaMapper coaMapper = new(irModFS);
-		private TagTitleMapper tagTitleMapper = new("TestFiles/configurables/title_map.txt", "TestFiles/configurables/governorMappings.txt");
+		private TagTitleMapper tagTitleMapper = new(
+			"TestFiles/configurables/title_map.txt", 
+			"TestFiles/configurables/governorMappings.txt", 
+			"TestFiles/configurables/country_rank_map.txt");
 		private GovernmentMapper governmentMapper = new(ck3GovernmentIds: Array.Empty<string>());
 		private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");
 		private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
 		private readonly ReligionMapper religionMapper;
-		private readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(new ColorFactory(), new PillarCollection(new ColorFactory())));
+		private readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(new ColorFactory(), new PillarCollection(new ColorFactory(), []), []));
 		private readonly NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 		private readonly Date ck3BookmarkDate = new(867, 1, 1);
 		private readonly CharacterCollection characters = new();
@@ -69,6 +72,7 @@ public class TitleTests {
 		public Title BuildFromTag() {
 			return landedTitles.Add(
 				country,
+				dependency: null,
 				imperatorCountries,
 				locDB,
 				provinceMapper,

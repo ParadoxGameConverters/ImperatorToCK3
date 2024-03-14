@@ -128,14 +128,14 @@ jobs:
     - name: "Upload installer for Windows"
       id: upload-installer
       if: matrix.build == 'win-x64'
-      uses: alexellis/upload-assets@0.4.0
+      uses: alexellis/upload-assets@0.4.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         asset_paths: '["./Output/ImperatorToCK3-${{ matrix.build }}-setup.exe"]'
     - name: "Upload release zip"
       id: upload-release-zip
-      uses: alexellis/upload-assets@0.4.0
+      uses: alexellis/upload-assets@0.4.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
