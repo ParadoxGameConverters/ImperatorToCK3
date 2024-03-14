@@ -359,7 +359,7 @@ public sealed class MapData {
 		}
 
 		// If the provinces are not directly neighboring, check if they border the same water region.
-		bool result = AreProvincesConnectedByWaterRegion(province1, province2);
+		bool result = AreProvincesConnectedByWaterBody(province1, province2);
 		adjacencyCache[cacheKey] = result;
 		return result;
 	}
@@ -376,8 +376,8 @@ public sealed class MapData {
 		return provinceAdjacencies.TryGetValue(province1Id, out var adjacencies) && adjacencies.Contains(province2Id);
 	}
 	
-	// Function for checking if two land provinces are connected to the same water region.
-	private bool AreProvincesConnectedByWaterRegion(ulong prov1Id, ulong prov2Id) {
+	// Function for checking if two land provinces are connected to the same water body.
+	private bool AreProvincesConnectedByWaterBody(ulong prov1Id, ulong prov2Id) {
 		var prov1WaterNeighbors = new HashSet<ulong>();
 		var prov2WaterNeighbors = new HashSet<ulong>();
 		
