@@ -32,9 +32,13 @@ public class Family : IIdentifiable<ulong> {
 			MemberIds.Remove(idToRemove);
 		}
 	}
+	
+	public static string GetMaleForm(string familyNameKey, CulturesDB culturesDB) {
+		return culturesDB.GetMaleFamilyNameForm(familyNameKey) ?? familyNameKey;
+	}
 
 	public string GetMaleForm(CulturesDB culturesDB) {
-		return culturesDB.GetMaleFamilyNameForm(Key) ?? Key;
+		return GetMaleForm(Key, culturesDB);
 	}
 
 	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
