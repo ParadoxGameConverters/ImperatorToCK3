@@ -1,13 +1,14 @@
 ﻿using commonItems;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Region;
 
-public sealed class CK3RegionMapper {
+public sealed class CK3RegionMapper : IRegionMapper {
 	public CK3RegionMapper() { }
 	public CK3RegionMapper(ModFilesystem ck3ModFS, Title.LandedTitles landedTitles) {
 		Logger.Info("Initializing Geography...");
@@ -85,11 +86,19 @@ public sealed class CK3RegionMapper {
 		return null;
 	}
 	public string? GetParentRegionName(ulong provinceId) {
+		// Return the top level region that contains the province.
+
+		var matchingRegions = new List<CK3Region>();
+			
 		foreach (var (regionName, region) in regions) {
 			if (region.ContainsProvince(provinceId)) {
-				return regionName;
+				matchingRegions.Add(region);
 			}
 		}
+		
+		
+		
+		
 		Logger.Warn($"CK3 province ID {provinceId} has no parent region name!");
 		return null;
 	}

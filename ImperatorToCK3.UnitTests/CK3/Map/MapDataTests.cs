@@ -1,5 +1,7 @@
 ﻿using commonItems.Mods;
+using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils.Map;
+using ImperatorToCK3.Mappers.Region;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -52,19 +54,19 @@ public class MapDataTests {
 	}
 
 	[Theory]
-	[InlineData(496, 3761, 3, true)] // through land connection
-	[InlineData(496, 3759, 3, false)]
-	[InlineData(496, 3747, 3, true)] // through water connection
-	[InlineData(496, 3747, 0, false)] // setting maxWaterTilesDistance to 0 ignores water connections
-	[InlineData(3761, 3747, 2, true)]
-	[InlineData(3761, 3747, 1, false)] // distance exceeds maxWaterTilesDistance
-	[InlineData(496, 497, 0, true)] // from adjacencies.csv
+	[InlineData(496, 3761, true)] // through land connection
+	[InlineData(496, 3759, false)]
+	[InlineData(496, 3747, true)] // through water connection
+	[InlineData(3761, 3747, true)]
+	[InlineData(496, 497, true)] // from adjacencies.csv
 	
-	public void AreProvincesAdjacentReturnsCorrectValues(ulong prov1Id, ulong prov2Id, int maxWaterTilesDistance, bool isAdjacent) {
+	public void AreProvincesAdjacentReturnsCorrectValues(ulong prov1Id, ulong prov2Id, bool isAdjacent) {
 		const string ck3Root = "TestFiles/MapData/CK3_all_prov_defs/game";
 		var ck3ModFS = new ModFilesystem(ck3Root, []);
 		var mapData = new MapData(ck3ModFS);
+		var titles = new Title.LandedTitles();
+		var ck3RegionMapper = new CK3RegionMapper(ck3ModFS, titles);
 		
-		Assert.Equal(isAdjacent, mapData.AreProvincesAdjacent(prov1Id, prov2Id, maxWaterTilesDistance));
+		Assert.Equal(isAdjacent, mapData.AreProvincesAdjacent(prov1Id, prov2Id, ck3RegionMapper));
 	}
 }
