@@ -26,8 +26,49 @@ public class DynastyCollection : ConcurrentIdObjectCollection<string, Dynasty> {
 			Interlocked.Increment(ref importedCount);
 		});
 		Logger.Info($"{importedCount} total families imported.");
+		
+		CreateDynastiesForCharactersFromMinorFamilies(irWorld, locDB, date);
 
 		Logger.IncrementProgress();
+	}
+
+	private void CreateDynastiesForCharactersFromMinorFamilies(Imperator.World irWorld, LocDB locDB, Date date) {
+		Logger.Info("Creating dynasties for characters from minor families...");
+		
+		var relevantImperatorCharacters = irWorld.Characters
+			.Where(c => c.CK3Character is not null && c.Family is not null && c.Family.Minor)
+			.OrderBy(c => c.Id)
+			.ToList();
+		
+		int createdDynastiesCount = 0;
+		foreach (var irCharacter in relevantImperatorCharacters) {
+			var irFamilyName = irCharacter.FamilyName;
+			if (string.IsNullOrEmpty(irFamilyName)) {
+				Logger.Warn($"Can't create dynasty for I:R character {irCharacter.Id} without a family name!");
+				continue;
+			}
+			
+			var ck3Character = irCharacter.CK3Character!;
+			if (ck3Character.GetDynastyId(date) is not null) {
+				continue;
+			}
+
+			var ck3Father = ck3Character.Father;
+			if (ck3Father is not null) {
+				var fatherDynastyId = ck3Father.GetDynastyId(date);
+				if (fatherDynastyId is not null) {
+					ck3Character.SetDynastyId(fatherDynastyId, null);
+					continue;
+				}
+			}
+			
+			// Neither character nor their father have a dynasty, so we need to create a new one.
+			var newDynasty = new Dynasty(ck3Character, irFamilyName, irWorld.CulturesDB, locDB, date);
+			Add(newDynasty);
+			++createdDynastiesCount;
+		}
+		
+		Logger.Info($"Created {createdDynastiesCount} dynasties for characters from minor families.");
 	}
 
 	public void SetCoasForRulingDynasties(Title.LandedTitles titles, Date date) {

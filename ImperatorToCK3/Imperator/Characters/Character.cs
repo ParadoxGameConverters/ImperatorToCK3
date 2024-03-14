@@ -74,6 +74,8 @@ public class Character : IIdentifiable<ulong> {
 	public Character? Mother { get; set; }
 	private ulong? parsedFatherId;
 	public Character? Father { get; set; }
+	
+	public string? FamilyName { get; private set; } // For characters from minor families, this contains their actual family name.
 	private ulong? parsedFamilyId;
 	private Family? family;
 	public Family? Family {
@@ -85,6 +87,7 @@ public class Character : IIdentifiable<ulong> {
 			family = value;
 		}
 	}
+	
 	public IList<string> Traits { get; set; } = new List<string>();
 	public CharacterAttributes Attributes { get; private set; } = new();
 	public IReadOnlySet<string> Variables { get; private set; } = ImmutableHashSet<string>.Empty;
@@ -116,6 +119,7 @@ public class Character : IIdentifiable<ulong> {
 			parsedCharacter.Name = characterName.Name;
 			parsedCharacter.CustomName = characterName.CustomName;
 		});
+		parser.RegisterKeyword("family_name", reader => parsedCharacter.FamilyName = reader.GetString());
 		parser.RegisterKeyword("country", reader => parsedCharacter.parsedCountryId = reader.GetULong());
 		parser.RegisterKeyword("home_country", reader => parsedCharacter.parsedHomeCountryId = reader.GetULong());
 		parser.RegisterKeyword("province", reader => parsedCharacter.ProvinceId = reader.GetULong());
