@@ -919,13 +919,7 @@ public partial class Title {
 		}
 
 		private static bool AreTitlesAdjacent(HashSet<ulong> title1ProvinceIds, HashSet<ulong> title2ProvinceIds, MapData mapData) {
-			foreach (var t1Prov in title1ProvinceIds) {
-				if (title2ProvinceIds.Any(t2Prov => mapData.AreProvincesAdjacent(t1Prov, t2Prov))) {
-					return true;
-				}
-			}
-			
-			return false;
+			return mapData.AreProvinceGroupsAdjacent(title1ProvinceIds, title2ProvinceIds);
 		}
 
 		private void SetEmpireCapitals(Date ck3BookmarkDate) {

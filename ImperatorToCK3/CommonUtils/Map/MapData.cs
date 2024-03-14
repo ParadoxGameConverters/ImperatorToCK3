@@ -5,7 +5,6 @@ using CsvHelper.Configuration;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -346,69 +345,59 @@ public sealed class MapData {
 			NeighborsDict[mainProvince] = [neighborProvince];
 		}
 	}
-	
-	private readonly ConcurrentDictionary<Tuple<ulong, ulong>, bool> adjacencyCache = [];
 
 	/// Function for checking if two provinces are directly neighboring or border the same static water body.
-	public bool AreProvincesAdjacent(ulong province1, ulong province2) {
-		var cacheKey = new Tuple<ulong, ulong>(Math.Min(province1, province2), Math.Max(province1, province2));
-		if (adjacencyCache.TryGetValue(cacheKey, out var cachedResult)) {
-			return cachedResult;
-		}
-
-		if (AreProvincesAdjacentByLand(province1, province2)) {
-			adjacencyCache[cacheKey] = true;
-			return true;
-		}
-
-		// If the provinces are not directly neighboring, check if they border the same static water body.
-		bool result = AreProvincesConnectedByWaterBody(province1, province2);
-		adjacencyCache[cacheKey] = result;
-		return result;
+	public bool AreProvinceGroupsAdjacent(HashSet<ulong> group1, HashSet<ulong> group2) {
+		return AreProvincesGroupsAdjacentByLand(group1, group2) || AreProvincesConnectedByWaterBody(group1, group2);
 	}
 
-	private bool AreProvincesAdjacentByLand(ulong province1Id, ulong province2Id) {
-		if (NeighborsDict.TryGetValue(province1Id, out var neighbors) && neighbors.Contains(province2Id)) {
+	private bool AreProvincesGroupsAdjacentByLand(HashSet<ulong> group1, HashSet<ulong> group2) {
+		var group1Neighbors = new HashSet<ulong>();
+		foreach (var province in group1) {
+			if (NeighborsDict.TryGetValue(province, out var neighbors)) {
+				group1Neighbors.UnionWith(neighbors);
+			}
+		}
+		if (group1Neighbors.Overlaps(group2)) {
 			return true;
 		}
 
-		if (NeighborsDict.TryGetValue(province2Id, out var otherNeighbors) && otherNeighbors.Contains(province1Id)) {
-			return true;
+		var group1Adjacencies = new HashSet<ulong>();
+		foreach (var province in group1) {
+			if (provinceAdjacencies.TryGetValue(province, out var adjacencies)) {
+				group1Adjacencies.UnionWith(adjacencies);
+			}
 		}
-		
-		return provinceAdjacencies.TryGetValue(province1Id, out var adjacencies) && adjacencies.Contains(province2Id);
+		return group1Adjacencies.Overlaps(group2);
 	}
 	
 	// Function for checking if two land provinces are connected to the same water body.
-	private bool AreProvincesConnectedByWaterBody(ulong prov1Id, ulong prov2Id) {
-		var prov1WaterNeighbors = new HashSet<ulong>();
-		if (NeighborsDict.TryGetValue(prov1Id, out var prov1Neighbors)) {
-			foreach (ulong neighbor in prov1Neighbors.Where(IsStaticWater)) {
-				prov1WaterNeighbors.Add(neighbor);
+	private bool AreProvincesConnectedByWaterBody(HashSet<ulong> group1, HashSet<ulong> group2) {
+		var group1WaterNeighbors = new HashSet<ulong>();
+		foreach (var provId in group1) {
+			if (!NeighborsDict.TryGetValue(provId, out var neighbors)) {
+				continue;
 			}
-		} else {
-			return false;
+			foreach (ulong neighbor in neighbors.Where(IsStaticWater)) {
+				group1WaterNeighbors.Add(neighbor);
+			}
 		}
-		if (prov1WaterNeighbors.Count == 0) {
+		if (group1WaterNeighbors.Count == 0) {
 			return false;
 		}
 		
-		var prov2WaterNeighbors = new HashSet<ulong>();
-		if (NeighborsDict.TryGetValue(prov2Id, out var prov2Neighbors)) {
-			foreach (ulong neighbor in prov2Neighbors.Where(IsStaticWater)) {
-				prov2WaterNeighbors.Add(neighbor);
-			}
-		} else {
-			return false;
-		}
-		if (prov2WaterNeighbors.Count == 0) {
+		var group2WaterNeighbors = group2
+			.SelectMany(provId => NeighborsDict.TryGetValue(provId, out var neighbors) ? neighbors : [])
+			.Where(IsStaticWater)
+			.ToHashSet();
+		if (group2WaterNeighbors.Count == 0) {
 			return false;
 		}
 
-		var prov1WaterBodies = prov1WaterNeighbors.Select(id => waterBodiesDict[id]).ToHashSet();
+		var group1WaterBodies = group1WaterNeighbors.Select(id => waterBodiesDict[id]).ToHashSet();
 
-		return prov2WaterNeighbors
-			.Any(prov2WaterNeighbor => prov1WaterBodies.Contains(waterBodiesDict[prov2WaterNeighbor]));
+		return group2WaterNeighbors
+			.Any(group2ProvId => group1WaterBodies.Contains(waterBodiesDict[group2ProvId]));
 	}
 
 	private void LoadAdjacencies(string adjacenciesFilename, ModFilesystem modFS) {

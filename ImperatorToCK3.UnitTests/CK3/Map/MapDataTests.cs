@@ -64,9 +64,7 @@ public class MapDataTests {
 		const string ck3Root = "TestFiles/MapData/CK3_all_prov_defs/game";
 		var ck3ModFS = new ModFilesystem(ck3Root, []);
 		var mapData = new MapData(ck3ModFS);
-		var titles = new Title.LandedTitles();
-		var ck3RegionMapper = new CK3RegionMapper(ck3ModFS, titles);
 		
-		Assert.Equal(isAdjacent, mapData.AreProvincesAdjacent(prov1Id, prov2Id));
+		Assert.Equal(isAdjacent, mapData.AreProvinceGroupsAdjacent([prov1Id], [prov2Id]));
 	}
 }
