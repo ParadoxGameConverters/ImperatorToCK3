@@ -692,10 +692,6 @@ public partial class Title {
 			Logger.Info("Setting de jure empires...");
 			var deJureKingdoms = GetDeJureKingdoms();
 			
-			var heritageToEmpireDict = GetHeritageIdToExistingTitleDict();
-			
-			var removableEmpireIds = new HashSet<string>();
-			
 			// Try to assign kingdoms to existing empires.
 			foreach (var kingdom in deJureKingdoms) {
 				var empireShares = new Dictionary<string, int>();
@@ -729,42 +725,8 @@ public partial class Title {
 
 			// For kingdoms that still have no de jure empire, create empires based on dominant culture of the realms
 			// holding land in that de jure kingdom.
-			var kingdomsWithoutEmpire = deJureKingdoms
-				.Where(k => k.DeJureLiege is null)
-				.ToImmutableArray();
-
-			foreach (var kingdom in kingdomsWithoutEmpire) {
-				var counties = kingdom.GetDeJureVassalsAndBelow("c").Values;
-				var dominantHeritage = counties
-					.Select(c => new { County = c, HolderId = c.GetHolderId(ck3BookmarkDate)})
-					.Select(x => new { x.County, Holder = ck3Characters.TryGetValue(x.HolderId, out var holder) ? holder : null})
-					.Select(x => new { x.County, CultureId = x.Holder?.GetCultureId(ck3BookmarkDate) })
-					.Where(x => x.CultureId is not null)
-					.Select(x => new { x.County, Culture = ck3Cultures.TryGetValue(x.CultureId!, out var culture) ? culture : null })
-					.Where(x => x.Culture is not null)
-					.Select(x => new { x.County, x.Culture!.Heritage })
-					.GroupBy(x => x.Heritage)
-					.MaxBy(g => g.Count())?.Key;
-				if (dominantHeritage is null) {
-					if (kingdom.GetDeJureVassalsAndBelow("c").Count > 0) {
-						Logger.Warn($"Kingdom {kingdom.Id} has no dominant heritage!");
-					}
-
-					continue;
-				}
-
-				if (heritageToEmpireDict.TryGetValue(dominantHeritage.Id, out var empire)) {
-					kingdom.DeJureLiege = empire;
-				} else {
-					// Create new de jure empire based on heritage.
-					var heritageEmpire = CreateEmpireForHeritage(dominantHeritage, ck3Cultures);
-					removableEmpireIds.Add(heritageEmpire.Id);
-					
-					kingdom.DeJureLiege = heritageEmpire;
-					heritageToEmpireDict[dominantHeritage.Id] = heritageEmpire;
-				}
-			}
-			
+			var removableEmpireIds = new HashSet<string>();
+			CreateEmpiresBasedOnDominantHeritages(deJureKingdoms, ck3Cultures, ck3Characters, removableEmpireIds, ck3BookmarkDate);
 			
 			Logger.Debug("Building kingdom adjacencies dict...");
 			// Create a cache of province IDs per kingdom.
@@ -788,6 +750,52 @@ public partial class Title {
 			SetEmpireCapitals(ck3BookmarkDate);
 		}
 
+		private void CreateEmpiresBasedOnDominantHeritages(IReadOnlyCollection<Title> deJureKingdoms, CultureCollection ck3Cultures, CharacterCollection ck3Characters, HashSet<string> removableEmpireIds, Date ck3BookmarkDate) {
+			var heritageToEmpireDict = GetHeritageIdToExistingTitleDict();
+			var kingdomsWithoutEmpire = deJureKingdoms
+				.Where(k => k.DeJureLiege is null)
+				.ToImmutableArray();
+
+			foreach (var kingdom in kingdomsWithoutEmpire) {
+				var counties = kingdom.GetDeJureVassalsAndBelow("c").Values;
+				
+				// Get list of dominant heritages in the kingdom, in descending order.
+				var dominantHeritages = counties
+					.Select(c => new { County = c, HolderId = c.GetHolderId(ck3BookmarkDate)})
+					.Select(x => new { x.County, Holder = ck3Characters.TryGetValue(x.HolderId, out var holder) ? holder : null})
+					.Select(x => new { x.County, CultureId = x.Holder?.GetCultureId(ck3BookmarkDate) })
+					.Where(x => x.CultureId is not null)
+					.Select(x => new { x.County, Culture = ck3Cultures.TryGetValue(x.CultureId!, out var culture) ? culture : null })
+					.Where(x => x.Culture is not null)
+					.Select(x => new { x.County, x.Culture!.Heritage })
+					.GroupBy(x => x.Heritage)
+					.OrderByDescending(g => g.Count())
+					.Select(g => g.Key)
+					.ToImmutableArray();
+				if (dominantHeritages.Length == 0) {
+					if (kingdom.GetDeJureVassalsAndBelow("c").Count > 0) {
+						Logger.Warn($"Kingdom {kingdom.Id} has no dominant heritage!");
+					}
+					continue;
+				}
+				
+				Logger.Debug($"Kingdom {kingdom.Id} has dominant heritages: {string.Join(',', dominantHeritages.Select(h => h.Id))}"); // TODO: REMOVE THIS
+
+				var dominantHeritage = dominantHeritages.First();
+
+				if (heritageToEmpireDict.TryGetValue(dominantHeritage.Id, out var empire)) {
+					kingdom.DeJureLiege = empire;
+				} else {
+					// Create new de jure empire based on heritage.
+					var heritageEmpire = CreateEmpireForHeritage(dominantHeritage, ck3Cultures);
+					removableEmpireIds.Add(heritageEmpire.Id);
+					
+					kingdom.DeJureLiege = heritageEmpire;
+					heritageToEmpireDict[dominantHeritage.Id] = heritageEmpire;
+				}
+			}
+		}
+
 		private static void FindKingdomsAdjacentToKingdom(MapData ck3MapData, IReadOnlyCollection<Title> deJureKingdoms,
 			string kingdomId, Dictionary<string, HashSet<ulong>> provincesPerKingdomDict,
 			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacencies)
@@ -799,7 +807,7 @@ public partial class Title {
 					continue;
 				}
 
-				if (!AreTitlesAdjacent(provincesPerKingdomDict[kingdomId], provincesPerKingdomDict[otherKingdom.Id], ck3MapData, 3)) {
+				if (!AreTitlesAdjacent(provincesPerKingdomDict[kingdomId], provincesPerKingdomDict[otherKingdom.Id], ck3MapData, 4)) {
 					continue;
 				}
 
