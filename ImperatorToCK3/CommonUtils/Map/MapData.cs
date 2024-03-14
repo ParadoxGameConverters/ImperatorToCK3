@@ -39,7 +39,7 @@ public sealed class MapData {
 	public ProvinceDefinitions ProvinceDefinitions { get; } = new();
 
 	private readonly Dictionary<ulong, HashSet<ulong>> provinceAdjacencies = [];
-	private readonly Dictionary<ulong, HashSet<ulong>> waterBodiesDict = []; // <province ID, set of province IDs in the body>
+	private readonly Dictionary<ulong, ulong> waterBodiesDict = []; // <province ID, water body ID>
 	
 	private readonly string[] nonColorableImpassableProvinceTypes = ["wasteland"];
 	private readonly string[] colorableImpassableProvinceTypes = ["impassable_mountains", "impassable_terrain"];
@@ -151,9 +151,12 @@ public sealed class MapData {
 			}
 		}
 		
-		foreach (var body in provinceGroups) {
-			foreach (var prov in body) {
-				waterBodiesDict[prov] = body;
+		// Create a dictionary for quick lookup of water body by province.
+		// Use the lowest province ID in each group as the water body ID.
+		foreach (var group in provinceGroups) {
+			var waterBodyId = group.Min();
+			foreach (var provinceId in group) {
+				waterBodiesDict[provinceId] = waterBodyId;
 			}
 		}
 	}
@@ -346,7 +349,7 @@ public sealed class MapData {
 	
 	private readonly ConcurrentDictionary<Tuple<ulong, ulong>, bool> adjacencyCache = [];
 
-	/// Function for checking if two provinces are directly neighboring or any of their water province neighbors belong to the same region.
+	/// Function for checking if two provinces are directly neighboring or border the same static water body.
 	public bool AreProvincesAdjacent(ulong province1, ulong province2) {
 		var cacheKey = new Tuple<ulong, ulong>(Math.Min(province1, province2), Math.Max(province1, province2));
 		if (adjacencyCache.TryGetValue(cacheKey, out var cachedResult)) {
@@ -358,7 +361,7 @@ public sealed class MapData {
 			return true;
 		}
 
-		// If the provinces are not directly neighboring, check if they border the same water region.
+		// If the provinces are not directly neighboring, check if they border the same static water body.
 		bool result = AreProvincesConnectedByWaterBody(province1, province2);
 		adjacencyCache[cacheKey] = result;
 		return result;
@@ -392,8 +395,8 @@ public sealed class MapData {
 			}
 		}
 
-		var prov1WaterBodies = prov1WaterNeighbors.SelectMany(waterBody => waterBodiesDict[waterBody]).ToHashSet();
-		var prov2WaterBodies = prov2WaterNeighbors.SelectMany(waterBody => waterBodiesDict[waterBody]).ToHashSet();
+		var prov1WaterBodies = prov1WaterNeighbors.Select(id => waterBodiesDict[id]).ToHashSet();
+		var prov2WaterBodies = prov2WaterNeighbors.Select(id => waterBodiesDict[id]).ToHashSet();
 		
 		return prov1WaterBodies.Overlaps(prov2WaterBodies);
 	}
