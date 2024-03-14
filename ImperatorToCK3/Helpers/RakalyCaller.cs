@@ -7,7 +7,7 @@ using System.IO;
 namespace ImperatorToCK3.Helpers;
 
 public static class RakalyCaller {
-	private const string RakalyVersion = "0.4.23";
+	private const string RakalyVersion = "0.4.24";
 	private static readonly string RelativeRakalyPath;
 
 	static RakalyCaller() {
