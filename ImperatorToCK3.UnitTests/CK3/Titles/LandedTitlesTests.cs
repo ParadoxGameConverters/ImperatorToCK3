@@ -24,6 +24,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -229,7 +230,7 @@ public class LandedTitlesTests {
 	[Fact]
 	public void GovernorshipsCanBeRecognizedAsCountyLevel() {
 		var config = new Configuration { ImperatorPath = "TestFiles/LandedTitlesTests/Imperator" };
-		var imperatorWorld = new ImperatorToCK3.Imperator.World(config);
+		var imperatorWorld = new TestImperatorWorld(config);
 
 		imperatorWorld.Provinces.Add(new Province(1));
 		imperatorWorld.Provinces.Add(new Province(2));
@@ -356,7 +357,7 @@ public class LandedTitlesTests {
 		);
 		titles.LoadTitles(titlesReader);
 
-		var irWorld = new ImperatorToCK3.Imperator.World(config);
+		var irWorld = new TestImperatorWorld(config);
 		var irProvince = new ImperatorToCK3.Imperator.Provinces.Province(1) { CivilizationValue = 25 };
 		irWorld.Provinces.Add(irProvince);
 
@@ -388,7 +389,7 @@ public class LandedTitlesTests {
 		);
 		titles.LoadTitles(titlesReader);
 
-		var irWorld = new ImperatorToCK3.Imperator.World(config);
+		var irWorld = new TestImperatorWorld(config);
 		var irProvince = new ImperatorToCK3.Imperator.Provinces.Province(1) { CivilizationValue = 21 };
 		irWorld.Provinces.Add(irProvince);
 
@@ -420,7 +421,7 @@ public class LandedTitlesTests {
 		);
 		titles.LoadTitles(titlesReader);
 
-		var irWorld = new ImperatorToCK3.Imperator.World(config);
+		var irWorld = new TestImperatorWorld(config);
 		var irProvince1 = new ImperatorToCK3.Imperator.Provinces.Province(1) { CivilizationValue = 10 };
 		irWorld.Provinces.Add(irProvince1);
 		var irProvince2 = new ImperatorToCK3.Imperator.Provinces.Province(2) { CivilizationValue = 40 };

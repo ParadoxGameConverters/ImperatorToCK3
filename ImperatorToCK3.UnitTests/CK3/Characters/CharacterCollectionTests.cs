@@ -24,6 +24,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -68,7 +69,7 @@ public class CharacterCollectionTests {
 	public void MarriageDateCanBeEstimatedFromChild() {
 		var endDate = new Date(1100, 1, 1, AUC: true);
 		var configuration = new Configuration { CK3BookmarkDate = endDate };
-		var imperatorWorld = new ImperatorToCK3.Imperator.World(configuration);
+		var imperatorWorld = new TestImperatorWorld(configuration);
 
 		var male = new ImperatorToCK3.Imperator.Characters.Character(1);
 		var female = new ImperatorToCK3.Imperator.Characters.Character(2);
@@ -116,7 +117,7 @@ public class CharacterCollectionTests {
 	public void MarriageDateCanBeEstimatedFromUnbornChild() {
 		var endDate = new Date(1100, 1, 1, AUC: true);
 		var configuration = new Configuration { CK3BookmarkDate = endDate };
-		var imperatorWorld = new ImperatorToCK3.Imperator.World(configuration);
+		var imperatorWorld = new TestImperatorWorld(configuration);
 
 		var male = new ImperatorToCK3.Imperator.Characters.Character(1);
 		var femaleReader = new BufferedReader("unborn={ { mother=2 father=1 date=900.1.1 } }");
@@ -156,7 +157,7 @@ public class CharacterCollectionTests {
 	public void OnlyEarlyPregnanciesAreImportedFromImperator() {
 		var conversionDate = new Date(900, 2, 1, AUC: true);
 		var configuration = new Configuration { CK3BookmarkDate = conversionDate };
-		var imperatorWorld = new ImperatorToCK3.Imperator.World(configuration);
+		var imperatorWorld = new TestImperatorWorld(configuration);
 
 		var male = new ImperatorToCK3.Imperator.Characters.Character(1);
 
@@ -212,7 +213,7 @@ public class CharacterCollectionTests {
 			ImperatorCurrencyRate = 0.5 // 1 Imperator gold is worth 0.5 CK3 gold
 		};
 
-		var imperatorWorld = new ImperatorToCK3.Imperator.World(config);
+		var imperatorWorld = new TestImperatorWorld(config);
 
 		imperatorWorld.Provinces.Add(new ImperatorToCK3.Imperator.Provinces.Province(1));
 		// provinces for governorship 1
