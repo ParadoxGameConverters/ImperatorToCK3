@@ -726,7 +726,9 @@ public partial class Title {
 			// For kingdoms that still have no de jure empire, create empires based on dominant culture of the realms
 			// holding land in that de jure kingdom.
 			var removableEmpireIds = new HashSet<string>();
-			CreateEmpiresBasedOnDominantHeritages(deJureKingdoms, ck3Cultures, ck3Characters, removableEmpireIds, ck3BookmarkDate);
+			var kingdomToDominantHeritagesDict = new Dictionary<string, ImmutableArray<Pillar>>();
+			var heritageToEmpireDict = GetHeritageIdToExistingTitleDict();
+			CreateEmpiresBasedOnDominantHeritages(deJureKingdoms, ck3Cultures, ck3Characters, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3BookmarkDate);
 			
 			Logger.Debug("Building kingdom adjacencies dict...");
 			// Create a cache of province IDs per kingdom.
@@ -740,15 +742,20 @@ public partial class Title {
 				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdom.Id, provincesPerKingdomDict, kingdomAdjacencies);
 			});
 			
-			// TODO: If one separated kingdom is separated from the rest of its de jure empire, try to get the second dominant heritage in the kingdom.
-			// TODO: If any neighboring kingdom has that heritage as dominant one, transfer the separated kingdom to the neighboring kingdom's empire.
-			SplitDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds);
+			SplitDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict);
 			
 			SetEmpireCapitals(ck3BookmarkDate);
 		}
 
-		private void CreateEmpiresBasedOnDominantHeritages(IReadOnlyCollection<Title> deJureKingdoms, CultureCollection ck3Cultures, CharacterCollection ck3Characters, HashSet<string> removableEmpireIds, Date ck3BookmarkDate) {
-			var heritageToEmpireDict = GetHeritageIdToExistingTitleDict();
+		private void CreateEmpiresBasedOnDominantHeritages(
+			IReadOnlyCollection<Title> deJureKingdoms,
+			CultureCollection ck3Cultures,
+			CharacterCollection ck3Characters,
+			HashSet<string> removableEmpireIds,
+			IDictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
+			Dictionary<string, Title> heritageToEmpireDict,
+			Date ck3BookmarkDate
+		) {
 			var kingdomsWithoutEmpire = deJureKingdoms
 				.Where(k => k.DeJureLiege is null)
 				.ToImmutableArray();
@@ -775,6 +782,7 @@ public partial class Title {
 					}
 					continue;
 				}
+				kingdomToDominantHeritagesDict[kingdom.Id] = dominantHeritages;
 				
 				Logger.Debug($"Kingdom {kingdom.Id} has dominant heritages: {string.Join(',', dominantHeritages.Select(h => h.Id))}"); // TODO: REMOVE THIS
 
@@ -858,41 +866,99 @@ public partial class Title {
 			return newEmpire;
 		}
 
-		private void SplitDisconnectedEmpires(IDictionary<string, ConcurrentHashSet<string>> kingdomAdjacencies, HashSet<string> removableEmpireIds) {
+		private void SplitDisconnectedEmpires(
+			IDictionary<string, ConcurrentHashSet<string>> kingdomAdjacencies,
+			HashSet<string> removableEmpireIds,
+			IDictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
+			Dictionary<string, Title> heritageToEmpireDict
+		) {
 			Logger.Debug("Splitting disconnected empires...");
+			
+			// If one separated kingdom is separated from the rest of its de jure empire, try to get the second dominant heritage in the kingdom.
+			// If any neighboring kingdom has that heritage as dominant one, transfer the separated kingdom to the neighboring kingdom's empire.
+			var disconnectedEmpiresDict = GetDictOfDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds);
+			if (disconnectedEmpiresDict.Count == 0) {
+				return;
+			}
+			Logger.Debug("\tTransferring stranded kingdoms to neighboring empires...");
+			foreach (var (empire, kingdomGroups) in disconnectedEmpiresDict) {
+				var dissolvableGroups = kingdomGroups.Where(g => g.Count == 1).ToList();
+				foreach (var group in dissolvableGroups) {
+					var kingdom = group.First();
+					var dominantHeritages = kingdomToDominantHeritagesDict[kingdom.Id];
+					if (dominantHeritages.Length < 2) {
+						continue;
+					}
+					
+					var adjacentKingdoms = kingdomAdjacencies[kingdom.Id];
+					var adjacentEmpires = adjacentKingdoms.Select(k => this[k].DeJureLiege)
+						.Where(e => e is not null)
+						.Select(e => e!)
+						.ToHashSet();
+
+					foreach (var secondaryHeritage in dominantHeritages.Skip(1)) {
+						var heritageEmpire = heritageToEmpireDict[secondaryHeritage.Id];
+						if (!adjacentEmpires.Contains(heritageEmpire)) {
+							continue;
+						}
+
+						kingdom.DeJureLiege = heritageEmpire;
+						Logger.Debug($"\t\tTransferred kingdom {kingdom.Id} from empire {empire.Id} to empire {heritageEmpire.Id}.");
+						break;
+					}
+				}
+			}	
+			
+			// TODO: if there are multiple groups with more than 1 kingdom, implement multiple solutions to make sure every group either becomes a separate empire or joins another empire.
+			disconnectedEmpiresDict = GetDictOfDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds);
+			if (disconnectedEmpiresDict.Count == 0) {
+				return;
+			}
+			Logger.Debug("\tCreating new empires for disconnected groups..."); // TODO: RENAME THIS STEP
+			throw new NotImplementedException("Splitting disconnected empires is not implemented yet.");
+		}
+
+		private Dictionary<Title, List<HashSet<Title>>> GetDictOfDisconnectedEmpires(
+			IDictionary<string, ConcurrentHashSet<string>> kingdomAdjacencies,
+			IReadOnlySet<string> removableEmpireIds
+		) {
+			var dictToReturn = new Dictionary<Title, List<HashSet<Title>>>();
 			
 			foreach (var empire in this.Where(t => t.Rank == TitleRank.empire)) {
 				IEnumerable<Title> deJureKingdoms = empire.GetDeJureVassalsAndBelow("k").Values;
-				
+
 				// Unassign de jure kingdoms that have no de jure land themselves.
-				var deJureKingdomsWithoutLand = deJureKingdoms.Where(k => k.GetDeJureVassalsAndBelow("c").Count == 0).ToHashSet();
+				var deJureKingdomsWithoutLand =
+					deJureKingdoms.Where(k => k.GetDeJureVassalsAndBelow("c").Count == 0).ToHashSet();
 				foreach (var deJureKingdomWithLand in deJureKingdomsWithoutLand) {
 					deJureKingdomWithLand.DeJureLiege = null;
 				}
+
 				deJureKingdoms = deJureKingdoms.Except(deJureKingdomsWithoutLand).ToList();
-				
+
 				if (!deJureKingdoms.Any()) {
 					if (removableEmpireIds.Contains(empire.Id)) {
 						Remove(empire.Id);
 					}
+
 					continue;
 				}
-				
+
 				// Group the kingdoms into contiguous groups.
 				var kingdomGroups = new List<HashSet<Title>>();
 				foreach (var kingdom in deJureKingdoms) {
 					var added = false;
 					List<HashSet<Title>> connectedGroups = [];
-					
+
 					foreach (var group in kingdomGroups) {
 						if (group.Any(k => kingdomAdjacencies[k.Id].Contains(kingdom.Id))) {
 							group.Add(kingdom);
 							connectedGroups.Add(group);
-							
+
 							added = true;
 						}
 					}
-					
+
 					// If the kingdom is adjacent to multiple groups, merge them.
 					if (connectedGroups.Count > 1) {
 						var mergedGroup = new HashSet<Title>();
@@ -900,22 +966,25 @@ public partial class Title {
 							mergedGroup.UnionWith(group);
 							kingdomGroups.Remove(group);
 						}
+
 						mergedGroup.Add(kingdom);
 						kingdomGroups.Add(mergedGroup);
 					}
-					
+
 					if (!added) {
 						kingdomGroups.Add([kingdom]);
 					}
 				}
-				
-				if (kingdomGroups.Count > 1) {
-					// TODO: change log level to debug
-					Logger.Error($"Empire {empire.Id} has {kingdomGroups.Count} multiple disconnected groups of kingdoms: {string.Join(" ; ", kingdomGroups.Select(g => string.Join(',', g.Select(k => k.Id))))}");
+
+				if (kingdomGroups.Count <= 1) {
+					continue;
 				}
-				
-				// TODO: if there are multiple groups, implement multiple solutions to make sure every group either becomes a separate empire or joins another empire.
+
+				Logger.Debug($"\tEmpire {empire.Id} has {kingdomGroups.Count} disconnected groups of kingdoms: {string.Join(" ; ", kingdomGroups.Select(g => string.Join(',', g.Select(k => k.Id))))}");
+				dictToReturn[empire] = kingdomGroups;
 			}
+			
+			return dictToReturn;
 		}
 
 		private static bool AreTitlesAdjacent(HashSet<ulong> title1ProvinceIds, HashSet<ulong> title2ProvinceIds, MapData mapData) {
