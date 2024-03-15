@@ -918,7 +918,7 @@ public partial class Title {
 				return;
 			}
 			Logger.Debug("\tCreating new empires for disconnected groups..."); // TODO: RENAME THIS STEP
-			throw new NotImplementedException("Splitting disconnected empires is not implemented yet.");
+			//throw new NotImplementedException("Splitting disconnected empires is not implemented yet."); // TODO: IMPLEMENT
 		}
 
 		private Dictionary<Title, List<HashSet<Title>>> GetDictOfDisconnectedEmpires(
