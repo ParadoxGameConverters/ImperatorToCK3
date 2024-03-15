@@ -897,7 +897,10 @@ public partial class Title {
 						.ToHashSet();
 
 					foreach (var secondaryHeritage in dominantHeritages.Skip(1)) {
-						var heritageEmpire = heritageToEmpireDict[secondaryHeritage.Id];
+						if (!heritageToEmpireDict.TryGetValue(secondaryHeritage.Id, out var heritageEmpire)) {
+							continue;
+						}
+						
 						if (!adjacentEmpires.Contains(heritageEmpire)) {
 							continue;
 						}
