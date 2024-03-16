@@ -742,7 +742,7 @@ public partial class Title {
 				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdom.Id, provincesPerKingdomDict, kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody);
 			});
 			
-			SplitDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3BookmarkDate);
+			SplitDisconnectedEmpires(kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3BookmarkDate);
 			
 			SetEmpireCapitals(ck3BookmarkDate);
 		}
@@ -880,13 +880,11 @@ public partial class Title {
 			}
 			foreach (var (kingdomId, adjacencies) in kingdomAdjacenciesByWaterBody) {
 				if (!kingdomAdjacencies.TryGetValue(kingdomId, out var set)) {
-					set = new HashSet<string>();
+					set = [];
 					kingdomAdjacencies[kingdomId] = set;
 				}
 				set.UnionWith(adjacencies);
 			}
-			
-			// TODO: FIX ALL THE OTHER PROBLEMS
 			
 			// If one separated kingdom is separated from the rest of its de jure empire, try to get the second dominant heritage in the kingdom.
 			// If any neighboring kingdom has that heritage as dominant one, transfer the separated kingdom to the neighboring kingdom's empire.
