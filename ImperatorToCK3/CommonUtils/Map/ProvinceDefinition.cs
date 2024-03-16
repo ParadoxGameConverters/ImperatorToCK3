@@ -16,5 +16,6 @@ public sealed class ProvinceDefinition(ulong id) : IIdentifiable<ulong> {
 	public bool IsImpassable => specialCategories.Contains(SpecialProvinceCategory.NonColorableImpassable) ||
 	                            specialCategories.Contains(SpecialProvinceCategory.ColorableImpassable);
 	public bool IsStaticWater => specialCategories.Contains(SpecialProvinceCategory.StaticWater);
-	public bool IsLand => !IsStaticWater && !specialCategories.Contains(SpecialProvinceCategory.River);
+	public bool IsRiver => specialCategories.Contains(SpecialProvinceCategory.River);
+	public bool IsLand => !IsStaticWater && !IsRiver;
 }

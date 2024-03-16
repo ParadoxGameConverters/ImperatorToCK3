@@ -196,6 +196,7 @@ public sealed class MapData {
 	public bool IsImpassable(ulong provinceId) => ProvinceDefinitions.TryGetValue(provinceId, out var province) && province.IsImpassable;
 
 	private bool IsStaticWater(ulong provinceId) => ProvinceDefinitions[provinceId].IsStaticWater;
+	private bool IsRiver(ulong provinceId) => ProvinceDefinitions[provinceId].IsRiver;
 
 	private bool IsLand(ulong provinceId) => ProvinceDefinitions[provinceId].IsLand;
 
@@ -368,7 +369,19 @@ public sealed class MapData {
 				group1Adjacencies.UnionWith(adjacencies);
 			}
 		}
-		return group1Adjacencies.Overlaps(group2);
+		if (group1Adjacencies.Overlaps(group2)) {
+			return true;
+		}
+		
+		var group2RiverProvinceNeighbors = group2
+			.SelectMany(provId => NeighborsDict.TryGetValue(provId, out var neighbors) ? neighbors : [])
+			.Where(IsRiver)
+			.ToHashSet();
+		if (group1Neighbors.Overlaps(group2RiverProvinceNeighbors)) {
+			return true;
+		}
+
+		return false;
 	}
 	
 	// Function for checking if two land provinces are connected to the same water body.

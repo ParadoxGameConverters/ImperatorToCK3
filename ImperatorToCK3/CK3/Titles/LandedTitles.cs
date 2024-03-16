@@ -22,7 +22,6 @@ using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using Open.Collections;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -742,7 +741,7 @@ public partial class Title {
 				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdom.Id, provincesPerKingdomDict, kingdomAdjacencies);
 			});
 			
-			SplitDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict);
+			SplitDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3BookmarkDate);
 			
 			SetEmpireCapitals(ck3BookmarkDate);
 		}
@@ -783,8 +782,6 @@ public partial class Title {
 					continue;
 				}
 				kingdomToDominantHeritagesDict[kingdom.Id] = dominantHeritages;
-				
-				Logger.Debug($"Kingdom {kingdom.Id} has dominant heritages: {string.Join(',', dominantHeritages.Select(h => h.Id))}"); // TODO: REMOVE THIS
 
 				var dominantHeritage = dominantHeritages.First();
 
@@ -870,7 +867,8 @@ public partial class Title {
 			IDictionary<string, ConcurrentHashSet<string>> kingdomAdjacencies,
 			HashSet<string> removableEmpireIds,
 			IDictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
-			Dictionary<string, Title> heritageToEmpireDict
+			Dictionary<string, Title> heritageToEmpireDict,
+			Date date
 		) {
 			Logger.Debug("Splitting disconnected empires...");
 			
@@ -912,13 +910,54 @@ public partial class Title {
 				}
 			}	
 			
-			// TODO: if there are multiple groups with more than 1 kingdom, implement multiple solutions to make sure every group either becomes a separate empire or joins another empire.
 			disconnectedEmpiresDict = GetDictOfDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds);
 			if (disconnectedEmpiresDict.Count == 0) {
 				return;
 			}
-			Logger.Debug("\tCreating new empires for disconnected groups..."); // TODO: RENAME THIS STEP
-			//throw new NotImplementedException("Splitting disconnected empires is not implemented yet."); // TODO: IMPLEMENT
+			Logger.Debug("\tCreating new empires for disconnected groups...");
+			foreach (var (empire, groups) in disconnectedEmpiresDict) {
+				// Keep the largest group as is, and create new empires based on most developed counties for the rest.
+				var largestGroup = groups.MaxBy(g => g.Count);
+				foreach (var group in groups) {
+					if (group == largestGroup) {
+						continue;
+					}
+					
+					var mostDevelopedCounty = group
+						.SelectMany(k => k.GetDeJureVassalsAndBelow("c").Values)
+						.MaxBy(c => c.GetOwnOrInheritedDevelopmentLevel(date));
+					if (mostDevelopedCounty is null) {
+						continue;
+					}
+					
+					string newEmpireId = $"e_IRTOCK3_from_{mostDevelopedCounty.Id}";
+					var newEmpire = Add(newEmpireId);
+					newEmpire.Color1 = mostDevelopedCounty.Color1;
+					newEmpire.CapitalCounty = mostDevelopedCounty;
+					newEmpire.HasDefiniteForm = false;
+					
+					var empireNameLoc = newEmpire.Localizations.AddLocBlock(newEmpireId);
+					empireNameLoc.ModifyForEveryLanguage(
+						(orig, language) => $"${mostDevelopedCounty.Id}$"
+					);
+					
+					var empireAdjLoc = newEmpire.Localizations.AddLocBlock(newEmpireId + "_adj");
+					empireAdjLoc.ModifyForEveryLanguage(
+						(orig, language) => $"${mostDevelopedCounty.Id}_adj$"
+					);
+
+					foreach (var kingdom in group) {
+						kingdom.DeJureLiege = newEmpire;
+					}
+					
+					Logger.Debug($"\t\tCreated new empire {newEmpire.Id} for group {string.Join(',', group.Select(k => k.Id))}.");
+				}
+			}
+			
+			disconnectedEmpiresDict = GetDictOfDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds);
+			if (disconnectedEmpiresDict.Count > 0) {
+				Logger.Warn("Failed to split some disconnected empires: " + string.Join(", ", disconnectedEmpiresDict.Keys.Select(e => e.Id)));
+			}
 		}
 
 		private Dictionary<Title, List<HashSet<Title>>> GetDictOfDisconnectedEmpires(
