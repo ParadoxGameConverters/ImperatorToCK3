@@ -1,2 +1,2 @@
 From;To;Type;Through;start_x;start_y;stop_x;stop_y;Comment
-496;497
+496;497;sea;3759;0;0;1;1;Test adjacency
