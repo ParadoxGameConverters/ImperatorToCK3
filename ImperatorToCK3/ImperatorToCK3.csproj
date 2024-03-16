@@ -33,7 +33,6 @@
 
   <ItemGroup>
     <PackageReference Include="ColorHashSharp" Version="1.0.0" />
-    <PackageReference Include="CsvHelper" Version="31.0.2" />
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.6.0" />
     <PackageReference Include="Meziantou.Analyzer" Version="2.0.146">
       <PrivateAssets>all</PrivateAssets>
@@ -104,7 +103,6 @@
 
 <ItemGroup>
 	<!-- root descriptors for trimming -->
-	<TrimmerRootAssembly Include="CsvHelper" />
 	<TrimmerRootAssembly Include="log4net" />
 	<TrimmerRootAssembly Include="commonItems" />
 	<TrimmerRootAssembly Include="System.Configuration.ConfigurationManager" />
