@@ -1,7 +1,6 @@
 ﻿using commonItems;
 using commonItems.Mods;
-using CsvHelper;
-using CsvHelper.Configuration;
+using Microsoft.VisualBasic.FileIO;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
@@ -10,8 +9,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-
-using Index = CsvHelper.Configuration.Attributes.IndexAttribute;
 
 namespace ImperatorToCK3.CommonUtils.Map;
 
@@ -423,37 +420,39 @@ public sealed class MapData {
 		}
 		Logger.Debug($"Loading adjacencies from \"{adjacenciesPath}\"...");
 		
-		var reader = new StreamReader(adjacenciesPath);
-		
-		var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture) {
-			Delimiter = ";",
-			HasHeaderRecord = false, // Ignore header using ShouldSkipRecord instead.
-			AllowComments = true,
-			TrimOptions = TrimOptions.Trim,
-			IgnoreBlankLines = true,
-			ShouldSkipRecord = (args => {
-				string? cell = args.Row[0];
-				if (cell is null) {
-					return true;
+		int count = 0;
+		using (var parser = new TextFieldParser(adjacenciesPath)) {
+			parser.TextFieldType = FieldType.Delimited;
+			parser.SetDelimiters(";");
+			parser.CommentTokens = ["#"];
+			parser.TrimWhiteSpace = true;
+			
+			// Skip the header row.
+			parser.ReadFields();
+			
+			while (!parser.EndOfData) {
+				string[]? fields = parser.ReadFields();
+				if (fields is null) {
+					continue;
 				}
 
-				cell = cell.Trim();
-				return cell.Length == 0 || cell[0] == '#' || !ulong.TryParse(cell, out _);
-			}),
-		};
-		using CsvReader csv = new(reader, csvConfig);
-		var records = csv.GetRecords<Adjacency>().ToList();
-
-		int count = 0;
-		foreach (var record in records) {
-			if (record.From == -1) {
-				continue;
+				if (fields.Length < 2) {
+					continue;
+				}
+				
+				var fromStr = fields[0];
+				if (fromStr == "-1") {
+					continue;
+				}
+				
+				var toStr = fields[1];
+				if (toStr == "-1") {
+					continue;
+				}
+				
+				AddAdjacency(ulong.Parse(fromStr, CultureInfo.InvariantCulture), ulong.Parse(toStr, CultureInfo.InvariantCulture));
+				++count;
 			}
-			if (record.To == -1) {
-				continue;
-			}
-			AddAdjacency((ulong)record.From, (ulong)record.To);
-			++count;
 		}
 		Logger.Debug($"Loaded {count} province adjacencies.");
 	}
