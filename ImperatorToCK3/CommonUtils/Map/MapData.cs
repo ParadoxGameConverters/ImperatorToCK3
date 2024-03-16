@@ -442,6 +442,13 @@ public sealed class MapData {
 		var adjacency = new {
 			From = default(long),
 			To = default(long),
+			Type = default(string),
+			Through = default(long),
+			StartX = default(long),
+			StartY = default(long),
+			StopX = default(long),
+			StopY = default(long),
+			Comment = default(string),
 		};
 		var records = csv.GetRecords(adjacency);
 
