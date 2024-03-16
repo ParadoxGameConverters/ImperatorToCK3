@@ -419,6 +419,7 @@ public sealed class MapData {
 			Logger.Warn($"Adjacencies file {adjacenciesFilename} not found!");
 			return;
 		}
+		Logger.Debug($"Loading adjacencies from \"{adjacenciesPath}\"...");
 		
 		var reader = new StreamReader(adjacenciesPath);
 		
