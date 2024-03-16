@@ -450,7 +450,6 @@ public sealed class MapData {
 					continue;
 				}
 				
-				
 				AddAdjacency(ulong.Parse(fromStr, CultureInfo.InvariantCulture), ulong.Parse(toStr, CultureInfo.InvariantCulture));
 				++count;
 			}
