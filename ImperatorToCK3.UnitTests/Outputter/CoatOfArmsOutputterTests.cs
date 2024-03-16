@@ -7,6 +7,7 @@ using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Geography;
@@ -29,9 +30,10 @@ namespace ImperatorToCK3.UnitTests.Outputter;
 
 public class CoatOfArmsOutputterTests {
 	private const string ImperatorRoot = "TestFiles/CoatOfArmsOutputterTests/Imperator/game";
-	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(irModFS);
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas, irMapData);
 	
 	public CoatOfArmsOutputterTests() {
 		irRegionMapper.LoadRegions(irModFS, new ColorFactory());

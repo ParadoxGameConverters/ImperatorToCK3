@@ -7,6 +7,7 @@ using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Geography;
@@ -32,8 +33,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle;
 public class TagTitleMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(irModFS);
 	private static readonly AreaCollection Areas = new();
-	private readonly ImperatorRegionMapper irRegionMapper = new(Areas);
+	private readonly ImperatorRegionMapper irRegionMapper = new(Areas, irMapData);
 	private const string tagTitleMappingsPath = "TestFiles/configurables/title_map.txt";
 	private const string governorshipTitleMappingsPath = "TestFiles/configurables/governorMappings.txt";
 	private const string rankMappingsPath = "TestFiles/configurables/country_rank_map.txt";

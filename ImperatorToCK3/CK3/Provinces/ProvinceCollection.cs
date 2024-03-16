@@ -23,7 +23,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		LoadProvincesHistory(ck3ModFs);
 	}
 
-	private void LoadProvinceDefinitions(ModFilesystem ck3ModFs) {
+	private void LoadProvinceDefinitions(ModFilesystem ck3ModFs) { // TODO: get rid of this (duplicates functionality of ProvinceDefinitions class)
 		Logger.Info("Loading CK3 province definitions...");
 
 		var filePath = ck3ModFs.GetActualFileLocation("map_data/definition.csv");

@@ -2,9 +2,9 @@
 using commonItems.Localization;
 using ImageMagick;
 using ImperatorToCK3.CK3;
-using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.CommonUtils.Map;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
@@ -23,7 +23,6 @@ public static class BookmarkOutputter {
 		Logger.Info("Creating bookmark...");
 
 		OutputBookmarkGroup(config);
-		Logger.IncrementProgress();
 
 		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/bookmarks/00_bookmarks.txt");
 		using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
@@ -90,7 +89,7 @@ public static class BookmarkOutputter {
 				output.WriteLine($"\t\treligion={faithId}");
 			}
 			output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
-			WritePosition(output, title, config, provincePositions.AsReadOnly());
+			WritePosition(output, title, config, provincePositions);
 			output.WriteLine("\t\tanimation = personality_rational");
 
 			output.WriteLine("\t}");
@@ -115,9 +114,8 @@ public static class BookmarkOutputter {
 		output.WriteLine("}");
 
 		OutputBookmarkLoc(config, localizations);
-		Logger.IncrementProgress();
-
 		DrawBookmarkMap(config, playerTitles, world);
+		Logger.IncrementProgress();
 	}
 
 	private static void OutputBookmarkGroup(Configuration config) {
@@ -209,8 +207,6 @@ public static class BookmarkOutputter {
 		var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.png");
 		bookmarkMapImage.SaveAsPng(outputPath);
 		ResaveImageAsDDS(outputPath);
-
-		Logger.IncrementProgress();
 	}
 
 	private static void DrawPlayerTitleOnMap(
@@ -263,9 +259,13 @@ public static class BookmarkOutputter {
 		bookmarkMapImage.Mutate(x => x.DrawImage(realmHighlightImage, 0.5f));
 	}
 
+	private static HashSet<ulong> GetColorableImpassablesExceptMapEdgeProvinces(MapData mapData) {
+		return mapData.ColorableImpassableProvinceIds.Except(mapData.MapEdgeProvinceIds).ToHashSet();
+	}
+
 	private static HashSet<ulong> GetImpassableProvincesToColor(MapData mapData, ISet<ulong> heldProvinceIds) {
 		var provinceIdsToColor = new HashSet<ulong>(heldProvinceIds);
-		var impassableIds = mapData.ColorableImpassableProvinceIds;
+		var impassableIds = GetColorableImpassablesExceptMapEdgeProvinces(mapData);
 		foreach (ulong impassableId in impassableIds) {
 			var nonImpassableNeighborProvIds = mapData.GetNeighborProvinceIds(impassableId)
 				.Except(impassableIds)
