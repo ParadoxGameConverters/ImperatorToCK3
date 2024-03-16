@@ -1146,9 +1146,47 @@ imperator_invictus = {
 	link = { imp = 726 ck3 = 6187 } # Madiama -> MADYAN
 	link = { imp = 725 ck3 = 6183 } # Makna -> MAQNA
 	link = { imp = 7575 ck3 = 6223 ck3 = 6226 ck3 = 6221 ck3 = 6227 } # Makarabah -> MAKKA, USFAN, KHULAYS, SUFAINA
-	link = { imp = 4645 ck3 = 6281 } # Mouza Emporion -> MAWZA
-	link = { imp = 4676 ck3 = 6296 } # Shabwa -> SHABWA
-	link = { imp = 4682 ck3 = 6276 } # Sanaa -> SANAA
+	link = { imp = 4648 imp = 4684 ck3 = 6284 } # Saraka, Himiara -> TAIZZ
+	link = { imp = 4645 imp = 4649 ck3 = 6281 } # Mouza Emporion, Meda -> MAWZA
+	link = { imp = 4662 imp = 4661 imp = 4663 ck3 = 6297 } # Tamna, Marimatha, Caripeta -> BAYHAN
+	link = { imp = 4676 imp = 4677 imp = 4659 ck3 = 6296 } # Shabwa, Harai, Sarouon -> SHABWA
+	link = { imp = 4668 ck3 = 6299 } # Caminacum -> MAIN
+	link = { imp = 5300 ck3 = 6301 } # Arabia Felix -> HISN_AL-ABR
+	link = { imp = 4673 imp = 4674 ck3 = 6300 } # Cardava, Karna -> WABAR
+	link = { imp = 4671 ck3 = 6243 } # Anagrana -> NAJRAN
+	link = { imp = 4670 ck3 = 6242 } # Phoda -> SADA
+	link = { imp = 4701 imp = 4702 ck3 = 6272 } # Haud, Affa -> ASH-SHARAF
+	link = { imp = 4700 imp = 4672 ck3 = 6273 } # Yathill, Labaeta -> HUTH
+	link = { imp = 4654 imp = 4656 ck3 = 6291 } # Mesala, Dela -> SAQRA
+	link = { imp = 4660 imp = 4712 ck3 = 6295 } # Maccua, Hadrama -> NISAB
+	link = { imp = 4657 imp = 4655 ck3 = 6292 } # Firai, Abisama -> AHWAN
+	link = { imp = 4658 ck3 = 6294 } # Maipha -> AZZAN
+	link = { imp = 4685 ck3 = 6293 } # Qana -> BALHAF
+	link = { imp = 4680 imp = 4681 imp = 4697 ck3 = 6286 } # Zafar, Raida, Damar -> ZAFAR
+	link = { imp = 4651 imp = 4652 imp = 4647 ck3 = 6283 } # Caiwa, Confluentia Qataba, Save -> AL-MAAFIR
+	link = { imp = 4646 ck3 = 6282 } # Okelis -> AL-MANDAB
+	link = { imp = 4666 imp = 4665 ck3 = 6298 } # Mariaba, Nagia -> BARAQISH
+	link = { imp = 4683 imp = 4667 ck3 = 6274 } # Sirwa, Athroula -> AR-RAYDA
+	link = { imp = 4688 ck3 = 6275 } # Amran -> SHIBAM-SANAA
+	link = { imp = 4686 imp = 4689 ck3 = 6278 } # Sabiyah, Haraz -> FASHAL
+	link = { imp = 4644 imp = 4643 imp = 4691 ck3 = 6280 } # Aliou Kome, Laupas, Harazia Vallis -> ZABID
+	link = { imp = 4642 ck3 = 6279 } # Adedou Kome -> GHALAFIQA
+	link = { imp = 4637 ck3 = 6271 } # Devada -> KAMARAN
+	link = { imp = 4641 ck3 = 6270 } # Badeo -> AL-MAHJAM
+	link = { imp = 4699 imp = 4640 ck3 = 6241 } # Aksumia, Akme -> HARAD
+	link = { imp = 4639 imp = 4638 imp = 4669 ck3 = 6240 } # Baitus, Marma, Marna Vallis -> ATTAR
+	link = { imp = 4636 imp = 3479 imp = 3480 ck3 = 6239 } # Cama, Abha, Migayah -> ASH-SHUQAYQ
+	link = { imp = 4634 imp = 4635 imp = 7578 imp = 7601 ck3 = 6238 } # Ambe, Raqeta, Nemerah, Barek -> HALI
+	link = { imp = 4633 imp = 7577 ck3 = 6224 } # Litha, Attaba -> AS-SIRAYN
+	link = { imp = 4695 ck3 = 6288 } # Homeira -> LAWDAR
+	link = { imp = 4698 imp = 4693 ck3 = 6287 } # Felicita, Sabatia -> RADA
+	link = { imp = 4687 imp = 4692 ck3 = 6289 } # Qatabia, Makeda -> MUSAYMIR
+	link = { imp = 4694 ck3 = 6285 } # Ocelia -> AL-JANAD
+	link = { imp = 4682 imp = 4696 imp = 4664 ck3 = 6276 } # Sanaa, Hazma, Nossa -> SANAA
+	link = { imp = 8842 imp = 8843 imp = 8840 ck3 = 6244 } # Tathleeth, Subaykhah, Qirah -> WADI_TATHLITH
+	link = { imp = 8874 ck3 = 6234 } # Gaabah -> TABALA-HIJAZ
+	link = { imp = 8873 ck3 = 6235 ck3 = 6236 } # Bishah -> BISHA, JURASH
+	link = { imp = 8841 imp = 8839 imp = 8838 ck3 = 6237 } # Hubuna, Kutnah, Jurash -> KUTHBA
 	link = { imp = 4650 ck3 = 6290 } # 'Adan -> ADEN
 	link = { comment = "=== NEW MAPPINGS BY RADU ===" }
 	link = { comment = "MOROCCO BY RADU" }
