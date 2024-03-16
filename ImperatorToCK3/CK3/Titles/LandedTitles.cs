@@ -883,7 +883,9 @@ public partial class Title {
 				var dissolvableGroups = kingdomGroups.Where(g => g.Count == 1).ToList();
 				foreach (var group in dissolvableGroups) {
 					var kingdom = group.First();
-					var dominantHeritages = kingdomToDominantHeritagesDict[kingdom.Id];
+					if (!kingdomToDominantHeritagesDict.TryGetValue(kingdom.Id, out var dominantHeritages)) {
+						continue;
+					}
 					if (dominantHeritages.Length < 2) {
 						continue;
 					}
