@@ -1,0 +1,35 @@
+# This file determines which heritages are associated with a predefined empire instead of a generated title
+# during de jure empire setup generation
+# These mappings should only be used for empires that are named in a way that they can be undoubtedly connected
+# to specific heritages (and not just because they happen to geographically match the areas of any culture groups).
+# Counter examples:
+# heritage_iranian = e_persia: Iranian is broader than Persian
+# heritage_byzantine = e_byzantium: heritage_byzantine has been renamed to "Hellenistic" in the converter,
+# so it wouldn't make sense to map it to a title with specific flavour about it being the continuation of Rome.
+
+# Multiple heritages can be mapped to the same empire.
+# One heritage can also be mapped to multiple empires (for example: heritage_west_slavic to e_west_slavia and e_slavia),
+# but first valid match will be used.
+
+heritage_tibetan = e_tibet
+heritage_arabic = e_arabia
+heritage_mongolic = e_mongolia
+heritage_brythonic = e_britannia
+heritage_goidelic = e_britannia
+heritage_romano_british = e_britannia
+heritage_frankish = e_france
+heritage_latin = e_italy
+heritage_north_germanic = e_scandinavia
+heritage_north_germanic = e_germany
+heritage_east_germanic = e_germany
+heritage_west_germanic = e_germany
+heritage_south_germanic = e_germany
+heritage_central_germanic = e_germany
+heritage_romano_germanic = e_germany
+heritage_baltic = e_wendish_empire
+heritage_iberian = e_spain
+heritage_iberian_celtic = e_spain
+heritage_west_slavic = e_west_slavia
+heritage_west_slavic = e_slavia
+heritage_east_slavic = e_slavia
+heritage_south_slavic = e_slavia

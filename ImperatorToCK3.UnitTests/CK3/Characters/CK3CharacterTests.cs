@@ -9,6 +9,7 @@ using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils.Genes;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Geography;
@@ -35,6 +36,7 @@ public class CK3CharacterTests {
 	private static readonly Date ConversionDate = new(867, 1, 1);
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem IRModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(IRModFS);
 	private static readonly ImperatorRegionMapper IRRegionMapper;
 	private static readonly CultureMapper CultureMapper;
 	private const string CK3Path = "TestFiles/CK3";
@@ -47,7 +49,7 @@ public class CK3CharacterTests {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
 		AreaCollection areas = new();
 		areas.LoadAreas(IRModFS, irProvinces);
-		IRRegionMapper = new ImperatorRegionMapper(areas);
+		IRRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		IRRegionMapper.LoadRegions(IRModFS, new ColorFactory());
 			
 		cultures.GenerateTestCulture("greek");

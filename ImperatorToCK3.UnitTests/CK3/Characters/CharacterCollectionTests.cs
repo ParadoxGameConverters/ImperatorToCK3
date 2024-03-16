@@ -7,6 +7,7 @@ using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Geography;
@@ -23,6 +24,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -35,6 +37,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters;
 public class CharacterCollectionTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(irModFS);
 	private static readonly ImperatorRegionMapper irRegionMapper;
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private readonly ModFilesystem ck3ModFS = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
@@ -55,7 +58,7 @@ public class CharacterCollectionTests {
 		);
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);
-		irRegionMapper = new ImperatorRegionMapper(areas);
+		irRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		irRegionMapper.LoadRegions(irModFS, colorFactory);
 		
 		var ck3ModFlags = new List<string>();
@@ -66,7 +69,7 @@ public class CharacterCollectionTests {
 	public void MarriageDateCanBeEstimatedFromChild() {
 		var endDate = new Date(1100, 1, 1, AUC: true);
 		var configuration = new Configuration { CK3BookmarkDate = endDate };
-		var imperatorWorld = new ImperatorToCK3.Imperator.World(configuration);
+		var imperatorWorld = new TestImperatorWorld(configuration);
 
 		var male = new ImperatorToCK3.Imperator.Characters.Character(1);
 		var female = new ImperatorToCK3.Imperator.Characters.Character(2);
@@ -114,7 +117,7 @@ public class CharacterCollectionTests {
 	public void MarriageDateCanBeEstimatedFromUnbornChild() {
 		var endDate = new Date(1100, 1, 1, AUC: true);
 		var configuration = new Configuration { CK3BookmarkDate = endDate };
-		var imperatorWorld = new ImperatorToCK3.Imperator.World(configuration);
+		var imperatorWorld = new TestImperatorWorld(configuration);
 
 		var male = new ImperatorToCK3.Imperator.Characters.Character(1);
 		var femaleReader = new BufferedReader("unborn={ { mother=2 father=1 date=900.1.1 } }");
@@ -154,7 +157,7 @@ public class CharacterCollectionTests {
 	public void OnlyEarlyPregnanciesAreImportedFromImperator() {
 		var conversionDate = new Date(900, 2, 1, AUC: true);
 		var configuration = new Configuration { CK3BookmarkDate = conversionDate };
-		var imperatorWorld = new ImperatorToCK3.Imperator.World(configuration);
+		var imperatorWorld = new TestImperatorWorld(configuration);
 
 		var male = new ImperatorToCK3.Imperator.Characters.Character(1);
 
@@ -210,7 +213,7 @@ public class CharacterCollectionTests {
 			ImperatorCurrencyRate = 0.5 // 1 Imperator gold is worth 0.5 CK3 gold
 		};
 
-		var imperatorWorld = new ImperatorToCK3.Imperator.World(config);
+		var imperatorWorld = new TestImperatorWorld(config);
 
 		imperatorWorld.Provinces.Add(new ImperatorToCK3.Imperator.Provinces.Province(1));
 		// provinces for governorship 1

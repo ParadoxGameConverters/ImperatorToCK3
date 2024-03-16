@@ -44,7 +44,6 @@ public class DynastyCollection : ConcurrentIdObjectCollection<string, Dynasty> {
 		foreach (var irCharacter in relevantImperatorCharacters) {
 			var irFamilyName = irCharacter.FamilyName;
 			if (string.IsNullOrEmpty(irFamilyName)) {
-				Logger.Warn($"Can't create dynasty for I:R character {irCharacter.Id} without a family name!");
 				continue;
 			}
 			

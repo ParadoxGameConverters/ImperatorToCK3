@@ -6,6 +6,7 @@ using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Geography;
@@ -23,6 +24,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -36,6 +38,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles;
 public class LandedTitlesTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(irModFS);
 	private static readonly ImperatorRegionMapper irRegionMapper;
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private const string CK3Root = "TestFiles/LandedTitlesTests/CK3/game";
@@ -52,7 +55,7 @@ public class LandedTitlesTests {
 		);
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);
-		irRegionMapper = new ImperatorRegionMapper(areas);
+		irRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 	}
 
@@ -227,7 +230,7 @@ public class LandedTitlesTests {
 	[Fact]
 	public void GovernorshipsCanBeRecognizedAsCountyLevel() {
 		var config = new Configuration { ImperatorPath = "TestFiles/LandedTitlesTests/Imperator" };
-		var imperatorWorld = new ImperatorToCK3.Imperator.World(config);
+		var imperatorWorld = new TestImperatorWorld(config);
 
 		imperatorWorld.Provinces.Add(new Province(1));
 		imperatorWorld.Provinces.Add(new Province(2));
@@ -241,7 +244,7 @@ public class LandedTitlesTests {
 		imperatorWorld.Countries.Add(country);
 
 		imperatorWorld.Areas.LoadAreas(imperatorWorld.ModFS, imperatorWorld.Provinces);
-		var irRegionMapper = new ImperatorRegionMapper(imperatorWorld.Areas);
+		var irRegionMapper = new ImperatorRegionMapper(imperatorWorld.Areas, irMapData);
 		irRegionMapper.LoadRegions(imperatorWorld.ModFS, new ColorFactory());
 		Assert.True(irRegionMapper.RegionNameIsValid("galatia_area"));
 		Assert.True(irRegionMapper.RegionNameIsValid("galatia_region"));
@@ -354,7 +357,7 @@ public class LandedTitlesTests {
 		);
 		titles.LoadTitles(titlesReader);
 
-		var irWorld = new ImperatorToCK3.Imperator.World(config);
+		var irWorld = new TestImperatorWorld(config);
 		var irProvince = new ImperatorToCK3.Imperator.Provinces.Province(1) { CivilizationValue = 25 };
 		irWorld.Provinces.Add(irProvince);
 
@@ -386,7 +389,7 @@ public class LandedTitlesTests {
 		);
 		titles.LoadTitles(titlesReader);
 
-		var irWorld = new ImperatorToCK3.Imperator.World(config);
+		var irWorld = new TestImperatorWorld(config);
 		var irProvince = new ImperatorToCK3.Imperator.Provinces.Province(1) { CivilizationValue = 21 };
 		irWorld.Provinces.Add(irProvince);
 
@@ -418,7 +421,7 @@ public class LandedTitlesTests {
 		);
 		titles.LoadTitles(titlesReader);
 
-		var irWorld = new ImperatorToCK3.Imperator.World(config);
+		var irWorld = new TestImperatorWorld(config);
 		var irProvince1 = new ImperatorToCK3.Imperator.Provinces.Province(1) { CivilizationValue = 10 };
 		irWorld.Provinces.Add(irProvince1);
 		var irProvince2 = new ImperatorToCK3.Imperator.Provinces.Province(2) { CivilizationValue = 40 };
