@@ -183,7 +183,7 @@ public sealed class MapData {
 
 		var xDiff = province1Position.X - province2Position.X;
 		var yDiff = province1Position.Y - province2Position.Y;
-		return Math.Sqrt(xDiff * xDiff + yDiff * yDiff);
+		return Math.Sqrt((xDiff * xDiff) + (yDiff * yDiff));
 	}
 
 	public IReadOnlySet<ulong> GetNeighborProvinceIds(ulong provinceId) {
@@ -278,7 +278,6 @@ public sealed class MapData {
 			}
 		}
 	}
-
 
 	private static Rgb24 GetCenterColor(Point position, Image<Rgb24> provincesMap) {
 		return GetPixelColor(position, provincesMap);
@@ -471,7 +470,6 @@ public sealed class MapData {
 		}
 		adjacencies.Add(province1);
 	}
-	
 	
 	private void DetermineMapEdgeProvinces(ModFilesystem modFS) {
 		Logger.Debug("Determining map edge provinces...");
