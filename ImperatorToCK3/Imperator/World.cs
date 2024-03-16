@@ -207,7 +207,7 @@ public class World : Parser {
 		});
 		RegisterKeyword("jobs", reader => {
 			Logger.Info("Loading Jobs...");
-			JobsDB = new Jobs.JobsDB(reader, Countries, ImperatorRegionMapper);
+			JobsDB = new Jobs.JobsDB(reader, Countries, ImperatorRegionMapper!);
 			Logger.Info($"Loaded {JobsDB.Governorships.Count} governorships.");
 			Logger.IncrementProgress();
 		});
