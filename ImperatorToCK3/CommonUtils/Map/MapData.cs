@@ -11,6 +11,8 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 
+using Index = CsvHelper.Configuration.Attributes.IndexAttribute;
+
 namespace ImperatorToCK3.CommonUtils.Map;
 
 public sealed class MapData {
@@ -425,7 +427,7 @@ public sealed class MapData {
 		
 		var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture) {
 			Delimiter = ";",
-			HasHeaderRecord = true,
+			HasHeaderRecord = false, // Ignore header using ShouldSkipRecord instead.
 			AllowComments = true,
 			TrimOptions = TrimOptions.Trim,
 			IgnoreBlankLines = true,
@@ -436,22 +438,11 @@ public sealed class MapData {
 				}
 
 				cell = cell.Trim();
-				return cell.Length == 0 || cell[0] == '#';
+				return cell.Length == 0 || cell[0] == '#' || !ulong.TryParse(cell, out _);
 			}),
 		};
 		using CsvReader csv = new(reader, csvConfig);
-		var adjacency = new {
-			From = default(long),
-			To = default(long),
-			Type = default(string),
-			Through = default(long),
-			StartX = default(long),
-			StartY = default(long),
-			StopX = default(long),
-			StopY = default(long),
-			Comment = default(string),
-		};
-		var records = csv.GetRecords(adjacency);
+		var records = csv.GetRecords<Adjacency>().ToList();
 
 		int count = 0;
 		foreach (var record in records) {
