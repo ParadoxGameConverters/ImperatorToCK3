@@ -736,12 +736,13 @@ public partial class Title {
 					k => k.Id,
 					k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToHashSet()
 				);
-			var kingdomAdjacencies = deJureKingdoms.ToDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
+			var kingdomAdjacenciesByLand = deJureKingdoms.ToDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
+			var kingdomAdjacenciesByWaterBody = deJureKingdoms.ToDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
 			Parallel.ForEach(deJureKingdoms, kingdom => {
-				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdom.Id, provincesPerKingdomDict, kingdomAdjacencies);
+				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdom.Id, provincesPerKingdomDict, kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody);
 			});
 			
-			SplitDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3BookmarkDate);
+			SplitDisconnectedEmpires(kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3BookmarkDate);
 			
 			SetEmpireCapitals(ck3BookmarkDate);
 		}
@@ -802,7 +803,8 @@ public partial class Title {
 			MapData ck3MapData,
 			IReadOnlyCollection<Title> deJureKingdoms,
 			string kingdomId, Dictionary<string, HashSet<ulong>> provincesPerKingdomDict,
-			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacencies)
+			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByLand,
+			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody)
 		{
 			foreach (var otherKingdom in deJureKingdoms) {
 				// Since this code is parallelized, make sure we don't check the same pair twice.
@@ -810,18 +812,16 @@ public partial class Title {
 				if (kingdomId.CompareTo(otherKingdom.Id) >= 0) {
 					continue;
 				}
-
-				if (!AreTitlesAdjacent(provincesPerKingdomDict[kingdomId], provincesPerKingdomDict[otherKingdom.Id], ck3MapData)) {
-					continue;
+				
+				var kingdom1Provinces = provincesPerKingdomDict[kingdomId];
+				var kingdom2Provinces = provincesPerKingdomDict[otherKingdom.Id];
+				if (AreTitlesAdjacentByLand(kingdom1Provinces, kingdom2Provinces, ck3MapData)) {
+					kingdomAdjacenciesByLand[kingdomId].Add(otherKingdom.Id);
+					kingdomAdjacenciesByLand[otherKingdom.Id].Add(kingdomId);
+				} else if (AreTitlesAdjacentByWaterBody(kingdom1Provinces, kingdom2Provinces, ck3MapData)) {
+					kingdomAdjacenciesByWaterBody[kingdomId].Add(otherKingdom.Id);
+					kingdomAdjacenciesByWaterBody[otherKingdom.Id].Add(kingdomId);
 				}
-
-				// Add otherKingdom to adjacencies of kingdom.
-				var adjacencies = kingdomAdjacencies[kingdomId];
-				adjacencies.Add(otherKingdom.Id);
-
-				// Add kingdom to adjacencies of otherKingdom.
-				var otherAdjacencies = kingdomAdjacencies[otherKingdom.Id];
-				otherAdjacencies.Add(kingdomId);
 			}
 		}
 
@@ -864,13 +864,27 @@ public partial class Title {
 		}
 
 		private void SplitDisconnectedEmpires(
-			IDictionary<string, ConcurrentHashSet<string>> kingdomAdjacencies,
+			IDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByLand,
+			IDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody,
 			HashSet<string> removableEmpireIds,
 			IDictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
 			Dictionary<string, Title> heritageToEmpireDict,
 			Date date
 		) {
 			Logger.Debug("Splitting disconnected empires...");
+			
+			// Combine kingdom adjacencies by land and water body into a single dictionary.
+			var kingdomAdjacencies = new Dictionary<string, HashSet<string>>();
+			foreach (var (kingdomId, adjacencies) in kingdomAdjacenciesByLand) {
+				kingdomAdjacencies[kingdomId] = [..adjacencies];
+			}
+			foreach (var (kingdomId, adjacencies) in kingdomAdjacenciesByWaterBody) {
+				if (!kingdomAdjacencies.TryGetValue(kingdomId, out var set)) {
+					set = [];
+					kingdomAdjacencies[kingdomId] = set;
+				}
+				set.UnionWith(adjacencies);
+			}
 			
 			// If one separated kingdom is separated from the rest of its de jure empire, try to get the second dominant heritage in the kingdom.
 			// If any neighboring kingdom has that heritage as dominant one, transfer the separated kingdom to the neighboring kingdom's empire.
@@ -890,24 +904,49 @@ public partial class Title {
 						continue;
 					}
 					
-					var adjacentKingdoms = kingdomAdjacencies[kingdom.Id];
-					var adjacentEmpires = adjacentKingdoms.Select(k => this[k].DeJureLiege)
+					var adjacentEmpiresByLand = kingdomAdjacenciesByLand[kingdom.Id].Select(k => this[k].DeJureLiege)
 						.Where(e => e is not null)
 						.Select(e => e!)
 						.ToHashSet();
-
+					
+					// Try to find valid neighbor by land first, to reduce the number of exclaves.
+					Title? validNeighbor = null;
 					foreach (var secondaryHeritage in dominantHeritages.Skip(1)) {
 						if (!heritageToEmpireDict.TryGetValue(secondaryHeritage.Id, out var heritageEmpire)) {
 							continue;
 						}
-						
-						if (!adjacentEmpires.Contains(heritageEmpire)) {
+						if (!adjacentEmpiresByLand.Contains(heritageEmpire)) {
 							continue;
 						}
 
-						kingdom.DeJureLiege = heritageEmpire;
-						Logger.Debug($"\t\tTransferred kingdom {kingdom.Id} from empire {empire.Id} to empire {heritageEmpire.Id}.");
+						validNeighbor = heritageEmpire;
+						Logger.Debug($"\t\tTransferring kingdom {kingdom.Id} from empire {empire.Id} to empire {validNeighbor.Id} neighboring by land.");
 						break;
+					}
+					
+					// If no valid neighbor by land, try to find valid neighbor by water.
+					if (validNeighbor is null) {
+						var adjacentEmpiresByWaterBody = kingdomAdjacenciesByWaterBody[kingdom.Id].Select(k => this[k].DeJureLiege)
+							.Where(e => e is not null)
+							.Select(e => e!)
+							.ToHashSet();
+						
+						foreach (var secondaryHeritage in dominantHeritages.Skip(1)) {
+							if (!heritageToEmpireDict.TryGetValue(secondaryHeritage.Id, out var heritageEmpire)) {
+								continue;
+							}
+							if (!adjacentEmpiresByWaterBody.Contains(heritageEmpire)) {
+								continue;
+							}
+
+							validNeighbor = heritageEmpire;
+							Logger.Debug($"\t\tTransferring kingdom {kingdom.Id} from empire {empire.Id} to empire {validNeighbor.Id} neighboring by water body.");
+							break;
+						}
+					}
+
+					if (validNeighbor is not null) {
+						kingdom.DeJureLiege = validNeighbor;
 					}
 				}
 			}	
@@ -963,7 +1002,7 @@ public partial class Title {
 		}
 
 		private Dictionary<Title, List<HashSet<Title>>> GetDictOfDisconnectedEmpires(
-			IDictionary<string, ConcurrentHashSet<string>> kingdomAdjacencies,
+			IDictionary<string, HashSet<string>> kingdomAdjacencies,
 			IReadOnlySet<string> removableEmpireIds
 		) {
 			var dictToReturn = new Dictionary<Title, List<HashSet<Title>>>();
@@ -1033,6 +1072,12 @@ public partial class Title {
 
 		private static bool AreTitlesAdjacent(HashSet<ulong> title1ProvinceIds, HashSet<ulong> title2ProvinceIds, MapData mapData) {
 			return mapData.AreProvinceGroupsAdjacent(title1ProvinceIds, title2ProvinceIds);
+		}
+		private static bool AreTitlesAdjacentByLand(HashSet<ulong> title1ProvinceIds, HashSet<ulong> title2ProvinceIds, MapData mapData) {
+			return mapData.AreProvinceGroupsAdjacentByLand(title1ProvinceIds, title2ProvinceIds);
+		}
+		private static bool AreTitlesAdjacentByWaterBody(HashSet<ulong> title1ProvinceIds, HashSet<ulong> title2ProvinceIds, MapData mapData) {
+			return mapData.AreProvinceGroupsConnectedByWaterBody(title1ProvinceIds, title2ProvinceIds);
 		}
 
 		private void SetEmpireCapitals(Date ck3BookmarkDate) {
