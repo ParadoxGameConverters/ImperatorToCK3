@@ -137,7 +137,7 @@ public class World {
 		if (config.StaticDeJure) {
 			Logger.Info("Setting static de jure kingdoms and empires...");
 
-			Title.LandedTitles overrideTitles = new();
+			Title.LandedTitles overrideTitles = [];
 			overrideTitles.LoadStaticTitles();
 			Logger.Debug("Carving titles...");
 			LandedTitles.CarveTitles(overrideTitles);
@@ -597,7 +597,7 @@ public class World {
 					UsePaganRulers();
 				} else {
 					Logger.Info("Giving Iceland and Faroe Islands to Papar...");
-					namePool = new Queue<string>(new[] { "Canann", "Petair", "Fergus" });
+					namePool = new Queue<string>(["Canann", "Petair", "Fergus"]);
 				}
 				break;
 			default:
