@@ -1,3 +1,4 @@
+using commonItems;
 using ImperatorToCK3.CommonUtils.Genes;
 using System;
 
@@ -19,11 +20,32 @@ public readonly struct DNAAccessoryGeneValue(
 	
 	public string TemplateName { get; } = templateName;
 	public string ObjectName { get; } = objectName;
-	public byte IntSliderValue => weightBlock.GetSliderValueForObject(ObjectName);
+
+	public byte IntSliderValue {
+		get {
+			byte? sliderValue = weightBlock.GetSliderValueForObject(ObjectName);
+			if (sliderValue is not null) {
+				return sliderValue.Value;
+			}
+
+			Logger.Warn($"Set entry \"{ObjectName}\" not found in weight block for template \"{TemplateName}\"! Valid entries are: {string.Join(", ", weightBlock.ObjectNames)}");
+			return 0;
+		}
+	}
 
 	public string TemplateRecessiveName { get; } = templateRecessiveName;
 	public string ObjectRecessiveName { get; } = objectRecessiveName;
-	public byte IntSliderValueRecessive => weightBlockRecessive.GetSliderValueForObject(ObjectRecessiveName);
+	public byte IntSliderValueRecessive {
+		get {
+			byte? sliderValue = weightBlockRecessive.GetSliderValueForObject(ObjectRecessiveName);
+			if (sliderValue is not null) {
+				return sliderValue.Value;
+			}
+
+			Logger.Warn($"Set entry \"{ObjectRecessiveName}\" not found in weight block for template \"{TemplateRecessiveName}\"! Valid entries are: {string.Join(", ", weightBlockRecessive.ObjectNames)}");
+			return 0;
+		}
+	}
 
 	public override string ToString() {
 		return $"\"{TemplateName}\" {IntSliderValue} \"{TemplateRecessiveName}\" {IntSliderValueRecessive}";
