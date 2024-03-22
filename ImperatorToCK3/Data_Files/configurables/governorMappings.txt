@@ -201,9 +201,6 @@ link = { ir = albania_region ck3 = d_ciscaucasia rank = d }
 
 link = { ir = illyria_region ck3 = d_croatia rank = d }
 
-link = { ir = magna_graecia_region ck3 = k_sicily rank = k }
-link = { ir = magna_graecia_region ck3 = d_sicily rank = d }
-
 link = { ir = belgica_region ck3 = k_lotharingia rank = k }
 link = { ir = belgica_region ck3 = d_brabant rank = d }
 

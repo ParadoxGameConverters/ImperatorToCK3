@@ -1,5 +1,7 @@
 ﻿using commonItems;
 using commonItems.Colors;
+using commonItems.Mods;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Jobs;
@@ -18,7 +20,10 @@ public class GovernorshipTests {
 		countryCollection.Add(new Country(589));
 		
 		var areas = new AreaCollection();
-		irRegionMapper = new ImperatorRegionMapper(areas);
+		const string imperatorRoot = "TestFiles/Imperator/root";
+		ModFilesystem irModFS = new(imperatorRoot, Array.Empty<Mod>());
+		var irMapData = new MapData(irModFS);
+		irRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		
 		var region = new ImperatorRegion("galatia_region", new BufferedReader(string.Empty), Areas, new ColorFactory());
 		irRegionMapper.Regions.Add(region);

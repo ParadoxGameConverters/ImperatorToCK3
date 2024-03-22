@@ -1,13 +1,12 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
-using CsvHelper;
-using CsvHelper.Configuration;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
+using Microsoft.VisualBasic.FileIO;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -23,48 +22,40 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		LoadProvincesHistory(ck3ModFs);
 	}
 
-	private void LoadProvinceDefinitions(ModFilesystem ck3ModFs) {
+	private void LoadProvinceDefinitions(ModFilesystem ck3ModFs) { // TODO: get rid of this (duplicates functionality of ProvinceDefinitions class)
 		Logger.Info("Loading CK3 province definitions...");
 
 		var filePath = ck3ModFs.GetActualFileLocation("map_data/definition.csv");
 		if (filePath is null) {
 			throw new ConverterException("Province definitions file not found!");
 		}
-
-		var csvConfig = new CsvConfiguration(CultureInfo.InvariantCulture) {
-			Delimiter = ";",
-			HasHeaderRecord = false,
-			AllowComments = true,
-			TrimOptions = TrimOptions.Trim,
-			IgnoreBlankLines = true,
-			ShouldSkipRecord = (args => {
-				string? cell = args.Row[0];
-				if (cell is null) {
-					return true;
+		
+		int count = 0;
+		using (var parser = new TextFieldParser(filePath)) {
+			parser.TextFieldType = FieldType.Delimited;
+			parser.SetDelimiters(";");
+			parser.CommentTokens = ["#"];
+			parser.TrimWhiteSpace = true;
+			
+			while (!parser.EndOfData) {
+				string[]? fields = parser.ReadFields();
+				if (fields is null) {
+					continue;
 				}
 
-				cell = cell.Trim();
-				return cell.Length == 0 || cell[0] == '#';
-			}),
-		};
-		var provinceDefinition = new {
-			Id = default(ulong),
-		};
-		using var reader = new StreamReader(filePath);
-		using var csv = new CsvReader(reader, csvConfig);
-		var records = csv.GetRecords(provinceDefinition);
+				if (fields.Length < 1) {
+					continue;
+				}
+				
+				var id = ulong.Parse(fields[0]);
+				if (id == 0) {
+					continue;
+				}
 
-		var count = 0;
-		foreach (var record in records) {
-			var id = record.Id;
-			if (id == 0) {
-				continue;
+				AddOrReplace(new Province(id));
+				++count;
 			}
-
-			AddOrReplace(new Province(id));
-			++count;
 		}
-
 		Logger.Debug($"Loaded {count} province definitions.");
 	}
 

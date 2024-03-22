@@ -7,10 +7,10 @@ using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Legends;
-using ImperatorToCK3.CK3.Map;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Diplomacy;
@@ -137,7 +137,7 @@ public class World {
 		if (config.StaticDeJure) {
 			Logger.Info("Setting static de jure kingdoms and empires...");
 
-			Title.LandedTitles overrideTitles = new();
+			Title.LandedTitles overrideTitles = [];
 			overrideTitles.LoadStaticTitles();
 			Logger.Debug("Carving titles...");
 			LandedTitles.CarveTitles(overrideTitles);
@@ -268,9 +268,16 @@ public class World {
 		
 		LandedTitles.ImportDevelopmentFromImperator(Provinces, CorrectedDate, config.ImperatorCivilizationWorth);
 		LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
+		
+		// Apply region-specific tweaks.
+		HandleIcelandAndFaroeIslands(config);
+		
+		GenerateFillerHoldersForUnownedLands(Cultures, config);
+		Logger.IncrementProgress();
 		if (!config.StaticDeJure) {
-			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Provinces, Cultures);
+			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Cultures, Characters, MapData);
 		}
+		
 		Dynasties.SetCoasForRulingDynasties(LandedTitles, config.CK3BookmarkDate);
 
 		Characters.DistributeCountriesGold(LandedTitles, config);
@@ -278,9 +285,6 @@ public class World {
 
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		Characters.PurgeUnneededCharacters(LandedTitles, config.CK3BookmarkDate);
-
-		// Apply region-specific tweaks.
-		HandleIcelandAndFaroeIslands(config);
 		
 		// Check if any muslim religion exists in Imperator. Otherwise, remove Islam from the entire CK3 map.
 		var possibleMuslimReligionNames = new List<string> { "muslim", "islam", "sunni", "shiite" };
@@ -294,9 +298,6 @@ public class World {
 		Logger.IncrementProgress();
 
 		ImportImperatorWars(impWorld, config.CK3BookmarkDate);
-
-		GenerateFillerHoldersForUnownedLands(Cultures, config);
-		Logger.IncrementProgress();
 
 		var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
 		Religions.DetermineHolySites(Provinces, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
@@ -596,7 +597,7 @@ public class World {
 					UsePaganRulers();
 				} else {
 					Logger.Info("Giving Iceland and Faroe Islands to Papar...");
-					namePool = new Queue<string>(new[] { "Canann", "Petair", "Fergus" });
+					namePool = new Queue<string>(["Canann", "Petair", "Fergus"]);
 				}
 				break;
 			default:

@@ -3,6 +3,7 @@ using commonItems.Colors;
 using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
@@ -94,7 +95,8 @@ public class TitleMappingTests {
 		var irModFS = new ModFilesystem("TestFiles/Imperator/game", Array.Empty<Mod>());
 		var irAreas = new AreaCollection();
 		irAreas.LoadAreas(irModFS, irProvinces);
-		var irRegionMapper = new ImperatorRegionMapper(irAreas);
+		var irMapData = new MapData(irModFS);
+		var irRegionMapper = new ImperatorRegionMapper(irAreas, irMapData);
 		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 		const string irRegionId = "galatia_region";
 		Assert.True(irRegionMapper.RegionNameIsValid(irRegionId));

@@ -5,6 +5,7 @@ using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Armies;
@@ -44,8 +45,9 @@ public class World : Parser {
 	private PopCollection pops = new();
 	public ProvinceCollection Provinces { get; } = new();
 	public CountryCollection Countries { get; } = new();
+	public MapData MapData { get; private set; }
 	public AreaCollection Areas { get; } = new();
-	public ImperatorRegionMapper ImperatorRegionMapper { get; }
+	public ImperatorRegionMapper ImperatorRegionMapper { get; private set; }
 	public StateCollection States { get; } = new();
 	public IReadOnlyCollection<War> Wars { get; private set; } = Array.Empty<War>();
 	public IReadOnlyCollection<Dependency> Dependencies { get; private set; } = Array.Empty<Dependency>();
@@ -59,12 +61,15 @@ public class World : Parser {
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 	private SaveType saveType = SaveType.Invalid;
 
-	public World(Configuration config) {
+	protected World(Configuration config) {
 		ModFS = new ModFilesystem(Path.Combine(config.ImperatorPath, "game"), Array.Empty<Mod>());
+		MapData = new MapData(ModFS);
+		
 		Religions = new ReligionCollection(new ScriptValueCollection());
-		ImperatorRegionMapper = new ImperatorRegionMapper(Areas);
+		ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
 	}
-	public World(Configuration config, ConverterVersion converterVersion): this(config) {
+	
+	public World(Configuration config, ConverterVersion converterVersion) {
 		Logger.Info("*** Hello Imperator, Roma Invicta! ***");
 
 		var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
@@ -202,12 +207,12 @@ public class World : Parser {
 		});
 		RegisterKeyword("jobs", reader => {
 			Logger.Info("Loading Jobs...");
-			JobsDB = new Jobs.JobsDB(reader, Countries, ImperatorRegionMapper);
+			JobsDB = new Jobs.JobsDB(reader, Countries, ImperatorRegionMapper!);
 			Logger.Info($"Loaded {JobsDB.Governorships.Count} governorships.");
 			Logger.IncrementProgress();
 		});
 		RegisterKeyword("deity_manager", reader => {
-			Religions.LoadHolySiteDatabase(reader);
+			Religions!.LoadHolySiteDatabase(reader);
 		});
 		RegisterKeyword("meta_player_name", ParserHelpers.IgnoreItem);
 		RegisterKeyword("speed", ParserHelpers.IgnoreItem);
@@ -236,6 +241,20 @@ public class World : Parser {
 		Logger.Debug($"Ignored World tokens: {ignoredTokens}");
 		Logger.Info($"Player countries: {string.Join(", ", playerCountriesToLog)}");
 		Logger.IncrementProgress();
+		
+		// Throw exceptions if any important data is missing.
+		if (ModFS is null) {
+			throw new InvalidOperationException($"{nameof(ModFS)} is not initialized!");
+		}
+		if (MapData is null) {
+			throw new InvalidOperationException($"{nameof(MapData)} is not initialized!");
+		}
+		if (Religions is null) {
+			throw new InvalidOperationException($"{nameof(Religions)} is not initialized!");
+		}
+		if (ImperatorRegionMapper is null) {
+			throw new InvalidOperationException($"{nameof(ImperatorRegionMapper)} is not initialized!");
+		}
 
 		Logger.Info("*** Building World ***");
 
@@ -255,6 +274,7 @@ public class World : Parser {
 
 		Logger.Info("*** Good-bye Imperator, rest in peace. ***");
 	}
+
 	private void ParseGenes() {
 		Logger.Debug("Parsing genes...");
 		genesDB = new GenesDB(ModFS);
@@ -347,8 +367,11 @@ public class World : Parser {
 		Logger.IncrementProgress();
 
 		ParseGenes();
-
+		
+		MapData = new MapData(ModFS);
 		Areas.LoadAreas(ModFS, Provinces);
+		
+		ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
 		ImperatorRegionMapper.LoadRegions(ModFS, ColorFactory);
 		
 		Country.LoadGovernments(ModFS);

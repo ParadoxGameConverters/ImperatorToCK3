@@ -5,12 +5,14 @@ using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,7 +79,7 @@ public class ProvincesTests {
 		titles.LoadTitles(titlesReader);
 		
 		// Scenario 1: Sum of civilisation in country 1 outweighs single more civilized province in country 2.
-		var irWorld = new ImperatorToCK3.Imperator.World(config);
+		var irWorld = new TestImperatorWorld(config);
 		// Country 1 (civilisation 9 in total)
 		var country1 = new Country(1);
 		var irProvince1 = new ImperatorToCK3.Imperator.Provinces.Province(1) { CivilizationValue = 1, OwnerCountry = country1};
@@ -103,7 +105,7 @@ public class ProvincesTests {
 		var ck3RegionMapper = new CK3RegionMapper();
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irWorld.Provinces);
-		var irRegionMapper = new ImperatorRegionMapper(areas);
+		var irRegionMapper = new ImperatorRegionMapper(areas, new MapData(irModFS));
 		var colorFactory = new ColorFactory();
 		irRegionMapper.LoadRegions(irModFS, colorFactory);
 		var cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory, []), []);
