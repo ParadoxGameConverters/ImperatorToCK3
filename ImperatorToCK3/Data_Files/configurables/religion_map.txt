@@ -74,7 +74,7 @@ link = { ck3 = arabic_pagan ir = arabian_pantheon }
 # Hellenic - TFE
 link = { ck3 = roman_pagan ir = italic_pantheon }
 # Hellenic - Vanilla CK3
-link = {
+link = {  # TODO: Change this mapping. The Zoroastrian cult of Mithra is not the same as the Roman Mithraic Mysteries.
     ck3 = mithraic_mysteries
     ir = mithra_religion # from Invictus
 }

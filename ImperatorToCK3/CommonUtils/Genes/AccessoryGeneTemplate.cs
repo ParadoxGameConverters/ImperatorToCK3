@@ -33,4 +33,8 @@ public class AccessoryGeneTemplate : IIdentifiable<string> {
 		});
 		parser.IgnoreUnregisteredItems();
 	}
+
+	public bool ContainsObjectForAgeSex(string ageSex, string objectName) {
+		return AgeSexWeightBlocks.TryGetValue(ageSex, out var weightBlock) && weightBlock.ContainsObject(objectName);
+	}
 }
