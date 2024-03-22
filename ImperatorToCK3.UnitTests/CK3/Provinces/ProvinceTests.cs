@@ -6,6 +6,7 @@ using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.States;
@@ -26,6 +27,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces;
 public class ProvinceTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem IRModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(IRModFS);
 	private static readonly ImperatorRegionMapper IRRegionMapper;
 	private readonly Date ck3BookmarkDate = "476.1.1";
 	private readonly StateCollection states = new();
@@ -36,7 +38,7 @@ public class ProvinceTests {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
 		AreaCollection areas = new();
 		areas.LoadAreas(IRModFS, irProvinces);
-		IRRegionMapper = new ImperatorRegionMapper(areas);
+		IRRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		IRRegionMapper.LoadRegions(IRModFS, new ColorFactory());
 		
 		Countries.LoadCountries(new BufferedReader("1={}"));

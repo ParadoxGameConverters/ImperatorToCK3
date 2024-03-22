@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Cultures;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Mappers.Culture;
@@ -18,6 +19,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Culture;
 public class CultureMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(irModFS);
 	private static readonly ImperatorRegionMapper irRegionMapper;
 	private static readonly TestCK3CultureCollection cultures = new();
 	
@@ -25,7 +27,7 @@ public class CultureMapperTests {
 		var irProvinces = new ProvinceCollection {new(1), new(2), new(3)};
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);
-		irRegionMapper = new ImperatorRegionMapper(areas);
+		irRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 		
 		cultures.GenerateTestCulture("culture");

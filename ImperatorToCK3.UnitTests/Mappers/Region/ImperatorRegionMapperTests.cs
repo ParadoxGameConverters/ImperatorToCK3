@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Colors;
 using commonItems.Mods;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Provinces;
@@ -16,7 +17,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region;
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ImperatorRegionMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
-	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, System.Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(irModFS);
 	private readonly ProvinceCollection provinces = new();
 	private static readonly ColorFactory ColorFactory = new();
 
@@ -30,7 +32,7 @@ public class ImperatorRegionMapperTests {
 	public void RegionMapperCanBeEnabled() {
 		// We start humble, it's a machine.
 		var areas = new AreaCollection();
-		var irRegionMapper = new ImperatorRegionMapper(areas);
+		var irRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		irRegionMapper.LoadRegions(irModFS, ColorFactory);
 
 		Assert.False(irRegionMapper.ProvinceIsInRegion(1, "test"));
@@ -47,7 +49,7 @@ public class ImperatorRegionMapperTests {
 		var imperatorModFS = new ModFilesystem(imperatorRoot, mods);
 		var areas = new AreaCollection();
 
-		var irRegionMapper = new ImperatorRegionMapper(areas);
+		var irRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		Assert.Throws<KeyNotFoundException>(() => irRegionMapper.LoadRegions(imperatorModFS, ColorFactory));
 	}
 
@@ -59,7 +61,7 @@ public class ImperatorRegionMapperTests {
 		var irProvinces = new ProvinceCollection();
 		var areas = new AreaCollection();
 		areas.LoadAreas(imperatorModFS, irProvinces);
-		var theMapper = new ImperatorRegionMapper(areas);
+		var theMapper = new ImperatorRegionMapper(areas, irMapData);
 		theMapper.LoadRegions(imperatorModFS, ColorFactory);
 
 		Assert.True(theMapper.ProvinceIsInRegion(3, "test_area"));
@@ -74,7 +76,7 @@ public class ImperatorRegionMapperTests {
 		var irProvinces = new ProvinceCollection();
 		var areas = new AreaCollection();
 		areas.LoadAreas(imperatorModFS, irProvinces);
-		var theMapper = new ImperatorRegionMapper(areas);
+		var theMapper = new ImperatorRegionMapper(areas, irMapData);
 		theMapper.LoadRegions(irModFS, ColorFactory);
 
 		Assert.False(theMapper.ProvinceIsInRegion(3, "test_area2")); // province in different area
@@ -90,7 +92,7 @@ public class ImperatorRegionMapperTests {
 		var irProvinces = new ProvinceCollection();
 		var areas = new AreaCollection();
 		areas.LoadAreas(imperatorModFS, irProvinces);
-		var theMapper = new ImperatorRegionMapper(areas);
+		var theMapper = new ImperatorRegionMapper(areas, irMapData);
 		theMapper.LoadRegions(irModFS, ColorFactory);
 
 		Assert.False(theMapper.ProvinceIsInRegion(1, "nonsense"));
@@ -104,7 +106,7 @@ public class ImperatorRegionMapperTests {
 		var irProvinces = new ProvinceCollection();
 		var areas = new AreaCollection();
 		areas.LoadAreas(imperatorModFS, irProvinces);
-		var theMapper = new ImperatorRegionMapper(areas);
+		var theMapper = new ImperatorRegionMapper(areas, irMapData);
 		theMapper.LoadRegions(imperatorModFS, ColorFactory);
 
 		Assert.Equal("test_area", theMapper.GetParentAreaName(2));
@@ -117,11 +119,11 @@ public class ImperatorRegionMapperTests {
 	public void WrongParentLocationsReturnNull() {
 		const string imperatorPath = "TestFiles/ImperatorRegionMapper/test6";
 		var imperatorRoot = Path.Combine(imperatorPath, "game");
-		var imperatorModFS = new ModFilesystem(imperatorRoot, new List<Mod>());
+		var imperatorModFS = new ModFilesystem(imperatorRoot, []);
 		var irProvinces = new ProvinceCollection();
 		var areas = new AreaCollection();
 		areas.LoadAreas(imperatorModFS, irProvinces);
-		var theMapper = new ImperatorRegionMapper(areas);
+		var theMapper = new ImperatorRegionMapper(areas, irMapData);
 		theMapper.LoadRegions(irModFS, ColorFactory);
 
 		Assert.Null(theMapper.GetParentAreaName(5));
@@ -136,7 +138,7 @@ public class ImperatorRegionMapperTests {
 		var irProvinces = new ProvinceCollection();
 		var areas = new AreaCollection();
 		areas.LoadAreas(imperatorModFS, irProvinces);
-		var theMapper = new ImperatorRegionMapper(areas);
+		var theMapper = new ImperatorRegionMapper(areas, irMapData);
 		theMapper.LoadRegions(imperatorModFS, ColorFactory);
 
 		Assert.True(theMapper.RegionNameIsValid("test_area"));
@@ -155,7 +157,7 @@ public class ImperatorRegionMapperTests {
 		var irProvinces = new ProvinceCollection();
 		var areas = new AreaCollection();
 		areas.LoadAreas(imperatorModFS, irProvinces);
-		var theMapper = new ImperatorRegionMapper(areas);
+		var theMapper = new ImperatorRegionMapper(areas, irMapData);
 		theMapper.LoadRegions(imperatorModFS, ColorFactory);
 
 		Assert.False(theMapper.RegionNameIsValid("vanilla_area")); // present only in vanilla file which is overriden by mod

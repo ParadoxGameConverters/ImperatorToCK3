@@ -7,3 +7,6 @@
  heritage_byzantine: "Hellenistic"
  heritage_byzantine_name: "Hellenistic"
  heritage_byzantine_collective_noun: "Hellenists"
+ # "Hispania" is a Roman name for the Iberian Peninsula.
+ e_spain: "Iberia"
+ e_spain_adj: "Iberian"
