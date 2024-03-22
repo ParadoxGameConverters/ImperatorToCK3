@@ -164,27 +164,27 @@ public sealed class DNAFactory {
 			case "eyepatch_2": // TODO: check if this is correctly added to portrait modifiers if needed
 				var eyePatchTemplate = ck3GenesDB.SpecialAccessoryGenes["special_headgear_eye_patch"]
 					.GeneTemplates["eye_patch"];
-				if (eyePatchTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? eyePatchWeighBlock)) {
-					var eyePatchObjectName = eyePatchWeighBlock.GetMatchingObject(1) ?? eyePatchWeighBlock.ObjectNames.Last();
-					accessoryDNAValues["special_headgear_eye_patch"] = new(eyePatchTemplate.Id, eyePatchObjectName, eyePatchWeighBlock);
+				if (eyePatchTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? eyePatchWeightBlock)) {
+					var eyePatchObjectName = eyePatchWeightBlock.GetMatchingObject(1) ?? eyePatchWeightBlock.ObjectNames.Last();
+					accessoryDNAValues["special_headgear_eye_patch"] = new(eyePatchTemplate.Id, eyePatchObjectName, eyePatchWeightBlock);
 				}
 
 				break;
 			case "blindfold_1": // TODO: check if this is correctly added to portrait modifiers if needed
 				var blindfoldTemplate = ck3GenesDB.SpecialAccessoryGenes["special_headgear_blindfold"]
 					.GeneTemplates["blindfold"];
-				if (blindfoldTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? blindfoldWeighBlock)) {
-					var blindfoldObjectName = blindfoldWeighBlock.GetMatchingObject(1) ?? blindfoldWeighBlock.ObjectNames.Last();
-					accessoryDNAValues["special_headgear_blindfold"] = new(blindfoldTemplate.Id, blindfoldObjectName, blindfoldWeighBlock);
+				if (blindfoldTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? blindfoldWeightBlock)) {
+					var blindfoldObjectName = blindfoldWeightBlock.GetMatchingObject(1) ?? blindfoldWeightBlock.ObjectNames.Last();
+					accessoryDNAValues["special_headgear_blindfold"] = new(blindfoldTemplate.Id, blindfoldObjectName, blindfoldWeightBlock);
 				}
 
 				break;
 			case "blind_eyes": // TODO: check if this is correctly added to portrait modifiers if needed
 				var blindEyesTemplate = ck3GenesDB.AccessoryGenes["eye_accessory"]
 					.GeneTemplates["blind_eyes"];
-				if (blindEyesTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? blindEyesWeighBlock)) {
-					var blindEyesObjectName = blindEyesWeighBlock.GetMatchingObject(1) ?? blindEyesWeighBlock.ObjectNames.Last();
-					accessoryDNAValues["eye_accessory"] = new(blindEyesTemplate.Id, blindEyesObjectName, blindEyesWeighBlock);
+				if (blindEyesTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? blindEyesWeightBlock)) {
+					var blindEyesObjectName = blindEyesWeightBlock.GetMatchingObject(1) ?? blindEyesWeightBlock.ObjectNames.Last();
+					accessoryDNAValues["eye_accessory"] = new(blindEyesTemplate.Id, blindEyesObjectName, blindEyesWeightBlock);
 				}
 
 				break;
