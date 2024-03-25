@@ -22,8 +22,12 @@ using ImperatorToCK3.Mappers.Region;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
 using Mods = System.Collections.Generic.List<commonItems.Mods.Mod>;
 using Parser = commonItems.Parser;
 
@@ -68,9 +72,155 @@ public class World : Parser {
 		Religions = new ReligionCollection(new ScriptValueCollection());
 		ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
 	}
+
+	
+	private static void OutputGuiContainer(Configuration config, ModFilesystem modFS, List<string> tagsNeedingFlags) {
+		// Create scripted GUI.
+		var scriptedGuisLocation = modFS.GetActualFolderLocation("common/scripted_guis");
+		if (scriptedGuisLocation is null) {
+			Logger.Warn("Failed to find Imperator common/scripted_guis folder, can't write CoA export commands!");
+			return;
+		}
+
+		string sguiPath = Path.Combine(scriptedGuisLocation, "IRToCK3_dump_coas.txt");
+		Logger.Debug($"Writing scripted GUI to \"{sguiPath}\"...");
+		try {
+			File.WriteAllText(sguiPath, """
+				IRToCK3_dump_coas_sgui = {
+					scope = character
+
+					is_valid = { always = yes }
+					is_shown = { always = yes }
+				}
+			""", new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
+		} catch (Exception e) {
+			Logger.Warn($"Failed to write scripted GUI to {sguiPath}: {e.Message}");
+			return;
+		}
+		
+		const string relativeTopBarGuiPath = "gui/ingame_topbar.gui";
+		var topBarGuiPath = modFS.GetActualFileLocation(relativeTopBarGuiPath);
+		if (topBarGuiPath is null) {
+			Logger.Warn($"{relativeTopBarGuiPath} not found, can't write CoA export commands!");
+			return;
+		}
+
+		string originalGuiText = File.ReadAllText(topBarGuiPath);
+
+		string modifiedGuiText = originalGuiText.TrimEnd().TrimEnd('}');
+		modifiedGuiText += "\tcontainer={\n";
+		modifiedGuiText += "\t\tname=\"IRToCK3_dump_coas_container\"\n";
+		modifiedGuiText += "\t\tdatacontext=\"[GetScriptedGui('IRToCK3_dump_coas_sgui')]\"\n";
+		modifiedGuiText += "\t\tvisible=yes\n";
+		const float duration = 0.01f;
+		int state = 0;
+		string commandsString = string.Join(';', tagsNeedingFlags.Select(tag => $"coat_of_arms {tag}"));
+		modifiedGuiText += $"\t\tstate = {{ name=_show next=state{state} on_finish=\"[ExecuteConsoleCommands('{commandsString}')]\" duration={duration} }}\n";
+		modifiedGuiText += "\t}\n";
+		modifiedGuiText += "}\n";
+
+		Logger.Debug($"Writing modified GUI to \"{topBarGuiPath}\"...");
+		try {
+			File.WriteAllText(topBarGuiPath, modifiedGuiText);
+		} catch (Exception e) {
+			Logger.Warn($"Failed to write GUI to {topBarGuiPath}: {e.Message}");
+			return;
+		}
+
+
+
+		// TODO: MOVE THE I:R LAUNCHING CODE TO A SEPARATE FUNCTION
+
+		// TODO: SET THE CURRENT SAVE TO BE USED IN continuelastsave
+
+		var imperatorBinaryPath = Path.Combine(config.ImperatorPath, "binaries/imperator.exe");
+		if (!File.Exists(imperatorBinaryPath)) {
+			Logger.Error("Imperator binary not found! Aborting!");
+		}
+		
+		Logger.Notice("The converter will now launch Imperator to export country flags. Please don't touch the Imperator window until it closes...");
+		Thread.Sleep(5000);
+
+		var processStartInfo = new ProcessStartInfo {
+			FileName = imperatorBinaryPath, 
+			Arguments = "-continuelastsave -debug_mode",
+			CreateNoWindow = true,
+			RedirectStandardOutput = true
+		};
+		var imperatorProcess = Process.Start(processStartInfo);
+		if (imperatorProcess is null) {
+			Logger.Error("Failed to start Imperator process! Aborting!");
+			return;
+		}
+		imperatorProcess.Exited += (sender, args) => {
+			Logger.Error("Imperator process exited unexpectedly! Aborting!");
+		};
+		
+		
+		// WAIT UNTIL THE IMPERATOR finishes loading.
+		Logger.Debug("Waiting for Imperator process to load savegame...");
+		while (true) {
+			var line = imperatorProcess.StandardOutput.ReadLine();
+			if (line is null) {
+				continue;
+			}
+			if (line.Contains("Updating cached data done")) {
+				break;
+			}
+			Logger.Debug(line);
+		}
+
+		Logger.Notice("Imperator process loaded savegame.");
+
+
+		// TODO: IN THE END, RESTORE THE ORIGINAL GUI TEXT
+	}
+
+
 	
 	public World(Configuration config, ConverterVersion converterVersion) {
 		Logger.Info("*** Hello Imperator, Roma Invicta! ***");
+		
+		// var imperatorBinaryPath = Path.Combine(config.ImperatorPath, "binaries/imperator.exe");
+		// if (!File.Exists(imperatorBinaryPath)) {
+		// 	Logger.Error("Imperator binary not found! Aborting!");
+		// }
+		
+		// Logger.Notice("The converter will now launch Imperator to export country flags. Please don't touch the Imperator window until it closes...");
+		// Thread.Sleep(5000);
+
+		// var processStartInfo = new ProcessStartInfo {
+		// 	FileName = imperatorBinaryPath, 
+		// 	Arguments = "-continuelastsave -debug_mode",
+		// 	CreateNoWindow = true,
+		// 	RedirectStandardOutput = true
+		// };
+		// var imperatorProcess = Process.Start(processStartInfo);
+		// if (imperatorProcess is null) {
+		// 	Logger.Error("Failed to start Imperator process! Aborting!");
+		// 	return;
+		// }
+		// imperatorProcess.Exited += (sender, args) => {
+		// 	Logger.Error("Imperator process exited unexpectedly! Aborting!");
+		// };
+		
+		
+		// // WAIT UNTIL THE IMPERATOR finishes loading.
+		// Logger.Debug("Waiting for Imperator process to load savegame...");
+		// while (true) {
+		// 	var line = imperatorProcess.StandardOutput.ReadLine();
+		// 	if (line is null) {
+		// 		continue;
+		// 	}
+		// 	if (line.Contains("Updating cached data done")) {
+		// 		break;
+		// 	}
+		// 	Logger.Debug(line);
+		// }
+
+		// Logger.Notice("Imperator process loaded savegame.");
+		
+		// throw new NotImplementedException("TODO: REMOVE ME");
 
 		var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
 
@@ -123,6 +273,9 @@ public class World : Parser {
 			ModLoader modLoader = new();
 			modLoader.LoadMods(config.ImperatorDocPath, incomingMods);
 			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
+
+			OutputGuiContainer(config, ModFS, ["ROM", "CAR", "EGY"]); // TODO: REMOVE THIS FROM HERE
+			throw new NotImplementedException("TODO: REMOVE ME");
 
 			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
 			LoadModFilesystemDependentData();
