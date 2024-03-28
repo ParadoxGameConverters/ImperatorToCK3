@@ -139,9 +139,13 @@ public class TagTitleMapper {
 		var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
 		
 		foreach (var county in titles.Where(t => t.Rank == TitleRank.county)) {
-			ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvinceId!;
+			if (!county.CapitalBaronyProvinceId.HasValue) {
+				// Title has no capital barony province.
+				continue;
+			}
+			ulong capitalBaronyProvinceId = county.CapitalBaronyProvinceId.Value;
 			if (capitalBaronyProvinceId == 0) {
-				// title's capital province has an invalid ID (0 is not a valid province in CK3)
+				// Title's capital province has an invalid ID (0 is not a valid province in CK3)
 				continue;
 			}
 
