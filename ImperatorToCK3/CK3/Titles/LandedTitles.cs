@@ -44,10 +44,7 @@ public partial class Title {
 
 			var parser = new Parser();
 			RegisterKeys(parser);
-
-			var landedTitlesPath = Path.Combine("common", "landed_titles");
-			parser.ParseGameFolder(landedTitlesPath, ck3ModFS, "txt", true);
-
+			parser.ParseGameFolder("common/landed_titles", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 			LogIgnoredTokens();
 
 			Logger.IncrementProgress();
