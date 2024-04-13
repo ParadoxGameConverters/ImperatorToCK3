@@ -8,19 +8,23 @@ namespace ImperatorToCK3.Imperator.Inventions;
 
 public class InventionsDB {
 	private readonly OrderedSet<string> inventions = [];
-	private static readonly Parser parser = new();
-
-	public InventionsDB() {
-		parser.RegisterRegex(CommonRegexes.String, (reader, inventionId) => {
+	
+	public void LoadInventions(ModFilesystem irModFS) {
+		var inventionsParser = new Parser();
+		inventionsParser.RegisterKeyword("technology", ParserHelpers.IgnoreItem);
+		inventionsParser.RegisterKeyword("color", ParserHelpers.IgnoreItem);
+		inventionsParser.RegisterRegex(CommonRegexes.String, (reader, inventionId) => {
 			inventions.Add(inventionId);
 			ParserHelpers.IgnoreItem(reader);
 		});
-		parser.IgnoreAndLogUnregisteredItems();
-	}
-	
-	public void LoadInventions(ModFilesystem irModFS) {
+		inventionsParser.IgnoreAndLogUnregisteredItems();
+		
+		var inventionGroupsParser = new Parser();
+		inventionGroupsParser.RegisterRegex(CommonRegexes.String, reader => inventionsParser.ParseStream(reader));
+		inventionGroupsParser.IgnoreAndLogUnregisteredItems();
+		
 		Logger.Info("Loading Imperator inventions...");
-		parser.ParseGameFolder("common/inventions", irModFS, "txt", recursive: true);
+		inventionGroupsParser.ParseGameFolder("common/inventions", irModFS, "txt", recursive: true);
 	}
 
 	public IEnumerable<string> GetActiveInventionIds(IList<bool> booleans) {

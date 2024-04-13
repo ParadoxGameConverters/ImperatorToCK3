@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CommonUtils;
@@ -90,6 +90,7 @@ public partial class Country {
 		parser.RegisterKeyword("active_inventions", reader => {
 			parsedCountry.inventionBooleans.AddRange(reader.GetInts().Select(i => i != 0));
 		});
+		parser.RegisterKeyword("mark_invention", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("ruler_term", reader => parsedCountry.RulerTerms.Add(RulerTerm.Parse(reader)));
 		parser.RegisterRegex(monarchyLawRegexStr, reader => parsedCountry.monarchyLaws.Add(reader.GetString()));
 		parser.RegisterRegex(republicLawRegexStr, reader => parsedCountry.republicLaws.Add(reader.GetString()));

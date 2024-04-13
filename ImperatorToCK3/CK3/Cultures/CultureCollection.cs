@@ -151,6 +151,12 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.ParseGameFolder("common/culture/name_lists", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 	}
 
+	public void ImportTechnology() {
+		// TODO: use this in CK3 world
+		
+		
+	}
+
 	private readonly IDictionary<string, string> cultureReplacements = new Dictionary<string, string>(); // replaced culture -> replacing culture
 	
 	protected readonly PillarCollection PillarCollection;

@@ -195,7 +195,15 @@ public class World : Parser {
 			Logger.IncrementProgress();
 
 			foreach (var country in Countries) { // TODO: REMOVE THIS
-				Logger.Error($"Country {country.Tag} has the following invention IDs: {string.Join(", ", country.GetActiveInventionIds(InventionsDB))}");
+				if (country.Tag != "PRY") {
+					continue;
+				}
+				var activeInventions = country.GetActiveInventionIds(InventionsDB);
+				
+				Logger.Error($"Country {country.Tag} has the following invention IDs: {string.Join(", ", activeInventions)}");
+				
+				var localizedInventions = activeInventions.Select(inventionId => LocDB.GetLocBlockForKey(inventionId)[ConverterGlobals.PrimaryLanguage]).ToList();
+				Logger.Error($"Country {country.Tag} has the following invention names: {string.Join(", ", localizedInventions)}");
 			}
 		});
 		RegisterKeyword("population", reader => {
@@ -366,7 +374,6 @@ public class World : Parser {
 
 		Defines.LoadDefines(ModFS);
 		
-		Logger.Info("Loading inventions...");
 		InventionsDB.LoadInventions(ModFS);
 
 		Logger.Info("Loading named colors...");
