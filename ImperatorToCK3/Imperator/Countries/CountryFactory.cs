@@ -2,6 +2,7 @@
 using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CommonUtils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -86,6 +87,9 @@ public partial class Country {
 		parser.RegisterKeyword("family", reader => parsedCountry.parsedFamilyIds.Add(reader.GetULong()));
 		parser.RegisterKeyword("minor_family", reader => parsedCountry.parsedFamilyIds.Add(reader.GetULong()));
 		parser.RegisterKeyword("monarch", reader => parsedCountry.monarchId = reader.GetULong());
+		parser.RegisterKeyword("active_inventions", reader => {
+			parsedCountry.inventionBooleans.AddRange(reader.GetInts().Select(i => i != 0));
+		});
 		parser.RegisterKeyword("ruler_term", reader => parsedCountry.RulerTerms.Add(RulerTerm.Parse(reader)));
 		parser.RegisterRegex(monarchyLawRegexStr, reader => parsedCountry.monarchyLaws.Add(reader.GetString()));
 		parser.RegisterRegex(republicLawRegexStr, reader => parsedCountry.republicLaws.Add(reader.GetString()));

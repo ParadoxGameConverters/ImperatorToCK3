@@ -14,6 +14,7 @@ using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Geography;
+using ImperatorToCK3.Imperator.Inventions;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
@@ -56,6 +57,7 @@ public class World : Parser {
 	public CulturesDB CulturesDB { get; } = new();
 	public ReligionCollection Religions { get; private set; }
 	private GenesDB genesDB = new();
+	public InventionsDB InventionsDB { get; } = new();
 	public ColorFactory ColorFactory { get; } = new();
 
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
@@ -191,6 +193,10 @@ public class World : Parser {
 			Countries.LoadCountriesFromBloc(reader);
 			Logger.Info($"Loaded {Countries.Count} countries.");
 			Logger.IncrementProgress();
+
+			foreach (var country in Countries) { // TODO: REMOVE THIS
+				Logger.Error($"Country {country.Tag} has the following invention IDs: {string.Join(", ", country.GetActiveInventionIds(InventionsDB))}");
+			}
 		});
 		RegisterKeyword("population", reader => {
 			Logger.Info("Loading pops...");
@@ -359,6 +365,9 @@ public class World : Parser {
 		Logger.IncrementProgress();
 
 		Defines.LoadDefines(ModFS);
+		
+		Logger.Info("Loading inventions...");
+		InventionsDB.LoadInventions(ModFS);
 
 		Logger.Info("Loading named colors...");
 		NamedColors.LoadNamedColors("common/named_colors", ModFS);
