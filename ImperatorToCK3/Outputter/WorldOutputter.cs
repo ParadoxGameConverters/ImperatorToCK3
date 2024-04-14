@@ -42,7 +42,7 @@ public static class WorldOutputter {
 		Logger.IncrementProgress();
 
 		PillarOutputter.OutputPillars(outputName, ck3World.CulturalPillars);
-		CulturesOutputter.OutputCultures(outputName, ck3World.Cultures);
+		CulturesOutputter.OutputCultures(outputName, ck3World.Cultures, ck3World.CorrectedDate);
 
 		ReligionsOutputter.OutputHolySites(outputName, ck3World.Religions);
 		ReligionsOutputter.OutputReligions(outputName, ck3World.Religions);
@@ -192,6 +192,7 @@ public static class WorldOutputter {
 
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "titles"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "characters"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "cultures"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "provinces"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "province_mapping"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "struggles"));

@@ -448,8 +448,12 @@ public sealed class MapData {
 				if (toStr == "-1") {
 					continue;
 				}
-				
-				AddAdjacency(ulong.Parse(fromStr, CultureInfo.InvariantCulture), ulong.Parse(toStr, CultureInfo.InvariantCulture));
+
+				if (!ulong.TryParse(fromStr, out var from) || !ulong.TryParse(toStr, out var to)) {
+					continue;
+				}
+
+				AddAdjacency(from, to);
 				++count;
 			}
 		}
