@@ -28,15 +28,15 @@ public class InnovationMapper {
 		return ck3Innovations;
 	}
 
-	public IDictionary<string, double> GetInnovationProgresses(ICollection<string> irInventions) { // TODO: USE THIS
-		Dictionary<string, double> progressesToReturn = [];
+	public IDictionary<string, ushort> GetInnovationProgresses(ICollection<string> irInventions) { // TODO: USE THIS
+		Dictionary<string, ushort> progressesToReturn = [];
 		foreach (var bonus in innovationBonuses) {
 			var innovationProgress = bonus.GetProgress(irInventions);
 			if (!innovationProgress.HasValue) {
 				continue;
 			}
 			
-			if (progressesToReturn.TryGetValue(innovationProgress.Value.Key, out double currentValue)) {
+			if (progressesToReturn.TryGetValue(innovationProgress.Value.Key, out ushort currentValue)) {
 				// Only the highest progress should be kept.
 				if (currentValue < innovationProgress.Value.Value) {
 					progressesToReturn[innovationProgress.Value.Key] = innovationProgress.Value.Value;

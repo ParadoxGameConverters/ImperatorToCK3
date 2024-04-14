@@ -193,18 +193,6 @@ public class World : Parser {
 			Countries.LoadCountriesFromBloc(reader);
 			Logger.Info($"Loaded {Countries.Count} countries.");
 			Logger.IncrementProgress();
-
-			foreach (var country in Countries) { // TODO: REMOVE THIS
-				if (country.Tag != "PRY") {
-					continue;
-				}
-				var activeInventions = country.GetActiveInventionIds(InventionsDB);
-				
-				Logger.Error($"Country {country.Tag} has the following invention IDs: {string.Join(", ", activeInventions)}");
-				
-				var localizedInventions = activeInventions.Select(inventionId => LocDB.GetLocBlockForKey(inventionId)[ConverterGlobals.PrimaryLanguage]).ToList();
-				Logger.Error($"Country {country.Tag} has the following invention names: {string.Join(", ", localizedInventions)}");
-			}
 		});
 		RegisterKeyword("population", reader => {
 			Logger.Info("Loading pops...");

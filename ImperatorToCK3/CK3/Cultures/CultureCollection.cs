@@ -159,10 +159,11 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	private string? GetCK3CultureIdForImperatorCountry(Country country, CultureMapper cultureMapper, ProvinceMapper provinceMapper) {
 		var irCulture = country.PrimaryCulture ?? country.Monarch?.Culture;
 		if (irCulture is null) {
+			Logger.Warn($"Failed to get primary or monarch culture for Imperator country {country.Tag}!");
 			return null;
 		}
-		
-		var irProvinceId = country.CapitalProvinceId;
+
+		ulong? irProvinceId = country.CapitalProvinceId ?? country.Monarch?.ProvinceId;
 		ulong? ck3ProvinceId = null;
 		if (irProvinceId.HasValue) {
 			ck3ProvinceId = provinceMapper.GetCK3ProvinceNumbers(irProvinceId.Value).FirstOrDefault();
@@ -171,11 +172,11 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		return cultureMapper.Match(irCulture, ck3ProvinceId, irProvinceId, country.HistoricalTag);
 	}
 
-	public void ImportTechnology(CountryCollection countries, CultureMapper cultureMapper, ProvinceMapper provinceMapper, InventionsDB inventionsDB) {
+	public void ImportTechnology(CountryCollection countries, CultureMapper cultureMapper, ProvinceMapper provinceMapper, InventionsDB inventionsDB) { // TODO: test this
 		Logger.Info("Converting Imperator inventions to CK3 innovations...");
 		
-		var mapper = new InnovationMapper();
-		mapper.LoadLinksAndBonuses("configurables/inventions_to_innovations_map.txt");
+		var innovationMapper = new InnovationMapper();
+		innovationMapper.LoadLinksAndBonuses("configurables/inventions_to_innovations_map.txt");
 		
 		// Group I:R countries by corresponding CK3 culture.
 		var countriesByCulture = countries.Select(c => new {
@@ -185,18 +186,16 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 			.GroupBy(c => c.CK3CultureId);
 		
 		foreach (var grouping in countriesByCulture) {
-			var irInventions = grouping.SelectMany(c => c.Country.GetActiveInventionIds(inventionsDB))
-				.ToHashSet();
-			
-			var ck3Innovations = mapper.GetInnovations(irInventions);
-			Logger.Error($"Culture {grouping.Key} has CK3 innovations from Imperator: {string.Join(", ", ck3Innovations)}");
-			// TODO: OUTPUT INNOVATIONS TO CULTURE HISTORY
-			
-			var innovationProgresses = mapper.GetInnovationProgresses(irInventions);
-			Logger.Error($"Culture {grouping.Key} has CK3 innovation progresses: {string.Join(", ", innovationProgresses.Keys)}"); // TODO: REMOVE THIS
-			// TODO: OUTPUT PROGRESSES TO CULTURE HISTORY
-		}
+			if (!TryGetValue(grouping.Key!, out var culture)) {
+				Logger.Warn($"Can't import technology for culture {grouping.Key}: culture not found in CK3 cultures!");
+				continue;
+			}
 
+			var irInventions = grouping
+				.SelectMany(c => c.Country.GetActiveInventionIds(inventionsDB))
+				.ToHashSet();
+			culture.ImportInnovationsFromImperator(irInventions, innovationMapper);
+		}
 	}
 
 	private readonly IDictionary<string, string> cultureReplacements = new Dictionary<string, string>(); // replaced culture -> replacing culture
