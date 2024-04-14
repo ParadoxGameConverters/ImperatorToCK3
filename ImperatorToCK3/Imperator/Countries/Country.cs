@@ -2,6 +2,7 @@
 using commonItems.Colors;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Families;
+using ImperatorToCK3.Imperator.Inventions;
 using ImperatorToCK3.Imperator.Provinces;
 using System.Collections.Generic;
 
@@ -46,6 +47,7 @@ public partial class Country : IIdentifiable<ulong> {
 	private readonly HashSet<ulong> parsedFamilyIds = [];
 	public IDictionary<ulong, Family> Families { get; private set; } = new Dictionary<ulong, Family>();
 	private readonly HashSet<Province> ownedProvinces = [];
+	private readonly List<bool> inventionBooleans = [];
 
 	public CK3.Titles.Title? CK3Title { get; set; }
 
@@ -102,5 +104,9 @@ public partial class Country : IIdentifiable<ulong> {
 		if (parsedOriginCountryId != null && countries.TryGetValue((ulong)parsedOriginCountryId, out var originCountry)) {
 			OriginCountry = originCountry;
 		}
+	}
+
+	public IEnumerable<string> GetActiveInventionIds(InventionsDB inventionsDB) {
+		return inventionsDB.GetActiveInventionIds(inventionBooleans);
 	}
 }
