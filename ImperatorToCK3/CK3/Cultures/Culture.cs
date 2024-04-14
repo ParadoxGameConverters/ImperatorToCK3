@@ -24,7 +24,7 @@ public sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 	private readonly List<KeyValuePair<string, StringOfItem>> attributes;
 	public IReadOnlyCollection<KeyValuePair<string, StringOfItem>> Attributes => attributes;
 
-	private readonly List<string> innovationsFromImperator = [];
+	private readonly OrderedSet<string> innovationsFromImperator = [];
 	private readonly Dictionary<string, ushort> innovationProgressesFromImperator = [];
 	
 	public Culture(string id, CultureData cultureData) {
@@ -94,7 +94,16 @@ public sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 
 	public void ImportInnovationsFromImperator(ISet<string> irInventions, InnovationMapper innovationMapper) {
 		innovationsFromImperator.AddRange(innovationMapper.GetInnovations(irInventions));
-		innovationProgressesFromImperator.AddRange(innovationMapper.GetInnovationProgresses(irInventions));
+		
+		var progresses = innovationMapper.GetInnovationProgresses(irInventions);
+		foreach (var (innovationId, progress) in progresses) {
+			// If progress is 100 or more, the innovation can be considered discovered.
+			if (progress >= 100) {
+				innovationsFromImperator.Add(innovationId);
+			} else {
+				innovationProgressesFromImperator[innovationId] = progress;
+			}
+		}
 	}
 
 	public IEnumerable<string> MaleNames => NameLists.SelectMany(l => l.MaleNames);
