@@ -15,7 +15,7 @@ public class InnovationMapper {
 		parser.ParseFile(configurablePath);
 	}
 
-	public IList<string> GetInnovations(IEnumerable<string> irInventions) { // TODO: USE THIS
+	public IList<string> GetInnovations(IEnumerable<string> irInventions) {
 		var ck3Innovations = new List<string>();
 		foreach (var irInvention in irInventions) {
 			foreach (var link in innovationLinks) {
@@ -28,7 +28,7 @@ public class InnovationMapper {
 		return ck3Innovations;
 	}
 
-	public IDictionary<string, ushort> GetInnovationProgresses(ICollection<string> irInventions) { // TODO: USE THIS
+	public IDictionary<string, ushort> GetInnovationProgresses(ICollection<string> irInventions) {
 		Dictionary<string, ushort> progressesToReturn = [];
 		foreach (var bonus in innovationBonuses) {
 			var innovationProgress = bonus.GetProgress(irInventions);
