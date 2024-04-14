@@ -183,8 +183,10 @@ public class World {
 				Logger.Warn($"No base mapping found for I:R culture {irCultureId}!");
 			}
 		}
+		
+		Cultures.ImportTechnology(impWorld.Countries, cultureMapper, provinceMapper, impWorld.InventionsDB);
 
-		var traitMapper = new TraitMapper(Path.Combine("configurables", "trait_map.txt"), ModFS);
+		var traitMapper = new TraitMapper("configurables/trait_map.txt", ModFS);
 
 		Logger.Info("Initializing DNA factory...");
 		var dnaFactory = new DNAFactory(impWorld.ModFS, ModFS);

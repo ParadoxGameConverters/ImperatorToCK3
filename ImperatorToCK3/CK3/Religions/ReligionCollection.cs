@@ -319,7 +319,11 @@ public class ReligionCollection(Title.LandedTitles landedTitles) : IdObjectColle
 		}
 		var holderId = title.GetHolderId(date);
 		if (holderId != "0") {
-			var holder = characters[holderId];
+			if (!characters.TryGetValue(holderId, out var holder)) {
+				Logger.Warn($"Religious head {holderId} of title {title.Id} for {faith.Id} not found!");
+				return;
+			}
+			
 			var holderDeathDate = holder.DeathDate;
 			if (holderDeathDate is null || holderDeathDate > date) {
 				return;
