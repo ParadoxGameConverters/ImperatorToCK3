@@ -15,6 +15,10 @@ public sealed class InnovationBonus { // TODO: add tests
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(bonusReader);
 		
+		if (ck3Innovation is null) {
+			Logger.Warn($"Innovation bonus from {string.Join(", ", imperatorInventions)} has no CK3 innovation.");
+		}
+		
 		// A bonus should have at most 3 inventions.
 		if (imperatorInventions.Count > 3) {
 			Logger.Warn($"Innovation bonus for {ck3Innovation} has more than 3 inventions: {string.Join(", ", imperatorInventions)}");
@@ -30,6 +34,10 @@ public sealed class InnovationBonus { // TODO: add tests
 		int progress = activeInventions
 			.Where(invention => imperatorInventions.Contains(invention))
 			.Sum(invention => 25);
+		if (progress == 0) {
+			return null;
+		}
+		
 		return new(ck3Innovation, (ushort)progress);
 	}
 }
