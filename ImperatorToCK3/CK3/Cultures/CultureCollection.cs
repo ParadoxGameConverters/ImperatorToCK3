@@ -4,6 +4,11 @@ using commonItems.Colors;
 using commonItems.Mods;
 using Fernandezja.ColorHashSharp;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Inventions;
+using ImperatorToCK3.Mappers.Culture;
+using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Technology;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -151,10 +156,47 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.ParseGameFolder("common/culture/name_lists", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 	}
 
-	public void ImportTechnology() {
-		// TODO: use this in CK3 world
+	private string? GetCK3CultureIdForImperatorCountry(Country country, CultureMapper cultureMapper, ProvinceMapper provinceMapper) {
+		var irCulture = country.PrimaryCulture ?? country.Monarch?.Culture;
+		if (irCulture is null) {
+			return null;
+		}
 		
+		var irProvinceId = country.CapitalProvinceId;
+		ulong? ck3ProvinceId = null;
+		if (irProvinceId.HasValue) {
+			ck3ProvinceId = provinceMapper.GetCK3ProvinceNumbers(irProvinceId.Value).FirstOrDefault();
+		}
 		
+		return cultureMapper.Match(irCulture, ck3ProvinceId, irProvinceId, country.HistoricalTag);
+	}
+
+	public void ImportTechnology(CountryCollection countries, CultureMapper cultureMapper, ProvinceMapper provinceMapper, InventionsDB inventionsDB) {
+		Logger.Info("Converting Imperator inventions to CK3 innovations...");
+		
+		var mapper = new InnovationMapper();
+		mapper.LoadLinksAndBonuses("configurables/inventions_to_innovations_map.txt");
+		
+		// Group I:R countries by corresponding CK3 culture.
+		var countriesByCulture = countries.Select(c => new {
+				Country = c, CK3CultureId = GetCK3CultureIdForImperatorCountry(c, cultureMapper, provinceMapper),
+			})
+			.Where(c => c.CK3CultureId is not null)
+			.GroupBy(c => c.CK3CultureId);
+		
+		foreach (var grouping in countriesByCulture) {
+			var irInventions = grouping.SelectMany(c => c.Country.GetActiveInventionIds(inventionsDB))
+				.ToHashSet();
+			
+			var ck3Innovations = mapper.GetInnovations(irInventions);
+			Logger.Error($"Culture {grouping.Key} has CK3 innovations from Imperator: {string.Join(", ", ck3Innovations)}");
+			// TODO: OUTPUT INNOVATIONS TO CULTURE HISTORY
+			
+			var innovationProgresses = mapper.GetInnovationProgresses(irInventions);
+			Logger.Error($"Culture {grouping.Key} has CK3 innovation progresses: {string.Join(", ", innovationProgresses.Keys)}"); // TODO: REMOVE THIS
+			// TODO: OUTPUT PROGRESSES TO CULTURE HISTORY
+		}
+
 	}
 
 	private readonly IDictionary<string, string> cultureReplacements = new Dictionary<string, string>(); // replaced culture -> replacing culture

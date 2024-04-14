@@ -2,9 +2,7 @@ using commonItems;
 
 namespace ImperatorToCK3.Mappers.Technology;
 
-public class InnovationLink {
-	// TODO: use this class
-	
+public sealed class InnovationLink { // TODO: ADD TESTS
 	private string? imperatorInvention;
 	private string? ck3Innovation;
 	

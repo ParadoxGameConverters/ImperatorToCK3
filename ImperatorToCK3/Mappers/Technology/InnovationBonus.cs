@@ -1,13 +1,12 @@
 using commonItems;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Technology;
 
-public class InnovationBonus {
-	// TODO: use this class
-	
-	private HashSet<string> imperatorInventions = new();
+public sealed class InnovationBonus { // TODO: add tests
+	private HashSet<string> imperatorInventions = [];
 	private string? ck3Innovation;
 	
 	public InnovationBonus(BufferedReader bonusReader) {
@@ -23,10 +22,15 @@ public class InnovationBonus {
 		}
 	}
 	
-	public double GetProgress(IEnumerable<string> activeInventions) {
+	public KeyValuePair<string, double>? GetProgress(IEnumerable<string> activeInventions) {
+		if (ck3Innovation is null) {
+			return null;
+		}
+		
 		// For each matching invention, add 0.25 to the progress.
-		return activeInventions
+		double progress =  activeInventions
 			.Where(invention => imperatorInventions.Contains(invention))
 			.Sum(invention => 0.25);
+		return new(ck3Innovation, progress);
 	}
 }
