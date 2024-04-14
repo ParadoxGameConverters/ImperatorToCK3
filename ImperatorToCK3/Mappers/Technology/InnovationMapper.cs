@@ -1,5 +1,7 @@
 using commonItems;
+using ImperatorToCK3.Imperator.Inventions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Technology;
 
@@ -46,5 +48,14 @@ public class InnovationMapper {
 			}
 		}
 		return progressesToReturn;
+	}
+
+	public void LogUnmappedInventions(InventionsDB inventionsDB) {
+		// Log Imperator inventions for which neither link nor bonus for CK3 innovations exists.
+		var unmappedInventions = inventionsDB.InventionIds
+			.Where(invention => !innovationLinks.Exists(link => link.Match(invention) is not null))
+			.Where(invention => !innovationBonuses.Exists(bonus => bonus.GetProgress([invention]) is not null));
+		
+		Logger.Debug($"Unmapped I:R inventions: {string.Join(", ", unmappedInventions)}");
 	}
 }

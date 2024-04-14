@@ -177,6 +177,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		
 		var innovationMapper = new InnovationMapper();
 		innovationMapper.LoadLinksAndBonuses("configurables/inventions_to_innovations_map.txt");
+		innovationMapper.LogUnmappedInventions(inventionsDB);
 		
 		// Group I:R countries by corresponding CK3 culture.
 		var countriesByCulture = countries.Select(c => new {
