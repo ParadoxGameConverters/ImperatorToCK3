@@ -12,6 +12,14 @@ public sealed class InnovationLink { // TODO: ADD TESTS
 		parser.RegisterKeyword("ck3", reader => ck3Innovation = reader.GetString());
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(linkReader);
+		
+		if (ck3Innovation is null) {
+			Logger.Warn($"Innovation link from {imperatorInvention} has no CK3 innovation.");
+		}
+		
+		if (imperatorInvention is null) {
+			Logger.Warn($"Innovation link to {ck3Innovation} has no Imperator invention.");
+		}
 	}
 	
 	public string? Match(string irInvention) {
