@@ -38,7 +38,7 @@ jobs:
   test:
     strategy:
       matrix:
-        os: [[self-hosted, windows], macos-latest]
+        os: [[self-hosted, windows], macos-14]
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
