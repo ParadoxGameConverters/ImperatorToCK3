@@ -791,7 +791,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			if (Localizations.TryGetValue(Id, out var nameLocBlock) && nameLocBlock["english"] is string name) {
 				// If name has 3 characters and last 2 characters are digits, it's probably a raw Imperator tag.
 				// In that case, we don't want to use it as a base for adjective.
-				if (name.Length == 3 && !(char.IsDigit(name[1]) && char.IsDigit(name[2]))) {
+				if (!(name.Length == 3 && char.IsDigit(name[1]) && char.IsDigit(name[2]))) {
 					var generatedAdjective = name.GetAdjective();
 					Logger.Debug($"Generated adjective for country \"{name}\": \"{generatedAdjective}\"");
 				
