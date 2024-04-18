@@ -35,7 +35,7 @@ bonus = { ir = italic_insulae_inv ir = italic_lex_frumentaria_inv ck3 = innovati
 link = { ir = global_building_slot_inv ck3 = innovation_city_planning }
 bonus = { ir = fabricate_claim_cost_modifier_inv ir = agressive_expansion_impact_inv_3 ir = tribute_income_modifier_inv_1 ck3 = innovation_casus_belli } # Third is Tributary Administration
 link = { ir = war_score_cost_inv_1 ck3 = innovation_casus_belli }
-bonus = { ir = italic_lex_frumentaria_inv ir = global_tribesmen_output_inv_2 ir = global_tribesmen_output_inv_2 ir = global_unrest_inv_5 ck3 ck3 = innovation_plenary_assemblies } # 3rd Assemblies
+bonus = { ir = italic_lex_frumentaria_inv ir = global_tribesmen_output_inv_2 ir = global_tribesmen_output_inv_2 ir = global_unrest_inv_5 ck3 = innovation_plenary_assemblies } # 3rd Assemblies
 # link = { ir =  ck3 = innovation_plenary_assemblies }
 bonus = { ir = commerce_inv_5 ir = monthly_wage_inv ir = tribute_income_modifier_inv_3 ck3 = innovation_ledger }
 # link = { ir =  ck3 = innovation_ledger }
@@ -211,7 +211,3 @@ bonus = { ir = discipline_inv_5 ir = discipline_inv_2 ir = military_tech_investm
 # link = { ir =  ck3 = innovation_legionnaires } # culture:roman
 # bonus = { ir =  ck3 = innovation_rectilinear_schiltron }
 # link = { ir =  ck3 = innovation_rectilinear_schiltron } # has_cultural_parameter = unlock_schiltron_innovation
-
-
-# link = { ir =  ck3 =  }
-
