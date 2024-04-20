@@ -76,7 +76,7 @@ public static class CharactersOutputter {
 			.Where(c => c.DNA!.AccessoryDNAValues.ContainsKey(geneName))
 			.GroupBy(c => new {
 				c.DNA!.AccessoryDNAValues[geneName].TemplateName,
-				c.DNA!.AccessoryDNAValues[geneName].ObjectName
+				c.DNA!.AccessoryDNAValues[geneName].ObjectName,
 			});
 		output.WriteLine($"IRToCK3_{geneName}_overrides = {{");
 		output.WriteLine("\tusage = game");
@@ -89,7 +89,8 @@ public static class CharactersOutputter {
 			var characterEffectStr = $"{{ add_character_flag = {characterFlagName} }}";
 
 			foreach (Character character in grouping) {
-				character.History.AddFieldValue(conversionDate, "effects", "effect", characterEffectStr);
+				Date effectDate = character.DeathDate ?? conversionDate;
+				character.History.AddFieldValue(effectDate, "effects", "effect", characterEffectStr);
 			}
 			
 			output.WriteLine($"\t{templateName}_obj_{accessoryName} = {{");
