@@ -52,63 +52,7 @@ public static class BookmarkOutputter {
 				continue;
 			}
 
-			var holder = world.Characters[holderId];
-
-			// Add character localization for bookmark screen.
-			var holderLoc = new LocBlock($"bm_converted_{holder.Id}", ConverterGlobals.PrimaryLanguage);
-			holderLoc.CopyFrom(holder.Localizations[holder.GetName(config.CK3BookmarkDate)!]);
-			localizations.Add(holderLoc.Id, holderLoc);
-			var holderDescLoc = new LocBlock($"bm_converted_{holder.Id}_desc", ConverterGlobals.PrimaryLanguage) {
-				[ConverterGlobals.PrimaryLanguage] = string.Empty
-			};
-			foreach (var language in ConverterGlobals.SecondaryLanguages) {
-				holderDescLoc[language] = string.Empty;
-			}
-			localizations.Add(holderDescLoc.Id, holderDescLoc);
-
-			output.WriteLine("\tcharacter = {");
-
-			output.WriteLine($"\t\tname = bm_converted_{holder.Id}");
-			var dynastyId = holder.GetDynastyId(config.CK3BookmarkDate);
-			if (dynastyId is not null) {
-				output.WriteLine($"\t\tdynasty = {dynastyId}");
-			}
-			output.WriteLine("\t\tdynasty_splendor_level = 1");
-			output.WriteLine($"\t\ttype = {holder.GetAgeSex(config.CK3BookmarkDate)}");
-			output.WriteLine($"\t\thistory_id = {holder.Id}");
-			output.WriteLine($"\t\tbirth = {holder.BirthDate}");
-			output.WriteLine($"\t\ttitle = {title.Id}");
-			var gov = title.GetGovernment(config.CK3BookmarkDate);
-			if (gov is not null) {
-				output.WriteLine($"\t\tgovernment = {gov}");
-			}
-
-			output.WriteLine($"\t\tculture = {holder.GetCultureId(config.CK3BookmarkDate)}");
-			var faithId = holder.GetFaithId(config.CK3BookmarkDate);
-			if (!string.IsNullOrEmpty(faithId)) {
-				output.WriteLine($"\t\treligion={faithId}");
-			}
-			output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
-			WritePosition(output, title, config, provincePositions);
-			output.WriteLine("\t\tanimation = personality_rational");
-
-			output.WriteLine("\t}");
-
-			string templatePath = holder.GetAgeSex(config.CK3BookmarkDate) switch {
-				"female" => "blankMod/templates/common/bookmark_portraits/female.txt",
-				"girl" => "blankMod/templates/common/bookmark_portraits/girl.txt",
-				"boy" => "blankMod/templates/common/bookmark_portraits/boy.txt",
-				_ => "blankMod/templates/common/bookmark_portraits/male.txt"
-			};
-			string templateText = File.ReadAllText(templatePath);
-
-			templateText = templateText.Replace("REPLACE_ME_NAME", $"bm_converted_{holder.Id}");
-			templateText = templateText.Replace("REPLACE_ME_AGE", holder.GetAge(config.CK3BookmarkDate).ToString());
-			var genesStr = holder.DNA is not null ? string.Join("\n", holder.DNA.DNALines) : string.Empty;
-			templateText = templateText.Replace("ADD_GENES", genesStr);
-			
-			var outPortraitPath = Path.Combine("output", config.OutputModName, $"common/bookmark_portraits/bm_converted_{holder.Id}.txt");
-			File.WriteAllText(outPortraitPath, templateText);
+			AddTitleToBookmarkScreen(title, output, holderId, world, localizations, provincePositions, config);
 		}
 
 		output.WriteLine("}");
@@ -116,6 +60,74 @@ public static class BookmarkOutputter {
 		OutputBookmarkLoc(config, localizations);
 		DrawBookmarkMap(config, playerTitles, world);
 		Logger.IncrementProgress();
+	}
+
+	private static void AddTitleToBookmarkScreen(
+		Title title,
+		StreamWriter output,
+		string holderId,
+		World world,
+		Dictionary<string, LocBlock> localizations,
+		IReadOnlyDictionary<ulong, ProvincePosition> provincePositions,
+		Configuration config
+	) {
+		var holder = world.Characters[holderId];
+
+		// Add character localization for bookmark screen.
+		var holderLoc = new LocBlock($"bm_converted_{holder.Id}", ConverterGlobals.PrimaryLanguage);
+		holderLoc.CopyFrom(holder.Localizations[holder.GetName(config.CK3BookmarkDate)!]);
+		localizations.Add(holderLoc.Id, holderLoc);
+		var holderDescLoc = new LocBlock($"bm_converted_{holder.Id}_desc", ConverterGlobals.PrimaryLanguage) {
+			[ConverterGlobals.PrimaryLanguage] = string.Empty,
+		};
+		foreach (var language in ConverterGlobals.SecondaryLanguages) {
+			holderDescLoc[language] = string.Empty;
+		}
+		localizations.Add(holderDescLoc.Id, holderDescLoc);
+
+		output.WriteLine("\tcharacter = {");
+
+		output.WriteLine($"\t\tname = bm_converted_{holder.Id}");
+		var dynastyId = holder.GetDynastyId(config.CK3BookmarkDate);
+		if (dynastyId is not null) {
+			output.WriteLine($"\t\tdynasty = {dynastyId}");
+		}
+		output.WriteLine("\t\tdynasty_splendor_level = 1");
+		output.WriteLine($"\t\ttype = {holder.GetAgeSex(config.CK3BookmarkDate)}");
+		output.WriteLine($"\t\thistory_id = {holder.Id}");
+		output.WriteLine($"\t\tbirth = {holder.BirthDate}");
+		output.WriteLine($"\t\ttitle = {title.Id}");
+		var gov = title.GetGovernment(config.CK3BookmarkDate);
+		if (gov is not null) {
+			output.WriteLine($"\t\tgovernment = {gov}");
+		}
+
+		output.WriteLine($"\t\tculture = {holder.GetCultureId(config.CK3BookmarkDate)}");
+		var faithId = holder.GetFaithId(config.CK3BookmarkDate);
+		if (!string.IsNullOrEmpty(faithId)) {
+			output.WriteLine($"\t\treligion={faithId}");
+		}
+		output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
+		WritePosition(output, title, config, provincePositions);
+		output.WriteLine("\t\tanimation = personality_rational");
+
+		output.WriteLine("\t}");
+
+		string templatePath = holder.GetAgeSex(config.CK3BookmarkDate) switch {
+			"female" => "blankMod/templates/common/bookmark_portraits/female.txt",
+			"girl" => "blankMod/templates/common/bookmark_portraits/girl.txt",
+			"boy" => "blankMod/templates/common/bookmark_portraits/boy.txt",
+			_ => "blankMod/templates/common/bookmark_portraits/male.txt"
+		};
+		string templateText = File.ReadAllText(templatePath);
+
+		templateText = templateText.Replace("REPLACE_ME_NAME", $"bm_converted_{holder.Id}");
+		templateText = templateText.Replace("REPLACE_ME_AGE", holder.GetAge(config.CK3BookmarkDate).ToString());
+		var genesStr = holder.DNA is not null ? string.Join('\n', holder.DNA.DNALines) : string.Empty;
+		templateText = templateText.Replace("ADD_GENES", genesStr);
+			
+		var outPortraitPath = Path.Combine("output", config.OutputModName, $"common/bookmark_portraits/bm_converted_{holder.Id}.txt");
+		File.WriteAllText(outPortraitPath, templateText);
 	}
 
 	private static void OutputBookmarkGroup(Configuration config) {
@@ -224,7 +236,7 @@ public static class BookmarkOutputter {
 		var rgba32ColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
 		ISet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(config.CK3BookmarkDate);
 		
-		// Determine which impassables should be be colored by the country
+		// Determine which impassables should be colored by the country.
 		HashSet<ulong> provincesToColor = GetImpassableProvincesToColor(mapData, heldProvinces);
 		int diff = provincesToColor.Count - heldProvinces.Count;
 		Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle}...");
