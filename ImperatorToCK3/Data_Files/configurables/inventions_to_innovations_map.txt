@@ -127,7 +127,7 @@ bonus = { ir = tyranny_inv_1 ir = religious_tech_investment_inv_2 ck3 = innovati
 # link = { ir =  ck3 = innovation_heraldry }
 # bonus = { ir =  ck3 = innovation_windmills }
 # link = { ir =  ck3 = innovation_windmills }
-bonus = { ir = ir = agressive_expansion_impact_inv_5 ck3 = innovation_divine_right } # 1st Divine Mandate
+bonus = { ir = agressive_expansion_impact_inv_5 ck3 = innovation_divine_right } # 1st Divine Mandate
 # link = { ir =  ck3 = innovation_divine_right }
 # bonus = { ir =  ck3 = innovation_land_grants }
 # link = { ir =  ck3 = innovation_land_grants }
