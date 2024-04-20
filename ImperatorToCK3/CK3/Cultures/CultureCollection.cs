@@ -159,7 +159,10 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	private string? GetCK3CultureIdForImperatorCountry(Country country, CultureMapper cultureMapper, ProvinceMapper provinceMapper) {
 		var irCulture = country.PrimaryCulture ?? country.Monarch?.Culture;
 		if (irCulture is null) {
-			Logger.Warn($"Failed to get primary or monarch culture for Imperator country {country.Tag}!");
+			if (country.CountryType == CountryType.real) {
+				Logger.Warn($"Failed to get primary or monarch culture for Imperator country {country.Tag}!");
+			}
+			
 			return null;
 		}
 
