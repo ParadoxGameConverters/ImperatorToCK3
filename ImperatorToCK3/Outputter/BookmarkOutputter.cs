@@ -236,7 +236,7 @@ public static class BookmarkOutputter {
 		var rgba32ColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
 		ISet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(config.CK3BookmarkDate);
 		
-		// Determine which impassables should be be colored by the country
+		// Determine which impassables should be colored by the country.
 		HashSet<ulong> provincesToColor = GetImpassableProvincesToColor(mapData, heldProvinces);
 		int diff = provincesToColor.Count - heldProvinces.Count;
 		Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle}...");
