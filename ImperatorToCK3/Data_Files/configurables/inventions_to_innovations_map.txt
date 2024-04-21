@@ -25,7 +25,7 @@ bonus = { ir = gallic_chainmail_inv ck3 = innovation_quilted_armor }
 # TRIBAL ERA - CIVIC
 bonus = { ir = global_citizen_output_inv_3 ir = global_freemen_output_inv_3 ir = italic_lex_frumentaria_inv ir = global_tax_modifier_inv_3 ck3 = innovation_development_01 }
 link = { ir = ruler_popularity_gain_inv_4 ck3 = innovation_development_01 } # Public Works
-# bonus = { ir =  ck3 = innovation_currency_01 }
+bonus = { ir = commerce_inv_1 ir = global_tax_modifier_inv_1 ir = commerce_inv_2 ck3 = innovation_currency_01 }
 # link = { ir =  ck3 = innovation_currency_01 }
 # bonus = { ir =  ck3 = innovation_gavelkind }
 link = { ir = oaths_of_allegiance_inv ck3 =innovation_gavelkind } # IR is Codified Succession
@@ -90,7 +90,8 @@ link = { ir = global_settlement_building_slot_inv ck3 = innovation_manorialism }
 bonus = { ir = smear_character_cost_modifier_inv ck3 = innovation_development_02 } # 1st Town Criers
 # link = { ir =  ck3 = innovation_development_02 } # Communal Government
 bonus = { ir = hold_triumph_cost_modifier_inv ck3 = innovation_currency_02 }
-# link = { ir =  ck3 = innovation_currency_02 } # Coinage
+link = { ir = coins_inv ck3 = innovation_currency_02 } # Coinage
+link = { ir = brass_coinage_inv ck3 = innovation_currency_02 } # Coinage
 bonus = { ir = loyalty_gain_chance_modifier_inv ir = agressive_expansion_monthly_decay_inv_4 ck3 = innovation_royal_prerogative }
 # link = { ir =  ck3 = innovation_royal_prerogative }
 bonus = { ir = land_won_by_the_spear ir = religious_tech_investment_inv_1 ck3 = innovation_chronicle_writing } # 2nd Recording Tradition

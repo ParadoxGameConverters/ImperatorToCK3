@@ -1,4 +1,5 @@
 using commonItems;
+using commonItems.Localization;
 using ImperatorToCK3.Imperator.Inventions;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,12 +51,23 @@ public class InnovationMapper {
 		return progressesToReturn;
 	}
 
-	public void LogUnmappedInventions(InventionsDB inventionsDB) {
+	public void LogUnmappedInventions(InventionsDB inventionsDB, LocDB irLocDB) {
 		// Log Imperator inventions for which neither link nor bonus for CK3 innovations exists.
 		var unmappedInventions = inventionsDB.InventionIds
 			.Where(invention => !innovationLinks.Exists(link => link.Match(invention) is not null))
-			.Where(invention => !innovationBonuses.Exists(bonus => bonus.GetProgress([invention]) is not null));
+			.Where(invention => !innovationBonuses.Exists(bonus => bonus.GetProgress([invention]) is not null))
+			.ToList();
 		
-		Logger.Debug($"Unmapped I:R inventions: {string.Join(", ", unmappedInventions)}");
+		var inventionsWithLoc = unmappedInventions
+			.Select(inventionId => {
+				if (irLocDB.GetLocBlockForKey(inventionId) is { } locBlock) {
+					return $"{inventionId} ({locBlock[ConverterGlobals.PrimaryLanguage]})";
+				}
+				return inventionId;
+			});
+		
+		Logger.Debug($"Unmapped I:R inventions: {string.Join(", ", inventionsWithLoc)}");
 	}
+
+	// TODO: ALSO LOG UNMAPPED CK3 MARTIAL AND CIVIC INNOVATIONS
 }

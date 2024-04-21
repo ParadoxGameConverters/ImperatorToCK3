@@ -1,6 +1,7 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
+using commonItems.Localization;
 using commonItems.Mods;
 using Fernandezja.ColorHashSharp;
 using ImperatorToCK3.CommonUtils;
@@ -175,12 +176,12 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		return cultureMapper.Match(irCulture, ck3ProvinceId, irProvinceId, country.HistoricalTag);
 	}
 
-	public void ImportTechnology(CountryCollection countries, CultureMapper cultureMapper, ProvinceMapper provinceMapper, InventionsDB inventionsDB) { // TODO: test this
+	public void ImportTechnology(CountryCollection countries, CultureMapper cultureMapper, ProvinceMapper provinceMapper, InventionsDB inventionsDB, LocDB irLocDB) { // TODO: add tests for this
 		Logger.Info("Converting Imperator inventions to CK3 innovations...");
 		
 		var innovationMapper = new InnovationMapper();
 		innovationMapper.LoadLinksAndBonuses("configurables/inventions_to_innovations_map.txt");
-		innovationMapper.LogUnmappedInventions(inventionsDB);
+		innovationMapper.LogUnmappedInventions(inventionsDB, irLocDB);
 		
 		// Group I:R countries by corresponding CK3 culture.
 		var countriesByCulture = countries.Select(c => new {
