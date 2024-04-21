@@ -83,8 +83,7 @@ public partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		var irCultureId = irFamily.Culture;
 		var irProvinceIdForMapping = irMembers
 			.Select(m => m.ProvinceId)
-			.Where(id => id != 0)
-			.NullableFirstOrDefault();
+			.FirstOrDefault(id => id.HasValue);
 		var countryTag = irMembers
 			.Select(m => m.Country?.HistoricalTag)
 			.FirstOrDefault(tag => tag is not null, defaultValue: null);

@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Countries;
@@ -307,6 +308,7 @@ public class Character : IIdentifiable<string> {
 		TraitMapper traitMapper,
 		NicknameMapper nicknameMapper,
 		LocDB locDB,
+		MapData irMapData,
 		ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 		DeathReasonMapper deathReasonMapper,
 		DNAFactory dnaFactory,
@@ -353,29 +355,29 @@ public class Character : IIdentifiable<string> {
 			DNA = dnaFactory.GenerateDNA(ImperatorCharacter, ImperatorCharacter.PortraitData);
 		}
 
-		// Determine valid (not dropped in province mappings) "source province" to be used by religion mapper. Don't give up without a fight.
-		var impProvForProvinceMapper = ImperatorCharacter.ProvinceId;
-		if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Father is not null) {
+		// Determine valid (not dropped in province mappings) "source I:R province" and "source CK3 province"
+		// to be used by religion mapper. Don't give up without a fight.
+		ulong? irProvinceId = ImperatorCharacter.GetSourceLandProvince(irMapData);
+		
+		var impProvForProvinceMapper = irProvinceId;
+		if ((!impProvForProvinceMapper.HasValue || provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper.Value).Count == 0) && ImperatorCharacter.Father is not null) {
 			impProvForProvinceMapper = ImperatorCharacter.Father.ProvinceId;
 		}
-
-		if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Mother is not null) {
+		if ((!impProvForProvinceMapper.HasValue || provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper.Value).Count == 0) && ImperatorCharacter.Mother is not null) {
 			impProvForProvinceMapper = ImperatorCharacter.Mother.ProvinceId;
 		}
-
-		if (provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper).Count == 0 && ImperatorCharacter.Spouses.Count > 0) {
+		if ((!impProvForProvinceMapper.HasValue || provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper.Value).Count == 0) && ImperatorCharacter.Spouses.Count > 0) {
 			var firstSpouse = ImperatorCharacter.Spouses.First().Value;
 			impProvForProvinceMapper = firstSpouse.ProvinceId;
 		}
 
-		var ck3ProvinceNumbers = provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper);
-		// determine CK3 province for religionMapper
-		ulong ck3Province = ck3ProvinceNumbers.Count > 0 ? ck3ProvinceNumbers[0] : 0;
+		var ck3ProvinceNumbers = impProvForProvinceMapper.HasValue ? provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper.Value) : [];
+		ulong? ck3Province = ck3ProvinceNumbers.Count > 0 ? ck3ProvinceNumbers[0] : null;
 
 		var cultureMatch = cultureMapper.Match(
 			ImperatorCharacter.Culture,
 			ck3Province,
-			ImperatorCharacter.ProvinceId,
+			irProvinceId,
 			ImperatorCharacter.Country?.HistoricalTag
 		);
 		if (cultureMatch is null) {
@@ -389,8 +391,8 @@ public class Character : IIdentifiable<string> {
 			ImperatorCharacter.Religion,
 			GetCultureId(dateOnConversion),
 			ck3Province, 
-			ImperatorCharacter.ProvinceId, 
-			ImperatorCharacter.HomeCountry?.HistoricalTag, 
+			irProvinceId,
+			ImperatorCharacter.HomeCountry?.HistoricalTag,
 			config
 		);
 		if (faithMatch is not null) {
