@@ -492,8 +492,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// ------------------ determine capital
 		var governorProvince = impGovernor.ProvinceId;
-		if (imperatorRegionMapper.ProvinceIsInRegion(governorProvince, governorship.Region.Id)) {
-			foreach (var ck3Prov in provinceMapper.GetCK3ProvinceNumbers(governorProvince)) {
+		if (governorProvince.HasValue && imperatorRegionMapper.ProvinceIsInRegion(governorProvince.Value, governorship.Region.Id)) {
+			foreach (var ck3Prov in provinceMapper.GetCK3ProvinceNumbers(governorProvince.Value)) {
 				var foundCounty = parentCollection.GetCountyForProvince(ck3Prov);
 				if (foundCounty is not null) {
 					CapitalCounty = foundCounty;

@@ -81,6 +81,7 @@ public class DynastyTests {
 				traitMapper,
 				nicknameMapper,
 				locDB,
+				irMapData,
 				provinceMapper,
 				deathReasonMapper,
 				new DNAFactory(IRModFS, ck3ModFS),

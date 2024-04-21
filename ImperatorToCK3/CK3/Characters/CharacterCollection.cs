@@ -5,6 +5,7 @@ using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -43,6 +44,7 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 				traitMapper,
 				nicknameMapper,
 				impWorld.LocDB,
+				impWorld.MapData,
 				provinceMapper,
 				deathReasonMapper,
 				dnaFactory,
@@ -74,6 +76,7 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 		TraitMapper traitMapper,
 		NicknameMapper nicknameMapper,
 		LocDB locDB,
+		MapData irMapData,
 		ProvinceMapper provinceMapper,
 		DeathReasonMapper deathReasonMapper,
 		DNAFactory dnaFactory,
@@ -89,6 +92,7 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 			traitMapper,
 			nicknameMapper,
 			locDB,
+			irMapData,
 			provinceMapper,
 			deathReasonMapper,
 			dnaFactory,

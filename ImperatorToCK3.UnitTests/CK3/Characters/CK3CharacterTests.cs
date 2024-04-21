@@ -85,6 +85,7 @@ public class CK3CharacterTests {
 				traitMapper,
 				nicknameMapper,
 				locDB,
+				irMapData,
 				provinceMapper,
 				deathReasonMapper,
 				DNAFactory,
