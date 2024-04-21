@@ -1,8 +1,10 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -81,5 +83,27 @@ public class DynastyCollection : ConcurrentIdObjectCollection<string, Dynasty> {
 			}
 		}
 		Logger.IncrementProgress();
+	}
+
+	public void PurgeUnneededDynasties(CharacterCollection characters, Date date) {
+		Logger.Info("Purging unneeded dynasties...");
+		
+		HashSet<string> dynastiesToKeep = [];
+		foreach (var character in characters) {
+			var dynastyId = character.GetDynastyId(date);
+			if (dynastyId is not null) {
+				dynastiesToKeep.Add(dynastyId);
+			}
+		}
+		
+		int removedCount = 0;
+		foreach (var dynasty in this.Where(d => d.FromImperator).ToList()) {
+			if (!dynastiesToKeep.Contains(dynasty.Id)) {
+				Remove(dynasty.Id);
+				++removedCount;
+			}
+		}
+		
+		Logger.Info($"Purged {removedCount} unneeded dynasties.");
 	}
 }

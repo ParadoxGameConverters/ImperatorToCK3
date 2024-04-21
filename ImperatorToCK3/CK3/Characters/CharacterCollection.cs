@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Cultures;
+using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Mappers.Culture;
@@ -374,7 +375,7 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 		return characterIDsToPreserve;
 	}
 
-	public void PurgeUnneededCharacters(Title.LandedTitles titles, Date ck3BookmarkDate) {
+	public void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, Date ck3BookmarkDate) {
 		Logger.Info("Purging unneeded characters...");
 		
 		// Characters that hold or held titles should always be kept.
@@ -447,6 +448,10 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 			Logger.Debug($"Purged {farewellCharacters.Count} unneeded characters in iteration {i}.");
 			charactersToCheck = charactersToCheck.Except(farewellCharacters).ToList();
 		} while(farewellCharacters.Count > 0);
+		
+		// At this point we probably have many imported dynasties with no characters left.
+		// Let's purge them.
+		dynasties.PurgeUnneededDynasties(this, ck3BookmarkDate);
 	}
 
 	public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {
