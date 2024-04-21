@@ -1031,7 +1031,7 @@ public partial class Title {
 					List<HashSet<Title>> connectedGroups = [];
 
 					foreach (var group in kingdomGroups) {
-						if (group.Any(k => kingdomAdjacencies[k.Id].Contains(kingdom.Id))) {
+						if (group.Any(k => kingdomAdjacencies.TryGetValue(k.Id, out var adjacencies) && adjacencies.Contains(kingdom.Id))) {
 							group.Add(kingdom);
 							connectedGroups.Add(group);
 
