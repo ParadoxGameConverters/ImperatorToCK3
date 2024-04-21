@@ -14,3 +14,6 @@ link = { ir = naval_wargoal ck3 = minor_religious_war } # CK3 has no naval warfa
 link = { ir = maurya_decline_wargoal ck3 = invasion_war }
 link = { ir = maurya_revival_wargoal ck3 = imperial_reconquest_cb }
 link = { ir = horde_conquest ck3 = invasion_war }
+
+# FMO wargoals
+link = { ir = conquer_wargoal_2 ck3 = claim_cb }
