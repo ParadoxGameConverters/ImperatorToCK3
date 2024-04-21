@@ -6,6 +6,7 @@ using commonItems.Mods;
 using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
+using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils.Genes;
