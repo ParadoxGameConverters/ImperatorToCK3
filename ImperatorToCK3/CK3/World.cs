@@ -181,7 +181,7 @@ public class World {
 			}
 		}
 		
-		Cultures.ImportTechnology(impWorld.Countries, cultureMapper, provinceMapper, impWorld.InventionsDB);
+		Cultures.ImportTechnology(impWorld.Countries, cultureMapper, provinceMapper, impWorld.InventionsDB, impWorld.LocDB);
 
 		var traitMapper = new TraitMapper("configurables/trait_map.txt", ModFS);
 
