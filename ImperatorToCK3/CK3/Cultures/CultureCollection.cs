@@ -1,9 +1,15 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
+using commonItems.Localization;
 using commonItems.Mods;
 using Fernandezja.ColorHashSharp;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Inventions;
+using ImperatorToCK3.Mappers.Culture;
+using ImperatorToCK3.Mappers.Province;
+using ImperatorToCK3.Mappers.Technology;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -149,6 +155,52 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/culture/name_lists", ck3ModFS, "txt", recursive: true, logFilePaths: true);
+	}
+
+	private string? GetCK3CultureIdForImperatorCountry(Country country, CultureMapper cultureMapper, ProvinceMapper provinceMapper) {
+		var irCulture = country.PrimaryCulture ?? country.Monarch?.Culture;
+		if (irCulture is null) {
+			if (country.CountryType == CountryType.real) {
+				Logger.Warn($"Failed to get primary or monarch culture for Imperator country {country.Tag}!");
+			}
+			
+			return null;
+		}
+
+		ulong? irProvinceId = country.CapitalProvinceId ?? country.Monarch?.ProvinceId;
+		ulong? ck3ProvinceId = null;
+		if (irProvinceId.HasValue) {
+			ck3ProvinceId = provinceMapper.GetCK3ProvinceNumbers(irProvinceId.Value).FirstOrDefault();
+		}
+		
+		return cultureMapper.Match(irCulture, ck3ProvinceId, irProvinceId, country.HistoricalTag);
+	}
+
+	public void ImportTechnology(CountryCollection countries, CultureMapper cultureMapper, ProvinceMapper provinceMapper, InventionsDB inventionsDB, LocDB irLocDB) { // TODO: add tests for this
+		Logger.Info("Converting Imperator inventions to CK3 innovations...");
+		
+		var innovationMapper = new InnovationMapper();
+		innovationMapper.LoadLinksAndBonuses("configurables/inventions_to_innovations_map.txt");
+		innovationMapper.LogUnmappedInventions(inventionsDB, irLocDB);
+		
+		// Group I:R countries by corresponding CK3 culture.
+		var countriesByCulture = countries.Select(c => new {
+				Country = c, CK3CultureId = GetCK3CultureIdForImperatorCountry(c, cultureMapper, provinceMapper),
+			})
+			.Where(c => c.CK3CultureId is not null)
+			.GroupBy(c => c.CK3CultureId);
+		
+		foreach (var grouping in countriesByCulture) {
+			if (!TryGetValue(grouping.Key!, out var culture)) {
+				Logger.Warn($"Can't import technology for culture {grouping.Key}: culture not found in CK3 cultures!");
+				continue;
+			}
+
+			var irInventions = grouping
+				.SelectMany(c => c.Country.GetActiveInventionIds(inventionsDB))
+				.ToHashSet();
+			culture.ImportInnovationsFromImperator(irInventions, innovationMapper);
+		}
 	}
 
 	private readonly IDictionary<string, string> cultureReplacements = new Dictionary<string, string>(); // replaced culture -> replacing culture

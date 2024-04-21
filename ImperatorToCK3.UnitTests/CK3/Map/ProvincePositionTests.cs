@@ -1,5 +1,5 @@
 ﻿using commonItems;
-using ImperatorToCK3.CK3.Map;
+using ImperatorToCK3.CommonUtils.Map;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Map;

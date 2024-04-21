@@ -26,7 +26,6 @@ public class CK3RegionMapperTests {
 		Assert.False(mapper.RegionNameIsValid("test"));
 		Assert.Null(mapper.GetParentCountyName(1));
 		Assert.Null(mapper.GetParentDuchyName(1));
-		Assert.Null(mapper.GetParentRegionName(1));
 	}
 	[Fact]
 	public void LoadingBrokenRegionWillThrowException() {
@@ -155,10 +154,8 @@ public class CK3RegionMapperTests {
 
 		Assert.Equal("c_athens", mapper.GetParentCountyName(79));
 		Assert.Equal("d_wakaba", mapper.GetParentDuchyName(79));
-		Assert.Equal("test_region", mapper.GetParentRegionName(79));
 		Assert.Equal("c_defff", mapper.GetParentCountyName(6));
 		Assert.Equal("d_hujhu", mapper.GetParentDuchyName(6));
-		Assert.Equal("test_region2", mapper.GetParentRegionName(6));
 	}
 
 	[Fact]
@@ -178,7 +175,6 @@ public class CK3RegionMapperTests {
 
 		Assert.Null(mapper.GetParentCountyName(7));
 		Assert.Null(mapper.GetParentDuchyName(7));
-		Assert.Null(mapper.GetParentRegionName(7));
 	}
 
 	[Fact]

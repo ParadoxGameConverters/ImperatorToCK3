@@ -3,20 +3,23 @@ using ImperatorToCK3.Exceptions;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace ImperatorToCK3.Helpers;
 
 public static class RakalyCaller {
-	private const string RakalyVersion = "0.4.24";
+	private const string RakalyVersion = "0.4.25";
 	private static readonly string RelativeRakalyPath;
 
 	static RakalyCaller() {
+		string archString = GetArchString();
+
 		string currentDir = Directory.GetCurrentDirectory();
-		RelativeRakalyPath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-pc-windows-msvc/rakaly.exe";
+		RelativeRakalyPath = $"Resources/rakaly/rakaly-{RakalyVersion}-{archString}-pc-windows-msvc/rakaly.exe";
 		if (OperatingSystem.IsMacOS()) {
-			RelativeRakalyPath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-apple-darwin/rakaly";
+			RelativeRakalyPath = $"Resources/rakaly/rakaly-{RakalyVersion}-{archString}-apple-darwin/rakaly";
 		} else if (OperatingSystem.IsLinux()) {
-			RelativeRakalyPath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-unknown-linux-musl/rakaly";
+			RelativeRakalyPath = $"Resources/rakaly/rakaly-{RakalyVersion}-{archString}-unknown-linux-musl/rakaly";
 		}
 
 		if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS()) {
@@ -24,6 +27,15 @@ public static class RakalyCaller {
 			var rakalyPath = Path.Combine(currentDir, RelativeRakalyPath).AddQuotes();
 			Exec($"chmod +x {rakalyPath}");
 		}
+	}
+
+	private static string GetArchString() {
+		Architecture architecture = RuntimeInformation.OSArchitecture;
+		return architecture switch {
+			Architecture.X64 => "x86_64",
+			Architecture.Arm64 => "aarch64",
+			_ => throw new NotSupportedException($"Unsupported architecture: {architecture}")
+		};
 	}
 
 	public static string GetJson(string filePath) {

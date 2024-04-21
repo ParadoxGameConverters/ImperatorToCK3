@@ -2,6 +2,7 @@
 using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
@@ -17,8 +18,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion;
 public class ReligionMappingTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(irModFS);
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas, irMapData);
 	private const string ck3Path = "TestFiles/regions/ReligionMappingTests";
 	private string CK3Root => Path.Combine(ck3Path, "game");
 	

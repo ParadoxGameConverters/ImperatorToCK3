@@ -1,0 +1,214 @@
+### INVENTIONS TO INNOVATIONS MAPPINGS ###
+
+# bonus = { ir = imperator invention ck3 = ck3 innovation }
+# Multiple Inventions can be listed, if they conceptually contribute to the Innovation
+# Working assumption: each bonus line should have no more than 3 universal and 1 cultural/regional Invention per Innovation, on the assumption that each Invention might give a 25% bonus towards the Innovation.
+# link = { ir = imperator invention ck3 = ck3 innovation }
+# Links are one to one.
+# Working assumption: only include an Invention here if it's conceptually almost or actually identical to the Innovation (effects don't matter).
+# All CK3 Innovations up to 1.12 are listed here, even if they don't make sense for conversion.
+# Lines that don't have any suitable Invention should be commented out
+
+# TRIBAL ERA - MILITARY
+bonus = { ir = fort_maintenance_cost_inv ir = global_defensive_inv_3 ir = global_defensive_inv_1 ck3 = innovation_motte }
+link = { ir = siege_speed_inv_3 ck3 = innovation_motte }
+bonus = { ir = siege_speed_inv_5 ir = siege_engineers_inv_5 ck3 = innovation_catapult }
+link = { ir = siege_engineers_inv_4 ck3 = innovation_catapult }
+bonus = { ir = global_start_experience_inv_3 ir = global_start_experience_inv_2 ck3 = innovation_barracks }
+link = { ir = cohort_reinforcement_speed_inv ck3 = innovation_barracks }
+bonus = { ir = global_start_experience_inv_1 ir = global_supply_limit_modifier_inv_1 ir = heavy_infantry_discipline_inv ck3 = innovation_mustering_grounds }
+link = { ir = global_cohort_recruit_speed_inv ck3 = innovation_mustering_grounds }
+bonus = { ir = experience_decay_inv_1 ir = general_loyalty_inv ir= tyranny_inv_2 ck3 = innovation_bannus } # 3rd Hierarchy of Responsibility
+# link = { ir =  ck3 = innovation_bannus }
+bonus = { ir = gallic_chainmail_inv ck3 = innovation_quilted_armor }
+# link = { ir =  ck3 = innovation_quilted_armor }
+# TRIBAL ERA - CIVIC
+bonus = { ir = global_citizen_output_inv_3 ir = global_freemen_output_inv_3 ir = italic_lex_frumentaria_inv ir = global_tax_modifier_inv_3 ck3 = innovation_development_01 }
+link = { ir = ruler_popularity_gain_inv_4 ck3 = innovation_development_01 } # Public Works
+bonus = { ir = commerce_inv_1 ir = global_tax_modifier_inv_1 ir = commerce_inv_2 ck3 = innovation_currency_01 }
+# link = { ir =  ck3 = innovation_currency_01 }
+# bonus = { ir =  ck3 = innovation_gavelkind }
+link = { ir = oaths_of_allegiance_inv ck3 =innovation_gavelkind } # IR is Codified Succession
+# bonus = { ir =  ck3 = innovation_crop_rotation }
+# link = { ir =  ck3 = innovation_crop_rotation }
+bonus = { ir = italic_insulae_inv ir = italic_lex_frumentaria_inv ck3 = innovation_city_planning }
+link = { ir = global_building_slot_inv ck3 = innovation_city_planning }
+bonus = { ir = fabricate_claim_cost_modifier_inv ir = agressive_expansion_impact_inv_3 ir = tribute_income_modifier_inv_1 ck3 = innovation_casus_belli } # Third is Tributary Administration
+link = { ir = war_score_cost_inv_1 ck3 = innovation_casus_belli }
+bonus = { ir = italic_lex_frumentaria_inv ir = global_tribesmen_output_inv_2 ir = global_tribesmen_output_inv_2 ir = global_unrest_inv_5 ck3 = innovation_plenary_assemblies } # 3rd Assemblies
+# link = { ir =  ck3 = innovation_plenary_assemblies }
+bonus = { ir = commerce_inv_5 ir = monthly_wage_inv ir = tribute_income_modifier_inv_3 ck3 = innovation_ledger }
+# link = { ir =  ck3 = innovation_ledger }
+# TRIBAL ERA - REGIONAL
+# bonus = { ir =  ck3 = innovation_table_of_princes }
+# link = { ir =  ck3 = innovation_table_of_princes } # culture:czech|slovien
+bonus = { ir = blockade_efficiency_inv ir = liburnian_invention_1 ck3 = innovation_longboats } # 1st Experienced Seafarers 2nd Lemboi Scouts (could both fight and row)
+# link = { ir =  ck3 = innovation_longboats } # region = world_europe_north
+# bonus = { ir =  ck3 = innovation_elephantry }
+# link = { ir =  ck3 = innovation_elephantry } # region = world_innovation_elephants
+# bonus = { ir =  ck3 = innovation_war_camels }
+# link = { ir =  ck3 = innovation_war_camels } # region = world_innovation_camels
+bonus = { ir = buy_military_tradition_inv ck3 = innovation_wootz_steel }
+link = { ir = indian_wootz_steel_inv ck3 = innovation_wootz_steel } # world_india_deccan
+# bonus = { ir =  ck3 = innovation_african_canoes }
+# link = { ir =  ck3 = innovation_african_canoes } # world_africa_west
+# TRIBAL ERA - MEN-AT-ARMS
+# bonus = { ir =  ck3 = innovation_caballeros }
+# link = { ir =  ck3 = innovation_caballeros } # region = world_europe_west_iberia
+# bonus = { ir =  ck3 = innovation_bamboo_bows }
+# link = { ir =  ck3 = innovation_bamboo_bows } # region = world_india
+# bonus = { ir =  ck3 = innovation_sahel_horsemen }
+# link = { ir =  ck3 = innovation_sahel_horsemen } # region = custom_sahel_proper
+# bonus = { ir =  ck3 = innovation_repeating_crossbow }
+# link = { ir =  ck3 = innovation_repeating_crossbow } # has_cultural_pillar = heritage_chinese
+# bonus = { ir =  ck3 = innovation_pole_vault }
+# link = { ir =  ck3 = innovation_pole_vault } # culture:guanches OR PARENT CULTURE
+# TRIBAL ERA - NORTHERN LORDS - has_fp1_dlc_trigger = yes
+bonus = { ir = assemble_raiding_inv ck3 = innovation_varangian_adventurers } # 1st Experienced Raiders (Tribal only)
+# link = { ir =  ck3 = innovation_varangian_adventurers } # ( has_cultural_pillar = heritage_north_germanic OR Norman culture OR Estonian culture ) BUT NOT EARLY MEDIEVAL OR LATER
+bonus = { ir = agressive_expansion_monthly_decay_inv_1 ck3 = innovation_all_things }
+# link = { ir =  ck3 = innovation_all_things } # region = world_europe_north
+
+# EARLY MEDIEVAL ERA - MILITARY
+# bonus = { ir =  ck3 = innovation_battlements }
+# link = { ir =  ck3 = innovation_battlements }
+bonus = { ir = siege_speed_inv_1 ck3 = innovation_mangonel }
+link = { ir = siege_engineers_inv_6 ck3 = innovation_mangonel }
+bonus = { ir = gallic_oppidum_inv ir = siege_speed_inv_4 ir = civic_tech_investment_inv_1 ck3 = innovation_burhs }
+# link = { ir =  ck3 = innovation_burhs }
+bonus = { ir = global_start_experience_inv_4 ck3 = innovation_house_soldiers }
+# link = { ir =  ck3 = innovation_house_soldiers }
+# bonus = { ir =  ck3 = innovation_horseshoes }
+# link = { ir =  ck3 = innovation_horseshoes }
+bonus = { ir = gallic_four_horned_saddle_inv ir = heavy_cavalry_discipline_inv ck3 = innovation_arched_saddle }
+# link = { ir =  ck3 = innovation_arched_saddle }
+# EARLY MEDIEVAL ERA - CIVIC
+bonus = { ir = monthly_character_loyalty_inv_2 ir = dictatorship_step_3 ir = dictatorship_step_4 ck3 = innovation_hereditary_rule } # 1st Approved Familia 2nd and 3rd are Demand/Request a Line of Succession which are alternatives for Dictatorship
+# link = { ir =  ck3 = innovation_hereditary_rule } # UNLOCKS PARTITION
+bonus = { ir = global_goods_from_slaves_inv ck3 = innovation_manorialism }
+link = { ir = global_settlement_building_slot_inv ck3 = innovation_manorialism }
+bonus = { ir = smear_character_cost_modifier_inv ck3 = innovation_development_02 } # 1st Town Criers
+# link = { ir =  ck3 = innovation_development_02 } # Communal Government
+bonus = { ir = hold_triumph_cost_modifier_inv ck3 = innovation_currency_02 }
+link = { ir = coins_inv ck3 = innovation_currency_02 } # Coinage
+link = { ir = brass_coinage_inv ck3 = innovation_currency_02 } # Coinage
+bonus = { ir = loyalty_gain_chance_modifier_inv ir = agressive_expansion_monthly_decay_inv_4 ck3 = innovation_royal_prerogative }
+# link = { ir =  ck3 = innovation_royal_prerogative }
+bonus = { ir = land_won_by_the_spear ir = religious_tech_investment_inv_1 ck3 = innovation_chronicle_writing } # 2nd Recording Tradition
+# link = { ir =  ck3 = innovation_chronicle_writing }
+bonus = { ir = indian_trigonometric_functions_inv ck3 = innovation_armilary_sphere }
+# link = { ir =  ck3 = innovation_armilary_sphere }
+bonus = { ir = tyranny_inv_1 ir = religious_tech_investment_inv_2 ck3 = innovation_baliffs } # 1st Official Orators 2nd Scribae
+# link = { ir =  ck3 = innovation_baliffs } # (sic) bailiffs
+# EARLY MEDIEVAL ERA - REGIONAL
+# bonus = { ir =  ck3 = innovation_reconquista }
+# link = { ir =  ck3 = innovation_reconquista } # region = world_europe_west_iberia
+# bonus = { ir =  ck3 = innovation_stem_duchies }
+# link = { ir =  ck3 = innovation_stem_duchies } # region = custom_europe_western_germany
+# bonus = { ir =  ck3 = innovation_ghilman }
+# link = { ir =  ck3 = innovation_ghilman } # region = world_middle_east_arabia
+# link = { ir =  ck3 = fp3_innovation_mural_sextant } REQUIRES DLC AND COURT SCHOLAR
+
+
+# HIGH MEDIEVAL ERA - MILITARY
+# bonus = { ir =  ck3 = innovation_hoardings }
+# link = { ir =  ck3 = innovation_hoardings }
+# bonus = { ir =  ck3 = innovation_trebuchet }
+# link = { ir =  ck3 = innovation_trebuchet }
+# bonus = { ir =  ck3 = innovation_castle_baileys }
+# link = { ir =  ck3 = innovation_castle_baileys }
+# bonus = { ir =  ck3 = innovation_men_at_arms }
+# link = { ir =  ck3 = innovation_men_at_arms }
+# bonus = { ir =  ck3 = innovation_knighthood }
+# link = { ir =  ck3 = innovation_knighthood }
+# bonus = { ir =  ck3 = innovation_advanced_bowmaking }
+# link = { ir =  ck3 = innovation_advanced_bowmaking }
+# HIGH MEDIEVAL ERA - CIVIC
+# bonus = { ir =  ck3 = innovation_heraldry }
+# link = { ir =  ck3 = innovation_heraldry }
+# bonus = { ir =  ck3 = innovation_windmills }
+# link = { ir =  ck3 = innovation_windmills }
+bonus = { ir = agressive_expansion_impact_inv_5 ck3 = innovation_divine_right } # 1st Divine Mandate
+# link = { ir =  ck3 = innovation_divine_right }
+# bonus = { ir =  ck3 = innovation_land_grants }
+# link = { ir =  ck3 = innovation_land_grants }
+# bonus = { ir =  ck3 = innovation_scutage }
+# link = { ir =  ck3 = innovation_scutage }
+# bonus = { ir =  ck3 = innovation_guilds }
+# link = { ir =  ck3 = innovation_guilds }
+# bonus = { ir =  ck3 = innovation_development_03 }
+# link = { ir =  ck3 = innovation_development_03 } # Urbanization
+# bonus = { ir =  ck3 = innovation_currency_03 }
+# link = { ir =  ck3 = innovation_currency_03 } # Banking
+# HIGH MEDIEVAL ERA - REGIONAL
+# bonus = { ir =  ck3 = innovation_east_settling }
+# link = { ir =  ck3 = innovation_east_settling } # region = custom_europe_eastern_germany
+# bonus = { ir =  ck3 = innovation_seigneurialism }
+# link = { ir =  ck3 = innovation_seigneurialism } # region = world_europe_west_francia
+# bonus = { ir =  ck3 = innovation_muladi }
+# link = { ir =  ck3 = innovation_muladi } # region = world_africa_north
+bonus = { ir = subject_opinions_inv_3 ck3 = innovation_french_peerage }
+# link = { ir =  ck3 = innovation_french_peerage } # region = world_europe_west_francia AND UNLOCKED BY DECISION
+# bonus = { ir =  ck3 = innovation_sanitation }
+# link = { ir =  ck3 = innovation_sanitation } # has_cultural_pillar = heritage_byzantine OR has_cultural_pillar = heritage_arabic IN LEGENDS OF THE DEAD FILE BUT NOT ACTUALLY DLC-LOCKED??
+# HIGH MEDIEVAL ERA - MEN-AT-ARMS
+# bonus = { ir =  ck3 = innovation_desert_tactics }
+# link = { ir =  ck3 = innovation_desert_tactics } # has_innovation = innovation_desert_tactics CIRCULAR POTENTIAL
+# bonus = { ir =  ck3 = innovation_hobbies }
+# link = { ir =  ck3 = innovation_hobbies } # region = ghw_region_britannia
+# bonus = { ir =  ck3 = innovation_sarawit }
+# link = { ir =  ck3 = innovation_sarawit } # has_cultural_parameter = unlock_sarawit_innovation
+
+# LATE MEDIEVAL ERA - MILITARY
+# bonus = { ir =  ck3 = innovation_machicolations }
+# link = { ir =  ck3 = innovation_machicolations }
+# bonus = { ir =  ck3 = innovation_bombard }
+# link = { ir =  ck3 = innovation_bombard }
+# bonus = { ir =  ck3 = innovation_royal_armory }
+# link = { ir =  ck3 = innovation_royal_armory }
+# bonus = { ir =  ck3 = innovation_standing_armies }
+# link = { ir =  ck3 = innovation_standing_armies }
+# bonus = { ir =  ck3 = innovation_sappers }
+# link = { ir =  ck3 = innovation_sappers }
+# bonus = { ir =  ck3 = innovation_plate_armor }
+# link = { ir =  ck3 = innovation_plate_armor }
+# LATE MEDIEVAL ERA - CIVIC
+# bonus = { ir =  ck3 = innovation_primogeniture }
+# link = { ir =  ck3 = innovation_primogeniture }
+bonus = { ir = global_defensive_inv_5 ck3 = innovation_cranes }
+# link = { ir =  ck3 = innovation_cranes }
+# bonus = { ir =  ck3 = innovation_noblesse_oblige }
+# link = { ir =  ck3 = innovation_noblesse_oblige }
+# bonus = { ir =  ck3 = innovation_rightful_ownership }
+# link = { ir =  ck3 = innovation_rightful_ownership }
+# bonus = { ir =  ck3 = innovation_ermine_cloaks }
+# link = { ir =  ck3 = innovation_ermine_cloaks }
+# bonus = { ir =  ck3 = innovation_court_officials }
+# link = { ir =  ck3 = innovation_court_officials }
+# bonus = { ir =  ck3 = innovation_development_04 }
+# link = { ir =  ck3 = innovation_development_04 } # Renaissance Thought
+# bonus = { ir =  ck3 = innovation_currency_04 }
+# link = { ir =  ck3 = innovation_currency_04 } # Promissory Notes
+# LATE MEDIEVAL ERA - REGIONAL
+# bonus = { ir =  ck3 = innovation_wierdijks }
+# link = { ir =  ck3 = innovation_wierdijks } # region = custom_netherlands
+# bonus = { ir =  ck3 = innovation_condottieri }
+# link = { ir =  ck3 = innovation_condottieri } # region = world_europe_south_italy
+# bonus = { ir =  ck3 = innovation_deccan_unity }
+# link = { ir =  ck3 = innovation_deccan_unity } # region = world_india_deccan
+# LATE MEDIEVAL ERA - REGIONAL
+bonus = { ir = indian_tube_drawn_technology_inv ir = global_citizen_happyness_inv ck3 = fp3_innovation_fritware } # 2nd Glass Blowing
+# link = { ir =  ck3 = fp3_innovation_fritware } REQUIRES DLC AND COURT SCHOLAR
+# LATE MEDIEVAL ERA - MEN-AT-ARMS
+# bonus = { ir =  ck3 = innovation_zweihanders }
+# link = { ir =  ck3 = innovation_zweihanders } # region = ghw_region_germany && has_cultural_pillar = heritage_central_germanic
+# bonus = { ir =  ck3 = innovation_adaptive_militia }
+# link = { ir =  ck3 = innovation_adaptive_militia } # has_cultural_parameter = unlock_adaptive_militia_innovation
+# bonus = { ir =  ck3 = innovation_valets }
+# link = { ir =  ck3 = innovation_valets } # has_cultural_parameter = unlock_valets_innovation
+# bonus = { ir =  ck3 = innovation_pike_columns }
+# link = { ir =  ck3 = innovation_pike_columns } # has_cultural_parameter = unlock_innovation_pike_columns
+bonus = { ir = discipline_inv_5 ir = discipline_inv_2 ir = military_tech_investment_inv_2 ck3 = innovation_legionnaires } # 1st Cohorts 2nd Manipular Legion 3rd Praefactus Fabrum
+# link = { ir =  ck3 = innovation_legionnaires } # culture:roman
+# bonus = { ir =  ck3 = innovation_rectilinear_schiltron }
+# link = { ir =  ck3 = innovation_rectilinear_schiltron } # has_cultural_parameter = unlock_schiltron_innovation

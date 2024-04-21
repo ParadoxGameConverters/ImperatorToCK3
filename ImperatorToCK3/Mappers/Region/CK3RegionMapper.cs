@@ -84,15 +84,6 @@ public sealed class CK3RegionMapper {
 		Logger.Warn($"CK3 province ID {provinceId} has no parent duchy name!");
 		return null;
 	}
-	public string? GetParentRegionName(ulong provinceId) {
-		foreach (var (regionName, region) in regions) {
-			if (region.ContainsProvince(provinceId)) {
-				return regionName;
-			}
-		}
-		Logger.Warn($"CK3 province ID {provinceId} has no parent region name!");
-		return null;
-	}
 
 	private void RegisterRegionKeys(Parser parser) {
 		parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => {
