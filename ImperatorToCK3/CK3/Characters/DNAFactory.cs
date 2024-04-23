@@ -488,7 +488,6 @@ public sealed class DNAFactory {
 
 		Logger.Warn($"Cannot get color from palette {irPalettePixels}!");
 		return new DNA.PaletteCoordinates();
-
 	}
 	
 	private static DNA.PaletteCoordinates GetCoordinatesOfClosestCK3Color(
