@@ -85,7 +85,6 @@ public static class RakalyCaller {
 			Logger.Debug("Message: " + e.Message);
 			Logger.Debug("HResult: " + e.HResult);
 			Logger.Debug("NativeErrorCode: " + e.NativeErrorCode);
-			Logger.Debug("StackTrace: " + e.StackTrace);
 			
 			string absoluteRakalyPath = Path.Combine(Directory.GetCurrentDirectory(), RelativeRakalyPath);
 			throw new UserErrorException($"Failed to run Rakaly because the antivirus blocked it.\n" +
