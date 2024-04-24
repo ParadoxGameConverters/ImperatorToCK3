@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using ImperatorToCK3.Exceptions;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -59,6 +60,13 @@ public static class RakalyCaller {
 		return plainText;
 	}
 
+	private static bool IsFileFlaggedAsInfected(Win32Exception ex) {
+		// The error code name is ERROR_VIRUS_INFECTED:
+		// https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/18d8fbe8-a967-4f1c-ae50-99ca8e491d2d
+		const int nativeErrorCode = 0x000000E1;
+		return ex.NativeErrorCode == nativeErrorCode;
+	}
+
 	public static void MeltSave(string savePath) {
 		string arguments = $"melt --unknown-key stringify \"{savePath}\"";
 
@@ -68,8 +76,21 @@ public static class RakalyCaller {
 		process.StartInfo.Arguments = arguments;
 		process.StartInfo.CreateNoWindow = true;
 		process.StartInfo.RedirectStandardError = true;
-		process.Start();
-		process.WaitForExit();
+
+		try {
+			process.Start();
+			process.WaitForExit();
+		}
+		catch (Win32Exception e) when (IsFileFlaggedAsInfected(e)) {
+			Logger.Debug("Message: " + e.Message);
+			Logger.Debug("HResult: " + e.HResult);
+			Logger.Debug("NativeErrorCode: " + e.NativeErrorCode);
+			
+			string absoluteRakalyPath = Path.Combine(Directory.GetCurrentDirectory(), RelativeRakalyPath);
+			throw new UserErrorException($"Failed to run Rakaly because the antivirus blocked it.\n" +
+			                             $"Add an exclusion for \"{absoluteRakalyPath}\" to the antivirus and try again.");
+		}
+		
 		int returnCode = process.ExitCode;
 		if (returnCode != 0 && returnCode != 1) {
 			Logger.Debug($"Save path: {savePath}");
