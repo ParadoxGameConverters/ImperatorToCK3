@@ -70,4 +70,15 @@ public class InnovationMapper {
 	}
 
 	// TODO: ALSO LOG UNMAPPED CK3 MARTIAL AND CIVIC INNOVATIONS
+
+	public void RemoveMappingsWithInvalidInnovations(ISet<string> innovationIds) {
+		int removedCount = 0;
+		
+		removedCount += innovationLinks
+			.RemoveAll(link => link.CK3InnovationId is null || !innovationIds.Contains(link.CK3InnovationId));
+		removedCount += innovationBonuses
+			.RemoveAll(bonus => bonus.CK3InnovationId is null || !innovationIds.Contains(bonus.CK3InnovationId));
+		
+		Logger.Debug($"Removed {removedCount} technology mappings with invalid CK3 innovations.");
+	}
 }
