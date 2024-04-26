@@ -86,6 +86,8 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	}
 	
 	public void LoadCultures(ModFilesystem ck3ModFS) {
+		Logger.Info("Loading cultures...");
+		
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => LoadCulture(cultureId, reader));
 		parser.IgnoreAndLogUnregisteredItems();
@@ -95,6 +97,8 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	}
 	
 	public void LoadConverterCultures(string converterCulturesPath) {
+		Logger.Info("Loading converter cultures...");
+		
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => LoadCulture(cultureId, reader));
 		parser.IgnoreAndLogUnregisteredItems();
@@ -149,12 +153,26 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	}
 
 	public void LoadNameLists(ModFilesystem ck3ModFS) {
+		Logger.Info("Loading name lists...");
+		
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, nameListId) => {
 			NameListCollection.AddOrReplace(new NameList(nameListId, reader));
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/culture/name_lists", ck3ModFS, "txt", recursive: true, logFilePaths: true);
+	}
+	
+	public void LoadInnovationIds(ModFilesystem ck3ModFS) {
+		Logger.Info("Loading CK3 innovation IDs...");
+		
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (reader, innovationId) => {
+			InnovationIds.Add(innovationId);
+			ParserHelpers.IgnoreItem(reader);
+		});
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseGameFolder("common/culture/innovations", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 	}
 
 	private string? GetCK3CultureIdForImperatorCountry(Country country, CultureMapper cultureMapper, ProvinceMapper provinceMapper) {
@@ -182,6 +200,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		var innovationMapper = new InnovationMapper();
 		innovationMapper.LoadLinksAndBonuses("configurables/inventions_to_innovations_map.txt");
 		innovationMapper.LogUnmappedInventions(inventionsDB, irLocDB);
+		innovationMapper.RemoveMappingsWithInvalidInnovations(InnovationIds);
 		
 		// Group I:R countries by corresponding CK3 culture.
 		var countriesByCulture = countries.Select(c => new {
@@ -207,6 +226,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	
 	protected readonly PillarCollection PillarCollection;
 	protected readonly IdObjectCollection<string, NameList> NameListCollection = new();
+	protected readonly HashSet<string> InnovationIds = [];
 	
 	private CultureData cultureData = new();
 	private readonly Parser cultureDataParser = new();

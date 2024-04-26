@@ -115,11 +115,9 @@ public class World {
 		Logger.Info("Loading converter cultural pillars...");
 		CulturalPillars.LoadConverterPillars("configurables/cultural_pillars");
 		Cultures = new CultureCollection(ck3ColorFactory, CulturalPillars, config.GetCK3ModFlags());
-		Logger.Info("Loading name lists...");
 		Cultures.LoadNameLists(ModFS);
-		Logger.Info("Loading cultures...");
+		Cultures.LoadInnovationIds(ModFS);
 		Cultures.LoadCultures(ModFS);
-		Logger.Info("Loading converter cultures...");
 		Cultures.LoadConverterCultures("configurables/converter_cultures.txt");
 		Logger.IncrementProgress();
 
