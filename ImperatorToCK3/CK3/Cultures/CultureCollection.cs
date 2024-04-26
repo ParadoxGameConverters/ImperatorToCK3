@@ -169,6 +169,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, innovationId) => {
 			InnovationIds.Add(innovationId);
+			ParserHelpers.IgnoreItem(reader);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/culture/innovations", ck3ModFS, "txt", recursive: true, logFilePaths: true);
