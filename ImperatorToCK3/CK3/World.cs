@@ -372,8 +372,8 @@ public class World {
 
 	private void OverwriteCountiesHistory(CountryCollection irCountries, IEnumerable<Governorship> governorships, IList<KeyValuePair<Country, Dependency?>> countyLevelCountries, IEnumerable<Governorship> countyLevelGovernorships, Imperator.Characters.CharacterCollection impCharacters, Imperator.Provinces.ProvinceCollection irProvinces, Date conversionDate) {
 		Logger.Info("Overwriting counties' history...");
-		var governorshipsSet = governorships.ToHashSet();
-		var countyLevelGovernorshipsSet = countyLevelGovernorships.ToHashSet();
+		HashSet<Governorship> governorshipsSet = governorships.ToHashSet();
+		HashSet<Governorship> countyLevelGovernorshipsSet = countyLevelGovernorships.ToHashSet();
 
 		foreach (var county in LandedTitles.Where(t => t.Rank == TitleRank.county)) {
 			if (county.CapitalBaronyProvinceId is null) {
@@ -404,9 +404,9 @@ public class World {
 				county.SetHolder(null, conversionDate);
 				county.SetDeFactoLiege(null, conversionDate);
 			} else {
-				bool given = TryGiveCountyToCountyLevelRuler(county, irCountry);
+				bool given = TryGiveCountyToCountyLevelRuler(county, irCountry, countyLevelCountries, irCountries);
 				if (!given) {
-					given = TryGiveCountyToGovernor(county, irProvince, irCountry);
+					given = TryGiveCountyToGovernor(county, irProvince, irCountry, governorshipsSet, irProvinces, countyLevelGovernorshipsSet, impCharacters);
 				}
 				if (!given) {
 					given = TryGiveCountyToMonarch(county, irCountry);
@@ -417,120 +417,132 @@ public class World {
 			}
 		}
 		Logger.IncrementProgress();
-		
-		bool TryGiveCountyToCountyLevelRuler(Title county, Country irCountry) {
-			var matchingCountyLevelRulers = countyLevelCountries.Where(c => c.Key.Id == irCountry.Id).ToList();
-			if (matchingCountyLevelRulers.Count == 0) {
-				return false;
-			}
-			var dependency = matchingCountyLevelRulers[0].Value;
+	}
 
-			// Give county to ruler.
-			var ck3Ruler = irCountry.Monarch?.CK3Character;
+	private bool TryGiveCountyToMonarch(Title county, Country irCountry) {
+		var ck3Country = irCountry.CK3Title;
+		if (ck3Country is null) {
+			Logger.Warn($"{irCountry.Name} has no CK3 title!"); // should not happen
+			return false;
+		}
+
+		GiveCountyToMonarch(county, ck3Country);
+		return true;
+	}
+
+	private bool TryGiveCountyToGovernor(Title county,
+		Imperator.Provinces.Province irProvince,
+		Country irCountry,
+		HashSet<Governorship> governorshipsSet,
+		Imperator.Provinces.ProvinceCollection irProvinces,
+		HashSet<Governorship> countyLevelGovernorshipsSet,
+		Imperator.Characters.CharacterCollection irCharacters) {
+		var ck3Country = irCountry.CK3Title;
+		if (ck3Country is null) {
+			Logger.Warn($"{irCountry.Name} has no CK3 title!"); // should not happen
+			return false;
+		}
+		var matchingGovernorships = new List<Governorship>(governorshipsSet.Where(g =>
+			g.Country.Id == irCountry.Id &&
+			g.Region.Id == imperatorRegionMapper.GetParentRegionName(irProvince.Id)
+		));
+
+		var ck3CapitalCounty = ck3Country.CapitalCounty;
+		if (ck3CapitalCounty is null) {
+			var logLevel = ck3Country.ImperatorCountry?.PlayerCountry == true ? Level.Warn : Level.Debug;
+			Logger.Log(logLevel, $"{ck3Country} has no capital county!");
+			return false;
+		}
+		// if title belongs to country ruler's capital's de jure duchy, it needs to be directly held by the ruler
+		var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
+		var deJureDuchyOfCounty = county.DeJureLiege;
+		if (countryCapitalDuchy is not null && deJureDuchyOfCounty is not null && countryCapitalDuchy.Id == deJureDuchyOfCounty.Id) {
+			return false;
+		}
+
+		if (matchingGovernorships.Count == 0) {
+			// we have no matching governorship
+			return false;
+		}
+
+		// give county to governor
+		var governorship = matchingGovernorships[0];
+		var ck3GovernorshipId = tagTitleMapper.GetTitleForGovernorship(governorship, LandedTitles, irProvinces, Provinces, imperatorRegionMapper, provinceMapper);
+		if (ck3GovernorshipId is null) {
+			Logger.Warn($"{nameof(ck3GovernorshipId)} is null for {ck3Country} {governorship.Region.Id}!");
+			return false;
+		}
+
+		if (countyLevelGovernorshipsSet.Contains(governorship)) {
+			GiveCountyToCountyLevelGovernor(county, governorship, ck3Country, irCharacters);
+		} else {
+			GiveCountyToGovernor(county, ck3GovernorshipId);
+		}
+		return true;
+	}
+
+	private void GiveCountyToMonarch(Title county, Title ck3Country) {
+		var date = ck3Country.GetDateOfLastHolderChange();
+		var holderId = ck3Country.GetHolderId(date);
+
+		if (Characters.TryGetValue(holderId, out var holder)) {
 			county.ClearHolderSpecificHistory();
-			var ruleStartDate = irCountry.RulerTerms.OrderBy(t => t.StartDate).Last().StartDate;
-			county.SetHolder(ck3Ruler, ruleStartDate);
-			if (dependency is not null) {
-				var irOverlord = dependency.OverlordId;
-				var ck3Overlord = irCountries[irOverlord].CK3Title;
-				county.SetDeFactoLiege(ck3Overlord, dependency.StartDate);
-			} else {
-				county.SetDeFactoLiege(null, ruleStartDate);
-			}
-			return true;
+			county.SetHolder(holder, date);
+		} else {
+			Logger.Warn($"Holder {holderId} of county {county} doesn't exist!");
 		}
+		county.SetDeFactoLiege(null, date);
+	}
 
-		bool TryGiveCountyToMonarch(Title county, Country irCountry) {
-			var ck3Country = irCountry.CK3Title;
-			if (ck3Country is null) {
-				Logger.Warn($"{irCountry.Name} has no CK3 title!"); // should not happen
-				return false;
-			}
-
-			GiveCountyToMonarch(county, ck3Country);
-			return true;
-		}
-
-		void GiveCountyToMonarch(Title county, Title ck3Country) {
-			var date = ck3Country.GetDateOfLastHolderChange();
-			var holderId = ck3Country.GetHolderId(date);
-
-			if (Characters.TryGetValue(holderId, out var holder)) {
-				county.ClearHolderSpecificHistory();
-				county.SetHolder(holder, date);
-			} else {
-				Logger.Warn($"Holder {holderId} of county {county} doesn't exist!");
-			}
-			county.SetDeFactoLiege(null, date);
-		}
-
-		bool TryGiveCountyToGovernor(Title county, Imperator.Provinces.Province impProvince, Country impCountry) {
-			var ck3Country = impCountry.CK3Title;
-			if (ck3Country is null) {
-				Logger.Warn($"{impCountry.Name} has no CK3 title!"); // should not happen
-				return false;
-			}
-			var matchingGovernorships = new List<Governorship>(governorshipsSet.Where(g =>
-				g.Country.Id == impCountry.Id &&
-				g.Region.Id == imperatorRegionMapper.GetParentRegionName(impProvince.Id)
-			));
-
-			var ck3CapitalCounty = ck3Country.CapitalCounty;
-			if (ck3CapitalCounty is null) {
-				var logLevel = ck3Country.ImperatorCountry?.PlayerCountry == true ? Level.Warn : Level.Debug;
-				Logger.Log(logLevel, $"{ck3Country} has no capital county!");
-				return false;
-			}
-			// if title belongs to country ruler's capital's de jure duchy, it needs to be directly held by the ruler
-			var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
-			var deJureDuchyOfCounty = county.DeJureLiege;
-			if (countryCapitalDuchy is not null && deJureDuchyOfCounty is not null && countryCapitalDuchy.Id == deJureDuchyOfCounty.Id) {
-				return false;
-			}
-
-			if (matchingGovernorships.Count == 0) {
-				// we have no matching governorship
-				return false;
-			}
-
-			// give county to governor
-			var governorship = matchingGovernorships[0];
-			var ck3GovernorshipId = tagTitleMapper.GetTitleForGovernorship(governorship, LandedTitles, irProvinces, Provinces, imperatorRegionMapper, provinceMapper);
-			if (ck3GovernorshipId is null) {
-				Logger.Warn($"{nameof(ck3GovernorshipId)} is null for {ck3Country} {governorship.Region.Id}!");
-				return false;
-			}
-
-			if (countyLevelGovernorshipsSet.Contains(governorship)) {
-				GiveCountyToCountyLevelGovernor(county, governorship, ck3Country);
-			} else {
-				GiveCountyToGovernor(county, ck3GovernorshipId);
-			}
-			return true;
-		}
-
-		void GiveCountyToGovernor(Title county, string ck3GovernorshipId) {
-			var ck3Governorship = LandedTitles[ck3GovernorshipId];
-			var holderChangeDate = ck3Governorship.GetDateOfLastHolderChange();
-			var holderId = ck3Governorship.GetHolderId(holderChangeDate);
-			if (Characters.TryGetValue(holderId, out var governor)) {
-				county.ClearHolderSpecificHistory();
-				county.SetHolder(governor, holderChangeDate);
-			} else {
-				Logger.Warn($"Holder {holderId} of county {county} doesn't exist!");
-			}
-			county.SetDeFactoLiege(null, holderChangeDate);
-		}
-
-		void GiveCountyToCountyLevelGovernor(Title county, Governorship governorship, Title ck3Country) {
-			var holderChangeDate = governorship.StartDate;
-			var impGovernor = impCharacters[governorship.CharacterId];
-			var governor = impGovernor.CK3Character;
-
+	private void GiveCountyToGovernor(Title county, string ck3GovernorshipId) {
+		var ck3Governorship = LandedTitles[ck3GovernorshipId];
+		var holderChangeDate = ck3Governorship.GetDateOfLastHolderChange();
+		var holderId = ck3Governorship.GetHolderId(holderChangeDate);
+		if (Characters.TryGetValue(holderId, out var governor)) {
 			county.ClearHolderSpecificHistory();
 			county.SetHolder(governor, holderChangeDate);
-			county.SetDeFactoLiege(ck3Country, holderChangeDate);
+		} else {
+			Logger.Warn($"Holder {holderId} of county {county} doesn't exist!");
 		}
+		county.SetDeFactoLiege(null, holderChangeDate);
+	}
+
+	private void GiveCountyToCountyLevelGovernor(Title county,
+		Governorship governorship,
+		Title ck3Country,
+		Imperator.Characters.CharacterCollection impCharacters) {
+		var holderChangeDate = governorship.StartDate;
+		var impGovernor = impCharacters[governorship.CharacterId];
+		var governor = impGovernor.CK3Character;
+
+		county.ClearHolderSpecificHistory();
+		county.SetHolder(governor, holderChangeDate);
+		county.SetDeFactoLiege(ck3Country, holderChangeDate);
+	}
+
+	private bool TryGiveCountyToCountyLevelRuler(Title county,
+		Country irCountry,
+		IList<KeyValuePair<Country, Dependency?>> countyLevelCountries,
+		CountryCollection irCountries) {
+		var matchingCountyLevelRulers = countyLevelCountries.Where(c => c.Key.Id == irCountry.Id).ToList();
+		if (matchingCountyLevelRulers.Count == 0) {
+			return false;
+		}
+		var dependency = matchingCountyLevelRulers[0].Value;
+
+		// Give county to ruler.
+		var ck3Ruler = irCountry.Monarch?.CK3Character;
+		county.ClearHolderSpecificHistory();
+		var ruleStartDate = irCountry.RulerTerms.OrderBy(t => t.StartDate).Last().StartDate;
+		county.SetHolder(ck3Ruler, ruleStartDate);
+		if (dependency is not null) {
+			var irOverlord = dependency.OverlordId;
+			var ck3Overlord = irCountries[irOverlord].CK3Title;
+			county.SetDeFactoLiege(ck3Overlord, dependency.StartDate);
+		} else {
+			county.SetDeFactoLiege(null, ruleStartDate);
+		}
+		return true;
 	}
 
 	private void HandleIcelandAndFaroeIslands(Configuration config) {
