@@ -30,8 +30,7 @@ using Parser = commonItems.Parser;
 
 namespace ImperatorToCK3.Imperator;
 
-public class World : Parser {
-	private readonly Date startDate = new("450.10.1", AUC: true);
+public class World {
 	public Date EndDate { get; private set; } = new Date("727.2.17", AUC: true);
 	public ModFilesystem ModFS { get; private set; }
 	private readonly SortedSet<string> dlcs = new();
@@ -73,176 +72,12 @@ public class World : Parser {
 	
 	public World(Configuration config, ConverterVersion converterVersion) {
 		Logger.Info("*** Hello Imperator, Roma Invicta! ***");
-
-		var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
-
-		// Parse the save.
-		RegisterRegex(@"\bSAV\w*\b", _ => { });
-		RegisterKeyword("version", reader => {
-			var imperatorVersion = new GameVersion(reader.GetString());
-			Logger.Info($"Save game version: {imperatorVersion}");
-
-			if (converterVersion.MinSource > imperatorVersion) {
-				Logger.Error(
-					$"Converter requires a minimum save from v{converterVersion.MinSource.ToShortString()}");
-				throw new FormatException("Save game vs converter version mismatch!");
-			}
-			if (!converterVersion.MaxSource.IsLargerishThan(imperatorVersion)) {
-				Logger.Error(
-					$"Converter requires a maximum save from v{converterVersion.MaxSource.ToShortString()}");
-				throw new FormatException("Save game vs converter version mismatch!");
-			}
-		});
-		RegisterKeyword("date", reader => {
-			var dateString = reader.GetString();
-			EndDate = new Date(dateString, AUC: true);  // converted to AD
-			Logger.Info($"Date: {dateString} AUC ({EndDate} AD)");
-
-			if (EndDate > config.CK3BookmarkDate) {
-				config.CK3BookmarkDate = new Date(EndDate);
-				Logger.Warn($"CK3 bookmark date can't be earlier than save date. Changed to {config.CK3BookmarkDate}.");
-			}
-		});
-		RegisterKeyword("enabled_dlcs", reader => {
-			dlcs.UnionWith(reader.GetStrings());
-			foreach (var dlc in dlcs) {
-				Logger.Info($"Enabled DLC: {dlc}");
-			}
-			Logger.IncrementProgress();
-		});
-		RegisterKeyword("enabled_mods", reader => {
-			Logger.Info("Detecting used mods...");
-			var modsList = reader.GetStrings();
-			Logger.Info($"Save game claims {modsList.Count} mods used:");
-			Mods incomingMods = new();
-			foreach (var modPath in modsList) {
-				Logger.Info($"Used mod: {modPath}");
-				incomingMods.Add(new Mod(string.Empty, modPath));
-			}
-			Logger.IncrementProgress();
-
-			// Let's locate, verify and potentially update those mods immediately.
-			ModLoader modLoader = new();
-			modLoader.LoadMods(config.ImperatorDocPath, incomingMods);
-			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
-
-			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
-			LoadModFilesystemDependentData();
-		});
-		RegisterKeyword("variables", reader => {
-			Logger.Info("Reading global variables...");
-
-			var variables = new HashSet<string>();
-			var variablesParser = new Parser();
-			variablesParser.RegisterKeyword("data", dataReader => {
-				var blobParser = new Parser();
-				blobParser.RegisterKeyword("flag", blobReader => variables.Add(blobReader.GetString()));
-				blobParser.IgnoreUnregisteredItems();
-				foreach (var blob in new BlobList(dataReader).Blobs) {
-					var blobReader = new BufferedReader(blob);
-					blobParser.ParseStream(blobReader);
-				}
-			});
-			variablesParser.IgnoreAndLogUnregisteredItems();
-			variablesParser.ParseStream(reader);
-			GlobalFlags = variables.ToImmutableHashSet();
-
-			Logger.IncrementProgress();
-		});
-		RegisterKeyword("family", reader => {
-			Logger.Info("Loading families...");
-			Families.LoadFamiliesFromBloc(reader);
-			Logger.Info($"Loaded {Families.Count} families.");
-			Logger.IncrementProgress();
-		});
-		RegisterKeyword("character", reader => {
-			Logger.Info("Loading characters...");
-			Characters.GenesDB = genesDB;
-			Characters.LoadCharactersFromBloc(reader);
-			Logger.Info($"Loaded {Characters.Count} characters.");
-			Logger.IncrementProgress();
-		});
-		RegisterKeyword("state", reader => {
-			Logger.Info("Loading states...");
-			var statesBlocParser = new Parser();
-			statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader, Areas, Countries));
-			statesBlocParser.IgnoreAndLogUnregisteredItems();
-			statesBlocParser.ParseStream(reader);
-			Logger.Debug($"Ignored state keywords: {StateCollection.IgnoredStateKeywords}");
-			Logger.Info($"Loaded {States.Count} states.");
-			Logger.IncrementProgress();
-		});
-		RegisterKeyword("provinces", reader => {
-			Logger.Info("Loading provinces...");
-			Provinces.LoadProvinces(reader, States, Countries);
-			Logger.Debug($"Ignored Province tokens: {Province.IgnoredTokens}");
-			Logger.Info($"Loaded {Provinces.Count} provinces.");
-
-			Logger.IncrementProgress();
-		});
-		RegisterKeyword("armies", reader => {
-			Logger.Info("Loading armies...");
-			var armiesParser = new Parser();
-			armiesParser.RegisterKeyword("subunit_database", subunitsReader => Units.LoadSubunits(subunitsReader));
-			armiesParser.RegisterKeyword("units_database", unitsReader => Units.LoadUnits(unitsReader, LocDB, Defines));
-
-			armiesParser.ParseStream(reader);
-		});
-		RegisterKeyword("country", reader => {
-			Logger.Info("Loading countries...");
-			Countries.LoadCountriesFromBloc(reader);
-			Logger.Info($"Loaded {Countries.Count} countries.");
-			Logger.IncrementProgress();
-		});
-		RegisterKeyword("population", reader => {
-			Logger.Info("Loading pops...");
-			pops.LoadPopsFromBloc(reader);
-			Logger.Info($"Loaded {pops.Count} pops.");
-			Logger.IncrementProgress();
-		});
-		RegisterKeyword("diplomacy", reader => {
-			Logger.Info("Loading diplomacy...");
-			var diplomacy = new Diplomacy.DiplomacyDB(reader);
-			Wars = diplomacy.Wars;
-			Dependencies = diplomacy.Dependencies;
-			Logger.IncrementProgress();
-		});
-		RegisterKeyword("jobs", reader => {
-			Logger.Info("Loading Jobs...");
-			JobsDB = new Jobs.JobsDB(reader, Countries, ImperatorRegionMapper!);
-			Logger.Info($"Loaded {JobsDB.Governorships.Count} governorships.");
-			Logger.IncrementProgress();
-		});
-		RegisterKeyword("deity_manager", reader => {
-			Religions!.LoadHolySiteDatabase(reader);
-		});
-		RegisterKeyword("meta_player_name", ParserHelpers.IgnoreItem);
-		RegisterKeyword("speed", ParserHelpers.IgnoreItem);
-		RegisterKeyword("random_seed", ParserHelpers.IgnoreItem);
-		RegisterKeyword("tutorial_disable", ParserHelpers.IgnoreItem);
-		var playerCountriesToLog = new OrderedSet<string>();
-		RegisterKeyword("played_country", reader => {
-			var playedCountryBlocParser = new Parser();
-			playedCountryBlocParser.RegisterKeyword("country", reader => {
-				var countryId = reader.GetULong();
-				var country = Countries[countryId];
-				country.PlayerCountry = true;
-				playerCountriesToLog.Add(country.Tag);
-			});
-			playedCountryBlocParser.IgnoreUnregisteredItems();
-			playedCountryBlocParser.ParseStream(reader);
-		});
-		this.IgnoreAndStoreUnregisteredItems(ignoredTokens);
-
+		
 		Logger.Info("Verifying Imperator save...");
 		VerifySave(config.SaveGamePath);
 		Logger.IncrementProgress();
 
-		ParseStream(ProcessSave(config.SaveGamePath));
-		ClearRegisteredRules();
-		Logger.Debug($"Ignored World tokens: {ignoredTokens}");
-		Logger.Info($"Player countries: {string.Join(", ", playerCountriesToLog)}");
-		Logger.IncrementProgress();
+		ParseSave(config, converterVersion);
 		
 		// Throw exceptions if any important data is missing.
 		if (ModFS is null) {
@@ -275,6 +110,208 @@ public class World : Parser {
 		LoadPreImperatorRulers();
 
 		Logger.Info("*** Good-bye Imperator, rest in peace. ***");
+	}
+
+	private void ParseSave(Configuration config, ConverterVersion converterVersion) {
+		var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
+		var parser = new Parser();
+		
+		parser.RegisterRegex(@"\bSAV\w*\b", _ => { });
+		parser.RegisterKeyword("version", reader => { VerifySaveVersion(converterVersion, reader); });
+		parser.RegisterKeyword("date", reader => { LoadSaveDate(config, reader); });
+		parser.RegisterKeyword("enabled_dlcs", LogEnabledDLCs);
+		parser.RegisterKeyword("enabled_mods", reader => {
+			Mods incomingMods = DetectUsedMods(reader);
+
+			// Let's locate, verify and potentially update those mods immediately.
+			ModLoader modLoader = new();
+			modLoader.LoadMods(config.ImperatorDocPath, incomingMods);
+			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
+
+			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
+			LoadModFilesystemDependentData();
+		});
+		parser.RegisterKeyword("variables", ReadVariablesFromSave);
+		parser.RegisterKeyword("family", LoadFamilies);
+		parser.RegisterKeyword("character", LoadCharacters);
+		parser.RegisterKeyword("state", LoadStates);
+		parser.RegisterKeyword("provinces", LoadProvinces);
+		parser.RegisterKeyword("armies", LoadArmies);
+		parser.RegisterKeyword("country", LoadCountries);
+		parser.RegisterKeyword("population", LoadPops);
+		parser.RegisterKeyword("diplomacy", LoadDiplomacy);
+		parser.RegisterKeyword("jobs", LoadJobs);
+		parser.RegisterKeyword("deity_manager", reader => Religions.LoadHolySiteDatabase(reader));
+		parser.RegisterKeyword("meta_player_name", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("speed", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("random_seed", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("tutorial_disable", ParserHelpers.IgnoreItem);
+		var playerCountriesToLog = new OrderedSet<string>();
+		parser.RegisterKeyword("played_country", LoadPlayerCountries(playerCountriesToLog));
+		parser.IgnoreAndStoreUnregisteredItems(ignoredTokens);
+
+		parser.ParseStream(ProcessSave(config.SaveGamePath));
+		
+		Logger.Debug($"Ignored World tokens: {ignoredTokens}");
+		Logger.Info($"Player countries: {string.Join(", ", playerCountriesToLog)}");
+		Logger.IncrementProgress();
+	}
+
+	private static Mods DetectUsedMods(BufferedReader reader) {
+		Logger.Info("Detecting used mods...");
+		var modsList = reader.GetStrings();
+		Logger.Info($"Save game claims {modsList.Count} mods used:");
+		Mods incomingMods = new();
+		foreach (var modPath in modsList) {
+			Logger.Info($"Used mod: {modPath}");
+			incomingMods.Add(new Mod(string.Empty, modPath));
+		}
+		Logger.IncrementProgress();
+		return incomingMods;
+	}
+
+	private void LoadFamilies(BufferedReader reader) {
+		Logger.Info("Loading families...");
+		Families.LoadFamiliesFromBloc(reader);
+		Logger.Info($"Loaded {Families.Count} families.");
+		Logger.IncrementProgress();
+	}
+
+	private void LoadCharacters(BufferedReader reader) {
+		Logger.Info("Loading characters...");
+		Characters.GenesDB = genesDB;
+		Characters.LoadCharactersFromBloc(reader);
+		Logger.Info($"Loaded {Characters.Count} characters.");
+		Logger.IncrementProgress();
+	}
+
+	private void LoadCountries(BufferedReader reader) {
+		Logger.Info("Loading countries...");
+		Countries.LoadCountriesFromBloc(reader);
+		Logger.Info($"Loaded {Countries.Count} countries.");
+		Logger.IncrementProgress();
+	}
+
+	private void LoadPops(BufferedReader reader) {
+		Logger.Info("Loading pops...");
+		pops.LoadPopsFromBloc(reader);
+		Logger.Info($"Loaded {pops.Count} pops.");
+		Logger.IncrementProgress();
+	}
+
+	private void LoadJobs(BufferedReader reader) {
+		Logger.Info("Loading Jobs...");
+		JobsDB = new Jobs.JobsDB(reader, Countries, ImperatorRegionMapper);
+		Logger.Info($"Loaded {JobsDB.Governorships.Count} governorships.");
+		Logger.IncrementProgress();
+	}
+
+	private void LoadDiplomacy(BufferedReader reader) {
+		Logger.Info("Loading diplomacy...");
+		var diplomacy = new Diplomacy.DiplomacyDB(reader);
+		Wars = diplomacy.Wars;
+		Dependencies = diplomacy.Dependencies;
+		Logger.IncrementProgress();
+	}
+
+	private void LogEnabledDLCs(BufferedReader reader) {
+		dlcs.UnionWith(reader.GetStrings());
+		foreach (var dlc in dlcs) {
+			Logger.Info($"Enabled DLC: {dlc}");
+		}
+
+		Logger.IncrementProgress();
+	}
+
+	private void LoadArmies(BufferedReader reader) {
+		Logger.Info("Loading armies...");
+		var armiesParser = new Parser();
+		armiesParser.RegisterKeyword("subunit_database", subunitsReader => Units.LoadSubunits(subunitsReader));
+		armiesParser.RegisterKeyword("units_database", unitsReader => Units.LoadUnits(unitsReader, LocDB, Defines));
+
+		armiesParser.ParseStream(reader);
+	}
+
+	private SimpleDel LoadPlayerCountries(OrderedSet<string> playerCountriesToLog) {
+		return reader => {
+			var playedCountryBlocParser = new Parser();
+			playedCountryBlocParser.RegisterKeyword("country", countryReader => {
+				var countryId = countryReader.GetULong();
+				var country = Countries[countryId];
+				country.PlayerCountry = true;
+				playerCountriesToLog.Add(country.Tag);
+			});
+			playedCountryBlocParser.IgnoreUnregisteredItems();
+			playedCountryBlocParser.ParseStream(reader);
+		};
+	}
+
+	private void LoadProvinces(BufferedReader reader) {
+		Logger.Info("Loading provinces...");
+		Provinces.LoadProvinces(reader, States, Countries);
+		Logger.Debug($"Ignored Province tokens: {Province.IgnoredTokens}");
+		Logger.Info($"Loaded {Provinces.Count} provinces.");
+
+		Logger.IncrementProgress();
+	}
+
+	private void LoadStates(BufferedReader reader) {
+		Logger.Info("Loading states...");
+		var statesBlocParser = new Parser();
+		statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader, Areas, Countries));
+		statesBlocParser.IgnoreAndLogUnregisteredItems();
+		statesBlocParser.ParseStream(reader);
+		Logger.Debug($"Ignored state keywords: {StateCollection.IgnoredStateKeywords}");
+		Logger.Info($"Loaded {States.Count} states.");
+		Logger.IncrementProgress();
+	}
+
+	private static void VerifySaveVersion(ConverterVersion converterVersion, BufferedReader reader) {
+		var imperatorVersion = new GameVersion(reader.GetString());
+		Logger.Info($"Save game version: {imperatorVersion}");
+
+		if (converterVersion.MinSource > imperatorVersion) {
+			Logger.Error(
+				$"Converter requires a minimum save from v{converterVersion.MinSource.ToShortString()}");
+			throw new FormatException("Save game vs converter version mismatch!");
+		}
+		if (!converterVersion.MaxSource.IsLargerishThan(imperatorVersion)) {
+			Logger.Error(
+				$"Converter requires a maximum save from v{converterVersion.MaxSource.ToShortString()}");
+			throw new FormatException("Save game vs converter version mismatch!");
+		}
+	}
+
+	private void LoadSaveDate(Configuration config, BufferedReader reader) {
+		var dateString = reader.GetString();
+		EndDate = new Date(dateString, AUC: true);  // converted to AD
+		Logger.Info($"Date: {dateString} AUC ({EndDate} AD)");
+
+		if (EndDate > config.CK3BookmarkDate) {
+			config.CK3BookmarkDate = new Date(EndDate);
+			Logger.Warn($"CK3 bookmark date can't be earlier than save date. Changed to {config.CK3BookmarkDate}.");
+		}
+	}
+
+	private void ReadVariablesFromSave(BufferedReader reader) {
+		Logger.Info("Reading global variables...");
+
+		var variables = new HashSet<string>();
+		var variablesParser = new Parser();
+		variablesParser.RegisterKeyword("data", dataReader => {
+			var blobParser = new Parser();
+			blobParser.RegisterKeyword("flag", blobReader => variables.Add(blobReader.GetString()));
+			blobParser.IgnoreUnregisteredItems();
+			foreach (var blob in new BlobList(dataReader).Blobs) {
+				var blobReader = new BufferedReader(blob);
+				blobParser.ParseStream(blobReader);
+			}
+		});
+		variablesParser.IgnoreAndLogUnregisteredItems();
+		variablesParser.ParseStream(reader);
+		GlobalFlags = variables.ToImmutableHashSet();
+
+		Logger.IncrementProgress();
 	}
 
 	private void ParseGenes() {
