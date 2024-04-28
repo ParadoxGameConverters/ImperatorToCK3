@@ -78,6 +78,10 @@ public class LiteralHistoryField : IHistoryField {
 				newInitialEntriesList.Add(entry);
 			}
 		}
+		InitialEntries.Clear();
+		foreach (var entry in newInitialEntriesList) {
+			InitialEntries.Add(entry);
+		}
 		
 		foreach (var (date, entries) in DateToEntriesDict) {
 			var newEntriesList = new List<KeyValuePair<string, object>>();
