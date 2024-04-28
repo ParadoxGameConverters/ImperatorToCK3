@@ -23,7 +23,7 @@ namespace ImperatorToCK3.CK3.Characters;
 
 public class Character : IIdentifiable<string> {
 	public string Id { get; }
-	public bool FromImperator { get; } = false;
+	public bool FromImperator { get; init; } = false;
 		
 	public bool Female {
 		get {
