@@ -6,6 +6,8 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Technology;
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class InnovationLinkTests {
 	[Fact]
 	public void WarningIsLoggedWhenLinkHasNoCK3Innovation() {

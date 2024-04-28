@@ -6,6 +6,8 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Technology;
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class InnovationBonusTests {
 	[Fact]
 	public void WarningIsLoggedWhenBonusHasNoCK3Innovation() {
