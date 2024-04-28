@@ -150,8 +150,7 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 
 			effectsLiteralField.RegexReplaceAllEntries(regex, string.Empty);
 
-			// Remove all empty effect entries that were left after removing character references.
-			// Example: effect = { }
+			// Remove all empty effect blocks (effect = { }).
 			effectsHistoryField.RemoveAllEntries(entryValue => {
 				if (entryValue is not string valueString) {
 					return false;
