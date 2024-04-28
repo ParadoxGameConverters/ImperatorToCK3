@@ -187,7 +187,7 @@ public class World {
 		var dnaFactory = new DNAFactory(impWorld.ModFS, ModFS);
 		Logger.IncrementProgress();
 
-		Characters.LoadCK3Characters(ModFS);
+		Characters.LoadCK3Characters(ModFS, config.CK3BookmarkDate);
 		Logger.IncrementProgress();
 		Characters.ImportImperatorCharacters(
 			impWorld,
