@@ -56,6 +56,10 @@ public class History : IPDXSerializable {
 		var entriesByDate = new SortedDictionary<Date, List<KeyValuePair<string, object>>>(); // <date, list<effect name, value>>
 		foreach (var field in Fields) {
 			foreach (var (date, entries) in field.DateToEntriesDict) {
+				if (entries.Count == 0) {
+					continue;
+				}
+
 				if (entriesByDate.TryGetValue(date, out var listForDate)) {
 					listForDate.AddRange(entries);
 				} else {

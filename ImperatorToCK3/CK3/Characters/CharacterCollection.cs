@@ -136,26 +136,38 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 			"set_relation_friend|set_relation_potential_friend|set_relation_best_friend|" +
 			"set_relation_ward|set_relation_mentor)";
 
-		string pattern = commandsCapturingGroup + @"\s*=\s*\{[^\}]*character:" + idsCapturingGroup + @"[^\}]*\}(?:\s*#.*)?";
-
-		Logger.Notice("Pattern for character references removal: " + pattern);
+		string pattern = commandsCapturingGroup + @"\s*=\s*\{[^\}]*character:" + idsCapturingGroup + @"\s[^\}]*\}(?:\s*#.*)?";
 
 		var regex = new Regex(
 			pattern: pattern);
 
-		Parallel.ForEach(this, character => {
+		foreach (var character in this) {
 			var effectsHistoryField = character.History.Fields["effects"];
 			if (effectsHistoryField is not LiteralHistoryField effectsLiteralField) {
 				Logger.Warn($"Effects history field for character {character.Id} is not a literal field!");
-				return;
+				continue;
 			}
 			if (effectsLiteralField.EntriesCount == 0) {
-				return;
+				continue;
 			}
 
-			Logger.Debug($"Removing some references from character {character.Id}'s effects."); // TODO: remove this
 			effectsLiteralField.RegexReplaceAllEntries(regex, string.Empty);
-		});
+
+			// Remove all empty effect entries that were left after removing character references.
+			// Example: effect = { }
+			effectsHistoryField.RemoveAllEntries(entryValue => {
+				if (entryValue is not string valueString) {
+					return false;
+				}
+
+				string trimmedBlock = valueString.Trim();
+				if (!trimmedBlock.StartsWith('{') || !trimmedBlock.EndsWith('}')) {
+					return false;
+				}
+
+				return trimmedBlock[1..^1].Trim().Length == 0;
+			});
+		}
 	}
 
 	private void LinkMothersAndFathers() {
