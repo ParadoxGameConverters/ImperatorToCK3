@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace ImperatorToCK3.CK3.Characters; 
 
@@ -514,35 +513,6 @@ public class Character : IIdentifiable<string> {
 				child.Father = null;
 			}
 		}
-	}
-	
-	public void RemoveOtherCharacterReferencesFromHistory(ICollection<string> charactersToRemove) {
-		var effectsHistoryField = History.Fields["effects"];
-		if (effectsHistoryField is not LiteralHistoryField effectsLiteralField) {
-			Logger.Warn($"Effects history field for character {Id} is not a literal field!");
-			return;
-		}
-
-		if (effectsLiteralField.EntriesCount == 0) {
-			return;
-		}
-
-		Logger.Debug($"Removing some references from character {Id}'s effects."); // TODO: remove this
-
-		var idsCapturingGroup = "(" + string.Join('|', charactersToRemove) + ")";
-
-		string[] commandsToCheck = [
-			"set_relation_rival", "set_relation_potential_rival", "set_relation_nemesis", 
-			"set_relation_lover", "set_relation_soulmate", 
-			"set_relation_friend", "set_relation_potential_friend", "set_relation_best_friend",
-			"set_relation_ward", "set_relation_mentor",];
-		var commandsCapturingGroup = "(" + string.Join('|', commandsToCheck) + ")";
-
-		var rivalCleanupRegex = new Regex(
-				pattern: commandsCapturingGroup + @"\s*=\s*\{[^\}]*character:" + idsCapturingGroup + @"^\}]*\}(?:\s*#.*)?",
-				options: RegexOptions.Multiline);
-
-		effectsLiteralField.RegexReplaceAllEntries(rivalCleanupRegex, string.Empty);
 	}
 
 	public void UpdateChildrenCacheOfParents() {

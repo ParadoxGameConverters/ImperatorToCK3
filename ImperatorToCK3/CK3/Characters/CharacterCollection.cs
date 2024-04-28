@@ -5,6 +5,7 @@ using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Mappers.Culture;
@@ -16,6 +17,7 @@ using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Characters;
@@ -121,10 +123,39 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 		
 			base.Remove(key);
 		}
+		
+		RemoveCharacterReferencesFromHistory(keys);
+	}
 
-		foreach (var character in this) {
-			character.RemoveOtherCharacterReferencesFromHistory(keys);
-		}
+	private void RemoveCharacterReferencesFromHistory(ICollection<string> idsToRemove) {
+		var idsCapturingGroup = "(" + string.Join('|', idsToRemove) + ")";
+
+		const string commandsCapturingGroup = "(" +
+			"set_relation_rival|set_relation_potential_rival|set_relation_nemesis|" +
+			"set_relation_lover|set_relation_soulmate|" +
+			"set_relation_friend|set_relation_potential_friend|set_relation_best_friend|" +
+			"set_relation_ward|set_relation_mentor)";
+
+		string pattern = commandsCapturingGroup + @"\s*=\s*\{[^\}]*character:" + idsCapturingGroup + @"[^\}]*\}(?:\s*#.*)?";
+
+		Logger.Notice("Pattern for character references removal: " + pattern);
+
+		var regex = new Regex(
+			pattern: pattern);
+
+		Parallel.ForEach(this, character => {
+			var effectsHistoryField = character.History.Fields["effects"];
+			if (effectsHistoryField is not LiteralHistoryField effectsLiteralField) {
+				Logger.Warn($"Effects history field for character {character.Id} is not a literal field!");
+				return;
+			}
+			if (effectsLiteralField.EntriesCount == 0) {
+				return;
+			}
+
+			Logger.Debug($"Removing some references from character {character.Id}'s effects."); // TODO: remove this
+			effectsLiteralField.RegexReplaceAllEntries(regex, string.Empty);
+		});
 	}
 
 	private void LinkMothersAndFathers() {
