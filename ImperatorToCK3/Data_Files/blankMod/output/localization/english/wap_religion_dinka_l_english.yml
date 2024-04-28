@@ -70,6 +70,7 @@
  #Dinka Pagan
  dinka_pagan:0 "Nhialacism" #fictional as no known name available for traditional Dinka religion
  dinka_pagan_adj:0 "Nhialacism" #fictional term created for game purposes.
+ dinka_pagan_desc: "Nhialacism is the traditional religion of the Dinka people. It is centered around Nhialac, believed to be the great God of the sky and of the all important rain."
  dinka_pagan_adherent:0 "Nhialacist" #fictional term created for game purposes.
  dinka_pagan_adherent_plural:0 "Nhialacists"
  
