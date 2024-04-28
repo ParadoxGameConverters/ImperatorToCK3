@@ -16,14 +16,16 @@ public static class WorldOutputter {
 		ClearOutputModFolder(config);
 
 		var outputName = config.OutputModName;
+		var outputPath = Path.Combine("output", config.OutputModName);
+
 		CreateModFolder(outputName);
 		OutputModFile(outputName);
 
 		CreateFolders(outputName);
 		Logger.IncrementProgress();
 
-		Logger.Info("Writing Characters...");
 		CharactersOutputter.OutputCharacters(outputName, ck3World.Characters, ck3World.CorrectedDate);
+		CharactersOutputter.BlankOutHistoricalPortraitModifiers(ck3World.ModFS, outputPath);
 		Logger.IncrementProgress();
 
 		Logger.Info("Writing Dynasties...");
@@ -76,8 +78,6 @@ public static class WorldOutputter {
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
 			MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
 		}
-
-		var outputPath = Path.Combine("output", config.OutputModName);
 
 		WriteDummyStruggleHistory(outputPath);
 		OutputLegendSeeds(outputPath, ck3World.LegendSeeds);
