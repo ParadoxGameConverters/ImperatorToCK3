@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Technology;
 
-public sealed class InnovationBonus { // TODO: add tests
+public sealed class InnovationBonus {
 	private readonly HashSet<string> imperatorInventions = [];
 	public string? CK3InnovationId { get; private set; }
 	
@@ -17,6 +17,9 @@ public sealed class InnovationBonus { // TODO: add tests
 		
 		if (CK3InnovationId is null) {
 			Logger.Warn($"Innovation bonus from {string.Join(", ", imperatorInventions)} has no CK3 innovation.");
+		}
+		if (imperatorInventions.Count == 0) {
+			Logger.Warn($"Innovation bonus to {CK3InnovationId} has no Imperator invention.");
 		}
 	}
 	
