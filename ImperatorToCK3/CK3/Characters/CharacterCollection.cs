@@ -136,10 +136,7 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 			"set_relation_friend|set_relation_potential_friend|set_relation_best_friend|" +
 			"set_relation_ward|set_relation_mentor)";
 
-		string pattern = commandsCapturingGroup + @"\s*=\s*\{[^\}]*character:" + idsCapturingGroup + @"\s[^\}]*\}(?:\s*#.*)?";
-
-		var regex = new Regex(
-			pattern: pattern);
+		var regex = new Regex(commandsCapturingGroup + @"\s*=\s*\{[^\}]*character:" + idsCapturingGroup + @"\s[^\}]*\}(?:\s*#.*)?");
 
 		foreach (var character in this) {
 			var effectsHistoryField = character.History.Fields["effects"];
