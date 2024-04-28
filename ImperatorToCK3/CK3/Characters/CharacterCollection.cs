@@ -5,6 +5,7 @@ using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Mappers.Culture;
@@ -16,6 +17,7 @@ using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Characters;
@@ -104,17 +106,64 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 	}
 
 	public override void Remove(string key) {
-		var character = this[key];
+		BulkRemove([key]);
+	}
+	
+	private void BulkRemove(ICollection<string> keys) {
+		foreach (var key in keys) {
+			var characterToRemove = this[key];
 
-		character.RemoveAllSpouses();
-		character.RemoveAllChildren();
+			characterToRemove.RemoveAllSpouses();
+			characterToRemove.RemoveAllChildren();
 
-		var irCharacter = character.ImperatorCharacter;
-		if (irCharacter is not null) {
-			irCharacter.CK3Character = null;
+			var irCharacter = characterToRemove.ImperatorCharacter;
+			if (irCharacter is not null) {
+				irCharacter.CK3Character = null;
+			}
+		
+			base.Remove(key);
 		}
 		
-		base.Remove(key);
+		RemoveCharacterReferencesFromHistory(keys);
+	}
+
+	private void RemoveCharacterReferencesFromHistory(ICollection<string> idsToRemove) {
+		var idsCapturingGroup = "(" + string.Join('|', idsToRemove) + ")";
+
+		const string commandsCapturingGroup = "(" +
+			"set_relation_rival|set_relation_potential_rival|set_relation_nemesis|" +
+			"set_relation_lover|set_relation_soulmate|" +
+			"set_relation_friend|set_relation_potential_friend|set_relation_best_friend|" +
+			"set_relation_ward|set_relation_mentor)";
+
+		var regex = new Regex(commandsCapturingGroup + @"\s*=\s*\{[^\}]*character:" + idsCapturingGroup + @"\s[^\}]*\}(?:\s*#.*)?");
+
+		foreach (var character in this) {
+			var effectsHistoryField = character.History.Fields["effects"];
+			if (effectsHistoryField is not LiteralHistoryField effectsLiteralField) {
+				Logger.Warn($"Effects history field for character {character.Id} is not a literal field!");
+				continue;
+			}
+			if (effectsLiteralField.EntriesCount == 0) {
+				continue;
+			}
+
+			effectsLiteralField.RegexReplaceAllEntries(regex, string.Empty);
+
+			// Remove all empty effect blocks (effect = { }).
+			effectsHistoryField.RemoveAllEntries(entryValue => {
+				if (entryValue is not string valueString) {
+					return false;
+				}
+
+				string trimmedBlock = valueString.Trim();
+				if (!trimmedBlock.StartsWith('{') || !trimmedBlock.EndsWith('}')) {
+					return false;
+				}
+
+				return trimmedBlock[1..^1].Trim().Length == 0;
+			});
+		}
 	}
 
 	private void LinkMothersAndFathers() {
@@ -410,10 +459,11 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 			.ToHashSet();
 		
 		var i = 0;
-		var farewellCharacters = new List<Character>();
+		var charactersToRemove = new List<Character>();
 		var parentIdsCache = new HashSet<string>();
 		do {
-			farewellCharacters.Clear();
+			Logger.Debug($"Beginning iteration {i} of characters purge...");
+			charactersToRemove.Clear();
 			parentIdsCache.Clear();
 			++i;
 			
@@ -436,22 +486,20 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 				if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
 					// Is the character dead and childless? Purge.
 					if (!parentIdsCache.Contains(character.Id)) {
-						farewellCharacters.Add(character);
+						charactersToRemove.Add(character);
 					}
 
 					continue;
 				}
 
-				farewellCharacters.Add(character);
+				charactersToRemove.Add(character);
 			}
+			
+			BulkRemove(charactersToRemove.Select(c => c.Id).ToList());
 
-			foreach (var characterToRemove in farewellCharacters) {
-				Remove(characterToRemove.Id);
-			}
-
-			Logger.Debug($"Purged {farewellCharacters.Count} unneeded characters in iteration {i}.");
-			charactersToCheck = charactersToCheck.Except(farewellCharacters).ToList();
-		} while(farewellCharacters.Count > 0);
+			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded characters in iteration {i}.");
+			charactersToCheck = charactersToCheck.Except(charactersToRemove).ToList();
+		} while(charactersToRemove.Count > 0);
 		
 		// At this point we probably have many imported dynasties with no characters left.
 		// Let's purge them.

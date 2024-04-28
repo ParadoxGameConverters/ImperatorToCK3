@@ -187,7 +187,7 @@ public class World {
 		var dnaFactory = new DNAFactory(impWorld.ModFS, ModFS);
 		Logger.IncrementProgress();
 
-		Characters.LoadCK3Characters(ModFS);
+		Characters.LoadCK3Characters(ModFS, config.CK3BookmarkDate);
 		Logger.IncrementProgress();
 		Characters.ImportImperatorCharacters(
 			impWorld,
@@ -900,6 +900,7 @@ public class World {
 			}
 			int age = 18 + (pseudoRandomSeed % 60);
 			var holder = new Character($"IRToCK3_{county.Id}_holder", name, date, Characters) {
+				FromImperator = true,
 				Female = female,
 				BirthDate = date.ChangeByYears(-age)
 			};

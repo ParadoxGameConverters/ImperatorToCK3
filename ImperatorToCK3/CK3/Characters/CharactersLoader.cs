@@ -5,7 +5,7 @@ using Open.Collections.Synchronized;
 namespace ImperatorToCK3.CK3.Characters;
 
 public partial class CharacterCollection {
-	public void LoadCK3Characters(ModFilesystem ck3ModFS) {
+	public void LoadCK3Characters(ModFilesystem ck3ModFS, Date bookmarkDate) {
 		Logger.Info("Loading characters from CK3...");
 
 		var loadedCharacters = new ConcurrentList<Character>();
@@ -27,6 +27,14 @@ public partial class CharacterCollection {
 		parser.ParseGameFolder("history/characters", ck3ModFS, "txt", recursive: true, parallel: true);
 		
 		foreach (var character in loadedCharacters) {
+			// Remove post-bookmark history except for births and deaths.
+			foreach (var field in character.History.Fields) {
+				if (field.Id == "birth" || field.Id == "death") {
+					continue;
+				}
+				field.RemoveHistoryPastDate(bookmarkDate);
+			}
+
 			character.UpdateChildrenCacheOfParents();
 		}
 	}
