@@ -262,7 +262,10 @@ public sealed class MapData {
 
 		if (typeOfGroup == "RANGE") {
 			if (provIds.Count is < 1 or > 2) {
-				throw new FormatException("A range of provinces should have 1 or 2 elements!");
+				Logger.Warn($"A range of provinces should have 1 or 2 elements, got: {string.Join(", ", provIds)}");
+			}
+			if (provIds.Count == 0) {
+				return;
 			}
 
 			var beginning = provIds[0];
