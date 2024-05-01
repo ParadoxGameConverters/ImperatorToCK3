@@ -34,6 +34,15 @@ public partial class CharacterCollection {
 				}
 				field.RemoveHistoryPastDate(bookmarkDate);
 			}
+			
+			// Replace complex death entries like "death = { death_reason = death_murder_known killer = 9051 }"
+			// with "death = yes".
+			Date? deathDate = character.DeathDate;
+			if (deathDate is not null) {
+				var deathField = character.History.Fields["death"];
+				deathField.RemoveAllEntries();
+				deathField.AddEntryToHistory(deathDate, "death", value: true);
+			}
 
 			character.UpdateChildrenCacheOfParents();
 		}
