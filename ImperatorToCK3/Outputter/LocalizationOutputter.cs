@@ -68,7 +68,7 @@ public static class LocalizationOutputter {
 			var locFileLocation = irModFS.GetActualFileLocation($"localization/{languageName}/character_names_l_{languageName}.yml");
 			if (locFileLocation is not null) {
 				SystemUtils.TryCopyFile(locFileLocation,
-					Path.Combine(outputPath, $"localization/replace/{languageName}/IMPERATOR_character_names_l_{languageName}.yml")
+					Path.Combine(outputPath, $"localization/{languageName}/IMPERATOR_character_names_l_{languageName}.yml")
 				);
 			}
 		}
