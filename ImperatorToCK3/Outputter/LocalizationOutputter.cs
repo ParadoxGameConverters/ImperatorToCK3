@@ -78,12 +78,19 @@ public static class LocalizationOutputter {
 		var primaryLanguage = ConverterGlobals.PrimaryLanguage;
 		var secondaryLanguages = ConverterGlobals.SecondaryLanguages;
 		
+		// Read loc from CK3 and selected CK3 mods.
 		var ck3LocDB = new LocDB(primaryLanguage, secondaryLanguages);
 		ck3LocDB.ScrapeLocalizations(ck3ModFS);
 
+		// Also read already outputted loc from the output directory.
+		var locFilesInOutputDir = Directory.GetFiles(baseLocDir, "*.yml", SearchOption.AllDirectories);
+		foreach (var outputtedLocFilePath in locFilesInOutputDir) {
+			ck3LocDB.ScrapeFile(outputtedLocFilePath);
+		}
+
 		var languageToLocLinesDict = new Dictionary<string, List<string>>();
 		foreach (var language in secondaryLanguages) {
-			languageToLocLinesDict[language] = new List<string>();
+			languageToLocLinesDict[language] = [];
 		}
 		
 		foreach (var locBlock in ck3LocDB) {
