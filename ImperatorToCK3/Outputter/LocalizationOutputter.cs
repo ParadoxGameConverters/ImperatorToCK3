@@ -60,7 +60,7 @@ public static class LocalizationOutputter {
 			}
 		}
 		
-		OutputFallbackLockForMissingSecondaryLanguageLoc(baseLocDir, ck3World.ModFS);
+		OutputFallbackLocForMissingSecondaryLanguageLoc(baseLocDir, ck3World.ModFS);
 	}
 
 	private static void CopyCharacterAndFamilyNamesLocalization(ModFilesystem irModFS, string outputPath) {
@@ -74,7 +74,7 @@ public static class LocalizationOutputter {
 		}
 	}
 
-	private static void OutputFallbackLockForMissingSecondaryLanguageLoc(string baseLocDir, ModFilesystem ck3ModFS) {
+	private static void OutputFallbackLocForMissingSecondaryLanguageLoc(string baseLocDir, ModFilesystem ck3ModFS) {
 		var primaryLanguage = ConverterGlobals.PrimaryLanguage;
 		var secondaryLanguages = ConverterGlobals.SecondaryLanguages;
 		
