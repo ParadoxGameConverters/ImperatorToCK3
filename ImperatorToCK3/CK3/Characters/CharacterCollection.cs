@@ -58,7 +58,9 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 				unlocalizedImperatorNames
 			);
 		});
-		Logger.Warn("Found unlocalized Imperator names: " + string.Join(", ", unlocalizedImperatorNames));
+		if (unlocalizedImperatorNames.Any()) {
+			Logger.Warn("Found unlocalized Imperator names: " + string.Join(", ", unlocalizedImperatorNames));
+		}
 		Logger.Info($"Imported {impWorld.Characters.Count} characters.");
 
 		LinkMothersAndFathers();
