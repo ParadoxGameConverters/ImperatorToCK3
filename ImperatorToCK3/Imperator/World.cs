@@ -278,6 +278,9 @@ public class World {
 			modLoader.LoadMods(config.ImperatorDocPath, incomingMods);
 			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
 
+			OutputGuiContainer(config, ModFS, ["ROM", "CAR", "EGY"]); // TODO: REMOVE THIS FROM HERE
+			throw new NotImplementedException("TODO: REMOVE ME");
+
 			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
 			LoadModFilesystemDependentData();
 		});
