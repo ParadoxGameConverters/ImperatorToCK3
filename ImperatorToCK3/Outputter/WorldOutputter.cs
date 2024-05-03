@@ -57,9 +57,7 @@ public static class WorldOutputter {
 		Logger.IncrementProgress();
 
 		Logger.Info("Writing Localization...");
-		LocalizationOutputter.OutputLocalization(
-			imperatorWorld.ModFS,
-			outputName,
+		LocalizationOutputter.OutputLocalization(outputName,
 			ck3World
 		);
 		Logger.IncrementProgress();
