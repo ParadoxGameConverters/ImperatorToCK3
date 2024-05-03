@@ -69,6 +69,9 @@ public sealed class MapData {
 		defaultMapParser.RegisterKeyword("adjacencies", reader => adjacenciesFilename = reader.GetString());
 		defaultMapParser.RegisterKeyword("island_region", ParserHelpers.IgnoreItem);
 		defaultMapParser.RegisterKeyword("seasons", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("positions", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("ports", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("climate", ParserHelpers.IgnoreItem);
 		
 		Dictionary<IEnumerable<string>, SpecialProvinceCategory> provinceTypeToCategoryDict = new() {
 			{nonColorableImpassableProvinceTypes, SpecialProvinceCategory.NonColorableImpassable},
