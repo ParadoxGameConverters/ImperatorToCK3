@@ -5,7 +5,6 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -69,6 +68,9 @@ public sealed class MapData {
 		defaultMapParser.RegisterKeyword("adjacencies", reader => adjacenciesFilename = reader.GetString());
 		defaultMapParser.RegisterKeyword("island_region", ParserHelpers.IgnoreItem);
 		defaultMapParser.RegisterKeyword("seasons", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("positions", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("ports", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("climate", ParserHelpers.IgnoreItem);
 		
 		Dictionary<IEnumerable<string>, SpecialProvinceCategory> provinceTypeToCategoryDict = new() {
 			{nonColorableImpassableProvinceTypes, SpecialProvinceCategory.NonColorableImpassable},
@@ -197,7 +199,7 @@ public sealed class MapData {
 	private bool IsStaticWater(ulong provinceId) => ProvinceDefinitions[provinceId].IsStaticWater;
 	private bool IsRiver(ulong provinceId) => ProvinceDefinitions[provinceId].IsRiver;
 
-	private bool IsLand(ulong provinceId) => ProvinceDefinitions[provinceId].IsLand;
+	public bool IsLand(ulong provinceId) => ProvinceDefinitions[provinceId].IsLand;
 
 	public IReadOnlySet<ulong> ColorableImpassableProvinceIds => ProvinceDefinitions
 		.Where(p => p.IsColorableImpassable).Select(p => p.Id)
@@ -262,7 +264,10 @@ public sealed class MapData {
 
 		if (typeOfGroup == "RANGE") {
 			if (provIds.Count is < 1 or > 2) {
-				throw new FormatException("A range of provinces should have 1 or 2 elements!");
+				Logger.Warn($"A range of provinces should have 1 or 2 elements, got: {string.Join(", ", provIds)}");
+			}
+			if (provIds.Count == 0) {
+				return;
 			}
 
 			var beginning = provIds[0];

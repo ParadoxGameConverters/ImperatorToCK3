@@ -188,7 +188,7 @@ public class CharacterTests {
 		Assert.Equal(0, character.Attributes.Zeal);
 		Assert.Null(character.DNA);
 		Assert.Equal((uint)0, character.Age);
-		Assert.Equal((ulong)0, character.ProvinceId);
+		Assert.Null(character.ProvinceId);
 	}
 
 	[Fact]

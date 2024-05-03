@@ -1,6 +1,7 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
+using commonItems.Localization;
 using commonItems.Mods;
 using Fernandezja.ColorHashSharp;
 using ImperatorToCK3.CommonUtils;
@@ -85,6 +86,8 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	}
 	
 	public void LoadCultures(ModFilesystem ck3ModFS) {
+		Logger.Info("Loading cultures...");
+		
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => LoadCulture(cultureId, reader));
 		parser.IgnoreAndLogUnregisteredItems();
@@ -94,6 +97,8 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	}
 	
 	public void LoadConverterCultures(string converterCulturesPath) {
+		Logger.Info("Loading converter cultures...");
+		
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => LoadCulture(cultureId, reader));
 		parser.IgnoreAndLogUnregisteredItems();
@@ -148,6 +153,8 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	}
 
 	public void LoadNameLists(ModFilesystem ck3ModFS) {
+		Logger.Info("Loading name lists...");
+		
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, nameListId) => {
 			NameListCollection.AddOrReplace(new NameList(nameListId, reader));
@@ -155,11 +162,26 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/culture/name_lists", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 	}
+	
+	public void LoadInnovationIds(ModFilesystem ck3ModFS) {
+		Logger.Info("Loading CK3 innovation IDs...");
+		
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (reader, innovationId) => {
+			InnovationIds.Add(innovationId);
+			ParserHelpers.IgnoreItem(reader);
+		});
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseGameFolder("common/culture/innovations", ck3ModFS, "txt", recursive: true, logFilePaths: true);
+	}
 
 	private string? GetCK3CultureIdForImperatorCountry(Country country, CultureMapper cultureMapper, ProvinceMapper provinceMapper) {
 		var irCulture = country.PrimaryCulture ?? country.Monarch?.Culture;
 		if (irCulture is null) {
-			Logger.Warn($"Failed to get primary or monarch culture for Imperator country {country.Tag}!");
+			if (country.CountryType == CountryType.real) {
+				Logger.Warn($"Failed to get primary or monarch culture for Imperator country {country.Tag}!");
+			}
+			
 			return null;
 		}
 
@@ -172,12 +194,13 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		return cultureMapper.Match(irCulture, ck3ProvinceId, irProvinceId, country.HistoricalTag);
 	}
 
-	public void ImportTechnology(CountryCollection countries, CultureMapper cultureMapper, ProvinceMapper provinceMapper, InventionsDB inventionsDB) { // TODO: test this
+	public void ImportTechnology(CountryCollection countries, CultureMapper cultureMapper, ProvinceMapper provinceMapper, InventionsDB inventionsDB, LocDB irLocDB) { // TODO: add tests for this
 		Logger.Info("Converting Imperator inventions to CK3 innovations...");
 		
 		var innovationMapper = new InnovationMapper();
 		innovationMapper.LoadLinksAndBonuses("configurables/inventions_to_innovations_map.txt");
-		innovationMapper.LogUnmappedInventions(inventionsDB);
+		innovationMapper.LogUnmappedInventions(inventionsDB, irLocDB);
+		innovationMapper.RemoveMappingsWithInvalidInnovations(InnovationIds);
 		
 		// Group I:R countries by corresponding CK3 culture.
 		var countriesByCulture = countries.Select(c => new {
@@ -203,6 +226,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 	
 	protected readonly PillarCollection PillarCollection;
 	protected readonly IdObjectCollection<string, NameList> NameListCollection = new();
+	protected readonly HashSet<string> InnovationIds = [];
 	
 	private CultureData cultureData = new();
 	private readonly Parser cultureDataParser = new();

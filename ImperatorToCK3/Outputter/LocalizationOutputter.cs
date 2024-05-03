@@ -8,12 +8,10 @@ using System.IO;
 
 namespace ImperatorToCK3.Outputter;
 public static class LocalizationOutputter {
-	public static void OutputLocalization(ModFilesystem irModFS, string outputName, World ck3World) {
+	public static void OutputLocalization(string outputName, World ck3World) {
 		var outputPath = Path.Combine("output", outputName);
 		var baseLocDir = Path.Join(outputPath, "localization");
 		var baseReplaceLocDir = Path.Join(baseLocDir, "replace");
-
-		CopyCharacterAndFamilyNamesLocalization(irModFS, outputPath);
 
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			var locFilePath = Path.Join(baseReplaceLocDir, language, $"converter_l_{language}.yml");
@@ -60,30 +58,26 @@ public static class LocalizationOutputter {
 			}
 		}
 		
-		OutputFallbackLockForMissingSecondaryLanguageLoc(baseLocDir, ck3World.ModFS);
+		OutputFallbackLocForMissingSecondaryLanguageLoc(baseLocDir, ck3World.ModFS);
 	}
 
-	private static void CopyCharacterAndFamilyNamesLocalization(ModFilesystem irModFS, string outputPath) {
-		foreach (var languageName in ConverterGlobals.SupportedLanguages) {
-			var locFileLocation = irModFS.GetActualFileLocation($"localization/{languageName}/character_names_l_{languageName}.yml");
-			if (locFileLocation is not null) {
-				SystemUtils.TryCopyFile(locFileLocation,
-					Path.Combine(outputPath, $"localization/replace/{languageName}/IMPERATOR_character_names_l_{languageName}.yml")
-				);
-			}
-		}
-	}
-
-	private static void OutputFallbackLockForMissingSecondaryLanguageLoc(string baseLocDir, ModFilesystem ck3ModFS) {
+	private static void OutputFallbackLocForMissingSecondaryLanguageLoc(string baseLocDir, ModFilesystem ck3ModFS) {
 		var primaryLanguage = ConverterGlobals.PrimaryLanguage;
 		var secondaryLanguages = ConverterGlobals.SecondaryLanguages;
 		
+		// Read loc from CK3 and selected CK3 mods.
 		var ck3LocDB = new LocDB(primaryLanguage, secondaryLanguages);
 		ck3LocDB.ScrapeLocalizations(ck3ModFS);
 
+		// Also read already outputted loc from the output directory.
+		var locFilesInOutputDir = Directory.GetFiles(baseLocDir, "*.yml", SearchOption.AllDirectories);
+		foreach (var outputtedLocFilePath in locFilesInOutputDir) {
+			ck3LocDB.ScrapeFile(outputtedLocFilePath);
+		}
+
 		var languageToLocLinesDict = new Dictionary<string, List<string>>();
 		foreach (var language in secondaryLanguages) {
-			languageToLocLinesDict[language] = new List<string>();
+			languageToLocLinesDict[language] = [];
 		}
 		
 		foreach (var locBlock in ck3LocDB) {
