@@ -15,6 +15,7 @@ using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
+using Open.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -38,6 +39,8 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 	) {
 		Logger.Info("Importing Imperator Characters...");
 
+		var unlocalizedImperatorNames = new ConcurrentHashSet<string>();
+
 		Parallel.ForEach(impWorld.Characters, irCharacter => {
 			ImportImperatorCharacter(
 				irCharacter,
@@ -51,9 +54,11 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 				deathReasonMapper,
 				dnaFactory,
 				conversionDate,
-				config
+				config,
+				unlocalizedImperatorNames
 			);
 		});
+		Logger.Warn("Found unlocalized Imperator names: " + string.Join(", ", unlocalizedImperatorNames));
 		Logger.Info($"Imported {impWorld.Characters.Count} characters.");
 
 		LinkMothersAndFathers();
@@ -83,8 +88,8 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 		DeathReasonMapper deathReasonMapper,
 		DNAFactory dnaFactory,
 		Date endDate,
-		Configuration config
-	) {
+		Configuration config,
+		ISet<string> unlocalizedImperatorNames) {
 		// Create a new CK3 character.
 		var newCharacter = new Character(
 			irCharacter,
@@ -99,7 +104,8 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 			deathReasonMapper,
 			dnaFactory,
 			endDate,
-			config
+			config,
+			unlocalizedImperatorNames
 		);
 		irCharacter.CK3Character = newCharacter;
 		AddOrReplace(newCharacter);

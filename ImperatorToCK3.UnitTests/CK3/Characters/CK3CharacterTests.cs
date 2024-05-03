@@ -90,7 +90,8 @@ public class CK3CharacterTests {
 				deathReasonMapper,
 				DNAFactory,
 				new Date(867, 1, 1),
-				config
+				config,
+				unlocalizedImperatorNames: new HashSet<string>()
 			);
 			return character;
 		}

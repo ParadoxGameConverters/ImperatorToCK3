@@ -313,7 +313,8 @@ public class Character : IIdentifiable<string> {
 		DeathReasonMapper deathReasonMapper,
 		DNAFactory dnaFactory,
 		Date dateOnConversion,
-		Configuration config
+		Configuration config,
+		ISet<string> unlocalizedImperatorNames
 	) {
 		this.characters = characters;
 			
@@ -341,6 +342,7 @@ public class Character : IIdentifiable<string> {
 				if (matchedLocBlock is not null) {
 					Localizations.Add(name, matchedLocBlock);
 				} else {  // fallback: use unlocalized name as displayed name
+					unlocalizedImperatorNames.Add(name);
 					var locBlock = new LocBlock(name, ConverterGlobals.PrimaryLanguage) {
 						[ConverterGlobals.PrimaryLanguage] = nameLoc
 					};
