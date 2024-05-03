@@ -16,6 +16,7 @@ namespace ImperatorToCK3.CK3.Dynasties;
 [SerializationByProperties]
 public partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 	public Dynasty(Family irFamily, CharacterCollection irCharacters, CulturesDB irCulturesDB, CultureMapper cultureMapper, LocDB locDB, Date date) {
+		FromImperator = true;
 		Id = $"dynn_irtock3_{irFamily.Id}";
 		Name = Id;
 
@@ -35,6 +36,7 @@ public partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	public Dynasty(CK3.Characters.Character character, string irFamilyName, CulturesDB irCulturesDB, LocDB locDB, Date date) {
+		FromImperator = true;
 		Id = $"dynn_irtock3_from_{character.Id}";
 		Name = Id;
 
@@ -54,6 +56,7 @@ public partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 
 	[NonSerialized] public LocBlock? LocalizedName { get; private set; }
 	[NonSerialized] public StringOfItem? CoA { get; set; }
+	[NonSerialized] public bool FromImperator { get; private set; } = false;
 
 	private void SetCultureFromImperator(Family irFamily, IReadOnlyList<Character> irMembers, CultureMapper cultureMapper, Date date) {
 		if (irMembers.Count > 0) {
@@ -80,8 +83,7 @@ public partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		var irCultureId = irFamily.Culture;
 		var irProvinceIdForMapping = irMembers
 			.Select(m => m.ProvinceId)
-			.Where(id => id != 0)
-			.NullableFirstOrDefault();
+			.FirstOrDefault(id => id.HasValue);
 		var countryTag = irMembers
 			.Select(m => m.Country?.HistoricalTag)
 			.FirstOrDefault(tag => tag is not null, defaultValue: null);

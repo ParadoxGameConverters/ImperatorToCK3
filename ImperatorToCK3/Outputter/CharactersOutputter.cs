@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
@@ -10,6 +11,8 @@ namespace ImperatorToCK3.Outputter;
 
 public static class CharactersOutputter {
 	public static void OutputCharacters(string outputModName, CharacterCollection characters, Date conversionDate) {
+		Logger.Info("Writing Characters...");
+
 		// Portrait modifiers need to be outputted before characters themselves,
 		// because while outputting the portrait modifiers we're adding character flags to character history.
 		var charactersWithDNA = characters
@@ -32,6 +35,18 @@ public static class CharactersOutputter {
 			CharacterOutputter.OutputCharacter(output2, character, conversionDate);
 		}
 		OutputCharactersDNA(outputModName, charactersWithDNA);
+	}
+
+	public static void BlankOutHistoricalPortraitModifiers(ModFilesystem ck3ModFS, string outputPath) {
+		Logger.Info("Blanking out historical portrait modifiers...");
+		
+		const string modifiersFilePath = "gfx/portraits/portrait_modifiers/02_all_historical_characters.txt";
+
+		if (ck3ModFS.GetActualFileLocation(modifiersFilePath) is not null) {
+			string dummyPath = Path.Combine(outputPath, modifiersFilePath);
+			using var output = FileOpeningHelper.OpenWriteWithRetries(dummyPath, System.Text.Encoding.UTF8);
+			output.WriteLine("# Dummy file to blank out historical portrait modifiers from CK3.");
+		}
 	}
 
 	private static void OutputCharactersDNA(string outputModName, IEnumerable<Character> charactersWithDNA) {
@@ -76,7 +91,7 @@ public static class CharactersOutputter {
 			.Where(c => c.DNA!.AccessoryDNAValues.ContainsKey(geneName))
 			.GroupBy(c => new {
 				c.DNA!.AccessoryDNAValues[geneName].TemplateName,
-				c.DNA!.AccessoryDNAValues[geneName].ObjectName
+				c.DNA!.AccessoryDNAValues[geneName].ObjectName,
 			});
 		output.WriteLine($"IRToCK3_{geneName}_overrides = {{");
 		output.WriteLine("\tusage = game");
@@ -89,7 +104,8 @@ public static class CharactersOutputter {
 			var characterEffectStr = $"{{ add_character_flag = {characterFlagName} }}";
 
 			foreach (Character character in grouping) {
-				character.History.AddFieldValue(conversionDate, "effects", "effect", characterEffectStr);
+				Date effectDate = character.DeathDate ?? conversionDate;
+				character.History.AddFieldValue(effectDate, "effects", "effect", characterEffectStr);
 			}
 			
 			output.WriteLine($"\t{templateName}_obj_{accessoryName} = {{");

@@ -96,7 +96,6 @@ public static class OnActionOutputter {
 			fileContent = fileContent.Replace(block, "");
 		}
 
-
 		var outputPath = $"output/{outputModName}/common/on_action/TFE_game_start.txt";
 		using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath);
 		output.Write(fileContent);

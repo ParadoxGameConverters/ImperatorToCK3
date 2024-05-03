@@ -4,6 +4,7 @@ using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.CommonUtils.Genes;
+using ImperatorToCK3.CommonUtils.Map;
 using Open.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -59,7 +60,7 @@ public class Character : IIdentifiable<ulong> {
 	}
 
 	public string? Nickname { get; set; }
-	public ulong ProvinceId { get; private set; } = 0;
+	public ulong? ProvinceId { get; private set; }
 	public Date BirthDate { get; private set; } = new(1, 1, 1);
 	public Date? DeathDate { get; set; }
 	public bool IsDead => DeathDate is not null;
@@ -297,5 +298,40 @@ public class Character : IIdentifiable<ulong> {
 		}
 		Logger.Warn($"Father ID: {fatherId} has no definition!");
 		return false;
+	}
+
+	/// <summary>
+	/// Returns a land province that can be considered a "source" of this character.
+	/// For instance, when a character is at sea, this method tries to use the country's capital,
+	/// or even the location of the character's parents.
+	/// </summary>
+	/// <param name="irMapData">Imperator map data.</param>
+	/// <returns></returns>
+	public ulong? GetSourceLandProvince(MapData irMapData) {
+		if (ProvinceId.HasValue && irMapData.IsLand(ProvinceId.Value)) {
+			return ProvinceId;
+		}
+
+		var homeCountryCapital = HomeCountry?.CapitalProvinceId;
+		if (homeCountryCapital.HasValue && irMapData.IsLand(homeCountryCapital.Value)) {
+			return homeCountryCapital;
+		}
+		
+		var countryCapital = Country?.CapitalProvinceId;
+		if (countryCapital.HasValue && irMapData.IsLand(countryCapital.Value)) {
+			return countryCapital;
+		}
+		
+		var fatherProvince = Father?.GetSourceLandProvince(irMapData);
+		if (fatherProvince.HasValue) {
+			return fatherProvince;
+		}
+		
+		var motherProvince = Mother?.GetSourceLandProvince(irMapData);
+		if (motherProvince.HasValue) {
+			return motherProvince;
+		}
+		
+		return null;
 	}
 }

@@ -492,8 +492,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// ------------------ determine capital
 		var governorProvince = impGovernor.ProvinceId;
-		if (imperatorRegionMapper.ProvinceIsInRegion(governorProvince, governorship.Region.Id)) {
-			foreach (var ck3Prov in provinceMapper.GetCK3ProvinceNumbers(governorProvince)) {
+		if (governorProvince.HasValue && imperatorRegionMapper.ProvinceIsInRegion(governorProvince.Value, governorship.Region.Id)) {
+			foreach (var ck3Prov in provinceMapper.GetCK3ProvinceNumbers(governorProvince.Value)) {
 				var foundCounty = parentCollection.GetCountyForProvince(ck3Prov);
 				if (foundCounty is not null) {
 					CapitalCounty = foundCounty;
@@ -789,10 +789,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		// Try to generate English adjective from country name.
 		if (!adjSet) {
 			if (Localizations.TryGetValue(Id, out var nameLocBlock) && nameLocBlock["english"] is string name) {
-				// If last 2 characters of the name are digits, it's probably a raw Imperator tag.
+				// If name has 3 characters and last 2 characters are digits, it's probably a raw Imperator tag.
 				// In that case, we don't want to use it as a base for adjective.
-				var lastTwoChars = name[^2..];
-				if (!(char.IsDigit(lastTwoChars[0]) && char.IsDigit(lastTwoChars[1]))) {
+				if (!(name.Length == 3 && char.IsDigit(name[1]) && char.IsDigit(name[2]))) {
 					var generatedAdjective = name.GetAdjective();
 					Logger.Debug($"Generated adjective for country \"{name}\": \"{generatedAdjective}\"");
 				

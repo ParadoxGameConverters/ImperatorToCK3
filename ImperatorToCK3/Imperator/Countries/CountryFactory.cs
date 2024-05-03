@@ -94,6 +94,10 @@ public partial class Country {
 		parser.RegisterRegex(monarchyLawRegexStr, reader => parsedCountry.monarchyLaws.Add(reader.GetString()));
 		parser.RegisterRegex(republicLawRegexStr, reader => parsedCountry.republicLaws.Add(reader.GetString()));
 		parser.RegisterRegex(tribalLawRegexStr, reader => parsedCountry.tribalLaws.Add(reader.GetString()));
+		parser.RegisterKeyword("is_antagonist", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("has_senior_ally", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("cached_happiness_for_owned", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("cached_pop_count_for_owned", ParserHelpers.IgnoreItem);
 		parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 			IgnoredTokens.Add(token);
 			ParserHelpers.IgnoreItem(reader);

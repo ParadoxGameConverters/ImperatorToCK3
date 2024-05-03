@@ -8,9 +8,6 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
-public enum CountryType { rebels, pirates, barbarians, mercenaries, real }
-public enum CountryRank { migrantHorde, cityState, localPower, regionalPower, majorPower, greatPower }
-public enum GovernmentType { monarchy, republic, tribal }
 public partial class Country : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public bool PlayerCountry { get; set; }

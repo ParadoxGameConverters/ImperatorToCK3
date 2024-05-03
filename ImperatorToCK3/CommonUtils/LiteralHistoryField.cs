@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ImperatorToCK3.CommonUtils;
 
@@ -61,6 +62,42 @@ public class LiteralHistoryField : IHistoryField {
 					new(setter, value)
 				};
 			}
+		}
+	}
+
+	public int EntriesCount => InitialEntries.Count + DateToEntriesDict.Sum(pair => pair.Value.Count);
+
+	public void RegexReplaceAllEntries(Regex regex, string replacement) {
+		var newInitialEntriesList = new List<KeyValuePair<string, object>>();
+		foreach (var entry in InitialEntries) {
+			if (entry.Value is string str) {
+				var newStr = regex.Replace(str, replacement);
+				newInitialEntriesList.Add(new(entry.Key, newStr));
+			}
+			else {
+				newInitialEntriesList.Add(entry);
+			}
+		}
+		InitialEntries.Clear();
+		foreach (var entry in newInitialEntriesList) {
+			InitialEntries.Add(entry);
+		}
+		
+		foreach (var (date, entries) in DateToEntriesDict) {
+			var newEntriesList = new List<KeyValuePair<string, object>>();
+			
+			foreach (var entry in entries) {
+				if (entry.Value is string str) {
+					var newStr = regex.Replace(str, string.Empty);
+					newEntriesList.Add(new(entry.Key, newStr));
+				}
+				else {
+					newEntriesList.Add(entry);
+				}
+			}
+			
+			entries.Clear();
+			entries.AddRange(newEntriesList);
 		}
 	}
 
