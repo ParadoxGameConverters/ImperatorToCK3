@@ -61,10 +61,19 @@ public static class RakalyCaller {
 	}
 
 	private static bool IsFileFlaggedAsInfected(Win32Exception ex) {
-		// The error code name is ERROR_VIRUS_INFECTED:
 		// https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/18d8fbe8-a967-4f1c-ae50-99ca8e491d2d
-		const int nativeErrorCode = 0x000000E1;
-		return ex.NativeErrorCode == nativeErrorCode;
+		return ex.NativeErrorCode == 0x000000E1; // ERROR_VIRUS_INFECTED
+	}
+	
+	private static bool IsFileNotFound(Win32Exception ex) {
+		// https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/18d8fbe8-a967-4f1c-ae50-99ca8e491d2d
+		return ex.NativeErrorCode == 0x00000002; // ERROR_FILE_NOT_FOUND
+	}
+	
+	private static void LogWin32ExceptionDetails(Win32Exception ex) {
+		Logger.Debug("Message: " + ex.Message);
+		Logger.Debug("HResult: " + ex.HResult);
+		Logger.Debug("NativeErrorCode: " + ex.NativeErrorCode);
 	}
 
 	public static void MeltSave(string savePath) {
@@ -82,13 +91,14 @@ public static class RakalyCaller {
 			process.WaitForExit();
 		}
 		catch (Win32Exception e) when (IsFileFlaggedAsInfected(e)) {
-			Logger.Debug("Message: " + e.Message);
-			Logger.Debug("HResult: " + e.HResult);
-			Logger.Debug("NativeErrorCode: " + e.NativeErrorCode);
-			
+			LogWin32ExceptionDetails(e);
 			string absoluteRakalyPath = Path.Combine(Directory.GetCurrentDirectory(), RelativeRakalyPath);
 			throw new UserErrorException($"Failed to run Rakaly because the antivirus blocked it.\n" +
 			                             $"Add an exclusion for \"{absoluteRakalyPath}\" to the antivirus and try again.");
+		} catch (Win32Exception e) when (IsFileNotFound(e)) {
+			LogWin32ExceptionDetails(e);
+			throw new UserErrorException($"Failed to run Rakaly, it was probably removed by an antivirus.\n" +
+			                             $"Resave the save in Imperator debug mode and try again.");
 		}
 		
 		int returnCode = process.ExitCode;
