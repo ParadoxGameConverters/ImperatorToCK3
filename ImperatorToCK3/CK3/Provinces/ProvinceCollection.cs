@@ -85,12 +85,17 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		// Now load the provinces that don't have unique entries in history/provinces.
 		// They instead use history/province_mapping.
 		foreach (var (newProvinceId, baseProvinceId) in new ProvinceMappings(ck3ModFs)) {
-			if (!ContainsKey(baseProvinceId)) {
+			if (!TryGetValue(baseProvinceId, out var baseProvince)) {
 				Logger.Warn($"Base province {baseProvinceId} not found for province {newProvinceId}.");
 				continue;
 			}
+			
+			if (!TryGetValue(newProvinceId, out var newProvince)) {
+				Logger.Debug($"Province {newProvinceId} not found.");
+				continue;
+			}
 
-			this[newProvinceId].CopyEntriesFromProvince(this[baseProvinceId]);
+			newProvince.CopyEntriesFromProvince(baseProvince);
 		}
 		Logger.IncrementProgress();
 
