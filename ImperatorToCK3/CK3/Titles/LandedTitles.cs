@@ -82,6 +82,7 @@ public partial class Title {
 		}
 
 		public void CarveTitles(LandedTitles overrides) {
+			Logger.Debug("Carving titles...");
 			// merge in new king and empire titles into this from overrides, overriding duplicates
 			foreach (var overrideTitle in overrides.Where(t => t.Rank > TitleRank.duchy)) {
 				// inherit vanilla vassals
@@ -91,7 +92,10 @@ public partial class Title {
 
 			// update duchies to correct de jure liege, remove de jure titles that lose all de jure vassals
 			foreach (var title in overrides.Where(t => t.Rank == TitleRank.duchy)) {
-				var duchy = this[title.Id];
+				if (!TryGetValue(title.Id, out Title? duchy)) {
+					Logger.Warn($"Duchy {title.Id} not found!");
+					continue;
+				}
 				if (duchy.DeJureLiege is not null) {
 					if (duchy.DeJureLiege.DeJureVassals.Count <= 1) {
 						duchy.DeJureLiege.DeJureLiege = null;
