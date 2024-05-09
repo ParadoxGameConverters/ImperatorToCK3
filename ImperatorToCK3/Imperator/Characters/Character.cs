@@ -308,18 +308,35 @@ public class Character : IIdentifiable<ulong> {
 	/// <param name="irMapData">Imperator map data.</param>
 	/// <returns></returns>
 	public ulong? GetSourceLandProvince(MapData irMapData) {
-		if (ProvinceId.HasValue && irMapData.IsLand(ProvinceId.Value)) {
-			return ProvinceId;
+		HashSet<ulong> rejectedProvinceIds = [];
+		
+		if (ProvinceId.HasValue) {
+			if (!irMapData.ProvinceDefinitions.TryGetValue(ProvinceId.Value, out var provinceDef)) {
+				Logger.Warn($"Potential source province {ProvinceId.Value} for character {Id} has no definition!");
+			} else if (provinceDef.IsLand) {
+				return ProvinceId;
+			}
+			rejectedProvinceIds.Add(ProvinceId.Value);
 		}
 
 		var homeCountryCapital = HomeCountry?.CapitalProvinceId;
-		if (homeCountryCapital.HasValue && irMapData.IsLand(homeCountryCapital.Value)) {
-			return homeCountryCapital;
+		if (homeCountryCapital.HasValue && !rejectedProvinceIds.Contains(homeCountryCapital.Value)) {
+			if (!irMapData.ProvinceDefinitions.TryGetValue(homeCountryCapital.Value, out var homeCountryCapitalDef)) {
+				Logger.Warn($"Potential source province {homeCountryCapital.Value} for character {Id} has no definition!");
+			} else if (homeCountryCapitalDef.IsLand) {
+				return homeCountryCapital;
+			}
+			rejectedProvinceIds.Add(homeCountryCapital.Value);
 		}
 		
 		var countryCapital = Country?.CapitalProvinceId;
-		if (countryCapital.HasValue && irMapData.IsLand(countryCapital.Value)) {
-			return countryCapital;
+		if (countryCapital.HasValue && !rejectedProvinceIds.Contains(countryCapital.Value)) {
+			if (!irMapData.ProvinceDefinitions.TryGetValue(countryCapital.Value, out var countryCapitalDef)) {
+				Logger.Warn($"Potential source province {countryCapital.Value} for character {Id} has no definition!");
+			} else if (countryCapitalDef.IsLand) {
+				return countryCapital;
+			}
+			rejectedProvinceIds.Add(countryCapital.Value);
 		}
 		
 		var fatherProvince = Father?.GetSourceLandProvince(irMapData);
