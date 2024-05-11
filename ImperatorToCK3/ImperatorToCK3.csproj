@@ -40,7 +40,7 @@
     </PackageReference>
     <PackageReference Include="PGCG.commonItems" Version="12.1.1" />
     <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.5" />
-    <PackageReference Include="Polly" Version="8.3.1" />
+    <PackageReference Include="Polly" Version="8.4.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
   </ItemGroup>
 
