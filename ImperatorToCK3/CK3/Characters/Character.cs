@@ -374,11 +374,11 @@ public class Character : IIdentifiable<string> {
 		}
 
 		var ck3ProvinceNumbers = impProvForProvinceMapper.HasValue ? provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper.Value) : [];
-		ulong? ck3Province = ck3ProvinceNumbers.Count > 0 ? ck3ProvinceNumbers[0] : null;
+		ulong? ck3ProvinceId = ck3ProvinceNumbers.Count > 0 ? ck3ProvinceNumbers[0] : null;
 
 		var cultureMatch = cultureMapper.Match(
 			ImperatorCharacter.Culture,
-			ck3Province,
+			ck3ProvinceId,
 			irProvinceId,
 			ImperatorCharacter.Country?.HistoricalTag
 		);
@@ -392,7 +392,7 @@ public class Character : IIdentifiable<string> {
 		var faithMatch = religionMapper.Match(
 			ImperatorCharacter.Religion,
 			GetCultureId(dateOnConversion),
-			ck3Province, 
+			ck3ProvinceId, 
 			irProvinceId,
 			ImperatorCharacter.HomeCountry?.HistoricalTag,
 			config

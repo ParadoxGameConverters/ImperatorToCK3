@@ -34,6 +34,11 @@ public partial class CharacterCollection {
 				}
 				field.RemoveHistoryPastDate(bookmarkDate);
 			}
+
+			// Replace birth entries like "birth = "1081.1.1"" with "birth = yes".
+			var birthField = character.History.Fields["birth"];
+			birthField.RemoveAllEntries();
+			birthField.AddEntryToHistory(character.BirthDate, "birth", value: true);
 			
 			// Replace complex death entries like "death = { death_reason = death_murder_known killer = 9051 }"
 			// with "death = yes".

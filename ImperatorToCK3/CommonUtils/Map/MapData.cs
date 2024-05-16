@@ -199,8 +199,6 @@ public sealed class MapData {
 	private bool IsStaticWater(ulong provinceId) => ProvinceDefinitions[provinceId].IsStaticWater;
 	private bool IsRiver(ulong provinceId) => ProvinceDefinitions[provinceId].IsRiver;
 
-	public bool IsLand(ulong provinceId) => ProvinceDefinitions[provinceId].IsLand;
-
 	public IReadOnlySet<ulong> ColorableImpassableProvinceIds => ProvinceDefinitions
 		.Where(p => p.IsColorableImpassable).Select(p => p.Id)
 		.ToHashSet();
