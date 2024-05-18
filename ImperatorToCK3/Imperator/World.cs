@@ -26,7 +26,6 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using Mods = System.Collections.Generic.List<commonItems.Mods.Mod>;
@@ -65,6 +64,7 @@ public class World {
 
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 	private SaveType saveType = SaveType.Invalid;
+	private string metaPlayerName = string.Empty;
 
 	protected World(Configuration config) {
 		ModFS = new ModFilesystem(Path.Combine(config.ImperatorPath, "game"), Array.Empty<Mod>());
@@ -75,7 +75,7 @@ public class World {
 	}
 
 	
-	private static void OutputGuiContainer(Configuration config, ModFilesystem modFS, List<string> tagsNeedingFlags) {
+	private static void OutputGuiContainer(ModFilesystem modFS, List<string> tagsNeedingFlags) {
 		// Create scripted GUI.
 		var scriptedGuisLocation = modFS.GetActualFolderLocation("common/scripted_guis");
 		if (scriptedGuisLocation is null) {
@@ -127,13 +127,22 @@ public class World {
 			Logger.Warn($"Failed to write GUI to {topBarGuiPath}: {e.Message}");
 			return;
 		}
+	}
 
-
-
-		// TODO: MOVE THE I:R LAUNCHING CODE TO A SEPARATE FUNCTION
-
-		// TODO: SET THE CURRENT SAVE TO BE USED IN continuelastsave
-
+	private void LaunchImperatorToExportCountryFlags(Configuration config) {
+		// Set the current save to be used when launching the game with the continuelastsave option.
+		Logger.Debug("Modifying continue_game.json...");
+		string continueGameJsonPath = Path.Join(config.ImperatorDocPath, "continue_game.json");
+		
+		File.WriteAllText(continueGameJsonPath,
+			contents: $$"""
+            {
+                "title": "{{Path.GetFileNameWithoutExtension(config.SaveGamePath)}}",
+                "desc": "Playing as ${{metaPlayerName}} - ${{EndDate}} AD",
+                "date": "{{DateTime.Now:yyyy-MM-dd HH:mm:ss}}"
+            }
+            """);
+		
 		var imperatorBinaryPath = Path.Combine(config.ImperatorPath, "binaries/imperator.exe");
 		if (!File.Exists(imperatorBinaryPath)) {
 			Logger.Error("Imperator binary not found! Aborting!");
@@ -154,7 +163,11 @@ public class World {
 			return;
 		}
 		imperatorProcess.Exited += (sender, args) => {
-			Logger.Error("Imperator process exited unexpectedly! Aborting!");
+			if (imperatorProcess.ExitCode != 0) {
+				Logger.Error("Imperator process exited unexpectedly! Aborting!");
+			} else {
+				Logger.Notice("Imperator process finished exporting country flags.");
+			}
 		};
 		
 		
@@ -172,11 +185,17 @@ public class World {
 		}
 
 		Logger.Notice("Imperator process loaded savegame.");
+	}
+
+	private void ExtractDynamicCoatsOfArms(Configuration config) {
+		OutputGuiContainer(ModFS, ["ROM", "CAR", "EGY"]);
+		LaunchImperatorToExportCountryFlags(config);
 
 
 		// TODO: IN THE END, RESTORE THE ORIGINAL GUI TEXT
+		
+		throw new NotImplementedException("TODO: REMOVE ME"); // TODO: REMOVE THIS
 	}
-
 
 	
 	public World(Configuration config, ConverterVersion converterVersion) {
@@ -244,6 +263,8 @@ public class World {
 		}
 
 		Logger.Info("*** Building World ***");
+		
+		ExtractDynamicCoatsOfArms(config);
 
 		// Link all the intertwining references
 		Logger.Info("Linking Characters with Families...");
@@ -278,9 +299,6 @@ public class World {
 			modLoader.LoadMods(config.ImperatorDocPath, incomingMods);
 			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
 
-			OutputGuiContainer(config, ModFS, ["ROM", "CAR", "EGY"]); // TODO: REMOVE THIS FROM HERE
-			throw new NotImplementedException("TODO: REMOVE ME");
-
 			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
 			LoadModFilesystemDependentData();
 		});
@@ -295,7 +313,7 @@ public class World {
 		parser.RegisterKeyword("diplomacy", LoadDiplomacy);
 		parser.RegisterKeyword("jobs", LoadJobs);
 		parser.RegisterKeyword("deity_manager", reader => Religions.LoadHolySiteDatabase(reader));
-		parser.RegisterKeyword("meta_player_name", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("meta_player_name", reader => metaPlayerName = reader.GetString());
 		parser.RegisterKeyword("speed", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("random_seed", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("tutorial_disable", ParserHelpers.IgnoreItem);
