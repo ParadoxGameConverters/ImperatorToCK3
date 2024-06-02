@@ -8,7 +8,7 @@ using System.Text;
 namespace ImperatorToCK3.Outputter;
 public static class DynastiesOutputter {
 	public static void OutputDynasties(string outputModName, DynastyCollection dynasties) {
-		var outputPath = Path.Combine("output", outputModName, "common/dynasties/ir_dynasties.txt");
+		var outputPath = Path.Combine("output", outputModName, "common/dynasties/irtock3_all_dynasties.txt");
 	
 		using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, encoding: Encoding.UTF8);
 		foreach (var dynasty in dynasties.OrderBy(d => d.Id)) {

@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
@@ -32,6 +33,18 @@ public class DynastyCollection : ConcurrentIdObjectCollection<string, Dynasty> {
 		CreateDynastiesForCharactersFromMinorFamilies(irWorld, locDB, date);
 
 		Logger.IncrementProgress();
+	}
+
+	public void LoadCK3Dynasties(ModFilesystem ck3ModFS) { // TODO: ALSO IMPORT CK3 HOUSES
+		Logger.Info("Loading dynasties from CK3...");
+
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (reader, dynastyId) => {
+			var dynasty = new Dynasty(dynastyId, reader);
+			AddOrReplace(dynasty);
+		});
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseGameFolder("common/dynasties", ck3ModFS, "txt", recursive: true, parallel: true);
 	}
 
 	private void CreateDynastiesForCharactersFromMinorFamilies(Imperator.World irWorld, LocDB locDB, Date date) {

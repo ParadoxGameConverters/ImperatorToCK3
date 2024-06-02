@@ -51,7 +51,7 @@ public static class LocalizationOutputter {
 				var localizedName = dynasty.LocalizedName;
 				if (localizedName is not null) {
 					dynastyLocWriter.WriteLine(localizedName.GetYmlLocLineForLanguage(language));
-				} else {
+				} else if (dynasty.FromImperator) {
 					Logger.Warn($"Dynasty {dynasty.Id} has no localizations!");
 					dynastyLocWriter.WriteLine($" {dynasty.Name}: \"{dynasty.Name}\"");
 				}

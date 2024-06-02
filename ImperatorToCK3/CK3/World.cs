@@ -203,6 +203,7 @@ public class World {
 		);
 		ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
+		Dynasties.LoadCK3Dynasties(ModFS);
 		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB, CorrectedDate);
 		
 		// Load existing CK3 government IDs.

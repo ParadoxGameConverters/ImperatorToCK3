@@ -161,6 +161,7 @@ public static class WorldOutputter {
 		modFileBuilder.AppendLine("replace_path=\"common/bookmarks\"");
 		modFileBuilder.AppendLine("replace_path=\"common/culture/cultures\"");
 		modFileBuilder.AppendLine("replace_path=\"common/culture/pillars\"");
+		modFileBuilder.AppendLine("replace_path=\"common/dynasties\"");
 		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");
 		modFileBuilder.AppendLine("replace_path=\"common/legends/legend_seeds\"");
 		modFileBuilder.AppendLine("replace_path=\"common/religion/religions\"");
