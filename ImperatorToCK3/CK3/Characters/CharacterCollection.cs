@@ -143,8 +143,10 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 			"set_relation_lover|set_relation_soulmate|" +
 			"set_relation_friend|set_relation_potential_friend|set_relation_best_friend|" +
 			"set_relation_ward|set_relation_mentor)";
-
-		var regex = new Regex(commandsCapturingGroup + @"\s*=\s*\{[^\}]*character:" + idsCapturingGroup + @"\s[^\}]*\}(?:\s*#.*)?");
+		var relationsRegex = new Regex(commandsCapturingGroup + @"\s*=\s*\{[^\}]*character:" + idsCapturingGroup + @"\s[^\}]*\}(?:\s*#.*)?");
+		
+		// "break_alliance = character:ID" entries should also be removed.
+		var breakAllianceRegex = new Regex("break_alliance\\s*=\\s*character:" + idsCapturingGroup + @"(?:\s*#.*)?");
 
 		foreach (var character in this) {
 			var effectsHistoryField = character.History.Fields["effects"];
@@ -156,7 +158,8 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 				continue;
 			}
 
-			effectsLiteralField.RegexReplaceAllEntries(regex, string.Empty);
+			effectsLiteralField.RegexReplaceAllEntries(relationsRegex, string.Empty);
+			effectsLiteralField.RegexReplaceAllEntries(breakAllianceRegex, string.Empty);
 
 			// Remove all empty effect blocks (effect = { }).
 			effectsHistoryField.RemoveAllEntries(entryValue => {
