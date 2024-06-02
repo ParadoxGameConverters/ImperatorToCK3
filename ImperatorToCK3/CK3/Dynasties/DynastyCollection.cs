@@ -35,7 +35,7 @@ public class DynastyCollection : ConcurrentIdObjectCollection<string, Dynasty> {
 		Logger.IncrementProgress();
 	}
 
-	public void LoadCK3Dynasties(ModFilesystem ck3ModFS) { // TODO: ALSO IMPORT CK3 HOUSES
+	public void LoadCK3Dynasties(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading dynasties from CK3...");
 
 		var parser = new Parser();

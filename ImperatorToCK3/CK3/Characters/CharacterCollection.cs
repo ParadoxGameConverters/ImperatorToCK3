@@ -436,7 +436,7 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 		return characterIDsToPreserve;
 	}
 
-	public void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, Date ck3BookmarkDate) {
+	public void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
 		Logger.Info("Purging unneeded characters...");
 		
 		// Characters that hold or held titles should always be kept.
@@ -509,8 +509,9 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 			charactersToCheck = charactersToCheck.Except(charactersToRemove).ToList();
 		} while(charactersToRemove.Count > 0);
 		
-		// At this point we probably have many imported dynasties with no characters left.
+		// At this point we probably have many dynasties with no characters left.
 		// Let's purge them.
+		houses.PurgeUnneededHouses(this, ck3BookmarkDate);
 		dynasties.PurgeUnneededDynasties(this, ck3BookmarkDate);
 	}
 
