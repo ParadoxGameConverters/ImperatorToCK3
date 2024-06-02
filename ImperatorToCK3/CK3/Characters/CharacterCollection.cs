@@ -137,14 +137,10 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 
 	private void RemoveCharacterReferencesFromHistory(ICollection<string> idsToRemove) {
 		var idsCapturingGroup = "(" + string.Join('|', idsToRemove) + ")";
-
-		const string commandsCapturingGroup = "(" +
-			"set_relation_rival|set_relation_potential_rival|set_relation_nemesis|" +
-			"set_relation_lover|set_relation_soulmate|" +
-			"set_relation_friend|set_relation_potential_friend|set_relation_best_friend|" +
-			"set_relation_ward|set_relation_mentor)";
-
-		var regex = new Regex(commandsCapturingGroup + @"\s*=\s*\{[^\}]*character:" + idsCapturingGroup + @"\s[^\}]*\}(?:\s*#.*)?");
+		
+		// Effects like "break_alliance = character:ID" entries should be removed.
+		const string commandsGroup = "(break_alliance|make_concubine)";
+		var simpleCommandsRegex = new Regex(commandsGroup + @"\s*=\s*character:" + idsCapturingGroup + @"\s*\b");
 
 		foreach (var character in this) {
 			var effectsHistoryField = character.History.Fields["effects"];
@@ -156,7 +152,7 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 				continue;
 			}
 
-			effectsLiteralField.RegexReplaceAllEntries(regex, string.Empty);
+			effectsLiteralField.RegexReplaceAllEntries(simpleCommandsRegex, string.Empty);
 
 			// Remove all empty effect blocks (effect = { }).
 			effectsHistoryField.RemoveAllEntries(entryValue => {

@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Mods;
 using Open.Collections.Synchronized;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters;
 
@@ -26,6 +27,11 @@ public partial class CharacterCollection {
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("history/characters", ck3ModFS, "txt", recursive: true, parallel: true);
 		
+		string[] irrelevantEffects = ["set_relation_rival", "set_relation_potential_rival", "set_relation_nemesis", 
+			"set_relation_lover", "set_relation_soulmate",
+			"set_relation_friend", "set_relation_potential_friend", "set_relation_best_friend",
+			"set_relation_ward", "set_relation_mentor",];
+		
 		foreach (var character in loadedCharacters) {
 			// Remove post-bookmark history except for births and deaths.
 			foreach (var field in character.History.Fields) {
@@ -48,6 +54,10 @@ public partial class CharacterCollection {
 				deathField.RemoveAllEntries();
 				deathField.AddEntryToHistory(deathDate, "death", value: true);
 			}
+			
+			// Remove effects that set relations. They don't matter a lot in our alternate timeline.
+			character.History.Fields["effects"].RemoveAllEntries(
+				entry => irrelevantEffects.Any(effect => entry.ToString()?.Contains(effect) ?? false));
 
 			character.UpdateChildrenCacheOfParents();
 		}
