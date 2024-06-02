@@ -132,16 +132,18 @@ public class World {
 	private void LaunchImperatorToExportCountryFlags(Configuration config) {
 		// Set the current save to be used when launching the game with the continuelastsave option.
 		Logger.Debug("Modifying continue_game.json...");
-		string continueGameJsonPath = Path.Join(config.ImperatorDocPath, "continue_game.json");
-		
-		File.WriteAllText(continueGameJsonPath,
+		File.WriteAllText(Path.Join(config.ImperatorDocPath, "continue_game.json"),
 			contents: $$"""
             {
                 "title": "{{Path.GetFileNameWithoutExtension(config.SaveGamePath)}}",
-                "desc": "Playing as ${{metaPlayerName}} - ${{EndDate}} AD",
+                "desc": "Playing as {{metaPlayerName}} - {{EndDate}} AD",
                 "date": "{{DateTime.Now:yyyy-MM-dd HH:mm:ss}}"
             }
             """);
+		
+		Logger.Debug("Activating the playset used in the save...");
+		// TODO: create temporary playset with all the mods used in the save
+		throw new NotImplementedException("TODO: IMPLEMENT ACTIVATING THE IMPERATOR PLAYLIST USED IN THE SAVE");
 		
 		var imperatorBinaryPath = Path.Combine(config.ImperatorPath, "binaries/imperator.exe");
 		if (!File.Exists(imperatorBinaryPath)) {
