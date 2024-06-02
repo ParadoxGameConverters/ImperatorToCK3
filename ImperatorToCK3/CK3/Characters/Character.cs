@@ -629,6 +629,10 @@ public class Character : IIdentifiable<string> {
 		return History.GetFieldValue("dynasty", date)?.ToString();
 	}
 
+	public string? GetDynastyHouseId(Date date) {
+		return History.GetFieldValue("dynasty_house", date)?.ToString();
+	}
+
 	private string? jailorId;
 	public void SetEmployer(Character employer, Date? date) {
 		SetEmployerId(employer.Id, date);
