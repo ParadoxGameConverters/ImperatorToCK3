@@ -110,7 +110,7 @@ public class DynastyCollection : ConcurrentIdObjectCollection<string, Dynasty> {
 		}
 		
 		int removedCount = 0;
-		foreach (var dynasty in this.Where(d => d.FromImperator).ToList()) {
+		foreach (var dynasty in this.ToList()) {
 			if (!dynastiesToKeep.Contains(dynasty.Id)) {
 				Remove(dynasty.Id);
 				++removedCount;

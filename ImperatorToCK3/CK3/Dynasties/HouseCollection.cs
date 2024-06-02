@@ -30,7 +30,7 @@ public class HouseCollection : IdObjectCollection<string, House> {
 			.ToHashSet();
 
 		int removedCount = 0;
-		foreach (var house in this) {
+		foreach (var house in this.ToList()) {
 			if (houseIdsToKeep.Contains(house.Id)) {
 				continue;
 			}
