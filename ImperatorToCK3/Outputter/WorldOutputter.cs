@@ -28,8 +28,8 @@ public static class WorldOutputter {
 		CharactersOutputter.BlankOutHistoricalPortraitModifiers(ck3World.ModFS, outputPath);
 		Logger.IncrementProgress();
 
-		Logger.Info("Writing Dynasties...");
-		DynastiesOutputter.OutputDynasties(outputName, ck3World.Dynasties);
+		DynastiesOutputter.OutputDynasties(outputPath, ck3World.Dynasties);
+		DynastiesOutputter.OutputHouses(outputPath, ck3World.DynastyHouses);
 		Logger.IncrementProgress();
 
 		Logger.Info("Writing provinces...");
@@ -161,6 +161,8 @@ public static class WorldOutputter {
 		modFileBuilder.AppendLine("replace_path=\"common/bookmarks\"");
 		modFileBuilder.AppendLine("replace_path=\"common/culture/cultures\"");
 		modFileBuilder.AppendLine("replace_path=\"common/culture/pillars\"");
+		modFileBuilder.AppendLine("replace_path=\"common/dynasties\"");
+		modFileBuilder.AppendLine("replace_path=\"common/dynasty_houses\"");
 		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");
 		modFileBuilder.AppendLine("replace_path=\"common/legends/legend_seeds\"");
 		modFileBuilder.AppendLine("replace_path=\"common/religion/religions\"");
@@ -203,6 +205,7 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "pillars"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dna_data"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasty_houses"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "legends", "legend_seeds"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "men_at_arms_types"));

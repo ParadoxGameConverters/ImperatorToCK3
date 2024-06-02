@@ -444,7 +444,7 @@ public class CK3CharacterTests {
 		ck3Characters.Add(unlandedFromCK3);
 
 		var titles = new Title.LandedTitles();
-		ck3Characters.PurgeUnneededCharacters(titles, new DynastyCollection(), ConversionDate);
+		ck3Characters.PurgeUnneededCharacters(titles, new DynastyCollection(), new HouseCollection(), ConversionDate);
 
 		Assert.Empty(ck3Characters);
 	}
@@ -508,7 +508,7 @@ public class CK3CharacterTests {
 		Assert.Equal(dynasty.Id, fatherOfLandedCharacter.GetDynastyId(ConversionDate));
 		Assert.Equal(dynasty.Id, childlessRelative.GetDynastyId(ConversionDate));
 
-		ck3Characters.PurgeUnneededCharacters(titles, dynasties, ConversionDate);
+		ck3Characters.PurgeUnneededCharacters(titles, dynasties, new HouseCollection(), ConversionDate);
 
 		ck3Characters.Should().BeEquivalentTo(new[] {
 			landedCharacter,
