@@ -50,7 +50,7 @@ public class DynastiesOutputterTests {
 		};
 		dynasties.Add(dynasty2);
 
-		var outputPath = Path.Combine("output", outputModName, "common/dynasties/ir_dynasties.txt");
+		var outputPath = Path.Combine("output", outputModName, "common/dynasties/irtock3_all_dynasties.txt");
 		if (File.Exists(outputPath)) {
 			// clean up from previous runs.
 			File.Delete(outputPath);
