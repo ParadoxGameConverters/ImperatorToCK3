@@ -326,9 +326,7 @@ l_english:
  galatian: "Galatian"
  galatian_collective_noun: "Galatians"
  galatian_prefix: "Galato" # found 'Galato–Lycaonian'
- hunnic: "Hunnic"
- hunnic_collective_noun: "Huns"
- hunnic_prefix: "Hunno" # found 'Hunno-Germanic'
+ #hunnic_prefix: "Hunno" # found 'Hunno-Germanic'
  urslavic: "Slavic"
  urslavic_collective_noun: "Slavs"
  urslavic_prefix: "Slavo" # found 'Slavo-Germanic'

@@ -1143,7 +1143,7 @@ public partial class Title {
 						continue;
 					}
 
-					dev += sourceProvinces.Average(srcProv => srcProv.CivilizationValue / ck3ProvsPerIRProv[srcProv.Id]);
+					dev += sourceProvinces.Sum(srcProv => srcProv.CivilizationValue / ck3ProvsPerIRProv[srcProv.Id]);
 				}
 
 				dev *= irCivilizationWorth;

@@ -266,8 +266,8 @@
 
  galatian: "加拉太"
  galatian_collective_noun: "加拉太人"
- hunnic: "匈奴"
- hunnic_collective_noun: "匈奴人"
+ #hunnic: "匈奴"
+ #hunnic_collective_noun: "匈奴人"
  urslavic: "斯拉夫语"
  urslavic_collective_noun: "斯拉夫语人"
  oscan: "奥斯坎"

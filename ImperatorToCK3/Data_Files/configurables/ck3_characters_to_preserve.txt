@@ -6,6 +6,7 @@
 33922 # Muhammad
 
 # Characters referenced in on-actions:
+7627
 90107 # Ludwig the German
 74025
 33358
@@ -49,3 +50,6 @@ additional_fatimids_1
 109607
 6878
 107590
+
+# Characters referenced in common/character_interactions/00_debug_interactions.txt:
+159835 # King Arthur
