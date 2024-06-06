@@ -25,7 +25,7 @@ public class DynastyCollection : ConcurrentIdObjectCollection<string, Dynasty> {
 			}
 
 			var newDynasty = new Dynasty(family, imperatorCharacters, irWorld.CulturesDB, cultureMapper, locDB, date);
-			Add(newDynasty);
+			AddOrReplace(newDynasty);
 			Interlocked.Increment(ref importedCount);
 		});
 		Logger.Info($"{importedCount} total families imported.");
