@@ -23,7 +23,7 @@ public class DynastiesOutputterTests {
 	
 	[Fact]
 	public void DynastiesAreOutputted() {
-		const string outputModName = "outputMod";
+		const string outputModPath = "output/outputMod";
 		var locDB = new LocDB("english");
 		const string imperatorRoot = "TestFiles/Imperator/root";
 		ModFilesystem irModFS = new(imperatorRoot, Array.Empty<Mod>());
@@ -50,13 +50,13 @@ public class DynastiesOutputterTests {
 		};
 		dynasties.Add(dynasty2);
 
-		var outputPath = Path.Combine("output", outputModName, "common/dynasties/ir_dynasties.txt");
+		var outputPath = Path.Combine(outputModPath, "common/dynasties/irtock3_all_dynasties.txt");
 		if (File.Exists(outputPath)) {
 			// clean up from previous runs.
 			File.Delete(outputPath);
 		}
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
-		DynastiesOutputter.OutputDynasties(outputModName, dynasties);
+		DynastiesOutputter.OutputDynasties(outputModPath, dynasties);
 
 		using var file = File.OpenRead(outputPath);
 		var reader = new StreamReader(file);

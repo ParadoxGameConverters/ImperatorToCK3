@@ -81,6 +81,14 @@ public static class OnActionOutputter {
 			"""
 					if = {
 						limit = {
+							game_start_date >= 476.9.4
+						}
+						start_struggle = { struggle_type = italian_struggle start_phase = struggle_TFE_italian_phase_turmoil }
+					}
+			""",
+			"""
+					if = {
+						limit = {
 							AND = {
 								game_start_date <= 651.1.1 # Death of Yazdegerd III
 							}

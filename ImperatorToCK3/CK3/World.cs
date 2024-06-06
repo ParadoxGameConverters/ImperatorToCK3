@@ -44,7 +44,8 @@ public class World {
 	private ScriptValueCollection ScriptValues { get; } = new();
 	public NamedColorCollection NamedColors { get; } = new();
 	public CharacterCollection Characters { get; } = new();
-	public DynastyCollection Dynasties { get; } = new();
+	public DynastyCollection Dynasties { get; } = [];
+	public HouseCollection DynastyHouses { get; } = [];
 	public ProvinceCollection Provinces { get; } = new();
 	public Title.LandedTitles LandedTitles { get; } = new();
 	public PillarCollection CulturalPillars { get; }
@@ -137,7 +138,6 @@ public class World {
 
 			Title.LandedTitles overrideTitles = [];
 			overrideTitles.LoadStaticTitles();
-			Logger.Debug("Carving titles...");
 			LandedTitles.CarveTitles(overrideTitles);
 
 			Logger.IncrementProgress();
@@ -204,7 +204,9 @@ public class World {
 		);
 		ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
+		Dynasties.LoadCK3Dynasties(ModFS);
 		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB, CorrectedDate);
+		DynastyHouses.LoadCK3Houses(ModFS);
 		
 		// Load existing CK3 government IDs.
 		Logger.Info("Loading CK3 government IDs...");
@@ -284,7 +286,7 @@ public class World {
 		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, config);
 
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
-		Characters.PurgeUnneededCharacters(LandedTitles, Dynasties, config.CK3BookmarkDate);
+		Characters.PurgeUnneededCharacters(LandedTitles, Dynasties, DynastyHouses, config.CK3BookmarkDate);
 		
 		// Check if any muslim religion exists in Imperator. Otherwise, remove Islam from the entire CK3 map.
 		var possibleMuslimReligionNames = new List<string> { "muslim", "islam", "sunni", "shiite" };

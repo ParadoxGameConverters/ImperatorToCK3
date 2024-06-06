@@ -7,7 +7,6 @@ using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Mappers.Culture;
-using Open.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -50,9 +49,31 @@ public partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		SetLocFromImperatorFamilyName(Family.GetMaleForm(irFamilyName, irCulturesDB), locDB);
 	}
 	
+	public Dynasty(string dynastyId, BufferedReader dynastyReader) {
+		Id = dynastyId;
+		FromImperator = false;
+
+		var parser = new Parser();
+		parser.RegisterKeyword("prefix", reader => Prefix = reader.GetString());
+		parser.RegisterKeyword("name", reader => Name = reader.GetString());
+		parser.RegisterKeyword("culture", reader => CultureId = reader.GetString());
+		parser.RegisterKeyword("motto", reader => Motto = reader.GetString());
+		parser.RegisterKeyword("forced_coa_religiongroup", reader => ForcedCoaReligionGroup = reader.GetString());
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseStream(dynastyReader);
+		
+		if (string.IsNullOrEmpty(Name)) {
+			Logger.Warn($"Dynasty {Id} has no name! Setting fallback unlocalized name.");
+			Name = Id;
+		}
+	}
+	
 	[NonSerialized] public string Id { get; }
-	[SerializedName("name")] public string Name { get; }
+	[SerializedName("prefix")] public string? Prefix { get; private set; }
+	[SerializedName("name")] public string Name { get; private set; }
 	[SerializedName("culture")] public string? CultureId { get; set; }
+	[SerializedName("motto")] public string? Motto { get; set; }
+	[SerializedName("forced_coa_religiongroup")] public string? ForcedCoaReligionGroup { get; set; }
 
 	[NonSerialized] public LocBlock? LocalizedName { get; private set; }
 	[NonSerialized] public StringOfItem? CoA { get; set; }
