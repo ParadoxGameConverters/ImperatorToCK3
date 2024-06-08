@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Dynasties;
@@ -22,7 +23,7 @@ public class HouseCollection : IdObjectCollection<string, House> {
 	public void PurgeUnneededHouses(CharacterCollection ck3Characters, Date date) {
 		Logger.Info("Purging unneeded dynasty houses...");
 
-		var houseIdsToKeep = ck3Characters
+		HashSet<string> houseIdsToKeep = ck3Characters
 			.Select(c => c.GetDynastyHouseId(date))
 			.Where(id => id is not null)
 			.Distinct()
