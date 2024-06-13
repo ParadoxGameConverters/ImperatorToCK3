@@ -34,7 +34,7 @@
   <ItemGroup>
     <PackageReference Include="ColorHashSharp" Version="1.0.0" />
     <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.9.1" />
-    <PackageReference Include="Meziantou.Analyzer" Version="2.0.155">
+    <PackageReference Include="Meziantou.Analyzer" Version="2.0.156">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
