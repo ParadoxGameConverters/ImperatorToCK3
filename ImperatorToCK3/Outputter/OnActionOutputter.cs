@@ -33,6 +33,37 @@ public static class OnActionOutputter {
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
 			writer.WriteLine("\t\tset_global_variable = IRToCK3_create_maa_flag");
         }
+
+		if (config.FallenEagleEnabled) {
+			// As of the "Last of the Romans" update, TFE only disables Nicene for start dates >= 476.9.4.
+			// But for the converter it's important that Nicene is disabled for all start dates >= 451.8.25.
+			writer.WriteLine("""
+				# IRToCK3: disable Nicene after the Council of Chalcedon.
+				if = {
+					limit = {
+						game_start_date >= 451.8.25
+					}
+					faith:armenian_apostolic = {
+						remove_doctrine = unavailable_doctrine
+					}
+					faith:nestorian = {
+						remove_doctrine = unavailable_doctrine
+					}
+					faith:coptic = {
+						remove_doctrine = unavailable_doctrine
+					}
+					faith:syriac = {
+						remove_doctrine = unavailable_doctrine
+					}
+					faith:chalcedonian = {
+						remove_doctrine = unavailable_doctrine
+					}
+					faith:nicene = {
+						add_doctrine = unavailable_doctrine
+					}
+				}
+			""");
+		}
 		
 		writer.WriteLine("\t}");
 		writer.WriteLine("}");
