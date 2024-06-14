@@ -12,7 +12,7 @@ updates:
     directory: "/ImperatorToCK3.UnitTests/"
     # Check the nuget registry for updates every day (weekdays) schedule:
     schedule:
-      interval: "daily"
+      interval: "weekly"
 
   - package-ecosystem: "github-actions"
     # Workflow files stored in the
