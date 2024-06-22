@@ -374,11 +374,11 @@ public class LandedTitlesTests {
 		var date = config.CK3BookmarkDate;
 		titles.ImportDevelopmentFromImperator(ck3Provinces, date, defaultConfig.ImperatorCivilizationWorth);
 
-		Assert.Equal(6, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*25=10; 10-sqrt(10)≈6
+		Assert.Equal(8, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*(25-sqrt(25)) ≈ 8
 	}
 
 	[Fact]
-	public void DevelopmentFromImperatorProvinceCanBeSplitForTargetProvinces() {
+	public void DevelopmentFromImperatorProvinceCanBeUsedForMultipleCK3Provinces() {
 		var conversionDate = new Date(476, 1, 1);
 		var config = new Configuration { CK3BookmarkDate = conversionDate };
 		var titles = new Title.LandedTitles();
@@ -406,9 +406,9 @@ public class LandedTitlesTests {
 		var date = config.CK3BookmarkDate;
 		titles.ImportDevelopmentFromImperator(ck3Provinces, date, defaultConfig.ImperatorCivilizationWorth);
 
-		Assert.Equal(1, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*7=2.8;  2.8-sqrt(2.8)≈1
-		Assert.Equal(1, titles["c_county2"].GetDevelopmentLevel(date)); // same as above
-		Assert.Equal(1, titles["c_county3"].GetDevelopmentLevel(date)); // same as above
+		Assert.Equal(6, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4 * (21-sqrt(21) ≈ 6
+		Assert.Equal(6, titles["c_county2"].GetDevelopmentLevel(date)); // same as above
+		Assert.Equal(6, titles["c_county3"].GetDevelopmentLevel(date)); // same as above
 	}
 
 	[Fact]
@@ -439,8 +439,12 @@ public class LandedTitlesTests {
 
 		var date = config.CK3BookmarkDate;
 		titles.ImportDevelopmentFromImperator(ck3Provinces, date, defaultConfig.ImperatorCivilizationWorth);
-
-		Assert.Equal(6, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*(10+40)/2=10; 10-sqrt(10)≈6
+		
+		// Dev from province 1: 10-sqrt(10) ≈ 6
+		// Dev from province 2: 40-sqrt(40) ≈ 33
+		// Average: (6+33)/2 ≈ 19
+		// Average multiplied by civilization worth: 0.4*19 ≈ 8
+		Assert.Equal(8, titles["c_county1"].GetDevelopmentLevel(date));
 	}
 
 	[Fact]
