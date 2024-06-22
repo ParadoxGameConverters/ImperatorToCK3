@@ -1124,11 +1124,11 @@ public partial class Title {
 		}
 
 		public void ImportDevelopmentFromImperator(ProvinceCollection ck3Provinces, Date date, double irCivilizationWorth) {
-			static bool IsCountyOutsideImperatorMap(Title county, IReadOnlyDictionary<string, int> impProvsPerCounty) {
-				return impProvsPerCounty[county.Id] == 0;
+			static bool IsCountyOutsideImperatorMap(Title county, IReadOnlyDictionary<string, int> irProvsPerCounty) {
+				return irProvsPerCounty[county.Id] == 0;
 			}
 
-			double CalculateCountyDevelopment(Title county, IReadOnlyDictionary<ulong, int> ck3ProvsPerIRProv) {
+			double CalculateCountyDevelopment(Title county) {
 				double dev = 0;
 				IEnumerable<ulong> countyProvinceIds = county.CountyProvinceIds;
 				int provsCount = 0;
@@ -1137,25 +1137,28 @@ public partial class Title {
 						Logger.Warn($"CK3 province {ck3ProvId} not found!");
 						continue;
 					}
-					++provsCount;
 					var sourceProvinces = ck3Province.ImperatorProvinces;
 					if (sourceProvinces.Count == 0) {
 						continue;
 					}
-
-					dev += sourceProvinces.Sum(srcProv => srcProv.CivilizationValue / ck3ProvsPerIRProv[srcProv.Id]);
+					++provsCount;
+					
+					var devFromProvince = sourceProvinces.Average(srcProv => srcProv.CivilizationValue);
+					dev += devFromProvince;
 				}
 
+				dev = Math.Max(0, dev - Math.Sqrt(dev));
+				if (provsCount > 0) {
+					dev /= provsCount;
+				}
 				dev *= irCivilizationWorth;
-				dev /= provsCount;
-				dev -= Math.Sqrt(dev);
 				return dev;
 			}
 
 			Logger.Info("Importing development from Imperator...");
 
 			var counties = this.Where(t => t.Rank == TitleRank.county).ToList();
-			var (irProvsPerCounty, ck3ProvsPerImperatorProv) = GetIRProvsPerCounty(ck3Provinces, counties);
+			var irProvsPerCounty = GetIRProvsPerCounty(ck3Provinces, counties);
 
 			foreach (var county in counties) {
 				if (IsCountyOutsideImperatorMap(county, irProvsPerCounty)) {
@@ -1163,18 +1166,19 @@ public partial class Title {
 					continue;
 				}
 
-				double dev = CalculateCountyDevelopment(county, ck3ProvsPerImperatorProv);
+				double dev = CalculateCountyDevelopment(county);
 
 				county.History.Fields.Remove("development_level");
 				county.History.AddFieldValue(date, "development_level", "change_development_level", (int)dev);
 			}
+			
+			DistributeExcessDevelopment(date);
 
 			Logger.IncrementProgress();
 			return;
 
-			static (Dictionary<string, int>, Dictionary<ulong, int>) GetIRProvsPerCounty(ProvinceCollection ck3Provinces, IEnumerable<Title> counties) {
-				Dictionary<string, int> impProvsPerCounty = [];
-				Dictionary<ulong, int> ck3ProvsPerImperatorProv = [];
+			static Dictionary<string, int> GetIRProvsPerCounty(ProvinceCollection ck3Provinces, IEnumerable<Title> counties) {
+				Dictionary<string, int> irProvsPerCounty = [];
 				foreach (var county in counties) {
 					HashSet<ulong> imperatorProvs = [];
 					foreach (ulong ck3ProvId in county.CountyProvinceIds) {
@@ -1186,15 +1190,68 @@ public partial class Title {
 						var sourceProvinces = ck3Province.ImperatorProvinces;
 						foreach (var irProvince in sourceProvinces) {
 							imperatorProvs.Add(irProvince.Id);
-							ck3ProvsPerImperatorProv.TryGetValue(irProvince.Id, out var currentValue);
-							ck3ProvsPerImperatorProv[irProvince.Id] = currentValue + 1;
 						}
 					}
 
-					impProvsPerCounty[county.Id] = imperatorProvs.Count;
+					irProvsPerCounty[county.Id] = imperatorProvs.Count;
 				}
 
-				return (impProvsPerCounty, ck3ProvsPerImperatorProv);
+				return irProvsPerCounty;
+			}
+		}
+
+		private void DistributeExcessDevelopment(Date date) {
+			var topRealms = this
+				.Where(t => t.Rank > TitleRank.county && t.GetHolderId(date) != "0" && t.GetDeFactoLiege(date) is null)
+				.ToList();
+				
+			// For every realm, get list of counties with over 100 development.
+			// Distribute the excess development to the realm's least developed counties.
+			foreach (var realm in topRealms) {
+				var realmCounties = realm.GetDeFactoVassalsAndBelow(date, "c").Values
+					.Select(c => new {County = c, Development = c.GetOwnOrInheritedDevelopmentLevel(date)})
+					.Where(c => c.Development.HasValue)
+					.Select(c => new {c.County, Development = c.Development!.Value})
+					.ToList();
+				var excessDevCounties = realmCounties
+					.Where(c => c.Development > 100)
+					.OrderByDescending(c => c.Development)
+					.ToList();
+				if (excessDevCounties.Count == 0) {
+					continue;
+				}
+					
+				var leastDevCounties = realmCounties
+					.Where(c => c.Development < 100)
+					.OrderBy(c => c.Development)
+					.Select(c => c.County)
+					.ToList();
+				if (leastDevCounties.Count == 0) {
+					continue;
+				}
+				
+				var excessDevSum = excessDevCounties.Sum(c => c.Development - 100);
+				Logger.Debug($"Top realm {realm.Id} has {excessDevSum} excess development to distribute among {leastDevCounties.Count} counties.");
+				
+				// Now that we've calculated the excess dev, we can cap the county dev at 100.
+				foreach (var excessDevCounty in excessDevCounties) {
+					excessDevCounty.County.SetDevelopmentLevel(100, date);
+				}
+				
+				while (excessDevSum > 0 && leastDevCounties.Count > 0) {
+					var devPerCounty = excessDevSum / leastDevCounties.Count;
+					foreach (var county in leastDevCounties.ToList()) {
+						var currentDev = county.GetOwnOrInheritedDevelopmentLevel(date) ?? 0;
+						var devToAdd = Math.Max(devPerCounty, 100 - currentDev);
+						var newDevValue = currentDev + devToAdd;
+						
+						county.SetDevelopmentLevel(newDevValue, date);
+						excessDevSum -= devToAdd;
+						if (newDevValue >= 100) {
+							leastDevCounties.Remove(county);
+						}
+					}
+				}
 			}
 		}
 
