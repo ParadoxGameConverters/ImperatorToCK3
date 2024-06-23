@@ -20,8 +20,10 @@ public static class CharactersOutputter {
 			.ToImmutableList();
 		OutputPortraitModifiers(outputModName, charactersWithDNA, conversionDate);
 		
-		var charactersFromIR = characters.Where(c => c.FromImperator).ToImmutableList();
-		var charactersFromCK3 = characters.Except(charactersFromIR).ToImmutableList();
+		var charactersFromIR = characters.Where(c => c.FromImperator)
+			.OrderBy(c => c.Id).ToImmutableList();
+		var charactersFromCK3 = characters.Except(charactersFromIR)
+			.OrderBy(c => c.Id).ToImmutableList();
 		
 		var pathForCharactersFromIR = $"output/{outputModName}/history/characters/IRToCK3_fromImperator.txt";
 		using var output = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromIR);
