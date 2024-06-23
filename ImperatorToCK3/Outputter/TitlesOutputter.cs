@@ -1,13 +1,15 @@
-﻿using commonItems.Serialization;
+﻿using commonItems;
+using commonItems.Serialization;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 public static class TitlesOutputter {
-	private static void OutputTitlesHistory(string outputModName, Title.LandedTitles titles) {
+	private static async Task OutputTitlesHistory(string outputModPath, Title.LandedTitles titles) {
 		//output title history
 		var alreadyOutputtedTitles = new HashSet<string>();
 		foreach (var title in titles) {
@@ -18,43 +20,45 @@ public static class TitlesOutputter {
 				continue;
 			}
 
-			var historyOutputPath = Path.Combine("output", outputModName, "history", "titles", $"{title.Id}.txt");
-			using var historyOutput = new StreamWriter(historyOutputPath); // output the kingdom's history
-			title.OutputHistory(historyOutput);
+			var historyOutputPath = Path.Combine(outputModPath, "history", "titles", $"{title.Id}.txt");
+			await using var historyOutput = new StreamWriter(historyOutputPath); // output the kingdom's history
+			await title.OutputHistory(historyOutput);
 			alreadyOutputtedTitles.Add(title.Id);
 
 			// output the kingdom's de jure vassals' history
 			foreach (var (deJureVassalName, deJureVassal) in title.GetDeJureVassalsAndBelow()) {
-				deJureVassal.OutputHistory(historyOutput);
+				await deJureVassal.OutputHistory(historyOutput);
 				alreadyOutputtedTitles.Add(deJureVassalName);
 			}
 		}
 
-		var otherTitlesPath = Path.Combine("output", outputModName, "history", "titles", "00_other_titles.txt");
-		using (var historyOutput = new StreamWriter(otherTitlesPath)) {
+		var otherTitlesPath = Path.Combine(outputModPath, "history", "titles", "00_other_titles.txt");
+		await using (var historyOutput = new StreamWriter(otherTitlesPath)) {
 			foreach (var title in titles) {
 				// output the remaining titles
 				if (alreadyOutputtedTitles.Contains(title.Id)) {
 					continue;
 				}
-				title.OutputHistory(historyOutput);
+				await title.OutputHistory(historyOutput);
 				alreadyOutputtedTitles.Add(title.Id);
 			}
 		}
 	}
 
-	public static void OutputTitles(string outputModName, Title.LandedTitles titles) {
-		var outputPath = Path.Combine("output", outputModName, "common", "landed_titles", "00_landed_titles.txt");
-		using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
+	public static async Task OutputTitles(string outputModPath, Title.LandedTitles titles) {
+		Logger.Info("Writing Landed Titles...");
+		var outputPath = Path.Combine(outputModPath, "common/landed_titles/00_landed_titles.txt");
+		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 
 		foreach (var (name, value) in titles.Variables) {
-			output.WriteLine($"@{name}={value}");
+			await output.WriteLineAsync($"@{name}={value}");
 		}
 
 		// titles with a de jure liege will be outputted under the liege
 		var topDeJureTitles = titles.Where(t => t.DeJureLiege is null);
-		output.Write(PDXSerializer.Serialize(topDeJureTitles, string.Empty, false));
+		await output.WriteAsync(PDXSerializer.Serialize(topDeJureTitles, string.Empty, false));
 
-		OutputTitlesHistory(outputModName, titles);
+		await OutputTitlesHistory(outputModPath, titles);
+		Logger.IncrementProgress();
 	}
 }
