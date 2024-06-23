@@ -1,6 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CommonUtils;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Countries;
@@ -21,27 +21,25 @@ public class RulerTerm {
 	public PreImperatorRulerInfo? PreImperatorRuler { get; set; }
 
 	public static RulerTerm Parse(BufferedReader reader) {
-		parsedTerm = new RulerTerm();
-		parser.ParseStream(reader);
-		return parsedTerm;
-	}
+		var newTerm = new RulerTerm();
 
-	public static readonly IgnoredKeywordsSet IgnoredTokens = new();
-
-	private static readonly Parser parser = new();
-	private static RulerTerm parsedTerm = new();
-	static RulerTerm() {
-		parser.RegisterKeyword("character", reader => parsedTerm.CharacterId = reader.GetULong());
-		parser.RegisterKeyword("start_date", reader => {
-			var dateString = reader.GetString();
-			parsedTerm.StartDate = new Date(dateString, AUC: true);
+		var parser = new Parser();
+		parser.RegisterKeyword("character", r => newTerm.CharacterId = r.GetULong());
+		parser.RegisterKeyword("start_date", r => {
+			var dateString = r.GetString();
+			newTerm.StartDate = new Date(dateString, AUC: true);
 		});
-		parser.RegisterKeyword("government", reader => parsedTerm.Government = reader.GetString());
-		parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
+		parser.RegisterKeyword("government", r => newTerm.Government = r.GetString());
+		parser.RegisterRegex(CommonRegexes.Catchall, (r, token) => {
 			IgnoredTokens.Add(token);
-			ParserHelpers.IgnoreItem(reader);
+			ParserHelpers.IgnoreItem(r);
 		});
+		parser.ParseStream(reader);
+		
+		return newTerm;
 	}
+
+	public static readonly ConcurrentIgnoredKeywordsSet IgnoredTokens = [];
 
 	public RulerTerm() { }
 	public RulerTerm(BufferedReader prehistoryRulerReader, CountryCollection countries) {
@@ -76,11 +74,11 @@ public class RulerTerm {
 				}
 				var countryId = matchingCountries[0].Id;
 				PreImperatorRuler.Country = countries[countryId];
-				tagToCountryCache.Add(tag, PreImperatorRuler.Country);
+				tagToCountryCache[tag] = PreImperatorRuler.Country;
 			}
 		});
 
 		prehistoryParser.ParseStream(prehistoryRulerReader);
 	}
-	private static readonly Dictionary<string, Country> tagToCountryCache = new();
+	private static readonly ConcurrentDictionary<string, Country> tagToCountryCache = new();
 }

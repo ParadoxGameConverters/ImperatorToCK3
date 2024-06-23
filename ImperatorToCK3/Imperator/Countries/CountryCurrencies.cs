@@ -33,5 +33,5 @@ public class CountryCurrencies : Parser {
 			ParserHelpers.IgnoreItem(reader);
 		});
 	}
-	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
+	public static ConcurrentIgnoredKeywordsSet IgnoredTokens { get; } = [];
 }
