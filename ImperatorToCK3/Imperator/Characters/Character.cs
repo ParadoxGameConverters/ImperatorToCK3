@@ -110,7 +110,7 @@ public class Character : IIdentifiable<ulong> {
 	public ImmutableList<Unborn> Unborns { get; private set; } = ImmutableList<Unborn>.Empty;
 
 	public CK3.Characters.Character? CK3Character { get; set; }
-	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
+	public static ConcurrentIgnoredKeywordsSet IgnoredTokens { get; } = [];
 	public static void RegisterCharacterKeywords(Parser parser, Character parsedCharacter) {
 		parser.RegisterKeyword("first_name_loc", reader => {
 			var characterName = new CharacterName(reader);
