@@ -3,10 +3,12 @@ using commonItems.Collections;
 using ImperatorToCK3.Imperator.Families;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Channels;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
-public class CountryCollection : IdObjectCollection<ulong, Country> {
+public class CountryCollection : ConcurrentIdObjectCollection<ulong, Country> {
 	public void LoadCountriesFromBloc(BufferedReader reader) {
 		var blocParser = new Parser();
 		blocParser.RegisterKeyword("country_database", LoadCountries);
@@ -18,20 +20,43 @@ public class CountryCollection : IdObjectCollection<ulong, Country> {
 		Logger.Debug($"Ignored Country tokens: {Country.IgnoredTokens}");
 	}
 	public void LoadCountries(BufferedReader reader) {
-		var parser = new Parser();
-		RegisterKeys(parser);
-		parser.ParseStream(reader);
+		// Load countries using the producer-consumer pattern.
+		
+		var channel = Channel.CreateUnbounded<KeyValuePair<string, StringOfItem>>();
+		var channelWriter = channel.Writer;
+		var channelReader = channel.Reader;
+
+		var producerTask = Task.Run(() => {
+			var parser = new Parser();
+			parser.RegisterRegex(CommonRegexes.Integer, (countryReader, countryIdStr) => {
+				var countryData = countryReader.GetStringOfItem();
+				
+				if (!channelWriter.TryWrite(new(countryIdStr, countryData))) {
+					Logger.Warn($"Failed to enqueue country {countryIdStr} for processing.");
+				}
+			});
+			parser.IgnoreAndLogUnregisteredItems();
+			parser.ParseStream(reader);
+			
+			channelWriter.Complete();
+		});
+		
+		var consumerTasks = new List<Task>();
+		for (var i = 0; i < 4; ++i) {
+			consumerTasks.Add(Task.Run(async () => {
+				await foreach (var (countryIdStr, countryData) in channelReader.ReadAllAsync()) {
+					var countryReader = new BufferedReader(countryData.ToString());
+					var newCountry = Country.Parse(countryReader, ulong.Parse(countryIdStr));
+					Add(newCountry);
+				}
+			}));
+		}
+		
+		Task.WaitAll(producerTask, Task.WhenAll(consumerTasks));
 
 		foreach (var country in this) {
 			country.LinkOriginCountry(this);
 		}
-	}
-	private void RegisterKeys(Parser parser) {
-		parser.RegisterRegex(CommonRegexes.Integer, (reader, countryId) => {
-			var newCountry = Country.Parse(reader, ulong.Parse(countryId));
-			Add(newCountry);
-		});
-		parser.IgnoreAndLogUnregisteredItems();
 	}
 
 	public void LinkFamilies(FamilyCollection families) {
