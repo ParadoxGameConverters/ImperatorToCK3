@@ -68,18 +68,6 @@ public partial class Title {
 
 			Logger.IncrementProgress();
 		}
-		public void LoadStaticTitles(BufferedReader reader) {
-			Logger.Info("Loading static landed titles...");
-
-			var parser = new Parser();
-			RegisterKeys(parser);
-
-			parser.ParseStream(reader);
-
-			LogIgnoredTokens();
-
-			Logger.IncrementProgress();
-		}
 
 		public void CarveTitles(LandedTitles overrides) {
 			Logger.Debug("Carving titles...");
@@ -119,7 +107,9 @@ public partial class Title {
 		}
 
 		private static void LogIgnoredTokens() {
-			Logger.Debug($"Ignored Title tokens: {Title.IgnoredTokens}");
+			if (Title.IgnoredTokens.Count > 0) {
+				Logger.Warn($"Ignored title tokens: {Title.IgnoredTokens}");
+			}
 		}
 
 		public Title Add(string id) {
