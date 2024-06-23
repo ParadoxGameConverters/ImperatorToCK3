@@ -5,24 +5,25 @@ using ImperatorToCK3.CK3;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 public static class LocalizationOutputter {
-	public static void OutputLocalization(string outputName, World ck3World) {
-		var outputPath = Path.Combine("output", outputName);
-		var baseLocDir = Path.Join(outputPath, "localization");
+	public static async Task OutputLocalization(string outputModPath, World ck3World) {
+		Logger.Info("Writing Localization...");
+		var baseLocDir = Path.Join(outputModPath, "localization");
 		var baseReplaceLocDir = Path.Join(baseLocDir, "replace");
 
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			var locFilePath = Path.Join(baseReplaceLocDir, language, $"converter_l_{language}.yml");
-			using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, encoding: System.Text.Encoding.UTF8);
+			await using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, encoding: System.Text.Encoding.UTF8);
 
-			locWriter.WriteLine($"l_{language}:");
+			await locWriter.WriteLineAsync($"l_{language}:");
 
 			// title localization
 			foreach (var title in ck3World.LandedTitles) {
 				foreach (var locBlock in title.Localizations) {
-					locWriter.WriteLine(locBlock.GetYmlLocLineForLanguage(language));
+					await locWriter.WriteLineAsync(locBlock.GetYmlLocLineForLanguage(language));
 				}
 			}
 
@@ -34,7 +35,7 @@ public static class LocalizationOutputter {
 						continue;
 					}
 
-					locWriter.WriteLine(locBlock.GetYmlLocLineForLanguage(language));
+					await locWriter.WriteLineAsync(locBlock.GetYmlLocLineForLanguage(language));
 					uniqueKeys.Add(key);
 				}
 			}
@@ -43,25 +44,27 @@ public static class LocalizationOutputter {
 		// dynasty localization
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			var dynastyLocFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_dynasty_l_{language}.yml");
-			using var dynastyLocWriter = FileOpeningHelper.OpenWriteWithRetries(dynastyLocFilePath, System.Text.Encoding.UTF8);
+			await using var dynastyLocWriter = FileOpeningHelper.OpenWriteWithRetries(dynastyLocFilePath, System.Text.Encoding.UTF8);
 
-			dynastyLocWriter.WriteLine($"l_{language}:");
+			await dynastyLocWriter.WriteLineAsync($"l_{language}:");
 
 			foreach (var dynasty in ck3World.Dynasties) {
 				var localizedName = dynasty.LocalizedName;
 				if (localizedName is not null) {
-					dynastyLocWriter.WriteLine(localizedName.GetYmlLocLineForLanguage(language));
+					await dynastyLocWriter.WriteLineAsync(localizedName.GetYmlLocLineForLanguage(language));
 				} else if (dynasty.FromImperator) {
 					Logger.Warn($"Dynasty {dynasty.Id} has no localizations!");
-					dynastyLocWriter.WriteLine($" {dynasty.Name}: \"{dynasty.Name}\"");
+					await dynastyLocWriter.WriteLineAsync($" {dynasty.Name}: \"{dynasty.Name}\"");
 				}
 			}
 		}
 		
-		OutputFallbackLocForMissingSecondaryLanguageLoc(baseLocDir, ck3World.ModFS);
+		await OutputFallbackLocForMissingSecondaryLanguageLoc(baseLocDir, ck3World.ModFS);
+		
+		Logger.IncrementProgress();
 	}
 
-	private static void OutputFallbackLocForMissingSecondaryLanguageLoc(string baseLocDir, ModFilesystem ck3ModFS) {
+	private static async Task OutputFallbackLocForMissingSecondaryLanguageLoc(string baseLocDir, ModFilesystem ck3ModFS) {
 		var primaryLanguage = ConverterGlobals.PrimaryLanguage;
 		var secondaryLanguages = ConverterGlobals.SecondaryLanguages;
 		
@@ -103,11 +106,11 @@ public static class LocalizationOutputter {
 			Logger.Debug($"Outputting {linesToOutput.Count} fallback loc lines for {language}...");
 			
 			var locFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_fallback_loc_l_{language}.yml");
-			using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, System.Text.Encoding.UTF8);
+			await using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, System.Text.Encoding.UTF8);
 
-			locWriter.WriteLine($"l_{language}:");
+			await locWriter.WriteLineAsync($"l_{language}:");
 			foreach (var line in linesToOutput) {
-				locWriter.WriteLine(line);
+				await locWriter.WriteLineAsync(line);
 			}
 		}
 	}

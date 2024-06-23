@@ -2,13 +2,14 @@
 using commonItems.Serialization;
 using System.Globalization;
 using System.IO;
+using System.Threading.Tasks;
 using Character = ImperatorToCK3.CK3.Characters.Character;
 
 namespace ImperatorToCK3.Outputter;
 public static class CharacterOutputter {
-	public static void OutputCharacter(TextWriter output, Character character, Date conversionDate) {
+	public static async Task OutputCharacter(TextWriter output, Character character, Date conversionDate) {
 		// Output ID.
-		output.WriteLine($"{character.Id}={{");
+		await output.WriteLineAsync($"{character.Id}={{");
 		
 		if (character.Dead) {
 			// Don't output traits and attributes of dead characters (not needed).
@@ -36,39 +37,39 @@ public static class CharacterOutputter {
 		}
 
 		// Output history.
-		output.Write(PDXSerializer.Serialize(character.History, "\t"));
+		await output.WriteAsync(PDXSerializer.Serialize(character.History, "\t"));
 
-		OutputPregnancies(output, character);
-		OutputPrisoners(output, character, conversionDate);
+		await OutputPregnancies(output, character);
+		await OutputPrisoners(output, character, conversionDate);
 
-		output.WriteLine("}");
+		await output.WriteLineAsync("}");
 	}
 
-	private static void OutputPrisoners(TextWriter output, Character character, Date conversionDate) {
+	private static async Task OutputPrisoners(TextWriter output, Character character, Date conversionDate) {
 		if (character.PrisonerIds.Count == 0) {
 			return;
 		}
 
-		output.WriteLine($"\t{conversionDate}={{");
+		await output.WriteLineAsync($"\t{conversionDate}={{");
 		foreach (var (id, type) in character.PrisonerIds) {
-			output.WriteLine($"\t\timprison={{target = character:{id} type={type}}}");
+			await output.WriteLineAsync($"\t\timprison={{target = character:{id} type={type}}}");
 		}
-		output.WriteLine("\t}");
+		await output.WriteLineAsync("\t}");
 	}
 
 	/// <summary>
 	/// Outputs unborn children if pregnancy has lasted at most 3 months in Imperator
 	/// </summary>
-	private static void OutputPregnancies(
+	private static async Task OutputPregnancies(
 		TextWriter output,
 		Character character
 	) {
 		foreach (var pregnancy in character.Pregnancies) {
 			Date conceptionDate = pregnancy.EstimatedConceptionDate;
 			string fatherReference = $"character:{pregnancy.FatherId}";
-			output.Write($"\t{conceptionDate}={{ effect={{ ");
-			output.Write($"make_pregnant_no_checks={{ father={fatherReference} {(pregnancy.IsBastard ? "known_bastard=yes " : "")}}} ");
-			output.WriteLine("} }");
+			await output.WriteAsync($"\t{conceptionDate}={{ effect={{ ");
+			await output.WriteAsync($"make_pregnant_no_checks={{ father={fatherReference} {(pregnancy.IsBastard ? "known_bastard=yes " : "")}}} ");
+			await output.WriteLineAsync("} }");
 		}
 	}
 }

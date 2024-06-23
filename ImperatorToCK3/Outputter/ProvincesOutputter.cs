@@ -1,4 +1,5 @@
-﻿using ImperatorToCK3.CK3.Provinces;
+﻿using commonItems;
+using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils;
 using Open.Collections;
@@ -8,17 +9,19 @@ using System.Threading.Tasks;
 namespace ImperatorToCK3.Outputter;
 
 public static class ProvincesOutputter {
-	public static void OutputProvinces(
-		string outputModName,
+	public static async Task OutputProvinces(
+		string outputModPath,
 		ProvinceCollection provinces,
 		Title.LandedTitles titles
 	) {
+		Logger.Info("Writing provinces...");
+		
 		// Output provinces to files named after their de jure kingdoms.
 		var alreadyOutputtedProvinces = new ConcurrentHashSet<ulong>();
 
 		var deJureKingdoms = titles.GetDeJureKingdoms();
 		Parallel.ForEach(deJureKingdoms, kingdom => {
-			var filePath = $"output/{outputModName}/history/provinces/{kingdom.Id}.txt";
+			var filePath = $"{outputModPath}/history/provinces/{kingdom.Id}.txt";
 			using var historyOutput = new StreamWriter(filePath);
 			foreach (var province in provinces) {
 				if (kingdom.KingdomContainsProvince(province.Id)) {
@@ -29,8 +32,8 @@ public static class ProvincesOutputter {
 		});
 
 		if (alreadyOutputtedProvinces.Count != provinces.Count) {
-			var filePath = $"output/{outputModName}/history/provinces/onlyDeJureDuchy.txt";
-			using var historyOutput = TextWriter.Synchronized(new StreamWriter(filePath));
+			var filePath = $"{outputModPath}/history/provinces/onlyDeJureDuchy.txt";
+			await using var historyOutput = TextWriter.Synchronized(new StreamWriter(filePath));
 			var deJureDuchies = titles.GetDeJureDuchies();
 			Parallel.ForEach(deJureDuchies, duchy => {
 				foreach (var province in provinces) {
@@ -49,9 +52,9 @@ public static class ProvincesOutputter {
 
 		// Create province mapping file.
 		if (alreadyOutputtedProvinces.Count != provinces.Count) {
-			var mappingsPath = $"output/{outputModName}/history/province_mapping/province_mapping.txt";
-			using var mappingsWriter = FileOpeningHelper.OpenWriteWithRetries(mappingsPath, System.Text.Encoding.UTF8);
-			using var threadSafeWriter = TextWriter.Synchronized(mappingsWriter);
+			var mappingsPath = $"{outputModPath}/history/province_mapping/province_mapping.txt";
+			await using var mappingsWriter = FileOpeningHelper.OpenWriteWithRetries(mappingsPath, System.Text.Encoding.UTF8);
+			await using var threadSafeWriter = TextWriter.Synchronized(mappingsWriter);
 
 			foreach (var province in provinces) {
 				if (alreadyOutputtedProvinces.Contains(province.Id)) {
@@ -63,9 +66,11 @@ public static class ProvincesOutputter {
 					continue;
 				}
 
-				threadSafeWriter.WriteLine($"{province.Id} = {baseProvId}");
+				await threadSafeWriter.WriteLineAsync($"{province.Id} = {baseProvId}");
 				alreadyOutputtedProvinces.Add(province.Id);
 			}
 		}
+		
+		Logger.IncrementProgress();
 	}
 }

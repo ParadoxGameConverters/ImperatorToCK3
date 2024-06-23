@@ -6,11 +6,21 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
 public static class CharactersOutputter {
-	public static void OutputCharacters(string outputModName, CharacterCollection characters, Date conversionDate) {
+	public static async Task OutputEverything(string outputPath, CharacterCollection characters, Date conversionDate, ModFilesystem ck3ModFS) {
+		await Task.WhenAll(
+			OutputCharacters(outputPath, characters, conversionDate),
+			BlankOutHistoricalPortraitModifiers(ck3ModFS, outputPath)
+		);
+		
+		Logger.IncrementProgress();
+	}
+	
+	public static async Task OutputCharacters(string outputPath, CharacterCollection characters, Date conversionDate) {
 		Logger.Info("Writing Characters...");
 
 		// Portrait modifiers need to be outputted before characters themselves,
@@ -18,72 +28,72 @@ public static class CharactersOutputter {
 		var charactersWithDNA = characters
 			.Where(c => c.DNA is not null)
 			.ToImmutableList();
-		OutputPortraitModifiers(outputModName, charactersWithDNA, conversionDate);
+		await OutputPortraitModifiers(outputPath, charactersWithDNA, conversionDate);
 		
 		var charactersFromIR = characters.Where(c => c.FromImperator)
 			.OrderBy(c => c.Id).ToImmutableList();
 		var charactersFromCK3 = characters.Except(charactersFromIR)
 			.OrderBy(c => c.Id).ToImmutableList();
 		
-		var pathForCharactersFromIR = $"output/{outputModName}/history/characters/IRToCK3_fromImperator.txt";
-		using var output = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromIR);
+		var pathForCharactersFromIR = $"{outputPath}/history/characters/IRToCK3_fromImperator.txt";
+		await using var output = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromIR);
 		foreach (var character in charactersFromIR) {
-			CharacterOutputter.OutputCharacter(output, character, conversionDate);
+			await CharacterOutputter.OutputCharacter(output, character, conversionDate);
 		}
 
-		var pathForCharactersFromCK3 = $"output/{outputModName}/history/characters/IRToCK3_fromCK3.txt";
-		using var output2 = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromCK3, System.Text.Encoding.UTF8);
+		var pathForCharactersFromCK3 = $"{outputPath}/history/characters/IRToCK3_fromCK3.txt";
+		await using var output2 = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromCK3, System.Text.Encoding.UTF8);
 		foreach (var character in charactersFromCK3) {
-			CharacterOutputter.OutputCharacter(output2, character, conversionDate);
+			await CharacterOutputter.OutputCharacter(output2, character, conversionDate);
 		}
-		OutputCharactersDNA(outputModName, charactersWithDNA);
+		await OutputCharactersDNA(outputPath, charactersWithDNA);
 	}
 
-	public static void BlankOutHistoricalPortraitModifiers(ModFilesystem ck3ModFS, string outputPath) {
+	public static async Task BlankOutHistoricalPortraitModifiers(ModFilesystem ck3ModFS, string outputPath) {
 		Logger.Info("Blanking out historical portrait modifiers...");
 		
 		const string modifiersFilePath = "gfx/portraits/portrait_modifiers/02_all_historical_characters.txt";
 
 		if (ck3ModFS.GetActualFileLocation(modifiersFilePath) is not null) {
 			string dummyPath = Path.Combine(outputPath, modifiersFilePath);
-			using var output = FileOpeningHelper.OpenWriteWithRetries(dummyPath, System.Text.Encoding.UTF8);
-			output.WriteLine("# Dummy file to blank out historical portrait modifiers from CK3.");
+			await using var output = FileOpeningHelper.OpenWriteWithRetries(dummyPath, System.Text.Encoding.UTF8);
+			await output.WriteLineAsync("# Dummy file to blank out historical portrait modifiers from CK3.");
 		}
 	}
 
-	private static void OutputCharactersDNA(string outputModName, IEnumerable<Character> charactersWithDNA) {
+	private static async Task OutputCharactersDNA(string outputPath, IEnumerable<Character> charactersWithDNA) {
 		Logger.Info("Outputting DNA...");
 		// Dump all into one file.
-		var path = Path.Combine("output", outputModName, "common/dna_data/IRToCK3_dna_data.txt");
-		using var output = FileOpeningHelper.OpenWriteWithRetries(path, System.Text.Encoding.UTF8);
+		var path = Path.Combine(outputPath, "common/dna_data/IRToCK3_dna_data.txt");
+		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, System.Text.Encoding.UTF8);
 		foreach (var character in charactersWithDNA) {
 			var dna = character.DNA!;
-			output.WriteLine($"{dna.Id}={{");
-			output.WriteLine("\tportrait_info={");
+			await output.WriteLineAsync($"{dna.Id}={{");
+			await output.WriteLineAsync("\tportrait_info={");
 
-			dna.OutputGenes(output);
+			await dna.OutputGenes(output);
 
-			output.WriteLine("\t}");
-			output.WriteLine("\tenabled=yes");
-			output.WriteLine("}");
+			await output.WriteLineAsync("\t}");
+			await output.WriteLineAsync("\tenabled=yes");
+			await output.WriteLineAsync("}");
 		}
 	}
 
-	private static void OutputPortraitModifiers(string outputModName, IReadOnlyCollection<Character> charactersWithDNA, Date conversionDate) {
+	private static async Task OutputPortraitModifiers(string outputPath, IReadOnlyCollection<Character> charactersWithDNA, Date conversionDate) {
 		Logger.Debug("Outputting portrait modifiers...");
 		// Enforce hairstyles and beards (otherwise CK3 they will only be used on bookmark screen).
 		// https://ck3.paradoxwikis.com/Characters_modding#Changing_appearance_through_scripts
-		var portraitModifiersOutputPath = Path.Combine("output", outputModName, "gfx/portraits/portrait_modifiers/IRToCK3_portrait_modifiers.txt");
-		using var output = FileOpeningHelper.OpenWriteWithRetries(portraitModifiersOutputPath, System.Text.Encoding.UTF8);
+		var portraitModifiersOutputPath = Path.Combine(outputPath, "gfx/portraits/portrait_modifiers/IRToCK3_portrait_modifiers.txt");
+		await using var output = FileOpeningHelper.OpenWriteWithRetries(portraitModifiersOutputPath, System.Text.Encoding.UTF8);
 
-		OutputPortraitModifiersForGene("hairstyles", charactersWithDNA, output, conversionDate);
+		await OutputPortraitModifiersForGene("hairstyles", charactersWithDNA, output, conversionDate);
 		var malesWithBeards = charactersWithDNA
 			.Where(c => !c.Female && c.DNA!.AccessoryDNAValues.ContainsKey("beards"))
 			.ToImmutableList();
-		OutputPortraitModifiersForGene("beards", malesWithBeards, output, conversionDate);
+		await OutputPortraitModifiersForGene("beards", malesWithBeards, output, conversionDate);
 	}
 
-	private static void OutputPortraitModifiersForGene(
+	private static async Task OutputPortraitModifiersForGene(
 		string geneName,
 		IReadOnlyCollection<Character> charactersWithDNA,
 		TextWriter output,
@@ -95,9 +105,9 @@ public static class CharactersOutputter {
 				c.DNA!.AccessoryDNAValues[geneName].TemplateName,
 				c.DNA!.AccessoryDNAValues[geneName].ObjectName,
 			});
-		output.WriteLine($"IRToCK3_{geneName}_overrides = {{");
-		output.WriteLine("\tusage = game");
-		output.WriteLine("\tselection_behavior = max");
+		await output.WriteLineAsync($"IRToCK3_{geneName}_overrides = {{");
+		await output.WriteLineAsync("\tusage = game");
+		await output.WriteLineAsync("\tselection_behavior = max");
 		foreach (var grouping in charactersByGeneValue) {
 			var templateName = grouping.Key.TemplateName;
 			var accessoryName = grouping.Key.ObjectName;
@@ -110,26 +120,26 @@ public static class CharactersOutputter {
 				character.History.AddFieldValue(effectDate, "effects", "effect", characterEffectStr);
 			}
 			
-			output.WriteLine($"\t{templateName}_obj_{accessoryName} = {{");
-			output.WriteLine("\t\tdna_modifiers = {");
-			output.WriteLine("\t\t\taccessory = {");
-			output.WriteLine("\t\t\t\tmode = add");
-			output.WriteLine($"\t\t\t\tgene = {geneName}");
-			output.WriteLine($"\t\t\t\ttemplate = {templateName}");
-			output.WriteLine($"\t\t\t\taccessory = {accessoryName}");
-			output.WriteLine("\t\t\t}");
-			output.WriteLine("\t\t}");
+			await output.WriteLineAsync($"\t{templateName}_obj_{accessoryName} = {{");
+			await output.WriteLineAsync("\t\tdna_modifiers = {");
+			await output.WriteLineAsync("\t\t\taccessory = {");
+			await output.WriteLineAsync("\t\t\t\tmode = add");
+			await output.WriteLineAsync($"\t\t\t\tgene = {geneName}");
+			await output.WriteLineAsync($"\t\t\t\ttemplate = {templateName}");
+			await output.WriteLineAsync($"\t\t\t\taccessory = {accessoryName}");
+			await output.WriteLineAsync("\t\t\t}");
+			await output.WriteLineAsync("\t\t}");
 			
-			output.WriteLine("\t\tweight = {");
-			output.WriteLine("\t\t\tbase = 0");
-			output.WriteLine("\t\t\tmodifier = {");
-			output.WriteLine("\t\t\t\tadd = 999");
-			output.WriteLine($"\t\t\t\thas_character_flag = {characterFlagName}");
-			output.WriteLine("\t\t\t}");
+			await output.WriteLineAsync("\t\tweight = {");
+			await output.WriteLineAsync("\t\t\tbase = 0");
+			await output.WriteLineAsync("\t\t\tmodifier = {");
+			await output.WriteLineAsync("\t\t\t\tadd = 999");
+			await output.WriteLineAsync($"\t\t\t\thas_character_flag = {characterFlagName}");
+			await output.WriteLineAsync("\t\t\t}");
 			
-			output.WriteLine("\t\t}");
-			output.WriteLine("\t}");
+			await output.WriteLineAsync("\t\t}");
+			await output.WriteLineAsync("\t}");
 		}
-		output.WriteLine("}");
+		await output.WriteLineAsync("}");
 	}
 }

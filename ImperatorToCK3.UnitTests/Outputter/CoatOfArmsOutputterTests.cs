@@ -24,6 +24,7 @@ using ImperatorToCK3.Outputter;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Outputter;
@@ -40,7 +41,7 @@ public class CoatOfArmsOutputterTests {
 	}
 
 	[Fact]
-	public void CoaIsOutputtedForCountryWithFlagSet() {
+	public async Task CoaIsOutputtedForCountryWithFlagSet() {
 		var titles = new Title.LandedTitles();
 
 		var countries = new CountryCollection();
@@ -48,8 +49,8 @@ public class CoatOfArmsOutputterTests {
 		var country = Country.Parse(countryReader, 1);
 		countries.Add(country);
 
-		const string outputModName = "outputMod";
-		var outputPath = Path.Combine("output", outputModName, "common/coat_of_arms/coat_of_arms/zzz_IRToCK3_coas.txt");
+		const string outputModPath = "output/outputMod";
+		var outputPath = Path.Combine(outputModPath, "common/coat_of_arms/coat_of_arms/zzz_IRToCK3_coas.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 
 		var ck3Religions = new ReligionCollection(titles);
@@ -73,19 +74,19 @@ public class CoatOfArmsOutputterTests {
 			new List<KeyValuePair<Country, Dependency?>>()
 		);
 
-		CoatOfArmsOutputter.OutputCoas(outputModName, titles, new List<Dynasty>());
+		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>());
 
-		using var file = File.OpenRead(outputPath);
+		await using var file = File.OpenRead(outputPath);
 		var reader = new StreamReader(file);
 
-		Assert.Equal("d_IRTOCK3_ADI={", reader.ReadLine());
-		Assert.Equal("\tpattern=\"pattern_solid.tga\"", reader.ReadLine());
-		Assert.Equal("\tcolor1=red color2=green color3=blue", reader.ReadLine());
-		Assert.Equal("}", reader.ReadLine());
+		Assert.Equal("d_IRTOCK3_ADI={", await reader.ReadLineAsync());
+		Assert.Equal("\tpattern=\"pattern_solid.tga\"", await reader.ReadLineAsync());
+		Assert.Equal("\tcolor1=red color2=green color3=blue", await reader.ReadLineAsync());
+		Assert.Equal("}", await reader.ReadLineAsync());
 	}
 
 	[Fact]
-	public void CoaIsNotOutputtedForCountryWithoutFlagSet() {
+	public async Task CoaIsNotOutputtedForCountryWithoutFlagSet() {
 		var titles = new Title.LandedTitles();
 
 		var countries = new CountryCollection();
@@ -93,8 +94,8 @@ public class CoatOfArmsOutputterTests {
 		var country = Country.Parse(countryReader, 2);
 		countries.Add(country);
 
-		const string outputModName = "outputMod";
-		var outputPath = Path.Combine("output", outputModName, "common/coat_of_arms/coat_of_arms/zzz_IRToCK3_coas.txt");
+		const string outputModPath = "output/outputMod";
+		var outputPath = Path.Combine(outputModPath, "common/coat_of_arms/coat_of_arms/zzz_IRToCK3_coas.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 
 		var ck3Religions = new ReligionCollection(titles);
@@ -118,9 +119,9 @@ public class CoatOfArmsOutputterTests {
 			new List<KeyValuePair<Country, Dependency?>>()
 		);
 
-		CoatOfArmsOutputter.OutputCoas(outputModName, titles, new List<Dynasty>());
+		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>());
 
-		using var file = File.OpenRead(outputPath);
+		await using var file = File.OpenRead(outputPath);
 		var reader = new StreamReader(file);
 
 		Assert.True(reader.EndOfStream);

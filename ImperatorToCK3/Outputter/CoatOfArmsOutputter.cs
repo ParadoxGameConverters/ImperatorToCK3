@@ -6,27 +6,28 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 public static class CoatOfArmsOutputter {
-	public static void OutputCoas(string outputModName, Title.LandedTitles titles, IEnumerable<Dynasty> dynasties) {
+	public static async Task OutputCoas(string outputModPath, Title.LandedTitles titles, IEnumerable<Dynasty> dynasties) {
 		Logger.Info("Outputting coats of arms...");
-		var coasPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms");
+		var coasPath = Path.Combine(outputModPath, "common", "coat_of_arms", "coat_of_arms");
 
 		var path = Path.Combine(coasPath, "zzz_IRToCK3_coas.txt");
-		using var coasWriter = new StreamWriter(path);
+		await using var coasWriter = new StreamWriter(path);
 
 		// Output CoAs for titles.
 		foreach (var title in titles) {
 			var coa = title.CoA;
 			if (coa is not null) {
-				coasWriter.WriteLine($"{title.Id}={coa}");
+				await coasWriter.WriteLineAsync($"{title.Id}={coa}");
 			}
 		}
 
 		// Output CoAs for dynasties.
 		foreach (var dynasty in dynasties.Where(d => d.CoA is not null)) {
-			coasWriter.WriteLine($"{dynasty.Id}={dynasty.CoA}");
+			await coasWriter.WriteLineAsync($"{dynasty.Id}={dynasty.CoA}");
 		}
 
 		Logger.IncrementProgress();
