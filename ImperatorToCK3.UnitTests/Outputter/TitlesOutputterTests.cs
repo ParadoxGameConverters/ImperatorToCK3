@@ -10,7 +10,7 @@ namespace ImperatorToCK3.UnitTests.Outputter;
 public class TitlesOutputterTests {
 	[Fact]
 	public async Task TitlesAreOutputted() {
-		const string outputModName = "outputMod";
+		const string outputModPath = "output/outputMod";
 
 		var titles = new Title.LandedTitles();
 		var kingdom = titles.Add("k_kingdom");
@@ -28,15 +28,15 @@ public class TitlesOutputterTests {
 		var specialTitle = titles.Add("k_special_title");
 		specialTitle.History.AddFieldValue(new Date(20, 1, 1), "holder", "holder", "bob_42");
 
-		var titleHistoryPath = Path.Combine("output", outputModName, "history", "titles");
+		var titleHistoryPath = Path.Combine(outputModPath, "history", "titles");
 		var kingdomHistoryPath = Path.Combine(titleHistoryPath, "k_kingdom.txt");
 		var otherTitlesHistoryPath = Path.Combine(titleHistoryPath, "00_other_titles.txt");
 		SystemUtils.TryCreateFolder(titleHistoryPath);
 
-		var landedTitlesPath = Path.Combine("output", outputModName, "common", "landed_titles", "00_landed_titles.txt");
+		var landedTitlesPath = Path.Combine(outputModPath, "common", "landed_titles", "00_landed_titles.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(landedTitlesPath));
 
-		await TitlesOutputter.OutputTitles(outputModName, titles);
+		await TitlesOutputter.OutputTitles(outputModPath, titles);
 
 		Assert.True(File.Exists(kingdomHistoryPath));
 		await using var kingdomHistoryFile = File.OpenRead(kingdomHistoryPath);
@@ -87,17 +87,17 @@ public class TitlesOutputterTests {
 
 	[Fact]
 	public async Task VariablesAreOutputted() {
-		const string outputModName = "outputMod2";
+		const string outputModPath = "output/outputMod2";
 		var titles = new Title.LandedTitles();
 		titles.Variables.Add("default_ai_priority", 20);
 		titles.Variables.Add("default_ai_aggressiveness", 40);
 
-		var titleHistoryPath = Path.Combine("output", outputModName, "history", "titles");
+		var titleHistoryPath = Path.Combine(outputModPath, "history", "titles");
 		SystemUtils.TryCreateFolder(titleHistoryPath);
-		var landedTitlesPath = Path.Combine("output", outputModName, "common", "landed_titles", "00_landed_titles.txt");
+		var landedTitlesPath = Path.Combine(outputModPath, "common", "landed_titles", "00_landed_titles.txt");
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(landedTitlesPath));
 
-		await TitlesOutputter.OutputTitles(outputModName, titles);
+		await TitlesOutputter.OutputTitles(outputModPath, titles);
 
 		Assert.True(File.Exists(landedTitlesPath));
 		await using var landedTitlesFile = File.OpenRead(landedTitlesPath);
