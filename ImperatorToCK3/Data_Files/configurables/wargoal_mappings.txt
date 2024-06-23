@@ -17,3 +17,6 @@ link = { ir = horde_conquest ck3 = invasion_war }
 
 # FMO wargoals
 link = { ir = conquer_wargoal_2 ck3 = claim_cb }
+
+# Crisis of the Third Century wargoals
+link = { ir = duchy_wargoal ck3 = claim_cb }
