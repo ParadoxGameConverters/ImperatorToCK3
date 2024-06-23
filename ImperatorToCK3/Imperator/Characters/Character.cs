@@ -110,11 +110,8 @@ public class Character : IIdentifiable<ulong> {
 	public ImmutableList<Unborn> Unborns { get; private set; } = ImmutableList<Unborn>.Empty;
 
 	public CK3.Characters.Character? CK3Character { get; set; }
-
-	private static readonly Parser parser = new();
-	private static Character parsedCharacter = new(0);
-	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
-	static Character() {
+	public static ConcurrentIgnoredKeywordsSet IgnoredTokens { get; } = [];
+	public static void RegisterCharacterKeywords(Parser parser, Character parsedCharacter) {
 		parser.RegisterKeyword("first_name_loc", reader => {
 			var characterName = new CharacterName(reader);
 			parsedCharacter.Name = characterName.Name;
@@ -191,7 +188,9 @@ public class Character : IIdentifiable<ulong> {
 		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
 	}
 	public static Character Parse(BufferedReader reader, string idString, GenesDB? genesDB) {
-		parsedCharacter = new Character(ulong.Parse(idString));
+		var parser = new Parser();
+		var parsedCharacter = new Character(ulong.Parse(idString));
+		RegisterCharacterKeywords(parser, parsedCharacter);
 
 		parser.ParseStream(reader);
 		if (genesDB is null) {

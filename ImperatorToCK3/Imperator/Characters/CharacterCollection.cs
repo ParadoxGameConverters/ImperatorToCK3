@@ -5,22 +5,48 @@ using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Channels;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Imperator.Characters;
 
-public class CharacterCollection : IdObjectCollection<ulong, Character> {
+public class CharacterCollection : ConcurrentIdObjectCollection<ulong, Character> {
 	public void LoadCharactersFromBloc(BufferedReader reader) {
 		var blocParser = new Parser();
 		blocParser.RegisterKeyword("character_database", LoadCharacters);
 		blocParser.IgnoreAndLogUnregisteredItems();
-
 		blocParser.ParseStream(reader);
-		Logger.Debug($"Ignored Character tokens: {Character.IgnoredTokens}");
 	}
-	public void LoadCharacters(BufferedReader reader) {
-		var parser = new Parser();
-		RegisterKeys(parser);
-		parser.ParseStream(reader);
+	
+	public void LoadCharacters(BufferedReader charactersReader) {
+		// Load characters in a producer-consumer pattern.
+		var channel = Channel.CreateUnbounded<KeyValuePair<string, StringOfItem>>();
+		var channelWriter = channel.Writer;
+		var channelReader = channel.Reader;
+		
+		var producerTask = Task.Run(() => {
+			var parser = new Parser();
+			parser.RegisterRegex(CommonRegexes.Integer, (reader, charIdStr) => {
+				if (!channelWriter.TryWrite(new(charIdStr, reader.GetStringOfItem()))) {
+					Logger.Warn($"Failed to enqueue character {charIdStr} for processing.");
+				}
+			});
+			parser.IgnoreAndLogUnregisteredItems();
+			parser.ParseStream(charactersReader);
+			channelWriter.Complete();
+		});
+		
+		var consumerTasks = new List<Task>();
+		for (var i = 0; i < 10; ++i) {
+			consumerTasks.Add(Task.Run(async () => {
+				await foreach (var (charIdStr, characterStringOfItem) in channelReader.ReadAllAsync()) {
+					var newCharacter = Character.Parse(new(characterStringOfItem.ToString()), charIdStr, GenesDB);
+					AddOrReplace(newCharacter);
+				}
+			}));
+		}
+		
+		Task.WaitAll(producerTask, Task.WhenAll(consumerTasks));
 
 		Logger.Info("Linking Characters with Spouses...");
 		LinkSpouses();
@@ -65,14 +91,6 @@ public class CharacterCollection : IdObjectCollection<ulong, Character> {
 
 		counter = this.Count(character => character.LinkPrisonerHome(countries));
 		Logger.Info($"{counter} prisoner homes linked to characters.");
-	}
-
-	private void RegisterKeys(Parser parser) {
-		parser.RegisterRegex(CommonRegexes.Integer, (reader, charIdStr) => {
-			var newCharacter = Character.Parse(reader, charIdStr, GenesDB);
-			AddOrReplace(newCharacter);
-		});
-		parser.IgnoreAndLogUnregisteredItems();
 	}
 
 	public GenesDB? GenesDB { get; set; }
