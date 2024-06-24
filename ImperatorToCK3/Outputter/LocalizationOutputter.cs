@@ -119,7 +119,7 @@ public static class LocalizationOutputter {
 			
 			var locFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_fallback_loc_l_{language}.yml");
 			await using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, System.Text.Encoding.UTF8);
-			await locWriter.WriteLineAsync(sb.ToString());
+			await locWriter.WriteAsync(sb.ToString());
 			sb.Clear();
 		}
 	}

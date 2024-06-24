@@ -55,7 +55,9 @@ public static class ProvincesOutputter {
 					}
 				}
 				
-				historyOutput.WriteLine(sb.ToString());
+				if (sb.Length > 0) {
+					historyOutput.Write(sb.ToString());
+				}
 			});
 		}
 
