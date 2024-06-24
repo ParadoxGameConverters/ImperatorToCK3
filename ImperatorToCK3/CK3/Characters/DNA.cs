@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Characters;
@@ -44,13 +45,13 @@ public class DNA {
 		this.accessoryDNAValues = new(accessoryDNAValues);
 	}
 
-	public async Task OutputGenes(StreamWriter output) {
-		await output.WriteLineAsync("\t\tgenes={");
+	public void WriteGenes(StringBuilder sb) {
+		sb.AppendLine("\t\tgenes={");
 
 		foreach (var dnaLine in DNALines) {
-			await output.WriteLineAsync($"\t\t\t{dnaLine}");
+			sb.AppendLine($"\t\t\t{dnaLine}");
 		}
 
-		await output.WriteLineAsync("\t\t}");
+		sb.AppendLine("\t\t}");
 	}
 }
