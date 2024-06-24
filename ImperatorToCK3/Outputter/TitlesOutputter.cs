@@ -47,16 +47,19 @@ public static class TitlesOutputter {
 
 	public static async Task OutputTitles(string outputModPath, Title.LandedTitles titles) {
 		Logger.Info("Writing Landed Titles...");
-		var outputPath = Path.Combine(outputModPath, "common/landed_titles/00_landed_titles.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
-
+		
+		var sb = new System.Text.StringBuilder();
 		foreach (var (name, value) in titles.Variables) {
-			await output.WriteLineAsync($"@{name}={value}");
+			sb.AppendLine($"@{name}={value}");
 		}
 
 		// titles with a de jure liege will be outputted under the liege
 		var topDeJureTitles = titles.Where(t => t.DeJureLiege is null);
-		await output.WriteAsync(PDXSerializer.Serialize(topDeJureTitles, string.Empty, false));
+		sb.Append(PDXSerializer.Serialize(topDeJureTitles, string.Empty, false));
+		
+		var outputPath = Path.Combine(outputModPath, "common/landed_titles/00_landed_titles.txt");
+		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
+		await output.WriteAsync(sb.ToString());
 
 		await OutputTitlesHistory(outputModPath, titles);
 		Logger.IncrementProgress();

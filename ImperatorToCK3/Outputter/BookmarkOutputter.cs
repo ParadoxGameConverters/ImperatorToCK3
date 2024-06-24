@@ -25,18 +25,16 @@ public static class BookmarkOutputter {
 
 		await OutputBookmarkGroup(config);
 
-		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/bookmarks/00_bookmarks.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
-
 		var provincePositions = world.MapData.ProvincePositions;
 
-		await output.WriteLineAsync("bm_converted = {");
+		var sb = new StringBuilder();
+		sb.AppendLine("bm_converted = {");
 
-		await output.WriteLineAsync("\tgroup = bm_converted");
-		await output.WriteLineAsync($"\tstart_date = {config.CK3BookmarkDate}");
-		await output.WriteLineAsync("\tis_playable = yes");
-		await output.WriteLineAsync("\trecommended = yes");
-		await output.WriteLineAsync("\tweight = { value = 100 }");
+		sb.AppendLine("\tgroup = bm_converted");
+		sb.AppendLine($"\tstart_date = {config.CK3BookmarkDate}");
+		sb.AppendLine("\tis_playable = yes");
+		sb.AppendLine("\trecommended = yes");
+		sb.AppendLine("\tweight = { value = 100 }");
 
 		var playerTitles = new List<Title>(world.LandedTitles.Where(title => title.PlayerCountry));
 		var localizations = new Dictionary<string, LocBlock>();
@@ -53,10 +51,14 @@ public static class BookmarkOutputter {
 				continue;
 			}
 
-			await AddTitleToBookmarkScreen(title, output, holderId, world, localizations, provincePositions, config);
+			await AddTitleToBookmarkScreen(title, sb, holderId, world, localizations, provincePositions, config);
 		}
 
-		await output.WriteLineAsync("}");
+		sb.AppendLine("}");
+
+		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/bookmarks/00_bookmarks.txt");
+		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
+		await output.WriteAsync(sb.ToString());
 
 		await Task.WhenAll(
 			OutputBookmarkLoc(config, localizations),
@@ -67,7 +69,7 @@ public static class BookmarkOutputter {
 
 	private static async Task AddTitleToBookmarkScreen(
 		Title title,
-		StreamWriter output,
+		StringBuilder sb,
 		string holderId,
 		World world,
 		Dictionary<string, LocBlock> localizations,
@@ -88,33 +90,33 @@ public static class BookmarkOutputter {
 		}
 		localizations.Add(holderDescLoc.Id, holderDescLoc);
 
-		await output.WriteLineAsync("\tcharacter = {");
+		sb.AppendLine("\tcharacter = {");
 
-		await output.WriteLineAsync($"\t\tname = bm_converted_{holder.Id}");
+		sb.AppendLine($"\t\tname = bm_converted_{holder.Id}");
 		var dynastyId = holder.GetDynastyId(config.CK3BookmarkDate);
 		if (dynastyId is not null) {
-			await output.WriteLineAsync($"\t\tdynasty = {dynastyId}");
+			sb.AppendLine($"\t\tdynasty = {dynastyId}");
 		}
-		await output.WriteLineAsync("\t\tdynasty_splendor_level = 1");
-		await output.WriteLineAsync($"\t\ttype = {holder.GetAgeSex(config.CK3BookmarkDate)}");
-		await output.WriteLineAsync($"\t\thistory_id = {holder.Id}");
-		await output.WriteLineAsync($"\t\tbirth = {holder.BirthDate}");
-		await output.WriteLineAsync($"\t\ttitle = {title.Id}");
+		sb.AppendLine("\t\tdynasty_splendor_level = 1");
+		sb.AppendLine($"\t\ttype = {holder.GetAgeSex(config.CK3BookmarkDate)}");
+		sb.AppendLine($"\t\thistory_id = {holder.Id}");
+		sb.AppendLine($"\t\tbirth = {holder.BirthDate}");
+		sb.AppendLine($"\t\ttitle = {title.Id}");
 		var gov = title.GetGovernment(config.CK3BookmarkDate);
 		if (gov is not null) {
-			await output.WriteLineAsync($"\t\tgovernment = {gov}");
+			sb.AppendLine($"\t\tgovernment = {gov}");
 		}
 
-		await output.WriteLineAsync($"\t\tculture = {holder.GetCultureId(config.CK3BookmarkDate)}");
+		sb.AppendLine($"\t\tculture = {holder.GetCultureId(config.CK3BookmarkDate)}");
 		var faithId = holder.GetFaithId(config.CK3BookmarkDate);
 		if (!string.IsNullOrEmpty(faithId)) {
-			await output.WriteLineAsync($"\t\treligion={faithId}");
+			sb.AppendLine($"\t\treligion={faithId}");
 		}
-		await output.WriteLineAsync("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
-		await WritePosition(output, title, config, provincePositions);
-		await output.WriteLineAsync("\t\tanimation = personality_rational");
+		sb.AppendLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
+		await WritePosition(sb, title, config, provincePositions);
+		sb.AppendLine("\t\tanimation = personality_rational");
 
-		await output.WriteLineAsync("\t}");
+		sb.AppendLine("\t}");
 
 		string templatePath = holder.GetAgeSex(config.CK3BookmarkDate) switch {
 			"female" => "blankMod/templates/common/bookmark_portraits/female.txt",
@@ -143,20 +145,24 @@ public static class BookmarkOutputter {
 	private static async Task OutputBookmarkLoc(Configuration config, IDictionary<string, LocBlock> localizations) {
 		var outputName = config.OutputModName;
 		var baseLocPath = Path.Combine("output", outputName, "localization");
+		
+		var sb = new StringBuilder();
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
-			var locFilePath = Path.Combine(baseLocPath, language, $"converter_bookmark_l_{language}.yml");
-			await using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, Encoding.UTF8);
-
-			await locWriter.WriteLineAsync($"l_{language}:");
+			sb.AppendLine($"l_{language}:");
 
 			// title localization
 			foreach (var locBlock in localizations.Values) {
-				await locWriter.WriteLineAsync(locBlock.GetYmlLocLineForLanguage(language));
+				sb.AppendLine(locBlock.GetYmlLocLineForLanguage(language));
 			}
+			
+			var locFilePath = Path.Combine(baseLocPath, language, $"converter_bookmark_l_{language}.yml");
+			await using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, Encoding.UTF8);
+			await locWriter.WriteAsync(sb.ToString());
+			sb.Clear();
 		}
 	}
 
-	private static async Task WritePosition(TextWriter output, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
+	private static async Task WritePosition(StringBuilder sb, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
 		int count = 0;
 		double sumX = 0;
 		double sumY = 0;
@@ -175,7 +181,7 @@ public static class BookmarkOutputter {
 		const double scale = (double)1080 / 4096;
 		int finalX = (int)(scale * meanX);
 		int finalY = 1080 - (int)(scale * meanY);
-		await output.WriteLineAsync($"\t\tposition = {{ {finalX} {finalY} }}");
+		sb.AppendLine($"\t\tposition = {{ {finalX} {finalY} }}");
 	}
 
 	private static async Task DrawBookmarkMap(Configuration config, List<Title> playerTitles, World ck3World) {

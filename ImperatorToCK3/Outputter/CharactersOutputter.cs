@@ -112,15 +112,17 @@ public static class CharactersOutputter {
 		TextWriter output,
 		Date conversionDate
 	) {
+		var sb = new StringBuilder();
+		
 		var charactersByGeneValue = charactersWithDNA
 			.Where(c => c.DNA!.AccessoryDNAValues.ContainsKey(geneName))
 			.GroupBy(c => new {
 				c.DNA!.AccessoryDNAValues[geneName].TemplateName,
 				c.DNA!.AccessoryDNAValues[geneName].ObjectName,
 			});
-		await output.WriteLineAsync($"IRToCK3_{geneName}_overrides = {{");
-		await output.WriteLineAsync("\tusage = game");
-		await output.WriteLineAsync("\tselection_behavior = max");
+		sb.AppendLine($"IRToCK3_{geneName}_overrides = {{");
+		sb.AppendLine("\tusage = game");
+		sb.AppendLine("\tselection_behavior = max");
 		foreach (var grouping in charactersByGeneValue) {
 			var templateName = grouping.Key.TemplateName;
 			var accessoryName = grouping.Key.ObjectName;
@@ -133,26 +135,28 @@ public static class CharactersOutputter {
 				character.History.AddFieldValue(effectDate, "effects", "effect", characterEffectStr);
 			}
 			
-			await output.WriteLineAsync($"\t{templateName}_obj_{accessoryName} = {{");
-			await output.WriteLineAsync("\t\tdna_modifiers = {");
-			await output.WriteLineAsync("\t\t\taccessory = {");
-			await output.WriteLineAsync("\t\t\t\tmode = add");
-			await output.WriteLineAsync($"\t\t\t\tgene = {geneName}");
-			await output.WriteLineAsync($"\t\t\t\ttemplate = {templateName}");
-			await output.WriteLineAsync($"\t\t\t\taccessory = {accessoryName}");
-			await output.WriteLineAsync("\t\t\t}");
-			await output.WriteLineAsync("\t\t}");
+			sb.AppendLine($"\t{templateName}_obj_{accessoryName} = {{");
+			sb.AppendLine("\t\tdna_modifiers = {");
+			sb.AppendLine("\t\t\taccessory = {");
+			sb.AppendLine("\t\t\t\tmode = add");
+			sb.AppendLine($"\t\t\t\tgene = {geneName}");
+			sb.AppendLine($"\t\t\t\ttemplate = {templateName}");
+			sb.AppendLine($"\t\t\t\taccessory = {accessoryName}");
+			sb.AppendLine("\t\t\t}");
+			sb.AppendLine("\t\t}");
 			
-			await output.WriteLineAsync("\t\tweight = {");
-			await output.WriteLineAsync("\t\t\tbase = 0");
-			await output.WriteLineAsync("\t\t\tmodifier = {");
-			await output.WriteLineAsync("\t\t\t\tadd = 999");
-			await output.WriteLineAsync($"\t\t\t\thas_character_flag = {characterFlagName}");
-			await output.WriteLineAsync("\t\t\t}");
+			sb.AppendLine("\t\tweight = {");
+			sb.AppendLine("\t\t\tbase = 0");
+			sb.AppendLine("\t\t\tmodifier = {");
+			sb.AppendLine("\t\t\t\tadd = 999");
+			sb.AppendLine($"\t\t\t\thas_character_flag = {characterFlagName}");
+			sb.AppendLine("\t\t\t}");
 			
-			await output.WriteLineAsync("\t\t}");
-			await output.WriteLineAsync("\t}");
+			sb.AppendLine("\t\t}");
+			sb.AppendLine("\t}");
 		}
-		await output.WriteLineAsync("}");
+		sb.AppendLine("}");
+		
+		await output.WriteAsync(sb.ToString());
 	}
 }
