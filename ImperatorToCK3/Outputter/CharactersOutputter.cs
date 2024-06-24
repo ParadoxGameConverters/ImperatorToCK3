@@ -41,7 +41,7 @@ public static class CharactersOutputter {
 		await using var charactersFromIROutput = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromIR);
 		foreach (var character in charactersFromIR) {
 			CharacterOutputter.WriteCharacter(sb, character, conversionDate);
-			await charactersFromIROutput.WriteLineAsync(sb.ToString());
+			await charactersFromIROutput.WriteAsync(sb.ToString());
 			sb.Clear();
 		}
 
@@ -49,7 +49,7 @@ public static class CharactersOutputter {
 		await using var charactersFromCK3Output = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromCK3, System.Text.Encoding.UTF8);
 		foreach (var character in charactersFromCK3) {
 			CharacterOutputter.WriteCharacter(sb, character, conversionDate);
-			await charactersFromCK3Output.WriteLineAsync(sb.ToString());
+			await charactersFromCK3Output.WriteAsync(sb.ToString());
 			sb.Clear();
 		}
 		
@@ -87,7 +87,7 @@ public static class CharactersOutputter {
 			sb.AppendLine("\tenabled=yes");
 			sb.AppendLine("}");
 			
-			await output.WriteLineAsync(sb.ToString());
+			await output.WriteAsync(sb.ToString());
 			sb.Clear();
 		}
 	}

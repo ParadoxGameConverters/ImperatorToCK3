@@ -93,7 +93,7 @@ public sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 		
 		var historyPath = Path.Combine(outputModPath, "history/cultures", Id + ".txt");
 		await using var historyWriter = File.CreateText(historyPath);
-		await historyWriter.WriteLineAsync(historyStrBuilder.ToString());
+		await historyWriter.WriteAsync(historyStrBuilder.ToString());
 	}
 
 	public void ImportInnovationsFromImperator(ISet<string> irInventions, InnovationMapper innovationMapper) {

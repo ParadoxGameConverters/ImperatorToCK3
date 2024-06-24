@@ -33,7 +33,7 @@ public static class ProvincesOutputter {
 			
 			var filePath = $"{outputModPath}/history/provinces/{kingdom.Id}.txt";
 			using var historyOutput = new StreamWriter(filePath);
-			historyOutput.WriteLine(sb.ToString());
+			historyOutput.Write(sb.ToString());
 		});
 
 		if (alreadyOutputtedProvinces.Count != provinces.Count) {

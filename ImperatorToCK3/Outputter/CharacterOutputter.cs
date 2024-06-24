@@ -8,7 +8,6 @@ using Character = ImperatorToCK3.CK3.Characters.Character;
 namespace ImperatorToCK3.Outputter;
 public static class CharacterOutputter {
 	public static void WriteCharacter(StringBuilder sb, Character character, Date conversionDate) {
-		
 		// Output ID.
 		sb.AppendLine($"{character.Id}={{");
 		

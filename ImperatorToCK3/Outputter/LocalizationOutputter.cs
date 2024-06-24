@@ -61,7 +61,7 @@ public static class LocalizationOutputter {
 			
 			var dynastyLocFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_dynasty_l_{language}.yml");
 			await using var dynastyLocWriter = FileOpeningHelper.OpenWriteWithRetries(dynastyLocFilePath, System.Text.Encoding.UTF8);
-			await dynastyLocWriter.WriteLineAsync(sb.ToString());
+			await dynastyLocWriter.WriteAsync(sb.ToString());
 			sb.Clear();
 		}
 		
