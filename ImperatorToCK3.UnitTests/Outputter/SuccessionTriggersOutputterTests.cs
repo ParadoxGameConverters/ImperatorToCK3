@@ -3,17 +3,17 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Outputter;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Outputter;
 
 public class SuccessionTriggersOutputterTests {
 	[Fact]
-	public void PrimogenitureAndSeniorityTriggersAreOutputted() {
-		const string outputModName = "outputMod";
+	public async Task PrimogenitureAndSeniorityTriggersAreOutputted() {
+		const string outputModPath = "output/outputMod";
 		var outputFilePath = Path.Combine(
-			"output",
-			outputModName,
+			outputModPath,
 			"common",
 			"scripted_triggers",
 			"IRToCK3_succession_triggers.txt"
@@ -34,20 +34,20 @@ public class SuccessionTriggersOutputterTests {
 
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputFilePath));
 
-		SuccessionTriggersOutputter.OutputSuccessionTriggers(outputModName, titles, date);
+		await SuccessionTriggersOutputter.OutputSuccessionTriggers(outputModPath, titles, date);
 
-		using var file = File.OpenRead(outputFilePath);
+		await using var file = File.OpenRead(outputFilePath);
 		var reader = new StreamReader(file);
-		Assert.Equal("historical_succession_access_single_heir_succession_law_trigger={", reader.ReadLine());
-		Assert.Equal("\tOR={", reader.ReadLine());
-		Assert.Equal("\t\thas_title=title:k_kingdom1", reader.ReadLine());
-		Assert.Equal("\t}", reader.ReadLine());
-		Assert.Equal("}", reader.ReadLine());
-		Assert.Equal("historical_succession_access_single_heir_dynasty_house_trigger={", reader.ReadLine());
-		Assert.Equal("\tOR={", reader.ReadLine());
-		Assert.Equal("\t\thas_title=title:k_kingdom2", reader.ReadLine());
-		Assert.Equal("\t}", reader.ReadLine());
-		Assert.Equal("}", reader.ReadLine());
+		Assert.Equal("historical_succession_access_single_heir_succession_law_trigger={", await reader.ReadLineAsync());
+		Assert.Equal("\tOR={", await reader.ReadLineAsync());
+		Assert.Equal("\t\thas_title=title:k_kingdom1", await reader.ReadLineAsync());
+		Assert.Equal("\t}", await reader.ReadLineAsync());
+		Assert.Equal("}", await reader.ReadLineAsync());
+		Assert.Equal("historical_succession_access_single_heir_dynasty_house_trigger={", await reader.ReadLineAsync());
+		Assert.Equal("\tOR={", await reader.ReadLineAsync());
+		Assert.Equal("\t\thas_title=title:k_kingdom2", await reader.ReadLineAsync());
+		Assert.Equal("\t}", await reader.ReadLineAsync());
+		Assert.Equal("}", await reader.ReadLineAsync());
 		Assert.True(reader.EndOfStream);
 	}
 }

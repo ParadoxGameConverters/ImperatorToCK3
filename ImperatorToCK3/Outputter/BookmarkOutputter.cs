@@ -14,28 +14,27 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Color = SixLabors.ImageSharp.Color;
 
 namespace ImperatorToCK3.Outputter;
 
 public static class BookmarkOutputter {
-	public static void OutputBookmark(World world, Configuration config) {
+	public static async Task OutputBookmark(World world, Configuration config) {
 		Logger.Info("Creating bookmark...");
 
-		OutputBookmarkGroup(config);
-
-		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/bookmarks/00_bookmarks.txt");
-		using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
+		await OutputBookmarkGroup(config);
 
 		var provincePositions = world.MapData.ProvincePositions;
 
-		output.WriteLine("bm_converted = {");
+		var sb = new StringBuilder();
+		sb.AppendLine("bm_converted = {");
 
-		output.WriteLine("\tgroup = bm_converted");
-		output.WriteLine($"\tstart_date = {config.CK3BookmarkDate}");
-		output.WriteLine("\tis_playable = yes");
-		output.WriteLine("\trecommended = yes");
-		output.WriteLine("\tweight = { value = 100 }");
+		sb.AppendLine("\tgroup = bm_converted");
+		sb.AppendLine($"\tstart_date = {config.CK3BookmarkDate}");
+		sb.AppendLine("\tis_playable = yes");
+		sb.AppendLine("\trecommended = yes");
+		sb.AppendLine("\tweight = { value = 100 }");
 
 		var playerTitles = new List<Title>(world.LandedTitles.Where(title => title.PlayerCountry));
 		var localizations = new Dictionary<string, LocBlock>();
@@ -52,19 +51,25 @@ public static class BookmarkOutputter {
 				continue;
 			}
 
-			AddTitleToBookmarkScreen(title, output, holderId, world, localizations, provincePositions, config);
+			await AddTitleToBookmarkScreen(title, sb, holderId, world, localizations, provincePositions, config);
 		}
 
-		output.WriteLine("}");
+		sb.AppendLine("}");
 
-		OutputBookmarkLoc(config, localizations);
-		DrawBookmarkMap(config, playerTitles, world);
+		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/bookmarks/00_bookmarks.txt");
+		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
+		await output.WriteAsync(sb.ToString());
+
+		await Task.WhenAll(
+			OutputBookmarkLoc(config, localizations),
+			DrawBookmarkMap(config, playerTitles, world)
+		);
 		Logger.IncrementProgress();
 	}
 
-	private static void AddTitleToBookmarkScreen(
+	private static async Task AddTitleToBookmarkScreen(
 		Title title,
-		StreamWriter output,
+		StringBuilder sb,
 		string holderId,
 		World world,
 		Dictionary<string, LocBlock> localizations,
@@ -85,33 +90,33 @@ public static class BookmarkOutputter {
 		}
 		localizations.Add(holderDescLoc.Id, holderDescLoc);
 
-		output.WriteLine("\tcharacter = {");
+		sb.AppendLine("\tcharacter = {");
 
-		output.WriteLine($"\t\tname = bm_converted_{holder.Id}");
+		sb.AppendLine($"\t\tname = bm_converted_{holder.Id}");
 		var dynastyId = holder.GetDynastyId(config.CK3BookmarkDate);
 		if (dynastyId is not null) {
-			output.WriteLine($"\t\tdynasty = {dynastyId}");
+			sb.AppendLine($"\t\tdynasty = {dynastyId}");
 		}
-		output.WriteLine("\t\tdynasty_splendor_level = 1");
-		output.WriteLine($"\t\ttype = {holder.GetAgeSex(config.CK3BookmarkDate)}");
-		output.WriteLine($"\t\thistory_id = {holder.Id}");
-		output.WriteLine($"\t\tbirth = {holder.BirthDate}");
-		output.WriteLine($"\t\ttitle = {title.Id}");
+		sb.AppendLine("\t\tdynasty_splendor_level = 1");
+		sb.AppendLine($"\t\ttype = {holder.GetAgeSex(config.CK3BookmarkDate)}");
+		sb.AppendLine($"\t\thistory_id = {holder.Id}");
+		sb.AppendLine($"\t\tbirth = {holder.BirthDate}");
+		sb.AppendLine($"\t\ttitle = {title.Id}");
 		var gov = title.GetGovernment(config.CK3BookmarkDate);
 		if (gov is not null) {
-			output.WriteLine($"\t\tgovernment = {gov}");
+			sb.AppendLine($"\t\tgovernment = {gov}");
 		}
 
-		output.WriteLine($"\t\tculture = {holder.GetCultureId(config.CK3BookmarkDate)}");
+		sb.AppendLine($"\t\tculture = {holder.GetCultureId(config.CK3BookmarkDate)}");
 		var faithId = holder.GetFaithId(config.CK3BookmarkDate);
 		if (!string.IsNullOrEmpty(faithId)) {
-			output.WriteLine($"\t\treligion={faithId}");
+			sb.AppendLine($"\t\treligion={faithId}");
 		}
-		output.WriteLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
-		WritePosition(output, title, config, provincePositions);
-		output.WriteLine("\t\tanimation = personality_rational");
+		sb.AppendLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
+		await WritePosition(sb, title, config, provincePositions);
+		sb.AppendLine("\t\tanimation = personality_rational");
 
-		output.WriteLine("\t}");
+		sb.AppendLine("\t}");
 
 		string templatePath = holder.GetAgeSex(config.CK3BookmarkDate) switch {
 			"female" => "blankMod/templates/common/bookmark_portraits/female.txt",
@@ -119,7 +124,7 @@ public static class BookmarkOutputter {
 			"boy" => "blankMod/templates/common/bookmark_portraits/boy.txt",
 			_ => "blankMod/templates/common/bookmark_portraits/male.txt"
 		};
-		string templateText = File.ReadAllText(templatePath);
+		string templateText = await File.ReadAllTextAsync(templatePath);
 
 		templateText = templateText.Replace("REPLACE_ME_NAME", $"bm_converted_{holder.Id}");
 		templateText = templateText.Replace("REPLACE_ME_AGE", holder.GetAge(config.CK3BookmarkDate).ToString());
@@ -127,35 +132,37 @@ public static class BookmarkOutputter {
 		templateText = templateText.Replace("ADD_GENES", genesStr);
 			
 		var outPortraitPath = Path.Combine("output", config.OutputModName, $"common/bookmark_portraits/bm_converted_{holder.Id}.txt");
-		File.WriteAllText(outPortraitPath, templateText);
+		await File.WriteAllTextAsync(outPortraitPath, templateText);
 	}
 
-	private static void OutputBookmarkGroup(Configuration config) {
+	private static async Task OutputBookmarkGroup(Configuration config) {
 		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/groups/00_bookmark_groups.txt");
-		using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
+		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 
-		output.WriteLine("bm_converted = {");
-		output.WriteLine($"\tdefault_start_date = {config.CK3BookmarkDate}");
-		output.WriteLine("}");
+		await output.WriteLineAsync($"bm_converted = {{ default_start_date = {config.CK3BookmarkDate} }}");
 	}
 
-	private static void OutputBookmarkLoc(Configuration config, IDictionary<string, LocBlock> localizations) {
+	private static async Task OutputBookmarkLoc(Configuration config, IDictionary<string, LocBlock> localizations) {
 		var outputName = config.OutputModName;
 		var baseLocPath = Path.Combine("output", outputName, "localization");
+		
+		var sb = new StringBuilder();
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
-			var locFilePath = Path.Combine(baseLocPath, language, $"converter_bookmark_l_{language}.yml");
-			using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, Encoding.UTF8);
-
-			locWriter.WriteLine($"l_{language}:");
+			sb.AppendLine($"l_{language}:");
 
 			// title localization
 			foreach (var locBlock in localizations.Values) {
-				locWriter.WriteLine(locBlock.GetYmlLocLineForLanguage(language));
+				sb.AppendLine(locBlock.GetYmlLocLineForLanguage(language));
 			}
+			
+			var locFilePath = Path.Combine(baseLocPath, language, $"converter_bookmark_l_{language}.yml");
+			await using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, Encoding.UTF8);
+			await locWriter.WriteAsync(sb.ToString());
+			sb.Clear();
 		}
 	}
 
-	private static void WritePosition(TextWriter output, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
+	private static async Task WritePosition(StringBuilder sb, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
 		int count = 0;
 		double sumX = 0;
 		double sumY = 0;
@@ -174,10 +181,10 @@ public static class BookmarkOutputter {
 		const double scale = (double)1080 / 4096;
 		int finalX = (int)(scale * meanX);
 		int finalY = 1080 - (int)(scale * meanY);
-		output.WriteLine($"\t\tposition = {{ {finalX} {finalY} }}");
+		sb.AppendLine($"\t\tposition = {{ {finalX} {finalY} }}");
 	}
 
-	private static void DrawBookmarkMap(Configuration config, List<Title> playerTitles, World ck3World) {
+	private static async Task DrawBookmarkMap(Configuration config, List<Title> playerTitles, World ck3World) {
 		Logger.Info("Drawing bookmark map...");
 		var ck3ModFS = ck3World.ModFS;
 		var provincesMapPath = ck3ModFS.GetActualFileLocation("map_data/provinces.png");
@@ -194,7 +201,7 @@ public static class BookmarkOutputter {
 			TransparentColorMode = PngTransparentColorMode.Clear,
 			ColorType = PngColorType.RgbWithAlpha
 		});
-		using var provincesImage = Image.Load(provincesMapPath);
+		using var provincesImage = await Image.LoadAsync(provincesMapPath);
 		provincesImage.Mutate(x =>
 			x.Resize(2160, 1080, KnownResamplers.NearestNeighbor)
 				.Crop(1920, 1080)
@@ -204,24 +211,24 @@ public static class BookmarkOutputter {
 		using (var flatmapMagickImage = new MagickImage(flatmapPath)) {
 			flatmapMagickImage.Scale(2160, 1080);
 			flatmapMagickImage.Crop(1920, 1080);
-			flatmapMagickImage.Write(tmpFlatmapPath);
+			await flatmapMagickImage.WriteAsync(tmpFlatmapPath);
 		}
 
-		using var bookmarkMapImage = Image.Load(tmpFlatmapPath);
+		using var bookmarkMapImage = await Image.LoadAsync(tmpFlatmapPath);
 
 		var mapData = ck3World.MapData;
 		var provDefs = mapData.ProvinceDefinitions;
 
 		foreach (var playerTitle in playerTitles) {
-			DrawPlayerTitleOnMap(config, ck3World, playerTitle, mapData, provincesImage, provDefs, bookmarkMapImage);
+			await DrawPlayerTitleOnMap(config, ck3World, playerTitle, mapData, provincesImage, provDefs, bookmarkMapImage);
 		}
 
 		var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.png");
-		bookmarkMapImage.SaveAsPng(outputPath);
-		ResaveImageAsDDS(outputPath);
+		await bookmarkMapImage.SaveAsPngAsync(outputPath);
+		await ResaveImageAsDDS(outputPath);
 	}
 
-	private static void DrawPlayerTitleOnMap(
+	private static async Task DrawPlayerTitleOnMap(
 		Configuration config, 
 		World ck3World, 
 		Title playerTitle, 
@@ -263,8 +270,8 @@ public static class BookmarkOutputter {
 			config.OutputModName,
 			$"gfx/interface/bookmarks/bm_converted_bm_converted_{holder.Id}.png"
 		);
-		realmHighlightImage.SaveAsPng(highlightPath);
-		ResaveImageAsDDS(highlightPath);
+		await realmHighlightImage.SaveAsPngAsync(highlightPath);
+		await ResaveImageAsDDS(highlightPath);
 
 		// Add the image on top of blank map image.
 		// Make the realm on map semi-transparent.
@@ -322,9 +329,9 @@ public static class BookmarkOutputter {
 		});
 	}
 
-	private static void ResaveImageAsDDS(string imagePath) {
+	private static async Task ResaveImageAsDDS(string imagePath) {
 		using (var magickImage = new MagickImage(imagePath)) {
-			magickImage.Write(Path.ChangeExtension(imagePath, ".dds"));
+			await magickImage.WriteAsync(Path.ChangeExtension(imagePath, ".dds"));
 		}
 		File.Delete(imagePath);
 	}

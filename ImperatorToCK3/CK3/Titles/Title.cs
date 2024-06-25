@@ -27,6 +27,7 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Titles;
 
@@ -1074,7 +1075,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Rank = GetRankForId(Id);
 	}
 
-	public void OutputHistory(StreamWriter writer) {
+	public async Task OutputHistory(StreamWriter writer) {
 		var sb = new StringBuilder();
 		var content = PDXSerializer.Serialize(History, "\t");
 		if (string.IsNullOrWhiteSpace(content)) {
@@ -1083,7 +1084,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		sb.Append(Id).AppendLine("={").Append(content).AppendLine("}");
-		writer.Write(sb);
+		await writer.WriteAsync(sb);
 	}
 
 	public ISet<ulong> GetProvincesInCountry(Date date) {

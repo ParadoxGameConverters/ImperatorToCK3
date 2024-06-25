@@ -109,32 +109,20 @@ public class CountryName : ICloneable {
 		}
 		return Name + "_ADJ";
 	}
-
-	private static class CountryNameFactory {
-		private static readonly Parser parser = new();
-		private static CountryName countryName = new();
-		static CountryNameFactory() {
-			parser.RegisterKeyword("name", reader =>
-				countryName.Name = reader.GetString()
-			);
-			parser.RegisterKeyword("adjective", reader =>
-				countryName.adjective = reader.GetString()
-			);
-			parser.RegisterKeyword("base", reader => {
-				var tempCountryName = (CountryName)countryName.Clone();
-				tempCountryName.BaseName = Parse(reader);
-				countryName = (CountryName)tempCountryName.Clone();
-			});
-			parser.IgnoreAndLogUnregisteredItems();
-		}
-
-		public static CountryName Parse(BufferedReader reader) {
-			countryName = new CountryName();
-			parser.ParseStream(reader);
-			return countryName;
-		}
-	}
+	
 	public static CountryName Parse(BufferedReader reader) {
-		return CountryNameFactory.Parse(reader);
+		var countryName = new CountryName();
+			
+		var parser = new Parser();
+		parser.RegisterKeyword("name", r => countryName.Name = r.GetString());
+		parser.RegisterKeyword("adjective", r => countryName.adjective = r.GetString());
+		parser.RegisterKeyword("base", r => {
+			var tempCountryName = (CountryName)countryName.Clone();
+			tempCountryName.BaseName = Parse(r);
+			countryName = (CountryName)tempCountryName.Clone();
+		});
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseStream(reader);
+		return countryName;
 	}
 }

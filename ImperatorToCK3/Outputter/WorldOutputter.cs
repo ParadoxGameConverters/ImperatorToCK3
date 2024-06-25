@@ -8,6 +8,7 @@ using ImperatorToCK3.CommonUtils;
 using System.IO;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
@@ -18,91 +19,62 @@ public static class WorldOutputter {
 		var outputName = config.OutputModName;
 		var outputPath = Path.Combine("output", config.OutputModName);
 
-		CreateModFolder(outputName);
+		CreateModFolder(outputPath);
 		OutputModFile(outputName);
 
-		CreateFolders(outputName);
-		Logger.IncrementProgress();
+		CreateFolders(outputPath);
 
-		CharactersOutputter.OutputCharacters(outputName, ck3World.Characters, ck3World.CorrectedDate);
-		CharactersOutputter.BlankOutHistoricalPortraitModifiers(ck3World.ModFS, outputPath);
-		Logger.IncrementProgress();
-
-		DynastiesOutputter.OutputDynasties(outputPath, ck3World.Dynasties);
-		DynastiesOutputter.OutputHouses(outputPath, ck3World.DynastyHouses);
-		Logger.IncrementProgress();
-
-		Logger.Info("Writing provinces...");
-		ProvincesOutputter.OutputProvinces(outputName, ck3World.Provinces, ck3World.LandedTitles);
-		Logger.IncrementProgress();
-
-		Logger.Info("Writing Landed Titles...");
-		TitlesOutputter.OutputTitles(
-			outputName,
-			ck3World.LandedTitles
+		CopyBlankModFilesToOutput(outputPath);
+		
+		Task.WaitAll(
+			CharactersOutputter.OutputEverything(outputPath, ck3World.Characters, ck3World.CorrectedDate, ck3World.ModFS),
+			DynastiesOutputter.OutputDynastiesAndHouses(outputPath, ck3World.Dynasties, ck3World.DynastyHouses),
+			
+			ProvincesOutputter.OutputProvinces(outputPath, ck3World.Provinces, ck3World.LandedTitles),
+			TitlesOutputter.OutputTitles(outputPath, ck3World.LandedTitles),
+			
+			PillarOutputter.OutputPillars(outputPath, ck3World.CulturalPillars),
+			CulturesOutputter.OutputCultures(outputPath, ck3World.Cultures, ck3World.CorrectedDate),
+			
+			ReligionsOutputter.OutputReligionsAndHolySites(outputPath, ck3World.Religions),
+			
+			WarsOutputter.OutputWars(outputPath, ck3World.Wars),
+			
+			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputPath, ck3World.LandedTitles, config.CK3BookmarkDate),
+			
+			LocalizationOutputter.OutputLocalization(outputPath, ck3World),
+			
+			OnActionOutputter.OutputEverything(config, ck3World.ModFS, outputPath),
+			
+			WriteDummyStruggleHistory(outputPath),
+			OutputLegendSeeds(outputPath, ck3World.LegendSeeds),
+			
+			NamedColorsOutputter.OutputNamedColors(outputPath, imperatorWorld.NamedColors, ck3World.NamedColors),
+			
+			CoatOfArmsEmblemsOutputter.CopyEmblems(outputPath, imperatorWorld.ModFS),
+			CoatOfArmsOutputter.OutputCoas(outputPath, ck3World.LandedTitles, ck3World.Dynasties),
+			Task.Run(() => CoatOfArmsOutputter.CopyCoaPatterns(imperatorWorld.ModFS, outputPath)),
+			
+			BookmarkOutputter.OutputBookmark(ck3World, config)
 		);
-		Logger.IncrementProgress();
-
-		PillarOutputter.OutputPillars(outputName, ck3World.CulturalPillars);
-		CulturesOutputter.OutputCultures(outputName, ck3World.Cultures, ck3World.CorrectedDate);
-
-		ReligionsOutputter.OutputHolySites(outputName, ck3World.Religions);
-		ReligionsOutputter.OutputReligions(outputName, ck3World.Religions);
-		Logger.IncrementProgress();
-
-		WarsOutputter.OutputWars(outputName, ck3World.Wars);
-
-		Logger.Info("Writing Succession Triggers...");
-		SuccessionTriggersOutputter.OutputSuccessionTriggers(outputName, ck3World.LandedTitles, config.CK3BookmarkDate);
-		Logger.IncrementProgress();
-
-		Logger.Info("Writing Localization...");
-		LocalizationOutputter.OutputLocalization(outputName,
-			ck3World
-		);
-		Logger.IncrementProgress();
-
-		Logger.Info("Writing game start on-action...");
-		OnActionOutputter.OutputCustomGameStartOnAction(config);
-		if (config.FallenEagleEnabled) {
-			Logger.Info("Disabling unneeded Fallen Eagle on-actions...");
-			OnActionOutputter.DisableUnneededFallenEagleOnActions(config.OutputModName);
-
-			Logger.Info("Removing struggle start from Fallen Eagle on-actions...");
-			OnActionOutputter.RemoveStruggleStartFromFallenEagleOnActions(ck3World.ModFS, config.OutputModName);
-		}
-		Logger.IncrementProgress();
 
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
 			MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
 		}
 
-		WriteDummyStruggleHistory(outputPath);
-		OutputLegendSeeds(outputPath, ck3World.LegendSeeds);
-		
-		NamedColorsOutputter.OutputNamedColors(outputName, imperatorWorld.NamedColors, ck3World.NamedColors);
-
-		CoatOfArmsEmblemsOutputter.CopyEmblems(config, imperatorWorld.ModFS);
-		CoatOfArmsOutputter.OutputCoas(outputName, ck3World.LandedTitles, ck3World.Dynasties);
-		CoatOfArmsOutputter.CopyCoaPatterns(imperatorWorld.ModFS, outputPath);
-
-		CopyBlankModFilesToOutput(outputPath);
-
-		BookmarkOutputter.OutputBookmark(ck3World, config);
-
 		OutputPlaysetInfo(ck3World, outputName);
 	}
 
-	private static void WriteDummyStruggleHistory(string outputPath) {
+	private static async Task WriteDummyStruggleHistory(string outputPath) {
 		Logger.Info("Writing dummy struggles history file...");
 		// Just to make sure the history/struggles folder exists.
 		string struggleDummyPath = Path.Combine(outputPath, "history/struggles/IRToCK3_dummy.txt");
-		File.WriteAllText(struggleDummyPath, string.Empty, Encoding.UTF8);
+		await File.WriteAllTextAsync(struggleDummyPath, string.Empty, Encoding.UTF8);
 	}
 
-	private static void OutputLegendSeeds(string outputPath, LegendSeedCollection legendSeeds) {
+	private static async Task OutputLegendSeeds(string outputPath, LegendSeedCollection legendSeeds) {
 		Logger.Info("Writing legend seeds...");
-		File.WriteAllText(
+		await File.WriteAllTextAsync(
 			Path.Combine(outputPath, "common/legends/legend_seeds/IRtoCK3_all_legend_seeds.txt"),
 			PDXSerializer.Serialize(legendSeeds, indent: "", withBraces: false)
 		);
@@ -180,15 +152,12 @@ public static class WorldOutputter {
 		File.WriteAllText(descriptorFilePath, modText);
 	}
 
-	private static void CreateModFolder(string outputName) {
-		var modPath = Path.Combine("output", outputName);
-		SystemUtils.TryCreateFolder(modPath);
+	private static void CreateModFolder(string outputModPath) {
+		SystemUtils.TryCreateFolder(outputModPath);
 	}
 
-	private static void CreateFolders(string outputName) {
+	private static void CreateFolders(string outputPath) {
 		Logger.Info("Creating folders...");
-		
-		var outputPath = Path.Combine("output", outputName);
 
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "titles"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "characters"));
@@ -227,6 +196,8 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "textured_emblems"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "interface", "bookmarks"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "portraits", "portrait_modifiers"));
+		
+		Logger.IncrementProgress();
 	}
 
 	private static void OutputPlaysetInfo(World ck3World, string outputModName) {

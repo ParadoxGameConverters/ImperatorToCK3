@@ -14,6 +14,7 @@ using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Outputter;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Outputter;
@@ -22,7 +23,7 @@ public class DynastiesOutputterTests {
 	private static readonly Date ConversionDate = new(867, 1, 1);
 	
 	[Fact]
-	public void DynastiesAreOutputted() {
+	public async Task DynastiesAreOutputted() {
 		const string outputModPath = "output/outputMod";
 		var locDB = new LocDB("english");
 		const string imperatorRoot = "TestFiles/Imperator/root";
@@ -56,20 +57,20 @@ public class DynastiesOutputterTests {
 			File.Delete(outputPath);
 		}
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
-		DynastiesOutputter.OutputDynasties(outputModPath, dynasties);
+		await DynastiesOutputter.OutputDynasties(outputModPath, dynasties);
 
-		using var file = File.OpenRead(outputPath);
+		await using var file = File.OpenRead(outputPath);
 		var reader = new StreamReader(file);
 
-		Assert.Equal("dynn_irtock3_1={", reader.ReadLine());
-		Assert.Equal("\tname = dynn_irtock3_1", reader.ReadLine());
-		Assert.Equal("}", reader.ReadLine());
+		Assert.Equal("dynn_irtock3_1={", await reader.ReadLineAsync());
+		Assert.Equal("\tname = dynn_irtock3_1", await reader.ReadLineAsync());
+		Assert.Equal("}", await reader.ReadLineAsync());
 
-		Assert.Equal("dynn_irtock3_2={", reader.ReadLine());
-		Assert.Equal("\tname = dynn_irtock3_2", reader.ReadLine());
-		Assert.Equal("\tculture = roman", reader.ReadLine());
-		Assert.Equal("}", reader.ReadLine());
-		Assert.True(string.IsNullOrWhiteSpace(reader.ReadLine()));
+		Assert.Equal("dynn_irtock3_2={", await reader.ReadLineAsync());
+		Assert.Equal("\tname = dynn_irtock3_2", await reader.ReadLineAsync());
+		Assert.Equal("\tculture = roman", await reader.ReadLineAsync());
+		Assert.Equal("}", await reader.ReadLineAsync());
+		Assert.True(string.IsNullOrWhiteSpace(await reader.ReadLineAsync()));
 		Assert.True(reader.EndOfStream);
 	}
 }

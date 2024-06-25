@@ -8,18 +8,17 @@ public class CharacterAttributes {
 	public int Charisma { get; set; } = 0;
 	public int Zeal { get; set; } = 0;
 
-	private static CharacterAttributes parsedAttributes = new();
-	private static readonly Parser parser = new();
-	static CharacterAttributes() {
-		parser.RegisterKeyword("martial", reader => parsedAttributes.Martial = reader.GetInt());
-		parser.RegisterKeyword("finesse", reader => parsedAttributes.Finesse = reader.GetInt());
-		parser.RegisterKeyword("charisma", reader => parsedAttributes.Charisma = reader.GetInt());
-		parser.RegisterKeyword("zeal", reader => parsedAttributes.Zeal = reader.GetInt());
-		parser.IgnoreAndLogUnregisteredItems();
-	}
 	public static CharacterAttributes Parse(BufferedReader reader) {
-		parsedAttributes = new CharacterAttributes();
+		var attributes = new CharacterAttributes();
+		
+		var parser = new Parser();
+		parser.RegisterKeyword("martial", r => attributes.Martial = r.GetInt());
+		parser.RegisterKeyword("finesse", r => attributes.Finesse = r.GetInt());
+		parser.RegisterKeyword("charisma", r => attributes.Charisma = r.GetInt());
+		parser.RegisterKeyword("zeal", r => attributes.Zeal = r.GetInt());
+		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(reader);
-		return parsedAttributes;
+		
+		return attributes;
 	}
 }
