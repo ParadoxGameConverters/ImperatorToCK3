@@ -20,20 +20,20 @@ public static class OnActionOutputter {
 	
 	public static async Task OutputCustomGameStartOnAction(Configuration config) {
 		Logger.Info("Writing game start on-action...");
-		var filePath = $"output/{config.OutputModName}/common/on_action/IRToCK3_game_start.txt";
-		await using var writer = new StreamWriter(filePath, false, new UTF8Encoding(true));
+
+		var sb = new StringBuilder();
 		
 		const string customOnGameStartOnAction = "irtock3_on_game_start_after_lobby";
 		
-		await writer.WriteLineAsync("on_game_start_after_lobby = {");
-		await writer.WriteLineAsync($"\ton_actions = {{ {customOnGameStartOnAction } }}");
-		await writer.WriteLineAsync("}");
+		sb.AppendLine("on_game_start_after_lobby = {");
+		sb.AppendLine($"\ton_actions = {{ {customOnGameStartOnAction } }}");
+		sb.AppendLine("}");
 		
-		await writer.WriteLineAsync($"{customOnGameStartOnAction} = {{");
-		await writer.WriteLineAsync("\teffect = {");
+		sb.AppendLine($"{customOnGameStartOnAction} = {{");
+		sb.AppendLine("\teffect = {");
 		
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
-			await writer.WriteLineAsync("""
+			sb.AppendLine("""
 			                            	# IRToCK3: add MAA regiments
 			                            	random_player = {
 			                            		trigger_event = irtock3_hidden_events.0001
@@ -42,13 +42,13 @@ public static class OnActionOutputter {
 		}
 
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
-			await writer.WriteLineAsync("\t\tset_global_variable = IRToCK3_create_maa_flag");
+			sb.AppendLine("\t\tset_global_variable = IRToCK3_create_maa_flag");
         }
 
 		if (config.FallenEagleEnabled) {
 			// As of the "Last of the Romans" update, TFE only disables Nicene for start dates >= 476.9.4.
 			// But for the converter it's important that Nicene is disabled for all start dates >= 451.8.25.
-			await writer.WriteLineAsync("""
+			sb.AppendLine("""
 			                            	# IRToCK3: disable Nicene after the Council of Chalcedon.
 			                            	if = {
 			                            		limit = {
@@ -76,8 +76,12 @@ public static class OnActionOutputter {
 			                            """);
 		}
 		
-		await writer.WriteLineAsync("\t}");
-		await writer.WriteLineAsync("}");
+		sb.AppendLine("\t}");
+		sb.AppendLine("}");
+		
+		var filePath = $"output/{config.OutputModName}/common/on_action/IRToCK3_game_start.txt";
+		await using var writer = new StreamWriter(filePath, false, new UTF8Encoding(true));
+		await writer.WriteAsync(sb.ToString());
 	}
 
 	private static async Task DisableUnneededFallenEagleOnActions(string outputModPath) {

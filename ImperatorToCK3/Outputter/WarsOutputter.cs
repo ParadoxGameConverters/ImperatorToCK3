@@ -11,27 +11,31 @@ namespace ImperatorToCK3.Outputter;
 public static class WarsOutputter {
 	public static async Task OutputWars(string outputModPath, IEnumerable<War> wars) {
 		Logger.Info("Writing wars...");
-		// dumping all into one file
+		
+		// Dump all into one file.
+		var sb = new StringBuilder();
+		foreach (var war in wars) {
+			WriteWar(sb, war);
+		}
 		var path = Path.Combine(outputModPath, "history/wars/00_wars.txt");
 		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
-		foreach (var war in wars) {
-			await OutputWar(output, war);
-		}
+		await output.WriteAsync(sb.ToString());
+		
 		Logger.IncrementProgress();
 	}
-	private static async Task OutputWar(TextWriter output, War war) {
-		await output.WriteLineAsync("war = {");
+	private static void WriteWar(StringBuilder sb, War war) {
+		sb.AppendLine("war = {");
 
-		await output.WriteLineAsync($"\tstart_date = {war.StartDate}");
-		await output.WriteLineAsync($"\tend_date = {war.EndDate}");
-		await output.WriteLineAsync($"\ttargeted_titles={{ {string.Join(' ', war.TargetedTitles)} }}");
+		sb.AppendLine($"\tstart_date = {war.StartDate}");
+		sb.AppendLine($"\tend_date = {war.EndDate}");
+		sb.AppendLine($"\ttargeted_titles={{ {string.Join(' ', war.TargetedTitles)} }}");
 		if (war.CasusBelli is not null) {
-			await output.WriteLineAsync($"\tcasus_belli = {war.CasusBelli}");
+			sb.AppendLine($"\tcasus_belli = {war.CasusBelli}");
 		}
-		await output.WriteLineAsync($"\tattackers={{ {string.Join(' ', war.Attackers)} }}");
-		await output.WriteLineAsync($"\tdefenders={{ {string.Join(' ', war.Defenders)} }}");
-		await output.WriteLineAsync($"\tclaimant = {war.Claimant}");
+		sb.AppendLine($"\tattackers={{ {string.Join(' ', war.Attackers)} }}");
+		sb.AppendLine($"\tdefenders={{ {string.Join(' ', war.Defenders)} }}");
+		sb.AppendLine($"\tclaimant = {war.Claimant}");
 
-		await output.WriteLineAsync("}");
+		sb.AppendLine("}");
 	}
 }

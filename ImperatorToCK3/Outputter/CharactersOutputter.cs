@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
@@ -35,17 +36,23 @@ public static class CharactersOutputter {
 		var charactersFromCK3 = characters.Except(charactersFromIR)
 			.OrderBy(c => c.Id).ToImmutableList();
 		
+		var sb = new StringBuilder();
 		var pathForCharactersFromIR = $"{outputPath}/history/characters/IRToCK3_fromImperator.txt";
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromIR);
+		await using var charactersFromIROutput = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromIR);
 		foreach (var character in charactersFromIR) {
-			await CharacterOutputter.OutputCharacter(output, character, conversionDate);
+			CharacterOutputter.WriteCharacter(sb, character, conversionDate);
+			await charactersFromIROutput.WriteAsync(sb.ToString());
+			sb.Clear();
 		}
 
 		var pathForCharactersFromCK3 = $"{outputPath}/history/characters/IRToCK3_fromCK3.txt";
-		await using var output2 = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromCK3, System.Text.Encoding.UTF8);
+		await using var charactersFromCK3Output = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromCK3, System.Text.Encoding.UTF8);
 		foreach (var character in charactersFromCK3) {
-			await CharacterOutputter.OutputCharacter(output2, character, conversionDate);
+			CharacterOutputter.WriteCharacter(sb, character, conversionDate);
+			await charactersFromCK3Output.WriteAsync(sb.ToString());
+			sb.Clear();
 		}
+		
 		await OutputCharactersDNA(outputPath, charactersWithDNA);
 	}
 
@@ -63,19 +70,25 @@ public static class CharactersOutputter {
 
 	private static async Task OutputCharactersDNA(string outputPath, IEnumerable<Character> charactersWithDNA) {
 		Logger.Info("Outputting DNA...");
+		
 		// Dump all into one file.
 		var path = Path.Combine(outputPath, "common/dna_data/IRToCK3_dna_data.txt");
 		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, System.Text.Encoding.UTF8);
+		
+		var sb = new StringBuilder();
 		foreach (var character in charactersWithDNA) {
 			var dna = character.DNA!;
-			await output.WriteLineAsync($"{dna.Id}={{");
-			await output.WriteLineAsync("\tportrait_info={");
+			sb.AppendLine($"{dna.Id}={{");
+			sb.AppendLine("\tportrait_info={");
 
-			await dna.OutputGenes(output);
+			dna.WriteGenes(sb);
 
-			await output.WriteLineAsync("\t}");
-			await output.WriteLineAsync("\tenabled=yes");
-			await output.WriteLineAsync("}");
+			sb.AppendLine("\t}");
+			sb.AppendLine("\tenabled=yes");
+			sb.AppendLine("}");
+			
+			await output.WriteAsync(sb.ToString());
+			sb.Clear();
 		}
 	}
 
@@ -99,15 +112,17 @@ public static class CharactersOutputter {
 		TextWriter output,
 		Date conversionDate
 	) {
+		var sb = new StringBuilder();
+		
 		var charactersByGeneValue = charactersWithDNA
 			.Where(c => c.DNA!.AccessoryDNAValues.ContainsKey(geneName))
 			.GroupBy(c => new {
 				c.DNA!.AccessoryDNAValues[geneName].TemplateName,
 				c.DNA!.AccessoryDNAValues[geneName].ObjectName,
 			});
-		await output.WriteLineAsync($"IRToCK3_{geneName}_overrides = {{");
-		await output.WriteLineAsync("\tusage = game");
-		await output.WriteLineAsync("\tselection_behavior = max");
+		sb.AppendLine($"IRToCK3_{geneName}_overrides = {{");
+		sb.AppendLine("\tusage = game");
+		sb.AppendLine("\tselection_behavior = max");
 		foreach (var grouping in charactersByGeneValue) {
 			var templateName = grouping.Key.TemplateName;
 			var accessoryName = grouping.Key.ObjectName;
@@ -120,26 +135,28 @@ public static class CharactersOutputter {
 				character.History.AddFieldValue(effectDate, "effects", "effect", characterEffectStr);
 			}
 			
-			await output.WriteLineAsync($"\t{templateName}_obj_{accessoryName} = {{");
-			await output.WriteLineAsync("\t\tdna_modifiers = {");
-			await output.WriteLineAsync("\t\t\taccessory = {");
-			await output.WriteLineAsync("\t\t\t\tmode = add");
-			await output.WriteLineAsync($"\t\t\t\tgene = {geneName}");
-			await output.WriteLineAsync($"\t\t\t\ttemplate = {templateName}");
-			await output.WriteLineAsync($"\t\t\t\taccessory = {accessoryName}");
-			await output.WriteLineAsync("\t\t\t}");
-			await output.WriteLineAsync("\t\t}");
+			sb.AppendLine($"\t{templateName}_obj_{accessoryName} = {{");
+			sb.AppendLine("\t\tdna_modifiers = {");
+			sb.AppendLine("\t\t\taccessory = {");
+			sb.AppendLine("\t\t\t\tmode = add");
+			sb.AppendLine($"\t\t\t\tgene = {geneName}");
+			sb.AppendLine($"\t\t\t\ttemplate = {templateName}");
+			sb.AppendLine($"\t\t\t\taccessory = {accessoryName}");
+			sb.AppendLine("\t\t\t}");
+			sb.AppendLine("\t\t}");
 			
-			await output.WriteLineAsync("\t\tweight = {");
-			await output.WriteLineAsync("\t\t\tbase = 0");
-			await output.WriteLineAsync("\t\t\tmodifier = {");
-			await output.WriteLineAsync("\t\t\t\tadd = 999");
-			await output.WriteLineAsync($"\t\t\t\thas_character_flag = {characterFlagName}");
-			await output.WriteLineAsync("\t\t\t}");
+			sb.AppendLine("\t\tweight = {");
+			sb.AppendLine("\t\t\tbase = 0");
+			sb.AppendLine("\t\t\tmodifier = {");
+			sb.AppendLine("\t\t\t\tadd = 999");
+			sb.AppendLine($"\t\t\t\thas_character_flag = {characterFlagName}");
+			sb.AppendLine("\t\t\t}");
 			
-			await output.WriteLineAsync("\t\t}");
-			await output.WriteLineAsync("\t}");
+			sb.AppendLine("\t\t}");
+			sb.AppendLine("\t}");
 		}
-		await output.WriteLineAsync("}");
+		sb.AppendLine("}");
+		
+		await output.WriteAsync(sb.ToString());
 	}
 }

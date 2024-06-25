@@ -21,14 +21,19 @@ public static class ProvincesOutputter {
 
 		var deJureKingdoms = titles.GetDeJureKingdoms();
 		Parallel.ForEach(deJureKingdoms, kingdom => {
+			var sb = new System.Text.StringBuilder();
+			foreach (var province in provinces) {
+				if (!kingdom.KingdomContainsProvince(province.Id)) {
+					continue;
+				}
+
+				ProvinceOutputter.WriteProvince(sb, province);
+				alreadyOutputtedProvinces.Add(province.Id);
+			}
+			
 			var filePath = $"{outputModPath}/history/provinces/{kingdom.Id}.txt";
 			using var historyOutput = new StreamWriter(filePath);
-			foreach (var province in provinces) {
-				if (kingdom.KingdomContainsProvince(province.Id)) {
-					ProvinceOutputter.OutputProvince(historyOutput, province);
-					alreadyOutputtedProvinces.Add(province.Id);
-				}
-			}
+			historyOutput.Write(sb.ToString());
 		});
 
 		if (alreadyOutputtedProvinces.Count != provinces.Count) {
@@ -36,16 +41,22 @@ public static class ProvincesOutputter {
 			await using var historyOutput = TextWriter.Synchronized(new StreamWriter(filePath));
 			var deJureDuchies = titles.GetDeJureDuchies();
 			Parallel.ForEach(deJureDuchies, duchy => {
+				var sb = new System.Text.StringBuilder();
+				
 				foreach (var province in provinces) {
 					if (alreadyOutputtedProvinces.Contains(province.Id)) {
 						continue;
 					}
 
 					if (duchy.DuchyContainsProvince(province.Id)) {
-						historyOutput.WriteLine($"# {duchy.Id}");
-						ProvinceOutputter.OutputProvince(historyOutput, province);
+						sb.AppendLine($"# {duchy.Id}");
+						ProvinceOutputter.WriteProvince(sb, province);
 						alreadyOutputtedProvinces.Add(province.Id);
 					}
+				}
+				
+				if (sb.Length > 0) {
+					historyOutput.Write(sb.ToString());
 				}
 			});
 		}

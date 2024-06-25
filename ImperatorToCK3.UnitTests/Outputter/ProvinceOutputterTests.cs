@@ -16,8 +16,7 @@ public class ProvinceOutputterTests {
 		var province = new Province(1, provReader);
 
 		var sb = new StringBuilder();
-		var sw = new StringWriter(sb);
-		ProvinceOutputter.OutputProvince(sw, province);
+		ProvinceOutputter.WriteProvince(sb, province);
 
 		var sr = new StringReader(sb.ToString());
 		Assert.Equal("1={", sr.ReadLine());
@@ -32,8 +31,7 @@ public class ProvinceOutputterTests {
 		var province = new Province(1, provReader);
 
 		var sb = new StringBuilder();
-		var sw = new StringWriter(sb);
-		ProvinceOutputter.OutputProvince(sw, province);
+		ProvinceOutputter.WriteProvince(sb, province);
 
 		var sr = new StringReader(sb.ToString());
 		Assert.Equal("1={", sr.ReadLine());
@@ -48,8 +46,7 @@ public class ProvinceOutputterTests {
 		var province = new Province(1, provReader);
 
 		var sb = new StringBuilder();
-		var sw = new StringWriter(sb);
-		ProvinceOutputter.OutputProvince(sw, province);
+		ProvinceOutputter.WriteProvince(sb, province);
 
 		var sr = new StringReader(sb.ToString());
 		Assert.Equal("1={", sr.ReadLine());
@@ -63,8 +60,7 @@ public class ProvinceOutputterTests {
 		var province = new Province(1, provReader);
 
 		var sb = new StringBuilder();
-		var sw = new StringWriter(sb);
-		ProvinceOutputter.OutputProvince(sw, province);
+		ProvinceOutputter.WriteProvince(sb, province);
 
 		var sr = new StringReader(sb.ToString());
 		Assert.Equal("1={", sr.ReadLine());

@@ -3,19 +3,18 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 public static class SuccessionTriggersOutputter {
 	public static async Task OutputSuccessionTriggers(string outputModPath, Title.LandedTitles landedTitles, Date ck3BookmarkDate) {
 		Logger.Info("Writing Succession Triggers...");
-		
-		var outputPath = Path.Combine(outputModPath, "common/scripted_triggers/IRToCK3_succession_triggers.txt");
-
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 
 		var primogenitureTitles = new List<string>();
 		var seniorityTitles = new List<string>();
+		
+		var sb = new StringBuilder();
 
 		foreach (var landedTitle in landedTitles) {
 			if (landedTitle.GetDeFactoLiege(ck3BookmarkDate) is not null) {
@@ -31,21 +30,25 @@ public static class SuccessionTriggersOutputter {
 			}
 		}
 
-		await output.WriteLineAsync("historical_succession_access_single_heir_succession_law_trigger={");
-		await output.WriteLineAsync("\tOR={");
+		sb.AppendLine("historical_succession_access_single_heir_succession_law_trigger={");
+		sb.AppendLine("\tOR={");
 		foreach (var primogenitureTitle in primogenitureTitles) {
-			await output.WriteLineAsync($"\t\thas_title=title:{primogenitureTitle}");
+			sb.AppendLine($"\t\thas_title=title:{primogenitureTitle}");
 		}
-		await output.WriteLineAsync("\t}");
-		await output.WriteLineAsync("}");
+		sb.AppendLine("\t}");
+		sb.AppendLine("}");
 
-		await output.WriteLineAsync("historical_succession_access_single_heir_dynasty_house_trigger={");
-		await output.WriteLineAsync("\tOR={");
+		sb.AppendLine("historical_succession_access_single_heir_dynasty_house_trigger={");
+		sb.AppendLine("\tOR={");
 		foreach (var seniorityTitle in seniorityTitles) {
-			await output.WriteLineAsync($"\t\thas_title=title:{seniorityTitle}");
+			sb.AppendLine($"\t\thas_title=title:{seniorityTitle}");
 		}
-		await output.WriteLineAsync("\t}");
-		await output.WriteLineAsync("}");
+		sb.AppendLine("\t}");
+		sb.AppendLine("}");
+		
+		var outputPath = Path.Combine(outputModPath, "common/scripted_triggers/IRToCK3_succession_triggers.txt");
+		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
+		await output.WriteAsync(sb.ToString());
 		
 		Logger.IncrementProgress();
 	}
