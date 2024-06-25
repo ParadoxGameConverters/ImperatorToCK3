@@ -4,18 +4,21 @@ ynys_mon = { #toutatis
 	county = c_anglesey
 	barony = b_yns_mon
 	character_modifier = {
+		name = holy_site_ynys_mon_effect_name
  		men_at_arms_maintenance = -0.1
 	}
 }
 stonehenge = {
 	county = c_wiltshire
 	character_modifier = {
+		name = holy_site_stonehenge_effect_name
 		monthly_piety_gain_mult = 0.2
 	}
 }
 tlachtgha = {
 	county = c_athlone
 	character_modifier = {
+		name = holy_site_tlachtgha_effect_name
 		diplomacy_per_prestige_level = 1
 	}
 }
@@ -23,6 +26,7 @@ glanum = { # Glanum is located near Arles
 	county = c_venaissin
 	barony = b_arles
 	character_modifier = {
+	    name = holy_site_glanum_effect_name
  		health = 0.1
 	}
 }
@@ -30,6 +34,7 @@ bibracte = { # Bibracte is located near Autun
 	county = c_chalon
 	barony = b_autun
 	character_modifier = {
+		name = holy_site_bibracte_effect_name
 		development_growth_factor = 0.1
 		stewardship = 1
 	}
@@ -40,7 +45,7 @@ celtic_dublin = {
 	barony = b_dublin
 
 	character_modifier = {
-		name = holy_site_dublin_effect_name
+		name = holy_site_celtic_dublin_effect_name
 		martial = 1
 		prowess = 1
 	}
@@ -70,7 +75,7 @@ ceredigion = {
 	barony = b_cardigan
 
 	character_modifier = {
-		name = holy_site_ceredigon_effect_name
+		name = holy_site_ceredigion_effect_name
 		stewardship = 1
 		prowess = 1
 	}
@@ -81,7 +86,7 @@ norfolk = {
 	barony = b_norwich
 
 	character_modifier = {
-		name = holy_sity_norfolk_effect_name
+		name = holy_site_norfolk_effect_name
 		martial = 1
 		prowess = 1
 	}
@@ -232,30 +237,35 @@ algeciras = {
 chimaera = { #dercetius
 	county = c_castellon
 	character_modifier = {
+		name = holy_site_chimaera_effect_name
  		domain_tax_mult = 0.02
 	}
 }
 salaria = { #semnocosus
 	county = c_andujar
 	character_modifier = {
+		name = holy_site_salaria_effect_name
  		men_at_arms_maintenance = -0.1
 	}
 }
 aeso = { #the duillae
 	county = c_lleida
 	character_modifier = {
+		name = holy_site_aeso_effect_name
  		fertility = 0.15
 	}
 }
 bravum = { #eacus
 	county = c_amaya
 	character_modifier = {
+		name = holy_site_bravum_effect_name
  		diplomacy_per_piety_level = 1
 	}
 }
 myrtilis = { #ataecina
 	county = c_beja
 	character_modifier = {
+		name = holy_site_myrtilis_effect_name
 		stress_loss_mult = 0.2
 	}
 }
@@ -264,24 +274,28 @@ myrtilis = { #ataecina
 shaheded = {
 	county = c_taza
 	character_modifier = {
+		name = holy_site_shaheded_effect_name
  		domain_tax_mult = 0.02
 	}
 }
 sinifere = {
 	county = c_algier
 	character_modifier = {
+		name = holy_site_sinifere_effect_name
  		knight_effectiveness_mult = 0.2
 	}
 }
 thugga = { #tannit
 	county = c_medjerda
 	character_modifier = {
+		name = holy_site_thugga_effect_name
  		cultural_head_fascination_mult = 0.1
 	}
 }
 tsabratan = { #nanna tala
 	county = c_tripolitana
 	character_modifier = {
+		name = holy_site_tsabratan_effect_name
  		fertility = 0.15
 	}
 }
@@ -289,6 +303,7 @@ thubactis = { #gurzil
 	county = c_labda
 	barony = b_misurata
 	character_modifier = {
+		name = holy_site_thubactis_effect_name
  		levy_reinforcement_rate_same_faith = 0.2
 	}
 }
@@ -299,12 +314,14 @@ elagabal = { #Elagabalus was venerated in Homs
 	county = c_homs
 	barony = b_hims
 	character_modifier = {
+		name = holy_site_elagabal_effect_name
  		tyranny_gain_mult = -0.2
 	}
 }
 ahiram = { #ba'alet
 	county = c_tripoli
 	character_modifier = {
+		name = holy_site_ahiram_effect_name
  		cultural_head_fascination_mult = 0.1
 	}
 }
@@ -312,6 +329,7 @@ tyre = { #melqart
 	county = c_acre
 	barony = b_tyre
 	character_modifier = {
+		name = holy_site_tyre_effect_name
  		domain_tax_mult = 0.02
 	}
 }
@@ -319,6 +337,7 @@ mabbog = { #atargatis - Mabbog is now called Manbij
 	county = c_aleppo
 	barony = b_manbij
 	character_modifier = {
+		name = holy_site_mabbog_effect_name
  		fertility = 0.15
 	}
 }
@@ -328,12 +347,14 @@ mabbog = { #atargatis - Mabbog is now called Manbij
 taremu = { #sekhmet
 	county = c_sharkiya
 	character_modifier = {
+		name = holy_site_taremu_effect_name
  		defender_advantage = 5
 	}
 }
 waset = { #amun
 	county = c_qus
 	character_modifier = {
+		name = holy_site_waset_effect_name
  		tyranny_gain_mult = -0.2
 	}
 }
@@ -342,6 +363,7 @@ zawty = { #anubis
 	county = c_asyut
 	barony = b_asyut
 	character_modifier = {
+		name = holy_site_zawty_effect_name
  		domain_tax_mult = 0.02
 	}
 }
@@ -372,6 +394,7 @@ bahnasa = {
 badais = { #orotalt
 	county = c_wajh
 	character_modifier = {
+		name = holy_site_badais_effect_name
  		supply_duration = 0.25
 	}
 }
@@ -379,12 +402,14 @@ petra = { #al-qaum
 	county = c_negev
 	barony = b_baidha-petra
 	character_modifier = {
+		name = holy_site_petra_effect_name
  		domain_tax_mult = 0.02
 	}
 }
 sirwa = { #ta'lab
 	county = c_sanaa
 	character_modifier = {
+		name = holy_site_sirwa_effect_name
  		fertility = 0.15
 	}
 }
@@ -392,6 +417,7 @@ taif = { #ta'if, al-uzza
 	county = c_taif
 	barony = b_at-taif
 	character_modifier = {
+		name = holy_site_taif_effect_name
  		levy_reinforcement_rate_same_faith = 0.2
 	}
 }
@@ -400,24 +426,28 @@ taif = { #ta'if, al-uzza
 babylon = { #marduk
 	county = c_baghdad
 	character_modifier = {
+		name = holy_site_babylon_effect_name
 		knight_limit = 1
 	}
 }
 borsippa = { #nabu
 	county = c_kufa
 	character_modifier = {
+		name = holy_site_borsippa_effect_name
  		cultural_head_fascination_mult = 0.1
 	}
 }
 uruk = { #ishtar
 	county = c_batiha
 	character_modifier = {
+		name = holy_site_uruk_effect_name
 		attacker_advantage = 5
 	}
 }
 ashur = { #ashshur
 	county = c_mosul
 	character_modifier = {
+		name = holy_site_ashur_effect_name
 		defender_advantage = 5
 	}
 }
@@ -425,6 +455,7 @@ harranu = { #sin
 	county = c_harran
 	barony = b_harran
 	character_modifier = {
+		name = holy_site_harranu_effect_name
  		fertility = 0.15
 	}
 }
@@ -433,30 +464,35 @@ harranu = { #sin
 men = { #men
 	county = c_philomelium
 	character_modifier = {
+		name = holy_site_men_effect_name
  		tyranny_gain_mult = -0.2
 	}
 }
 phyrgia = { #cybele
 	county = c_phrygia
 	character_modifier = {
+		name = holy_site_phyrgia_effect_name
  		fertility = 0.15
 	}
 }
 komana = { #ma
 	county = c_lycandus
 	character_modifier = {
+		name = holy_site_komana_effect_name
  		men_at_arms_maintenance = -0.1
 	}
 }
 ibora = { #nane, apparently khaldic? oops
 	county = c_zela
 	character_modifier = {
+		name = holy_site_ibora_effect_name
  		attacker_advantage = 5
 	}
 }
 kadoi = { #attis
 	county = c_hadrianeia
 	character_modifier = {
+		name = holy_site_kadoi_effect_name
 		development_growth_factor = 0.1
 		stewardship = 1
 	}
@@ -466,6 +502,7 @@ kadoi = { #attis
 eriza = { #anahit
 	county = c_satala
 	character_modifier = {
+		name = holy_site_eriza_effect_name
  		fertility = 0.15
 	}
 }
@@ -473,6 +510,7 @@ ashtishat = { #vahagn
 	county = c_apahunik
 	barony = b_musch
 	character_modifier = {
+		name = holy_site_ashtishat_effect_name
 		defender_advantage = 5
 	}
 }
@@ -480,18 +518,21 @@ armaouira = { #khaldi
 	# https://en.wikipedia.org/wiki/Armavir_(ancient_city)
 	county = c_hayk
 	character_modifier = {
+		name = holy_site_armaouira_effect_name
  		tyranny_gain_mult = -0.2
 	}
 }
 artaxata = { #tir
 	county = c_bagrewand
 	character_modifier = {
+		name = holy_site_artaxata_effect_name
  		cultural_head_fascination_mult = 0.1
 	}
 }
 karchakhpyur = { #tsovinar
 	county = c_dvin
 	character_modifier = {
+		name = holy_site_karchakhpyur_effect_name
 		development_growth_factor = 0.1
 		stewardship = 1
 	}
@@ -501,6 +542,7 @@ karchakhpyur = { #tsovinar
 gacim = { #armaz
 	county = c_kakheti
 	character_modifier = {
+		name = holy_site_gacim_effect_name
  		supply_duration = 0.125
  		levy_reinforcement_rate_same_faith = 0.1
 	}
@@ -508,24 +550,28 @@ gacim = { #armaz
 kamachia = { #ga
 	county = c_shaki
 	character_modifier = {
+		name = holy_site_kamachia_effect_name
  		fertility = 0.15
 	}
 }
 leukothea = { #ghmerti
 	county = c_guria
 	character_modifier = {
+		name = holy_site_leukothea_effect_name
  		tyranny_gain_mult = -0.2
 	}
 }
 brili = { #dali
 	county = c_svaneti
 	character_modifier = {
+		name = holy_site_brili_effect_name
  		domain_tax_mult = 0.02
 	}
 }
 kurus = { #adgilis deda
 	county = c_hereti
 	character_modifier = {
+		name = holy_site_kurus_effect_name
 		development_growth_factor = 0.1
 		stewardship = 1
 	}
@@ -535,24 +581,28 @@ kurus = { #adgilis deda
 cimus = { #goitosyrus
 	county = c_perekop
 	character_modifier = {
+		name = holy_site_cimus_effect_name
  		cultural_head_fascination_mult = 0.1
 	}
 }
 tanais = { #thagimasadas
 	county = c_tana
 	character_modifier = {
+		name = holy_site_tanais_effect_name
 		skirmishers_damage_mult = 0.1
 	}
 }
 tmakrat = { #papaios
 	county = c_zichia
 	character_modifier = {
+		name = holy_site_tmakrat_effect_name
  		domain_tax_mult = 0.02
 	}
 }
 mykon = { #api #mykon apparently not being converted??
 	county = c_azov
 	character_modifier = {
+		name = holy_site_mykon_effect_name
 		development_growth_factor = 0.1
 		stewardship = 1
 	}
@@ -560,6 +610,7 @@ mykon = { #api #mykon apparently not being converted??
 recrassia = { #argimpasa
 	county = c_samiran
 	character_modifier = {
+		name = holy_site_recrassia_effect_name
  		skirmishers_screen_mult = 0.1
 	}
 }
@@ -568,6 +619,7 @@ recrassia = { #argimpasa
 tamasidava = { #bendis
 	county = c_stoenesti
 	character_modifier = {
+		name = holy_site_tamasidava_effect_name
 		development_growth_factor = 0.1
 		stewardship = 1
 	}
@@ -576,6 +628,7 @@ odessos = { #derzelas
 	county = c_mesembria
 	barony = b_varna
 	character_modifier = {
+		name = holy_site_odessos_effect_name
  		domain_tax_mult = 0.02
 	}
 }
@@ -583,18 +636,21 @@ kardzhali = { #sabazios
 	county = c_zherkovo
 	barony = b_zherkovo
 	character_modifier = {
+		name = holy_site_kardzhali_effect_name
  		martial_per_piety_level = 1
 	}
 }
 spinopara = { #zibelthiurdos
 	county = c_sredets
 	character_modifier = {
+		name = holy_site_spinopara_effect_name
  		tyranny_gain_mult = -0.2
 	}
 }
 buridava = { #only has 4 in the game, so this is the most populous
 	county = c_polovragi
 	character_modifier = {
+		name = holy_site_buridava_effect_name
  		cultural_head_fascination_mult = 0.1
 	}
 }
@@ -606,7 +662,7 @@ german_dublin = { # Caill Tomair (Thor's Grove), near Dublin
 	barony = b_dublin
 
 	character_modifier = {
-		name = holy_site_dublin_effect_name
+		name = holy_site_german_dublin_effect_name
 		different_faith_opinion = 5
 		different_culture_opinion = 5
 	}
@@ -824,6 +880,7 @@ irtock3_ajivika_sravasti = {
     barony = b_sravasti
     
     character_modifier = {
+    	name = holy_site_irtock3_ajivika_sravasti_effect_name
         development_growth_factor = 0.1
         stewardship = 1
     }
@@ -833,6 +890,7 @@ irtock3_ajivika_candhoba = {
     barony = b_narwar
     
     character_modifier = {
+    	name = holy_site_irtock3_ajivika_candhoba_effect_name
      	domain_tax_mult = 0.02
     }
 }
@@ -841,6 +899,7 @@ irtock3_ajivika_minagana = {
     barony = b_bhainsa
     
     character_modifier = {
+    	name = holy_site_irtock3_ajivika_minagana_effect_name
      	knight_effectiveness_mult = 0.2
     }
 }
@@ -849,6 +908,7 @@ irtock3_ajivika_chintamani = {
     barony = b_nangali
     
     character_modifier = {
+    	name = holy_site_irtock3_ajivika_chintamani_effect_name
  		knight_effectiveness_mult = 0.2
     }
 }
@@ -857,6 +917,7 @@ irtock3_ajivika_campa = {
     barony = b_campa
     
     character_modifier = {
+    	name = holy_site_irtock3_ajivika_campa_effect_name
         same_culture_opinion = 5
     }
 }
