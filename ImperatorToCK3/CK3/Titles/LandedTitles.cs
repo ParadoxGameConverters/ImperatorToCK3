@@ -6,6 +6,7 @@ using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
@@ -1242,6 +1243,53 @@ public sealed partial class Title {
 						}
 					}
 				}
+			}
+		}
+	
+		/// <summary>
+		/// Import Imperator officials as council members and courtiers.
+		/// https://imperator.paradoxwikis.com/Position
+		/// https://ck3.paradoxwikis.com/Council
+		/// https://ck3.paradoxwikis.com/Court#Court_positions
+		/// </summary>
+		public void ImportImperatorGovernmentOffices(ICollection<OfficeJob> irOfficeJobs, ReligionCollection religionCollection) {
+			Logger.Info("Converting government offices...");
+			var titlesFromImperator = GetCountriesImportedFromImperator();
+			
+			var councilPositionToSourcesDict = new Dictionary<string, string[]> {
+				["councillor_court_chaplain"] = ["office_augur", "office_pontifex", "office_high_priest_monarchy", "office_high_priest", "office_wise_person"],
+				["councillor_chancellor"] = ["office_censor", "office_foreign_minister", "office_arbitrator", "office_elder"],
+				["councillor_steward"] = ["office_magistrate", "office_steward", "office_tribune_of_the_treasury"],
+				["councillor_marshal"] = ["office_tribune_of_the_soldiers", "office_marshal", "office_master_of_the_guard", "office_warchief", "office_bodyguard"],
+				["councillor_spymaster"] = [], // No equivalents found in Imperator.
+			};
+			
+			// Court positions.
+			var courtPositionToSourcesDict = new Dictionary<string, string[]> {
+				["bodyguard_court_position"] = ["office_master_of_the_guard", "office_bodyguard"],
+				["court_physician_court_position"] = ["office_physician", "office_republic_physician", "office_apothecary"],
+				["court_tutor_court_position"] = ["office_royal_tutor"],
+				["chronicler_court_position"] = ["office_philosopher"], // From I:R wiki: "supervises libraries and the gathering and protection of knowledge"
+				["court_cave_hermit_position"] = ["office_wise_person"]
+			};
+
+			// TODO: log all office types found in the save that are not mapped to CK3 offices
+
+			foreach (var title in titlesFromImperator) {
+				var country = title.ImperatorCountry!;
+				var ck3Ruler = country.Monarch?.CK3Character;
+				if (ck3Ruler is null) {
+					continue;
+				}
+				
+				var convertibleJobs = irOfficeJobs.Where(j => j.CountryId == country.Id).ToList();
+				if (convertibleJobs.Count == 0) {
+					continue;
+				}
+				
+				var alreadyEmployedCharacters = new HashSet<string>();
+				title.AppointCouncilMembersFromImperator(religionCollection, councilPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler);
+				title.AppointCourtierPositionsFromImperator(courtPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler);
 			}
 		}
 

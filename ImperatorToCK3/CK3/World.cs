@@ -240,6 +240,7 @@ public sealed class World {
 			config,
 			countyLevelCountries
 		);
+		LandedTitles.ImportImperatorGovernmentOffices(impWorld.JobsDB.OfficeJobs, Religions);
 
 		// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 		// Some of it will be overwritten, but not all.
