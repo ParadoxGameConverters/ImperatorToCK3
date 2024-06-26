@@ -6,7 +6,7 @@ using System.Text.Json;
 
 namespace ImperatorToCK3.Imperator;
 
-public class Defines {
+public sealed class Defines {
 	public int CohortSize { get; private set; } = 500;
 
 	public void LoadDefines(ModFilesystem imperatorModFs) {

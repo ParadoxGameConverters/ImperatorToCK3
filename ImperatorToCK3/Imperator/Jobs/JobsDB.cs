@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Jobs;
 
-public class JobsDB {
+public sealed class JobsDB {
 	public IList<Governorship> Governorships { get; } = new List<Governorship>();
 
 	public JobsDB() { }

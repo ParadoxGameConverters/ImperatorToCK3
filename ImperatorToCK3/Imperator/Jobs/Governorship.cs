@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Jobs;
 
-public class Governorship {
+public sealed class Governorship {
 	public Country Country { get; }
 	public ulong CharacterId { get; private set; } = 0;
 	public Date StartDate { get; private set; } = new(1, 1, 1);

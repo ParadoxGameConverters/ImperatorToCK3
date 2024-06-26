@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace ImperatorToCK3.CK3.Cultures; 
 
-public partial class NameList : IIdentifiable<string> {
+public sealed partial class NameList : IIdentifiable<string> {
 	public string Id { get; }
 	private readonly OrderedSet<string> maleNames = new();
 	private readonly OrderedSet<string> femaleNames = new();

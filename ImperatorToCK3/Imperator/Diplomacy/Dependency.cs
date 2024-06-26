@@ -2,7 +2,7 @@ using commonItems;
 
 namespace ImperatorToCK3.Imperator.Diplomacy;
 
-public class Dependency(ulong overlordId, ulong subjectId, Date startDate, string subjectType) {
+public sealed class Dependency(ulong overlordId, ulong subjectId, Date startDate, string subjectType) {
 	public ulong OverlordId { get; } = overlordId;
 	public ulong SubjectId { get; } = subjectId;
 	public Date StartDate { get; } = startDate;

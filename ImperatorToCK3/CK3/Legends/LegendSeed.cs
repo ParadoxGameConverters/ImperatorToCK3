@@ -4,7 +4,7 @@ using commonItems.Serialization;
 
 namespace ImperatorToCK3.CK3.Legends;
 
-public class LegendSeed : IIdentifiable<string>, IPDXSerializable {
+public sealed class LegendSeed : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 	private StringOfItem Body { get; }
 

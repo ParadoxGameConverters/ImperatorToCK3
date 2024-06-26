@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Government;
 
-public class GovernmentMapping {
+public sealed class GovernmentMapping {
 	public string CK3GovernmentId { get; private set; } = "";
 	public SortedSet<string> ImperatorGovernmentIds { get; } = new();
 	public SortedSet<string> ImperatorCultureIds { get; } = new();

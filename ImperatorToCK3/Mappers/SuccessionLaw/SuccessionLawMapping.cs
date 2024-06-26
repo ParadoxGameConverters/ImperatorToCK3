@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.SuccessionLaw;
 
-public class SuccessionLawMapping {
+public sealed class SuccessionLawMapping {
 	public string ImperatorLaw { get; set; } = "";
 	public SortedSet<string> CK3SuccessionLaws { get; } = new();
 	public SuccessionLawMapping(BufferedReader mappingReader) {

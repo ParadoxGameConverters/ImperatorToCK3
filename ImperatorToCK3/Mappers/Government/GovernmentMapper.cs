@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Government;
 
-public class GovernmentMapper {
+public sealed class GovernmentMapper {
 	private readonly List<GovernmentMapping> mappings = new();
 
 	public GovernmentMapper(ICollection<string> ck3GovernmentIds) {

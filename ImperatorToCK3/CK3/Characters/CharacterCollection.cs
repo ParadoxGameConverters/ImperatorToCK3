@@ -23,7 +23,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Characters;
 
-public partial class CharacterCollection : ConcurrentIdObjectCollection<string, Character> {
+public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<string, Character> {
 	public void ImportImperatorCharacters(
 		Imperator.World impWorld,
 		ReligionMapper religionMapper,

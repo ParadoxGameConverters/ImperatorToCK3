@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Wars;
 
-public class War {
+public sealed class War {
 	public Date StartDate { get; } = "2.1.1";
 	public Date EndDate { get; }
 	public OrderedSet<string> TargetedTitles { get; } = new();

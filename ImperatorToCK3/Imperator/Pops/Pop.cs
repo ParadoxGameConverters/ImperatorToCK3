@@ -3,7 +3,7 @@ using commonItems.Collections;
 
 namespace ImperatorToCK3.Imperator.Pops;
 
-public class Pop : IIdentifiable<ulong> {
+public sealed class Pop : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public string Type { get; set; } = "";
 	public string Culture { get; set; } = "";

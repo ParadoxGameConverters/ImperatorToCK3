@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils;
 
-public class SimpleHistoryField : IHistoryField {
+public sealed class SimpleHistoryField : IHistoryField {
 	public string Id { get; }
 	public IList<KeyValuePair<string, object>> InitialEntries { get; } = new List<KeyValuePair<string, object>>(); // every entry is a <setter, value> pair
 

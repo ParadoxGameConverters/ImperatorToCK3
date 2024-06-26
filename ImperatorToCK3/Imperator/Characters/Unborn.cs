@@ -2,7 +2,7 @@ using commonItems;
 
 namespace ImperatorToCK3.Imperator.Characters;
 
-public class Unborn {
+public sealed class Unborn {
 	public ulong MotherId { get; private set; }
 	public ulong FatherId { get; private set; }
 	public Date BirthDate { get; }

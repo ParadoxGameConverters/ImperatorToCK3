@@ -3,8 +3,7 @@ using commonItems.Collections;
 using ImperatorToCK3.CommonUtils;
 
 namespace ImperatorToCK3.Imperator.Armies;
-
-public class Subunit : IIdentifiable<ulong> {
+public sealed class Subunit : IIdentifiable<ulong> {
 	public ulong Id { get; }
 	public string Category { get; private set; } = "levy";
 	public string Type { get; private set; } = "light_infantry";

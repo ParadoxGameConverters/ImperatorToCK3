@@ -30,13 +30,13 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Titles;
 
-public partial class Title {
+public sealed partial class Title {
 	private readonly LandedTitles parentCollection;
 
 	// This is a recursive class that scrapes common/landed_titles looking for title colors, landlessness,
 	// and most importantly relation between baronies and barony provinces so we can link titles to actual clay.
 	// Since titles are nested according to hierarchy we do this recursively.
-	public class LandedTitles : TitleCollection {
+	public sealed class LandedTitles : TitleCollection {
 		public Dictionary<string, object> Variables { get; } = new();
 
 		public void LoadTitles(ModFilesystem ck3ModFS) {

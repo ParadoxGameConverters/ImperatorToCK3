@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.TagTitle;
 
-public class TitleMapping {
+public sealed class TitleMapping {
 	public string? RankMatch(string irTagOrRegion, TitleRank rank, TitleRank maxTitleRank) {
 		if (imperatorTagOrRegion != irTagOrRegion) {
 			return null;

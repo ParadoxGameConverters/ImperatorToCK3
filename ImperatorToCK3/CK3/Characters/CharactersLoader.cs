@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters;
 
-public partial class CharacterCollection {
+public sealed partial class CharacterCollection {
 	public void LoadCK3Characters(ModFilesystem ck3ModFS, Date bookmarkDate) {
 		Logger.Info("Loading characters from CK3...");
 
