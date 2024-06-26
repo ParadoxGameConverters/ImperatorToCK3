@@ -1272,6 +1272,8 @@ public sealed partial class Title {
 				["chronicler_court_position"] = ["office_philosopher"], // From I:R wiki: "supervises libraries and the gathering and protection of knowledge"
 				["court_cave_hermit_position"] = ["office_wise_person"]
 			};
+			
+			// TODO: also convert to Realm Priest court position
 
 			// TODO: log all office types found in the save that are not mapped to CK3 offices
 

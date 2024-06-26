@@ -80,4 +80,8 @@ public sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		var matchingInFaith = DoctrineIds.Intersect(potentialDoctrineIds).LastOrDefault();
 		return matchingInFaith ?? Religion.DoctrineIds.Intersect(potentialDoctrineIds).LastOrDefault();
 	}
+	
+	public bool HasDoctrine(string doctrineId) {
+		return DoctrineIds.Contains(doctrineId) || Religion.DoctrineIds.Contains(doctrineId);
+	}
 }

@@ -1208,10 +1208,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			_ => throw new FormatException($"Title {titleId}: unknown rank!")
 		};
 	}
-	
-	
 
-	internal void AppointCourtierPositionsFromImperator(Dictionary<string, string[]> courtPositionToSourcesDict,
+	private void AppointCourtierPositionsFromImperator(Dictionary<string, string[]> courtPositionToSourcesDict,
 		List<OfficeJob> convertibleJobs,
 		HashSet<string> alreadyEmployedCharacters, 
 		Character ck3Ruler) {
@@ -1261,7 +1259,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 	}
 
-	internal void AppointCouncilMembersFromImperator(ReligionCollection religionCollection,
+	private void AppointCouncilMembersFromImperator(ReligionCollection religionCollection,
 		Dictionary<string, string[]> councilPositionToSourcesDict, 
 		List<OfficeJob> convertibleJobs, 
 		HashSet<string> alreadyEmployedCharacters,
@@ -1289,8 +1287,19 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 				if (ck3Position == "councillor_court_chaplain") {
 					// Court chaplains need to have the same faith as the ruler.
-					if (ck3Ruler.GetFaithId(job.StartDate) != ck3Official.GetFaithId(job.StartDate)) {
+					var rulerFaithId = ck3Ruler.GetFaithId(job.StartDate);
+					if (rulerFaithId != ck3Official.GetFaithId(job.StartDate)) {
 						continue;
+					}
+					
+					// If the court faith has doctrine_theocracy_temporal (Theocratic Clerical Tradition), the court chaplain should
+					// be either theocratic or landless.
+					// For the purpose of the conversion, we simply require them to be landless.
+					if (rulerFaithId is not null && religionCollection.GetFaith(rulerFaithId)?.HasDoctrine("doctrine_theocracy_temporal") == true) {
+						var titlesHeldByOfficial = parentCollection.Where(t => t.GetHolderId(job.StartDate) == ck3Official.Id);
+						if (titlesHeldByOfficial.Any()) {
+							continue;
+						}
 					}
 				} else if (ck3Position == "councillor_steward" || ck3Position == "councillor_chancellor" || ck3Position == "councillor_marshal") {
 					// Stewards, chancellors and marshals need to have the dominant gender of the faith.
