@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.UnitType;
 
-public class UnitTypeMapper {
+public sealed class UnitTypeMapper {
 	private readonly Dictionary<string, string?> unitTypeMap = new(); // imperator -> ck3
 
 	public UnitTypeMapper(string mappingsFilePath) {

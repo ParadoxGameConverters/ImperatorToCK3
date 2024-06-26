@@ -2,7 +2,7 @@
 
 namespace ImperatorToCK3.Imperator.Provinces;
 
-public class ProvinceName {
+public sealed class ProvinceName {
 	public string Name { get; private set; } = "";
 
 	public ProvinceName(BufferedReader reader) {

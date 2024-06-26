@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
 
-public class AccessoryGene : Gene, IIdentifiable<string> {
+public sealed class AccessoryGene : Gene, IIdentifiable<string> {
 	public string Id { get; }
 	public uint? Index { get; private set; }
 	public IdObjectCollection<string, AccessoryGeneTemplate> GeneTemplates { get; } = new();

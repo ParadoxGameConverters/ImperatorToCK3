@@ -5,8 +5,8 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
-public class RulerTerm {
-	public class PreImperatorRulerInfo {
+public sealed class RulerTerm {
+	public sealed class PreImperatorRulerInfo {
 		public string? Name { get; set; }
 		public Date? BirthDate { get; set; }
 		public Date? DeathDate { get; set; }

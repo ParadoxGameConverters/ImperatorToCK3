@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Religion;
 
-public class ReligionMapping {
+public sealed class ReligionMapping {
 	private readonly SortedSet<string> irReligionIds = [];
 	public string? CK3FaithId { get; private set; }
 	private readonly SortedSet<string> ck3CultureIds = [];

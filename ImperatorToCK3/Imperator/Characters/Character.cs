@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Characters; 
 
-public class Character : IIdentifiable<ulong> {
+public sealed class Character : IIdentifiable<ulong> {
 	public Character(ulong id) {
 		Id = id;
 	}

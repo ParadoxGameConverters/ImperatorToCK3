@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Imperator.Characters;
 
-public class CharacterCollection : ConcurrentIdObjectCollection<ulong, Character> {
+public sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, Character> {
 	public void LoadCharactersFromBloc(BufferedReader reader) {
 		var blocParser = new Parser();
 		blocParser.RegisterKeyword("character_database", LoadCharacters);

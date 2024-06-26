@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Technology;
 
-public class InnovationMapper {
+public sealed class InnovationMapper {
 	private readonly List<InnovationLink> innovationLinks = [];
 	private readonly List<InnovationBonus> innovationBonuses = [];
 	

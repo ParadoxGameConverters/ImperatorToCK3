@@ -9,7 +9,7 @@ using ImperatorToCK3.Mappers.Religion;
 
 namespace ImperatorToCK3.CK3.Titles;
 
-public class RulerTerm {
+public sealed class RulerTerm {
 	public string? CharacterId { get; }
 	public Date StartDate { get; }
 	public string? Government { get; }

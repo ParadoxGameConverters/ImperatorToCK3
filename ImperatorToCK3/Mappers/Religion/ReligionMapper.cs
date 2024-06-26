@@ -7,7 +7,7 @@ using System.IO;
 
 namespace ImperatorToCK3.Mappers.Religion;
 
-public class ReligionMapper {
+public sealed class ReligionMapper {
 	public ReligionMapper(ReligionCollection ck3Religions, ImperatorRegionMapper imperatorRegionMapper, CK3RegionMapper ck3RegionMapper) {
 		this.imperatorRegionMapper = imperatorRegionMapper;
 		this.ck3RegionMapper = ck3RegionMapper;

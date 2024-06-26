@@ -15,7 +15,7 @@ using ProvinceCollection = ImperatorToCK3.CK3.Provinces.ProvinceCollection;
 
 namespace ImperatorToCK3.CK3.Religions;
 
-public class ReligionCollection(Title.LandedTitles landedTitles) : IdObjectCollection<string, Religion> {
+public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObjectCollection<string, Religion> {
 	private readonly Dictionary<string, OrderedSet<string>> replaceableHolySitesByFaith = new();
 	public IReadOnlyDictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith => replaceableHolySitesByFaith;
 	public IdObjectCollection<string, HolySite> HolySites { get; } = new();

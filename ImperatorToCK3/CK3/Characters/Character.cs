@@ -21,7 +21,7 @@ using System.Text;
 
 namespace ImperatorToCK3.CK3.Characters; 
 
-public class Character : IIdentifiable<string> {
+public sealed class Character : IIdentifiable<string> {
 	public string Id { get; }
 	public bool FromImperator { get; init; } = false;
 		

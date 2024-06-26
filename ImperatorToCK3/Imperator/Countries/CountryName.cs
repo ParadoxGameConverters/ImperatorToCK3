@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
-public class CountryName : ICloneable {
+public sealed class CountryName : ICloneable {
 	public string Name { get; private set; } = "";
 	private string? adjective;
 	public CountryName? BaseName { get; private set; }

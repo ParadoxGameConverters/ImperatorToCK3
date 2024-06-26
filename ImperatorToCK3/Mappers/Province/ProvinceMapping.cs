@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Province;
 
-public class ProvinceMapping {
+public sealed class ProvinceMapping {
 	public IList<ulong> CK3Provinces { get; } = new List<ulong>();
 	public IList<ulong> ImperatorProvinces { get; } = new List<ulong>();
 

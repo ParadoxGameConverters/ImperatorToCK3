@@ -230,11 +230,25 @@ public class TitleTests {
 	public void DevelopmentLevelCanBeInherited() {
 		var date = new Date(867, 1, 1);
 		var titles = new Title.LandedTitles();
-		var vassal = titles.Add("c_vassal");
-		vassal.DeJureLiege = titles.Add("d_liege");
-		vassal.DeJureLiege.SetDevelopmentLevel(8, date);
-
-		Assert.Equal(8, vassal.GetOwnOrInheritedDevelopmentLevel(date));
+		var county = titles.Add("c_county");
+		var duchy = titles.Add("d_duchy");
+		county.DeJureLiege = duchy;
+		var kingdom = titles.Add("k_kingdom");
+		duchy.DeJureLiege = kingdom;
+		var empire = titles.Add("e_empire");
+		kingdom.DeJureLiege = empire;
+		
+		empire.SetDevelopmentLevel(10, date);
+		Assert.Equal(10, county.GetOwnOrInheritedDevelopmentLevel(date));
+		
+		kingdom.SetDevelopmentLevel(8, date);
+		Assert.Equal(8, county.GetOwnOrInheritedDevelopmentLevel(date));
+		
+		duchy.SetDevelopmentLevel(6, date);
+		Assert.Equal(6, county.GetOwnOrInheritedDevelopmentLevel(date));
+		
+		county.SetDevelopmentLevel(4, date);
+		Assert.Equal(4, county.GetOwnOrInheritedDevelopmentLevel(date));
 	}
 
 	[Fact]

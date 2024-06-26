@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.CommonUtils;
 
-internal class DiffHistoryField : IHistoryField {
+internal sealed class DiffHistoryField : IHistoryField {
 	public string Id { get; }
 	public IList<KeyValuePair<string, object>> InitialEntries { get; } = new List<KeyValuePair<string, object>>();
 

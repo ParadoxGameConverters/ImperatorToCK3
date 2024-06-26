@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Culture;
 
-public class CultureMappingRule {
+public sealed class CultureMappingRule {
 	public static CultureMappingRule Parse(BufferedReader reader) {
 		mappingToReturn = new CultureMappingRule();
 		parser.ParseStream(reader);

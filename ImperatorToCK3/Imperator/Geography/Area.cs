@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Geography;
 
-public class Area : IIdentifiable<string> {
+public sealed class Area : IIdentifiable<string> {
 	public SortedSet<ulong> ProvinceIds { get; } = new();
 	public string Id { get; }
 

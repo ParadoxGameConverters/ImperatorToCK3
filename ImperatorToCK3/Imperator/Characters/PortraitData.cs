@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Characters; 
 
-public class PortraitData {
+public sealed class PortraitData {
 	public PaletteCoordinates HairColorPaletteCoordinates { get; } = new();
 	public PaletteCoordinates HairColor2PaletteCoordinates { get; } = new();
 	public PaletteCoordinates SkinColorPaletteCoordinates { get; } = new();

@@ -38,7 +38,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3;
 
-public class World {
+public sealed class World {
 	public OrderedSet<Mod> LoadedMods { get; }
 	public ModFilesystem ModFS { get; }
 	private ScriptValueCollection ScriptValues { get; } = new();

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters;
-public class Trait : IIdentifiable<string> {
+public sealed class Trait : IIdentifiable<string> {
 	public string Id { get; }
 	public ISet<string> Opposites { get; private set; } = new HashSet<string>();
 

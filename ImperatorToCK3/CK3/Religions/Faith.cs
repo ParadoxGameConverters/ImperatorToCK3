@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ImperatorToCK3.CK3.Religions;
 
-public class Faith : IIdentifiable<string>, IPDXSerializable {
+public sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 	public Religion Religion { get; }
 	public Color? Color { get; }
