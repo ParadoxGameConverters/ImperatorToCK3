@@ -240,7 +240,6 @@ public sealed class World {
 			config,
 			countyLevelCountries
 		);
-		LandedTitles.ImportImperatorGovernmentOffices(impWorld.JobsDB.OfficeJobs, Religions);
 
 		// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 		// Some of it will be overwritten, but not all.
@@ -268,6 +267,8 @@ public sealed class World {
 		OverwriteCountiesHistory(impWorld.Countries, impWorld.JobsDB.Governorships, countyLevelCountries, countyLevelGovernorships, impWorld.Characters, impWorld.Provinces, CorrectedDate);
 		// Import holding owners as barons and counts.
 		LandedTitles.ImportImperatorHoldings(Provinces, impWorld.Characters, CorrectedDate);
+		// Now that we have imported all the land holders, determine council and court positions.
+		LandedTitles.ImportImperatorGovernmentOffices(impWorld.JobsDB.OfficeJobs, Religions, config.CK3BookmarkDate);
 		
 		LandedTitles.ImportDevelopmentFromImperator(Provinces, CorrectedDate, config.ImperatorCivilizationWorth);
 		LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);

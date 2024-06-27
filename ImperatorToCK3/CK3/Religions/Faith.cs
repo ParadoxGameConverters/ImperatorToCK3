@@ -74,6 +74,10 @@ public sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 
 	public string? GetDoctrineIdForDoctrineCategoryId(string doctrineCategoryId) {
 		var category = Religion.ReligionCollection.DoctrineCategories[doctrineCategoryId];
+		return GetDoctrineIdForDoctrineCategory(category);
+	}
+
+	private string? GetDoctrineIdForDoctrineCategory(DoctrineCategory category) {
 		var potentialDoctrineIds = category.DoctrineIds;
 		
 		// Look in faith first. If not found, look in religion.
@@ -82,6 +86,12 @@ public sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 	}
 	
 	public bool HasDoctrine(string doctrineId) {
-		return DoctrineIds.Contains(doctrineId) || Religion.DoctrineIds.Contains(doctrineId);
+		var category = Religion.ReligionCollection.DoctrineCategories
+			.FirstOrDefault(category => category.DoctrineIds.Contains(doctrineId));
+		if (category is null) {
+			return false;
+		}
+		
+		return GetDoctrineIdForDoctrineCategory(category) == doctrineId;
 	}
 }

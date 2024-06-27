@@ -1263,7 +1263,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Dictionary<string, string[]> councilPositionToSourcesDict, 
 		List<OfficeJob> convertibleJobs, 
 		HashSet<string> alreadyEmployedCharacters,
-		Character ck3Ruler) {
+		Character ck3Ruler,
+		Date bookmarkDate) {
+		Dictionary<string, int> heldTitlesPerCharacterCache = [];
+		
 		foreach (var (ck3Position, sources) in councilPositionToSourcesDict) {
 			// The order of I:R source position types is important - the first filled one found will be used.
 			foreach (var sourceOfficeType in sources) {
@@ -1287,31 +1290,38 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 				if (ck3Position == "councillor_court_chaplain") {
 					// Court chaplains need to have the same faith as the ruler.
-					var rulerFaithId = ck3Ruler.GetFaithId(job.StartDate);
-					if (rulerFaithId != ck3Official.GetFaithId(job.StartDate)) {
+					var rulerFaithId = ck3Ruler.GetFaithId(bookmarkDate);
+					if (rulerFaithId is null || rulerFaithId != ck3Official.GetFaithId(bookmarkDate)) {
 						continue;
 					}
 					
 					// If the court faith has doctrine_theocracy_temporal (Theocratic Clerical Tradition), the court chaplain should
 					// be either theocratic or landless.
 					// For the purpose of the conversion, we simply require them to be landless.
-					if (rulerFaithId is not null && religionCollection.GetFaith(rulerFaithId)?.HasDoctrine("doctrine_theocracy_temporal") == true) {
-						var titlesHeldByOfficial = parentCollection.Where(t => t.GetHolderId(job.StartDate) == ck3Official.Id);
-						if (titlesHeldByOfficial.Any()) {
+					if (religionCollection.GetFaith(rulerFaithId)?.HasDoctrine("doctrine_theocracy_temporal") == true) {
+						if (!heldTitlesPerCharacterCache.ContainsKey(ck3Official.Id)) {
+							heldTitlesPerCharacterCache[ck3Official.Id] = parentCollection.Count(t => t.GetHolderId(bookmarkDate) == ck3Official.Id);
+						}
+						if (heldTitlesPerCharacterCache[ck3Official.Id] > 0) {
 							continue;
 						}
 					}
 				} else if (ck3Position == "councillor_steward" || ck3Position == "councillor_chancellor" || ck3Position == "councillor_marshal") {
-					// Stewards, chancellors and marshals need to have the dominant gender of the faith.
-					var courtFaith = ck3Ruler.GetFaithId(job.StartDate);
-					if (courtFaith is not null) {
-						var dominantGenderDoctrine = religionCollection.GetFaith(courtFaith)?
-							.GetDoctrineIdForDoctrineCategoryId("doctrine_gender");
-						if (dominantGenderDoctrine == "doctrine_gender_male_dominated" && ck3Official.Female) {
-							continue;
-						}
-						if (dominantGenderDoctrine == "doctrine_gender_female_dominated" && !ck3Official.Female) {
-							continue;
+					// Unless they are rulers, stewards, chancellors and marshals need to have the dominant gender of the faith.
+					if (!heldTitlesPerCharacterCache.ContainsKey(ck3Official.Id)) {
+						heldTitlesPerCharacterCache[ck3Official.Id] = parentCollection.Count(t => t.GetHolderId(bookmarkDate) == ck3Official.Id);
+					}
+					if (heldTitlesPerCharacterCache[ck3Official.Id] == 0) {
+						var courtFaith = ck3Ruler.GetFaithId(job.StartDate);
+						if (courtFaith is not null) {
+							var dominantGenderDoctrine = religionCollection.GetFaith(courtFaith)?
+								.GetDoctrineIdForDoctrineCategoryId("doctrine_gender");
+							if (dominantGenderDoctrine == "doctrine_gender_male_dominated" && ck3Official.Female) {
+								continue;
+							}
+							if (dominantGenderDoctrine == "doctrine_gender_female_dominated" && !ck3Official.Female) {
+								continue;
+							}
 						}
 					}
 				}

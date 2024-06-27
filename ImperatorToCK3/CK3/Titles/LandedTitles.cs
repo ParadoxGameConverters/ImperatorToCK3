@@ -1252,7 +1252,7 @@ public sealed partial class Title {
 		/// https://ck3.paradoxwikis.com/Council
 		/// https://ck3.paradoxwikis.com/Court#Court_positions
 		/// </summary>
-		public void ImportImperatorGovernmentOffices(ICollection<OfficeJob> irOfficeJobs, ReligionCollection religionCollection) {
+		public void ImportImperatorGovernmentOffices(ICollection<OfficeJob> irOfficeJobs, ReligionCollection religionCollection, Date bookmarkDate) {
 			Logger.Info("Converting government offices...");
 			var titlesFromImperator = GetCountriesImportedFromImperator();
 			
@@ -1284,13 +1284,18 @@ public sealed partial class Title {
 					continue;
 				}
 				
+				// Make sure the ruler actually holds something in CK3.
+				if (this.All(t => t.GetHolderId(bookmarkDate) != ck3Ruler.Id)) {
+					continue;
+				}
+				
 				var convertibleJobs = irOfficeJobs.Where(j => j.CountryId == country.Id).ToList();
 				if (convertibleJobs.Count == 0) {
 					continue;
 				}
 				
 				var alreadyEmployedCharacters = new HashSet<string>();
-				title.AppointCouncilMembersFromImperator(religionCollection, councilPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler);
+				title.AppointCouncilMembersFromImperator(religionCollection, councilPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler, bookmarkDate);
 				title.AppointCourtierPositionsFromImperator(courtPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler);
 			}
 		}
