@@ -1264,7 +1264,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					}
 				}
 				""");
-				ck3Ruler.History.AddFieldValue(bookmarkDate, "effects", "effect", courtPositionEffect); // TODO: check if this works
+				ck3Ruler.History.AddFieldValue(bookmarkDate, "effects", "effect", courtPositionEffect);
 					
 				// One character should only hold one CK3 position.
 				convertibleJobs.Remove(job);
