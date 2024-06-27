@@ -46,6 +46,7 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 			// Otherwise, add the converter faith's religion.
 			if (TryGetValue(religionId, out var religion)) {
 				foreach (var faith in optReligion.Faiths) {
+					faith.Religion = religion;
 					religion.Faiths.Add(faith);
 				}
 			} else {
