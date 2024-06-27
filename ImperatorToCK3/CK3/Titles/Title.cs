@@ -1244,12 +1244,17 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				if (heldTitlesPerCharacterCache[ck3Official.Id] > 0) {
 					continue;
 				}
+				
+				// For court_cave_hermit_position, lifestyle_mystic trait is required.
+				if (ck3Position == "court_cave_hermit_position" && !ck3Official.BaseTraits.Contains("lifestyle_mystic")) {
+					continue;
+				}
 					
 				var courtPositionEffect = new StringOfItem($$"""
 				{
 					character:{{ck3Official.Id}} = {
 						if = {
-							limit = { prev = { NOT = { is_employer_of = character:{{ck3Official.Id}} } }
+							limit = { prev = { NOT = { is_employer_of = character:{{ck3Official.Id}} } } }
 							set_employer = prev
 						}
 					}
@@ -1260,7 +1265,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 				""");
 				ck3Ruler.History.AddFieldValue(bookmarkDate, "effects", "effect", courtPositionEffect); // TODO: check if this works
-					
 					
 				// One character should only hold one CK3 position.
 				convertibleJobs.Remove(job);
@@ -1336,8 +1340,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					}
 				}
 				
-				ck3Official.History.AddFieldValue(bookmarkDate, "employer", "employer", ck3Ruler.Id);
-				ck3Official.History.AddFieldValue(bookmarkDate, "council_position", "give_council_position", ck3Position); // TODO: test if this works
+				// We only need to set the employer when the council member is landless.
+				if (heldTitlesPerCharacterCache[ck3Official.Id] == 0) {
+					ck3Official.History.AddFieldValue(bookmarkDate, "employer", "employer", ck3Ruler.Id);
+				}
+				ck3Official.History.AddFieldValue(bookmarkDate, "council_position", "give_council_position", ck3Position);
 					
 				// One character should only hold one CK3 position.
 				convertibleJobs.Remove(job);
