@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Dynasties;
 
-public class HouseCollection : ConcurrentIdObjectCollection<string, House> {
+public sealed class HouseCollection : ConcurrentIdObjectCollection<string, House> {
 	public void LoadCK3Houses(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading dynasty houses from CK3...");
 		

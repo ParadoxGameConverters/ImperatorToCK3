@@ -6,7 +6,7 @@ using ImperatorToCK3.Imperator.Geography;
 
 namespace ImperatorToCK3.Imperator.States;
 
-public class StateCollection : IdObjectCollection<ulong, State> {
+public sealed class StateCollection : IdObjectCollection<ulong, State> {
 	public void LoadStates(BufferedReader statesDbReader, IdObjectCollection<string, Area> areas, CountryCollection countries) {
 		stateDataParser.RegisterKeyword("capital", reader => stateData.CapitalProvinceId = reader.GetULong());
 		stateDataParser.RegisterKeyword("area", reader => {

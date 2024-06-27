@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Armies;
 
-public class UnitCollection : IdObjectCollection<ulong, Unit> {
+public sealed class UnitCollection : IdObjectCollection<ulong, Unit> {
 	public IdObjectCollection<ulong, Subunit> Subunits { get; } = new();
 
 	public void LoadSubunits(BufferedReader subunitsReader) {

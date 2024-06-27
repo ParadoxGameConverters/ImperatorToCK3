@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.CoA;
 
-public class CoaMapper {
+public sealed class CoaMapper {
 	public CoaMapper() { }
 	public CoaMapper(ModFilesystem imperatorModFS) {
 		Logger.Info("Parsing CoAs...");

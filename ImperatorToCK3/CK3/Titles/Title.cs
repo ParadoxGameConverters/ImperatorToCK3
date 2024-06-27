@@ -7,6 +7,7 @@ using commonItems.Serialization;
 using commonItems.SourceGenerators;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Provinces;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Diplomacy;
@@ -196,7 +197,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		ClearHolderSpecificHistory();
 
-		FillHolderAndGovernmentHistory();
+		FillHolderAndGovernmentHistory(country, characters, governmentMapper, locDB, religionMapper, cultureMapper, nicknameMapper, provinceMapper, config, conversionDate);
 
 		// Determine color.
 		var color1Opt = ImperatorCountry.Color1;
@@ -269,50 +270,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		// determine adjective localization
 		TrySetAdjectiveLoc(locDB, imperatorCountries);
 
-		void FillHolderAndGovernmentHistory() {
-			// ------------------ determine previous and current holders
-
-			foreach (var impRulerTerm in ImperatorCountry.RulerTerms) {
-				var rulerTerm = new RulerTerm(
-					impRulerTerm,
-					characters,
-					governmentMapper,
-					locDB,
-					religionMapper,
-					cultureMapper,
-					nicknameMapper,
-					provinceMapper,
-					config
-				);
-
-				var characterId = rulerTerm.CharacterId;
-				if (characterId is null) {
-					continue;
-				}
-				var gov = rulerTerm.Government;
-
-				var termStartDate = new Date(rulerTerm.StartDate);
-				var ruler = characters[characterId];
-				if (ruler.DeathDate is not null && ruler.DeathDate < termStartDate) {
-					Logger.Warn($"{ruler.Id} can not begin his rule over {Id} after his death, skipping!");
-					continue;
-				}
-
-				History.AddFieldValue(termStartDate, "holder", "holder", characterId);
-				if (gov is not null) {
-					History.AddFieldValue(termStartDate, "government", "government", gov);
-				}
-			}
-
-			if (ImperatorCountry.Government is not null) {
-				var lastCK3TermGov = GetGovernment(conversionDate);
-				var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(ImperatorCountry.Government, ImperatorCountry.PrimaryCulture);
-				if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
-					History.AddFieldValue(conversionDate, "government", "government", ck3CountryGov);
-				}
-			}
-		}
-		
 		// If country is a subject, convert it to a vassal.
 		if (dependency is not null) {
 			var overLordTitle = imperatorCountries[dependency.OverlordId].CK3Title;
@@ -321,6 +278,62 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 			DeJureLiege = overLordTitle;
 			SetDeFactoLiege(overLordTitle, dependency.StartDate);
+		}
+	}
+	
+	/// <summary>
+	/// Fills title's history with Imperator and pre-Imperator rulers and sets appropriate government.
+	/// </summary>
+	private void FillHolderAndGovernmentHistory(Country imperatorCountry,
+		CharacterCollection characters,
+		GovernmentMapper governmentMapper,
+		LocDB locDB,
+		ReligionMapper religionMapper,
+		CultureMapper cultureMapper,
+		NicknameMapper nicknameMapper,
+		ProvinceMapper provinceMapper,
+		Configuration config,
+		Date conversionDate) {
+		// ------------------ determine previous and current holders
+
+		foreach (var impRulerTerm in imperatorCountry.RulerTerms) {
+			var rulerTerm = new RulerTerm(
+				impRulerTerm,
+				characters,
+				governmentMapper,
+				locDB,
+				religionMapper,
+				cultureMapper,
+				nicknameMapper,
+				provinceMapper,
+				config
+			);
+
+			var characterId = rulerTerm.CharacterId;
+			if (characterId is null) {
+				continue;
+			}
+			var gov = rulerTerm.Government;
+
+			var termStartDate = new Date(rulerTerm.StartDate);
+			var ruler = characters[characterId];
+			if (ruler.DeathDate is not null && ruler.DeathDate < termStartDate) {
+				Logger.Warn($"{ruler.Id} can not begin his rule over {Id} after his death, skipping!");
+				continue;
+			}
+
+			History.AddFieldValue(termStartDate, "holder", "holder", characterId);
+			if (gov is not null) {
+				History.AddFieldValue(termStartDate, "government", "government", gov);
+			}
+		}
+
+		if (imperatorCountry.Government is not null) {
+			var lastCK3TermGov = GetGovernment(conversionDate);
+			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorCountry.Government, imperatorCountry.PrimaryCulture);
+			if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
+				History.AddFieldValue(conversionDate, "government", "government", ck3CountryGov);
+			}
 		}
 	}
 
@@ -1194,6 +1207,152 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			'e' => TitleRank.empire,
 			_ => throw new FormatException($"Title {titleId}: unknown rank!")
 		};
+	}
+
+	private void AppointCourtierPositionsFromImperator(Dictionary<string, string[]> courtPositionToSourcesDict,
+		List<OfficeJob> convertibleJobs,
+		HashSet<string> alreadyEmployedCharacters, 
+		Character ck3Ruler,
+		Date bookmarkDate) {
+		Dictionary<string, int> heldTitlesPerCharacterCache = [];
+		
+		foreach (var (ck3Position, sources) in courtPositionToSourcesDict) {
+			// The order of I:R source position types is important - the first filled one found will be used.
+			foreach (var sourceOfficeType in sources) {
+				var job = convertibleJobs.Find(o => o.OfficeType == sourceOfficeType);
+				if (job is null) {
+					continue;
+				}
+
+				var ck3Official = job.Character.CK3Character;
+				if (ck3Official is null) {
+					continue;
+				}
+				if (alreadyEmployedCharacters.Contains(ck3Official.Id)) {
+					continue;
+				}
+				
+				// A ruler cannot be their own courtier.
+				if (ck3Official.Id == ck3Ruler.Id) {
+					continue;
+				}
+				
+				if (!heldTitlesPerCharacterCache.ContainsKey(ck3Official.Id)) {
+					heldTitlesPerCharacterCache[ck3Official.Id] = parentCollection.Count(t => t.GetHolderId(bookmarkDate) == ck3Official.Id);
+				}
+				// A potential courtier must not be a ruler.
+				if (heldTitlesPerCharacterCache[ck3Official.Id] > 0) {
+					continue;
+				}
+				
+				// For court_cave_hermit_position, lifestyle_mystic trait is required.
+				if (ck3Position == "court_cave_hermit_position" && !ck3Official.BaseTraits.Contains("lifestyle_mystic")) {
+					continue;
+				}
+					
+				var courtPositionEffect = new StringOfItem($$"""
+				{
+					character:{{ck3Official.Id}} = {
+						if = {
+							limit = { prev = { NOT = { is_employer_of = character:{{ck3Official.Id}} } } }
+							set_employer = prev
+						}
+					}
+					appoint_court_position = {
+					    recipient = character:{{ck3Official.Id}}
+					    court_position = {{ck3Position}}
+					}
+				}
+				""");
+				ck3Ruler.History.AddFieldValue(bookmarkDate, "effects", "effect", courtPositionEffect);
+					
+				// One character should only hold one CK3 position.
+				convertibleJobs.Remove(job);
+				alreadyEmployedCharacters.Add(ck3Official.Id);
+					
+				break;
+			}
+		}
+	}
+
+	private void AppointCouncilMembersFromImperator(ReligionCollection religionCollection,
+		Dictionary<string, string[]> councilPositionToSourcesDict, 
+		List<OfficeJob> convertibleJobs, 
+		HashSet<string> alreadyEmployedCharacters,
+		Character ck3Ruler,
+		Date bookmarkDate) {
+		Dictionary<string, int> heldTitlesPerCharacterCache = [];
+		
+		foreach (var (ck3Position, sources) in councilPositionToSourcesDict) {
+			// The order of I:R source position types is important - the first filled one found will be used.
+			foreach (var sourceOfficeType in sources) {
+				var job = convertibleJobs.Find(o => o.OfficeType == sourceOfficeType);
+				if (job is null) {
+					continue;
+				}
+
+				var ck3Official = job.Character.CK3Character;
+				if (ck3Official is null) {
+					continue;
+				}
+				if (alreadyEmployedCharacters.Contains(ck3Official.Id)) {
+					continue;
+				}
+				
+				// A ruler cannot be their own councillor.
+				if (ck3Official.Id == ck3Ruler.Id) {
+					continue;
+				}
+				
+				if (!heldTitlesPerCharacterCache.ContainsKey(ck3Official.Id)) {
+					heldTitlesPerCharacterCache[ck3Official.Id] = parentCollection.Count(t => t.GetHolderId(bookmarkDate) == ck3Official.Id);
+				}
+
+				if (ck3Position == "councillor_court_chaplain") {
+					// Court chaplains need to have the same faith as the ruler.
+					var rulerFaithId = ck3Ruler.GetFaithId(bookmarkDate);
+					if (rulerFaithId is null || rulerFaithId != ck3Official.GetFaithId(bookmarkDate)) {
+						continue;
+					}
+					
+					// If the court faith has doctrine_theocracy_temporal (Theocratic Clerical Tradition), the court chaplain should
+					// be either theocratic or landless.
+					// For the purpose of the conversion, we simply require them to be landless.
+					if (religionCollection.GetFaith(rulerFaithId)?.HasDoctrine("doctrine_theocracy_temporal") == true) {
+						if (heldTitlesPerCharacterCache[ck3Official.Id] > 0) {
+							continue;
+						}
+					}
+				} else if (ck3Position == "councillor_steward" || ck3Position == "councillor_chancellor" || ck3Position == "councillor_marshal") {
+					// Unless they are rulers, stewards, chancellors and marshals need to have the dominant gender of the faith.
+					if (heldTitlesPerCharacterCache[ck3Official.Id] == 0) {
+						var courtFaith = ck3Ruler.GetFaithId(bookmarkDate);
+						if (courtFaith is not null) {
+							var dominantGenderDoctrine = religionCollection.GetFaith(courtFaith)?
+								.GetDoctrineIdForDoctrineCategoryId("doctrine_gender");
+							if (dominantGenderDoctrine == "doctrine_gender_male_dominated" && ck3Official.Female) {
+								continue;
+							}
+							if (dominantGenderDoctrine == "doctrine_gender_female_dominated" && !ck3Official.Female) {
+								continue;
+							}
+						}
+					}
+				}
+				
+				// We only need to set the employer when the council member is landless.
+				if (heldTitlesPerCharacterCache[ck3Official.Id] == 0) {
+					ck3Official.History.AddFieldValue(bookmarkDate, "employer", "employer", ck3Ruler.Id);
+				}
+				ck3Official.History.AddFieldValue(bookmarkDate, "council_position", "give_council_position", ck3Position);
+					
+				// One character should only hold one CK3 position.
+				convertibleJobs.Remove(job);
+				alreadyEmployedCharacters.Add(ck3Official.Id);
+					
+				break;
+			}
+		}
 	}
 
 	// used by county titles only

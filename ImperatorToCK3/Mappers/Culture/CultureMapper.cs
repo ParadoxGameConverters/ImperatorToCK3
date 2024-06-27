@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Culture;
 
-public class CultureMapper {
+public sealed class CultureMapper {
 	public CultureMapper(ImperatorRegionMapper irRegionMapper, CK3RegionMapper ck3RegionMapper, CultureCollection cultures) {
 		this.irRegionMapper = irRegionMapper;
 		this.ck3RegionMapper = ck3RegionMapper;

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ImperatorToCK3.CK3.Cultures; 
 
-public class Pillar : IIdentifiable<string>, IPDXSerializable {
+public sealed class Pillar : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 	public string Type { get; }
 	public Color? Color { get; }

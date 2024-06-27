@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Armies;
 
-public class Unit : IIdentifiable<ulong> {
+public sealed class Unit : IIdentifiable<ulong> {
 	public ulong Id { get; }
 	public bool IsArmy { get; private set; } = true;
 	public bool IsLegion { get; private set; } = false;

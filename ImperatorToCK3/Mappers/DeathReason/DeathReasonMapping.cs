@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.DeathReason;
 
-public class DeathReasonMapping {
+public sealed class DeathReasonMapping {
 	public SortedSet<string> ImperatorReasons { get; } = new();
 	public string? Ck3Reason { get; private set; }
 

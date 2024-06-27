@@ -8,7 +8,7 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.CK3.Armies;
 
 [SerializationByProperties]
-public partial class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
+public sealed partial class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 	[NonSerialized] public string Id { get; }
 
 	[SerializedName("can_recruit")] public StringOfItem CanRecruit { get; private set; } = new("{}");

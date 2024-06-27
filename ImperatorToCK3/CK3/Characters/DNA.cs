@@ -1,14 +1,11 @@
-﻿using commonItems;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Characters;
 
-public class DNA {
-	public class PaletteCoordinates {
+public sealed class DNA {
+	public sealed class PaletteCoordinates {
 		// hair, skin and eye color palettes are 256x256
 		public int X { get; init; } = 128;
 		public int Y { get; init; } = 128;

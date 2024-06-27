@@ -38,7 +38,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3;
 
-public class World {
+public sealed class World {
 	public OrderedSet<Mod> LoadedMods { get; }
 	public ModFilesystem ModFS { get; }
 	private ScriptValueCollection ScriptValues { get; } = new();
@@ -287,6 +287,9 @@ public class World {
 
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		Characters.PurgeUnneededCharacters(LandedTitles, Dynasties, DynastyHouses, config.CK3BookmarkDate);
+		
+		// Now that the title history is basically done, convert officials as council members and courtiers.
+		LandedTitles.ImportImperatorGovernmentOffices(impWorld.JobsDB.OfficeJobs, Religions, config.CK3BookmarkDate);
 		
 		// Check if any muslim religion exists in Imperator. Otherwise, remove Islam from the entire CK3 map.
 		var possibleMuslimReligionNames = new List<string> { "muslim", "islam", "sunni", "shiite" };

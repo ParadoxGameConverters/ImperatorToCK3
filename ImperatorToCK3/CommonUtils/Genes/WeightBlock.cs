@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
 
-public class WeightBlock {
+public sealed class WeightBlock {
 	public uint SumOfAbsoluteWeights { get; private set; } = 0;
 	private readonly List<KeyValuePair<string, uint>> objectsList = new();
 

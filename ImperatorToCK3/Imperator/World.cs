@@ -374,7 +374,7 @@ public class World {
 
 	private void LoadJobs(BufferedReader reader) {
 		Logger.Info("Loading Jobs...");
-		JobsDB = new Jobs.JobsDB(reader, Countries, ImperatorRegionMapper);
+		JobsDB = new Jobs.JobsDB(reader, Characters, Countries, ImperatorRegionMapper);
 		Logger.Info($"Loaded {JobsDB.Governorships.Count} governorships.");
 		Logger.IncrementProgress();
 	}

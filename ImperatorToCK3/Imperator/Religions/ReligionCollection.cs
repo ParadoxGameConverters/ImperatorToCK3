@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Religions;
 
-public class ReligionCollection : IdObjectCollection<string, Religion> {
+public sealed class ReligionCollection : IdObjectCollection<string, Religion> {
 	public IdObjectCollection<string, Deity> Deities { get; } = new();
 
 	private readonly Dictionary<ulong, string> holySiteIdToDeityIdDict = new();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Nickname;
 
-public class NicknameMapping {
+public sealed class NicknameMapping {
 	public SortedSet<string> ImperatorNicknames { get; } = new();
 	public string? CK3Nickname { get; private set; }
 

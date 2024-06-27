@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 
 namespace ImperatorToCK3.CK3.Religions; 
 
-public class DoctrineCategory : IIdentifiable<string> {
+public sealed class DoctrineCategory : IIdentifiable<string> {
 	public string Id { get; }
 	public string? GroupId { get; private set; }
 	private readonly OrderedSet<string> doctrineIds = new();

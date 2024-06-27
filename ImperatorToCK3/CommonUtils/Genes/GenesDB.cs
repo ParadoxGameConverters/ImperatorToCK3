@@ -4,7 +4,7 @@ using commonItems.Mods;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
 
-public class GenesDB {
+public sealed class GenesDB {
 	public IdObjectCollection<string, AccessoryGene> AccessoryGenes { get; } = new();
 	public IdObjectCollection<string, MorphGene> MorphGenes { get; } = new();
 	public IdObjectCollection<string, AccessoryGene> SpecialAccessoryGenes { get; } = new();

@@ -113,7 +113,7 @@ public static class BookmarkOutputter {
 			sb.AppendLine($"\t\treligion={faithId}");
 		}
 		sb.AppendLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
-		await WritePosition(sb, title, config, provincePositions);
+		WritePosition(sb, title, config, provincePositions);
 		sb.AppendLine("\t\tanimation = personality_rational");
 
 		sb.AppendLine("\t}");
@@ -162,7 +162,7 @@ public static class BookmarkOutputter {
 		}
 	}
 
-	private static async Task WritePosition(StringBuilder sb, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
+	private static void WritePosition(StringBuilder sb, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
 		int count = 0;
 		double sumX = 0;
 		double sumY = 0;

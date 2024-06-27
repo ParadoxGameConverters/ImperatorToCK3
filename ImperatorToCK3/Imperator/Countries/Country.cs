@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
-public partial class Country : IIdentifiable<ulong> {
+public sealed partial class Country : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public bool PlayerCountry { get; set; }
 	private ulong? monarchId;  // >=0 are valid

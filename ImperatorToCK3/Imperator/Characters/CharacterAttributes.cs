@@ -2,7 +2,7 @@
 
 namespace ImperatorToCK3.Imperator.Characters;
 
-public class CharacterAttributes {
+public sealed class CharacterAttributes {
 	public int Martial { get; set; } = 0;
 	public int Finesse { get; set; } = 0;
 	public int Charisma { get; set; } = 0;

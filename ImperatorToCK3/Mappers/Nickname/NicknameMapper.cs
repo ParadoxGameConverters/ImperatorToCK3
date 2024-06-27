@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Nickname;
 
-public class NicknameMapper {
+public sealed class NicknameMapper {
 	private readonly Dictionary<string, string> impToCK3NicknameMap = new();
 
 	public NicknameMapper() { }

@@ -5,7 +5,7 @@ using Assignment = System.Collections.Generic.KeyValuePair<string, string>;
 
 namespace ImperatorToCK3.Mappers.Gene;
 
-public class MorphGeneTemplateMapper {
+public sealed class MorphGeneTemplateMapper {
 	private readonly Dictionary<string, IList<Assignment>> templateMappings = []; // <geneName, <irTemplate, ck3Template>>
 	
 	public MorphGeneTemplateMapper(string mappingsFilePath) {

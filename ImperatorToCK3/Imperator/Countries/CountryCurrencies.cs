@@ -3,7 +3,7 @@ using ImperatorToCK3.CommonUtils;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
-public class CountryCurrencies : Parser {
+public sealed class CountryCurrencies : Parser {
 	public double Manpower { get; private set; } = 0;
 	public double Gold { get; private set; } = 0;
 	public double Stability { get; private set; } = 50;

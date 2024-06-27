@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Province;
 
-public class ProvinceMapper {
+public sealed class ProvinceMapper {
 	private readonly Dictionary<ulong, IList<ulong>> imperatorToCK3ProvinceMap = new();
 	private readonly Dictionary<ulong, IList<ulong>> ck3ToImperatorProvinceMap = new();
 

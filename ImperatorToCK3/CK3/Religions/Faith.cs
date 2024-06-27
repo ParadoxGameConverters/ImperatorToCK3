@@ -9,9 +9,9 @@ using System.Text;
 
 namespace ImperatorToCK3.CK3.Religions;
 
-public class Faith : IIdentifiable<string>, IPDXSerializable {
+public sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
-	public Religion Religion { get; }
+	public Religion Religion { get; set; }
 	public Color? Color { get; }
 	public string? ReligiousHeadTitleId { get; }
 	public OrderedSet<string> DoctrineIds { get; }
@@ -74,10 +74,24 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 
 	public string? GetDoctrineIdForDoctrineCategoryId(string doctrineCategoryId) {
 		var category = Religion.ReligionCollection.DoctrineCategories[doctrineCategoryId];
+		return GetDoctrineIdForDoctrineCategory(category);
+	}
+
+	private string? GetDoctrineIdForDoctrineCategory(DoctrineCategory category) {
 		var potentialDoctrineIds = category.DoctrineIds;
-		
+
 		// Look in faith first. If not found, look in religion.
 		var matchingInFaith = DoctrineIds.Intersect(potentialDoctrineIds).LastOrDefault();
 		return matchingInFaith ?? Religion.DoctrineIds.Intersect(potentialDoctrineIds).LastOrDefault();
+	}
+	
+	public bool HasDoctrine(string doctrineId) {
+		var category = Religion.ReligionCollection.DoctrineCategories
+			.FirstOrDefault(category => category.DoctrineIds.Contains(doctrineId));
+		if (category is null) {
+			return false;
+		}
+		
+		return GetDoctrineIdForDoctrineCategory(category) == doctrineId;
 	}
 }

@@ -9,7 +9,7 @@ using System.IO;
 namespace ImperatorToCK3;
 
 public enum LegionConversion { No, SpecialTroops, MenAtArms }
-public class Configuration {
+public sealed class Configuration {
 	public string SaveGamePath { get; set; } = "";
 	public string ImperatorPath { get; set; } = "";
 	public string ImperatorDocPath { get; set; } = "";

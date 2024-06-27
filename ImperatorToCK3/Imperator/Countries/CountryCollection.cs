@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
-public class CountryCollection : ConcurrentIdObjectCollection<ulong, Country> {
+public sealed class CountryCollection : ConcurrentIdObjectCollection<ulong, Country> {
 	public void LoadCountriesFromBloc(BufferedReader reader) {
 		var blocParser = new Parser();
 		blocParser.RegisterKeyword("country_database", LoadCountries);

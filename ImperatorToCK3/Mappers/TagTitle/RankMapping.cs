@@ -3,7 +3,7 @@ using ImperatorToCK3.CK3.Titles;
 
 namespace ImperatorToCK3.Mappers.TagTitle;
 
-public class RankMapping {
+public sealed class RankMapping {
 	public RankMapping(BufferedReader mappingReader) {
 		var parser = new Parser();
 		parser.RegisterKeyword("ir", reader => irRank = reader.GetString());

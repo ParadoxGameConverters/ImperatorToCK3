@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Cultures;
 
-public class Culture : IIdentifiable<string> {
+public sealed class Culture : IIdentifiable<string> {
 	public string Id { get; }
 	private readonly Dictionary<string, string> familyNamesDict = new(); // <key, male form>
 
