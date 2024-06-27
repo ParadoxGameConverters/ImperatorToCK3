@@ -1259,7 +1259,7 @@ public sealed partial class Title {
 			var councilPositionToSourcesDict = new Dictionary<string, string[]> {
 				["councillor_court_chaplain"] = ["office_augur", "office_pontifex", "office_high_priest_monarchy", "office_high_priest", "office_wise_person"],
 				["councillor_chancellor"] = ["office_censor", "office_foreign_minister", "office_arbitrator", "office_elder"],
-				["councillor_steward"] = ["office_magistrate", "office_steward", "office_tribune_of_the_treasury"],
+				["councillor_steward"] = ["office_praetor", "office_magistrate", "office_steward", "office_tribune_of_the_treasury"],
 				["councillor_marshal"] = ["office_tribune_of_the_soldiers", "office_marshal", "office_master_of_the_guard", "office_warchief", "office_bodyguard"],
 				["councillor_spymaster"] = [], // No equivalents found in Imperator.
 			};
@@ -1272,10 +1272,16 @@ public sealed partial class Title {
 				["chronicler_court_position"] = ["office_philosopher"], // From I:R wiki: "supervises libraries and the gathering and protection of knowledge"
 				["court_cave_hermit_position"] = ["office_wise_person"]
 			};
-			
-			// TODO: also convert to Realm Priest court position
 
-			// TODO: log all office types found in the save that are not mapped to CK3 offices
+			string[] ignoredOfficeTypes = ["office_plebeian_aedile"];
+
+			// Log all unhandled office types.
+			var irOfficeTypesFromSave = irOfficeJobs.Select(j => j.OfficeType).ToHashSet();
+			var handledOfficeTypes = councilPositionToSourcesDict.Values.SelectMany(v => v).Concat(courtPositionToSourcesDict.Values.SelectMany(v => v)).Concat(ignoredOfficeTypes).ToHashSet();
+			var unmappedOfficeTypes = irOfficeTypesFromSave.Where(officeType => !handledOfficeTypes.Contains(officeType)).ToList();
+			if (unmappedOfficeTypes.Count > 0) {
+				Logger.Error($"Unmapped office types: {string.Join(", ", unmappedOfficeTypes)}");
+			}
 
 			foreach (var title in titlesFromImperator) {
 				var country = title.ImperatorCountry!;
@@ -1296,7 +1302,7 @@ public sealed partial class Title {
 				
 				var alreadyEmployedCharacters = new HashSet<string>();
 				title.AppointCouncilMembersFromImperator(religionCollection, councilPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler, bookmarkDate);
-				title.AppointCourtierPositionsFromImperator(courtPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler);
+				title.AppointCourtierPositionsFromImperator(courtPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler, bookmarkDate);
 			}
 		}
 

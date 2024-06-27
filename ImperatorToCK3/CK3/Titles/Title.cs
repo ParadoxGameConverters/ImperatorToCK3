@@ -1212,7 +1212,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	private void AppointCourtierPositionsFromImperator(Dictionary<string, string[]> courtPositionToSourcesDict,
 		List<OfficeJob> convertibleJobs,
 		HashSet<string> alreadyEmployedCharacters, 
-		Character ck3Ruler) {
+		Character ck3Ruler,
+		Date bookmarkDate) {
+		Dictionary<string, int> heldTitlesPerCharacterCache = [];
+		
 		foreach (var (ck3Position, sources) in courtPositionToSourcesDict) {
 			// The order of I:R source position types is important - the first filled one found will be used.
 			foreach (var sourceOfficeType in sources) {
@@ -1233,11 +1236,22 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				if (ck3Official.Id == ck3Ruler.Id) {
 					continue;
 				}
+				
+				if (!heldTitlesPerCharacterCache.ContainsKey(ck3Official.Id)) {
+					heldTitlesPerCharacterCache[ck3Official.Id] = parentCollection.Count(t => t.GetHolderId(bookmarkDate) == ck3Official.Id);
+				}
+				// A potential courtier must not be a ruler.
+				if (heldTitlesPerCharacterCache[ck3Official.Id] > 0) {
+					continue;
+				}
 					
 				var courtPositionEffect = new StringOfItem($$"""
 				{
 					character:{{ck3Official.Id}} = {
-					    set_employer = prev
+						if = {
+							limit = { prev = { NOT = { is_employer_of = character:{{ck3Official.Id}} } }
+							set_employer = prev
+						}
 					}
 					appoint_court_position = {
 					    recipient = character:{{ck3Official.Id}}
@@ -1245,10 +1259,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					}
 				}
 				""");
-				ck3Ruler.History.AddFieldValue(job.StartDate, "effects", "effect", courtPositionEffect); // TODO: check if this works
+				ck3Ruler.History.AddFieldValue(bookmarkDate, "effects", "effect", courtPositionEffect); // TODO: check if this works
 					
-				if (Localizations.GetLocBlockForKey(Id)?["english"] is { } name && name.Contains("Sardinia"))
-					Logger.Notice($"Imported Imperator official {job.Character.Id} as COURT {ck3Position} for {ck3Ruler.Id}"); // TODO: remove this
 					
 				// One character should only hold one CK3 position.
 				convertibleJobs.Remove(job);
@@ -1287,6 +1299,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				if (ck3Official.Id == ck3Ruler.Id) {
 					continue;
 				}
+				
+				if (!heldTitlesPerCharacterCache.ContainsKey(ck3Official.Id)) {
+					heldTitlesPerCharacterCache[ck3Official.Id] = parentCollection.Count(t => t.GetHolderId(bookmarkDate) == ck3Official.Id);
+				}
 
 				if (ck3Position == "councillor_court_chaplain") {
 					// Court chaplains need to have the same faith as the ruler.
@@ -1299,20 +1315,14 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					// be either theocratic or landless.
 					// For the purpose of the conversion, we simply require them to be landless.
 					if (religionCollection.GetFaith(rulerFaithId)?.HasDoctrine("doctrine_theocracy_temporal") == true) {
-						if (!heldTitlesPerCharacterCache.ContainsKey(ck3Official.Id)) {
-							heldTitlesPerCharacterCache[ck3Official.Id] = parentCollection.Count(t => t.GetHolderId(bookmarkDate) == ck3Official.Id);
-						}
 						if (heldTitlesPerCharacterCache[ck3Official.Id] > 0) {
 							continue;
 						}
 					}
 				} else if (ck3Position == "councillor_steward" || ck3Position == "councillor_chancellor" || ck3Position == "councillor_marshal") {
 					// Unless they are rulers, stewards, chancellors and marshals need to have the dominant gender of the faith.
-					if (!heldTitlesPerCharacterCache.ContainsKey(ck3Official.Id)) {
-						heldTitlesPerCharacterCache[ck3Official.Id] = parentCollection.Count(t => t.GetHolderId(bookmarkDate) == ck3Official.Id);
-					}
 					if (heldTitlesPerCharacterCache[ck3Official.Id] == 0) {
-						var courtFaith = ck3Ruler.GetFaithId(job.StartDate);
+						var courtFaith = ck3Ruler.GetFaithId(bookmarkDate);
 						if (courtFaith is not null) {
 							var dominantGenderDoctrine = religionCollection.GetFaith(courtFaith)?
 								.GetDoctrineIdForDoctrineCategoryId("doctrine_gender");
@@ -1325,12 +1335,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 						}
 					}
 				}
-					
-				ck3Official.History.AddFieldValue(job.StartDate, "employer", "employer", ck3Ruler.Id);
-				ck3Official.History.AddFieldValue(job.StartDate, "council_position", "give_council_position", ck3Position); // TODO: test if this works
-
-				if (Localizations.GetLocBlockForKey(Id)?["english"] is { } name && name.Contains("Sardinia"))
-					Logger.Notice($"Imported Imperator official {job.Character.Id}  as COUNCIL {ck3Position} for {ck3Ruler.Id}"); // TODO: remove this
+				
+				ck3Official.History.AddFieldValue(bookmarkDate, "employer", "employer", ck3Ruler.Id);
+				ck3Official.History.AddFieldValue(bookmarkDate, "council_position", "give_council_position", ck3Position); // TODO: test if this works
 					
 				// One character should only hold one CK3 position.
 				convertibleJobs.Remove(job);

@@ -11,7 +11,7 @@ namespace ImperatorToCK3.CK3.Religions;
 
 public sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
-	public Religion Religion { get; }
+	public Religion Religion { get; set; }
 	public Color? Color { get; }
 	public string? ReligiousHeadTitleId { get; }
 	public OrderedSet<string> DoctrineIds { get; }
@@ -79,7 +79,7 @@ public sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 
 	private string? GetDoctrineIdForDoctrineCategory(DoctrineCategory category) {
 		var potentialDoctrineIds = category.DoctrineIds;
-		
+
 		// Look in faith first. If not found, look in religion.
 		var matchingInFaith = DoctrineIds.Intersect(potentialDoctrineIds).LastOrDefault();
 		return matchingInFaith ?? Religion.DoctrineIds.Intersect(potentialDoctrineIds).LastOrDefault();
