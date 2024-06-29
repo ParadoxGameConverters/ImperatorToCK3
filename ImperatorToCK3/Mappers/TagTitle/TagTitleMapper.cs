@@ -22,7 +22,7 @@ public sealed class TagTitleMapper {
 		parser.ParseFile(tagTitleMappingsPath);
 		parser.ParseFile(governorshipTitleMappingsPath);
 		Logger.Info($"{titleMappings.Count} title mappings loaded.");
-		
+
 		LoadRankMappings(rankMappingsPath);
 
 		Logger.IncrementProgress();
@@ -81,10 +81,10 @@ public sealed class TagTitleMapper {
 		} else {
 			maxTitleRank = ck3OverlordTitle.Rank - 1;
 		}
-		
+
 		return GetTitleForTag(subject, localizedTitleName, maxTitleRank);
 	}
-	
+
 	public string? GetTitleForGovernorship(Governorship governorship, Title.LandedTitles titles, Imperator.Provinces.ProvinceCollection irProvinces, ProvinceCollection ck3Provinces, ImperatorRegionMapper imperatorRegionMapper, ProvinceMapper provMapper) {
 		var country = governorship.Country;
 		if (country.CK3Title is null) {
@@ -129,15 +129,15 @@ public sealed class TagTitleMapper {
 		if (ck3Country is null) {
 			return null;
 		}
-		
+
 		var ck3CapitalCounty = ck3Country.CapitalCounty;
 		if (ck3CapitalCounty is null) {
 			Logger.Warn($"{ck3Country.Id} has no capital county!");
 			return null;
 		}
-		
+
 		var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
-		
+
 		foreach (var county in titles.Where(t => t.Rank == TitleRank.county)) {
 			if (!county.CapitalBaronyProvinceId.HasValue) {
 				// Title has no capital barony province.
@@ -159,13 +159,13 @@ public sealed class TagTitleMapper {
 			if (irProvince is null) { // probably outside of Imperator map
 				continue;
 			}
-			
+
 			// if title belongs to country ruler's capital's de jure duchy, it needs to be directly held by the ruler
 			var deJureDuchyOfCounty = county.DeJureLiege;
 			if (countryCapitalDuchy is not null && deJureDuchyOfCounty is not null && countryCapitalDuchy.Id == deJureDuchyOfCounty.Id) {
 				continue;
 			}
-			
+
 			if (governorship.Region.Id != imperatorRegionMapper.GetParentRegionName(irProvince.Id)) {
 				continue;
 			}
@@ -181,7 +181,7 @@ public sealed class TagTitleMapper {
 		parser.RegisterKeyword("link", reader => titleMappings.Add(TitleMapping.Parse(reader)));
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
-	
+
 	private void LoadRankMappings(string rankMappingsPath) {
 		Logger.Info("Parsing country rank mappings...");
 		var parser = new Parser();
@@ -194,11 +194,11 @@ public sealed class TagTitleMapper {
 		parser.ParseFile(rankMappingsPath);
 		Logger.Info($"{rankMappings.Count} rank mappings loaded.");
 	}
-	
+
 	private TitleRank GetCK3TitleRank(Country country, string localizedTitleName) {
 		// Split the name into words.
 		var words = localizedTitleName.Split(' ');
-		
+
 		if (empireKeywords.Any(kw => words.Contains(kw, StringComparer.OrdinalIgnoreCase))) {
 			return TitleRank.empire;
 		}
@@ -225,7 +225,7 @@ public sealed class TagTitleMapper {
 				return match.Value;
 			}
 		}
-		
+
 		Logger.Warn($"No rank mapping found for country rank: {countryRankStr} with {country.TerritoriesCount} territories! Defaulting to duchy.");
 		return TitleRank.duchy;
 	}
@@ -241,7 +241,7 @@ public sealed class TagTitleMapper {
 	}
 	private string GenerateNewTitleId(Country country, string localizedTitleName, TitleRank maxTitleRank) {
 		var ck3Rank = EnumHelper.Min(GetCK3TitleRank(country, localizedTitleName), maxTitleRank);
-		
+
 		var ck3TitleId = GetTitlePrefixForRank(ck3Rank);
 		ck3TitleId += GeneratedCK3TitlePrefix;
 		ck3TitleId += country.Tag;

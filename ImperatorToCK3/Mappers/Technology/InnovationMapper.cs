@@ -9,7 +9,7 @@ namespace ImperatorToCK3.Mappers.Technology;
 public sealed class InnovationMapper {
 	private readonly List<InnovationLink> innovationLinks = [];
 	private readonly List<InnovationBonus> innovationBonuses = [];
-	
+
 	public void LoadLinksAndBonuses(string configurablePath) {
 		var parser = new Parser();
 		parser.RegisterKeyword("link", reader => innovationLinks.Add(new InnovationLink(reader)));
@@ -38,7 +38,7 @@ public sealed class InnovationMapper {
 			if (!innovationProgress.HasValue) {
 				continue;
 			}
-			
+
 			if (progressesToReturn.TryGetValue(innovationProgress.Value.Key, out ushort currentValue)) {
 				// Only the highest progress should be kept.
 				if (currentValue < innovationProgress.Value.Value) {
@@ -54,10 +54,9 @@ public sealed class InnovationMapper {
 	public void LogUnmappedInventions(InventionsDB inventionsDB, LocDB irLocDB) {
 		// Log Imperator inventions for which neither link nor bonus for CK3 innovations exists.
 		var unmappedInventions = inventionsDB.InventionIds
-			.Where(invention => !innovationLinks.Exists(link => link.Match(invention) is not null))
-			.Where(invention => !innovationBonuses.Exists(bonus => bonus.GetProgress([invention]) is not null))
-			.ToList();
-		
+			.Where(invention => !innovationLinks.Exists(link => link.Match(invention) is not null) && !innovationBonuses.Exists(bonus => bonus.GetProgress([invention]) is not null))
+			.ToArray();
+
 		var inventionsWithLoc = unmappedInventions
 			.Select(inventionId => {
 				if (irLocDB.GetLocBlockForKey(inventionId) is { } locBlock) {
@@ -65,7 +64,7 @@ public sealed class InnovationMapper {
 				}
 				return inventionId;
 			});
-		
+
 		Logger.Debug($"Unmapped I:R inventions: {string.Join(", ", inventionsWithLoc)}");
 	}
 
@@ -73,12 +72,12 @@ public sealed class InnovationMapper {
 
 	public void RemoveMappingsWithInvalidInnovations(ISet<string> innovationIds) {
 		int removedCount = 0;
-		
+
 		removedCount += innovationLinks
 			.RemoveAll(link => link.CK3InnovationId is null || !innovationIds.Contains(link.CK3InnovationId));
 		removedCount += innovationBonuses
 			.RemoveAll(bonus => bonus.CK3InnovationId is null || !innovationIds.Contains(bonus.CK3InnovationId));
-		
+
 		Logger.Debug($"Removed {removedCount} technology mappings with invalid CK3 innovations.");
 	}
 }

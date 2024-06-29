@@ -7,7 +7,7 @@ namespace ImperatorToCK3.CommonUtils.Genes;
 
 public sealed class WeightBlock {
 	public uint SumOfAbsoluteWeights { get; private set; } = 0;
-	private readonly List<KeyValuePair<string, uint>> objectsList = new();
+	private readonly List<KeyValuePair<string, uint>> objectsList = [];
 
 	public WeightBlock() { }
 	public WeightBlock(BufferedReader reader) {
@@ -71,8 +71,8 @@ public sealed class WeightBlock {
 		SumOfAbsoluteWeights += absoluteWeight;
 	}
 	public bool ContainsObject(string objectName) {
-		return objectsList.Any(entry => entry.Key == objectName);
+		return objectsList.Exists(entry => entry.Key == objectName);
 	}
-	
+
 	public IEnumerable<string> ObjectNames => objectsList.Select(entry => entry.Key);
 }

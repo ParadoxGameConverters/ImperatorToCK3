@@ -10,7 +10,7 @@ namespace ImperatorToCK3.CK3.Dynasties;
 public sealed class HouseCollection : ConcurrentIdObjectCollection<string, House> {
 	public void LoadCK3Houses(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading dynasty houses from CK3...");
-		
+
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, houseId) => {
 			var house = new House(houseId, reader);
@@ -31,7 +31,7 @@ public sealed class HouseCollection : ConcurrentIdObjectCollection<string, House
 			.ToHashSet();
 
 		int removedCount = 0;
-		foreach (var house in this.ToList()) {
+		foreach (var house in this.ToArray()) {
 			if (houseIdsToKeep.Contains(house.Id)) {
 				continue;
 			}

@@ -142,7 +142,7 @@ public sealed partial class Country {
 			}
 		});
 		fileParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		fileParser.ParseGameFolder("common/governments", imperatorModFS, "txt", true);
+		fileParser.ParseGameFolder("common/governments", imperatorModFS, "txt", recursive: true);
 		Logger.IncrementProgress();
 
 		static void AddRepublicGovernment(string name) {

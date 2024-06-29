@@ -6,10 +6,10 @@ namespace ImperatorToCK3.Imperator.Jobs;
 
 public class OfficeJob {
 	public ulong CountryId { get; }
-	public Character Character { get; private set; }
+	public Character Character { get; }
 	public Date StartDate { get; private set; } = new(1, 1, 1);
 	public string OfficeType { get; }
-	
+
 	public OfficeJob(BufferedReader reader, CharacterCollection irCharacters) {
 		ulong? countryId = null;
 		ulong? characterId = null;

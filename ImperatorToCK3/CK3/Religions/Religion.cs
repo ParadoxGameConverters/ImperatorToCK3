@@ -96,7 +96,7 @@ public sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 		if (withBraces) {
 			sb.AppendLine("{");
 		}
-		
+
 		foreach (var doctrineId in DoctrineIds) {
 			sb.Append(contentIndent).AppendLine($"doctrine={doctrineId}");
 		}

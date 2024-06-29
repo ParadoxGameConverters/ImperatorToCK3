@@ -19,7 +19,7 @@ public static class CharacterOutputter {
 			}
 
 			// Disallow random traits for dead characters.
-			character.History.AddFieldValue(null, "disallow_random_traits", "disallow_random_traits", "yes");
+			character.History.AddFieldValue(date: null, "disallow_random_traits", "disallow_random_traits", "yes");
 		}
 
 		// Add DNA to history.

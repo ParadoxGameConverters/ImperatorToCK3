@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ImperatorToCK3.Imperator.Characters; 
+namespace ImperatorToCK3.Imperator.Characters;
 
 public readonly struct AccessoryGeneData : IEquatable<AccessoryGeneData> {
 	public required string GeneTemplate { get; init; }

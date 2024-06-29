@@ -3,8 +3,8 @@ using commonItems;
 namespace ImperatorToCK3.Imperator.Characters;
 
 public sealed class Unborn {
-	public ulong MotherId { get; private set; }
-	public ulong FatherId { get; private set; }
+	public ulong MotherId { get; }
+	public ulong FatherId { get; }
 	public Date BirthDate { get; }
 	public Date EstimatedConceptionDate => BirthDate.ChangeByDays(-280);
 	public bool IsBastard { get; set; } = false;

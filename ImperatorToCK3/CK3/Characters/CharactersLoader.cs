@@ -10,28 +10,28 @@ public sealed partial class CharacterCollection {
 		Logger.Info("Loading characters from CK3...");
 
 		var loadedCharacters = new ConcurrentList<Character>();
-			
+
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, characterId) => {
 			var character = new Character(characterId, reader, this);
-			
+
 			// Check if character has a birth date:
 			if (character.History.Fields["birth"].DateToEntriesDict.Count == 0) {
 				Logger.Debug($"Ignoring character {characterId} with no valid birth date.");
 				return;
 			}
-			
+
 			AddOrReplace(character);
 			loadedCharacters.Add(character);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("history/characters", ck3ModFS, "txt", recursive: true, parallel: true);
-		
-		string[] irrelevantEffects = ["set_relation_rival", "set_relation_potential_rival", "set_relation_nemesis", 
+
+		string[] irrelevantEffects = ["set_relation_rival", "set_relation_potential_rival", "set_relation_nemesis",
 			"set_relation_lover", "set_relation_soulmate",
 			"set_relation_friend", "set_relation_potential_friend", "set_relation_best_friend",
 			"set_relation_ward", "set_relation_mentor",];
-		
+
 		foreach (var character in loadedCharacters) {
 			// Remove post-bookmark history except for births and deaths.
 			foreach (var field in character.History.Fields) {
@@ -45,7 +45,7 @@ public sealed partial class CharacterCollection {
 			var birthField = character.History.Fields["birth"];
 			birthField.RemoveAllEntries();
 			birthField.AddEntryToHistory(character.BirthDate, "birth", value: true);
-			
+
 			// Replace complex death entries like "death = { death_reason = death_murder_known killer = 9051 }"
 			// with "death = yes".
 			Date? deathDate = character.DeathDate;
@@ -54,7 +54,7 @@ public sealed partial class CharacterCollection {
 				deathField.RemoveAllEntries();
 				deathField.AddEntryToHistory(deathDate, "death", value: true);
 			}
-			
+
 			// Remove effects that set relations. They don't matter a lot in our alternate timeline.
 			character.History.Fields["effects"].RemoveAllEntries(
 				entry => irrelevantEffects.Any(effect => entry.ToString()?.Contains(effect) ?? false));

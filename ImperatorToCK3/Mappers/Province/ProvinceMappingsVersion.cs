@@ -5,7 +5,7 @@ using System.Linq;
 namespace ImperatorToCK3.Mappers.Province;
 
 public sealed class ProvinceMappingsVersion {
-	public IList<ProvinceMapping> Mappings { get; } = new List<ProvinceMapping>();
+	public IList<ProvinceMapping> Mappings { get; } = [];
 	public ProvinceMappingsVersion() { }
 	public ProvinceMappingsVersion(BufferedReader reader) {
 		var referencedImperatorProvs = new HashSet<ulong>();
@@ -38,10 +38,10 @@ public sealed class ProvinceMappingsVersion {
 
 		parser.ParseStream(reader);
 
-		if (imperatorProvsReferencedMoreThanOnce.Any()) {
+		if (imperatorProvsReferencedMoreThanOnce.Count != 0) {
 			Logger.Warn($"I:R provinces referenced more than once: {string.Join(", ", imperatorProvsReferencedMoreThanOnce)}");
 		}
-		if (ck3ProvsReferencedMoreThanOnce.Any()) {
+		if (ck3ProvsReferencedMoreThanOnce.Count != 0) {
 			Logger.Warn($"CK3 provinces referenced more than once: {string.Join(", ", ck3ProvsReferencedMoreThanOnce)}");
 		}
 	}

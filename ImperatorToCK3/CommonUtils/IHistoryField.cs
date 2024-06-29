@@ -13,7 +13,7 @@ public interface IHistoryField : IIdentifiable<string> {
 	public object? GetValue(Date date);
 
 	public void RemoveHistoryPastDate(Date date) {
-		foreach (var item in DateToEntriesDict.Where(kv => kv.Key > date).ToList()) {
+		foreach (var item in DateToEntriesDict.Where(kv => kv.Key > date).ToArray()) {
 			DateToEntriesDict.Remove(item.Key);
 		}
 	}

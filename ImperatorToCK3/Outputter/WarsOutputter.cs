@@ -11,18 +11,20 @@ namespace ImperatorToCK3.Outputter;
 public static class WarsOutputter {
 	public static async Task OutputWars(string outputModPath, IEnumerable<War> wars) {
 		Logger.Info("Writing wars...");
-		
+
 		// Dump all into one file.
 		var sb = new StringBuilder();
 		foreach (var war in wars) {
 			WriteWar(sb, war);
 		}
+
 		var path = Path.Combine(outputModPath, "history/wars/00_wars.txt");
 		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
-		
+
 		Logger.IncrementProgress();
 	}
+
 	private static void WriteWar(StringBuilder sb, War war) {
 		sb.AppendLine("war = {");
 
@@ -32,6 +34,7 @@ public static class WarsOutputter {
 		if (war.CasusBelli is not null) {
 			sb.AppendLine($"\tcasus_belli = {war.CasusBelli}");
 		}
+
 		sb.AppendLine($"\tattackers={{ {string.Join(' ', war.Attackers)} }}");
 		sb.AppendLine($"\tdefenders={{ {string.Join(' ', war.Defenders)} }}");
 		sb.AppendLine($"\tclaimant = {war.Claimant}");

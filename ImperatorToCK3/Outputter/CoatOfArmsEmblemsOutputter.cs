@@ -11,7 +11,7 @@ namespace ImperatorToCK3.Outputter;
 public static class CoatOfArmsEmblemsOutputter {
 	private static void ConvertColoredEmblems(string outputModPath, ModFilesystem imperatorModFS) {
 		Logger.Info("Converting colored emblems...");
-		var coloredEmblemsFolder = "gfx/coat_of_arms/colored_emblems";
+		const string coloredEmblemsFolder = "gfx/coat_of_arms/colored_emblems";
 		var acceptedExtensions = new HashSet<string>{ "dds", "tga", "png" };
 
 		var emblemFiles = imperatorModFS.GetAllFilesInFolderRecursive(coloredEmblemsFolder);

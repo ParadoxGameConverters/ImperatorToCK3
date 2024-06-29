@@ -70,7 +70,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		ImportFriendships(impWorld.Characters, conversionDate);
 		ImportRivalries(impWorld.Characters, conversionDate);
 		Logger.IncrementProgress();
-		
+
 		ImportPregnancies(impWorld.Characters, conversionDate);
 
 		if (config.FallenEagleEnabled) {
@@ -116,7 +116,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 	public override void Remove(string key) {
 		BulkRemove([key]);
 	}
-	
+
 	private void BulkRemove(ICollection<string> keys) {
 		foreach (var key in keys) {
 			var characterToRemove = this[key];
@@ -128,16 +128,16 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			if (irCharacter is not null) {
 				irCharacter.CK3Character = null;
 			}
-		
+
 			base.Remove(key);
 		}
-		
+
 		RemoveCharacterReferencesFromHistory(keys);
 	}
 
 	private void RemoveCharacterReferencesFromHistory(ICollection<string> idsToRemove) {
 		var idsCapturingGroup = "(" + string.Join('|', idsToRemove) + ")";
-		
+
 		// Effects like "break_alliance = character:ID" entries should be removed.
 		const string commandsGroup = "(break_alliance|make_concubine)";
 		var simpleCommandsRegex = new Regex(commandsGroup + @"\s*=\s*character:" + idsCapturingGroup + @"\s*\b");
@@ -255,14 +255,14 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
 			var childrenOfFather = father.Children.Values.ToHashSet();
 			var childrenOfMother = mother.Children.Values.ToHashSet();
-			var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child => child.BirthDate).ToList();
+			var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child => child.BirthDate).ToArray();
 
-			Date? firstChildBirthDate = commonChildren.Count > 0 ? commonChildren.FirstOrDefault()?.BirthDate : null;
+			Date? firstChildBirthDate = commonChildren.Length > 0 ? commonChildren.FirstOrDefault()?.BirthDate : null;
 			if (firstChildBirthDate is not null) {
 				return firstChildBirthDate;
 			}
 
-			var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u => u.BirthDate).ToList();
+			var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u => u.BirthDate).ToArray();
 			return unborns.FirstOrDefault()?.BirthDate;
 		}
 
@@ -296,7 +296,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 
 				var irFriend = irCharacters[irFriendId];
 				var ck3Friend = irFriend.CK3Character;
-				
+
 				if (ck3Friend is not null) {
 					var effectStr = $"{{ set_relation_friend={{ reason=friend_generic_history target=character:{ck3Friend.Id} }} }}";
 					ck3Character.History.AddFieldValue(conversionDate, "effects", "effect", effectStr);
@@ -324,7 +324,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 
 				var irRival = irCharacters[irRivalId];
 				var ck3Rival = irRival.CK3Character;
-				
+
 				if (ck3Rival is not null) {
 					var effectStr = $"{{ set_relation_rival={{ reason=rival_historical target=character:{ck3Rival.Id} }} }}";
 					ck3Character.History.AddFieldValue(conversionDate, "effects", "effect", effectStr);
@@ -375,17 +375,17 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			.Select(c => c.Id)
 			.ToHashSet();
 		var learningEducationTraits = new[]{"education_learning_1", "education_learning_2", "education_learning_3", "education_learning_4"};
-		
+
 		foreach (var character in this.OrderBy(c => c.BirthDate)) {
 			if (character.ImperatorCharacter is null) {
 				continue;
 			}
-			
+
 			var cultureId = character.GetCultureId(ck3BookmarkDate);
 			if (cultureId is null || !casteSystemCultureIds.Contains(cultureId)) {
 				continue;
 			}
-			
+
 			// The caste is hereditary.
 			var father = character.Father;
 			if (father is not null) {
@@ -403,7 +403,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 					continue;
 				}
 			}
-			
+
 			// Try to set caste based on character's traits.
 			var traitIds = character.BaseTraits.ToHashSet();
 			character.AddBaseTrait(traitIds.Intersect(learningEducationTraits).Any() ? "brahmin" : "kshatriya");
@@ -434,34 +434,34 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 
 	public void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
 		Logger.Info("Purging unneeded characters...");
-		
+
 		// Characters that hold or held titles should always be kept.
 		var landedCharacterIds = titles.GetAllHolderIds();
 		var landedCharacters = this
 			.Where(character => landedCharacterIds.Contains(character.Id))
-			.ToList();
+			.ToArray();
 		var charactersToCheck = this.Except(landedCharacters);
-		
+
 		// Don't purge animation_test or easter egg characters.
 		charactersToCheck = charactersToCheck
 			.Where(c => !c.Id.StartsWith("animation_test_") && !c.Id.StartsWith("easteregg_"));
-		
+
 		// Keep alive Imperator characters.
 		charactersToCheck = charactersToCheck
 			.Where(c => c is not {FromImperator: true, Dead: false});
-				
+
 		// Make some exceptions for characters referenced in game's script files.
 		var characterIdsToKeep = LoadCharacterIDsToPreserve();
 
 		charactersToCheck = charactersToCheck
 			.Where(character => !characterIdsToKeep.Contains(character.Id))
-			.ToList();
+			.ToArray();
 
 		var dynastyIdsOfLandedCharacters = landedCharacters
 			.Select(character => character.GetDynastyId(ck3BookmarkDate))
 			.Distinct()
 			.ToHashSet();
-		
+
 		var i = 0;
 		var charactersToRemove = new List<Character>();
 		var parentIdsCache = new HashSet<string>();
@@ -470,7 +470,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			charactersToRemove.Clear();
 			parentIdsCache.Clear();
 			++i;
-			
+
 			// Build cache of all parent IDs.
 			foreach (var character in this) {
 				var motherId = character.MotherId;
@@ -498,13 +498,13 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 
 				charactersToRemove.Add(character);
 			}
-			
-			BulkRemove(charactersToRemove.Select(c => c.Id).ToList());
+
+			BulkRemove(charactersToRemove.ConvertAll(c => c.Id));
 
 			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded characters in iteration {i}.");
-			charactersToCheck = charactersToCheck.Except(charactersToRemove).ToList();
+			charactersToCheck = charactersToCheck.Except(charactersToRemove).ToArray();
 		} while(charactersToRemove.Count > 0);
-		
+
 		// At this point we probably have many dynasties with no characters left.
 		// Let's purge them.
 		houses.PurgeUnneededHouses(this, ck3BookmarkDate);
@@ -599,10 +599,8 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			}
 
 			var imperatorCountry = ck3Country.ImperatorCountry!;
-			var countryLegions = imperatorUnits.Where(u => u.CountryId == imperatorCountry.Id)
-				.Where(unit => unit.IsArmy && unit.IsLegion) // drop navies and levies
-				.ToList();
-			if (!countryLegions.Any()) {
+			var countryLegions = imperatorUnits.Where(u => u.CountryId == imperatorCountry.Id && u.IsArmy && u.IsLegion).ToArray();
+			if (countryLegions.Length == 0) {
 				continue;
 			}
 

@@ -22,13 +22,13 @@ public sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		var imperatorMemberIds = irFamily.MemberIds;
 		var imperatorMembers = irCharacters
 			.Where(c => imperatorMemberIds.Contains(c.Id))
-			.ToList();
+			.ToArray();
 
 		SetCultureFromImperator(irFamily, imperatorMembers, cultureMapper, date);
 
 		foreach (var member in imperatorMembers) {
 			var ck3Member = member.CK3Character;
-			ck3Member?.SetDynastyId(Id, null);
+			ck3Member?.SetDynastyId(Id, date: null);
 		}
 		
 		SetLocFromImperatorFamilyName(irFamily.GetMaleForm(irCulturesDB), locDB);
@@ -89,7 +89,7 @@ public sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 			}
 
 			// Try to set culture from other members.
-			var otherImperatorMembers = irMembers.Skip(1).ToList();
+			var otherImperatorMembers = irMembers.Skip(1).ToArray();
 			foreach (var otherImperatorMember in otherImperatorMembers) {
 				if (otherImperatorMember.CK3Character is null) {
 					continue;

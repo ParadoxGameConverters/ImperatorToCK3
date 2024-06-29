@@ -15,7 +15,7 @@ public static class ProvincesOutputter {
 		Title.LandedTitles titles
 	) {
 		Logger.Info("Writing provinces...");
-		
+
 		// Output provinces to files named after their de jure kingdoms.
 		var alreadyOutputtedProvinces = new ConcurrentHashSet<ulong>();
 
@@ -30,7 +30,7 @@ public static class ProvincesOutputter {
 				ProvinceOutputter.WriteProvince(sb, province);
 				alreadyOutputtedProvinces.Add(province.Id);
 			}
-			
+
 			var filePath = $"{outputModPath}/history/provinces/{kingdom.Id}.txt";
 			using var historyOutput = new StreamWriter(filePath);
 			historyOutput.Write(sb.ToString());
@@ -42,7 +42,7 @@ public static class ProvincesOutputter {
 			var deJureDuchies = titles.GetDeJureDuchies();
 			Parallel.ForEach(deJureDuchies, duchy => {
 				var sb = new System.Text.StringBuilder();
-				
+
 				foreach (var province in provinces) {
 					if (alreadyOutputtedProvinces.Contains(province.Id)) {
 						continue;
@@ -54,7 +54,7 @@ public static class ProvincesOutputter {
 						alreadyOutputtedProvinces.Add(province.Id);
 					}
 				}
-				
+
 				if (sb.Length > 0) {
 					historyOutput.Write(sb.ToString());
 				}
@@ -81,7 +81,7 @@ public static class ProvincesOutputter {
 				alreadyOutputtedProvinces.Add(province.Id);
 			}
 		}
-		
+
 		Logger.IncrementProgress();
 	}
 }

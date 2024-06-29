@@ -53,7 +53,7 @@ public static class MenAtArmsOutputter {
 		output.Write(sb.ToString());
 	}
 
-	private static void OutputGuiContainer(string outputModName, ModFilesystem modFS, List<Character> charactersWithMaa) {
+	private static void OutputGuiContainer(string outputModName, ModFilesystem modFS, Character[] charactersWithMaa) {
 		const string relativeHudTopGuiPath = "gui/hud_top.gui";
 		var hudTopGuiPath = modFS.GetActualFileLocation(relativeHudTopGuiPath);
 		if (hudTopGuiPath is null) {
@@ -112,7 +112,7 @@ public static class MenAtArmsOutputter {
 	public static void OutputMenAtArms(string outputModName, ModFilesystem modFS, CharacterCollection ck3Characters, IdObjectCollection<string, MenAtArmsType> menAtArmsTypes) {
 		Logger.Info("Writing men-at-arms spawning script...");
 
-		var charactersWithMaa = ck3Characters.Where(c => c.MenAtArmsStacksPerType.Any()).ToList();
+		var charactersWithMaa = ck3Characters.Where(c => c.MenAtArmsStacksPerType.Any()).ToArray();
 		OutputHiddenEvent(outputModName, charactersWithMaa);
 		OutputGuiContainer(outputModName, modFS, charactersWithMaa);
 		OutputMenAtArmsTypes(outputModName, menAtArmsTypes);

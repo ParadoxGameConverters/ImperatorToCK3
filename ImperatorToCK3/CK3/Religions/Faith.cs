@@ -24,12 +24,12 @@ public sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		ReligiousHeadTitleId = faithData.ReligiousHeadTitleId;
 		DoctrineIds = faithData.DoctrineIds.ToOrderedSet();
 		holySiteIds = faithData.HolySiteIds.ToOrderedSet();
-		attributes = faithData.Attributes.ToList();
+		attributes = [.. faithData.Attributes];
 	}
 
 	private readonly OrderedSet<string> holySiteIds;
-	public IReadOnlyCollection<string> HolySiteIds => holySiteIds.ToImmutableArray();
-	private readonly List<KeyValuePair<string, StringOfItem>> attributes;
+	public IReadOnlyCollection<string> HolySiteIds => [.. holySiteIds];
+	private readonly KeyValuePair<string, StringOfItem>[] attributes;
 
 	public void ReplaceHolySiteId(string oldId, string newId) {
 		if (holySiteIds.Remove(oldId)) {

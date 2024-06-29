@@ -14,7 +14,7 @@ public sealed class GenesDB {
 	public GenesDB(ModFilesystem modFS) {
 		var parser = new Parser();
 		RegisterKeys(parser);
-		parser.ParseGameFolder("common/genes", modFS, "txt", true, logFilePaths: true);
+		parser.ParseGameFolder("common/genes", modFS, "txt", recursive: true, logFilePaths: true);
 	}
 	public GenesDB(BufferedReader reader) {
 		var parser = new Parser();
@@ -28,7 +28,7 @@ public sealed class GenesDB {
 			AccessoryGenes.AddOrReplace(new AccessoryGene(geneName, geneReader))
 		);
 		accessoryGenesParser.IgnoreAndLogUnregisteredItems();
-		
+
 		var morphGenesParser = new Parser();
 		morphGenesParser.RegisterRegex(CommonRegexes.String, (geneReader, geneName) => {
 			MorphGenes.AddOrReplace(new MorphGene(geneName, geneReader));

@@ -83,7 +83,7 @@ public sealed class Unit : IIdentifiable<ulong> {
 		return nameLocBlock;
 	}
 
-	private IDictionary<string, int> GetMenPerUnitType(UnitCollection unitCollection, Defines defines) {
+	private Dictionary<string, int> GetMenPerUnitType(UnitCollection unitCollection, Defines defines) {
 		var cohortSize = defines.CohortSize;
 
 		return unitCollection.Subunits.Where(s => CohortIds.Contains(s.Id))
@@ -91,5 +91,5 @@ public sealed class Unit : IIdentifiable<ulong> {
 			.ToDictionary(g => g.Key, g => (int)g.Sum(s => cohortSize * s.Strength));
 	}
 
-	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
+	public static IgnoredKeywordsSet IgnoredTokens { get; } = [];
 }

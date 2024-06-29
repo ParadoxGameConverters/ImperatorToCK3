@@ -7,9 +7,9 @@ using System.Linq;
 namespace ImperatorToCK3.Imperator.Religions;
 
 public sealed class ReligionCollection : IdObjectCollection<string, Religion> {
-	public IdObjectCollection<string, Deity> Deities { get; } = new();
+	public IdObjectCollection<string, Deity> Deities { get; } = [];
 
-	private readonly Dictionary<ulong, string> holySiteIdToDeityIdDict = new();
+	private readonly Dictionary<ulong, string> holySiteIdToDeityIdDict = [];
 
 	public ReligionCollection(ScriptValueCollection scriptValues) {
 		IDictionary<string, double> parsedReligionModifiers;
@@ -41,14 +41,14 @@ public sealed class ReligionCollection : IdObjectCollection<string, Religion> {
 
 	public void LoadReligions(ModFilesystem imperatorModFS) {
 		Logger.Info("Loading Imperator religions...");
-		religionsParser.ParseGameFolder("common/religions", imperatorModFS, "txt", true);
+		religionsParser.ParseGameFolder("common/religions", imperatorModFS, "txt", recursive: true);
 
 		Logger.IncrementProgress();
 	}
 
 	public void LoadDeities(ModFilesystem imperatorModFS) {
 		Logger.Info("Loading Imperator deities...");
-		deitiesParser.ParseGameFolder("common/deities", imperatorModFS, "txt", true);
+		deitiesParser.ParseGameFolder("common/deities", imperatorModFS, "txt", recursive: true);
 
 		Logger.IncrementProgress();
 	}

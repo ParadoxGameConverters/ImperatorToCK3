@@ -27,7 +27,7 @@ public sealed class Family : IIdentifiable<ulong> {
 		MemberIds.Add(newMember.Id);
 	}
 	public void RemoveUnlinkedMembers(CharacterCollection characters) {
-		var toRemove = MemberIds.Where(memberId => !characters.ContainsKey(memberId)).ToList();
+		var toRemove = MemberIds.Where(memberId => !characters.ContainsKey(memberId)).ToArray();
 		foreach (var idToRemove in toRemove) {
 			MemberIds.Remove(idToRemove);
 		}

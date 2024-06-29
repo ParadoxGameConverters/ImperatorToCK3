@@ -64,12 +64,12 @@ public static class RakalyCaller {
 		// https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/18d8fbe8-a967-4f1c-ae50-99ca8e491d2d
 		return ex.NativeErrorCode == 0x000000E1; // ERROR_VIRUS_INFECTED
 	}
-	
+
 	private static bool IsFileNotFound(Win32Exception ex) {
 		// https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/18d8fbe8-a967-4f1c-ae50-99ca8e491d2d
 		return ex.NativeErrorCode == 0x00000002; // ERROR_FILE_NOT_FOUND
 	}
-	
+
 	private static void LogWin32ExceptionDetails(Win32Exception ex) {
 		Logger.Debug("Message: " + ex.Message);
 		Logger.Debug("HResult: " + ex.HResult);
@@ -93,21 +93,21 @@ public static class RakalyCaller {
 		catch (Win32Exception e) when (IsFileFlaggedAsInfected(e)) {
 			LogWin32ExceptionDetails(e);
 			string absoluteRakalyPath = Path.Combine(Directory.GetCurrentDirectory(), RelativeRakalyPath);
-			throw new UserErrorException($"Failed to run Rakaly because the antivirus blocked it.\n" +
+			throw new UserErrorException("Failed to run Rakaly because the antivirus blocked it.\n" +
 			                             $"Add an exclusion for \"{absoluteRakalyPath}\" to the antivirus and try again.");
 		} catch (Win32Exception e) when (IsFileNotFound(e)) {
 			LogWin32ExceptionDetails(e);
-			throw new UserErrorException($"Failed to run Rakaly, it was probably removed by an antivirus.\n" +
-			                             $"Resave the save in Imperator debug mode and try again.");
+			throw new UserErrorException("Failed to run Rakaly, it was probably removed by an antivirus.\n" +
+			                             "Resave the save in Imperator debug mode and try again.");
 		}
-		
+
 		int returnCode = process.ExitCode;
 		if (returnCode != 0 && returnCode != 1) {
 			Logger.Debug($"Save path: {savePath}");
 			if (File.Exists(savePath)) {
 				Logger.Debug($"Save file size: {new FileInfo(savePath).Length} bytes");
 			}
-			
+
 			Logger.Debug($"Rakaly exit code: {returnCode}");
 			string stdErrText = process.StandardError.ReadToEnd();
 			Logger.Debug($"Rakaly standard error: {stdErrText}");
@@ -121,7 +121,7 @@ public static class RakalyCaller {
 				// Try to copy the file to the converter's temp folder before melting.
 				var saveDisk = Path.GetPathRoot(savePath);
 				var converterDisk = Path.GetPathRoot(Directory.GetCurrentDirectory());
-				
+
 				if (saveDisk != converterDisk) {
 					const string fallbackSavePath = "temp/save_to_be_melted.rome";
 					File.Copy(savePath, fallbackSavePath, overwrite: true);
@@ -129,7 +129,7 @@ public static class RakalyCaller {
 					return;
 				}
 			}
-			
+
 			if (stdErrText.Contains("memory allocation of")) {
 				exceptionMessage += " One possible reason is that you don't have enough RAM.";
 			}
@@ -156,8 +156,8 @@ public static class RakalyCaller {
 				CreateNoWindow = true,
 				WindowStyle = ProcessWindowStyle.Hidden,
 				FileName = "/bin/bash",
-				Arguments = $"-c \"{escapedArgs}\""
-			}
+				Arguments = $"-c \"{escapedArgs}\"",
+			},
 		};
 
 		process.Start();

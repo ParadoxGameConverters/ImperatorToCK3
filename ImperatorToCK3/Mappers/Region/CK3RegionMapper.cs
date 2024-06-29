@@ -21,7 +21,7 @@ public sealed class CK3RegionMapper {
 		RegisterRegionKeys(parser);
 
 		var regionsFolderPath = Path.Combine("map_data", "geographical_regions");
-		parser.ParseGameFolder(regionsFolderPath, ck3ModFS, "txt", true);
+		parser.ParseGameFolder(regionsFolderPath, ck3ModFS, "txt", recursive: true);
 
 		var islandRegionFilePath = Path.Combine("map_data", "island_region.txt");
 		parser.ParseGameFile(islandRegionFilePath, ck3ModFS);

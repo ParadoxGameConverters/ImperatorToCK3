@@ -22,7 +22,7 @@ public static class ReligionsOutputter {
 		Logger.Info("Writing holy sites...");
 
 		var sitesToOutput = ck3ReligionCollection.HolySites.Where(s => s.IsGeneratedByConverter)
-			.ToList();
+			.ToArray();
 		var sb = new StringBuilder();
 		foreach (var site in sitesToOutput) {
 			sb.AppendLine($"{site.Id}={PDXSerializer.Serialize(site)}");
@@ -32,11 +32,11 @@ public static class ReligionsOutputter {
 		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 		sb.Clear();
-		
+
 		// Output localization.
 		foreach (string language in ConverterGlobals.SupportedLanguages) {
 			sb.AppendLine($"l_{language}:");
-			
+
 			foreach (var site in sitesToOutput) {
 				// holy site name
 				var holySiteTitle = site.BaronyId ?? site.CountyId;
@@ -51,10 +51,10 @@ public static class ReligionsOutputter {
 				string holySiteEffectLocLine = $" holy_site_{site.Id}_effect_name: \"From [holy_site|E] #weak ($holy_site_{site.Id}_name$)#!\"";
 				sb.AppendLine(holySiteEffectLocLine);
 			}
-			
+
 			var locOutputPath = Path.Combine(outputModPath, $"localization/{language}/IRtoCK3_holy_sites_l_{language}.yml");
 			await using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locOutputPath, System.Text.Encoding.UTF8);
-			
+
 			await locWriter.WriteAsync(sb.ToString());
 			sb.Clear();
 		}
@@ -67,7 +67,7 @@ public static class ReligionsOutputter {
 		foreach (var religion in ck3ReligionCollection) {
 			sb.AppendLine($"{religion.Id}={PDXSerializer.Serialize(religion)}");
 		}
-		
+
 		var outputPath = Path.Combine(outputModPath, "common/religion/religions/IRtoCK3_all_religions.txt");
 		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
