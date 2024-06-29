@@ -622,7 +622,7 @@ public sealed class World {
 		}
 
 		if (generateHermits) {
-			var faithId = faithCandidates.First(c => faiths.Exists(f => f.Id == c));
+			var faithId = faithCandidates.First(c => faiths.Any(f => f.Id == c));
 			foreach (var titleId in titleIdsToHandle) {
 				if (!LandedTitles.TryGetValue(titleId, out var title)) {
 					Logger.Warn($"Title {titleId} not found!");
