@@ -439,7 +439,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		var landedCharacterIds = titles.GetAllHolderIds();
 		var landedCharacters = this
 			.Where(character => landedCharacterIds.Contains(character.Id))
-			.ToList();
+			.ToArray();
 		var charactersToCheck = this.Except(landedCharacters);
 
 		// Don't purge animation_test or easter egg characters.
@@ -455,7 +455,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 
 		charactersToCheck = charactersToCheck
 			.Where(character => !characterIdsToKeep.Contains(character.Id))
-			.ToList();
+			.ToArray();
 
 		var dynastyIdsOfLandedCharacters = landedCharacters
 			.Select(character => character.GetDynastyId(ck3BookmarkDate))
@@ -502,7 +502,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			BulkRemove(charactersToRemove.ConvertAll(c => c.Id));
 
 			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded characters in iteration {i}.");
-			charactersToCheck = charactersToCheck.Except(charactersToRemove).ToList();
+			charactersToCheck = charactersToCheck.Except(charactersToRemove).ToArray();
 		} while(charactersToRemove.Count > 0);
 
 		// At this point we probably have many dynasties with no characters left.

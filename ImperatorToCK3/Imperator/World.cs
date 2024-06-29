@@ -96,7 +96,7 @@ public partial class World {
 		guiTextBuilder.AppendLine($"\t\ton_start=\"[ExecuteConsoleCommandsForced('{commandsString}')]\"");
 		guiTextBuilder.AppendLine("\t}");
 		
-		List<string> lines = File.ReadAllLines(topBarGuiPath).ToList();
+		List<string> lines = [.. File.ReadAllLines(topBarGuiPath)];
 		int index = lines.FindIndex(line => line.Contains("name = \"ingame_topbar\""));
 		if (index != -1) {
 			lines.Insert(index + 1, guiTextBuilder.ToString());
@@ -250,7 +250,7 @@ public partial class World {
 	}
 
 	private void ExtractDynamicCoatsOfArms(Configuration config) {
-		var countryFlags = Countries.Select(country => country.Flag).ToList();
+		var countryFlags = Countries.Select(country => country.Flag).ToArray();
 		var missingFlags = CoaMapper.GetAllMissingFlagKeys(countryFlags);
 		if (missingFlags.Count == 0) {
 			return;
@@ -274,7 +274,7 @@ public partial class World {
 
 	public World(Configuration config, ConverterVersion converterVersion) {
 		Logger.Info("*** Hello Imperator, Roma Invicta! ***");
-		
+
 		Logger.Info("Verifying Imperator save...");
 		VerifySave(config.SaveGamePath);
 		Logger.IncrementProgress();
@@ -557,7 +557,7 @@ public partial class World {
 		parser.ParseFile(filePath);
 
 		foreach (var country in Countries) {
-			country.RulerTerms = country.RulerTerms.OrderBy(t => t.StartDate).ToList();
+			country.RulerTerms = [.. country.RulerTerms.OrderBy(t => t.StartDate)];
 		}
 
 		// verify with data from historical_regnal_numbers
@@ -567,7 +567,7 @@ public partial class World {
 				continue;
 			}
 
-			regnalNameCounts.Add(country.Id, new());
+			regnalNameCounts.Add(country.Id, []);
 			var countryRulerTerms = regnalNameCounts[country.Id];
 
 			foreach (var term in preImperatorRulerTerms[country.Id]) {

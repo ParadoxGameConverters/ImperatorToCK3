@@ -55,7 +55,7 @@ public class TraitMapper {
 		}
 
 		// Remove opposite traits to prevent CK3 log errors
-		foreach (var ck3TraitId in ck3TraitsToReturn.ToList()) {
+		foreach (var ck3TraitId in ck3TraitsToReturn.ToArray()) {
 			if (!ck3TraitsToReturn.Contains(ck3TraitId)) {
 				continue;
 			}

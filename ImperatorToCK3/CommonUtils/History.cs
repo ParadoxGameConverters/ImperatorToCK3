@@ -34,7 +34,7 @@ public sealed class History : IPDXSerializable {
 		if (Fields.TryGetValue(fieldName, out var field)) {
 			field.AddEntryToHistory(date, setter, value);
 		} else {
-			var newField = new SimpleHistoryField(fieldName, new OrderedSet<string>{setter}, null);
+			var newField = new SimpleHistoryField(fieldName, [setter], initialValue: null);
 			newField.AddEntryToHistory(date, setter, value);
 			Fields.Add(newField);
 		}

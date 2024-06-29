@@ -32,7 +32,7 @@ public sealed class TitleMapping {
 		if (ranks.Count > 0 && !ranks.Contains(rank)) {
 			return null;
 		}
-		
+
 		// If title is a de jure duchy, check if the governorship controls at least 60% of the duchy's CK3 provinces.
 		if (CK3TitleRank == TitleRank.duchy) {
 			var deJureDuchies = landedTitles.GetDeJureDuchies().ToImmutableHashSet();
@@ -48,7 +48,7 @@ public sealed class TitleMapping {
 
 			var governorshipProvincesInDuchy = governorship.GetCK3ProvinceIds(irProvinces, provMapper)
 				.Intersect(ck3ProvincesInDuchy);
-			
+
 			var percentage = (double)governorshipProvincesInDuchy.Count() / ck3ProvincesInDuchy.Count;
 			if (percentage < 0.6) {
 				Logger.Debug($"Ignoring mapping from {governorship.Country.Tag} {imperatorTagOrRegion} to {ck3TitleId} because governorship controls only {percentage:P} of the duchy's CK3 provinces.");
@@ -62,7 +62,7 @@ public sealed class TitleMapping {
 	private string ck3TitleId = string.Empty;
 	private string imperatorTagOrRegion = string.Empty;
 	private readonly SortedSet<TitleRank> ranks = [];
-	
+
 	private TitleRank CK3TitleRank => Title.GetRankForId(ck3TitleId);
 
 	private static readonly Parser parser = new();

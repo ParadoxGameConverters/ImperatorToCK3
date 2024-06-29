@@ -23,13 +23,13 @@ public sealed class HistoryFactory {
 
 		public HistoryFactoryBuilder WithLiteralField(string fieldName, string setter) {
 			literalFieldDefs.Add(new SimpleFieldDef {
-				FieldName = fieldName, Setters = new OrderedSet<string> { setter }, InitialValue = null
+				FieldName = fieldName, Setters = [setter], InitialValue = null
 			});
 			return this;
 		}
 
 		public HistoryFactoryBuilder WithDiffField(string fieldName, string inserter, string remover) {
-			return WithDiffField(fieldName, new OrderedSet<string> { inserter }, new OrderedSet<string> { remover });
+			return WithDiffField(fieldName, [inserter], [remover]);
 		}
 		public HistoryFactoryBuilder WithDiffField(string fieldName, OrderedSet<string> inserters, OrderedSet<string> removers) {
 			diffFieldDefs.Add(new DiffFieldDef {
@@ -148,7 +148,7 @@ public sealed class HistoryFactory {
 		if (File.Exists(historyPath)) {
 			parser.ParseGameFile(historyPath, ck3ModFS);
 		} else {
-			parser.ParseGameFolder(historyPath, ck3ModFS, "txt", true);
+			parser.ParseGameFolder(historyPath, ck3ModFS, "txt", recursive: true);
 		}
 
 		if (history.IgnoredKeywords.Count > 0) {

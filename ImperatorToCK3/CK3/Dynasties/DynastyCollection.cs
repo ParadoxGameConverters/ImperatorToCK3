@@ -29,7 +29,7 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 			Interlocked.Increment(ref importedCount);
 		});
 		Logger.Info($"{importedCount} total families imported.");
-		
+
 		CreateDynastiesForCharactersFromMinorFamilies(irWorld, locDB, date);
 
 		Logger.IncrementProgress();
@@ -49,19 +49,19 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 
 	private void CreateDynastiesForCharactersFromMinorFamilies(Imperator.World irWorld, LocDB locDB, Date date) {
 		Logger.Info("Creating dynasties for characters from minor families...");
-		
+
 		var relevantImperatorCharacters = irWorld.Characters
-			.Where(c => c.CK3Character is not null && c.Family is not null && c.Family.Minor)
+			.Where(c => c.CK3Character is not null && c.Family?.Minor == true)
 			.OrderBy(c => c.Id)
-			.ToList();
-		
+			.ToArray();
+
 		int createdDynastiesCount = 0;
 		foreach (var irCharacter in relevantImperatorCharacters) {
 			var irFamilyName = irCharacter.FamilyName;
 			if (string.IsNullOrEmpty(irFamilyName)) {
 				continue;
 			}
-			
+
 			var ck3Character = irCharacter.CK3Character!;
 			if (ck3Character.GetDynastyId(date) is not null) {
 				continue;
@@ -75,13 +75,13 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 					continue;
 				}
 			}
-			
+
 			// Neither character nor their father have a dynasty, so we need to create a new one.
 			var newDynasty = new Dynasty(ck3Character, irFamilyName, irWorld.CulturesDB, locDB, date);
 			Add(newDynasty);
 			++createdDynastiesCount;
 		}
-		
+
 		Logger.Info($"Created {createdDynastiesCount} dynasties for characters from minor families.");
 	}
 
@@ -100,7 +100,7 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 
 	public void PurgeUnneededDynasties(CharacterCollection characters, Date date) {
 		Logger.Info("Purging unneeded dynasties...");
-		
+
 		HashSet<string> dynastiesToKeep = [];
 		foreach (var character in characters) {
 			var dynastyId = character.GetDynastyId(date);
@@ -108,15 +108,15 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 				dynastiesToKeep.Add(dynastyId);
 			}
 		}
-		
+
 		int removedCount = 0;
-		foreach (var dynasty in this.ToList()) {
+		foreach (var dynasty in this.ToArray()) {
 			if (!dynastiesToKeep.Contains(dynasty.Id)) {
 				Remove(dynasty.Id);
 				++removedCount;
 			}
 		}
-		
+
 		Logger.Info($"Purged {removedCount} unneeded dynasties.");
 	}
 }

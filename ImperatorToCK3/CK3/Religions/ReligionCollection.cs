@@ -197,7 +197,7 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 			Logger.Info($"Determining holy sites for faith {faith.Id}...");
 
 			var dynamicHolySiteBaronies = GetDynamicHolySiteBaroniesForFaith(faith, provincesByFaith);
-			foreach (var holySiteId in faith.HolySiteIds.ToList()) {
+			foreach (var holySiteId in faith.HolySiteIds.ToArray()) {
 				if (!HolySites.TryGetValue(holySiteId, out var holySite)) {
 					Logger.Warn($"Holy site with ID {holySiteId} not found!");
 					continue;
@@ -389,7 +389,7 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 		title.SetHolder(character, date);
 	}
 
-	private IList<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, IDictionary<string, ISet<Province>> provincesByFaith) {
+	private List GetDynamicHolySiteBaroniesForFaith(Faith faith, IDictionary<string, ISet<Province>> provincesByFaith) {
 		// Collect all Imperator territories that are mapped to this faith.
 		ISet<Province> faithTerritories;
 		if (provincesByFaith.TryGetValue(faith.Id, out var set)) {
@@ -403,10 +403,10 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 		var provincesWithHolySite = faithTerritories
 			.Where(p => p.ImperatorProvinces.Any(irProv => irProv.IsHolySite))
 			.OrderByDescending(p => p.PrimaryImperatorProvince!.GetPopCount())
-			.ToList();
+			.ToArray();
 		var provincesWithoutHolySite = faithTerritories.Except(provincesWithHolySite)
 			.OrderByDescending(p => p.PrimaryImperatorProvince!.GetPopCount())
-			.ToList();
+			.ToArray();
 
 		// Take the top 4 territories with a holy site.
 		var selectedDynamicSites = provincesWithHolySite.Take(4).ToList();

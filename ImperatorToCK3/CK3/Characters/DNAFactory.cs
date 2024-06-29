@@ -419,7 +419,7 @@ public sealed class DNAFactory {
 		
 		var validCK3TemplateIds = ck3Gene.GeneTemplates
 			.Select(template => template.Id)
-			.ToList();
+			.ToArray();
 
 		var ck3GeneTemplateName = accessoryGeneMapper.GetTemplateFromTemplate(imperatorGeneName, geneInfo.GeneTemplate, validCK3TemplateIds);
 		if (ck3GeneTemplateName is null) {
@@ -513,9 +513,9 @@ public sealed class DNAFactory {
 		var excludedAgeTemplateNames = new List<string> {"old_beauty_1", "no_aging"};
 		var possibleAgeTemplates = ck3Gene.GeneTemplates
 			.Where(t => !excludedAgeTemplateNames.Contains(t.Id))
-			.ToList();
-		var selectedTemplateName = possibleAgeTemplates[(int)(irCharacter.Id % (ulong)possibleAgeTemplates.Count)].Id;
-		var selectedTemplateRecessiveName = possibleAgeTemplates[(int)(irCharacter.Age % possibleAgeTemplates.Count)].Id;
+			.ToArray();
+		var selectedTemplateName = possibleAgeTemplates[(int)(irCharacter.Id % (ulong)possibleAgeTemplates.Length)].Id;
+		var selectedTemplateRecessiveName = possibleAgeTemplates[(int)(irCharacter.Age % possibleAgeTemplates.Length)].Id;
 
 		return new DNAGeneValue {
 			TemplateName = selectedTemplateName,

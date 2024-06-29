@@ -57,7 +57,7 @@ public sealed class RulerTerm {
 			);
 			if (characters.ContainsKey(character.Id)) {
 				Logger.Warn($"Cannot add pre-Imperator ruler {character.Id} " +
-				            $"- a character with this ID already exists!");
+				            "- a character with this ID already exists!");
 				return;
 			}
 			characters.Add(character);

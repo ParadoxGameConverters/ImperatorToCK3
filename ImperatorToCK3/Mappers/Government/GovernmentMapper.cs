@@ -42,7 +42,7 @@ public sealed class GovernmentMapper {
 	private void RemoveInvalidLinks(ICollection<string> ck3GovernmentIds) {
 		var toRemove = mappings
 			.Where(mapping => !ck3GovernmentIds.Contains(mapping.CK3GovernmentId))
-			.ToList();
+			.ToArray();
 		foreach (var mapping in toRemove) {
 			mappings.Remove(mapping);
 		}

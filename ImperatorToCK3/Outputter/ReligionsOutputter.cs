@@ -22,7 +22,7 @@ public static class ReligionsOutputter {
 		Logger.Info("Writing holy sites...");
 
 		var sitesToOutput = ck3ReligionCollection.HolySites.Where(s => s.IsGeneratedByConverter)
-			.ToList();
+			.ToArray();
 		var sb = new StringBuilder();
 		foreach (var site in sitesToOutput) {
 			sb.AppendLine($"{site.Id}={PDXSerializer.Serialize(site)}");

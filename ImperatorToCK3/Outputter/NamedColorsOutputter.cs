@@ -17,8 +17,8 @@ public static class NamedColorsOutputter {
 	/// <param name="ck3NamedColors"></param>
 	public static async Task OutputNamedColors(string outputModPath, NamedColorCollection imperatorNamedColors, NamedColorCollection ck3NamedColors) {
 		var diff = imperatorNamedColors.Where(colorPair => !ck3NamedColors.ContainsKey(colorPair.Key))
-			.ToList();
-		if (diff.Count == 0) {
+			.ToArray();
+		if (diff.Length == 0) {
 			return;
 		}
 

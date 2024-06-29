@@ -601,7 +601,7 @@ public sealed partial class Title {
 				} else {
 					revokedVanillaTitles.Add(id);
 					title.ClearHolderSpecificHistory();
-					title.SetDeFactoLiege(null, ck3BookmarkDate);
+					title.SetDeFactoLiege(newLiege: null, ck3BookmarkDate);
 				}
 			}
 			if (removedGeneratedTitles.Count > 0) {
@@ -886,7 +886,7 @@ public sealed partial class Title {
 			}
 			Logger.Debug("\tTransferring stranded kingdoms to neighboring empires...");
 			foreach (var (empire, kingdomGroups) in disconnectedEmpiresDict) {
-				var dissolvableGroups = kingdomGroups.Where(g => g.Count == 1).ToList();
+				var dissolvableGroups = kingdomGroups.Where(g => g.Count == 1).ToArray();
 				foreach (var group in dissolvableGroups) {
 					var kingdom = group.First();
 					if (!kingdomToDominantHeritagesDict.TryGetValue(kingdom.Id, out var dominantHeritages)) {
@@ -1009,7 +1009,7 @@ public sealed partial class Title {
 					deJureKingdomWithLand.DeJureLiege = null;
 				}
 
-				deJureKingdoms = deJureKingdoms.Except(deJureKingdomsWithoutLand).ToList();
+				deJureKingdoms = deJureKingdoms.Except(deJureKingdomsWithoutLand).ToArray();
 
 				if (!deJureKingdoms.Any()) {
 					if (removableEmpireIds.Contains(empire.Id)) {
@@ -1058,7 +1058,7 @@ public sealed partial class Title {
 				Logger.Debug($"\tEmpire {empire.Id} has {kingdomGroups.Count} disconnected groups of kingdoms: {string.Join(" ; ", kingdomGroups.Select(g => string.Join(',', g.Select(k => k.Id))))}");
 				dictToReturn[empire] = kingdomGroups;
 			}
-			
+
 			return dictToReturn;
 		}
 
@@ -1148,7 +1148,7 @@ public sealed partial class Title {
 
 			Logger.Info("Importing development from Imperator...");
 
-			var counties = this.Where(t => t.Rank == TitleRank.county).ToList();
+			var counties = this.Where(t => t.Rank == TitleRank.county).ToArray();
 			var irProvsPerCounty = GetIRProvsPerCounty(ck3Provinces, counties);
 
 			foreach (var county in counties) {
@@ -1194,24 +1194,24 @@ public sealed partial class Title {
 		private void DistributeExcessDevelopment(Date date) {
 			var topRealms = this
 				.Where(t => t.Rank > TitleRank.county && t.GetHolderId(date) != "0" && t.GetDeFactoLiege(date) is null)
-				.ToList();
-				
+				.ToArray();
+
 			// For every realm, get list of counties with over 100 development.
 			// Distribute the excess development to the realm's least developed counties.
 			foreach (var realm in topRealms) {
 				var realmCounties = realm.GetDeFactoVassalsAndBelow(date, "c").Values
-					.Select(c => new {County = c, Development = c.GetOwnOrInheritedDevelopmentLevel(date)})
+					.Select(c => new { County = c, Development = c.GetOwnOrInheritedDevelopmentLevel(date) })
 					.Where(c => c.Development.HasValue)
-					.Select(c => new {c.County, Development = c.Development!.Value})
-					.ToList();
+					.Select(c => new { c.County, Development = c.Development!.Value })
+					.ToArray();
 				var excessDevCounties = realmCounties
 					.Where(c => c.Development > 100)
 					.OrderByDescending(c => c.Development)
-					.ToList();
-				if (excessDevCounties.Count == 0) {
+					.ToArray();
+				if (excessDevCounties.Length == 0) {
 					continue;
 				}
-					
+
 				var leastDevCounties = realmCounties
 					.Where(c => c.Development < 100)
 					.OrderBy(c => c.Development)
@@ -1223,19 +1223,19 @@ public sealed partial class Title {
 				
 				var excessDevSum = excessDevCounties.Sum(c => c.Development - 100);
 				Logger.Debug($"Top realm {realm.Id} has {excessDevSum} excess development to distribute among {leastDevCounties.Count} counties.");
-				
+
 				// Now that we've calculated the excess dev, we can cap the county dev at 100.
 				foreach (var excessDevCounty in excessDevCounties) {
 					excessDevCounty.County.SetDevelopmentLevel(100, date);
 				}
-				
+
 				while (excessDevSum > 0 && leastDevCounties.Count > 0) {
 					var devPerCounty = excessDevSum / leastDevCounties.Count;
-					foreach (var county in leastDevCounties.ToList()) {
+					foreach (var county in leastDevCounties.ToArray()) {
 						var currentDev = county.GetOwnOrInheritedDevelopmentLevel(date) ?? 0;
 						var devToAdd = Math.Max(devPerCounty, 100 - currentDev);
 						var newDevValue = currentDev + devToAdd;
-						
+
 						county.SetDevelopmentLevel(newDevValue, date);
 						excessDevSum -= devToAdd;
 						if (newDevValue >= 100) {
@@ -1278,8 +1278,8 @@ public sealed partial class Title {
 			// Log all unhandled office types.
 			var irOfficeTypesFromSave = irOfficeJobs.Select(j => j.OfficeType).ToHashSet();
 			var handledOfficeTypes = councilPositionToSourcesDict.Values.SelectMany(v => v).Concat(courtPositionToSourcesDict.Values.SelectMany(v => v)).Concat(ignoredOfficeTypes).ToHashSet();
-			var unmappedOfficeTypes = irOfficeTypesFromSave.Where(officeType => !handledOfficeTypes.Contains(officeType)).ToList();
-			if (unmappedOfficeTypes.Count > 0) {
+			var unmappedOfficeTypes = irOfficeTypesFromSave.Where(officeType => !handledOfficeTypes.Contains(officeType)).ToArray();
+			if (unmappedOfficeTypes.Length > 0) {
 				Logger.Error($"Unmapped office types: {string.Join(", ", unmappedOfficeTypes)}");
 			}
 
@@ -1338,10 +1338,10 @@ public sealed partial class Title {
 		}
 
 		private readonly HistoryFactory titleHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
-			.WithSimpleField("holder", new OrderedSet<string> { "holder", "holder_ignore_head_of_faith_requirement" }, null)
-			.WithSimpleField("government", "government", null)
-			.WithSimpleField("liege", "liege", null)
-			.WithSimpleField("development_level", "change_development_level", null)
+			.WithSimpleField("holder", new OrderedSet<string> { "holder", "holder_ignore_head_of_faith_requirement" }, initialValue: null)
+			.WithSimpleField("government", "government", initialValue: null)
+			.WithSimpleField("liege", "liege", initialValue: null)
+			.WithSimpleField("development_level", "change_development_level", initialValue: null)
 			.WithSimpleField("succession_laws", "succession_laws", new SortedSet<string>())
 			.Build();
 
@@ -1369,7 +1369,7 @@ public sealed partial class Title {
 			titlesHistoryParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
 			Logger.Info("Parsing title history...");
-			titlesHistoryParser.ParseGameFolder("history/titles", ck3ModFS, "txt", true, true);
+			titlesHistoryParser.ParseGameFolder("history/titles", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 			Logger.Info($"Loaded {loadedHistoriesCount} title histories.");
 
 			// Add vanilla development to counties

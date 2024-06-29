@@ -38,12 +38,12 @@ public static class BookmarkOutputter {
 
 		var playerTitles = new List<Title>(world.LandedTitles.Where(title => title.PlayerCountry));
 		var localizations = new Dictionary<string, LocBlock>();
-		foreach (var title in playerTitles.ToList()) {
+		foreach (var title in playerTitles.ToArray()) {
 			if (title.GetGovernment(config.CK3BookmarkDate) == "republic_government") {
 				// Republics are not playable in vanilla CK3.
 				continue;
 			}
-			
+
 			var holderId = title.GetHolderId(config.CK3BookmarkDate);
 			if (holderId == "0") {
 				Logger.Warn($"Cannot add player title {title} to bookmark screen: holder is 0!");
