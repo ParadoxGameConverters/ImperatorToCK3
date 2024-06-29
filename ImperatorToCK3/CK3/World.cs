@@ -127,9 +127,6 @@ public sealed class World {
 		Logger.Info("Loading map data...");
 		MapData = new MapData(ModFS);
 
-		// Load Imperator CoAs to use them for generated CK3 titles
-		coaMapper = new CoaMapper(impWorld.ModFS);
-
 		// Load vanilla CK3 landed titles and their history
 		LandedTitles.LoadTitles(ModFS);
 
@@ -228,7 +225,7 @@ public sealed class World {
 			tagTitleMapper,
 			impWorld.LocDB,
 			provinceMapper,
-			coaMapper,
+			impWorld.CoaMapper,
 			governmentMapper,
 			successionLawMapper,
 			definiteFormMapper,
@@ -259,7 +256,7 @@ public sealed class World {
 			provinceMapper,
 			definiteFormMapper,
 			imperatorRegionMapper,
-			coaMapper,
+			impWorld.CoaMapper,
 			countyLevelGovernorships
 		);
 		
@@ -930,7 +927,6 @@ public sealed class World {
 		}
 	}
 
-	private readonly CoaMapper coaMapper;
 	private readonly DeathReasonMapper deathReasonMapper = new();
 	private readonly DefiniteFormMapper definiteFormMapper = new(Path.Combine("configurables", "definite_form_names.txt"));
 	private readonly NicknameMapper nicknameMapper = new(Path.Combine("configurables", "nickname_map.txt"));
