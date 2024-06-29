@@ -242,8 +242,8 @@ public class World {
 		}
 		content = content.Substring(startIndex);
 
-		string pattern = @"\S+=\s*\{[^}]*\}";
-		MatchCollection matches = Regex.Matches(content, pattern);
+		string pattern = @"^\S+=\s*\{[\s\S]*?^\}";
+		MatchCollection matches = Regex.Matches(content, pattern, RegexOptions.Multiline);
 		
 		CoaMapper.ParseCoAs(matches.Select(match => match.Value));
 	}
