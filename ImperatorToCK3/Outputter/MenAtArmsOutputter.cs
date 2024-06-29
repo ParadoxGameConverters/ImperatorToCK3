@@ -82,6 +82,8 @@ public static class MenAtArmsOutputter {
 		foreach (var character in charactersWithMaa) {
 			foreach (var (maaType, stacks) in character.MenAtArmsStacksPerType) {
 				for (int i = 0; i < stacks; ++i) {
+					// TODO: Use ExecuteConsoleCommands instead of using ExecuteConsoleCommand in a loop
+					// TODO: use on_finish instead of on_start, on_start may execute twice according to a CK3 mod coop
 					sb.AppendLine(
 						"\t\tstate = { " +
 						$"name=state{state++} " +
