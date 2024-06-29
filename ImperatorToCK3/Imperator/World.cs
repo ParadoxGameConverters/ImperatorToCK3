@@ -228,6 +228,10 @@ public class World {
 	private void ReadCoatsOfArmsFromGameLog(string imperatorDocPath) {
 		Logger.Info("Reading CoAs from game log...");
 		string inputFilePath = Path.Combine(imperatorDocPath, "logs/game.log");
+		if (!File.Exists(inputFilePath)) {
+			Logger.Warn("Imperator's game.log not found!");
+			return;
+		}
 
 		using var saveStream = File.Open(inputFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 		using var reader = new StreamReader(saveStream);
