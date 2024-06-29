@@ -226,7 +226,7 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 					dynamicHolySiteBaronies.Remove(holySiteBarony);
 				} else if (!replaceableSiteIds.Contains(holySiteId)) {
 					continue;
-				} else if (dynamicHolySiteBaronies.Any()) {
+				} else if (dynamicHolySiteBaronies.Count != 0) {
 					var selectedDynamicBarony = dynamicHolySiteBaronies[0];
 					dynamicHolySiteBaronies.Remove(selectedDynamicBarony);
 
