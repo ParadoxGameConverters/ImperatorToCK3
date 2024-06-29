@@ -255,14 +255,14 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
 			var childrenOfFather = father.Children.Values.ToHashSet();
 			var childrenOfMother = mother.Children.Values.ToHashSet();
-			var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child => child.BirthDate).ToList();
+			var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child => child.BirthDate).ToArray();
 
-			Date? firstChildBirthDate = commonChildren.Count > 0 ? commonChildren.FirstOrDefault()?.BirthDate : null;
+			Date? firstChildBirthDate = commonChildren.Length > 0 ? commonChildren.FirstOrDefault()?.BirthDate : null;
 			if (firstChildBirthDate is not null) {
 				return firstChildBirthDate;
 			}
 
-			var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u => u.BirthDate).ToList();
+			var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u => u.BirthDate).ToArray();
 			return unborns.FirstOrDefault()?.BirthDate;
 		}
 
