@@ -1231,12 +1231,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				if (alreadyEmployedCharacters.Contains(ck3Official.Id)) {
 					continue;
 				}
-				
+
 				// A ruler cannot be their own courtier.
 				if (ck3Official.Id == ck3Ruler.Id) {
 					continue;
 				}
-				
+
 				if (!heldTitlesPerCharacterCache.ContainsKey(ck3Official.Id)) {
 					heldTitlesPerCharacterCache[ck3Official.Id] = parentCollection.Count(t => t.GetHolderId(bookmarkDate) == ck3Official.Id);
 				}
@@ -1244,12 +1244,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				if (heldTitlesPerCharacterCache[ck3Official.Id] > 0) {
 					continue;
 				}
-				
+
 				// For court_cave_hermit_position, lifestyle_mystic trait is required.
 				if (ck3Position == "court_cave_hermit_position" && !ck3Official.BaseTraits.Contains("lifestyle_mystic")) {
 					continue;
 				}
-					
+
 				var courtPositionEffect = new StringOfItem($$"""
 				{
 					character:{{ck3Official.Id}} = {
@@ -1265,18 +1265,18 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 				""");
 				ck3Ruler.History.AddFieldValue(bookmarkDate, "effects", "effect", courtPositionEffect);
-					
+
 				// One character should only hold one CK3 position.
 				convertibleJobs.Remove(job);
 				alreadyEmployedCharacters.Add(ck3Official.Id);
-					
+
 				break;
 			}
 		}
 	}
 
 	private void AppointCouncilMembersFromImperator(ReligionCollection religionCollection,
-		Dictionary<string, string[]> councilPositionToSourcesDict, 
+		Dictionary<string, string[]> councilPositionToSourcesDict,
 		List<OfficeJob> convertibleJobs, 
 		HashSet<string> alreadyEmployedCharacters,
 		Character ck3Ruler,
@@ -1304,9 +1304,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					continue;
 				}
 
-				if (!heldTitlesPerCharacterCache.TryGetValue(ck3Official.Id, out int value)) {
-					value = parentCollection.Count(t => t.GetHolderId(bookmarkDate) == ck3Official.Id);
-					heldTitlesPerCharacterCache[ck3Official.Id] = value;
+				if (!heldTitlesPerCharacterCache.TryGetValue(ck3Official.Id, out int heldTitlesCount)) {
+					heldTitlesCount = parentCollection.Count(t => t.GetHolderId(bookmarkDate) == ck3Official.Id);
+					heldTitlesPerCharacterCache[ck3Official.Id] = heldTitlesCount;
 				}
 
 				if (ck3Position == "councillor_court_chaplain") {
@@ -1320,13 +1320,13 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					// be either theocratic or landless.
 					// For the purpose of the conversion, we simply require them to be landless.
 					if (religionCollection.GetFaith(rulerFaithId)?.HasDoctrine("doctrine_theocracy_temporal") == true) {
-						if (value > 0) {
+						if (heldTitlesCount > 0) {
 							continue;
 						}
 					}
 				} else if (ck3Position == "councillor_steward" || ck3Position == "councillor_chancellor" || ck3Position == "councillor_marshal") {
 					// Unless they are rulers, stewards, chancellors and marshals need to have the dominant gender of the faith.
-					if (value == 0) {
+					if (heldTitlesCount == 0) {
 						var courtFaith = ck3Ruler.GetFaithId(bookmarkDate);
 						if (courtFaith is not null) {
 							var dominantGenderDoctrine = religionCollection.GetFaith(courtFaith)?
@@ -1342,7 +1342,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 
 				// We only need to set the employer when the council member is landless.
-				if (value == 0) {
+				if (heldTitlesCount == 0) {
 					ck3Official.History.AddFieldValue(bookmarkDate, "employer", "employer", ck3Ruler.Id);
 				}
 				ck3Official.History.AddFieldValue(bookmarkDate, "council_position", "give_council_position", ck3Position);
