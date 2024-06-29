@@ -589,11 +589,11 @@ public partial class World {
 		}
 		foreach (var country in Countries) {
 			bool equal;
-			if (!regnalNameCounts.TryGetValue(country.Id, out Dictionary<string, int>? value)) {
+			if (!regnalNameCounts.TryGetValue(country.Id, out Dictionary<string, int>? countsForTitle)) {
 				equal = country.HistoricalRegnalNumbers.Count == 0;
 			} else {
 				equal = country.HistoricalRegnalNumbers.OrderBy(kvp => kvp.Key)
-					.SequenceEqual(value.OrderBy(kvp => kvp.Key)
+					.SequenceEqual(countsForTitle.OrderBy(kvp => kvp.Key)
 					);
 			}
 
