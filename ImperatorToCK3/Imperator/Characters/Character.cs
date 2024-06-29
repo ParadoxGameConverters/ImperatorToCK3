@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace ImperatorToCK3.Imperator.Characters; 
+namespace ImperatorToCK3.Imperator.Characters;
 
 public sealed class Character : IIdentifiable<ulong> {
 	public Character(ulong id) {
@@ -65,17 +65,17 @@ public sealed class Character : IIdentifiable<ulong> {
 	public Date? DeathDate { get; set; }
 	public bool IsDead => DeathDate is not null;
 	public string? DeathReason { get; set; }
-	private HashSet<ulong> parsedSpouseIds = new();
+	private HashSet<ulong> parsedSpouseIds = [];
 	public IDictionary<ulong, Character> Spouses { get; set; } = new Dictionary<ulong, Character>();
-	public OrderedSet<ulong> FriendIds { get; } = new();
-	public OrderedSet<ulong> RivalIds { get; } = new();
-	private HashSet<ulong> parsedChildrenIds = new();
+	public OrderedSet<ulong> FriendIds { get; } = [];
+	public OrderedSet<ulong> RivalIds { get; } = [];
+	private HashSet<ulong> parsedChildrenIds = [];
 	public IDictionary<ulong, Character> Children { get; set; } = new Dictionary<ulong, Character>();
 	private ulong? parsedMotherId;
 	public Character? Mother { get; set; }
 	private ulong? parsedFatherId;
 	public Character? Father { get; set; }
-	
+
 	public string? FamilyName { get; private set; } // For characters from minor families, this contains their actual family name.
 	private ulong? parsedFamilyId;
 	private Family? family;
@@ -88,8 +88,8 @@ public sealed class Character : IIdentifiable<ulong> {
 			family = value;
 		}
 	}
-	
-	public IList<string> Traits { get; set; } = new List<string>();
+
+	public IList<string> Traits { get; set; } = [];
 	public CharacterAttributes Attributes { get; private set; } = new();
 	public IReadOnlySet<string> Variables { get; private set; } = ImmutableHashSet<string>.Empty;
 	public bool IsBald => Variables.Contains("bald");
@@ -107,7 +107,7 @@ public sealed class Character : IIdentifiable<ulong> {
 	public bool Female { get; set; } = false;
 	public double? Fertility { get; private set; }
 	public double Wealth { get; set; } = 0;
-	public ImmutableList<Unborn> Unborns { get; private set; } = ImmutableList<Unborn>.Empty;
+	public ImmutableList<Unborn> Unborns { get; private set; } = [];
 
 	public CK3.Characters.Character? CK3Character { get; set; }
 	public static ConcurrentIgnoredKeywordsSet IgnoredTokens { get; } = [];
@@ -141,11 +141,11 @@ public sealed class Character : IIdentifiable<ulong> {
 		parser.RegisterKeyword("age", reader => character.Age = (uint)reader.GetInt());
 		parser.RegisterKeyword("birth_date", reader => {
 			var dateStr = reader.GetString();
-			character.BirthDate = new Date(dateStr, true); // converted to AD
+			character.BirthDate = new Date(dateStr, AUC: true); // converted to AD
 		});
 		parser.RegisterKeyword("death_date", reader => {
 			var dateStr = reader.GetString();
-			character.DeathDate = new Date(dateStr, true); // converted to AD
+			character.DeathDate = new Date(dateStr, AUC: true); // converted to AD
 		});
 		parser.RegisterKeyword("death", reader => character.DeathReason = reader.GetString());
 		parser.RegisterKeyword("attributes", reader => character.Attributes = CharacterAttributes.Parse(reader));
@@ -164,7 +164,7 @@ public sealed class Character : IIdentifiable<ulong> {
 				}
 				unborns.Add(unborn);
 			}
-			character.Unborns = unborns.ToImmutableList();
+			character.Unborns = [.. unborns];
 		});
 		parser.RegisterKeyword("prisoner_home", reader => character.parsedPrisonerHomeId = reader.GetULong());
 		parser.RegisterKeyword("variables", reader => {

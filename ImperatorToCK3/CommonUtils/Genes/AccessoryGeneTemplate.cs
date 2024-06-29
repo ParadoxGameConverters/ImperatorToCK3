@@ -11,7 +11,7 @@ public sealed class AccessoryGeneTemplate : IIdentifiable<string> {
 
 	public AccessoryGeneTemplate(string id, BufferedReader reader) {
 		Id = id;
-		
+
 		var parser = new Parser();
 		RegisterKeys(parser);
 		parser.ParseStream(reader);

@@ -1,13 +1,12 @@
 ﻿using commonItems;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Government;
 
 public sealed class GovernmentMapping {
 	public string CK3GovernmentId { get; private set; } = "";
-	public SortedSet<string> ImperatorGovernmentIds { get; } = new();
-	public SortedSet<string> ImperatorCultureIds { get; } = new();
+	public SortedSet<string> ImperatorGovernmentIds { get; } = [];
+	public SortedSet<string> ImperatorCultureIds { get; } = [];
 
 	public GovernmentMapping(BufferedReader mappingReader) {
 		var parser = new Parser();
@@ -24,7 +23,7 @@ public sealed class GovernmentMapping {
 			return null;
 		}
 
-		if (ImperatorCultureIds.Any()) {
+		if (ImperatorCultureIds.Count != 0) {
 			if (irCultureId is null) {
 				return null;
 			}

@@ -8,25 +8,24 @@ using ImperatorToCK3.Imperator.Geography;
 namespace ImperatorToCK3.Mappers.Region;
 
 public sealed class ImperatorRegionMapper(AreaCollection areaCollection, MapData irMapData) {
-	public IdObjectCollection<string, ImperatorRegion> Regions { get; } = new();
+	public IdObjectCollection<string, ImperatorRegion> Regions { get; } = [];
 
 	public void LoadRegions(ModFilesystem imperatorModFS, ColorFactory colorFactory) {
 		Logger.Info("Initializing Imperator geography...");
 
 		const string regionsFilePath = "map_data/regions.txt";
 		Logger.Debug($"Imperator regions file location: {imperatorModFS.GetActualFileLocation(regionsFilePath)}");
-		
+
 		var parser = new Parser();
 		RegisterRegionKeys(parser, colorFactory);
 		parser.ParseGameFile(regionsFilePath, imperatorModFS);
 
 		Logger.IncrementProgress();
 	}
-	
+
 	private void RegisterRegionKeys(Parser parser, ColorFactory colorFactory) {
-		parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => {
-			Regions.AddOrReplace(new ImperatorRegion(regionName, reader, areaCollection, colorFactory));
-		});
+		parser.RegisterRegex(CommonRegexes.String, (reader, regionName) =>
+			Regions.AddOrReplace(new ImperatorRegion(regionName, reader, areaCollection, colorFactory)));
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 
@@ -47,7 +46,7 @@ public sealed class ImperatorRegionMapper(AreaCollection areaCollection, MapData
 				return region.Id;
 			}
 		}
-		
+
 		if (!irMapData.IsImpassable(provinceId)) {
 			Logger.Warn($"I:R province ID {provinceId} has no parent region name!");
 		}

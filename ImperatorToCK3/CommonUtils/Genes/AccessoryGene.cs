@@ -7,11 +7,11 @@ namespace ImperatorToCK3.CommonUtils.Genes;
 public sealed class AccessoryGene : Gene, IIdentifiable<string> {
 	public string Id { get; }
 	public uint? Index { get; private set; }
-	public IdObjectCollection<string, AccessoryGeneTemplate> GeneTemplates { get; } = new();
+	public IdObjectCollection<string, AccessoryGeneTemplate> GeneTemplates { get; } = [];
 
 	public AccessoryGene(string id, BufferedReader reader) {
 		Id = id;
-		
+
 		var parser = new Parser();
 		RegisterKeys(parser);
 		parser.ParseStream(reader);

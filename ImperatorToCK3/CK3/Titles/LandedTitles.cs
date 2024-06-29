@@ -38,7 +38,7 @@ public sealed partial class Title {
 	// and most importantly relation between baronies and barony provinces so we can link titles to actual clay.
 	// Since titles are nested according to hierarchy we do this recursively.
 	public sealed class LandedTitles : TitleCollection {
-		public Dictionary<string, object> Variables { get; } = new();
+		public Dictionary<string, object> Variables { get; } = [];
 
 		public void LoadTitles(ModFilesystem ck3ModFS) {
 			Logger.Info("Loading landed titles...");
@@ -436,7 +436,7 @@ public sealed partial class Title {
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
 			CoaMapper coaMapper,
-			ICollection<Governorship> countyLevelGovernorships
+			List<Governorship> countyLevelGovernorships
 		) {
 			var country = governorship.Country;
 
@@ -859,7 +859,7 @@ public sealed partial class Title {
 			IDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByLand,
 			IDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody,
 			HashSet<string> removableEmpireIds,
-			IDictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
+			Dictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
 			Dictionary<string, Title> heritageToEmpireDict,
 			Date date
 		) {
@@ -994,7 +994,7 @@ public sealed partial class Title {
 		}
 
 		private Dictionary<Title, List<HashSet<Title>>> GetDictOfDisconnectedEmpires(
-			IDictionary<string, HashSet<string>> kingdomAdjacencies,
+			Dictionary<string, HashSet<string>> kingdomAdjacencies,
 			IReadOnlySet<string> removableEmpireIds
 		) {
 			var dictToReturn = new Dictionary<Title, List<HashSet<Title>>>();

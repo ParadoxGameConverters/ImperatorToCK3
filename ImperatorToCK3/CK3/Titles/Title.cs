@@ -280,7 +280,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			SetDeFactoLiege(overLordTitle, dependency.StartDate);
 		}
 	}
-	
+
 	/// <summary>
 	/// Fills title's history with Imperator and pre-Imperator rulers and sets appropriate government.
 	/// </summary>

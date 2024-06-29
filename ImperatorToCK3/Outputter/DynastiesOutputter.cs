@@ -35,7 +35,7 @@ public static class DynastiesOutputter {
 		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, encoding: Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 	}
-	
+
 	public static async Task OutputDynastiesAndHouses(string outputModPath, DynastyCollection dynasties, HouseCollection houses) {
 		await Task.WhenAll(
 			OutputDynasties(outputModPath, dynasties),

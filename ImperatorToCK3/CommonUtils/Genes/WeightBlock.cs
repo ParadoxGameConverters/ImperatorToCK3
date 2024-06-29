@@ -73,6 +73,6 @@ public sealed class WeightBlock {
 	public bool ContainsObject(string objectName) {
 		return objectsList.Any(entry => entry.Key == objectName);
 	}
-	
+
 	public IEnumerable<string> ObjectNames => objectsList.Select(entry => entry.Key);
 }

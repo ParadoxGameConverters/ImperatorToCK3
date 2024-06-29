@@ -33,9 +33,7 @@ public static class FileOpeningHelper {
 				});
 
 		try {
-			policy.Execute(() => {
-				writer = new StreamWriter(filePath, append: false, encoding);
-			});
+			policy.Execute(() => writer = new StreamWriter(filePath, append: false, encoding));
 		} catch (IOException ex) when (IsFilesSharingViolation(ex)) {
 			Logger.Debug(ex.ToString());
 			throw new UserErrorException($"Failed to open \"{filePath}\" for writing. {CloseProgramsHint}");

@@ -47,7 +47,7 @@ public static class TitlesOutputter {
 
 	public static async Task OutputTitles(string outputModPath, Title.LandedTitles titles) {
 		Logger.Info("Writing Landed Titles...");
-		
+
 		var sb = new System.Text.StringBuilder();
 		foreach (var (name, value) in titles.Variables) {
 			sb.AppendLine($"@{name}={value}");
@@ -55,8 +55,8 @@ public static class TitlesOutputter {
 
 		// titles with a de jure liege will be outputted under the liege
 		var topDeJureTitles = titles.Where(t => t.DeJureLiege is null);
-		sb.Append(PDXSerializer.Serialize(topDeJureTitles, string.Empty, false));
-		
+		sb.Append(PDXSerializer.Serialize(topDeJureTitles, string.Empty, withBraces: false));
+
 		var outputPath = Path.Combine(outputModPath, "common/landed_titles/00_landed_titles.txt");
 		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());

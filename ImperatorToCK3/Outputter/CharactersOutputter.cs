@@ -58,7 +58,7 @@ public static class CharactersOutputter {
 
 	public static async Task BlankOutHistoricalPortraitModifiers(ModFilesystem ck3ModFS, string outputPath) {
 		Logger.Info("Blanking out historical portrait modifiers...");
-		
+
 		const string modifiersFilePath = "gfx/portraits/portrait_modifiers/02_all_historical_characters.txt";
 
 		if (ck3ModFS.GetActualFileLocation(modifiersFilePath) is not null) {
@@ -70,11 +70,11 @@ public static class CharactersOutputter {
 
 	private static async Task OutputCharactersDNA(string outputPath, IEnumerable<Character> charactersWithDNA) {
 		Logger.Info("Outputting DNA...");
-		
+
 		// Dump all into one file.
 		var path = Path.Combine(outputPath, "common/dna_data/IRToCK3_dna_data.txt");
 		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, System.Text.Encoding.UTF8);
-		
+
 		var sb = new StringBuilder();
 		foreach (var character in charactersWithDNA) {
 			var dna = character.DNA!;
@@ -86,7 +86,7 @@ public static class CharactersOutputter {
 			sb.AppendLine("\t}");
 			sb.AppendLine("\tenabled=yes");
 			sb.AppendLine("}");
-			
+
 			await output.WriteAsync(sb.ToString());
 			sb.Clear();
 		}
@@ -113,7 +113,7 @@ public static class CharactersOutputter {
 		Date conversionDate
 	) {
 		var sb = new StringBuilder();
-		
+
 		var charactersByGeneValue = charactersWithDNA
 			.Where(c => c.DNA!.AccessoryDNAValues.ContainsKey(geneName))
 			.GroupBy(c => new {

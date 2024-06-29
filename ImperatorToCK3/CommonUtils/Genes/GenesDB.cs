@@ -28,7 +28,7 @@ public sealed class GenesDB {
 			AccessoryGenes.AddOrReplace(new AccessoryGene(geneName, geneReader))
 		);
 		accessoryGenesParser.IgnoreAndLogUnregisteredItems();
-		
+
 		var morphGenesParser = new Parser();
 		morphGenesParser.RegisterRegex(CommonRegexes.String, (geneReader, geneName) => {
 			MorphGenes.AddOrReplace(new MorphGene(geneName, geneReader));

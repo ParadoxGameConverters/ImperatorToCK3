@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.Mappers.UnitType;
 
 public sealed class UnitTypeMapper {
-	private readonly Dictionary<string, string?> unitTypeMap = new(); // imperator -> ck3
+	private readonly Dictionary<string, string?> unitTypeMap = []; // imperator -> ck3
 
 	public UnitTypeMapper(string mappingsFilePath) {
 		var parser = new Parser();
@@ -27,7 +27,7 @@ public sealed class UnitTypeMapper {
 	}
 
 	public string? Match(string imperatorUnitType) {
-		return unitTypeMap.GetValueOrDefault(imperatorUnitType, null);
+		return unitTypeMap.GetValueOrDefault(imperatorUnitType, defaultValue: null);
 	}
 
 	public IDictionary<string, int> GetMenPerCK3UnitType(IDictionary<string, int> menPerImperatorUnitType) {

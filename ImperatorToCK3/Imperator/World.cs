@@ -35,32 +35,32 @@ using Parser = commonItems.Parser;
 
 namespace ImperatorToCK3.Imperator;
 
-public class World {
+public partial class World {
 	public Date EndDate { get; private set; } = new Date("727.2.17", AUC: true);
 	private readonly IList<string> incomingModPaths = []; // List of all mods used in the save.
 	public ModFilesystem ModFS { get; private set; }
-	private readonly SortedSet<string> dlcs = new();
+	private readonly SortedSet<string> dlcs = [];
 	public IReadOnlySet<string> GlobalFlags { get; private set; } = ImmutableHashSet<string>.Empty;
 	private readonly ScriptValueCollection scriptValues = new();
 	public Defines Defines { get; } = new();
 	public LocDB LocDB { get; } = new(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
 
-	public NamedColorCollection NamedColors { get; } = new();
-	public FamilyCollection Families { get; } = new();
-	public CharacterCollection Characters { get; } = new();
-	private PopCollection pops = new();
-	public ProvinceCollection Provinces { get; } = new();
-	public CountryCollection Countries { get; } = new();
+	public NamedColorCollection NamedColors { get; } = [];
+	public FamilyCollection Families { get; } = [];
+	public CharacterCollection Characters { get; } = [];
+	private readonly PopCollection pops = [];
+	public ProvinceCollection Provinces { get; } = [];
+	public CountryCollection Countries { get; } = [];
 	public CoaMapper CoaMapper { get; private set; } = new();
 	public MapData MapData { get; private set; }
-	public AreaCollection Areas { get; } = new();
+	public AreaCollection Areas { get; } = [];
 	public ImperatorRegionMapper ImperatorRegionMapper { get; private set; }
-	public StateCollection States { get; } = new();
+	public StateCollection States { get; } = [];
 	public IReadOnlyCollection<War> Wars { get; private set; } = Array.Empty<War>();
 	public IReadOnlyCollection<Dependency> Dependencies { get; private set; } = Array.Empty<Dependency>();
 	public Jobs.JobsDB JobsDB { get; private set; } = new();
-	public UnitCollection Units { get; } = new();
-	public CulturesDB CulturesDB { get; } = new();
+	public UnitCollection Units { get; } = [];
+	public CulturesDB CulturesDB { get; } = [];
 	public ReligionCollection Religions { get; private set; }
 	private GenesDB genesDB = new();
 	public InventionsDB InventionsDB { get; } = new();
@@ -236,18 +236,16 @@ public class World {
 		using var saveStream = File.Open(inputFilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 		using var reader = new StreamReader(saveStream);
 		string content = reader.ReadToEnd();
-		
+
 		// Remove everything prior to the first line contatining "Coat of arms:"
 		int startIndex = content.IndexOf("Coat of arms:", StringComparison.Ordinal);
 		if (startIndex == -1) {
 			Logger.Warn("No CoAs found in game log.");
 			return;
 		}
-		content = content.Substring(startIndex);
+		content = content[startIndex..];
+		MatchCollection matches = FlagDefinitionRegex().Matches(content);
 
-		string pattern = @"^\S+=\s*\{[\s\S]*?^\}";
-		MatchCollection matches = Regex.Matches(content, pattern, RegexOptions.Multiline);
-		
 		CoaMapper.ParseCoAs(matches.Select(match => match.Value));
 	}
 
@@ -257,23 +255,23 @@ public class World {
 		if (missingFlags.Count == 0) {
 			return;
 		}
-		
+
 		Logger.Debug("Missing country flag definitions: " + string.Join(", ", missingFlags));
-		
+
 		var tagsWithMissingFlags = Countries
 			.Where(country => missingFlags.Contains(country.Flag))
 			.Select(country => country.Tag);
-		
+
 		OutputGuiContainer(ModFS, tagsWithMissingFlags, config);
 		LaunchImperatorToExportCountryFlags(config);
 		ReadCoatsOfArmsFromGameLog(config.ImperatorDocPath);
-		
+
 		var missingFlagsAfterExtraction = CoaMapper.GetAllMissingFlagKeys(countryFlags);
 		if (missingFlagsAfterExtraction.Count > 0) {
 			Logger.Warn("Failed to export the following country flags: " + string.Join(", ", missingFlagsAfterExtraction));
 		}
 	}
-	
+
 	public World(Configuration config, ConverterVersion converterVersion) {
 		Logger.Info("*** Hello Imperator, Roma Invicta! ***");
 		
@@ -323,8 +321,8 @@ public class World {
 		var parser = new Parser();
 		
 		parser.RegisterRegex(@"\bSAV\w*\b", _ => { });
-		parser.RegisterKeyword("version", reader => { VerifySaveVersion(converterVersion, reader); });
-		parser.RegisterKeyword("date", reader => { LoadSaveDate(config, reader); });
+		parser.RegisterKeyword("version", reader => VerifySaveVersion(converterVersion, reader));
+		parser.RegisterKeyword("date", reader => LoadSaveDate(config, reader));
 		parser.RegisterKeyword("enabled_dlcs", LogEnabledDLCs);
 		parser.RegisterKeyword("enabled_mods", reader => {
 			Mods incomingMods = DetectUsedMods(reader);
@@ -357,7 +355,7 @@ public class World {
 		parser.IgnoreAndStoreUnregisteredItems(ignoredTokens);
 
 		parser.ParseStream(ProcessSave(config.SaveGamePath));
-		
+
 		Logger.Debug($"Ignored World tokens: {ignoredTokens}");
 		Logger.Info($"Player countries: {string.Join(", ", playerCountriesToLog)}");
 		Logger.IncrementProgress();
@@ -582,8 +580,8 @@ public class World {
 					Logger.Warn("Pre-Imperator ruler has no country name!");
 					continue;
 				}
-				if (countryRulerTerms.ContainsKey(name)) {
-					++countryRulerTerms[name];
+				if (countryRulerTerms.TryGetValue(name, out int value)) {
+					countryRulerTerms[name] = value + 1;
 				} else {
 					countryRulerTerms[name] = 1;
 				}
@@ -591,11 +589,11 @@ public class World {
 		}
 		foreach (var country in Countries) {
 			bool equal;
-			if (!regnalNameCounts.ContainsKey(country.Id)) {
+			if (!regnalNameCounts.TryGetValue(country.Id, out Dictionary<string, int>? value)) {
 				equal = country.HistoricalRegnalNumbers.Count == 0;
 			} else {
 				equal = country.HistoricalRegnalNumbers.OrderBy(kvp => kvp.Key)
-					.SequenceEqual(regnalNameCounts[country.Id].OrderBy(kvp => kvp.Key)
+					.SequenceEqual(value.OrderBy(kvp => kvp.Key)
 					);
 			}
 
@@ -702,5 +700,8 @@ public class World {
 		return new BufferedReader(File.Open("temp/melted_save.rome", FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
 	}
 
-	private readonly IgnoredKeywordsSet ignoredTokens = new();
+	private readonly IgnoredKeywordsSet ignoredTokens = [];
+
+	[GeneratedRegex(@"^\S+=\s*\{[\s\S]*?^\}", RegexOptions.Multiline)]
+	private static partial Regex FlagDefinitionRegex();
 }

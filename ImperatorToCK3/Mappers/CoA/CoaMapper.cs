@@ -12,7 +12,7 @@ public sealed class CoaMapper {
 		var parser = new Parser();
 		RegisterKeys(parser);
 		const string coasPath = "common/coat_of_arms/coat_of_arms";
-		parser.ParseGameFolder(coasPath, imperatorModFS, "txt", true);
+		parser.ParseGameFolder(coasPath, imperatorModFS, "txt", recursive: true);
 
 		Logger.Info($"Loaded {coasMap.Count} coats of arms.");
 
@@ -46,5 +46,5 @@ public sealed class CoaMapper {
 		return flagKeys.Where(flagKey => !existingFlagKeys.Contains(flagKey)).ToHashSet();
 	}
 
-	private readonly Dictionary<string, string> coasMap = new();
+	private readonly Dictionary<string, string> coasMap = [];
 }

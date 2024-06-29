@@ -59,9 +59,7 @@ public sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 	}
 
 	private void InitFaithDataParser() {
-		faithDataParser.RegisterKeyword("INVALIDATED_BY", reader => {
-			faithData.InvalidatingFaithIds = reader.GetStrings();
-		});
+		faithDataParser.RegisterKeyword("INVALIDATED_BY", reader => faithData.InvalidatingFaithIds = reader.GetStrings());
 		faithDataParser.RegisterKeyword("color", reader => {
 			try {
 				faithData.Color = colorFactory.GetColor(reader);
@@ -96,7 +94,7 @@ public sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 		if (withBraces) {
 			sb.AppendLine("{");
 		}
-		
+
 		foreach (var doctrineId in DoctrineIds) {
 			sb.Append(contentIndent).AppendLine($"doctrine={doctrineId}");
 		}

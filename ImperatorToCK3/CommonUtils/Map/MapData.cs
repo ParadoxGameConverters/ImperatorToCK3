@@ -33,11 +33,11 @@ public sealed class MapData {
 	private Dictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = [];
 	private readonly Dictionary<ulong, ProvincePosition> provincePositions = [];
 	public IReadOnlyDictionary<ulong, ProvincePosition> ProvincePositions => provincePositions;
-	public ProvinceDefinitions ProvinceDefinitions { get; } = new();
+	public ProvinceDefinitions ProvinceDefinitions { get; } = [];
 
 	private readonly Dictionary<ulong, HashSet<ulong>> provinceAdjacencies = [];
 	private readonly Dictionary<ulong, ulong> waterBodiesDict = []; // <province ID, water body ID>
-	
+
 	private readonly string[] nonColorableImpassableProvinceTypes = ["wasteland"];
 	private readonly string[] colorableImpassableProvinceTypes = ["impassable_mountains", "impassable_terrain"];
 	private readonly string[] uninhabitableProvinceTypes = ["uninhabitable"];
@@ -71,7 +71,7 @@ public sealed class MapData {
 		defaultMapParser.RegisterKeyword("positions", ParserHelpers.IgnoreItem);
 		defaultMapParser.RegisterKeyword("ports", ParserHelpers.IgnoreItem);
 		defaultMapParser.RegisterKeyword("climate", ParserHelpers.IgnoreItem);
-		
+
 		Dictionary<IEnumerable<string>, SpecialProvinceCategory> provinceTypeToCategoryDict = new() {
 			{nonColorableImpassableProvinceTypes, SpecialProvinceCategory.NonColorableImpassable},
 			{colorableImpassableProvinceTypes, SpecialProvinceCategory.ColorableImpassable},
@@ -87,7 +87,7 @@ public sealed class MapData {
 				});
 			}
 		}
-		
+
 		defaultMapParser.IgnoreAndLogUnregisteredItems();
 		defaultMapParser.ParseGameFile(defaultMapPath, modFS);
 		Logger.IncrementProgress();
@@ -95,7 +95,7 @@ public sealed class MapData {
 		Logger.Info("Loading province positions...");
 		DetermineProvincePositions(modFS);
 		Logger.IncrementProgress();
-		
+
 		Logger.Info("Loading province adjacencies...");
 		LoadAdjacencies(adjacenciesFilename, modFS);
 
@@ -107,34 +107,34 @@ public sealed class MapData {
 			using Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath);
 			DetermineNeighbors(provincesMap, ProvinceDefinitions);
 		}
-		
+
 		GroupStaticWaterProvinces();
 
 		Logger.IncrementProgress();
 	}
-	
+
 	private void GroupStaticWaterProvinces() {
 		Logger.Debug("Grouping static water provinces into water bodies...");
-		
+
 		var staticWaterProvinces = ProvinceDefinitions
 			.Where(p => p.IsStaticWater)
 			.Select(p => p.Id)
 			.ToHashSet();
-		
+
 		var provinceGroups = new List<HashSet<ulong>>();
 		foreach (var provinceId in staticWaterProvinces) {
 			var added = false;
 			List<HashSet<ulong>> connectedGroups = [];
-					
+
 			foreach (var group in provinceGroups) {
 				if (group.Any(p => NeighborsDict.TryGetValue(p, out var neighborIds) && neighborIds.Contains(provinceId))) {
 					group.Add(provinceId);
 					connectedGroups.Add(group);
-							
+
 					added = true;
 				}
 			}
-					
+
 			// If the province belongs to multiple groups, merge them.
 			if (connectedGroups.Count > 1) {
 				var mergedGroup = new HashSet<ulong>();
@@ -145,12 +145,12 @@ public sealed class MapData {
 				mergedGroup.Add(provinceId);
 				provinceGroups.Add(mergedGroup);
 			}
-					
+
 			if (!added) {
 				provinceGroups.Add([provinceId]);
 			}
 		}
-		
+
 		// Create a dictionary for quick lookup of water body by province.
 		// Use the lowest province ID in each group as the water body ID.
 		foreach (var group in provinceGroups) {
@@ -202,7 +202,7 @@ public sealed class MapData {
 	public IReadOnlySet<ulong> ColorableImpassableProvinceIds => ProvinceDefinitions
 		.Where(p => p.IsColorableImpassable).Select(p => p.Id)
 		.ToHashSet();
-	
+
 	public IReadOnlySet<ulong> MapEdgeProvinceIds => mapEdgeProvinces;
 
 	private void DetermineProvincePositions(ModFilesystem modFS) {
@@ -373,7 +373,7 @@ public sealed class MapData {
 		if (group1Adjacencies.Overlaps(group2)) {
 			return true;
 		}
-		
+
 		var group2RiverProvinceNeighbors = group2
 			.SelectMany(provId => NeighborsDict.TryGetValue(provId, out var neighbors) ? neighbors : [])
 			.Where(IsRiver)
@@ -384,7 +384,7 @@ public sealed class MapData {
 
 		return false;
 	}
-	
+
 	// Function for checking if two land provinces are connected to the same water body.
 	public bool AreProvinceGroupsConnectedByWaterBody(HashSet<ulong> group1, HashSet<ulong> group2) {
 		var group1WaterNeighbors = new HashSet<ulong>();
@@ -399,7 +399,7 @@ public sealed class MapData {
 		if (group1WaterNeighbors.Count == 0) {
 			return false;
 		}
-		
+
 		var group2WaterNeighbors = group2
 			.SelectMany(provId => NeighborsDict.TryGetValue(provId, out var neighbors) ? neighbors : [])
 			.Where(IsStaticWater)
@@ -421,17 +421,17 @@ public sealed class MapData {
 			return;
 		}
 		Logger.Debug($"Loading adjacencies from \"{adjacenciesPath}\"...");
-		
+
 		int count = 0;
 		using (var parser = new TextFieldParser(adjacenciesPath)) {
 			parser.TextFieldType = FieldType.Delimited;
 			parser.SetDelimiters(";");
 			parser.CommentTokens = ["#"];
 			parser.TrimWhiteSpace = true;
-			
+
 			// Skip the header row.
 			parser.ReadFields();
-			
+
 			while (!parser.EndOfData) {
 				string[]? fields = parser.ReadFields();
 				if (fields is null) {
@@ -441,12 +441,12 @@ public sealed class MapData {
 				if (fields.Length < 2) {
 					continue;
 				}
-				
+
 				var fromStr = fields[0];
 				if (fromStr == "-1") {
 					continue;
 				}
-				
+
 				var toStr = fields[1];
 				if (toStr == "-1") {
 					continue;
@@ -477,15 +477,15 @@ public sealed class MapData {
 		}
 		adjacencies.Add(province1);
 	}
-	
+
 	private void DetermineMapEdgeProvinces(ModFilesystem modFS) {
 		Logger.Debug("Determining map edge provinces...");
-		
+
 		var mapPath = GetProvincesMapPath(modFS);
 		if (mapPath is null) {
 			return;
 		}
-		
+
 		using var mapPng = Image.Load<Rgb24>(mapPath);
 		var height = mapPng.Height;
 		var width = mapPng.Width;

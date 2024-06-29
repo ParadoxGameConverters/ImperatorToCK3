@@ -63,7 +63,7 @@ public sealed class World {
 
 	public World(Imperator.World impWorld, Configuration config) {
 		Logger.Info("*** Hello CK3, let's get painting. ***");
-		
+
 		warMapper.DetectUnmappedWarGoals(impWorld.ModFS);
 
 		// Initialize fields that depend on other fields.

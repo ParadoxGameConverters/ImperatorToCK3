@@ -8,8 +8,8 @@ using System.Text;
 namespace ImperatorToCK3.CommonUtils;
 
 public sealed class History : IPDXSerializable {
-	[NonSerialized] public IdObjectCollection<string, IHistoryField> Fields { get; } = new(); // fieldName, field
-	[NonSerialized] public IgnoredKeywordsSet IgnoredKeywords { get; } = new();
+	[NonSerialized] public IdObjectCollection<string, IHistoryField> Fields { get; } = []; // fieldName, field
+	[NonSerialized] public IgnoredKeywordsSet IgnoredKeywords { get; } = [];
 
 	public History() { }
 
@@ -69,8 +69,8 @@ public sealed class History : IPDXSerializable {
 				}
 			}
 		}
-		if (entriesByDate.Any()) {
-			sb.Append(indent).AppendLine(PDXSerializer.Serialize(entriesByDate, indent, false));
+		if (entriesByDate.Count != 0) {
+			sb.Append(indent).AppendLine(PDXSerializer.Serialize(entriesByDate, indent, withBraces: false));
 		}
 
 		return sb.ToString();
