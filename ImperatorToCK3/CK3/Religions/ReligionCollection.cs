@@ -389,7 +389,7 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 		title.SetHolder(character, date);
 	}
 
-	private List GetDynamicHolySiteBaroniesForFaith(Faith faith, IDictionary<string, ISet<Province>> provincesByFaith) {
+	private List<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, IDictionary<string, ISet<Province>> provincesByFaith) {
 		// Collect all Imperator territories that are mapped to this faith.
 		ISet<Province> faithTerritories;
 		if (provincesByFaith.TryGetValue(faith.Id, out var set)) {
