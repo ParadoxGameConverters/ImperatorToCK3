@@ -29,10 +29,11 @@ public static class NamedColorsOutputter {
 		foreach (var (name, color) in diff) {
 			sb.AppendLine($"\t{name}={color.OutputRgb()}");
 		}
+
 		sb.AppendLine("}");
-		
+
 		var outputPath = Path.Combine(outputModPath, "common", "named_colors", "IRtoCK3_colors_from_Imperator.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
+		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 
 		Logger.IncrementProgress();

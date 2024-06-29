@@ -17,7 +17,7 @@ public static class DynastiesOutputter {
 		foreach (var dynasty in dynasties.OrderBy(d => d.Id)) {
 			sb.AppendLine($"{dynasty.Id}={PDXSerializer.Serialize(dynasty, string.Empty)}");
 		}
-		
+
 		var outputPath = Path.Combine(outputModPath, "common/dynasties/irtock3_all_dynasties.txt");
 		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, encoding: Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
@@ -30,7 +30,7 @@ public static class DynastiesOutputter {
 		foreach (var house in houses.OrderBy(h => h.Id)) {
 			sb.AppendLine($"{house.Id}={PDXSerializer.Serialize(house, string.Empty)}");
 		}
-		
+
 		var outputPath = Path.Combine(outputModPath, "common/dynasty_houses/irtock3_all_houses.txt");
 		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, encoding: Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
@@ -41,7 +41,7 @@ public static class DynastiesOutputter {
 			OutputDynasties(outputModPath, dynasties),
 			Task.Run(() => OutputHouses(outputModPath, houses))
 		);
-		
+
 		Logger.IncrementProgress();
 	}
 }

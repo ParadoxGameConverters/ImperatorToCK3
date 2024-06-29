@@ -7,13 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
+
 public static class SuccessionTriggersOutputter {
 	public static async Task OutputSuccessionTriggers(string outputModPath, Title.LandedTitles landedTitles, Date ck3BookmarkDate) {
 		Logger.Info("Writing Succession Triggers...");
 
 		var primogenitureTitles = new List<string>();
 		var seniorityTitles = new List<string>();
-		
+
 		var sb = new StringBuilder();
 
 		foreach (var landedTitle in landedTitles) {
@@ -25,6 +26,7 @@ public static class SuccessionTriggersOutputter {
 			if (laws.Contains("single_heir_succession_law")) {
 				primogenitureTitles.Add(landedTitle.Id);
 			}
+
 			if (laws.Contains("single_heir_dynasty_house")) {
 				seniorityTitles.Add(landedTitle.Id);
 			}
@@ -35,6 +37,7 @@ public static class SuccessionTriggersOutputter {
 		foreach (var primogenitureTitle in primogenitureTitles) {
 			sb.AppendLine($"\t\thas_title=title:{primogenitureTitle}");
 		}
+
 		sb.AppendLine("\t}");
 		sb.AppendLine("}");
 
@@ -43,13 +46,14 @@ public static class SuccessionTriggersOutputter {
 		foreach (var seniorityTitle in seniorityTitles) {
 			sb.AppendLine($"\t\thas_title=title:{seniorityTitle}");
 		}
+
 		sb.AppendLine("\t}");
 		sb.AppendLine("}");
-		
+
 		var outputPath = Path.Combine(outputModPath, "common/scripted_triggers/IRToCK3_succession_triggers.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
+		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
-		
+
 		Logger.IncrementProgress();
 	}
 }

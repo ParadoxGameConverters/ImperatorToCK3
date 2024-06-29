@@ -8,12 +8,12 @@ internal static class Converter {
 		DebugInfo.LogEverything();
 		SystemUtils.TryCreateFolder("temp");
 		var config = new Configuration(converterVersion);
-		
+
 		var imperatorWorld = new Imperator.World(config, converterVersion);
 
 		var ck3World = new CK3.World(imperatorWorld, config);
 		Outputter.WorldOutputter.OutputWorld(ck3World, imperatorWorld, config);
-		
+
 		Logger.Info("* Conversion complete! *");
 		Logger.Progress(100);
 	}
