@@ -184,7 +184,7 @@ public class World {
 		imperatorProcess.Exited += HandleImperatorProcessExit(config, imperatorProcess);
 		
 		// Make sure that if converter is closed, Imperator is closed as well.
-		AppDomain.CurrentDomain.ProcessExit += (_, args) => {
+		AppDomain.CurrentDomain.ProcessExit += (_, _) => {
 			if (!imperatorProcess.HasExited) {
 				imperatorProcess.Kill();
 			}
@@ -214,7 +214,7 @@ public class World {
 	}
 
 	private static EventHandler HandleImperatorProcessExit(Configuration config, Process imperatorProcess) {
-		return (_, args) => {
+		return (_, _) => {
 			Logger.Debug($"Imperator process exited with code {imperatorProcess.ExitCode}. Removing temporary mod files...");
 			try {
 				File.Delete(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod.mod"));
