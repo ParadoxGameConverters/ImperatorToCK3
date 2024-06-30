@@ -152,6 +152,7 @@ public partial class World {
 	}
 
 	private void LaunchImperatorToExportCountryFlags(Configuration config) {
+		Logger.Info("Retrieving random CoAs from Imperator...");
 		OutputContinueGameJson(config);
 		OutputDlcLoadJson(config);
 		
@@ -166,7 +167,7 @@ public partial class World {
 			File.Delete(dataTypesLogPath);
 		}
 		
-		Logger.Info("Launching Imperator to extract coats of arms...");
+		Logger.Debug("Launching Imperator to extract coats of arms...");
 
 		var processStartInfo = new ProcessStartInfo {
 			FileName = imperatorBinaryPath, 
