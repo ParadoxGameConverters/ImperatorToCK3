@@ -244,7 +244,11 @@
  cel_tir_na_nog: "Tír na nÓg"
  celtic_religion_divine_realm_3: "$cel_avalon$" # Optional translation alt
  cel_annwn: "Annwn"
+ celtic_religion_positive_afterlife_2: "$cel_annwn$" # Optional translation alt
+ celtic_religion_positive_afterlife_3: "$cel_annwn$" # Optional translation alt
  cel_tech_duinn: "Tech Duinn"
+ celtic_religion_negative_afterlife_2: "$cel_tech_duinn$" # Optional translation alt
+ celtic_religion_negative_afterlife_3: "$cel_tech_duinn$" # Optional translation alt
  cel_tuath_de: "Tuath Dé"
  babyl_annunaki: "Annunaki"
  babyl_arallu: "Arallû"
