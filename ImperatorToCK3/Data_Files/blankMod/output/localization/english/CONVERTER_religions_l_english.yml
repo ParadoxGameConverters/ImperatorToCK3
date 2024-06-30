@@ -232,6 +232,8 @@
  cyb_archigallus_possessive: "Archigallus'"
  cyb_archigalluses: "Archigalluses"
  thing_sheol: "The Sheol"
+ canaanite_religion_divine_realm_2: "$thing_sheol$" # Optional translation alt
+ canaanite_religion_divine_realm_3: "$thing_sheol$" # Optional translation alt
  cel_druid: "Druid"
  cel_druid_possessive: "Druid's"
  cel_druids: "Druids"
@@ -239,11 +241,19 @@
  cel_druidess_possessive: "Druidess'"
  cel_druidesses: "Druidesses"
  cel_avalon: "Avalon"
+ cel_tir_na_nog: "Tír na nÓg"
+ celtic_religion_divine_realm_3: "$cel_avalon$" # Optional translation alt
  cel_annwn: "Annwn"
+ celtic_religion_positive_afterlife_2: "$cel_annwn$" # Optional translation alt
+ celtic_religion_positive_afterlife_3: "$cel_annwn$" # Optional translation alt
  cel_tech_duinn: "Tech Duinn"
+ celtic_religion_negative_afterlife_2: "$cel_tech_duinn$" # Optional translation alt
+ celtic_religion_negative_afterlife_3: "$cel_tech_duinn$" # Optional translation alt
  cel_tuath_de: "Tuath Dé"
  babyl_annunaki: "Annunaki"
  babyl_arallu: "Arallû"
+ mesopotamian_religion_divine_realm_2: "$babyl_arallu$" # Optional translation alt
+ mesopotamian_religion_divine_realm_3: "$babyl_arallu$" # Optional translation alt
  babyl_ganzer: "Ganzer"
  babyl_irkallu: "Irkallu"
 
@@ -382,6 +392,8 @@
  hurrian_death_deity_name: "Ashtabil"
  hurrian_pantheon: "Pantheon"
  hurrian_divine_realm: "$hurrian_death_deity_name$"
+ hurrian_divine_realm_2: "$hurrian_divine_realm$" # Optional translation alt
+ hurrian_divine_realm_3: "$hurrian_divine_realm$" # Optional translation alt
  hurrian_afterlife: "$hurrian_death_deity_name$"
  hurrian_religious_head: "High Priest"
  hurrian_religious_head_title_name: "High Council"
