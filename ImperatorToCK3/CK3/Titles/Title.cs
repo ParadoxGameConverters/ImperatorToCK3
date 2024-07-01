@@ -1251,18 +1251,18 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 
 				var courtPositionEffect = new StringOfItem($$"""
-				{
-					character:{{ck3Official.Id}} = {
-						if = {
-							limit = { prev = { NOT = { is_employer_of = character:{{ck3Official.Id}} } } }
-							set_employer = prev
+					{
+						character:{{ck3Official.Id}} = {
+							if = {
+								limit = { prev = { NOT = { is_employer_of = character:{{ck3Official.Id}} } } }
+								set_employer = prev
+							}
+						}
+						appoint_court_position = {
+						    recipient = character:{{ck3Official.Id}}
+						    court_position = {{ck3Position}}
 						}
 					}
-					appoint_court_position = {
-					    recipient = character:{{ck3Official.Id}}
-					    court_position = {{ck3Position}}
-					}
-				}
 				""");
 				ck3Ruler.History.AddFieldValue(bookmarkDate, "effects", "effect", courtPositionEffect);
 
