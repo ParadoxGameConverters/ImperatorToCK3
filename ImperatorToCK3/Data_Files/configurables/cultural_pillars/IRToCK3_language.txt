@@ -18,7 +18,7 @@
 		}
 	}
 
-	color = gothic
+	color = irtock3_gothic
 }
 
 language_nuragic = {

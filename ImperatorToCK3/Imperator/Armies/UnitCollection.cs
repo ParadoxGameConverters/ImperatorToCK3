@@ -28,7 +28,7 @@ public sealed class UnitCollection : IdObjectCollection<ulong, Unit> {
 		}
 		Logger.IncrementProgress();
 	}
-	public void LoadUnits(BufferedReader unitsReader, LocDB locDB, Defines defines) {
+	public void LoadUnits(BufferedReader unitsReader, LocDB irLocDB, Defines defines) {
 		Logger.Info("Loading units...");
 
 		var parser = new Parser();
@@ -39,7 +39,7 @@ public sealed class UnitCollection : IdObjectCollection<ulong, Unit> {
 			}
 
 			var id = ulong.Parse(idStr);
-			AddOrReplace(new Unit(id, new BufferedReader(itemStr), this, locDB, defines));
+			AddOrReplace(new Unit(id, new BufferedReader(itemStr), this, irLocDB, defines));
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(unitsReader);

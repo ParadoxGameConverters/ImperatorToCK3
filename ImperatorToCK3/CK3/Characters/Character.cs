@@ -233,7 +233,7 @@ public sealed class Character : IIdentifiable<string> {
 		Date rulerTermStart,
 		Country imperatorCountry,
 		CharacterCollection characters,
-		LocDB locDB,
+		LocDB irLocDB,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
@@ -247,7 +247,7 @@ public sealed class Character : IIdentifiable<string> {
 		var name = preImperatorRuler.Name ?? Id;
 		SetName(name, null);
 		if (!string.IsNullOrEmpty(name)) {
-			var impNameLoc = locDB.GetLocBlockForKey(name);
+			var impNameLoc = irLocDB.GetLocBlockForKey(name);
 			if (impNameLoc is not null) {
 				Localizations.Add(name, impNameLoc);
 			} else {  // fallback: use unlocalized name as displayed name
@@ -307,7 +307,7 @@ public sealed class Character : IIdentifiable<string> {
 		CultureMapper cultureMapper,
 		TraitMapper traitMapper,
 		NicknameMapper nicknameMapper,
-		LocDB locDB,
+		LocDB irLocDB,
 		MapData irMapData,
 		ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 		DeathReasonMapper deathReasonMapper,
@@ -338,7 +338,7 @@ public sealed class Character : IIdentifiable<string> {
 			var name = nameLoc.Replace(' ', '_');
 			SetName(name, null);
 			if (!string.IsNullOrEmpty(name)) {
-				var matchedLocBlock = locDB.GetLocBlockForKey(name);
+				var matchedLocBlock = irLocDB.GetLocBlockForKey(name);
 				if (matchedLocBlock is not null) {
 					Localizations.Add(name, matchedLocBlock);
 				} else {  // fallback: use unlocalized name as displayed name

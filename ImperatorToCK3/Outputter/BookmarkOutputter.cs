@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Localization;
 using ImageMagick;
 using ImperatorToCK3.CK3;
@@ -20,7 +20,7 @@ using Color = SixLabors.ImageSharp.Color;
 namespace ImperatorToCK3.Outputter;
 
 public static class BookmarkOutputter {
-	public static async Task OutputBookmark(World world, Configuration config) {
+	public static async Task OutputBookmark(World world, Configuration config, LocDB ck3LocDB) {
 		Logger.Info("Creating bookmark...");
 
 		await OutputBookmarkGroup(config);
@@ -37,7 +37,6 @@ public static class BookmarkOutputter {
 		sb.AppendLine("\tweight = { value = 100 }");
 
 		var playerTitles = new List<Title>(world.LandedTitles.Where(title => title.PlayerCountry));
-		var localizations = new Dictionary<string, LocBlock>();
 		foreach (var title in playerTitles.ToArray()) {
 			if (title.GetGovernment(config.CK3BookmarkDate) == "republic_government") {
 				// Republics are not playable in vanilla CK3.
@@ -51,7 +50,7 @@ public static class BookmarkOutputter {
 				continue;
 			}
 
-			await AddTitleToBookmarkScreen(title, sb, holderId, world, localizations, provincePositions, config);
+			await AddTitleToBookmarkScreen(title, sb, holderId, world, ck3LocDB, provincePositions, config);
 		}
 
 		sb.AppendLine("}");
@@ -60,10 +59,7 @@ public static class BookmarkOutputter {
 		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 
-		await Task.WhenAll(
-			OutputBookmarkLoc(config, localizations),
-			DrawBookmarkMap(config, playerTitles, world)
-		);
+		await DrawBookmarkMap(config, playerTitles, world);
 		Logger.IncrementProgress();
 	}
 
@@ -72,23 +68,19 @@ public static class BookmarkOutputter {
 		StringBuilder sb,
 		string holderId,
 		World world,
-		Dictionary<string, LocBlock> localizations,
+		LocDB ck3LocDB,
 		IReadOnlyDictionary<ulong, ProvincePosition> provincePositions,
 		Configuration config
 	) {
 		var holder = world.Characters[holderId];
 
 		// Add character localization for bookmark screen.
-		var holderLoc = new LocBlock($"bm_converted_{holder.Id}", ConverterGlobals.PrimaryLanguage);
+		var holderLoc = ck3LocDB.AddLocBlock($"bm_converted_{holder.Id}");
 		holderLoc.CopyFrom(holder.Localizations[holder.GetName(config.CK3BookmarkDate)!]);
-		localizations.Add(holderLoc.Id, holderLoc);
-		var holderDescLoc = new LocBlock($"bm_converted_{holder.Id}_desc", ConverterGlobals.PrimaryLanguage) {
-			[ConverterGlobals.PrimaryLanguage] = string.Empty,
-		};
-		foreach (var language in ConverterGlobals.SecondaryLanguages) {
+		var holderDescLoc = ck3LocDB.AddLocBlock($"bm_converted_{holder.Id}_desc");
+		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			holderDescLoc[language] = string.Empty;
 		}
-		localizations.Add(holderDescLoc.Id, holderDescLoc);
 
 		sb.AppendLine("\tcharacter = {");
 
@@ -140,26 +132,6 @@ public static class BookmarkOutputter {
 		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 
 		await output.WriteLineAsync($"bm_converted = {{ default_start_date = {config.CK3BookmarkDate} }}");
-	}
-
-	private static async Task OutputBookmarkLoc(Configuration config, IDictionary<string, LocBlock> localizations) {
-		var outputName = config.OutputModName;
-		var baseLocPath = Path.Combine("output", outputName, "localization");
-		
-		var sb = new StringBuilder();
-		foreach (var language in ConverterGlobals.SupportedLanguages) {
-			sb.AppendLine($"l_{language}:");
-
-			// title localization
-			foreach (var locBlock in localizations.Values) {
-				sb.AppendLine(locBlock.GetYmlLocLineForLanguage(language));
-			}
-			
-			var locFilePath = Path.Combine(baseLocPath, language, $"converter_bookmark_l_{language}.yml");
-			await using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, Encoding.UTF8);
-			await locWriter.WriteAsync(sb.ToString());
-			sb.Clear();
-		}
 	}
 
 	private static void WritePosition(StringBuilder sb, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {

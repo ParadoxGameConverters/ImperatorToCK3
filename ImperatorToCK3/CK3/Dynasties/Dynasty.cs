@@ -14,7 +14,7 @@ namespace ImperatorToCK3.CK3.Dynasties;
 
 [SerializationByProperties]
 public sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
-	public Dynasty(Family irFamily, CharacterCollection irCharacters, CulturesDB irCulturesDB, CultureMapper cultureMapper, LocDB locDB, Date date) {
+	public Dynasty(Family irFamily, CharacterCollection irCharacters, CulturesDB irCulturesDB, CultureMapper cultureMapper, LocDB irLocDB, Date date) {
 		FromImperator = true;
 		Id = $"dynn_irtock3_{irFamily.Id}";
 		Name = Id;
@@ -31,10 +31,10 @@ public sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 			ck3Member?.SetDynastyId(Id, date: null);
 		}
 		
-		SetLocFromImperatorFamilyName(irFamily.GetMaleForm(irCulturesDB), locDB);
+		SetLocFromImperatorFamilyName(irFamily.GetMaleForm(irCulturesDB), irLocDB);
 	}
 
-	public Dynasty(CK3.Characters.Character character, string irFamilyName, CulturesDB irCulturesDB, LocDB locDB, Date date) {
+	public Dynasty(CK3.Characters.Character character, string irFamilyName, CulturesDB irCulturesDB, LocDB irLocDB, Date date) {
 		FromImperator = true;
 		Id = $"dynn_irtock3_from_{character.Id}";
 		Name = Id;
@@ -46,7 +46,7 @@ public sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		
 		character.SetDynastyId(Id, null);
 		
-		SetLocFromImperatorFamilyName(Family.GetMaleForm(irFamilyName, irCulturesDB), locDB);
+		SetLocFromImperatorFamilyName(Family.GetMaleForm(irFamilyName, irCulturesDB), irLocDB);
 	}
 	
 	public Dynasty(string dynastyId, BufferedReader dynastyReader) {
@@ -117,8 +117,8 @@ public sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		Logger.Warn($"Couldn't determine culture for dynasty {Id}, needs manual setting!");
 	}
 
-	private void SetLocFromImperatorFamilyName(string irFamilyLocKey, LocDB locDB) {
-		var irFamilyLoc = locDB.GetLocBlockForKey(irFamilyLocKey);
+	private void SetLocFromImperatorFamilyName(string irFamilyLocKey, LocDB irLocDB) {
+		var irFamilyLoc = irLocDB.GetLocBlockForKey(irFamilyLocKey);
 		if (irFamilyLoc is not null) {
 			LocalizedName = new LocBlock(Name, irFamilyLoc);
 			LocalizedName.ModifyForEveryLanguage(irFamilyLoc, (orig, other, lang) => {

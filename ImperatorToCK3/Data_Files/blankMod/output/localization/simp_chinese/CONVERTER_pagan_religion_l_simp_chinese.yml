@@ -295,7 +295,7 @@
  germanic_religion_adherent_plural: "日耳曼语"
  germanic_religion_desc: "日耳曼异教是北欧和中欧日耳曼人民的原始宗教，涵盖了具有重要地区差异的几种信仰。 关键的重叠主题包括仪式牺牲，强大的女祭司和严格的荣誉守则。"
  einherjar: "艾因哈尔"
- einherjar_flavor: "#F堕落的北欧勇士的灵魂从瓦尔哈拉返回再次战斗，艾因哈尔是出色的重型步兵，唯一的担心是诸神的黄昏可能永远不会到来。"
+ einherjar_flavor: "#F 堕落的北欧勇士的灵魂从瓦尔哈拉返回再次战斗，艾因哈尔是出色的重型步兵，唯一的担心是诸神的黄昏可能永远不会到来。"
  raise_irminsul_decision: "举起伊耳 明苏尔"
  raise_irminsul_decision_desc: "[ROOT.Var('ancestor_to_bury').Char.Custom2('MyCharacterIntroduction', ROOT.Char)|U]不再。 我将举一个伊耳明苏尔来纪念他的一生，并为所有以[ROOT.Var('ancestor_to_bury').Char.GetDynasty.GetName]为名的人带来荣耀。 像维杜金之前一样，子孙后代将永远谈论[ROOT.Var('ancestor_to_bury').Char.GetFullNameNicknamedNoTooltip]！"
  raise_irminsul_decision_tooltip: "举起伊耳明苏尔来纪念你的[ROOT.Char.Custom2('RelationToMeShort', ROOT.Var('ancestor_to_bury').Char)]"
