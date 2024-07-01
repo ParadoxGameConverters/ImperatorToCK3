@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Localization;
 using ImageMagick;
 using ImperatorToCK3.CK3;
@@ -59,9 +59,7 @@ public static class BookmarkOutputter {
 		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 
-		await Task.WhenAll(
-			DrawBookmarkMap(config, playerTitles, world)
-		);
+		await DrawBookmarkMap(config, playerTitles, world);
 		Logger.IncrementProgress();
 	}
 
