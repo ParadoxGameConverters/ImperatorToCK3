@@ -1,6 +1,6 @@
 colors = {
 	# used by IRToCK3's culture and languages
-	gothic = hsv { 0.1 0.7 0.05 }
+	irtock3_gothic = hsv { 0.1 0.7 0.05 }
 	elamite = rgb { 127 137 70 }
 	arakanese = rgb { 230 37 82 } # based on d_arakan color
 	shan = rgb { 255 157 0 } # based on orange color from this map: https://upload.wikimedia.org/wikipedia/commons/5/55/Taikadai-en1.png

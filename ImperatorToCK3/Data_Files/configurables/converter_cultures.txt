@@ -999,7 +999,7 @@ gothic = { # https://en.wikipedia.org/wiki/Goths
 		vanilla = { }
 	}
     
-	color = gothic
+	color = irtock3_gothic
 	heritage = heritage_east_germanic
 	language = language_gothic
 	name_list = name_list_gothic
