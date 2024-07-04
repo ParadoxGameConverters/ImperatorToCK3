@@ -56,6 +56,7 @@ link = { ck3=sardinian_pagan ir=nuragic_pantheon } # TFE
 link = { ck3=pagan ir=nuragic_pantheon } # TODO: https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/1474
 # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = pagan ir = pagan }
+link = { ck3 = pagan ir = hatti_religion } # Revivalist faith of the Hatti.
 link = { ck3 = kushitism_pagan ir = kushite }
 
 # Arabic
@@ -229,7 +230,7 @@ link = { ck3 = ashari ir = islam } # https://steamcommunity.com/sharedfiles/file
 link = { ck3 = maturidi ir = maturidi } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 # Finno-Ugric
-link = { ck3 = finnish_pagan ir = ukonusko } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3 = finnish_pagan ir = uralic_pantheon ir = ukonusko } # ukonusko comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 # Burmic (from Invictus)
 link = { ck3=burmic ir=burmese_religion }
