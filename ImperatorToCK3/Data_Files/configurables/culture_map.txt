@@ -131,7 +131,7 @@ link = { ck3 = lydian ir = lydian }
 link = { ck3=hittite ir=lycaonian ir=pamphylian ir=cappadocian ir=pontic ir=paphlagonian ir=milyadian ir=oroandian ir=cabalian ir=lalasian ir=morimenian ir=cataonian }
 link = { ck3 = phrygian ir = phrygian ir = mysian }
 #Invictus mod
-link = { ck3 = galatian ir = galatian }
+link = { ck3 = galatian ir = galatian ir = tylian } # Tylian represent Celts that migrated to Thrace.
 
 ## Aryan
 @ir_aryan_cultures = "ir=vidharban ir=mulaka ir=saurashtran ir=kaccha ir=lankan ir=maharashtran ir=rathikan ir=gandhari ir=sivi ir=shauraseni ir=kosala ir=kuru ir=avanti ir=matsya ir=cedi ir=dhivehi ir=sindhi ir=dardic ir=purus ir=mitanni"
@@ -428,7 +428,7 @@ link = { ck3 = german @ir_all_germanic_cultures }
 
 
 ## Hellenic
-@ir_greek_cultures = "ir=greek ir=athenian ir=peloponnesian ir=massalian ir=cyrenaican ir=bosporan ir=thessalian ir=cypriot ir=bithynian ir=ionian ir=troan ir=aeolian ir=greco_pontic ir=aegean ir=aetolian ir=euboean ir=boeotian ir=epirote ir=arcadian ir=argolian ir=parthinian ir=cretan ir=achaean"
+@ir_greek_cultures = "ir=greek ir=athenian ir=peloponnesian ir=massalian ir=cyrenaican ir=bosporan ir=thessalian ir=cypriot ir=bithynian ir=ionian ir=troan ir=aeolian ir=greco_pontic ir=aegean ir=aetolian ir=euboean ir=boeotian ir=epirote ir=arcadian ir=argolian ir=parthinian ir=cretan ir=achaean ir=enetoian"
 # TFE
 link = { ck3 = pontic ir = greco_pontic }
 link = { ck3 = syrian ir=macedonian ir=hellenistic ir=syracusan ir=thracian @ir_greek_cultures @culture_splitting_region_N  }
@@ -565,12 +565,12 @@ link = { ck3 = butr ir = butr } # https://steamcommunity.com/sharedfiles/filedet
 link = { ck3 = garamantian ir = nasamonian ir = macaean ir = psyllic ir = garamantic ir = libyan ir = berber ir = phazani ir = lotophagoi ir = gyzantian }
 link = { ck3 = autoleles ir = nectiberean ir = autolalean ir = cetianian }
 link = { ck3 = pharusian ir = lixitoi ir = perorsian ir = canarian }
-link = { ck3 = maurian ir = massylian ir = berber ir = gaetulian ir = socossian ir = massaesylian ir = libyan ir = garamantic ir = numidian irRegion = mauretainia_region }
-link = { ck3 = gaetulian ir = massylian ir = massaesylian ir = gaetulian ir = abannaean ir = capariensian }
-link = { ck3 = tuareg ir = massylian ir = berber ir = gaetulian ir = socossian ir = massaesylian ir = libyan ir = garamantic ir = numidian ck3Province = 6590 ck3Province = 6591 ck3Province = 6465 ck3Province = 6466 ck3Province = 6467 ck3Province = 6468 ck3Province = 4612 }
+link = { ck3 = maurian ir = massylian ir = berber ir = gaetulian ir = melanogaetulian ir = socossian ir = massaesylian ir = libyan ir = garamantic ir = numidian irRegion = mauretainia_region }
+link = { ck3 = gaetulian ir = massylian ir = massaesylian ir = gaetulian ir = melanogaetulian ir = abannaean ir = capariensian }
+link = { ck3 = tuareg ir = massylian ir = berber ir = gaetulian ir = melanogaetulian ir = socossian ir = massaesylian ir = libyan ir = garamantic ir = numidian ck3Province = 6590 ck3Province = 6591 ck3Province = 6465 ck3Province = 6466 ck3Province = 6467 ck3Province = 6468 ck3Province = 4612 }
 # Vanilla CK3
-link = { ck3 = zaghawa ir = berber ir = gaetulian ir = socossian ir = libyan ir = garamantic ck3Province = 6463 ck3Province = 6562 ck3Province = 6561 ck3Province = 6457 ck3Province = 6456 ck3Province = 6452 ck3Province = 6496 ck3Province = 6494 ck3Province = 6497 ck3Province = 6848 ck3Province = 6849 ck3Province = 6850 ck3Province = 6851 ck3Province = 6852 ck3Province = 6853 ck3Province = 6854 ck3Province = 6855 ck3Province = 6860 ck3Province = 6861 ck3Province = 6862 ck3Province = 6863 ck3Province = 6864 ck3Province = 6859 }
-link = { ck3 = baranis ir = massylian ir = berber ir = gaetulian ir = socossian ir = massaesylian }
+link = { ck3 = zaghawa ir = berber ir = gaetulian ir = melanogaetulian ir = socossian ir = libyan ir = garamantic ck3Province = 6463 ck3Province = 6562 ck3Province = 6561 ck3Province = 6457 ck3Province = 6456 ck3Province = 6452 ck3Province = 6496 ck3Province = 6494 ck3Province = 6497 ck3Province = 6848 ck3Province = 6849 ck3Province = 6850 ck3Province = 6851 ck3Province = 6852 ck3Province = 6853 ck3Province = 6854 ck3Province = 6855 ck3Province = 6860 ck3Province = 6861 ck3Province = 6862 ck3Province = 6863 ck3Province = 6864 ck3Province = 6859 }
+link = { ck3 = baranis ir = massylian ir = berber ir = gaetulian ir = melanogaetulian ir = socossian ir = massaesylian }
 link = { ck3 = butr ir = libyan ir = garamantic }
 link = { ck3 = numidian ir = numidian }
 # Invictus mod
