@@ -1,0 +1,16 @@
+﻿l_english:
+ ancient_egyptian: "Old Egyptian"
+ ancient_egyptian_collective_noun: "Fellahim"
+ ancient_egyptian_prefix: "Egypto" # found 'Egypto-Roman'
+
+ gothic: "Gothic"
+ gothic_collective_noun: "Goths"
+ gothic_prefix: "Gotho" # found 'Gotho-Greek'
+
+ hebrew: "Hebrew"
+ hebrew_collective_noun: "Hebrews"
+ hebrew_prefix: "Judeo" # found 'Judeo-Roman culinary tradition'
+
+ macedonian: "Macedonian"
+ macedonian_collective_noun: "Macedonians"
+ macedonian_prefix: "Macedono"

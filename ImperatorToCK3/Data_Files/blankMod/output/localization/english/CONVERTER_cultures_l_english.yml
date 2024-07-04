@@ -1,10 +1,6 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.11.5
+﻿# ImperatorToCK3: Last updated CK3 patch 1.12.5
 # potentially useful resource: https://en.wiktionary.org/wiki/Category:English_prefixes
 l_english:
- ancient_egyptian: "Old Egyptian"
- ancient_egyptian_collective_noun: "Fellahim"
- ancient_egyptian_prefix: "Egypto" # found 'Egypto-Roman'
-
  numidian: "Numidian"
  numidian_collective_noun: "Numidians"
  numidian_prefix: "Numido" # found 'Numido-Roman site of Tiddis'
@@ -24,10 +20,6 @@ l_english:
  gallic: "Gallic"
  gallic_collective_noun: "Gauls"
  gallic_prefix: "Gallo" # found 'Gallo-Roman'
-
- macedonian: "Macedonian"
- macedonian_collective_noun: "Macedonians"
- macedonian_prefix: "Macedono"
 
  thracian: "Thracian"
  thracian_collective_noun: "Thracians"
@@ -105,10 +97,6 @@ l_english:
  parthian_collective_noun: "Parthians"
  parthian_prefix: "Partho" # found 'Partho-Roman Mesopotamia'
 
- hebrew: "Hebrew"
- hebrew_collective_noun: "Hebrews"
- hebrew_prefix: "Judeo" # found 'Judeo-Roman culinary tradition'
-
  etruscan: "Etruscan"
  etruscan_collective_noun: "Etruscans"
  etruscan_prefix: "Etrusco" # found 'Cacus and Marsyas in Etrusco-Roman Legend'
@@ -128,10 +116,6 @@ l_english:
  lusoiberian: "Lusitanian"
  lusoiberian_collective_noun: "Lusitanians"
  lusoiberian_prefix: "Lusitano" # found 'Villa Lusitano-Romana de Torre de Palma'
-
- gothic: "Gothic"
- gothic_collective_noun: "Goths"
- gothic_prefix: "Gotho" # found 'Gotho-Greek'
 
  gaulish_group: "Gaulish"
  gaulish_group_collective_noun: "Gauls"
