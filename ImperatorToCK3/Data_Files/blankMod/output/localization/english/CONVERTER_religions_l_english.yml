@@ -34,6 +34,7 @@
  arabic_pagan_old_adj: "Old Arabic"
  arabic_pagan_old_adherent: "Old Arabic Pagan"
  arabic_pagan_old_adherent_plural: "Old Arabic Pagans"
+ arabic_pagan_desc: "$arabic_religion_desc$"
 
  #---------------------------------------------------
  # ARMENIAN
@@ -332,7 +333,7 @@
  germanic_pagan_old_adherent_plural: "Old Fyrnsiduans"
  germanic_pagan_desc: "The native faith of the Saxons, Frisians, Jutes and other neighboring tribes, Germanic paganism encompasses various gods with regional identities. Adherents venerate their elders and the natural world around them."
  norse_pagan_desc: "The native faith of the Scandinavian region, Norse paganism revolves around reverence of gods known as the Æsir. Adherents are expected to live — and preferably die — in an honorable fashion."
- # Anglo-Saxon Paganism"
+ # Anglo-Saxon Paganism
  anglo_pagan: "Ósgeleafe"
  anglo_pagan_adj: "Ósgeleafe"
  anglo_pagan_adherent: "Ósgeleafen"
@@ -341,6 +342,7 @@
  anglo_pagan_old_adj: "Old Ósgeleafe"
  anglo_pagan_old_adherent: "Old Ósgeleafen"
  anglo_pagan_old_adherent_plural: "Old Ósgeleafens"
+ anglo_pagan_desc: "The native faith of the Anglo-Saxons, Ósgeleafe encompasses various gods with regional identities."
  mithraic_mysteries: "Mithraism"
  mithraic_mysteries_adj: "Mithran"
  mithraic_mysteries_adherent: "Follower of Mithra"
@@ -380,6 +382,13 @@
  hurrian_religion_group_desc: "The Hurrian religion was the polytheistic religion of the Hurrians, a Bronze Age people of the Near East. The Hurrians believed in a pantheon of gods, some of whom were associated with specific cities. The Hurrian religion is related to Mesopotamian religion and may have influenced it. The Hurrian pantheon consisted of a triad of deities, the supreme god Teshub, the storm god, his wife Hebat, the mother goddess and their son Sharruma, a war god. The sun goddess of Arinna was also important. The Hurrian gods or their symbols were sometimes portrayed on the throne backs of Egyptian Pharaohs. The Hurrian gods are known through Hittite, Mesopotamian, and Syrian sources."
  hurrian: "Hurrian"
  hurrian_adj: "Hurrian"
+ hurrian_adherent: "Hurrian"
+ hurrian_adherent_plural: "Hurrians"
+ hurrian_old: "Old Hurrian"
+ hurrian_old_adherent: "Old Hurrian"
+ hurrian_old_adherent_plural: "Old Hurrians"
+ hurrian_old_adj: "Old Hurrian"
+ hurrian_desc: "$hurrian_religion_group_desc$"
  hurrian_high_god_name: "Teshub"
  hurrian_high_god_name_alternate: "$hurrian_high_god_name$"
  hurrian_high_god_name_alternate_possessive: "$hurrian_high_god_name_possessive$"
