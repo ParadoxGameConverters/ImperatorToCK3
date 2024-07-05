@@ -62,7 +62,7 @@ jobs:
         Get-ChildItem -Path $Env:GITHUB_WORKSPACE -Recurse -Force | ForEach-Object {
             Write-Host ""
             Write-Host "Checking handles for $($_.FullName)"
-            c:\sysinternals\handle.exe -a -nobanner $_.FullName
+            c:\sysinternals\handle.exe -a -nobanner -accepteula $_.FullName
         }
     - name: "Cleanup"
       if: always()
