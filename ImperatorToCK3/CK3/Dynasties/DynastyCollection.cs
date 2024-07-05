@@ -98,12 +98,19 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 		Logger.IncrementProgress();
 	}
 
-	public void PurgeUnneededDynasties(CharacterCollection characters, Date date) {
+	public void PurgeUnneededDynasties(CharacterCollection characters, HouseCollection houses, Date date) {
 		Logger.Info("Purging unneeded dynasties...");
 
 		HashSet<string> dynastiesToKeep = [];
 		foreach (var character in characters) {
 			var dynastyId = character.GetDynastyId(date);
+			if (dynastyId is not null) {
+				dynastiesToKeep.Add(dynastyId);
+			}
+		}
+
+		foreach (var house in houses) {
+			var dynastyId = house.DynastyId;
 			if (dynastyId is not null) {
 				dynastiesToKeep.Add(dynastyId);
 			}
