@@ -15,6 +15,8 @@
  dinka_religious_head_title_name:0 "High Council" #fictional
  dinka_priest_male:0 "raan nhialic" 
  dinka_priest_male_plural:0 "raan nhialic"
+ dinka_priest_female: "$paganism_priest$" # IRToCK3: gap filler localization
+ dinka_priest_female_plural: "$paganism_priest_plural$" # IRToCK3: gap filler localization
  dinka_priest_term_plural:0 "raan nhialic"
  dinka_priest_alternate:1 "yï wada" #lit. your father
  dinka_priest_alternate_plural:1 "yï wada"
