@@ -81,10 +81,6 @@ l_english:
  nuragic_collective_noun: "Nuragics"
  nuragic_prefix: "Nurago"
 
- bactrian: "Bactrian"
- bactrian_collective_noun: "Bactrians"
- bactrian_prefix: "Bactro" # found 'Bactro-Gandharan'
-
  scythian: "Scythian"
  scythian_collective_noun: "Scythians"
  scythian_prefix: "Scytho" # found 'Scytho-Sarmatian'
