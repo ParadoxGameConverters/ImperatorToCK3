@@ -28,8 +28,16 @@ public static class CoatOfArmsEmblemsOutputter {
 			var fileName = CommonFunctions.TrimPath(emblemFilePath);
 
 			// Load an image.
-			var image = new MagickImage(emblemFilePath);
-			image.Negate(channels: Channels.Red);
+			MagickImage image;
+			try {
+				image = new(emblemFilePath);
+				image.Negate(channels: Channels.Red);
+			} catch (Exception ex) {
+				Logger.Debug($"Exception occurred while loading {emblemFilePath}: {ex}");
+				Logger.Warn($"Failed to load colored emblem {fileName}. CoAs using this emblem will be broken.");
+				return;
+			}
+			
 			// Write the image to new file.
 			var outputPath = Path.Combine(outputModPath, "gfx/coat_of_arms/colored_emblems", fileName);
 			try {
