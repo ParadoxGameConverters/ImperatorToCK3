@@ -174,6 +174,7 @@ public partial class World {
 			Arguments = "-continuelastsave -debug_mode",
 			CreateNoWindow = true,
 			RedirectStandardOutput = true,
+			RedirectStandardError = true,
 			WindowStyle = ProcessWindowStyle.Hidden
 		};
 		var imperatorProcess = Process.Start(processStartInfo);
@@ -217,6 +218,10 @@ public partial class World {
 	private static EventHandler HandleImperatorProcessExit(Configuration config, Process imperatorProcess) {
 		return (_, _) => {
 			Logger.Debug($"Imperator process exited with code {imperatorProcess.ExitCode}. Removing temporary mod files...");
+			if (imperatorProcess.ExitCode != 0) {
+				Logger.Debug("Imperator standard output: " + imperatorProcess.StandardOutput.ReadToEnd());
+				Logger.Debug("Imperator standard error: " + imperatorProcess.StandardError.ReadToEnd());
+			}
 			try {
 				File.Delete(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod.mod"));
 				Directory.Delete(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod"), recursive: true);
