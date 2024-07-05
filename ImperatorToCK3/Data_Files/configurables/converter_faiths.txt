@@ -1551,10 +1551,9 @@ germanic_religion = {
 				WaterGodHerHis = CHARACTER_HERHIS_HIS
 				WaterGodHerHim = CHARACTER_HERHIM_HIM
 
-
 				PantheonTerm = religion_the_gods
 				PantheonTermHasHave = pantheon_term_have
-				GoodGodNames = { anglosaxon_good_god_thunor anglosaxon_good_god_baldaeg anglosaxon_good_god_freya anglosaxon_good_god_tiw anglosaxon_good_god_eorthe}
+				GoodGodNames = { anglosaxon_good_god_thunor anglosaxon_good_god_baldaeg anglosaxon_good_god_freya anglosaxon_good_god_eorthe}
 				DevilName = anglosaxon_devil_name
 				DevilNamePossessive = anglosaxon_devil_name_possessive
 				DevilSheHe = CHARACTER_SHEHE_HE
