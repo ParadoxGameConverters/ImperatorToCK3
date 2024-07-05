@@ -508,7 +508,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		// At this point we probably have many dynasties with no characters left.
 		// Let's purge them.
 		houses.PurgeUnneededHouses(this, ck3BookmarkDate);
-		dynasties.PurgeUnneededDynasties(this, ck3BookmarkDate);
+		dynasties.PurgeUnneededDynasties(this, houses, ck3BookmarkDate);
 	}
 
 	public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {
