@@ -58,4 +58,26 @@ jobs:
     - name: "Cleanup"
       if: always()
       run: |
-        Get-ChildItem -Path $Env:GITHUB_WORKSPACE -Recurse -Force | Remove-Item -force -recurse
+        function Remove-ItemWithRetry {
+            param (
+                [string]$Path,
+                [int]$Retries = 5,
+                [int]$Delay = 2000
+            )
+            for ($i = 0; $i -lt $Retries; $i++) {
+                try {
+                    Remove-Item -Path $Path -Force -Recurse
+                    Write-Host "Successfully deleted $Path"
+                    return
+                } catch {
+                    Write-Host "Attempt $($i+1) failed: $_"
+                    Start-Sleep -Milliseconds $Delay
+                }
+            }
+            throw "Failed to delete $Path after $Retries attempts"
+        }
+
+        Get-ChildItem -Path $Env:GITHUB_WORKSPACE -Recurse -Force | ForEach-Object {
+            Remove-ItemWithRetry -Path $_.FullName
+        }
+
