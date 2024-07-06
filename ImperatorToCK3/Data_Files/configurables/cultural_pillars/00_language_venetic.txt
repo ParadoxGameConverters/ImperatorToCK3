@@ -12,8 +12,8 @@ language_venetic = {
 		}
 	}
 	parameters = {
-		language_group_romance = yes
-		language_family_indo_european = yes
+		# language_group_romance = yes # Parameter for the Culture Expanded mod.
+		# language_family_indo_european = yes # Parameter for the Culture Expanded mod.
 	}
 
 	ai_will_do = {

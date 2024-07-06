@@ -7,8 +7,8 @@ heritage_venetic = {
 
 	type = heritage
 	parameters = {
-		heritage_group_latin = yes
-		heritage_family_european = yes
+		# heritage_group_latin = yes # Parameter for the Culture Expanded mod.
+		# heritage_family_european = yes # Parameter for the Culture Expanded mod.
 	}
 
 	is_shown = {
