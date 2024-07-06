@@ -1,9 +1,6 @@
 name: "Integration tests"
 
 on:
-  push: # TODO: remove this when integration tests cleanup works correctly
-    branches:
-      - master
   release:
     types: [published]
 
@@ -13,7 +10,7 @@ concurrency:
 
 jobs:
   run_test_conversions:
-    runs-on: [self-hosted, windows]
+    runs-on: [self-hosted, windows, noramdisk]
     strategy:
       fail-fast: false
       matrix:
@@ -59,14 +56,6 @@ jobs:
       run: |
         dotnet ImperatorToCK3Converter.dll
 
-    - name: "Check file handles"
-    # check what processes have handles to the files in the Github workspace dir
-      run: |
-        Get-ChildItem -Path C:\actions-runner\_work\ImperatorToCK3\ImperatorToCK3\Release\ImperatorToCK3 -Recurse -Force | ForEach-Object {
-            Write-Host ""
-            Write-Host "Checking handles for $($_.FullName)"
-            c:\sysinternals\handle.exe -a -nobanner -accepteula $_.FullName
-        }
     - name: "Cleanup"
       if: always()
       run: |
