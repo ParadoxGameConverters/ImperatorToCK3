@@ -165,7 +165,7 @@ public static class CharactersOutputter {
 			
 			string accessoryOrValueString = validAccessoryIDs.Contains(accessoryName)
 				? $"accessory = {accessoryName}"
-				: $"value = {grouping.First().DNA!.AccessoryDNAValues[geneName].SliderValueBetween0And1}";
+				: $"value = {grouping.First().DNA!.AccessoryDNAValues[geneName].SliderValueBetween0And1:0.####}";
 			sb.AppendLine($"\t\t\t\t{accessoryOrValueString}");
 			sb.AppendLine("\t\t\t}");
 			sb.AppendLine("\t\t}");
