@@ -1,6 +1,9 @@
 name: "Integration tests"
 
 on:
+  push: # TODO: remove this when integration tests cleanup works correctly
+    branches:
+      - master
   release:
     types: [published]
 
