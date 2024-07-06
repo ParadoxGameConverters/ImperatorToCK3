@@ -59,7 +59,7 @@ jobs:
     - name: "Check file handles"
     # check what processes have handles to the files in the Github workspace dir
       run: |
-        Get-ChildItem -Path $Env:GITHUB_WORKSPACE -Recurse -Force | ForEach-Object {
+        Get-ChildItem -Path C:\actions-runner\_work\ImperatorToCK3\ImperatorToCK3\Release\ImperatorToCK3 -Recurse -Force | ForEach-Object {
             Write-Host ""
             Write-Host "Checking handles for $($_.FullName)"
             c:\sysinternals\handle.exe -a -nobanner -accepteula $_.FullName
