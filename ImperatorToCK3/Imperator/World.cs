@@ -219,7 +219,6 @@ public partial class World {
 		return (_, _) => {
 			Logger.Debug($"Imperator process exited with code {imperatorProcess.ExitCode}. Removing temporary mod files...");
 			if (imperatorProcess.ExitCode != 0) {
-				Logger.Debug("Imperator standard output: " + imperatorProcess.StandardOutput.ReadToEnd());
 				Logger.Debug("Imperator standard error: " + imperatorProcess.StandardError.ReadToEnd());
 			}
 			try {
