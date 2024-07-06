@@ -120,8 +120,8 @@ public sealed class DNAFactory {
 		
 		if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("beards", out var beardGene)) {
 			var beardGeneValue = MatchAccessoryGeneValueByObject(
-				irCharacter, 
-				irPortraitData, 
+				irCharacter,
+				irPortraitData,
 				"beards",
 				beardGene
 			);

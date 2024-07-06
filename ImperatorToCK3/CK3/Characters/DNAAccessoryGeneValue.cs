@@ -17,7 +17,7 @@ public readonly struct DNAAccessoryGeneValue(
 		string objectName,
 		WeightBlock weightBlock
 	) : this(templateName, objectName, weightBlock, templateName, objectName, weightBlock) { }
-	
+
 	public string TemplateName { get; } = templateName;
 	public string ObjectName { get; } = objectName;
 
@@ -44,6 +44,12 @@ public readonly struct DNAAccessoryGeneValue(
 
 			Logger.Warn($"Set entry \"{ObjectRecessiveName}\" not found in weight block for template \"{TemplateRecessiveName}\"! Valid entries are: {string.Join(", ", weightBlockRecessive.ObjectNames)}");
 			return 0;
+		}
+	}
+	
+	public double SliderValueBetween0And1 {
+		get {
+			return IntSliderValue / 255.0;
 		}
 	}
 
