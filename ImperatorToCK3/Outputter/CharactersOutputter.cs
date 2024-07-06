@@ -2,6 +2,7 @@
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CommonUtils;
+using Open.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -14,14 +15,14 @@ namespace ImperatorToCK3.Outputter;
 public static class CharactersOutputter {
 	public static async Task OutputEverything(string outputPath, CharacterCollection characters, Date conversionDate, ModFilesystem ck3ModFS) {
 		await Task.WhenAll(
-			OutputCharacters(outputPath, characters, conversionDate),
+			OutputCharacters(outputPath, characters, conversionDate, ck3ModFS),
 			BlankOutHistoricalPortraitModifiers(ck3ModFS, outputPath)
 		);
 		
 		Logger.IncrementProgress();
 	}
 	
-	public static async Task OutputCharacters(string outputPath, CharacterCollection characters, Date conversionDate) {
+	public static async Task OutputCharacters(string outputPath, CharacterCollection characters, Date conversionDate, ModFilesystem ck3ModFS) {
 		Logger.Info("Writing Characters...");
 
 		// Portrait modifiers need to be outputted before characters themselves,
@@ -29,7 +30,7 @@ public static class CharactersOutputter {
 		var charactersWithDNA = characters
 			.Where(c => c.DNA is not null)
 			.ToImmutableList();
-		await OutputPortraitModifiers(outputPath, charactersWithDNA, conversionDate);
+		await OutputPortraitModifiers(outputPath, charactersWithDNA, conversionDate, ck3ModFS);
 		
 		var charactersFromIR = characters.Where(c => c.FromImperator)
 			.OrderBy(c => c.Id).ToImmutableList();
@@ -46,7 +47,7 @@ public static class CharactersOutputter {
 		}
 
 		var pathForCharactersFromCK3 = $"{outputPath}/history/characters/IRToCK3_fromCK3.txt";
-		await using var charactersFromCK3Output = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromCK3, System.Text.Encoding.UTF8);
+		await using var charactersFromCK3Output = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromCK3, Encoding.UTF8);
 		foreach (var character in charactersFromCK3) {
 			CharacterOutputter.WriteCharacter(sb, character, conversionDate);
 			await charactersFromCK3Output.WriteAsync(sb.ToString());
@@ -63,7 +64,7 @@ public static class CharactersOutputter {
 
 		if (ck3ModFS.GetActualFileLocation(modifiersFilePath) is not null) {
 			string dummyPath = Path.Combine(outputPath, modifiersFilePath);
-			await using var output = FileOpeningHelper.OpenWriteWithRetries(dummyPath, System.Text.Encoding.UTF8);
+			await using var output = FileOpeningHelper.OpenWriteWithRetries(dummyPath, Encoding.UTF8);
 			await output.WriteLineAsync("# Dummy file to blank out historical portrait modifiers from CK3.");
 		}
 	}
@@ -73,7 +74,7 @@ public static class CharactersOutputter {
 
 		// Dump all into one file.
 		var path = Path.Combine(outputPath, "common/dna_data/IRToCK3_dna_data.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, System.Text.Encoding.UTF8);
+		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 
 		var sb = new StringBuilder();
 		foreach (var character in charactersWithDNA) {
@@ -91,23 +92,43 @@ public static class CharactersOutputter {
 			sb.Clear();
 		}
 	}
+	
+	private static HashSet<string> GetValidAccessoryIDs(ModFilesystem ck3ModFS) {
+		Logger.Debug("Getting valid CK3 accessory IDs...");
+		
+		var accessoryIDs = new ConcurrentHashSet<string>();
 
-	private static async Task OutputPortraitModifiers(string outputPath, IReadOnlyCollection<Character> charactersWithDNA, Date conversionDate) {
+		var accessoryFilesParser = new Parser();
+		accessoryFilesParser.RegisterRegex(CommonRegexes.String, (reader, accessoryId) => {
+			accessoryIDs.Add(accessoryId);
+			ParserHelpers.IgnoreItem(reader);
+		});
+		accessoryFilesParser.IgnoreAndLogUnregisteredItems();
+		accessoryFilesParser.ParseGameFolder("gfx/portraits/accessories", ck3ModFS, "txt", recursive: true, logFilePaths: false, parallel: true);
+
+		return accessoryIDs.ToHashSet();
+	}
+
+	private static async Task OutputPortraitModifiers(string outputPath, IReadOnlyCollection<Character> charactersWithDNA, Date conversionDate, ModFilesystem ck3ModFS) {
 		Logger.Debug("Outputting portrait modifiers...");
 		// Enforce hairstyles and beards (otherwise CK3 they will only be used on bookmark screen).
 		// https://ck3.paradoxwikis.com/Characters_modding#Changing_appearance_through_scripts
+		
+		var validAccessoryIDs = GetValidAccessoryIDs(ck3ModFS);
+		
 		var portraitModifiersOutputPath = Path.Combine(outputPath, "gfx/portraits/portrait_modifiers/IRToCK3_portrait_modifiers.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(portraitModifiersOutputPath, System.Text.Encoding.UTF8);
+		await using var output = FileOpeningHelper.OpenWriteWithRetries(portraitModifiersOutputPath, Encoding.UTF8);
 
-		await OutputPortraitModifiersForGene("hairstyles", charactersWithDNA, output, conversionDate);
+		await OutputPortraitModifiersForGene("hairstyles", validAccessoryIDs, charactersWithDNA, output, conversionDate);
 		var malesWithBeards = charactersWithDNA
 			.Where(c => !c.Female && c.DNA!.AccessoryDNAValues.ContainsKey("beards"))
 			.ToImmutableList();
-		await OutputPortraitModifiersForGene("beards", malesWithBeards, output, conversionDate);
+		await OutputPortraitModifiersForGene("beards", validAccessoryIDs, malesWithBeards, output, conversionDate);
 	}
 
 	private static async Task OutputPortraitModifiersForGene(
 		string geneName,
+		HashSet<string> validAccessoryIDs,
 		IReadOnlyCollection<Character> charactersWithDNA,
 		TextWriter output,
 		Date conversionDate
@@ -141,7 +162,11 @@ public static class CharactersOutputter {
 			sb.AppendLine("\t\t\t\tmode = add");
 			sb.AppendLine($"\t\t\t\tgene = {geneName}");
 			sb.AppendLine($"\t\t\t\ttemplate = {templateName}");
-			sb.AppendLine($"\t\t\t\taccessory = {accessoryName}");
+			
+			string accessoryOrValueString = validAccessoryIDs.Contains(accessoryName)
+				? $"accessory = {accessoryName}"
+				: $"value = {grouping.First().DNA!.AccessoryDNAValues[geneName].SliderValueBetween0And1}";
+			sb.AppendLine($"\t\t\t\t{accessoryOrValueString}");
 			sb.AppendLine("\t\t\t}");
 			sb.AppendLine("\t\t}");
 			
