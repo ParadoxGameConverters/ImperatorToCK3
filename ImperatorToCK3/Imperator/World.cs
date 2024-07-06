@@ -170,11 +170,10 @@ public partial class World {
 		Logger.Debug("Launching Imperator to extract coats of arms...");
 
 		var processStartInfo = new ProcessStartInfo {
-			FileName = imperatorBinaryPath, 
+			FileName = imperatorBinaryPath,
 			Arguments = "-continuelastsave -debug_mode",
 			CreateNoWindow = true,
 			RedirectStandardOutput = true,
-			RedirectStandardError = true,
 			WindowStyle = ProcessWindowStyle.Hidden
 		};
 		var imperatorProcess = Process.Start(processStartInfo);
