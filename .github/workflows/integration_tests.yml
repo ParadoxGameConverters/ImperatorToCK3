@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   run_test_conversions:
-    runs-on: [self-hosted, windows, noramdisk]
+    runs-on: [self-hosted, windows-server-2019]
     strategy:
       fail-fast: false
       matrix:
