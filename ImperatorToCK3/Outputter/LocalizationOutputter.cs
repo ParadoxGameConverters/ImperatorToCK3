@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ImperatorToCK3.Outputter;
 public static class LocalizationOutputter {
-	public static void OutputLocalization(string outputModPath, World ck3World, LocDB locToOutputDB) {
+	public static void OutputLocalization(string outputModPath, World ck3World) {
 		Logger.Info("Writing Localization...");
 		var baseLocDir = Path.Join(outputModPath, "localization");
 		var baseReplaceLocDir = Path.Join(baseLocDir, "replace");
@@ -18,7 +18,7 @@ public static class LocalizationOutputter {
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			sb.AppendLine($"l_{language}:");
 			
-			foreach (var locBlock in locToOutputDB) {
+			foreach (var locBlock in ck3World.LocDB.ConverterGeneratedLocDB) {
 				if (!locBlock.HasLocForLanguage(language)) {
 					continue;
 				}
@@ -79,11 +79,7 @@ public static class LocalizationOutputter {
 		Logger.IncrementProgress();
 	}
 
-	private static LocDB GetLocDBOfAlreadyWrittenLoc(string baseLocDir, ModFilesystem ck3ModFS) {
-		// Read loc from CK3 and selected CK3 mods.
-		var ck3LocDB = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
-		ck3LocDB.ScrapeLocalizations(ck3ModFS);
-
+	private static LocDB GetLocDBOfAlreadyWrittenLoc(string baseLocDir, ck3loc) {
 		// Also read already outputted loc from the output directory.
 		var locFilesInOutputDir = Directory.GetFiles(baseLocDir, "*.yml", SearchOption.AllDirectories);
 		foreach (var outputtedLocFilePath in locFilesInOutputDir) {
@@ -93,13 +89,21 @@ public static class LocalizationOutputter {
 		return ck3LocDB;
 	}
 
-	private static Dictionary<string, HashSet<string>> GetDictOfLocPerLanguage(LocDB locDB) {
+	private static Dictionary<string, HashSet<string>> GetDictOfLocPerLanguage(CK3LocDB ck3LocDB) {
 		var keysPerLanguage = new Dictionary<string, HashSet<string>>();
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			keysPerLanguage[language] = [];
 		}
 	
-		foreach (var locBlock in locDB) {
+		foreach (var locBlock in ck3LocDB.ModFSLocDB) {
+			foreach (var language in ConverterGlobals.SupportedLanguages) {
+				if (locBlock.HasLocForLanguage(language)) {
+					keysPerLanguage[language].Add(locBlock.Id);
+				}
+			}
+		}
+
+		foreach (var locBlock in ck3LocDB.ConverterGeneratedLocDB) {
 			foreach (var language in ConverterGlobals.SupportedLanguages) {
 				if (locBlock.HasLocForLanguage(language)) {
 					keysPerLanguage[language].Add(locBlock.Id);
@@ -110,20 +114,10 @@ public static class LocalizationOutputter {
 		return keysPerLanguage;
 	}
 	
-	private static void OutputOptionalLocFromConfigurables(string baseLocDir, LocDB alreadyWrittenLocDB) {
-		string optionalLocDir = "configurables/localization";
-		if (!Directory.Exists(optionalLocDir)) {
-			Logger.Warn("Optional loc directory not found, skipping optional loc output.");
-			return;
-		}
+	private static void OutputOptionalLocFromConfigurables(string baseLocDir, CK3LocDB ck3LocDB) {
 		Logger.Debug("Outputting optional loc...");
-		var optionalLocDB = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
-		var optionalLocFilePaths = Directory.GetFiles(optionalLocDir, "*.yml", SearchOption.AllDirectories);
-		foreach (var outputtedLocFilePath in optionalLocFilePaths) {
-			optionalLocDB.ScrapeFile(outputtedLocFilePath);
-		}
 		
-		var alreadyWrittenLocPerLanguage = GetDictOfLocPerLanguage(alreadyWrittenLocDB);
+		var alreadyWrittenLocPerLanguage = GetDictOfLocPerLanguage(ck3LocDB);
 		
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			var alreadyWrittenLocForLanguage = alreadyWrittenLocPerLanguage[language];

@@ -26,8 +26,6 @@ public static class WorldOutputter {
 		CreateFolders(outputPath);
 
 		CopyBlankModFilesToOutput(outputPath);
-		
-		var ck3LocToOutputDB = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
 
 		Task.WaitAll(
 			CharactersOutputter.OutputEverything(outputPath, ck3World.Characters, ck3World.CorrectedDate, ck3World.ModFS),
@@ -39,7 +37,7 @@ public static class WorldOutputter {
 			PillarOutputter.OutputPillars(outputPath, ck3World.CulturalPillars),
 			CulturesOutputter.OutputCultures(outputPath, ck3World.Cultures, ck3World.CorrectedDate),
 
-			ReligionsOutputter.OutputReligionsAndHolySites(outputPath, ck3World.Religions, ck3LocToOutputDB),
+			ReligionsOutputter.OutputReligionsAndHolySites(outputPath, ck3World.Religions, ck3World.LocDB),
 
 			WarsOutputter.OutputWars(outputPath, ck3World.Wars),
 
@@ -56,7 +54,7 @@ public static class WorldOutputter {
 			CoatOfArmsOutputter.OutputCoas(outputPath, ck3World.LandedTitles, ck3World.Dynasties),
 			Task.Run(() => CoatOfArmsOutputter.CopyCoaPatterns(imperatorWorld.ModFS, outputPath)),
 
-			BookmarkOutputter.OutputBookmark(ck3World, config, ck3LocToOutputDB)
+			BookmarkOutputter.OutputBookmark(ck3World, config, ck3World.LocDB)
 		);
 
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
@@ -64,7 +62,7 @@ public static class WorldOutputter {
 		}
 
 		// Localization should be output last, as it uses data written by other outputters.
-		LocalizationOutputter.OutputLocalization(outputPath, ck3World, ck3LocToOutputDB);
+		LocalizationOutputter.OutputLocalization(outputPath, ck3World, ck3World.LocDB);
 
 		OutputPlaysetInfo(ck3World, outputName);
 	}

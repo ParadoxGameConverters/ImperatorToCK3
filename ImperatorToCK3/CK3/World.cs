@@ -41,6 +41,7 @@ namespace ImperatorToCK3.CK3;
 public sealed class World {
 	public OrderedSet<Mod> LoadedMods { get; }
 	public ModFilesystem ModFS { get; }
+	public CK3LocDB LocDB { get; }
 	private ScriptValueCollection ScriptValues { get; } = new();
 	public NamedColorCollection NamedColors { get; } = new();
 	public CharacterCollection Characters { get; } = new();
@@ -101,6 +102,8 @@ public sealed class World {
 		// Include a fake mod pointing to blankMod.
 		LoadedMods.Add(new Mod("blankMod", "blankMod/output"));
 		ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), LoadedMods);
+		// Now that we have the mod filesystem, we can initialize the localization database.
+		LocDB = new(ModFS);
 		Logger.IncrementProgress();
 
 		ScriptValues.LoadScriptValues(ModFS);
