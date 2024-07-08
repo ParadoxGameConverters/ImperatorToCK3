@@ -76,7 +76,11 @@ public static class BookmarkOutputter {
 
 		// Add character localization for bookmark screen.
 		var holderLoc = ck3LocDB.AddLocBlock($"bm_converted_{holder.Id}");
-		holderLoc.CopyFrom(holder.Localizations[holder.GetName(config.CK3BookmarkDate)!]);
+		if (holder.GetName(config.CK3BookmarkDate) is string holderName) {
+			if (ck3LocDB.TryGetValue(holderName, out var holderNameLoc)) {
+				holderLoc.CopyFrom(holderNameLoc);
+			}
+		}
 		var holderDescLoc = ck3LocDB.AddLocBlock($"bm_converted_{holder.Id}_desc");
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			holderDescLoc[language] = string.Empty;

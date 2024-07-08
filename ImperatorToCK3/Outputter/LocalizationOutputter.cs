@@ -16,33 +16,14 @@ public static class LocalizationOutputter {
 
 		var sb = new StringBuilder();
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
-			sb.AppendLine($"l_{language}:");
+			var locLinesForLanguage = ck3World.LocDB.GetLocLinesToOutputForLanguage(language);
+			if (locLinesForLanguage.Count == 0) {
+				continue;
+			}
 			
-			foreach (var locBlock in ck3World.LocDB.ConverterGeneratedLocDB) {
-				if (!locBlock.HasLocForLanguage(language)) {
-					continue;
-				}
-				sb.AppendLine(locBlock.GetYmlLocLineForLanguage(language));
-			}
-
-			// title localization
-			foreach (var title in ck3World.LandedTitles) {
-				foreach (var locBlock in title.Localizations) {
-					sb.AppendLine(locBlock.GetYmlLocLineForLanguage(language));
-				}
-			}
-
-			// character name localization
-			var uniqueKeys = new HashSet<string>();
-			foreach (var character in ck3World.Characters) {
-				foreach (var (key, locBlock) in character.Localizations) {
-					if (uniqueKeys.Contains(key)) {
-						continue;
-					}
-
-					sb.AppendLine(locBlock.GetYmlLocLineForLanguage(language));
-					uniqueKeys.Add(key);
-				}
+			sb.AppendLine($"l_{language}:");
+			foreach (var line in locLinesForLanguage) {
+				sb.AppendLine(line);
 			}
 			
 			var locFilePath = Path.Join(baseReplaceLocDir, language, $"converter_l_{language}.yml");
@@ -50,77 +31,20 @@ public static class LocalizationOutputter {
 			locWriter.WriteLine(sb.ToString());
 			sb.Clear();
 		}
-
-		// dynasty localization
-		foreach (var language in ConverterGlobals.SupportedLanguages) {
-			sb.AppendLine($"l_{language}:");
-
-			foreach (var dynasty in ck3World.Dynasties) {
-				var localizedName = dynasty.LocalizedName;
-				if (localizedName is not null) {
-					sb.AppendLine(localizedName.GetYmlLocLineForLanguage(language));
-				} else if (dynasty.FromImperator) {
-					Logger.Warn($"Dynasty {dynasty.Id} has no localizations!");
-					sb.AppendLine($" {dynasty.Name}: \"{dynasty.Name}\"");
-				}
-			}
-			
-			var dynastyLocFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_dynasty_l_{language}.yml");
-			using var dynastyLocWriter = FileOpeningHelper.OpenWriteWithRetries(dynastyLocFilePath, Encoding.UTF8);
-			dynastyLocWriter.Write(sb.ToString());
-			sb.Clear();
-		}
 	
 		var alreadyWrittenLocDB = GetLocDBOfAlreadyWrittenLoc(baseLocDir, ck3World.ModFS);
 		
-		OutputOptionalLocFromConfigurables(baseLocDir, alreadyWrittenLocDB);
+		OutputOptionalLocFromConfigurables(baseLocDir, alreadyWrittenLocDB); // TODO: remove when refactor is done
 		OutputFallbackLocForMissingSecondaryLanguageLoc(baseLocDir, alreadyWrittenLocDB);
 		
 		Logger.IncrementProgress();
-	}
-
-	private static LocDB GetLocDBOfAlreadyWrittenLoc(string baseLocDir, ck3loc) {
-		// Also read already outputted loc from the output directory.
-		var locFilesInOutputDir = Directory.GetFiles(baseLocDir, "*.yml", SearchOption.AllDirectories);
-		foreach (var outputtedLocFilePath in locFilesInOutputDir) {
-			ck3LocDB.ScrapeFile(outputtedLocFilePath);
-		}
-		
-		return ck3LocDB;
-	}
-
-	private static Dictionary<string, HashSet<string>> GetDictOfLocPerLanguage(CK3LocDB ck3LocDB) {
-		var keysPerLanguage = new Dictionary<string, HashSet<string>>();
-		foreach (var language in ConverterGlobals.SupportedLanguages) {
-			keysPerLanguage[language] = [];
-		}
-	
-		foreach (var locBlock in ck3LocDB.ModFSLocDB) {
-			foreach (var language in ConverterGlobals.SupportedLanguages) {
-				if (locBlock.HasLocForLanguage(language)) {
-					keysPerLanguage[language].Add(locBlock.Id);
-				}
-			}
-		}
-
-		foreach (var locBlock in ck3LocDB.ConverterGeneratedLocDB) {
-			foreach (var language in ConverterGlobals.SupportedLanguages) {
-				if (locBlock.HasLocForLanguage(language)) {
-					keysPerLanguage[language].Add(locBlock.Id);
-				}
-			}
-		}
-	
-		return keysPerLanguage;
 	}
 	
 	private static void OutputOptionalLocFromConfigurables(string baseLocDir, CK3LocDB ck3LocDB) {
 		Logger.Debug("Outputting optional loc...");
 		
-		var alreadyWrittenLocPerLanguage = GetDictOfLocPerLanguage(ck3LocDB);
-		
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
-			var alreadyWrittenLocForLanguage = alreadyWrittenLocPerLanguage[language];
+			var alreadyWrittenLocForLanguage = ck3LocDB.GetAlreadyOutputtedLocKeysForLanguage(language);
 			
 			var optionalLocLinesToOutput = new List<string>();
 

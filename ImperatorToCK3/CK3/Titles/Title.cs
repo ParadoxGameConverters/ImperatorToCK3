@@ -49,6 +49,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Dependency? dependency,
 		CountryCollection imperatorCountries,
 		LocDB irLocDB,
+		CK3LocDB ck3LocDB,
 		ProvinceMapper provinceMapper,
 		CoaMapper coaMapper,
 		TagTitleMapper tagTitleMapper,
@@ -71,6 +72,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			dependency,
 			imperatorCountries,
 			irLocDB,
+			ck3LocDB,
 			provinceMapper,
 			coaMapper,
 			governmentMapper,
@@ -93,6 +95,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		bool regionHasMultipleGovernorships,
 		bool staticDeJure,
 		LocDB irLocDB,
+		CK3LocDB ck3LocDB,
 		ProvinceMapper provinceMapper,
 		CoaMapper coaMapper,
 		DefiniteFormMapper definiteFormMapper,
@@ -110,6 +113,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			regionHasMultipleGovernorships,
 			staticDeJure,
 			irLocDB,
+			ck3LocDB,
 			provinceMapper,
 			definiteFormMapper,
 			imperatorRegionMapper
@@ -136,7 +140,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			CoA = baseTitle.CoA;
 
 			CapitalCounty = baseTitle.CapitalCounty;
-			Localizations = baseTitle.Localizations;
 
 			AIPrimaryPriority = baseTitle.AIPrimaryPriority;
 			RulerUsesTitleName = baseTitle.RulerUsesTitleName;
@@ -173,6 +176,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Dependency? dependency,
 		CountryCollection imperatorCountries,
 		LocDB irLocDB,
+		CK3LocDB ck3LocDB,
 		ProvinceMapper provinceMapper,
 		CoaMapper coaMapper,
 		GovernmentMapper governmentMapper,
@@ -197,7 +201,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		ClearHolderSpecificHistory();
 
-		FillHolderAndGovernmentHistory(country, characters, governmentMapper, irLocDB, religionMapper, cultureMapper, nicknameMapper, provinceMapper, config, conversionDate);
+		FillHolderAndGovernmentHistory(country, characters, governmentMapper, irLocDB, ck3LocDB, religionMapper, cultureMapper, nicknameMapper, provinceMapper, config, conversionDate);
 
 		// Determine color.
 		var color1Opt = ImperatorCountry.Color1;
@@ -240,14 +244,14 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		// determine country name localization
 		var nameSet = false;
 		if (validatedName is not null) {
-			var nameLocBlock = Localizations.AddLocBlock(Id);
+			var nameLocBlock = ck3LocDB.AddLocBlock(Id);
 			nameLocBlock.CopyFrom(validatedName);
 			nameSet = true;
 		}
 		if (!nameSet) {
 			var irTagLoc = irLocDB.GetLocBlockForKey(ImperatorCountry.Tag);
 			if (irTagLoc is not null) {
-				var nameLocBlock = Localizations.AddLocBlock(Id);
+				var nameLocBlock = ck3LocDB.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(irTagLoc);
 				nameSet = true;
 			}
@@ -257,7 +261,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			var name = ImperatorCountry.Name;
 			if (!string.IsNullOrEmpty(name)) {
 				Logger.Warn($"Using unlocalized Imperator name {name} as name for {Id}!");
-				var nameLocBlock = Localizations.AddLocBlock(Id);
+				var nameLocBlock = ck3LocDB.AddLocBlock(Id);
 				nameLocBlock[ConverterGlobals.PrimaryLanguage] = name;
 				nameSet = true;
 			}
@@ -268,7 +272,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		// determine adjective localization
-		TrySetAdjectiveLoc(irLocDB, imperatorCountries);
+		TrySetAdjectiveLoc(irLocDB, imperatorCountries, ck3LocDB);
 
 		// If country is a subject, convert it to a vassal.
 		if (dependency is not null) {
@@ -288,6 +292,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		CharacterCollection characters,
 		GovernmentMapper governmentMapper,
 		LocDB irLocDB,
+		CK3LocDB ck3LocDB,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
@@ -302,6 +307,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				characters,
 				governmentMapper,
 				irLocDB,
+				ck3LocDB,
 				religionMapper,
 				cultureMapper,
 				nicknameMapper,
@@ -449,6 +455,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		bool regionHasMultipleGovernorships,
 		bool staticDeJure,
 		LocDB irLocDB,
+		CK3LocDB ck3LocDB,
 		ProvinceMapper provinceMapper,
 		DefiniteFormMapper definiteFormMapper,
 		ImperatorRegionMapper imperatorRegionMapper
@@ -516,21 +523,21 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 		}
 
-		TrySetNameFromGovernorship(governorship, imperatorRegionMapper, country, irProvinces, regionHasMultipleGovernorships, irLocDB);
-		TrySetAdjectiveFromGovernorship(governorship, country, irLocDB);
+		TrySetNameFromGovernorship(governorship, imperatorRegionMapper, country, irProvinces, regionHasMultipleGovernorships, irLocDB, ck3LocDB);
+		TrySetAdjectiveFromGovernorship(governorship, country, irLocDB, ck3LocDB);
 	}
 
-	private void TrySetAdjectiveFromGovernorship(Governorship governorship, Country country, LocDB irLocDB) {
+	private void TrySetAdjectiveFromGovernorship(Governorship governorship, Country country, LocDB irLocDB, CK3LocDB ck3LocDB) {
 		var adjKey = $"{Id}_adj";
-		if (Localizations.ContainsKey(adjKey)) {
+		if (ck3LocDB.ContainsKey(adjKey)) {
 			return;
 		}
 
 		var adjSet = false;
 		// Try to generate adjective from name.
-		var nameLocBlock = Localizations.GetLocBlockForKey(Id) ?? irLocDB.GetLocBlockForKey(governorship.Region.Id);
+		var nameLocBlock = ck3LocDB.GetLocBlockForKey(Id) ?? irLocDB.GetLocBlockForKey(governorship.Region.Id);
 		if (!adjSet && nameLocBlock is not null) {
-			var adjLocBlock = Localizations.AddLocBlock(adjKey);
+			var adjLocBlock = ck3LocDB.AddLocBlock(adjKey);
 			adjLocBlock.CopyFrom(nameLocBlock);
 
 			var englishLoc = adjLocBlock["english"];
@@ -546,8 +553,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			if (ck3Country is null) {
 				return;
 			}
-			if (ck3Country.Localizations.TryGetValue($"{ck3Country.Id}_adj", out var countryAdjectiveLocBlock)) {
-				var adjLocBlock = Localizations.AddLocBlock(adjKey);
+			if (ck3LocDB.TryGetValue($"{ck3Country.Id}_adj", out var countryAdjectiveLocBlock)) {
+				var adjLocBlock = ck3LocDB.AddLocBlock(adjKey);
 				adjLocBlock.CopyFrom(countryAdjectiveLocBlock);
 				adjSet = true;
 			}
@@ -564,9 +571,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Country country,
 		Imperator.Provinces.ProvinceCollection irProvinces,
 		bool regionHasMultipleGovernorships,
-		LocDB irLocDB
+		LocDB irLocDB,
+		CK3LocDB ck3LocDB
 	) {
-		if (Localizations.ContainsKey(Id)) {
+		if (ck3LocDB.ContainsKey(Id)) {
 			return;
 		}
 
@@ -597,11 +605,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 			if (potentialSourceArea is not null && irLocDB.TryGetValue(potentialSourceArea.Id, out var areaLocBlock)) {
 				Logger.Debug($"Naming {Id} after I:R area {potentialSourceArea.Id} majorly ({biggestOwnershipPercentage:P}) controlled by {country.Tag}...");
-				var nameLocBlock = Localizations.AddLocBlock(Id);
+				var nameLocBlock = ck3LocDB.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(areaLocBlock);
 				nameSet = true;
 
-				var adjLocBlock = Localizations.AddLocBlock($"{Id}_adj");
+				var adjLocBlock = ck3LocDB.AddLocBlock($"{Id}_adj");
 				adjLocBlock.CopyFrom(nameLocBlock);
 				adjLocBlock.ModifyForEveryLanguage((loc, language) => language == "english" ? loc?.GetAdjective() : loc);
 			}
@@ -613,11 +621,11 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				.MaxBy(p => p.CivilizationValue);
 			if (sourceProvince is not null && irLocDB.TryGetValue(sourceProvince.Name, out var provinceLocBlock)) {
 				Logger.Debug($"Naming {Id} after most developed I:R territory: {sourceProvince.Id}...");
-				var nameLocBlock = Localizations.AddLocBlock(Id);
+				var nameLocBlock = ck3LocDB.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(provinceLocBlock);
 				nameSet = true;
 
-				var adjLocBlock = Localizations.AddLocBlock($"{Id}_adj");
+				var adjLocBlock = ck3LocDB.AddLocBlock($"{Id}_adj");
 				adjLocBlock.CopyFrom(nameLocBlock);
 				adjLocBlock.ModifyForEveryLanguage((loc, language) => language == "english" ? loc?.GetAdjective() : loc);
 			}
@@ -626,9 +634,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		// Example: Mauretania -> Roman Mauretania
 		if (!nameSet && regionHasMultipleGovernorships && regionLocBlock is not null) {
 			var ck3Country = country.CK3Title;
-			if (ck3Country is not null && ck3Country.Localizations.TryGetValue($"{ck3Country.Id}_adj", out var countryAdjectiveLocBlock)) {
+			if (ck3Country is not null && ck3LocDB.TryGetValue($"{ck3Country.Id}_adj", out var countryAdjectiveLocBlock)) {
 				Logger.Debug($"Naming {Id} after governorship with country adjective: {country.Tag} {governorship.Region.Id}...");
-				var nameLocBlock = Localizations.AddLocBlock(Id);
+				var nameLocBlock = ck3LocDB.AddLocBlock(Id);
 				nameLocBlock.CopyFrom(regionLocBlock);
 				nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
 					(orig, adj, _) => $"{adj} {orig}"
@@ -638,7 +646,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 		if (!nameSet && regionLocBlock is not null) {
 			Logger.Debug($"Naming {Id} after governorship: {governorship.Region.Id}...");
-			var nameLocBlock = Localizations.AddLocBlock(Id);
+			var nameLocBlock = ck3LocDB.AddLocBlock(Id);
 			nameLocBlock.CopyFrom(regionLocBlock);
 			nameSet = true;
 		}
@@ -704,9 +712,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		History.AddFieldValue(date, "development_level", "change_development_level", value);
 	}
 
-	[commonItems.Serialization.NonSerialized] public LocDB Localizations { get; } = new(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
-
-	private void TrySetAdjectiveLoc(LocDB irLocDB, CountryCollection imperatorCountries) {
+	private void TrySetAdjectiveLoc(LocDB irLocDB, CountryCollection imperatorCountries, CK3LocDB ck3LocDB) {
 		if (ImperatorCountry is null) {
 			Logger.Warn($"Cannot set adjective for CK3 title {Id} from null Imperator country!");
 			return;
@@ -778,7 +784,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 
 			if (validatedAdj is not null) {
-				var adjLocBlock = Localizations.AddLocBlock(locKey);
+				var adjLocBlock = ck3LocDB.AddLocBlock(locKey);
 				adjLocBlock.CopyFrom(validatedAdj);
 				adjSet = true;
 			}
@@ -786,7 +792,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		if (!adjSet) {
 			var adjOpt = ImperatorCountry.CountryName.GetAdjectiveLocBlock(irLocDB, imperatorCountries);
 			if (adjOpt is not null) {
-				var adjLocBlock = Localizations.AddLocBlock(locKey);
+				var adjLocBlock = ck3LocDB.AddLocBlock(locKey);
 				adjLocBlock.CopyFrom(adjOpt);
 				adjSet = true;
 			}
@@ -794,7 +800,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		if (!adjSet) {
 			var adjLocalizationMatch = irLocDB.GetLocBlockForKey(ImperatorCountry.Tag);
 			if (adjLocalizationMatch is not null) {
-				var adjLocBlock = Localizations.AddLocBlock(locKey);
+				var adjLocBlock = ck3LocDB.AddLocBlock(locKey);
 				adjLocBlock.CopyFrom(adjLocalizationMatch);
 				adjSet = true;
 			}
@@ -802,14 +808,14 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		
 		// Try to generate English adjective from country name.
 		if (!adjSet) {
-			if (Localizations.TryGetValue(Id, out var nameLocBlock) && nameLocBlock["english"] is string name) {
+			if (ck3LocDB.TryGetValue(Id, out var nameLocBlock) && nameLocBlock["english"] is string name) {
 				// If name has 3 characters and last 2 characters are digits, it's probably a raw Imperator tag.
 				// In that case, we don't want to use it as a base for adjective.
 				if (!(name.Length == 3 && char.IsDigit(name[1]) && char.IsDigit(name[2]))) {
 					var generatedAdjective = name.GetAdjective();
 					Logger.Debug($"Generated adjective for country \"{name}\": \"{generatedAdjective}\"");
 				
-					var adjLocBlock = Localizations.AddLocBlock(locKey);
+					var adjLocBlock = ck3LocDB.AddLocBlock(locKey);
 					adjLocBlock["english"] = generatedAdjective;
 					adjSet = true;
 				}
@@ -821,7 +827,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			var name = ImperatorCountry.Name;
 			if (!string.IsNullOrEmpty(name)) {
 				Logger.Warn($"Using unlocalized Imperator name {name} as adjective for {Id}!");
-				var adjLocBlock = Localizations.AddLocBlock(locKey);
+				var adjLocBlock = ck3LocDB.AddLocBlock(locKey);
 				adjLocBlock[ConverterGlobals.PrimaryLanguage] = name;
 				adjSet = true;
 			}

@@ -269,7 +269,7 @@ public class LandedTitlesTests {
 		var tagTitleMapper = new TagTitleMapper();
 		var provinceMapper = new ProvinceMapper();
 		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
-		var locDB = new LocDB("english");
+		var irLocDB = new LocDB("english");
 		var ck3Religions = new ReligionCollection(titles);
 		var religionMapper = new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper);
 		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper, cultures);
@@ -293,12 +293,15 @@ public class LandedTitlesTests {
 			provinceMapper,
 			deathReasonMapper,
 			dnaFactory,
+			new TestCK3LocDB(),
 			conversionDate,
 			config
 		);
 
+		var ck3LocDB = new TestCK3LocDB();
+
 		// Import country 589.
-		titles.ImportImperatorCountries(imperatorWorld.Countries, imperatorWorld.Dependencies, tagTitleMapper, locDB, provinceMapper, coaMapper, new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, new List<KeyValuePair<Country, Dependency?>>());
+		titles.ImportImperatorCountries(imperatorWorld.Countries, imperatorWorld.Dependencies, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, new List<KeyValuePair<Country, Dependency?>>());
 		Assert.Collection(titles,
 			title => Assert.Equal("c_county1", title.Id),
 			title => Assert.Equal("b_barony1", title.Id),
@@ -312,7 +315,7 @@ public class LandedTitlesTests {
 		var provinces = new ProvinceCollection(ck3ModFS);
 		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 		// Country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level.
-		titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, locDB, config, provinceMapper, definiteFormMapper, irRegionMapper, coaMapper, countyLevelGovernorships);
+		titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, irLocDB, ck3LocDB, config, provinceMapper, definiteFormMapper, irRegionMapper, coaMapper, countyLevelGovernorships);
 
 		Assert.Collection(titles,
 			title => Assert.Equal("c_county1", title.Id),

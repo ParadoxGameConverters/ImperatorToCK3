@@ -12,6 +12,7 @@ using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Outputter;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -25,7 +26,8 @@ public class DynastiesOutputterTests {
 	[Fact]
 	public async Task DynastiesAreOutputted() {
 		const string outputModPath = "output/outputMod";
-		var locDB = new LocDB("english");
+		var irLocDB = new LocDB("english");
+		var ck3LocDB = new TestCK3LocDB();
 		const string imperatorRoot = "TestFiles/Imperator/root";
 		ModFilesystem irModFS = new(imperatorRoot, Array.Empty<Mod>());
 		var irMapData = new MapData(irModFS);
@@ -42,11 +44,11 @@ public class DynastiesOutputterTests {
 		var cultures = new CulturesDB();
 		
 		var family1 = new Family(1);
-		var dynasty1 = new Dynasty(family1, characters, cultures, cultureMapper, locDB, ConversionDate);
+		var dynasty1 = new Dynasty(family1, characters, cultures, cultureMapper, irLocDB, ck3LocDB, ConversionDate);
 		dynasties.Add(dynasty1);
 		
 		var family2 = new Family(2);
-		var dynasty2 = new Dynasty(family2, characters, cultures, cultureMapper, locDB, ConversionDate) {
+		var dynasty2 = new Dynasty(family2, characters, cultures, cultureMapper, irLocDB, ck3LocDB, ConversionDate) {
 			CultureId = "roman"
 		};
 		dynasties.Add(dynasty2);

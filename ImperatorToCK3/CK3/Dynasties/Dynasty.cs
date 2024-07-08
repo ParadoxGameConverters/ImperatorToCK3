@@ -14,7 +14,7 @@ namespace ImperatorToCK3.CK3.Dynasties;
 
 [SerializationByProperties]
 public sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
-	public Dynasty(Family irFamily, CharacterCollection irCharacters, CulturesDB irCulturesDB, CultureMapper cultureMapper, LocDB irLocDB, Date date) {
+	public Dynasty(Family irFamily, CharacterCollection irCharacters, CulturesDB irCulturesDB, CultureMapper cultureMapper, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
 		FromImperator = true;
 		Id = $"dynn_irtock3_{irFamily.Id}";
 		Name = Id;
@@ -31,10 +31,10 @@ public sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 			ck3Member?.SetDynastyId(Id, date: null);
 		}
 		
-		SetLocFromImperatorFamilyName(irFamily.GetMaleForm(irCulturesDB), irLocDB);
+		SetLocFromImperatorFamilyName(irFamily.GetMaleForm(irCulturesDB), irLocDB, ck3LocDB);
 	}
 
-	public Dynasty(CK3.Characters.Character character, string irFamilyName, CulturesDB irCulturesDB, LocDB irLocDB, Date date) {
+	public Dynasty(CK3.Characters.Character character, string irFamilyName, CulturesDB irCulturesDB, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
 		FromImperator = true;
 		Id = $"dynn_irtock3_from_{character.Id}";
 		Name = Id;
@@ -46,7 +46,7 @@ public sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		
 		character.SetDynastyId(Id, null);
 		
-		SetLocFromImperatorFamilyName(Family.GetMaleForm(irFamilyName, irCulturesDB), irLocDB);
+		SetLocFromImperatorFamilyName(Family.GetMaleForm(irFamilyName, irCulturesDB), irLocDB, ck3LocDB);
 	}
 	
 	public Dynasty(string dynastyId, BufferedReader dynastyReader) {
@@ -74,8 +74,6 @@ public sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("culture")] public string? CultureId { get; set; }
 	[SerializedName("motto")] public string? Motto { get; set; }
 	[SerializedName("forced_coa_religiongroup")] public string? ForcedCoaReligionGroup { get; set; }
-
-	[NonSerialized] public LocBlock? LocalizedName { get; private set; }
 	[NonSerialized] public StringOfItem? CoA { get; set; }
 	[NonSerialized] public bool FromImperator { get; private set; } = false;
 
@@ -117,20 +115,20 @@ public sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 		Logger.Warn($"Couldn't determine culture for dynasty {Id}, needs manual setting!");
 	}
 
-	private void SetLocFromImperatorFamilyName(string irFamilyLocKey, LocDB irLocDB) {
+	private void SetLocFromImperatorFamilyName(string irFamilyLocKey, LocDB irLocDB, CK3LocDB ck3LocDB) {
 		var irFamilyLoc = irLocDB.GetLocBlockForKey(irFamilyLocKey);
+		var ck3NameLoc = ck3LocDB.AddLocBlock(Name);
 		if (irFamilyLoc is not null) {
-			LocalizedName = new LocBlock(Name, irFamilyLoc);
-			LocalizedName.ModifyForEveryLanguage(irFamilyLoc, (orig, other, lang) => {
+			ck3NameLoc.CopyFrom(irFamilyLoc);
+			ck3NameLoc.ModifyForEveryLanguage(irFamilyLoc, (orig, other, lang) => {
 				if (!string.IsNullOrEmpty(orig)) {
 					return orig;
 				}
 				return !string.IsNullOrEmpty(other) ? other : irFamilyLoc.Id;
 			});
 		} else { // fallback: use unlocalized Imperator family key
-			LocalizedName = new LocBlock(Name, ConverterGlobals.PrimaryLanguage) {
-				[ConverterGlobals.PrimaryLanguage] = irFamilyLocKey
-			};
+			Logger.Warn($"Dynasty {Id} has no localizations! Setting fallback unlocalized name.");
+			ck3NameLoc[ConverterGlobals.PrimaryLanguage] = irFamilyLocKey;
 		}
 	}
 }

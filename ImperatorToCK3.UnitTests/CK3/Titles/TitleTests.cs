@@ -24,6 +24,7 @@ using System.Linq;
 using Xunit;
 using CharacterCollection = ImperatorToCK3.CK3.Characters.CharacterCollection;
 using ImperatorToCK3.Mappers.Region;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.IO;
 
@@ -77,6 +78,7 @@ public class TitleTests {
 				dependency: null,
 				imperatorCountries,
 				locDB,
+				new TestCK3LocDB(),
 				provinceMapper,
 				coaMapper,
 				tagTitleMapper,
@@ -169,21 +171,6 @@ public class TitleTests {
 
 		Assert.NotNull(title.CapitalCounty);
 		Assert.Equal("c_roma", title.CapitalCountyId);
-	}
-
-	[Fact]
-	public void LocalizationCanBeSet() {
-		var titles = new Title.LandedTitles();
-		var title = titles.Add("k_testtitle");
-		var nameLoc = title.Localizations.AddLocBlock(title.Id);
-		nameLoc["english"] = "engloc";
-		nameLoc["french"] = "frloc";
-		nameLoc["german"] = "germloc";
-		nameLoc["russian"] = "rusloc";
-		nameLoc["simp_chinese"] = "simploc";
-		nameLoc["spanish"] = "spaloc";
-
-		Assert.Equal("engloc", title.Localizations.GetLocBlockForKey(title.Id)!["english"]);
 	}
 
 	[Fact]

@@ -1,6 +1,5 @@
 ﻿using commonItems;
 using commonItems.Collections;
-using commonItems.Localization;
 using commonItems.Mods;
 using commonItems.Serialization;
 using ImperatorToCK3.CK3;

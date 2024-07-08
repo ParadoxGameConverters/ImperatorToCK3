@@ -199,13 +199,14 @@ public sealed class World {
 			provinceMapper,
 			deathReasonMapper,
 			dnaFactory,
+			LocDB,
 			CorrectedDate,
 			config
 		);
 		ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
 		Dynasties.LoadCK3Dynasties(ModFS);
-		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB, CorrectedDate);
+		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB, LocDB, CorrectedDate);
 		DynastyHouses.LoadCK3Houses(ModFS);
 		
 		// Load existing CK3 government IDs.
@@ -283,7 +284,7 @@ public sealed class World {
 		Dynasties.SetCoasForRulingDynasties(LandedTitles, config.CK3BookmarkDate);
 
 		Characters.DistributeCountriesGold(LandedTitles, config);
-		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, config);
+		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, LocDB, config);
 
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		Characters.PurgeUnneededCharacters(LandedTitles, Dynasties, DynastyHouses, config.CK3BookmarkDate);
@@ -370,7 +371,8 @@ public sealed class World {
 			}
 			var holderId = title.GetHolderId(ck3BookmarkDate);
 			if (holderId != "0" && Characters.TryGetValue(holderId, out var holder)) {
-				title.Localizations.AddLocBlock($"{holder.GetName(ck3BookmarkDate)}_desc");
+				var locBlock = LocDB.AddLocBlock($"{holder.GetName(ck3BookmarkDate)}_desc");
+				locBlock.ModifyForEveryLanguage((loc, language) => string.Empty);
 			}
 		}
 	}
