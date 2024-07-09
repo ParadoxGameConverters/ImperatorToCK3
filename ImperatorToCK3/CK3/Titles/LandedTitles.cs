@@ -40,13 +40,28 @@ public sealed partial class Title {
 	public sealed class LandedTitles : TitleCollection {
 		public Dictionary<string, object> Variables { get; } = [];
 
-		public void LoadTitles(ModFilesystem ck3ModFS) {
+		public void LoadTitles(ModFilesystem ck3ModFS, CK3LocDB ck3LocDB) {
 			Logger.Info("Loading landed titles...");
 
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseGameFolder("common/landed_titles", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 			LogIgnoredTokens();
+			
+			// Make sure every county has an adjective.
+			foreach (var county in this.Where(t => t.Rank == TitleRank.county)) {
+				string adjLocKey = county.Id + "_adj";
+				if (ck3LocDB.ContainsKey(adjLocKey)) {
+					continue;
+				}
+				
+				// Use the name loc as the adjective loc.
+				var nameLoc = ck3LocDB.GetLocBlockForKey(county.Id);
+				if (nameLoc is not null) {
+					var adjLoc = ck3LocDB.AddLocBlock(adjLocKey);
+					adjLoc.CopyFrom(nameLoc);
+				}
+			}
 
 			Logger.IncrementProgress();
 		}

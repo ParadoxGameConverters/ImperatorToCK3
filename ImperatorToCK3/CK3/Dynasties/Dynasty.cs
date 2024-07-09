@@ -127,7 +127,7 @@ public sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 				return !string.IsNullOrEmpty(other) ? other : irFamilyLoc.Id;
 			});
 		} else { // fallback: use unlocalized Imperator family key
-			Logger.Warn($"Dynasty {Id} has no localizations! Setting fallback unlocalized name.");
+			Logger.Warn($"Dynasty {Id} has no localizations for {irFamilyLocKey}! Setting fallback unlocalized name."); // TODO: REMOVE THE IRFAMILYLOCKEY INTERPOLATION
 			ck3NameLoc[ConverterGlobals.PrimaryLanguage] = irFamilyLocKey;
 		}
 	}

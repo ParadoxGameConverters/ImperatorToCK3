@@ -131,7 +131,7 @@ public sealed class World {
 		MapData = new MapData(ModFS);
 
 		// Load vanilla CK3 landed titles and their history
-		LandedTitles.LoadTitles(ModFS);
+		LandedTitles.LoadTitles(ModFS, LocDB);
 
 		if (config.StaticDeJure) {
 			Logger.Info("Setting static de jure kingdoms and empires...");
