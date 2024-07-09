@@ -61,7 +61,7 @@ public static class WorldOutputter {
 		}
 
 		// Localization should be output last, as it uses data written by other outputters.
-		LocalizationOutputter.OutputLocalization(outputPath, ck3World, ck3World.LocDB);
+		LocalizationOutputter.OutputLocalization(outputPath, ck3World);
 
 		OutputPlaysetInfo(ck3World, outputName);
 	}

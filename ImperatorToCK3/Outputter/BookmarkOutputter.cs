@@ -76,7 +76,7 @@ public static class BookmarkOutputter {
 
 		// Add character localization for bookmark screen.
 		var holderLoc = ck3LocDB.AddLocBlock($"bm_converted_{holder.Id}");
-		if (holder.GetName(config.CK3BookmarkDate) is string holderName) {
+		if (holder.GetName(config.CK3BookmarkDate) is {} holderName) {
 			if (ck3LocDB.TryGetValue(holderName, out var holderNameLoc)) {
 				holderLoc.CopyFrom(holderNameLoc);
 			}

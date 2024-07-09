@@ -1,6 +1,5 @@
 ﻿using commonItems;
 using commonItems.Localization;
-using commonItems.Mods;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
@@ -32,58 +31,12 @@ public static class LocalizationOutputter {
 			sb.Clear();
 		}
 	
-		var alreadyWrittenLocDB = GetLocDBOfAlreadyWrittenLoc(baseLocDir, ck3World.ModFS);
-		
-		OutputOptionalLocFromConfigurables(baseLocDir, alreadyWrittenLocDB); // TODO: remove when refactor is done
-		OutputFallbackLocForMissingSecondaryLanguageLoc(baseLocDir, alreadyWrittenLocDB);
+		OutputFallbackLocForMissingSecondaryLanguageLoc(baseLocDir, ck3World.LocDB);
 		
 		Logger.IncrementProgress();
 	}
-	
-	private static void OutputOptionalLocFromConfigurables(string baseLocDir, CK3LocDB ck3LocDB) {
-		Logger.Debug("Outputting optional loc...");
-		
-		foreach (var language in ConverterGlobals.SupportedLanguages) {
-			var alreadyWrittenLocForLanguage = ck3LocDB.GetAlreadyOutputtedLocKeysForLanguage(language);
-			
-			var optionalLocLinesToOutput = new List<string>();
 
-			foreach (var locBlock in optionalLocDB) {
-				if (alreadyWrittenLocForLanguage.Contains(locBlock.Id)) {
-					continue;
-				}
-
-				if (!locBlock.HasLocForLanguage(language)) {
-					continue;
-				}
-				
-				var loc = locBlock[language];
-				if (loc is null) {
-					continue;
-				}
-				
-				optionalLocLinesToOutput.Add(locBlock.GetYmlLocLineForLanguage(language));
-				alreadyWrittenLocDB.AddLocForKeyAndLanguage(locBlock.Id, language, loc);
-			}
-			
-			if (optionalLocLinesToOutput.Count == 0) {
-				continue;
-			}
-			
-			Logger.Debug($"Outputting {optionalLocLinesToOutput.Count} optional loc lines for {language}...");
-			var sb = new StringBuilder();
-			sb.AppendLine($"l_{language}:");
-			foreach (var line in optionalLocLinesToOutput) {
-				sb.AppendLine(line);
-			}
-			
-			var locFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_optional_loc_l_{language}.yml");
-			using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, Encoding.UTF8);
-			locWriter.Write(sb.ToString());
-		}
-	}
-
-	private static void OutputFallbackLocForMissingSecondaryLanguageLoc(string baseLocDir, LocDB ck3LocDB) {
+	private static void OutputFallbackLocForMissingSecondaryLanguageLoc(string baseLocDir, CK3LocDB ck3LocDB) {
 		Logger.Debug("Outputting fallback loc for missing secondary language loc...");
 		var primaryLanguage = ConverterGlobals.PrimaryLanguage;
 		var secondaryLanguages = ConverterGlobals.SecondaryLanguages;

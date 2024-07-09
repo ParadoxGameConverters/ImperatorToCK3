@@ -228,6 +228,7 @@ public sealed class World {
 			impWorld.Dependencies,
 			tagTitleMapper,
 			impWorld.LocDB,
+			LocDB,
 			provinceMapper,
 			impWorld.CoaMapper,
 			governmentMapper,
@@ -256,6 +257,7 @@ public sealed class World {
 			Provinces,
 			tagTitleMapper,
 			impWorld.LocDB,
+			LocDB,
 			config,
 			provinceMapper,
 			definiteFormMapper,
@@ -278,7 +280,7 @@ public sealed class World {
 		GenerateFillerHoldersForUnownedLands(Cultures, config);
 		Logger.IncrementProgress();
 		if (!config.StaticDeJure) {
-			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Cultures, Characters, MapData);
+			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Cultures, Characters, MapData, LocDB);
 		}
 		
 		Dynasties.SetCoasForRulingDynasties(LandedTitles, config.CK3BookmarkDate);

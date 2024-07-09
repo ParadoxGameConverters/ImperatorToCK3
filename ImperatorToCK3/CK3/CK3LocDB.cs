@@ -1,16 +1,17 @@
 using commonItems;
 using commonItems.Localization;
 using commonItems.Mods;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace ImperatorToCK3.CK3;
 
-public class CK3LocDB {
-	public LocDB ModFSLocDB { get; } = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
-	public LocDB ConverterGeneratedLocDB { get; } = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
-	public LocDB OptionalConverterLocDB { get; } = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
+public class CK3LocDB : IEnumerable<LocBlock> {
+	private LocDB ModFSLocDB { get; } = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
+	private LocDB ConverterGeneratedLocDB { get; } = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
+	private LocDB OptionalConverterLocDB { get; } = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
 	
 	protected CK3LocDB() { } // Only for inheritance
 
@@ -36,8 +37,14 @@ public class CK3LocDB {
 		}
 	}
 	
-	public LocBlock AddLocBlock(string id) => ConverterGeneratedLocDB.AddLocBlock(id);
+	private readonly object insertionLock = new();
 	
+	public LocBlock AddLocBlock(string id) {
+		lock (insertionLock) {
+			return ConverterGeneratedLocDB.AddLocBlock(id);
+		}
+	}
+
 	public bool ContainsKey(string key) {
 		if (ModFSLocDB.ContainsKey(key)) {
 			return true;
@@ -72,7 +79,38 @@ public class CK3LocDB {
 		return null;
 	}
 
-	public HashSet<string> GetAlreadyOutputtedLocKeysForLanguage(string language) {
+	IEnumerator IEnumerable.GetEnumerator() {
+		return GetEnumerator();
+	}
+
+	public IEnumerator<LocBlock> GetEnumerator() {
+		var alreadyOutputtedLocKeys = new HashSet<string>();
+		
+		foreach (var locBlock in ModFSLocDB) {
+			yield return locBlock;
+			alreadyOutputtedLocKeys.Add(locBlock.Id);
+		}
+		
+		foreach (var locBlock in ConverterGeneratedLocDB) {
+			if (alreadyOutputtedLocKeys.Contains(locBlock.Id)) {
+				continue;
+			}
+			
+			yield return locBlock;
+			alreadyOutputtedLocKeys.Add(locBlock.Id);
+		}
+		
+		foreach (var locBlock in OptionalConverterLocDB) {
+			if (alreadyOutputtedLocKeys.Contains(locBlock.Id)) {
+				continue;
+			}
+			
+			yield return locBlock;
+			alreadyOutputtedLocKeys.Add(locBlock.Id);
+		}
+	}
+
+	private HashSet<string> GetAlreadyOutputtedLocKeysForLanguage(string language) {
 		var keysPerLanguage = new HashSet<string>();
 	
 		foreach (var locBlock in ModFSLocDB) {
@@ -84,8 +122,7 @@ public class CK3LocDB {
 		return keysPerLanguage;
 	}
 
-	public List<string> GetLocLinesToOutputForLanguage(string language) { // TODO: finish this
-		// TODO: also get fallback loc for lines not licalized in the language but localized in the primary language
+	public List<string> GetLocLinesToOutputForLanguage(string language) {
 		var locLinesToOutput = new List<string>();
 		
 		var alreadyWrittenLocForLanguage = GetAlreadyOutputtedLocKeysForLanguage(language);

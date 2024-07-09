@@ -338,8 +338,8 @@ public sealed class Character : IIdentifiable<string> {
 			var name = nameLoc.Replace(' ', '_');
 			SetName(name, null);
 			if (!string.IsNullOrEmpty(name)) {
-				var matchedLocBlock = irLocDB.GetLocBlockForKey(name);
 				var ck3NameLocBlock = ck3LocDB.AddLocBlock(name);
+				var matchedLocBlock = irLocDB.GetLocBlockForKey(name);
 				if (matchedLocBlock is not null) {
 					ck3NameLocBlock.CopyFrom(matchedLocBlock);
 				} else {  // fallback: use unlocalized name as displayed name
