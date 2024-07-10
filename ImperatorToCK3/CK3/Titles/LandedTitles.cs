@@ -39,14 +39,34 @@ public sealed partial class Title {
 	// Since titles are nested according to hierarchy we do this recursively.
 	public sealed class LandedTitles : TitleCollection {
 		public Dictionary<string, object> Variables { get; } = [];
+	
+		public IEnumerable<Title> Counties => this.Where(t => t.Rank == TitleRank.county);
 
-		public void LoadTitles(ModFilesystem ck3ModFS) {
+		public void LoadTitles(ModFilesystem ck3ModFS, CK3LocDB ck3LocDB) {
 			Logger.Info("Loading landed titles...");
 
 			var parser = new Parser();
 			RegisterKeys(parser);
 			parser.ParseGameFolder("common/landed_titles", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 			LogIgnoredTokens();
+			
+			// Make sure every county has an adjective.
+			foreach (var county in Counties) {
+				string adjLocKey = county.Id + "_adj";
+
+				// Use the name loc as the adjective loc.
+				var nameLoc = ck3LocDB.GetLocBlockForKey(county.Id);
+				if (nameLoc is null) {
+					continue;
+				}
+				foreach (var language in ConverterGlobals.SupportedLanguages) {
+					if (ck3LocDB.HasKeyLocForLanguage(adjLocKey, language)) {
+						continue;
+					}
+					
+					ck3LocDB.AddLocForLanguage(adjLocKey, language, nameLoc[language] ?? nameLoc[ConverterGlobals.PrimaryLanguage] ?? county.Id);
+				}
+			}
 
 			Logger.IncrementProgress();
 		}
@@ -128,6 +148,7 @@ public sealed partial class Title {
 			Dependency? dependency,
 			CountryCollection imperatorCountries,
 			LocDB irLocDB,
+			CK3LocDB ck3LocDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			TagTitleMapper tagTitleMapper,
@@ -146,6 +167,7 @@ public sealed partial class Title {
 				dependency,
 				imperatorCountries,
 				irLocDB,
+				ck3LocDB,
 				provinceMapper,
 				coaMapper,
 				tagTitleMapper,
@@ -172,6 +194,7 @@ public sealed partial class Title {
 			bool regionHasMultipleGovernorships,
 			bool staticDeJure,
 			LocDB irLocDB,
+			CK3LocDB ck3LocDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			DefiniteFormMapper definiteFormMapper,
@@ -186,6 +209,7 @@ public sealed partial class Title {
 				regionHasMultipleGovernorships,
 				staticDeJure,
 				irLocDB,
+				ck3LocDB,
 				provinceMapper,
 				coaMapper,
 				definiteFormMapper,
@@ -239,6 +263,7 @@ public sealed partial class Title {
 			IReadOnlyCollection<Dependency> dependencies,
 			TagTitleMapper tagTitleMapper,
 			LocDB irLocDB,
+			CK3LocDB ck3LocDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			GovernmentMapper governmentMapper,
@@ -272,6 +297,7 @@ public sealed partial class Title {
 					imperatorCountries,
 					tagTitleMapper,
 					irLocDB,
+					ck3LocDB,
 					provinceMapper,
 					coaMapper,
 					governmentMapper,
@@ -294,6 +320,7 @@ public sealed partial class Title {
 					imperatorCountries,
 					tagTitleMapper,
 					irLocDB,
+					ck3LocDB,
 					provinceMapper,
 					coaMapper,
 					governmentMapper,
@@ -318,6 +345,7 @@ public sealed partial class Title {
 			CountryCollection imperatorCountries,
 			TagTitleMapper tagTitleMapper,
 			LocDB irLocDB,
+			CK3LocDB ck3LocDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			GovernmentMapper governmentMapper,
@@ -345,6 +373,7 @@ public sealed partial class Title {
 					dependency,
 					imperatorCountries,
 					irLocDB,
+					ck3LocDB,
 					provinceMapper,
 					coaMapper,
 					governmentMapper,
@@ -363,6 +392,7 @@ public sealed partial class Title {
 					dependency,
 					imperatorCountries,
 					irLocDB,
+					ck3LocDB,
 					provinceMapper,
 					coaMapper,
 					tagTitleMapper,
@@ -384,6 +414,7 @@ public sealed partial class Title {
 			ProvinceCollection ck3Provinces,
 			TagTitleMapper tagTitleMapper,
 			LocDB irLocDB,
+			CK3LocDB ck3LocDB,
 			Configuration config,
 			ProvinceMapper provinceMapper,
 			DefiniteFormMapper definiteFormMapper,
@@ -411,6 +442,7 @@ public sealed partial class Title {
 					config.StaticDeJure,
 					tagTitleMapper,
 					irLocDB,
+					ck3LocDB,
 					provinceMapper,
 					definiteFormMapper,
 					imperatorRegionMapper,
@@ -432,6 +464,7 @@ public sealed partial class Title {
 			bool staticDeJure,
 			TagTitleMapper tagTitleMapper,
 			LocDB irLocDB,
+			CK3LocDB ck3LocDB,
 			ProvinceMapper provinceMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
@@ -461,6 +494,7 @@ public sealed partial class Title {
 					regionHasMultipleGovernorships,
 					staticDeJure,
 					irLocDB,
+					ck3LocDB,
 					provinceMapper,
 					definiteFormMapper,
 					imperatorRegionMapper
@@ -475,6 +509,7 @@ public sealed partial class Title {
 					regionHasMultipleGovernorships,
 					staticDeJure,
 					irLocDB,
+					ck3LocDB,
 					provinceMapper,
 					coaMapper,
 					definiteFormMapper,
@@ -614,7 +649,7 @@ public sealed partial class Title {
 			Logger.IncrementProgress();
 		}
 
-		private void SetDeJureKingdoms(Date ck3BookmarkDate) {
+		private void SetDeJureKingdoms(CK3LocDB ck3LocDB, Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure kingdoms...");
 
 			var duchies = this.Where(t => t.Rank == TitleRank.duchy).ToHashSet();
@@ -630,12 +665,12 @@ public sealed partial class Title {
 					kingdom.Color1 = duchy.Color1;
 					kingdom.CapitalCounty = duchy.CapitalCounty;
 
-					var kingdomNameLoc = kingdom.Localizations.AddLocBlock(kingdom.Id);
+					var kingdomNameLoc = ck3LocDB.AddLocBlock(kingdom.Id);
 					kingdomNameLoc.ModifyForEveryLanguage(
 						(orig, language) => $"${duchy.Id}$"
 					);
 					
-					var kingdomAdjLoc = kingdom.Localizations.AddLocBlock(kingdom.Id + "_adj");
+					var kingdomAdjLoc = ck3LocDB.AddLocBlock(kingdom.Id + "_adj");
 					kingdomAdjLoc.ModifyForEveryLanguage(
 						(orig, language) => $"${duchy.Id}_adj$"
 					);
@@ -679,7 +714,7 @@ public sealed partial class Title {
 			Logger.IncrementProgress();
 		}
 
-		private void SetDeJureEmpires(CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, Date ck3BookmarkDate) {
+		private void SetDeJureEmpires(CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3LocDB ck3LocDB, Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure empires...");
 			var deJureKingdoms = GetDeJureKingdoms();
 			
@@ -719,7 +754,7 @@ public sealed partial class Title {
 			var removableEmpireIds = new HashSet<string>();
 			var kingdomToDominantHeritagesDict = new Dictionary<string, ImmutableArray<Pillar>>();
 			var heritageToEmpireDict = GetHeritageIdToExistingTitleDict();
-			CreateEmpiresBasedOnDominantHeritages(deJureKingdoms, ck3Cultures, ck3Characters, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3BookmarkDate);
+			CreateEmpiresBasedOnDominantHeritages(deJureKingdoms, ck3Cultures, ck3Characters, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
 			
 			Logger.Debug("Building kingdom adjacencies dict...");
 			// Create a cache of province IDs per kingdom.
@@ -734,7 +769,7 @@ public sealed partial class Title {
 				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdom.Id, provincesPerKingdomDict, kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody);
 			});
 			
-			SplitDisconnectedEmpires(kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3BookmarkDate);
+			SplitDisconnectedEmpires(kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
 			
 			SetEmpireCapitals(ck3BookmarkDate);
 		}
@@ -746,6 +781,7 @@ public sealed partial class Title {
 			HashSet<string> removableEmpireIds,
 			IDictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
 			Dictionary<string, Title> heritageToEmpireDict,
+			CK3LocDB ck3LocDB,
 			Date ck3BookmarkDate
 		) {
 			var kingdomsWithoutEmpire = deJureKingdoms
@@ -782,7 +818,7 @@ public sealed partial class Title {
 					kingdom.DeJureLiege = empire;
 				} else {
 					// Create new de jure empire based on heritage.
-					var heritageEmpire = CreateEmpireForHeritage(dominantHeritage, ck3Cultures);
+					var heritageEmpire = CreateEmpireForHeritage(dominantHeritage, ck3Cultures, ck3LocDB);
 					removableEmpireIds.Add(heritageEmpire.Id);
 					
 					kingdom.DeJureLiege = heritageEmpire;
@@ -839,12 +875,12 @@ public sealed partial class Title {
 			return heritageToEmpireDict;
 		}
 
-		private Title CreateEmpireForHeritage(Pillar heritage, CultureCollection ck3Cultures) {
+		private Title CreateEmpireForHeritage(Pillar heritage, CultureCollection ck3Cultures, CK3LocDB ck3LocDB) {
 			var newEmpireId = $"e_IRTOCK3_heritage_{heritage.Id}";
 			var newEmpire = Add(newEmpireId);
-			var nameLocBlock = newEmpire.Localizations.AddLocBlock(newEmpire.Id);
+			var nameLocBlock = ck3LocDB.AddLocBlock(newEmpire.Id);
 			nameLocBlock[ConverterGlobals.PrimaryLanguage] = $"${heritage.Id}_name$ Empire";
-			var adjectiveLocBlock = newEmpire.Localizations.AddLocBlock($"{newEmpire.Id}_adj");
+			var adjectiveLocBlock = ck3LocDB.AddLocBlock($"{newEmpire.Id}_adj");
 			adjectiveLocBlock[ConverterGlobals.PrimaryLanguage] = $"${heritage.Id}_name$";
 			newEmpire.HasDefiniteForm = true;
 
@@ -861,6 +897,7 @@ public sealed partial class Title {
 			HashSet<string> removableEmpireIds,
 			Dictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
 			Dictionary<string, Title> heritageToEmpireDict,
+			CK3LocDB ck3LocDB,
 			Date date
 		) {
 			Logger.Debug("Splitting disconnected empires...");
@@ -969,12 +1006,12 @@ public sealed partial class Title {
 					newEmpire.CapitalCounty = mostDevelopedCounty;
 					newEmpire.HasDefiniteForm = false;
 					
-					var empireNameLoc = newEmpire.Localizations.AddLocBlock(newEmpireId);
+					var empireNameLoc = ck3LocDB.AddLocBlock(newEmpireId);
 					empireNameLoc.ModifyForEveryLanguage(
 						(orig, language) => $"${mostDevelopedCounty.Id}$"
 					);
 					
-					var empireAdjLoc = newEmpire.Localizations.AddLocBlock(newEmpireId + "_adj");
+					var empireAdjLoc = ck3LocDB.AddLocBlock(newEmpireId + "_adj");
 					empireAdjLoc.ModifyForEveryLanguage(
 						(orig, language) => $"${mostDevelopedCounty.Id}_adj$"
 					);
@@ -1097,9 +1134,9 @@ public sealed partial class Title {
 			}
 		}
 
-		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData) {
-			SetDeJureKingdoms(ck3BookmarkDate);
-			SetDeJureEmpires(ck3Cultures, ck3Characters, ck3MapData, ck3BookmarkDate);
+		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3LocDB ck3LocDB) {
+			SetDeJureKingdoms(ck3LocDB, ck3BookmarkDate);
+			SetDeJureEmpires(ck3Cultures, ck3Characters, ck3MapData, ck3LocDB, ck3BookmarkDate);
 		}
 
 		private HashSet<string> GetCountyHolderIds(Date date) {

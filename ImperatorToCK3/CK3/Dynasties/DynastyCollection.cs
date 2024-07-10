@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace ImperatorToCK3.CK3.Dynasties;
 
 public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dynasty> {
-	public void ImportImperatorFamilies(Imperator.World irWorld, CultureMapper cultureMapper, LocDB irLocDB, Date date) {
+	public void ImportImperatorFamilies(Imperator.World irWorld, CultureMapper cultureMapper, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
 		Logger.Info("Importing Imperator families...");
 
 		var imperatorCharacters = irWorld.Characters;
@@ -24,13 +24,13 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 				return;
 			}
 
-			var newDynasty = new Dynasty(family, imperatorCharacters, irWorld.CulturesDB, cultureMapper, irLocDB, date);
+			var newDynasty = new Dynasty(family, imperatorCharacters, irWorld.CulturesDB, cultureMapper, irLocDB, ck3LocDB, date);
 			AddOrReplace(newDynasty);
 			Interlocked.Increment(ref importedCount);
 		});
 		Logger.Info($"{importedCount} total families imported.");
 
-		CreateDynastiesForCharactersFromMinorFamilies(irWorld, irLocDB, date);
+		CreateDynastiesForCharactersFromMinorFamilies(irWorld, irLocDB, ck3LocDB, date);
 
 		Logger.IncrementProgress();
 	}
@@ -47,7 +47,7 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 		parser.ParseGameFolder("common/dynasties", ck3ModFS, "txt", recursive: true, parallel: true);
 	}
 
-	private void CreateDynastiesForCharactersFromMinorFamilies(Imperator.World irWorld, LocDB irLocDB, Date date) {
+	private void CreateDynastiesForCharactersFromMinorFamilies(Imperator.World irWorld, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
 		Logger.Info("Creating dynasties for characters from minor families...");
 
 		var relevantImperatorCharacters = irWorld.Characters
@@ -77,7 +77,7 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 			}
 
 			// Neither character nor their father have a dynasty, so we need to create a new one.
-			var newDynasty = new Dynasty(ck3Character, irFamilyName, irWorld.CulturesDB, irLocDB, date);
+			var newDynasty = new Dynasty(ck3Character, irFamilyName, irWorld.CulturesDB, irLocDB, ck3LocDB, date);
 			Add(newDynasty);
 			++createdDynastiesCount;
 		}

@@ -41,6 +41,7 @@ namespace ImperatorToCK3.CK3;
 public sealed class World {
 	public OrderedSet<Mod> LoadedMods { get; }
 	public ModFilesystem ModFS { get; }
+	public CK3LocDB LocDB { get; }
 	private ScriptValueCollection ScriptValues { get; } = new();
 	public NamedColorCollection NamedColors { get; } = new();
 	public CharacterCollection Characters { get; } = new();
@@ -101,6 +102,8 @@ public sealed class World {
 		// Include a fake mod pointing to blankMod.
 		LoadedMods.Add(new Mod("blankMod", "blankMod/output"));
 		ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), LoadedMods);
+		// Now that we have the mod filesystem, we can initialize the localization database.
+		LocDB = new(ModFS);
 		Logger.IncrementProgress();
 
 		ScriptValues.LoadScriptValues(ModFS);
@@ -128,7 +131,7 @@ public sealed class World {
 		MapData = new MapData(ModFS);
 
 		// Load vanilla CK3 landed titles and their history
-		LandedTitles.LoadTitles(ModFS);
+		LandedTitles.LoadTitles(ModFS, LocDB);
 
 		if (config.StaticDeJure) {
 			Logger.Info("Setting static de jure kingdoms and empires...");
@@ -196,13 +199,14 @@ public sealed class World {
 			provinceMapper,
 			deathReasonMapper,
 			dnaFactory,
+			LocDB,
 			CorrectedDate,
 			config
 		);
 		ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
 		Dynasties.LoadCK3Dynasties(ModFS);
-		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB, CorrectedDate);
+		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB, LocDB, CorrectedDate);
 		DynastyHouses.LoadCK3Houses(ModFS);
 		
 		// Load existing CK3 government IDs.
@@ -224,6 +228,7 @@ public sealed class World {
 			impWorld.Dependencies,
 			tagTitleMapper,
 			impWorld.LocDB,
+			LocDB,
 			provinceMapper,
 			impWorld.CoaMapper,
 			governmentMapper,
@@ -252,6 +257,7 @@ public sealed class World {
 			Provinces,
 			tagTitleMapper,
 			impWorld.LocDB,
+			LocDB,
 			config,
 			provinceMapper,
 			definiteFormMapper,
@@ -274,13 +280,13 @@ public sealed class World {
 		GenerateFillerHoldersForUnownedLands(Cultures, config);
 		Logger.IncrementProgress();
 		if (!config.StaticDeJure) {
-			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Cultures, Characters, MapData);
+			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Cultures, Characters, MapData, LocDB);
 		}
 		
 		Dynasties.SetCoasForRulingDynasties(LandedTitles, config.CK3BookmarkDate);
 
 		Characters.DistributeCountriesGold(LandedTitles, config);
-		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, config);
+		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, LocDB, config);
 
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		Characters.PurgeUnneededCharacters(LandedTitles, Dynasties, DynastyHouses, config.CK3BookmarkDate);
@@ -367,7 +373,8 @@ public sealed class World {
 			}
 			var holderId = title.GetHolderId(ck3BookmarkDate);
 			if (holderId != "0" && Characters.TryGetValue(holderId, out var holder)) {
-				title.Localizations.AddLocBlock($"{holder.GetName(ck3BookmarkDate)}_desc");
+				var locBlock = LocDB.AddLocBlock($"{holder.GetName(ck3BookmarkDate)}_desc");
+				locBlock.ModifyForEveryLanguage((loc, language) => string.Empty);
 			}
 		}
 	}

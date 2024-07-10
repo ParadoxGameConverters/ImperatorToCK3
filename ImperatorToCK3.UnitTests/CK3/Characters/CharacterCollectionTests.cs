@@ -97,6 +97,7 @@ public class CharacterCollectionTests {
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
+			new TestCK3LocDB(),
 			endDate,
 			configuration);
 
@@ -141,6 +142,7 @@ public class CharacterCollectionTests {
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
+			new TestCK3LocDB(),
 			endDate,
 			configuration);
 
@@ -192,6 +194,7 @@ public class CharacterCollectionTests {
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
+			new TestCK3LocDB(),
 			conversionDate,
 			configuration);
 
@@ -297,6 +300,7 @@ public class CharacterCollectionTests {
 		var traitMapper = new TraitMapper();
 		var nicknameMapper = new NicknameMapper();
 		var deathReasonMapper = new DeathReasonMapper();
+		var ck3LocDB = new TestCK3LocDB();
 
 		// Import Imperator ruler and governors.
 		var characters = new CharacterCollection();
@@ -310,6 +314,7 @@ public class CharacterCollectionTests {
 			provinceMapper,
 			deathReasonMapper,
 			new DNAFactory(irModFS, ck3ModFS),
+			ck3LocDB,
 			conversionDate,
 			config);
 
@@ -319,6 +324,7 @@ public class CharacterCollectionTests {
 			Array.Empty<Dependency>(),
 			tagTitleMapper,
 			imperatorWorld.LocDB,
+			ck3LocDB,
 			provinceMapper,
 			coaMapper,
 			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
@@ -340,6 +346,7 @@ public class CharacterCollectionTests {
 			provinces,
 			tagTitleMapper,
 			imperatorWorld.LocDB,
+			ck3LocDB,
 			config,
 			provinceMapper,
 			definiteFormMapper,

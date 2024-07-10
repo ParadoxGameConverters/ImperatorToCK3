@@ -1,6 +1,6 @@
 using commonItems;
-using commonItems.Localization;
 using commonItems.Serialization;
+using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CommonUtils;
 using System.IO;
@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace ImperatorToCK3.Outputter;
 
 public static class ReligionsOutputter {
-	public static async Task OutputReligionsAndHolySites(string outputModPath, ReligionCollection ck3ReligionCollection, LocDB ck3LocDB) {
+	public static async Task OutputReligionsAndHolySites(string outputModPath, ReligionCollection ck3ReligionCollection, CK3LocDB ck3LocDB) {
 		await Task.WhenAll(
 			OutputHolySites(outputModPath, ck3ReligionCollection, ck3LocDB),
 			OutputReligions(outputModPath, ck3ReligionCollection)
@@ -19,7 +19,7 @@ public static class ReligionsOutputter {
 		Logger.IncrementProgress();
 	}
 
-	private static async Task OutputHolySites(string outputModPath, ReligionCollection ck3ReligionCollection, LocDB ck3LocDB) {
+	private static async Task OutputHolySites(string outputModPath, ReligionCollection ck3ReligionCollection, CK3LocDB ck3LocDB) {
 		Logger.Info("Writing holy sites...");
 
 		var sitesToOutput = ck3ReligionCollection.HolySites.Where(s => s.IsGeneratedByConverter)
