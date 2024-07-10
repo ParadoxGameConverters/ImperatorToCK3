@@ -3,6 +3,7 @@ using ImperatorToCK3.CK3;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace ImperatorToCK3.Outputter;
@@ -37,30 +38,31 @@ public static class LocalizationOutputter {
 
 	private static void OutputFallbackLocForMissingSecondaryLanguageLoc(string baseLocDir, CK3LocDB ck3LocDB) {
 		Logger.Debug("Outputting fallback loc for missing secondary language loc...");
-		var primaryLanguage = ConverterGlobals.PrimaryLanguage;
-		var secondaryLanguages = ConverterGlobals.SecondaryLanguages;
 		
 		var languageToLocLinesDict = new Dictionary<string, List<string>>();
-		foreach (var language in secondaryLanguages) {
+		foreach (var language in ConverterGlobals.SecondaryLanguages) {
 			languageToLocLinesDict[language] = [];
 		}
+
+		var allLocKeys = ck3LocDB.Select(locBlock => locBlock.Id).ToHashSet();
 		
-		foreach (var locBlock in ck3LocDB) {
-			if (!locBlock.HasLocForLanguage(primaryLanguage)) {
+		foreach (var locKey in allLocKeys) {
+			if (!ck3LocDB.HasKeyLocForLanguage(locKey, ConverterGlobals.PrimaryLanguage)) {
 				continue;
 			}
 
-			foreach (var secondaryLanguage in secondaryLanguages) {
-				if (locBlock.HasLocForLanguage(secondaryLanguage)) {
+			foreach (var secondaryLanguage in ConverterGlobals.SecondaryLanguages) {
+				if (ck3LocDB.HasKeyLocForLanguage(locKey, secondaryLanguage)) {
 					continue;
 				}
-				
-				languageToLocLinesDict[secondaryLanguage].Add(locBlock.GetYmlLocLineForLanguage(primaryLanguage));
+
+				var locLine = ck3LocDB.GetYmlLocLineForLanguage(locKey, ConverterGlobals.PrimaryLanguage);
+				languageToLocLinesDict[secondaryLanguage].Add(locLine!);
 			}
 		}
 		
 		var sb = new StringBuilder();
-		foreach (var language in secondaryLanguages) {
+		foreach (var language in ConverterGlobals.SecondaryLanguages) {
 			var linesToOutput = languageToLocLinesDict[language];
 			if (linesToOutput.Count == 0) {
 				continue;

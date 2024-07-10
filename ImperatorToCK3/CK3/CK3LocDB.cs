@@ -98,6 +98,20 @@ public class CK3LocDB : IEnumerable<LocBlock> {
 		}
 	}
 
+	public string? GetYmlLocLineForLanguage(string key, string language) {
+		if (ConverterGeneratedLocDB.TryGetValue(key, out var locBlock) && locBlock.HasLocForLanguage(language)) {
+			return locBlock.GetYmlLocLineForLanguage(language);
+		}
+		if (ModFSLocDB.TryGetValue(key, out locBlock) && locBlock.HasLocForLanguage(language)) {
+			return locBlock.GetYmlLocLineForLanguage(language);
+		}
+		if (OptionalConverterLocDB.TryGetValue(key, out locBlock) && locBlock.HasLocForLanguage(language)) {
+			return locBlock.GetYmlLocLineForLanguage(language);
+		}
+		
+		return null;
+	}
+
 	IEnumerator IEnumerable.GetEnumerator() {
 		return GetEnumerator();
 	}
