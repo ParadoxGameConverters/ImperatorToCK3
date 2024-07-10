@@ -4,6 +4,7 @@ using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using FluentAssertions;
+using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
@@ -70,7 +71,8 @@ public class CK3CharacterTests {
 		private CultureMapper cultureMapper = new(IRRegionMapper, new CK3RegionMapper(), cultures);
 		private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", CK3ModFS);
 		private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
-		private LocDB locDB = new("english");
+		private LocDB irLocDB = new("english");
+		private CK3LocDB ck3LocDB = new(CK3ModFS);
 		private ProvinceMapper provinceMapper = new();
 		private DeathReasonMapper deathReasonMapper = new();
 
@@ -84,7 +86,8 @@ public class CK3CharacterTests {
 				cultureMapper,
 				traitMapper,
 				nicknameMapper,
-				locDB,
+				irLocDB,
+				ck3LocDB,
 				irMapData,
 				provinceMapper,
 				deathReasonMapper,
@@ -119,8 +122,12 @@ public class CK3CharacterTests {
 			this.nicknameMapper = nicknameMapper;
 			return this;
 		}
-		public CK3CharacterBuilder WithLocDB(LocDB locDB) {
-			this.locDB = locDB;
+		public CK3CharacterBuilder WithIRLocDB(LocDB irLocDB) {
+			this.irLocDB = irLocDB;
+			return this;
+		}
+		public CK3CharacterBuilder WithCK3LocDB(CK3LocDB ck3LocDB) {
+			this.ck3LocDB = ck3LocDB;
 			return this;
 		}
 		public CK3CharacterBuilder WithProvinceMapper(ProvinceMapper provinceMapper) {
@@ -382,12 +389,15 @@ public class CK3CharacterTests {
 		var nameLocBlock = locDB.AddLocBlock("alexandros");
 		nameLocBlock["english"] = "Alexandros";
 
+		var ck3LocDB = new TestCK3LocDB();
+
 		var character = builder
 			.WithImperatorCharacter(imperatorCharacter)
-			.WithLocDB(locDB)
+			.WithIRLocDB(locDB)
+			.WithCK3LocDB(ck3LocDB)
 			.Build();
 		Assert.Equal("alexandros", character.GetName(ConversionDate));
-		Assert.Equal("Alexandros", character.Localizations["alexandros"]["english"]);
+		Assert.Equal("Alexandros", ck3LocDB.GetLocBlockForKey("alexandros")!["english"]);
 	}
 
 	[Fact]
@@ -502,7 +512,7 @@ public class CK3CharacterTests {
 		landedCharacter.Father = fatherOfLandedCharacter;
 		childlessRelative.Father = fatherOfLandedCharacter;
 
-		var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(irFamily, irCharacters, new CulturesDB(), CultureMapper, new LocDB("english"), ConversionDate);
+		var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(irFamily, irCharacters, new CulturesDB(), CultureMapper, new LocDB("english"), new TestCK3LocDB(), ConversionDate);
 		var dynasties = new DynastyCollection { dynasty };
 		Assert.Equal(dynasty.Id, landedCharacter.GetDynastyId(ConversionDate));
 		Assert.Equal(dynasty.Id, fatherOfLandedCharacter.GetDynastyId(ConversionDate));

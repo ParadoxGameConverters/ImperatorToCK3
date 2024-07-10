@@ -21,6 +21,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Outputter;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -60,6 +61,7 @@ public class CoatOfArmsOutputterTests {
 			Array.Empty<Dependency>(),
 			new TagTitleMapper(),
 			new LocDB("english"),
+			new TestCK3LocDB(),
 			new ProvinceMapper(),
 			new CoaMapper(irModFS),
 			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
@@ -105,6 +107,7 @@ public class CoatOfArmsOutputterTests {
 			Array.Empty<Dependency>(),
 			new TagTitleMapper(),
 			new LocDB("english"),
+			new TestCK3LocDB(),
 			new ProvinceMapper(),
 			new CoaMapper(irModFS),
 			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),

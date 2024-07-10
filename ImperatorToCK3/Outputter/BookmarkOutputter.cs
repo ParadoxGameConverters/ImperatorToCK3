@@ -20,7 +20,7 @@ using Color = SixLabors.ImageSharp.Color;
 namespace ImperatorToCK3.Outputter;
 
 public static class BookmarkOutputter {
-	public static async Task OutputBookmark(World world, Configuration config, LocDB ck3LocDB) {
+	public static async Task OutputBookmark(World world, Configuration config, CK3LocDB ck3LocDB) {
 		Logger.Info("Creating bookmark...");
 
 		await OutputBookmarkGroup(config);
@@ -68,7 +68,7 @@ public static class BookmarkOutputter {
 		StringBuilder sb,
 		string holderId,
 		World world,
-		LocDB ck3LocDB,
+		CK3LocDB ck3LocDB,
 		IReadOnlyDictionary<ulong, ProvincePosition> provincePositions,
 		Configuration config
 	) {
@@ -76,7 +76,11 @@ public static class BookmarkOutputter {
 
 		// Add character localization for bookmark screen.
 		var holderLoc = ck3LocDB.AddLocBlock($"bm_converted_{holder.Id}");
-		holderLoc.CopyFrom(holder.Localizations[holder.GetName(config.CK3BookmarkDate)!]);
+		if (holder.GetName(config.CK3BookmarkDate) is {} holderName) {
+			if (ck3LocDB.TryGetValue(holderName, out var holderNameLoc)) {
+				holderLoc.CopyFrom(holderNameLoc);
+			}
+		}
 		var holderDescLoc = ck3LocDB.AddLocBlock($"bm_converted_{holder.Id}_desc");
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			holderDescLoc[language] = string.Empty;

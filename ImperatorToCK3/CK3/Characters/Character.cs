@@ -151,7 +151,6 @@ public sealed class Character : IIdentifiable<string> {
 	public IDictionary<string, int> MenAtArmsStacksPerType { get; } = new Dictionary<string, int>();
 
 	public IDictionary<string, string> PrisonerIds { get; } = new Dictionary<string, string>(); // <prisoner id, imprisonment type>
-	public IDictionary<string, LocBlock> Localizations { get; } = new Dictionary<string, LocBlock>();
 
 	public DNA? DNA { get; private set; }
 
@@ -234,6 +233,7 @@ public sealed class Character : IIdentifiable<string> {
 		Country imperatorCountry,
 		CharacterCollection characters,
 		LocDB irLocDB,
+		CK3LocDB ck3LocDB,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
@@ -248,12 +248,11 @@ public sealed class Character : IIdentifiable<string> {
 		SetName(name, null);
 		if (!string.IsNullOrEmpty(name)) {
 			var impNameLoc = irLocDB.GetLocBlockForKey(name);
+			LocBlock ck3NameLoc = ck3LocDB.AddLocBlock(name);
 			if (impNameLoc is not null) {
-				Localizations.Add(name, impNameLoc);
+				ck3NameLoc.CopyFrom(impNameLoc);
 			} else {  // fallback: use unlocalized name as displayed name
-				Localizations.Add(name, new LocBlock(name, ConverterGlobals.PrimaryLanguage) {
-					[ConverterGlobals.PrimaryLanguage] = name,
-				});
+				ck3NameLoc[ConverterGlobals.PrimaryLanguage] = name;
 			}
 		}
 
@@ -308,6 +307,7 @@ public sealed class Character : IIdentifiable<string> {
 		TraitMapper traitMapper,
 		NicknameMapper nicknameMapper,
 		LocDB irLocDB,
+		CK3LocDB ck3LocDB,
 		MapData irMapData,
 		ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 		DeathReasonMapper deathReasonMapper,
@@ -328,25 +328,23 @@ public sealed class Character : IIdentifiable<string> {
 			var locKey = CommonFunctions.NormalizeUTF8Path(loc.FoldToASCII().Replace(' ', '_'));
 			var name = $"IRTOCK3_CUSTOM_NAME_{locKey}";
 			SetName(name, null);
-
-			var locBlock = new LocBlock(name, ConverterGlobals.PrimaryLanguage) {
-				[ConverterGlobals.PrimaryLanguage] = loc
-			};
-			Localizations.Add(name, locBlock);
+			
+			var ck3NameLocBlock = ck3LocDB.AddLocBlock(name);
+			foreach (var language in ConverterGlobals.SupportedLanguages) {
+				ck3NameLocBlock[language] = loc;
+			}
 		} else {
 			var nameLoc = ImperatorCharacter.Name;
 			var name = nameLoc.Replace(' ', '_');
 			SetName(name, null);
 			if (!string.IsNullOrEmpty(name)) {
+				var ck3NameLocBlock = ck3LocDB.AddLocBlock(name);
 				var matchedLocBlock = irLocDB.GetLocBlockForKey(name);
 				if (matchedLocBlock is not null) {
-					Localizations.Add(name, matchedLocBlock);
+					ck3NameLocBlock.CopyFrom(matchedLocBlock);
 				} else {  // fallback: use unlocalized name as displayed name
 					unlocalizedImperatorNames.Add(name);
-					var locBlock = new LocBlock(name, ConverterGlobals.PrimaryLanguage) {
-						[ConverterGlobals.PrimaryLanguage] = nameLoc
-					};
-					Localizations.Add(name, locBlock);
+					ck3NameLocBlock[ConverterGlobals.PrimaryLanguage] = nameLoc;
 				}
 			}
 		}
@@ -658,13 +656,12 @@ public sealed class Character : IIdentifiable<string> {
 		IEnumerable<Unit> countryUnits,
 		Date date,
 		UnitTypeMapper unitTypeMapper,
-		IdObjectCollection<string, MenAtArmsType> menAtArmsTypes
+		IdObjectCollection<string, MenAtArmsType> menAtArmsTypes,
+		CK3LocDB ck3LocDB
 	) {
 		var locKey = $"IRToCK3_character_{Id}";
-		var locBlock = new LocBlock(locKey, ConverterGlobals.PrimaryLanguage) {
-			[ConverterGlobals.PrimaryLanguage] = $"[GetPlayer.MakeScope.Var('IRToCK3_character_{Id}').Char.GetID]"
-		};
-		Localizations.Add(locKey, locBlock);
+		var locBlock = ck3LocDB.AddLocBlock(locKey);
+		locBlock[ConverterGlobals.PrimaryLanguage] = $"[GetPlayer.MakeScope.Var('IRToCK3_character_{Id}').Char.GetID]";
 
 		var menPerUnitType = new Dictionary<string, int>();
 		foreach (var unit in countryUnits) {
@@ -683,10 +680,8 @@ public sealed class Character : IIdentifiable<string> {
 			menAtArmsTypes.Add(dedicatedType);
 			MenAtArmsStacksPerType[dedicatedType.Id] = 1;
 
-			var maaTypeLocBlock = new LocBlock(dedicatedType.Id, ConverterGlobals.PrimaryLanguage) {
-				[ConverterGlobals.PrimaryLanguage] = $"${baseType.Id}$"
-			};
-			Localizations.Add(dedicatedType.Id, maaTypeLocBlock);
+			var maaTypeLocBlock = ck3LocDB.AddLocBlock(dedicatedType.Id);
+			maaTypeLocBlock[ConverterGlobals.PrimaryLanguage] = $"${baseType.Id}$";
 		}
 
 		var sb = new StringBuilder();
@@ -699,7 +694,8 @@ public sealed class Character : IIdentifiable<string> {
 		Imperator.Characters.CharacterCollection imperatorCharacters,
 		Date date,
 		UnitTypeMapper unitTypeMapper,
-		ProvinceMapper provinceMapper
+		ProvinceMapper provinceMapper,
+		CK3LocDB ck3LocDB
 	) {
 		var sb = new StringBuilder();
 		sb.AppendLine("{");
@@ -718,7 +714,8 @@ public sealed class Character : IIdentifiable<string> {
 			if (unit.LocalizedName is not null) {
 				var locKey = unit.LocalizedName.Id;
 				sb.AppendLine($"\t\t\tname={locKey}");
-				Localizations[locKey] = unit.LocalizedName;
+				var unitLocBlock = ck3LocDB.AddLocBlock(locKey);
+				unitLocBlock.CopyFrom(unit.LocalizedName);
 			}
 
 			foreach (var (type, men) in menPerUnitType) {

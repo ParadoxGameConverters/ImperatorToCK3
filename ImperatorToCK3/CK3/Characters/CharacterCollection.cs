@@ -34,6 +34,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		ProvinceMapper provinceMapper,
 		DeathReasonMapper deathReasonMapper,
 		DNAFactory dnaFactory,
+		CK3LocDB ck3LocDB,
 		Date conversionDate,
 		Configuration config
 	) {
@@ -49,6 +50,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 				traitMapper,
 				nicknameMapper,
 				impWorld.LocDB,
+				ck3LocDB,
 				impWorld.MapData,
 				provinceMapper,
 				deathReasonMapper,
@@ -85,6 +87,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		TraitMapper traitMapper,
 		NicknameMapper nicknameMapper,
 		LocDB irLocDB,
+		CK3LocDB ck3LocDB,
 		MapData irMapData,
 		ProvinceMapper provinceMapper,
 		DeathReasonMapper deathReasonMapper,
@@ -101,6 +104,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			traitMapper,
 			nicknameMapper,
 			irLocDB,
+			ck3LocDB,
 			irMapData,
 			provinceMapper,
 			deathReasonMapper,
@@ -586,6 +590,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		UnitTypeMapper unitTypeMapper,
 		IdObjectCollection<string, MenAtArmsType> menAtArmsTypes,
 		ProvinceMapper provinceMapper,
+		CK3LocDB ck3LocDB,
 		Configuration config
 	) {
 		Logger.Info("Importing Imperator armies...");
@@ -607,9 +612,9 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			var ruler = this[rulerId];
 
 			if (config.LegionConversion == LegionConversion.MenAtArms) {
-				ruler.ImportUnitsAsMenAtArms(countryLegions, date, unitTypeMapper, menAtArmsTypes);
+				ruler.ImportUnitsAsMenAtArms(countryLegions, date, unitTypeMapper, menAtArmsTypes, ck3LocDB);
 			} else if (config.LegionConversion == LegionConversion.SpecialTroops) {
-				ruler.ImportUnitsAsSpecialTroops(countryLegions, imperatorCharacters, date, unitTypeMapper, provinceMapper);
+				ruler.ImportUnitsAsSpecialTroops(countryLegions, imperatorCharacters, date, unitTypeMapper, provinceMapper, ck3LocDB);
 			}
 		}
 
