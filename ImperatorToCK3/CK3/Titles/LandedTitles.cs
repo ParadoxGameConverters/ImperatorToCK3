@@ -39,6 +39,8 @@ public sealed partial class Title {
 	// Since titles are nested according to hierarchy we do this recursively.
 	public sealed class LandedTitles : TitleCollection {
 		public Dictionary<string, object> Variables { get; } = [];
+	
+		public IEnumerable<Title> Counties => this.Where(t => t.Rank == TitleRank.county);
 
 		public void LoadTitles(ModFilesystem ck3ModFS, CK3LocDB ck3LocDB) {
 			Logger.Info("Loading landed titles...");
@@ -49,17 +51,20 @@ public sealed partial class Title {
 			LogIgnoredTokens();
 			
 			// Make sure every county has an adjective.
-			foreach (var county in this.Where(t => t.Rank == TitleRank.county)) {
+			foreach (var county in Counties) {
 				string adjLocKey = county.Id + "_adj";
-				if (ck3LocDB.ContainsKey(adjLocKey)) {
-					continue;
-				}
-				
+
 				// Use the name loc as the adjective loc.
 				var nameLoc = ck3LocDB.GetLocBlockForKey(county.Id);
-				if (nameLoc is not null) {
-					var adjLoc = ck3LocDB.AddLocBlock(adjLocKey);
-					adjLoc.CopyFrom(nameLoc);
+				if (nameLoc is null) {
+					continue;
+				}
+				foreach (var language in ConverterGlobals.SupportedLanguages) {
+					if (ck3LocDB.HasKeyLocForLanguage(adjLocKey, language)) {
+						continue;
+					}
+					
+					ck3LocDB.AddLocForLanguage(adjLocKey, language, nameLoc[language] ?? nameLoc[ConverterGlobals.PrimaryLanguage] ?? county.Id);
 				}
 			}
 

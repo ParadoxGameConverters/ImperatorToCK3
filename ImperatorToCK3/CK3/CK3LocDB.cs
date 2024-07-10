@@ -79,6 +79,25 @@ public class CK3LocDB : IEnumerable<LocBlock> {
 		return null;
 	}
 
+	public bool HasKeyLocForLanguage(string key, string language) {
+		if (ModFSLocDB.ContainsKey(key) && ModFSLocDB[key].HasLocForLanguage(language)) {
+			return true;
+		}
+		if (ConverterGeneratedLocDB.ContainsKey(key) && ConverterGeneratedLocDB[key].HasLocForLanguage(language)) {
+			return true;
+		}
+		if (OptionalConverterLocDB.ContainsKey(key) && OptionalConverterLocDB[key].HasLocForLanguage(language)) {
+			return true;
+		}
+		return false;
+	}
+
+	public void AddLocForLanguage(string key, string language, string loc) {
+		lock (insertionLock) {
+			ConverterGeneratedLocDB.AddLocForKeyAndLanguage(key, language, loc);
+		}
+	}
+
 	IEnumerator IEnumerable.GetEnumerator() {
 		return GetEnumerator();
 	}

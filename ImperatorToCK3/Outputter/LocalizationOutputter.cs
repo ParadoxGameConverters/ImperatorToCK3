@@ -1,5 +1,4 @@
 ﻿using commonItems;
-using commonItems.Localization;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
