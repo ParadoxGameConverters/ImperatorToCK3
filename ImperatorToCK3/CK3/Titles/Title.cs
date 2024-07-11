@@ -365,10 +365,16 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var modifiedPrylocBlockToReturn = new LocBlock(pryLocKey, pryLocBlock);
 				const string pryNameKey = "PRY";
 				modifiedPrylocBlockToReturn.ModifyForEveryLanguage(
-					irLocDB.GetLocBlockForKey(pryNameKey) ?? new LocBlock(pryNameKey, ConverterGlobals.PrimaryLanguage) {
+					otherBlock: irLocDB.GetLocBlockForKey(pryNameKey) ?? new LocBlock(pryNameKey, ConverterGlobals.PrimaryLanguage) {
 						[ConverterGlobals.PrimaryLanguage] = "Antigonid Kingdom"
 					},
-					(loc, modifyingLoc, _) => loc?.Replace($"${pryNameKey}$", modifyingLoc));
+					(loc, modifyingLoc, language) => {
+						var locToReturn = loc?.Replace($"${pryNameKey}$", modifyingLoc);
+						if (locToReturn is not null && locToReturn.Contains("[GetCountry(")) {
+							locToReturn = irLocDB.GetLocBlockForKey("get_pry_name_fallback")?[language];
+						}
+						return locToReturn;
+					});
 				return modifiedPrylocBlockToReturn;
 			case "PRY_DYN":
 				return irLocDB.GetLocBlockForKey("get_pry_name_fallback");
@@ -382,10 +388,16 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var modifiedSelLocBlockToReturn = new LocBlock(selLocKey, selLocBlock);
 				const string selNameKey = "SEL";
 				modifiedSelLocBlockToReturn.ModifyForEveryLanguage(
-					irLocDB.GetLocBlockForKey(selNameKey) ?? new LocBlock(selNameKey, ConverterGlobals.PrimaryLanguage) {
+					otherBlock: irLocDB.GetLocBlockForKey(selNameKey) ?? new LocBlock(selNameKey, ConverterGlobals.PrimaryLanguage) {
 						[ConverterGlobals.PrimaryLanguage] = "Seleukid Empire"
 					},
-					(loc, modifyingLoc, _) => loc?.Replace($"${selNameKey}$", modifyingLoc));
+					(loc, modifyingLoc, language) => {
+						var locToReturn = loc?.Replace($"${selNameKey}$", modifyingLoc);
+						if (locToReturn is not null && locToReturn.Contains("[GetCountry(")) {
+							locToReturn = irLocDB.GetLocBlockForKey("get_sel_name_fallback")?[language];
+						}
+						return locToReturn;
+					});
 				return modifiedSelLocBlockToReturn;
 			case "SEL_DYN":
 				return irLocDB.GetLocBlockForKey("get_sel_name_fallback");
@@ -399,10 +411,16 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var modifiedMryLocBlockToReturn = new LocBlock(mryLocKey, mryLocBlock);
 				const string mryNameKey = "MRY";
 				modifiedMryLocBlockToReturn.ModifyForEveryLanguage(
-					irLocDB.GetLocBlockForKey(mryNameKey) ?? new LocBlock(mryNameKey, ConverterGlobals.PrimaryLanguage) {
+					otherBlock: irLocDB.GetLocBlockForKey(mryNameKey) ?? new LocBlock(mryNameKey, ConverterGlobals.PrimaryLanguage) {
 						[ConverterGlobals.PrimaryLanguage] = "Maurya"
 					},
-					(loc, modifyingLoc, _) => loc?.Replace($"${mryNameKey}$", modifyingLoc));
+					(loc, modifyingLoc, language) => {
+						var locToReturn = loc?.Replace($"${mryNameKey}$", modifyingLoc);
+						if (locToReturn is not null && locToReturn.Contains("[GetCountry(")) {
+							locToReturn = irLocDB.GetLocBlockForKey("get_mry_name_fallback")?[language];
+						}
+						return locToReturn;
+					});
 				return modifiedMryLocBlockToReturn;
 			case "MRY_DYN":
 				return irLocDB.GetLocBlockForKey("get_mry_name_fallback");
@@ -731,10 +749,16 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 						const string pryAdjKey = "PRY_ADJ";
 						validatedAdj = new LocBlock(pryAdjLocBlock.Id, pryAdjLocBlock);
 						validatedAdj.ModifyForEveryLanguage(
-							irLocDB.GetLocBlockForKey(pryAdjKey) ?? new LocBlock(pryAdjKey, ConverterGlobals.PrimaryLanguage) {
+							otherBlock: irLocDB.GetLocBlockForKey(pryAdjKey) ?? new LocBlock(pryAdjKey, ConverterGlobals.PrimaryLanguage) {
 								[ConverterGlobals.PrimaryLanguage] = "Antigonid"
 							},
-							(loc, modifyingLoc, _) => loc?.Replace($"${pryAdjKey}$", modifyingLoc));
+							(loc, modifyingLoc, language) => {
+								var locToReturn = loc?.Replace($"${pryAdjKey}$", modifyingLoc);
+								if (locToReturn is not null && locToReturn.Contains("[GetCountry(")) {
+									locToReturn = irLocDB.GetLocBlockForKey("get_pry_adj_fallback")?[language];
+								}
+								return locToReturn;
+							});
 					} else {
 						validatedAdj = pryAdjLocBlock;
 					}
@@ -749,10 +773,16 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 						const string selAdjKey = "SEL_ADJ";
 						validatedAdj = new LocBlock(selAdjLocBlock.Id, selAdjLocBlock);
 						validatedAdj.ModifyForEveryLanguage(
-							irLocDB.GetLocBlockForKey(selAdjKey) ?? new LocBlock(selAdjKey, ConverterGlobals.PrimaryLanguage) {
+							otherBlock: irLocDB.GetLocBlockForKey(selAdjKey) ?? new LocBlock(selAdjKey, ConverterGlobals.PrimaryLanguage) {
 								[ConverterGlobals.PrimaryLanguage] = "Seleukid"
 							},
-							(loc, modifyingLoc, _) => loc?.Replace($"${selAdjKey}$", modifyingLoc));
+							(loc, modifyingLoc, language) => {
+								var locToReturn = loc?.Replace($"${selAdjKey}$", modifyingLoc);
+								if (locToReturn is not null && locToReturn.Contains("[GetCountry(")) {
+									locToReturn = irLocDB.GetLocBlockForKey("get_sel_adj_fallback")?[language];
+								}
+								return locToReturn;
+							});
 					} else {
 						validatedAdj = selAdjLocBlock;
 					}
@@ -767,10 +797,16 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 						const string mryAdjKey = "MRY_ADJ";
 						validatedAdj = new LocBlock(mryAdjLocBlock.Id, mryAdjLocBlock);
 						validatedAdj.ModifyForEveryLanguage(
-							irLocDB.GetLocBlockForKey(mryAdjKey) ?? new LocBlock(mryAdjKey, ConverterGlobals.PrimaryLanguage) {
+							otherBlock: irLocDB.GetLocBlockForKey(mryAdjKey) ?? new LocBlock(mryAdjKey, ConverterGlobals.PrimaryLanguage) {
 								[ConverterGlobals.PrimaryLanguage] = "Mauryan"
 							},
-							(loc, modifyingLoc, _) => loc?.Replace($"${mryAdjKey}$", modifyingLoc));
+							(loc, modifyingLoc, language) => {
+								var locToReturn = loc?.Replace($"${mryAdjKey}$", modifyingLoc);
+								if (locToReturn is not null && locToReturn.Contains("[GetCountry(")) {
+									locToReturn = irLocDB.GetLocBlockForKey("get_mry_adj_fallback")?[language];
+								}
+								return locToReturn;
+							});
 					} else {
 						validatedAdj = mryAdjLocBlock;
 					}
