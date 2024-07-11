@@ -44,7 +44,7 @@ public static class LocalizationOutputter {
 			languageToLocLinesDict[language] = [];
 		}
 
-		var allLocKeys = ck3LocDB.Select(locBlock => locBlock.Id).ToHashSet();
+		var allLocKeys = ck3LocDB.Select(locBlock => locBlock.Id).Distinct().ToArray();
 		
 		foreach (var locKey in allLocKeys) {
 			if (!ck3LocDB.HasKeyLocForLanguage(locKey, ConverterGlobals.PrimaryLanguage)) {
