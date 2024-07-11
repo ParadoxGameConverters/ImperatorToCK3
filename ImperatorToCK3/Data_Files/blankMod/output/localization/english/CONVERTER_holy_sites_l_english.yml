@@ -207,3 +207,15 @@
  holy_site_venezia_name: "Venezia"
  holy_site_epeiros_name: "Epeiros"
  holy_site_senj_name: "Senj"
+
+# from Bronze Age Reborn
+ holy_site_hattusha_name: "Hattusha" #Tarhunna - Hittite
+ holy_site_hattusha_effect_name: "From [holy_site|E] #weak ($holy_site_hattusha_name$)#!"
+ holy_site_kussara_name: "Kuššara" #Some Hittite God?
+ holy_site_kussara_effect_name: "From [holy_site|E] #weak ($holy_site_kussara_name$)#!"
+ holy_site_ankuwa_name: "Ankuwa" #Some Hittite God?
+ holy_site_ankuwa_effect_name: "From [holy_site|E] #weak ($holy_site_ankuwa_name$)#!"
+ holy_site_shappiduwa_name: "Shappiduwa" #Some Hittite God?
+ holy_site_shappiduwa_effect_name: "From [holy_site|E] #weak ($holy_site_shappiduwa_name$)#!"
+ holy_site_ulma_name: "Ulma" #Some Hittite God?
+ holy_site_ulma_effect_name: "From [holy_site|E] #weak ($holy_site_ulma_name$)#!"

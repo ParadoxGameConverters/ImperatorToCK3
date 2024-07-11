@@ -53,10 +53,10 @@ link = { ck3=basque_pagan ir=pre_indo_european_religion }
 link = { ck3=illyrian_pagan ir=illyrian_pantheon }
 link = { ck3=dinka_pagan ir=nilotic_pantheon } # Nhialic
 link = { ck3=sardinian_pagan ir=nuragic_pantheon } # TFE
+link = { ck3 = hattian_faith ir = hatti_religion } # Invictus: revivalist faith of the Hatti.
 link = { ck3=pagan ir=nuragic_pantheon } # TODO: https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/1474
 # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = pagan ir = pagan }
-link = { ck3 = pagan ir = hatti_religion } # Revivalist faith of the Hatti.
 link = { ck3 = kushitism_pagan ir = kushite }
 
 # Arabic
