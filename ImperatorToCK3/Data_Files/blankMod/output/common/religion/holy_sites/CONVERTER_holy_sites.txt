@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.9.2.1
+﻿# ImperatorToCK3: Last updated CK3 patch 1.12.5
 #Druidic
 ynys_mon = { #toutatis
 	county = c_anglesey
@@ -920,4 +920,52 @@ irtock3_ajivika_campa = {
     	name = holy_site_irtock3_ajivika_campa_effect_name
         same_culture_opinion = 5
     }
+}
+
+# Hattian holy sites from the Bronze Age Mod for CK3
+# Locations have been adjusted to more or less match the Bronze Age Reborn map locations.
+hattusha = {
+	county = c_galatia
+	barony = b_tabia
+	
+	character_modifier = {
+		name = holy_site_hattusha_effect_name
+		diplomacy_per_piety_level = 1
+	}
+}
+kussara = {
+	county = c_azysia
+	barony = b_karnalis
+	
+	character_modifier = {
+		name = holy_site_kussara_effect_name
+		learning_per_piety_level = 1
+	}
+}
+ankuwa = {
+	county = c_charsianon
+	barony = b_therma
+	
+	character_modifier = {
+		name = holy_site_ankuwa_effect_name
+		build_speed = -0.15
+	}
+}
+shappiduwa = {
+	county = c_euchaita
+	barony = b_pimolisa
+	
+	character_modifier = {
+		name = holy_site_shappiduwa_effect_name
+		same_culture_opinion = 5
+	}
+}
+ulma = {
+	county = c_cappadocia
+	barony = b_comitanassus
+	
+	character_modifier = {
+		name = holy_site_ulma_effect_name
+		build_gold_cost = -0.05
+	}
 }
