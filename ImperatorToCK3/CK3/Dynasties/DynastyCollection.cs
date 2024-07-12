@@ -78,7 +78,7 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 
 			// Neither character nor their father have a dynasty, so we need to create a new one.
 			var newDynasty = new Dynasty(ck3Character, irFamilyName, irWorld.CulturesDB, irLocDB, ck3LocDB, date);
-			Add(newDynasty);
+			AddOrReplace(newDynasty);
 			++createdDynastiesCount;
 		}
 
