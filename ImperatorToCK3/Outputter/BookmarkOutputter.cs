@@ -125,7 +125,7 @@ public static class BookmarkOutputter {
 		portraitBuilder.AppendLine("\t\t" + genesStr);
 		portraitBuilder.AppendLine("\t}");
 		portraitBuilder.AppendLine($"\tentity = {{ {agesexToEntityDict[agesex]} }}");
-		portraitBuilder.Append("}");
+		portraitBuilder.Append('}');
 			
 		var outPortraitPath = Path.Combine("output", config.OutputModName, $"common/bookmark_portraits/bm_converted_{holder.Id}.txt");
 		await File.WriteAllTextAsync(outPortraitPath, portraitBuilder.ToString());
