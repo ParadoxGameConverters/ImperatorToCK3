@@ -114,23 +114,31 @@ public static class BookmarkOutputter {
 
 		sb.AppendLine("\t}");
 
-		string templatePath = holder.GetAgeSex(config.CK3BookmarkDate) switch {
-			"female" => "blankMod/templates/common/bookmark_portraits/female.txt",
-			"girl" => "blankMod/templates/common/bookmark_portraits/girl.txt",
-			"boy" => "blankMod/templates/common/bookmark_portraits/boy.txt",
-			_ => "blankMod/templates/common/bookmark_portraits/male.txt"
-		};
-		string templateText = await File.ReadAllTextAsync(templatePath);
-
-		templateText = templateText.Replace("REPLACE_ME_NAME", $"bm_converted_{holder.Id}");
-		templateText = templateText.Replace("REPLACE_ME_AGE", holder.GetAge(config.CK3BookmarkDate).ToString());
+		var agesex = holder.GetAgeSex(config.CK3BookmarkDate);
+		
+		StringBuilder portraitBuilder = new();
+		portraitBuilder.AppendLine($"bm_converted_{holder.Id} = {{");
+		portraitBuilder.AppendLine($"\ttype = {agesex}");
+		portraitBuilder.AppendLine($"\tage = 0.{holder.GetAge(config.CK3BookmarkDate)}");
+		portraitBuilder.AppendLine("\tgenes = {");
 		var genesStr = holder.DNA is not null ? string.Join('\n', holder.DNA.DNALines) : string.Empty;
-		templateText = templateText.Replace("ADD_GENES", genesStr);
+		portraitBuilder.AppendLine("\t\t" + genesStr);
+		portraitBuilder.AppendLine("\t}");
+		portraitBuilder.AppendLine($"\tentity = {{ {agesexToEntityDict[agesex]} }}");
+		portraitBuilder.Append('}');
 			
 		var outPortraitPath = Path.Combine("output", config.OutputModName, $"common/bookmark_portraits/bm_converted_{holder.Id}.txt");
-		await File.WriteAllTextAsync(outPortraitPath, templateText);
+		await File.WriteAllTextAsync(outPortraitPath, portraitBuilder.ToString());
 	}
-
+	
+	// Not sure what is the purpose of these values, but all vanilla bookmark portraits have entity entries.
+	private static readonly Dictionary<string, string> agesexToEntityDict = new() {
+		{"male", "3942081117 3942081117"},
+		{"boy", "324034399 616600735"},
+		{"female", "3942081117 3942081117"},
+		{"girl", "616600735 616600735"},
+	};
+	
 	private static async Task OutputBookmarkGroup(Configuration config) {
 		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/groups/00_bookmark_groups.txt");
 		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
