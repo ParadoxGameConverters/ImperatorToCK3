@@ -50,6 +50,7 @@ jobs:
         echo 'CK3directory = "C:\Program Files (x86)\Steam\steamapps\common\Crusader Kings III"' >> configuration.txt
         echo 'targetGameModPath = "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"' >> configuration.txt
         echo 'SaveGame = "../../save.rome"' >> configuration.txt
+        echo 'SkipDynamicCoAExtraction = 1' >> configuration.txt
         cat configuration.txt
     - name: "Run conversion"
       working-directory: Release/ImperatorToCK3
