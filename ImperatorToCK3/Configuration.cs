@@ -25,6 +25,7 @@ public sealed class Configuration {
 	public double ImperatorCivilizationWorth { get; set; } = 0.4;
 	public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
 	public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
+	public bool SkipDynamicCoAExtraction { get; set; } = false;
 	public bool FallenEagleEnabled { get; set; }
 
 	public Configuration() { }
@@ -133,6 +134,15 @@ public sealed class Configuration {
 				Logger.Info($"Changed CK3 bookmark date to {earliestAllowedDate}");
 			}
 			Logger.Info($"CK3 bookmark date set to: {CK3BookmarkDate}");
+		});
+		parser.RegisterKeyword("SkipDynamicCoAExtraction", reader => {
+			var valueString = reader.GetString();
+			try {
+				SkipDynamicCoAExtraction = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+				Logger.Info($"{nameof(SkipDynamicCoAExtraction)} set to: {SkipDynamicCoAExtraction}");
+			} catch (Exception e) {
+				Logger.Error($"Undefined error, {nameof(SkipDynamicCoAExtraction)} value was: {valueString}; Error message: {e}");
+			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}

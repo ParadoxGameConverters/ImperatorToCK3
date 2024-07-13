@@ -297,8 +297,10 @@ public partial class World {
 		}
 
 		Logger.Info("*** Building World ***");
-		
-		ExtractDynamicCoatsOfArms(config);
+
+		if (!config.SkipDynamicCoAExtraction) {
+			ExtractDynamicCoatsOfArms(config);
+		}
 
 		// Link all the intertwining references
 		Logger.Info("Linking Characters with Families...");
