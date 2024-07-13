@@ -5,6 +5,7 @@ using commonItems.Serialization;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Legends;
 using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.Exceptions;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -84,8 +85,13 @@ public static class WorldOutputter {
 
 	private static void CopyBlankModFilesToOutput(string outputPath) {
 		Logger.Info("Copying blankMod files to output...");
+		
+		var folderPath = Path.Combine("blankMod", "output");
+		if (!Directory.Exists(folderPath)) {
+			throw new UserErrorException($"{folderPath} folder not found! Reinstall the converter.");
+		}
 		SystemUtils.TryCopyFolder(
-			Path.Combine("blankMod", "output"),
+			folderPath,
 			outputPath
 		);
 		Logger.IncrementProgress();
