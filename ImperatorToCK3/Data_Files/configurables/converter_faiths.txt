@@ -5208,11 +5208,11 @@ hattian_religion = { # From Bronze Age Reborn mod
 		WaterGodHerHim = CHARACTER_HERHIM_HIM
 		
 		#SunGod
-		SunGodName = hattian_sun_god_name
-		SunGodNamePossessive = hattian_sun_god_name_possessive
-		SunGodSheHe = CHARACTER_SHEHE_SHE
-		SunGodHerHis = CHARACTER_HERHIS_HER
-		SunGodHerHim = CHARACTER_HERHIM_HER
+		# SunGodName = hattian_sun_god_name
+		# SunGodNamePossessive = hattian_sun_god_name_possessive
+		# SunGodSheHe = CHARACTER_SHEHE_SHE
+		# SunGodHerHis = CHARACTER_HERHIS_HER
+		# SunGodHerHim = CHARACTER_HERHIM_HER
 
 
 		PantheonTerm = religion_the_gods
