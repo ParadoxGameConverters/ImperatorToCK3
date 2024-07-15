@@ -5,6 +5,7 @@ using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.States;
+using System;
 using System.Linq;
 using Xunit;
 
@@ -14,7 +15,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.States;
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class StateTests {
 	private const string ImperatorRoot = "TestFiles/StateTests";
-	private static readonly ModFilesystem irModFS = new(ImperatorRoot, new Mod[] { });
+	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly ProvinceCollection provinces = new();
 	private static readonly AreaCollection areas = new();
 	private static readonly CountryCollection countries = new() {new Country(69), new Country(70)};
