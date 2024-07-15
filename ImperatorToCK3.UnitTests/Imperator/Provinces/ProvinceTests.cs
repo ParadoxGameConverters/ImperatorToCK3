@@ -16,7 +16,7 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces;
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ProvinceTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
-	private readonly ModFilesystem imperatorModFS = new(ImperatorRoot, new Mod[] { });
+	private readonly ModFilesystem imperatorModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private readonly StateCollection states = new();
 	private readonly CountryCollection countries = new();
 
