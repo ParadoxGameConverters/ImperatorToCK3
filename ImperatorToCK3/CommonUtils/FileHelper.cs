@@ -68,4 +68,27 @@ public static class FileHelper {
 			throw new UserErrorException($"Failed to delete \"{filePath}\". {CloseProgramsHint}");
 		}
 	}
+	
+	public static void MoveWithRetries(string sourceFilePath, string destFilePath) {
+		const int maxAttempts = 10;
+		
+		int currentAttempt = 0;
+		
+		var policy = Policy
+			.Handle<IOException>(IsFilesSharingViolation)
+			.WaitAndRetry(maxAttempts,
+				sleepDurationProvider: _ => TimeSpan.FromSeconds(30),
+				onRetry: (_, _, _) => {
+					currentAttempt++;
+					Logger.Warn($"Attempt {currentAttempt} to move \"{sourceFilePath}\" to \"{destFilePath}\" failed.");
+					Logger.Warn(CloseProgramsHint);
+				});
+		
+		try {
+			policy.Execute(() => File.Move(sourceFilePath, destFilePath));
+		} catch (IOException ex) when (IsFilesSharingViolation(ex)) {
+			Logger.Debug(ex.ToString());
+			throw new UserErrorException($"Failed to move \"{sourceFilePath}\" to \"{destFilePath}\". {CloseProgramsHint}");
+		}
+	}
 }
