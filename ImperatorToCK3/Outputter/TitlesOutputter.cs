@@ -58,7 +58,7 @@ public static class TitlesOutputter {
 		sb.Append(PDXSerializer.Serialize(topDeJureTitles, string.Empty, withBraces: false));
 
 		var outputPath = Path.Combine(outputModPath, "common/landed_titles/00_landed_titles.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
+		await using var output = FileHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 
 		await OutputTitlesHistory(outputModPath, titles);

@@ -17,7 +17,7 @@ public static class PillarOutputter {
 		}
 
 		var outputFilePath = Path.Combine(outputPath, "common/culture/pillars/IRtoCK3_all_pillars.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputFilePath, System.Text.Encoding.UTF8);
+		await using var output = FileHelper.OpenWriteWithRetries(outputFilePath, System.Text.Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 	}
 }

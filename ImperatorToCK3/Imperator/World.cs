@@ -164,7 +164,7 @@ public partial class World {
 		
 		string dataTypesLogPath = Path.Combine(config.ImperatorDocPath, "logs/data_types.log");
 		if (File.Exists(dataTypesLogPath)) {
-			File.Delete(dataTypesLogPath);
+			FileHelper.DeleteWithRetries(dataTypesLogPath);
 		}
 		
 		Logger.Debug("Launching Imperator to extract coats of arms...");
@@ -218,7 +218,7 @@ public partial class World {
 		return (_, _) => {
 			Logger.Debug($"Imperator process exited with code {imperatorProcess.ExitCode}. Removing temporary mod files...");
 			try {
-				File.Delete(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod.mod"));
+				FileHelper.DeleteWithRetries(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod.mod"));
 				Directory.Delete(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod"), recursive: true);
 			} catch (Exception e) {
 				Logger.Warn($"Failed to remove temporary mod files: {e.Message}");

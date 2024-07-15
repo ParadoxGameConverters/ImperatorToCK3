@@ -33,7 +33,7 @@ public static class NamedColorsOutputter {
 		sb.AppendLine("}");
 
 		var outputPath = Path.Combine(outputModPath, "common", "named_colors", "IRtoCK3_colors_from_Imperator.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
+		await using var output = FileHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 
 		Logger.IncrementProgress();

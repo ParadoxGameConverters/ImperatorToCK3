@@ -153,7 +153,7 @@ public static class OnActionOutputter {
 		}
 
 		var outputPath = $"{outputModPath}/common/on_action/TFE_game_start.txt";
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath);
+		await using var output = FileHelper.OpenWriteWithRetries(outputPath);
 		await output.WriteAsync(fileContent);
 	}
 }
