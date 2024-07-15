@@ -30,7 +30,7 @@ public static class ReligionsOutputter {
 		}
 
 		var outputPath = Path.Combine(outputModPath, "common/religion/holy_sites/IRtoCK3_sites.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
+		await using var output = FileHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 		sb.Clear();
 
@@ -64,7 +64,7 @@ public static class ReligionsOutputter {
 		}
 
 		var outputPath = Path.Combine(outputModPath, "common/religion/religions/IRtoCK3_all_religions.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
+		await using var output = FileHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 	}
 }

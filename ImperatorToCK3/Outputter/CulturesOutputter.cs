@@ -18,7 +18,7 @@ public static class CulturesOutputter {
 		}
 
 		var outputPath = Path.Combine(outputModPath, "common/culture/cultures/IRtoCK3_all_cultures.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
+		await using var output = FileHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 
 		await OutputCultureHistory(outputModPath, cultures, date);

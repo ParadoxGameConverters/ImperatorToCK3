@@ -36,7 +36,7 @@ public static class MenAtArmsOutputter {
 		sb.AppendLine("}");
 		
 		var outputPath = Path.Combine("output", outputModName, "events", "irtock3_hidden_events.txt");
-		using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
+		using var output = FileHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 		output.Write(sb.ToString());
 	}
 
@@ -49,7 +49,7 @@ public static class MenAtArmsOutputter {
 		}
 
 		var outputPath = Path.Combine("output", outputModName, "common/men_at_arms_types/IRToCK3_generated_types.txt");
-		using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
+		using var output = FileHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 		output.Write(sb.ToString());
 	}
 
@@ -105,7 +105,7 @@ public static class MenAtArmsOutputter {
 		sb.AppendLine("}");
 
 		var outputPath = Path.Combine("output", outputModName, relativeHudTopGuiPath);
-		using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
+		using var output = FileHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 		output.Write(sb.ToString());
 	}
 

@@ -64,7 +64,7 @@ public static class ProvincesOutputter {
 		// Create province mapping file.
 		if (alreadyOutputtedProvinces.Count != provinces.Count) {
 			var mappingsPath = $"{outputModPath}/history/province_mapping/province_mapping.txt";
-			await using var mappingsWriter = FileOpeningHelper.OpenWriteWithRetries(mappingsPath, System.Text.Encoding.UTF8);
+			await using var mappingsWriter = FileHelper.OpenWriteWithRetries(mappingsPath, System.Text.Encoding.UTF8);
 			await using var threadSafeWriter = TextWriter.Synchronized(mappingsWriter);
 
 			foreach (var province in provinces) {

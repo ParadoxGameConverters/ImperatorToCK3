@@ -19,7 +19,7 @@ public static class WarsOutputter {
 		}
 
 		var path = Path.Combine(outputModPath, "history/wars/00_wars.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
+		await using var output = FileHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 
 		Logger.IncrementProgress();

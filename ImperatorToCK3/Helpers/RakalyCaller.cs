@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Exceptions;
 using System;
 using System.ComponentModel;
@@ -140,7 +141,7 @@ public static class RakalyCaller {
 		const string destFileName = "temp/melted_save.rome";
 		// first, delete target file if exists, as File.Move() does not support overwrite
 		if (File.Exists(destFileName)) {
-			File.Delete(destFileName);
+			FileHelper.DeleteWithRetries(destFileName);
 		}
 		File.Move(meltedSaveName, destFileName);
 	}

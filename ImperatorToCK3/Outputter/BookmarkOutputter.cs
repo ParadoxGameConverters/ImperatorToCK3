@@ -56,7 +56,7 @@ public static class BookmarkOutputter {
 		sb.AppendLine("}");
 
 		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/bookmarks/00_bookmarks.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
+		await using var output = FileHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 
 		await DrawBookmarkMap(config, playerTitles, world);
@@ -141,7 +141,7 @@ public static class BookmarkOutputter {
 	
 	private static async Task OutputBookmarkGroup(Configuration config) {
 		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/groups/00_bookmark_groups.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
+		await using var output = FileHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 
 		await output.WriteLineAsync($"bm_converted = {{ default_start_date = {config.CK3BookmarkDate} }}");
 	}
@@ -317,6 +317,6 @@ public static class BookmarkOutputter {
 		using (var magickImage = new MagickImage(imagePath)) {
 			await magickImage.WriteAsync(Path.ChangeExtension(imagePath, ".dds"));
 		}
-		File.Delete(imagePath);
+		FileHelper.DeleteWithRetries(imagePath);
 	}
 }

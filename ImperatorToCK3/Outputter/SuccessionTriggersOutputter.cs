@@ -51,7 +51,7 @@ public static class SuccessionTriggersOutputter {
 		sb.AppendLine("}");
 
 		var outputPath = Path.Combine(outputModPath, "common/scripted_triggers/IRToCK3_succession_triggers.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
+		await using var output = FileHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 
 		Logger.IncrementProgress();

@@ -222,9 +222,9 @@ public static class WorldOutputter {
 
 		const string outFilePath = "playset_info.txt";
 		if (File.Exists(outFilePath)) {
-			File.Delete(outFilePath);
+			FileHelper.DeleteWithRetries(outFilePath);
 		}
-		using var output = FileOpeningHelper.OpenWriteWithRetries(outFilePath, Encoding.UTF8);
+		using var output = FileHelper.OpenWriteWithRetries(outFilePath, Encoding.UTF8);
 
 		foreach (var mod in modsForPlayset) {
 			output.WriteLine($"{mod.Name.AddQuotes()}={mod.Path.AddQuotes()}");

@@ -19,7 +19,7 @@ public static class DynastiesOutputter {
 		}
 
 		var outputPath = Path.Combine(outputModPath, "common/dynasties/irtock3_all_dynasties.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, encoding: Encoding.UTF8);
+		await using var output = FileHelper.OpenWriteWithRetries(outputPath, encoding: Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 	}
 
@@ -32,7 +32,7 @@ public static class DynastiesOutputter {
 		}
 
 		var outputPath = Path.Combine(outputModPath, "common/dynasty_houses/irtock3_all_houses.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(outputPath, encoding: Encoding.UTF8);
+		await using var output = FileHelper.OpenWriteWithRetries(outputPath, encoding: Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 	}
 

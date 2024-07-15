@@ -26,7 +26,7 @@ public static class LocalizationOutputter {
 			}
 			
 			var locFilePath = Path.Join(baseReplaceLocDir, language, $"converter_l_{language}.yml");
-			using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, encoding: Encoding.UTF8);
+			using var locWriter = FileHelper.OpenWriteWithRetries(locFilePath, encoding: Encoding.UTF8);
 			locWriter.WriteLine(sb.ToString());
 			sb.Clear();
 		}
@@ -76,7 +76,7 @@ public static class LocalizationOutputter {
 			}
 			
 			var locFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_fallback_loc_l_{language}.yml");
-			using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, Encoding.UTF8);
+			using var locWriter = FileHelper.OpenWriteWithRetries(locFilePath, Encoding.UTF8);
 			locWriter.Write(sb.ToString());
 			sb.Clear();
 		}

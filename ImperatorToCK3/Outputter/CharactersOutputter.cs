@@ -39,7 +39,7 @@ public static class CharactersOutputter {
 		
 		var sb = new StringBuilder();
 		var pathForCharactersFromIR = $"{outputPath}/history/characters/IRToCK3_fromImperator.txt";
-		await using var charactersFromIROutput = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromIR);
+		await using var charactersFromIROutput = FileHelper.OpenWriteWithRetries(pathForCharactersFromIR);
 		foreach (var character in charactersFromIR) {
 			CharacterOutputter.WriteCharacter(sb, character, conversionDate);
 			await charactersFromIROutput.WriteAsync(sb.ToString());
@@ -47,7 +47,7 @@ public static class CharactersOutputter {
 		}
 
 		var pathForCharactersFromCK3 = $"{outputPath}/history/characters/IRToCK3_fromCK3.txt";
-		await using var charactersFromCK3Output = FileOpeningHelper.OpenWriteWithRetries(pathForCharactersFromCK3, Encoding.UTF8);
+		await using var charactersFromCK3Output = FileHelper.OpenWriteWithRetries(pathForCharactersFromCK3, Encoding.UTF8);
 		foreach (var character in charactersFromCK3) {
 			CharacterOutputter.WriteCharacter(sb, character, conversionDate);
 			await charactersFromCK3Output.WriteAsync(sb.ToString());
@@ -64,7 +64,7 @@ public static class CharactersOutputter {
 
 		if (ck3ModFS.GetActualFileLocation(modifiersFilePath) is not null) {
 			string dummyPath = Path.Combine(outputPath, modifiersFilePath);
-			await using var output = FileOpeningHelper.OpenWriteWithRetries(dummyPath, Encoding.UTF8);
+			await using var output = FileHelper.OpenWriteWithRetries(dummyPath, Encoding.UTF8);
 			await output.WriteLineAsync("# Dummy file to blank out historical portrait modifiers from CK3.");
 		}
 	}
@@ -74,7 +74,7 @@ public static class CharactersOutputter {
 
 		// Dump all into one file.
 		var path = Path.Combine(outputPath, "common/dna_data/IRToCK3_dna_data.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
+		await using var output = FileHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 
 		var sb = new StringBuilder();
 		foreach (var character in charactersWithDNA) {
@@ -117,7 +117,7 @@ public static class CharactersOutputter {
 		var validAccessoryIDs = GetValidAccessoryIDs(ck3ModFS);
 		
 		var portraitModifiersOutputPath = Path.Combine(outputPath, "gfx/portraits/portrait_modifiers/IRToCK3_portrait_modifiers.txt");
-		await using var output = FileOpeningHelper.OpenWriteWithRetries(portraitModifiersOutputPath, Encoding.UTF8);
+		await using var output = FileHelper.OpenWriteWithRetries(portraitModifiersOutputPath, Encoding.UTF8);
 
 		await OutputPortraitModifiersForGene("hairstyles", validAccessoryIDs, charactersWithDNA, output, conversionDate);
 		var malesWithBeards = charactersWithDNA
