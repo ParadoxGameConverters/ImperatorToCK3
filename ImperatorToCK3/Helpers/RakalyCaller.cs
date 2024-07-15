@@ -143,7 +143,7 @@ public static class RakalyCaller {
 		if (File.Exists(destFileName)) {
 			FileHelper.DeleteWithRetries(destFileName);
 		}
-		File.Move(meltedSaveName, destFileName);
+		FileHelper.MoveWithRetries(meltedSaveName, destFileName);
 	}
 
 	// https://stackoverflow.com/a/47918132/10249243
