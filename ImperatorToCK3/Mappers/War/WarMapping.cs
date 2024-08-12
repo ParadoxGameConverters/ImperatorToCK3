@@ -3,7 +3,7 @@ using commonItems;
 
 namespace ImperatorToCK3.Mappers.War;
 
-public sealed class WarMapping {
+internal sealed class WarMapping {
 	public SortedSet<string> ImperatorWarGoals { get; set; } = new();
 	public string? CK3CasusBelli { get; set; }
 

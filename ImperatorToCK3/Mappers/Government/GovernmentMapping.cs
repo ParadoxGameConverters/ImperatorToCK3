@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Government;
 
-public sealed class GovernmentMapping {
+internal sealed class GovernmentMapping {
 	public string CK3GovernmentId { get; private set; } = "";
 	public SortedSet<string> ImperatorGovernmentIds { get; } = [];
 	public SortedSet<string> ImperatorCultureIds { get; } = [];

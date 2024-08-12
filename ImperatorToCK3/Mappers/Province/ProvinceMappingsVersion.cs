@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Province;
 
-public sealed class ProvinceMappingsVersion {
+internal sealed class ProvinceMappingsVersion {
 	public IList<ProvinceMapping> Mappings { get; } = [];
 	public ProvinceMappingsVersion() { }
 	public ProvinceMappingsVersion(BufferedReader reader) {
