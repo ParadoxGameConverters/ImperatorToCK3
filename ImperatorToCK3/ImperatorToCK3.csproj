@@ -106,6 +106,10 @@
     </ItemGroup>
   </Target>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="ImperatorToCK3.UnitTests" />
+  </ItemGroup>
+
 <ItemGroup>
 	<!-- root descriptors for trimming -->
 	<TrimmerRootAssembly Include="log4net" />

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Trait;
 
-public sealed class TraitMapping {
+internal sealed class TraitMapping {
 	public SortedSet<string> ImperatorTraits { get; } = new();
 	public string? CK3Trait { get; set; }
 
