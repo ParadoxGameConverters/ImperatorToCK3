@@ -99,13 +99,6 @@
 		<Copy SourceFiles="@(BlankMod)" DestinationFolder="$(PublishDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
 	</Target>
 
-  <Target Name="Date" BeforeTargets="CoreCompile">
-    <WriteLinesToFile File="$(IntermediateOutputPath)gen.cs" Lines="static partial class Builtin { public static long CompileTime = $([System.DateTime]::UtcNow.Ticks) %3B }" Overwrite="true" />
-    <ItemGroup>
-      <Compile Include="$(IntermediateOutputPath)gen.cs" />
-    </ItemGroup>
-  </Target>
-
   <ItemGroup>
     <InternalsVisibleTo Include="ImperatorToCK3.UnitTests" />
   </ItemGroup>
