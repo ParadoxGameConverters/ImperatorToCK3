@@ -50,9 +50,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Data_Files\configurables\definite_form_names.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <None Update="Data_Files\converter_globals\after_converting.txt">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
