@@ -1,4 +1,45 @@
 imperator_invictus = {
+	triangulation_pair = { srcX = 1873 srcY = 1404 dstX = 1814 dstY = 1835 }
+	triangulation_pair = { srcX = 1926 srcY = 1396 dstX = 1862 dstY = 1828 }
+	triangulation_pair = { srcX = 1860 srcY = 1238 dstX = 1807 dstY = 1687 }
+	triangulation_pair = { srcX = 1741 srcY = 1288 dstX = 1696 dstY = 1726 }
+	triangulation_pair = { srcX = 2376 srcY = 1630 dstX = 2246 dstY = 2055 }
+	triangulation_pair = { srcX = 2404 srcY = 1800 dstX = 2258 dstY = 2198 }
+	triangulation_pair = { srcX = 2178 srcY = 1691 dstX = 2074 dstY = 2092 }
+	triangulation_pair = { srcX = 2157 srcY = 1510 dstX = 2062 dstY = 1939 }
+	triangulation_pair = { srcX = 2057 srcY = 1483 dstX = 1974 dstY = 1911 }
+	triangulation_pair = { srcX = 2078 srcY = 1566 dstX = 1992 dstY = 1982 }
+	triangulation_pair = { srcX = 2008 srcY = 1605 dstX = 1929 dstY = 2014 }
+	triangulation_pair = { srcX = 1931 srcY = 1624 dstX = 1863 dstY = 2028 }
+	triangulation_pair = { srcX = 1893 srcY = 1560 dstX = 1831 dstY = 1972 }
+	triangulation_pair = { srcX = 1994 srcY = 1464 dstX = 1921 dstY = 1890 }
+	triangulation_pair = { srcX = 1923 srcY = 1454 dstX = 1858 dstY = 1878 }
+	triangulation_pair = { srcX = 1971 srcY = 1416 dstX = 1901 dstY = 1846 }
+	triangulation_pair = { srcX = 1937 srcY = 1397 dstX = 1873 dstY = 1829 }
+	triangulation_pair = { srcX = 3333 srcY = 3394 dstX = 2723 dstY = 3223 }
+	triangulation_pair = { srcX = 3169 srcY = 2582 dstX = 2741 dstY = 2818 }
+	triangulation_pair = { srcX = 3094 srcY = 2500 dstX = 2700 dstY = 2760 }
+	triangulation_pair = { srcX = 3466 srcY = 3184 dstX = 2829 dstY = 3129 }
+	triangulation_pair = { srcX = 3692 srcY = 3625 dstX = 2902 dstY = 3367 }
+	triangulation_pair = { srcX = 3938 srcY = 2059 dstX = 3314 dstY = 2536 }
+	triangulation_pair = { srcX = 3854 srcY = 2016 dstX = 3271 dstY = 2498 }
+	triangulation_pair = { srcX = 3485 srcY = 2089 dstX = 3021 dstY = 2510 }
+	triangulation_pair = { srcX = 3293 srcY = 2136 dstX = 2891 dstY = 2525 }
+	triangulation_pair = { srcX = 3454 srcY = 2301 dstX = 2972 dstY = 2654 }
+	triangulation_pair = { srcX = 3775 srcY = 2942 dstX = 3053 dstY = 3031 }
+	triangulation_pair = { srcX = 4027 srcY = 3190 dstX = 3153 dstY = 3183 }
+	triangulation_pair = { srcX = 4430 srcY = 3498 dstX = 3319 dstY = 3399 }
+	triangulation_pair = { srcX = 4309 srcY = 3635 dstX = 3234 dstY = 3451 }
+	triangulation_pair = { srcX = 4622 srcY = 2389 dstX = 3629 dstY = 2838 }
+	triangulation_pair = { srcX = 4778 srcY = 2480 dstX = 3692 dstY = 2920 }
+	triangulation_pair = { srcX = 4906 srcY = 2561 dstX = 3743 dstY = 2991 }
+	triangulation_pair = { srcX = 5079 srcY = 2490 dstX = 3856 dstY = 2985 }
+	triangulation_pair = { srcX = 5188 srcY = 2227 dstX = 3982 dstY = 2864 }
+	triangulation_pair = { srcX = 5588 srcY = 2401 dstX = 4158 dstY = 3052 }
+	triangulation_pair = { srcX = 5604 srcY = 2630 dstX = 4108 dstY = 3180 }
+	triangulation_pair = { srcX = 5544 srcY = 2930 dstX = 4006 dstY = 3328 }
+	triangulation_pair = { srcX = 5021 srcY = 3520 dstX = 3611 dstY = 3526 }
+	triangulation_pair = { srcX = 4800 srcY = 3728 dstX = 3465 dstY = 3586 }
 	triangulation_pair = { srcX = 7087 srcY = 2225 dstX = 5009 dstY = 3366 }
 	triangulation_pair = { srcX = 7048 srcY = 2012 dstX = 5039 dstY = 3225 }
 	triangulation_pair = { srcX = 7361 srcY = 2529 dstX = 5066 dstY = 3626 }
@@ -301,7 +342,12 @@ imperator_invictus = {
 	triangulation_pair = { srcX = 4622 srcY = 1348 dstX = 3865 dstY = 2215 }
 	triangulation_pair = { srcX = 4563 srcY = 1442 dstX = 3806 dstY = 2260 }
 	triangulation_pair = { srcX = 4580 srcY = 1468 dstX = 3813 dstY = 2281 }
-	triangulation_pair = { srcX = 4037 srcY = 1503 dstX = 3473 dstY = 2184 }
+	triangulation_pair = { srcX = 5281 srcY = 1641 dstX = 4181 dstY = 2566 }
+	triangulation_pair = { srcX = 5210 srcY = 1683 dstX = 4129 dstY = 2570 }
+	triangulation_pair = { srcX = 5334 srcY = 1435 dstX = 4263 dstY = 2452 }
+	triangulation_pair = { srcX = 5268 srcY = 1481 dstX = 4212 dstY = 2463 }
+	triangulation_pair = { srcX = 4908 srcY = 1904 dstX = 3905 dstY = 2624 }
+	triangulation_pair = { srcX = 4037 srcY = 1503 dstX = 3474 dstY = 2184 }
 	triangulation_pair = { srcX = 3903 srcY = 1515 dstX = 3389 dstY = 2172 }
 	triangulation_pair = { srcX = 3715 srcY = 1384 dstX = 3283 dstY = 2042 }
 	triangulation_pair = { srcX = 3858 srcY = 1363 dstX = 3376 dstY = 2053 }
@@ -322,13 +368,65 @@ imperator_invictus = {
 	triangulation_pair = { srcX = 1512 srcY = 1004 dstX = 1486 dstY = 1455 }
 	triangulation_pair = { srcX = 1430 srcY = 1008 dstX = 1409 dstY = 1456 }
 	triangulation_pair = { srcX = 1579 srcY = 1017 dstX = 1549 dstY = 1468 }
+	triangulation_pair = { srcX = 4225 srcY = 1724 dstX = 3544 dstY = 2372 }
+	triangulation_pair = { srcX = 4239 srcY = 1893 dstX = 3522 dstY = 2478 }
+	triangulation_pair = { srcX = 4338 srcY = 2012 dstX = 3556 dstY = 2568 }
+	triangulation_pair = { srcX = 4374 srcY = 1992 dstX = 3581 dstY = 2563 }
+	triangulation_pair = { srcX = 4371 srcY = 1946 dstX = 3587 dstY = 2533 }
+	triangulation_pair = { srcX = 4358 srcY = 1828 dstX = 3604 dstY = 2457 }
+	triangulation_pair = { srcX = 4373 srcY = 1776 dstX = 3625 dstY = 2429 }
+	triangulation_pair = { srcX = 4425 srcY = 1576 dstX = 3696 dstY = 2311 }
+	triangulation_pair = { srcX = 4474 srcY = 1845 dstX = 3669 dstY = 2490 }
+	triangulation_pair = { srcX = 4588 srcY = 1906 dstX = 3721 dstY = 2556 }
+	triangulation_pair = { srcX = 4389 srcY = 1902 dstX = 3606 dstY = 2509 }
+	triangulation_pair = { srcX = 4298 srcY = 1864 dstX = 3564 dstY = 2467 }
+	triangulation_pair = { srcX = 4111 srcY = 1739 dstX = 3477 dstY = 2356 }
+	triangulation_pair = { srcX = 3940 srcY = 1912 dstX = 3341 dstY = 2442 }
+	triangulation_pair = { srcX = 4023 srcY = 1821 dstX = 3408 dstY = 2396 }
+	triangulation_pair = { srcX = 6059 srcY = 974 dstX = 4819 dstY = 2377 }
+	triangulation_pair = { srcX = 6102 srcY = 916 dstX = 4862 dstY = 2359 }
+	triangulation_pair = { srcX = 5858 srcY = 1092 dstX = 4668 dstY = 2389 }
+	triangulation_pair = { srcX = 5866 srcY = 1036 dstX = 4693 dstY = 2356 }
+	triangulation_pair = { srcX = 5862 srcY = 931 dstX = 4718 dstY = 2296 }
+	triangulation_pair = { srcX = 1830 srcY = 1401 dstX = 1774 dstY = 1829 }
+	triangulation_pair = { srcX = 1812 srcY = 1433 dstX = 1760 dstY = 1857 }
+	triangulation_pair = { srcX = 1762 srcY = 33 dstX = 1765 dstY = 667 }
+	triangulation_pair = { srcX = 1567 srcY = 54 dstX = 1608 dstY = 669 }
+	triangulation_pair = { srcX = 1281 srcY = 112 dstX = 1357 dstY = 698 }
+	triangulation_pair = { srcX = 1270 srcY = 24 dstX = 1356 dstY = 628 }
+	triangulation_pair = { srcX = 1361 srcY = 81 dstX = 1432 dstY = 680 }
+	triangulation_pair = { srcX = 1326 srcY = 162 dstX = 1393 dstY = 739 }
+	triangulation_pair = { srcX = 1372 srcY = 297 dstX = 1414 dstY = 848 }
+	triangulation_pair = { srcX = 1572 srcY = 222 dstX = 1598 dstY = 799 }
+	triangulation_pair = { srcX = 1681 srcY = 231 dstX = 1686 dstY = 811 }
+	triangulation_pair = { srcX = 1687 srcY = 174 dstX = 1704 dstY = 768 }
+	triangulation_pair = { srcX = 1766 srcY = 222 dstX = 1756 dstY = 812 }
+	triangulation_pair = { srcX = 1732 srcY = 311 dstX = 1724 dstY = 878 }
+	triangulation_pair = { srcX = 1553 srcY = 319 dstX = 1567 dstY = 872 }
+	triangulation_pair = { srcX = 1498 srcY = 391 dstX = 1511 dstY = 929 }
+	triangulation_pair = { srcX = 1424 srcY = 435 dstX = 1447 dstY = 966 }
+	triangulation_pair = { srcX = 1422 srcY = 510 dstX = 1439 dstY = 1022 }
+	triangulation_pair = { srcX = 1462 srcY = 814 dstX = 1450 dstY = 1284 }
+	triangulation_pair = { srcX = 1442 srcY = 722 dstX = 1443 dstY = 1209 }
 	triangulation_pair = { srcX = 1528 srcY = 932 dstX = 1502 dstY = 1390 }
 	triangulation_pair = { srcX = 1509 srcY = 881 dstX = 1489 dstY = 1345 }
 	triangulation_pair = { srcX = 1628 srcY = 901 dstX = 1596 dstY = 1368 }
 	triangulation_pair = { srcX = 1635 srcY = 835 dstX = 1604 dstY = 1308 }
 	triangulation_pair = { srcX = 1789 srcY = 973 dstX = 1746 dstY = 1442 }
+	triangulation_pair = { srcX = 1230 srcY = 1064 dstX = 1210 dstY = 1506 }
+	triangulation_pair = { srcX = 1173 srcY = 904 dstX = 1161 dstY = 1362 }
+	triangulation_pair = { srcX = 1155 srcY = 1001 dstX = 1140 dstY = 1448 }
+	triangulation_pair = { srcX = 1114 srcY = 1042 dstX = 1098 dstY = 1486 }
+	triangulation_pair = { srcX = 1065 srcY = 1077 dstX = 1054 dstY = 1520 }
+	triangulation_pair = { srcX = 1109 srcY = 1138 dstX = 1098 dstY = 1572 }
+	triangulation_pair = { srcX = 1898 srcY = 884 dstX = 1851 dstY = 1373 }
+	triangulation_pair = { srcX = 1996 srcY = 1022 dstX = 1933 dstY = 1502 }
+	triangulation_pair = { srcX = 1727 srcY = 1030 dstX = 1680 dstY = 1488 }
 	triangulation_pair = { srcX = 1788 srcY = 1014 dstX = 1745 dstY = 1480 }
 	triangulation_pair = { srcX = 1882 srcY = 1024 dstX = 1832 dstY = 1497 }
+	triangulation_pair = { srcX = 1791 srcY = 1124 dstX = 1743 dstY = 1581 }
+	triangulation_pair = { srcX = 1846 srcY = 1095 dstX = 1796 dstY = 1558 }
+	triangulation_pair = { srcX = 1947 srcY = 1112 dstX = 1887 dstY = 1579 }
 	triangulation_pair = { srcX = 1923 srcY = 1094 dstX = 1868 dstY = 1561 }
 	triangulation_pair = { srcX = 1951 srcY = 1155 dstX = 1890 dstY = 1617 }
 	triangulation_pair = { srcX = 2016 srcY = 1174 dstX = 1945 dstY = 1638 }
@@ -455,6 +553,8 @@ imperator_invictus = {
 	triangulation_pair = { srcX = 8045 srcY = 970 dstX = 5898 dstY = 3023 }
 	triangulation_pair = { srcX = 7826 srcY = 2375 dstX = 5369 dstY = 3699 }
 	triangulation_pair = { srcX = 7658 srcY = 2393 dstX = 5272 dstY = 3651 }
+	triangulation_pair = { srcX = 7588 srcY = 2609 dstX = 5156 dstY = 3734 }
+	triangulation_pair = { srcX = 7471 srcY = 2607 dstX = 5095 dstY = 3695 }
 	triangulation_pair = { srcX = 4661 srcY = 3790 dstX = 3386 dstY = 3589 }
 	triangulation_pair = { srcX = 4635 srcY = 3899 dstX = 3354 dstY = 3639 }
 	triangulation_pair = { srcX = 5390 srcY = 3961 dstX = 3704 dstY = 3802 }
@@ -469,6 +569,12 @@ imperator_invictus = {
 	triangulation_pair = { srcX = 3673 srcY = 4006 dstX = 2846 dstY = 3558 }
 	triangulation_pair = { srcX = 3613 srcY = 3815 dstX = 2836 dstY = 3463 }
 	triangulation_pair = { srcX = 3242 srcY = 4065 dstX = 2608 dstY = 3550 }
+	triangulation_pair = { srcX = 1943 srcY = 2569 dstX = 1871 dstY = 2770 }
+	triangulation_pair = { srcX = 619 srcY = 2272 dstX = 821 dstY = 2531 }
+	triangulation_pair = { srcX = 789 srcY = 2226 dstX = 949 dstY = 2495 }
+	triangulation_pair = { srcX = 1048 srcY = 2166 dstX = 1154 dstY = 2448 }
+	triangulation_pair = { srcX = 1194 srcY = 2179 dstX = 1275 dstY = 2466 }
+	triangulation_pair = { srcX = 1342 srcY = 2158 dstX = 1392 dstY = 2454 }
 	triangulation_pair = { srcX = 3270 srcY = 3926 dstX = 2636 dstY = 3492 }
 	triangulation_pair = { srcX = 3430 srcY = 3655 dstX = 2749 dstY = 3357 }
 	triangulation_pair = { srcX = 3475 srcY = 2757 dstX = 2905 dstY = 2914 }
@@ -726,9 +832,6 @@ imperator_invictus = {
 	link = { imp = 8146 imp = 8147 imp = 8149 imp = 8152 ck3 = 6459 } # Tamshin, Mughattah, Umm Abid, Brak -> TAMZAWA
 	link = { imp = 8162 imp = 8163 imp = 8171 imp = 8161 ck3 = 6448 } # Sabha, Chlef, Gadduwah, Samnu -> SABHA
 	link = { imp = 8181 imp = 8182 imp = 9136 imp = 8190 imp = 8189 ck3 = 6447 } # Zuwila, Tmessa, Sahara Impassable, Terbu, Majdul -> ZAWILA
-	link = { imp = 9139 ck3 = 6601 } # Sahara Impassable -> WADI_IRAWAN
-	link = { imp = 8184 ck3 = 6661 ck3 = 6460 } # Tisit -> GHAT_ROUTE, GHAT
-	link = { imp = 8175 imp = 8178 imp = 8179 ck3 = 6450 } # Dujal, Sharraba, Baghira -> TASSAWA
 	link = { imp = 8174 ck3 = 6451 } # Murzuq -> MURZUK
 	link = { imp = 8192 imp = 8193 ck3 = 6667 } # Qatrun, Tajhiri -> FEZZAN_ROUTE
 	link = { imp = 8173 imp = 8194 imp = 8191 ck3 = 6669 } # Traghen, Mastutah, Izam -> TRAGHAN
@@ -740,7 +843,6 @@ imperator_invictus = {
 	link = { imp = 8137 imp = 8151 imp = 8136 imp = 8133 imp = 8138 imp = 8150 imp = 8134 ck3 = 4553 } # Tagrifet, Harawa, Talhah, Maradah, Meduin, Psyllic Desert, Jafr -> TAJRIFT
 	link = { imp = 8231 imp = 8236 ck3 = 6321 } # Sinawen, Zar -> SINAWIN
 	link = { imp = 8232 ck3 = 4571 } # Derg -> DARADJ
-	link = { imp = 9140 imp = 8180 imp = 8172 ck3 = 6602 } # Sahara Impassable, Harakat, Daydaban -> ERG_GHATI
 	link = { imp = 8233 imp = 8234 ck3 = 4570 } # Cydamus, Debdeb -> GHADAMES
 	link = { imp = 8214 ck3 = 4558 } # Thenteos -> TIRI
 	link = { imp = 8227 imp = 8225 imp = 8212 imp = 8213 imp = 8177 imp = 8215 imp = 8216 ck3 = 4569 } # Ajdab, Scemech, Mizda, Centenarium, Desert, Vinaza, Garian -> TAMAZDA
@@ -1473,7 +1575,7 @@ imperator_invictus = {
 	link = { imp = 828 ck3 = 4889 ck3 = 4884 } # Terqa -> AL-RAHBA, SUKAYR AL-ABBAS
 	link = { imp = 829 ck3 = 4888 } # Doura -> AL-DALIYA
 	link = { imp = 906 imp = 905 ck3 = 4885 } # Anatho, Bechchouphrein -> HADITHAT-ANA
-	link = { imp = 886 imp = 884 ck3 = 4803 } # Nuzi, Arrapha -> KIRKUK
+	link = { imp = 886 imp = 884 imp = 887 ck3 = 4803 } # Nuzi, Arrapha, Arzuhin -> KIRKUK
 	link = { imp = 956 ck3 = 4835 } # Ajri -> TAKRIT
 	link = { imp = 891 ck3 = 4834 } # Birtha -> HISN AL-MASHUQ
 	link = { imp = 955 ck3 = 4807 } # Kar Tukulti Ninurta -> BARIMMA
@@ -1688,7 +1790,7 @@ imperator_invictus = {
 	link = { imp = 4651 imp = 4652 imp = 4647 ck3 = 6283 } # Caiwa, Confluentia Qataba, Save -> AL-MAAFIR
 	link = { imp = 4646 ck3 = 6282 } # Okelis -> AL-MANDAB
 	link = { imp = 4666 imp = 4665 ck3 = 6298 } # Mariaba, Nagia -> BARAQISH
-	link = { imp = 4683 imp = 4667 ck3 = 6274 } # Sirwa, Athroula -> AR-RAYDA
+	link = { imp = 4683 imp = 4667 imp = 4690 ck3 = 6274 } # Sirwa, Athroula, Nashaq -> AR-RAYDA
 	link = { imp = 4688 ck3 = 6275 } # Amran -> SHIBAM-SANAA
 	link = { imp = 4686 imp = 4689 ck3 = 6278 } # Sabiyah, Haraz -> FASHAL
 	link = { imp = 4644 imp = 4643 imp = 4691 ck3 = 6280 } # Aliou Kome, Laupas, Harazia Vallis -> ZABID
@@ -1757,6 +1859,24 @@ imperator_invictus = {
 	link = { imp = 4650 ck3 = 6290 } # 'Adan -> ADEN
 	link = { comment = "# FINLAND BY IHT" }
 	link = { imp = 5976 ck3 = 216 ck3 = 217 ck3 = 180 ck3 = 179 ck3 = 178 ck3 = 177 ck3 = 175 ck3 = 176 ck3 = 197 ck3 = 182 } # Finland Impassable -> SUND, JOMALA, RAUMA, TURKU, RIKALA, RASEBORG, PORVOO, ESPOO, VEHKALAHTI, VIIPURI
+	link = { comment = "# SOUTH INDIA BY IHT: PRESERVED ONLY NAME-BASED MAPPINGS, REST CAN BE AUTOGENERATED" }
+	link = { imp = 6927 imp = 6926 ck3 = 7807 } # Urayur, Bata Pandiya -> Uraiyur
+	link = { imp = 7027 ck3 = 7818 } # Rapur -> Vallurapura
+	link = { imp = 7002 ck3 = 1204 } # Nellore -> Nellore
+	link = { imp = 7010 ck3 = 7864 ck3 = 7862 } # Paravipura -> Parivi, Hemavati
+	link = { imp = 7007 ck3 = 7822 } # Nandagiri -> Nandi
+	link = { imp = 7014 ck3 = 1199 } # Penugonda -> Penugonda
+	link = { imp = 7022 ck3 = 7865 } # Belgola -> Belapura
+	link = { imp = 7048 ck3 = 7841 ck3 = 7905 } # Sriparvata -> Sriparvata, Devarakonda
+	link = { imp = 7049 ck3 = 7904 ck3 = 7839 } # Naconda -> Nalgonda, Pondugala
+	link = { imp = 7023 ck3 = 7851 } # Srnguri -> Shringeri
+	link = { imp = 7015 ck3 = 1140 } # Vanavasi -> Banavasi
+	link = { imp = 6989 ck3 = 1120 } # Tagadur -> Tagadur
+	link = { imp = 6996 imp = 6983 ck3 = 7830 } # Tiruvannamalai, Arkatapura -> Tiruvannamalai
+	link = { imp = 7009 ck3 = 1216 } # Talavanapura -> Talakad
+	link = { imp = 6949 imp = 6939 imp = 6945 imp = 6946 ck3 = 1201 } # Kongu, Chavadi, Kilandha, Kavera -> Kongu
+	link = { imp = 6912 imp = 6913 ck3 = 7812 } # Kolkoi, Tamraparni -> Korkai
+	link = { imp = 6917 ck3 = 1112 } # Madurai -> Madurai
 	link = { comment = "=== NEW MAPPINGS BY RADU ===" }
 	link = { comment = "MOROCCO BY RADU" }
 	link = { imp = 3061 ck3 = 4683 ck3 = 4682 } # Tingis -> TANGER, SABTA
@@ -3211,7 +3331,8 @@ imperator_invictus = {
 	link = { imp = 4065 ck3 = 3500 } # Salvium -> Glamoc
 	link = { imp = 4061 ck3 = 3523 ck3 = 3504 } # Splonum -> Pset, Kljuc na Sani
 	link = { imp = 4057 ck3 = 3548 } # Bournion -> Knin
-	link = { imp = 4051 ck3 = 3543 ck3 = 3544 } # Ancus -> Kaseg, Udbina
+	link = { imp = 4050 ck3 = 3543 } # Arupium -> Kaseg
+	link = { imp = 4051 ck3 = 3544 } # Ancus -> Udbina
 	link = { imp = 4042 ck3 = 3522 ck3 = 3541 } # Raetinium -> Bihac, Dreznik
 	link = { imp = 4043 ck3 = 3521 } # Clandate -> Krupa
 	link = { imp = 4073 ck3 = 3519 } # Ad Praetorium -> Vodicevo
@@ -4003,7 +4124,7 @@ imperator_invictus = {
 	link = { imp = 1878 imp = 1876 imp = 7986 imp = 5176 ck3 = 5612 } # Sipha, Physkos, Commagenian Gates, IMPASSIBLE TERRAIN 176 -> Cocussus
 	link = { imp = 1877 ck3 = 5625 } # Anazarbos -> Anazaribus
 	link = { imp = 1867 imp = 1862 ck3 = 4893 } # Markash, Adatha -> MARASH
-	link = { imp = 1873 imp = 7987 ck3 = 4895 } # Erana, Markash Mountains -> AL-HARUNIYA
+	link = { imp = 1873 imp = 7987 imp = 1870 ck3 = 4895 } # Erana, Markash Mountains, Amanian Gates -> AL-HARUNIYA
 	link = { imp = 8011 ck3 = 5914 } # Korlon -> MASYAF
 	link = { imp = 793 imp = 1871 ck3 = 5935 } # Gindaros, Syrian Gates -> ARTAH
 	link = { imp = 794 imp = 792 ck3 = 5904 } # Cyrrhus, Trapezon -> BAGHRAS
@@ -4313,7 +4434,7 @@ imperator_invictus = {
 	link = { imp = 6796 imp = 6797 ck3 = 4524 } # Qanga, Vezir -> SARYKAMYSH
 	link = { imp = 5472 imp = 5474 imp = 5473 imp = 5454 imp = 5475 imp = 5455 ck3 = 4525 } # Kraz, Khrischatach, Dyram, Yatsha, Bela, Palimek -> ORTAKUYU
 	link = { imp = 6809 ck3 = 4526 } # Sariq -> KUGUNEK
-	link = { imp = 5453 ck3 = 4527 } # Zatra -> BALA ISKEM
+	link = { imp = 5453 imp = 5456 ck3 = 4527 } # Zatra, Murna -> BALA ISKEM
 	link = { imp = 6807 ck3 = 4529 } # Dauaba -> IGDY
 	link = { imp = 5392 ck3 = 4528 } # Kurah -> KURTYSH
 	link = { imp = 6806 ck3 = 4530 } # Balkan -> BURGUN
@@ -4454,7 +4575,7 @@ imperator_invictus = {
 	link = { imp = 707 imp = 706 imp = 708 ck3 = 5972 } # Arieldela, Bossia, Kalgouia -> ARANDAL
 	link = { imp = 509 imp = 525 ck3 = 6038 } # Pelusium, Sile -> FARAMA
 	link = { comment = "# North India" }
-	link = { imp = 4471 ck3 = 1165 } # Tigowa -> Bandhugadha
+	link = { imp = 4471 imp = 5443 ck3 = 1165 } # Tigowa, Chattisgarh Jungle -> Bandhugadha
 	link = { imp = 7459 ck3 = 926 } # Sihora -> Soubhagyapura
 	link = { imp = 7132 ck3 = 7933 ck3 = 924 } # Rapsakpur -> Mungeli, Moti_Mahal
 	link = { imp = 7331 ck3 = 828 ck3 = 8722 } # Chittagong -> Chatigama, Karnaphuli
@@ -4767,7 +4888,7 @@ imperator_invictus = {
 	link = { imp = 4329 ck3 = 3442 } # Nara -> Lund_Nandana
 	link = { imp = 7319 imp = 7314 ck3 = 3437 } # Ataka, Taxila -> Attak
 	link = { imp = 7361 imp = 3810 ck3 = 7947 } # Salutara, Embadina -> Waihind
-	link = { imp = 5600 ck3 = 7951 } # Parsni -> Kalam_TARIM
+	link = { imp = 5600 imp = 6751 ck3 = 7951 } # Parsni, Varana Gandhara -> Kalam_TARIM
 	link = { imp = 5599 ck3 = 7950 } # Teclas -> Chilas
 	link = { imp = 5592 ck3 = 9020 ck3 = 9021 } # Skardo -> Skardu, Roundu
 	link = { imp = 5593 ck3 = 9024 } # Darada -> Astore
@@ -4821,18 +4942,17 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 5335 ck3 = 8449 } # IP 336 -> SEMIEN_MOUNTAINS
 	link = { autogenerated = yes imp = 5355 ck3 = 8443 } # Koha -> DANAKIL_DESERT
 	link = { autogenerated = yes imp = 5337 ck3 = 8442 } # Puntic Highlands -> DANAKIL_HILLS
-	link = { autogenerated = yes imp = 9144 imp = 9143 ck3 = 807 } # Aures Mountains, Aures Mountains -> Tell Atlas Mountains 8
-	link = { autogenerated = yes imp = 5153 ck3 = 803 } # IMPASSIBLE TERRAIN 153 -> Tell Atlas Mountains 4
+	link = { autogenerated = yes imp = 9143 imp = 9144 ck3 = 807 } # Aures Mountains, Aures Mountains -> Tell Atlas Mountains 8
+	link = { autogenerated = yes imp = 5153 imp = 5154 ck3 = 803 } # IMPASSIBLE TERRAIN 153, IMPASSIBLE TERRAIN 154 -> Tell Atlas Mountains 4
 	link = { autogenerated = yes imp = 5152 ck3 = 802 } # IMPASSIBLE TERRAIN 152 -> Tell Atlas Mountains 3
-	link = { autogenerated = yes imp = 3138 imp = 5154 ck3 = 801 } # BessemiumSeptentrionalis, IMPASSIBLE TERRAIN 154 -> Tell Atlas Mountains 2
+	link = { autogenerated = yes imp = 3138 ck3 = 801 } # BessemiumSeptentrionalis -> Tell Atlas Mountains 2
 	link = { autogenerated = yes imp = 5985 ck3 = 795 ck3 = 798 } # Inner Mauritania -> Atlas Mountains 6, Atlas Mountains 9
 	link = { autogenerated = yes imp = 5317 imp = 5318 ck3 = 7943 } # IP 318, IP 319 -> Eastern Ghats (W)
 	link = { autogenerated = yes imp = 6865 imp = 5315 imp = 6869 ck3 = 7942 } # Paunar, Baglana, Govardhana -> Western Ghats (NN)
 	link = { autogenerated = yes imp = 6875 imp = 6872 imp = 6878 ck3 = 7940 } # Etuca, Lonavli, Yakaris -> Western Ghats (NS)
 	link = { autogenerated = yes imp = 6300 imp = 5984 ck3 = 794 } # Talzemt, High Atlas -> Atlas Mountains 5
-	link = { autogenerated = yes imp = 6880 ck3 = 7939 } # Vasi -> Western Ghats (M)
-	link = { autogenerated = yes imp = 5309 ck3 = 7938 } # IP 310 -> Western Ghats (S)
-	link = { autogenerated = yes imp = 5305 imp = 5304 imp = 5306 imp = 6897 imp = 6909 ck3 = 7936 } # South Nilgiri, IP 305, IP 307, Nelcynda, Tropiana -> Southwestern Ghats
+	link = { autogenerated = yes imp = 5308 ck3 = 7937 } # North Nilgiri -> Palakkad Pass
+	link = { autogenerated = yes imp = 5304 imp = 5305 imp = 5306 ck3 = 7936 } # IP 305, South Nilgiri, IP 307 -> Southwestern Ghats
 	link = { autogenerated = yes imp = 6482 imp = 5950 imp = 5986 ck3 = 793 } # More Middle Atlas, Gaetuli Impassable, Middle Atlas -> Atlas Mountains 4
 	link = { autogenerated = yes imp = 6483 imp = 6488 ck3 = 792 } # More Middle Atlas, Middle Atlas -> Atlas Mountains 3
 	link = { autogenerated = yes imp = 6493 ck3 = 790 ck3 = 791 } # Riff -> Atlas Mountains 1, Atlas Mountains 2
@@ -4856,15 +4976,15 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 7281 ck3 = 7134 } # Wasteland -> Akkum
 	link = { autogenerated = yes imp = 5966 ck3 = 7126 ck3 = 7155 ck3 = 7156 ck3 = 7157 ck3 = 7159 ck3 = 7160 ck3 = 7211 ck3 = 7213 ck3 = 7214 ck3 = 7308 ck3 = 7310 ck3 = 7313 ck3 = 7315 ck3 = 7316 } # Steppe Impassable -> Sawran, Shyganak, Mirnyy, Aksuyek, Akzhar, Tamgaly, Betpak-Dala, Saryesik-Atyrau Desert, Southern Balkash wasteland, Bos-Tau, Betpa, Asaybay, Baykara, Targyl
 	link = { autogenerated = yes imp = 7280 ck3 = 7125 ck3 = 7210 } # Wasteland -> Uzgend, Kyzylkum
-	link = { autogenerated = yes imp = 5990 imp = 8148 imp = 9137 ck3 = 6607 } # Garamantian Sahara, Eastern Black Mountains, Sahara Impassable -> JUFRA
-	link = { autogenerated = yes imp = 9138 imp = 5992 imp = 8185 ck3 = 6596 } # Sahara Impassable, Desert, Garamantic Desert -> IDEHAN_MURZUQ
+	link = { autogenerated = yes imp = 5990 imp = 8148 imp = 8165 imp = 9137 ck3 = 6607 } # Garamantian Sahara, Eastern Black Mountains, Western Psyllic Desert, Sahara Impassable -> JUFRA
+	link = { autogenerated = yes imp = 9138 imp = 5992 imp = 8175 imp = 8178 imp = 8179 imp = 8185 imp = 9139 ck3 = 6596 } # Sahara Impassable, Desert, Dujal, Sharraba, Baghira, Garamantic Desert, Sahara Impassable -> IDEHAN_MURZUQ
 	link = { autogenerated = yes imp = 8183 ck3 = 6594 ck3 = 6595 } # Desert -> HAMADAT_HAMRA, JEBEL_NAFUSA
 	link = { autogenerated = yes imp = 9141 imp = 5285 imp = 8361 ck3 = 6593 } # Sahara Impassable, IMPASSIBLE TERRAIN 285, Abadla -> ERG_TOUATI
 	link = { autogenerated = yes imp = 9466 ck3 = 6592 } # Sahara Desert -> ERG_ATLASI
 	link = { autogenerated = yes imp = 5187 imp = 5186 ck3 = 659 } # IMPASSIBLE TERRAIN 187, IMPASSIBLE TERRAIN 186 -> IBERIAN IMPASSABLE TERRAIN 8
-	link = { autogenerated = yes imp = 5943 ck3 = 6433 ck3 = 6434 ck3 = 6435 ck3 = 8310 ck3 = 8314 ck3 = 8315 ck3 = 8316 ck3 = 8317 ck3 = 8318 ck3 = 8319 ck3 = 8320 ck3 = 8321 ck3 = 8322 ck3 = 8323 ck3 = 8324 ck3 = 8328 ck3 = 8329 ck3 = 8350 ck3 = 8353 ck3 = 8361 ck3 = 8362 ck3 = 8363 ck3 = 8365 ck3 = 8366 ck3 = 8367 ck3 = 8369 ck3 = 8370 ck3 = 8371 ck3 = 8372 ck3 = 8373 ck3 = 8374 ck3 = 8375 ck3 = 8376 ck3 = 8377 ck3 = 8386 ck3 = 8387 ck3 = 8388 ck3 = 8389 ck3 = 8390 ck3 = 8433 ck3 = 8435 ck3 = 8436 ck3 = 8437 ck3 = 8438 ck3 = 8439 ck3 = 8447 ck3 = 8448 ck3 = 8514 ck3 = 8515 ck3 = 8516 } # Sudanese Impassable -> FAZUGHLI, AL-RUSAYRISI, FAZUGHLI-EAST, SANA, UPPER_DINDER, DINDER, BAD, KIBRAN, BASHILA, GISHE, BAHIR _GIYORGIS, GOJJAM, WARQ, DIMA, AMHARA, WAGDA, WALAQA, WARAB, DEBRE_LIBANOS, GOJEB, INNARYA, GURAGE, BIZAMO, GAFAT, MUGAR, JIBAT, DAMOT-WEST, AGAW_MEDER, WEST_GOJJAM, JANJERO, GANZ, ABBAY-AGAW, BERTA, DIDESA, INDEGABTAN, GAMBO, BOSHA, GIBE_INNARYA, OMO, GOMMA, BONGA, KAFFA, WELLEGA-SOUTH, WELLEGA-NORTH, METEKEL_DESERT, GOJJAM_HIGHLANDS, WOLLO_HIGHLANDS, GUMUZ-NORTH, GUMUZ-WEST, GUMUZ-SOUTH
+	link = { autogenerated = yes imp = 5943 ck3 = 6433 ck3 = 6434 ck3 = 6435 ck3 = 8310 ck3 = 8314 ck3 = 8315 ck3 = 8316 ck3 = 8317 ck3 = 8318 ck3 = 8319 ck3 = 8320 ck3 = 8321 ck3 = 8322 ck3 = 8323 ck3 = 8324 ck3 = 8328 ck3 = 8329 ck3 = 8350 ck3 = 8353 ck3 = 8356 ck3 = 8360 ck3 = 8361 ck3 = 8362 ck3 = 8363 ck3 = 8365 ck3 = 8366 ck3 = 8367 ck3 = 8369 ck3 = 8370 ck3 = 8371 ck3 = 8372 ck3 = 8373 ck3 = 8374 ck3 = 8375 ck3 = 8376 ck3 = 8377 ck3 = 8386 ck3 = 8387 ck3 = 8388 ck3 = 8389 ck3 = 8390 ck3 = 8433 ck3 = 8435 ck3 = 8436 ck3 = 8437 ck3 = 8438 ck3 = 8439 ck3 = 8447 ck3 = 8448 ck3 = 8514 ck3 = 8515 ck3 = 8516 ck3 = 8518 } # Sudanese Impassable -> FAZUGHLI, AL-RUSAYRISI, FAZUGHLI-EAST, SANA, UPPER_DINDER, DINDER, BAD, KIBRAN, BASHILA, GISHE, BAHIR _GIYORGIS, GOJJAM, WARQ, DIMA, AMHARA, WAGDA, WALAQA, WARAB, DEBRE_LIBANOS, HADYA, GAMO, GOJEB, INNARYA, GURAGE, BIZAMO, GAFAT, MUGAR, JIBAT, DAMOT-WEST, AGAW_MEDER, WEST_GOJJAM, JANJERO, GANZ, ABBAY-AGAW, BERTA, DIDESA, INDEGABTAN, GAMBO, BOSHA, GIBE_INNARYA, OMO, GOMMA, BONGA, KAFFA, WELLEGA-SOUTH, WELLEGA-NORTH, METEKEL_DESERT, GOJJAM_HIGHLANDS, WOLLO_HIGHLANDS, GUMUZ-NORTH, GUMUZ-WEST, GUMUZ-SOUTH, LOWER_OMO
 	link = { autogenerated = yes imp = 5333 imp = 5334 imp = 5341 imp = 5342 ck3 = 6425 } # Desert of Aswan, Desert of Luxor, Desert of Kharga, IP 343 -> WAHAT-DESERT-SOUTH
-	link = { autogenerated = yes imp = 5945 ck3 = 6424 ck3 = 6427 } # Nubian Impassable -> WESTERN_NUB_DESERT, JEBEL_ABU_NEGILA
+	link = { autogenerated = yes imp = 5945 ck3 = 6424 ck3 = 6427 ck3 = 6428 } # Nubian Impassable -> WESTERN_NUB_DESERT, JEBEL_ABU_NEGILA, BIR_EL-KAI
 	link = { autogenerated = yes imp = 5331 ck3 = 6422 } # IP 332 -> NUBIAN_DESERT_WEST
 	link = { autogenerated = yes imp = 8120 ck3 = 6421 } # Kerman Desert -> NUBIAN_DESERT_EAST
 	link = { autogenerated = yes imp = 5944 ck3 = 6416 ck3 = 6426 ck3 = 6430 ck3 = 6431 ck3 = 6432 ck3 = 6883 ck3 = 6884 ck3 = 6898 ck3 = 6899 ck3 = 6900 ck3 = 6901 } # Nubian Impassable -> BAYUDA_WEST, DAR_HAMID, TAGALI, TAGALI_SOUTH, RENK, EL-OBEID, EAST_KORDOFAN, SHATT, LIGURI, CENTRAL_KORDOFAN, SIDRAH
@@ -4936,7 +5056,8 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 5278 ck3 = 2667 ck3 = 2668 ck3 = 3291 } # IMPASSIBLE TERRAIN 278 -> PERSIAN IMPASSABLE, PERSIAN IMPASSABLE, PERSIAN IMPASSABLE TERRAIN 3
 	link = { autogenerated = yes imp = 5270 imp = 5271 imp = 5272 imp = 5276 imp = 5277 ck3 = 2601 } # Sogdian Mountains, IMPASSIBLE TERRAIN 271, IMPASSIBLE TERRAIN 272, IMPASSIBLE TERRAIN 276, Ferghanan Mountains -> PERSIAN IMPASSABLE
 	link = { autogenerated = yes imp = 5281 imp = 5280 imp = 6785 ck3 = 2580 } # IMPASSIBLE TERRAIN 281, Talas Highland, Shelji -> PERSIAN IMPASSABLE
-	link = { autogenerated = yes imp = 5967 ck3 = 2486 ck3 = 2539 ck3 = 7163 ck3 = 7168 } # More Steppe Impassable -> TIANSHAN, TIANSHAN, Kopathal, Qayaliq
+	link = { autogenerated = yes imp = 5282 ck3 = 2539 ck3 = 7148 ck3 = 7149 ck3 = 7150 ck3 = 7151 } # IMPASSIBLE TERRAIN 282 -> TIANSHAN, Sayaq, Tinimseyit, Bagish, Cherik
+	link = { autogenerated = yes imp = 5967 ck3 = 2486 ck3 = 7163 ck3 = 7168 } # More Steppe Impassable -> TIANSHAN, Kopathal, Qayaliq
 	link = { autogenerated = yes imp = 5130 imp = 5021 ck3 = 2484 } # IMPASSIBLE TERRAIN 130, IMPASSIBLE TERRAIN 021 -> Northern Apennine Mountains 1
 	link = { autogenerated = yes imp = 5953 ck3 = 247 ck3 = 255 ck3 = 256 ck3 = 257 ck3 = 258 ck3 = 259 ck3 = 260 ck3 = 261 ck3 = 262 ck3 = 264 ck3 = 288 ck3 = 299 ck3 = 3260 ck3 = 7 } # Norwegian Impassable -> NUMEDAL, HARDANGER, SUNNHORDALAND, MITHRHORDALAND, NORTHRIHORDALAND, VOSS, SOGNFYLKI, BREMANGER, STOLSHEIMEN, DALE, HEDDALI, NORWEGIAN IMPASSABLE 9, NORWEGIAN MOUNTAINS, SCALLOWAY
 	link = { autogenerated = yes imp = 5952 ck3 = 232 ck3 = 233 ck3 = 235 ck3 = 236 ck3 = 240 ck3 = 323 ck3 = 324 ck3 = 325 ck3 = 326 ck3 = 329 ck3 = 342 ck3 = 345 ck3 = 346 ck3 = 347 ck3 = 348 ck3 = 349 ck3 = 350 ck3 = 352 ck3 = 353 ck3 = 8728 ck3 = 8729 ck3 = 8731 ck3 = 8732 ck3 = 8739 ck3 = 8769 } # Swedish Impassable -> ROMERIKI, RINGARIKI, VALDRES, HEDMARK, SUTHRI EYSTRIDALI, TINGVALLA, FRISKDAL, GILLBERG, VASE, NORASKOG, UPPSALA, HENAMORUM, VAESTRAAROS, ARBUGAE, SKYNZEKKEBERGE, FERNABO, FALENE, MOLUNGR, NORRBARKE, Leksand, Lima, Nordmark, Josse, Farnebo, Stange
@@ -4944,11 +5065,12 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 5973 ck3 = 168 ck3 = 169 ck3 = 170 ck3 = 3200 ck3 = 5138 } # Northern Baltic Coast Impassable -> KOPORYE, NYEN, NOTEBORG, Brodnica, Ladoga
 	link = { autogenerated = yes imp = 5882 ck3 = 1489 ck3 = 7080 } # Multen -> Ustyurt Plateau, Karasye
 	link = { autogenerated = yes imp = 5256 imp = 5255 ck3 = 1471 } # IMPASSIBLE TERRAIN 256, IMPASSIBLE TERRAIN 255 -> PERSIAN IMPASSABLE TERRAIN
-	link = { autogenerated = yes imp = 8813 imp = 7852 imp = 8782 imp = 8784 imp = 8790 imp = 8793 imp = 8808 imp = 8809 ck3 = 1468 } # Myitkyina, SEAZONE IMPASSABLE WASTELAND, Kettha, Pu, Danai, Burma Mountains, Thanlyin, Lashio -> Eastern Wasteland 3
+	link = { autogenerated = yes imp = 8813 imp = 7851 imp = 7852 imp = 8782 imp = 8784 imp = 8790 imp = 8793 imp = 8808 imp = 8809 ck3 = 1468 } # Myitkyina, SEAZONE IMPASSABLE WASTELAND, SEAZONE IMPASSABLE WASTELAND, Kettha, Pu, Danai, Burma Mountains, Thanlyin, Lashio -> Eastern Wasteland 3
 	link = { autogenerated = yes imp = 5962 ck3 = 1438 ck3 = 3104 ck3 = 9615 ck3 = 9616 } # Karakoram -> Yarkand, KUNLUNSHAN, Kehan, Karghalik
 	link = { autogenerated = yes imp = 5253 imp = 5250 imp = 5251 imp = 5252 ck3 = 1437 } # IMPASSIBLE TERRAIN 254, IMPASSIBLE TERRAIN 250, IMPASSIBLE TERRAIN 251, Lut -> PERSIAN IMPASSABLE TERRAIN
 	link = { autogenerated = yes imp = 5231 imp = 5232 ck3 = 1436 } # IMPASSIBLE TERRAIN 231, Zagros -> AZERBAIJAN MOUNTAINS
 	link = { autogenerated = yes imp = 5969 ck3 = 1433 ck3 = 5418 ck3 = 5427 ck3 = 5428 ck3 = 5429 ck3 = 5430 ck3 = 5431 ck3 = 5432 ck3 = 5433 ck3 = 5480 ck3 = 5482 ck3 = 5484 ck3 = 5514 ck3 = 7246 ck3 = 7247 ck3 = 7248 ck3 = 7250 ck3 = 7252 ck3 = 7265 ck3 = 7269 ck3 = 7270 ck3 = 7271 ck3 = 7272 ck3 = 7273 ck3 = 7353 } # European Steppe Impassable -> Terekti, Belebey, Bol Uran, Sakmarskoi Gorodok, Sterlitamak, Teterpush, Salavat, Kumertau, Prechistenskaya, Bielaya, Kaginskoi, Yuldybayevo, Caucasus Wasteland, Suvunduk, Atamansku, Kbumak, Jarli Butak, Kosh Kurbay, Sor Kuduk, Tuzdyn, Jilanjik, Tamdins, Ulytau, Ajutasty, Central Kazakh Steppe
+	link = { autogenerated = yes imp = 5997 ck3 = 1380 } # Antilibanus Mons -> SYRIAN IMPASSABLE
 	link = { autogenerated = yes imp = 768 ck3 = 1379 } # Libanus Mons -> SYRIAN IMPASSABLE
 	link = { autogenerated = yes imp = 5228 imp = 5227 imp = 5229 ck3 = 1373 } # IMPASSIBLE TERRAIN 228, IMPASSIBLE TERRAIN 227, IMPASSIBLE TERRAIN 229 -> SYRIAN DESERT
 	link = { autogenerated = yes imp = 5379 imp = 5376 imp = 5377 imp = 5378 imp = 5666 imp = 5668 imp = 6742 imp = 6745 imp = 6746 imp = 6756 imp = 8759 imp = 8760 imp = 8765 ck3 = 1347 } # IP 380, IP 377, IP 378, Tarim, Taklamakan, Taklamakan, Pishan, Keriya, Shaju, Khata, Makit, Tageairike, Cadota -> TAKLAMAKAN DESERT
@@ -4984,6 +5106,12 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 9254 ck3 = 3997 ck3 = 3988 } # Deogarh -> Rajgangpur, Deogarh
 	link = { autogenerated = yes imp = 9253 ck3 = 3986 ck3 = 3984 } # Lahunipara -> Malayagiri, Bahalda
 	link = { autogenerated = yes imp = 9242 imp = 9244 ck3 = 4460 } # Kukcha, Desert -> KURDAR
+	link = { autogenerated = yes imp = 8755 ck3 = 7154 } # Bosteri -> Balasaghun
+	link = { autogenerated = yes imp = 8184 ck3 = 6462 } # Tisit -> AL-BARKAT
+	link = { autogenerated = yes imp = 8180 imp = 8172 imp = 9140 ck3 = 6602 } # Harakat, Daydaban, Sahara Impassable -> ERG_GHATI
+	link = { autogenerated = yes imp = 8160 imp = 8154 ck3 = 6601 } # Adwesa, Wanin -> WADI_IRAWAN
+	link = { autogenerated = yes imp = 8157 imp = 8159 imp = 8187 ck3 = 6661 } # Dedris, Adri, Western Black Mountains -> GHAT_ROUTE
+	link = { autogenerated = yes imp = 8155 imp = 8156 ck3 = 6450 } # Mahruqah, Bergin -> TASSAWA
 	link = { autogenerated = yes imp = 7320 imp = 5364 ck3 = 907 } # Bandhavgarh, IP 365 -> Beohari
 	link = { autogenerated = yes imp = 7269 ck3 = 1181 } # Jaxartia -> Sutkend
 	link = { autogenerated = yes imp = 7262 ck3 = 7130 } # Maidankuyryk -> Sary-Ozek
@@ -4991,6 +5119,9 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 7246 imp = 7247 ck3 = 901 } # Yangikent, Altinasar -> Jend
 	link = { autogenerated = yes imp = 8757 ck3 = 7972 } # Chigu -> Uch_TARIM
 	link = { autogenerated = yes imp = 7183 ck3 = 1445 } # Rucya -> Aksu
+	link = { autogenerated = yes imp = 7110 ck3 = 7886 } # Vayapata -> Bagavadi
+	link = { autogenerated = yes imp = 7087 ck3 = 7874 } # Goulla -> Koppam
+	link = { autogenerated = yes imp = 6941 imp = 6943 ck3 = 1116 } # Selour, Kathan -> Tenkasi
 	link = { autogenerated = yes imp = 6747 ck3 = 9610 ck3 = 9606 } # Wumi -> Laodamogou, Keriya
 	link = { autogenerated = yes imp = 5694 imp = 5704 ck3 = 726 } # Mare Britannicum, Mare Britannicum -> English Channel
 	link = { autogenerated = yes imp = 5466 imp = 5470 ck3 = 7083 } # Shakthara, Vyenim -> Porsu-Burun
@@ -5008,6 +5139,7 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 6413 ck3 = 983 } # Asphaltites -> Dead Sea
 	link = { autogenerated = yes imp = 4599 imp = 2780 imp = 4591 imp = 4593 imp = 4598 imp = 4592 imp = 4725 ck3 = 981 } # Oceanus Atlanticus, Oceanus Atlanticus, Oceanus Atlanticus, Oceanus Atlanticus, Oceanus Atlanticus, Oceanus Atlanticus, Oceanus Atlanticus -> Gulf of Cadiz
 	link = { autogenerated = yes imp = 4734 imp = 4731 imp = 4732 imp = 4727 ck3 = 980 } # Oceanus Atlanticus, Oceanus Atlanticus, Oceanus Atlanticus, Oceanus Atlanticus -> Coast of Portugal
+	link = { autogenerated = yes imp = 6414 ck3 = 979 } # Gennesar -> Tiveriade Lake
 	link = { autogenerated = yes imp = 5750 imp = 5752 imp = 5753 ck3 = 978 } # Oceanus Atlanticus, Oceanus Atlanticus, Oceanus Atlanticus -> Atlantic
 	link = { autogenerated = yes imp = 5701 imp = 5686 imp = 5687 imp = 5696 imp = 6313 ck3 = 977 } # Mare Verginium, Mare Verginium, Mare Verginium, Mare Verginium, LAKE -> Bretagne Coast
 	link = { autogenerated = yes imp = 5754 imp = 5741 imp = 5742 imp = 5755 ck3 = 975 } # Oceanus Atlanticus, Oceanus Atlanticus, Oceanus Atlanticus, Oceanus Atlanticus -> Donegal Bay
@@ -5036,9 +5168,9 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 6444 ck3 = 944 } # Mare Aralense -> Aral Sea
 	link = { autogenerated = yes imp = 2609 imp = 2605 imp = 2614 imp = 2620 imp = 6437 imp = 7906 imp = 7907 ck3 = 942 } # Mare Aegaeum, Fretum Carysteum, Fretum Artemisium, Mare Aegaeum, Mare Aegaeum, Pagasaeus Sinus, Sinus Malianus -> Aegean Sea
 	link = { autogenerated = yes imp = 2679 imp = 2677 ck3 = 941 } # Mare Phoenicium, Mare Phoenicium -> Coast of Cyprus
-	link = { autogenerated = yes imp = 2581 imp = 2580 ck3 = 940 } # Mare Phoenicium, Mare Phoenicium -> Coast of Jerusalem
+	link = { autogenerated = yes imp = 2669 imp = 2580 imp = 2581 imp = 2582 ck3 = 940 } # Mare Phoenicium, Mare Phoenicium, Mare Phoenicium, Mare Phoenicium -> Coast of Jerusalem
 	link = { autogenerated = yes imp = 9377 ck3 = 94 ck3 = 96 ck3 = 97 ck3 = 98 ck3 = 167 } # Ohut -> REVAL, JARVA, WESENBURG, NARVA, YAMA
-	link = { autogenerated = yes imp = 2667 imp = 2578 imp = 2579 imp = 7673 imp = 7678 imp = 7679 imp = 7683 ck3 = 939 } # Mare Aegyptium, Delta Nili, Delta Nili, Nile, the Pelusiac, Nile, the Phatnitic, Nile, the Phatnitic, Nile, the Bolbitine -> Nile Delta
+	link = { autogenerated = yes imp = 2667 imp = 2578 ck3 = 939 } # Mare Aegyptium, Delta Nili -> Nile Delta
 	link = { autogenerated = yes imp = 2662 imp = 2576 ck3 = 938 } # Mare Aegyptium, Mare Aegyptium -> Libyan Sea
 	link = { autogenerated = yes imp = 2663 imp = 2597 imp = 2601 imp = 2660 ck3 = 937 } # Mare Aegyptium, Mare Aegyptium, Mare Aegyptium, Mare Aegyptium -> Sea of Crete
 	link = { autogenerated = yes imp = 2594 imp = 2590 imp = 2592 imp = 2593 ck3 = 936 } # Mare Icarium, Mare Icarium, Mare Carpathium, Mare Icarium -> Aegean Sea
@@ -5069,9 +5201,9 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 2980 ck3 = 8689 } # Sinus Gangeticus -> Bay of Bengal
 	link = { autogenerated = yes imp = 8802 imp = 8799 imp = 8800 imp = 8801 ck3 = 8685 } # Indian Ocean, Indian Ocean, Indian Ocean, Indian Ocean -> Bay of Bengal
 	link = { autogenerated = yes imp = 2976 imp = 2975 imp = 2979 imp = 6457 imp = 6458 imp = 8798 ck3 = 8684 } # Sinus Gangeticus, Sinus Gangeticus, Sinus Gangeticus, LAKE, LAKE, Indian Ocean -> Bay of Bengal
-	link = { autogenerated = yes imp = 8341 imp = 2895 imp = 2897 imp = 2899 imp = 2900 imp = 2901 imp = 2933 imp = 2935 imp = 8336 imp = 8337 imp = 8339 imp = 8340 ck3 = 8683 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Laccadive Sea
+	link = { autogenerated = yes imp = 8341 imp = 2895 imp = 2899 imp = 2900 imp = 2901 imp = 2933 imp = 2935 imp = 8336 imp = 8337 imp = 8339 imp = 8340 ck3 = 8683 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Laccadive Sea
 	link = { autogenerated = yes imp = 2926 imp = 2860 imp = 2861 imp = 2862 ck3 = 8682 } # Mare Erythraeum, Gulf of Minnagara, Mare Erythraeum, Mare Erythraeum -> Arabian Sea
-	link = { autogenerated = yes imp = 2857 imp = 2851 imp = 2854 ck3 = 8681 } # Mare Erythraeum, Mare Erythraeum, Rann of Kutch -> Arabian Sea
+	link = { autogenerated = yes imp = 2857 imp = 2854 ck3 = 8681 } # Mare Erythraeum, Rann of Kutch -> Arabian Sea
 	link = { autogenerated = yes imp = 2845 imp = 2842 imp = 2844 imp = 2847 ck3 = 8680 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Arabian Sea
 	link = { autogenerated = yes imp = 4445 ck3 = 868 } # Rajagagriha -> Rajagrha
 	link = { autogenerated = yes imp = 2811 imp = 2810 ck3 = 8679 } # Sinus Persicus, Sinus Persicus -> Persian Gulf
@@ -5090,11 +5222,11 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 2772 imp = 2773 imp = 2774 imp = 2775 imp = 2776 imp = 2777 imp = 2778 ck3 = 8667 } # Pontus Euxinus, Pontus Euxinus, Pontus Euxinus, Pontus Euxinus, Pontus Euxinus, Pontus Euxinus, Pontus Euxinus -> Black Sea
 	link = { autogenerated = yes imp = 6418 imp = 2615 imp = 2622 imp = 6436 ck3 = 8666 } # Sinus Thermaeus, Sinus Thermaeus, Mare Aegaeum, Mare Aegaeum -> Aegean Sea
 	link = { autogenerated = yes imp = 2616 imp = 2618 imp = 2621 imp = 8020 ck3 = 8665 } # Mare Thracum, Hellespontus, Mare Aegaeum, Mare Thracum -> Dardanelles
-	link = { autogenerated = yes imp = 2672 imp = 2668 imp = 2669 imp = 2671 imp = 2673 ck3 = 8664 } # Mare Phoenicium, Mare Aegyptium, Mare Phoenicium, Mare Phoenicium, Mare Aegyptium -> Levantine Sea
+	link = { autogenerated = yes imp = 2672 imp = 2668 imp = 2671 imp = 2673 ck3 = 8664 } # Mare Phoenicium, Mare Aegyptium, Mare Phoenicium, Mare Aegyptium -> Levantine Sea
 	link = { autogenerated = yes imp = 2670 imp = 2664 imp = 2665 imp = 2666 ck3 = 8663 } # Mare Aegyptium, Mare Aegyptium, Mare Aegyptium, Mare Aegyptium -> Levantine Sea
 	link = { autogenerated = yes imp = 2678 imp = 2674 imp = 2675 imp = 2676 ck3 = 8662 } # Mare Lycium, Mare Internum, Mare Aegyptium, Mare Aegyptium -> Levantine Sea
-	link = { autogenerated = yes imp = 2588 imp = 2589 imp = 2591 imp = 2596 ck3 = 8661 } # Mare Lycium, Mare Lycium, Mare Lycium, Mare Aegyptium -> Levantine Sea
-	link = { autogenerated = yes imp = 2583 imp = 2582 ck3 = 8660 } # Mare Phoenicium, Mare Phoenicium -> Coast of Syria
+	link = { autogenerated = yes imp = 2596 imp = 2588 imp = 2589 imp = 2591 ck3 = 8661 } # Mare Aegyptium, Mare Lycium, Mare Lycium, Mare Lycium -> Levantine Sea
+	link = { autogenerated = yes imp = 2583 ck3 = 8660 } # Mare Phoenicium -> Coast of Syria
 	link = { autogenerated = yes imp = 7363 imp = 9274 ck3 = 866 } # Purulia, Ajodhya -> Baghmundi
 	link = { autogenerated = yes imp = 2577 ck3 = 8659 } # Mare Aegyptium -> Levantine Sea
 	link = { autogenerated = yes imp = 2611 imp = 2600 imp = 2610 imp = 4723 ck3 = 8658 } # Mare Ionium, Mare Aegyptium, Mare Ionium, Sinus Messenius -> Messenian Sea
@@ -5109,12 +5241,12 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 7177 ck3 = 865 } # Tamralipti -> Dantan
 	link = { autogenerated = yes imp = 2539 imp = 2508 imp = 2509 ck3 = 8649 } # Mare Superum, Mare Superum, Mare Superum -> Adriatic Sea
 	link = { autogenerated = yes imp = 2631 imp = 2565 imp = 2566 imp = 2567 imp = 2568 imp = 2626 imp = 2628 ck3 = 8648 } # Mare Libycum, Fretum Siculum, Sinus Neapolitanus, Mare Libycum, Syrtis Minor, Mare Libycum, Mare Libycum -> Gulf of Gabes
-	link = { autogenerated = yes imp = 2564 imp = 2624 imp = 2687 ck3 = 8647 } # Sinus Uticensis, Fretum Siculum, Mare Tyrrhenum -> Gulf of Tunis
+	link = { autogenerated = yes imp = 2564 imp = 2624 imp = 2687 imp = 6319 ck3 = 8647 } # Sinus Uticensis, Fretum Siculum, Mare Tyrrhenum, LAKE -> Gulf of Tunis
 	link = { autogenerated = yes imp = 2683 imp = 2682 imp = 2684 imp = 2685 imp = 2686 ck3 = 8646 } # Mare Tyrrhenum, Mare Tyrrhenum, Mare Tyrrhenum, Mare Tyrrhenum, Mare Tyrrhenum -> Tyrrhenian Sea
 	link = { autogenerated = yes imp = 2681 imp = 2502 imp = 2505 ck3 = 8645 } # Mare Tyrrhenum, Sinus Paestanus, Mare Tyrrhenum -> Tyrrhenian Sea
-	link = { autogenerated = yes imp = 2701 ck3 = 8644 } # Mare Internum -> Punic Sea
+	link = { autogenerated = yes imp = 2701 imp = 2563 ck3 = 8644 } # Mare Internum, Sinus Hipponensis -> Punic Sea
 	link = { autogenerated = yes imp = 2688 ck3 = 8643 } # Mare Sardoum -> Coast of Sardinia
-	link = { autogenerated = yes imp = 2703 imp = 2563 imp = 2702 ck3 = 8642 } # Mare Sardoum, Sinus Hipponensis, Mare Internum -> Punic Sea
+	link = { autogenerated = yes imp = 2702 imp = 2703 ck3 = 8642 } # Mare Internum, Mare Sardoum -> Punic Sea
 	link = { autogenerated = yes imp = 2560 imp = 2724 imp = 2726 ck3 = 8641 } # Mare Hibericum, Mare Hibericum, Mare Hibericum -> Coast of Algier
 	link = { autogenerated = yes imp = 2711 imp = 2713 imp = 2720 ck3 = 8640 } # Mare Sardoum, Mare Sardoum, Mare Sardoum -> Balearic Sea
 	link = { autogenerated = yes imp = 7796 ck3 = 864 } # Bidyadhari -> Chandraketugarh
@@ -5177,6 +5309,63 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 7184 ck3 = 7974 ck3 = 7975 } # Kuche -> Jigdalik, Duldulokur
 	link = { autogenerated = yes imp = 8762 ck3 = 7973 } # Xayar -> Stwerap
 	link = { autogenerated = yes imp = 5665 imp = 8761 ck3 = 7971 } # Hotan, Tumxuk -> Tumshuk
+	link = { autogenerated = yes imp = 7120 ck3 = 7878 } # Raichur -> Raichur
+	link = { autogenerated = yes imp = 7072 ck3 = 7875 ck3 = 7876 } # Palkigunda -> Vankapura, Anegandi
+	link = { autogenerated = yes imp = 7088 imp = 9285 ck3 = 7873 } # Akkilur, Jungle -> Hangal
+	link = { autogenerated = yes imp = 7090 ck3 = 7872 } # Panapala -> Hubli
+	link = { autogenerated = yes imp = 7108 ck3 = 7871 } # Athani -> Keladi
+	link = { autogenerated = yes imp = 7089 ck3 = 7870 ck3 = 7939 } # Hippokoura -> Belgaum, Western Ghats (M)
+	link = { autogenerated = yes imp = 7004 imp = 7018 ck3 = 7867 } # Andalapura, Kodava -> Sosavur
+	link = { autogenerated = yes imp = 7011 ck3 = 7866 } # Triparvata -> Shravana_Belgola
+	link = { autogenerated = yes imp = 7036 ck3 = 7863 } # Huliyar -> Honnavalli
+	link = { autogenerated = yes imp = 7005 ck3 = 7860 } # Brahmagiri -> Nidugallu
+	link = { autogenerated = yes imp = 7071 ck3 = 7859 } # Gavimath -> Kampili
+	link = { autogenerated = yes imp = 7006 imp = 7073 ck3 = 7858 } # Uccasrngi, Siddapura -> Vijayanagara
+	link = { autogenerated = yes imp = 7047 ck3 = 7857 } # Yerraguddi -> Gutti
+	link = { autogenerated = yes imp = 7021 imp = 9283 ck3 = 7856 } # Suvarnagiri, Jungle -> Adavani
+	link = { autogenerated = yes imp = 7069 ck3 = 7855 } # Rajula -> Adoni
+	link = { autogenerated = yes imp = 7038 ck3 = 7850 ck3 = 7852 ck3 = 7861 } # Chandravalli -> Masur, Arka, Basavapattana
+	link = { autogenerated = yes imp = 7017 ck3 = 7849 } # Ganga -> Seringapatam
+	link = { autogenerated = yes imp = 7016 ck3 = 7847 ck3 = 7848 ck3 = 7938 } # Sriringapatna -> Mercara, Moyar, Western Ghats (S)
+	link = { autogenerated = yes imp = 7050 ck3 = 7845 } # Kuromolinava -> Bhairavunikonda
+	link = { autogenerated = yes imp = 7026 imp = 9284 ck3 = 7844 } # Kadapa, Jungle -> Ahobalam
+	link = { autogenerated = yes imp = 7043 imp = 7013 ck3 = 7842 } # Mallayapalam, Srisailam -> Addanki
+	link = { autogenerated = yes imp = 7051 ck3 = 7840 ck3 = 7843 } # Kadinava -> Ittagi, Mudivemu
+	link = { autogenerated = yes imp = 6935 imp = 6932 imp = 6933 ck3 = 7838 } # Chaberis, Koroula, Karmara -> Nagapattinam
+	link = { autogenerated = yes imp = 6936 imp = 6934 ck3 = 7837 } # Karige, Abour -> Gangaikondacolapuram
+	link = { autogenerated = yes imp = 6992 imp = 6928 ck3 = 7836 } # Argaru, Thanjavur -> Kannanur_2
+	link = { autogenerated = yes imp = 6994 imp = 6988 ck3 = 7835 } # Nadhapura, Koval -> Tirukoilur
+	link = { autogenerated = yes imp = 6930 imp = 6990 imp = 6991 imp = 5310 ck3 = 7834 } # Karafur, Ricavatta, Karoura, IP 311 -> Srirangam
+	link = { autogenerated = yes imp = 6993 imp = 5312 ck3 = 7833 } # Kolinah, IP 313 -> Kelrayan
+	link = { autogenerated = yes imp = 6987 ck3 = 7832 } # Colapattinam -> Jinji
+	link = { autogenerated = yes imp = 6986 ck3 = 7831 } # Sopattinam -> Uttaramerur
+	link = { autogenerated = yes imp = 6995 imp = 5313 ck3 = 7829 } # Chengam, Eastern Ghats -> Kudalasangama_bis
+	link = { autogenerated = yes imp = 6985 imp = 6984 ck3 = 7827 } # Mavilankai, Kancipuram -> Mamallapuram
+	link = { autogenerated = yes imp = 7000 ck3 = 7826 } # Tondana -> Takkaloma
+	link = { autogenerated = yes imp = 7032 ck3 = 7824 ck3 = 7828 } # Tiruperur -> Muluvagil, Kuvalala
+	link = { autogenerated = yes imp = 7031 imp = 7008 ck3 = 7823 } # Kuvalalapura, Chintamani -> Nangali
+	link = { autogenerated = yes imp = 6998 ck3 = 7821 } # Gudimallam -> Kalahasti
+	link = { autogenerated = yes imp = 7028 ck3 = 7820 ck3 = 7825 } # Tirumala -> Melpadi, Padaividu
+	link = { autogenerated = yes imp = 7025 imp = 7033 ck3 = 7819 } # Rayachoti, Madana -> Mangalavada
+	link = { autogenerated = yes imp = 7034 ck3 = 7816 ck3 = 7817 } # Kadiri -> Anantapur, Puspagiri
+	link = { autogenerated = yes imp = 7024 ck3 = 7815 } # Mangalavada -> Togarakunta
+	link = { autogenerated = yes imp = 6901 imp = 6911 ck3 = 7814 } # Balita, Aykudi -> Kottar
+	link = { autogenerated = yes imp = 6903 imp = 6902 ck3 = 7813 } # Curana, Komari -> Kayal
+	link = { autogenerated = yes imp = 6920 imp = 6918 imp = 6919 ck3 = 7811 } # Malayana, Karivala, Tangala -> Sivakasi
+	link = { autogenerated = yes imp = 6923 imp = 6922 ck3 = 7810 } # Kamai, Vilath -> Virudhukkalvetti
+	link = { autogenerated = yes imp = 6915 imp = 6921 ck3 = 7809 } # Koti, Perinkari -> Rameshvaram
+	link = { autogenerated = yes imp = 6948 imp = 6925 ck3 = 7808 } # Codasi, Akour -> Sivaganga
+	link = { autogenerated = yes imp = 6947 imp = 6942 ck3 = 7806 } # Kodumbalur, Mohur -> Dindigul
+	link = { autogenerated = yes imp = 6938 imp = 6937 ck3 = 7805 } # Karur, Tennagora -> Tiruppur
+	link = { autogenerated = yes imp = 6940 ck3 = 7804 } # Korelloura -> Kovai
+	link = { autogenerated = yes imp = 6898 imp = 6909 ck3 = 7803 } # Bacare, Tropiana -> Kollam
+	link = { autogenerated = yes imp = 6896 imp = 6895 imp = 6897 imp = 6904 ck3 = 7802 } # Pseudostomos, Muziris, Nelcynda, Aloe -> Kottayam
+	link = { autogenerated = yes imp = 6905 imp = 6894 imp = 6916 imp = 6906 ck3 = 7801 } # Kalakaris, Koreoura, Vanci, Eyyal -> Kunjakari
+	link = { autogenerated = yes imp = 6907 imp = 6944 imp = 6908 ck3 = 7800 } # Podoperoura, Vellalore, Paloura -> Palakkad
+	link = { autogenerated = yes imp = 6892 imp = 6910 ck3 = 7799 } # Coula, Tandi -> Malappuram
+	link = { autogenerated = yes imp = 6889 imp = 6888 ck3 = 7798 } # Mousopalle, Nitra -> Kannanur
+	link = { autogenerated = yes imp = 6886 imp = 6891 ck3 = 7797 } # Olokhoira, Basai -> Mangalur
+	link = { autogenerated = yes imp = 6883 imp = 6882 ck3 = 7795 } # Aegidi, Toparon -> Hinawr
 	link = { autogenerated = yes imp = 5698 ck3 = 729 } # Mare Britannicum -> English Channel
 	link = { autogenerated = yes imp = 5693 ck3 = 728 } # Mare Britannicum -> English Channel
 	link = { autogenerated = yes imp = 5700 ck3 = 727 } # Mare Britannicum -> English Channel
@@ -5196,11 +5385,12 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 5723 imp = 5745 ck3 = 723 } # Mare Verginium, Mare Verginium -> Courtmacsherry Bay
 	link = { autogenerated = yes imp = 9306 ck3 = 7220 } # Mimrito -> Chubar_KAZ
 	link = { autogenerated = yes imp = 5748 imp = 5725 imp = 5747 ck3 = 722 } # Oceanus Atlanticus, Oceanus Atlanticus, Oceanus Atlanticus -> Dingle Bay
-	link = { autogenerated = yes imp = 8754 ck3 = 7166 } # Chilpek -> Kyzyl Suu
-	link = { autogenerated = yes imp = 8753 ck3 = 7165 ck3 = 7162 } # Aktogay -> Talgar, Kaskelen
+	link = { autogenerated = yes imp = 8753 ck3 = 7165 ck3 = 7162 ck3 = 7166 } # Aktogay -> Talgar, Kaskelen, Kyzyl Suu
 	link = { autogenerated = yes imp = 8751 imp = 8752 imp = 8758 ck3 = 7164 } # Issyk, Yilihe, Talgar -> Almaty
 	link = { autogenerated = yes imp = 8750 imp = 9035 imp = 9117 ck3 = 7161 } # Jieshan, Adrug, Impassable -> Kurdai
 	link = { autogenerated = yes imp = 9034 imp = 9033 ck3 = 7158 } # Krou, Kas -> Chu
+	link = { autogenerated = yes imp = 8754 ck3 = 7153 } # Chilpek -> Barskhan
+	link = { autogenerated = yes imp = 8756 ck3 = 7152 } # Beishan -> Narin
 	link = { autogenerated = yes imp = 5751 imp = 5726 imp = 5727 imp = 5728 imp = 5749 ck3 = 715 } # Oceanus Atlanticus, Oceanus Atlanticus, Oceanus Atlanticus, Oceanus Atlanticus, Oceanus Atlanticus -> Galway Bay
 	link = { autogenerated = yes imp = 9020 imp = 9017 imp = 9021 imp = 9022 imp = 9024 ck3 = 7143 } # Pimna, Ecavu, Magat, Savan, Donda -> Itte-Kichu
 	link = { autogenerated = yes imp = 5756 imp = 5743 imp = 5744 ck3 = 714 } # Oceanus Atlanticus, Oceanus Atlanticus, Mare Hibernicum -> Coast of Ailech
@@ -5246,7 +5436,7 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 5732 imp = 5729 ck3 = 708 } # Mare Hibernicum, Mare Hibernicum -> Irish Sea
 	link = { autogenerated = yes imp = 5457 imp = 5478 ck3 = 7079 } # Ustret, Zhanit -> Koizak
 	link = { autogenerated = yes imp = 5471 imp = 5493 ck3 = 7078 } # Tamaasan, Thurissa -> Kajdak
-	link = { autogenerated = yes imp = 5492 imp = 5491 ck3 = 7076 } # Erim, Gyoshach -> Churuk
+	link = { autogenerated = yes imp = 5492 imp = 5491 imp = 5490 ck3 = 7076 } # Erim, Gyoshach, Yanmal -> Churuk
 	link = { autogenerated = yes imp = 5494 ck3 = 7074 ck3 = 7077 } # Kurchina -> Beyneu, Fort Novoaleksandrovkiy
 	link = { autogenerated = yes imp = 5757 imp = 5740 imp = 6304 imp = 6307 imp = 6310 ck3 = 700 } # Oceanus Atlanticus, Mare Hibernicum, LAKE, LAKE, LAKE -> Sea of Hebrides
 	link = { autogenerated = yes imp = 5739 ck3 = 699 } # Mare Hibernicum -> Firth of Clyde
@@ -5292,10 +5482,10 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 7714 ck3 = 6127 } # Tigris -> Tigris
 	link = { autogenerated = yes imp = 7715 imp = 7716 ck3 = 6126 } # Tigris, Tigris -> Tigris
 	link = { autogenerated = yes imp = 9157 imp = 9154 imp = 9155 imp = 9156 imp = 9158 ck3 = 6125 } # $PROV7687$, $PROV7687$, $PROV7687$, $PROV7687$, $PROV7687$ -> The Nile
-	link = { autogenerated = yes imp = 9151 imp = 9150 imp = 9152 imp = 9153 ck3 = 6029 } # $PROV7687$, $PROV7687$, $PROV7687$, $PROV7687$ -> The Nile
-	link = { autogenerated = yes imp = 9146 imp = 9147 imp = 9148 imp = 9149 ck3 = 6028 } # $PROV7687$, $PROV7687$, $PROV7687$, $PROV7687$ -> The Nile
-	link = { autogenerated = yes imp = 7681 imp = 7682 ck3 = 6027 } # Nile, the Bolbitine, Nile, the Bolbitine -> The Nile
-	link = { autogenerated = yes imp = 7687 imp = 7669 imp = 7670 imp = 7674 imp = 7675 imp = 7676 ck3 = 6026 } # Nile, Nile, the Pelusiac, Nile, the Pelusiac, Nile, the Bolbitine, Nile, the Phatnitic, Nile, the Phatnitic -> The Nile
+	link = { autogenerated = yes imp = 9152 imp = 9150 imp = 9151 imp = 9153 ck3 = 6029 } # $PROV7687$, $PROV7687$, $PROV7687$, $PROV7687$ -> The Nile
+	link = { autogenerated = yes imp = 9149 imp = 7669 imp = 7674 imp = 7675 imp = 7687 imp = 9146 imp = 9147 imp = 9148 ck3 = 6028 } # $PROV7687$, Nile, the Pelusiac, Nile, the Bolbitine, Nile, the Phatnitic, Nile, $PROV7687$, $PROV7687$, $PROV7687$ -> The Nile
+	link = { autogenerated = yes imp = 7683 imp = 7680 imp = 7681 imp = 7682 ck3 = 6027 } # Nile, the Bolbitine, Nile, the Bolbitine, Nile, the Bolbitine, Nile, the Bolbitine -> The Nile
+	link = { autogenerated = yes imp = 7678 imp = 7676 imp = 7677 imp = 7679 ck3 = 6026 } # Nile, the Phatnitic, Nile, the Phatnitic, Nile, the Phatnitic, Nile, the Phatnitic -> The Nile
 	link = { autogenerated = yes imp = 9318 imp = 9315 imp = 9317 ck3 = 592 } # Kovny, Kymos, Gola -> Saratov
 	link = { autogenerated = yes imp = 9347 imp = 9351 imp = 9346 ck3 = 569 } # Orko, Marehtidak, Pihti -> Vyazma
 	link = { autogenerated = yes imp = 9319 ck3 = 5508 ck3 = 5509 } # Jyv -> Peschanka, Atkarsk
@@ -5357,7 +5547,7 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 9397 ck3 = 5135 } # Kadus -> Haradok
 	link = { autogenerated = yes imp = 9395 ck3 = 5130 } # Nalja -> Drysa
 	link = { autogenerated = yes imp = 9396 ck3 = 5129 } # Inhiminen -> Polotsk
-	link = { autogenerated = yes imp = 0 ck3 = 4617 ck3 = 4760 ck3 = 4761 ck3 = 6322 ck3 = 6452 ck3 = 6453 ck3 = 6454 ck3 = 6455 ck3 = 6456 ck3 = 6457 ck3 = 6458 ck3 = 6461 ck3 = 6462 ck3 = 6463 ck3 = 6464 ck3 = 6465 ck3 = 6466 ck3 = 6467 ck3 = 6468 ck3 = 6473 ck3 = 6474 ck3 = 6475 ck3 = 6476 ck3 = 6477 ck3 = 6478 ck3 = 6479 ck3 = 6482 ck3 = 6483 ck3 = 6484 ck3 = 6485 ck3 = 6486 ck3 = 6487 ck3 = 6488 ck3 = 6489 ck3 = 6490 ck3 = 6491 ck3 = 6492 ck3 = 6493 ck3 = 6494 ck3 = 6495 ck3 = 6496 ck3 = 6497 ck3 = 6498 ck3 = 6499 ck3 = 6500 ck3 = 6501 ck3 = 6502 ck3 = 6503 ck3 = 6504 ck3 = 6505 ck3 = 6506 ck3 = 6507 ck3 = 6508 ck3 = 6509 ck3 = 6510 ck3 = 6511 ck3 = 6512 ck3 = 6513 ck3 = 6514 ck3 = 6515 ck3 = 6516 ck3 = 6517 ck3 = 6518 ck3 = 6519 ck3 = 6520 ck3 = 6521 ck3 = 6522 ck3 = 6523 ck3 = 6524 ck3 = 6525 ck3 = 6526 ck3 = 6527 ck3 = 6528 ck3 = 6529 ck3 = 6530 ck3 = 6531 ck3 = 6532 ck3 = 6533 ck3 = 6534 ck3 = 6535 ck3 = 6536 ck3 = 6537 ck3 = 6538 ck3 = 6539 ck3 = 6540 ck3 = 6541 ck3 = 6542 ck3 = 6543 ck3 = 6544 ck3 = 6545 ck3 = 6546 ck3 = 6547 ck3 = 6548 ck3 = 6549 ck3 = 6550 ck3 = 6551 ck3 = 6552 ck3 = 6553 ck3 = 6554 ck3 = 6555 ck3 = 6556 ck3 = 6557 ck3 = 6558 ck3 = 6559 ck3 = 6560 ck3 = 6561 ck3 = 6562 ck3 = 6563 ck3 = 6564 ck3 = 6565 ck3 = 6566 ck3 = 6567 ck3 = 6568 ck3 = 6569 ck3 = 6570 ck3 = 6571 ck3 = 6572 ck3 = 6573 ck3 = 6574 ck3 = 6575 ck3 = 6576 ck3 = 6577 ck3 = 6578 ck3 = 6579 ck3 = 6580 ck3 = 6581 ck3 = 6582 ck3 = 6590 ck3 = 6591 ck3 = 6608 ck3 = 6609 ck3 = 6610 ck3 = 6611 ck3 = 6612 ck3 = 6613 ck3 = 6614 ck3 = 6615 ck3 = 6616 ck3 = 6617 ck3 = 6618 ck3 = 6619 ck3 = 6620 ck3 = 6621 ck3 = 6622 ck3 = 6623 ck3 = 6624 ck3 = 6625 ck3 = 6626 ck3 = 6627 ck3 = 6628 ck3 = 6629 ck3 = 6630 ck3 = 6631 ck3 = 6632 ck3 = 6633 ck3 = 6634 ck3 = 6635 ck3 = 6636 ck3 = 6637 ck3 = 6638 ck3 = 6639 ck3 = 6640 ck3 = 6641 ck3 = 6642 ck3 = 6643 ck3 = 6644 ck3 = 6645 ck3 = 6646 ck3 = 6647 ck3 = 6648 ck3 = 6649 ck3 = 6650 ck3 = 6652 ck3 = 6653 ck3 = 6654 ck3 = 6655 ck3 = 6656 ck3 = 6657 ck3 = 6658 ck3 = 6659 ck3 = 6660 ck3 = 6662 ck3 = 6663 ck3 = 6664 ck3 = 6665 ck3 = 6666 ck3 = 6668 ck3 = 6670 ck3 = 6671 ck3 = 6672 ck3 = 6673 ck3 = 6674 ck3 = 6675 ck3 = 6676 ck3 = 6677 ck3 = 6678 ck3 = 6679 ck3 = 6680 ck3 = 6681 ck3 = 6682 ck3 = 6683 ck3 = 6684 ck3 = 6685 ck3 = 6686 ck3 = 6687 ck3 = 6688 ck3 = 6689 ck3 = 6690 ck3 = 6691 ck3 = 6692 ck3 = 6693 ck3 = 6694 ck3 = 6695 ck3 = 6696 ck3 = 6697 ck3 = 6698 ck3 = 6699 ck3 = 6700 ck3 = 6701 ck3 = 6702 ck3 = 6703 ck3 = 6704 ck3 = 6705 ck3 = 6706 ck3 = 6707 ck3 = 6708 ck3 = 6709 ck3 = 6710 ck3 = 6711 ck3 = 6712 ck3 = 6713 ck3 = 6714 ck3 = 6715 ck3 = 6716 ck3 = 6717 ck3 = 6718 ck3 = 6719 ck3 = 6720 ck3 = 6721 ck3 = 6722 ck3 = 6723 ck3 = 6724 ck3 = 6725 ck3 = 6726 ck3 = 6727 ck3 = 6728 ck3 = 6729 ck3 = 6730 ck3 = 6731 ck3 = 6732 ck3 = 6733 ck3 = 6734 ck3 = 6735 ck3 = 6736 ck3 = 6737 ck3 = 6738 ck3 = 6739 ck3 = 6740 ck3 = 6741 ck3 = 6742 ck3 = 6743 ck3 = 6744 ck3 = 6747 ck3 = 6748 ck3 = 6749 ck3 = 6750 ck3 = 6751 ck3 = 6752 ck3 = 6753 ck3 = 6754 ck3 = 6755 ck3 = 6756 ck3 = 6757 ck3 = 6758 ck3 = 6759 ck3 = 6760 ck3 = 6761 ck3 = 6762 ck3 = 6763 ck3 = 6764 ck3 = 6765 ck3 = 6766 ck3 = 6767 ck3 = 6768 ck3 = 6769 ck3 = 6770 ck3 = 6771 ck3 = 6772 ck3 = 6773 ck3 = 6774 ck3 = 6799 ck3 = 6801 ck3 = 6802 ck3 = 6803 ck3 = 6804 ck3 = 6805 ck3 = 6806 ck3 = 6807 ck3 = 6808 ck3 = 6809 ck3 = 6810 ck3 = 6811 ck3 = 6812 ck3 = 6813 ck3 = 6814 ck3 = 6815 ck3 = 6816 ck3 = 6817 ck3 = 6818 ck3 = 6819 ck3 = 6820 ck3 = 6821 ck3 = 6822 ck3 = 6823 ck3 = 6824 ck3 = 6825 ck3 = 6826 ck3 = 6827 ck3 = 6828 ck3 = 6829 ck3 = 6830 ck3 = 6831 ck3 = 6832 ck3 = 6833 ck3 = 6835 ck3 = 6836 ck3 = 6837 ck3 = 6838 ck3 = 6839 ck3 = 6840 ck3 = 6841 ck3 = 6842 ck3 = 6843 ck3 = 6844 ck3 = 6845 ck3 = 6846 ck3 = 6847 ck3 = 6848 ck3 = 6849 ck3 = 6850 ck3 = 6851 ck3 = 6852 ck3 = 6853 ck3 = 6854 ck3 = 6855 ck3 = 6856 ck3 = 6857 ck3 = 6858 ck3 = 6859 ck3 = 6860 ck3 = 6861 ck3 = 6862 ck3 = 6863 ck3 = 6864 ck3 = 6865 ck3 = 6866 ck3 = 6867 ck3 = 6868 ck3 = 6869 ck3 = 6870 ck3 = 6871 ck3 = 6872 ck3 = 6873 ck3 = 6874 ck3 = 6875 ck3 = 6876 ck3 = 6877 ck3 = 6878 ck3 = 6879 ck3 = 6880 ck3 = 6881 ck3 = 6885 ck3 = 6886 ck3 = 6887 ck3 = 6888 ck3 = 6889 ck3 = 6890 ck3 = 6891 ck3 = 6892 ck3 = 6893 ck3 = 6894 ck3 = 6895 ck3 = 6896 ck3 = 6905 ck3 = 6906 ck3 = 6907 ck3 = 6908 ck3 = 6909 ck3 = 6910 ck3 = 6911 ck3 = 6912 ck3 = 6913 ck3 = 6914 ck3 = 6915 ck3 = 6916 ck3 = 6917 ck3 = 6918 ck3 = 6919 ck3 = 6920 ck3 = 6921 ck3 = 6922 ck3 = 6923 ck3 = 6924 ck3 = 6925 ck3 = 6926 ck3 = 6927 ck3 = 6928 ck3 = 6929 ck3 = 6930 ck3 = 6931 ck3 = 6932 ck3 = 6933 ck3 = 6934 ck3 = 6935 ck3 = 6936 ck3 = 6937 ck3 = 6938 ck3 = 6939 ck3 = 6940 ck3 = 6941 ck3 = 6942 ck3 = 6943 ck3 = 6944 ck3 = 6945 ck3 = 6946 ck3 = 6947 ck3 = 6948 ck3 = 6949 ck3 = 6950 ck3 = 6951 ck3 = 6952 ck3 = 6953 ck3 = 6954 ck3 = 6955 ck3 = 6956 ck3 = 6957 ck3 = 6958 ck3 = 6959 ck3 = 6960 ck3 = 6961 ck3 = 6962 ck3 = 6963 ck3 = 6964 ck3 = 6965 ck3 = 6966 ck3 = 6967 ck3 = 6968 ck3 = 6969 ck3 = 6970 ck3 = 6971 ck3 = 6972 ck3 = 6973 ck3 = 6974 ck3 = 6975 ck3 = 6976 ck3 = 6977 ck3 = 6978 ck3 = 6979 ck3 = 6980 ck3 = 6981 ck3 = 6982 ck3 = 6983 ck3 = 6984 ck3 = 6985 ck3 = 6986 ck3 = 6987 ck3 = 6988 ck3 = 6989 ck3 = 6990 ck3 = 6991 ck3 = 6992 ck3 = 6993 ck3 = 6994 ck3 = 6995 ck3 = 6996 ck3 = 6997 ck3 = 8000 ck3 = 8001 ck3 = 8002 ck3 = 8003 ck3 = 8004 ck3 = 8005 ck3 = 8006 ck3 = 8007 ck3 = 8008 ck3 = 8009 ck3 = 8011 ck3 = 8012 ck3 = 8013 ck3 = 8014 ck3 = 8015 ck3 = 8016 ck3 = 8017 ck3 = 8018 ck3 = 8019 ck3 = 8021 ck3 = 8022 ck3 = 8023 ck3 = 8024 ck3 = 8025 ck3 = 8026 ck3 = 8027 ck3 = 8028 ck3 = 8029 ck3 = 8030 ck3 = 8031 ck3 = 8032 ck3 = 8033 ck3 = 8034 ck3 = 8035 ck3 = 8036 ck3 = 8037 ck3 = 8038 ck3 = 8039 ck3 = 8040 ck3 = 8041 ck3 = 8042 ck3 = 8043 ck3 = 8044 ck3 = 8045 ck3 = 8046 ck3 = 8047 ck3 = 8048 ck3 = 8049 ck3 = 8050 ck3 = 8051 ck3 = 8052 ck3 = 8053 ck3 = 8055 ck3 = 8056 ck3 = 8057 ck3 = 8058 ck3 = 8059 ck3 = 8060 ck3 = 8061 ck3 = 8062 ck3 = 8063 ck3 = 8064 ck3 = 8065 ck3 = 8066 ck3 = 8067 ck3 = 8068 ck3 = 8069 ck3 = 8070 ck3 = 8071 ck3 = 8072 ck3 = 8073 ck3 = 8074 ck3 = 8075 ck3 = 8076 ck3 = 8078 ck3 = 8080 ck3 = 8081 ck3 = 8083 ck3 = 8084 ck3 = 8085 ck3 = 8086 ck3 = 8087 ck3 = 8088 ck3 = 8100 ck3 = 8101 ck3 = 8102 ck3 = 8103 ck3 = 8104 ck3 = 8105 ck3 = 8106 ck3 = 8107 ck3 = 8108 ck3 = 8109 ck3 = 8110 ck3 = 8111 ck3 = 8112 ck3 = 8113 ck3 = 8114 ck3 = 8115 ck3 = 8116 ck3 = 8117 ck3 = 8118 ck3 = 8119 ck3 = 8120 ck3 = 8121 ck3 = 8122 ck3 = 8123 ck3 = 8124 ck3 = 8125 ck3 = 8126 ck3 = 8127 ck3 = 8128 ck3 = 8129 ck3 = 8130 ck3 = 8131 ck3 = 8132 ck3 = 8133 ck3 = 8134 ck3 = 8135 ck3 = 8136 ck3 = 8137 ck3 = 8138 ck3 = 8139 ck3 = 8140 ck3 = 8141 ck3 = 8142 ck3 = 8143 ck3 = 8144 ck3 = 8145 ck3 = 8146 ck3 = 8147 ck3 = 8148 ck3 = 8149 ck3 = 8150 ck3 = 8151 ck3 = 8152 ck3 = 8153 ck3 = 8154 ck3 = 8155 ck3 = 8156 ck3 = 8157 ck3 = 8158 ck3 = 8159 ck3 = 8160 ck3 = 8161 ck3 = 8162 ck3 = 8163 ck3 = 8164 ck3 = 8165 ck3 = 8166 ck3 = 8167 ck3 = 8168 ck3 = 8169 ck3 = 8170 ck3 = 8171 ck3 = 8172 ck3 = 8173 ck3 = 8174 ck3 = 8175 ck3 = 8176 ck3 = 8182 ck3 = 8183 ck3 = 8203 ck3 = 8204 ck3 = 8206 ck3 = 8207 ck3 = 8208 ck3 = 8209 ck3 = 8210 ck3 = 8211 ck3 = 8212 ck3 = 8213 ck3 = 8214 ck3 = 8215 ck3 = 8216 ck3 = 8217 ck3 = 8218 ck3 = 8219 ck3 = 8221 ck3 = 8222 ck3 = 8224 ck3 = 8227 ck3 = 8228 ck3 = 8230 ck3 = 8231 ck3 = 8993 ck3 = 8994 ck3 = 8995 ck3 = 8996 ck3 = 8997 ck3 = 8998 ck3 = 6428 ck3 = 6472 ck3 = 6882 ck3 = 6897 ck3 = 1048 ck3 = 6326 ck3 = 6583 ck3 = 6584 ck3 = 6586 ck3 = 6589 ck3 = 6597 ck3 = 6598 ck3 = 6599 ck3 = 6600 ck3 = 6603 ck3 = 6604 ck3 = 6605 ck3 = 6606 ck3 = 6788 ck3 = 6789 ck3 = 6790 ck3 = 6902 ck3 = 6903 ck3 = 6904 ck3 = 6998 ck3 = 6999 ck3 = 730 ck3 = 731 ck3 = 8089 ck3 = 8090 ck3 = 8091 ck3 = 8097 ck3 = 8098 } # (Unknown) -> AL-QULAYA, TAGHAZA, TAOUDENI, TEDMAIT, DJADO, TUMMO, SAKADAME, GISSEBI, DIRKU, BILMA, DIBELA, AL-FEWET, AL-BARKAT, DJANET, EFERI, REGGANE, TAMENTIT, ADRAR_TIMMI, BOUDA, BIR_UM-GHREIN, TIRIS, IJIL, WADAN, TINIGI, SHINQITI, AZUKKI, TIRIS-SOUTH, GARUMELE, NGUIGMI, MANAN, KANEM, JIMI, TIE, TARAZKI, KAGUSTI, MADAN, AUNO, KORO_TORO, BORKOU, FAYA, AIN_GALAKKA, TIBESTI-SOUTH, TIBESTI-CENTRAL, BARDAI, AJERE, BALBELEC, GASKERU, DIFFA, YAU, KUKAWA, GARU_KIME, DIKWA, MEGE, YERWA, GALAGA, GAZARGAMO, GAMBARU, DIAKAM, ZAMTAM, MUNIO, NGURU, HADEJIA, KUFAN_KANAWA, KANO, KURA, BAUCHI, GOMBE, WUKARI, WASE, MURI, AZARE, KATAGUM, KUDU, RANO, DURUM, JOS, GONGOLA, KWARARAFA, FIKA, GABAS, DAURA, KATSINA, MARANDI, GOBIR, DUTSI, SOKOTO, ANKA, GUSAU, ZAZZAU, TURUNKU, NOK, TARUGA, BIDA, MINNA, KADUNA, ZURU, KONTOKORO, YAURI, GUMMI, KEBBI, SOKOTO-NORTH, TAHOUA, GOBIR-EAST, ZINDER, MARANDET, AGADEZ, TAKKEDA, AIR, TESSALIT, ADRAR_IFOGHAS, TADMEKKA, KIDAL, DOSSO, GAYA2, ROZI, TILLABERI, KUKIYA, TANDO_HUSUBIYA, KAMGALA, ANSONGO, GADEI, GAO, SARNAH, KOIMA, BOUREM, TIRAKKA, GURMA-RHAROUS, TIDIKELT, HAMADAT_TINGHERT, KABARA, TIMBUKTU, ARAWAN, RAS_EL-MA, KILLI, KOUGA, TONDIARU, AKUMBU, KOLIMA, TOLADIE, BOULEL, DIA, MARA, SHOMA, WEST_MEMA, NIARA, BOU_KHZAMA, WALATA, TIMBEDRA, KUMBI, AL-GHABA, GUMBU, BIRU2, AWGHAM, KRI, BANAMBA, NIAMINA, KOULIKORO, KOLOKANI, SIBI2, KIRINA, KANGABA, TABON, BANGASI, LANBA, TAMANI, SANADO, SEGOU, SOUM, KANIANA, TABA, SAN, AGHARAF_ROAD, TINDOUF_ROAD, IGUIDI_EAST, TAGHAZA_ROAD, SAOURA, ARAWAN_ROAD, KAWAR_ROAD, AIR_ROUTE, FACHI, FACHI_ROUTE, EAST_AHAGGAR, AHAGGAR, TADMEKKA_ROUTE, BAHR_EL-GHAZAL_ROUTE, TIBESTI_ROUTE, DJADO_ROUTE, BANGU, SAFARE, NGUMA, KORIENZA, ZAMPIA, DOUENTZA, SAMYERE, HOMBORI, DINDE, OURSI, KISSI, SAOUGA, DORI, GABOU, BURA, ARIBINDA, SIRBA, TONDIKWAREY, SAY, BILANGA, GURMA-WEST, NUNGU, TENKUDUGO, BURZANGA, GITI, MERGAO, WALGUYO, ZONDOMA, GURSI, GUILONGU, WAGADUGU, DOUNA, RIM, SANGA, OUNJOUGOU, BANDIAGARA, BANKASS, SENO-SOUTH, BENA, DOUROLA, MOPTI, JENNE-JENO, KIRI-BARA, BURUNFONGO, PEKINGA, BIRNIN_LAFIYA, SOTA, MADEKALI, BUSA, GOBNANGOU, PENTENGA, BIUN, SIKASSO, KUMYA, BANINKO, MANI, MORIBUGU, DAKAJALAN, FIGUIRA, NIANI, WASULU, YANFOLILA, KAMARO, KANKAN, JELIBAKORO, FADAMA, AMANA, KOUROUSSA, BALATO, SIGUIRI, TINKISSO, KONFARA, DIAKHA, NYENINGO, GOUNDAFA, YARESNA, GHIYARU, BAFULABE, KUNJAN, BADUMBE, KITA, BIRGO, GEMUKURA, FARABUGU, SORMA, BAKUNU, DIARA, NIORO, KEDAMA, MASIN, AKRIJIT, TICHITT, AWDAGHOST, HODH-SOUTH, HODH-WEST, TAGANT, TAGANT-WEST, KANIAGA, YELIMANE, SERO, GUIDIMAKA, DIAFUNU, KARAKORO, KINGUI, KONKO, SANGALAN, UPPER_GAMBIA, BAGUIRMI-WEST, BAGUIRMI, MASSENYA, BIDDIRI, DAM, BARMA2, MIGRI, BANRE, LOGONE-BIRNI, MAKARI, NGALA, BAMA, KOUSSERI, DUOLO, BOGO, MINDIF, KALFOU, DAGWAMBA, BIU, GAROUA, BIBEMI, BINDIR, MARGI, BABUR, KERA, GIZEY, MARBA, NGAMBAY, KIM, MILTOU, MASA, MBARA, LAFANA, BOUSSO, TUMAK, SUMRAY, NIELLIM, BOA, SARWA, MELFI_SAO, NGAMA, FELLATA, LAIRI, KOUKI, WAGNA, GHAZZAL, MANGA, YAO_FITRI, GASGA, KADAM, KADAM-WEST, KADAM-SOUTH, DAR_RASHID, IRO, SALAMAT, GOZ_BEIDA, DAR_SILA, ABECHE, WARA, WADAI, MASALIT, WADI_AZWA, KABKABIYA, KUBAYH, EL-FASHER, TURRA, DAR_WONA, KUNDI, MASA, URI, AIN_FARAH, MAO_DARFUR, HILEILA, HURAYZ, UMM_GAFALA, GHUBAYSH, EN_NAHUD, MALHA, KERKER, UMM_KEDADA, TAGABO, TEIGA, SIMIAT, TUREIQ, QIMR, TAMA, EAST_SILA, EAST_DARFUR, UPPER_MILK, ULAIRA, KULFO, KUTIGI, RABA, GBAJIGBO, TADA, ILORIN, OYO-ILE, JEBBA, KAIAMA, KAOJE, ILO, KANDI, SEGBANA, NIKKI, OKUTA, KENU, ILESA, IGBOHO, PARAKOU, ODO-AKABA, BORGU, MOSHI, NIKKI_WEST, ALIBORI, MEKROU, KOUANDE, YOHONGOU, SANSANE_MANGO, PUSUGA, BAWKU, DIKUTATENI, KUISUGU, PERMA, DJUGU, JIMBALE, SAKOGU, YENDI, SALAGA, MOLE_SOUTH, MAWLI, DABOYA, NAKANBE, PO, GURUNSI, LEO, LOWER_LOBI, UPPER_LOBI, KIRIKONGO, BOROMO, MOUHOUN, WA, UPPER_MOLE, BOLE2, BOUNA, LOROPENI, BANDA, BONDUKU, SAMPA, BEGHO, WENCHI, BUIPE, AHWENE_KOKO, UPPER_TANO, TEKYIMAN, BONO_MANSO, KINTAMPO, BUGURIBA, BOBO_DYULASSO, IRINGU, KOMOE, LERABA, KONG-NORTH, UPPER_NZI, KORHOGO, FOLONA, BANDAMA_SPRINGS, UPPER_NYENE, LOWER_NYENE, BANIFING, BAOULE, DEGOU, TUDUGU, ODIENNE, TYEME, SAMATIGILA, SANAFULA, BISANDUGU, BASANDO, KULIYA, NYADA, FWALA-KONYAN, KAYAO, GANEBOAFO, ATEBUBU, DONKORO_NKWANTA, MAMPON, BASSA-AFRAM, AFRAM, KWAHU-SOUTH, PRANG, ASANTE_MANSO, KUMASI, MANSO_NKWANTA, ADABOYE, ADANSE_MANSO, BUKURUWA, SHAI, ACCRA, MANKESSIM, ELMINA, SHAMA, WASSA, TARKWA, ASSIN, SANWI, AOWIN, SEHWI, NDENYE, MIDDLE_TANO, DIABE, AKPAFU, WUSUTA, AMEZDOFE, NOTSE, TODO: $WHAT$, LOME, KETA, NANUMBA, KETE_KARACHI, ATAKPAME, ABOMEY, WHYIDAH, SOKODE, KOTOKOL, UPPER_MONO, KPESSI, SAVALU, WEME, SHABE, Save, KETU, IFONYIN, BADAGRY, ILARO, IGANA, ISEYIN, IGBODO-SAKI, OTEFAN, OGBOMOSO, OYO, IJAYE, IBADAN, ABEOKUTA, IKORODU, IJEBU, OWU, OSHUN, ILE-IFE, IJESHA, SILUKO, BENIN, BENIN-CITY, EDO, OWO, ONDO, OSSE, KAKANDA, EKITI, AJASE_IPO, GIRAGI, YAGBA, KYADYA, ODE_ITSERIKI, NEMBE, BENIN_MARSHES, LOWER_GUARA, UMAISHA, OPANDA, GUWARI, MODA, KEFFI, GBAGYE, IGALA, IBAH, ABAKALIKI, IGBO-UKWU, ONITSHA, NSUKKA, EAST_IGALA, SOUTH_IGBO, BONNY, OKRIKA, CALABAR, CHUKWU, UBURU, OTUKPO, IDOMA, BENDE, BOHI, ZANZAN, NASSIAN, KULANGO, KONG, DABAKALA, GYIMINI, SENUFO, BOUAKE, MIDDLE_NZI, SATAMA-SOKORO, EASTERN_NZI, EAST_ATTIE, NORTH_ATTIE, ATTIE, WEST_ATTIE, BORON, BORON-NORTH, BANDAMA, KWENI-EAST, BOU, DABOU, TIAGBA, KWENI, WORODUGU, SEGUELA, KORO, BARALA, MAU, BAFINKO, TURA, TOUBA, WORODUGU_EAST, KARAGWA, BEYTA, MUSADUGU, MACENTA, TOMA2, BUZYE, GUERZE, FALANKO, KISSI, MARA, LELE, DA, MAN, SERADU, MAFINDI-KABAYA, FIRIYA, MUSALA, SOLIMANA, LIMBA, KURANKA, KUNIKI, UPPER_BAFING, TIMBO, KOKASU, KONO, BANDAMA-WEST, BOUBO, GAGNOA, DAVO, UPPER_LOBO, LOWER_LOBO, KONDO, FOLGUE_KARU, KPELLE, GBANSHAY, GEBBA, BASSA, NUON, MANON, GREBO, WENYON, TABU, SASSANDRA, NZO, NEYO, DIBRI, Zarmatarey, Zarmaganda, Sargan, Konni, Ader, Matankari, BIR_EL-KAI, ZAMMOUR, WEST_KORDOFAN, LAGOWA, ASANTE_HILLS, ERG-GHARBI, DAHAR_WALATA, AGHARAF, ERG_CHECH, TANZEROUFT, SAHARAT_HAGGAR, SAHARAT_AIR, TALAK, TENERE_GHARBI, TENERE_SHARQI, TIBESTI-DESERT, BODELE-DESERT, BAHR_EL-GHAZAL, HODH_DESERT, INLAND_NIGER_DELTA, SIKASSO_HILLS, MUERA_MTS, MANDARA_MTS, DARFUR_DESERT, VOLTA_HIGHLAND, GAMBAGA_ESCARPMENT, Eastern Sahara, Central Africa, NIGER_MARSHES, ASANTE_HILLS, TOGO_UPLANDS, JOS_PLATEAU, NIMBA_MOUNTS
+	link = { autogenerated = yes imp = 0 ck3 = 4617 ck3 = 4760 ck3 = 4761 ck3 = 6322 ck3 = 6452 ck3 = 6454 ck3 = 6455 ck3 = 6456 ck3 = 6457 ck3 = 6458 ck3 = 6460 ck3 = 6461 ck3 = 6463 ck3 = 6464 ck3 = 6465 ck3 = 6466 ck3 = 6467 ck3 = 6468 ck3 = 6473 ck3 = 6474 ck3 = 6475 ck3 = 6476 ck3 = 6477 ck3 = 6478 ck3 = 6479 ck3 = 6482 ck3 = 6483 ck3 = 6484 ck3 = 6485 ck3 = 6486 ck3 = 6487 ck3 = 6488 ck3 = 6489 ck3 = 6490 ck3 = 6491 ck3 = 6492 ck3 = 6493 ck3 = 6494 ck3 = 6495 ck3 = 6496 ck3 = 6497 ck3 = 6498 ck3 = 6499 ck3 = 6500 ck3 = 6501 ck3 = 6502 ck3 = 6503 ck3 = 6504 ck3 = 6505 ck3 = 6506 ck3 = 6507 ck3 = 6508 ck3 = 6509 ck3 = 6510 ck3 = 6511 ck3 = 6512 ck3 = 6513 ck3 = 6514 ck3 = 6515 ck3 = 6516 ck3 = 6517 ck3 = 6518 ck3 = 6519 ck3 = 6520 ck3 = 6521 ck3 = 6522 ck3 = 6523 ck3 = 6524 ck3 = 6525 ck3 = 6526 ck3 = 6527 ck3 = 6528 ck3 = 6529 ck3 = 6530 ck3 = 6531 ck3 = 6532 ck3 = 6533 ck3 = 6534 ck3 = 6535 ck3 = 6536 ck3 = 6537 ck3 = 6538 ck3 = 6539 ck3 = 6540 ck3 = 6541 ck3 = 6542 ck3 = 6543 ck3 = 6544 ck3 = 6545 ck3 = 6546 ck3 = 6547 ck3 = 6548 ck3 = 6549 ck3 = 6550 ck3 = 6551 ck3 = 6552 ck3 = 6553 ck3 = 6554 ck3 = 6555 ck3 = 6556 ck3 = 6557 ck3 = 6558 ck3 = 6559 ck3 = 6560 ck3 = 6561 ck3 = 6562 ck3 = 6563 ck3 = 6564 ck3 = 6565 ck3 = 6566 ck3 = 6567 ck3 = 6568 ck3 = 6569 ck3 = 6570 ck3 = 6571 ck3 = 6572 ck3 = 6573 ck3 = 6574 ck3 = 6575 ck3 = 6576 ck3 = 6577 ck3 = 6578 ck3 = 6579 ck3 = 6580 ck3 = 6581 ck3 = 6582 ck3 = 6590 ck3 = 6591 ck3 = 6608 ck3 = 6609 ck3 = 6610 ck3 = 6611 ck3 = 6612 ck3 = 6613 ck3 = 6614 ck3 = 6615 ck3 = 6616 ck3 = 6617 ck3 = 6618 ck3 = 6619 ck3 = 6620 ck3 = 6621 ck3 = 6622 ck3 = 6623 ck3 = 6624 ck3 = 6625 ck3 = 6626 ck3 = 6627 ck3 = 6628 ck3 = 6629 ck3 = 6630 ck3 = 6631 ck3 = 6632 ck3 = 6633 ck3 = 6634 ck3 = 6635 ck3 = 6636 ck3 = 6637 ck3 = 6638 ck3 = 6639 ck3 = 6640 ck3 = 6641 ck3 = 6642 ck3 = 6643 ck3 = 6644 ck3 = 6645 ck3 = 6646 ck3 = 6647 ck3 = 6648 ck3 = 6649 ck3 = 6650 ck3 = 6652 ck3 = 6653 ck3 = 6654 ck3 = 6655 ck3 = 6656 ck3 = 6657 ck3 = 6658 ck3 = 6659 ck3 = 6660 ck3 = 6662 ck3 = 6663 ck3 = 6664 ck3 = 6665 ck3 = 6666 ck3 = 6668 ck3 = 6670 ck3 = 6671 ck3 = 6672 ck3 = 6673 ck3 = 6674 ck3 = 6675 ck3 = 6676 ck3 = 6677 ck3 = 6678 ck3 = 6679 ck3 = 6680 ck3 = 6681 ck3 = 6682 ck3 = 6683 ck3 = 6684 ck3 = 6685 ck3 = 6686 ck3 = 6687 ck3 = 6688 ck3 = 6689 ck3 = 6690 ck3 = 6691 ck3 = 6692 ck3 = 6693 ck3 = 6694 ck3 = 6695 ck3 = 6696 ck3 = 6697 ck3 = 6698 ck3 = 6699 ck3 = 6700 ck3 = 6701 ck3 = 6702 ck3 = 6703 ck3 = 6704 ck3 = 6705 ck3 = 6706 ck3 = 6707 ck3 = 6708 ck3 = 6709 ck3 = 6710 ck3 = 6711 ck3 = 6712 ck3 = 6713 ck3 = 6714 ck3 = 6715 ck3 = 6716 ck3 = 6717 ck3 = 6718 ck3 = 6719 ck3 = 6720 ck3 = 6721 ck3 = 6722 ck3 = 6723 ck3 = 6724 ck3 = 6725 ck3 = 6726 ck3 = 6727 ck3 = 6728 ck3 = 6729 ck3 = 6730 ck3 = 6731 ck3 = 6732 ck3 = 6733 ck3 = 6734 ck3 = 6735 ck3 = 6736 ck3 = 6737 ck3 = 6738 ck3 = 6739 ck3 = 6740 ck3 = 6741 ck3 = 6742 ck3 = 6743 ck3 = 6744 ck3 = 6747 ck3 = 6748 ck3 = 6749 ck3 = 6750 ck3 = 6751 ck3 = 6752 ck3 = 6753 ck3 = 6754 ck3 = 6755 ck3 = 6756 ck3 = 6757 ck3 = 6758 ck3 = 6759 ck3 = 6760 ck3 = 6761 ck3 = 6762 ck3 = 6763 ck3 = 6764 ck3 = 6765 ck3 = 6766 ck3 = 6767 ck3 = 6768 ck3 = 6769 ck3 = 6770 ck3 = 6771 ck3 = 6772 ck3 = 6773 ck3 = 6774 ck3 = 6799 ck3 = 6801 ck3 = 6802 ck3 = 6803 ck3 = 6804 ck3 = 6805 ck3 = 6806 ck3 = 6807 ck3 = 6808 ck3 = 6809 ck3 = 6810 ck3 = 6811 ck3 = 6812 ck3 = 6813 ck3 = 6814 ck3 = 6815 ck3 = 6816 ck3 = 6817 ck3 = 6818 ck3 = 6819 ck3 = 6820 ck3 = 6821 ck3 = 6822 ck3 = 6823 ck3 = 6824 ck3 = 6825 ck3 = 6826 ck3 = 6827 ck3 = 6828 ck3 = 6829 ck3 = 6830 ck3 = 6831 ck3 = 6832 ck3 = 6833 ck3 = 6835 ck3 = 6836 ck3 = 6837 ck3 = 6838 ck3 = 6839 ck3 = 6840 ck3 = 6841 ck3 = 6842 ck3 = 6843 ck3 = 6844 ck3 = 6845 ck3 = 6846 ck3 = 6847 ck3 = 6848 ck3 = 6849 ck3 = 6850 ck3 = 6851 ck3 = 6852 ck3 = 6853 ck3 = 6854 ck3 = 6855 ck3 = 6856 ck3 = 6857 ck3 = 6858 ck3 = 6859 ck3 = 6860 ck3 = 6861 ck3 = 6862 ck3 = 6863 ck3 = 6864 ck3 = 6865 ck3 = 6866 ck3 = 6867 ck3 = 6868 ck3 = 6869 ck3 = 6870 ck3 = 6871 ck3 = 6872 ck3 = 6873 ck3 = 6874 ck3 = 6875 ck3 = 6876 ck3 = 6877 ck3 = 6878 ck3 = 6879 ck3 = 6880 ck3 = 6881 ck3 = 6885 ck3 = 6886 ck3 = 6887 ck3 = 6888 ck3 = 6889 ck3 = 6890 ck3 = 6891 ck3 = 6892 ck3 = 6893 ck3 = 6894 ck3 = 6895 ck3 = 6896 ck3 = 6905 ck3 = 6906 ck3 = 6907 ck3 = 6908 ck3 = 6909 ck3 = 6910 ck3 = 6911 ck3 = 6912 ck3 = 6913 ck3 = 6914 ck3 = 6915 ck3 = 6916 ck3 = 6917 ck3 = 6918 ck3 = 6919 ck3 = 6920 ck3 = 6921 ck3 = 6922 ck3 = 6923 ck3 = 6924 ck3 = 6925 ck3 = 6926 ck3 = 6927 ck3 = 6928 ck3 = 6929 ck3 = 6930 ck3 = 6931 ck3 = 6932 ck3 = 6933 ck3 = 6934 ck3 = 6935 ck3 = 6936 ck3 = 6937 ck3 = 6938 ck3 = 6939 ck3 = 6940 ck3 = 6941 ck3 = 6942 ck3 = 6943 ck3 = 6944 ck3 = 6945 ck3 = 6946 ck3 = 6947 ck3 = 6948 ck3 = 6949 ck3 = 6950 ck3 = 6951 ck3 = 6952 ck3 = 6953 ck3 = 6954 ck3 = 6955 ck3 = 6956 ck3 = 6957 ck3 = 6958 ck3 = 6959 ck3 = 6960 ck3 = 6961 ck3 = 6962 ck3 = 6963 ck3 = 6964 ck3 = 6965 ck3 = 6966 ck3 = 6967 ck3 = 6968 ck3 = 6969 ck3 = 6970 ck3 = 6971 ck3 = 6972 ck3 = 6973 ck3 = 6974 ck3 = 6975 ck3 = 6976 ck3 = 6977 ck3 = 6978 ck3 = 6979 ck3 = 6980 ck3 = 6981 ck3 = 6982 ck3 = 6983 ck3 = 6984 ck3 = 6985 ck3 = 6986 ck3 = 6987 ck3 = 6988 ck3 = 6989 ck3 = 6990 ck3 = 6991 ck3 = 6992 ck3 = 6993 ck3 = 6994 ck3 = 6995 ck3 = 6996 ck3 = 6997 ck3 = 8000 ck3 = 8001 ck3 = 8002 ck3 = 8003 ck3 = 8004 ck3 = 8005 ck3 = 8006 ck3 = 8007 ck3 = 8008 ck3 = 8009 ck3 = 8011 ck3 = 8012 ck3 = 8013 ck3 = 8014 ck3 = 8015 ck3 = 8016 ck3 = 8017 ck3 = 8018 ck3 = 8019 ck3 = 8021 ck3 = 8022 ck3 = 8024 ck3 = 8025 ck3 = 8026 ck3 = 8027 ck3 = 8028 ck3 = 8029 ck3 = 8030 ck3 = 8031 ck3 = 8032 ck3 = 8033 ck3 = 8034 ck3 = 8035 ck3 = 8036 ck3 = 8037 ck3 = 8038 ck3 = 8039 ck3 = 8040 ck3 = 8041 ck3 = 8042 ck3 = 8043 ck3 = 8044 ck3 = 8045 ck3 = 8046 ck3 = 8047 ck3 = 8048 ck3 = 8049 ck3 = 8050 ck3 = 8051 ck3 = 8052 ck3 = 8053 ck3 = 8054 ck3 = 8055 ck3 = 8056 ck3 = 8057 ck3 = 8058 ck3 = 8059 ck3 = 8060 ck3 = 8061 ck3 = 8062 ck3 = 8063 ck3 = 8064 ck3 = 8065 ck3 = 8066 ck3 = 8067 ck3 = 8068 ck3 = 8069 ck3 = 8070 ck3 = 8071 ck3 = 8072 ck3 = 8073 ck3 = 8074 ck3 = 8075 ck3 = 8076 ck3 = 8077 ck3 = 8078 ck3 = 8079 ck3 = 8080 ck3 = 8081 ck3 = 8083 ck3 = 8084 ck3 = 8086 ck3 = 8087 ck3 = 8088 ck3 = 8100 ck3 = 8101 ck3 = 8102 ck3 = 8103 ck3 = 8104 ck3 = 8105 ck3 = 8106 ck3 = 8107 ck3 = 8108 ck3 = 8109 ck3 = 8110 ck3 = 8111 ck3 = 8112 ck3 = 8113 ck3 = 8114 ck3 = 8115 ck3 = 8116 ck3 = 8117 ck3 = 8118 ck3 = 8119 ck3 = 8120 ck3 = 8121 ck3 = 8122 ck3 = 8123 ck3 = 8124 ck3 = 8125 ck3 = 8126 ck3 = 8127 ck3 = 8128 ck3 = 8129 ck3 = 8130 ck3 = 8131 ck3 = 8132 ck3 = 8133 ck3 = 8134 ck3 = 8135 ck3 = 8136 ck3 = 8137 ck3 = 8138 ck3 = 8139 ck3 = 8140 ck3 = 8141 ck3 = 8142 ck3 = 8143 ck3 = 8144 ck3 = 8145 ck3 = 8146 ck3 = 8147 ck3 = 8148 ck3 = 8149 ck3 = 8150 ck3 = 8151 ck3 = 8152 ck3 = 8153 ck3 = 8154 ck3 = 8155 ck3 = 8156 ck3 = 8157 ck3 = 8158 ck3 = 8159 ck3 = 8160 ck3 = 8161 ck3 = 8162 ck3 = 8163 ck3 = 8164 ck3 = 8165 ck3 = 8166 ck3 = 8167 ck3 = 8168 ck3 = 8169 ck3 = 8170 ck3 = 8171 ck3 = 8172 ck3 = 8173 ck3 = 8174 ck3 = 8175 ck3 = 8176 ck3 = 8182 ck3 = 8183 ck3 = 8203 ck3 = 8204 ck3 = 8206 ck3 = 8207 ck3 = 8208 ck3 = 8209 ck3 = 8210 ck3 = 8211 ck3 = 8212 ck3 = 8213 ck3 = 8214 ck3 = 8215 ck3 = 8216 ck3 = 8217 ck3 = 8218 ck3 = 8219 ck3 = 8222 ck3 = 8224 ck3 = 8227 ck3 = 8228 ck3 = 8230 ck3 = 8231 ck3 = 8993 ck3 = 8994 ck3 = 8995 ck3 = 8996 ck3 = 8997 ck3 = 8998 ck3 = 6453 ck3 = 6472 ck3 = 6882 ck3 = 6897 ck3 = 1048 ck3 = 6326 ck3 = 6583 ck3 = 6584 ck3 = 6586 ck3 = 6589 ck3 = 6597 ck3 = 6598 ck3 = 6599 ck3 = 6600 ck3 = 6603 ck3 = 6604 ck3 = 6605 ck3 = 6606 ck3 = 6788 ck3 = 6789 ck3 = 6790 ck3 = 6902 ck3 = 6903 ck3 = 6904 ck3 = 6998 ck3 = 6999 ck3 = 730 ck3 = 731 ck3 = 8089 ck3 = 8090 ck3 = 8091 ck3 = 8097 ck3 = 8098 } # (Unknown) -> AL-QULAYA, TAGHAZA, TAOUDENI, TEDMAIT, DJADO, SAKADAME, GISSEBI, DIRKU, BILMA, DIBELA, GHAT, AL-FEWET, DJANET, EFERI, REGGANE, TAMENTIT, ADRAR_TIMMI, BOUDA, BIR_UM-GHREIN, TIRIS, IJIL, WADAN, TINIGI, SHINQITI, AZUKKI, TIRIS-SOUTH, GARUMELE, NGUIGMI, MANAN, KANEM, JIMI, TIE, TARAZKI, KAGUSTI, MADAN, AUNO, KORO_TORO, BORKOU, FAYA, AIN_GALAKKA, TIBESTI-SOUTH, TIBESTI-CENTRAL, BARDAI, AJERE, BALBELEC, GASKERU, DIFFA, YAU, KUKAWA, GARU_KIME, DIKWA, MEGE, YERWA, GALAGA, GAZARGAMO, GAMBARU, DIAKAM, ZAMTAM, MUNIO, NGURU, HADEJIA, KUFAN_KANAWA, KANO, KURA, BAUCHI, GOMBE, WUKARI, WASE, MURI, AZARE, KATAGUM, KUDU, RANO, DURUM, JOS, GONGOLA, KWARARAFA, FIKA, GABAS, DAURA, KATSINA, MARANDI, GOBIR, DUTSI, SOKOTO, ANKA, GUSAU, ZAZZAU, TURUNKU, NOK, TARUGA, BIDA, MINNA, KADUNA, ZURU, KONTOKORO, YAURI, GUMMI, KEBBI, SOKOTO-NORTH, TAHOUA, GOBIR-EAST, ZINDER, MARANDET, AGADEZ, TAKKEDA, AIR, TESSALIT, ADRAR_IFOGHAS, TADMEKKA, KIDAL, DOSSO, GAYA2, ROZI, TILLABERI, KUKIYA, TANDO_HUSUBIYA, KAMGALA, ANSONGO, GADEI, GAO, SARNAH, KOIMA, BOUREM, TIRAKKA, GURMA-RHAROUS, TIDIKELT, HAMADAT_TINGHERT, KABARA, TIMBUKTU, ARAWAN, RAS_EL-MA, KILLI, KOUGA, TONDIARU, AKUMBU, KOLIMA, TOLADIE, BOULEL, DIA, MARA, SHOMA, WEST_MEMA, NIARA, BOU_KHZAMA, WALATA, TIMBEDRA, KUMBI, AL-GHABA, GUMBU, BIRU2, AWGHAM, KRI, BANAMBA, NIAMINA, KOULIKORO, KOLOKANI, SIBI2, KIRINA, KANGABA, TABON, BANGASI, LANBA, TAMANI, SANADO, SEGOU, SOUM, KANIANA, TABA, SAN, AGHARAF_ROAD, TINDOUF_ROAD, IGUIDI_EAST, TAGHAZA_ROAD, SAOURA, ARAWAN_ROAD, KAWAR_ROAD, AIR_ROUTE, FACHI, FACHI_ROUTE, EAST_AHAGGAR, AHAGGAR, TADMEKKA_ROUTE, BAHR_EL-GHAZAL_ROUTE, TIBESTI_ROUTE, DJADO_ROUTE, BANGU, SAFARE, NGUMA, KORIENZA, ZAMPIA, DOUENTZA, SAMYERE, HOMBORI, DINDE, OURSI, KISSI, SAOUGA, DORI, GABOU, BURA, ARIBINDA, SIRBA, TONDIKWAREY, SAY, BILANGA, GURMA-WEST, NUNGU, TENKUDUGO, BURZANGA, GITI, MERGAO, WALGUYO, ZONDOMA, GURSI, GUILONGU, WAGADUGU, DOUNA, RIM, SANGA, OUNJOUGOU, BANDIAGARA, BANKASS, SENO-SOUTH, BENA, DOUROLA, MOPTI, JENNE-JENO, KIRI-BARA, BURUNFONGO, PEKINGA, BIRNIN_LAFIYA, SOTA, MADEKALI, BUSA, GOBNANGOU, PENTENGA, BIUN, SIKASSO, KUMYA, BANINKO, MANI, MORIBUGU, DAKAJALAN, FIGUIRA, NIANI, WASULU, YANFOLILA, KAMARO, KANKAN, JELIBAKORO, FADAMA, AMANA, KOUROUSSA, BALATO, SIGUIRI, TINKISSO, KONFARA, DIAKHA, NYENINGO, GOUNDAFA, YARESNA, GHIYARU, BAFULABE, KUNJAN, BADUMBE, KITA, BIRGO, GEMUKURA, FARABUGU, SORMA, BAKUNU, DIARA, NIORO, KEDAMA, MASIN, AKRIJIT, TICHITT, AWDAGHOST, HODH-SOUTH, HODH-WEST, TAGANT, TAGANT-WEST, KANIAGA, YELIMANE, SERO, GUIDIMAKA, DIAFUNU, KARAKORO, KINGUI, KONKO, SANGALAN, UPPER_GAMBIA, BAGUIRMI-WEST, BAGUIRMI, MASSENYA, BIDDIRI, DAM, BARMA2, MIGRI, BANRE, LOGONE-BIRNI, MAKARI, NGALA, BAMA, KOUSSERI, DUOLO, BOGO, MINDIF, KALFOU, DAGWAMBA, BIU, GAROUA, BIBEMI, BINDIR, MARGI, BABUR, KERA, GIZEY, MARBA, NGAMBAY, KIM, MILTOU, MASA, MBARA, LAFANA, BOUSSO, TUMAK, SUMRAY, NIELLIM, BOA, SARWA, MELFI_SAO, NGAMA, FELLATA, LAIRI, KOUKI, WAGNA, GHAZZAL, MANGA, YAO_FITRI, GASGA, KADAM, KADAM-WEST, KADAM-SOUTH, DAR_RASHID, IRO, SALAMAT, GOZ_BEIDA, DAR_SILA, ABECHE, WARA, WADAI, MASALIT, WADI_AZWA, KABKABIYA, KUBAYH, EL-FASHER, TURRA, DAR_WONA, KUNDI, MASA, URI, AIN_FARAH, MAO_DARFUR, HILEILA, HURAYZ, UMM_GAFALA, GHUBAYSH, EN_NAHUD, MALHA, KERKER, UMM_KEDADA, TAGABO, TEIGA, SIMIAT, TUREIQ, QIMR, TAMA, EAST_SILA, EAST_DARFUR, UPPER_MILK, ULAIRA, KULFO, KUTIGI, RABA, GBAJIGBO, TADA, ILORIN, OYO-ILE, JEBBA, KAIAMA, KAOJE, ILO, KANDI, SEGBANA, NIKKI, OKUTA, KENU, ILESA, IGBOHO, PARAKOU, ODO-AKABA, BORGU, MOSHI, NIKKI_WEST, ALIBORI, MEKROU, KOUANDE, YOHONGOU, SANSANE_MANGO, PUSUGA, BAWKU, DIKUTATENI, KUISUGU, PERMA, DJUGU, JIMBALE, SAKOGU, YENDI, SALAGA, MOLE_SOUTH, MAWLI, DABOYA, NAKANBE, PO, GURUNSI, LEO, LOWER_LOBI, UPPER_LOBI, KIRIKONGO, BOROMO, MOUHOUN, WA, UPPER_MOLE, BOLE2, BOUNA, LOROPENI, BANDA, BONDUKU, SAMPA, BEGHO, WENCHI, BUIPE, AHWENE_KOKO, UPPER_TANO, TEKYIMAN, BONO_MANSO, KINTAMPO, BUGURIBA, BOBO_DYULASSO, IRINGU, KOMOE, LERABA, KONG-NORTH, UPPER_NZI, KORHOGO, FOLONA, BANDAMA_SPRINGS, UPPER_NYENE, LOWER_NYENE, BANIFING, BAOULE, DEGOU, TUDUGU, ODIENNE, TYEME, SAMATIGILA, SANAFULA, BISANDUGU, BASANDO, KULIYA, NYADA, FWALA-KONYAN, KAYAO, GANEBOAFO, ATEBUBU, DONKORO_NKWANTA, MAMPON, BASSA-AFRAM, AFRAM, KWAHU-SOUTH, PRANG, ASANTE_MANSO, KUMASI, MANSO_NKWANTA, ADABOYE, ADANSE_MANSO, BUKURUWA, SHAI, ACCRA, MANKESSIM, ELMINA, SHAMA, WASSA, TARKWA, SANWI, AOWIN, SEHWI, NDENYE, MIDDLE_TANO, DIABE, AKPAFU, WUSUTA, AMEZDOFE, NOTSE, TODO: $WHAT$, LOME, KETA, NANUMBA, KETE_KARACHI, ATAKPAME, ABOMEY, WHYIDAH, SOKODE, KOTOKOL, UPPER_MONO, KPESSI, SAVALU, WEME, SHABE, Save, KETU, IFONYIN, BADAGRY, ILARO, IBARAPA, IGANA, ISEYIN, IGBODO-SAKI, OTEFAN, OGBOMOSO, OYO, IJAYE, IBADAN, ABEOKUTA, IKORODU, IJEBU, OWU, OSHUN, ILE-IFE, IJESHA, SILUKO, BENIN, BENIN-CITY, EDO, OWO, ONDO, OSSE, LOKOJA, KAKANDA, IKARE, EKITI, AJASE_IPO, GIRAGI, YAGBA, ODE_ITSERIKI, NEMBE, BENIN_MARSHES, LOWER_GUARA, UMAISHA, OPANDA, GUWARI, MODA, KEFFI, GBAGYE, IGALA, IBAH, ABAKALIKI, IGBO-UKWU, ONITSHA, NSUKKA, EAST_IGALA, SOUTH_IGBO, BONNY, OKRIKA, CALABAR, CHUKWU, UBURU, OTUKPO, IDOMA, BENDE, BOHI, ZANZAN, NASSIAN, KULANGO, KONG, DABAKALA, GYIMINI, SENUFO, BOUAKE, MIDDLE_NZI, SATAMA-SOKORO, EASTERN_NZI, EAST_ATTIE, NORTH_ATTIE, ATTIE, WEST_ATTIE, BORON, BORON-NORTH, BANDAMA, KWENI-EAST, BOU, DABOU, TIAGBA, KWENI, WORODUGU, SEGUELA, KORO, BARALA, MAU, BAFINKO, TURA, TOUBA, WORODUGU_EAST, KARAGWA, BEYTA, MUSADUGU, MACENTA, TOMA2, BUZYE, GUERZE, FALANKO, KISSI, MARA, LELE, DA, MAN, SERADU, MAFINDI-KABAYA, FIRIYA, MUSALA, SOLIMANA, LIMBA, KURANKA, KUNIKI, UPPER_BAFING, TIMBO, KOKASU, KONO, BANDAMA-WEST, BOUBO, GAGNOA, DAVO, UPPER_LOBO, LOWER_LOBO, KONDO, FOLGUE_KARU, KPELLE, GBANSHAY, GEBBA, BASSA, NUON, MANON, WENYON, TABU, SASSANDRA, NZO, NEYO, DIBRI, Zarmatarey, Zarmaganda, Sargan, Konni, Ader, Matankari, TUMMO, ZAMMOUR, WEST_KORDOFAN, LAGOWA, ASANTE_HILLS, ERG-GHARBI, DAHAR_WALATA, AGHARAF, ERG_CHECH, TANZEROUFT, SAHARAT_HAGGAR, SAHARAT_AIR, TALAK, TENERE_GHARBI, TENERE_SHARQI, TIBESTI-DESERT, BODELE-DESERT, BAHR_EL-GHAZAL, HODH_DESERT, INLAND_NIGER_DELTA, SIKASSO_HILLS, MUERA_MTS, MANDARA_MTS, DARFUR_DESERT, VOLTA_HIGHLAND, GAMBAGA_ESCARPMENT, Eastern Sahara, Central Africa, NIGER_MARSHES, ASANTE_HILLS, TOGO_UPLANDS, JOS_PLATEAU, NIMBA_MOUNTS
 	link = { autogenerated = yes imp = 9454 imp = 9453 imp = 9457 imp = 9448 imp = 9449 imp = 9455 imp = 9456 imp = 9458 ck3 = 4616 } # Berriane, Ghardaia, Metlili, Aroui, Ardjoun, Rmel, Dahoua, Sebseb -> GHARDAIA
 	link = { autogenerated = yes imp = 9451 ck3 = 4615 ck3 = 4613 ck3 = 4614 } # Ouargla -> WARGLA, SADRATA, KARIMA
 	link = { autogenerated = yes imp = 9440 imp = 9441 imp = 9442 ck3 = 4609 } # Oued, Reguiba, Magrane -> ARIGH
@@ -5445,7 +5635,7 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 6416 ck3 = 1490 } # LAKE -> Tibet Lakes
 	link = { autogenerated = yes imp = 6353 imp = 6352 ck3 = 1486 } # LAKE, LAKE -> RUSSIAN LAKES 2
 	link = { autogenerated = yes imp = 8814 ck3 = 1484 } # PersianLakes -> PERSIAN LAKES
-	link = { autogenerated = yes imp = 1477 imp = 5982 imp = 7672 ck3 = 1483 } # Sinus Arabicus, Moeris, Nile, the Pelusiac -> EGYPT LAKES
+	link = { autogenerated = yes imp = 2579 imp = 5982 imp = 6376 imp = 7685 ck3 = 1483 } # Delta Nili, Moeris, Canal of the Pharaohs, Canal of the Pharaohs -> EGYPT LAKES
 	link = { autogenerated = yes imp = 6425 imp = 6424 imp = 6428 ck3 = 1482 } # Matianus, Arsissa, Lychnitis -> EAST TURKISH LAKES
 	link = { autogenerated = yes imp = 6407 imp = 6393 imp = 6394 imp = 6395 imp = 6396 imp = 6400 imp = 6401 imp = 6402 imp = 6403 imp = 6405 imp = 6406 imp = 8040 imp = 8041 imp = 8053 ck3 = 1481 } # Tatta, Dascylitis, Apolloniatis, Ascania, LAKE, Khbid, LAKE, LAKE, Sanaos, Akrotiri, Carallis, Eblu, Aksehir, Mazaka Lake -> WEST TURKISH LAKES
 	link = { autogenerated = yes imp = 2613 imp = 6317 imp = 6361 imp = 6382 imp = 6383 imp = 6385 imp = 6389 ck3 = 1480 } # Mare Ionium, Kopais, Labeatis, Brygeis Megale, Brygeis Mikra, Trichonis, Bolbe -> GREEK LAKES
@@ -5457,13 +5647,14 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 6335 imp = 6339 ck3 = 1473 } # LAKE, LAKE -> SOUTH SWEDEN LAKES
 	link = { autogenerated = yes imp = 6452 ck3 = 1472 } # LAKE -> MIDDLE SWEDEN LAKES
 	link = { autogenerated = yes imp = 9379 ck3 = 147 } # Leemi -> ALISTEGUNDE
-	link = { autogenerated = yes imp = 2837 imp = 2824 imp = 2828 imp = 2831 imp = 2832 imp = 2833 imp = 2834 imp = 2835 imp = 2838 imp = 2840 imp = 2841 imp = 2843 imp = 2869 imp = 2871 imp = 2872 imp = 2873 imp = 2874 imp = 2875 imp = 2876 imp = 2877 imp = 2878 imp = 2879 imp = 2880 imp = 2881 imp = 2882 imp = 2883 imp = 2884 imp = 2885 imp = 2886 imp = 2887 imp = 2888 imp = 2889 imp = 2890 imp = 2891 imp = 2894 imp = 2903 imp = 2904 imp = 2905 imp = 2906 imp = 2907 imp = 2908 imp = 2909 imp = 2910 imp = 2911 imp = 2913 imp = 2914 imp = 2915 imp = 2917 imp = 2918 imp = 2920 imp = 2921 imp = 2922 imp = 2923 imp = 2925 imp = 2929 imp = 2930 imp = 2931 imp = 2932 imp = 8344 imp = 8345 ck3 = 1467 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> INDIAN OCEAN TI
+	link = { autogenerated = yes imp = 2837 imp = 2824 imp = 2828 imp = 2831 imp = 2833 imp = 2834 imp = 2835 imp = 2838 imp = 2840 imp = 2841 imp = 2843 imp = 2869 imp = 2871 imp = 2872 imp = 2873 imp = 2874 imp = 2875 imp = 2876 imp = 2877 imp = 2878 imp = 2879 imp = 2880 imp = 2881 imp = 2882 imp = 2883 imp = 2884 imp = 2885 imp = 2886 imp = 2887 imp = 2888 imp = 2889 imp = 2890 imp = 2891 imp = 2894 imp = 2903 imp = 2904 imp = 2905 imp = 2906 imp = 2907 imp = 2908 imp = 2909 imp = 2910 imp = 2911 imp = 2913 imp = 2914 imp = 2915 imp = 2917 imp = 2918 imp = 2920 imp = 2921 imp = 2922 imp = 2923 imp = 2925 imp = 2929 imp = 2930 imp = 2931 imp = 2932 imp = 8344 imp = 8345 ck3 = 1467 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> INDIAN OCEAN TI
 	link = { autogenerated = yes imp = 9382 ck3 = 145 } # Nooli -> TARTU
 	link = { autogenerated = yes imp = 6749 ck3 = 1441 ck3 = 9601 } # Cherchen -> Cherchen, Waxxari
 	link = { autogenerated = yes imp = 9031 imp = 9023 imp = 9030 imp = 9032 imp = 9029 ck3 = 1432 } # Zloiar, Laga, Vaca, Komar, Dena -> Symbyl
 	link = { autogenerated = yes imp = 9298 ck3 = 1430 ck3 = 7249 ck3 = 7251 } # Harsta -> Zhitikara, Dantenkul, Jitikul
-	link = { autogenerated = yes imp = 6787 ck3 = 1423 ck3 = 7217 ck3 = 7216 } # Narin -> Fergana, Sarybulak, Arslanbob
+	link = { autogenerated = yes imp = 6787 ck3 = 1423 ck3 = 7216 ck3 = 7217 } # Narin -> Fergana, Arslanbob, Sarybulak
 	link = { autogenerated = yes imp = 9380 ck3 = 142 ck3 = 144 } # Loodak -> RAUNA, VALGA
+	link = { autogenerated = yes imp = 6900 imp = 6899 imp = 5307 ck3 = 1413 } # Elankon, Kottiara, IP 308 -> Venadu
 	link = { autogenerated = yes imp = 2853 imp = 2848 imp = 2858 imp = 2870 ck3 = 1412 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Arabian Sea
 	link = { autogenerated = yes imp = 2977 imp = 2973 imp = 2974 imp = 2978 imp = 6459 imp = 6463 imp = 6464 imp = 6465 imp = 6468 imp = 7795 ck3 = 1411 } # Sinus Gangeticus, Sinus Gangeticus, Sinus Gangeticus, Sinus Gangeticus, LAKE, LAKE, LAKE, LAKE, LAKE, Ganges -> Bay of Bengal
 	link = { autogenerated = yes imp = 2972 imp = 2966 imp = 2971 ck3 = 1410 } # Sinus Gangeticus, Sinus Gangeticus, Sinus Gangeticus -> Bay of Bengal
@@ -5473,28 +5664,28 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 2982 imp = 2956 imp = 2957 imp = 2960 imp = 2961 imp = 2962 imp = 2983 imp = 2984 imp = 6455 imp = 9217 ck3 = 1406 } # Sinus Gangeticus, Sinus Gangeticus, Sinus Gangeticus, Sinus Gangeticus, Sinus Gangeticus, Sinus Gangeticus, Sinus Gangeticus, Sinus Gangeticus, Podouke, Penner -> Bay of Bengal
 	link = { autogenerated = yes imp = 2981 imp = 2946 imp = 2947 imp = 2953 imp = 2954 ck3 = 1405 } # Sinus Gangeticus, Sinus Gangeticus, Sinus Gangeticus, Sinus Gangeticus, Sinus Gangeticus -> Bay of Bengal
 	link = { autogenerated = yes imp = 2959 imp = 2940 imp = 2948 imp = 2955 ck3 = 1404 } # Sinus Gangeticus, Mare Erythraeum, Sinus Gangeticus, Sinus Gangeticus -> Palk Bay
-	link = { autogenerated = yes imp = 2952 imp = 2945 imp = 2951 ck3 = 1403 } # Sinus Gangeticus, Sinus Gangeticus, Mare Erythraeum -> Bay of Bengal
-	link = { autogenerated = yes imp = 2934 imp = 2936 imp = 2937 imp = 2938 imp = 2939 imp = 2941 imp = 2942 imp = 2943 imp = 2944 ck3 = 1402 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Laccadive Sea
-	link = { autogenerated = yes imp = 2896 imp = 2866 imp = 2867 imp = 2868 imp = 2892 imp = 2898 imp = 2902 ck3 = 1401 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Laccadive Sea
+	link = { autogenerated = yes imp = 2951 imp = 2944 imp = 2945 imp = 2952 ck3 = 1403 } # Mare Erythraeum, Mare Erythraeum, Sinus Gangeticus, Sinus Gangeticus -> Bay of Bengal
+	link = { autogenerated = yes imp = 2934 imp = 2936 imp = 2937 imp = 2938 imp = 2939 imp = 2941 imp = 2942 imp = 2943 ck3 = 1402 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Laccadive Sea
+	link = { autogenerated = yes imp = 2896 imp = 2866 imp = 2867 imp = 2868 imp = 2892 imp = 2897 imp = 2898 imp = 2902 ck3 = 1401 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Laccadive Sea
 	link = { autogenerated = yes imp = 2912 imp = 2865 imp = 2893 imp = 2916 ck3 = 1400 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Arabian Sea
 	link = { autogenerated = yes imp = 2919 imp = 2863 imp = 2864 imp = 2928 ck3 = 1399 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Arabian Sea
 	link = { autogenerated = yes imp = 2859 imp = 2924 imp = 2927 ck3 = 1398 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Arabian Sea
 	link = { autogenerated = yes imp = 2855 imp = 2856 ck3 = 1397 } # Rann of Kutch, Gulf of Kutch -> Arabian Sea
-	link = { autogenerated = yes imp = 2849 imp = 2850 imp = 2852 ck3 = 1396 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Arabian Sea
-	link = { autogenerated = yes imp = 2816 imp = 2815 imp = 2817 imp = 2818 ck3 = 1395 } # Sinus Persicus, Sinus Persicus, Sinus Persicus, Sinus Persicus -> Persian Gulf
-	link = { autogenerated = yes imp = 2821 imp = 2813 imp = 2814 imp = 2819 ck3 = 1394 } # Sinus Persicus, Sinus Persicus, Sinus Persicus, Sinus Persicus -> Persian Gulf
+	link = { autogenerated = yes imp = 2849 imp = 2850 imp = 2851 imp = 2852 ck3 = 1396 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Arabian Sea
+	link = { autogenerated = yes imp = 2816 imp = 2814 imp = 2815 imp = 2817 imp = 2818 ck3 = 1395 } # Sinus Persicus, Sinus Persicus, Sinus Persicus, Sinus Persicus, Sinus Persicus -> Persian Gulf
+	link = { autogenerated = yes imp = 2821 imp = 2813 imp = 2819 ck3 = 1394 } # Sinus Persicus, Sinus Persicus, Sinus Persicus -> Persian Gulf
 	link = { autogenerated = yes imp = 2809 imp = 2803 imp = 2804 imp = 2808 ck3 = 1393 } # Sinus Persicus, Mare Erythraeum, Mare Erythraeum, Fretum Persarum -> Strait of Hormuz
 	link = { autogenerated = yes imp = 2806 imp = 2802 imp = 2805 imp = 2807 imp = 2846 ck3 = 1392 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Gulf of Oman
 	link = { autogenerated = yes imp = 2800 imp = 2801 imp = 2839 ck3 = 1391 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Arabian Sea
 	link = { autogenerated = yes imp = 2836 imp = 2799 ck3 = 1390 } # Mare Erythraeum, Sinus Sachalites -> Arabian Sea
-	link = { autogenerated = yes imp = 2823 imp = 2795 imp = 2798 imp = 2829 ck3 = 1389 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Arabian Sea
-	link = { autogenerated = yes imp = 2794 imp = 2787 imp = 2793 imp = 2796 imp = 2797 imp = 2826 imp = 2827 imp = 2830 ck3 = 1388 } # Mare Erythraeum, Sinus Adenensis, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Guardafui Channel
-	link = { autogenerated = yes imp = 2783 imp = 2789 ck3 = 1387 } # Sinus Adenensis, Sinus Adenensis -> Gulf of Aden
+	link = { autogenerated = yes imp = 2823 imp = 2795 imp = 2798 imp = 2829 imp = 2832 ck3 = 1389 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Arabian Sea
+	link = { autogenerated = yes imp = 2794 imp = 2793 imp = 2796 imp = 2797 imp = 2826 imp = 2827 imp = 2830 ck3 = 1388 } # Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum, Mare Erythraeum -> Guardafui Channel
+	link = { autogenerated = yes imp = 2783 imp = 2787 imp = 2789 ck3 = 1387 } # Sinus Adenensis, Sinus Adenensis, Sinus Adenensis -> Gulf of Aden
 	link = { autogenerated = yes imp = 2781 imp = 2782 ck3 = 1386 } # Sinus Adenensis, Sinus Adenensis -> Gulf of Aden
 	link = { autogenerated = yes imp = 1488 ck3 = 1385 } # Sinus Arabicus -> Bab-el-Mandeb
 	link = { autogenerated = yes imp = 1482 imp = 1480 imp = 1481 imp = 1483 imp = 1493 imp = 1494 imp = 1495 imp = 1496 ck3 = 1384 } # Sinus Arabicus, Sinus Arabicus, Sinus Arabicus, Sinus Arabicus, Sinus Arabicus, Sinus Arabicus, Sinus Arabicus, Sinus Arabicus -> Red Sea
-	link = { autogenerated = yes imp = 1479 imp = 1478 imp = 1490 imp = 1491 imp = 1492 ck3 = 1383 } # Sinus Arabicus, Sinus Arabicus, Sinus Arabicus, Sinus Arabicus, Sinus Arabicus -> Red Sea
-	link = { autogenerated = yes imp = 1473 imp = 1474 imp = 1475 imp = 1476 imp = 652 imp = 653 imp = 654 imp = 7743 imp = 7744 imp = 7745 imp = 7746 ck3 = 1382 } # Sinus Arabicus, Sinus Arabicus, Sinus Arabicus, Sinus Arabicus, Sinus Heroopoliticus, Sinus Arabicus, Sinus Arabicus, $PROV652$, $PROV652$, $PROV653$, $PROV653$ -> Red Sea
+	link = { autogenerated = yes imp = 1479 imp = 1477 imp = 1478 imp = 1490 imp = 1491 imp = 1492 ck3 = 1383 } # Sinus Arabicus, Sinus Arabicus, Sinus Arabicus, Sinus Arabicus, Sinus Arabicus, Sinus Arabicus -> Red Sea
+	link = { autogenerated = yes imp = 1473 imp = 1474 imp = 1475 imp = 1476 imp = 652 imp = 653 imp = 654 imp = 7684 imp = 7743 imp = 7744 imp = 7745 imp = 7746 ck3 = 1382 } # Sinus Arabicus, Sinus Arabicus, Sinus Arabicus, Sinus Arabicus, Sinus Heroopoliticus, Sinus Arabicus, Sinus Arabicus, Canal of the Pharaohs, $PROV652$, $PROV652$, $PROV653$, $PROV653$ -> Red Sea
 	link = { autogenerated = yes imp = 9386 ck3 = 138 } # Jauhadak -> REZEKNE
 	link = { autogenerated = yes imp = 9257 ck3 = 1376 ck3 = 4520 } # Gomal -> Daraban, ZHOB
 	link = { autogenerated = yes imp = 4319 imp = 4383 ck3 = 1375 } # Gorydale, Abortai -> Kafirkot
@@ -5520,6 +5711,7 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 7453 ck3 = 1278 } # Kakaradika -> Gurgi
 	link = { autogenerated = yes imp = 9277 ck3 = 1277 ck3 = 1241 ck3 = 1272 } # Bargarh -> Tummana, Koriya, Ratanpur
 	link = { autogenerated = yes imp = 4444 ck3 = 1276 ck3 = 873 } # Gaya -> Gaya, Bodh_Gaya
+	link = { autogenerated = yes imp = 7039 ck3 = 1253 ck3 = 7846 } # Kantakossyla -> Nilagiri, Mutfili
 	link = { autogenerated = yes imp = 7474 imp = 7659 ck3 = 1251 } # Rohtas, Madanpur -> Sasaram
 	link = { autogenerated = yes imp = 7368 ck3 = 1242 ck3 = 844 ck3 = 845 } # Yavana -> Lakhnor, Kalyaneshwari, Gopbhum
 	link = { autogenerated = yes imp = 7328 ck3 = 1239 ck3 = 1323 ck3 = 855 } # Vardhamana -> Vijayapura, Nabadwipa, Attahasa
@@ -5530,11 +5722,30 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 7345 ck3 = 1233 ck3 = 857 } # Nabadwipa -> Saptagrama, Pandua
 	link = { autogenerated = yes imp = 7391 ck3 = 1232 } # Kharagpur -> Midnapore
 	link = { autogenerated = yes imp = 7174 ck3 = 1231 ck3 = 3980 } # Jajatipura -> Viraja, Bhadrak
+	link = { autogenerated = yes imp = 6881 imp = 6879 imp = 6880 ck3 = 1220 } # Tyrannosboas, Pisauta, Vasi -> Goa
+	link = { autogenerated = yes imp = 7001 ck3 = 1219 } # Melange -> Potapi
+	link = { autogenerated = yes imp = 7091 ck3 = 1218 ck3 = 7854 } # Bhakkuli -> Alampur, Kandanavolu
+	link = { autogenerated = yes imp = 7029 imp = 5311 ck3 = 1217 } # Bendakaluru, IP 312 -> Nandagiri
+	link = { autogenerated = yes imp = 6914 ck3 = 1214 } # Alaivay -> Tirunelveli
+	link = { autogenerated = yes imp = 7119 ck3 = 1211 ck3 = 7902 } # Kothapala -> Pannagallu, Yetagiri
+	link = { autogenerated = yes imp = 7042 imp = 7019 ck3 = 1207 } # Pitoura, Andhapura -> Amaravati
+	link = { autogenerated = yes imp = 7070 ck3 = 1203 ck3 = 7877 } # Maski -> Idatarainadu, Mushangi
+	link = { autogenerated = yes imp = 6885 ck3 = 1200 } # Nouira -> Kanara
+	link = { autogenerated = yes imp = 7109 ck3 = 1198 ck3 = 1202 } # Vijayapura -> Vatapi, Kudalasangama
+	link = { autogenerated = yes imp = 7035 ck3 = 1197 ck3 = 7853 } # Kalligeris -> Dwarasamudra, Kudala
 	link = { autogenerated = yes imp = 7263 ck3 = 1186 } # Jaxartes -> Chach
 	link = { autogenerated = yes imp = 6997 imp = 4325 ck3 = 1180 } # Ora, Mardan -> Udabhanda
 	link = { autogenerated = yes imp = 9248 ck3 = 1156 } # Kamalanga -> Kodalaka
 	link = { autogenerated = yes imp = 4442 ck3 = 1154 } # Nalanda -> Pataliputra
 	link = { autogenerated = yes imp = 7400 ck3 = 1152 } # Jayapura -> Mudgagiri
+	link = { autogenerated = yes imp = 6884 imp = 6887 ck3 = 1124 } # Chersonesos Vanavasi, Pira -> Honnore
+	link = { autogenerated = yes imp = 7003 imp = 7012 ck3 = 1122 } # Kottis, Palakka -> Udayagiri
+	link = { autogenerated = yes imp = 7037 imp = 7020 ck3 = 1121 } # Chitradurga, Isila -> Uchangidurga
+	link = { autogenerated = yes imp = 6999 ck3 = 1119 } # Mayurasattapattinam -> Kanchipuram
+	link = { autogenerated = yes imp = 7030 ck3 = 1118 ck3 = 1196 } # Mahisha -> Manyapura, Srirangapatna
+	link = { autogenerated = yes imp = 6890 imp = 5309 ck3 = 1117 } # Naura, IP 310 -> Qalqut
+	link = { autogenerated = yes imp = 6929 imp = 6924 imp = 6931 ck3 = 1115 } # Venni, Karukka, Nikama -> Cholamandalam
+	link = { autogenerated = yes imp = 6893 ck3 = 1114 } # Tyndis -> Mahoyadapuram
 	link = { autogenerated = yes imp = 2617 imp = 2595 imp = 2619 ck3 = 1111 } # Mare Aegaeum, Mare Icarium, Mare Aegaeum -> Aegean Sea
 	link = { autogenerated = yes imp = 2507 imp = 2515 ck3 = 1110 } # Sinus Veneticus, Sinus Veneticus -> Gulf of Venice
 	link = { autogenerated = yes imp = 2541 imp = 2529 imp = 2537 imp = 2538 imp = 2542 imp = 6359 ck3 = 1109 } # Mare Superum, Mare Superum, Mare Superum, Mare Superum, Mare Superum, LAKE -> Adriatic Sea
@@ -5591,8 +5802,8 @@ imperator_invictus = {
 	link = { autogenerated = yes imp = 6366 imp = 6362 imp = 6364 imp = 6365 ck3 = 1026 } # Lemannus, Everdunensis, LAKE, Brigantinus -> ALP LAKES
 	link = { autogenerated = yes imp = 2551 imp = 2552 imp = 2707 ck3 = 1025 } # Sinus Gallicus, Sinus Gallicus, Sinus Gallicus -> Gulf of Lion
 	link = { autogenerated = yes imp = 2710 imp = 2690 ck3 = 1024 } # Mare Sardoum, Mare Sardoum -> Sardinian Sea
-	link = { autogenerated = yes imp = 2705 imp = 2562 imp = 2704 imp = 2717 ck3 = 1023 } # Mare Internum, Mare Internum, Mare Sardoum, Mare Sardoum -> Coast of Algier
-	link = { autogenerated = yes imp = 2716 imp = 2561 ck3 = 1022 } # Mare Hibericum, Mare Hibericum -> Coast of Algier
+	link = { autogenerated = yes imp = 2705 imp = 2561 imp = 2562 imp = 2704 imp = 2717 ck3 = 1023 } # Mare Internum, Mare Hibericum, Mare Internum, Mare Sardoum, Mare Sardoum -> Coast of Algier
+	link = { autogenerated = yes imp = 2716 ck3 = 1022 } # Mare Hibericum -> Coast of Algier
 	link = { autogenerated = yes imp = 2524 ck3 = 1021 } # Mare Balearium -> Gulf of Valencia
 	link = { autogenerated = yes imp = 2558 imp = 2728 imp = 6318 ck3 = 1020 } # Mare Hibericum, Mare Hibericum, LAKE -> Alboran Sea
 	link = { autogenerated = yes imp = 5738 imp = 5734 imp = 5735 ck3 = 1019 } # Mare Hibernicum, Mare Hibernicum, Mare Hibernicum -> Irish Sea
@@ -5818,108 +6029,6 @@ imperator_invictus = {
 	link = { imp = 7054 ck3 = 7911 } # Guntupalli -> Polavaram
 	link = { imp = 7041 ck3 = 1221 } # Kottobora -> Vijayawada
 	link = { imp = 7040 imp = 7045 ck3 = 1123 } # Mosali, Alluru -> Vengipura
-	link = { comment = "# South India" }
-	link = { imp = 6903 ck3 = 7813 } # Curana -> Kayal
-	link = { imp = 6902 ck3 = 7814 } # Komari -> Kottar
-	link = { imp = 6900 imp = 6901 imp = 6911 ck3 = 1413 } # Elankon, Balita, Aykudi -> Venadu
-	link = { imp = 6926 imp = 6927 ck3 = 7807 } # Bata Pandiya, Urayur -> Uraiyur
-	link = { imp = 6947 imp = 6942 ck3 = 7806 } # Kodumbalur, Mohur -> Dindigul
-	link = { imp = 6925 imp = 6948 ck3 = 7808 } # Akour, Codasi -> Sivaganga
-	link = { imp = 6936 imp = 6934 ck3 = 7837 } # Karige, Abour -> Gangaikondacolapuram
-	link = { imp = 6935 imp = 6933 imp = 6932 ck3 = 7838 } # Chaberis, Karmara, Koroula -> Nagapattinam
-	link = { imp = 6931 imp = 6924 imp = 6929 ck3 = 1115 } # Nikama, Karukka, Venni -> Cholamandalam
-	link = { imp = 6893 ck3 = 1114 } # Tyndis -> Mahoyadapuram
-	link = { imp = 7034 ck3 = 7816 } # Kadiri -> Anantapur
-	link = { imp = 6998 ck3 = 7821 } # Gudimallam -> Kalahasti
-	link = { imp = 7001 ck3 = 1219 } # Melange -> Potapi
-	link = { imp = 6999 ck3 = 1119 } # Mayurasattapattinam -> Kanchipuram
-	link = { imp = 7008 ck3 = 7823 } # Chintamani -> Nangali
-	link = { imp = 7031 ck3 = 7820 } # Kuvalalapura -> Melpadi
-	link = { imp = 7025 imp = 7033 ck3 = 7819 } # Rayachoti, Madana -> Mangalavada
-	link = { imp = 7027 ck3 = 7818 } # Rapur -> Vallurapura
-	link = { imp = 7000 imp = 7028 ck3 = 7825 } # Tondana, Tirumala -> Padaividu
-	link = { imp = 6984 ck3 = 7826 } # Kancipuram -> Takkaloma
-	link = { imp = 6985 ck3 = 7827 } # Mavilankai -> Mamallapuram
-	link = { imp = 7026 ck3 = 7817 ck3 = 7843 } # Kadapa -> Puspagiri, Mudivemu
-	link = { imp = 7050 ck3 = 7845 ck3 = 7844 } # Kuromolinava -> Bhairavunikonda, Ahobalam
-	link = { imp = 7043 imp = 7013 ck3 = 7842 } # Mallayapalam, Srisailam -> Addanki
-	link = { imp = 7019 ck3 = 1253 } # Andhapura -> Nilagiri
-	link = { imp = 7051 ck3 = 7840 } # Kadinava -> Ittagi
-	link = { imp = 7047 ck3 = 7857 } # Yerraguddi -> Gutti
-	link = { imp = 7002 imp = 7012 ck3 = 1204 } # Nellore, Palakka -> Nellore
-	link = { imp = 7020 ck3 = 1121 } # Isila -> Uchangidurga
-	link = { imp = 7010 ck3 = 7864 ck3 = 7862 } # Paravipura -> Parivi, Hemavati
-	link = { imp = 7007 ck3 = 7822 } # Nandagiri -> Nandi
-	link = { imp = 7014 ck3 = 1199 } # Penugonda -> Penugonda
-	link = { imp = 7024 ck3 = 7815 } # Mangalavada -> Togarakunta
-	link = { imp = 6992 imp = 6928 ck3 = 7836 } # Argaru, Thanjavur -> Kannanur_2
-	link = { imp = 6988 imp = 6994 ck3 = 7835 } # Koval, Nadhapura -> Tirukoilur
-	link = { imp = 6993 ck3 = 7833 } # Kolinah -> Kelrayan
-	link = { imp = 6881 imp = 6879 ck3 = 1220 } # Tyrannosboas, Pisauta -> Goa
-	link = { imp = 6890 ck3 = 1117 } # Naura -> Qalqut
-	link = { imp = 6892 imp = 6910 ck3 = 7799 } # Coula, Tandi -> Malappuram
-	link = { imp = 6889 imp = 6888 ck3 = 7798 } # Mousopalle, Nitra -> Kannanur
-	link = { imp = 7004 ck3 = 7866 } # Andalapura -> Shravana_Belgola
-	link = { imp = 7018 imp = 6891 ck3 = 7867 } # Kodava, Basai -> Sosavur
-	link = { imp = 6886 ck3 = 7797 } # Olokhoira -> Mangalur
-	link = { imp = 7017 ck3 = 7849 } # Ganga -> Seringapatam
-	link = { imp = 7016 ck3 = 7848 ck3 = 7847 } # Sriringapatna -> Moyar, Mercara
-	link = { imp = 7022 ck3 = 7865 } # Belgola -> Belapura
-	link = { imp = 7030 ck3 = 1118 } # Mahisha -> Manyapura
-	link = { imp = 7011 ck3 = 1196 } # Triparvata -> Srirangapatna
-	link = { imp = 7110 ck3 = 7886 } # Vayapata -> Bagavadi
-	link = { imp = 7109 ck3 = 1202 ck3 = 1198 } # Vijayapura -> Kudalasangama, Vatapi
-	link = { imp = 7108 ck3 = 7871 } # Athani -> Keladi
-	link = { imp = 7089 ck3 = 7870 ck3 = 7872 } # Hippokoura -> Belgaum, Hubli
-	link = { imp = 6883 imp = 6882 ck3 = 7795 } # Aegidi, Toparon -> Hinawr
-	link = { imp = 6887 imp = 6884 ck3 = 1124 } # Pira, Chersonesos Vanavasi -> Honnore
-	link = { imp = 6885 ck3 = 1200 } # Nouira -> Kanara
-	link = { imp = 7037 imp = 7036 ck3 = 7863 } # Chitradurga, Huliyar -> Honnavalli
-	link = { imp = 7035 ck3 = 1197 ck3 = 7853 } # Kalligeris -> Dwarasamudra, Kudala
-	link = { imp = 7088 ck3 = 7873 } # Akkilur -> Hangal
-	link = { imp = 7038 ck3 = 7852 ck3 = 7861 ck3 = 7850 } # Chandravalli -> Arka, Basavapattana, Masur
-	link = { imp = 7090 ck3 = 7874 } # Panapala -> Koppam
-	link = { imp = 7087 ck3 = 1203 } # Goulla -> Idatarainadu
-	link = { imp = 7070 ck3 = 7878 ck3 = 7877 } # Maski -> Raichur, Mushangi
-	link = { imp = 7120 ck3 = 7902 ck3 = 1218 } # Raichur -> Yetagiri, Alampur
-	link = { imp = 7119 ck3 = 1211 } # Kothapala -> Pannagallu
-	link = { imp = 7048 ck3 = 7841 ck3 = 7905 } # Sriparvata -> Sriparvata, Devarakonda
-	link = { imp = 7049 ck3 = 7839 ck3 = 7904 } # Naconda -> Pondugala, Nalgonda
-	link = { imp = 7042 ck3 = 1207 } # Pitoura -> Amaravati
-	link = { imp = 7039 ck3 = 7846 } # Kantakossyla -> Mutfili
-	link = { imp = 7003 ck3 = 1122 } # Kottis -> Udayagiri
-	link = { imp = 7021 ck3 = 7856 } # Suvarnagiri -> Adavani
-	link = { imp = 7091 ck3 = 7854 } # Bhakkuli -> Kandanavolu
-	link = { imp = 7069 ck3 = 7855 } # Rajula -> Adoni
-	link = { imp = 7071 ck3 = 7859 ck3 = 7876 } # Gavimath -> Kampili, Anegandi
-	link = { imp = 7023 ck3 = 7851 } # Srnguri -> Shringeri
-	link = { imp = 7015 ck3 = 1140 } # Vanavasi -> Banavasi
-	link = { imp = 7072 ck3 = 7875 } # Palkigunda -> Vankapura
-	link = { imp = 7006 imp = 7073 ck3 = 7858 } # Uccasrngi, Siddapura -> Vijayanagara
-	link = { imp = 7005 ck3 = 7860 } # Brahmagiri -> Nidugallu
-	link = { imp = 6991 imp = 6990 imp = 6938 imp = 6930 ck3 = 7834 } # Karoura, Ricavatta, Karur, Karafur -> Srirangam
-	link = { imp = 6989 ck3 = 1120 } # Tagadur -> Tagadur
-	link = { imp = 7029 ck3 = 1217 } # Bendakaluru -> Nandagiri
-	link = { imp = 7032 ck3 = 7828 ck3 = 7824 } # Tiruperur -> Kuvalala, Muluvagil
-	link = { imp = 6995 ck3 = 7829 } # Chengam -> Kudalasangama_bis
-	link = { imp = 6996 imp = 6983 ck3 = 7830 } # Tiruvannamalai, Arkatapura -> Tiruvannamalai
-	link = { imp = 6987 ck3 = 7832 } # Colapattinam -> Jinji
-	link = { imp = 6986 ck3 = 7831 } # Sopattinam -> Uttaramerur
-	link = { imp = 7009 ck3 = 1216 } # Talavanapura -> Talakad
-	link = { imp = 6945 imp = 6946 imp = 6949 imp = 6939 ck3 = 1201 } # Kilandha, Kavera, Kongu, Chavadi -> Kongu
-	link = { imp = 6940 ck3 = 7804 } # Korelloura -> Kovai
-	link = { imp = 6937 ck3 = 7937 ck3 = 7805 } # Tennagora -> Palakkad Pass, Tiruppur
-	link = { imp = 6943 imp = 6941 ck3 = 1116 } # Kathan, Selour -> Tenkasi
-	link = { imp = 6908 imp = 6944 imp = 6907 ck3 = 7800 } # Paloura, Vellalore, Podoperoura -> Palakkad
-	link = { imp = 6916 imp = 6905 imp = 6894 imp = 6895 imp = 6906 ck3 = 7801 } # Vanci, Kalakaris, Koreoura, Muziris, Eyyal -> Kunjakari
-	link = { imp = 6896 ck3 = 7802 } # Pseudostomos -> Kottayam
-	link = { imp = 6898 imp = 6899 ck3 = 7803 } # Bacare, Kottiara -> Kollam
-	link = { imp = 6922 imp = 6923 imp = 6919 ck3 = 7810 } # Vilath, Kamai, Tangala -> Virudhukkalvetti
-	link = { imp = 6920 imp = 6918 ck3 = 7811 } # Malayana, Karivala -> Sivakasi
-	link = { imp = 6914 ck3 = 1214 } # Alaivay -> Tirunelveli
-	link = { imp = 6912 imp = 6913 ck3 = 7812 } # Kolkoi, Tamraparni -> Korkai
-	link = { imp = 6917 ck3 = 1112 } # Madurai -> Madurai
-	link = { imp = 6915 imp = 6921 ck3 = 7809 } # Koti, Perinkari -> Rameshvaram
 	link = { comment = "# Tibet" }
 	link = { imp = 5660 ck3 = 9270 } # Supiyi -> Lhari
 	link = { imp = 5657 ck3 = 9274 ck3 = 9273 } # Gong -> Pagsum, Gongbo
@@ -5929,8 +6038,6 @@ imperator_invictus = {
 	link = { imp = 5647 ck3 = 9265 } # Drena -> Gedang
 	link = { imp = 5643 ck3 = 9271 } # Buchu -> Burqug
 	link = { imp = 5646 ck3 = 9275 ck3 = 9276 } # Tsosong -> Nyingchi, Lunang
-	link = { comment = "# Misc" }
-	link = { imp = 5282 ck3 = 7153 ck3 = 7154 ck3 = 7152 ck3 = 7148 ck3 = 7149 ck3 = 7150 ck3 = 7151 } # IMPASSIBLE TERRAIN 282 -> Barskhan, Balasaghun, Narin, Sayaq, Tinimseyit, Bagish, Cherik
 }
 imperator_vanilla = {
 	link = { comment = "=== NEW MAPPINGS BY RADU ===" }
