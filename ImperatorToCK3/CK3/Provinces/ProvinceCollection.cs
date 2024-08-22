@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
@@ -104,6 +105,7 @@ public sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 
 	public void ImportImperatorProvinces(
 		Imperator.World irWorld,
+		MapData ck3MapData,
 		Title.LandedTitles titles,
 		CultureMapper cultureMapper,
 		ReligionMapper religionMapper,
@@ -115,8 +117,13 @@ public sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		
 		int importedIRProvsCount = 0;
 		int modifiedCK3ProvsCount = 0;
+
+		var provinceDefs = ck3MapData.ProvinceDefinitions;
+		var landProvinces = this
+			.Where(p => provinceDefs.TryGetValue(p.Id, out var def) && def.IsLand);
+		
 		// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
-		Parallel.ForEach(this, province => {
+		Parallel.ForEach(landProvinces, province => {
 			var sourceProvinceIds = provinceMapper.GetImperatorProvinceNumbers(province.Id);
 			// Provinces we're not affecting will not be in this list.
 			if (sourceProvinceIds.Count == 0) {
