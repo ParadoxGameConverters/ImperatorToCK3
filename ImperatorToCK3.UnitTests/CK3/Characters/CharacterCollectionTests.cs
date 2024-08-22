@@ -339,7 +339,8 @@ public class CharacterCollectionTests {
 			new List<KeyValuePair<Country, Dependency?>>());
 
 		var provinces = new ProvinceCollection(ck3ModFS);
-		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
+		var ck3MapData = new MapData(ck3ModFS);
+		provinces.ImportImperatorProvinces(imperatorWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 
 		titles.ImportImperatorGovernorships(
 			imperatorWorld,

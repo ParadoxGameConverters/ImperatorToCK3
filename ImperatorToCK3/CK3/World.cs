@@ -248,7 +248,7 @@ public sealed class World {
 		Provinces.ImportVanillaProvinces(ModFS);
 
 		// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
-		Provinces.ImportImperatorProvinces(impWorld, LandedTitles, cultureMapper, religionMapper, provinceMapper, CorrectedDate, config);
+		Provinces.ImportImperatorProvinces(impWorld, MapData, LandedTitles, cultureMapper, religionMapper, provinceMapper, CorrectedDate, config);
 		Provinces.LoadPrehistory();
 
 		var countyLevelGovernorships = new List<Governorship>();
