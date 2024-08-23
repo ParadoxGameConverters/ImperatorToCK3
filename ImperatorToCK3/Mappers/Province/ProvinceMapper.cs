@@ -8,17 +8,18 @@ public sealed class ProvinceMapper {
 	private readonly Dictionary<ulong, IList<ulong>> imperatorToCK3ProvinceMap = new();
 	private readonly Dictionary<ulong, IList<ulong>> ck3ToImperatorProvinceMap = new();
 
-	public void LoadMappings(string mappingsPath, string mappingsVersionName) {
+	public void LoadMappings(string mappingsPath) {
 		Logger.Info("Loading province mappings...");
 
 		ProvinceMappingsVersion? version = null;
 		var parser = new Parser();
-		parser.RegisterKeyword(mappingsVersionName, reader => version = new ProvinceMappingsVersion(reader));
+		// The converter only expects one version in a file.
+		parser.RegisterRegex(CommonRegexes.String, reader => version = new ProvinceMappingsVersion(reader));
 		parser.IgnoreUnregisteredItems();
 		parser.ParseFile(mappingsPath);
 
 		if (version is null) {
-			throw new ConverterException($"Mappings version \"{mappingsVersionName}\" not found in province mappings!");
+			throw new ConverterException($"No province mappings found in {mappingsPath}!");
 		}
 		CreateMappings(version);
 		Logger.Info($"{version.Mappings.Count} mappings loaded.");

@@ -287,7 +287,7 @@ public class CharacterCollectionTests {
 
 		var tagTitleMapper = new TagTitleMapper();
 		var provinceMapper = new ProvinceMapper();
-		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
+		provinceMapper.LoadMappings(provinceMappingsPath);
 		
 		var countryLocBlock = imperatorWorld.LocDB.AddLocBlock("PRY");
 		countryLocBlock["english"] = "Phrygian Empire"; // this ensures that the CK3 title will be an empire

@@ -80,8 +80,6 @@ public sealed class World {
 			config.CK3BookmarkDate = CorrectedDate;
 		}
 
-		LoadCorrectProvinceMappingsVersion(impWorld);
-
 		Logger.Info("Detecting selected CK3 mods...");
 		List<Mod> incomingCK3Mods = new();
 		foreach (var modPath in config.SelectedCK3Mods) {
@@ -102,10 +100,13 @@ public sealed class World {
 		// Include a fake mod pointing to blankMod.
 		LoadedMods.Add(new Mod("blankMod", "blankMod/output"));
 		ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), LoadedMods);
+		
+		LoadCorrectProvinceMappingsFile(impWorld); // Depends on loaded mods.
+		
 		// Now that we have the mod filesystem, we can initialize the localization database.
 		LocDB = new(ModFS);
 		Logger.IncrementProgress();
-
+		
 		ScriptValues.LoadScriptValues(ModFS);
 
 		NamedColors.LoadNamedColors("common/named_colors", ModFS);
@@ -343,14 +344,24 @@ public sealed class World {
 		Logger.IncrementProgress();
 	}
 
-	private void LoadCorrectProvinceMappingsVersion(Imperator.World imperatorWorld) {
-		var mappingsVersion = "imperator_invictus";
-		if (!imperatorWorld.GlobalFlags.Contains("is_playing_invictus")) {
+	private void LoadCorrectProvinceMappingsFile(Imperator.World imperatorWorld) {
+		string mappingsToUse;
+		
+		bool irHasTI = imperatorWorld.Countries.Any(c => c.Variables.Contains("unification_points"));
+		bool ck3HasRajasOfAsia = LoadedMods.Any(m => m.Name == "Rajas of Asia");
+		if (irHasTI && ck3HasRajasOfAsia) {
+			mappingsToUse = "terra_indomita_to_rajas_of_asia";
+		} else if (imperatorWorld.GlobalFlags.Contains("is_playing_invictus")) {
+			mappingsToUse = "imperator_invictus";
+		} else {
+			mappingsToUse = "imperator_vanilla";
 			Logger.Warn("Support for non-Invictus Imperator saves is deprecated.");
-			mappingsVersion = "imperator_vanilla";
 		}
-		Logger.Debug($"Using mappings version: {mappingsVersion}");
-		provinceMapper.LoadMappings("configurables/province_mappings.txt", mappingsVersion);
+		
+		Logger.Info($"Using province mappings: {mappingsToUse}");
+		var mappingsPath = Path.Combine("configurables/province_mappings", mappingsToUse + ".txt");
+		
+		provinceMapper.LoadMappings(mappingsPath);
 	}
 
 	private void LoadMenAtArmsTypes(ModFilesystem ck3ModFS, ScriptValueCollection scriptValues) {
