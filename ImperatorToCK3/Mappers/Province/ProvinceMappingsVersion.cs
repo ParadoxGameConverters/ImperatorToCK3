@@ -14,6 +14,7 @@ internal sealed class ProvinceMappingsVersion {
 		var ck3ProvsReferencedMoreThanOnce = new HashSet<ulong>();
 
 		var parser = new Parser();
+		parser.RegisterKeyword("triangulation_pair", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("link", linkReader => {
 			var mapping = ProvinceMapping.Parse(linkReader);
 			if (mapping.CK3Provinces.Count == 0 && mapping.ImperatorProvinces.Count == 0) {
