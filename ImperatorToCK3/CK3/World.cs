@@ -94,11 +94,8 @@ public sealed class World {
 		ModLoader modLoader = new();
 		modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods);
 		LoadedMods = modLoader.UsableMods.ToOrderedSet();
-		var tfeMod = LoadedMods.FirstOrDefault(m => m.Name.StartsWith("The Fallen Eagle", StringComparison.Ordinal));
-		config.FallenEagleEnabled = tfeMod is not null;
-		if (config.FallenEagleEnabled) {
-			Logger.Info($"TFE detected: {tfeMod!.Name}");
-		}
+		config.DetectSpecificCK3Mods(LoadedMods);
+		
 		// Include a fake mod pointing to blankMod.
 		LoadedMods.Add(new Mod("blankMod", "blankMod/output"));
 		ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), LoadedMods);

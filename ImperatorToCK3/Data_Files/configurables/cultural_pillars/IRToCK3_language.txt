@@ -1,10 +1,9 @@
 ﻿language_gothic = { # https://en.wikipedia.org/wiki/East_Germanic_languages
     REPLACED_BY = {
 		tfe = { language_gothic }
+		wtwsms = { language_gothic }
 		vanilla = { language_gothic }
 	}
-	
-	# TODO: add language_branch parameter for WtWSMS
 
 	type = language
 	is_shown = {
@@ -69,8 +68,6 @@ language_luwian = {
 			multiply = 10
 		}
 	}
-	
-	# TODO: add language_branch parameter for WtWSMS
 
 	color = hsv { 0.32 0.45 0.9 }
 }
@@ -153,10 +150,9 @@ language_phrygian = {
 language_albanian = {
     REPLACED_BY = {
 		tfe = { language_albanian }
+		wtwsms = { language_albanian }
 		vanilla = { language_albanian }
 	}
-	
-	# TODO: add language_branch parameter for WtWSMS
     
 	type = language
 	is_shown = {
@@ -178,10 +174,9 @@ language_albanian = {
 language_kemetic = {
     REPLACED_BY = {
 		tfe = { language_kemetic }
+		wtwsms = { language_kemetic }
 		vanilla = { language_kemetic }  # TODO: replace with vanilla Ancient Egyptian ID
 	}
-	
-	# TODO: add language_branch parameter for WtWSMS
     
 	type = language
 	is_shown = {
@@ -203,10 +198,9 @@ language_kemetic = {
 language_aramaic = {
     REPLACED_BY = {
 		tfe = { language_aramaic }
+		wtwsms = { language_aramaic }
 		vanilla = { language_aramaic }
 	}
-	
-	# TODO: add language_branch parameter for WtWSMS
     
 	type = language
 	is_shown = {
@@ -253,10 +247,9 @@ language_babylonian = {
 language_gaulish = {
     REPLACED_BY = {
 		tfe = { language_gaulish }
+		wtwsms = { language_gaulish }
 		vanilla = { language_gaulish }
 	}
-	
-	# TODO: add language_branch parameter for WtWSMS
     
 	type = language
 	is_shown = {
@@ -278,10 +271,9 @@ language_gaulish = {
 language_hebrew = {
     REPLACED_BY = {
 		tfe = { language_hebrew }
+		wtwsms = { language_israelite }
 		vanilla = { language_hebrew }
 	}
-	
-	# TODO: add language_branch parameter for WtWSMS
     
 	type = language
 	is_shown = {
@@ -307,6 +299,8 @@ language_oscan = {
 	}
 	
 	# TODO: add language_branch parameter for WtWSMS
+	# TODO: language_branch_italic = yes
+	# TODO: language_family_indo_european = yes
     
 	type = language
 	is_shown = {
@@ -332,6 +326,8 @@ language_samnite = {
 	}
 	
 	# TODO: add language_branch parameter for WtWSMS
+	# TODO: language_branch_italic = yes
+	# TODO: language_family_indo_european = yes
     
 	type = language
 	is_shown = {
@@ -357,6 +353,8 @@ language_ligustic = {
 	}
 	
 	# TODO: add language_branch parameter for WtWSMS
+	# TODO: language_branch_italic = yes
+	# TODO: language_family_indo_european = yes
     
 	type = language
 	is_shown = {
@@ -382,6 +380,8 @@ language_messapic = {
 	}
 	
 	# TODO: add language_branch parameter for WtWSMS
+	# TODO: language_branch_italic = yes
+	# TODO: language_family_indo_european = yes
     
 	type = language
 	is_shown = {
@@ -407,6 +407,8 @@ language_sardonian = {
 	}
 	
 	# TODO: add language_branch parameter for WtWSMS
+	# TODO: language_branch_italic = yes
+	# TODO: language_family_indo_european = yes
     
 	type = language
 	is_shown = {
@@ -432,6 +434,8 @@ language_siculian = {
 	}
 	
 	# TODO: add language_branch parameter for WtWSMS
+	# TODO: language_branch_italic = yes
+	# TODO: language_family_indo_european = yes
     
 	type = language
 	is_shown = {
@@ -453,10 +457,9 @@ language_siculian = {
 language_hunnic = {
     REPLACED_BY = {
 		tfe = { language_hunnic }
+		wtwsms = { language_hunnic }
 		vanilla = { language_hunnic }
 	}
-	
-	# TODO: add language_branch parameter for WtWSMS
     
 	type = language
 	is_shown = {
@@ -478,10 +481,9 @@ language_hunnic = {
 language_punic = {
     REPLACED_BY = {
 		tfe = { language_punic }
+		wtwsms = { language_punic }
 		vanilla = { language_punic }
 	}
-	
-	# TODO: add language_branch parameter for WtWSMS
     
 	type = language
 	is_shown = {
@@ -553,10 +555,9 @@ language_laessin = {
 language_thracian = {
     REPLACED_BY = {
 		tfe = { language_thracian }
+		wtwsms = { language_thracian }
 		vanilla = { language_thracian }
 	}
-	
-	# TODO: add language_branch parameter for WtWSMS
     
 	type = language
 	is_shown = {
@@ -578,10 +579,9 @@ language_thracian = {
 language_dacian = {
     REPLACED_BY = {
 		tfe = { language_dacian }
+		wtwsms = { language_dacian }
 		vanilla = { language_dacian }
 	}
-	
-	# TODO: add language_branch parameter for WtWSMS
     
 	type = language
 	is_shown = {
