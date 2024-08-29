@@ -238,6 +238,9 @@ link = { ck3=burmic ir=burmese_religion }
 # Hurrian
 link = { ck3=hurrian ir=hurrian_pantheon } # added by Invictus
 
+# East Asian religions
+link = { ck3 = lixue ir = confucian }
+
 # MODS (for future mods)
 link = { ck3 = tengri_pagan ir = tengri_pagan }
 link = { ck3 = magyar_pagan ir = magyar_pagan }
