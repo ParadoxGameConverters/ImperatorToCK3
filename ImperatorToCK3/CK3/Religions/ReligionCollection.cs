@@ -57,10 +57,10 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 		parser.ParseFile(converterFaithsPath);
 	}
 
-	private void RegisterHolySitesKeywords(Parser parser) {
+	private void RegisterHolySitesKeywords(Parser parser, bool areSitesFromConverter) {
 		parser.RegisterRegex(CommonRegexes.String, (holySiteReader, holySiteId) => {
 			try {
-				var holySite = new HolySite(holySiteId, holySiteReader, landedTitles);
+				var holySite = new HolySite(holySiteId, holySiteReader, landedTitles, areSitesFromConverter);
 				HolySites.AddOrReplace(holySite);
 			} catch (KeyNotFoundException e) {
 				Logger.Debug($"Could not add holy site {holySiteId}: {e.Message}");
@@ -72,9 +72,17 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 		Logger.Info("Loading CK3 holy sites...");
 
 		var parser = new Parser();
-		RegisterHolySitesKeywords(parser);
+		RegisterHolySitesKeywords(parser, areSitesFromConverter: false);
 
 		parser.ParseGameFolder("common/religion/holy_sites", ck3ModFS, "txt", recursive: true);
+	}
+	public void LoadConverterHolySites(string converterHolySitesPath) {
+		Logger.Info("Loading converter holy sites...");
+
+		var parser = new Parser();
+		RegisterHolySitesKeywords(parser, areSitesFromConverter: true);
+
+		parser.ParseFile(converterHolySitesPath);
 	}
 
 	public void LoadReplaceableHolySites(string filePath) {

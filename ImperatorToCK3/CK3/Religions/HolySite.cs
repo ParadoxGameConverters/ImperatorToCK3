@@ -12,7 +12,7 @@ namespace ImperatorToCK3.CK3.Religions;
 [SerializationByProperties]
 public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 	[NonSerialized] public string Id { get; }
-	[NonSerialized] public bool IsGeneratedByConverter { get; }
+	[NonSerialized] public bool IsFromConverter { get; }
 	[NonSerialized] public Title? County { get; }
 	[NonSerialized] public Title? Barony { get; }
 	[SerializedName("county")] public string? CountyId => County?.Id;
@@ -20,13 +20,24 @@ public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 	[SerializedName("character_modifier")] public IDictionary<string, object> CharacterModifier { get; set; } = new Dictionary<string, object>();
 	[SerializedName("flag")] public string? Flag { get; set; }
 
-	public HolySite(string id, BufferedReader holySiteReader, Title.LandedTitles landedTitles) {
+	public HolySite(string id, BufferedReader holySiteReader, Title.LandedTitles landedTitles, bool isFromConverter) {
 		Id = id;
+		IsFromConverter = isFromConverter;
 
 		string? parsedCountyId = null;
 		string? parsedBaronyId = null;
 
 		var parser = new Parser();
+		parser.RegisterKeyword("county_choices", reader => {
+			foreach (var countyId in reader.GetStrings()) {
+				if (!landedTitles.ContainsKey(countyId)) {
+					continue;
+				}
+				
+				parsedCountyId = countyId;
+				break;
+			}
+		});
 		parser.RegisterKeyword("county", reader => parsedCountyId = reader.GetString());
 		parser.RegisterKeyword("barony", reader => parsedBaronyId = reader.GetString());
 		parser.RegisterKeyword("character_modifier", reader => {
@@ -50,7 +61,7 @@ public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 		return $"IRtoCK3_{barony.Id}_{faith.Id}";
 	}
 	public HolySite(Title barony, Faith faith, Title.LandedTitles titles) {
-		IsGeneratedByConverter = true;
+		IsFromConverter = true;
 		Id = GenerateHolySiteId(barony, faith);
 		County = titles.GetCountyForProvince(barony.ProvinceId!.Value)!;
 		Barony = barony;

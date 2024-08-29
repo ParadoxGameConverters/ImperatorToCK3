@@ -22,7 +22,7 @@ public static class ReligionsOutputter {
 	private static async Task OutputHolySites(string outputModPath, ReligionCollection ck3ReligionCollection, CK3LocDB ck3LocDB) {
 		Logger.Info("Writing holy sites...");
 
-		var sitesToOutput = ck3ReligionCollection.HolySites.Where(s => s.IsGeneratedByConverter)
+		var sitesToOutput = ck3ReligionCollection.HolySites.Where(s => s.IsFromConverter)
 			.ToArray();
 		var sb = new StringBuilder();
 		foreach (var site in sitesToOutput) {
