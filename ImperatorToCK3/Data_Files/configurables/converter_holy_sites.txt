@@ -1,4 +1,8 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.12.5
+# This file looks very much like holy site definitions in the CK3 common/religion/holy_sites folder.
+# The only difference is that instead of "county =", "county_choices =" can be used to allow multiple alternative counties.
+# This is useful for CK3 mod compatibility.
+
+
 #Druidic
 ynys_mon = { #toutatis
 	county = c_anglesey
@@ -516,7 +520,10 @@ ashtishat = { #vahagn
 }
 armaouira = { #khaldi
 	# https://en.wikipedia.org/wiki/Armavir_(ancient_city)
-	county = c_hayk
+	county_choices = {
+		c_hayk # vanilla CK3
+		c_ayrarat # WtWSMS
+	}
 	character_modifier = {
 		name = holy_site_armaouira_effect_name
  		tyranny_gain_mult = -0.2
@@ -904,7 +911,10 @@ irtock3_ajivika_minagana = {
     }
 }
 irtock3_ajivika_chintamani = {
-    county = c_candragiri
+    county_choices = {
+    	c_candragiri # vanilla CK3
+    	c_penugonda # WtWSMS
+    }
     barony = b_nangali
     
     character_modifier = {
