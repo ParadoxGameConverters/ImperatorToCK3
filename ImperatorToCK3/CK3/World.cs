@@ -348,9 +348,9 @@ public sealed class World {
 		string mappingsToUse;
 		
 		bool irHasTI = imperatorWorld.Countries.Any(c => c.Variables.Contains("unification_points"));
-		bool ck3HasRajasOfAsia = LoadedMods.Any(m => m.Name == "Rajas of Asia");
-		if (irHasTI && ck3HasRajasOfAsia) {
-			mappingsToUse = "terra_indomita_to_rajas_of_asia";
+		bool ck3HasAEP = LoadedMods.Any(m => m.Name == "Asia Expansion Project");
+		if (irHasTI && ck3HasAEP) {
+			mappingsToUse = "terra_indomita_to_aep";
 		} else if (imperatorWorld.GlobalFlags.Contains("is_playing_invictus")) {
 			mappingsToUse = "imperator_invictus";
 		} else {
