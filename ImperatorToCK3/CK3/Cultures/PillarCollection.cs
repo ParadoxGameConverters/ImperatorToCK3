@@ -74,6 +74,7 @@ public sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 	}
 
 	private void InitPillarDataParser(ColorFactory colorFactory, ICollection<string> ck3ModFlags) {
+		pillarDataParser.RegisterModDependentBloc(ck3ModFlags);
 		pillarDataParser.RegisterKeyword("REPLACED_BY", reader => LoadInvalidatingPillarIds(ck3ModFlags, reader));
 		pillarDataParser.RegisterKeyword("type", reader => {
 			pillarData.Type = reader.GetString();

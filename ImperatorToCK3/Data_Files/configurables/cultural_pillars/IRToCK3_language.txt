@@ -1,4 +1,6 @@
-﻿language_gothic = { # https://en.wikipedia.org/wiki/East_Germanic_languages
+﻿# Add WtWSMS-specific stuff inside MOD_DEPENDENT = { wtwsms = {} } blocks.
+
+language_gothic = { # https://en.wikipedia.org/wiki/East_Germanic_languages
     REPLACED_BY = {
 		tfe = { language_gothic }
 		wtwsms = { language_gothic }
@@ -298,9 +300,14 @@ language_oscan = {
 		vanilla = { language_oscan }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
-	# TODO: language_branch_italic = yes
-	# TODO: language_family_indo_european = yes
+	MOD_DEPENDENT = {
+		wtwsms = {
+			parameters = {
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -308,14 +315,36 @@ language_oscan = {
 			LANGUAGE = language_oscan
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_oscan }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_oscan }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		!wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_oscan }
+					multiply = 10
+				}
+			}
 		}
 	}
-
+	
 	color = { 117 131 50 }
 }
 
@@ -325,9 +354,14 @@ language_samnite = {
 		vanilla = { language_samnite }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
-	# TODO: language_branch_italic = yes
-	# TODO: language_family_indo_european = yes
+	MOD_DEPENDENT = {
+		wtwsms = {
+			parameters = {
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -335,11 +369,33 @@ language_samnite = {
 			LANGUAGE = language_samnite
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_samnite }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_samnite }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		!wtwsms = { # TODO: support this syntax
+			ai_will_do = {
+        		value = 10
+        		if = {
+        			limit = { has_cultural_pillar = language_samnite }
+        			multiply = 10
+        		}
+        	}
 		}
 	}
 
