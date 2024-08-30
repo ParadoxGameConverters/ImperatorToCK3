@@ -777,3 +777,17 @@ link = {
 	ck3 = neo_mitanni
 	ir = mitanni
 }
+
+# Terra Indomita to Rajas of Asia
+link = { ck3 = tagalog ir = tagalog }
+link = { ck3 = bisaya ir = bisaya }
+link = { ck3 = goguryeo ir = goguryeo }
+link = { ck3 = wa ir = wa }
+link = { ck3 = ainu ir = ainu }
+link = { ck3 = emishi ir = emishi }
+link = { ck3 = nivkh ir = nivkh }
+link = { ck3 = bahnar ir = bahnar }
+link = { ck3 = andaman ir = andaman }
+link = { ck3 = munda ir = munda }
+link = { ck3 = qiang ir = qiang }
+link = { ck3 = mari ir = mari }
