@@ -575,7 +575,7 @@ public sealed class World {
 				break;
 			case < 874:
 				faithCandidates = new OrderedSet<string> { "insular_celtic", "catholic", "orthodox" };
-				var christianFaiths = Religions["christianity_religion"].Faiths;
+				var christianFaiths = Religions.TryGetValue("christianity_religion", out var christianityReligion) ? christianityReligion.Faiths : [];
 
 				// If there is at least one Irish Christian county, give it to the Irish Papar.
 				// If there is at least one Christian county of another Gaelic culture, give it to a character of this Gaelic culture.
