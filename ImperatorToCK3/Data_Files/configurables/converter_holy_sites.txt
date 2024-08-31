@@ -979,3 +979,53 @@ ulma = {
 		build_gold_cost = -0.05
 	}
 }
+
+# Elamite holy sites from the Bronze Age Reborn mod for CK3
+# Locations have been adjusted to more or less match the Bronze Age Reborn map locations.
+liyan = {
+	county = c_liyan # TODO: adjust
+	barony = b_2976 # TODO: adjust
+	
+	character_modifier = {
+		name = holy_site_liyan_effect_name
+		diplomacy_per_piety_level = 1
+	}
+}
+anshan = {
+	county = c_anshan # TODO: adjust
+	barony = b_6552 # TODO: adjust
+	
+	character_modifier = {
+		name = holy_site_anshan_effect_name
+		stewardship = 1
+	}
+}
+susan = {
+	county = c_susa # TODO: adjust
+	barony = b_6374 # TODO: adjust
+	
+	character_modifier = {
+		name = holy_site_susan_effect_name
+		martial_per_piety_level = 1
+		knight_effectiveness_mult = 0.1
+	}
+}
+huhnuri = {
+	county = c_huhnuri # TODO: adjust
+	barony = b_6479 # TODO: adjust
+	
+	character_modifier = {
+		name = holy_site_huhnuri_effect_name
+		monthly_piety_gain_mult = 0.05
+		learning = 1
+	}
+}
+qirbit = {
+	county = c_qirbit # TODO: adjust
+	barony = b_6275 # TODO: adjust
+	
+	character_modifier = {
+		name = holy_site_qirbit_effect_name
+		councillor_opinion = 5
+	}
+}

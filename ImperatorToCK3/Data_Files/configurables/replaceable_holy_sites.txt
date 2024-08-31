@@ -68,6 +68,7 @@ svetambara = all
 yapaniya = all
 digambara = all
 hurrian = all
+elamite_faith = all
 
 # Ajivika
 makkhalist = all

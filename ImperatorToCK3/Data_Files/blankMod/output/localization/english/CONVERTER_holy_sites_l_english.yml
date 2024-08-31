@@ -219,3 +219,14 @@
  holy_site_shappiduwa_effect_name: "From [holy_site|E] #weak ($holy_site_shappiduwa_name$)#!"
  holy_site_ulma_name: "Ulma" #Some Hittite God?
  holy_site_ulma_effect_name: "From [holy_site|E] #weak ($holy_site_ulma_name$)#!"
+ #Elamite
+ holy_site_liyan_name: "Liyan" #Kiririsha - Highland Elamite
+ holy_site_liyan_effect_name: "From [holy_site|E] #weak ($holy_site_liyan_name$)#!"
+ holy_site_anshan_name: "Anshan" #Napirisha - Highland Elamite
+ holy_site_anshan_effect_name: "From [holy_site|E] #weak ($holy_site_anshan_name$)#!"
+ holy_site_susan_name: "Susa" #Inshushinak - Susanian Elamite
+ holy_site_susan_effect_name: "From [holy_site|E] #weak ($holy_site_susan_name$)#!"
+ holy_site_huhnuri_name: "Huhnuri" #Ruhurater - Highland Elamite
+ holy_site_huhnuri_effect_name: "From [holy_site|E] #weak ($holy_site_huhnuri_name$)#!"
+ holy_site_qirbit_name: "Qirbit" #Some Gutian Deity ?
+ holy_site_qirbit_effect_name: "From [holy_site|E] #weak ($holy_site_qirbit_name$)#!"
