@@ -5320,3 +5320,5 @@ hattian_religion = { # From Bronze Age Reborn mod
 		}
 	}
 }
+
+# TODO: integrate elamite_faith from the Bronze Age Reborn mod for CK3

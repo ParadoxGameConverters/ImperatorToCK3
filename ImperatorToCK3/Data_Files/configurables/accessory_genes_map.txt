@@ -161,9 +161,11 @@ template_to_template = {
 		mauryan_soldier_clothes_template = indian_war_nobility_clothes
 		ethiopian_soldier_clothes_template = sub_saharan_war_nobility_clothes
 		bactrian_soldier_clothes_template = steppe_war_nobility_clothes
-
+		
+		# TODO: use this if possible, otherwise default to the fallback: chinese_clothes = chinese_high_nobility_clothes
 		chinese_clothes = steppe_high_nobility_clothes
-		# TODO: add mapping for japanese_clothes
+		# TODO: use this if possible, otherwise default to the fallback: japanese_clothes = japanese_royal_clothes # from RoA
+		japanese_clothes = steppe_high_nobility_clothes
 	}
 }
 
