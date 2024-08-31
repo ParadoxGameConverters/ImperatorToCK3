@@ -176,12 +176,12 @@ public sealed class World {
 		foreach (var irCultureId in irCultureIds) {
 			var baseMapping = cultureMapper.Match(irCultureId, null, null, null);
 			if (baseMapping is null) {
-				string cultureRow = "ID: " + irCultureId;
+				string cultureStr = "ID: " + irCultureId;
 				var localizedName = impWorld.LocDB.GetLocBlockForKey(irCultureId)?["english"];
 				if (localizedName is not null) {
-					cultureRow += $", name: {localizedName}";
+					cultureStr += $", name: {localizedName}";
 				}
-				Logger.Notice($"No base mapping found for I:R culture {cultureRow}!"); // TODO: change to warning
+				Logger.Warn($"No base mapping found for I:R culture {cultureStr}!");
 			}
 		}
 		
