@@ -493,21 +493,37 @@ public sealed class MapData {
 		for (var y = 0; y < height; ++y) {
 			// Get left edge color.
 			var color = GetPixelColor(new Point(0, y), mapPng);
-			mapEdgeProvinces.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
+			if (ProvinceDefinitions.ColorToProvinceDict.TryGetValue(color, out var provinceId)) {
+				mapEdgeProvinces.Add(provinceId);
+			} else {
+				Logger.Warn($"Province not found for color {color}!");
+			}
 
 			// Get right edge color.
 			color = GetPixelColor(new Point(width - 1, y), mapPng);
-			mapEdgeProvinces.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
+			if (ProvinceDefinitions.ColorToProvinceDict.TryGetValue(color, out provinceId)) {
+				mapEdgeProvinces.Add(provinceId);
+			} else {
+				Logger.Warn($"Province not found for color {color}!");
+			}
 		}
 
 		for (var x = 0; x < width; ++x) {
 			// Get top edge color.
 			var color = GetPixelColor(new Point(x, 0), mapPng);
-			mapEdgeProvinces.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
+			if (ProvinceDefinitions.ColorToProvinceDict.TryGetValue(color, out var provinceId)) {
+				mapEdgeProvinces.Add(provinceId);
+			} else {
+				Logger.Warn($"Province not found for color {color}!");
+			}
 
 			// Get bottom edge color.
 			color = GetPixelColor(new Point(x, height - 1), mapPng);
-			mapEdgeProvinces.Add(ProvinceDefinitions.ColorToProvinceDict[color]);
+			if (ProvinceDefinitions.ColorToProvinceDict.TryGetValue(color, out provinceId)) {
+				mapEdgeProvinces.Add(provinceId);
+			} else {
+				Logger.Warn($"Province not found for color {color}!");
+			}
 		}
 	}
 }
