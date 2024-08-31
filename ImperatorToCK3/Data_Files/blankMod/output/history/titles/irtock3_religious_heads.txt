@@ -1,0 +1,3 @@
+﻿d_cult_of_humban = {
+	government = theocracy_government
+}
