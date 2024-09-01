@@ -103,6 +103,11 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 
 		HashSet<string> dynastiesToKeep = [];
 		foreach (var character in characters) {
+			var dynastyIdAtBirth = character.GetDynastyId(character.BirthDate);
+			if (dynastyIdAtBirth is not null) {
+				dynastiesToKeep.Add(dynastyIdAtBirth);
+			}
+			
 			var dynastyId = character.GetDynastyId(date);
 			if (dynastyId is not null) {
 				dynastiesToKeep.Add(dynastyId);
