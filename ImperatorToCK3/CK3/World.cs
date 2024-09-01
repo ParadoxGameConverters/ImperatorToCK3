@@ -803,9 +803,18 @@ public sealed class World {
 	private void GenerateFillerHoldersForUnownedLands(CultureCollection cultures, Configuration config) {
 		Logger.Info("Generating filler holders for unowned lands...");
 		var date = config.CK3BookmarkDate;
-		var unheldCounties = LandedTitles
-			.Where(c => c.Rank == TitleRank.county && c.GetHolderId(date) == "0")
-			.ToImmutableList();
+		List<Title> unheldCounties = [];
+		foreach (var county in LandedTitles.Counties) {
+			var holderId = county.GetHolderId(date);
+			if (holderId == "0") {
+				unheldCounties.Add(county);
+			} else if (Characters.TryGetValue(holderId, out var holder)) {
+				if (holder.DeathDate is not null && holder.DeathDate <= date) {
+					Logger.Debug($"Adding {county.Id} to unheld counties because holder {holderId} is dead.");
+					unheldCounties.Add(county);
+				}
+			}
+		}
 
 		var duchyIdToHolderDict = new Dictionary<string, Character>();
 
