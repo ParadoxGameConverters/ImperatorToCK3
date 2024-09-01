@@ -925,8 +925,18 @@ public sealed class World {
 			};
 			holder.SetFaithId(faithId, null);
 			holder.SetCultureId(culture.Id, null);
-			holder.History.AddFieldValue(date, "government", "change_government", "tribal_government");
 			Characters.AddOrReplace(holder);
+
+			var countyHoldingTypes = county.CountyProvinceIds
+				.Select(id => Provinces.TryGetValue(id, out var province) ? province : null)
+				.Where(p => p is not null)
+				.Select(p => p!.GetHoldingType(date))
+				.Where(t => t is not null)
+				.Select(t => t!)
+				.ToHashSet();
+			string government = countyHoldingTypes.Contains("castle_holding")
+				? "feudal_government"
+				: "tribal_government";
 
 			county.SetHolder(holder, date);
 			if (config.FillerDukes) {
@@ -936,10 +946,10 @@ public sealed class World {
 				}
 
 				duchy.SetHolder(holder, date);
-				duchy.SetGovernment("tribal_government", date);
+				duchy.SetGovernment(government, date);
 				duchyIdToHolderDict[duchy.Id] = holder;
 			} else {
-				county.SetGovernment("tribal_government", date);
+				county.SetGovernment(government, date);
 			}
 		}
 	}
