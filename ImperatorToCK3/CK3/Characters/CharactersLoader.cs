@@ -58,7 +58,11 @@ public sealed partial class CharacterCollection {
 			// Remove effects that set relations. They don't matter a lot in our alternate timeline.
 			character.History.Fields["effects"].RemoveAllEntries(
 				entry => irrelevantEffects.Any(effect => entry.ToString()?.Contains(effect) ?? false));
-
+			string[] fieldsToClear = ["friends", "best_friends", "lovers", "rivals", "nemesis"];
+			foreach (var fieldName in fieldsToClear) {
+				character.History.Fields[fieldName].RemoveAllEntries();
+			}
+			
 			character.UpdateChildrenCacheOfParents();
 		}
 	}
