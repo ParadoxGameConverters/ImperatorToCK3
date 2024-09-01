@@ -14,10 +14,99 @@ public static class OnActionOutputter {
 		if (config.FallenEagleEnabled) {
 			await DisableUnneededFallenEagleOnActions(outputModPath);
 			await RemoveStruggleStartFromFallenEagleOnActions(ck3ModFS, outputModPath);
+		} else { // vanilla
+			await RemoveUnneededPartsOfVanillaOnActions(ck3ModFS, outputModPath);
 		}
 		Logger.IncrementProgress();
 	}
-	
+
+	private static async Task RemoveUnneededPartsOfVanillaOnActions(ModFilesystem ck3ModFS, string outputModPath) {
+		Logger.Info("Removing unneeded parts of vanilla on-actions...");
+		var inputPath = ck3ModFS.GetActualFileLocation("common/on_action/game_start.txt");
+		if (!File.Exists(inputPath)) {
+			Logger.Debug("game_start.txt not found.");
+			return;
+		}
+		var fileContent = await File.ReadAllTextAsync(inputPath);
+
+		// List of blocks to remove as of 2024-09-01.
+		string[] partsToRemove = [
+			"""
+					### 867 - RADHANITES IN KHAZARIA ###
+					character:74025 = {
+						if = {
+							limit = {
+								is_alive = yes
+								is_landed = yes
+							}
+						}
+						trigger_event = bookmark.0200
+					}
+			""",
+			"""
+					### 867 - WRATH OF THE NORTHMEN ###
+					#Æthelred dying (probably)
+					character:33358 = {
+						if = {
+							limit = {
+								is_alive = yes
+								is_landed = yes
+							}
+							trigger_event = {
+								id = bookmark.0001
+								days = { 365 730 }
+							}
+						}
+					}
+			""",
+			"""
+					#Alfred the Great becoming the Great
+					character:7627 = {
+						if = {
+							limit = {
+								is_alive = yes
+								is_landed = yes
+							}
+							trigger_event = {
+								id = bookmark.0002
+								days = 1800 #~5 years
+							}
+						}
+					}
+			""",
+			"""
+					### 867 - THE GREAT ADVENTURERS ###
+					character:251187 = {
+						if = {
+							limit = {
+								is_alive = yes
+								is_landed = yes
+								AND = {
+									character:251180 = { is_ai = yes }
+									character:251181 = {
+										is_ai = yes
+										is_alive = yes
+									}
+								}
+							}
+							trigger_event = {
+								id = bookmark.0101
+								days = { 21 35 }
+							}
+						}
+					}
+			""",];
+
+		foreach (var block in partsToRemove) {
+			// The file uses LF line endings, so we need to make the search string use LF line endings as well.
+			fileContent = fileContent.Replace(block.Replace("\r\n", "\n"), "");
+		}
+
+		var outputPath = $"{outputModPath}/common/on_action/game_start.txt";
+		await using var output = FileHelper.OpenWriteWithRetries(outputPath);
+		await output.WriteAsync(fileContent);
+	}
+
 	public static async Task OutputCustomGameStartOnAction(Configuration config) {
 		Logger.Info("Writing game start on-action...");
 
