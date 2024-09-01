@@ -626,7 +626,10 @@ public sealed class Character : IIdentifiable<string> {
 	public string? GetDynastyId(Date date) {
 		return History.GetFieldValue("dynasty", date)?.ToString();
 	}
-
+	
+	public void ClearDynastyHouse() {
+		History.Fields["dynasty_house"].RemoveAllEntries();
+	}
 	public string? GetDynastyHouseId(Date date) {
 		return History.GetFieldValue("dynasty_house", date)?.ToString();
 	}
