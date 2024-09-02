@@ -103,6 +103,11 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 
 		HashSet<string> dynastiesToKeep = [];
 		foreach (var character in characters) {
+			var dynastyIdAtBirth = character.GetDynastyId(character.BirthDate);
+			if (dynastyIdAtBirth is not null) {
+				dynastiesToKeep.Add(dynastyIdAtBirth);
+			}
+			
 			var dynastyId = character.GetDynastyId(date);
 			if (dynastyId is not null) {
 				dynastiesToKeep.Add(dynastyId);
@@ -125,5 +130,47 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 		}
 
 		Logger.Info($"Purged {removedCount} unneeded dynasties.");
+	}
+
+	/// <summary>
+	/// In CK3, a dynasty without a pre-defined CoA should have a character in the main branch, acting as the founder.
+	/// If there are dynasties that are missing a founder, this method will move all the characters from the cadet houses to the main branch.
+	/// </summary>
+	public void FlattenDynastiesWithNoFounders(CharacterCollection characters, HouseCollection houses, Date date) {
+		Logger.Info("Flattening dynasties with no founders...");
+		int count = 0;
+		
+		foreach (var dynasty in this) {
+			var mainBranchMembers = characters.Where(c => c.GetDynastyId(date) == dynasty.Id).ToArray();
+			if (mainBranchMembers.Length > 0) {
+				continue;
+			}
+			
+			var dynastyHouseIds = houses
+				.Where(h => h.DynastyId == dynasty.Id)
+				.Select(h => h.Id)
+				.ToArray();
+			var cadetHouseMembers = characters
+				.Where(c => dynastyHouseIds.Contains(c.GetDynastyHouseId(date)))
+				.ToArray();
+			
+			if (cadetHouseMembers.Length == 0) {
+				continue;
+			}
+			
+			foreach (var character in cadetHouseMembers) {
+				character.ClearDynastyHouse();
+				character.SetDynastyId(dynasty.Id, date);
+			}
+			
+			// Remove all the cadet houses.
+			foreach (var houseId in dynastyHouseIds) {
+				houses.Remove(houseId);
+			}
+			
+			++count;
+		}
+		
+		Logger.Info($"Flattened {count} dynasties with no founders.");
 	}
 }

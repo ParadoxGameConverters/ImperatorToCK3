@@ -58,17 +58,34 @@ public class CK3LocDB : IEnumerable<LocBlock> {
 		return false;
 	}
 	
-	public bool TryGetValue(string key, [MaybeNullWhen(false)] out LocBlock locBlock) {
-		if (ModFSLocDB.TryGetValue(key, out locBlock)) {
-			return true;
+	public bool TryGetValue(string key, [MaybeNullWhen(false)] out LocBlock locBlock) { // TODO: return readonly locblock instead
+		bool found = false;
+		locBlock = null;
+		
+		// TODO: add unit test for combining loc from all the sources into one locblock
+		
+		if (OptionalConverterLocDB.TryGetValue(key, out var optionalLocBlock)) {
+			found = true;
+			locBlock = optionalLocBlock;
 		}
-		if (ConverterGeneratedLocDB.TryGetValue(key, out locBlock)) {
-			return true;
+		if (ConverterGeneratedLocDB.TryGetValue(key, out var converterGeneratedLocDBLocBlock)) {
+			found = true;
+			if (locBlock is null) {
+				locBlock = converterGeneratedLocDBLocBlock;
+			} else {
+				locBlock.CopyFrom(converterGeneratedLocDBLocBlock);
+			}
 		}
-		if (OptionalConverterLocDB.TryGetValue(key, out locBlock)) {
-			return true;
+		if (ModFSLocDB.TryGetValue(key, out var modFSLocBlock)) {
+			found = true;
+			if (locBlock is null) {
+				locBlock = modFSLocBlock;
+			} else {
+				locBlock.CopyFrom(modFSLocBlock);
+			}
 		}
-		return false;
+
+		return found;
 	}
 	
 	public LocBlock? GetLocBlockForKey(string key) {
