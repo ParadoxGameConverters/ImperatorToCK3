@@ -95,7 +95,46 @@ public static class OnActionOutputter {
 							}
 						}
 					}
-			""",];
+			""",
+			"""
+							##11 Bod Chen Po
+							if = {
+								limit = {
+									this.dynasty = dynasty:105800
+								}
+								add_achievement_global_variable_effect = {
+									VARIABLE = started_bod_chen_po_achievement
+									VALUE = yes
+								}
+							}
+			""",
+			"""
+							##14 Brave and Bold
+							if = {
+								limit = {
+									game_start_date < 868.1.1
+									this.dynasty = dynasty:699 #Piast
+								}
+								add_achievement_global_variable_effect = {
+									VARIABLE = started_brave_and_bold_achievement
+									VALUE = yes
+								}
+							}
+			""",
+			"""
+							## 19. A.E.I.O.U & Me
+							if = {
+								limit = {
+									# Etichonen, of whom the Hapsburgs are a cadet - we check dynasty rather than house so that an accidental cadet doesn't screw you.
+									this.house ?= house:house_habsburg
+								}
+								add_achievement_global_variable_effect = {
+									VARIABLE = started_a_e_i_o_u_and_me_achievement
+									VALUE = yes
+								}
+							}
+			"""
+		];
 
 		foreach (var block in partsToRemove) {
 			// The file uses LF line endings, so we need to make the search string use LF line endings as well.
