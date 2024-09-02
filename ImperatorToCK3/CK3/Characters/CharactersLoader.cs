@@ -30,7 +30,9 @@ public sealed partial class CharacterCollection {
 		string[] irrelevantEffects = ["set_relation_rival", "set_relation_potential_rival", "set_relation_nemesis",
 			"set_relation_lover", "set_relation_soulmate",
 			"set_relation_friend", "set_relation_potential_friend", "set_relation_best_friend",
-			"set_relation_ward", "set_relation_mentor",];
+			"set_relation_ward", "set_relation_mentor",
+			"add_opinion",
+		];
 
 		foreach (var character in loadedCharacters) {
 			// Remove post-bookmark history except for births and deaths.

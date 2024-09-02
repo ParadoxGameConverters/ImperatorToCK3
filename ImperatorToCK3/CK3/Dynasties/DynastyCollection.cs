@@ -146,14 +146,15 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 				continue;
 			}
 			
-			var dynastyHouses = houses.Where(h => h.DynastyId == dynasty.Id).ToArray();
-			List<Character> cadetHouseMembers = [];
-			foreach (var house in dynastyHouses) {
-				var houseMembers = characters.Where(c => c.GetDynastyHouseId(date) == house.Id);
-				cadetHouseMembers.AddRange(houseMembers);
-			}
+			var dynastyHouseIds = houses
+				.Where(h => h.DynastyId == dynasty.Id)
+				.Select(h => h.Id)
+				.ToArray();
+			var cadetHouseMembers = characters
+				.Where(c => dynastyHouseIds.Contains(c.GetDynastyHouseId(date)))
+				.ToArray();
 			
-			if (cadetHouseMembers.Count == 0) {
+			if (cadetHouseMembers.Length == 0) {
 				continue;
 			}
 			
@@ -163,8 +164,8 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 			}
 			
 			// Remove all the cadet houses.
-			foreach (var house in dynastyHouses) {
-				houses.Remove(house.Id);
+			foreach (var houseId in dynastyHouseIds) {
+				houses.Remove(houseId);
 			}
 			
 			++count;
