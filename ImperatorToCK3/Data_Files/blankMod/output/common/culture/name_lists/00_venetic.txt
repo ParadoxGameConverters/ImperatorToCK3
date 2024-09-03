@@ -3,7 +3,7 @@
 name_list_venetic = {
 	cadet_dynasty_names = {
 	    "dynn_Aimio" "dynn_Aklonio" "dynn_Andetio" "dynn_Afrinio" "dynn_Aplisinio" "dynn_Arsoetigio" "dynn_Bagsonio" "dynn_Egotorio"
-		"dynn_Egestio" "dynn_Ersinio" "dynn_Egotorio" "dynn_Egetorio" "dynn_Enogenio"
+		"dynn_Egestio" "dynn_Ersinio" "dynn_Egetorio" "dynn_Enogenio"
 		"dynn_Enoklevio" "dynn_Fontio" "dynn_Fougontio" "dynn_Fuginio" "dynn_Fremaistio" "dynn_Hostihevio" "dynn_Iantio" "dynn_Iuvantio"
 		"dynn_Kantio" "dynn_Karamnio" "dynn_Lamusio" "dynn_Muskialonio"
 		"dynn_Naisonio" "dynn_Neirkio" "dynn_Nerkio" "dynn_Ostio" "dynn_Oppio" "dynn_Pilpotio" "dynn_Pledio" "dynn_Verkanio" "dynn_Voltiomnio"
@@ -14,7 +14,7 @@ name_list_venetic = {
 
 		dynasty_names = {
 	    "dynn_Aimio" "dynn_Aklonio" "dynn_Andetio" "dynn_Afrinio" "dynn_Aplisinio" "dynn_Arsoetigio" "dynn_Bagsonio" "dynn_Egotorio"
-		"dynn_Egestio" "dynn_Ersinio" "dynn_Egotorio" "dynn_Egetorio" "dynn_Enogenio"
+		"dynn_Egestio" "dynn_Ersinio" "dynn_Egetorio" "dynn_Enogenio"
 		"dynn_Enoklevio" "dynn_Fontio" "dynn_Fougontio" "dynn_Fuginio" "dynn_Fremaistio" "dynn_Hostihevio" "dynn_Iantio" "dynn_Iuvantio"
 		"dynn_Kantio" "dynn_Karamnio" "dynn_Lamusio" "dynn_Muskialonio"
 		"dynn_Naisonio" "dynn_Neirkio" "dynn_Nerkio" "dynn_Ostio" "dynn_Oppio" "dynn_Pilpotio" "dynn_Pledio" "dynn_Verkanio" "dynn_Voltiomnio"
