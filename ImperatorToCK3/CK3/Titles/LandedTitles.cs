@@ -522,39 +522,42 @@ public sealed partial class Title {
 			Logger.Info("Importing Imperator holdings...");
 			var counter = 0;
 			
-			var titlesThatHaveHolders = this
+			var highLevelTitlesThatHaveHolders = this
 				.Where(t => t.Rank >= TitleRank.duchy && t.GetHolderId(conversionDate) != "0")
 				.ToImmutableList();
-			var titleCapitalBaronyIds = titlesThatHaveHolders
+			var highLevelTitleCapitalBaronyIds = highLevelTitlesThatHaveHolders
 				.Select(t=>t.CapitalCounty?.CapitalBaronyId ?? t.CapitalBaronyId)
 				.ToImmutableHashSet();
 			
 			// Dukes and above should be excluded from having their holdings converted.
 			// Otherwise, governors with holdings would own parts of other governorships.
-			var dukeAndAboveIds = titlesThatHaveHolders
+			var dukeAndAboveIds = highLevelTitlesThatHaveHolders
 				.Where(t => t.Rank >= TitleRank.duchy)
 				.Select(t => t.GetHolderId(conversionDate))
 				.ToImmutableHashSet();
 			
-			var baronies = this.Where(t => t.Rank == TitleRank.barony).ToImmutableHashSet();
-			var countyCapitalBaronies = baronies
-				.Where(b => b.DeJureLiege?.CapitalBaronyId == b.Id)
-				.ToImmutableHashSet();
+			// We exclude baronies that are capitals of duchies and above.
+			var eligibleBaronies = this
+				.Where(t => t.Rank == TitleRank.barony)
+				.Where(b => !highLevelTitleCapitalBaronyIds.Contains(b.Id))
+				.ToArray();
 			
-			var eligibleBaronies = baronies
-				.Where(b => !titleCapitalBaronyIds.Contains(b.Id))
-				.ToImmutableHashSet();
+			var countyCapitalBaronies = eligibleBaronies
+				.Where(b => b.DeJureLiege?.CapitalBaronyId == b.Id)
+				.OrderBy(b => b.Id)
+				.ToArray();
+			
+			var nonCapitalBaronies = eligibleBaronies.Except(countyCapitalBaronies).OrderBy(b => b.Id).ToArray();
+			
 
 			// In CK3, a county holder shouldn't own baronies in counties that are not their own.
 			// This dictionary tracks what counties are held by what characters.
 			Dictionary<string, HashSet<string>> countiesPerCharacter = []; // characterId -> countyIds
-
-			foreach (var barony in eligibleBaronies) {
-				var ck3ProvinceId = barony.ProvinceId;
-				if (ck3ProvinceId is null) {
-					continue;
-				}
-				if (!ck3Provinces.TryGetValue(ck3ProvinceId.Value, out var ck3Province)) {
+			
+			// Evaluate all capital baronies first (we want to distribute counties first, then baronies).
+			foreach (var barony in countyCapitalBaronies) {
+				var ck3Province = GetBaronyProvince(barony);
+				if (ck3Province is null) {
 					continue;
 				}
 
@@ -563,18 +566,9 @@ public sealed partial class Title {
 					continue;
 				}
 
-				var irProvince = ck3Province.PrimaryImperatorProvince;
-				var holdingOwnerId = irProvince?.HoldingOwnerId;
-				if (holdingOwnerId is null) {
-					continue;
-				}
-
-				var irOwner = irCharacters[holdingOwnerId.Value];
-				var ck3Owner = irOwner.CK3Character;
+				var irProvince = ck3Province.PrimaryImperatorProvince; // TODO: when the holding owner of the primary I:R province is not able to hold the CK3 equivalent, also check the holding owners from secondary source provinces
+				var ck3Owner = GetEligibleCK3OwnerForImperatorProvince(irProvince);
 				if (ck3Owner is null) {
-					continue;
-				}
-				if (dukeAndAboveIds.Contains(ck3Owner.Id)) {
 					continue;
 				}
 				
@@ -591,39 +585,99 @@ public sealed partial class Title {
 						}
 					}
 				}
-				if (countyCapitalBaronies.Contains(barony)) {
-					// If barony is a county capital, set the county holder to the holding owner.
-					var county = barony.DeJureLiege;
-					if (county is null) {
-						Logger.Warn($"County capital barony {barony.Id} has no de jure county!");
-						continue;
-					}
-					county.SetHolder(ck3Owner, conversionDate);
-					county.SetDeFactoLiege(deFactoLiege, conversionDate);
-					
-					if (!countiesPerCharacter.TryGetValue(ck3Owner.Id, out var countyIds)) {
-						countyIds = [];
-						countiesPerCharacter[ck3Owner.Id] = countyIds;
-					}
-					countyIds.Add(county.Id);
-				} else {
-					var county = barony.DeJureLiege;
-					if (county is null) {
-						Logger.Warn($"Barony {barony.Id} has no de jure county!");
-						continue;
-					}
-					// A non-capital barony cannot be held by a character that owns a county but not the county the barony is in.
-					if (countiesPerCharacter.TryGetValue(ck3Owner.Id, out var countyIds) && !countyIds.Contains(county.Id)) {
-						continue;
-					}
-					
-					barony.SetHolder(ck3Owner, conversionDate);
-					// No need to set de facto liege for baronies, they are tied to counties.
+				
+				// Barony is a county capital, so set the county holder to the holding owner.
+				var county = barony.DeJureLiege;
+				if (county is null) {
+					Logger.Warn($"County capital barony {barony.Id} has no de jure county!");
+					continue;
 				}
+				county.SetHolder(ck3Owner, conversionDate);
+				county.SetDeFactoLiege(deFactoLiege, conversionDate);
+				
+				if (!countiesPerCharacter.TryGetValue(ck3Owner.Id, out var countyIds)) {
+					countyIds = [];
+					countiesPerCharacter[ck3Owner.Id] = countyIds;
+				}
+				countyIds.Add(county.Id);
+				
+				++counter;
+			}
+			
+			// In CK3, a baron that doesn't own counties can only hold a single barony.
+			// This dictionary IDs of such barons that already hold a barony.
+			HashSet<string> baronyHolderIds = [];
+			
+			// After all possible county capital baronies are distributed, distribute the rest of the eligible baronies.
+			foreach (var barony in nonCapitalBaronies) {
+				var ck3Province = GetBaronyProvince(barony);
+				if (ck3Province is null) {
+					continue;
+				}
+
+				// Skip none holdings and temple holdings.
+				if (ck3Province.GetHoldingType(conversionDate) is "church_holding" or "none") {
+					continue;
+				}
+
+				var irProvince = ck3Province.PrimaryImperatorProvince; // TODO: when the holding owner of the primary I:R province is not able to hold the CK3 equivalent, also check the holding owners from secondary source provinces
+				var ck3Owner = GetEligibleCK3OwnerForImperatorProvince(irProvince);
+				if (ck3Owner is null) {
+					continue;
+				}
+				if (baronyHolderIds.Contains(ck3Owner.Id)) {
+					continue;
+				}
+				
+				var county = barony.DeJureLiege;
+				if (county is null) {
+					Logger.Warn($"Barony {barony.Id} has no de jure county!");
+					continue;
+				}
+				// A non-capital barony cannot be held by a character that owns a county but not the county the barony is in.
+				if (countiesPerCharacter.TryGetValue(ck3Owner.Id, out var countyIds) && !countyIds.Contains(county.Id)) {
+					continue;
+				}
+					
+				barony.SetHolder(ck3Owner, conversionDate);
+				// No need to set de facto liege for baronies, they are tied to counties.
+				
+				baronyHolderIds.Add(ck3Owner.Id);
+				
 				++counter;
 			}
 			Logger.Info($"Imported {counter} holdings from I:R.");
 			Logger.IncrementProgress();
+			return;
+
+			Province? GetBaronyProvince(Title barony) {
+				var ck3ProvinceId = barony.ProvinceId;
+				if (ck3ProvinceId is null) {
+					return null;
+				}
+				if (!ck3Provinces.TryGetValue(ck3ProvinceId.Value, out var ck3Province)) {
+					return null;
+				}
+				return ck3Province;
+			}
+
+			Character? GetEligibleCK3OwnerForImperatorProvince(Imperator.Provinces.Province? irProvince) {
+				var holdingOwnerId = irProvince?.HoldingOwnerId;
+				if (holdingOwnerId is null) {
+					return null;
+				}
+
+				var irOwner = irCharacters[holdingOwnerId.Value];
+				var ck3Owner = irOwner.CK3Character;
+				if (ck3Owner is null) {
+					return null;
+				}
+				if (dukeAndAboveIds.Contains(ck3Owner.Id)) {
+					return null;
+				}
+				
+				return ck3Owner;
+			}
 		}
 
 		public void RemoveInvalidLandlessTitles(Date ck3BookmarkDate) {
