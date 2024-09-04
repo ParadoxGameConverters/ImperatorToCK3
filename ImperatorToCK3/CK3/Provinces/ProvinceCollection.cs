@@ -159,7 +159,13 @@ public sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
 			var provId = ulong.Parse(provIdStr);
-			this[provId].UpdateHistory(reader);
+			
+			if (TryGetValue(provId, out var province)) {
+				province.UpdateHistory(reader);
+			} else {
+				Logger.Warn($"Province {provId} referenced in prehistory not found!");
+				ParserHelpers.IgnoreItem(reader);
+			}
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseFile(prehistoryPath);

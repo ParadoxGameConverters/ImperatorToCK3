@@ -149,6 +149,7 @@ public sealed class World {
 		// Load CK3 religions from game and blankMod.
 		// Holy sites need to be loaded after landed titles.
 		Religions.LoadDoctrines(ModFS);
+		Religions.LoadConverterHolySites("configurables/converter_holy_sites.txt");
 		Religions.LoadHolySites(ModFS);
 		Logger.Info("Loading religions from CK3 game and mods...");
 		Religions.LoadReligions(ModFS, ck3ColorFactory);
@@ -585,7 +586,7 @@ public sealed class World {
 				break;
 			case < 874:
 				faithCandidates = new OrderedSet<string> { "insular_celtic", "catholic", "orthodox" };
-				var christianFaiths = Religions["christianity_religion"].Faiths;
+				var christianFaiths = Religions.TryGetValue("christianity_religion", out var christianityReligion) ? christianityReligion.Faiths : [];
 
 				// If there is at least one Irish Christian county, give it to the Irish Papar.
 				// If there is at least one Christian county of another Gaelic culture, give it to a character of this Gaelic culture.
@@ -813,9 +814,18 @@ public sealed class World {
 	private void GenerateFillerHoldersForUnownedLands(CultureCollection cultures, Configuration config) {
 		Logger.Info("Generating filler holders for unowned lands...");
 		var date = config.CK3BookmarkDate;
-		var unheldCounties = LandedTitles
-			.Where(c => c.Rank == TitleRank.county && c.GetHolderId(date) == "0")
-			.ToImmutableList();
+		List<Title> unheldCounties = [];
+		foreach (var county in LandedTitles.Counties) {
+			var holderId = county.GetHolderId(date);
+			if (holderId == "0") {
+				unheldCounties.Add(county);
+			} else if (Characters.TryGetValue(holderId, out var holder)) {
+				if (holder.DeathDate is not null && holder.DeathDate <= date) {
+					Logger.Debug($"Adding {county.Id} to unheld counties because holder {holderId} is dead.");
+					unheldCounties.Add(county);
+				}
+			}
+		}
 
 		var duchyIdToHolderDict = new Dictionary<string, Character>();
 
@@ -926,8 +936,18 @@ public sealed class World {
 			};
 			holder.SetFaithId(faithId, null);
 			holder.SetCultureId(culture.Id, null);
-			holder.History.AddFieldValue(date, "government", "change_government", "tribal_government");
 			Characters.AddOrReplace(holder);
+
+			var countyHoldingTypes = county.CountyProvinceIds
+				.Select(id => Provinces.TryGetValue(id, out var province) ? province : null)
+				.Where(p => p is not null)
+				.Select(p => p!.GetHoldingType(date))
+				.Where(t => t is not null)
+				.Select(t => t!)
+				.ToHashSet();
+			string government = countyHoldingTypes.Contains("castle_holding")
+				? "feudal_government"
+				: "tribal_government";
 
 			county.SetHolder(holder, date);
 			if (config.FillerDukes) {
@@ -937,10 +957,10 @@ public sealed class World {
 				}
 
 				duchy.SetHolder(holder, date);
-				duchy.SetGovernment("tribal_government", date);
+				duchy.SetGovernment(government, date);
 				duchyIdToHolderDict[duchy.Id] = holder;
 			} else {
-				county.SetGovernment("tribal_government", date);
+				county.SetGovernment(government, date);
 			}
 		}
 	}

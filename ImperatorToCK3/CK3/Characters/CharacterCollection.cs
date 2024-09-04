@@ -461,9 +461,11 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			.Where(character => !characterIdsToKeep.Contains(character.Id))
 			.ToArray();
 
+		// Members of landed dynasties will be preserved, unless dead and childless.
 		var dynastyIdsOfLandedCharacters = landedCharacters
 			.Select(character => character.GetDynastyId(ck3BookmarkDate))
 			.Distinct()
+			.Where(id => id is not null)
 			.ToHashSet();
 
 		var i = 0;
@@ -513,6 +515,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		// Let's purge them.
 		houses.PurgeUnneededHouses(this, ck3BookmarkDate);
 		dynasties.PurgeUnneededDynasties(this, houses, ck3BookmarkDate);
+		dynasties.FlattenDynastiesWithNoFounders(this, houses, ck3BookmarkDate);
 	}
 
 	public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {

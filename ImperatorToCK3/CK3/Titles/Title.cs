@@ -1358,11 +1358,33 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 						continue;
 					}
 
+					// If the faith has Disallowed Clerical Marriage, don't allow married court chaplains.
+					var rulerFaith = religionCollection.GetFaith(rulerFaithId);
+					if (rulerFaith is null) {
+						continue;
+					}
+					if (rulerFaith.HasDoctrine("doctrine_clerical_marriage_disallowed")) {
+						if (ck3Official.GetSpouseIds(bookmarkDate).Count > 0) {
+							continue;
+						}
+					}
+
 					// If the court faith has doctrine_theocracy_temporal (Theocratic Clerical Tradition), the court chaplain should
 					// be either theocratic or landless.
 					// For the purpose of the conversion, we simply require them to be landless.
-					if (religionCollection.GetFaith(rulerFaithId)?.HasDoctrine("doctrine_theocracy_temporal") == true) {
+					if (rulerFaith.HasDoctrine("doctrine_theocracy_temporal")) {
 						if (heldTitlesCount > 0) {
+							continue;
+						}
+					}
+					
+					// Skip if the faith doesn't allow the character's gender to be clergy.
+					var clerigalGenderDoctrine = rulerFaith.GetDoctrineIdForDoctrineCategoryId("doctrine_clerical_gender");
+					if (clerigalGenderDoctrine is not null) {
+						if (clerigalGenderDoctrine == "doctrine_clerical_gender_female_only" && !ck3Official.Female) {
+							continue;
+						}
+						if (clerigalGenderDoctrine == "doctrine_clerical_gender_male_only" && ck3Official.Female) {
 							continue;
 						}
 					}
