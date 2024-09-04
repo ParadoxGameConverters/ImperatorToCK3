@@ -140,8 +140,21 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 		Logger.Info("Flattening dynasties with no founders...");
 		int count = 0;
 		
+		var charactersWithDynastyIds = characters
+			.Select(c => (c, c.GetDynastyId(date)))
+			.Where(c => c.Item2 is not null)
+			.Select(c => (c.c, c.Item2!))
+			.ToArray();
+		var charactersWithHouseIds = characters
+			.Select(c => (c, c.GetDynastyHouseId(date)))
+			.Where(c => c.Item2 is not null)
+			.Select(c => (c.c, c.Item2!))
+			.ToArray();
+		
 		foreach (var dynasty in this) {
-			var mainBranchMembers = characters.Where(c => c.GetDynastyId(date) == dynasty.Id).ToArray();
+			var mainBranchMembers = charactersWithDynastyIds
+				.Where(c => c.Item2 == dynasty.Id)
+				.ToArray();
 			if (mainBranchMembers.Length > 0) {
 				continue;
 			}
@@ -150,8 +163,9 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 				.Where(h => h.DynastyId == dynasty.Id)
 				.Select(h => h.Id)
 				.ToArray();
-			var cadetHouseMembers = characters
-				.Where(c => dynastyHouseIds.Contains(c.GetDynastyHouseId(date)))
+			var cadetHouseMembers = charactersWithHouseIds
+				.Where(c => dynastyHouseIds.Contains(c.Item2))
+				.Select(c => c.c)
 				.ToArray();
 			
 			if (cadetHouseMembers.Length == 0) {
