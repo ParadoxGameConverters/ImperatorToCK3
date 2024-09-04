@@ -612,8 +612,8 @@ public sealed partial class Title {
 						Logger.Warn($"Barony {barony.Id} has no de jure county!");
 						continue;
 					}
-					// A non-capital barony cannot be held by a character that doesn't hold the county.
-					if (!countiesPerCharacter.TryGetValue(ck3Owner.Id, out var countyIds) || !countyIds.Contains(county.Id)) {
+					// A non-capital barony cannot be held by a character that owns a county but not the county the barony is in.
+					if (countiesPerCharacter.TryGetValue(ck3Owner.Id, out var countyIds) && !countyIds.Contains(county.Id)) {
 						continue;
 					}
 					
