@@ -545,6 +545,10 @@ public sealed partial class Title {
 				.Where(b => !titleCapitalBaronyIds.Contains(b.Id))
 				.ToImmutableHashSet();
 
+			// In CK3, a county holder shouldn't own baronies in counties that are not their own.
+			// This dictionary tracks what counties are held by what characters.
+			Dictionary<string, HashSet<string>> countiesPerCharacter = []; // characterId -> countyIds
+
 			foreach (var barony in eligibleBaronies) {
 				var ck3ProvinceId = barony.ProvinceId;
 				if (ck3ProvinceId is null) {
@@ -596,7 +600,23 @@ public sealed partial class Title {
 					}
 					county.SetHolder(ck3Owner, conversionDate);
 					county.SetDeFactoLiege(deFactoLiege, conversionDate);
+					
+					if (!countiesPerCharacter.TryGetValue(ck3Owner.Id, out var countyIds)) {
+						countyIds = [];
+						countiesPerCharacter[ck3Owner.Id] = countyIds;
+					}
+					countyIds.Add(county.Id);
 				} else {
+					var county = barony.DeJureLiege;
+					if (county is null) {
+						Logger.Warn($"Barony {barony.Id} has no de jure county!");
+						continue;
+					}
+					// A non-capital barony cannot be held by a character that doesn't hold the county.
+					if (!countiesPerCharacter.TryGetValue(ck3Owner.Id, out var countyIds) || !countyIds.Contains(county.Id)) {
+						continue;
+					}
+					
 					barony.SetHolder(ck3Owner, conversionDate);
 					// No need to set de facto liege for baronies, they are tied to counties.
 				}
