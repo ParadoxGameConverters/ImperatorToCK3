@@ -56,7 +56,7 @@ public sealed partial class Province {
 		var historyValue = History.GetFieldValue("holding", date);
 		return historyValue switch {
 			StringOfItem stringOfItem => stringOfItem.ToString(),
-			string cultureStr => cultureStr,
+			string holdingTypeStr => holdingTypeStr,
 			_ => null
 		};
 	}
