@@ -1535,7 +1535,7 @@ public sealed partial class Title {
 				++counter;
 			}
 			
-			Logger.Notice($"Set coats of arms for {counter} CK3 titles."); // TODO: CHANGE TO DEBUG
+			Logger.Debug($"Set coats of arms for {counter} CK3 titles.");
 		}
 	}
 }
