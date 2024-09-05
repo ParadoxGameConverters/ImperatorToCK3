@@ -142,6 +142,9 @@ public sealed class World {
 
 			Logger.IncrementProgress();
 		}
+		
+		LandedTitles.SetCoatsOfArms(new CoaMapper(ModFS));
+		
 		LandedTitles.LoadHistory(config, ModFS);
 		LandedTitles.LoadCulturalNamesFromConfigurables();
 

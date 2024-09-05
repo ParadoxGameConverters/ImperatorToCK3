@@ -7,12 +7,12 @@ namespace ImperatorToCK3.Mappers.CoA;
 
 public sealed class CoaMapper {
 	public CoaMapper() { }
-	public CoaMapper(ModFilesystem imperatorModFS) {
+	public CoaMapper(ModFilesystem modFS) {
 		Logger.Info("Parsing CoAs...");
 		var parser = new Parser();
 		RegisterKeys(parser);
 		const string coasPath = "common/coat_of_arms/coat_of_arms";
-		parser.ParseGameFolder(coasPath, imperatorModFS, "txt", recursive: true);
+		parser.ParseGameFolder(coasPath, modFS, "txt", recursive: true);
 
 		Logger.Info($"Loaded {coasMap.Count} coats of arms.");
 
@@ -31,9 +31,11 @@ public sealed class CoaMapper {
 		}
 	}
 
-	public string? GetCoaForFlagName(string irFlagName) {
-		if (!coasMap.TryGetValue(irFlagName, out string? value)) {
-			Logger.Warn($"No CoA defined for flag name {irFlagName}.");
+	public string? GetCoaForFlagName(string flagName, bool warnIfMissing = true) {
+		if (!coasMap.TryGetValue(flagName, out string? value)) {
+			if (warnIfMissing) {
+				Logger.Warn($"No CoA defined for flag name {flagName}.");
+			}
 			return null;
 		}
 
