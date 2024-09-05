@@ -19,6 +19,10 @@ public sealed class CoaMapper {
 		Logger.IncrementProgress();
 	}
 	private void RegisterKeys(Parser parser) {
+		parser.RegisterRegex(CommonRegexes.Variable, (reader, variableName) => { // for variables like "@smCross = 0.22"
+			var variableValue = reader.GetString();
+			variablesToOutput[variableName[1..]] = variableValue;
+		});
 		parser.RegisterKeyword("template", ParserHelpers.IgnoreItem); // we don't need templates, we need CoAs!
 		parser.RegisterRegex(CommonRegexes.Catchall, (reader, flagName) => coasMap[flagName] = reader.GetStringOfItem().ToString());
 	}
@@ -31,7 +35,11 @@ public sealed class CoaMapper {
 		}
 	}
 
-	public string? GetCoaForFlagName(string flagName, bool warnIfMissing = true) {
+	public string? GetCoaForFlagName(string flagName) {
+		return GetCoaForFlagName(flagName, warnIfMissing: true);
+	}
+
+	public string? GetCoaForFlagName(string flagName, bool warnIfMissing) {
 		if (!coasMap.TryGetValue(flagName, out string? value)) {
 			if (warnIfMissing) {
 				Logger.Warn($"No CoA defined for flag name {flagName}.");
@@ -42,11 +50,16 @@ public sealed class CoaMapper {
 		return value;
 	}
 	
+	/// <summary>
 	/// For a given collection of flag names, returns ones that don't have a defined CoA.
+	/// </summary>
 	public ISet<string> GetAllMissingFlagKeys(IEnumerable<string> flagKeys) {
 		var existingFlagKeys = coasMap.Keys.ToHashSet();
 		return flagKeys.Where(flagKey => !existingFlagKeys.Contains(flagKey)).ToHashSet();
 	}
 
 	private readonly Dictionary<string, string> coasMap = [];
+	
+	private readonly Dictionary<string, object> variablesToOutput = new();
+	public IReadOnlyDictionary<string, object> VariablesToOutput => variablesToOutput;
 }

@@ -1526,7 +1526,7 @@ public sealed partial class Title {
 			
 			int counter = 0;
 			foreach (var title in this) {
-				var coa = coaMapper.GetCoaForFlagName(title.Id, warnIfMissing: title.Rank > TitleRank.duchy);
+				var coa = coaMapper.GetCoaForFlagName(title.Id, warnIfMissing: false);
 				if (coa is null) {
 					continue;
 				}
