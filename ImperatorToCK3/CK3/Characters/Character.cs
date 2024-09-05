@@ -212,7 +212,38 @@ public sealed class Character : IIdentifiable<string> {
 		.WithLiteralField("if", "if")
 		.WithSimpleField("sexuality", "sexuality", null)
 		.Build();
-	public History History { get; } = historyFactory.GetHistory();
+	
+	private readonly History history = historyFactory.GetHistory();
+	public History History {
+		get {
+			return history;
+		}
+		private init {
+			history = value;
+			
+			// Build spouses cache.
+			var spousesHistoryField = history.Fields["spouses"];
+			foreach (var spouseId in spousesHistoryField.InitialEntries.Select(kvp => kvp.Value.ToString())) {
+				if (spouseId is null) {
+					continue;
+				}
+				if (characters.TryGetValue(spouseId, out var spouse)) {
+					spousesCache.Add(spouse);
+				}
+			}
+			foreach (var entriesList in spousesHistoryField.DateToEntriesDict.Values) {
+				foreach (var entry in entriesList) {
+					var spouseId = entry.Value.ToString();
+					if (spouseId is null) {
+						continue;
+					}
+					if (characters.TryGetValue(spouseId, out var spouse)) {
+						spousesCache.Add(spouse);
+					}
+				}
+			}
+		}
+	}
 
 	public Character(string id, BufferedReader reader, CharacterCollection characters) {
 		this.characters = characters;
