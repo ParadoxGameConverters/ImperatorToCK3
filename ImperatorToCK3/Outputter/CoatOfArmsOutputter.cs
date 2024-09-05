@@ -17,7 +17,7 @@ public static class CoatOfArmsOutputter {
 		// Output variables (like "@smCastleX = 0.27" in vanilla CK3).
 		var sb = new System.Text.StringBuilder();
 		foreach (var (variableName, variableValue) in ck3CoaMapper.VariablesToOutput) {
-			sb.AppendLine($"{variableName}={variableValue}");
+			sb.AppendLine($"@{variableName}={variableValue}");
 		}
 
 		// Output CoAs for titles.
