@@ -2,6 +2,7 @@
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Mappers.CoA;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -10,11 +11,16 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 public static class CoatOfArmsOutputter {
-	public static async Task OutputCoas(string outputModPath, Title.LandedTitles titles, IEnumerable<Dynasty> dynasties) {
+	public static async Task OutputCoas(string outputModPath, Title.LandedTitles titles, IEnumerable<Dynasty> dynasties, CoaMapper ck3CoaMapper) {
 		Logger.Info("Outputting coats of arms...");
+		
+		// Output variables (like "@smCastleX = 0.27" in vanilla CK3).
+		var sb = new System.Text.StringBuilder();
+		foreach (var (variableName, variableValue) in ck3CoaMapper.VariablesToOutput) {
+			sb.AppendLine($"@{variableName}={variableValue}");
+		}
 
 		// Output CoAs for titles.
-		var sb = new System.Text.StringBuilder();
 		foreach (var title in titles) {
 			var coa = title.CoA;
 			if (coa is not null) {

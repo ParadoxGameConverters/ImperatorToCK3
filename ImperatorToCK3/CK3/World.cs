@@ -56,6 +56,7 @@ public sealed class World {
 	public MapData MapData { get; }
 	public IList<Wars.War> Wars { get; } = new List<Wars.War>();
 	public LegendSeedCollection LegendSeeds { get; } = [];
+	public CoaMapper CK3CoaMapper { get; }
 
 	/// <summary>
 	/// Date based on I:R save date, but normalized for CK3 purposes.
@@ -142,6 +143,10 @@ public sealed class World {
 
 			Logger.IncrementProgress();
 		}
+		
+		CK3CoaMapper = new(ModFS);
+		LandedTitles.SetCoatsOfArms(CK3CoaMapper);
+		
 		LandedTitles.LoadHistory(config, ModFS);
 		LandedTitles.LoadCulturalNamesFromConfigurables();
 

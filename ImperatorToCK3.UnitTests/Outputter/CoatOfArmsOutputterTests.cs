@@ -76,7 +76,7 @@ public class CoatOfArmsOutputterTests {
 			new List<KeyValuePair<Country, Dependency?>>()
 		);
 
-		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>());
+		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>(), new CoaMapper());
 
 		await using var file = File.OpenRead(outputPath);
 		var reader = new StreamReader(file);
@@ -122,7 +122,7 @@ public class CoatOfArmsOutputterTests {
 			new List<KeyValuePair<Country, Dependency?>>()
 		);
 
-		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>());
+		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>(), new CoaMapper());
 
 		await using var file = File.OpenRead(outputPath);
 		var reader = new StreamReader(file);

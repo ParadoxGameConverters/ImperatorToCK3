@@ -1520,5 +1520,22 @@ public sealed partial class Title {
 			parser.IgnoreAndLogUnregisteredItems();
 			parser.ParseFile(filePath);
 		}
+
+		public void SetCoatsOfArms(CoaMapper coaMapper) {
+			Logger.Info("Setting coats of arms for CK3 titles...");
+			
+			int counter = 0;
+			foreach (var title in this) {
+				var coa = coaMapper.GetCoaForFlagName(title.Id, warnIfMissing: false);
+				if (coa is null) {
+					continue;
+				}
+				
+				title.CoA = coa;
+				++counter;
+			}
+			
+			Logger.Debug($"Set coats of arms for {counter} CK3 titles.");
+		}
 	}
 }
