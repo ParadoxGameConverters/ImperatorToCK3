@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Armies;
+using ImperatorToCK3.CK3.Localization;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Exceptions;
@@ -279,7 +280,7 @@ public sealed class Character : IIdentifiable<string> {
 		SetName(name, null);
 		if (!string.IsNullOrEmpty(name)) {
 			var impNameLoc = irLocDB.GetLocBlockForKey(name);
-			LocBlock ck3NameLoc = ck3LocDB.AddLocBlock(name);
+			CK3LocBlock ck3NameLoc = ck3LocDB.GetOrCreateLocBlock(name);
 			if (impNameLoc is not null) {
 				ck3NameLoc.CopyFrom(impNameLoc);
 			} else {  // fallback: use unlocalized name as displayed name
@@ -360,7 +361,7 @@ public sealed class Character : IIdentifiable<string> {
 			var name = $"IRTOCK3_CUSTOM_NAME_{locKey}";
 			SetName(name, null);
 			
-			var ck3NameLocBlock = ck3LocDB.AddLocBlock(name);
+			var ck3NameLocBlock = ck3LocDB.GetOrCreateLocBlock(name);
 			foreach (var language in ConverterGlobals.SupportedLanguages) {
 				ck3NameLocBlock[language] = loc;
 			}
@@ -369,7 +370,7 @@ public sealed class Character : IIdentifiable<string> {
 			var name = nameLoc.Replace(' ', '_');
 			SetName(name, null);
 			if (!string.IsNullOrEmpty(name)) {
-				var ck3NameLocBlock = ck3LocDB.AddLocBlock(name);
+				var ck3NameLocBlock = ck3LocDB.GetOrCreateLocBlock(name);
 				var matchedLocBlock = irLocDB.GetLocBlockForKey(name);
 				if (matchedLocBlock is not null) {
 					ck3NameLocBlock.CopyFrom(matchedLocBlock);
@@ -694,7 +695,7 @@ public sealed class Character : IIdentifiable<string> {
 		CK3LocDB ck3LocDB
 	) {
 		var locKey = $"IRToCK3_character_{Id}";
-		var locBlock = ck3LocDB.AddLocBlock(locKey);
+		var locBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
 		locBlock[ConverterGlobals.PrimaryLanguage] = $"[GetPlayer.MakeScope.Var('IRToCK3_character_{Id}').Char.GetID]";
 
 		var menPerUnitType = new Dictionary<string, int>();
@@ -714,7 +715,7 @@ public sealed class Character : IIdentifiable<string> {
 			menAtArmsTypes.Add(dedicatedType);
 			MenAtArmsStacksPerType[dedicatedType.Id] = 1;
 
-			var maaTypeLocBlock = ck3LocDB.AddLocBlock(dedicatedType.Id);
+			var maaTypeLocBlock = ck3LocDB.GetOrCreateLocBlock(dedicatedType.Id);
 			maaTypeLocBlock[ConverterGlobals.PrimaryLanguage] = $"${baseType.Id}$";
 		}
 
@@ -748,7 +749,7 @@ public sealed class Character : IIdentifiable<string> {
 			if (unit.LocalizedName is not null) {
 				var locKey = unit.LocalizedName.Id;
 				sb.AppendLine($"\t\t\tname={locKey}");
-				var unitLocBlock = ck3LocDB.AddLocBlock(locKey);
+				var unitLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
 				unitLocBlock.CopyFrom(unit.LocalizedName);
 			}
 

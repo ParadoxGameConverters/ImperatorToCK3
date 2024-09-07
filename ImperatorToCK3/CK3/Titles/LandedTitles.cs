@@ -55,8 +55,7 @@ public sealed partial class Title {
 				string adjLocKey = county.Id + "_adj";
 
 				// Use the name loc as the adjective loc.
-				var nameLoc = ck3LocDB.GetLocBlockForKey(county.Id);
-				if (nameLoc is null) {
+				if (!ck3LocDB.TryGetValue(county.Id, out var nameLoc)) {
 					continue;
 				}
 				foreach (var language in ConverterGlobals.SupportedLanguages) {
@@ -739,12 +738,12 @@ public sealed partial class Title {
 					kingdom.Color1 = duchy.Color1;
 					kingdom.CapitalCounty = duchy.CapitalCounty;
 
-					var kingdomNameLoc = ck3LocDB.AddLocBlock(kingdom.Id);
+					var kingdomNameLoc = ck3LocDB.GetOrCreateLocBlock(kingdom.Id);
 					kingdomNameLoc.ModifyForEveryLanguage(
 						(orig, language) => $"${duchy.Id}$"
 					);
 					
-					var kingdomAdjLoc = ck3LocDB.AddLocBlock(kingdom.Id + "_adj");
+					var kingdomAdjLoc = ck3LocDB.GetOrCreateLocBlock(kingdom.Id + "_adj");
 					kingdomAdjLoc.ModifyForEveryLanguage(
 						(orig, language) => $"${duchy.Id}_adj$"
 					);
@@ -952,9 +951,9 @@ public sealed partial class Title {
 		private Title CreateEmpireForHeritage(Pillar heritage, CultureCollection ck3Cultures, CK3LocDB ck3LocDB) {
 			var newEmpireId = $"e_IRTOCK3_heritage_{heritage.Id}";
 			var newEmpire = Add(newEmpireId);
-			var nameLocBlock = ck3LocDB.AddLocBlock(newEmpire.Id);
+			var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(newEmpire.Id);
 			nameLocBlock[ConverterGlobals.PrimaryLanguage] = $"${heritage.Id}_name$ Empire";
-			var adjectiveLocBlock = ck3LocDB.AddLocBlock($"{newEmpire.Id}_adj");
+			var adjectiveLocBlock = ck3LocDB.GetOrCreateLocBlock($"{newEmpire.Id}_adj");
 			adjectiveLocBlock[ConverterGlobals.PrimaryLanguage] = $"${heritage.Id}_name$";
 			newEmpire.HasDefiniteForm = true;
 
@@ -1080,12 +1079,12 @@ public sealed partial class Title {
 					newEmpire.CapitalCounty = mostDevelopedCounty;
 					newEmpire.HasDefiniteForm = false;
 					
-					var empireNameLoc = ck3LocDB.AddLocBlock(newEmpireId);
+					var empireNameLoc = ck3LocDB.GetOrCreateLocBlock(newEmpireId);
 					empireNameLoc.ModifyForEveryLanguage(
 						(orig, language) => $"${mostDevelopedCounty.Id}$"
 					);
 					
-					var empireAdjLoc = ck3LocDB.AddLocBlock(newEmpireId + "_adj");
+					var empireAdjLoc = ck3LocDB.GetOrCreateLocBlock(newEmpireId + "_adj");
 					empireAdjLoc.ModifyForEveryLanguage(
 						(orig, language) => $"${mostDevelopedCounty.Id}_adj$"
 					);
