@@ -379,7 +379,7 @@ public sealed class World {
 			}
 			var holderId = title.GetHolderId(ck3BookmarkDate);
 			if (holderId != "0" && Characters.TryGetValue(holderId, out var holder)) {
-				var locBlock = LocDB.AddLocBlock($"{holder.GetName(ck3BookmarkDate)}_desc");
+				var locBlock = LocDB.GetOrCreateLocBlock($"{holder.GetName(ck3BookmarkDate)}_desc");
 				locBlock.ModifyForEveryLanguage((loc, language) => string.Empty);
 			}
 		}

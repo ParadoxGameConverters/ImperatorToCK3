@@ -117,7 +117,7 @@ public sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 
 	private void SetLocFromImperatorFamilyName(string irFamilyLocKey, LocDB irLocDB, CK3LocDB ck3LocDB) {
 		var irFamilyLoc = irLocDB.GetLocBlockForKey(irFamilyLocKey);
-		var ck3NameLoc = ck3LocDB.AddLocBlock(Name);
+		var ck3NameLoc = ck3LocDB.GetOrCreateLocBlock(Name);
 		if (irFamilyLoc is not null) {
 			ck3NameLoc.CopyFrom(irFamilyLoc);
 			ck3NameLoc.ModifyForEveryLanguage(irFamilyLoc, (orig, other, lang) => {
