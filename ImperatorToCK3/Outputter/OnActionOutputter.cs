@@ -414,6 +414,34 @@ public static class OnActionOutputter {
 							character:3096 = { trigger_event = diarchy.0012 }
 						}
 				""",
+				"""
+				
+						### STRUGGLES ###
+						if = {
+							limit = { current_date = 867.1.1 }
+				
+							# Iberian Struggle
+							if = { # If we're in 867, Aragonese should be removed from the Struggle, since they don't quite exist yet.
+								limit = { exists = struggle:iberian_struggle }
+								struggle:iberian_struggle = { set_culture_as_uninvolved = culture:aragonese }
+							}
+				
+							# Persian Struggle
+							if = { # If the load order ever changes this struggle is going to break. This must always be read before the struggle.
+								limit = { exists = struggle:persian_struggle }
+								debug_log = "Samarra Struggle: Gamne start data has been set"
+								struggle:persian_struggle = { # Use the object explorer to debug this data (yes, the time has come to learn how to use it)
+				
+									# Struggle on_start
+									fp3_remove_vassal_contract_cooldown_for_tension_effect = yes # todo_cd_hci check if this is something we even want in the struggle anymore
+									
+									# Flag some titles as un-dissolutionable within the struggle.
+									title:e_arabia = { set_variable = struggle_block_dissolution_faction }
+									title:d_sunni = { set_variable = struggle_block_dissolution_faction }
+								}
+							}
+						}
+				""",
 				// achievements
 				"""
 						### ACHIEVEMENT TRACKING FOR STARTING CHARACTERS
