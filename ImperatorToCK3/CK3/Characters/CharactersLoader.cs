@@ -72,6 +72,8 @@ public sealed partial class CharacterCollection {
 				character.History.Fields[fieldName].RemoveAllEntries();
 			}
 			
+			character.InitSpousesCache();
+			character.InitConcubinesCache();
 			character.UpdateChildrenCacheOfParents();
 		}
 	}

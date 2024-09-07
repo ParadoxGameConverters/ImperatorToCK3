@@ -15,6 +15,7 @@ using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
+using Open.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -213,34 +214,54 @@ public sealed class Character : IIdentifiable<string> {
 		.WithLiteralField("if", "if")
 		.WithSimpleField("sexuality", "sexuality", null)
 		.Build();
-	
-	private readonly History history = historyFactory.GetHistory();
-	public History History {
-		get {
-			return history;
+
+	public History History { get; } = historyFactory.GetHistory();
+
+	public void InitSpousesCache() {
+		var spousesHistoryField = History.Fields["spouses"];
+		foreach (var spouseId in spousesHistoryField.InitialEntries.Select(kvp => kvp.Value.ToString())) {
+			if (spouseId is null) {
+				continue;
+			}
+			if (characters.TryGetValue(spouseId, out var spouse)) {
+				spousesCache.Add(spouse);
+				spouse.spousesCache.Add(this);
+			}
 		}
-		private init {
-			history = value;
-			
-			// Build spouses cache.
-			var spousesHistoryField = history.Fields["spouses"];
-			foreach (var spouseId in spousesHistoryField.InitialEntries.Select(kvp => kvp.Value.ToString())) {
+		foreach (var entriesList in spousesHistoryField.DateToEntriesDict.Values) {
+			foreach (var entry in entriesList) {
+				var spouseId = entry.Value.ToString();
 				if (spouseId is null) {
 					continue;
 				}
 				if (characters.TryGetValue(spouseId, out var spouse)) {
 					spousesCache.Add(spouse);
+					spouse.spousesCache.Add(this);
 				}
 			}
-			foreach (var entriesList in spousesHistoryField.DateToEntriesDict.Values) {
-				foreach (var entry in entriesList) {
-					var spouseId = entry.Value.ToString();
-					if (spouseId is null) {
-						continue;
-					}
-					if (characters.TryGetValue(spouseId, out var spouse)) {
-						spousesCache.Add(spouse);
-					}
+		}
+	}
+
+	public void InitConcubinesCache() {
+		var concubinesHistoryField = History.Fields["concubines"];
+		foreach (var concubineId in concubinesHistoryField.InitialEntries.Select(kvp => kvp.Value.ToString())) {
+			if (concubineId is null) {
+				continue;
+			}
+			if (characters.TryGetValue(concubineId, out var concubine)) {
+				concubinesCache.Add(concubine);
+				concubine.concubinesCache.Add(this);
+			}
+		}
+		foreach (var entriesList in concubinesHistoryField.DateToEntriesDict.Values) {
+			foreach (var entry in entriesList) {
+				var concubineId = entry.Value.ToString();
+				if (concubineId is null) {
+					continue;
+				}
+				if (characters.TryGetValue(concubineId, out var concubine)) {
+					concubinesCache.Add(concubine);
+					concubine.concubinesCache.Add(this);
 				}
 			}
 		}
@@ -521,6 +542,7 @@ public sealed class Character : IIdentifiable<string> {
 	}
 	public void AddSpouse(Date date, Character spouse) {
 		History.AddFieldValue(date, "spouses", "add_spouse", spouse.Id);
+		spousesCache.Add(spouse);
 		spouse.spousesCache.Add(this);
 	}
 	private void RemoveSpouse(string spouseId) {
@@ -532,6 +554,18 @@ public sealed class Character : IIdentifiable<string> {
 	public void RemoveAllSpouses() {
 		foreach (var spouse in spousesCache) {
 			spouse.RemoveSpouse(Id);
+		}
+	}
+
+	private void RemoveConcubine(string concubineId) {
+		if (History.Fields.TryGetValue("concubines", out var concubinesHistory)) {
+			concubinesHistory.RemoveAllEntries(value => (value.ToString() ?? string.Empty).Equals(concubineId));
+		}
+		concubinesCache.RemoveWhere(c => c.Id == concubineId);
+	}
+	public void RemoveAllConcubines() {
+		foreach (var concubine in concubinesCache) {
+			concubine.RemoveConcubine(Id);
 		}
 	}
 
@@ -782,6 +816,7 @@ public sealed class Character : IIdentifiable<string> {
 	}
 
 	private CharacterCollection characters;
-	private readonly HashSet<Character> spousesCache = new();
+	private readonly ConcurrentHashSet<Character> spousesCache = [];
+	private readonly ConcurrentHashSet<Character> concubinesCache = [];
 	private readonly HashSet<Character> childrenCache = new();
 }
