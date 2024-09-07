@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 public static class LocalizationOutputter {
@@ -13,23 +14,23 @@ public static class LocalizationOutputter {
 		var baseLocDir = Path.Join(outputModPath, "localization");
 		var baseReplaceLocDir = Path.Join(baseLocDir, "replace");
 
-		var sb = new StringBuilder();
-		foreach (var language in ConverterGlobals.SupportedLanguages) {
+		Parallel.ForEach(ConverterGlobals.SupportedLanguages, language => {
+			var sb = new StringBuilder();
 			var locLinesForLanguage = ck3World.LocDB.GetLocLinesToOutputForLanguage(language);
 			if (locLinesForLanguage.Count == 0) {
-				continue;
+				return;
 			}
-			
+
 			sb.AppendLine($"l_{language}:");
 			foreach (var line in locLinesForLanguage) {
 				sb.AppendLine(line);
 			}
-			
+
 			var locFilePath = Path.Join(baseReplaceLocDir, language, $"converter_l_{language}.yml");
 			using var locWriter = FileHelper.OpenWriteWithRetries(locFilePath, encoding: Encoding.UTF8);
 			locWriter.WriteLine(sb.ToString());
 			sb.Clear();
-		}
+		});
 	
 		OutputFallbackLocForMissingSecondaryLanguageLoc(baseLocDir, ck3World.LocDB);
 		

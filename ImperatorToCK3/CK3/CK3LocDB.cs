@@ -8,7 +8,7 @@ using System.IO;
 
 namespace ImperatorToCK3.CK3;
 
-public class CK3LocDB : IdObjectCollection<string, CK3LocBlock> {
+public class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 	public CK3LocDB() { } // For unit tests.
 	
 	public CK3LocDB(ModFilesystem ck3ModFS) {

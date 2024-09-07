@@ -44,9 +44,10 @@ public sealed partial class CharacterCollection {
 			}
 
 			// Replace birth entries like "birth = "1081.1.1"" with "birth = yes".
+			var birthDate = character.BirthDate;
 			var birthField = character.History.Fields["birth"];
 			birthField.RemoveAllEntries();
-			birthField.AddEntryToHistory(character.BirthDate, "birth", value: true);
+			birthField.AddEntryToHistory(birthDate, "birth", value: true);
 
 			// Replace complex death entries like "death = { death_reason = death_murder_known killer = 9051 }"
 			// with "death = yes".
@@ -56,6 +57,10 @@ public sealed partial class CharacterCollection {
 				deathField.RemoveAllEntries();
 				deathField.AddEntryToHistory(deathDate, "death", value: true);
 			}
+			
+			// Remove dated name changes like 64.10.13 = { name = "Linus" }
+			var nameField = character.History.Fields["name"];
+			nameField.RemoveHistoryPastDate(birthDate);
 
 			// Remove effects that set relations. They don't matter a lot in our alternate timeline.
 			character.History.Fields["effects"].RemoveAllEntries(
@@ -67,6 +72,8 @@ public sealed partial class CharacterCollection {
 				character.History.Fields[fieldName].RemoveAllEntries();
 			}
 			
+			character.InitSpousesCache();
+			character.InitConcubinesCache();
 			character.UpdateChildrenCacheOfParents();
 		}
 	}
