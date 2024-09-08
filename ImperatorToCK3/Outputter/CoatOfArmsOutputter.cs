@@ -28,7 +28,7 @@ public static class CoatOfArmsOutputter {
 			}
 			
 			// If the title's ID is present in CoaMapper, we don't need to output the CoA (because it's already in the CK3 mod filesystem).
-			if (ck3CoaMapper.GetCoaForFlagName(title.Id) is not null) {
+			if (ck3CoaMapper.GetCoaForFlagName(title.Id, warnIfMissing: false) is not null) {
 				continue;
 			}
 
