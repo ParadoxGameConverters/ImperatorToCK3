@@ -23,9 +23,16 @@ public static class CoatOfArmsOutputter {
 		// Output CoAs for titles.
 		foreach (var title in titles) {
 			var coa = title.CoA;
-			if (coa is not null) {
-				sb.AppendLine($"{title.Id}={coa}");
+			if (coa is null) {
+				continue;
 			}
+			
+			// If the title's ID is present in CoaMapper, we don't need to output the CoA (because it's already in the CK3 mod filesystem).
+			if (ck3CoaMapper.GetCoaForFlagName(title.Id) is not null) {
+				continue;
+			}
+
+			sb.AppendLine($"{title.Id}={coa}");
 		}
 
 		// Output CoAs for dynasties.
