@@ -42,8 +42,13 @@ public sealed class CountryName : ICloneable {
 		}
 		var locBlockToReturn = new LocBlock(Name, directNameLocMatch);
 		locBlockToReturn.ModifyForEveryLanguage(baseAdjLoc,
-			(orig, modifying, language) => orig?.Replace("$ADJ$", modifying)
-		);
+			(orig, modifying, language) => {
+				string? toReturn = orig?.Replace("$ADJ$", modifying);
+				if (toReturn is not null) {
+					toReturn = ReplaceDataTypes(toReturn, language, irLocDB, imperatorCountries);
+				}
+				return toReturn;
+			});
 		return locBlockToReturn;
 	}
 
@@ -79,9 +84,13 @@ public sealed class CountryName : ICloneable {
 			var baseAdjLoc = BaseName?.GetAdjectiveLocBlock(irLocDB, imperatorCountries);
 			if (baseAdjLoc is not null) {
 				var locBlockToReturn = new LocBlock(adjKey, directAdjLocMatch);
-				locBlockToReturn.ModifyForEveryLanguage(baseAdjLoc, (orig, modifying, language) =>
-					orig?.Replace("$ADJ$", modifying)
-				);
+				locBlockToReturn.ModifyForEveryLanguage(baseAdjLoc, (orig, modifying, language) => {
+					var toReturn = orig?.Replace("$ADJ$", modifying);
+					if (toReturn is not null) {
+						toReturn = ReplaceDataTypes(toReturn, language, irLocDB, imperatorCountries);
+					}
+					return toReturn;
+				});
 				return locBlockToReturn;
 			}
 		} else if (directAdjLocMatch is not null) {
@@ -108,6 +117,50 @@ public sealed class CountryName : ICloneable {
 			return adjective;
 		}
 		return Name + "_ADJ";
+	}
+
+	private string ReplaceDataTypes(string loc, string language, LocDB irLocDB, CountryCollection irCountries) {
+		if (!loc.Contains("[GetCountry(")) {
+			return loc;
+		}
+
+		const string phrygianAdj = "[GetCountry('PRY').Custom('get_pry_adj')]";
+		Country? pry = irCountries.FirstOrDefault(country => country.Tag == "PRY");
+		LocBlock? pryAdjLocBlock;
+		if (pry is not null && pry.Monarch?.Family?.Key == "Antigonid") {
+			pryAdjLocBlock = irLocDB.GetLocBlockForKey("get_pry_adj_fetch");
+		} else {
+			pryAdjLocBlock = irLocDB.GetLocBlockForKey("get_pry_adj_fallback");
+		}
+		if (pryAdjLocBlock is not null && pryAdjLocBlock.HasLocForLanguage(language)) {
+			loc = loc.Replace(phrygianAdj, pryAdjLocBlock[language]);
+		}
+		
+		const string mauryanAdj = "[GetCountry('MRY').Custom('get_mry_adj')]";
+		Country? mry = irCountries.FirstOrDefault(country => country.Tag == "MRY");
+		LocBlock? mryAdjLocBlock;
+		if (mry is not null && mry.Monarch?.Family?.Key == "Maurya") {
+			mryAdjLocBlock = irLocDB.GetLocBlockForKey("get_mry_adj_fetch");
+		} else {
+			mryAdjLocBlock = irLocDB.GetLocBlockForKey("get_mry_adj_fallback");
+		}
+		if (mryAdjLocBlock is not null && mryAdjLocBlock.HasLocForLanguage(language)) {
+			loc = loc.Replace(mauryanAdj, mryAdjLocBlock[language]);
+		}
+		
+		const string seleucidAdj = "[GetCountry('SEL').Custom('get_sel_adj')]";
+		Country? sel = irCountries.FirstOrDefault(country => country.Tag == "SEL");
+		LocBlock? selAdjLocBlock;
+		if (sel is not null && sel.Monarch?.Family?.Key == "Seleukid") {
+			selAdjLocBlock = irLocDB.GetLocBlockForKey("get_sel_adj_fetch");
+		} else {
+			selAdjLocBlock = irLocDB.GetLocBlockForKey("get_sel_adj_fallback");
+		}
+		if (selAdjLocBlock is not null && selAdjLocBlock.HasLocForLanguage(language)) {
+			loc = loc.Replace(seleucidAdj, selAdjLocBlock[language]);
+		}
+
+		return loc;
 	}
 	
 	public static CountryName Parse(BufferedReader reader) {

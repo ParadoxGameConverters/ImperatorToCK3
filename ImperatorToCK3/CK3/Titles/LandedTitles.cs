@@ -28,8 +28,6 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Hosting;
-using OpenAI.Net;
 
 namespace ImperatorToCK3.CK3.Titles;
 
@@ -748,38 +746,7 @@ public sealed partial class Title {
 					var kingdomAdjLoc = ck3LocDB.GetOrCreateLocBlock(kingdom.Id + "_adj");
 					string duchyAdjLocKey = duchy.Id + "_adj"; // TODO: add some handling for the case where this is not localized
 					kingdomAdjLoc.ModifyForEveryLanguage(
-						(orig, language) => {
-							if (!ck3LocDB.HasKeyLocForLanguage(duchyAdjLocKey, language)) {
-								// Try to use OpenAI API to generate a duchy adjective from the duchy name.
-								using var host = Host.CreateDefaultBuilder().ConfigureServices((_, services) => {
-									services.AddOpenAIServices(options => {
-										options.ApiKey = "5ka0GqAzaA6OOb2o"; // TODO: don't commit this
-										options.ApiUrl = "https://api.cracked.systems/v1";
-									});
-								}).Build();
-								
-								Logger.Notice("Built OpenAI service.");
-
-								if (host.Services.GetService(typeof(IOpenAIService)) is IOpenAIService openAi) {
-									var textCompletionTask = openAi.TextCompletion.Get(
-										prompt: $"Generate a {language} demonym for `{duchy.Id}`." +
-										        $"Output only the demonym, no other text."
-									);
-									textCompletionTask.Wait();
-									var response = textCompletionTask.Result;
-
-									if (response is {IsSuccess: true, Result: not null}) {
-										foreach (var result in response.Result.Choices) {
-											Logger.Notice($"Generated demonym for {duchy.Id}: {result.Text}");
-										}
-
-										throw new NotImplementedException(); // TODO: remove this
-									}
-								}
-								
-							}
-							return $"${duchyAdjLocKey}$";
-						});
+						(orig, language) => $"${duchyAdjLocKey}$");
 					
 					kingdom.DeJureLiege = capitalEmpireRealm;
 					duchy.DeJureLiege = kingdom;
