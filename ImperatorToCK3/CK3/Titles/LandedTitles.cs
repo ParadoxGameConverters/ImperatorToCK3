@@ -257,7 +257,7 @@ public sealed partial class Title {
 			return this.SelectMany(t => t.GetAllHolderIds()).ToImmutableHashSet();
 		}
 
-		public void RemoveInvalidHoldersFromHistory(CharacterCollection characters) {
+		public void CleanUpHistory(CharacterCollection characters, Date ck3BookmarkDate) {
 			Logger.Debug("Removing invalid holders from history...");
 			
 			var validIds = characters.Select(c => c.Id).ToImmutableHashSet();
@@ -269,6 +269,31 @@ public sealed partial class Title {
 				holderField.RemoveAllEntries(
 					value => value.ToString() is string valStr && valStr != "0" && !validIds.Contains(valStr)
 				);
+			}
+			
+			// Remove liege entries that are not valid (liege title is not held at the entry date).
+			foreach (var title in this) {
+				if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
+					continue;
+				}
+
+				foreach (var (date, entriesList) in liegeField.DateToEntriesDict.ToArray()) {
+					if (entriesList.Count == 0) {
+						continue;
+					}
+					
+					var lastEntry = entriesList.Last();
+					var liegeTitleId = lastEntry.Value.ToString();
+					if (liegeTitleId is null || liegeTitleId == "0") {
+						continue;
+					}
+
+					if (!TryGetValue(liegeTitleId, out var liegeTitle)) {
+						liegeField.DateToEntriesDict.Remove(date);
+					} else if (liegeTitle.GetHolderId(date) == "0") {
+						liegeField.DateToEntriesDict.Remove(date);
+					}
+				}
 			}
 		}
 
