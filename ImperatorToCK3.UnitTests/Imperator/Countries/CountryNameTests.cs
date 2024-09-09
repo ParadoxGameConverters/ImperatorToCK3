@@ -11,7 +11,7 @@ public class CountryNameTests {
 	[Fact]
 	public void NameDefaultsToEmpty() {
 		var reader = new BufferedReader(string.Empty);
-		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+		var countryName = CountryName.Parse(reader);
 
 		Assert.Empty(countryName.Name);
 	}
@@ -21,7 +21,7 @@ public class CountryNameTests {
 		var reader = new BufferedReader(
 			"name = someName adjective = someAdjective"
 		);
-		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+		var countryName = CountryName.Parse(reader);
 
 		Assert.Equal("someName", countryName.Name);
 	}
@@ -29,7 +29,7 @@ public class CountryNameTests {
 	[Fact]
 	public void AdjectiveLocKeyDefaultsTo_ADJ() {
 		var reader = new BufferedReader(string.Empty);
-		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+		var countryName = CountryName.Parse(reader);
 
 		Assert.Equal("_ADJ", countryName.GetAdjectiveLocKey());
 	}
@@ -39,7 +39,7 @@ public class CountryNameTests {
 		var reader = new BufferedReader(
 			"name = someName adjective = someAdjective"
 		);
-		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+		var countryName = CountryName.Parse(reader);
 
 		Assert.Equal("someAdjective", countryName.GetAdjectiveLocKey());
 	}
@@ -47,7 +47,7 @@ public class CountryNameTests {
 	[Fact]
 	public void BaseDefaultsToNullptr() {
 		var reader = new BufferedReader(string.Empty);
-		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+		var countryName = CountryName.Parse(reader);
 
 		Assert.Null(countryName.BaseName);
 	}
@@ -57,7 +57,7 @@ public class CountryNameTests {
 		var reader = new BufferedReader(
 			"name = revolt\n base = { name = someName adjective = someAdjective }"
 		);
-		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+		var countryName = CountryName.Parse(reader);
 
 		Assert.Equal("someName", countryName.BaseName!.Name);
 		Assert.Equal("someAdjective", countryName.BaseName.GetAdjectiveLocKey());
@@ -67,7 +67,7 @@ public class CountryNameTests {
 	[Fact]
 	public void AdjLocBlockDefaultsToNull() {
 		var reader = new BufferedReader(string.Empty);
-		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+		var countryName = CountryName.Parse(reader);
 
 		var locDB = new LocDB("english");
 		Assert.Null(countryName.GetAdjectiveLocBlock(locDB, new()));
@@ -78,7 +78,7 @@ public class CountryNameTests {
 		var reader = new BufferedReader(
 			"adjective = CIVILWAR_FACTION_ADJECTIVE \n base = { name = someName adjective = someAdjective }"
 		);
-		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+		var countryName = CountryName.Parse(reader);
 
 		var locDB = new LocDB("english");
 		var locBlock1 = locDB.AddLocBlock("CIVILWAR_FACTION_ADJECTIVE");
@@ -91,7 +91,7 @@ public class CountryNameTests {
 	[Fact]
 	public void GetNameLocBlockDefaultsToNull() {
 		var reader = new BufferedReader(string.Empty);
-		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+		var countryName = CountryName.Parse(reader);
 
 		var locDB = new LocDB("english");
 		Assert.Null(countryName.GetNameLocBlock(locDB, imperatorCountries: []));
@@ -100,7 +100,7 @@ public class CountryNameTests {
 	[Fact]
 	public void GetNameLocBlockCorrectlyHandlesCompositeNames() {
 		var reader = new BufferedReader("name=\"egyptian PROV4791_persia\"");
-		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+		var countryName = CountryName.Parse(reader);
 
 		var locDB = new LocDB("english");
 		
@@ -123,7 +123,7 @@ public class CountryNameTests {
 		var reader = new BufferedReader(
 			"name = CIVILWAR_FACTION_NAME\n base = { name = someName adjective = someAdjective }"
 		);
-		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+		var countryName = CountryName.Parse(reader);
 
 		var locDB = new LocDB("english");
 		var locBlock1 = locDB.AddLocBlock("CIVILWAR_FACTION_NAME");
@@ -146,7 +146,7 @@ public class CountryNameTests {
 			"""
 		);
 		
-		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+		var countryName = CountryName.Parse(reader);
 		
 		var locDB = new LocDB("english");
 		var civilWarLocBlock = locDB.AddLocBlock("CIVILWAR_FACTION_NAME");
@@ -173,7 +173,7 @@ public class CountryNameTests {
 				}
 			"""
 		);
-		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+		var countryName = CountryName.Parse(reader);
 		
 		var locDB = new LocDB("english");
 		var civilWarAdjLocBlock = locDB.AddLocBlock("CIVILWAR_FACTION_ADJECTIVE");
@@ -201,5 +201,29 @@ public class CountryNameTests {
 		characters.LinkCountries(countries);
 		
 		Assert.Equal("Antigonid", countryName.GetAdjectiveLocBlock(locDB, countries)!["english"]);
+	}
+
+	[Fact]
+	public void ProvinceNameCanBeUsedForRevoltTagNameAndAdjective() {
+		var reader = new BufferedReader(
+			"""
+			name="CIVILWAR_FACTION_NAME"
+			adjective="CIVILWAR_FACTION_ADJECTIVE"
+			base={
+				name="PROV4526_hellenic"
+			}
+			""");
+		var countryName = CountryName.Parse(reader);
+		
+		var locDB = new LocDB("english");
+		var civilWarLocBlock = locDB.AddLocBlock("CIVILWAR_FACTION_NAME");
+		civilWarLocBlock["english"] = "$ADJ$ Revolt";
+		var civilWarAdjLocBlock = locDB.AddLocBlock("CIVILWAR_FACTION_ADJECTIVE");
+		civilWarAdjLocBlock["english"] = "$ADJ$";
+		var provinceLocBlock = locDB.AddLocBlock("PROV4526_hellenic");
+		provinceLocBlock["english"] = "Nikonia";
+		
+		Assert.Equal("Nikonia Revolt", countryName.GetNameLocBlock(locDB, [])!["english"]);
+		Assert.Equal("Nikonia", countryName.GetAdjectiveLocBlock(locDB, [])!["english"]);
 	}
 }

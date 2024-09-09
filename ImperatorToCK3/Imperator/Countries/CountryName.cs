@@ -11,11 +11,7 @@ public sealed class CountryName : ICloneable {
 	public CountryName? BaseName { get; private set; }
 
 	public object Clone() {
-		return new CountryName {
-			Name = Name,
-			adjective = adjective,
-			BaseName = BaseName
-		};
+		return new CountryName {Name = Name, adjective = adjective, BaseName = BaseName};
 	}
 
 	public LocBlock? GetNameLocBlock(LocDB irLocDB, CountryCollection imperatorCountries) {
@@ -32,14 +28,17 @@ public sealed class CountryName : ICloneable {
 			return directNameLocMatch;
 		}
 
-		// special case for revolts
+		// Special case for revolts.
 		if (BaseName is null) {
 			return directNameLocMatch;
 		}
-		var baseAdjLoc = BaseName.GetAdjectiveLocBlock(irLocDB, imperatorCountries);
+
+		var baseAdjLoc = BaseName.GetAdjectiveLocBlock(irLocDB, imperatorCountries) ??
+		                 BaseName.GetNameLocBlock(irLocDB, imperatorCountries);
 		if (baseAdjLoc is null) {
 			return directNameLocMatch;
 		}
+
 		var locBlockToReturn = new LocBlock(Name, directNameLocMatch);
 		locBlockToReturn.ModifyForEveryLanguage(baseAdjLoc,
 			(orig, modifying, language) => {
@@ -47,6 +46,7 @@ public sealed class CountryName : ICloneable {
 				if (toReturn is not null) {
 					toReturn = ReplaceDataTypes(toReturn, language, irLocDB, imperatorCountries);
 				}
+
 				return toReturn;
 			});
 		return locBlockToReturn;
@@ -59,16 +59,18 @@ public sealed class CountryName : ICloneable {
 		foreach (var language in secondaryLanguages) {
 			compositeLocBlock[language] = string.Empty;
 		}
+
 		foreach (var namePart in nameParts) {
 			var namePartLoc = irLocDB.GetLocBlockForKey(namePart);
 			if (namePartLoc is null) {
 				continue;
 			}
-			
+
 			compositeLocBlock.ModifyForEveryLanguage(namePartLoc, (orig, modifying, language) => {
 				if (orig is null) {
 					return modifying;
 				}
+
 				return $"{orig} {modifying}".Trim();
 			});
 		}
@@ -80,8 +82,10 @@ public sealed class CountryName : ICloneable {
 		var adjKey = GetAdjectiveLocKey();
 		var directAdjLocMatch = irLocDB.GetLocBlockForKey(adjKey);
 		if (directAdjLocMatch is not null && adjKey == "CIVILWAR_FACTION_ADJECTIVE") {
-			// special case for revolts
-			var baseAdjLoc = BaseName?.GetAdjectiveLocBlock(irLocDB, imperatorCountries);
+			// Special case for revolts.
+			// If the BaseName only has a name and no adjective, use the name.
+			var baseAdjLoc = BaseName?.GetAdjectiveLocBlock(irLocDB, imperatorCountries) ??
+			                 BaseName?.GetNameLocBlock(irLocDB, imperatorCountries);
 			if (baseAdjLoc is not null) {
 				var locBlockToReturn = new LocBlock(adjKey, directAdjLocMatch);
 				locBlockToReturn.ModifyForEveryLanguage(baseAdjLoc, (orig, modifying, language) => {
@@ -89,6 +93,7 @@ public sealed class CountryName : ICloneable {
 					if (toReturn is not null) {
 						toReturn = ReplaceDataTypes(toReturn, language, irLocDB, imperatorCountries);
 					}
+
 					return toReturn;
 				});
 				return locBlockToReturn;
@@ -96,7 +101,7 @@ public sealed class CountryName : ICloneable {
 		} else if (directAdjLocMatch is not null) {
 			return directAdjLocMatch;
 		}
-		
+
 		foreach (var country in imperatorCountries) {
 			if (country.Name != Name) {
 				continue;
@@ -108,14 +113,16 @@ public sealed class CountryName : ICloneable {
 				return adjLoc;
 			}
 		}
-		
+
 		// Give up.
 		return null;
 	}
+
 	public string GetAdjectiveLocKey() {
 		if (adjective is not null) {
 			return adjective;
 		}
+
 		return Name + "_ADJ";
 	}
 
@@ -132,10 +139,11 @@ public sealed class CountryName : ICloneable {
 		} else {
 			pryAdjLocBlock = irLocDB.GetLocBlockForKey("get_pry_adj_fallback");
 		}
+
 		if (pryAdjLocBlock is not null && pryAdjLocBlock.HasLocForLanguage(language)) {
 			loc = loc.Replace(phrygianAdj, pryAdjLocBlock[language]);
 		}
-		
+
 		const string mauryanAdj = "[GetCountry('MRY').Custom('get_mry_adj')]";
 		Country? mry = irCountries.FirstOrDefault(country => country.Tag == "MRY");
 		LocBlock? mryAdjLocBlock;
@@ -144,10 +152,11 @@ public sealed class CountryName : ICloneable {
 		} else {
 			mryAdjLocBlock = irLocDB.GetLocBlockForKey("get_mry_adj_fallback");
 		}
+
 		if (mryAdjLocBlock is not null && mryAdjLocBlock.HasLocForLanguage(language)) {
 			loc = loc.Replace(mauryanAdj, mryAdjLocBlock[language]);
 		}
-		
+
 		const string seleucidAdj = "[GetCountry('SEL').Custom('get_sel_adj')]";
 		Country? sel = irCountries.FirstOrDefault(country => country.Tag == "SEL");
 		LocBlock? selAdjLocBlock;
@@ -156,16 +165,17 @@ public sealed class CountryName : ICloneable {
 		} else {
 			selAdjLocBlock = irLocDB.GetLocBlockForKey("get_sel_adj_fallback");
 		}
+
 		if (selAdjLocBlock is not null && selAdjLocBlock.HasLocForLanguage(language)) {
 			loc = loc.Replace(seleucidAdj, selAdjLocBlock[language]);
 		}
 
 		return loc;
 	}
-	
+
 	public static CountryName Parse(BufferedReader reader) {
 		var countryName = new CountryName();
-			
+
 		var parser = new Parser();
 		parser.RegisterKeyword("name", r => countryName.Name = r.GetString());
 		parser.RegisterKeyword("adjective", r => countryName.adjective = r.GetString());
