@@ -744,9 +744,17 @@ public sealed partial class Title {
 					);
 					
 					var kingdomAdjLoc = ck3LocDB.GetOrCreateLocBlock(kingdom.Id + "_adj");
-					string duchyAdjLocKey = duchy.Id + "_adj"; // TODO: add some handling for the case where this is not localized
+					string duchyAdjLocKey = duchy.Id + "_adj";
 					kingdomAdjLoc.ModifyForEveryLanguage(
-						(orig, language) => $"${duchyAdjLocKey}$");
+						(orig, language) => {
+							if (ck3LocDB.HasKeyLocForLanguage(duchyAdjLocKey, language)) {
+								return $"${duchyAdjLocKey}$";
+							}
+							
+							Logger.Debug($"Using duchy name as adjective for {kingdom.Id} in {language} because duchy adjective is missing.");
+							return $"${duchy.Id}$";
+						}
+					);
 					
 					kingdom.DeJureLiege = capitalEmpireRealm;
 					duchy.DeJureLiege = kingdom;
