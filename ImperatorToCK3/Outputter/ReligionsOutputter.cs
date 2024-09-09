@@ -37,20 +37,24 @@ public static class ReligionsOutputter {
 		// Add localization.
 		foreach (var site in sitesToOutput) {
 			// holy site name
-			var holySiteTitle = site.BaronyId ?? site.CountyId;
-			var siteNameLocBlock = ck3LocDB.AddLocBlock($"holy_site_{site.Id}_name");
+			var siteNameLocBlock = ck3LocDB.GetOrCreateLocBlock($"holy_site_{site.Id}_name");
 			
 			// holy site effect name
-			var siteEffectLocBlock = ck3LocDB.AddLocBlock($"holy_site_{site.Id}_effect_name");
+			var siteEffectLocBlock = ck3LocDB.GetOrCreateLocBlock($"holy_site_{site.Id}_effect_name");
 			
 			foreach (string language in ConverterGlobals.SupportedLanguages) {
-				if (holySiteTitle is not null) {
-					siteNameLocBlock[language] = $"${holySiteTitle}$";
-				} else {
-					siteNameLocBlock[language] = "Holy site"; // fallback
+				if (!siteNameLocBlock.HasLocForLanguage(language)) {
+					var holySiteTitle = site.BaronyId ?? site.CountyId;
+					if (holySiteTitle is not null) {
+						siteNameLocBlock[language] = $"${holySiteTitle}$";
+					} else {
+						siteNameLocBlock[language] = "Holy site"; // fallback
+					}
 				}
-				
-				siteEffectLocBlock[language] = $"From [holy_site|E] #weak ($holy_site_{site.Id}_name$)#!";
+
+				if (!siteEffectLocBlock.HasLocForLanguage(language)) {
+					siteEffectLocBlock[language] = $"From [holy_site|E] #weak ($holy_site_{site.Id}_name$)#!";
+				}
 			}
 		}
 	}

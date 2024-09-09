@@ -126,6 +126,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			var characterToRemove = this[key];
 
 			characterToRemove.RemoveAllSpouses();
+			characterToRemove.RemoveAllConcubines();
 			characterToRemove.RemoveAllChildren();
 
 			var irCharacter = characterToRemove.ImperatorCharacter;

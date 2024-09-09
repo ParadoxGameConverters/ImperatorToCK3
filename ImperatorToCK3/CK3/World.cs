@@ -56,6 +56,7 @@ public sealed class World {
 	public MapData MapData { get; }
 	public IList<Wars.War> Wars { get; } = new List<Wars.War>();
 	public LegendSeedCollection LegendSeeds { get; } = [];
+	public CoaMapper CK3CoaMapper { get; }
 
 	/// <summary>
 	/// Date based on I:R save date, but normalized for CK3 purposes.
@@ -143,6 +144,10 @@ public sealed class World {
 
 			Logger.IncrementProgress();
 		}
+		
+		CK3CoaMapper = new(ModFS);
+		LandedTitles.SetCoatsOfArms(CK3CoaMapper);
+		
 		LandedTitles.LoadHistory(config, ModFS);
 		LandedTitles.LoadCulturalNamesFromConfigurables();
 
@@ -390,7 +395,7 @@ public sealed class World {
 			}
 			var holderId = title.GetHolderId(ck3BookmarkDate);
 			if (holderId != "0" && Characters.TryGetValue(holderId, out var holder)) {
-				var locBlock = LocDB.AddLocBlock($"{holder.GetName(ck3BookmarkDate)}_desc");
+				var locBlock = LocDB.GetOrCreateLocBlock($"{holder.GetName(ck3BookmarkDate)}_desc");
 				locBlock.ModifyForEveryLanguage((loc, language) => string.Empty);
 			}
 		}
