@@ -744,9 +744,9 @@ public sealed partial class Title {
 					);
 					
 					var kingdomAdjLoc = ck3LocDB.GetOrCreateLocBlock(kingdom.Id + "_adj");
+					string duchyAdjLocKey = duchy.Id + "_adj"; // TODO: add some handling for the case where this is not localized
 					kingdomAdjLoc.ModifyForEveryLanguage(
-						(orig, language) => $"${duchy.Id}_adj$"
-					);
+						(orig, language) => $"${duchyAdjLocKey}$");
 					
 					kingdom.DeJureLiege = capitalEmpireRealm;
 					duchy.DeJureLiege = kingdom;

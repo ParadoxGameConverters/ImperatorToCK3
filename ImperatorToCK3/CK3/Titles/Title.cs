@@ -841,6 +841,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 		}
 		if (!adjSet) {
+			// Try to use the country name as adjective.
 			var adjLocalizationMatch = irLocDB.GetLocBlockForKey(ImperatorCountry.Tag);
 			if (adjLocalizationMatch is not null) {
 				var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);

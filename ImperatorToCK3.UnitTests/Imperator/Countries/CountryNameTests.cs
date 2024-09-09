@@ -1,5 +1,8 @@
 ﻿using commonItems;
 using commonItems.Localization;
+using ImperatorToCK3.Imperator.Characters;
+using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Families;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Countries;
@@ -128,5 +131,75 @@ public class CountryNameTests {
 		var locBlock2 = locDB.AddLocBlock("someAdjective");
 		locBlock2["english"] = "Roman";
 		Assert.Equal("Roman Revolt", countryName.GetNameLocBlock(locDB, [])!["english"]);
+	}
+
+	[Fact]
+	public void DataTypesInCountryNamesAreReplaced() {
+		var reader = new BufferedReader(
+			"""
+				name="CIVILWAR_FACTION_NAME"
+				adjective="CIVILWAR_FACTION_ADJECTIVE"
+				base={
+					name="PRY_DYN"
+					adjective="PRY_DYN_ADJ"
+				}
+			"""
+		);
+		
+		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+		
+		var locDB = new LocDB("english");
+		var civilWarLocBlock = locDB.AddLocBlock("CIVILWAR_FACTION_NAME");
+		civilWarLocBlock["english"] = "$ADJ$ Revolt";
+		var pryAdjLocBlock = locDB.AddLocBlock("PRY_DYN_ADJ");
+		pryAdjLocBlock["english"] = "[GetCountry('PRY').Custom('get_pry_adj')]";
+		var antigonidPryAdjLocBlock = locDB.AddLocBlock("get_pry_adj_fetch"); // used when the PRY monarch family is Antigonid
+		antigonidPryAdjLocBlock["english"] = "Antigonid";
+		var fallbackPryAdjLocBlock = locDB.AddLocBlock("get_pry_adj_fallback"); // used when the PRY monarch family is not Antigonid
+		fallbackPryAdjLocBlock["english"] = "Phrygian";
+		
+		Assert.Equal("Phrygian Revolt", countryName.GetNameLocBlock(locDB, [])!["english"]);
+	}
+
+	[Fact]
+	public void DataTypesInCountryAdjectivesAreReplaced() {
+		var reader = new BufferedReader(
+			"""
+				name="CIVILWAR_FACTION_NAME"
+				adjective="CIVILWAR_FACTION_ADJECTIVE"
+				base={
+					name="PRY_DYN"
+					adjective="PRY_DYN_ADJ"
+				}
+			"""
+		);
+		var countryName = ImperatorToCK3.Imperator.Countries.CountryName.Parse(reader);
+		
+		var locDB = new LocDB("english");
+		var civilWarAdjLocBlock = locDB.AddLocBlock("CIVILWAR_FACTION_ADJECTIVE");
+		civilWarAdjLocBlock["english"] = "$ADJ$";
+		var pryAdjLocBlock = locDB.AddLocBlock("PRY_DYN_ADJ");
+		pryAdjLocBlock["english"] = "[GetCountry('PRY').Custom('get_pry_adj')]";
+		var antigonidPryAdjLocBlock = locDB.AddLocBlock("get_pry_adj_fetch");
+		antigonidPryAdjLocBlock["english"] = "Antigonid";
+		var fallbackPryAdjLocBlock = locDB.AddLocBlock("get_pry_adj_fallback");
+		fallbackPryAdjLocBlock["english"] = "Phrygian";
+		
+		Assert.Equal("Phrygian", countryName.GetAdjectiveLocBlock(locDB, [])!["english"]);
+		
+		// Check if get_pry_adj_fetch is used instead of get_pry_adj_fallback when the monarch family is Antigonid.
+		var families = new FamilyCollection();
+		families.LoadFamilies(new BufferedReader("1 = { key=\"Antigonid\" }"));
+		
+		var characters = new CharacterCollection();
+		characters.LoadCharacters(new BufferedReader("1 = { family=1 country=1 }"));
+		characters.LinkFamilies(families);
+		
+		var countries = new CountryCollection();
+		var phrygia = Country.Parse(new BufferedReader("{ tag=PRY monarch=1 }"), 1);
+		countries.Add(phrygia);
+		characters.LinkCountries(countries);
+		
+		Assert.Equal("Antigonid", countryName.GetAdjectiveLocBlock(locDB, countries)!["english"]);
 	}
 }
