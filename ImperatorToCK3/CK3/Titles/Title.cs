@@ -742,8 +742,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			Logger.Warn($"Cannot set adjective for CK3 title {Id} from null Imperator country!");
 			return;
 		}
-		
-		// TODO: FIX "[GetCountry('PRY').Custom('get_pry_adj')]" BEING OUTPUTTED AS korean LOC FOR d_IRTOCK3_B43_adj
 
 		var adjSet = false;
 		var locKey = $"{Id}_adj";
@@ -840,15 +838,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
 				adjLocBlock.CopyFrom(adjOpt);
 				adjSet = true;
-				
-				// TODO: FINISH THIS
-				// adjLocBlock.ModifyForEveryLanguage((loc, language) => {
-				// 	if (loc is null) {
-				// 		return null;
-				// 	}
-				// 	
-				// 	// If loc is in the format "[GetCountry('TAG').Custom('get_pry_adj')]"
-				// });
 			}
 		}
 		if (!adjSet) {
