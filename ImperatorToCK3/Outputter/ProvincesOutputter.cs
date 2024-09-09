@@ -3,7 +3,9 @@ using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils;
 using Open.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
@@ -15,6 +17,12 @@ public static class ProvincesOutputter {
 		Title.LandedTitles titles
 	) {
 		Logger.Info("Writing provinces...");
+		
+		HashSet<ulong> countyCapitalProvinceIds = titles.Counties
+			.Select(title => title.CapitalBaronyProvinceId)
+			.Where(id => id is not null)
+			.Select(id => id!.Value)
+			.ToHashSet();
 
 		// Output provinces to files named after their de jure kingdoms.
 		var alreadyOutputtedProvinces = new ConcurrentHashSet<ulong>();
@@ -27,7 +35,7 @@ public static class ProvincesOutputter {
 					continue;
 				}
 
-				ProvinceOutputter.WriteProvince(sb, province);
+				ProvinceOutputter.WriteProvince(sb, province, countyCapitalProvinceIds.Contains(province.Id));
 				alreadyOutputtedProvinces.Add(province.Id);
 			}
 
@@ -50,7 +58,7 @@ public static class ProvincesOutputter {
 
 					if (duchy.DuchyContainsProvince(province.Id)) {
 						sb.AppendLine($"# {duchy.Id}");
-						ProvinceOutputter.WriteProvince(sb, province);
+						ProvinceOutputter.WriteProvince(sb, province, countyCapitalProvinceIds.Contains(province.Id));
 						alreadyOutputtedProvinces.Add(province.Id);
 					}
 				}

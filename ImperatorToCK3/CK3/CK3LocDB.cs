@@ -1,27 +1,37 @@
 using commonItems;
+using commonItems.Collections;
 using commonItems.Localization;
 using commonItems.Mods;
-using System.Collections;
+using ImperatorToCK3.CK3.Localization;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 namespace ImperatorToCK3.CK3;
 
-public class CK3LocDB : IEnumerable<LocBlock> {
-	private LocDB ModFSLocDB { get; } = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
-	private LocDB ConverterGeneratedLocDB { get; } = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
-	private LocDB OptionalConverterLocDB { get; } = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
+public class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
+	public CK3LocDB() { } // For unit tests.
 	
-	protected CK3LocDB() { } // Only for inheritance
-
 	public CK3LocDB(ModFilesystem ck3ModFS) {
 		// Read loc from CK3 and selected CK3 mods.
-		ModFSLocDB.ScrapeLocalizations(ck3ModFS);
+		var modFSLocDB = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
+		modFSLocDB.ScrapeLocalizations(ck3ModFS);
+		ImportLocFromLocDB(modFSLocDB);
 		
 		// Read loc from ImperatorToCK3 congifurables.
 		// It will only be outputted for keys localized in neither ModFSLocDB nor ConverterGeneratedLocDB.
 		LoadOptionalLoc();
+	}
+
+	private void ImportLocFromLocDB(LocDB locDB) {
+		foreach (var locBlock in locDB) {
+			var ck3LocBlock = GetOrCreateLocBlock(locBlock.Id);
+			foreach (var (language, loc) in locBlock) {
+				if (loc is null) {
+					continue;
+				}
+				ck3LocBlock.AddModFSLoc(language, loc);
+			}
+		}
 	}
 
 	private void LoadOptionalLoc() {
@@ -31,64 +41,45 @@ public class CK3LocDB : IEnumerable<LocBlock> {
 			return;
 		}
 		
+		var optionalConverterLocDB = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
 		var optionalLocFilePaths = Directory.GetFiles(optionalLocDir, "*.yml", SearchOption.AllDirectories);
 		foreach (var outputtedLocFilePath in optionalLocFilePaths) {
-			OptionalConverterLocDB.ScrapeFile(outputtedLocFilePath);
+			optionalConverterLocDB.ScrapeFile(outputtedLocFilePath);
+		}
+
+		foreach (var locBlock in optionalConverterLocDB) {
+			// Only add loc for the languages that are not already in the CK3LocDB.
+			var ck3LocBlock = GetOrCreateLocBlock(locBlock.Id);
+			foreach (var (language, loc) in locBlock) {
+				if (loc is null) {
+					continue;
+				}
+				if (!ck3LocBlock.HasLocForLanguage(language)) {
+					ck3LocBlock.AddOptionalLoc(language, loc);
+				}
+			}
 		}
 	}
 	
 	private readonly object insertionLock = new();
 	
-	public LocBlock AddLocBlock(string id) {
+	public CK3LocBlock GetOrCreateLocBlock(string id) {
 		lock (insertionLock) {
-			return ConverterGeneratedLocDB.AddLocBlock(id);
+			if (TryGetValue(id, out var locBlock)) {
+				return locBlock;
+			}
+			
+			// Create new loc block.
+			locBlock = new CK3LocBlock(id, ConverterGlobals.PrimaryLanguage);
+			Add(locBlock);
+			return locBlock;
 		}
-	}
-
-	public bool ContainsKey(string key) {
-		if (ModFSLocDB.ContainsKey(key)) {
-			return true;
-		}
-		if (ConverterGeneratedLocDB.ContainsKey(key)) {
-			return true;
-		}
-		if (OptionalConverterLocDB.ContainsKey(key)) {
-			return true;
-		}
-		return false;
 	}
 	
-	public bool TryGetValue(string key, [MaybeNullWhen(false)] out LocBlock locBlock) { // TODO: return readonly locblock instead
-		bool found = false;
-		locBlock = null;
-		
-		// TODO: add unit test for combining loc from all the sources into one locblock
-		
-		if (OptionalConverterLocDB.TryGetValue(key, out var optionalLocBlock)) {
-			found = true;
-			locBlock = optionalLocBlock;
-		}
-		if (ConverterGeneratedLocDB.TryGetValue(key, out var converterGeneratedLocDBLocBlock)) {
-			found = true;
-			if (locBlock is null) {
-				locBlock = converterGeneratedLocDBLocBlock;
-			} else {
-				locBlock.CopyFrom(converterGeneratedLocDBLocBlock);
-			}
-		}
-		if (ModFSLocDB.TryGetValue(key, out var modFSLocBlock)) {
-			found = true;
-			if (locBlock is null) {
-				locBlock = modFSLocBlock;
-			} else {
-				locBlock.CopyFrom(modFSLocBlock);
-			}
-		}
-
-		return found;
-	}
+	// TODO: add unit test for combining loc from all the sources into one locblock
 	
-	public LocBlock? GetLocBlockForKey(string key) {
+	
+	public CK3LocBlock? GetLocBlockForKey(string key) {
 		if (TryGetValue(key, out var locBlock)) {
 			return locBlock;
 		}
@@ -97,88 +88,35 @@ public class CK3LocDB : IEnumerable<LocBlock> {
 	}
 
 	public bool HasKeyLocForLanguage(string key, string language) {
-		if (ModFSLocDB.ContainsKey(key) && ModFSLocDB[key].HasLocForLanguage(language)) {
-			return true;
+		if (TryGetValue(key, out var locBlock)) {
+			return locBlock.HasLocForLanguage(language);
 		}
-		if (ConverterGeneratedLocDB.ContainsKey(key) && ConverterGeneratedLocDB[key].HasLocForLanguage(language)) {
-			return true;
-		}
-		if (OptionalConverterLocDB.ContainsKey(key) && OptionalConverterLocDB[key].HasLocForLanguage(language)) {
-			return true;
-		}
+		
 		return false;
 	}
 
 	public void AddLocForLanguage(string key, string language, string loc) {
 		lock (insertionLock) {
-			ConverterGeneratedLocDB.AddLocForKeyAndLanguage(key, language, loc);
+			var locBlock = GetOrCreateLocBlock(key);
+			locBlock[language] = loc;
 		}
 	}
 
 	public string? GetYmlLocLineForLanguage(string key, string language) {
-		if (ConverterGeneratedLocDB.TryGetValue(key, out var locBlock) && locBlock.HasLocForLanguage(language)) {
-			return locBlock.GetYmlLocLineForLanguage(language);
-		}
-		if (ModFSLocDB.TryGetValue(key, out locBlock) && locBlock.HasLocForLanguage(language)) {
-			return locBlock.GetYmlLocLineForLanguage(language);
-		}
-		if (OptionalConverterLocDB.TryGetValue(key, out locBlock) && locBlock.HasLocForLanguage(language)) {
+		if (TryGetValue(key, out var locBlock) && locBlock.HasLocForLanguage(language)) {
 			return locBlock.GetYmlLocLineForLanguage(language);
 		}
 		
 		return null;
 	}
 
-	IEnumerator IEnumerable.GetEnumerator() {
-		return GetEnumerator();
-	}
-
-	public IEnumerator<LocBlock> GetEnumerator() {
-		var alreadyOutputtedLocKeys = new HashSet<string>();
-		
-		foreach (var locBlock in ModFSLocDB) {
-			yield return locBlock;
-			alreadyOutputtedLocKeys.Add(locBlock.Id);
-		}
-		
-		foreach (var locBlock in ConverterGeneratedLocDB) {
-			if (alreadyOutputtedLocKeys.Contains(locBlock.Id)) {
-				continue;
-			}
-			
-			yield return locBlock;
-			alreadyOutputtedLocKeys.Add(locBlock.Id);
-		}
-		
-		foreach (var locBlock in OptionalConverterLocDB) {
-			if (alreadyOutputtedLocKeys.Contains(locBlock.Id)) {
-				continue;
-			}
-			
-			yield return locBlock;
-			alreadyOutputtedLocKeys.Add(locBlock.Id);
-		}
-	}
-
-	private HashSet<string> GetAlreadyOutputtedLocKeysForLanguage(string language) {
-		var keysPerLanguage = new HashSet<string>();
-	
-		foreach (var locBlock in ModFSLocDB) {
-			if (locBlock.HasLocForLanguage(language)) {
-				keysPerLanguage.Add(locBlock.Id);
-			}
-		}
-	
-		return keysPerLanguage;
-	}
-
 	public List<string> GetLocLinesToOutputForLanguage(string language) {
 		var locLinesToOutput = new List<string>();
-		
-		var alreadyWrittenLocForLanguage = GetAlreadyOutputtedLocKeysForLanguage(language);
 
-		foreach (var locBlock in ConverterGeneratedLocDB) {
-			if (!locBlock.HasLocForLanguage(language)) {
+		foreach (var locBlock in this) {
+			if (locBlock.GetLocTypeForLanguage(language) is null or CK3LocType.CK3ModFS) {
+				// If there's no loc for the language, the returned loc type is null.
+				// CK3ModFS locs are already present in the CK3/mod/blankMod files, we don't need to output them.
 				continue;
 			}
 			
@@ -188,25 +126,6 @@ public class CK3LocDB : IEnumerable<LocBlock> {
 			}
 			
 			locLinesToOutput.Add(locBlock.GetYmlLocLineForLanguage(language));
-			alreadyWrittenLocForLanguage.Add(locBlock.Id);
-		}
-
-		foreach (var locBlock in OptionalConverterLocDB) {
-			if (alreadyWrittenLocForLanguage.Contains(locBlock.Id)) {
-				continue;
-			}
-
-			if (!locBlock.HasLocForLanguage(language)) {
-				continue;
-			}
-			
-			var loc = locBlock[language];
-			if (loc is null) {
-				continue;
-			}
-			
-			locLinesToOutput.Add(locBlock.GetYmlLocLineForLanguage(language));
-			alreadyWrittenLocForLanguage.Add(locBlock.Id);
 		}
 		
 		return locLinesToOutput;
