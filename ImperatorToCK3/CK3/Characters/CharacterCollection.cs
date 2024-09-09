@@ -535,7 +535,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		dynasties.FlattenDynastiesWithNoFounders(this, houses, ck3BookmarkDate);
 		
 		// Clean up title history.
-		titles.RemoveInvalidHoldersFromHistory(this);
+		titles.CleanUpHistory(this, ck3BookmarkDate);
 	}
 
 	public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {
