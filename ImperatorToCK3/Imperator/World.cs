@@ -174,7 +174,7 @@ public partial class World {
 			Arguments = "-continuelastsave -debug_mode",
 			CreateNoWindow = true,
 			RedirectStandardOutput = true,
-			WindowStyle = ProcessWindowStyle.Hidden
+			WindowStyle = ProcessWindowStyle.Hidden,
 		};
 		var imperatorProcess = Process.Start(processStartInfo);
 		if (imperatorProcess is null) {
