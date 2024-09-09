@@ -250,11 +250,26 @@ public sealed partial class Title {
 			return baronies.FirstOrDefault(b => provinceId == b?.ProvinceId, defaultValue: null);
 		}
 
-		public HashSet<string> GetHolderIds(Date date) {
-			return new HashSet<string>(this.Select(t => t.GetHolderId(date)));
+		public ImmutableHashSet<string> GetHolderIds(Date date) {
+			return this.Select(t => t.GetHolderId(date)).ToImmutableHashSet();
 		}
-		public HashSet<string> GetAllHolderIds() {
-			return this.SelectMany(t => t.GetAllHolderIds()).ToHashSet();
+		public ImmutableHashSet<string> GetAllHolderIds() {
+			return this.SelectMany(t => t.GetAllHolderIds()).ToImmutableHashSet();
+		}
+
+		public void RemoveInvalidHoldersFromHistory(CharacterCollection characters) {
+			Logger.Debug("Removing invalid holders from history...");
+			
+			var validIds = characters.Select(c => c.Id).ToImmutableHashSet();
+			foreach (var title in this) {
+				if (!title.History.Fields.TryGetValue("holder", out var holderField)) {
+					continue;
+				}
+
+				holderField.RemoveAllEntries(
+					value => value.ToString() is string valStr && valStr != "0" && !validIds.Contains(valStr)
+				);
+			}
 		}
 
 		public void ImportImperatorCountries(
