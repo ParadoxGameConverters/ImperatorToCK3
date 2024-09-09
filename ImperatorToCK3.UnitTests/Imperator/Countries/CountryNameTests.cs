@@ -226,4 +226,31 @@ public class CountryNameTests {
 		Assert.Equal("Nikonia Revolt", countryName.GetNameLocBlock(locDB, [])!["english"]);
 		Assert.Equal("Nikonia", countryName.GetAdjectiveLocBlock(locDB, [])!["english"]);
 	}
+
+	[Fact]
+	public void RawBaseNameCanBeUsedForRevoltTagNameAndAdjective() {
+		var reader = new BufferedReader(
+			"""
+			name="CIVILWAR_FACTION_NAME"
+			adjective="CIVILWAR_FACTION_ADJECTIVE"
+			base={
+				name="Tamilakam"
+			}
+			""");
+		var countryName = CountryName.Parse(reader);
+		
+		var locDB = new LocDB("english", "french");
+		var civilWarLocBlock = locDB.AddLocBlock("CIVILWAR_FACTION_NAME");
+		civilWarLocBlock["english"] = "$ADJ$ Revolt";
+		civilWarLocBlock["french"] = "Rébellion $ADJ$";
+		var civilWarAdjLocBlock = locDB.AddLocBlock("CIVILWAR_FACTION_ADJECTIVE");
+		civilWarAdjLocBlock["english"] = "$ADJ$";
+		civilWarAdjLocBlock["french"] = "$ADJ$";
+		
+		Assert.Equal("Tamilakam Revolt", countryName.GetNameLocBlock(locDB, [])!["english"]);
+		Assert.Equal("Tamilakam", countryName.GetAdjectiveLocBlock(locDB, [])!["english"]);
+		
+		Assert.Equal("Rébellion Tamilakam", countryName.GetNameLocBlock(locDB, [])!["french"]);
+		Assert.Equal("Tamilakam", countryName.GetAdjectiveLocBlock(locDB, [])!["french"]);
+	}
 }

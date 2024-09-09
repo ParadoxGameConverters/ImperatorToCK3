@@ -36,7 +36,13 @@ public sealed class CountryName : ICloneable {
 		var baseAdjLoc = BaseName.GetAdjectiveLocBlock(irLocDB, imperatorCountries) ??
 		                 BaseName.GetNameLocBlock(irLocDB, imperatorCountries);
 		if (baseAdjLoc is null) {
-			return directNameLocMatch;
+			// If the base name only has an unlocalized name, use it.
+			baseAdjLoc = new LocBlock(BaseName.Name, ConverterGlobals.PrimaryLanguage) {
+				[ConverterGlobals.PrimaryLanguage] = BaseName.Name,
+			};
+			foreach (var language in ConverterGlobals.SecondaryLanguages) {
+				baseAdjLoc[language] = BaseName.Name;
+			}
 		}
 
 		var locBlockToReturn = new LocBlock(Name, directNameLocMatch);
@@ -86,6 +92,16 @@ public sealed class CountryName : ICloneable {
 			// If the BaseName only has a name and no adjective, use the name.
 			var baseAdjLoc = BaseName?.GetAdjectiveLocBlock(irLocDB, imperatorCountries) ??
 			                 BaseName?.GetNameLocBlock(irLocDB, imperatorCountries);
+			// If neither localized adjective nor name is found, use the unlocalized name.
+			if (baseAdjLoc is null && BaseName is not null) {
+				baseAdjLoc = new LocBlock(BaseName.Name, ConverterGlobals.PrimaryLanguage) {
+					[ConverterGlobals.PrimaryLanguage] = BaseName.Name,
+				};
+				foreach (var language in ConverterGlobals.SecondaryLanguages) {
+					baseAdjLoc[language] = BaseName.Name;
+				}
+			}
+
 			if (baseAdjLoc is not null) {
 				var locBlockToReturn = new LocBlock(adjKey, directAdjLocMatch);
 				locBlockToReturn.ModifyForEveryLanguage(baseAdjLoc, (orig, modifying, language) => {
