@@ -2,7 +2,6 @@
 using commonItems.Serialization;
 using System.Globalization;
 using System.Text;
-using System.Threading.Tasks;
 using Character = ImperatorToCK3.CK3.Characters.Character;
 
 namespace ImperatorToCK3.Outputter;

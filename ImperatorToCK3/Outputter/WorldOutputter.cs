@@ -51,7 +51,7 @@ public static class WorldOutputter {
 			NamedColorsOutputter.OutputNamedColors(outputPath, imperatorWorld.NamedColors, ck3World.NamedColors),
 
 			CoatOfArmsEmblemsOutputter.CopyEmblems(outputPath, imperatorWorld.ModFS),
-			CoatOfArmsOutputter.OutputCoas(outputPath, ck3World.LandedTitles, ck3World.Dynasties),
+			CoatOfArmsOutputter.OutputCoas(outputPath, ck3World.LandedTitles, ck3World.Dynasties, ck3World.CK3CoaMapper),
 			Task.Run(() => CoatOfArmsOutputter.CopyCoaPatterns(imperatorWorld.ModFS, outputPath)),
 
 			BookmarkOutputter.OutputBookmark(ck3World, config, ck3World.LocDB)
