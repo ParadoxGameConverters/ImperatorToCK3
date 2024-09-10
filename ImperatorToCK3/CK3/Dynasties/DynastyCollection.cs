@@ -51,7 +51,7 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 		Logger.Info("Creating dynasties for characters from minor families...");
 
 		var relevantImperatorCharacters = irWorld.Characters
-			.Where(c => c.CK3Character is not null && c.Family?.Minor == true)
+			.Where(c => c.CK3Character is not null && (c.Family is null || c.Family.Minor))
 			.OrderBy(c => c.Id)
 			.ToArray();
 
