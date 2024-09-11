@@ -1070,13 +1070,22 @@ public static class OnActionOutputter {
 
 			foreach (var block in partsToRemove) {
 				// If the file uses other line endings than CRLF, we need to modify the search string.
+				string searchString;
 				if (lineEndings == "LF") {
-					fileContent = fileContent.Replace(block.Replace("\r\n", "\n"), "");
+					searchString = block.Replace("\r\n", "\n");
 				} else if (lineEndings == "CR") {
-					fileContent = fileContent.Replace(block.Replace("\r\n", "\r"), "");
+					searchString = block.Replace("\r\n", "\r");
 				} else {
-					fileContent = fileContent.Replace(block, "");
+					searchString = block;
 				}
+				
+				// Log if the block is not found.
+				if (!fileContent.Contains(searchString)) {
+					Logger.Debug($"Block not found in file {relativePath}: {searchString}");
+					continue;
+				}
+				
+				fileContent = fileContent.Replace(searchString, "");
 			}
 
 			var outputPath = $"{outputModPath}/{relativePath}";
