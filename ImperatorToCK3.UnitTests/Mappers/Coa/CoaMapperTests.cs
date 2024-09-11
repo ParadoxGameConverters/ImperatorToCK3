@@ -53,7 +53,7 @@ public sealed class CoaMapperTests {
 		                    "\t\tcolor1 =\"bone_white\"\n" +
 		                    "\t\tcolor2 =\"offwhite\"\n" +
 		                    "\t\tinstance ={\n" +
-		                    "\t\t\tscale ={-0.9 0.9 }\"\n" +
+		                    "\t\t\tscale ={-0.9 0.9 }\n" +
 		                    "\t\t}\n" +
 		                    "\t}\n" +
 		                    "\tcolored_emblem ={\n" +
