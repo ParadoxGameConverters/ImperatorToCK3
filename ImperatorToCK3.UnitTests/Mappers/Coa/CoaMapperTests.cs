@@ -5,7 +5,9 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Coa;
 
-public class CoaMapperTests {
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
+public sealed class CoaMapperTests {
 	private const string ImperatorRoot = "TestFiles/MapperTests/CoaMapper/Imperator/game";
 	private static readonly ModFilesystem imperatorModFs = new(ImperatorRoot, Array.Empty<Mod>());
 
