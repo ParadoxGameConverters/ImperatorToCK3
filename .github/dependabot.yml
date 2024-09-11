@@ -10,7 +10,6 @@ updates:
       
   - package-ecosystem: "nuget"
     directory: "/ImperatorToCK3.UnitTests/"
-    # Check the nuget registry for updates every day (weekdays) schedule:
     schedule:
       interval: "weekly"
 
