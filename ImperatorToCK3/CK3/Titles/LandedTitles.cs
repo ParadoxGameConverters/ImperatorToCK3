@@ -250,11 +250,51 @@ public sealed partial class Title {
 			return baronies.FirstOrDefault(b => provinceId == b?.ProvinceId, defaultValue: null);
 		}
 
-		public HashSet<string> GetHolderIds(Date date) {
-			return new HashSet<string>(this.Select(t => t.GetHolderId(date)));
+		public ImmutableHashSet<string> GetHolderIds(Date date) {
+			return this.Select(t => t.GetHolderId(date)).ToImmutableHashSet();
 		}
-		public HashSet<string> GetAllHolderIds() {
-			return this.SelectMany(t => t.GetAllHolderIds()).ToHashSet();
+		public ImmutableHashSet<string> GetAllHolderIds() {
+			return this.SelectMany(t => t.GetAllHolderIds()).ToImmutableHashSet();
+		}
+
+		public void CleanUpHistory(CharacterCollection characters, Date ck3BookmarkDate) {
+			Logger.Debug("Removing invalid holders from history...");
+			
+			var validIds = characters.Select(c => c.Id).ToImmutableHashSet();
+			foreach (var title in this) {
+				if (!title.History.Fields.TryGetValue("holder", out var holderField)) {
+					continue;
+				}
+
+				holderField.RemoveAllEntries(
+					value => value.ToString() is string valStr && valStr != "0" && !validIds.Contains(valStr)
+				);
+			}
+			
+			// Remove liege entries that are not valid (liege title is not held at the entry date).
+			foreach (var title in this) {
+				if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
+					continue;
+				}
+
+				foreach (var (date, entriesList) in liegeField.DateToEntriesDict.ToArray()) {
+					if (entriesList.Count == 0) {
+						continue;
+					}
+					
+					var lastEntry = entriesList.Last();
+					var liegeTitleId = lastEntry.Value.ToString();
+					if (liegeTitleId is null || liegeTitleId == "0") {
+						continue;
+					}
+
+					if (!TryGetValue(liegeTitleId, out var liegeTitle)) {
+						liegeField.DateToEntriesDict.Remove(date);
+					} else if (liegeTitle.GetHolderId(date) == "0") {
+						liegeField.DateToEntriesDict.Remove(date);
+					}
+				}
+			}
 		}
 
 		public void ImportImperatorCountries(
