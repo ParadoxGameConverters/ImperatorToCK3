@@ -3,13 +3,13 @@
 
 # <file name> = {
 # 	{
-#          # comments are allowed inside
+#          # comments are supported inside
 #          some = code
 #   }
 # 	{
 #          some code
 # 	                some code with other indent
-#   },
+#   }
 # }
 
 # INDENTATION IS IMPORTANT!
