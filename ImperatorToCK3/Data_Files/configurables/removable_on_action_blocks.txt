@@ -9,7 +9,7 @@
 # 	{
 #          some code
 # 	                some code with other indent
- #   },
+#   },
 # }
 
 # INDENTATION IS IMPORTANT!
