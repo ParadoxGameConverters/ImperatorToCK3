@@ -4,6 +4,7 @@ using commonItems.Mods;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,79 +25,7 @@ public static class OnActionOutputter {
 	private static async Task RemoveUnneededPartsOfVanillaOnActions(ModFilesystem ck3ModFS, string outputModPath) {
 		Logger.Info("Removing unneeded parts of vanilla on-actions...");
 		
-		// List of blocks to remove as of 2024-09-03.
 		Dictionary<string, string[]> partsToRemovePerFile = new() {
-			{"yearly_on_actions.txt", [
-				"""
-							# FP2 - Checks to start El Cid's Travels
-							if = {
-								limit = { # Am I El Cid?
-									this = character:107590
-									NOT = { has_character_flag = has_already_begun_travelling } # Separate first check, for performance
-				
-									NOT = { # Start date employer is either dead or gone
-										OR = {
-											top_liege = character:107500
-											liege = character:107500
-											employer = character:107500
-										}
-									}
-									is_available_healthy_ai_adult = yes # Am I ready to go on an adventure?
-								}
-								trigger_event = fp2_struggle.2045
-							}
-				""",
-			]},
-			{"death.txt", [
-				"""
-						# Fix gods-damned Bavaria splitting from East Francia in an ugly fashion in 867.
-						if = {
-							limit = {
-								# Make sure we're looking at the right guy & that the circumstances haven't changed too much.
-								this = character:90107
-								highest_held_title_tier = tier_kingdom
-								has_realm_law = confederate_partition_succession_law
-								# Bavaria should be in a fit state for interfering with the handout order.
-								title:k_bavaria = {
-									OR = {
-										is_title_created = no
-										holder = root
-									}
-									any_in_de_jure_hierarchy = {
-										tier = tier_county
-										# More than 50%.
-										count >= 22
-										holder = {
-											any_liege_or_above = { this = root }
-										}
-									}
-								}
-								NOT = { has_primary_title = title:k_bavaria }
-								# Players can sort this themselves: you just need to have Bavaria as your primary title and it's all fine.
-								is_ai = yes
-							}
-							# If we've got no Bavaria, create it.
-							if = {
-								limit = {
-									title:k_bavaria = { is_title_created = no }
-								}
-								create_title_and_vassal_change = {
-									type = created
-									save_scope_as = change
-								}
-								title:k_bavaria = {
-									change_title_holder = {
-										holder = root
-										change = scope:change
-									}
-								}
-								resolve_title_and_vassal_change = scope:change
-							}
-							# Then switch around.
-							set_primary_title_to = title:k_bavaria
-						}
-				""",
-			]},
 			{"game_start.txt", [
 				// events
 				"\t\tfp1_scandinavian_adventurers.0011\t# FP1 - Corral famous Norse adventurers that haven't done much yet.\n",
@@ -1055,6 +984,19 @@ public static class OnActionOutputter {
 				]
 			},
 		};
+		
+		// Also load from configurables.
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (reader, fileName) => {
+			var blocksToRemove = new BlobList(reader).Blobs.Select(b => b.Trim()).ToArray();
+			partsToRemovePerFile[fileName] = blocksToRemove;
+		});
+		parser.RegisterRegex(CommonRegexes.QuotedString, (reader, fileNameInQuotes) => {
+			var blocksToRemove = new BlobList(reader).Blobs.Select(b => b.Trim()).ToArray();
+			partsToRemovePerFile[fileNameInQuotes.RemQuotes()] = blocksToRemove;
+		});
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseFile("configurables/removable_on_action_blocks.txt");
 
 		foreach (var (file, partsToRemove) in partsToRemovePerFile) {
 			var relativePath = Path.Join("common/on_action", file);
@@ -1081,7 +1023,7 @@ public static class OnActionOutputter {
 				
 				// Log if the block is not found.
 				if (!fileContent.Contains(searchString)) {
-					Logger.Debug($"Block not found in file {relativePath}: {searchString}");
+					Logger.Error($"Block not found in file {relativePath}: {searchString}"); // TODO: change to Debug
 					continue;
 				}
 				
