@@ -3,12 +3,13 @@
 
 # <file name> = {
 # 	{
-#          <block 1>
-#   },
+#          # comments are allowed inside
+#          some = code
+#   }
 # 	{
-#     <block 2 
-# 	    as a multiline examle>
-#   },
+#          some code
+# 	                some code with other indent
+ #   },
 # }
 
 # INDENTATION IS IMPORTANT!
