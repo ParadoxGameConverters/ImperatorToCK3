@@ -1,12 +1,13 @@
 using commonItems.Collections;
 using commonItems.Localization;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Localization;
 
 public class CK3LocBlock : IIdentifiable<string> { // TODO: add ILocBlock interface that both this and commonItems' LocBlock would implement.
 	private readonly string baseLanguage;
-	private readonly Dictionary<string, (string, CK3LocType)> localizations = new();
+	private readonly ConcurrentDictionary<string, (string, CK3LocType)> localizations = new();
 	
 	public string Id { get; }
 	
@@ -59,7 +60,7 @@ public class CK3LocBlock : IIdentifiable<string> { // TODO: add ILocBlock interf
 		}
 		set {
 			if (value is null) {
-				localizations.Remove(language);
+				localizations.Remove(language, out _);
 			} else {
 				localizations[language] = (value, CK3LocType.ConverterGenerated);
 			}
@@ -96,7 +97,7 @@ public class CK3LocBlock : IIdentifiable<string> { // TODO: add ILocBlock interf
 		foreach (var language in localizations.Keys) {
 			var locValue = modifyingFunction(localizations[language].Item1, otherBlock[language], language);
 			if (locValue is null) {
-				localizations.Remove(language);
+				localizations.Remove(language, out _);
 				continue;
 			}
 			localizations[language] = (locValue, CK3LocType.ConverterGenerated);
@@ -112,7 +113,7 @@ public class CK3LocBlock : IIdentifiable<string> { // TODO: add ILocBlock interf
 		foreach (var language in localizations.Keys) {
 			var locValue = modifyingFunction(localizations[language].Item1, language);
 			if (locValue is null) {
-				localizations.Remove(language);
+				localizations.Remove(language, out _);
 				continue;
 			}
 			localizations[language] = (locValue, CK3LocType.ConverterGenerated);
