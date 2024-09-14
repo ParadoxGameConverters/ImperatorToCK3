@@ -35,6 +35,9 @@ WizardStyle=modern
 
 ArchitecturesInstallIn64BitMode=x64
 
+; keep the next line if you want to prevent Setup from running on 32-bit Windows
+ArchitecturesAllowed=x64
+
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
     
