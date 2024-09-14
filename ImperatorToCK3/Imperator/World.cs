@@ -621,35 +621,41 @@ public partial class World {
 	}
 
 	private void LoadModFilesystemDependentData() {
-		scriptValues.LoadScriptValues(ModFS);
-		Logger.IncrementProgress();
-		
-		Logger.Info("Loading named colors...");
-		NamedColors.LoadNamedColors("common/named_colors", ModFS);
-		ColorFactory.AddNamedColorDict(NamedColors);
-		
-		Logger.IncrementProgress();
-		
-		MapData = new MapData(ModFS);
-		Areas.LoadAreas(ModFS, Provinces);
-		ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
-		
 		// Some stuff can be loaded in parallel to save time.
 		Parallel.Invoke(
+			() => LocDB.ScrapeLocalizations(ModFS),
+			() => {
+				MapData = new MapData(ModFS);
+				Areas.LoadAreas(ModFS, Provinces);
+				ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
+			},
 			() => Defines.LoadDefines(ModFS),
 			() => InventionsDB.LoadInventions(ModFS),
-			ParseGenes,
-			() => ImperatorRegionMapper.LoadRegions(ModFS, ColorFactory),
 			() => Country.LoadGovernments(ModFS),
+			ParseGenes,
+			() => {
+				scriptValues.LoadScriptValues(ModFS);
+				Logger.IncrementProgress();
+			},
+			() => {
+				Logger.Info("Loading named colors...");
+				NamedColors.LoadNamedColors("common/named_colors", ModFS);
+				ColorFactory.AddNamedColorDict(NamedColors);
+				Logger.IncrementProgress();
+			},
 			() => CoaMapper = new CoaMapper(ModFS),
-			() => CulturesDB.Load(ModFS),
-			() => LocDB.ScrapeLocalizations(ModFS)
+			() => CulturesDB.Load(ModFS)
 		);
-
-		Religions = new ReligionCollection(scriptValues);
-		Religions.LoadDeities(ModFS);
-		Religions.LoadReligions(ModFS);
-
+		
+		Parallel.Invoke(
+			() => ImperatorRegionMapper.LoadRegions(ModFS, ColorFactory), // depends on ColorFactory
+			() => {
+				Religions = new ReligionCollection(scriptValues); // depends on scriptValues
+				Religions.LoadDeities(ModFS);
+				Religions.LoadReligions(ModFS);
+			}
+		);
+		
 		Logger.IncrementProgress();
 	}
 
