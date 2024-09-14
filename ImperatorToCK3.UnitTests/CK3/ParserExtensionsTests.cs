@@ -70,22 +70,29 @@ public class ParserExtensionsTests {
 		parser1.RegisterKeyword("value", reader => value = reader.GetInt());
 		Assert.Throws<NCalc.Exceptions.NCalcParameterNotDefinedException>(() => parser1.ParseStream(reader1));
 		Assert.Null(value);
-		
-		var reader2 = new BufferedReader(
+	}
+	
+	[Fact]
+	public void VariableConditionResolvesToFalseWhenVariableIsNotDefined() {
+		var reader1 = new BufferedReader(
 			"""
 			MOD_DEPENDENT = {
-				IF @unknown_mod = { # Undefined mod flag in interpolated expression without brackets.
-					value = 3
+				IF @unknown_variable = { # Undefined variable in interpolated expression.
+					value = 1
 				} ELSE = {
-					value = 4
+					value = 2
 				}
 			}
 			""");
-		var parser2 = new Parser();
-		parser2.RegisterModDependentBloc(modFlags);
-		parser2.RegisterKeyword("value", reader => value = reader.GetInt());
-		Assert.Throws<KeyNotFoundException>(() => parser2.ParseStream(reader2));
-		Assert.Null(value);
+		
+		int? value = null;
+		Dictionary<string, bool> modFlags = new();
+		
+		var parser1 = new Parser();
+		parser1.RegisterModDependentBloc(modFlags);
+		parser1.RegisterKeyword("value", reader => value = reader.GetInt());
+		parser1.ParseStream(reader1); // Should not throw.
+		Assert.Equal(2, value);
 	}
 
 	[Fact]

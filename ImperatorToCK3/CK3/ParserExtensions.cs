@@ -1,22 +1,31 @@
 using commonItems;
+using System;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3;
 
 public static class ParserExtensions {
 	private static bool GetConditionValue(BufferedReader reader, IDictionary<string, bool> ck3ModFlags) {
-		var conditionToken = Parser.GetNextTokenWithoutMatching(reader) ?? string.Empty;
-		
-		if (conditionToken == "True" || conditionToken == "False") {
-			// If the conditionToken is "True" or "False" it means the parser has already evaluated the expression.
-			return bool.Parse(conditionToken);
-		} else if (conditionToken == "1" || conditionToken == "0") {
-			// Parser evaluated the expression as a number.
-			// Convert to int and then to bool.
-			return int.Parse(conditionToken) != 0;
+		var conditionLexeme = Parser.GetNextLexeme(reader);
+		if (CommonRegexes.Variable.IsMatch(conditionLexeme)) {
+			var value = reader.ResolveVariable(conditionLexeme);
+			if (value is null) {
+				return false;
+			}
+			if (value is bool boolValue) {
+				return boolValue;
+			}
+			return Convert.ToBoolean(value);
+		} else if (CommonRegexes.InterpolatedExpression.IsMatch(conditionLexeme)) {
+			// Interpolated expression.
+			var value = reader.EvaluateExpression(conditionLexeme);
+			if (value is bool boolValue) {
+				return boolValue;
+			}
+			return Convert.ToBoolean(value);
 		} else {
 			// Otherwise the token is expected to be a mod flag name.
-			return ck3ModFlags[conditionToken];
+			return ck3ModFlags[conditionLexeme];
 		}
 	}
 	public static void RegisterModDependentBloc(this Parser parser, IDictionary<string, bool> ck3ModFlags) {
