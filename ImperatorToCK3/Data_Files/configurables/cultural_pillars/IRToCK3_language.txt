@@ -30,7 +30,14 @@ language_nuragic = {
 		vanilla = { language_nuragic }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_nuragic = yes
+				language_family_paleo_sardinian = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -38,11 +45,33 @@ language_nuragic = {
 			LANGUAGE = language_nuragic
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_nuragic }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_nuragic }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_nuragic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_paleo_sardinian }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_nuragic }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -55,7 +84,14 @@ language_luwian = {
 		vanilla = { language_luwian }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_anatolian = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
 
 	type = language
 	is_shown = {
@@ -63,11 +99,33 @@ language_luwian = {
 		LANGUAGE = language_luwian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_luwian }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_luwian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_anatolian }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_luwian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -80,7 +138,14 @@ language_lydian = {
 		vanilla = { language_lydian }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_anatolian = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -88,11 +153,33 @@ language_lydian = {
 		LANGUAGE = language_lydian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_lydian }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_lydian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_anatolian }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_lydian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -105,7 +192,14 @@ language_hittite = {
 		vanilla = { language_hittite }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_anatolian = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -113,11 +207,33 @@ language_hittite = {
 		LANGUAGE = language_hittite
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_hittite }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_hittite }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_anatolian }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_hittite }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -130,7 +246,14 @@ language_phrygian = {
 		vanilla = { language_phrygian }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_anatolian = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -138,11 +261,33 @@ language_phrygian = {
 		LANGUAGE = language_phrygian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_phrygian }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_phrygian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_anatolian }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_phrygian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -177,7 +322,7 @@ language_kemetic = {
     REPLACED_BY = {
 		tfe = { language_kemetic }
 		wtwsms = { language_kemetic }
-		vanilla = { language_kemetic }  # TODO: replace with vanilla Ancient Egyptian ID
+		vanilla = { language_egyptian }
 	}
     
 	type = language
@@ -227,7 +372,14 @@ language_babylonian = {
 		vanilla = { language_babylonian }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_semitic = yes
+				language_family_afro_asiatic = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -235,11 +387,33 @@ language_babylonian = {
 			LANGUAGE = language_babylonian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_babylonian }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_babylonian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_semitic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_afro_asiatic }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_babylonian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -666,25 +840,59 @@ language_punic = {
 	color = { 74 174 85 }
 }
 
-language_breathanach = {
+language_breathanach = { # language for Romano-Celtic hybrids in the British Isles
     REPLACED_BY = {
 		tfe = { language_breathanach }
 		vanilla = { language_breathanach }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_group_romance = yes
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_breathanach
+			LANGUAGE = language_breathanach
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_breathanach }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_breathanach }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_romance }
+					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_breathanach }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -697,19 +905,53 @@ language_laessin = {
 		vanilla = { language_laessin }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_group_romance = yes
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_laessin
+			LANGUAGE = language_laessin
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_laessin }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_laessin }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_romance }
+					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_laessin }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -770,7 +1012,14 @@ language_etruscan = {
 		vanilla = { language_etruscan }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_etruscan = yes
+				language_family_tyrsenian = yes 		
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -778,13 +1027,34 @@ language_etruscan = {
 			LANGUAGE = language_etruscan
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_etruscan }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_etruscan }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_etruscan }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_tyrsenian }
+					multiply = same_language_family_choice_factor
+				}
+			}
 		}
-	}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_etruscan }
+					multiply = 10
+				}
+			}
+		}
 
 	color = { 48 30 180 }
 }
@@ -795,19 +1065,48 @@ language_elamite = {
 		vanilla = { language_elamite }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
-    
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_elamite_group = yes
+				language_family_elamite_family = yes 		
+			}
+		}
+	}
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_elamite
+			LANGUAGE = language_elamite
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_elamite }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_elamite }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_elamite_group }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_elamite_family }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+        		value = 10
+        		if = {
+        			limit = { has_cultural_pillar = language_elamite }
+        			multiply = 10
+        		}
+        	}
 		}
 	}
 
@@ -820,7 +1119,14 @@ language_tai = {
 		vanilla = { language_tai }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_tai = yes
+				language_family_kra_dai = yes 		
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -828,11 +1134,33 @@ language_tai = {
 			LANGUAGE = language_tai
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_tai }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_tai }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_tai }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_kra_dai }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_tai }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -845,7 +1173,10 @@ language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/shared
 		vanilla = { language_palaungic }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
+	parameters = {
+		language_branch_palaungic = yes
+		language_family_austro_asiatic = yes  # already exists in WtWSMS
+	}
     
 	type = language
 	is_shown = {
@@ -853,11 +1184,32 @@ language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/shared
 			LANGUAGE = language_palaungic
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_palaungic }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_palaungic }
+					multiply = same_language_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_palaungic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_austroasiatic }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_palaungic }
+					multiply = 10
+				}
+			}
 		}
 	}
 
