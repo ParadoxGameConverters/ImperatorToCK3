@@ -5,6 +5,8 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3;
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ParserExtensionsTests {
 	[Theory]
 	[InlineData(true, false, false, 0, 0)]
@@ -34,15 +36,6 @@ public class ParserExtensionsTests {
 				IF @[tfe] = { # will override the previous value2 assignment
 					value2 = 1
 				}
-				IF @[lotr] = { # Undefined mod flag in interpolated expression should resolve to false.
-					value2 = 3
-				}
-				if @lotr = { # Undefined mod flag in interpolated expression without brackets should resolve to false.
-					value2 = 4
-				}
-				IF lotr = { # Undefined mod flag string should resolve to false.
-					value2 = 5
-				}
 			}
 			""");
 
@@ -56,6 +49,45 @@ public class ParserExtensionsTests {
 
 		Assert.Equal(expectedValue1, value1);
 		Assert.Equal(expectedValue2, value2);
+	}
+
+	[Fact]
+	public void ExceptionIsThrownWhenUnknownModFlagIsEncounteredInInterpolatedExpression() {
+		var reader1 = new BufferedReader(
+			"""
+			MOD_DEPENDENT = {
+				IF @[unknown_mod] = { # Undefined mod flag in interpolated expression.
+					value = 1
+				} ELSE = {
+					value = 2
+				}
+			}
+			""");
+		
+		int? value = null;
+		Dictionary<string, bool> modFlags = new();
+		
+		var parser1 = new Parser();
+		parser1.RegisterModDependentBloc(modFlags);
+		parser1.RegisterKeyword("value", reader => value = reader.GetInt());
+		Assert.Throws<NCalc.Exceptions.NCalcParameterNotDefinedException>(() => parser1.ParseStream(reader1));
+		Assert.Null(value);
+		
+		var reader2 = new BufferedReader(
+			"""
+			MOD_DEPENDENT = {
+				IF @unknown_mod = { # Undefined mod flag in interpolated expression without brackets.
+					value = 3
+				} ELSE = {
+					value = 4
+				}
+			}
+			""");
+		var parser2 = new Parser();
+		parser2.RegisterModDependentBloc(modFlags);
+		parser2.RegisterKeyword("value", reader => value = reader.GetInt());
+		Assert.Throws<KeyNotFoundException>(() => parser2.ParseStream(reader2));
+		Assert.Null(value);
 	}
 
 	[Fact]

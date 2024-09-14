@@ -4,8 +4,19 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.CK3;
 
 public static class ParserExtensions {
+	private static bool GetConditionValue(BufferedReader reader, IDictionary<string, bool> ck3ModFlags) {
+		var conditionToken = Parser.GetNextTokenWithoutMatching(reader) ?? string.Empty;
+		
+		if (conditionToken == "True" || conditionToken == "False") {
+			// If the conditionToken is "True" or "False" it means the parser has already evaluated the expression.
+			return bool.Parse(conditionToken);
+		} else {
+			// Otherwise the token is expected to be a mod flag name.
+			return ck3ModFlags[conditionToken];
+		}
+	}
 	public static void RegisterModDependentBloc(this Parser parser, IDictionary<string, bool> ck3ModFlags) {
-		parser.RegisterKeyword("MOD_DEPENDENT", blocReader => { // TODO: test this
+		parser.RegisterKeyword("MOD_DEPENDENT", blocReader => {
 			// elseMode changes to true when IF condition is false.
 			// Changes back to false when an ELSE_IF or ELSE block is entered.
 			// Also changes to false when an IF block is encountered.
@@ -17,33 +28,26 @@ public static class ParserExtensions {
 			
 			var modDependentParser = new Parser();
 			modDependentParser.RegisterKeyword("IF", reader => {
-				elseMode = false;
-				
-				var conditionToken = Parser.GetNextTokenWithoutMatching(reader) ?? string.Empty;
-				bool conditionValue;
-				if (CommonRegexes.InterpolatedExpression.IsMatch(conditionToken)) {
-					conditionValue = (bool)reader.EvaluateExpression(conditionToken);
-				} else {
-					conditionValue = ck3ModFlags[conditionToken];
-				}
-				if (conditionValue == false) {
+				bool conditionValue = GetConditionValue(reader, ck3ModFlags);
+				if (!conditionValue) {
 					elseMode = true;
 					ParserHelpers.IgnoreItem(reader);
 				} else {
+					elseMode = false;
 					parser.ParseStream(reader);
 				}
-
 			});
 			
 			modDependentParser.RegisterKeyword("ELSE_IF", reader => {
-				var interpolatedExpressionToken = Parser.GetNextTokenWithoutMatching(reader) ?? string.Empty;
-				
 				// If not in elseMode, skip the block.
 				if (!elseMode) {
+					// Skip the condition first.
+					Parser.GetNextLexeme(reader);
+					// Skip the block.
 					ParserHelpers.IgnoreItem(reader);
 				} else {
-					var conditionValue = reader.EvaluateExpression(interpolatedExpressionToken);
-					if ((bool)conditionValue == false) {
+					bool conditionValue = GetConditionValue(reader, ck3ModFlags);
+					if (!conditionValue) {
 						// If condition is false, skip the block.
 						elseMode = true;
 						ParserHelpers.IgnoreItem(reader);
