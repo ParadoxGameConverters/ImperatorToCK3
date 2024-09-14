@@ -77,6 +77,7 @@ jobs:
       with:
         fronter_dir: 'Fronter.NET'
         release_dir: 'Publish'
+        self_contained: ${{ matrix.build != 'win-x64' }} # InnoSetup takes care of installing the .NET runtime on Windows.
         build_updater: ${{ matrix.build != 'win-x64' }} # Windows release uses InnoSetup instead.
       env:
         BACKBLAZE_KEY_ID: ${{ secrets.BACKBLAZE_KEY_ID }}
