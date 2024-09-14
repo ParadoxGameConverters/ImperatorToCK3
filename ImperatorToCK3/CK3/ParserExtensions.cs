@@ -67,7 +67,7 @@ public static class ParserExtensions {
 					parser.ParseStream(reader);
 				}
 			});
-			modDependentParser.IgnoreAndLogUnregisteredItems(); // TODO: MAYBE DON'T LOG THE IGNORED MOD FLAGS
+			modDependentParser.IgnoreAndLogUnregisteredItems();
 			modDependentParser.ParseStream(blocReader);
 		});
 	}
