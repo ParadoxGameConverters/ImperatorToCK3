@@ -9,9 +9,13 @@ using System.IO;
 namespace ImperatorToCK3.CK3;
 
 public class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
-	public CK3LocDB() { } // For unit tests.
+	public CK3LocDB() { }
 	
 	public CK3LocDB(ModFilesystem ck3ModFS) {
+		LoadLocFromModFS(ck3ModFS);
+	}
+	
+	public void LoadLocFromModFS(ModFilesystem ck3ModFS) {
 		// Read loc from CK3 and selected CK3 mods.
 		var modFSLocDB = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
 		modFSLocDB.ScrapeLocalizations(ck3ModFS);
