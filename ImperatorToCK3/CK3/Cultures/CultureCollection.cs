@@ -17,12 +17,12 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Cultures;
 
 public class CultureCollection : IdObjectCollection<string, Culture> {
-	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection, ICollection<string> ck3ModFlags) {
+	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection, OrderedDictionary<string, bool> ck3ModFlags) {
 		this.PillarCollection = pillarCollection;
 		InitCultureDataParser(colorFactory, ck3ModFlags);
 	}
 
-	private void InitCultureDataParser(ColorFactory colorFactory, ICollection<string> ck3ModFlags) {
+	private void InitCultureDataParser(ColorFactory colorFactory, OrderedDictionary<string, bool> ck3ModFlags) {
 		cultureDataParser.RegisterKeyword("INVALIDATED_BY", reader => LoadInvalidatingCultureIds(ck3ModFlags, reader));
 		cultureDataParser.RegisterKeyword("color", reader => {
 			try {
@@ -65,7 +65,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		cultureDataParser.IgnoreAndLogUnregisteredItems();
 	}
 
-	private void LoadInvalidatingCultureIds(ICollection<string> ck3ModFlags, BufferedReader reader) {
+	private void LoadInvalidatingCultureIds(OrderedDictionary<string, bool> ck3ModFlags, BufferedReader reader) {
 		var cultureIdsPerModFlagParser = new Parser();
 
 		if (ck3ModFlags.Count == 0) {
@@ -73,8 +73,8 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 				cultureData.InvalidatingCultureIds = modCultureIdsReader.GetStrings();
 			});
 		} else {
-			foreach (var modFlag in ck3ModFlags) {
-				cultureIdsPerModFlagParser.RegisterKeyword(modFlag, modCultureIdsReader => {
+			foreach (var modFlag in ck3ModFlags.Where(f => f.Value)) {
+				cultureIdsPerModFlagParser.RegisterKeyword(modFlag.Key, modCultureIdsReader => {
 					cultureData.InvalidatingCultureIds = modCultureIdsReader.GetStrings();
 				});
 			}

@@ -277,19 +277,14 @@ public sealed class Configuration {
 		}
 	}
 
-	/// <summary>Returns a collection of CK3 mod flags based on the enabled mods, or "vanilla" if no other flags are set.</summary>
-	public ICollection<string> GetCK3ModFlags() {
-		var flags = new OrderedSet<string>();
-		if (FallenEagleEnabled) {
-			flags.Add("tfe");
-		}
-		if (WhenTheWorldStoppedMakingSenseEnabled) {
-			flags.Add("wtwsms");
-		}
+	/// <summary>Returns a collection of CK3 mod flags with values based on the enabled mods. "vanilla" flag is set to true if no other flags are set.</summary>
+	public OrderedDictionary<string, bool> GetCK3ModFlags() {
+		var flags = new OrderedDictionary<string, bool> {
+			["tfe"] = FallenEagleEnabled,
+			["wtwsms"] = WhenTheWorldStoppedMakingSenseEnabled,
+		};
 
-		if (flags.Count == 0) {
-			flags.Add("vanilla");
-		}
+		flags["vanilla"] = flags.Count(f => f.Value) == 0;
 		return flags;
 	}
 }

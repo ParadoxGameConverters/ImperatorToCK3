@@ -61,7 +61,7 @@ public class LandedTitlesTests {
 
 	public LandedTitlesTests() {
 		var colorFactory = new ColorFactory();
-		var ck3ModFlags = Array.Empty<string>();
+		var ck3ModFlags = new OrderedDictionary<string, bool>();
 		PillarCollection pillars = new(colorFactory, ck3ModFlags);
 		cultures = new CultureCollection(colorFactory, pillars, ck3ModFlags);
 	}

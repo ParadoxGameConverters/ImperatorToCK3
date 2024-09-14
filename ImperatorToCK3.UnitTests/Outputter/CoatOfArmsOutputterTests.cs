@@ -56,7 +56,7 @@ public class CoatOfArmsOutputterTests {
 
 		var ck3Religions = new ReligionCollection(titles);
 		var ck3RegionMapper = new CK3RegionMapper();
-		var ck3ModFlags = new List<string>();
+		var ck3ModFlags = new OrderedDictionary<string, bool>();
 		titles.ImportImperatorCountries(countries,
 			Array.Empty<Dependency>(),
 			new TagTitleMapper(),
@@ -102,7 +102,7 @@ public class CoatOfArmsOutputterTests {
 
 		var ck3Religions = new ReligionCollection(titles);
 		var ck3RegionMapper = new CK3RegionMapper();
-		var ck3ModFlags = new List<string>();
+		var ck3ModFlags = new OrderedDictionary<string, bool>();
 		titles.ImportImperatorCountries(countries,
 			Array.Empty<Dependency>(),
 			new TagTitleMapper(),

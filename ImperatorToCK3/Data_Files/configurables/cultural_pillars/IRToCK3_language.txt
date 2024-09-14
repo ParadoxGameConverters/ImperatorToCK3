@@ -1,4 +1,4 @@
-﻿# Add WtWSMS-specific stuff inside MOD_DEPENDENT = { wtwsms = {} } blocks.
+﻿# Add WtWSMS-specific stuff inside MOD_DEPENDENT = { IF @[wtwsms] = {} } blocks.
 
 language_gothic = { # https://en.wikipedia.org/wiki/East_Germanic_languages
     REPLACED_BY = {
@@ -300,7 +300,7 @@ language_oscan = {
 		vanilla = { language_oscan }
 	}
 	
-	MOD_DEPENDENT = {
+	MOD_DEPENDENT = {  # TODO: update with interpolated expression syntax
 		wtwsms = {
 			parameters = {
 				language_branch_italic = yes
@@ -316,7 +316,7 @@ language_oscan = {
 		}
 	}
 	
-	MOD_DEPENDENT = {
+	MOD_DEPENDENT = {  # TODO: update with interpolated expression syntax
 		wtwsms = {
 			ai_will_do = {
 				value = 10
@@ -354,7 +354,7 @@ language_samnite = {
 		vanilla = { language_samnite }
 	}
 	
-	MOD_DEPENDENT = {
+	MOD_DEPENDENT = {  # TODO: update with interpolated expression syntax
 		wtwsms = {
 			parameters = {
 				language_branch_italic = yes
@@ -370,7 +370,7 @@ language_samnite = {
 		}
 	}
 	
-	MOD_DEPENDENT = {
+	MOD_DEPENDENT = {  # TODO: update with interpolated expression syntax
 		wtwsms = {
 			ai_will_do = {
 				value = 10
@@ -407,10 +407,15 @@ language_ligustic = {
 		tfe = { language_ligustic }
 		vanilla = { language_ligustic }
 	}
-	
-	# TODO: add language_branch parameter for WtWSMS
-	# TODO: language_branch_italic = yes
-	# TODO: language_family_indo_european = yes
+
+	MOD_DEPENDENT = {  # TODO: update with interpolated expression syntax
+		wtwsms = {
+			parameters = {
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -418,11 +423,33 @@ language_ligustic = {
 			LANGUAGE = language_ligustic
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_ligustic }
-			multiply = 10
+
+	MOD_DEPENDENT = {  # TODO: update with interpolated expression syntax
+		wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_ligustic }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		!wtwsms = { # for conversions without WtWSMS, TODO: support this syntax
+			ai_will_do = {
+        		value = 10
+				if = {
+					limit = { has_cultural_pillar = language_ligustic }
+					multiply = 10
+				}
+        	}
 		}
 	}
 
