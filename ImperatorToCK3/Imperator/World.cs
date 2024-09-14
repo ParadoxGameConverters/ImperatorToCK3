@@ -30,6 +30,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
 using Mods = System.Collections.Generic.List<commonItems.Mods.Mod>;
 using Parser = commonItems.Parser;
 
@@ -280,7 +281,7 @@ public partial class World {
 		VerifySave(config.SaveGamePath);
 		Logger.IncrementProgress();
 
-		ParseSave(config, converterVersion);
+		ParseSave(config, converterVersion, out var coaExtractionThread);
 		
 		// Throw exceptions if any important data is missing.
 		if (ModFS is null) {
@@ -298,10 +299,6 @@ public partial class World {
 
 		Logger.Info("*** Building World ***");
 
-		if (!config.SkipDynamicCoAExtraction) {
-			ExtractDynamicCoatsOfArms(config);
-		}
-
 		// Link all the intertwining references
 		Logger.Info("Linking Characters with Families...");
 		Characters.LinkFamilies(Families);
@@ -315,13 +312,18 @@ public partial class World {
 		Countries.LinkFamilies(Families);
 
 		LoadPreImperatorRulers();
+		
+		// Make sure the CoA extraction thread completed work before continuing to CK3.
+		coaExtractionThread?.Join();
 
 		Logger.Info("*** Good-bye Imperator, rest in peace. ***");
 	}
 
-	private void ParseSave(Configuration config, ConverterVersion converterVersion) {
+	private void ParseSave(Configuration config, ConverterVersion converterVersion, out Thread? coaExtractionThread) {
 		var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
 		var parser = new Parser();
+
+		Thread? localCoaExtractThread = null;
 		
 		parser.RegisterRegex(@"\bSAV\w*\b", _ => { });
 		parser.RegisterKeyword("version", reader => VerifySaveVersion(converterVersion, reader));
@@ -344,7 +346,16 @@ public partial class World {
 		parser.RegisterKeyword("state", LoadStates);
 		parser.RegisterKeyword("provinces", LoadProvinces);
 		parser.RegisterKeyword("armies", LoadArmies);
-		parser.RegisterKeyword("country", LoadCountries);
+		parser.RegisterKeyword("country", reader => {
+			LoadCountries(reader);
+			
+			// Now that the countries are loaded, we can start I:R CoA extraction
+			// in parallel to other converter operations.
+			if (!config.SkipDynamicCoAExtraction) {
+				localCoaExtractThread = new Thread(() => ExtractDynamicCoatsOfArms(config));
+				localCoaExtractThread.Start();
+			}
+		});
 		parser.RegisterKeyword("population", LoadPops);
 		parser.RegisterKeyword("diplomacy", LoadDiplomacy);
 		parser.RegisterKeyword("jobs", LoadJobs);
@@ -362,6 +373,9 @@ public partial class World {
 		Logger.Debug($"Ignored World tokens: {ignoredTokens}");
 		Logger.Info($"Player countries: {string.Join(", ", playerCountriesToLog)}");
 		Logger.IncrementProgress();
+
+		// The CoA extraction may continue after ParseSave finishes executing.
+		coaExtractionThread = localCoaExtractThread;
 	}
 
 	private Mods DetectUsedMods(BufferedReader reader) {
@@ -607,37 +621,41 @@ public partial class World {
 	}
 
 	private void LoadModFilesystemDependentData() {
-		scriptValues.LoadScriptValues(ModFS);
-		Logger.IncrementProgress();
-
-		Defines.LoadDefines(ModFS);
+		// Some stuff can be loaded in parallel to save time.
+		Parallel.Invoke(
+			() => LocDB.ScrapeLocalizations(ModFS),
+			() => {
+				MapData = new MapData(ModFS);
+				Areas.LoadAreas(ModFS, Provinces);
+				ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
+			},
+			() => Defines.LoadDefines(ModFS),
+			() => InventionsDB.LoadInventions(ModFS),
+			() => Country.LoadGovernments(ModFS),
+			ParseGenes,
+			() => {
+				scriptValues.LoadScriptValues(ModFS);
+				Logger.IncrementProgress();
+			},
+			() => {
+				Logger.Info("Loading named colors...");
+				NamedColors.LoadNamedColors("common/named_colors", ModFS);
+				ColorFactory.AddNamedColorDict(NamedColors);
+				Logger.IncrementProgress();
+			},
+			() => CoaMapper = new CoaMapper(ModFS),
+			() => CulturesDB.Load(ModFS)
+		);
 		
-		InventionsDB.LoadInventions(ModFS);
-
-		Logger.Info("Loading named colors...");
-		NamedColors.LoadNamedColors("common/named_colors", ModFS);
-		ColorFactory.AddNamedColorDict(NamedColors);
+		Parallel.Invoke(
+			() => ImperatorRegionMapper.LoadRegions(ModFS, ColorFactory), // depends on ColorFactory
+			() => {
+				Religions = new ReligionCollection(scriptValues); // depends on scriptValues
+				Religions.LoadDeities(ModFS);
+				Religions.LoadReligions(ModFS);
+			}
+		);
 		
-		Logger.IncrementProgress();
-
-		ParseGenes();
-		
-		MapData = new MapData(ModFS);
-		Areas.LoadAreas(ModFS, Provinces);
-		
-		ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
-		ImperatorRegionMapper.LoadRegions(ModFS, ColorFactory);
-		
-		Country.LoadGovernments(ModFS);
-		CoaMapper = new CoaMapper(ModFS);
-
-		CulturesDB.Load(ModFS);
-
-		Religions = new ReligionCollection(scriptValues);
-		Religions.LoadDeities(ModFS);
-		Religions.LoadReligions(ModFS);
-
-		LocDB.ScrapeLocalizations(ModFS);
 		Logger.IncrementProgress();
 	}
 
