@@ -470,8 +470,6 @@ language_messapic = {
 			}
 		}
 	}
-	
-	# TODO: update ai_will_do
     
 	type = language
 	is_shown = {
@@ -479,7 +477,25 @@ language_messapic = {
 			LANGUAGE = language_messapic
 		}
 	}
+	
 	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_messapic }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
 		ELSE = {
 			ai_will_do = {
 				value = 10
@@ -491,7 +507,6 @@ language_messapic = {
 		}
 	}
 	
-
 	color = { 5 52 113 }
 }
 
@@ -501,10 +516,14 @@ language_sardonian = {
 		vanilla = { language_sardonian }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
-	# TODO: language_branch_italic = yes
-	# TODO: language_family_indo_european = yes
-	# TODO: update ai_will_do
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -512,11 +531,33 @@ language_sardonian = {
 			LANGUAGE = language_sardonian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_sardonian }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_sardonian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_sardonian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -529,10 +570,14 @@ language_siculian = {
 		vanilla = { language_siculian }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
-	# TODO: language_branch_italic = yes
-	# TODO: language_family_indo_european = yes
-	# TODO: update ai_will_do
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -540,11 +585,33 @@ language_siculian = {
 			LANGUAGE = language_siculian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_siculian }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_siculian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_siculian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
