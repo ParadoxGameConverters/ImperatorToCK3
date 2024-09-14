@@ -30,7 +30,7 @@ language_nuragic = {
 		vanilla = { language_nuragic }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
+	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
     
 	type = language
 	is_shown = {
@@ -55,7 +55,7 @@ language_luwian = {
 		vanilla = { language_luwian }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
+	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
 
 	type = language
 	is_shown = {
@@ -80,7 +80,7 @@ language_lydian = {
 		vanilla = { language_lydian }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
+	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
     
 	type = language
 	is_shown = {
@@ -105,7 +105,7 @@ language_hittite = {
 		vanilla = { language_hittite }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
+	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
     
 	type = language
 	is_shown = {
@@ -130,7 +130,7 @@ language_phrygian = {
 		vanilla = { language_phrygian }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
+	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
     
 	type = language
 	is_shown = {
@@ -227,7 +227,7 @@ language_babylonian = {
 		vanilla = { language_babylonian }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
+	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
     
 	type = language
 	is_shown = {
@@ -300,8 +300,8 @@ language_oscan = {
 		vanilla = { language_oscan }
 	}
 	
-	MOD_DEPENDENT = {  # TODO: update with interpolated expression syntax
-		wtwsms = {
+	MOD_DEPENDENT = {
+		IF wtwsms = {
 			parameters = {
 				language_branch_italic = yes
 				language_family_indo_european = yes
@@ -316,8 +316,8 @@ language_oscan = {
 		}
 	}
 	
-	MOD_DEPENDENT = {  # TODO: update with interpolated expression syntax
-		wtwsms = {
+	MOD_DEPENDENT = {
+		IF wtwsms = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -334,7 +334,7 @@ language_oscan = {
 				}
 			}
 		}
-		!wtwsms = {
+		ELSE = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -354,8 +354,8 @@ language_samnite = {
 		vanilla = { language_samnite }
 	}
 	
-	MOD_DEPENDENT = {  # TODO: update with interpolated expression syntax
-		wtwsms = {
+	MOD_DEPENDENT = {
+		IF wtwsms = {
 			parameters = {
 				language_branch_italic = yes
 				language_family_indo_european = yes
@@ -370,8 +370,8 @@ language_samnite = {
 		}
 	}
 	
-	MOD_DEPENDENT = {  # TODO: update with interpolated expression syntax
-		wtwsms = {
+	MOD_DEPENDENT = {
+		IF wtwsms = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -388,7 +388,7 @@ language_samnite = {
 				}
 			}
 		}
-		!wtwsms = { # TODO: support this syntax
+		ELSE = {
 			ai_will_do = {
         		value = 10
         		if = {
@@ -408,8 +408,8 @@ language_ligustic = {
 		vanilla = { language_ligustic }
 	}
 
-	MOD_DEPENDENT = {  # TODO: update with interpolated expression syntax
-		wtwsms = {
+	MOD_DEPENDENT = {
+		IF wtwsms = {
 			parameters = {
 				language_branch_italic = yes
 				language_family_indo_european = yes
@@ -424,8 +424,8 @@ language_ligustic = {
 		}
 	}
 
-	MOD_DEPENDENT = {  # TODO: update with interpolated expression syntax
-		wtwsms = {
+	MOD_DEPENDENT = {
+		IF wtwsms = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -442,7 +442,7 @@ language_ligustic = {
 				}
 			}
 		}
-		!wtwsms = { # for conversions without WtWSMS, TODO: support this syntax
+		ELSE = { # for conversions without WtWSMS
 			ai_will_do = {
         		value = 10
 				if = {
@@ -465,6 +465,7 @@ language_messapic = {
 	# TODO: add language_branch parameter for WtWSMS
 	# TODO: language_branch_italic = yes
 	# TODO: language_family_indo_european = yes
+	# TODO: update ai_will_do
     
 	type = language
 	is_shown = {
@@ -492,6 +493,7 @@ language_sardonian = {
 	# TODO: add language_branch parameter for WtWSMS
 	# TODO: language_branch_italic = yes
 	# TODO: language_family_indo_european = yes
+	# TODO: update ai_will_do
     
 	type = language
 	is_shown = {
@@ -519,6 +521,7 @@ language_siculian = {
 	# TODO: add language_branch parameter for WtWSMS
 	# TODO: language_branch_italic = yes
 	# TODO: language_family_indo_european = yes
+	# TODO: update ai_will_do
     
 	type = language
 	is_shown = {
@@ -591,7 +594,7 @@ language_breathanach = {
 		vanilla = { language_breathanach }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
+	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
     
 	type = language
 	is_shown = {
@@ -616,7 +619,7 @@ language_laessin = {
 		vanilla = { language_laessin }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
+	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
     
 	type = language
 	is_shown = {
@@ -689,7 +692,7 @@ language_etruscan = {
 		vanilla = { language_etruscan }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
+	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
     
 	type = language
 	is_shown = {
@@ -714,7 +717,7 @@ language_elamite = {
 		vanilla = { language_elamite }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
+	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
     
 	type = language
 	is_shown = {
@@ -739,7 +742,7 @@ language_tai = {
 		vanilla = { language_tai }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
+	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
     
 	type = language
 	is_shown = {
@@ -764,7 +767,7 @@ language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/shared
 		vanilla = { language_palaungic }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
+	# TODO: add language_branch parameter for WtWSMS, and update ai_will_do
     
 	type = language
 	is_shown = {
