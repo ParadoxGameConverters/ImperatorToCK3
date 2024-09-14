@@ -10,6 +10,10 @@ public static class ParserExtensions {
 		if (conditionToken == "True" || conditionToken == "False") {
 			// If the conditionToken is "True" or "False" it means the parser has already evaluated the expression.
 			return bool.Parse(conditionToken);
+		} else if (conditionToken == "1" || conditionToken == "0") {
+			// Parser evaluated the expression as a number.
+			// Convert to int and then to bool.
+			return int.Parse(conditionToken) != 0;
 		} else {
 			// Otherwise the token is expected to be a mod flag name.
 			return ck3ModFlags[conditionToken];

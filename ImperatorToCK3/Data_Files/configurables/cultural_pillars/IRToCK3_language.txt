@@ -462,9 +462,15 @@ language_messapic = {
 		vanilla = { language_messapic }
 	}
 	
-	# TODO: add language_branch parameter for WtWSMS
-	# TODO: language_branch_italic = yes
-	# TODO: language_family_indo_european = yes
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
+	
 	# TODO: update ai_will_do
     
 	type = language
@@ -473,13 +479,18 @@ language_messapic = {
 			LANGUAGE = language_messapic
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_messapic }
-			multiply = 10
+	MOD_DEPENDENT = {
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_messapic }
+					multiply = 10
+				}
+			}
 		}
 	}
+	
 
 	color = { 5 52 113 }
 }

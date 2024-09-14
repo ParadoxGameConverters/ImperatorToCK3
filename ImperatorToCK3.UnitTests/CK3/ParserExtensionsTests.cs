@@ -11,7 +11,7 @@ public class ParserExtensionsTests {
 	[Theory]
 	[InlineData(true, false, false, 0, 0)]
 	[InlineData(false, true, false, 1, 1)]
-	[InlineData(false, false, true, 2, 2)]
+	[InlineData(false, false, true, 2, 0)]
 	[InlineData(true, true, false, 0, 1)]
 	public void CorrectModDependentBranchesAreUsed(bool wtwsms, bool tfe, bool vanilla, int expectedValue1,
 		int expectedValue2) {
@@ -22,18 +22,16 @@ public class ParserExtensionsTests {
 			MOD_DEPENDENT = {
 				IF @wtwsms = { # Interpolated expression without brackets is valid, therefor should be supported.
 					value1 = 0
-				} ELSE_IF @[tfe] = {
+				} ELSE_IF tfe = {# Simple mod flag string should be supported as well.
 					value1 = 1
 				} ELSE = {
 					value1 = 2
 				}
 				
-				IF wtwsms = { # Simple mod flag string should be supported as well.
+				IF @[wtwsms|vanilla|tfe] = { # Logical OR, example of more complex interpolated expression.
 					value2 = 0
-				} ELSE_IF @[vanilla] = {
-					value2 = 2
 				}
-				IF @[tfe] = { # will override the previous value2 assignment
+				IF @[tfe] = { # Will override the previous value2.
 					value2 = 1
 				}
 			}
