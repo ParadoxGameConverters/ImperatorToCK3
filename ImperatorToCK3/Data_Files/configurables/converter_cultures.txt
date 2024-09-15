@@ -470,6 +470,7 @@ albanian = {
 ancient_egyptian = {  # fallback in case some mod removes vanilla ancient_egyptian
     INVALIDATED_BY = {
 		tfe = { ancient_egyptian kemetic }
+		wtwsms = { ancient_egyptian }
 		vanilla = { ancient_egyptian kemetic }
 	}
     

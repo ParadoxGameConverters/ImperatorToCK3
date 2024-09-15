@@ -1,17 +1,8 @@
 ﻿using commonItems;
-using CWTools.CSharp;
-using CWTools.Parser;
-using CWTools.Process;
-using ImperatorToCK3.CK3;
 using ImperatorToCK3.Exceptions;
 using log4net.Core;
-using Microsoft.FSharp.Collections;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Text;
 
 namespace ImperatorToCK3;
 public static class Program {

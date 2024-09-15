@@ -1055,6 +1055,7 @@ language_etruscan = {
 				}
 			}
 		}
+	}
 
 	color = { 48 30 180 }
 }
