@@ -2,6 +2,7 @@
 using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
+using commonItems.Serialization;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
@@ -222,5 +223,24 @@ public class DynastyTests {
 		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, irLocDB, new TestCK3LocDB(), BookmarkDate);
 
 		Assert.Equal("latin", dynasty.CultureId);
+	}
+
+	[Fact]
+	public void UnlocalizedNameIsCorrectlySerialized() {
+		// A dynasty can have a raw unlocalized name. If such name contains whitespace, it must be enclosed in quotes.
+		var reader = new BufferedReader(
+			"""
+			 = {
+				name = "ve Iberia"
+				culture = georgian
+			}
+			""");
+		var dynasty = new Dynasty("georgian_dynn_Iberia", reader);
+		Assert.Equal("georgian_dynn_Iberia", dynasty.Id);
+		Assert.Equal("ve Iberia", dynasty.Name);
+		Assert.Equal("georgian", dynasty.CultureId);
+
+		var serialized = PDXSerializer.Serialize(dynasty);
+		Assert.Equal("{\r\n\tname = \"ve Iberia\"\r\n\tculture = georgian\r\n}", serialized);
 	}
 }
