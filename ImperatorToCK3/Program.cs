@@ -88,7 +88,8 @@ public static class Program {
 		}
 		
 		// Modify the common\scripted_effects\ccu_scripted_effects.txt file.
-		var scriptedEffectsPath = "D:\\GitHub\\loup99\\BP\\WtWSMS\\common\\scripted_effects\\ccu_scripted_effects.txt";
+		var relativePath = "common/scripted_effects/ccu_scripted_effects.txt";
+		var scriptedEffectsPath = Path.Join("D:\\GitHub\\loup99\\BP\\WtWSMS\\", relativePath); // TODO: REPLACE THE HARDCODED PATH
 		
 		Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 		
@@ -98,49 +99,12 @@ public static class Program {
 		var rootNode = Parsers.ProcessStatements(fileName, scriptedEffectsPath, statements);
 
 		var nodes = rootNode.Nodes.ToArray();
-		// Print all leaves.
-		foreach (var node in nodes) {
-			Logger.Notice($"NODE: : {node.Key}");
-		}
-		
-		// Print all statements for debugging.
-		// foreach (var statement in statements) {
-		// 	statement.
-		// 	if (statement.IsComment) {
-		// 		continue;
-		// 	}
-		// 	
-		// 	Logger.Notice(statement.ToString());
-		// }
-
-		foreach (var child in rootNode.AllChildren) {
-			if (child.IsLeafC) {
-				Logger.Warn($"LEAF IN EXPERIMENT: : {child.leaf.Key}");
-			} else if (child.IsNodeC) {
-				Logger.Warn($"NODE IN EXPERIMENT: : {child.node.Key}");
-			} else {
-				Logger.Warn($"OTHER IN EXPERIMENT: : {child}");
-			}
-		}
-		
-		
-		
-		
 
 		var familyEffectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_language_family_effect");
 		if (familyEffectNode is null) {
-			Logger.Error("\n\n\n Desired effect not found!\n\n\n");
+			Logger.Warn("ccu_initialize_language_family_effect effect not found!");
 			return;
 		} 
-		Logger.Notice("\n\n\n DESIRED EFFECT FOUND!\n\n\n");
-			
-		var nodesInside = familyEffectNode.Nodes.ToArray();
-		// foreach (var node in nodesInside) {
-		// 	Logger.Notice($"NODE IN EFFECT: : {node.Key}");
-		// }
-			
-		// Get the last existing else_if node.
-
 		List<Child> allChildren = familyEffectNode.AllChildren;
 		foreach (var languageFamily in languageFamilyParameters) {
 			var statementsForFamily = CKParser.parseString(
@@ -155,7 +119,25 @@ public static class Program {
 			allChildren.Add(Child.NewNodeC(rootNodeForFamily.Nodes.First()));
 		}
 		familyEffectNode.AllChildren = allChildren;
-		
+
+		var branchEffectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_language_branch_effect");
+		if (branchEffectNode is null) {
+			Logger.Warn("ccu_initialize_language_branch_effect effect not found!");
+			return;
+		}
+		allChildren = branchEffectNode.AllChildren;
+		foreach (var languageBranch in languageBranchParameters) {
+			var statementsForBranch = CKParser.parseString(
+			$$"""
+			else_if = {
+				limit = { has_cultural_parameter = {{languageBranch}} }
+				set_variable = { name = language_branch value = flag:{{languageBranch}} }
+			} 
+			""", fileName).GetResult();
+			
+			var rootNodeForBranch = Parsers.ProcessStatements(fileName, scriptedEffectsPath, statementsForBranch);
+			allChildren.Add(Child.NewNodeC(rootNodeForBranch.Nodes.First()));
+		}
 		
 		// Output the modified file.
 		var tooutput = rootNode.AllChildren
@@ -172,10 +154,9 @@ public static class Program {
 			.Cast<Types.Statement>()
 			.ToList();
 		var fsharpList = ListModule.OfSeq(tooutput);
-		Console.WriteLine(CKPrinter.printTopLevelKeyValueList(fsharpList));
-		
-		// Print only the ccu_initialize_language_family_effect node.
-		//var nodeToOutput = familyEffectNode.ToRaw;
-		//Logger.Notice(CKPrinter.printTopLevelKeyValueList(new(nodeToOutput, FSharpList<Types.Statement>.Empty)));
+
+		var outputFilePath = Path.Join(outputModPath, relativePath);
+		// Output the file with UTF8-BOM encoding.
+		File.WriteAllText(outputFilePath, CKPrinter.printTopLevelKeyValueList(fsharpList), encoding: Encoding.UTF8);
 	}
 }

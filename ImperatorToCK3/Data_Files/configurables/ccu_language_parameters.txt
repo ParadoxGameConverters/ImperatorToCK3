@@ -9,7 +9,7 @@
 
 # TODO: add a unit test for this file
 
-language_families = {  # TODO: enable MOD_DEPENDENT in the parser for this
+language_families = {
 	MOD_DEPENDENT = {
     	IF wtwsms = {
     		language_family_kra_dai
@@ -20,7 +20,7 @@ language_families = {  # TODO: enable MOD_DEPENDENT in the parser for this
     }
 }
 
-language_branches = { # TODO: enable MOD_DEPENDENT in the parser for this
+language_branches = {
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			language_branch_palaungic
