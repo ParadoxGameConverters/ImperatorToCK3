@@ -241,6 +241,12 @@ public class DynastyTests {
 		Assert.Equal("georgian", dynasty.CultureId);
 
 		var serialized = PDXSerializer.Serialize(dynasty);
-		Assert.Equal("{\r\n\tname = \"ve Iberia\"\r\n\tculture = georgian\r\n}", serialized);
+		
+		Assert.Equal("""
+		             {
+		             	name = "ve Iberia"
+		             	culture = georgian
+		             }
+		             """, serialized);
 	}
 }
