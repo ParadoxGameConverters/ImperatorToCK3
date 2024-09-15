@@ -191,6 +191,7 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "holy_sites"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "religions"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_effects"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_guis"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_triggers"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "events"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gui"));

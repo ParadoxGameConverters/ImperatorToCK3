@@ -45,7 +45,7 @@ public static class CulturesOutputter {
 		}
 	}
 
-	private static void OutputCCULanguageParameters(string outputModPath, ModFilesystem ck3ModFS, IDictionary<string, bool> ck3ModFlags) { // TODO: test this in real conversion
+	private static void OutputCCULanguageParameters(string outputModPath, ModFilesystem ck3ModFS, IDictionary<string, bool> ck3ModFlags) {
 		Logger.Info("Outputting CCU language parameters for WtWSMS...");
 		List<string> languageFamilyParameters = [];
 		List<string> languageBranchParameters = [];
@@ -135,6 +135,7 @@ public static class CulturesOutputter {
 			var rootNodeForBranch = Parsers.ProcessStatements(fileName, scriptedEffectsPath, statementsForBranch);
 			allChildren.Add(Child.NewNodeC(rootNodeForBranch.Nodes.First()));
 		}
+		branchEffectNode.AllChildren = allChildren;
 		
 		// Output the modified file.
 		var tooutput = rootNode.AllChildren
@@ -154,6 +155,36 @@ public static class CulturesOutputter {
 
 		var outputFilePath = Path.Join(outputModPath, relativePath);
 		// Output the file with UTF8-BOM encoding.
-		File.WriteAllText(outputFilePath, CKPrinter.printTopLevelKeyValueList(fsharpList), encoding: Encoding.UTF8);
+		File.WriteAllText(outputFilePath, CKPrinter.printTopLevelKeyValueList(fsharpList), Encoding.UTF8);
+		
+		// Add the language parameters to common/scripted_guis/ccu_error_suppression.txt.
+		// This is what WtWSMS does for the parameters it adds.
+		var errorSuppressionRelativePath = "common/scripted_guis/ccu_error_suppression.txt";
+		var errorSuppressionPath = ck3ModFS.GetActualFileLocation(errorSuppressionRelativePath);
+		if (errorSuppressionPath is null) {
+			Logger.Warn("Could not find ccu_error_suppression.txt in the CK3 mod. " +
+			            "Some harmless errors related to converter-added language parameters may appear in error.log.");
+			return;
+		}
+
+		// In the file, add the last line that contains: "if = { limit = { var:temp = flag:language_family",
+		// and add a new line "TEMPORARY LINE" after it.
+		// Do the same for language branches.
+		var errorSuppressionContent = File.ReadAllText(errorSuppressionPath);
+		var contentLines = errorSuppressionContent.Split('\n');
+		var newContent = new StringBuilder();
+		foreach (var line in contentLines) {
+			newContent.AppendLine(line);
+			if (line.Contains("if = { limit = { var:temp = flag:language_family_uralic }")) {
+				foreach (var familyParameter in languageFamilyParameters) {
+					newContent.AppendLine($"\t\tif = {{ limit = {{ var:temp = flag:{familyParameter} set_variable = {{ name = temp value = flag:{familyParameter} }} }}");
+				}
+			} else if (line.Contains("if = { limit = { var:temp = flag:language_branch_yeniseian }")) {
+				foreach (var branchParameter in languageBranchParameters) {
+					newContent.AppendLine($"\t\tif = {{ limit = {{ var:temp = flag:{branchParameter} set_variable = {{ name = temp value = flag:{branchParameter} }} }}");
+				}
+			}
+		}
+		File.WriteAllText(errorSuppressionPath, newContent.ToString(), Encoding.UTF8);
 	}
 }
