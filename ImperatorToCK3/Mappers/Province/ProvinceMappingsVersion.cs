@@ -34,6 +34,7 @@ internal sealed class ProvinceMappingsVersion {
 				referencedCK3Provs.Add(prov);
 			}
 		});
+		parser.RegisterKeyword("triangulation_pair", ParserHelpers.IgnoreItem);
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
 		parser.ParseStream(reader);
