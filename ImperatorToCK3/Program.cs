@@ -6,9 +6,11 @@ using CWTools.Utilities;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.Exceptions;
 using log4net.Core;
+using Microsoft.FSharp.Collections;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -63,6 +65,7 @@ public static class Program {
 			familiesParser.RegisterRegex(CommonRegexes.Catchall, (_, familyParameter) => {
 				languageFamilyParameters.Add(familyParameter);
 			});
+			familiesParser.ParseStream(reader);
 		});
 		fileParser.RegisterKeyword("language_branches", reader => {
 			var branchesParser = new Parser();
@@ -70,20 +73,31 @@ public static class Program {
 			branchesParser.RegisterRegex(CommonRegexes.Catchall, (_, branchParameter) => {
 				languageBranchParameters.Add(branchParameter);
 			});
+			branchesParser.ParseStream(reader);
 		});
-		// fileParser.ParseFile("configurables/ccu_language_parameters.txt"); // TODO: REENABLE THIS
+		fileParser.ParseFile("configurables/ccu_language_parameters.txt");
+		
+		// Print all the loaded language families and branches.
+		Logger.Notice("Loaded language families:");
+		foreach (var family in languageFamilyParameters) {
+			Logger.Notice(family);
+		}
+		Logger.Notice("Loaded language branches:");
+		foreach (var branch in languageBranchParameters) {
+			Logger.Notice(branch);
+		}
 		
 		// Modify the common\scripted_effects\ccu_scripted_effects.txt file.
 		var scriptedEffectsPath = "D:\\GitHub\\loup99\\BP\\WtWSMS\\common\\scripted_effects\\ccu_scripted_effects.txt";
 		
 		Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-		var parsed = CWTools.Parser.CKParser.parseFile(scriptedEffectsPath);
-		var statements = parsed.GetResult();
+		
+		var fileName = Path.GetFileName(scriptedEffectsPath);
+		var statements = CKParser.parseFile(scriptedEffectsPath).GetResult();
+		//var statements = Parsers.ParseScriptFile(fileName, File.ReadAllText(scriptedEffectsPath)).GetResult();
+		var rootNode = Parsers.ProcessStatements(fileName, scriptedEffectsPath, statements);
 
-		var toprocess = CWTools.Parser.CKParser.parseEventFile(scriptedEffectsPath).GetResult();
-		var processed = CK2Process.processEventFile(toprocess);
-
-		var nodes = processed.Nodes.ToArray();
+		var nodes = rootNode.Nodes.ToArray();
 		// Print all leaves.
 		foreach (var node in nodes) {
 			Logger.Notice($"NODE: : {node.Key}");
@@ -98,43 +112,70 @@ public static class Program {
 		// 	
 		// 	Logger.Notice(statement.ToString());
 		// }
+
+		foreach (var child in rootNode.AllChildren) {
+			if (child.IsLeafC) {
+				Logger.Warn($"LEAF IN EXPERIMENT: : {child.leaf.Key}");
+			} else if (child.IsNodeC) {
+				Logger.Warn($"NODE IN EXPERIMENT: : {child.node.Key}");
+			} else {
+				Logger.Warn($"OTHER IN EXPERIMENT: : {child}");
+			}
+		}
+		
+		
+		
 		
 
 		var familyEffectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_language_family_effect");
 		if (familyEffectNode is null) {
 			Logger.Error("\n\n\n Desired effect not found!\n\n\n");
-		} else {
-			Logger.Notice("\n\n\n DESIRED EFFECT FOUND!\n\n\n");
+			return;
+		} 
+		Logger.Notice("\n\n\n DESIRED EFFECT FOUND!\n\n\n");
 			
-			var nodesInside = familyEffectNode.Nodes.ToArray();
-			foreach (var node in nodesInside) {
-				Logger.Notice($"NODE IN EFFECT: : {node.Key}");
-			}
+		var nodesInside = familyEffectNode.Nodes.ToArray();
+		// foreach (var node in nodesInside) {
+		// 	Logger.Notice($"NODE IN EFFECT: : {node.Key}");
+		// }
 			
-			// Add another else_if node after the last node.
-			var key = Types.Key.NewKey("test_key");
-			var keyValueItem = Types.KeyValueItem.NewKeyValueItem(key, Types.Value.NewFloat((decimal)1.0f), Types.Operator.Equals);
-			familyEffectNode.AllChildren.Add(Leaf.Create(keyValueItem, new Position.range()));
-			
-			
-			// Print all nodes inside the effect again.
-			Logger.Debug("\n\n\nAFTER CHANGE: ");
-			foreach (var child in familyEffectNode.AllChildren) {
-				if (child.IsLeafC) {
-					Logger.Notice($"LEAF IN EFFECT: : {child.leaf.Key}");
-				} else if (child.IsNodeC) {
-					Logger.Notice($"NODE IN EFFECT: : {child.node.Key}");
-				} else {
-					Logger.Notice($"OTHER IN EFFECT: : {child}");
-				}
-			}
+		// Get the last existing else_if node.
 
-			// Try to use nodes iterator.
-			foreach (var childNode in familyEffectNode.Children) {
-				Logger.Notice($"CHILDNODE: {childNode.Key}");
-			}
+		List<Child> allChildren = familyEffectNode.AllChildren;
+		foreach (var languageFamily in languageFamilyParameters) {
+			var statementsForFamily = CKParser.parseString(
+			$$"""
+			else_if = {
+				limit = { has_cultural_parameter = {{languageFamily}} }
+				set_variable = { name = language_family value = flag:{{languageFamily}} }
+			} 
+			""", fileName).GetResult();
+			
+			var rootNodeForFamily = Parsers.ProcessStatements(fileName, scriptedEffectsPath, statementsForFamily);
+			allChildren.Add(Child.NewNodeC(rootNodeForFamily.Nodes.First()));
 		}
+		familyEffectNode.AllChildren = allChildren;
+		
+		
+		// Output the modified file.
+		var tooutput = rootNode.AllChildren
+			.Select(c => {
+				if (c.IsLeafC) {
+					return c.leaf.ToRaw;
+				} else if (c.IsNodeC) {
+					return c.node.ToRaw;
+				}
 
-
+				return null;
+			})
+			.Where(s => s is not null)
+			.Cast<Types.Statement>()
+			.ToList();
+		var fsharpList = ListModule.OfSeq(tooutput);
+		Console.WriteLine(CKPrinter.printTopLevelKeyValueList(fsharpList));
+		
+		// Print only the ccu_initialize_language_family_effect node.
+		//var nodeToOutput = familyEffectNode.ToRaw;
+		//Logger.Notice(CKPrinter.printTopLevelKeyValueList(new(nodeToOutput, FSharpList<Types.Statement>.Empty)));
 	}
 }
