@@ -24,6 +24,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 
 	private void InitCultureDataParser(ColorFactory colorFactory, OrderedDictionary<string, bool> ck3ModFlags) {
 		cultureDataParser.RegisterKeyword("INVALIDATED_BY", reader => LoadInvalidatingCultureIds(ck3ModFlags, reader));
+		cultureDataParser.RegisterModDependentBloc(ck3ModFlags);
 		cultureDataParser.RegisterKeyword("color", reader => {
 			try {
 				cultureData.Color = colorFactory.GetColor(reader);

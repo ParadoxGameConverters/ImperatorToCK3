@@ -35,7 +35,7 @@ public static class WorldOutputter {
 			TitlesOutputter.OutputTitles(outputPath, ck3World.LandedTitles),
 
 			PillarOutputter.OutputPillars(outputPath, ck3World.CulturalPillars),
-			CulturesOutputter.OutputCultures(outputPath, ck3World.Cultures, ck3World.CorrectedDate),
+			CulturesOutputter.OutputCultures(outputPath, ck3World.Cultures, ck3World.ModFS, config, ck3World.CorrectedDate),
 
 			ReligionsOutputter.OutputReligionsAndHolySites(outputPath, ck3World.Religions, ck3World.LocDB),
 
