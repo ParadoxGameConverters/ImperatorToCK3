@@ -160,7 +160,7 @@ public partial class World {
 		string imperatorBinaryName = OperatingSystem.IsWindows() ? "imperator.exe" : "imperator";
 		var imperatorBinaryPath = Path.Combine(config.ImperatorPath, "binaries", imperatorBinaryName);
 		if (!File.Exists(imperatorBinaryPath)) {
-			Logger.Warn("Imperator binary not found! Aborting!");
+			Logger.Warn("Imperator binary not found! Aborting the random CoA extraction!");
 			return;
 		}
 		
