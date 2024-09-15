@@ -185,6 +185,7 @@ public static class CulturesOutputter {
 				}
 			}
 		}
-		File.WriteAllText(errorSuppressionPath, newContent.ToString(), Encoding.UTF8);
+		outputFilePath = Path.Join(outputModPath, errorSuppressionRelativePath);
+		File.WriteAllText(outputFilePath, newContent.ToString(), Encoding.UTF8);
 	}
 }
