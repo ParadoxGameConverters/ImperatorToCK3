@@ -1199,7 +1199,7 @@ language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/shared
 					multiply = same_language_branch_choice_factor
 				}
 				else_if = {
-					limit = { has_cultural_parameter = language_family_austroasiatic }
+					limit = { has_cultural_parameter = language_family_austro_asiatic }
 					multiply = same_language_family_choice_factor
 				}
 			}
