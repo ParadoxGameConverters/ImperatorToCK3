@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <RuntimeIdentifiers>win-x64;linux-x64;osx-arm64</RuntimeIdentifiers>
         <ApplicationIcon>thumbnail.ico</ApplicationIcon>
-        <LangVersion>12</LangVersion>
+        <LangVersion>13</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">

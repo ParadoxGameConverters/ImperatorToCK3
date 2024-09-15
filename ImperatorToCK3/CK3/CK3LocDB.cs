@@ -65,7 +65,7 @@ public class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 		}
 	}
 	
-	private readonly object insertionLock = new();
+	private readonly System.Threading.Lock insertionLock = new();
 	
 	public CK3LocBlock GetOrCreateLocBlock(string id) {
 		lock (insertionLock) {
