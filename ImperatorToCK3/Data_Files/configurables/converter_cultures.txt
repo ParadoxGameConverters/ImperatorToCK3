@@ -614,7 +614,13 @@ macedonian = {
 
 	ethos = ethos_bellicose
 	heritage = heritage_byzantine # IRToCK3: moved from heritage_ancient_greek
-	language = language_greek # IRToCK3: moved from language_ancient_greek
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			language = language_doric # https://en.wikipedia.org/wiki/Ancient_Macedonians: They spoke Ancient Macedonian, which is usually classified by scholars as a dialect of Northwest Doric Greek
+		} ELSE = {
+			language = language_greek # IRToCK3: moved from language_ancient_greek
+		}
+	}
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_philosopher_culture
