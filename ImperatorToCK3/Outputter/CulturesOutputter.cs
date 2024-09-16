@@ -70,16 +70,6 @@ public static class CulturesOutputter {
 		});
 		fileParser.ParseFile("configurables/ccu_language_parameters.txt");
 		
-		// Print all the loaded language families and branches.
-		Logger.Notice("Loaded language families:");
-		foreach (var family in languageFamilyParameters) {
-			Logger.Notice(family);
-		}
-		Logger.Notice("Loaded language branches:");
-		foreach (var branch in languageBranchParameters) {
-			Logger.Notice(branch);
-		}
-		
 		// Modify the common\scripted_effects\ccu_scripted_effects.txt file.
 		var relativePath = "common/scripted_effects/ccu_scripted_effects.txt";
 		// Modify the common\scripted_effects\ccu_scripted_effects.txt file.
@@ -174,14 +164,26 @@ public static class CulturesOutputter {
 		var contentLines = errorSuppressionContent.Split('\n');
 		var newContent = new StringBuilder();
 		foreach (var line in contentLines) {
-			newContent.AppendLine(line);
+			newContent.AppendLine(line.TrimEnd());
 			if (line.Contains("if = { limit = { var:temp = flag:language_family_uralic }")) {
 				foreach (var familyParameter in languageFamilyParameters) {
-					newContent.AppendLine($"\t\tif = {{ limit = {{ var:temp = flag:{familyParameter} set_variable = {{ name = temp value = flag:{familyParameter} }} }}");
+					newContent.AppendLine(
+						$$"""
+						  		if = {
+						  			limit = { var:temp = flag:{{familyParameter}} }
+						  			set_variable = { name = temp value = flag:{{familyParameter}} }
+						  		}
+						  """);
 				}
 			} else if (line.Contains("if = { limit = { var:temp = flag:language_branch_yeniseian }")) {
 				foreach (var branchParameter in languageBranchParameters) {
-					newContent.AppendLine($"\t\tif = {{ limit = {{ var:temp = flag:{branchParameter} set_variable = {{ name = temp value = flag:{branchParameter} }} }}");
+					newContent.AppendLine(
+						$$"""
+						  		if = {
+						  			limit = { var:temp = flag:{{branchParameter}} }
+						  			set_variable = { name = temp value = flag:{{branchParameter}} }
+						  		}
+						  """);
 				}
 			}
 		}
