@@ -39,14 +39,14 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 			var heritageId = reader.GetString();
 			cultureData.Heritage = PillarCollection.GetHeritageForId(heritageId);
 			if (cultureData.Heritage is null) {
-				Logger.Warn($"Found unrecognized heritage when parsing cultures: {heritageId}");
+				Logger.Debug($"Found unrecognized heritage when parsing cultures: {heritageId}");
 			}
 		});
 		cultureDataParser.RegisterKeyword("language", reader => {
 			var languageId = reader.GetString();
 			cultureData.Language = PillarCollection.GetLanguageForId(languageId);
 			if (cultureData.Language is null) {
-				Logger.Warn($"Found unrecognized language when parsing cultures: {languageId}");
+				Logger.Debug($"Found unrecognized language when parsing cultures: {languageId}");
 			}
 		});
 		cultureDataParser.RegisterKeyword("traditions", reader => {
@@ -143,11 +143,11 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 				Logger.Debug($"Loading optional culture {cultureId}...");
 			}
 			if (data.Heritage is null) {
-				Logger.Warn($"Culture {cultureId} has no heritage defined! Skipping.");
+				Logger.Warn($"Culture {cultureId} has no valid heritage defined! Skipping.");
 				continue;
 			}
 			if (data.Language is null) {
-				Logger.Warn($"Culture {cultureId} has no language defined! Skipping.");
+				Logger.Warn($"Culture {cultureId} has no valid language defined! Skipping.");
 				continue;
 			}
 			if (data.NameLists.Count == 0) {
@@ -159,6 +159,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 				var color = new ColorHash().Rgb(cultureId);
 				data.Color = new Color(color.R, color.G, color.B);
 			}
+			
 			AddOrReplace(new Culture(cultureId, data));
 		}
 	}
