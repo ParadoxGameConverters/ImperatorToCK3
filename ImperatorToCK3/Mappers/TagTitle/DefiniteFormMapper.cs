@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.TagTitle;
 
-public class DefiniteFormMapper {
+public sealed class DefiniteFormMapper {
 	public DefiniteFormMapper() { }
 	public DefiniteFormMapper(string configurablePath) {
 		var parser = new Parser();

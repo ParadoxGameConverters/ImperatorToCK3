@@ -10,6 +10,10 @@
  burmic_adherent:0 "Natyon"
  burmic_adherent_plural:0 "Natyons"
  burmic_desc:0 "Refers to the animistic and polytheistic worship of nats and other spirits or ancestor by the various Burmic peoples."
+ burmic_old: "Old Natkokwe"
+ burmic_old_adj: "Old Natkokwe"
+ burmic_old_adherent: "Old Natyon"
+ burmic_old_adherent_plural: "Old Natyons"
 
  burmic_high_god_name:0 "Mahagiri"
  burmic_high_god_name_possessive:0 "Mahagiri's"

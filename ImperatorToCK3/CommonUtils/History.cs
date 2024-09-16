@@ -7,9 +7,9 @@ using System.Text;
 
 namespace ImperatorToCK3.CommonUtils;
 
-public class History : IPDXSerializable {
-	[NonSerialized] public IdObjectCollection<string, IHistoryField> Fields { get; } = new(); // fieldName, field
-	[NonSerialized] public IgnoredKeywordsSet IgnoredKeywords { get; } = new();
+public sealed class History : IPDXSerializable {
+	[NonSerialized] public IdObjectCollection<string, IHistoryField> Fields { get; } = []; // fieldName, field
+	[NonSerialized] public IgnoredKeywordsSet IgnoredKeywords { get; } = [];
 
 	public History() { }
 
@@ -34,7 +34,7 @@ public class History : IPDXSerializable {
 		if (Fields.TryGetValue(fieldName, out var field)) {
 			field.AddEntryToHistory(date, setter, value);
 		} else {
-			var newField = new SimpleHistoryField(fieldName, new OrderedSet<string>{setter}, null);
+			var newField = new SimpleHistoryField(fieldName, [setter], initialValue: null);
 			newField.AddEntryToHistory(date, setter, value);
 			Fields.Add(newField);
 		}
@@ -56,6 +56,10 @@ public class History : IPDXSerializable {
 		var entriesByDate = new SortedDictionary<Date, List<KeyValuePair<string, object>>>(); // <date, list<effect name, value>>
 		foreach (var field in Fields) {
 			foreach (var (date, entries) in field.DateToEntriesDict) {
+				if (entries.Count == 0) {
+					continue;
+				}
+
 				if (entriesByDate.TryGetValue(date, out var listForDate)) {
 					listForDate.AddRange(entries);
 				} else {
@@ -65,8 +69,8 @@ public class History : IPDXSerializable {
 				}
 			}
 		}
-		if (entriesByDate.Any()) {
-			sb.Append(indent).AppendLine(PDXSerializer.Serialize(entriesByDate, indent, false));
+		if (entriesByDate.Count != 0) {
+			sb.Append(indent).AppendLine(PDXSerializer.Serialize(entriesByDate, indent, withBraces: false));
 		}
 
 		return sb.ToString();

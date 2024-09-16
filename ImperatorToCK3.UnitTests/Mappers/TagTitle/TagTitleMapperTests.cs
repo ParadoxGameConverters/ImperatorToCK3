@@ -21,6 +21,7 @@ using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,7 +44,7 @@ public class TagTitleMapperTests {
 	private static readonly ColorFactory ColorFactory = new();
 	
 	static TagTitleMapperTests() {
-		var ck3ModFlags = new List<string>();
+		var ck3ModFlags = new OrderedDictionary<string, bool>();
 		var pillars = new PillarCollection(ColorFactory, ck3ModFlags);
 		cultures = new CultureCollection(ColorFactory, pillars, ck3ModFlags);
 	}
@@ -80,6 +81,7 @@ public class TagTitleMapperTests {
 			Array.Empty<Dependency>(),
 			mapper,
 			new LocDB("english"),
+			new TestCK3LocDB(),
 			provMapper,
 			new CoaMapper(),
 			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
@@ -154,6 +156,7 @@ public class TagTitleMapperTests {
 			Array.Empty<Dependency>(),
 			mapper,
 			new LocDB("english"),
+			new TestCK3LocDB(),
 			provMapper,
 			new CoaMapper(),
 			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
@@ -247,6 +250,7 @@ public class TagTitleMapperTests {
 			Array.Empty<Dependency>(),
 			mapper,
 			new LocDB("english"),
+			new TestCK3LocDB(),
 			provMapper,
 			new CoaMapper(),
 			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),

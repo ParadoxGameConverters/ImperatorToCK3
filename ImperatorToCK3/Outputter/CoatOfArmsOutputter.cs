@@ -2,32 +2,48 @@
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Mappers.CoA;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 public static class CoatOfArmsOutputter {
-	public static void OutputCoas(string outputModName, Title.LandedTitles titles, IEnumerable<Dynasty> dynasties) {
+	public static async Task OutputCoas(string outputModPath, Title.LandedTitles titles, IEnumerable<Dynasty> dynasties, CoaMapper ck3CoaMapper) {
 		Logger.Info("Outputting coats of arms...");
-		var coasPath = Path.Combine("output", outputModName, "common", "coat_of_arms", "coat_of_arms");
-
-		var path = Path.Combine(coasPath, "zzz_IRToCK3_coas.txt");
-		using var coasWriter = new StreamWriter(path);
+		
+		// Output variables (like "@smCastleX = 0.27" in vanilla CK3).
+		var sb = new System.Text.StringBuilder();
+		foreach (var (variableName, variableValue) in ck3CoaMapper.VariablesToOutput) {
+			sb.AppendLine($"@{variableName}={variableValue}");
+		}
 
 		// Output CoAs for titles.
 		foreach (var title in titles) {
 			var coa = title.CoA;
-			if (coa is not null) {
-				coasWriter.WriteLine($"{title.Id}={coa}");
+			if (coa is null) {
+				continue;
 			}
+			
+			// If the title's ID is present in CoaMapper, we don't need to output the CoA (because it's already in the CK3 mod filesystem).
+			if (ck3CoaMapper.GetCoaForFlagName(title.Id, warnIfMissing: false) is not null) {
+				continue;
+			}
+
+			sb.AppendLine($"{title.Id}={coa}");
 		}
 
 		// Output CoAs for dynasties.
 		foreach (var dynasty in dynasties.Where(d => d.CoA is not null)) {
-			coasWriter.WriteLine($"{dynasty.Id}={dynasty.CoA}");
+			sb.AppendLine($"{dynasty.Id}={dynasty.CoA}");
 		}
+
+		var coasPath = Path.Combine(outputModPath, "common/coat_of_arms/coat_of_arms");
+		var path = Path.Combine(coasPath, "zzz_IRToCK3_coas.txt");
+		await using var coasWriter = new StreamWriter(path);
+		await coasWriter.WriteAsync(sb.ToString());
 
 		Logger.IncrementProgress();
 	}

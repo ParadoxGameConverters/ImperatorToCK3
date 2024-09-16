@@ -1,12 +1,11 @@
-﻿using commonItems;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace ImperatorToCK3.CK3.Characters;
 
-public class DNA {
-	public class PaletteCoordinates {
+public sealed class DNA {
+	public sealed class PaletteCoordinates {
 		// hair, skin and eye color palettes are 256x256
 		public int X { get; init; } = 128;
 		public int Y { get; init; } = 128;
@@ -43,13 +42,13 @@ public class DNA {
 		this.accessoryDNAValues = new(accessoryDNAValues);
 	}
 
-	public void OutputGenes(StreamWriter output) {
-		output.WriteLine("\t\tgenes={");
+	public void WriteGenes(StringBuilder sb) {
+		sb.AppendLine("\t\tgenes={");
 
 		foreach (var dnaLine in DNALines) {
-			output.WriteLine($"\t\t\t{dnaLine}");
+			sb.AppendLine($"\t\t\t{dnaLine}");
 		}
 
-		output.WriteLine("\t\t}");
+		sb.AppendLine("\t\t}");
 	}
 }

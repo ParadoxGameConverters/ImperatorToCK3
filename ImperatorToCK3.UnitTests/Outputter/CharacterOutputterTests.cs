@@ -3,6 +3,7 @@ using FluentAssertions;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.Outputter;
 using System.IO;
+using System.Text;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Outputter;
@@ -18,10 +19,10 @@ public class CharacterOutputterTests {
 		var pregnantFemale = new Character("1", "Incontinentia", birthDate: "580.1.1", characters) {Female = true};
 		pregnantFemale.Pregnancies.Add(new Pregnancy(fatherId:"2", motherId: "1", childBirthDate, isBastard:false));
 
-		var output = new StringWriter();
-		CharacterOutputter.OutputCharacter(output, pregnantFemale, conversionDate);
+		var sb = new StringBuilder();
+		CharacterOutputter.WriteCharacter(sb, pregnantFemale, conversionDate);
 
-		var outputString = output.ToString();
+		var outputString = sb.ToString();
 		outputString.Should().Contain("female = yes");
 		outputString.Should().Contain($"{conceptionDate}={{ effect={{ make_pregnant_no_checks={{ father=character:2 }} }} }}");
 	}

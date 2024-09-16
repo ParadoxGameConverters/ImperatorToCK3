@@ -61,7 +61,7 @@ public class LandedTitlesTests {
 
 	public LandedTitlesTests() {
 		var colorFactory = new ColorFactory();
-		var ck3ModFlags = Array.Empty<string>();
+		var ck3ModFlags = new OrderedDictionary<string, bool>();
 		PillarCollection pillars = new(colorFactory, ck3ModFlags);
 		cultures = new CultureCollection(colorFactory, pillars, ck3ModFlags);
 	}
@@ -269,7 +269,7 @@ public class LandedTitlesTests {
 		var tagTitleMapper = new TagTitleMapper();
 		var provinceMapper = new ProvinceMapper();
 		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
-		var locDB = new LocDB("english");
+		var irLocDB = new LocDB("english");
 		var ck3Religions = new ReligionCollection(titles);
 		var religionMapper = new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper);
 		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper, cultures);
@@ -293,12 +293,15 @@ public class LandedTitlesTests {
 			provinceMapper,
 			deathReasonMapper,
 			dnaFactory,
+			new TestCK3LocDB(),
 			conversionDate,
 			config
 		);
 
+		var ck3LocDB = new TestCK3LocDB();
+
 		// Import country 589.
-		titles.ImportImperatorCountries(imperatorWorld.Countries, imperatorWorld.Dependencies, tagTitleMapper, locDB, provinceMapper, coaMapper, new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, new List<KeyValuePair<Country, Dependency?>>());
+		titles.ImportImperatorCountries(imperatorWorld.Countries, imperatorWorld.Dependencies, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, new List<KeyValuePair<Country, Dependency?>>());
 		Assert.Collection(titles,
 			title => Assert.Equal("c_county1", title.Id),
 			title => Assert.Equal("b_barony1", title.Id),
@@ -310,9 +313,13 @@ public class LandedTitlesTests {
 		);
 
 		var provinces = new ProvinceCollection(ck3ModFS);
-		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
+		var ck3MapData = new MapData(ck3ModFS);
+		ck3MapData.ProvinceDefinitions.Add(new(1));
+		ck3MapData.ProvinceDefinitions.Add(new(2));
+		ck3MapData.ProvinceDefinitions.Add(new(3));
+		provinces.ImportImperatorProvinces(imperatorWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 		// Country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level.
-		titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, locDB, config, provinceMapper, definiteFormMapper, irRegionMapper, coaMapper, countyLevelGovernorships);
+		titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, irLocDB, ck3LocDB, config, provinceMapper, definiteFormMapper, irRegionMapper, coaMapper, countyLevelGovernorships);
 
 		Assert.Collection(titles,
 			title => Assert.Equal("c_county1", title.Id),
@@ -369,16 +376,20 @@ public class LandedTitlesTests {
 		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper, cultures);
 		var religions = new ReligionCollection(titles);
 		var religionMapper = new ReligionMapper(religions, irRegionMapper, ck3RegionMapper);
-		ck3Provinces.ImportImperatorProvinces(irWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
+		var ck3MapData = new MapData(ck3ModFS);
+		ck3MapData.ProvinceDefinitions.Add(new(1));
+		ck3MapData.ProvinceDefinitions.Add(new(2));
+		ck3MapData.ProvinceDefinitions.Add(new(3));
+		ck3Provinces.ImportImperatorProvinces(irWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 
 		var date = config.CK3BookmarkDate;
 		titles.ImportDevelopmentFromImperator(ck3Provinces, date, defaultConfig.ImperatorCivilizationWorth);
 
-		Assert.Equal(6, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*25=10; 10-sqrt(10)≈6
+		Assert.Equal(8, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*(25-sqrt(25)) ≈ 8
 	}
 
 	[Fact]
-	public void DevelopmentFromImperatorProvinceCanBeSplitForTargetProvinces() {
+	public void DevelopmentFromImperatorProvinceCanBeUsedForMultipleCK3Provinces() {
 		var conversionDate = new Date(476, 1, 1);
 		var config = new Configuration { CK3BookmarkDate = conversionDate };
 		var titles = new Title.LandedTitles();
@@ -401,14 +412,18 @@ public class LandedTitlesTests {
 		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper, cultures);
 		var religions = new ReligionCollection(titles);
 		var religionMapper = new ReligionMapper(religions, irRegionMapper, ck3RegionMapper);
-		ck3Provinces.ImportImperatorProvinces(irWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
+		var ck3MapData = new MapData(ck3ModFS);
+		ck3MapData.ProvinceDefinitions.Add(new(1));
+		ck3MapData.ProvinceDefinitions.Add(new(2));
+		ck3MapData.ProvinceDefinitions.Add(new(3));
+		ck3Provinces.ImportImperatorProvinces(irWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 
 		var date = config.CK3BookmarkDate;
 		titles.ImportDevelopmentFromImperator(ck3Provinces, date, defaultConfig.ImperatorCivilizationWorth);
 
-		Assert.Equal(1, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*7=2.8;  2.8-sqrt(2.8)≈1
-		Assert.Equal(1, titles["c_county2"].GetDevelopmentLevel(date)); // same as above
-		Assert.Equal(1, titles["c_county3"].GetDevelopmentLevel(date)); // same as above
+		Assert.Equal(6, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4 * (21-sqrt(21) ≈ 6
+		Assert.Equal(6, titles["c_county2"].GetDevelopmentLevel(date)); // same as above
+		Assert.Equal(6, titles["c_county3"].GetDevelopmentLevel(date)); // same as above
 	}
 
 	[Fact]
@@ -435,12 +450,20 @@ public class LandedTitlesTests {
 		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper, cultures);
 		var religions = new ReligionCollection(titles);
 		var religionMapper = new ReligionMapper(religions, irRegionMapper, ck3RegionMapper);
-		ck3Provinces.ImportImperatorProvinces(irWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
+		var ck3MapData = new MapData(ck3ModFS);
+		ck3MapData.ProvinceDefinitions.Add(new(1));
+		ck3MapData.ProvinceDefinitions.Add(new(2));
+		ck3MapData.ProvinceDefinitions.Add(new(3));
+		ck3Provinces.ImportImperatorProvinces(irWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 
 		var date = config.CK3BookmarkDate;
 		titles.ImportDevelopmentFromImperator(ck3Provinces, date, defaultConfig.ImperatorCivilizationWorth);
-
-		Assert.Equal(6, titles["c_county1"].GetDevelopmentLevel(date)); // 0.4*(10+40)/2=10; 10-sqrt(10)≈6
+		
+		// Dev from province 1: 10-sqrt(10) ≈ 6
+		// Dev from province 2: 40-sqrt(40) ≈ 33
+		// Average: (6+33)/2 ≈ 19
+		// Average multiplied by civilization worth: 0.4*19 ≈ 8
+		Assert.Equal(8, titles["c_county1"].GetDevelopmentLevel(date));
 	}
 
 	[Fact]

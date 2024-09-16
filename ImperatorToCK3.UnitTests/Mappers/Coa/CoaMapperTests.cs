@@ -5,7 +5,9 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Coa;
 
-public class CoaMapperTests {
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
+public sealed class CoaMapperTests {
 	private const string ImperatorRoot = "TestFiles/MapperTests/CoaMapper/Imperator/game";
 	private static readonly ModFilesystem imperatorModFs = new(ImperatorRoot, Array.Empty<Mod>());
 
@@ -51,7 +53,7 @@ public class CoaMapperTests {
 		                    "\t\tcolor1 =\"bone_white\"\n" +
 		                    "\t\tcolor2 =\"offwhite\"\n" +
 		                    "\t\tinstance ={\n" +
-		                    "\t\t\tscale ={-0.9 0.9 }\"\n" +
+		                    "\t\t\tscale ={-0.9 0.9 }\n" +
 		                    "\t\t}\n" +
 		                    "\t}\n" +
 		                    "\tcolored_emblem ={\n" +

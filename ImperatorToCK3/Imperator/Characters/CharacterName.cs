@@ -2,7 +2,7 @@
 
 namespace ImperatorToCK3.Imperator.Characters;
 
-public class CharacterName {
+public sealed class CharacterName {
 	public string Name { get; private set; } = string.Empty; // key for localization or literal name
 	public string? CustomName { get; private set; } // localized
 

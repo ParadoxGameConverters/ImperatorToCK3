@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Diplomacy;
 
-public class War {
+public sealed class War {
 	public Date StartDate { get; private set; } = new(1, 1, 1);
 	public bool Previous { get; private set; }
 	public IList<ulong> AttackerCountryIds { get; } = new List<ulong>();

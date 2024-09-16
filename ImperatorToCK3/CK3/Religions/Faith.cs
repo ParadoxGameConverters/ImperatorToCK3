@@ -3,15 +3,14 @@ using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Serialization;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 
 namespace ImperatorToCK3.CK3.Religions;
 
-public class Faith : IIdentifiable<string>, IPDXSerializable {
+public sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
-	public Religion Religion { get; }
+	public Religion Religion { get; set; }
 	public Color? Color { get; }
 	public string? ReligiousHeadTitleId { get; }
 	public OrderedSet<string> DoctrineIds { get; }
@@ -24,12 +23,12 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 		ReligiousHeadTitleId = faithData.ReligiousHeadTitleId;
 		DoctrineIds = faithData.DoctrineIds.ToOrderedSet();
 		holySiteIds = faithData.HolySiteIds.ToOrderedSet();
-		attributes = faithData.Attributes.ToList();
+		attributes = [.. faithData.Attributes];
 	}
 
 	private readonly OrderedSet<string> holySiteIds;
-	public IReadOnlyCollection<string> HolySiteIds => holySiteIds.ToImmutableArray();
-	private readonly List<KeyValuePair<string, StringOfItem>> attributes;
+	public IReadOnlyCollection<string> HolySiteIds => [.. holySiteIds];
+	private readonly KeyValuePair<string, StringOfItem>[] attributes;
 
 	public void ReplaceHolySiteId(string oldId, string newId) {
 		if (holySiteIds.Remove(oldId)) {
@@ -74,10 +73,24 @@ public class Faith : IIdentifiable<string>, IPDXSerializable {
 
 	public string? GetDoctrineIdForDoctrineCategoryId(string doctrineCategoryId) {
 		var category = Religion.ReligionCollection.DoctrineCategories[doctrineCategoryId];
+		return GetDoctrineIdForDoctrineCategory(category);
+	}
+
+	private string? GetDoctrineIdForDoctrineCategory(DoctrineCategory category) {
 		var potentialDoctrineIds = category.DoctrineIds;
-		
+
 		// Look in faith first. If not found, look in religion.
 		var matchingInFaith = DoctrineIds.Intersect(potentialDoctrineIds).LastOrDefault();
 		return matchingInFaith ?? Religion.DoctrineIds.Intersect(potentialDoctrineIds).LastOrDefault();
+	}
+	
+	public bool HasDoctrine(string doctrineId) {
+		var category = Religion.ReligionCollection.DoctrineCategories
+			.FirstOrDefault(category => category.DoctrineIds.Contains(doctrineId));
+		if (category is null) {
+			return false;
+		}
+		
+		return GetDoctrineIdForDoctrineCategory(category) == doctrineId;
 	}
 }

@@ -1,0 +1,1 @@
+Localization from this folder is only added to the generated mod if the localization keys are not yet localized.

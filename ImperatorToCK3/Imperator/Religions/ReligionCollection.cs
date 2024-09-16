@@ -6,26 +6,26 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Religions;
 
-public class ReligionCollection : IdObjectCollection<string, Religion> {
-	public IdObjectCollection<string, Deity> Deities { get; } = new();
+public sealed class ReligionCollection : IdObjectCollection<string, Religion> {
+	public IdObjectCollection<string, Deity> Deities { get; } = [];
 
-	private readonly Dictionary<ulong, string> holySiteIdToDeityIdDict = new();
+	private readonly Dictionary<ulong, string> holySiteIdToDeityIdDict = [];
 
 	public ReligionCollection(ScriptValueCollection scriptValues) {
-		IDictionary<string, double> parsedReligionModifiers;
+		OrderedDictionary<string, double> parsedReligionModifiers;
 		var religionParser = new Parser();
 		religionParser.RegisterKeyword("modifier", reader => {
 			var modifiersAssignments = reader.GetAssignments();
-			parsedReligionModifiers = modifiersAssignments
+			parsedReligionModifiers = new(modifiersAssignments
 				.ToDictionary(kvp => kvp.Key, kvp => scriptValues.GetValueForString(kvp.Value))
 				.Where(kvp=>kvp.Value is not null)
-				.ToDictionary(kvp => kvp.Key, kvp=>(double)kvp.Value!);
+				.ToDictionary(kvp => kvp.Key, kvp=>(double)kvp.Value!));
 		});
 		religionParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 
 		religionsParser = new Parser();
 		religionsParser.RegisterRegex(CommonRegexes.String, (reader, religionId) => {
-			parsedReligionModifiers = new Dictionary<string, double>();
+			parsedReligionModifiers = new();
 
 			religionParser.ParseStream(reader);
 			AddOrReplace(new Religion(religionId, parsedReligionModifiers));
@@ -41,14 +41,14 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 
 	public void LoadReligions(ModFilesystem imperatorModFS) {
 		Logger.Info("Loading Imperator religions...");
-		religionsParser.ParseGameFolder("common/religions", imperatorModFS, "txt", true);
+		religionsParser.ParseGameFolder("common/religions", imperatorModFS, "txt", recursive: true);
 
 		Logger.IncrementProgress();
 	}
 
 	public void LoadDeities(ModFilesystem imperatorModFS) {
 		Logger.Info("Loading Imperator deities...");
-		deitiesParser.ParseGameFolder("common/deities", imperatorModFS, "txt", true);
+		deitiesParser.ParseGameFolder("common/deities", imperatorModFS, "txt", recursive: true);
 
 		Logger.IncrementProgress();
 	}

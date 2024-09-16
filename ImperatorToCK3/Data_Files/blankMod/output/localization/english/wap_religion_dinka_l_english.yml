@@ -15,6 +15,8 @@
  dinka_religious_head_title_name:0 "High Council" #fictional
  dinka_priest_male:0 "raan nhialic" 
  dinka_priest_male_plural:0 "raan nhialic"
+ dinka_priest_female: "$paganism_priest$" # IRToCK3: gap filler localization
+ dinka_priest_female_plural: "$paganism_priest_plural$" # IRToCK3: gap filler localization
  dinka_priest_term_plural:0 "raan nhialic"
  dinka_priest_alternate:1 "yï wada" #lit. your father
  dinka_priest_alternate_plural:1 "yï wada"
@@ -70,6 +72,7 @@
  #Dinka Pagan
  dinka_pagan:0 "Nhialacism" #fictional as no known name available for traditional Dinka religion
  dinka_pagan_adj:0 "Nhialacism" #fictional term created for game purposes.
+ dinka_pagan_desc: "Nhialacism is the traditional religion of the Dinka people. It is centered around Nhialac, believed to be the great God of the sky and of the all important rain."
  dinka_pagan_adherent:0 "Nhialacist" #fictional term created for game purposes.
  dinka_pagan_adherent_plural:0 "Nhialacists"
  

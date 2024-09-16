@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Inventions;
 
-public class InventionsDB {
+public sealed class InventionsDB {
 	private readonly OrderedSet<string> inventionIds = [];
 
 	public IReadOnlyCollection<string> InventionIds => inventionIds;
@@ -32,7 +32,7 @@ public class InventionsDB {
 	public IEnumerable<string> GetActiveInventionIds(IList<bool> booleans) {
 		// Enumerate over the inventions and return the ones that are active (bool is true).
 		foreach (var item in inventionIds.Select((inventionId, i) => new { i, inventionId })) {
-			if (booleans[item.i]) {
+			if (item.i < booleans.Count && booleans[item.i]) {
 				yield return item.inventionId;
 			}
 		}

@@ -9,7 +9,7 @@ using ImperatorToCK3.Mappers.Religion;
 
 namespace ImperatorToCK3.CK3.Titles;
 
-public class RulerTerm {
+public sealed class RulerTerm {
 	public string? CharacterId { get; }
 	public Date StartDate { get; }
 	public string? Government { get; }
@@ -19,7 +19,8 @@ public class RulerTerm {
 		Imperator.Countries.RulerTerm imperatorRulerTerm,
 		Characters.CharacterCollection characters,
 		GovernmentMapper governmentMapper,
-		LocDB locDB,
+		LocDB irLocDB,
+		CK3LocDB ck3LocDB,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
@@ -48,7 +49,8 @@ public class RulerTerm {
 				StartDate,
 				PreImperatorRuler.Country,
 				characters,
-				locDB,
+				irLocDB,
+				ck3LocDB,
 				religionMapper,
 				cultureMapper,
 				nicknameMapper,
@@ -57,7 +59,7 @@ public class RulerTerm {
 			);
 			if (characters.ContainsKey(character.Id)) {
 				Logger.Warn($"Cannot add pre-Imperator ruler {character.Id} " +
-				            $"- a character with this ID already exists!");
+				            "- a character with this ID already exists!");
 				return;
 			}
 			characters.Add(character);

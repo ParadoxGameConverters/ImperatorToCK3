@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.States;
 
-public class State : IIdentifiable<ulong> {
+public sealed class State : IIdentifiable<ulong> {
 	public ulong Id { get; }
 	private readonly ulong capitalProvinceId;
 	public Area Area { get; }

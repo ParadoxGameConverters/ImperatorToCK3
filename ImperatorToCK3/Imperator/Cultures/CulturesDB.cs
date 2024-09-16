@@ -4,7 +4,7 @@ using commonItems.Mods;
 
 namespace ImperatorToCK3.Imperator.Cultures;
 
-public class CulturesDB : IdObjectCollection<string, CultureGroup> {
+public sealed class CulturesDB : IdObjectCollection<string, CultureGroup> {
 	public void Load(ModFilesystem irModFS) {
 		Logger.Info("Loading cultures database...");
 

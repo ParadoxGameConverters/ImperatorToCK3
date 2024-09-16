@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
-public partial class Country {
+public sealed partial class Country {
 	private const string monarchyLawRegexStr = "succession_law|monarchy_military_reforms|monarchy_maritime_laws|monarchy_economic_law|monarchy_citizen_law" +
 	                                           "|monarchy_religious_laws|monarchy_legitimacy_laws|monarchy_contract_law|monarchy_divinity_statutes|jewish_monarchy_divinity_statutes|monarchy_subject_laws";
 	private const string republicLawRegexStr = "republic_military_recruitment_laws_rom|republic_election_reforms_rom|corruption_laws_rom|republican_mediterranean_laws_rom|republican_religious_laws_rom|republic_integration_laws_rom|republic_citizen_laws_rom|republican_land_reforms_rom" +
@@ -18,11 +18,11 @@ public partial class Country {
 	private static readonly SortedSet<string> monarchyGovernments = new();
 	private static readonly SortedSet<string> republicGovernments = new();
 	private static readonly SortedSet<string> tribalGovernments = new();
-	private static readonly Parser parser = new();
-	private static Country parsedCountry = new(0);
-	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
+	public static ConcurrentIgnoredKeywordsSet IgnoredTokens { get; } = new();
 
-	static Country() {
+	private static void RegisterCountryKeywords(Parser parser, Country parsedCountry) {
+		var colorFactory = new ColorFactory();
+		
 		parser.RegisterKeyword("tag", reader => parsedCountry.Tag = reader.GetString());
 		parser.RegisterKeyword("historical", reader => parsedCountry.HistoricalTag = reader.GetString());
 		parser.RegisterKeyword("origin", reader => parsedCountry.parsedOriginCountryId = reader.GetULong());
@@ -52,9 +52,9 @@ public partial class Country {
 					break;
 			}
 		});
-		parser.RegisterKeyword("color", reader => parsedCountry.Color1 = new ColorFactory().GetColor(reader));
-		parser.RegisterKeyword("color2", reader => parsedCountry.Color2 = new ColorFactory().GetColor(reader));
-		parser.RegisterKeyword("color3", reader => parsedCountry.Color3 = new ColorFactory().GetColor(reader));
+		parser.RegisterKeyword("color", reader => parsedCountry.Color1 = colorFactory.GetColor(reader));
+		parser.RegisterKeyword("color2", reader => parsedCountry.Color2 = colorFactory.GetColor(reader));
+		parser.RegisterKeyword("color3", reader => parsedCountry.Color3 = colorFactory.GetColor(reader));
 		parser.RegisterKeyword("currency_data", reader =>
 			parsedCountry.Currencies = new CountryCurrencies(reader)
 		);
@@ -94,15 +94,23 @@ public partial class Country {
 		parser.RegisterRegex(monarchyLawRegexStr, reader => parsedCountry.monarchyLaws.Add(reader.GetString()));
 		parser.RegisterRegex(republicLawRegexStr, reader => parsedCountry.republicLaws.Add(reader.GetString()));
 		parser.RegisterRegex(tribalLawRegexStr, reader => parsedCountry.tribalLaws.Add(reader.GetString()));
+		parser.RegisterKeyword("is_antagonist", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("has_senior_ally", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("cached_happiness_for_owned", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("cached_pop_count_for_owned", ParserHelpers.IgnoreItem);
 		parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 			IgnoredTokens.Add(token);
 			ParserHelpers.IgnoreItem(reader);
 		});
 	}
 	public static Country Parse(BufferedReader reader, ulong countryId) {
-		parsedCountry = new Country(countryId);
+		var newCountry = new Country(countryId);
+		
+		var parser = new Parser();
+		RegisterCountryKeywords(parser, newCountry);
 		parser.ParseStream(reader);
-		return parsedCountry;
+		
+		return newCountry;
 	}
 
 	public static void LoadGovernments(ModFilesystem imperatorModFS) {
@@ -134,7 +142,7 @@ public partial class Country {
 			}
 		});
 		fileParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		fileParser.ParseGameFolder("common/governments", imperatorModFS, "txt", true);
+		fileParser.ParseGameFolder("common/governments", imperatorModFS, "txt", recursive: true);
 		Logger.IncrementProgress();
 
 		static void AddRepublicGovernment(string name) {

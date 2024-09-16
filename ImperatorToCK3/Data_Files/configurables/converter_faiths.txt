@@ -161,6 +161,8 @@ north_african_religion = {
 				HouseOfWorship = paganism_house_of_worship
 				HouseOfWorshipPlural = paganism_house_of_worship_plural
 				ReligiousSymbol = paganism_religious_symbol
+				ReligiousSymbol2 = paganism_religious_symbol_2
+				ReligiousSymbol3 = paganism_religious_symbol_3
 				ReligiousText = paganism_religious_text
 				ReligiousHeadName = paganism_religious_head_title
 				ReligiousHeadTitleName = paganism_religious_head_title_name
@@ -256,6 +258,7 @@ scythian_religion = {
 
 	localization = {
 		HighGodName = ir_papaios
+		HighGodName2 = ir_papaios
 		HighGodNamePossessive = ir_papaios_possessive
 		HighGodNameSheHe = CHARACTER_SHEHE_HE
 		HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -342,6 +345,8 @@ scythian_religion = {
 
 
 		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
 		PantheonTermHasHave = pantheon_term_have
 		GoodGodNames = { ir_thagimasadas ir_goitosyrus ir_papaios ir_api ir_tabiti ir_argimpasa ir_targitaos }
 		DevilName = paganism_devil_name
@@ -351,9 +356,15 @@ scythian_religion = {
 		DevilHerselfHimself = paganism_devil_herselfhimself
 		EvilGodNames = { ir_thagimasadas ir_goitosyrus ir_papaios ir_api ir_tabiti ir_argimpasa ir_targitaos }
 		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
 		HouseOfWorshipPlural = paganism_house_of_worship_plural
 		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
 		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
 		ReligiousHeadName = paganism_religious_head_title
 		ReligiousHeadTitleName = paganism_religious_head_title_name
 		DevoteeMale = paganism_devotee
@@ -376,13 +387,21 @@ scythian_religion = {
 		BishopNeuter = paganism_priest
 		BishopNeuterPlural = paganism_priest_plural
 		DivineRealm = paganism_divine_realm
+		DivineRealm2 = paganism_divine_realm_2
+		DivineRealm3 = paganism_divine_realm_3
 		PositiveAfterLife = paganism_divine_realm
+		PositiveAfterLife2 = paganism_divine_realm_2
+		PositiveAfterLife3 = paganism_divine_realm_3
 		NegativeAfterLife = paganism_afterlife
+		NegativeAfterLife2 = paganism_afterlife_2
+		NegativeAfterLife3 = paganism_afterlife_3
 		DeathDeityName = paganism_death_deity_name
 		DeathDeityNamePossessive = paganism_death_deity_name_possessive
 		DeathDeitySheHe = paganism_devil_shehe
 		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
 		WitchGodName = witchgodname_paganism_the_shadow
+		WitchGodNamePossessive = witchgodname_paganism_the_shadow_possessive
 		WitchGodSheHe = CHARACTER_SHEHE_IT
 		WitchGodHerHis = CHARACTER_HERHIS_ITS
 		WitchGodHerHim = CHARACTER_HERHIM_IT
@@ -469,6 +488,7 @@ arabic_religion = {
 
 	localization = {
 		HighGodName = ir_ailiah
+		HighGodName2 = ir_ailiah
 		HighGodNamePossessive = ir_ailiah_possessive
 		HighGodNameSheHe = CHARACTER_SHEHE_HE
 		HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -553,8 +573,9 @@ arabic_religion = {
 		WaterGodHerHis = CHARACTER_HERHIS_HER
 		WaterGodHerHim = CHARACTER_HERHIM_HER
 
-
 		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
 		PantheonTermHasHave = pantheon_term_have
 		GoodGodNames = { ir_ailiah ir_al_kutbay ir_al_qaum ir_al_uzza ir_alilat ir_manat ir_orotalt ir_ta_lab }
 		DevilName = paganism_devil_name
@@ -564,9 +585,15 @@ arabic_religion = {
 		DevilHerselfHimself = paganism_devil_herselfhimself
 		EvilGodNames = { ir_ailiah ir_al_kutbay ir_al_qaum ir_al_uzza ir_alilat ir_manat ir_orotalt ir_ta_lab }
 		HouseOfWorship = islam_house_of_worship
+		HouseOfWorship2 = islam_house_of_worship
+		HouseOfWorship3 = islam_house_of_worship
 		HouseOfWorshipPlural = islam_house_of_worship_plural
 		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
 		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
 		ReligiousHeadName = paganism_religious_head_title
 		ReligiousHeadTitleName = paganism_religious_head_title_name
 		DevoteeMale = paganism_devotee
@@ -589,13 +616,21 @@ arabic_religion = {
 		BishopNeuter = islam_bishop
 		BishopNeuterPlural = islam_bishop_plural
 		DivineRealm = paganism_divine_realm
+		DivineRealm2 = paganism_divine_realm_2
+		DivineRealm3 = paganism_divine_realm_3
 		PositiveAfterLife = paganism_divine_realm
+		PositiveAfterLife2 = paganism_divine_realm_2
+		PositiveAfterLife3 = paganism_divine_realm_3
 		NegativeAfterLife = paganism_afterlife
+		NegativeAfterLife2 = paganism_afterlife_2
+		NegativeAfterLife3 = paganism_afterlife_3
 		DeathDeityName = paganism_death_deity_name
 		DeathDeityNamePossessive = paganism_death_deity_name_possessive
 		DeathDeitySheHe = paganism_devil_shehe
 		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
 		WitchGodName = witchgodname_paganism_the_shadow
+		WitchGodNamePossessive = witchgodname_paganism_the_shadow_possessive
 		WitchGodSheHe = CHARACTER_SHEHE_IT
 		WitchGodHerHis = CHARACTER_HERHIS_ITS
 		WitchGodHerHim = CHARACTER_HERHIM_IT
@@ -825,10 +860,11 @@ burmic_religion = { # Folk religions of Burmese peoples
 		NegativeAfterLife = burmic_negative_afterlife
 		NegativeAfterLife2 = burmic_negative_afterlife
 		NegativeAfterLife3 = burmic_negative_afterlife
-		DeathDeityName = burmic_death_name
-		DeathDeityNamePossessive = burmic_death_name_possessive
+		DeathDeityName = burmic_death_deity_name
+		DeathDeityNamePossessive = burmic_death_deity_name_possessive
 		DeathDeitySheHe = CHARACTER_SHEHE_HE
 		DeathDeityHerHis = CHARACTER_HERHIS_HIS
+		DeathDeityHerHim = CHARACTER_HERHIM_HIM
 		WitchGodName = burmic_evil_god_dul
 		WitchGodNamePossessive = burmic_evil_god_dul_possessive
 		WitchGodHerHis = CHARACTER_HERHIS_HER
@@ -1515,10 +1551,9 @@ germanic_religion = {
 				WaterGodHerHis = CHARACTER_HERHIS_HIS
 				WaterGodHerHim = CHARACTER_HERHIM_HIM
 
-
 				PantheonTerm = religion_the_gods
 				PantheonTermHasHave = pantheon_term_have
-				GoodGodNames = { anglosaxon_good_god_thunor anglosaxon_good_god_baldaeg anglosaxon_good_god_freya anglosaxon_good_god_tiw anglosaxon_good_god_eorthe}
+				GoodGodNames = { anglosaxon_good_god_thunor anglosaxon_good_god_baldaeg anglosaxon_good_god_freya anglosaxon_good_god_eorthe}
 				DevilName = anglosaxon_devil_name
 				DevilNamePossessive = anglosaxon_devil_name_possessive
 				DevilSheHe = CHARACTER_SHEHE_HE
@@ -1644,7 +1679,7 @@ dinka_religion = {
 		FertilityGodHerHim = CHARACTER_HERHIM_HER
 
 		#WealthGod
-		WealthGodName = dinka_health_god_namee
+		WealthGodName = dinka_health_god_name
 		WealthGodNamePossessive = dinka_health_god_name_possessive
 		WealthGodSheHe = CHARACTER_SHEHE_SHE
 		WealthGodHerHis = CHARACTER_HERHIS_HER
@@ -1700,10 +1735,10 @@ dinka_religion = {
 		WaterGodHerHim = CHARACTER_HERHIM_HIM
 
 		PantheonTerm = religion_the_gods
-		PantheonTerm2 = religion_the_gods2
-		PantheonTerm3 = religion_the_gods3
+		PantheonTerm2 = religion_the_gods_2
+		PantheonTerm3 = religion_the_gods_3
 		PantheonTermHasHave = pantheon_term_have
-		GoodGodNames = { dinka_high_god_name dinka_household_god_name dinka_high_god_name_alternate dinka_health_god dinka_fertility_god dinka_good_god_ayum dinka_good_god_aciek }
+		GoodGodNames = { dinka_high_god_name dinka_household_god_name dinka_high_god_name_alternate dinka_health_god_name dinka_fertility_god_name dinka_good_god_ayum dinka_good_god_aciek }
 		DevilName = dinka_devil_name
 		DevilNamePossessive = dinka_devil_name_possessive
 		DevilSheHe = CHARACTER_SHEHE_HE
@@ -1754,6 +1789,7 @@ dinka_religion = {
 		DeathDeityNamePossessive = dinka_death_deity_name_possessive
 		DeathDeitySheHe = CHARACTER_SHEHE_HE
 		DeathDeityHerHis = CHARACTER_HERHIS_HIS
+		DeathDeityHerHim = CHARACTER_HERHIM_HIM
 		WitchGodName = witchgodname_the_jak
 		WitchGodNamePossessive = witchgodname_the_jak_possessive
 		WitchGodHerHis = CHARACTER_HERHIS_ITS
@@ -1842,6 +1878,8 @@ anatolian_religion = {
 
 	localization = {
 		HighGodName = ir_cybele
+		HighGodName2 = ir_cybele
+
 		HighGodNamePossessive = ir_cybele_possessive
 		HighGodNameSheHe = CHARACTER_SHEHE_SHE
 		HighGodHerselfHimself = CHARACTER_HERSELF
@@ -1928,6 +1966,8 @@ anatolian_religion = {
 
 
 		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
 		PantheonTermHasHave = pantheon_term_have
 		GoodGodNames = { ir_agdistis ir_kakasbos ir_men ir_dactyls ir_dindymene ir_attis ir_cybele ir_ma }
 		DevilName = paganism_devil_name
@@ -1937,9 +1977,15 @@ anatolian_religion = {
 		DevilHerselfHimself = paganism_devil_herselfhimself
 		EvilGodNames = { ir_agdistis ir_kakasbos ir_men ir_dactyls ir_dindymene ir_attis ir_cybele ir_ma }
 		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
 		HouseOfWorshipPlural = paganism_house_of_worship_plural
 		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
 		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
 		ReligiousHeadName = paganism_religious_head_title
 		ReligiousHeadTitleName = paganism_religious_head_title_name
 		DevoteeMale = paganism_devotee
@@ -1962,13 +2008,21 @@ anatolian_religion = {
 		BishopNeuter = cyb_archigallus
 		BishopNeuterPlural = cyb_archigalluses
 		DivineRealm = paganism_divine_realm
+		DivineRealm2 = paganism_divine_realm_2
+		DivineRealm3 = paganism_divine_realm_3
 		PositiveAfterLife = paganism_divine_realm
+		PositiveAfterLife2 = paganism_divine_realm_2
+		PositiveAfterLife3 = paganism_divine_realm_3
 		NegativeAfterLife = paganism_afterlife
+		NegativeAfterLife2 = paganism_afterlife_2
+		NegativeAfterLife3 = paganism_afterlife_3
 		DeathDeityName = paganism_death_deity_name
 		DeathDeityNamePossessive = paganism_death_deity_name_possessive
 		DeathDeitySheHe = paganism_devil_shehe
 		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
 		WitchGodName = witchgodname_paganism_the_shadow
+		WitchGodNamePossessive = witchgodname_paganism_the_shadow_possessive
 		WitchGodSheHe = CHARACTER_SHEHE_IT
 		WitchGodHerHis = CHARACTER_HERHIS_ITS
 		WitchGodHerHim = CHARACTER_HERHIM_IT
@@ -2056,6 +2110,7 @@ armenian_religion = {
 
 	localization = {
 		HighGodName = ir_khaldi
+		HighGodName2 = ir_khaldi
 		HighGodNamePossessive = ir_khaldi_possessive
 		HighGodNameSheHe = CHARACTER_SHEHE_HE
 		HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -2142,6 +2197,8 @@ armenian_religion = {
 
 
 		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
 		PantheonTermHasHave = pantheon_term_have
 		GoodGodNames = { ir_shivini ir_theispas ir_khaldi ir_arubani ir_dsvininaue ir_epaninaue ir_bagvarti ir_huba ir_aramazd ir_vahagn ir_nane ir_mihr ir_tir ir_tsovinar ir_anahit ir_spandaramet }
 		DevilName = ir_spandaramet
@@ -2151,9 +2208,15 @@ armenian_religion = {
 		DevilHerselfHimself = paganism_devil_herselfhimself
 		EvilGodNames = { ir_shivini ir_theispas ir_khaldi ir_arubani ir_dsvininaue ir_epaninaue ir_bagvarti ir_huba ir_aramazd ir_vahagn ir_nane ir_mihr ir_tir ir_tsovinar ir_anahit ir_spandaramet }
 		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
 		HouseOfWorshipPlural = paganism_house_of_worship_plural
 		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
 		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
 		ReligiousHeadName = paganism_religious_head_title
 		ReligiousHeadTitleName = paganism_religious_head_title_name
 		DevoteeMale = paganism_devotee
@@ -2176,13 +2239,21 @@ armenian_religion = {
 		BishopNeuter = paganism_priest
 		BishopNeuterPlural = paganism_priest_plural
 		DivineRealm = paganism_divine_realm
+		DivineRealm2 = paganism_divine_realm_2
+		DivineRealm3 = paganism_divine_realm_3
 		PositiveAfterLife = paganism_divine_realm
+		PositiveAfterLife2 = paganism_divine_realm_2
+		PositiveAfterLife3 = paganism_divine_realm_3
 		NegativeAfterLife = paganism_afterlife
+		NegativeAfterLife2 = paganism_afterlife_2
+		NegativeAfterLife3 = paganism_afterlife_3
 		DeathDeityName = ir_mihr
 		DeathDeityNamePossessive = ir_mihr_possessive
 		DeathDeitySheHe = CHARACTER_SHEHE_HE
 		DeathDeityHerHis = CHARACTER_HERHIS_HIS
+		DeathDeityHerHim = CHARACTER_HERHIM_HIM
 		WitchGodName = ir_dsvininaue
+		WitchGodNamePossessive = ir_dsvininaue_possessive
 		WitchGodSheHe = CHARACTER_SHEHE_SHE
 		WitchGodHerHis = CHARACTER_HERHIS_HER
 		WitchGodHerHim = CHARACTER_HERHIM_HER
@@ -2277,6 +2348,7 @@ canaanite_religion = {
 
 	localization = {
 		HighGodName = ir_el
+		HighGodName2 = ir_el
 		HighGodNamePossessive = ir_el_possessive
 		HighGodNameSheHe = CHARACTER_SHEHE_HE
 		HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -2363,6 +2435,8 @@ canaanite_religion = {
 
 
 		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
 		PantheonTermHasHave = pantheon_term_have
 		GoodGodNames = { ir_anat ir_el ir_yam ir_ba_al ir_eshmun ir_shapash ir_kothar ir_melqart ir_ba_alat ir_astarte ir_atargatis ir_attar ir_tanit ir_ba_al_hammon ir_ba_al_qarnaim }
 		DevilName = ir_ba_al_qarnaim
@@ -2372,9 +2446,15 @@ canaanite_religion = {
 		DevilHerselfHimself = paganism_devil_herselfhimself
 		EvilGodNames = { ir_anat ir_el ir_yam ir_ba_al ir_eshmun ir_shapash ir_kothar ir_melqart ir_ba_alat ir_astarte ir_atargatis ir_attar ir_tanit ir_ba_al_hammon ir_ba_al_qarnaim }
 		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
 		HouseOfWorshipPlural = paganism_house_of_worship_plural
 		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
 		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
 		ReligiousHeadName = paganism_religious_head_title
 		ReligiousHeadTitleName = paganism_religious_head_title_name
 		DevoteeMale = paganism_devotee
@@ -2397,13 +2477,21 @@ canaanite_religion = {
 		BishopNeuter = judaism_bishop
 		BishopNeuterPlural = judaism_bishop_plural
 		DivineRealm = thing_sheol
+		DivineRealm2 = canaanite_religion_divine_realm_2
+		DivineRealm3 = canaanite_religion_divine_realm_3
 		PositiveAfterLife = thing_sheol
+		PositiveAfterLife2 = thing_sheol
+		PositiveAfterLife3 = thing_sheol
 		NegativeAfterLife = thing_sheol
+		NegativeAfterLife2 = thing_sheol
+		NegativeAfterLife3 = thing_sheol
 		DeathDeityName = paganism_death_deity_name
 		DeathDeityNamePossessive = paganism_death_deity_name_possessive
 		DeathDeitySheHe = paganism_devil_shehe
 		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
 		WitchGodName = judaism_witchgodname_raziel
+		WitchGodNamePossessive = judaism_witchgodname_raziel_possessive
 		WitchGodHerHis = CHARACTER_HERHIS_HIS
 		WitchGodSheHe = CHARACTER_SHEHE_HE
 		WitchGodHerHim = CHARACTER_HERHIM_HIM
@@ -2491,6 +2579,7 @@ caucasian_religion = {
 
 	localization = {
 		HighGodName = ir_armazi
+		HighGodName2 = ir_armazi
 		HighGodNamePossessive = ir_armazi_possessive
 		HighGodNameSheHe = CHARACTER_SHEHE_HE
 		HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -2577,6 +2666,8 @@ caucasian_religion = {
 
 
 		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
 		PantheonTermHasHave = pantheon_term_have
 		GoodGodNames = { ir_kopala ir_zadeni ir_armazi ir_ghmerti ir_dali ir_ga ir_adgilis_deda ir_gacim ir_ainina_and_danina }
 		DevilName = paganism_devil_name
@@ -2586,9 +2677,15 @@ caucasian_religion = {
 		DevilHerselfHimself = paganism_devil_herselfhimself
 		EvilGodNames = { ir_kopala ir_zadeni ir_armazi ir_ghmerti ir_dali ir_ga ir_adgilis_deda ir_gacim ir_ainina_and_danina }
 		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
 		HouseOfWorshipPlural = paganism_house_of_worship_plural
 		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
 		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
 		ReligiousHeadName = paganism_religious_head_title
 		ReligiousHeadTitleName = paganism_religious_head_title_name
 		DevoteeMale = paganism_devotee
@@ -2611,13 +2708,21 @@ caucasian_religion = {
 		BishopNeuter = paganism_priest
 		BishopNeuterPlural = paganism_priest_plural
 		DivineRealm = paganism_divine_realm
+		DivineRealm2 = paganism_divine_realm_2
+		DivineRealm3 = paganism_divine_realm_3
 		PositiveAfterLife = paganism_divine_realm
+		PositiveAfterLife2 = paganism_divine_realm_2
+		PositiveAfterLife3 = paganism_divine_realm_3
 		NegativeAfterLife = paganism_afterlife
+		NegativeAfterLife2 = paganism_afterlife_2
+		NegativeAfterLife3 = paganism_afterlife_3
 		DeathDeityName = paganism_death_deity_name
 		DeathDeityNamePossessive = paganism_death_deity_name_possessive
 		DeathDeitySheHe = paganism_devil_shehe
 		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
 		WitchGodName = witchgodname_paganism_the_shadow
+		WitchGodNamePossessive = witchgodname_paganism_the_shadow_possessive
 		WitchGodSheHe = CHARACTER_SHEHE_IT
 		WitchGodHerHis = CHARACTER_HERHIS_ITS
 		WitchGodHerHim = CHARACTER_HERHIM_IT
@@ -2711,6 +2816,7 @@ celtic_religion = {
 
 	localization = {
 		HighGodName = ir_toutatis
+		HighGodName2 = ir_toutatis
 		HighGodNamePossessive = ir_toutatis_possessive
 		HighGodNameSheHe = CHARACTER_SHEHE_HE
 		HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -2797,6 +2903,8 @@ celtic_religion = {
 
 
 		PantheonTerm = cel_tuath_de
+		PantheonTerm2 = cel_tuath_de
+		PantheonTerm3 = cel_tuath_de
 		PantheonTermHasHave = pantheon_term_has
 		GoodGodNames = { ir_cicollus ir_taranis ir_toutatis ir_belinus ir_belisama ir_gobannus ir_maponos ir_ogmios ir_cernunnos ir_cissonius ir_lugus ir_nantosuelta ir_artio ir_icovellauna ir_rosmerta ir_brigantia ir_andraste ir_belatucadros ir_nodens ir_sulis ir_coventina ir_camulus ir_lenus ir_intarabus ir_ancamna ir_berobreo ir_glanis ir_eki ir_mari ir_sucellus ir_nemetona }
 		DevilName = ir_cernunnos
@@ -2806,9 +2914,15 @@ celtic_religion = {
 		DevilHerselfHimself = paganism_devil_herselfhimself
 		EvilGodNames = { ir_cicollus ir_taranis ir_toutatis ir_belinus ir_belisama ir_gobannus ir_maponos ir_ogmios ir_cernunnos ir_cissonius ir_lugus ir_nantosuelta ir_artio ir_icovellauna ir_rosmerta ir_brigantia ir_andraste ir_belatucadros ir_nodens ir_sulis ir_coventina ir_camulus ir_lenus ir_intarabus ir_ancamna ir_berobreo ir_glanis ir_eki ir_mari ir_sucellus ir_nemetona }
 		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
 		HouseOfWorshipPlural = paganism_house_of_worship_plural
 		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
 		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
 		ReligiousHeadName = paganism_religious_head_title
 		ReligiousHeadTitleName = paganism_religious_head_title_name
 		DevoteeMale = paganism_devotee
@@ -2831,13 +2945,21 @@ celtic_religion = {
 		BishopNeuter = cel_druid
 		BishopNeuterPlural = cel_druids
 		DivineRealm = cel_avalon
+		DivineRealm2 = cel_tir_na_nog # https://en.wikipedia.org/wiki/T%C3%ADr_na_n%C3%93g
+		DivineRealm3 = celtic_religion_divine_realm_3
 		PositiveAfterLife = cel_annwn
+		PositiveAfterLife2 = celtic_religion_positive_afterlife_2
+		PositiveAfterLife3 = celtic_religion_positive_afterlife_3
 		NegativeAfterLife = cel_tech_duinn
+		NegativeAfterLife2 = celtic_religion_negative_afterlife_2
+		NegativeAfterLife3 = celtic_religion_negative_afterlife_3
 		DeathDeityName = ir_berobreo
 		DeathDeityNamePossessive = ir_berobreo_possessive
 		DeathDeitySheHe = CHARACTER_SHEHE_HE
 		DeathDeityHerHis = CHARACTER_HERHIS_HIS
+		DeathDeityHerHim = CHARACTER_HERHIM_HIM
 		WitchGodName = ir_andraste
+		WitchGodNamePossessive = ir_andraste_possessive
 		WitchGodSheHe = CHARACTER_SHEHE_SHE
 		WitchGodHerHis = CHARACTER_HERHIS_HER
 		WitchGodHerHim = CHARACTER_HERHIM_HER
@@ -2891,6 +3013,7 @@ celtic_religion = {
 			localization = {
 				#High God Name
 				HighGodName = briton_high_god_name
+				HighGodName2 = briton_high_god_name
 				HighGodNamePossessive = briton_high_god_name_possessive
 				HighGodNameSheHe = CHARACTER_SHEHE_HE
 				HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -2978,6 +3101,8 @@ celtic_religion = {
 
 
 				PantheonTerm = religion_the_gods
+				PantheonTerm2 = religion_the_gods_2
+				PantheonTerm3 = religion_the_gods_3
 				PantheonTermHasHave = pantheon_term_have
 				GoodGodNames = { briton_good_god_dagda ir_belinus ir_danu ir_lugh ir_cernunnos briton_good_god_bran ir_brigid briton_good_god_morrigen ir_epona }
 				DevilName = ir_balor
@@ -2985,11 +3110,15 @@ celtic_religion = {
 				DevilSheHe = CHARACTER_SHEHE_HE
 				DevilHerHis = CHARACTER_HERHIS_HIS
 				DevilHerselfHimself = CHARACTER_HIMSELF
-				EvilGodNames = { ir_fergus ir_bodak briton_evil_god_balor }
+				EvilGodNames = { ir_fergus ir_bodak ir_balor }
 				HouseOfWorship = paganism_house_of_worship
+				HouseOfWorship2 = paganism_house_of_worship_2
+				HouseOfWorship3 = paganism_house_of_worship_3
 				HouseOfWorshipPlural = paganism_house_of_worship_plural
 				ReligiousSymbol = ir_nature
 				ReligiousText = celtic_bible
+				ReligiousText2 = celtic_bible
+				ReligiousText3 = celtic_bible
 				ReligiousHeadName = cel_high_druid
 				ReligiousHeadTitleName = cel_high_circle
 				DevoteeMale = paganism_devotee
@@ -3013,12 +3142,18 @@ celtic_religion = {
 				BishopNeuterPlural = cel_druids
 				DivineRealm = paganism_afterlife
 				PositiveAfterLife = ir_donn
+				PositiveAfterLife2 = ir_donn
+				PositiveAfterLife3 = ir_donn
 				NegativeAfterLife = ir_donn
-				DeathDeityName = ir_donn
+				NegativeAfterLife2 = ir_donn
+				NegativeAfterLife3 = ir_donn
+				DeathDeityName = ir_donn # https://en.wikipedia.org/wiki/Donn
 				DeathDeityNamePossessive = ir_donn_possessive
 				DeathDeitySheHe = CHARACTER_SHEHE_HE
 				DeathDeityHerHis = CHARACTER_HERHIS_HIS
+				DeathDeityHerHim = CHARACTER_HERHIM_HIM
 				WitchGodName = ir_gwydion
+				WitchGodNamePossessive = ir_gwydion_possessive
 				WitchGodHerHis = CHARACTER_HERHIS_HER
 				WitchGodSheHe = CHARACTER_SHEHE_HE
 				WitchGodHerHim = CHARACTER_HERHIM_HER
@@ -3052,6 +3187,7 @@ celtic_religion = {
 			localization = {
 				#High God Name
 				HighGodName = ir_lugus
+				HighGodName2 = ir_lugus
 				HighGodNamePossessive = ir_lugus_possessive
 				HighGodNameSheHe = CHARACTER_SHEHE_HE
 				HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -3139,6 +3275,8 @@ celtic_religion = {
 
 
 				PantheonTerm = religion_the_gods
+				PantheonTerm2 = religion_the_gods_2
+				PantheonTerm3 = religion_the_gods_3
 				PantheonTermHasHave = pantheon_term_have
 				GoodGodNames = { gallic_good_god_dagda ir_belinus ir_danu ir_lugus ir_cernunnos gallic_good_god_bran ir_brigantia gallic_good_god_morrigen ir_epona }
 				DevilName = ir_balor
@@ -3146,11 +3284,15 @@ celtic_religion = {
 				DevilSheHe = CHARACTER_SHEHE_HE
 				DevilHerHis = CHARACTER_HERHIS_HIS
 				DevilHerselfHimself = CHARACTER_HIMSELF
-				EvilGodNames = { ir_fergus ir_bodak gallic_evil_god_balor }
+				EvilGodNames = { ir_fergus ir_bodak ir_balor }
 				HouseOfWorship = paganism_house_of_worship
+				HouseOfWorship2 = paganism_house_of_worship_2
+				HouseOfWorship3 = paganism_house_of_worship_3
 				HouseOfWorshipPlural = paganism_house_of_worship_plural
 				ReligiousSymbol = ir_nature
 				ReligiousText = celtic_bible
+				ReligiousText2 = celtic_bible
+				ReligiousText3 = celtic_bible
 				ReligiousHeadName = cel_high_druid
 				ReligiousHeadTitleName = cel_high_circle
 				DevoteeMale = paganism_devotee
@@ -3174,12 +3316,18 @@ celtic_religion = {
 				BishopNeuterPlural = cel_druids
 				DivineRealm = paganism_afterlife
 				PositiveAfterLife = ir_donn
+				PositiveAfterLife2 = ir_donn
+				PositiveAfterLife3 = ir_donn
 				NegativeAfterLife = ir_donn
+				NegativeAfterLife2 = ir_donn
+				NegativeAfterLife3 = ir_donn
 				DeathDeityName = ir_donn
 				DeathDeityNamePossessive = ir_donn_possessive
 				DeathDeitySheHe = CHARACTER_SHEHE_HE
 				DeathDeityHerHis = CHARACTER_HERHIS_HIS
+				DeathDeityHerHim = CHARACTER_HERHIM_HIM
 				WitchGodName = ir_gwydion
+				WitchGodNamePossessive = ir_gwydion_possessive
 				WitchGodHerHis = CHARACTER_HERHIS_HER
 				WitchGodSheHe = CHARACTER_SHEHE_HE
 				WitchGodHerHim = CHARACTER_HERHIM_HER
@@ -3213,6 +3361,7 @@ celtic_religion = {
 			localization = {
 				#High God Name
 				HighGodName = gaelic_high_god_name
+				HighGodName2 = gaelic_high_god_name
 				HighGodNamePossessive = gaelic_high_god_name_possessive
 				HighGodNameSheHe = CHARACTER_SHEHE_HE
 				HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -3300,6 +3449,8 @@ celtic_religion = {
 
 
 				PantheonTerm = religion_the_gods
+				PantheonTerm2 = religion_the_gods_2
+				PantheonTerm3 = religion_the_gods_3
 				PantheonTermHasHave = pantheon_term_have
 				GoodGodNames = { gaelic_good_god_dagda gaelic_good_god_belenus ir_danu ir_lugh ir_cernunnos briton_good_god_bran ir_brigid briton_good_god_morrigen ir_epona }
 				DevilName = ir_balor
@@ -3307,11 +3458,15 @@ celtic_religion = {
 				DevilSheHe = CHARACTER_SHEHE_HE
 				DevilHerHis = CHARACTER_HERHIS_HIS
 				DevilHerselfHimself = CHARACTER_HIMSELF
-				EvilGodNames = { ir_fergus ir_bodak gaelic_evil_god_balor }
+				EvilGodNames = { ir_fergus ir_bodak ir_balor }
 				HouseOfWorship = paganism_house_of_worship
+				HouseOfWorship2 = paganism_house_of_worship_2
+				HouseOfWorship3 = paganism_house_of_worship_3
 				HouseOfWorshipPlural = paganism_house_of_worship_plural
 				ReligiousSymbol = ir_nature
 				ReligiousText = celtic_bible
+				ReligiousText2 = celtic_bible
+				ReligiousText3 = celtic_bible
 				ReligiousHeadName = cel_high_druid
 				ReligiousHeadTitleName = cel_high_circle
 				DevoteeMale = paganism_devotee
@@ -3335,12 +3490,18 @@ celtic_religion = {
 				BishopNeuterPlural = cel_druids
 				DivineRealm = paganism_afterlife
 				PositiveAfterLife = ir_donn
+				PositiveAfterLife2 = ir_donn
+				PositiveAfterLife3 = ir_donn
 				NegativeAfterLife = ir_donn
+				NegativeAfterLife2 = ir_donn
+				NegativeAfterLife3 = ir_donn
 				DeathDeityName = ir_donn
 				DeathDeityNamePossessive = ir_donn_possessive
 				DeathDeitySheHe = CHARACTER_SHEHE_HE
 				DeathDeityHerHis = CHARACTER_HERHIS_HIS
+				DeathDeityHerHim = CHARACTER_HERHIM_HIM
 				WitchGodName = ir_gwydion
+				WitchGodNamePossessive = ir_gwydion_possessive
 				WitchGodHerHis = CHARACTER_HERHIS_HER
 				WitchGodSheHe = CHARACTER_SHEHE_HE
 				WitchGodHerHim = CHARACTER_HERHIM_HER
@@ -3374,6 +3535,7 @@ celtic_religion = {
 			localization = {
 				#High God Name
 				HighGodName = ir_lugus
+				HighGodName2 = ir_lugus
 				HighGodNamePossessive = ir_lugus_possessive
 				HighGodNameSheHe = CHARACTER_SHEHE_HE
 				HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -3461,6 +3623,8 @@ celtic_religion = {
 
 
 				PantheonTerm = religion_the_gods
+				PantheonTerm2 = religion_the_gods_2
+				PantheonTerm3 = religion_the_gods_3
 				PantheonTermHasHave = pantheon_term_have
 				GoodGodNames = { celtiberian_good_god_dagda ir_belinus ir_danu ir_lugus ir_cernunnos gallic_good_god_bran ir_brigantia gallic_good_god_morrigen ir_epona }
 				DevilName = ir_balor
@@ -3468,11 +3632,15 @@ celtic_religion = {
 				DevilSheHe = CHARACTER_SHEHE_HE
 				DevilHerHis = CHARACTER_HERHIS_HIS
 				DevilHerselfHimself = CHARACTER_HIMSELF
-				EvilGodNames = { ir_fergus ir_bodak celtiberian_evil_god_balor }
+				EvilGodNames = { ir_fergus ir_bodak ir_balor }
 				HouseOfWorship = paganism_house_of_worship
+				HouseOfWorship2 = paganism_house_of_worship_2
+				HouseOfWorship3 = paganism_house_of_worship_3
 				HouseOfWorshipPlural = paganism_house_of_worship_plural
 				ReligiousSymbol = ir_nature
 				ReligiousText = celtic_bible
+				ReligiousText2 = celtic_bible
+				ReligiousText3 = celtic_bible
 				ReligiousHeadName = cel_high_druid
 				ReligiousHeadTitleName = cel_high_circle
 				DevoteeMale = paganism_devotee
@@ -3496,12 +3664,18 @@ celtic_religion = {
 				BishopNeuterPlural = cel_druids
 				DivineRealm = paganism_afterlife
 				PositiveAfterLife = ir_donn
+				PositiveAfterLife2 = ir_donn
+				PositiveAfterLife3 = ir_donn
 				NegativeAfterLife = ir_donn
+				NegativeAfterLife2 = ir_donn
+				NegativeAfterLife3 = ir_donn
 				DeathDeityName = ir_donn
 				DeathDeityNamePossessive = ir_donn_possessive
 				DeathDeitySheHe = CHARACTER_SHEHE_HE
 				DeathDeityHerHis = CHARACTER_HERHIS_HIS
+				DeathDeityHerHim = CHARACTER_HERHIM_HIM
 				WitchGodName = ir_gwydion
+				WitchGodNamePossessive = ir_gwydion_possessive
 				WitchGodHerHis = CHARACTER_HERHIS_HER
 				WitchGodSheHe = CHARACTER_SHEHE_HE
 				WitchGodHerHim = CHARACTER_HERHIM_HER
@@ -3568,6 +3742,7 @@ iberic_religion = {
 
 	localization = {
 		HighGodName = ir_candamius
+		HighGodName2 = ir_candamius
 		HighGodNamePossessive = ir_candamius_possessive
 		HighGodNameSheHe = CHARACTER_SHEHE_HE
 		HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -3654,6 +3829,8 @@ iberic_religion = {
 
 
 		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
 		PantheonTermHasHave = pantheon_term_have
 		GoodGodNames = { ir_candamius ir_semnocosus ir_cariocecus ir_ataecina ir_eacus ir_betatun ir_dercetius ir_endouellicus ir_the_duillae }
 		DevilName = ir_semnocosus
@@ -3663,9 +3840,15 @@ iberic_religion = {
 		DevilHerselfHimself = paganism_devil_herselfhimself
 		EvilGodNames = { ir_candamius ir_semnocosus ir_cariocecus ir_ataecina ir_eacus ir_betatun ir_dercetius ir_endouellicus ir_the_duillae }
 		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
 		HouseOfWorshipPlural = paganism_house_of_worship_plural
 		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
 		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
 		ReligiousHeadName = paganism_religious_head_title
 		ReligiousHeadTitleName = paganism_religious_head_title_name
 		DevoteeMale = paganism_devotee
@@ -3688,13 +3871,21 @@ iberic_religion = {
 		BishopNeuter = paganism_priest
 		BishopNeuterPlural = paganism_priest_plural
 		DivineRealm = paganism_divine_realm
+		DivineRealm2 = paganism_divine_realm_2
+		DivineRealm3 = paganism_divine_realm_3
 		PositiveAfterLife = paganism_divine_realm
+		PositiveAfterLife2 = paganism_divine_realm_2
+		PositiveAfterLife3 = paganism_divine_realm_3
 		NegativeAfterLife = paganism_afterlife
+		NegativeAfterLife2 = paganism_afterlife_2
+		NegativeAfterLife3 = paganism_afterlife_3
 		DeathDeityName = paganism_death_deity_name
 		DeathDeityNamePossessive = paganism_death_deity_name_possessive
 		DeathDeitySheHe = paganism_devil_shehe
 		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
 		WitchGodName = ir_the_duillae
+		WitchGodNamePossessive = ir_the_duillae_possessive
 		WitchGodSheHe = CHARACTER_SHEHE_THEY
 		WitchGodHerHis = CHARACTER_HERHIS_THEIR
 		WitchGodHerHim = CHARACTER_HERHIM_THEM
@@ -3761,6 +3952,7 @@ ajivika_religion = { # credits to Izn from Invictus team for listing the doctrin
 	localization = {
 		#HighGod
 		HighGodName = ajivika_high_god_name
+		HighGodName2 = ajivika_high_god_name
 		HighGodNamePossessive = ajivika_high_god_name_possessive
 		HighGodNameSheHe = CHARACTER_SHEHE_IT
 		HighGodHerselfHimself = CHARACTER_ITSELF
@@ -3846,6 +4038,8 @@ ajivika_religion = { # credits to Izn from Invictus team for listing the doctrin
 		WaterGodHerHim = CHARACTER_HERHIM_IT
 
 		PantheonTerm = ajivika_high_god_name
+		PantheonTerm2 = ajivika_high_god_name
+		PantheonTerm3 = ajivika_high_god_name
 		PantheonTermHasHave = pantheon_term_has
 		GoodGodNames = ajivika_high_god_name
 		DevilName = ajivika_devil_name
@@ -3855,9 +4049,15 @@ ajivika_religion = { # credits to Izn from Invictus team for listing the doctrin
 		DevilHerselfHimself = CHARACTER_ITSELF
 		EvilGodNames = ajivika_devil_name
 		HouseOfWorship = ajivika_house_of_worship
+		HouseOfWorship2 = ajivika_house_of_worship
+		HouseOfWorship3 = ajivika_house_of_worship
 		HouseOfWorshipPlural = ajivika_house_of_worship_plural
 		ReligiousSymbol = ajivika_religious_symbol
+		ReligiousSymbol2 = ajivika_religious_symbol
+		ReligiousSymbol3 = ajivika_religious_symbol
 		ReligiousText = ajivika_religious_text
+		ReligiousText2 = ajivika_religious_text
+		ReligiousText3 = ajivika_religious_text
 		ReligiousHeadName = ajivika_religious_head_title
 		ReligiousHeadTitleName = ajivika_religious_head_title_name
 		DevoteeMale = ajivika_devotee_male
@@ -3880,13 +4080,21 @@ ajivika_religion = { # credits to Izn from Invictus team for listing the doctrin
 		BishopNeuter = ajivika_bishop
 		BishopNeuterPlural = ajivika_bishop_plural
 		DivineRealm = ajivika_positive_afterlife
+		DivineRealm2 = ajivika_positive_afterlife
+		DivineRealm3 = ajivika_positive_afterlife
 		PositiveAfterLife = ajivika_positive_afterlife
+		PositiveAfterLife2 = ajivika_positive_afterlife
+		PositiveAfterLife3 = ajivika_positive_afterlife
 		NegativeAfterLife = ajivika_negative_afterlife
+		NegativeAfterLife2 = ajivika_negative_afterlife
+		NegativeAfterLife3 = ajivika_negative_afterlife
 		DeathDeityName = ajivika_death_deity
 		DeathDeityNamePossessive = ajivika_death_deity_possessive
 		DeathDeitySheHe = ajivika_death_deity_shehe
 		DeathDeityHerHis = ajivika_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
 		WitchGodName = ajivika_high_god_name
+		WitchGodNamePossessive = ajivika_high_god_name_possessive
 		WitchGodHerHis = CHARACTER_HERHIS_ITS
 		WitchGodSheHe = CHARACTER_SHEHE_IT
 		WitchGodHerHim = CHARACTER_HERHIM_IT
@@ -4091,6 +4299,7 @@ mesopotamian_religion = {
 
 	localization = {
 		HighGodName = ir_enlil
+		HighGodName2 = ir_enlil
 		HighGodNamePossessive = ir_enlil_possessive
 		HighGodNameSheHe = CHARACTER_SHEHE_HE
 		HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -4177,6 +4386,8 @@ mesopotamian_religion = {
 
 
 		PantheonTerm = babyl_annunaki
+		PantheonTerm2 = babyl_annunaki
+		PantheonTerm3 = babyl_annunaki
 		PantheonTermHasHave = pantheon_term_have
 		GoodGodNames = { ir_ishtar ir_ninurta ir_enlil ir_ea ir_marduk ir_nabu ir_shamash ir_sin ir_asshur }
 		DevilName = paganism_devil_name
@@ -4186,9 +4397,15 @@ mesopotamian_religion = {
 		DevilHerselfHimself = paganism_devil_herselfhimself
 		EvilGodNames = { ir_ishtar ir_ninurta ir_enlil ir_ea ir_marduk ir_nabu ir_shamash ir_sin ir_asshur }
 		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
 		HouseOfWorshipPlural = paganism_house_of_worship_plural
 		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
 		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
 		ReligiousHeadName = paganism_religious_head_title
 		ReligiousHeadTitleName = paganism_religious_head_title_name
 		DevoteeMale = paganism_devotee
@@ -4211,13 +4428,21 @@ mesopotamian_religion = {
 		BishopNeuter = paganism_priest
 		BishopNeuterPlural = paganism_priest_plural
 		DivineRealm = babyl_arallu
+		DivineRealm2 = mesopotamian_religion_divine_realm_2
+		DivineRealm3 = mesopotamian_religion_divine_realm_3
 		PositiveAfterLife = babyl_ganzer
+		PositiveAfterLife2 = babyl_ganzer
+		PositiveAfterLife3 = babyl_ganzer
 		NegativeAfterLife = babyl_irkallu
+		NegativeAfterLife2 = babyl_irkallu
+		NegativeAfterLife3 = babyl_irkallu
 		DeathDeityName = paganism_death_deity_name
 		DeathDeityNamePossessive = paganism_death_deity_name_possessive
 		DeathDeitySheHe = paganism_devil_shehe
 		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
 		WitchGodName = witchgodname_paganism_the_shadow
+		WitchGodNamePossessive = witchgodname_paganism_the_shadow_possessive
 		WitchGodSheHe = CHARACTER_SHEHE_IT
 		WitchGodHerHis = CHARACTER_HERHIS_ITS
 		WitchGodHerHim = CHARACTER_HERHIM_IT
@@ -4305,6 +4530,7 @@ paleo_balkan_religion = {
 
 	localization = {
 		HighGodName = ir_zalmoxis
+		HighGodName2 = ir_zalmoxis
 		HighGodNamePossessive = ir_zalmoxis_possessive
 		HighGodNameSheHe = CHARACTER_SHEHE_HE
 		HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -4391,6 +4617,8 @@ paleo_balkan_religion = {
 
 
 		PantheonTerm = paganism_mother_earth_father_sky
+		PantheonTerm2 = paganism_mother_earth_father_sky_2
+		PantheonTerm3 = paganism_mother_earth_father_sky_3
 		PantheonTermHasHave = pantheon_term_have
 		GoodGodNames = { ir_pleistoros ir_zalmoxis ir_sabazios ir_zibelthiurdos ir_derzelas ir_bassareus ir_semele ir_bendis }
 		DevilName = paganism_devil_name
@@ -4400,9 +4628,15 @@ paleo_balkan_religion = {
 		DevilHerselfHimself = paganism_devil_herselfhimself
 		EvilGodNames = { ir_pleistoros ir_zalmoxis ir_sabazios ir_zibelthiurdos ir_derzelas ir_bassareus ir_semele ir_bendis }
 		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
 		HouseOfWorshipPlural = paganism_house_of_worship_plural
 		ReligiousSymbol = paganism_religious_symbol
+		ReligiousSymbol2 = paganism_religious_symbol_2
+		ReligiousSymbol3 = paganism_religious_symbol_3
 		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
 		ReligiousHeadName = paganism_religious_head_title
 		ReligiousHeadTitleName = paganism_religious_head_title_name
 		DevoteeMale = paganism_devotee
@@ -4425,13 +4659,21 @@ paleo_balkan_religion = {
 		BishopNeuter = paganism_priest
 		BishopNeuterPlural = paganism_priest_plural
 		DivineRealm = paganism_divine_realm
+		DivineRealm2 = paganism_divine_realm_2
+		DivineRealm3 = paganism_divine_realm_3
 		PositiveAfterLife = paganism_divine_realm
+		PositiveAfterLife2 = paganism_divine_realm_2
+		PositiveAfterLife3 = paganism_divine_realm_3
 		NegativeAfterLife = paganism_afterlife
+		NegativeAfterLife2 = paganism_afterlife_2
+		NegativeAfterLife3 = paganism_afterlife_3
 		DeathDeityName = paganism_death_deity_name
 		DeathDeityNamePossessive = paganism_death_deity_name_possessive
 		DeathDeitySheHe = paganism_devil_shehe
 		DeathDeityHerHis = paganism_death_deity_herhis
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
 		WitchGodName = witchgodname_paganism_the_shadow
+		WitchGodNamePossessive = witchgodname_paganism_the_shadow_possessive
 		WitchGodSheHe = CHARACTER_SHEHE_IT
 		WitchGodHerHis = CHARACTER_HERHIS_ITS
 		WitchGodHerHim = CHARACTER_HERHIM_IT
@@ -4486,6 +4728,7 @@ paleo_balkan_religion = {
 			
 			localization = {
 				HighGodName = illyrian_pagan_high_god_name
+				HighGodName2 = illyrian_pagan_high_god_name
 				HighGodNamePossessive = illyrian_pagan_high_god_name_possessive
 				HighGodNameSheHe = CHARACTER_SHEHE_HE
 				HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -4525,8 +4768,8 @@ paleo_balkan_religion = {
 				HouseholdGodName = illyrian_pagan_household_god_name
 				HouseholdGodNamePossessive = illyrian_pagan_household_god_name_possessive
 				HouseholdGodSheHe = CHARACTER_SHEHE_IT
-				HouseholdGodHerHis = CHARACTER_SHEHE_ITS
-				HouseholdGodHerHim = CHARACTER_SHEHE_IT
+				HouseholdGodHerHis = CHARACTER_HERHIS_ITS
+				HouseholdGodHerHim = CHARACTER_HERHIM_IT
 
 				#FateGod
 				FateGodName = illyrian_pagan_fate_god_name
@@ -4572,6 +4815,8 @@ paleo_balkan_religion = {
 
 
 				PantheonTerm = paganism_mother_earth_father_sky
+				PantheonTerm2 = paganism_mother_earth_father_sky_2
+				PantheonTerm3 = paganism_mother_earth_father_sky_3
 				PantheonTermHasHave = pantheon_term_have
 				GoodGodNames = { illyrian_pagan_high_god_name illyran_pagan_high_god_name_alternate illyran_pagan_creator_god_name illyrian_pagan_health_god_name illyrian_pagan_fertility_god_name illyrian_pagan_wealth_god_name illyrian_pagan_household_god_name illyrian_pagan_fate_god_name illyrian_pagan_knowledge_god_name illyrian_pagan_war_god_name illyrian_pagan_trickster_god_name illyrian_pagan_night_god_name illyrian_pagan_water_god_name }
 				DevilName = illyrian_pagan_devil_name
@@ -4629,6 +4874,7 @@ hurrian_religion_group = {
 
 	localization = {
 		HighGodName = hurrian_high_god_name
+		HighGodName2 = hurrian_high_god_name
 		HighGodNamePossessive = hurrian_high_god_name_possessive
 		HighGodNameSheHe = CHARACTER_SHEHE_HE
 		HighGodHerselfHimself = CHARACTER_HIMSELF
@@ -4715,6 +4961,8 @@ hurrian_religion_group = {
 
 
 		PantheonTerm = hurrian_pantheon
+		PantheonTerm2 = hurrian_pantheon
+		PantheonTerm3 = hurrian_pantheon
 		PantheonTermHasHave = pantheon_term_have
 		GoodGodNames = { hurrian_high_god_name hurrian_high_god_name_alternate hurrian_health_god_name hurrian_knowledge_god_name }
 		DevilName = paganism_evil_god_decay
@@ -4724,9 +4972,15 @@ hurrian_religion_group = {
 		DevilHerselfHimself = CHARACTER_ITSELF
 		EvilGodNames = { paganism_evil_god_decay paganism_evil_god_drought paganism_devil_name }
 		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3
 		HouseOfWorshipPlural = paganism_house_of_worship_plural
 		ReligiousSymbol = akom_gye_nyame
+		ReligiousSymbol2 = akom_gye_nyame
+		ReligiousSymbol3 = akom_gye_nyame
 		ReligiousText = paganism_religious_text
+		ReligiousText2 = paganism_religious_text_2
+		ReligiousText3 = paganism_religious_text_3
 		ReligiousHeadName = hurrian_religious_head
 		ReligiousHeadTitleName = paganism_religious_head_title_name
 		DevoteeMale = paganism_devotee
@@ -4743,19 +4997,27 @@ hurrian_religion_group = {
 		PriestNeuterPlural = ba_generic_priest_name_plural
 		AltPriestTermPlural = ba_generic_priest_name_plural
 		BishopMale = ba_generic_high_priest_name
-		BishopMalePlural = ba_generic_high_priest_nameplural
+		BishopMalePlural = ba_generic_high_priest_name_plural
 		BishopFemale = ba_generic_high_priestess_name
 		BishopFemalePlural = ba_generic_high_priestess_name_plural
 		BishopNeuter = ba_generic_high_priest_name
 		BishopNeuterPlural = ba_generic_high_priest_name_plural
 		DivineRealm = hurrian_divine_realm
+		DivineRealm2 = hurrian_divine_realm_2
+		DivineRealm3 = hurrian_divine_realm_3
 		PositiveAfterLife = hurrian_afterlife
+		PositiveAfterLife2 = hurrian_afterlife
+		PositiveAfterLife3 = hurrian_afterlife
 		NegativeAfterLife = hurrian_afterlife
+		NegativeAfterLife2 = hurrian_afterlife
+		NegativeAfterLife3 = hurrian_afterlife
 		DeathDeityName = paganism_death_deity_name
 		DeathDeityNamePossessive = paganism_death_deity_name_possessive
 		DeathDeitySheHe = CHARACTER_SHEHE_IT
 		DeathDeityHerHis = CHARACTER_HERHIS_ITS
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
 		WitchGodName = hurrian_night_god_name
+		WitchGodNamePossessive = hurrian_night_god_name_possessive
 		WitchGodHerHis = CHARACTER_HERHIS_HER
 		WitchGodSheHe = CHARACTER_SHEHE_SHE
 		WitchGodHerHim = CHARACTER_HERHIM_HER
@@ -4787,6 +5049,274 @@ hurrian_religion_group = {
 			doctrine = tenet_astrology
 			doctrine = tenet_ritual_celebrations
 			doctrine = tenet_sun_worship
+		}
+	}
+}
+
+
+hattian_religion = { # From Bronze Age Reborn mod
+	family = rf_pagan
+
+	pagan_roots = yes
+
+	doctrine = pagan_hostility_doctrine
+
+	#Main Group
+	doctrine = doctrine_no_head # IRToCK3: changed from doctrine_spiritual_head because that way we don't need a HoF landed title
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Mortuary Practices
+	doctrine = doctrine_funeral_stoic
+
+	#Marriage
+	doctrine = doctrine_monogamy
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_legitimization
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_homosexuality_accepted
+	doctrine = doctrine_adultery_men_shunned
+	doctrine = doctrine_adultery_women_crime
+	doctrine = doctrine_kinslaying_extended_family_crime
+	doctrine = doctrine_deviancy_accepted
+	doctrine = doctrine_witchcraft_accepted
+	
+	#Allow pilgrimages
+	doctrine = doctrine_pilgrimage_encouraged
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_recruitment
+	doctrine = doctrine_clerical_gender_either
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	traits = {
+		virtues = { generous temperate calm content honest }
+		sins = { greedy gluttonous wrathful ambitious deceitful }
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7
+		custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2
+		buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1
+		sunni_custom_2 sunni_custom_3 sunni_custom_4 muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6
+		judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr
+		custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer
+		custom_faith_fp1_valknut custom_faith_fp1_yggdrasil custom_faith_boromian_circles custom_faith_lotus
+		custom_faith_aum_tibetan custom_faith_pentagram custom_faith_pentagram_inverted custom_faith_burning_bush
+		custom_faith_allah custom_faith_gankyil custom_faith_eye_of_providence custom_faith_dove custom_faith_ichthys
+		custom_faith_lamb custom_faith_black_sheep custom_faith_ankh custom_faith_chi_rho custom_faith_hamsa
+		custom_faith_cool_s
+	}
+
+	holy_order_names = {
+		{ name = "holy_order_guardians_of_divinerealm" }
+		{ name = "holy_order_faithful_of_highgod" }
+		{ name = "holy_order_warriors_of_the_symbol" }
+	}
+
+	holy_order_maa = { bowmen }
+
+	localization = {
+		HighGodName = hattian_high_god_name
+		HighGodName2 = hattian_high_god_name_2							   
+		HighGodNamePossessive = hattian_high_god_name_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_SHE
+		HighGodHerselfHimself = CHARACTER_HERSELF
+		HighGodHerHis = CHARACTER_HERHIS_HER
+		HighGodNameAlternate = hattian_high_god_name_alternate
+		HighGodNameAlternatePossessive = hattian_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = hattian_creator_god_name
+		CreatorNamePossessive = hattian_creator_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = hattian_health_god_name
+		HealthGodNamePossessive = hattian_health_god_name_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_SHE
+		HealthGodHerHis = CHARACTER_HERHIS_HER
+		HealthGodHerHim = CHARACTER_HERHIM_HER
+		
+		#FertilityGod
+		FertilityGodName = hattian_fertility_god_name
+		FertilityGodNamePossessive = hattian_fertility_god_name_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_SHE
+		FertilityGodHerHis = CHARACTER_HERHIS_HER
+		FertilityGodHerHim = CHARACTER_HERHIM_HER
+
+		#WealthGod
+		WealthGodName = hattian_wealth_god_name
+		WealthGodNamePossessive = hattian_wealth_god_name_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_HE
+		WealthGodHerHis = CHARACTER_HERHIS_HIS
+		WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#HouseholdGod
+		HouseholdGodName = hattian_household_god_name
+		HouseholdGodNamePossessive = hattian_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_SHE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HER
+		HouseholdGodHerHim = CHARACTER_HERHIM_HER
+
+		#FateGod
+		FateGodName = hattian_fate_god_name
+		FateGodNamePossessive = hattian_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_SHE
+		FateGodHerHis = CHARACTER_HERHIS_HER
+		FateGodHerHim = CHARACTER_HERHIM_HER
+
+		#KnowledgeGod
+		KnowledgeGodName = hattian_knowledge_god_name
+		KnowledgeGodNamePossessive = hattian_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_SHE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HER
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HER
+
+		#WarGod
+		WarGodName = hattian_war_god_name
+		WarGodNamePossessive = hattian_war_god_name_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = hattian_trickster_god_name
+		TricksterGodNamePossessive = hattian_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_SHE
+		TricksterGodHerHis = CHARACTER_HERHIS_HER
+		TricksterGodHerHim = CHARACTER_HERHIM_HER
+
+		#NightGod
+		NightGodName = hattian_night_god_name
+		NightGodNamePossessive = hattian_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_HE
+		NightGodHerHis = CHARACTER_HERHIS_HIS
+		NightGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WaterGod
+		WaterGodName = hattian_water_god_name
+		WaterGodNamePossessive = hattian_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_HE
+		WaterGodHerHis = CHARACTER_HERHIS_HIS
+		WaterGodHerHim = CHARACTER_HERHIM_HIM
+		
+		#SunGod
+		# SunGodName = hattian_sun_god_name
+		# SunGodNamePossessive = hattian_sun_god_name_possessive
+		# SunGodSheHe = CHARACTER_SHEHE_SHE
+		# SunGodHerHis = CHARACTER_HERHIS_HER
+		# SunGodHerHim = CHARACTER_HERHIM_HER
+
+
+		PantheonTerm = religion_the_gods
+		PantheonTerm2 = religion_the_gods_2
+		PantheonTerm3 = religion_the_gods_3
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = { 
+			hattian_high_god_name 
+			hattian_high_god_name_alternate 
+			hattian_fertility_god_name
+			hattian_wealth_god_name
+			hattian_household_god_name
+			hattian_fate_god_name
+			hattian_trickster_god_name
+			hattian_water_god_name
+			hattian_witch_god_name
+			hattian_good_god_kattahha
+			hattian_good_god_mezulla
+			hattian_good_god_hatepuna
+		}
+		DevilName = hattian_devil_name
+		DevilNamePossessive = hattian_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_HE
+		DevilHerHis = CHARACTER_HERHIS_HIS
+		DevilHerselfHimself = CHARACTER_HIMSELF
+		EvilGodNames = {
+			hattian_devil_name
+			hattian_war_god_name
+			hattian_night_god_name
+			hattian_death_deity_name
+			hattian_evil_god_istustaya_and_papaya
+		}
+		HouseOfWorship = paganism_house_of_worship
+		HouseOfWorship2 = paganism_house_of_worship_2
+		HouseOfWorship3 = paganism_house_of_worship_3	   
+		HouseOfWorshipPlural = paganism_house_of_worship_plural
+		ReligiousSymbol = hattian_religious_symbol
+		ReligiousSymbol2 = hattian_religious_symbol_2
+		ReligiousSymbol3 = hattian_religious_symbol_3
+		ReligiousText = hattian_religious_text
+		ReligiousText2 = hattian_religious_text_2
+		ReligiousText3 = hattian_religious_text_3	
+		ReligiousHeadName = hattian_religious_head
+		ReligiousHeadTitleName = paganism_religious_head_title_name
+		DevoteeMale = paganism_devotee
+		DevoteeMalePlural = paganism_devoteeplural
+		DevoteeFemale = paganism_devotee
+		DevoteeFemalePlural = paganism_devoteeplural
+		DevoteeNeuter = paganism_devotee
+		DevoteeNeuterPlural = paganism_devoteeplural
+		PriestMale = ba_generic_priest_name
+		PriestMalePlural = ba_generic_priest_name_plural
+		PriestFemale = ba_generic_priestess_name
+		PriestFemalePlural = ba_generic_priestess_name_plural
+		PriestNeuter = ba_generic_priest_name
+		PriestNeuterPlural = ba_generic_priest_name_plural
+		AltPriestTermPlural = ba_generic_priest_name_plural
+		BishopMale = ba_generic_high_priest_name
+		BishopMalePlural = ba_generic_high_priest_name_plural
+		BishopFemale = ba_generic_high_priestess_name
+		BishopFemalePlural = ba_generic_high_priestess_name_plural
+		BishopNeuter = ba_generic_high_priest_name
+		BishopNeuterPlural = ba_generic_high_priest_name_plural
+		DivineRealm = hattian_divine_realm
+		DivineRealm2 = hattian_divine_realm_2
+		DivineRealm3 = hattian_divine_realm_3							  
+		PositiveAfterLife = hattian_positive_afterlife
+		PositiveAfterLife2 = hattian_positive_afterlife_2
+		PositiveAfterLife3 = hattian_positive_afterlife_3									 
+		NegativeAfterLife = hattian_negative_afterlife
+		NegativeAfterLife2 = hattian_negative_afterlife_2
+		NegativeAfterLife3 = hattian_negative_afterlife_3									 
+		DeathDeityName = hattian_death_deity_name
+		DeathDeityNamePossessive = hattian_death_deity_name_possessive
+		DeathDeitySheHe = CHARACTER_SHEHE_SHE
+		DeathDeityHerHis = CHARACTER_HERHIS_HER
+		DeathDeityHerHim = CHARACTER_HERHIM_HER
+		WitchGodName = hattian_witch_god_name
+		WitchGodNamePossessive = hattian_witch_god_name_possessive																			  
+		WitchGodHerHis = CHARACTER_HERHIS_HER
+		WitchGodSheHe = CHARACTER_SHEHE_SHE
+		WitchGodHerHim = CHARACTER_HERHIM_HER
+		WitchGodMistressMaster = mistress
+		WitchGodMotherFather = mother
+
+		GHWName = ghw_great_holy_war
+		GHWNamePlural = ghw_great_holy_wars
+	}	
+
+	faiths = {
+		hattian_faith = {
+			color = hsv { 0.02 0.35 0.5 }
+			 # religious_head = d_cult_of_teteshapi # IRToCK3: commented out because we don't need a HoF landed title
+			icon = kitebacilweism
+
+			holy_site = ulma
+			holy_site = shappiduwa
+			holy_site = ankuwa
+			holy_site = kussara
+			holy_site = hattusha
+
+			doctrine = tenet_sacred_childbirth
+			doctrine = tenet_ritual_hospitality
+			doctrine = tenet_ancestor_worship
 		}
 	}
 }

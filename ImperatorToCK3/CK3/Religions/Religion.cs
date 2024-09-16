@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ImperatorToCK3.CK3.Religions;
 
-public class Religion : IIdentifiable<string>, IPDXSerializable {
+public sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 	public OrderedSet<string> DoctrineIds { get; } = new();
 
@@ -96,7 +96,7 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 		if (withBraces) {
 			sb.AppendLine("{");
 		}
-		
+
 		foreach (var doctrineId in DoctrineIds) {
 			sb.Append(contentIndent).AppendLine($"doctrine={doctrineId}");
 		}

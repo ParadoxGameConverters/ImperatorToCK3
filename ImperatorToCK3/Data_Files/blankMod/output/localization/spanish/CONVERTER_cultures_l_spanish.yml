@@ -266,8 +266,8 @@
 
  galatian: "gálata"
  galatian_collective_noun: "Gálatas"
- hunnic: "huna"
- hunnic_collective_noun: "Hunos"
+ #hunnic: "huna"
+ #hunnic_collective_noun: "Hunos"
  urslavic: "eslava"
  urslavic_collective_noun: "Eslavos"
  oscan: "osca"

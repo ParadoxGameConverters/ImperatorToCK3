@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Provinces;
 
-public partial class Province {
+public sealed partial class Province {
 	public string? GetFaithId(Date date) {
 		var historyValue = History.GetFieldValue("faith", date);
 		return historyValue switch {
@@ -56,7 +56,7 @@ public partial class Province {
 		var historyValue = History.GetFieldValue("holding", date);
 		return historyValue switch {
 			StringOfItem stringOfItem => stringOfItem.ToString(),
-			string cultureStr => cultureStr,
+			string holdingTypeStr => holdingTypeStr,
 			_ => null
 		};
 	}

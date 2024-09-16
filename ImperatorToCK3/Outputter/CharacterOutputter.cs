@@ -1,14 +1,14 @@
 ﻿using commonItems;
 using commonItems.Serialization;
 using System.Globalization;
-using System.IO;
+using System.Text;
 using Character = ImperatorToCK3.CK3.Characters.Character;
 
 namespace ImperatorToCK3.Outputter;
 public static class CharacterOutputter {
-	public static void OutputCharacter(TextWriter output, Character character, Date conversionDate) {
+	public static void WriteCharacter(StringBuilder sb, Character character, Date conversionDate) {
 		// Output ID.
-		output.WriteLine($"{character.Id}={{");
+		sb.AppendLine($"{character.Id}={{");
 		
 		if (character.Dead) {
 			// Don't output traits and attributes of dead characters (not needed).
@@ -18,7 +18,7 @@ public static class CharacterOutputter {
 			}
 
 			// Disallow random traits for dead characters.
-			character.History.AddFieldValue(null, "disallow_random_traits", "disallow_random_traits", "yes");
+			character.History.AddFieldValue(date: null, "disallow_random_traits", "disallow_random_traits", "yes");
 		}
 
 		// Add DNA to history.
@@ -36,39 +36,36 @@ public static class CharacterOutputter {
 		}
 
 		// Output history.
-		output.Write(PDXSerializer.Serialize(character.History, "\t"));
+		sb.Append(PDXSerializer.Serialize(character.History, "\t"));
 
-		OutputPregnancies(output, character);
-		OutputPrisoners(output, character, conversionDate);
+		WritePregnancies(sb, character);
+		WritePrisoners(sb, character, conversionDate);
 
-		output.WriteLine("}");
+		sb.AppendLine("}");
 	}
 
-	private static void OutputPrisoners(TextWriter output, Character character, Date conversionDate) {
+	private static void WritePrisoners(StringBuilder stringBuilder, Character character, Date conversionDate) {
 		if (character.PrisonerIds.Count == 0) {
 			return;
 		}
 
-		output.WriteLine($"\t{conversionDate}={{");
+		stringBuilder.AppendLine($"\t{conversionDate}={{");
 		foreach (var (id, type) in character.PrisonerIds) {
-			output.WriteLine($"\t\timprison={{target = character:{id} type={type}}}");
+			stringBuilder.AppendLine($"\t\timprison={{target = character:{id} type={type}}}");
 		}
-		output.WriteLine("\t}");
+		stringBuilder.AppendLine("\t}");
 	}
 
 	/// <summary>
 	/// Outputs unborn children if pregnancy has lasted at most 3 months in Imperator
 	/// </summary>
-	private static void OutputPregnancies(
-		TextWriter output,
-		Character character
-	) {
+	private static void WritePregnancies(StringBuilder stringBuilder, Character character) {
 		foreach (var pregnancy in character.Pregnancies) {
 			Date conceptionDate = pregnancy.EstimatedConceptionDate;
 			string fatherReference = $"character:{pregnancy.FatherId}";
-			output.Write($"\t{conceptionDate}={{ effect={{ ");
-			output.Write($"make_pregnant_no_checks={{ father={fatherReference} {(pregnancy.IsBastard ? "known_bastard=yes " : "")}}} ");
-			output.WriteLine("} }");
+			stringBuilder.Append($"\t{conceptionDate}={{ effect={{ ");
+			stringBuilder.Append($"make_pregnant_no_checks={{ father={fatherReference} {(pregnancy.IsBastard ? "known_bastard=yes " : "")}}} ");
+			stringBuilder.AppendLine("} }");
 		}
 	}
 }

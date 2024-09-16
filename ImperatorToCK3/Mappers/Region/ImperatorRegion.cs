@@ -9,7 +9,7 @@ using System.Linq;
 namespace ImperatorToCK3.Mappers.Region;
 
 public sealed class ImperatorRegion : IIdentifiable<string> {
-	public IdObjectCollection<string, Area> Areas { get; } = new();
+	public IdObjectCollection<string, Area> Areas { get; } = [];
 	public string Id { get; }
 	public Color? Color { get; private set; }
 
@@ -18,7 +18,7 @@ public sealed class ImperatorRegion : IIdentifiable<string> {
 		var parser = new Parser();
 		RegisterKeys(parser, colorFactory);
 		parser.ParseStream(reader);
-		
+
 		LinkAreas(areas);
 	}
 

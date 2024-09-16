@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Provinces;
 
-public class ProvinceCollection : IdObjectCollection<ulong, Province> {
+public sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	public ProvinceCollection() { }
 	public ProvinceCollection(ModFilesystem ck3ModFs) {
 		LoadProvincesHistory(ck3ModFs);
@@ -85,12 +86,17 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		// Now load the provinces that don't have unique entries in history/provinces.
 		// They instead use history/province_mapping.
 		foreach (var (newProvinceId, baseProvinceId) in new ProvinceMappings(ck3ModFs)) {
-			if (!ContainsKey(baseProvinceId)) {
+			if (!TryGetValue(baseProvinceId, out var baseProvince)) {
 				Logger.Warn($"Base province {baseProvinceId} not found for province {newProvinceId}.");
 				continue;
 			}
+			
+			if (!TryGetValue(newProvinceId, out var newProvince)) {
+				Logger.Debug($"Province {newProvinceId} not found.");
+				continue;
+			}
 
-			this[newProvinceId].CopyEntriesFromProvince(this[baseProvinceId]);
+			newProvince.CopyEntriesFromProvince(baseProvince);
 		}
 		Logger.IncrementProgress();
 
@@ -99,6 +105,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 
 	public void ImportImperatorProvinces(
 		Imperator.World irWorld,
+		MapData ck3MapData,
 		Title.LandedTitles titles,
 		CultureMapper cultureMapper,
 		ReligionMapper religionMapper,
@@ -110,8 +117,13 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		
 		int importedIRProvsCount = 0;
 		int modifiedCK3ProvsCount = 0;
+
+		var provinceDefs = ck3MapData.ProvinceDefinitions;
+		var landProvinces = this
+			.Where(p => provinceDefs.TryGetValue(p.Id, out var def) && def.IsLand);
+		
 		// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
-		Parallel.ForEach(this, province => {
+		Parallel.ForEach(landProvinces, province => {
 			var sourceProvinceIds = provinceMapper.GetImperatorProvinceNumbers(province.Id);
 			// Provinces we're not affecting will not be in this list.
 			if (sourceProvinceIds.Count == 0) {
@@ -147,7 +159,13 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
 			var provId = ulong.Parse(provIdStr);
-			this[provId].UpdateHistory(reader);
+			
+			if (TryGetValue(provId, out var province)) {
+				province.UpdateHistory(reader);
+			} else {
+				Logger.Warn($"Province {provId} referenced in prehistory not found!");
+				ParserHelpers.IgnoreItem(reader);
+			}
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseFile(prehistoryPath);

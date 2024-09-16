@@ -470,6 +470,7 @@ albanian = {
 ancient_egyptian = {  # fallback in case some mod removes vanilla ancient_egyptian
     INVALIDATED_BY = {
 		tfe = { ancient_egyptian kemetic }
+		wtwsms = { ancient_egyptian }
 		vanilla = { ancient_egyptian kemetic }
 	}
     
@@ -509,7 +510,13 @@ numidian = {
 	name_list = name_list_numidian
 
 	heritage = heritage_berber
-	language = language_berber
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			language = language_northern_berber # Changed language_berber to language_northern_berber.
+		} ELSE = {
+			language = language_berber
+		}
+	}
 	martial_custom = martial_custom_male_only
 
 	ethos = ethos_stoic
@@ -608,7 +615,13 @@ macedonian = {
 
 	ethos = ethos_bellicose
 	heritage = heritage_byzantine # IRToCK3: moved from heritage_ancient_greek
-	language = language_greek # IRToCK3: moved from language_ancient_greek
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			language = language_doric # https://en.wikipedia.org/wiki/Ancient_Macedonians: They spoke Ancient Macedonian, which is usually classified by scholars as a dialect of Northwest Doric Greek
+		} ELSE = {
+			language = language_greek # IRToCK3: moved from language_ancient_greek
+		}
+	}
 	martial_custom = martial_custom_male_only
 	traditions = {
 		tradition_philosopher_culture
@@ -999,7 +1012,7 @@ gothic = { # https://en.wikipedia.org/wiki/Goths
 		vanilla = { }
 	}
     
-	color = gothic
+	color = irtock3_gothic
 	heritage = heritage_east_germanic
 	language = language_gothic
 	name_list = name_list_gothic

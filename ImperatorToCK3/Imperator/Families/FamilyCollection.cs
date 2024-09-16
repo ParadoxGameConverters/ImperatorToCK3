@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Families;
 
-public class FamilyCollection : IdObjectCollection<ulong, Family> {
+public sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 	public void LoadFamiliesFromBloc(BufferedReader reader) {
 		var blocParser = new Parser();
 		blocParser.RegisterKeyword("families", LoadFamilies);
@@ -59,7 +59,7 @@ public class FamilyCollection : IdObjectCollection<ulong, Family> {
 		var iteration = 0;
 		bool anotherIterationNeeded = true;
 		while (anotherIterationNeeded) {
-			var familiesPerKey = this.GroupBy(f => f.Key).ToList();
+			var familiesPerKey = this.GroupBy(f => f.Key).ToArray();
 			anotherIterationNeeded = false;
 			++iteration;
 			Logger.Debug($"Family merging iteration {iteration}");
@@ -83,7 +83,7 @@ public class FamilyCollection : IdObjectCollection<ulong, Family> {
 						var anotherFamilyMemberIds = anotherFamily.MemberIds;
 						var anotherFamilyMembers = characters
 							.Where(c => anotherFamilyMemberIds.Contains(c.Id))
-							.ToList();
+							.ToArray();
 
 						// Check if any parent of characters from "anotherFamily" belongs to "family".
 						if (!anotherFamilyMembers.Any(c =>

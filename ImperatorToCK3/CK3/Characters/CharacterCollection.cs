@@ -4,7 +4,10 @@ using commonItems.Localization;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Modifiers;
 using ImperatorToCK3.CK3.Cultures;
+using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
@@ -17,13 +20,15 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
 using Open.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Characters;
 
-public partial class CharacterCollection : ConcurrentIdObjectCollection<string, Character> {
+public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<string, Character> {
 	public void ImportImperatorCharacters(
 		Imperator.World impWorld,
 		ReligionMapper religionMapper,
@@ -34,26 +39,49 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 		ProvinceMapper provinceMapper,
 		DeathReasonMapper deathReasonMapper,
 		DNAFactory dnaFactory,
+		CK3LocDB ck3LocDB,
 		Date conversionDate,
 		Configuration config
 	) {
 		Logger.Info("Importing Imperator Characters...");
 
-		Parallel.ForEach(impWorld.Characters, irCharacter => {
-			ImportImperatorCharacter(
-				irCharacter,
-				religionMapper,
-				cultureMapper,
-				traitMapper,
-				nicknameMapper,
-				impWorld.LocDB,
-				provinceMapper,
-				deathReasonMapper,
-				dnaFactory,
-				conversionDate,
-				config
-			);
-		});
+		var unlocalizedImperatorNames = new ConcurrentHashSet<string>();
+
+		var parallelOptions = new ParallelOptions {
+			MaxDegreeOfParallelism = Environment.ProcessorCount - 1,
+		};
+
+		try {
+			Parallel.ForEach(impWorld.Characters, parallelOptions, irCharacter => {
+				ImportImperatorCharacter(
+					irCharacter,
+					religionMapper,
+					cultureMapper,
+					traitMapper,
+					nicknameMapper,
+					impWorld.LocDB,
+					ck3LocDB,
+					impWorld.MapData,
+					provinceMapper,
+					deathReasonMapper,
+					dnaFactory,
+					conversionDate,
+					config,
+					unlocalizedImperatorNames
+				);
+			});
+		} catch (AggregateException e) {
+			var innerException = e.InnerExceptions[0];
+			Logger.Error("Exception thrown during Imperator characters import: " + innerException.Message);
+			Logger.Debug("Exception stack trace: " + innerException.StackTrace);
+			
+			// Rethrow the inner exception to stop the program.
+			throw innerException;
+		}
+		
+		if (unlocalizedImperatorNames.Any()) {
+			Logger.Warn("Found unlocalized Imperator names: " + string.Join(", ", unlocalizedImperatorNames));
+		}
 		Logger.Info($"Imported {impWorld.Characters.Count} characters.");
 
 		LinkMothersAndFathers();
@@ -63,7 +91,7 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 		ImportFriendships(impWorld.Characters, conversionDate);
 		ImportRivalries(impWorld.Characters, conversionDate);
 		Logger.IncrementProgress();
-		
+
 		ImportPregnancies(impWorld.Characters, conversionDate);
 
 		if (config.FallenEagleEnabled) {
@@ -77,13 +105,15 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 		CultureMapper cultureMapper,
 		TraitMapper traitMapper,
 		NicknameMapper nicknameMapper,
-		LocDB locDB,
+		LocDB irLocDB,
+		CK3LocDB ck3LocDB,
+		MapData irMapData,
 		ProvinceMapper provinceMapper,
 		DeathReasonMapper deathReasonMapper,
 		DNAFactory dnaFactory,
 		Date endDate,
-		Configuration config
-	) {
+		Configuration config,
+		ISet<string> unlocalizedImperatorNames) {
 		// Create a new CK3 character.
 		var newCharacter = new Character(
 			irCharacter,
@@ -92,29 +122,76 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 			cultureMapper,
 			traitMapper,
 			nicknameMapper,
-			locDB,
+			irLocDB,
+			ck3LocDB,
+			irMapData,
 			provinceMapper,
 			deathReasonMapper,
 			dnaFactory,
 			endDate,
-			config
+			config,
+			unlocalizedImperatorNames
 		);
 		irCharacter.CK3Character = newCharacter;
 		AddOrReplace(newCharacter);
 	}
 
 	public override void Remove(string key) {
-		var character = this[key];
+		BulkRemove([key]);
+	}
 
-		character.RemoveAllSpouses();
-		character.RemoveAllChildren();
+	private void BulkRemove(ICollection<string> keys) {
+		foreach (var key in keys) {
+			var characterToRemove = this[key];
 
-		var irCharacter = character.ImperatorCharacter;
-		if (irCharacter is not null) {
-			irCharacter.CK3Character = null;
+			characterToRemove.RemoveAllSpouses();
+			characterToRemove.RemoveAllConcubines();
+			characterToRemove.RemoveAllChildren();
+
+			var irCharacter = characterToRemove.ImperatorCharacter;
+			if (irCharacter is not null) {
+				irCharacter.CK3Character = null;
+			}
+
+			base.Remove(key);
 		}
-		
-		base.Remove(key);
+
+		RemoveCharacterReferencesFromHistory(keys);
+	}
+
+	private void RemoveCharacterReferencesFromHistory(ICollection<string> idsToRemove) {
+		var idsCapturingGroup = "(" + string.Join('|', idsToRemove) + ")";
+
+		// Effects like "break_alliance = character:ID" entries should be removed.
+		const string commandsGroup = "(break_alliance|make_concubine)";
+		var simpleCommandsRegex = new Regex(commandsGroup + @"\s*=\s*character:" + idsCapturingGroup + @"\s*\b");
+
+		foreach (var character in this) {
+			var effectsHistoryField = character.History.Fields["effects"];
+			if (effectsHistoryField is not LiteralHistoryField effectsLiteralField) {
+				Logger.Warn($"Effects history field for character {character.Id} is not a literal field!");
+				continue;
+			}
+			if (effectsLiteralField.EntriesCount == 0) {
+				continue;
+			}
+
+			effectsLiteralField.RegexReplaceAllEntries(simpleCommandsRegex, string.Empty);
+
+			// Remove all empty effect blocks (effect = { }).
+			effectsHistoryField.RemoveAllEntries(entryValue => {
+				if (entryValue is not string valueString) {
+					return false;
+				}
+
+				string trimmedBlock = valueString.Trim();
+				if (!trimmedBlock.StartsWith('{') || !trimmedBlock.EndsWith('}')) {
+					return false;
+				}
+
+				return trimmedBlock[1..^1].Trim().Length == 0;
+			});
+		}
 	}
 
 	private void LinkMothersAndFathers() {
@@ -202,14 +279,14 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 		Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
 			var childrenOfFather = father.Children.Values.ToHashSet();
 			var childrenOfMother = mother.Children.Values.ToHashSet();
-			var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child => child.BirthDate).ToList();
+			var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child => child.BirthDate).ToArray();
 
-			Date? firstChildBirthDate = commonChildren.Count > 0 ? commonChildren.FirstOrDefault()?.BirthDate : null;
+			Date? firstChildBirthDate = commonChildren.Length > 0 ? commonChildren.FirstOrDefault()?.BirthDate : null;
 			if (firstChildBirthDate is not null) {
 				return firstChildBirthDate;
 			}
 
-			var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u => u.BirthDate).ToList();
+			var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u => u.BirthDate).ToArray();
 			return unborns.FirstOrDefault()?.BirthDate;
 		}
 
@@ -243,7 +320,7 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 
 				var irFriend = irCharacters[irFriendId];
 				var ck3Friend = irFriend.CK3Character;
-				
+
 				if (ck3Friend is not null) {
 					var effectStr = $"{{ set_relation_friend={{ reason=friend_generic_history target=character:{ck3Friend.Id} }} }}";
 					ck3Character.History.AddFieldValue(conversionDate, "effects", "effect", effectStr);
@@ -271,7 +348,7 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 
 				var irRival = irCharacters[irRivalId];
 				var ck3Rival = irRival.CK3Character;
-				
+
 				if (ck3Rival is not null) {
 					var effectStr = $"{{ set_relation_rival={{ reason=rival_historical target=character:{ck3Rival.Id} }} }}";
 					ck3Character.History.AddFieldValue(conversionDate, "effects", "effect", effectStr);
@@ -322,17 +399,17 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 			.Select(c => c.Id)
 			.ToHashSet();
 		var learningEducationTraits = new[]{"education_learning_1", "education_learning_2", "education_learning_3", "education_learning_4"};
-		
+
 		foreach (var character in this.OrderBy(c => c.BirthDate)) {
 			if (character.ImperatorCharacter is null) {
 				continue;
 			}
-			
+
 			var cultureId = character.GetCultureId(ck3BookmarkDate);
 			if (cultureId is null || !casteSystemCultureIds.Contains(cultureId)) {
 				continue;
 			}
-			
+
 			// The caste is hereditary.
 			var father = character.Father;
 			if (father is not null) {
@@ -350,7 +427,7 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 					continue;
 				}
 			}
-			
+
 			// Try to set caste based on character's traits.
 			var traitIds = character.BaseTraits.ToHashSet();
 			character.AddBaseTrait(traitIds.Intersect(learningEducationTraits).Any() ? "brahmin" : "kshatriya");
@@ -379,44 +456,53 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 		return characterIDsToPreserve;
 	}
 
-	public void PurgeUnneededCharacters(Title.LandedTitles titles, Date ck3BookmarkDate) {
+	public void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
 		Logger.Info("Purging unneeded characters...");
 		
-		// Characters that hold or held titles should always be kept.
-		var landedCharacterIds = titles.GetAllHolderIds();
+		// Characters from CK3 that hold titles at the bookmark date should be kept.
+		var currentTitleHolderIds = titles.GetHolderIds(ck3BookmarkDate);
 		var landedCharacters = this
-			.Where(character => landedCharacterIds.Contains(character.Id))
-			.ToList();
+			.Where(character => currentTitleHolderIds.Contains(character.Id))
+			.ToArray();
 		var charactersToCheck = this.Except(landedCharacters);
 		
+		// Characters from I:R that held or hold titles should be kept.
+		var allTitleHolderIds = titles.GetAllHolderIds();
+		var imperatorTitleHolders = this
+			.Where(character => character.FromImperator && allTitleHolderIds.Contains(character.Id))
+			.ToArray();
+		charactersToCheck = charactersToCheck.Except(imperatorTitleHolders);
+
 		// Don't purge animation_test or easter egg characters.
 		charactersToCheck = charactersToCheck
 			.Where(c => !c.Id.StartsWith("animation_test_") && !c.Id.StartsWith("easteregg_"));
-		
+
 		// Keep alive Imperator characters.
 		charactersToCheck = charactersToCheck
 			.Where(c => c is not {FromImperator: true, Dead: false});
-				
+
 		// Make some exceptions for characters referenced in game's script files.
 		var characterIdsToKeep = LoadCharacterIDsToPreserve();
-
 		charactersToCheck = charactersToCheck
 			.Where(character => !characterIdsToKeep.Contains(character.Id))
-			.ToList();
+			.ToArray();
 
+		// I:R members of landed dynasties will be preserved, unless dead and childless.
 		var dynastyIdsOfLandedCharacters = landedCharacters
 			.Select(character => character.GetDynastyId(ck3BookmarkDate))
 			.Distinct()
+			.Where(id => id is not null)
 			.ToHashSet();
-		
+
 		var i = 0;
-		var farewellCharacters = new List<Character>();
+		var charactersToRemove = new List<Character>();
 		var parentIdsCache = new HashSet<string>();
 		do {
-			farewellCharacters.Clear();
+			Logger.Debug($"Beginning iteration {i} of characters purge...");
+			charactersToRemove.Clear();
 			parentIdsCache.Clear();
 			++i;
-			
+
 			// Build cache of all parent IDs.
 			foreach (var character in this) {
 				var motherId = character.MotherId;
@@ -432,26 +518,33 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 
 			// See who can be removed.
 			foreach (var character in charactersToCheck) {
-				// Does the character belong to a dynasty that holds or held titles?
-				if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
+				// Is the character from Imperator and do they belong to a dynasty that holds or held titles?
+				if (character.FromImperator && dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
 					// Is the character dead and childless? Purge.
 					if (!parentIdsCache.Contains(character.Id)) {
-						farewellCharacters.Add(character);
+						charactersToRemove.Add(character);
 					}
 
 					continue;
 				}
 
-				farewellCharacters.Add(character);
+				charactersToRemove.Add(character);
 			}
 
-			foreach (var characterToRemove in farewellCharacters) {
-				Remove(characterToRemove.Id);
-			}
+			BulkRemove(charactersToRemove.ConvertAll(c => c.Id));
 
-			Logger.Debug($"Purged {farewellCharacters.Count} unneeded characters in iteration {i}.");
-			charactersToCheck = charactersToCheck.Except(farewellCharacters).ToList();
-		} while(farewellCharacters.Count > 0);
+			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded characters in iteration {i}.");
+			charactersToCheck = charactersToCheck.Except(charactersToRemove).ToArray();
+		} while(charactersToRemove.Count > 0);
+
+		// At this point we probably have many dynasties with no characters left.
+		// Let's purge them.
+		houses.PurgeUnneededHouses(this, ck3BookmarkDate);
+		dynasties.PurgeUnneededDynasties(this, houses, ck3BookmarkDate);
+		dynasties.FlattenDynastiesWithNoFounders(this, houses, ck3BookmarkDate);
+		
+		// Clean up title history.
+		titles.CleanUpHistory(this, ck3BookmarkDate);
 	}
 
 	public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {
@@ -529,6 +622,7 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 		UnitTypeMapper unitTypeMapper,
 		IdObjectCollection<string, MenAtArmsType> menAtArmsTypes,
 		ProvinceMapper provinceMapper,
+		CK3LocDB ck3LocDB,
 		Configuration config
 	) {
 		Logger.Info("Importing Imperator armies...");
@@ -542,19 +636,17 @@ public partial class CharacterCollection : ConcurrentIdObjectCollection<string, 
 			}
 
 			var imperatorCountry = ck3Country.ImperatorCountry!;
-			var countryLegions = imperatorUnits.Where(u => u.CountryId == imperatorCountry.Id)
-				.Where(unit => unit.IsArmy && unit.IsLegion) // drop navies and levies
-				.ToList();
-			if (!countryLegions.Any()) {
+			var countryLegions = imperatorUnits.Where(u => u.CountryId == imperatorCountry.Id && u.IsArmy && u.IsLegion).ToArray();
+			if (countryLegions.Length == 0) {
 				continue;
 			}
 
 			var ruler = this[rulerId];
 
 			if (config.LegionConversion == LegionConversion.MenAtArms) {
-				ruler.ImportUnitsAsMenAtArms(countryLegions, date, unitTypeMapper, menAtArmsTypes);
+				ruler.ImportUnitsAsMenAtArms(countryLegions, date, unitTypeMapper, menAtArmsTypes, ck3LocDB);
 			} else if (config.LegionConversion == LegionConversion.SpecialTroops) {
-				ruler.ImportUnitsAsSpecialTroops(countryLegions, imperatorCharacters, date, unitTypeMapper, provinceMapper);
+				ruler.ImportUnitsAsSpecialTroops(countryLegions, imperatorCharacters, date, unitTypeMapper, provinceMapper, ck3LocDB);
 			}
 		}
 

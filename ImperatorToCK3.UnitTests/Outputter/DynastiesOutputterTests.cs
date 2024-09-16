@@ -12,8 +12,11 @@ using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Outputter;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Outputter;
@@ -22,9 +25,10 @@ public class DynastiesOutputterTests {
 	private static readonly Date ConversionDate = new(867, 1, 1);
 	
 	[Fact]
-	public void DynastiesAreOutputted() {
-		const string outputModName = "outputMod";
-		var locDB = new LocDB("english");
+	public async Task DynastiesAreOutputted() {
+		const string outputModPath = "output/outputMod";
+		var irLocDB = new LocDB("english");
+		var ck3LocDB = new TestCK3LocDB();
 		const string imperatorRoot = "TestFiles/Imperator/root";
 		ModFilesystem irModFS = new(imperatorRoot, Array.Empty<Mod>());
 		var irMapData = new MapData(irModFS);
@@ -33,7 +37,7 @@ public class DynastiesOutputterTests {
 		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 		var colorFactory = new ColorFactory();
 		irRegionMapper.LoadRegions(irModFS, colorFactory);
-		var ck3ModFlags = Array.Empty<string>();
+		var ck3ModFlags = new OrderedDictionary<string, bool>();
 		CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(colorFactory, new PillarCollection(colorFactory, ck3ModFlags), ck3ModFlags));
 
 		var characters = new CharacterCollection();
@@ -41,35 +45,35 @@ public class DynastiesOutputterTests {
 		var cultures = new CulturesDB();
 		
 		var family1 = new Family(1);
-		var dynasty1 = new Dynasty(family1, characters, cultures, cultureMapper, locDB, ConversionDate);
+		var dynasty1 = new Dynasty(family1, characters, cultures, cultureMapper, irLocDB, ck3LocDB, ConversionDate);
 		dynasties.Add(dynasty1);
 		
 		var family2 = new Family(2);
-		var dynasty2 = new Dynasty(family2, characters, cultures, cultureMapper, locDB, ConversionDate) {
+		var dynasty2 = new Dynasty(family2, characters, cultures, cultureMapper, irLocDB, ck3LocDB, ConversionDate) {
 			CultureId = "roman"
 		};
 		dynasties.Add(dynasty2);
 
-		var outputPath = Path.Combine("output", outputModName, "common/dynasties/ir_dynasties.txt");
+		var outputPath = Path.Combine(outputModPath, "common/dynasties/irtock3_all_dynasties.txt");
 		if (File.Exists(outputPath)) {
 			// clean up from previous runs.
 			File.Delete(outputPath);
 		}
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
-		DynastiesOutputter.OutputDynasties(outputModName, dynasties);
+		await DynastiesOutputter.OutputDynasties(outputModPath, dynasties);
 
-		using var file = File.OpenRead(outputPath);
+		await using var file = File.OpenRead(outputPath);
 		var reader = new StreamReader(file);
 
-		Assert.Equal("dynn_irtock3_1={", reader.ReadLine());
-		Assert.Equal("\tname = dynn_irtock3_1", reader.ReadLine());
-		Assert.Equal("}", reader.ReadLine());
+		Assert.Equal("dynn_irtock3_1={", await reader.ReadLineAsync());
+		Assert.Equal("\tname = dynn_irtock3_1", await reader.ReadLineAsync());
+		Assert.Equal("}", await reader.ReadLineAsync());
 
-		Assert.Equal("dynn_irtock3_2={", reader.ReadLine());
-		Assert.Equal("\tname = dynn_irtock3_2", reader.ReadLine());
-		Assert.Equal("\tculture = roman", reader.ReadLine());
-		Assert.Equal("}", reader.ReadLine());
-		Assert.True(string.IsNullOrWhiteSpace(reader.ReadLine()));
+		Assert.Equal("dynn_irtock3_2={", await reader.ReadLineAsync());
+		Assert.Equal("\tname = dynn_irtock3_2", await reader.ReadLineAsync());
+		Assert.Equal("\tculture = roman", await reader.ReadLineAsync());
+		Assert.Equal("}", await reader.ReadLineAsync());
+		Assert.True(string.IsNullOrWhiteSpace(await reader.ReadLineAsync()));
 		Assert.True(reader.EndOfStream);
 	}
 }

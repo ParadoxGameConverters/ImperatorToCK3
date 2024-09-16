@@ -1,6 +1,9 @@
-﻿language_gothic = { # https://en.wikipedia.org/wiki/East_Germanic_languages
+﻿# Add WtWSMS-specific stuff inside MOD_DEPENDENT = { IF @[wtwsms] = {} } blocks.
+
+language_gothic = { # https://en.wikipedia.org/wiki/East_Germanic_languages
     REPLACED_BY = {
 		tfe = { language_gothic }
+		wtwsms = { language_gothic }
 		vanilla = { language_gothic }
 	}
 
@@ -18,13 +21,22 @@
 		}
 	}
 
-	color = gothic
+	color = irtock3_gothic
 }
 
 language_nuragic = {
     REPLACED_BY = {
 		tfe = { language_nuragic }
 		vanilla = { language_nuragic }
+	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_nuragic = yes
+				language_family_paleo_sardinian = yes
+			}
+		}
 	}
     
 	type = language
@@ -33,11 +45,33 @@ language_nuragic = {
 			LANGUAGE = language_nuragic
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_nuragic }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_nuragic }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_nuragic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_paleo_sardinian }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_nuragic }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -49,6 +83,15 @@ language_luwian = {
 		tfe = { language_luwian }
 		vanilla = { language_luwian }
 	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_anatolian = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
 
 	type = language
 	is_shown = {
@@ -56,11 +99,33 @@ language_luwian = {
 		LANGUAGE = language_luwian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_luwian }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_luwian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_anatolian }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_luwian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -72,6 +137,15 @@ language_lydian = {
 		tfe = { language_lydian }
 		vanilla = { language_lydian }
 	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_anatolian = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -79,11 +153,33 @@ language_lydian = {
 		LANGUAGE = language_lydian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_lydian }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_lydian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_anatolian }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_lydian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -95,6 +191,15 @@ language_hittite = {
 		tfe = { language_hittite }
 		vanilla = { language_hittite }
 	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_anatolian = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -102,11 +207,33 @@ language_hittite = {
 		LANGUAGE = language_hittite
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_hittite }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_hittite }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_anatolian }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_hittite }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -118,6 +245,15 @@ language_phrygian = {
 		tfe = { language_phrygian }
 		vanilla = { language_phrygian }
 	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_anatolian = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -125,11 +261,33 @@ language_phrygian = {
 		LANGUAGE = language_phrygian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_phrygian }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_phrygian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_anatolian }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_phrygian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -139,6 +297,7 @@ language_phrygian = {
 language_albanian = {
     REPLACED_BY = {
 		tfe = { language_albanian }
+		wtwsms = { language_albanian }
 		vanilla = { language_albanian }
 	}
     
@@ -162,7 +321,8 @@ language_albanian = {
 language_kemetic = {
     REPLACED_BY = {
 		tfe = { language_kemetic }
-		vanilla = { language_kemetic }  # TODO: replace with vanilla Ancient Egyptian ID
+		wtwsms = { language_kemetic }
+		vanilla = { language_egyptian }
 	}
     
 	type = language
@@ -185,6 +345,7 @@ language_kemetic = {
 language_aramaic = {
     REPLACED_BY = {
 		tfe = { language_aramaic }
+		wtwsms = { language_aramaic }
 		vanilla = { language_aramaic }
 	}
     
@@ -210,6 +371,15 @@ language_babylonian = {
 		tfe = { language_babylonian }
 		vanilla = { language_babylonian }
 	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_semitic = yes
+				language_family_afro_asiatic = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -217,11 +387,33 @@ language_babylonian = {
 			LANGUAGE = language_babylonian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_babylonian }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_babylonian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_semitic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_afro_asiatic }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_babylonian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -231,6 +423,7 @@ language_babylonian = {
 language_gaulish = {
     REPLACED_BY = {
 		tfe = { language_gaulish }
+		wtwsms = { language_gaulish }
 		vanilla = { language_gaulish }
 	}
     
@@ -254,6 +447,7 @@ language_gaulish = {
 language_hebrew = {
     REPLACED_BY = {
 		tfe = { language_hebrew }
+		wtwsms = { language_israelite }
 		vanilla = { language_hebrew }
 	}
     
@@ -279,6 +473,15 @@ language_oscan = {
 		tfe = { language_oscan }
 		vanilla = { language_oscan }
 	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -286,14 +489,36 @@ language_oscan = {
 			LANGUAGE = language_oscan
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_oscan }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_oscan }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_oscan }
+					multiply = 10
+				}
+			}
 		}
 	}
-
+	
 	color = { 117 131 50 }
 }
 
@@ -302,6 +527,15 @@ language_samnite = {
 		tfe = { language_samnite }
 		vanilla = { language_samnite }
 	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -309,11 +543,33 @@ language_samnite = {
 			LANGUAGE = language_samnite
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_samnite }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_samnite }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+        		value = 10
+        		if = {
+        			limit = { has_cultural_pillar = language_samnite }
+        			multiply = 10
+        		}
+        	}
 		}
 	}
 
@@ -325,6 +581,15 @@ language_ligustic = {
 		tfe = { language_ligustic }
 		vanilla = { language_ligustic }
 	}
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -332,11 +597,33 @@ language_ligustic = {
 			LANGUAGE = language_ligustic
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_ligustic }
-			multiply = 10
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_ligustic }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = { # for conversions without WtWSMS
+			ai_will_do = {
+        		value = 10
+				if = {
+					limit = { has_cultural_pillar = language_ligustic }
+					multiply = 10
+				}
+        	}
 		}
 	}
 
@@ -348,6 +635,15 @@ language_messapic = {
 		tfe = { language_messapic }
 		vanilla = { language_messapic }
 	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -355,14 +651,36 @@ language_messapic = {
 			LANGUAGE = language_messapic
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_messapic }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_messapic }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_messapic }
+					multiply = 10
+				}
+			}
 		}
 	}
-
+	
 	color = { 5 52 113 }
 }
 
@@ -371,6 +689,15 @@ language_sardonian = {
 		tfe = { language_sardonian }
 		vanilla = { language_sardonian }
 	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -378,11 +705,33 @@ language_sardonian = {
 			LANGUAGE = language_sardonian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_sardonian }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_sardonian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_sardonian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -394,6 +743,15 @@ language_siculian = {
 		tfe = { language_siculian }
 		vanilla = { language_siculian }
 	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -401,11 +759,33 @@ language_siculian = {
 			LANGUAGE = language_siculian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_siculian }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_siculian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_siculian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -415,6 +795,7 @@ language_siculian = {
 language_hunnic = {
     REPLACED_BY = {
 		tfe = { language_hunnic }
+		wtwsms = { language_hunnic }
 		vanilla = { language_hunnic }
 	}
     
@@ -438,6 +819,7 @@ language_hunnic = {
 language_punic = {
     REPLACED_BY = {
 		tfe = { language_punic }
+		wtwsms = { language_punic }
 		vanilla = { language_punic }
 	}
     
@@ -458,23 +840,59 @@ language_punic = {
 	color = { 74 174 85 }
 }
 
-language_breathanach = {
+language_breathanach = { # language for Romano-Celtic hybrids in the British Isles
     REPLACED_BY = {
 		tfe = { language_breathanach }
 		vanilla = { language_breathanach }
+	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_group_romance = yes
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
 	}
     
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_breathanach
+			LANGUAGE = language_breathanach
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_breathanach }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_breathanach }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_romance }
+					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_breathanach }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -486,18 +904,54 @@ language_laessin = {
 		tfe = { language_laessin }
 		vanilla = { language_laessin }
 	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_group_romance = yes
+				language_branch_italic = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_laessin
+			LANGUAGE = language_laessin
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_laessin }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_laessin }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_romance }
+					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_italic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_laessin }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -507,13 +961,14 @@ language_laessin = {
 language_thracian = {
     REPLACED_BY = {
 		tfe = { language_thracian }
+		wtwsms = { language_thracian }
 		vanilla = { language_thracian }
 	}
     
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_thracian
+			LANGUAGE = language_thracian
 		}
 	}
 	ai_will_do = {
@@ -530,13 +985,14 @@ language_thracian = {
 language_dacian = {
     REPLACED_BY = {
 		tfe = { language_dacian }
+		wtwsms = { language_dacian }
 		vanilla = { language_dacian }
 	}
     
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_dacian
+			LANGUAGE = language_dacian
 		}
 	}
 	ai_will_do = {
@@ -555,6 +1011,15 @@ language_etruscan = {
 		tfe = { language_etruscan }
 		vanilla = { language_etruscan }
 	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_etruscan = yes
+				language_family_tyrsenian = yes 		
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -562,11 +1027,33 @@ language_etruscan = {
 			LANGUAGE = language_etruscan
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_etruscan }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_etruscan }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_etruscan }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_tyrsenian }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_etruscan }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -578,18 +1065,49 @@ language_elamite = {
 		tfe = { language_elamite }
 		vanilla = { language_elamite }
 	}
-    
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_elamite_group = yes
+				language_family_elamite_family = yes 		
+			}
+		}
+	}
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_elamite
+			LANGUAGE = language_elamite
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_elamite }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_elamite }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_elamite_group }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_elamite_family }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+        		value = 10
+        		if = {
+        			limit = { has_cultural_pillar = language_elamite }
+        			multiply = 10
+        		}
+        	}
 		}
 	}
 
@@ -601,6 +1119,15 @@ language_tai = {
 		tfe = { language_tai }
 		vanilla = { language_tai }
 	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_tai = yes
+				language_family_kra_dai = yes 		
+			}
+		}
+	}
     
 	type = language
 	is_shown = {
@@ -608,11 +1135,33 @@ language_tai = {
 			LANGUAGE = language_tai
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_tai }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_tai }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_tai }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_kra_dai }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_tai }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -624,6 +1173,11 @@ language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/shared
 		tfe = { language_palaungic }
 		vanilla = { language_palaungic }
 	}
+	
+	parameters = {
+		language_branch_palaungic = yes
+		language_family_austro_asiatic = yes  # already exists in WtWSMS
+	}
     
 	type = language
 	is_shown = {
@@ -631,11 +1185,32 @@ language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/shared
 			LANGUAGE = language_palaungic
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_palaungic }
-			multiply = 10
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_palaungic }
+					multiply = same_language_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_palaungic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_austro_asiatic }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_palaungic }
+					multiply = 10
+				}
+			}
 		}
 	}
 

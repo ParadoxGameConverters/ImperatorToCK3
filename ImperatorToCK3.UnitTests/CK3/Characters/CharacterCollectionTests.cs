@@ -25,6 +25,7 @@ using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.UnitTests.TestHelpers;
+using Open.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -60,8 +61,8 @@ public class CharacterCollectionTests {
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		irRegionMapper.LoadRegions(irModFS, colorFactory);
-		
-		var ck3ModFlags = new List<string>();
+
+		var ck3ModFlags = new System.Collections.Generic.OrderedDictionary<string, bool>();
 		cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory, ck3ModFlags), ck3ModFlags);
 	}
 
@@ -97,6 +98,7 @@ public class CharacterCollectionTests {
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
+			new TestCK3LocDB(),
 			endDate,
 			configuration);
 
@@ -141,6 +143,7 @@ public class CharacterCollectionTests {
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
+			new TestCK3LocDB(),
 			endDate,
 			configuration);
 
@@ -192,6 +195,7 @@ public class CharacterCollectionTests {
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
+			new TestCK3LocDB(),
 			conversionDate,
 			configuration);
 
@@ -297,6 +301,7 @@ public class CharacterCollectionTests {
 		var traitMapper = new TraitMapper();
 		var nicknameMapper = new NicknameMapper();
 		var deathReasonMapper = new DeathReasonMapper();
+		var ck3LocDB = new TestCK3LocDB();
 
 		// Import Imperator ruler and governors.
 		var characters = new CharacterCollection();
@@ -310,6 +315,7 @@ public class CharacterCollectionTests {
 			provinceMapper,
 			deathReasonMapper,
 			new DNAFactory(irModFS, ck3ModFS),
+			ck3LocDB,
 			conversionDate,
 			config);
 
@@ -319,6 +325,7 @@ public class CharacterCollectionTests {
 			Array.Empty<Dependency>(),
 			tagTitleMapper,
 			imperatorWorld.LocDB,
+			ck3LocDB,
 			provinceMapper,
 			coaMapper,
 			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
@@ -333,13 +340,15 @@ public class CharacterCollectionTests {
 			new List<KeyValuePair<Country, Dependency?>>());
 
 		var provinces = new ProvinceCollection(ck3ModFS);
-		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
+		var ck3MapData = new MapData(ck3ModFS);
+		provinces.ImportImperatorProvinces(imperatorWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 
 		titles.ImportImperatorGovernorships(
 			imperatorWorld,
 			provinces,
 			tagTitleMapper,
 			imperatorWorld.LocDB,
+			ck3LocDB,
 			config,
 			provinceMapper,
 			definiteFormMapper,

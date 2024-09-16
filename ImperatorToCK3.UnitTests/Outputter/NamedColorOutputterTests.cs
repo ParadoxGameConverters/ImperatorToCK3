@@ -1,14 +1,14 @@
-using commonItems;
 using commonItems.Colors;
 using ImperatorToCK3.Outputter;
 using System.IO;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Outputter;
 
 public class NamedColorOutputterTests {
 	[Fact]
-	public void OutputterOutputsColorsNotFoundInCK3ColorCollection() {
+	public async Task OutputterOutputsColorsNotFoundInCK3ColorCollection() {
 		var imperatorColors = new NamedColorCollection {
 			["a"] = new(1, 1, 1),
 			["b"] = new(2, 2, 2),
@@ -22,8 +22,8 @@ public class NamedColorOutputterTests {
 		};
 
 		Directory.CreateDirectory("output/colors_test/common/named_colors");
-		NamedColorsOutputter.OutputNamedColors("colors_test", imperatorColors, ck3Colors);
-		var output = File.ReadAllText("output/colors_test/common/named_colors/IRtoCK3_colors_from_Imperator.txt");
+		await NamedColorsOutputter.OutputNamedColors("output/colors_test", imperatorColors, ck3Colors);
+		var output = await File.ReadAllTextAsync("output/colors_test/common/named_colors/IRtoCK3_colors_from_Imperator.txt");
 		Assert.DoesNotContain("a=", output);
 		Assert.DoesNotContain("b=", output);
 		Assert.DoesNotContain("c=rgb {3 3 3}", output);
@@ -31,7 +31,7 @@ public class NamedColorOutputterTests {
 	}
 
 	[Fact]
-	public void OutputterOutputsNothingWhenThereIsNothingToOutput() {
+	public async Task OutputterOutputsNothingWhenThereIsNothingToOutput() {
 		var imperatorColors = new NamedColorCollection {
 			["a"] = new(1, 1, 1),
 			["b"] = new(2, 2, 2),
@@ -44,7 +44,7 @@ public class NamedColorOutputterTests {
 		};
 
 		Directory.CreateDirectory("output/colors_test/common/named_colors");
-		NamedColorsOutputter.OutputNamedColors("colors_test2", imperatorColors, ck3Colors);
+		await NamedColorsOutputter.OutputNamedColors("colors_test2", imperatorColors, ck3Colors);
 		Assert.False(File.Exists("output/colors_test2/common/named_colors/IRtoCK3_colors_from_Imperator.txt"));
 	}
 }

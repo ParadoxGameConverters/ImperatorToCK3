@@ -15,5 +15,5 @@ public static class IListExtensions {
 		}
 
 		return count;
-	}   
+	}
 }

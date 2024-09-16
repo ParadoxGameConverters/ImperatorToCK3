@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Armies;
 
-public class Unit : IIdentifiable<ulong> {
+public sealed class Unit : IIdentifiable<ulong> {
 	public ulong Id { get; }
 	public bool IsArmy { get; private set; } = true;
 	public bool IsLegion { get; private set; } = false;
@@ -19,11 +19,11 @@ public class Unit : IIdentifiable<ulong> {
 	public LocBlock? LocalizedName { get; private set; }
 	public IDictionary<string, int> MenPerUnitType { get; }
 
-	public Unit(ulong id, BufferedReader legionReader, UnitCollection unitCollection, LocDB locDB, Defines defines) {
+	public Unit(ulong id, BufferedReader legionReader, UnitCollection unitCollection, LocDB irLocDB, Defines defines) {
 		Id = id;
 
 		var parser = new Parser();
-		parser.RegisterKeyword("unit_name", reader => LocalizedName = GetLocalizedName(reader, locDB));
+		parser.RegisterKeyword("unit_name", reader => LocalizedName = GetLocalizedName(reader, irLocDB));
 		parser.RegisterKeyword("is_army", reader => IsArmy = reader.GetBool());
 		parser.RegisterKeyword("country", reader => CountryId = reader.GetULong());
 		parser.RegisterKeyword("leader", reader => LeaderId = reader.GetULong());
@@ -39,7 +39,7 @@ public class Unit : IIdentifiable<ulong> {
 		MenPerUnitType = GetMenPerUnitType(unitCollection, defines);
 	}
 
-	private static LocBlock? GetLocalizedName(BufferedReader unitNameReader, LocDB locDB) {
+	private static LocBlock? GetLocalizedName(BufferedReader unitNameReader, LocDB irLocDB) {
 		string? name = null;
 		int ordinal = 1;
 		string? family = null;
@@ -52,7 +52,7 @@ public class Unit : IIdentifiable<ulong> {
 		parser.RegisterKeyword("ordinal", reader => ordinal = reader.GetInt());
 		parser.RegisterKeyword("family", reader => family = reader.GetString());
 		parser.RegisterKeyword("governorship", reader => governorship = reader.GetString());
-		parser.RegisterKeyword("base", reader => baseNameLocBlock = GetLocalizedName(reader, locDB));
+		parser.RegisterKeyword("base", reader => baseNameLocBlock = GetLocalizedName(reader, irLocDB));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(unitNameReader);
 
@@ -60,7 +60,7 @@ public class Unit : IIdentifiable<ulong> {
 		if (name is null) {
 			return null;
 		}
-		var rawLoc = locDB.GetLocBlockForKey(name);
+		var rawLoc = irLocDB.GetLocBlockForKey(name);
 		if (rawLoc is null) {
 			return null;
 		}
@@ -83,7 +83,7 @@ public class Unit : IIdentifiable<ulong> {
 		return nameLocBlock;
 	}
 
-	private IDictionary<string, int> GetMenPerUnitType(UnitCollection unitCollection, Defines defines) {
+	private Dictionary<string, int> GetMenPerUnitType(UnitCollection unitCollection, Defines defines) {
 		var cohortSize = defines.CohortSize;
 
 		return unitCollection.Subunits.Where(s => CohortIds.Contains(s.Id))
@@ -91,5 +91,5 @@ public class Unit : IIdentifiable<ulong> {
 			.ToDictionary(g => g.Key, g => (int)g.Sum(s => cohortSize * s.Strength));
 	}
 
-	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
+	public static IgnoredKeywordsSet IgnoredTokens { get; } = [];
 }

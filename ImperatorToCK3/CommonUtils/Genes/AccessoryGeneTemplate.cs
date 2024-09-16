@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
 
-public class AccessoryGeneTemplate : IIdentifiable<string> {
+public sealed class AccessoryGeneTemplate : IIdentifiable<string> {
 	public string Id { get; }
 	public uint Index { get; private set; } = 0;
 	public IDictionary<string, WeightBlock> AgeSexWeightBlocks { get; } = new Dictionary<string, WeightBlock>();
 
 	public AccessoryGeneTemplate(string id, BufferedReader reader) {
 		Id = id;
-		
+
 		var parser = new Parser();
 		RegisterKeys(parser);
 		parser.ParseStream(reader);

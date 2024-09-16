@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Characters; 
 
-public class PortraitData {
+public sealed class PortraitData {
 	public PaletteCoordinates HairColorPaletteCoordinates { get; } = new();
 	public PaletteCoordinates HairColor2PaletteCoordinates { get; } = new();
 	public PaletteCoordinates SkinColorPaletteCoordinates { get; } = new();
@@ -84,12 +84,6 @@ public class PortraitData {
 		foreach (var gene in accessoryGenes) {
 			var geneIndex = gene.Index;
 			if (geneIndex is null) {
-				continue;
-			}
-
-			// Temporary fix for broken Invictus DNA strings which don't have a value for the headgear gene.
-			// TODO: verify if still require for Invictus version higher than the original pre-hotfix 1.7
-			if (gene.Id == "headgear") {
 				continue;
 			}
 

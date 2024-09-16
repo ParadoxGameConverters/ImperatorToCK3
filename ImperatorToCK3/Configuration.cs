@@ -1,15 +1,17 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Mods;
 using ImperatorToCK3.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace ImperatorToCK3;
 
 public enum LegionConversion { No, SpecialTroops, MenAtArms }
-public class Configuration {
+public sealed class Configuration {
 	public string SaveGamePath { get; set; } = "";
 	public string ImperatorPath { get; set; } = "";
 	public string ImperatorDocPath { get; set; } = "";
@@ -25,7 +27,9 @@ public class Configuration {
 	public double ImperatorCivilizationWorth { get; set; } = 0.4;
 	public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
 	public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
+	public bool SkipDynamicCoAExtraction { get; set; } = false;
 	public bool FallenEagleEnabled { get; set; }
+	public bool WhenTheWorldStoppedMakingSenseEnabled { get; set; }
 
 	public Configuration() { }
 	public Configuration(ConverterVersion converterVersion) {
@@ -133,6 +137,15 @@ public class Configuration {
 				Logger.Info($"Changed CK3 bookmark date to {earliestAllowedDate}");
 			}
 			Logger.Info($"CK3 bookmark date set to: {CK3BookmarkDate}");
+		});
+		parser.RegisterKeyword("SkipDynamicCoAExtraction", reader => {
+			var valueString = reader.GetString();
+			try {
+				SkipDynamicCoAExtraction = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+				Logger.Info($"{nameof(SkipDynamicCoAExtraction)} set to: {SkipDynamicCoAExtraction}");
+			} catch (Exception e) {
+				Logger.Error($"Undefined error, {nameof(SkipDynamicCoAExtraction)} value was: {valueString}; Error message: {e}");
+			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
@@ -250,11 +263,28 @@ public class Configuration {
 		}
 	}
 
-	public ICollection<string> GetCK3ModFlags() {
-		var flags = new HashSet<string>();
-		if (FallenEagleEnabled) {
-			flags.Add("tfe");
+	public void DetectSpecificCK3Mods(ICollection<Mod> loadedMods) {
+		var tfeMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("The Fallen Eagle", StringComparison.Ordinal));
+		if (tfeMod is not null) {
+			FallenEagleEnabled = true;
+			Logger.Info($"TFE detected: {tfeMod.Name}");
 		}
+		
+		var wtwsmsMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("When the World Stopped Making Sense", StringComparison.Ordinal));
+		if (wtwsmsMod is not null) {
+			WhenTheWorldStoppedMakingSenseEnabled = true;
+			Logger.Info($"WtWSMS detected: {wtwsmsMod.Name}");
+		}
+	}
+
+	/// <summary>Returns a collection of CK3 mod flags with values based on the enabled mods. "vanilla" flag is set to true if no other flags are set.</summary>
+	public OrderedDictionary<string, bool> GetCK3ModFlags() {
+		var flags = new OrderedDictionary<string, bool> {
+			["tfe"] = FallenEagleEnabled,
+			["wtwsms"] = WhenTheWorldStoppedMakingSenseEnabled,
+		};
+
+		flags["vanilla"] = flags.Count(f => f.Value) == 0;
 		return flags;
 	}
 }

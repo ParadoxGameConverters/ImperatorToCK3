@@ -53,6 +53,7 @@ link = { ck3=basque_pagan ir=pre_indo_european_religion }
 link = { ck3=illyrian_pagan ir=illyrian_pantheon }
 link = { ck3=dinka_pagan ir=nilotic_pantheon } # Nhialic
 link = { ck3=sardinian_pagan ir=nuragic_pantheon } # TFE
+link = { ck3 = hattian_faith ir = hatti_religion } # Invictus: revivalist faith of the Hatti.
 link = { ck3=pagan ir=nuragic_pantheon } # TODO: https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/1474
 # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = pagan ir = pagan }
@@ -201,7 +202,9 @@ link = { ck3 = orthodox ir = orthodox } # https://steamcommunity.com/sharedfiles
 link = { ck3 = catholic ir = catholic } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = armenian_apostolic ir = apostolic } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 @catholic_regions = "irRegion = atlas_region irRegion = central_italy_region irRegion = lusitania_region irRegion = germania_region irRegion = transalpine_gaul_region irRegion = gallaecia_region irRegion = pannonia_region irRegion = bohemia_area irRegion = bohemia_region irRegion = illyria_region irRegion = magna_graecia_region irRegion = belgica_region irRegion = vistulia_region irRegion = venedia_region irRegion = central_gaul_region irRegion = germania_superior_region irRegion = contestania_region irRegion = armorica_region irRegion = mauretainia_region irRegion = aquitaine_region irRegion = tarraconensis_region irRegion = cisalpine_gaul_region irRegion = africa_region irRegion = numidia_region irRegion = rhaetia_region irRegion = baetica_region irRegion = scandinavia_region"
+@after_nestorian_schism = "date_gte = 432.10.30"
 @after_chalcedon = "date_gte = 451.8.25"
+@after_acacian_schism = "date_gte = 484.3.22"
 ## only with heresiesInHistoricalAreas enabled
 link = { ck3 = priscillianism ir = christianity heresiesInHistoricalAreas=yes ck3Province = 1831 ck3Province = 1912 ck3Province = 1919 ck3Province = 1954 irRegion = lusitania_region }
 link = { ck3 = valentinianism ir = christianity heresiesInHistoricalAreas=yes irRegion = decapolis_area irRegion = peraea_area irRegion = arabia_petrea_area irRegion = sinai_area }
@@ -214,9 +217,9 @@ link = { ck3 = armenian_apostolic ir = christianity @after_chalcedon irRegion = 
 link = { ck3 = armenian_apostolic ir = christianity @after_chalcedon historicalTag=ARM }
 link = { ck3 = insular_celtic ir = christianity irRegion = caledonia_region irRegion = britain_region }
 link = { ck3 = coptic ir = christianity @after_chalcedon irRegion = arabia_felix_region irRegion = arabia_region irRegion = cyrenaica_region irRegion = fezzan_region irRegion = lower_egypt_region irRegion = nubia_region irRegion = lower_nubia_region irRegion = punt_region irRegion = upper_egypt_region }
-link = { ck3 = nestorian ir = christianity date_gte = 432.10.30 irRegion = assyria_region irRegion = mesopotamia_region irRegion = persis_region irRegion = media_region irRegion = bactriana_region irRegion = gedrosia_region  irRegion = ariana_region irRegion = parthia_region irRegion = gandhara_region irRegion = maru_region irRegion = avanti_region irRegion = madhyadesa_region irRegion = pracya_region irRegion = vindhyaprstha_region irRegion = dravida_region irRegion = aparanta_region irRegion = karnata_region irRegion = tibet_region irRegion = himalayan_region irRegion = sogdiana_region irRegion = burma_region }
-link = { ck3 = catholic ir = christianity date_gte = 484.3.22 @catholic_regions }
-link = { ck3 = orthodox ir = christianity date_gte = 484.3.22 } # vanilla CK3 fallback
+link = { ck3 = nestorian ir = christianity @after_nestorian_schism irRegion = assyria_region irRegion = mesopotamia_region irRegion = persis_region irRegion = media_region irRegion = bactriana_region irRegion = gedrosia_region  irRegion = ariana_region irRegion = parthia_region irRegion = gandhara_region irRegion = maru_region irRegion = avanti_region irRegion = madhyadesa_region irRegion = pracya_region irRegion = vindhyaprstha_region irRegion = dravida_region irRegion = aparanta_region irRegion = karnata_region irRegion = tibet_region irRegion = himalayan_region irRegion = sogdiana_region irRegion = burma_region }
+link = { ck3 = catholic ir = christianity @after_acacian_schism @catholic_regions }
+link = { ck3 = orthodox ir = christianity @after_acacian_schism } # vanilla CK3 fallback
 link = { ck3 = chalcedonian ir = christianity @after_chalcedon } # TFE fallback
 link = { ck3 = nicene ir = christianity } # TFE fallback
 link = { ck3 = catholic ir = christianity @catholic_regions }
@@ -227,7 +230,7 @@ link = { ck3 = ashari ir = islam } # https://steamcommunity.com/sharedfiles/file
 link = { ck3 = maturidi ir = maturidi } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 # Finno-Ugric
-link = { ck3 = finnish_pagan ir = ukonusko } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3 = finnish_pagan ir = uralic_pantheon ir = ukonusko } # ukonusko comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 # Burmic (from Invictus)
 link = { ck3=burmic ir=burmese_religion }

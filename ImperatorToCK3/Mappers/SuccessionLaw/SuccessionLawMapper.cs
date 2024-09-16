@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.SuccessionLaw;
 
-public class SuccessionLawMapper {
+public sealed class SuccessionLawMapper {
 	private readonly Dictionary<string, SortedSet<string>> impToCK3SuccessionLawMap = new();
 
 	public SuccessionLawMapper() { }
