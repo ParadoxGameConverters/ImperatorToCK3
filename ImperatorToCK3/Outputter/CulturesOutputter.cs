@@ -82,9 +82,7 @@ public static class CulturesOutputter {
 		
 		var fileName = Path.GetFileName(scriptedEffectsPath);
 		var statements = CKParser.parseFile(scriptedEffectsPath).GetResult();
-		//var statements = Parsers.ParseScriptFile(fileName, File.ReadAllText(scriptedEffectsPath)).GetResult();
 		var rootNode = Parsers.ProcessStatements(fileName, scriptedEffectsPath, statements);
-
 		var nodes = rootNode.Nodes.ToArray();
 
 		var familyEffectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_language_family_effect");
