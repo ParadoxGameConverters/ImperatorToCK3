@@ -8,6 +8,7 @@ using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Mappers.Culture;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Dynasties;
@@ -70,7 +71,16 @@ public sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 	
 	[NonSerialized] public string Id { get; }
 	[SerializedName("prefix")] public string? Prefix { get; private set; }
-	[SerializedName("name")] public string Name { get; private set; }
+
+	[SerializedName("name")]
+	[SuppressMessage("ReSharper", "UnusedMember.Global")] // used by serialization
+	public string NameForSerialization {
+		get {
+			// If the name contains whitespace, it needs to be quoted.
+			return Name.Any(char.IsWhiteSpace) ? $"\"{Name}\"" : Name;
+		}
+	}
+	[NonSerialized] public string Name { get; private set; }
 	[SerializedName("culture")] public string? CultureId { get; set; }
 	[SerializedName("motto")] public string? Motto { get; set; }
 	[SerializedName("forced_coa_religiongroup")] public string? ForcedCoaReligionGroup { get; set; }

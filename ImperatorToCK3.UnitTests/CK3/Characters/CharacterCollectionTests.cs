@@ -25,6 +25,7 @@ using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.UnitTests.TestHelpers;
+using Open.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -60,8 +61,8 @@ public class CharacterCollectionTests {
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		irRegionMapper.LoadRegions(irModFS, colorFactory);
-		
-		var ck3ModFlags = new List<string>();
+
+		var ck3ModFlags = new System.Collections.Generic.OrderedDictionary<string, bool>();
 		cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory, ck3ModFlags), ck3ModFlags);
 	}
 

@@ -12,7 +12,7 @@ namespace ImperatorToCK3.CK3.Cultures;
 public sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 	private readonly Dictionary<string, string> mergedPillarsDict = [];
 
-	public PillarCollection(ColorFactory colorFactory, ICollection<string> ck3ModFlags) {
+	public PillarCollection(ColorFactory colorFactory, OrderedDictionary<string, bool> ck3ModFlags) {
 		InitPillarDataParser(colorFactory, ck3ModFlags);
 	}
 
@@ -73,7 +73,8 @@ public sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 		AddOrReplace(new Pillar(pillarId, pillarData));
 	}
 
-	private void InitPillarDataParser(ColorFactory colorFactory, ICollection<string> ck3ModFlags) {
+	private void InitPillarDataParser(ColorFactory colorFactory, OrderedDictionary<string, bool> ck3ModFlags) {
+		pillarDataParser.RegisterModDependentBloc(ck3ModFlags);
 		pillarDataParser.RegisterKeyword("REPLACED_BY", reader => LoadInvalidatingPillarIds(ck3ModFlags, reader));
 		pillarDataParser.RegisterKeyword("type", reader => {
 			pillarData.Type = reader.GetString();
@@ -91,7 +92,7 @@ public sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 		pillarDataParser.IgnoreAndLogUnregisteredItems();
 	}
 	
-	private void LoadInvalidatingPillarIds(ICollection<string> ck3ModFlags, BufferedReader reader) {
+	private void LoadInvalidatingPillarIds(OrderedDictionary<string, bool> ck3ModFlags, BufferedReader reader) {
 		var pillarIdsPerModFlagParser = new Parser();
 		
 		if (ck3ModFlags.Count == 0) {
@@ -99,8 +100,8 @@ public sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 				pillarData.InvalidatingPillarIds = modPillarIdsReader.GetStrings();
 			});
 		} else {
-			foreach (var modFlag in ck3ModFlags) {
-				pillarIdsPerModFlagParser.RegisterKeyword(modFlag, modPillarIdsReader => {
+			foreach (var modFlag in ck3ModFlags.Where(f => f.Value)) {
+				pillarIdsPerModFlagParser.RegisterKeyword(modFlag.Key, modPillarIdsReader => {
 					pillarData.InvalidatingPillarIds = modPillarIdsReader.GetStrings();
 				});
 			}

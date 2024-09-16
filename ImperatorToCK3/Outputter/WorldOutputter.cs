@@ -35,7 +35,7 @@ public static class WorldOutputter {
 			TitlesOutputter.OutputTitles(outputPath, ck3World.LandedTitles),
 
 			PillarOutputter.OutputPillars(outputPath, ck3World.CulturalPillars),
-			CulturesOutputter.OutputCultures(outputPath, ck3World.Cultures, ck3World.CorrectedDate),
+			CulturesOutputter.OutputCultures(outputPath, ck3World.Cultures, ck3World.ModFS, config, ck3World.CorrectedDate),
 
 			ReligionsOutputter.OutputReligionsAndHolySites(outputPath, ck3World.Religions, ck3World.LocDB),
 
@@ -190,6 +190,8 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "on_action"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "holy_sites"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "religions"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_effects"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_guis"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_triggers"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "events"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gui"));
