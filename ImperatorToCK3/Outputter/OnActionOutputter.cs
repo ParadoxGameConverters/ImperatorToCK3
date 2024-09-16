@@ -16,7 +16,7 @@ public static class OnActionOutputter {
 		if (config.FallenEagleEnabled) {
 			await DisableUnneededFallenEagleOnActions(outputModPath);
 			await RemoveStruggleStartFromFallenEagleOnActions(ck3ModFS, outputModPath);
-		} else { // vanilla
+		} else if (!config.WhenTheWorldStoppedMakingSenseEnabled) { // vanilla
 			await RemoveUnneededPartsOfVanillaOnActions(ck3ModFS, outputModPath);
 		}
 		Logger.IncrementProgress();

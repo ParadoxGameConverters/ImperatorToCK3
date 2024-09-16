@@ -17,13 +17,14 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Cultures;
 
 public class CultureCollection : IdObjectCollection<string, Culture> {
-	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection, ICollection<string> ck3ModFlags) {
+	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection, OrderedDictionary<string, bool> ck3ModFlags) {
 		this.PillarCollection = pillarCollection;
 		InitCultureDataParser(colorFactory, ck3ModFlags);
 	}
 
-	private void InitCultureDataParser(ColorFactory colorFactory, ICollection<string> ck3ModFlags) {
+	private void InitCultureDataParser(ColorFactory colorFactory, OrderedDictionary<string, bool> ck3ModFlags) {
 		cultureDataParser.RegisterKeyword("INVALIDATED_BY", reader => LoadInvalidatingCultureIds(ck3ModFlags, reader));
+		cultureDataParser.RegisterModDependentBloc(ck3ModFlags);
 		cultureDataParser.RegisterKeyword("color", reader => {
 			try {
 				cultureData.Color = colorFactory.GetColor(reader);
@@ -38,14 +39,14 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 			var heritageId = reader.GetString();
 			cultureData.Heritage = PillarCollection.GetHeritageForId(heritageId);
 			if (cultureData.Heritage is null) {
-				Logger.Warn($"Found unrecognized heritage when parsing cultures: {heritageId}");
+				Logger.Debug($"Found unrecognized heritage when parsing cultures: {heritageId}");
 			}
 		});
 		cultureDataParser.RegisterKeyword("language", reader => {
 			var languageId = reader.GetString();
 			cultureData.Language = PillarCollection.GetLanguageForId(languageId);
 			if (cultureData.Language is null) {
-				Logger.Warn($"Found unrecognized language when parsing cultures: {languageId}");
+				Logger.Debug($"Found unrecognized language when parsing cultures: {languageId}");
 			}
 		});
 		cultureDataParser.RegisterKeyword("traditions", reader => {
@@ -65,7 +66,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		cultureDataParser.IgnoreAndLogUnregisteredItems();
 	}
 
-	private void LoadInvalidatingCultureIds(ICollection<string> ck3ModFlags, BufferedReader reader) {
+	private void LoadInvalidatingCultureIds(OrderedDictionary<string, bool> ck3ModFlags, BufferedReader reader) {
 		var cultureIdsPerModFlagParser = new Parser();
 
 		if (ck3ModFlags.Count == 0) {
@@ -73,8 +74,8 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 				cultureData.InvalidatingCultureIds = modCultureIdsReader.GetStrings();
 			});
 		} else {
-			foreach (var modFlag in ck3ModFlags) {
-				cultureIdsPerModFlagParser.RegisterKeyword(modFlag, modCultureIdsReader => {
+			foreach (var modFlag in ck3ModFlags.Where(f => f.Value)) {
+				cultureIdsPerModFlagParser.RegisterKeyword(modFlag.Key, modCultureIdsReader => {
 					cultureData.InvalidatingCultureIds = modCultureIdsReader.GetStrings();
 				});
 			}
@@ -142,11 +143,11 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 				Logger.Debug($"Loading optional culture {cultureId}...");
 			}
 			if (data.Heritage is null) {
-				Logger.Warn($"Culture {cultureId} has no heritage defined! Skipping.");
+				Logger.Warn($"Culture {cultureId} has no valid heritage defined! Skipping.");
 				continue;
 			}
 			if (data.Language is null) {
-				Logger.Warn($"Culture {cultureId} has no language defined! Skipping.");
+				Logger.Warn($"Culture {cultureId} has no valid language defined! Skipping.");
 				continue;
 			}
 			if (data.NameLists.Count == 0) {
@@ -158,6 +159,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 				var color = new ColorHash().Rgb(cultureId);
 				data.Color = new Color(color.R, color.G, color.B);
 			}
+			
 			AddOrReplace(new Culture(cultureId, data));
 		}
 	}

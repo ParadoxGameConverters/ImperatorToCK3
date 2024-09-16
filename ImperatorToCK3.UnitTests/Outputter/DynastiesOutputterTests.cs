@@ -14,6 +14,7 @@ using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Outputter;
 using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Xunit;
@@ -36,7 +37,7 @@ public class DynastiesOutputterTests {
 		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 		var colorFactory = new ColorFactory();
 		irRegionMapper.LoadRegions(irModFS, colorFactory);
-		var ck3ModFlags = Array.Empty<string>();
+		var ck3ModFlags = new OrderedDictionary<string, bool>();
 		CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(colorFactory, new PillarCollection(colorFactory, ck3ModFlags), ck3ModFlags));
 
 		var characters = new CharacterCollection();
