@@ -16,6 +16,7 @@ A: The converter officially supports these Imperator mods:
 - Imperator: Invictus (https://steamcommunity.com/workshop/filedetails/?id=2532715348)
 - Timeline Extension for Invictus (https://steamcommunity.com/sharedfiles/filedetails/?id=2845446001)
 - TE : Crisis of the third century (https://steamcommunity.com/sharedfiles/filedetails/?id=2858320715)
+- TE : Crisis of the third century BetterBlobs Submod (https://steamcommunity.com/sharedfiles/filedetails/?id=3262072699)
 - Full Mechanical Overhaul (https://steamcommunity.com/sharedfiles/filedetails/?id=2805839904)
 - Imperator: Invictus - More Cultural Names (https://steamcommunity.com/sharedfiles/filedetails/?id=2827761791)
 - Culture Conflation (for Invictus) (https://steamcommunity.com/sharedfiles/filedetails/?id=2660131665)

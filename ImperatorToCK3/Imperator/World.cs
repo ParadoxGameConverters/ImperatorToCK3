@@ -275,14 +275,14 @@ public partial class World {
 		}
 	}
 
-	public World(Configuration config, ConverterVersion converterVersion) {
+	public World(Configuration config, ConverterVersion converterVersion, out Thread? coaExtractionThread) {
 		Logger.Info("*** Hello Imperator, Roma Invicta! ***");
 
 		Logger.Info("Verifying Imperator save...");
 		VerifySave(config.SaveGamePath);
 		Logger.IncrementProgress();
 
-		ParseSave(config, converterVersion, out var coaExtractionThread);
+		ParseSave(config, converterVersion, out coaExtractionThread);
 		
 		// Throw exceptions if any important data is missing.
 		if (ModFS is null) {
@@ -313,9 +313,6 @@ public partial class World {
 		Countries.LinkFamilies(Families);
 
 		LoadPreImperatorRulers();
-		
-		// Make sure the CoA extraction thread completed work before continuing to CK3.
-		coaExtractionThread?.Join();
 
 		Logger.Info("*** Good-bye Imperator, rest in peace. ***");
 	}

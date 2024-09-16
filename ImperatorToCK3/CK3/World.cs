@@ -30,11 +30,11 @@ using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
 using log4net.Core;
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3;
@@ -64,7 +64,7 @@ public sealed class World {
 	/// </summary>
 	public Date CorrectedDate { get; }
 
-	public World(Imperator.World impWorld, Configuration config) {
+	public World(Imperator.World impWorld, Configuration config, Thread? irCoaExtractThread) {
 		Logger.Info("*** Hello CK3, let's get painting. ***");
 
 		warMapper.DetectUnmappedWarGoals(impWorld.ModFS);
@@ -259,6 +259,9 @@ public sealed class World {
 		Logger.IncrementProgress();
 		GovernmentMapper governmentMapper = new(ck3GovernmentIds);
 		Logger.IncrementProgress();
+		
+		// Before we can import Imperator countries and governorships, the I:R CoA extraction thread needs to finish.
+		irCoaExtractThread?.Join();
 
 		List<KeyValuePair<Country, Dependency?>> countyLevelCountries = [];
 		LandedTitles.ImportImperatorCountries(
