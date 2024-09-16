@@ -602,7 +602,12 @@ public sealed class World {
 		var year = bookmarkDate.Year;
 
 		var faiths = Religions.Faiths.ToArray();
-		var titleIdsToHandle = new OrderedSet<string> { "d_iceland", "c_faereyar" };
+		OrderedSet<string> titleIdsToHandle;
+		if (config.FallenEagleEnabled) {
+			titleIdsToHandle = ["c_faereyar"]; // Iceland doesn't exist on TFE map.
+		} else {
+			titleIdsToHandle = ["d_iceland", "c_faereyar"];
+		}
 
 		bool generateHermits = true;
 		IEnumerable<string> faithCandidates = new OrderedSet<string>();
