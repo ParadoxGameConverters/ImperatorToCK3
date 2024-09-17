@@ -27,7 +27,10 @@ tlachtgha = {
 	}
 }
 glanum = { # Glanum is located near Arles
-	county = c_venaissin
+	county_choices = {
+		c_arles # TFE
+		c_venaissin # vanilla
+	}
 	barony = b_arles
 	character_modifier = {
 	    name = holy_site_glanum_effect_name
