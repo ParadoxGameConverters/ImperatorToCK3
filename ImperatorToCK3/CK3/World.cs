@@ -105,7 +105,7 @@ public sealed class World {
 		// Now that we have the mod filesystem, we can initialize the localization database.
 		Parallel.Invoke(
 			() => {
-				LocDB.LoadLocFromModFS(ModFS);
+				LocDB.LoadLocFromModFS(ModFS, config.GetActiveCK3ModFlags());
 				Logger.IncrementProgress();
 			},
 			() => ScriptValues.LoadScriptValues(ModFS),
@@ -133,6 +133,7 @@ public sealed class World {
 				Cultures.LoadInnovationIds(ModFS);
 				Cultures.LoadCultures(ModFS);
 				Cultures.LoadConverterCultures("configurables/converter_cultures.txt");
+				Cultures.LoadConverterCultureCreationNames(config.FallenEagleEnabled);
 				Logger.IncrementProgress();
 			},
 			() => LoadMenAtArmsTypes(ModFS, ScriptValues), // depends on ScriptValues
