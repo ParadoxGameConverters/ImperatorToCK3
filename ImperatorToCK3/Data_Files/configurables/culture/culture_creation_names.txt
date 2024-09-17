@@ -1,5 +1,3 @@
-# TODO: load from this file
-
 crimean_gothic = { # https://en.wikipedia.org/wiki/Crimean_Goths
 	trigger = {
 		capital_county = {
