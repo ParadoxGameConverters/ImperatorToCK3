@@ -72,7 +72,7 @@ public class CK3CharacterTests {
 		private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", CK3ModFS);
 		private NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 		private LocDB irLocDB = new("english");
-		private CK3LocDB ck3LocDB = new(CK3ModFS);
+		private CK3LocDB ck3LocDB = new(CK3ModFS, Array.Empty<string>());
 		private ProvinceMapper provinceMapper = new();
 		private DeathReasonMapper deathReasonMapper = new();
 

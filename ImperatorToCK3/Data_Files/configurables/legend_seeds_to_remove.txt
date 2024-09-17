@@ -2,6 +2,7 @@
 # For example, Charlemagne was born after I:R start, so the "carolingian" seed doesn't make sense.
 # Comments are allowed and start with a hash (#) character.
 
+# Vanilla seeds
 king_arthur
 carolingian
 el_cid
@@ -32,3 +33,8 @@ shibi_chakravarti
 afrasiyab
 descendants_of_brahman
 menelik_i
+
+# TFE seeds
+TFE_ashina_she_wolf
+beowulf
+haftvad
