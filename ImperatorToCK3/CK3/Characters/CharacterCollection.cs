@@ -16,6 +16,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
 using Open.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -42,24 +43,38 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 
 		var unlocalizedImperatorNames = new ConcurrentHashSet<string>();
 
-		Parallel.ForEach(impWorld.Characters, irCharacter => {
-			ImportImperatorCharacter(
-				irCharacter,
-				religionMapper,
-				cultureMapper,
-				traitMapper,
-				nicknameMapper,
-				impWorld.LocDB,
-				ck3LocDB,
-				impWorld.MapData,
-				provinceMapper,
-				deathReasonMapper,
-				dnaFactory,
-				conversionDate,
-				config,
-				unlocalizedImperatorNames
-			);
-		});
+		var parallelOptions = new ParallelOptions {
+			MaxDegreeOfParallelism = Environment.ProcessorCount - 1,
+		};
+
+		try {
+			Parallel.ForEach(impWorld.Characters, parallelOptions, irCharacter => {
+				ImportImperatorCharacter(
+					irCharacter,
+					religionMapper,
+					cultureMapper,
+					traitMapper,
+					nicknameMapper,
+					impWorld.LocDB,
+					ck3LocDB,
+					impWorld.MapData,
+					provinceMapper,
+					deathReasonMapper,
+					dnaFactory,
+					conversionDate,
+					config,
+					unlocalizedImperatorNames
+				);
+			});
+		} catch (AggregateException e) {
+			var innerException = e.InnerExceptions[0];
+			Logger.Error("Exception thrown during Imperator characters import: " + innerException.Message);
+			Logger.Debug("Exception stack trace: " + innerException.StackTrace);
+			
+			// Rethrow the inner exception to stop the program.
+			throw innerException;
+		}
+		
 		if (unlocalizedImperatorNames.Any()) {
 			Logger.Warn("Found unlocalized Imperator names: " + string.Join(", ", unlocalizedImperatorNames));
 		}
@@ -439,13 +454,20 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 
 	public void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
 		Logger.Info("Purging unneeded characters...");
-
-		// Characters that hold or held titles should always be kept.
-		var landedCharacterIds = titles.GetAllHolderIds();
+		
+		// Characters from CK3 that hold titles at the bookmark date should be kept.
+		var currentTitleHolderIds = titles.GetHolderIds(ck3BookmarkDate);
 		var landedCharacters = this
-			.Where(character => landedCharacterIds.Contains(character.Id))
+			.Where(character => currentTitleHolderIds.Contains(character.Id))
 			.ToArray();
 		var charactersToCheck = this.Except(landedCharacters);
+		
+		// Characters from I:R that held or hold titles should be kept.
+		var allTitleHolderIds = titles.GetAllHolderIds();
+		var imperatorTitleHolders = this
+			.Where(character => character.FromImperator && allTitleHolderIds.Contains(character.Id))
+			.ToArray();
+		charactersToCheck = charactersToCheck.Except(imperatorTitleHolders);
 
 		// Don't purge animation_test or easter egg characters.
 		charactersToCheck = charactersToCheck
@@ -457,12 +479,11 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 
 		// Make some exceptions for characters referenced in game's script files.
 		var characterIdsToKeep = LoadCharacterIDsToPreserve();
-
 		charactersToCheck = charactersToCheck
 			.Where(character => !characterIdsToKeep.Contains(character.Id))
 			.ToArray();
 
-		// Members of landed dynasties will be preserved, unless dead and childless.
+		// I:R members of landed dynasties will be preserved, unless dead and childless.
 		var dynastyIdsOfLandedCharacters = landedCharacters
 			.Select(character => character.GetDynastyId(ck3BookmarkDate))
 			.Distinct()
@@ -493,8 +514,8 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 
 			// See who can be removed.
 			foreach (var character in charactersToCheck) {
-				// Does the character belong to a dynasty that holds or held titles?
-				if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
+				// Is the character from Imperator and do they belong to a dynasty that holds or held titles?
+				if (character.FromImperator && dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
 					// Is the character dead and childless? Purge.
 					if (!parentIdsCache.Contains(character.Id)) {
 						charactersToRemove.Add(character);
@@ -517,6 +538,9 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		houses.PurgeUnneededHouses(this, ck3BookmarkDate);
 		dynasties.PurgeUnneededDynasties(this, houses, ck3BookmarkDate);
 		dynasties.FlattenDynastiesWithNoFounders(this, houses, ck3BookmarkDate);
+		
+		// Clean up title history.
+		titles.CleanUpHistory(this, ck3BookmarkDate);
 	}
 
 	public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {

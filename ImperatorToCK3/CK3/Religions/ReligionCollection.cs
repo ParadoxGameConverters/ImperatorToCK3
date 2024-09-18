@@ -173,17 +173,17 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 			return new HolySite(barony, ck3Faith, landedTitles);
 		}
 
-		IReadOnlyDictionary<string, double> imperatorModifiers;
+		OrderedDictionary<string, double> imperatorModifiers;
 		var deity = imperatorProvince.GetHolySiteDeity(imperatorReligions);
 		if (deity is not null) {
-			imperatorModifiers = new Dictionary<string, double>(deity.PassiveModifiers);
+			imperatorModifiers = new(deity.PassiveModifiers);
 		} else {
 			var religion = imperatorProvince.GetReligion(imperatorReligions);
 			if (religion is not null) {
-				imperatorModifiers = religion.Modifiers.ToImmutableDictionary();
+				imperatorModifiers = new(religion.Modifiers);
 			} else {
 				Logger.Warn($"No Imperator religion or deity found for holy site generated in {barony} for {ck3Faith.Id}!");
-				imperatorModifiers = new Dictionary<string, double>();
+				imperatorModifiers = new();
 			}
 		}
 

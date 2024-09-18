@@ -14,7 +14,7 @@ public class CultureCollectionTests {
 	private static readonly ModFilesystem ck3ModFS = new("TestFiles/CK3/game", Array.Empty<Mod>());
 	private static readonly PillarCollection pillars;
 	private static readonly ColorFactory colorFactory = new();
-	private static readonly List<string> ck3ModFlags = [];
+	private static readonly OrderedDictionary<string, bool> ck3ModFlags = [];
 
 	static CultureCollectionTests() {
 		pillars = new PillarCollection(colorFactory, []) {

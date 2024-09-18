@@ -1,4 +1,4 @@
-﻿crimean_gothic = { # https://en.wikipedia.org/wiki/Crimean_Goths
+crimean_gothic = { # https://en.wikipedia.org/wiki/Crimean_Goths
 	trigger = {
 		capital_county = {
 			title:d_crimea = {
@@ -197,4 +197,72 @@ hyperborean = {
 			has_cultural_pillar = heritage_byzantine
 		}
 	}
+}
+
+
+## Hybrid
+
+gothogreek = { # https://en.wikipedia.org/wiki/Gothograecia
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = {
+					OR = {
+						this = culture:gothic
+						any_parent_culture_or_above = { this = culture:gothic }
+					}
+				}
+				scope:other_culture = { has_cultural_pillar = language_greek }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = language_greek }
+				scope:other_culture = {
+					OR = {
+						this = culture:gothic
+						any_parent_culture_or_above = { this = culture:gothic }
+					}
+				}
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+carchidonian = {  # before Royal Court a pre-defined fictional culture by Iohannes
+	name = carchidonian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = {
+					OR = {
+						this = culture:carthaginian
+						any_parent_culture_or_above = { this = culture:carthaginian }
+					}
+				}
+				scope:other_culture = { has_cultural_pillar = language_greek }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = language_greek }
+				scope:other_culture = {
+					OR = {
+						this = culture:carthaginian
+						any_parent_culture_or_above = { this = culture:carthaginian }
+					}
+				}
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
 }

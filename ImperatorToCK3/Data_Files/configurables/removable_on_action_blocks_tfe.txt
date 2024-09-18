@@ -1,0 +1,1681 @@
+# This file contains blocks from on_action files that can be removed.
+# The structure is as follows:
+
+# <file name> = {
+# 	{
+#          # comments are supported inside
+#          some = code
+#   }
+# 	{
+#          some code
+# 	                some code with other indent
+#   }
+# }
+
+# INDENTATION IS IMPORTANT!
+# ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL ON-ACTION FILE.
+# OTHERWISE THE BLOCK WON'T BE REMOVED!
+
+"TFE_game_start.txt" = {
+	# Struggle starts
+	{
+		if = {
+			limit = {
+				AND = {
+					game_start_date >= 476.9.4
+					game_start_date <= 768.1.1
+				}
+			}
+			start_struggle = { struggle_type = britannia_struggle start_phase = struggle_britannia_phase_migration }
+		}
+	}
+	{
+		if = {
+			limit = {
+				game_start_date >= 476.9.4
+			}
+			start_struggle = { struggle_type = italian_struggle start_phase = struggle_TFE_italian_phase_turmoil }
+		}
+	}
+	{
+		if = {
+			limit = {
+				AND = {
+					game_start_date <= 651.1.1 # Death of Yazdegerd III
+				}
+			}
+			start_struggle = { struggle_type = roman_persian_struggle start_phase = struggle_TFE_roman_persian_phase_contention }
+		}
+		start_struggle = { struggle_type = eastern_iranian_struggle start_phase = struggle_TFE_eastern_iranian_phase_expansion }
+		start_struggle = { struggle_type = north_indian_struggle start_phase = struggle_TFE_north_indian_phase_invasion }
+	}
+	
+	# Other
+	{
+		#### Starting events stuff
+		if = {
+			limit = {
+				game_start_date = 395.1.17
+			}
+			title:k_visigoths.holder ?= {
+				trigger_event = gothic_wars.0001
+			}
+			# Start Huns with de jure drift progress for Eastern European kingdoms
+			# Has to be an event that is triggered some time after game start because PDX is a dum dum
+			title:e_hunnic_empire.holder ?= {
+				trigger_event = {
+					id = tfe_title_event.0009
+					days = 90
+				}
+			}
+			if = {
+				limit = {
+					character:rufinus_02 = {
+						is_alive = yes
+						OR = {
+							is_vassal_of = character:70519
+							is_courtier_of = character:70519
+						}
+						NOT = { is_diarch = yes }
+					}
+				}
+				if = {
+					limit = {
+						character:70519 = {
+							has_active_diarchy = no
+						}
+					}
+					character:70519 = {
+						designate_diarch = character:rufinus_02
+						start_diarchy = regency
+						set_diarchy_swing = 40
+					}
+				}
+				else = {
+					character:70519 = {
+						designate_diarch = character:rufinus_02
+						set_diarchy_type = regency
+						change_diarchy_swing = 40
+					}
+				}
+			}
+			if = {
+				limit = {
+					character:900062 = {
+						is_alive = yes
+						OR = {
+							is_vassal_of = character:145227
+							is_courtier_of = character:145227
+						}
+						NOT = { is_diarch = yes }
+					}
+				}
+				if = {
+					limit = {
+						character:145227 = {
+							has_active_diarchy = no
+						}
+					}
+					character:145227 = {
+						designate_diarch = character:900062
+						start_diarchy = regency
+						set_diarchy_swing = 40
+					}
+				}
+				else = {
+					character:145227 = {
+						designate_diarch = character:900062
+						set_diarchy_type = regency
+						change_diarchy_swing = 40
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				game_start_date = 476.9.4
+				AND = {
+					exists = title:k_croatia.holder
+					title:k_croatia.holder = {
+						culture = {
+							OR = {
+								THIS = culture:roman
+								any_parent_culture_or_above = {
+									this = culture:roman
+								}
+							}
+						}
+					}
+				}
+			}
+			title:k_croatia.holder = {
+				add_character_flag = nepos_ambition_triggered
+				trigger_event = {
+					id = western_roman.0027
+					days = 5
+				}
+			}
+		}
+		if = {
+			limit = {
+				game_start_date = 532.2.1
+				character:992023 = {
+					is_alive = yes
+				}
+				title:k_ostrogoths.holder = character:992023
+				character:992024 = {
+					is_alive = yes
+					is_betrothed = no
+					is_married = no
+				}
+				OR = {
+					character:rugian_17 = {
+						is_alive = yes
+						is_landed = yes
+						is_betrothed = no
+						is_married = no
+						is_vassal_of = character:992023
+					}
+					character:992030 = {
+						is_alive = yes
+						is_landed = yes
+						is_betrothed = no
+						is_married = no
+						is_vassal_of = character:992023
+					}
+					character:992100 = {
+						is_alive = yes
+						is_landed = yes
+						is_betrothed = no
+						is_married = no
+						is_vassal_of = character:992023
+					}
+				}
+			}
+			title:k_ostrogoths.holder = {
+				trigger_event = {
+					id = germanic_events.0014
+					days = 1
+				}
+			}
+		}
+		if = {
+			limit = {
+				game_start_date = 532.2.1
+				AND = {
+					exists = title:e_byzantium.holder
+					title:e_byzantium.holder = {
+						culture = {
+							OR = {
+								THIS = culture:roman
+								any_parent_culture_or_above = {
+									this = culture:roman
+								}
+							}
+						}
+					}
+				}
+			}
+			set_global_variable = {
+				name = justinian
+				value = title:e_byzantium.holder
+			}
+			set_global_variable = {
+				name = justinian_commander
+				value = character:belisarius_001
+			}
+			set_global_variable = {
+				name = justinian_gothic_commander
+				value = character:belisarius_001
+			}
+			title:e_byzantium.holder = {
+				trigger_event = {
+					id = western_roman.0038
+					days = 2
+				}
+				add_character_flag = {
+					flag = immune_to_disease
+					years = 10
+				}
+			}
+			character:belisarius_001 = {
+				set_global_variable = {
+					name = belisarius
+					value = character:belisarius_001
+				}
+			}
+			character:belisarius_001 = {
+				add_character_flag = {
+					flag = immune_to_disease
+					years = 10
+				}
+			}
+		}
+		else = {
+			random_ruler = {
+				limit = {
+					is_ai = yes
+					any_courtier = {
+						is_lowborn = yes
+					}
+				}
+				random_courtier = {
+					limit = {
+						is_lowborn = yes
+					}
+					save_scope_as = bugfix
+					set_global_variable = {
+						name = justinian
+						value = scope:bugfix
+					}
+					set_global_variable = {
+						name = hildirix
+						value = scope:bugfix
+					}
+					death = { 
+						death_reason = death_vanished 
+					} 
+				}
+			}
+		}
+	}
+	{
+				if = {
+					limit = {
+						character:992020 = {
+							is_alive = yes
+							OR = {
+								is_vassal_of = character:992023
+								is_courtier_of = character:992023
+							}
+							NOT = { is_diarch = yes }
+						}
+					}
+					if = {
+						limit = {
+							character:992023 = {
+								has_active_diarchy = no
+							}
+						}
+						character:992023 = {
+							designate_diarch = character:992020
+							start_diarchy = regency
+							set_diarchy_swing = 40
+						}
+					}
+					else = {
+						character:992023 = {
+							designate_diarch = character:992020
+							set_diarchy_type = regency
+							change_diarchy_swing = 40
+						}
+					}
+				}
+	}
+	{
+		if = {
+			limit = {
+				current_date >= 530.1.1
+				current_date <= 550.1.1
+			}
+			culture:ostrogothic = {
+				change_cultural_acceptance = {
+					target = culture:roman
+					value = 40
+					desc = cultural_acceptance_historical_relations
+				}
+				change_cultural_acceptance = {
+					target = culture:illyro_roman
+					value = 40
+					desc = cultural_acceptance_historical_relations
+				}
+			}
+			if = {
+				limit = {
+					exists = title:k_ostrogoths.holder
+				}
+				if = {
+					limit = {
+						title:k_ostrogoths.holder.culture = culture:ostrogothic
+						title:k_ostrogoths.holder.dynasty = dynasty:99920000
+					}
+					title:k_ostrogoths.holder.dynasty = {
+						add_dynasty_modifier = {
+							modifier = tfe_segregated_barbarians_and_romans
+							years = 11
+						}
+					}
+				}
+				title:k_ostrogoths.holder = {
+					learn_language = language_latin
+					every_close_family_member = {
+						learn_language = language_latin
+					}
+					every_dynasty_member = {
+						learn_language = language_latin
+					}
+					if = {
+						limit = { has_trait = drunkard }
+						add_character_modifier = {
+							modifier = tragic_drunk_modifier
+							years = 3
+						}
+					}
+					else = { add_trait = drunkard }
+					if = {
+						limit = {
+							THIS = character:992023
+						}
+						add_character_modifier = {
+							modifier = the_rightful_king
+							years = 5
+						}
+					}
+				}
+				
+			}
+		}
+	}
+	{
+		character:2000003 ?= {
+			make_trait_inactive = intellect_good_3
+		}
+	}
+}
+
+"sea_minority_game_start.txt" = {
+	{
+		# Alans
+		if = {
+			limit = {
+				game_start_date >= 400.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:alan
+				SIZE = large
+				COUNTY = title:c_tunis
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:arianism
+				SIZE = large
+				COUNTY = title:c_tunis
+			}
+		}
+	}
+}
+
+"government_change_on_actions.txt" = {
+	{
+						NOT = {
+							THIS = character:taifal_01
+						}
+	}
+	{
+		title:e_mongolia = {
+			every_in_de_jure_hierarchy = {
+				limit = {
+					is_title_created = yes
+				}
+				holder = {
+					if = {
+						limit = {
+							has_government = tribal_government
+						}
+						change_government = nomadic_government
+					}
+				}
+			}
+		}
+		title:e_siberia = {
+			every_in_de_jure_hierarchy = {
+				limit = {
+					is_title_created = yes
+				}
+				holder = {
+					if = {
+						limit = {
+							has_government = tribal_government
+						}
+						change_government = nomadic_government
+					}
+				}
+			}
+		}
+		title:e_volga-ural = {
+			every_in_de_jure_hierarchy = {
+				limit = {
+					is_title_created = yes
+				}
+				holder = {
+					if = {
+						limit = {
+							has_government = tribal_government
+						}
+						change_government = nomadic_government
+					}
+				}
+			}
+		}
+		title:e_tartaria = {
+			every_in_de_jure_hierarchy = {
+				limit = {
+					is_title_created = yes
+				}
+				holder = {
+					if = {
+						limit = {
+							has_government = tribal_government
+						}
+						change_government = nomadic_government
+					}
+				}
+			}
+		}
+		title:k_oghuz_il = {
+			every_in_de_jure_hierarchy = {
+				limit = {
+					is_title_created = yes
+				}
+				holder = {
+					if = {
+						limit = {
+							has_government = tribal_government
+						}
+						change_government = nomadic_government
+					}
+				}
+			}
+		}
+		title:e_rajastan = {
+			every_in_de_jure_hierarchy = {
+				limit = {
+					is_title_created = yes
+				}
+				holder = {
+					if = {
+						limit = {
+							culture ?= {
+								has_cultural_tradition = tradition_gana_sangha
+							}
+							government_has_flag = government_is_tribal
+						}
+						change_government = gana_sangha_government
+						primary_title = {
+							add_title_law = gana_sangha_elective_succession_law
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+"tribs_on_action.txt" = {
+	{
+		if = {
+			limit = {
+				AND = {
+					game_start_date > 361.1.1
+					game_start_date < 362.1.1
+				}
+			}
+			###GUPTAS
+			# Kushans
+			if = {
+				limit = {
+					AND = {
+						exists = character:kushan_014
+						exists = character:900963
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:kushan_014
+					SUZERAIN = character:900963 
+				}
+			}
+			# Madrakas
+			if = {
+				limit = {
+					AND = {
+						exists = character:matraka_01
+						exists = character:900963
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:matraka_01
+					SUZERAIN = character:900963 
+				}
+			}
+			# Yaudheyas
+			if = {
+				limit = {
+					AND = {
+						exists = character:yaudheya_01
+						exists = character:900963
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:yaudheya_01
+					SUZERAIN = character:900963 
+				}
+			}
+			# Malavas
+			#if = {
+			#	limit = {
+			#		AND = {
+			#			exists = character:malava_01
+			#			exists = character:900963
+			#		}
+			#	}
+			#	make_tributary = {
+			#		TYPE = tributary_permanent
+			#		TRIBUTARY = character:malava_01
+			#		SUZERAIN = character:900963 
+			#	}
+			#}
+			# Arjunayanas
+			#if = {
+			#	limit = {
+			#		AND = {
+			#			exists = character:guptasad_32
+			#			exists = character:900963
+			#		}
+			#	}
+			#	make_tributary = {
+			#		TYPE = tributary_permanent
+			#		TRIBUTARY = character:guptasad_32
+			#		SUZERAIN = character:900963 
+			#	}
+			#}
+			# Karttripuras
+			if = {
+				limit = {
+					AND = {
+						exists = character:karttripura_01
+						exists = character:900963
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:karttripura_01
+					SUZERAIN = character:900963 
+				}
+			}
+			# Nepal/Licchavis
+			if = {
+				limit = {
+					AND = {
+						exists = character:licchavi_02
+						exists = character:900963
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:licchavi_02
+					SUZERAIN = character:900963
+				}
+			}
+			# Kamarupa
+			if = {
+				limit = {
+					AND = {
+						exists = character:190054
+						exists = character:900963
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:190054
+					SUZERAIN = character:900963 
+				}
+			}
+			# Davakas
+			if = {
+				limit = {
+					AND = {
+						exists = character:davaka_01
+						exists = character:900963
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:davaka_01
+					SUZERAIN = character:900963 
+				}
+			}
+			# Samatatas
+			#if = {
+			#	limit = {
+			#		AND = {
+			#			exists = character:samatata_01
+			#			exists = character:900963
+			#		}
+			#	}
+			#	make_tributary = {
+			#		TYPE = tributary_permanent
+			#		TRIBUTARY = character:samatata_01
+			#		SUZERAIN = character:900963 
+			#	}
+			#}
+			# Kosalas
+			if = {
+				limit = {
+					AND = {
+						exists = character:orissa_01
+						exists = character:900963
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:orissa_01
+					SUZERAIN = character:900963 
+				}
+			}
+			#Mahakantara
+			if = {
+				limit = {
+					AND = {
+						exists = character:orissa_02
+						exists = character:900963
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:orissa_02
+					SUZERAIN = character:900963 
+				}
+			}
+			# Salankayanas
+			if = {
+				limit = {
+					AND = {
+						exists = character:salankayana_01
+						exists = character:900963
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:salankayana_01
+					SUZERAIN = character:900963 
+				}
+			}
+			#Avamuktas
+			if = {
+				limit = {
+					AND = {
+						exists = character:orissa_06
+						exists = character:900963
+					}
+
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:orissa_06
+					SUZERAIN = character:900963 
+				}
+			}
+			#Dhananjayids
+			if = {
+				limit = {
+					AND = {
+						exists = character:orissa_08
+						exists = character:900963
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:orissa_08
+					SUZERAIN = character:900963 
+				}
+			}
+			
+			# Abyssinia Tributaries in Kush/Nubia
+			if = {
+				limit = {
+					AND = {
+						exists = character:meroitic_misc_01
+						exists = character:aksum_12
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:meroitic_misc_01
+					SUZERAIN = character:aksum_12 
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:dinka_01
+						exists = character:aksum_12
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:dinka_01
+					SUZERAIN = character:aksum_12 
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:dinka_05
+						exists = character:aksum_12
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:dinka_05
+					SUZERAIN = character:aksum_12 
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:dinka_09
+						exists = character:aksum_12
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:dinka_09
+					SUZERAIN = character:aksum_12 
+				}
+			}
+			character:990016 = {
+				add_prestige = 1500
+				add_gold = 250
+				spawn_army = {
+					name = "Hunnic Migrators"
+					levies = 1000
+					men_at_arms = {
+						type = horse_archers
+						stacks = 5
+					}
+					men_at_arms = {
+						type = light_footmen
+						stacks = 5
+					}
+					men_at_arms = {
+						type = siege_towers
+						stacks = 5
+					}
+					location = title:b_itil.title_province
+					inheritable = no
+				}
+				spawn_army = {
+					name = "Hunnic Migrators"
+					levies = 1000
+					men_at_arms = {
+						type = light_horsemen
+						stacks = 5
+					}
+					men_at_arms = {
+						type = horse_archers
+						stacks = 5
+					}
+					men_at_arms = {
+						type = siege_towers
+						stacks = 5
+					}
+					location = title:b_engels.title_province
+					inheritable = no
+				}
+			}
+		}
+		if = {
+			limit = {
+				AND = {
+					game_start_date > 394.1.1
+					game_start_date < 396.1.1
+				}
+			}
+			###EASTERN ROMAN
+			if = {
+				limit = {
+					AND = {
+						exists = character:judham_11
+						exists = character:70519
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:judham_11
+					SUZERAIN = character:70519 
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:amilah_01
+						exists = character:70519
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:amilah_01
+					SUZERAIN = character:70519 
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:lazika_03
+						exists = character:70519
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:lazika_03
+					SUZERAIN = character:70519 
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:tanukhid_011
+						exists = character:70519
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:tanukhid_011
+					SUZERAIN = character:70519 
+				}
+			}
+
+			###GUPTAS
+			# Madrakas
+			#if = {
+			#	limit = {
+			#		AND = {
+			#			exists = character:matraka_01
+			#			exists = character:2020123
+			#		}
+			#	}
+			#	make_tributary = {
+			#		TYPE = tributary_permanent
+			#		TRIBUTARY = character:matraka_01
+			#		SUZERAIN = character:2020123 
+			#	}
+			#}
+			# Yaudheyas
+			if = {
+				limit = {
+					AND = {
+						exists = character:yaudheya_01
+						exists = character:2020123
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:yaudheya_01
+					SUZERAIN = character:2020123 
+				}
+			}
+			# Karttripuras
+			if = {
+				limit = {
+					AND = {
+						exists = character:karttripura_02
+						exists = character:2020123
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:karttripura_02
+					SUZERAIN = character:2020123 
+				}
+			}
+			# Nepal/Licchavis
+			if = {
+				limit = {
+					AND = {
+						exists = character:licchavi_02
+						exists = character:2020123
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:licchavi_02
+					SUZERAIN = character:2020123 
+				}
+			}
+			# Kamarupa
+			if = {
+				limit = {
+					AND = {
+						exists = character:190055
+						exists = character:2020123
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:190055
+					SUZERAIN = character:2020123 
+				}
+			}
+			# Davakas
+			if = {
+				limit = {
+					AND = {
+						exists = character:davaka_01
+						exists = character:2020123
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:davaka_01
+					SUZERAIN = character:2020123 
+				}
+			}
+			# Samatatas
+			#if = {
+			#	limit = {
+			#		AND = {
+			#			exists = character:samatata_01
+			#			exists = character:2020123
+			#		}
+			#	}
+			#	make_tributary = {
+			#		TYPE = tributary_permanent
+			#		TRIBUTARY = character:samatata_01
+			#		SUZERAIN = character:2020123 
+			#	}
+			#}
+		}
+		if = {
+			limit = {
+				game_start_date = 476.9.4
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:996002
+						exists = character:70515
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:996002
+					SUZERAIN = character:70515
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:tanukhid_03
+						exists = character:70515
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:tanukhid_03
+					SUZERAIN = character:70515 
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:lazika_05
+						exists = character:70515
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:lazika_05
+					SUZERAIN = character:70515 
+				}
+			}
+			character:strabo_02 ?= {
+				spawn_army = {
+					name = "Zeno's Auxiliaries"
+					levies = 1000
+					men_at_arms = {
+						type = palatinae
+						#type = armored_footmen
+						stacks = 2
+					}
+					men_at_arms = {
+						type = comitatenses
+						#type = armored_footmen
+						stacks = 2
+					}
+					location = title:c_turnovo.title_province
+					inheritable = no
+				}
+			}
+			character:992016 ?= {
+				spawn_army = {
+					name = "Ostrogoth Invaders"
+					levies = 3000
+					men_at_arms = {
+						type = bowmen
+						stacks = 5
+					}
+					men_at_arms = {
+						type = light_horsemen
+						stacks = 5
+					}
+					men_at_arms = {
+						type = light_footmen
+						stacks = 10
+					}
+					men_at_arms = {
+						type = siege_towers
+						stacks = 3
+					}
+					location = capital_province
+					inheritable = no
+				}
+			}
+			character:yujiulu_10 ?= {
+				dynasty = {
+					add_dynasty_modifier = rouran_khagans
+				}
+			}
+		}
+		
+		###WESTERN ROMAN AND AFRICAN
+		if = {
+			limit = {
+				AND = {
+					game_start_date > 394.1.1
+					game_start_date < 396.1.1
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:159009
+						exists = character:145227
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:159009
+					SUZERAIN = character:145227
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:mauri_18
+						exists = character:145227
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:mauri_18
+					SUZERAIN = character:145227
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:afroroman_01
+						exists = character:145227
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:afroroman_01
+					SUZERAIN = character:145227
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:mauri_28
+						exists = character:mauri_18
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:mauri_28
+					SUZERAIN = character:mauri_18
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:mauri_23
+						exists = character:145227
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:mauri_23
+					SUZERAIN = character:145227
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				AND = {
+					game_start_date > 360.1.1
+					game_start_date < 362.1.1
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:afroroman_01
+						exists = character:145237
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:afroroman_01
+					SUZERAIN = character:145237
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:mauri_17
+						exists = character:145237
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:mauri_17
+					SUZERAIN = character:145237
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:arsacid_46
+						exists = character:145237
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:arsacid_46
+					SUZERAIN = character:145237
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:mauri_27
+						exists = character:mauri_17
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:mauri_27
+					SUZERAIN = character:mauri_17
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:mauri_22
+						exists = character:145237
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:mauri_22
+					SUZERAIN = character:145237
+				}
+			}
+			###PERSIANS
+			if = {
+				limit = {
+					AND = {
+						exists = character:159582
+						exists = character:180617
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:159582
+					SUZERAIN = character:180617 
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:159758
+						exists = character:180617
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:159758
+					SUZERAIN = character:180617 
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:lakhmid_03
+						exists = character:180617
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:lakhmid_03
+					SUZERAIN = character:180617 
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:khinda_05
+						exists = character:himyar_11
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:khinda_05
+					SUZERAIN = character:himyar_11
+				}
+			}
+			#character:990016 ?= {
+			#	add_gold = 250
+			#	spawn_army = {
+			#		name = "Hunnic Invaders"
+			#		levies = 2000
+			#		men_at_arms = {
+			#			type = light_horsemen
+			#			stacks = 15
+			#		}
+			#		men_at_arms = {
+			#			type = horse_archers
+			#			stacks = 15
+			#		}
+			#		men_at_arms = {
+			#			type = siege_towers
+			#			stacks = 5
+			#		}
+			#		location = capital_province
+			#		inheritable = no
+			#	}
+			#	spawn_army = {
+			#		name = "Hunnic Invaders"
+			#		levies = 1000
+			#		men_at_arms = {
+			#			type = light_horsemen
+			#			stacks = 10
+			#		}
+			#		men_at_arms = {
+			#			type = horse_archers
+			#			stacks = 10
+			#		}
+			#		men_at_arms = {
+			#			type = siege_towers
+			#			stacks = 5
+			#		}
+			#		location = capital_province
+			#		inheritable = yes
+			#	}
+			#}
+		}
+		
+		###PERSIAN
+		if = {
+			limit = {
+				AND = {
+					game_start_date > 394.1.1
+					game_start_date < 396.1.1
+				}
+			}
+			make_tributary = {
+				TYPE = tributary_permanent
+				TRIBUTARY = character:lakhmid_06
+				SUZERAIN = character:180618 
+			}
+			make_tributary = {
+				TYPE = tributary_permanent
+				TRIBUTARY = character:159583
+				SUZERAIN = character:180618 
+			}
+			make_tributary = {
+				TYPE = tributary_permanent
+				TRIBUTARY = character:159761
+				SUZERAIN = character:180618 
+			}
+			make_tributary = {
+				TYPE = tributary_permanent
+				TRIBUTARY = character:arsacid_58
+				SUZERAIN = character:180618 
+			}
+		}
+		if = {
+			limit = {
+				AND = {
+					game_start_date > 475.1.1
+					game_start_date < 477.1.1
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:lakhmid_08
+						exists = character:180624
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:lakhmid_08
+					SUZERAIN = character:180624 
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:159766
+						exists = character:180624
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:159766
+					SUZERAIN = character:180624 
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:159859
+						exists = character:180624
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:159859
+					SUZERAIN = character:180624 
+				}
+			}
+		}
+		
+		###GUPTA
+		if = {
+			limit = {
+				AND = {
+					game_start_date > 394.1.1
+					game_start_date < 396.1.1
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:salankayana_02
+						exists = character:2020123
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = character:salankayana_02
+					SUZERAIN = character:2020123
+				}
+			}
+		}
+
+		###532 BM Caucasus
+		if = {
+			limit = {
+				AND = {
+					game_start_date > 530.1.1
+					game_start_date < 540.1.1
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = title:d_abkhazia.holder
+						exists = title:e_byzantium.holder
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = title:d_abkhazia.holder
+					SUZERAIN = title:e_byzantium.holder
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = title:d_georgia.holder
+						exists = title:e_persia.holder
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = title:d_georgia.holder
+					SUZERAIN = title:e_persia.holder
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = title:d_albania.holder
+						exists = title:e_persia.holder
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = title:d_albania.holder
+					SUZERAIN = title:e_persia.holder
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = title:k_lakhmid.holder
+						exists = title:e_persia.holder
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = title:k_lakhmid.holder
+					SUZERAIN = title:e_persia.holder
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = title:k_ghassanid.holder
+						exists = title:e_byzantium.holder
+					}
+				}
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = title:k_ghassanid.holder
+					SUZERAIN = title:e_byzantium.holder
+				}
+			}
+		}
+
+		#I'm too lazy to make another file :p
+		if = {
+			limit = {
+				game_start_date = 476.9.4
+			}
+			title:k_italy.holder ?= {
+				add_gold = 200
+				spawn_army = {
+					name = "Scirian Invaders"
+					levies = 1500
+					men_at_arms = {
+						type = bowmen
+						stacks = 3
+					}
+					men_at_arms = {
+						type = light_horsemen
+						stacks = 2
+					}
+					men_at_arms = {
+						type = light_footmen
+						stacks = 4
+					}
+					location = capital_province
+					inheritable = no
+				}
+				spawn_army = {
+					name = "Scirian Invaders"
+					levies = 1500
+					men_at_arms = {
+						type = bowmen
+						stacks = 3
+					}
+					men_at_arms = {
+						type = light_horsemen
+						stacks = 2
+					}
+					men_at_arms = {
+						type = light_footmen
+						stacks = 4
+					}
+					location = capital_province
+					inheritable = yes
+				}
+			}
+			title:k_visigoths.holder ?= {
+				add_gold = 300
+				spawn_army = {
+					name = gothic_event_troops
+					levies = 2000
+					men_at_arms = {
+						type = bowmen
+						stacks = 2
+					}
+					men_at_arms = {
+						type = light_horsemen
+						stacks = 2
+					}
+					men_at_arms = {
+						type = light_footmen
+						stacks = 4
+					}
+					location = capital_province
+					inheritable = no
+				}
+				spawn_army = {
+					name = gothic_event_troops
+					levies = 2000
+					men_at_arms = {
+						type = bowmen
+						stacks = 2
+					}
+					men_at_arms = {
+						type = light_horsemen
+						stacks = 2
+					}
+					men_at_arms = {
+						type = light_footmen
+						stacks = 4
+					}
+					location = capital_province
+					inheritable = yes
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				AND = {
+					game_start_date > 394.1.1
+					game_start_date < 396.1.1
+				}
+			}
+			title:e_western_roman_empire.holder ?= {
+				add_gold = 1000
+			}
+			title:e_byzantium.holder ?= {
+				add_gold = 1000
+			}
+			character:balamer_01 ?= {
+				add_prestige = 3000
+				spawn_army = {
+					name = "Hunnic Invaders"
+					levies = 2000
+					men_at_arms = {
+						type = horse_archers
+						stacks = 10
+					}
+					men_at_arms = {
+						type = light_footmen
+						stacks = 20
+					}
+					men_at_arms = {
+						type = siege_towers
+						stacks = 5
+					}
+					location = title:b_peremyshl.title_province
+					inheritable = no
+				}
+				spawn_army = {
+					name = "Hunnic Invaders"
+					levies = 2000
+					men_at_arms = {
+						type = light_horsemen
+						stacks = 10
+					}
+					men_at_arms = {
+						type = horse_archers
+						stacks = 10
+					}
+					men_at_arms = {
+						type = light_footmen
+						stacks = 10
+					}
+					men_at_arms = {
+						type = siege_towers
+						stacks = 5
+					}
+					location = title:b_stoenesti.title_province
+					inheritable = no
+				}
+			}
+			character:990000 ?= {
+				spawn_army = {
+					name = "Hunnic Invaders"
+					levies = 2000
+					men_at_arms = {
+						type = light_horsemen
+						stacks = 10
+					}
+					men_at_arms = {
+						type = horse_archers
+						stacks = 10
+					}
+					men_at_arms = {
+						type = siege_towers
+						stacks = 5
+					}
+					location = capital_province
+					inheritable = no
+				}
+			}
+			character:yujiulu_072 ?= {
+				add_prestige = 500
+				spawn_army = {
+					name = "Rouran Invaders"
+					levies = 1000
+					men_at_arms = {
+						type = light_horsemen
+						stacks = 3
+					}
+					men_at_arms = {
+						type = horse_archers
+						stacks = 3
+					}
+					men_at_arms = {
+						type = siege_towers
+						stacks = 2
+					}
+					location = capital_province
+					inheritable = yes
+				}
+			}
+		}
+	}
+}

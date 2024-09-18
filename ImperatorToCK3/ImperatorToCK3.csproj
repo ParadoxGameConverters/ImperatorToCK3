@@ -2,11 +2,11 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <RuntimeIdentifiers>win-x64;linux-x64;osx-arm64</RuntimeIdentifiers>
         <ApplicationIcon>thumbnail.ico</ApplicationIcon>
-        <LangVersion>12</LangVersion>
+        <LangVersion>13</LangVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
@@ -34,15 +34,17 @@
     <ItemGroup>
         <PackageReference Include="ColorHashSharp" Version="1.0.0"/>
         <PackageReference Include="ConcurrentSet" Version="1.0.0"/>
+        <PackageReference Include="CWTools" Version="0.5.0-alpha" />
+        <PackageReference Include="FSharp.Core" Version="8.0.400" /> <!-- Needed for CWTools -->
         <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.0.0"/>
         <PackageReference Include="Meziantou.Analyzer" Version="2.0.163">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="PGCG.commonItems" Version="12.5.1"/>
+        <PackageReference Include="PGCG.commonItems" Version="12.5.5" />
         <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.6"/>
         <PackageReference Include="Polly" Version="8.4.1"/>
-        <PackageReference Include="Roslynator.Analyzers" Version="4.12.4">
+        <PackageReference Include="Roslynator.Analyzers" Version="4.12.5">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

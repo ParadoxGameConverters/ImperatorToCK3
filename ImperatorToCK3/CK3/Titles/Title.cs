@@ -1085,7 +1085,17 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 		});
 		parser.RegisterKeyword("capital", reader => CapitalCountyId = reader.GetString());
-		parser.RegisterKeyword("ai_primary_priority", reader => AIPrimaryPriority = reader.GetStringOfItem());
+		parser.RegisterKeyword("ai_primary_priority", reader => {
+			var stringOfItem = reader.GetStringOfItem();
+			
+			// Drop ai_primary_priority blocks that contain references to specific dynasties or characters.
+			var str = stringOfItem.ToString();
+			if (str.Contains("dynasty:") || str.Contains("character:")) {
+				return;
+			}
+			
+			AIPrimaryPriority = stringOfItem;
+		});
 		parser.RegisterKeyword("ignore_titularity_for_title_weighting", reader => IgnoreTitularityForTitleWeighting = reader.GetBool());
 		parser.RegisterKeyword("can_create", reader => CanCreate = reader.GetStringOfItem());
 		parser.RegisterKeyword("can_create_on_partition", reader => CanCreateOnPartition = reader.GetStringOfItem());

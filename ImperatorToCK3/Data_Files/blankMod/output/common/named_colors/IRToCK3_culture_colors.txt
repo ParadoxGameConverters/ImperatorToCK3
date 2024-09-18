@@ -5,4 +5,21 @@ colors = {
 	arakanese = rgb { 230 37 82 } # based on d_arakan color
 	shan = rgb { 255 157 0 } # based on orange color from this map: https://upload.wikimedia.org/wikipedia/commons/5/55/Taikadai-en1.png
 	venetic_culture = { 193 117 241 }
+	
+	# fallback colors for WtWSMS
+	coptic = { 0.20 0.35 0.50 } # taken from the coptic culture color in WtWSMS
+	sakan = { 0.55 0.44 0.33 } # taken from the saka named color in WtWSMS
+	language_latin = hsv{ 0.000 1.000 0.600 } # taken from the roman culture color in WtWSMS
+	language_iberian = { 0.8 0.7 0.0 } # taken from romano_hispanic named color in WtWSMS
+	language_galloromance = { 0.39 0.702 0.412 } # taken from the romano_gallic named color in WtWSMS
+	language_britoromance = { 0.49 0.815 0.82 } # taken from the romano_british named color in WtWSMS
+	language_italoromance = { 0.94 0.45 0.55 } # taken from corsican named color in WtWSMS
+	language_afroromance = { 0.9 0.04 0.04 } # taken from the romano_african named color in WtWSMS
+	language_illyroromance = { 0.7 0.55 0.70 } # taken from the romano_illyrian named color in WtWSMS
+	language_rhaetoromance = { 0.4 0.4 0.5 } # taken from the romano_raetian named color in WtWSMS
+	language_pannonioromance = { 0.8 0.55 0.8 } # taken from the romano_pannonian named color in WtWSMS
+	language_easternromance = { 0.25 0.2 0.52 } # taken from the romano_dacian named color in WtWSMS
+	language_syrianromance = { 0.85 0.3 0.3 } # taken from the romano_aramean named color in WtWSMS
+	trojan = { 0.83 0.55 0.95 } # taken from the trojan named color in vanilla CK3
+	ancient_egyptian = { 0.9 0.85 0.17 } # taken from the ancient_egyptian named color in vanilla CK3
 }

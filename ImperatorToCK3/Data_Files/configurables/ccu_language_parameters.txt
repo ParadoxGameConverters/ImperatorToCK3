@@ -1,0 +1,27 @@
+# This file contains the language families and language branches added by the converter
+# when a CK3 mod that uses Community Culture Utility mechanics is detected.
+# Currently the only such mod is "When the World Stopped Making Sense".
+
+
+language_families = {
+	MOD_DEPENDENT = {
+    	IF wtwsms = {
+    		language_family_kra_dai
+    		language_family_elamite_family
+    		language_family_paleo_sardinian
+    		language_family_tyrsenian
+    	}
+    }
+}
+
+language_branches = {
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			language_branch_palaungic
+			language_branch_tai
+			language_branch_nuragic
+			language_branch_elamite_group
+			language_branch_etruscan
+		}
+	}	
+}

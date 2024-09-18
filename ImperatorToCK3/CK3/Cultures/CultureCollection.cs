@@ -17,13 +17,16 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Cultures;
 
 public class CultureCollection : IdObjectCollection<string, Culture> {
-	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection, ICollection<string> ck3ModFlags) {
+	public readonly Dictionary<string, StringOfItem> CultureCreationNames = [];
+	
+	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection, OrderedDictionary<string, bool> ck3ModFlags) {
 		this.PillarCollection = pillarCollection;
 		InitCultureDataParser(colorFactory, ck3ModFlags);
 	}
 
-	private void InitCultureDataParser(ColorFactory colorFactory, ICollection<string> ck3ModFlags) {
+	private void InitCultureDataParser(ColorFactory colorFactory, OrderedDictionary<string, bool> ck3ModFlags) {
 		cultureDataParser.RegisterKeyword("INVALIDATED_BY", reader => LoadInvalidatingCultureIds(ck3ModFlags, reader));
+		cultureDataParser.RegisterModDependentBloc(ck3ModFlags);
 		cultureDataParser.RegisterKeyword("color", reader => {
 			try {
 				cultureData.Color = colorFactory.GetColor(reader);
@@ -38,14 +41,14 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 			var heritageId = reader.GetString();
 			cultureData.Heritage = PillarCollection.GetHeritageForId(heritageId);
 			if (cultureData.Heritage is null) {
-				Logger.Warn($"Found unrecognized heritage when parsing cultures: {heritageId}");
+				Logger.Debug($"Found unrecognized heritage when parsing cultures: {heritageId}");
 			}
 		});
 		cultureDataParser.RegisterKeyword("language", reader => {
 			var languageId = reader.GetString();
 			cultureData.Language = PillarCollection.GetLanguageForId(languageId);
 			if (cultureData.Language is null) {
-				Logger.Warn($"Found unrecognized language when parsing cultures: {languageId}");
+				Logger.Debug($"Found unrecognized language when parsing cultures: {languageId}");
 			}
 		});
 		cultureDataParser.RegisterKeyword("traditions", reader => {
@@ -65,7 +68,7 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		cultureDataParser.IgnoreAndLogUnregisteredItems();
 	}
 
-	private void LoadInvalidatingCultureIds(ICollection<string> ck3ModFlags, BufferedReader reader) {
+	private void LoadInvalidatingCultureIds(OrderedDictionary<string, bool> ck3ModFlags, BufferedReader reader) {
 		var cultureIdsPerModFlagParser = new Parser();
 
 		if (ck3ModFlags.Count == 0) {
@@ -73,8 +76,8 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 				cultureData.InvalidatingCultureIds = modCultureIdsReader.GetStrings();
 			});
 		} else {
-			foreach (var modFlag in ck3ModFlags) {
-				cultureIdsPerModFlagParser.RegisterKeyword(modFlag, modCultureIdsReader => {
+			foreach (var modFlag in ck3ModFlags.Where(f => f.Value)) {
+				cultureIdsPerModFlagParser.RegisterKeyword(modFlag.Key, modCultureIdsReader => {
 					cultureData.InvalidatingCultureIds = modCultureIdsReader.GetStrings();
 				});
 			}
@@ -87,60 +90,80 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 
 	public void LoadCultures(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading cultures...");
+		
+		OrderedDictionary<string, CultureData> culturesData = new(); // Preserves order of insertion.
 
 		var parser = new Parser();
-		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => LoadCulture(cultureId, reader));
+		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => culturesData[cultureId] = LoadCultureData(reader));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/culture/cultures", ck3ModFS, "txt", recursive: true, logFilePaths: true);
+		
+		// After we've load all cultures data, we can validate it and create cultures.
+		ValidateAndLoadCultures(culturesData);
 
 		ReplaceInvalidatedParents();
 	}
 
 	public void LoadConverterCultures(string converterCulturesPath) {
 		Logger.Info("Loading converter cultures...");
+		
+		OrderedDictionary<string, CultureData> culturesData = new(); // Preserves order of insertion.
 
 		var parser = new Parser();
-		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => LoadCulture(cultureId, reader));
+		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => culturesData[cultureId] = LoadCultureData(reader));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseFile(converterCulturesPath);
+		
+		// After we've load all cultures data, we can validate it and create cultures.
+		ValidateAndLoadCultures(culturesData);
 
 		ReplaceInvalidatedParents();
 	}
 
-	private void LoadCulture(string cultureId, BufferedReader cultureReader) {
+	private CultureData LoadCultureData(BufferedReader cultureReader) {
 		cultureData = new CultureData();
 
 		cultureDataParser.ParseStream(cultureReader);
+		return cultureData;
+	}
 
-		if (cultureData.InvalidatingCultureIds.Any()) {
-			foreach (var existingCulture in this) {
-				if (!cultureData.InvalidatingCultureIds.Contains(existingCulture.Id)) {
+	private void ValidateAndLoadCultures(OrderedDictionary<string, CultureData> culturesData) {
+		foreach (var (cultureId, data) in culturesData) {
+			if (data.InvalidatingCultureIds.Any()) {
+				bool isInvalidated = false;
+				foreach (var existingCulture in this) {
+					if (!data.InvalidatingCultureIds.Contains(existingCulture.Id)) {
+						continue;
+					}
+					Logger.Debug($"Culture {cultureId} is invalidated by existing {existingCulture.Id}.");
+					cultureReplacements[cultureId] = existingCulture.Id;
+					isInvalidated = true;
+				}
+				if (isInvalidated) {
 					continue;
 				}
-				Logger.Debug($"Culture {cultureId} is invalidated by existing {existingCulture.Id}.");
-				cultureReplacements[cultureId] = existingCulture.Id;
-				return;
+				Logger.Debug($"Loading optional culture {cultureId}...");
 			}
-			Logger.Debug($"Loading optional culture {cultureId}...");
+			if (data.Heritage is null) {
+				Logger.Warn($"Culture {cultureId} has no valid heritage defined! Skipping.");
+				continue;
+			}
+			if (data.Language is null) {
+				Logger.Warn($"Culture {cultureId} has no valid language defined! Skipping.");
+				continue;
+			}
+			if (data.NameLists.Count == 0) {
+				Logger.Warn($"Culture {cultureId} has no name list defined! Skipping.");
+				continue;
+			}
+			if (data.Color is null) {
+				Logger.Warn($"Culture {cultureId} has no color defined! Will use generated color.");
+				var color = new ColorHash().Rgb(cultureId);
+				data.Color = new Color(color.R, color.G, color.B);
+			}
+			
+			AddOrReplace(new Culture(cultureId, data));
 		}
-		if (cultureData.Heritage is null) {
-			Logger.Warn($"Culture {cultureId} has no heritage defined! Skipping.");
-			return;
-		}
-		if (cultureData.Language is null) {
-			Logger.Warn($"Culture {cultureId} has no language defined! Skipping.");
-			return;
-		}
-		if (cultureData.NameLists.Count == 0) {
-			Logger.Warn($"Culture {cultureId} has no name list defined! Skipping.");
-			return;
-		}
-		if (cultureData.Color is null) {
-			Logger.Warn($"Culture {cultureId} has no color defined! Will use generated color.");
-			var color = new ColorHash().Rgb(cultureId);
-			cultureData.Color = new Color(color.R, color.G, color.B);
-		}
-		AddOrReplace(new Culture(cultureId, cultureData));
 	}
 
 	private void ReplaceInvalidatedParents() {
@@ -219,6 +242,24 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 				.SelectMany(c => c.Country.GetActiveInventionIds(inventionsDB))
 				.ToHashSet();
 			culture.ImportInnovationsFromImperator(irInventions, innovationMapper);
+		}
+	}
+
+	public void LoadConverterCultureCreationNames(bool tfeEnabled) {
+		Logger.Info("Loading converter's culture creation names...");
+		
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => {
+			CultureCreationNames[cultureId] = new StringOfItem(reader);
+		});
+		parser.IgnoreAndLogUnregisteredItems();
+		parser.ParseFile("configurables/culture/culture_creation_names.txt");
+
+		if (tfeEnabled) {
+			// If TFE is enabled, remove creation names that depend on carthaginian culture existing.
+			CultureCreationNames.Remove("pmpese");
+			CultureCreationNames.Remove("taliaite");
+			CultureCreationNames.Remove("carchidonian");
 		}
 	}
 
