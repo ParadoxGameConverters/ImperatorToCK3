@@ -214,11 +214,17 @@ public sealed class World {
 				// Check if all I:R cultures have a base mapping.
 				var irCultureIds = impWorld.CulturesDB.SelectMany(g => g.Select(c => c.Id));
 				foreach (var irCultureId in irCultureIds) {
-					var baseMapping = cultureMapper.Match(irCultureId, null, null, null);
-					if (baseMapping is null) {
-						Logger.Warn($"No base mapping found for I:R culture {irCultureId}!");
-					}
-				}
+                	var baseMapping = cultureMapper.Match(irCultureId, null, null, null);
+                	if (baseMapping is null) {
+                		Logger.Warn($"No base mapping found for I:R culture {irCultureId}!");
+                		string cultureStr = "ID: " + irCultureId;
+                		var localizedName = impWorld.LocDB.GetLocBlockForKey(irCultureId)?["english"];
+                		if (localizedName is not null) {
+                			cultureStr += $", name: {localizedName}";
+                		}
+                		Logger.Warn($"No base mapping found for I:R culture {cultureStr}!");
+                	}
+                }
 			}
 		);
 		
