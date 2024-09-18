@@ -1,0 +1,75 @@
+﻿gothogreek = { # https://en.wikipedia.org/wiki/Gothograecia
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = {
+					OR = {
+						this = culture:gothic
+						any_parent_culture_or_above = { this = culture:gothic }
+					}
+				}
+				scope:other_culture = { has_cultural_pillar = language_greek }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = language_greek }
+				scope:other_culture = {
+					OR = {
+						this = culture:gothic
+						any_parent_culture_or_above = { this = culture:gothic }
+					}
+				}
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+carchidonian = {  # before Royal Court a pre-defined fictional culture by Iohannes
+	name = carchidonian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = {
+					OR = {
+						{% if tfe %}
+						# TFE has punic culture instead of carthaginian.
+						this = culture:punic
+						any_parent_culture_or_above = { this = culture:punic }
+						{% else %}
+						this = culture:carthaginian
+						any_parent_culture_or_above = { this = culture:carthaginian }
+						{% endif %}
+					}
+				}
+				scope:other_culture = { has_cultural_pillar = language_greek }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = language_greek }
+				scope:other_culture = {
+					OR = {
+						{% if tfe %}
+						this = culture:punic
+						any_parent_culture_or_above = { this = culture:punic }
+						{% else %}
+						this = culture:carthaginian
+						any_parent_culture_or_above = { this = culture:carthaginian }
+						{% endif %}
+					}
+				}
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
