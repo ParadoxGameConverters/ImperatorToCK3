@@ -29,6 +29,7 @@ using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
+using ImperatorToCK3.Outputter;
 using log4net.Core;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -98,9 +99,17 @@ public sealed class World {
 		LoadedMods = modLoader.UsableMods.ToOrderedSet();
 		config.DetectSpecificCK3Mods(LoadedMods);
 		
-		// Include a fake mod pointing to blankMod.
-		LoadedMods.Add(new Mod("blankMod", "blankMod/output"));
+		// Recreate output mod folder.
+		string outputModPath = Path.Join("output", config.OutputModName);
+		WorldOutputter.ClearOutputModFolder(outputModPath);
+		WorldOutputter.CreateModFolder(outputModPath);
+		// This will also convert all Liquid templates into simple text files.
+		WorldOutputter.CopyBlankModFilesToOutput(outputModPath, config.GetCK3ModFlags());
+		
+		// Include a fake mod pointing to blankMod in the output folder.
+		LoadedMods.Add(new Mod("blankMod", outputModPath));
 		ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), LoadedMods);
+		
 		ColorFactory ck3ColorFactory = new();
 		// Now that we have the mod filesystem, we can initialize the localization database.
 		Parallel.Invoke(
@@ -133,7 +142,6 @@ public sealed class World {
 				Cultures.LoadInnovationIds(ModFS);
 				Cultures.LoadCultures(ModFS);
 				Cultures.LoadConverterCultures("configurables/converter_cultures.txt");
-				Cultures.LoadConverterCultureCreationNames(config.FallenEagleEnabled);
 				Logger.IncrementProgress();
 			},
 			() => LoadMenAtArmsTypes(ModFS, ScriptValues), // depends on ScriptValues

@@ -17,8 +17,6 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Cultures;
 
 public class CultureCollection : IdObjectCollection<string, Culture> {
-	public readonly Dictionary<string, StringOfItem> CultureCreationNames = [];
-	
 	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection, OrderedDictionary<string, bool> ck3ModFlags) {
 		this.PillarCollection = pillarCollection;
 		InitCultureDataParser(colorFactory, ck3ModFlags);
@@ -242,24 +240,6 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 				.SelectMany(c => c.Country.GetActiveInventionIds(inventionsDB))
 				.ToHashSet();
 			culture.ImportInnovationsFromImperator(irInventions, innovationMapper);
-		}
-	}
-
-	public void LoadConverterCultureCreationNames(bool tfeEnabled) {
-		Logger.Info("Loading converter's culture creation names...");
-		
-		var parser = new Parser();
-		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => {
-			CultureCreationNames[cultureId] = new StringOfItem(reader);
-		});
-		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseFile("configurables/culture/culture_creation_names.txt");
-
-		if (tfeEnabled) {
-			// If TFE is enabled, remove creation names that depend on carthaginian culture existing.
-			CultureCreationNames.Remove("pmpese");
-			CultureCreationNames.Remove("taliaite");
-			CultureCreationNames.Remove("carchidonian");
 		}
 	}
 
