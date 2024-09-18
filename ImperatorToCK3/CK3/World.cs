@@ -99,6 +99,7 @@ public sealed class World {
 		// Include a fake mod pointing to blankMod.
 		LoadedMods.Add(new Mod("blankMod", "blankMod/output"));
 		ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), LoadedMods);
+
 		ColorFactory ck3ColorFactory = new();
 		// Now that we have the mod filesystem, we can initialize the localization database.
 		Parallel.Invoke(
@@ -216,12 +217,11 @@ public sealed class World {
 				foreach (var irCultureId in irCultureIds) {
                 	var baseMapping = cultureMapper.Match(irCultureId, null, null, null);
                 	if (baseMapping is null) {
-                		Logger.Warn($"No base mapping found for I:R culture {irCultureId}!");
-                		string cultureStr = "ID: " + irCultureId;
-                		var localizedName = impWorld.LocDB.GetLocBlockForKey(irCultureId)?["english"];
-                		if (localizedName is not null) {
-                			cultureStr += $", name: {localizedName}";
-                		}
+						string cultureStr = "ID: " + irCultureId;
+						var localizedName = impWorld.LocDB.GetLocBlockForKey(irCultureId)?["english"];
+						if (localizedName is not null) {
+							cultureStr += $", name: {localizedName}";
+						}
                 		Logger.Warn($"No base mapping found for I:R culture {cultureStr}!");
                 	}
                 }

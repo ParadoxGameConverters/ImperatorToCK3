@@ -982,3 +982,50 @@ ulma = {
 		build_gold_cost = -0.05
 	}
 }
+
+# Elamite holy sites from the Bronze Age Reborn mod for CK3
+# Locations have been adjusted to more or less match the Bronze Age Reborn map locations.
+liyan = {
+	county = c_mandestan
+	barony = b_bushkanat
+	
+	character_modifier = {
+		name = holy_site_liyan_effect_name
+		diplomacy_per_piety_level = 1
+	}
+}
+anshan = {
+	county = c_shiraz # Anshan "was located in the Zagros Mountains in southwestern Iran, approximately 46 kilometres (29 mi) north of Shiraz and 43 kilometres (27 mi) west of Persepolis in the Beyza/Ramjerd plain, in the province of Fars."
+	
+	character_modifier = {
+		name = holy_site_anshan_effect_name
+		stewardship = 1
+	}
+}
+susan = {
+	county = c_tustar
+	barony = b_as-sus # Susa was also known as "as Sus" - https://iranontour.com/city-attractions/susa/
+	
+	character_modifier = {
+		name = holy_site_susan_effect_name
+		martial_per_piety_level = 1
+		knight_effectiveness_mult = 0.1
+	}
+}
+huhnuri = {
+	county = c_arrajan
+	
+	character_modifier = {
+		name = holy_site_huhnuri_effect_name
+		monthly_piety_gain_mult = 0.05
+		learning = 1
+	}
+}
+qirbit = {
+	county = c_masabadhan
+	
+	character_modifier = {
+		name = holy_site_qirbit_effect_name
+		councillor_opinion = 5
+	}
+}

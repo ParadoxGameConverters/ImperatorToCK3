@@ -46,6 +46,6 @@ Izn - Research and localization for Ajivika religion
 B7E7, author of Africa Plus mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2552371897) - Permission to use Nhialacism faith from their mod
 Herkles, author of Dharmachakra mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2235344327) - Khasi culture
 The Bronze Age: Maryannu mod team (https://steamcommunity.com/sharedfiles/filedetails/?id=2216525506) - Hurrian religion localization
-Bronze Age Reborn mod team (https://steamcommunity.com/sharedfiles/filedetails/?id=3232096613) and Svanley - Hattian religion
+Bronze Age Reborn mod team (https://steamcommunity.com/sharedfiles/filedetails/?id=3232096613) and Svanley - Hattian religion, Elamite religion
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -
