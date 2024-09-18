@@ -105,7 +105,7 @@ public sealed class World {
 		Parallel.Invoke(
 			() => LoadCorrectProvinceMappingsFile(impWorld), // Depends on loaded mods.
 			() => {
-				LocDB.LoadLocFromModFS(ModFS);
+				LocDB.LoadLocFromModFS(ModFS, config.GetActiveCK3ModFlags());
 				Logger.IncrementProgress();
 			},
 			() => ScriptValues.LoadScriptValues(ModFS),
@@ -133,6 +133,7 @@ public sealed class World {
 				Cultures.LoadInnovationIds(ModFS);
 				Cultures.LoadCultures(ModFS);
 				Cultures.LoadConverterCultures("configurables/converter_cultures.txt");
+				Cultures.LoadConverterCultureCreationNames(config.FallenEagleEnabled);
 				Logger.IncrementProgress();
 			},
 			() => LoadMenAtArmsTypes(ModFS, ScriptValues), // depends on ScriptValues
@@ -617,7 +618,12 @@ public sealed class World {
 		var year = bookmarkDate.Year;
 
 		var faiths = Religions.Faiths.ToArray();
-		var titleIdsToHandle = new OrderedSet<string> { "d_iceland", "c_faereyar" };
+		OrderedSet<string> titleIdsToHandle;
+		if (config.FallenEagleEnabled) {
+			titleIdsToHandle = ["c_faereyar"]; // Iceland doesn't exist on TFE map.
+		} else {
+			titleIdsToHandle = ["d_iceland", "c_faereyar"];
+		}
 
 		bool generateHermits = true;
 		IEnumerable<string> faithCandidates = new OrderedSet<string>();

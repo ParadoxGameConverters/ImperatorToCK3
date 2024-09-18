@@ -14,8 +14,8 @@ public static class OnActionOutputter {
 	public static async Task OutputEverything(Configuration config, ModFilesystem ck3ModFS, string outputModPath){
 		await OutputCustomGameStartOnAction(config);
 		if (config.FallenEagleEnabled) {
-			await DisableUnneededFallenEagleOnActions(outputModPath);
-			await RemoveStruggleStartFromFallenEagleOnActions(ck3ModFS, outputModPath);
+			await DisableUnneededFallenEagleOnActionFiles(outputModPath);
+			await RemoveUnneededPartsOfFallenEagleOnActions(ck3ModFS, outputModPath);
 		} else if (!config.WhenTheWorldStoppedMakingSenseEnabled) { // vanilla
 			await RemoveUnneededPartsOfVanillaOnActions(ck3ModFS, outputModPath);
 		}
@@ -24,7 +24,10 @@ public static class OnActionOutputter {
 
 	private static async Task RemoveUnneededPartsOfVanillaOnActions(ModFilesystem ck3ModFS, string outputModPath) {
 		Logger.Info("Removing unneeded parts of vanilla on-actions...");
+		await RemovePartsOfOnActions("configurables/removable_on_action_blocks.txt", ck3ModFS, outputModPath);
+	}
 
+	private static async Task RemovePartsOfOnActions(string configurablePath, ModFilesystem ck3ModFS, string outputModPath) {
 		// Load removable blocks from configurables.
 		Dictionary<string, string[]> partsToRemovePerFile = [];
 		var parser = new Parser();
@@ -37,7 +40,7 @@ public static class OnActionOutputter {
 			partsToRemovePerFile[fileNameInQuotes.RemQuotes()] = blocksToRemove;
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseFile("configurables/removable_on_action_blocks.txt");
+		parser.ParseFile(configurablePath);
 		
 		// Log count of blocks to remove for each file.
 		foreach (var (file, partsToRemove) in partsToRemovePerFile) {
@@ -170,18 +173,12 @@ public static class OnActionOutputter {
 		await writer.WriteAsync(sb.ToString());
 	}
 
-	private static async Task DisableUnneededFallenEagleOnActions(string outputModPath) {
+	private static async Task DisableUnneededFallenEagleOnActionFiles(string outputModPath) {
 		Logger.Info("Disabling unneeded Fallen Eagle on-actions...");
 		var onActionsToDisable = new OrderedSet<string> {
-			"sea_minority_game_start.txt", 
-			"sevenhouses_on_actions.txt", 
-			"government_change_on_actions.txt",
-			"tribs_on_action.txt",
-			"AI_war_on_actions.txt",
+			"sevenhouses_on_actions.txt",
 			"senate_tasks_on_actions.txt",
-			"new_electives_on_action.txt",
 			"tfe_struggle_on_actions.txt",
-			"roman_vicar_positions_on_actions.txt",
 		};
 		foreach (var filename in onActionsToDisable) {
 			var filePath = $"{outputModPath}/common/on_action/{filename}";
@@ -190,56 +187,8 @@ public static class OnActionOutputter {
 		}
 	}
 
-	private static async Task RemoveStruggleStartFromFallenEagleOnActions(ModFilesystem ck3ModFS, string outputModPath) {
-		Logger.Info("Removing struggle start from Fallen Eagle on-actions...");
-		var inputPath = ck3ModFS.GetActualFileLocation("common/on_action/TFE_game_start.txt");
-		if (!File.Exists(inputPath)) {
-			Logger.Debug("TFE_game_start.txt not found.");
-			return;
-		}
-		var fileContent = await File.ReadAllTextAsync(inputPath);
-
-		// List of blocks to remove as of 2024-01-07.
-		string[] struggleStartBlocksToRemove = [
-			"""
-					if = {
-						limit = {
-							AND = {
-								game_start_date >= 476.9.4
-								game_start_date <= 768.1.1
-							}
-						}
-						start_struggle = { struggle_type = britannia_struggle start_phase = struggle_britannia_phase_migration }
-					}
-			""",
-			"""
-					if = {
-						limit = {
-							game_start_date >= 476.9.4
-						}
-						start_struggle = { struggle_type = italian_struggle start_phase = struggle_TFE_italian_phase_turmoil }
-					}
-			""",
-			"""
-					if = {
-						limit = {
-							AND = {
-								game_start_date <= 651.1.1 # Death of Yazdegerd III
-							}
-						}
-						start_struggle = { struggle_type = roman_persian_struggle start_phase = struggle_TFE_roman_persian_phase_contention }
-					}
-					start_struggle = { struggle_type = eastern_iranian_struggle start_phase = struggle_TFE_eastern_iranian_phase_expansion }
-					start_struggle = { struggle_type = north_indian_struggle start_phase = struggle_TFE_north_indian_phase_invasion }
-			""",
-		];
-
-		foreach (var block in struggleStartBlocksToRemove) {
-			fileContent = fileContent.Replace(block, "");
-		}
-
-		var outputPath = $"{outputModPath}/common/on_action/TFE_game_start.txt";
-		await using var output = FileHelper.OpenWriteWithRetries(outputPath);
-		await output.WriteAsync(fileContent);
+	private static async Task RemoveUnneededPartsOfFallenEagleOnActions(ModFilesystem ck3ModFS, string outputModPath) {
+		Logger.Info("Removing unneeded parts of Fallen Eagle on-actions...");
+		await RemovePartsOfOnActions("configurables/removable_on_action_blocks_tfe.txt", ck3ModFS, outputModPath);
 	}
 }

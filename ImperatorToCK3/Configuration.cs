@@ -287,4 +287,8 @@ public sealed class Configuration {
 		flags["vanilla"] = flags.Count(f => f.Value) == 0;
 		return flags;
 	}
+	
+	public IEnumerable<string> GetActiveCK3ModFlags() {
+		return GetCK3ModFlags().Where(f => f.Value).Select(f => f.Key);
+	}
 }

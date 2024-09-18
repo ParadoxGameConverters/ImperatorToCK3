@@ -36,6 +36,7 @@ public static class WorldOutputter {
 
 			PillarOutputter.OutputPillars(outputPath, ck3World.CulturalPillars),
 			CulturesOutputter.OutputCultures(outputPath, ck3World.Cultures, ck3World.ModFS, config, ck3World.CorrectedDate),
+			CulturesOutputter.OutputCultureCreationNames(outputPath, ck3World.Cultures),
 
 			ReligionsOutputter.OutputReligionsAndHolySites(outputPath, ck3World.Religions, ck3World.LocDB),
 
@@ -178,6 +179,7 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks", "groups"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmark_portraits"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "creation_names"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "cultures"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "pillars"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dna_data"));

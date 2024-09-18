@@ -84,7 +84,7 @@ public class DynastyTests {
 				traitMapper,
 				nicknameMapper,
 				locDB,
-				new CK3LocDB(ck3ModFS),
+				new CK3LocDB(ck3ModFS, config.GetActiveCK3ModFlags()),
 				irMapData,
 				provinceMapper,
 				deathReasonMapper,
