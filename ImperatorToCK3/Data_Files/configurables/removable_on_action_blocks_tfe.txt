@@ -1679,3 +1679,480 @@
 		}
 	}
 }
+
+"TFE_title_on_actions.txt" = {
+	{
+		if = {
+			limit = {
+				scope:title = title:k_ostrogoths
+				root = { is_greek_or_roman = no }
+				NOT = { exists = global_var:gothic_war_won }
+				character:992020 = {
+					is_alive = yes
+					NOT = {
+						THIS = root.mother
+					}
+				}
+				OR = {
+					debug_log_details = "Check Conditions"
+					#root = { has_active_diarchy = yes }
+					#scope:title.holder = { has_active_diarchy = yes }
+					root = { diarch = character:992020 }
+					scope:title.holder = { diarch = character:992020 }
+					#character:992020 = { is_diarch = yes }
+					#character:992020 = { is_designated_diarch = yes }
+					character:992020 = { is_diarch_of_target = root }
+					character:992020 = { is_diarch_of_target = scope:title.holder }
+				}
+			}
+			scope:title.holder = {
+				trigger_event = {
+					id = germanic_events.0019
+					days = 1
+				}
+			}
+		}
+	}
+}
+
+"TFE_yearly_on_actions.txt" = {
+	{
+		if = {
+			limit = {
+				current_date > 400.1.1
+				current_date < 450.1.1
+				NOT = { has_global_variable = attila_spawn }
+				title:e_hunnic_empire.holder = {
+					is_adult = yes
+				}
+			}
+			random = {
+				chance = 30
+				modifier = {
+					add = 20
+					current_date >= 405.1.1
+				}
+				modifier = {
+					add = 20
+					current_date >= 410.1.1
+				}
+				modifier = {
+					add = 10
+					current_date >= 415.1.1
+				}
+				set_global_variable = {
+					name = attila_spawn
+					value = yes
+				}
+				trigger_event = {
+					id = steppe.6666
+					days = { 1 2 }
+				}
+			}
+		}
+		if = {
+			limit = {
+				current_date > 533.1.1
+				NOT = { has_global_variable = gothic_war_cycle_active }
+				exists = title:e_byzantium.holder
+				exists = title:k_ostrogoths.holder
+				exists = title:k_italy.holder
+				title:k_ostrogoths.holder = title:k_italy.holder
+				title:k_ostrogoths.holder = {
+					is_independent_ruler = yes
+				}
+				character:992020 = {
+					is_alive = yes
+					liege = title:k_ostrogoths.holder
+				}
+				title:k_ostrogoths.holder = {
+					has_active_diarchy = yes
+					diarch = character:992020
+				}
+			}
+			random = {
+				chance = 10
+				modifier = {
+					add = 10
+					current_date >= 534.1.1
+				}
+				modifier = {
+					add = 10
+					current_date >= 535.1.1
+				}
+				modifier = {
+					add = 15
+					current_date >= 536.1.1
+				}
+				modifier = {
+					add = 15
+					current_date >= 537.1.1
+				}
+				modifier = {
+					add = 15
+					current_date >= 538.1.1
+				}
+				title:e_byzantium.holder = {
+					trigger_event = {
+						id = germanic_events.0032
+						days = 1
+					}
+				}
+				set_global_variable = {
+					name = gothic_war_cycle_active
+					value = yes
+				}
+				set_global_variable = {
+					name = amalasuntha_coup_unlock
+					value = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				current_date > 533.1.1
+				NOT = { exists = title:k_ostrogoths.holder }
+				exists = title:e_byzantium.holder
+				has_global_variable = gothic_war_won
+				#NOT = { has_global_variable = has_eternal_peace }
+				NOT = { has_global_variable = gothic_war_stalemate }
+				title:e_byzantium.holder = {
+					any_vassal_or_below = {
+						culture = { has_cultural_pillar = heritage_east_germanic }
+						any_held_title = {
+							OR = {
+								tier = tier_county
+								tier = tier_duchy
+							}
+							OR = {
+								kingdom = title:k_italy
+								kingdom = title:k_italia_annonariae
+								kingdom = title:k_italia_suburbicariae
+							}
+						}
+					}
+				}
+			}
+			random = {
+				chance = 20
+				modifier = {
+					add = 10
+					current_date >= 540.1.1
+				}
+				modifier = {
+					add = 10
+					current_date >= 545.1.1
+				}
+				modifier = {
+					add = 10
+					current_date >= 550.1.1
+				}
+				modifier = {
+					add = 30
+					character:992029 = {
+						is_alive = yes
+						age > 15
+						OR = {
+							is_landed = yes
+							title:e_byzantium.holder = {
+								any_vassal_or_below = {
+									exists = primary_heir
+									primary_heir = character:992029
+								}
+							}
+						}
+						top_liege = title:e_byzantium.holder
+					}
+				}
+				trigger_event = {
+					id = germanic_events.0028
+					days = 1
+				}
+			}
+		}
+	}
+	
+	{
+		if = {
+			limit = {
+				AND = {
+					game_start_date <= 406.1.1
+					current_date >= 406.1.1
+					NOT = { exists = global_var:marcus_usurper }
+					title:e_western_roman_empire = {
+						is_title_created = yes
+					}
+					title:e_western_roman_empire = {
+						OR = {
+							any_in_de_facto_hierarchy = {
+								THIS = title:k_britannia
+							}
+							holder = {
+								has_title = title:k_britannia
+							}
+						}
+					}
+					character:BUsuprer_01 = {
+						is_alive = yes
+						NOT = {
+							has_title = title:k_britannia
+						}
+					}
+				}
+			}
+			
+			character:BUsuprer_01 = {
+				trigger_event = briton.0008
+				set_global_variable = {
+					name = marcus_usurper
+					value = yes
+				}
+			}
+		}
+	}
+	
+	{
+		if = {
+			limit = {
+				current_date >= 400.1.1
+				NOT = { has_global_variable = radagaisus_has_invaded }
+				current_date <= 410.1.1
+				NOT = { exists = title:k_goths.holder }
+				character:radagaisian_02 = {
+					is_alive = yes
+				}
+			}
+			random = {
+				chance = 5
+				modifier = {
+					add = 15
+					current_date >= 401.1.1
+				}
+				modifier = {
+					add = 30
+					current_date >= 403.1.1
+				}
+				modifier = {
+					add = 40
+					current_date >= 405.1.1
+				}
+				modifier = {
+					add = 10
+					current_date >= 406.1.1
+				}
+				set_global_variable = {
+					name = radagaisus_has_invaded
+					value = yes
+				}
+				trigger_event = {
+					id = gothic_wars.0011
+					days = { 30 50 }
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				current_date >= 400.1.1
+				has_global_variable = radagaisus_has_invaded
+				NOT = { has_global_variable = goth_migrations }
+				current_date <= 420.1.1
+			}
+			random = {
+				chance = 20
+				modifier = {
+					add = 10
+					current_date >= 405.1.1
+				}
+				modifier = {
+					add = 20
+					current_date >= 407.1.1
+				}
+				modifier = {
+					add = 40
+					current_date >= 409.1.1
+				}
+				modifier = {
+					add = 10
+					current_date >= 411.1.1
+				}
+				set_global_variable = {
+					name = goth_migrations
+					value = yes
+				}
+				trigger_event = gothic_wars.0022
+				trigger_event = gothic_wars.0023
+				trigger_event = gothic_wars.0024
+				trigger_event = gothic_wars.0025
+			}
+		}
+
+		if = {
+			limit = {
+				game_start_date = 476.9.4
+				NOT = { has_global_variable = clovis_invasion }
+				OR = {
+					AND = {
+						character:997004 = {
+							is_alive = yes
+							is_landed = yes
+							is_independent_ruler = yes
+							NOT = {
+								has_title = title:k_france
+							}
+							trigger_if = {
+								limit = {
+									title:k_france = {
+										is_title_created = yes
+									}
+								}
+								NOT = {
+									OR = {
+										is_allied_to = title:k_france.holder
+										AND = {
+											exists = var:my_suzerain
+											var:my_suzerain = title:k_france.holder
+											var:my_suzerain = {
+												OR = {
+													is_target_in_variable_list = { name = non_permanent_tributaries target = prev }
+													is_target_in_variable_list = { name = permanent_tributaries target = prev }
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						character:997005 = {
+							NOT = {
+								has_title = title:k_france
+							}
+						}
+					}
+					AND = {
+						character:997005 = {
+							is_alive = yes
+							is_landed = yes
+							is_independent_ruler = yes
+							NOT = {
+								has_title = title:k_france
+							}
+						}
+						character:997004 = {
+							NOT = {
+								has_title = title:k_france
+							}
+						}
+					}
+				}
+				AND = {
+					title:k_france = {
+						is_title_created = yes
+					}
+					title:k_france.holder = {
+						culture = culture:gallo_roman
+					}
+				}
+				current_date <= 500.1.1
+			}
+			random = {
+				chance = 0
+				modifier = {
+					add = 5
+					current_date >= 478.1.1
+				}
+				modifier = {
+					add = 10
+					current_date >= 479.1.1
+				}
+				modifier = {
+					add = 35
+					current_date >= 480.1.1
+				}
+				modifier = {
+					add = 50
+					current_date >= 481.1.1
+				}
+				set_global_variable = {
+					name = clovis_invasion
+					value = yes
+				}
+				if = {
+					limit = {
+						character:997004 = {
+							is_alive = yes
+							is_landed = yes
+							is_independent_ruler = yes
+						}
+					}
+					character:997004 = {
+						trigger_event = germanic_events.0003
+					}
+				}
+				else_if = {
+					limit = {
+						character:997005 = {
+							is_alive = yes
+							is_landed = yes
+							is_independent_ruler = yes
+						}
+					}
+					character:997005 = {
+						trigger_event = germanic_events.0003
+					}
+				}
+			}
+		}
+	}
+}
+
+"death.txt" = {
+	{
+		# Fix gods-damned Bavaria splitting from East Francia in an ugly fashion in 867.
+		if = {
+			limit = {
+				# Make sure we're looking at the right guy & that the circumstances haven't changed too much.
+				this = character:90107
+				highest_held_title_tier = tier_kingdom
+				has_realm_law = confederate_partition_succession_law
+				# Bavaria should be in a fit state for interfering with the handout order.
+				title:k_bavaria = {
+					OR = {
+						is_title_created = no
+						holder = root
+					}
+					any_in_de_jure_hierarchy = {
+						tier = tier_county
+						# More than 50%.
+						count >= 22
+						holder = {
+							any_liege_or_above = { this = root }
+						}
+					}
+				}
+				NOT = { has_primary_title = title:k_bavaria }
+				# Players can sort this themselves: you just need to have Bavaria as your primary title and it's all fine.
+				is_ai = yes
+			}
+			# If we've got no Bavaria, create it.
+			if = {
+				limit = {
+					title:k_bavaria = { is_title_created = no }
+				}
+				create_title_and_vassal_change = {
+					type = created
+					save_scope_as = change
+				}
+				title:k_bavaria = {
+					change_title_holder = {
+						holder = root
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+			}
+			# Then switch around.
+			set_primary_title_to = title:k_bavaria
+		}
+	}
+}
