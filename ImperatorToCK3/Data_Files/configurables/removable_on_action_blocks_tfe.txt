@@ -2156,3 +2156,69 @@
 		}
 	}
 }
+
+"diarchy_on_action.txt" = {
+	{
+		if = {
+			limit = {
+				scope:old_diarch = character:992020
+				exists = title:e_byzantium.holder
+				NOT = { has_global_variable = gothic_war_cycle_active }
+				NOT = { has_global_variable = gothic_war_cycle_prep }
+			}
+			if = {
+				limit = {
+					character:992020 = {
+						is_alive = no
+					}
+				}
+				title:e_byzantium.holder = {
+					trigger_event = {
+						id = germanic_events.0023
+						days = 1
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					root = {
+						mother = character:992020
+					}
+				}
+				root = {
+					trigger_event = {
+						id = germanic_events.0021
+						days = 1
+					}
+				}
+				title:e_byzantium.holder = {
+					trigger_event = {
+						id = germanic_events.0022
+						days = 1
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						root = {
+							mother = character:992020
+						}
+					}
+				}
+				root = {
+					trigger_event = {
+						id = germanic_events.0020
+						days = 1
+					}
+				}
+				title:e_byzantium.holder = {
+					trigger_event = {
+						id = germanic_events.0022
+						days = 1
+					}
+				}
+			}
+		}
+	}
+}
