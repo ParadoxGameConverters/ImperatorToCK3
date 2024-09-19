@@ -931,3 +931,32 @@ link = {
 # TODO:- ID: ba, name: Ba
 # TODO:- ID: bekhyrian
 # TODO:- ID: syrbotian, name: Syrbotian
+
+
+# Terra Indomita to Asia Expansion Project
+link = { ck3 = yaeyama ir = yaeyama }
+link = { ck3 = yaeyama ir = duuchuu irProvince = 9739 } # Yaeyama island.
+link = { ck3 = amami ir = duuchuu irProvince = 9734 } # Amami island.
+link = { ck3 = okinawa ir = duuchuu irProvince = 9737 } # Okinawa island.
+link = { ck3 = miyako ir = duuchuu irProvince = 9738 } # Miyako island.
+link = { ck3 = okinawa ir = duuchuu } # Chose Okinawa culture as the fallback mapping for Duuchuu because it's the biggest island in the Ryukyu archipelago.
+link = { ck3 = andamanese ir = andaman }
+
+# TODO: I:R culture ID: bo, name: Bo
+# TODO: I:R culture ID: ba, name: Ba
+# TODO: I:R culture ID: shu, name: Shu
+# TODO: I:R culture ID: bekhyrian
+# TODO: I:R culture ID: wa, name: Wa
+# TODO: I:R culture ID: nivkh, name: Nivkh
+# TODO: I:R culture ID: xiangkhoang, name: Xiangkhoang
+# TODO: I:R culture ID: bahnar, name: Bahnar
+# TODO: I:R culture ID: holchu, name: Holchu
+# TODO: I:R culture ID: pear, name: Pear
+# TODO: I:R culture ID: lacviet, name: Lacviet
+# TODO: I:R culture ID: jinhan, name: Jinhan
+# TODO: I:R culture ID: mahan, name: Mahan
+# TODO: I:R culture ID: byeonhan, name: Byeonhan
+# TODO: I:R culture ID: piaoyue, name: Pyu
+# TODO: I:R culture ID: haoshi, name: Haoshi
+# TODO: I:R culture ID: permic, name: Permic
+# TODO: I:R culture ID: syrbotian, name: Syrbotian 
