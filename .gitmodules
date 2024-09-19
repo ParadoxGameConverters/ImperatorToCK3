@@ -4,5 +4,5 @@
 
 [submodule "InnoDependencyInstaller"]
 	path = InnoDependencyInstaller
-	url = https://github.com/IhateTrains/InnoDependencyInstaller.git
-	branch = NET-9
+	url = https://github.com/DomGries/InnoDependencyInstaller.git
+	branch = master
