@@ -109,7 +109,7 @@ public static class WorldOutputter {
 			var txtFilePath = liquidFilePath[..^7] + ".txt";
 			File.WriteAllText(txtFilePath, result);
 			File.Delete(liquidFilePath);
-			Logger.Notice("Converted " + liquidFilePath + " to " + txtFilePath); // TODO: REMOVE THIS
+			Logger.Debug("Converted " + liquidFilePath + " to " + txtFilePath); // TODO: REMOVE THIS
 		}
 		
 		Logger.IncrementProgress();
