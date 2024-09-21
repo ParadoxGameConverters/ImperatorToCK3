@@ -29,6 +29,9 @@ after_bookmark_date = {
 	# Characters referenced in common\script_values\00_war_values.txt:
 	6878
 	
+	# Characters referenced in common\scripted_modifiers\00_faction_modifiers.txt:
+	73683
+	
 	# Characters referenced in achievements:
 	109607
 }

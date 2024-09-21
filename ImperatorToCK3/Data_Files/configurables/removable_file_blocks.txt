@@ -1152,3 +1152,1495 @@ title_event.0002 = {
 }
 	}
 }
+
+"common\character_interactions\00_war.txt" = {
+	{
+		#Special bookmark event for Aella of Northumbria
+		bookmark_867_northmen_aellas_capture_war_imprisonment_effect = yes
+	}
+}
+
+"common\scripted_effects\00_bookmark_effects.txt" = {
+	{
+bookmark_867_northmen_aellas_capture_war_imprisonment_effect = {
+	if = {
+		limit = {
+			scope:defender_loser = {
+				this = character:163103 #Aella
+				is_ai = yes
+			}
+			NOR = {
+				is_target_in_global_variable_list = {
+					name = triggered_bookmark_events
+					target = flag:bookmark_867_northmen_aellas_capture
+				}
+				character:163103 = { is_imprisoned = yes }
+			}
+		}
+		scope:attacker_winner = {
+			imprison =  {
+				target = scope:defender_loser
+				type = dungeon
+			}
+		}
+	}
+}
+	}
+}
+
+"events\artifacts\historical_artifacts_events.txt" = {
+	{
+		### Chalice of Dona Urraca
+		if = {
+			limit = {
+				# It's likely that Urraca paid for her eponymous chalice using money she earnt from the titles her father pre-bequeathed to her, so it was probably made some time *after* 1066 (since she only got the lands in 1065, shortly before her father died), buuuuuut it's really mean to not let her have it at game start, so we give it to her in 1066.
+				current_date >= 1066.1.1
+				has_fp2_dlc_trigger = yes
+				exists = character:108501
+				character:108501 = { is_alive = yes }
+			}
+			create_artifact_goblet_chalice_of_dona_urraca = { OWNER = character:108501 }
+		}
+	}
+	
+	{
+		### Crown of Justinian
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				exists = title:e_byzantium.holder
+			}
+			title:e_byzantium.holder = {
+				create_artifact_pedestal_justinian_effect = { OWNER = this }
+			}
+		}
+	}
+	
+	{
+		### Head of St. Edmund
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				# Date of earliest likely canonisation.
+				current_date >= 924.1.1
+				exists = title:k_england.holder
+			}
+			title:k_england.holder = {
+				create_artifact_edmund_head_effect = { OWNER = this }
+			}
+		}
+	}
+	
+	{
+		### Throne of Charlemagne
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				exists = title:e_hre.holder
+			}
+			title:e_hre.holder = {
+				create_artifact_throne_charlemagne_effect = { OWNER = this }
+			}
+		}
+	}
+	
+	{
+		### Throne of Scone (featuring Stone)
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				exists = title:k_scotland.holder
+			}
+			title:k_scotland.holder = {
+				create_artifact_throne_scone_effect = { OWNER = this }
+			}
+		}
+	}
+	
+	{
+		### Monomachus Crown
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				current_date >= 1000.1.1
+				exists = title:e_byzantium.holder
+			}
+			title:e_byzantium.holder = {
+				create_artifact_monomachus_crown_effect = { OWNER = this }
+			}
+		}
+	}
+	
+	{
+		### Pentapyrgion
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				exists = title:e_byzantium.holder
+			}
+			title:e_byzantium.holder = {
+				create_artifact_sculpture_cabinet_pentapyrgion_effect = { OWNER = this }
+			}
+		}
+	}
+}
+
+"common\scripted_effects\03_dlc_fp2_scripted_effects.txt" = {
+	{
+create_artifact_goblet_chalice_of_dona_urraca = {
+	$OWNER$ = { save_scope_as = owner }
+	set_artifact_rarity_famed = yes
+	scope:owner = {
+		create_artifact = {
+			name = fp2_chalice_dona_urraca
+			description = fp2_chalice_dona_urraca_desc
+			template = fp2_chalice_dona_urraca_template
+			type = miscellaneous_when_not_court
+			visuals = fp2_chalice_dona_urraca
+			wealth = scope:wealth
+			quality = scope:quality
+			modifier = chalice_of_dona_urraca_modifier
+			save_scope_as = newly_created_artifact
+		}
+	}
+	scope:newly_created_artifact = {
+		set_variable = {
+			name = dlc_potential_court_artefact
+			value = yes
+		}
+		set_variable = {
+			name = historical_unique_artifact
+			value = yes
+		}
+		set_variable = {
+			name = relic
+			value = flag:christian
+		}
+	}
+}
+	}
+}
+
+"common\scripted_effects\01_exp1_historical_artifacts_creation_effect.txt" = {
+	{
+create_artifact_pedestal_justinian_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = artifact_pedestal_crown_justinian_name
+		description = artifact_pedestal_crown_justinian
+		type = pedestal
+		template = justinian_template
+		visuals = pedestal_justinian
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created
+			date = 527.4.1
+			recipient = character:70512 #Justinian the Great
+			location = province:496 #Constantinople
+		}
+		modifier = justinian_crown_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = crown_of_justinian
+		add_artifact_title_history = {
+			target = title:e_byzantium
+			date = 565.11.14
+		}
+		save_scope_as = epic
+	}	
+}
+	}
+	
+	{
+create_artifact_edmund_head_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = edmund_head_name
+		description = edmund_head_description
+		type = pedestal
+		visuals = head
+		wealth = scope:wealth
+		quality = scope:quality
+		template = christian_relic_template
+		history = {
+			type = created
+			date = 869.11.20
+			recipient = character:163064 #Eadmund the Martyr
+			location = province:1520 #Blything
+		}
+		modifier = edmund_head_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = edmund_head
+		add_scaled_artifact_modifier_devotion_effect = yes
+		set_variable = {
+			name = relic
+			value = flag:christian
+		}
+		save_scope_as = epic
+		add_artifact_history = {
+			type = given
+			date = 946.5.27
+			recipient = character:33350 # Æthelstan
+		}
+		add_artifact_title_history = {
+			target = title:k_england
+			date = 955.11.24
+		}
+	}
+}
+	}
+	
+	{
+create_artifact_throne_charlemagne_effect = { #Create at start
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = artifact_throne_charlemagne_name
+		description = artifact_throne_charlemagne_description
+		type = throne_special
+		visuals = throne_charlemagne
+		wealth = scope:wealth
+		quality = scope:quality
+		template = throne_charlemagne_template
+		history = {
+			type = created
+			date = 800.12.25
+			recipient = character:6392 #Karl I the Great
+			location = province:2092 #Aachen
+		}
+		modifier = throne_charlemagne_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = charlamagne_throne
+		# k_lotharingia history copied manually because it is destroyed before 1066
+		add_artifact_history = {
+			type = inherited
+			date = 814.1.2
+			recipient = character:90095 #Louis I
+		}
+		add_artifact_history = {
+			type = inherited
+			date = 817.1.1
+			recipient = character:30227 #Lothair I
+		}
+		add_artifact_title_history = {
+			target = title:e_hre
+			date = 973.5.7
+		}
+		add_scaled_artifact_modifier_majesty_effect = yes
+		add_scaled_artifact_modifier_rulership_effect = yes
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = throne
+			value = yes
+		}
+	}
+}
+	}
+	
+	{
+create_artifact_throne_scone_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = artifact_throne_stone_scone_name
+		description = artifact_throne_stone_scone
+		type = throne_special
+		visuals = throne_scone
+		wealth = scope:wealth
+		quality = scope:quality
+		template = throne_scone_template
+		history = {
+			type = created
+			date = 841.6.1
+			recipient = character:6018 #Kenneth mac Ailpín
+			location = province:1742 #Scone
+		}
+		modifier = throne_scone_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = throne_scone
+		save_scope_as = epic
+		add_scaled_artifact_modifier_rulership_effect = yes
+		save_scope_value_as = {
+			name = throne
+			value = yes
+		}
+		add_artifact_title_history = {
+			target = title:k_scotland
+			date = 858.1.1
+		}
+	}
+}
+	}
+	
+	{
+create_artifact_monomachus_crown_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = monomachus_crown_name
+		description = monomachus_crown_description
+		template = general_unique_template
+		type = helmet
+		visuals = pedestal_justinian
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created
+			date = 1042.6.11
+			recipient = character:1726 #Konstantinos IX
+			location = province:496 #Constantinople
+		}
+		modifier = monomachus_crown_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		save_scope_as = epic
+		add_artifact_title_history = {
+			target = title:e_byzantium
+			date = 1055.1.11
+		}
+	}
+}
+	}
+	
+	{
+create_artifact_sculpture_cabinet_pentapyrgion_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_masterwork = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = artifact_sculpture_cabinet_pentapyrgion_name
+		description = artifact_sculpture_cabinet_pentapyrgion_description
+		type = sculpture
+		visuals = sculpture_cabinet_pentapyrgion
+		template = pentapyrgion_template
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created
+			date = 839.6.1
+			recipient = character:70491 #Theophilos
+			location = province:496 #Constantinople
+		}
+		modifier = pentapyrgion_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		add_artifact_title_history = {
+			target = title:e_byzantium
+			date = 842.1.20
+		}
+		save_scope_value_as = {
+			name = cupboard
+			value = yes
+		}
+	}
+}
+	}
+}
+
+"common\scripted_effects\00_ep1_inspiration_effects.txt" = {
+	{
+							10 = {
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = crown_of_justinian
+										}
+									}
+									scope:location ?= {
+										OR = {
+											geographical_region = custom_eastern_roman_empire
+											culture = { has_cultural_pillar = heritage_byzantine }
+										}
+									}
+								}
+								create_artifact_pedestal_justinian_effect = { OWNER = root }
+							}
+	}
+	
+	{
+							10 = { #Head of St Edmund
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = edmund_head
+										}
+									}
+									scope:location ?= {
+										OR = {
+											geographical_region = world_europe_west_britannia
+											geographical_region = world_europe_north
+										}
+									}
+								}
+								create_artifact_edmund_head_effect = { OWNER = root }
+							}
+	}
+	
+	{
+							10 = { #Recreate if lost
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = charlamagne_throne
+										}
+									}
+									scope:location ?= {
+										OR = {
+											geographical_region = custom_carolingian_francia
+											geographical_region = custom_carolingian_germany
+											geographical_region = custom_lotharingia
+											geographical_region = custom_northern_italy
+										}
+									}
+								}
+								create_artifact_throne_charlemagne_effect = { OWNER = root }
+							}
+	}
+	
+	{
+							10 = {
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = throne_scone
+										}
+									}
+									scope:location ?= {
+										geographical_region = world_europe_west_britannia
+									}
+								}
+								create_artifact_throne_scone_effect = { OWNER = root }
+							}
+	}
+}
+
+"common\scripted_effects\01_dlc_fp3_scripted_effects.txt" = {
+	{
+		set_coa = house:house_seljuk
+	}
+}
+
+"common\scripted_modifiers\00_marriage_scripted_modifiers.txt" = {
+	{
+	#############
+	#  HAROLD   #
+	#############
+	modifier = {
+		add = -5000
+		years_from_game_start <= 5
+		OR = {
+			scope:actor = character:122
+			scope:recipient = character:122
+			scope:secondary_actor = character:122
+			scope:secondary_recipient = character:122
+		}
+		scope:actor = {
+			is_ai = yes
+		}
+		scope:recipient = {
+			is_ai = yes
+		}
+		scope:secondary_actor = {
+			is_ai = yes
+		}
+		scope:secondary_recipient = {
+			is_ai = yes
+		}
+	}
+	}
+}
+
+"events\bookmark_events.txt" = {
+	{
+###Æthelred isn't as cool as Alfred so we kill him
+bookmark.0001 = { #by Mathilda Bjarnehed
+	type = character_event
+	hidden = yes
+	
+	trigger = {
+		this = character:33358 #Æthelred
+		is_ai = yes
+		exists = player_heir
+		player_heir = character:7627 #Alfred the Great
+	}
+
+	immediate = {
+		if = {
+			limit = { is_at_war = yes }
+
+			random_list = {
+				20 = { #Very wounded
+					increase_wounds_effect = { REASON = battle }
+					if = {
+						limit = { is_alive = yes }
+						increase_wounds_effect = { REASON = battle }
+					}
+					if = {
+						limit = { is_alive = yes }
+						increase_wounds_effect = { REASON = battle }
+					}
+					if = {
+						limit = { is_alive = yes }
+						increase_wounds_effect = { REASON = battle }
+					}
+				}
+				80 = { #Killed
+					random_war_enemy = {
+						if = {
+							limit = { is_commanding_army = yes }
+							save_scope_as = killer
+						}
+						else = {
+							random_knight = {
+								save_scope_as = killer
+							}
+						}
+					}
+					if = {
+						limit = { exists = scope:killer }
+						death = {
+							death_reason = death_hunting_accident
+							killer = scope:killer
+						}
+					}
+				}
+			}	
+		}
+		else = {
+			random_list = {
+				10 = { #Cancer
+					contract_disease_effect = { DISEASE = cancer TREATMENT_EVENT = no }
+				}
+				90 = { #Hunting accident
+					death = {
+						death_reason = death_hunting_accident
+					}
+				}
+			}	
+		}
+	}
+}
+		
+### Alfred is pretty cool so we give him a nickname
+bookmark.0002 = { #by Mathilda Bjarnehed
+	type = character_event
+	title = bookmark.0002.t
+	desc = bookmark.0002.desc
+	theme = crown
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+	
+	trigger = {
+		is_ai = no
+		is_independent_ruler = yes
+	}
+
+	#Resend
+	on_trigger_fail = {
+		if = {
+			limit = { is_ai = no }
+			trigger_event = {
+				id = bookmark.0002
+				days = 1800 #~5 years
+			}
+		}
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+		capital_province = { save_scope_as = capital }
+		random_realm_province = {
+			limit = { NOT = { this = scope:capital } }
+			save_scope_as = province
+		}
+		give_nickname = nick_the_great
+	}
+
+	option = {
+		name = bookmark.0002.a
+	}
+}
+	}
+	
+	{
+### The Ragnarsson brothers catch King Aella ##
+# The event can trigger when you imprison Aella as one of his sons
+# It also works for other norse!
+
+bookmark.0003 = { #by Mathilda Bjarnehed
+	type = character_event
+	hidden = yes
+	
+	trigger = {
+		scope:imprisoner.faith = { trait_is_virtue = vengeful }
+		scope:imprisoner = {
+			any_close_family_member = {
+				even_if_dead = yes
+				exists = killer
+				killer = root
+				save_temporary_scope_as = killed_character
+			}
+		}
+		#If the imprisoner don't know you're the killer you might reveal yourself if you're dumb or not sneaky
+		trigger_if = {
+			limit = {
+				any_secret = {
+					secret_type = secret_murder
+					secret_target = scope:killed_character
+					NOT = { any_secret_knower = { this = scope:imprisoner } }
+				}
+			}
+			OR = {
+				has_trait = intellect_bad
+				has_trait = dull
+				intrigue <= medium_skill_rating
+			}
+			NOR = {
+				has_trait = shrewd
+				has_trait = intellect_good
+				has_trait = schemer
+			}
+		}
+		trigger_if = {
+			limit = { this = character:163103 } #Aella
+			NOT = {
+				is_target_in_global_variable_list = {
+					name = triggered_bookmark_events
+					target = flag:bookmark_867_northmen_aellas_capture
+				}
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = { this = character:163103 } #Aella
+			add_to_global_variable_list = {
+				name = triggered_bookmark_events
+				target = flag:bookmark_867_northmen_aellas_capture
+			}
+		}
+		save_scope_as = prisoner
+
+		scope:imprisoner = {
+			random_close_family_member = {
+				even_if_dead = yes
+				limit = {
+					exists = killer
+					killer = root
+					this = character:163109 #Lodbrok
+				}
+				alternative_limit = {
+					exists = killer
+					killer = root
+				}
+				save_scope_as = dead
+			}
+			trigger_event = {
+				id = bookmark.0004
+				days = 1
+			}
+		}
+	}
+}
+	}
+	
+	{
+bookmark.0004 = { #by Mathilda Bjarnehed
+	type = character_event
+	title = bookmark.0004.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+			    trigger = { #You did not know they had killed your family-member
+					scope:prisoner = {
+						any_secret = {
+	    					secret_type = secret_murder
+	    					secret_target = scope:dead
+	    					NOT = { any_secret_knower = { this = root } }
+	    				}
+					}
+			    }
+			    desc = bookmark.0004.desc_unknown
+			}
+			desc = bookmark.0004.desc
+		}
+	}
+	theme = dungeon
+	left_portrait = {
+		character = scope:prisoner
+		animation = fear
+	}
+	lower_right_portrait = scope:dead
+
+	trigger = {
+		NOT = {
+			any_in_list = {
+				list = captured_rivals
+				this = scope:prisoner
+			}
+		}
+	}
+	
+	immediate = {
+		play_music_cue = "mx_cue_murder"
+		if = {
+			limit = {
+				scope:prisoner = {
+					any_secret = {
+    					secret_type = secret_murder
+    					secret_target = scope:dead
+    					NOT = { any_secret_knower = { this = root } }
+    				}
+				}
+			}
+			scope:prisoner = {
+				random_secret = {
+					limit = {
+						secret_type = secret_murder
+						secret_target = scope:dead
+						NOT = { any_secret_knower = { this = root } }
+					}
+					reveal_to = root
+				}
+			}
+		}
+	}
+
+	#Blood eagle
+	option = {
+		name = bookmark.0004.a
+		
+		add_dread = medium_dread_gain
+		add_prestige = medium_prestige_gain
+		scope:prisoner = {
+			death = {
+				death_reason = death_execution_blood_eagle
+				killer = root
+			}
+		}
+		scope:dead = {
+			every_close_family_member = {
+				custom = bookmark.0004.a.custom
+				limit = { NOT = { this = root } }
+				add_opinion = {
+					modifier = pleased_opinion
+					opinion = 30
+					target = root
+				}
+			}
+		}
+		execute_opinion_effect = { VICTIM = scope:prisoner EXECUTIONER = root }
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				scope:dead = character:163109 #Lodbrok
+				add = 1000
+			}
+		}
+	}
+
+	#Sacrifice to Odin
+	option = {
+		name = bookmark.0004.b
+		trigger = { faith = { has_doctrine_parameter = human_sacrifice_active } }
+
+		add_piety = major_piety_gain
+		scope:prisoner = {
+			death = {
+				death_reason = death_execution_blood_eagle
+				killer = root
+			}
+		}
+		scope:dead = {
+			every_close_family_member = {
+				custom = bookmark.0004.a.custom
+				limit = { NOT = { this = root } }
+				add_opinion = {
+					modifier = pleased_opinion
+					opinion = 30
+					target = root
+				}
+			}
+		}
+		execute_opinion_effect = { VICTIM = scope:prisoner EXECUTIONER = root }
+
+		ai_chance = {
+			base = 50
+		}
+	}
+	
+	#I have other plans...
+	option = {
+		name = bookmark.0004.c
+		
+		ai_chance = {
+			base = 0
+			modifier = {
+				ai_vengefulness <= medium_negative_ai_value
+				add = 100
+			}
+		}
+	}
+}
+	}
+	
+	{
+# The matter of Jaromir
+bookmark.1069 = {
+	type = character_event
+	title = bookmark.1069.t
+	desc = bookmark.1069.desc
+	theme = faith
+	override_background = { reference = holy_site_generic }
+	override_effect_2d = {
+		reference = rain
+	}
+	left_portrait = {
+		character = character:john_monk
+		animation = prayer
+	}
+	right_portrait = {
+		character = scope:jaromir
+		animation = dismissal
+	}
+	lower_right_portrait = root.faith.religious_head
+
+	trigger = {
+		character:528 ?= {
+			is_alive = yes
+		}
+		character:john_monk ?= {
+			is_alive = yes
+		}
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_negative"
+		character:528 = {
+			save_scope_as = jaromir
+		}
+		character:john_monk = {
+			save_scope_as = john_monk
+		}
+	}
+
+	option = { # Replace Jaromir with John
+		name = bookmark.1069.a
+		flavor = bookmark.1069.a_flavor
+		
+		faith.religious_head = {
+			add_opinion = {
+				target = root
+				modifier = impious_opinion
+				opinion = -30
+			}
+		}
+		
+		create_title_and_vassal_change = {
+  			type = granted
+  			save_scope_as = change
+  		}
+  		title:c_opava = {
+	  		change_title_holder = {
+				holder = scope:john_monk
+				change = scope:change
+				take_baronies = no
+			}
+  		}
+		resolve_title_and_vassal_change = scope:change
+		scope:john_monk = {
+			hidden_effect = {
+				change_government = theocracy_government
+			}
+		}
+		fire_councillor = character:528
+		assign_councillor_type = {
+			type = councillor_court_chaplain
+			remove_existing_councillor = yes
+			target = character:john_monk
+		}
+		add_character_flag = {
+			flag = bishop_assignment
+			days = 1
+		}
+		ai_chance = {
+			base = 25
+		}
+	}
+
+	option = { # Make great concessions to Jaromir
+		name = bookmark.1069.b
+		flavor = bookmark.1069.b_flavor
+		
+		pay_short_term_gold = {
+			target = scope:jaromir
+			gold = medium_gold_value
+		}
+		
+		scope:jaromir = {
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 30
+			}
+			remove_relation_rival = root
+		}
+
+		ai_chance = {
+			base = 75
+		}
+	}
+
+	option = { # Make great concessions to Jaromir
+		name = bookmark.1069.c
+		flavor = bookmark.1069.c_flavor
+
+		ai_chance = {
+			base = 75
+		}
+	}
+	
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					has_character_flag = bishop_assignment
+				}
+				assign_councillor_type = {
+					type = councillor_court_chaplain
+					remove_existing_councillor = yes
+					target = character:john_monk
+				}
+			}
+		}
+	}
+}
+	}
+	
+	{
+###	Daurama takes Bawo under her wing.
+bookmark.0101 = {
+	type = character_event
+	title = bookmark.0101.t
+	desc = {
+		desc = bookmark.0101.desc_intro
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:bayajidda = { is_alive = yes }
+				}
+				desc = bookmark.0101.desc_living
+			}
+			desc = bookmark.0101.desc_dead
+		}
+	}
+	theme = crown
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	right_portrait = {
+		character = scope:bayajidda
+	}
+	lower_center_portrait = {
+		character = scope:bewo
+	}
+
+	trigger = {
+		is_ai = no
+		character:251181 = { is_alive = yes }
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_succession"
+		character:251180 = { save_scope_as = bayajidda }
+		character:251181 = { save_scope_as = bewo }
+		character:251252 = { save_scope_as = shawata }
+		title:k_hausaland = { save_scope_as = hausaland}
+	}
+
+	# Remember your heritage, my child.
+	option = {
+		name = bookmark.0101.a
+
+		#Move Bewo to Daurama's house.
+		custom_tooltip = bookmark.0101.a.tt
+		character:251181 = { set_house = root.house }
+		add_courtier = character:251181 #Move him to your court
+
+		#Bayajidda is, understandably, a little hurt by all this.
+		character:251180 = {
+			add_opinion = {
+				modifier = hurt_opinion
+				target = root
+				opinion = -20
+			}
+		}
+
+		ai_chance = {
+			base = 0	#The AI should never get this event, but if they do, shouldn't opt in.
+		}
+	}
+	
+	# He is my blood, whatever his name.
+	option = {
+		name = bookmark.0101.b
+
+		character:251180 = {
+			add_opinion = {
+				modifier = pleased_opinion
+				target = root
+				opinion = 40
+			}
+		}
+		custom_tooltip = bookmark.0101.b.tt
+
+		ai_chance = {
+			base = 100	#AI doesn't get this event, but should always pick no.
+		}
+	}
+
+	# The Magajiya will continue to rule!
+	option = {
+		name = bookmark.0101.c
+
+		add_realm_law_skip_effects = female_preference_law
+		scope:bewo = { 
+			set_house = root.house
+			add_trait = disinherited
+		}
+		scope:shawata = {	
+			if = {
+				limit = {
+					is_alive = yes
+					OR = {
+						matrilinear_marriage = yes
+						is_married = no
+					}
+				}
+				custom_tooltip = bookmark.0101.c.tt
+			}
+			else = {
+				custom_tooltip = bookmark.0101.b.tt
+			}
+		}
+		
+
+		ai_chance = {
+			base = 0	#The AI should never get this event, but if they do, shouldn't opt in.
+		}
+	}
+}
+	}
+	
+	{
+###	Matilda start-up event
+bookmark.1066 = {
+	type = character_event
+	title = bookmark.1066.t
+	desc = bookmark.1066.desc
+	theme = marriage
+	override_background = { reference = ep2_wedding_ceremony }
+	override_effect_2d = {
+		reference = rain	
+	}
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+	right_portrait = {
+		character = scope:hunchback
+		animation = ecstasy
+	}
+	lower_right_portrait = {
+		character = scope:hunchbacks_father
+	}
+	lower_left_portrait = {
+		character = scope:mum
+	}
+
+	trigger = {
+		#this = character:7757
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_succession"
+		character:20248 = { save_scope_as = hunchback }
+		character:11030 = { save_scope_as = hunchbacks_father }
+		mother = { save_scope_as = mum }
+		hidden_effect = {
+			add_opinion = {
+				target = scope:hunchback
+				modifier = disgusted_opinion
+				opinion = -75
+			}
+		}
+	}
+
+	option = { # Murder the husband, with a *hefty* bonus (*Potentially* Historical Option)
+		name = bookmark.1066.a
+		flavor = bookmark.1066.a_flavor
+		
+		marry = scope:hunchback
+		
+		if = {
+			limit = {
+				NOT = {
+					any_scheme = {
+						scheme_type = murder
+						scheme_target = scope:hunchback
+					}
+				}
+			}
+			start_scheme = {
+				target = scope:hunchback
+				type = murder
+			}
+		}
+		custom_tooltip = diplomacy_family.2250.b.tt
+		hidden_effect = {
+			random_scheme = {
+				limit = {
+					scheme_type = murder
+					scheme_target = scope:hunchback
+				}
+				add_scheme_modifier = {
+					type = massive_extra_success_chance_modifier
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Physically abandon and permanently avoid him (Historical Option)
+		name = bookmark.1066.b
+		flavor = bookmark.1066.b_flavor
+		
+		add_character_modifier = {
+			modifier = abandoned_marriage_modifier
+		}
+		
+		if = {
+			limit = {
+				betrothed ?= scope:hunchback
+			}
+			break_betrothal = scope:hunchback
+		}
+		else_if = {
+			limit = {
+				is_spouse_of = scope:hunchback
+			}
+			divorce_effect = {
+				DIVORCER = root
+				DIVORCEE = scope:hunchback
+			}
+		}
+		
+		scope:hunchbacks_father = {
+			if = {
+				limit = {
+					NOT = {
+						scope:hunchback = {
+							is_courtier_of = scope:hunchbacks_father
+						}
+					}
+				}
+				add_courtier = scope:hunchback
+			}
+		}
+		
+		reverse_add_opinion = {
+			target = scope:hunchback
+			modifier = abandoned_me_opinion
+			years = 30
+			opinion = -50
+		}
+		
+		reverse_add_opinion = {
+			target = scope:hunchbacks_father
+			modifier = insulted_opinion
+			years = 30
+			opinion = -50
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Use your influence to flip the lineality of the marriage
+		name = bookmark.1066.c
+		flavor = bookmark.1066.c_flavor
+		
+		add_piety = -100
+		
+		marry_matrilineal = scope:hunchback
+		
+		reverse_add_opinion = {
+			target = scope:hunchbacks_father
+			modifier = annoyed_opinion
+			opinion = -20
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				scope:hunchbacks_father = {
+					is_ai = no
+				}
+			}
+		}
+	}
+
+	option = { # Just hope he dies...
+		name = bookmark.1066.d
+		flavor = lineality_warning
+		add_internal_flag = dangerous
+		
+		marry = scope:hunchback
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+	}
+}
+
+"events\single_combat_events.txt" = {
+	{
+		# Historical
+		dynasty = dynasty:1055
+		house = house:house_british_isles_wessex
+	}
+}
+
+"events\game_rule_events.txt" = {
+	{
+game_rule.1011 = {
+	scope = none
+	hidden = yes
+
+	trigger = {
+		game_start_date <= 867.1.1
+	}
+
+	immediate = {
+		#launch_historical
+		if = {
+			limit = { has_game_rule = launch_historical }
+			trigger_event = {
+				id = game_rule.1012
+				months = { 360 480 }
+			}
+		}
+		#launch_immediate
+		if = {
+			limit = { has_game_rule = launch_immediate }
+			character:159137 = {
+				add_character_flag = undertaking_hungarian_migration
+				start_war = {
+					cb = hungarian_migration_cb
+					target = character:70382
+					target_title = title:k_hungary
+				}
+			}
+		}
+		#launch_random
+		if = {
+			limit = { has_game_rule = launch_random }
+			trigger_event = {
+				id = game_rule.1012
+				months = { 60 480 }
+			}
+		}
+		#launch_off: just do nothing.
+	}
+}
+	}
+}
+
+"gfx\portraits\portrait_animations\animations.txt" = {
+	{
+				modifier = {
+					add = 5000
+					this = character:83355
+				}
+	}
+	{
+				modifier = {
+					add = 5000
+					this = character:1128
+				}
+	}
+	{
+				modifier = {
+					add = 5000
+					this = character:3924
+				}
+	}
+	{
+				modifier = {
+					add = -100
+					this = character:7757
+				}
+	}
+}
+
+"gfx\portraits\portrait_modifiers\02_all_developer_characters.txt" = {
+	{
+             modifier = {
+                add = 999
+				exists = this
+				exists = character:73857
+				this = character:73857
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:70292
+                this = character:70292
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:163157 #Ismail Samani
+                this = character:163157 #Ismail Samani
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:1230316 #Suri of Mandesh
+                this = character:1230316 #Suri of Mandesh
+            }
+	}
+	{
+             modifier = {
+                add = 999
+                exists = this
+                exists = character:73759
+                this = character:73759
+            }
+	}
+	{
+             modifier = {
+                add = 999
+                exists = this
+                exists = character:73783
+                this = character:73783
+            }
+	}
+}
+
+"common\on_action\prison_on_actions.txt" = {
+	{
+		bookmark.0003			# King Aella gets imprisoned by one of Ragnarr Lodbrok's sons
+	}
+}
