@@ -245,6 +245,8 @@ public sealed class World {
 			CorrectedDate,
 			config
 		);
+		// Now that we have loaded all characters, we can mark some of them as non-removable.
+		Characters.LoadCharacterIDsToPreserve(config.CK3BookmarkDate);
 		ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
 		Dynasties.LoadCK3Dynasties(ModFS);

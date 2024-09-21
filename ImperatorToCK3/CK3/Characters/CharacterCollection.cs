@@ -437,19 +437,35 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		}
 	}
 
-	private static IEnumerable<string> LoadCharacterIDsToPreserve() {
+	public void LoadCharacterIDsToPreserve(Date ck3BookmarkDate) {
 		Logger.Debug("Loading IDs of CK3 characters to preserve...");
-		HashSet<string> characterIDsToPreserve = [];
 
 		string configurablePath = "configurables/ck3_characters_to_preserve.txt";
 		var parser = new Parser();
-		parser.RegisterRegex(CommonRegexes.String, (_, id) => {
-			characterIDsToPreserve.Add(id);
+		parser.RegisterRegex("keep_as_is", reader => {
+			var ids = reader.GetStrings();
+			foreach (var id in ids) {
+				if (!TryGetValue(id, out var character)) {
+					continue;
+				}
+
+				character.IsNonRemovable = true;
+			}
+		});
+		parser.RegisterKeyword("after_bookmark_date", reader => {
+			var ids = reader.GetStrings();
+			foreach (var id in ids) {
+				if (!TryGetValue(id, out var character)) {
+					continue;
+				}
+
+				character.IsNonRemovable = true;
+				character.BirthDate = ck3BookmarkDate.ChangeByDays(1);
+				character.DeathDate = ck3BookmarkDate.ChangeByDays(2);
+			}
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseFile(configurablePath);
-
-		return characterIDsToPreserve;
 	}
 
 	public void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
@@ -478,9 +494,8 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			.Where(c => c is not {FromImperator: true, Dead: false});
 
 		// Make some exceptions for characters referenced in game's script files.
-		var characterIdsToKeep = LoadCharacterIDsToPreserve();
 		charactersToCheck = charactersToCheck
-			.Where(character => !characterIdsToKeep.Contains(character.Id))
+			.Where(character => !character.IsNonRemovable)
 			.ToArray();
 
 		// I:R members of landed dynasties will be preserved, unless dead and childless.

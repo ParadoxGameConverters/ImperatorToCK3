@@ -26,6 +26,9 @@ namespace ImperatorToCK3.CK3.Characters;
 public sealed class Character : IIdentifiable<string> {
 	public string Id { get; }
 	public bool FromImperator { get; init; } = false;
+	
+	// A flag that marks the character as non-removable.
+	public bool IsNonRemovable { get; set; } = false;
 		
 	public bool Female {
 		get {
@@ -92,7 +95,7 @@ public sealed class Character : IIdentifiable<string> {
 
 	public Date BirthDate {
 		get => History.Fields["birth"].DateToEntriesDict.First().Key;
-		init {
+		set {
 			var field = History.Fields["birth"];
 			field.RemoveAllEntries();
 			field.AddEntryToHistory(value, "birth", true);
@@ -104,7 +107,7 @@ public sealed class Character : IIdentifiable<string> {
 			var entriesDict = History.Fields["death"].DateToEntriesDict;
 			return entriesDict.Count == 0 ? null : entriesDict.First().Key;
 		}
-		private init {
+		set {
 			var field = History.Fields["death"];
 			field.RemoveAllEntries();
 			if (value is not null) {
