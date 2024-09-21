@@ -9,7 +9,17 @@ using System.Threading.Tasks;
 namespace ImperatorToCK3.CK3.Cleanup;
 
 public static class FileTweaker {
-	public static async Task RemovePartsOfFiles(string configurablePath, ModFilesystem ck3ModFS, string outputModPath) {
+	public static async Task RemoveUnneededPartsOfFiles(ModFilesystem ck3ModFS, string outputModPath, Configuration config) {
+		if (config.FallenEagleEnabled) {
+			Logger.Info("Removing unneeded parts of Fallen Eagle files...");
+			await RemovePartsOfFilesFromConfigurable("configurables/removable_file_blocks_tfe.txt", ck3ModFS, outputModPath);
+		} else if (!config.WhenTheWorldStoppedMakingSenseEnabled) { // vanilla
+			Logger.Info("Removing unneeded parts of vanilla files...");
+			await RemovePartsOfFilesFromConfigurable("configurables/removable_file_blocks.txt", ck3ModFS, outputModPath);
+		}
+	}
+	
+	private static async Task RemovePartsOfFilesFromConfigurable(string configurablePath, ModFilesystem ck3ModFS, string outputModPath) {
 		// Load removable blocks from configurables.
 		Dictionary<string, string[]> partsToRemovePerFile = [];
 		var parser = new Parser();
@@ -71,6 +81,8 @@ public static class FileTweaker {
 			await output.WriteAsync(fileContent);
 		}
 	}
+	
+	
 	
 	private static string GetLineEndingsInFile(string filePath) {
 		using StreamReader sr = new StreamReader(filePath);
