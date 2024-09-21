@@ -16,7 +16,7 @@
 # ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL ON-ACTION FILE.
 # OTHERWISE THE BLOCK WON'T BE REMOVED!
 
-"yearly_on_actions.txt" = {
+"common/on_action/yearly_on_actions.txt" = {
 	{
 			# FP2 - Checks to start El Cid's Travels
 			if = {
@@ -38,7 +38,7 @@
 	}
 }
 
-"death.txt" = {
+"common/on_action/death.txt" = {
 	{
 		# Fix gods-damned Bavaria splitting from East Francia in an ugly fashion in 867.
 		if = {
@@ -89,7 +89,7 @@
 	}
 }
 
-"game_start.txt" = {
+"common/on_action/game_start.txt" = {
 	# events
 	{		fp1_scandinavian_adventurers.0011	# FP1 - Corral famous Norse adventurers that haven't done much yet.}
 	{		fp1_scandinavian_adventurers.0021	# FP1 - Mark game-start prioritised adventurers.}

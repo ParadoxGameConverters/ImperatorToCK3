@@ -4,6 +4,7 @@ using commonItems.Mods;
 using commonItems.Serialization;
 using DotLiquid;
 using ImperatorToCK3.CK3;
+using ImperatorToCK3.CK3.Cleanup;
 using ImperatorToCK3.CK3.Legends;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Exceptions;
@@ -42,6 +43,8 @@ public static class WorldOutputter {
 			WarsOutputter.OutputWars(outputPath, ck3World.Wars),
 
 			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputPath, ck3World.LandedTitles, config.CK3BookmarkDate),
+			
+			config.FallenEagleEnabled ? RemoveUnneededPartsOfFallenEagleFiles(ck3World.ModFS, outputPath) : Task.CompletedTask,
 
 			OnActionOutputter.OutputEverything(config, ck3World.ModFS, outputPath),
 
@@ -56,6 +59,8 @@ public static class WorldOutputter {
 
 			BookmarkOutputter.OutputBookmark(ck3World, config, ck3World.LocDB)
 		);
+
+		
 
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
 			MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
@@ -250,5 +255,10 @@ public static class WorldOutputter {
 		}
 
 		Logger.IncrementProgress();
+	}
+
+	private static async Task RemoveUnneededPartsOfFallenEagleFiles(ModFilesystem ck3ModFS, string outputModPath) {
+		Logger.Info("Removing unneeded parts of Fallen Eagle files...");
+		await FileTweaker.RemovePartsOfFiles("configurables/removable_file_blocks_tfe.txt", ck3ModFS, outputModPath);
 	}
 }
