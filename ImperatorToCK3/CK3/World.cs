@@ -629,7 +629,7 @@ public sealed class World {
 				UsePaganRulers();
 				break;
 			case < 874:
-				faithCandidates = new OrderedSet<string> { "insular_celtic", "catholic", "orthodox" };
+				faithCandidates = new OrderedSet<string> { "insular_celtic", "catholic", "orthodox", "chalcedonian", "nicene" };
 				var christianFaiths = Religions.TryGetValue("christianity_religion", out var christianityReligion) ? christianityReligion.Faiths : [];
 
 				// If there is at least one Irish Christian county, give it to the Irish Papar.
