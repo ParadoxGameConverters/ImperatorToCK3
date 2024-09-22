@@ -782,7 +782,7 @@ link = {
 link = { ck3 = tagalog ir = tagalog }
 link = { ck3 = bisaya ir = bisaya }
 link = { ck3 = goguryeo ir = goguryeo }
-link = { ck3 = wa ir = wa }
+link = { ck3 = wa ir = wa }  # TODO: verify this (is this https://en.wikipedia.org/wiki/Wa_(name_of_Japan) or https://en.wikipedia.org/wiki/Wa_language)?
 link = { ck3 = ainu ir = ainu }
 link = { ck3 = emishi ir = emishi }
 link = { ck3 = nivkh ir = nivkh }
@@ -944,7 +944,7 @@ link = { ck3 = andamanese ir = andaman }
 link = { ck3 = bahnaric ir = bahnar }
 link = { ck3 = kinh ir = lacviet }
 link = { ck3 = nicobarese ir = holchu }
-link = { ck3 = palaungic ir = wa }
+link = { ck3 = yamato ir = wa } # https://en.wikipedia.org/wiki/Wa_(name_of_Japan)
 
 # TODO: I:R culture ID: bo, name: Bo
 # TODO: I:R culture ID: ba, name: Ba
