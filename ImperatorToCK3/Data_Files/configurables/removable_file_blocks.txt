@@ -2736,3 +2736,246 @@ game_rule.1011 = {
 			dynasty = dynasty:1029001	#The Cornish royal house is at it again.
 	}
 }
+
+"common\legends\chronicles\00_chronicles.txt" = {
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:6392
+				}
+				desc = legend_carolingian
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:6392
+				}
+				desc = legend_carolingian_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:82233
+				}
+				desc = legend_the_wheelwright
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:82233
+				}
+				desc = legend_the_wheelwright_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:159058
+				}
+				desc = legend_cadell
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:159058
+				}
+				desc = legend_cadell_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:107590
+				}
+				desc = legend_el_cid
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:107590
+				}
+				desc = legend_el_cid_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:1700
+				}
+				desc = legend_peasant_emperor
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:1700
+				}
+				desc = legend_peasant_emperor_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:168345
+				}
+				desc = legend_premysl
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:168345
+				}
+				desc = legend_premysl_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:303250
+				}
+				desc = legend_borjigin
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:303250
+				}
+				desc = legend_borjigin_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:7255
+				}
+				desc = legend_the_red_hand
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:7255
+				}
+				desc = legend_the_red_hand_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:180637
+				}
+				desc = legend_yazdagird_iii
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:180637
+				}
+				desc = legend_yazdagird_iii_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:180645
+				}
+				desc = legend_bahram_gur
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:180645
+				}
+				desc = legend_bahram_gur_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:188637
+				}
+				desc = legend_saman_khudah
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:188637
+				}
+				desc = legend_saman_khudah_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:163109
+				}
+				desc = legend_ragnarr
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:163109
+				}
+				desc = legend_ragnarr_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:7627
+				}
+				desc = legend_alfred_of_wessex
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:7627
+				}
+				desc = legend_alfred_of_wessex_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:168130
+				}
+				desc = legend_william_gellones
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:168130
+				}
+				desc = legend_william_gellones_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:99
+				}
+				desc = legend_edward_the_martyr
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:99
+				}
+				desc = legend_edward_the_martyr_desc
+			}
+	}
+}
