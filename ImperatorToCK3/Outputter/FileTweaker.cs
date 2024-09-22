@@ -81,9 +81,7 @@ public static class FileTweaker {
 			await output.WriteAsync(fileContent);
 		}
 	}
-	
-	
-	
+
 	private static string GetLineEndingsInFile(string filePath) {
 		using StreamReader sr = new StreamReader(filePath);
 		bool returnSeen = false;

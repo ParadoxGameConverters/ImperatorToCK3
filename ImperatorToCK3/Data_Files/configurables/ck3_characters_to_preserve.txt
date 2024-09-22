@@ -1,4 +1,4 @@
-# This file should contain a simple, whitespace-separated list
+# This file should contain a simple whitespace-separated lists
 # of CK3 character IDs to preserve from purging.
 # Comments are allowed, and start with a '#' character.
 

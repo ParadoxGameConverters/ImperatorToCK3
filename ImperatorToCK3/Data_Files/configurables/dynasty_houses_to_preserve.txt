@@ -1,0 +1,9 @@
+# This file should contain a simple whitespace-separated list of 
+# of CK3 dynasty house IDs to preserve from purging.
+# Comments are allowed, and start with a '#' character.
+
+# TODO: actually use this file in the converter
+
+house_seljuk # referenced in common\scripted_effects\01_dlc_fp3_scripted_effects.txt
+house_borjigin # # referenced in common\scripted_character_templates\00_mongol_templates.txt
+house_onggirat # # referenced in common\scripted_character_templates\00_mongol_templates.txt
