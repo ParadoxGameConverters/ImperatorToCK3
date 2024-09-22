@@ -439,7 +439,7 @@ public sealed class World {
 		Logger.Info("Overwriting counties' history...");
 		HashSet<Governorship> governorshipsSet = governorships.ToHashSet();
 		HashSet<Governorship> countyLevelGovernorshipsSet = countyLevelGovernorships.ToHashSet();
-
+		
 		foreach (var county in LandedTitles.Where(t => t.Rank == TitleRank.county)) {
 			if (county.CapitalBaronyProvinceId is null) {
 				Logger.Warn($"County {county} has no capital barony province!");
@@ -468,6 +468,7 @@ public sealed class World {
 			if (irCountry is null || irCountry.CountryType == CountryType.rebels) { // e.g. uncolonized Imperator province
 				county.SetHolder(null, conversionDate);
 				county.SetDeFactoLiege(null, conversionDate);
+				RevokeBaroniesFromCountyGivenToImperatorCharacter(county);
 			} else {
 				bool given = TryGiveCountyToCountyLevelRuler(county, irCountry, countyLevelCountries, irCountries);
 				if (!given) {
@@ -492,6 +493,7 @@ public sealed class World {
 		}
 
 		GiveCountyToMonarch(county, ck3Country);
+		RevokeBaroniesFromCountyGivenToImperatorCharacter(county);
 		return true;
 	}
 
@@ -543,6 +545,7 @@ public sealed class World {
 		} else {
 			GiveCountyToGovernor(county, ck3GovernorshipId);
 		}
+		RevokeBaroniesFromCountyGivenToImperatorCharacter(county);
 		return true;
 	}
 
@@ -607,7 +610,20 @@ public sealed class World {
 		} else {
 			county.SetDeFactoLiege(null, ruleStartDate);
 		}
+		RevokeBaroniesFromCountyGivenToImperatorCharacter(county);
 		return true;
+	}
+
+	private void RevokeBaroniesFromCountyGivenToImperatorCharacter(Title county) {
+		foreach (var barony in county.DeJureVassals) {
+			// Skip the county capital barony.
+			if (barony.ProvinceId == county.CapitalBaronyProvinceId) {
+				continue;
+			}
+			
+			// Clear the barony holders history.
+			barony.ClearHolderSpecificHistory();
+		}
 	}
 
 	private void HandleIcelandAndFaroeIslands(Configuration config) {
