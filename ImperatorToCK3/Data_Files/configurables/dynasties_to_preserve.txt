@@ -3,6 +3,5 @@
 # Comments are allowed, and start with a '#' character.
 
 jamshid
-100721 # Abbasid, referenced in events\dlc\fp2\fp2_yearly_events.txt
 1029100 # Sassanid, referenced in events\dlc\fp3\fp3_struggle_events.txt
 613 # Seljuk, referenced in events\yearly_events\yearly_events_persia.txt

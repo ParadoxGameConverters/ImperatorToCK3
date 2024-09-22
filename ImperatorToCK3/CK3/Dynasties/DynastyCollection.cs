@@ -183,7 +183,7 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 			
 			foreach (var character in cadetHouseMembers) {
 				character.ClearDynastyHouse();
-				character.SetDynastyId(dynasty.Id, date);
+				character.SetDynastyId(dynasty.Id, null);
 			}
 			
 			// Remove all the cadet houses.

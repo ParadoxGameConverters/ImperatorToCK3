@@ -150,7 +150,6 @@ public sealed class Character : IIdentifiable<string> {
 		}
 	}
 
-	public bool Dead => DeathDate is not null;
 	public IList<Pregnancy> Pregnancies { get; } = new List<Pregnancy>();
 
 	public IDictionary<string, int> MenAtArmsStacksPerType { get; } = new Dictionary<string, int>();

@@ -13,16 +13,16 @@ using System.Threading.Tasks;
 namespace ImperatorToCK3.Outputter;
 
 public static class CharactersOutputter {
-	public static async Task OutputEverything(string outputPath, CharacterCollection characters, Date conversionDate, ModFilesystem ck3ModFS) {
+	public static async Task OutputEverything(string outputPath, CharacterCollection characters, Date conversionDate, Date ck3BookmarkDate, ModFilesystem ck3ModFS) {
 		await Task.WhenAll(
-			OutputCharacters(outputPath, characters, conversionDate, ck3ModFS),
+			OutputCharacters(outputPath, characters, conversionDate, ck3BookmarkDate, ck3ModFS),
 			BlankOutHistoricalPortraitModifiers(ck3ModFS, outputPath)
 		);
 		
 		Logger.IncrementProgress();
 	}
 	
-	public static async Task OutputCharacters(string outputPath, CharacterCollection characters, Date conversionDate, ModFilesystem ck3ModFS) {
+	public static async Task OutputCharacters(string outputPath, CharacterCollection characters, Date conversionDate, Date ck3BookmarkDate, ModFilesystem ck3ModFS) {
 		Logger.Info("Writing Characters...");
 
 		// Portrait modifiers need to be outputted before characters themselves,
@@ -41,7 +41,7 @@ public static class CharactersOutputter {
 		var pathForCharactersFromIR = $"{outputPath}/history/characters/IRToCK3_fromImperator.txt";
 		await using var charactersFromIROutput = FileHelper.OpenWriteWithRetries(pathForCharactersFromIR);
 		foreach (var character in charactersFromIR) {
-			CharacterOutputter.WriteCharacter(sb, character, conversionDate);
+			CharacterOutputter.WriteCharacter(sb, character, conversionDate, ck3BookmarkDate);
 			await charactersFromIROutput.WriteAsync(sb.ToString());
 			sb.Clear();
 		}
@@ -49,7 +49,7 @@ public static class CharactersOutputter {
 		var pathForCharactersFromCK3 = $"{outputPath}/history/characters/IRToCK3_fromCK3.txt";
 		await using var charactersFromCK3Output = FileHelper.OpenWriteWithRetries(pathForCharactersFromCK3, Encoding.UTF8);
 		foreach (var character in charactersFromCK3) {
-			CharacterOutputter.WriteCharacter(sb, character, conversionDate);
+			CharacterOutputter.WriteCharacter(sb, character, conversionDate, ck3BookmarkDate);
 			await charactersFromCK3Output.WriteAsync(sb.ToString());
 			sb.Clear();
 		}

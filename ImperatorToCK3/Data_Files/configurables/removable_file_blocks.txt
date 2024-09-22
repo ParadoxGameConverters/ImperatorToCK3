@@ -36,6 +36,9 @@
 				trigger_event = fp2_struggle.2045
 			}
 	}
+	{
+		250 = fp3_yearly.8020 # The Lady of the Land
+	}
 }
 
 "common/on_action/death.txt" = {
@@ -1058,6 +1061,10 @@
 	{
 		title_event.0001			# Rename West Francia to France
 		title_event.0002			# Rename East Francia to Germany
+	}
+	
+	{
+		fp1_major_decisions.1011	# Harald Tanglehair becomes Harald Fairhair.
 	}
 }
 
@@ -2597,6 +2604,9 @@ bookmark.1066 = {
 		dynasty = dynasty:1055
 		house = house:house_british_isles_wessex
 	}
+	{
+		dynasty = dynasty:vanity_riedinger
+	}
 }
 
 "events\game_rule_events.txt" = {
@@ -2642,6 +2652,13 @@ game_rule.1011 = {
 	}
 }
 	}
+	
+	{
+			AND = {
+				exists = character:7757
+				this = character:7757 #Matilda Canossa, her bookmark start is about overcoming the issue of no heir
+			}
+	}
 }
 
 "gfx\portraits\portrait_animations\animations.txt" = {
@@ -2666,6 +2683,12 @@ game_rule.1011 = {
 	{
 				modifier = {
 					add = -100
+					this = character:7757
+				}
+	}
+	{
+				modifier = {
+					add = 5000
 					this = character:7757
 				}
 	}
@@ -2977,5 +3000,1060 @@ game_rule.1011 = {
 				}
 				desc = legend_edward_the_martyr_desc
 			}
+	}
+}
+
+"events\diarchy_events\diarchy_events.txt" = {
+	{
+		# Historic setup stuff.
+		## Fatimids start basically completely screwed.
+		if = {
+			limit = { this = character:3096 }
+			set_diarchy_swing = 100
+		}
+	}
+}
+
+"events\dlc\fp1\fp1_major_decision_events.txt" = {
+	{
+scripted_effect fp1_1011_gib_pretty_hair_effect = {
+	# Gain the famous nickname.
+	give_nickname = nick_fairhair
+	# And a bit of diplomacy for your long vow.
+	add_diplomacy_skill = 2
+	# Plus that haircut.
+	remove_character_modifier = harald_tanglehairs_vow_modifier
+}
+
+#	Tanglehair becomes Fairhair.
+fp1_major_decisions.1011 = {
+	type = character_event
+	title = fp1_major_decisions.1011.t
+	desc = {
+		desc = fp1_major_decisions.1011.desc.intro
+		first_valid = {
+			triggered_desc = {
+				trigger = { exists = scope:gyda }
+				desc = fp1_major_decisions.1011.desc.gyda
+			}
+			desc = fp1_major_decisions.1011.desc.oath
+		}
+		desc = fp1_major_decisions.1011.desc.outro
+	}
+	theme = crown
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+	right_portrait = {
+		character = scope:gyda
+		animation = admiration
+	}
+	override_background = { reference = fp1_ocean_norse }
+
+	trigger = {
+		# This character is Harald Fairhair.
+		exists = character:144000
+		this = character:144000
+		# The title they've acquired is Norway.
+		scope:title = title:k_norway
+		# Norway has been created by them.
+		scope:transfer_type = flag:created
+		# Norway has not been created previously.
+		NOT = { exists = global_var:norway_created }
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_succession"
+		# Check to see if Gyda is still around and kicking, and if so, treat this as a romance.
+		character:166044 = {
+			if = {
+				limit = {
+					is_alive = yes
+					can_marry_character_trigger = { CHARACTER = root }
+					has_any_bad_relationship_with_root_trigger = no
+					is_ai = yes
+				}
+				save_scope_as = gyda
+			}
+		}
+	}
+
+	# My vow fulfilled!
+	option = {
+		name = fp1_major_decisions.1011.a
+
+		# Apply standard haircut effects.
+		fp1_1011_gib_pretty_hair_effect = yes
+
+		ai_chance = {
+			# AI should only default to this if Gyda is unavailable.
+			base = 0
+		}
+	}
+	
+	# Gyda, my love!
+	option = {
+		name = fp1_major_decisions.1011.b
+		trigger = {
+			# Gyda must have been valid.
+			exists = scope:gyda
+			# And, for MP, remain valid.
+			can_marry_character_trigger = { CHARACTER = scope:gyda }
+		}
+
+		# Apply standard haircut effects.
+		fp1_1011_gib_pretty_hair_effect = yes
+		# Harald & Gyda are wed.
+		if = {
+			limit = {
+				has_ep2_dlc_trigger = yes
+			}
+			create_grand_wedding_betrothal = {
+				SPOUSE_1 = root
+				SPOUSE_2 = scope:gyda
+				HOST = root
+				PROMISEE = scope:gyda
+			}
+		}
+		else = { marry = scope:gyda }
+		# And rather happy about it.
+		add_opinion = {
+			target = scope:gyda
+			modifier = love_opinion
+			opinion = 50
+		}
+		reverse_add_opinion = {
+			target = scope:gyda
+			modifier = love_opinion
+			opinion = 50
+		}
+
+		ai_chance = {
+			# AI should always select this option if it's present.
+			base = 100
+		}
+	}
+	
+	# Leave it; it is a mark of the struggles I have been through.
+	option = {
+		name = fp1_major_decisions.1011.c
+		trigger = { is_ai = no }
+
+		# Harald Tanglehair keeps his wild locks.
+		custom_tooltip = fp1_major_decisions.1011.c.tt
+		## We swap the modifiers out so the copy responds correctly.
+		hidden_effect = {
+			remove_character_modifier = harald_tanglehairs_vow_modifier
+			add_character_modifier = harald_tanglehairs_reminder_modifier
+		}
+		# And a bit of learning for the lessons you've endured.
+		add_learning_skill = 2
+
+		ai_chance = {
+			# Option here for player choice.
+			base = 0
+		}
+	}
+}
+	}
+	
+	{
+		# And if it's not Harald Fairhair who did it, shame him.
+		if = {
+			limit = {
+				exists = character:144000
+				NOT = { this = character:144000 }
+				character:144000 = { is_alive = yes }
+			}
+			hidden_effect = {
+				# Save the current King of Norway.
+				save_scope_as = king_of_norway
+				# And message Harald with the bad news.
+				character:144000 = {
+					send_interface_toast = {	
+						title = fp1_major_decisions.1012.t
+						left_icon = scope:king_of_norway
+						hidden_effect = { remove_character_modifier = harald_tanglehairs_vow_modifier }
+						add_character_modifier = harald_tanglehairs_vow_broken_modifier
+					}
+				}
+			}
+		}
+	}
+}
+
+"events\dlc\fp1\fp1_scandinavian_adventurer_events.txt" = {
+	{
+#	Drag in famous landless Norse characters if they haven't become landed after twenty years.
+fp1_scandinavian_adventurers.0011 = {
+	scope = none
+	hidden = yes
+
+	trigger = {
+		# DLC check.
+		has_fp1_dlc_trigger = yes
+		# No point in later starts.
+		game_start_date = 867.1.1
+	}
+
+	immediate = {
+		trigger_event = {
+			id = fp1_scandinavian_adventurers.0012
+			years = 20
+		}
+	}
+}
+	}
+	
+	{
+scripted_effect scandi_adventurers_grab_famous_character_effect = {
+	$CHARACTER$ ?= {
+		if = {
+			limit = {
+				# Still kickin'.
+				is_physically_able_adult = yes
+				# Shouldn't ever really be an issue, but y'never know.
+				is_ai = yes
+				# Hasn't got anything dynastic of note going on.
+				is_ruler = no
+				any_heir_to_title = { count = 0 }
+				# And is free and clear to go.
+				is_imprisoned = no
+				OR = {
+					is_married = no
+					AND = {
+						is_female = yes
+						matrilinear_marriage = yes
+					}
+					AND = {
+						is_male = yes
+						patrilinear_marriage = yes
+					}
+				}
+				# And is still North Germanic/not in either of the lists.
+				culture = { has_cultural_pillar = heritage_north_germanic }
+				NOR = {
+					save_temporary_scope_as = character
+					any_in_global_list = {
+						variable = western_scandinavian_adventurer_list
+						this = scope:character
+					}
+					any_in_global_list = {
+						variable = eastern_scandinavian_adventurer_list
+						this = scope:character
+					}
+				}
+			}
+			# Norse, Norwegians, & Danes go into the western adventurer list.
+			if = {
+				limit = {
+					OR = {
+						has_culture = culture:norse
+						has_culture = culture:norwegian
+						has_culture = culture:danish
+					}
+				}
+				add_to_global_variable_list = {
+					name = western_scandinavian_adventurer_list
+					target = this
+				}
+			}
+			# Norse & Swedes go into the eastern adventurer list.
+			if = {
+				limit = {
+					OR = {
+						has_culture = culture:norse
+						has_culture = culture:swedish
+					}
+				}
+				add_to_global_variable_list = {
+					name = eastern_scandinavian_adventurer_list
+					target = this
+				}
+			}
+			# Either way, flag 'em for priority in the system.
+			add_character_flag = prioritised_scandinavian_adventurer
+		}
+	}
+}
+
+fp1_scandinavian_adventurers.0012 = {
+	hidden = yes
+	scope = none
+
+	trigger = {
+		# DLC check.
+		has_fp1_dlc_trigger = yes
+		# No point in later starts.
+		game_start_date = 867.1.1
+
+		OR = {
+			exists = character:242
+			exists = character:163119
+		}
+		
+	}
+
+	immediate = {
+		# Nab Rollo.
+		scandi_adventurers_grab_famous_character_effect = { CHARACTER = character:242 }
+		# Nab Ubbe.
+		scandi_adventurers_grab_famous_character_effect = { CHARACTER = character:163119 }
+	}
+}
+	}
+	
+	{
+fp1_scandinavian_adventurers.0021 = {
+	hidden = yes
+	scope = none
+
+	trigger = {
+		# DLC check.
+		has_fp1_dlc_trigger = yes
+		# No point in later starts.
+		game_start_date = 867.1.1
+	}
+
+	immediate = {
+		# Haesteinn.
+		character:6878 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Ivar the Boneless.
+		character:163111 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Halfdan Whiteshirt.
+		character:163112 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Sigurdr Snake-in-the-Eye.
+		character:163110 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Bjorn Ironside.
+		character:163108 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Rurik the Troublemaker.
+		character:40605 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Dyre the Stranger.
+		character:6811 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Harald Fairhair.
+		character:144000 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Audr the Deep-Minded.
+		character:168609 = { add_character_flag = prioritised_scandinavian_adventurer }
+	}
+}
+	}
+}
+
+"common\on_action\yearly_groups_on_actions.txt" = {
+	{
+		160 = fp2_yearly.1004   # The Hawk of Quarysh 
+	}
+	{
+		250 = fp3_yearly.8020 # The Lady of the Land
+	}
+}
+
+"events\dlc\fp2\fp2_yearly_events.txt" = {
+	{
+###################################
+# The Hawk of Quarysh
+# By Daniel Moore
+###################################
+fp2_yearly.1004 = {
+	type = character_event
+	title = fp2_yearly.1004.t
+	desc = fp2_yearly.1004.desc
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+
+	trigger = {
+		has_fp2_dlc_trigger = yes
+
+		has_religion = religion:islam_religion
+
+		capital_province = {
+			geographical_region = world_europe_west_iberia
+		}
+
+		NOT = {
+			has_character_flag = fp2_yearly.1004
+		}
+	}
+
+	cooldown = {
+		years = 50
+	}
+
+	immediate = {
+		add_character_flag = fp2_yearly.1004
+
+		character:73679 = {
+			save_scope_as = hawk_of_quraysh
+		}
+
+		dynasty:597 = {
+			save_scope_as = hawk_dynasty
+		}
+
+		dynasty:100721 = {
+			save_scope_as = abbasid_dynasty
+		}
+	}
+
+	option = { #I'm related!
+		name = fp2_yearly.1004.c
+		trigger = {
+			dynasty = {
+				this = scope:hawk_dynasty
+			}
+		}
+
+		ai_chance = {
+			base = 1000
+		}
+		add_prestige = medium_prestige_value
+	}
+
+	option = { #How he inspired soldiers
+		name = fp2_yearly.1004.a
+			add_character_modifier = {
+				modifier = fp2_hawk_of_quarysh_martial_modifier
+				years = 10
+			}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = 1
+				ai_boldness = 1
+			}
+		}
+	}
+
+	option = { #How diplomatic he was
+		name = fp2_yearly.1004.b
+			add_character_modifier = {
+				modifier = fp2_hawk_of_quarysh_diplomacy_modifier
+				years = 10
+			}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_sociability = 1
+				ai_compassion = 1
+			}
+		}
+	}
+}
+	}
+}
+
+"events\dlc\fp3\fp3_heritage_events.txt" = {
+	{
+fp3_yearly.8020 = {
+	type = character_event  
+	title = fp3_yearly.8020.t
+	desc = fp3_yearly.8020.desc	
+	theme = faith 
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:pious_woman
+		animation = paranoia
+	}
+
+	lower_left_portrait = {
+		character = scope:righteous_caliph
+	}
+
+
+
+	trigger = {
+
+		#standard sanity checks
+		has_fp3_dlc_trigger = yes
+		is_ruler = yes
+		is_available_healthy_adult = yes
+
+		#premise checks - we need ROOT's faith to not have been reformed into a matriarchal faith for this historical context 
+		OR = {
+			has_religion = religion:islam_religion
+			has_religion = religion:christianity_religion
+		}
+
+		has_game_rule = default_gender_equality #this triggers an error. Suspected code issue.
+
+		NOT = {
+			faith = { has_doctrine = doctrine_gender_female_dominated } 
+		}
+
+		#checking for approppriate county 
+		any_held_county = {
+			OR = {
+				this = title:c_rayy
+				any_county_province = { 
+					barony = { fp3_zoroastrian_holy_sites_province_trigger = yes }	
+				}
+			}
+		}
+
+		#checking that we have a HoF with the appropriate interests 
+		NOT = { faith.religious_head = root }
+
+		exists = root.faith.religious_head
+
+		root.faith.religious_head = { 
+			fp3_zealous_caliph_trigger = yes
+			#checking that his Islam hasn't been reformed into something that'd make the event's premise weird
+			faith = { 
+				NOT = {
+					has_doctrine = doctrine_gender_female_dominated 
+				}	
+			}	
+		}	
+
+		#checking that we have a spouse or daughter that would fit the scope
+		OR = { 
+			any_spouse = { 
+				fp3_bibi_shahrbanu_devotee_trigger = yes
+			}
+			any_concubine = { 
+				fp3_bibi_shahrbanu_devotee_trigger = yes
+			}
+			any_child = {
+				fp3_bibi_shahrbanu_devotee_trigger = yes
+			}
+			any_courtier_or_guest = {
+				fp3_bibi_shahrbanu_devotee_trigger = yes
+				has_relation_friend = root
+			}
+		}	
+	}
+
+	immediate = {
+
+		
+		#Saving relevant historical characters and faiths as scopes
+		character:180638 = { save_scope_as = bibi_shahrbanu }
+
+		character:33912 = { save_scope_as = imam_husayn }
+
+		religion:zoroastrianism_religion = { save_scope_as = anahita_faith }
+
+		#saving the caliph as a scope
+		root.faith.religious_head = { 
+			if = {
+				limit = {
+					fp3_zealous_caliph_trigger = yes
+					faith = { 
+						NOT = {
+							has_doctrine = doctrine_gender_female_dominated 
+						}
+					}	
+				}	
+			}
+			save_scope_as = righteous_caliph
+		}
+
+		random_held_county = {
+			limit = { this = title:c_rayy }
+			save_scope_as = temple_county
+		}
+
+		if = { 
+			limit = {
+				NOT = {	exists = scope:temple_county }
+			}
+			random_held_county = {
+				limit = { 
+					any_county_province = {
+						barony = { fp3_zoroastrian_holy_sites_province_trigger = yes }
+					}
+				}
+				save_scope_as = temple_county
+			}
+		}
+
+		#getting the best pious woman for our purposes
+		if = {
+			limit = { 
+				any_spouse = { fp3_bibi_shahrbanu_devotee_trigger = yes	}
+			}
+			random_spouse = {
+				limit = { 
+					fp3_bibi_shahrbanu_devotee_trigger = yes
+				}
+				save_scope_as = pious_woman	
+			}
+		}
+		else_if = {
+			limit = { 
+				any_concubine = { fp3_bibi_shahrbanu_devotee_trigger = yes	}
+			}
+			random_concubine = {
+				limit = { 
+					any_concubine = { fp3_bibi_shahrbanu_devotee_trigger = yes	}
+				}
+				save_scope_as = pious_woman	
+			}
+		}
+		else_if = {
+			limit = { 
+				any_child = { fp3_bibi_shahrbanu_devotee_trigger = yes	}
+			}
+			random_child = {
+				limit = { 
+					any_child = { fp3_bibi_shahrbanu_devotee_trigger = yes	}
+				}
+				save_scope_as = pious_woman	
+			}
+		}
+		else = {
+			limit = { 
+				any_courtier_or_guest = { 
+					fp3_bibi_shahrbanu_devotee_trigger = yes
+					has_relation_friend = root	
+				}
+			}
+			random_courtier_or_guest = {
+				limit = { 
+					any_courtier_or_guest = { 
+						fp3_bibi_shahrbanu_devotee_trigger = yes
+						has_relation_friend = root	
+					}
+				}
+				save_scope_as = pious_woman	
+			}
+		}
+	}
+
+	cooldown = { years = 100 }
+
+	option = {
+		name = fp3_yearly.8020.a #triggered option if you like them very very much
+
+		trigger = {
+			
+			reverse_opinion = {
+				target = scope:pious_woman
+				value >= 30
+			}
+		}
+
+		remove_short_term_gold = minor_gold_value
+
+		scope:pious_woman = { 
+			if = {
+				limit = { 
+					OR = { 
+						has_relation_lover = root
+						has_relation_soulmate = root 
+					}
+				}
+				add_opinion = {
+					target = root
+					modifier = happy_opinion
+					opinion = 20 
+				}
+			}	
+			else = {
+				root = {
+					progress_towards_lover_effect = {
+						CHARACTER = scope:pious_woman
+						REASON = lover_sided_with_me_against_hof
+						OPINION = 20 
+					}
+				}
+			}	
+		}
+
+		scope:righteous_caliph = {
+			add_opinion = { 
+				target = root
+				opinion = -30
+				modifier = angry_opinion
+			}
+		}
+
+		stress_impact = {
+   			callous = major_stress_impact_gain
+   			shy = medium_stress_impact_gain
+   			zealous = major_stress_impact_gain
+		}
+
+		ai_chance = { 
+        	base = 100
+        	ai_value_modifier = {
+            	ai_sociability = 0.5
+            	ai_boldness = 1
+            	ai_rationality = 1
+            	ai_compassion = 1
+        	}
+   		}
+	}
+
+	option = {
+		name = fp3_yearly.8020.b
+		flavor = supporting_womens_faith_flavor
+
+		remove_short_term_gold = medium_gold_value
+
+		scope:temple_county = { 
+			add_county_modifier = {
+				modifier = fp3_persian_resurgence_county_modifier 
+				years = 50
+			}
+		}
+
+		scope:righteous_caliph = {
+			add_opinion = { 
+				target = root
+				opinion = -30
+				modifier = angry_opinion
+			}
+		}
+
+		scope:pious_woman = {
+			add_opinion = { 
+				target = root
+				opinion = 20
+				modifier = happy_opinion
+			}
+		}
+
+		stress_impact = {
+   			compassionate = minor_stress_impact_loss
+   			cynical = medium_stress_impact_gain 
+   			zealous = major_stress_impact_gain
+		}
+
+		ai_chance = { 
+        	base = 100
+        	ai_value_modifier = {
+            	ai_energy = 0.5
+            	ai_boldness = 1
+            	ai_vengefulness = 0.5
+        	}
+   		}
+	}
+
+	option = {
+		name = fp3_yearly.8020.c
+
+		add_piety = major_piety_gain
+
+		scope:righteous_caliph = {
+			add_opinion = { 
+				target = root
+				opinion = 20
+				modifier = pleased_opinion
+			}
+		}
+
+		scope:pious_woman = {
+			if = {
+				limit = { #if she has a forceful personality, she'll be galvanized in her faith by this
+					fp3_assertive_female_believer_trigger = yes
+				}
+				add_character_modifier = {
+					modifier = fp3_womens_faith_galvanized_modifier
+					years = 25
+				}
+			}
+			else = { #otherwise, she'll just be sad or angry 
+				add_opinion = { 
+					target = root
+					opinion = -20
+					modifier = fp3_persecuted_my_faith_opinion
+				}
+			}
+		}
+
+		hidden_effect = {
+			custom_tooltip = fp3_sharhabanu_devotees_angry.tt
+			random_courtier = { #female courtiers might get galvanized too, depending on their personality 
+				if = { 
+					limit = {
+						fp3_bibi_shahrbanu_devotee_trigger = yes
+						fp3_assertive_female_believer_trigger = yes  
+						NOT = { this = scope:pious_woman }
+					}
+					add_character_modifier = {
+						modifier = fp3_womens_faith_galvanized_modifier
+						years = 25
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+   			zealous = minor_stress_impact_loss
+   			compassionate = medium_stress_impact_gain 
+   			content = medium_stress_impact_gain
+   			lazy = medium_stress_impact_gain
+		}
+
+		ai_chance = { 
+        	base = 100
+        	ai_value_modifier = {
+            	ai_energy = 0.5
+            	ai_boldness = 1
+            	ai_vengefulness = 0.5
+        	}
+   		}
+	}
+}
+	}
+}
+
+"common\decisions\dlc_decisions\fp_3\fp3_islamic_decisions.txt" = {
+	{
+avenge_the_battle_of_nahrawan_decision = {
+	
+	picture = "gfx/interface/illustrations/decisions/fp3/fp3_decision_supremacy.dds"
+	major = yes
+	ai_check_interval = 120
+	sort_order = 30
+
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					faith = {
+						OR = {
+							has_doctrine = tenet_fp3_fedayeen
+							has_doctrine = tenet_warmonger 
+							has_doctrine_parameter = pluralism_fundamentalist_proselytization_bonus
+						}
+					}
+				}
+				desc = destroy_the_apostates_decision_name
+			}
+			desc = avenge_the_battle_of_nahrawan_decision_name
+		}
+	}
+
+	desc = avenge_the_battle_of_nahrawan_decision_desc
+
+	selection_tooltip = avenge_the_battle_of_nahrawan_decision_tooltip
+
+	is_shown = {
+		has_fp3_dlc_trigger = yes
+		faith = { has_doctrine = muhammad_succession_muhakkima_doctrine	}
+		exists = capital_province
+		capital_province = {
+			OR = {
+				geographical_region = world_persian_empire
+				geographical_region = world_middle_east 
+			}		
+		}
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:avenge_the_battle_of_nahrawan_decision
+			}
+		}
+	}
+
+	is_valid = {
+		completely_controls_region = world_mesopotamia
+		custom_description = {
+			text = "restore_high_priesthood_holy_sites"
+			faith = {
+				any_holy_site = {
+					OR = {
+						county.holder = root
+						county.holder.top_liege = { this = root }
+					}
+					count >= 3
+				}
+			}
+		}
+		custom_description = {
+			text = avenge_the_battle_of_nahrawan_sunni_caliphate_irrelevant
+			NOT = { exists = title:d_sunni.holder }
+		}
+		custom_description = {
+			text = avenge_the_battle_of_nahrawan_shia_caliphate_irrelevant
+			NOT = { exists = title:d_shiite.holder }
+		}
+	}	
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		not = { exists = involved_activity }
+		is_imprisoned = no
+	}
+
+
+	effect = {
+		save_scope_as = avenger
+		
+		#Sunni penalty scope save
+		title:e_arabia = {
+			random_de_jure_county_holder = { #If there's a big Sunni presence in Arabia
+				limit = {
+					faith = { has_doctrine = muhammad_succession_sunni_doctrine } 
+					highest_held_title_tier = tier_empire
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_sunni_doctrine }
+					highest_held_title_tier = tier_kingdom
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_sunni_doctrine }
+					highest_held_title_tier = tier_duchy
+				}
+				faith = {
+					save_scope_as = sunni_faith
+				}
+			}
+		}
+
+		title:e_persia = {
+			random_de_jure_county_holder = { #If there's a big Sunni presence in Persia
+				limit = {
+					faith = { has_doctrine = muhammad_succession_sunni_doctrine } 
+					highest_held_title_tier = tier_empire
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_sunni_doctrine }
+					highest_held_title_tier = tier_kingdom
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_sunni_doctrine }
+					highest_held_title_tier = tier_duchy
+				}
+				faith = {
+					save_scope_as = sunni_faith
+				}
+			}
+		}
+
+		#Shia penalty scope save
+		title:e_arabia = {
+			random_de_jure_county_holder = { #If there's a big Shia presence in Arabia
+				limit = {
+					faith = { has_doctrine = muhammad_succession_shia_doctrine } 
+					highest_held_title_tier = tier_empire
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_shia_doctrine }
+					highest_held_title_tier = tier_kingdom
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_shia_doctrine }
+					highest_held_title_tier = tier_duchy
+				}
+				faith = {
+					save_scope_as = shia_faith
+				}
+			}
+		}
+
+		#Shia penalty scope save
+		title:e_persia = {
+			random_de_jure_county_holder = { #If there's a big Shia presence in Persia
+				limit = {
+					faith = { has_doctrine = muhammad_succession_shia_doctrine } 
+					highest_held_title_tier = tier_empire
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_shia_doctrine }
+					highest_held_title_tier = tier_kingdom
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_shia_doctrine }
+					highest_held_title_tier = tier_duchy
+				}
+				faith = {
+					save_scope_as = shia_faith
+				}
+			}
+		}
+
+		show_as_tooltip = { avenge_the_battle_of_nahrawan_scripted_effect = yes } #Actually applied in fp3_decision.0011 - Prestige, religion bonuses
+
+		#Events
+		trigger_event = fp3_decision.0011
+		every_player = {
+			limit = {
+				NOT = { this = scope:avenger }
+				is_within_diplo_range = { CHARACTER = scope:avenger }
+			}
+			trigger_event = fp3_decision.0012
+		}
+
+		#Can only be done once
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:avenge_the_battle_of_nahrawan_decision
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+	}
+}
+
+"events\dlc\fp3\fp3_religious_decision_events.txt" = {
+	{
+fp3_decision.0011 = { 
+	type = character_event
+	title = fp3_decision.0011.t
+	desc = {
+		desc = fp3_decision.0011_opening.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					faith = {
+						OR = {
+							has_doctrine = tenet_fp3_fedayeen
+							has_doctrine = tenet_warmonger 
+							has_doctrine_parameter = pluralism_fundamentalist_proselytization_bonus
+						}
+					}
+				}
+				desc = fp3_decision.0011_fanatic_murderer.desc
+			}
+			desc = fp3_decision.0011_unfanatic_unmurderer.desc
+		}
+	}
+
+
+	theme = war
+	left_portrait = {
+		character = scope:avenger
+		animation = war_over_win
+	}
+
+	override_background = { reference = battlefield }
+
+	immediate = {
+		play_music_cue = "mx_cue_combat_2"
+
+		character:33911 = { save_scope_as = ali }
+		character:163029 = { save_scope_as = muawiya }
+	}
+
+	option = {
+		name = fp3_decision.0011.a	
+
+		avenge_the_battle_of_nahrawan_scripted_effect = yes	
+
+		stress_impact = {  
+			zealous = major_stress_impact_loss
+			vengeful = major_stress_impact_loss
+			ambitious = medium_stress_impact_loss
+		}
+	}
+}
 	}
 }
