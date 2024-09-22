@@ -35,6 +35,17 @@ after_bookmark_date = {
 	# Characters referenced in achievements:
 	109607
 	
+	# Characters eferenced in events\dlc\fp2\fp2_el_cid_events.txt:
+	107590 # El Cid
+	
+	# Characters referenced in events\dlc\fp3\fp3_struggle_events.txt:
+	34010
+    34012
+    34013
+    34014
+    34005
+    33911
+	
 	# Easter egg characters:
 	easteregg_veronica_pazos
 	easteregg_jakub_potapczyk
