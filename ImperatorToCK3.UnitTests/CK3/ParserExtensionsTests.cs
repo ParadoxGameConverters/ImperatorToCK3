@@ -61,17 +61,17 @@ public class ParserExtensionsTests {
 				}
 			}
 			""");
-		
+
 		int? value = null;
 		Dictionary<string, bool> modFlags = new();
-		
+
 		var parser1 = new Parser();
 		parser1.RegisterModDependentBloc(modFlags);
 		parser1.RegisterKeyword("value", reader => value = reader.GetInt());
 		Assert.Throws<NCalc.Exceptions.NCalcParameterNotDefinedException>(() => parser1.ParseStream(reader1));
 		Assert.Null(value);
 	}
-	
+
 	[Fact]
 	public void VariableConditionResolvesToFalseWhenVariableIsNotDefined() {
 		var reader1 = new BufferedReader(
@@ -84,10 +84,10 @@ public class ParserExtensionsTests {
 				}
 			}
 			""");
-		
+
 		int? value = null;
 		Dictionary<string, bool> modFlags = new();
-		
+
 		var parser1 = new Parser();
 		parser1.RegisterModDependentBloc(modFlags);
 		parser1.RegisterKeyword("value", reader => value = reader.GetInt());

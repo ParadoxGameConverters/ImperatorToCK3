@@ -16,7 +16,7 @@
 # ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL ON-ACTION FILE.
 # OTHERWISE THE BLOCK WON'T BE REMOVED!
 
-"TFE_game_start.txt" = {
+"common/on_action/TFE_game_start.txt" = {
 	# Struggle starts
 	{
 		if = {
@@ -383,7 +383,7 @@
 	}
 }
 
-"sea_minority_game_start.txt" = {
+"common/on_action/sea_minority_game_start.txt" = {
 	{
 		# Alans
 		if = {
@@ -404,7 +404,7 @@
 	}
 }
 
-"government_change_on_actions.txt" = {
+"common/on_action/government_change_on_actions.txt" = {
 	{
 						NOT = {
 							THIS = character:taifal_01
@@ -510,7 +510,7 @@
 	}
 }
 
-"tribs_on_action.txt" = {
+"common/on_action/tribs_on_action.txt" = {
 	{
 		if = {
 			limit = {
@@ -1677,5 +1677,1228 @@
 				}
 			}
 		}
+	}
+}
+
+"common/on_action/TFE_title_on_actions.txt" = {
+	{
+		if = {
+			limit = {
+				scope:title = title:k_ostrogoths
+				root = { is_greek_or_roman = no }
+				NOT = { exists = global_var:gothic_war_won }
+				character:992020 = {
+					is_alive = yes
+					NOT = {
+						THIS = root.mother
+					}
+				}
+				OR = {
+					debug_log_details = "Check Conditions"
+					#root = { has_active_diarchy = yes }
+					#scope:title.holder = { has_active_diarchy = yes }
+					root = { diarch = character:992020 }
+					scope:title.holder = { diarch = character:992020 }
+					#character:992020 = { is_diarch = yes }
+					#character:992020 = { is_designated_diarch = yes }
+					character:992020 = { is_diarch_of_target = root }
+					character:992020 = { is_diarch_of_target = scope:title.holder }
+				}
+			}
+			scope:title.holder = {
+				trigger_event = {
+					id = germanic_events.0019
+					days = 1
+				}
+			}
+		}
+	}
+}
+
+"common/on_action/TFE_yearly_on_actions.txt" = {
+	{
+		if = {
+			limit = {
+				current_date > 400.1.1
+				current_date < 450.1.1
+				NOT = { has_global_variable = attila_spawn }
+				title:e_hunnic_empire.holder = {
+					is_adult = yes
+				}
+			}
+			random = {
+				chance = 30
+				modifier = {
+					add = 20
+					current_date >= 405.1.1
+				}
+				modifier = {
+					add = 20
+					current_date >= 410.1.1
+				}
+				modifier = {
+					add = 10
+					current_date >= 415.1.1
+				}
+				set_global_variable = {
+					name = attila_spawn
+					value = yes
+				}
+				trigger_event = {
+					id = steppe.6666
+					days = { 1 2 }
+				}
+			}
+		}
+		if = {
+			limit = {
+				current_date > 533.1.1
+				NOT = { has_global_variable = gothic_war_cycle_active }
+				exists = title:e_byzantium.holder
+				exists = title:k_ostrogoths.holder
+				exists = title:k_italy.holder
+				title:k_ostrogoths.holder = title:k_italy.holder
+				title:k_ostrogoths.holder = {
+					is_independent_ruler = yes
+				}
+				character:992020 = {
+					is_alive = yes
+					liege = title:k_ostrogoths.holder
+				}
+				title:k_ostrogoths.holder = {
+					has_active_diarchy = yes
+					diarch = character:992020
+				}
+			}
+			random = {
+				chance = 10
+				modifier = {
+					add = 10
+					current_date >= 534.1.1
+				}
+				modifier = {
+					add = 10
+					current_date >= 535.1.1
+				}
+				modifier = {
+					add = 15
+					current_date >= 536.1.1
+				}
+				modifier = {
+					add = 15
+					current_date >= 537.1.1
+				}
+				modifier = {
+					add = 15
+					current_date >= 538.1.1
+				}
+				title:e_byzantium.holder = {
+					trigger_event = {
+						id = germanic_events.0032
+						days = 1
+					}
+				}
+				set_global_variable = {
+					name = gothic_war_cycle_active
+					value = yes
+				}
+				set_global_variable = {
+					name = amalasuntha_coup_unlock
+					value = yes
+				}
+			}
+		}
+		if = {
+			limit = {
+				current_date > 533.1.1
+				NOT = { exists = title:k_ostrogoths.holder }
+				exists = title:e_byzantium.holder
+				has_global_variable = gothic_war_won
+				#NOT = { has_global_variable = has_eternal_peace }
+				NOT = { has_global_variable = gothic_war_stalemate }
+				title:e_byzantium.holder = {
+					any_vassal_or_below = {
+						culture = { has_cultural_pillar = heritage_east_germanic }
+						any_held_title = {
+							OR = {
+								tier = tier_county
+								tier = tier_duchy
+							}
+							OR = {
+								kingdom = title:k_italy
+								kingdom = title:k_italia_annonariae
+								kingdom = title:k_italia_suburbicariae
+							}
+						}
+					}
+				}
+			}
+			random = {
+				chance = 20
+				modifier = {
+					add = 10
+					current_date >= 540.1.1
+				}
+				modifier = {
+					add = 10
+					current_date >= 545.1.1
+				}
+				modifier = {
+					add = 10
+					current_date >= 550.1.1
+				}
+				modifier = {
+					add = 30
+					character:992029 = {
+						is_alive = yes
+						age > 15
+						OR = {
+							is_landed = yes
+							title:e_byzantium.holder = {
+								any_vassal_or_below = {
+									exists = primary_heir
+									primary_heir = character:992029
+								}
+							}
+						}
+						top_liege = title:e_byzantium.holder
+					}
+				}
+				trigger_event = {
+					id = germanic_events.0028
+					days = 1
+				}
+			}
+		}
+	}
+	
+	{
+		if = {
+			limit = {
+				AND = {
+					game_start_date <= 406.1.1
+					current_date >= 406.1.1
+					NOT = { exists = global_var:marcus_usurper }
+					title:e_western_roman_empire = {
+						is_title_created = yes
+					}
+					title:e_western_roman_empire = {
+						OR = {
+							any_in_de_facto_hierarchy = {
+								THIS = title:k_britannia
+							}
+							holder = {
+								has_title = title:k_britannia
+							}
+						}
+					}
+					character:BUsuprer_01 = {
+						is_alive = yes
+						NOT = {
+							has_title = title:k_britannia
+						}
+					}
+				}
+			}
+			
+			character:BUsuprer_01 = {
+				trigger_event = briton.0008
+				set_global_variable = {
+					name = marcus_usurper
+					value = yes
+				}
+			}
+		}
+	}
+	
+	{
+		if = {
+			limit = {
+				current_date >= 400.1.1
+				NOT = { has_global_variable = radagaisus_has_invaded }
+				current_date <= 410.1.1
+				NOT = { exists = title:k_goths.holder }
+				character:radagaisian_02 = {
+					is_alive = yes
+				}
+			}
+			random = {
+				chance = 5
+				modifier = {
+					add = 15
+					current_date >= 401.1.1
+				}
+				modifier = {
+					add = 30
+					current_date >= 403.1.1
+				}
+				modifier = {
+					add = 40
+					current_date >= 405.1.1
+				}
+				modifier = {
+					add = 10
+					current_date >= 406.1.1
+				}
+				set_global_variable = {
+					name = radagaisus_has_invaded
+					value = yes
+				}
+				trigger_event = {
+					id = gothic_wars.0011
+					days = { 30 50 }
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				current_date >= 400.1.1
+				has_global_variable = radagaisus_has_invaded
+				NOT = { has_global_variable = goth_migrations }
+				current_date <= 420.1.1
+			}
+			random = {
+				chance = 20
+				modifier = {
+					add = 10
+					current_date >= 405.1.1
+				}
+				modifier = {
+					add = 20
+					current_date >= 407.1.1
+				}
+				modifier = {
+					add = 40
+					current_date >= 409.1.1
+				}
+				modifier = {
+					add = 10
+					current_date >= 411.1.1
+				}
+				set_global_variable = {
+					name = goth_migrations
+					value = yes
+				}
+				trigger_event = gothic_wars.0022
+				trigger_event = gothic_wars.0023
+				trigger_event = gothic_wars.0024
+				trigger_event = gothic_wars.0025
+			}
+		}
+
+		if = {
+			limit = {
+				game_start_date = 476.9.4
+				NOT = { has_global_variable = clovis_invasion }
+				OR = {
+					AND = {
+						character:997004 = {
+							is_alive = yes
+							is_landed = yes
+							is_independent_ruler = yes
+							NOT = {
+								has_title = title:k_france
+							}
+							trigger_if = {
+								limit = {
+									title:k_france = {
+										is_title_created = yes
+									}
+								}
+								NOT = {
+									OR = {
+										is_allied_to = title:k_france.holder
+										AND = {
+											exists = var:my_suzerain
+											var:my_suzerain = title:k_france.holder
+											var:my_suzerain = {
+												OR = {
+													is_target_in_variable_list = { name = non_permanent_tributaries target = prev }
+													is_target_in_variable_list = { name = permanent_tributaries target = prev }
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+						character:997005 = {
+							NOT = {
+								has_title = title:k_france
+							}
+						}
+					}
+					AND = {
+						character:997005 = {
+							is_alive = yes
+							is_landed = yes
+							is_independent_ruler = yes
+							NOT = {
+								has_title = title:k_france
+							}
+						}
+						character:997004 = {
+							NOT = {
+								has_title = title:k_france
+							}
+						}
+					}
+				}
+				AND = {
+					title:k_france = {
+						is_title_created = yes
+					}
+					title:k_france.holder = {
+						culture = culture:gallo_roman
+					}
+				}
+				current_date <= 500.1.1
+			}
+			random = {
+				chance = 0
+				modifier = {
+					add = 5
+					current_date >= 478.1.1
+				}
+				modifier = {
+					add = 10
+					current_date >= 479.1.1
+				}
+				modifier = {
+					add = 35
+					current_date >= 480.1.1
+				}
+				modifier = {
+					add = 50
+					current_date >= 481.1.1
+				}
+				set_global_variable = {
+					name = clovis_invasion
+					value = yes
+				}
+				if = {
+					limit = {
+						character:997004 = {
+							is_alive = yes
+							is_landed = yes
+							is_independent_ruler = yes
+						}
+					}
+					character:997004 = {
+						trigger_event = germanic_events.0003
+					}
+				}
+				else_if = {
+					limit = {
+						character:997005 = {
+							is_alive = yes
+							is_landed = yes
+							is_independent_ruler = yes
+						}
+					}
+					character:997005 = {
+						trigger_event = germanic_events.0003
+					}
+				}
+			}
+		}
+	}
+}
+
+"common/on_action/death.txt" = {
+	{
+		# Fix gods-damned Bavaria splitting from East Francia in an ugly fashion in 867.
+		if = {
+			limit = {
+				# Make sure we're looking at the right guy & that the circumstances haven't changed too much.
+				this = character:90107
+				highest_held_title_tier = tier_kingdom
+				has_realm_law = confederate_partition_succession_law
+				# Bavaria should be in a fit state for interfering with the handout order.
+				title:k_bavaria = {
+					OR = {
+						is_title_created = no
+						holder = root
+					}
+					any_in_de_jure_hierarchy = {
+						tier = tier_county
+						# More than 50%.
+						count >= 22
+						holder = {
+							any_liege_or_above = { this = root }
+						}
+					}
+				}
+				NOT = { has_primary_title = title:k_bavaria }
+				# Players can sort this themselves: you just need to have Bavaria as your primary title and it's all fine.
+				is_ai = yes
+			}
+			# If we've got no Bavaria, create it.
+			if = {
+				limit = {
+					title:k_bavaria = { is_title_created = no }
+				}
+				create_title_and_vassal_change = {
+					type = created
+					save_scope_as = change
+				}
+				title:k_bavaria = {
+					change_title_holder = {
+						holder = root
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+			}
+			# Then switch around.
+			set_primary_title_to = title:k_bavaria
+		}
+	}
+}
+
+"common/on_action/diarchy_on_action.txt" = {
+	{
+		if = {
+			limit = {
+				scope:old_diarch = character:992020
+				exists = title:e_byzantium.holder
+				NOT = { has_global_variable = gothic_war_cycle_active }
+				NOT = { has_global_variable = gothic_war_cycle_prep }
+			}
+			if = {
+				limit = {
+					character:992020 = {
+						is_alive = no
+					}
+				}
+				title:e_byzantium.holder = {
+					trigger_event = {
+						id = germanic_events.0023
+						days = 1
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					root = {
+						mother = character:992020
+					}
+				}
+				root = {
+					trigger_event = {
+						id = germanic_events.0021
+						days = 1
+					}
+				}
+				title:e_byzantium.holder = {
+					trigger_event = {
+						id = germanic_events.0022
+						days = 1
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					NOT = {
+						root = {
+							mother = character:992020
+						}
+					}
+				}
+				root = {
+					trigger_event = {
+						id = germanic_events.0020
+						days = 1
+					}
+				}
+				title:e_byzantium.holder = {
+					trigger_event = {
+						id = germanic_events.0022
+						days = 1
+					}
+				}
+			}
+		}
+	}
+}
+
+"common/on_action/title_on_actions.txt" = {
+	{
+		# Am I The Chad?
+		if = {
+			limit = { root = character:easteregg_chad_uhl }
+			set_house = house:house_chad_uhl
+		}
+	}
+}
+
+"common/scripted_triggers/tfe_culture_triggers.txt" = {
+	{
+		dynasty = dynasty:nuvelan
+	}
+}
+
+"gfx/portraits/portrait_modifiers/50_hairstyles_scripted_characters.txt" = {
+	{
+            	modifier = {
+               	add = 999
+                exists = this
+		        exists = character:aksum_17 #eon
+		        this = character:aksum_17 #eon
+	        }
+	}
+	{
+            	modifier = {
+               	add = 999
+                exists = this
+		        exists = character:himyarite_30 #Abraha
+		        this = character:himyarite_30 #Abraha
+	        }
+	}
+	{
+            modifier = {
+                add = 999
+		        exists = this
+                exists = character:142 #robert_curthose
+                this = character:142 #robert_curthose
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:70515  #Zeno
+                this = character:70515  #Zeno
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:vigg_04 #Hengest
+                this = character:vigg_04 #Hengest
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:syagri_06 #Syagrus
+                this = character:syagri_06 #Syagrus
+            }
+	}
+	{
+	    modifier = {
+                add = 999
+                exists = this
+                exists = character:rugian_03 #Feletheus
+                this = character:rugian_03 #Feletheus
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+				exists = character:6878 #jarl_haesteinn
+				this = character:6878 #jarl_haesteinn
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:aelling_01 #Aelle
+                this = character:aelling_01 #Aelle
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+				exists = character:6448 #count_eudes
+				this = character:6448 #count_eudes
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:107500 #king_sancho
+                this = character:107500 #king_sancho
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:214 #king_philippe
+                this = character:214 #king_philippe
+            }
+	}
+}
+
+"common\casus_belli_types\TFE_event_wars.txt" = {
+	{
+							NOT = { THIS = character:vandals_012 }
+	}
+	{
+			if = {
+				limit = {
+					character:armenian_02 = {
+						is_alive = yes
+					}
+				}
+				add_courtier = character:armenian_02
+			}
+	}
+}
+
+"common\decisions\TFE_major_decisions_south_asia.txt" = {
+	{
+# Restore the main branch of the Vakataka Dynasty
+
+reclaim_vakataka_decision = {
+	picture = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
+
+	desc = reclaim_vakataka_decision_desc
+	selection_tooltip = reclaim_vakataka_decision_tooltip
+	major = yes
+
+	ai_check_interval = 120
+
+	is_shown = {
+		dynasty = dynasty:900024
+		NOT = { house = character:900900.house } #Not a member of the OG Vakatakas
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:reclaim_vakataka_decision
+			}
+		}
+	}
+
+	is_valid = {
+		is_independent_ruler = yes
+		prestige_level >= 4
+		completely_controls = title:k_maharastra
+		completely_controls = title:k_telingana
+		completely_controls = title:k_karnata
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		is_landed = yes
+	}
+	
+	cost = {
+		prestige = 850
+		piety = 500
+	}
+
+	effect = {
+		hidden_effect = { ROOT.house = { every_house_member = { set_house = character:900900.house } } }
+		set_house = character:900900.house
+		add_pressed_claim = title:e_deccan
+		add_pressed_claim = title:k_gondwana
+		add_pressed_claim = title:d_jejakabhukti
+		add_pressed_claim = title:d_akara_dasarna
+		save_scope_as = founder
+		trigger_event = {
+			id = tfe_south_asia_decision.2001
+			}
+		#Notify other Vakatakas
+		every_player = {
+			limit = {
+				dynasty = dynasty:900024
+			}
+			trigger_event = tfe_south_asia_decision.2002
+			}
+		}
+
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:reclaim_vakataka_decision
+			}
+		}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+	}
+	{
+#Restore the Three Crowned Kings
+muvendhar_restoration_decision = {
+	picture = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
+
+	desc = muvendhar_restoration_decision_desc
+	selection_tooltip = muvendhar_restoration_decision_tooltip
+	major = yes
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		OR = {
+			culture = culture:tamil
+			culture = culture:malaiya
+			culture = culture:sinhala
+			culture = { any_parent_culture_or_above = { this = culture:tamil }}
+			culture = { any_parent_culture_or_above = { this = culture:malaiya }}
+			culture = { any_parent_culture_or_above = { this = culture:sinhala }}
+		}
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:muvendhar_restoration_decision
+			}
+		}
+	}
+	
+	is_valid = {
+		is_independent_ruler = yes
+		has_title = title:k_tamilakam
+		prestige_level >= 3
+		title:d_chola_nadu.holder.dynasty = dynasty:1043008
+		title:d_pandya_nadu.holder.dynasty = dynasty:1043009
+		title:d_chera_nadu.holder.dynasty = dynasty:1043010
+		NOT = { dynasty = dynasty:900026 }
+		completely_controls = title:d_chola_nadu
+		completely_controls = title:d_pandya_nadu
+		completely_controls = title:d_chera_nadu
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+	}
+
+	cost = {
+		prestige = 750
+		piety = 500
+	}
+
+	effect = {
+		if = {
+			limit = {
+				NOR = {
+					dynasty = dynasty:1043008
+					dynasty = dynasty:1043009
+					dynasty = dynasty:1043010
+				}
+			}
+			dynasty = { add_dynasty_prestige = 500 }
+		}
+		dynasty:1043008 = { add_dynasty_prestige = 500 }
+		dynasty:1043009 = { add_dynasty_prestige = 500 }
+		dynasty:1043010 = { add_dynasty_prestige = 500 }
+		save_scope_as = founder
+		trigger_event = tfe_south_asia_decision.4001
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:muvendhar_restoration_decision
+			}
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+	}
+}
+
+"common\decisions\TFE_rome_decisions.txt" = {
+	{
+recall_belisarius = {
+	picture = "gfx/interface/illustrations/decisions/decision_roman_knight.dds"
+	major = yes
+
+	ai_check_interval = 12
+
+	desc = recall_belisarius_desc
+	selection_tooltip = recall_belisarius_tooltip
+
+	is_shown = {
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:recall_belisarius
+			}
+		}
+		OR = {
+			root = global_var:justinian
+			has_trait = paranoid
+		}
+		has_global_variable = vandalic_war_won
+		current_date >= 530.1.1
+		current_date <= 600.1.1
+		character:belisarius_001 = title:k_africae.holder
+		game_start_date = 532.2.1
+	}
+
+	is_valid = {
+		OR = {
+			has_title = title:e_byzantium
+			has_title = title:e_roman_empire
+		}
+		exists = title:k_africae.holder
+		title:k_africae.holder = {
+			is_vassal_of = root
+		}
+	}
+
+	effect = {
+		root = {
+			save_scope_as = emperor
+		}
+		title:k_africae.holder = {
+			save_scope_as = belisarius
+		}
+		custom_tooltip = recall_belisarius_warning
+		character:belisarius_001 = {
+			add_opinion = {
+				modifier = angry_opinion
+				target = root
+				opinion = -20
+			}
+			trigger_event = {
+				id = western_roman.0044
+				days = 1
+			}
+		}
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:recall_belisarius
+		}
+	}
+
+	cost = {
+		prestige = {
+			if = {
+				limit = {
+					is_ai = no
+				}
+				add = {
+					value = 500
+				}
+			}
+		}
+		gold = {
+			if = {
+				limit = {
+					is_ai = no
+				}
+				add = {
+					value = 250
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+		is_at_war = no
+	}
+	ai_will_do = {
+		base = 100
+	}
+}
+	}
+	
+	{
+start_amalasuntha_coup = {
+	picture = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds"
+	major = yes
+
+	ai_check_interval = 1
+
+	desc = start_amalasuntha_coup_desc
+	selection_tooltip = start_amalasuntha_coup_tooltip
+
+	is_shown = {
+		OR = {
+			has_title = title:e_byzantium
+			has_title = title:e_roman_empire
+		}
+		NOT = {
+			exists = global_var:gothic_war_declared
+		}
+		exists = global_var:amalasuntha_coup_unlock
+		current_date >= 530.1.1
+		current_date <= 600.1.1
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:started_gothic_war
+			}
+		}
+		character:992020 = {
+			is_alive = yes
+			liege = title:k_ostrogoths.holder
+		}
+		title:k_ostrogoths.holder = {
+			has_active_diarchy = yes
+			diarch = character:992020
+		}
+		game_start_date = 532.2.1
+	}
+
+	is_valid = {
+		trigger_if = {
+			limit = {
+				is_ai = yes
+			}
+			is_at_war = no
+		}
+		trigger_if = {
+			limit = {
+				is_ai = yes
+				character:belisarius_001 = {
+					is_ai = no
+				}
+			}
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:recall_belisarius
+			}
+		}
+	}
+
+	effect = {
+		root = {
+			save_scope_as = emperor
+			trigger_event = {
+				id = germanic_events.0033
+				days = 1
+			}
+		}
+		custom_tooltip = gothic_war_belisarius_warning
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:started_gothic_war
+		}
+	}
+
+	cost = {
+		prestige = {
+			if = {
+				limit = {
+					is_ai = no
+				}
+				add = {
+					value = 250
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+		always = yes
+	}
+	ai_will_do = {
+		base = 100
+	}
+}
+
+	}
+	
+	{
+vandalic_war = {
+	picture = "gfx/interface/illustrations/decisions/decision_vandalic_war.dds"
+	major = yes
+
+	ai_check_interval = 12
+
+	desc = vandalic_war_desc
+	selection_tooltip = vandalic_war_tooltip
+
+	is_shown = {
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:vandalic_war
+			}
+		}
+		exists = title:k_vandals
+		has_title = title:e_byzantium
+		current_date >= 530.1.1
+		game_start_date = 532.2.1
+		OR = {
+			character:vandals_005 = {
+				is_alive = yes
+			}
+			AND = {
+				current_date <= 550.1.1
+				any_courtier = {
+					has_claim_on = title:k_vandals
+				}
+			}
+		}
+	}
+
+	effect = {
+		custom_tooltip = vandalic_war_decision_1
+		custom_tooltip = vandalic_war_decision_2
+		custom_tooltip = vandalic_war_decision_3
+
+		hidden_effect = {
+			every_vassal = {
+				add_opinion = {
+					modifier = respect_opinion
+					target = root
+					opinion = -20
+				}
+			}
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:vandalic_war
+			}
+			trigger_event = {
+				id = western_roman.0039
+				days = 1
+			}
+		}
+	}
+
+	cost = {
+		prestige = {
+			if = {
+				limit = {
+					is_ai = no
+				}
+				add = {
+					value = 750
+				}
+			}
+		}
+		gold = {
+			if = {
+				limit = {
+					is_ai = no
+				}
+				add = {
+					value = 250
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+		is_at_war = no
+	}
+	ai_will_do = {
+		base = 100
+	}
+
+}
+	}
+}
+
+
+"common/decisions/tfe_culture_decisions.txt" = {
+	{
+dong_zhuo_culture_decision = {
+	ai_check_interval = 0
+	is_shown = {
+		has_game_rule = larp_enabled
+		NOT = {
+			culture = {
+				this = culture:soissons
+			}
+		}
+		dynasty = dynasty:syagri
+		game_start_date = 395.1.17
+	}
+	is_valid = {
+		culture = { has_cultural_pillar = heritage_levantine }
+		custom_description = {
+			text = soissonstrigger1
+			culture = { any_parent_culture_or_above = { this = culture:han } }
+		}
+		dynasty = dynasty:syagri
+		has_title = title:k_israel
+		custom_description = {
+			text = soissonstrigger2
+			current_date = 690.4.20
+		}
+	}
+	effect = {
+		save_scope_as = soi
+		#Convert your, and your whole family's, culture
+		set_culture = culture:soissons
+		add_prestige = 10000
+		hidden_effect = {
+			if = {
+				limit = { any_spouse = { is_landed = no } }
+				every_spouse = {
+					limit = {
+						is_landed = no
+					}
+					set_culture = culture:soissons
+				}
+			}
+			if = {
+				limit = {
+					any_close_family_member = {
+						is_landed = no
+						NOT = { is_spouse_of = root }
+					}
+				}
+				every_close_family_member = {
+					limit = {
+						is_landed = no
+						NOT = { is_spouse_of = root }
+					}
+					custom = all_unlanded_family_members
+					set_culture = culture:soissons
+				}
+			}
+
+			#Convert appropriate vassals, and their family
+			if = {
+				limit = {
+					any_vassal_or_below = {
+						is_ai = yes
+					}
+				}
+				every_vassal_or_below = {
+					limit = {
+						is_ai = yes
+					}
+					set_culture = culture:soissons
+				}
+			}
+
+			#Flip Counties
+			every_realm_county = {
+				set_county_culture = culture:soissons
+			}
+
+			culture:soissons = {
+				hidden_effect = {
+					reset_culture_creation_date = yes
+					get_all_innovations_from = culture:han
+					get_all_innovations_from = culture:hebrew
+				}
+			}
+
+			trigger_event = tfe_culture.9900
+		}
+	}
+	cost = { gold = 69 }
+}
 	}
 }

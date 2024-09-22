@@ -188,16 +188,4 @@ public static class CulturesOutputter {
 		outputFilePath = Path.Join(outputModPath, errorSuppressionRelativePath);
 		File.WriteAllText(outputFilePath, newContent.ToString(), Encoding.UTF8);
 	}
-	
-	public static async Task OutputCultureCreationNames(string outputModPath, CultureCollection cultures) {
-		Logger.Info("Outputting culture creation names...");
-		var sb = new StringBuilder();
-		foreach (var (id, stringOfItem) in cultures.CultureCreationNames) {
-			sb.AppendLine($"{id} = {stringOfItem}");
-		}
-
-		var outputPath = Path.Combine(outputModPath, "common/culture/creation_names/IRToCK3_culture_creation_names.txt");
-		await using var output = FileHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
-		await output.WriteAsync(sb.ToString());
-	}
 }

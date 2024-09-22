@@ -1,6 +1,7 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
+using ImperatorToCK3.CK3.Cleanup;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
@@ -15,96 +16,8 @@ public static class OnActionOutputter {
 		await OutputCustomGameStartOnAction(config);
 		if (config.FallenEagleEnabled) {
 			await DisableUnneededFallenEagleOnActionFiles(outputModPath);
-			await RemoveUnneededPartsOfFallenEagleOnActions(ck3ModFS, outputModPath);
-		} else if (!config.WhenTheWorldStoppedMakingSenseEnabled) { // vanilla
-			await RemoveUnneededPartsOfVanillaOnActions(ck3ModFS, outputModPath);
 		}
 		Logger.IncrementProgress();
-	}
-
-	private static async Task RemoveUnneededPartsOfVanillaOnActions(ModFilesystem ck3ModFS, string outputModPath) {
-		Logger.Info("Removing unneeded parts of vanilla on-actions...");
-		await RemovePartsOfOnActions("configurables/removable_on_action_blocks.txt", ck3ModFS, outputModPath);
-	}
-
-	private static async Task RemovePartsOfOnActions(string configurablePath, ModFilesystem ck3ModFS, string outputModPath) {
-		// Load removable blocks from configurables.
-		Dictionary<string, string[]> partsToRemovePerFile = [];
-		var parser = new Parser();
-		parser.RegisterRegex(CommonRegexes.String, (reader, fileName) => {
-			var blocksToRemove = new BlobList(reader).Blobs.Select(b => b.Trim()).ToArray();
-			partsToRemovePerFile[fileName] = blocksToRemove;
-		});
-		parser.RegisterRegex(CommonRegexes.QuotedString, (reader, fileNameInQuotes) => {
-			var blocksToRemove = new BlobList(reader).Blobs.Select(b => b.Trim()).ToArray();
-			partsToRemovePerFile[fileNameInQuotes.RemQuotes()] = blocksToRemove;
-		});
-		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseFile(configurablePath);
-		
-		// Log count of blocks to remove for each file.
-		foreach (var (file, partsToRemove) in partsToRemovePerFile) {
-			Logger.Debug($"Loaded {partsToRemove.Length} blocks to remove from {file}.");
-		}
-
-		foreach (var (file, partsToRemove) in partsToRemovePerFile) {
-			var relativePath = Path.Join("common/on_action", file);
-			var inputPath = ck3ModFS.GetActualFileLocation(relativePath);
-			if (!File.Exists(inputPath)) {
-				Logger.Debug($"{relativePath} not found.");
-				return;
-			}
-
-			string lineEndings = GetLineEndingsInFile(inputPath);
-			
-			var fileContent = await File.ReadAllTextAsync(inputPath);
-
-			foreach (var block in partsToRemove) {
-				// If the file uses other line endings than CRLF, we need to modify the search string.
-				string searchString;
-				if (lineEndings == "LF") {
-					searchString = block.Replace("\r\n", "\n");
-				} else if (lineEndings == "CR") {
-					searchString = block.Replace("\r\n", "\r");
-				} else {
-					searchString = block;
-				}
-				
-				// Log if the block is not found.
-				if (!fileContent.Contains(searchString)) {
-					Logger.Warn($"Block not found in file {relativePath}: {searchString}");
-					continue;
-				}
-				
-				fileContent = fileContent.Replace(searchString, "");
-			}
-
-			var outputPath = $"{outputModPath}/{relativePath}";
-			await using var output = FileHelper.OpenWriteWithRetries(outputPath);
-			await output.WriteAsync(fileContent);
-		}
-	}
-	
-	private static string GetLineEndingsInFile(string filePath) {
-		using StreamReader sr = new StreamReader(filePath);
-		bool returnSeen = false;
-		while (sr.Peek() >= 0) {
-			char c = (char)sr.Read();
-			if (c == '\n') {
-				return returnSeen ? "CRLF" : "LF";
-			}
-			else if (returnSeen) {
-				return "CR";
-			}
-
-			returnSeen = c == '\r';
-		}
-
-		if (returnSeen) {
-			return "CR";
-		} else {
-			return "LF";
-		}
 	}
 
 	public static async Task OutputCustomGameStartOnAction(Configuration config) {
@@ -178,17 +91,11 @@ public static class OnActionOutputter {
 		var onActionsToDisable = new OrderedSet<string> {
 			"sevenhouses_on_actions.txt",
 			"senate_tasks_on_actions.txt",
-			"tfe_struggle_on_actions.txt",
 		};
 		foreach (var filename in onActionsToDisable) {
 			var filePath = $"{outputModPath}/common/on_action/{filename}";
 			await using var writer = new StreamWriter(filePath, append: false, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
 			await writer.WriteLineAsync("# disabled by IRToCK3");
 		}
-	}
-
-	private static async Task RemoveUnneededPartsOfFallenEagleOnActions(ModFilesystem ck3ModFS, string outputModPath) {
-		Logger.Info("Removing unneeded parts of Fallen Eagle on-actions...");
-		await RemovePartsOfOnActions("configurables/removable_on_action_blocks_tfe.txt", ck3ModFS, outputModPath);
 	}
 }

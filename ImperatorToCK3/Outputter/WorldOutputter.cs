@@ -1,12 +1,16 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
 using commonItems.Serialization;
+using DotLiquid;
 using ImperatorToCK3.CK3;
+using ImperatorToCK3.CK3.Cleanup;
 using ImperatorToCK3.CK3.Legends;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Exceptions;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,20 +19,19 @@ namespace ImperatorToCK3.Outputter;
 
 public static class WorldOutputter {
 	public static void OutputWorld(World ck3World, Imperator.World imperatorWorld, Configuration config) {
-		ClearOutputModFolder(config);
-
 		var outputName = config.OutputModName;
 		var outputPath = Path.Combine("output", config.OutputModName);
+		
+		// The output mod folder has already been prepared while processing the CK3 world.
 
-		CreateModFolder(outputPath);
 		OutputModFile(outputName);
 
 		CreateFolders(outputPath);
 
-		CopyBlankModFilesToOutput(outputPath);
-
 		Task.WaitAll(
-			CharactersOutputter.OutputEverything(outputPath, ck3World.Characters, ck3World.CorrectedDate, ck3World.ModFS),
+			FileTweaker.RemoveUnneededPartsOfFiles(ck3World.ModFS, outputPath, config),
+			
+			CharactersOutputter.OutputEverything(outputPath, ck3World.Characters, ck3World.CorrectedDate, config.CK3BookmarkDate, ck3World.ModFS),
 			DynastiesOutputter.OutputDynastiesAndHouses(outputPath, ck3World.Dynasties, ck3World.DynastyHouses),
 
 			ProvincesOutputter.OutputProvinces(outputPath, ck3World.Provinces, ck3World.LandedTitles),
@@ -36,7 +39,6 @@ public static class WorldOutputter {
 
 			PillarOutputter.OutputPillars(outputPath, ck3World.CulturalPillars),
 			CulturesOutputter.OutputCultures(outputPath, ck3World.Cultures, ck3World.ModFS, config, ck3World.CorrectedDate),
-			CulturesOutputter.OutputCultureCreationNames(outputPath, ck3World.Cultures),
 
 			ReligionsOutputter.OutputReligionsAndHolySites(outputPath, ck3World.Religions, ck3World.LocDB),
 
@@ -57,6 +59,8 @@ public static class WorldOutputter {
 
 			BookmarkOutputter.OutputBookmark(ck3World, config, ck3World.LocDB)
 		);
+
+		
 
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
 			MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
@@ -84,7 +88,7 @@ public static class WorldOutputter {
 		);
 	}
 
-	private static void CopyBlankModFilesToOutput(string outputPath) {
+	public static void CopyBlankModFilesToOutput(string outputPath, OrderedDictionary<string, bool> ck3ModFlags) {
 		Logger.Info("Copying blankMod files to output...");
 		
 		var folderPath = Path.Combine("blankMod", "output");
@@ -95,14 +99,32 @@ public static class WorldOutputter {
 			folderPath,
 			outputPath
 		);
+		
+		// Use the CK3 mod flags in the DotLiquid template context.
+		// Hash expects the dictionary values to be of type object, so we need to cast the bools to objects.
+		var convertedModFlags = ck3ModFlags.ToDictionary(kv => kv.Key, kv => (object)kv.Value);
+		var context = Hash.FromDictionary(convertedModFlags);
+		
+		// In the output path, find .liquid files, parse them with DotLiquid and write them back as .txt files.
+		var liquidFiles = Directory.GetFiles(outputPath, "*.liquid", SearchOption.AllDirectories);
+		foreach (var liquidFilePath in liquidFiles) {
+			var liquidText = File.ReadAllText(liquidFilePath);
+			var template = Template.Parse(liquidText);
+			var result = template.Render(context);
+			var txtFilePath = liquidFilePath[..^7] + ".txt";
+			// Write the result to a .txt file and delete the .liquid file. Use UTF8-BOM encoding.
+			File.WriteAllText(txtFilePath, result, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
+			File.Delete(liquidFilePath);
+			Logger.Debug("Converted " + liquidFilePath + " to " + txtFilePath);
+		}
+		
 		Logger.IncrementProgress();
 	}
 
-	private static void ClearOutputModFolder(Configuration config) {
+	public static void ClearOutputModFolder(string outputModPath) {
 		Logger.Info("Clearing the output mod folder...");
 
-		var directoryToClear = $"output/{config.OutputModName}";
-		var di = new DirectoryInfo(directoryToClear);
+		var di = new DirectoryInfo(outputModPath);
 		if (!di.Exists) {
 			return;
 		}
@@ -161,7 +183,7 @@ public static class WorldOutputter {
 		File.WriteAllText(descriptorFilePath, modText);
 	}
 
-	private static void CreateModFolder(string outputModPath) {
+	public static void CreateModFolder(string outputModPath) {
 		SystemUtils.TryCreateFolder(outputModPath);
 	}
 
@@ -179,7 +201,6 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks", "groups"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmark_portraits"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "creation_names"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "cultures"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "pillars"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dna_data"));
