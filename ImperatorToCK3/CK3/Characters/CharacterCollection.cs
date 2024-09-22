@@ -462,6 +462,13 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 				character.IsNonRemovable = true;
 				character.BirthDate = ck3BookmarkDate.ChangeByDays(1);
 				character.DeathDate = ck3BookmarkDate.ChangeByDays(2);
+				// Remove all dated history entries other than birth and death.
+				foreach (var field in character.History.Fields) {
+					if (field.Id == "birth" || field.Id == "death") {
+						continue;
+					}
+					field.DateToEntriesDict.Clear();
+				}
 			}
 		});
 		parser.IgnoreAndLogUnregisteredItems();
@@ -485,13 +492,13 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			.ToArray();
 		charactersToCheck = charactersToCheck.Except(imperatorTitleHolders);
 
-		// Don't purge animation_test or easter egg characters.
+		// Don't purge animation_test characters.
 		charactersToCheck = charactersToCheck
-			.Where(c => !c.Id.StartsWith("animation_test_") && !c.Id.StartsWith("easteregg_"));
+			.Where(c => !c.Id.StartsWith("animation_test_"));
 
 		// Keep alive Imperator characters.
 		charactersToCheck = charactersToCheck
-			.Where(c => c is not {FromImperator: true, Dead: false});
+			.Where(c => c is not {FromImperator: true, ImperatorCharacter.IsDead: false});
 
 		// Make some exceptions for characters referenced in game's script files.
 		charactersToCheck = charactersToCheck

@@ -31,7 +31,7 @@ public static class WorldOutputter {
 		Task.WaitAll(
 			FileTweaker.RemoveUnneededPartsOfFiles(ck3World.ModFS, outputPath, config),
 			
-			CharactersOutputter.OutputEverything(outputPath, ck3World.Characters, ck3World.CorrectedDate, ck3World.ModFS),
+			CharactersOutputter.OutputEverything(outputPath, ck3World.Characters, ck3World.CorrectedDate, config.CK3BookmarkDate, ck3World.ModFS),
 			DynastiesOutputter.OutputDynastiesAndHouses(outputPath, ck3World.Dynasties, ck3World.DynastyHouses),
 
 			ProvincesOutputter.OutputProvinces(outputPath, ck3World.Provinces, ck3World.LandedTitles),

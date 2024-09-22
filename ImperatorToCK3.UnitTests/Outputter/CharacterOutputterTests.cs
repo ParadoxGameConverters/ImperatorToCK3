@@ -12,6 +12,7 @@ public class CharacterOutputterTests {
 	[Fact]
 	public void PregnancyIsOutputted() {
 		Date conversionDate = "600.8.1";
+		Date bookmarkDate = "600.1.1";
 		Date childBirthDate = "600.10.7";
 		Date conceptionDate = childBirthDate.ChangeByDays(-280);
 
@@ -20,7 +21,7 @@ public class CharacterOutputterTests {
 		pregnantFemale.Pregnancies.Add(new Pregnancy(fatherId:"2", motherId: "1", childBirthDate, isBastard:false));
 
 		var sb = new StringBuilder();
-		CharacterOutputter.WriteCharacter(sb, pregnantFemale, conversionDate);
+		CharacterOutputter.WriteCharacter(sb, pregnantFemale, conversionDate, bookmarkDate);
 
 		var outputString = sb.ToString();
 		outputString.Should().Contain("female = yes");
