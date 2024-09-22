@@ -338,6 +338,9 @@ public sealed class World {
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		Characters.PurgeUnneededCharacters(LandedTitles, Dynasties, DynastyHouses, config.CK3BookmarkDate);
 		
+		// After the purging of unneeded characters, we should clean up the title history.
+		LandedTitles.CleanUpHistory(Characters, config.CK3BookmarkDate);
+		
 		// Now that the title history is basically done, convert officials as council members and courtiers.
 		LandedTitles.ImportImperatorGovernmentOffices(impWorld.JobsDB.OfficeJobs, Religions, config.CK3BookmarkDate);
 		
