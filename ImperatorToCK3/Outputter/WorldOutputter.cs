@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
 using commonItems.Serialization;
@@ -256,6 +256,4 @@ public static class WorldOutputter {
 
 		Logger.IncrementProgress();
 	}
-
-	
 }
