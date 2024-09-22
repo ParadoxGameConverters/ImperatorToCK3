@@ -16,15 +16,8 @@ public static class OnActionOutputter {
 		await OutputCustomGameStartOnAction(config);
 		if (config.FallenEagleEnabled) {
 			await DisableUnneededFallenEagleOnActionFiles(outputModPath);
-		} else if (!config.WhenTheWorldStoppedMakingSenseEnabled) { // vanilla
-			await RemoveUnneededPartsOfVanillaOnActions(ck3ModFS, outputModPath);
 		}
 		Logger.IncrementProgress();
-	}
-
-	private static async Task RemoveUnneededPartsOfVanillaOnActions(ModFilesystem ck3ModFS, string outputModPath) {
-		Logger.Info("Removing unneeded parts of vanilla on-actions...");
-		await FileTweaker.RemovePartsOfFiles("configurables/removable_on_action_blocks.txt", ck3ModFS, outputModPath);
 	}
 
 	public static async Task OutputCustomGameStartOnAction(Configuration config) {

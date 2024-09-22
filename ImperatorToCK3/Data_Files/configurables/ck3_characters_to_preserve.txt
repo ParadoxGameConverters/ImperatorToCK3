@@ -1,12 +1,37 @@
-# This file should contain a simple, whitespace-separate list
+# This file should contain a simple whitespace-separated lists
 # of CK3 character IDs to preserve from purging.
 # Comments are allowed, and start with a '#' character.
 
-# Characters referenced in artifacts:
-33922 # Muhammad
+# Characters in the keep_as_is list will be preserved with their original birth and death dates.
+keep_as_is = {
+	# Characters referenced in artifacts:
+	33922 # Muhammad
+}
 
-# Characters referenced in common/character_interactions/00_debug_interactions.txt:
-159835 # King Arthur
-
-# Characters referenced in achievements:
-109607
+# Characters in the after_bookmark_date will be preserved, but their birth dates will be
+# set to a date after the bookmark date. This is useful for characters referenced in CK3 script files,
+# but who we don't actually want to exist in the game.
+# Consider it an error suppressor.
+after_bookmark_date = {
+	# Characters referenced in common\casus_belli_types\00_event_war.txt:
+	124 # Tostig
+	140 # William the Conqueror
+	
+	# Characters referenced in common/character_interactions/00_debug_interactions.txt:
+	159835 # King Arthur
+	
+	# Characters referenced in common\council_positions\00_council_positions.txt:
+	528
+	
+	# Characters referenced in common\script_values\00_diarchy_values.txt:
+	214
+	
+	# Characters referenced in common\script_values\00_war_values.txt:
+	6878
+	
+	# Characters referenced in common\scripted_modifiers\00_faction_modifiers.txt:
+	73683
+	
+	# Characters referenced in achievements:
+	109607
+}

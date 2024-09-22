@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
 using commonItems.Serialization;
@@ -29,6 +29,8 @@ public static class WorldOutputter {
 		CreateFolders(outputPath);
 
 		Task.WaitAll(
+			FileTweaker.RemoveUnneededPartsOfFiles(ck3World.ModFS, outputPath, config),
+			
 			CharactersOutputter.OutputEverything(outputPath, ck3World.Characters, ck3World.CorrectedDate, ck3World.ModFS),
 			DynastiesOutputter.OutputDynastiesAndHouses(outputPath, ck3World.Dynasties, ck3World.DynastyHouses),
 
@@ -43,8 +45,6 @@ public static class WorldOutputter {
 			WarsOutputter.OutputWars(outputPath, ck3World.Wars),
 
 			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputPath, ck3World.LandedTitles, config.CK3BookmarkDate),
-			
-			config.FallenEagleEnabled ? RemoveUnneededPartsOfFallenEagleFiles(ck3World.ModFS, outputPath) : Task.CompletedTask,
 
 			OnActionOutputter.OutputEverything(config, ck3World.ModFS, outputPath),
 
@@ -255,10 +255,5 @@ public static class WorldOutputter {
 		}
 
 		Logger.IncrementProgress();
-	}
-
-	private static async Task RemoveUnneededPartsOfFallenEagleFiles(ModFilesystem ck3ModFS, string outputModPath) {
-		Logger.Info("Removing unneeded parts of Fallen Eagle files...");
-		await FileTweaker.RemovePartsOfFiles("configurables/removable_file_blocks_tfe.txt", ck3ModFS, outputModPath);
 	}
 }
