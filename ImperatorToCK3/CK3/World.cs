@@ -249,6 +249,8 @@ public sealed class World {
 			CorrectedDate,
 			config
 		);
+		// Now that we have loaded all characters, we can mark some of them as non-removable.
+		Characters.LoadCharacterIDsToPreserve(config.CK3BookmarkDate);
 		ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
 		Dynasties.LoadCK3Dynasties(ModFS);
@@ -339,6 +341,9 @@ public sealed class World {
 
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		Characters.PurgeUnneededCharacters(LandedTitles, Dynasties, DynastyHouses, config.CK3BookmarkDate);
+		
+		// After the purging of unneeded characters, we should clean up the title history.
+		LandedTitles.CleanUpHistory(Characters, config.CK3BookmarkDate);
 		
 		// Now that the title history is basically done, convert officials as council members and courtiers.
 		LandedTitles.ImportImperatorGovernmentOffices(impWorld.JobsDB.OfficeJobs, Religions, config.CK3BookmarkDate);
@@ -448,7 +453,7 @@ public sealed class World {
 		Logger.Info("Overwriting counties' history...");
 		HashSet<Governorship> governorshipsSet = governorships.ToHashSet();
 		HashSet<Governorship> countyLevelGovernorshipsSet = countyLevelGovernorships.ToHashSet();
-
+		
 		foreach (var county in LandedTitles.Where(t => t.Rank == TitleRank.county)) {
 			if (county.CapitalBaronyProvinceId is null) {
 				Logger.Warn($"County {county} has no capital barony province!");
@@ -477,6 +482,7 @@ public sealed class World {
 			if (irCountry is null || irCountry.CountryType == CountryType.rebels) { // e.g. uncolonized Imperator province
 				county.SetHolder(null, conversionDate);
 				county.SetDeFactoLiege(null, conversionDate);
+				RevokeBaroniesFromCountyGivenToImperatorCharacter(county);
 			} else {
 				bool given = TryGiveCountyToCountyLevelRuler(county, irCountry, countyLevelCountries, irCountries);
 				if (!given) {
@@ -501,6 +507,7 @@ public sealed class World {
 		}
 
 		GiveCountyToMonarch(county, ck3Country);
+		RevokeBaroniesFromCountyGivenToImperatorCharacter(county);
 		return true;
 	}
 
@@ -552,6 +559,7 @@ public sealed class World {
 		} else {
 			GiveCountyToGovernor(county, ck3GovernorshipId);
 		}
+		RevokeBaroniesFromCountyGivenToImperatorCharacter(county);
 		return true;
 	}
 
@@ -616,7 +624,20 @@ public sealed class World {
 		} else {
 			county.SetDeFactoLiege(null, ruleStartDate);
 		}
+		RevokeBaroniesFromCountyGivenToImperatorCharacter(county);
 		return true;
+	}
+
+	private void RevokeBaroniesFromCountyGivenToImperatorCharacter(Title county) {
+		foreach (var barony in county.DeJureVassals) {
+			// Skip the county capital barony.
+			if (barony.ProvinceId == county.CapitalBaronyProvinceId) {
+				continue;
+			}
+			
+			// Clear the barony holders history.
+			barony.ClearHolderSpecificHistory();
+		}
 	}
 
 	private void HandleIcelandAndFaroeIslands(Configuration config) {
@@ -643,7 +664,7 @@ public sealed class World {
 				UsePaganRulers();
 				break;
 			case < 874:
-				faithCandidates = new OrderedSet<string> { "insular_celtic", "catholic", "orthodox" };
+				faithCandidates = new OrderedSet<string> { "insular_celtic", "catholic", "orthodox", "chalcedonian", "nicene" };
 				var christianFaiths = Religions.TryGetValue("christianity_religion", out var christianityReligion) ? christianityReligion.Faiths : [];
 
 				// If there is at least one Irish Christian county, give it to the Irish Papar.

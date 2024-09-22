@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
 using commonItems.Serialization;
@@ -29,7 +29,9 @@ public static class WorldOutputter {
 		CreateFolders(outputPath);
 
 		Task.WaitAll(
-			CharactersOutputter.OutputEverything(outputPath, ck3World.Characters, ck3World.CorrectedDate, ck3World.ModFS),
+			FileTweaker.RemoveUnneededPartsOfFiles(ck3World.ModFS, outputPath, config),
+			
+			CharactersOutputter.OutputEverything(outputPath, ck3World.Characters, ck3World.CorrectedDate, config.CK3BookmarkDate, ck3World.ModFS),
 			DynastiesOutputter.OutputDynastiesAndHouses(outputPath, ck3World.Dynasties, ck3World.DynastyHouses),
 
 			ProvincesOutputter.OutputProvinces(outputPath, ck3World.Provinces, ck3World.LandedTitles),
@@ -43,8 +45,6 @@ public static class WorldOutputter {
 			WarsOutputter.OutputWars(outputPath, ck3World.Wars),
 
 			SuccessionTriggersOutputter.OutputSuccessionTriggers(outputPath, ck3World.LandedTitles, config.CK3BookmarkDate),
-			
-			config.FallenEagleEnabled ? RemoveUnneededPartsOfFallenEagleFiles(ck3World.ModFS, outputPath) : Task.CompletedTask,
 
 			OnActionOutputter.OutputEverything(config, ck3World.ModFS, outputPath),
 
@@ -112,9 +112,10 @@ public static class WorldOutputter {
 			var template = Template.Parse(liquidText);
 			var result = template.Render(context);
 			var txtFilePath = liquidFilePath[..^7] + ".txt";
-			File.WriteAllText(txtFilePath, result);
+			// Write the result to a .txt file and delete the .liquid file. Use UTF8-BOM encoding.
+			File.WriteAllText(txtFilePath, result, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
 			File.Delete(liquidFilePath);
-			Logger.Debug("Converted " + liquidFilePath + " to " + txtFilePath); // TODO: REMOVE THIS
+			Logger.Debug("Converted " + liquidFilePath + " to " + txtFilePath);
 		}
 		
 		Logger.IncrementProgress();
@@ -255,10 +256,5 @@ public static class WorldOutputter {
 		}
 
 		Logger.IncrementProgress();
-	}
-
-	private static async Task RemoveUnneededPartsOfFallenEagleFiles(ModFilesystem ck3ModFS, string outputModPath) {
-		Logger.Info("Removing unneeded parts of Fallen Eagle files...");
-		await FileTweaker.RemovePartsOfFiles("configurables/removable_file_blocks_tfe.txt", ck3ModFS, outputModPath);
 	}
 }

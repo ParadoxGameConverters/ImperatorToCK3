@@ -22,6 +22,15 @@ public sealed class HouseCollection : ConcurrentIdObjectCollection<string, House
 
 	public void PurgeUnneededHouses(CharacterCollection ck3Characters, Date date) {
 		Logger.Info("Purging unneeded dynasty houses...");
+		
+		// Load IDs of houses that should always be kept.
+		var houseIdsToPreserve = new HashSet<string>();
+		var nonRemovableIdsParser = new Parser();
+		nonRemovableIdsParser.RegisterRegex(CommonRegexes.String, (_, id) => {
+			houseIdsToPreserve.Add(id);
+		});
+		nonRemovableIdsParser.IgnoreAndLogUnregisteredItems();
+		nonRemovableIdsParser.ParseFile("configurables/dynasty_houses_to_preserve.txt");
 
 		HashSet<string> houseIdsToKeep = ck3Characters
 			.Select(c => c.GetDynastyHouseId(date))
@@ -33,6 +42,9 @@ public sealed class HouseCollection : ConcurrentIdObjectCollection<string, House
 		int removedCount = 0;
 		foreach (var house in this.ToArray()) {
 			if (houseIdsToKeep.Contains(house.Id)) {
+				continue;
+			}
+			if (houseIdsToPreserve.Contains(house.Id)) {
 				continue;
 			}
 

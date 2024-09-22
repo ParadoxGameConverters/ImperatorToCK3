@@ -1,12 +1,140 @@
-# This file should contain a simple, whitespace-separate list
+# This file should contain a simple whitespace-separated lists
 # of CK3 character IDs to preserve from purging.
 # Comments are allowed, and start with a '#' character.
 
-# Characters referenced in artifacts:
-33922 # Muhammad
+# Characters in the keep_as_is list will be preserved with their original birth and death dates.
+keep_as_is = {
+	# Characters referenced in artifacts:
+	33922 # Muhammad
+}
 
-# Characters referenced in common/character_interactions/00_debug_interactions.txt:
-159835 # King Arthur
-
-# Characters referenced in achievements:
-109607
+# Characters in the after_bookmark_date will be preserved, but their birth dates will be
+# set to a date after the bookmark date. This is useful for characters referenced in CK3 script files,
+# but who we don't actually want to exist in the game.
+# Consider it an error suppressor.
+after_bookmark_date = {
+	# Characters referenced in common\casus_belli_types\00_event_war.txt:
+	124 # Tostig
+	140 # William the Conqueror
+	
+	# Characters referenced in common/character_interactions/00_debug_interactions.txt:
+	159835 # King Arthur
+	
+	# Characters referenced in common\council_positions\00_council_positions.txt:
+	528
+	
+	# Characters referenced in common\script_values\00_diarchy_values.txt:
+	214
+	
+	# Characters referenced in common\script_values\00_war_values.txt:
+	6878
+	
+	# Characters referenced in common\scripted_modifiers\00_faction_modifiers.txt:
+	73683
+	
+	# Characters referenced in achievements:
+	109607
+	
+	# Characters eferenced in events\dlc\fp2\fp2_el_cid_events.txt:
+	107590 # El Cid
+	
+	# Characters referenced in events\dlc\fp3\fp3_struggle_events.txt:
+	34010
+    34012
+    34013
+    34014
+    34005
+    33911
+	
+	# Easter egg characters:
+	easteregg_veronica_pazos
+	easteregg_jakub_potapczyk
+	easteregg_charna_frostwhisper
+	easteregg_joe_parkin
+	easteregg_alessandro_bragalini
+	easteregg_daan_broekhof
+	easteregg_debbie_lane
+	easteregg_isabella_welch
+	easteregg_elisabeth_gangenes
+	easteregg_henrik_fahraeus
+	easteregg_alexander_oltner
+	easteregg_joacim_carlberg
+	easteregg_olof_bjork
+	easteregg_petter_lundh
+	easteregg_linnea_thimren
+	easteregg_matthew_clohessy
+	easteregg_steacy_mcilwham
+	easteregg_nils_wadensten
+	easteregg_emil_tisander
+	easteregg_joel_hansson
+	easteregg_malin_jonsson
+	easteregg_peter_johannesson
+	easteregg_linda_tiger
+	easteregg_katya_boestad
+	easteregg_mathilda_bjarnehed
+	easteregg_milla_lankinen
+	easteregg_petter_vilberg
+	easteregg_henrik_lohmander
+	easteregg_max_weltz
+	easteregg_lysann_schlegel
+	easteregg_sean_hughes
+	easteregg_ismael_serrano
+	easteregg_bianca_savazzi
+	easteregg_christian_daflos
+	easteregg_max_collin
+	easteregg_jonas_wickerstrom
+	easteregg_tegan_harris
+	easteregg_paul_depre
+	easteregg_maximilian_olbers
+	easteregg_hanna_lohman
+	easteregg_nikolaos_kaltsogiannis
+	easteregg_pontus_olofsson
+	easteregg_martin_anward
+	easteregg_zack_holmgren
+	easteregg_claudia_baldassi
+	easteregg_lukasz_opara
+	easteregg_mateusz_mierzwa
+	easteregg_natalia_lechnata
+	easteregg_natalia_poreba
+	easteregg_struan_mccallum
+	easteregg_riad_deneche
+	easteregg_anton_leirnes
+	easteregg_stella_carrick
+	easteregg_fenni_johansson
+	easteregg_james_beaumont
+	easteregg_bahar_shefket
+	easteregg_hugo_cortell
+	easteregg_alexander_newcombe
+	easteregg_elena_zenko
+	easteregg_fei_berg_hulthen
+	easteregg_stina_arvidsson_radestig
+	easteregg_ola_jentzsch
+	easteregg_nikola_stokic
+	easteregg_tamara_stokic
+	easteregg_sandra_runge_moller
+	easteregg_alessandro_bragalini
+	easteregg_jon_astrup_hallkvist
+	easteregg_maxence_voleau
+	easteregg_jason_cantalini
+	easteregg_fabian_franzen
+	easteregg_veronica_pazos
+	easteregg_weronika_kowalczyk
+	easteregg_jakob_jorstedt
+	easteregg_tess_lindholm
+	easteregg_luke_bean
+	easteregg_artur_kacprzak
+	easteregg_tomas_versekys
+	easteregg_ida_hedberg
+	easteregg_alexander_windahl
+	easteregg_johan_husen
+	easteregg_alexia_belfort
+	easteregg_david_drake
+	easteregg_ernesto_lopez
+	easteregg_lucas_ribeiro
+	easteregg_daniel_velasquez
+	easteregg_emelie_verdugo
+	easteregg_ida_hedberg
+	easteregg_francesca_passoni
+	easteregg_elisabeth_gangenes
+	easteregg_alva_granholm
+}

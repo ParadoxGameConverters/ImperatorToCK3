@@ -437,19 +437,42 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		}
 	}
 
-	private static IEnumerable<string> LoadCharacterIDsToPreserve() {
+	public void LoadCharacterIDsToPreserve(Date ck3BookmarkDate) {
 		Logger.Debug("Loading IDs of CK3 characters to preserve...");
-		HashSet<string> characterIDsToPreserve = [];
 
 		string configurablePath = "configurables/ck3_characters_to_preserve.txt";
 		var parser = new Parser();
-		parser.RegisterRegex(CommonRegexes.String, (_, id) => {
-			characterIDsToPreserve.Add(id);
+		parser.RegisterRegex("keep_as_is", reader => {
+			var ids = reader.GetStrings();
+			foreach (var id in ids) {
+				if (!TryGetValue(id, out var character)) {
+					continue;
+				}
+
+				character.IsNonRemovable = true;
+			}
+		});
+		parser.RegisterKeyword("after_bookmark_date", reader => {
+			var ids = reader.GetStrings();
+			foreach (var id in ids) {
+				if (!TryGetValue(id, out var character)) {
+					continue;
+				}
+
+				character.IsNonRemovable = true;
+				character.BirthDate = ck3BookmarkDate.ChangeByDays(1);
+				character.DeathDate = ck3BookmarkDate.ChangeByDays(2);
+				// Remove all dated history entries other than birth and death.
+				foreach (var field in character.History.Fields) {
+					if (field.Id == "birth" || field.Id == "death") {
+						continue;
+					}
+					field.DateToEntriesDict.Clear();
+				}
+			}
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseFile(configurablePath);
-
-		return characterIDsToPreserve;
 	}
 
 	public void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
@@ -469,18 +492,17 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			.ToArray();
 		charactersToCheck = charactersToCheck.Except(imperatorTitleHolders);
 
-		// Don't purge animation_test or easter egg characters.
+		// Don't purge animation_test characters.
 		charactersToCheck = charactersToCheck
-			.Where(c => !c.Id.StartsWith("animation_test_") && !c.Id.StartsWith("easteregg_"));
+			.Where(c => !c.Id.StartsWith("animation_test_"));
 
 		// Keep alive Imperator characters.
 		charactersToCheck = charactersToCheck
-			.Where(c => c is not {FromImperator: true, Dead: false});
+			.Where(c => c is not {FromImperator: true, ImperatorCharacter.IsDead: false});
 
 		// Make some exceptions for characters referenced in game's script files.
-		var characterIdsToKeep = LoadCharacterIDsToPreserve();
 		charactersToCheck = charactersToCheck
-			.Where(character => !characterIdsToKeep.Contains(character.Id))
+			.Where(character => !character.IsNonRemovable)
 			.ToArray();
 
 		// I:R members of landed dynasties will be preserved, unless dead and childless.
@@ -538,9 +560,6 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		houses.PurgeUnneededHouses(this, ck3BookmarkDate);
 		dynasties.PurgeUnneededDynasties(this, houses, ck3BookmarkDate);
 		dynasties.FlattenDynastiesWithNoFounders(this, houses, ck3BookmarkDate);
-		
-		// Clean up title history.
-		titles.CleanUpHistory(this, ck3BookmarkDate);
 	}
 
 	public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {

@@ -2714,4 +2714,191 @@ start_amalasuntha_coup = {
 }
 
 	}
+	
+	{
+vandalic_war = {
+	picture = "gfx/interface/illustrations/decisions/decision_vandalic_war.dds"
+	major = yes
+
+	ai_check_interval = 12
+
+	desc = vandalic_war_desc
+	selection_tooltip = vandalic_war_tooltip
+
+	is_shown = {
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:vandalic_war
+			}
+		}
+		exists = title:k_vandals
+		has_title = title:e_byzantium
+		current_date >= 530.1.1
+		game_start_date = 532.2.1
+		OR = {
+			character:vandals_005 = {
+				is_alive = yes
+			}
+			AND = {
+				current_date <= 550.1.1
+				any_courtier = {
+					has_claim_on = title:k_vandals
+				}
+			}
+		}
+	}
+
+	effect = {
+		custom_tooltip = vandalic_war_decision_1
+		custom_tooltip = vandalic_war_decision_2
+		custom_tooltip = vandalic_war_decision_3
+
+		hidden_effect = {
+			every_vassal = {
+				add_opinion = {
+					modifier = respect_opinion
+					target = root
+					opinion = -20
+				}
+			}
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:vandalic_war
+			}
+			trigger_event = {
+				id = western_roman.0039
+				days = 1
+			}
+		}
+	}
+
+	cost = {
+		prestige = {
+			if = {
+				limit = {
+					is_ai = no
+				}
+				add = {
+					value = 750
+				}
+			}
+		}
+		gold = {
+			if = {
+				limit = {
+					is_ai = no
+				}
+				add = {
+					value = 250
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+		is_at_war = no
+	}
+	ai_will_do = {
+		base = 100
+	}
+
+}
+	}
+}
+
+
+"common/decisions/tfe_culture_decisions.txt" = {
+	{
+dong_zhuo_culture_decision = {
+	ai_check_interval = 0
+	is_shown = {
+		has_game_rule = larp_enabled
+		NOT = {
+			culture = {
+				this = culture:soissons
+			}
+		}
+		dynasty = dynasty:syagri
+		game_start_date = 395.1.17
+	}
+	is_valid = {
+		culture = { has_cultural_pillar = heritage_levantine }
+		custom_description = {
+			text = soissonstrigger1
+			culture = { any_parent_culture_or_above = { this = culture:han } }
+		}
+		dynasty = dynasty:syagri
+		has_title = title:k_israel
+		custom_description = {
+			text = soissonstrigger2
+			current_date = 690.4.20
+		}
+	}
+	effect = {
+		save_scope_as = soi
+		#Convert your, and your whole family's, culture
+		set_culture = culture:soissons
+		add_prestige = 10000
+		hidden_effect = {
+			if = {
+				limit = { any_spouse = { is_landed = no } }
+				every_spouse = {
+					limit = {
+						is_landed = no
+					}
+					set_culture = culture:soissons
+				}
+			}
+			if = {
+				limit = {
+					any_close_family_member = {
+						is_landed = no
+						NOT = { is_spouse_of = root }
+					}
+				}
+				every_close_family_member = {
+					limit = {
+						is_landed = no
+						NOT = { is_spouse_of = root }
+					}
+					custom = all_unlanded_family_members
+					set_culture = culture:soissons
+				}
+			}
+
+			#Convert appropriate vassals, and their family
+			if = {
+				limit = {
+					any_vassal_or_below = {
+						is_ai = yes
+					}
+				}
+				every_vassal_or_below = {
+					limit = {
+						is_ai = yes
+					}
+					set_culture = culture:soissons
+				}
+			}
+
+			#Flip Counties
+			every_realm_county = {
+				set_county_culture = culture:soissons
+			}
+
+			culture:soissons = {
+				hidden_effect = {
+					reset_culture_creation_date = yes
+					get_all_innovations_from = culture:han
+					get_all_innovations_from = culture:hebrew
+				}
+			}
+
+			trigger_event = tfe_culture.9900
+		}
+	}
+	cost = { gold = 69 }
+}
+	}
 }

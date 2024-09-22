@@ -271,6 +271,28 @@ public sealed partial class Title {
 				);
 			}
 			
+			// For counties, remove holder = 0 entries that precede a holder = <char ID> entry
+			// that's before or at the bookmark date.
+			foreach (var county in Counties) {
+				if (!county.History.Fields.TryGetValue("holder", out var holderField)) {
+					continue;
+				}
+				
+				var holderIdAtBookmark = county.GetHolderId(ck3BookmarkDate);
+				if (holderIdAtBookmark == "0") {
+					continue;
+				}
+				
+				// If we have a holder at the bookmark date, remove all holder = 0 entries that precede it.
+				var entryDatesToRemove = holderField.DateToEntriesDict
+					.Where(pair => pair.Key < ck3BookmarkDate && pair.Value.Any(v => v.Value.ToString() == "0"))
+					.Select(pair => pair.Key)
+					.ToArray();
+				foreach (var date in entryDatesToRemove) {
+					holderField.DateToEntriesDict.Remove(date);
+				}
+			}
+			
 			// Remove liege entries that are not valid (liege title is not held at the entry date).
 			foreach (var title in this) {
 				if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {

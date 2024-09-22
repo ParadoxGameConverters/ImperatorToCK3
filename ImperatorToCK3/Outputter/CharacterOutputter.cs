@@ -6,19 +6,22 @@ using Character = ImperatorToCK3.CK3.Characters.Character;
 
 namespace ImperatorToCK3.Outputter;
 public static class CharacterOutputter {
-	public static void WriteCharacter(StringBuilder sb, Character character, Date conversionDate) {
+	public static void WriteCharacter(StringBuilder sb, Character character, Date conversionDate, Date ck3BookmarkDate) {
 		// Output ID.
 		sb.AppendLine($"{character.Id}={{");
 		
-		if (character.Dead) {
+		if (character.DeathDate is not null && character.DeathDate <= ck3BookmarkDate) {
 			// Don't output traits and attributes of dead characters (not needed).
 			var fieldsToRemove = new[] {"traits", "employer", "diplomacy", "martial", "stewardship", "intrigue", "learning"};
 			foreach (var field in fieldsToRemove) {
 				character.History.Fields.Remove(field);
 			}
 
-			// Disallow random traits for dead characters.
-			character.History.AddFieldValue(date: null, "disallow_random_traits", "disallow_random_traits", "yes");
+			// Disallow random traits for adult dead characters.
+			// Don't disallow for children, because the game complains if they have no childhood traits.
+			if (character.GetAge(ck3BookmarkDate) >= 16) {
+				character.History.AddFieldValue(date: null, "disallow_random_traits", "disallow_random_traits", "yes");
+			}
 		}
 
 		// Add DNA to history.
