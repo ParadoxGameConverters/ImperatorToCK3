@@ -943,15 +943,15 @@ link = { ck3 = okinawa ir = duuchuu } # Chose Okinawa culture as the fallback ma
 link = { ck3 = andamanese ir = andaman }
 link = { ck3 = bahnaric ir = bahnar }
 link = { ck3 = kinh ir = lacviet }
+link = { ck3 = nicobarese ir = holchu }
+link = { ck3 = palaungic ir = wa }
 
 # TODO: I:R culture ID: bo, name: Bo
 # TODO: I:R culture ID: ba, name: Ba
 # TODO: I:R culture ID: shu, name: Shu
 # TODO: I:R culture ID: bekhyrian
-# TODO: I:R culture ID: wa, name: Wa
 # TODO: I:R culture ID: nivkh, name: Nivkh
 # TODO: I:R culture ID: xiangkhoang, name: Xiangkhoang
-# TODO: I:R culture ID: holchu, name: Holchu
 # TODO: I:R culture ID: pear, name: Pear
 # TODO: I:R culture ID: jinhan, name: Jinhan
 # TODO: I:R culture ID: mahan, name: Mahan
@@ -960,3 +960,6 @@ link = { ck3 = kinh ir = lacviet }
 # TODO: I:R culture ID: haoshi, name: Haoshi
 # TODO: I:R culture ID: permic, name: Permic
 # TODO: I:R culture ID: syrbotian, name: Syrbotian 
+
+
+# TODO: Pear can map with Samre (If that is the name used)
