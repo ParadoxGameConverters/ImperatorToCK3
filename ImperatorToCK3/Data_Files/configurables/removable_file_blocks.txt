@@ -1283,6 +1283,26 @@ bookmark_867_northmen_aellas_capture_war_imprisonment_effect = {
 			}
 		}
 	}
+	
+	{
+		### Sword of Atilla 
+		#### Associated with the Arpads, but "discovered"/passed out of their possession around or after 1063. They maintain a house claim on it.
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				current_date >= 1064.1.1
+				exists = title:d_bavaria.holder
+			}
+			title:d_bavaria.holder = {
+				create_artifact_wall_sword_attila_effect = { OWNER = this }
+				dynasty:708 = {
+					random_dynasty_member = {
+						house = { add_house_artifact_claim = scope:newly_created_artifact }
+					}
+				}
+			}
+		}
+	}
 }
 
 "common\scripted_effects\03_dlc_fp2_scripted_effects.txt" = {
@@ -1588,6 +1608,38 @@ create_artifact_sculpture_cabinet_pentapyrgion_effect = {
 	}
 }
 	}
+	
+	{
+create_artifact_wall_sword_attila_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = artifact_wall_sword_attila_name
+		description = artifact_wall_sword_attila_description
+		type = pedestal
+		template = attila_template
+		visuals = wall_sword_attila
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = attila_sword_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = sword_attila
+		save_scope_as = epic
+	}
+}
+	}
 }
 
 "common\scripted_effects\00_ep1_inspiration_effects.txt" = {
@@ -1703,6 +1755,37 @@ create_artifact_sculpture_cabinet_pentapyrgion_effect = {
 									}
 								}
 								create_artifact_throne_scone_effect = { OWNER = root }
+							}
+	}
+	
+	{
+							10 = {
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = sword_attila
+										}
+									}
+									scope:location ?= {
+										OR = {
+											geographical_region = custom_south_slavia
+											geographical_region = custom_carpathia
+											geographical_region = ghw_region_crimea
+											geographical_region = custom_bavaria
+										}
+									}
+								}
+								create_artifact_wall_sword_attila_effect = { OWNER = root }
 							}
 	}
 }
