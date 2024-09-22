@@ -112,9 +112,10 @@ public static class WorldOutputter {
 			var template = Template.Parse(liquidText);
 			var result = template.Render(context);
 			var txtFilePath = liquidFilePath[..^7] + ".txt";
-			File.WriteAllText(txtFilePath, result);
+			// Write the result to a .txt file and delete the .liquid file. Use UTF8-BOM encoding.
+			File.WriteAllText(txtFilePath, result, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
 			File.Delete(liquidFilePath);
-			Logger.Debug("Converted " + liquidFilePath + " to " + txtFilePath); // TODO: REMOVE THIS
+			Logger.Debug("Converted " + liquidFilePath + " to " + txtFilePath);
 		}
 		
 		Logger.IncrementProgress();
