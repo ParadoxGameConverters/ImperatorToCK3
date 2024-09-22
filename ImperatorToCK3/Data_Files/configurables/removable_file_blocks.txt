@@ -2644,3 +2644,12 @@ game_rule.1011 = {
 		bookmark.0003			# King Aella gets imprisoned by one of Ragnarr Lodbrok's sons
 	}
 }
+
+"common\decisions\80_major_decisions_british_isles.txt" = {
+	{
+			dynasty = dynasty:1029001	#The Cornish royal house is always able to get away with these shenanigans.
+	}
+	{
+			dynasty = dynasty:1029001	#The Cornish royal house is at it again.
+	}
+}
