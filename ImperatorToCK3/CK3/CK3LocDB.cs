@@ -5,17 +5,18 @@ using commonItems.Mods;
 using ImperatorToCK3.CK3.Localization;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3;
 
 public class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 	public CK3LocDB() { }
 	
-	public CK3LocDB(ModFilesystem ck3ModFS) {
-		LoadLocFromModFS(ck3ModFS);
+	public CK3LocDB(ModFilesystem ck3ModFS, IEnumerable<string> activeModFlags) {
+		LoadLocFromModFS(ck3ModFS, activeModFlags);
 	}
 	
-	public void LoadLocFromModFS(ModFilesystem ck3ModFS) {
+	public void LoadLocFromModFS(ModFilesystem ck3ModFS, IEnumerable<string> activeModFlags) {
 		// Read loc from CK3 and selected CK3 mods.
 		var modFSLocDB = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
 		modFSLocDB.ScrapeLocalizations(ck3ModFS);
@@ -23,7 +24,7 @@ public class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 		
 		// Read loc from ImperatorToCK3 congifurables.
 		// It will only be outputted for keys localized in neither ModFSLocDB nor ConverterGeneratedLocDB.
-		LoadOptionalLoc();
+		LoadOptionalLoc(activeModFlags);
 	}
 
 	private void ImportLocFromLocDB(LocDB locDB) {
@@ -38,15 +39,24 @@ public class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 		}
 	}
 
-	private void LoadOptionalLoc() {
+	private void LoadOptionalLoc(IEnumerable<string> activeModFlags) {
 		const string optionalLocDir = "configurables/localization";
 		if (!Directory.Exists(optionalLocDir)) {
 			Logger.Warn("Optional loc directory not found, skipping optional loc loading.");
 			return;
 		}
 		
+		string baseLocDir = Path.Combine(optionalLocDir, "base");
+		var optionalLocFilePaths = Directory.GetFiles(baseLocDir, "*.yml", SearchOption.AllDirectories);
+		foreach (var modFlag in activeModFlags) {
+			string modLocDir = Path.Combine(optionalLocDir, modFlag);
+			if (!Directory.Exists(modLocDir)) {
+				continue;
+			}
+			optionalLocFilePaths = optionalLocFilePaths.Concat(Directory.GetFiles(modLocDir, "*.yml", SearchOption.AllDirectories)).ToArray();
+		}
+		
 		var optionalConverterLocDB = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
-		var optionalLocFilePaths = Directory.GetFiles(optionalLocDir, "*.yml", SearchOption.AllDirectories);
 		foreach (var outputtedLocFilePath in optionalLocFilePaths) {
 			optionalConverterLocDB.ScrapeFile(outputtedLocFilePath);
 		}

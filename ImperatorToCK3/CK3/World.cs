@@ -31,6 +31,7 @@ using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
+using ImperatorToCK3.Outputter;
 using log4net.Core;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -101,14 +102,22 @@ public sealed class World {
 		LoadedMods = modLoader.UsableMods.ToOrderedSet();
 		config.DetectSpecificCK3Mods(LoadedMods);
 		
-		// Include a fake mod pointing to blankMod.
-		LoadedMods.Add(new Mod("blankMod", "blankMod/output"));
+		// Recreate output mod folder.
+		string outputModPath = Path.Join("output", config.OutputModName);
+		WorldOutputter.ClearOutputModFolder(outputModPath);
+		WorldOutputter.CreateModFolder(outputModPath);
+		// This will also convert all Liquid templates into simple text files.
+		WorldOutputter.CopyBlankModFilesToOutput(outputModPath, config.GetCK3ModFlags());
+		
+		// Include a fake mod pointing to blankMod in the output folder.
+		LoadedMods.Add(new Mod("blankMod", outputModPath));
 		ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), LoadedMods);
+		
 		ColorFactory ck3ColorFactory = new();
 		// Now that we have the mod filesystem, we can initialize the localization database.
 		Parallel.Invoke(
 			() => {
-				LocDB.LoadLocFromModFS(ModFS);
+				LocDB.LoadLocFromModFS(ModFS, config.GetActiveCK3ModFlags());
 				Logger.IncrementProgress();
 			},
 			() => ScriptValues.LoadScriptValues(ModFS),
@@ -239,6 +248,8 @@ public sealed class World {
 			CorrectedDate,
 			config
 		);
+		// Now that we have loaded all characters, we can mark some of them as non-removable.
+		Characters.LoadCharacterIDsToPreserve(config.CK3BookmarkDate);
 		ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
 		Dynasties.LoadCK3Dynasties(ModFS);
@@ -329,6 +340,9 @@ public sealed class World {
 
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		Characters.PurgeUnneededCharacters(LandedTitles, Dynasties, DynastyHouses, config.CK3BookmarkDate);
+		
+		// After the purging of unneeded characters, we should clean up the title history.
+		LandedTitles.CleanUpHistory(Characters, config.CK3BookmarkDate);
 		
 		// Now that the title history is basically done, convert officials as council members and courtiers.
 		LandedTitles.ImportImperatorGovernmentOffices(impWorld.JobsDB.OfficeJobs, Religions, config.CK3BookmarkDate);
@@ -439,7 +453,7 @@ public sealed class World {
 		Logger.Info("Overwriting counties' history...");
 		HashSet<Governorship> governorshipsSet = governorships.ToHashSet();
 		HashSet<Governorship> countyLevelGovernorshipsSet = countyLevelGovernorships.ToHashSet();
-
+		
 		foreach (var county in LandedTitles.Where(t => t.Rank == TitleRank.county)) {
 			if (county.CapitalBaronyProvinceId is null) {
 				Logger.Warn($"County {county} has no capital barony province!");
@@ -468,6 +482,7 @@ public sealed class World {
 			if (irCountry is null || irCountry.CountryType == CountryType.rebels) { // e.g. uncolonized Imperator province
 				county.SetHolder(null, conversionDate);
 				county.SetDeFactoLiege(null, conversionDate);
+				RevokeBaroniesFromCountyGivenToImperatorCharacter(county);
 			} else {
 				bool given = TryGiveCountyToCountyLevelRuler(county, irCountry, countyLevelCountries, irCountries);
 				if (!given) {
@@ -492,6 +507,7 @@ public sealed class World {
 		}
 
 		GiveCountyToMonarch(county, ck3Country);
+		RevokeBaroniesFromCountyGivenToImperatorCharacter(county);
 		return true;
 	}
 
@@ -543,6 +559,7 @@ public sealed class World {
 		} else {
 			GiveCountyToGovernor(county, ck3GovernorshipId);
 		}
+		RevokeBaroniesFromCountyGivenToImperatorCharacter(county);
 		return true;
 	}
 
@@ -607,7 +624,20 @@ public sealed class World {
 		} else {
 			county.SetDeFactoLiege(null, ruleStartDate);
 		}
+		RevokeBaroniesFromCountyGivenToImperatorCharacter(county);
 		return true;
+	}
+
+	private void RevokeBaroniesFromCountyGivenToImperatorCharacter(Title county) {
+		foreach (var barony in county.DeJureVassals) {
+			// Skip the county capital barony.
+			if (barony.ProvinceId == county.CapitalBaronyProvinceId) {
+				continue;
+			}
+			
+			// Clear the barony holders history.
+			barony.ClearHolderSpecificHistory();
+		}
 	}
 
 	private void HandleIcelandAndFaroeIslands(Configuration config) {
@@ -616,7 +646,12 @@ public sealed class World {
 		var year = bookmarkDate.Year;
 
 		var faiths = Religions.Faiths.ToArray();
-		var titleIdsToHandle = new OrderedSet<string> { "d_iceland", "c_faereyar" };
+		OrderedSet<string> titleIdsToHandle;
+		if (config.FallenEagleEnabled) {
+			titleIdsToHandle = ["c_faereyar"]; // Iceland doesn't exist on TFE map.
+		} else {
+			titleIdsToHandle = ["d_iceland", "c_faereyar"];
+		}
 
 		bool generateHermits = true;
 		IEnumerable<string> faithCandidates = new OrderedSet<string>();
@@ -629,7 +664,7 @@ public sealed class World {
 				UsePaganRulers();
 				break;
 			case < 874:
-				faithCandidates = new OrderedSet<string> { "insular_celtic", "catholic", "orthodox" };
+				faithCandidates = new OrderedSet<string> { "insular_celtic", "catholic", "orthodox", "chalcedonian", "nicene" };
 				var christianFaiths = Religions.TryGetValue("christianity_religion", out var christianityReligion) ? christianityReligion.Faiths : [];
 
 				// If there is at least one Irish Christian county, give it to the Irish Papar.

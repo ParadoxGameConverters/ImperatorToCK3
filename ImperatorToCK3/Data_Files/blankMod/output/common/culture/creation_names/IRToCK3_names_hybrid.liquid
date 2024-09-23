@@ -37,8 +37,14 @@ carchidonian = {  # before Royal Court a pre-defined fictional culture by Iohann
 			AND = {
 				scope:culture = {
 					OR = {
+						{% if tfe %}
+						# TFE has punic culture instead of carthaginian.
+						this = culture:punic
+						any_parent_culture_or_above = { this = culture:punic }
+						{% else %}
 						this = culture:carthaginian
 						any_parent_culture_or_above = { this = culture:carthaginian }
+						{% endif %}
 					}
 				}
 				scope:other_culture = { has_cultural_pillar = language_greek }
@@ -47,8 +53,13 @@ carchidonian = {  # before Royal Court a pre-defined fictional culture by Iohann
 				scope:culture = { has_cultural_pillar = language_greek }
 				scope:other_culture = {
 					OR = {
+						{% if tfe %}
+						this = culture:punic
+						any_parent_culture_or_above = { this = culture:punic }
+						{% else %}
 						this = culture:carthaginian
 						any_parent_culture_or_above = { this = culture:carthaginian }
+						{% endif %}
 					}
 				}
 			}

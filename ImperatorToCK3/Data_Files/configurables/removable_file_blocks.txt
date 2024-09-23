@@ -1,0 +1,4059 @@
+# This file contains blocks from on_action files that can be removed.
+# The structure is as follows:
+
+# <file name> = {
+# 	{
+#          # comments are supported inside
+#          some = code
+#   }
+# 	{
+#          some code
+# 	                some code with other indent
+#   }
+# }
+
+# INDENTATION IS IMPORTANT!
+# ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL ON-ACTION FILE.
+# OTHERWISE THE BLOCK WON'T BE REMOVED!
+
+"common/on_action/yearly_on_actions.txt" = {
+	{
+			# FP2 - Checks to start El Cid's Travels
+			if = {
+				limit = { # Am I El Cid?
+					this = character:107590
+					NOT = { has_character_flag = has_already_begun_travelling } # Separate first check, for performance
+
+					NOT = { # Start date employer is either dead or gone
+						OR = {
+							top_liege = character:107500
+							liege = character:107500
+							employer = character:107500
+						}
+					}
+					is_available_healthy_ai_adult = yes # Am I ready to go on an adventure?
+				}
+				trigger_event = fp2_struggle.2045
+			}
+	}
+	{
+		250 = fp3_yearly.8020 # The Lady of the Land
+	}
+}
+
+"common/on_action/death.txt" = {
+	{
+		# Fix gods-damned Bavaria splitting from East Francia in an ugly fashion in 867.
+		if = {
+			limit = {
+				# Make sure we're looking at the right guy & that the circumstances haven't changed too much.
+				this = character:90107
+				highest_held_title_tier = tier_kingdom
+				has_realm_law = confederate_partition_succession_law
+				# Bavaria should be in a fit state for interfering with the handout order.
+				title:k_bavaria = {
+					OR = {
+						is_title_created = no
+						holder = root
+					}
+					any_in_de_jure_hierarchy = {
+						tier = tier_county
+						# More than 50%.
+						count >= 22
+						holder = {
+							any_liege_or_above = { this = root }
+						}
+					}
+				}
+				NOT = { has_primary_title = title:k_bavaria }
+				# Players can sort this themselves: you just need to have Bavaria as your primary title and it's all fine.
+				is_ai = yes
+			}
+			# If we've got no Bavaria, create it.
+			if = {
+				limit = {
+					title:k_bavaria = { is_title_created = no }
+				}
+				create_title_and_vassal_change = {
+					type = created
+					save_scope_as = change
+				}
+				title:k_bavaria = {
+					change_title_holder = {
+						holder = root
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+			}
+			# Then switch around.
+			set_primary_title_to = title:k_bavaria
+		}
+	}
+}
+
+"common/on_action/game_start.txt" = {
+	# events
+	{		fp1_scandinavian_adventurers.0011	# FP1 - Corral famous Norse adventurers that haven't done much yet.}
+	{		fp1_scandinavian_adventurers.0021	# FP1 - Mark game-start prioritised adventurers.}
+	{		easteregg_event.0001				# Charna and Jakub duel.}
+	{		game_rule.1011	#Hungarian Migration management.}
+	{
+		### 867 - RADHANITES IN KHAZARIA ###
+		character:74025 = {
+			if = {
+				limit = {
+					is_alive = yes
+					is_landed = yes
+				}
+			}
+			trigger_event = bookmark.0200
+		}
+	}
+	{
+		### 867 - WRATH OF THE NORTHMEN ###
+		#Æthelred dying (probably)
+		character:33358 = {
+			if = {
+				limit = {
+					is_alive = yes
+					is_landed = yes
+				}
+				trigger_event = {
+					id = bookmark.0001
+					days = { 365 730 }
+				}
+			}
+		}
+	}
+	{
+		#Alfred the Great becoming the Great
+		character:7627 = {
+			if = {
+				limit = {
+					is_alive = yes
+					is_landed = yes
+				}
+				trigger_event = {
+					id = bookmark.0002
+					days = 1800 #~5 years
+				}
+			}
+		}
+	}
+	{
+		### 867 - THE GREAT ADVENTURERS ###
+		character:251187 = {
+			if = {
+				limit = {
+					is_alive = yes
+					is_landed = yes
+					AND = {
+						character:251180 = { is_ai = yes }
+						character:251181 = {
+							is_ai = yes
+							is_alive = yes
+						}
+					}
+				}
+				trigger_event = {
+					id = bookmark.0101
+					days = { 21 35 }
+				}
+			}
+		}
+	}
+# setup
+	{
+		### 1066 - LOUIS THE GERMAN ###
+		if = {
+			limit = {
+				exists = character:90107
+				current_date >= 1066.1.1
+			}
+			character:90107 = { give_nickname = nick_the_german_post_mortem }
+		}
+	}
+	{
+		# UNITY CONFIG
+		## 867.
+		if = {
+			limit = { game_start_date = 867.1.1 }
+			# Twiddle some starting unities.
+			## The Abassids are in the middle of a self-killing frenzy, so we lower theirs substantially.
+			house:house_abbasid ?= {
+				add_unity_value = {
+					value = -100
+					# This is from historical circumstances, so we just do use the house head.
+					character = house_head
+					desc = clan_unity_historical_circumstances.desc
+				}
+			}
+			## The Samanids are juuuuust about to get started on killing each other over who gets to lead Transoxiana.
+			house:house_samanid ?= {
+				add_unity_value = {
+					value = -40
+					# This is from historical circumstances, so we just do use the house head.
+					character = house_head
+					desc = clan_unity_historical_circumstances.desc
+				}
+			}
+			## The Afrighids (both of them) are having fairly few arguments because only one of them can speak and it's very easy to manage relations with a baby.
+			dynasty:1042112.dynast.house ?= {
+				add_unity_value = {
+					value = 50
+					# This is from historical circumstances, so we just do use the house head.
+					character = house_head
+					desc = clan_unity_historical_circumstances.desc
+				}
+			}
+			## The Tahirids are scattered but actually get along quite well and support each other politically (mostly).
+			dynasty:811.dynast.house ?= {
+				add_unity_value = {
+					value = 100
+					# This is from historical circumstances, so we just do use the house head.
+					character = house_head
+					desc = clan_unity_historical_circumstances.desc
+				}
+			}
+			## The Umayyads are having something of a renaissance.
+			dynasty:597.dynast.house ?= {
+				add_unity_value = {
+					value = 100
+					# This is from historical circumstances, so we just do use the house head.
+					character = house_head
+					desc = clan_unity_historical_circumstances.desc
+				}
+			}
+		}
+		# LEGITIMACY CONFIG
+		## 867.
+		if = {
+			limit = { game_start_date = 867.1.1 }
+			## Basileus Basileios was actually elected, so he's technically legitimate, but starts at level 2. With this he should be level 3.
+			character:1700 = {
+				add_legitimacy = major_legitimacy_gain
+			}
+		}
+	}
+	{
+		if = { # Special historical events for Matilda!
+			limit = {
+				character:7757 ?= { is_alive = yes }
+			}
+			character:7757 ?= {
+				trigger_event = bookmark.1066 # Matildas marriage to her step-brother, with plausible historical options!
+				trigger_event = { # Matildas suspected witchcraft, the player decides if its true or not!
+					id = bookmark.1067
+					years = { 1 5 }
+				}
+			}
+		}
+	}
+	{
+		if = { # Special historical events for Vratislav!
+			limit = {
+				character:522 ?= { is_alive = yes }
+			}
+			character:522 ?= {
+				trigger_event = { # Vratislav and the Slavic Marches, he didn't historically get them (one briefly, but eh). The player chooses to appease the emperor or go after the coveted lands themselves!
+					id = bookmark.1068
+					days = { 35 120 }
+				}
+				trigger_event = { # Jaromir, Vratislav's brother, was a pain - this event is an opportunity for the player to handle the rivalry
+					id = bookmark.1069
+					days = { 1 29 }
+				}
+			}
+		}
+	}
+	{
+		if = { # Special historical events for Robert the Fox!
+			limit = {
+				character:1128 ?= { is_alive = yes }
+			}
+			character:1128 ?= {
+				trigger_event = { # A Norman Sicily - Robert historically conquered quite a bit here, the player can choose how far they want to go and the risk they want to take. The more risk, the more event troops/claims.
+					id = bookmark.1070
+					days = { 35 120 }
+				}
+				trigger_event = { # The Pretender Monk - Raiktor is a historical character, a monk wo pretended to be a deposed Byzantine emperor which Robert used to beat up Byzantium. Here you can follow historical conquests (taking a bit of the coast) or go full on 'install him as emperor for real'-mode!
+					id = bookmark.1071
+					years = { 1 7 }
+				}
+			}
+		}
+	}
+	{
+		if = { # Special historical events for Emir Yahya!
+			limit = {
+				character:3924 ?= { is_alive = yes }
+			}
+			character:3924 ?= {
+				trigger_event = { # Conquering Cordoba - Gain an opportunity to conquer Cordoba while gaining one of two buffs; one intrigue-focused, and one military. Historically he was poisoned after having conquered the city... but that's no fun for the player!
+					id = bookmark.1072
+					days = { 10 35 }
+				}
+			}
+		}
+	}
+	{
+		# Pre-defined historic regencies setup.
+		## NOTE: we do these first to avoid feed messages getting weird due to regents being replaced immediately after getting their position.
+		## 867.
+		### None. Yet.
+		## 1066.
+		if = {
+			limit = { game_start_date = 1066.9.15 }
+			# Designate some regents.
+			## King Philippe of France & Duke Boudewijn of Flanders (friend of his dad's)
+			character:214 = {
+				designate_diarch = character:364
+				# Baldwin of Flanders also promised the prior king he'd take care of Philippe, so we add that starting loyalty hook.
+				add_hook = {
+					type = predecessor_loyalty_hook
+					target = character:364
+					years = historic_regent_loyal_after_death_hook_duration_years_char_214_value
+				}
+			}
+			### Plus remember who the promise was made to.
+			character:364 = {
+				add_opinion = {
+					target = character:214
+					modifier = promise_to_predecessor
+					opinion = 50
+				}
+				set_variable = {
+					name = promise_to_predecessor
+					value = character:208
+					years = historic_regent_loyal_after_death_hook_duration_years_char_214_value
+				}
+			}
+			## Count Bouchard of Vendome & Guy de Bachaumont (his uncle)
+			character:40905 = { designate_diarch = character:40376 }
+			## Caliph al-Mustansir & Rasad (his mother)
+			character:3096 = { designate_diarch = character:additional_fatimids_1 }
+			## Count Ermengol of Urgell & Infanta Sancha of Aragon (his stepmother)
+			character:110550 = { designate_diarch = character:110514 }
+			## Duke Dirk of Holland & Count Robrecht of Zeeland (his stepfather)
+			character:106520 = { designate_diarch = character:368 }
+			## Duke Sven of Ostergotland & Kol Sverker (his father)
+			character:100530 = { designate_diarch = character:100529 }
+			## King Salamon of Hungary & Queen Mother Anastasia (his mother, in the absence of any better recorded options, and to keep other hostile relatives out of the job)
+			character:476 = { designate_diarch = character:637 }
+			## Prince Demetre of Georgia & Alda Oseti (his mother)
+			character:9957 = { designate_diarch = character:9956 }
+			## Sultan al-Muazzam Alp Arslan and Hassan "the Order of the Realm".
+			character:3040 = {
+				designate_diarch = character:3050
+				# This is a vizierate as well, so start the diarchy manually.
+				start_diarchy = vizierate
+				# Tell Alp that he appointed Hassan so he remembers not to dismiss him.
+				set_variable = {
+					name = my_vizier
+					value = character:3050
+				}
+			}
+			# Plus remove all the generated opinions.
+			## King Philippe of France & Duke Boudewijn of Flanders
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:364
+				LIEGE = character:214
+			}
+			## Count Bouchard of Vendome & Guy de Bachaumont
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:40376
+				LIEGE = character:40905
+			}
+			## Caliph al-Mustansir & Rasad
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:additional_fatimids_1
+				LIEGE = character:3096
+			}
+			## Count Ermengol of Urgell & Infanta Sancha of Aragon
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:110514
+				LIEGE = character:110550
+			}
+			## Duke Dirk of Holland & Count Robrecht of Zeeland
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:368
+				LIEGE = character:106520
+			}
+			## Duke Sven of Ostergotland & Kol Sverker
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:100529
+				LIEGE = character:100530
+			}
+			## King Salamon of Hungary & Queen Mother Anastasia
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:637
+				LIEGE = character:476
+			}
+			## Prince Demetre of Georgia & Alda Oseti
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:9956
+				LIEGE = character:9957
+			}
+			## Sultan al-Muazzam Alp Arslan and Hassan "the Order of the Realm".
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:3050
+				LIEGE = character:3040
+			}
+		}
+	}
+	{
+		## Fatimid Caliphate - basically stuck in the back-end of an entrenched regencies from game start.
+		if = {
+			limit = { exists = character:3096 }
+			character:3096 = { trigger_event = diarchy.0012 }
+		}
+	}
+	{
+
+		### STRUGGLES ###
+		if = {
+			limit = { current_date = 867.1.1 }
+
+			# Iberian Struggle
+			if = { # If we're in 867, Aragonese should be removed from the Struggle, since they don't quite exist yet.
+				limit = { exists = struggle:iberian_struggle }
+				struggle:iberian_struggle = { set_culture_as_uninvolved = culture:aragonese }
+			}
+
+			# Persian Struggle
+			if = { # If the load order ever changes this struggle is going to break. This must always be read before the struggle.
+				limit = { exists = struggle:persian_struggle }
+				debug_log = "Samarra Struggle: Gamne start data has been set"
+				struggle:persian_struggle = { # Use the object explorer to debug this data (yes, the time has come to learn how to use it)
+
+					# Struggle on_start
+					fp3_remove_vassal_contract_cooldown_for_tension_effect = yes # todo_cd_hci check if this is something we even want in the struggle anymore
+					
+					# Flag some titles as un-dissolutionable within the struggle.
+					title:e_arabia = { set_variable = struggle_block_dissolution_faction }
+					title:d_sunni = { set_variable = struggle_block_dissolution_faction }
+				}
+			}
+		}
+	}
+# achievements
+	{
+		### ACHIEVEMENT TRACKING FOR STARTING CHARACTERS
+		if = { 
+			limit = { has_multiple_players = no }
+			every_player = {
+				# Base Title
+				if = {
+					limit = { 
+						exists = character:7757
+						this = character:7757
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_give_a_dog_a_bone_achievement
+						VALUE = yes
+					}
+				}	
+				if = {
+					limit = { 
+						exists = character:1128
+						this = character:1128
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_wily_as_the_fox_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = {
+						OR = {
+							AND = {
+								exists = character:108501
+								this = character:108501
+							}
+							AND = {
+								exists = character:107500
+								this = character:107500
+							}
+							AND = {
+								exists = character:107501
+								this = character:107501
+							}
+							AND = {
+								exists = character:108500
+								this = character:108500
+							}
+							AND = {
+								exists = character:109500
+								this = character:109500
+							}
+						}
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_sibling_rivalry_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = {
+						OR = {
+							AND = {
+								exists = character:163108
+								this = character:163108
+							}
+							AND = {
+								exists = character:163110
+								this = character:163110
+							}
+							AND = {
+								exists = character:163111
+								this = character:163111
+							}
+							AND = {
+								exists = character:163112
+								this = character:163112
+							}
+							AND = {
+								exists = character:163119
+								this = character:163119
+							}
+						}
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_blood_eagle_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = {
+						exists = character:6448
+						this = character:6448
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_kings_to_the_seventh_generation_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = {
+						exists = character:140
+						this = character:140
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_norman_yoke_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = {
+						exists = character:522
+						this = character:522
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_royal_dignity_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = {
+						exists = character:40605
+						this = character:40605
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_land_of_the_rus_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = {
+						exists = character:251187
+						this = character:251187
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_mother_of_us_all_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = {
+						OR = {
+							culture = { has_cultural_pillar = heritage_iberian }
+							culture = culture:andalusian
+						}
+						has_religion = religion:christianity_religion
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_reconquista_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = {
+						culture = culture:irish
+						capital_province = { geographical_region = custom_ireland }
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_the_emerald_isle_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = {
+						OR = {
+							culture = culture:castilian
+							culture = culture:basque
+							culture = culture:portuguese
+							culture = culture:catalan
+							culture = culture:andalusian
+							culture = culture:visigothic
+							culture = culture:suebi
+						}
+						has_religion = religion:islam_religion
+						capital_province = { geographical_region = world_europe_west_iberia }
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_al_andalus_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = { 
+						exists = character:159137
+						this = character:159137
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_almost_there_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = { 
+						exists = character:109607
+						this = character:109607
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_last_count_first_king_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = { 
+						exists = character:6878
+						this = character:6878
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_going_places_achievement
+						VALUE = yes
+					}
+				}
+				# FP1
+				## far_from_home_achievement
+				if = {
+					limit = {
+						# Starting as a Norse pagan Norse-cultured character.
+						fp1_achievement_culture_plus_religion_norse_trigger = yes
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_far_from_home_achievement
+						VALUE = yes
+					}
+				}
+				## miklagardariki_achievement
+				if = {
+					limit = {
+						# Starting as a Norse pagan Norse-cultured character.
+						fp1_achievement_culture_plus_religion_norse_trigger = yes
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_miklagardariki_achievement
+						VALUE = yes
+					}
+				}
+				## canute_the_greater_achievement
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_canute_the_greater_achievement
+					VALUE = yes
+				}
+				## king_of_all_the_isles_achievement
+				if = {
+					limit = {
+						# Starting as a Norse pagan Norse-cultured character.
+						fp1_achievement_culture_plus_religion_norse_trigger = yes
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_king_of_all_the_isles_achievement
+						VALUE = yes
+					}
+				}
+				## faster_than_the_fox_achievement
+				if = {
+					limit = {
+						# Starting as a Norse pagan Norse-cultured character.
+						fp1_achievement_culture_plus_religion_norse_trigger = yes
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_faster_than_the_fox_achievement
+						VALUE = yes
+					}
+				}
+				## volva_achievement
+				if = {
+					limit = {
+						# Starting as a Norse pagan Norse-cultured character.
+						fp1_achievement_culture_plus_religion_norse_trigger = yes
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_volva_achievement
+						VALUE = yes
+					}
+				}
+				## saga_in_stone_achievement
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_saga_in_stone_achievement
+					VALUE = yes
+				}
+				## first_of_the_crusader_kings_achievement
+				if = {
+					limit = {
+						# Starting as a Norse-cultured character.
+						fp1_achievement_culture_norse_trigger = yes
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_first_of_the_crusader_kings_achievement
+						VALUE = yes
+					}
+				}
+				## vladimirs_second_choice_achievement
+				if = {
+					limit = {
+						# Starting as a Norse pagan Norse or Rus-cultured character.
+						fp1_achievement_culture_norse_or_rus_trigger = yes
+						fp1_achievement_religious_norse_trigger = yes
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_vladimirs_second_choice_achievement
+						VALUE = yes
+					}
+				}
+				## a_dangerous_business_achievement
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_a_dangerous_business_achievement
+					VALUE = yes
+				}
+				# EP1
+				##1 Patronage
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_patronage_achievement
+					VALUE = yes
+				}
+				##2 Converging Paths
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_converging_paths_achievement
+					VALUE = yes
+				}
+				##3 Changing course
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_changing_course_achievement
+					VALUE = yes
+				}
+				##4 Hoarder
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_hoarder_achievement
+					VALUE = yes
+				}
+				##5 creme de la creme
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_creme_de_la_creme_achievement
+					VALUE = yes
+				}
+				##6 Give it back!
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_polyglot_achievement
+					VALUE = yes
+				}
+				##7 Inspirational
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_inspirational_achievement
+					VALUE = yes
+				}
+				##8 One of a Kind
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_one_of_a_kind_achievement
+						VALUE = yes
+				}
+				##9 True Tolerance
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_true_tolerance_achievement
+					VALUE = yes
+				}
+				##10 Delusions of Grandeur
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_delusions_of_grandeur_achievement_achievement
+					VALUE = yes
+				}
+				##11 Bod Chen Po
+				if = {
+					limit = {
+						this.dynasty = dynasty:105800
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_bod_chen_po_achievement
+						VALUE = yes
+					}
+				}
+				##12 Turkish Eagle
+				if = {
+					limit = {
+						has_title = title:c_samosata
+						this.house = house:house_seljuk # Seljuk
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_turkish_eagle_achievement
+						VALUE = yes
+					}
+				}
+				##13 Rise of the Ghurids
+				if = {
+					limit = {
+						has_title = title:d_ghur
+						this.dynasty = dynasty:791 #Ghurid
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_rise_of_the_ghurids_achievement
+						VALUE = yes
+					}
+				}
+				##14 Brave and Bold
+				if = {
+					limit = {
+						game_start_date < 868.1.1
+						this.dynasty = dynasty:699 #Piast
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_brave_and_bold_achievement
+						VALUE = yes
+					}
+				}
+				##15 Lingua Franca
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_lingua_franca_achievement
+					VALUE = yes
+				}
+				##16 Beta Israel
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_beta_israel_achievement
+					VALUE = yes
+				}
+				## 17 They belong in a museum!
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_they_belong_in_a_museum_achievement
+					VALUE = yes
+				}
+				##18 I made this!
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_i_made_this_achievement
+					VALUE = yes
+				}
+				##19 Nobody Comes to Fika!
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_nobody_comes_to_fika_achievement
+					VALUE = yes
+				}
+				## 20 The True Royal Court
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_the_true_royal_court_achievement
+						VALUE = yes
+				}
+				# EP2
+				## 01. The Grandest Tour
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_the_grandest_tour_achievement
+					VALUE = yes
+				}
+				## 02. Your Eternal Reward
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_your_eternal_reward_achievement
+					VALUE = yes
+				}
+				## 03. Imperial March
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_imperial_march_achievement
+					VALUE = yes
+				}
+				## 04. Black Dinner
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_black_dinner_achievement
+					VALUE = yes
+				}
+				## 05. There and Back Again
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_there_and_back_again_achievement
+					VALUE = yes
+				}
+				## 06. The Very Best
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_the_very_best_achievement
+					VALUE = yes
+				}
+				## 07. Like No One Ever Was
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_like_no_one_ever_was_achievement
+					VALUE = yes
+				}
+				## 08. A Thousand and One Night
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_a_thousand_and_one_nights_achievement
+					VALUE = yes
+				}
+				## 09. A Knight's Tale
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_a_knights_tale_achievement
+					VALUE = yes
+				}
+				## 10. Hunting Accident
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_hunting_accident_achievement
+					VALUE = yes
+				}
+				## 11. Lions and Tigers and Bears, Oh My!
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_lions_and_tigers_and_bears_oh_my_achievement
+					VALUE = yes
+				}
+				## 12. Fly, my Pretty!
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_fly_my_pretty_achievement
+					VALUE = yes
+				}
+				## 13. Pathway to Heaven
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_pathway_to_heaven_achievement
+					VALUE = yes
+				}
+				## 14. Sir Lance-a-Lot
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_sir_lance_a_lot_achievement
+					VALUE = yes
+				}
+				## 15. I'm in my Element(s)
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_im_in_my_elements_achievement
+					VALUE = yes
+				}
+				## 16. Ahab
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_ahab_achievement
+					VALUE = yes
+				}
+				## 17. Little William Marshal
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_little_william_marshal_achievement
+					VALUE = 0
+				}
+				add_achievement_global_variable_effect = {
+					VARIABLE = little_william_marshal_achievement_tally
+					VALUE = 0
+				}
+				## 18. A True & Perfect Knight
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_a_true_and_perfect_knight_achievement
+					VALUE = yes
+				}
+				## 19. A.E.I.O.U & Me
+				if = {
+					limit = {
+						# Etichonen, of whom the Hapsburgs are a cadet - we check dynasty rather than house so that an accidental cadet doesn't screw you.
+						this.house ?= house:house_habsburg
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_a_e_i_o_u_and_me_achievement
+						VALUE = yes
+					}
+				}
+				## 20. The Iron and Golden King
+				add_achievement_global_variable_effect = {
+					VARIABLE = started_the_iron_and_golden_king_achievement
+					VALUE = yes
+				}
+
+				### RULER DESIGNER ACHIEVEMENT BLOCKS ###
+				if = {
+					limit = {
+						num_virtuous_traits >= 3
+					}
+					add_achievement_flag_effect = { FLAG = rd_character_blocked_paragon_of_virtue_achievement_flag	}	
+				}
+				if = {
+					limit = {
+						any_child = {
+							count >= 10
+							is_alive = yes
+						}
+					}
+					add_achievement_flag_effect = { FLAG = rd_character_blocked_the_succession_is_safe_achievement_flag }	
+				}
+				if = {
+					limit = {
+						any_child = {
+							has_trait = inbred
+						}	
+					}
+					add_achievement_flag_effect = { FLAG = rd_character_blocked_keeping_it_in_the_family_achievement_flag }
+				}
+				if = {
+					limit = {
+						highest_held_title_tier >= tier_empire
+						should_be_naked_trigger = yes	
+					}
+					add_achievement_flag_effect = { FLAG = rd_character_blocked_the_emperors_new_clothes_achievement_flag }
+				}
+				if = {
+					limit = {
+						is_from_ruler_designer = yes
+						OR = {
+							fp1_achievement_culture_norse_trigger = yes
+							fp1_achievement_religious_norse_trigger = yes
+						}
+					}
+					add_to_global_unavailable_achievements_list_effect = { FLAG = flag:rd_character_blocked_far_from_home_achievement }
+					add_to_global_unavailable_achievements_list_effect = { FLAG = flag:rd_character_blocked_miklagardariki_achievement }
+					add_to_global_unavailable_achievements_list_effect = { FLAG = flag:rd_character_blocked_faster_than_the_fox_achievement }
+				}
+				if = {
+					limit = {
+						any_ruler = {
+							is_from_ruler_designer = yes
+						}
+					}
+					add_to_global_unavailable_achievements_list_effect = { FLAG = flag:rd_character_blocked_iberia_or_iberia_achievement }
+					add_to_global_unavailable_achievements_list_effect = { FLAG = flag:rd_character_blocked_el_cid_achievement }
+					add_achievement_global_variable_effect = {
+						VARIABLE = any_ruler_designed_character_achievement
+						VALUE = yes
+					}
+				}
+			}
+		}
+	}
+	{
+		### ACHIEVEMENT (FP3): The Ummayad Strikes Back
+		every_player = {
+			if = {
+				limit = {
+					dynasty = character:73683.dynasty
+					location = { geographical_region = world_europe_west_iberia }
+				}
+				set_global_variable = fp3_the_umma_strikes_back_achievement_tracker # Is not removed (sad!)
+			}
+		}
+	}
+}
+
+"common/on_action/title_on_actions.txt" = {
+	{
+		# Am I The Chad?
+		if = {
+			limit = { root = character:easteregg_chad_uhl }
+			set_house = house:house_chad_uhl
+		}
+	}
+	
+	{
+		title_event.0001			# Rename West Francia to France
+		title_event.0002			# Rename East Francia to Germany
+	}
+	
+	{
+		fp1_major_decisions.1011	# Harald Tanglehair becomes Harald Fairhair.
+	}
+}
+
+"events\title_events.txt" = {
+	{
+# West Francia becomes France when no longer controlled by a Karling
+title_event.0001 = {
+	type = character_event
+	title = title_event_francia_name_change.title
+	desc = title_event_francia_name_change.desc
+	theme = crown
+	right_portrait = root
+	
+	trigger = {
+		scope:title = {
+			this = title:k_france
+		}
+		NOR = {
+			dynasty = { this = dynasty:25061 } # Not held by a Karling
+			any_liege_or_above = {
+				dynasty = { this = dynasty:25061 } # And does not have a liege that is a Karling
+			}
+			has_global_variable = west_francia_renamed
+		}
+	}
+	
+	immediate = {
+		title:k_france = {
+			save_scope_as = francia_title
+		}
+		set_global_variable = {
+			name = west_francia_renamed
+			value = yes
+		}
+	}
+	
+	option = {
+		name = title_event_francia_name_change.a
+		custom_tooltip = {
+			text = title_event_francia_name_change.a_tt_1
+			
+			title:k_france = {
+				reset_title_name = yes # I.e. set_title_name = k_france
+			}
+		}
+	}
+}
+	}
+	
+	{
+# East Francia becomes Germany when no longer controlled by a Karling
+title_event.0002 = {
+	type = character_event
+	title = title_event_francia_name_change.title
+	desc = title_event_francia_name_change.desc
+	theme = crown
+	right_portrait = root
+	
+	trigger = {
+		scope:title = {
+			this = title:k_east_francia
+		}
+		NOR = {
+			dynasty = { this = dynasty:25061 }  # Not held by a Karling
+			any_liege_or_above = {
+				dynasty = { this = dynasty:25061 } # And does not have a liege that is a Karling
+			}
+			has_global_variable = east_francia_renamed
+		}
+	}
+	
+	immediate = {
+		title:k_east_francia = {
+			save_scope_as = francia_title
+		}
+		set_global_variable = {
+			name = east_francia_renamed
+			value = yes
+		}
+	}
+	
+	option = {
+		name = title_event_francia_name_change.a
+		custom_tooltip = {
+			text = title_event_francia_name_change.a_tt_2
+			
+			title:k_east_francia = {
+				set_title_name = k_germany
+			}
+		}
+	}
+}
+	}
+}
+
+"common\character_interactions\00_war.txt" = {
+	{
+		#Special bookmark event for Aella of Northumbria
+		bookmark_867_northmen_aellas_capture_war_imprisonment_effect = yes
+	}
+}
+
+"common\scripted_effects\00_bookmark_effects.txt" = {
+	{
+bookmark_867_northmen_aellas_capture_war_imprisonment_effect = {
+	if = {
+		limit = {
+			scope:defender_loser = {
+				this = character:163103 #Aella
+				is_ai = yes
+			}
+			NOR = {
+				is_target_in_global_variable_list = {
+					name = triggered_bookmark_events
+					target = flag:bookmark_867_northmen_aellas_capture
+				}
+				character:163103 = { is_imprisoned = yes }
+			}
+		}
+		scope:attacker_winner = {
+			imprison =  {
+				target = scope:defender_loser
+				type = dungeon
+			}
+		}
+	}
+}
+	}
+}
+
+"events\artifacts\historical_artifacts_events.txt" = {
+	{
+		### Chalice of Dona Urraca
+		if = {
+			limit = {
+				# It's likely that Urraca paid for her eponymous chalice using money she earnt from the titles her father pre-bequeathed to her, so it was probably made some time *after* 1066 (since she only got the lands in 1065, shortly before her father died), buuuuuut it's really mean to not let her have it at game start, so we give it to her in 1066.
+				current_date >= 1066.1.1
+				has_fp2_dlc_trigger = yes
+				exists = character:108501
+				character:108501 = { is_alive = yes }
+			}
+			create_artifact_goblet_chalice_of_dona_urraca = { OWNER = character:108501 }
+		}
+	}
+	
+	{
+		### Crown of Justinian
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				exists = title:e_byzantium.holder
+			}
+			title:e_byzantium.holder = {
+				create_artifact_pedestal_justinian_effect = { OWNER = this }
+			}
+		}
+	}
+	
+	{
+		### Head of St. Edmund
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				# Date of earliest likely canonisation.
+				current_date >= 924.1.1
+				exists = title:k_england.holder
+			}
+			title:k_england.holder = {
+				create_artifact_edmund_head_effect = { OWNER = this }
+			}
+		}
+	}
+	
+	{
+		### Throne of Charlemagne
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				exists = title:e_hre.holder
+			}
+			title:e_hre.holder = {
+				create_artifact_throne_charlemagne_effect = { OWNER = this }
+			}
+		}
+	}
+	
+	{
+		### Throne of Scone (featuring Stone)
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				exists = title:k_scotland.holder
+			}
+			title:k_scotland.holder = {
+				create_artifact_throne_scone_effect = { OWNER = this }
+			}
+		}
+	}
+	
+	{
+		### Monomachus Crown
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				current_date >= 1000.1.1
+				exists = title:e_byzantium.holder
+			}
+			title:e_byzantium.holder = {
+				create_artifact_monomachus_crown_effect = { OWNER = this }
+			}
+		}
+	}
+	
+	{
+		### Pentapyrgion
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				exists = title:e_byzantium.holder
+			}
+			title:e_byzantium.holder = {
+				create_artifact_sculpture_cabinet_pentapyrgion_effect = { OWNER = this }
+			}
+		}
+	}
+	
+	{
+		### Sword of Atilla 
+		#### Associated with the Arpads, but "discovered"/passed out of their possession around or after 1063. They maintain a house claim on it.
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				current_date >= 1064.1.1
+				exists = title:d_bavaria.holder
+			}
+			title:d_bavaria.holder = {
+				create_artifact_wall_sword_attila_effect = { OWNER = this }
+				dynasty:708 = {
+					random_dynasty_member = {
+						house = { add_house_artifact_claim = scope:newly_created_artifact }
+					}
+				}
+			}
+		}
+	}
+}
+
+"common\scripted_effects\03_dlc_fp2_scripted_effects.txt" = {
+	{
+create_artifact_goblet_chalice_of_dona_urraca = {
+	$OWNER$ = { save_scope_as = owner }
+	set_artifact_rarity_famed = yes
+	scope:owner = {
+		create_artifact = {
+			name = fp2_chalice_dona_urraca
+			description = fp2_chalice_dona_urraca_desc
+			template = fp2_chalice_dona_urraca_template
+			type = miscellaneous_when_not_court
+			visuals = fp2_chalice_dona_urraca
+			wealth = scope:wealth
+			quality = scope:quality
+			modifier = chalice_of_dona_urraca_modifier
+			save_scope_as = newly_created_artifact
+		}
+	}
+	scope:newly_created_artifact = {
+		set_variable = {
+			name = dlc_potential_court_artefact
+			value = yes
+		}
+		set_variable = {
+			name = historical_unique_artifact
+			value = yes
+		}
+		set_variable = {
+			name = relic
+			value = flag:christian
+		}
+	}
+}
+	}
+}
+
+"common\scripted_effects\01_exp1_historical_artifacts_creation_effect.txt" = {
+	{
+create_artifact_pedestal_justinian_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = artifact_pedestal_crown_justinian_name
+		description = artifact_pedestal_crown_justinian
+		type = pedestal
+		template = justinian_template
+		visuals = pedestal_justinian
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created
+			date = 527.4.1
+			recipient = character:70512 #Justinian the Great
+			location = province:496 #Constantinople
+		}
+		modifier = justinian_crown_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = crown_of_justinian
+		add_artifact_title_history = {
+			target = title:e_byzantium
+			date = 565.11.14
+		}
+		save_scope_as = epic
+	}	
+}
+	}
+	
+	{
+create_artifact_edmund_head_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = edmund_head_name
+		description = edmund_head_description
+		type = pedestal
+		visuals = head
+		wealth = scope:wealth
+		quality = scope:quality
+		template = christian_relic_template
+		history = {
+			type = created
+			date = 869.11.20
+			recipient = character:163064 #Eadmund the Martyr
+			location = province:1520 #Blything
+		}
+		modifier = edmund_head_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = edmund_head
+		add_scaled_artifact_modifier_devotion_effect = yes
+		set_variable = {
+			name = relic
+			value = flag:christian
+		}
+		save_scope_as = epic
+		add_artifact_history = {
+			type = given
+			date = 946.5.27
+			recipient = character:33350 # Æthelstan
+		}
+		add_artifact_title_history = {
+			target = title:k_england
+			date = 955.11.24
+		}
+	}
+}
+	}
+	
+	{
+create_artifact_throne_charlemagne_effect = { #Create at start
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = artifact_throne_charlemagne_name
+		description = artifact_throne_charlemagne_description
+		type = throne_special
+		visuals = throne_charlemagne
+		wealth = scope:wealth
+		quality = scope:quality
+		template = throne_charlemagne_template
+		history = {
+			type = created
+			date = 800.12.25
+			recipient = character:6392 #Karl I the Great
+			location = province:2092 #Aachen
+		}
+		modifier = throne_charlemagne_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = charlamagne_throne
+		# k_lotharingia history copied manually because it is destroyed before 1066
+		add_artifact_history = {
+			type = inherited
+			date = 814.1.2
+			recipient = character:90095 #Louis I
+		}
+		add_artifact_history = {
+			type = inherited
+			date = 817.1.1
+			recipient = character:30227 #Lothair I
+		}
+		add_artifact_title_history = {
+			target = title:e_hre
+			date = 973.5.7
+		}
+		add_scaled_artifact_modifier_majesty_effect = yes
+		add_scaled_artifact_modifier_rulership_effect = yes
+		save_scope_as = epic
+		save_scope_value_as = {
+			name = throne
+			value = yes
+		}
+	}
+}
+	}
+	
+	{
+create_artifact_throne_scone_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = artifact_throne_stone_scone_name
+		description = artifact_throne_stone_scone
+		type = throne_special
+		visuals = throne_scone
+		wealth = scope:wealth
+		quality = scope:quality
+		template = throne_scone_template
+		history = {
+			type = created
+			date = 841.6.1
+			recipient = character:6018 #Kenneth mac Ailpín
+			location = province:1742 #Scone
+		}
+		modifier = throne_scone_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = throne_scone
+		save_scope_as = epic
+		add_scaled_artifact_modifier_rulership_effect = yes
+		save_scope_value_as = {
+			name = throne
+			value = yes
+		}
+		add_artifact_title_history = {
+			target = title:k_scotland
+			date = 858.1.1
+		}
+	}
+}
+	}
+	
+	{
+create_artifact_monomachus_crown_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = monomachus_crown_name
+		description = monomachus_crown_description
+		template = general_unique_template
+		type = helmet
+		visuals = pedestal_justinian
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created
+			date = 1042.6.11
+			recipient = character:1726 #Konstantinos IX
+			location = province:496 #Constantinople
+		}
+		modifier = monomachus_crown_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		save_scope_as = epic
+		add_artifact_title_history = {
+			target = title:e_byzantium
+			date = 1055.1.11
+		}
+	}
+}
+	}
+	
+	{
+create_artifact_sculpture_cabinet_pentapyrgion_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_masterwork = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = artifact_sculpture_cabinet_pentapyrgion_name
+		description = artifact_sculpture_cabinet_pentapyrgion_description
+		type = sculpture
+		visuals = sculpture_cabinet_pentapyrgion
+		template = pentapyrgion_template
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created
+			date = 839.6.1
+			recipient = character:70491 #Theophilos
+			location = province:496 #Constantinople
+		}
+		modifier = pentapyrgion_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		add_artifact_title_history = {
+			target = title:e_byzantium
+			date = 842.1.20
+		}
+		save_scope_value_as = {
+			name = cupboard
+			value = yes
+		}
+	}
+}
+	}
+	
+	{
+create_artifact_wall_sword_attila_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = artifact_wall_sword_attila_name
+		description = artifact_wall_sword_attila_description
+		type = pedestal
+		template = attila_template
+		visuals = wall_sword_attila
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created_before_history
+		}
+		modifier = attila_sword_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = sword_attila
+		save_scope_as = epic
+	}
+}
+	}
+}
+
+"common\scripted_effects\00_ep1_inspiration_effects.txt" = {
+	{
+							10 = {
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = crown_of_justinian
+										}
+									}
+									scope:location ?= {
+										OR = {
+											geographical_region = custom_eastern_roman_empire
+											culture = { has_cultural_pillar = heritage_byzantine }
+										}
+									}
+								}
+								create_artifact_pedestal_justinian_effect = { OWNER = root }
+							}
+	}
+	
+	{
+							10 = { #Head of St Edmund
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = edmund_head
+										}
+									}
+									scope:location ?= {
+										OR = {
+											geographical_region = world_europe_west_britannia
+											geographical_region = world_europe_north
+										}
+									}
+								}
+								create_artifact_edmund_head_effect = { OWNER = root }
+							}
+	}
+	
+	{
+							10 = { #Recreate if lost
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = charlamagne_throne
+										}
+									}
+									scope:location ?= {
+										OR = {
+											geographical_region = custom_carolingian_francia
+											geographical_region = custom_carolingian_germany
+											geographical_region = custom_lotharingia
+											geographical_region = custom_northern_italy
+										}
+									}
+								}
+								create_artifact_throne_charlemagne_effect = { OWNER = root }
+							}
+	}
+	
+	{
+							10 = {
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = throne_scone
+										}
+									}
+									scope:location ?= {
+										geographical_region = world_europe_west_britannia
+									}
+								}
+								create_artifact_throne_scone_effect = { OWNER = root }
+							}
+	}
+	
+	{
+							10 = {
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = sword_attila
+										}
+									}
+									scope:location ?= {
+										OR = {
+											geographical_region = custom_south_slavia
+											geographical_region = custom_carpathia
+											geographical_region = ghw_region_crimea
+											geographical_region = custom_bavaria
+										}
+									}
+								}
+								create_artifact_wall_sword_attila_effect = { OWNER = root }
+							}
+	}
+}
+
+"common\scripted_effects\01_dlc_fp3_scripted_effects.txt" = {
+	{
+		set_coa = house:house_seljuk
+	}
+}
+
+"common\scripted_modifiers\00_marriage_scripted_modifiers.txt" = {
+	{
+	#############
+	#  HAROLD   #
+	#############
+	modifier = {
+		add = -5000
+		years_from_game_start <= 5
+		OR = {
+			scope:actor = character:122
+			scope:recipient = character:122
+			scope:secondary_actor = character:122
+			scope:secondary_recipient = character:122
+		}
+		scope:actor = {
+			is_ai = yes
+		}
+		scope:recipient = {
+			is_ai = yes
+		}
+		scope:secondary_actor = {
+			is_ai = yes
+		}
+		scope:secondary_recipient = {
+			is_ai = yes
+		}
+	}
+	}
+}
+
+"events\bookmark_events.txt" = {
+	{
+###Æthelred isn't as cool as Alfred so we kill him
+bookmark.0001 = { #by Mathilda Bjarnehed
+	type = character_event
+	hidden = yes
+	
+	trigger = {
+		this = character:33358 #Æthelred
+		is_ai = yes
+		exists = player_heir
+		player_heir = character:7627 #Alfred the Great
+	}
+
+	immediate = {
+		if = {
+			limit = { is_at_war = yes }
+
+			random_list = {
+				20 = { #Very wounded
+					increase_wounds_effect = { REASON = battle }
+					if = {
+						limit = { is_alive = yes }
+						increase_wounds_effect = { REASON = battle }
+					}
+					if = {
+						limit = { is_alive = yes }
+						increase_wounds_effect = { REASON = battle }
+					}
+					if = {
+						limit = { is_alive = yes }
+						increase_wounds_effect = { REASON = battle }
+					}
+				}
+				80 = { #Killed
+					random_war_enemy = {
+						if = {
+							limit = { is_commanding_army = yes }
+							save_scope_as = killer
+						}
+						else = {
+							random_knight = {
+								save_scope_as = killer
+							}
+						}
+					}
+					if = {
+						limit = { exists = scope:killer }
+						death = {
+							death_reason = death_hunting_accident
+							killer = scope:killer
+						}
+					}
+				}
+			}	
+		}
+		else = {
+			random_list = {
+				10 = { #Cancer
+					contract_disease_effect = { DISEASE = cancer TREATMENT_EVENT = no }
+				}
+				90 = { #Hunting accident
+					death = {
+						death_reason = death_hunting_accident
+					}
+				}
+			}	
+		}
+	}
+}
+		
+### Alfred is pretty cool so we give him a nickname
+bookmark.0002 = { #by Mathilda Bjarnehed
+	type = character_event
+	title = bookmark.0002.t
+	desc = bookmark.0002.desc
+	theme = crown
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+	
+	trigger = {
+		is_ai = no
+		is_independent_ruler = yes
+	}
+
+	#Resend
+	on_trigger_fail = {
+		if = {
+			limit = { is_ai = no }
+			trigger_event = {
+				id = bookmark.0002
+				days = 1800 #~5 years
+			}
+		}
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_positive_effect"
+		capital_province = { save_scope_as = capital }
+		random_realm_province = {
+			limit = { NOT = { this = scope:capital } }
+			save_scope_as = province
+		}
+		give_nickname = nick_the_great
+	}
+
+	option = {
+		name = bookmark.0002.a
+	}
+}
+	}
+	
+	{
+### The Ragnarsson brothers catch King Aella ##
+# The event can trigger when you imprison Aella as one of his sons
+# It also works for other norse!
+
+bookmark.0003 = { #by Mathilda Bjarnehed
+	type = character_event
+	hidden = yes
+	
+	trigger = {
+		scope:imprisoner.faith = { trait_is_virtue = vengeful }
+		scope:imprisoner = {
+			any_close_family_member = {
+				even_if_dead = yes
+				exists = killer
+				killer = root
+				save_temporary_scope_as = killed_character
+			}
+		}
+		#If the imprisoner don't know you're the killer you might reveal yourself if you're dumb or not sneaky
+		trigger_if = {
+			limit = {
+				any_secret = {
+					secret_type = secret_murder
+					secret_target = scope:killed_character
+					NOT = { any_secret_knower = { this = scope:imprisoner } }
+				}
+			}
+			OR = {
+				has_trait = intellect_bad
+				has_trait = dull
+				intrigue <= medium_skill_rating
+			}
+			NOR = {
+				has_trait = shrewd
+				has_trait = intellect_good
+				has_trait = schemer
+			}
+		}
+		trigger_if = {
+			limit = { this = character:163103 } #Aella
+			NOT = {
+				is_target_in_global_variable_list = {
+					name = triggered_bookmark_events
+					target = flag:bookmark_867_northmen_aellas_capture
+				}
+			}
+		}
+	}
+
+	immediate = {
+		if = {
+			limit = { this = character:163103 } #Aella
+			add_to_global_variable_list = {
+				name = triggered_bookmark_events
+				target = flag:bookmark_867_northmen_aellas_capture
+			}
+		}
+		save_scope_as = prisoner
+
+		scope:imprisoner = {
+			random_close_family_member = {
+				even_if_dead = yes
+				limit = {
+					exists = killer
+					killer = root
+					this = character:163109 #Lodbrok
+				}
+				alternative_limit = {
+					exists = killer
+					killer = root
+				}
+				save_scope_as = dead
+			}
+			trigger_event = {
+				id = bookmark.0004
+				days = 1
+			}
+		}
+	}
+}
+	}
+	
+	{
+bookmark.0004 = { #by Mathilda Bjarnehed
+	type = character_event
+	title = bookmark.0004.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+			    trigger = { #You did not know they had killed your family-member
+					scope:prisoner = {
+						any_secret = {
+	    					secret_type = secret_murder
+	    					secret_target = scope:dead
+	    					NOT = { any_secret_knower = { this = root } }
+	    				}
+					}
+			    }
+			    desc = bookmark.0004.desc_unknown
+			}
+			desc = bookmark.0004.desc
+		}
+	}
+	theme = dungeon
+	left_portrait = {
+		character = scope:prisoner
+		animation = fear
+	}
+	lower_right_portrait = scope:dead
+
+	trigger = {
+		NOT = {
+			any_in_list = {
+				list = captured_rivals
+				this = scope:prisoner
+			}
+		}
+	}
+	
+	immediate = {
+		play_music_cue = "mx_cue_murder"
+		if = {
+			limit = {
+				scope:prisoner = {
+					any_secret = {
+    					secret_type = secret_murder
+    					secret_target = scope:dead
+    					NOT = { any_secret_knower = { this = root } }
+    				}
+				}
+			}
+			scope:prisoner = {
+				random_secret = {
+					limit = {
+						secret_type = secret_murder
+						secret_target = scope:dead
+						NOT = { any_secret_knower = { this = root } }
+					}
+					reveal_to = root
+				}
+			}
+		}
+	}
+
+	#Blood eagle
+	option = {
+		name = bookmark.0004.a
+		
+		add_dread = medium_dread_gain
+		add_prestige = medium_prestige_gain
+		scope:prisoner = {
+			death = {
+				death_reason = death_execution_blood_eagle
+				killer = root
+			}
+		}
+		scope:dead = {
+			every_close_family_member = {
+				custom = bookmark.0004.a.custom
+				limit = { NOT = { this = root } }
+				add_opinion = {
+					modifier = pleased_opinion
+					opinion = 30
+					target = root
+				}
+			}
+		}
+		execute_opinion_effect = { VICTIM = scope:prisoner EXECUTIONER = root }
+
+		ai_chance = {
+			base = 50
+			modifier = {
+				scope:dead = character:163109 #Lodbrok
+				add = 1000
+			}
+		}
+	}
+
+	#Sacrifice to Odin
+	option = {
+		name = bookmark.0004.b
+		trigger = { faith = { has_doctrine_parameter = human_sacrifice_active } }
+
+		add_piety = major_piety_gain
+		scope:prisoner = {
+			death = {
+				death_reason = death_execution_blood_eagle
+				killer = root
+			}
+		}
+		scope:dead = {
+			every_close_family_member = {
+				custom = bookmark.0004.a.custom
+				limit = { NOT = { this = root } }
+				add_opinion = {
+					modifier = pleased_opinion
+					opinion = 30
+					target = root
+				}
+			}
+		}
+		execute_opinion_effect = { VICTIM = scope:prisoner EXECUTIONER = root }
+
+		ai_chance = {
+			base = 50
+		}
+	}
+	
+	#I have other plans...
+	option = {
+		name = bookmark.0004.c
+		
+		ai_chance = {
+			base = 0
+			modifier = {
+				ai_vengefulness <= medium_negative_ai_value
+				add = 100
+			}
+		}
+	}
+}
+	}
+	
+	{
+# The matter of Jaromir
+bookmark.1069 = {
+	type = character_event
+	title = bookmark.1069.t
+	desc = bookmark.1069.desc
+	theme = faith
+	override_background = { reference = holy_site_generic }
+	override_effect_2d = {
+		reference = rain
+	}
+	left_portrait = {
+		character = character:john_monk
+		animation = prayer
+	}
+	right_portrait = {
+		character = scope:jaromir
+		animation = dismissal
+	}
+	lower_right_portrait = root.faith.religious_head
+
+	trigger = {
+		character:528 ?= {
+			is_alive = yes
+		}
+		character:john_monk ?= {
+			is_alive = yes
+		}
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_negative"
+		character:528 = {
+			save_scope_as = jaromir
+		}
+		character:john_monk = {
+			save_scope_as = john_monk
+		}
+	}
+
+	option = { # Replace Jaromir with John
+		name = bookmark.1069.a
+		flavor = bookmark.1069.a_flavor
+		
+		faith.religious_head = {
+			add_opinion = {
+				target = root
+				modifier = impious_opinion
+				opinion = -30
+			}
+		}
+		
+		create_title_and_vassal_change = {
+  			type = granted
+  			save_scope_as = change
+  		}
+  		title:c_opava = {
+	  		change_title_holder = {
+				holder = scope:john_monk
+				change = scope:change
+				take_baronies = no
+			}
+  		}
+		resolve_title_and_vassal_change = scope:change
+		scope:john_monk = {
+			hidden_effect = {
+				change_government = theocracy_government
+			}
+		}
+		fire_councillor = character:528
+		assign_councillor_type = {
+			type = councillor_court_chaplain
+			remove_existing_councillor = yes
+			target = character:john_monk
+		}
+		add_character_flag = {
+			flag = bishop_assignment
+			days = 1
+		}
+		ai_chance = {
+			base = 25
+		}
+	}
+
+	option = { # Make great concessions to Jaromir
+		name = bookmark.1069.b
+		flavor = bookmark.1069.b_flavor
+		
+		pay_short_term_gold = {
+			target = scope:jaromir
+			gold = medium_gold_value
+		}
+		
+		scope:jaromir = {
+			add_opinion = {
+				target = root
+				modifier = pleased_opinion
+				opinion = 30
+			}
+			remove_relation_rival = root
+		}
+
+		ai_chance = {
+			base = 75
+		}
+	}
+
+	option = { # Make great concessions to Jaromir
+		name = bookmark.1069.c
+		flavor = bookmark.1069.c_flavor
+
+		ai_chance = {
+			base = 75
+		}
+	}
+	
+	after = {
+		hidden_effect = {
+			if = {
+				limit = {
+					has_character_flag = bishop_assignment
+				}
+				assign_councillor_type = {
+					type = councillor_court_chaplain
+					remove_existing_councillor = yes
+					target = character:john_monk
+				}
+			}
+		}
+	}
+}
+	}
+	
+	{
+###	Daurama takes Bawo under her wing.
+bookmark.0101 = {
+	type = character_event
+	title = bookmark.0101.t
+	desc = {
+		desc = bookmark.0101.desc_intro
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:bayajidda = { is_alive = yes }
+				}
+				desc = bookmark.0101.desc_living
+			}
+			desc = bookmark.0101.desc_dead
+		}
+	}
+	theme = crown
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	right_portrait = {
+		character = scope:bayajidda
+	}
+	lower_center_portrait = {
+		character = scope:bewo
+	}
+
+	trigger = {
+		is_ai = no
+		character:251181 = { is_alive = yes }
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_succession"
+		character:251180 = { save_scope_as = bayajidda }
+		character:251181 = { save_scope_as = bewo }
+		character:251252 = { save_scope_as = shawata }
+		title:k_hausaland = { save_scope_as = hausaland}
+	}
+
+	# Remember your heritage, my child.
+	option = {
+		name = bookmark.0101.a
+
+		#Move Bewo to Daurama's house.
+		custom_tooltip = bookmark.0101.a.tt
+		character:251181 = { set_house = root.house }
+		add_courtier = character:251181 #Move him to your court
+
+		#Bayajidda is, understandably, a little hurt by all this.
+		character:251180 = {
+			add_opinion = {
+				modifier = hurt_opinion
+				target = root
+				opinion = -20
+			}
+		}
+
+		ai_chance = {
+			base = 0	#The AI should never get this event, but if they do, shouldn't opt in.
+		}
+	}
+	
+	# He is my blood, whatever his name.
+	option = {
+		name = bookmark.0101.b
+
+		character:251180 = {
+			add_opinion = {
+				modifier = pleased_opinion
+				target = root
+				opinion = 40
+			}
+		}
+		custom_tooltip = bookmark.0101.b.tt
+
+		ai_chance = {
+			base = 100	#AI doesn't get this event, but should always pick no.
+		}
+	}
+
+	# The Magajiya will continue to rule!
+	option = {
+		name = bookmark.0101.c
+
+		add_realm_law_skip_effects = female_preference_law
+		scope:bewo = { 
+			set_house = root.house
+			add_trait = disinherited
+		}
+		scope:shawata = {	
+			if = {
+				limit = {
+					is_alive = yes
+					OR = {
+						matrilinear_marriage = yes
+						is_married = no
+					}
+				}
+				custom_tooltip = bookmark.0101.c.tt
+			}
+			else = {
+				custom_tooltip = bookmark.0101.b.tt
+			}
+		}
+		
+
+		ai_chance = {
+			base = 0	#The AI should never get this event, but if they do, shouldn't opt in.
+		}
+	}
+}
+	}
+	
+	{
+###	Matilda start-up event
+bookmark.1066 = {
+	type = character_event
+	title = bookmark.1066.t
+	desc = bookmark.1066.desc
+	theme = marriage
+	override_background = { reference = ep2_wedding_ceremony }
+	override_effect_2d = {
+		reference = rain	
+	}
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+	right_portrait = {
+		character = scope:hunchback
+		animation = ecstasy
+	}
+	lower_right_portrait = {
+		character = scope:hunchbacks_father
+	}
+	lower_left_portrait = {
+		character = scope:mum
+	}
+
+	trigger = {
+		#this = character:7757
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_succession"
+		character:20248 = { save_scope_as = hunchback }
+		character:11030 = { save_scope_as = hunchbacks_father }
+		mother = { save_scope_as = mum }
+		hidden_effect = {
+			add_opinion = {
+				target = scope:hunchback
+				modifier = disgusted_opinion
+				opinion = -75
+			}
+		}
+	}
+
+	option = { # Murder the husband, with a *hefty* bonus (*Potentially* Historical Option)
+		name = bookmark.1066.a
+		flavor = bookmark.1066.a_flavor
+		
+		marry = scope:hunchback
+		
+		if = {
+			limit = {
+				NOT = {
+					any_scheme = {
+						scheme_type = murder
+						scheme_target = scope:hunchback
+					}
+				}
+			}
+			start_scheme = {
+				target = scope:hunchback
+				type = murder
+			}
+		}
+		custom_tooltip = diplomacy_family.2250.b.tt
+		hidden_effect = {
+			random_scheme = {
+				limit = {
+					scheme_type = murder
+					scheme_target = scope:hunchback
+				}
+				add_scheme_modifier = {
+					type = massive_extra_success_chance_modifier
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Physically abandon and permanently avoid him (Historical Option)
+		name = bookmark.1066.b
+		flavor = bookmark.1066.b_flavor
+		
+		add_character_modifier = {
+			modifier = abandoned_marriage_modifier
+		}
+		
+		if = {
+			limit = {
+				betrothed ?= scope:hunchback
+			}
+			break_betrothal = scope:hunchback
+		}
+		else_if = {
+			limit = {
+				is_spouse_of = scope:hunchback
+			}
+			divorce_effect = {
+				DIVORCER = root
+				DIVORCEE = scope:hunchback
+			}
+		}
+		
+		scope:hunchbacks_father = {
+			if = {
+				limit = {
+					NOT = {
+						scope:hunchback = {
+							is_courtier_of = scope:hunchbacks_father
+						}
+					}
+				}
+				add_courtier = scope:hunchback
+			}
+		}
+		
+		reverse_add_opinion = {
+			target = scope:hunchback
+			modifier = abandoned_me_opinion
+			years = 30
+			opinion = -50
+		}
+		
+		reverse_add_opinion = {
+			target = scope:hunchbacks_father
+			modifier = insulted_opinion
+			years = 30
+			opinion = -50
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = { # Use your influence to flip the lineality of the marriage
+		name = bookmark.1066.c
+		flavor = bookmark.1066.c_flavor
+		
+		add_piety = -100
+		
+		marry_matrilineal = scope:hunchback
+		
+		reverse_add_opinion = {
+			target = scope:hunchbacks_father
+			modifier = annoyed_opinion
+			opinion = -20
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				factor = 0
+				scope:hunchbacks_father = {
+					is_ai = no
+				}
+			}
+		}
+	}
+
+	option = { # Just hope he dies...
+		name = bookmark.1066.d
+		flavor = lineality_warning
+		add_internal_flag = dangerous
+		
+		marry = scope:hunchback
+
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+	}
+}
+
+"events\single_combat_events.txt" = {
+	{
+		# Historical
+		dynasty = dynasty:1055
+		house = house:house_british_isles_wessex
+	}
+	{
+		dynasty = dynasty:vanity_riedinger
+	}
+}
+
+"events\game_rule_events.txt" = {
+	{
+game_rule.1011 = {
+	scope = none
+	hidden = yes
+
+	trigger = {
+		game_start_date <= 867.1.1
+	}
+
+	immediate = {
+		#launch_historical
+		if = {
+			limit = { has_game_rule = launch_historical }
+			trigger_event = {
+				id = game_rule.1012
+				months = { 360 480 }
+			}
+		}
+		#launch_immediate
+		if = {
+			limit = { has_game_rule = launch_immediate }
+			character:159137 = {
+				add_character_flag = undertaking_hungarian_migration
+				start_war = {
+					cb = hungarian_migration_cb
+					target = character:70382
+					target_title = title:k_hungary
+				}
+			}
+		}
+		#launch_random
+		if = {
+			limit = { has_game_rule = launch_random }
+			trigger_event = {
+				id = game_rule.1012
+				months = { 60 480 }
+			}
+		}
+		#launch_off: just do nothing.
+	}
+}
+	}
+	
+	{
+			AND = {
+				exists = character:7757
+				this = character:7757 #Matilda Canossa, her bookmark start is about overcoming the issue of no heir
+			}
+	}
+}
+
+"gfx\portraits\portrait_animations\animations.txt" = {
+	{
+				modifier = {
+					add = 5000
+					this = character:83355
+				}
+	}
+	{
+				modifier = {
+					add = 5000
+					this = character:1128
+				}
+	}
+	{
+				modifier = {
+					add = 5000
+					this = character:3924
+				}
+	}
+	{
+				modifier = {
+					add = -100
+					this = character:7757
+				}
+	}
+	{
+				modifier = {
+					add = 5000
+					this = character:7757
+				}
+	}
+}
+
+"gfx\portraits\portrait_modifiers\02_all_developer_characters.txt" = {
+	{
+             modifier = {
+                add = 999
+				exists = this
+				exists = character:73857
+				this = character:73857
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:70292
+                this = character:70292
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:163157 #Ismail Samani
+                this = character:163157 #Ismail Samani
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:1230316 #Suri of Mandesh
+                this = character:1230316 #Suri of Mandesh
+            }
+	}
+	{
+             modifier = {
+                add = 999
+                exists = this
+                exists = character:73759
+                this = character:73759
+            }
+	}
+	{
+             modifier = {
+                add = 999
+                exists = this
+                exists = character:73783
+                this = character:73783
+            }
+	}
+}
+
+"common\on_action\prison_on_actions.txt" = {
+	{
+		bookmark.0003			# King Aella gets imprisoned by one of Ragnarr Lodbrok's sons
+	}
+}
+
+"common\decisions\80_major_decisions_british_isles.txt" = {
+	{
+			dynasty = dynasty:1029001	#The Cornish royal house is always able to get away with these shenanigans.
+	}
+	{
+			dynasty = dynasty:1029001	#The Cornish royal house is at it again.
+	}
+}
+
+"common\legends\chronicles\00_chronicles.txt" = {
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:6392
+				}
+				desc = legend_carolingian
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:6392
+				}
+				desc = legend_carolingian_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:82233
+				}
+				desc = legend_the_wheelwright
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:82233
+				}
+				desc = legend_the_wheelwright_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:159058
+				}
+				desc = legend_cadell
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:159058
+				}
+				desc = legend_cadell_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:107590
+				}
+				desc = legend_el_cid
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:107590
+				}
+				desc = legend_el_cid_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:1700
+				}
+				desc = legend_peasant_emperor
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:1700
+				}
+				desc = legend_peasant_emperor_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:168345
+				}
+				desc = legend_premysl
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:168345
+				}
+				desc = legend_premysl_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:303250
+				}
+				desc = legend_borjigin
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:303250
+				}
+				desc = legend_borjigin_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:7255
+				}
+				desc = legend_the_red_hand
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:7255
+				}
+				desc = legend_the_red_hand_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:180637
+				}
+				desc = legend_yazdagird_iii
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:180637
+				}
+				desc = legend_yazdagird_iii_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:180645
+				}
+				desc = legend_bahram_gur
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:180645
+				}
+				desc = legend_bahram_gur_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:188637
+				}
+				desc = legend_saman_khudah
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:188637
+				}
+				desc = legend_saman_khudah_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:163109
+				}
+				desc = legend_ragnarr
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:163109
+				}
+				desc = legend_ragnarr_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:7627
+				}
+				desc = legend_alfred_of_wessex
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:7627
+				}
+				desc = legend_alfred_of_wessex_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:168130
+				}
+				desc = legend_william_gellones
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:168130
+				}
+				desc = legend_william_gellones_desc
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:99
+				}
+				desc = legend_edward_the_martyr
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:99
+				}
+				desc = legend_edward_the_martyr_desc
+			}
+	}
+}
+
+"events\diarchy_events\diarchy_events.txt" = {
+	{
+		# Historic setup stuff.
+		## Fatimids start basically completely screwed.
+		if = {
+			limit = { this = character:3096 }
+			set_diarchy_swing = 100
+		}
+	}
+}
+
+"events\dlc\fp1\fp1_major_decision_events.txt" = {
+	{
+scripted_effect fp1_1011_gib_pretty_hair_effect = {
+	# Gain the famous nickname.
+	give_nickname = nick_fairhair
+	# And a bit of diplomacy for your long vow.
+	add_diplomacy_skill = 2
+	# Plus that haircut.
+	remove_character_modifier = harald_tanglehairs_vow_modifier
+}
+
+#	Tanglehair becomes Fairhair.
+fp1_major_decisions.1011 = {
+	type = character_event
+	title = fp1_major_decisions.1011.t
+	desc = {
+		desc = fp1_major_decisions.1011.desc.intro
+		first_valid = {
+			triggered_desc = {
+				trigger = { exists = scope:gyda }
+				desc = fp1_major_decisions.1011.desc.gyda
+			}
+			desc = fp1_major_decisions.1011.desc.oath
+		}
+		desc = fp1_major_decisions.1011.desc.outro
+	}
+	theme = crown
+	left_portrait = {
+		character = root
+		animation = personality_honorable
+	}
+	right_portrait = {
+		character = scope:gyda
+		animation = admiration
+	}
+	override_background = { reference = fp1_ocean_norse }
+
+	trigger = {
+		# This character is Harald Fairhair.
+		exists = character:144000
+		this = character:144000
+		# The title they've acquired is Norway.
+		scope:title = title:k_norway
+		# Norway has been created by them.
+		scope:transfer_type = flag:created
+		# Norway has not been created previously.
+		NOT = { exists = global_var:norway_created }
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_succession"
+		# Check to see if Gyda is still around and kicking, and if so, treat this as a romance.
+		character:166044 = {
+			if = {
+				limit = {
+					is_alive = yes
+					can_marry_character_trigger = { CHARACTER = root }
+					has_any_bad_relationship_with_root_trigger = no
+					is_ai = yes
+				}
+				save_scope_as = gyda
+			}
+		}
+	}
+
+	# My vow fulfilled!
+	option = {
+		name = fp1_major_decisions.1011.a
+
+		# Apply standard haircut effects.
+		fp1_1011_gib_pretty_hair_effect = yes
+
+		ai_chance = {
+			# AI should only default to this if Gyda is unavailable.
+			base = 0
+		}
+	}
+	
+	# Gyda, my love!
+	option = {
+		name = fp1_major_decisions.1011.b
+		trigger = {
+			# Gyda must have been valid.
+			exists = scope:gyda
+			# And, for MP, remain valid.
+			can_marry_character_trigger = { CHARACTER = scope:gyda }
+		}
+
+		# Apply standard haircut effects.
+		fp1_1011_gib_pretty_hair_effect = yes
+		# Harald & Gyda are wed.
+		if = {
+			limit = {
+				has_ep2_dlc_trigger = yes
+			}
+			create_grand_wedding_betrothal = {
+				SPOUSE_1 = root
+				SPOUSE_2 = scope:gyda
+				HOST = root
+				PROMISEE = scope:gyda
+			}
+		}
+		else = { marry = scope:gyda }
+		# And rather happy about it.
+		add_opinion = {
+			target = scope:gyda
+			modifier = love_opinion
+			opinion = 50
+		}
+		reverse_add_opinion = {
+			target = scope:gyda
+			modifier = love_opinion
+			opinion = 50
+		}
+
+		ai_chance = {
+			# AI should always select this option if it's present.
+			base = 100
+		}
+	}
+	
+	# Leave it; it is a mark of the struggles I have been through.
+	option = {
+		name = fp1_major_decisions.1011.c
+		trigger = { is_ai = no }
+
+		# Harald Tanglehair keeps his wild locks.
+		custom_tooltip = fp1_major_decisions.1011.c.tt
+		## We swap the modifiers out so the copy responds correctly.
+		hidden_effect = {
+			remove_character_modifier = harald_tanglehairs_vow_modifier
+			add_character_modifier = harald_tanglehairs_reminder_modifier
+		}
+		# And a bit of learning for the lessons you've endured.
+		add_learning_skill = 2
+
+		ai_chance = {
+			# Option here for player choice.
+			base = 0
+		}
+	}
+}
+	}
+	
+	{
+		# And if it's not Harald Fairhair who did it, shame him.
+		if = {
+			limit = {
+				exists = character:144000
+				NOT = { this = character:144000 }
+				character:144000 = { is_alive = yes }
+			}
+			hidden_effect = {
+				# Save the current King of Norway.
+				save_scope_as = king_of_norway
+				# And message Harald with the bad news.
+				character:144000 = {
+					send_interface_toast = {	
+						title = fp1_major_decisions.1012.t
+						left_icon = scope:king_of_norway
+						hidden_effect = { remove_character_modifier = harald_tanglehairs_vow_modifier }
+						add_character_modifier = harald_tanglehairs_vow_broken_modifier
+					}
+				}
+			}
+		}
+	}
+}
+
+"events\dlc\fp1\fp1_scandinavian_adventurer_events.txt" = {
+	{
+#	Drag in famous landless Norse characters if they haven't become landed after twenty years.
+fp1_scandinavian_adventurers.0011 = {
+	scope = none
+	hidden = yes
+
+	trigger = {
+		# DLC check.
+		has_fp1_dlc_trigger = yes
+		# No point in later starts.
+		game_start_date = 867.1.1
+	}
+
+	immediate = {
+		trigger_event = {
+			id = fp1_scandinavian_adventurers.0012
+			years = 20
+		}
+	}
+}
+	}
+	
+	{
+scripted_effect scandi_adventurers_grab_famous_character_effect = {
+	$CHARACTER$ ?= {
+		if = {
+			limit = {
+				# Still kickin'.
+				is_physically_able_adult = yes
+				# Shouldn't ever really be an issue, but y'never know.
+				is_ai = yes
+				# Hasn't got anything dynastic of note going on.
+				is_ruler = no
+				any_heir_to_title = { count = 0 }
+				# And is free and clear to go.
+				is_imprisoned = no
+				OR = {
+					is_married = no
+					AND = {
+						is_female = yes
+						matrilinear_marriage = yes
+					}
+					AND = {
+						is_male = yes
+						patrilinear_marriage = yes
+					}
+				}
+				# And is still North Germanic/not in either of the lists.
+				culture = { has_cultural_pillar = heritage_north_germanic }
+				NOR = {
+					save_temporary_scope_as = character
+					any_in_global_list = {
+						variable = western_scandinavian_adventurer_list
+						this = scope:character
+					}
+					any_in_global_list = {
+						variable = eastern_scandinavian_adventurer_list
+						this = scope:character
+					}
+				}
+			}
+			# Norse, Norwegians, & Danes go into the western adventurer list.
+			if = {
+				limit = {
+					OR = {
+						has_culture = culture:norse
+						has_culture = culture:norwegian
+						has_culture = culture:danish
+					}
+				}
+				add_to_global_variable_list = {
+					name = western_scandinavian_adventurer_list
+					target = this
+				}
+			}
+			# Norse & Swedes go into the eastern adventurer list.
+			if = {
+				limit = {
+					OR = {
+						has_culture = culture:norse
+						has_culture = culture:swedish
+					}
+				}
+				add_to_global_variable_list = {
+					name = eastern_scandinavian_adventurer_list
+					target = this
+				}
+			}
+			# Either way, flag 'em for priority in the system.
+			add_character_flag = prioritised_scandinavian_adventurer
+		}
+	}
+}
+
+fp1_scandinavian_adventurers.0012 = {
+	hidden = yes
+	scope = none
+
+	trigger = {
+		# DLC check.
+		has_fp1_dlc_trigger = yes
+		# No point in later starts.
+		game_start_date = 867.1.1
+
+		OR = {
+			exists = character:242
+			exists = character:163119
+		}
+		
+	}
+
+	immediate = {
+		# Nab Rollo.
+		scandi_adventurers_grab_famous_character_effect = { CHARACTER = character:242 }
+		# Nab Ubbe.
+		scandi_adventurers_grab_famous_character_effect = { CHARACTER = character:163119 }
+	}
+}
+	}
+	
+	{
+fp1_scandinavian_adventurers.0021 = {
+	hidden = yes
+	scope = none
+
+	trigger = {
+		# DLC check.
+		has_fp1_dlc_trigger = yes
+		# No point in later starts.
+		game_start_date = 867.1.1
+	}
+
+	immediate = {
+		# Haesteinn.
+		character:6878 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Ivar the Boneless.
+		character:163111 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Halfdan Whiteshirt.
+		character:163112 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Sigurdr Snake-in-the-Eye.
+		character:163110 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Bjorn Ironside.
+		character:163108 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Rurik the Troublemaker.
+		character:40605 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Dyre the Stranger.
+		character:6811 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Harald Fairhair.
+		character:144000 = { add_character_flag = prioritised_scandinavian_adventurer }
+		# Audr the Deep-Minded.
+		character:168609 = { add_character_flag = prioritised_scandinavian_adventurer }
+	}
+}
+	}
+}
+
+"common\on_action\yearly_groups_on_actions.txt" = {
+	{
+		160 = fp2_yearly.1004   # The Hawk of Quarysh 
+	}
+	{
+		250 = fp3_yearly.8020 # The Lady of the Land
+	}
+}
+
+"events\dlc\fp2\fp2_yearly_events.txt" = {
+	{
+###################################
+# The Hawk of Quarysh
+# By Daniel Moore
+###################################
+fp2_yearly.1004 = {
+	type = character_event
+	title = fp2_yearly.1004.t
+	desc = fp2_yearly.1004.desc
+	theme = learning
+	left_portrait = {
+		character = root
+		animation = worry
+	}
+
+
+	trigger = {
+		has_fp2_dlc_trigger = yes
+
+		has_religion = religion:islam_religion
+
+		capital_province = {
+			geographical_region = world_europe_west_iberia
+		}
+
+		NOT = {
+			has_character_flag = fp2_yearly.1004
+		}
+	}
+
+	cooldown = {
+		years = 50
+	}
+
+	immediate = {
+		add_character_flag = fp2_yearly.1004
+
+		character:73679 = {
+			save_scope_as = hawk_of_quraysh
+		}
+
+		dynasty:597 = {
+			save_scope_as = hawk_dynasty
+		}
+
+		dynasty:100721 = {
+			save_scope_as = abbasid_dynasty
+		}
+	}
+
+	option = { #I'm related!
+		name = fp2_yearly.1004.c
+		trigger = {
+			dynasty = {
+				this = scope:hawk_dynasty
+			}
+		}
+
+		ai_chance = {
+			base = 1000
+		}
+		add_prestige = medium_prestige_value
+	}
+
+	option = { #How he inspired soldiers
+		name = fp2_yearly.1004.a
+			add_character_modifier = {
+				modifier = fp2_hawk_of_quarysh_martial_modifier
+				years = 10
+			}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_energy = 1
+				ai_boldness = 1
+			}
+		}
+	}
+
+	option = { #How diplomatic he was
+		name = fp2_yearly.1004.b
+			add_character_modifier = {
+				modifier = fp2_hawk_of_quarysh_diplomacy_modifier
+				years = 10
+			}
+
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_sociability = 1
+				ai_compassion = 1
+			}
+		}
+	}
+}
+	}
+}
+
+"events\dlc\fp3\fp3_heritage_events.txt" = {
+	{
+fp3_yearly.8020 = {
+	type = character_event  
+	title = fp3_yearly.8020.t
+	desc = fp3_yearly.8020.desc	
+	theme = faith 
+
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+
+	right_portrait = {
+		character = scope:pious_woman
+		animation = paranoia
+	}
+
+	lower_left_portrait = {
+		character = scope:righteous_caliph
+	}
+
+
+
+	trigger = {
+
+		#standard sanity checks
+		has_fp3_dlc_trigger = yes
+		is_ruler = yes
+		is_available_healthy_adult = yes
+
+		#premise checks - we need ROOT's faith to not have been reformed into a matriarchal faith for this historical context 
+		OR = {
+			has_religion = religion:islam_religion
+			has_religion = religion:christianity_religion
+		}
+
+		has_game_rule = default_gender_equality #this triggers an error. Suspected code issue.
+
+		NOT = {
+			faith = { has_doctrine = doctrine_gender_female_dominated } 
+		}
+
+		#checking for approppriate county 
+		any_held_county = {
+			OR = {
+				this = title:c_rayy
+				any_county_province = { 
+					barony = { fp3_zoroastrian_holy_sites_province_trigger = yes }	
+				}
+			}
+		}
+
+		#checking that we have a HoF with the appropriate interests 
+		NOT = { faith.religious_head = root }
+
+		exists = root.faith.religious_head
+
+		root.faith.religious_head = { 
+			fp3_zealous_caliph_trigger = yes
+			#checking that his Islam hasn't been reformed into something that'd make the event's premise weird
+			faith = { 
+				NOT = {
+					has_doctrine = doctrine_gender_female_dominated 
+				}	
+			}	
+		}	
+
+		#checking that we have a spouse or daughter that would fit the scope
+		OR = { 
+			any_spouse = { 
+				fp3_bibi_shahrbanu_devotee_trigger = yes
+			}
+			any_concubine = { 
+				fp3_bibi_shahrbanu_devotee_trigger = yes
+			}
+			any_child = {
+				fp3_bibi_shahrbanu_devotee_trigger = yes
+			}
+			any_courtier_or_guest = {
+				fp3_bibi_shahrbanu_devotee_trigger = yes
+				has_relation_friend = root
+			}
+		}	
+	}
+
+	immediate = {
+
+		
+		#Saving relevant historical characters and faiths as scopes
+		character:180638 = { save_scope_as = bibi_shahrbanu }
+
+		character:33912 = { save_scope_as = imam_husayn }
+
+		religion:zoroastrianism_religion = { save_scope_as = anahita_faith }
+
+		#saving the caliph as a scope
+		root.faith.religious_head = { 
+			if = {
+				limit = {
+					fp3_zealous_caliph_trigger = yes
+					faith = { 
+						NOT = {
+							has_doctrine = doctrine_gender_female_dominated 
+						}
+					}	
+				}	
+			}
+			save_scope_as = righteous_caliph
+		}
+
+		random_held_county = {
+			limit = { this = title:c_rayy }
+			save_scope_as = temple_county
+		}
+
+		if = { 
+			limit = {
+				NOT = {	exists = scope:temple_county }
+			}
+			random_held_county = {
+				limit = { 
+					any_county_province = {
+						barony = { fp3_zoroastrian_holy_sites_province_trigger = yes }
+					}
+				}
+				save_scope_as = temple_county
+			}
+		}
+
+		#getting the best pious woman for our purposes
+		if = {
+			limit = { 
+				any_spouse = { fp3_bibi_shahrbanu_devotee_trigger = yes	}
+			}
+			random_spouse = {
+				limit = { 
+					fp3_bibi_shahrbanu_devotee_trigger = yes
+				}
+				save_scope_as = pious_woman	
+			}
+		}
+		else_if = {
+			limit = { 
+				any_concubine = { fp3_bibi_shahrbanu_devotee_trigger = yes	}
+			}
+			random_concubine = {
+				limit = { 
+					any_concubine = { fp3_bibi_shahrbanu_devotee_trigger = yes	}
+				}
+				save_scope_as = pious_woman	
+			}
+		}
+		else_if = {
+			limit = { 
+				any_child = { fp3_bibi_shahrbanu_devotee_trigger = yes	}
+			}
+			random_child = {
+				limit = { 
+					any_child = { fp3_bibi_shahrbanu_devotee_trigger = yes	}
+				}
+				save_scope_as = pious_woman	
+			}
+		}
+		else = {
+			limit = { 
+				any_courtier_or_guest = { 
+					fp3_bibi_shahrbanu_devotee_trigger = yes
+					has_relation_friend = root	
+				}
+			}
+			random_courtier_or_guest = {
+				limit = { 
+					any_courtier_or_guest = { 
+						fp3_bibi_shahrbanu_devotee_trigger = yes
+						has_relation_friend = root	
+					}
+				}
+				save_scope_as = pious_woman	
+			}
+		}
+	}
+
+	cooldown = { years = 100 }
+
+	option = {
+		name = fp3_yearly.8020.a #triggered option if you like them very very much
+
+		trigger = {
+			
+			reverse_opinion = {
+				target = scope:pious_woman
+				value >= 30
+			}
+		}
+
+		remove_short_term_gold = minor_gold_value
+
+		scope:pious_woman = { 
+			if = {
+				limit = { 
+					OR = { 
+						has_relation_lover = root
+						has_relation_soulmate = root 
+					}
+				}
+				add_opinion = {
+					target = root
+					modifier = happy_opinion
+					opinion = 20 
+				}
+			}	
+			else = {
+				root = {
+					progress_towards_lover_effect = {
+						CHARACTER = scope:pious_woman
+						REASON = lover_sided_with_me_against_hof
+						OPINION = 20 
+					}
+				}
+			}	
+		}
+
+		scope:righteous_caliph = {
+			add_opinion = { 
+				target = root
+				opinion = -30
+				modifier = angry_opinion
+			}
+		}
+
+		stress_impact = {
+   			callous = major_stress_impact_gain
+   			shy = medium_stress_impact_gain
+   			zealous = major_stress_impact_gain
+		}
+
+		ai_chance = { 
+        	base = 100
+        	ai_value_modifier = {
+            	ai_sociability = 0.5
+            	ai_boldness = 1
+            	ai_rationality = 1
+            	ai_compassion = 1
+        	}
+   		}
+	}
+
+	option = {
+		name = fp3_yearly.8020.b
+		flavor = supporting_womens_faith_flavor
+
+		remove_short_term_gold = medium_gold_value
+
+		scope:temple_county = { 
+			add_county_modifier = {
+				modifier = fp3_persian_resurgence_county_modifier 
+				years = 50
+			}
+		}
+
+		scope:righteous_caliph = {
+			add_opinion = { 
+				target = root
+				opinion = -30
+				modifier = angry_opinion
+			}
+		}
+
+		scope:pious_woman = {
+			add_opinion = { 
+				target = root
+				opinion = 20
+				modifier = happy_opinion
+			}
+		}
+
+		stress_impact = {
+   			compassionate = minor_stress_impact_loss
+   			cynical = medium_stress_impact_gain 
+   			zealous = major_stress_impact_gain
+		}
+
+		ai_chance = { 
+        	base = 100
+        	ai_value_modifier = {
+            	ai_energy = 0.5
+            	ai_boldness = 1
+            	ai_vengefulness = 0.5
+        	}
+   		}
+	}
+
+	option = {
+		name = fp3_yearly.8020.c
+
+		add_piety = major_piety_gain
+
+		scope:righteous_caliph = {
+			add_opinion = { 
+				target = root
+				opinion = 20
+				modifier = pleased_opinion
+			}
+		}
+
+		scope:pious_woman = {
+			if = {
+				limit = { #if she has a forceful personality, she'll be galvanized in her faith by this
+					fp3_assertive_female_believer_trigger = yes
+				}
+				add_character_modifier = {
+					modifier = fp3_womens_faith_galvanized_modifier
+					years = 25
+				}
+			}
+			else = { #otherwise, she'll just be sad or angry 
+				add_opinion = { 
+					target = root
+					opinion = -20
+					modifier = fp3_persecuted_my_faith_opinion
+				}
+			}
+		}
+
+		hidden_effect = {
+			custom_tooltip = fp3_sharhabanu_devotees_angry.tt
+			random_courtier = { #female courtiers might get galvanized too, depending on their personality 
+				if = { 
+					limit = {
+						fp3_bibi_shahrbanu_devotee_trigger = yes
+						fp3_assertive_female_believer_trigger = yes  
+						NOT = { this = scope:pious_woman }
+					}
+					add_character_modifier = {
+						modifier = fp3_womens_faith_galvanized_modifier
+						years = 25
+					}
+				}
+			}
+		}
+
+		stress_impact = {
+   			zealous = minor_stress_impact_loss
+   			compassionate = medium_stress_impact_gain 
+   			content = medium_stress_impact_gain
+   			lazy = medium_stress_impact_gain
+		}
+
+		ai_chance = { 
+        	base = 100
+        	ai_value_modifier = {
+            	ai_energy = 0.5
+            	ai_boldness = 1
+            	ai_vengefulness = 0.5
+        	}
+   		}
+	}
+}
+	}
+}
+
+"common\decisions\dlc_decisions\fp_3\fp3_islamic_decisions.txt" = {
+	{
+avenge_the_battle_of_nahrawan_decision = {
+	
+	picture = "gfx/interface/illustrations/decisions/fp3/fp3_decision_supremacy.dds"
+	major = yes
+	ai_check_interval = 120
+	sort_order = 30
+
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					faith = {
+						OR = {
+							has_doctrine = tenet_fp3_fedayeen
+							has_doctrine = tenet_warmonger 
+							has_doctrine_parameter = pluralism_fundamentalist_proselytization_bonus
+						}
+					}
+				}
+				desc = destroy_the_apostates_decision_name
+			}
+			desc = avenge_the_battle_of_nahrawan_decision_name
+		}
+	}
+
+	desc = avenge_the_battle_of_nahrawan_decision_desc
+
+	selection_tooltip = avenge_the_battle_of_nahrawan_decision_tooltip
+
+	is_shown = {
+		has_fp3_dlc_trigger = yes
+		faith = { has_doctrine = muhammad_succession_muhakkima_doctrine	}
+		exists = capital_province
+		capital_province = {
+			OR = {
+				geographical_region = world_persian_empire
+				geographical_region = world_middle_east 
+			}		
+		}
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:avenge_the_battle_of_nahrawan_decision
+			}
+		}
+	}
+
+	is_valid = {
+		completely_controls_region = world_mesopotamia
+		custom_description = {
+			text = "restore_high_priesthood_holy_sites"
+			faith = {
+				any_holy_site = {
+					OR = {
+						county.holder = root
+						county.holder.top_liege = { this = root }
+					}
+					count >= 3
+				}
+			}
+		}
+		custom_description = {
+			text = avenge_the_battle_of_nahrawan_sunni_caliphate_irrelevant
+			NOT = { exists = title:d_sunni.holder }
+		}
+		custom_description = {
+			text = avenge_the_battle_of_nahrawan_shia_caliphate_irrelevant
+			NOT = { exists = title:d_shiite.holder }
+		}
+	}	
+
+	is_valid_showing_failures_only = {
+		is_alive = yes
+		not = { exists = involved_activity }
+		is_imprisoned = no
+	}
+
+
+	effect = {
+		save_scope_as = avenger
+		
+		#Sunni penalty scope save
+		title:e_arabia = {
+			random_de_jure_county_holder = { #If there's a big Sunni presence in Arabia
+				limit = {
+					faith = { has_doctrine = muhammad_succession_sunni_doctrine } 
+					highest_held_title_tier = tier_empire
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_sunni_doctrine }
+					highest_held_title_tier = tier_kingdom
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_sunni_doctrine }
+					highest_held_title_tier = tier_duchy
+				}
+				faith = {
+					save_scope_as = sunni_faith
+				}
+			}
+		}
+
+		title:e_persia = {
+			random_de_jure_county_holder = { #If there's a big Sunni presence in Persia
+				limit = {
+					faith = { has_doctrine = muhammad_succession_sunni_doctrine } 
+					highest_held_title_tier = tier_empire
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_sunni_doctrine }
+					highest_held_title_tier = tier_kingdom
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_sunni_doctrine }
+					highest_held_title_tier = tier_duchy
+				}
+				faith = {
+					save_scope_as = sunni_faith
+				}
+			}
+		}
+
+		#Shia penalty scope save
+		title:e_arabia = {
+			random_de_jure_county_holder = { #If there's a big Shia presence in Arabia
+				limit = {
+					faith = { has_doctrine = muhammad_succession_shia_doctrine } 
+					highest_held_title_tier = tier_empire
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_shia_doctrine }
+					highest_held_title_tier = tier_kingdom
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_shia_doctrine }
+					highest_held_title_tier = tier_duchy
+				}
+				faith = {
+					save_scope_as = shia_faith
+				}
+			}
+		}
+
+		#Shia penalty scope save
+		title:e_persia = {
+			random_de_jure_county_holder = { #If there's a big Shia presence in Persia
+				limit = {
+					faith = { has_doctrine = muhammad_succession_shia_doctrine } 
+					highest_held_title_tier = tier_empire
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_shia_doctrine }
+					highest_held_title_tier = tier_kingdom
+				}
+				alternative_limit = {
+					faith = { has_doctrine = muhammad_succession_shia_doctrine }
+					highest_held_title_tier = tier_duchy
+				}
+				faith = {
+					save_scope_as = shia_faith
+				}
+			}
+		}
+
+		show_as_tooltip = { avenge_the_battle_of_nahrawan_scripted_effect = yes } #Actually applied in fp3_decision.0011 - Prestige, religion bonuses
+
+		#Events
+		trigger_event = fp3_decision.0011
+		every_player = {
+			limit = {
+				NOT = { this = scope:avenger }
+				is_within_diplo_range = { CHARACTER = scope:avenger }
+			}
+			trigger_event = fp3_decision.0012
+		}
+
+		#Can only be done once
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:avenge_the_battle_of_nahrawan_decision
+		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+	}
+}
+
+"events\dlc\fp3\fp3_religious_decision_events.txt" = {
+	{
+fp3_decision.0011 = { 
+	type = character_event
+	title = fp3_decision.0011.t
+	desc = {
+		desc = fp3_decision.0011_opening.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					faith = {
+						OR = {
+							has_doctrine = tenet_fp3_fedayeen
+							has_doctrine = tenet_warmonger 
+							has_doctrine_parameter = pluralism_fundamentalist_proselytization_bonus
+						}
+					}
+				}
+				desc = fp3_decision.0011_fanatic_murderer.desc
+			}
+			desc = fp3_decision.0011_unfanatic_unmurderer.desc
+		}
+	}
+
+
+	theme = war
+	left_portrait = {
+		character = scope:avenger
+		animation = war_over_win
+	}
+
+	override_background = { reference = battlefield }
+
+	immediate = {
+		play_music_cue = "mx_cue_combat_2"
+
+		character:33911 = { save_scope_as = ali }
+		character:163029 = { save_scope_as = muawiya }
+	}
+
+	option = {
+		name = fp3_decision.0011.a	
+
+		avenge_the_battle_of_nahrawan_scripted_effect = yes	
+
+		stress_impact = {  
+			zealous = major_stress_impact_loss
+			vengeful = major_stress_impact_loss
+			ambitious = medium_stress_impact_loss
+		}
+	}
+}
+	}
+}

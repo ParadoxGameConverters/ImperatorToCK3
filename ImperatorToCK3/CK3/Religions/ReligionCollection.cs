@@ -292,7 +292,7 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 		Logger.Info("Generating religious heads for faiths with Spiritual Head of Faith doctrine...");
 
 		var aliveCharacterFaithIds = characters
-			.Where(c => !c.Dead)
+			.Where(c => c.DeathDate is null || c.DeathDate > date)
 			.Select(c => c.GetFaithId(date)).ToImmutableHashSet();
 
 		var provinceFaithIds = provinces

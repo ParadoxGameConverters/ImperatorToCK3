@@ -102,6 +102,15 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 		Logger.Info("Purging unneeded dynasties...");
 
 		HashSet<string> dynastiesToKeep = [];
+		
+		// Load from configurable first.
+		var nonRemovableIdsParser = new Parser();
+		nonRemovableIdsParser.RegisterRegex(CommonRegexes.String, (_, id) => {
+			dynastiesToKeep.Add(id);
+		});
+		nonRemovableIdsParser.IgnoreAndLogUnregisteredItems();
+		nonRemovableIdsParser.ParseFile("configurables/dynasties_to_preserve.txt");
+		
 		foreach (var character in characters) {
 			var dynastyIdAtBirth = character.GetDynastyId(character.BirthDate);
 			if (dynastyIdAtBirth is not null) {
@@ -174,7 +183,7 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 			
 			foreach (var character in cadetHouseMembers) {
 				character.ClearDynastyHouse();
-				character.SetDynastyId(dynasty.Id, date);
+				character.SetDynastyId(dynasty.Id, null);
 			}
 			
 			// Remove all the cadet houses.
