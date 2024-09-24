@@ -21,6 +21,8 @@
 			# FP2 - Checks to start El Cid's Travels
 			if = {
 				limit = { # Am I El Cid?
+					has_fp2_dlc_trigger = yes
+					has_ep3_dlc_trigger = no
 					this = character:107590
 					NOT = { has_character_flag = has_already_begun_travelling } # Separate first check, for performance
 
@@ -104,10 +106,10 @@
 			if = {
 				limit = {
 					is_alive = yes
-					is_landed = yes
+					is_playable_character = yes
 				}
+				trigger_event = bookmark.0200
 			}
-			trigger_event = bookmark.0200
 		}
 	}
 	{
@@ -117,7 +119,7 @@
 			if = {
 				limit = {
 					is_alive = yes
-					is_landed = yes
+					is_playable_character = yes
 				}
 				trigger_event = {
 					id = bookmark.0001
@@ -132,7 +134,7 @@
 			if = {
 				limit = {
 					is_alive = yes
-					is_landed = yes
+					is_playable_character = yes
 				}
 				trigger_event = {
 					id = bookmark.0002
@@ -147,7 +149,7 @@
 			if = {
 				limit = {
 					is_alive = yes
-					is_landed = yes
+					is_playable_character = yes
 					AND = {
 						character:251180 = { is_ai = yes }
 						character:251181 = {
@@ -354,6 +356,15 @@
 					value = character:3050
 				}
 			}
+			## Constantine X & Michael Doukas.
+			character:1732 = {
+				if = {
+					limit = { has_ep3_dlc_trigger = yes }
+					start_diarchy = co_emperorship
+					set_diarch = character:1736
+					set_designated_heir = character:1736
+				}
+			}
 			# Plus remove all the generated opinions.
 			## King Philippe of France & Duke Boudewijn of Flanders
 			remove_generated_diarch_consequences_effect = {
@@ -401,6 +412,60 @@
 				LIEGE = character:3040
 			}
 		}
+		if = {
+			limit = { game_start_date = 1178.10.1 }
+			# Set up some diarchs.
+			## The future Richard I of England managing Aquitaine in place of his mother (who is under house arrest)
+			character:205730 = { designate_diarch = character:204510 }
+			## Jahan Pahlavan Muhammad as regent for Togrul
+			character:144056 = { designate_diarch = character:144052 }
+			## Manuel Komnenos and Alexios Komnenos
+			character:215530 = {
+				if = {
+					limit = { has_ep3_dlc_trigger = yes }
+					start_diarchy = junior_emperorship
+					set_diarch = character:215531
+					set_designated_heir = character:215531
+				}
+			}
+			## Henry II of England and the Young King
+			character:204500 = {
+				designate_diarch = character:204508
+				start_diarchy = co_monarchy
+				set_designated_heir = character:204508
+			}
+			## Teresa of Portugal for Afonso the Conqueror
+			character:209503 = { 
+				start_diarchy = regency
+				set_diarch = character:209510 
+			}
+			# Plus remove all the generated opinions.
+			## Richard I and Eleanor of Aquitaine
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:204510
+				LIEGE = character:205730
+			}
+			## Muhammad Jahan Pahlavan and Togrul
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:144052
+				LIEGE = character:144056
+			}
+			## Manuel Komnenos and Alexios
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:215531
+				LIEGE = character:215530
+			}
+			## Henry II and Young Henry
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:204508
+				LIEGE = character:204500
+			}
+			## Teresa and Afonso
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:209510
+				LIEGE = character:209503
+			}
+		}
 	}
 	{
 		## Fatimid Caliphate - basically stuck in the back-end of an entrenched regencies from game start.
@@ -410,7 +475,6 @@
 		}
 	}
 	{
-
 		### STRUGGLES ###
 		if = {
 			limit = { current_date = 867.1.1 }
@@ -428,8 +492,8 @@
 				struggle:persian_struggle = { # Use the object explorer to debug this data (yes, the time has come to learn how to use it)
 
 					# Struggle on_start
-					fp3_remove_vassal_contract_cooldown_for_tension_effect = yes # todo_cd_hci check if this is something we even want in the struggle anymore
-					
+					fp3_remove_vassal_contract_cooldown_for_tension_effect = yes
+
 					# Flag some titles as un-dissolutionable within the struggle.
 					title:e_arabia = { set_variable = struggle_block_dissolution_faction }
 					title:d_sunni = { set_variable = struggle_block_dissolution_faction }
@@ -440,12 +504,12 @@
 # achievements
 	{
 		### ACHIEVEMENT TRACKING FOR STARTING CHARACTERS
-		if = { 
+		if = {
 			limit = { has_multiple_players = no }
 			every_player = {
 				# Base Title
 				if = {
-					limit = { 
+					limit = {
 						exists = character:7757
 						this = character:7757
 					}
@@ -453,9 +517,9 @@
 						VARIABLE = started_give_a_dog_a_bone_achievement
 						VALUE = yes
 					}
-				}	
+				}
 				if = {
-					limit = { 
+					limit = {
 						exists = character:1128
 						this = character:1128
 					}
@@ -617,7 +681,7 @@
 					}
 				}
 				if = {
-					limit = { 
+					limit = {
 						exists = character:159137
 						this = character:159137
 					}
@@ -627,7 +691,7 @@
 					}
 				}
 				if = {
-					limit = { 
+					limit = {
 						exists = character:109607
 						this = character:109607
 					}
@@ -637,7 +701,7 @@
 					}
 				}
 				if = {
-					limit = { 
+					limit = {
 						exists = character:6878
 						this = character:6878
 					}
@@ -804,8 +868,9 @@
 				##12 Turkish Eagle
 				if = {
 					limit = {
-						has_title = title:c_samosata
-						this.house = house:house_seljuk # Seljuk
+						NOT = { this = character:3040 } # Not Alp Arslan
+						house = house:house_seljuk # Seljuk
+						game_start_date < 1067.1.1 # 1066 only, and no Seljuks in 867
 					}
 					add_achievement_global_variable_effect = {
 						VARIABLE = started_turkish_eagle_achievement
@@ -981,7 +1046,7 @@
 					limit = {
 						num_virtuous_traits >= 3
 					}
-					add_achievement_flag_effect = { FLAG = rd_character_blocked_paragon_of_virtue_achievement_flag	}	
+					add_achievement_flag_effect = { FLAG = rd_character_blocked_paragon_of_virtue_achievement_flag	}
 				}
 				if = {
 					limit = {
@@ -990,20 +1055,20 @@
 							is_alive = yes
 						}
 					}
-					add_achievement_flag_effect = { FLAG = rd_character_blocked_the_succession_is_safe_achievement_flag }	
+					add_achievement_flag_effect = { FLAG = rd_character_blocked_the_succession_is_safe_achievement_flag }
 				}
 				if = {
 					limit = {
 						any_child = {
 							has_trait = inbred
-						}	
+						}
 					}
 					add_achievement_flag_effect = { FLAG = rd_character_blocked_keeping_it_in_the_family_achievement_flag }
 				}
 				if = {
 					limit = {
 						highest_held_title_tier >= tier_empire
-						should_be_naked_trigger = yes	
+						should_be_naked_trigger = yes
 					}
 					add_achievement_flag_effect = { FLAG = rd_character_blocked_the_emperors_new_clothes_achievement_flag }
 				}
@@ -2195,6 +2260,7 @@ bookmark.1069 = {
 	trigger = {
 		character:528 ?= {
 			is_alive = yes
+			is_councillor_of = root
 		}
 		character:john_monk ?= {
 			is_alive = yes
@@ -2475,12 +2541,12 @@ bookmark.1066 = {
 				NOT = {
 					any_scheme = {
 						scheme_type = murder
-						scheme_target = scope:hunchback
+						scheme_target_character = scope:hunchback
 					}
 				}
 			}
 			start_scheme = {
-				target = scope:hunchback
+				target_character = scope:hunchback
 				type = murder
 			}
 		}
@@ -2489,7 +2555,7 @@ bookmark.1066 = {
 			random_scheme = {
 				limit = {
 					scheme_type = murder
-					scheme_target = scope:hunchback
+					scheme_target_character = scope:hunchback
 				}
 				add_scheme_modifier = {
 					type = massive_extra_success_chance_modifier
@@ -2652,13 +2718,6 @@ game_rule.1011 = {
 	}
 }
 	}
-	
-	{
-			AND = {
-				exists = character:7757
-				this = character:7757 #Matilda Canossa, her bookmark start is about overcoming the issue of no heir
-			}
-	}
 }
 
 "gfx\portraits\portrait_animations\animations.txt" = {
@@ -2689,59 +2748,62 @@ game_rule.1011 = {
 	{
 				modifier = {
 					add = 5000
-					this = character:7757
+					OR = {
+						this = character:7757
+						this = character:41702
+					}
 				}
 	}
 }
 
 "gfx\portraits\portrait_modifiers\02_all_developer_characters.txt" = {
 	{
-             modifier = {
-                add = 999
+			 modifier = {
+				add = 999
 				exists = this
 				exists = character:73857
 				this = character:73857
-            }
+			}
 	}
 	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:70292
-                this = character:70292
-            }
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:70292
+				this = character:70292
+			}
 	}
 	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:163157 #Ismail Samani
-                this = character:163157 #Ismail Samani
-            }
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:163157 #Ismail Samani
+				this = character:163157 #Ismail Samani
+			}
 	}
 	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:1230316 #Suri of Mandesh
-                this = character:1230316 #Suri of Mandesh
-            }
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:1230316 #Suri of Mandesh
+				this = character:1230316 #Suri of Mandesh
+			}
 	}
 	{
-             modifier = {
-                add = 999
-                exists = this
-                exists = character:73759
-                this = character:73759
-            }
+			 modifier = {
+				add = 999
+				exists = this
+				exists = character:73759
+				this = character:73759
+			}
 	}
 	{
-             modifier = {
-                add = 999
-                exists = this
-                exists = character:73783
-                this = character:73783
-            }
+			 modifier = {
+				add = 999
+				exists = this
+				exists = character:73783
+				this = character:73783
+			}
 	}
 }
 
@@ -3217,7 +3279,7 @@ scripted_effect scandi_adventurers_grab_famous_character_effect = {
 				is_ai = yes
 				# Hasn't got anything dynastic of note going on.
 				is_ruler = no
-				any_heir_to_title = { count = 0 }
+				any_heir_title = { count = 0 }
 				# And is free and clear to go.
 				is_imprisoned = no
 				OR = {
@@ -3292,7 +3354,7 @@ fp1_scandinavian_adventurers.0012 = {
 			exists = character:242
 			exists = character:163119
 		}
-		
+
 	}
 
 	immediate = {
@@ -3613,7 +3675,7 @@ fp3_yearly.8020 = {
 				save_scope_as = pious_woman	
 			}
 		}
-		else = {
+		else_if = {
 			limit = { 
 				any_courtier_or_guest = { 
 					fp3_bibi_shahrbanu_devotee_trigger = yes
@@ -3814,9 +3876,10 @@ fp3_yearly.8020 = {
 "common\decisions\dlc_decisions\fp_3\fp3_islamic_decisions.txt" = {
 	{
 avenge_the_battle_of_nahrawan_decision = {
-	
-	picture = "gfx/interface/illustrations/decisions/fp3/fp3_decision_supremacy.dds"
-	major = yes
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/fp3/fp3_decision_supremacy.dds"
+	}
+	decision_group_type = major
 	ai_check_interval = 120
 	sort_order = 30
 
