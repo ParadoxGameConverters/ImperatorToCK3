@@ -9,6 +9,8 @@ namespace ImperatorToCK3.Mappers.Trait;
 public class TraitMapper {
 	protected IDictionary<string, string> ImperatorToCK3TraitMap = new Dictionary<string, string>();
 	protected IdObjectCollection<string, CK3.Characters.Trait> CK3Traits = [];
+	
+	// TODO: add a method for logging all unmapped I:R traits
 
 	public TraitMapper() { }
 	public TraitMapper(string mappingsPath, ModFilesystem ck3ModFS) {

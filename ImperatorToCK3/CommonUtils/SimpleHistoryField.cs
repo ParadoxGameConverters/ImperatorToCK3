@@ -63,6 +63,10 @@ public sealed class SimpleHistoryField : IHistoryField {
 		foreach (var setter in setterKeywords) {
 			parser.RegisterKeyword(setter, reader => {
 				var itemStr = reader.GetStringOfItem().ToString();
+				// If itemStr is the question sign from the "?=" operator, get another string.
+				if (itemStr == "?") {
+					itemStr = reader.GetStringOfItem().ToString();
+				}
 				var value = HistoryFactory.GetValue(itemStr);
 				AddEntryToHistory(date, setter, value);
 			});
