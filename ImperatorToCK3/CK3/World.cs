@@ -354,6 +354,13 @@ public sealed class World {
 			RemoveIslam(config);
 		}
 		Logger.IncrementProgress();
+		
+		// If there's a gap between the I:R save date and the CK3 bookmark date,
+		// generate successors for old I:R characters instead of making them live for centuries.
+		if (config.CK3BookmarkDate.DiffInYears(impWorld.EndDate) > 1) {
+			// TODO: FINISH THIS
+			// Characters.GenerateSuccessorsForOldCharacters();
+		}
 
 		Parallel.Invoke(
 			() => ImportImperatorWars(impWorld, config.CK3BookmarkDate),

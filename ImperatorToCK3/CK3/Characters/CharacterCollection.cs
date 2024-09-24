@@ -667,4 +667,14 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 
 		Logger.IncrementProgress();
 	}
+
+	public void GenerateSuccessorsForOldCharacters(Date ck3BookmarkDate, ulong randomSeed) { // TODO: TAKE RANDOM SEED FROM IMPERATOR
+		// Initialize a random number generator with a seed.
+		var random = new Random((int)randomSeed);
+		
+		// Get all characters that are alive and older than 70 years at the bookmark date.
+		var oldCharacters = this
+			.Where(c => c.BirthDate < ck3BookmarkDate && (c.DeathDate is null || c.DeathDate > ck3BookmarkDate))
+			.ToArray();
+	}
 }
