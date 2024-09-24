@@ -250,8 +250,10 @@ public sealed partial class Title {
 			return baronies.FirstOrDefault(b => provinceId == b?.ProvinceId, defaultValue: null);
 		}
 
-		public ImmutableHashSet<string> GetHolderIds(Date date) {
-			return this.Select(t => t.GetHolderId(date)).ToImmutableHashSet();
+		public ImmutableHashSet<string> GetHolderIdsForAllTitlesExceptNobleFamilyTitles(Date date) {
+			return this
+				.Where(t => t.NobleFamily != true)
+				.Select(t => t.GetHolderId(date)).ToImmutableHashSet();
 		}
 		public ImmutableHashSet<string> GetAllHolderIds() {
 			return this.SelectMany(t => t.GetAllHolderIds()).ToImmutableHashSet();
