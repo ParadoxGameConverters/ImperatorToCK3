@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Linguistics;
@@ -361,7 +361,6 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 							}
 						""");
 				}
-				
 			}
 		}
 	}
