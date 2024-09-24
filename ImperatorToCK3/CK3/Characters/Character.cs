@@ -215,6 +215,7 @@ public sealed class Character : IIdentifiable<string> {
 		.WithLiteralField("spawn_army", "spawn_army")
 		.WithLiteralField("if", "if")
 		.WithSimpleField("sexuality", "sexuality", null)
+		.WithLiteralField("domicile", "domicile")
 		.Build();
 
 	public History History { get; } = historyFactory.GetHistory();
