@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.9.2
+﻿# Last updated: CK3 patch 1.13.0
 ####################################
 #   FRENCH CUSTOM LOCALISATION     #
 #      By Xavier Zimmermann        #
@@ -123,6 +123,8 @@
 # FR_de_BG_GameType pour BG_GameType
 # FR_CouncilPosition_Le pour CouncilPosition
 # FR_GetRandomWonContest_Le pour GetRandomWonContest
+# FR_GetRealmOrDomicileConcept_FR_Le pour GetRealmOrDomicileConcept
+# FR_GetCourtOwnerConcept_FR_Du pour GetCourtOwnerConcept
 
 # FR_FaithGenderedAdj - GetFaith.GetAdjective\GetFaith.GetAdherentName (scope: character)
 # FR_Scheme_FullAction - GetActionName - SCHEME_FULL_ACTION_NAME
@@ -852,6 +854,18 @@ FR_de_BG_GameType = {
 	suffix = _FR_De
 }
 
+FR_au_BG_GameType_Generic = { 
+	log_loc_errors = no
+	parent = BG_GameType_Generic
+	suffix = _FR_Au
+}
+
+FR_de_BG_GameType_Generic = { 
+	log_loc_errors = no
+	parent = BG_GameType_Generic
+	suffix = _FR_De
+}
+
 FR_CouncilPosition_Le = { 
 	log_loc_errors = no
 	parent = CouncilPosition
@@ -888,12 +902,23 @@ FR_GetRandomRegionalWildDaytimeBird_Plural = {
 	suffix = _FR_Plural
 }
 
+FR_GetRealmOrDomicileConcept_FR_Le = { 
+	log_loc_errors = no
+	parent = GetRealmOrDomicileConcept
+	suffix = _FR_Le
+}
+
+FR_GetCourtOwnerConcept_FR_Du = { 
+	log_loc_errors = no
+	parent = GetCourtOwnerConcept
+	suffix = _FR_Du
+}
+
 #############################################
 #############################################
 FR_FaithGenderedAdj = { 
 	type = character
 	log_loc_errors = no
-
 	text = {
 		trigger = {
 			trigger_if = {
@@ -2122,84 +2147,91 @@ FR_Scheme_FullAction = {
 	log_loc_errors = no
 	text = {
 		trigger = {
-			scheme_target = { is_local_player = yes }
+			scheme_target_character = { is_local_player = yes }
 			scheme_type = abduct
 		}
 		localization_key = CustomLoc_FR_Scheme_FullAction_abduct_you
 	}
 	text = {
 		trigger = {
-			scheme_target = { is_local_player = yes }
+			scheme_target_character = { is_local_player = yes }
 			scheme_type = befriend
 		}
 		localization_key = CustomLoc_FR_Scheme_FullAction_befriend_you
 	}
 	text = {
 		trigger = {
-			scheme_target = { is_local_player = yes }
+			scheme_target_character = { is_local_player = yes }
 			scheme_type = claim_throne
 		}
 		localization_key = CustomLoc_FR_Scheme_FullAction_claim_throne_you
 	}
 	text = {
 		trigger = {
-			scheme_target = { is_local_player = yes }
+			scheme_target_character = { is_local_player = yes }
 			scheme_type = convert_to_witchcraft
 		}
 		localization_key = CustomLoc_FR_Scheme_FullAction_convert_to_witchcraft_you
 	}
 	text = {
 		trigger = {
-			scheme_target = { is_local_player = yes }
+			scheme_target_character = { is_local_player = yes }
 			scheme_type = courting
 		}
 		localization_key = CustomLoc_FR_Scheme_FullAction_courting_you
 	}
 	text = {
 		trigger = {
-			scheme_target = { is_local_player = yes }
+			scheme_target_character = { is_local_player = yes }
 			scheme_type = elope
 		}
 		localization_key = CustomLoc_FR_Scheme_FullAction_elope_you
 	}
 	text = {
 		trigger = {
-			scheme_target = { is_local_player = yes }
+			scheme_target_character = { is_local_player = yes }
 			scheme_type = fabricate_hook
 		}
 		localization_key = CustomLoc_FR_Scheme_FullAction_fabricate_hook_you
 	}
 	text = {
 		trigger = {
-			scheme_target = { is_local_player = yes }
+			scheme_target_character = { is_local_player = yes }
 			scheme_type = learn_language
 		}
 		localization_key = CustomLoc_FR_Scheme_FullAction_learn_language_you
 	}
 	text = {
 		trigger = {
-			scheme_target = { is_local_player = yes }
+			scheme_target_character = { is_local_player = yes }
 			scheme_type = murder
 		}
 		localization_key = CustomLoc_FR_Scheme_FullAction_murder_you
 	}
 	text = {
 		trigger = {
-			scheme_target = { is_local_player = yes }
+			scheme_target_character = { is_local_player = yes }
+			scheme_type = overthrow_regent
+		}
+		localization_key = CustomLoc_FR_Scheme_FullAction_overthrow_regent_you
+	}
+	text = {
+		trigger = {
+			scheme_target_character = { is_local_player = yes }
 			scheme_type = seduce
 		}
 		localization_key = CustomLoc_FR_Scheme_FullAction_seduce_you
 	}
 	text = {
 		trigger = {
-			scheme_target = { is_local_player = yes }
+			scheme_target_character = { is_local_player = yes }
 			scheme_type = steal_back_artifact
 		}
 		localization_key = CustomLoc_FR_Scheme_FullAction_steal_back_artifact_you
 	}
 	text = {
 		trigger = {
-			scheme_target = { is_local_player = yes }
+			scheme_target_character = { is_local_player = yes }
 			scheme_type = sway
 		}
 		localization_key = CustomLoc_FR_Scheme_FullAction_sway_you
@@ -2257,6 +2289,12 @@ FR_Scheme_FullAction = {
 			scheme_type = murder
 		}
 		localization_key = CustomLoc_FR_Scheme_FullAction_murder
+	}
+	text = {
+		trigger = {
+			scheme_type = overthrow_regent
+		}
+		localization_key = CustomLoc_FR_Scheme_FullAction_overthrow_regent
 	}
 	text = {
 		trigger = {
@@ -3333,4 +3371,94 @@ FR_Le_GetVersusRound = {
 	log_loc_errors = no
 	parent = GetVersusRound
 	suffix = _FR_Le
+}
+
+FR_ResidenceBuilding_OnA = { 
+	log_loc_errors = no
+	parent = ResidenceBuilding
+	suffix = _FR_On
+}
+
+FR_ResidenceBuilding_Le = { 
+	log_loc_errors = no
+	parent = ResidenceBuilding
+	suffix = _FR_Le
+}
+
+FR_ResidenceBuilding_Du = { 
+	log_loc_errors = no
+	parent = ResidenceBuilding
+	suffix = _FR_Du
+}
+
+FR_ResidenceBuilding_Au = { 
+	log_loc_errors = no
+	parent = ResidenceBuilding
+	suffix = _FR_Au
+}
+
+FR_GetCourt_Le = { 
+	log_loc_errors = no
+	parent = GetCourt
+	suffix = _FR_Le
+}
+
+FR_GetCourt_Du = { 
+	log_loc_errors = no
+	parent = GetCourt
+	suffix = _FR_Du
+}
+
+FR_GetCourt_Au = { 
+	log_loc_errors = no
+	parent = GetCourt
+	suffix = _FR_Au
+}
+
+FR_GetCourt_OnA = { 
+	log_loc_errors = no
+	parent = GetCourt
+	suffix = _FR_On
+}
+
+FR_GetCourtConcept_Le = { 
+	log_loc_errors = no
+	parent = GetCourtConcept
+	suffix = _FR_Le
+}
+
+FR_GetCourtConcept_Au = { 
+	log_loc_errors = no
+	parent = GetCourtConcept
+	suffix = _FR_Au
+}
+
+FR_GetCourtyard_Le = { 
+	log_loc_errors = no
+	parent = GetCourtyard
+	suffix = _FR_Le
+}
+
+FR_GetDoor_Le = { 
+	log_loc_errors = no
+	parent = GetDoor
+	suffix = _FR_Le
+}
+
+FR_GetAdventureNamePrefixes_Pl = { 
+	log_loc_errors = no
+	parent = GetAdventureNamePrefixes
+	suffix = _FR_Pl
+}
+
+FR_GetAdventureNameSuffix_Du = { 
+	log_loc_errors = no
+	parent = GetAdventureNameSuffix
+	suffix = _FR_Du
+}
+
+FR_GetCourtTypeConcept_Au = { 
+	log_loc_errors = no
+	parent = GetCourtTypeConcept
+	suffix = _FR_Au
 }
