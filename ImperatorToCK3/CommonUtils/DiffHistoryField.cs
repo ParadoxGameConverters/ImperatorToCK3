@@ -79,13 +79,23 @@ internal sealed class DiffHistoryField : IHistoryField {
 	public void RegisterKeywords(Parser parser, Date date) {
 		foreach (var keyword in insertKeywords) {
 			parser.RegisterKeyword(keyword, reader => {
-				var value = HistoryFactory.GetValue(reader.GetString());
+				var valueStr = reader.GetString();
+				// If valueStr is the question sign from the "?=" operator, get another string.
+				if (valueStr == "?") {
+					valueStr = reader.GetString();
+				}
+				var value = HistoryFactory.GetValue(valueStr);
 				AddEntryToHistory(date, keyword, value);
 			});
 		}
 		foreach (var keyword in removeKeywords) {
 			parser.RegisterKeyword(keyword, reader => {
-				var value = HistoryFactory.GetValue(reader.GetString());
+				var valueStr = reader.GetString();
+				// If valueStr is the question sign from the "?=" operator, get another string.
+				if (valueStr == "?") {
+					valueStr = reader.GetString();
+				}
+				var value = HistoryFactory.GetValue(valueStr);
 				AddEntryToHistory(date, keyword, value);
 			});
 		}
