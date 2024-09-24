@@ -479,7 +479,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		Logger.Info("Purging unneeded characters...");
 		
 		// Characters from CK3 that hold titles at the bookmark date should be kept.
-		var currentTitleHolderIds = titles.GetHolderIds(ck3BookmarkDate);
+		var currentTitleHolderIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(ck3BookmarkDate);
 		var landedCharacters = this
 			.Where(character => currentTitleHolderIds.Contains(character.Id))
 			.ToArray();
@@ -564,7 +564,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 
 	public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {
 		Logger.Info("Removing employer id from landed characters...");
-		var landedCharacterIds = titles.GetHolderIds(conversionDate);
+		var landedCharacterIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(conversionDate);
 		foreach (var character in this.Where(character => landedCharacterIds.Contains(character.Id))) {
 			character.History.Fields["employer"].RemoveAllEntries();
 		}

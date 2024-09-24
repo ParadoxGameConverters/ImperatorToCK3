@@ -69,7 +69,7 @@ link = { ck3 = cancer ir = cancer }
 link = { ck3 = gout_ridden ir = gout }
 link = { ck3 = physique_bad_2 ir = frail }
 link = { ck3 = maimed ir = maimed }
-link = { ck3 = eunuch ir = castrated }
+link = { ck3 = eunuch_1 ir = castrated }
 link = { ck3 = leper ir = leper }
 link = { ck3 = pneumonic ir = pneumonia }
 link = { ck3 = beauty_bad_2 ir = ugly }

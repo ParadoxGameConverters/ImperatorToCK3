@@ -743,60 +743,6 @@ italiote = {
 	ethos = ethos_communal
 }
 
-armenian = { # override of vanilla culture
-	color = armenian
-	
-	ethos = ethos_stoic
-	heritage = heritage_caucasian # IRToCK3: moved from heritage_byzantine
-	language = language_armenian
-	martial_custom = martial_custom_male_only
-	traditions = {
-		tradition_zealous_people
-		tradition_fervent_temple_builders
-		tradition_highland_warriors
-		tradition_hill_dwellers
-		tradition_roman_legacy
-	}
-	
-	name_list = name_list_armenian
-	
-	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
-	building_gfx = { mediterranean_building_gfx }
-	clothing_gfx = { byzantine_clothing_gfx }
-	unit_gfx = { eastern_unit_gfx }
-	
-	ethnicities = {
-		10 = mediterranean_byzantine
-	}
-}
-
-georgian = { # override of vanilla culture
-	color = georgian
-	
-	ethos = ethos_communal
-	heritage = heritage_caucasian # IRToCK3: moved from heritage_byzantine
-	language = language_georgian
-	martial_custom = martial_custom_male_only
-	traditions = {
-		tradition_hereditary_hierarchy
-		#tradition_esteemed_hospitality
-		tradition_metal_craftsmanship
-		tradition_castle_keepers
-		tradition_caucasian_wolves
-	}
-	
-	name_list = name_list_georgian
-	
-	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
-	building_gfx = { mediterranean_building_gfx }
-	clothing_gfx = { byzantine_clothing_gfx }
-	unit_gfx = { eastern_unit_gfx }
-	
-	ethnicities = {
-		10 = mediterranean_byzantine
-	}
-}
-
 pemis = {
     INVALIDATED_BY = {
 		tfe = { pemis }
@@ -1627,10 +1573,13 @@ elamite = { # https://en.wikipedia.org/wiki/Elam
 }
 
 alan = { # override of vanilla culture
-	color = { 0.7 0.5 0.7 }
+	color = { 0.1 0.3 0.7 }
+	# created = 100.1.1 # IRToCK3: disabled the creation date
+
+	# history_loc_override = scythian_heritage_loc # IRToCK3: disabled the creation date
 	
 	ethos = ethos_communal
-	heritage = heritage_iranian # IRToCK3: moved from heritage_byzantine
+	heritage = heritage_iranian
 	language = language_scythian
 	martial_custom = martial_custom_male_only
 	traditions = {
@@ -1642,13 +1591,15 @@ alan = { # override of vanilla culture
 	
 	name_list = name_list_alan
 	
-	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+	coa_gfx = { oghuz_coa_gfx turkic_group_coa_gfx steppe_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
-	clothing_gfx = { byzantine_clothing_gfx }
-	unit_gfx = { eastern_unit_gfx }
+	clothing_gfx = { iranian_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { iranian_unit_gfx }
 	
 	ethnicities = {
-		10 = mediterranean_byzantine
+		4 = mediterranean_byzantine
+		7 = mediterranean
+		4 = arab
 	}
 }
 
