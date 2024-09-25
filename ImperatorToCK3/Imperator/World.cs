@@ -111,7 +111,45 @@ public partial class World {
 		}
 		File.WriteAllLines(topBarOutputPath, lines);
 		
+		// Find all files in the I:R mod FS and put them directly in the temporary mod, to speed up the loading of I:R.
+		var allModFSFiles = modFS.GetAllFilesInFolderRecursive("");
+		var baseCoAModPath = Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod");
+		foreach (var fileInfo in allModFSFiles.Where(f => f.FromMod)) {
+			// Drop mod localization files.
+			if (fileInfo.RelativePath.StartsWith("localization/")) {
+				continue;
+			}
+			
+			var destPath = Path.Combine(baseCoAModPath, fileInfo.RelativePath);
+			var destDir = Path.GetDirectoryName(destPath);
+			try {
+				// Make sure all the directories exist.
+				if (destDir is not null) {
+					Directory.CreateDirectory(destDir);
+				}
+			
+				File.Copy(fileInfo.AbsolutePath, Path.Combine(baseCoAModPath, fileInfo.RelativePath));
+			} catch (Exception e) {
+				Logger.Error($"Failed to copy {fileInfo.AbsolutePath} to {baseCoAModPath}: {e.Message}");
+			}
+		}
+
+		// Replace all vanilla loc files with dummy files.
+		var utf8WithBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: true);
+		foreach (var fileInfo in allModFSFiles.Where(f => !f.FromMod && f.RelativePath.StartsWith("localization/"))) {
+			var destPath = Path.Combine(baseCoAModPath, fileInfo.RelativePath);
+			// Make sure all the directories exist.
+			var destDir = Path.GetDirectoryName(destPath);
+			if (destDir is not null) {
+				Directory.CreateDirectory(destDir);
+			}
+			
+			// Write a dummy file, with UTF8-BOM encoding.
+			File.WriteAllText(destPath, string.Empty, utf8WithBom);
+		}
+		
 		// Create a .mod file for the temporary mod.
+		// Try to speed up the loading of I:R by disabling localization.
 		Logger.Debug("Creating temporary mod file...");
 		string modFileContents = 
 			"""
@@ -143,8 +181,6 @@ public partial class World {
 		var dlcLoadBuilder = new StringBuilder();
 		dlcLoadBuilder.AppendLine("{");
 		dlcLoadBuilder.Append(@"""enabled_mods"": [");
-		dlcLoadBuilder.AppendJoin(", ", incomingModPaths.Select(modPath => $"\"{modPath}\""));
-		dlcLoadBuilder.AppendLine(",");
 		dlcLoadBuilder.AppendLine("\"mod/coa_export_mod.mod\"");
 		dlcLoadBuilder.AppendLine("],");
 		dlcLoadBuilder.AppendLine(@"""disabled_dlcs"":[]");
@@ -207,7 +243,7 @@ public partial class World {
 				Logger.Debug("Imperator finished loading. Waiting for console commands to execute...");
 			}
 			
-			Thread.Sleep(100);
+			Thread.Sleep(1000);
 		}
 
 		if (!imperatorProcess.HasExited) {
