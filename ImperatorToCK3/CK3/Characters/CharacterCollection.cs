@@ -8,6 +8,7 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Armies;
+using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Nickname;
@@ -666,5 +667,19 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		}
 
 		Logger.IncrementProgress();
+	}
+	
+	public void ConvertImperatorCharacterDNA(DNAFactory dnaFactory) {
+		Logger.Info("Converting Imperator character DNA to CK3...");
+		foreach (var character in this) {
+			if (character.ImperatorCharacter is null) {
+				continue;
+			}
+			
+			PortraitData? portraitData = character.ImperatorCharacter.PortraitData;
+			if (portraitData is not null) {
+				character.DNA = dnaFactory.GenerateDNA(character.ImperatorCharacter, portraitData);
+			}
+		}
 	}
 }
