@@ -31,6 +31,7 @@ using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
 using ImperatorToCK3.Outputter;
 using log4net.Core;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -358,8 +359,8 @@ public sealed class World {
 		// If there's a gap between the I:R save date and the CK3 bookmark date,
 		// generate successors for old I:R characters instead of making them live for centuries.
 		if (config.CK3BookmarkDate.DiffInYears(impWorld.EndDate) > 1) {
-			// TODO: FINISH THIS
-			// Characters.GenerateSuccessorsForOldCharacters();
+			Characters.GenerateSuccessorsForOldCharacters(LandedTitles, Cultures, impWorld.EndDate, config.CK3BookmarkDate, impWorld.RandomSeed);
+			throw new NotImplementedException();
 		}
 
 		Parallel.Invoke(

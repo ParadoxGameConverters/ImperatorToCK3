@@ -702,6 +702,9 @@ public sealed class Character : IIdentifiable<string> {
 	public string? GetDynastyHouseId(Date date) {
 		return History.GetFieldValue("dynasty_house", date)?.ToString();
 	}
+	public void SetDynastyHouseId(string dynastyHouseId, Date? date) {
+		History.AddFieldValue(date, "dynasty_house", "dynasty_house", dynastyHouseId);
+	}
 
 	private string? jailorId;
 	public void SetEmployer(Character employer, Date? date) {
