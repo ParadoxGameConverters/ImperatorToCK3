@@ -124,7 +124,7 @@ luwian = { # https://en.wikipedia.org/wiki/Luwians
 	coa_gfx = {
 		byzantine_group_coa_gfx
 		# israelite_group_coa_gfx
-		western_coa_gfx
+		# western_coa_gfx
 	}
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = {
@@ -160,7 +160,7 @@ cilician = { # https://en.wikipedia.org/wiki/History_of_Cilicia
 	coa_gfx = {
 		byzantine_group_coa_gfx
 		# israelite_group_coa_gfx
-		western_coa_gfx
+		# western_coa_gfx
 	}
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = {
@@ -196,7 +196,7 @@ lydian = {
 	coa_gfx = {
 		byzantine_group_coa_gfx
 		# israelite_group_coa_gfx
-		western_coa_gfx
+		# western_coa_gfx
 	}
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = {
@@ -232,7 +232,7 @@ hittite = {
 	coa_gfx = {
 		byzantine_group_coa_gfx
 		# israelite_group_coa_gfx
-		western_coa_gfx
+		# western_coa_gfx
 	}
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = {
@@ -266,7 +266,7 @@ phrygian = {
 	}
 
 	coa_gfx = {
-		byzantine_group_coa_gfx western_coa_gfx
+		byzantine_group_coa_gfx
 		# israelite_group_coa_gfx
 	}
 	building_gfx = { mena_building_gfx }
@@ -430,7 +430,7 @@ dalmatian = {
 		10 = mediterranean_byzantine
 	}
 
-	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+	coa_gfx = { byzantine_group_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
@@ -461,7 +461,7 @@ albanian = {
 		10 = mediterranean_byzantine
 	}
 
-	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+	coa_gfx = { byzantine_group_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
@@ -631,7 +631,7 @@ macedonian = {
 	
 	name_list = name_list_trojan # seems wrong but is localized as "Ancient Greek"
 	
-	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+	coa_gfx = { byzantine_group_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
@@ -669,7 +669,7 @@ hellenistic = {
 	}
 
 	coa_gfx = {
-		byzantine_group_coa_gfx western_coa_gfx
+		byzantine_group_coa_gfx
 		# iranian_group_coa_gfx
 	}
 	building_gfx = {
@@ -725,7 +725,7 @@ italiote = {
 	created = 2.1.1
 	heritage = heritage_byzantine
 	language = language_greek
-	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+	coa_gfx = { byzantine_group_coa_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	unit_gfx = { eastern_unit_gfx }
@@ -1326,7 +1326,7 @@ galatian = {
 		20 = mediterranean_byzantine
 	}
 
-	coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+	coa_gfx = { byzantine_group_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
