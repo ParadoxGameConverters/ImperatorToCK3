@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Linguistics;
@@ -340,6 +340,27 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorCountry.Government, imperatorCountry.PrimaryCulture);
 			if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
 				History.AddFieldValue(conversionDate, "government", "government", ck3CountryGov);
+			}
+			
+			// If the government is administrative, add a history effect for setting the state faith.
+			string? effectiveGov = ck3CountryGov ?? lastCK3TermGov;
+			var holderId = GetHolderId(conversionDate);
+			if (effectiveGov == "administrative_government" && characters.TryGetValue(holderId, out var holder)) {
+				var holderFaithId = holder.GetFaithId(conversionDate);
+				if (holderFaithId is not null) {
+					History.AddFieldValue(conversionDate, "effects", "effect",
+						$$"""
+							{
+								if = {
+									limit = {
+										exists = holder
+										holder = { has_government = administrative_government }
+									}
+									set_state_faith = faith:{{holderFaithId}}
+								}
+							}
+						""");
+				}
 			}
 		}
 	}

@@ -31,8 +31,9 @@ public sealed partial class CharacterCollection {
 			"set_relation_lover", "set_relation_soulmate",
 			"set_relation_friend", "set_relation_potential_friend", "set_relation_best_friend",
 			"set_relation_ward", "set_relation_mentor",
-			"add_opinion",
+			"add_opinion", "make_concubine",
 		];
+		string[] fieldsToClear = ["friends", "best_friends", "lovers", "rivals", "nemesis", "primary_title"];
 
 		foreach (var character in loadedCharacters) {
 			// Remove post-bookmark history except for births and deaths.
@@ -67,7 +68,6 @@ public sealed partial class CharacterCollection {
 				entry => irrelevantEffects.Any(effect => entry.ToString()?.Contains(effect) ?? false));
 			
 			// Clear some fields we don't need.
-			string[] fieldsToClear = ["friends", "best_friends", "lovers", "rivals", "nemesis", "primary_title"];
 			foreach (var fieldName in fieldsToClear) {
 				character.History.Fields[fieldName].RemoveAllEntries();
 			}
