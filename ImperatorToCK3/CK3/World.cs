@@ -60,6 +60,7 @@ public sealed class World {
 	public IList<Wars.War> Wars { get; } = new List<Wars.War>();
 	public LegendSeedCollection LegendSeeds { get; } = [];
 	public CoaMapper CK3CoaMapper { get; private set; } = null!;
+	private readonly List<string> enabledDlcFlags = [];
 
 	/// <summary>
 	/// Date based on I:R save date, but normalized for CK3 purposes.
@@ -68,6 +69,8 @@ public sealed class World {
 
 	public World(Imperator.World impWorld, Configuration config, Thread? irCoaExtractThread) {
 		Logger.Info("*** Hello CK3, let's get painting. ***");
+		
+		DetermineCK3Dlcs(config);
 
 		warMapper.DetectUnmappedWarGoals(impWorld.ModFS);
 
@@ -288,7 +291,8 @@ public sealed class World {
 			Characters,
 			CorrectedDate,
 			config,
-			countyLevelCountries
+			countyLevelCountries,
+			enabledDlcFlags
 		);
 
 		// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
@@ -1036,6 +1040,41 @@ public sealed class World {
 				duchyIdToHolderDict[duchy.Id] = holder;
 			} else {
 				county.SetGovernment(government, date);
+			}
+		}
+	}
+
+	private void DetermineCK3Dlcs(Configuration config) {
+		var dlcFolderPath = Path.Join(config.CK3Path, "game/dlc");
+		if (!Directory.Exists(dlcFolderPath)) {
+			Logger.Warn($"CK3 DLC folder not found: {dlcFolderPath}");
+			return;
+		}
+
+		OrderedDictionary<string, string> dlcFileToDlcFlagDict = new() {
+			{"dlc001.dlc", "garments_of_hre"},
+			{"dlc002.dlc", "fashion_of_abbasid_court"},
+			{"dlc003.dlc", "northern_lords"},
+			{"dlc004.dlc", "royal_court"},
+			{"dlc005.dlc", "fate_of_iberia"},
+			{"dlc006.dlc", "friends_and_foes"},
+			{"dlc007.dlc", "tours_and_tournaments"},
+			{"dlc008.dlc", "elegance_of_empire"},
+			{"dlc009.dlc", "wards_and_wardens"},
+			{"dlc010.dlc", "legacy_of_persia"},
+			{"dlc011.dlc", "legends_of_the_dead"},
+			{"dlc012.dlc", "north_african_attire"},
+			{"dlc013.dlc", "couture_of_capets"},
+			{"dlc014.dlc", "roads_to_power"},
+		};
+		
+		var dlcFiles = Directory.GetFiles(dlcFolderPath, "*.dlc", SearchOption.AllDirectories);
+		foreach (var dlcFile in dlcFiles) {
+			var dlcFileName = Path.GetFileName(dlcFile);
+			if (dlcFileToDlcFlagDict.TryGetValue(dlcFileName, out var dlcFlag)) {
+				enabledDlcFlags.Add(dlcFlag);
+			} else {
+				Logger.Warn($"Unknown DLC file: {dlcFileName}");
 			}
 		}
 	}
