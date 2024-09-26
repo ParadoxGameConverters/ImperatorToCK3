@@ -767,7 +767,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 					string firstName = maleNames[random.Next(0, maleNames.Length)];
 
 					successorBirthDate = currentCharacterDeathDate.ChangeByYears(-successorAge);
-					successor = new Character(id, firstName, successorBirthDate, this);
+					successor = new Character(id, firstName, successorBirthDate, this) {FromImperator = true};
 					Add(successor);
 					if (cultureId is not null) {
 						successor.SetCultureId(cultureId, null);
@@ -781,8 +781,6 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 					if (dynastyHouseId is not null) {
 						successor.SetDynastyHouseId(dynastyHouseId, null);
 					}
-
-					successor.DNA = oldCharacter.DNA;
 				}
 
 				currentCharacter.DeathDate = currentCharacterDeathDate;
@@ -796,6 +794,10 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 				currentCharacterBirthDate = successorBirthDate;
 				++successorCount;
 			}
+			
+			// After the loop, currentCharacter should represent the successor at bookmark date.
+			// Set his DNA to avoid weird looking character on the bookmark screen in CK3.
+			currentCharacter.DNA = oldCharacter.DNA;
 		});
 	}
 	
