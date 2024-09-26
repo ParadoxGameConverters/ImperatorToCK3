@@ -337,7 +337,8 @@ public class CharacterCollectionTests {
 			characters,
 			conversionDate,
 			config,
-			new List<KeyValuePair<Country, Dependency?>>());
+			new List<KeyValuePair<Country, Dependency?>>(),
+			enabledCK3Dlcs: []);
 
 		var provinces = new ProvinceCollection(ck3ModFS);
 		var ck3MapData = new MapData(ck3ModFS);

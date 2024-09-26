@@ -7,8 +7,9 @@
 #	ck3 = CK3 government ID
 #	ir = Imperator government ID
 #	irCulture = Imperator culture ID (optional)
+#	has_ck3_dlc = CK3 DLC ID (optional, supported IDs: roads_to_power)
 #}
-# multiple entries allowed for: ir, irCulture
+# multiple entries allowed for: ir, irCulture, has_ck3_dlc
 # multiple entries not allowed for: ck3
 
 ## TFE
@@ -34,6 +35,7 @@ link = { ck3 = theocracy_government
 	ir = theocratic_republic
 }
 link = { ck3 = administrative_government
+	has_ck3_dlc = roads_to_power
 	ir = imperium
 	ir = imperial_cult
 }
@@ -44,6 +46,8 @@ link = { ck3 = feudal_government
 	ir = stratocratic_monarchy
 	ir = theocratic_monarchy
 	ir = plutocratic_monarchy
+	ir = imperium # When the user doesn't have the Roads to Power DLC.
+	ir = imperial_cult # When the user doesn't have the Roads to Power DLC.
 }
 link = { ck3 = tribal_government
 	ir = tribal_chiefdom
