@@ -360,7 +360,6 @@ public sealed class World {
 		// generate successors for old I:R characters instead of making them live for centuries.
 		if (config.CK3BookmarkDate.DiffInYears(impWorld.EndDate) > 1) {
 			Characters.GenerateSuccessorsForOldCharacters(LandedTitles, Cultures, impWorld.EndDate, config.CK3BookmarkDate, impWorld.RandomSeed);
-			throw new NotImplementedException();
 		}
 
 		Parallel.Invoke(
