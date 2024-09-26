@@ -18,6 +18,7 @@ using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
 using Open.Collections;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -667,6 +668,142 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		}
 
 		Logger.IncrementProgress();
+	}
+
+	public void GenerateSuccessorsForOldCharacters(Title.LandedTitles titles, CultureCollection cultures, Date irSaveDate, Date ck3BookmarkDate, ulong randomSeed) {
+		Logger.Info("Generating successors for old characters...");
+		
+		var oldCharacters = this
+			.Where(c => c.BirthDate < ck3BookmarkDate && c.DeathDate is null)
+			.Where(c => ck3BookmarkDate.DiffInYears(c.BirthDate) > 60)
+			.ToArray();
+
+		var titleHolderIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(ck3BookmarkDate);
+		
+		var oldTitleHolders = oldCharacters
+			.Where(c => titleHolderIds.Contains(c.Id))
+			.ToArray();
+		
+		// For characters that don't hold any titles, just set up a death date.
+		var randomForCharactersWithoutTitles = new Random((int)randomSeed);
+		foreach (var oldCharacter in oldCharacters.Except(oldTitleHolders)) {
+			// Roll a dice to determine how much longer the character will live.
+			var yearsToLive = randomForCharactersWithoutTitles.Next(0, 30);
+			oldCharacter.DeathDate = irSaveDate.ChangeByYears(yearsToLive);
+		}
+		
+		ConcurrentDictionary<string, Title[]> titlesByHolderId = new(titles
+			.Select(t => new {Title = t, HolderId = t.GetHolderId(ck3BookmarkDate)})
+			.Where(t => t.HolderId != "0")
+			.GroupBy(t => t.HolderId)
+			.ToDictionary(g => g.Key, g => g.Select(t => t.Title).ToArray()));
+
+		ConcurrentDictionary<string, string[]> cultureIdToMaleNames = new(cultures
+			.ToDictionary(c => c.Id, c => c.MaleNames.ToArray()));
+
+		// For title holders, generate successors and add them to title history.
+		Parallel.ForEach(oldTitleHolders, oldCharacter => {
+			// Get all titles held by the character.
+			var heldTitles = titlesByHolderId[oldCharacter.Id];
+			string? dynastyId = oldCharacter.GetDynastyId(ck3BookmarkDate);
+			string? dynastyHouseId = oldCharacter.GetDynastyHouseId(ck3BookmarkDate);
+			string? faithId = oldCharacter.GetFaithId(ck3BookmarkDate);
+			string? cultureId = oldCharacter.GetCultureId(ck3BookmarkDate);
+			string[] maleNames;
+			if (cultureId is not null) {
+				maleNames = cultureIdToMaleNames[cultureId];
+			} else {
+				Logger.Warn($"Failed to find male names for successors of {oldCharacter.Id}.");
+				maleNames = ["Alexander"];
+			}
+			
+			var randomSeedForCharacter = randomSeed ^ (oldCharacter.ImperatorCharacter?.Id ?? 0);
+			var random = new Random((int)randomSeedForCharacter);
+
+			int successorCount = 0;
+			Character currentCharacter = oldCharacter;
+			Date currentCharacterBirthDate = currentCharacter.BirthDate;
+			while (ck3BookmarkDate.DiffInYears(currentCharacterBirthDate) >= 90) {
+				// If the character has living male children, the oldest one will be the successor.
+				var successorAndBirthDate = currentCharacter.Children
+					.Where(c => c is {Female: false, DeathDate: null})
+					.Select(c => new { Character = c, c.BirthDate })
+					.OrderBy(x => x.BirthDate)
+					.FirstOrDefault();
+				
+				Character successor;
+				Date currentCharacterDeathDate;
+				Date successorBirthDate;
+				if (successorAndBirthDate is not null) {
+					successor = successorAndBirthDate.Character;
+					successorBirthDate = successorAndBirthDate.BirthDate;
+					
+					// Roll a dice to determine how much longer the character will live.
+					// But make sure the successor is at least 16 years old when the old character dies.
+					var successorAgeAtBookmarkDate = ck3BookmarkDate.DiffInYears(successorBirthDate);
+					var yearsUntilSuccessorBecomesAnAdult = Math.Max(16 - successorAgeAtBookmarkDate, 0);
+
+					var yearsToLive = random.Next((int)Math.Ceiling(yearsUntilSuccessorBecomesAnAdult), 25);
+					int currentCharacterAge = random.Next(30 + yearsToLive, 80);
+					currentCharacterDeathDate = currentCharacterBirthDate.ChangeByYears(currentCharacterAge);
+					// Needs to be after the save date.
+					if (currentCharacterDeathDate <= irSaveDate) {
+						currentCharacterDeathDate = irSaveDate.ChangeByDays(1);
+					}
+				} else {
+					// We don't want all the generated successors on the map to have the same birth date.
+					var yearsUntilHeir = random.Next(1, 5);
+
+					// Make the old character live until the heir is at least 16 years old.
+					var successorAge = random.Next(yearsUntilHeir + 16, 30);
+					int currentCharacterAge = random.Next(30 + successorAge, 80);
+					currentCharacterDeathDate = currentCharacterBirthDate.ChangeByYears(currentCharacterAge);
+					if (currentCharacterDeathDate <= irSaveDate) {
+						currentCharacterDeathDate = irSaveDate.ChangeByDays(1);
+					}
+
+					// Generate a new successor.
+					string id = $"irtock3_{oldCharacter.Id}_successor_{successorCount}";
+					string firstName = maleNames[random.Next(0, maleNames.Length)];
+
+					successorBirthDate = currentCharacterDeathDate.ChangeByYears(-successorAge);
+					successor = new Character(id, firstName, successorBirthDate, this) {FromImperator = true};
+					Add(successor);
+					if (currentCharacter.Female) {
+						successor.Mother = currentCharacter;
+					} else {
+						successor.Father = currentCharacter;
+					}
+					if (cultureId is not null) {
+						successor.SetCultureId(cultureId, null);
+					}
+					if (faithId is not null) {
+						successor.SetFaithId(faithId, null);
+					}
+					if (dynastyId is not null) {
+						successor.SetDynastyId(dynastyId, null);
+					}
+					if (dynastyHouseId is not null) {
+						successor.SetDynastyHouseId(dynastyHouseId, null);
+					}
+				}
+
+				currentCharacter.DeathDate = currentCharacterDeathDate;
+				// On the old character death date, the successor should inherit all titles.
+				foreach (var heldTitle in heldTitles) {
+					heldTitle.SetHolder(successor, currentCharacterDeathDate);
+				}
+
+				// Move to the successor and repeat the process.
+				currentCharacter = successor;
+				currentCharacterBirthDate = successorBirthDate;
+				++successorCount;
+			}
+			
+			// After the loop, currentCharacter should represent the successor at bookmark date.
+			// Set his DNA to avoid weird looking character on the bookmark screen in CK3.
+			currentCharacter.DNA = oldCharacter.DNA;
+		});
 	}
 	
 	public void ConvertImperatorCharacterDNA(DNAFactory dnaFactory) {

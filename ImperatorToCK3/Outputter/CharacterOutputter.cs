@@ -11,16 +11,10 @@ public static class CharacterOutputter {
 		sb.AppendLine($"{character.Id}={{");
 		
 		if (character.DeathDate is not null && character.DeathDate <= ck3BookmarkDate) {
-			// Don't output traits and attributes of dead characters (not needed).
-			var fieldsToRemove = new[] {"traits", "employer", "diplomacy", "martial", "stewardship", "intrigue", "learning"};
+			// Don't output attributes of dead characters (not needed).
+			var fieldsToRemove = new[] {"employer", "diplomacy", "martial", "stewardship", "intrigue", "learning"};
 			foreach (var field in fieldsToRemove) {
 				character.History.Fields.Remove(field);
-			}
-
-			// Disallow random traits for adult dead characters.
-			// Don't disallow for children, because the game complains if they have no childhood traits.
-			if (character.GetAge(ck3BookmarkDate) >= 16) {
-				character.History.AddFieldValue(date: null, "disallow_random_traits", "disallow_random_traits", "yes");
 			}
 		}
 
