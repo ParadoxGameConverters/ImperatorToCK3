@@ -71,6 +71,8 @@ public partial class World {
 	private SaveType saveType = SaveType.Invalid;
 	private string metaPlayerName = string.Empty;
 
+	public ulong RandomSeed { get; private set; }
+
 	protected World(Configuration config) {
 		ModFS = new ModFilesystem(Path.Combine(config.ImperatorPath, "game"), Array.Empty<Mod>());
 		MapData = new MapData(ModFS);
@@ -360,7 +362,7 @@ public partial class World {
 		parser.RegisterKeyword("deity_manager", reader => Religions.LoadHolySiteDatabase(reader));
 		parser.RegisterKeyword("meta_player_name", reader => metaPlayerName = reader.GetString());
 		parser.RegisterKeyword("speed", ParserHelpers.IgnoreItem);
-		parser.RegisterKeyword("random_seed", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("random_seed", reader => RandomSeed = reader.GetULong());
 		parser.RegisterKeyword("tutorial_disable", ParserHelpers.IgnoreItem);
 		var playerCountriesToLog = new OrderedSet<string>();
 		parser.RegisterKeyword("played_country", LoadPlayerCountries(playerCountriesToLog));
