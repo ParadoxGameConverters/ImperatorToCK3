@@ -73,7 +73,8 @@ public class CoatOfArmsOutputterTests {
 			new CharacterCollection(),
 			new Date(400, 1, 1),
 			new Configuration(),
-			new List<KeyValuePair<Country, Dependency?>>()
+			new List<KeyValuePair<Country, Dependency?>>(),
+			enabledCK3Dlcs: []
 		);
 
 		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>(), new CoaMapper());
@@ -119,7 +120,8 @@ public class CoatOfArmsOutputterTests {
 			new CharacterCollection(),
 			new Date(400, 1, 1),
 			new Configuration(),
-			new List<KeyValuePair<Country, Dependency?>>()
+			new List<KeyValuePair<Country, Dependency?>>(),
+			enabledCK3Dlcs: []
 		);
 
 		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>(), new CoaMapper());
