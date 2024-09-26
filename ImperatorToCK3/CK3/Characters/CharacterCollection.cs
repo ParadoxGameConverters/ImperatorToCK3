@@ -717,8 +717,9 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 				Logger.Warn($"Failed to find male names for successors of {oldCharacter.Id}.");
 				maleNames = ["Alexander"];
 			}
-
-			var random = new Random(oldCharacter.Id.GetHashCode());
+			
+			var randomSeedForCharacter = randomSeed ^ (oldCharacter.ImperatorCharacter?.Id ?? 0);
+			var random = new Random((int)randomSeedForCharacter);
 
 			int successorCount = 0;
 			Character currentCharacter = oldCharacter;
@@ -744,7 +745,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 					var yearsUntilSuccessorBecomesAnAdult = Math.Max(16 - successorAgeAtBookmarkDate, 0);
 
 					var yearsToLive = random.Next((int)Math.Ceiling(yearsUntilSuccessorBecomesAnAdult), 25);
-					int currentCharacterAge = random.Next(30 + yearsToLive, 85);
+					int currentCharacterAge = random.Next(30 + yearsToLive, 80);
 					currentCharacterDeathDate = currentCharacterBirthDate.ChangeByYears(currentCharacterAge);
 					// Needs to be after the save date.
 					if (currentCharacterDeathDate <= irSaveDate) {
@@ -756,7 +757,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 
 					// Make the old character live until the heir is at least 16 years old.
 					var successorAge = random.Next(yearsUntilHeir + 16, 30);
-					int currentCharacterAge = random.Next(30 + successorAge, 85);
+					int currentCharacterAge = random.Next(30 + successorAge, 80);
 					currentCharacterDeathDate = currentCharacterBirthDate.ChangeByYears(currentCharacterAge);
 					if (currentCharacterDeathDate <= irSaveDate) {
 						currentCharacterDeathDate = irSaveDate.ChangeByDays(1);
@@ -769,6 +770,11 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 					successorBirthDate = currentCharacterDeathDate.ChangeByYears(-successorAge);
 					successor = new Character(id, firstName, successorBirthDate, this) {FromImperator = true};
 					Add(successor);
+					if (currentCharacter.Female) {
+						successor.Mother = currentCharacter;
+					} else {
+						successor.Father = currentCharacter;
+					}
 					if (cultureId is not null) {
 						successor.SetCultureId(cultureId, null);
 					}
