@@ -33,6 +33,10 @@ link = { ck3 = republic_government
 link = { ck3 = theocracy_government
 	ir = theocratic_republic
 }
+link = { ck3 = administrative_government
+	ir = imperium
+	ir = imperial_cult
+}
 link = { ck3 = feudal_government
 	ir = dictatorship
 	ir = despotic_monarchy
@@ -40,8 +44,6 @@ link = { ck3 = feudal_government
 	ir = stratocratic_monarchy
 	ir = theocratic_monarchy
 	ir = plutocratic_monarchy
-	ir = imperium
-	ir = imperial_cult
 }
 link = { ck3 = tribal_government
 	ir = tribal_chiefdom

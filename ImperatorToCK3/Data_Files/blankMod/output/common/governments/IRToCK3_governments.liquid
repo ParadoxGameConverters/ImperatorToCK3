@@ -1,15 +1,18 @@
 ﻿eremitic_government = {
-	create_cadet_branches = no
-	religious = yes
-	rulers_should_have_dynasty = no
-	council = yes
+	government_rules = {
+		create_cadet_branches = no
+		religious = yes
+		rulers_should_have_dynasty = no
+		council = yes
+		court_generate_spouses = no
+		royal_court = no
+	}
+
 	primary_holding = church_holding
 	valid_holdings = { church_holding }
 	required_county_holdings = { church_holding }
 	preferred_religions = { christianity_religion }
-	court_generate_spouses = no
 	court_generate_commanders = no
-	royal_court = no
 	supply_limit_mult_for_others = 0
 	affected_by_development = no
 
@@ -38,7 +41,6 @@
 
 	ai = {
 		use_lifestyle = yes
-		imprison = no					# Imprison & release from prison
 		arrange_marriage = no			# Actively arrange marriages. Can still receive marriage requests if disabled.
 		use_goals = no					# Use longterm goals (build holdings, perform major decisions, ...)
 		use_decisions = no				# Use minor decisions

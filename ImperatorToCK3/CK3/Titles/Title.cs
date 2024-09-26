@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Linguistics;
@@ -340,6 +340,27 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorCountry.Government, imperatorCountry.PrimaryCulture);
 			if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
 				History.AddFieldValue(conversionDate, "government", "government", ck3CountryGov);
+			}
+			
+			// If the government is administrative, add a history effect for setting the state faith.
+			string? effectiveGov = ck3CountryGov ?? lastCK3TermGov;
+			var holderId = GetHolderId(conversionDate);
+			if (effectiveGov == "administrative_government" && characters.TryGetValue(holderId, out var holder)) {
+				var holderFaithId = holder.GetFaithId(conversionDate);
+				if (holderFaithId is not null) {
+					History.AddFieldValue(conversionDate, "effects", "effect",
+						$$"""
+							{
+								if = {
+									limit = {
+										exists = holder
+										holder = { has_government = administrative_government }
+									}
+									set_state_faith = faith:{{holderFaithId}}
+								}
+							}
+						""");
+				}
 			}
 		}
 	}
@@ -1020,6 +1041,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("destroy_if_invalid_heir")] public bool? DestroyIfInvalidHeir { get; set; }
 	[SerializedName("destroy_on_succession")] public bool? DestroyOnSuccession { get; set; }
 	[SerializedName("no_automatic_claims")] public bool? NoAutomaticClaims { get; set; }
+	[SerializedName("noble_family")] public bool? NobleFamily { get; set; }
 	[SerializedName("always_follows_primary_heir")] public bool? AlwaysFollowsPrimaryHeir { get; set; }
 	[SerializedName("de_jure_drift_disabled")] public bool? DeJureDriftDisabled { get; set; }
 	[SerializedName("can_be_named_after_dynasty")] public bool? CanBeNamedAfterDynasty { get; set; }
@@ -1104,6 +1126,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterKeyword("destroy_if_invalid_heir", reader => DestroyIfInvalidHeir = reader.GetBool());
 		parser.RegisterKeyword("destroy_on_succession", reader => DestroyOnSuccession = reader.GetBool());
 		parser.RegisterKeyword("no_automatic_claims", reader => NoAutomaticClaims = reader.GetBool());
+		parser.RegisterKeyword("noble_family", reader => NobleFamily = reader.GetBool());
 		parser.RegisterKeyword("always_follows_primary_heir", reader => AlwaysFollowsPrimaryHeir = reader.GetBool());
 		parser.RegisterKeyword("de_jure_drift_disabled", reader => DeJureDriftDisabled = reader.GetBool());
 		parser.RegisterKeyword("can_be_named_after_dynasty", reader => CanBeNamedAfterDynasty = reader.GetBool());
