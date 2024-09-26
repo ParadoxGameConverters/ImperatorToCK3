@@ -673,7 +673,6 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 	public void GenerateSuccessorsForOldCharacters(Title.LandedTitles titles, CultureCollection cultures, Date irSaveDate, Date ck3BookmarkDate, ulong randomSeed) {
 		Logger.Info("Generating successors for old characters...");
 		
-		// Get all characters that are alive and older than 70 years at the bookmark date.
 		var oldCharacters = this
 			.Where(c => c.BirthDate < ck3BookmarkDate && c.DeathDate is null)
 			.Where(c => ck3BookmarkDate.DiffInYears(c.BirthDate) > 60)
