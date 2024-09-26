@@ -338,6 +338,9 @@ public sealed class World {
 
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		Characters.PurgeUnneededCharacters(LandedTitles, Dynasties, DynastyHouses, config.CK3BookmarkDate);
+		// We could convert Imperator character DNA while importing the characters.
+		// But that'd be wasteful, because some of them are purged. So, we do it now.
+		Characters.ConvertImperatorCharacterDNA(dnaFactory);
 		
 		// After the purging of unneeded characters, we should clean up the title history.
 		LandedTitles.CleanUpHistory(Characters, config.CK3BookmarkDate);

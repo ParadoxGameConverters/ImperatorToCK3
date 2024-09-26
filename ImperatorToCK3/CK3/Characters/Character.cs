@@ -156,7 +156,7 @@ public sealed class Character : IIdentifiable<string> {
 
 	public IDictionary<string, string> PrisonerIds { get; } = new Dictionary<string, string>(); // <prisoner id, imprisonment type>
 
-	public DNA? DNA { get; private set; }
+	public DNA? DNA { get; set; }
 
 	public Imperator.Characters.Character? ImperatorCharacter { get; set; }
 
@@ -406,10 +406,6 @@ public sealed class Character : IIdentifiable<string> {
 		}
 
 		Female = ImperatorCharacter.Female;
-		
-		if (ImperatorCharacter.PortraitData is not null) {
-			DNA = dnaFactory.GenerateDNA(ImperatorCharacter, ImperatorCharacter.PortraitData);
-		}
 
 		// Determine valid (not dropped in province mappings) "source I:R province" and "source CK3 province"
 		// to be used by religion mapper. Don't give up without a fight.
