@@ -90,7 +90,8 @@ public class TitleTests {
 				nicknameMapper,
 				characters,
 				ck3BookmarkDate,
-				config
+				config,
+				enabledCK3Dlcs: []
 			);
 		}
 		public TitleBuilder WithCountry(Country country) {

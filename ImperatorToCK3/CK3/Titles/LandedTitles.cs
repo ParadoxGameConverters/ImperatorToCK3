@@ -159,7 +159,8 @@ public sealed partial class Title {
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters,
 			Date conversionDate,
-			Configuration config
+			Configuration config,
+			IReadOnlyCollection<string> enabledCK3Dlcs
 		) {
 			var newTitle = new Title(this,
 				country,
@@ -178,7 +179,8 @@ public sealed partial class Title {
 				nicknameMapper,
 				characters,
 				conversionDate,
-				config
+				config,
+				enabledCK3Dlcs
 			);
 			dict[newTitle.Id] = newTitle;
 			return newTitle;
@@ -338,7 +340,8 @@ public sealed partial class Title {
 			CharacterCollection characters,
 			Date conversionDate,
 			Configuration config,
-			List<KeyValuePair<Country, Dependency?>> countyLevelCountries
+			List<KeyValuePair<Country, Dependency?>> countyLevelCountries,
+			IReadOnlyCollection<string> enabledCK3Dlcs
 		) {
 			Logger.Info("Importing Imperator countries...");
 
@@ -372,7 +375,8 @@ public sealed partial class Title {
 					characters,
 					conversionDate,
 					config,
-					countyLevelCountries
+					countyLevelCountries,
+					enabledCK3Dlcs
 				);
 				++counter;
 			}
@@ -395,7 +399,8 @@ public sealed partial class Title {
 					characters,
 					conversionDate,
 					config,
-					countyLevelCountries
+					countyLevelCountries,
+					enabledCK3Dlcs
 				);
 				++counter;
 			}
@@ -420,7 +425,8 @@ public sealed partial class Title {
 			CharacterCollection characters,
 			Date conversionDate,
 			Configuration config,
-			List<KeyValuePair<Country, Dependency?>> countyLevelCountries) {
+			List<KeyValuePair<Country, Dependency?>> countyLevelCountries,
+			IReadOnlyCollection<string> enabledCK3Dlcs) {
 			// Create a new title or update existing title.
 			var titleId = DetermineId(country, dependency, imperatorCountries, tagTitleMapper, irLocDB);
 
@@ -447,7 +453,8 @@ public sealed partial class Title {
 					nicknameMapper,
 					characters,
 					conversionDate,
-					config
+					config,
+					enabledCK3Dlcs
 				);
 			} else {
 				Add(
@@ -467,7 +474,8 @@ public sealed partial class Title {
 					nicknameMapper,
 					characters,
 					conversionDate,
-					config
+					config,
+					enabledCK3Dlcs
 				);
 			}
 		}
