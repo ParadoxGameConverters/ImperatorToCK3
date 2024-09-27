@@ -5,6 +5,7 @@ colors = {
 	arakanese = rgb { 230 37 82 } # based on d_arakan color
 	shan = rgb { 255 157 0 } # based on orange color from this map: https://upload.wikimedia.org/wikipedia/commons/5/55/Taikadai-en1.png
 	venetic_culture = { 193 117 241 }
+	chong = { 217 189 104 } # from Rajas of Asia
 	
 	# fallback colors for WtWSMS
 	coptic = { 0.20 0.35 0.50 } # taken from the coptic culture color in WtWSMS

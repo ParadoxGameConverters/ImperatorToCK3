@@ -2623,3 +2623,31 @@ suebi = { # override of vanilla culture
 		10 = mediterranean
 	}
 }
+
+chong = {  # integrated from Rajas of Asia
+	color = chong
+
+	ethos = ethos_communal
+	heritage = heritage_mon_khmer # TODO: ADD THIS
+	language = language_chong
+	martial_custom = martial_custom_male_only
+
+	name_list = name_list_khmer  # TODO: ADD THIS
+
+	coa_gfx = { burman_group_coa_gfx }
+	building_gfx = { indian_building_gfx }
+	clothing_gfx = {
+		# khmer_clothing_gfx austronesian_clothing_gfx # IRToCK3: don't have these
+		indian_clothing_gfx
+	}
+	unit_gfx = { indian_unit_gfx }
+
+	traditions = {
+		tradition_medicinal_plants
+		tradition_agrarian
+	}
+
+	ethnicities = { # changed from RoA, we don't have their ethnicities
+		10 = asian
+	}
+}

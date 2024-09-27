@@ -1216,3 +1216,50 @@ language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/shared
 
 	color = { 217 189 104 }
 }
+
+language_chong = {
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_chong
+		}
+	}
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_pearic = yes
+				language_family_austro_asiatic = yes
+			}
+		}
+	}
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_chong }
+					multiply = same_language_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_pearic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_austro_asiatic }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_chong }
+					multiply = 10
+				}
+			}
+		}
+	}
+
+	color = chong
+}
