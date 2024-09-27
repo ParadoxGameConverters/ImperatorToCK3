@@ -1072,6 +1072,7 @@ public sealed class World {
 		foreach (var dlcFile in dlcFiles) {
 			var dlcFileName = Path.GetFileName(dlcFile);
 			if (dlcFileToDlcFlagDict.TryGetValue(dlcFileName, out var dlcFlag)) {
+				Logger.Info($"Found DLC: {dlcFlag}");
 				enabledDlcFlags.Add(dlcFlag);
 			} else {
 				Logger.Warn($"Unknown DLC file: {dlcFileName}");
