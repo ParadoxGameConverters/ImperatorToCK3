@@ -2625,6 +2625,10 @@ suebi = { # override of vanilla culture
 }
 
 chong = {  # integrated from Rajas of Asia
+	INVALIDATED_BY = {
+		roa = { chong }
+	}
+
 	color = chong
 
 	ethos = ethos_communal

@@ -1218,6 +1218,10 @@ language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/shared
 }
 
 language_chong = {
+	REPLACED_BY = {
+		roa = { language_chong }
+	}
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {

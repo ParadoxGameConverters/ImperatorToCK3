@@ -28,8 +28,10 @@ public sealed class Configuration {
 	public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
 	public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
 	public bool SkipDynamicCoAExtraction { get; set; } = false;
-	public bool FallenEagleEnabled { get; set; }
-	public bool WhenTheWorldStoppedMakingSenseEnabled { get; set; }
+	public bool FallenEagleEnabled { get; private set; }
+	public bool WhenTheWorldStoppedMakingSenseEnabled { get; private set; }
+	public bool RajasOfAsiaEnabled { get; private set; }
+	public bool AsiaExpansionProjectEnabled { get; private set; }
 
 	public Configuration() { }
 	public Configuration(ConverterVersion converterVersion) {
@@ -275,6 +277,18 @@ public sealed class Configuration {
 			WhenTheWorldStoppedMakingSenseEnabled = true;
 			Logger.Info($"WtWSMS detected: {wtwsmsMod.Name}");
 		}
+		
+		var roaMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Rajas of Asia", StringComparison.Ordinal));
+		if (roaMod is not null) {
+			RajasOfAsiaEnabled = true;
+			Logger.Info($"RoA detected: {roaMod.Name}");
+		}
+		
+		var aepMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Asia Expansion Project", StringComparison.Ordinal));
+		if (aepMod is not null) {
+			AsiaExpansionProjectEnabled = true;
+			Logger.Info($"AEP detected: {aepMod.Name}");
+		}
 	}
 
 	/// <summary>Returns a collection of CK3 mod flags with values based on the enabled mods. "vanilla" flag is set to true if no other flags are set.</summary>
@@ -282,6 +296,8 @@ public sealed class Configuration {
 		var flags = new OrderedDictionary<string, bool> {
 			["tfe"] = FallenEagleEnabled,
 			["wtwsms"] = WhenTheWorldStoppedMakingSenseEnabled,
+			["roa"] = RajasOfAsiaEnabled,
+			["aep"] = AsiaExpansionProjectEnabled,
 		};
 
 		flags["vanilla"] = flags.Count(f => f.Value) == 0;
