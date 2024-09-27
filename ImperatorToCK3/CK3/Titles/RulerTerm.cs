@@ -6,6 +6,7 @@ using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Titles;
 
@@ -25,14 +26,14 @@ public sealed class RulerTerm {
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
 		ProvinceMapper provinceMapper,
-		Configuration config
-	) {
+		Configuration config,
+		IReadOnlyCollection<string> enabledCK3Dlcs) {
 		if (imperatorRulerTerm.CharacterId is not null) {
 			CharacterId = $"imperator{imperatorRulerTerm.CharacterId}";
 		}
 		StartDate = imperatorRulerTerm.StartDate;
 		if (imperatorRulerTerm.Government is not null) {
-			Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorRulerTerm.Government, null);
+			Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorRulerTerm.Government, null, enabledCK3Dlcs);
 		}
 
 		PreImperatorRuler = imperatorRulerTerm.PreImperatorRuler;

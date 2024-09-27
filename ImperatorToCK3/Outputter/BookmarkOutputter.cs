@@ -79,6 +79,11 @@ public static class BookmarkOutputter {
 		if (holder.GetName(config.CK3BookmarkDate) is {} holderName) {
 			if (ck3LocDB.TryGetValue(holderName, out var holderNameLoc)) {
 				holderLoc.CopyFrom(holderNameLoc);
+			} else {
+				// Use the raw name.
+				foreach (var language in ConverterGlobals.SupportedLanguages) {
+					holderLoc[language] = holderName;
+				}
 			}
 		}
 		var holderDescLoc = ck3LocDB.GetOrCreateLocBlock($"bm_converted_{holder.Id}_desc");

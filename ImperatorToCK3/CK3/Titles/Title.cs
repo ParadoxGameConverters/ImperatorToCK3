@@ -62,7 +62,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		NicknameMapper nicknameMapper,
 		CharacterCollection characters,
 		Date conversionDate,
-		Configuration config
+		Configuration config,
+		IReadOnlyCollection<string> enabledCK3Dlcs
 	) {
 		IsCreatedFromImperator = true;
 		this.parentCollection = parentCollection;
@@ -84,7 +85,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			nicknameMapper,
 			characters,
 			conversionDate,
-			config
+			config,
+			enabledCK3Dlcs
 		);
 	}
 	private Title(LandedTitles parentCollection,
@@ -188,7 +190,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		NicknameMapper nicknameMapper,
 		CharacterCollection characters,
 		Date conversionDate,
-		Configuration config
+		Configuration config,
+		IReadOnlyCollection<string> enabledCK3Dlcs
 	) {
 		ImperatorCountry = country;
 		ImperatorCountry.CK3Title = this;
@@ -202,7 +205,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		ClearHolderSpecificHistory();
 
-		FillHolderAndGovernmentHistory(country, characters, governmentMapper, irLocDB, ck3LocDB, religionMapper, cultureMapper, nicknameMapper, provinceMapper, config, conversionDate);
+		FillHolderAndGovernmentHistory(country, characters, governmentMapper, irLocDB, ck3LocDB, religionMapper, cultureMapper, nicknameMapper, provinceMapper, config, conversionDate, enabledCK3Dlcs);
 
 		// Determine color.
 		var color1Opt = ImperatorCountry.Color1;
@@ -299,7 +302,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		NicknameMapper nicknameMapper,
 		ProvinceMapper provinceMapper,
 		Configuration config,
-		Date conversionDate) {
+		Date conversionDate,
+		IReadOnlyCollection<string> enabledCK3Dlcs) {
 		// ------------------ determine previous and current holders
 
 		foreach (var impRulerTerm in imperatorCountry.RulerTerms) {
@@ -313,7 +317,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				cultureMapper,
 				nicknameMapper,
 				provinceMapper,
-				config
+				config,
+				enabledCK3Dlcs
 			);
 
 			var characterId = rulerTerm.CharacterId;
@@ -337,7 +342,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		if (imperatorCountry.Government is not null) {
 			var lastCK3TermGov = GetGovernment(conversionDate);
-			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorCountry.Government, imperatorCountry.PrimaryCulture);
+			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorCountry.Government, imperatorCountry.PrimaryCulture, enabledCK3Dlcs);
 			if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
 				History.AddFieldValue(conversionDate, "government", "government", ck3CountryGov);
 			}

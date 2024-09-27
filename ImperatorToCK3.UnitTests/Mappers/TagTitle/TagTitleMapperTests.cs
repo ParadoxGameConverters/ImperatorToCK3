@@ -93,7 +93,8 @@ public class TagTitleMapperTests {
 			new CharacterCollection(),
 			new Date(),
 			new Configuration(),
-			new List<KeyValuePair<Country, Dependency?>>()
+			new List<KeyValuePair<Country, Dependency?>>(),
+			enabledCK3Dlcs: []
 		);
 		
 		irRegionMapper.Regions.Add(new ImperatorRegion("central_italy_region", new BufferedReader(), Areas, ColorFactory));
@@ -168,7 +169,8 @@ public class TagTitleMapperTests {
 			new CharacterCollection(),
 			new Date(),
 			new Configuration(),
-			new List<KeyValuePair<Country, Dependency?>>()
+			new List<KeyValuePair<Country, Dependency?>>(),
+			enabledCK3Dlcs: []
 		);
 
 		irRegionMapper.Regions.Add(new ImperatorRegion("apulia_region", new BufferedReader(), Areas, ColorFactory));
@@ -262,7 +264,8 @@ public class TagTitleMapperTests {
 			new CharacterCollection(),
 			new Date(),
 			new Configuration(),
-			new List<KeyValuePair<Country, Dependency?>>()
+			new List<KeyValuePair<Country, Dependency?>>(),
+			enabledCK3Dlcs: []
 		);
 
 		var ck3Provinces = new ProvinceCollection();
