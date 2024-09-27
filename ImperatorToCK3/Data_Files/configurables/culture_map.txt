@@ -950,12 +950,11 @@ link = { ck3 = saro ir = jinhan ir = byeonhan } # https://en.wikipedia.org/wiki/
 link = { ck3 = baekje ir = mahan } # https://en.wikipedia.org/wiki/Three_Kingdoms_of_Korea#Baekje
 link = { ck3 = ba_shu ir = ba ir = shu } # https://en.wikipedia.org/wiki/Ba%E2%80%93Shu_culture
 link = { ck3 = gilyak ir = nivkh } # https://en.wikipedia.org/wiki/Nivkh_people
-link = { ck3 = pear ir = 
+link = { ck3 = chong ir = pear }
 
 # TODO: I:R culture ID: bo, name: Bo
 # TODO: I:R culture ID: bekhyrian
 # TODO: I:R culture ID: xiangkhoang, name: Xiangkhoang
-# TODO: I:R culture ID: pear, name: Pear # TODO: Pear should map to Samre, we'd need to integrate Samre from RoA
 # TODO: I:R culture ID: haoshi, name: Haoshi
 # TODO: I:R culture ID: permic, name: Permic
 # TODO: I:R culture ID: syrbotian, name: Syrbotian 
