@@ -1,9 +1,10 @@
 using commonItems;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Artifact; 
 
 public class ArtifactVisualsMapper {
-	public ArtifactVisualsMapper(string mappingsPath) {  // TODO: use 
+	public ArtifactVisualsMapper(string mappingsPath) {  // TODO: use this somewhere
 		Logger.Info("Loading artifact visuals mappings...");
 		var parser = new Parser();
 		RegisterKeys(parser);
@@ -23,4 +24,6 @@ public class ArtifactVisualsMapper {
 			}
 		});
 	}
+	
+	private readonly Dictionary<string, string> impToCK3VisualMap = new();
 }

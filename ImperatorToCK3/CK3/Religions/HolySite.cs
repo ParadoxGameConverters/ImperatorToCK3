@@ -70,7 +70,7 @@ public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 		Faith faith,
 		Title.LandedTitles titles,
 		OrderedDictionary<string, double> imperatorEffects,
-		HolySiteEffectMapper holySiteEffectMapper
+		ModifierMapper modifierMapper
 	) : this(barony, faith, titles) {
 		foreach (var (effect, value) in imperatorEffects) {
 			var ck3EffectOpt = modifierMapper.Match(effect, value);

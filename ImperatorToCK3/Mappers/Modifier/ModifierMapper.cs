@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Modifier;
 
-public sealed class HolySiteEffectMapper {
+public sealed class ModifierMapper {
 	private readonly Dictionary<string, KeyValuePair<string, double>> effectMap = new(); // imperator effect, <ck3 effect, factor>
 
 	public ModifierMapper(string mappingsFilePath) {

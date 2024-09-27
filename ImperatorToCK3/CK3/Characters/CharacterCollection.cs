@@ -848,6 +848,8 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			}
 		""";
 		character.History.AddFieldValue(date, "effects", "effect", createArtifactEffect);
+	}
+
 	public void GenerateSuccessorsForOldCharacters(Title.LandedTitles titles, CultureCollection cultures, Date irSaveDate, Date ck3BookmarkDate, ulong randomSeed) {
 		Logger.Info("Generating successors for old characters...");
 		
