@@ -1033,6 +1033,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[commonItems.Serialization.NonSerialized] public string Id { get; } // e.g. d_latium
 	[commonItems.Serialization.NonSerialized] public TitleRank Rank { get; private set; } = TitleRank.duchy;
 	[SerializedName("landless")] public bool Landless { get; private set; } = false;
+	[SerializedName("require_landless")] public bool? RequireLandless { get; private set; }
 	[SerializedName("definite_form")] public bool HasDefiniteForm { get; private set; } = false;
 
 	//This line keeps the Seleucids Seleucid and not "[Dynasty]s"
@@ -1103,6 +1104,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterKeyword("definite_form", reader => HasDefiniteForm = reader.GetBool());
 		parser.RegisterKeyword("ruler_uses_title_name", reader => RulerUsesTitleName = reader.GetBool());
 		parser.RegisterKeyword("landless", reader => Landless = reader.GetBool());
+		parser.RegisterKeyword("require_landless", reader => RequireLandless = reader.GetBool());
 		parser.RegisterKeyword("color", reader => {
 			try {
 				Color1 = colorFactory.GetColor(reader);
