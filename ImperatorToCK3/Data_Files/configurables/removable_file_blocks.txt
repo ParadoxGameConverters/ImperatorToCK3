@@ -92,6 +92,52 @@
 			set_primary_title_to = title:k_bavaria
 		}
 	}
+	
+	{
+		# EP3, Hasan story cycle stuff
+		if = {
+			limit = {
+				root = character:3096
+			}
+			save_scope_as = ismaili_caliph
+			character:41702 ?= {
+				trigger_event = {
+					id = hasan_sabbah.1030
+					days = 1
+				}
+			}
+		}
+		if = {
+			limit = {
+				character:41702 ?= {
+					any_owned_story = {
+						story_type = story_hasan
+						var:ultimate_foe ?= root
+					}
+				}
+			}
+			character:41702 = {
+				random_owned_story = {
+					limit = { story_type = story_hasan }
+					if = {
+						limit = {
+							scope:killer = character:41702
+						}
+						hasan_sabbah_end_war = {
+							HASAN = character:41702
+							SELJUK = root
+						}
+					}
+					else = {
+						set_variable = {
+							name = ultimate_foe
+							value = root.player_heir
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
 "common/on_action/game_start.txt" = {
@@ -174,6 +220,69 @@
 				current_date >= 1066.1.1
 			}
 			character:90107 = { give_nickname = nick_the_german_post_mortem }
+		}
+	}
+	{
+		### 1178 - SIBYLLA ###
+		if = {
+			limit = {
+				exists = character:223522
+				current_date >= 1178.1.1
+				AND = {
+					character:223541 = {
+						is_ai = yes
+						is_alive = yes
+					}
+				}
+			}
+			character:223522 = {
+				trigger_event = {
+					id = bookmark.0300
+					days = { 21 28 }
+				}
+			}
+		}
+	}
+	{
+		if = {
+			limit = {
+				game_start_date >= 1178.10.1
+			}
+			character:st_amand_1 = {
+				save_scope_as = leader
+			}
+			character:223523 = {
+				save_scope_as = founder
+			}
+			title:b_saida = {
+				save_scope_as = barony
+			}
+			create_holy_order_neutral_effect = {
+				LEADER = scope:leader
+				CAPITAL = scope:barony
+				NEW_HO_SCOPE = new_holy_order
+				FOUNDER = scope:founder
+			}
+		}
+		if = {
+			limit = {
+				game_start_date >= 1178.10.1
+			}
+			character:231000 = {
+				save_scope_as = leader
+			}
+			character:223523 = {
+				save_scope_as = founder
+			}
+			title:b_hebron = {
+				save_scope_as = barony
+			}
+			create_holy_order_neutral_effect = {
+				LEADER = scope:leader
+				CAPITAL = scope:barony
+				NEW_HO_SCOPE = new_holy_order
+				FOUNDER = scope:founder
+			}
 		}
 	}
 	{
@@ -1859,6 +1968,94 @@ create_artifact_wall_sword_attila_effect = {
 								}
 								create_artifact_wall_sword_attila_effect = { OWNER = root }
 							}
+	}
+}
+
+"common\scripted_effects\00_ep1_artifact_creation_effects.txt" = {
+	{
+		10 = { #Crown of Justinian
+			trigger = {
+				NOT = {
+					any_artifact = { has_variable = crown_of_justinian }
+				}
+				$LOCATION$ ?= {
+					OR = {
+						geographical_region = custom_eastern_roman_empire
+						culture = { has_cultural_pillar = heritage_byzantine }
+					}
+				}
+			}
+			create_artifact_pedestal_justinian_effect = { OWNER = root }
+		}
+	}
+	
+	{
+		10 = { #Attila's Sword
+			trigger = {
+				NOT = {
+					any_artifact = { has_variable = sword_attila }
+				}
+				$LOCATION$ ?= {
+					OR = {
+						geographical_region = custom_south_slavia
+						geographical_region = custom_carpathia
+						geographical_region = ghw_region_crimea
+						geographical_region = custom_bavaria
+					}
+				}
+			}
+			create_artifact_wall_sword_attila_effect = { OWNER = root }
+		}
+	}
+	
+	{
+		10 = { #Throne of Scone
+			trigger = {
+				NOT = {
+					any_artifact = { has_variable = throne_scone }
+				}
+				$LOCATION$ ?= { geographical_region = world_europe_west_britannia }
+			}
+			create_artifact_throne_scone_effect = { OWNER = root }
+		}
+	}
+	
+	{
+		10 = { #Throne of Charlemagne - Recreate if lost
+			trigger = {
+				NOT = {
+					any_artifact = { has_variable = charlamagne_throne }
+				}
+				$LOCATION$ ?= {
+					OR = {
+						geographical_region = custom_carolingian_francia
+						geographical_region = custom_carolingian_germany
+						geographical_region = custom_lotharingia
+						geographical_region = custom_northern_italy
+					}
+				}
+			}
+			create_artifact_throne_charlemagne_effect = { OWNER = root }
+		}
+	}
+	
+	{
+		10 = { #Head of St Edmund
+			trigger = {
+				NOT = {
+					any_artifact = {
+						has_variable = edmund_head
+					}
+				}
+				$LOCATION$ ?= {
+					OR = {
+						geographical_region = world_europe_west_britannia
+						geographical_region = world_europe_north
+					}
+				}
+			}
+			create_artifact_edmund_head_effect = { OWNER = root }
+		}
 	}
 }
 
@@ -4614,5 +4811,12 @@ hasan_expand_the_assassins = {
 				}
 			}
 		}
+	}
+}
+
+"common\decisions\dlc_decisions\ep_3\06_ep3_laamp_decisions.txt" = {
+	{
+				#Stahp it, John de Courcy
+				this = character:214000
 	}
 }
