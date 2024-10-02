@@ -24,19 +24,16 @@ jobs:
           archive_type: tar
           archive_extension: .tgz
     steps:
-    - name: Get branch name
-      id: get_branch
-      shell: bash
-      run: |
-        echo "Operating System: ${{ runner.os }}"
-        if [[ "$RUNNER_OS" == "Windows" ]]; then
-          echo "BRANCH_NAME=${{ github.ref }}" | ForEach-Object {$_ -replace 'refs/heads/', ''} | Out-File -Append $env:GITHUB_ENV
-        else
-          echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
-        fi
+    - name: Get branch name (Windows)
+      if: runner.os == 'Windows'
+      run: echo "BRANCH_NAME=${{ github.ref }}" | ForEach-Object {$_ -replace 'refs/heads/', ''} | Out-File -Append $env:GITHUB_ENV
       env:
         GITHUB_REF: ${{ github.ref }}
-        RUNNER_OS: ${{ runner.os }}
+    - name: Get branch name (Unix)
+      if: runner.os != 'Windows'
+      run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+      env:
+        GITHUB_REF: ${{ github.ref }}
     - name: Remove old artifacts
       uses: ThreadsStyling/purge-artifacts-action@v1
       with:
