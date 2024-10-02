@@ -1,0 +1,12 @@
+6_to_1 = {
+    link = {
+        imp = 1
+        imp = 2
+        imp = 3
+        imp = 4
+        imp = 5
+        imp = 6
+        
+        ck3 = 1
+    }
+}
