@@ -24,8 +24,13 @@ jobs:
           archive_type: tar
           archive_extension: .tgz
     steps:
-    - name: Get branch name
-      id: get_branch
+    - name: Get branch name (Windows)
+      if: runner.os == 'Windows'
+      run: echo "BRANCH_NAME=${{ github.ref }}" | ForEach-Object {$_ -replace 'refs/heads/', ''} | Out-File -Append $env:GITHUB_ENV
+      env:
+        GITHUB_REF: ${{ github.ref }}
+    - name: Get branch name (Unix)
+      if: runner.os != 'Windows'
       run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
       env:
         GITHUB_REF: ${{ github.ref }}
