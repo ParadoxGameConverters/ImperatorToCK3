@@ -38,6 +38,7 @@ jobs:
       if: runner.os == 'Windows'
       run: echo "BRANCH_NAME=${BRANCH_NAME.Replace('/', '-').Replace('\', '-').Replace(':', '-').Replace('<', '-').Replace('>', '-').Replace('|', '-').Replace('*', '-').Replace('?', '-').Replace('\r', '-').Replace('\n', '-').Replace('/', '-').Replace('\\', '-')}" | Out-File -Append $env:GITHUB_ENV
     - name: "Modify the branch name to be used in artifact name (Unix)"
+      if: runner.os != 'Windows'
       # Invalid characters include:  Double quote ", Colon :, Less than <, Greater than >, Vertical bar |, Asterisk *, Question mark ?, Carriage return \r, Line feed \n, Backslash \, Forward slash /
       run: echo "BRANCH_NAME=${BRANCH_NAME//[^a-zA-Z0-9]/-}" >> $GITHUB_ENV
 
