@@ -243,9 +243,10 @@ link = { ck3 = elamite_faith ir = elamite_pantheon }
 
 # East Asian religions
 link = { ck3 = lixue ir = confucian } # AEP
+link = { ck3 = lixue ir = chinese_religions } # AEP; The TI desc of the religion mentions Kong Fuzi (Confucius).
 link = { ck3 = zhengyi ir = taoism } # AEP
 link = { ck3 = hanitu ir = taiwan_religion } # AEP
-link = { ck3 = moshir ir = ainu_religion } # AEP
+link = { ck3 = moshir ir = ainu_religion } # AEP, https://www.tota.world/article/853/
 link = { ck3 = yzng ir = nivkh_religion } # AEP
 
 # MODS (for future mods)
