@@ -2,22 +2,11 @@ name: Build development version
 on:
   push:
     branches:
-    - 'master'
+      - '**'  # This will trigger the workflow on push to any branch
 
 jobs:
-  remove_old_artifacts:
-    name: Remove old artifacts
-    runs-on: ubuntu-latest
-    steps:
-    - name: Remove old artifacts
-      uses: ThreadsStyling/purge-artifacts-action@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        expire-in: 0
-
   upload_dev_build_artifact:
     name: Upload development build
-    needs: remove_old_artifacts
     runs-on: ${{ matrix.os }}
     environment: "Build Environment"
     strategy:
@@ -35,6 +24,17 @@ jobs:
           archive_type: tar
           archive_extension: .tgz
     steps:
+    - name: Get branch name
+      id: get_branch
+      run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+      env:
+        GITHUB_REF: ${{ github.ref }}
+    - name: Remove old artifacts
+      uses: ThreadsStyling/purge-artifacts-action@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        expire-in: 0
+        onlyPrefix: 'ImperatorToCK3-${{ matrix.build }}-dev-${{ env.BRANCH_NAME }}'
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
@@ -74,6 +74,8 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ImperatorToCK3-${{ matrix.build }}-dev
+        name: 'ImperatorToCK3-${{ matrix.build }}-dev-${{ env.BRANCH_NAME }}'
         path: 'ImperatorToCK3-${{ matrix.build }}-dev${{ matrix.archive_extension }}'
-        retention-days: 30
+        retention-days: 20
+      env:
+        GITHUB_REF: ${{ github.ref }}
