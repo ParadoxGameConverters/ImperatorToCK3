@@ -26,6 +26,7 @@ jobs:
     steps:
     - name: Get branch name
       id: get_branch
+      shell: bash
       run: |
         echo "Operating System: ${{ runner.os }}"
         if [[ "$RUNNER_OS" == "Windows" ]]; then
