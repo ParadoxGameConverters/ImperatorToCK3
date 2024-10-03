@@ -1,0 +1,9 @@
+e_mongolia = {
+	capital = c_karakorum
+
+	k_mongolia = {
+		capital = c_karakorum
+	}
+
+	k_jubu = {}
+}
