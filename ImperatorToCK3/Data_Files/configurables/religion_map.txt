@@ -97,6 +97,7 @@ link = { ck3 = baltic_pagan ir = matrist_religion ck3Province = 154 ck3Province 
 link = { ck3 = slavic_pagan ir = matrist_religion }
 
 # Steppe Religion - Melieism in the East, Tengri in the West
+link = { ck3 = tengri_pagan ir = hu_religions } # from Terra Indomita, hu_religions is localized as Tengri
 link = { ck3 = tengri_pagan ir = eastern_animism irRegion = sarmatia_europea_region irRegion = vistulia_region irRegion = venedia_region irRegion = scandinavia_region irRegion = dacia_region irRegion = pannonia_region irRegion = moesia_region irRegion = thrace_region irRegion = macedonia_region irRegion = greece_region irRegion = illyria_region irRegion = germania_region irRegion = bohemia_area }
 link = { ck3 = tengri_pagan ir = hunnic_huna_animism irRegion = sarmatia_europea_region irRegion = vistulia_region irRegion = venedia_region irRegion = scandinavia_region irRegion = dacia_region irRegion = pannonia_region irRegion = moesia_region irRegion = thrace_region irRegion = macedonia_region irRegion = greece_region irRegion = illyria_region irRegion = germania_region irRegion = bohemia_area }
 link = { ck3 = melieism ir = eastern_animism }
@@ -242,12 +243,16 @@ link = { ck3=hurrian ir=hurrian_pantheon } # added by Invictus
 link = { ck3 = elamite_faith ir = elamite_pantheon }
 
 # East Asian religions
-link = { ck3 = lixue ir = confucian } # AEP
-link = { ck3 = lixue ir = chinese_religions } # AEP; The TI desc of the religion mentions Kong Fuzi (Confucius).
-link = { ck3 = zhengyi ir = taoism } # AEP
-link = { ck3 = hanitu ir = taiwan_religion } # AEP
-link = { ck3 = moshir ir = ainu_religion } # AEP, https://www.tota.world/article/853/
-link = { ck3 = yzng ir = nivkh_religion } # AEP
+## For Asia Expansion Project mod
+link = { ck3 = lixue ir = confucian }
+link = { ck3 = lixue ir = chinese_religions } # The TI desc of the religion mentions Kong Fuzi (Confucius).
+link = { ck3 = zhengyi ir = taoism }
+link = { ck3 = hanitu ir = taiwan_religion }
+link = { ck3 = moshir ir = ainu_religion } # https://www.tota.world/article/853/
+link = { ck3 = yzng ir = nivkh_religion }
+link = { ck3 = utaki ir = okinawa_religion } # Utaki is the AEP faith for Ryukyu Islands
+link = { ck3 = anito ir = pinoy_religion }
+link = { ck3 = musok ir = yi_religions } # Muism
 
 # MODS (for future mods)
 link = { ck3 = tengri_pagan ir = tengri_pagan }

@@ -218,7 +218,12 @@ public sealed class World {
 				foreach (var irReligionId in impWorld.Religions.Select(r => r.Id)) {
 					var baseMapping = religionMapper.Match(irReligionId, null, null, null, null, config);
 					if (baseMapping is null) {
-						Logger.Warn($"No base mapping found for I:R religion {irReligionId}!");
+						string religionStr = "ID: " + irReligionId;
+						var localizedName = impWorld.LocDB.GetLocBlockForKey(irReligionId)?["english"];
+						if (localizedName is not null) {
+							religionStr += $", name: {localizedName}";
+						}
+						Logger.Warn($"No base mapping found for I:R religion {religionStr}!");
 					}
 				}
 			},
