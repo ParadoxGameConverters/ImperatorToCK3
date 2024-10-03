@@ -119,9 +119,14 @@ public sealed partial class Title {
 				Variables[variableName[1..]] = variableValue;
 			});
 			parser.RegisterRegex(Regexes.TitleId, (reader, titleNameStr) => {
-				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
-				var newTitle = Add(titleNameStr);
-				newTitle.LoadTitles(reader);
+				// Pull the titles beneath this one and add them to the lot.
+				// A title can be defined in multiple files, in that case merge the definitions.
+				if (TryGetValue(titleNameStr, out var titleToUpdate)) {
+					titleToUpdate.LoadTitles(reader);
+				} else {
+					var newTitle = Add(titleNameStr);
+					newTitle.LoadTitles(reader);
+				}
 			});
 			parser.IgnoreAndLogUnregisteredItems();
 		}
@@ -221,8 +226,7 @@ public sealed partial class Title {
 		}
 		public override void Remove(string name) {
 			if (dict.TryGetValue(name, out var titleToErase)) {
-				var deJureLiege = titleToErase.DeJureLiege;
-				deJureLiege?.DeJureVassals.Remove(name);
+				titleToErase.DeJureLiege = null; // Remove two-way liege-vassal link.
 
 				foreach (var vassal in titleToErase.DeJureVassals) {
 					vassal.DeJureLiege = null;
