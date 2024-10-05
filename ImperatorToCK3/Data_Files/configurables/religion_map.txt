@@ -253,6 +253,7 @@ link = { ck3 = yzng ir = nivkh_religion }
 link = { ck3 = utaki ir = okinawa_religion } # Utaki is the AEP faith for Ryukyu Islands
 link = { ck3 = anito ir = pinoy_religion }
 link = { ck3 = musok ir = yi_religions } # Muism
+link = { ck3 = pagan ir = baiyue_religions } # Found no match, TODO: add a Baiyue faith to CK3.
 
 # MODS (for future mods)
 link = { ck3 = tengri_pagan ir = tengri_pagan }
