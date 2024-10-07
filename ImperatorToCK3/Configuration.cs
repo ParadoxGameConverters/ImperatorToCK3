@@ -48,6 +48,7 @@ public sealed class Configuration {
 		VerifyCK3Path();
 		VerifyCK3Version(converterVersion);
 		VerifyImperatorDocPath();
+		VerifyCK3ModsPath();
 
 		Logger.IncrementProgress();
 	}
@@ -235,6 +236,21 @@ public sealed class Configuration {
 		}
 		
 		Logger.Debug($"I:R documents path {ImperatorPath} is valid.");
+	}
+	
+	private void VerifyCK3ModsPath() {
+		if (!Directory.Exists(CK3ModsPath)) {
+			throw new UserErrorException($"{CK3ModsPath} does not exist!");
+		}
+		
+		// If the mods folder contains any files, at least one on them should have a .mod extension.
+		var filesInFolder = Directory.GetFiles(CK3ModsPath);
+		if (filesInFolder.Length > 0) {
+			var modFiles = filesInFolder.Where(f => f.EndsWith(".mod", StringComparison.OrdinalIgnoreCase));
+			if (!modFiles.Any()) {
+				throw new UserErrorException($"{CK3ModsPath} does not contain any .mod files!");
+			}
+		}
 	}
 
 	private void SetOutputName() {
