@@ -15,11 +15,11 @@ public static class CoatOfArmsEmblemsOutputter {
 		var acceptedExtensions = new HashSet<string>{ "dds", "tga", "png" };
 
 		var emblemFiles = imperatorModFS.GetAllFilesInFolderRecursive(coloredEmblemsFolder);
-		Parallel.ForEach(emblemFiles, filePath => {
-			if (!acceptedExtensions.Contains(CommonFunctions.GetExtension(filePath))) {
+		Parallel.ForEach(emblemFiles, fileInfo => {
+			if (!acceptedExtensions.Contains(CommonFunctions.GetExtension(fileInfo.RelativePath))) {
 				return;
 			}
-			CopyEmblem(filePath);
+			CopyEmblem(fileInfo.AbsolutePath);
 		});
 		Logger.IncrementProgress();
 		return;
@@ -55,17 +55,16 @@ public static class CoatOfArmsEmblemsOutputter {
 		var acceptedExtensions = new HashSet<string>{ "dds", "tga", "png" };
 
 		var emblemFiles = imperatorModFS.GetAllFilesInFolderRecursive(texturedEmblemsFolder);
-		foreach (var filePath in emblemFiles) {
-			if (!acceptedExtensions.Contains(CommonFunctions.GetExtension(filePath))) {
+		foreach (var fileInfo in emblemFiles) {
+			if (!acceptedExtensions.Contains(CommonFunctions.GetExtension(fileInfo.RelativePath))) {
 				continue;
 			}
 			
 			// Copy image to output path.
-			var fileName = CommonFunctions.TrimPath(filePath);
-			var outputPath = Path.Combine(outputModPath, "gfx/coat_of_arms/textured_emblems", fileName);
-			var wasCopied = SystemUtils.TryCopyFile(filePath, outputPath);
+			var outputPath = Path.Combine(outputModPath, texturedEmblemsFolder, fileInfo.RelativePath);
+			var wasCopied = SystemUtils.TryCopyFile(fileInfo.AbsolutePath, outputPath);
 			if (!wasCopied) {
-				Logger.Warn($"Failed to copy textured emblem {fileName}!");
+				Logger.Warn($"Failed to copy textured emblem {fileInfo.RelativePath}!");
 			}
 		}
 	}

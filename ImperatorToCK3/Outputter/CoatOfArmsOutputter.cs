@@ -53,10 +53,9 @@ public static class CoatOfArmsOutputter {
 		const string relativePatternsPath = "gfx/coat_of_arms/patterns";
 
 		var filePaths = irModFS.GetAllFilesInFolderRecursive(relativePatternsPath);
-		foreach (var filePath in filePaths) {
-			var index = filePath.IndexOf(relativePatternsPath, StringComparison.Ordinal);
-			var relativeFileOutputPath = filePath[index..];
-			SystemUtils.TryCopyFile(filePath, Path.Combine(outputPath, relativeFileOutputPath));
+		foreach (var fileInfo in filePaths) {
+			var destPath = Path.Combine(outputPath, relativePatternsPath, fileInfo.RelativePath);
+			SystemUtils.TryCopyFile(fileInfo.AbsolutePath, destPath);
 		}
 
 		Logger.IncrementProgress();
