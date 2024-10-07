@@ -119,9 +119,14 @@ public sealed partial class Title {
 				Variables[variableName[1..]] = variableValue;
 			});
 			parser.RegisterRegex(Regexes.TitleId, (reader, titleNameStr) => {
-				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
-				var newTitle = Add(titleNameStr);
-				newTitle.LoadTitles(reader);
+				// Pull the titles beneath this one and add them to the lot.
+				// A title can be defined in multiple files, in that case merge the definitions.
+				if (TryGetValue(titleNameStr, out var titleToUpdate)) {
+					titleToUpdate.LoadTitles(reader);
+				} else {
+					var newTitle = Add(titleNameStr);
+					newTitle.LoadTitles(reader);
+				}
 			});
 			parser.IgnoreAndLogUnregisteredItems();
 		}
@@ -159,7 +164,8 @@ public sealed partial class Title {
 			NicknameMapper nicknameMapper,
 			CharacterCollection characters,
 			Date conversionDate,
-			Configuration config
+			Configuration config,
+			IReadOnlyCollection<string> enabledCK3Dlcs
 		) {
 			var newTitle = new Title(this,
 				country,
@@ -178,7 +184,8 @@ public sealed partial class Title {
 				nicknameMapper,
 				characters,
 				conversionDate,
-				config
+				config,
+				enabledCK3Dlcs
 			);
 			dict[newTitle.Id] = newTitle;
 			return newTitle;
@@ -219,8 +226,7 @@ public sealed partial class Title {
 		}
 		public override void Remove(string name) {
 			if (dict.TryGetValue(name, out var titleToErase)) {
-				var deJureLiege = titleToErase.DeJureLiege;
-				deJureLiege?.DeJureVassals.Remove(name);
+				titleToErase.DeJureLiege = null; // Remove two-way liege-vassal link.
 
 				foreach (var vassal in titleToErase.DeJureVassals) {
 					vassal.DeJureLiege = null;
@@ -338,7 +344,8 @@ public sealed partial class Title {
 			CharacterCollection characters,
 			Date conversionDate,
 			Configuration config,
-			List<KeyValuePair<Country, Dependency?>> countyLevelCountries
+			List<KeyValuePair<Country, Dependency?>> countyLevelCountries,
+			IReadOnlyCollection<string> enabledCK3Dlcs
 		) {
 			Logger.Info("Importing Imperator countries...");
 
@@ -372,7 +379,8 @@ public sealed partial class Title {
 					characters,
 					conversionDate,
 					config,
-					countyLevelCountries
+					countyLevelCountries,
+					enabledCK3Dlcs
 				);
 				++counter;
 			}
@@ -395,7 +403,8 @@ public sealed partial class Title {
 					characters,
 					conversionDate,
 					config,
-					countyLevelCountries
+					countyLevelCountries,
+					enabledCK3Dlcs
 				);
 				++counter;
 			}
@@ -420,7 +429,8 @@ public sealed partial class Title {
 			CharacterCollection characters,
 			Date conversionDate,
 			Configuration config,
-			List<KeyValuePair<Country, Dependency?>> countyLevelCountries) {
+			List<KeyValuePair<Country, Dependency?>> countyLevelCountries,
+			IReadOnlyCollection<string> enabledCK3Dlcs) {
 			// Create a new title or update existing title.
 			var titleId = DetermineId(country, dependency, imperatorCountries, tagTitleMapper, irLocDB);
 
@@ -447,7 +457,8 @@ public sealed partial class Title {
 					nicknameMapper,
 					characters,
 					conversionDate,
-					config
+					config,
+					enabledCK3Dlcs
 				);
 			} else {
 				Add(
@@ -467,7 +478,8 @@ public sealed partial class Title {
 					nicknameMapper,
 					characters,
 					conversionDate,
-					config
+					config,
+					enabledCK3Dlcs
 				);
 			}
 		}

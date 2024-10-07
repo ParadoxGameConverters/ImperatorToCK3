@@ -301,7 +301,25 @@ public class LandedTitlesTests {
 		var ck3LocDB = new TestCK3LocDB();
 
 		// Import country 589.
-		titles.ImportImperatorCountries(imperatorWorld.Countries, imperatorWorld.Dependencies, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()), new SuccessionLawMapper(), definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, new List<KeyValuePair<Country, Dependency?>>());
+		titles.ImportImperatorCountries(
+			imperatorWorld.Countries,
+			imperatorWorld.Dependencies,
+			tagTitleMapper,
+			irLocDB,
+			ck3LocDB,
+			provinceMapper,
+			coaMapper,
+			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
+			new SuccessionLawMapper(),
+			definiteFormMapper,
+			religionMapper,
+			cultureMapper,
+			nicknameMapper,
+			characters,
+			conversionDate,
+			config,
+			new List<KeyValuePair<Country, Dependency?>>(),
+			enabledCK3Dlcs: []);
 		Assert.Collection(titles,
 			title => Assert.Equal("c_county1", title.Id),
 			title => Assert.Equal("b_barony1", title.Id),
@@ -564,4 +582,29 @@ public class LandedTitlesTests {
 		Assert.Equal("b_barony3", titles.GetBaronyForProvince(3)?.Id);
 		Assert.Null(titles.GetBaronyForProvince(4));
 	}
+	
+	[Fact]
+	public void TitlesCanBeExpandedInOtherFiles() {
+		var titles = new Title.LandedTitles();
+		titles.LoadTitles(ck3ModFS, new TestCK3LocDB());
+		
+		// e_mongolia's color is defined in base_landed_titles.txt.
+		// But its capital is defined in extra_landed_titles.txt.
+		// If both are properly set, it means that we're correctly loading a title from multiple files.
+		var mongoliaEmpire = titles["e_mongolia"];
+		Assert.Equal(new Color(90, 90, 240), mongoliaEmpire.Color1);
+		Assert.Equal("c_karakorum", mongoliaEmpire.CapitalCountyId);
+		
+		// It has k_mongolia and k_angara defined as de jure vassals in base_landed_titles.txt.
+		// It also has k_jubu defined as a de jure vassal in extra_landed_titles.txt.
+		Assert.Equal(3, mongoliaEmpire.DeJureVassals.Count);
+		
+		// k_mongolia's color is defined in base_landed_titles.txt.
+		// But its capital is defined in extra_landed_titles.txt.
+		// This checks if we can correctly load lower rank titles (nested in the structure) from multiple files.
+		var mongoliaKingdom = titles["k_mongolia"];
+		Assert.Equal(new Color(20, 65, 25), mongoliaKingdom.Color1);
+		Assert.Equal("c_karakorum", mongoliaKingdom.CapitalCountyId);
+	}
 }
+

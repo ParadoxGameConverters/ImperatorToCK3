@@ -48,9 +48,9 @@ public sealed class GovernmentMapper {
 		}
 	}
 	
-	public string? GetCK3GovernmentForImperatorGovernment(string irGovernmentId, string? irCultureId) {
+	public string? GetCK3GovernmentForImperatorGovernment(string irGovernmentId, string? irCultureId, IReadOnlyCollection<string> enabledCK3Dlcs) {
 		foreach (var mapping in mappings) {
-			var match = mapping.Match(irGovernmentId, irCultureId);
+			var match = mapping.Match(irGovernmentId, irCultureId, enabledCK3Dlcs);
 			if (match is not null) {
 				return match;
 			}

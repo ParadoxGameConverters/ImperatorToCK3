@@ -62,7 +62,8 @@ public class RulerTermTests {
 			new CultureMapper(irRegionMapper, ck3RegionMapper, new CultureCollection(new ColorFactory(), new PillarCollection(new ColorFactory(), []), [])),
 			new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 			new ProvinceMapper(),
-			new Configuration()
+			new Configuration(),
+			enabledCK3Dlcs: []
 		);
 		Assert.Equal("imperator69", ck3RulerTerm.CharacterId);
 		Assert.Equal(new Date(500, 2, 3, AUC: true), ck3RulerTerm.StartDate);
@@ -104,7 +105,8 @@ public class RulerTermTests {
 			new CultureMapper(new BufferedReader("link = { ir=spartan ck3=greek }"), irRegionMapper, ck3RegionMapper, cultures),
 			new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 			new ProvinceMapper(),
-			new Configuration()
+			new Configuration(),
+			enabledCK3Dlcs: []
 		);
 		Assert.Equal("imperatorRegnalSPAAlexander504_1_1BC", ck3RulerTerm.CharacterId);
 		Assert.Equal(new Date(250, 1, 1, AUC: true), ck3RulerTerm.StartDate);
