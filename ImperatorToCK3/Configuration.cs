@@ -47,6 +47,7 @@ public sealed class Configuration {
 		VerifyImperatorVersion(converterVersion);
 		VerifyCK3Path();
 		VerifyCK3Version(converterVersion);
+		VerifyImperatorDocPath();
 
 		Logger.IncrementProgress();
 	}
@@ -210,6 +211,30 @@ public sealed class Configuration {
 		} else{
 			throw new UserErrorException($"{CK3Path} does not contain Crusader Kings III!");
 		}
+	}
+
+	private void VerifyImperatorDocPath() {
+		if (!Directory.Exists(ImperatorDocPath)) {
+			throw new UserErrorException($"{ImperatorDocPath} does not exist!");
+		}
+
+		string[] dirsInDocFolder = ["mod/", "logs/", "save_games/", "cache/"];
+		string[] filesInDocFolder = [
+			"continue_game.json", "dlc_load.json", "dlc_signature", "game_data.json", "pdx_settings.txt"
+		];
+		// If at least one of the paths exists, we consider the folder to be valid.
+		bool docFolderVerified = dirsInDocFolder.Any(dir => Directory.Exists(Path.Combine(ImperatorDocPath, dir)));
+		if (!docFolderVerified) {
+			docFolderVerified = filesInDocFolder.Any(file => File.Exists(Path.Combine(ImperatorDocPath, file)));
+		}
+
+		if (!docFolderVerified) {
+			throw new UserErrorException($"{ImperatorDocPath} is not a valid I:R documents path!\n" +
+			                             $"It should contain one of the following files: " +
+			                             $"{string.Join(", ", filesInDocFolder)}");
+		}
+		
+		Logger.Debug($"I:R documents path {ImperatorPath} is valid.");
 	}
 
 	private void SetOutputName() {
