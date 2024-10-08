@@ -1,0 +1,79 @@
+﻿l_english:
+ elamite_religion: "Elamite"
+ elamite_religion_adj: "Elamitic"
+ elamite_religion_adherent: "Elamite"
+ elamite_religion_adherent_plural: "Elamites"
+ elamite_religion_desc: "The Elamite religion is a polytheistic faith that was practiced in the ancient kingdom of Elam. The Elamites believed in a pantheon of gods and goddesses, with Humban, the sky god, being the chief deity among the highland Elamites. In Susa, the position of chief deity was occupied by Inshushinak, the ruler of the Underworld. The Elamites also believed in an afterlife, with the positive afterlife being called Muru-un and the negative afterlife being called Shaddaku."
+ 
+ elamite_faith: "Elamite"
+ elamite_faith_adj: "Elamitic"
+ elamite_faith_adherent: "Elamite"
+ elamite_faith_adherent_plural: "Elamites"
+ elamite_faith_desc: "$elamite_religion_desc$"
+  
+  #Not sure if the tenses are right, might need to check with someone else
+ 
+ elamite_high_god_name: "Humban" #Sky god, chief deity among the highland Elamites; in Susa that position was instead occupied by Inshushinak
+ elamite_high_god_name_2: "$elamite_high_god_name$"
+ elamite_high_god_name_possessive: "Humban's"
+ elamite_high_god_name_alternate: "The Greatest of the Gods"
+ elamite_high_god_name_alternate_possessive: "The Greatest of the Gods'"
+ elamite_devil_name: "Lagamal" #Underworld deity associated with Inshushinak, "She who has no mercy"
+ elamite_devil_name_possessive: "Lagamal's"
+ elamite_death_deity_name: "Inshushinak" #Ruler of the Underworld
+ elamite_death_deity_name_possessive: "Inshushinak's"
+ elamite_divine_realm: "Kiki-in" #Heaven, maybe?
+ elamite_divine_realm_2: "$elamite_divine_realm$"
+ elamite_divine_realm_3: "$elamite_divine_realm$"
+ elamite_positive_afterlife: "Muru-un" #Earth - like in Mesopotamia a euphemism for the Underworld, maybe?
+ elamite_positive_afterlife_2: "$elamite_positive_afterlife$"
+ elamite_positive_afterlife_3: "$elamite_positive_afterlife$"
+ elamite_negative_afterlife: "Shaddaku" #Shadow - A more negative name for the Underworld, maybe?
+ elamite_negative_afterlife_2: "$elamite_negative_afterlife$"
+ elamite_negative_afterlife_3: "$elamite_negative_afterlife$"
+ elamite_religious_symbol: "serpent" #Inshushinak
+ elamite_religious_symbol_2: "$elamite_religious_symbol$"
+ elamite_religious_symbol_3: "$elamite_religious_symbol$"
+ elamite_religious_text: "sacred texts"
+ elamite_religious_text_2: "$elamite_religious_text$"
+ elamite_religious_text_3: "$elamite_religious_text$"
+ elamite_pantheon: "the Napipir" #The Gods, I think?
+ elamite_pantheon_2: "$elamite_pantheon$"
+ elamite_pantheon_3: "$elamite_pantheon$"
+ 
+ elamite_good_god_hutran: "Hutran"
+ elamite_good_god_upurkupak: "Upurkupak"
+ elamite_evil_god_kirmashir: "Kirmashir"
+ elamite_evil_god_hishmitik: "Hishmitik"
+ 
+ elamite_creator_god_name: "Jabru" #Sky god, father of Humban
+ elamite_creator_god_name_possessive: "Jabru's"
+ elamite_health_god_name: "Kiririsha" #Patron goddess of Liyan, Mother goddess associated with healing and protection
+ elamite_health_god_name_possessive: "Kiririsha's"
+ elamite_fertility_god_name: "Pinigir" #Goddess of love and sex, equivalent to Ishtar
+ elamite_fertility_god_name_possessive: "Pinikir's"
+ elamite_wealth_god_name: "Nahiti" #God of the Sun, Justice and Trade
+ elamite_wealth_god_name_possessive: "Nahiti's"
+ elamite_household_god_name: "Silir-Qatru" #Protector of the Elamites
+ elamite_household_god_name_possessive: "Silir-Qatru's"
+ elamite_fate_god_name: "Ruhurater" #God of Judgement, protector of oaths
+ elamite_fate_god_name_possessive: "Ruhurater's"
+ elamite_knowledge_god_name: "$elamite_fate_god_name$"
+ elamite_knowledge_god_name_possessive: "$elamite_fate_god_name_possessive$"
+ elamite_war_god_name: "Narundi" #Goddess of Victory
+ elamite_war_god_name_possessive: "Narundi's"
+ elamite_trickster_god_name: "Simut" #Herald of the Gods, maybe War god
+ elamite_trickster_god_name_possessive: "Simut's"
+ elamite_night_god_name: "Napir" #Moon god
+ elamite_night_god_name_possessive: "Napir's"
+ elamite_water_god_name: "Napirisha" #Patron god of Anshan, associated with earth and fresh water
+ elamite_water_god_name_possessive: "Napirisha's"
+ elamite_witch_god_name: "$elamite_death_deity_name$" #Inshushinak
+ elamite_witch_god_name_possessive: "$elamite_death_deity_name_possessive$"
+ 
+ elamite_sun_god_name: "Nahiti"
+ elamite_sun_god_name_possessive: "Nahiti's"
+ 
+ d_cult_of_humban: "High Priesthood of Humban"
+ d_cult_of_humban_adj: "Humbanite"
+ 

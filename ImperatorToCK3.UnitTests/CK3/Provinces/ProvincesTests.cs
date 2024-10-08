@@ -98,8 +98,8 @@ public class ProvincesTests {
 		irWorld.Provinces.Add(irProvince6);
 
 		var provinceMapper = new ProvinceMapper();
-		const string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
-		provinceMapper.LoadMappings(provinceMappingsPath, "6_to_1");
+		const string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings_6_to_1.txt";
+		provinceMapper.LoadMappings(provinceMappingsPath);
 
 		var ck3Provinces = new ProvinceCollection { new(1) };
 		var ck3RegionMapper = new CK3RegionMapper();

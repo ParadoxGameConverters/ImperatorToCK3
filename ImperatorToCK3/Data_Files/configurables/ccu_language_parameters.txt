@@ -18,6 +18,7 @@ language_branches = {
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			language_branch_palaungic
+			language_branch_pearic
 			language_branch_tai
 			language_branch_nuragic
 			language_branch_elamite_group

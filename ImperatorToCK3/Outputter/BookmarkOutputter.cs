@@ -59,6 +59,13 @@ public static class BookmarkOutputter {
 		await using var output = FileHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 
+		if (config.AsiaExpansionProjectEnabled) {
+			// Remove the AEP bookmarks.
+			var dummyAEPBookmarksOutputPath = Path.Combine("output", config.OutputModName, "common/bookmarks/bookmarks/00_AEP_bookmarks.txt");
+			await using var dummyAEPBookmarksOutput = FileHelper.OpenWriteWithRetries(dummyAEPBookmarksOutputPath, Encoding.UTF8);
+			await dummyAEPBookmarksOutput.WriteAsync("# IRToCK3: Removed AEP bookmarks.");
+		}
+
 		await DrawBookmarkMap(config, playerTitles, world);
 		Logger.IncrementProgress();
 	}

@@ -103,7 +103,7 @@ public class TitleMappingTests {
 
 		var provinceMapper = new ProvinceMapper();
 		const string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
-		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
+		provinceMapper.LoadMappings(provinceMappingsPath);
 		Assert.Equal((ulong)1, provinceMapper.GetCK3ProvinceNumbers(1).First());
 		Assert.Equal((ulong)2, provinceMapper.GetCK3ProvinceNumbers(2).First());
 		Assert.Equal((ulong)3, provinceMapper.GetCK3ProvinceNumbers(3).First());

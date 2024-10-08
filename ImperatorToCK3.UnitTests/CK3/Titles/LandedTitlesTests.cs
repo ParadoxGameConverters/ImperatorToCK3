@@ -268,7 +268,7 @@ public class LandedTitlesTests {
 
 		var tagTitleMapper = new TagTitleMapper();
 		var provinceMapper = new ProvinceMapper();
-		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
+		provinceMapper.LoadMappings(provinceMappingsPath);
 		var irLocDB = new LocDB("english");
 		var ck3Religions = new ReligionCollection(titles);
 		var religionMapper = new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper);
@@ -387,7 +387,7 @@ public class LandedTitlesTests {
 		irWorld.Provinces.Add(irProvince);
 
 		var provinceMapper = new ProvinceMapper();
-		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
+		provinceMapper.LoadMappings(provinceMappingsPath);
 
 		var ck3Provinces = new ProvinceCollection { new(1), new(2), new(3) };
 		var ck3RegionMapper = new CK3RegionMapper();
@@ -423,7 +423,7 @@ public class LandedTitlesTests {
 		irWorld.Provinces.Add(irProvince);
 
 		var provinceMapper = new ProvinceMapper();
-		provinceMapper.LoadMappings("TestFiles/LandedTitlesTests/province_mappings_1_to_3.txt", "test_version");
+		provinceMapper.LoadMappings("TestFiles/LandedTitlesTests/province_mappings_1_to_3.txt");
 
 		var ck3Provinces = new ProvinceCollection { new(1), new(2), new(3) };
 		var ck3RegionMapper = new CK3RegionMapper();
@@ -461,7 +461,7 @@ public class LandedTitlesTests {
 		irWorld.Provinces.Add(irProvince2);
 
 		var provinceMapper = new ProvinceMapper();
-		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
+		provinceMapper.LoadMappings(provinceMappingsPath);
 
 		var ck3Provinces = new ProvinceCollection { new(1), new(2), new(3) };
 		var ck3RegionMapper = new CK3RegionMapper();

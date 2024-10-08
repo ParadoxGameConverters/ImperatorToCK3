@@ -80,6 +80,13 @@ object_to_object = {
 		male_hair_ethiopian_2 = male_hair_sub_saharan_03
 		male_hair_ethiopian_3 = male_hair_sub_saharan_02
 		male_hair_egyptian_1 = male_hair_sub_saharan_01
+		male_hair_japanese_1 = male_hair_indian_03 # mostly the same as I:R male_hair_germanic_1, but with headgear
+		male_hair_japanese_2 = male_hair_indian_03 # mostly the same as I:R male_hair_germanic_1, but with headgear
+		male_hair_japanese_3 = male_hair_indian_03 # mostly the same as I:R male_hair_germanic_1, but with headgear
+		male_hair_japanese_4 = male_hair_indian_03 # mostly the same as I:R male_hair_germanic_1, but with headgear
+		male_hair_japanese_5 = male_hair_indian_03 # mostly the same as I:R male_hair_germanic_1, but with headgear
+		male_hair_japanese_imperial = male_hair_indian_03 # mostly the same as I:R male_hair_germanic_1, but with headgear
+
 		
 		# female hairstyles
 		female_hair_roman_1 = female_hair_northern_02
@@ -159,8 +166,11 @@ template_to_template = {
 		mauryan_soldier_clothes_template = indian_war_nobility_clothes
 		ethiopian_soldier_clothes_template = sub_saharan_war_nobility_clothes
 		bactrian_soldier_clothes_template = steppe_war_nobility_clothes
-
+		
+		# TODO: use this if possible, otherwise default to the fallback: chinese_clothes = chinese_high_nobility_clothes
 		chinese_clothes = steppe_high_nobility_clothes
+		# TODO: use this if possible, otherwise default to the fallback: japanese_clothes = japanese_royal_clothes # from RoA
+		japanese_clothes = steppe_high_nobility_clothes
 	}
 }
 

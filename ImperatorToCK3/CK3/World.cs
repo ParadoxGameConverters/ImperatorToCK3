@@ -87,8 +87,6 @@ public sealed class World {
 			config.CK3BookmarkDate = CorrectedDate;
 		}
 
-		LoadCorrectProvinceMappingsVersion(impWorld);
-
 		Logger.Info("Detecting selected CK3 mods...");
 		List<Mod> incomingCK3Mods = new();
 		foreach (var modPath in config.SelectedCK3Mods) {
@@ -117,6 +115,7 @@ public sealed class World {
 		ColorFactory ck3ColorFactory = new();
 		// Now that we have the mod filesystem, we can initialize the localization database.
 		Parallel.Invoke(
+			() => LoadCorrectProvinceMappingsFile(impWorld), // Depends on loaded mods.
 			() => {
 				LocDB.LoadLocFromModFS(ModFS, config.GetActiveCK3ModFlags());
 				Logger.IncrementProgress();
@@ -219,7 +218,12 @@ public sealed class World {
 				foreach (var irReligionId in impWorld.Religions.Select(r => r.Id)) {
 					var baseMapping = religionMapper.Match(irReligionId, null, null, null, null, config);
 					if (baseMapping is null) {
-						Logger.Warn($"No base mapping found for I:R religion {irReligionId}!");
+						string religionStr = "ID: " + irReligionId;
+						var localizedName = impWorld.LocDB.GetLocBlockForKey(irReligionId)?["english"];
+						if (localizedName is not null) {
+							religionStr += $", name: {localizedName}";
+						}
+						Logger.Warn($"No base mapping found for I:R religion {religionStr}!");
 					}
 				}
 			},
@@ -227,11 +231,16 @@ public sealed class World {
 				// Check if all I:R cultures have a base mapping.
 				var irCultureIds = impWorld.CulturesDB.SelectMany(g => g.Select(c => c.Id));
 				foreach (var irCultureId in irCultureIds) {
-					var baseMapping = cultureMapper.Match(irCultureId, null, null, null);
-					if (baseMapping is null) {
-						Logger.Warn($"No base mapping found for I:R culture {irCultureId}!");
-					}
-				}
+                	var baseMapping = cultureMapper.Match(irCultureId, null, null, null);
+                	if (baseMapping is null) {
+						string cultureStr = "ID: " + irCultureId;
+						var localizedName = impWorld.LocDB.GetLocBlockForKey(irCultureId)?["english"];
+						if (localizedName is not null) {
+							cultureStr += $", name: {localizedName}";
+						}
+                		Logger.Warn($"No base mapping found for I:R culture {cultureStr}!");
+                	}
+                }
 			}
 		);
 		
@@ -413,14 +422,24 @@ public sealed class World {
 		Logger.IncrementProgress();
 	}
 
-	private void LoadCorrectProvinceMappingsVersion(Imperator.World imperatorWorld) {
-		var mappingsVersion = "imperator_invictus";
-		if (!imperatorWorld.GlobalFlags.Contains("is_playing_invictus")) {
+	private void LoadCorrectProvinceMappingsFile(Imperator.World imperatorWorld) {
+		string mappingsToUse;
+		
+		bool irHasTI = imperatorWorld.Countries.Any(c => c.Variables.Contains("unification_points"));
+		bool ck3HasAEP = LoadedMods.Any(m => m.Name == "Asia Expansion Project");
+		if (irHasTI && ck3HasAEP) {
+			mappingsToUse = "terra_indomita_to_aep";
+		} else if (imperatorWorld.GlobalFlags.Contains("is_playing_invictus")) {
+			mappingsToUse = "imperator_invictus";
+		} else {
+			mappingsToUse = "imperator_vanilla";
 			Logger.Warn("Support for non-Invictus Imperator saves is deprecated.");
-			mappingsVersion = "imperator_vanilla";
 		}
-		Logger.Debug($"Using mappings version: {mappingsVersion}");
-		provinceMapper.LoadMappings("configurables/province_mappings.txt", mappingsVersion);
+		
+		Logger.Info($"Using province mappings: {mappingsToUse}");
+		var mappingsPath = Path.Combine("configurables/province_mappings", mappingsToUse + ".txt");
+		
+		provinceMapper.LoadMappings(mappingsPath);
 	}
 
 	private void LoadMenAtArmsTypes(ModFilesystem ck3ModFS, ScriptValueCollection scriptValues) {

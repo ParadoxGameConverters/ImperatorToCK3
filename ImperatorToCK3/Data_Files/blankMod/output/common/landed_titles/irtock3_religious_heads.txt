@@ -1,0 +1,12 @@
+﻿d_cult_of_humban = { # from the Bronze Age Reborn mod
+	landless = yes
+	color = { 188 199 108 }
+	definite_form = yes
+	ruler_uses_title_name = no
+
+	no_automatic_claims = yes
+	always_follows_primary_heir = yes
+	destroy_if_invalid_heir = yes
+
+	capital = c_arrajan # IRToCK3: adjusted for vanilla CK3 map
+}
