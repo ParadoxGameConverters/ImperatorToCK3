@@ -949,12 +949,17 @@ link = { ck3 = saro ir = jinhan ir = byeonhan } # https://en.wikipedia.org/wiki/
 link = { ck3 = baekje ir = mahan } # https://en.wikipedia.org/wiki/Three_Kingdoms_of_Korea#Baekje
 link = { ck3 = ba_shu ir = ba ir = shu } # https://en.wikipedia.org/wiki/Ba%E2%80%93Shu_culture
 link = { ck3 = gilyak ir = nivkh } # https://en.wikipedia.org/wiki/Nivkh_people
-
-# TODO: I:R culture ID: bo, name: Bo
-# TODO: I:R culture ID: xiangkhoang, name: Xiangkhoang
-# TODO: I:R culture ID: haoshi, name: Haoshi
-# TODO: I:R culture ID: permic, name: Permic
-# TODO: I:R culture ID: syrbotian, name: Syrbotian 
-
-
-
+link = { ck3 = komi ir = permic } # komi is localized as Permian in CK3
+link = { ck3 = mohese ir = haoshi } # Haoshi/Yuexi were one of the Mohe tribes according to https://en.wikipedia.org/wiki/Mohe_people
+link = {
+	# https://en.wikipedia.org/wiki/Xiangkhouang:
+	# 	"Xiangkhouang is home to five different ethnic groups: the Tai Dam, Tai Daeng, Phuan, Khmu, and Hmong."
+	# 	"Part of the Mon-Khmer branch of the Austro-Asiatic linguistic family, the Khmu are one of the largest ethnic groups in Laos. They settled in the area several thousand years ago."
+	ck3 = khmu
+	ir = xiangkhoang
+}
+link = {
+	# https://zh.wikipedia.org/wiki/%E5%83%B0%E4%BA%BA: "明代僰人即今日白族之先民。從族姓上來看，明代僰人的段、楊、高、尹諸姓，都是現在白族中的大姓。"
+	ck3 = bai
+	ir = bo
+}
