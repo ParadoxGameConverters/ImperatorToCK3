@@ -11,3 +11,4 @@ house_harmaytan # referenced in common\scripted_character_templates\04_fp3_chara
 house_tusi # referenced in common\scripted_character_templates\04_fp3_character_templates.txt
 house_tumert # referenced in common\scripted_effects\00_almohad_invasion_effects.txt
 house_almohad # referenced in common\scripted_effects\00_almohad_invasion_effects.txt
+house_prum # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt

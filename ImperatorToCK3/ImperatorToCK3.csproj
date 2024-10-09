@@ -36,16 +36,16 @@
         <PackageReference Include="ConcurrentSet" Version="1.0.0"/>
         <PackageReference Include="CWTools" Version="0.5.0-alpha" />
         <PackageReference Include="DotLiquid" Version="2.2.692" />
-        <PackageReference Include="FSharp.Core" Version="8.0.400" /> <!-- Needed for CWTools -->
+        <PackageReference Include="FSharp.Core" Version="8.0.401" /> <!-- Needed for CWTools -->
         <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.0.0"/>
-        <PackageReference Include="Meziantou.Analyzer" Version="2.0.168">
+        <PackageReference Include="Meziantou.Analyzer" Version="2.0.169">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="PGCG.commonItems" Version="13.0.1" />
-        <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.6"/>
+        <PackageReference Include="PGCG.commonItems" Version="14.1.1" />
+        <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.7"/>
         <PackageReference Include="Polly" Version="8.4.2" />
-        <PackageReference Include="Roslynator.Analyzers" Version="4.12.6">
+        <PackageReference Include="Roslynator.Analyzers" Version="4.12.7">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

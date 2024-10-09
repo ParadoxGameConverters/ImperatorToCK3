@@ -27,6 +27,7 @@ A: The converter officially supports these Imperator mods:
 The converter also supports these CK3 mods:
 - The Fallen Eagle (https://steamcommunity.com/sharedfiles/filedetails/?id=2243307127)
 - When the World Stopped Making Sense (https://steamcommunity.com/sharedfiles/filedetails/?id=2858562094)
+- Asia Expansion Project (https://steamcommunity.com/workshop/filedetails/?id=2970440958)
 As for other mods, unless they change the map or how cultures, religions or flags work, you can probably use them.
 Total map overhauls are not supported (of course), and whatever new cultures and religions are brought by the mod - you'll have to add manually in the files in configurables folder.
 

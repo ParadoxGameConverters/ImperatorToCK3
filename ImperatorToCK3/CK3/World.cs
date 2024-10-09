@@ -218,7 +218,12 @@ public sealed class World {
 				foreach (var irReligionId in impWorld.Religions.Select(r => r.Id)) {
 					var baseMapping = religionMapper.Match(irReligionId, null, null, null, null, config);
 					if (baseMapping is null) {
-						Logger.Warn($"No base mapping found for I:R religion {irReligionId}!");
+						string religionStr = "ID: " + irReligionId;
+						var localizedName = impWorld.LocDB.GetLocBlockForKey(irReligionId)?["english"];
+						if (localizedName is not null) {
+							religionStr += $", name: {localizedName}";
+						}
+						Logger.Warn($"No base mapping found for I:R religion {religionStr}!");
 					}
 				}
 			},
@@ -226,16 +231,16 @@ public sealed class World {
 				// Check if all I:R cultures have a base mapping.
 				var irCultureIds = impWorld.CulturesDB.SelectMany(g => g.Select(c => c.Id));
 				foreach (var irCultureId in irCultureIds) {
-					var baseMapping = cultureMapper.Match(irCultureId, null, null, null);
-					if (baseMapping is null) {
+                	var baseMapping = cultureMapper.Match(irCultureId, null, null, null);
+                	if (baseMapping is null) {
 						string cultureStr = "ID: " + irCultureId;
 						var localizedName = impWorld.LocDB.GetLocBlockForKey(irCultureId)?["english"];
 						if (localizedName is not null) {
 							cultureStr += $", name: {localizedName}";
 						}
-						Logger.Warn($"No base mapping found for I:R culture {cultureStr}!");
-					}
-				}
+                		Logger.Warn($"No base mapping found for I:R culture {cultureStr}!");
+                	}
+                }
 			}
 		);
 		
@@ -422,8 +427,11 @@ public sealed class World {
 		
 		bool irHasTI = imperatorWorld.Countries.Any(c => c.Variables.Contains("unification_points"));
 		bool ck3HasRajasOfAsia = LoadedMods.Any(m => m.Name == "Rajas of Asia");
+		bool ck3HasAEP = LoadedMods.Any(m => m.Name == "Asia Expansion Project");
 		if (irHasTI && ck3HasRajasOfAsia) {
 			mappingsToUse = "terra_indomita_to_rajas_of_asia";
+		} else if (irHasTI && ck3HasAEP) {
+			mappingsToUse = "terra_indomita_to_aep";
 		} else if (imperatorWorld.GlobalFlags.Contains("is_playing_invictus")) {
 			mappingsToUse = "imperator_invictus";
 		} else {

@@ -2,7 +2,9 @@
 
 # Raise an Irminsul
 raise_irminsul_decision = {
-	picture = "gfx/interface/illustrations/decisions/decision_personal_religious.dds"
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_personal_religious.dds"
+	}
 
 	desc = raise_irminsul_decision_desc
 	selection_tooltip = raise_irminsul_decision_tooltip

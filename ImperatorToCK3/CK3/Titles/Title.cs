@@ -940,9 +940,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				Logger.Warn($"Cannot set de jure liege {value} to {Id}: rank is not higher!");
 				return;
 			}
-			deJureLiege?.DeJureVassals.Remove(Id);
+			deJureLiege?.deJureVassals.Remove(Id);
 			deJureLiege = value;
-			value?.DeJureVassals.AddOrReplace(this);
+			value?.deJureVassals.AddOrReplace(this);
 		}
 	}
 	public Title? GetDeFactoLiege(Date date) { // direct de facto liege title
@@ -978,7 +978,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 	}
 
-	[SerializeOnlyValue] public TitleCollection DeJureVassals { get; } = new(); // DIRECT de jure vassals
+	private readonly TitleCollection deJureVassals = [];
+	[SerializeOnlyValue] public IReadOnlyTitleCollection DeJureVassals => deJureVassals; // DIRECT de jure vassals
 	public IDictionary<string, Title> GetDeJureVassalsAndBelow() {
 		return GetDeJureVassalsAndBelow("bcdke");
 	}
@@ -1033,6 +1034,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[commonItems.Serialization.NonSerialized] public string Id { get; } // e.g. d_latium
 	[commonItems.Serialization.NonSerialized] public TitleRank Rank { get; private set; } = TitleRank.duchy;
 	[SerializedName("landless")] public bool Landless { get; private set; } = false;
+	[SerializedName("require_landless")] public bool? RequireLandless { get; private set; }
 	[SerializedName("definite_form")] public bool HasDefiniteForm { get; private set; } = false;
 
 	//This line keeps the Seleucids Seleucid and not "[Dynasty]s"
@@ -1089,20 +1091,26 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterRegex(Regexes.TitleId, (reader, titleNameStr) => {
-			// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
-			var newTitle = parentCollection.Add(titleNameStr);
-			newTitle.LoadTitles(reader);
-
-			if (newTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBaronyId)) {
-				// title is a barony, and no other barony has been found in this scope yet
-				CapitalBaronyId = newTitle.Id;
+			// Pull the titles beneath this one and add them to the lot.
+			// A title can be defined in multiple files, in that case merge the definitions.
+			if (parentCollection.TryGetValue(titleNameStr, out var childTitle)) {
+				childTitle.LoadTitles(reader);
+			} else {
+				childTitle = parentCollection.Add(titleNameStr);
+				childTitle.LoadTitles(reader);
 			}
 
-			newTitle.DeJureLiege = this;
+			if (childTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBaronyId)) {
+				// title is a barony, and no other barony has been found in this scope yet
+				CapitalBaronyId = childTitle.Id;
+			}
+			
+			childTitle.DeJureLiege = this;
 		});
 		parser.RegisterKeyword("definite_form", reader => HasDefiniteForm = reader.GetBool());
 		parser.RegisterKeyword("ruler_uses_title_name", reader => RulerUsesTitleName = reader.GetBool());
 		parser.RegisterKeyword("landless", reader => Landless = reader.GetBool());
+		parser.RegisterKeyword("require_landless", reader => RequireLandless = reader.GetBool());
 		parser.RegisterKeyword("color", reader => {
 			try {
 				Color1 = colorFactory.GetColor(reader);

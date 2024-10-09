@@ -28,8 +28,10 @@ public sealed class Configuration {
 	public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
 	public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
 	public bool SkipDynamicCoAExtraction { get; set; } = false;
-	public bool FallenEagleEnabled { get; set; }
-	public bool WhenTheWorldStoppedMakingSenseEnabled { get; set; }
+	public bool FallenEagleEnabled { get; private set; }
+	public bool WhenTheWorldStoppedMakingSenseEnabled { get; private set; }
+	public bool RajasOfAsiaEnabled { get; private set; }
+	public bool AsiaExpansionProjectEnabled { get; private set; }
 
 	public Configuration() { }
 	public Configuration(ConverterVersion converterVersion) {
@@ -47,6 +49,8 @@ public sealed class Configuration {
 		VerifyImperatorVersion(converterVersion);
 		VerifyCK3Path();
 		VerifyCK3Version(converterVersion);
+		VerifyImperatorDocPath();
+		VerifyCK3ModsPath();
 
 		Logger.IncrementProgress();
 	}
@@ -212,6 +216,45 @@ public sealed class Configuration {
 		}
 	}
 
+	private void VerifyImperatorDocPath() {
+		if (!Directory.Exists(ImperatorDocPath)) {
+			throw new UserErrorException($"{ImperatorDocPath} does not exist!");
+		}
+
+		string[] dirsInDocFolder = ["mod/", "logs/", "save_games/", "cache/"];
+		string[] filesInDocFolder = [
+			"continue_game.json", "dlc_load.json", "dlc_signature", "game_data.json", "pdx_settings.txt"
+		];
+		// If at least one of the paths exists, we consider the folder to be valid.
+		bool docFolderVerified = dirsInDocFolder.Any(dir => Directory.Exists(Path.Combine(ImperatorDocPath, dir)));
+		if (!docFolderVerified) {
+			docFolderVerified = filesInDocFolder.Any(file => File.Exists(Path.Combine(ImperatorDocPath, file)));
+		}
+
+		if (!docFolderVerified) {
+			throw new UserErrorException($"{ImperatorDocPath} is not a valid I:R documents path!\n" +
+			                             $"It should contain one of the following files: " +
+			                             $"{string.Join(", ", filesInDocFolder)}");
+		}
+		
+		Logger.Debug($"I:R documents path {ImperatorPath} is valid.");
+	}
+	
+	private void VerifyCK3ModsPath() {
+		if (!Directory.Exists(CK3ModsPath)) {
+			throw new UserErrorException($"{CK3ModsPath} does not exist!");
+		}
+		
+		// If the mods folder contains any files, at least one on them should have a .mod extension.
+		var filesInFolder = Directory.GetFiles(CK3ModsPath);
+		if (filesInFolder.Length > 0) {
+			var modFiles = filesInFolder.Where(f => f.EndsWith(".mod", StringComparison.OrdinalIgnoreCase));
+			if (!modFiles.Any()) {
+				throw new UserErrorException($"{CK3ModsPath} does not contain any .mod files!");
+			}
+		}
+	}
+
 	private void SetOutputName() {
 		if (string.IsNullOrWhiteSpace(OutputModName)) {
 			OutputModName = CommonFunctions.TrimExtension(CommonFunctions.TrimPath(SaveGamePath));
@@ -275,6 +318,18 @@ public sealed class Configuration {
 			WhenTheWorldStoppedMakingSenseEnabled = true;
 			Logger.Info($"WtWSMS detected: {wtwsmsMod.Name}");
 		}
+		
+		var roaMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Rajas of Asia", StringComparison.Ordinal));
+		if (roaMod is not null) {
+			RajasOfAsiaEnabled = true;
+			Logger.Info($"RoA detected: {roaMod.Name}");
+		}
+		
+		var aepMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Asia Expansion Project", StringComparison.Ordinal));
+		if (aepMod is not null) {
+			AsiaExpansionProjectEnabled = true;
+			Logger.Info($"AEP detected: {aepMod.Name}");
+		}
 	}
 
 	/// <summary>Returns a collection of CK3 mod flags with values based on the enabled mods. "vanilla" flag is set to true if no other flags are set.</summary>
@@ -282,6 +337,8 @@ public sealed class Configuration {
 		var flags = new OrderedDictionary<string, bool> {
 			["tfe"] = FallenEagleEnabled,
 			["wtwsms"] = WhenTheWorldStoppedMakingSenseEnabled,
+			["roa"] = RajasOfAsiaEnabled,
+			["aep"] = AsiaExpansionProjectEnabled,
 		};
 
 		flags["vanilla"] = flags.Count(f => f.Value) == 0;

@@ -47,5 +47,7 @@ B7E7, author of Africa Plus mod for CK3 (https://steamcommunity.com/sharedfiles/
 Herkles, author of Dharmachakra mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2235344327) - Khasi culture
 The Bronze Age: Maryannu mod team (https://steamcommunity.com/sharedfiles/filedetails/?id=2216525506) - Hurrian religion localization
 Bronze Age Reborn mod team (https://steamcommunity.com/sharedfiles/filedetails/?id=3232096613) and Svanley - Hattian religion, Elamite religion
+កាបូន26 - Help with mapping Terra Indomita cultures to Asia Expansion Project
+Nezaros, author of the Rajas of Asia mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2509174436) - Permission to use the Samre culture from their mod
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -

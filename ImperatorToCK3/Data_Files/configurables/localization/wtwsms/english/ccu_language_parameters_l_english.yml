@@ -7,6 +7,7 @@
 
  # language branches
  culture_parameter_language_branch_palaungic: "#P +[EmptyScope.ScriptValue('same_language_branch_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Palaungic [language_branch|E]"
+ culture_parameter_language_branch_pearic: "#P +[EmptyScope.ScriptValue('same_language_branch_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Pearic [language_branch|E]"
  culture_parameter_language_branch_tai: "#P +[EmptyScope.ScriptValue('same_language_branch_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Tai [language_branch|E]"
  culture_parameter_language_branch_nuragic: "#P +[EmptyScope.ScriptValue('same_language_branch_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Nuragic [language_branch|E]"
  culture_parameter_language_branch_elamite_group: "#P +[EmptyScope.ScriptValue('same_language_branch_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Elamite [language_branch|E]"

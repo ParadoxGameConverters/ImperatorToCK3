@@ -97,6 +97,7 @@ link = { ck3 = baltic_pagan ir = matrist_religion ck3Province = 154 ck3Province 
 link = { ck3 = slavic_pagan ir = matrist_religion }
 
 # Steppe Religion - Melieism in the East, Tengri in the West
+link = { ck3 = tengri_pagan ir = hu_religions } # from Terra Indomita, hu_religions is localized as Tengri
 link = { ck3 = tengri_pagan ir = eastern_animism irRegion = sarmatia_europea_region irRegion = vistulia_region irRegion = venedia_region irRegion = scandinavia_region irRegion = dacia_region irRegion = pannonia_region irRegion = moesia_region irRegion = thrace_region irRegion = macedonia_region irRegion = greece_region irRegion = illyria_region irRegion = germania_region irRegion = bohemia_area }
 link = { ck3 = tengri_pagan ir = hunnic_huna_animism irRegion = sarmatia_europea_region irRegion = vistulia_region irRegion = venedia_region irRegion = scandinavia_region irRegion = dacia_region irRegion = pannonia_region irRegion = moesia_region irRegion = thrace_region irRegion = macedonia_region irRegion = greece_region irRegion = illyria_region irRegion = germania_region irRegion = bohemia_area }
 link = { ck3 = melieism ir = eastern_animism }
@@ -238,8 +239,85 @@ link = { ck3=burmic ir=burmese_religion }
 # Hurrian
 link = { ck3=hurrian ir=hurrian_pantheon } # added by Invictus
 
+# Elamite
+link = { ck3 = elamite_faith ir = elamite_pantheon }
+
 # East Asian religions
+## For Asia Expansion Project mod
 link = { ck3 = lixue ir = confucian }
+link = { ck3 = lixue ir = chinese_religions } # The TI desc of the religion mentions Kong Fuzi (Confucius).
+link = { ck3 = zhengyi ir = taoism }
+link = { ck3 = hanitu ir = taiwan_religion }
+link = { ck3 = moshir ir = ainu_religion } # https://www.tota.world/article/853/
+link = { ck3 = yzng ir = nivkh_religion }
+link = { ck3 = utaki ir = okinawa_religion } # Utaki is the AEP faith for Ryukyu Islands
+link = { ck3 = anito ir = pinoy_religion }
+link = { ck3 = musok ir = yi_religions } # Muism
+link = { ck3 = pagan ir = baiyue_religions } # Found no match, TODO: add a Baiyue faith to CK3.
+link = {
+	ck3 = lixue # According to ChatGPT: "Mohism shares Confucianism's focus on social structure and ethics, but it diverges in its approach to love and the rigidity of social roles. Taoism, on the other hand, is more metaphysical and detached from the ethical and societal concerns of both Mohism and Confucianism. Therefore, Mohism is closer to Confucianism in its social and ethical concerns, even though it is distinct from both schools."	
+	ir = mohism # TODO: add Mohism to CK3.
+}
+link = {
+	ck3 = shinto # https://forum.paradoxplaza.com/forum/threads/mod-terra-indomita.1537409/page-2: "Kodo is effectively Proto-Shinto beliefs"
+	ir = wa_religions
+}
+link = {
+	ck3 = hehe # uses shamanism_reformed icon, also matches the geographical area
+	ir = tunguistic_religion # Shamanism
+}
+link = {
+	ck3 = ban_phi # Tai religion faith, localized as "Satsana Phi" in AEP, https://en.wikipedia.org/wiki/Tai_folk_religion
+	ir = tai_religion
+	ir = satsana_phi_religion
+}
+link = {
+	ck3 = burmic # Natic/Natkokwe
+	ir = funan_religion # Yungism, according to the TI descriptions it's related to the Natic faith
+}
+link = {
+	# Regional austronesian_religion mapping for the island of Sumatra.
+	ck3 = malayic
+	ir = austronesian_religion
+	ck3Region = d_aceh
+	ck3Region = d_perlak
+	ck3Region = d_panai
+	ck3Region = d_jambi
+	ck3Region = d_palembang
+	ck3Region = d_lampung
+	ck3Region = d_batak
+	ck3Region = d_kampar
+	ck3Region = d_minangkabau
+	ck3Region = d_musi
+	ck3Region = d_bengkulu
+}
+link = {
+	# Regional austronesian_religion mapping for the Riau Islands.
+	ck3 = umboh
+	ir = austronesian_religion
+	ck3Region = d_riau_islands
+	ck3Region = d_natuna
+}
+link = {
+	# Regional austronesian_religion mapping for the Nias and Mentawai Islands.
+	ck3 = batak
+	ir = austronesian_religion
+	ck3Region = d_nias
+	ck3Region = d_mentawai
+}
+link = {
+	# Fallback austronesian_religion mapping as a mapping for continental Southeast Asia.
+	ck3 = kadai
+	ir = austronesian_religion
+}
+link = {
+	ck3 = shaivism # https://en.wikipedia.org/wiki/Khas_people: "The Khas people also had their own sect of Shaivism known as Masto religion where 12 Masto gods were worshipped."
+	ir = masto_pantheon
+}
+link = {
+	ir = charvaka
+	ck3 = makkhalist # According to Claude 3.5 Sonnet, Ajivika is the closest religion to Charvaka we have. TODO: add Charvaka to CK3.
+}
 
 # MODS (for future mods)
 link = { ck3 = tengri_pagan ir = tengri_pagan }
