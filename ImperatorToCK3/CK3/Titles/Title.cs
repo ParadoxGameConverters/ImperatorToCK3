@@ -1309,7 +1309,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		List<OfficeJob> convertibleJobs,
 		HashSet<string> alreadyEmployedCharacters, 
 		Character ck3Ruler,
-		Date bookmarkDate) {
+		Date irSaveDate) {
 		Dictionary<string, int> heldTitlesPerCharacterCache = [];
 		
 		foreach (var (ck3Position, sources) in courtPositionToSourcesDict) {
@@ -1334,7 +1334,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 
 				if (!heldTitlesPerCharacterCache.ContainsKey(ck3Official.Id)) {
-					heldTitlesPerCharacterCache[ck3Official.Id] = parentCollection.Count(t => t.GetHolderId(bookmarkDate) == ck3Official.Id);
+					heldTitlesPerCharacterCache[ck3Official.Id] = parentCollection.Count(t => t.GetHolderId(irSaveDate) == ck3Official.Id);
 				}
 				// A potential courtier must not be a ruler.
 				if (heldTitlesPerCharacterCache[ck3Official.Id] > 0) {
@@ -1360,7 +1360,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 						}
 					}
 				""");
-				ck3Ruler.History.AddFieldValue(bookmarkDate, "effects", "effect", courtPositionEffect);
+				ck3Ruler.History.AddFieldValue(irSaveDate, "effects", "effect", courtPositionEffect);
 
 				// One character should only hold one CK3 position.
 				convertibleJobs.Remove(job);
@@ -1376,7 +1376,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		List<OfficeJob> convertibleJobs, 
 		HashSet<string> alreadyEmployedCharacters,
 		Character ck3Ruler,
-		Date bookmarkDate) {
+		Date irSaveDate) {
 		Dictionary<string, int> heldTitlesPerCharacterCache = [];
 
 		foreach (var (ck3Position, sources) in councilPositionToSourcesDict) {
@@ -1401,14 +1401,14 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 
 				if (!heldTitlesPerCharacterCache.TryGetValue(ck3Official.Id, out int heldTitlesCount)) {
-					heldTitlesCount = parentCollection.Count(t => t.GetHolderId(bookmarkDate) == ck3Official.Id);
+					heldTitlesCount = parentCollection.Count(t => t.GetHolderId(irSaveDate) == ck3Official.Id);
 					heldTitlesPerCharacterCache[ck3Official.Id] = heldTitlesCount;
 				}
 
 				if (ck3Position == "councillor_court_chaplain") {
 					// Court chaplains need to have the same faith as the ruler.
-					var rulerFaithId = ck3Ruler.GetFaithId(bookmarkDate);
-					if (rulerFaithId is null || rulerFaithId != ck3Official.GetFaithId(bookmarkDate)) {
+					var rulerFaithId = ck3Ruler.GetFaithId(irSaveDate);
+					if (rulerFaithId is null || rulerFaithId != ck3Official.GetFaithId(irSaveDate)) {
 						continue;
 					}
 
@@ -1418,7 +1418,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 						continue;
 					}
 					if (rulerFaith.HasDoctrine("doctrine_clerical_marriage_disallowed")) {
-						if (ck3Official.GetSpouseIds(bookmarkDate).Count > 0) {
+						if (ck3Official.GetSpouseIds(irSaveDate).Count > 0) {
 							continue;
 						}
 					}
@@ -1445,7 +1445,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				} else if (ck3Position == "councillor_steward" || ck3Position == "councillor_chancellor" || ck3Position == "councillor_marshal") {
 					// Unless they are rulers, stewards, chancellors and marshals need to have the dominant gender of the faith.
 					if (heldTitlesCount == 0) {
-						var courtFaith = ck3Ruler.GetFaithId(bookmarkDate);
+						var courtFaith = ck3Ruler.GetFaithId(irSaveDate);
 						if (courtFaith is not null) {
 							var dominantGenderDoctrine = religionCollection.GetFaith(courtFaith)?
 								.GetDoctrineIdForDoctrineCategoryId("doctrine_gender");
@@ -1461,9 +1461,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 				// We only need to set the employer when the council member is landless.
 				if (heldTitlesCount == 0) {
-					ck3Official.History.AddFieldValue(bookmarkDate, "employer", "employer", ck3Ruler.Id);
+					ck3Official.History.AddFieldValue(irSaveDate, "employer", "employer", ck3Ruler.Id);
 				}
-				ck3Official.History.AddFieldValue(bookmarkDate, "council_position", "give_council_position", ck3Position);
+				ck3Official.History.AddFieldValue(irSaveDate, "council_position", "give_council_position", ck3Position);
 
 				// One character should only hold one CK3 position.
 				convertibleJobs.Remove(job);

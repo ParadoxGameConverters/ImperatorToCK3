@@ -255,7 +255,7 @@ public sealed class World {
 			deathReasonMapper,
 			dnaFactory,
 			LocDB,
-			CorrectedDate,
+			impWorld.EndDate,
 			config
 		);
 		// Now that we have loaded all characters, we can mark some of them as non-removable.
@@ -345,6 +345,12 @@ public sealed class World {
 		}
 		
 		Dynasties.SetCoasForRulingDynasties(LandedTitles, config.CK3BookmarkDate);
+		
+		// If there's a gap between the I:R save date and the CK3 bookmark date,
+		// generate successors for old I:R characters instead of making them live for centuries.
+		if (config.CK3BookmarkDate.DiffInYears(impWorld.EndDate) > 1) {
+			Characters.GenerateSuccessorsForOldCharacters(LandedTitles, Cultures, impWorld.EndDate, config.CK3BookmarkDate, impWorld.RandomSeed);
+		}
 
 		Characters.DistributeCountriesGold(LandedTitles, config);
 		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, LocDB, config);
@@ -359,7 +365,7 @@ public sealed class World {
 		LandedTitles.CleanUpHistory(Characters, config.CK3BookmarkDate);
 		
 		// Now that the title history is basically done, convert officials as council members and courtiers.
-		LandedTitles.ImportImperatorGovernmentOffices(impWorld.JobsDB.OfficeJobs, Religions, config.CK3BookmarkDate);
+		LandedTitles.ImportImperatorGovernmentOffices(impWorld.JobsDB.OfficeJobs, Religions, impWorld.EndDate);
 		
 		// Check if any muslim religion exists in Imperator. Otherwise, remove Islam from the entire CK3 map.
 		var possibleMuslimReligionNames = new List<string> { "muslim", "islam", "sunni", "shiite" };
@@ -371,12 +377,6 @@ public sealed class World {
 			RemoveIslam(config);
 		}
 		Logger.IncrementProgress();
-		
-		// If there's a gap between the I:R save date and the CK3 bookmark date,
-		// generate successors for old I:R characters instead of making them live for centuries.
-		if (config.CK3BookmarkDate.DiffInYears(impWorld.EndDate) > 1) {
-			Characters.GenerateSuccessorsForOldCharacters(LandedTitles, Cultures, impWorld.EndDate, config.CK3BookmarkDate, impWorld.RandomSeed);
-		}
 
 		Parallel.Invoke(
 			() => ImportImperatorWars(impWorld, config.CK3BookmarkDate),
