@@ -330,7 +330,7 @@ public sealed class World {
 		// Give counties to rulers and governors.
 		OverwriteCountiesHistory(impWorld.Countries, impWorld.JobsDB.Governorships, countyLevelCountries, countyLevelGovernorships, impWorld.Characters, impWorld.Provinces, CorrectedDate);
 		// Import holding owners as barons and counts.
-		LandedTitles.ImportImperatorHoldings(Provinces, impWorld.Characters, CorrectedDate);
+		LandedTitles.ImportImperatorHoldings(Provinces, impWorld.Characters, impWorld.EndDate);
 		
 		LandedTitles.ImportDevelopmentFromImperator(Provinces, CorrectedDate, config.ImperatorCivilizationWorth);
 		LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
