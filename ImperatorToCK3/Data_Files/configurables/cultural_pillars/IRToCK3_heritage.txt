@@ -248,7 +248,7 @@ heritage_mon_khmer = { # from Rajas of Asia
 	# }
 	is_shown = {
 		heritage_is_shown_trigger = {
-			HERITAGE = heritage_mon
+			HERITAGE = heritage_mon_khmer
 		}
 	}
 	audio_parameter = european

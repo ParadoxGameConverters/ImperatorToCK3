@@ -485,7 +485,8 @@ public sealed class Character : IIdentifiable<string> {
 
 		var nicknameMatch = nicknameMapper.GetCK3NicknameForImperatorNickname(ImperatorCharacter.Nickname);
 		if (nicknameMatch is not null) {
-			SetNickname(nicknameMatch, dateOnConversion);
+			var nicknameDate = ImperatorCharacter.DeathDate ?? dateOnConversion;
+			SetNickname(nicknameMatch, nicknameDate);
 		}
 
 		if (ImperatorCharacter.Wealth != 0) {

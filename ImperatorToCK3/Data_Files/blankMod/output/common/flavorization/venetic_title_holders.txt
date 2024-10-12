@@ -24,7 +24,10 @@ king_venetic_culture = {
 	tier = kingdom
 	priority = 27
 	name_lists = { name_list_venetic  }
-	top_liege = no
+
+	flavourization_rules = {
+		top_liege = no
+	}
 }
 
 king_female_venetic_culture = {
@@ -34,5 +37,8 @@ king_female_venetic_culture = {
 	tier = kingdom
 	priority = 27
 	name_lists = { name_list_venetic }
-	top_liege = no
+
+	flavourization_rules = {
+		top_liege = no
+	}
 }

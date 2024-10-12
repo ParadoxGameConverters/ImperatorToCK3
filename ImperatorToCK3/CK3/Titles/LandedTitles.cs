@@ -321,7 +321,20 @@ public sealed partial class Title {
 					if (!TryGetValue(liegeTitleId, out var liegeTitle)) {
 						liegeField.DateToEntriesDict.Remove(date);
 					} else if (liegeTitle.GetHolderId(date) == "0") {
-						liegeField.DateToEntriesDict.Remove(date);
+						// Instead of removing the liege entry, see if the liege title has a holder at a later date,
+						// and move the liege entry to that date.
+						liegeTitle.History.Fields.TryGetValue("holder", out var liegeHolderField);
+						Date? laterDate = liegeHolderField?.DateToEntriesDict.Keys
+							.Where(d => d > date && d <= ck3BookmarkDate)
+							.Min();
+
+						if (laterDate == null) {
+							liegeField.DateToEntriesDict.Remove(date);
+						} else {
+							var (setter, value) = liegeField.DateToEntriesDict[date].Last();
+							liegeField.DateToEntriesDict.Remove(date);
+							liegeField.AddEntryToHistory(laterDate, setter, value);
+						}
 					}
 				}
 			}
@@ -1446,7 +1459,7 @@ public sealed partial class Title {
 		/// https://ck3.paradoxwikis.com/Council
 		/// https://ck3.paradoxwikis.com/Court#Court_positions
 		/// </summary>
-		public void ImportImperatorGovernmentOffices(ICollection<OfficeJob> irOfficeJobs, ReligionCollection religionCollection, Date bookmarkDate) {
+		public void ImportImperatorGovernmentOffices(ICollection<OfficeJob> irOfficeJobs, ReligionCollection religionCollection, Date irSaveDate) {
 			Logger.Info("Converting government offices...");
 			var titlesFromImperator = GetCountriesImportedFromImperator();
 			
@@ -1485,7 +1498,7 @@ public sealed partial class Title {
 				}
 				
 				// Make sure the ruler actually holds something in CK3.
-				if (this.All(t => t.GetHolderId(bookmarkDate) != ck3Ruler.Id)) {
+				if (this.All(t => t.GetHolderId(irSaveDate) != ck3Ruler.Id)) {
 					continue;
 				}
 				
@@ -1495,8 +1508,8 @@ public sealed partial class Title {
 				}
 				
 				var alreadyEmployedCharacters = new HashSet<string>();
-				title.AppointCouncilMembersFromImperator(religionCollection, councilPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler, bookmarkDate);
-				title.AppointCourtierPositionsFromImperator(courtPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler, bookmarkDate);
+				title.AppointCouncilMembersFromImperator(religionCollection, councilPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler, irSaveDate);
+				title.AppointCourtierPositionsFromImperator(courtPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler, irSaveDate);
 			}
 		}
 

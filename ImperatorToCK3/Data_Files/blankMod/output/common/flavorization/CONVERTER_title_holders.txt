@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.12.2.1
+﻿# Last updated: CK3 patch 1.13.1
 emperor_feudal_male_ancient_egyptian = { # Pharaoh
     type = character
 	gender = male
@@ -7,7 +7,10 @@ emperor_feudal_male_ancient_egyptian = { # Pharaoh
 	priority = 301
 	governments = { feudal_government }
 	faiths = { egyptian_pagan atenist_pagan }
-	top_liege = yes
+	
+	flavourization_rules = {
+		top_liege = yes
+	}
 }
 
 emperor_feudal_female_ancient_egyptian = { # Pharaohess
@@ -18,7 +21,10 @@ emperor_feudal_female_ancient_egyptian = { # Pharaohess
 	priority = 301
 	governments = { feudal_government }
 	faiths = { egyptian_pagan atenist_pagan }
-	top_liege = yes
+	
+	flavourization_rules = {
+		top_liege = yes
+	}
 }
 
 duke_republic_male_carthaginian = { # Suffet
@@ -29,7 +35,10 @@ duke_republic_male_carthaginian = { # Suffet
 	# tier = any
 	priority = 301
 	heritages = { heritage_punic }
-	top_liege = yes
+	
+	flavourization_rules = {
+		top_liege = yes
+	}
 }
 
 king_feudal_male_elamite = { # Sunkir
@@ -40,7 +49,10 @@ king_feudal_male_elamite = { # Sunkir
 	priority = 301
 	governments = { feudal_government }
 	name_lists = { name_list_elamite }
-	top_liege = yes
+	
+	flavourization_rules = {
+		top_liege = yes
+	}
 }
 
 emperor_feudal_male_elamite = { # Rishar Sunkir
@@ -51,7 +63,10 @@ emperor_feudal_male_elamite = { # Rishar Sunkir
 	priority = 301
 	governments = { feudal_government }
 	name_lists = { name_list_elamite }
-	top_liege = yes
+	
+	flavourization_rules = {
+		top_liege = yes
+	}
 }
 
 count_eremitic_male = {
