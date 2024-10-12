@@ -321,7 +321,20 @@ public sealed partial class Title {
 					if (!TryGetValue(liegeTitleId, out var liegeTitle)) {
 						liegeField.DateToEntriesDict.Remove(date);
 					} else if (liegeTitle.GetHolderId(date) == "0") {
-						liegeField.DateToEntriesDict.Remove(date);
+						// Instead of removing the liege entry, see if the liege title has a holder at a later date,
+						// and move the liege entry to that date.
+						liegeTitle.History.Fields.TryGetValue("holder", out var liegeHolderField);
+						Date? laterDate = liegeHolderField?.DateToEntriesDict.Keys
+							.Where(d => d > date && d <= ck3BookmarkDate)
+							.Min();
+
+						if (laterDate == null) {
+							liegeField.DateToEntriesDict.Remove(date);
+						} else {
+							var (setter, value) = liegeField.DateToEntriesDict[date].Last();
+							liegeField.DateToEntriesDict.Remove(date);
+							liegeField.AddEntryToHistory(laterDate, setter, value);
+						}
 					}
 				}
 			}
