@@ -5336,7 +5336,6 @@ elamite_religion = { # from Bronze Age Reborn mod
 
 	#Mortuary Practices
 	doctrine = doctrine_funeral_stoic
-	doctrine = doctrine_tomb_type_chamber_tomb
 
 	#Marriage
 	doctrine = doctrine_monogamy
@@ -5358,14 +5357,8 @@ elamite_religion = { # from Bronze Age Reborn mod
 	doctrine = doctrine_clerical_marriage_allowed
 	doctrine = doctrine_clerical_succession_temporal_appointment
 	
-	#Special
-	doctrine = doctrine_infanticide_none
-	
 	#Allow pilgrimages
 	doctrine = doctrine_pilgrimage_encouraged
-	
-	#For Elamite Syncretism
-	doctrine = special_doctrine_is_elamite_faith
 	
 	traits = {
 		virtues = { honest just diligent compassionate }

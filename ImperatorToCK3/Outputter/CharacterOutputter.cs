@@ -29,7 +29,12 @@ public static class CharacterOutputter {
 			string effectStr = gold > 0 ?
 				$"{{ add_gold={gold.ToString("0.00", CultureInfo.InvariantCulture)} }}" :
 				$"{{ remove_long_term_gold={(-gold).ToString("0.00", CultureInfo.InvariantCulture)} }}";
-			character.History.AddFieldValue(ck3BookmarkDate, "effects", "effect", effectStr);
+			Date goldDate = ck3BookmarkDate;
+			var deathDate = character.DeathDate;
+			if (deathDate is not null && deathDate < ck3BookmarkDate) {
+				goldDate = deathDate;
+			}
+			character.History.AddFieldValue(goldDate, "effects", "effect", effectStr);
 		}
 
 		// Output history.
