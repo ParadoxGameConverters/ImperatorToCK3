@@ -346,20 +346,21 @@ public sealed class World {
 		
 		Dynasties.SetCoasForRulingDynasties(LandedTitles, config.CK3BookmarkDate);
 		
+		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
+		Characters.PurgeUnneededCharacters(LandedTitles, Dynasties, DynastyHouses, config.CK3BookmarkDate);
+		// We could convert Imperator character DNA while importing the characters.
+		// But that'd be wasteful, because some of them are purged. So, we do it now.
+		Characters.ConvertImperatorCharacterDNA(dnaFactory);
+		
 		// If there's a gap between the I:R save date and the CK3 bookmark date,
 		// generate successors for old I:R characters instead of making them live for centuries.
 		if (config.CK3BookmarkDate.DiffInYears(impWorld.EndDate) > 1) {
 			Characters.GenerateSuccessorsForOldCharacters(LandedTitles, Cultures, impWorld.EndDate, config.CK3BookmarkDate, impWorld.RandomSeed);
 		}
 
+		// Gold needs to be distributed after characters' successors are generated.
 		Characters.DistributeCountriesGold(LandedTitles, config);
 		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, LocDB, config);
-
-		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
-		Characters.PurgeUnneededCharacters(LandedTitles, Dynasties, DynastyHouses, config.CK3BookmarkDate);
-		// We could convert Imperator character DNA while importing the characters.
-		// But that'd be wasteful, because some of them are purged. So, we do it now.
-		Characters.ConvertImperatorCharacterDNA(dnaFactory);
 		
 		// After the purging of unneeded characters, we should clean up the title history.
 		LandedTitles.CleanUpHistory(Characters, config.CK3BookmarkDate);
