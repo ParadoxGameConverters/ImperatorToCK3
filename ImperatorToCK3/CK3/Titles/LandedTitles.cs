@@ -1477,7 +1477,7 @@ public sealed partial class Title {
 				["court_physician_court_position"] = ["office_physician", "office_republic_physician", "office_apothecary"],
 				["court_tutor_court_position"] = ["office_royal_tutor"],
 				["chronicler_court_position"] = ["office_philosopher"], // From I:R wiki: "supervises libraries and the gathering and protection of knowledge"
-				["court_cave_hermit_position"] = ["office_wise_person"]
+				["cave_hermit_court_position"] = ["office_wise_person"]
 			};
 
 			string[] ignoredOfficeTypes = ["office_plebeian_aedile"];

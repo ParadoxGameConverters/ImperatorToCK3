@@ -1341,8 +1341,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					continue;
 				}
 
-				// For court_cave_hermit_position, lifestyle_mystic trait is required.
-				if (ck3Position == "court_cave_hermit_position" && !ck3Official.BaseTraits.Contains("lifestyle_mystic")) {
+				// For cave_hermit_court_position, lifestyle_mystic trait is required.
+				if (ck3Position == "cave_hermit_court_position" && !ck3Official.BaseTraits.Contains("lifestyle_mystic")) {
 					continue;
 				}
 
