@@ -1,6 +1,9 @@
 name: "Integration tests"
 
 on:
+  push:
+    branches:
+      - '**'  # This will trigger the workflow on push to any branch
   release:
     types: [published]
 
@@ -40,9 +43,9 @@ jobs:
       run: |
         dotnet build -c:Release
     - name: "Download I:R save from MEGA"
-      shell: pwsh
-      run: |
-        & "C:/Users/Administrator/AppData/Local/MEGAcmd/mega-get.bat" ${{ matrix.save_url }} save.rome
+      working-directory: C:/Users/Administrator/AppData/Local/MEGAcmd
+      run: | # save the downloaded save.rome file to the action's default folder
+        & "./mega-get.bat" ${{ matrix.save_url }} ${{ github.workspace }}/save.rome
     - name: "Create configuration.txt"
       working-directory: Release/ImperatorToCK3
       run: |
