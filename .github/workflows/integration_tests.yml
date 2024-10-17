@@ -44,9 +44,7 @@ jobs:
         dotnet build -c:Release
     - name: "Download I:R save from MEGA"
       run: | # save the downloaded save.rome file to the action's default folder
-        cd "C:\Users\Administrator\AppData\Local\MEGAcmd"
-        dir
-        & "./mega-get.bat" ${{ matrix.save_url }} ${{ github.workspace }}/save.rome
+        & "c:/MEGAcmd/mega-get.bat" ${{ matrix.save_url }} save.rome
     - name: "Create configuration.txt"
       working-directory: Release/ImperatorToCK3
       run: |
