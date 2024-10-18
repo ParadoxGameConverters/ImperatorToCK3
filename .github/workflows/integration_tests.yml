@@ -19,7 +19,7 @@ jobs:
       matrix:
         save_url:
           # 2.0 vanilla
-          - https://mega.nz/file/SZti3DTD#lM6J00wp1NGbcdsS5d330UAzztoci2xKLltSfNjxXXk  # 453.12.28 - Dumnoniens.rome
+          - https://www.dropbox.com/scl/fi/jvb6s0zm02r3v30w09mzs/453.12.28-Dumnoniens.rome?rlkey=98y1jcscjy76mhva3m5qtyvid&st=khop16qy&dl=0  # 453.12.28 - Dumnoniens.rome
           # 2.0 with mods
           # - https://mega.nz/file/zRUxTaiD#8Iqu53tcFIgzNmO5ySALlDW-fXbiAPUVssCCMlwUFq4  # 848.7.14 - Indian Empire - 2.rome, uploaded 2024-06-30
           # - https://mega.nz/file/TY8hTSLZ#1Qt-yEoe9Pi6cAa3Em8UOiXdjQi8nJFxRgQfoGlOnMg  # Grande Campagne.rome, uploaded 2024-09-11
@@ -42,9 +42,9 @@ jobs:
       working-directory: ImperatorToCK3
       run: |
         dotnet build -c:Release
-    - name: "Download I:R save from MEGA"
-      run: | # save the downloaded save.rome file to the action's default folder
-        & "C:/Windows/ServiceProfiles/NetworkService/AppData/Local/MEGAcmd/mega-get.bat" ${{ matrix.save_url }} save.rome
+    - name: "Download I:R save from Dropbox"
+      run: |
+        Invoke-WebRequest -Uri ${{ matrix.save_url }} -OutFile "save.rome"
     - name: "Create configuration.txt"
       working-directory: Release/ImperatorToCK3
       run: |
