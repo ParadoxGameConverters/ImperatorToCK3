@@ -40,8 +40,9 @@ jobs:
       run: |
         dotnet build -c:Release
     - name: "Download I:R save from MEGA"
+      shell: pwsh
       run: |
-        & "C:/Program Files/megatools/megatools.exe" dl --path "save.rome" ${{ matrix.save_url }}
+        & "C:/Users/Administrator/AppData/Local/MEGAcmd/mega-get.bat" ${{ matrix.save_url }} save.rome
     - name: "Create configuration.txt"
       working-directory: Release/ImperatorToCK3
       run: |
