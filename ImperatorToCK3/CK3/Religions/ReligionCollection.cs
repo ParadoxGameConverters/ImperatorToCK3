@@ -111,7 +111,9 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseFile(filePath);
 
-		Logger.Debug($"Replaceable holy sites not loaded for missing faiths: {string.Join(", ", missingFaithIds)}");
+		if (missingFaithIds.Count > 0) {
+			Logger.Debug($"Replaceable holy sites not loaded for missing faiths: {string.Join(", ", missingFaithIds)}");
+		}
 	}
 
 	public void LoadDoctrines(ModFilesystem ck3ModFS) {
