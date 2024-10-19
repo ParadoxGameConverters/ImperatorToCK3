@@ -44,7 +44,7 @@ jobs:
         dotnet build -c:Release
     - name: "Download I:R save from Dropbox"
       run: |
-        Invoke-WebRequest -Uri ${{ matrix.save_url }} -OutFile "save.rome"
+        Invoke-WebRequest -Uri "${{ matrix.save_url }}" -OutFile "save.rome"
     - name: "Create configuration.txt"
       working-directory: Release/ImperatorToCK3
       run: |
