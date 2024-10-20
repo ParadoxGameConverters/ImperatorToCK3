@@ -17,7 +17,7 @@ public sealed class HouseCollection : ConcurrentIdObjectCollection<string, House
 			AddOrReplace(house);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFolder("common/dynasty_houses", ck3ModFS, "txt", recursive: true, parallel: true);
+		parser.ParseGameFolder("common/dynasty_houses", ck3ModFS, "txt", recursive: true);
 	}
 
 	public void PurgeUnneededHouses(CharacterCollection ck3Characters, Date date) {

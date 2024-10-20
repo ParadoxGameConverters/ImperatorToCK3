@@ -25,7 +25,7 @@ public sealed partial class CharacterCollection {
 			loadedCharacters.Add(character);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFolder("history/characters", ck3ModFS, "txt", recursive: true, parallel: true);
+		parser.ParseGameFolder("history/characters", ck3ModFS, "txt", recursive: true);
 
 		string[] irrelevantEffects = ["set_relation_rival", "set_relation_potential_rival", "set_relation_nemesis",
 			"set_relation_lover", "set_relation_soulmate",
@@ -76,5 +76,7 @@ public sealed partial class CharacterCollection {
 			character.InitConcubinesCache();
 			character.UpdateChildrenCacheOfParents();
 		}
+		
+		Logger.Info("Loaded CK3 characters.");
 	}
 }
