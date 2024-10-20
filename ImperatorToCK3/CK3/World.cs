@@ -111,6 +111,9 @@ public sealed class World {
 		// Include a fake mod pointing to blankMod in the output folder.
 		LoadedMods.Add(new Mod("blankMod", outputModPath));
 		ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), LoadedMods);
+
+		var ck3Defines = new Defines();
+		ck3Defines.LoadDefines(ModFS);
 		
 		ColorFactory ck3ColorFactory = new();
 		// Now that we have the mod filesystem, we can initialize the localization database.
@@ -120,7 +123,7 @@ public sealed class World {
 				LocDB.LoadLocFromModFS(ModFS, config.GetActiveCK3ModFlags());
 				Logger.IncrementProgress();
 			},
-			() => ScriptValues.LoadScriptValues(ModFS),
+			() => ScriptValues.LoadScriptValues(ModFS, ck3Defines),
 			() => {
 				NamedColors.LoadNamedColors("common/named_colors", ModFS);
 				ck3ColorFactory.AddNamedColorDict(NamedColors);

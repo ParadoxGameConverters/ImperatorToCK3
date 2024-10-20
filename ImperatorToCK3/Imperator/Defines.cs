@@ -1,32 +1,19 @@
 using commonItems;
 using commonItems.Mods;
-using ImperatorToCK3.Helpers;
-using System;
-using System.Text.Json;
-
 namespace ImperatorToCK3.Imperator;
 
-public sealed class Defines {
+public sealed class ImperatorDefines : Defines {
 	public int CohortSize { get; private set; } = 500;
 
-	public void LoadDefines(ModFilesystem imperatorModFs) {
+	public new void LoadDefines(ModFilesystem modFS) {
 		Logger.Info("Loading Imperator defines...");
-
-		var definesFiles = imperatorModFs.GetAllFilesInFolderRecursive("common/defines");
-		foreach (var fileInfo in definesFiles) {
-			string jsonString = string.Empty;
-			try {
-				jsonString = RakalyCaller.GetJson(fileInfo.AbsolutePath);
-				var jsonRoot = JsonDocument.Parse(jsonString).RootElement;
-
-				if (jsonRoot.TryGetProperty("NUnit", out var unitProp) && unitProp.TryGetProperty("COHORT_SIZE", out var cohortSizeProp)) {
-					CohortSize = cohortSizeProp.GetInt32();
-				}
-			} catch (Exception e) {
-				Logger.Warn($"Failed to read defines from {fileInfo.AbsolutePath}:\n\tJSON string: {jsonString}\n\texception: {e}");
-			}
+		base.LoadDefines(modFS);
+		
+		var cohortSizeStr = GetValue("NUnit", "COHORT_SIZE");
+		if (cohortSizeStr is not null) {
+			CohortSize = int.Parse(cohortSizeStr);
 		}
-
+		
 		Logger.IncrementProgress();
 	}
 }

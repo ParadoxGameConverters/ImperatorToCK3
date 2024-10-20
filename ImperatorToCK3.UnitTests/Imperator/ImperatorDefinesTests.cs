@@ -4,13 +4,13 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Imperator;
 
-public class DefinesTests {
+public class ImperatorDefinesTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private readonly ModFilesystem imperatorModFS = new(ImperatorRoot, System.Array.Empty<Mod>());
 
 	[Fact]
 	public void CohortSizeCanBeRead() {
-		var defines = new Defines();
+		var defines = new ImperatorDefines();
 		defines.LoadDefines(imperatorModFS);
 		Assert.Equal(601, defines.CohortSize);
 	}

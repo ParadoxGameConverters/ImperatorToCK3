@@ -28,7 +28,7 @@ public sealed class UnitCollection : IdObjectCollection<ulong, Unit> {
 		}
 		Logger.IncrementProgress();
 	}
-	public void LoadUnits(BufferedReader unitsReader, LocDB irLocDB, Defines defines) {
+	public void LoadUnits(BufferedReader unitsReader, LocDB irLocDB, ImperatorDefines defines) {
 		Logger.Info("Loading units...");
 
 		var parser = new Parser();
