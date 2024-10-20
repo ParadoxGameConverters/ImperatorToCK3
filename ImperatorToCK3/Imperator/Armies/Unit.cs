@@ -19,7 +19,7 @@ public sealed class Unit : IIdentifiable<ulong> {
 	public LocBlock? LocalizedName { get; private set; }
 	public IDictionary<string, int> MenPerUnitType { get; }
 
-	public Unit(ulong id, BufferedReader legionReader, UnitCollection unitCollection, LocDB irLocDB, Defines defines) {
+	public Unit(ulong id, BufferedReader legionReader, UnitCollection unitCollection, LocDB irLocDB, ImperatorDefines defines) {
 		Id = id;
 
 		var parser = new Parser();
@@ -83,7 +83,7 @@ public sealed class Unit : IIdentifiable<ulong> {
 		return nameLocBlock;
 	}
 
-	private Dictionary<string, int> GetMenPerUnitType(UnitCollection unitCollection, Defines defines) {
+	private Dictionary<string, int> GetMenPerUnitType(UnitCollection unitCollection, ImperatorDefines defines) {
 		var cohortSize = defines.CohortSize;
 
 		return unitCollection.Subunits.Where(s => CohortIds.Contains(s.Id))
