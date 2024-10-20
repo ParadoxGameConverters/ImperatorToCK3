@@ -181,15 +181,21 @@ public sealed class World {
 				// Load CK3 religions from game and blankMod.
 				// Holy sites need to be loaded after landed titles.
 				Religions.LoadDoctrines(ModFS);
+				Logger.Info("Loaded CK3 doctrines.");
 				Religions.LoadConverterHolySites("configurables/converter_holy_sites.txt");
+				Logger.Info("Loaded converter holy sites.");
 				Religions.LoadHolySites(ModFS);
+				Logger.Info("Loaded CK3 holy sites.");
 				Logger.Info("Loading religions from CK3 game and mods...");
 				Religions.LoadReligions(ModFS, ck3ColorFactory);
+				Logger.Info("Loaded CK3 religions.");
 				Logger.IncrementProgress();
 				Logger.Info("Loading converter faiths...");
 				Religions.LoadConverterFaiths("configurables/converter_faiths.txt", ck3ColorFactory);
+				Logger.Info("Loaded converter faiths.");
 				Logger.IncrementProgress();
 				Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
+				Logger.Info("Loaded replaceable holy sites.");
 			},
 			
 			() => cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper, Cultures),
