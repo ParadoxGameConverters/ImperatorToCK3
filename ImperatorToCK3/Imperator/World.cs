@@ -252,6 +252,7 @@ public partial class World {
 		MatchCollection matches = FlagDefinitionRegex().Matches(content);
 
 		CoaMapper.ParseCoAs(matches.Select(match => match.Value));
+		Logger.Info("Finished reading CoAs from I:R game.log.");
 	}
 
 	private void ExtractDynamicCoatsOfArms(Configuration config) {
