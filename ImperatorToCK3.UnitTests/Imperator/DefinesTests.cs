@@ -1,3 +1,4 @@
+using commonItems;
 using commonItems.Mods;
 using ImperatorToCK3.Imperator;
 using Xunit;
@@ -12,6 +13,6 @@ public class DefinesTests {
 	public void CohortSizeCanBeRead() {
 		var defines = new Defines();
 		defines.LoadDefines(imperatorModFS);
-		Assert.Equal(601, defines.CohortSize);
+		Assert.Equal(601, int.Parse(defines.GetValue("NUnit", "COHORT_SIZE")!));
 	}
 }

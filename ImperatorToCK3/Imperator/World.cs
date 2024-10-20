@@ -43,7 +43,7 @@ public partial class World {
 	private readonly SortedSet<string> dlcs = [];
 	public IReadOnlySet<string> GlobalFlags { get; private set; } = ImmutableHashSet<string>.Empty;
 	private readonly ScriptValueCollection scriptValues = new();
-	public Defines Defines { get; } = new();
+	public ImperatorDefines Defines { get; } = new();
 	public LocDB LocDB { get; } = new(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
 
 	public NamedColorCollection NamedColors { get; } = [];
@@ -629,12 +629,12 @@ public partial class World {
 				Areas.LoadAreas(ModFS, Provinces);
 				ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
 			},
-			() => Defines.LoadDefines(ModFS),
 			() => InventionsDB.LoadInventions(ModFS),
 			() => Country.LoadGovernments(ModFS),
 			ParseGenes,
 			() => {
-				scriptValues.LoadScriptValues(ModFS);
+				Defines.LoadDefines(ModFS);
+				scriptValues.LoadScriptValues(ModFS, Defines);
 				Logger.IncrementProgress();
 			},
 			() => {
