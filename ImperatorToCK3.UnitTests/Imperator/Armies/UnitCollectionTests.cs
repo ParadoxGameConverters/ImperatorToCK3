@@ -26,7 +26,7 @@ public class UnitCollectionTests {
 		var unitCollection = new UnitCollection();
 
 		var reader = new BufferedReader(@"1={} 2={} 3=none 1040187400={}");
-		unitCollection.LoadUnits(reader, new LocDB("english"), new Defines());
+		unitCollection.LoadUnits(reader, new LocDB("english"), new ImperatorDefines());
 
 		unitCollection
 			.Select(unit => unit.Id)

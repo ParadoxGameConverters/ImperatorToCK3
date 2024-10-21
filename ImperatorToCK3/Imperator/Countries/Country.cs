@@ -5,6 +5,7 @@ using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Inventions;
 using ImperatorToCK3.Imperator.Provinces;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
@@ -43,6 +44,7 @@ public sealed partial class Country : IIdentifiable<ulong> {
 	public CountryCurrencies Currencies { get; private set; } = new();
 	private readonly HashSet<ulong> parsedFamilyIds = [];
 	public IDictionary<ulong, Family> Families { get; private set; } = new Dictionary<ulong, Family>();
+	public IReadOnlySet<string> Variables { get; private set; } = ImmutableHashSet<string>.Empty;
 	private readonly HashSet<Province> ownedProvinces = [];
 	private readonly List<bool> inventionBooleans = [];
 

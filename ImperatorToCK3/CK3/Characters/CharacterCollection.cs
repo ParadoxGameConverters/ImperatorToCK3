@@ -869,6 +869,16 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		foreach (var oldCharacter in oldCharacters.Except(oldTitleHolders)) {
 			// Roll a dice to determine how much longer the character will live.
 			var yearsToLive = randomForCharactersWithoutTitles.Next(0, 30);
+			
+			// If the character is female and pregnant, make sure she doesn't die before the pregnancy ends.
+			if (oldCharacter is {Female: true, ImperatorCharacter: not null}) {
+				var lastPregnancy = oldCharacter.Pregnancies.OrderBy(p => p.BirthDate).LastOrDefault();
+				if (lastPregnancy is not null) {
+					oldCharacter.DeathDate = lastPregnancy.BirthDate.ChangeByYears(yearsToLive);
+					continue;
+				}
+			}
+			
 			oldCharacter.DeathDate = irSaveDate.ChangeByYears(yearsToLive);
 		}
 		
@@ -983,6 +993,10 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			// After the loop, currentCharacter should represent the successor at bookmark date.
 			// Set his DNA to avoid weird looking character on the bookmark screen in CK3.
 			currentCharacter.DNA = oldCharacter.DNA;
+			
+			// Transfer gold to the living successor.
+			currentCharacter.Gold = oldCharacter.Gold;
+			oldCharacter.Gold = null;
 		});
 	}
 	

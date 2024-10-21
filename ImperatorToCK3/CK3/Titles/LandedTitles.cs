@@ -119,9 +119,14 @@ public sealed partial class Title {
 				Variables[variableName[1..]] = variableValue;
 			});
 			parser.RegisterRegex(Regexes.TitleId, (reader, titleNameStr) => {
-				// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
-				var newTitle = Add(titleNameStr);
-				newTitle.LoadTitles(reader);
+				// Pull the titles beneath this one and add them to the lot.
+				// A title can be defined in multiple files, in that case merge the definitions.
+				if (TryGetValue(titleNameStr, out var titleToUpdate)) {
+					titleToUpdate.LoadTitles(reader);
+				} else {
+					var newTitle = Add(titleNameStr);
+					newTitle.LoadTitles(reader);
+				}
 			});
 			parser.IgnoreAndLogUnregisteredItems();
 		}
@@ -221,8 +226,7 @@ public sealed partial class Title {
 		}
 		public override void Remove(string name) {
 			if (dict.TryGetValue(name, out var titleToErase)) {
-				var deJureLiege = titleToErase.DeJureLiege;
-				deJureLiege?.DeJureVassals.Remove(name);
+				titleToErase.DeJureLiege = null; // Remove two-way liege-vassal link.
 
 				foreach (var vassal in titleToErase.DeJureVassals) {
 					vassal.DeJureLiege = null;
@@ -317,7 +321,20 @@ public sealed partial class Title {
 					if (!TryGetValue(liegeTitleId, out var liegeTitle)) {
 						liegeField.DateToEntriesDict.Remove(date);
 					} else if (liegeTitle.GetHolderId(date) == "0") {
-						liegeField.DateToEntriesDict.Remove(date);
+						// Instead of removing the liege entry, see if the liege title has a holder at a later date,
+						// and move the liege entry to that date.
+						liegeTitle.History.Fields.TryGetValue("holder", out var liegeHolderField);
+						Date? laterDate = liegeHolderField?.DateToEntriesDict.Keys
+							.Where(d => d > date && d <= ck3BookmarkDate)
+							.Min();
+
+						if (laterDate == null) {
+							liegeField.DateToEntriesDict.Remove(date);
+						} else {
+							var (setter, value) = liegeField.DateToEntriesDict[date].Last();
+							liegeField.DateToEntriesDict.Remove(date);
+							liegeField.AddEntryToHistory(laterDate, setter, value);
+						}
 					}
 				}
 			}
@@ -1442,7 +1459,7 @@ public sealed partial class Title {
 		/// https://ck3.paradoxwikis.com/Council
 		/// https://ck3.paradoxwikis.com/Court#Court_positions
 		/// </summary>
-		public void ImportImperatorGovernmentOffices(ICollection<OfficeJob> irOfficeJobs, ReligionCollection religionCollection, Date bookmarkDate) {
+		public void ImportImperatorGovernmentOffices(ICollection<OfficeJob> irOfficeJobs, ReligionCollection religionCollection, Date irSaveDate) {
 			Logger.Info("Converting government offices...");
 			var titlesFromImperator = GetCountriesImportedFromImperator();
 			
@@ -1460,7 +1477,7 @@ public sealed partial class Title {
 				["court_physician_court_position"] = ["office_physician", "office_republic_physician", "office_apothecary"],
 				["court_tutor_court_position"] = ["office_royal_tutor"],
 				["chronicler_court_position"] = ["office_philosopher"], // From I:R wiki: "supervises libraries and the gathering and protection of knowledge"
-				["court_cave_hermit_position"] = ["office_wise_person"]
+				["cave_hermit_court_position"] = ["office_wise_person"]
 			};
 
 			string[] ignoredOfficeTypes = ["office_plebeian_aedile"];
@@ -1481,7 +1498,7 @@ public sealed partial class Title {
 				}
 				
 				// Make sure the ruler actually holds something in CK3.
-				if (this.All(t => t.GetHolderId(bookmarkDate) != ck3Ruler.Id)) {
+				if (this.All(t => t.GetHolderId(irSaveDate) != ck3Ruler.Id)) {
 					continue;
 				}
 				
@@ -1491,8 +1508,8 @@ public sealed partial class Title {
 				}
 				
 				var alreadyEmployedCharacters = new HashSet<string>();
-				title.AppointCouncilMembersFromImperator(religionCollection, councilPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler, bookmarkDate);
-				title.AppointCourtierPositionsFromImperator(courtPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler, bookmarkDate);
+				title.AppointCouncilMembersFromImperator(religionCollection, councilPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler, irSaveDate);
+				title.AppointCourtierPositionsFromImperator(courtPositionToSourcesDict, convertibleJobs, alreadyEmployedCharacters, ck3Ruler, irSaveDate);
 			}
 		}
 

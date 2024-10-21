@@ -235,3 +235,21 @@ heritage_caucasian = {
 	}
 	audio_parameter = european
 }
+
+heritage_mon_khmer = { # from Rajas of Asia
+	REPLACED_BY = {
+		roa = { heritage_mon_khmer }
+	}
+	type = heritage
+
+	# parameters = { # heritages for CCU
+	# 	heritage_group_austroasiatic = yes
+	# 	heritage_family_southeast_asian = yes
+	# }
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_mon_khmer
+		}
+	}
+	audio_parameter = european
+}

@@ -8,13 +8,12 @@ namespace ImperatorToCK3.UnitTests.Mappers.Province;
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ProvinceMapperTests {
 	private const string TestFilesPath = "TestFiles/MapperTests/ProvinceMapper";
-	private const string MappingsVersionName = "test_version";
 
 	[Fact]
 	public void EmptyMappingsDefaultToEmpty() {
 		var mapper = new ProvinceMapper();
 		var mappingsPath = Path.Combine(TestFilesPath, "empty.txt");
-		mapper.LoadMappings(mappingsPath, "test_version");
+		mapper.LoadMappings(mappingsPath);
 
 		Assert.Empty(mapper.GetImperatorProvinceNumbers(1));
 	}
@@ -23,7 +22,7 @@ public class ProvinceMapperTests {
 	public void CanLookupImperatorProvinces() {
 		var mapper = new ProvinceMapper();
 		var mappingsPath = Path.Combine(TestFilesPath, "many_to_many.txt");
-		mapper.LoadMappings(mappingsPath, MappingsVersionName);
+		mapper.LoadMappings(mappingsPath);
 
 		Assert.Equal(2, mapper.GetImperatorProvinceNumbers(1).Count);
 		Assert.Equal((ulong)2, mapper.GetImperatorProvinceNumbers(1)[0]);
@@ -37,7 +36,7 @@ public class ProvinceMapperTests {
 	public void CanLookupCK3Provinces() {
 		var mapper = new ProvinceMapper();
 		var mappingsPath = Path.Combine(TestFilesPath, "many_to_many.txt");
-		mapper.LoadMappings(mappingsPath, MappingsVersionName);
+		mapper.LoadMappings(mappingsPath);
 
 		Assert.Equal(2, mapper.GetCK3ProvinceNumbers(1).Count);
 		Assert.Equal((ulong)2, mapper.GetCK3ProvinceNumbers(1)[0]);

@@ -940,9 +940,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				Logger.Warn($"Cannot set de jure liege {value} to {Id}: rank is not higher!");
 				return;
 			}
-			deJureLiege?.DeJureVassals.Remove(Id);
+			deJureLiege?.deJureVassals.Remove(Id);
 			deJureLiege = value;
-			value?.DeJureVassals.AddOrReplace(this);
+			value?.deJureVassals.AddOrReplace(this);
 		}
 	}
 	public Title? GetDeFactoLiege(Date date) { // direct de facto liege title
@@ -978,7 +978,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 	}
 
-	[SerializeOnlyValue] public TitleCollection DeJureVassals { get; } = new(); // DIRECT de jure vassals
+	private readonly TitleCollection deJureVassals = [];
+	[SerializeOnlyValue] public IReadOnlyTitleCollection DeJureVassals => deJureVassals; // DIRECT de jure vassals
 	public IDictionary<string, Title> GetDeJureVassalsAndBelow() {
 		return GetDeJureVassalsAndBelow("bcdke");
 	}
@@ -1033,6 +1034,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[commonItems.Serialization.NonSerialized] public string Id { get; } // e.g. d_latium
 	[commonItems.Serialization.NonSerialized] public TitleRank Rank { get; private set; } = TitleRank.duchy;
 	[SerializedName("landless")] public bool Landless { get; private set; } = false;
+	[SerializedName("require_landless")] public bool? RequireLandless { get; private set; }
 	[SerializedName("definite_form")] public bool HasDefiniteForm { get; private set; } = false;
 
 	//This line keeps the Seleucids Seleucid and not "[Dynasty]s"
@@ -1089,20 +1091,26 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterRegex(Regexes.TitleId, (reader, titleNameStr) => {
-			// Pull the titles beneath this one and add them to the lot, overwriting existing ones.
-			var newTitle = parentCollection.Add(titleNameStr);
-			newTitle.LoadTitles(reader);
-
-			if (newTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBaronyId)) {
-				// title is a barony, and no other barony has been found in this scope yet
-				CapitalBaronyId = newTitle.Id;
+			// Pull the titles beneath this one and add them to the lot.
+			// A title can be defined in multiple files, in that case merge the definitions.
+			if (parentCollection.TryGetValue(titleNameStr, out var childTitle)) {
+				childTitle.LoadTitles(reader);
+			} else {
+				childTitle = parentCollection.Add(titleNameStr);
+				childTitle.LoadTitles(reader);
 			}
 
-			newTitle.DeJureLiege = this;
+			if (childTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBaronyId)) {
+				// title is a barony, and no other barony has been found in this scope yet
+				CapitalBaronyId = childTitle.Id;
+			}
+			
+			childTitle.DeJureLiege = this;
 		});
 		parser.RegisterKeyword("definite_form", reader => HasDefiniteForm = reader.GetBool());
 		parser.RegisterKeyword("ruler_uses_title_name", reader => RulerUsesTitleName = reader.GetBool());
 		parser.RegisterKeyword("landless", reader => Landless = reader.GetBool());
+		parser.RegisterKeyword("require_landless", reader => RequireLandless = reader.GetBool());
 		parser.RegisterKeyword("color", reader => {
 			try {
 				Color1 = colorFactory.GetColor(reader);
@@ -1301,7 +1309,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		List<OfficeJob> convertibleJobs,
 		HashSet<string> alreadyEmployedCharacters, 
 		Character ck3Ruler,
-		Date bookmarkDate) {
+		Date irSaveDate) {
 		Dictionary<string, int> heldTitlesPerCharacterCache = [];
 		
 		foreach (var (ck3Position, sources) in courtPositionToSourcesDict) {
@@ -1326,15 +1334,15 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 
 				if (!heldTitlesPerCharacterCache.ContainsKey(ck3Official.Id)) {
-					heldTitlesPerCharacterCache[ck3Official.Id] = parentCollection.Count(t => t.GetHolderId(bookmarkDate) == ck3Official.Id);
+					heldTitlesPerCharacterCache[ck3Official.Id] = parentCollection.Count(t => t.GetHolderId(irSaveDate) == ck3Official.Id);
 				}
 				// A potential courtier must not be a ruler.
 				if (heldTitlesPerCharacterCache[ck3Official.Id] > 0) {
 					continue;
 				}
 
-				// For court_cave_hermit_position, lifestyle_mystic trait is required.
-				if (ck3Position == "court_cave_hermit_position" && !ck3Official.BaseTraits.Contains("lifestyle_mystic")) {
+				// For cave_hermit_court_position, lifestyle_mystic trait is required.
+				if (ck3Position == "cave_hermit_court_position" && !ck3Official.BaseTraits.Contains("lifestyle_mystic")) {
 					continue;
 				}
 
@@ -1352,7 +1360,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 						}
 					}
 				""");
-				ck3Ruler.History.AddFieldValue(bookmarkDate, "effects", "effect", courtPositionEffect);
+				ck3Ruler.History.AddFieldValue(irSaveDate, "effects", "effect", courtPositionEffect);
 
 				// One character should only hold one CK3 position.
 				convertibleJobs.Remove(job);
@@ -1368,7 +1376,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		List<OfficeJob> convertibleJobs, 
 		HashSet<string> alreadyEmployedCharacters,
 		Character ck3Ruler,
-		Date bookmarkDate) {
+		Date irSaveDate) {
 		Dictionary<string, int> heldTitlesPerCharacterCache = [];
 
 		foreach (var (ck3Position, sources) in councilPositionToSourcesDict) {
@@ -1393,14 +1401,14 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 
 				if (!heldTitlesPerCharacterCache.TryGetValue(ck3Official.Id, out int heldTitlesCount)) {
-					heldTitlesCount = parentCollection.Count(t => t.GetHolderId(bookmarkDate) == ck3Official.Id);
+					heldTitlesCount = parentCollection.Count(t => t.GetHolderId(irSaveDate) == ck3Official.Id);
 					heldTitlesPerCharacterCache[ck3Official.Id] = heldTitlesCount;
 				}
 
 				if (ck3Position == "councillor_court_chaplain") {
 					// Court chaplains need to have the same faith as the ruler.
-					var rulerFaithId = ck3Ruler.GetFaithId(bookmarkDate);
-					if (rulerFaithId is null || rulerFaithId != ck3Official.GetFaithId(bookmarkDate)) {
+					var rulerFaithId = ck3Ruler.GetFaithId(irSaveDate);
+					if (rulerFaithId is null || rulerFaithId != ck3Official.GetFaithId(irSaveDate)) {
 						continue;
 					}
 
@@ -1410,7 +1418,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 						continue;
 					}
 					if (rulerFaith.HasDoctrine("doctrine_clerical_marriage_disallowed")) {
-						if (ck3Official.GetSpouseIds(bookmarkDate).Count > 0) {
+						if (ck3Official.GetSpouseIds(irSaveDate).Count > 0) {
 							continue;
 						}
 					}
@@ -1437,7 +1445,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				} else if (ck3Position == "councillor_steward" || ck3Position == "councillor_chancellor" || ck3Position == "councillor_marshal") {
 					// Unless they are rulers, stewards, chancellors and marshals need to have the dominant gender of the faith.
 					if (heldTitlesCount == 0) {
-						var courtFaith = ck3Ruler.GetFaithId(bookmarkDate);
+						var courtFaith = ck3Ruler.GetFaithId(irSaveDate);
 						if (courtFaith is not null) {
 							var dominantGenderDoctrine = religionCollection.GetFaith(courtFaith)?
 								.GetDoctrineIdForDoctrineCategoryId("doctrine_gender");
@@ -1453,9 +1461,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 				// We only need to set the employer when the council member is landless.
 				if (heldTitlesCount == 0) {
-					ck3Official.History.AddFieldValue(bookmarkDate, "employer", "employer", ck3Ruler.Id);
+					ck3Official.History.AddFieldValue(irSaveDate, "employer", "employer", ck3Ruler.Id);
 				}
-				ck3Official.History.AddFieldValue(bookmarkDate, "council_position", "give_council_position", ck3Position);
+				ck3Official.History.AddFieldValue(irSaveDate, "council_position", "give_council_position", ck3Position);
 
 				// One character should only hold one CK3 position.
 				convertibleJobs.Remove(job);
