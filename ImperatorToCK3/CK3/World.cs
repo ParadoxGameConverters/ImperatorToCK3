@@ -384,12 +384,13 @@ public sealed class World {
 		}
 		Logger.IncrementProgress();
 
+		var modifierMapper = new ModifierMapper("configurables/holy_site_effect_mappings.txt");
+
 		Parallel.Invoke(
 			() => ImportImperatorWars(impWorld, config.CK3BookmarkDate),
 			
 			() => {
-				var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
-				Religions.DetermineHolySites(Provinces, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
+				Religions.DetermineHolySites(Provinces, impWorld.Religions, modifierMapper, config.CK3BookmarkDate);
 		
 				Religions.GenerateMissingReligiousHeads(LandedTitles, Characters, Provinces, Cultures, config.CK3BookmarkDate);
 				Logger.IncrementProgress();
