@@ -682,6 +682,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		ModifierMapper modifierMapper,
 		ModifierCollection ck3Modifiers,
 		LocDB irLocDB,
+		CK3LocDB ck3LocDB,
 		Date date
 	) {
 		Logger.Info("Importing Imperator artifacts...");
@@ -750,7 +751,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			// TODO: try to use create_artifact_sculpture_babr_e_bayan_effect as base
 			foreach (var irArtifactId in irArtifactIds) {
 				var irArtifact = treasureManager[irArtifactId];
-				ImportArtifact(character, irArtifact, modifierMapper, ck3Modifiers, irLocDB, date);
+				ImportArtifact(character, irArtifact, modifierMapper, ck3Modifiers, irLocDB, ck3LocDB, date);
 			}
 			
 			
@@ -784,13 +785,14 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		Logger.IncrementProgress();
 	}
 
-	private void ImportArtifact(Character character, Treasure irArtifact, ModifierMapper modifierMapper, ModifierCollection ck3Modifiers, LocDB irLocDB, Date date) {
+	private void ImportArtifact(Character character, Treasure irArtifact, ModifierMapper modifierMapper, ModifierCollection ck3Modifiers, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
 		var ck3ArtifactName = $"IRToCK3_artifact_{irArtifact.Key}_{irArtifact.Id}";
 		var irNameLoc = irLocDB.GetLocBlockForKey(irArtifact.Key);
 		if (irNameLoc is null) {
 			Logger.Warn($"Can't find name loc for artifact {irArtifact.Key}!");
 		} else {
-			character.Localizations.Add(ck3ArtifactName, new LocBlock(ck3ArtifactName, irNameLoc));
+			var artifactNameLocBlock = ck3LocDB.GetOrCreateLocBlock(ck3ArtifactName);
+			artifactNameLocBlock.CopyFrom(irNameLoc);
 		}
 
 		var ck3DescKey = $"{ck3ArtifactName}_desc";
@@ -798,7 +800,8 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		if (irDescLoc is null) {
 			Logger.Warn($"Can't find description loc for artifact {irArtifact.Key}!");
 		} else {
-			character.Localizations.Add(ck3DescKey, new LocBlock(ck3DescKey, irDescLoc));
+			var descLocBlock = ck3LocDB.GetOrCreateLocBlock(ck3DescKey);
+			descLocBlock.CopyFrom(irDescLoc);
 		}
 
 		var artifactScope = $"newly_created_artifact_{irArtifact.Id}";
