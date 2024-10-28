@@ -12,6 +12,7 @@ using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Imperator.Characters;
+using ImperatorToCK3.Mappers.Artifact;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Modifier;
@@ -736,6 +737,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			.Distinct()
 			.ToList();
 		foreach (var iconName in treasureIconNames) {
+			throw new NotImplementedException();
 			// example:
 			//		icon: artefact_icons_unique_artifact_cheese
 			//		asset entity: ep1_western_pouch_basic_01_a_entity
@@ -751,7 +753,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			// TODO: try to use create_artifact_sculpture_babr_e_bayan_effect as base
 			foreach (var irArtifactId in irArtifactIds) {
 				var irArtifact = treasureManager[irArtifactId];
-				ImportArtifact(character, irArtifact, modifierMapper, ck3Modifiers, irLocDB, ck3LocDB, date);
+				ImportArtifact(character, irArtifact, modifierMapper, ck3Modifiers, visualsMapper, irLocDB, ck3LocDB, date);
 			}
 			
 			
@@ -785,7 +787,9 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		Logger.IncrementProgress();
 	}
 
-	private void ImportArtifact(Character character, Treasure irArtifact, ModifierMapper modifierMapper, ModifierCollection ck3Modifiers, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
+	private void ImportArtifact(Character character, Treasure irArtifact, ModifierMapper modifierMapper, ModifierCollection ck3Modifiers, ArtifactVisualsMapper visualsMapper, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
+		var ck3Visual = visualsMapper.GetVisual(irArtifact.Key, irArtifact.IconName);
+		
 		var ck3ArtifactName = $"IRToCK3_artifact_{irArtifact.Key}_{irArtifact.Id}";
 		var irNameLoc = irLocDB.GetLocBlockForKey(irArtifact.Key);
 		if (irNameLoc is null) {
@@ -832,7 +836,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 				name = {{ ck3ArtifactName }}
 				description = {{ ck3DescKey }}
 				type = sculpture {{ TODO }}
-				template = babr_template {{ TODO }}
+				# template = babr_template # TODO: check if needed
 				visuals = sculpture_babr_e_bayan {{ TODO }}
 				wealth = scope:wealth
 				quality = scope:quality

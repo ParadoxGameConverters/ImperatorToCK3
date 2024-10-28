@@ -12,6 +12,8 @@ public class ArtifactVisualsMapper {
 		
 		Logger.Info($"Loaded {irTreasureToCK3VisualMap.Count} treasure to visual links " +
 		            $"and {irIconToCK3VisualMap.Count} icon to visual links.");
+		
+		// TODO: implement checking if the ck3 visuals actually exist. We need to read the CK3 visuals files for that.
 	}
 	
 	private void RegisterKeys(Parser parser) {
@@ -44,6 +46,17 @@ public class ArtifactVisualsMapper {
 				irIconToCK3VisualMap.Add(irIconId, ck3Visual);
 			}
 		});
+	}
+
+	public string? GetVisual(string irArtifactId, string irIconId) {
+		// Try to find a match for the artifact ID first, then for the icon ID.
+		if (irTreasureToCK3VisualMap.TryGetValue(irArtifactId, out var visual)) {
+			return visual;
+		}
+		if (irIconToCK3VisualMap.TryGetValue(irIconId, out visual)) {
+			return visual;
+		}
+		return null;
 	}
 	
 	private readonly Dictionary<string, string> irTreasureToCK3VisualMap = new();
