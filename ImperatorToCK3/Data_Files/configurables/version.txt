@@ -1,9 +1,9 @@
 # Version info
 
-name = "Nerva"
+name = "Trajan"
 source = "Imperator"
 minSource = "2.0"
 maxSource = "2.0"
 target = "CK3"
-minTarget = "1.13"
-maxTarget = "1.13"
+minTarget = "1.14"
+maxTarget = "1.14"
