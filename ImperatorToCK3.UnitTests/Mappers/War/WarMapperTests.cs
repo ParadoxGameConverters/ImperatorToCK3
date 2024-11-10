@@ -1,5 +1,7 @@
-﻿using System.IO;
+﻿using commonItems.Mods;
+using System.IO;
 using ImperatorToCK3.Mappers.War;
+using System;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.War;
@@ -57,5 +59,21 @@ public class WarMapperTests {
 		Assert.Equal("claim_cb", mapper.GetCK3CBForImperatorWarGoal("conquer_wargoal"));
 		Assert.Equal("vassalization_cb", mapper.GetCK3CBForImperatorWarGoal("imperial_conquest_wargoal"));
 		Assert.Equal("imperial_reconquest_cb", mapper.GetCK3CBForImperatorWarGoal("diadochi_wargoal"));
+	}
+	
+	[Fact]
+	public void UnmappedWarGoalsAreLogged() {
+		var mapper = new WarMapper("TestFiles/configurables/wargoal_mappings.txt");
+
+		var irModFS = new ModFilesystem("TestFiles/Imperator/game", Array.Empty<Mod>());
+		
+		var output = new StringWriter();
+		Console.SetOut(output);
+		
+		mapper.DetectUnmappedWarGoals(irModFS);
+		
+		var outputString = output.ToString();
+		Assert.DoesNotContain("No mapping for war goal independence_wargoal found in war goal mappings!", outputString);
+		Assert.Contains("No mapping for war goal unmapped_wargoal found in war goal mappings!", outputString);
 	}
 }
