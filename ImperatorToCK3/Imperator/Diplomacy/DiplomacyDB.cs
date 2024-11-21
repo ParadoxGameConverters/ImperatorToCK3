@@ -79,6 +79,6 @@ public sealed class DiplomacyDB {
 		dependencies.Add(new(overlordId, subjectId, startDate, subjectType));
 	}
 
-	private readonly IgnoredKeywordsSet ignoredTokens = new();
+	private readonly IgnoredKeywordsSet ignoredTokens = [];
 	private readonly IgnoredKeywordsSet ignoredDatabaseTokens = new();
 }
