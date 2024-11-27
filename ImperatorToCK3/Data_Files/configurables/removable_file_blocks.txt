@@ -1281,6 +1281,39 @@
 			}
 		}
 	}
+	
+	{
+		### GREECE BACKWATER COUNTIES ###
+		if = {
+			limit = { has_ep3_dlc_trigger = yes }
+			title:c_laconia = { add_county_modifier = backwater_county_modifier }
+			title:c_messenia = { add_county_modifier = backwater_county_modifier }
+			title:c_korinthos = { add_county_modifier = backwater_county_modifier }
+			title:c_achaia = { add_county_modifier = backwater_county_modifier }
+			title:c_cephalonia = { add_county_modifier = backwater_county_modifier }
+			title:c_attica = { add_county_modifier = backwater_county_modifier }
+			title:c_boeotia = { add_county_modifier = backwater_county_modifier }
+			title:c_aetolia = { add_county_modifier = backwater_county_modifier }
+			title:c_naxos = { add_county_modifier = backwater_county_modifier }
+			title:c_euboea = { add_county_modifier = backwater_county_modifier }
+			title:c_neopatras = { add_county_modifier = backwater_county_modifier }
+			title:c_demetrias = { add_county_modifier = backwater_county_modifier }
+			title:c_thessaliotis = { add_county_modifier = backwater_county_modifier }
+			title:c_thessalia = { add_county_modifier = backwater_county_modifier }
+			title:c_epeiros = { add_county_modifier = backwater_county_modifier }
+			title:c_buthrotum = { add_county_modifier = backwater_county_modifier }
+			title:c_veria = { add_county_modifier = backwater_county_modifier }
+			title:c_metzovo = { add_county_modifier = backwater_county_modifier }
+			title:c_chalkidike = { add_county_modifier = backwater_county_modifier }
+			title:c_thessalonika = { add_county_modifier = backwater_county_modifier }
+			title:c_serres = { add_county_modifier = backwater_county_modifier }
+			title:c_mosynopolis = { add_county_modifier = backwater_county_modifier }
+			title:c_ohrid = { add_county_modifier = backwater_county_modifier }
+			title:c_antipatreia = { add_county_modifier = backwater_county_modifier }
+			title:c_dyrrachion = { add_county_modifier = backwater_county_modifier }
+			title:c_avlonas = { add_county_modifier = backwater_county_modifier }
+		}
+	}	
 }
 
 "common/on_action/title_on_actions.txt" = {
