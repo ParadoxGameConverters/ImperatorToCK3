@@ -1313,7 +1313,7 @@
 			title:c_dyrrachion = { add_county_modifier = backwater_county_modifier }
 			title:c_avlonas = { add_county_modifier = backwater_county_modifier }
 		}
-	}	
+	}
 }
 
 "common/on_action/title_on_actions.txt" = {
