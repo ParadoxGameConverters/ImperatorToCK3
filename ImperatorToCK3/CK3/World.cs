@@ -1090,6 +1090,7 @@ public sealed class World {
 			{"dlc013.dlc", "couture_of_capets"},
 			{"dlc014.dlc", "roads_to_power"},
 			{"dlc015.dlc", "wandering_nobles"},
+			{"dlc016.dlc", "west_slavic_attire"},
 		};
 		
 		var dlcFiles = Directory.GetFiles(dlcFolderPath, "*.dlc", SearchOption.AllDirectories);
