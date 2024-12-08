@@ -237,7 +237,7 @@ public sealed class Configuration {
 			                             $"{string.Join(", ", filesInDocFolder)}");
 		}
 		
-		Logger.Debug($"I:R documents path {ImperatorPath} is valid.");
+		Logger.Debug($"I:R documents path {ImperatorDocPath} is valid.");
 	}
 	
 	private void VerifyCK3ModsPath() {
