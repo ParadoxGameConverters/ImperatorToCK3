@@ -18,7 +18,10 @@ jobs:
         install-libfuse2: true
     - name: "Install Wand library"
       run: |
-        pip3 install Wand
+        python3 -m venv venv
+        source venv/bin/activate
+        python3 -m pip install Wand
     - name: "Validate faith icons"
       run: |
+        source venv/bin/activate
         python3 ./tools/validate_dds_files.py
