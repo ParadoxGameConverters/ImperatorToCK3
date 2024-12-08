@@ -10,7 +10,7 @@ concurrency:
 
 jobs:
   validate-dds-files:
-    runs-on: macos-14
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - uses: mfinelli/setup-imagemagick@v5
