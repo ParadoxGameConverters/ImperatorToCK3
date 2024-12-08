@@ -10,16 +10,18 @@ concurrency:
 
 jobs:
   validate-dds-files:
-    runs-on: macos-12
+    runs-on: macos-15
     steps:
     - uses: actions/checkout@v4
     - uses: mfinelli/setup-imagemagick@v5
       with:
-        cache: true
         install-libfuse2: true
     - name: "Install Wand library"
       run: |
-        pip3 install Wand
+        python3 -m venv venv
+        source venv/bin/activate
+        python3 -m pip install Wand
     - name: "Validate faith icons"
       run: |
+        source venv/bin/activate
         python3 ./tools/validate_dds_files.py
