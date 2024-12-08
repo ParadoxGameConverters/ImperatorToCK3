@@ -49,34 +49,25 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			MaxDegreeOfParallelism = Environment.ProcessorCount - 1,
 		};
 
-		try {
-			Parallel.ForEach(impWorld.Characters, parallelOptions, irCharacter => {
-				ImportImperatorCharacter(
-					irCharacter,
-					religionMapper,
-					cultureMapper,
-					traitMapper,
-					nicknameMapper,
-					impWorld.LocDB,
-					ck3LocDB,
-					impWorld.MapData,
-					provinceMapper,
-					deathReasonMapper,
-					dnaFactory,
-					conversionDate,
-					config,
-					unlocalizedImperatorNames
-				);
-			});
-		} catch (AggregateException e) {
-			var innerException = e.InnerExceptions[0];
-			Logger.Error("Exception thrown during Imperator characters import: " + innerException.Message);
-			Logger.Debug("Exception stack trace: " + innerException.StackTrace);
-			
-			// Rethrow the inner exception to stop the program.
-			throw innerException;
-		}
-		
+		Parallel.ForEach(impWorld.Characters, parallelOptions, irCharacter => {
+			ImportImperatorCharacter(
+				irCharacter,
+				religionMapper,
+				cultureMapper,
+				traitMapper,
+				nicknameMapper,
+				impWorld.LocDB,
+				ck3LocDB,
+				impWorld.MapData,
+				provinceMapper,
+				deathReasonMapper,
+				dnaFactory,
+				conversionDate,
+				config,
+				unlocalizedImperatorNames
+			);
+		});
+	
 		if (unlocalizedImperatorNames.Any()) {
 			Logger.Warn("Found unlocalized Imperator names: " + string.Join(", ", unlocalizedImperatorNames));
 		}
