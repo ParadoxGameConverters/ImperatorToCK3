@@ -1283,6 +1283,13 @@ public sealed partial class Title {
 			// Make sure every empire's capital is within the empire's de jure land.
 			Logger.Info("Setting empire capitals...");
 			foreach (var empire in this.Where(t => t.Rank == TitleRank.empire)) {
+				var deJureCounties = empire.GetDeJureVassalsAndBelow("c").Values;
+				
+				// If the empire already has a set capital, and it's within the de jure land, keep it.
+				if (empire.CapitalCounty is not null && deJureCounties.Contains(empire.CapitalCounty)) {
+					continue;
+				}
+				
 				// Try to use most developed county among the de jure kingdom capitals.
 				var deJureKingdoms = empire.GetDeJureVassalsAndBelow("k").Values;
 				var mostDevelopedCounty = deJureKingdoms
@@ -1295,7 +1302,6 @@ public sealed partial class Title {
 				}
 				
 				// Otherwise, use the most developed county among the de jure empire's counties.
-				var deJureCounties = empire.GetDeJureVassalsAndBelow("c").Values;
 				mostDevelopedCounty = deJureCounties
 					.MaxBy(c => c.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate));
 				if (mostDevelopedCounty is not null) {
