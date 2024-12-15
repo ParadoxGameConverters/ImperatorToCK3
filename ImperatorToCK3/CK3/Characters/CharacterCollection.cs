@@ -27,7 +27,7 @@ using System.Threading.Tasks;
 namespace ImperatorToCK3.CK3.Characters;
 
 public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<string, Character> {
-	public void ImportImperatorCharacters(
+	internal void ImportImperatorCharacters(
 		Imperator.World impWorld,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
@@ -811,7 +811,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		});
 	}
 	
-	public void ConvertImperatorCharacterDNA(DNAFactory dnaFactory) {
+	internal void ConvertImperatorCharacterDNA(DNAFactory dnaFactory) {
 		Logger.Info("Converting Imperator character DNA to CK3...");
 		foreach (var character in this) {
 			if (character.ImperatorCharacter is null) {
