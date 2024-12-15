@@ -52,7 +52,7 @@ public partial class World {
 	private readonly PopCollection pops = [];
 	public ProvinceCollection Provinces { get; } = [];
 	public CountryCollection Countries { get; } = [];
-	public CoaMapper CoaMapper { get; private set; } = new();
+	internal CoaMapper CoaMapper { get; private set; } = new();
 	public MapData MapData { get; private set; }
 	public AreaCollection Areas { get; } = [];
 	public ImperatorRegionMapper ImperatorRegionMapper { get; private set; }

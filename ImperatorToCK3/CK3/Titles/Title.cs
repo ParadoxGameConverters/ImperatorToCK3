@@ -174,7 +174,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			vassal.DeJureLiege = this;
 		}
 	}
-	public void InitializeFromTag(
+	internal void InitializeFromTag(
 		Country country,
 		Dependency? dependency,
 		CountryCollection imperatorCountries,

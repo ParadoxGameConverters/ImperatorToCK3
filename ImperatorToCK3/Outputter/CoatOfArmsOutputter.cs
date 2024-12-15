@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 public static class CoatOfArmsOutputter {
-	public static async Task OutputCoas(string outputModPath, Title.LandedTitles titles, IEnumerable<Dynasty> dynasties, CoaMapper ck3CoaMapper) {
+	internal static async Task OutputCoas(string outputModPath, Title.LandedTitles titles, IEnumerable<Dynasty> dynasties, CoaMapper ck3CoaMapper) {
 		Logger.Info("Outputting coats of arms...");
 		
 		// Output variables (like "@smCastleX = 0.27" in vanilla CK3).

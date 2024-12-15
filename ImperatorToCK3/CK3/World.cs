@@ -59,7 +59,7 @@ public sealed class World {
 	public MapData MapData { get; private set; } = null!;
 	public IList<Wars.War> Wars { get; } = new List<Wars.War>();
 	public LegendSeedCollection LegendSeeds { get; } = [];
-	public CoaMapper CK3CoaMapper { get; private set; } = null!;
+	internal CoaMapper CK3CoaMapper { get; private set; } = null!;
 	private readonly List<string> enabledDlcFlags = [];
 
 	/// <summary>
