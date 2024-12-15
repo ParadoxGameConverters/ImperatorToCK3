@@ -355,7 +355,7 @@ public sealed class Character : IIdentifiable<string> {
 		}
 	}
 
-	public Character(
+	internal Character(
 		Imperator.Characters.Character impCharacter,
 		CharacterCollection characters,
 		ReligionMapper religionMapper,

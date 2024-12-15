@@ -27,7 +27,7 @@ using System.Threading.Tasks;
 namespace ImperatorToCK3.CK3.Characters;
 
 public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<string, Character> {
-	public void ImportImperatorCharacters(
+	internal void ImportImperatorCharacters(
 		Imperator.World impWorld,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,

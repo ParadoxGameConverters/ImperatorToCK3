@@ -114,7 +114,7 @@ public class CK3CharacterTests {
 			this.cultureMapper = cultureMapper;
 			return this;
 		}
-		public CK3CharacterBuilder WithTraitMapper(TraitMapper traitMapper) {
+		internal CK3CharacterBuilder WithTraitMapper(TraitMapper traitMapper) {
 			this.traitMapper = traitMapper;
 			return this;
 		}
