@@ -12,8 +12,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.Trait;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class TraitMapperTests {
-	public class TestTraitMapper : TraitMapper {
-		public TestTraitMapper(Dictionary<string, string> irToCK3TraitMap, IdObjectCollection<string, ImperatorToCK3.CK3.Characters.Trait> ck3Traits) {
+	internal class TestTraitMapper : TraitMapper {
+		internal TestTraitMapper(Dictionary<string, string> irToCK3TraitMap, IdObjectCollection<string, ImperatorToCK3.CK3.Characters.Trait> ck3Traits) {
 			ImperatorToCK3TraitMap = irToCK3TraitMap;
 			CK3Traits = ck3Traits;
 		}
