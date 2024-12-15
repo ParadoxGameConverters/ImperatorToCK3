@@ -57,7 +57,9 @@ public static class WorldOutputter {
 			CoatOfArmsOutputter.OutputCoas(outputPath, ck3World.LandedTitles, ck3World.Dynasties, ck3World.CK3CoaMapper),
 			Task.Run(() => CoatOfArmsOutputter.CopyCoaPatterns(imperatorWorld.ModFS, outputPath)),
 
-			BookmarkOutputter.OutputBookmark(ck3World, config, ck3World.LocDB)
+			BookmarkOutputter.OutputBookmark(ck3World, config, ck3World.LocDB),
+			
+			DecisionsOutputter.TweakERERestorationDecision(ck3World.LandedTitles, ck3World.ModFS, outputPath),
 		);
 
 		

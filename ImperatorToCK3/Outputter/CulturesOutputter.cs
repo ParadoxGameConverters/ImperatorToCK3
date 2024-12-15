@@ -8,7 +8,6 @@ using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CommonUtils;
 using Microsoft.FSharp.Collections;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -126,7 +125,7 @@ public static class CulturesOutputter {
 		branchEffectNode.AllChildren = allChildren;
 		
 		// Output the modified file.
-		var tooutput = rootNode.AllChildren
+		var toOutput = rootNode.AllChildren
 			.Select(c => {
 				if (c.IsLeafC) {
 					return c.leaf.ToRaw;
@@ -139,7 +138,7 @@ public static class CulturesOutputter {
 			.Where(s => s is not null)
 			.Cast<Types.Statement>()
 			.ToList();
-		var fsharpList = ListModule.OfSeq(tooutput);
+		var fsharpList = ListModule.OfSeq(toOutput);
 
 		var outputFilePath = Path.Join(outputModPath, relativePath);
 		// Output the file with UTF8-BOM encoding.
