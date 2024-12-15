@@ -59,7 +59,7 @@ public static class WorldOutputter {
 
 			BookmarkOutputter.OutputBookmark(ck3World, config, ck3World.LocDB),
 			
-			DecisionsOutputter.TweakERERestorationDecision(ck3World.LandedTitles, ck3World.ModFS, outputPath),
+			DecisionsOutputter.TweakERERestorationDecision(ck3World.LandedTitles, ck3World.ModFS, outputPath)
 		);
 
 		
@@ -206,6 +206,8 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "cultures"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "pillars"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "decisions"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "decisions", "dlc_decisions"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dna_data"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasty_houses"));
