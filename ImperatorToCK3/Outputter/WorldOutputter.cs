@@ -57,16 +57,18 @@ public static class WorldOutputter {
 			CoatOfArmsOutputter.OutputCoas(outputPath, ck3World.LandedTitles, ck3World.Dynasties, ck3World.CK3CoaMapper),
 			Task.Run(() => CoatOfArmsOutputter.CopyCoaPatterns(imperatorWorld.ModFS, outputPath)),
 
-			BookmarkOutputter.OutputBookmark(ck3World, config, ck3World.LocDB),
-			
-			DecisionsOutputter.TweakERERestorationDecision(ck3World.LandedTitles, ck3World.ModFS, outputPath)
+			BookmarkOutputter.OutputBookmark(ck3World, config, ck3World.LocDB)
 		);
 
-		
+		Task.WaitAll(
+			DecisionsOutputter.TweakERERestorationDecision(ck3World.LandedTitles, ck3World.ModFS, outputPath),
 
-		if (config.LegionConversion == LegionConversion.MenAtArms) {
-			MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
-		}
+			Task.Run(() => {
+				if (config.LegionConversion == LegionConversion.MenAtArms) {
+					MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
+				}
+			})
+		);
 
 		// Localization should be output last, as it uses data written by other outputters.
 		LocalizationOutputter.OutputLocalization(outputPath, ck3World);

@@ -4,8 +4,6 @@ using CWTools.CSharp;
 using CWTools.Parser;
 using CWTools.Process;
 using ImperatorToCK3.CK3.Titles;
-using Microsoft.FSharp.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -22,7 +20,16 @@ internal static class DecisionsOutputter {
 
 		Logger.Info("Tweaking ERE restoration decision...");
 		const string relativeDecisionsFilePath = "common/decisions/dlc_decisions/ep3_decisions.txt";
-		string? decisionsFilePath = ck3ModFS.GetActualFileLocation(relativeDecisionsFilePath);
+
+		// The file may already be in the output mod.
+		string? decisionsFilePath;
+		string fileInOutputPath = Path.Join(outputModPath, relativeDecisionsFilePath);
+		if (File.Exists(fileInOutputPath)) {
+			decisionsFilePath = fileInOutputPath;
+		} else {
+			decisionsFilePath = ck3ModFS.GetActualFileLocation(relativeDecisionsFilePath);
+		}
+
 		if (decisionsFilePath is null) {
 			Logger.Warn($"Can't find {relativeDecisionsFilePath}!");
 			return;
@@ -31,12 +38,15 @@ internal static class DecisionsOutputter {
 		Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 		var fileName = Path.GetFileName(decisionsFilePath);
-		var statements = CKParser.parseFile(decisionsFilePath).GetResult();
-		var rootNode = Parsers.ProcessStatements(fileName, decisionsFilePath, statements);
-		var nodes = rootNode.Nodes.ToArray();
+
+		var text = await File.ReadAllTextAsync(decisionsFilePath);
+		var parsed = Parsers.ParseScriptFile(fileName, text);
+		var decisionsFile = parsed.GetResult();
+
+		var processed = Parsers.ProcessStatements(fileName, decisionsFilePath, decisionsFile);
 
 		const string decisionName = "recreate_byzantine_empire_decision";
-		var decisionNode = nodes.FirstOrDefault(n => n.Key == decisionName);
+		var decisionNode = processed.Nodes.FirstOrDefault(n => n.Key == decisionName);
 		if (decisionNode is null) {
 			Logger.Warn($"Decision {decisionName} not found!");
 			return;
@@ -48,24 +58,20 @@ internal static class DecisionsOutputter {
 			return;
 		}
 
-		List<Child> allChildren = isShownNode.AllChildren;
 		const string additionalCondition = "\t\texists = title:e_byzantium.previous_holder";
 		var additionalStatements = CKParser.parseString(additionalCondition, fileName).GetResult();
-		foreach (var statement in additionalStatements) {
-			Logger.Notice($"Adding statement: {statement}");
-		}
 		var rootNodeForStatements = Parsers.ProcessStatements(fileName, decisionsFilePath, additionalStatements);
-		Logger.Notice($"Root node for additional statements: {rootNodeForStatements.ToRaw}");
-		
-		allChildren.Add(Child.NewLeafC(rootNodeForStatements.Leaves.First()));
-		
-		// allChildren.Add(Child.NewNodeC(rootNodeForStatements.Nodes.First()));
-		isShownNode.AllChildren = allChildren;
+
+		var newChild = Child.NewLeafC(rootNodeForStatements.Leaves.First());
+		isShownNode.SetTag(newChild.leaf.Key, newChild);
+
+		StringBuilder sb = new();
+		foreach (var child in processed.Children) {
+			sb.AppendLine(CKPrinter.api.prettyPrintStatement.Invoke(child.ToRaw));
+		}
 
 		// Output the modified file with UTF8-BOM encoding.
-		var kvl = ListModule.OfSeq([rootNode.ToRaw]);
 		var outputFilePath = Path.Join(outputModPath, relativeDecisionsFilePath);
-		
-		await File.WriteAllTextAsync(outputFilePath, CKPrinter.printTopLevelKeyValueList(kvl), Encoding.UTF8); // TODO: check how this is outputted
+		await File.WriteAllTextAsync(outputFilePath, sb.ToString(), Encoding.UTF8);
 	}
 }
