@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters; 
 
-public sealed class DNAFactory {
+internal sealed class DNAFactory {
 	private readonly IPixelCollection<ushort> irHairPalettePixels;
 	private readonly IPixelCollection<ushort> irSkinPalettePixels;
 	private readonly IPixelCollection<ushort> irEyePalettePixels;
@@ -69,7 +69,7 @@ public sealed class DNAFactory {
 		BuildColorConversionCaches(ck3HairPalettePixels, ck3SkinPalettePixels, ck3EyePalettePixels);
 	}
 	
-	public DNA GenerateDNA(Imperator.Characters.Character irCharacter, PortraitData irPortraitData) {
+	internal DNA GenerateDNA(Imperator.Characters.Character irCharacter, PortraitData irPortraitData) {
 		var id = $"dna_{irCharacter.Id}";
 
 		var colorDNAValues = new Dictionary<string, DNAColorGeneValue>();
@@ -463,7 +463,7 @@ public sealed class DNAFactory {
 
 	private static void BuildColorConversionCache(
 		IPixelCollection<ushort> ck3PalettePixels,
-		IDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3ColorToCoordinatesDict
+		ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3ColorToCoordinatesDict
 	) {
 		foreach (var pixel in ck3PalettePixels) {
 			var color = pixel.ToColor();

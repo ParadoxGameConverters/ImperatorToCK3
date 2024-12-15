@@ -156,7 +156,7 @@ public sealed class Character : IIdentifiable<string> {
 
 	public IDictionary<string, string> PrisonerIds { get; } = new Dictionary<string, string>(); // <prisoner id, imprisonment type>
 
-	public DNA? DNA { get; set; }
+	internal DNA? DNA { get; set; }
 
 	public Imperator.Characters.Character? ImperatorCharacter { get; set; }
 
