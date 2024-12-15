@@ -724,7 +724,7 @@ public sealed class Character : IIdentifiable<string> {
 		return true;
 	}
 
-	public void ImportUnitsAsMenAtArms(
+	internal void ImportUnitsAsMenAtArms(
 		IEnumerable<Unit> countryUnits,
 		Date date,
 		UnitTypeMapper unitTypeMapper,
@@ -761,7 +761,7 @@ public sealed class Character : IIdentifiable<string> {
 
 		History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
 	}
-	public void ImportUnitsAsSpecialTroops(
+	internal void ImportUnitsAsSpecialTroops(
 		IEnumerable<Unit> countryUnits,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
 		Date date,
