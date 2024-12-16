@@ -59,7 +59,7 @@ public class CK3CharacterTests {
 		CultureMapper = new CultureMapper(IRRegionMapper, new CK3RegionMapper(), cultures);
 	}
 
-	public class CK3CharacterBuilder {
+	internal class CK3CharacterBuilder {
 		private Configuration config = new() {
 			CK3BookmarkDate = ConversionDate,
 			CK3Path = CK3Path
