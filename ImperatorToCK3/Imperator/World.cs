@@ -66,6 +66,8 @@ internal partial class World {
 	private GenesDB genesDB = new();
 	public InventionsDB InventionsDB { get; } = new();
 	public ColorFactory ColorFactory { get; } = new();
+	
+	public IReadOnlyList<Mod> UsableMods { get; private set; } = Array.Empty<Mod>();
 
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 	private SaveType saveType = SaveType.Invalid;
@@ -335,6 +337,7 @@ internal partial class World {
 			// Let's locate, verify and potentially update those mods immediately.
 			ModLoader modLoader = new();
 			modLoader.LoadMods(config.ImperatorDocPath, incomingMods);
+			UsableMods = new Mods(modLoader.UsableMods);
 			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
 
 			// Now that we have the list of mods used, we can load data from Imperator mod filesystem

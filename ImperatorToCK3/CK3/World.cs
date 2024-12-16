@@ -117,7 +117,7 @@ internal sealed class World {
 		ColorFactory ck3ColorFactory = new();
 		// Now that we have the mod filesystem, we can initialize the localization database.
 		Parallel.Invoke(
-			() => LoadCorrectProvinceMappingsFile(impWorld), // Depends on loaded mods.
+			() => LoadCorrectProvinceMappingsFile(impWorld, config), // Depends on loaded mods.
 			() => {
 				LocDB.LoadLocFromModFS(ModFS, config.GetActiveCK3ModFlags());
 				Logger.IncrementProgress();
@@ -425,14 +425,15 @@ internal sealed class World {
 		Logger.IncrementProgress();
 	}
 
-	private void LoadCorrectProvinceMappingsFile(Imperator.World imperatorWorld) {
+	private void LoadCorrectProvinceMappingsFile(Imperator.World irWorld, Configuration config) {
 		string mappingsToUse;
 		
-		bool irHasTI = imperatorWorld.Countries.Any(c => c.Variables.Contains("unification_points"));
-		bool ck3HasAEP = LoadedMods.Any(m => m.Name == "Asia Expansion Project");
-		if (irHasTI && ck3HasAEP) {
+		// Terra Indomita mappings should be used if either TI or Antiquitas is detected.
+		bool irHasTI = irWorld.Countries.Any(c => c.Variables.Contains("unification_points")) || irWorld.UsableMods.Any(m => m.Name == "Antiquitas");
+		
+		if (irHasTI && config.AsiaExpansionProjectEnabled) {
 			mappingsToUse = "terra_indomita_to_aep";
-		} else if (imperatorWorld.GlobalFlags.Contains("is_playing_invictus")) {
+		} else if (irWorld.GlobalFlags.Contains("is_playing_invictus")) {
 			mappingsToUse = "imperator_invictus";
 		} else {
 			mappingsToUse = "imperator_vanilla";
