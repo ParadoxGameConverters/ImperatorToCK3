@@ -55,3 +55,10 @@ l_english:
  BOOKMARKDATE: "CK3 bookmark date (AD, optional)"
  BOOKMARKDATETIP: "Anno Domini date of the generated CK3 bookmark, can not be earlier than the Anno Domini Imperator save date. Leave empty to default to Imperator save's current date."
  BOOKMARKDATETIP2: "Anno Domini date of the generated CK3 bookmark, can not be earlier than the Anno Domini Imperator save date. Leave empty to default to Imperator save's current date."
+
+ SKIP_DYNAMIC_COA_EXTRACTION: "Should game-generated CoA extraction be skipped?"
+ SKIP_DYNAMIC_COA_EXTRACTION_TIP: "Whether the converter should launch Imperator to automatically extract all game-generated flags."
+ SKIP_DYNAMIC_COA_EXTRACTION_0: "No"
+ SKIP_DYNAMIC_COA_EXTRACTION_0_TIP: "The converter will launch Imperator to extract all game-generated flags."
+ SKIP_DYNAMIC_COA_EXTRACTION_1: "Yes"
+ SKIP_DYNAMIC_COA_EXTRACTION_1_TIP: "The converted will not launch Imperator to extract all game-generated flags."
