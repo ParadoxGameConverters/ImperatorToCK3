@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Characters; 
 
-public sealed class PortraitData {
+internal sealed class PortraitData {
 	public PaletteCoordinates HairColorPaletteCoordinates { get; } = new();
 	public PaletteCoordinates HairColor2PaletteCoordinates { get; } = new();
 	public PaletteCoordinates SkinColorPaletteCoordinates { get; } = new();
@@ -14,9 +14,8 @@ public sealed class PortraitData {
 	public PaletteCoordinates EyeColorPaletteCoordinates { get; } = new();
 	public PaletteCoordinates EyeColor2PaletteCoordinates { get; } = new();
 
-	public IDictionary<string, AccessoryGeneData> AccessoryGenesDict { get; } =
-		new Dictionary<string, AccessoryGeneData>();
-	public IDictionary<string, MorphGeneData> MorphGenesDict { get; } = new Dictionary<string, MorphGeneData>();
+	public Dictionary<string, AccessoryGeneData> AccessoryGenesDict { get; } = [];
+	public Dictionary<string, MorphGeneData> MorphGenesDict { get; } = [];
 
 	public PortraitData(string dnaString, GenesDB genesDB, string ageSexString = "male") {
 		var decodedDnaStr = Convert.FromBase64String(dnaString);

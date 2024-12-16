@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Diplomacy;
 
-public sealed class DiplomacyDB {
+internal sealed class DiplomacyDB {
 	private readonly List<War> wars = [];
 	public IReadOnlyList<War> Wars => wars;
 	

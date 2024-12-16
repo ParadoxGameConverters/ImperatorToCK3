@@ -15,8 +15,8 @@ internal sealed class War {
 	public Date EndDate { get; }
 	public OrderedSet<string> TargetedTitles { get; } = [];
 	public string? CasusBelli { get; }
-	public IList<string> Attackers { get; } = [];
-	public IList<string> Defenders { get; } = [];
+	public List<string> Attackers { get; } = [];
+	public List<string> Defenders { get; } = [];
 	public string Claimant { get; }
 
 	public War(Imperator.Diplomacy.War irWar, Mappers.War.WarMapper warMapper, ProvinceMapper provinceMapper, Imperator.Countries.CountryCollection impCountries, StateCollection irStates, ProvinceCollection ck3Provinces, Title.LandedTitles titles, Date ck3BookmarkDate) {

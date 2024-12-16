@@ -4,8 +4,8 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.Mappers.Province;
 
 internal sealed class ProvinceMapping {
-	public IList<ulong> CK3Provinces { get; } = new List<ulong>();
-	public IList<ulong> ImperatorProvinces { get; } = new List<ulong>();
+	public List<ulong> CK3Provinces { get; } = [];
+	public List<ulong> ImperatorProvinces { get; } = [];
 
 	private static readonly Parser parser = new();
 	private static ProvinceMapping tempMapping = new();

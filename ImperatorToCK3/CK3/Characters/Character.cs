@@ -150,11 +150,11 @@ internal sealed class Character : IIdentifiable<string> {
 		}
 	}
 
-	public IList<Pregnancy> Pregnancies { get; } = new List<Pregnancy>();
+	public List<Pregnancy> Pregnancies { get; } = [];
 
-	public IDictionary<string, int> MenAtArmsStacksPerType { get; } = new Dictionary<string, int>();
+	public Dictionary<string, int> MenAtArmsStacksPerType { get; } = [];
 
-	public IDictionary<string, string> PrisonerIds { get; } = new Dictionary<string, string>(); // <prisoner id, imprisonment type>
+	public Dictionary<string, string> PrisonerIds { get; } = []; // <prisoner id, imprisonment type>
 
 	internal DNA? DNA { get; set; }
 

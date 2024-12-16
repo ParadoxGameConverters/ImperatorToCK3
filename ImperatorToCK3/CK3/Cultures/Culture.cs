@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Cultures;
 
-public sealed class Culture : IIdentifiable<string>, IPDXSerializable {
+internal sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 	public Color Color { get; }
 	public OrderedSet<string> ParentCultureIds { get; set; }

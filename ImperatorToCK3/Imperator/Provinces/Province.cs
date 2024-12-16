@@ -17,7 +17,7 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 	public State? State { get; private set; } = null;
 	public Country? OwnerCountry { get; set; }
 	public ulong Controller { get; set; } = 0;
-	public IDictionary<ulong, Pop> Pops { get; } = new Dictionary<ulong, Pop>();
+	public Dictionary<ulong, Pop> Pops { get; } = [];
 	public ProvinceRank ProvinceRank { get; set; } = ProvinceRank.settlement;
 	public bool Fort { get; set; } = false;
 	public bool IsHolySite => HolySiteId is not null;
