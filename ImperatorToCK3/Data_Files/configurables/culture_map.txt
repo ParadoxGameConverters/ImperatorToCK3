@@ -114,8 +114,10 @@ link = { ck3=somali
 ## Meroitic
 # TFE
 link = { ck3=meroitic ir=meroitic ir=alutan }
+link = { ck3=meroitic ck3=cushite } # Cushitic is from I:R Antiquitas mod.
 # vanilla CK3
 link = { ck3=nubian ir=meroitic }
+link = { ck3=nubian ir=cushite }
 # Invictus mod
 link = { ck3=nubian ir=nubian ir=lower_nubian ir=napatan ir=moyan ir=alutan }
 
@@ -428,7 +430,8 @@ link = { ck3 = german @ir_all_germanic_cultures }
 
 
 ## Hellenic
-@ir_greek_cultures = "ir=greek ir=athenian ir=peloponnesian ir=massalian ir=cyrenaican ir=bosporan ir=thessalian ir=cypriot ir=bithynian ir=ionian ir=troan ir=aeolian ir=greco_pontic ir=aegean ir=aetolian ir=euboean ir=boeotian ir=epirote ir=arcadian ir=argolian ir=parthinian ir=cretan ir=achaean ir=enetoian"
+@ir_antiquitas_greek_cultures="ir=doric ir=north_western_doric ir=attican ir=western_ionic ir=eastern_ionic ir=eteocretan ir=elean ir=kerkyran" # # Antiquitas (https://steamcommunity.com/sharedfiles/filedetails/?id=2992438857)
+@ir_greek_cultures = "ir=greek ir=athenian ir=peloponnesian ir=massalian ir=cyrenaican ir=bosporan ir=thessalian ir=cypriot ir=bithynian ir=ionian ir=troan ir=aeolian ir=greco_pontic ir=aegean ir=aetolian ir=euboean ir=boeotian ir=epirote ir=arcadian ir=argolian ir=parthinian ir=cretan ir=achaean ir=enetoian @ir_antiquitas_greek_cultures"
 # TFE
 link = { ck3 = pontic ir = greco_pontic }
 link = { ck3 = syrian ir=macedonian ir=hellenistic ir=syracusan ir=thracian @ir_greek_cultures @culture_splitting_region_N  }
