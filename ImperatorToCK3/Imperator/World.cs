@@ -36,7 +36,7 @@ using Parser = commonItems.Parser;
 
 namespace ImperatorToCK3.Imperator;
 
-public partial class World {
+internal partial class World {
 	public Date EndDate { get; private set; } = new Date("727.2.17", AUC: true);
 	private readonly IList<string> incomingModPaths = []; // List of all mods used in the save.
 	public ModFilesystem ModFS { get; private set; }
@@ -52,7 +52,7 @@ public partial class World {
 	private readonly PopCollection pops = [];
 	public ProvinceCollection Provinces { get; } = [];
 	public CountryCollection Countries { get; } = [];
-	public CoaMapper CoaMapper { get; private set; } = new();
+	internal CoaMapper CoaMapper { get; private set; } = new();
 	public MapData MapData { get; private set; }
 	public AreaCollection Areas { get; } = [];
 	public ImperatorRegionMapper ImperatorRegionMapper { get; private set; }
@@ -60,12 +60,14 @@ public partial class World {
 	public IReadOnlyCollection<War> Wars { get; private set; } = Array.Empty<War>();
 	public IReadOnlyCollection<Dependency> Dependencies { get; private set; } = Array.Empty<Dependency>();
 	public Jobs.JobsDB JobsDB { get; private set; } = new();
-	public UnitCollection Units { get; } = [];
+	internal UnitCollection Units { get; } = [];
 	public CulturesDB CulturesDB { get; } = [];
 	public ReligionCollection Religions { get; private set; }
 	private GenesDB genesDB = new();
 	public InventionsDB InventionsDB { get; } = new();
 	public ColorFactory ColorFactory { get; } = new();
+	
+	public IReadOnlyList<Mod> UsableMods { get; private set; } = Array.Empty<Mod>();
 
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 	private SaveType saveType = SaveType.Invalid;
@@ -336,6 +338,7 @@ public partial class World {
 			// Let's locate, verify and potentially update those mods immediately.
 			ModLoader modLoader = new();
 			modLoader.LoadMods(config.ImperatorDocPath, incomingMods);
+			UsableMods = new Mods(modLoader.UsableMods);
 			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
 
 			// Now that we have the list of mods used, we can load data from Imperator mod filesystem

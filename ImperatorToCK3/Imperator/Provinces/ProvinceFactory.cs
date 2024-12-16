@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Provinces;
 
-public partial class Province {
+internal partial class Province {
 	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 	static Province() {
 		provinceParser.RegisterKeyword("province_name", reader =>

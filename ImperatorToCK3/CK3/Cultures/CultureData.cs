@@ -5,8 +5,8 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Cultures;
 
-public record CultureData {
-	public IEnumerable<string> InvalidatingCultureIds { get; set; } = new List<string>();
+internal record CultureData {
+	public List<string> InvalidatingCultureIds { get; set; } = [];
 	public Color? Color { get; set; }
 	public OrderedSet<string> ParentCultureIds { get; set; } = new();
 	public Pillar? Heritage { get; set; }
@@ -14,5 +14,5 @@ public record CultureData {
 	public OrderedSet<string> TraditionIds { get; set; } = new();
 	public OrderedSet<NameList> NameLists { get; } = new();
 
-	public IList<KeyValuePair<string, StringOfItem>> Attributes { get; } = new List<KeyValuePair<string, StringOfItem>>();
+	public List<KeyValuePair<string, StringOfItem>> Attributes { get; } = [];
 }

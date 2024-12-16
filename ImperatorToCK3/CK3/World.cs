@@ -184,21 +184,15 @@ public sealed class World {
 				// Load CK3 religions from game and blankMod.
 				// Holy sites need to be loaded after landed titles.
 				Religions.LoadDoctrines(ModFS);
-				Logger.Info("Loaded CK3 doctrines.");
 				Religions.LoadConverterHolySites("configurables/converter_holy_sites.txt");
-				Logger.Info("Loaded converter holy sites.");
 				Religions.LoadHolySites(ModFS);
-				Logger.Info("Loaded CK3 holy sites.");
 				Logger.Info("Loading religions from CK3 game and mods...");
 				Religions.LoadReligions(ModFS, ck3ColorFactory);
-				Logger.Info("Loaded CK3 religions.");
 				Logger.IncrementProgress();
 				Logger.Info("Loading converter faiths...");
 				Religions.LoadConverterFaiths("configurables/converter_faiths.txt", ck3ColorFactory);
-				Logger.Info("Loaded converter faiths.");
 				Logger.IncrementProgress();
 				Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
-				Logger.Info("Loaded replaceable holy sites.");
 			},
 			
 			() => cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper, Cultures),
@@ -436,11 +430,8 @@ public sealed class World {
 		string mappingsToUse;
 		
 		bool irHasTI = imperatorWorld.Countries.Any(c => c.Variables.Contains("unification_points"));
-		bool ck3HasRajasOfAsia = LoadedMods.Any(m => m.Name == "Rajas of Asia");
 		bool ck3HasAEP = LoadedMods.Any(m => m.Name == "Asia Expansion Project");
-		if (irHasTI && ck3HasRajasOfAsia) {
-			mappingsToUse = "terra_indomita_to_rajas_of_asia";
-		} else if (irHasTI && ck3HasAEP) {
+		if (irHasTI && ck3HasAEP) {
 			mappingsToUse = "terra_indomita_to_aep";
 		} else if (imperatorWorld.GlobalFlags.Contains("is_playing_invictus")) {
 			mappingsToUse = "imperator_invictus";

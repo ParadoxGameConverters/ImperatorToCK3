@@ -8,11 +8,10 @@ using ImperatorToCK3.CommonUtils.Map;
 using Open.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Characters;
 
-public sealed class Character : IIdentifiable<ulong> {
+internal sealed class Character : IIdentifiable<ulong> {
 	public Character(ulong id) {
 		Id = id;
 	}
@@ -66,11 +65,11 @@ public sealed class Character : IIdentifiable<ulong> {
 	public bool IsDead => DeathDate is not null;
 	public string? DeathReason { get; set; }
 	private HashSet<ulong> parsedSpouseIds = [];
-	public IDictionary<ulong, Character> Spouses { get; set; } = new Dictionary<ulong, Character>();
+	public Dictionary<ulong, Character> Spouses { get; set; } = [];
 	public OrderedSet<ulong> FriendIds { get; } = [];
 	public OrderedSet<ulong> RivalIds { get; } = [];
 	private HashSet<ulong> parsedChildrenIds = [];
-	public IDictionary<ulong, Character> Children { get; set; } = new Dictionary<ulong, Character>();
+	public Dictionary<ulong, Character> Children { get; set; } = [];
 	private ulong? parsedMotherId;
 	public Character? Mother { get; set; }
 	private ulong? parsedFatherId;
@@ -89,7 +88,7 @@ public sealed class Character : IIdentifiable<ulong> {
 		}
 	}
 
-	public IList<string> Traits { get; set; } = [];
+	public List<string> Traits { get; set; } = [];
 	public CharacterAttributes Attributes { get; private set; } = new();
 	public IReadOnlySet<string> Variables { get; private set; } = ImmutableHashSet<string>.Empty;
 	public bool IsBald => Variables.Contains("bald");

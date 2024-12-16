@@ -31,7 +31,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Titles;
 
-public sealed partial class Title {
+internal sealed partial class Title {
 	private readonly LandedTitles parentCollection;
 
 	// This is a recursive class that scrapes common/landed_titles looking for title colors, landlessness,
@@ -147,7 +147,7 @@ public sealed partial class Title {
 			return newTitle;
 		}
 
-		public Title Add(
+		internal Title Add(
 			Country country,
 			Dependency? dependency,
 			CountryCollection imperatorCountries,
@@ -191,7 +191,7 @@ public sealed partial class Title {
 			return newTitle;
 		}
 
-		public Title Add(
+		internal Title Add(
 			string id,
 			Governorship governorship,
 			Country country,
@@ -340,7 +340,7 @@ public sealed partial class Title {
 			}
 		}
 
-		public void ImportImperatorCountries(
+		internal void ImportImperatorCountries(
 			CountryCollection imperatorCountries,
 			IReadOnlyCollection<Dependency> dependencies,
 			TagTitleMapper tagTitleMapper,
@@ -497,7 +497,7 @@ public sealed partial class Title {
 			}
 		}
 
-		public void ImportImperatorGovernorships(
+		internal void ImportImperatorGovernorships(
 			Imperator.World irWorld,
 			ProvinceCollection ck3Provinces,
 			TagTitleMapper tagTitleMapper,
@@ -1623,7 +1623,7 @@ public sealed partial class Title {
 			parser.ParseFile(filePath);
 		}
 
-		public void SetCoatsOfArms(CoaMapper coaMapper) {
+		internal void SetCoatsOfArms(CoaMapper coaMapper) {
 			Logger.Info("Setting coats of arms for CK3 titles...");
 			
 			int counter = 0;

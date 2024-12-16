@@ -120,6 +120,26 @@ option = {
 }
 
 option = {
+	name = SkipDynamicCoAExtraction
+	displayName = SKIP_DYNAMIC_COA_EXTRACTION
+	tooltip = SKIP_DYNAMIC_COA_EXTRACTION_TIP
+	radioSelector = {
+		radioOption = {
+			name = 0
+			displayName = SKIP_DYNAMIC_COA_EXTRACTION_0
+			tooltip = SKIP_DYNAMIC_COA_EXTRACTION_0_TIP
+			default = true
+		}
+		radioOption = {
+			name = 1
+			displayName = SKIP_DYNAMIC_COA_EXTRACTION_1
+			tooltip = SKIP_DYNAMIC_COA_EXTRACTION_1_TIP
+			default = false
+		}
+	}
+}
+
+option = {
 	name = output_name
 	displayName = MODNAME
 	tooltip = MODNAMETIP

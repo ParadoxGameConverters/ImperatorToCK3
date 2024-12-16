@@ -8,9 +8,9 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Jobs;
 
-public sealed class JobsDB {
-	public IList<Governorship> Governorships { get; } = [];
-	public IList<OfficeJob> OfficeJobs { get; } = [];
+internal sealed class JobsDB {
+	public List<Governorship> Governorships { get; } = [];
+	public List<OfficeJob> OfficeJobs { get; } = [];
 
 	public JobsDB() { }
 	public JobsDB(BufferedReader jobsReader, CharacterCollection characters, CountryCollection countries, ImperatorRegionMapper irRegionMapper) {

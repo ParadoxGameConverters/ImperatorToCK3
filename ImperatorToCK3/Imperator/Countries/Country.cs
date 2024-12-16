@@ -9,15 +9,15 @@ using System.Collections.Immutable;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
-public sealed partial class Country : IIdentifiable<ulong> {
+internal sealed partial class Country : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public bool PlayerCountry { get; set; }
 	private ulong? monarchId;  // >=0 are valid
 	public Character? Monarch { get; private set; }
 	public string? PrimaryCulture { get; private set; }
 	public string? Religion { get; private set; }
-	public IList<RulerTerm> RulerTerms { get; set; } = [];
-	public IDictionary<string, int> HistoricalRegnalNumbers { get; private set; } = new Dictionary<string, int>();
+	public List<RulerTerm> RulerTerms { get; set; } = [];
+	public Dictionary<string, int> HistoricalRegnalNumbers { get; private set; } = [];
 	public string Tag { get; private set; } = "";
 	private string? historicalTag;
 	public string HistoricalTag {
@@ -43,7 +43,7 @@ public sealed partial class Country : IIdentifiable<ulong> {
 	public Color? Color3 { get; private set; }
 	public CountryCurrencies Currencies { get; private set; } = new();
 	private readonly HashSet<ulong> parsedFamilyIds = [];
-	public IDictionary<ulong, Family> Families { get; private set; } = new Dictionary<ulong, Family>();
+	public Dictionary<ulong, Family> Families { get; private set; } = [];
 	public IReadOnlySet<string> Variables { get; private set; } = ImmutableHashSet<string>.Empty;
 	private readonly HashSet<Province> ownedProvinces = [];
 	private readonly List<bool> inventionBooleans = [];

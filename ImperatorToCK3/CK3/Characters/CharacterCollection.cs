@@ -26,8 +26,8 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Characters;
 
-public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<string, Character> {
-	public void ImportImperatorCharacters(
+internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection<string, Character> {
+	internal void ImportImperatorCharacters(
 		Imperator.World impWorld,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
@@ -622,7 +622,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		Logger.IncrementProgress();
 	}
 
-	public void ImportLegions(
+	internal void ImportLegions(
 		Title.LandedTitles titles,
 		UnitCollection imperatorUnits,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
@@ -811,7 +811,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		});
 	}
 	
-	public void ConvertImperatorCharacterDNA(DNAFactory dnaFactory) {
+	internal void ConvertImperatorCharacterDNA(DNAFactory dnaFactory) {
 		Logger.Info("Converting Imperator character DNA to CK3...");
 		foreach (var character in this) {
 			if (character.ImperatorCharacter is null) {

@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.TagTitle;
 
-public sealed class TagTitleMapper {
+internal sealed class TagTitleMapper {
 	public TagTitleMapper() { }
 	public TagTitleMapper(string tagTitleMappingsPath, string governorshipTitleMappingsPath, string rankMappingsPath) {
 		Logger.Info("Parsing title mappings...");

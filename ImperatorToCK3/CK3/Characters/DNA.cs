@@ -4,8 +4,8 @@ using System.Text;
 
 namespace ImperatorToCK3.CK3.Characters;
 
-public sealed class DNA {
-	public sealed class PaletteCoordinates {
+internal sealed class DNA {
+	internal sealed class PaletteCoordinates {
 		// hair, skin and eye color palettes are 256x256
 		public int X { get; init; } = 128;
 		public int Y { get; init; } = 128;
@@ -32,9 +32,9 @@ public sealed class DNA {
 
 	public DNA(
 		string id,
-		IDictionary<string, DNAColorGeneValue> colorDNAValues,
-		IDictionary<string, DNAGeneValue> morphDNAValues,
-		IDictionary<string, DNAAccessoryGeneValue> accessoryDNAValues
+		Dictionary<string, DNAColorGeneValue> colorDNAValues,
+		Dictionary<string, DNAGeneValue> morphDNAValues,
+		Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues
 	) {
 		Id = id;
 		this.colorDNAValues = new(colorDNAValues);

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Diplomacy;
 
-public sealed class War {
+internal sealed class War {
 	public Date StartDate { get; private set; } = new(1, 1, 1);
 	public bool Previous { get; private set; }
-	public IList<ulong> AttackerCountryIds { get; } = new List<ulong>();
-	public IList<ulong> DefenderCountryIds { get; } = new List<ulong>();
+	public List<ulong> AttackerCountryIds { get; } = [];
+	public List<ulong> DefenderCountryIds { get; } = [];
 	public string? WarGoal { get; private set; }
 	public ulong? TargetedStateId { get; private set; }
 

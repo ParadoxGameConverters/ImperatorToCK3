@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class ProvinceOutputter {
+internal static class ProvinceOutputter {
 	public static void WriteProvince(StringBuilder sb, Province province, bool isCountyCapital) {
 		// If the province is not a county capital, remove the "culture" and "faith" fields.
 		if (!isCountyCapital) {

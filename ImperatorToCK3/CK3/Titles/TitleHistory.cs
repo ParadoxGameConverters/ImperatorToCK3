@@ -2,7 +2,7 @@
 
 namespace ImperatorToCK3.CK3.Titles;
 
-public partial class Title {
+internal partial class Title {
 	public string GetHolderId(Date date) {
 		var idFromHistory = History.GetFieldValue("holder", date);
 		if (idFromHistory is not null) {

@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class WorldOutputter {
+internal static class WorldOutputter {
 	public static void OutputWorld(World ck3World, Imperator.World imperatorWorld, Configuration config) {
 		var outputName = config.OutputModName;
 		var outputPath = Path.Combine("output", config.OutputModName);
@@ -59,11 +59,15 @@ public static class WorldOutputter {
 			BookmarkOutputter.OutputBookmark(ck3World, config, ck3World.LocDB)
 		);
 
-		
+		Task.WaitAll(
+			DecisionsOutputter.TweakERERestorationDecision(ck3World.LandedTitles, ck3World.ModFS, outputPath),
 
-		if (config.LegionConversion == LegionConversion.MenAtArms) {
-			MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
-		}
+			Task.Run(() => {
+				if (config.LegionConversion == LegionConversion.MenAtArms) {
+					MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
+				}
+			})
+		);
 
 		// Localization should be output last, as it uses data written by other outputters.
 		LocalizationOutputter.OutputLocalization(outputPath, ck3World);
@@ -203,6 +207,8 @@ public static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "coat_of_arms", "coat_of_arms"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "cultures"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "culture", "pillars"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "decisions"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "decisions", "dlc_decisions"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dna_data"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasties"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "dynasty_houses"));

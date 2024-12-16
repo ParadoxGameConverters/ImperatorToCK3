@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Titles;
 
-public sealed class RulerTerm {
+internal sealed class RulerTerm {
 	public string? CharacterId { get; }
 	public Date StartDate { get; }
 	public string? Government { get; }

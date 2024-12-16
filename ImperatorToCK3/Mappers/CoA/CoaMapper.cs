@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.CoA;
 
-public sealed class CoaMapper {
+internal sealed class CoaMapper {
 	public CoaMapper() { }
 	public CoaMapper(ModFilesystem modFS) {
 		Logger.Info("Parsing CoAs...");
@@ -53,7 +53,7 @@ public sealed class CoaMapper {
 	/// <summary>
 	/// For a given collection of flag names, returns ones that don't have a defined CoA.
 	/// </summary>
-	public ISet<string> GetAllMissingFlagKeys(IEnumerable<string> flagKeys) {
+	public HashSet<string> GetAllMissingFlagKeys(IEnumerable<string> flagKeys) {
 		var existingFlagKeys = coasMap.Keys.ToHashSet();
 		return flagKeys.Where(flagKey => !existingFlagKeys.Contains(flagKey)).ToHashSet();
 	}

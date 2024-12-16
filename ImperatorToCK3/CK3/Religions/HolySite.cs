@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.CK3.Religions;
 
 [SerializationByProperties]
-public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
+internal sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 	[NonSerialized] public string Id { get; }
 	[NonSerialized] public bool IsFromConverter { get; }
 	[NonSerialized] public Title? County { get; }

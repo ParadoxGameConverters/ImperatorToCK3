@@ -14,7 +14,7 @@ using System.Linq;
 namespace ImperatorToCK3.CK3.Dynasties;
 
 [SerializationByProperties]
-public sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
+internal sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> {
 	public Dynasty(Family irFamily, CharacterCollection irCharacters, CulturesDB irCulturesDB, CultureMapper cultureMapper, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
 		FromImperator = true;
 		Id = $"dynn_irtock3_{irFamily.Id}";

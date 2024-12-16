@@ -34,7 +34,7 @@ using System.Threading.Tasks;
 namespace ImperatorToCK3.CK3.Titles;
 
 [SerializationByProperties]
-public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
+internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public override string ToString() {
 		return Id;
 	}
@@ -174,7 +174,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			vassal.DeJureLiege = this;
 		}
 	}
-	public void InitializeFromTag(
+	internal void InitializeFromTag(
 		Country country,
 		Dependency? dependency,
 		CountryCollection imperatorCountries,
@@ -721,9 +721,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return lastDate ?? new Date(1, 1, 1);
 	}
 
-	public ISet<string> GetAllHolderIds() {
+	public HashSet<string> GetAllHolderIds() {
 		if (!History.Fields.TryGetValue("holder", out var holderField)) {
-			return new HashSet<string>();
+			return [];
 		}
 
 		var ids = new HashSet<string>();
@@ -980,10 +980,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	private readonly TitleCollection deJureVassals = [];
 	[SerializeOnlyValue] public IReadOnlyTitleCollection DeJureVassals => deJureVassals; // DIRECT de jure vassals
-	public IDictionary<string, Title> GetDeJureVassalsAndBelow() {
+	public Dictionary<string, Title> GetDeJureVassalsAndBelow() {
 		return GetDeJureVassalsAndBelow("bcdke");
 	}
-	public IDictionary<string, Title> GetDeJureVassalsAndBelow(string rankFilter) {
+	public Dictionary<string, Title> GetDeJureVassalsAndBelow(string rankFilter) {
 		var rankFilterAsArray = rankFilter.ToCharArray();
 		Dictionary<string, Title> deJureVassalsAndBelow = new();
 		foreach (var vassalTitle in DeJureVassals) {
@@ -1003,14 +1003,14 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		return deJureVassalsAndBelow;
 	}
-	public IDictionary<string, Title> GetDeFactoVassals(Date date) { // DIRECT de facto vassals
+	public Dictionary<string, Title> GetDeFactoVassals(Date date) { // DIRECT de facto vassals
 		return parentCollection.Where(t => t.GetDeFactoLiege(date)?.Id == Id)
 			.ToDictionary(t => t.Id, t => t);
 	}
-	public IDictionary<string, Title> GetDeFactoVassalsAndBelow(Date date) {
+	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date) {
 		return GetDeFactoVassalsAndBelow(date, "bcdke");
 	}
-	public IDictionary<string, Title> GetDeFactoVassalsAndBelow(Date date, string rankFilter) {
+	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date, string rankFilter) {
 		var rankFilterAsArray = rankFilter.ToCharArray();
 		Dictionary<string, Title> deFactoVassalsAndBelow = new();
 		foreach (var (vassalTitleName, vassalTitle) in GetDeFactoVassals(date)) {
@@ -1052,9 +1052,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("always_follows_primary_heir")] public bool? AlwaysFollowsPrimaryHeir { get; set; }
 	[SerializedName("de_jure_drift_disabled")] public bool? DeJureDriftDisabled { get; set; }
 	[SerializedName("can_be_named_after_dynasty")] public bool? CanBeNamedAfterDynasty { get; set; }
-	[SerializedName("male_names")] public IList<string>? MaleNames { get; private set; }
+	[SerializedName("male_names")] public List<string>? MaleNames { get; private set; }
 	// <culture, loc key>
-	[SerializedName("cultural_names")] public IDictionary<string, string>? CulturalNames { get; private set; }
+	[SerializedName("cultural_names")] public Dictionary<string, string>? CulturalNames { get; private set; }
 
 	public int? GetOwnOrInheritedDevelopmentLevel(Date date) {
 		var ownDev = GetDevelopmentLevel(date);
@@ -1196,7 +1196,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		await writer.WriteAsync(sb);
 	}
 
-	public ISet<ulong> GetProvincesInCountry(Date date) {
+	public HashSet<ulong> GetProvincesInCountry(Date date) {
 		var holderId = GetHolderId(date);
 		var heldCounties = new List<Title>(
 			parentCollection.Where(t => t.GetHolderId(date) == holderId && t.Rank == TitleRank.county)

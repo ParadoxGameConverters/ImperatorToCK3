@@ -23,7 +23,7 @@ using System.Text;
 
 namespace ImperatorToCK3.CK3.Characters; 
 
-public sealed class Character : IIdentifiable<string> {
+internal sealed class Character : IIdentifiable<string> {
 	public string Id { get; }
 	public bool FromImperator { get; init; } = false;
 	
@@ -150,13 +150,13 @@ public sealed class Character : IIdentifiable<string> {
 		}
 	}
 
-	public IList<Pregnancy> Pregnancies { get; } = new List<Pregnancy>();
+	public List<Pregnancy> Pregnancies { get; } = [];
 
-	public IDictionary<string, int> MenAtArmsStacksPerType { get; } = new Dictionary<string, int>();
+	public Dictionary<string, int> MenAtArmsStacksPerType { get; } = [];
 
-	public IDictionary<string, string> PrisonerIds { get; } = new Dictionary<string, string>(); // <prisoner id, imprisonment type>
+	public Dictionary<string, string> PrisonerIds { get; } = []; // <prisoner id, imprisonment type>
 
-	public DNA? DNA { get; set; }
+	internal DNA? DNA { get; set; }
 
 	public Imperator.Characters.Character? ImperatorCharacter { get; set; }
 
@@ -359,7 +359,7 @@ public sealed class Character : IIdentifiable<string> {
 		}
 	}
 
-	public Character(
+	internal Character(
 		Imperator.Characters.Character impCharacter,
 		CharacterCollection characters,
 		ReligionMapper religionMapper,
@@ -728,7 +728,7 @@ public sealed class Character : IIdentifiable<string> {
 		return true;
 	}
 
-	public void ImportUnitsAsMenAtArms(
+	internal void ImportUnitsAsMenAtArms(
 		IEnumerable<Unit> countryUnits,
 		Date date,
 		UnitTypeMapper unitTypeMapper,
@@ -765,7 +765,7 @@ public sealed class Character : IIdentifiable<string> {
 
 		History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
 	}
-	public void ImportUnitsAsSpecialTroops(
+	internal void ImportUnitsAsSpecialTroops(
 		IEnumerable<Unit> countryUnits,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
 		Date date,

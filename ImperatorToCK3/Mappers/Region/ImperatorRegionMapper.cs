@@ -7,7 +7,7 @@ using ImperatorToCK3.Imperator.Geography;
 
 namespace ImperatorToCK3.Mappers.Region;
 
-public sealed class ImperatorRegionMapper(AreaCollection areaCollection, MapData irMapData) {
+internal sealed class ImperatorRegionMapper(AreaCollection areaCollection, MapData irMapData) {
 	public IdObjectCollection<string, ImperatorRegion> Regions { get; } = [];
 
 	public void LoadRegions(ModFilesystem imperatorModFS, ColorFactory colorFactory) {

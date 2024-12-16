@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ImperatorToCK3.CK3.Religions;
 
-public sealed class Religion : IIdentifiable<string>, IPDXSerializable {
+internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 	public OrderedSet<string> DoctrineIds { get; } = new();
 
