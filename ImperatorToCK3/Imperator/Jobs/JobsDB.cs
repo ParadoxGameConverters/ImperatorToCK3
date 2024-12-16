@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Jobs;
 
-public sealed class JobsDB {
+internal sealed class JobsDB {
 	public IList<Governorship> Governorships { get; } = [];
 	public IList<OfficeJob> OfficeJobs { get; } = [];
 

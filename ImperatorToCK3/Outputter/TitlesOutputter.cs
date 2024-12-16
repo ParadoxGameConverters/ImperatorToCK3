@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
-public static class TitlesOutputter {
+internal static class TitlesOutputter {
 	private static async Task OutputTitlesHistory(string outputModPath, Title.LandedTitles titles) {
 		//output title history
 		var alreadyOutputtedTitles = new HashSet<string>();

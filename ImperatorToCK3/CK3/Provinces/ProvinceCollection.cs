@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Provinces;
 
-public sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
+internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	public ProvinceCollection() { }
 	public ProvinceCollection(ModFilesystem ck3ModFs) {
 		LoadProvincesHistory(ck3ModFs);

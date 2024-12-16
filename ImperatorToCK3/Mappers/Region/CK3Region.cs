@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Region;
 
-public sealed class CK3Region {
+internal sealed class CK3Region {
 	public string Name { get; }
 	private readonly HashSet<string> parsedRegionIds = new();
 	public Dictionary<string, CK3Region> Regions { get; } = new();

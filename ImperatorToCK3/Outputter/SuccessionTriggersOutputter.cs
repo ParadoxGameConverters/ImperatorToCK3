@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class SuccessionTriggersOutputter {
+internal static class SuccessionTriggersOutputter {
 	public static async Task OutputSuccessionTriggers(string outputModPath, Title.LandedTitles landedTitles, Date ck3BookmarkDate) {
 		Logger.Info("Writing Succession Triggers...");
 

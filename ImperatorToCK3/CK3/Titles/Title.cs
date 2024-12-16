@@ -34,7 +34,7 @@ using System.Threading.Tasks;
 namespace ImperatorToCK3.CK3.Titles;
 
 [SerializationByProperties]
-public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
+internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public override string ToString() {
 		return Id;
 	}

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Families;
 
-public sealed class Family : IIdentifiable<ulong> {
+internal sealed class Family : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public string Key { get; private set; } = "";
 	public string Culture { get; private set; } = "";

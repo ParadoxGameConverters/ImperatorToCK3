@@ -5,7 +5,7 @@ using System.Text;
 using Character = ImperatorToCK3.CK3.Characters.Character;
 
 namespace ImperatorToCK3.Outputter;
-public static class CharacterOutputter {
+internal static class CharacterOutputter {
 	public static void WriteCharacter(StringBuilder sb, Character character, Date conversionDate, Date ck3BookmarkDate) {
 		// Output ID.
 		sb.AppendLine($"{character.Id}={{");

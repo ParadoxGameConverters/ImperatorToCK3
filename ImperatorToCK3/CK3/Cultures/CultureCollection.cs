@@ -16,7 +16,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Cultures;
 
-public class CultureCollection : IdObjectCollection<string, Culture> {
+internal class CultureCollection : IdObjectCollection<string, Culture> {
 	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection, OrderedDictionary<string, bool> ck3ModFlags) {
 		this.PillarCollection = pillarCollection;
 		InitCultureDataParser(colorFactory, ck3ModFlags);

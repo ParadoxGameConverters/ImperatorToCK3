@@ -12,7 +12,7 @@ using System.Text;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class MenAtArmsOutputter {
+internal static class MenAtArmsOutputter {
 	private static void OutputHiddenEvent(string outputModName, IEnumerable<Character> charactersWithMaa) {
 		var sb = new StringBuilder();
 		

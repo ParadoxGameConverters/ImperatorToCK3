@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 
 namespace ImperatorToCK3.Outputter;
-public static class LocalizationOutputter {
+internal static class LocalizationOutputter {
 	public static void OutputLocalization(string outputModPath, World ck3World) {
 		Logger.Info("Writing Localization...");
 		var baseLocDir = Path.Join(outputModPath, "localization");

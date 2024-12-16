@@ -31,7 +31,6 @@ using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
 using ImperatorToCK3.Outputter;
 using log4net.Core;
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -41,7 +40,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3;
 
-public sealed class World {
+internal sealed class World {
 	public OrderedSet<Mod> LoadedMods { get; }
 	public ModFilesystem ModFS { get; }
 	public CK3LocDB LocDB { get; } = [];

@@ -8,11 +8,10 @@ using ImperatorToCK3.CommonUtils.Map;
 using Open.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Characters;
 
-public sealed class Character : IIdentifiable<ulong> {
+internal sealed class Character : IIdentifiable<ulong> {
 	public Character(ulong id) {
 		Id = id;
 	}

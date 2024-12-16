@@ -76,7 +76,7 @@ public class CK3CharacterTests {
 		private ProvinceMapper provinceMapper = new();
 		private DeathReasonMapper deathReasonMapper = new();
 
-		public Character Build() {
+		internal Character Build() {
 			IRRegionMapper.LoadRegions(IRModFS, new ColorFactory());
 			
 			var character = new Character(
@@ -98,19 +98,19 @@ public class CK3CharacterTests {
 			);
 			return character;
 		}
-		public CK3CharacterBuilder WithImperatorCharacter(ImperatorToCK3.Imperator.Characters.Character imperatorCharacter) {
+		internal CK3CharacterBuilder WithImperatorCharacter(ImperatorToCK3.Imperator.Characters.Character imperatorCharacter) {
 			this.imperatorCharacter = imperatorCharacter;
 			return this;
 		}
-		public CK3CharacterBuilder WithCharacterCollection(CharacterCollection characters) {
+		internal CK3CharacterBuilder WithCharacterCollection(CharacterCollection characters) {
 			this.characters = characters;
 			return this;
 		}
-		public CK3CharacterBuilder WithReligionMapper(ReligionMapper religionMapper) {
+		internal CK3CharacterBuilder WithReligionMapper(ReligionMapper religionMapper) {
 			this.religionMapper = religionMapper;
 			return this;
 		}
-		public CK3CharacterBuilder WithCultureMapper(CultureMapper cultureMapper) {
+		internal CK3CharacterBuilder WithCultureMapper(CultureMapper cultureMapper) {
 			this.cultureMapper = cultureMapper;
 			return this;
 		}
@@ -512,7 +512,7 @@ public class CK3CharacterTests {
 		landedCharacter.Father = fatherOfLandedCharacter;
 		childlessRelative.Father = fatherOfLandedCharacter;
 
-		var dynasty = new ImperatorToCK3.CK3.Dynasties.Dynasty(irFamily, irCharacters, new CulturesDB(), CultureMapper, new LocDB("english"), new TestCK3LocDB(), ConversionDate);
+		var dynasty = new Dynasty(irFamily, irCharacters, new CulturesDB(), CultureMapper, new LocDB("english"), new TestCK3LocDB(), ConversionDate);
 		var dynasties = new DynastyCollection { dynasty };
 		Assert.Equal(dynasty.Id, landedCharacter.GetDynastyId(ConversionDate));
 		Assert.Equal(dynasty.Id, fatherOfLandedCharacter.GetDynastyId(ConversionDate));
@@ -520,9 +520,9 @@ public class CK3CharacterTests {
 
 		ck3Characters.PurgeUnneededCharacters(titles, dynasties, new HouseCollection(), ConversionDate);
 
-		ck3Characters.Should().BeEquivalentTo(new[] {
+		ck3Characters.Should().BeEquivalentTo([
+			fatherOfLandedCharacter,
 			landedCharacter,
-			fatherOfLandedCharacter
-		});
+		]);
 	}
 }

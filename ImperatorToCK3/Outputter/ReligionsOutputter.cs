@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class ReligionsOutputter {
+internal static class ReligionsOutputter {
 	public static async Task OutputReligionsAndHolySites(string outputModPath, ReligionCollection ck3ReligionCollection, CK3LocDB ck3LocDB) {
 		await Task.WhenAll(
 			OutputHolySites(outputModPath, ck3ReligionCollection, ck3LocDB),

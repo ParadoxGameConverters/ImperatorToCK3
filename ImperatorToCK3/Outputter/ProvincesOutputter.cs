@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class ProvincesOutputter {
+internal static class ProvincesOutputter {
 	public static async Task OutputProvinces(
 		string outputModPath,
 		ProvinceCollection provinces,
