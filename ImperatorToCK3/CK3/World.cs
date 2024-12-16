@@ -31,7 +31,6 @@ using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
 using ImperatorToCK3.Outputter;
 using log4net.Core;
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -41,7 +40,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3;
 
-public sealed class World {
+internal sealed class World {
 	public OrderedSet<Mod> LoadedMods { get; }
 	public ModFilesystem ModFS { get; }
 	public CK3LocDB LocDB { get; } = [];
@@ -57,7 +56,7 @@ public sealed class World {
 	public ReligionCollection Religions { get; }
 	public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes { get; } = new();
 	public MapData MapData { get; private set; } = null!;
-	public IList<Wars.War> Wars { get; } = new List<Wars.War>();
+	public List<Wars.War> Wars { get; } = [];
 	public LegendSeedCollection LegendSeeds { get; } = [];
 	internal CoaMapper CK3CoaMapper { get; private set; } = null!;
 	private readonly List<string> enabledDlcFlags = [];

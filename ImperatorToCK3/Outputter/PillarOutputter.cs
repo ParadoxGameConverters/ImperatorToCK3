@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class PillarOutputter {
+internal static class PillarOutputter {
 	public static async Task OutputPillars(string outputPath, PillarCollection pillars) {
 		Logger.Info("Outputting pillars...");
 

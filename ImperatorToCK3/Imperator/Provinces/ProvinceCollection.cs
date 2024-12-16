@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Provinces;
 
-public sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
+internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	public void LoadProvinces(BufferedReader provincesReader, StateCollection states, CountryCollection countries) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {

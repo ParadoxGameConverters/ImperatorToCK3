@@ -31,7 +31,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Titles;
 
-public sealed partial class Title {
+internal sealed partial class Title {
 	private readonly LandedTitles parentCollection;
 
 	// This is a recursive class that scrapes common/landed_titles looking for title colors, landlessness,

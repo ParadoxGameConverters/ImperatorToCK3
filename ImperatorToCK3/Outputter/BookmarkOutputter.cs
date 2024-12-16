@@ -19,7 +19,7 @@ using Color = SixLabors.ImageSharp.Color;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class BookmarkOutputter {
+internal static class BookmarkOutputter {
 	public static async Task OutputBookmark(World world, Configuration config, CK3LocDB ck3LocDB) {
 		Logger.Info("Creating bookmark...");
 

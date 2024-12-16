@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class WorldOutputter {
+internal static class WorldOutputter {
 	public static void OutputWorld(World ck3World, Imperator.World imperatorWorld, Configuration config) {
 		var outputName = config.OutputModName;
 		var outputPath = Path.Combine("output", config.OutputModName);

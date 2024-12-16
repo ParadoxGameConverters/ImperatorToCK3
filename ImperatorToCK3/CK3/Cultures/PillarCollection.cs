@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Cultures; 
 
-public sealed class PillarCollection : IdObjectCollection<string, Pillar> {
+internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 	private readonly Dictionary<string, string> mergedPillarsDict = [];
 
 	public PillarCollection(ColorFactory colorFactory, OrderedDictionary<string, bool> ck3ModFlags) {

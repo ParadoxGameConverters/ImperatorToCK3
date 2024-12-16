@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Geography;
 
-public sealed class AreaCollection : IdObjectCollection<string, Area> {
+internal sealed class AreaCollection : IdObjectCollection<string, Area> {
 	public void LoadAreas(ModFilesystem imperatorModFS, ProvinceCollection provinceCollection) {
 		Logger.Info("Loading Imperator areas...");
 

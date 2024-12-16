@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class CulturesOutputter {
+internal static class CulturesOutputter {
 	public static async Task OutputCultures(string outputModPath, CultureCollection cultures, ModFilesystem ck3ModFS, Configuration config, Date date) {
 		Logger.Info("Outputting cultures...");
 

@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 
 namespace ImperatorToCK3.CommonUtils.Map;
 
-public sealed class MapData {
+internal sealed class MapData {
 	[StructLayout(LayoutKind.Auto)]
 	private struct Point(int x, int y) : IEquatable<Point> {
 		public int X { get; set; } = x;

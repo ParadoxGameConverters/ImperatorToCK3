@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class CharactersOutputter {
+internal static class CharactersOutputter {
 	public static async Task OutputEverything(string outputPath, CharacterCollection characters, Date conversionDate, Date ck3BookmarkDate, ModFilesystem ck3ModFS) {
 		await Task.WhenAll(
 			OutputCharacters(outputPath, characters, conversionDate, ck3BookmarkDate, ck3ModFS),

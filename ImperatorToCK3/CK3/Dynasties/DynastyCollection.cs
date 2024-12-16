@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Dynasties;
 
-public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dynasty> {
+internal sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dynasty> {
 	public void ImportImperatorFamilies(Imperator.World irWorld, CultureMapper cultureMapper, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
 		Logger.Info("Importing Imperator families...");
 

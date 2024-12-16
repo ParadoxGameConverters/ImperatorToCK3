@@ -36,7 +36,7 @@ using Parser = commonItems.Parser;
 
 namespace ImperatorToCK3.Imperator;
 
-public partial class World {
+internal partial class World {
 	public Date EndDate { get; private set; } = new Date("727.2.17", AUC: true);
 	private readonly IList<string> incomingModPaths = []; // List of all mods used in the save.
 	public ModFilesystem ModFS { get; private set; }

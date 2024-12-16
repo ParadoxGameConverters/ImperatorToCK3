@@ -5,7 +5,7 @@ using System.Linq;
 namespace ImperatorToCK3.Mappers.Province;
 
 internal sealed class ProvinceMappingsVersion {
-	public IList<ProvinceMapping> Mappings { get; } = [];
+	public List<ProvinceMapping> Mappings { get; } = [];
 	public ProvinceMappingsVersion() { }
 	public ProvinceMappingsVersion(BufferedReader reader) {
 		var referencedImperatorProvs = new HashSet<ulong>();

@@ -8,8 +8,8 @@ using System.IO;
 
 namespace ImperatorToCK3.CommonUtils.Map;
 
-public sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDefinition> {
-	public IDictionary<Rgb24, ulong> ColorToProvinceDict { get; } = new Dictionary<Rgb24, ulong>();
+internal sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDefinition> {
+	public Dictionary<Rgb24, ulong> ColorToProvinceDict { get; } = [];
 	public Dictionary<ulong, Rgb24> ProvinceToColorDict { get; } = [];
 
 	public void LoadDefinitions(string definitionsFilename, ModFilesystem modFS) {
