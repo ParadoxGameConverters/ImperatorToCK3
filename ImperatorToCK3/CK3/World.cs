@@ -31,7 +31,6 @@ using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
 using ImperatorToCK3.Outputter;
 using log4net.Core;
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -41,7 +40,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3;
 
-public sealed class World {
+internal sealed class World {
 	public OrderedSet<Mod> LoadedMods { get; }
 	public ModFilesystem ModFS { get; }
 	public CK3LocDB LocDB { get; } = [];
@@ -57,9 +56,9 @@ public sealed class World {
 	public ReligionCollection Religions { get; }
 	public IdObjectCollection<string, MenAtArmsType> MenAtArmsTypes { get; } = new();
 	public MapData MapData { get; private set; } = null!;
-	public IList<Wars.War> Wars { get; } = new List<Wars.War>();
+	public List<Wars.War> Wars { get; } = [];
 	public LegendSeedCollection LegendSeeds { get; } = [];
-	public CoaMapper CK3CoaMapper { get; private set; } = null!;
+	internal CoaMapper CK3CoaMapper { get; private set; } = null!;
 	private readonly List<string> enabledDlcFlags = [];
 
 	/// <summary>
@@ -118,7 +117,7 @@ public sealed class World {
 		ColorFactory ck3ColorFactory = new();
 		// Now that we have the mod filesystem, we can initialize the localization database.
 		Parallel.Invoke(
-			() => LoadCorrectProvinceMappingsFile(impWorld), // Depends on loaded mods.
+			() => LoadCorrectProvinceMappingsFile(impWorld, config), // Depends on loaded mods.
 			() => {
 				LocDB.LoadLocFromModFS(ModFS, config.GetActiveCK3ModFlags());
 				Logger.IncrementProgress();
@@ -184,15 +183,21 @@ public sealed class World {
 				// Load CK3 religions from game and blankMod.
 				// Holy sites need to be loaded after landed titles.
 				Religions.LoadDoctrines(ModFS);
+				Logger.Info("Loaded CK3 doctrines.");
 				Religions.LoadConverterHolySites("configurables/converter_holy_sites.txt");
+				Logger.Info("Loaded converter holy sites.");
 				Religions.LoadHolySites(ModFS);
+				Logger.Info("Loaded CK3 holy sites.");
 				Logger.Info("Loading religions from CK3 game and mods...");
 				Religions.LoadReligions(ModFS, ck3ColorFactory);
+				Logger.Info("Loaded CK3 religions.");
 				Logger.IncrementProgress();
 				Logger.Info("Loading converter faiths...");
 				Religions.LoadConverterFaiths("configurables/converter_faiths.txt", ck3ColorFactory);
+				Logger.Info("Loaded converter faiths.");
 				Logger.IncrementProgress();
 				Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
+				Logger.Info("Loaded replaceable holy sites.");
 			},
 			
 			() => cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper, Cultures),
@@ -426,14 +431,19 @@ public sealed class World {
 		Logger.IncrementProgress();
 	}
 
-	private void LoadCorrectProvinceMappingsFile(Imperator.World imperatorWorld) {
-		string mappingsToUse;
+	private void LoadCorrectProvinceMappingsFile(Imperator.World irWorld, Configuration config) {		
+		// Terra Indomita mappings should be used if either TI or Antiquitas is detected.
+		bool irHasTI = irWorld.Countries.Any(c => c.Variables.Contains("unification_points")) || irWorld.UsableMods.Any(m => m.Name == "Antiquitas");
 		
-		bool irHasTI = imperatorWorld.Countries.Any(c => c.Variables.Contains("unification_points"));
-		bool ck3HasAEP = LoadedMods.Any(m => m.Name == "Asia Expansion Project");
-		if (irHasTI && ck3HasAEP) {
+		bool ck3HasRajasOfAsia = config.AsiaExpansionProjectEnabled;
+		bool ck3HasAEP = config.AsiaExpansionProjectEnabled;
+
+		string mappingsToUse;
+		if (irHasTI && ck3HasRajasOfAsia) {
+			mappingsToUse = "terra_indomita_to_rajas_of_asia";
+		} else if (irHasTI && ck3HasAEP) {
 			mappingsToUse = "terra_indomita_to_aep";
-		} else if (imperatorWorld.GlobalFlags.Contains("is_playing_invictus")) {
+		} else if (irWorld.GlobalFlags.Contains("is_playing_invictus")) {
 			mappingsToUse = "imperator_invictus";
 		} else {
 			mappingsToUse = "imperator_vanilla";
