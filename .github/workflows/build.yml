@@ -22,7 +22,8 @@ jobs:
       if: matrix.os == 'Windows'
       run: dotnet --list-sdks
     - name: "Setup Dotnet for use with actions"
-      if: ${{ !contains(toJSON(matrix.os), 'self-hosted') }}
+      # don't run on self-hosted Windows
+      if: ${{ !contains(toJSON(matrix.os), 'self-hosted') && matrix.os != 'windows' }}
       uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
