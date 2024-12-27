@@ -19,6 +19,7 @@ jobs:
       with:
         submodules: recursive
     - name: "List installed dotnet SDKs"
+      if: runner.os == 'Windows'
       run: dotnet --list-sdks
     - name: "Setup Dotnet for use with actions"
       uses: actions/setup-dotnet@v4
