@@ -170,14 +170,16 @@ public class ProvinceTests {
 			" = { province_rank=city_metropolis holy_site=69 fort=yes }",
 			" = { province_rank=city_metropolis fort=yes }",
 			" = { province_rank=city_metropolis }",
+			" = { province_rank=settlement fort=yes}",
 			" = { province_rank=settlement }",
 		});
 		ck3Provinces = GetCK3ProvincesForIRGovernment(irProvinces, "tribal_federation");
 		holdingTypes = ck3Provinces.Select(p => p.GetHoldingType(ck3BookmarkDate));
 		holdingTypes.Should().Equal(
 			"church_holding",
-			"castle_holding",
+			"city_holding", // For non-capital baronies of tribal realms, forts are not converted to castles.
 			"city_holding",
+			"none", // For non-capital baronies of tribal realms, forts are not converted to castles.
 			"none"
 		);
 	}
