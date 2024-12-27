@@ -339,7 +339,7 @@ link = { ck3 = breton @ir_breton_cultures }
 ## North Germanic (Norse)
 @ir_norse_cultures = "ir=raumarician ir=suiones ir=scandian ir=norwegian ir=swedish ir=danish"
 
-@ir_all_germanic_cultures = "ir=saxon @ir_vandilian_cultures @ir_all_west_germanic_cultures @ir_norse_cultures" # saxon comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+@ir_all_germanic_cultures = "ir=saxon ir=indo_germanic @ir_vandilian_cultures @ir_all_west_germanic_cultures @ir_norse_cultures" # indo_germanic comes from Invictus, saxon comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 
 # Finnish is restored because we overwrite Finland and Lapponia through I:R input...
