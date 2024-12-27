@@ -22,6 +22,7 @@ jobs:
       if: runner.os == 'Windows'
       run: dotnet --list-sdks
     - name: "Setup Dotnet for use with actions"
+      if: matrix.os != 'self-hosted'
       uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json
