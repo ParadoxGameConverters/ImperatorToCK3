@@ -19,7 +19,7 @@ jobs:
       with:
         submodules: recursive
     - name: "List installed dotnet SDKs"
-      if: runner.os == 'Windows'
+      if: ${{ !contains(toJSON(matrix.os), 'self-hosted') }}
       run: dotnet --list-sdks
     - name: "Setup Dotnet for use with actions"
       if: matrix.os != 'self-hosted'
