@@ -18,7 +18,6 @@
 link = { ir = CRT ck3 = k_krete rank = k }
 link = { ir = KNO ck3 = k_krete rank = k }
 link = { ir = EPI ck3 = k_epirus rank = k }
-link = { ir = BYZ ck3 = e_byzantium rank = e }
 
 # Asia Minor
 
