@@ -31,10 +31,10 @@ jobs:
         ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator"
         ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator\mod"
         ls "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"
-    - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v4
-      with:
-        global-json-file: global.json
+    # - name: "Setup Dotnet for use with actions"
+    #   uses: actions/setup-dotnet@v4
+    #   with:
+    #     global-json-file: global.json
     - name: "Build converter backend"
       working-directory: ImperatorToCK3
       run: |
