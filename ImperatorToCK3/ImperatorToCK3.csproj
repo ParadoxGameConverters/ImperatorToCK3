@@ -37,7 +37,7 @@
         <PackageReference Include="CWTools" Version="0.5.0-alpha" />
         <PackageReference Include="DotLiquid" Version="2.3.0" />
         <PackageReference Include="FSharp.Core" Version="9.0.100" /> <!-- Needed for CWTools -->
-        <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.2.0"/>
+        <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.3.0"/>
         <PackageReference Include="Meziantou.Analyzer" Version="2.0.184">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
