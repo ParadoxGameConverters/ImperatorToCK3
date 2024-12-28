@@ -258,7 +258,7 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 			} => "church_holding",
 			{
 				IsCountyCapital: false,
-				GovernmentType: GovernmentType.monarchy or GovernmentType.tribal,
+				GovernmentType: GovernmentType.monarchy,
 				Fort: true
 			} => "castle_holding",
 			{

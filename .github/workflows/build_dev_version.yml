@@ -55,7 +55,8 @@ jobs:
     - name: "Setup Dotnet for use with actions"
       uses: actions/setup-dotnet@v4
       with:
-        global-json-file: Fronter.NET/global.json
+        #global-json-file: Fronter.NET/global.json
+        global-json-file: global.json
     - name: "Replace frontend background image"
       run: |
         rm Fronter.NET/Fronter.NET/Assets/Images/background.png
@@ -70,10 +71,10 @@ jobs:
         BACKBLAZE_KEY_ID: ${{ secrets.BACKBLAZE_KEY_ID }}
         BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
         BACKBLAZE_BUCKET_ID: ${{ secrets.BACKBLAZE_BUCKET_ID }}
-    - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v4
-      with:
-        global-json-file: global.json
+    # - name: Setup Dotnet for use with actions
+    #   uses: actions/setup-dotnet@v4
+    #   with:
+    #     global-json-file: global.json
     - name: "Build backend"
       working-directory: ImperatorToCK3
       # Make sure it builds self-contained, because for the dev build we're not building the InnoSetup installer.
