@@ -1,0 +1,39 @@
+"common/on_action/government_assignment_on_actions.txt" = {
+    # Disable assignment of Nomadic government on game start.
+    {
+			if = {
+				limit = {
+					has_government = tribal_government
+					exists = capital_county
+					culture = { has_cultural_tradition = tradition_horse_lords }
+					NOR = {
+						culture = culture:tuyuhun
+						culture = culture:alan
+						culture = culture:shatuo
+						AND = {
+							top_liege.primary_title = title:k_hungary
+							game_start_date > 907.1.1
+						}
+					}
+				}
+				change_government = nomadic_government
+			}
+			if = {
+				limit = {
+					exists = capital_county
+					OR = {
+						has_government = tribal_government
+						has_government = feudal_government
+					}
+					OR = {
+						culture = culture:uyghur
+						culture = culture:kirghiz
+					}
+				}
+				if = {
+					limit = { game_start_date < 877.1.1 }
+					change_government = nomadic_government
+				}
+			}
+	}
+}
