@@ -664,6 +664,7 @@ hellenistic = {
 		tradition_xenophilic
 		tradition_culture_blending
 		tradition_warrior_culture
+		tradition_ep3_imperial_tagmata # Due to the importance Alexander put on his military and how regarded it was.
 	}
 
 	ethnicities = {
