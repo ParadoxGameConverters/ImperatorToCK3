@@ -662,6 +662,8 @@ hellenistic = {
 	traditions = {
 		tradition_swords_for_hire
 		tradition_xenophilic
+		tradition_culture_blending
+		tradition_warrior_culture
 	}
 
 	ethnicities = {
