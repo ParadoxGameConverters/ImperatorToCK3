@@ -13,20 +13,23 @@
 
 # OpenCppCoverageStuff
 *.log
-ImperatorToCK3/.opencppcov/
-ImperatorToCK3Tests/.opencppcov/
+/ImperatorToCK3/.opencppcov/
+/ImperatorToCK3Tests/.opencppcov/
 
 # Output folders
-Release/
-ReleaseIntermediate/
-Release-Linux/
-Debug/
-DebugIntermediate/
-ImperatorToCK3.UnitTests/obj/
-ImperatorToCK3/obj/
-Publish/
-Output/
+/Release/
+/ReleaseIntermediate/
+/Release-Linux/
+/Debug/
+/DebugIntermediate/
+/ImperatorToCK3.UnitTests/bin/
+/ImperatorToCK3.UnitTests/obj/
+/ImperatorToCK3/obj/
+/Publish/
+/Output/
 
+DocsGenerator/bin/
+DocsGenerator/obj/
 
 log.txt
 *.user
