@@ -24,8 +24,8 @@ Debug/
 DebugIntermediate/
 ImperatorToCK3.UnitTests/obj/
 ImperatorToCK3/obj/
-Publish/
-Output/
+/Publish/
+/Output/
 
 
 log.txt
