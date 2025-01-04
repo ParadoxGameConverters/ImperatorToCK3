@@ -1,0 +1,150 @@
+﻿# Form Bosporan Kingdom 
+form_bosporan_kingdom_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/event_scenes/ep3_medi_estate.dds"
+	}
+	decision_group_type = major
+	sort_order = 50
+
+	is_shown = {
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_bosporan_kingdom
+			}
+		}
+		culture = {
+			OR = {
+				has_cultural_pillar = heritage_central_germanic
+				has_cultural_pillar = heritage_byzantine
+			}
+		}
+		highest_held_title_tier <= tier_kingdom
+		any_held_title = {
+			OR = {
+				de_jure_liege = title:d_crimea
+				de_jure_liege = title:d_azov
+				this = title:d_crimea
+				this = title:d_azov
+			}
+		}
+		# IRToCK3: "Added this just making sure the kingdom doesn't have a holder or de jure land" ~~tanner918
+		title:k_bosporan_kingdom = {
+			AND = {
+				NOT = { exists = holder }
+				any_de_jure_county = {
+					count < 1
+				}
+			}
+		}
+	}
+
+	is_valid = {
+		completely_controls = title:d_crimea
+		completely_controls = title:d_azov
+		is_independent_ruler = yes
+		prestige_level >= 3
+	}
+	
+	is_valid_showing_failures_only = {
+		is_landed = yes
+	}
+
+	effect = {
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:flag_bosporan_kingdom
+		}
+
+		house = {
+			add_house_modifier = {
+				modifier = bp3_bosporan_kingdom_modifier
+				years = 100
+			}
+		}
+
+		custom_tooltip = unlocks_black_sea_naval_conquest
+
+		hidden_effect = {
+			title:k_bosporan_kingdom = { set_de_jure_liege_title = title:d_crimea.empire }
+		}
+
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = title_change
+			add_claim_on_loss = yes
+		}
+		title:k_bosporan_kingdom = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+
+		add_character_modifier = bp3_conqueror_black_sea_modifier
+		
+		title:d_crimea = { set_de_jure_liege_title = title:k_bosporan_kingdom }
+		title:d_azov = { set_de_jure_liege_title = title:k_bosporan_kingdom }
+		# Additional DeJures
+		adjust_de_jure_effect = {
+			TITLE = title:d_bugeac
+			DE_JURE = title:k_bosporan_kingdom
+		}
+		adjust_de_jure_effect = {
+			TITLE = title:d_yedisan
+			DE_JURE = title:k_bosporan_kingdom
+		}
+		adjust_de_jure_effect = {
+			TITLE = title:d_levedia
+			DE_JURE = title:k_bosporan_kingdom
+		}
+		adjust_de_jure_effect = {
+			TITLE = title:d_don_valley
+			DE_JURE = title:k_bosporan_kingdom
+		}
+		
+		if = {
+			limit = {
+				province:5330 = {
+					has_holding_type = castle_holding
+				}
+				province:5277 = {
+					has_holding = no
+				}
+			}
+			province:5277 = {
+				begin_create_holding = castle_holding
+			}
+		}		
+	}
+
+	cost = {
+		gold = {
+			value = 250
+		}
+		prestige = {
+			value = 2000
+		}
+	}
+
+	ai_check_interval = 1000
+
+	ai_potential = {
+		is_ruler = yes
+		short_term_gold >= {
+			value = major_gold_value
+			multiply = 1.5
+			round = yes
+		}
+		prestige >= {
+			value = major_prestige_gain
+			multiply = 3
+			round = yes
+		}
+	}
+
+	ai_will_do = {
+		base = 80
+	}
+}
