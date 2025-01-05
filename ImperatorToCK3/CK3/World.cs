@@ -243,6 +243,9 @@ internal sealed class World {
                 		Logger.Warn($"No base mapping found for I:R culture {cultureStr}!");
                 	}
                 }
+			},
+			() => { // depends on TraitMapper and CK3 characters being loaded
+				Characters.RemoveUndefinedTraits(traitMapper);
 			}
 		);
 		

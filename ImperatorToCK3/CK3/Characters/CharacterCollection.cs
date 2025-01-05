@@ -824,4 +824,23 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			}
 		}
 	}
+
+	public void RemoveUndefinedTraits(TraitMapper traitMapper) {
+		Logger.Info("Removing undefined traits from CK3 character history...");
+
+		var definedTraits = traitMapper.ValidCK3TraitIDs.ToHashSet();
+		
+		foreach (var character in this) {
+			if (character.FromImperator) {
+				continue;
+			}
+			
+			var traitsField = character.History.Fields["traits"];
+			int removedCount = traitsField.InitialEntries.RemoveAll(
+				kvp => !definedTraits.Contains(kvp.Value.ToString() ?? string.Empty));
+			if (removedCount > 0) {
+				Logger.Debug($"Removed {removedCount} undefined traits from character {character.Id}.");
+			}
+		}
+	}
 }
