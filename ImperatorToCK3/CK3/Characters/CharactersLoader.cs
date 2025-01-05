@@ -33,7 +33,7 @@ internal sealed partial class CharacterCollection {
 			"set_relation_ward", "set_relation_mentor",
 			"add_opinion", "make_concubine",
 		];
-		string[] fieldsToClear = ["friends", "best_friends", "lovers", "rivals", "nemesis", "primary_title"];
+		string[] fieldsToClear = ["friends", "best_friends", "lovers", "rivals", "nemesis", "primary_title", "dna"];
 
 		foreach (var character in loadedCharacters) {
 			// Remove post-bookmark history except for births and deaths.
