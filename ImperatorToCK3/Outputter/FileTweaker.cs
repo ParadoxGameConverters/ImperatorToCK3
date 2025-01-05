@@ -32,6 +32,11 @@ public static class FileTweaker {
 			Logger.Info("Reading unneeded parts of Fallen Eagle files...");
 			ReadPartsOfFileToRemove(partsToRemovePerFile, "configurables/removable_file_blocks_tfe.txt", warnIfNotFound: true);
 		}
+
+		if (config.RajasOfAsiaEnabled) {
+			Logger.Info("Reading unneeded parts of Rajas of Asia files...");
+			ReadPartsOfFileToRemove(partsToRemovePerFile, "configurables/removable_file_blocks_roa.txt", warnIfNotFound: true);
+		}
 		
 		await RemovePartsOfFiles(partsToRemovePerFile, ck3ModFS, outputModPath);
 	}
