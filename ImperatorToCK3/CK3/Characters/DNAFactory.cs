@@ -177,7 +177,6 @@ internal sealed class DNAFactory {
 					Logger.Warn($"{blindfoldGeneId} not found in CK3 special accessory genes!");
 					break;
 				}
-				
 				if (!blindfoldGene.GeneTemplates.TryGetValue(blindfoldTemplateId, out var blindfoldTemplate)) {
 					Logger.Warn($"{blindfoldTemplateId} not found in CK3 special accessory genes!");
 					break;
@@ -221,9 +220,7 @@ internal sealed class DNAFactory {
 				Logger.Warn($"{blindfoldGeneId} not found in CK3 special accessory genes!");
 			} else if (!blindfoldGene.GeneTemplates.TryGetValue(blindfoldTemplateId, out var blindfoldTemplate)) {
 				Logger.Warn($"{blindfoldTemplateId} not found in CK3 special accessory genes!");
-			} else
-
-			if (blindfoldTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? blindfoldWeighBlock)) {
+			} else if (blindfoldTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? blindfoldWeighBlock)) {
 				var blindfoldObjectName = blindfoldWeighBlock.GetMatchingObject(1) ?? blindfoldWeighBlock.ObjectNames.Last();
 				accessoryDNAValues[blindfoldGeneId] = new(blindfoldTemplate.Id, blindfoldObjectName, blindfoldWeighBlock); // TODO: check if this is correctly added to portrait modifiers if needed
 			}
