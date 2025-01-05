@@ -156,6 +156,8 @@ internal sealed class DNAFactory {
 		}
 		
 		// Convert eye accessories.
+		const string blindfoldGeneId = "special_headgear_blindfold";
+		const string blindfoldTemplateId = "blindfold";
 		var irEyeAccessoryGeneTemplateName = irPortraitData.AccessoryGenesDict["eye_accessory"].GeneTemplate;
 		switch (irEyeAccessoryGeneTemplateName) {
 			case "normal_eyes":
@@ -171,11 +173,18 @@ internal sealed class DNAFactory {
 
 				break;
 			case "blindfold_1": // TODO: check if this is correctly added to portrait modifiers if needed
-				var blindfoldTemplate = ck3GenesDB.SpecialAccessoryGenes["special_headgear_blindfold"]
-					.GeneTemplates["blindfold"];
+				if (!ck3GenesDB.SpecialAccessoryGenes.TryGetValue(blindfoldGeneId, out var blindfoldGene)) {
+					Logger.Warn($"{blindfoldGeneId} not found in CK3 special accessory genes!");
+					break;
+				}
+				if (!blindfoldGene.GeneTemplates.TryGetValue(blindfoldTemplateId, out var blindfoldTemplate)) {
+					Logger.Warn($"{blindfoldTemplateId} not found in CK3 special accessory genes!");
+					break;
+				}
+				
 				if (blindfoldTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? blindfoldWeightBlock)) {
 					var blindfoldObjectName = blindfoldWeightBlock.GetMatchingObject(1) ?? blindfoldWeightBlock.ObjectNames.Last();
-					accessoryDNAValues["special_headgear_blindfold"] = new(blindfoldTemplate.Id, blindfoldObjectName, blindfoldWeightBlock);
+					accessoryDNAValues[blindfoldGeneId] = new(blindfoldTemplate.Id, blindfoldObjectName, blindfoldWeightBlock);
 				}
 
 				break;
@@ -206,12 +215,14 @@ internal sealed class DNAFactory {
 				var blindEyesObjectName = blindEyesWeighBlock.GetMatchingObject(1) ?? blindEyesWeighBlock.ObjectNames.Last();
 				accessoryDNAValues["eye_accessory"] = new(blindEyesTemplate.Id, blindEyesObjectName, blindEyesWeighBlock); // TODO: check if this is correctly added to portrait modifiers if needed
 			}
-
-			var blindfoldTemplate = ck3GenesDB.SpecialAccessoryGenes["special_headgear_blindfold"]
-				.GeneTemplates["blindfold"];
-			if (blindfoldTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? blindfoldWeighBlock)) {
+			
+			if (!ck3GenesDB.SpecialAccessoryGenes.TryGetValue(blindfoldGeneId, out var blindfoldGene)) {
+				Logger.Warn($"{blindfoldGeneId} not found in CK3 special accessory genes!");
+			} else if (!blindfoldGene.GeneTemplates.TryGetValue(blindfoldTemplateId, out var blindfoldTemplate)) {
+				Logger.Warn($"{blindfoldTemplateId} not found in CK3 special accessory genes!");
+			} else if (blindfoldTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? blindfoldWeighBlock)) {
 				var blindfoldObjectName = blindfoldWeighBlock.GetMatchingObject(1) ?? blindfoldWeighBlock.ObjectNames.Last();
-				accessoryDNAValues["special_headgear_blindfold"] = new(blindfoldTemplate.Id, blindfoldObjectName, blindfoldWeighBlock); // TODO: check if this is correctly added to portrait modifiers if needed
+				accessoryDNAValues[blindfoldGeneId] = new(blindfoldTemplate.Id, blindfoldObjectName, blindfoldWeighBlock); // TODO: check if this is correctly added to portrait modifiers if needed
 			}
 		} else if (irCharacter.Traits.Contains("one_eyed")) {
 			var eyePatchTemplate = ck3GenesDB.SpecialAccessoryGenes["special_headgear_eye_patch"]
