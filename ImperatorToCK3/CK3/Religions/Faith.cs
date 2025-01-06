@@ -24,6 +24,13 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		DoctrineIds = faithData.DoctrineIds.ToOrderedSet();
 		holySiteIds = faithData.HolySiteIds.ToOrderedSet();
 		attributes = [.. faithData.Attributes];
+
+		// Fixup for issue found in TFE: add reformed_icon if faith has unreformed_faith_doctrine.
+		if (DoctrineIds.Contains("unreformed_faith_doctrine") && !attributes.Any(pair => pair.Key == "reformed_icon")) {
+			// Use the icon attribute.
+			var icon = attributes.FirstOrDefault(pair => pair.Key == "icon");
+			attributes = [.. attributes, new KeyValuePair<string, StringOfItem>("reformed_icon", icon.Value)];
+		}
 	}
 
 	private readonly OrderedSet<string> holySiteIds;
