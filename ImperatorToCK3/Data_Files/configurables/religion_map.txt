@@ -59,6 +59,16 @@ link = { ck3=pagan ir=nuragic_pantheon } # TODO: https://github.com/ParadoxGameC
 link = { ck3 = pagan ir = pagan }
 link = { ck3 = kushitism_pagan ir = kushite }
 
+# Iranian Mithraism (mithra_religion in Invictus)
+# https://en.wikipedia.org/wiki/Mithra
+# TFE
+link = { ck3 = kitebacilweism ir = mithra_religion }
+# vanilla CK3
+link = {  # TODO: Change this mapping for non-TFE conversions. The Zoroastrian cult of Mithra is not the same as the Roman Mithraic Mysteries.
+    ck3 = mithraic_mysteries
+    ir = mithra_religion
+}
+
 # Arabic
 link = { ck3 = aksumite_pagan ir = arabian_pantheon irRegion = punt_region } # TFE
 link = { # TFE
@@ -75,10 +85,6 @@ link = { ck3 = arabic_pagan ir = arabian_pantheon }
 # Hellenic - TFE
 link = { ck3 = roman_pagan ir = italic_pantheon }
 # Hellenic - Vanilla CK3
-link = {  # TODO: Change this mapping. The Zoroastrian cult of Mithra is not the same as the Roman Mithraic Mysteries.
-    ck3 = mithraic_mysteries
-    ir = mithra_religion # from Invictus
-}
 link = { ck3 = eleusinian_mysteries ir = roman_pantheon irRegion = thrace_region } # https://en.wikipedia.org/wiki/Eleusinian_Mysteries
 link = {
     ck3 = celto_hellenic_syncretism
