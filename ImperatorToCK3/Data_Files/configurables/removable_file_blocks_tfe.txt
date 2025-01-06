@@ -2271,6 +2271,33 @@
 	}
 }
 
+"common/on_action/east_asia_flavor_on_actions.txt" = {
+	{
+on_game_start = {
+	on_actions = {
+		on_TFE_east_asia_start
+	}
+}
+
+on_TFE_east_asia_start = {
+	effect = {
+		character:western_liang_043 ?= {
+			if = {
+				limit = {
+					is_alive = yes
+					is_landed = yes
+				}
+				trigger_event = {
+					id = liang.0012
+					days = { 365 2190 }
+				}
+			}
+		}
+	}
+}
+	}
+}
+
 "common/scripted_triggers/tfe_culture_triggers.txt" = {
 	{
 		dynasty = dynasty:nuvelan
@@ -2374,11 +2401,875 @@
                 this = character:214 #king_philippe
             }
 	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:easteregg_elisabeth_gangenes
+                this = character:easteregg_elisabeth_gangenes
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+				exists = character:7757 #duchess_matilda
+				this = character:7757 #duchess_matilda
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:102505 #queen_ingebjorg
+                this = character:102505 #queen_ingebjorg
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:765 #princess_swietoslawa
+                this = character:765 #princess_swietoslawa
+            }
+            modifier = {
+               	add = 999
+                exists = this
+                exists = character:930551279 #eudoxia
+                this = character:930551279 #eudoxia
+            }
+            modifier = {
+               	add = 999
+                exists = this
+                exists = character:placidia_01 #placidia
+                this = character:placidia_01 #placidia
+            }
+            modifier = {
+               	add = 999
+                exists = this
+                exists = character:900065 #serena
+                this = character:900065 #serena
+            }
+		modifier = {
+			add = 999
+                	exists = this
+                	exists = character:992020 #Amalasuntha
+                	this = character:992020 #Amalasuntha
+		}
+ 		modifier = {
+			add = 999
+                	exists = this
+                	exists = character:992024 #Matasuntha
+                	this = character:992024 #Matasuntha
+		}
+	}
 }
 
 "common\casus_belli_types\TFE_event_wars.txt" = {
 	{
+independence_war_vandal = {
+	icon = independence_faction_war
+	group = event
+	ai = no # AI targeting is handled through game_rule events.
+
+	allow_hostages = no
+	allowed_against_character = {
+		OR = {
+			scope:attacker = {
+				liege = scope:defender
+			}
+			scope:attacker = {
+				top_liege = scope:defender
+			}
+		}
+	}
+
+	cost = {
+		piety = {
+			value = 0
+		}
+		prestige = {
+			value = 0
+		}
+	}
+
+	on_declaration = {
+		on_declared_war = yes
+		# Remove offending HumSac modifiers.
+		scope:attacker = {
+			hidden_effect = { fp1_remove_humsac_offended_counties_effect = yes }
+		}
+		war = {
+			every_war_attacker = {
+				if = {
+					limit = { 
+						OR = {
+							liege = title:k_africae.holder
+							AND = {
+								liege = {
+									liege = scope:defender
+								}
+								NOT = {
+									faith = liege.faith
+								}
+							}
+						}
+					}
+					add_character_flag = should_become_independent
+				}
+			}
+		}
+	}
+
+	on_victory_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { # Desc for only one player attacker
+					scope:attacker = {
+						is_local_player = yes
+					}
+				}
+				desc = independence_war_victory_desc_local_player_attacker_alone
+			}
+			triggered_desc = { # Desc for only one attacker, player defender
+				trigger = {
+					scope:defender = {
+						is_local_player = yes
+					}
+				}
+				desc = player_independence_war_victory_desc_local_player_defender_attacker_alone
+			}
+			desc = independence_war_victory_desc_local_player_attacker_alone # Desc for a third party involved
+		}
+
+	}
+
+	on_victory = {
+		scope:attacker = { show_pow_release_message_effect = yes }
+
+		#EP2 Accolade glory gain from winning against higher ranked enemy
+		scope:attacker = { accolade_attacker_war_end_glory_gain_med_effect = yes }
+
+		create_title_and_vassal_change = {
+			type = independency
+			save_scope_as = change
+		}
+		if = {
+			# Free character with the flag
+			limit = { exists = war }
+			war = {
+				every_war_attacker = {
+					if = {
+						limit = { has_character_flag = should_become_independent }
+
+						create_title_and_vassal_change = {
+							type = independency
+							save_scope_as = going_independent
+							add_claim_on_loss = no
+						}
+						becomes_independent = {
+							change = scope:going_independent
+						}
+
+						resolve_title_and_vassal_change = scope:going_independent
+
+						add_truce_both_ways = {
+							character = scope:defender
+							days = 1825
+							war = root.war
+							result = victory
+						}
+
+						remove_character_flag = should_become_independent
+
+						change_liege_or_become_independent = {
+							CHANGE = scope:change
+							VASSAL = this
+						}
+
+						hidden_effect = {
+							set_variable = {
+								name = independence_war_former_liege
+								value = scope:defender
+							}
+
+							save_scope_as = current_member
+
+							# Struggle Catalyst
+							if = {
+								limit = {
+									catalyst_gave_independence_to_powerful_diff_faith_culture_vassal_preliminary_trigger = {
+										CHAR1 = scope:defender
+										CHAR2 = scope:current_member
+									}
+									any_character_struggle = {
+										involvement = involved
+										activate_struggle_catalyst_secondary_character_involvement_involved_trigger = {
+											CATALYST = catalyst_gave_independence_to_powerful_diff_faith_culture_vassal
+											CHAR = scope:current_member
+										}
+									}
+								}
+								every_character_struggle = {
+									involvement = involved
+									limit = {
+										activate_struggle_catalyst_secondary_character_involvement_either_trigger = {
+											CATALYST = catalyst_gave_independence_to_powerful_diff_faith_culture_vassal
+											CHAR = scope:current_member
+										}
+									}
+									activate_struggle_catalyst = {
+										catalyst = catalyst_gave_independence_to_powerful_diff_faith_culture_vassal
+										character = scope:defender
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		scope:defender = {
+			# Struggle Catalyst
+			hidden_effect = {
+				if = {
+					limit = {
+						catalyst_gave_independence_to_powerful_diff_faith_culture_vassal_preliminary_trigger = {
+							CHAR1 = scope:defender
+							CHAR2 = scope:attacker
+						}
+						any_character_struggle = {
+							involvement = involved
+							activate_struggle_catalyst_secondary_character_involvement_involved_trigger = {
+								CATALYST = catalyst_gave_independence_to_powerful_diff_faith_culture_vassal
+								CHAR = scope:attacker
+							}
+						}
+					}
+					every_character_struggle = {
+						involvement = involved
+						limit = {
+							activate_struggle_catalyst_secondary_character_involvement_either_trigger = {
+								CATALYST = catalyst_gave_independence_to_powerful_diff_faith_culture_vassal
+								CHAR = scope:attacker
+							}
+						}
+						activate_struggle_catalyst = {
+								catalyst = catalyst_gave_independence_to_powerful_diff_faith_culture_vassal
+								character = scope:defender
+							}
+					}
+				}
+			}
+		}
+
+		resolve_title_and_vassal_change = scope:change
+
+	}
+
+	on_white_peace_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = player_independence_war_white_peace_defender_desc
+			}
+			triggered_desc = {
+				trigger = {
+					scope:attacker = {
+						is_local_player = yes
+					}
+				}
+				desc = player_independence_war_white_peace_attacker_desc
+			}
+			desc = player_independence_war_white_peace_desc
+		}
+
+	}
+
+	on_white_peace = {
+		scope:attacker = {
+			show_pow_release_message_effect = yes
+			stress_impact = {
+ 				ambitious = medium_stress_impact_gain
+ 				arrogant = medium_stress_impact_gain
+ 			}
+		}
+		hidden_effect = {
+			scope:attacker = {
+				add_truce_both_ways = {
+					character = scope:defender
+					days = 1825
+					war = root.war
+					result = white_peace
+				}
+			}
+		}
+
+		scope:defender = {
+			add_prestige = minor_prestige_value
+			stress_impact = {
+ 				arrogant = medium_stress_impact_gain
+ 			}
+		}
+	}
+
+	on_defeat_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = player_independence_defeat_defender_desc
+			}
+			triggered_desc = {
+				trigger = {
+					scope:attacker = {
+						is_local_player = yes
+					}
+				}
+				desc = player_independence_defeat_attacker_desc
+			}
+			desc = player_independence_war_defeat_desc
+		}
+
+	}
+
+	on_defeat = {
+		scope:attacker = { show_pow_release_message_effect = yes }
+		scope:defender = {
+			add_dread = medium_dread_gain
+			# Prestige for Defender
+			add_prestige_war_defender_effect = {
+				PRESTIGE_VALUE = medium_prestige_value
+			}
+		}
+
+		if = {
+			# Free character with the flag
+			limit = { exists = war }
+			war = {
+				every_war_attacker = {
+					save_scope_as = expelled_vandal
+					if = {
+						limit = { 
+							has_character_flag = should_become_independent 
 							NOT = { THIS = character:vandals_012 }
+						}
+						hard_imprison_character_effect = {
+							TARGET = this
+							IMPRISONER = scope:defender
+						}
+						scope:defender = {
+							add_opinion = {
+								target = prev
+								modifier = vassal_lost_faction_revolt_war
+							}
+						}
+					}
+					if = {
+						limit = {
+							THIS = character:vandals_012
+							title:c_cappadocia.holder = {
+								is_ai = yes
+							}
+						}
+						title:c_cappadocia = {
+							save_temporary_scope_as = current_county
+						}
+						create_title_and_vassal_change = {
+							type = usurped
+							save_scope_as = change
+							add_claim_on_loss = no
+						}
+						scope:current_county = {
+							change_title_holder = {
+								holder = character:vandals_012
+								change = scope:change
+								take_baronies = yes
+							}
+						}
+						resolve_title_and_vassal_change = scope:change
+
+						every_vassal = {
+							add_to_list = vassals_to_defect
+						}
+
+						every_held_title = {
+							limit = {
+								NOT = { this = title:c_cappadocia }
+							}
+							add_to_list = titles_to_usurp
+						}		
+
+						create_title_and_vassal_change = {
+							type = usurped
+							save_scope_as = title_change
+								add_claim_on_loss = no
+						}
+						every_in_list = {
+							list = titles_to_usurp
+							change_title_holder = {
+								holder = title:k_africae.holder
+								change = scope:title_change
+								take_baronies = no
+							}
+						}
+						every_in_list = {
+							list = vassals_to_defect
+							change_liege = {
+								liege = title:k_africae.holder
+								change = scope:title_change
+							}
+						}
+						change_liege = {
+							liege = title:k_africae.holder.top_liege
+							change = scope:title_change
+						}
+						resolve_title_and_vassal_change = scope:title_change
+						character:vandals_012 = {
+							add_character_modifier = {
+								modifier = peaceful_retirement
+							}
+							add_trait = content
+							change_government = imperial_government
+						}
+					}
+					else_if = {
+						limit = {
+							THIS = character:vandals_012
+						}
+						title:c_lower_galatia = {
+							save_temporary_scope_as = current_county
+						}
+						create_title_and_vassal_change = {
+							type = usurped
+							save_scope_as = change
+							add_claim_on_loss = no
+						}
+						scope:current_county = {
+							change_title_holder = {
+								holder = character:vandals_012
+								change = scope:change
+								take_baronies = yes
+							}
+						}
+						resolve_title_and_vassal_change = scope:change
+
+						every_vassal = {
+							add_to_list = vassals_to_defect
+						}
+
+						every_held_title = {
+							limit = {
+								NOT = { this = title:c_lower_galatia }
+							}
+							add_to_list = titles_to_usurp
+						}			
+	
+						create_title_and_vassal_change = {
+							type = usurped
+							save_scope_as = title_change
+								add_claim_on_loss = no
+						}
+						every_in_list = {
+							list = titles_to_usurp
+							change_title_holder = {
+								holder = title:k_africae.holder
+								change = scope:title_change
+								take_baronies = no
+							}
+						}
+						every_in_list = {
+							list = vassals_to_defect
+							change_liege = {
+								liege = title:k_africae.holder
+								change = scope:title_change
+							}
+						}
+						change_liege = {
+							liege = title:k_africae.holder.top_liege
+							change = scope:title_change
+						}
+						resolve_title_and_vassal_change = scope:title_change
+						character:vandals_012 = {
+							add_character_modifier = {
+								modifier = peaceful_retirement
+							}
+							add_trait = content
+							change_government = imperial_government
+						}
+					}
+					if = {
+						limit = {
+							liege = title:k_africae.holder
+							NOT = { THIS = character:vandals_012 }
+						}
+						save_scope_as = vandal_expel
+						scope:defender.top_liege = {
+							random_sub_realm_county = {
+								limit = {
+									kingdom = title:k_orientis
+									holder = { 
+										is_ai = yes
+										realm_size > 1
+										NOT = { 
+											OR = {
+												THIS = primary_title.title_capital_county
+												THIS = primary_title.title_capital_county.de_jure_liege
+											}
+										}
+									}
+									NOT = {
+										is_in_list = vandal_titles_to_usurp
+									}
+								}
+								save_scope_as = county_expel
+								add_to_list = vandal_titles_to_usurp
+
+								#create_title_and_vassal_change = {
+								#	type = usurped
+								#	save_scope_as = change
+								#	add_claim_on_loss = no
+								#}
+								#scope:county_expel = {
+								#	change_title_holder = {
+								#		holder = scope:expelled_vandal
+								#		change = scope:change
+								#		take_baronies = yes
+								#	}
+								#}
+								#resolve_title_and_vassal_change = scope:change
+							}
+							scope:vandal_expel = {
+								every_vassal = {
+									add_to_list = vassals_to_defect
+								}
+
+								every_held_title = {
+									limit = {
+										NOT = { this = scope:county_expel }
+									}
+									add_to_list = titles_to_usurp
+								}			
+	
+								create_title_and_vassal_change = {
+									type = usurped
+									save_scope_as = title_change
+									add_claim_on_loss = no
+								}
+								every_in_list = {
+									list = titles_to_usurp
+									change_title_holder = {
+										holder = title:k_africae.holder
+										change = scope:title_change
+										take_baronies = no
+									}
+								}
+								every_in_list = {
+									list = vassals_to_defect
+									change_liege = {
+										liege = title:k_africae.holder
+										change = scope:title_change
+									}
+								}
+								change_liege = {
+									liege = title:k_africae.holder.top_liege
+									change = scope:title_change
+								}
+								resolve_title_and_vassal_change = scope:title_change
+							}
+							if = {
+								limit = {
+									scope:vandal_expel = {
+										is_landed = no
+									}
+									character:vandals_012 = {
+										is_alive = yes
+										is_landed = yes
+									}
+								}
+								character:vandals_012 = {
+									add_courtier = scope:vandal_expel
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:vandal
+			SIZE = small
+			COUNTY = title:c_upper_khabur
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:vandal
+			SIZE = small
+			COUNTY = title:c_amida
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:vandal
+			SIZE = small
+			COUNTY = title:c_tall_basma
+		}
+	}
+
+	on_invalidated_desc = msg_invalidate_war_title
+
+	check_defender_inheritance_validity = no
+
+	on_primary_attacker_death = inherit
+	on_primary_defender_death = inherit
+
+	attacker_allies_inherit = yes
+	defender_allies_inherit = yes
+
+	transfer_behavior = transfer
+
+	war_name = "INDEPENDENCE_WAR_NAME"
+
+	interface_priority = 120
+
+	attacker_wargoal_percentage = 0.8
+
+	max_attacker_score_from_battles = 100
+	max_defender_score_from_battles = 50
+	
+	max_defender_score_from_occupation = 150
+	max_attacker_score_from_occupation = 150
+
+	max_ai_diplo_distance_to_title = 500
+}
+	}
+	{
+radagaisus_invasion_cb = {
+	group = event
+
+	allowed_for_character = {
+	}
+
+	allowed_against_character = {
+		scope:attacker = {
+			ALL_FALSE = {
+				top_liege = scope:defender.top_liege
+				liege = scope:defender
+			}
+		}
+	}
+
+	combine_into_one = yes
+
+	target_titles = none
+	target_title_tier = all
+	target_de_jure_regions_above = yes
+	ignore_effect = change_title_holder
+	ai_only_against_neighbors = yes
+	defender_ticking_warscore_delay = { years = 2 }
+
+	white_peace_possible = no
+
+	valid_to_start = {
+		always = no
+	}
+
+	should_invalidate = {
+		NOT = {
+			any_in_list = {
+				list = target_titles
+				any_in_de_jure_hierarchy = {
+					tier = tier_county
+					holder = {
+						OR = {
+							this = scope:defender
+							target_is_liege_or_above = scope:defender
+						}
+					}
+				}
+			}
+		}
+	}
+
+	on_invalidated_desc = msg_religious_war_invalidation_region_message
+
+	on_invalidated = {
+	}
+
+	cost = {
+	}
+
+	on_declaration = {
+		on_declared_war = yes
+	}
+
+	on_victory_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = radagaisus_invasion_victory_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = radagaisus_invasion_victory_desc_defender
+			}
+			desc = radagaisus_invasion_victory_desc
+		}
+	}
+
+	on_victory = {
+        #EP2 accolade glory gain for winning against higher ranked enemy
+		scope:attacker = { accolade_attacker_war_end_glory_gain_high_effect = yes }
+		scope:attacker = { show_pow_release_message_effect = yes }
+		scope:defender = {
+			trigger_event = {
+				id = gothic_wars.0014
+				days = 1
+			}
+		}
+
+		create_title_and_vassal_change = {
+			type = conquest_holy_war
+			save_scope_as = change
+			add_claim_on_loss = yes
+		}
+		# go through the dejure hierarchy under target titles, transfer titles with same or worse tolerance holders (their religion equaly or less tolerated than the defender's),
+		# take the holder as vassal otherwise and don't go deeper
+		every_in_list = {
+			list = target_titles
+			custom_tooltip = RELIGIOUS_CB_TITLE
+
+			conquest_cb_title_transfer = {
+				RELIGIOUS_WAR = yes
+			}
+		}
+
+		every_in_list = {
+			list = vassals_taken
+			change_liege = {
+				liege = scope:attacker
+				change = scope:change
+			}
+		}
+		
+		every_in_list = {
+			list = titles_taken
+			change_title_holder = {
+				holder = scope:attacker
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+
+		resolve_title_and_vassal_change = scope:change
+
+		# Prestige Progress for the Attacker
+		every_in_list = {
+			list = target_titles
+			scope:attacker = {
+				add_prestige_experience = medium_prestige_value
+			}
+		}
+
+		# Allies on both sides get full prestige value for helping in the war, based on their war participation.
+		modify_allies_of_participants_fame_values = {
+			WINNER = scope:attacker
+			FAME_BASE = medium_prestige_value
+			IS_RELIGIOUS_WAR = no
+			WINNER_ALLY_FAME_SCALE = 1
+			LOSER_ALLY_FAME_SCALE = 1
+		}
+
+		# Truce
+		add_truce_attacker_victory_effect = yes
+
+		# FP1: note the victory for future memorialisation via stele (if applicable)
+		scope:attacker = { fp1_remember_recent_conquest_victory_effect = yes }
+	}
+
+	on_white_peace_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = radagaisus_invasion_white_peace_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = radagaisus_invasion_white_peace_desc_defender
+			}
+			desc = radagaisus_invasion_white_peace_desc
+		}
+	}
+
+	on_defeat_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = radagaisus_invasion_defeat_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = radagaisus_invasion_defeat_desc_defender
+			}
+			desc = radagaisus_invasion_defeat_desc
+		}
+	}
+
+	on_defeat = {
+        #EP2 accolade glory gain for winning against higher ranked enemy
+		scope:defender = { accolade_attacker_war_end_glory_gain_high_effect = yes }
+		scope:attacker = { show_pow_release_message_effect = yes }
+
+		if = {
+			limit = {
+				exists = title:k_visigoths.holder
+			}
+			goths_flee_effect = yes
+		}
+
+		# Prestige loss for the attacker
+		scope:attacker = {
+			save_temporary_scope_as = loser
+			pay_short_term_gold_reparations_effect = {
+				GOLD_VALUE = 5
+			}
+			add_prestige = {
+				value = major_prestige_value
+				multiply = -1.0
+			}
+		}
+
+		# Prestige for Defender
+		scope:defender = {
+			add_prestige_war_defender_effect = {
+				PRESTIGE_VALUE = major_prestige_value
+			}
+		}
+
+		# Allies on both sides get full prestige value for helping in the war, based on their war participation.
+		modify_allies_of_participants_fame_values = {
+			WINNER = scope:defender
+			FAME_BASE = medium_prestige_value
+			IS_RELIGIOUS_WAR = no
+			WINNER_ALLY_FAME_SCALE = 1
+			LOSER_ALLY_FAME_SCALE = 1
+		}
+
+		lost_radagaisus_invasion_effect = yes
+
+		add_truce_attacker_defeat_effect = yes
+		on_lost_aggression_war_discontent_loss = yes
+	}
+
+	transfer_behavior = transfer
+
+	on_primary_attacker_death = inherit
+	on_primary_defender_death = inherit
+
+	attacker_allies_inherit = yes
+	defender_allies_inherit = yes
+
+	war_name = RADAGAISUS_INVASION_NAME
+	war_name_base = RADAGAISUS_INVASION_NAME_BASE
+	cb_name = RADAGAISUS_INVASION_CB_NAME
+
+	use_de_jure_wargoal_only = yes
+	
+	interface_priority = 100
+}
 	}
 	{
 			if = {
@@ -2389,6 +3280,497 @@
 				}
 				add_courtier = character:armenian_02
 			}
+	}
+}
+
+"common\casus_belli_types\TFE_event_wars_overflow.txt" = {
+	{
+independence_war_berber = {
+	icon = independence_faction_war
+	group = event
+	ai = no # AI targeting is handled through game_rule events.
+
+	allow_hostages = no
+	allowed_against_character = {
+		OR = {
+			scope:attacker = {
+				liege = scope:defender
+			}
+			scope:attacker = {
+				top_liege = scope:defender
+			}
+		}
+	}
+
+	cost = {
+		piety = {
+			value = 0
+		}
+		prestige = {
+			value = 0
+		}
+	}
+
+	on_declaration = {
+		on_declared_war = yes
+		# Remove offending HumSac modifiers.
+		scope:attacker = {
+			spawn_army = {
+				name = "Berber Tribesmen"
+				levies = 1000
+				men_at_arms = {
+					type = bowmen
+					stacks = 2
+				}
+				men_at_arms = {
+					type = desert_hussar
+					stacks = 2
+				}
+				men_at_arms = {
+					type = light_footmen
+					stacks = 2
+				}
+				location = province:4601 #Nemancha
+				inheritable = no
+				uses_supply = no
+				war = scope:war
+			}
+		}
+		scope:attacker = {
+			hidden_effect = { fp1_remove_humsac_offended_counties_effect = yes }
+		}
+		war = {
+			every_war_attacker = {
+				if = {
+					limit = { 
+						top_liege = scope:defender
+						NOT = { culture = { has_same_culture_heritage = liege.culture } }
+					}
+					add_character_flag = should_become_independent
+				}
+			}
+		}
+	}
+
+	on_victory_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { # Desc for only one player attacker
+					scope:attacker = {
+						is_local_player = yes
+					}
+				}
+				desc = independence_war_victory_desc_local_player_attacker_alone
+			}
+			triggered_desc = { # Desc for only one attacker, player defender
+				trigger = {
+					scope:defender = {
+						is_local_player = yes
+					}
+				}
+				desc = player_independence_war_victory_desc_local_player_defender_attacker_alone
+			}
+			desc = independence_war_victory_desc_local_player_attacker_alone # Desc for a third party involved
+		}
+
+	}
+
+	on_victory = {
+		scope:attacker = { show_pow_release_message_effect = yes }
+
+		#EP2 Accolade glory gain from winning against higher ranked enemy
+		scope:attacker = { accolade_attacker_war_end_glory_gain_med_effect = yes }
+
+		create_title_and_vassal_change = {
+			type = independency
+			save_scope_as = change
+		}
+		if = {
+			# Free character with the flag
+			limit = { exists = war }
+			war = {
+				every_war_attacker = {
+					if = {
+						limit = { 
+							has_character_flag = should_become_independent
+							top_liege = scope:defender
+						}
+
+						create_title_and_vassal_change = {
+							type = independency
+							save_scope_as = going_independent
+							add_claim_on_loss = no
+						}
+						becomes_independent = {
+							change = scope:going_independent
+						}
+
+						resolve_title_and_vassal_change = scope:going_independent
+
+						add_truce_both_ways = {
+							character = scope:defender
+							days = 1825
+							war = root.war
+							result = victory
+						}
+
+						remove_character_flag = should_become_independent
+
+						change_liege_or_become_independent = {
+							CHANGE = scope:change
+							VASSAL = this
+						}
+
+						hidden_effect = {
+							set_variable = {
+								name = independence_war_former_liege
+								value = scope:defender
+							}
+
+							save_scope_as = current_member
+
+							# Struggle Catalyst
+							if = {
+								limit = {
+									catalyst_gave_independence_to_powerful_diff_faith_culture_vassal_preliminary_trigger = {
+										CHAR1 = scope:defender
+										CHAR2 = scope:current_member
+									}
+									any_character_struggle = {
+										involvement = involved
+										activate_struggle_catalyst_secondary_character_involvement_involved_trigger = {
+											CATALYST = catalyst_gave_independence_to_powerful_diff_faith_culture_vassal
+											CHAR = scope:current_member
+										}
+									}
+								}
+								every_character_struggle = {
+									involvement = involved
+									limit = {
+										activate_struggle_catalyst_secondary_character_involvement_either_trigger = {
+											CATALYST = catalyst_gave_independence_to_powerful_diff_faith_culture_vassal
+											CHAR = scope:current_member
+										}
+									}
+									activate_struggle_catalyst = {
+										catalyst = catalyst_gave_independence_to_powerful_diff_faith_culture_vassal
+										character = scope:defender
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		scope:defender = {
+			# Struggle Catalyst
+			hidden_effect = {
+				if = {
+					limit = {
+						catalyst_gave_independence_to_powerful_diff_faith_culture_vassal_preliminary_trigger = {
+							CHAR1 = scope:defender
+							CHAR2 = scope:attacker
+						}
+						any_character_struggle = {
+							involvement = involved
+							activate_struggle_catalyst_secondary_character_involvement_involved_trigger = {
+								CATALYST = catalyst_gave_independence_to_powerful_diff_faith_culture_vassal
+								CHAR = scope:attacker
+							}
+						}
+					}
+					every_character_struggle = {
+						involvement = involved
+						limit = {
+							activate_struggle_catalyst_secondary_character_involvement_either_trigger = {
+								CATALYST = catalyst_gave_independence_to_powerful_diff_faith_culture_vassal
+								CHAR = scope:attacker
+							}
+						}
+						activate_struggle_catalyst = {
+								catalyst = catalyst_gave_independence_to_powerful_diff_faith_culture_vassal
+								character = scope:defender
+							}
+					}
+				}
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+	}
+
+	on_white_peace_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = player_independence_war_white_peace_defender_desc
+			}
+			triggered_desc = {
+				trigger = {
+					scope:attacker = {
+						is_local_player = yes
+					}
+				}
+				desc = player_independence_war_white_peace_attacker_desc
+			}
+			desc = player_independence_war_white_peace_desc
+		}
+
+	}
+
+	on_white_peace = {
+		scope:attacker = {
+			show_pow_release_message_effect = yes
+			stress_impact = {
+ 				ambitious = medium_stress_impact_gain
+ 				arrogant = medium_stress_impact_gain
+ 			}
+		}
+		hidden_effect = {
+			scope:attacker = {
+				add_truce_both_ways = {
+					character = scope:defender
+					days = 1825
+					war = root.war
+					result = white_peace
+				}
+			}
+		}
+
+		scope:defender = {
+			add_prestige = minor_prestige_value
+			stress_impact = {
+ 				arrogant = medium_stress_impact_gain
+ 			}
+		}
+	}
+
+	on_defeat_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = player_independence_defeat_defender_desc
+			}
+			triggered_desc = {
+				trigger = {
+					scope:attacker = {
+						is_local_player = yes
+					}
+				}
+				desc = player_independence_defeat_attacker_desc
+			}
+			desc = player_independence_war_defeat_desc
+		}
+
+	}
+
+	on_defeat = {
+		scope:attacker = { show_pow_release_message_effect = yes }
+		scope:defender = {
+			add_dread = medium_dread_gain
+			# Prestige for Defender
+			add_prestige_war_defender_effect = {
+				PRESTIGE_VALUE = medium_prestige_value
+			}
+		}
+		if = {
+			limit = { exists = war }
+			war = {
+				every_war_attacker = {
+					limit = {
+						top_liege = scope:defender
+					}
+					hard_imprison_character_effect = {
+						TARGET = this
+						IMPRISONER = scope:defender
+					}
+					scope:defender = {
+						add_opinion = {
+							target = prev
+							modifier = vassal_lost_faction_revolt_war
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				character:thracio_03 = {
+					is_landed = yes
+					top_liege = scope:defender
+					is_imprisoned = yes
+				}
+			}
+			character:thracio_03 = {
+				depose = yes
+				release_from_prison = yes
+			}
+		}
+		if = {
+			limit = {
+				exists = title:k_mauro_roman_kingdom.holder
+			}
+			title:k_mauro_roman_kingdom.holder = {
+				add_courtier = character:thracio_03
+			}
+			character:thracio_03 = {
+				add_unpressed_claim = title:k_mauro_roman_kingdom
+			}
+		}
+		if = {
+			limit = {
+				war = {
+					any_war_attacker = { has_title = title:d_avaritana }
+				}
+				war = {
+					any_war_defender = { has_title = title:d_zaba }
+				}
+			}
+			create_title_and_vassal_change = {
+				type = swear_fealty
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+		
+			if = {
+				limit = {
+					title:d_avaritana.holder.primary_title.tier < title:d_zaba.holder.primary_title.tier
+				}
+				title:d_avaritana.holder = {
+					change_liege = {
+						liege = title:d_zaba.holder
+						change = scope:change
+					}
+				}
+			}
+			else = {
+				title:d_avaritana.holder = {
+					every_held_title = {
+						if = {
+							limit = {
+								tier = title:d_avaritana.holder.primary_title.tier
+							}
+							change_title_holder = {
+								holder = title:d_zaba.holder
+								change = scope:change
+							}
+						}
+						else_if = {
+							limit = {
+								OR = {
+									NOT = { exists = scope:secondary_title }
+									tier > scope:secondary_title.tier
+								}
+							}
+							save_temporary_scope_as = secondary_title
+						}
+					}
+				}
+
+				title:d_avaritana.holder = {
+					if = {
+						limit = {
+							exists = scope:secondary_title
+						}
+						every_vassal = {
+							limit = {
+								primary_title.tier >= scope:secondary_title.tier
+								NOT = {
+									primary_title.tier = tier_barony
+								}
+							}
+							change_liege = {
+								liege = title:d_zaba.holder
+								change = scope:change
+							}
+						}
+					}
+				}
+			
+				title:d_avaritana.holder = {
+					change_liege = {
+						liege = title:d_zaba.holder
+						change = scope:change
+					}
+				}
+			}
+		
+			resolve_title_and_vassal_change = scope:change
+
+			title:d_avaritana.holder = {
+				destroy_title = title:d_avaritana
+			}
+		}
+	}
+
+	on_invalidated_desc = msg_invalidate_war_title
+
+	check_defender_inheritance_validity = no
+
+	on_primary_attacker_death = inherit
+	on_primary_defender_death = inherit
+
+	attacker_allies_inherit = yes
+	defender_allies_inherit = yes
+
+	transfer_behavior = transfer
+
+	war_name = "INDEPENDENCE_WAR_NAME"
+
+	interface_priority = 120
+
+	attacker_wargoal_percentage = 0.8
+
+	max_attacker_score_from_battles = 100
+	max_defender_score_from_battles = 50
+	
+	max_defender_score_from_occupation = 150
+	max_attacker_score_from_occupation = 150
+
+	max_ai_diplo_distance_to_title = 500
+}
+	}
+}
+
+"common/scripted_effects/TFE_invasion_effects.txt" = {
+	{
+lost_radagaisus_invasion_effect = {
+	if = {
+		limit = {
+			exists = title:k_goths.holder
+		}
+		title:k_goths.holder = {
+			if = { # Imprison them if they aren't imprisoned.
+				limit = {
+					is_imprisoned = no
+					character:900062 = {
+						is_alive = yes
+					}
+				}
+				
+				hard_imprison_character_effect = {
+					TARGET = this
+					IMPRISONER = character:900062
+				}
+				trigger_event = {
+					id = gothic_wars.0016
+					days = 7
+				}
+			}
+			else = {
+				limit = {
+					is_imprisoned = no
+				}
+				hard_imprison_character_effect = {
+					TARGET = this
+					IMPRISONER = scope:defender
+				}
+			}
+		}
+	}
+}
 	}
 }
 
@@ -4201,5 +5583,22 @@ beards_scripted_characters = {
         }
     }
 }
+	}
+}
+
+"gfx\portraits\portrait_modifiers\00_custom_hair.txt" = {
+	{
+			modifier = {
+                add = 200
+                exists = this
+                exists = character:easteregg_joe_parkin
+                this = character:easteregg_joe_parkin
+            }
+            modifier = {
+                add = 200
+                exists = this
+                exists = character:easteregg_alessandro_bragalini
+                this = character:easteregg_alessandro_bragalini
+            }
 	}
 }
