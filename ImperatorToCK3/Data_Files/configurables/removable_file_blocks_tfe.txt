@@ -2377,30 +2377,7 @@ on_TFE_east_asia_start = {
                 this = character:aelling_01 #Aelle
             }
 	}
-	{
-            modifier = {
-                add = 999
-				exists = this
-				exists = character:6448 #count_eudes
-				this = character:6448 #count_eudes
-            }
-	}
-	{
-            modifier = {
-                add = 999
-				exists = this
-                exists = character:107500 #king_sancho
-                this = character:107500 #king_sancho
-            }
-	}
-	{
-            modifier = {
-                add = 999
-				exists = this
-                exists = character:214 #king_philippe
-                this = character:214 #king_philippe
-            }
-	}
+
 	{
             modifier = {
                 add = 999
@@ -2458,6 +2435,953 @@ on_TFE_east_asia_start = {
                 	exists = character:992024 #Matasuntha
                 	this = character:992024 #Matasuntha
 		}
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+				exists = character:108501 #infanta_urraca
+				this = character:108501 #infanta_urraca
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:131 #eadgifu_the_fair
+                this = character:131 #eadgifu_the_fair
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:633 #queen_yelizaveta
+                this = character:633 #queen_yelizaveta
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_bianca_savazzi
+                this = character:easteregg_bianca_savazzi
+            }
+            modifier = {
+            	add = 999
+            	exists = this
+				exists = character:easteregg_claudia_baldassi
+				this = character:easteregg_claudia_baldassi
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:6863 #ingrid_bjornsdottir
+                this = character:6863 #ingrid_bjornsdottir
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_linnea_thimren
+                this = character:easteregg_linnea_thimren
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:6839 #iliana_of_uppland
+                this = character:6839 #iliana_of_uppland
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:161257 #queen_wyszeslawa
+                this = character:161257 #queen_wyszeslawa
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_steacy_mcilwham
+                this = character:easteregg_steacy_mcilwham
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_katya_boestad
+                this = character:easteregg_katya_boestad
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_tegan_harris
+                this = character:easteregg_tegan_harris
+            }
+			modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_bahar_shefket
+                this = character:easteregg_bahar_shefket
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:easteregg_alexia_belfort
+                this = character:easteregg_alexia_belfort
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:997005 #Chlodovech
+                this = character:997005 #Chlodovech
+            }
+		modifier = {
+		add = 999
+		exists = character:997013 #Chlothar
+		this = character:997013 #Chlothar
+	    }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:997015 #Theodobert
+                this = character:997015 #Theodobert
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:123 #queen_ealdgyth
+                this = character:123 #queen_ealdgyth
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:367 #duchess_mathilde
+                this = character:367 #duchess_mathilde
+        }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:145072 #Focas
+                this = character:145072 #Focas
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:145071 #Heraclius
+                this = character:145071 #Heraclius
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:armenian_01 #Narses
+                this = character:armenian_01 #Narses
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:greek_17 #Plutarch
+                this = character:greek_17 #Plutarch
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+				exists = character:6448 #count_eudes
+				this = character:6448 #count_eudes
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:107500 #king_sancho
+                this = character:107500 #king_sancho
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:214 #king_philippe
+                this = character:214 #king_philippe
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:146 #william_the_red
+                this = character:146 #william_the_red
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+				exists = character:163112 #halfdan_whiteshirt
+				this = character:163112 #halfdan_whiteshirt
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:30228 #king_louis
+                this = character:30228 #king_louis
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:984 #king_malcom
+                this = character:984 #king_malcom
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:212892 #ota_the_handsome
+                this = character:212892 #ota_the_handsome
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:762 #king_boleslaw
+                this = character:762 #king_boleslaw
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_joel_hansson
+                this = character:easteregg_joel_hansson
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_peter_johannesson
+                this = character:easteregg_peter_johannesson
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_petter_vilberg
+                this = character:easteregg_petter_vilberg
+            }
+
+             modifier = {
+                add = 999
+                exists = this
+                exists = character:168137
+                this = character:168137
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:200290 #Atawulf
+                this = character:200290 #Arawulf
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:180618 #Bahram
+                this = character:180618 #Bahram
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:997004 #Childeric
+                this = character:997004 #Childeric
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:997009 #Theodoric Meroving
+                this = character:997009 #Theodoric Meroving
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:997011 #Chlodomir
+                this = character:997011 #Chlodomir
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+				exists = character:3924 #emir_yahya
+				this = character:3924 #emir_yahya
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:106000 #king_antso
+                this = character:106000 #king_antso
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_alexander_oltner
+                this = character:easteregg_alexander_oltner
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_ismael_serrano
+                this = character:easteregg_ismael_serrano
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_christian_daflos
+                this = character:easteregg_christian_daflos
+            }
+            modifier = {
+                add = 999
+		exists = this
+                exists = character:70517  #Leo
+                this = character:70517  #Leo
+            }
+           modifier = {
+                add = 999
+                exists = this
+                exists = character:mauro_roman_kings_02  #Massonas
+                this = character:mauro_roman_kings_02  #Massonas
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:205141 #Ceredig
+                this = character:205141 #Ceredig
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:70512 #Justinian
+                this = character:70512 #Justinian
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:cappadocia_07 #Ioannes
+                this = character:cappadocia_07 #Ioannes
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:quadi_04 # Hermerich of the Quadi
+                this = character:quadi_04 # Hermerich of the Quadi
+            }
+	}
+	{
+            modifier = {
+                add = 400
+                exists = this
+				exists = character:83355 #petty_king_murchad
+				this = character:83355 #petty_king_murchad
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:109500 #king_garcia
+                this = character:109500 #king_garcia
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_henrik_fahraeus
+                this = character:easteregg_henrik_fahraeus
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_jakub_potapczyk
+                this = character:easteregg_jakub_potapczyk
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_petter_lundh
+                this = character:easteregg_petter_lundh
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_max_weltz
+                this = character:easteregg_max_weltz
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_max_collin
+                this = character:easteregg_max_collin
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_martin_anward
+                this = character:easteregg_martin_anward
+            }
+            modifier = {
+                add = 999
+                exists = this
+		        exists = character:6392 #charlemagne
+		        this = character:6392 #charlemagne
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+				exists = character:522 #duke_vratislav
+				this = character:522 #duke_vratislav
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:108500 #king_alfonso
+                this = character:108500 #king_alfonso
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_sean_hughes
+                this = character:easteregg_sean_hughes
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_paul_depre
+                this = character:easteregg_paul_depre
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:easteregg_zack_holmgren
+                this = character:easteregg_zack_holmgren
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:159431 #Conan Meriadoc
+                this = character:159431 #tiberius
+            } 
+            modifier = {
+               	add = 999
+                exists = this
+		        exists = character:999103 #king_alaric
+		        this = character:999103 #king_alaric
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:159038 #Coel
+                this = character:159038 #ACoel
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:constantinus_05 #Ambrosius
+                this = character:constantinus_05 #Ambrosius
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:mauri_42 #Iabdas
+                this = character:mauri_42 #Iabdas
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:997002 #Chlodio
+                this = character:997002 #Chlodio
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+				exists = character:easteregg_james_beaumont
+				this = character:easteregg_james_beaumont
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:maldras_06 #Hermenerich
+                this = character:maldras_06 #Hermenerich
+            }
+	    modifier = {
+                add = 999
+                exists = this
+                exists = character:982001 #Abu Karib
+                this = character:982001 #Abu Karib
+            }
+	    modifier = {
+                add = 999
+                exists = this
+                exists = character:xionite_001 #Kidara
+                this = character:xionite_001 #Kidara
+            }
+	    modifier = {
+                add = 999
+                exists = this
+                exists = character:samo_01  #Samo
+                this = character:samo_01  #Samo
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+				exists = character:90104 #charles_the_bald
+				this = character:90104 #charles_the_bald
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:1316 #emperor_heinrich
+                this = character:1316 #emperor_heinrich
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:992016 #theodoric_the_great
+                this = character:992016 #theodoric_the_great
+            }
+            modifier = {
+                add = 999
+		        exists = this
+                exists = character:83432 #Eochaid
+                this = character:83432 #Eochaid
+            }
+	}
+	{
+            modifier = {
+             modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_nils_wadensten
+                this = character:easteregg_nils_wadensten
+            }
+              	add = 999
+                exists = this
+		        exists = character:900062 #stilicho
+		        this = character:900062 #stilicho
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:70519  #Imperator Arcadius I
+                this = character:70519  #Imperator Arcadius I
+	        }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:145227 #Imperator Honorius I
+                this = character:145227 #Imperator Honorius I
+	        }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:nepos_02  #Nepos
+                this = character:nepos_02  #Nepos
+	        }
+            modifier = {
+               	add = 999
+                exists = this
+		exists = character:145237 #julian_the_apostate
+		this = character:145237 #julian_the_apostate
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:londinium_01 #Riothamus
+                this = character:londinium_01 #Riothamus
+            }
+	    modifier = {
+               	add = 999
+                exists = this
+		exists = character:arsacid_58 #vramshapuh
+		this = character:arsacid_58 #vramshapuh
+	    }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:vandals_005 #Hilderic
+                this = character:vandals_005 #Hilderic
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:992022 #Theodahad
+                this = character:992022 #Theodahad
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:991004 #Mundus
+                this = character:991004 #Mundus
+            }
+             modifier = {
+                add = 999
+                exists = this
+                exists = character:greek_20 #Proklos
+                this = character:greek_20 #Proklos
+            }
+	}
+	{
+		modifier = {
+			add = 999
+                	exists = this
+                	exists = character:nuvelan_11 #Gildo
+                	this = character:nuvelan_11 #Gildo
+		}
+		modifier = {
+			add = 999
+                	exists = this
+                	exists = character:aksum_16 #Ouazeba
+                	this = character:aksum_16 #Ouazeba
+		}
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_magne_skjaeran
+                this = character:easteregg_magne_skjaeran
+            }
+	}
+	{
+           modifier = {
+            modifier = {
+                add = 999
+				exists = this
+				exists = character:163111 #ivar_the_boneless
+				this = character:163111 #ivar_the_boneless
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:102531 #harald_hardrade
+                this = character:102531 #harald_hardrade
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_joacim_carlberg
+                this = character:easteregg_joacim_carlberg
+            }
+            modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_struan_mccallum
+				this = character:easteregg_struan_mccallum
+			}
+                add = 999
+                exists = this
+		        exists = character:999105 #athaulf
+		        this = character:999105 #athaulf
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:997003 #Merovech
+                this = character:997003 #Merovech
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:992003 #Hermanaric
+                this = character:992003 #Hermanaric
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+				exists = character:163110 #sigurdr_snake_in_the_eye
+				this = character:163110 #sigurdr_snake_in_the_eye
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:144000 #haraldr_fairhair
+                this = character:144000 #haraldr_fairhair
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:40605 #rurik_rurikid
+                this = character:40605 #rurik_rurikid
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:easteregg_jonas_wickerstrom
+                this = character:easteregg_jonas_wickerstrom
+            }
+            modifier = {
+                add = 999
+                exists = this
+		        exists = character:900016 #faramund
+		        this = character:900016 #faramund
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+				exists = character:163108 #bjorn_ironside
+				this = character:163108 #bjorn_ironside
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:140 #william_the_bastard
+                this = character:140 #william_the_bastard
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:101515 #king_svend
+                this = character:101515 #king_svend
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:42018 #karlmann
+                this = character:42018 #karlmann
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+				exists = character:159137 #almos_arpad
+				this = character:159137 #almos_arpad
+            }
+	}
+	{
+	        modifier = {
+                add = 999
+                exists = this
+                exists = character:alchonid_005 #Khingila
+                this = character:alchonid_005 #Khingila
+            }
+	        modifier = {
+                add = 999
+                exists = this
+                exists = character:hephthalite_misc_017 #Katulf
+                this = character:hephthalite_misc_017 #Katulf
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:belisarius_001 #Belisarius
+                this = character:belisarius_001 #Belisarius
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:200284 #euric
+                this = character:200284 #euric
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:180628 #Khosrau
+                this = character:180628 #Khosrau
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:mauri_36 #Masties
+                this = character:mauri_36 #Masties
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:danis0005
+                this = character:danis0005
+            }
+
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:surunbaqi0001
+                this = character:surunbaqi0001
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:107590 #el_cid
+                this = character:107590 #el_cid
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:159012 #Cadwallon
+                this = character:159012 #Cadwallon
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:ashina_03 #Tuwu
+                this = character:ashina_03 #Tuwu
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:ashina_05 #Istemi
+                this = character:ashina_05 #Istemi
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:200280 #Theodis
+                this = character:200280 #Theodis
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:ashina_04 #Bumin
+                this = character:ashina_04 #Bumin
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:waegmunding_2 #Beowulf
+                this = character:waegmunding_2 #Beowulf
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:996002 #odoacer
+                this = character:996002 #odoacer
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:992023 #Athalaric
+                this = character:992023 #Athalaric
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:992063 #Fritigern
+                this = character:992063 #Fritigern
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:900016 #Faramund
+                this = character:900016 #Faramund
+            }
+		modifier = {
+		add = 999
+		exists = character:990006 #Attila
+		this = character:990006 #Attila
+	    }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:997012 #Childebert
+                this = character:997012 #Childebert
+            }
+	}
+	{
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:vandals_012 #Gelimer
+                this = character:vandals_012 #Gelimer
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:marshalnsc 
+                this = character:marshalnsc 
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+				exists = character:168314 #waldrada
+				this = character:168314 #waldrada
+            }
+            modifier = {
+                add = 999
+				exists = this
+                exists = character:1183 #empress_bertha
+                this = character:1183 #empress_bertha
+            }
+	}
+	{
+            modifier = {
+                add = 999
+				exists = this
+			    exists = character:251187 #daurama_daura
+			    this = character:251187 #daurama_daura
+            }
+	}
+	{
+             modifier = {
+                add = 999
+                exists = this
+                exists = character:73683
+                this = character:73683
+            }
+             modifier = {
+                add = 999
+                exists = this
+                exists = character:vandals_003
+                this = character:vandals_003
+            }
+	}
+	{
+             modifier = {
+                add = 999
+                exists = this
+                exists = character:73759
+                this = character:73759
+            }
+	}
+	{
+             modifier = {
+                add = 999
+				exists = this
+				exists = character:73857
+				this = character:73857
+            }
+
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:70292
+                this = character:70292
+            }
+	}
+	{
+             modifier = {
+                add = 999
+                exists = this
+                exists = character:73783
+                this = character:73783
+            }
 	}
 }
 
@@ -4332,10 +5256,25 @@ dong_zhuo_culture_decision = {
 	}
 }
 
+"gfx/portraits/portrait_modifiers/00_custom_hair.txt" = {
+	{
+			modifier = {
+                add = 200
+                exists = this
+                exists = character:easteregg_joe_parkin
+                this = character:easteregg_joe_parkin
+            }
+            modifier = {
+                add = 200
+                exists = this
+                exists = character:easteregg_alessandro_bragalini
+                this = character:easteregg_alessandro_bragalini
+            }
+	}
+}
+
 "gfx/portraits/portrait_modifiers/50_beards_scripted_characters.txt" = {
 	{
-# We can use these modifiers for adding specific beards and beards to historical and vanity characters
-
 beards_scripted_characters = {
 
     usage = game
@@ -5586,19 +6525,182 @@ beards_scripted_characters = {
 	}
 }
 
-"gfx\portraits\portrait_modifiers\00_custom_hair.txt" = {
+"gfx/portraits/portrait_modifiers/50_headgear_scripted_characters.txt" = {
 	{
+headgear_scripted_characters = {
+
+    usage = game
+    selection_behavior = max
+    priority = 10
+
+    no_headgear = { # No headgear
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = fp2_scripted_headgear_01
+                value = 0.1 # For the randomness to work correctly
+            }
+        }   
+        weight = {
+            base = 0
+		modifier = {
+			add = 50
+			exists = this
+			exists = character:73857
+                	this = character:73857
+		}
+		modifier = {
+			add = 50
+			exists = this
+			exists = character:108501
+              	  	this = character:108501
+		}
+            	modifier = {
+               	 	add = 999
+                	exists = this
+                	exists = character:900062 #Stilicho
+                	this = character:900062 #Stilicho
+		}
+            	modifier = {
+               	 	add = 999
+                	exists = this
+                	exists = character:nuvelan_11 #Gildo
+                	this = character:nuvelan_11 #Gildo
+		}
+		modifier = {
+                	add = 999
+                	exists = this
+                	exists = character:belisarius_001 #Belisarius
+                	this = character:belisarius_001 #Belisarius
+		}
+          }
+    }
+
+    male_headgear_secular_fp2_iberian_muslim_common_01_low = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = fp2_scripted_headgear_01
+                value = 0.5  # For the randomness to work correctly
+            }
+        }   
+        weight = {
+			base = 0
 			modifier = {
-                add = 200
-                exists = this
-                exists = character:easteregg_joe_parkin
-                this = character:easteregg_joe_parkin
+				add = 50
+				exists = this
+				exists = character:73813 # Musa
+                this = character:73813
+			}
+		}
+    	}
+
+    	male_headgear_secular_fp2_iberian_muslim_high_nobility_01 = {
+        dna_modifiers = {
+            accessory = {
+                mode = add
+                gene = headgear
+                template = fp2_scripted_headgear_01
+                value = 1 # For the randomness to work correctly
             }
-            modifier = {
-                add = 200
-                exists = this
-                exists = character:easteregg_alessandro_bragalini
-                this = character:easteregg_alessandro_bragalini
-            }
+        }   
+        weight = {
+			base = 0
+			modifier = {
+				add = 50
+				exists = this
+				exists = character:danis0005 # Adanis
+                this = character:danis0005
+			}
+		}
+	}
+	male_headgear_secular_roman_pannonian_hat_high_nobility = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = roman_pannonian_hat_high
+				value = 1
+			}
+		}
+		weight = {
+			base = 0
+            			modifier = {
+               	 		add = 999
+                		exists = this
+                		exists = character:nepos_02 #Nepos
+                		this = character:nepos_02 #Nepos
+			}
+		}
+		weight = {
+			base = 0
+            			modifier = {
+               	 		add = 999
+                		exists = this
+                		exists = character:syagri_06 #Syagrius
+                		this = character:syagri_06 #Syagrius
+			}
+		}
+	}
+	male_headgear_secular_western_high_nobility = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = western_high_nobility
+				value = 1
+			}
+		}
+		weight = {
+			base = 0
+				modifier = {
+                		add = 999
+                		exists = this
+                		exists = character:900016 #Faramund
+                		this = character:900016 #Faramund
+			}
+		}
+	}
+	male_headgear_secular_roman_diadem = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = roman_diadem 
+				value = 1
+			}
+		}
+		weight = {
+			base = 0
+				modifier = {
+                		add = 999
+                		exists = this
+                		exists = character:70515  #Zeno
+                		this = character:70515  #Zeno
+			}
+		}
+	}
+	male_headgear_secular_sassanid_crown = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = headgear
+				template = ep1_sassanid_crown
+				value = 1
+			}
+		}
+		weight = {
+			base = 0
+				modifier = {
+                		add = 999
+                		exists = this
+                		exists = character:180628 #Khosrau
+                		this = character:180628 #Khosrau
+			}
+		}
+	}
+}
 	}
 }
