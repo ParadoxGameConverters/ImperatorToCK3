@@ -30,6 +30,9 @@
 # TFE
 link = { ck3 = guanche_pagan ir = berber_religion ck3Province = 8713 ck3Province = 8714 ck3Province = 8715 ck3Province = 8716 ck3Province = 849 }
 link = { ck3 = amazigh_pagan ir = berber_religion }
+link = { ck3 = apsuara ir = indo_iranian_religion ck3Culture = abkhaz } # Rajas faith
+link = { ck3 = khabzism ir = indo_iranian_religion ck3Culture = circassian } # Rajas faith
+link = { ck3 = alan_pagan ir = indo_iranian_religion ck3Culture = alan } # Rajas faith
 link = { ck3 = scythian_pagan ir = indo_iranian_religion }
 link = { ck3 = carthage_pagan ir = carthaginian_pantheon }
 # Vanilla CK3
@@ -80,6 +83,7 @@ link = {  # TODO: Change this mapping. The Zoroastrian cult of Mithra is not the
     ir = mithra_religion # from Invictus
 }
 link = { ck3 = eleusinian_mysteries ir = roman_pantheon irRegion = thrace_region } # https://en.wikipedia.org/wiki/Eleusinian_Mysteries
+link = { ck3 = indo_hellenism ir = roman_pantheon ck3Culture = indogreek ck3Culture = indo_greek } # Rajas of Asia faith (mapped to the cultures cause I figured it'd make more sense. Would simply mapping to regions be better?) ~~tanner918
 link = {
     ck3 = celto_hellenic_syncretism
     ir = roman_pantheon
@@ -96,12 +100,12 @@ link = {
 link = { ck3 = baltic_pagan ir = matrist_religion ck3Province = 154 ck3Province = 155 ck3Province = 149 ck3Province = 165 ck3Province = 153 ck3Province = 130 ck3Province = 160 ck3Province = 159 ck3Province = 156 ck3Province = 158 ck3Province = 157 ck3Province = 163 ck3Province = 166 ck3Province = 151 ck3Province = 124 ck3Province = 123 ck3Province = 129 ck3Province = 131 ck3Province = 120 ck3Province = 119 ck3Province = 118 ck3Province = 125 ck3Province = 115 ck3Province = 126 ck3Province = 128 ck3Province = 127 ck3Province = 132 ck3Province = 152 ck3Province = 2835 ck3Province = 2834 ck3Province = 3197 ck3Province = 2831 ck3Province = 3220 ck3Province = 3201 ck3Province = 3217 ck3Province = 3218 ck3Province = 3203 ck3Province = 3219 ck3Province = 3216 ck3Province = 122 ck3Province = 3204 ck3Province = 3205 ck3Province = 3206 ck3Province = 3207 ck3Province = 104 ck3Province = 105 ck3Province = 106 ck3Province = 107 ck3Province = 121 ck3Province = 110 ck3Province = 112 ck3Province = 117 ck3Province = 111 ck3Province = 113 ck3Province = 114 ck3Province = 116 ck3Province = 133 ck3Province = 150 ck3Province = 102 ck3Province = 109 ck3Province = 142 ck3Province = 103 ck3Province = 139 ck3Province = 134 ck3Province = 135 ck3Province = 136 ck3Province = 137 ck3Province = 138 ck3Province = 140 ck3Province = 141 }
 link = { ck3 = slavic_pagan ir = matrist_religion }
 
-# Steppe Religion - Melieism in the East, Tengri in the West
-link = { ck3 = tengri_pagan ir = hu_religions } # from Terra Indomita, hu_religions is localized as Tengri
-link = { ck3 = tengri_pagan ir = eastern_animism irRegion = sarmatia_europea_region irRegion = vistulia_region irRegion = venedia_region irRegion = scandinavia_region irRegion = dacia_region irRegion = pannonia_region irRegion = moesia_region irRegion = thrace_region irRegion = macedonia_region irRegion = greece_region irRegion = illyria_region irRegion = germania_region irRegion = bohemia_area }
-link = { ck3 = tengri_pagan ir = hunnic_huna_animism irRegion = sarmatia_europea_region irRegion = vistulia_region irRegion = venedia_region irRegion = scandinavia_region irRegion = dacia_region irRegion = pannonia_region irRegion = moesia_region irRegion = thrace_region irRegion = macedonia_region irRegion = greece_region irRegion = illyria_region irRegion = germania_region irRegion = bohemia_area }
-link = { ck3 = melieism ir = eastern_animism }
-link = { ck3 = melieism ir = hunnic_huna_animism }
+# Steppe Religions
+## Tengri (hu_religions) / Ritualistic (hunnic_huna_animism from Timeline Extender)
+## Swanco (eastern_animism) is supposed to represent the ancient Tocharian beliefs, but there isn't a 1:1 mapping for this in Rajas, so I group it together with Tengri faiths since ChatGPT said they are related enough. If a Tocharian faith is ever created, might make sense to remap it to that instead. ~~tanner918
+link = { ck3 = ulganism ir = hu_religions ir = hunnic_huna_animism ir = eastern_animism ck3Culture = az ck3Culture = cik ck3Culture = shor ck3Culture = kirghiz ck3Culture = todzh ck3Culture = kurykan ck3Culture = laktan ck3Culture = dukha } # Rajas faith. Wikipedia says its god Ülgen is a turkic creator-diety, and in CK3 it is the Tengri faith where the following cultures appear, so for now mapping according to those cultures: Az, Cik, Shor, Qirgiz, Todzh, Kurykan, Teleut (laktan in code), Dukha ~~tanner918
+link = { ck3 = eastern_tengri ir = hu_religions ir = hunnic_huna_animism ir = eastern_animism ck3Culture = tula ck3Culture = khori ck3Culture = barqut ck3Culture = khitan ck3Culture = mongol ck3Culture = sibe ck3Culture = tuyuhun ck3Culture = onggirad ck3Culture = qay ck3Culture = uriankhai ck3Culture = merkit } # Rajas faith, called Munkh Tenger, seems to be Tengri associated more with Mongolic cultures, so I just mapped it to the mongolic cultures it appears over, at least getting all of the ones that are mapped to ~~tanner918
+link = { ck3 = tengri_pagan ir = hu_religions ir = hunnic_huna_animism ir = eastern_animism } # Rajas seems to use tengri_pagan (renamed to Goktanrist) to represent the Tengri beliefs of anyone outside of cultures like those mapped above
 link = { ck3 = tengri_pagan ir = tengri } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 # Celtic - TFE
@@ -140,6 +144,7 @@ link = { ck3 = germanic_pagan ir = germanic_religion }
 
 #Zoroastrian and Manicheans
 link = { ck3 = zun_pagan ir = zoroaster ck3Province = 4290 ck3Province = 4299 ck3Province = 4473 }
+link = { ck3 = afridunism ir = zoroaster ck3Culture = daylamite } # Vanilla faith meant for Daylamites ~~tanner918
 link = { ck3 = zurvanism ir = zoroaster ck3Province = 4252 ck3Province = 4223 ck3Province = 1126 ck3Province = 3384 ck3Province = 4270 ck3Province = 4285 ck3Province = 4473 }
 link = { ck3 = gayomarthianism ir = zoroaster ck3Province = 4406 ck3Province = 4393 ck3Province = 4394 ck3Province = 4460 }
 link = { ck3 = khurramism ir = zoroaster ck3Province = 4543 ck3Province = 4542 ck3Province = 4544 ck3Province = 4002 ck3Province = 4003 ck3Province = 4545 ck3Province = 4546 ck3Province = 4547 ck3Province = 4548 ck3Province = 4549 ck3Province = 4537 ck3Province = 5788 ck3Province = 5789 ck3Province = 5790 ck3Province = 5791 ck3Province = 5792 ck3Province = 5793 }
@@ -150,6 +155,7 @@ link = {
     ck3 = urartuism  # https://en.wikipedia.org/wiki/Armenian_mythology#Iranian_influence
     ir = anahitic_religion # Anahitic from Invictus mod, https://en.wikipedia.org/wiki/Anahita#Armenia_and_the_Caucasus
     ir = new_armenian_religion # old Invictus ID for Anahitic
+    ir = anahita_religion
 }
 link = { # quote from Izn who added the religion to Invictus: "voxite closest to Khurmazdism (sogdian zoroastrianism)"
     ck3 = khurmazta
@@ -163,12 +169,20 @@ link = { ck3 = manichean ir = manichaeism }
 #Buddhism
 link = { ck3 = vajrayana ir = buddhism ck3Province = 1446 ck3Province = 7459 ck3Province = 7465 ck3Province = 1449 ck3Province = 7469 ck3Province = 7458 ck3Province = 7492 ck3Province = 7496 ck3Province = 7499 ck3Province = 1442 ck3Province = 1443 ck3Province = 1444 ck3Province = 1447 ck3Province = 1448 ck3Province = 7974 ck3Province = 7975 ck3Province = 7977 ck3Province = 7978 ck3Province = 7979 ck3Province = 7980 ck3Province = 7981 ck3Province = 7982 ck3Province = 7983 ck3Province = 7984 ck3Province = 7985 ck3Province = 7986 ck3Province = 7987 ck3Province = 7988 ck3Province = 7989 ck3Province = 7990 ck3Province = 7991 ck3Province = 7992 ck3Province = 7993 ck3Province = 7994 ck3Province = 7995 ck3Province = 7996 ck3Province = 7997 ck3Province = 7998 ck3Province = 7999 ck3Province = 9600 ck3Province = 9601 ck3Province = 9002 ck3Province = 9004 ck3Province = 9009 ck3Province = 9010 ck3Province = 9011 ck3Province = 9013 ck3Province = 9014 ck3Province = 9015 ck3Province = 9016 ck3Province = 9017 ck3Province = 9018 ck3Province = 9019 ck3Province = 9020 ck3Province = 9021 ck3Province = 9022 ck3Province = 9023 ck3Province = 9026 ck3Province = 9027 ck3Province = 9028 ck3Province = 9029 ck3Province = 9542 ck3Province = 9506 ck3Province = 9479 ck3Province = 9472 ck3Province = 1161 ck3Province = 3445 ck3Province = 3446 ck3Province = 9024 ck3Province = 9025 ck3Province = 814 ck3Province = 815 ck3Province = 816 ck3Province = 817 ck3Province = 818 ck3Province = 819 ck3Province = 820 ck3Province = 1246 ck3Province = 1321 ck3Province = 1179 ck3Province = 1180 ck3Province = 1190 ck3Province = 1191 ck3Province = 1193 ck3Province = 1342 ck3Province = 3429 ck3Province = 3430 ck3Province = 3431 ck3Province = 3432 ck3Province = 3433 ck3Province = 3434 ck3Province = 3435 ck3Province = 3436 ck3Province = 3437 ck3Province = 3438 ck3Province = 3439 ck3Province = 3440 ck3Province = 3441 ck3Province = 3443 ck3Province = 3444 ck3Province = 7946 ck3Province = 1141 ck3Province = 1168 ck3Province = 1173 ck3Province = 1358 ck3Province = 1365 ck3Province = 1367 ck3Province = 1368 ck3Province = 3447 ck3Province = 3448 ck3Province = 3449 ck3Province = 3450 ck3Province = 3451 ck3Province = 3452 ck3Province = 3453 ck3Province = 3454 ck3Province = 3463 ck3Province = 3464 ck3Province = 3467 ck3Province = 3468 ck3Province = 3469 ck3Province = 3470 ck3Province = 3471 ck3Province = 3472 ck3Province = 3473 ck3Province = 3474 ck3Province = 3475 ck3Province = 867 ck3Province = 868 ck3Province = 869 ck3Province = 870 ck3Province = 871 ck3Province = 872 ck3Province = 875 ck3Province = 876 ck3Province = 877 ck3Province = 878 ck3Province = 879 ck3Province = 880 ck3Province = 881 ck3Province = 882 ck3Province = 883 ck3Province = 884 ck3Province = 885 ck3Province = 1152 ck3Province = 1154 ck3Province = 1162 ck3Province = 1163 ck3Province = 1166 ck3Province = 1251 ck3Province = 1281 ck3Province = 1419 ck3Province = 1420 ck3Province = 3957 ck3Province = 9654 ck3Province = 9655 ck3Province = 9656 ck3Province = 840 ck3Province = 841 ck3Province = 1153 ck3Province = 9110 ck3Province = 904 ck3Province = 1113 ck3Province = 1139 ck3Province = 1167 ck3Province = 1215 ck3Province = 1250 ck3Province = 1275 ck3Province = 1279 ck3Province = 1282 ck3Province = 1283 ck3Province = 1284 ck3Province = 1328 ck3Province = 1356 ck3Province = 1377 ck3Province = 1414 ck3Province = 1421 ck3Province = 1422 ck3Province = 3953 ck3Province = 3954 ck3Province = 3955 ck3Province = 3956 ck3Province = 3958 ck3Province = 7168 ck3Province = 7164 ck3Province = 7163 ck3Province = 7162 ck3Province = 7157 ck3Province = 7173 ck3Province = 7181 ck3Province = 7178 ck3Province = 7183 ck3Province = 7185 ck3Province = 7187 ck3Province = 7197 ck3Province = 7192 ck3Province = 7199 ck3Province = 7202 ck3Province = 7203 }
 link = { ck3 = mahayana ir = buddhism ck3Province = 9421 ck3Province = 9422 ck3Province = 1438 ck3Province = 1439 ck3Province = 1440 ck3Province = 1441 ck3Province = 1445 ck3Province = 7958 ck3Province = 7959 ck3Province = 7960 ck3Province = 7963 ck3Province = 7966 ck3Province = 7967 ck3Province = 7968 ck3Province = 7969 ck3Province = 7970 ck3Province = 7971 ck3Province = 7972 ck3Province = 7973 ck3Province = 9602 ck3Province = 9603 ck3Province = 9604 ck3Province = 9605 ck3Province = 9606 ck3Province = 9607 ck3Province = 9609 ck3Province = 9610 ck3Province = 9611 ck3Province = 9612 ck3Province = 9613 ck3Province = 9614 ck3Province = 9615 ck3Province = 9616 ck3Province = 9593 ck3Province = 9546 ck3Province = 9545 ck3Province = 9518 ck3Province = 9523 ck3Province = 9516 ck3Province = 9525 ck3Province = 9531 ck3Province = 9528 ck3Province = 9418 ck3Province = 9513 ck3Province = 9501 ck3Province = 9502 ck3Province = 9496 ck3Province = 9493 ck3Province = 9491 ck3Province = 9505 ck3Province = 9489 ck3Province = 9482 ck3Province = 9485 ck3Province = 9483 ck3Province = 9476 ck3Province = 9474 ck3Province = 4521 ck3Province = 4522 ck3Province = 4523 ck3Province = 4343 ck3Province = 4500 ck3Province = 4228 ck3Province = 873 ck3Province = 874 ck3Province = 842 ck3Province = 843 ck3Province = 1243 ck3Province = 9109 ck3Province = 1169 ck3Province = 1171 ck3Province = 1278 ck3Province = 1301 ck3Province = 3959 ck3Province = 3960 ck3Province = 3961 ck3Province = 3962 ck3Province = 3963 ck3Province = 3964 ck3Province = 3967 ck3Province = 3972 ck3Province = 927 ck3Province = 928 ck3Province = 929 ck3Province = 930 ck3Province = 931 ck3Province = 932 ck3Province = 1129 ck3Province = 1156 ck3Province = 1225 ck3Province = 1229 ck3Province = 1231 ck3Province = 1247 ck3Province = 1249 ck3Province = 3980 ck3Province = 3981 ck3Province = 3982 ck3Province = 3983 ck3Province = 3984 ck3Province = 3985 ck3Province = 3986 ck3Province = 3987 ck3Province = 3988 ck3Province = 3989 ck3Province = 3990 ck3Province = 3997 ck3Province = 3998 ck3Province = 9650 ck3Province = 9651 ck3Province = 925 ck3Province = 926 ck3Province = 1165 ck3Province = 4376 }
+link = { ck3 = lamaism ir = buddhism ck3Region = world_tibet } # Vanilla faith, figured I'd add since whole region is now in scope ~~tanner918
+link = { ck3 = ari ir = buddhism irRegion = burma_region } # Vanilla faith, figured I'd add since whole region is now in scope ~~tanner918
+link = { ck3 = phat_giao ir = buddhism irRegion = jiao_region irRegion = funan_region } # Rajas faith around Vietnam
+link = { ck3 = zenzong ir = buddhism irRegion = yi_region irRegion = yong_region irRegion = you_region irRegion = yu_region irRegion = yang_region irRegion = xu_region irRegion = shuofang_region irRegion = qing_region irRegion = modong_region irRegion = jing_region irRegion = ji_region irRegion = bing_region } # Rajas faith, seems to represent Buddhism around China
+link = { ck3 = pudgalavada ir = buddhism irRegion = gandhara_region irRegion = maru_region } # Rajas faith, seems to represent Buddhism in this region
+link = { ck3 = azhaliism ir = buddhism irRegion = nanzhong_region } # Rajas faith, seems to represent Buddhism in this region
 link = { ck3 = theravada ir = buddhism }
 link = { ck3 = mahayana ir = mahayana } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
-# Ari is skipped because exists only in Burma
 
 # Hinduism
 @ir_hindu_religions = "ir=hindu ir=agama"
+link = { ck3 = trika_shaivism @ir_hindu_religions ck3Culture = kashmiri } # Rajas faith representing Hindu of Kashmiri
+link = { ck3 = chamic_shaivism @ir_hindu_religions ck3Culture = cham } # Rajas faith, called Balamonic
+link = { ck3 = shaivism @ir_hindu_religions ck3Culture = khmer } # Rajas had its own Hindu faith for khmer, but removed it, though they seems to follow closer to Shaiva Hinduism, so including this to reference that
 link = { ck3 = donyipoloism @ir_hindu_religions ck3Province = 9160 ck3Province = 9175 ck3Province = 9176 ck3Province = 9165 ck3Province = 9166 }
 link = { ck3 = sedism @ir_hindu_religions ck3Province = 826 ck3Province = 827 }
 link = { ck3 = kiratism @ir_hindu_religions ck3Province = 9114 ck3Province = 9119 ck3Province = 9120 ck3Province = 9121 ck3Province = 9125 ck3Province = 9126 ck3Province = 9127 ck3Province = 9136 }
@@ -178,9 +192,15 @@ link = { ck3 = krishnaism @ir_hindu_religions ck3Province = 9093 ck3Province = 9
 link = { ck3 = smartism @ir_hindu_religions ck3Province = 1138 ck3Province = 1175 ck3Province = 1297 ck3Province = 1303 ck3Province = 1331 ck3Province = 1333 ck3Province = 1336 ck3Province = 1339 ck3Province = 1370 ck3Province = 1371 ck3Province = 1372 ck3Province = 1374 ck3Province = 3391 ck3Province = 3392 ck3Province = 3393 ck3Province = 3394 ck3Province = 3398 ck3Province = 3399 ck3Province = 3400 ck3Province = 3401 ck3Province = 3402 ck3Province = 3403 ck3Province = 3404 ck3Province = 3405 ck3Province = 3406 ck3Province = 3407 ck3Province = 3971 ck3Province = 1274 ck3Province = 3965 ck3Province = 3966 ck3Province = 1170 ck3Province = 1298 ck3Province = 1299 ck3Province = 3315 ck3Province = 3316 ck3Province = 3317 ck3Province = 3318 ck3Province = 3319 ck3Province = 3320 ck3Province = 3321 ck3Province = 3322 ck3Province = 3323 ck3Province = 3324 }
 link = { ck3 = srikula_shaktism @ir_hindu_religions ck3Province = 1155 ck3Province = 1160 ck3Province = 1227 ck3Province = 1230 ck3Province = 1252 ck3Province = 3991 ck3Province = 3992 ck3Province = 3993 ck3Province = 3994 ck3Province = 3995 ck3Province = 3996 ck3Province = 3999 ck3Province = 7913 ck3Province = 7914 ck3Province = 7915 ck3Province = 9659 ck3Province = 921 ck3Province = 922 ck3Province = 1272 ck3Province = 1150 ck3Province = 1184 ck3Province = 1185 ck3Province = 1287 ck3Province = 3325 ck3Province = 3326 ck3Province = 3327 }
 link = { ck3 = kalikula_shaktism @ir_hindu_religions ck3Province = 1363 ck3Province = 3422 ck3Province = 3423 ck3Province = 3424 ck3Province = 1352 ck3Province = 1364 ck3Province = 3457 ck3Province = 3458 ck3Province = 3459 ck3Province = 1350 ck3Province = 3477 }
+link = { ck3 = kaumaram @ir_hindu_religions irRegion = dravida_region } # Rajas faith that seems to be more popular around this region
 link = { ck3 = vaishnavism @ir_hindu_religions }
 
 # Bon
+link = { ck3 = sanamahi_pagan ir = bon_religion ck3Culture = meitei } # Rajas faith (Even though this faith isn't in the Tibetan religious group, the meitei are Tibetan)
+link = { ck3 = bathouism ir = bon_religion ck3Culture = kachari } # Rajas faith (Even though this faith isn't in the Tibetan religious group, the kachari are Tibetan)
+link = { ck3 = dongba ir = bon_religion ck3Culture = nakhi } # Rajas faith, represent Bon beliefs of Naxi peoples
+link = { ck3 = rrmeaism ir = bon_religion ck3Culture = qiang } # Vvluphixje/Rrmaeism is faith of Qiang/Rrmea peoples, who follow Bon in Imperator
+link = { ck3 = melieism ir = bon_religion ck3Culture = tangut } # Melie is faith of Tangut peoples, who follow Bon in Imperator
 link = { ck3 = old_bon ir = bon_religion }
 
 # Jain
@@ -218,7 +238,12 @@ link = { ck3 = armenian_apostolic ir = christianity @after_chalcedon irRegion = 
 link = { ck3 = armenian_apostolic ir = christianity @after_chalcedon historicalTag=ARM }
 link = { ck3 = insular_celtic ir = christianity irRegion = caledonia_region irRegion = britain_region }
 link = { ck3 = coptic ir = christianity @after_chalcedon irRegion = arabia_felix_region irRegion = arabia_region irRegion = cyrenaica_region irRegion = fezzan_region irRegion = lower_egypt_region irRegion = nubia_region irRegion = lower_nubia_region irRegion = punt_region irRegion = upper_egypt_region }
-link = { ck3 = nestorian ir = christianity @after_nestorian_schism irRegion = assyria_region irRegion = mesopotamia_region irRegion = persis_region irRegion = media_region irRegion = bactriana_region irRegion = gedrosia_region  irRegion = ariana_region irRegion = parthia_region irRegion = gandhara_region irRegion = maru_region irRegion = avanti_region irRegion = madhyadesa_region irRegion = pracya_region irRegion = vindhyaprstha_region irRegion = dravida_region irRegion = aparanta_region irRegion = karnata_region irRegion = tibet_region irRegion = himalayan_region irRegion = sogdiana_region irRegion = burma_region }
+link = { ck3 = circassian_christianity ir = christianity @after_nestorian_schism irRegion = taurica_region irRegion = scythia_region irRegion = sarmatia_asiatica_region } # Rajas faith; Not actually related to the Nestorian schism, from Wikipedia: Christianity likely entered Circassia between the 3rd and 5th century.
+# indian_catholic only exists in Rajas of India, so use nestorian as fallback for its regions
+@indian_catholic_regions = "irRegion = maru_region irRegion = gandhara_region irRegion = madhyadesa_region irRegion = pracya_region irRegion = vindhyaprstha_region irRegion = dravida_region irRegion = karnata_region irRegion = avanti_region irRegion = aparanta_region"
+@nestorian_regions = "@indian_catholic_regions irRegion = assyria_region irRegion = mesopotamia_region irRegion = persis_region irRegion = media_region irRegion = bactriana_region irRegion = gedrosia_region irRegion = ariana_region irRegion = parthia_region irRegion = tibet_region irRegion = himalayan_region irRegion = sogdiana_region irRegion = burma_region irRegion = xu_region irRegion = yang_region irRegion = yi_region irRegion = yong_region irRegion = you_region irRegion = yu_region irRegion = shuofang_region irRegion = qing_region irRegion = nanzhong_region irRegion = liang_region irRegion = jing_region irRegion = jiao_region irRegion = ji_region irRegion = bing_region irRegion = pyu_region irRegion = funan_region irRegion = suvarnabhumi_region irRegion = austronesia_region irRegion = wa_region irRegion = jin_region irRegion = modong_region irRegion = mobei_region irRegion = xiyu_region irRegion = scytho_siberian_region" # Modified to include Asia
+link = { ck3 = indian_catholic ir = christianity @after_nestorian_schism @indian_catholic_regions } # Rajas faith
+link = { ck3 = nestorian ir = christianity @after_nestorian_schism @nestorian_regions }
 link = { ck3 = catholic ir = christianity @after_acacian_schism @catholic_regions }
 link = { ck3 = orthodox ir = christianity @after_acacian_schism } # vanilla CK3 fallback
 link = { ck3 = chalcedonian ir = christianity @after_chalcedon } # TFE fallback
@@ -230,10 +255,21 @@ link = { ck3 = orthodox ir = christianity } # vanilla CK3 fallback
 link = { ck3 = ashari ir = islam } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = maturidi ir = maturidi } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
-# Finno-Ugric
+# Finno-Ugric (Ilmaric, split up to better account for different cultures)
+link = { ck3 = magyar_pagan ir = uralic_pantheon ck3Culture = mogyer }
+link = { ck3 = sami_pagan ir = uralic_pantheon ck3Culture = sami } # Rajas faith
+link = { ck3 = mari_pagan ir = uralic_pantheon ck3Culture = mari ck3Culture = merya } # Rajas faith
+link = { ck3 = erzya_pagan ir = uralic_pantheon ck3Culture = mordvin } # Rajas faith
+link = { ck3 = moksha_pagan ir = uralic_pantheon ck3Culture = moksha } # Rajas faith
+link = { ck3 = komi_pagan ir = uralic_pantheon ck3Culture = komi } # Rajas faith
+link = { ck3 = udmurt_pagan ir = uralic_pantheon ck3Culture = udmurt } # Rajas faith
+link = { ck3 = kuptyng ir = uralic_pantheon ck3Culture = kott ck3Culture = solqumyt ck3Culture = kurykan } # Rajas faith, exact split between siberian faiths not exactly clear, so just mapped to certain cultures for simplicity
+link = { ck3 = siberian_pagan ir = uralic_pantheon ck3Culture = khanty } # Vanilla faith, exact split between siberian faiths not exactly clear, so just mapped to certain cultures for simplicity
 link = { ck3 = finnish_pagan ir = uralic_pantheon ir = ukonusko } # ukonusko comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 # Burmic (from Invictus)
+link = { ck3 = khasi_animism ir = burmese_religion ck3Culture = khasi } # Rajas faith
+link = { ck3 = wa_animism ir = burmese_religion ck3Culture = wa } # Rajas faith
 link = { ck3=burmic ir=burmese_religion }
 
 # Hurrian
@@ -241,6 +277,76 @@ link = { ck3=hurrian ir=hurrian_pantheon } # added by Invictus
 
 # Elamite
 link = { ck3 = elamite_faith ir = elamite_pantheon }
+
+### Terra-Indomita to RoA
+## Ruism
+link = { ck3 = jingxue ir = confucian } # Mapping to Jingxue since it seems to have a higher emphasis on classical teachings. Lixue seems to have been created during the Song dynasty, well after Imperator Rome, and Hanru was during the Han Dynasty, which is a specific state that doesn't actually exist in Imperator Rome (Not to be confused with the Han tag, they are different)
+
+## Shenic
+link = { ck3 = shendao ir = chinese_religions } # Shenic seems like it is supposed to represent traditional chinese religions/beliefs
+
+## Taoism
+link = { ck3 = zhengyi ir = taoism }
+
+## Hanitu
+link = { ck3 = formosa_animism ir = taiwan_religion }
+
+## Fuchite
+link = { ck3 = ainu_paganism ir = ainu_religion }
+
+## Yzic
+link = { ck3 = yzng ir = nivkh_religion }
+
+## Unaric
+link = { ck3 = ryukyu_animism ir = okinawa_religion }
+
+## Anito
+link = { ck3 = kabunian ir = pinoy_religion ck3Culture = idaya ck3Culture = ilokano } # Filipino faith of these cultures
+link = { ck3 = malyari ir = pinoy_religion ck3Culture = tagalog ck3Culture = palawan } # Filipino faith of these cultures
+link = { ck3 = dayaw ir = pinoy_religion ck3Culture = bisaya } # Filipino faith of these cultures
+link = { ck3 = tulumanon ir = pinoy_religion } # Filipino faith of cultures/places out of Terra-Indomita scope, so just going to use that as fallback
+
+## Muisic
+link = { ck3 = muism ir = yi_religions }
+
+## Baiyue
+link = { ck3 = hmongism ir = baiyue_religions ck3Culture = hmong ck3Culture = sheren ck3Culture = yao } # In Imperator, cultures that map to these cultures follow Baiyue
+link = { ck3 = shendao ir = baiyue_religions } # Not sure how realistic this is. In Imperator, Baiyue is followed by the Yue and Miao culture groups. The Miao cultures map to hmongism above. The Yue cultures map to Wu, Min, and Yue in CK3, which all largely practice Wuism (shendao)
+
+## Mohist
+link = { ck3 = quanzhen ir = mohism } # Wikipedia says it was a major rival to confucianism, and that it eventually got integrated into sects of Taoism, and ChatGPT says this is the better mapping
+
+## Kodo
+link = { ck3 = shinto ir = wa_religions }
+
+## Shamanism
+link = { ck3 = bugaism ir = tunguistic_religion ck3Culture = evenk } # Faith of Evenk in CK3
+link = { ck3 = abkaism ir = tunguistic_religion } # Faith of other Tungusic peoples, so will be fallback
+
+## Phiism (Religion of the Tai peoples of Indochina)
+link = { ck3 = ban_phi ir = satsana_phi_religion } # Fallback, RICE & Rajas faith
+
+## Yungism
+link = { ck3 = kuy_animism ir = funan_religion } # Fallback, Rajas faith
+
+## Dukunic
+link = { ck3 = nias_animism ir = austronesian_religion ck3Culture = nias }
+link = { ck3 = kadai ir = austronesian_religion ck3Culture = aslian } # No info, but Aslian peoples follow this in Rajas
+link = { ck3 = umboh ir = austronesian_religion ck3Culture = seletar ck3Culture = moklen } # Moklen and Seletar peoples follow it in Rajas
+link = { ck3 = mentawai_animism ir = austronesian_religion ck3Culture = mentawai }
+link = { ck3 = batak_animism ir = austronesian_religion ck3Culture = batak }
+link = { ck3 = malayic ir = austronesian_religion }
+
+## Mastoic
+link = { ck3 = nuristani_pagan ir = masto_pantheon } # Areas match, and descriptions in both games say they likely predate Vedic beliefs
+
+## Carvaka
+link = { ck3 = shrautism ir = charvaka } # There doesn't seem to be a perfect fit for this, but according to ChatGPT, Shrautism is the best fit
+
+## Moism
+link = { ck3 = bimoism ir = tai_religion ck3Culture = yi ck3Culture = caijia }
+link = { ck3 = benzhu ir = tai_religion ck3Culture = bai ck3Culture = lisu }
+link = { ck3 = moism ir = tai_religion }
 
 # East Asian religions
 ## For Asia Expansion Project mod
