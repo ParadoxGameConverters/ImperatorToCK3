@@ -41,6 +41,15 @@
 	{
 		250 = fp3_yearly.8020 # The Lady of the Land
 	}
+	{
+					modifier = {
+						add = 20
+						exists = character:125501
+						character:125501 = {
+							is_physically_able_ai_adult = yes
+						}
+					}
+	}
 }
 
 "common/on_action/death.txt" = {
@@ -138,6 +147,31 @@
 			}
 		}
 	}
+
+	{
+		# EP3, Wallada transfers possessions to her heir
+		if = {
+			limit = {
+				root = character:andalusian_0003
+				exists = player_heir
+			}
+			# save Wallada's scope
+			save_scope_as = wallada
+			random_artifact = {
+				limit = {
+					has_artifact_modifier = double_moon_modifier
+				}
+				set_owner = scope:wallada.primary_heir
+				save_scope_as = double_moon_book
+			}
+			primary_heir = {
+				trigger_event = {
+					id = ep3_story_cycle_violet_poet.0004
+					days = 1
+				}
+			}
+		}
+	}
 }
 
 "common/on_action/game_start.txt" = {
@@ -210,6 +244,10 @@
 				}
 			}
 		}
+	}
+	{
+		# Basileios has just murdered Michael III.
+		character:1700 ?= { trigger_event = bookmark.0211 }
 	}
 # setup
 	{
@@ -670,6 +708,194 @@
 			}
 		}
 	}
+	{
+			## El Cid 
+			character:107590 ?= {
+				if = {
+					limit = {
+						is_alive = yes
+						is_landless_adventurer = yes
+					}
+					add_realm_law_skip_effects = camp_purpose_mercenaries
+					if = {
+						limit = {
+							character:71391 = {
+								NOT = { is_courtier_of = character:107590 }
+							}
+						}
+						add_courtier = character:71391
+					}
+					if = {
+						limit = {
+							character:castilian0248 = {
+								NOT = { is_courtier_of = character:107590 }
+							}
+						}
+						add_courtier = character:castilian0248
+					}
+					if = {
+						limit = {
+							character:castilian0249 = {
+								NOT = { is_courtier_of = character:107590 }
+							}
+						}
+						add_courtier = character:castilian0249
+					}
+				}
+			}
+	}
+	{
+			## Robert Crispin
+			character:norman_crispin_06 ?= {
+				if = {
+					limit = {
+						is_alive = yes
+						is_landless_adventurer = yes
+					}
+					add_realm_law_skip_effects = camp_purpose_mercenaries
+				}
+			}
+	}
+	{
+			## Hassan Sabbah
+			character:41702 ?= {
+				if = {
+					limit = {
+						is_alive = yes
+						is_landless_adventurer = yes
+					}
+					add_realm_law_skip_effects = camp_purpose_scholars
+				}
+			}
+	}
+	{
+			## Suleyman Qutalmishog
+			character:3046 ?= {
+				if = {
+					limit = {
+						is_alive = yes
+						is_landless_adventurer = yes
+					}
+					add_realm_law_skip_effects = camp_purpose_mercenaries
+					trigger_event = bookmark.1073 # Suleyman's beef with Alp Arslan
+				}
+			}
+	}
+	{
+			## Wallada bint al-Mustakfi
+			character:andalusian_0003 ?= {
+				if = {
+					limit = {
+						is_alive = yes
+						is_landless_adventurer = yes
+					}
+					add_realm_law_skip_effects = camp_purpose_scholars
+					trigger_event = ep3_story_cycle_violet_poet.0001
+				}
+			}
+	}
+	{
+			## Taylu Danişmend
+			character:danishmendid_1 ?= {
+				if = {
+					limit = {
+						is_alive = yes
+						is_landless_adventurer = yes
+					}
+					add_realm_law_skip_effects = camp_purpose_mercenaries
+				}
+			}
+	}
+	{
+			## Roger Raoul
+			character:232504 ?= {
+				if = {
+					limit = {
+						is_alive = yes
+						is_landless_adventurer = yes
+					}
+					add_realm_law_skip_effects = camp_purpose_mercenaries
+				}
+			}
+	}
+	{
+		### 1066 - HASAN SABBAH STORY CYCLE ###
+		character:41702 ?= {
+			if = {
+				limit = {
+					is_alive = yes
+					is_playable_character = yes
+				}
+				house = { set_house_head = prev }
+				trigger_event = {
+					id = hasan_sabbah.1000
+					days = 1
+				}
+			}
+		}
+	}
+	{
+			## Hereweard the Wake
+			character:90028 ?= {
+				if = {
+					limit = { is_alive = yes }
+					add_realm_law_skip_effects = camp_purpose_brigands
+					if = {
+						limit = {
+							character:90160 = {
+								NOT = { is_courtier_of = character:90028 }
+							}
+						}
+						add_courtier = character:90160
+					}
+				}
+				# Setup event for his story
+				trigger_event = {
+					id = ep3_laamps.5999
+					days = { 1 2 }
+				}
+			}
+	}
+	{
+		# Conquerors
+		character:144133 ?= {
+			if = {
+				limit = {
+					is_alive = yes
+					NOT = { has_game_rule = no_conquerors_frequency }
+				}
+				create_story = story_conqueror
+			}
+		}
+		character:144141 ?= {
+			if = {
+				limit = {
+					is_alive = yes
+					NOT = { has_game_rule = no_conquerors_frequency }
+				}
+				create_story = story_conqueror
+			}
+		}
+		character:175080 ?= {
+			if = {
+				limit = {
+					is_alive = yes
+					NOT = { has_game_rule = no_conquerors_frequency }
+				}
+				create_story = story_conqueror
+			}
+		}
+		character:226000 ?= {
+			if = {
+				limit = {
+					is_alive = yes
+					NOT = { has_game_rule = no_conquerors_frequency }
+				}
+				create_story = story_conqueror
+			}
+		}
+	}
+
 # achievements
 	{
 		### ACHIEVEMENT TRACKING FOR STARTING CHARACTERS
@@ -1427,14 +1653,14 @@ title_event.0002 = {
 	}
 }
 
-"common\character_interactions\00_war.txt" = {
+"common/character_interactions/00_war.txt" = {
 	{
 		#Special bookmark event for Aella of Northumbria
 		bookmark_867_northmen_aellas_capture_war_imprisonment_effect = yes
 	}
 }
 
-"common\scripted_effects\00_bookmark_effects.txt" = {
+"common/scripted_effects/00_bookmark_effects.txt" = {
 	{
 bookmark_867_northmen_aellas_capture_war_imprisonment_effect = {
 	if = {
@@ -1462,7 +1688,7 @@ bookmark_867_northmen_aellas_capture_war_imprisonment_effect = {
 	}
 }
 
-"events\artifacts\historical_artifacts_events.txt" = {
+"events/artifacts/historical_artifacts_events.txt" = {
 	{
 		### Chalice of Dona Urraca
 		if = {
@@ -1577,9 +1803,112 @@ bookmark_867_northmen_aellas_capture_war_imprisonment_effect = {
 			}
 		}
 	}
+
+	{
+		### Reichskrone
+		if = {
+			limit = {
+				current_date > 1000.1.1
+				exists = title:e_hre.holder
+			}
+			title:e_hre.holder = {
+				create_artifact_reichskrone_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Iron Crown of Lombardy
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				exists = title:e_hre.holder
+			}
+			title:e_hre.holder = {
+				create_artifact_pedestal_crown_iron_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Nikephoros' Crown
+		if = {
+			limit = {
+				current_date >= 1000.1.1
+				exists = title:e_byzantium.holder
+			}
+			title:e_byzantium.holder = {
+				create_artifact_nikephoros_crown_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Essen Crown
+		if = {
+			limit = {
+				current_date > 1000.1.1
+				exists = title:e_hre.holder
+			}
+			title:e_hre.holder = {
+				create_artifact_essen_crown_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Curtana
+		#### Not the *actual* Curtana, but at least occasionally traced as Edward the Confessor's sword (and then ascribed an even more mythic origin from there).
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				current_date >= 1042.8.6
+				exists = title:k_england.holder
+			}
+			title:k_england.holder = {
+				create_artifact_curtana_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Papal Tiara
+		if = {
+			limit = { exists = title:k_papal_state.holder }
+			title:k_papal_state.holder = {
+				create_artifact_papal_tiara_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### (Former) Bells of Santiago
+		#### These aren't actually furniture, but we keep 'em here so they're next to the regular bells, which *are*.
+		if = {
+			# If we're after Almanzor's raid, then the bells go to c_toledo's holder.
+			limit = {
+				has_fp2_dlc_trigger = yes
+				current_date >= 997.1.1
+			}
+			title:c_toledo.holder = {
+				create_artifact_various_aquamanile_santiago = { OWNER = this }
+				# The bells have been morphed once.
+				scope:newly_created_artifact = {
+					set_variable = {
+						name = artefact_santiago_bells
+						value = 1
+					}
+				}
+			}
+		}
+	}
+
+	{
+				create_artifact_statue_constantine_effect = { OWNER = this }
+	}
 }
 
-"common\scripted_effects\03_dlc_fp2_scripted_effects.txt" = {
+"common/scripted_effects/03_dlc_fp2_scripted_effects.txt" = {
 	{
 create_artifact_goblet_chalice_of_dona_urraca = {
 	$OWNER$ = { save_scope_as = owner }
@@ -1613,9 +1942,45 @@ create_artifact_goblet_chalice_of_dona_urraca = {
 	}
 }
 	}
+
+	{
+create_artifact_various_aquamanile_santiago = {
+	$OWNER$ = { save_scope_as = owner }
+	character:3206 = { save_scope_as = reforger }
+	set_artifact_rarity_illustrious = yes
+	scope:owner = {
+		create_artifact = {
+			name = fp2_santiago_aquamanile
+			description = fp2_santiago_aquamanile_desc
+			template = fp2_santiago_aquamanile_template
+			type = miscellaneous_when_not_court
+			visuals = fp2_santiago_aquamanile
+			wealth = scope:wealth
+			quality = scope:quality
+			modifier = former_bells_of_santiago_modifier
+			decaying = no
+			save_scope_as = newly_created_artifact
+		}
+	}
+	scope:newly_created_artifact = {
+		set_variable = {
+			name = dlc_potential_court_artefact
+			value = yes
+		}
+		set_variable = {
+			name = historical_unique_artifact
+			value = yes
+		}
+		set_variable = {
+			name = relic
+			value = flag:iberian_struggle
+		}
+	}
+}
+	}
 }
 
-"common\scripted_effects\01_exp1_historical_artifacts_creation_effect.txt" = {
+"common/scripted_effects/01_exp1_historical_artifacts_creation_effect.txt" = {
 	{
 create_artifact_pedestal_justinian_effect = {
 	# Get the character the artifact is being made for.
@@ -1914,9 +2279,384 @@ create_artifact_wall_sword_attila_effect = {
 	}
 }
 	}
+
+	{
+create_artifact_reichskrone_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = reichskrone_name
+		description = reichskrone_description
+		type = helmet
+		visuals = hre_crown
+		wealth = scope:wealth
+		quality = scope:quality
+		template = reichskrone_template
+		history = {
+			type = created
+			date = 962.1.1
+			recipient = character:1282 #Otto I
+			location = province:2092 #Aachen
+		}
+		modifier = reichskrone_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = artifact_succession_title
+			value = title:e_hre
+		}
+		add_artifact_title_history = {
+			target = title:e_hre
+			date = 962.1.1
+		}
+		set_variable = {
+			name = reichskrone
+			value = yes
+		}
+		save_scope_as = epic
+	}
+}
+	}
+
+	{
+create_artifact_pedestal_crown_iron_effect = { #Create at start
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = artifact_pedestal_crown_iron_name
+		description = artifact_pedestal_crown_iron
+		type = pedestal
+		template = crown_iron_template
+		visuals = pedestal_crown_iron
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created
+			date = 313.2.1
+			recipient = character:70523 #Konstantinos I the Great
+			location = province:496 #Constantinople
+		}
+		modifier = iron_crown_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = iron_crown
+		add_artifact_history = {
+			type = given
+			date = 600.1.1
+			actor = character:7893
+			recipient = character:190171
+			location = province:2475
+		}
+		add_artifact_history = {
+			type = given
+			date = 774.7.10
+			recipient = character:6392
+			location = province:2475
+		}
+		add_artifact_history = {
+			type = given
+			date = 781.1.1
+			recipient = character:6394
+			location = province:2475
+		}
+		add_artifact_history = {
+			type = inherited
+			date = 810.1.1
+			recipient = character:6396
+			location = province:2475
+		}
+		add_artifact_history = {
+			type = inherited
+			date = 818.4.17
+			recipient = character:90095
+			location = province:2475
+		}
+		add_artifact_history = {
+			type = inherited
+			date = 887.1.1
+			recipient = character:71901
+			location = province:2475
+		}
+		# k_italy history copied manually because it is destroyed before 1066
+		add_artifact_history = {
+			type = inherited
+			date = 896.1.1
+			recipient = character:167969 #Liutfrido
+		}
+		add_artifact_history = {
+			type = inherited
+			date = 905.3.1
+			recipient = character:167970 #Gotofredo
+		}
+		add_artifact_history = {
+			type = inherited
+			date = 910.8.4
+			recipient = character:167971 #Gausberto
+		}
+		add_artifact_history = {
+			type = inherited
+			date = 940.1.1
+			recipient = character:167972 #Uberto
+		}
+		add_artifact_history = {
+			type = inherited
+			date = 941.11.1
+			recipient = character:167973 #Adalberto
+		}
+		add_artifact_history = {
+			type = inherited
+			date = 967.1.1
+			recipient = character:7727 #Aleramo Aleramicci
+		}
+		add_artifact_history = {
+			type = inherited
+			date = 991.1.1
+			recipient = character:7728 #Ottone I
+		}
+		add_artifact_history = {
+			type = inherited
+			date = 991.6.1
+			recipient = character:7729 #Guglielmo I
+		}
+		add_artifact_history = {
+			type = inherited
+			date = 941.11.1
+			recipient = character:167973 #Adalberto
+		}
+		add_artifact_title_history = {
+			target = title:e_hre
+			date = 1039.2.4
+		}
+		save_scope_as = epic
+	}
+}
+	}
+
+	{
+create_artifact_nikephoros_crown_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = nikephoros_crown_name
+		description = nikephoros_crown_description
+		type = pedestal
+		visuals = pedestal_justinian
+		template = justinian_template #Same as Justinian
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created
+			date = 963.7.2
+			recipient = character:1712 #Nikephoros Phokas
+			location = province:496 #Constantinople
+		}
+		modifier = nikephoros_crown_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = artifact_succession_title
+			value = title:e_byzantium
+		}
+		add_artifact_title_history = {
+			target = title:e_byzantium
+			date = 969.12.10
+		}
+	}
+}
+	}
+
+	{
+create_artifact_essen_crown_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = essen_crown_name
+		description = essen_crown_description
+		type = pedestal
+		wealth = scope:wealth
+		quality = scope:quality
+		visuals = hre_crown
+		template = general_unique_template
+		history = {
+			type = created
+			date = 983.1.1
+			recipient = character:1288 #Otto III
+			location = province:2677 #Essen
+		}
+		modifier = essen_crown_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		add_artifact_title_history = {
+			target = title:e_hre
+			date = 1002.1.23
+		}
+		set_variable = {
+			name = artifact_succession_title
+			value = title:e_hre
+		}
+	}
+}
+	}
+
+	{
+create_artifact_curtana_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {
+		name = artifact_curtana_name
+		description = artifact_curtana_description
+		template = general_unique_template
+		type = pedestal
+		visuals = sword_court
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created
+			date = 1042.6.9
+			recipient = character:114 #Eadward the Confessor
+			location = province:1527 #Lunden
+		}
+		modifier = curtana_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = curtana
+		save_scope_as = epic
+		add_artifact_title_history = {
+			target = title:k_england
+			date = 1066.1.5
+		}
+	}
+}
+	}
+
+	{
+create_artifact_papal_tiara_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	set_artifact_rarity_illustrious = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = papal_tiara_name
+		description = papal_tiara_description
+		template = papal_tiara_template
+		type = helmet
+		visuals = pope_tiara
+		wealth = scope:wealth
+		quality = scope:quality
+		history = {
+			type = created
+			date = 800.1.1
+			recipient = character:7862 #Leo III - fictitious date, probably somewhere between the 8th and 9th centuries
+			location = province:2575 #Rome
+		}
+		modifier = artifact_monthly_piety_4_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = { name = historical_unique_artifact value = yes }
+		set_variable = {
+			name = relic
+			value = flag:christian
+		}
+		set_variable = {
+			name = artifact_succession_title
+			value = title:k_papal_state
+		}
+		set_variable = {
+			name = pope_hat
+			value = yes
+		}
+		add_artifact_title_history = {
+			target = title:k_papal_state
+			date = 816.6.12
+		}
+		add_artifact_modifier = artifact_monthly_learning_lifestyle_xp_2_modifier
+	}
+}
+	}
+
+	{
+create_artifact_statue_constantine_effect = {
+	# Get the character the artifact is being made for.
+	$OWNER$ = { save_scope_as = owner }
+	# Not really used, but if we don't set the scopes we get errors in the feature selection
+	set_artifact_rarity_famed = yes
+
+	# Create the artifact
+	create_artifact = {	
+		name = artifact_statue_constantine_name
+		description = artifact_statue_constantine
+		type = sculpture
+		visuals = statue_constantine
+		wealth = scope:wealth
+		quality = scope:quality
+		template = statue_constantine_template
+		history = {
+			type = created
+			date = 330.1.1
+			recipient = character:70523 #Constantine the Great
+			location = province:496 #Constantinople
+		}
+		modifier = statue_constantine_modifier
+		save_scope_as = newly_created_artifact
+		decaying = no
+	}
+
+	scope:newly_created_artifact = {
+		set_variable = statue_constantine
+		save_scope_as = epic
+		add_artifact_title_history = {
+			target = title:e_byzantium
+			date = 330.1.1
+		}
+	}
+}
+	}
 }
 
-"common\scripted_effects\00_ep1_inspiration_effects.txt" = {
+"common/scripted_effects/00_ep1_inspiration_effects.txt" = {
 	{
 							10 = {
 								modifier = {
@@ -2062,9 +2802,94 @@ create_artifact_wall_sword_attila_effect = {
 								create_artifact_wall_sword_attila_effect = { OWNER = root }
 							}
 	}
+
+	{
+							10 = { #Recreate if lost
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = iron_crown
+										}
+									}
+									scope:location ?= {
+										OR = {
+											geographical_region = custom_northern_italy
+											culture = { has_cultural_pillar = heritage_latin }
+										}
+									}
+								}
+								create_artifact_pedestal_crown_iron_effect = { OWNER = root }
+							}
+	}
+
+	{
+							10 = { #Curtana
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									any_artifact = {
+										count < 1
+										has_variable = curtana
+									}
+									scope:location ?= {
+										OR = {
+											geographical_region = world_europe_west
+											geographical_region = world_europe_south
+										}
+									}
+								}
+								create_artifact_curtana_effect = { OWNER = ROOT }
+							}
+	}
+
+	{
+							10 = { #Constantine statue
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									any_artifact = {
+										count < 3
+										has_variable = statue_constantine
+									}
+									scope:location ?= {
+										OR = {
+											geographical_region = world_europe_south_italy #Rome
+											geographical_region = world_asia_minor #Constantinople
+										}
+									}
+								}
+								create_artifact_statue_constantine_effect = { OWNER = root }
+							}
+	}
 }
 
-"common\scripted_effects\00_ep1_artifact_creation_effects.txt" = {
+"common/scripted_effects/00_ep1_artifact_creation_effects.txt" = {
 	{
 		10 = { #Crown of Justinian
 			trigger = {
@@ -2150,15 +2975,50 @@ create_artifact_wall_sword_attila_effect = {
 			create_artifact_edmund_head_effect = { OWNER = root }
 		}
 	}
+
+	{
+		10 = { #Iron Crown - Recreate if lost
+			trigger = {
+				NOT = {
+					any_artifact = { has_variable = iron_crown }
+				}
+				$LOCATION$ ?= {
+					OR = {
+						geographical_region = custom_northern_italy
+						culture = { has_cultural_pillar = heritage_latin }
+					}
+				}
+			}
+			create_artifact_pedestal_crown_iron_effect = { OWNER = root }
+		}
+	}
+
+	{
+		10 = { #Curtana
+			trigger = {
+				any_artifact = {
+					count < 1
+					has_variable = curtana
+				}
+				$LOCATION$ ?= {
+					OR = {
+						geographical_region = world_europe_west
+						geographical_region = world_europe_south
+					}
+				}
+			}
+			create_artifact_curtana_effect = { OWNER = ROOT }
+		}
+	}
 }
 
-"common\scripted_effects\01_dlc_fp3_scripted_effects.txt" = {
+"common/scripted_effects/01_dlc_fp3_scripted_effects.txt" = {
 	{
 		set_coa = house:house_seljuk
 	}
 }
 
-"common\scripted_modifiers\00_marriage_scripted_modifiers.txt" = {
+"common/scripted_modifiers/00_marriage_scripted_modifiers.txt" = {
 	{
 	#############
 	#  HAROLD   #
@@ -2188,7 +3048,183 @@ create_artifact_wall_sword_attila_effect = {
 	}
 }
 
-"events\bookmark_events.txt" = {
+"events/bookmark_events.txt" = {
+	{
+#	Basileios has just murdered Michael.
+## Credit to Stu Taylor of Dead Good Comics for the title line and entire lead-in to this event.
+bookmark.0211 = {
+	type = character_event
+	title = bookmark.0211.t
+	desc = bookmark.0211.desc
+	theme = murder_scheme
+	left_portrait = {
+		character = scope:basil
+		animation = toast_goblet
+		outfit_tags = { military_outfit no_cloak no_headgear }
+	}
+	right_portrait = {
+		character = scope:michael
+		animation = map_fear
+	}
+	override_background = { reference = ep3_byzantine_feast }
+
+	trigger = { is_alive = yes }
+
+	immediate = {
+		play_music_cue = "mx_cue_murder"
+		character:1700 = { save_scope_as = basil }
+		character:70490 = {
+			save_scope_as = michael
+			# Remove his nickname, which we have to leave on him for future bookmarks otherwise.
+			hidden_effect = { remove_nickname = yes }
+		}
+	}
+
+	# Michael the Drunkard.
+	option = {
+		name = bookmark.0211.a
+		flavor = bookmark.0211.a.flavour
+		
+		scope:michael = { give_nickname = nick_the_drunkard_michael_iii }
+		add_legitimacy_effect = { LEGITIMACY = major_legitimacy_gain }
+
+		# No stress, no AI.
+	}
+	
+	# Michael the Pious.
+	option = {
+		name = bookmark.0211.b
+		trigger = { is_ai = no }
+		flavor = bookmark.0211.b.flavour
+
+		scope:michael = { give_nickname = nick_the_pious_michael_iii }
+		add_piety = massive_piety_gain
+
+		# No stress, no AI.
+	}
+	
+	# Michael the Young.
+	option = {
+		name = bookmark.0211.c
+		trigger = { is_ai = no }
+		flavor = bookmark.0211.c.flavour
+
+		scope:michael = { give_nickname = nick_the_young_michael_iii }
+
+		domicile ?= {
+			switch = {
+				trigger = has_domicile_building
+				vineyard_05 = { add_domicile_building = vineyard_06 }
+				vineyard_04 = { add_domicile_building = vineyard_05 }
+				vineyard_03 = { add_domicile_building = vineyard_04 }
+				vineyard_02 = { add_domicile_building = vineyard_03 }
+				vineyard_01 = { add_domicile_building = vineyard_02 }
+				fallback = {
+					if = {
+						limit = { free_external_domicile_building_slots >= 1 }
+						add_domicile_building = vineyard_01
+					}
+					else = {
+						root = { add_prestige = major_prestige_gain }
+					}
+				}
+			}
+		}
+
+		# No stress, no AI.
+	}
+}
+	}
+
+	{
+# The Seljuk Scion
+bookmark.1073 = {
+	type = character_event
+	title = bookmark.1073.t
+	desc = bookmark.1073.desc
+	theme = martial
+	override_background = { reference = terrain_scope }
+	
+	left_portrait = {
+		character = root
+		animation = stress
+	}
+	right_portrait = {
+		character = scope:alp_arslan
+		animation = war_over_win
+	}
+	lower_left_portrait = scope:qutalmish
+	lower_right_portrait = scope:tughril
+
+	immediate = {
+		character:3040 = { save_scope_as = alp_arslan }
+		character:3033 = { save_scope_as = qutalmish }
+		character:3038 = { save_scope_as = tughril }
+		title:e_persia.title_capital_county.title_province = { save_scope_as = background_terrain_scope }
+		show_as_tooltip = {
+			scope:alp_arslan = {
+				set_relation_rival = { reason = rival_killed_parent target = root }
+			}
+			add_realm_law = camp_purpose_mercenaries
+		}
+		spawn_army = {
+			name = event_troop_default_name
+			men_at_arms = {
+				type = horse_archers
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_horsemen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_footmen
+				stacks = 2
+			}
+			location = root.location
+			origin = root.location
+		}
+	}
+
+	option = {
+		name = bookmark.1073.a
+		add_prestige_level = 1
+		spawn_army = {
+			name = event_troop_default_name
+			men_at_arms = {
+				type = horse_archers
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_horsemen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_footmen
+				stacks = 2
+			}
+			location = root.location
+			origin = root.location
+		}
+		ai_chance = {
+			base = 90
+		}
+	}
+
+	option = {
+		name = bookmark.1073.b
+		add_unpressed_claim = title:e_persia
+		add_realm_law = camp_purpose_legitimists
+		scope:alp_arslan = {
+			set_relation_nemesis = { reason = rival_killed_parent target = root }
+		}
+		ai_chance = {
+			base = 10
+		}
+	}
+}
+	}
+
 	{
 ###Æthelred isn't as cool as Alfred so we kill him
 bookmark.0001 = { #by Mathilda Bjarnehed
@@ -2952,6 +3988,62 @@ bookmark.1066 = {
 	}
 }
 	}
+
+	{
+###We let the player decide which dynasty Sibylla's son will belong to avoid undesirable potential game overs
+bookmark.0300 = { # by Nicholas Legault
+	type = character_event
+	title = bookmark.0300.t
+	desc = bookmark.0300.desc
+
+	theme = family
+	left_portrait = {
+		character = root
+		animation = personality_rational
+	}
+	lower_center_portrait = {
+		character = scope:dead_husband
+		animation = dead
+	}
+	right_portrait = {
+		character = scope:baby_baudouin
+	}
+
+	trigger = {
+		is_ai = no
+		AND = {
+			character:223541 = {
+				is_ai = yes
+				is_alive = yes
+			}
+		}
+	}
+
+	immediate = {
+		character:223541 = { save_scope_as = baby_baudouin }
+		character:223540 = { save_scope_as = dead_husband }
+	}
+
+	option = {
+		name = bookmark.0300.a
+
+		character:223541 = { set_house = root.house }
+
+		ai_chance = {
+			base = 0 # The AI shouldn't get this event, but should want to maintain the status quo if it did
+		}
+	}
+	
+	option = {
+		name = bookmark.0300.b
+		
+		ai_chance = {
+			base = 100	# AI doesn't get this event, but should always pick no.
+		}
+		custom_tooltip = bookmark.0300.b.tt
+	}
+}
+	}
 }
 
 "events\single_combat_events.txt" = {
@@ -2965,7 +4057,7 @@ bookmark.1066 = {
 	}
 }
 
-"events\game_rule_events.txt" = {
+"events/game_rule_events.txt" = {
 	{
 game_rule.1011 = {
 	scope = none
@@ -3008,6 +4100,1517 @@ game_rule.1011 = {
 	}
 }
 	}
+
+	{
+#	Figure out whether we should fire a conclusion event during the Conquest.
+game_rule.1021 = {
+	hidden = yes
+
+	trigger = {
+		exists = global_var:deterministic_conquest_of_england_1066
+		NAND = {
+			exists = global_var:norwegian_invasion_cb_concluded
+			exists = global_var:norman_conquest_cb_concluded
+		}
+		OR = {
+			has_game_rule = historicity_norman_conquest_determined_harold
+			has_game_rule = historicity_norman_conquest_determined_harald
+			game_rule_rig_norman_conquest_for_hereward_trigger = yes
+			has_game_rule = historicity_norman_conquest_determined_edgar
+			has_game_rule = historicity_norman_conquest_determined_margaret
+			has_game_rule = historicity_norman_conquest_determined_aelfwine
+			has_game_rule = historicity_norman_conquest_determined_svend
+			has_game_rule = historicity_norman_conquest_determined_cadoc
+		}
+		any_character_war = {
+			OR = {
+				using_cb = norman_conquest_cb
+				using_cb = norwegian_invasion_cb
+			}
+		}
+	}
+
+	immediate = {
+		# We do this in the immediate because uhhh... it was _not_ liking being in the trigger for some reason.
+		scope:army.involved_combat_side ?= {
+			side_primary_participant = { save_scope_as = char_1 }
+			enemy_side.side_primary_participant = {
+				if = {
+					limit = {
+						any_character_war = {
+							OR = {
+								using_cb = norman_conquest_cb
+								using_cb = norwegian_invasion_cb
+							}
+						}
+					}
+					save_scope_as = char_2
+				}
+			}
+		}
+		if = {
+			limit = {
+				exists = scope:char_1
+				exists = scope:char_2
+			}
+			# Double check what narrative we'd use.
+			scope:new_location = {
+				# Historical settings.
+				## Stamford Bridge.
+				if = {
+					limit = { this = province:1588 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:stamford_bridge
+					}
+				}
+				## Hastings.
+				else_if = {
+					limit = { this = province:1509 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:hastings
+					}
+				}
+				# Likely mechanical spots.
+				## Dover.
+				else_if = {
+					limit = { this = province:1502 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:dover
+					}
+				}
+				## Isle of Wight.
+				else_if = {
+					limit = { this = province:1549 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:isle_of_wight
+					}
+				}
+				# Cities/places of interest by priority order.
+				## Forest of Dean.
+				### Yes, this belongs at the top.
+				else_if = {
+					limit = { this = province:1580 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:forest_of_dean
+					}
+				}
+				## London.
+				else_if = {
+					limit = { this = province:1527 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:london
+					}
+				}
+				## Winchester.
+				else_if = {
+					limit = { this = province:1544 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:winchester
+					}
+				}
+				## York.
+				else_if = {
+					limit = { this = province:1595 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:york
+					}
+				}
+				## Lincoln.
+				else_if = {
+					limit = { this = province:1583 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:lincoln
+					}
+				}
+				## Oxford.
+				else_if = {
+					limit = { this = province:1558 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:oxford
+					}
+				}
+				## Cirencester.
+				else_if = {
+					limit = { this = province:1582 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:cirencester
+					}
+				}
+				## Guildford.
+				else_if = {
+					limit = { this = province:1511 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:guildford
+					}
+				}
+				## Lindisfarne.
+				else_if = {
+					limit = { this = province:1610 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:lindisfarne
+					}
+				}
+				## Land's End.
+				else_if = {
+					limit = { this = province:1575 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:lands_end
+					}
+				}
+				## Stonehenge. Because you're a memelord.
+				else_if = {
+					limit = { this = province:1561 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:stonehenge
+					}
+				}
+				## Southwark.
+				else_if = {
+					limit = { this = province:1526 }
+					save_scope_value_as = {
+						name = locale
+						value = flag:southwark
+					}
+				}
+				# Places outside England.
+				## Scotland.
+				else_if = {
+					limit = {
+						county = {
+							any_this_title_or_de_jure_above = { this = title:k_scotland }
+						}
+					}
+					save_scope_value_as = {
+						name = locale
+						value = flag:scotland
+					}
+				}
+				## Wales.
+				else_if = {
+					limit = {
+						county = {
+							any_this_title_or_de_jure_above = { this = title:k_wales }
+						}
+					}
+					save_scope_value_as = {
+						name = locale
+						value = flag:wales
+					}
+				}
+				## Norway.
+				else_if = {
+					limit = {
+						county = {
+							any_this_title_or_de_jure_above = { this = title:k_norway }
+						}
+					}
+					save_scope_value_as = {
+						name = locale
+						value = flag:norway
+					}
+				}
+				## Normandy.
+				else_if = {
+					limit = {
+						county = {
+							any_this_title_or_de_jure_above = { this = title:d_normandy }
+						}
+					}
+					save_scope_value_as = {
+						name = locale
+						value = flag:normandy
+					}
+				}
+				## France.
+				else_if = {
+					limit = {
+						county = {
+							any_this_title_or_de_jure_above = { this = title:k_france }
+						}
+					}
+					save_scope_value_as = {
+						name = locale
+						value = flag:france
+					}
+				}
+				# Generic terrain/situations.
+				## Riverside.
+				else_if = {
+					limit = { is_riverside_province = yes }
+					save_scope_value_as = {
+						name = locale
+						value = flag:riverside
+					}
+				}
+				## Coastal.
+				else_if = {
+					limit = { is_coastal = yes }
+					save_scope_value_as = {
+						name = locale
+						value = flag:coastal
+					}
+				}
+				## Forest.
+				else_if = {
+					limit = { terrain = forest }
+					save_scope_value_as = {
+						name = locale
+						value = flag:forest
+					}
+				}
+				## Plains.
+				else_if = {
+					limit = { terrain = plains }
+					save_scope_value_as = {
+						name = locale
+						value = flag:plains
+					}
+				}
+				## Farmlands.
+				else_if = {
+					limit = { terrain = farmlands }
+					save_scope_value_as = {
+						name = locale
+						value = flag:farmlands
+					}
+				}
+				## Wetlands.
+				else_if = {
+					limit = { terrain = wetlands }
+					save_scope_value_as = {
+						name = locale
+						value = flag:wetlands
+					}
+				}
+				## Hills.
+				else_if = {
+					limit = { terrain = hills }
+					save_scope_value_as = {
+						name = locale
+						value = flag:hills
+					}
+				}
+				# Fallback.
+				else = {
+					save_scope_value_as = {
+						name = locale
+						value = flag:fallback
+					}
+				}
+			}
+			# Now fire our actual events.
+			if = {
+				limit = { has_game_rule = historicity_norman_conquest_determined_harold }
+				# Harold beats Harald.
+				trigger_event = game_rule.1031
+				# Harold beats William.
+				trigger_event = game_rule.1032
+			}
+			else_if = {
+				limit = { has_game_rule = historicity_norman_conquest_determined_harald }
+				# Harold beats William.
+				trigger_event = game_rule.1032
+				# Harald beats Harold.
+				trigger_event = game_rule.1041
+				# Harald beats William.
+				trigger_event = game_rule.1042
+			}
+			else_if = {
+				limit = { game_rule_rig_norman_conquest_for_hereward_trigger = yes }
+				# Harold beats Harald.
+				trigger_event = game_rule.1031
+				# William beats Harold.
+				trigger_event = game_rule.1051
+				# William beats Harald.
+				trigger_event = game_rule.1052
+			}
+			else_if = {
+				limit = { has_game_rule = historicity_norman_conquest_determined_edgar }
+				save_scope_value_as = {
+					name = witengamot_choice
+					value = flag:edgar
+				}
+				# Harold beats Harald (but dies if last war).
+				trigger_event = game_rule.1061
+				# Harold beats William (but dies if last war).
+				trigger_event = game_rule.1062
+			}
+			else_if = {
+				limit = { has_game_rule = historicity_norman_conquest_determined_margaret }
+				save_scope_value_as = {
+					name = witengamot_choice
+					value = flag:margaret
+				}
+				# Harold beats Harald (but dies if last war).
+				trigger_event = game_rule.1061
+				# Harold beats William (but dies if last war).
+				trigger_event = game_rule.1062
+			}
+			else_if = {
+				limit = { has_game_rule = historicity_norman_conquest_determined_aelfwine }
+				save_scope_value_as = {
+					name = witengamot_choice
+					value = flag:aelfwine
+				}
+				# Harold beats Harald (but dies if last war).
+				trigger_event = game_rule.1061
+				# Harold beats William (but dies if last war).
+				trigger_event = game_rule.1062
+			}
+			else_if = {
+				limit = { has_game_rule = historicity_norman_conquest_determined_svend }
+				save_scope_value_as = {
+					name = witengamot_choice
+					value = flag:svend
+				}
+				# Harold beats Harald (but dies if last war).
+				trigger_event = game_rule.1061
+				# Harold beats William (but dies if last war).
+				trigger_event = game_rule.1062
+			}
+			else_if = {
+				limit = { has_game_rule = historicity_norman_conquest_determined_cadoc }
+				save_scope_value_as = {
+					name = witengamot_choice
+					value = flag:cadoc
+				}
+				# Harold beats Harald (but dies if last war).
+				trigger_event = game_rule.1061
+				# Harold beats William (but dies if last war).
+				trigger_event = game_rule.1062
+			}
+		}
+	}
+}
+	}
+
+	{
+# Harold beats Harald (but dies if last war).
+game_rule.1061 = {
+	hidden = yes
+
+	trigger = {
+		game_rule_1031_valid_participants_trigger = { CB = norwegian_invasion_cb }
+	}
+
+	immediate = {
+		game_rule_1021_process_endings_effect = {
+			WINNER = defender
+			LOSER = attacker
+			WINNER_EVENT = game_rule.1131
+			LOSER_EVENT = game_rule.1132
+			CB = norwegian_invasion_cb
+		}
+	}
+}
+# Harold beats William (but dies if last war).
+game_rule.1062 = {
+	hidden = yes
+
+	trigger = {
+		game_rule_1031_valid_participants_trigger = { CB = norman_conquest_cb }
+	}
+
+	immediate = {
+		game_rule_1021_process_endings_effect = {
+			WINNER = defender
+			LOSER = attacker
+			WINNER_EVENT = game_rule.1133
+			LOSER_EVENT = game_rule.1134
+			CB = norman_conquest_cb
+		}
+	}
+}
+	}
+
+	{
+scripted_effect game_rule_1131_rig_english_election_effect = {
+	# First, we're gonna want a holding title for our history.
+	hidden_effect = {
+		create_dynamic_title = {
+			tier = kingdom
+			name = k_england
+			adj = k_england_adj
+		}
+		scope:new_title = {
+			copy_title_history = title:k_england
+			set_coa = k_england
+		}
+	}
+	# Right, now kill our incumbent k_england.holder.
+	## On the battlefield if we can.
+	if = {
+		limit = { scope:army.army_commander = scope:winner }
+		death = { death_reason = death_battle }
+		# Plus easily register how for loc.
+		save_scope_value_as = {
+			name = death_locale
+			value = flag:battlefield
+		}
+	}
+	## Elsewise, off it.
+	else = {
+		death = { death_reason = death_heart_attack }
+		# Plus easily register how for loc.
+		save_scope_value_as = {
+			name = death_locale
+			value = flag:home
+		}
+	}
+	# Now we need to rig the election appropriately.
+	## First, select our lucky winner.
+	switch = {
+		trigger = scope:witengamot_choice
+		flag:margaret = {
+			character:113 = { save_scope_as = elect }
+		}
+		flag:edgar = {
+			character:112 = { save_scope_as = elect }
+		}
+		flag:svend = {
+			character:101515 = { save_scope_as = elect }
+		}
+		flag:aelfwine = {
+			character:161260 = { save_scope_as = elect }
+		}
+		flag:cadoc = {
+			character:161281 = { save_scope_as = elect }
+		}
+	}
+	## Then save our loser (mostly for convenience).
+	title:k_england.holder = { save_scope_as = jiltee }
+	## And fire off our concluding events — if it'd make sense.
+	if = {
+		limit = {
+			scope:elect = {
+				NOT = { is_in_list = kill_list }
+			}
+			NOT = { scope:elect = scope:jiltee }
+		}
+		# Quietly erase our incumbent from the holders roll.
+		hidden_effect = {
+			title:k_england = { copy_title_history = scope:new_title }
+		}
+		# We launder this by a day because otherwise inheritance gets... finnicky.
+		scope:elect = {
+			trigger_event = {
+				id = game_rule.1143
+				days = 1
+			}
+		}
+	}
+}
+
+#	Harold beats Harald (but dies if last war) (winner pov).
+game_rule.1131 = {
+	type = character_event
+	title = {
+		# Is this the first or second notable battle here?
+		first_valid = {
+			triggered_desc = {
+				trigger = { global_var:conquest_first_battle ?= scope:new_location }
+				desc = game_rule.1101.t.boilerplate.battle_2
+			}
+			desc = game_rule.1101.t.boilerplate.battle_1
+		}
+		# Now, what do we call the location?
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:locale = flag:stamford_bridge }
+				desc = game_rule.1101.t.boilerplate.location.stamford_bridge
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:forest_of_dean }
+				desc = game_rule.1101.t.boilerplate.location.forest_of_dean
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:cirencester }
+				desc = game_rule.1101.t.boilerplate.location.cirencester
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:lands_end }
+				desc = game_rule.1101.t.boilerplate.location.lands_end
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:stonehenge }
+				desc = game_rule.1101.t.boilerplate.location.stonehenge
+			}
+			# Whatever the province is called.
+			desc = game_rule.1101.t.boilerplate.location.fallback
+		}
+	}
+	desc = {
+		# Who's fighting who?
+		desc = game_rule.1101.desc.opposing_army
+		# Where are we clashing?
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:locale = flag:stamford_bridge }
+				desc = game_rule.1101.desc.stamford_bridge
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:hastings }
+				desc = game_rule.1101.desc.hastings
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:dover }
+				desc = game_rule.1101.desc.dover
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:isle_of_wight }
+				desc = game_rule.1101.desc.isle_of_wight
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:forest_of_dean }
+				desc = game_rule.1101.desc.forest_of_dean
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:london }
+				desc = game_rule.1101.desc.london
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:winchester }
+				desc = game_rule.1101.desc.winchester
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:york }
+				desc = game_rule.1101.desc.york
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:lincoln }
+				desc = game_rule.1101.desc.lincoln
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:oxford }
+				desc = game_rule.1101.desc.oxford
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:cirencester }
+				desc = game_rule.1101.desc.cirencester
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:guildford }
+				desc = game_rule.1101.desc.guildford
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:lindisfarne }
+				desc = game_rule.1101.desc.lindisfarne
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:lands_end }
+				desc = game_rule.1101.desc.lands_end
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:stonehenge }
+				desc = game_rule.1101.desc.stonehenge
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:southwark }
+				desc = game_rule.1101.desc.southwark
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:scotland }
+				desc = game_rule.1101.desc.scotland
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:wales }
+				desc = game_rule.1101.desc.wales
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:norway }
+				desc = game_rule.1101.desc.norway
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:normandy }
+				desc = game_rule.1101.desc.normandy
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:france }
+				desc = game_rule.1101.desc.france
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:riverside }
+				desc = game_rule.1101.desc.riverside
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:coastal }
+				desc = game_rule.1101.desc.coastal
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:forest }
+				desc = game_rule.1101.desc.forest
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:plains }
+				desc = game_rule.1101.desc.plains
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:farmlands }
+				desc = game_rule.1101.desc.farmlands
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:wetlands }
+				desc = game_rule.1101.desc.wetlands
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:hills }
+				desc = game_rule.1101.desc.hills
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:fallback }
+				desc = game_rule.1101.desc.fallback
+			}
+		}
+		# Are we there in person?
+		first_valid = {
+			triggered_desc = {
+				trigger = { exists = scope:is_commanding }
+				desc = {
+					desc = game_rule.1101.desc.combat.commander
+					desc = double_line_break
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:stamford_bridge
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.stamford_bridge
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:hastings
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.hastings
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:dover
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.dover
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:isle_of_wight
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.isle_of_wight
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:forest_of_dean
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.forest_of_dean
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:london
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.london
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:cirencester
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.cirencester
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:guildford
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.guildford
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:lindisfarne
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.lindisfarne
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:lands_end
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.lands_end
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:stonehenge
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.stonehenge
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:southwark
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.southwark
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:riverside
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.riverside
+						}
+						desc = {
+							random_valid = {
+								desc = game_rule.1101.desc.combat.random.present.1
+								desc = game_rule.1101.desc.combat.random.present.2
+								desc = game_rule.1101.desc.combat.random.present.3
+							}
+						}
+					}
+				}
+			}
+			desc = {
+				desc = game_rule.1101.desc.combat.not_present
+				desc = double_line_break
+				desc = {
+					random_valid = {
+						desc = game_rule.1101.desc.combat.random.absent.1
+						desc = game_rule.1101.desc.combat.random.absent.2
+						desc = game_rule.1101.desc.combat.random.absent.3
+					}
+				}
+			}
+		}
+		# Finish up.
+		desc = double_line_break
+		desc = {
+			first_valid = {
+				triggered_desc = {
+					trigger = {
+						exists = scope:is_commanding
+						NOT = { exists = scope:other_war_remains }
+					}
+					desc = game_rule.1131.desc.conquest_finished.die_battlefield
+				}
+				triggered_desc = {
+					trigger = {
+						NOT = { exists = scope:other_war_remains }
+					}
+					desc = game_rule.1131.desc.conquest_finished.die_home
+				}
+				triggered_desc = {
+					trigger = { exists = scope:is_commanding }
+					desc = game_rule.1101.desc.outro.present
+				}
+				desc = game_rule.1101.desc.outro.absent
+			}
+		}
+	}
+	theme = war
+	left_portrait = {
+		character = scope:winner
+		scripted_animation = duel_celebrate
+	}
+	right_portrait = {
+		character = scope:loser
+		triggered_animation = {
+			trigger = {
+				scope:loser = {
+					NOT = { is_in_list = kill_list }
+				}
+			}
+			animation = random_weapon_yield
+		}
+		triggered_animation = {
+			trigger = {
+				scope:loser = { is_in_list = kill_list }
+			}
+			animation = map_fear
+		}
+	}
+	override_background = { reference = battlefield }
+
+	immediate = {
+		# Illustrate our ending (applied in the effect that triggers this event).
+		show_as_tooltip = {
+			scope:war = {
+				game_rule_1021_process_endings_guts_effect = { WINNER = defender }
+			}
+		}
+		game_rule_1101_register_presence_effect = yes
+		# If no opposing side war, then we're gonna launch into our council sequence.
+		if = {
+			limit = {
+				NOT = {
+					any_character_war = { using_cb = norman_conquest_cb }
+				}
+			}
+			game_rule_1131_rig_english_election_effect = yes
+		}
+		else = {
+			save_scope_value_as = {
+				name = other_war_remains
+				value = yes
+			}
+		}
+	}
+
+	option = {
+		name = game_rule.1131.a
+		trigger = {
+			scope:loser = {
+				NOT = { is_in_list = kill_list }
+			}
+		}
+
+		# No stress, no AI.
+	}
+
+	option = {
+		name = game_rule.1131.b
+		trigger = {
+			scope:loser = { is_in_list = kill_list }
+		}
+
+		# No stress, no AI.
+	}
+}
+	}
+
+	{
+#	Harold beats William (but dies if last war) (winner pov).
+game_rule.1133 = {
+	type = character_event
+	title = {
+		# Is this the first or second notable battle here?
+		first_valid = {
+			triggered_desc = {
+				trigger = { global_var:conquest_first_battle ?= scope:new_location }
+				desc = game_rule.1101.t.boilerplate.battle_2
+			}
+			desc = game_rule.1101.t.boilerplate.battle_1
+		}
+		# Now, what do we call the location?
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:locale = flag:stamford_bridge }
+				desc = game_rule.1101.t.boilerplate.location.stamford_bridge
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:forest_of_dean }
+				desc = game_rule.1101.t.boilerplate.location.forest_of_dean
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:cirencester }
+				desc = game_rule.1101.t.boilerplate.location.cirencester
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:lands_end }
+				desc = game_rule.1101.t.boilerplate.location.lands_end
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:stonehenge }
+				desc = game_rule.1101.t.boilerplate.location.stonehenge
+			}
+			# Whatever the province is called.
+			desc = game_rule.1101.t.boilerplate.location.fallback
+		}
+	}
+	desc = {
+		# Who's fighting who?
+		desc = game_rule.1103.desc.opposing_army
+		# Where are we clashing?
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:locale = flag:stamford_bridge }
+				desc = game_rule.1101.desc.stamford_bridge
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:hastings }
+				desc = game_rule.1101.desc.hastings
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:dover }
+				desc = game_rule.1101.desc.dover
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:isle_of_wight }
+				desc = game_rule.1101.desc.isle_of_wight
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:forest_of_dean }
+				desc = game_rule.1101.desc.forest_of_dean
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:london }
+				desc = game_rule.1101.desc.london
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:winchester }
+				desc = game_rule.1101.desc.winchester
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:york }
+				desc = game_rule.1101.desc.york
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:lincoln }
+				desc = game_rule.1101.desc.lincoln
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:oxford }
+				desc = game_rule.1101.desc.oxford
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:cirencester }
+				desc = game_rule.1101.desc.cirencester
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:guildford }
+				desc = game_rule.1101.desc.guildford
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:lindisfarne }
+				desc = game_rule.1101.desc.lindisfarne
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:lands_end }
+				desc = game_rule.1101.desc.lands_end
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:stonehenge }
+				desc = game_rule.1101.desc.stonehenge
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:southwark }
+				desc = game_rule.1101.desc.southwark
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:scotland }
+				desc = game_rule.1101.desc.scotland
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:wales }
+				desc = game_rule.1101.desc.wales
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:norway }
+				desc = game_rule.1101.desc.norway
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:normandy }
+				desc = game_rule.1101.desc.normandy
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:france }
+				desc = game_rule.1101.desc.france
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:riverside }
+				desc = game_rule.1101.desc.riverside
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:coastal }
+				desc = game_rule.1101.desc.coastal
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:forest }
+				desc = game_rule.1101.desc.forest
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:plains }
+				desc = game_rule.1101.desc.plains
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:farmlands }
+				desc = game_rule.1101.desc.farmlands
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:wetlands }
+				desc = game_rule.1101.desc.wetlands
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:hills }
+				desc = game_rule.1101.desc.hills
+			}
+			triggered_desc = {
+				trigger = { scope:locale = flag:fallback }
+				desc = game_rule.1101.desc.fallback
+			}
+		}
+		# Are we there in person?
+		first_valid = {
+			triggered_desc = {
+				trigger = { exists = scope:is_commanding }
+				desc = {
+					desc = game_rule.1101.desc.combat.commander
+					desc = double_line_break
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:stamford_bridge
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.stamford_bridge
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:hastings
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.hastings
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:dover
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.dover
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:isle_of_wight
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.isle_of_wight
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:forest_of_dean
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.forest_of_dean
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:london
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.london
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:cirencester
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.cirencester
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:guildford
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.guildford
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:lindisfarne
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.lindisfarne
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:lands_end
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.lands_end
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:stonehenge
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.stonehenge
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:southwark
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.southwark
+						}
+						triggered_desc = {
+							trigger = {
+								scope:locale = flag:riverside
+								NOT = { global_var:conquest_first_battle ?= scope:new_location }
+							}
+							desc = game_rule.1101.desc.combat.locale.riverside
+						}
+						desc = {
+							random_valid = {
+								desc = game_rule.1101.desc.combat.random.present.1
+								desc = game_rule.1101.desc.combat.random.present.2
+								desc = game_rule.1101.desc.combat.random.present.3
+							}
+						}
+					}
+				}
+			}
+			desc = {
+				desc = game_rule.1101.desc.combat.not_present
+				desc = double_line_break
+				desc = {
+					random_valid = {
+						desc = game_rule.1101.desc.combat.random.absent.1
+						desc = game_rule.1101.desc.combat.random.absent.2
+						desc = game_rule.1101.desc.combat.random.absent.3
+					}
+				}
+			}
+		}
+		# Finish up.
+		desc = double_line_break
+		desc = {
+			first_valid = {
+				triggered_desc = {
+					trigger = {
+						exists = scope:is_commanding
+						NOT = { exists = scope:other_war_remains }
+					}
+					desc = game_rule.1133.desc.conquest_finished.die_battlefield
+				}
+				triggered_desc = {
+					trigger = {
+						NOT = { exists = scope:other_war_remains }
+					}
+					desc = game_rule.1133.desc.conquest_finished.die_home
+				}
+				triggered_desc = {
+					trigger = { exists = scope:is_commanding }
+					desc = game_rule.1103.desc.outro.present
+				}
+				desc = game_rule.1103.desc.outro.absent
+			}
+		}
+	}
+	theme = war
+	left_portrait = {
+		character = scope:winner
+		scripted_animation = duel_celebrate
+	}
+	right_portrait = {
+		character = scope:loser
+		triggered_animation = {
+			trigger = {
+				scope:loser = {
+					NOT = { is_in_list = kill_list }
+				}
+			}
+			animation = random_weapon_yield
+		}
+		triggered_animation = {
+			trigger = {
+				scope:loser = { is_in_list = kill_list }
+			}
+			animation = map_fear
+		}
+	}
+	override_background = { reference = battlefield }
+
+	immediate = {
+		# Illustrate our ending (applied in the effect that triggers this event).
+		show_as_tooltip = {
+			scope:war = {
+				game_rule_1021_process_endings_guts_effect = { WINNER = defender }
+			}
+		}
+		game_rule_1101_register_presence_effect = yes
+		# If no opposing side war, then we're gonna launch into our council sequence.
+		if = {
+			limit = {
+				NOT = {
+					any_character_war = { using_cb = norwegian_invasion_cb }
+				}
+			}
+			game_rule_1131_rig_english_election_effect = yes
+		}
+		else = {
+			save_scope_value_as = {
+				name = other_war_remains
+				value = yes
+			}
+		}
+	}
+
+	option = {
+		name = game_rule.1133.a
+		trigger = {
+			scope:loser = {
+				NOT = { is_in_list = kill_list }
+			}
+		}
+
+		# No stress, no AI.
+	}
+
+	option = {
+		name = game_rule.1133.b
+		trigger = {
+			scope:loser = { is_in_list = kill_list }
+		}
+
+		# No stress, no AI.
+	}
+}
+	}
+
+	{
+#	Elect receives England.
+game_rule.1141 = {
+	type = character_event
+	title = game_rule.1141.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:death_locale = flag:battlefield }
+				desc = game_rule.1141.intro.battlefield
+			}
+			triggered_desc = {
+				trigger = { scope:death_locale = flag:home }
+				desc = game_rule.1141.intro.home
+			}
+		}
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:witengamot_choice = flag:margaret }
+				desc = game_rule.1141.choice.margaret
+			}
+			triggered_desc = {
+				trigger = { scope:witengamot_choice = flag:edgar }
+				desc = game_rule.1141.choice.edgar
+			}
+			triggered_desc = {
+				trigger = { scope:witengamot_choice = flag:svend }
+				desc = game_rule.1141.choice.svend
+			}
+			triggered_desc = {
+				trigger = { scope:witengamot_choice = flag:aelfwine }
+				desc = game_rule.1141.choice.aelfwine
+			}
+			triggered_desc = {
+				trigger = { scope:witengamot_choice = flag:cadoc }
+				desc = game_rule.1141.choice.cadoc
+			}
+		}
+	}
+	theme = war
+	left_portrait = {
+		character = scope:elect
+		triggered_animation = {
+			trigger = { this = character:161260 }
+			animation = stress
+		}
+		triggered_animation = {
+			trigger = { this = character:101515 }
+			animation = personality_bold
+		}
+		animation = shock
+	}
+	right_portrait = {
+		character = scope:jiltee
+		animation = rage
+	}
+	override_background = { reference = battlefield }
+
+	immediate = {
+		# Illustrate our ending (applied in the effect that triggers this event).
+		show_as_tooltip = { game_rule_1131_usurp_england_effect = yes }
+	}
+
+	option = {
+		name = {
+			text = {
+				first_valid = {
+					triggered_desc = {
+						trigger = { scope:witengamot_choice = flag:margaret }
+						desc = game_rule.1141.a.margaret
+					}
+					triggered_desc = {
+						trigger = { scope:witengamot_choice = flag:edgar }
+						desc = game_rule.1141.a.edgar
+					}
+					triggered_desc = {
+						trigger = { scope:witengamot_choice = flag:svend }
+						desc = game_rule.1141.a.svend
+					}
+					triggered_desc = {
+						trigger = { scope:witengamot_choice = flag:aelfwine }
+						desc = game_rule.1141.a.aelfwine
+					}
+					triggered_desc = {
+						trigger = { scope:witengamot_choice = flag:cadoc }
+						desc = game_rule.1141.a.cadoc
+					}
+				}
+			}
+		}
+
+		add_prestige = 500
+
+		# No stress, no AI.
+	}
+}
+
+#	Jiltee is told of how things suck for them.
+game_rule.1142 = {
+	type = character_event
+	title = game_rule.1142.t
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:death_locale = flag:battlefield }
+				desc = game_rule.1142.intro.battlefield
+			}
+			triggered_desc = {
+				trigger = { scope:death_locale = flag:home }
+				desc = game_rule.1142.intro.home
+			}
+		}
+		desc = game_rule.1142.choice.preamble
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:witengamot_choice = flag:margaret }
+				desc = game_rule.1142.choice.margaret
+			}
+			triggered_desc = {
+				trigger = { scope:witengamot_choice = flag:edgar }
+				desc = game_rule.1142.choice.edgar
+			}
+			triggered_desc = {
+				trigger = { scope:witengamot_choice = flag:svend }
+				desc = game_rule.1142.choice.svend
+			}
+			triggered_desc = {
+				trigger = { scope:witengamot_choice = flag:aelfwine }
+				desc = game_rule.1142.choice.aelfwine
+			}
+			triggered_desc = {
+				trigger = { scope:witengamot_choice = flag:cadoc }
+				desc = game_rule.1142.choice.cadoc
+			}
+		}
+		desc = game_rule.1142.outro
+	}
+	theme = war
+	left_portrait = {
+		character = scope:jiltee
+		animation = rage
+	}
+	right_portrait = {
+		character = scope:elect
+		triggered_animation = {
+			trigger = { this = character:161260 }
+			animation = stress
+		}
+		triggered_animation = {
+			trigger = { this = character:101515 }
+			animation = personality_bold
+		}
+		animation = shock
+	}
+	override_background = { reference = battlefield }
+
+	immediate = {
+		# Illustrate our ending (applied in the effect that triggers this event).
+		show_as_tooltip = { game_rule_1131_usurp_england_effect = yes }
+		add_prestige = -250
+	}
+
+	# Outrage.
+	option = {
+		name = game_rule.1142.a
+
+		add_opinion = {
+			target = scope:elect
+			modifier = usurped_title
+			opinion = -75
+		}
+		if = {
+			limit = {
+				can_set_relation_rival_trigger = { CHARACTER = scope:elect }
+			}
+			set_relation_rival = {
+				target = scope:elect
+				reason = rival_usurper
+			}
+		}
+		reverse_add_opinion = {
+			target = scope:elect
+			modifier = respect_opinion
+			opinion = -50
+		}
+
+		# No stress, no AI.
+	}
+
+	# Let things be.
+	option = {
+		name = game_rule.1142.b
+		trigger = { is_ai = no }
+		
+		reverse_add_opinion = {
+			target = scope:elect
+			modifier = grateful_opinion
+			opinion = 50
+		}
+		if = {
+			limit = {
+				can_set_relation_potential_friend_trigger = { CHARACTER = scope:elect }
+			}
+			set_relation_potential_friend = scope:elect
+		}
+
+		# No stress, no AI.
+	}
+
+	# Warg into them.
+	option = {
+		name = game_rule.1142.c
+		trigger = {
+			is_ai = no
+			scope:elect = { is_ai = yes }
+		}
+		
+		set_player_character = scope:elect
+		trigger_event = {
+			id = game_rule.1143
+			days = 1
+		}
+
+		# No stress, no AI.
+	}
+}
+	}
+
+	{
+#	Delayed election rigging.
+game_rule.1143 = {
+	hidden = yes
+
+	immediate = {
+		scope:elect = { trigger_event = game_rule.1141 }
+		scope:jiltee = { trigger_event = game_rule.1142 }
+		hidden_effect = { game_rule_1131_usurp_england_effect = yes }
+	}
+}
+	}
 }
 
 "gfx\portraits\portrait_animations\animations.txt" = {
@@ -3043,6 +5646,9 @@ game_rule.1011 = {
 						this = character:41702
 					}
 				}
+	}
+	{
+					NOT = { this = character:41702 }
 	}
 }
 
@@ -3097,13 +5703,13 @@ game_rule.1011 = {
 	}
 }
 
-"common\on_action\prison_on_actions.txt" = {
+"common/on_action/prison_on_actions.txt" = {
 	{
 		bookmark.0003			# King Aella gets imprisoned by one of Ragnarr Lodbrok's sons
 	}
 }
 
-"common\decisions\80_major_decisions_british_isles.txt" = {
+"common/decisions/80_major_decisions_british_isles.txt" = {
 	{
 			dynasty = dynasty:1029001	#The Cornish royal house is always able to get away with these shenanigans.
 	}
@@ -3112,7 +5718,278 @@ game_rule.1011 = {
 	}
 }
 
-"common\legends\chronicles\00_chronicles.txt" = {
+"common/decisions/80_major_decisions_middle_europe.txt" = {
+	{
+#############################
+# Refound HRE 				#
+# by Ewan Cowhig Croft		#
+#############################
+restore_holy_roman_empire_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
+	}
+	decision_group_type = major
+
+	ai_check_interval = 12
+
+	desc = restore_holy_roman_empire_decision_desc
+	selection_tooltip = restore_holy_roman_empire_decision_tooltip
+
+	is_shown = {
+		is_landed_or_landless_administrative = yes
+		exists = dynasty # Everyone should have a dynasty, but in case they don't...
+		NOT = { has_global_variable = flag_restored_roman_empire } # Not if Rome already exists (prevent Rome from restoring HRE)
+		NOR = {	#Title existence cnditions.
+			exists = title:e_hre.holder	#Well, that'd be redundant.
+			#highest_held_title_tier = tier_empire	#Existing emperors likewise should not be giving up their empire.
+		}
+		NOR = { #It doesn't make sense for these competing empires.
+			has_title = title:e_byzantium
+			has_title = title:e_roman_empire
+			has_title = title:e_mongol_empire
+		}
+		AND = {	#Faith conditions.
+			NOT = { this = faith.religious_head }	#Nice try, Mr. Pope.
+			faith = {
+				religion_tag = christianity_religion
+				has_doctrine_parameter = spiritual_head_of_faith	#Gotta be invested with the authority by someone other than yourself.
+			}
+			NAND = {	#No need for a competing empire if your faith controls the ERE.
+				exists = title:e_byzantium.holder
+				faith = title:e_byzantium.holder.faith
+			}
+		}
+		OR = {	#Government conditions.
+			government_has_flag = government_is_feudal
+			government_has_flag = government_is_clan
+			government_allows = administrative
+		}
+		exists = faith.religious_head
+	}
+
+	is_valid = {
+		#Standard requirements.
+		is_independent_ruler = yes
+		trigger_if = {
+			limit = {
+				is_ai = no
+			}
+			prestige_level >= high_prestige_level
+		}
+		#Title ownership conditions.
+		OR = { #Gotta be King of a core Carolingian Kingdom.
+			has_title = title:k_east_francia
+			has_title = title:k_bavaria
+			has_title = title:k_france
+			has_title = title:k_italy
+			has_title = title:k_lotharingia
+			any_vassal = {
+				OR = {
+					has_title = title:k_east_francia
+					has_title = title:k_bavaria
+					has_title = title:k_france
+					has_title = title:k_italy
+					has_title = title:k_lotharingia
+				}
+			}
+		}
+		trigger_if = {
+			limit = {
+				is_ai = no
+			}
+			custom_description = {	#And have some additional royal dignity for good measure.
+				text = decision_refound_hre_own_three_kingdoms.tt
+				any_held_title = {
+					tier = tier_kingdom
+					count >= 3
+				}
+			}
+		}
+		sub_realm_size >= 120	#Plus your various kingdoms should be ruling something.
+		#HoF preference conditions.
+		trigger_if = {
+			limit = {
+				is_ai = no
+			}
+			OR = {
+				faith.religious_head = {	#And they have to actually like you enough to want to invest you.
+					opinion = {
+						target = root
+						value >= high_positive_opinion
+					}
+				}
+				root = { has_strong_usable_hook = faith.religious_head }	#Or you have a strong hook on them that you can actually use.
+				root = { has_weak_hook = faith.religious_head }	#Or a regular hook, to be fair, provided you meet the other criteria.
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		faith.religious_head = { is_available_adult = yes }
+		NOR = {
+			has_trait = excommunicated
+			is_at_war_with = faith.religious_head
+		}
+	}
+
+	effect = {
+		show_as_tooltip = {
+			restore_holy_roman_empire_decision_scripted_effect = yes
+		}
+		gain_heroic_legend_seed_tooltip_effect = yes
+		save_scope_as = founder
+		faith.religious_head = { save_scope_as = founder_hof }
+		if = {
+			limit = {
+				faith.religious_head = { is_playable_character = yes }
+			}
+			faith.religious_head.capital_province = { save_scope_as = ceremony_locale }
+		}
+		else = {
+			capital_province = { save_scope_as = ceremony_locale }
+		}
+		trigger_event = {
+			id = middle_europe_decisions.0015
+		}
+		#Notify other players.
+		every_player = {
+			limit = {
+				NOT = { this = root }
+				is_within_diplo_range = { CHARACTER = root }
+			}
+			trigger_event = middle_europe_decisions.0016
+		}
+		if = {
+			limit = {
+				is_ai = no
+				NOT = { exists = global_var:restore_holy_roman_empire_decision  }
+			}
+			set_global_variable = {
+				name = restore_holy_roman_empire_decision
+				value = root
+			}
+		}
+		# Assign Dynamic Prince-Electors
+		hidden_effect = {
+			if = {
+				limit = { has_global_variable_list = hre_elector_list }
+				clear_global_variable_list = hre_elector_list
+			}
+			while = {
+				count = 7
+				random_vassal = {
+					limit = {
+						capital_province.empire = title:e_hre # must be de-jure vassal of empire
+						OR = { # prince-bishopric or duchy
+							AND = {
+								government_has_flag = government_is_theocracy
+								primary_title.tier >= tier_county
+							}
+							primary_title.tier >= tier_duchy
+						}
+						NOT = { # not already selected
+							is_target_in_global_variable_list = {
+								name = hre_elector_list
+								target = primary_title
+							}
+						}
+					}
+					weight = {
+						modifier = { # major vassals heavily weighted
+							factor = 10
+							is_powerful_vassal = yes
+						}
+						modifier = { # same culture as emperor preferred
+							factor = 4
+							culture = root.culture
+						}
+						modifier = { # we don't mind going outside Germania, but prefer it
+							factor = 1.5
+							trigger = { exists = primary_title.title_province }
+							primary_title.title_province.barony = {
+								OR = {
+									target_is_de_jure_liege_or_above = title:k_bavaria
+									target_is_de_jure_liege_or_above = title:k_bohemia
+									target_is_de_jure_liege_or_above = title:k_east_francia
+									target_is_de_jure_liege_or_above = title:k_frisia
+									target_is_de_jure_liege_or_above = title:k_lotharingia
+									target_is_de_jure_liege_or_above = title:k_pomerania
+								}
+							}
+						}
+						modifier = { # we want at least 3 theocracies ideally
+							factor = 10
+							any_in_global_list = {
+								variable = hre_elector_list
+								count < 3
+								holder = { government_has_flag = government_is_theocracy }
+							}
+							government_has_flag = government_is_theocracy
+						}
+						modifier = { # 3 is enough theocracies unless we can't find feudal
+							factor = 0.1
+							any_in_global_list = {
+								variable = hre_elector_list
+								count >= 3
+								holder = { government_has_flag = government_is_theocracy }
+							}
+							government_has_flag = government_is_theocracy
+						}
+					}
+					add_to_global_variable_list = {
+						name = hre_elector_list
+						target = primary_title
+					}
+				}
+			}
+			hre_elector_list_save_effect = yes # saves list scopes to title as variables for tooltip
+		}
+	}
+
+	cost = {
+		gold = {
+			if = {
+				limit = {
+					is_ai = no
+				}
+				add = 500
+			}
+		}
+		piety = 200
+	}
+
+	ai_potential = {
+		is_independent_ruler = yes
+		highest_held_title_tier >= tier_kingdom
+	}
+
+	ai_will_do = {
+		base = 100
+
+		modifier = { # We don't want a solo-France to form the HRE
+			factor = 0
+			NOR = {
+				has_title = title:k_east_francia
+				has_title = title:k_bavaria
+				has_title = title:k_italy
+				has_title = title:k_lotharingia
+				any_vassal = {
+					OR = {
+						has_title = title:k_east_francia
+						has_title = title:k_bavaria
+						has_title = title:k_italy
+						has_title = title:k_lotharingia
+					}
+				}
+			}
+		}
+	}
+}
+	}
+}
+
+"common/legends/chronicles/00_chronicles.txt" = {
 	{
 			triggered_desc = {
 				trigger = {
@@ -3353,9 +6230,25 @@ game_rule.1011 = {
 				desc = legend_edward_the_martyr_desc
 			}
 	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:40605
+				}
+				desc = legend_sons_of_rurik
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor = character:40605
+				}
+				desc = legend_sons_of_rurik_desc
+			}
+	}
 }
 
-"events\diarchy_events\diarchy_events.txt" = {
+"events/diarchy_events/diarchy_events.txt" = {
 	{
 		# Historic setup stuff.
 		## Fatimids start basically completely screwed.
@@ -3366,7 +6259,7 @@ game_rule.1011 = {
 	}
 }
 
-"events\dlc\fp1\fp1_major_decision_events.txt" = {
+"events/dlc/fp1/fp1_major_decision_events.txt" = {
 	{
 scripted_effect fp1_1011_gib_pretty_hair_effect = {
 	# Gain the famous nickname.
@@ -3535,7 +6428,55 @@ fp1_major_decisions.1011 = {
 	}
 }
 
-"events\dlc\fp1\fp1_scandinavian_adventurer_events.txt" = {
+"events/decisions_events/middle_europe_decisions_events.txt" = {
+	{
+#	Conduct the reformation
+middle_europe_decisions.0015 = {
+	type = character_event
+	title = middle_europe_decisions.0015.t
+	desc = middle_europe_decisions.0015.desc
+	theme = realm
+	left_portrait =	{
+		character = scope:founder
+		animation = personality_bold
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_epic_sacral_moment"
+		restore_holy_roman_empire_decision_scripted_effect = yes
+		legend_seed_new_title_effect = yes
+		create_artifact_reichskrone_effect = { OWNER = this }
+	}
+
+	#Renovatio Imperii!
+	option = {
+		name = middle_europe_decisions.0015.a
+		give_nickname = nick_the_great
+		add_prestige_experience = monumental_fame_gain
+		every_vassal = {
+			add_opinion = {
+				modifier = reformed_holy_roman_empire_opinion
+				target = root
+			}
+			custom = restore_holy_roman_empire_decision_effects_vassal_opinion.tt
+		}
+		ai_chance = {	#When taken, the AI should always pick this.
+			base = 100
+		}
+	}
+	
+	##No Germany please, we're Byzantine.
+	#option = {
+	#	name = middle_europe_decisions.0015.b
+	#	ai_chance = {	#When taken, the AI should always go for the decision.
+	#		base = 0
+	#	}
+	#}
+}
+	}
+}
+
+"events/dlc/fp1/fp1_scandinavian_adventurer_events.txt" = {
 	{
 #	Drag in famous landless Norse characters if they haven't become landed after twenty years.
 fp1_scandinavian_adventurers.0011 = {
@@ -4356,7 +7297,7 @@ avenge_the_battle_of_nahrawan_decision = {
 	}
 }
 
-"events\dlc\fp3\fp3_religious_decision_events.txt" = {
+"events/dlc/fp3/fp3_religious_decision_events.txt" = {
 	{
 fp3_decision.0011 = { 
 	type = character_event
@@ -4908,9 +7849,17 @@ hasan_expand_the_assassins = {
 	}
 }
 
-"common\decisions\dlc_decisions\ep_3\06_ep3_laamp_decisions.txt" = {
+"common/decisions/dlc_decisions/ep_3/06_ep3_laamp_decisions.txt" = {
 	{
 				#Stahp it, John de Courcy
 				this = character:214000
+	}
+	{
+		trigger_if = { # Temujun stays, he needs to become Genghis Khan after all!
+			limit = {
+				exists = character:125501
+			}
+			NOT = { this = character:125501 }
+		}
 	}
 }
