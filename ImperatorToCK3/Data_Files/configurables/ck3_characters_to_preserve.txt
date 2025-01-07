@@ -137,4 +137,22 @@ after_bookmark_date = {
 	easteregg_francesca_passoni
 	easteregg_elisabeth_gangenes
 	easteregg_alva_granholm
+	easteregg_philip_wessman
+	easteregg_rebecca_ronnback
+	easteregg_anna_strom
+	easteregg_mathias_frostewarn
+	easteregg_marcus_bose
+	easteregg_jesse_kopparvall
+	easteregg_tomasz_ender
+	easteregg_chad_uhl
+	easteregg_berrak_oz
+	easteregg_jakob_eklund
+	easteregg_anton_holmqvist
+	easteregg_samet_atasoy
+	easteregg_richard_lindkvist
+	easteregg_daniel_tolman
+	easteregg_melanie_bjurman
+	easteregg_lucia_dzediti
+	easteregg_david_ostlund
+	easteregg_neyla_garcia
 }
