@@ -435,7 +435,7 @@ internal sealed class World {
 		// Terra Indomita mappings should be used if either TI or Antiquitas is detected.
 		bool irHasTI = irWorld.Countries.Any(c => c.Variables.Contains("unification_points")) || irWorld.UsableMods.Any(m => m.Name == "Antiquitas");
 		
-		bool ck3HasRajasOfAsia = config.AsiaExpansionProjectEnabled;
+		bool ck3HasRajasOfAsia = config.RajasOfAsiaEnabled;
 		bool ck3HasAEP = config.AsiaExpansionProjectEnabled;
 
 		string mappingsToUse;
