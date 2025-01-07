@@ -836,7 +836,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			}
 			
 			var traitsField = character.History.Fields["traits"];
-			int removedCount = traitsField.RemoveAllEntries(value => !definedTraits.Contains(value.ToString() ?? string.Empty));
+			int removedCount = traitsField.RemoveAllEntries(value => !definedTraits.Contains(value.ToString()?.RemQuotes() ?? string.Empty));
 			if (removedCount > 0) {
 				Logger.Debug($"Removed {removedCount} undefined traits from character {character.Id}.");
 			}

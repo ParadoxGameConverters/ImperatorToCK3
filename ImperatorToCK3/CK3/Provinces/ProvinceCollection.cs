@@ -1,6 +1,8 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
+using ImperatorToCK3.CK3.Cultures;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Exceptions;
@@ -9,8 +11,6 @@ using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using Microsoft.VisualBasic.FileIO;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -72,7 +72,7 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		parser.ParseGameFolder("history/provinces", ck3ModFs, "txt", recursive: true);
 	}
 
-	public void ImportVanillaProvinces(ModFilesystem ck3ModFs) {
+	public void ImportVanillaProvinces(ModFilesystem ck3ModFs, ReligionCollection religions, CultureCollection cultures) {
 		var existingProvinceDefinitionsCount = Count;
 		Logger.Info("Importing vanilla provinces...");
 
@@ -82,6 +82,23 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		// Load history/provinces.
 		LoadProvincesHistory(ck3ModFs);
 		Logger.IncrementProgress();
+
+		// Cleanup: remove invalid faith and culture entries from province history
+		var validFaithIds = religions.Faiths.Select(f => f.Id).ToHashSet();
+		var validCultureIds = cultures.Select(c => c.Id).ToHashSet();
+		foreach (var province in this) {
+			var faithField = province.History.Fields["faith"];
+			int removedCount = faithField.RemoveAllEntries(value => !validFaithIds.Contains(value.ToString()?.RemQuotes() ?? string.Empty));
+			if (removedCount > 0) {
+				Logger.Debug($"Removed {removedCount} invalid faith entries from province {province.Id}.");
+			}
+			
+			var cultureField = province.History.Fields["culture"];
+			removedCount = cultureField.RemoveAllEntries(value => !validCultureIds.Contains(value.ToString()?.RemQuotes() ?? string.Empty));
+			if (removedCount > 0) {
+				Logger.Debug($"Removed {removedCount} invalid culture entries from province {province.Id}.");
+			}
+		}
 
 		// Now load the provinces that don't have unique entries in history/provinces.
 		// They instead use history/province_mapping.
