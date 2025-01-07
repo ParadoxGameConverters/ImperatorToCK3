@@ -24,10 +24,6 @@ public static class FileTweaker {
 		// Load removable blocks from configurables.
 		Dictionary<string, OrderedSet<PartOfFileToRemove>> partsToRemovePerFile = new();
 		
-		bool isVanilla = config.GetCK3ModFlags()["vanilla"];
-		Logger.Info("Reading unneeded parts of vanilla files...");
-		ReadPartsOfFileToRemove(partsToRemovePerFile, "configurables/removable_file_blocks.txt", warnIfNotFound: isVanilla);
-		
 		if (config.FallenEagleEnabled) {
 			Logger.Info("Reading unneeded parts of Fallen Eagle files...");
 			ReadPartsOfFileToRemove(partsToRemovePerFile, "configurables/removable_file_blocks_tfe.txt", warnIfNotFound: true);
@@ -37,6 +33,10 @@ public static class FileTweaker {
 			Logger.Info("Reading unneeded parts of Rajas of Asia files...");
 			ReadPartsOfFileToRemove(partsToRemovePerFile, "configurables/removable_file_blocks_roa.txt", warnIfNotFound: true);
 		}
+		
+		bool isVanilla = config.GetCK3ModFlags()["vanilla"];
+		Logger.Info("Reading unneeded parts of vanilla files...");
+		ReadPartsOfFileToRemove(partsToRemovePerFile, "configurables/removable_file_blocks.txt", warnIfNotFound: isVanilla);
 		
 		await RemovePartsOfFiles(partsToRemovePerFile, ck3ModFS, outputModPath);
 	}
