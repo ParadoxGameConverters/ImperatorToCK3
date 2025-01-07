@@ -134,15 +134,17 @@ internal sealed class World {
 			() => CK3CoaMapper = new(ModFS)
 		);
 		
+		OrderedDictionary<string, bool> ck3ModFlags = config.GetCK3ModFlags();
+		
 		Parallel.Invoke(
 			() => { // depends on ck3ColorFactory and CulturalPillars
 				// Load CK3 cultures from CK3 mod filesystem.
 				Logger.Info("Loading cultural pillars...");
-				CulturalPillars = new(ck3ColorFactory, config.GetCK3ModFlags());
+				CulturalPillars = new(ck3ColorFactory, ck3ModFlags);
 				CulturalPillars.LoadPillars(ModFS);
 				Logger.Info("Loading converter cultural pillars...");
 				CulturalPillars.LoadConverterPillars("configurables/cultural_pillars");
-				Cultures = new CultureCollection(ck3ColorFactory, CulturalPillars, config.GetCK3ModFlags());
+				Cultures = new CultureCollection(ck3ColorFactory, CulturalPillars, ck3ModFlags);
 				Cultures.LoadNameLists(ModFS);
 				Cultures.LoadInnovationIds(ModFS);
 				Cultures.LoadCultures(ModFS);
@@ -213,7 +215,7 @@ internal sealed class World {
 		var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, ck3RegionMapper);
 		
 		Parallel.Invoke(
-			() => Cultures.ImportTechnology(impWorld.Countries, cultureMapper, provinceMapper, impWorld.InventionsDB, impWorld.LocDB),
+			() => Cultures.ImportTechnology(impWorld.Countries, cultureMapper, provinceMapper, impWorld.InventionsDB, impWorld.LocDB, ck3ModFlags),
 			
 			() => { // depends on religionMapper
 				// Check if all I:R religions have a base mapping.
@@ -243,6 +245,9 @@ internal sealed class World {
                 		Logger.Warn($"No base mapping found for I:R culture {cultureStr}!");
                 	}
                 }
+			},
+			() => { // depends on TraitMapper and CK3 characters being loaded
+				Characters.RemoveUndefinedTraits(traitMapper);
 			}
 		);
 		
@@ -308,7 +313,7 @@ internal sealed class World {
 
 		// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 		// Some of it will be overwritten, but not all.
-		Provinces.ImportVanillaProvinces(ModFS);
+		Provinces.ImportVanillaProvinces(ModFS, Religions, Cultures);
 
 		// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 		Provinces.ImportImperatorProvinces(impWorld, MapData, LandedTitles, cultureMapper, religionMapper, provinceMapper, CorrectedDate, config);

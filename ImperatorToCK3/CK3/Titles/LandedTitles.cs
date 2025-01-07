@@ -338,6 +338,15 @@ internal sealed partial class Title {
 					}
 				}
 			}
+
+			// Remove undated succession_laws entries; the game doesn't seem to like them.
+			foreach (var title in this) {
+				if (!title.History.Fields.TryGetValue("succession_laws", out var successionLawsField)) {
+					continue;
+				}
+
+				successionLawsField.InitialEntries.RemoveAll(entry => true);
+			}
 		}
 
 		internal void ImportImperatorCountries(

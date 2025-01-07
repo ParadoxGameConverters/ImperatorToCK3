@@ -30,11 +30,14 @@ public interface IHistoryField : IIdentifiable<string> {
 	/// Removes all entries with values matching the predicate
 	/// </summary>
 	/// <param name="predicate"></param>
-	public void RemoveAllEntries(Func<object, bool> predicate) {
-		InitialEntries.RemoveAll(kvp => predicate(kvp.Value));
+	public int RemoveAllEntries(Func<object, bool> predicate) {
+		int removed = 0;
+		removed += InitialEntries.RemoveAll(kvp => predicate(kvp.Value));
 		foreach (var datedEntriesBlock in DateToEntriesDict) {
-			datedEntriesBlock.Value.RemoveAll(kvp => predicate(kvp.Value));
+			removed += datedEntriesBlock.Value.RemoveAll(kvp => predicate(kvp.Value));
 		}
+		
+		return removed;
 	}
 
 	public void RegisterKeywords(Parser parser, Date date);
