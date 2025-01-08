@@ -300,6 +300,38 @@ internal sealed partial class Title {
 					holderField.DateToEntriesDict.Remove(date);
 				}
 			}
+
+			// Remove liege entries of the same rank as the title they're in.
+			// For example, TFE had more or less this: d_kordofan = { liege = d_kordofan }
+			var validRankChars = new HashSet<char> { 'e', 'k', 'd', 'c', 'b'};
+			foreach (var title in this) {
+				if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
+					continue;
+				}
+
+				var titleRank = title.Rank;
+
+				liegeField.RemoveAllEntries(value => {
+					string? valueStr = value.ToString()?.RemQuotes();
+					if (valueStr is null || valueStr == "0") {
+						return false;
+					}
+
+					char rankChar = valueStr[0];
+					if (!validRankChars.Contains(rankChar)) {
+						Logger.Warn($"Removing invalid rank liege entry from {title.Id}: {valueStr}");
+						return true;
+					}
+					
+					var liegeRank = TitleRankUtils.CharToTitleRank(rankChar);
+					if (liegeRank <= titleRank) {
+						Logger.Warn($"Removing invalid rank liege entry from {title.Id}: {valueStr}");
+						return true;
+					}
+
+					return false;
+				});
+			}
 			
 			// Remove liege entries that are not valid (liege title is not held at the entry date).
 			foreach (var title in this) {

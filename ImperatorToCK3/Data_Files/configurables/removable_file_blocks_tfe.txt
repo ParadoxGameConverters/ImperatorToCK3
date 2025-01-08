@@ -416,6 +416,36 @@
 			make_trait_inactive = intellect_good_3
 		}
 	}
+
+	{
+		if = {
+			limit = {
+				game_start_date >= 551.7.9
+			}
+			title:b_beirut.title_province = {
+				limit = { has_building = beirut_university }
+				remove_building = beirut_university
+			}
+		}
+		if = {
+			limit = {
+				game_start_date >= 800.1.1
+			}
+			title:b_urmiya.title_province = {
+				limit = { has_building = adur_gushnasp }
+				remove_building = adur_gushnasp
+			}
+		}
+		if = {
+			limit = {
+				game_start_date >= 529.1.1
+			}
+			title:b_athens.title_province = {
+				limit = { has_building = generic_university }
+				remove_building = generic_university
+			}
+		}
+	}
 }
 
 "common/on_action/sea_minority_game_start.txt" = {
