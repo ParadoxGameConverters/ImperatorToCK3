@@ -1,0 +1,9 @@
+﻿l_english:
+ # MUST READ:
+ # for every overridden loc, explain why we're overriding it!
+ 
+ # The event about the division of the Roman Empire should not mention Diocletian.
+ tfe_title_event.0004.desc: "The Empire now faces many external and internal problems. To make it more manageable, it needs to be split into two halves: a Western half centered on Italia, and an Eastern half centered on Constantinople.\n\nThe big question that remains is whether to do this now, or later. On one hand, ruling a united Empire is an overwhelming burden on myself. On the other hand, if I am confident enough in my abilities to hold the Empire together for the short-term, we can have it split between my heirs #italic after#! I die."
+ 
+ # Don't mention Italy being the "old heartland of the Roman Empire"; we don't know if it was the heartland in the converted game.
+ tfe_culture.3000.desc: "In the past few generations, recent political events in [GetGeographicalRegion('world_europe_south_italy').GetName] have led to great social upheaval and cultural changes in places like [county_to_convert.GetNameNoTier].\n\nOne can now argue that even though the descendants of the [old_culture.GetCollectiveNoun] who live in [county_to_convert.GetNameNoTier] still remember and honor their glorious past, they are no longer truly like their ancestors. As of late, it is more accurate to say that the inhabitants of [county_to_convert.GetNameNoTierNoTooltip] have transformed from the Romans of classical antiquity into a new, different people: the [italian.GetCollectiveNoun]."
