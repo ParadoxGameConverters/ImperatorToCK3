@@ -1,11 +1,6 @@
 using commonItems;
-using commonItems.Collections;
 using commonItems.Mods;
-using ImperatorToCK3.CK3.Cleanup;
-using ImperatorToCK3.CommonUtils;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,9 +9,6 @@ namespace ImperatorToCK3.Outputter;
 public static class OnActionOutputter {
 	public static async Task OutputEverything(Configuration config, ModFilesystem ck3ModFS, string outputModPath){
 		await OutputCustomGameStartOnAction(config);
-		if (config.FallenEagleEnabled) {
-			await DisableUnneededFallenEagleOnActionFiles(outputModPath);
-		}
 		Logger.IncrementProgress();
 	}
 
@@ -84,18 +76,5 @@ public static class OnActionOutputter {
 		var filePath = $"output/{config.OutputModName}/common/on_action/IRToCK3_game_start.txt";
 		await using var writer = new StreamWriter(filePath, append: false, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
 		await writer.WriteAsync(sb.ToString());
-	}
-
-	private static async Task DisableUnneededFallenEagleOnActionFiles(string outputModPath) {
-		Logger.Info("Disabling unneeded Fallen Eagle on-actions...");
-		var onActionsToDisable = new OrderedSet<string> {
-			"sevenhouses_on_actions.txt",
-			"senate_tasks_on_actions.txt",
-		};
-		foreach (var filename in onActionsToDisable) {
-			var filePath = $"{outputModPath}/common/on_action/{filename}";
-			await using var writer = new StreamWriter(filePath, append: false, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
-			await writer.WriteLineAsync("# disabled by IRToCK3");
-		}
 	}
 }

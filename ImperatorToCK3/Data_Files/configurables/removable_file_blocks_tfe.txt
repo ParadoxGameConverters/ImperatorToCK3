@@ -12764,3 +12764,3649 @@ steppe.6666 = {
 	}
 	}
 }
+
+"common/on_action/senate_on_actions.txt" = {
+	{
+on_game_start = {
+	on_actions = {
+		on_senate_start_italy
+	}
+	on_actions = {
+		on_senate_start_eastern
+	}
+	
+}
+
+on_senate_start_italy = {
+	effect = {
+		set_global_variable = {
+			name = italian_senate_dismantle
+			value = flag:no
+		}
+		set_global_variable = {
+			name = eastern_senate_dismantle
+			value = flag:no
+		}
+		set_global_variable = {
+			name = office_events_eastern
+			value = flag:yes
+		}
+		set_global_variable = {
+			name = office_events_italy
+			value = flag:yes
+		}
+		while = {
+			count = 6
+			create_character = {
+				culture = title:c_roma.culture
+				gender = male
+				age = {35 50}
+				dynasty = generate
+				trait = low_senator
+				faith = title:c_roma.holder.top_liege.faith
+				
+				employer = title:c_roma.holder.top_liege
+				save_scope_as = senator
+			}
+			scope:senator = { 
+				add_to_global_variable_list = {
+					name = low_senate_italy
+					target = THIS
+				}
+				add_to_global_variable_list = {
+					name = all_senate_italy
+					target = THIS
+				}
+				if = {
+					limit = {
+						title:c_roma.holder.top_liege.primary_title = {
+							is_titular = no
+						}
+					}
+					add_pressed_claim = title:c_roma.holder.top_liege.primary_title
+				}
+				decide_senate_idea = yes
+				if = {
+					limit = {
+						NOT = {
+							any_held_title = { is_noble_family_title = yes }
+						}
+						liege = { government_allows = administrative }
+					}
+					create_noble_family_effect = yes
+					domicile ?= { set_up_domicile_estate_effect = yes }
+					if = {
+						if = { limit = { liege = { has_government = administrative_government } } change_government = administrative_government }
+						if = { limit = { liege = { has_government = autocratic_government_ep3 } } change_government = autocratic_government_ep3 }
+						if = { limit = { liege = { has_government = imperial_government } } change_government = imperial_government }
+						if = { limit = { liege = { has_government = autocratic_government } } change_government = autocratic_government }
+						if = { limit = { liege = { has_government = imperial_cult_government } } change_government = imperial_cult_government }
+					}
+				}
+			}
+		}
+		while = {
+			count = 10
+			create_character = {
+				culture = title:c_roma.culture
+				gender = male
+				age = {35 50}
+				dynasty = generate
+				trait = senator
+				faith = title:c_roma.holder.top_liege.faith
+				
+				employer = title:c_roma.holder.top_liege
+				save_scope_as = senator
+			}
+			scope:senator = { 
+				add_to_global_variable_list = {
+					name = senate_italy
+					target = THIS
+				}
+				add_to_global_variable_list = {
+					name = all_senate_italy
+					target = THIS
+				}
+				if = {
+					limit = {
+						title:c_roma.holder.top_liege.primary_title = {
+							is_titular = no
+						}
+					}
+					add_pressed_claim = title:c_roma.holder.top_liege.primary_title
+				}
+				decide_senate_idea = yes
+				if = {
+					limit = {
+						NOT = {
+							any_held_title = { is_noble_family_title = yes }
+						}
+						liege = { government_allows = administrative }
+					}
+					create_noble_family_effect = yes
+					domicile ?= { set_up_domicile_estate_effect = yes }
+					if = {
+						if = { limit = { liege = { has_government = administrative_government } } change_government = administrative_government }
+						if = { limit = { liege = { has_government = autocratic_government_ep3 } } change_government = autocratic_government_ep3 }
+						if = { limit = { liege = { has_government = imperial_government } } change_government = imperial_government }
+						if = { limit = { liege = { has_government = autocratic_government } } change_government = autocratic_government }
+						if = { limit = { liege = { has_government = imperial_cult_government } } change_government = imperial_cult_government }
+					}
+				}
+			}
+			
+		}
+		while = {
+			count = 5
+			create_character = {
+				culture = title:c_roma.culture
+				gender = male
+				age = {35 50}
+				dynasty = generate
+				trait = high_senator
+				faith = title:c_roma.holder.top_liege.faith
+				
+				employer = title:c_roma.holder.top_liege
+				save_scope_as = senator
+			}
+			scope:senator = { 
+				add_to_global_variable_list = {
+					name = high_senate_italy
+					target = THIS
+				}
+				add_to_global_variable_list = {
+					name = all_senate_italy
+					target = THIS
+				}
+				if = {
+					limit = {
+						title:c_roma.holder.top_liege.primary_title = {
+							is_titular = no
+						}
+					}
+					add_pressed_claim = title:c_roma.holder.top_liege.primary_title
+				}
+				decide_senate_idea = yes
+				if = {
+					limit = {
+						NOT = {
+							any_held_title = { is_noble_family_title = yes }
+						}
+						liege = { government_allows = administrative }
+					}
+					create_noble_family_effect = yes
+					domicile ?= { set_up_domicile_estate_effect = yes }
+					if = {
+						if = { limit = { liege = { has_government = administrative_government } } change_government = administrative_government }
+						if = { limit = { liege = { has_government = autocratic_government_ep3 } } change_government = autocratic_government_ep3 }
+						if = { limit = { liege = { has_government = imperial_government } } change_government = imperial_government }
+						if = { limit = { liege = { has_government = autocratic_government } } change_government = autocratic_government }
+						if = { limit = { liege = { has_government = imperial_cult_government } } change_government = imperial_cult_government }
+					}
+				}
+			}
+			
+		}
+		every_in_global_list = {
+			variable  = low_senate_italy
+			random_list = {
+				33 = {
+					add_to_global_variable_list = {
+						name = aristocratic_senate_italy
+						target = THIS
+					}
+				}
+				33 = {
+					add_to_global_variable_list = {
+						name = populist_senate_italy
+						target = THIS
+					}
+				}
+				33 = {
+					add_to_global_variable_list = {
+						name = traditionalist_senate_italy
+						target = THIS
+					}
+				}
+			}
+		}
+		every_in_global_list = {
+			variable  = senate_italy
+			random_list = {
+				33 = {
+					add_to_global_variable_list = {
+						name = aristocratic_senate_italy
+						target = THIS
+					}
+				}
+				33 = {
+					add_to_global_variable_list = {
+						name = populist_senate_italy
+						target = THIS
+					}
+				}
+				33 = {
+					add_to_global_variable_list = {
+						name = traditionalist_senate_italy
+						target = THIS
+					}
+				}
+			}
+		}
+		every_in_global_list = {
+			variable  = high_senate_italy
+			random_list = {
+				33 = {
+					add_to_global_variable_list = {
+						name = aristocratic_senate_italy
+						target = THIS
+					}
+				}
+				33 = {
+					add_to_global_variable_list = {
+						name = populist_senate_italy
+						target = THIS
+					}
+				}
+				33 = {
+					add_to_global_variable_list = {
+						name = traditionalist_senate_italy
+						target = THIS
+					}
+				}
+			}
+		}
+		set_global_variable = {
+			name = aristocratic_senate_italy_gold
+			value = 1000
+		}
+		set_global_variable = {
+			name = populist_senate_italy_gold
+			value = 1000
+		}
+		set_global_variable = {
+			name = traditionalist_senate_italy_gold
+			value = 1000
+		}
+		set_global_variable = {
+			name = italy_senate_admin
+			value = flag:taxing_rights
+		}
+		set_global_variable = {
+			name = italy_senate_military
+			value = flag:exclusion
+		}
+		set_global_variable = {
+			name = italy_senate_legistlation
+			value = flag:regular
+		}
+		set_global_variable = {
+			name = italy_senate_tasks
+			value = flag:none
+		}
+		title:c_roma.holder.top_liege = {
+			add_character_modifier = taxing_rights_senate_admin
+			add_character_modifier = exclusion_senate_mil
+			add_character_modifier = regular_senate_legislation
+		}
+	}
+	on_actions = {
+		delay = { days = { 365 420 } }
+		on_senate_yearly
+	}
+	on_actions = {
+		delay = { months = { 60 80 } }
+		on_senate_lol_italy
+	}
+	on_actions = {
+		delay = { years = 20 }
+		on_senate_20_years
+	}
+	on_actions = {
+		delay = { months = 1 }
+		on_senate_monthly_income
+	}
+}
+on_senate_start_eastern = {
+	effect = {
+		while = {
+			count = 6
+			create_character = {
+				culture = title:c_byzantion.holder.top_liege.culture
+				gender = male
+				age = {35 50}
+				dynasty = generate
+				trait = low_senator
+				faith = title:c_byzantion.holder.top_liege.faith
+				
+				employer = title:c_byzantion.holder.top_liege
+				save_scope_as = senator
+			}
+			scope:senator = { 
+				add_to_global_variable_list = {
+					name = low_senate_eastern
+					target = THIS
+				}
+				add_to_global_variable_list = {
+					name = all_senate_eastern
+					target = THIS
+				}
+				if = {
+					limit = {
+						title:c_byzantion.holder.top_liege.primary_title = {
+							is_titular = no
+						}
+					}
+					add_pressed_claim = title:c_byzantion.holder.top_liege.primary_title
+				}
+				decide_senate_idea = yes
+				if = {
+					limit = {
+						NOT = {
+							any_held_title = { is_noble_family_title = yes }
+						}
+						liege = { government_allows = administrative }
+					}
+					create_noble_family_effect = yes
+					domicile ?= { set_up_domicile_estate_effect = yes }
+					if = {
+						if = { limit = { liege = { has_government = administrative_government } } change_government = administrative_government }
+						if = { limit = { liege = { has_government = autocratic_government_ep3 } } change_government = autocratic_government_ep3 }
+						if = { limit = { liege = { has_government = imperial_government } } change_government = imperial_government }
+						if = { limit = { liege = { has_government = autocratic_government } } change_government = autocratic_government }
+						if = { limit = { liege = { has_government = imperial_cult_government } } change_government = imperial_cult_government }
+					}
+				}
+			}
+		}
+		while = {
+			count = 10
+			create_character = {
+				culture = title:c_byzantion.holder.top_liege.culture
+				gender = male
+				age = {35 50}
+				dynasty = generate
+				trait = senator
+				faith = title:c_byzantion.holder.top_liege.faith
+				
+				employer = title:c_byzantion.holder.top_liege
+				save_scope_as = senator
+			}
+			scope:senator = { 
+				add_to_global_variable_list = {
+					name = senate_eastern
+					target = THIS
+				}
+				add_to_global_variable_list = {
+					name = all_senate_eastern
+					target = THIS
+				}
+				if = {
+					limit = {
+						title:c_byzantion.holder.top_liege.primary_title = {
+							is_titular = no
+						}
+					}
+					add_pressed_claim = title:c_byzantion.holder.top_liege.primary_title
+				}
+				decide_senate_idea = yes
+				if = {
+					limit = {
+						NOT = {
+							any_held_title = { is_noble_family_title = yes }
+						}
+						liege = { government_allows = administrative }
+					}
+					create_noble_family_effect = yes
+					domicile ?= { set_up_domicile_estate_effect = yes }
+					if = {
+						if = { limit = { liege = { has_government = administrative_government } } change_government = administrative_government }
+						if = { limit = { liege = { has_government = autocratic_government_ep3 } } change_government = autocratic_government_ep3 }
+						if = { limit = { liege = { has_government = imperial_government } } change_government = imperial_government }
+						if = { limit = { liege = { has_government = autocratic_government } } change_government = autocratic_government }
+						if = { limit = { liege = { has_government = imperial_cult_government } } change_government = imperial_cult_government }
+					}
+				}
+			}
+			
+		}
+		while = {
+			count = 5
+			create_character = {
+				culture = title:c_byzantion.holder.top_liege.culture
+				gender = male
+				age = {35 50}
+				dynasty = generate
+				trait = high_senator
+				faith = title:c_byzantion.holder.top_liege.faith
+				
+				employer = title:c_byzantion.holder.top_liege
+				save_scope_as = senator
+			}
+			scope:senator = { 
+				add_to_global_variable_list = {
+					name = high_senate_eastern
+					target = THIS
+				}
+				add_to_global_variable_list = {
+					name = all_senate_eastern
+					target = THIS
+				}
+				if = {
+					limit = {
+						title:c_byzantion.holder.top_liege.primary_title = {
+							is_titular = no
+						}
+					}
+					add_pressed_claim = title:c_byzantion.holder.top_liege.primary_title
+				}
+				decide_senate_idea = yes
+				if = {
+					limit = {
+						NOT = {
+							any_held_title = { is_noble_family_title = yes }
+						}
+						liege = { government_allows = administrative }
+					}
+					create_noble_family_effect = yes
+					domicile ?= { set_up_domicile_estate_effect = yes }
+					if = {
+						if = { limit = { liege = { has_government = administrative_government } } change_government = administrative_government }
+						if = { limit = { liege = { has_government = autocratic_government_ep3 } } change_government = autocratic_government_ep3 }
+						if = { limit = { liege = { has_government = imperial_government } } change_government = imperial_government }
+						if = { limit = { liege = { has_government = autocratic_government } } change_government = autocratic_government }
+						if = { limit = { liege = { has_government = imperial_cult_government } } change_government = imperial_cult_government }
+					}
+				}
+			}
+			
+		}
+		every_in_global_list = {
+			variable  = low_senate_eastern
+			random_list = {
+				33 = {
+					add_to_global_variable_list = {
+						name = aristocratic_senate_eastern
+						target = THIS
+					}
+				}
+				33 = {
+					add_to_global_variable_list = {
+						name = populist_senate_eastern
+						target = THIS
+					}
+				}
+				33 = {
+					add_to_global_variable_list = {
+						name = traditionalist_senate_eastern
+						target = THIS
+					}
+				}
+			}
+		}
+		every_in_global_list = {
+			variable  = senate_eastern
+			random_list = {
+				33 = {
+					add_to_global_variable_list = {
+						name = aristocratic_senate_eastern
+						target = THIS
+					}
+				}
+				33 = {
+					add_to_global_variable_list = {
+						name = populist_senate_eastern
+						target = THIS
+					}
+				}
+				33 = {
+					add_to_global_variable_list = {
+						name = traditionalist_senate_eastern
+						target = THIS
+					}
+				}
+			}
+		}
+		every_in_global_list = {
+			variable  = high_senate_eastern
+			random_list = {
+				33 = {
+					add_to_global_variable_list = {
+						name = aristocratic_senate_eastern
+						target = THIS
+					}
+				}
+				33 = {
+					add_to_global_variable_list = {
+						name = populist_senate_eastern
+						target = THIS
+					}
+				}
+				33 = {
+					add_to_global_variable_list = {
+						name = traditionalist_senate_eastern
+						target = THIS
+					}
+				}
+			}
+		}
+		set_global_variable = {
+			name = aristocratic_senate_eastern_gold
+			value = 1000
+		}
+		set_global_variable = {
+			name = populist_senate_eastern_gold
+			value = 1000
+		}
+		set_global_variable = {
+			name = traditionalist_senate_eastern_gold
+			value = 1000
+		}
+		set_global_variable = {
+			name = eastern_senate_admin
+			value = flag:taxing_rights
+		}
+		set_global_variable = {
+			name = eastern_senate_military
+			value = flag:exclusion
+		}
+		set_global_variable = {
+			name = eastern_senate_legistlation
+			value = flag:regular
+		}
+		set_global_variable = {
+			name = eastern_senate_tasks
+			value = flag:none
+		}
+		title:c_byzantion.holder.top_liege = {
+			add_character_modifier = taxing_rights_senate_admin
+			add_character_modifier = exclusion_senate_mil
+			add_character_modifier = regular_senate_legislation
+		}
+	}
+	on_actions = {
+		delay = { days = { 365 420 } }
+		on_senate_yearly_eastern
+	}
+	on_actions = {
+		delay = { years = 20 }
+		on_senate_20_years_eastern
+	}
+	on_actions = {
+		delay = { months = { 70 90 } }
+		on_senate_lol_eastern
+	}
+}
+
+on_senate_yearly = {
+	effect = {
+		every_in_global_list = {
+			variable  = all_senate_italy
+			remove_variable = loyalist_senate
+			remove_variable = disloyal_senate
+			remove_variable = pragmatic_senate
+			remove_variable = gloryhound_senate
+			decide_senate_idea = yes
+		}
+		title:c_roma.holder.top_liege = {
+			if = {
+				limit = {
+					access_to_italian_senate = yes
+				}
+				if = {
+					limit = {
+						global_var:italy_senate_admin = flag:minimum
+						NOT = {
+							has_character_modifier = minumum_senate_admin
+						}
+					}
+					add_character_modifier = minumum_senate_admin
+				}
+				else_if = {
+					limit = {
+						global_var:italy_senate_admin = flag:taxing_rights
+						NOT = {
+							has_character_modifier = taxing_rights_senate_admin
+						}
+					}
+					add_character_modifier = taxing_rights_senate_admin
+				}
+				else_if = {
+					limit = {
+						global_var:italy_senate_admin = flag:absolute
+						NOT = {
+							has_character_modifier = absolute_senate_admin
+						}
+					}
+					add_character_modifier = absolute_senate_admin
+				}
+	
+				if = {
+					limit = {
+						global_var:italy_senate_military = flag:exclusion
+						NOT = {
+							has_character_modifier = exclusion_senate_mil
+						}
+					}
+					add_character_modifier = exclusion_senate_mil
+				}
+				else_if = {
+					limit = {
+						global_var:italy_senate_military = flag:regular
+						NOT = {
+							has_character_modifier = regular_senate_mil
+						}
+					}
+					add_character_modifier = regular_senate_mil
+				}
+				else_if = {
+					limit = {
+						global_var:italy_senate_military = flag:retinue
+						NOT = {
+							has_character_modifier = retinue_senate_mil
+						}
+					}
+					add_character_modifier = retinue_senate_mil
+				}
+	
+				if = {
+					limit = {
+						global_var:italy_senate_legistlation = flag:no_legislation
+						NOT = {
+							has_character_modifier = no_senate_legislation
+						}
+					}
+					add_character_modifier = no_senate_legislation
+				}
+				else_if = {
+					limit = {
+						global_var:italy_senate_legistlation = flag:regular
+						NOT = {
+							has_character_modifier = regular_senate_legislation
+						}
+					}
+					add_character_modifier = regular_senate_legislation
+				}
+				else_if = {
+					limit = {
+						global_var:italy_senate_legistlation = flag:absolute
+						NOT = {
+							has_character_modifier = absolute_senate_legislation
+						}
+					}
+					add_character_modifier = absolute_senate_legislation
+				}
+			}
+		}
+	}
+	on_actions = {
+		delay = { days = { 365 420 } }
+		on_senate_yearly
+	}
+}
+on_senate_yearly_eastern = {
+	effect = {
+		every_in_global_list = {
+			variable  = all_senate_eastern
+			remove_variable = loyalist_senate
+			remove_variable = disloyal_senate
+			remove_variable = pragmatic_senate
+			remove_variable = gloryhound_senate
+			decide_senate_idea = yes
+		}
+		title:c_byzantion.holder.top_liege = {
+			if = {
+				limit = {
+					access_to_eastern_senate = yes
+				}
+				if = {
+					limit = {
+						global_var:eastern_senate_admin = flag:minimum
+						NOT = {
+							has_character_modifier = minumum_senate_admin
+						}
+					}
+					add_character_modifier = minumum_senate_admin
+				}
+				else_if = {
+					limit = {
+						global_var:eastern_senate_admin = flag:taxing_rights
+						NOT = {
+							has_character_modifier = taxing_rights_senate_admin
+						}
+					}
+					add_character_modifier = taxing_rights_senate_admin
+				}
+				else_if = {
+					limit = {
+						global_var:eastern_senate_admin = flag:absolute
+						NOT = {
+							has_character_modifier = absolute_senate_admin
+						}
+					}
+					add_character_modifier = absolute_senate_admin
+				}
+	
+				if = {
+					limit = {
+						global_var:eastern_senate_military = flag:exclusion
+						NOT = {
+							has_character_modifier = exclusion_senate_mil
+						}
+					}
+					add_character_modifier = exclusion_senate_mil
+				}
+				else_if = {
+					limit = {
+						global_var:eastern_senate_military = flag:regular
+						NOT = {
+							has_character_modifier = regular_senate_mil
+						}
+					}
+					add_character_modifier = regular_senate_mil
+				}
+				else_if = {
+					limit = {
+						global_var:eastern_senate_military = flag:retinue
+						NOT = {
+							has_character_modifier = retinue_senate_mil
+						}
+					}
+					add_character_modifier = retinue_senate_mil
+				}
+	
+				if = {
+					limit = {
+						global_var:eastern_senate_legistlation = flag:no_legislation
+						NOT = {
+							has_character_modifier = no_senate_legislation
+						}
+					}
+					add_character_modifier = no_senate_legislation
+				}
+				else_if = {
+					limit = {
+						global_var:eastern_senate_legistlation = flag:regular
+						NOT = {
+							has_character_modifier = regular_senate_legislation
+						}
+					}
+					add_character_modifier = regular_senate_legislation
+				}
+				else_if = {
+					limit = {
+						global_var:eastern_senate_legistlation = flag:absolute
+						NOT = {
+							has_character_modifier = absolute_senate_legislation
+						}
+					}
+					add_character_modifier = absolute_senate_legislation
+				}
+			}
+		}
+	}
+	on_actions = {
+		delay = { days = { 365 420 } }
+		on_senate_yearly_eastern
+	}
+}
+
+on_title_gain = {
+	on_actions = { senate_on_title_gain }
+	on_actions = { senate_on_title_gain_eastern }
+}
+
+senate_on_title_gain = {
+	effect = {
+		if = {
+			limit = {
+				is_target_in_global_variable_list = {
+					name = all_senate_italy
+					target = THIS
+				}
+				scope:title = { is_noble_family_title = no }
+			}
+			if = {
+				limit = {
+					has_trait = low_senator
+				}
+				remove_trait = low_senator
+				add_trait = former_senator
+				if = {
+					limit = {
+						has_claim_on = title:c_roma.holder.top_liege.primary_title
+					}
+					remove_claim = title:c_roma.holder.top_liege.primary_title
+				}
+				remove_list_global_variable = {
+					name = low_senate_italy
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = all_senate_italy
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = aristocratic_senate_italy
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = populist_senate_italy
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = traditionalist_senate_italy
+					target = THIS
+				}
+				if = {
+					limit = {
+						title:c_roma.holder.top_liege = {
+							any_courtier = {
+								has_trait = training_senator
+								age >= 35
+							}
+						}
+					}
+					title:c_roma.holder.top_liege = {
+						random_courtier = {
+							limit = {
+								has_trait = training_senator
+								age >= 35
+							}
+							remove_trait =training_senator
+							add_trait = low_senator 
+							add_to_global_variable_list = {
+								name = low_senate_italy
+								target = THIS
+							}
+							add_to_global_variable_list = {
+								name = all_senate_italy
+								target = THIS
+							}
+							if = {
+								limit = {
+									title:c_roma.holder.top_liege.primary_title = {
+										is_titular = no
+									}
+								}
+								add_pressed_claim = title:c_roma.holder.top_liege.primary_title
+							}
+							decide_senate_party = yes
+							decide_senate_idea = yes
+						}
+					}
+				}
+				else = {
+					create_character = {
+						culture = title:c_roma.culture
+						gender = male
+						age = {35 50}
+						dynasty = generate
+						trait = low_senator
+						faith = title:c_roma.holder.top_liege.faith
+						
+						employer = title:c_roma.holder.top_liege
+						save_scope_as = senator
+					}
+					scope:senator = { 
+						add_to_global_variable_list = {
+							name = low_senate_italy
+							target = THIS
+						}
+						add_to_global_variable_list = {
+							name = all_senate_italy
+							target = THIS
+						}
+						if = {
+							limit = {
+								title:c_roma.holder.top_liege.primary_title = {
+									is_titular = no
+								}
+							}
+							add_pressed_claim = title:c_roma.holder.top_liege.primary_title
+						}
+						decide_senate_party = yes
+						decide_senate_idea = yes
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					has_trait = senator
+				}
+				remove_trait = senator
+				add_trait = former_senator
+				if = {
+					limit = {
+						has_claim_on = title:c_roma.holder.top_liege.primary_title
+					}
+					remove_claim = title:c_roma.holder.top_liege.primary_title
+				}
+				remove_list_global_variable = {
+					name = senate_italy
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = all_senate_italy
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = aristocratic_senate_italy
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = populist_senate_italy
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = traditionalist_senate_italy
+					target = THIS
+				}
+				random_in_global_list = {
+					variable  = low_senate_italy
+					remove_trait = low_senator
+					add_trait = senator
+					create_character = {
+						culture = title:c_roma.culture
+						gender = male
+						age = {35 50}
+						dynasty = generate
+						trait = low_senator
+						faith = title:c_roma.holder.top_liege.faith
+						
+						employer = title:c_roma.holder.top_liege
+						save_scope_as = senator
+					}
+					scope:senator = { 
+						add_to_global_variable_list = {
+							name = low_senate_italy
+							target = THIS
+						}
+						add_to_global_variable_list = {
+							name = all_senate_italy
+							target = THIS
+						}
+						if = {
+							limit = {
+								title:c_roma.holder.top_liege.primary_title = {
+									is_titular = no
+								}
+							}
+							add_pressed_claim = title:c_roma.holder.top_liege.primary_title
+						}
+						decide_senate_party = yes
+						decide_senate_idea = yes
+					}
+					remove_list_global_variable = {
+						name = low_senate_italy
+						target = THIS
+					}
+					add_to_global_variable_list = {
+						name = senate_italy
+						target = THIS
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					has_trait = high_senator
+				}
+				remove_trait = high_senator
+				add_trait = former_senator
+				if = {
+					limit = {
+						has_claim_on = title:c_roma.holder.top_liege.primary_title
+					}
+					remove_claim = title:c_roma.holder.top_liege.primary_title
+				}
+				remove_list_global_variable = {
+					name = high_senate_italy
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = all_senate_italy
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = aristocratic_senate_italy
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = populist_senate_italy
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = traditionalist_senate_italy
+					target = THIS
+				}
+				random_in_global_list = {
+					variable  = senate_italy
+					remove_trait = senator
+					add_trait = high_senator
+					remove_list_global_variable = {
+						name = senate_italy
+						target = THIS
+					}
+					add_to_global_variable_list = {
+						name = high_senate_italy
+						target = THIS
+					}
+					random_in_global_list = {
+						variable  = low_senate_italy
+						remove_trait = low_senator
+						add_trait = senator
+						create_character = {
+							culture = title:c_roma.culture
+							gender = male
+							age = {35 50}
+							dynasty = generate
+							trait = low_senator
+							faith = title:c_roma.holder.top_liege.faith
+							
+							employer = title:c_roma.holder.top_liege
+							save_scope_as = senator
+						}
+						scope:senator = { 
+							add_to_global_variable_list = {
+								name = low_senate_italy
+								target = THIS
+							}
+							add_to_global_variable_list = {
+								name = all_senate_italy
+								target = THIS
+							}
+							if = {
+								limit = {
+									title:c_roma.holder.top_liege.primary_title = {
+										is_titular = no
+									}
+								}
+								add_pressed_claim = title:c_roma.holder.top_liege.primary_title
+							}
+							decide_senate_party = yes
+							decide_senate_idea = yes
+						}
+						remove_list_global_variable = {
+							name = low_senate_italy
+							target = THIS
+						}
+						add_to_global_variable_list = {
+							name = senate_italy
+							target = THIS
+						}
+					}
+				}
+			}
+		}
+	}
+}
+senate_on_title_gain_eastern = {
+	effect = {
+		if = {
+			limit = {
+				is_target_in_global_variable_list = {
+					name = all_senate_eastern
+					target = THIS
+				}
+				scope:title = { is_noble_family_title = no }
+			}
+			if = {
+				limit = {
+					has_trait = low_senator
+				}
+				remove_trait = low_senator
+				add_trait = former_senator
+				if = {
+					limit = {
+						has_claim_on = title:c_byzantion.holder.top_liege.primary_title
+					}
+					remove_claim = title:c_byzantion.holder.top_liege.primary_title
+				}
+				remove_list_global_variable = {
+					name = low_senate_eastern
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = all_senate_eastern
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = aristocratic_senate_eastern
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = populist_senate_eastern
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = traditionalist_senate_eastern
+					target = THIS
+				}
+				if = {
+					limit = {
+						title:c_byzantion.holder.top_liege = {
+							any_courtier = {
+								has_trait = training_senator
+								age >= 35
+							}
+						}
+					}
+					title:c_byzantion.holder.top_liege = {
+						random_courtier = {
+							limit = {
+								has_trait = training_senator
+								age >= 35
+							}
+							remove_trait =training_senator
+							add_trait = low_senator 
+							add_to_global_variable_list = {
+								name = low_senate_eastern
+								target = THIS
+							}
+							add_to_global_variable_list = {
+								name = all_senate_eastern
+								target = THIS
+							}
+							if = {
+								limit = {
+									title:c_byzantion.holder.top_liege.primary_title = {
+										is_titular = no
+									}
+								}
+								add_pressed_claim = title:c_byzantion.holder.top_liege.primary_title
+							}
+							decide_senate_party = yes
+							decide_senate_idea = yes
+						}
+					}
+				}
+				else = {
+					create_character = {
+						culture = title:c_byzantion.culture
+						gender = male
+						age = {35 50}
+						dynasty = generate
+						trait = low_senator
+						faith = title:c_byzantion.holder.top_liege.faith
+						
+						employer = title:c_byzantion.holder.top_liege
+						save_scope_as = senator
+					}
+					scope:senator = { 
+						add_to_global_variable_list = {
+							name = low_senate_eastern
+							target = THIS
+						}
+						add_to_global_variable_list = {
+							name = all_senate_eastern
+							target = THIS
+						}
+						if = {
+							limit = {
+								title:c_byzantion.holder.top_liege.primary_title = {
+									is_titular = no
+								}
+							}
+							add_pressed_claim = title:c_byzantion.holder.top_liege.primary_title
+						}
+						decide_senate_party = yes
+						decide_senate_idea = yes
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					has_trait = senator
+				}
+				remove_trait = senator
+				add_trait = former_senator
+				if = {
+					limit = {
+						has_claim_on = title:c_byzantion.holder.top_liege.primary_title
+					}
+					remove_claim = title:c_byzantion.holder.top_liege.primary_title
+				}
+				remove_list_global_variable = {
+					name = senate_eastern
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = all_senate_eastern
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = aristocratic_senate_eastern
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = populist_senate_eastern
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = traditionalist_senate_eastern
+					target = THIS
+				}
+				random_in_global_list = {
+					variable  = low_senate_eastern
+					remove_trait = low_senator
+					add_trait = senator
+					create_character = {
+						culture = title:c_byzantion.culture
+						gender = male
+						age = {35 50}
+						dynasty = generate
+						trait = low_senator
+						faith = title:c_byzantion.holder.top_liege.faith
+						
+						employer = title:c_byzantion.holder.top_liege
+						save_scope_as = senator
+					}
+					scope:senator = { 
+						add_to_global_variable_list = {
+							name = low_senate_eastern
+							target = THIS
+						}
+						add_to_global_variable_list = {
+							name = all_senate_eastern
+							target = THIS
+						}
+						if = {
+							limit = {
+								title:c_byzantion.holder.top_liege.primary_title = {
+									is_titular = no
+								}
+							}
+							add_pressed_claim = title:c_byzantion.holder.top_liege.primary_title
+						}
+						decide_senate_party = yes
+						decide_senate_idea = yes
+					}
+					remove_list_global_variable = {
+						name = low_senate_eastern
+						target = THIS
+					}
+					add_to_global_variable_list = {
+						name = senate_eastern
+						target = THIS
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					has_trait = high_senator
+				}
+				remove_trait = high_senator
+				add_trait = former_senator
+				if = {
+					limit = {
+						has_claim_on = title:c_byzantion.holder.top_liege.primary_title
+					}
+					remove_claim = title:c_byzantion.holder.top_liege.primary_title
+				}
+				remove_list_global_variable = {
+					name = high_senate_eastern
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = all_senate_eastern
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = aristocratic_senate_eastern
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = populist_senate_eastern
+					target = THIS
+				}
+				remove_list_global_variable = {
+					name = traditionalist_senate_eastern
+					target = THIS
+				}
+				random_in_global_list = {
+					variable  = senate_eastern
+					remove_trait = senator
+					add_trait = high_senator
+					remove_list_global_variable = {
+						name = senate_eastern
+						target = THIS
+					}
+					add_to_global_variable_list = {
+						name = high_senate_eastern
+						target = THIS
+					}
+					random_in_global_list = {
+						variable  = low_senate_eastern
+						remove_trait = low_senator
+						add_trait = senator
+						create_character = {
+							culture = title:c_byzantion.culture
+							gender = male
+							age = {35 50}
+							dynasty = generate
+							trait = low_senator
+							faith = title:c_byzantion.holder.top_liege.faith
+							
+							employer = title:c_byzantion.holder.top_liege
+							save_scope_as = senator
+						}
+						scope:senator = { 
+							add_to_global_variable_list = {
+								name = low_senate_eastern
+								target = THIS
+							}
+							add_to_global_variable_list = {
+								name = all_senate_eastern
+								target = THIS
+							}
+							if = {
+								limit = {
+									title:c_byzantion.holder.top_liege.primary_title = {
+										is_titular = no
+									}
+								}
+								add_pressed_claim = title:c_byzantion.holder.top_liege.primary_title
+							}
+							decide_senate_party = yes
+							decide_senate_idea = yes
+						}
+						remove_list_global_variable = {
+							name = low_senate_eastern
+							target = THIS
+						}
+						add_to_global_variable_list = {
+							name = senate_eastern
+							target = THIS
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+#senate use money
+on_senate_20_years = {
+	effect = {
+		if = {
+			limit = {
+				global_var:italy_senate_admin = flag:minimum
+				title:c_roma.holder.top_liege = {
+					access_to_italian_senate = yes
+				}
+			}
+			title:c_roma.holder.top_liege.primary_title = {
+				random_in_de_facto_hierarchy = {
+					limit = {
+						tier = tier_duchy
+						global_var:aristocratic_senate_italy_gold > distribute_bread_price
+					}
+					weight = {
+						base = 10
+						modifier = {
+							add = 100
+							trigger_if = {
+								limit = {
+									is_title_created = yes
+								}
+								OR = {
+									holder = {
+										has_character_flag = bribed_aristocrats_italy
+									}
+									holder = {
+										any_liege_or_above = {
+											NOT = {
+												highest_held_title_tier = tier_empire
+											}
+											has_character_flag = bribed_aristocrats_italy
+										}
+									}
+								}
+							}
+						}
+					}
+					change_global_variable = {
+						name = aristocratic_senate_italy_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_jure_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+				random_in_de_facto_hierarchy = {
+					limit = {
+						tier = tier_duchy
+						global_var:populist_senate_italy_gold > distribute_bread_price
+					}
+					weight = {
+						base = 10
+						modifier = {
+							add = 100
+							trigger_if = {
+								limit = {
+									is_title_created = yes
+								}
+								OR = {
+									holder = {
+										has_character_flag = bribed_populists_italy
+									}
+									holder = {
+										any_liege_or_above = {
+											NOT = {
+												highest_held_title_tier = tier_empire
+											}
+											has_character_flag = bribed_populists_italy
+										}
+									}
+								}
+							}
+						}
+					}
+					change_global_variable = {
+						name = populist_senate_italy_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_jure_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+				random_in_de_facto_hierarchy = {
+					limit = {
+						tier = tier_duchy
+						global_var:traditionalist_senate_italy_gold > distribute_bread_price
+					}
+					weight = {
+						base = 10
+						modifier = {
+							add = 100
+							trigger_if = {
+								limit = {
+									is_title_created = yes
+								}
+								OR = {
+									holder = {
+										has_character_flag = bribed_traditionalist_italy
+									}
+									holder = {
+										any_liege_or_above = {
+											NOT = {
+												highest_held_title_tier = tier_empire
+											}
+											has_character_flag = bribed_traditionalist_italy
+										}
+									}
+								}
+							}
+						}
+					}
+					change_global_variable = {
+						name = traditionalist_senate_italy_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_jure_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				global_var:italy_senate_admin = flag:taxing_rights
+				title:c_roma.holder.top_liege = {
+					access_to_italian_senate = yes
+				}
+			}
+			title:c_roma.holder.top_liege.primary_title = {
+				random_in_de_facto_hierarchy = {
+					limit = {
+						tier = tier_kingdom
+						global_var:aristocratic_senate_italy_gold > distribute_bread_price
+					}
+					weight = {
+						base = 10
+						modifier = {
+							add = 100
+							trigger_if = {
+								limit = {
+									is_title_created = yes
+								}
+								OR = {
+									holder = {
+										has_character_flag = bribed_aristocrats_italy
+									}
+									holder = {
+										any_liege_or_above = {
+											NOT = {
+												highest_held_title_tier = tier_empire
+											}
+											has_character_flag = bribed_aristocrats_italy
+										}
+									}
+								}
+							}
+						}
+					}
+					change_global_variable = {
+						name = aristocratic_senate_italy_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_jure_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+				random_in_de_facto_hierarchy = {
+					limit = {
+						tier = tier_kingdom
+						global_var:populist_senate_italy_gold > distribute_bread_price
+					}
+					weight = {
+						base = 10
+						modifier = {
+							add = 100
+							trigger_if = {
+								limit = {
+									is_title_created = yes
+								}
+								OR = {
+									holder = {
+										has_character_flag = bribed_populists_italy
+									}
+									holder = {
+										any_liege_or_above = {
+											NOT = {
+												highest_held_title_tier = tier_empire
+											}
+											has_character_flag = bribed_populists_italy
+										}
+									}
+								}
+							}
+						}
+					}
+					change_global_variable = {
+						name = populist_senate_italy_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_jure_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+				random_in_de_facto_hierarchy = {
+					limit = {
+						tier = tier_kingdom
+						global_var:traditionalist_senate_italy_gold > distribute_bread_price
+					}
+					weight = {
+						base = 10
+						modifier = {
+							add = 100
+							trigger_if = {
+								limit = {
+									is_title_created = yes
+								}
+								OR = {
+									holder = {
+										has_character_flag = bribed_traditionalist_italy
+									}
+									holder = {
+										any_liege_or_above = {
+											NOT = {
+												highest_held_title_tier = tier_empire
+											}
+											has_character_flag = bribed_traditionalist_italy
+										}
+									}
+								}
+							}
+						}
+					}
+					change_global_variable = {
+						name = traditionalist_senate_italy_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_jure_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				global_var:italy_senate_admin = flag:absolute
+				title:c_roma.holder.top_liege = {
+					access_to_italian_senate = yes
+				}
+			}
+			title:c_roma.holder.top_liege.primary_title = {
+				if = {
+					limit = {
+						global_var:aristocratic_senate_italy_gold > distribute_bread_price
+					}
+					change_global_variable = {
+						name = aristocratic_senate_italy_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_facto_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+				else_if = {
+					random_in_de_facto_hierarchy = {
+						limit = {
+							tier = tier_kingdom
+							global_var:aristocratic_senate_italy_gold > distribute_bread_price
+						}
+						weight = {
+							base = 10
+							modifier = {
+								add = 100
+								trigger_if = {
+									limit = {
+										is_title_created = yes
+									}
+									OR = {
+										holder = {
+											has_character_flag = bribed_aristocrats_italy
+										}
+										holder = {
+											any_liege_or_above = {
+												NOT = {
+													highest_held_title_tier = tier_empire
+												}
+												has_character_flag = bribed_aristocrats_italy
+											}
+										}
+									}
+								}
+							}
+						}
+						change_global_variable = {
+							name = aristocratic_senate_italy_gold
+							subtract = distribute_bread_price
+						}
+						every_in_de_jure_hierarchy = {
+							limit = {
+								tier = tier_county
+							}
+							add_county_modifier = {
+								modifier = distribute_bread_modifier
+								years = 10
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						global_var:populist_senate_italy_gold > distribute_bread_price
+					}
+					change_global_variable = {
+						name = populist_senate_italy_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_facto_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+				else_if = {
+					random_in_de_facto_hierarchy = {
+						limit = {
+							tier = tier_kingdom
+							global_var:populist_senate_italy_gold > distribute_bread_price
+						}
+						weight = {
+							base = 10
+							modifier = {
+								add = 100
+								trigger_if = {
+									limit = {
+										is_title_created = yes
+									}
+									OR = {
+										holder = {
+											has_character_flag = bribed_populists_italy
+										}
+										holder = {
+											any_liege_or_above = {
+												NOT = {
+													highest_held_title_tier = tier_empire
+												}
+												has_character_flag = bribed_populists_italy
+											}
+										}
+									}
+								}
+							}
+						}
+						change_global_variable = {
+							name = populist_senate_italy_gold
+							subtract = distribute_bread_price
+						}
+						every_in_de_jure_hierarchy = {
+							limit = {
+								tier = tier_county
+							}
+							add_county_modifier = {
+								modifier = distribute_bread_modifier
+								years = 10
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						global_var:traditionalist_senate_italy_gold > distribute_bread_price
+					}
+					change_global_variable = {
+						name = traditionalist_senate_italy_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_facto_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+				else_if = {
+					random_in_de_facto_hierarchy = {
+						limit = {
+							tier = tier_kingdom
+							global_var:traditionalist_senate_italy_gold > distribute_bread_price
+						}
+						weight = {
+							base = 10
+							modifier = {
+								add = 100
+								trigger_if = {
+									limit = {
+										is_title_created = yes
+									}
+									OR = {
+										holder = {
+											has_character_flag = bribed_traditionalist_italy
+										}
+										holder = {
+											any_liege_or_above = {
+												NOT = {
+													highest_held_title_tier = tier_empire
+												}
+												has_character_flag = bribed_traditionalist_italy
+											}
+										}
+									}
+								}
+							}
+						}
+						change_global_variable = {
+							name = traditionalist_senate_italy_gold
+							subtract = distribute_bread_price
+						}
+						every_in_de_jure_hierarchy = {
+							limit = {
+								tier = tier_county
+							}
+							add_county_modifier = {
+								modifier = distribute_bread_modifier
+								years = 10
+							}
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					game_start_date = 532.2.1
+				}
+			}
+			random_list = {
+				1 = {
+					modifier = {
+						add = {
+							value = 5
+						}
+						global_var:italy_senate_admin = flag:taxing_rights
+						title:c_roma.holder.top_liege = {
+							access_to_italian_senate = yes
+						}
+						OR = {
+							global_var:traditionalist_senate_italy_gold > standard_activity_cost
+							global_var:aristocratic_senate_italy_gold > standard_activity_cost
+							global_var:populist_senate_italy_gold > standard_activity_cost
+						}
+					}
+					modifier = {
+						add = {
+							value = 20
+						}
+						global_var:italy_senate_admin = flag:absolute
+						title:c_roma.holder.top_liege = {
+							access_to_italian_senate = yes
+						}
+						OR = {
+							global_var:traditionalist_senate_italy_gold > standard_activity_cost
+							global_var:aristocratic_senate_italy_gold > standard_activity_cost
+							global_var:populist_senate_italy_gold > standard_activity_cost
+						}
+					}
+					title:c_roma.holder.top_liege = {
+						random_vassal_or_below = {
+							limit = {
+								NOT = {
+									any_owned_story = {
+										story_type = story_sponsor_gladiator_games_decision
+									}
+								}
+							}
+							weight = {
+								base = 10
+								modifier = {
+									add = italy_aristocratic_size
+									has_character_flag = bribed_aristocrats_italy
+								}
+								modifier = {
+									add = italy_populist_size
+									has_character_flag = bribed_populists_italy
+								}
+								modifier = {
+									add = italy_traditionalist_size
+									has_character_flag = bribed_traditionalist_italy
+								}
+							}
+							trigger_event = sponsor_gladiatorial_games.0015
+						}
+					}
+					if = {
+						limit = {
+							global_var:traditionalist_senate_italy_gold > standard_activity_cost
+						}
+						change_global_variable = {
+							name = traditionalist_senate_italy_gold
+							subtract = standard_activity_cost
+						}
+					}
+					else_if = {
+						limit = {
+							global_var:aristocratic_senate_italy_gold > standard_activity_cost
+						}
+						change_global_variable = {
+							name = aristocratic_senate_italy_gold
+							subtract = standard_activity_cost
+						}
+					}
+					else_if = {
+						limit = {
+							global_var:populist_senate_italy_gold > standard_activity_cost
+						}
+						change_global_variable = {
+							name = populist_senate_italy_gold
+							subtract = standard_activity_cost
+						}
+					}
+				}
+	
+				9 = {
+	
+				}
+			}
+		}
+	}
+	on_actions = {
+		delay = { years = 20 }
+		on_senate_20_years
+	}
+}
+on_senate_20_years_eastern = {
+	effect = {
+		if = {
+			limit = {
+				global_var:eastern_senate_admin = flag:minimum
+				title:c_byzantion.holder.top_liege = {
+					access_to_eastern_senate = yes
+				}
+			}
+			title:c_byzantion.holder.top_liege.primary_title = {
+				random_in_de_facto_hierarchy = {
+					limit = {
+						tier = tier_duchy
+						global_var:aristocratic_senate_eastern_gold > distribute_bread_price
+					}
+					weight = {
+						base = 10
+						modifier = {
+							add = 100
+							trigger_if = {
+								limit = {
+									is_title_created = yes
+								}
+								OR = {
+									holder = {
+										has_character_flag = bribed_aristocrats_eastern
+									}
+									holder = {
+										any_liege_or_above = {
+											NOT = {
+												highest_held_title_tier = tier_empire
+											}
+											has_character_flag = bribed_aristocrats_eastern
+										}
+									}
+								}
+							}
+						}
+					}
+					change_global_variable = {
+						name = aristocratic_senate_eastern_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_jure_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+				random_in_de_facto_hierarchy = {
+					limit = {
+						tier = tier_duchy
+						global_var:populist_senate_eastern_gold > distribute_bread_price
+					}
+					weight = {
+						base = 10
+						modifier = {
+							add = 100
+							trigger_if = {
+								limit = {
+									is_title_created = yes
+								}
+								OR = {
+									holder = {
+										has_character_flag = bribed_populists_eastern
+									}
+									holder = {
+										any_liege_or_above = {
+											NOT = {
+												highest_held_title_tier = tier_empire
+											}
+											has_character_flag = bribed_populists_eastern
+										}
+									}
+								}
+							}
+						}
+					}
+					change_global_variable = {
+						name = populist_senate_eastern_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_jure_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+				random_in_de_facto_hierarchy = {
+					limit = {
+						tier = tier_duchy
+						global_var:traditionalist_senate_eastern_gold > distribute_bread_price
+					}
+					weight = {
+						base = 10
+						modifier = {
+							add = 100
+							trigger_if = {
+								limit = {
+									is_title_created = yes
+								}
+								OR = {
+									holder = {
+										has_character_flag = bribed_traditionalist_eastern
+									}
+									holder = {
+										any_liege_or_above = {
+											NOT = {
+												highest_held_title_tier = tier_empire
+											}
+											has_character_flag = bribed_traditionalist_eastern
+										}
+									}
+								}
+							}
+						}
+					}
+					change_global_variable = {
+						name = traditionalist_senate_eastern_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_jure_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				global_var:eastern_senate_admin = flag:taxing_rights
+				title:c_byzantion.holder.top_liege = {
+					access_to_eastern_senate = yes
+				}
+			}
+			title:c_byzantion.holder.top_liege.primary_title = {
+				random_in_de_facto_hierarchy = {
+					limit = {
+						tier = tier_kingdom
+						global_var:aristocratic_senate_eastern_gold > distribute_bread_price
+					}
+					weight = {
+						base = 10
+						modifier = {
+							add = 100
+							trigger_if = {
+								limit = {
+									is_title_created = yes
+								}
+								OR = {
+									holder = {
+										has_character_flag = bribed_aristocrats_eastern
+									}
+									holder = {
+										any_liege_or_above = {
+											NOT = {
+												highest_held_title_tier = tier_empire
+											}
+											has_character_flag = bribed_aristocrats_eastern
+										}
+									}
+								}
+							}
+						}
+					}
+					change_global_variable = {
+						name = aristocratic_senate_eastern_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_jure_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+				random_in_de_facto_hierarchy = {
+					limit = {
+						tier = tier_kingdom
+						global_var:populist_senate_eastern_gold > distribute_bread_price
+					}
+					weight = {
+						base = 10
+						modifier = {
+							add = 100
+							trigger_if = {
+								limit = {
+									is_title_created = yes
+								}
+								OR = {
+									holder = {
+										has_character_flag = bribed_populists_eastern
+									}
+									holder = {
+										any_liege_or_above = {
+											NOT = {
+												highest_held_title_tier = tier_empire
+											}
+											has_character_flag = bribed_populists_eastern
+										}
+									}
+								}
+							}
+						}
+					}
+					change_global_variable = {
+						name = populist_senate_eastern_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_jure_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+				random_in_de_facto_hierarchy = {
+					limit = {
+						tier = tier_kingdom
+						global_var:traditionalist_senate_eastern_gold > distribute_bread_price
+					}
+					weight = {
+						base = 10
+						modifier = {
+							add = 100
+							trigger_if = {
+								limit = {
+									is_title_created = yes
+								}
+								OR = {
+									holder = {
+										has_character_flag = bribed_traditionalist_eastern
+									}
+									holder = {
+										any_liege_or_above = {
+											NOT = {
+												highest_held_title_tier = tier_empire
+											}
+											has_character_flag = bribed_traditionalist_eastern
+										}
+									}
+								}
+							}
+						}
+					}
+					change_global_variable = {
+						name = traditionalist_senate_eastern_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_jure_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				global_var:eastern_senate_admin = flag:absolute
+				title:c_byzantion.holder.top_liege = {
+					access_to_eastern_senate = yes
+				}
+			}
+			title:c_byzantion.holder.top_liege.primary_title = {
+				if = {
+					limit = {
+						global_var:aristocratic_senate_eastern_gold > distribute_bread_price
+					}
+					change_global_variable = {
+						name = aristocratic_senate_eastern_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_facto_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+				else_if = {
+					random_in_de_facto_hierarchy = {
+						limit = {
+							tier = tier_kingdom
+							global_var:aristocratic_senate_eastern_gold > distribute_bread_price
+						}
+						weight = {
+							base = 10
+							modifier = {
+								add = 100
+								trigger_if = {
+									limit = {
+										is_title_created = yes
+									}
+									OR = {
+										holder = {
+											has_character_flag = bribed_aristocrats_eastern
+										}
+										holder = {
+											any_liege_or_above = {
+												NOT = {
+													highest_held_title_tier = tier_empire
+												}
+												has_character_flag = bribed_aristocrats_eastern
+											}
+										}
+									}
+								}
+							}
+						}
+						change_global_variable = {
+							name = aristocratic_senate_eastern_gold
+							subtract = distribute_bread_price
+						}
+						every_in_de_jure_hierarchy = {
+							limit = {
+								tier = tier_county
+							}
+							add_county_modifier = {
+								modifier = distribute_bread_modifier
+								years = 10
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						global_var:populist_senate_eastern_gold > distribute_bread_price
+					}
+					change_global_variable = {
+						name = populist_senate_eastern_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_facto_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+				else_if = {
+					random_in_de_facto_hierarchy = {
+						limit = {
+							tier = tier_kingdom
+							global_var:populist_senate_eastern_gold > distribute_bread_price
+						}
+						weight = {
+							base = 10
+							modifier = {
+								add = 100
+								trigger_if = {
+									limit = {
+										is_title_created = yes
+									}
+									OR = {
+										holder = {
+											has_character_flag = bribed_populists_eastern
+										}
+										holder = {
+											any_liege_or_above = {
+												NOT = {
+													highest_held_title_tier = tier_empire
+												}
+												has_character_flag = bribed_populists_eastern
+											}
+										}
+									}
+								}
+							}
+						}
+						change_global_variable = {
+							name = populist_senate_eastern_gold
+							subtract = distribute_bread_price
+						}
+						every_in_de_jure_hierarchy = {
+							limit = {
+								tier = tier_county
+							}
+							add_county_modifier = {
+								modifier = distribute_bread_modifier
+								years = 10
+							}
+						}
+					}
+				}
+				if = {
+					limit = {
+						global_var:traditionalist_senate_eastern_gold > distribute_bread_price
+					}
+					change_global_variable = {
+						name = traditionalist_senate_eastern_gold
+						subtract = distribute_bread_price
+					}
+					every_in_de_facto_hierarchy = {
+						limit = {
+							tier = tier_county
+						}
+						add_county_modifier = {
+							modifier = distribute_bread_modifier
+							years = 10
+						}
+					}
+				}
+				else_if = {
+					random_in_de_facto_hierarchy = {
+						limit = {
+							tier = tier_kingdom
+							global_var:traditionalist_senate_eastern_gold > distribute_bread_price
+						}
+						weight = {
+							base = 10
+							modifier = {
+								add = 100
+								trigger_if = {
+									limit = {
+										is_title_created = yes
+									}
+									OR = {
+										holder = {
+											has_character_flag = bribed_traditionalist_eastern
+										}
+										holder = {
+											any_liege_or_above = {
+												NOT = {
+													highest_held_title_tier = tier_empire
+												}
+												has_character_flag = bribed_traditionalist_eastern
+											}
+										}
+									}
+								}
+							}
+						}
+						change_global_variable = {
+							name = traditionalist_senate_eastern_gold
+							subtract = distribute_bread_price
+						}
+						every_in_de_jure_hierarchy = {
+							limit = {
+								tier = tier_county
+							}
+							add_county_modifier = {
+								modifier = distribute_bread_modifier
+								years = 10
+							}
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					game_start_date = 532.2.1
+				}
+			}
+			random_list = {
+				1 = {
+					modifier = {
+						add = {
+							value = 5
+						}
+						global_var:eastern_senate_admin = flag:taxing_rights
+						title:c_byzantion.holder.top_liege = {
+							access_to_eastern_senate = yes
+						}
+						OR = {
+							global_var:traditionalist_senate_eastern_gold > standard_activity_cost
+							global_var:aristocratic_senate_eastern_gold > standard_activity_cost
+							global_var:populist_senate_eastern_gold > standard_activity_cost
+						}
+					}
+					modifier = {
+						add = {
+							value = 20
+						}
+						global_var:eastern_senate_admin = flag:absolute
+						title:c_byzantion.holder.top_liege = {
+							access_to_eastern_senate = yes
+						}
+						OR = {
+							global_var:traditionalist_senate_eastern_gold > standard_activity_cost
+							global_var:aristocratic_senate_eastern_gold > standard_activity_cost
+							global_var:populist_senate_eastern_gold > standard_activity_cost
+						}
+					}
+					title:c_byzantion.holder.top_liege = {
+						random_vassal_or_below = {
+							limit = {
+								NOT = {
+									any_owned_story = {
+										story_type = story_sponsor_gladiator_games_decision
+									}
+								}
+							}
+							weight = {
+								base = 10
+								modifier = {
+									add = eastern_aristocratic_size
+									has_character_flag = bribed_aristocrats_eastern
+								}
+								modifier = {
+									add = eastern_populist_size
+									has_character_flag = bribed_populists_eastern
+								}
+								modifier = {
+									add = eastern_traditionalist_size
+									has_character_flag = bribed_traditionalist_eastern
+								}
+							}
+							trigger_event = sponsor_gladiatorial_games.0015
+						}
+					}
+					if = {
+						limit = {
+							global_var:traditionalist_senate_eastern_gold > standard_activity_cost
+						}
+						change_global_variable = {
+							name = traditionalist_senate_eastern_gold
+							subtract = standard_activity_cost
+						}
+					}
+					else_if = {
+						limit = {
+							global_var:aristocratic_senate_eastern_gold > standard_activity_cost
+						}
+						change_global_variable = {
+							name = aristocratic_senate_eastern_gold
+							subtract = standard_activity_cost
+						}
+					}
+					else_if = {
+						limit = {
+							global_var:populist_senate_eastern_gold > standard_activity_cost
+						}
+						change_global_variable = {
+							name = populist_senate_eastern_gold
+							subtract = standard_activity_cost
+						}
+					}
+				}
+
+				9 = {
+
+				}
+			}
+		}
+	}
+	on_actions = {
+		delay = { years = 20 }
+		on_senate_20_years_eastern
+	}
+}
+
+on_senate_lol_italy = {
+	effect = {
+		if = {
+			limit = {
+				title:c_roma.holder.top_liege = {
+					access_to_italian_senate = yes
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						senate_italy_one_party_revolting = yes
+						senate_italy_two_party_revolting = yes
+						senate_italy_all_party_revolting = yes
+					}
+				}
+				title:c_roma.holder.top_liege = {
+					trigger_event = {
+						id = senate.0010
+						days = {90 180}
+					}
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						senate_italy_aristocratic_disloyal = yes
+						senate_italy_populist_disloyal = yes
+						senate_italy_traditionalist_disloyal = yes
+					}
+				}
+				title:c_roma.holder.top_liege = {
+					random_list = {
+						10 = {
+							trigger_event = {
+								id = senate.0011
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0012
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0013
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0014
+								days = {100 300}
+							}
+						}
+						5 = {
+							trigger_event = {
+								id = senate.0015
+								days = {100 300}
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						senate_italy_aristocratic_indifferent = yes
+						senate_italy_populist_indifferent = yes
+						senate_italy_traditionalist_indifferent = yes
+					}
+				}
+				title:c_roma.holder.top_liege = {
+					random_list = {
+						10 = {
+							trigger_event = {
+								id = senate.0016
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0017
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0018
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0019
+								days = {100 300}
+							}
+						}
+						5 = {
+							trigger_event = {
+								id = senate.0020
+								days = {100 300}
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						senate_italy_aristocratic_loyal = yes
+						senate_italy_populist_loyal = yes
+						senate_italy_traditionalist_loyal = yes
+					}
+				}
+				title:c_roma.holder.top_liege = {
+					random_list = {
+						10 = {
+							trigger = {
+								trigger_if = {
+									limit = {
+										access_to_italian_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_italy_aristocratic_loyal = yes
+												senate_italy_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_italy_gold >= TFE_games_predicted_cost_half
+										}
+										AND = {
+											OR = {
+												senate_italy_populist_loyal = yes
+												senate_italy_populist_supportive = yes
+											}
+											global_var:populist_senate_italy_gold >= TFE_games_predicted_cost_half
+										}
+										AND = {
+											OR = {
+												senate_italy_traditionalist_loyal = yes
+												senate_italy_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_italy_gold >= TFE_games_predicted_cost_half
+										}
+									}
+								}
+								trigger_else_if = {
+									limit = {
+										access_to_eastern_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_eastern_aristocratic_loyal = yes
+												senate_eastern_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_eastern_gold >= TFE_games_predicted_cost_half
+										}
+										AND = {
+											OR = {
+												senate_eastern_populist_loyal = yes
+												senate_eastern_populist_supportive = yes
+											}
+											global_var:populist_senate_eastern_gold >= TFE_games_predicted_cost_half
+										}
+										AND = {
+											OR = {
+												senate_eastern_traditionalist_loyal = yes
+												senate_eastern_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_eastern_gold >= TFE_games_predicted_cost_half
+										}
+									}
+								}
+							}
+							trigger_event = {
+								id = senate.0021
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger = {
+								trigger_if = {
+									limit = {
+										access_to_italian_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_italy_aristocratic_loyal = yes
+												senate_italy_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_italy_gold >= root.capital_county.duchy.distribute_bread_price
+										}
+										AND = {
+											OR = {
+												senate_italy_populist_loyal = yes
+												senate_italy_populist_supportive = yes
+											}
+											global_var:populist_senate_italy_gold >= root.capital_county.duchy.distribute_bread_price
+										}
+										AND = {
+											OR = {
+												senate_italy_traditionalist_loyal = yes
+												senate_italy_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_italy_gold >= root.capital_county.duchy.distribute_bread_price
+										}
+									}
+								}
+								trigger_else_if = {
+									limit = {
+										access_to_eastern_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_eastern_aristocratic_loyal = yes
+												senate_eastern_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_eastern_gold >= root.capital_county.duchy.distribute_bread_price
+										}
+										AND = {
+											OR = {
+												senate_eastern_populist_loyal = yes
+												senate_eastern_populist_supportive = yes
+											}
+											global_var:populist_senate_eastern_gold >= root.capital_county.duchy.distribute_bread_price
+										}
+										AND = {
+											OR = {
+												senate_eastern_traditionalist_loyal = yes
+												senate_eastern_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_eastern_gold >= root.capital_county.duchy.distribute_bread_price
+										}
+									}
+								}
+							}
+							trigger_event = {
+								id = senate.0022
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0023
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0024
+								days = {100 300}
+							}
+						}
+						5 = {
+							trigger_event = {
+								id = senate.0025
+								days = {100 300}
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						senate_italy_aristocratic_supportive = yes
+						senate_italy_populist_supportive = yes
+						senate_italy_traditionalist_supportive = yes
+					}
+				}
+				title:c_roma.holder.top_liege = {
+					random_list = {
+						10 = {
+							trigger = {
+								trigger_if = {
+									limit = {
+										access_to_italian_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_italy_aristocratic_loyal = yes
+												senate_italy_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_italy_gold >= 400
+										}
+										AND = {
+											OR = {
+												senate_italy_populist_loyal = yes
+												senate_italy_populist_supportive = yes
+											}
+											global_var:populist_senate_italy_gold >= 400
+										}
+										AND = {
+											OR = {
+												senate_italy_traditionalist_loyal = yes
+												senate_italy_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_italy_gold >= 400
+										}
+									}
+								}
+								trigger_else_if = {
+									limit = {
+										access_to_eastern_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_eastern_aristocratic_loyal = yes
+												senate_eastern_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_eastern_gold >= 400
+										}
+										AND = {
+											OR = {
+												senate_eastern_populist_loyal = yes
+												senate_eastern_populist_supportive = yes
+											}
+											global_var:populist_senate_eastern_gold >= 400
+										}
+										AND = {
+											OR = {
+												senate_eastern_traditionalist_loyal = yes
+												senate_eastern_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_eastern_gold >= 400
+										}
+									}
+								}
+							}
+							trigger_event = {
+								id = senate.0026
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0027
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger = {
+								trigger_if = {
+									limit = {
+										access_to_italian_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_italy_aristocratic_loyal = yes
+												senate_italy_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_italy_gold >= TFE_games_predicted_cost
+										}
+										AND = {
+											OR = {
+												senate_italy_populist_loyal = yes
+												senate_italy_populist_supportive = yes
+											}
+											global_var:populist_senate_italy_gold >= TFE_games_predicted_cost
+										}
+										AND = {
+											OR = {
+												senate_italy_traditionalist_loyal = yes
+												senate_italy_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_italy_gold >= TFE_games_predicted_cost
+										}
+									}
+								}
+								trigger_else_if = {
+									limit = {
+										access_to_eastern_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_eastern_aristocratic_loyal = yes
+												senate_eastern_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_eastern_gold >= TFE_games_predicted_cost
+										}
+										AND = {
+											OR = {
+												senate_eastern_populist_loyal = yes
+												senate_eastern_populist_supportive = yes
+											}
+											global_var:populist_senate_eastern_gold >= TFE_games_predicted_cost
+										}
+										AND = {
+											OR = {
+												senate_eastern_traditionalist_loyal = yes
+												senate_eastern_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_eastern_gold >= TFE_games_predicted_cost
+										}
+									}
+								}
+							}
+							trigger_event = {
+								id = senate.0028
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0029
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0030
+								days = {100 300}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	on_actions = {
+		delay = { months = { 90 120 } }
+		on_senate_lol_italy
+	}
+}
+
+on_senate_lol_eastern = {
+	effect = {
+		if = {
+			limit = {
+				title:c_byzantion.holder.top_liege = {
+					access_to_eastern_senate = yes
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						senate_eastern_one_party_revolting = yes
+						senate_eastern_two_party_revolting = yes
+						senate_eastern_all_party_revolting = yes
+					}
+				}
+				title:c_byzantion.holder.top_liege = {
+					trigger_event = {
+						id = senate.0010
+						days = {90 180}
+					}
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						senate_eastern_aristocratic_disloyal = yes
+						senate_eastern_populist_disloyal = yes
+						senate_eastern_traditionalist_disloyal = yes
+					}
+				}
+				title:c_byzantion.holder.top_liege = {
+					random_list = {
+						10 = {
+							trigger_event = {
+								id = senate.0011
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0012
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0013
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0014
+								days = {100 300}
+							}
+						}
+						5 = {
+							trigger_event = {
+								id = senate.0015
+								days = {100 300}
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						senate_eastern_aristocratic_indifferent = yes
+						senate_eastern_populist_indifferent = yes
+						senate_eastern_traditionalist_indifferent = yes
+					}
+				}
+				title:c_byzantion.holder.top_liege = {
+					random_list = {
+						10 = {
+							trigger_event = {
+								id = senate.0016
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0017
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0018
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0019
+								days = {100 300}
+							}
+						}
+						5 = {
+							trigger_event = {
+								id = senate.0020
+								days = {100 300}
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						senate_eastern_aristocratic_loyal = yes
+						senate_eastern_populist_loyal = yes
+						senate_eastern_traditionalist_loyal = yes
+					}
+				}
+				title:c_byzantion.holder.top_liege = {
+					random_list = {
+						10 = {
+							trigger = {
+								trigger_if = {
+									limit = {
+										access_to_italian_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_italy_aristocratic_loyal = yes
+												senate_italy_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_italy_gold >= half_activity_mny
+										}
+										AND = {
+											OR = {
+												senate_italy_populist_loyal = yes
+												senate_italy_populist_supportive = yes
+											}
+											global_var:populist_senate_italy_gold >= half_activity_mny
+										}
+										AND = {
+											OR = {
+												senate_italy_traditionalist_loyal = yes
+												senate_italy_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_italy_gold >= half_activity_mny
+										}
+									}
+								}
+								trigger_else_if = {
+									limit = {
+										access_to_eastern_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_eastern_aristocratic_loyal = yes
+												senate_eastern_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_eastern_gold >= half_activity_mny
+										}
+										AND = {
+											OR = {
+												senate_eastern_populist_loyal = yes
+												senate_eastern_populist_supportive = yes
+											}
+											global_var:populist_senate_eastern_gold >= half_activity_mny
+										}
+										AND = {
+											OR = {
+												senate_eastern_traditionalist_loyal = yes
+												senate_eastern_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_eastern_gold >= half_activity_mny
+										}
+									}
+								}
+							}
+							trigger_event = {
+								id = senate.0021
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger = {
+								trigger_if = {
+									limit = {
+										access_to_italian_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_italy_aristocratic_loyal = yes
+												senate_italy_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_italy_gold >= root.capital_county.duchy.distribute_bread_price
+										}
+										AND = {
+											OR = {
+												senate_italy_populist_loyal = yes
+												senate_italy_populist_supportive = yes
+											}
+											global_var:populist_senate_italy_gold >= root.capital_county.duchy.distribute_bread_price
+										}
+										AND = {
+											OR = {
+												senate_italy_traditionalist_loyal = yes
+												senate_italy_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_italy_gold >= root.capital_county.duchy.distribute_bread_price
+										}
+									}
+								}
+								trigger_else_if = {
+									limit = {
+										access_to_eastern_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_eastern_aristocratic_loyal = yes
+												senate_eastern_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_eastern_gold >= root.capital_county.duchy.distribute_bread_price
+										}
+										AND = {
+											OR = {
+												senate_eastern_populist_loyal = yes
+												senate_eastern_populist_supportive = yes
+											}
+											global_var:populist_senate_eastern_gold >= root.capital_county.duchy.distribute_bread_price
+										}
+										AND = {
+											OR = {
+												senate_eastern_traditionalist_loyal = yes
+												senate_eastern_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_eastern_gold >= root.capital_county.duchy.distribute_bread_price
+										}
+									}
+								}
+							}
+							trigger_event = {
+								id = senate.0022
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0023
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0024
+								days = {100 300}
+							}
+						}
+						5 = {
+							trigger_event = {
+								id = senate.0025
+								days = {100 300}
+							}
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					OR = {
+						senate_eastern_aristocratic_supportive = yes
+						senate_eastern_populist_supportive = yes
+						senate_eastern_traditionalist_supportive = yes
+					}
+				}
+				title:c_byzantion.holder.top_liege = {
+					random_list = {
+						10 = {
+							trigger = {
+								trigger_if = {
+									limit = {
+										access_to_eastern_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_eastern_aristocratic_loyal = yes
+												senate_eastern_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_eastern_gold >= 400
+										}
+										AND = {
+											OR = {
+												senate_eastern_populist_loyal = yes
+												senate_eastern_populist_supportive = yes
+											}
+											global_var:populist_senate_eastern_gold >= 400
+										}
+										AND = {
+											OR = {
+												senate_eastern_traditionalist_loyal = yes
+												senate_eastern_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_eastern_gold >= 400
+										}
+									}
+								}
+								trigger_else_if = {
+									limit = {
+										access_to_eastern_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_eastern_aristocratic_loyal = yes
+												senate_eastern_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_eastern_gold >= 400
+										}
+										AND = {
+											OR = {
+												senate_eastern_populist_loyal = yes
+												senate_eastern_populist_supportive = yes
+											}
+											global_var:populist_senate_eastern_gold >= 400
+										}
+										AND = {
+											OR = {
+												senate_eastern_traditionalist_loyal = yes
+												senate_eastern_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_eastern_gold >= 400
+										}
+									}
+								}
+							}
+							trigger_event = {
+								id = senate.0026
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0027
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger = {
+								trigger_if = {
+									limit = {
+										access_to_italian_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_italy_aristocratic_loyal = yes
+												senate_italy_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_italy_gold >= TFE_games_predicted_cost
+										}
+										AND = {
+											OR = {
+												senate_italy_populist_loyal = yes
+												senate_italy_populist_supportive = yes
+											}
+											global_var:populist_senate_italy_gold >= TFE_games_predicted_cost
+										}
+										AND = {
+											OR = {
+												senate_italy_traditionalist_loyal = yes
+												senate_italy_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_italy_gold >= TFE_games_predicted_cost
+										}
+									}
+								}
+								trigger_else_if = {
+									limit = {
+										access_to_eastern_senate = yes
+									}
+									OR = {
+										AND = {
+											OR = {
+												senate_eastern_aristocratic_loyal = yes
+												senate_eastern_aristocratic_supportive = yes
+											}
+											global_var:aristocratic_senate_eastern_gold >= TFE_games_predicted_cost
+										}
+										AND = {
+											OR = {
+												senate_eastern_populist_loyal = yes
+												senate_eastern_populist_supportive = yes
+											}
+											global_var:populist_senate_eastern_gold >= TFE_games_predicted_cost
+										}
+										AND = {
+											OR = {
+												senate_eastern_traditionalist_loyal = yes
+												senate_eastern_traditionalist_supportive = yes
+											}
+											global_var:traditionalist_senate_eastern_gold >= TFE_games_predicted_cost
+										}
+									}
+								}
+							}
+							trigger_event = {
+								id = senate.0028
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0029
+								days = {100 300}
+							}
+						}
+						10 = {
+							trigger_event = {
+								id = senate.0030
+								days = {100 300}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	on_actions = {
+		delay = { months = { 90 120 } }
+		on_senate_lol_eastern
+	}
+}
+
+on_senate_monthly_income = {
+	effect = {
+		change_global_variable = {
+			name = aristocratic_senate_italy_gold
+			add = 10
+		}
+		change_global_variable = {
+			name = populist_senate_italy_gold
+			add = 10
+		}
+		change_global_variable = {
+			name = traditionalist_senate_italy_gold
+			add = 10
+		}
+		change_global_variable = {
+			name = aristocratic_senate_eastern_gold
+			add = 10
+		}
+		change_global_variable = {
+			name = populist_senate_eastern_gold
+			add = 10
+		}
+		change_global_variable = {
+			name = traditionalist_senate_eastern_gold
+			add = 10
+		}
+	}
+	on_actions = {
+		delay = { months = 1 }
+		on_senate_monthly_income
+	}
+}
+	}
+}
+
+
+"common/on_action/senate_tasks_on_actions.txt" = {
+	{
+on_game_start = {
+	on_actions = {
+		on_senate_tasks
+	}
+	on_actions = {
+		on_senate_tasks_eastern
+	}
+	on_actions = {
+		on_senate_tasks_2_years
+	}
+	on_actions = {
+		on_senate_tasks_2_years_eastern
+	}
+}
+
+on_senate_tasks = {
+	effect = {
+		if = {
+			limit = {
+				global_var:italy_senate_tasks = flag:none
+			}
+			title:c_roma.holder.top_liege = {
+				if = {
+					limit = {
+						access_to_italian_senate = yes
+					}
+					decide_new_task = yes
+				}
+			}
+			title:c_roma.holder.top_liege = {
+				if = {
+					limit = {
+						global_var:italy_senate_tasks = flag:conquer
+						
+					}
+					trigger_event = senate.0005
+				}
+			}
+
+		}
+	}
+	on_actions = {
+		delay = { days = { 3650 3750 } }
+		on_senate_tasks
+	}
+}
+on_senate_tasks_2_years = {
+	effect = {
+		if = {
+			limit = {
+				AND = {
+					global_var:italy_senate_tasks = flag:conquer
+					global_var:italy_senate_conquer = {
+						is_alive = no
+					}
+					title:c_roma.holder.top_liege = {
+						access_to_italian_senate = yes
+					}
+				}
+			}
+			title:c_roma.holder.top_liege = {
+				trigger_event = senate.0005
+			}
+		}
+		else_if = {
+			limit = {
+				AND = {
+					global_var:italy_senate_tasks = flag:convert_culture
+					global_var:italy_senate_convert_culture_county = {
+						culture = holder.top_liege.culture
+					}
+					title:c_roma.holder.top_liege = {
+						access_to_italian_senate = yes
+					}
+				}
+			}
+			title:c_roma.holder.top_liege = {
+				trigger_event = senate.0001
+			}
+			set_global_variable = {
+				name = italy_senate_tasks
+				value = flag:none
+			}
+		}
+		else_if = {
+			limit = {
+				AND = {
+					global_var:italy_senate_tasks = flag:convert_faith
+					global_var:italy_senate_convert_faith_county = {
+						faith = holder.top_liege.faith
+					}
+					title:c_roma.holder.top_liege = {
+						access_to_italian_senate = yes
+					}
+				}
+			}
+			title:c_roma.holder.top_liege = {
+				trigger_event = senate.0002
+			}
+			set_global_variable = {
+				name = italy_senate_tasks
+				value = flag:none
+			}
+		}
+	}
+	on_actions = {
+		delay = { years = 2 }
+		on_senate_tasks_2_years
+	}
+}
+
+on_senate_tasks_eastern = {
+	effect = {
+		if = {
+			limit = {
+				global_var:eastern_senate_tasks = flag:none
+			}
+			title:c_byzantion.holder.top_liege = {
+				if = {
+					limit = {
+						access_to_eastern_senate = yes
+					}
+					decide_new_task_eastern = yes
+				}
+			}
+			title:c_byzantion.holder.top_liege = {
+				if = {
+					limit = {
+						global_var:eastern_senate_tasks = flag:conquer
+						
+					}
+					trigger_event = {
+						id = senate.0007
+						days = 1
+					}
+				}
+			}
+
+		}
+	}
+	on_actions = {
+		delay = { days = { 3650 3750 } }
+		on_senate_tasks_eastern
+	}
+}
+on_senate_tasks_2_years_eastern = {
+	effect = {
+		if = {
+			limit = {
+				AND = {
+					global_var:eastern_senate_tasks = flag:conquer
+					global_var:eastern_senate_conquer = {
+						is_alive = no
+					}
+					title:c_byzantion.holder.top_liege = {
+						access_to_eastern_senate = yes
+					}
+				}
+			}
+			title:c_byzantion.holder.top_liege = {
+				trigger_event = senate.0007
+			}
+		}
+		else_if = {
+			limit = {
+				AND = {
+					global_var:eastern_senate_tasks = flag:convert_culture
+					global_var:eastern_senate_convert_culture_county = {
+						culture = holder.top_liege.culture
+					}
+					title:c_byzantion.holder.top_liege = {
+						access_to_eastern_senate = yes
+					}
+				}
+			}
+			title:c_byzantion.holder.top_liege = {
+				trigger_event = senate.0001
+			}
+			set_global_variable = {
+				name = eastern_senate_tasks
+				value = flag:none
+			}
+		}
+		else_if = {
+			limit = {
+				AND = {
+					global_var:eastern_senate_tasks = flag:convert_faith
+					global_var:eastern_senate_convert_faith_county = {
+						faith = holder.top_liege.faith
+					}
+					title:c_byzantion.holder.top_liege = {
+						access_to_eastern_senate = yes
+					}
+				}
+			}
+			title:c_byzantion.holder.top_liege = {
+				trigger_event = senate.0002
+			}
+			set_global_variable = {
+				name = eastern_senate_tasks
+				value = flag:none
+			}
+		}
+	}
+	on_actions = {
+		delay = { years = 2 }
+		on_senate_tasks_2_years_eastern
+	}
+}
+	}
+}
