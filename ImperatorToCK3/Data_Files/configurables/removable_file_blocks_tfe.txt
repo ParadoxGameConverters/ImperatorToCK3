@@ -4368,6 +4368,236 @@ independence_war_vandal = {
 }
 	}
 	{
+cb_gothic_wars = {
+	group = event
+
+	allowed_for_character = {
+	}
+
+	allowed_against_character = {
+		scope:attacker = {
+			ALL_FALSE = {
+				top_liege = scope:defender.top_liege
+				liege = scope:defender
+			}
+		}
+	}
+
+	
+	target_titles = neighbor_land
+	target_title_tier = county
+	ignore_effect = change_title_holder
+	should_show_war_goal_subview = yes
+	combine_into_one = yes
+	ai_only_against_neighbors = yes
+	mutually_exclusive_titles = { always = yes }
+
+	valid_to_start = {
+		always = no
+	}
+
+	should_invalidate = {
+		NOT = {
+			any_in_list = {
+				list = target_titles
+				any_in_de_jure_hierarchy = {
+					tier = tier_county
+					holder = {
+						OR = {
+							this = scope:defender
+							target_is_liege_or_above = scope:defender
+						}
+					}
+				}
+			}
+		}
+	}
+
+	on_invalidated_desc = msg_religious_war_invalidation_region_message
+
+	on_invalidated = {
+	}
+
+	cost = {
+	}
+
+	on_declaration = {
+		on_declared_war = yes
+	}
+
+	on_victory_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = gothic_wars_victory_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = gothic_wars_victory_desc_defender
+			}
+			desc = gothic_wars_victory_desc
+		}
+	}
+
+	on_victory = {
+        #EP2 accolade glory gain for winning against higher ranked enemy
+		scope:attacker = { accolade_attacker_war_end_glory_gain_high_effect = yes }
+		scope:defender = {
+			pay_long_term_gold = {
+				target = scope:attacker
+				gold = grand_raid_gold
+			}
+			add_prestige = -1000
+		}
+		scope:attacker = {
+			add_prestige = grand_raid_gold
+			dynasty = {
+				add_dynasty_prestige = 300
+			}
+			trigger_event = {
+				id = gothic_wars.0002
+				days = 1
+			}
+		}
+	}
+
+	on_white_peace_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = gothic_wars_white_peace_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = gothic_wars_white_peace_desc_defender
+			}
+			desc = gothic_wars_white_peace_desc
+		}
+	}
+
+	on_white_peace = {
+        #EP2 accolade glory gain for doing ok against higher ranked enemy
+		scope:attacker = { accolade_attacker_war_end_glory_gain_low_effect = yes }
+		scope:defender = { accolade_defender_war_end_glory_gain_med_effect = yes }
+		scope:attacker = {
+		add_prestige = {
+			value = minor_prestige_value
+			multiply = -1.0
+		}
+		stress_impact = {
+			ambitious = medium_stress_impact_gain
+			arrogant = medium_stress_impact_gain
+		}
+		}
+		# Prestige for the attacker's war allies
+		add_from_contribution_attackers = {
+			prestige = medium_prestige_value
+			opinion = {
+				modifier = contributed_in_war
+			}
+		}
+
+		# Prestige for the defender's war allies
+		add_from_contribution_defenders = {
+			prestige = medium_prestige_value
+			opinion = {
+				modifier = contributed_in_war
+			}
+		}
+
+		scope:defender = {
+			remove_variable = realm_size
+			stress_impact = {
+				arrogant = medium_stress_impact_gain
+			}
+		}
+
+		add_truce_white_peace_effect = yes
+	}
+
+	on_defeat_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = gothic_wars_defeat_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = gothic_wars_defeat_desc_defender
+			}
+			desc = gothic_wars_defeat_desc
+		}
+	}
+
+	on_defeat = {
+        #EP2 accolade glory gain for winning against higher ranked enemy
+		scope:defender = { accolade_attacker_war_end_glory_gain_high_effect = yes }
+		scope:attacker = { show_pow_release_message_effect = yes }
+
+		# Prestige loss for the attacker
+		scope:attacker = {
+			save_temporary_scope_as = loser
+			pay_short_term_gold_reparations_effect = {
+				GOLD_VALUE = 5
+			}
+			add_prestige = {
+				value = major_prestige_value
+				multiply = -1.0
+			}
+		}
+
+		# Prestige for Defender
+		scope:defender = {
+			remove_variable = realm_size
+			add_prestige_war_defender_effect = {
+				PRESTIGE_VALUE = major_prestige_value
+			}
+		}
+
+		# Prestige for the attacker's war allies
+		add_from_contribution_attackers = {
+			prestige = medium_prestige_value
+			opinion = {
+				modifier = contributed_in_war
+			}
+		}
+
+		# Prestige for the defender's war allies
+		add_from_contribution_defenders = {
+			prestige = medium_prestige_value
+			opinion = {
+				modifier = contributed_in_war
+			}
+		}
+
+		add_truce_attacker_defeat_effect = yes
+		on_lost_aggression_war_discontent_loss = yes
+	}
+
+	transfer_behavior = transfer
+
+	on_primary_attacker_death = inherit
+	on_primary_defender_death = inherit
+
+	attacker_allies_inherit = yes
+	defender_allies_inherit = yes
+
+	attacker_score_from_battles_scale = 200                # War Score from battles won by the Attacker is modified by this value
+    defender_score_from_battles_scale = 200                # War Score from battles won by the Defender is modified by this value
+    max_attacker_score_from_battles = 100                # How much War Score the Attacker can gain from battles in total
+    max_defender_score_from_battles = 100                # How much War Score the Defender can gain from battles in total
+
+	max_defender_score_from_occupation = 50
+	full_occupation_by_defender_gives_victory = no
+
+	war_name = GOTHIC_WARS_NAME
+	war_name_base = GRAND_RAID_WAR_NAME_BASE
+	cb_name = GRAND_RAID_CB
+
+	interface_priority = 100
+}
+	}
+	{
 radagaisus_invasion_cb = {
 	group = event
 
@@ -4603,6 +4833,502 @@ radagaisus_invasion_cb = {
 }
 	}
 	{
+cb_gothic_wars_amalasuntha = {
+	group = event
+	#white_peace_possible = no 
+
+	allowed_for_character = {
+	}
+
+	allowed_against_character = {
+	}
+
+	target_titles = none
+	target_title_tier = all
+	target_de_jure_regions_above = yes
+	ignore_effect = change_title_holder
+	ai_only_against_neighbors = yes
+
+	valid_to_start = {
+		always = no
+	}
+
+	should_invalidate = {
+		scope:defender = {
+			is_independent_ruler = no
+		}
+	}
+
+	on_invalidated_desc = msg_religious_war_invalidation_region_message
+
+	on_invalidated = {
+	}
+
+	cost = {
+	}
+
+	on_declaration = {
+		on_declared_war = yes
+		set_global_variable = {
+			name = gothic_war_declared
+			value = yes
+		}
+		scope:attacker = {
+			spawn_army = {
+				name = "Ostrogothic Defenders"
+				levies = 750
+				men_at_arms = {
+					type = light_footmen
+					stacks = 3
+				}
+				men_at_arms = {
+					type = bowmen
+					stacks = 2
+				}
+				men_at_arms = {
+					type = light_horsemen
+					stacks = 2
+				}
+				war = scope:war
+				location = capital_province
+			}
+			every_vassal = {
+				limit = {
+					is_greek_or_roman = no
+					is_ai = yes
+				}
+				save_scope_as = join_attacker
+				scope:war = {
+					add_attacker = scope:join_attacker
+				}
+			}
+		}
+	}
+
+	#This is necessary for error log -- this should never happen
+	on_white_peace_desc = {
+		desc = cb_gothic_wars_amalasuntha_white_peace_desc
+	}
+
+	on_white_peace = {
+		scope:attacker = {
+			show_pow_release_message_effect = yes
+			stress_impact = {
+ 				ambitious = medium_stress_impact_gain
+ 				arrogant = medium_stress_impact_gain
+ 			}
+		}
+
+		#EP2 accolade glory gain for defender doing alright
+		scope:defender = { accolade_defender_war_end_glory_gain_low_effect = yes }
+
+		# Defender neither gains nor loses any prestige.
+		scope:defender = {
+			stress_impact = {
+ 				arrogant = medium_stress_impact_gain
+ 			}
+		}
+
+		# Truce
+		add_truce_white_peace_effect = yes
+		if = {
+			limit = {
+				NOT = { exists = global_var:belisarius_betrayal_white_peace }
+			}
+		
+		scope:attacker = {
+			every_held_title = {
+				limit = {
+					tier = tier_county
+					duchy = title:d_sicily
+				}
+				create_title_and_vassal_change = {
+					type = granted
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				change_title_holder_include_vassals = {
+					holder = scope:defender
+					change = scope:change
+				}
+				resolve_title_and_vassal_change = scope:change
+			}
+			every_vassal = {
+				limit = {
+					capital_county = {
+						duchy = title:d_sicily
+					}
+				}
+				create_title_and_vassal_change = {
+					type = granted
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				change_liege = {
+					liege = scope:defender
+					change = scope:change
+				}
+				resolve_title_and_vassal_change = scope:change
+			}
+		}
+
+		if = {
+			limit = {
+				exists = title:e_byzantium.holder
+				scope:defender = {
+					NOT = { top_liege = title:e_byzantium.holder }
+				}
+			}
+			create_title_and_vassal_change = {
+				type = swear_fealty
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			scope:defender = {
+				change_liege = {
+					liege = title:e_byzantium.holder
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+		}
+
+		}
+
+	}
+
+	on_victory_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = cb_gothic_wars_amalasuntha_victory_desc_attacker
+			}
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = cb_gothic_wars_amalasuntha_defeat_desc_defender
+			}
+			desc = cb_gothic_wars_amalasuntha_victory_desc
+		}
+	}
+
+	on_victory = {
+        #EP2 accolade glory gain for winning against higher ranked enemy
+		scope:attacker = { accolade_attacker_war_end_glory_gain_high_effect = yes }
+		#scope:attacker = { destroy_title = title:k_thracian_goths }
+		scope:attacker = { show_pow_release_message_effect = yes }
+		
+		scope:defender = {
+			every_vassal = {
+				add_to_list = vassals_to_defect
+			}
+		}
+
+		scope:defender = {
+			every_held_title = {
+				add_to_list = titles_to_usurp
+			}
+		}
+
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		every_in_list = {
+			list = titles_to_usurp
+			change_title_holder = {
+				holder = scope:attacker
+				change = scope:title_change
+				take_baronies = no
+			}
+		}
+		every_in_list = {
+			list = vassals_to_defect
+			change_liege = {
+				liege = scope:attacker
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+
+		# Prestige Progress for the Attacker
+		every_in_list = {
+			list = target_titles
+			scope:attacker = {
+				add_prestige_experience = medium_prestige_value
+			}
+		}
+
+		# Allies on both sides get full prestige value for helping in the war, based on their war participation.
+		modify_allies_of_participants_fame_values = {
+			WINNER = scope:attacker
+			FAME_BASE = medium_prestige_value
+			IS_RELIGIOUS_WAR = no
+			WINNER_ALLY_FAME_SCALE = 1
+			LOSER_ALLY_FAME_SCALE = 1
+		}
+
+		scope:attacker = {
+			imprison = {
+				target = scope:defender
+				type = house_arrest
+			}
+		}
+
+		# Truce
+		add_truce_attacker_victory_effect = yes
+
+		# FP1: note the victory for future memorialisation via stele (if applicable).
+		scope:attacker = { fp1_remember_recent_conquest_victory_effect = yes }
+	}
+
+	on_defeat_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = cb_gothic_wars_amalasuntha_victory_desc_defender
+			}
+			triggered_desc = {
+				trigger = {	scope:attacker = { is_local_player = yes } }
+				desc = cb_gothic_wars_amalasuntha_defeat_desc_attacker
+			}
+			desc = cb_gothic_wars_amalasuntha_defeat_desc
+		}
+	}
+
+	on_defeat = {
+        #EP2 accolade glory gain for winning against higher ranked enemy
+		scope:defender = { accolade_attacker_war_end_glory_gain_high_effect = yes }
+		#scope:defender = { destroy_title = title:k_ostrogoths }
+		scope:defender = { show_pow_release_message_effect = yes }
+		
+		scope:attacker = {
+			every_vassal = {
+				add_to_list = vassals_to_defect
+			}
+		}
+
+		scope:attacker = {
+			every_held_title = {
+				add_to_list = titles_to_usurp
+			}
+		}
+
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		every_in_list = {
+			list = titles_to_usurp
+			change_title_holder = {
+				holder = scope:defender
+				change = scope:title_change
+				take_baronies = no
+			}
+		}
+		every_in_list = {
+			list = vassals_to_defect
+			change_liege = {
+				liege = scope:defender
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+
+		# Prestige Progress for the Defender
+		every_in_list = {
+			list = target_titles
+			scope:defender = {
+				add_prestige_experience = medium_prestige_value
+			}
+		}
+
+		# Allies on both sides get full prestige value for helping in the war, based on their war participation.
+		modify_allies_of_participants_fame_values = {
+			WINNER = scope:defender
+			FAME_BASE = medium_prestige_value
+			IS_RELIGIOUS_WAR = no
+			WINNER_ALLY_FAME_SCALE = 1
+			LOSER_ALLY_FAME_SCALE = 1
+		}
+
+		scope:defender = {
+			imprison = {
+				target = scope:attacker
+				type = house_arrest
+			}
+		}
+
+		if = {
+			limit = {
+				exists = title:e_byzantium.holder
+				scope:defender = {
+					NOT = { top_liege = title:e_byzantium.holder }
+				}
+			}
+			create_title_and_vassal_change = {
+				type = swear_fealty
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			scope:defender = {
+				change_liege = {
+					liege = title:e_byzantium.holder
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+			title:e_byzantium.holder = {
+				trigger_event = {
+					id = western_roman.0062
+					days = 1
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				exists = title:k_ostrogoths.holder
+				scope:defender = title:k_ostrogoths.holder
+			}
+			scope:defender = { destroy_title = title:k_ostrogoths }
+		}
+
+		# Truce
+		add_truce_attacker_defeat_effect = yes
+
+		# FP1: note the victory for future memorialisation via stele (if applicable).
+		scope:defender = { fp1_remember_recent_conquest_victory_effect = yes }
+	}
+
+	transfer_behavior = transfer
+
+	on_primary_attacker_death = inherit
+	on_primary_defender_death = inherit
+
+	attacker_allies_inherit = yes
+	defender_allies_inherit = yes
+
+	war_name = cb_gothic_wars_amalasuntha_NAME
+	war_name_base = cb_gothic_wars_amalasuntha_NAME_BASE
+	cb_name = cb_gothic_wars_amalasuntha_NAME
+
+	interface_priority = 79
+
+	use_de_jure_wargoal_only = yes
+
+	attacker_score_from_battles_scale = 50                # War Score from battles won by the Attacker is modified by this value
+    defender_score_from_battles_scale = 50                # War Score from battles won by the Defender is modified by this value
+    max_attacker_score_from_battles = 100                # How much War Score the Attacker can gain from battles in total
+    max_defender_score_from_battles = 50                # How much War Score the Defender can gain from battles in total
+	attacker_score_from_occupation_scale = 25
+	defender_score_from_occupation_scale = 25
+
+	max_ai_diplo_distance_to_title = 500
+}
+	}
+	{
+vandalic_war_cb = {
+	group = event
+	white_peace_possible = no
+	# Root is the title
+	# scope:claimant is the claimant
+	# scope:attacker is the attacker
+	# scope:defender is the defender
+
+	target_titles = claim
+	#target_title_tier = all
+
+	on_declaration = {
+		on_declared_war = yes
+		scope:attacker = {
+			capital_county = {
+				add_county_modifier = { modifier = roman_camps years = 5 }
+			}
+			spawn_army = {
+				name = "Roman Vanguard"
+				levies = 1000
+				men_at_arms = {
+					type = cataphract
+					stacks = 2
+				}
+				men_at_arms = {
+					type = bowmen
+					stacks = 1
+				}
+				men_at_arms = {
+					type = palatinae
+					stacks = 1
+				}
+				men_at_arms = {
+					type = comitatenses
+					stacks = 1
+				}
+				men_at_arms = {
+					type = scorpio
+					stacks = 2
+				}
+				location = province:4578 #Mahdiya
+				uses_supply = no
+				inheritable = yes
+			}
+			spawn_army = {
+				name = "Roman Vanguard"
+				levies = 600
+				men_at_arms = {
+					type = cataphract
+					stacks = 2
+				}
+				men_at_arms = {
+					type = bowmen
+					stacks = 1
+				}
+				men_at_arms = {
+					type = palatinae
+					stacks = 1
+				}
+				men_at_arms = {
+					type = comitatenses
+					stacks = 1
+				}
+				men_at_arms = {
+					type = scorpio
+					stacks = 2
+				}
+				location = province:4578 #Mahdiya
+				uses_supply = no
+				inheritable = yes
+				war = scope:war
+			}
+			spawn_army = {
+				name = "Roman Vanguard"
+				levies = 600
+				men_at_arms = {
+					type = cataphract
+					stacks = 2
+				}
+				men_at_arms = {
+					type = bowmen
+					stacks = 1
+				}
+				men_at_arms = {
+					type = palatinae
+					stacks = 1
+				}
+				men_at_arms = {
+					type = comitatenses
+					stacks = 1
+				}
+				men_at_arms = {
+					type = scorpio
+					stacks = 2
+				}
+				location = province:4578 #Mahdiya
+				uses_supply = no
+				inheritable = yes
+				war = scope:war
+			}
 			if = {
 				limit = {
 					character:armenian_02 = {
@@ -4611,10 +5337,1099 @@ radagaisus_invasion_cb = {
 				}
 				add_courtier = character:armenian_02
 			}
+		}
+		scope:defender = {
+			if = {
+				limit = {
+					global_var:hildirix ?= {
+						is_alive = yes
+					}
+				}
+				trigger_event = {
+					id = western_roman.0040
+					days = 1
+				}
+			}
+		}
+		if = {
+			limit = {
+				title:c_tunis.holder = scope:defender
+			}
+			title:c_tunis = {
+				add_county_modifier = { modifier = surprise_attack years = 2 }
+			}
+		}
+		#scope:attacker = {
+		#	trigger_event = {
+		#		id = TFE_flavour_events.0051
+		#		days = 1
+		#	}
+		#}
+	}	
+
+	should_invalidate = {
+		scope:defender = {
+			is_independent_ruler = no
+		}
+	}
+
+	on_invalidated_desc = msg_subjugation_war_invalidated_message
+	
+	on_invalidated = {
+	}
+
+	on_victory_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:claimant = { is_local_player = yes }
+				}
+				desc = claim_cb_victory_desc_attacker_claimant
+			}
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = claim_cb_victory_desc_attacker
+			}
+			desc = claim_cb_victory_desc
+		}
+	}
+
+	on_victory = {
+		scope:defender = {
+			every_held_title = {
+				limit = {
+					tier >= tier_kingdom
+					NOT = { this = title:k_vandals }
+				}
+				scope:defender = { destroy_title = prev }
+			}
+			every_held_title = {
+				limit = {
+					tier = tier_duchy
+					NOT = { this = title:d_tunis }
+				}
+				scope:defender = { destroy_title = prev }
+			}
+		}
+		scope:attacker = {
+			top_liege = {
+				save_scope_as = victor
+				every_vassal = {
+					add_opinion = {
+						modifier = respect_opinion
+						target = scope:victor
+						opinion = 20
+					}
+				}
+			}
+		}
+		title:c_mahdiya = {
+			remove_county_modifier = roman_camps
+		}
+		title:c_tunis = {
+			remove_county_modifier = surprise_attack
+		}
+        #EP2 accolade glory gain for winning against higher ranked enemy
+		scope:attacker = { accolade_attacker_war_end_glory_gain_high_effect = yes }
+		scope:attacker = { show_pow_release_message_effect = yes }
+		scope:attacker = {
+			if = {
+				limit = {
+					OR = {
+						top_liege = {
+							has_title = title:e_byzantium
+						}
+						top_liege = {
+							has_title = title:e_roman_empire
+						}
+					}
+				}
+				custom_tooltip = vandalic_war_end_effect
+				top_liege = {
+				trigger_event = {
+					id = western_roman.0041
+					days = 1
+				}
+				}
+			}
+		}
+
+		create_title_and_vassal_change = {
+			type = conquest_claim
+			save_scope_as = change
+			add_claim_on_loss = yes
+		}
+		# Create a claim CB which is executed to handle title/vassal changes, in addition to being used to calculate Prestige awards for war participants.
+		setup_claim_cb = {
+			titles = target_titles
+			attacker = scope:attacker
+			defender = scope:defender
+			claimant = scope:claimant
+			change = scope:change
+		}
+
+		resolve_title_and_vassal_change = scope:change
+
+		if = {
+			limit = {
+				NOT = { scope:claimant = scope:attacker }
+				scope:claimant.primary_title.tier < scope:attacker.primary_title.tier
+				scope:claimant = {
+					NOT = { target_is_liege_or_above = scope:attacker }
+				}
+			}
+
+			create_title_and_vassal_change = {
+				type = conquest_claim
+				save_scope_as = change_two
+				add_claim_on_loss = yes
+			}
+			scope:claimant = {
+				change_liege = {
+					liege = scope:attacker
+					change = scope:change_two
+				}
+			}
+			resolve_title_and_vassal_change = scope:change_two
+		}
+
+		if = {
+			limit = {
+				NOT = { scope:claimant = scope:attacker }
+				scope:attacker = {
+					can_add_hook = {
+					  	type = favor_hook
+					  	target = scope:claimant
+					}
+				}
+			}
+			scope:attacker = {
+				add_hook = {
+		  			target = scope:claimant
+		  			type = favor_hook
+		 		}
+			}
+		}
+		if = {
+			limit = {
+				scope:defender = {
+					highest_held_title_tier >= tier_kingdom
+				}
+			}
+			create_title_and_vassal_change = {
+				type = conquest
+				save_scope_as = changethree
+				add_claim_on_loss = yes
+			}
+			scope:defender = {
+				every_held_title = {
+					limit = {
+						tier >= tier_kingdom
+					}
+					change_title_holder_include_vassals = {
+						holder = scope:attacker
+						change = scope:changethree
+					}
+				}
+			}
+			resolve_title_and_vassal_change = scope:changethree
+		}
+		if = {
+			limit = {
+				scope:defender = {
+					is_independent_ruler = yes
+					is_landed = yes
+				}
+			}
+			create_title_and_vassal_change = {
+				type = swear_fealty
+				save_scope_as = changev
+				add_claim_on_loss = no
+			}
+			scope:defender = {
+				change_liege = {
+					liege = scope:attacker
+					change = scope:changev
+				}
+			}
+			resolve_title_and_vassal_change = scope:changev
+		}
+		resolve_title_and_vassal_change = scope:change
+		# FP1: note the victory for future memorialisation via stele (if applicable).
+		scope:attacker = { fp1_remember_recent_conquest_victory_effect = yes }
+		# Shift dejure under Italia to the Ostrogoths
+		#title:k_italy = {
+		#	every_in_de_jure_hierarchy = {
+		#		limit = {
+		#			tier = tier_duchy
+		#		}
+		#		set_de_jure_liege_title = scope:attacker.primary_title
+		#	}
+		#}
+
+		#scope:attacker = {
+		#	imprison = {
+		#		target = scope:defender
+		#		type = house_arrest
+		#	}
+		#}
+		if = {
+			limit = {
+				global_var:hildirix = {
+					is_alive = yes
+				}
+			}
+			global_var:hildirix ?= { release_from_prison = yes }
+			global_var:hildirix ?= { remove_character_flag = is_being_tortured }
+		}
+	}
+
+	on_white_peace_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = claim_cb_white_peace_desc_defender
+			}
+			desc = claim_cb_white_peace_desc
+		}
+		
+	}
+
+	on_white_peace = {
+        #EP2 accolade glory gain for doing ok against higher ranked enemy
+		scope:attacker = { accolade_attacker_war_end_glory_gain_low_effect = yes }
+		scope:defender = { accolade_defender_war_end_glory_gain_med_effect = yes }
+		scope:attacker = {
+			show_pow_release_message_effect = yes
+			stress_impact = {
+ 				ambitious = medium_stress_impact_gain
+ 				arrogant = medium_stress_impact_gain
+ 			}
+		}
+
+		# press claims
+		every_in_list = {
+			list = target_titles
+			if = {
+				limit = { scope:claimant = { has_weak_claim_on = prev } }
+				scope:claimant = {
+					make_claim_strong = prev
+				}
+			}
+		}
+		# Prestige loss for the attacker
+		scope:attacker = {
+			stress_impact = {
+				arrogant = medium_stress_impact_gain
+			}
+		}
+		# Defender neither gains nor loses any prestige.
+		scope:defender = {
+			stress_impact = {
+ 				arrogant = medium_stress_impact_gain
+ 			}
+		}
+
+		if = {
+			limit = {
+				NOT = { scope:claimant = scope:attacker }
+				scope:attacker = {
+					can_add_hook = {
+					  	type = favor_hook
+					  	target = scope:claimant
+					}
+				}
+			}
+			scope:attacker = {
+				add_hook = {
+		  			target = scope:claimant
+		  			type = favor_hook
+		 		}
+			}
+		}
+
+		# Truce
+		add_truce_white_peace_effect = yes
+	}
+
+	on_defeat_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = claim_cb_defeat_desc_defender
+			}
+			triggered_desc = {
+				trigger = { scope:claimant = { is_local_player = yes } }
+				desc = claim_cb_defeat_desc_attacker_claimant
+			}
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = claim_cb_defeat_desc_attacker
+			}
+			desc = claim_cb_defeat_desc
+		}
+		
+	}
+
+	on_defeat = {
+        #EP2 accolade glory gain for winning against higher ranked enemy
+		scope:defender = { accolade_attacker_war_end_glory_gain_high_effect = yes }
+		scope:attacker = { show_pow_release_message_effect = yes }
+
+		title:c_mahdiya = {
+			remove_county_modifier = roman_camps
+		}
+		title:c_tunis = {
+			remove_county_modifier = surprise_attack
+		}
+
+		title:c_kran = {
+			save_temporary_scope_as = current_county
+		}
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:current_county = {
+			change_title_holder = {
+				holder = scope:attacker
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		title:c_beroe = {
+			save_temporary_scope_as = current_county
+		}
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:current_county = {
+			change_title_holder = {
+				holder = scope:attacker
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		title:c_burgas = {
+			save_temporary_scope_as = current_county
+		}
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:current_county = {
+			change_title_holder = {
+				holder = scope:attacker
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		title:c_adrianopolis = {
+			save_temporary_scope_as = current_county
+		}
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:current_county = {
+			change_title_holder = {
+				holder = scope:attacker
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		title:d_adrianopolis = {
+			save_temporary_scope_as = current_county
+		}
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:current_county = {
+			change_title_holder = {
+				holder = scope:attacker
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		title:c_mahdiya = {
+			save_temporary_scope_as = current_county
+		}
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:current_county = {
+			change_title_holder = {
+				holder = scope:defender
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		#title:e_byzantium.holder = {
+		#	add_courtier = scope:attacker
+		#}
+
+		if = {
+			limit = {
+				NOT = { scope:claimant = scope:attacker }
+				scope:attacker = {
+					can_add_hook = {
+					  	type = favor_hook
+					  	target = scope:claimant
+					}
+				}
+			}
+			scope:attacker = {
+				add_hook = {
+		  			target = scope:claimant
+		  			type = favor_hook
+		 		}
+			}
+		}
+
+		# Attacker pays gold to the defender as reparations.
+		scope:attacker = {
+			pay_short_term_gold_reparations_effect = {
+				GOLD_VALUE = 3
+			}
+		}
+
+		# Truce
+		add_truce_attacker_defeat_effect = yes
+
+		scope:attacker = {
+			save_temporary_scope_as = loser
+		}
+		on_lost_aggression_war_discontent_loss = yes
+	}
+
+	on_primary_attacker_death = inherit
+	on_primary_defender_death = inherit
+
+	transfer_behavior = transfer
+
+	attacker_allies_inherit = yes
+	defender_allies_inherit = yes
+
+	war_name = VANDALIC_WAR_NAME
+	war_name_base = VANDALIC_WAR_NAME_BASE
+	cb_name = VANDALIC_CB_NAME
+	interface_priority = 60
+
+	attacker_score_from_battles_scale = 200                # War Score from battles won by the Attacker is modified by this value
+    defender_score_from_battles_scale = 200                # War Score from battles won by the Defender is modified by this value
+    max_attacker_score_from_battles = 100                # How much War Score the Attacker can gain from battles in total
+    max_defender_score_from_battles = 100                # How much War Score the Defender can gain from battles in total
+
+	max_defender_score_from_occupation = 50
+	full_occupation_by_defender_gives_victory = no
+
+	should_show_war_goal_subview = yes
+
+	attacker_wargoal_percentage = 0.8
+
+	max_ai_diplo_distance_to_title = 1000
+}
 	}
 }
 
 "common/casus_belli_types/TFE_event_wars_overflow.txt" = {
+	{
+gothic_war_regular_cb = {
+	group = event
+	white_peace_possible = yes
+	# Root is the title
+	# scope:claimant is the claimant
+	# scope:attacker is the attacker
+	# scope:defender is the defender
+
+	target_titles = claim
+	#target_title_tier = all
+
+	on_declaration = {
+		on_declared_war = yes
+		struggle:italian_struggle = {
+            activate_struggle_catalyst = {
+                catalyst = catalyst_TFE_major_historical_event_devastation
+                character = scope:attacker
+            }
+        }
+		set_global_variable = {
+			name = gothic_war_declared
+			value = yes
+		}
+		if = {
+			limit = {
+				exists = global_var:gothic_attacker_1
+				global_var:gothic_attacker_1 = {
+					is_alive = yes
+					is_landed = yes
+				}
+			}
+			global_var:gothic_attacker_1 = {
+				trigger_event = {
+					id = germanic_events.0027
+					days = 1
+				}
+			}
+		}
+		if = {
+			limit = {
+				exists = global_var:gothic_attacker_2
+			}
+			global_var:gothic_attacker_2 = {
+				trigger_event = {
+					id = germanic_events.0027
+					days = 1
+				}
+			}
+		}
+		every_vassal_or_below = {
+			limit = {
+				any_sub_realm_county = {
+					tier = tier_county
+					duchy = title:d_sicily
+				}
+			}
+			save_scope_as = add_attacker_this
+			scope:add_attacker_this = {
+				trigger_event = {
+					id = germanic_events.0027
+					days = 1
+				}
+			}
+		}
+	}	
+
+	should_invalidate = {
+		scope:defender = {
+			is_independent_ruler = no
+		}
+	}
+
+	on_invalidated_desc = msg_subjugation_war_invalidated_message
+	
+	on_invalidated = {
+	}
+
+	on_victory_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:claimant = { is_local_player = yes }
+				}
+				desc = claim_cb_victory_desc_attacker_claimant
+			}
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = claim_cb_victory_desc_attacker
+			}
+			desc = claim_cb_victory_desc
+		}
+	}
+
+	on_victory = {
+		title:c_trapani = {
+			remove_county_modifier = roman_camps
+		}
+		scope:defender = {
+			every_held_title = {
+				limit = {
+					tier >= tier_kingdom
+					NOT = { this = title:k_italy }
+					NOT = { this = title:k_croatia }
+				}
+				scope:defender = { destroy_title = prev }
+			}
+		}
+		scope:attacker = {
+			top_liege = {
+				save_scope_as = victor
+				every_vassal = {
+					add_opinion = {
+						modifier = respect_opinion
+						target = scope:victor
+						opinion = 20
+					}
+				}
+			}
+		}
+        #EP2 accolade glory gain for winning against higher ranked enemy
+		scope:attacker = { accolade_attacker_war_end_glory_gain_high_effect = yes }
+		scope:attacker = { show_pow_release_message_effect = yes }
+		scope:attacker = {
+			if = {
+				limit = {
+					OR = {
+						top_liege = {
+							has_title = title:e_byzantium
+						}
+						top_liege = {
+							has_title = title:e_roman_empire
+						}
+					}
+				}
+				custom_tooltip = gothic_war_end_effect
+				top_liege = {
+				trigger_event = {
+					id = western_roman.0062
+					days = 1
+				}
+				}
+			}
+		}
+
+		create_title_and_vassal_change = {
+			type = conquest_claim
+			save_scope_as = change
+			add_claim_on_loss = yes
+		}
+		# Create a claim CB which is executed to handle title/vassal changes, in addition to being used to calculate Prestige awards for war participants.
+		setup_claim_cb = {
+			titles = target_titles
+			attacker = scope:attacker
+			defender = scope:defender
+			claimant = scope:claimant
+			change = scope:change
+		}
+
+		resolve_title_and_vassal_change = scope:change
+
+		if = {
+			limit = {
+				NOT = { scope:claimant = scope:attacker }
+				scope:claimant.primary_title.tier < scope:attacker.primary_title.tier
+				scope:claimant = {
+					NOT = { target_is_liege_or_above = scope:attacker }
+				}
+			}
+
+			create_title_and_vassal_change = {
+				type = conquest_claim
+				save_scope_as = change_two
+				add_claim_on_loss = yes
+			}
+			scope:claimant = {
+				change_liege = {
+					liege = scope:attacker
+					change = scope:change_two
+				}
+			}
+			resolve_title_and_vassal_change = scope:change_two
+		}
+
+		if = {
+			limit = {
+				NOT = { scope:claimant = scope:attacker }
+				scope:attacker = {
+					can_add_hook = {
+					  	type = favor_hook
+					  	target = scope:claimant
+					}
+				}
+			}
+			scope:attacker = {
+				add_hook = {
+		  			target = scope:claimant
+		  			type = favor_hook
+		 		}
+			}
+		}
+		if = {
+			limit = {
+				scope:defender = {
+					highest_held_title_tier >= tier_kingdom
+				}
+			}
+			create_title_and_vassal_change = {
+				type = conquest
+				save_scope_as = changethree
+				add_claim_on_loss = yes
+			}
+			scope:defender = {
+				every_held_title = {
+					limit = {
+						tier >= tier_kingdom
+					}
+					change_title_holder_include_vassals = {
+						holder = scope:attacker
+						change = scope:changethree
+					}
+				}
+			}
+			resolve_title_and_vassal_change = scope:changethree
+		}
+		if = {
+			limit = {
+				scope:defender = {
+					is_independent_ruler = yes
+					is_landed = yes
+				}
+			}
+			create_title_and_vassal_change = {
+				type = swear_fealty
+				save_scope_as = changev
+				add_claim_on_loss = no
+			}
+			scope:defender = {
+				change_liege = {
+					liege = scope:attacker
+					change = scope:changev
+				}
+			}
+			resolve_title_and_vassal_change = scope:changev
+		}
+		resolve_title_and_vassal_change = scope:change
+		# FP1: note the victory for future memorialisation via stele (if applicable).
+		scope:attacker = { fp1_remember_recent_conquest_victory_effect = yes }
+		# Shift dejure under Italia to the Ostrogoths
+		#title:k_italy = {
+		#	every_in_de_jure_hierarchy = {
+		#		limit = {
+		#			tier = tier_duchy
+		#		}
+		#		set_de_jure_liege_title = scope:attacker.primary_title
+		#	}
+		#}
+
+		#scope:attacker = {
+		#	imprison = {
+		#		target = scope:defender
+		#		type = house_arrest
+		#	}
+		#}
+		#if = {
+		#	limit = {
+		#		character:992020 = {
+		#			is_alive = yes
+		#			is_imprisoned = yes
+		#		}
+		#	}
+		#	character:992020 = { release_from_prison = yes }
+		#}
+	}
+
+	on_white_peace_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = claim_cb_white_peace_desc_defender
+			}
+			desc = claim_cb_white_peace_desc
+		}
+		
+	}
+
+	on_white_peace = {
+        #EP2 accolade glory gain for doing ok against higher ranked enemy
+		scope:attacker = { accolade_attacker_war_end_glory_gain_low_effect = yes }
+		scope:defender = { accolade_defender_war_end_glory_gain_med_effect = yes }
+		scope:attacker = {
+			show_pow_release_message_effect = yes
+			stress_impact = {
+ 				ambitious = medium_stress_impact_gain
+ 				arrogant = medium_stress_impact_gain
+ 			}
+		}
+
+		if = {
+			limit = {
+				NOT = { exists = global_var:belisarius_betrayal_white_peace }
+			}
+
+		scope:defender = {
+			every_sub_realm_county = {
+				limit = {
+					OR = {
+						title_province = {
+							geographical_region = TFE_south_po_river_region
+						}
+						title_province = {
+							geographical_region = illyricum_pannoniae_diocese_region
+						}
+					}
+				}
+				save_scope_as = checkcounty
+				if = {
+					limit = {
+						OR = {
+							scope:checkcounty.holder = scope:defender
+							AND = {
+								scope:checkcounty.holder.liege = scope:defender
+								NOT = {
+									scope:checkcounty.holder = {
+										every_sub_realm_county = {
+											OR = {
+												title_province = {
+													geographical_region = TFE_south_po_river_region
+												}
+												title_province = {
+													geographical_region = illyricum_pannoniae_diocese_region
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+					scope:checkcounty = { add_to_list = titles_taken }
+				}
+				else_if = {
+					limit = {
+						scope:checkcounty.holder.liege = scope:defender
+					}
+					scope:checkcounty.holder = { add_to_list = vassals_taken }
+				}
+			}
+		}
+
+		create_title_and_vassal_change = {
+			type = conquest
+			save_scope_as = change
+			add_claim_on_loss = yes
+		}
+
+		every_in_list = {
+			list = vassals_taken
+			change_liege = {
+				liege = scope:attacker
+				change = scope:change
+			}
+		}
+
+		every_in_list = {
+			list = titles_taken
+			change_title_holder = {
+				holder = scope:attacker
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+
+		resolve_title_and_vassal_change = scope:change
+
+		}
+
+		# Truce
+		add_truce_white_peace_effect = yes
+	}
+
+	on_defeat_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = claim_cb_defeat_desc_defender
+			}
+			triggered_desc = {
+				trigger = { scope:claimant = { is_local_player = yes } }
+				desc = claim_cb_defeat_desc_attacker_claimant
+			}
+			triggered_desc = {
+				trigger = { scope:attacker = { is_local_player = yes } }
+				desc = claim_cb_defeat_desc_attacker
+			}
+			desc = claim_cb_defeat_desc
+		}
+		
+	}
+
+	on_defeat = {
+        #EP2 accolade glory gain for winning against higher ranked enemy
+		scope:defender = { accolade_attacker_war_end_glory_gain_high_effect = yes }
+		scope:attacker = { show_pow_release_message_effect = yes }
+
+		title:c_trapani = {
+			remove_county_modifier = roman_camps
+		}
+
+		title:c_kran = {
+			save_temporary_scope_as = current_county
+		}
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:current_county = {
+			change_title_holder = {
+				holder = scope:attacker
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		title:c_beroe = {
+			save_temporary_scope_as = current_county
+		}
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:current_county = {
+			change_title_holder = {
+				holder = scope:attacker
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		title:c_burgas = {
+			save_temporary_scope_as = current_county
+		}
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:current_county = {
+			change_title_holder = {
+				holder = scope:attacker
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		title:c_adrianopolis = {
+			save_temporary_scope_as = current_county
+		}
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:current_county = {
+			change_title_holder = {
+				holder = scope:attacker
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		title:d_adrianopolis = {
+			save_temporary_scope_as = current_county
+		}
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:current_county = {
+			change_title_holder = {
+				holder = scope:attacker
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		title:c_trapani = {
+			save_temporary_scope_as = current_county
+		}
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:current_county = {
+			change_title_holder = {
+				holder = scope:attacker.top_liege
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		#title:e_byzantium.holder = {
+		#	add_courtier = scope:attacker
+		#}
+
+		if = {
+			limit = {
+				NOT = { scope:claimant = scope:attacker }
+				scope:attacker = {
+					can_add_hook = {
+					  	type = favor_hook
+					  	target = scope:claimant
+					}
+				}
+			}
+			scope:attacker = {
+				add_hook = {
+		  			target = scope:claimant
+		  			type = favor_hook
+		 		}
+			}
+		}
+
+		# Attacker pays gold to the defender as reparations.
+		scope:attacker = {
+			pay_short_term_gold_reparations_effect = {
+				GOLD_VALUE = 3
+			}
+		}
+
+		# Truce
+		add_truce_attacker_defeat_effect = yes
+
+		scope:attacker = {
+			save_temporary_scope_as = loser
+		}
+		on_lost_aggression_war_discontent_loss = yes
+	}
+
+	on_primary_attacker_death = inherit
+	on_primary_defender_death = inherit
+
+	transfer_behavior = transfer
+
+	attacker_allies_inherit = yes
+	defender_allies_inherit = yes
+
+	war_name = GOTHIC_WAR_AMA_NAME
+	war_name_base = GOTHIC_WAR_AMA_NAME_BASE
+	cb_name = GOTHIC_WAR_AMA_NAME
+	interface_priority = 60
+
+	attacker_score_from_battles_scale = 50                # War Score from battles won by the Attacker is modified by this value
+    defender_score_from_battles_scale = 50                # War Score from battles won by the Defender is modified by this value
+    max_attacker_score_from_battles = 50                # How much War Score the Attacker can gain from battles in total
+    max_defender_score_from_battles = 100                # How much War Score the Defender can gain from battles in total
+	attacker_score_from_occupation_scale = 25
+	defender_score_from_occupation_scale = 25
+
+	should_show_war_goal_subview = yes
+
+	attacker_wargoal_percentage = 0.4
+
+	max_ai_diplo_distance_to_title = 1000
+}
+	}
 	{
 independence_war_berber = {
 	icon = independence_faction_war
@@ -13380,6 +15195,51 @@ tfe_title_event.0009 = {
 	}
 }
 	}
+
+	{
+#	Conduct the reformation
+tfe_title_event.0010 = {
+	type = character_event
+	title = tfe_title_event.0010.t
+	desc = tfe_title_event.0010.desc
+	theme = realm
+	left_portrait =	{
+		character = scope:founder
+		animation = personality_bold
+	}
+
+	immediate = {
+		play_music_cue = "mx_cue_epic_sacral_moment"
+		restore_holy_roman_empire_decision_scripted_effect = yes
+		create_artifact_reichskrone_effect = { OWNER = this }
+	}
+
+	#Renovatio Imperii!
+	option = {
+		name = tfe_title_event.0010.a
+		give_nickname = nick_the_great
+		add_prestige_experience = monumental_fame_gain
+		every_vassal = {
+			add_opinion = {
+				modifier = reformed_holy_roman_empire_opinion
+				target = root
+			}
+			custom = restore_holy_roman_empire_decision_effects_vassal_opinion.tt
+		}
+		ai_chance = {	#When taken, the AI should always pick this.
+			base = 100
+		}
+	}
+	
+	##No Germany please, we're Byzantine.
+	#option = {
+	#	name = tfe_title_event.0010.b
+	#	ai_chance = {	#When taken, the AI should always go for the decision.
+	#		base = 0
+	#	}
+	#}
+}
+	}
 }
 
 "events/dharma_dravidian.txt" = {
@@ -17239,6 +19099,127 @@ on_senate_tasks_2_years_eastern = {
 									}
 								}
 								create_artifact_curtana_effect = { OWNER = ROOT }
+							}
+	}
+
+	{
+							10 = {
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = crown_of_justinian
+										}
+									}
+									game_start_date >= 500
+									scope:location ?= {
+										OR = {
+											geographical_region = custom_eastern_roman_empire
+											culture = { has_cultural_pillar = heritage_byzantine }
+										}
+									}
+								}
+								create_artifact_pedestal_justinian_effect = { OWNER = root }
+							}
+	}
+
+	{
+							10 = { #Recreate if lost
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = charlamagne_throne
+										}
+									}
+									game_start_date >= 700
+									scope:location ?= {
+										OR = {
+											geographical_region = custom_carolingian_francia
+											geographical_region = custom_carolingian_germany
+											geographical_region = custom_lotharingia
+											geographical_region = custom_northern_italy
+										}
+									}
+								}
+								create_artifact_throne_charlemagne_effect = { OWNER = root }
+							}
+	}
+
+	{
+							10 = {
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = sword_attila
+										}
+										game_start_date <= 400
+									}
+									scope:location ?= {
+										OR = {
+											geographical_region = custom_south_slavia
+											geographical_region = custom_carpathia
+											geographical_region = ghw_region_crimea
+											geographical_region = custom_bavaria
+										}
+									}
+								}
+								create_artifact_wall_sword_attila_effect = { OWNER = root }
+							}
+	}
+
+	{
+							10 = {
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = throne_scone
+										}
+									}
+									current_year >= 500
+									scope:location ?= {
+										geographical_region = world_europe_west_britannia
+									}
+								}
+								create_artifact_throne_scone_effect = { OWNER = root }
 							}
 	}
 }
@@ -21822,5 +23803,339 @@ tfe_character_interloper_in_struggle_trigger_persia = {
             }
         }
     }
+	}
+}
+
+"localization/english/names/TFE_names_error_log_l_english.yml" = {
+	{
+ NÃ¤cken:0 "NÃ¤cken"
+	}
+}
+
+"common/legends/chronicles/00_chronicles.txt" = {
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor=character:waegmunding_2
+				}
+				desc = TFE_legend_beowulf
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor=character:waegmunding_2
+				}
+				desc = TFE_legend_beowulf_desc
+			}
+	}
+
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor=character:snakeyboy_0
+				}
+				desc = TFE_legend_haftvad
+			}
+	}
+	{
+			triggered_desc = {
+				trigger = {
+					scope:ancestor=character:snakeyboy_0
+				}
+				desc = TFE_legend_haftvad_desc
+			}
+	}
+}
+
+"events/artifacts/historical_artifacts_events.txt" = {
+	{
+		if = {
+			limit = {
+				current_date >= 476.1.1
+				exists = character:180624
+				character:180624 = { is_alive = yes }
+			}
+			character:180624={
+				create_artifact_peroz_pearl_effect = { OWNER = character:180624 }
+			}
+		}
+	}
+	{
+		### Crown of Justinian
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				exists = title:e_byzantium.holder
+				current_date >= 550.1.15
+			}
+			title:e_byzantium.holder = {
+				create_artifact_pedestal_justinian_effect = { OWNER = this }
+			}
+		}
+	}
+	{
+		### Throne of Scone (featuring Stone)
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				exists = title:k_scotland.holder
+				current_date > 500.1.1
+			}
+			title:k_scotland.holder = {
+				create_artifact_throne_scone_effect = { OWNER = this }
+			}
+		}
+	}
+	{
+		### Throne of Charlemagne
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				exists = title:e_hre.holder
+				current_date >= 800.1.15
+			}
+			title:e_hre.holder = {
+				create_artifact_throne_charlemagne_effect = { OWNER = this }
+			}
+		}
+	}
+	{
+		### Pentapyrgion
+		if = {
+			limit = {
+				has_dlc_feature = royal_court
+				exists = title:e_byzantium.holder
+				current_date >= 829.1.1
+			}
+			title:e_byzantium.holder = {
+				create_artifact_sculpture_cabinet_pentapyrgion_effect = { OWNER = this }
+			}
+		}
+	}
+}
+
+"common/decisions/TFE_major_germanic_decisions.txt" = {
+	{
+form_the_hre_TFE = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_emperor_apotheosis.dds"
+	}
+	decision_group_type = major
+	
+	desc = form_the_hre_TFE_desc
+	selection_tooltip = form_the_hre_TFE_tooltip
+
+	ai_check_interval = 250
+
+	is_shown = {
+		is_ruler = yes
+		is_landed_or_landless_administrative = yes
+		highest_held_title_tier >= tier_kingdom
+		religion = religion:christianity_religion
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:form_the_hre_TFE
+			}
+		}
+		AND = {
+			title:e_western_roman_empire = {
+				is_title_created = no
+			}
+			title:e_roman_empire = {
+				is_title_created = no
+			}
+		}
+		capital_county.title_province = {
+			geographical_region = world_europe_west
+		}
+		NOT = {
+			has_title = title:e_byzantium
+		}
+		NOT = {
+			culture = {
+				has_cultural_pillar = heritage_latin
+			}
+		}
+	}
+
+	is_valid = {
+		is_independent_ruler = yes
+		highest_held_title_tier >= tier_kingdom
+		religion = religion:christianity_religion
+		realm_size >= 60
+		completely_controls = title:c_ravenna
+		custom_description = {
+			text = form_the_hre_TFE_trigger_01
+			trigger_if = {
+				limit = {
+					title:e_byzantium = {
+						is_title_created = yes
+					}
+				}
+				title:e_byzantium.holder = {
+					any_realm_county = {
+						count <= form_hre_TFE_county_trigger
+						title_province = { geographical_region = form_the_hre_TFE_ere_region }
+					}
+				}
+			}
+		}
+		custom_description = {
+			text = form_the_hre_TFE_trigger_02
+			NOT = {
+				any_independent_ruler = {
+					AND = {
+						is_landed_or_landless_administrative = yes
+						capital_county.title_province ?= {
+							geographical_region = world_europe_west
+						}
+						highest_held_title_tier >= tier_kingdom
+						current_military_strength > form_hre_TFE_strength_trigger
+					}
+				}
+			}
+		}
+		
+	}
+
+	is_valid_showing_failures_only = {
+		is_imprisoned = no
+		is_independent_ruler = yes
+	}
+
+	effect = {
+		give_nickname = nick_the_great
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:form_the_hre_TFE
+		}
+
+		show_as_tooltip = {
+			restore_holy_roman_empire_decision_scripted_effect = yes
+		}
+		save_scope_as = founder
+		faith.religious_head = { save_scope_as = founder_hof }
+		if = {
+			limit = {
+				faith.religious_head = { is_landed = yes }
+			}
+			faith.religious_head.capital_province = { save_scope_as = ceremony_locale }
+		}
+		else = {
+			capital_province = { save_scope_as = ceremony_locale }
+		}
+		trigger_event = {
+			id = tfe_title_event.0010
+		}
+		#Notify other players.
+		every_player = {
+			limit = {
+				NOT = { this = root }
+				is_within_diplo_range = { CHARACTER = root }
+			}
+			trigger_event = tfe_title_event.0011
+		}
+		if = {
+			limit = {
+				is_ai = no
+				NOT = { exists = global_var:restore_holy_roman_empire_decision  }
+			}
+			set_global_variable = {
+				name = restore_holy_roman_empire_decision
+				value = root
+			}
+		}
+		# Assign Dynamic Prince-Electors
+		hidden_effect = {
+			if = {
+				limit = { has_global_variable_list = hre_elector_list }
+				clear_global_variable_list = hre_elector_list
+			}
+			while = {
+				count = 7
+				random_vassal = {
+					limit = {
+						capital_province.empire = title:e_hre # must be de-jure vassal of empire
+						OR = { # prince-bishopric or duchy
+							AND = {
+								government_has_flag = government_is_theocracy
+								primary_title.tier >= tier_county
+							}
+							primary_title.tier >= tier_duchy
+						}
+						NOT = { # not already selected
+							is_target_in_global_variable_list = {
+								name = hre_elector_list
+								target = primary_title
+							}
+						}
+					}
+					weight = {
+						modifier = { # major vassals heavily weighted
+							factor = 10
+							is_powerful_vassal = yes
+						}
+						modifier = { # same culture as emperor preferred
+							factor = 4
+							culture = root.culture
+						}
+						modifier = { # we don't mind going outside Germania, but prefer it
+							factor = 1.5
+							trigger = { exists = primary_title.title_province }
+							primary_title.title_province.barony = {
+								OR = {
+									target_is_de_jure_liege_or_above = title:k_bavaria
+									target_is_de_jure_liege_or_above = title:k_bohemia
+									target_is_de_jure_liege_or_above = title:k_east_francia
+									target_is_de_jure_liege_or_above = title:k_frisia
+									target_is_de_jure_liege_or_above = title:k_lotharingia
+									target_is_de_jure_liege_or_above = title:k_pomerania
+								}
+							}
+						}
+						modifier = { # we want at least 3 theocracies ideally
+							factor = 10
+							any_in_global_list = {
+								variable = hre_elector_list
+								count < 3
+								holder = { government_has_flag = government_is_theocracy }
+							}
+							government_has_flag = government_is_theocracy
+						}
+						modifier = { # 3 is enough theocracies unless we can't find feudal
+							factor = 0.1
+							any_in_global_list = {
+								variable = hre_elector_list
+								count >= 3
+								holder = { government_has_flag = government_is_theocracy }
+							}
+							government_has_flag = government_is_theocracy
+						}
+					}
+					add_to_global_variable_list = {
+						name = hre_elector_list
+						target = primary_title
+					}
+				}
+			}
+			hre_elector_list_save_effect = yes # saves list scopes to title as variables for tooltip
+		}
+		
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	cost = {
+		gold = 250
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
 	}
 }
