@@ -19,6 +19,12 @@ internal readonly struct PartOfFileToRemove(string text, bool warnIfNotFound = t
 	}
 }
 
+internal enum LineEnding {
+	CRLF,
+	LF,
+	CR
+}
+
 public static class FileTweaker {
 	public static async Task RemoveUnneededPartsOfFiles(ModFilesystem ck3ModFS, string outputModPath, Configuration config) {
 		// Load removable blocks from configurables.
@@ -99,9 +105,9 @@ public static class FileTweaker {
 			foreach (var (block, warnIfNotFound) in partsToRemove) {
 				// If the file uses other line endings than CRLF, we need to modify the search string.
 				string searchString;
-				if (lineEndings == "LF") {
+				if (lineEndings == LineEnding.LF) {
 					searchString = block.Replace("\r\n", "\n");
-				} else if (lineEndings == "CR") {
+				} else if (lineEndings == LineEnding.CR) {
 					searchString = block.Replace("\r\n", "\r");
 				} else {
 					searchString = block;
@@ -129,25 +135,25 @@ public static class FileTweaker {
 		}
 	}
 
-	private static string GetLineEndingsInFile(string filePath) {
+	private static LineEnding GetLineEndingsInFile(string filePath) {
 		using StreamReader sr = new StreamReader(filePath);
 		bool returnSeen = false;
 		while (sr.Peek() >= 0) {
 			char c = (char)sr.Read();
 			if (c == '\n') {
-				return returnSeen ? "CRLF" : "LF";
+				return returnSeen ? LineEnding.CRLF : LineEnding.LF;
 			}
 			else if (returnSeen) {
-				return "CR";
+				return LineEnding.CR;
 			}
 
 			returnSeen = c == '\r';
 		}
 
 		if (returnSeen) {
-			return "CR";
+			return LineEnding.CR;
 		} else {
-			return "LF";
+			return LineEnding.LF;
 		}
 	}
 }
