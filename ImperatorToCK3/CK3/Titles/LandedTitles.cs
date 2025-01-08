@@ -325,7 +325,7 @@ internal sealed partial class Title {
 						// and move the liege entry to that date.
 						liegeTitle.History.Fields.TryGetValue("holder", out var liegeHolderField);
 						Date? laterDate = liegeHolderField?.DateToEntriesDict
-							.Where(kvp => kvp.Value.Count != 0 && kvp.Key > date && kvp.Key <= ck3BookmarkDate)
+							.Where(kvp => kvp.Key > date && kvp.Key <= ck3BookmarkDate && kvp.Value.Count != 0 && kvp.Value[^1].Value.ToString() != "0")
 							.Min(kvp => kvp.Key);
 
 						if (laterDate == null) {
