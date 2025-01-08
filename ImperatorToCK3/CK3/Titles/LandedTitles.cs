@@ -266,29 +266,60 @@ internal sealed partial class Title {
 		}
 
 		public void CleanUpHistory(CharacterCollection characters, Date ck3BookmarkDate) {
-			Logger.Debug("Removing invalid holders from history...");
+			Logger.Debug("Cleaning up title history...");
 			
-			var validIds = characters.Select(c => c.Id).ToImmutableHashSet();
-			foreach (var title in this) {
+			// Remove invalid holder ID entries.
+			var validCharacterIds = characters.Select(c => c.Id).ToImmutableHashSet();
+			Parallel.ForEach(this, title => {
 				if (!title.History.Fields.TryGetValue("holder", out var holderField)) {
-					continue;
+					return;
 				}
 
 				holderField.RemoveAllEntries(
-					value => value.ToString()?.RemQuotes() is string valStr && valStr != "0" && !validIds.Contains(valStr)
+					value => value.ToString()?.RemQuotes() is string valStr && valStr != "0" && !validCharacterIds.Contains(valStr)
 				);
-			}
+
+				// Afterwards, remove empty date entries.
+				holderField.DateToEntriesDict.RemoveWhere(kvp => kvp.Value.Count == 0);
+			});
+
+			// Fix holder being born after receiving the title, by moving the title grant to the birth date.
+			Parallel.ForEach(this, title => {
+				if (!title.History.Fields.TryGetValue("holder", out var holderField)) {
+					return;
+				}
+
+				var lastEntryBeforeOrAtBookmark = holderField.DateToEntriesDict
+					.Where(kvp =>
+						kvp.Key <= ck3BookmarkDate && kvp.Value[^1].Value.ToString()?.RemQuotes() is string holderId &&
+						holderId != "0")
+					.LastOrNull();
+				if (lastEntryBeforeOrAtBookmark is null) {
+					return;
+				}
+
+				Date holderDate = lastEntryBeforeOrAtBookmark.Value.Key;
+				string holderId = lastEntryBeforeOrAtBookmark.Value.Value[^1].Value.ToString()?.RemQuotes()!;
+				Character holder = characters[holderId];
+				var birthDate = holder.BirthDate;
+
+				if (holderDate <= birthDate) {
+					// Move the title grant to the birth date.
+					holderField.DateToEntriesDict.Remove(holderDate);
+					holderField.AddEntryToHistory(birthDate, "holder", holderId);
+				}
+			});
 			
 			// For counties, remove holder = 0 entries that precede a holder = <char ID> entry
 			// that's before or at the bookmark date.
-			foreach (var county in Counties) {
+			Parallel.ForEach(Counties, county => {
 				if (!county.History.Fields.TryGetValue("holder", out var holderField)) {
-					continue;
+					return;
 				}
 				
 				var holderIdAtBookmark = county.GetHolderId(ck3BookmarkDate);
 				if (holderIdAtBookmark == "0") {
-					continue;
+					return;
 				}
 				
 				// If we have a holder at the bookmark date, remove all holder = 0 entries that precede it.
@@ -299,14 +330,14 @@ internal sealed partial class Title {
 				foreach (var date in entryDatesToRemove) {
 					holderField.DateToEntriesDict.Remove(date);
 				}
-			}
+			});
 
 			// Remove liege entries of the same rank as the title they're in.
 			// For example, TFE had more or less this: d_kordofan = { liege = d_kordofan }
 			var validRankChars = new HashSet<char> { 'e', 'k', 'd', 'c', 'b'};
-			foreach (var title in this) {
+			Parallel.ForEach(this, title => {
 				if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
-					continue;
+					return;
 				}
 
 				var titleRank = title.Rank;
@@ -331,7 +362,7 @@ internal sealed partial class Title {
 
 					return false;
 				});
-			}
+			});
 			
 			// Remove liege entries that are not valid (liege title is not held at the entry date).
 			foreach (var title in this) {
