@@ -289,24 +289,28 @@ internal sealed partial class Title {
 					return;
 				}
 
-				var lastEntryBeforeOrAtBookmark = holderField.DateToEntriesDict
-					.Where(kvp =>
-						kvp.Key <= ck3BookmarkDate && kvp.Value[^1].Value.ToString()?.RemQuotes() is string holderId &&
-						holderId != "0")
-					.LastOrNull();
-				if (lastEntryBeforeOrAtBookmark is null) {
-					return;
-				}
+				foreach (var (date, entriesList) in holderField.DateToEntriesDict.ToArray()) {
+					if (date > ck3BookmarkDate) {
+						continue;
+					}
 
-				Date holderDate = lastEntryBeforeOrAtBookmark.Value.Key;
-				string holderId = lastEntryBeforeOrAtBookmark.Value.Value[^1].Value.ToString()?.RemQuotes()!;
-				Character holder = characters[holderId];
-				var birthDate = holder.BirthDate;
+					var lastEntry = entriesList[^1];
+					var holderId = lastEntry.Value.ToString()?.RemQuotes();
+					if (holderId is null || holderId == "0") {
+						continue;
+					}
 
-				if (holderDate <= birthDate) {
-					// Move the title grant to the birth date.
-					holderField.DateToEntriesDict.Remove(holderDate);
-					holderField.AddEntryToHistory(birthDate, "holder", holderId);
+					if (!characters.TryGetValue(holderId, out var holder)) {
+						holderField.DateToEntriesDict.Remove(date);
+						continue;
+					}
+
+					var holderBirthDate = holder.BirthDate;
+					if (date <= holderBirthDate) {
+						// Move the title grant to the birth date.
+						holderField.DateToEntriesDict.Remove(date);
+						holderField.AddEntryToHistory(holderBirthDate, lastEntry.Key, lastEntry.Value);
+					}
 				}
 			});
 			
