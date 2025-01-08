@@ -2361,6 +2361,48 @@
 			set_house = house:house_chad_uhl
 		}
 	}
+
+	{
+					AND = {
+						scope:title = {
+							tier = tier_county
+							title_province = {
+								geographical_region = TFE_eastern_iranian_struggle_region
+							}
+						}
+						root = {
+							any_character_struggle = {
+								involvement = involved
+								is_struggle_type = eastern_iranian_struggle
+								activate_struggle_catalyst_secondary_character_involvement_involved_trigger = {
+									CATALYST = catalyst_usurp_title
+									CHAR = root
+								}
+							}
+						}
+					}
+	}
+
+	{
+					AND = {
+						scope:title = {
+							tier = tier_county
+							title_province = {
+								geographical_region = TFE_eastern_iranian_struggle_region
+							}
+						}
+						root = {
+							any_character_struggle = {
+								involvement = involved
+								is_struggle_type = eastern_iranian_struggle
+								activate_struggle_catalyst_secondary_character_involvement_involved_trigger = {
+									CATALYST = catalyst_gain_claim_on_title
+									CHAR = root
+								}
+							}
+						}
+					}
+	}
 }
 
 "common/on_action/east_asia_flavor_on_actions.txt" = {
@@ -2427,6 +2469,242 @@ on_title_gain_inheritance = {
 			custom_tooltip = ep3_story_cycle_harrying.3053.b.tt
 			add_character_flag = hereward_settled_flag
 		}
+	}
+
+	{
+start_gothic_war_effect = {
+	if = {
+		limit = {
+			NOT = { title:c_trapani.holder = global_var:justinian_gothic_commander }
+			NOT = { title:c_trapani.holder = character:belisarius_001 }
+			trigger_if = {
+				limit = {
+					exists = title:k_vandals.holder
+				}
+				NOT = { title:c_trapani.holder.top_liege = title:k_vandals.holder }
+			}
+		}
+		title:c_trapani = {
+			save_temporary_scope_as = current_county
+		}
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:current_county = {
+			change_title_holder = {
+				holder = global_var:justinian_gothic_commander
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+	}
+	if = {
+		limit = {
+			global_var:justinian_gothic_commander = {
+				is_landed = no
+			}
+		}
+		title:c_malta = {
+			save_temporary_scope_as = current_county
+		}
+		create_title_and_vassal_change = {
+			type = usurped
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:current_county = {
+			change_title_holder = {
+				holder = global_var:justinian_gothic_commander
+				change = scope:change
+				take_baronies = yes
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+	}
+	#title:k_ostrogoths.holder = {
+	#	every_sub_realm_county = {
+	#		limit = {
+	#			NOT = { this = title:c_malta }
+	#			NOT = { this = title:c_palermo }
+	#			duchy = title:d_sicily
+	#		}
+	#		save_temporary_scope_as = current_county
+	#		create_title_and_vassal_change = {
+	#			type = usurped
+	#			save_scope_as = change
+	#			add_claim_on_loss = no
+	#		}
+	#		scope:current_county = {
+	#			change_title_holder = {
+	#				holder = global_var:justinian_gothic_commander
+	#				change = scope:change
+	#				take_baronies = yes
+	#			}
+	#		}
+	#		resolve_title_and_vassal_change = scope:change
+	#	}
+	#}
+
+	global_var:justinian_gothic_commander = {
+		every_sub_realm_county = {
+			limit = {
+				tier = tier_county
+				empire = { this = title:e_byzantium }
+				NOT = {
+					duchy = title:d_sicily
+				}
+			}
+			# Grab the county for ease of reference.
+			save_temporary_scope_as = current_county
+			# Create an elevated peasant to claim the county.
+			create_character = {
+				location = scope:current_county.title_province
+				template = old_country_local_warlord_template
+				save_temporary_scope_as = local_warlord
+			}
+			# Assign the seceding title to the new upstart.
+			create_title_and_vassal_change = {
+				type = usurped
+				save_scope_as = change
+				add_claim_on_loss = no
+				}
+			hidden_effect = {
+				scope:current_county = {
+					change_title_holder = {
+						holder = scope:local_warlord
+						change = scope:change
+						take_baronies = yes
+					}
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+			if = {
+				limit = {
+					exists = title:e_byzantium.holder
+				}
+				# And give them their independence.
+				create_title_and_vassal_change = {
+					type = conquest
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				hidden_effect = {
+					scope:local_warlord = {
+						#becomes_independent = { change = scope:change }
+						change_liege = {
+							liege = title:e_byzantium.holder
+							change = scope:change
+						}
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+			}
+		}
+		if = {
+			limit = {
+				exists = title:e_byzantium.holder
+			}
+			every_vassal = {
+				limit = {
+					capital_county.empire = title:e_byzantium
+				}
+				create_title_and_vassal_change = {
+					type = conquest
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				hidden_effect = {
+					change_liege = {
+						liege = title:e_byzantium.holder
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+			}
+		}
+		every_held_title = {
+			limit = {
+				tier >= tier_duchy
+			}
+			add_to_list = list_to_return
+		}
+		every_in_list = {
+			list = list_to_return
+			save_scope_as = title_to_return
+			global_var:justinian_gothic_commander = { destroy_title = scope:title_to_return }
+		}
+	}
+	global_var:justinian_gothic_commander = {
+		trigger_event = {
+			id = germanic_events.0026
+			days = 1
+		}
+		if = {
+			limit = {
+				exists = title:e_byzantium.holder
+				global_var:justinian_gothic_commander = {
+					NOT = { top_liege = title:e_byzantium.holder }
+				}
+			}
+			create_title_and_vassal_change = {
+				type = swear_fealty
+				save_scope_as = changev
+				add_claim_on_loss = no
+			}
+			global_var:justinian_gothic_commander = {
+				change_liege = {
+					liege = title:e_byzantium.holder
+					change = scope:changev
+				}
+			}
+			resolve_title_and_vassal_change = scope:changev
+		}
+	}
+	if = {
+		limit = {
+			title:k_ostrogoths.holder = {
+				any_sub_realm_county = {
+					duchy = title:d_sicily
+				}
+			}
+		}
+		global_var:justinian_gothic_commander = { 
+			start_war = {
+				casus_belli = gothic_duchy_conquest_cb
+				target = title:k_ostrogoths.holder
+				target_title = title:d_sicily
+				claimant = global_var:justinian_gothic_commander
+			}
+		}
+	}
+	else = {
+		set_global_variable = {
+			name = gothic_attacker_1
+			value = global_var:justinian_gothic_commander
+		}
+		if = {
+			limit = {
+				exists = title:k_daciae.holder
+				title:k_daciae.holder.top_liege = title:e_byzantium.holder
+			}
+			set_global_variable = {
+				name = gothic_attacker_2
+				value = title:k_daciae.holder
+			}
+		}
+		title:e_byzantium.holder = {
+			start_war = {
+				cb = gothic_war_regular_cb
+				target = title:k_ostrogoths.holder
+				target_title = title:k_ostrogoths
+				claimant = title:e_byzantium.holder
+			}
+		}
+	}
+}
 	}
 }
 
@@ -12920,9 +13198,6 @@ germanic_events.0033 = {
 
 "common/script_values/TFE_values.txt" = {
 	{
-# Counter for Britannian counties owned by non-Involved
-struggle_britannia_ending_compromise_decision_region_interloper_value = {
-	value = 0
 	every_county_in_region = {
 		region = world_europe_west_britannia
 		limit = {
@@ -12930,14 +13205,20 @@ struggle_britannia_ending_compromise_decision_region_interloper_value = {
 		}
 		add = 1
 	}
-}
+	}
 
-# Percentage of Britannian counties owned by non-Involved
-struggle_britannia_ending_compromise_decision_region_interloper_percent_value = {
-	value = struggle_britannia_ending_compromise_decision_region_interloper_value
-	divide = struggle_britannia_ending_ending_decision_region_total_value
-	multiply = 100
-}
+	{
+	if = {
+		limit = {
+			AND = {
+				exists = struggle:eastern_iranian_struggle
+				struggle:eastern_iranian_struggle = {
+					is_struggle_phase = struggle_TFE_eastern_iranian_phase_development
+				}
+			}
+		}
+		multiply = 0.7
+	}
 	}
 }
 
@@ -19844,5 +20125,1484 @@ struggle_eastern_iranian_urbanize_area = {
 					inheritable = yes
 				}
 			}
+	}
+}
+
+"common/on_action/tfe_struggle_on_actions.txt" = {
+	{
+tfe_eastern_iranian_struggle_starting_events = {
+	events = {
+		neutral_struggle.0001
+		eastern_iranian_struggle.0003
+	}
+}
+	}
+}
+
+"common/script_values/TFE_struggle_values.txt" = {
+	{
+	struggle:eastern_iranian_struggle = {
+		every_involved_ruler = {
+			limit = {
+				NOT = { this = root }
+				is_independent_ruler = yes
+				primary_title = {
+					is_mercenary_company = no
+					is_holy_order = no
+					tier >= tier_kingdom
+				}
+			}
+			add = 1
+		}
+	}
+	}
+
+	{
+	struggle:eastern_iranian_struggle = {
+		every_involved_ruler = {
+			limit = {
+				NOT = { this = root }
+				is_independent_ruler = yes
+				primary_title = {
+					is_mercenary_company = no
+					is_holy_order = no
+				}
+			}
+			add = 1
+		}
+	}
+	}
+
+	{
+	struggle:eastern_iranian_struggle = {
+		every_involved_ruler = {
+			limit = {
+				NOT = { this = root }
+				is_independent_ruler = yes
+				primary_title = { is_holy_order = no }
+				primary_title = { is_mercenary_company = no }
+				save_temporary_scope_as = this_character
+				OR = {
+					root = { has_strong_hook = scope:this_character }
+					opinion = {
+						target = root
+						value >= struggle_persia_ending_compromise_decision_opinion_value
+					}
+				}
+			}
+			add = 1
+		}
+	}
+	}
+}
+
+"common/scripted_effects/TFE_eastern_iranian_struggle_scripted_effects.txt" = {
+	{
+
+TFE_eastern_iranian_struggle_ending_involved_list_effect = {
+	save_scope_as = struggle_ender
+	struggle:eastern_iranian_struggle = {
+		every_involved_ruler = {
+			limit = {
+				is_independent_ruler = yes
+				primary_title = { is_mercenary_company = no }
+			}
+			add_to_list = struggle_involvees
+		}
+	}
+	# Add all involved cultures with counties to a list, for war checks
+	TFE_eastern_iranian_struggle_ending_culture_list_effect = yes
+	# Add all involved faiths with counties to a list, for marriage and holy war checks
+	TFE_eastern_iranian_struggle_ending_faith_list_effect = yes
+}
+
+# Add all Involved cultures with counties to a list
+TFE_eastern_iranian_struggle_ending_culture_list_effect = {
+	every_culture_global = {		
+		limit = {
+			save_temporary_scope_as = this_culture
+			struggle:eastern_iranian_struggle = { is_culture_involved_in_struggle = scope:this_culture }
+			culture_number_of_counties > 0
+		}
+		save_scope_as = culture_scope
+		add_to_global_variable_list = {
+			name = TFE_eastern_iranian_struggle_ending_culture_list
+			target = scope:culture_scope
+		}
+	}
+}
+
+# Add all Involved independent rulers to a list
+TFE_eastern_iranian_struggle_ending_involved_list_effect = {
+	save_scope_as = struggle_ender
+	struggle:eastern_iranian_struggle = {
+		every_involved_ruler = {
+			limit = {
+				is_independent_ruler = yes
+				primary_title = { is_mercenary_company = no }
+			}
+			add_to_list = struggle_involvees
+		}
+	}
+	# Add all involved cultures with counties to a list, for war checks
+	TFE_eastern_iranian_struggle_ending_culture_list_effect = yes
+	# Add all involved faiths with counties to a list, for marriage and holy war checks
+	TFE_eastern_iranian_struggle_ending_faith_list_effect = yes
+}
+
+# Add all Involved faiths with counties to a list
+TFE_eastern_iranian_struggle_ending_faith_list_effect = {
+	every_religion_global = {
+		limit = {
+			any_faith = {
+				save_temporary_scope_as = this_faith
+				struggle:eastern_iranian_struggle = { is_faith_involved_in_struggle = scope:this_faith }
+				num_county_followers > 0
+			}
+		}
+		every_faith = {
+			limit = {
+				struggle:eastern_iranian_struggle = { is_faith_involved_in_struggle = prev }
+				num_county_followers > 0
+			}
+			save_scope_as = faith_scope
+			add_to_global_variable_list = {
+				name = TFE_eastern_iranian_struggle_ending_faith_list
+				target = scope:faith_scope
+			}
+		}
+	}
+}
+
+
+
+
+TFE_eastern_iranian_struggle_compromise_de_jure_effect = {
+
+	# Existing Kingdoms
+	# d_khorezm
+	if = {
+		limit = {
+			NOT = {			
+				title:k_oghuz_il = {
+					target_is_de_jure_liege_or_above = title:e_turan
+				}
+			}
+
+		}
+		title:k_oghuz_il = {
+			set_de_jure_liege_title = title:e_turan
+		}
+	}
+	if = {
+		limit = {
+			exists = title:d_khorezm.holder
+			NOT = { exists = title:k_oghuz_il.holder }
+			NOT = {
+				title:d_khorezm.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_khorezm.holder = {
+			get_title = title:k_oghuz_il
+		}
+	}
+
+	# d_chah
+	if = {
+		limit = {
+			NOT = {			
+				title:k_syr_darya = {
+					target_is_de_jure_liege_or_above = title:e_turan
+				}
+			}
+
+		}
+		title:k_syr_darya = {
+			set_de_jure_liege_title = title:e_turan
+		}
+	}
+	if = {
+		limit = {
+			exists = title:d_chah.holder
+			NOT = { exists = title:k_syr_darya.holder }
+			NOT = {
+				title:d_chah.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_chah.holder = {
+			get_title = title:k_syr_darya
+		}
+	}
+
+	# d_soghd
+	if = {
+		limit = {
+			NOT = {			
+				title:k_transoxiana = {
+					target_is_de_jure_liege_or_above = title:e_turan
+				}
+			}
+
+		}
+		title:k_transoxiana = {
+			set_de_jure_liege_title = title:e_turan
+		}
+	}
+	if = {
+		limit = {
+			exists = title:d_soghd.holder
+			NOT = { exists = title:k_transoxiana.holder }
+			NOT = {
+				title:d_soghd.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_soghd.holder = {
+			get_title = title:k_transoxiana
+		}
+	}
+
+	# d_nishapur
+	if = {
+		limit = {
+			NOT = {			
+				title:k_khorasan = {
+					target_is_de_jure_liege_or_above = title:e_turan
+				}
+			}
+
+		}
+		title:k_khorasan = {
+			set_de_jure_liege_title = title:e_turan
+		}
+	}
+	if = {
+		limit = {
+			exists = title:d_nishapur.holder
+			NOT = { exists = title:k_khorasan.holder }
+			NOT = {
+				title:d_nishapur.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_nishapur.holder = {
+			get_title = title:k_khorasan
+		}
+	}
+	
+
+	# d_kabul
+	if = {
+		limit = {
+			NOT = {			
+				title:k_kabulistan = {
+					target_is_de_jure_liege_or_above = title:e_turan
+				}
+			}
+
+		}
+		title:k_kabulistan = {
+			set_de_jure_liege_title = title:e_turan
+		}
+	}
+	if = {
+		limit = {
+			exists = title:d_kabul.holder
+			NOT = { exists = title:k_kabulistan.holder }
+			NOT = {
+				title:d_kabul.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_kabul.holder = {
+			get_title = title:k_kabulistan
+		}
+	}
+
+	# d_gandhara
+	if = {
+		limit = {
+			NOT = {			
+				title:k_punjab = {
+					target_is_de_jure_liege_or_above = title:e_turan
+				}
+			}
+
+		}
+		title:k_punjab = {
+			set_de_jure_liege_title = title:e_turan
+		}
+	}
+	if = {
+		limit = {
+			exists = title:d_gandhara.holder
+			NOT = { exists = title:k_punjab.holder }
+			NOT = {
+				title:d_gandhara.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_gandhara.holder = {
+			get_title = title:k_punjab
+		}
+	}
+
+	# d_kasmira
+	if = {
+		limit = {
+			NOT = {			
+				title:k_kashmir = {
+					target_is_de_jure_liege_or_above = title:e_turan
+				}
+			}
+
+		}
+		title:k_kashmir = {
+			set_de_jure_liege_title = title:e_turan
+		}
+	}
+	if = {
+		limit = {
+			exists = title:d_kasmira.holder
+			NOT = { exists = title:k_kashmir.holder }
+			NOT = {
+				title:d_kasmira.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_kasmira.holder = {
+			get_title = title:k_kashmir
+		}
+	}
+	
+
+	# New Kingdoms
+	# d_merv
+	title:d_merv = {
+		set_de_jure_liege_title = title:k_merv_struggle
+	}
+	title:k_merv_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_merv.holder
+			NOT = {
+				title:d_merv.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_merv.holder = {
+			get_title = title:k_merv_struggle
+		}
+	}
+
+	# d_ghur
+	title:d_ghur = {
+		set_de_jure_liege_title = title:k_ghur_struggle
+	}
+	title:k_ghur_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_ghur.holder
+			NOT = {
+				title:d_ghur.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_ghur.holder = {
+			get_title = title:k_ghur_struggle
+		}
+	}
+
+	# d_herat
+	title:d_herat = {
+		set_de_jure_liege_title = title:k_herat_struggle
+	}
+	title:k_herat_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_herat.holder
+			NOT = {
+				title:d_herat.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_herat.holder= {
+			get_title = title:k_herat_struggle
+		}
+	}
+
+	# d_balkh
+	title:d_balkh = {
+		set_de_jure_liege_title = title:k_balkh_struggle
+	}
+	title:k_balkh_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_balkh.holder
+			NOT = {
+				title:d_balkh.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_balkh.holder = {
+			get_title = title:k_balkh_struggle
+		}
+	}
+
+	# d_nasa
+	title:d_nasa = {
+		set_de_jure_liege_title = title:k_nasa_struggle
+	}
+	title:k_nasa_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_nasa.holder
+			NOT = {
+				title:d_nasa.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_nasa.holder = {
+			get_title = title:k_nasa_struggle
+		}
+	}
+
+	# d_kohestan
+	title:d_kohestan = {
+		set_de_jure_liege_title = title:k_kohestan_struggle
+	}
+	title:k_kohestan_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_kohestan.holder
+			NOT = {
+				title:d_kohestan.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_kohestan.holder = {
+			get_title = title:k_kohestan_struggle
+		}
+	}
+
+	# d_badakhshan
+	title:d_badakhshan = {
+		set_de_jure_liege_title = title:k_badakhshan_struggle
+	}
+	title:k_badakhshan_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_badakhshan.holder
+			NOT = {
+				title:d_badakhshan.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_badakhshan.holder = {
+			get_title = title:k_badakhshan_struggle
+		}
+	}
+
+	# d_khuttal
+	title:d_khuttal = {
+		set_de_jure_liege_title = title:k_khuttal_struggle
+	}
+	title:k_khuttal_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_khuttal.holder
+			NOT = {
+				title:d_khuttal.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_khuttal.holder = {
+			get_title = title:k_khuttal_struggle
+		}
+	}
+
+	# d_osrushana
+	title:d_osrushana = {
+		set_de_jure_liege_title = title:k_osrushana_struggle
+	}
+	title:k_osrushana_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_osrushana.holder
+			NOT = {
+				title:d_osrushana.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_osrushana.holder = {
+			get_title = title:k_osrushana_struggle
+		}
+	}
+
+	# d_ferghana
+	title:d_ferghana = {
+		set_de_jure_liege_title = title:k_ferghana_struggle
+	}
+	title:k_ferghana_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_ferghana.holder
+			NOT = {
+				title:d_ferghana.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_ferghana.holder = {
+			get_title = title:k_ferghana_struggle
+		}
+	}
+
+	# d_uzboy
+	title:d_uzboy = {
+		set_de_jure_liege_title = title:k_uzboy_struggle
+	}
+	title:k_uzboy_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_uzboy.holder
+			NOT = {
+				title:d_uzboy.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_uzboy.holder = {
+			get_title = title:k_uzboy_struggle
+		}
+	}
+
+	# d_zabulistan
+	title:d_zabulistan = {
+		set_de_jure_liege_title = title:k_zabulistan_struggle
+	}
+	title:k_zabulistan_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_zabulistan.holder
+			NOT = {
+				title:d_zabulistan.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_zabulistan.holder = {
+			get_title = title:k_zabulistan_struggle
+		}
+	}
+
+	# d_syr_darya
+	title:d_syr_darya = {
+		set_de_jure_liege_title = title:k_syr_darya_struggle
+	}
+	title:k_syr_darya_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_syr_darya.holder
+			NOT = {
+				title:d_syr_darya.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_syr_darya.holder = {
+			get_title = title:k_syr_darya_struggle
+		}
+	}
+
+	# d_muyunkum
+	title:d_muyunkum = {
+		set_de_jure_liege_title = title:k_muyunkum_struggle
+	}
+	title:k_muyunkum_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_muyunkum.holder
+			NOT = {
+				title:d_muyunkum.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_muyunkum.holder = {
+			get_title = title:k_muyunkum_struggle
+		}
+	}
+
+	# d_sistan
+	title:d_sistan = {
+		set_de_jure_liege_title = title:k_sistan_struggle
+	}
+	title:k_sistan_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_sistan.holder
+			NOT = {
+				title:d_sistan.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_sistan.holder = {
+			get_title = title:k_sistan_struggle
+		}
+	}
+
+	# d_aral_il
+	title:d_aral_il = {
+		set_de_jure_liege_title = title:k_aral_il_struggle
+	}
+	title:k_aral_il_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_aral_il.holder
+			NOT = {
+				title:d_aral_il.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_aral_il.holder = {
+			get_title = title:k_aral_il_struggle
+		}
+	}
+
+	# d_transcaspiana
+	title:d_transcaspiana = {
+		set_de_jure_liege_title = title:k_transcaspiana_struggle
+	}
+	title:k_transcaspiana_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_transcaspiana.holder
+			NOT = {
+				title:d_transcaspiana.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_transcaspiana.holder = {
+			get_title = title:k_transcaspiana_struggle
+		}
+	}
+
+	# d_jemba
+	title:d_jemba = {
+		set_de_jure_liege_title = title:k_jemba_struggle
+	}
+	title:k_jemba_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_jemba.holder
+			NOT = {
+				title:d_jemba.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_jemba.holder = {
+			get_title = title:k_jemba_struggle
+		}
+	}
+
+	# d_pamir
+	title:d_pamir = {
+		set_de_jure_liege_title = title:k_pamir_struggle
+	}
+	title:k_pamir_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_pamir.holder
+			NOT = {
+				title:d_pamir.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_pamir.holder = {
+			get_title = title:k_pamir_struggle
+		}
+	}
+
+	
+}
+
+
+
+tfe_iranian_struggle_compromise_tooltip_effect = {
+	# De Jure Kingdoms will become De Jure Empires
+	custom_tooltip = tfe_iranian_struggle_compromise_new_de_jure_kingdoms_tt
+	# custom_tooltip = struggle_compromise_duchy_transfer_tt
+	# custom_tooltip = tfe_iranian_struggle_compromise_create_new_empires_tt
+	# if = {
+	# 	limit = {
+	# 		struggle:eastern_iranian_struggle = {
+	# 			any_involved_ruler = {
+	# 				count > 1
+	# 				is_independent_ruler = yes
+	# 				primary_title = { is_mercenary_company = no }
+	# 			}
+	# 		}
+	# 		# Every Involved ruler gets a 10 year truce with every other
+	# 		custom_tooltip = fp2_struggle_compromise_truce_tt
+	# 	}
+	# }
+	# custom_tooltip = fp2_struggle_compromise_war_cost_tt
+}
+
+
+
+
+
+tfe_struggle_eastern_iranian_compromise_tooltip_effect = {
+	# New de jure Kingdoms
+	tfe_iranian_struggle_compromise_tooltip_effect = yes
+	if = {
+		limit = {
+			struggle:eastern_iranian_struggle = {
+				any_involved_ruler = {
+					count > 1
+					is_independent_ruler = yes
+					primary_title = { is_mercenary_company = no }
+				}
+			}
+			# Every Involved ruler gets a 10 year truce with every other
+			custom_tooltip = fp2_struggle_compromise_truce_tt
+		}
+	}
+	custom_tooltip = fp2_struggle_compromise_war_cost_tt
+}
+
+
+tfe_struggle_eastern_iranian_compromise_modifier_rewards_effect = {
+	struggle:eastern_iranian_struggle = {
+		show_as_tooltip = {
+			every_involved_ruler = {
+				limit = { this = root }
+				custom = fp2_struggle_compromise_house_rewards_tt
+				struggle_eastern_iranian_compromise_modifier_rewards_personal_house_effect = yes
+			}
+			every_involved_ruler = {
+				limit = { this = root }
+				custom = fp2_struggle_compromise_defensive_rewards_tt
+				struggle_eastern_iranian_compromise_modifier_rewards_personal_county_effect = yes
+			}
+		}
+		hidden_effect = {
+			every_involved_ruler = {
+				limit = {
+					is_independent_ruler = yes
+					primary_title = { is_mercenary_company = no }
+					exists = house
+					NOT = {
+						house = { has_house_modifier = struggle_eastern_iranian_compromise_house_reward_modifier }
+					}
+				}
+				struggle_eastern_iranian_compromise_modifier_rewards_personal_house_effect = yes
+			}
+			every_involved_ruler = {
+				limit = {
+					is_independent_ruler = yes
+					primary_title = { is_mercenary_company = no }
+				}
+				struggle_eastern_iranian_compromise_modifier_rewards_personal_county_effect = yes
+			}
+		}
+	}
+}
+
+
+
+
+# Add house modifiers to a single character (used in tooltips);
+struggle_eastern_iranian_compromise_modifier_rewards_personal_house_effect = {
+	house = {
+		custom_tooltip = struggle_eastern_iranian_compromise_house_enforce_truce_rewards_tt
+		add_house_modifier = {
+			modifier = struggle_eastern_iranian_compromise_house_reward_modifier
+		}
+	}
+}
+
+# Add county modifiers to a single character (used in tooltips)
+struggle_eastern_iranian_compromise_modifier_rewards_personal_county_effect = {
+	capital_county = {
+		add_county_modifier = { #TODO_CD_FP2 (JP) check this is the right scope
+			modifier = struggle_eastern_iranian_compromise_defensive_reward_modifier
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+persia_struggle_compromise_duchies_to_kingdoms_effect = {
+	hidden_effect = {
+		title:e_persia = {
+			# Cycle through de jure duchies held by independent dukes
+			every_in_de_jure_hierarchy = {
+				# Prefer primary titles
+				limit = {
+					this = this.holder.primary_title
+					fp2_struggle_ending_compromise_independent_duchy_trigger = yes
+					any_in_de_jure_hierarchy = {
+						tier = tier_county 
+						title_province = {
+							geographical_region = TFE_eastern_iranian_struggle_region
+						}
+					}
+				}
+				# Then capital titles
+				alternative_limit = {
+					this.title_capital_county = this.kingdom.title_capital_county
+					fp2_struggle_ending_compromise_independent_duchy_trigger = yes
+				}
+				alternative_limit = { fp2_struggle_ending_compromise_independent_duchy_trigger = yes }
+				save_scope_as = old_title
+				persia_struggle_compromise_create_new_kingdom_effect = { TYPE = NEW FETCH = scope:old_title }
+			}
+			# Cycle through titular duchies held by independent dukes (e.g. Zaragoza)
+			every_in_list = {
+				list = titular_iberian_duchies
+				save_scope_as = special_duchy
+				if = {
+					# Independent holder who controls at least 50% a de jure duchy, and no kingdom has the same as that duchy
+					limit = { fp2_struggle_ending_compromise_titular_trigger = yes }
+					title:e_persia = {
+						random_in_de_jure_hierarchy = {
+							limit = {
+								tier = tier_duchy
+								any_direct_de_jure_vassal_title = {
+									percent >= 0.5
+									holder.top_liege = scope:special_duchy.holder
+								}
+							}
+							save_scope_as = old_title
+						}
+					}
+					persia_struggle_compromise_create_new_kingdom_effect = { TYPE = SPECIAL FETCH = scope:special_duchy }
+				}
+			}
+			# Cycle through uncreated de jure duchies to split if needed (e.g. Coimbra)
+			every_in_de_jure_hierarchy = {
+				limit = { fp2_struggle_ending_compromise_split_duchy_trigger = yes }
+			    save_scope_as = old_title
+				persia_struggle_compromise_create_new_kingdom_effect = { TYPE = NEW FETCH = scope:old_title }
+			}
+		}
+		title:e_turan = {
+			# Cycle through de jure duchies held by independent dukes
+			every_in_de_jure_hierarchy = {
+				# Prefer primary titles
+				limit = {
+					this = this.holder.primary_title
+					fp2_struggle_ending_compromise_independent_duchy_trigger = yes
+					any_in_de_jure_hierarchy = {
+						tier = tier_county 
+						title_province = {
+							geographical_region = TFE_eastern_iranian_struggle_region
+						}
+					}
+				}
+				# Then capital titles
+				alternative_limit = {
+					this.title_capital_county = this.kingdom.title_capital_county
+					fp2_struggle_ending_compromise_independent_duchy_trigger = yes
+				}
+				alternative_limit = { fp2_struggle_ending_compromise_independent_duchy_trigger = yes }
+				save_scope_as = old_title
+				turan_struggle_compromise_create_new_kingdom_effect = { TYPE = NEW FETCH = scope:old_title }
+			}
+			# Cycle through titular duchies held by independent dukes (e.g. Zaragoza)
+			every_in_list = {
+				list = titular_iberian_duchies
+				save_scope_as = special_duchy
+				if = {
+					# Independent holder who controls at least 50% a de jure duchy, and no kingdom has the same as that duchy
+					limit = { fp2_struggle_ending_compromise_titular_trigger = yes }
+					title:e_turan = {
+						random_in_de_jure_hierarchy = {
+							limit = {
+								tier = tier_duchy
+								any_direct_de_jure_vassal_title = {
+									percent >= 0.5
+									holder.top_liege = scope:special_duchy.holder
+								}
+							}
+							save_scope_as = old_title
+						}
+					}
+					turan_struggle_compromise_create_new_kingdom_effect = { TYPE = SPECIAL FETCH = scope:special_duchy }
+				}
+			}
+			# Cycle through uncreated de jure duchies to split if needed (e.g. Coimbra)
+			every_in_de_jure_hierarchy = {
+				limit = { fp2_struggle_ending_compromise_split_duchy_trigger = yes }
+			    save_scope_as = old_title
+				turan_struggle_compromise_create_new_kingdom_effect = { TYPE = NEW FETCH = scope:old_title }
+			}
+		}
+	}
+}
+
+persia_struggle_compromise_create_new_kingdom_effect = {
+	add_to_list = duchy_kingdom
+	create_dynamic_title = {
+		tier = kingdom
+		name = $TYPE$_CREATED_TITLE_NAME
+	}
+	scope:old_title = {
+		# Edge case for kingdoms which do not control their own capital duchy
+		if = {
+			limit = {
+				title_capital_county = de_jure_liege.title_capital_county
+				exists = de_jure_liege.holder
+				NOT = { holder = de_jure_liege.holder }
+			}
+			de_jure_liege = {
+				# So kingdom has a capital
+				set_capital_county = this.holder.capital_county
+				# So titles do not share CoAs
+				set_coa = this.holder.house
+			}
+		}
+		set_de_jure_liege_title = scope:new_title
+	}
+	scope:new_title = {
+		set_coa = $FETCH$
+		set_color_from_title = $FETCH$
+		set_capital_county = $FETCH$.title_capital_county
+		set_de_jure_liege_title = title:e_persia
+	}
+}
+turan_struggle_compromise_create_new_kingdom_effect = {
+	add_to_list = duchy_kingdom
+	create_dynamic_title = {
+		tier = kingdom
+		name = $TYPE$_CREATED_TITLE_NAME
+	}
+	scope:old_title = {
+		# Edge case for kingdoms which do not control their own capital duchy
+		if = {
+			limit = {
+				title_capital_county = de_jure_liege.title_capital_county
+				exists = de_jure_liege.holder
+				NOT = { holder = de_jure_liege.holder }
+			}
+			de_jure_liege = {
+				# So kingdom has a capital
+				set_capital_county = this.holder.capital_county
+				# So titles do not share CoAs
+				set_coa = this.holder.house
+			}
+		}
+		set_de_jure_liege_title = scope:new_title
+	}
+	scope:new_title = {
+		set_coa = $FETCH$
+		set_color_from_title = $FETCH$
+		set_capital_county = $FETCH$.title_capital_county
+		set_de_jure_liege_title = title:e_turan
+	}
+}
+
+persia_struggle_compromise_transfer_duchies_effect = {
+	title:e_persia = {
+		while = {
+			limit = {
+				any_in_de_jure_hierarchy = { 
+					fp2_struggle_compromise_transfer_duchy_trigger = yes 
+					any_in_de_jure_hierarchy = {
+						tier = tier_county 
+						title_province = {
+							geographical_region = TFE_eastern_iranian_struggle_region
+						}
+					}
+				}
+			}
+			every_in_de_jure_hierarchy = {
+				limit = { 
+					fp2_struggle_compromise_transfer_duchy_trigger = yes
+					any_in_de_jure_hierarchy = {
+						tier = tier_county 
+						title_province = {
+							geographical_region = TFE_eastern_iranian_struggle_region
+						}
+					}
+				}
+				add_to_list = transferred_duchies
+				# To ensure kingdom's capitals are always inside them
+				if = {
+					limit = { title_capital_county = kingdom.title_capital_county }
+					kingdom = {
+						save_scope_as = old_kingdom
+						if = {
+							limit = {
+								any_direct_de_jure_vassal_title = {
+									NOT = { is_in_list = transferred_duchies }
+									title_capital_county.kingdom = scope:old_kingdom
+								}
+							}
+							random_direct_de_jure_vassal_title = {
+								limit = {
+									NOT = { is_in_list = transferred_duchies }
+									title_capital_county.kingdom = scope:old_kingdom
+								}
+								title_capital_county = { save_scope_as = new_capital }
+							}
+							set_capital_county = scope:new_capital
+						}
+					}
+				}
+				if = {
+					limit = { title_capital_county.holder.top_liege.primary_title.tier = tier_kingdom }
+					set_de_jure_liege_title = title_capital_county.holder.top_liege.primary_title
+				}
+				else = { set_de_jure_liege_title = title_capital_county.holder.top_liege.capital_county.kingdom }
+			}
+		}
+	}
+	title:e_turan = {
+		while = {
+			limit = {
+				any_in_de_jure_hierarchy = { 
+					fp2_struggle_compromise_transfer_duchy_trigger = yes 
+					any_in_de_jure_hierarchy = {
+						tier = tier_county 
+						title_province = {
+							geographical_region = TFE_eastern_iranian_struggle_region
+						}
+					}
+				}
+			}
+			every_in_de_jure_hierarchy = {
+				limit = { 
+					fp2_struggle_compromise_transfer_duchy_trigger = yes
+					any_in_de_jure_hierarchy = {
+						tier = tier_county 
+						title_province = {
+							geographical_region = TFE_eastern_iranian_struggle_region
+						}
+					}
+				}
+				add_to_list = transferred_duchies
+				# To ensure kingdom's capitals are always inside them
+				if = {
+					limit = { title_capital_county = kingdom.title_capital_county }
+					kingdom = {
+						save_scope_as = old_kingdom
+						if = {
+							limit = {
+								any_direct_de_jure_vassal_title = {
+									NOT = { is_in_list = transferred_duchies }
+									title_capital_county.kingdom = scope:old_kingdom
+								}
+							}
+							random_direct_de_jure_vassal_title = {
+								limit = {
+									NOT = { is_in_list = transferred_duchies }
+									title_capital_county.kingdom = scope:old_kingdom
+								}
+								title_capital_county = { save_scope_as = new_capital }
+							}
+							set_capital_county = scope:new_capital
+						}
+					}
+				}
+				if = {
+					limit = { title_capital_county.holder.top_liege.primary_title.tier = tier_kingdom }
+					set_de_jure_liege_title = title_capital_county.holder.top_liege.primary_title
+				}
+				else = { set_de_jure_liege_title = title_capital_county.holder.top_liege.capital_county.kingdom }
+			}
+		}
+	}
+}
+# Create new de jure empires from relevant kingdoms
+persia_struggle_compromise_kingdoms_to_empires_effect = {
+	hidden_effect = {
+		title:e_persia = {
+			every_in_de_jure_hierarchy = {
+				limit = {
+					tier = tier_kingdom
+					NOT = {
+						THIS = title:k_mesopotamia
+					}
+					any_in_de_jure_hierarchy = {
+						count >= fp2_struggle_compromise_ending_minimal_empire_size
+						tier = tier_county
+					}
+					any_in_de_jure_hierarchy = {
+						tier = tier_county 
+						title_province = {
+							geographical_region = TFE_eastern_iranian_struggle_region
+						}
+					}
+				}
+				fp2_struggle_compromise_create_new_empire_effect = yes
+			}
+		}
+		title:e_turan = {
+			every_in_de_jure_hierarchy = {
+				limit = {
+					tier = tier_kingdom
+					NOT = {
+						THIS = title:k_mesopotamia
+					}
+					any_in_de_jure_hierarchy = {
+						count >= fp2_struggle_compromise_ending_minimal_empire_size
+						tier = tier_county
+					}
+					any_in_de_jure_hierarchy = {
+						tier = tier_county 
+						title_province = {
+							geographical_region = TFE_eastern_iranian_struggle_region
+						}
+					}
+				}
+				fp2_struggle_compromise_create_new_empire_effect = yes
+			}
+		}
+	}
+}
+
+# Distribute remaining Kingdoms to neighboring empires
+persia_struggle_compromise_distribute_kingdoms_to_neighbouring_empires_effect = {
+	hidden_effect = {
+		title:e_persia = {
+			every_in_de_jure_hierarchy = {
+				limit = { 
+					tier = tier_kingdom 
+					NOT = {
+						THIS = title:k_mesopotamia
+					}
+					any_in_de_jure_hierarchy = {
+						tier = tier_county 
+						title_province = {
+							geographical_region = TFE_eastern_iranian_struggle_region
+						}
+					}
+					
+				}
+				save_scope_as = kingdom_to_distribute
+				random_title_to_title_neighboring_and_across_water_kingdom = {
+					limit = { # Prefer land borders
+						any_this_title_or_de_jure_above = { is_in_list = new_empire_list }
+						any_title_to_title_neighboring_kingdom = { this = scope:kingdom_to_distribute }
+					}
+					alternative_limit = { # Then sea borders
+						any_this_title_or_de_jure_above = { is_in_list = new_empire_list }
+					}
+					weight = {
+						modifier = { # Value one from Iberia for small empire
+							add = {
+								value = 2
+								subtract = {
+									value = 0
+									every_in_de_jure_hierarchy = {
+										add = 0.25
+									}
+								}
+								min = 0
+							}
+							any_in_de_jure_hierarchy = {
+			 					tier = tier_county
+								title_province = { geographical_region = TFE_eastern_iranian_struggle_region }
+							}
+						}
+						modifier = { # Value smaller empire
+							add = {
+								value = 2
+								subtract = {
+									value = 0
+									every_in_de_jure_hierarchy = {
+										limit = { tier = tier_kingdom }
+										add = 0.5
+									}
+								}
+								min = 0
+							}
+						}
+						modifier = { # Value most shared borders
+							add = {
+								value = 0
+								every_in_de_jure_hierarchy = {
+									limit = {
+										tier = tier_county
+										any_neighboring_county = { target_is_de_jure_liege_or_above = scope:kingdom_to_distribute }
+									}
+									add = 1
+								}
+								min = 0
+							}
+						}
+					}
+					add_to_list = transferred_kingdoms
+					scope:kingdom_to_distribute = { set_de_jure_liege_title = prev.de_jure_liege }
+				}
+			}
+		}
+		title:e_turan = {
+			every_in_de_jure_hierarchy = {
+				limit = { 
+					tier = tier_kingdom 
+					NOT = {
+						THIS = title:k_mesopotamia
+					}
+					any_in_de_jure_hierarchy = {
+						tier = tier_county 
+						title_province = {
+							geographical_region = TFE_eastern_iranian_struggle_region
+						}
+					}
+					
+				}
+				save_scope_as = kingdom_to_distribute
+				random_title_to_title_neighboring_and_across_water_kingdom = {
+					limit = { # Prefer land borders
+						any_this_title_or_de_jure_above = { is_in_list = new_empire_list }
+						any_title_to_title_neighboring_kingdom = { this = scope:kingdom_to_distribute }
+					}
+					alternative_limit = { # Then sea borders
+						any_this_title_or_de_jure_above = { is_in_list = new_empire_list }
+					}
+					weight = {
+						modifier = { # Value one from Iberia for small empire
+							add = {
+								value = 2
+								subtract = {
+									value = 0
+									every_in_de_jure_hierarchy = {
+										add = 0.25
+									}
+								}
+								min = 0
+							}
+							any_in_de_jure_hierarchy = {
+			 					tier = tier_county
+								title_province = { geographical_region = TFE_eastern_iranian_struggle_region }
+							}
+						}
+						modifier = { # Value smaller empire
+							add = {
+								value = 2
+								subtract = {
+									value = 0
+									every_in_de_jure_hierarchy = {
+										limit = { tier = tier_kingdom }
+										add = 0.5
+									}
+								}
+								min = 0
+							}
+						}
+						modifier = { # Value most shared borders
+							add = {
+								value = 0
+								every_in_de_jure_hierarchy = {
+									limit = {
+										tier = tier_county
+										any_neighboring_county = { target_is_de_jure_liege_or_above = scope:kingdom_to_distribute }
+									}
+									add = 1
+								}
+								min = 0
+							}
+						}
+					}
+					add_to_list = transferred_kingdoms
+					scope:kingdom_to_distribute = { set_de_jure_liege_title = prev.de_jure_liege }
+				}
+			}
+		}
+	}
+}
+
+persia_struggle_compromise_distribute_the_actual_titles = {
+	struggle:eastern_iranian_struggle = {
+		create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = change
+		}
+		every_involved_ruler = {
+			limit = {
+				save_temporary_scope_as = new_owner_temp
+				primary_title = {
+					tier = tier_duchy
+					exists = de_jure_liege
+					de_jure_liege = { tfe_struggle_ending_compromise_create_title_trigger_persia = yes }
+				}
+			}
+			save_scope_as = new_owner
+			primary_title.de_jure_liege = {
+				change_title_holder = {
+					holder = scope:new_owner
+					change = scope:change
+				}
+				add_to_list = assigned_title
+			}
+		}
+		every_involved_ruler = {
+			limit = {
+				save_temporary_scope_as = new_owner_temp
+				primary_title = {
+					tier = tier_kingdom
+					NOT = {
+						THIS = title:k_mesopotamia
+					}
+					exists = de_jure_liege
+					de_jure_liege = { tfe_struggle_ending_compromise_create_title_trigger_persia = yes }
+				}
+			}
+			save_scope_as = new_owner
+			primary_title.de_jure_liege = {
+				change_title_holder = {
+					holder = scope:new_owner
+					change = scope:change
+				}
+				add_to_list = assigned_title
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+	}
+}
+
+persia_struggle_compromise_truce_effect = {
+	hidden_effect = {
+		if = {
+			limit = {
+				struggle:eastern_iranian_struggle = {
+					any_involved_ruler = {
+						count > 1
+						is_independent_ruler = yes
+						primary_title = { is_mercenary_company = no }
+					}
+				}
+			}
+			struggle:eastern_iranian_struggle = {
+				every_involved_ruler = {
+					limit = {
+						is_independent_ruler = yes
+						primary_title = { is_mercenary_company = no }
+					}
+					add_to_list = eastern_iranian_struggle_compromise_truce_list
+				}
+			}
+			while = {
+				limit = {
+					any_in_list = {
+						list = eastern_iranian_struggle_compromise_truce_list
+						NOT = { has_variable = fp2_struggle_compromise_flag }
+					}
+				}
+				ordered_in_list = {
+					list = eastern_iranian_struggle_compromise_truce_list
+					limit = {
+						NOT = { has_variable = fp2_struggle_compromise_flag }
+					}
+					order_by = realm_size
+					save_scope_as = realm_scope
+					set_variable = fp2_struggle_compromise_flag # variable ensures truces are set only once per couple
+				}
+				every_in_list = {
+					list = eastern_iranian_struggle_compromise_truce_list
+					limit = {
+						NOR = {
+							has_variable = fp2_struggle_compromise_flag
+							this = scope:realm_scope
+							has_truce = scope:realm_scope
+						}
+					}
+					add_truce_both_ways = {
+						character = scope:realm_scope
+						days = 3650
+						name = TRUCE_TFE_COMPROMISE_PERSIA
+					}
+				}
+			}
+			every_in_list = {
+				list = eastern_iranian_struggle_compromise_truce_list
+				remove_variable = fp2_struggle_compromise_flag
+			}
+		}
+	}
+}
 	}
 }
