@@ -7863,3 +7863,52 @@ hasan_expand_the_assassins = {
 		}
 	}
 }
+
+"common/script_values/00_war_values.txt" = {
+	{
+		# Haesteinn needs to stop merc'ing East Francia when the resulting kingdom simply will not last.
+		if = {
+			limit = { this = character:6878 }
+			# Assuming the player hasn't opted into batshit Vikings.
+			if = {
+				limit = {
+					NOT = { has_game_rule = fp1_scandi_adventurers_apocalyptic }
+				}
+				# Tell him to calm it down a bit and pick a damned duchy realm or something.
+				if = {
+					limit = {
+						scope:defender = {
+							OR = {
+								realm_size >= massive_realm_size
+								highest_held_title_tier >= tier_kingdom
+							}
+						}
+					}
+					multiply = 0
+				}
+				# ... and a bit of bonus score if said-realm is an NPC Mercia to get him to behave a bit more historically.
+				if = {
+					limit = {
+						scope:defender = {
+							primary_title = title:d_hereford
+							is_independent_ruler = yes
+							is_ai = yes
+						}
+					}
+					multiply = 100
+				}
+			}
+			# ... in which case, go extra wild.
+			else_if = {
+				limit = { has_game_rule = fp1_scandi_adventurers_apocalyptic }
+				# Nothing but a shiny new kingdom will satisfy apocalypse-Haesteinn.
+				if = {
+					limit = {
+						scope:defender = { highest_held_title_tier <= tier_duchy }
+					}
+					multiply = 0
+				}
+			}
+		}
+	}
+}

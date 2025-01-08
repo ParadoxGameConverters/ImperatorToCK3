@@ -477,6 +477,11 @@
 	}
 	{
 						NOT = {
+							THIS = character:alan_13
+						}
+	}
+	{
+						NOT = {
 							THIS = character:persian_armenia_01
 						}
 						NOT = {
@@ -2380,6 +2385,30 @@ on_TFE_east_asia_start = {
 				}
 			}
 		}
+	}
+}
+	}
+
+	{
+# A title is transferred to a new character
+# root = the new holder
+# scope:title = the title that changes hands
+# scope:previous_holder = previous holder. Might be dead
+on_title_gain = {	
+	events = {
+		delay = { days = 1 }
+		liang.0010		# Meng Min passes away and Li Gao becomes governor of Dunhuang
+	}
+}
+
+# A title is inherited by a character
+# root = the new holder
+# scope:title = the title that changes hands
+# scope:previous_holder = previous holder. Should be dead
+on_title_gain_inheritance = {
+	events = {
+		delay = { days = 1 }
+		liang.0010		# Meng Min passes away and Li Gao becomes governor of Dunhuang
 	}
 }
 	}
@@ -5563,7 +5592,7 @@ TFE_construct_khawarnaq = {
 	}
 }
 
-"common\decisions\TFE_rome_decisions.txt" = {
+"common/decisions/TFE_rome_decisions.txt" = {
 	{
 recall_belisarius = {
 	picture = {
@@ -5850,6 +5879,403 @@ vandalic_war = {
 		base = 100
 	}
 
+}
+	}
+
+	{
+break_eternal_peace = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds"
+	}
+	decision_group_type = major
+
+	ai_check_interval = 12
+
+	desc = break_eternal_peace_desc
+	selection_tooltip = break_eternal_peace_tooltip
+
+	is_shown = {
+		has_global_variable = has_eternal_peace
+		OR = {
+			has_title = title:e_byzantium
+			has_title = title:e_roman_empire
+			has_title = title:e_persia
+		}
+	}
+
+	effect = {
+		remove_global_variable = has_eternal_peace
+		root = {
+			save_scope_as = truce_breaker
+		}
+		if = {
+			limit = {
+				OR = {
+					has_title = title:e_byzantium
+					has_title = title:e_roman_empire
+				}
+				NOT = {
+					has_title = title:e_persia
+				}
+			}
+			title:e_persia.holder = {
+				save_scope_as = truce_breakee
+				add_opinion = {
+					modifier = angry_opinion
+					target = scope:truce_breaker
+					opinion = -100
+				}
+				trigger_event = {
+					id = TFE_flavour_events.0035
+					days = 1
+				}
+				every_vassal_or_below = {
+					trigger_event = {
+						id = TFE_flavour_events.0036
+						days = 1
+					}
+				}
+			}
+			every_vassal_or_below = {
+				trigger_event = {
+					id = TFE_flavour_events.0036
+					days = 1
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOT = {
+					OR = {
+						has_title = title:e_byzantium
+						has_title = title:e_roman_empire
+					}
+				}
+				has_title = title:e_persia
+			}
+			if = {
+				limit = {
+					exists = title:e_byzantium.holder
+				}
+				title:e_byzantium.holder = {
+					save_scope_as = truce_breakee
+					add_opinion = {
+						modifier = angry_opinion
+						target = scope:truce_breaker
+						opinion = -100
+					}
+					trigger_event = {
+						id = TFE_flavour_events.0035
+						days = 1
+					}
+					every_vassal_or_below = {
+						trigger_event = {
+							id = TFE_flavour_events.0036
+							days = 1
+						}
+					}
+				}
+				every_vassal_or_below = {
+					trigger_event = {
+						id = TFE_flavour_events.0036
+						days = 1
+					}
+				}
+				if = {
+					limit = {
+						exists = global_var:gothic_war_declared
+						NOT = { exists = global_var:gothic_war_won }
+						root = title:e_persia.holder
+					}
+					title:e_persia.holder = {
+						trigger_event = {
+							id = western_roman.0064
+							days = 1
+						}
+					}
+				}
+			}
+			if = {
+				limit = {
+					exists = title:e_roman_empire.holder
+				}
+				title:e_roman_empire.holder = {
+					save_scope_as = truce_breakee
+					add_opinion = {
+						modifier = angry_opinion
+						target = root
+						opinion = -100
+					}
+					trigger_event = {
+						id = TFE_flavour_events.0035
+						days = 1
+					}
+					every_vassal_or_below = {
+						trigger_event = {
+							id = TFE_flavour_events.0036
+							days = 1
+						}
+					}
+				}
+				every_vassal_or_below = {
+					trigger_event = {
+						id = TFE_flavour_events.0036
+						days = 1
+					}
+				}
+				if = {
+					limit = {
+						exists = global_var:gothic_war_declared
+						NOT = { exists = global_var:gothic_war_won }
+						root = title:e_persia.holder
+					}
+					title:e_persia.holder = {
+						trigger_event = {
+							id = western_roman.0064
+							days = 1
+						}
+					}
+				}
+			}
+		}
+	}
+
+	cost = {
+		prestige = {
+			if = {
+				limit = {
+					is_ai = no
+				}
+				add = {
+					value = 1000
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+		is_at_war = no
+	}
+	ai_will_do = {
+		base = 10
+		modifier = {
+			add = 30
+			has_title = title:e_persia
+		}
+		modifier = {
+			add = -50
+			current_date <= 540.1.1
+		}
+		modifier = {
+			add = 200
+			AND = {
+				has_title = title:e_persia
+				exists = global_var:gothic_war_declared
+				NOT = { exists = global_var:gothic_war_won }
+			}
+		}
+	}
+
+}
+	}
+
+	{
+vandalic_aftermath_vassals = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds"
+	}
+	decision_group_type = roman
+
+	ai_check_interval = 12
+
+	desc = vandalic_aftermath_vassals_desc
+	selection_tooltip = vandalic_aftermath_vassals_tooltip
+
+	is_shown = {
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:vandalic_aftermath_vassals
+			}
+		}
+		#OR = {
+		#	root = global_var:justinian
+		#	has_trait = zealous
+		#}
+		OR = {
+			has_title = title:e_byzantium
+			has_title = title:e_roman_empire
+		}
+		has_global_variable = vandalic_war_won
+		exists = title:k_africae.holder
+		title:k_africae.holder = {
+			any_vassal = {
+				faith = faith:arianism
+			}
+		}
+		current_date >= 530.1.1
+		current_date <= 570.1.1
+		game_start_date = 532.2.1
+	}
+
+	is_valid = {
+		NOT = { faith = faith:arianism }
+		is_at_war = no
+	}
+
+	effect = {
+		root = {
+			save_scope_as = emperor
+		}
+		title:k_africae.holder = {
+			save_scope_as = vicar
+		}
+		custom_tooltip = vandalic_aftermath_vassals_warning
+		every_vassal_or_below = {
+			limit = {
+				OR = {
+					culture = culture:vandal
+					liege = title:k_africae.holder
+				}
+				NOT = { faith = root.faith }
+				NOT = { culture =  { has_cultural_pillar = heritage_berber } }
+				vassal_contract_obligation_level_can_be_increased = religious_rights
+				highest_held_title_tier > tier_barony
+			}
+			add_opinion = {
+				modifier = angry_opinion
+				target = root
+				opinion = -20
+			}
+			trigger_event = {
+				id = western_roman.0043
+				days = 1
+			}
+		}
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:vandalic_aftermath_vassals
+		}
+	}
+
+	cost = {
+		prestige = {
+			if = {
+				limit = {
+					is_ai = no
+				}
+				add = {
+					value = 500
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+		is_at_war = no
+	}
+	ai_will_do = {
+		base = 100
+	}
+}
+	}
+
+	{
+start_gothic_war = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds"
+	}
+	decision_group_type = roman
+
+	ai_check_interval = 6
+
+	desc = start_gothic_war_desc
+	selection_tooltip = start_gothic_war_tooltip
+
+	is_shown = {
+		OR = {
+			has_title = title:e_byzantium
+			has_title = title:e_roman_empire
+		}
+		NOT = {
+			exists = global_var:gothic_war_declared
+		}
+		exists = global_var:gothic_war_cycle_prep
+		current_date >= 530.1.1
+		current_date <= 600.1.1
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:started_gothic_war
+			}
+		}
+		game_start_date = 532.2.1
+	}
+
+	is_valid = {
+		is_at_war = no
+		trigger_if = {
+			limit = {
+				is_ai = yes
+			}
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:recall_belisarius
+			}
+		}
+	}
+
+	effect = {
+		root = {
+			trigger_event = {
+				id = germanic_events.0025
+				days = 1
+			}
+		}
+		custom_tooltip = gothic_war_belisarius_warning
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:started_gothic_war
+		}
+	}
+
+	cost = {
+		prestige = {
+			if = {
+				limit = {
+					is_ai = no
+				}
+				add = {
+					value = 500
+				}
+			}
+		}
+		gold = {
+			if = {
+				limit = {
+					is_ai = no
+				}
+				add = {
+					value = 250
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+		is_at_war = no
+	}
+	ai_will_do = {
+		base = 10
+		modifier = {
+			add = -10
+			current_date <= 540.1.1
+		}
+		modifier = {
+			add = 100
+			exists = global_var:vandalic_war_won
+		}
+	}
 }
 	}
 }
@@ -16500,5 +16926,271 @@ on_senate_tasks_2_years_eastern = {
 								}
 								create_artifact_curtana_effect = { OWNER = ROOT }
 							}
+	}
+}
+
+"common/character_interactions/00_war.txt" = {
+	{
+		modifier = {
+			trigger = {
+				OR = {
+					scope:war = {
+						using_cb = gothic_duchy_conquest_cb
+					}
+					scope:war = {
+						using_cb = gothic_war_regular_cb
+					}
+					scope:war = {
+						using_cb = cb_gothic_wars_amalasuntha
+					}
+				}
+			}
+			add = -1000
+			
+			desc = "GOTHIC_WAR_NO_PEACE"
+		}
+	}
+}
+
+"common/decisions/80_major_decisions_middle_europe.txt" = {
+	{
+#############################
+# Refound HRE 				#
+# by Ewan Cowhig Croft		#
+#############################
+restore_holy_roman_empire_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
+	}
+	decision_group_type = major
+
+	ai_check_interval = 12
+
+	desc = restore_holy_roman_empire_decision_desc
+	selection_tooltip = restore_holy_roman_empire_decision_tooltip
+
+	is_shown = {
+		always = no
+	}
+
+	is_valid = {
+		#Standard requirements.
+		is_independent_ruler = yes
+		trigger_if = {
+			limit = {
+				is_ai = no
+			}
+			prestige_level >= high_prestige_level
+		}
+		#Title ownership conditions.
+		OR = { #Gotta be King of a core Carolingian Kingdom.
+			has_title = title:k_east_francia
+			has_title = title:k_bavaria
+			has_title = title:k_france
+			has_title = title:k_italy
+			has_title = title:k_lotharingia
+			any_vassal = {
+				OR = {
+					has_title = title:k_east_francia
+					has_title = title:k_bavaria
+					has_title = title:k_france
+					has_title = title:k_italy
+					has_title = title:k_lotharingia
+				}
+			}
+		}
+		trigger_if = {
+			limit = {
+				is_ai = no
+			}
+			custom_description = {	#And have some additional royal dignity for good measure.
+				text = decision_refound_hre_own_three_kingdoms.tt
+				any_held_title = {
+					tier = tier_kingdom
+					count >= 3
+				}
+			}
+		}
+		sub_realm_size >= 120	#Plus your various kingdoms should be ruling something.
+		#HoF preference conditions.
+		trigger_if = {
+			limit = {
+				is_ai = no
+			}
+			OR = {
+				faith.religious_head = {	#And they have to actually like you enough to want to invest you.
+					opinion = {
+						target = root
+						value >= high_positive_opinion
+					}
+				}
+				root = { has_strong_usable_hook = faith.religious_head }	#Or you have a strong hook on them that you can actually use.
+				root = { has_weak_hook = faith.religious_head }	#Or a regular hook, to be fair, provided you meet the other criteria.
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		faith.religious_head = { is_available_adult = yes }
+		NOR = {
+			has_trait = excommunicated
+			is_at_war_with = faith.religious_head
+		}
+	}
+
+	effect = {
+		show_as_tooltip = {
+			restore_holy_roman_empire_decision_scripted_effect = yes
+		}
+		gain_heroic_legend_seed_tooltip_effect = yes
+		save_scope_as = founder
+		faith.religious_head = { save_scope_as = founder_hof }
+		if = {
+			limit = {
+				faith.religious_head = { is_playable_character = yes }
+			}
+			faith.religious_head.capital_province = { save_scope_as = ceremony_locale }
+		}
+		else = {
+			capital_province = { save_scope_as = ceremony_locale }
+		}
+		trigger_event = {
+			id = middle_europe_decisions.0015
+		}
+		#Notify other players.
+		every_player = {
+			limit = {
+				NOT = { this = root }
+				is_within_diplo_range = { CHARACTER = root }
+			}
+			trigger_event = middle_europe_decisions.0016
+		}
+		if = {
+			limit = {
+				is_ai = no
+				NOT = { exists = global_var:restore_holy_roman_empire_decision  }
+			}
+			set_global_variable = {
+				name = restore_holy_roman_empire_decision
+				value = root
+			}
+		}
+		# Assign Dynamic Prince-Electors
+		hidden_effect = {
+			if = {
+				limit = { has_global_variable_list = hre_elector_list }
+				clear_global_variable_list = hre_elector_list
+			}
+			while = {
+				count = 7
+				random_vassal = {
+					limit = {
+						capital_province.empire = title:e_hre # must be de-jure vassal of empire
+						OR = { # prince-bishopric or duchy
+							AND = {
+								government_has_flag = government_is_theocracy
+								primary_title.tier >= tier_county
+							}
+							primary_title.tier >= tier_duchy
+						}
+						NOT = { # not already selected
+							is_target_in_global_variable_list = {
+								name = hre_elector_list
+								target = primary_title
+							}
+						}
+					}
+					weight = {
+						modifier = { # major vassals heavily weighted
+							factor = 10
+							is_powerful_vassal = yes
+						}
+						modifier = { # same culture as emperor preferred
+							factor = 4
+							culture = root.culture
+						}
+						modifier = { # we don't mind going outside Germania, but prefer it
+							factor = 1.5
+							trigger = { exists = primary_title.title_province }
+							primary_title.title_province.barony = {
+								OR = {
+									target_is_de_jure_liege_or_above = title:k_bavaria
+									target_is_de_jure_liege_or_above = title:k_bohemia
+									target_is_de_jure_liege_or_above = title:k_east_francia
+									target_is_de_jure_liege_or_above = title:k_frisia
+									target_is_de_jure_liege_or_above = title:k_lotharingia
+									target_is_de_jure_liege_or_above = title:k_pomerania
+								}
+							}
+						}
+						modifier = { # we want at least 3 theocracies ideally
+							factor = 10
+							any_in_global_list = {
+								variable = hre_elector_list
+								count < 3
+								holder = { government_has_flag = government_is_theocracy }
+							}
+							government_has_flag = government_is_theocracy
+						}
+						modifier = { # 3 is enough theocracies unless we can't find feudal
+							factor = 0.1
+							any_in_global_list = {
+								variable = hre_elector_list
+								count >= 3
+								holder = { government_has_flag = government_is_theocracy }
+							}
+							government_has_flag = government_is_theocracy
+						}
+					}
+					add_to_global_variable_list = {
+						name = hre_elector_list
+						target = primary_title
+					}
+				}
+			}
+			hre_elector_list_save_effect = yes # saves list scopes to title as variables for tooltip
+		}
+	}
+
+	cost = {
+		gold = {
+			if = {
+				limit = {
+					is_ai = no
+				}
+				add = 500
+			}
+		}
+		piety = 200
+	}
+
+	ai_potential = {
+		is_independent_ruler = yes
+		highest_held_title_tier >= tier_kingdom
+	}
+
+	ai_will_do = {
+		base = 100
+
+		modifier = { # We don't want a solo-France to form the HRE
+			factor = 0
+			NOR = {
+				has_title = title:k_east_francia
+				has_title = title:k_bavaria
+				has_title = title:k_italy
+				has_title = title:k_lotharingia
+				any_vassal = {
+					OR = {
+						has_title = title:k_east_francia
+						has_title = title:k_bavaria
+						has_title = title:k_italy
+						has_title = title:k_lotharingia
+					}
+				}
+			}
+		}
+	}
+}
 	}
 }
