@@ -751,8 +751,8 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return ids;
 	}
 	public void SetHolder(Character? character, Date date) {
-		var id = character is null ? "0" : character.Id;
-		History.AddFieldValue(date, "holder", "holder", id);
+		var holderId = character is null ? "0" : character.Id;
+		History.AddFieldValue(date, "holder", "holder", holderId);
 	}
 
 	public void SetDevelopmentLevel(int value, Date date) {

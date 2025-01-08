@@ -275,7 +275,7 @@ internal sealed partial class Title {
 				}
 
 				holderField.RemoveAllEntries(
-					value => value.ToString() is string valStr && valStr != "0" && !validIds.Contains(valStr)
+					value => value.ToString()?.RemQuotes() is string valStr && valStr != "0" && !validIds.Contains(valStr)
 				);
 			}
 			
@@ -313,7 +313,7 @@ internal sealed partial class Title {
 					}
 					
 					var lastEntry = entriesList.Last();
-					var liegeTitleId = lastEntry.Value.ToString();
+					var liegeTitleId = lastEntry.Value.ToString()?.RemQuotes();
 					if (liegeTitleId is null || liegeTitleId == "0") {
 						continue;
 					}
@@ -324,9 +324,9 @@ internal sealed partial class Title {
 						// Instead of removing the liege entry, see if the liege title has a holder at a later date,
 						// and move the liege entry to that date.
 						liegeTitle.History.Fields.TryGetValue("holder", out var liegeHolderField);
-						Date? laterDate = liegeHolderField?.DateToEntriesDict.Keys
-							.Where(d => d > date && d <= ck3BookmarkDate)
-							.Min();
+						Date? laterDate = liegeHolderField?.DateToEntriesDict
+							.Where(kvp => kvp.Value.Count != 0 && kvp.Key > date && kvp.Key <= ck3BookmarkDate)
+							.Min(kvp => kvp.Key);
 
 						if (laterDate == null) {
 							liegeField.DateToEntriesDict.Remove(date);

@@ -2362,6 +2362,13 @@ on_TFE_east_asia_start = {
 	{
 			NOT = { title:c_trapani.holder = character:belisarius_001 }
 	}
+	{
+		if = {
+			limit = { character:90028 ?= this }
+			custom_tooltip = ep3_story_cycle_harrying.3053.b.tt
+			add_character_flag = hereward_settled_flag
+		}
+	}
 }
 
 "common/scripted_triggers/tfe_culture_triggers.txt" = {
@@ -5268,6 +5275,21 @@ radagaisus_declare_war_for_target_title_effect = {
 	}
 	else = {
 		debug_log = "Failed to find a valid war target for Radagaisus!"
+	}
+}
+	}
+
+	{
+goths_flee_effect = {
+	title:k_visigoths.holder = {
+		save_scope_as = visigothic_king
+	}
+
+	scope:visigothic_king = {
+		trigger_event = {
+			id = gothic_wars.0015
+			days = 1
+		}
 	}
 }
 	}
@@ -12694,5 +12716,21 @@ steppe.6666 = {
 "common/culture/name_lists/TFE_easter_egg.txt" = {
 	{
 		NÃ¤cken
+	}
+}
+
+"common\scripted_modifiers\00_faction_modifiers.txt" = {
+	{
+	# Keep it while the Calip is alive
+	modifier = {
+		add = -1000
+		$FACTION_TARGET$ = {
+			this = character:73683
+			any_held_title = {
+				this = title:k_andalusia
+			}
+		}
+		has_game_rule = dissolution_after_caliph_death
+	}
 	}
 }
