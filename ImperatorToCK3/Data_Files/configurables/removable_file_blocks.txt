@@ -8355,7 +8355,9 @@ scripted_effect scandi_adventurers_grab_famous_character_effect = {
 		}
 	}
 }
-
+	}
+	
+	{
 fp1_scandinavian_adventurers.0012 = {
 	hidden = yes
 	scope = none

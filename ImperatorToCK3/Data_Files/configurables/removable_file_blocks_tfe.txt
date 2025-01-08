@@ -11298,6 +11298,42 @@ western_roman.0075 = {
 		}		
 	}
 }
+
+western_roman.0076 = {
+	type = character_event
+	title = western_roman.0076.t
+	desc = western_roman.0076.desc
+	override_icon = { reference = "gfx/interface/icons/event_types/special_rhomaion.dds" }
+	theme = realm
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	option = {
+		name = western_roman.0076.a
+		scope:emperor = {
+			every_character_war = {
+				limit = {
+					using_cb = independence_war_berber
+					casus_belli = {
+						primary_defender = scope:emperor
+					}
+				}
+				add_defender = root
+			}
+		}
+		ai_chance = {
+			base = 100
+		}		
+	}
+	option = {
+		name = western_roman.0076.b
+		ai_chance = {
+			base = 0
+		}		
+	}
+}
 	}
 
 	{
@@ -17195,8 +17231,1628 @@ restore_holy_roman_empire_decision = {
 	}
 }
 
+"common/struggle\struggles/tfe_eastern_iranian_struggle.txt" = {
+	{
+eastern_iranian_struggle = {
+	# has_fp2_dlc_trigger = yes  #TODO_CD_AN Request support for dlc locking on struggles
+
+	##################################################
+	# Setup
+	##################################################
+	cultures = {
+		# Iranian
+		persian
+		parthian
+		khwarezmian
+		old_ferghanan
+		ferghanan
+
+		# Serindian
+        sogdian
+		bactrian
+		pactyan
+		hephthalite
+		wusun # Add for 476 and after
+		xionite
+		yuezhi
+		saka
+
+		# Indo-Aryan
+		kashmiri
+		nuristani
+		burusho
+
+		# Sarmatian
+		kangju
+
+		# Turkic
+		avar
+		kangar
+
+		# Semitic
+		assyrian
+
+	}	
+
+	faiths = {
+
+		# Zoroastrian
+		mazdayasna
+		gayomarthianism
+		khurmazta
+		mazdakism
+
+		# Dualism
+		manichean
+		#mandeaism
+		#quqite
+
+		# Christian
+		nicene # Should be disabled after 476
+		marcionite
+		bardaisanism
+		# Christian faiths below become involved once they are spawned
+		nestorian
+
+		# Zun
+		zun_pagan
+
+		# Dezawist
+		nuristani_pagan
+
+		# Tengri
+		tengri_pagan
+
+		# Buddhism
+		mahayana
+		pudgalavada
+		dharmaguptaka
+		sarvastivada
+		mahasanghika
+		vajrayana
+
+		# Hinduism
+		shaivism
+		vaishnavism
+		
+		# Greco-Roman
+		#roman_pagan
+		#hellenic_pagan
+
+		# Judaism
+		malabarism
+
+	}
+	regions = { 
+		TFE_eastern_iranian_struggle_region
+	}
+
+	# A culture or faith becomes involved if 50% of the total number of counties belonging to it are inside the struggle region.
+	involvement_prerequisite_percentage = 0.5
+
+	on_start = {
+		# Starting Events
+		trigger_event = { on_action = tfe_eastern_iranian_struggle_starting_events }
+	}
+
+	on_change_phase = {
+
+		# Set up AI Intent
+		trigger_event = eastern_iranian_struggle.0003
+	}
+	
+	# Root = the current struggle
+	# scope:character = the character which has joined the struggle
+ 	on_join = {
+		if = {
+			limit = {
+				is_ai = no
+			}
+
+			trigger_event = eastern_iranian_struggle.0501
+		}
+		else = {
+			# assign an intent to the freshly joined character
+			trigger_event = eastern_iranian_struggle.0004
+		}
+ 	}  
+
+	##################################################
+	# Phases
+	##################################################
+	start_phase = struggle_TFE_eastern_iranian_phase_expansion	
+	
+	phase_list = {
+
+		# Opportunity Phase represents complacency after a long period of coexistence during Conciliation; people are comfortable that things are good and so actors with ill-intent can get away with things once again.
+		struggle_TFE_eastern_iranian_phase_expansion = {
+			##################################################
+			# General Set-Up
+
+			background = "gfx/interface/illustrations/struggle_backgrounds/struggle_opportunity_middle_east.dds"
+			
+			future_phases = {
+				struggle_TFE_eastern_iranian_phase_hostility = {						
+					catalysts = {
+						catalyst_passing_of_time = minimal_struggle_catalyst_gain
+						catalyst_gain_claim_on_title = minor_struggle_catalyst_gain
+						catalyst_win_any_war_within_the_region = minor_struggle_catalyst_gain # Good
+						catalyst_new_building_in_castle = minor_struggle_catalyst_gain # How to do AI?
+						catalyst_becomes_rival_with_involved = major_struggle_catalyst_gain # Good
+						catalyst_using_a_hook_on_very_important_character = medium_struggle_catalyst_gain # good
+						catalyst_unnatural_death_important_character = medium_struggle_catalyst_gain
+						catalyst_usurp_title = major_struggle_catalyst_gain # good
+						catalyst_forced_conversion = medium_struggle_catalyst_gain
+						catalyst_reveal_secret_important = major_struggle_catalyst_gain
+						catalyst_broke_truce_against_important_character = massive_struggle_catalyst_gain # Cannot motivate the AI to do that without code support
+						catalyst_tfe_declared_war = major_struggle_catalyst_gain
+					}
+				}
+				struggle_TFE_eastern_iranian_phase_development = {
+					catalysts = {
+						catalyst_improve_development_vassal_diff_faith_culture = minimal_struggle_catalyst_gain # How to do AI?
+						catalyst_gift_independent_ruler = minor_struggle_catalyst_gain # AI done
+						catalyst_became_friend_lover_with_character = minor_struggle_catalyst_gain
+						catalyst_learned_new_language_important = minor_struggle_catalyst_gain # AI done
+						catalyst_new_building_in_city = minor_struggle_catalyst_gain # How to do AI?
+						catalyst_sign_truce_outside_war = minor_struggle_catalyst_gain # will need update when addding truce through wards
+						catalyst_formed_interreligious_alliance_with_important_character = minor_struggle_catalyst_gain
+						catalyst_ransom_important = medium_struggle_catalyst_gain
+						catalyst_grant_privilege_to_diff_faith_culture_vassal = medium_struggle_catalyst_gain
+						catalyst_invite_diff_faith_culture_to_feast = medium_struggle_catalyst_gain
+						catalyst_independence_from_non_dejure_vassal = major_struggle_catalyst_gain
+						catalyst_grant_land_local_noble = major_struggle_catalyst_gain
+						catalyst_became_best_friend_soulmate_with_very_important_character = major_struggle_catalyst_gain # AI done
+						catalyst_convert_local_culture_faith = major_struggle_catalyst_gain
+						catalyst_release_important = massive_struggle_catalyst_gain
+					}
+				}
+			}
+
+			war_effects = {
+				###### Common
+
+				# Nothing
+
+				###### Involved
+				involved_parameters = {
+					claims_in_region_cost_prestige_not_gold_for_involved_parties = yes
+					involved_or_interloper_wars_in_struggle_region_cheaper_prestige_costs = yes
+					unlocks_border_raid_casus_belli = yes
+					unlocks_contract_assistance_interaction = yes
+					unlocks_bargain_fealty_interaction = yes
+					more_nomadic_migration_armies = yes
+					cheaper_nomadic_migrations_within_struggle_region = yes
+				}
+
+				involved_character_modifier = {
+					mercenary_hire_cost_mult = -0.3
+					ai_war_chance = 0.25
+					ai_war_cooldown = -0.25
+				}
+
+				###### Interlopers
+				interloper_parameters = {
+					involved_or_interloper_wars_in_struggle_region_cheaper_prestige_costs = yes
+				}
+
+				###### Uninvolved
+
+				# Nothing
+			}
+
+			faith_effects = {
+				###### Common
+				common_parameters = {
+					cheaper_to_convert_to_struggle_faith = yes
+					county_faith_conversion_in_region_proceeds_faster = yes
+					#holy_wars_in_region_cannot_be_declared = yes
+				}
+
+				###### Involved
+				involved_parameters = {
+					interfaith_marriages_available_between_involved_characters = yes
+				}
+
+				###### Interlopers
+
+				# Nothing
+
+				###### Uninvolved
+
+				# Nothing
+
+			}
+
+			culture_effects = {
+				###### Common
+				common_parameters = {
+					cheaper_to_convert_to_struggle_culture = yes
+				}
+
+				###### Involved
+				involved_parameters = {
+					learning_languages_gives_prestige = yes
+					granting_title_to_local_noble_gives_prestige = yes
+					gain_acceptance_when_developing_other_culture_county = yes
+				}
+
+				###### Interlopers
+
+				# Nothing
+
+				###### Uninvolved
+
+				# Nothing
+			}
+
+			other_effects = {
+				###### Common
+
+				# Nothing
+
+
+				###### Involved
+				involved_parameters = {
+					unlocks_buy_claim_for_all = yes
+					unlocks_demand_payments_for_all = yes
+					unlocks_abduct_for_all = yes
+					unlocks_fabricate_hooks_for_all = yes
+					unlocks_claim_throne_for_all = yes
+					unlocks_incite_revolts_interaction = yes
+					struggle_unlocks_befriend_schemes_for_everyone = yes
+					unlocks_epic_commission_for_independent_rulers = yes
+					unlocks_truce_purchasing_interaction = yes
+					unlocks_sell_minor_title_for_kings_and_higher = yes
+				}
+
+				###### Interlopers
+				interloper_parameters = {
+					
+				}
+
+				interloper_character_modifier = {
+					county_opinion_add = -5
+					#tax_mult = -0.1
+				}
+
+				###### Uninvolved
+				uninvolved_parameters = {
+					
+				}
+
+				uninvolved_county_modifier = {
+					county_opinion_add = -10
+					#tax_mult = -0.15
+				}
+
+			}
+
+			#We are listing all available decision to give players insights on how they can end the Struggle
+			ending_decisions = {
+				struggle_eastern_iranian_ending_domination_decision
+				struggle_eastern_iranian_ending_silk_road_decision
+				struggle_eastern_iranian_ending_compromise_decision
+			 }
+		}
+
+		# The Hostility phase accounts for the more brutal & fundamentalist side of the struggle; intolerance and violence break out even in stable areas & resentments over slights real or imagined escalate dramatically.
+		# Should we add a transition to Opportunity? A smaller deescalation than going to compromise
+		struggle_TFE_eastern_iranian_phase_hostility = {
+			##################################################
+			# General Set-Up
+
+			background = "gfx/interface/illustrations/struggle_backgrounds/struggle_opportunity_middle_east.dds"
+
+			future_phases = {
+				struggle_TFE_eastern_iranian_phase_compromise = {
+					catalysts = {
+						catalyst_passing_of_time = minimal_struggle_catalyst_gain
+						catalyst_improve_development_vassal_diff_faith_culture = minimal_struggle_catalyst_gain
+						catalyst_gift_independent_ruler = minor_struggle_catalyst_gain
+						catalyst_became_friend_lover_with_character = minor_struggle_catalyst_gain
+						catalyst_learned_new_language_important = minor_struggle_catalyst_gain
+						catalyst_new_building_in_city = minor_struggle_catalyst_gain
+						catalyst_sign_truce_outside_war = minor_struggle_catalyst_gain
+						catalyst_formed_interreligious_alliance_with_important_character = minor_struggle_catalyst_gain
+						catalyst_ransom_important = medium_struggle_catalyst_gain
+						catalyst_grant_privilege_to_diff_faith_culture_vassal = medium_struggle_catalyst_gain
+						catalyst_invite_diff_faith_culture_to_feast = medium_struggle_catalyst_gain
+						catalyst_independence_from_non_dejure_vassal = major_struggle_catalyst_gain
+						catalyst_grant_land_local_noble = major_struggle_catalyst_gain
+						catalyst_became_best_friend_soulmate_with_very_important_character = major_struggle_catalyst_gain
+						catalyst_convert_local_culture_faith = major_struggle_catalyst_gain
+						catalyst_release_important = massive_struggle_catalyst_gain
+					}
+				}
+			}
+
+			war_effects = {
+				###### Common
+				
+				# Nothing
+
+				##### Involved
+				involved_parameters = {
+					struggle_cb_cost_minor = yes
+					truces_by_involved_or_interlopers_within_region_shorter = yes
+					involved_or_interloper_wars_in_struggle_region_cheaper_piety_costs = yes
+					involved_or_interloper_wars_in_struggle_region_cheaper_costs = yes
+					unlocks_border_raid_casus_belli = yes
+					unlocks_forced_vassalization_casus_belli = yes
+				}
+
+				involved_character_modifier = {
+					same_culture_mercenary_hire_cost_mult = -0.3
+					ai_war_chance = 1
+					ai_war_cooldown = -0.5
+					army_pursuit_mult = 0.2
+					army_siege_value_mult = 0.2
+					enemy_hard_casualty_modifier = 0.5
+					advantage = 5 # gives the upper hand against outsiders
+				}
+
+				###### Interlopers
+				interloper_parameters = {
+					truces_by_involved_or_interlopers_within_region_shorter = yes
+					involved_or_interloper_wars_in_struggle_region_cheaper_piety_costs = yes
+					involved_or_interloper_wars_in_struggle_region_cheaper_costs = yes
+				}
+
+				interloper_character_modifier = {
+					enemy_hard_casualty_modifier = 0.5
+				}
+
+				###### Uninvolved
+				uninvolved_parameters = {
+					#claims_in_region_more_expensive_to_press_for_uninvolved = yes
+				}
+
+			}
+
+			faith_effects = {
+				###### Common
+				common_parameters = {
+					county_faith_conversion_in_region_proceeds_slower = yes
+					#holy_wars_in_region_cannot_be_declared = yes # not sure if relevant?
+				}
+
+				###### Involved
+				involved_parameters = {
+					#holy_order_can_be_created_by_dukes = yes
+					interfaith_marriages_available_between_involved_characters = yes
+					interfaith_marriages_between_involved_characters_costs_piety = yes
+				}
+
+				involved_character_modifier = {
+					levy_reinforcement_rate_same_faith = 0.5
+					domain_tax_different_faith_mult = 0.25
+					#holy_order_hire_cost_mult = -0.25
+
+					opinion_of_different_faith = -10
+				}
+
+				###### Interlopers
+				interloper_character_modifier = {
+					#holy_order_hire_cost_mult = -0.25
+				}
+
+				###### Uninvolved
+
+				# Nothing
+			}
+
+			culture_effects = {
+
+				###### Common
+				common_parameters = {
+					county_culture_conversion_in_region_proceeds_slower = yes
+				}
+
+				###### Involved
+				involved_character_modifier = {
+					opinion_of_different_culture = -10
+
+					cultural_head_fascination_mult = -0.5
+					cultural_head_acceptance_gain_mult = -0.5
+				}
+				###### Interlopers
+				interloper_character_modifier = {
+					cultural_head_fascination_mult = -0.25
+					cultural_head_acceptance_gain_mult = -0.25
+				}
+				###### Uninvolved
+
+				# Nothing
+			}
+
+			other_effects = {
+				###### Common
+				
+				# Nothing
+
+				###### Involved
+				involved_parameters = {
+					# struggle_vips_and_culture_faith_heads_may_develop_spontaneous_negative_relations = yes
+					powerful_vassal_can_claim_liege_titles = yes
+					unlocks_claim_throne_for_powerful_vassals = yes
+					unlocks_truce_purchasing_interaction = yes
+					unlocks_expedite_scheme_decision = yes
+				}
+
+				involved_character_modifier = {
+					max_hostile_schemes_add = 1
+				}
+
+				involved_county_modifier = {
+					development_growth_factor = -0.3
+					tax_mult = -0.1
+				}
+
+				###### Interlopers
+				interloper_parameters = {
+					
+				}
+
+				interloper_county_modifier = {
+					county_opinion_add = -5
+					tax_mult = -0.30
+					development_growth_factor = -0.4
+				}
+
+				###### Uninvolved
+				uninvolved_parameters = {
+					
+				}
+
+				uninvolved_county_modifier = {
+					county_opinion_add = -10
+					tax_mult = -0.75
+
+					development_growth_factor = -0.5
+				}
+			}
+
+			##################################################
+			# Ending
+
+			#We are listing all available decision to give players insights on how they can end the Struggle
+			ending_decisions = {
+				struggle_eastern_iranian_ending_domination_decision
+				struggle_eastern_iranian_ending_silk_road_decision
+				struggle_eastern_iranian_ending_compromise_decision
+			 }
+		}
+
+		# Compromise happens either when Hostility has gone on so long that people are sick of it, or else when Hostility has been narrowly avoided after a bout of Tension and folks're relieved; shared trauma and too much violence encourage people to calm down and live and let live.
+		struggle_TFE_eastern_iranian_phase_compromise = {
+			##################################################
+			# General Set-Up
+
+			background = "gfx/interface/illustrations/struggle_backgrounds/struggle_opportunity_middle_east.dds"
+
+			future_phases = {
+				struggle_TFE_eastern_iranian_phase_expansion = {
+					catalysts = {
+						catalyst_passing_of_time = minimal_struggle_catalyst_gain
+						catalyst_gain_claim_on_title = minor_struggle_catalyst_gain
+						catalyst_win_any_war_within_the_region = minor_struggle_catalyst_gain # Good
+						catalyst_new_building_in_castle = minor_struggle_catalyst_gain # Good
+						catalyst_becomes_rival_with_involved = major_struggle_catalyst_gain # Good
+						catalyst_using_a_hook_on_very_important_character = medium_struggle_catalyst_gain # good
+						catalyst_unnatural_death_important_character = medium_struggle_catalyst_gain
+						catalyst_usurp_title = major_struggle_catalyst_gain # good
+						catalyst_forced_conversion = medium_struggle_catalyst_gain
+						catalyst_reveal_secret_important = major_struggle_catalyst_gain
+						catalyst_broke_truce_against_important_character = massive_struggle_catalyst_gain # Cannot motivate the AI to do that without code support
+						catalyst_tfe_declared_war = major_struggle_catalyst_gain
+					}
+				}
+			}
+
+			war_effects = {
+				###### Common
+				common_parameters = {
+					struggle_clash_restricted_to_single_county = yes
+				}
+
+				###### Involved
+				involved_parameters = {
+					white_peace_acceptance_between_involved_or_interloper_with_region_easier = yes
+					truces_by_involved_or_interlopers_within_region_longer = yes
+					struggle_cheaper_buy_truce = yes
+					unlocks_enforce_truces_interaction = yes
+					struggle_cb_cost_major = yes
+					involved_or_interloper_diff_faith_wars_in_struggle_region_more_expensive_prestige_costs = yes
+					apply_truce_when_sending_ward = yes
+					invasion_conquest_war_cannot_be_declared = yes
+				}
+
+				involved_character_modifier = {
+					ai_war_chance = -0.25
+					ai_war_cooldown = 0.25
+
+					levy_reinforcement_rate_friendly_territory = 0.5
+					levy_reinforcement_rate_same_faith = 0.5
+					garrison_size = 0.25
+					defender_advantage = 5
+				}
+				###### Interlopers
+				interloper_parameters = {
+					white_peace_acceptance_between_involved_or_interloper_with_region_easier = yes
+					truces_by_involved_or_interlopers_within_region_longer = yes
+					involved_or_interloper_diff_faith_wars_in_struggle_region_more_expensive_prestige_costs = yes
+				}
+
+				interloper_county_modifier = {
+					monthly_county_control_change_at_war_add = -0.01
+					monthly_county_control_change_at_war_mult = -0.25
+
+					defender_holding_advantage = -5
+				}
+
+				###### Uninvolved
+				uninvolved_county_modifier = {
+					monthly_county_control_change_at_war_add = -0.02
+					monthly_county_control_change_at_war_mult = -0.5
+
+					defender_holding_advantage = -10
+				}
+			}
+
+			faith_effects = {
+				###### Common
+				common_parameters = {
+					holy_wars_in_region_cannot_be_declared = yes
+					county_faith_conversion_in_region_proceeds_slower = yes
+				}
+
+				###### Involved
+				involved_parameters = {
+					interfaith_marriages_available_between_involved_characters = yes
+					piety_from_new_alliance = yes
+					completing_building_in_temple_gives_piety = yes
+					release_prisoner_diff_faith_gives_prestige = yes
+					same_faith_friend_piety_gain = yes
+				}
+
+				involved_character_modifier = {
+					opinion_of_different_faith = 10
+				}
+
+				###### Interlopers
+				interloper_character_modifier = {
+					opinion_of_different_faith = 10
+				}
+
+				###### Uninvolved
+
+				# Nothing
+			}
+
+			culture_effects = {
+				###### Common
+				common_parameters = {
+					county_culture_conversion_in_region_proceeds_faster = yes
+				}
+
+				###### Involved
+				involved_parameters = {
+					release_prisoner_diff_culture_gives_prestige = yes
+				}
+
+				involved_character_modifier = {
+					cultural_head_acceptance_gain_mult = 0.5
+					opinion_of_different_culture = 10
+					max_learn_language_schemes_add = 1
+				}
+
+				###### Interlopers
+				interloper_character_modifier = {
+					opinion_of_different_culture = 5
+					max_learn_language_schemes_add = 1
+				}
+
+				###### Uninvolved
+
+				# Nothing
+			}
+
+			other_effects = {
+				###### Common
+
+				# Nothing
+
+				###### Involved
+
+				involved_parameters = {
+					completing_building_in_castle_gives_development = yes
+					granting_independence_to_non_dejure_gives_renown = yes
+					struggle_grant_titles_diff_faith_culture_gives_prestige = yes
+				}
+
+				involved_county_modifier = {
+					castle_holding_build_gold_cost = -0.25
+					castle_holding_holding_build_gold_cost = -0.25
+				}
+
+				###### Interlopers
+				interloper_character_modifier = {
+					county_opinion_add = -5
+					tax_mult = -0.25
+				}
+
+				###### Uninvolved
+				uninvolved_county_modifier = {
+					county_opinion_add = -10
+					tax_mult = -0.5
+				}
+			}
+
+			##################################################
+			# Ending
+
+			#We are listing all available decision to give players insights on how they can end the Struggle
+			ending_decisions = {
+				struggle_eastern_iranian_ending_domination_decision
+				struggle_eastern_iranian_ending_silk_road_decision
+				struggle_eastern_iranian_ending_compromise_decision
+			 }
+		}
+
+		# During Conciliation Phase, things have gotten so amicable that societies outside the Struggle often find relations difficult to parse; interfaith marriages & myriad cultural changes are common.
+		# We s
+		struggle_TFE_eastern_iranian_phase_development = {
+			##################################################
+			# General Set-Up
+
+			background = "gfx/interface/illustrations/struggle_backgrounds/struggle_opportunity_middle_east.dds"
+
+			future_phases = {
+				struggle_TFE_eastern_iranian_phase_compromise = {
+					catalysts = {
+						catalyst_passing_of_time = minimal_struggle_catalyst_gain
+						catalyst_gain_claim_on_title = minor_struggle_catalyst_gain
+						catalyst_win_any_war_within_the_region = minor_struggle_catalyst_gain # Good
+						catalyst_new_building_in_castle = minor_struggle_catalyst_gain # Good
+						catalyst_becomes_rival_with_involved = major_struggle_catalyst_gain # Good
+						catalyst_using_a_hook_on_very_important_character = medium_struggle_catalyst_gain # good
+						#- Host a Feast when having at least two different-faith vassals
+						catalyst_unnatural_death_important_character = medium_struggle_catalyst_gain
+						catalyst_usurp_title = major_struggle_catalyst_gain # good
+						catalyst_forced_conversion = medium_struggle_catalyst_gain
+						catalyst_reveal_secret_important = major_struggle_catalyst_gain
+						catalyst_broke_truce_against_important_character = massive_struggle_catalyst_gain # Cannot motivate the AI to do that without code support
+					}
+				}
+			}
+
+			war_effects = {
+				###### Common
+				common_parameters = {
+					invasion_conquest_war_cannot_be_declared = yes
+					struggle_clash_restricted_to_single_county = yes
+				}
+
+				###### Involved
+
+				involved_parameters = {
+					struggle_cb_cost_major = yes
+					struggle_cheaper_buy_truce = yes
+					truces_by_involved_or_interlopers_within_region_longer = yes
+				}
+
+				involved_character_modifier = {
+					ai_war_chance = -0.5
+					ai_war_cooldown = 0.5
+				}
+
+				involved_county_modifier = {
+					monthly_county_control_change_at_war_add = -0.01
+					monthly_county_control_change_at_war_mult = -0.10
+				}
+
+				###### Interlopers
+				interloper_parameters = {
+					truces_by_involved_or_interlopers_within_region_longer = yes
+				}
+
+				interloper_county_modifier = {
+					monthly_county_control_change_at_war_add = -0.02
+					monthly_county_control_change_at_war_mult = -0.25
+				}
+
+				###### Uninvolved
+				uninvolved_county_modifier = {
+					monthly_county_control_change_at_war_add = -0.05
+					monthly_county_control_change_at_war_mult = -0.5
+				}
+			}
+
+			faith_effects = {
+				###### Common
+				
+				# Nothing
+
+				###### Involved
+				involved_character_modifier = {
+					opinion_of_different_faith = 20
+					different_faith_county_opinion_mult = -0.5
+					opinion_of_different_faith_liege = 10
+				}
+
+				involved_parameters = {
+					truces_by_involved_or_interlopers_within_region_longer = yes
+					county_conversion_disabled_for_involved_faiths_within_region = yes
+					interfaith_marriages_available_between_involved_characters = yes
+					interfaith_marriages_between_involved_characters_gives_piety = yes
+					release_prisoner_diff_faith_gives_prestige = yes
+					learning_languages_gives_piety = yes
+					holy_wars_in_region_cannot_be_declared = yes
+				}
+
+				###### Interlopers
+
+				# Nothing
+
+				###### Uninvolved
+
+				# Nothing
+			}
+
+			culture_effects = {
+				###### Common
+				
+				# Nothing
+
+				###### Involved
+				involved_parameters = {
+					easier_culture_hybridising_for_involved_and_interlopers = yes
+					release_prisoner_diff_culture_gives_prestige = yes
+				}
+
+				involved_character_modifier = {
+					cultural_head_acceptance_gain_mult = 0.2
+					opinion_of_different_culture = 20
+					learn_language_scheme_phase_duration_add = major_scheme_phase_duration_bonus_value
+					owned_personal_scheme_success_chance_add = 10
+					cultural_head_fascination_mult = 0.25
+				}
+
+				###### Interlopers
+				interloper_parameters = {
+					easier_culture_hybridising_for_involved_and_interlopers = yes
+				}
+
+				###### Uninvolved
+
+				# Nothing
+			}
+
+			other_effects = {
+				###### Common
+				all_county_modifier = {
+					development_growth_factor = 0.3
+				}
+
+				###### Involved
+				involved_parameters = {
+					# struggle_vips_and_culture_faith_heads_may_develop_spontaneous_positive_or_negative_relations = yes
+					struggle_unlocks_befriend_schemes_for_everyone = yes
+					struggle_prestige_from_feast = yes
+					struggle_gifts_involved_diff_faith_culture_leads_to_friendship = yes
+					struggle_grant_titles_diff_faith_culture_to_leads_to_friendship = yes
+					struggle_cannot_execute_involved_prisoners  = yes
+					struggle_becoming_friend_gives_prestige = yes
+					involved_form_alliances_with_each_other_easier = yes
+					struggle_agents_less_likely_to_join_schemes = yes
+					struggle_cheaper_urbanize_silk_road_decision = yes
+				}
+
+				involved_county_modifier = {
+					county_opinion_add = 20
+					build_speed = -0.25
+					tax_mult = 0.1
+					city_holding_holding_build_gold_cost = -0.25
+					city_holding_build_gold_cost = -0.25
+				}
+
+				involved_character_modifier = {
+					befriend_scheme_phase_duration_add = massive_scheme_phase_duration_bonus_value
+					enemy_hostile_scheme_phase_duration_add = medium_scheme_phase_duration_malus_value
+					max_personal_schemes_add = 1
+				}
+
+				###### Interlopers
+				interloper_character_modifier = {
+					county_opinion_add = 10
+					build_speed = -0.05
+
+					tax_mult = 0.05
+				}
+
+				###### Uninvolved
+
+				# Really hard for them to stay here
+				uninvolved_county_modifier = {
+					tax_mult = 0.02
+					#county_opinion_add = -50
+					#garrison_size = -0.1
+					#supply_limit_mult = -0.1
+				}
+			}
+
+			##################################################
+			# Ending
+
+			#We are listing all available decision to give players insights on how they can end the Struggle
+			ending_decisions = {
+				struggle_eastern_iranian_ending_domination_decision
+				struggle_eastern_iranian_ending_silk_road_decision
+				struggle_eastern_iranian_ending_compromise_decision
+			 }
+		}
+	}
+
+	# AI should gift
+}
+	}
+}
+
 "events/eastern_iranian_struggle_events/tfe_eastern_iranian_struggle_events.txt" = {
 	{
+namespace = eastern_iranian_struggle
+
+### SYSTEM EVENTS #################################################################
+## # Parameter Events
+## # Other Events
+### EVENT LIST ####################################################################
+###################################################################################
+
+# Setting AI Intent
+eastern_iranian_struggle.0003 = {
+	hidden = yes
+	scope = none
+	scope = struggle
+
+	trigger = { # Should not need this, but, redundancy check! -h
+		exists = struggle:eastern_iranian_struggle
+		struggle:eastern_iranian_struggle = { any_involved_ruler = { count > 0 } } # For when the conflict is ongoing but nobody is left to fight it
+	}
+
+	immediate = {
+		# prepare needed variables; they will be destroyed at the end of the immediate
+		set_variable = {
+			name = agents_for_escalation
+			value = 0
+		}
+		set_variable = {
+			name = agents_for_deescalation
+			value = 0
+		}
+
+		# Go through the characters to distribute them between the potential transitions
+		struggle:eastern_iranian_struggle = {
+			every_involved_ruler = {
+				limit = { is_alive = yes }
+				#######################
+				# Play cue track
+				######################
+				if = {
+					limit = { is_ai = no }
+					play_music_cue = "mx_Struggle_Opening"
+				}
+
+				#######################
+				# Check existing flags
+				######################
+				if = {
+					limit = { has_character_flag = agenda_towards_escalation }
+					change_variable = {
+						name = agents_for_escalation
+						add = 1
+					}
+				}
+				else_if = {
+					limit = { has_character_flag = agenda_towards_deescalation }
+					change_variable = {
+						name = agents_for_deescalation
+						add = 1
+					}
+				}
+				else = { # Set a flag
+				
+					#############################
+					# Current Phase: EXPANSION
+					#############################
+					if = {
+						limit = { root = { is_struggle_phase = struggle_TFE_eastern_iranian_phase_expansion } }
+						random_list = {
+							# Working towards hostility
+							# It should be for characters looking for direct conflicts and domination, with the will and ability to expand their realms
+							100 = {
+								# Odds modifiers
+								eastern_iranian_struggle_set_ai_agenda_common_modifiers = {
+									PHASE = hostility
+									INTENT = escalation
+								}
+
+								# Apply effects
+								eastern_iranian_struggle_apply_ai_agenda_effect = {
+									INTENT = escalation
+								}
+							}
+							# Working towards development
+							100 = {
+								# Odds modifiers
+								eastern_iranian_struggle_set_ai_agenda_common_modifiers = {
+									PHASE = development
+									INTENT = deescalation
+								}
+
+								# Apply effects
+								eastern_iranian_struggle_apply_ai_agenda_effect = {
+									INTENT = deescalation
+								}
+							}
+						}
+					}
+
+					#############################
+					# Current Phase: DEVELOPMENT
+					#############################
+					if = {
+						limit = { root = { is_struggle_phase = struggle_TFE_eastern_iranian_phase_development } }
+						random_list = {
+							# Working towards compromise
+							# It should be for characters looking for direct conflicts and domination, with the will and ability to expand their realms
+							100 = {
+								# Odds modifiers
+								eastern_iranian_struggle_set_ai_agenda_common_modifiers = {
+									PHASE = compromise
+									INTENT = escalation
+								}
+
+								# Apply effects
+								eastern_iranian_struggle_apply_ai_agenda_effect = {
+									INTENT = escalation
+								}
+							}
+						}
+					}
+					#############################
+					# Current Phase: Hostility
+					#############################
+					if = {
+						limit = { root = { is_struggle_phase = struggle_TFE_eastern_iranian_phase_hostility } }
+						random_list = {
+							# Working towards Compromise
+							100 = {
+								# Odds modifiers
+								eastern_iranian_struggle_set_ai_agenda_common_modifiers = {
+									PHASE = compromise
+									INTENT = deescalation
+								}
+
+								# Apply effects
+								eastern_iranian_struggle_apply_ai_agenda_effect = {
+									INTENT = deescalation
+								}
+							}
+						}
+					}
+
+					#############################
+					# Current Phase: Compromise
+					#############################
+					if = {
+						limit = { root = { is_struggle_phase = struggle_TFE_eastern_iranian_phase_compromise } }
+						random_list = {
+							# Working towards expansion
+							100 = {
+								# Odds modifiers
+								eastern_iranian_struggle_set_ai_agenda_common_modifiers = {
+									PHASE = expansion
+									INTENT = escalation
+								}
+
+								# Apply effects
+								eastern_iranian_struggle_apply_ai_agenda_effect = {
+									INTENT = escalation
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		# Clean variables
+		remove_variable = agents_for_escalation
+		remove_variable = agents_for_deescalation
+	}
+}
+
+# Set AI Intent on join
+eastern_iranian_struggle.0004 = {
+	hidden = yes
+	scope = none
+
+	immediate = {
+		set_variable = {
+			name = agents_for_escalation
+			value = 0
+		}
+		set_variable = {
+			name = agents_for_deescalation
+			value = 0
+		}
+
+		############################
+		# Update the variables
+		############################
+		every_character_struggle = {
+			every_involved_ruler = {
+				limit = { is_alive = yes }
+				if = {
+					limit = { has_character_flag = agenda_towards_escalation }
+					root = {
+						change_variable = {
+							name = agents_for_escalation
+							add = 1
+						}
+					}
+				}
+				else_if = {
+					limit = { has_character_flag = agenda_towards_deescalation }
+					root = {
+						change_variable = {
+							name = agents_for_deescalation
+							add = 1
+						}
+					}
+				}
+			}
+		}
+
+		if = {
+			limit = {
+				NOR = {
+					has_character_flag = agenda_towards_escalation
+					has_character_flag = agenda_towards_deescalation
+				}
+			}
+
+			#############################
+			# Current Phase: EXPANSION
+			#############################
+			if = {
+				limit = { any_character_struggle = { AND = { is_struggle_type = eastern_iranian_struggle is_struggle_phase = struggle_TFE_eastern_iranian_phase_expansion } } }
+				random_list = {
+					# Working towards hostility
+					# It should be for characters looking for direct conflicts and domination, with the will and ability to expand their realms
+					100 = {
+						# Odds modifiers
+						eastern_iranian_struggle_set_ai_agenda_common_modifiers = {
+							PHASE = hostility
+							INTENT = escalation
+						}
+
+						# Apply effects
+						eastern_iranian_struggle_apply_ai_agenda_effect = {
+							INTENT = escalation
+						}
+					}
+					# Working towards development
+					100 = {
+						# Odds modifiers
+						eastern_iranian_struggle_set_ai_agenda_common_modifiers = {
+							PHASE = development
+							INTENT = deescalation
+						}
+
+						# Apply effects
+						eastern_iranian_struggle_apply_ai_agenda_effect = {
+							INTENT = deescalation
+						}
+					}
+				}
+			}
+
+			#############################
+			# Current Phase: DEVELOPMENT
+			#############################
+			if = {
+				limit = { any_character_struggle = { AND = { is_struggle_type = eastern_iranian_struggle is_struggle_phase = struggle_TFE_eastern_iranian_phase_development } } }
+				random_list = {
+					# Working towards compromise
+					# It should be for characters looking for direct conflicts and domination, with the will and ability to expand their realms
+					100 = {
+						# Odds modifiers
+						eastern_iranian_struggle_set_ai_agenda_common_modifiers = {
+							PHASE = compromise
+							INTENT = escalation
+						}
+
+						# Apply effects
+						eastern_iranian_struggle_apply_ai_agenda_effect = {
+							INTENT = escalation
+						}
+					}
+				}
+			}
+			#############################
+			# Current Phase: Hostility
+			#############################
+			if = {
+				limit = { any_character_struggle = { AND = { is_struggle_type = eastern_iranian_struggle is_struggle_phase = struggle_TFE_eastern_iranian_phase_hostility } } }
+				random_list = {
+					# Working towards Compromise
+					100 = {
+						# Odds modifiers
+						eastern_iranian_struggle_set_ai_agenda_common_modifiers = {
+							PHASE = compromise
+							INTENT = deescalation
+						}
+
+						# Apply effects
+						eastern_iranian_struggle_apply_ai_agenda_effect = {
+							INTENT = deescalation
+						}
+					}
+				}
+			}
+
+			#############################
+			# Current Phase: Compromise
+			#############################
+			if = {
+				limit = { any_character_struggle = { AND = { is_struggle_type = eastern_iranian_struggle is_struggle_phase = struggle_TFE_eastern_iranian_phase_compromise } } }
+				random_list = {
+					# Working towards expansion
+					100 = {
+						# Odds modifiers
+						eastern_iranian_struggle_set_ai_agenda_common_modifiers = {
+							PHASE = expansion
+							INTENT = escalation
+						}
+
+						# Apply effects
+						eastern_iranian_struggle_apply_ai_agenda_effect = {
+							INTENT = escalation
+						}
+					}
+				}
+			}
+		}
+
+		# Clean variables
+		remove_variable = agents_for_escalation
+		remove_variable = agents_for_deescalation
+	}
+}
+
+###################################
+# Easten Iranian Struggle Intro Events
+# 0501 - 599
+###################################
+eastern_iranian_struggle.0501 = { # Fullscreen Intro Event
+	type = character_event
+	window = fullscreen_event
+	title = eastern_iranian_struggle.0501.t
+	desc = {
+		desc = eastern_iranian_struggle.0501.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					any_character_struggle = {
+						involvement = involved
+						is_struggle_type = eastern_iranian_struggle
+					}
+				}
+				desc = fp2_struggle.0501.desc.involved
+			}
+			triggered_desc = {
+				trigger = {
+					any_character_struggle = {
+						involvement = interloper
+						is_struggle_type = eastern_iranian_struggle
+					}
+				}
+				desc = fp2_struggle.0501.desc.interloper
+			}
+		}
+	}
+	theme = realm
+	trigger = { # we need to prevent this from firing for all players when a new player joins in MP
+		is_ai = no
+		NOT = { has_character_flag = eastern_iranian_struggle_intro_event_flag }
+		tfe_character_any_involvement_eastern_iranian_struggle_trigger = yes
+ 	}
+	override_background = { reference = TFE_struggle_bg_oasis }
+	override_sound = { reference = "event:/DLC/FP2/SFX/UI/fp2_struggle_ui_intro_animate" }
+
+	widgets = {
+		widget = {
+ 			gui = "event_window_widget_struggle_info"
+ 			container = "dynamic_content_widget"
+ 			controller = struggle_info
+ 			setup_scope = { struggle:eastern_iranian_struggle = { save_scope_as = struggle } }
+		}
+	}
+	immediate = {
+		play_music_cue = "mood_alexandria"
+		add_character_flag = eastern_iranian_struggle_intro_event_flag
+		save_scope_value_as = {
+			name = start
+			value = yes
+		}
+	}
+	option = {
+		name = eastern_iranian_struggle.0501.a
+		clicksound = "event:/DLC/FP2/SFX/UI/fp2_struggle_start_select"
+	}
+}
+
+
+
+
+
+###################################
+# Eastern Iranian Struggle Ending Events
+# 1000 - 1099
+###################################
+
+# Domination Ending
+eastern_iranian_struggle.1000 = { 
+	type = character_event
+	window = fullscreen_event
+	title = eastern_iranian_struggle.1000.t
+	desc = eastern_iranian_struggle.1000.desc
+	theme = court
+	override_background = { reference = TFE_struggle_bg_mena_palace }
+	override_sound = { reference = "event:/DLC/FP2/SFX/UI/fp2_struggle_ui_intro_end_animate" }
+
+	immediate = {
+
+		# Add all involved cultures with counties to a list, for marriage and holy war checks
+		TFE_eastern_iranian_struggle_ending_culture_list_effect = yes
+
+		play_music_cue = "mx_Struggle_ending_hostility"
+
+		dynasty = { add_dynasty_prestige = 10000 }
+		give_nickname = nick_the_great
+
+		save_scope_as = struggle_ender
+	}
+
+	# Conquest victory
+	option = {
+		name = eastern_iranian_struggle.1000.a
+		house = {
+			add_house_modifier = {
+				modifier = struggle_eastern_iranian_house_offense_modifier
+			}
+		}		
+		stress_impact = {
+			compassionate = minor_stress_impact_gain
+			forgiving = minor_stress_impact_gain
+		}
+		set_global_variable = {
+			name = TFE_struggle_eastern_iranian_conquest_victory
+			value = yes
+			days = 15 # Clear out eventually, just in case
+		}
+	}
+
+	# Bulwark victory
+	option = {
+		name = eastern_iranian_struggle.1000.b
+		house = {
+			add_house_modifier = {
+				modifier = struggle_eastern_iranian_house_defense_modifier
+			}
+		}
+		stress_impact = {
+			brave = minor_stress_impact_gain
+			arrogant = minor_stress_impact_gain
+		}
+		set_global_variable = {
+			name = TFE_struggle_eastern_iranian_bulwark_victory
+			value = yes
+			days = 15 # Clear out eventually, just in case
+		}
+	}
+
+	# Influence victory
+	option = {
+		name = eastern_iranian_struggle.1000.c
+		house = {
+			add_house_modifier = {
+				modifier = struggle_eastern_iranian_house_political_modifier
+			}
+		}
+		stress_impact = {
+			wrathful = minor_stress_impact_gain
+			trusting = minor_stress_impact_gain
+		}
+		set_global_variable = {
+			name = TFE_struggle_eastern_iranian_influence_victory
+			value = yes
+			days = 15 # Clear out eventually, just in case
+		}
+	}
+
+	after = {
+		# End Struggle
+		struggle:eastern_iranian_struggle = {
+			end_struggle = struggle_eastern_iranian_ending_domination_decision
+		}
+		# Notify
+		every_player = {
+			# limit = {
+			# 	NOT = { this = root }
+			# }
+			trigger_event = eastern_iranian_struggle.1001
+		}
+	}
+}
+
+
+
+
+# Integration Ending notification
+eastern_iranian_struggle.1001 = { # Fullscreen Intro Event
+	type = character_event
+	window = fullscreen_event
+	title = eastern_iranian_struggle.1001.t
+	desc = {
+		desc = eastern_iranian_struggle.1001.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_global_variable = TFE_struggle_eastern_iranian_conquest_victory
+				}
+				desc = eastern_iranian_struggle.1001.desc.closing.conquest
+			}
+			triggered_desc = {
+				trigger = {
+					has_global_variable = TFE_struggle_eastern_iranian_bulwark_victory
+				}
+				desc = eastern_iranian_struggle.1001.desc.closing.bulwark
+			}
+			triggered_desc = {
+				trigger = {
+					has_global_variable = TFE_struggle_eastern_iranian_influence_victory
+				}
+				desc = eastern_iranian_struggle.1001.desc.closing.influence
+			}
+		}
+		desc = eastern_iranian_struggle.1001.desc.closing
+	}
+	theme = court
+	override_background = { reference = TFE_struggle_bg_mena_palace }
+	override_sound = { reference = "event:/DLC/FP2/SFX/UI/fp2_struggle_ui_intro_animate" }
+
+	immediate = {
+		play_music_cue = "mx_Struggle_ending_hostility"
+		scope:struggle_ender = {
+			show_as_tooltip = {
+				if = {
+					limit = {
+						has_global_variable = TFE_struggle_eastern_iranian_conquest_victory
+					}
+					house = {
+						add_house_modifier = {
+							modifier = struggle_eastern_iranian_house_offense_modifier
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						has_global_variable = TFE_struggle_eastern_iranian_bulwark_victory
+					}
+					house = {
+						add_house_modifier = {
+							modifier = struggle_eastern_iranian_house_political_modifier
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						has_global_variable = TFE_struggle_eastern_iranian_influence_victory
+					}
+					house = {
+						add_house_modifier = {
+							modifier = struggle_eastern_iranian_house_political_modifier
+						}
+					}
+				}
+			}			
+		}
+	}
+	option = {
+		name = eastern_iranian_struggle.1001.a
+	}
+}
+
+
+
+
+# Silk Road Prosperity Ending
+eastern_iranian_struggle.1002 = { 
+	type = character_event
+	window = fullscreen_event
+	title = eastern_iranian_struggle.1002.t
+	desc = eastern_iranian_struggle.1002.desc
+	theme = court
+	override_background = { reference = TFE_struggle_bg_eastern_market }
+	override_sound = { reference = "event:/DLC/FP2/SFX/UI/fp2_struggle_ui_intro_end_animate" }
+
+	immediate = {
+
+		# Add all involved cultures with counties to a list, for marriage and holy war checks
+		TFE_eastern_iranian_struggle_ending_culture_list_effect = yes
+
+		play_music_cue = "mx_Struggle_ending_conciliation"
+
+		dynasty = { add_dynasty_prestige = 10000 }
+		give_nickname = nick_the_great
+
+		save_scope_as = struggle_ender
+	}
+
+	# Urbanite victory
+	option = {
+		name = eastern_iranian_struggle.1002.a
+		house = {
+			add_house_modifier = {
+				modifier = struggle_eastern_iranian_house_urban_modifier
+			}
+		}		
+		stress_impact = {
+			compassionate = minor_stress_impact_gain
+			forgiving = minor_stress_impact_gain
+		}
+		set_global_variable = {
+			name = TFE_struggle_eastern_iranian_urban_victory
+			value = yes
+			days = 15 # Clear out eventually, just in case
+		}
+	}
+
+	# Trader victory
+	option = {
+		name = eastern_iranian_struggle.1002.b
+		house = {
+			add_house_modifier = {
+				modifier = struggle_eastern_iranian_house_trade_modifier
+			}
+		}
+		stress_impact = {
+			brave = minor_stress_impact_gain
+			arrogant = minor_stress_impact_gain
+		}
+		set_global_variable = {
+			name = TFE_struggle_eastern_iranian_trade_victory
+			value = yes
+			days = 15 # Clear out eventually, just in case
+		}
+	}
+
+	# Civilizer victory
+	option = {
+		name = eastern_iranian_struggle.1002.c
+		house = {
+			add_house_modifier = {
+				modifier = struggle_eastern_iranian_house_culture_modifier
+			}
+		}
+		stress_impact = {
+			wrathful = minor_stress_impact_gain
+			trusting = minor_stress_impact_gain
+		}
+		set_global_variable = {
+			name = TFE_struggle_eastern_iranian_culture_victory
+			value = yes
+			days = 15 # Clear out eventually, just in case
+		}
+	}
+
+	after = {
+		# End Struggle
+		struggle:eastern_iranian_struggle = {
+			end_struggle = struggle_eastern_iranian_ending_silk_road_decision
+		}
+		# Notify
+		every_player = {
+			# limit = {
+			# 	NOT = { this = root }
+			# }
+			trigger_event = eastern_iranian_struggle.1003
+		}
+	}
+}
+
+
+
+
+# Silk Road Ending notification
+eastern_iranian_struggle.1003 = { # Fullscreen Intro Event
+	type = character_event
+	window = fullscreen_event
+	title = eastern_iranian_struggle.1003.t
+	desc = {
+		desc = eastern_iranian_struggle.1003.desc
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					has_global_variable = TFE_struggle_eastern_iranian_urban_victory
+				}
+				desc = eastern_iranian_struggle.1003.desc.closing.urban
+			}
+			triggered_desc = {
+				trigger = {
+					has_global_variable = TFE_struggle_eastern_iranian_trade_victory
+				}
+				desc = eastern_iranian_struggle.1003.desc.closing.trade
+			}
+			triggered_desc = {
+				trigger = {
+					has_global_variable = TFE_struggle_eastern_iranian_culture_victory
+				}
+				desc = eastern_iranian_struggle.1003.desc.closing.culture
+			}
+		}
+		desc = eastern_iranian_struggle.1003.desc.closing
+	}
+	theme = court
+	override_background = { reference = TFE_struggle_bg_eastern_market }
+	override_sound = { reference = "event:/DLC/FP2/SFX/UI/fp2_struggle_ui_intro_animate" }
+
+	immediate = {
+		play_music_cue = "mx_Struggle_ending_conciliation"
+		scope:struggle_ender = {
+			show_as_tooltip = {
+				if = {
+					limit = {
+						has_global_variable = TFE_struggle_eastern_iranian_urban_victory
+					}
+					house = {
+						add_house_modifier = {
+							modifier = struggle_eastern_iranian_house_urban_modifier
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						has_global_variable = TFE_struggle_eastern_iranian_trade_victory
+					}
+					house = {
+						add_house_modifier = {
+							modifier = struggle_eastern_iranian_house_trade_modifier
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						has_global_variable = TFE_struggle_eastern_iranian_culture_victory
+					}
+					house = {
+						add_house_modifier = {
+							modifier = struggle_eastern_iranian_house_culture_modifier
+						}
+					}
+				}
+			}			
+		}
+	}
+	option = {
+		name = eastern_iranian_struggle.1003.a
+	}
+}
+
+
 # Decentralization Ending
 eastern_iranian_struggle.1004 = { 
 	type = character_event
@@ -17354,11 +19010,431 @@ eastern_iranian_struggle.1005 = {
 		name = eastern_iranian_struggle.1005.a
 	}
 }
+
+eastern_iranian_struggle.2001 = {
+	type = character_event
+	title = eastern_iranian_struggle.2001.t
+	desc = eastern_iranian_struggle.2001.desc
+	
+	theme = stewardship
+	
+	left_portrait = {
+		character = root
+		animation = personality_zealous
+	}
+	
+	option = {
+		name = eastern_iranian_struggle.2001.a
+		
+		remove_short_term_gold = capital_county.urbanize_silk_road_price
+		add_prestige = urbanize_silk_road_prestige_bonus_small
+		capital_county = {
+			add_county_modifier = {
+				modifier = urbanize_silk_road_modifier
+				years = 10
+			}
+		}
+	}
+	
+	option = {
+		trigger = {
+			primary_title.tier >= tier_duchy
+			capital_county.duchy = {
+				is_title_created = yes
+			}
+		}
+		name = eastern_iranian_struggle.2001.b
+		
+		remove_short_term_gold = capital_county.urbanize_silk_road_price_duchy
+		add_prestige = urbanize_silk_road_prestige_bonus_medium
+		capital_county = {
+			add_county_modifier = {
+				modifier = urbanize_silk_road_modifier
+				years = 10
+			}
+		}
+		capital_county = {
+			save_temporary_scope_as = current_title
+			duchy = {
+				every_in_de_jure_hierarchy = {
+					limit = {
+						tier = tier_county
+						title_province = {
+							geographical_region = TFE_eastern_iranian_struggle_region
+						}
+						holder = {
+							OR = {
+								this = scope:current_title.holder
+								is_vassal_or_below_of = scope:current_title.holder
+							}
+						}
+					}
+					custom = urbanize_modifier_added_tt
+					hidden_effect = {
+						add_county_modifier = {
+							modifier = urbanize_silk_road_modifier
+							years = 10
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		trigger = {
+			primary_title.tier >= tier_kingdom
+			capital_county.kingdom = {
+				is_title_created = yes
+			}
+		}
+		name = eastern_iranian_struggle.2001.c
+		
+		remove_short_term_gold = capital_county.urbanize_silk_road_price_kingdom
+		add_prestige = urbanize_silk_road_prestige_bonus_large
+		capital_county = {
+			add_county_modifier = {
+				modifier = urbanize_silk_road_modifier
+				years = 10
+			}
+		}
+		capital_county = {
+			save_temporary_scope_as = current_title
+			kingdom = {
+				every_in_de_jure_hierarchy = {
+					limit = {
+						tier = tier_county
+						title_province = {
+							geographical_region = TFE_eastern_iranian_struggle_region
+						}
+						holder = {
+							OR = {
+								this = scope:current_title.holder
+								is_vassal_or_below_of = scope:current_title.holder
+							}
+						}
+					}
+					
+					custom = every_owned_county_within_de_jure_capital_kingdom_tt
+					custom = urbanize_modifier_added_tt
+					hidden_effect = {
+						add_county_modifier = {
+							modifier = urbanize_silk_road_modifier
+							years = 10
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	option = {
+		trigger = {
+			primary_title.tier >= tier_empire
+			capital_county.empire = {
+				is_title_created = yes
+			}
+		}
+		name = eastern_iranian_struggle.2001.d
+		
+		remove_short_term_gold = capital_county.urbanize_silk_road_price_empire
+		add_prestige = urbanize_silk_road_prestige_bonus_huge
+		capital_county = {
+			add_county_modifier = {
+				modifier = urbanize_silk_road_modifier
+				years = 10
+			}
+		}
+		capital_county = {
+			save_temporary_scope_as = current_title
+			empire = {
+				every_in_de_jure_hierarchy = {
+					limit = {
+						tier = tier_county
+						title_province = {
+							geographical_region = TFE_eastern_iranian_struggle_region
+						}					
+						holder = {
+							OR = {
+								this = scope:current_title.holder
+								is_vassal_or_below_of = scope:current_title.holder
+							}
+						}
+					}
+					
+					custom = every_owned_county_within_de_jure_capital_empire_tt
+					custom = urbanize_modifier_added_tt
+					hidden_effect = {
+						add_county_modifier = {
+							modifier = urbanize_silk_road_modifier
+							years = 10
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	# Actually, that's quite expensive lmao
+	option = {
+		name = eastern_iranian_struggle.2001.e
+		
+		custom_tooltip = eastern_iranian_struggle.2001.e_effect
+		remove_decision_cooldown = struggle_eastern_iranian_urbanize_area
+	}
+}
 	}
 }
 
 "common/decisions/tfe_struggle_decisions.txt" = {
 	{
+###################################################
+# 
+# EASTERN IRANIAN STRUGGLE ENDINGS
+# By cybrxkhan
+# 
+###################################################
+
+
+# Domination
+struggle_eastern_iranian_ending_domination_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_dehqan.dds"
+	}
+	extra_picture = "gfx/interface/illustrations/struggle_decisions_buttons/decision_dehqan.dds"
+	decision_group_type = major
+	
+	title = struggle_eastern_iranian_ending_domination_decision
+	desc = struggle_eastern_iranian_ending_domination_decision_desc
+	selection_tooltip = struggle_eastern_iranian_ending_domination_decision_tooltip
+	confirm_click_sound = "event:/DLC/FP2/SFX/UI/fp2_struggle_ending_decision_confirm"
+	is_invisible = yes
+
+	sort_order = 80
+
+	is_valid = {
+		is_independent_ruler = yes
+
+		custom_tooltip = {
+			text = struggle_eastern_iranian_ending_domination_correct_phase_tt
+			any_character_struggle = {
+				is_struggle_type = eastern_iranian_struggle
+				OR = {
+					is_struggle_phase = struggle_TFE_eastern_iranian_phase_expansion
+					is_struggle_phase = struggle_TFE_eastern_iranian_phase_hostility
+				}
+			}
+		}
+
+		custom_tooltip = {
+			text = struggle_ending_decision_correct_involvement_tt
+			any_character_struggle = {
+				involvement = involved
+				is_struggle_type = eastern_iranian_struggle
+			}
+		}
+
+		prestige_level >= 4
+		highest_held_title_tier >= tier_kingdom
+
+		# Control at least 75% of the struggle region
+		custom_tooltip = {
+			text = struggle_eastern_iranian_ending_domination_region_tt
+			struggle_eastern_iranian_ending_domination_percent_region_trigger = yes
+		}
+
+
+		# OR = {
+		# 	culture = { has_cultural_pillar = heritage_iranian } # West Iranians
+		# 	culture = { has_cultural_pillar = heritage_tocharian } # East Iranians
+		# }
+
+		# No other realm controls more than 20% of the region
+		custom_tooltip = {
+			text = struggle_eastern_iranian_ending_domination_decision_region_tt
+			NOT = {
+				struggle:eastern_iranian_struggle = {
+					any_involved_ruler = {
+						NOT = { this = root }
+						is_independent_ruler = yes
+						exists = primary_title
+						primary_title = { is_mercenary_company = no }
+						save_temporary_scope_as = eastern_iranian_region_realm
+						any_county_in_region = {
+							region = TFE_eastern_iranian_struggle_region
+							percent > fp2_struggle_hostility_region_percent_decimal_value
+							holder.top_liege = scope:eastern_iranian_region_realm
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	effect = {
+		if = {
+			limit = { has_dlc_feature = legends }
+			legend_seed_struggle_ending_effect = {
+				ENDER = root
+				STRUGGLE = eastern_iranian_struggle
+			}
+		}
+		##### Major Effects #####
+		show_as_tooltip = {
+			dynasty = { add_dynasty_prestige = 10000 }
+			give_nickname = nick_the_great
+		}
+		# Boost to culture and faith conversion
+		custom_tooltip = struggle_eastern_iranian_ending_bonus_conversion_tt
+		# Choose variation of dominance boost
+		custom_description_no_bullet = { text = struggle_eastern_iranian_dominance_modifier_list_tt }
+
+		# Trigger a player facing event as a coda
+		trigger_event = eastern_iranian_struggle.1000
+	}
+
+	cost = { gold = { value = 200 } }
+
+	ai_check_interval = 120
+
+	ai_potential = { always = yes }
+
+	ai_will_do = { base = 100 }
+
+}
+
+
+# Silk Road/Prosperity
+struggle_eastern_iranian_ending_silk_road_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_mena_palace.dds"
+	}
+	extra_picture = "gfx/interface/illustrations/struggle_decisions_buttons/decision_mena_palace.dds"
+	decision_group_type = major
+
+	title = struggle_eastern_iranian_ending_silk_road_decision
+	desc = struggle_eastern_iranian_ending_silk_road_decision_desc
+	selection_tooltip = struggle_eastern_iranian_ending_silk_road_decision_tooltip
+	confirm_click_sound = "event:/DLC/FP2/SFX/UI/fp2_struggle_ending_decision_confirm"
+	is_invisible = yes
+
+	sort_order = 80
+
+	is_valid = {
+		is_independent_ruler = yes
+
+		custom_tooltip = {
+			text = struggle_eastern_iranian_ending_silk_road_correct_phase_tt
+			any_character_struggle = {
+				is_struggle_type = eastern_iranian_struggle
+				OR = {
+					is_struggle_phase = struggle_TFE_eastern_iranian_phase_expansion
+					is_struggle_phase = struggle_TFE_eastern_iranian_phase_development
+				}
+			}
+		}
+
+		custom_tooltip = {
+			text = struggle_ending_decision_correct_involvement_tt
+			any_character_struggle = {
+				involvement = involved
+				is_struggle_type = eastern_iranian_struggle
+			}
+		}
+
+		prestige_level >= 4
+		highest_held_title_tier >= tier_kingdom
+
+		# Control at least 40% of the struggle region
+		custom_tooltip = {
+			text = struggle_eastern_iranian_ending_silk_road_region_tt
+			struggle_eastern_iranian_ending_silk_road_percent_region_trigger = yes
+		}
+
+		# Own at least 5 counties in the struggle region with 80 development, including your capital
+		custom_tooltip = {
+			text = struggle_eastern_iranian_ending_silk_road_county_req_tt
+			capital_county = {
+				development_level >= struggle_eastern_iranian_development_req_value
+				title_province = { geographical_region = TFE_eastern_iranian_struggle_region }
+			}
+			any_held_county = {
+				count >= struggle_eastern_iranian_development_county_value
+				development_level >= struggle_eastern_iranian_development_req_value
+				title_province = { geographical_region = TFE_eastern_iranian_struggle_region }
+			}
+			# capital_county.de_jure_liege.de_jure_liege = {
+			# 	any_de_jure_county = {
+			# 		percent >= 0.8
+			# 		culture = root.culture
+			# 		faith = root.faith
+			# 	}
+			# }
+		}
+
+
+		# OR = {
+		# 	culture = { has_cultural_pillar = heritage_iranian } # West Iranians
+		# 	culture = { has_cultural_pillar = heritage_tocharian } # East Iranians
+		# }
+
+		# No other realm controls more than 20% of the region
+		# custom_tooltip = {
+		# 	text = struggle_eastern_iranian_ending_total_victory_decision_region_tt
+		# 	NOT = {
+		# 		struggle:roman_persian_struggle = {
+		# 			any_involved_ruler = {
+		# 				NOT = { this = root }
+		# 				is_independent_ruler = yes
+		# 				exists = primary_title
+		# 				primary_title = { is_mercenary_company = no }
+		# 				save_temporary_scope_as = eastern_iranian_region_realm
+		# 				any_county_in_region = {
+		# 					region = TFE_eastern_iranian_struggle_region
+		# 					percent > fp2_struggle_hostility_region_percent_decimal_value
+		# 					holder.top_liege = scope:eastern_iranian_region_realm
+		# 				}
+		# 			}
+		# 		}
+		# 	}
+		# }
+
+	}
+
+	effect = {
+		if = {
+			limit = { has_dlc_feature = legends }
+			legend_seed_struggle_ending_effect = {
+				ENDER = root
+				STRUGGLE = eastern_iranian_struggle
+			}
+		}
+		##### Major Effects #####
+		show_as_tooltip = {
+			dynasty = { add_dynasty_prestige = 10000 }
+			give_nickname = nick_the_great
+		}
+		# Boost to culture and faith conversion
+		custom_tooltip = struggle_eastern_iranian_ending_bonus_conversion_tt
+		# Choose economic, cultural, or military boost
+		custom_description_no_bullet = { text = struggle_eastern_iranian_silk_road_prosperity_modifier_list_tt }
+
+		# Trigger a player facing event as a coda
+		trigger_event = eastern_iranian_struggle.1002
+	}
+
+	cost = { gold = { value = 200 } }
+
+	ai_check_interval = 120
+
+	ai_potential = { always = yes }
+
+	ai_will_do = { base = 100 }
+
+}
+
+
 # Decentralized Polities
 struggle_eastern_iranian_ending_compromise_decision = {
 	picture = {
@@ -17567,6 +19643,80 @@ struggle_eastern_iranian_ending_compromise_decision = {
 
 	ai_will_do = { base = 100 }
 }
+
+#Eastern Iranian Struggle Silk Road Urbanization Decision (totally not copied from the discord title)
+struggle_eastern_iranian_urbanize_area = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_qanat.dds"
+	}
+
+	desc = struggle_eastern_iranian_urbanize_area_desc
+	selection_tooltip = struggle_eastern_iranian_urbanize_area_tooltip
+	ai_check_interval = 0
+	cooldown = { years = 15 }
+
+	is_shown = {
+		capital_county = {
+			title_province = {
+				geographical_region = TFE_eastern_iranian_struggle_region
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_at_war = no
+		is_adult = yes
+	}
+
+	effect = {
+		# Get some good county opinion, and prevent said counties from joining popular revolts
+		# show_as_tooltip = {
+		# 	capital_county = {
+		# 		add_county_modifier = {
+		# 			modifier = urbanize_silk_road_modifier
+		# 			years = 10
+		# 		}
+		# 	}
+		# }
+		custom_tooltip = struggle_eastern_iranian_urbanize_area_extend_to_county
+		if = {
+			limit = {
+				primary_title.tier >= tier_duchy
+				any_held_title = { tier = tier_duchy }
+				capital_county.duchy = {
+					is_title_created = yes
+				}
+			}
+			custom_tooltip = struggle_eastern_iranian_urbanize_area_extend_to_duchy
+		}
+		if = {
+			limit = {
+				primary_title.tier >= tier_kingdom
+				any_held_title = { tier = tier_kingdom }
+				capital_county.kingdom = {
+					is_title_created = yes
+				}
+			}
+			custom_tooltip = struggle_eastern_iranian_urbanize_area_extend_to_kingdom
+		}
+		if = {
+			limit = {
+				primary_title.tier >= tier_empire
+				any_held_title = { tier = tier_empire }
+				capital_county.empire = {
+					is_title_created = yes
+				}
+			}
+			custom_tooltip = struggle_eastern_iranian_urbanize_area_extend_to_empire
+		}
+		
+		trigger_event = eastern_iranian_struggle.2001
+	}
+
+	ai_will_do = {
+		base = 20
+	}
+}
 	}
 }
 
@@ -17623,6 +19773,76 @@ struggle_eastern_iranian_ending_compromise_decision = {
 				add = 1000
 				exists = this
 				has_character_flag = no_beard
+			}
+	}
+}
+
+"common/casus_belli_types/00_migration_wars.txt" = {
+	{
+			if = {
+				limit = {
+					AND = {
+						exists = struggle:eastern_iranian_struggle
+						struggle:eastern_iranian_struggle = {
+							AND = {
+								has_struggle_phase_parameter = cheaper_nomadic_migrations_within_struggle_region
+								is_culture_involved_in_struggle = scope:attacker.culture
+							}
+						}
+					}
+				}
+				multiply = {
+					value = 0.5
+					desc = EASTERN_IRANIAN_STRUGGLE
+				}
+			}
+	}
+
+	{
+			if = {
+				limit = {
+					OR = {
+						AND = {
+							exists = struggle:eastern_iranian_struggle
+							migration_levies_value >= 10
+							struggle:eastern_iranian_struggle = {
+								has_struggle_phase_parameter = more_nomadic_migration_armies
+							}
+							any_in_list = {
+								list = target_titles
+								title_capital_county.title_province = {
+									geographical_region = TFE_eastern_iranian_struggle_region
+								}
+							}
+							has_cultural_tradition = tradition_nomadic_migrations
+						}
+						AND = {
+							exists = struggle:north_indian_struggle
+							migration_levies_value >= 10
+							struggle:north_indian_struggle = {
+								has_struggle_phase_parameter = more_nomadic_migration_armies
+							}
+							any_in_list = {
+								list = target_titles
+								title_capital_county.title_province = {
+									geographical_region = TFE_north_indian_struggle_region
+								}
+							}
+							has_cultural_tradition = tradition_nomadic_migrations
+						}
+					}
+				}
+				spawn_army = {
+					name = event_troop_default_name
+					levies = migration_army_levies_small
+					men_at_arms = {
+						type = light_horsemen
+						stacks = migration_army_maa_small
+					}
+					location = scope:attacker.capital_province
+					uses_supply = no
+					inheritable = yes
+				}
 			}
 	}
 }
