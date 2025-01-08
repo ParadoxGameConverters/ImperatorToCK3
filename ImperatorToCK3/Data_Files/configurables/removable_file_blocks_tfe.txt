@@ -2461,9 +2461,6 @@ on_title_gain_inheritance = {
 		copy_inheritable_appearance_from = character:990000
 	}
 	{
-			NOT = { title:c_trapani.holder = character:belisarius_001 }
-	}
-	{
 		if = {
 			limit = { character:90028 ?= this }
 			custom_tooltip = ep3_story_cycle_harrying.3053.b.tt
@@ -20194,11 +20191,44 @@ tfe_eastern_iranian_struggle_starting_events = {
 		}
 	}
 	}
+
+	{
+	every_county_in_region = {
+		region = TFE_eastern_iranian_struggle_region
+		limit = {
+			holder.top_liege = {
+				NOT = {
+					any_character_struggle = {
+						involvement = involved
+						is_struggle_type = eastern_iranian_struggle
+					}
+				}				
+			}
+		}
+		add = 1
+	}
+	}
+
+	{
+	every_county_in_region = {
+		region = TFE_eastern_iranian_struggle_region
+		limit = {
+			holder.top_liege = {
+				NOT = {
+					any_character_struggle = {
+						involvement = involved
+						is_struggle_type = eastern_iranian_struggle
+					}
+				}				
+			}
+		}
+		add = 1
+	}
+	}
 }
 
 "common/scripted_effects/TFE_eastern_iranian_struggle_scripted_effects.txt" = {
 	{
-
 TFE_eastern_iranian_struggle_ending_involved_list_effect = {
 	save_scope_as = struggle_ender
 	struggle:eastern_iranian_struggle = {
@@ -21604,5 +21634,193 @@ persia_struggle_compromise_truce_effect = {
 		}
 	}
 }
+	}
+}
+
+"common/scripted_triggers/TFE_eastern_iranian_struggle_triggers.txt" = {
+	{
+# Checks no more than half of Eastern Iranian region is owned by another
+struggle_ending_other_percent_eastern_iranian_trigger = {
+	struggle:eastern_iranian_struggle = {
+		NOT = {
+			any_involved_ruler = {
+				exists = primary_title # Max figured out that is_independent_ruler causes errors if you are unlanded
+				NOT = { this = root }
+				is_independent_ruler = yes
+				primary_title = { is_mercenary_company = no }
+				any_county_in_region = {
+					region = TFE_eastern_iranian_struggle_region
+					percent > fp2_struggle_compromise_involved_percent_decimal_value
+					holder.top_liege = prev
+				}
+			}
+		}
+	}
+}
+	}
+
+	{
+tfe_struggle_ending_other_percent_persia_trigger = {
+	struggle:eastern_iranian_struggle = {
+		NOT = {
+			any_involved_ruler = {
+				exists = primary_title # Max figured out that is_independent_ruler causes errors if you are unlanded
+				NOT = { this = root }
+				is_independent_ruler = yes
+				primary_title = { is_mercenary_company = no }
+				any_county_in_region = {
+					region = TFE_eastern_iranian_struggle_region
+					percent > fp2_struggle_compromise_involved_percent_decimal_value
+					holder.top_liege = prev
+				}
+			}
+		}
+	}
+}
+	}
+
+	{
+tfe_character_involved_in_eastern_iranian_struggle_trigger = {
+	any_character_struggle = {
+		involvement = involved
+		is_struggle_type = eastern_iranian_struggle
+	}
+}
+
+tfe_character_interloper_in_struggle_trigger_persia = {
+	any_character_struggle = {
+		involvement = interloper
+		is_struggle_type = eastern_iranian_struggle
+	}
+}
+	}
+}
+
+"events/north_indian_struggle_events/tfe_north_indian_struggle_events.txt" = {
+	{
+					#############################
+					# Current Phase: EXPANSION
+					#############################
+					if = {
+						limit = { root = { is_struggle_phase = struggle_TFE_eastern_iranian_phase_expansion } }
+						random_list = {
+							# Working towards hostility
+							# It should be for characters looking for direct conflicts and domination, with the will and ability to expand their realms
+							100 = {
+								# Odds modifiers
+								north_indian_struggle_set_ai_agenda_common_modifiers = {
+									PHASE = hostility
+									INTENT = escalation
+								}
+
+								# Apply effects
+								north_indian_struggle_apply_ai_agenda_effect = {
+									INTENT = escalation
+								}
+							}
+							# Working towards development
+							100 = {
+								# Odds modifiers
+								north_indian_struggle_set_ai_agenda_common_modifiers = {
+									PHASE = development
+									INTENT = deescalation
+								}
+
+								# Apply effects
+								north_indian_struggle_apply_ai_agenda_effect = {
+									INTENT = deescalation
+								}
+							}
+						}
+					}
+
+					#############################
+					# Current Phase: DEVELOPMENT
+					#############################
+					if = {
+						limit = { root = { is_struggle_phase = struggle_TFE_eastern_iranian_phase_development } }
+						random_list = {
+							# Working towards compromise
+							# It should be for characters looking for direct conflicts and domination, with the will and ability to expand their realms
+							100 = {
+								# Odds modifiers
+								north_indian_struggle_set_ai_agenda_common_modifiers = {
+									PHASE = compromise
+									INTENT = escalation
+								}
+
+								# Apply effects
+								north_indian_struggle_apply_ai_agenda_effect = {
+									INTENT = escalation
+								}
+							}
+						}
+					}
+					#############################
+					# Current Phase: Hostility
+					#############################
+					if = {
+						limit = { root = { is_struggle_phase = struggle_TFE_eastern_iranian_phase_hostility } }
+						random_list = {
+							# Working towards Compromise
+							100 = {
+								# Odds modifiers
+								north_indian_struggle_set_ai_agenda_common_modifiers = {
+									PHASE = compromise
+									INTENT = deescalation
+								}
+
+								# Apply effects
+								north_indian_struggle_apply_ai_agenda_effect = {
+									INTENT = deescalation
+								}
+							}
+						}
+					}
+
+					#############################
+					# Current Phase: Compromise
+					#############################
+					if = {
+						limit = { root = { is_struggle_phase = struggle_TFE_eastern_iranian_phase_compromise } }
+						random_list = {
+							# Working towards expansion
+							100 = {
+								# Odds modifiers
+								north_indian_struggle_set_ai_agenda_common_modifiers = {
+									PHASE = expansion
+									INTENT = escalation
+								}
+
+								# Apply effects
+								north_indian_struggle_apply_ai_agenda_effect = {
+									INTENT = escalation
+								}
+							}
+						}
+					}
+	}
+}
+
+"gfx/portraits/portrait_modifiers/06_clothes_special.txt" = {
+	{
+    baudouin = {
+        dna_modifiers = {
+            accessory = {
+                mode = add 
+                gene = special_headgear_face_mask
+                template = face_mask
+                range = { 0 1 }
+            }
+        }
+        weight = {
+            base = 0 
+            modifier = {
+                add = 1000
+				exists = character:223523
+                this = character:223523
+            }
+        }
+    }
 	}
 }
