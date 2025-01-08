@@ -98,7 +98,7 @@ public static class FileTweaker {
 				return;
 			}
 
-			string lineEndings = GetLineEndingsInFile(inputPath);
+			LineEnding lineEndings = GetLineEndingsInFile(inputPath);
 			
 			var fileContent = await File.ReadAllTextAsync(inputPath);
 

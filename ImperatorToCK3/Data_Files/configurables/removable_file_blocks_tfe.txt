@@ -16410,3 +16410,95 @@ on_senate_tasks_2_years_eastern = {
 }
 	}
 }
+
+"common/scripted_effects/00_ep1_inspiration_effects.txt" = {
+	{
+							10 = { #Recreate if lost
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = charlamagne_throne
+										}
+									}
+									game_start_date >= 700
+									scope:location ?= {
+										OR = {
+											geographical_region = custom_carolingian_francia
+											geographical_region = custom_carolingian_germany
+											geographical_region = custom_lotharingia
+											geographical_region = custom_northern_italy
+										}
+									}
+								}
+								create_artifact_throne_charlemagne_effect = { OWNER = root }
+							}
+	}
+
+	{
+							10 = { #Head of St Edmund
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									NOT = {
+										any_artifact = {
+											has_variable = edmund_head
+										}
+										game_start_date >= 800
+									}
+									scope:location ?= {
+										OR = {
+											geographical_region = world_europe_west_britannia
+											geographical_region = world_europe_north
+										}
+									}
+								}
+								create_artifact_edmund_head_effect = { OWNER = root }
+							}
+	}
+
+	{
+							10 = { #Curtana
+								modifier = {
+									OR = {
+										scope:adventurer.adventure_inspiration_average_skill_value >= high_inspiration_skill
+										AND = {
+											exists = scope:inspiration_owner.var:artifact_quality
+											scope:inspiration_owner.var:artifact_quality > high_adventurer_epic_quality_level #Cumulative event choices
+										}
+									}
+									add = 5
+								}
+								trigger = {
+									any_artifact = {
+										count < 1
+										has_variable = curtana
+									}
+									scope:location ?= {
+										OR = { 
+											geographical_region = world_europe_west
+											geographical_region = world_europe_south
+										}
+									}
+								}
+								create_artifact_curtana_effect = { OWNER = ROOT }
+							}
+	}
+}
