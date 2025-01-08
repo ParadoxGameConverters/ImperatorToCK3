@@ -5652,54 +5652,1839 @@ game_rule.1143 = {
 	}
 }
 
-"gfx\portraits\portrait_modifiers\02_all_developer_characters.txt" = {
+"gfx/portraits/portrait_modifiers/02_all_developer_characters.txt" = {
 	{
+	isabella_welch = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = dde_hre_high_nobility_clothes
+				value = 0.1 # Please replace with accessory = accessory_name
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_isabella_welch
+				this = character:easteregg_isabella_welch
+			}
+		}
+	}   
+	}
+
+	{
+	elisabeth_gangenes = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = clothes
+				template = fp1_high_nobility_clothes
+				value = 1.0 
+			}
+			accessory = {
+				mode = add			  
+				gene = cloaks
+				template = fp1_cloak
+				value = 0
+			}
+			morph = {
+				mode = modify_multiply
+				gene = gene_bs_bust
+				value = 1.0
+				template = bust_clothes
+			}
+			morph = {
+				mode = modify_multiply
+				gene = gene_bs_body_shape
+				value = 1.0
+				template = body_shape_average_clothed
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_elisabeth_gangenes
+				this = character:easteregg_elisabeth_gangenes
+			}
+		}
+	}
+	}
+
+	{
+	rebecca_ronnback = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_03
+				value = 0 # Please replace with accessory = accessory_name
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_rebecca_ronnback
+				this = character:easteregg_rebecca_ronnback
+			}
+		}
+	}
+	}
+
+	{
+	hanna_lohman = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.51 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_hanna_lohman
+				this = character:easteregg_hanna_lohman
+			}
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_anna_strom
+				this = character:easteregg_anna_strom
+			}
+		}
+	}
+	}
+
+	{
+	marcus_bose = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = no_hairstyles
+				value = 0.27 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_01
+				value = 0.87 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_marcus_bose
+				this = character:easteregg_marcus_bose
+			}
+		}
+	}
+	}
+
+	{
+	jesse_kopparvall = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = no_hairstyles
+				value = 0.27 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_02
+				value = 0.3 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_jesse_kopparvall
+				this = character:easteregg_jesse_kopparvall
+			}
+		}
+	}
+	}
+
+	{
+	lukasz_opara = { 
+		dna_modifiers = {
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_lukasz_opara
+				this = character:easteregg_lukasz_opara
+			}
+		}
+	}
+	}
+
+	{
+	mateusz_mierzwa = { 
+		dna_modifiers = {
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_mateusz_mierzwa
+				this = character:easteregg_mateusz_mierzwa
+			}
+		}
+	}
+
+	natalia_lechnata = { 
+		dna_modifiers = {
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_natalia_lechnata
+				this = character:easteregg_natalia_lechnata
+			}
+		}
+	}
+
+	natalia_poreba = { 
+		dna_modifiers = {
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_natalia_poreba
+				this = character:easteregg_natalia_poreba
+			}
+		}
+	}
+	}
+
+	{
+	struan_mccallum = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.62 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_01
+				value = 0.74 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_struan_mccallum
+				this = character:easteregg_struan_mccallum
+			}
+		}
+	}
+	}
+
+	{
+	riad_deneche = { 
+		dna_modifiers = {
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_riad_deneche
+				this = character:easteregg_riad_deneche
+			}
+		}
+	}
+	}
+
+	{
+	anton_leirnes = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = all_hairstyles
+				accessory = male_hair_western_07
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = all_beards
+				accessory = male_beard_mena_04
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_tomasz_ender
+				this = character:easteregg_tomasz_ender
+			}
+		}
+	}
+	}
+
+	{
+	stella_carrick = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.04 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = fp1_cloak
+				value = 1
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_stella_carrick
+				this = character:easteregg_stella_carrick
+			}
+		}
+	}
+	}
+
+	{
+	fenni_johansson = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.04 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_fenni_johansson
+				this = character:easteregg_fenni_johansson
+			}
+		}
+	}
+	}
+
+	{
+	james_beaumont = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.32 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_01
+				value = 0.04 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_james_beaumont
+				this = character:easteregg_james_beaumont
+			}
+		}
+	}
+	}
+
+	{
+	bahar_shefket = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.73 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_bahar_shefket
+				this = character:easteregg_bahar_shefket
+			}
+		}
+	}
+	}
+
+	{
+	hugo_cortell = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.38 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_02
+				value = 0.11 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_hugo_cortell
+				this = character:easteregg_hugo_cortell
+			}
+		}
+	}
+	}
+
+	{
+	alexander_newcombe = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_03
+				value = 0.1 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_02
+				value = 0.11 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_alexander_newcombe
+				this = character:easteregg_alexander_newcombe
+			}
+		}
+	}
+	}
+
+	{
+	elena_zenko = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.51 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_elena_zenko
+				this = character:easteregg_elena_zenko
+			}
+		}
+	}
+	}
+
+	{
+	fei_berg_hulthen = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.0 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = no_beard
+				value = 0.11 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_fei_berg_hulthen
+				this = character:easteregg_fei_berg_hulthen
+			}
+		}
+	}
+	}
+
+	{
+	stina_arvidsson_radestig = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_03
+				value = 0.6# Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_stina_arvidsson_radestig
+				this = character:easteregg_stina_arvidsson_radestig
+			}
+		}
+	}
+	}
+
+	{
+	ola_jentzsch = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.99 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_01
+				value = 0.61 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = headgear
+				template = no_headgear
+				value = 0.5 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_ola_jentzsch
+				this = character:easteregg_ola_jentzsch
+			}
+		}
+	}
+	}
+
+	{
+	nikola_stokic = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				accessory = male_hair_fp1_09
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_nikola_stokic
+				this = character:easteregg_nikola_stokic
+			}
+		}
+	}
+	}
+
+	{
+	sandra_runge_moller = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.54 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_sandra_runge_moller
+				this = character:easteregg_sandra_runge_moller
+			}
+		}
+	}
+	}
+
+	{
+	alessandro_bragalini = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = no_hairstyles
+				value = 0.99 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_01
+				value = 0.45 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_alessandro_bragalini
+				this = character:easteregg_alessandro_bragalini
+			}
+		}
+	}
+	}
+
+	{
+	jon_astrup_hallkvist = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.2 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = no_beard
+				value = 0.45 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_jon_astrup_hallkvist
+				this = character:easteregg_jon_astrup_hallkvist
+			}
+		}
+	}
+	}
+
+	{
+	maxence_voleau = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_03
+				value = 1 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_02
+				value = 0.11 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_maxence_voleau
+				this = character:easteregg_maxence_voleau
+			}
+		}
+	}
+	}
+
+	{
+	jason_cantalini = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.15 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_01
+				value = 0.45 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_jason_cantalini
+				this = character:easteregg_jason_cantalini
+			}
+		}
+	}
+	}
+
+	{
+	chad_uhl = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				accessory = male_hair_western_02
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_03
+				accessory = m_beard_ep2_western_01 #m_beard_sep_western_01
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_chad_uhl
+				this = character:easteregg_chad_uhl
+			}
+		}
+	}
+	}
+
+	{
+	fabian_franzen = { 
+		dna_modifiers = {
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_fabian_franzen
+				this = character:easteregg_fabian_franzen
+			}
+		}
+	}
+	}
+
+	{
+	zack_holmgren = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.27 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = no_beard
+				value = 0.11 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_zack_holmgren
+				this = character:easteregg_zack_holmgren
+			}
+		}
+	}
+	}
+
+	{
+	claudia_baldassi = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.23 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_claudia_baldassi
+				this = character:easteregg_claudia_baldassi
+			}
+		}
+	}
+	}
+
+	{
+	joe_parkin = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = no_hairstyles
+				value = 0.27 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = no_beard
+				value = 0.11 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_joe_parkin
+				this = character:easteregg_joe_parkin
+			}
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_mathias_frostewarn
+				this = character:easteregg_mathias_frostewarn
+			}
+		}
+	}
+	}
+
+	{
+	veronica_pazos = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.04 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_veronica_pazos
+				this = character:easteregg_veronica_pazos
+			}
+		}
+	}
+
+	weronika_kowalczyk = { 
+		dna_modifiers = {
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_weronika_kowalczyk
+				this = character:easteregg_weronika_kowalczyk
+			}
+		}
+	}
+
+	jakob_jorstedt = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.84 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = no_beard
+				value = 0.45 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_jakob_jorstedt
+				this = character:easteregg_jakob_jorstedt
+			}
+		}
+	}
+
+	tess_lindholm = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.13 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_berrak_oz
+				this = character:easteregg_berrak_oz
+			}
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_tess_lindholm
+				this = character:easteregg_tess_lindholm
+			}
+		}
+	}
+
+	luke_bean = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_03
+				value = 0.1 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_01
+				value = 0.45 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_luke_bean
+				this = character:easteregg_luke_bean
+			}
+		}
+	}
+
+	artur_kacprzak = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.2 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_01
+				value = 0.11 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_artur_kacprzak
+				this = character:easteregg_artur_kacprzak
+			}
+		}
+	}
+
+	tomas_versekys = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_03
+				value = 0.1 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = no_beard
+				value = 0.11 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_tomas_versekys
+				this = character:easteregg_tomas_versekys
+			}
+		}
+	}
+
+	ida_hedberg = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_03
+				value = 0.1 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_ida_hedberg
+				this = character:easteregg_ida_hedberg
+			}
+		}
+	}
+
+	alexander_windahl = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.77 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = no_beard
+				value = 0.11 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_alexander_windahl
+				this = character:easteregg_alexander_windahl
+			}
+		}
+	}
+
+	johan_husen = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = no_hairstyles
+				value = 0.77 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_01
+				value = 0.04 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_johan_husen
+				this = character:easteregg_johan_husen
+			}
+		}
+	}
+
+	daan_broekhof = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.87 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = no_beard
+				value = 0.04 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_daan_broekhof
+				this = character:easteregg_daan_broekhof
+			}
+		}
+	}
+
+	alexia_belfort = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.73 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_alexia_belfort
+				this = character:easteregg_alexia_belfort
+			}
+		}
+	}
+	
+	david_drake = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = no_hairstyles
+				value = 0.77 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = all_beards
+				accessory = m_beard_sp2_western_01
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_david_drake
+				this = character:easteregg_david_drake
+			}
+		}
+	}
+
+	ernesto_lopez = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = beards
+				template = all_beards
+				accessory = male_beard_fp2_iberian_christian_01
+			}
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = all_hairstyles
+				accessory = male_hair_western_01
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_ernesto_lopez
+				this = character:easteregg_ernesto_lopez
+			}
+		}
+	}
+
+	lucas_ribeiro = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = fp3_hairstyles_iranian_straight
+				value = 0.1
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = no_beard
+				value = 0.11 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_lucas_ribeiro
+				this = character:easteregg_lucas_ribeiro
+			}
+		}
+	}
+	
+	daniel_velasquez = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = all_hairstyles
+				accessory = male_hair_fp2_iberian_muslim_01
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = all_beards
+				accessory = male_beard_fp2_iberian_christian_01
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_daniel_velasquez
+				this = character:easteregg_daniel_velasquez
+			}
+		}
+	}
+
+	jakob_eklund = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = all_hairstyles
+				accessory = male_hair_indian_03
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = no_beard
+				value = 0.11 # Please replace with accessory = accessory_name
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_jakob_eklund
+				this = character:easteregg_jakob_eklund
+			}
+		}
+	} # jakob_eklund
+
+	emelie_verdugo = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				range = {0.83 0.98} # Mix between all FP1 scripted char hairstyles
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_emelie_verdugo
+				this = character:easteregg_emelie_verdugo
+			}
+		}
+	}
+
+	anton_holmqvist = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = no_hairstyles
+				value = 0.27 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = all_beards
+				accessory = m_beard_ep2_western_03
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_anton_holmqvist
+				this = character:easteregg_anton_holmqvist
+			}
+		}
+	}
+
+	samet_atasoy = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = all_hairstyles
+				accessory = male_hair_western_04
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = all_beards
+				accessory = male_beard_western_03
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_samet_atasoy
+				this = character:easteregg_samet_atasoy
+			}
+		}
+	}
+
+	richard_lindkvist = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = all_hairstyles
+				accessory = male_hair_indian_01
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = all_beards
+				accessory = male_beard_western_03
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_richard_lindkvist
+				this = character:easteregg_richard_lindkvist
+			}
+		}
+	}
+
+	daniel_tolman = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = all_hairstyles
+				accessory = male_hair_western_03
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = all_beards
+				accessory = male_beard_western_02
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_daniel_tolman
+				this = character:easteregg_daniel_tolman
+			}
+		}
+	}
+
+	female_hair_steppe_01 = { # Twin braids with ribbons and earrings
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.76 # For the randomness to work correctly
+			}
+		}   
+		weight = {
+			base = 0
+		}
+	}
+
+	female_hair_steppe_02 = { # Tight with twin braids rolled up into two balls, earrings
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.79 # For the randomness to work correctly
+			}
+		}   
+		weight = {
+			base = 0
+		}
+	}
+
+	### FP2 Hair ###
+
+
+
+	female_hair_fp2_iberian_muslim_01 = { # Let out but with smaller braids braided in
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_03
+				value = 0.1 # For the randomness to work correctly
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_ida_hedberg
+				this = character:easteregg_ida_hedberg
+			}
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_francesca_passoni
+				this = character:easteregg_francesca_passoni
+			}
+		}
+	}
+
+	female_hair_fp2_iberian_muslim_02 = { # Let out but with smaller braids braided in
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_03
+				value = 0.2 # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+		}
+	}
+
+	female_hair_fp2_iberian_muslim_03 = { # Let out but with smaller braids braided in
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_03
+				value = 0.4 # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+
 			 modifier = {
 				add = 999
 				exists = this
-				exists = character:73857
-				this = character:73857
+				exists = character:73683
+				this = character:73683
 			}
+		}
 	}
-	{
-			modifier = {
-				add = 999
-				exists = this
-				exists = character:70292
-				this = character:70292
+
+	female_hair_fp2_iberian_christian_01 = { # Let out but with smaller braids braided in
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_03
+				value = 0.6 # For the randomness to work correctly
 			}
-	}
-	{
-			modifier = {
-				add = 999
-				exists = this
-				exists = character:163157 #Ismail Samani
-				this = character:163157 #Ismail Samani
-			}
-	}
-	{
-			modifier = {
-				add = 999
-				exists = this
-				exists = character:1230316 #Suri of Mandesh
-				this = character:1230316 #Suri of Mandesh
-			}
-	}
-	{
+		}
+		weight = {
+			base = 0
+
 			 modifier = {
 				add = 999
 				exists = this
 				exists = character:73759
 				this = character:73759
 			}
+		}
 	}
-	{
+
+	female_hair_fp2_iberian_christian_02 = { # Let out but with smaller braids braided in
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_03
+				value = 0.83 # For the randomness to work correctly
+			}
+		}   
+		weight = {
+			base = 0
+
+			 modifier = {
+				add = 999
+				exists = this
+				exists = character:73857
+				this = character:73857
+			}
+
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:70292
+				this = character:70292
+			}
+
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_melanie_bjurman
+				this = character:easteregg_melanie_bjurman
+			}
+		}
+	}
+
+	female_hair_fp2_iberian_christian_03 = { # Let out but with smaller braids braided in
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_03
+				value = 1 # For the randomness to work correctly
+			}
+		}   
+		weight = {
+			base = 0
+
 			 modifier = {
 				add = 999
 				exists = this
 				exists = character:73783
 				this = character:73783
 			}
+		}
+	}
+
+
+
+	### FP1 Hair ###
+
+	female_hair_fp1_01 = { # Let out but with smaller braids braided in
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.83 # For the randomness to work correctly
+			}
+		}   
+		weight = {
+			base = 0
+		}
+	}
+
+	female_hair_fp1_02 = { # Very big loose braid on one shoulder
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.86 # For the randomness to work correctly
+			}
+		}   
+		weight = {
+			base = 0
+
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_elisabeth_gangenes
+				this = character:easteregg_elisabeth_gangenes
+			}
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_lucia_dzediti
+				this = character:easteregg_lucia_dzediti
+			}
+		}
+	}
+
+	female_hair_fp1_03 = { # Pigtail braids
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.90 # For the randomness to work correctly
+			}
+		}   
+		weight = {
+			base = 0
+		}
+	}
+
+	female_hair_fp1_04 = { # Crown braid with ribbon
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.92 # For the randomness to work correctly
+			}
+		}   
+		weight = {
+			base = 0
+		}
+	}
+
+	female_hair_fp1_05 = { # Twin tails on chest, let out in back
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.95 # For the randomness to work correctly
+			}
+		}   
+		weight = {
+			base = 0
+		}
+	}
+
+	female_hair_fp1_06 = { # Let out fluffy straight
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.98 # For the randomness to work correctly
+			}
+		}   
+		weight = {
+			base = 0
+
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_alva_granholm
+				this = character:easteregg_alva_granholm
+			}
+		}
+	}
+
+	### FP3 Hair
+
+	m_hair_fp3_iranian_01 = { # Long split strands
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_05
+				value = 0.1 # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:163157 #Ismail Samani
+				this = character:163157 #Ismail Samani
+			}
+		}
+	}
+
+	m_hair_fp3_iranian_02 = { # Seljuk Braids
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_05
+				value = 0.6 # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+		}
+	}
+
+	m_hair_fp3_iranian_03 = { # Medium wavy ends
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_05
+				value = 0.9 # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:1230316 #Suri of Mandesh
+				this = character:1230316 #Suri of Mandesh
+			}
+		}
+	}
+
+	f_hair_fp3_iranian_01 = { #  Medium Curls with Earrings
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_05
+				value = 0.6 # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+		}
+	}
+
+	f_hair_fp3_iranian_02 = { # Long Split with Earrings
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_05
+				value = 0.75 # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+		}
+	}
+
+	f_hair_fp3_iranian_03 = { # Medium buns with earrings
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_05
+				value = 0.9 # For the randomness to work correctly
+			}
+		}
+		weight = {
+			base = 0
+		}
+	}
+
+	david_ostlund = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.078 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_01
+				value = 0.855 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_david_ostlund
+				this = character:easteregg_david_ostlund
+			}
+		}
+	}
+
+	philip_wessman = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_01
+				value = 0.247 # Please replace with accessory = accessory_name
+			}
+			accessory = {
+				mode = add
+				gene = beards
+				template = scripted_character_beards_01
+				value = 0.098 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_philip_wessman
+				this = character:easteregg_philip_wessman
+			}
+		}
+	}
+
+	neyla_garcia = { 
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = scripted_character_hairstyles_03
+				value = 0.51 # Please replace with accessory = accessory_name
+			}
+		}   
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_neyla_garcia
+				this = character:easteregg_neyla_garcia
+			}
+		}
+	}
 	}
 }
 
@@ -7813,7 +9598,7 @@ hasan_expand_the_assassins = {
 	}
 }
 
-"common\casus_belli_types\00_event_war.txt" = {
+"common/casus_belli_types/00_event_war.txt" = {
 	{
 		#Hereward the Wake departs for the Fenlands
 		character:90028 = { save_scope_as = hereward }
@@ -7907,6 +9692,151 @@ hasan_expand_the_assassins = {
 						scope:defender = { highest_held_title_tier <= tier_duchy }
 					}
 					multiply = 0
+				}
+			}
+		}
+	}
+}
+
+"common/scripted_effects/07_dlc_ep3_scripted_effects.txt" = {
+	{
+		if = {
+			limit = { character:90028 ?= this }
+			custom_tooltip = ep3_story_cycle_harrying.3053.b.tt
+			add_character_flag = hereward_settled_flag
+		}
+	}
+
+	{
+			if = {
+				limit = { character:90028 ?= this }
+				add_character_flag = hereward_settled_flag
+			}
+	}
+
+	{
+		if = {
+			limit = { character:90028 ?= this }
+			custom_tooltip = ep3_story_cycle_harrying.3053.b.tt
+			add_character_flag = hereward_settled_flag
+		}
+	}
+
+	{
+	if = {
+		limit = {
+			character:90028 = {
+				is_alive = yes
+				NOT = {
+					has_character_flag = hereward_settled_flag
+				}
+			}
+		}
+		character:90028 = {
+			send_interface_message = {
+				type = msg_pacification_rise
+				title = harrying.notification_pacification_rise
+				desc = harrying_pacification_rise
+			}
+		}
+	}
+	}
+
+	{
+	if = {
+		limit = {
+			character:90028 = {
+				is_alive = yes
+				NOT = {
+					has_character_flag = hereward_settled_flag
+				}
+			}
+		}
+		character:90028 = {
+			send_interface_message = {
+				type = msg_pacification_rise
+				title = harrying.notification_pacification_rise
+				desc = harrying_pacification_rise
+			}
+		}
+	}
+	}
+
+	{
+	if = {
+		limit = {
+			character:90028 = {
+				is_alive = yes
+				NOT = {
+					has_character_flag = hereward_settled_flag
+				}
+			}
+		}
+		character:90028 = {
+			send_interface_message = {
+				type = msg_resistance_rise
+				title = harrying.notification_resistance_rise
+				desc = harrying_resistance_rise
+			}
+		}
+	}
+	}
+
+	{
+	if = {
+		limit = {
+			character:90028 = {
+				is_alive = yes
+				NOT = {
+					has_character_flag = hereward_settled_flag
+				}
+			}
+		}
+		character:90028 = {
+			send_interface_message = {
+				type = msg_resistance_rise
+				title = harrying.notification_resistance_rise
+				desc = harrying_resistance_rise
+			}
+		}
+	}
+	}
+
+	{
+		if = {
+			limit = {
+				character:90028 = {
+					is_alive = yes
+					NOT = {
+						has_character_flag = hereward_settled_flag
+					}
+				}
+			}
+			character:90028 = {
+				send_interface_message = {
+					type = msg_pacification_falls
+					title = harrying.notification_pacification_fall
+					desc = harrying_pacification_fall
+				}
+			}
+		}
+	}
+
+	{
+		if = {
+			limit = {
+				character:90028 = {
+					is_alive = yes
+					NOT = {
+						has_character_flag = hereward_settled_flag
+					}
+				}
+			}
+			character:90028 = {
+				send_interface_message = {
+					type = msg_resistance_falls
+					title = harrying.notification_resistance_fall
+					desc = harrying_resistance_fall
 				}
 			}
 		}

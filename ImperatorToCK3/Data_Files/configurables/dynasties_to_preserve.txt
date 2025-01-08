@@ -14,3 +14,4 @@ suren_dynasty # referenced in common\scripted_guis\sevenhouses.txt
 varaz_dynasty # referenced in common\scripted_guis\sevenhouses.txt
 spandiyadh_dynasty # referenced in common\scripted_guis\sevenhouses.txt
 7511 # referenced in common\scripted_guis\sevenhouses.txt
+900018 # referenced in common\on_action\sevenhouses_on_actions.txt

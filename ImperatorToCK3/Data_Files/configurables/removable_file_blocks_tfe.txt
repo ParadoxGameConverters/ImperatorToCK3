@@ -17194,3 +17194,435 @@ restore_holy_roman_empire_decision = {
 }
 	}
 }
+
+"events/eastern_iranian_struggle_events/tfe_eastern_iranian_struggle_events.txt" = {
+	{
+# Decentralization Ending
+eastern_iranian_struggle.1004 = { 
+	type = character_event
+	window = fullscreen_event
+	title = eastern_iranian_struggle.1004.t
+	desc = {
+		desc = eastern_iranian_struggle.1004.desc
+	}
+	theme = court
+	override_background = { reference = TFE_struggle_bg_oasis }
+	override_sound = { reference = "event:/DLC/FP2/SFX/UI/fp2_struggle_ui_intro_end_animate" }
+
+	immediate = {
+		play_music_cue = "mx_Struggle_ending_compromise"
+
+		save_scope_as = struggle_ender
+
+		# Independent/Split De Jure Duchies will become De Jure Kingdoms
+		# if = {
+		# 	limit = {
+		# 		every_county_in_region = {
+		# 			region = TFE_eastern_iranian_struggle_region
+		# 			any_this_title_or_de_jure_above = {
+		# 				fp2_struggle_ending_compromise_independent_duchy_trigger = yes
+		# 				# NOT = { this = }
+		# 			}
+		# 		}
+		# 	}
+		# 	custom_tooltip = {
+		# 		text = tfe_iranian_struggle_compromise_create_new_kingdoms_tt
+		# 		persia_struggle_compromise_duchies_to_kingdoms_effect = yes
+		# 	}
+		# }
+		# if = {
+		# 	limit = {
+		# 		title:e_persia = {
+		# 			any_in_de_jure_hierarchy = { fp2_struggle_ending_compromise_independent_duchy_trigger = yes }
+		# 		}
+		# 	}
+		# 	custom_tooltip = {
+		# 		text = tfe_iranian_struggle_compromise_create_new_kingdoms_tt
+		# 		persia_struggle_compromise_duchies_to_kingdoms_effect = yes
+		# 	}
+		# }
+		# if = {
+		# 	limit = {
+		# 		title:e_turan = {
+		# 			any_in_de_jure_hierarchy = { fp2_struggle_ending_compromise_independent_duchy_trigger = yes }
+		# 		}
+		# 	}
+		# 	custom_tooltip = {
+		# 		text = tfe_iranian_struggle_compromise_create_new_kingdoms_tt
+		# 		persia_struggle_compromise_duchies_to_kingdoms_effect = yes
+		# 	}
+		# }
+		 # Move duchies to right kingdoms
+		# persia_struggle_compromise_transfer_duchies_effect = yes
+		#  # Turn kingdoms to empires
+		# persia_struggle_compromise_kingdoms_to_empires_effect = yes
+		#  # distribute small kingdoms
+		# persia_struggle_compromise_distribute_kingdoms_to_neighbouring_empires_effect = yes
+		#  # assign the new title to existing characters
+		# persia_struggle_compromise_distribute_the_actual_titles = yes
+
+		hidden_effect = {
+			TFE_eastern_iranian_struggle_compromise_de_jure_effect = yes
+		}
+
+		 # Set up truces
+		persia_struggle_compromise_truce_effect = yes
+
+		 ##### Major Effects #####
+		fp2_struggle_compromise_ender_effect = yes
+		
+		 # Tooltips!
+		tfe_struggle_eastern_iranian_compromise_tooltip_effect = yes
+
+		 ##### Minor Effects #####
+		 # Self-sufficiency modifiers for each independent realm
+		tfe_struggle_eastern_iranian_compromise_modifier_rewards_effect = yes
+		set_global_variable = {
+		 	name = persia_struggle_compromise_ending
+		 	value = yes
+		}
+	}
+
+	# Ok
+	option = {
+		name = eastern_iranian_struggle.1004.a
+		 if = {
+		 	limit = {
+				any_in_list = {
+		 			list = kingdom_empire
+					this = root.primary_title
+				}
+		 	}
+		 	custom_tooltip = fp2_struggle.0901.tt
+		}
+	}
+
+	after = {
+		 stress_impact = {
+		 	arrogant = medium_stress_impact_gain
+		 }
+		# End Struggle
+		struggle:eastern_iranian_struggle = {
+			end_struggle = struggle_eastern_iranian_ending_compromise_decision
+		}
+		every_player = {
+			# limit = {
+			#  	NOT = { this = root }
+			#  }
+			trigger_event = eastern_iranian_struggle.1005
+		}
+	}
+}
+
+eastern_iranian_struggle.1005 = {
+	type = character_event
+	window = fullscreen_event
+	title = eastern_iranian_struggle.1005.t
+	desc = {
+		first_valid = {
+		    triggered_desc = {
+		        trigger = { is_in_list = struggle_involvees }
+		        desc = eastern_iranian_struggle.1005.opening.involved
+		    }
+		    desc = eastern_iranian_struggle.1005.opening
+		}
+		desc = eastern_iranian_struggle.1005.desc
+	}
+	theme = court
+	override_background = { reference = TFE_struggle_bg_oasis }
+	override_sound = { reference = "event:/DLC/FP2/SFX/UI/fp2_struggle_ui_intro_end_animate" }
+
+	immediate = {
+		play_music_cue = "mx_Struggle_ending_compromise"
+		##### Major Effects #####
+		show_as_tooltip = {
+			scope:struggle_ender = { fp2_struggle_compromise_ender_effect = yes }
+		}
+		# Independent/Split De Jure Duchies will become De Jure Kingdoms
+		 tfe_struggle_eastern_iranian_compromise_tooltip_effect = yes
+		 if = {
+		 	limit = { is_in_list = struggle_involvees }
+		 	show_as_tooltip = {
+		 		fp2_struggle_compromise_modifier_rewards_personal_house_effect = yes
+				fp2_struggle_compromise_modifier_rewards_personal_county_effect = yes
+		 	}
+		 }
+	}
+
+	# Ok
+	option = {
+		name = eastern_iranian_struggle.1005.a
+	}
+}
+	}
+}
+
+"common/decisions/tfe_struggle_decisions.txt" = {
+	{
+# Decentralized Polities
+struggle_eastern_iranian_ending_compromise_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_qanat.dds"
+	}
+	extra_picture = "gfx/interface/illustrations/struggle_decisions_buttons/decision_qanat.dds"
+	decision_group_type = major
+
+	title = struggle_eastern_iranian_ending_compromise_decision
+	desc = struggle_eastern_iranian_ending_compromise_decision_desc
+	selection_tooltip = struggle_eastern_iranian_ending_compromise_decision_tooltip
+	confirm_click_sound = "event:/DLC/FP2/SFX/UI/fp2_struggle_ending_decision_confirm"
+	is_invisible = yes
+
+	sort_order = 80
+
+	is_valid = {
+		is_independent_ruler = yes
+
+		custom_tooltip = {
+			text = struggle_eastern_iranian_ending_compromise_decision_correct_phase_tt
+			any_character_struggle = {
+				AND = {
+					is_struggle_type = eastern_iranian_struggle
+					is_struggle_phase = struggle_TFE_eastern_iranian_phase_compromise
+				}
+			}
+		}
+
+		custom_tooltip = {
+			text = struggle_ending_decision_correct_involvement_tt
+			any_character_struggle = {
+				involvement = involved
+				is_struggle_type = eastern_iranian_struggle
+			}
+		}
+
+		OR = {
+			# Exalted among Men or higher
+			prestige_level >= very_high_prestige_level
+			# Hold and completely control a de jure kingdom of Hispania
+			custom_tooltip = {
+				text = struggle_eastern_iranian_ending_compromise_decision_kingdom_tt
+				tfe_struggle_ending_hold_de_jure_kingdom_trigger_persia = yes
+			}
+		}
+
+		# Control less than 50% of Iberia
+		custom_tooltip = {
+			text = struggle_eastern_iranian_ending_compromise_decision_region_tt
+			tfe_struggle_ending_percent_persia_trigger = yes
+		}
+
+		# No one else controls more than 50% of Iberia
+		custom_tooltip = {
+			text = struggle_eastern_iranian_ending_compromise_decision_other_region_tt
+			tfe_struggle_ending_other_percent_persia_trigger = yes
+		}
+
+		# No Independent Involved rulers are at war with each other
+		custom_tooltip = {
+			text = struggle_iberia_ending_compromise_truce_tt
+			NOT = {
+				struggle:eastern_iranian_struggle = {
+					any_involved_ruler = {
+						is_independent_ruler = yes
+						primary_title = { is_mercenary_company = no }
+						any_primary_war_enemy = {
+							is_independent_ruler = yes
+							any_character_struggle = {
+								involvement = involved
+								is_struggle_type = eastern_iranian_struggle
+							}
+							primary_title = { is_mercenary_company = no }
+						}
+					}
+				}
+			}
+		}
+
+		OR = {
+			# Every other involved independent ruler in Eastern Iranian region has at least 60 opinion of you or is strong hooked
+			custom_tooltip = {
+				text = struggle_eastern_iranian_ending_compromise_decision_opinion_tt
+				struggle:eastern_iranian_struggle = {
+					NOT = {
+						any_involved_ruler = {
+							NOT = { this = root }
+							is_independent_ruler = yes
+							primary_title = { is_holy_order = no }
+							primary_title = { is_mercenary_company = no }
+							save_temporary_scope_as = this_character
+							NOR = {
+								root = { has_strong_hook = scope:this_character }
+								opinion = {
+									target = root
+									value >= struggle_iberia_ending_compromise_decision_opinion_value
+								}
+							}
+						}
+					}
+				}
+			}
+			# No other independent ruler in Eastern Iranian region is a king or above
+			custom_tooltip = {
+				text = struggle_eastern_iranian_ending_compromise_decision_independent_tt
+				struggle:eastern_iranian_struggle = {
+					NOT = {
+						any_involved_ruler = {
+							NOT = { this = root }
+							is_independent_ruler = yes
+							primary_title = { is_mercenary_company = no }
+							primary_title.tier >= tier_kingdom
+						}
+					}
+				}
+			}
+			# More than 25% of Eastern Iranian region is controlled by Interloper or Uninvolved rulers
+			custom_tooltip = {
+				text = struggle_eastern_iranian_ending_compromise_decision_interloper_tt
+				any_county_in_region = {
+					region = TFE_eastern_iranian_struggle_region
+					percent > fp2_struggle_compromise_uninvolved_percent_decimal_value
+					holder.top_liege = {
+						NOT = {
+							any_character_struggle = {
+								involvement = involved
+								is_struggle_type = eastern_iranian_struggle
+							}
+						}				
+					}
+				}
+			}
+		}
+	}
+
+	effect = {
+		if = {
+			limit = { has_dlc_feature = legends }
+			legend_seed_struggle_ending_effect = {
+				ENDER = root
+				STRUGGLE = eastern_iranian_struggle
+			}
+		}
+		##### Major Effects #####
+		# Personal effects for ruler
+		show_as_tooltip = { tfe_struggle_compromise_ender_effect = yes }
+		# any_county_in_region
+		# Independent/Split De Jure Duchies will become De Jure Kingdoms
+		# if = {
+		# 	limit = {
+		# 		every_county_in_region = {
+		# 			region = TFE_eastern_iranian_struggle_region
+		# 			any_this_title_or_de_jure_above = {
+		# 				fp2_struggle_ending_compromise_independent_duchy_trigger = yes
+		# 				# NOT = { this = }
+		# 			}
+		# 		}
+		# 	}
+		# 	custom_tooltip = tfe_iranian_struggle_compromise_create_new_kingdoms_tt
+		# }
+		# if = {
+		# 	limit = {
+		# 		title:e_persia = {
+		# 			any_in_de_jure_hierarchy = {
+		# 				fp2_struggle_ending_compromise_independent_duchy_trigger = yes
+		# 				# NOT = { this = }
+		# 			}
+		# 		}
+		# 	}
+		# 	custom_tooltip = tfe_iranian_struggle_compromise_create_new_kingdoms_tt
+		# }
+		# if = {
+		# 	limit = {
+		# 		title:e_turan = {
+		# 			any_in_de_jure_hierarchy = {
+		# 				fp2_struggle_ending_compromise_independent_duchy_trigger = yes
+		# 			}
+		# 		}
+		# 	}
+		# 	custom_tooltip = tfe_iranian_struggle_compromise_create_new_kingdoms_tt
+		# }
+		# Other Tooltips!
+		tfe_iranian_struggle_compromise_tooltip_effect = yes
+
+		##### Minor Effects #####
+		# Self-sufficiency/defensive modifiers for each independent realm
+		show_as_tooltip = { fp2_struggle_compromise_modifier_rewards_effect = yes }
+
+		show_as_tooltip = {
+			stress_impact = {
+				arrogant = medium_stress_impact_gain
+			}
+		}
+
+
+		# Trigger a player facing event as a coda
+		trigger_event = eastern_iranian_struggle.1004
+	}
+
+	cost = { gold = { value = 150 } }
+
+	ai_check_interval = 120
+
+	ai_potential = { always = yes }
+
+	ai_will_do = { base = 100 }
+}
+	}
+}
+
+"common/on_action/game_start.txt" = {
+	# TFE doesn't have Iceland on the map.
+	{
+			title:d_iceland = { set_coa = d_iceland_norse }
+			title:c_vestisland = { set_coa = c_vestisland_norse }
+			title:c_nordrland = { set_coa = c_nordrland_norse }
+			title:c_austisland = { set_coa = c_austisland_norse }
+			title:c_sudurland = { set_coa = c_sudurland_norse }
+	}
+}
+
+"common/scripted_modifiers/TFE_marriage_modifier.txt" = {
+	{
+	#############
+	#  HAROLD   #
+	#############
+	modifier = {
+		add = -5000
+		years_from_game_start <= 5
+		OR = {
+			scope:actor = character:122
+			scope:recipient = character:122
+			scope:secondary_actor = character:122
+			scope:secondary_recipient = character:122
+		}
+		scope:actor = {
+			is_ai = yes
+		}
+		scope:recipient = {
+			is_ai = yes
+		}
+		scope:secondary_actor = {
+			is_ai = yes
+		}
+		scope:secondary_recipient = {
+			is_ai = yes
+		}
+	}
+	}
+}
+
+"gfx/portraits/portrait_modifiers/01_beards_base.txt" = {
+	{
+			modifier = {
+				add = 666
+				exists = this
+				exists = character:easteregg_daan_broekhof
+				this = character:easteregg_daan_broekhof
+			}
+            modifier = {
+				add = 1000
+				exists = this
+				has_character_flag = no_beard
+			}
+	}
+}
