@@ -446,6 +446,78 @@
 			}
 		}
 	}
+
+	{
+TFE_on_game_start_larp_history = {
+	effect = {
+		if = {
+			limit = {
+				any_ruler = {
+					has_game_rule = dead_cultures_enabled 
+				}
+			}
+			title:c_kairwan = {
+				set_county_culture = culture:punic
+				set_county_faith = faith:carthage_pagan
+			}
+			title:c_west_qamuda = {
+				set_county_culture = culture:punic
+				set_county_faith = faith:carthage_pagan
+			}
+			title:c_tabassa = {
+				set_county_culture = culture:punic
+				set_county_faith = faith:carthage_pagan
+			}
+			title:c_qashtiliya = {
+				set_county_culture = culture:punic
+				set_county_faith = faith:carthage_pagan
+			}
+
+			title:c_vermandois = {
+				set_county_culture = culture:gaul
+			}
+			title:c_bayeux = {
+				set_county_culture = culture:gaul
+			}
+			title:c_avranches = {
+				set_county_culture = culture:gaul
+			}
+			title:c_lisieux = {
+				set_county_culture = culture:gaul
+			}
+			if = {
+				limit = {
+					dummy_male.current_date < 400
+				}
+				title:c_eu = {
+					set_county_culture = culture:gaul
+				}
+				title:c_rethel = {
+					set_county_culture = culture:gaul
+				}
+				title:c_dijon = {
+					set_county_culture = culture:gaul
+				}
+				title:c_briey = {
+					set_county_culture = culture:gaul
+				}
+				title:c_luxembourg = {
+					set_county_culture = culture:gaul
+				}
+				title:c_bouillon = {
+					set_county_culture = culture:gaul
+				}
+				title:c_namur = {
+					set_county_culture = culture:gaul
+				}
+			}
+		}
+	}
+}
+	}
+	{
+		TFE_on_game_start_larp_history
+	}
 }
 
 "common/on_action/sea_minority_game_start.txt" = {
@@ -2460,12 +2532,169 @@ on_title_gain_inheritance = {
 	{
 		copy_inheritable_appearance_from = character:990000
 	}
+
 	{
-		if = {
-			limit = { character:90028 ?= this }
-			custom_tooltip = ep3_story_cycle_harrying.3053.b.tt
-			add_character_flag = hereward_settled_flag
+start_vandalic_war_effect = {
+
+	global_var:justinian_commander = {
+		add_character_flag = STOP_ADMIN
+	}
+
+	title:c_mahdiya = {
+		save_temporary_scope_as = current_county
+	}
+	create_title_and_vassal_change = {
+		type = usurped
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	scope:current_county = {
+		change_title_holder = {
+			holder = global_var:justinian_commander
+			change = scope:change
+			take_baronies = yes
 		}
+	}
+	resolve_title_and_vassal_change = scope:change
+
+	if = {
+		limit = {
+			exists = title:e_byzantium.holder
+			NOT = { global_var:justinian_commander.top_liege = title:e_byzantium.holder }
+		}
+		create_title_and_vassal_change = {
+			type = conquest_claim
+			save_scope_as = change_two
+			add_claim_on_loss = no
+		}
+		global_var:justinian_commander = {
+			change_liege = {
+				liege = title:e_byzantium.holder
+				change = scope:change_two
+			}
+		}
+		resolve_title_and_vassal_change = scope:change_two
+	}
+
+	global_var:justinian_commander = {
+		every_sub_realm_county = {
+			limit = {
+				tier = tier_county
+				empire = { this = title:e_byzantium }
+			}
+			# Grab the county for ease of reference.
+			save_temporary_scope_as = current_county
+			# Create an elevated peasant to claim the county.
+			create_character = {
+				location = scope:current_county.title_province
+				template = old_country_local_warlord_template
+				save_temporary_scope_as = local_warlord
+			}
+			# Assign the seceding title to the new upstart.
+			create_title_and_vassal_change = {
+				type = usurped
+				save_scope_as = change
+				add_claim_on_loss = no
+				}
+			hidden_effect = {
+				scope:current_county = {
+					change_title_holder = {
+						holder = scope:local_warlord
+						change = scope:change
+						take_baronies = yes
+					}
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+			if = {
+				limit = {
+					exists = title:e_byzantium.holder
+				}
+				# And give them their independence.
+				create_title_and_vassal_change = {
+					type = conquest
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				hidden_effect = {
+					scope:local_warlord = {
+						#becomes_independent = { change = scope:change }
+						change_liege = {
+							liege = title:e_byzantium.holder
+							change = scope:change
+						}
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+			}
+		}
+		if = {
+			limit = {
+				exists = title:e_byzantium.holder
+			}
+			every_vassal = {
+				limit = {
+					capital_county.empire = title:e_byzantium
+				}
+				create_title_and_vassal_change = {
+					type = conquest
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				hidden_effect = {
+					change_liege = {
+						liege = title:e_byzantium.holder
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+			}
+		}
+		every_held_title = {
+			limit = {
+				tier >= tier_duchy
+				is_titular = no
+			}
+			add_to_list = list_to_return
+		}
+		every_in_list = {
+			list = list_to_return
+			save_scope_as = title_to_return
+			global_var:justinian_commander = { destroy_title = scope:title_to_return }
+		}
+	}
+
+	#Need to put this here after duchy title transfer for admin
+	title:c_mahdiya = {
+		save_temporary_scope_as = current_county
+	}
+	create_title_and_vassal_change = {
+		type = usurped
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	scope:current_county = {
+		change_title_holder = {
+			holder = global_var:justinian_commander
+			change = scope:change
+			take_baronies = yes
+		}
+	}
+	resolve_title_and_vassal_change = scope:change
+
+	global_var:justinian_commander = {
+		trigger_event = {
+			id = western_roman.0042
+			days = 1
+		}
+		start_war = {
+			cb = vandalic_war_cb
+			target = title:k_vandals.holder
+			target_title = title:k_vandals
+			claimant = global_var:justinian_commander
+		}
+	}
+}
 	}
 
 	{
@@ -2698,6 +2927,69 @@ start_gothic_war_effect = {
 				target = title:k_ostrogoths.holder
 				target_title = title:k_ostrogoths
 				claimant = title:e_byzantium.holder
+			}
+		}
+	}
+}
+	}
+
+	{
+end_gothic_war_early_effect = {
+	if = {
+		limit = {
+			scope:truce_breakee = {
+				any_vassal_or_below = {
+					any_character_war = {
+						using_cb = gothic_duchy_conquest_cb
+					}
+				}
+			}
+		}
+		scope:truce_breakee = {
+			every_vassal_or_below = {
+				every_character_war = {
+					limit = {
+						using_cb = gothic_duchy_conquest_cb
+					}
+					end_war = white_peace
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			AND = {
+				exists = title:k_ostrogoths.holder
+				title:k_ostrogoths.holder = {
+					any_character_war = {
+						using_cb = cb_gothic_wars_amalasuntha
+					}
+				}
+			}
+		}
+		title:k_ostrogoths.holder = {
+			every_character_war = {
+				limit = {
+					using_cb = cb_gothic_wars_amalasuntha
+				}
+				end_war = white_peace
+			}
+		}
+	}
+	if = {
+		limit = {
+			scope:truce_breakee = {
+				any_character_war = {
+					using_cb = gothic_war_regular_cb
+				}
+			}
+		}
+		scope:truce_breakee = {
+			every_character_war = {
+				limit = {
+					using_cb = gothic_war_regular_cb
+				}
+				end_war = white_peace
 			}
 		}
 	}
@@ -23661,6 +23953,13 @@ tfe_struggle_ending_other_percent_persia_trigger = {
 	}
 
 	{
+tfe_character_any_involvement_eastern_iranian_struggle_trigger = {
+	OR = {
+		tfe_character_involved_in_eastern_iranian_struggle_trigger = yes
+		tfe_character_interloper_in_struggle_trigger_persia = yes
+	}
+}
+
 tfe_character_involved_in_eastern_iranian_struggle_trigger = {
 	any_character_struggle = {
 		involvement = involved
@@ -23780,6 +24079,110 @@ tfe_character_interloper_in_struggle_trigger_persia = {
 							}
 						}
 					}
+	}
+
+	{
+			#############################
+			# Current Phase: EXPANSION
+			#############################
+			if = {
+				limit = { any_character_struggle = { AND = { is_struggle_type = north_indian_struggle is_struggle_phase = struggle_TFE_eastern_iranian_phase_expansion } } }
+				random_list = {
+					# Working towards hostility
+					# It should be for characters looking for direct conflicts and domination, with the will and ability to expand their realms
+					100 = {
+						# Odds modifiers
+						north_indian_struggle_set_ai_agenda_common_modifiers = {
+							PHASE = hostility
+							INTENT = escalation
+						}
+
+						# Apply effects
+						north_indian_struggle_apply_ai_agenda_effect = {
+							INTENT = escalation
+						}
+					}
+					# Working towards development
+					100 = {
+						# Odds modifiers
+						north_indian_struggle_set_ai_agenda_common_modifiers = {
+							PHASE = development
+							INTENT = deescalation
+						}
+
+						# Apply effects
+						north_indian_struggle_apply_ai_agenda_effect = {
+							INTENT = deescalation
+						}
+					}
+				}
+			}
+
+			#############################
+			# Current Phase: DEVELOPMENT
+			#############################
+			if = {
+				limit = { any_character_struggle = { AND = { is_struggle_type = north_indian_struggle is_struggle_phase = struggle_TFE_eastern_iranian_phase_development } } }
+				random_list = {
+					# Working towards compromise
+					# It should be for characters looking for direct conflicts and domination, with the will and ability to expand their realms
+					100 = {
+						# Odds modifiers
+						north_indian_struggle_set_ai_agenda_common_modifiers = {
+							PHASE = compromise
+							INTENT = escalation
+						}
+
+						# Apply effects
+						north_indian_struggle_apply_ai_agenda_effect = {
+							INTENT = escalation
+						}
+					}
+				}
+			}
+			#############################
+			# Current Phase: Hostility
+			#############################
+			if = {
+				limit = { any_character_struggle = { AND = { is_struggle_type = north_indian_struggle is_struggle_phase = struggle_TFE_eastern_iranian_phase_hostility } } }
+				random_list = {
+					# Working towards Compromise
+					100 = {
+						# Odds modifiers
+						north_indian_struggle_set_ai_agenda_common_modifiers = {
+							PHASE = compromise
+							INTENT = deescalation
+						}
+
+						# Apply effects
+						north_indian_struggle_apply_ai_agenda_effect = {
+							INTENT = deescalation
+						}
+					}
+				}
+			}
+
+			#############################
+			# Current Phase: Compromise
+			#############################
+			if = {
+				limit = { any_character_struggle = { AND = { is_struggle_type = north_indian_struggle is_struggle_phase = struggle_TFE_eastern_iranian_phase_compromise } } }
+				random_list = {
+					# Working towards expansion
+					100 = {
+						# Odds modifiers
+						north_indian_struggle_set_ai_agenda_common_modifiers = {
+							PHASE = expansion
+							INTENT = escalation
+						}
+
+						# Apply effects
+						north_indian_struggle_apply_ai_agenda_effect = {
+							INTENT = escalation
+						}
+					}
+				}
+			}
 	}
 }
 
@@ -24135,6 +24538,89 @@ form_the_hre_TFE = {
 
 	ai_will_do = {
 		base = 100
+	}
+}
+	}
+}
+
+"gfx/coat_of_arms/colored_emblems/50_coa_designer_emblems.txt" = {
+	{
+ce_african_cross_NU.dds = { colors = 1 category = crosses_and_knots }
+	}
+}
+
+"events/dlc/fp1/fp1_scandinavian_adventurer_events.txt" = {
+	{
+fp1_scandinavian_adventurers.0012 = {
+	hidden = yes
+	scope = none
+
+	trigger = {
+		# DLC check.
+		has_fp1_dlc_trigger = yes
+		# No point in later starts.
+		game_start_date = 867.1.1
+
+		OR = {
+			exists = character:242
+			exists = character:163119
+		}
+		
+	}
+
+	immediate = {
+		# Nab Rollo.
+		scandi_adventurers_grab_famous_character_effect = { CHARACTER = character:242 }
+		# Nab Ubbe.
+		scandi_adventurers_grab_famous_character_effect = { CHARACTER = character:163119 }
+	}
+}
+	}
+}
+
+"events/dlc/fp3/fp3_struggle_events.txt" = {
+	{
+		character:34010	= { save_scope_as = Mutawakkil }	# Stabbed by guards
+	}
+	{
+		character:34012	= { save_scope_as = Muntasir }		# Poisoned probably
+	}
+	{
+		character:34013 = { save_scope_as = Mustain }		# Betrayed by bookmark character (?) (Note: this char is listed as 3933 in some other files for some reason)
+	}
+	{
+		character:34014 = { save_scope_as = Mostaza }		# Bookmark ruler
+	}
+	{
+					triggered_desc = {
+						trigger = {
+							any_character_struggle = { is_struggle_type = persian_struggle }
+							has_title = character:34014.primary_title
+						}
+						desc = fp3_struggle.0051.b
+					}
+	}
+}
+
+
+"common/culture/creation_names/00_names.txt" = {
+	# TFE doesn't have Iceland on the map
+	{
+icelandic = {
+	trigger = {
+		OR = {
+			capital_county = {
+				title:d_iceland = {
+					is_de_jure_liege_or_above_target = prev
+				}
+			}
+			has_primary_title = title:d_iceland
+		}
+		culture = { has_cultural_pillar = heritage_north_germanic }
+		any_sub_realm_county = {
+			culture = { has_cultural_pillar = heritage_north_germanic }
+			duchy = title:d_iceland
+		}
 	}
 }
 	}

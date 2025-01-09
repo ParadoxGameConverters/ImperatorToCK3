@@ -6,6 +6,7 @@ jamshid
 1029100 # Sassanid, referenced in events\dlc\fp3\fp3_struggle_events.txt
 613 # Seljuk, referenced in events\yearly_events\yearly_events_persia.txt
 25061 # Karling, referenced in common/achievements/standard_achievements.txt
+105800 # in achievements
 
 # TFE
 900021 # referenced in common\scripted_guis\sevenhouses.txt
