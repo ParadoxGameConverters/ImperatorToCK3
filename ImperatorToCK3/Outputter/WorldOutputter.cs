@@ -173,6 +173,7 @@ internal static class WorldOutputter {
 		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");
 		modFileBuilder.AppendLine("replace_path=\"common/legends/legend_seeds\"");
 		modFileBuilder.AppendLine("replace_path=\"common/religion/religions\"");
+		modFileBuilder.AppendLine("replace_path=\"common/religion/holy_sites\"");
 		modFileBuilder.AppendLine("replace_path=\"history/characters\"");
 		modFileBuilder.AppendLine("replace_path=\"history/province_mapping\"");
 		modFileBuilder.AppendLine("replace_path=\"history/provinces\"");
