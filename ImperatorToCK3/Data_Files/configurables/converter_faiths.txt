@@ -1180,7 +1180,7 @@ hellenism_religion = {
             doctrine = doctrine_clerical_succession_temporal_fixed_appointment
 
         }
-	mithraic_mysteries = {
+	mithraic_mysteries = { # Roman Mithraic Mysteries
 		    INVALIDATED_BY = { mithraic_mysteries }
 		
             color = {210 0 0}
@@ -1232,13 +1232,14 @@ hellenism_religion = {
                 HighGodHerselfHimself = CHARACTER_HIMSELF
                 HighGodHerHis = CHARACTER_HERHIS_HIS
             }
-        }	
+        }
 	}
 }
 zoroastrianism_religion = {
 	faiths = {
-		mithra_religion= {
-		    INVALIDATED_BY = { mithra_religion }
+		mithra_religion= { # Iranian cult of Mithra
+			# Exists in TFE as kitebacilweism
+		    INVALIDATED_BY = { mithra_religion kitebacilweism }
 		
             color = {210 0 0}
             icon = mithraic_mysteries
