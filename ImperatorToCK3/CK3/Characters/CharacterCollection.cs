@@ -820,7 +820,11 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			
 			PortraitData? portraitData = character.ImperatorCharacter.PortraitData;
 			if (portraitData is not null) {
-				character.DNA = dnaFactory.GenerateDNA(character.ImperatorCharacter, portraitData);
+				try {
+					character.DNA = dnaFactory.GenerateDNA(character.ImperatorCharacter, portraitData);
+				} catch (Exception e) {
+					Logger.Warn($"Failed to generate DNA for character {character.Id}: {e.Message}");
+				}
 			}
 		}
 	}
