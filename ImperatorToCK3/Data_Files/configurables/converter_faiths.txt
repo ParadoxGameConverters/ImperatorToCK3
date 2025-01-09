@@ -1180,7 +1180,7 @@ hellenism_religion = {
             doctrine = doctrine_clerical_succession_temporal_fixed_appointment
 
         }
-		mithraic_mysteries = {
+	mithraic_mysteries = {
 		    INVALIDATED_BY = { mithraic_mysteries }
 		
             color = {210 0 0}
@@ -1232,10 +1232,67 @@ hellenism_religion = {
                 HighGodHerselfHimself = CHARACTER_HIMSELF
                 HighGodHerHis = CHARACTER_HERHIS_HIS
             }
-        }
+        }	
 	}
 }
+zoroastrianism_religion = {
+	faiths = {
+		mithra_religion= {
+		    INVALIDATED_BY = { mithra_religion }
+		
+            color = {210 0 0}
+            icon = mithraic_mysteries
+			religious_head = d_mazdayasna #actually The Magi
 
+	        # Zoroastrian holy sites
+            holy_site = adur_burzen_mihr
+            holy_site = adur_farnbag
+            holy_site = takht-e_soleyman
+	   		holy_site = takht-i-sangin
+	    	holy_site = yazd
+
+            #Doctrine 
+            doctrine = tenet_communal_identity
+            doctrine = tenet_sun_worship
+            doctrine = tenet_adaptive
+
+            #Main Group
+            doctrine = doctrine_spiritual_head
+            doctrine = doctrine_gender_male_dominated
+            doctrine = doctrine_pluralism_pluralistic
+	   		doctrine = doctrine_theocracy_temporal
+            doctrine = doctrine_major_branch_behdin
+            #Marriage
+            doctrine = doctrine_concubines
+            doctrine = doctrine_divorce_approval
+            doctrine = doctrine_bastardry_none
+            doctrine = doctrine_consanguinity_unrestricted
+
+            #Crimes
+            doctrine = doctrine_homosexuality_crime
+            doctrine = doctrine_adultery_men_shunned
+            doctrine = doctrine_adultery_women_shunned
+            doctrine = doctrine_kinslaying_close_kin_crime
+            doctrine = doctrine_deviancy_shunned
+            doctrine = doctrine_witchcraft_shunned
+
+            #Clerical Functions
+            doctrine = doctrine_clerical_function_taxation
+            doctrine = doctrine_clerical_gender_male_only
+            doctrine = doctrine_clerical_marriage_allowed
+            doctrine = doctrine_clerical_succession_temporal_fixed_appointment
+
+            localization = {
+                #High God Name
+                HighGodName = mithra_name
+                HighGodNamePossessive = mithra_possessive
+                HighGodNameSheHe = CHARACTER_SHEHE_HE
+                HighGodHerselfHimself = CHARACTER_HIMSELF
+                HighGodHerHis = CHARACTER_HERHIS_HIS
+            }
+        }	
+	}
+}	
 
 germanic_religion = {
 	faiths = {
