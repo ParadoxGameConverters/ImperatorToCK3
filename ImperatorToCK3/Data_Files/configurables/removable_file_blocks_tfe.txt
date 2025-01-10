@@ -24608,7 +24608,7 @@ fp1_scandinavian_adventurers.0012 = {
 		character:34013 = { save_scope_as = Mustain }		# Betrayed by bookmark character (?) (Note: this char is listed as 3933 in some other files for some reason)
 	}
 	{
-		character:34014 = { save_scope_as = Mostaza }		# Bookmark ruler
+		character:34014	= { save_scope_as = Mostaza }		# Bookmark ruler
 	}
 	{
 					triggered_desc = {
@@ -24675,5 +24675,59 @@ icelandic = {
 			}
 			culture:hunnic = { save_scope_as = ancient_culture }
 		}
+	}
+}
+
+"events/single_combat_events.txt" = {
+	{
+		# Historical
+		dynasty = dynasty:1055
+		house = house:house_british_isles_wessex
+		# Vanity: because they're long.
+		dynasty = dynasty:vanity_riedinger
+		dynasty = dynasty:vanity_kaltsogiannis
+		# Vanity: because their punctuation screws things up.
+		dynasty = dynasty:vanity_bjarnehed
+		dynasty = dynasty:vanity_daflos
+		dynasty = dynasty:vanity_welch
+		dynasty = dynasty:vanity_opara
+		dynasty = dynasty:vanity_beaumont
+	}
+}
+
+"events/dlc/fp1/fp1_yearly_events.txt" = {
+	# No d_iceland in TFE.
+	{
+			#Averted giant holmgang that would have sunk Iceland.
+			166 = {
+				trigger = {
+					#Must not have any counties in Iceland, as the news'd travel otherwise.
+					NOT = {
+						any_realm_de_jure_duchy = { this = title:d_iceland }
+					}
+				}
+				save_scope_value_as = {
+					name = lie_nature
+					value = flag:kept_iceland_afloat
+				}
+			}
+	}
+}
+
+"common/scripted_effects/00_accolades_scripted_effects.txt" = {
+	# No d_iceland in TFE.
+	{
+				any_culture_duchy = {
+					NOT = {
+						this = title:d_iceland
+					}
+				}
+	}
+}
+
+"common\scripted_triggers\00_hunt_triggers.txt" = {
+	# No d_iceland in TFE.
+	{
+					duchy = title:d_iceland # Not native
 	}
 }

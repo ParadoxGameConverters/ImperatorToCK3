@@ -4060,7 +4060,7 @@ bookmark.0300 = { # by Nicholas Legault
 	}
 }
 
-"events\single_combat_events.txt" = {
+"events/single_combat_events.txt" = {
 	{
 		# Historical
 		dynasty = dynasty:1055
@@ -9960,18 +9960,6 @@ hasan_expand_the_assassins = {
 
 "events/war_events/war_events.txt" = {
 	{
-			modifier = {
-				add = 1000 #This should ALWAYS happen if Hereward is a player and Hardrade is the one giving up
-				AND = {
-					character:90028 = {
-						is_ai = no
-					}
-					root = character:102531
-				}
-			}
-	}
-
-	{
 	option = {
 		name = war_event.2001.c
 
@@ -12574,5 +12562,17 @@ el_cid_landless_or_landed_on_action = {
 				}
 			}
 		}
+	}
+}
+
+"events/dlc/ep3/ep3_emperor_yearly_8.txt" = {
+	{
+		# Justinian I for flavor
+		character:70512 = { save_scope_as = justinian }
+	}
+
+	# Don't reference Leo the Isaurian
+	{
+		character:70502 = { save_scope_as = leo }
 	}
 }
