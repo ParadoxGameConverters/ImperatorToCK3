@@ -86,7 +86,7 @@ internal static class WorldOutputter {
 		Logger.Info("Writing legend seeds...");
 		await File.WriteAllTextAsync(
 			Path.Combine(outputPath, "common/legends/legend_seeds/IRtoCK3_all_legend_seeds.txt"),
-			PDXSerializer.Serialize(legendSeeds, indent: "", withBraces: false),
+			PDXSerializer.Serialize(legendSeeds.OrderBy(s => s.Id), indent: "", withBraces: false),
 			new UTF8Encoding(encoderShouldEmitUTF8Identifier: true)
 		);
 	}
