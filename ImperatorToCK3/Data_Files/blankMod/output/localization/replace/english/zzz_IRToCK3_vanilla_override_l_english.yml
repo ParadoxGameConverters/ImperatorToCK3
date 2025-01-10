@@ -18,3 +18,9 @@
  
  # Don't mention Leo the Isaurian in the event description.
  ep3_emperor_yearly.8040.leo: "The Iconoclastic doctrine brought great strife to the empire, and to Christendom — but only for a time..."
+
+ # Hasan Sabbah decisions are removed by the converter.
+ unlock_evangelize_decision_tt: ""
+ unlock_final_hasan_decisions_1_tt: ""
+ unlock_final_hasan_decisions_2_tt: ""
+ unlock_final_hasan_decisions_3_tt: ""

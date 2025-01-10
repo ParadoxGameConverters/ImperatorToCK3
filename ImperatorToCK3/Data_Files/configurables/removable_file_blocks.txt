@@ -9714,6 +9714,34 @@ hasan_expand_the_assassins = {
 	}
 }
 
+"common/scripted_triggers/07_ep3_triggers.txt" = {
+	{
+hasan_camp_in_foes_realm_trigger = {
+	trigger_if = {
+		limit = {
+			any_owned_story = {
+				var:ultimate_foe ?= {
+					save_temporary_scope_as = ultimate_foe
+				}
+			}
+		}
+		custom_description = {
+			text = hasan_stroy_cycle_camp_at_foe_realm
+			object = scope:ultimate_foe
+			domicile.domicile_location.county.holder = {
+				OR = {
+					any_liege_or_above = {
+						this = scope:ultimate_foe
+					}
+					this = scope:ultimate_foe
+				}
+			}
+		}
+	}
+}
+	}
+}
+
 "common/scripted_effects/07_dlc_ep3_scripted_effects.txt" = {
 	{
 				character:41702 ?= $PREACHER$
@@ -12432,6 +12460,36 @@ cid.5000 = {
 	}
 }
 
+"common/character_interactions/06_ep3_laamp_interactions.txt" = {
+	{
+		## Hasan cannot be exiled by anyone during his story.
+		disable_interaction_for_hasan_trigger = yes
+	}
+}
+
+"common/casus_belli_types/07_ep3_wars.txt" = {
+	{
+		# End Hasan's story cycle
+		hidden_effect = {
+			scope:attacker = {
+				if = {
+					limit = {
+						any_owned_story = {
+							story_type = story_hasan
+						}
+					}
+					random_owned_story = {
+						limit = {
+							story_type = story_hasan
+						}
+						end_story = yes
+					}
+				}
+			}
+		}
+	}
+}
+
 "common/on_action/dlc/ep3/el_cid_story_cycle_on_action.txt" = {
 	{
 #####################################################
@@ -12574,6 +12632,21 @@ el_cid_landless_or_landed_on_action = {
 	# Don't reference Leo the Isaurian
 	{
 		character:70502 = { save_scope_as = leo }
+	}
+}
+
+
+"common/scripted_triggers/00_laamp_triggers.txt" = {
+	{
+disable_interaction_for_hasan_trigger = {
+	trigger_if = {
+		limit = { scope:recipient = character:41702 }
+		custom_tooltip = {
+			text = owns_a_story_trigger
+			scope:recipient = { owns_story_of_type = story_hasan }
+		}
+	}
+}
 	}
 }
 
