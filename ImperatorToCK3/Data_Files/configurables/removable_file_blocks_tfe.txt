@@ -24725,9 +24725,23 @@ icelandic = {
 	}
 }
 
-"common\scripted_triggers\00_hunt_triggers.txt" = {
+"common/scripted_triggers/00_hunt_triggers.txt" = {
 	# No d_iceland in TFE.
 	{
 					duchy = title:d_iceland # Not native
+	}
+}
+
+"common/scripted_triggers/00_cultural_heritage_triggers.txt" = {
+	# heritage_north_african was not defined as of TFE's 'After the Pharaohs' update
+	{
+			has_cultural_pillar = heritage_north_african
+	}
+}
+
+"common/coat_of_arms/template_lists\coa_templates.txt" = {
+	# No e_rajastan in TFE as of the 'After The Pharaohs' update
+	{
+							this = title:e_rajastan
 	}
 }
