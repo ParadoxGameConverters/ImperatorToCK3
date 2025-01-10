@@ -67,6 +67,27 @@ internal sealed partial class Title {
 				}
 			}
 
+			// Cleanup for titles having invalid capital counties.
+			var validTitleIds = this.Select(t => t.Id).ToHashSet();
+			foreach (var title in this) {
+				if (title.CapitalCountyId is null) {
+					continue;
+				}
+ 
+				if (!validTitleIds.Contains(title.CapitalCountyId)) {
+					// Try to use the first valid capital of a de jure vassal.
+					var newCapitalId = title.DeJureVassals
+						.Select(v => v.CapitalCountyId)
+						.FirstOrDefault(vassalCapitalId => vassalCapitalId is not null && validTitleIds.Contains(vassalCapitalId));
+					if (newCapitalId is null){
+						Logger.Warn($"Title {title.Id} has invalid capital county {title.CapitalCountyId} and no valid de jure vassal capital to replace it with!");
+					} else {
+						Logger.Debug($"Title {title.Id} has invalid capital county {title.CapitalCountyId}, replacing it with {newCapitalId}.");
+						title.CapitalCountyId = newCapitalId;
+					}
+				}
+			}
+
 			Logger.IncrementProgress();
 		}
 		public void LoadTitles(BufferedReader reader) {
