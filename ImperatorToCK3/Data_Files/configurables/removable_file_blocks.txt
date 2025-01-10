@@ -12751,3 +12751,70 @@ story_el_cid = {
 }
 	}
 }
+
+"common/customizable_localization/00_travel.txt" = {
+	# Anachronistic.
+	{
+	text = { # Offa's Dyke
+		trigger = {
+			has_special_building = yes
+			#OR = {
+			#	this = province:1643 # Cheshire
+			#	this = province:1646 # Shropshire
+			#	this = province:1648 # Bishop's Castle
+			#	this = province:1580 # Gloucester
+			#	this = province:1632 # Hereford
+			#	this = province:1633 # Wigmore
+			#	this = province:1634 # Clifford
+			#}
+			has_building_or_higher = offas_dyke_01
+		}
+		setup_scope = {
+			character:205072 = { save_scope_as = offa }
+		}
+		localization_key = building_offas_dyke_destination_desc
+	}
+	}
+
+	{
+	text = { # Palace of Aachen
+		trigger = {
+			has_special_building = yes
+			#this = province:2092 # Aachen
+			has_building_or_higher = palace_of_aachen_01
+		}
+		localization_key = building_palace_of_aachen_destination_desc
+		setup_scope = {
+			character:6392 = { save_scope_as = charlemagne }
+		}
+	}
+	}
+
+	{
+	text = { # Ananda Temple
+		trigger = {
+			has_special_building = yes
+			#this = province:9550 # Pagan
+			has_building_or_higher = ananda_temple_01
+		}
+		localization_key = building_ananda_temple_destination_desc
+		setup_scope = {
+			dynasty:2000000 = { save_scope_as = pagan_dynasty }
+		}
+	}
+	}
+
+	{
+	text = { # Brihadeeswarar Temple
+		trigger = {
+			has_special_building = yes
+			#this = province:1115 # Cholamandalam
+			has_building_or_higher = brihadeeswarar_temple_01
+		}
+		localization_key = building_brihadeeswarar_temple_destination_desc
+		setup_scope = {
+			dynasty:1043008 = { save_scope_as = chola_dynasty }
+		}
+	}
+	}
+}

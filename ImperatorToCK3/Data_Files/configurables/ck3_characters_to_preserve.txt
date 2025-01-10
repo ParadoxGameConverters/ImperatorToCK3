@@ -130,7 +130,6 @@ after_bookmark_date = {
 	easteregg_maxence_voleau
 	easteregg_jason_cantalini
 	easteregg_fabian_franzen
-	easteregg_veronica_pazos
 	easteregg_weronika_kowalczyk
 	easteregg_jakob_jorstedt
 	easteregg_tess_lindholm

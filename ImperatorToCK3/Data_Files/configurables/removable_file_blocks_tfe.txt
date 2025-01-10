@@ -24739,9 +24739,34 @@ icelandic = {
 	}
 }
 
-"common/coat_of_arms/template_lists\coa_templates.txt" = {
+"common/coat_of_arms/template_lists/coa_templates.txt" = {
 	# No e_rajastan in TFE as of the 'After The Pharaohs' update
 	{
 							this = title:e_rajastan
+	}
+}
+
+"common/customizable_localization/06_ce1_epidemics_custom_loc.txt" = {
+	# Character easteregg_veronica_pazos seems to be missing from TFE.
+	{
+	text = {
+		trigger = {
+			exists = character:easteregg_veronica_pazos
+			this = character:easteregg_veronica_pazos
+		}
+		localization_key = third_impact
+	}
+	}
+}
+
+"common/customizable_localization/00_destination_custom_loc.txt" = {
+	# TFE uses language_kemetic instead of language_egyptian as of the 'After The Pharaohs' update
+	{
+	text = {
+		trigger = {
+			culture = { has_cultural_pillar = language_egyptian }
+		}
+		localization_key = DestinationInspiredLanguageDescriptorEgyptian
+	}
 	}
 }
