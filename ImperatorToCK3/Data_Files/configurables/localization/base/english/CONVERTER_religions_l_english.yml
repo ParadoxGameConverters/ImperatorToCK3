@@ -344,7 +344,8 @@
  anglo_pagan_old_adherent: "Old Ósgeleafen"
  anglo_pagan_old_adherent_plural: "Old Ósgeleafens"
  anglo_pagan_desc: "The native faith of the Anglo-Saxons, Ósgeleafe encompasses various gods with regional identities."
- mithraic_mysteries: "Mithraism"
+ # Roman Mithraic Mysteries
+ mithraic_mysteries: "Mithraic Mysteries"
  mithraic_mysteries_adj: "Mithran"
  mithraic_mysteries_adherent: "Follower of Mithra"
  mithraic_mysteries_adherent_plural: "Followers of Mithra"
@@ -357,6 +358,12 @@
  atenist_pagan_adherent: "Atenite"
  atenist_pagan_adherent_plural: "Atenites"
  atenist_pagan_desc: "Unlike the polytheistic Kemetist religion, the Atenist religion is a monotheistic religion focused on the sole worship of the sun disk Aten. Unlike Kemetism, Atenists denies the existence of other gods and outright criminalizes the worship of them."
+ 
+ # Iranian Mithraism
+ mithra_religion: "Mithraism"
+ mithra_religion_adj: "Mithraist"
+ mithra_religion_adherent: "Mithraist"
+ mithra_religion_adherent_plural: "Mithraists"
 
  # Ajivika
  ajivika_religion: "Ajivika"
