@@ -417,6 +417,25 @@
 		}
 	}
 
+	# In megacampaigns the abandonment of Britannia is not a given.
+	{
+		if = {
+			limit = {
+				game_start_date >= 410.1.1
+			}
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_abandoned_britannia
+			}
+		}
+	}
+	{
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_abandoned_britannia
+			}
+	}
+
 	{
 		if = {
 			limit = {
@@ -24623,5 +24642,38 @@ icelandic = {
 		}
 	}
 }
+	}
+}
+
+"common/scripted_effects/06_dlc_ce1_legend_effects.txt" = {
+	# No d_iceland in TFE.
+	{
+							root.primary_title = title:d_iceland
+	}
+
+	# TFE uses hun instead of hunnic.
+	{
+		999 = {
+			trigger = {
+				OR = {
+					root.culture = {
+						OR = {
+							culture_overlaps_geographical_region = world_steppe
+							culture_overlaps_geographical_region = custom_carpathia
+						}
+					}
+					culture = { has_cultural_pillar = heritage_turkic }
+					culture = { has_cultural_pillar = heritage_mongolic }
+					culture = { has_cultural_pillar = heritage_magyar }
+				}
+				NOT = { culture = culture:hunnic }
+			}
+			set_variable = {
+				name = original_region
+				value = geographical_region:world_steppe_west
+				years = 1
+			}
+			culture:hunnic = { save_scope_as = ancient_culture }
+		}
 	}
 }
