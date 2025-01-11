@@ -28,8 +28,6 @@ internal static class WorldOutputter {
 		CreateFolders(outputPath);
 
 		Task.WaitAll(
-			FileTweaker.RemoveUnneededPartsOfFiles(ck3World.ModFS, outputPath, config),
-			
 			CharactersOutputter.OutputEverything(outputPath, ck3World.Characters, imperatorWorld.EndDate, config.CK3BookmarkDate, ck3World.ModFS),
 			DynastiesOutputter.OutputDynastiesAndHouses(outputPath, ck3World.Dynasties, ck3World.DynastyHouses),
 

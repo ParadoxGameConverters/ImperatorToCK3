@@ -707,7 +707,7 @@ internal partial class World {
 			}
 			var substitutionLoc = substitutionLocBlock[language];
 			if (substitutionLoc is null) {
-				Logger.Warn($"Substitution for key {substitutionKey} not found in {language} localization for key {locBlock.Id}!");
+				Logger.Debug($"Substitution for key {substitutionKey} not found in {language} localization for key {locBlock.Id}.");
 				continue;
 			}
 			

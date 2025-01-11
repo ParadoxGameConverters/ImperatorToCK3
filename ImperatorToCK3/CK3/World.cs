@@ -131,7 +131,11 @@ internal sealed class World {
 				Logger.Info("Loading map data...");
 				MapData = new MapData(ModFS);
 			},
-			() => CK3CoaMapper = new(ModFS)
+			() => CK3CoaMapper = new(ModFS),
+			() => {
+				// Modify some CK3 and mod files and put them in the blankMod before we start outputting anything.
+				FileTweaker.RemoveUnneededPartsOfFiles(ModFS, outputModPath, config).Wait();
+			}
 		);
 		
 		OrderedDictionary<string, bool> ck3ModFlags = config.GetCK3ModFlags();

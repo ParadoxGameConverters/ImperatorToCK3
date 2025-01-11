@@ -24837,3 +24837,66 @@ icelandic = {
 			}
 	}
 }
+
+"common/coat_of_arms/dynamic_definitions/00_norse_coas.txt" = {
+	# No d_iceland in TFE.
+	{
+d_iceland = {
+	item = {
+		trigger = {
+			coa_switch_to_norse_trigger = yes
+		}
+		coat_of_arms = d_iceland_norse
+	}
+}
+c_vestisland = {
+	item = {
+		trigger = {
+			coa_switch_to_norse_trigger = yes
+		}
+		coat_of_arms = c_vestisland_norse
+	}	
+}
+c_nordrland = {
+	item = {
+		trigger = {
+			coa_switch_to_norse_trigger = yes
+		}
+		coat_of_arms = c_nordrland_norse
+	}
+}
+c_austisland = {
+	item = {
+		trigger = {
+			coa_switch_to_norse_trigger = yes
+		}
+		coat_of_arms = c_austisland_norse
+	}
+}
+c_sudurland = {
+	item = {
+		trigger = {
+			coa_switch_to_norse_trigger = yes
+		}
+		coat_of_arms = c_sudurland_norse
+	}	
+}
+	}
+}
+
+"map_data/geographical_regions/geographical_region.txt" = {
+	# No d_shamir in TFE as of the 'After The Pharaohs' update
+	{
+		d_shamir
+	}
+}
+
+"history/provinces/k_mesopotamia.txt" = {
+	# Anachronistic
+	{
+	410.1.1 = {
+		special_building_slot = palace_khawarnaq
+		special_building = palace_khawarnaq
+	}
+	}
+}
