@@ -436,12 +436,14 @@ link = { ck3 = german @ir_all_germanic_cultures }
 link = { ck3 = pontic ir = greco_pontic }
 link = { ck3 = syrian ir=macedonian ir=hellenistic ir=syracusan ir=thracian @ir_greek_cultures @culture_splitting_region_N  }
 link = { ck3 = aegyptian ir=macedonian ir=hellenistic ir=syracusan ir=thracian @ir_greek_cultures @culture_splitting_region_O }
+link = { ck3 = syrian ir = syriote }
 # Vanilla CK3
 link = { ck3=italiote ir=syracusan ir=italiotian }
 link = { ck3=greek @ir_greek_cultures }
 link = { ck3=macedonian ir=macedonian }
 link = { ck3=hellenistic ir=hellenistic }
 link = { ck3=thracian ir=thracian }
+link = { ck3=greek ir=syriote } # syriote comes from Invictus, it's "a blending of Phoenician and Hellenistic traditions"
 
 ## Iberia
 link = { ck3 = andalusian ir = andalusian } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
