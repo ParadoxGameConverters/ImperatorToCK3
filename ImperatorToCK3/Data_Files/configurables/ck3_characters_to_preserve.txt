@@ -167,4 +167,5 @@ after_bookmark_date = {
 	easteregg_lucia_dzediti
 	easteregg_david_ostlund
 	easteregg_neyla_garcia
+	easteregg_anna_johansson
 }

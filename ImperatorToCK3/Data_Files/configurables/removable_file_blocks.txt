@@ -12891,3 +12891,45 @@ story_el_cid = {
 	}
 	}
 }
+
+"events/dlc/ep3/ep3_laamp_flavour_ewan_events.txt" = {
+	# Easter egg, causes errors in TFE.
+	{
+			# Cannibal (Chad)
+			50 = {
+				trigger = {
+					can_start_single_combat_trigger = yes
+					character:easteregg_chad_uhl ?= {
+						is_alive = yes
+						location ?= root.location
+						is_pool_character = yes
+					}
+				}
+				save_scope_value_as = {
+					name = hunter_type
+					value = flag:cannibal_chad
+				}
+				ep3_laamp_flavour_ewan_4061_roll_animal_size_effect = {
+					MIN = 1
+					MAX = 1
+				}
+				# Nab our cannibal.
+				character:easteregg_chad_uhl = { save_scope_as = cannibal }
+			}
+	}
+
+	{
+			# Log if it was Chad who lost.
+			if = {
+				limit = { character:easteregg_chad_uhl ?= scope:sc_loser }
+				trigger_event = ep3_laamp_flavour_ewan.4065
+			}
+	}
+	{
+		# Log if it was Chad who won.
+		else_if = {
+			limit = { character:easteregg_chad_uhl ?= scope:sc_victor }
+			trigger_event = ep3_laamp_flavour_ewan.4066
+		}
+	}
+}

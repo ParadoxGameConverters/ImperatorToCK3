@@ -24335,6 +24335,18 @@ tfe_character_interloper_in_struggle_trigger_persia = {
 			}
 		}
 	}
+
+	# No e_rajastan in TFE as of the 'After The Pharaohs' update
+	{
+			title:e_rajastan = {
+				random_in_de_jure_hierarchy = {
+					limit = { tier = tier_county }
+					holder = {
+						create_artifact_charmadhal_effect = { OWNER = THIS }
+					}
+				}
+			}
+	}
 }
 
 "common/decisions/TFE_major_germanic_decisions.txt" = {
@@ -24759,6 +24771,7 @@ icelandic = {
 	}
 }
 
+
 "common/customizable_localization/00_destination_custom_loc.txt" = {
 	# TFE uses language_kemetic instead of language_egyptian as of the 'After The Pharaohs' update
 	{
@@ -24768,5 +24781,59 @@ icelandic = {
 		}
 		localization_key = DestinationInspiredLanguageDescriptorEgyptian
 	}
+	}
+}
+
+
+"common/decisions/80_major_decisions_south_asia.txt" = {
+	# No e_rajastan in TFE as of the 'After The Pharaohs' update
+	{
+		completely_controls = title:e_rajastan
+	}
+}
+
+
+"common/scripted_triggers/00_coa_triggers.txt" = {
+	# No e_rajastan in TFE as of the 'After The Pharaohs' update
+	{
+				this = title:e_rajastan
+	}
+}
+
+
+"common/scripted_effects/00_decisions_effects.txt" = {
+	# No e_rajastan in TFE as of the 'After The Pharaohs' update
+	{
+	title:e_rajastan = { add_to_list = indian_empire }
+	}
+
+	{
+		if = {
+			limit = { has_title = title:e_rajastan }
+			destroy_title = title:e_rajastan
+		}
+	}
+}
+
+
+"events/dlc/ep3/ep3_decisions_events.txt" = {
+	# No d_laamp_asen in TFE as of the 'After The Pharaohs' update
+	{
+			modifier = { # Asen and Peter always try to go to war with you
+				add = 1000
+				primary_title = title:d_laamp_asen
+			}
+	}
+	{
+			modifier = { # Asen and Peter always try to go to war with you
+				factor = 0
+				primary_title = title:d_laamp_asen
+			}
+	}
+	{
+			modifier = { # Asen and Peter always try to go to war with you
+				factor = 0
+				primary_title = title:d_laamp_asen
+			}
 	}
 }
