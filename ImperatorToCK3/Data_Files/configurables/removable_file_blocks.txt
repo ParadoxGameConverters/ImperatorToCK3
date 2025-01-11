@@ -9650,6 +9650,7 @@ hasan_expand_the_assassins = {
 	}
 }
 
+
 "common/decisions/dlc_decisions/ep_3/06_ep3_laamp_decisions.txt" = {
 	{
 				#Stahp it, John de Courcy
@@ -9663,7 +9664,18 @@ hasan_expand_the_assassins = {
 			NOT = { this = character:125501 }
 		}
 	}
+	{
+		if = {
+			limit = {
+				any_owned_story = {
+					story_type = story_hasan
+				}
+			}
+			custom_tooltip = chance_to_advance_to_the_assassins_tt
+		}
+	}
 }
+
 
 "common/script_values/00_war_values.txt" = {
 	{
@@ -9738,15 +9750,40 @@ hasan_camp_in_foes_realm_trigger = {
 			}
 		}
 	}
+	trigger_else = {
+		character:3096 = {
+			save_temporary_scope_as = caliph
+		}
+		save_temporary_scope_as = hasan
+		any_owned_story = {
+			trigger_if = {
+				limit = { exists = var:radical_points }
+				save_temporary_scope_value_as = {
+					name = radical_points
+					value = var:radical_points
+				}
+			}
+			trigger_else = {
+				save_temporary_scope_value_as = {
+					name = radical_points
+					value = 0
+				}
+			}
+		}
+		custom_tooltip = {
+			text = hasan_stroy_cycle_ultimate_foe
+			any_owned_story = {
+				story_type = story_hasan
+				exists = var:ultimate_foe
+				exists = var:radical_points
+				var:radical_points >= 15
+			}
+		}
+	}
 }
 	}
 }
 
-"common/scripted_effects/07_dlc_ep3_scripted_effects.txt" = {
-	{
-				character:41702 ?= $PREACHER$
-	}
-}
 
 "common/scripted_effects/06_dlc_ce1_legend_effects.txt" = {
 	{
@@ -10025,6 +10062,294 @@ hasan_camp_in_foes_realm_trigger = {
 }
 
 "events/story_cycles/ep3_story_cycle_hasan.txt" = {
+	{
+# Ismaili Preachers
+# You meet Amira Zarrab and begin the story cycle
+# 1000
+hasan_sabbah.1000 = {
+	type = character_event
+	title = hasan_sabbah.1000.t
+	desc = hasan_sabbah.1000.desc
+	theme = learning
+	override_background = { reference = temple }
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+	right_portrait = {
+		character = scope:amira
+		animation = personality_zealous
+	}
+
+	trigger = {
+		has_ep3_dlc_trigger = yes
+	}
+
+	immediate = {
+		hidden_effect = {
+			create_character = {
+				name = amira
+				age = { 20 50 }
+				gender = male
+				trait = zealous
+				trait = gregarious
+				trait = diligent
+				trait = loyal
+				random_traits_list = {
+					count = 1
+					education_learning_3 = {}
+					education_learning_4 = {}
+				}
+				location = root.location
+				faith = faith:ismaili
+				culture = culture:persian
+				after_creation = {
+					dynasty = { set_dynasty_name = dynn_zarrab }
+					house = { set_house_name = dynn_zarrab }
+				}
+				save_scope_as = amira
+			}
+			location = { save_scope_as = location }
+		}
+	}
+
+	# You have succeeded in wounding and breaching my belief
+	option = {
+		name = hasan_sabbah.1000.a
+		flavor = begin_hasan_cycle_ismaili_tt
+		add_courtier = scope:amira
+		camp_officer_grant_effect = {
+			EMPLOYER = root
+			CANDIDATE = scope:amira
+			POS = second
+		}
+
+		set_character_faith = faith:ismaili
+		custom_tooltip = {
+			text = unlock_evangelize_decision_tt
+			create_story = story_hasan
+			random_owned_story = {
+				limit = {
+					story_type = story_hasan
+				}
+				set_variable = {
+					name = story_phase
+					value = 1
+				}
+			}
+			every_courtier = {
+				limit = {
+					religion = religion:islam_religion
+				}
+				set_character_faith = faith:ismaili
+			}
+		}
+		custom_tooltip = advance_to_the_assassins_tt
+		ai_chance = {
+			base = 1000 # Historically determined
+		}
+	}
+
+	# Truth cannot be sought outside the pale of Islam
+	option = {
+		name = hasan_sabbah.1000.b
+		flavor = begin_hasan_cycle_twelver_tt
+		custom_tooltip = {
+			text = unlock_evangelize_decision_tt
+			create_story = story_hasan
+			random_owned_story = {
+				limit = {
+					story_type = story_hasan
+				}
+				set_variable = {
+					name = story_phase
+					value = 1
+				}
+			}
+		}
+		ai_chance = {
+			base = 0 # Historically determined
+		}
+	}
+}
+	}
+
+	{
+# Shiite Evangelism
+# You try to convert the local populace to your faith
+# 1010-1019
+hasan_sabbah.1010 = {
+	type = character_event
+	title = hasan_sabbah.1010.t
+	desc = hasan_sabbah.1010.desc
+	theme = learning
+	override_background = {
+		trigger = {
+			location = {
+				county.development_level >= 10
+				has_holding = yes
+			}
+		}
+		reference = market
+	}
+	override_background = {
+		trigger = {
+			location = {
+				OR = {
+					county.development_level < 10
+					has_holding = no
+				}
+			}
+		}
+		reference = terrain_travel
+	}
+	left_portrait = {
+		character = root
+		animation = debating
+	}
+
+	# Preach the faith, diplomatically
+	option = {
+		name = hasan_sabbah.1010.a
+		duel = {
+			skills = { diplomacy learning }
+			value = high_skill_rating
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				modifier = {
+					add = {
+						subtract = scope:location.county.county_opinion
+					}
+				}
+				modifier = {
+					factor = 0.75
+					NOT = { scope:location.county.religion = root.religion }
+				}
+				modifier = {
+					factor = 10
+					scope:location.county = title:c_qazwin
+				}
+				min = 10
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = hasan_sabbah.1010.a.win
+					left_icon = root
+					ep3_hasan_missionary_effect = {
+						PREACHER = root
+						LOCATION = scope:location
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				modifier = {
+					add = scope:location.county.county_opinion
+				}
+				modifier = {
+					factor = 1.25
+					NOT = { scope:location.county.religion = root.religion }
+				}
+				min = 10
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = hasan_sabbah.1010.a.lose
+					left_icon = root
+					scope:location.county = {
+						add_county_modifier = {
+							modifier = tougher_to_convert
+							years = 10
+						}
+					}
+				}
+			}
+		}
+		ai_chance = {
+			base = 10
+		}
+	}
+
+	after = {
+		hidden_effect = {
+			# Send Hasan to Egypt
+			if = {
+				limit = {
+					any_owned_story = {
+						story_type = story_hasan
+						exists = var:radical_points
+						var:radical_points >= 5
+					}
+					OR = {
+						faith = faith:ismaili
+						faith = faith:nizari
+					}
+					NOR = {
+						has_character_flag = arrived_in_egypt
+						has_character_flag = had_hasan_sabah_20
+					}
+				}
+				trigger_event = {
+					id = hasan_sabbah.1020
+					months = { 3 5 }
+				}
+			}
+			# Make Hasan a radical (begin forming the Assassins)
+			else_if = {
+				limit = {
+					any_owned_story = {
+						story_type = story_hasan
+						exists = var:radical_points
+						var:radical_points >= 15
+						NOT = { exists = var:ultimate_foe }
+					}
+				}
+				trigger_event = {
+					id = hasan_sabbah.1031
+					months = { 3 5 }
+				}
+			}
+			else_if = {
+				limit = {
+					any_owned_story = {
+						story_type = story_hasan
+						exists = var:story_phase
+						var:story_phase >= 2
+						NOT = { exists = var:ultimate_foe }
+					}
+					faith:ismaili = {
+						NOT = {
+							religious_head = scope:location.county.holder
+							religious_head = scope:location.county.holder.top_liege
+							religious_head = scope:location.county.holder.liege
+							religious_head = scope:location.county.holder.liege.liege
+						}
+					}
+					faith:nizari = {
+						NOT = {
+							religious_head = scope:location.county.holder
+							religious_head = scope:location.county.holder.top_liege
+							religious_head = scope:location.county.holder.liege
+							religious_head = scope:location.county.holder.liege.liege
+						}
+					}
+				}
+				trigger_event = {
+					id = hasan_sabbah.1031
+					months = { 3 5 }
+				}
+			}
+		}
+	}
+}
+	}
+
 	{
 # Divine Calling
 # You're summoned to Egypt
@@ -10368,7 +10693,289 @@ hasan_sabbah.1030 = {
 	}
 }
 	}
+
+	{
+# The Enemy of Nizarism
+# Time to decide my ultimate enemy
+# 1031
+hasan_sabbah.1031 = {
+	type = character_event
+	title = hasan_sabbah.1031.t
+	desc = hasan_sabbah.1031.desc
+	theme = realm
+	override_background = { reference = throne_room }
+	left_portrait = {
+		character = root
+		animation = rage
+	}
+	right_portrait = {
+		character = scope:seljuk_equivalent
+		animation = personality_dishonorable
+	}
+
+	trigger = {
+		scope:location.county.holder.top_liege = {
+			NOT = {
+				faith = root.faith
+			}
+			realm_size >= 10
+			highest_held_title_tier >= tier_kingdom
+		}
+		any_owned_story = {
+			story_type = story_hasan
+			NOT = {
+				exists = var:ultimate_foe
+			}
+		}
+	}
+
+	immediate = {
+		scope:location.county.holder.top_liege = { save_scope_as = seljuk_equivalent }
+		random_owned_story = {
+			limit = { story_type = story_hasan }
+			save_scope_as = story
+		}
+	}
+
+	# It's this guy
+	option = {
+		name = hasan_sabbah.1031.a
+		custom_tooltip = {
+			text = unlock_final_hasan_decisions_1_tt
+			scope:story = {
+				set_variable = {
+					name = ultimate_foe
+					value = scope:seljuk_equivalent
+				}
+			}
+		}
+		if = {
+			limit = {
+				faith = faith:nizari
+			}
+			custom_tooltip = unlock_final_hasan_decisions_2_tt
+		}
+		custom_tooltip = unlock_final_hasan_decisions_3_tt
+		set_relation_nemesis = {
+			target = scope:seljuk_equivalent
+			reason = nemesis_eternal_enemy
+		}
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 1000
+				scope:seljuk_equivalent.house = house:house_seljuk
+			}
+		}
+	}
+
+	# This is not him
+	option = {
+		name = hasan_sabbah.1031.b
+		custom_tooltip = look_for_another_enemy_tt
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 1000
+				NOT = { scope:seljuk_equivalent.house = house:house_seljuk }
+			}
+		}
+	}
 }
+	}
+
+	{
+# A Rousing Sermon
+# Agitate the populace decision event
+# 1040
+hasan_sabbah.1040 = {
+	type = character_event
+	title = hasan_sabbah.1040.t
+	desc = hasan_sabbah.1040.desc
+	theme = realm
+	override_background = { reference = terrain }
+	left_portrait = {
+		character = root
+		animation = rage
+	}
+
+	immediate = {
+		random_owned_story = {
+			limit = { story_type = story_hasan }
+			var:ultimate_foe = { save_scope_as = ultimate_foe }
+		}
+	}
+
+	# Make them angy
+	option = {
+		name = hasan_sabbah.1040.a
+		duel = {
+			skills = { intrigue learning }
+			value = high_skill_rating
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = 3.5
+					min = -49
+				}
+				modifier = {
+					add = {
+						subtract = scope:location.county.county_opinion
+					}
+				}
+				send_interface_toast = {
+					type = event_toast_effect_good
+					title = hasan_sabbah.1040.a.win
+					left_icon = root
+					scope:location.county = {
+						add_county_modifier = {
+							modifier = ep3_agitated_populace
+							years = 15
+						}
+					}
+				}
+			}
+			50 = {
+				compare_modifier = {
+					value = scope:duel_value
+					multiplier = -3.5
+					min = -49
+				}
+				modifier = {
+					add = scope:location.county.county_opinion
+				}
+				send_interface_toast = {
+					type = event_toast_effect_bad
+					title = hasan_sabbah.1040.a.lose
+					left_icon = root
+					scope:location.county = {
+						add_county_modifier = {
+							modifier = tougher_to_convert
+							years = 10
+						}
+					}
+				}
+			}
+		}
+		ai_chance = {
+			base = 10
+		}
+	}
+}
+	}
+
+	{
+# The Old Man of the Mountain
+# Post-war settling down event
+# 1050
+hasan_sabbah.1050 = {
+	type = character_event
+	title = hasan_sabbah.1050.t
+	desc = hasan_sabbah.1050.desc
+	theme = realm
+	left_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	# Let's settle
+	option = {
+		name = hasan_sabbah.1050.a
+
+		custom_tooltip = create_new_kingdom
+		create_dynamic_title = {
+			tier = kingdom
+			name = HASAN_KINGDOM
+			adj = HASAN_KINGDOM_adj
+		}
+		change_government = clan_government
+		create_title_and_vassal_change = {
+			type = conquest
+			save_scope_as = change
+			add_claim_on_loss = yes
+		}
+		scope:hasan_home = {
+			duchy = {
+				every_direct_de_jure_vassal_title = {
+					limit = { tier = tier_county }
+					change_title_holder = {
+						holder = root
+						change = scope:change
+					}
+				}
+				change_title_holder = {
+					holder = root
+					change = scope:change
+				}
+			}
+		}
+		scope:new_title = {
+			change_title_holder = {
+				holder = root
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+		hidden_effect = {
+			scope:new_title = {
+				set_de_jure_liege_title = root.location.empire
+				set_coa = title:b_alamut
+				set_color_from_title = scope:hasan_home
+				set_capital_county = scope:hasan_home
+			}
+		}
+		if = {
+			limit = {
+				exists = scope:caliph
+				scope:caliph = {
+					is_landed = no
+				}
+				scope:caliph.faith = root.faith
+				NOT = { exists = root.faith.religious_head }
+			}
+			create_title_and_vassal_change = {
+				type = conquest
+				save_scope_as = change2
+				add_claim_on_loss = yes
+			}
+			custom_description = {
+				text = "new_religious_head_title"
+				object = scope:caliph
+				subject = scope:caliph
+
+				set_up_dynamic_spiritual_hof_title_existing_hof_effect = {
+					CREATOR = root
+					RELIGIOUS_HEAD = scope:caliph
+				}
+			}
+			scope:caliph = {
+				change_liege = {
+					liege = root
+					change = scope:change2
+				}
+			}
+			resolve_title_and_vassal_change = scope:change2
+		}
+		destroy_laamp_effect = { ADVENTURER = root }
+		ep3_become_landed_cleanup_effect = yes
+
+		ai_chance = {
+			base = 1000
+		}
+	}
+
+	# Let's not
+	option = {
+		name = hasan_sabbah.1050.b
+		ai_chance = {
+			base = 0
+		}
+	}
+}
+	}
+}
+
 
 "common/story_cycles/ep3_story_cycle_hasan_sabbah.txt" = {
 	{
@@ -12469,6 +13076,109 @@ cid.5000 = {
 
 "common/casus_belli_types/07_ep3_wars.txt" = {
 	{
+ep3_hasan_assassin_war = {
+	icon = dissolution_war
+	group = event
+	allow_hostages = no
+	allowed_for_character = {}
+	valid_to_start = {
+		always = no
+	}
+
+	on_declaration = {
+		on_declared_war = yes
+		# TODO_CD_EP3, add every same-faith vassal to attacker's side?
+	}
+
+	on_victory_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { # Desc for only one player attacker
+					scope:attacker = {
+						is_local_player = yes
+					}
+				}
+				desc = nation_fracturing_faction_war_victory_desc_local_player_attacker_alone
+			}
+			triggered_desc = { # Desc for only one attacker, player defender
+				trigger = {
+					scope:defender = {
+						is_local_player = yes
+					}
+				}
+				desc = player_nation_fracturing_faction_war_victory_desc_local_player_defender_attacker_alone
+			}
+			desc = nation_fracturing_faction_war_victory_desc_local_player_attacker_alone # Desc for a third party involved
+		}
+
+	}
+
+	on_victory = {
+
+		scope:attacker = { show_pow_release_message_effect = yes }
+
+		#EP2 Accolade glory gain from winning against higher ranked enemy
+		scope:attacker = { accolade_attacker_war_end_glory_gain_med_effect = yes }
+		hasan_sabbah_end_war = {
+			HASAN = scope:attacker
+			SELJUK = scope:defender
+		}
+
+		# EP3: note gold gained from military assistance/join war contracts and their war contribution threshold
+		laamp_as_mercenary_payout_tooltip_effect = yes
+	}
+
+	on_white_peace_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = player_nation_fracturing_faction_war_white_peace_defender_desc
+			}
+			triggered_desc = {
+				trigger = {
+					scope:attacker = {
+						is_local_player = yes
+					}
+				}
+				desc = player_nation_fracturing_faction_war_white_peace_attacker_desc
+			}
+			desc = player_nation_fracturing_faction_war_white_peace_desc
+		}
+
+	}
+
+	on_white_peace = {
+		scope:attacker = {
+			show_pow_release_message_effect = yes
+			stress_impact = {
+ 				ambitious = medium_stress_impact_gain
+ 				arrogant = medium_stress_impact_gain
+ 			}
+		}
+		hidden_effect = {
+			scope:attacker = {
+				add_truce_both_ways = {
+					character = scope:defender
+					days = 1825
+					war = root.war
+					result = white_peace
+				}
+			}
+		}
+
+		scope:defender = {
+			stress_impact = {
+ 				arrogant = medium_stress_impact_gain
+ 			}
+
+			add_character_flag = {
+				flag = recent_nation_fracturing_faction_war
+				years = faction_nation_fracturing_war_white_peace_cooldown
+			}
+			add_prestige = minor_prestige_value
+		}
+
+		on_white_peace_faction_revolt_war = yes
 		# End Hasan's story cycle
 		hidden_effect = {
 			scope:attacker = {
@@ -12487,6 +13197,96 @@ cid.5000 = {
 				}
 			}
 		}
+
+		# EP3: note gold gained from military assistance/join war contracts and their war contribution threshold
+		laamp_as_mercenary_payout_tooltip_effect = yes
+	}
+
+	on_defeat_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = nation_fracturing_faction_war_defeat_defender_desc
+			}
+			triggered_desc = {
+				trigger = {
+					scope:attacker = {
+						is_local_player = yes
+					}
+				}
+				desc = player_nation_fracturing_defeat_attacker_desc
+			}
+			desc = player_nation_fracturing_faction_war_defeat_desc
+		}
+
+	}
+
+	on_defeat = {
+		scope:attacker = { show_pow_release_message_effect = yes }
+		scope:defender = {
+			add_character_flag = {
+				flag = recent_nation_fracturing_faction_war
+				years = faction_nation_fracturing_war_defeat_cooldown
+			}
+			add_dread = medium_dread_gain
+			# Prestige for Defender
+			add_prestige_war_defender_effect = {
+				PRESTIGE_VALUE = medium_prestige_value
+			}
+			add_achievement_flag_effect = { FLAG = achievement_know_your_place_flag }
+
+			# LEGITIMACY FROM WINNING FACTION WAR
+			faction_war_end_victory_legitimacy_effect = yes
+		}
+		# End Hasan's story cycle
+		hidden_effect = {
+			scope:attacker = {
+				if = {
+					limit = {
+						any_owned_story = {
+							story_type = story_hasan
+						}
+					}
+					random_owned_story = {
+						limit = {
+							story_type = story_hasan
+						}
+						end_story = yes
+					}
+				}
+			}
+		}
+
+		# EP3: note gold gained from military assistance/join war contracts and their war contribution threshold
+		laamp_as_mercenary_payout_tooltip_effect = yes
+	}
+
+	on_invalidated_desc = msg_invalidate_war_title
+
+	check_defender_inheritance_validity = no
+
+	on_primary_attacker_death = inherit
+	on_primary_defender_death = inherit
+
+	attacker_allies_inherit = yes
+	defender_allies_inherit = yes
+
+	transfer_behavior = transfer
+
+	war_name = "ASSASSIN_NATION_FRACTURING_WAR_NAME"
+
+	interface_priority = 120
+
+	attacker_wargoal_percentage = 0.8
+
+	max_attacker_score_from_battles = 100
+	max_defender_score_from_battles = 50
+	
+	max_defender_score_from_occupation = 150
+	max_attacker_score_from_occupation = 150
+
+	max_ai_diplo_distance_to_title = 500
+}
 	}
 }
 
@@ -12649,6 +13449,7 @@ disable_interaction_for_hasan_trigger = {
 }
 	}
 }
+
 
 "common/story_cycles/ep3_story_cycle_el_cid.txt" = {
 	{
@@ -12931,5 +13732,517 @@ story_el_cid = {
 			limit = { character:easteregg_chad_uhl ?= scope:sc_victor }
 			trigger_event = ep3_laamp_flavour_ewan.4066
 		}
+	}
+}
+
+
+"common/scripted_effects/07_dlc_ep3_scripted_effects.txt" = {
+	{
+	if = {
+		limit = {
+			any_owned_story = {
+				story_type = story_hasan
+			}
+		}
+		custom_tooltip = {
+			text = advance_to_the_assassins_tt
+			random_owned_story = {
+				limit = {
+					story_type = story_hasan
+				}
+				if = {
+					limit = {
+						exists = var:radical_points
+					}
+					change_variable = {
+						name = radical_points
+						add = 1
+					}
+				}
+				else = {
+					set_variable = {
+						name = radical_points
+						value = 1
+					}
+				}
+			}
+		}
+	}
+	}
+
+	{
+hasan_sabbah_ignite_decision_effect = {
+	if = {
+		limit = {
+			hasan_sabbah_event_troops_value <= 1000
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 1
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 1
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = ayyar
+				stacks = 1
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = ayyar
+				stacks = 1
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = ayyar
+				stacks = 1
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+	}
+	else_if = {
+		limit = {
+			hasan_sabbah_event_troops_value <= 2000
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 1
+			}
+			men_at_arms = {
+				type = ayyar
+				stacks = 1
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 1
+			}
+			men_at_arms = {
+				type = ayyar
+				stacks = 1
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 1
+			}
+			men_at_arms = {
+				type = ayyar
+				stacks = 1
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 1
+			}
+			men_at_arms = {
+				type = ayyar
+				stacks = 1
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = ayyar
+				stacks = 2
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+	}
+	else_if = {
+		limit = {
+			hasan_sabbah_event_troops_value <= 3000
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 1
+			}
+			men_at_arms = {
+				type = ayyar
+				stacks = 2
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 1
+			}
+			men_at_arms = {
+				type = ayyar
+				stacks = 2
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 1
+			}
+			men_at_arms = {
+				type = ayyar
+				stacks = 2
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 1
+			}
+			men_at_arms = {
+				type = ayyar
+				stacks = 2
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 1
+			}
+			men_at_arms = {
+				type = ayyar
+				stacks = 2
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+	}
+	else_if = {
+		limit = {
+			hasan_sabbah_event_troops_value > 3000
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 2
+			}
+			men_at_arms = {
+				type = ayyar
+				stacks = 2
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 2
+			}
+			men_at_arms = {
+				type = ayyar
+				stacks = 2
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 2
+			}
+			men_at_arms = {
+				type = ayyar
+				stacks = 2
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 2
+			}
+			men_at_arms = {
+				type = ayyar
+				stacks = 2
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+		spawn_army = {
+			name = hasan_fanatics
+			men_at_arms = {
+				type = asawira
+				stacks = 2
+			}
+			men_at_arms = {
+				type = ayyar
+				stacks = 2
+			}
+			levies = hasan_sabbah_event_troops_value
+			inheritable = yes
+			location = root.domicile.domicile_location
+			war_keep_on_attacker_victory = yes
+		}
+	}
+	start_war = {
+		cb = ep3_hasan_assassin_war
+		target = root.location.county.holder.top_liege
+		target_title = root.location.county.holder.top_liege.primary_title
+	}
+}
+	}
+
+	{
+hasan_sabbah_end_war = {
+	# Offer Hasan the opportunity to become landed
+	hidden_effect = {
+		if = {
+			limit = {
+				$SELJUK$ = {
+					any_sub_realm_barony = {
+						title_province = { has_building_or_higher = alamut_castle_01 }
+					}
+				}
+			}
+			$SELJUK$ = {
+				random_sub_realm_barony = {
+					limit = {
+						title_province = { has_building_or_higher = alamut_castle_01 }
+					}
+					county = {
+						save_scope_as = hasan_home
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				$SELJUK$ = {
+					any_sub_realm_county = {
+						faith = $HASAN$.faith
+						holder = { is_ai = yes }
+					}
+				}
+			}
+			$SELJUK$ = {
+				random_sub_realm_county = {
+					limit = {
+						faith = $HASAN$.faith
+						holder = { is_ai = yes }
+					}
+					save_scope_as = hasan_home
+				}
+			}
+		}
+		else = {
+			$SELJUK$ = {
+				random_sub_realm_county = {
+					limit = {
+						holder = { is_ai = yes }
+					}
+					save_scope_as = hasan_home
+				}
+			}
+		}
+		$HASAN$ = {
+			if = {
+				limit = {
+					any_owned_story = {
+						story_type = story_hasan
+						exists = var:preferred_caliph
+					}
+				}
+				random_owned_story = {
+					limit = { story_type = story_hasan }
+					var:preferred_caliph = { save_scope_as = caliph }
+				}
+			}
+			trigger_event = {
+				id = hasan_sabbah.1050
+			}
+			if = {
+				limit = {
+					is_ai = no
+				}
+				add_achievement_global_variable_effect = {
+					VARIABLE = finished_the_old_man_of_the_mountain_achievement
+					VALUE = yes
+				}
+			}
+		}
+	}
+	create_title_and_vassal_change = {
+		type = independency
+		save_scope_as = change
+	}
+	$HASAN$ = {
+		add_prestige = medium_prestige_value
+	}
+	$SELJUK$ = {
+		add_prestige = {
+			value = medium_prestige_value
+			multiply = -1
+		}
+
+		every_vassal = {
+			limit = {
+				highest_held_title_tier > tier_barony
+			}
+			change_liege_or_become_independent = {
+				CHANGE = scope:change
+				VASSAL = this
+			}
+		}
+
+		every_vassal = {
+			limit = { is_ai = no }
+			send_interface_toast = {
+				type = msg_gained_independence
+				title = liege_primary_title_dissolution
+				desc = liege_primary_title_dissolution_desc
+				left_icon = $SELJUK$
+			}
+		}
+	}
+	resolve_title_and_vassal_change = scope:change
+	$SELJUK$ = {
+		every_held_title = {
+			limit = {
+				tier >= tier_duchy
+				is_head_of_faith = no
+				NOT = { this = $SELJUK$.capital_county.duchy }		
+			}
+			add_to_temporary_list = titles_to_destroy
+		}
+	}
+	every_in_list = {
+		list = titles_to_destroy
+		$HASAN$ = {
+			destroy_title = prev
+		}
+	}
+	$SELJUK$ = {
+		if = {
+			limit = {
+				government_has_flag = government_is_administrative
+			}
+			admin_government_reset_effect = yes
+		}
+	}
+	# LEGITIMACY FROM LOSING FACTION WAR
+	faction_war_end_defeat_legitimacy_effect = yes
+	# End Hasan's story cycle
+	hidden_effect = {
+		$HASAN$ = {
+			if = {
+				limit = {
+					any_owned_story = {
+						story_type = story_hasan
+					}
+				}
+				random_owned_story = {
+					limit = {
+						story_type = story_hasan
+					}
+					end_story = yes
+				}
+			}
+		}
+	}
+}
+	}
+
+	{
+				character:41702 ?= $PREACHER$
+	}
+}
+
+"common/on_action/army_on_actions.txt" = {
+	{
+		game_rule.1021			# Figure out whether we should fire a conclusion event during the Conquest.
 	}
 }

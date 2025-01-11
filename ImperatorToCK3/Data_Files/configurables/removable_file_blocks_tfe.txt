@@ -21757,6 +21757,94 @@ eastern_iranian_struggle.2001 = {
 }
 
 "common/decisions/tfe_struggle_decisions.txt" = {
+	# The decision's loc has anachronistic references to Romans and Saxons, and the decision references an undefined event.
+	{
+establish_the_old_north = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds"
+	}
+	decision_group_type = major
+
+	ai_check_interval = 30
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		AND = {
+			exists = struggle:britannia_struggle	
+			struggle:britannia_struggle = {
+				AND = {
+					is_culture_involved_in_struggle = root.culture
+				}
+			}
+		}
+		exists = dynasty
+		OR = {
+			culture = { has_cultural_pillar = heritage_brythonic }
+			culture = { has_cultural_pillar = heritage_goidelic }
+			culture = { has_cultural_pillar = heritage_celtic }
+		}
+		capital_county = {
+			title_province = { geographical_region = old_north }
+		}
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:established_old_north
+			}
+		}
+		highest_held_title_tier <= tier_duchy
+		title:k_old_north = {
+			AND = {
+				is_titular = yes
+				is_title_created = no
+			}	
+		}
+	}
+
+	is_valid = {
+		OR = { #Independent or vassal of an Emperor
+			is_independent_ruler = yes
+			top_liege.primary_title.tier >= tier_empire
+		}
+		prestige_level >= medium_prestige_level
+		has_title = title:d_northumberland
+		has_title = title:d_lancaster
+		has_title = title:d_lothian
+		has_title = title:d_galloway
+		completely_controls_region = old_north
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	effect = {
+		save_scope_as = founder
+		show_as_tooltip = { old_north_scripted_effect = yes }
+		trigger_event = { id = britannia_struggle.7000 }
+		every_player = {
+			limit = {
+				NOT = { this = scope:founder }
+				top_liege = {
+					OR = {
+						this = scope:founder
+						any_neighboring_and_across_water_top_liege_realm_owner = { this = scope:founder }
+					}
+				}
+			}
+			trigger_event = britannia_struggle.7001
+		}
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:established_old_north
+			}
+		}
+	}
+}
+	}
+
 	{
 ###################################################
 # 
@@ -24623,6 +24711,9 @@ fp1_scandinavian_adventurers.0012 = {
 		character:34014	= { save_scope_as = Mostaza }		# Bookmark ruler
 	}
 	{
+		character:34014 = { save_scope_as = Mostaza }		# Bookmark ruler
+	}
+	{
 					triggered_desc = {
 						trigger = {
 							any_character_struggle = { is_struggle_type = persian_struggle }
@@ -24687,6 +24778,11 @@ icelandic = {
 			}
 			culture:hunnic = { save_scope_as = ancient_culture }
 		}
+	}
+
+	# TFE uses heritage_hellenistic instead of heritage_ancient_greek.
+	{
+					culture = { has_cultural_pillar = heritage_ancient_greek }
 	}
 }
 
@@ -24897,6 +24993,235 @@ c_sudurland = {
 	410.1.1 = {
 		special_building_slot = palace_khawarnaq
 		special_building = palace_khawarnaq
+	}
+	}
+}
+
+"common/decisions/dlc_decisions\ep_3\06_ep3_separatist_uprising_decision.txt" = {
+	# No d_laamp_asen in TFE as of the 'After The Pharaohs' update
+	{
+		modifier = { # Asen and Peter always try to do this
+			add = 1000
+			primary_title = title:d_laamp_asen
+		}
+	}
+}
+
+"common/scripted_effects/00_historical_characters_scripted_effects.txt" = {
+	# No Iceland in TFE as of the 'After The Pharaohs' update
+	{
+	if = { # Gunnlaug Ormstunga
+		limit = {
+			current_year >= 1000
+			current_year <= 1006
+			NOT = { exists = global_var:hchar_gunnlaug_ormstunga }
+		}
+		set_global_variable = { name = hchar_gunnlaug_ormstunga value = yes }
+		title:b_reykjavik = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 20
+				name = "Gunnlaug"
+				dynasty_house = house:house_ormstunga
+				gender_female_chance = 0
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = scope:birth_location.title_province.culture
+				trait = education_diplomacy_2
+				trait = poet
+				trait = deceitful
+				trait = lustful
+				trait = ambitious
+				trait = viking
+				diplomacy = { min_template_high_skill max_template_high_skill }
+				martial = { min_template_high_skill max_template_high_skill }
+				stewardship = { min_template_low_skill max_template_low_skill }
+				intrigue = { min_template_high_skill max_template_high_skill }
+				learning = { min_template_high_skill max_template_high_skill }
+				prowess = { min_template_high_skill max_template_high_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				save_scope_as = explorer
+				historical_character_finalization_effect = yes
+				set_variable = gunnlaug_ormstunga
+			}
+			if = { limit = { has_variable = gunnlaug_ormstunga } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+	}
+
+	{
+	if = { # Snorri Sturluson
+		limit = {
+			current_year >= 1199
+			current_year <= 1205
+			NOT = { exists = global_var:hchar_snorri_sturluson }
+		}
+		set_global_variable = { name = hchar_snorri_sturluson value = yes }
+		title:b_reykjavik = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 20
+				name = "Snorri"
+				dynasty_house = house:house_sturluson
+				gender_female_chance = 0
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = scope:birth_location.title_province.culture
+				trait = education_learning_3
+				trait = ambitious
+				trait = diligent
+				trait = gregarious
+				trait = poet
+				diplomacy = { min_template_high_skill max_template_high_skill }
+				martial = { min_template_low_skill max_template_low_skill }
+				stewardship = { min_template_high_skill max_template_high_skill }
+				intrigue = { min_template_high_skill max_template_high_skill }
+				learning = { min_template_high_skill max_template_high_skill }
+				prowess = { min_template_low_skill max_template_low_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = snorri_sturluson
+				save_scope_as = major
+				create_inspiration = book_inspiration
+			}
+			if = { limit = { has_variable = snorri_sturluson } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+	}
+
+	{
+	if = { # Egil Skallagrímsson
+		limit = {
+			current_year >= 930
+			current_year <= 936
+			NOT = { exists = global_var:hchar_egil_skallagrimrsson }
+		}
+		set_global_variable = { name = hchar_egil_skallagrimrsson value = yes }
+		title:b_olafsvik = {
+			save_scope_as = birth_location
+			create_character = {
+				age = 20
+				name = "Egil"
+				dynasty_house = house:house_skallagrimsson
+				gender_female_chance = 0
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = scope:birth_location.title_province.faith
+				culture = scope:birth_location.title_province.culture
+				trait = education_diplomacy_2
+				trait = poet
+				trait = gregarious
+				trait = wrathful
+				trait = brave
+				trait = berserker
+				trait = viking
+				diplomacy = { min_template_high_skill max_template_high_skill }
+				martial = { min_template_high_skill max_template_high_skill }
+				stewardship = { min_template_low_skill max_template_low_skill }
+				intrigue = { min_template_high_skill max_template_high_skill }
+				learning = { min_template_high_skill max_template_high_skill }
+				prowess = { min_template_high_skill max_template_high_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = egil_skallagrimrsson
+				save_scope_as = major
+				change_current_weight = 75
+			}
+			if = { limit = { has_variable = egil_skallagrimrsson } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+	}
+
+	{
+	if = { # Þorbjörg the Seeress
+		limit = {
+			current_year >= 970
+			current_year <= 976
+			NOT = { exists = global_var:hchar_torbjorg_the_seeress }
+		}
+		set_global_variable = { name = hchar_torbjorg_the_seeress value = yes }
+		title:b_reydarfjall= {
+			save_scope_as = birth_location
+			create_character = {
+				age = 20
+				name = "T_orbjO_rg"
+				dynasty = none
+				gender_female_chance = 100
+				random_traits = no
+				location = scope:birth_location.title_province
+				faith = faith:norse_pagan
+				culture = scope:birth_location.title_province.culture
+				trait = education_learning_3
+				trait = patient
+				trait = zealous
+				trait = humble
+				trait = lifestyle_mystic
+				diplomacy = { min_template_high_skill max_template_high_skill }
+				martial = { min_template_low_skill max_template_low_skill }
+				stewardship = { min_template_high_skill max_template_high_skill }
+				intrigue = { min_template_high_skill max_template_high_skill }
+				learning = { min_template_high_skill max_template_high_skill }
+				prowess = { min_template_low_skill max_template_low_skill }
+				save_scope_as = historical_character
+			}
+			scope:historical_character ?= {
+				historical_character_finalization_effect = yes
+				set_variable = torbjorg_the_seeress
+				hidden_effect = {
+					add_trait_xp = {
+						trait = lifestyle_mystic
+						value = 100
+					}
+				}
+				give_nickname = nick_the_seeress
+				add_piety = 5000
+				add_character_flag = ai_will_not_convert
+			}
+			if = { limit = { has_variable = torbjorg_the_seeress } } # Error suppression
+			spawn_historical_characters_boilerplate_effect = yes
+		}
+	}
+	}
+}
+
+"common/coat_of_arms/dynamic_definitions/roman_coa_ere.txt" = {
+	# d_phoenicia not in TFE as of the 'After The Pharaohs' update
+	{
+d_phoenicia = { item = { trigger = { coa_switch_to_roman_trigger = yes } coat_of_arms = d_phoenicia_roman } }
+	}
+}
+
+
+"common/scripted_effects/TFE_dejure.txt" = {
+	# No c_placensia in TFE as of the 'After The Pharaohs' update
+	{
+	title:c_placensia = {
+		set_de_jure_liege_title = title:d_badajoz
+	}
+	}
+
+	# No c_clemont_sur_allier in TFE as of the 'After The Pharaohs' update
+	{
+	title:c_clemont_sur_allier = {
+		set_de_jure_liege_title = title:d_auvergne
+	}
+	}
+
+	# No d_gloucestor in TFE as of the 'After The Pharaohs' update
+	{
+	title:c_hereford = {
+		set_de_jure_liege_title = title:d_gloucestor
 	}
 	}
 }

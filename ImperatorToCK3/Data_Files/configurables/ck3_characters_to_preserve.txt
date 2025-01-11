@@ -58,6 +58,15 @@ after_bookmark_date = {
 
 	# Characters referenced in common/scripted_effects/07_dlc_ep3_scripted_effects.txt
 	90028
+
+	# Characters referenced in events\dlc\ep3\ep3_laamp_events.txt
+	122
+	102531
+	364
+	114
+	175
+	172
+	161266
 	
 	# Easter egg characters:
 	easteregg_veronica_pazos
