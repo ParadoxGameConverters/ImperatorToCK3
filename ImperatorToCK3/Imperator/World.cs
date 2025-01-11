@@ -626,7 +626,7 @@ internal partial class World {
 	private void LoadModFilesystemDependentData() {
 		// Some stuff can be loaded in parallel to save time.
 		Parallel.Invoke(
-			() => LocDB.ScrapeLocalizations(ModFS),
+			() => LoadImperatorLocalization(),
 			() => {
 				MapData = new MapData(ModFS);
 				Areas.LoadAreas(ModFS, Provinces);
@@ -660,6 +660,62 @@ internal partial class World {
 		);
 		
 		Logger.IncrementProgress();
+	}
+
+	private void LoadImperatorLocalization(){
+		LocDB.ScrapeLocalizations(ModFS);
+
+		// Now that all the I:R loc is loaded, replace substitution parameters with actual loc.
+		// For example:
+		//  E23: "$NABATEAN_SUBJECT$"
+		//  NABATEAN_SUBJECT: "Edom"
+		// Becomes:
+		//  E23: "Edom"
+		//  NABATEAN_SUBJECT: "Edom"
+
+		foreach (var locBlock in LocDB) {
+			foreach (var (language, loc) in locBlock.ToArray()) {
+				if (loc is null) {
+					continue;
+				}
+				
+				ReplaceSubstitutionKeysInLoc(locBlock, language, loc);
+			}
+		}
+
+	}
+
+	private void ReplaceSubstitutionKeysInLoc(LocBlock locBlock, string language, string loc) {
+		Regex substitutionRegex = new(@"\$[A-Z_]*\$");
+		
+		var matches = substitutionRegex.Matches(loc);
+		foreach (Match? match in matches) {
+			if (match is null) {
+				continue;
+			}
+					
+			var substitutionKey = match.Value[1..^1];
+			
+			// Avoid infinite recursion by checking if the key is already in the loc block.
+			if (substitutionKey == locBlock.Id) {
+				continue;
+			}
+			
+			var substitutionLocBlock = LocDB.GetLocBlockForKey(substitutionKey);
+			if (substitutionLocBlock is null) {
+				continue;
+			}
+			var substitutionLoc = substitutionLocBlock[language];
+			if (substitutionLoc is null) {
+				Logger.Warn($"Substitution for key {substitutionKey} not found in {language} localization for key {locBlock.Id}!");
+				continue;
+			}
+			
+			// If the substitution loc contains a substitution key, replace it first.
+			ReplaceSubstitutionKeysInLoc(substitutionLocBlock, language, substitutionLoc);
+					
+			locBlock[language] = loc.Replace(match.Value, substitutionLoc);
+		}
 	}
 
 	private BufferedReader ProcessSave(string saveGamePath) {

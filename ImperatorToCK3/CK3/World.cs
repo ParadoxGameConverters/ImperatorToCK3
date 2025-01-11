@@ -270,6 +270,8 @@ internal sealed class World {
 		ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
 		Dynasties.LoadCK3Dynasties(ModFS);
+		// Now that we have loaded all dynasties from CK3, we can remove invalid dynasty IDs from character history.
+		Characters.RemoveInvalidDynastiesFromHistory(Dynasties);
 		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB, LocDB, CorrectedDate);
 		DynastyHouses.LoadCK3Houses(ModFS);
 		
