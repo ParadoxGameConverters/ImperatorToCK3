@@ -34,6 +34,11 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		});
 		cultureDataParser.RegisterKeyword("parents", reader => {
 			cultureData.ParentCultureIds = reader.GetStrings().ToOrderedSet();
+
+			if (cultureData.ParentCultureIds.Count > 2) {
+				Logger.Warn("Found a culture that has more than 2 parents! Only the first 2 will be used.");
+				cultureData.ParentCultureIds = cultureData.ParentCultureIds.Take(2).ToOrderedSet();
+			}
 		});
 		cultureDataParser.RegisterKeyword("heritage", reader => {
 			var heritageId = reader.GetString();

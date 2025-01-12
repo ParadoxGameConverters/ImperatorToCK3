@@ -29130,3 +29130,10 @@ on_yearly_sevenhouses = {
 }
 	}
 }
+
+"common/culture/name_lists/00_celtic.txt" = {
+	# fix "Unexpected token: prefix, near line: 386" from error.log
+	{
+	prefix = yes
+	}
+}

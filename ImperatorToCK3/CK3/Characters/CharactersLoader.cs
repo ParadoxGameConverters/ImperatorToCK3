@@ -34,7 +34,10 @@ internal sealed partial class CharacterCollection {
 			"set_relation_ward", "set_relation_mentor",
 			"add_opinion", "make_concubine",
 		];
-		string[] fieldsToClear = ["friends", "best_friends", "lovers", "rivals", "nemesis", "primary_title", "dna"];
+		string[] fieldsToClear = [
+			"friends", "best_friends", "lovers", "rivals", "nemesis",
+			"primary_title", "dna", "spawn_army",
+		];
 
 		var femaleCharacterIds = loadedCharacters.Where(c => c.Female).Select(c => c.Id).ToHashSet();
 		var maleCharacterIds = loadedCharacters.Select(c => c.Id).Except(femaleCharacterIds).ToHashSet();
