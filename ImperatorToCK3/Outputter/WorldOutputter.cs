@@ -166,6 +166,7 @@ internal static class WorldOutputter {
 		modFileBuilder.AppendLine("replace_path=\"common/bookmarks/challenge_characters\"");
 		modFileBuilder.AppendLine("replace_path=\"common/culture/cultures\"");
 		modFileBuilder.AppendLine("replace_path=\"common/culture/pillars\"");
+		modFileBuilder.AppendLine("replace_path=\"common/dna_data\"");
 		modFileBuilder.AppendLine("replace_path=\"common/dynasties\"");
 		modFileBuilder.AppendLine("replace_path=\"common/dynasty_houses\"");
 		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");

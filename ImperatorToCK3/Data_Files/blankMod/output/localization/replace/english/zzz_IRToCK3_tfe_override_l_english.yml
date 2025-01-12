@@ -16,3 +16,12 @@
 
  # shaka_prefix is missing localization as of TFE 'After the Pharaohs' update.
  shaka_prefix: "Shaka"
+
+ # beja_health_god_god_name is missing localization as of TFE 'After the Pharaohs' update.
+ beja_health_god_god_name: "$paganism_health_god_name$"
+ # beja_health_god_god_name_possessive is missing localization as of TFE 'After the Pharaohs' update.
+ beja_health_god_god_name_possessive: "$paganism_health_god_name_possessive$"
+ # beja_high_god_god_name is missing localization as of TFE 'After the Pharaohs' update.
+ beja_high_god_god_name: "$paganism_high_god_name$"
+ # beja_high_god_god_name_possessive is missing localization as of TFE 'After the Pharaohs' update.
+ beja_high_god_god_name_possessive: "$paganism_high_god_name_possessive$"
