@@ -38,7 +38,8 @@ internal static class CharactersOutputter {
 			.OrderBy(c => c.Id).ToImmutableList();
 		
 		var sb = new StringBuilder();
-		var pathForCharactersFromIR = $"{outputPath}/history/characters/IRToCK3_fromImperator.txt";
+		const string irCharactersFileName = "IRToCK3_fromImperator.txt";
+		var pathForCharactersFromIR = $"{outputPath}/history/characters/{irCharactersFileName}";
 		await using var charactersFromIROutput = FileHelper.OpenWriteWithRetries(pathForCharactersFromIR);
 		foreach (var character in charactersFromIR) {
 			CharacterOutputter.WriteCharacter(sb, character, conversionDate, ck3BookmarkDate);
@@ -46,14 +47,25 @@ internal static class CharactersOutputter {
 			sb.Clear();
 		}
 
-		var pathForCharactersFromCK3 = $"{outputPath}/history/characters/IRToCK3_fromCK3.txt";
+		const string ck3CharactersFileName = "IRToCK3_fromCK3.txt";
+		var pathForCharactersFromCK3 = $"{outputPath}/history/characters/{ck3CharactersFileName}";
 		await using var charactersFromCK3Output = FileHelper.OpenWriteWithRetries(pathForCharactersFromCK3, Encoding.UTF8);
 		foreach (var character in charactersFromCK3) {
 			CharacterOutputter.WriteCharacter(sb, character, conversionDate, ck3BookmarkDate);
 			await charactersFromCK3Output.WriteAsync(sb.ToString());
 			sb.Clear();
 		}
-		
+
+		// There may have been other character history files due to being in the removable_file_blocks*.txt files.
+		// Their contents are already in the characters' history fields, outputted above, so we can remove the extra files.
+		HashSet<string> filesToKeep = [irCharactersFileName, ck3CharactersFileName];
+		var characterHistoryFiles = Directory.GetFiles(Path.Combine(outputPath, "history/characters"), "*.txt");
+		foreach (var file in characterHistoryFiles) {
+			if (!filesToKeep.Contains(Path.GetFileName(file))) {
+				File.Delete(file);
+			}
+		}
+
 		await OutputCharactersDNA(outputPath, charactersWithDNA);
 	}
 
