@@ -13,6 +13,8 @@
 
  # evenk_prefix is missing localization as of TFE 'After the Pharaohs' update.
  evenk_prefix: "Evenk"
+ # evenk_collective_noun is missing localization as of TFE 'After the Pharaohs' update.
+ evenk_collective_noun: "Evenks"
 
  # shaka_prefix is missing localization as of TFE 'After the Pharaohs' update.
  shaka_prefix: "Shaka"
@@ -25,3 +27,12 @@
  beja_high_god_god_name: "$paganism_high_god_name$"
  # beja_high_god_god_name_possessive is missing localization as of TFE 'After the Pharaohs' update.
  beja_high_god_god_name_possessive: "$paganism_high_god_name_possessive$"
+
+ # from error.log: "Unrecognized loc key teachings_of_ulfilas_name. teachings_of_ulfilas"
+ teachings_of_ulfilas_name: "special_faith_teachings_of_ulfilas_name"
+
+ # Unlocalized TFE name lists from error.log:
+ name_list_tuareg: "Tuareg"
+ name_list_afri: "Afri"
+ name_list_nivkh: "Nivkh"
+ name_list_yukaghir: "Yukaghir"

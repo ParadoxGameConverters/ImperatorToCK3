@@ -12660,6 +12660,16 @@ restore_the_east = {
 	}
 }
 	}
+
+	# No k_italia_annonaria in TFE as of the 'After the Pharaohs' update.
+	{
+			any_vassal = {
+				has_title = title:k_italia_annonaria
+			}
+	}
+	{
+			has_title = title:k_italia_annonaria
+	}
 }
 
 
@@ -30177,5 +30187,18 @@ found_kingdom_of_prussia_decision = {
 					this = title:d_laamp_lalibela
 					this = title:d_laamp_muhammad_bakhtiyar
 					this = title:d_laamp_raoul
+	}
+}
+
+
+"common/scripted_triggers/TFE_hunt_triggers.txt" = {
+	# No doctrine parameter cannot_hunt in TFE as of the 'After The Pharaohs' update.
+	{
+	custom_tooltip = {
+		text = faith_cannot_hunt_parameter_tt
+		NOT = {
+			faith = { has_doctrine_parameter = cannot_hunt }
+		}
+	}
 	}
 }
