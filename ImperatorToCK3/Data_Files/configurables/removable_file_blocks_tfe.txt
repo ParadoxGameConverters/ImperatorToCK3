@@ -1042,7 +1042,22 @@ set_minorities_game_start = {
 			}
 		}
 
-		
+		# Alans
+		if = {
+			limit = {
+				game_start_date >= 400.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:alan
+				SIZE = large
+				COUNTY = title:c_tunis
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:arianism
+				SIZE = large
+				COUNTY = title:c_tunis
+			}
+		}
 
 		# Gauls
 		if = {
