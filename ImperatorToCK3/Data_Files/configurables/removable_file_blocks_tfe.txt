@@ -30455,3 +30455,80 @@ found_kingdom_of_prussia_decision = {
 											STRUGGLE_TYPE = iberian_struggle
 	}
 }
+
+
+"gfx/interface/illustrations/scripted_illustrations/ingame.txt" = {
+	# No byzantine_building_gfx in TFE as of the 'After The Pharaohs' update.
+	{
+	# feast, byzantine
+	texture = {
+		reference = "event_scenes/ep3_feast_byzantine.dds"
+
+		trigger = {
+			involved_activity ?= { has_activity_type = activity_feast }
+			location ?= involved_activity.activity_location
+			involved_activity.activity_location.culture = { has_building_gfx = byzantine_building_gfx }
+		}
+	}
+	}
+}
+
+
+"common/activities/activity_types/feast.txt" = {
+	# No byzantine_building_gfx in TFE as of the 'After The Pharaohs' update.
+	{
+	background = {	# EP3
+		trigger = {
+			activity_location.culture = { has_building_gfx = byzantine_building_gfx }
+		}
+		texture = "gfx/interface/illustrations/event_scenes/ep3_feast_byzantine.dds"
+		environment = "environment_ep3_byzantine_feast"
+		ambience = "event:/SFX/Events/Backgrounds/corner_of_tavern"
+	}
+	}
+}
+
+
+"common/scripted_triggers/07_ep3_triggers.txt" = {
+	# No byzantine_building_gfx in TFE as of the 'After The Pharaohs' update.
+	{
+ep3_should_use_byzantine_graphics_trigger = {
+	culture = { has_building_gfx = byzantine_building_gfx }
+}
+	}
+}
+
+
+"gfx/interface/illustrations/scripted_illustrations/main_menu.txt" = {
+	# These use ep3_should_use_byzantine_graphics_trigger which is removed above.
+	{
+	texture = {
+		reference = "main_menu/ep3_frontend_byzantine.dds"
+
+		trigger = {
+			ep3_should_use_byzantine_graphics_trigger = yes
+		}
+	}
+	environment = {
+		reference = "environment_ep3_frontend_byzantine_main"
+		
+		trigger = {
+			ep3_should_use_byzantine_graphics_trigger = yes
+		}
+	}
+	}
+}
+
+
+"common/scripted_triggers/00_artifact_triggers.txt" = {
+	# No byzantine_building_gfx in TFE as of the 'After The Pharaohs' update.
+	{
+artifact_use_byzantine_building_visuals_trigger = {
+	exists = culture
+	culture = { has_building_gfx = byzantine_building_gfx }
+}
+	}
+	{
+		has_building_gfx = byzantine_building_gfx
+	}
+}
