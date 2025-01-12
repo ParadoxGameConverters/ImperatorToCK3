@@ -436,6 +436,43 @@
 			}
 	}
 
+	# In converted games the Graeaco-Roman presence in Egypt is not a given.
+	{
+		# Greek/Egyptian rulers in Egypt now know both Coptic and Greek
+		if = {
+			limit = {
+				game_start_date >= 500.1.1 # Rough timeframe for transition
+			}		
+			every_county_in_region = {
+				region = custom_roman_aegyptus
+				if = {
+					limit = {
+						holder = {
+							NOT = {
+								knows_language = language_kemetic
+							}
+						}
+					}
+					holder = {
+						learn_language = language_kemetic
+					}
+				}
+				if = {
+					limit = {
+						holder = {
+							NOT = {
+								knows_language = language_greek
+							}
+						}
+					}
+					holder = {
+						learn_language = language_greek
+					}
+				}
+			}
+		}
+	}
+
 	{
 		if = {
 			limit = {
@@ -576,6 +613,37 @@
 				remove_variable = tradition_cooldown
 			}
 		}
+	}
+
+	# In converted games we don't know if yazd is a holy site.
+	{
+			faith:mazdayasna = {
+				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+			}
+			faith:zurvanism = {
+				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+			}
+			faith:gayomarthianism = {
+				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+			}
+			faith:khurmazta = {
+				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+			}
+			faith:mazdakism = {
+				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+			}
+			faith:khurramism = {
+				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+			}
+			faith:urartuism = {
+				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+			}
+			faith:armaz = {
+				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+			}
+			faith:magousaian = {
+				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+			}
 	}
 
 	{
