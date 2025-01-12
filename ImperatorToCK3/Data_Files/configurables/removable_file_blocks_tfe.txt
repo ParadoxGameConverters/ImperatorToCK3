@@ -564,6 +564,20 @@
 		}
 	}
 
+	# Anachronistic
+	{
+		if = {
+			limit = {
+				game_start_date <= 476.1.1
+				has_dlc_feature = hybridize_culture
+			}
+			culture:ostrogothic = {
+				add_culture_tradition = tradition_malleable_invaders
+				remove_variable = tradition_cooldown
+			}
+		}
+	}
+
 	{
 		if = {
 			limit = {
@@ -28813,6 +28827,214 @@ celtic_queen = {
 	tier = female
 	priority = 150
 	heritages = { heritage_celtic }
+}
+	}
+}
+
+"common/on_action/sevenhouses_on_actions.txt" = {
+	# Disable TFE's anachronistic seven houses mechanic for Persia
+	{
+on_game_start = {
+	on_actions = {
+		on_sevenhouses_start
+	}
+}
+
+on_sevenhouses_start = {
+	effect = {
+		add_to_global_variable_list = {
+			name = seven_houses
+			target = dynasty:900021
+		}
+		add_to_global_variable_list = {
+			name = seven_houses
+			target = dynasty:mihran_dynasty
+		}
+		add_to_global_variable_list = {
+			name = seven_houses
+			target = dynasty:suren_dynasty
+		}
+		add_to_global_variable_list = {
+			name = seven_houses
+			target = dynasty:varaz_dynasty
+		}
+		add_to_global_variable_list = {
+			name = seven_houses
+			target = dynasty:spandiyadh_dynasty
+		}
+		add_to_global_variable_list = {
+			name = seven_houses
+			target = dynasty:7511
+		}
+		add_to_global_variable_list = {
+			name = seven_houses
+			target = dynasty:900018
+		}
+	}
+	on_actions = {
+		delay = { days = 1 }
+		on_three_months_sevenhouses
+	}
+	on_actions = {
+		delay = { days = { 365 420 } }
+		on_yearly_sevenhouses
+	}
+}
+
+on_three_months_sevenhouses = {
+	effect = {
+		if = {
+			limit = {
+				AND = {
+					exists = title:e_persia.holder
+					title:e_persia.holder = {
+						government_has_flag = government_is_eranshar
+						sevenhouses_enabled = yes
+					}
+				}
+			}
+			title:e_persia.holder = {
+				remove_all_character_modifier_instances = sevenhouses_bad_modifier_strong
+				remove_all_character_modifier_instances = sevenhouses_good_modifier_strong
+				remove_all_character_modifier_instances = sevenhouses_bad_modifier
+				remove_all_character_modifier_instances = sevenhouses_good_modifier
+				remove_all_character_modifier_instances = sevenhouses_bad_modifier_strong_dehqan
+				remove_all_character_modifier_instances = sevenhouses_good_modifier_strong_dehqan
+				remove_all_character_modifier_instances = sevenhouses_bad_modifier_dehqan
+				remove_all_character_modifier_instances = sevenhouses_good_modifier_dehqan
+				if = {
+					limit = {
+						is_target_in_global_variable_list = {
+							name = unavailable_unique_decisions
+							target = flag:TFE_instate_dehqans
+						}
+					}
+					if = {
+						limit = {
+							sevenhouses_strength_value >= 50 # if strong houses
+						}
+						if = {
+							limit = {
+								sevenhouses_favor_value < 50 #if sad houses
+							}
+							while = {
+								count = fifty_minus_sevenhouses_favor_value
+								add_character_modifier = sevenhouses_bad_modifier_strong_dehqan #very bad modifier
+							}
+						}
+						else = {
+							while = {
+								count = sevenhouses_favor_value_minus_50
+								add_character_modifier = sevenhouses_good_modifier_strong_dehqan #very good modifier
+							}
+						}
+					}
+					else = { # if weak houses
+						if = {
+							limit = {
+								sevenhouses_favor_value < 50 #if sad houses
+							}
+							while = {
+								count = fifty_minus_sevenhouses_favor_value
+								add_character_modifier = sevenhouses_bad_modifier_dehqan #bad modifier
+							}
+						}
+						else = {
+							while = {
+								count = sevenhouses_favor_value_minus_50
+								add_character_modifier = sevenhouses_good_modifier_dehqan #good modifier
+							}
+						}
+					}
+				}
+				else = {
+					if = {
+						limit = {
+							sevenhouses_strength_value >= 50 # if strong houses
+						}
+						if = {
+							limit = {
+								sevenhouses_favor_value < 50 #if sad houses
+							}
+							while = {
+								count = fifty_minus_sevenhouses_favor_value
+								add_character_modifier = sevenhouses_bad_modifier_strong #very bad modifier
+							}
+						}
+						else = {
+							while = {
+								count = sevenhouses_favor_value_minus_50
+								add_character_modifier = sevenhouses_good_modifier_strong #very good modifier
+							}
+						}
+					}
+					else = { # if weak houses
+						if = {
+							limit = {
+								sevenhouses_favor_value < 50 #if sad houses
+							}
+							while = {
+								count = fifty_minus_sevenhouses_favor_value
+								add_character_modifier = sevenhouses_bad_modifier #bad modifier
+							}
+						}
+						else = {
+							while = {
+								count = sevenhouses_favor_value_minus_50
+								add_character_modifier = sevenhouses_good_modifier #good modifier
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	on_actions = {
+		delay = { months = 3 }
+		on_three_months_sevenhouses
+	}
+}
+
+on_yearly_sevenhouses = {
+	effect = {
+		if = {
+			limit = {
+				AND = {
+					exists = title:e_persia.holder
+					title:e_persia.holder = {
+						government_has_flag = government_is_eranshar
+						sevenhouses_enabled = yes
+						any_character_struggle = {
+							involvement = involved
+							is_struggle_type = roman_persian_struggle	
+						}
+					}
+				}
+			}
+			title:e_persia.holder = {
+				if = {
+					limit = {
+						sevenhouses_favor_value >= 70
+					}
+					struggle:roman_persian_struggle = {
+						activate_struggle_catalyst = { catalyst = catalyst_high_favor_with_houses character = prev }
+					}
+				}
+				else_if = {
+					limit = {
+						sevenhouses_favor_value <= 30
+					}
+					struggle:roman_persian_struggle = {
+						activate_struggle_catalyst = { catalyst = catalyst_low_favor_with_houses character = prev }
+					}
+				}
+			}
+		}
+	}
+	on_actions = {
+		delay = { days = { 365 420 } }
+		on_yearly_sevenhouses
+	}
 }
 	}
 }
