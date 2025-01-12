@@ -29161,7 +29161,7 @@ on_yearly_sevenhouses = {
 
 
 "common/scripted_effects/00_mongol_invasion_effects.txt" = {
-	# Character 215009 (Temujin) is not in TFE as of the 'After The Pharaohs' update.
+	# Character 125501 (Temujin) is not in TFE as of the 'After The Pharaohs' update.
 	{
 	if = {
 		limit = {
@@ -30300,5 +30300,58 @@ found_kingdom_of_prussia_decision = {
 	# Character 70506 has broken syntax as of TFE 'After The Pharaohs' update.
 	{
  Rhinotmetos
+	}
+}
+
+
+"common/achievements/ep3_achievements.txt" = {
+	# Characters 34281 and 215009 are missing from TFE as of the 'After The Pharaohs' update.
+	{
+			this = character:34281
+			this = character:215009
+	}
+
+	# Character 466517 is missing from TFE as of the 'After The Pharaohs' update.
+	{
+		custom_description = {
+			text = tamar_mepe_achievement_trigger
+			this = character:466517
+			completely_controls = title:k_georgia
+			completely_controls = title:k_armenia
+			completely_controls = title:k_daylam
+		}
+	}
+	{
+		this = character:466517
+	}
+
+	# Character 41702 is missing from TFE as of the 'After The Pharaohs' update.
+	{
+		custom_description = {
+			text = the_old_man_of_the_mountain_achievement_trigger
+			this = character:41702
+			exists = global_var:finished_the_old_man_of_the_mountain_achievement
+		}
+	}
+}
+
+
+"common/achievements/standard_achievements.txt" = {
+	# Character 6878 is missing from TFE as of the 'After The Pharaohs' update.
+	{
+		character:6878 = {
+			is_alive = yes
+			is_ai = no
+		}
+	}
+	{
+		custom_description = {
+			text = going_places_achievement_trigger
+			highest_held_title_tier >= tier_kingdom
+			character:6878 = {
+				is_alive = yes
+				is_ai = no
+			}
+		}
 	}
 }

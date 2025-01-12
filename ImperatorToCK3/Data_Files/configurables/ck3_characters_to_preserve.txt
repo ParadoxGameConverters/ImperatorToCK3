@@ -67,6 +67,9 @@ after_bookmark_date = {
 	175
 	172
 	161266
+
+	# Characters referenced in tests\dynasty_links_tests.txt
+	120
 	
 	# Easter egg characters:
 	easteregg_veronica_pazos
