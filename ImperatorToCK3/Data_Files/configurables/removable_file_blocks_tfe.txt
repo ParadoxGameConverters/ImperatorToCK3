@@ -30202,3 +30202,87 @@ found_kingdom_of_prussia_decision = {
 	}
 	}
 }
+
+
+"common/event_backgrounds/01_event_backgrounds.txt" = {
+	# error.log error as of TFE 'After The Pharaohs' update: "has_building_gfx trigger [ Unknown gfx culture flag byzantine_building_gfx ]"
+	{
+	background = { # EP3 - Byzantium
+		trigger = {
+			trigger_if = {
+				limit = {
+					NOT = { exists = scope:activity }
+				}
+				location.culture ?= { has_building_gfx = byzantine_building_gfx }
+			}
+			trigger_else = {
+				scope:activity.activity_location.culture ?= { has_building_gfx = byzantine_building_gfx }
+			}
+		}
+		reference = "gfx/interface/illustrations/event_scenes/ep3_feast_byzantine.dds"
+		environment = "environment_ep3_byzantine_feast"
+		ambience = "event:/SFX/Events/Backgrounds/feasthall"
+	}
+	}
+
+	{
+	background = { # EP3 - Byzantium
+		trigger = {
+			trigger_if = {
+				limit = { exists = scope:bg_override_char }
+				scope:bg_override_char = {
+					location.culture = { has_building_gfx = byzantine_building_gfx }
+				}
+			}
+			trigger_else = {
+				location.culture = { has_building_gfx = byzantine_building_gfx }
+			}
+		}
+		reference = "gfx/interface/illustrations/event_scenes/ep3_feast_byzantine.dds"
+		environment = "environment_ep3_byzantine_feast"
+		ambience = "event:/SFX/Events/Backgrounds/feasthall"
+	}
+	}
+
+	{
+	background = {
+		trigger = {
+			location.culture = { has_building_gfx = byzantine_building_gfx }
+		}
+		reference = "gfx/interface/illustrations/event_scenes/ep3_relaxing_room.dds"
+		environment = "environment_ep3_relaxing_room" 
+		ambience = "event:/DLC/EP3/SFX/Events/Event_Images/ep3_evn_eventimage_byzantine_relaxing_room"
+	}
+	}
+
+	{
+	background = { # Byzantium
+		trigger = {
+			location.culture ?= { has_building_gfx = byzantine_building_gfx }
+		}
+		reference = "gfx/interface/illustrations/event_scenes/ep3_feast_byzantine.dds"
+		environment = "environment_ep3_byzantine_feast"
+		ambience = "event:/SFX/Events/Backgrounds/feasthall"
+	}
+	}
+
+	# No building rock_of_gibraltar_01 in TFE as of the 'After The Pharaohs' update.
+	{
+						has_building_or_higher = rock_of_gibraltar_01
+	}
+}
+
+
+"common/customizable_localization/00_building_custom_localization.txt" = {
+	# No building rock_of_gibraltar_01 in TFE as of the 'After The Pharaohs' update.
+	{
+	text = { # Gibraltar
+		trigger = {
+			has_special_building = yes
+			has_building = rock_of_gibraltar_01
+			#this = province:1845 # Algeciras
+		}
+		localization_key = building_rock_of_gibraltar_01
+	}
+	}
+}
