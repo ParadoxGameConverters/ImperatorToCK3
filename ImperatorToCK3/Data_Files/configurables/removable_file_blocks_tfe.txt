@@ -12337,6 +12337,321 @@ start_gothic_war = {
 	}
 }
 	}
+
+	# ck3-tiger: "unknown token `government_hast_flag`". This is a TFE error as of the 'After the Pharaohs' update.
+	{
+restore_the_west_empire = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
+	}
+	decision_group_type = roman
+	
+	desc = restore_the_west_empire_desc
+	selection_tooltip = restore_the_west_empire_tooltip
+	ai_goal = yes
+
+	is_shown = {
+		is_landed = yes
+		exists = dynasty
+		culture = { has_cultural_pillar = heritage_latin }
+		title:e_western_roman_empire = {
+			is_title_created = no
+		}
+		title:e_roman_empire = {
+			is_title_created = no
+		}
+		highest_held_title_tier = tier_empire
+		NOT = {
+			has_title = title:e_byzantium
+		}
+		NOT = {
+			government_has_flag = government_is_roman
+		}
+	}
+
+	is_valid = {
+		is_independent_ruler = yes
+		prestige_level >= high_prestige_level
+		highest_held_title_tier = tier_empire
+		OR = {
+			government_has_flag = government_is_imperial
+			government_has_flag = government_is_imperial_cult
+			government_has_flag = government_is_autocratic
+			government_has_flag = government_is_autocratic_ep3
+			government_has_flag = government_is_administrative
+		}
+		completely_controls = title:d_latium
+		completely_controls = title:d_friuli
+		completely_controls = title:d_romagna
+		completely_controls = title:d_sicily
+		completely_controls = title:d_lombardia
+		completely_controls = title:d_apulia
+		completely_controls = title:d_tunis
+		completely_controls = title:d_dalmatia
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+		is_at_war = no
+	}
+
+	effect = {
+		save_scope_as = founder
+		show_as_tooltip = { restore_the_west_effect = yes }
+		trigger_event = { id = western_roman.0011 }
+		#notify other players
+		if = {
+			limit = {
+				government_has_flag = government_is_autocratic
+			}
+			change_government = imperial_government
+			every_vassal = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_autocratic
+						AND = {
+							government_has_flag = government_is_roman
+							highest_held_title_tier > tier_county
+						}
+					}
+				}
+				change_government = imperial_government
+			}
+			else_if = {
+				limit = {
+					government_has_flag = government_is_autocratic_ep3
+				}
+				save_scope_as = founder
+				show_as_tooltip = { restore_the_west_effect = yes }
+				trigger_event = { id = western_roman.0011 }
+				#government stuff
+				change_government = administrative_government
+				every_vassal = {
+					limit = {
+						OR = {
+							government_has_flag = government_is_autocratic_ep3
+							AND = {
+								government_hast_flag = government_is_roman
+								highest_held_title_tier > tief_countiy
+							}
+						}
+					}
+					change_government = administrative_government
+				}
+			}
+		every_player = {
+			limit = {
+				NOT = { this = scope:founder }
+			}
+			#vassal players get a separate event
+			if = {
+				limit = {
+					any_liege_or_above = { this = scope:founder }
+				}
+				trigger_event = western_roman.0012
+			}
+			#germanics get a separate event
+			if = {
+				limit = {
+					culture = { has_cultural_pillar = heritage_north_germanic }
+					culture = { has_cultural_pillar = heritage_west_germanic }
+					culture = { has_cultural_pillar = heritage_east_germanic }
+					culture = { has_cultural_pillar = heritage_central_germanic }
+				}
+				trigger_event = western_roman.0013
+			}
+			#slavs get a separate event
+			if = {
+				limit = {
+					culture = { has_cultural_pillar = heritage_slavic }
+					culture = { has_cultural_pillar = heritage_south_slavic }
+				}
+				trigger_event = western_roman.0014
+			}
+			#everyone else within range gets a less personal version
+			else = { trigger_event = western_roman.0015 }
+		}
+		hidden_effect = {
+			if = {
+				limit = {
+					title:e_italy = {
+						is_titular = no
+					}
+				}
+				title:e_italy = {
+					every_in_de_jure_hierarchy = {
+						set_de_jure_liege_title = title:e_western_roman_empire
+							}
+						}
+					}
+				}
+			}
+		}
+
+	cost = { gold = { value = 750 if = { limit = { is_ai = yes } multiply = 0 } } prestige = { value = 250 if = { limit = { is_ai = yes } multiply = 0 } } piety = { value = 250 if = { limit = { is_ai = yes } multiply = 0 } } }
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+	}
+
+	# ck3-tiger: "unknown token `tief_countiy`". This is a TFE error as of the 'After the Pharaohs' update.
+	{
+#Restore Eastern Rome - Hróðvitnir
+restore_the_east = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
+	}
+	decision_group_type = roman
+
+	desc = restore_the_east_desc
+	selection_tooltip = restore_the_east_tooltip
+	ai_goal = yes
+
+	is_shown = {
+		is_landed = yes
+		exists = dynasty
+		OR = {
+			culture = { has_cultural_pillar = heritage_latin }
+		}
+		#capital must be in rome
+		title:e_byzantium = {
+			any_in_de_jure_hierarchy = {
+				THIS = root.capital_county
+			}
+			is_title_created = no
+		}
+		title:e_roman_empire = {
+			is_title_created = no
+		}
+		highest_held_title_tier < tier_empire
+	}
+
+	is_valid = {
+		is_independent_ruler = yes
+		prestige_level >= high_prestige_level
+		OR = {
+			government_has_flag = government_is_autocratic
+			government_has_flag = government_is_autocratic_ep3
+			government_has_flag = government_is_roman
+		}
+		completely_controls = title:d_thrace
+		completely_controls = title:d_alexandria
+		completely_controls = title:d_delta
+		completely_controls = title:d_palestine
+		completely_controls = title:d_antioch
+		completely_controls = title:d_achaia
+		completely_controls = title:d_krete
+		completely_controls = title:d_thessalonika
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_independent_ruler = yes
+		is_at_war = no
+	}
+
+	effect = {
+		if = {
+			limit = {
+				NOT = { has_dlc_feature = roads_to_power }
+			}
+		save_scope_as = founder
+		show_as_tooltip = { restore_the_east_effect = yes }
+		trigger_event = { id = western_roman.0021 }
+		#government stuff
+		if = {
+			limit = {
+				government_has_flag = government_is_autocratic
+			}
+			change_government = imperial_government
+			every_vassal = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_autocratic
+						AND = {
+							government_has_flag = government_is_roman
+							highest_held_title_tier > tier_county
+						}
+					}
+				}
+				change_government = imperial_government
+			}
+			else_if = {
+				save_scope_as = founder
+				show_as_tooltip = { restore_the_west_effect = yes }
+				trigger_event = { id = western_roman.0021 }
+				#government stuff
+				change_government = administrative_government
+				every_vassal = {
+					limit = {
+						OR = {
+							government_has_flag = government_is_autocratic_ep3
+							AND = {
+								government_hast_flag = government_is_roman
+								highest_held_title_tier > tief_countiy
+							}
+						}
+					}
+					change_government = administrative_government
+				}
+			}
+		#notify other players
+		every_player = {
+			limit = {
+				NOT = { this = scope:founder }
+			}
+			#vassal players get a separate event
+			if = {
+				limit = {
+					any_liege_or_above = { this = scope:founder }
+				}
+				trigger_event = eastern_roman.0002
+			}
+			#germanics get a separate event
+			if = {
+				limit = {
+					culture = { has_cultural_pillar = heritage_north_germanic }
+					culture = { has_cultural_pillar = heritage_west_germanic }
+					culture = { has_cultural_pillar = heritage_east_germanic }
+					culture = { has_cultural_pillar = heritage_central_germanic }
+				}
+				trigger_event = eastern_roman.0003
+			}
+			#slavs get a separate event
+			if = {
+				limit = {
+					culture = { has_cultural_pillar = heritage_slavic }
+					culture = { has_cultural_pillar = heritage_south_slavic }
+				}
+				trigger_event = eastern_roman.0004
+			}
+			#everyone else within range gets a less personal version
+			else = { trigger_event = eastern_roman.0005 }
+				}
+			}
+		}
+	}
+
+	cost = { gold = { value = 1000 if = { limit = { is_ai = yes } multiply = 0 } } prestige = { value = 500 if = { limit = { is_ai = yes } multiply = 0 } } piety = { value = 500 if = { limit = { is_ai = yes } multiply = 0 } } }
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+	}
 }
 
 
@@ -30031,5 +30346,126 @@ create_kingdom_of_saxony_effect = {
 				add_to_list = new_de_jure_kingdoms
 			}
 		}
+	}
+}
+
+
+"common/scripted_effects/03_dlc_fp3_scripted_effects.txt" = {
+	{
+			# Are we Ismailis?
+			else_if = {
+				limit = { faith = faith:ismaili }
+				# Transfer the title.
+				create_title_and_vassal_change = {
+					type = created
+					save_scope_as = change
+					add_claim_on_loss = no
+				}
+				title:d_ismaili = {
+					change_title_holder = {
+						holder = scope:founder
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+				faith = { set_religious_head_title = title:d_ismaili }
+
+				# Set up the remaining bits'n'bobs.
+				if = {
+					limit = {
+						NOT = { has_realm_law = same_faith_succession_law }
+					}
+					add_realm_law_skip_effects = same_faith_succession_law
+				}
+				title:d_ismaili = { add_title_law = temporal_head_of_faith_succession_law }
+				# Make it the HoF head.
+			}
+	}
+}
+
+
+"common/decisions/00_major_decisions_east_europe.txt" = {
+	# ck3-tiger: "unknown token `custom_prussia`". This is a TFE error as of the 'After The Pharaohs' update.
+	{
+# Basically same as founding Livonia
+found_kingdom_of_prussia_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds"
+	}
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	desc = found_kingdom_of_prussia_decision_desc
+	selection_tooltip = found_kingdom_of_prussia_decision_tooltip
+
+	is_shown = {
+		is_ruler = yes
+		is_landed = yes
+		exists = dynasty
+		OR = {
+			#Must be a Prussian or Christian in Prussia
+			AND = {
+				#Is a Crusader founding the Kingdom
+				root.faith = {
+					NOT = { religion_tag = baltic_religion }
+					NOT = { has_doctrine = unreformed_faith_doctrine }
+				}
+				capital_province = {
+					geographical_region = ghw_region_baltic
+				}
+			}
+			#Or just be Prussian.
+			culture = { has_name_list = name_list_prussian }
+		}
+		NOT = {	#You can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_founded_kingdom_of_prussia
+			}
+		}
+		highest_held_title_tier <= tier_duchy
+	}
+
+	is_valid = {
+		OR = { #Independent or vassal of an Emperor
+			is_independent_ruler = yes
+			top_liege.primary_title.tier >= tier_empire
+		}
+		prestige_level >= medium_prestige_level
+
+		#You must control the kingdom's heartlands.
+		has_title = title:d_prussia
+		has_title = title:d_masuria
+		completely_controls_region = custom_prussia
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+	}
+
+	effect = {
+		save_scope_as = founder
+		found_kingdom_of_prussia_decision_scripted_effect = yes
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_founded_kingdom_of_prussia
+			}
+		}
+	}
+
+	cost = {
+		gold = major_gold_value
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
 	}
 }
