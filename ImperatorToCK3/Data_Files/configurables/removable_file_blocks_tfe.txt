@@ -29434,7 +29434,13 @@ on_yearly_sevenhouses = {
 		instance = { position = { 0.5 0.5 } scale = { 1.0 1.0 } }		
 	}	
 	}
+
+	# Fix "Unexpected token: custom" from error.log
+	{
+custom=yes
+	}
 }
+
 
 "common/coat_of_arms/coat_of_arms/new_dynasties.txt" = {
 	# No ce_eagle_islam.dds in TFE as of the 'After The Pharaohs' update.
@@ -29489,6 +29495,16 @@ sisenanding = {
 		instance = { position = { 0.7.5 0.2 } scale = { 0.5 0.5 } }
 	}	
 }
+	}
+
+	# Fix broken syntax for 7632 dynasty CoA.
+	{
+ Pharamonderic
+	}
+
+	# Fix "Unexpected token: custom" from error.log
+	{
+	custom=yes
 	}
 }
 
@@ -30353,5 +30369,89 @@ found_kingdom_of_prussia_decision = {
 				is_ai = no
 			}
 		}
+	}
+}
+
+
+"common/activities/activity_types/monument_expedition.txt" = {
+	# No building rock_of_gibraltar_01 in TFE as of the 'After The Pharaohs' update.
+	{
+						has_building_or_higher = rock_of_gibraltar_01
+	}
+}
+
+
+"common\customizable_localization\00_travel.txt" = {
+	# No building rock_of_gibraltar_01 in TFE as of the 'After The Pharaohs' update.
+	{
+	text = { # Gibraltar
+		trigger = {
+			has_special_building = yes
+			has_building_or_higher = rock_of_gibraltar_01
+			#this = province:1845 # Algeciras
+		}
+		localization_key = building_rock_of_gibraltar_destination_desc
+	}
+	}
+}
+
+
+"common/scripted_triggers/00_illustration_triggers.txt" = {
+	# Missing building gfx as of TFE 'After The Pharaohs' update
+	{
+		has_building_gfx = dravidian_building_gfx
+	}
+	{
+		has_building_gfx = ainu_building_gfx
+	}
+	{
+		has_building_gfx = japanese_building_gfx
+	}
+	{
+		has_building_gfx = korean_building_gfx
+	}
+	{
+		has_building_gfx = korean_building_gfx
+	}
+	{
+		has_building_gfx = siberian_building_gfx
+	}
+	{
+		has_building_gfx = vietnamese_building_gfx
+	}
+	{
+		has_building_gfx = byzantine_building_gfx
+	}
+	{
+		has_building_gfx = caucasian_building_gfx
+	}
+	{
+		has_building_gfx = bulgarian_building_gfx
+	}
+	{
+		has_building_gfx = hausa_building_gfx
+	}
+	{
+		has_building_gfx = somalian_building_gfx
+	}
+	{
+		has_building_gfx = cemanahuac_building_gfx
+	}
+	{
+		has_building_gfx = haudenosaunee_building_gfx
+	}
+	{
+		has_building_gfx = tawantinsuyu_building_gfx
+	}
+	{
+		has_building_gfx = thule_building_gfx
+	}
+}
+
+
+"common/activities/activity_types/TFE_activity_races.txt" = {
+	# error.log: "Compiling source for is_diff_faith_or_culture_trigger failed for unknown arguments: STRUGGLE_TYPE. At common/scripted_triggers"
+	{
+											STRUGGLE_TYPE = iberian_struggle
 	}
 }

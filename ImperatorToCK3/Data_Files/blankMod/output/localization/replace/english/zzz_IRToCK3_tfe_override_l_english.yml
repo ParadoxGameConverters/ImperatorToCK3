@@ -51,3 +51,6 @@
  # Unrecognized loc key unavailable_doctrine_desc. unavailable_doctrine
  unavailable_doctrine_name: "Unavailable"
  unavailable_doctrine_desc: ""
+ 
+ # The rock_of_gibraltar_01 building is missing as of TFE 'After the Pharaohs' update. Replace the datafunction with a static text.
+ building_rock_of_gibraltar_destination_desc: "The Rock of Gibraltar, rising majestically above the sea, is a strategic and symbolic landmark. The local people, aware of its military significance, have fortified it over the centuries, making it a bastion at the gateway between two worlds."
