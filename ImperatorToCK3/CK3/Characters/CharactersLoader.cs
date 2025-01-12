@@ -90,7 +90,7 @@ internal sealed partial class CharacterCollection {
 		motherField.RemoveAllEntries(value => {
 			string? motherId = value.ToString()?.RemQuotes();
 			if (motherId is null || !femaleCharacterIds.Contains(motherId)) {
-				Logger.Warn($"Removing invalid mother {motherId} from character {character.Id}");
+				Logger.Debug($"Removing invalid mother {motherId} from character {character.Id}");
 				return true;
 			}
 
@@ -101,7 +101,7 @@ internal sealed partial class CharacterCollection {
 		fatherField.RemoveAllEntries(value => {
 			string? fatherId = value.ToString()?.RemQuotes();
 			if (fatherId is null || !maleCharacterIds.Contains(fatherId)) {
-				Logger.Warn($"Removing invalid father {fatherId} from character {character.Id}");
+				Logger.Debug($"Removing invalid father {fatherId} from character {character.Id}");
 				return true;
 			}
 

@@ -67,8 +67,19 @@ internal sealed partial class Title {
 				}
 			}
 
+			// Cleanup for counties having "capital" entries (found in TFE).
+			foreach (var county in Counties) {
+				if (county.CapitalCountyId is null) {
+					continue;
+				}
+
+				Logger.Debug($"Removing capital entry from county {county.Id}.");
+				county.CapitalCountyId = null;
+			}
+
 			// Cleanup for titles having invalid capital counties.
 			var validTitleIds = this.Select(t => t.Id).ToHashSet();
+			var placeholderCountyId = validTitleIds.Order().First(t => t.StartsWith("c_"));
 			foreach (var title in this) {
 				if (title.CapitalCountyId is null) {
 					continue;
@@ -79,23 +90,14 @@ internal sealed partial class Title {
 					var newCapitalId = title.DeJureVassals
 						.Select(v => v.CapitalCountyId)
 						.FirstOrDefault(vassalCapitalId => vassalCapitalId is not null && validTitleIds.Contains(vassalCapitalId));
-					if (newCapitalId is null){
-						Logger.Warn($"Title {title.Id} has invalid capital county {title.CapitalCountyId} and no valid de jure vassal capital to replace it with!");
-					} else {
+					if (newCapitalId is not null) {
 						Logger.Debug($"Title {title.Id} has invalid capital county {title.CapitalCountyId}, replacing it with {newCapitalId}.");
 						title.CapitalCountyId = newCapitalId;
+					} else {
+						Logger.Warn($"Using placeholder county as capital for title {title.Id} with invalid capital county {title.CapitalCountyId}.");
+						title.CapitalCountyId = placeholderCountyId;
 					}
 				}
-			}
-
-			// Cleanup for counties having "capital" entries (found in TFE).
-			foreach (var county in Counties) {
-				if (county.CapitalCountyId is null) {
-					continue;
-				}
-
-				Logger.Debug($"Removing capital entry from county {county.Id}.");
-				county.CapitalCountyId = null;
 			}
 
 			Logger.IncrementProgress();

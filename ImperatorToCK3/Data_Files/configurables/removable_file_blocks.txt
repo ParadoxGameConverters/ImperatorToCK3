@@ -281,6 +281,260 @@
 			}
 		}
 	}
+
+	# Anachronistic
+	{
+		### Pandidakterion IN CONSTANTINOPLE ###
+		if = {
+			limit = {
+				has_ep3_dlc_trigger = yes
+				current_date >= 1046.1.1
+			}
+			title:c_byzantion = { add_county_modifier = pandidakterion_university_modifier }
+		}
+	}
+
+	# Anachronistic
+	{
+		### Varangian Guard ###
+		if = {
+			limit = {
+				has_ep3_dlc_trigger = yes
+				current_date >= 988.1.1
+			}
+			title:e_byzantium = { set_variable = founded_varangian_guard }
+		}
+	}
+
+	# Anachronistic
+	{
+		### EP3 BYZANTIUM IMPORTANT COUNTIES ###
+		if = {
+			limit = { has_ep3_dlc_trigger = yes }
+			title:c_antiocheia = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_jerusalem = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_alexandria = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_abbadan = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_edessa = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_bari = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_siracusa = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_roma = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_ravenna = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_tunis = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_tangiers = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_murcia = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_lombardia = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_trier = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_cumberland = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_northumberland = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_chandax = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_tourraine = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = ep3_emperor_yearly.2000
+				}
+			}
+			title:c_byzantion = {
+				set_important_location = {
+					title = title:e_byzantium
+					enter_realm_event = roman_restoration.1200
+				}
+				set_important_location = {
+					title = title:e_roman_empire
+					enter_realm_event = roman_restoration.1200
+				}
+			}
+		}
+	}
+
+	# Anachronistic
+	{
+		### GAME RULE: DETERMINISTIC CONQUEST
+		if = {
+			limit = {
+				OR = {
+					NOT = { has_game_rule = historicity_norman_conquest_default_random }
+					game_rule_rig_norman_conquest_for_hereward_trigger = yes
+				}
+			}
+			set_global_variable = deterministic_conquest_of_england_1066
+			# See if we should just teleport our combatants' armies into place.
+			trigger_event = {
+				id = game_rule.1151
+				trigger_on_next_date = 1066.09.25
+			}
+			trigger_event = {
+				id = game_rule.1152
+				trigger_on_next_date = 1066.10.14
+			}
+		}
+	}
+
+	{
+		if = {
+			limit = {
+				game_start_date >= 1067.12.25
+			}
+			title:k_england = { set_coa = k_england_norman}
+		}
+	}
 	
 	{
 		### GAME RULE: RULER OF MUNSTER

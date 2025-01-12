@@ -466,6 +466,235 @@
 		}
 	}
 
+	# Anachronistic
+	{
+		if = {
+			limit = {
+				game_start_date >= 390.1.1
+			}
+			culture:vandal = {
+				add_culture_tradition = tradition_practiced_pirates
+				remove_variable = tradition_cooldown
+			}
+		}
+		if = {
+			limit = {
+				game_start_date > 476.1.1
+			}
+			culture:ostrogothic = {
+				add_culture_tradition = tradition_ostrogothic_overlordship
+				remove_variable = tradition_cooldown
+			}
+		}
+	}
+
+	# Something related to Jewish Exilarchs, seems not needed for converted games
+	{
+		title:c_iskaf.holder = {
+			vassal_contract_set_obligation_level = { type = religious_rights level = 1 }
+		}
+	}
+
+	# Anachronistic
+	{
+		if = {
+			limit = {
+				game_start_date = 532.2.1
+			}
+			title:e_mongolia.holder.dynasty = {
+				add_dynasty_modifier = rouran_khagans
+			}
+			title:k_franks = {
+				set_title_name = k_franks_united
+				set_definitive_form = yes
+				set_de_jure_liege_title = title:e_france
+			}
+			title:k_yemen.holder = {
+				every_vassal = {
+					if = {
+						limit = {
+							NOT = { faith = title:k_yemen.holder.faith }
+						}
+						vassal_contract_set_obligation_level = { type = religious_rights level = 1 }
+					}
+				}
+				reverse_add_opinion = {
+					modifier = angry_opinion
+					target = title:e_abyssinia.holder
+					opinion = -50
+				}
+			}
+		}
+	}
+
+	# Anachronistic
+	{
+		if = {
+			limit = {
+				game_start_date >= 420.1.1
+			}
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_created_yazd
+			}
+		}
+	}
+
+	# Anachronistic
+	{
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:TFE_establish_the_rouran_khaganate
+			}
+	}
+
+	# Anachronistic
+	{
+		if = {
+			limit = {
+				AND = {
+					game_start_date >= 532.1.1
+					game_start_date <= 540.1.1
+				}
+			}
+			set_global_variable = {
+				name = has_eternal_peace
+				value = yes
+			}
+		}
+	}
+
+	{
+		if = {
+			limit = {
+				NOT = {
+					game_start_date = 476.9.4
+				}
+			}
+			title:k_france = {
+				set_color_from_title = title:k_france_2
+				set_coa = title:k_france_2
+			}
+		}
+	}
+
+	# Seems not needed for converted games
+	{
+		title:e_western_roman_empire = {
+			every_in_de_jure_hierarchy = {
+				update_dynamic_coa = yes
+			}
+		}
+		title:e_byzantium = {
+			every_in_de_jure_hierarchy = {
+				update_dynamic_coa = yes
+			}
+		}
+		title:e_roman_empire = {
+			every_in_de_jure_hierarchy = {
+				update_dynamic_coa = yes
+			}
+		}
+	}
+
+	# Anachronistic
+	{
+		if = {
+			limit = {
+				OR = {
+					game_start_date <= 376.1.1 # End of the Former Liang Dynasty
+					game_start_date >= 441.1.1 # Northern Wei conquest of Northern Liang, reunifying Liang province
+				}
+			}		
+			set_global_variable = {
+				name = TFE_order_restored_to_liang
+				value = yes
+			}
+		}
+	}
+
+	# Anachronistic
+	{
+		if = {
+			limit = {
+				game_start_date >= 476.9.4
+			}
+			set_global_variable = {
+				name = wre_collapsed
+				value = yes
+			}
+		}
+	}
+
+	{
+			set_global_variable = {
+				name = britannia_dejure_splity
+				value = yes
+			}
+			set_global_variable = {
+				name = gallia_dejure_splity
+				value = yes
+			}
+			set_global_variable = {
+				name = hispania_dejure_splity
+				value = yes
+			}
+			set_global_variable = {
+				name = septem_provinciae_dejure_splity
+				value = yes
+			}
+	}
+
+	# Anachronistic
+	{
+			title:k_andalusia = {
+				set_title_name = BAETICA
+			}
+			title:k_badajoz = {
+				set_title_name = LUSITANIA
+			}
+	}
+
+	# Anachronistic
+	{
+TFE_on_game_start_de_jure_capitals = {
+	effect = {
+		if = {
+			limit = {
+				current_date <= 395.1.17
+			}
+			title:k_nubia = {
+				set_capital_county = title:c_abwab
+			}
+		}
+		if = {
+			limit = {
+				current_date <= 476.9.4
+			}
+			title:e_britannia = {
+				set_capital_county = title:c_gowrie
+			}
+		}
+		else = {
+			title:e_britannia = {
+				set_color_from_title = title:e_britannia_2
+			}
+		}
+		if = {
+			limit = {
+				current_date < 632.6.8
+			}
+			title:e_arabia = {
+				set_capital_county = title:c_medina
+			}
+		}
+	}
+}
+	}
+	{
+		TFE_on_game_start_de_jure_capitals
+	}
+
 	{
 TFE_on_game_start_larp_history = {
 	effect = {
@@ -537,26 +766,3013 @@ TFE_on_game_start_larp_history = {
 	{
 		TFE_on_game_start_larp_history
 	}
+
+	# Seems to cause infinite recursion bacause of the on-action having the same name as the effect :/
+	# TODO: verify
+	{
+garamantes_flavour_effect = {
+	effect = {
+		garamantes_flavour_effect = yes
+	}
+}
+	}
+	{
+		garamantes_flavour_effect
+	}
 }
 
 "common/on_action/sea_minority_game_start.txt" = {
+	# Anachronistic
 	{
-		# Alans
+set_minorities_game_start = {
+	effect = {
+
+		#Africa
+
+		if = {
+			limit = {
+				game_start_date >= 300.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:gaw
+				SIZE = large
+				COUNTY = title:c_kukiya
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:bozo
+				SIZE = small
+				COUNTY = title:c_kukiya
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:sorko
+				SIZE = small
+				COUNTY = title:c_gao
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:bozo
+				SIZE = small
+				COUNTY = title:c_gao
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:marka
+				SIZE = small
+				COUNTY = title:c_gao
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:bobo
+				SIZE = small
+				COUNTY = title:c_gao
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:malinke
+				SIZE = small
+				COUNTY = title:c_gao
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:garamantian
+				SIZE = small
+				COUNTY = title:c_tessalit
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:garamantian
+				SIZE = small
+				COUNTY = title:c_djado
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:garamantian
+				SIZE = small
+				COUNTY = title:c_djanet
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:garamantian
+				SIZE = small
+				COUNTY = title:c_bilma
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:garamantian
+				SIZE = small
+				COUNTY = title:c_tibesti
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:garamantian
+				SIZE = small
+				COUNTY = title:c_kanem
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:garamantian
+				SIZE = small
+				COUNTY = title:c_dirku
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:laguatan
+				SIZE = small
+				COUNTY = title:c_barqa
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:laguatan
+				SIZE = small
+				COUNTY = title:c_derna
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:laguatan
+				SIZE = small
+				COUNTY = title:c_syrte
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:laguatan
+				SIZE = small
+				COUNTY = title:c_labda
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:laguatan
+				SIZE = small
+				COUNTY = title:c_tripolitana
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:laguatan
+				SIZE = small
+				COUNTY = title:c_gabes
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:laguatan
+				SIZE = small
+				COUNTY = title:c_djerba
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:laguatan
+				SIZE = small
+				COUNTY = title:c_ghat
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:laguatan
+				SIZE = small
+				COUNTY = title:c_tobruk
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:laguatan
+				SIZE = small
+				COUNTY = title:c_sullum
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:laguatan
+				SIZE = small
+				COUNTY = title:c_farafra
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:laguatan
+				SIZE = small
+				COUNTY = title:c_dakhla
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:laguatan
+				SIZE = small
+				COUNTY = title:c_bahriya
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:laguatan
+				SIZE = small
+				COUNTY = title:c_kharga
+			}
+		}
+
+		# Punic
+		if = {
+			limit = {
+				game_start_date <= 600.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:punic
+				SIZE = large
+				COUNTY = title:c_tunis
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:carthage_pagan
+				SIZE = large
+				COUNTY = title:c_tunis
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:punic
+				SIZE = large
+				COUNTY = title:c_satfura
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:carthage_pagan
+				SIZE = large
+				COUNTY = title:c_satfura
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:punic
+				SIZE = large
+				COUNTY = title:c_medjerda
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:carthage_pagan
+				SIZE = large
+				COUNTY = title:c_medjerda
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:punic
+				SIZE = large
+				COUNTY = title:c_kairwan
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:carthage_pagan
+				SIZE = large
+				COUNTY = title:c_kairwan
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:punic
+				SIZE = large
+				COUNTY = title:c_mahdiya
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:carthage_pagan
+				SIZE = large
+				COUNTY = title:c_mahdiya
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:punic
+				SIZE = large
+				COUNTY = title:c_sfax
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:carthage_pagan
+				SIZE = large
+				COUNTY = title:c_sfax
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:punic
+				SIZE = large
+				COUNTY = title:c_gabes
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:carthage_pagan
+				SIZE = large
+				COUNTY = title:c_gabes
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:punic
+				SIZE = large
+				COUNTY = title:c_djerba
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:carthage_pagan
+				SIZE = large
+				COUNTY = title:c_djerba
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:punic
+				SIZE = large
+				COUNTY = title:c_tripolitana
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:carthage_pagan
+				SIZE = large
+				COUNTY = title:c_tripolitana
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:punic
+				SIZE = large
+				COUNTY = title:c_labda
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:carthage_pagan
+				SIZE = large
+				COUNTY = title:c_labda
+			}
+		}
+
+		
+
+		# Gauls
+		if = {
+			limit = {
+				game_start_date <= 600.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:gaul
+				SIZE = small
+				COUNTY = title:c_brugge
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:gaulish_pagan
+				SIZE = small
+				COUNTY = title:c_brugge
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:gaul
+				SIZE = small
+				COUNTY = title:c_yperen
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:gaulish_pagan
+				SIZE = small
+				COUNTY = title:c_yperen
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:gaul
+				SIZE = small
+				COUNTY = title:c_guines
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:gaulish_pagan
+				SIZE = small
+				COUNTY = title:c_guines
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:gaul
+				SIZE = small
+				COUNTY = title:c_boulogne
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:gaulish_pagan
+				SIZE = small
+				COUNTY = title:c_boulogne
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:gaul
+				SIZE = small
+				COUNTY = title:c_eu
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:gaulish_pagan
+				SIZE = small
+				COUNTY = title:c_eu
+			}
+		}
+
+		# Rhaetian
+		if = {
+			limit = {
+				game_start_date <= 450.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:rhaetian
+				SIZE = small
+				COUNTY = title:c_trent
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:rhaetian
+				SIZE = small
+				COUNTY = title:c_brescia
+			}
+		}
+
+		##INDIA
+
+		# Buddhists in holy sites and centres of learning
+		add_faith_minority_effect = {
+			FAITH = faith:pudgalavada
+			SIZE = large
+			COUNTY = title:c_mathura
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:sarvastivada
+			SIZE = large
+			COUNTY = title:c_mathura
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:dharmaguptaka
+			SIZE = large
+			COUNTY = title:c_mathura
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mahasanghika
+			SIZE = large
+			COUNTY = title:c_mathura
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:pudgalavada
+			SIZE = large
+			COUNTY = title:c_varanasi
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:sarvastivada
+			SIZE = large
+			COUNTY = title:c_varanasi
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:dharmaguptaka
+			SIZE = large
+			COUNTY = title:c_varanasi
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mahasanghika
+			SIZE = large
+			COUNTY = title:c_varanasi
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:pudgalavada
+			SIZE = large
+			COUNTY = title:c_vidisa
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:sarvastivada
+			SIZE = large
+			COUNTY = title:c_vidisa
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:dharmaguptaka
+			SIZE = large
+			COUNTY = title:c_vidisa
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mahasanghika
+			SIZE = large
+			COUNTY = title:c_vidisa
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:pudgalavada
+			SIZE = large
+			COUNTY = title:c_somnath
+		}
+
+		# Pashupatas in Vidisha
+		add_faith_minority_effect = {
+			FAITH = faith:pashupata
+			SIZE = large
+			COUNTY = title:c_vidisa
+		}
+
+		# Pataliputra has Bhagavatas
+		add_faith_minority_effect = {
+			FAITH = faith:krishnaism
+			SIZE = large
+			COUNTY = title:c_magadha
+		}
+
+		# Varanasi is diverse
+		add_faith_minority_effect = {
+			FAITH = faith:krishnaism
+			SIZE = large
+			COUNTY = title:c_varanasi
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:vaishnavism
+			SIZE = large
+			COUNTY = title:c_varanasi
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:shaivism
+			SIZE = large
+			COUNTY = title:c_varanasi
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mahasanghika
+			SIZE = large
+			COUNTY = title:c_varanasi
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:sarvastivada
+			SIZE = large
+			COUNTY = title:c_varanasi
+		}
+
+		# Jains in Kajangala, Mithila, and Radha
+		add_faith_minority_effect = {
+			FAITH = faith:svetambara
+			SIZE = large
+			COUNTY = title:c_damin_i_koh
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:svetambara
+			SIZE = large
+			COUNTY = title:c_mithila
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:svetambara
+			SIZE = large
+			COUNTY = title:c_radha
+		}
+
+		# Kherwals in Kajangala
+		add_culture_minority_effect = {
+			CULTURE = culture:munda
+			SIZE = small
+			COUNTY = title:c_damin_i_koh
+		}
+
+		# Dravida Shaivas in Tamilakam
+		add_faith_minority_effect = {
+			FAITH = faith:dravida_saiva
+			SIZE = large
+			COUNTY = title:c_cholamandalam
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:dravida_saiva
+			SIZE = large
+			COUNTY = title:c_korkai
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:dravida_saiva
+			SIZE = large
+			COUNTY = title:c_madurai
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:srikula_shaktism
+			SIZE = large
+			COUNTY = title:c_jaffna
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:dravida_saiva
+			SIZE = large
+			COUNTY = title:c_kongu
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:dravida_saiva
+			SIZE = large
+			COUNTY = title:c_korkai
+		}
+
+		# Digambaras in Tamilakam
+		add_faith_minority_effect = {
+			FAITH = faith:digambara
+			SIZE = large
+			COUNTY = title:c_cholamandalam
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:digambara
+			SIZE = large
+			COUNTY = title:c_korkai
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:digambara
+			SIZE = large
+			COUNTY = title:c_madurai
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:dravida_saiva
+			SIZE = large
+			COUNTY = title:c_korkai
+		}
+
+		# Tamils in Tambapanni
+		add_culture_minority_effect = {
+			CULTURE = culture:tamil
+			SIZE = large
+			COUNTY = title:c_batticaloa
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:tamil
+			SIZE = large
+			COUNTY = title:c_phiti
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:tamil
+			SIZE = large
+			COUNTY = title:c_trincomalee
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:dravida_saiva
+			SIZE = large
+			COUNTY = title:c_batticaloa
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:dravida_saiva
+			SIZE = large
+			COUNTY = title:c_phiti
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:dravida_saiva
+			SIZE = large
+			COUNTY = title:c_trincomalee
+		}
+
+		# Maharashtrakas in port towns
+		add_culture_minority_effect = {
+			CULTURE = culture:marathi
+			SIZE = large
+			COUNTY = title:c_surparaka
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:marathi
+			SIZE = large
+			COUNTY = title:c_panaji
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:marathi
+			SIZE = large
+			COUNTY = title:c_kondana
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:marathi
+			SIZE = large
+			COUNTY = title:c_karahataka
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:marathi
+			SIZE = large
+			COUNTY = title:c_kolhapur
+		}
+
+		# Avantakas in their homeland
+		add_culture_minority_effect = {
+			CULTURE = culture:avantika
+			SIZE = large
+			COUNTY = title:c_sarangpur
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:saura
+			SIZE = large
+			COUNTY = title:c_sarangpur
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:avantika
+			SIZE = large
+			COUNTY = title:c_vidisa
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:saura
+			SIZE = large
+			COUNTY = title:c_vidisa
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:avantika
+			SIZE = large
+			COUNTY = title:c_dasapura
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:saura
+			SIZE = large
+			COUNTY = title:c_dasapura
+		}
+		# Malava settlement in the Narmada valley
+		add_culture_minority_effect = {
+			CULTURE = culture:malvi
+			SIZE = large
+			COUNTY = title:c_ujjayini
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:pashupata
+			SIZE = large
+			COUNTY = title:c_ujjayini
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:malvi
+			SIZE = large
+			COUNTY = title:c_dhara
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:pashupata
+			SIZE = large
+			COUNTY = title:c_dhara
+		}
+		# Vaishnavas and Shaivas in Haridwar
+		add_faith_minority_effect = {
+			FAITH = faith:pashupata
+			SIZE = large
+			COUNTY = title:c_ujjayini
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:pashupata
+			SIZE = large
+			COUNTY = title:c_ujjayini
+		}
+
+		# Buddhists in Sanchi
+		add_faith_minority_effect = {
+			FAITH = faith:mahasanghika
+			SIZE = large
+			COUNTY = title:c_vidisa
+		}
+
+		# Narasimha Cult in Mathura
+		add_faith_minority_effect = {
+			FAITH = faith:narasimha
+			SIZE = small
+			COUNTY = title:c_mathura
+		}
+
+		# Kanchipuram is diverse
+		add_faith_minority_effect = {
+			FAITH = faith:dravida_saiva
+			SIZE = large
+			COUNTY = title:c_kanchipuram
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:theravada
+			SIZE = large
+			COUNTY = title:c_kanchipuram
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:pudgalavada
+			SIZE = small
+			COUNTY = title:c_kanchipuram
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:vaishnavism
+			SIZE = large
+			COUNTY = title:c_kanchipuram
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:digambara
+			SIZE = small
+			COUNTY = title:c_kanchipuram
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mahasanghika
+			SIZE = small
+			COUNTY = title:c_kanchipuram
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:telugu
+			SIZE = large
+			COUNTY = title:c_kanchipuram
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:manichean
+			SIZE = small
+			COUNTY = title:c_kanchipuram
+		}
+
+		# Jews and Christians in Kerala
+		add_faith_minority_effect = {
+			FAITH = faith:malabarism
+			SIZE = small
+			COUNTY = title:c_kerala
+		}
+		if = {
+			limit = {
+				game_start_date < 400.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_kerala
+			}
+		}
+		if = {
+			limit = {
+				game_start_date > 400.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = small
+				COUNTY = title:c_kerala
+			}
+		}
+
+		# Christians in Tambapanni
+		if = {
+			limit = {
+				game_start_date < 400.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_kotte
+			}
+		}
+		if = {
+			limit = {
+				game_start_date > 400.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = small
+				COUNTY = title:c_kotte
+			}
+		}
+		
+		# Zoroastrians and manicheans in Sindh and Gujarat
+		add_faith_minority_effect = {
+			FAITH = faith:mazdayasna
+			SIZE = small
+			COUNTY = title:c_debul
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mazdayasna
+			SIZE = small
+			COUNTY = title:c_daman
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mazdayasna
+			SIZE = small
+			COUNTY = title:c_surparaka
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:persian
+			SIZE = small
+			COUNTY = title:c_debul
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:persian
+			SIZE = small
+			COUNTY = title:c_daman
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:persian
+			SIZE = small
+			COUNTY = title:c_surparaka
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:manichean
+			SIZE = small
+			COUNTY = title:c_debul
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:manichean
+			SIZE = small
+			COUNTY = title:c_daman
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:manichean
+			SIZE = small
+			COUNTY = title:c_surparaka
+		}
+
+		# Maldives
+		add_faith_minority_effect = {
+			FAITH = faith:mahayana
+			SIZE = large
+			COUNTY = title:c_maldives
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:theravada
+			SIZE = large
+			COUNTY = title:c_maldives
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:malaiya
+			SIZE = small
+			COUNTY = title:c_maldives
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:tamil
+			SIZE = small
+			COUNTY = title:c_maldives
+		}
+
+		# Shaivas in Kashmir
+		add_faith_minority_effect = {
+			FAITH = faith:shaivism
+			SIZE = large
+			COUNTY = title:c_kasmira
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:shaivism
+			SIZE = large
+			COUNTY = title:c_astore
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:shaivism
+			SIZE = large
+			COUNTY = title:c_allai
+		}
+
+		# Shakas in Saurashtra
+		add_culture_minority_effect = {
+			CULTURE = culture:shaka
+			SIZE = large
+			COUNTY = title:c_navasarika
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mahayana
+			SIZE = large
+			COUNTY = title:c_navasarika
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:shaka
+			SIZE = large
+			COUNTY = title:c_vadodara
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mahayana
+			SIZE = large
+			COUNTY = title:c_vadodara
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:shaka
+			SIZE = large
+			COUNTY = title:c_ujjayini
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mahayana
+			SIZE = large
+			COUNTY = title:c_ujjayini
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:shaka
+			SIZE = large
+			COUNTY = title:c_dvaraka
+		}
+
+		# Yuezhi in Gandhara
+
+		add_faith_minority_effect = {
+			FAITH = faith:sarvastivada
+			SIZE = large
+			COUNTY = title:c_purushapura
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:yuezhi
+			SIZE = large
+			COUNTY = title:c_purushapura
+		}
+
+		# Burusho people
+
+		add_culture_minority_effect = {
+			CULTURE = culture:burusho
+			SIZE = large
+			COUNTY = title:c_yasin
+		}
+
+		# Abhiras
+
+		add_culture_minority_effect = {
+			CULTURE = culture:abhira
+			SIZE = large
+			COUNTY = title:c_vardhamana
+		}
+
+		add_culture_minority_effect = {
+			CULTURE = culture:abhira
+			SIZE = large
+			COUNTY = title:c_valabhi
+		}
+
+		add_culture_minority_effect = {
+			CULTURE = culture:abhira
+			SIZE = large
+			COUNTY = title:c_surparaka
+		}
+
+		# Veddas
+
+		add_culture_minority_effect = {
+			CULTURE = culture:vedda
+			SIZE = large
+			COUNTY = title:c_dakhina_desa
+		}
+
+		add_culture_minority_effect = {
+			CULTURE = culture:vedda
+			SIZE = large
+			COUNTY = title:c_kandy
+		}
+
+		add_culture_minority_effect = {
+			CULTURE = culture:vedda
+			SIZE = large
+			COUNTY = title:c_rohana
+		}
+
+		add_culture_minority_effect = {
+			CULTURE = culture:vedda
+			SIZE = large
+			COUNTY = title:c_batticaloa
+		}
+
+		add_culture_minority_effect = {
+			CULTURE = culture:vedda
+			SIZE = large
+			COUNTY = title:c_phiti
+		}
+
+		add_culture_minority_effect = {
+			CULTURE = culture:vedda
+			SIZE = large
+			COUNTY = title:c_trincomalee
+		}
+
+		add_culture_minority_effect = {
+			CULTURE = culture:vedda
+			SIZE = large
+			COUNTY = title:c_jaffna
+		}
+
+		add_culture_minority_effect = {
+			CULTURE = culture:vedda
+			SIZE = large
+			COUNTY = title:c_kotte
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:vedda_pagan
+			SIZE = large
+			COUNTY = title:c_dakhina_desa
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:vedda_pagan
+			SIZE = large
+			COUNTY = title:c_kandy
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:vedda_pagan
+			SIZE = large
+			COUNTY = title:c_rohana
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:vedda_pagan
+			SIZE = large
+			COUNTY = title:c_batticaloa
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:vedda_pagan
+			SIZE = large
+			COUNTY = title:c_phiti
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:vedda_pagan
+			SIZE = large
+			COUNTY = title:c_trincomalee
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:vedda_pagan
+			SIZE = large
+			COUNTY = title:c_jaffna
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:vedda_pagan
+			SIZE = large
+			COUNTY = title:c_kotte
+		}
+
+		# Burma Minorities
+
+		add_culture_minority_effect = {
+			CULTURE = culture:burmese
+			SIZE = large
+			COUNTY = title:c_takon
+		}
+		
+		add_culture_minority_effect = {
+			CULTURE = culture:mon
+			SIZE = large
+			COUNTY = title:c_kusumi
+		}
+
+		add_culture_minority_effect = {
+			CULTURE = culture:zo
+			SIZE = large
+			COUNTY = title:c_manipur
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:theravada
+			SIZE = large
+			COUNTY = title:c_kusumi
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:shaivism
+			SIZE = large
+			COUNTY = title:c_yamethin
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:shaivism
+			SIZE = small
+			COUNTY = title:c_magwe
+		}
+
+		##JEWISH PEOPLE
+		
+		#Jewish and Samaritan minorities in Jerusalem
+		add_culture_minority_effect = {
+			CULTURE = culture:hebrew
+			SIZE = large
+			COUNTY = title:c_jerusalem
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:samaritan
+			SIZE = large
+			COUNTY = title:c_jerusalem
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = large
+			COUNTY = title:c_jerusalem
+		}
+
+		#Jews in Himyar
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = small
+			COUNTY = title:c_taizz
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = small
+			COUNTY = title:c_mandab
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = small
+			COUNTY = title:c_dathina
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = large
+			COUNTY = title:c_sanaa
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = large
+			COUNTY = title:c_mahra
+		}
+
+		#Jews and Christians in Cyrenaica
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = large
+			COUNTY = title:c_barqa
+		}
+		if = {
+			limit = {
+				game_start_date > 476.1.1
+				game_start_date < 600.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_barqa
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:aegyptian
+				SIZE = large
+				COUNTY = title:c_barqa
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_barqa
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:kemetic
+				SIZE = large
+				COUNTY = title:c_barqa
+			}
+		}
+		if = {
+			limit = {
+				game_start_date < 600.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:ammon_pagan
+				SIZE = large
+				COUNTY = title:c_barqa
+			}
+			#add_culture_minority_effect = {
+			#	CULTURE = culture:garamantian
+			#	SIZE = large
+			#	COUNTY = title:c_barqa
+			#}
+			add_faith_minority_effect = {
+				FAITH = faith:ammon_pagan
+				SIZE = large
+				COUNTY = title:c_derna
+			}
+			#add_culture_minority_effect = {
+			#	CULTURE = culture:garamantian
+			#	SIZE = large
+			#	COUNTY = title:c_derna
+			#}
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = small
+			COUNTY = title:c_napoli
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = small
+			COUNTY = title:c_lombardia
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = small
+			COUNTY = title:c_genoa
+		}	
+
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = small
+			COUNTY = title:c_derna
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = small
+			COUNTY = title:c_tobruk
+		}
+
+		#Jews in Rome
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = small
+			COUNTY = title:c_roma
+		}
+
+		#Jews in Mesopotamia ##Add more later
+		add_faith_minority_effect = {
+			FAITH = faith:malabarism
+			SIZE = large
+			COUNTY = title:c_ctesiphon
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:malabarism
+			SIZE = large
+			COUNTY = title:c_baghdad
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:malabarism
+			SIZE = large
+			COUNTY = title:c_iskaf
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:malabarism
+			SIZE = large
+			COUNTY = title:c_anbar
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:malabarism
+			SIZE = large
+			COUNTY = title:c_ahvaz
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:malabarism
+			SIZE = large
+			COUNTY = title:c_tustar
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:malabarism
+			SIZE = small
+			COUNTY = title:c_basra
+		}
+
+		#Jews in Egypt ##Add more later
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = large
+			COUNTY = title:c_alexandria
+		}
+
+		#Jews in Syria ##Add more later
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = large
+			COUNTY = title:c_antiocheia
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = large
+			COUNTY = title:c_edessa
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = large
+			COUNTY = title:c_beirut
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = large
+			COUNTY = title:c_tripoli
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = large
+			COUNTY = title:c_damascus
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = large
+			COUNTY = title:c_homs
+		}
+
+		#Jews in Anatolia ##Add more later
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = large
+			COUNTY = title:c_cilicia
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = small
+			COUNTY = title:c_lycandus
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = small
+			COUNTY = title:c_tall_hamid
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = large
+			COUNTY = title:c_seleucia
+		}
+
+		#Jews in Greece ##Add more later
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = small
+			COUNTY = title:c_attica
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:samaritan  #Samaritan synagogue in Thessaloniki
+			SIZE = small
+			COUNTY = title:c_thessalonika
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = small
+			COUNTY = title:c_thessalonika
+		}
+
+		#Jews in Cyprus
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = large
+			COUNTY = title:c_nicosia
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = large
+			COUNTY = title:c_famagusta
+		}
+
+		#Jews in Aksum
+		add_faith_minority_effect = {
+			FAITH = faith:rabbinism
+			SIZE = small
+			COUNTY = title:c_tigre
+		}
+
+		#Jews in Georgia
+		add_faith_minority_effect = {
+			FAITH = faith:malabarism
+			SIZE = small
+			COUNTY = title:c_guria
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:malabarism
+			SIZE = small
+			COUNTY = title:c_odishi
+		}
+
+		#Jews in Iran
+
+		add_faith_minority_effect = {
+			FAITH = faith:malabarism
+			SIZE = large
+			COUNTY = title:c_isfahan
+		}
+
+		add_faith_minority_effect = {
+			FAITH = faith:malabarism
+			SIZE = small
+			COUNTY = title:c_hamadan
+		}
+
+		##ERAN
+		
+		#Ctesiphon's diversity
+
+		add_faith_minority_effect = {
+			FAITH = faith:manichean
+			SIZE = large
+			COUNTY = title:c_ctesiphon
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:assyrian
+			SIZE = large
+			COUNTY = title:c_ctesiphon
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:parthian
+			SIZE = small
+			COUNTY = title:c_ctesiphon
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:aramean
+			SIZE = small
+			COUNTY = title:c_ctesiphon
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:greek
+			SIZE = small
+			COUNTY = title:c_ctesiphon
+		}
+		if = {
+			limit = {
+				game_start_date < 400.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_ctesiphon
+			}
+		}
+		if = {
+			limit = {
+				game_start_date > 400.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_ctesiphon
+			}
+		}
+
+		#Meshan's diversity
+		add_culture_minority_effect = {
+			CULTURE = culture:persian
+			SIZE = large
+			COUNTY = title:c_basra
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:greek
+			SIZE = small
+			COUNTY = title:c_basra
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:persian
+			SIZE = large
+			COUNTY = title:c_ubulla
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:greek
+			SIZE = small
+			COUNTY = title:c_ubulla
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:persian
+			SIZE = large
+			COUNTY = title:c_rusafa
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:greek
+			SIZE = small
+			COUNTY = title:c_rusafa
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mazdayasna
+			SIZE = large
+			COUNTY = title:c_basra
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mazdayasna
+			SIZE = large
+			COUNTY = title:c_ubulla
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mazdayasna
+			SIZE = large
+			COUNTY = title:c_rusafa
+		}
 		if = {
 			limit = {
 				game_start_date >= 400.1.1
 			}
 			add_culture_minority_effect = {
-				CULTURE = culture:alan
+				CULTURE = culture:jat
+				SIZE = small
+				COUNTY = title:c_basra
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:jat
 				SIZE = large
-				COUNTY = title:c_tunis
+				COUNTY = title:c_ubulla
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:jat
+				SIZE = large
+				COUNTY = title:c_rusafa
+			}
+		}
+
+		# Persians in Oman
+		add_culture_minority_effect = {
+			CULTURE = culture:persian
+			SIZE = large
+			COUNTY = title:c_batina
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mazdayasna
+			SIZE = large
+			COUNTY = title:c_batina
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:persian
+			SIZE = large
+			COUNTY = title:c_muscat
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mazdayasna
+			SIZE = large
+			COUNTY = title:c_muscat
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:persian
+			SIZE = small
+			COUNTY = title:c_julfar
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mazdayasna
+			SIZE = small
+			COUNTY = title:c_julfar
+		}
+
+		# Sogdians in Tarim Basin/Dunhuang
+		add_culture_minority_effect = {
+			CULTURE = culture:sogdian
+			SIZE = small
+			COUNTY = title:c_shazhou
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:khurmazta
+			SIZE = small
+			COUNTY = title:c_shazhou
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:sogdian
+			SIZE = small
+			COUNTY = title:c_khotan
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:khurmazta
+			SIZE = small
+			COUNTY = title:c_khotan
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:sogdian
+			SIZE = small
+			COUNTY = title:c_yarkand
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:khurmazta
+			SIZE = small
+			COUNTY = title:c_yarkand
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:sogdian
+			SIZE = small
+			COUNTY = title:c_kashgar
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:khurmazta
+			SIZE = small
+			COUNTY = title:c_kashgar
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:sogdian
+			SIZE = small
+			COUNTY = title:c_kashgar
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:khurmazta
+			SIZE = small
+			COUNTY = title:c_kashgar
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:sogdian
+			SIZE = small
+			COUNTY = title:c_karashar
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:khurmazta
+			SIZE = small
+			COUNTY = title:c_karashar
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:sogdian
+			SIZE = small
+			COUNTY = title:c_kara_khoja
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:khurmazta
+			SIZE = small
+			COUNTY = title:c_kara_khoja
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:sogdian
+			SIZE = small
+			COUNTY = title:c_kucha
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:khurmazta
+			SIZE = small
+			COUNTY = title:c_kucha
+		}
+
+		# Taoist presence in Dunhuang lands
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = small
+			COUNTY = title:c_kara_khoja
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = large
+			COUNTY = title:c_shazhou
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = small
+			COUNTY = title:c_xingqing
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = small
+			COUNTY = title:c_shunzhou
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = large
+			COUNTY = title:c_liangzhou
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = large
+			COUNTY = title:c_fanhe
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = large
+			COUNTY = title:c_dajing
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = large
+			COUNTY = title:c_baiyin
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = large
+			COUNTY = title:c_yongdeng
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = large
+			COUNTY = title:c_ganzhou
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = small
+			COUNTY = title:c_linze
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = small
+			COUNTY = title:c_gaotai
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = small
+			COUNTY = title:c_jinta
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = small
+			COUNTY = title:c_suzhou
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = small
+			COUNTY = title:c_yumen
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = small
+			COUNTY = title:c_changma
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = small
+			COUNTY = title:c_hongliuyuan
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = small
+			COUNTY = title:c_shazhou
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = small
+			COUNTY = title:c_yumenguan
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zhengyi
+			SIZE = small
+			COUNTY = title:c_subei
+		}
+
+		# Bedouin presence in the Eastern Delta of Egypt
+		add_culture_minority_effect = {
+			CULTURE = culture:bedouin
+			SIZE = small
+			COUNTY = title:c_cairo
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:bedouin
+			SIZE = large
+			COUNTY = title:c_sharkiya
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:bedouin
+			SIZE = large
+			COUNTY = title:c_damietta
+		}
+
+		# Aegyptians in the Delta
+		add_culture_minority_effect = {
+			CULTURE = culture:aegyptian
+			SIZE = large
+			COUNTY = title:c_sharkiya
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:aegyptian
+			SIZE = large
+			COUNTY = title:c_giza
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:aegyptian
+			SIZE = large
+			COUNTY = title:c_al-gharbiya
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:aegyptian
+			SIZE = small
+			COUNTY = title:c_fayyum
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:aegyptian
+			SIZE = small
+			COUNTY = title:c_asyut
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:aegyptian
+			SIZE = small
+			COUNTY = title:c_qus
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:aegyptian
+			SIZE = small
+			COUNTY = title:c_aswan
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:aegyptian
+			SIZE = small
+			COUNTY = title:c_cairo
+		}
+
+		# Egyptians in the Delta
+		add_culture_minority_effect = {
+			CULTURE = culture:kemetic
+			SIZE = large
+			COUNTY = title:c_damietta
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:kemetic
+			SIZE = large
+			COUNTY = title:c_al-buhaira
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:kemetic
+			SIZE = large
+			COUNTY = title:c_alexandria
+		}
+
+		# Nubians and Beja in Aswan
+		add_culture_minority_effect = {
+			CULTURE = culture:beja
+			SIZE = small
+			COUNTY = title:c_aswan
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:beja_pagan
+			SIZE = small
+			COUNTY = title:c_aswan
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:nubian
+			SIZE = small
+			COUNTY = title:c_aswan
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:kushitism_pagan
+			SIZE = small
+			COUNTY = title:c_aswan
+		}
+
+		if = {
+			limit = {
+				game_start_date > 476.1.1
+				game_start_date < 580.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_faras
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_kalabsha
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = small
+				COUNTY = title:c_dongola
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = small
+				COUNTY = title:c_abwab
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = small
+				COUNTY = title:c_alodia
+			}
+		}
+
+		# Ancient Egypt Pagan remnants and Egyptian religious minorities distribution
+		if = {
+			limit = {
+				game_start_date > 476.1.1
+				game_start_date < 580.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:egyptian_pagan
+				SIZE = small
+				COUNTY = title:c_aswan
+			}
+		}
+		if = {
+			limit = {
+				game_start_date < 532.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:greco_egyptian_pagan
+				SIZE = large
+				COUNTY = title:c_alexandria
+			}
+		}
+		else_if = {
+			limit = {
+				game_start_date >= 476.1.1
+			}
+			# If there are Aegyptians/Hellenized Egyptians here, put in Copts
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_derna
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_tobruk
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_sullum
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_al-buhaira
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_alexandria
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_damietta
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_al-gharbiya
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_cairo
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_giza
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_fayyum
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_qus
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_bahnasa
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_ushmun
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_asyut
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_aswan
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_qusayr
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_farama
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_sinai
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_firaun
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_firaun
+			}
+
+		}
+
+		if = {
+			limit = {
+				game_start_date < 400.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:marcionite
+				SIZE = large
+				COUNTY = title:c_asyut
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_asyut
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_aswan
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:marcionite
+				SIZE = small
+				COUNTY = title:c_asyut
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:marcionite
+				SIZE = small
+				COUNTY = title:c_aswan
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_qusayr
+			}
+
+		}
+
+		# Sardinian pagans
+		if = {
+			limit = {
+				game_start_date <= 600.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:sardinian_pagan
+				SIZE = small
+				COUNTY = title:c_cagliari
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:sardinian_pagan
+				SIZE = small
+				COUNTY = title:c_arborea
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:sardinian_pagan
+				SIZE = small
+				COUNTY = title:c_gallura
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:roman_pagan
+				SIZE = small
+				COUNTY = title:c_arborea
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:roman_pagan
+				SIZE = small
+				COUNTY = title:c_cagliari
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:sardinian_pagan
+				SIZE = small
+				COUNTY = title:c_logudoro
+			}
+		}
+		if = {
+			limit = {
+				game_start_date <= 700.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:sardinian_pagan
+				SIZE = small
+				COUNTY = title:c_tortoli
+			}
+		}
+
+		if = {
+			limit = {
+				game_start_date > 476.1.1
+			}
+			# Mauri settled in Sardinia by the Vandals	
+			add_culture_minority_effect = {
+				CULTURE = culture:maurian
+				SIZE = large
+				COUNTY = title:c_cagliari
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:maurian
+				SIZE = large
+				COUNTY = title:c_tortoli
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:maurian
+				SIZE = small
+				COUNTY = title:c_gallura
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:maurian
+				SIZE = small
+				COUNTY = title:c_arborea
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:maurian
+				SIZE = small
+				COUNTY = title:c_logudoro
+			}
+		}
+
+		# Southern Mesopotamia
+		add_faith_minority_effect = {
+			FAITH = faith:malabarism
+			SIZE = large
+			COUNTY = title:c_badaraya
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:bardaisanism
+			SIZE = small
+			COUNTY = title:c_badaraya
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:south_mesopotamian_pagan
+			SIZE = small
+			COUNTY = title:c_ahvaz
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:south_mesopotamian_pagan
+			SIZE = large
+			COUNTY = title:c_ctesiphon
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:south_mesopotamian_pagan
+			SIZE = large
+			COUNTY = title:c_batiha
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:south_mesopotamian_pagan
+			SIZE = large
+			COUNTY = title:c_kufa
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:south_mesopotamian_pagan
+			SIZE = small
+			COUNTY = title:c_anbar
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:south_mesopotamian_pagan
+			SIZE = small
+			COUNTY = title:c_samarra
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:bardaisanism
+			SIZE = large
+			COUNTY = title:c_rusafa
+		}
+		if = {
+			limit = {
+				game_start_date < 451.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_iskaf
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_badaraya
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_tib
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_rusafa
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:elkesaite
+				SIZE = large
+				COUNTY = title:c_baghdad
+			}
+		}
+		if = {
+			limit = {
+				game_start_date >= 451.1.1
+				game_start_date <= 532.1.1
+			}			
+			add_faith_minority_effect = {
+				FAITH = faith:south_mesopotamian_pagan
+				SIZE = large
+				COUNTY = title:c_iskaf
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:south_mesopotamian_pagan
+				SIZE = large
+				COUNTY = title:c_baghdad
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_iskaf
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = small
+				COUNTY = title:c_badaraya
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = small
+				COUNTY = title:c_tib
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_rusafa
+			}
+		}
+		if = {
+			limit = {
+				game_start_date >= 532.1.1
+				#game_start_date <= 600.1.1
+			}			
+			add_faith_minority_effect = {
+				FAITH = faith:south_mesopotamian_pagan
+				SIZE = small
+				COUNTY = title:c_iskaf
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:south_mesopotamian_pagan
+				SIZE = small
+				COUNTY = title:c_baghdad
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_iskaf
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_badaraya
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_tib
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_rusafa
+			}
+		}
+
+
+
+		if = {
+			limit = {
+				game_start_date <= 600.1.1
+				#game_start_date >= 532.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:mandeaism
+				SIZE = large
+				COUNTY = title:c_karbala
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:bardaisanism
+				SIZE = small
+				COUNTY = title:c_baghdad
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:bardaisanism
+				SIZE = small
+				COUNTY = title:c_badaraya
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:bardaisanism
+				SIZE = small
+				COUNTY = title:c_wasit
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:bardaisanism
+				SIZE = small
+				COUNTY = title:c_tib
+			}
+		}
+
+		# Gayomarthian sect in major Sassanid centers
+
+		# Can't add to Ctesiphon or else the UI gets weird
+		# add_faith_minority_effect = {
+		# 	FAITH = faith:gayomarthianism
+		# 	SIZE = small
+		# 	COUNTY = title:c_ctesiphon
+		# }
+		add_faith_minority_effect = {
+			FAITH = faith:gayomarthianism
+			SIZE = small
+			COUNTY = title:c_shiraz
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:gayomarthianism
+			SIZE = small
+			COUNTY = title:c_isfahan
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:gayomarthianism
+			SIZE = small
+			COUNTY = title:c_rayy
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:gayomarthianism
+			SIZE = small
+			COUNTY = title:c_herat
+		}
+
+		# Zoroastrian presence in Christian Iranian lands in the south
+		add_faith_minority_effect = {
+			FAITH = faith:mazdayasna
+			SIZE = large
+			COUNTY = title:c_shiraz
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mazdayasna
+			SIZE = large
+			COUNTY = title:c_mandestan
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mazdayasna
+			SIZE = large
+			COUNTY = title:c_irahistan
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mazdayasna
+			SIZE = large
+			COUNTY = title:c_sif-i-umara
+		}
+
+		# Latins/Greeks in Sicily
+		add_culture_minority_effect = {
+			CULTURE = culture:greek
+			SIZE = large
+			COUNTY = title:c_trapani
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:greek
+			SIZE = large
+			COUNTY = title:c_palermo
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:roman
+			SIZE = small
+			COUNTY = title:c_agrigento
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:roman
+			SIZE = small
+			COUNTY = title:c_messina
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:roman
+			SIZE = small
+			COUNTY = title:c_siracusa
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:roman
+			SIZE = small
+			COUNTY = title:c_reggio_calabria
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:roman
+			SIZE = small
+			COUNTY = title:c_bari
+		}
+
+		if = {
+			limit = {
+				game_start_date <= 600.1.1
+				game_start_date >= 476.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:herulian
+				SIZE = small
+				COUNTY = title:c_pavia			
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:rugian
+				SIZE = small
+				COUNTY = title:c_pavia			
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:scirian
+				SIZE = small
+				COUNTY = title:c_pavia			
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:ostrogothic
+				SIZE = large
+				COUNTY = title:c_pavia			
 			}
 			add_faith_minority_effect = {
 				FAITH = faith:arianism
 				SIZE = large
-				COUNTY = title:c_tunis
+				COUNTY = title:c_pavia
+			}
+		# 	add_culture_minority_effect = {
+		# 		CULTURE = culture:rugian
+		# 		SIZE = large
+		# 		COUNTY = title:c_cremona			
+		# 	}
+		# 	add_culture_minority_effect = {
+		# 		CULTURE = culture:ostrogothic
+		# 		SIZE = large
+		# 		COUNTY = title:c_cremona			
+		# 	}
+		# 	add_faith_minority_effect = {
+		# 		FAITH = faith:arianism
+		# 		SIZE = large
+		# 		COUNTY = title:c_cremona
+		# 	}
+		# 	add_culture_minority_effect = {
+		# 		CULTURE = culture:ostrogothic
+		# 		SIZE = large
+		# 		COUNTY = title:c_aquileia			
+		# 	}
+		# 	add_faith_minority_effect = {
+		# 		FAITH = faith:arianism
+		# 		SIZE = large
+		# 		COUNTY = title:c_aquileia
+		# }
+		# 	add_culture_minority_effect = {
+		# 		CULTURE = culture:ostrogothic
+		# 		SIZE = large
+		# 		COUNTY = title:c_friuli			
+		# 	}
+		# 	add_faith_minority_effect = {
+		# 		FAITH = faith:arianism
+		# 		SIZE = large
+		# 		COUNTY = title:c_friuli
+		# 	}
+		# 	add_culture_minority_effect = {
+		# 		CULTURE = culture:ostrogothic
+		# 		SIZE = large
+		# 		COUNTY = title:c_gorz			
+		# 	}
+		# 	add_faith_minority_effect = {
+		# 		FAITH = faith:arianism
+		# 		SIZE = large
+		# 		COUNTY = title:c_gorz
+		# 	}
+		# 	add_culture_minority_effect = {
+		# 		CULTURE = culture:ostrogothic
+		# 		SIZE = large
+		# 		COUNTY = title:c_verona			
+		# 	}
+		# 	add_faith_minority_effect = {
+		# 		FAITH = faith:arianism
+		# 		SIZE = large
+		# 		COUNTY = title:c_verona
+		# 	}
+		# 	add_culture_minority_effect = {
+		# 		CULTURE = culture:ostrogothic
+		# 		SIZE = large
+		# 		COUNTY = title:c_treviso			
+		# 	}
+		# 	add_faith_minority_effect = {
+		# 		FAITH = faith:arianism
+		# 		SIZE = large
+		# 		COUNTY = title:c_treviso
+		# 	}
+		# 	add_culture_minority_effect = {
+		# 		CULTURE = culture:ostrogothic
+		# 		SIZE = large
+		# 		COUNTY = title:c_padua			
+		# 	}
+		# 	add_faith_minority_effect = {
+		# 		FAITH = faith:arianism
+		# 		SIZE = large
+		# 		COUNTY = title:c_padua
+		# 	}
+		# 	add_culture_minority_effect = {
+		# 		CULTURE = culture:ostrogothic
+		# 		SIZE = large
+		# 		COUNTY = title:c_polesine		
+		# 		}
+		# 	add_faith_minority_effect = {
+		# 		FAITH = faith:arianism
+		# 		SIZE = large
+		# 		COUNTY = title:c_polesine
+		# 	}
+		# 	add_culture_minority_effect = {
+		# 		CULTURE = culture:ostrogothic
+		# 		SIZE = large
+		# 		COUNTY = title:c_monferrato			
+		# 	}
+		# 	add_faith_minority_effect = {
+		# 		FAITH = faith:arianism
+		# 		SIZE = large
+		# 		COUNTY = title:c_monferrato
+		# 	}
+		# 	add_culture_minority_effect = {
+		# 		CULTURE = culture:ostrogothic
+		# 		SIZE = large
+		# 		COUNTY = title:c_turin		
+		# 	}
+		# 	add_faith_minority_effect = {
+		# 		FAITH = faith:arianism
+		# 		SIZE = large
+		# 		COUNTY = title:c_turin
+		# 	}
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_novara			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_novara
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_cuneo			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_cuneo
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:rugian
+			# 	SIZE = large
+			# 	COUNTY = title:c_lombardia			
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_lombardia			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_lombardia
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:rugian
+			# 	SIZE = large
+			# 	COUNTY = title:c_brescia			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_brescia
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_como			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_como
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:rugian
+			# 	SIZE = large
+			# 	COUNTY = title:c_trent			
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_trent			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_trent
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_parma			
+			# 	}
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_parma
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_tortona			
+			# 	}
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_tortona
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_genoa			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_genoa
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_luni			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_luni
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_modena			
+			# 	}
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_modena
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:rugian
+			# 	SIZE = large
+			# 	COUNTY = title:c_mantua			
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_mantua			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_mantua
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_pisa			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_pisa
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_firenze		
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_firenze
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_lucca			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_lucca
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_arezzo			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_arezzo
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_siena		
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_siena
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_orbetello			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_orbetello
+			# }
+			add_culture_minority_effect = {
+				CULTURE = culture:herulian
+				SIZE = small
+				COUNTY = title:c_ravenna			
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:rugian
+				SIZE = small
+				COUNTY = title:c_ravenna			
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:scirian
+				SIZE = small
+				COUNTY = title:c_ravenna			
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:ostrogothic
+				SIZE = large
+				COUNTY = title:c_ravenna			
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:arianism
+				SIZE = large
+				COUNTY = title:c_ravenna
+			}
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_bologna			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_bologna
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_ferrara			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_ferrara
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_casentino			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_ancona
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_ancona			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_ancona
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_urbino			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_urbino
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_spoleto			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_spoleto
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_orvieto			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_orvieto
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_teramo			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_teramo
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_lanciano			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_lanciano
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_abruzzi			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_abruzzi
+			# }
+			add_culture_minority_effect = {
+				CULTURE = culture:herulian
+				SIZE = small
+				COUNTY = title:c_roma			
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:rugian
+				SIZE = small
+				COUNTY = title:c_roma			
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:scirian
+				SIZE = small
+				COUNTY = title:c_roma			
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:ostrogothic
+				SIZE = large
+				COUNTY = title:c_roma			
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:arianism
+				SIZE = large
+				COUNTY = title:c_roma
+			}
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_viterbo			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_viterbo
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_tivoli			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_tivoli
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_napoli			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_napoli
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_capua			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_capua
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_salerno			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_salerno
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_benevento			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_benevento
+			# }
+			# add_culture_minority_effect = {
+			# 	CULTURE = culture:ostrogothic
+			# 	SIZE = large
+			# 	COUNTY = title:c_foggia			
+			# }
+			# add_faith_minority_effect = {
+			# 	FAITH = faith:arianism
+			# 	SIZE = large
+			# 	COUNTY = title:c_foggia
+			# }
+		}
+
+		# Small Buddhist presence attested in Red Sea/Southeast Egypt, per recommendations by Luthien and Soraya
+		if = {
+			limit = {
+				game_start_date < 500.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:saurashtri
+				SIZE = small
+				COUNTY = title:c_qusayr
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:mahasanghika
+				SIZE = small
+				COUNTY = title:c_qusayr
 			}
 		}
+
+
+		# Socotra, most diverse place on the planet :cool glasses emoji:
+		if = {
+			limit = {
+				game_start_date < 500.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:greek
+				SIZE = small
+				COUNTY = title:c_socotra
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:nabatean
+				SIZE = small
+				COUNTY = title:c_socotra
+			}
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:saurashtri
+			SIZE = small
+			COUNTY = title:c_socotra
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:shaivism
+			SIZE = small
+			COUNTY = title:c_socotra
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:himyarite
+			SIZE = small
+			COUNTY = title:c_socotra
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:persian
+			SIZE = small
+			COUNTY = title:c_socotra
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:mazdayasna
+			SIZE = small
+			COUNTY = title:c_socotra
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:ethiopian
+			SIZE = small
+			COUNTY = title:c_socotra
+		}
+
+		# Manichaeans in Dakhla
+		add_faith_minority_effect = {
+			FAITH = faith:manichean
+			SIZE = small
+			COUNTY = title:c_dakhla
+		}
+
+		# Remnants of Emesa Pagan/worship of Elagabal in Emesa
+		if = {
+			limit = {
+				game_start_date > 476.1.1
+				game_start_date < 500.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:emesa_pagan
+				SIZE = small
+				COUNTY = title:c_homs
+			}
+		}
+	}
+}
+	}
+
+	{
+		set_minorities_game_start
 	}
 }
 
@@ -683,6 +3899,351 @@ TFE_on_game_start_larp_history = {
 						change_government = gana_sangha_government
 						primary_title = {
 							add_title_law = gana_sangha_elective_succession_law
+						}
+					}
+				}
+			}
+		}
+	}
+
+	# Anachronistic
+	{
+		if = {
+			limit = {
+				AND = {
+				title:k_croatia = {
+					is_title_created = yes
+				}
+					title:k_croatia.holder ?= {
+						game_start_date = 476.9.4
+					}
+				}
+			}
+			title:k_croatia.holder ?= {
+				if = {
+					limit = {
+						highest_held_title_tier >= tier_kingdom
+						has_dlc_feature = roads_to_power
+					}
+					change_government = autocratic_government_ep3
+				}
+				else_if = {
+					change_government = autocratic_government
+				}
+				every_vassal_or_below = {
+					limit = {
+						OR = {
+						has_government = feudal_government
+						has_government = republic_government
+						}
+					}
+					if = {
+						limit = {
+							highest_held_title_tier >= tier_barony
+							has_dlc_feature = roads_to_power
+						}
+						change_government = autocratic_government_ep3
+					}
+					else_if = {
+						limit = {
+							highest_held_title_tier >= tier_barony
+						}
+						change_government = autocratic_government
+					}
+				}
+			}
+		}
+	}
+
+	# Anachronistic
+	{
+		if = {
+			limit = {
+				AND = {
+				title:k_france = {
+					is_title_created = yes
+				}
+					title:k_croatia.holder ?= {
+						game_start_date = 476.9.4
+					}
+				}
+			}
+			title:k_france.holder ?= {
+				if = {
+					limit = {
+						highest_held_title_tier >= tier_kingdom
+						has_dlc_feature = roads_to_power
+					}
+					change_government = autocratic_government_ep3
+				}
+				else_if = {
+					change_government = autocratic_government
+				}
+				every_vassal_or_below = {
+					limit = {
+						OR = {
+						has_government = feudal_government
+						has_government = republic_government
+						}
+						
+					}
+					if = {
+						limit = {
+							highest_held_title_tier >= tier_barony
+							has_dlc_feature = roads_to_power
+						}
+						change_government = autocratic_government_ep3
+					}
+					else_if = {
+						limit = {
+							highest_held_title_tier >= tier_barony
+						}
+						change_government = autocratic_government
+					}
+				}
+			}
+		}
+	}
+
+	# Anachronistic
+	{
+		if = {
+			limit = {
+				current_date = 476.9.4
+			}
+			title:k_visigoths.holder ?= {
+				change_government = roman_government
+				every_held_title = {
+					limit = {
+						AND = {
+							tier = tier_county
+							NOT = {
+								title_province = {
+									has_holding_type = estate_holding
+								}
+							}
+						}
+					}
+					title_province = {
+						set_holding_type = estate_holding
+					}
+				}
+				every_vassal_or_below = {
+					limit = {
+						has_government = feudal_government
+					}
+					change_government = roman_government
+					every_held_title = {
+						limit = {
+							AND = {
+								tier = tier_county
+								NOT = {
+									title_province = {
+										has_holding_type = estate_holding
+									}
+								}
+							}
+						}
+						title_province = {
+							set_holding_type = estate_holding
+						}
+					}
+				}
+			}
+			title:e_spain = {
+				every_in_de_jure_hierarchy = {
+					limit = {
+						AND = {
+							tier = tier_county
+							holder = {
+								OR = {
+								government_has_flag = government_is_autocratic
+								government_has_flag = government_is_autocratic_ep3
+								}
+							}
+							holder = {
+								highest_held_title_tier = tier_county
+							}
+						}
+					}
+					holder = {
+						change_government = roman_government
+						every_held_title = {
+							limit = {
+								AND = {
+									tier = tier_county
+									NOT = {
+										title_province = {
+											has_holding_type = estate_holding
+										}
+									}
+								}
+							}
+							title_province = {
+								set_holding_type = estate_holding
+							}
+						}
+					}
+				}
+			}
+			title:k_italy.holder ?= {
+				change_government = roman_government
+				every_held_title = {
+					limit = {
+						AND = {
+							tier = tier_county
+							NOT = {
+								title_province = {
+									has_holding_type = estate_holding
+								}
+							}
+						}
+					}
+					title_province = {
+						set_holding_type = estate_holding
+					}
+				}
+				every_vassal_or_below = {
+					limit = {
+						has_government = feudal_government
+					}
+					change_government = roman_government
+					every_held_title = {
+						limit = {
+							AND = {
+								tier = tier_county
+								NOT = {
+									title_province = {
+										has_holding_type = estate_holding
+									}
+								}
+							}
+						}
+						title_province = {
+							set_holding_type = estate_holding
+						}
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				current_date = 532.2.1
+			}
+			title:k_visigoths.holder ?= {
+				change_government = roman_government
+				every_held_title = {
+					limit = {
+						AND = {
+							tier = tier_county
+							NOT = {
+								title_province = {
+									has_holding_type = estate_holding
+								}
+							}
+						}
+					}
+					title_province = {
+						set_holding_type = estate_holding
+					}
+				}
+				every_vassal_or_below = {
+					limit = {
+						OR = {
+							has_government = feudal_government
+							has_government = autocratic_government
+							has_government = autocratic_government_ep3
+						}
+					}
+					change_government = roman_government
+					every_held_title = {
+						limit = {
+							AND = {
+								tier = tier_county
+								NOT = {
+									title_province = {
+										has_holding_type = estate_holding
+									}
+								}
+							}
+						}
+						title_province = {
+							set_holding_type = estate_holding
+						}
+					}
+				}
+			}
+			title:e_spain = {
+				every_in_de_jure_hierarchy = {
+					limit = {
+						AND = {
+							tier = tier_county
+							holder = {
+								OR = {
+								government_has_flag = government_is_autocratic
+								government_has_flag = government_is_autocratic_ep3
+								}
+							}
+							holder = {
+								highest_held_title_tier = tier_county
+							}
+						}
+					}
+					holder = {
+						change_government = roman_government
+						every_held_title = {
+							limit = {
+								AND = {
+									tier = tier_county
+									NOT = {
+										title_province = {
+											has_holding_type = estate_holding
+										}
+									}
+								}
+							}
+							title_province = {
+								set_holding_type = estate_holding
+							}
+						}
+					}
+				}
+			}
+			title:k_ostrogoths.holder ?= {
+				change_government = roman_government
+				every_held_title = {
+					limit = {
+						AND = {
+							tier = tier_county
+							NOT = {
+								title_province = {
+									has_holding_type = estate_holding
+								}
+							}
+						}
+					}
+					title_province = {
+						set_holding_type = estate_holding
+					}
+				}
+				every_vassal_or_below = {
+					limit = {
+						has_government = feudal_government
+					}
+					change_government = roman_government
+					every_held_title = {
+						limit = {
+							AND = {
+								tier = tier_county
+								NOT = {
+									title_province = {
+										has_holding_type = estate_holding
+									}
+								}
+							}
+						}
+						title_province = {
+							set_holding_type = estate_holding
 						}
 					}
 				}
@@ -25223,5 +28784,20 @@ d_phoenicia = { item = { trigger = { coa_switch_to_roman_trigger = yes } coat_of
 	title:c_hereford = {
 		set_de_jure_liege_title = title:d_gloucestor
 	}
+	}
+}
+
+
+"common/flavorization/00_title_holders.txt" = {
+	# error: female used instead of title tier
+	{
+celtic_queen = {
+	type = character
+	gender = male
+	special = holder
+	tier = female
+	priority = 150
+	heritages = { heritage_celtic }
+}
 	}
 }
