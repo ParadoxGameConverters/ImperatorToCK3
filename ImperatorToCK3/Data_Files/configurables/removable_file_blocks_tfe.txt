@@ -23457,6 +23457,107 @@ restore_holy_roman_empire_decision = {
 	}
 }
 	}
+
+	# Uses k_sorbia which is not in TFE as of the 'After the Pharaohs' update.
+	{
+######################################
+# Establish the Electorate of Saxony #
+# by James Beaumont			 		 #
+######################################
+
+establish_the_electorate_of_saxony_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_found_kingdom.dds"
+	}
+	decision_group_type = major
+
+	ai_check_interval = 120
+
+	desc = establish_the_electorate_of_saxony_decision_desc
+	selection_tooltip = establish_the_electorate_of_saxony_decision_tooltip
+
+	is_shown = {
+		# Temporarily disabled due to stability issues in the HRE.
+		always = no
+		# Can't form Saxony if Saxony already formed.
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_formed_saxony
+			}
+		}
+		# Is in the HRE or is the Emperor
+		OR = {
+			liege = title:e_hre.holder
+			has_primary_title = title:e_hre
+		}
+	}
+
+	is_valid = {
+		OR = {
+			has_primary_title = title:e_hre
+			# Avoid some funky tooltips.
+			AND = {
+				highest_held_title_tier <= tier_kingdom
+				top_liege = { has_title = title:e_hre }
+			}
+		}
+		custom_tooltip = {
+			text = polabia_held_or_nonexistent.tt
+			OR = {
+				has_title = title:k_sorbia
+				NOT = { exists = title:k_sorbia.holder }
+			}
+		}
+		completely_controls = title:d_meissen
+		completely_controls = title:d_lausitz
+		completely_controls = title:d_anhalt
+		completely_controls = title:d_thuringia
+		# Most of the Kingdom of Polabia is at least somewhat pro-HRE
+		custom_tooltip = {
+			text = polabia_must_be_hre_culture_tt
+			any_county_in_region = {
+				region = custom_polabia
+				# At least half.
+				count >= 12
+				OR = {
+					culture = root.culture
+					culture = title:e_hre.holder.culture
+				}
+			}
+		}
+	}
+
+	effect = {
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_formed_saxony
+			}
+			save_scope_as = founder
+			title:e_hre.holder = { save_scope_as = hre_emperor_scope }
+			trigger_event =  middle_europe_decisions.0017
+		}
+		show_as_tooltip = {
+			create_kingdom_of_saxony_effect = { CHARACTER = root }
+		}
+		if = {
+			limit = { has_title = title:e_hre }
+			custom_tooltip = middle_europe_decision.0017.tt
+		}
+	}
+
+	cost = { gold = 200 }
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+	}
 }
 
 "common/struggle\struggles/tfe_eastern_iranian_struggle.txt" = {
@@ -28436,6 +28537,11 @@ icelandic = {
 							root.primary_title = title:d_iceland
 	}
 
+	# No c_muluvagil in TFE as of the 'After The Pharaohs' update
+	{
+							root.primary_title = title:c_muluvagil
+	}
+
 	# TFE uses hun instead of hunnic.
 	{
 		999 = {
@@ -28590,6 +28696,29 @@ icelandic = {
 			limit = { has_title = title:e_rajastan }
 			destroy_title = title:e_rajastan
 		}
+	}
+
+	# No k_sorbia in TFE as of the 'After The Pharaohs' update
+	{
+	title:k_sorbia = { add_to_list = west_slavic_kingdoms }
+	}
+
+	{
+	# If Saxony has been created, shift everything back into Polabia
+	if = {
+		limit = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_formed_saxony
+			}
+		}
+		title:k_saxony = {
+			every_in_de_jure_hierarchy = {
+				limit = { tier = tier_duchy }
+				set_de_jure_liege_title = title:k_sorbia
+			}
+		}
+	}
 	}
 }
 
@@ -29465,5 +29594,442 @@ struggle_phase_eastern_iranian_development = {
 	texture = "gfx/interface/icons/struggle_types/struggle_TFE_eastern_iranian_phase_conciliation.dds"
 	parent = eastern_iranian_struggle
 }
+	}
+}
+
+
+"common/governments/other_government.txt" = {
+	# Not defined in TFE as of the 'After The Pharaohs' update.
+	{
+		clan_government_obligations
+	}
+}
+
+
+"events/dharma_dravidian.txt" = {
+	# ck3-tiger: "`event_background` now causes a crash. It has been replaced by `reference` since 1.9"
+	{
+	override_background = { event_background = throne_room }
+	}
+	{
+	override_background = { event_background = cliff_temple }
+	}
+}
+
+
+"events/decisions_events/middle_europe_decisions_events.txt" = {
+	# Uses k_sorbia which is not in TFE as of the 'After The Pharaohs' update.
+	{
+##################################################
+# Establish the Electorate of Saxony
+# by James Beaumont
+##################################################
+
+scripted_trigger middle_europe_decisions_0017_most_powerful_saxon_vassal_trigger = {
+	highest_held_title_tier = tier_duchy
+	any_sub_realm_county = { kingdom = title:k_sorbia }
+}
+
+scripted_trigger middle_europe_decisions_0017_get_theocratic_vassal_trigger = {
+	government_has_flag = government_is_theocracy
+	any_sub_realm_county = { kingdom = title:k_sorbia }
+}
+
+scripted_trigger middle_europe_decisions_0017_get_appropriate_courtier_trigger = {
+	is_available_ai_adult = yes
+}
+
+#	Electorate of Saxony event
+middle_europe_decisions.0017 = {
+	type = character_event
+	title = middle_europe_decisions.0017.t
+	desc = middle_europe_decisions.0017.desc
+	theme = realm
+	left_portrait =	{
+		character = scope:founder
+		animation = personality_bold
+	}
+	lower_left_portrait = scope:left_portrait
+	lower_center_portrait = scope:centre_portrait
+	lower_right_portrait = scope:right_portrait
+
+	immediate = {
+		# Get the most powerful vassal in Saxony that is not already a king
+		if = {
+			limit = {
+				any_vassal = { middle_europe_decisions_0017_most_powerful_saxon_vassal_trigger = yes }
+			}
+			ordered_vassal = {
+				limit = { middle_europe_decisions_0017_most_powerful_saxon_vassal_trigger = yes }
+				order_by = {
+					every_held_title = {
+						limit = {
+							tier = tier_county
+							kingdom = title:k_sorbia
+						}
+						add = 1
+					}
+				}
+				position = 0
+				save_scope_as = most_powerful_saxon
+			}
+		}
+		# Get a theocratic vassal in Saxony
+		if = {
+			limit = {
+				any_vassal = { middle_europe_decisions_0017_get_theocratic_vassal_trigger = yes }
+			}
+			random_vassal = {
+				limit = { middle_europe_decisions_0017_get_theocratic_vassal_trigger = yes}
+				save_scope_as = saxon_bishop
+			}
+		}
+		# Get my heir
+		if = {
+			limit = {
+				exists = player_heir
+				player_heir = {
+					liege = root
+					OR = {
+						any_county_in_region = {
+							region = custom_polabia
+							holder = root
+						}
+						player_heir = { highest_held_title_tier >= tier_county }
+					}
+				}
+			}
+			player_heir = { save_scope_as = heir_scope }
+		}
+		# Get a courtier
+		if = {
+			limit = {
+				any_courtier = {
+					count >= 1
+				}
+			}
+			random_courtier = {
+				limit = {
+					any_relation = {
+						type = friend
+						this = scope:founder
+					}
+					middle_europe_decisions_0017_get_appropriate_courtier_trigger = yes
+				}
+				alternative_limit = { middle_europe_decisions_0017_get_appropriate_courtier_trigger = yes }
+				save_scope_as = rando_courtier_scope
+			}
+		}
+		## And if, somehow, there's no courtier, make one.
+		else = {
+			create_character = {
+				gender_female_chance = root_soldier_female_chance
+				location = root.capital_province
+				template = soldier_friend_character
+				save_scope_as = rando_courtier_scope
+				dynasty = generate
+			}
+			add_courtier = scope:rando_courtier_scope
+		}
+		# Set up portraits.
+		## Are we on the courtier fallback? If so, only gimme the one.
+		if = {
+			limit = {
+				NOT = {
+					exists = scope:heir_scope
+					exists = scope:most_powerful_saxon
+					exists = scope:saxon_bishop
+				}
+			}
+			scope:rando_courtier_scope = { save_scope_as = centre_portrait }
+		}
+		## Otherwise, trying and set up as many of the three as we can.
+		if = {
+			limit = { exists = scope:heir_scope }
+			scope:heir_scope = { save_scope_as = left_portrait }
+		}
+		if = {
+			limit = { exists = scope:most_powerful_saxon }
+			scope:most_powerful_saxon = { save_scope_as = centre_portrait }
+		}
+		if = {
+			limit = { exists = scope:saxon_bishop }
+			scope:saxon_bishop = { save_scope_as = right_portrait }
+		}
+	}
+
+	# I am great
+	option = {
+		name = middle_europe_decisions.0017.a
+		trigger = {
+			NOT = { has_title = title:e_hre }
+		}
+		create_kingdom_of_saxony_effect = { CHARACTER = root }
+		ai_chance = {
+			# If you've got the option, nab it.
+			base = 1000
+		}
+	}
+
+	# I give it to my beloved heir
+	option = {
+		name = middle_europe_decisions.0017.b
+		trigger = {
+			has_title = title:e_hre
+			exists = scope:heir_scope
+		}
+		create_kingdom_of_saxony_effect = { CHARACTER = scope:heir_scope }
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_rationality = 0.5
+				ai_honor = 0.5
+			}
+		}
+	}
+
+	# I give it to a powerful Saxon
+	option = {
+		name = middle_europe_decisions.0017.c
+		trigger = {
+			has_title = title:e_hre
+			exists = scope:most_powerful_saxon
+		}
+		create_kingdom_of_saxony_effect = { CHARACTER = scope:most_powerful_saxon }
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_rationality = 0.5
+				ai_boldness = -0.25
+			}
+		}
+	}
+
+	# I give it to the church
+	option = {
+		name = middle_europe_decisions.0017.d
+		trigger = {
+			has_title = title:e_hre
+			exists = scope:saxon_bishop
+		}
+		create_kingdom_of_saxony_effect = { CHARACTER = scope:saxon_bishop }
+		ai_chance = {
+			base = 100
+			ai_value_modifier = {
+				ai_zeal = 1
+				ai_greed = -0.5
+			}
+		}
+	}
+
+	# I give it to some rando
+	option = {
+		name = middle_europe_decisions.0017.e
+		trigger = {
+			has_title = title:e_hre
+			NOT = {
+				# Player heir not valid
+				exists = scope:heir_scope
+				# There are no vassals in Saxony
+				exists = scope:most_powerful_saxon
+				# There is no bishop in Saxony
+				exists = scope:saxon_bishop
+			}
+		}
+		create_kingdom_of_saxony_effect = { CHARACTER = scope:rando_courtier_scope }
+		ai_chance = {
+			# No need to modify, as it'll be your only action if you've got it (generally).
+			base = 100
+		}
+	}
+}
+
+#	Electorate of Saxony event
+middle_europe_decisions.0018 = {
+	type = character_event
+	title = middle_europe_decisions.0017.t
+	desc = middle_europe_decisions.0018.desc
+	theme = realm
+	left_portrait =	{
+		character = scope:new_saxon_king
+		animation = personality_bold
+	}
+
+	immediate = {
+		show_as_tooltip = {
+			create_kingdom_of_saxony_effect = { CHARACTER = scope:new_saxon_king }
+		}
+	}
+
+	# I am great
+	option = {
+		name = {
+			trigger = { has_title = title:k_saxony }
+			text = middle_europe_decisions.0018.a.new_king
+		}
+		name = {
+			trigger = {
+				OR = {
+					is_vassal_or_below_of = title:e_west_slavia.holder
+					title:e_west_slavia = { is_de_jure_liege_or_above_target = prev }
+				}
+			}
+			text = middle_europe_decisions.0018.a.slav
+		}
+		name = {
+			trigger = {}
+			text = middle_europe_decisions.0018.a
+		}
+		ai_chance = {
+			base = 100
+		}
+	}
+}
+	}
+}
+
+
+"common/scripted_effects/00_major_decisions_scripted_effects.txt" = {
+	# Uses k_sorbia which is not in TFE as of the 'After The Pharaohs' update.
+	{
+create_kingdom_of_saxony_effect = {
+	if = {
+		limit = {
+			NOR = {
+				root = $CHARACTER$
+				exists = scope:new_saxon_king
+			}
+		}
+		# Grant every held title in Saxony to the new holder
+		root = {
+			every_held_title = {
+				limit = {
+					OR = {
+						title:k_saxony = { is_de_jure_liege_or_above_target = prev }
+						title:k_sorbia = { is_de_jure_liege_or_above_target = prev }
+					}
+					NOT = {
+						holder = { capital_county = prev }
+					}
+				}
+				create_title_and_vassal_change = {
+					type = granted
+					save_scope_as = title_change
+					add_claim_on_loss = no
+				}
+				change_title_holder = {
+					holder = $CHARACTER$
+					change = scope:title_change
+				}
+				resolve_title_and_vassal_change = scope:title_change
+			}
+		}
+	}
+	if = {
+		limit = { exists = title:k_sorbia.holder }
+		destroy_title = title:k_sorbia
+	}
+	title:k_sorbia = {
+		every_in_de_jure_hierarchy = {
+			limit = { tier = tier_duchy }
+			set_de_jure_liege_title = title:k_saxony
+		}
+	}
+	title:k_saxony = { set_coa = k_saxon_electorate }
+	title:k_saxony = { set_de_jure_liege_title = title:e_hre }
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = title_change
+		add_claim_on_loss = no
+	}
+	if = {
+		limit = {
+			has_title = title:e_hre
+		}
+		hidden_effect = {
+			title:k_saxony = {
+				change_title_holder = {
+					holder = $CHARACTER$
+					change = scope:title_change
+				}
+			}
+		}
+	}
+	else = {
+		title:k_saxony = {
+			change_title_holder = {
+				holder = $CHARACTER$
+				change = scope:title_change
+			}
+		}
+	}
+	every_vassal = {
+		limit = {
+			primary_title = {
+				OR = {
+					title:k_saxony = { is_de_jure_liege_or_above_target = prev }
+					title:k_sorbia = { is_de_jure_liege_or_above_target = prev }
+				}
+			}
+			NOT = { this = $CHARACTER$ }
+			NOT = { any_liege_or_above = { this = $CHARACTER$ } }
+		}
+		change_liege = {
+			liege = $CHARACTER$
+			change = scope:title_change
+		}
+	}
+	hidden_effect = {
+		if = {
+			limit = {
+				NOR = {
+					$CHARACTER$ = root
+					$CHARACTER$ = { is_vassal_or_below_of = root }
+				}
+			}
+			$CHARACTER$ = {
+				change_liege = {
+					liege = root
+					change = scope:title_change
+				}
+			}
+		}
+	}
+	resolve_title_and_vassal_change = scope:title_change
+	hidden_effect = {
+		$CHARACTER$ = { save_scope_as = new_saxon_king }
+		every_player = {
+			limit = {
+				NOT = { this = prev }
+				or = {
+					is_vassal_or_below_of = title:e_hre.holder
+					AND = {
+						exists = title:e_west_slavia
+						is_vassal_or_below_of = title:e_west_slavia.holder
+					}
+					title:e_hre = { is_neighbor_to_realm = prev }
+					primary_title = {
+						title:e_west_slavia = { is_de_jure_liege_or_above_target = prev }
+					}
+				}
+			}
+			trigger_event =  middle_europe_decisions.0018
+		}
+	}
+}
+	}
+}
+
+
+"common/scripted_effects/TFE_decisions_central_asia_effects.txt" = {
+	{
+		title:k_transoxania = {
+			if = {
+				limit = {
+					NOT = { is_in_list = new_de_jure_kingdoms }
+				}
+				add_to_list = new_de_jure_kingdoms
+			}
+		}
 	}
 }

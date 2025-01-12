@@ -10,3 +10,9 @@
  
  # cn_name_list_marienburg is missing localization as of TFE 'After the Pharaohs' update.
  cn_name_list_marienburg: "Marienburg"
+
+ # evenk_prefix is missing localization as of TFE 'After the Pharaohs' update.
+ evenk_prefix: "Evenk"
+
+ # shaka_prefix is missing localization as of TFE 'After the Pharaohs' update.
+ shaka_prefix: "Shaka"
