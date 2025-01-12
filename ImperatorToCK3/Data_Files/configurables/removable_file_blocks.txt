@@ -10234,30 +10234,6 @@ hasan_camp_in_foes_realm_trigger = {
 		}
 	}
 	}
-
-	{
-	else_if = { 
-		limit = {
-			legend_property:ancestor ?= character:snakeyboy_0
-		}
-		set_global_variable = {
-			name = haftvad_legend
-			value = yes
-		}
-	}
-	}
-
-	{
-	else_if = { 
-		limit = {
-			legend_property:ancestor ?= character:waegmunding_2
-		}
-		set_global_variable = {
-			name = beowulf_legend
-			value = yes
-		}
-	}
-	}
 }
 
 "gfx/portraits/portrait_modifiers/05_headgear_situational.txt" = {

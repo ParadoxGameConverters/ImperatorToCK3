@@ -28339,6 +28339,30 @@ icelandic = {
 }
 
 "common/scripted_effects/06_dlc_ce1_legend_effects.txt" = {
+	{
+	else_if = { 
+		limit = {
+			legend_property:ancestor ?= character:snakeyboy_0
+		}
+		set_global_variable = {
+			name = haftvad_legend
+			value = yes
+		}
+	}
+	}
+
+	{
+	else_if = { 
+		limit = {
+			legend_property:ancestor ?= character:waegmunding_2
+		}
+		set_global_variable = {
+			name = beowulf_legend
+			value = yes
+		}
+	}
+	}
+
 	# No d_iceland in TFE.
 	{
 							root.primary_title = title:d_iceland
