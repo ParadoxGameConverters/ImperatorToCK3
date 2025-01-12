@@ -30286,3 +30286,19 @@ found_kingdom_of_prussia_decision = {
 	}
 	}
 }
+
+
+"history/characters/aegyptian.txt" = {
+	# Character aegyptus_87 has broken syntax as of TFE 'After The Pharaohs' update.
+	{
+ Simokattes
+	}
+}
+
+
+"history/characters/greek.txt" = {
+	# Character 70506 has broken syntax as of TFE 'After The Pharaohs' update.
+	{
+ Rhinotmetos
+	}
+}
