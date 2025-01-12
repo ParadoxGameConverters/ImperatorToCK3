@@ -7,3 +7,6 @@
  
  # Don't mention Italy being the "old heartland of the Roman Empire"; we don't know if it was the heartland in the converted game.
  tfe_culture.3000.desc: "In the past few generations, recent political events in [GetGeographicalRegion('world_europe_south_italy').GetName] have led to great social upheaval and cultural changes in places like [county_to_convert.GetNameNoTier].\n\nOne can now argue that even though the descendants of the [old_culture.GetCollectiveNoun] who live in [county_to_convert.GetNameNoTier] still remember and honor their glorious past, they are no longer truly like their ancestors. As of late, it is more accurate to say that the inhabitants of [county_to_convert.GetNameNoTierNoTooltip] have transformed from the Romans of classical antiquity into a new, different people: the [italian.GetCollectiveNoun]."
+ 
+ # cn_name_list_marienburg is missing localization as of TFE 'After the Pharaohs' update.
+ cn_name_list_marienburg: "Marienburg"
