@@ -88,6 +88,16 @@ internal sealed partial class Title {
 				}
 			}
 
+			// Cleanup for counties having "capital" entries (found in TFE).
+			foreach (var county in Counties) {
+				if (county.CapitalCountyId is null) {
+					continue;
+				}
+
+				Logger.Debug($"Removing capital entry from county {county.Id}.");
+				county.CapitalCountyId = null;
+			}
+
 			Logger.IncrementProgress();
 		}
 		public void LoadTitles(BufferedReader reader) {
