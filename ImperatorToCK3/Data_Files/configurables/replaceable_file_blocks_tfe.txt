@@ -1,0 +1,75 @@
+# This file contains blocks from The Fallen Eagle files that can be replaced with new ones.
+# The structure is as follows:
+
+# <file name> = {
+# 	replace = {
+# 		before = {
+# 			some original code			
+# 		}
+# 		after = {
+# 			some modified code			
+# 		}
+# 	}
+#
+# 	replace = {
+# 		before = {
+# 			some original code 2		
+# 		}
+# 		after = {
+# 			some modified code 2		
+# 		}
+# 	}
+# }
+
+# INDENTATION IS IMPORTANT INSIDE the before BLOCK!
+# ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL FILE.
+# OTHERWISE THE BLOCKS WON'T BE MODIFIED!
+
+
+"common/scripted_triggers/tfe_culture_triggers.txt" = {
+	replace = {
+		before = {
+	any_county = {
+		limit = {
+			title_province = {
+				geographical_region = custom_england
+			}
+		}
+		count >= 6
+		holder = {
+			OR = {
+				this = scope:valid_opponent
+				any_liege_or_above = { this = scope:valid_opponent }
+			}
+		}
+	}
+		} # end of before
+
+		after = {
+	any_county = {
+		count >= 6
+		title_province = {
+			geographical_region = custom_england
+		}
+		holder = {
+			OR = {
+				this = scope:valid_opponent
+				any_liege_or_above = { this = scope:valid_opponent }
+			}
+		}
+	}
+		} # end of after
+	}
+}
+
+
+"common/culture/pillars/TFE_language.txt" = {
+	replace = {
+		before = {
+			limit = { has_cultural_pillar = languaglanguage_west_himalayane_pyu }
+		}
+		after = {
+			limit = { has_cultural_pillar = language_west_himalayan }
+		}
+	}
+}

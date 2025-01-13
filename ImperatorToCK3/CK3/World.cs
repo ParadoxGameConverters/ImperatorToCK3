@@ -133,8 +133,8 @@ internal sealed class World {
 			},
 			() => CK3CoaMapper = new(ModFS),
 			() => {
-				// Modify some CK3 and mod files and put them in the blankMod before we start outputting anything.
-				FileTweaker.RemoveUnneededPartsOfFiles(ModFS, outputModPath, config).Wait();
+				// Modify some CK3 and mod files and put them in the output before we start outputting anything.
+				FileTweaker.ModifyAndRemovePartsOfFiles(ModFS, outputModPath, config).Wait();
 			}
 		);
 		

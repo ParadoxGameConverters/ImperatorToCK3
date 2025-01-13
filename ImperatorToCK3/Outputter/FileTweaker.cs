@@ -28,13 +28,16 @@ internal enum LineEnding {
 }
 
 public static class FileTweaker {
-	public static async Task RemoveUnneededPartsOfFiles(ModFilesystem ck3ModFS, string outputModPath, Configuration config) {
+	public static async Task ModifyAndRemovePartsOfFiles(ModFilesystem ck3ModFS, string outputModPath, Configuration config) {
 		// Load removable blocks from configurables.
 		Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile = new();
 		
 		if (config.FallenEagleEnabled) {
 			Logger.Info("Reading unneeded parts of Fallen Eagle files...");
 			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_tfe.txt", warnIfNotFound: true);
+			
+			Logger.Info("Reading parts of Fallen Eagle files to modify...");
+			ReadPartsOfFileToReplace(partsToModifyPerFile, "configurables/replaceable_file_blocks_tfe.txt", warnIfNotFound: true);
 		}
 
 		if (config.RajasOfAsiaEnabled) {
@@ -46,24 +49,24 @@ public static class FileTweaker {
 		Logger.Info("Reading unneeded parts of vanilla files...");
 		ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks.txt", warnIfNotFound: isVanilla);
 		
-		await RemovePartsOfFiles(partsToModifyPerFile, ck3ModFS, outputModPath);
+		await ModifyPartsOfFiles(partsToModifyPerFile, ck3ModFS, outputModPath);
 	}
 
 	private static void ReadPartsOfFileToRemove(Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, string configurablePath, bool warnIfNotFound) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, fileName) => {
-			ReadBlocksToModifyForFile(fileName, reader, partsToModifyPerFile, warnIfNotFound);
+			ReadBlocksToRemoveForFile(fileName, reader, partsToModifyPerFile, warnIfNotFound);
 		});
 		parser.RegisterRegex(CommonRegexes.QuotedString, (reader, fileNameInQuotes) => {
 			string fileName = fileNameInQuotes.RemQuotes();
-			ReadBlocksToModifyForFile(fileName, reader, partsToModifyPerFile, warnIfNotFound);
+			ReadBlocksToRemoveForFile(fileName, reader, partsToModifyPerFile, warnIfNotFound);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		
 		parser.ParseFile(configurablePath);
 	}
 
-	private static void ReadBlocksToModifyForFile(string fileName, BufferedReader reader, Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, bool warnIfNotFound) {
+	private static void ReadBlocksToRemoveForFile(string fileName, BufferedReader reader, Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, bool warnIfNotFound) {
 		var blocksToRemove = new BlobList(reader).Blobs.Select(b => b.Trim()).ToArray();
 			
 		if (partsToModifyPerFile.TryGetValue(fileName, out var existingBlocksToModify)) {
@@ -79,7 +82,61 @@ public static class FileTweaker {
 		}
 	}
 	
-	private static async Task RemovePartsOfFiles(Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, ModFilesystem ck3ModFS, string outputModPath) {
+	private static void ReadPartsOfFileToReplace(Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, string configurablePath, bool warnIfNotFound) {
+		var parser = new Parser();
+		parser.RegisterRegex(CommonRegexes.String, (reader, fileName) => {
+			ReadBlocksToReplaceForFile(fileName, reader, partsToModifyPerFile, warnIfNotFound);
+		});
+		parser.RegisterRegex(CommonRegexes.QuotedString, (reader, fileNameInQuotes) => {
+			string fileName = fileNameInQuotes.RemQuotes();
+			ReadBlocksToReplaceForFile(fileName, reader, partsToModifyPerFile, warnIfNotFound);
+		});
+		parser.IgnoreAndLogUnregisteredItems();
+		
+		parser.ParseFile(configurablePath);
+	}
+	
+	private static void ReadBlocksToReplaceForFile(string fileName, BufferedReader reader, Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, bool warnIfNotFound) {
+		string? before = null;
+		string? after = null;
+		
+		var parserForFile = new Parser();
+		parserForFile.RegisterKeyword("replace", replaceBlockReader => {
+			var replaceBlockParser = new Parser();
+			replaceBlockParser.RegisterKeyword("before", beforeReader => {
+				// Remove opening and closing braces.
+				before = beforeReader.GetStringOfItem().ToString().Trim()[1..^1].Trim();
+			});
+			replaceBlockParser.RegisterKeyword("after", afterReader => {
+				after = afterReader.GetStringOfItem().ToString().Trim()[1..^1].Trim();
+			});
+			replaceBlockParser.IgnoreAndLogUnregisteredItems();
+			replaceBlockParser.ParseStream(replaceBlockReader);
+			
+			if (before is null || after is null) {
+				Logger.Warn($"Invalid replace block for {fileName}.");
+				return;
+			} 
+			
+			// Add to partsToModifyPerFile.
+			var partOfFileToModify = new PartOfFileToModify(textBefore: before, textAfter: after, warnIfNotFound: warnIfNotFound);
+			if (partsToModifyPerFile.TryGetValue(fileName, out var existingBlocksToModify)) {
+				var alreadyExistingBlocks = existingBlocksToModify.Select(b => b.TextBefore);
+				if (alreadyExistingBlocks.Contains(before)) {
+					Logger.Warn($"Duplicate replace block for {fileName}: {before}");
+					return;
+				}
+				existingBlocksToModify.Add(partOfFileToModify);
+			} else {
+				partsToModifyPerFile[fileName] = [partOfFileToModify];
+			}
+		});
+		parserForFile.IgnoreAndLogUnregisteredItems();
+		parserForFile.ParseStream(reader);
+	}
+
+	
+	private static async Task ModifyPartsOfFiles(Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, ModFilesystem ck3ModFS, string outputModPath) {
 		// Log count of blocks to remove for each file.
 		foreach (var (relativePath, partsToRemove) in partsToModifyPerFile) {
 			Logger.Debug($"Loaded {partsToRemove.Count} blocks to remove from {relativePath}.");

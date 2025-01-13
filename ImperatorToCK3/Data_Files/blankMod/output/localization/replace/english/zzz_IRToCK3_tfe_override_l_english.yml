@@ -54,3 +54,16 @@
  
  # The rock_of_gibraltar_01 building is missing as of TFE 'After the Pharaohs' update. Replace the datafunction with a static text.
  building_rock_of_gibraltar_destination_desc: "The Rock of Gibraltar, rising majestically above the sea, is a strategic and symbolic landmark. The local people, aware of its military significance, have fortified it over the centuries, making it a bastion at the gateway between two worlds."
+
+ # from error.log:
+ # Missing loc for caucasian_group_coa_gfx
+ caucasian_group_coa_gfx: "Caucasian"
+
+ # from error.log:
+ # Culture missing localization for maganite
+ # Missing localization for maganite_prefix
+ # Missing localization for maganite_collective_noun
+ # https://en.wikipedia.org/wiki/Magan_(civilization)
+ maganite: "Maganite"
+ maganite_prefix: "Maganite"
+ maganite_collective_noun: "Maganites"
