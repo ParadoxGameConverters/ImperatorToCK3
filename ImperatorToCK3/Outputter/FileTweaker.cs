@@ -9,12 +9,14 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-internal readonly struct PartOfFileToRemove(string text, bool warnIfNotFound = true) {
-	internal readonly string Text = text;
+internal readonly struct PartOfFileToModify(string textBefore, string textAfter, bool warnIfNotFound = true) {
+	internal readonly string TextBefore = textBefore;
+	internal readonly string TextAfter = textAfter;
 	internal readonly bool WarnIfNotFound = warnIfNotFound;
 
-	public void Deconstruct(out string text, out bool warnIfNotFound) {
-		text = Text;
+	public void Deconstruct(out string textBefore, out string textAfter, out bool warnIfNotFound) {
+		textBefore = TextBefore;
+		textAfter = TextAfter;
 		warnIfNotFound = WarnIfNotFound;
 	}
 }
@@ -28,70 +30,62 @@ internal enum LineEnding {
 public static class FileTweaker {
 	public static async Task RemoveUnneededPartsOfFiles(ModFilesystem ck3ModFS, string outputModPath, Configuration config) {
 		// Load removable blocks from configurables.
-		Dictionary<string, OrderedSet<PartOfFileToRemove>> partsToRemovePerFile = new();
+		Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile = new();
 		
 		if (config.FallenEagleEnabled) {
 			Logger.Info("Reading unneeded parts of Fallen Eagle files...");
-			ReadPartsOfFileToRemove(partsToRemovePerFile, "configurables/removable_file_blocks_tfe.txt", warnIfNotFound: true);
+			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_tfe.txt", warnIfNotFound: true);
 		}
 
 		if (config.RajasOfAsiaEnabled) {
 			Logger.Info("Reading unneeded parts of Rajas of Asia files...");
-			ReadPartsOfFileToRemove(partsToRemovePerFile, "configurables/removable_file_blocks_roa.txt", warnIfNotFound: true);
+			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_roa.txt", warnIfNotFound: true);
 		}
 		
 		bool isVanilla = config.GetCK3ModFlags()["vanilla"];
 		Logger.Info("Reading unneeded parts of vanilla files...");
-		ReadPartsOfFileToRemove(partsToRemovePerFile, "configurables/removable_file_blocks.txt", warnIfNotFound: isVanilla);
+		ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks.txt", warnIfNotFound: isVanilla);
 		
-		await RemovePartsOfFiles(partsToRemovePerFile, ck3ModFS, outputModPath);
+		await RemovePartsOfFiles(partsToModifyPerFile, ck3ModFS, outputModPath);
 	}
 
-	private static void ReadPartsOfFileToRemove(Dictionary<string, OrderedSet<PartOfFileToRemove>> partsToRemovePerFile, string configurablePath, bool warnIfNotFound) {
+	private static void ReadPartsOfFileToRemove(Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, string configurablePath, bool warnIfNotFound) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, fileName) => {
-			var blocksToRemove = new BlobList(reader).Blobs.Select(b => b.Trim()).ToArray();
-			
-			if (partsToRemovePerFile.TryGetValue(fileName, out var existingBlocksToRemove)) {
-				var alreadyExistingBlocks = existingBlocksToRemove.Select(b => b.Text);
-				var newBlocksToRemove = blocksToRemove
-					.Except(alreadyExistingBlocks)
-					.Select(b => new PartOfFileToRemove(text: b, warnIfNotFound: warnIfNotFound));
-				existingBlocksToRemove.UnionWith(newBlocksToRemove);
-			} else {
-				partsToRemovePerFile[fileName] = blocksToRemove
-					.Select(b => new PartOfFileToRemove(text: b, warnIfNotFound: warnIfNotFound))
-					.ToOrderedSet();
-			}
+			ReadBlocksToModifyForFile(fileName, reader, partsToModifyPerFile, warnIfNotFound);
 		});
 		parser.RegisterRegex(CommonRegexes.QuotedString, (reader, fileNameInQuotes) => {
-			var blocksToRemove = new BlobList(reader).Blobs.Select(b => b.Trim()).ToArray();
-			
-			var fileName = fileNameInQuotes.RemQuotes();
-			if (partsToRemovePerFile.TryGetValue(fileName, out var existingBlocksToRemove)) {
-				var alreadyExistingBlocks = existingBlocksToRemove.Select(b => b.Text);
-				var blocksToAdd = blocksToRemove
-					.Except(alreadyExistingBlocks)
-					.Select(b => new PartOfFileToRemove(text: b, warnIfNotFound: warnIfNotFound));
-				existingBlocksToRemove.UnionWith(blocksToAdd);
-			} else {
-				partsToRemovePerFile[fileName] = blocksToRemove
-					.Select(b => new PartOfFileToRemove(text: b, warnIfNotFound: warnIfNotFound))
-					.ToOrderedSet();
-			}
+			string fileName = fileNameInQuotes.RemQuotes();
+			ReadBlocksToModifyForFile(fileName, reader, partsToModifyPerFile, warnIfNotFound);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		
 		parser.ParseFile(configurablePath);
 	}
+
+	private static void ReadBlocksToModifyForFile(string fileName, BufferedReader reader, Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, bool warnIfNotFound) {
+		var blocksToRemove = new BlobList(reader).Blobs.Select(b => b.Trim()).ToArray();
+			
+		if (partsToModifyPerFile.TryGetValue(fileName, out var existingBlocksToModify)) {
+			var alreadyExistingBlocks = existingBlocksToModify.Select(b => b.TextBefore);
+			var newBlocksToRemove = blocksToRemove
+				.Except(alreadyExistingBlocks)
+				.Select(b => new PartOfFileToModify(textBefore: b, textAfter: string.Empty, warnIfNotFound: warnIfNotFound));
+			existingBlocksToModify.UnionWith(newBlocksToRemove);
+		} else {
+			partsToModifyPerFile[fileName] = blocksToRemove
+				.Select(b => new PartOfFileToModify(textBefore: b, textAfter: string.Empty, warnIfNotFound: warnIfNotFound))
+				.ToOrderedSet();
+		}
+	}
 	
-	private static async Task RemovePartsOfFiles(Dictionary<string, OrderedSet<PartOfFileToRemove>> partsToRemovePerFile, ModFilesystem ck3ModFS, string outputModPath) {
+	private static async Task RemovePartsOfFiles(Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, ModFilesystem ck3ModFS, string outputModPath) {
 		// Log count of blocks to remove for each file.
-		foreach (var (relativePath, partsToRemove) in partsToRemovePerFile) {
+		foreach (var (relativePath, partsToRemove) in partsToModifyPerFile) {
 			Logger.Debug($"Loaded {partsToRemove.Count} blocks to remove from {relativePath}.");
 		}
 
-		foreach (var (relativePath, partsToRemove) in partsToRemovePerFile) {
+		foreach (var (relativePath, partsToRemove) in partsToModifyPerFile) {
 			var inputPath = ck3ModFS.GetActualFileLocation(relativePath);
 			if (!File.Exists(inputPath)) {
 				Logger.Debug($"{relativePath} not found.");
@@ -102,15 +96,15 @@ public static class FileTweaker {
 			
 			var fileContent = await File.ReadAllTextAsync(inputPath);
 
-			foreach (var (block, warnIfNotFound) in partsToRemove) {
+			foreach (var (blockBefore, blockAfter, warnIfNotFound) in partsToRemove) {
 				// If the file uses other line endings than CRLF, we need to modify the search string.
 				string searchString;
 				if (lineEndings == LineEnding.LF) {
-					searchString = block.Replace("\r\n", "\n");
+					searchString = blockBefore.Replace("\r\n", "\n");
 				} else if (lineEndings == LineEnding.CR) {
-					searchString = block.Replace("\r\n", "\r");
+					searchString = blockBefore.Replace("\r\n", "\r");
 				} else {
-					searchString = block;
+					searchString = blockBefore;
 				}
 				
 				if (!fileContent.Contains(searchString)) {
@@ -120,7 +114,7 @@ public static class FileTweaker {
 					continue;
 				}
 				
-				fileContent = fileContent.Replace(searchString, "");
+				fileContent = fileContent.Replace(searchString, blockAfter);
 			}
 
 			string outputPath = $"{outputModPath}/{relativePath}";
