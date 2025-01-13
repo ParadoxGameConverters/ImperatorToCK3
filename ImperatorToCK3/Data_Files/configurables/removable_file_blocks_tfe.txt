@@ -31218,3 +31218,47 @@ succexpstart = {
 	hostile_scheme_power_mult = 0.15
 	}
 }
+
+
+"common/scripted_triggers/TFE_clothing_triggers.txt" = {
+	# from error.log: "Unknown trigger type" for all of these
+	{
+		style_changing_reformer_byzantine = yes
+	}
+	{
+		style_changing_reformer_indian = yes
+	}
+	{
+		style_changing_reformer_mena = yes
+	}
+	{
+		style_changing_reformer_african = yes
+	}
+	{
+		style_changing_reformer_northern = yes
+	}
+	{
+		style_changing_reformer_iberian_muslim = yes
+	}
+	{
+		style_changing_reformer_iberian_christian = yes
+	}
+	{
+		style_changing_reformer_iranian = yes
+	}
+	{
+		style_changing_reformer_turkic = yes
+	}
+	{
+		style_changing_reformer_fp1_norse = yes
+	}
+	{
+		style_changing_reformer_mongol = yes
+	}
+	{
+		style_changing_reformer_dde_hre = yes
+	}
+	{
+		style_changing_reformer_dde_abbasid = yes
+	}
+}
