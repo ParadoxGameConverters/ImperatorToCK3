@@ -30532,3 +30532,238 @@ artifact_use_byzantine_building_visuals_trigger = {
 		has_building_gfx = byzantine_building_gfx
 	}
 }
+
+
+"common/buildings/99_background_graphics_buildings.txt" = {
+	# No byzantine_building_gfx in TFE as of the 'After The Pharaohs' update.
+	{
+	asset = {
+		type = pdxmesh
+		requires_dlc_flag = roads_to_power
+		graphical_cultures = { byzantine_building_gfx }
+		graphical_regions = { graphical_mediterranean }
+		names = {
+			"ep3_byzantine_walls_02_mesh" 
+		}
+	}
+	}
+
+	{
+	asset = {
+		type = pdxmesh
+		requires_dlc_flag = roads_to_power
+		graphical_cultures = { byzantine_building_gfx }
+		graphical_regions = { graphical_mediterranean }
+		names = {
+			"ep3_byzantine_walls_03_mesh" 
+		}
+	}
+	}
+
+	{
+	asset = {
+		type = pdxmesh
+		requires_dlc_flag = roads_to_power
+		graphical_cultures = { byzantine_building_gfx }
+		graphical_regions = { graphical_mediterranean }
+		names = {
+			"ep3_byzantine_walls_04_mesh" 
+		}
+	}
+	}
+}
+
+
+"common/buildings/00_city_buildings.txt" = {
+	# No byzantine_building_gfx in TFE as of the 'After The Pharaohs' update.
+	{
+	### EP3 Byzantine ###
+	asset = {
+		type = pdxmesh
+		name = "ep3_byzantine_city_01_mesh"
+		### TODO Add DLC Check
+		illustration = @holding_illustration_byzantine
+		soundeffect = { soundeffect = "event:/SFX/Ambience/3DMapEmitters/Holdings/City/mediterranean_city" soundparameter = { "Tier" = 0 } }
+		graphical_cultures = { byzantine_building_gfx }
+		graphical_regions = { graphical_mediterranean }
+	}
+	}
+
+	{
+	### EP3 Byzantine ###
+	asset = {
+		type = pdxmesh
+		name = "ep3_byzantine_city_01_mesh"
+		requires_dlc_flag = roads_to_power
+		illustration = @holding_illustration_byzantine
+		soundeffect = { soundeffect = "event:/SFX/Ambience/3DMapEmitters/Holdings/City/mediterranean_city" soundparameter = { "Tier" = 1 } }
+		graphical_cultures = { byzantine_building_gfx }
+		graphical_regions = { graphical_mediterranean }
+	}
+	}
+
+	{
+	### EP3 Byzantine ###
+	asset = {
+		type = pdxmesh
+		name = "ep3_byzantine_city_02_mesh"
+		requires_dlc_flag = roads_to_power
+		illustration = @holding_illustration_byzantine
+		soundeffect = { soundeffect = "event:/SFX/Ambience/3DMapEmitters/Holdings/City/mediterranean_city" soundparameter = { "Tier" = 2 } }
+		graphical_cultures = { byzantine_building_gfx }
+		graphical_regions = { graphical_mediterranean }
+	}
+	}
+
+	{
+	### EP3 Byzantine ###
+	asset = {
+		type = pdxmesh
+		name = "ep3_byzantine_city_02_mesh"
+		requires_dlc_flag = roads_to_power
+		illustration = @holding_illustration_byzantine
+		soundeffect = { soundeffect = "event:/SFX/Ambience/3DMapEmitters/Holdings/City/mediterranean_city" soundparameter = { "Tier" = 2 } }
+		graphical_cultures = { byzantine_building_gfx }
+		graphical_regions = { graphical_mediterranean }
+	}
+	}
+}
+
+
+"common/buildings/00_castle_buildings.txt" = {
+	# No byzantine_building_gfx in TFE as of the 'After The Pharaohs' update.
+	{
+	### EP3 Byzantine ###
+	asset = {
+		type = pdxmesh
+		name = "ep3_byzantine_castle_01_a_mesh"
+		requires_dlc_flag = roads_to_power
+		illustration = @holding_illustration_constantinople
+		soundeffect = { soundeffect = "event:/SFX/Ambience/3DMapEmitters/Holdings/Castle/mediterranean_castle" soundparameter = { "Tier" = 0 } }
+		graphical_cultures = { byzantine_building_gfx }
+		provinces = { 496 }
+	}
+	asset = {
+		type = pdxmesh
+		name = "ep3_byzantine_castle_01_a_mesh"
+		requires_dlc_flag = roads_to_power
+		illustration = @holding_illustration_byzantine
+		soundeffect = { soundeffect = "event:/SFX/Ambience/3DMapEmitters/Holdings/Castle/mediterranean_castle" soundparameter = { "Tier" = 0 } }
+		graphical_cultures = { byzantine_building_gfx }
+		graphical_regions = { graphical_mediterranean }
+	}
+	}
+
+	{
+	### EP3 Byzantine ###
+	asset = {
+		type = pdxmesh
+		name = "ep3_byzantine_castle_02_a_mesh"
+		requires_dlc_flag = roads_to_power
+		illustration = @holding_illustration_constantinople
+		soundeffect = { soundeffect = "event:/SFX/Ambience/3DMapEmitters/Holdings/Castle/mediterranean_castle" soundparameter = { "Tier" = 1 } }
+		graphical_cultures = { byzantine_building_gfx }
+		provinces = { 496 }
+	}
+	asset = {
+		type = pdxmesh
+		name = "ep3_byzantine_castle_02_a_mesh"
+		requires_dlc_flag = roads_to_power
+		illustration = @holding_illustration_byzantine
+		soundeffect = { soundeffect = "event:/SFX/Ambience/3DMapEmitters/Holdings/Castle/mediterranean_castle" soundparameter = { "Tier" = 1 } }
+		graphical_cultures = { byzantine_building_gfx }
+		graphical_regions = { graphical_mediterranean }
+	}
+	}
+
+	{
+	### EP3 Byzantine ###
+	asset = {
+		type = pdxmesh
+		name = "ep3_byzantine_castle_03_a_mesh"
+		requires_dlc_flag = roads_to_power
+		illustration = @holding_illustration_constantinople
+		soundeffect = { soundeffect = "event:/SFX/Ambience/3DMapEmitters/Holdings/Castle/mediterranean_castle" soundparameter = { "Tier" = 2 } }
+		graphical_cultures = { byzantine_building_gfx }
+		provinces = { 496 }
+	}
+	asset = {
+		type = pdxmesh
+		name = "ep3_byzantine_castle_03_a_mesh"
+		requires_dlc_flag = roads_to_power
+		illustration = @holding_illustration_byzantine
+		soundeffect = { soundeffect = "event:/SFX/Ambience/3DMapEmitters/Holdings/Castle/mediterranean_castle" soundparameter = { "Tier" = 2 } }
+		graphical_cultures = { byzantine_building_gfx }
+		graphical_regions = { graphical_mediterranean }
+	}
+	}
+
+	{
+	### EP3 Byzantine ###
+	asset = {
+		type = pdxmesh
+		name = "ep3_byzantine_castle_04_a_mesh"
+		requires_dlc_flag = roads_to_power
+		illustration = @holding_illustration_constantinople
+		soundeffect = { soundeffect = "event:/SFX/Ambience/3DMapEmitters/Holdings/Castle/mediterranean_castle" soundparameter = { "Tier" = 3 } }
+		graphical_cultures = { byzantine_building_gfx }
+		provinces = { 496 }
+	}
+	asset = {
+		type = pdxmesh
+		name = "ep3_byzantine_castle_04_a_mesh"
+		requires_dlc_flag = roads_to_power
+		illustration = @holding_illustration_byzantine
+		soundeffect = { soundeffect = "event:/SFX/Ambience/3DMapEmitters/Holdings/Castle/mediterranean_castle" soundparameter = { "Tier" = 3 } }
+		graphical_cultures = { byzantine_building_gfx }
+		graphical_regions = { graphical_mediterranean }
+	}
+	}
+}
+
+
+"common/culture/traditions/TFE_regional_traditions.txt" = {
+	# from error.log: "terrain trigger [ Invalid terrain type mountain ]"
+	{
+		if = {
+			limit = {
+				NOT = {
+					scope:character = {
+						any_sub_realm_county = {
+							culture = scope:character.culture
+							any_county_province = {
+								terrain = mountain
+							}
+						}
+					}
+				}
+			}
+			multiply = 0
+		}
+	}
+}
+
+
+"common/culture/traditions/RICE_sri_lanka_traditions.txt" = {
+	# RICE_sri_lanka_struggle_region not in TFE as of the 'After The Pharaohs' update.
+	{
+		any_culture_county = {
+			#count >= 4
+			any_county_province = {
+				geographical_region = RICE_sri_lanka_struggle_region
+			}
+		}
+	}
+
+	{
+		custom_tooltip = {
+			text = RICE_culture_in_sri_lanka_desc
+			any_culture_county = {
+				count >= 4
+				any_county_province = {
+					geographical_region = RICE_sri_lanka_struggle_region
+				}
+			}
+		}
+	}
+}
