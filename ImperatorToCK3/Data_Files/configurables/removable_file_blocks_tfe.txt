@@ -31158,3 +31158,63 @@ k_epirus_governor = {
 }
 	}
 }
+
+
+"events/succession_exp_start_up.txt" = {
+	# from error.log: "none is not a valid entry at file: events/succession_exp_start_up.txt line: 4 (succexp.004) (valid: character_event, court_event, activity_event, letter_event )"
+	{
+namespace = succexp
+
+succexp.004 = {
+    type = none
+    hidden = yes
+    immediate = {
+        if = {
+            limit = { exists = title:e_western_roman_empire }
+            title:e_western_roman_empire = {
+                add_title_law = imperial_elective_succession_law
+            }
+        }
+        if = {
+            limit = { exists = title:e_byzantium }
+            title:e_byzantium = {
+                add_title_law = imperial_elective_succession_law
+            }
+        }
+    }
+}
+	}
+}
+
+
+"common/on_action/new_electives_on_action.txt" = {
+	# We're removing this because the succexp.004 event is removed above.
+	{
+on_game_start = {
+	on_actions = {
+		succexpstart
+	}
+}
+succexpstart = {
+    events = {
+        succexp.004
+    }
+}
+	}
+}
+
+
+"common/traits/TFE_traits.txt" = {
+	# From error.log: "Error: "Unexpected token: fame, near line: 77"
+	{
+	fame = yes
+	}
+}
+
+
+"common/traits/TFE_vanilla_redefinition_traits.txt" = {
+	# From error.log: "Error: "Unexpected token: hostile_scheme_power_mult, near line: 90"
+	{
+	hostile_scheme_power_mult = 0.15
+	}
+}
