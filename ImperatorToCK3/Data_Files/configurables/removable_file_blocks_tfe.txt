@@ -31724,3 +31724,187 @@ tributaries.6 = {
 }
 	}
 }
+
+
+"history/cultures/heritage_pictish.txt" = {
+	# innovation_pictish_warbands not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_pictish_warbands
+	}
+}
+
+
+"history/cultures/pictish.txt" = {
+	# innovation_pictish_warbands not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_pictish_warbands
+	}
+}
+
+
+"history/cultures/heritage_levantine.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/heritage_semitic.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/kashmiri.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/kochinim.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/mauro_roman.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/nepali.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/radhanite.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/yemeni.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/heritage_kemetic.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/heritage_latin.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/heritage_israelite.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/heritage_iranian.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/heritage_indo_aryan.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/heritage_iberian.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/heritage_elamite.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/heritage_dravidian.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/egyptian.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/daylamite.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/brahui.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/albanian.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
+
+
+"history/cultures/afro_roman.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+	discover_innovation = innovation_ledger
+	}
+}
