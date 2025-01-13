@@ -30767,3 +30767,394 @@ artifact_use_byzantine_building_visuals_trigger = {
 		}
 	}
 }
+
+
+"common/court_positions/types/roman_vicar_court_positions.txt" = {
+	# Broken syntax inside this court position.
+	{
+k_epirus_governor = { 
+	skill = stewardship max_available_positions = 1 
+	category = court_position_roman_vicar 
+	opinion = { value = regular_court_position_opinion } 
+	aptitude_level_breakpoints = { 20 40 60 80 } 
+	aptitude = { value = 25 add = { value = stewardship multiply = 1.25 max = 25 desc = court_position_skill_stewardship } add = { value = martial multiply = 1.25 max = 25 desc = court_position_skill_martial } if = { limit = { has_trait = administrator } add = { value = 20 desc = court_position_administrator_trait } } if = { limit = { has_trait = overseer } add = { value = 20 desc = court_position_overseer_trait } } } 
+	is_shown = { 
+		OR = { government_has_flag = government_is_imperial government_has_flag = government_is_imperial_cult government_has_flag = government_is_administrative }
+		OR = {
+			any_vassal = {
+				has_title = title:k_epirus
+			}
+			AND = {
+			has_title = title:k_epirus
+			NOT = { capital_county.kingdom = title:k_epirus  }
+			}
+		}
+	} 
+	valid_position = { 
+		OR = { government_has_flag = government_is_imperial government_has_flag = government_is_imperial_cult government_has_flag = government_is_administrative }
+	} 
+
+	valid_character = { 
+		scope:employee = { 
+			OR = {
+				trigger_if = {
+					limit = {
+						AND = {
+							exists = title:k_epirus.holder
+						
+							NOT = { scope:liege = exists = title:k_epirus.holder }
+						
+						}
+						title:k_epirus.holder = {
+							NOT = {
+								OR = {
+									AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        global_variable_list_size = {
+                                            name = aristocratic_senate_eastern
+                                            value > 9
+                                        }
+                                        has_character_flag = bribed_aristocrats_eastern
+                                    }
+                                    AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        global_variable_list_size = {
+                                            name = populist_senate_eastern
+                                            value > 9
+                                        }
+                                        has_character_flag = bribed_populists_eastern
+                                    }
+                                    AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        global_variable_list_size = {
+                                            name = traditionalist_senate_eastern
+                                            value > 9
+                                        }
+                                        has_character_flag = bribed_traditionalist_eastern
+                                    }
+                                    AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        has_character_flag = bribed_populists_eastern
+                                        has_character_flag = bribed_aristocrats_eastern
+                                    }
+                                    AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        has_character_flag = bribed_traditionalist_eastern
+                                        has_character_flag = bribed_aristocrats_eastern
+                                    }
+                                    AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        has_character_flag = bribed_populists_eastern
+                                        has_character_flag = bribed_traditionalist_eastern
+                                    }
+									AND = {
+										liege = { access_to_italian_senate = yes }
+										global_variable_list_size = {
+											name = aristocratic_senate_italy
+											value > 9
+										}
+										has_character_flag = bribed_aristocrats_italy
+									}
+									AND = {
+										liege = { access_to_italian_senate = yes }
+										global_variable_list_size = {
+											name = populist_senate_italy
+											value > 9
+										}
+										has_character_flag = bribed_populists_italy
+									}
+									AND = {
+										liege = { access_to_italian_senate = yes }
+										global_variable_list_size = {
+											name = traditionalist_senate_italy
+											value > 9
+										}
+										has_character_flag = bribed_traditionalist_italy
+									}
+									AND = {
+										liege = { access_to_italian_senate = yes }
+										has_character_flag = bribed_populists_italy
+										has_character_flag = bribed_aristocrats_italy
+									}
+									AND = {
+										liege = { access_to_italian_senate = yes }
+										has_character_flag = bribed_traditionalist_italy
+										has_character_flag = bribed_aristocrats_italy
+									}
+									AND = {
+										liege = { access_to_italian_senate = yes }
+										has_character_flag = bribed_populists_italy
+										has_character_flag = bribed_traditionalist_italy
+									}
+								}
+							}
+						}
+					}
+					OR = {
+						liege = {
+							has_title = title:k_epirus
+						}
+						has_trait = low_senator
+						has_trait = senator
+						has_trait = high_senator
+					}
+				}
+				trigger_else = {
+					OR = {
+						has_trait = low_senator
+						has_trait = senator
+						has_trait = high_senator
+					}
+				}
+				has_title = title:k_epirus
+				
+			}
+		} 
+	} 
+	revoke_cost = { 
+		prestige = {
+			value = 1000
+			if = {
+				limit = {
+					exists = title:k_epirus.holder
+					title:k_epirus.holder = {
+						OR = {
+							AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        global_variable_list_size = {
+                                            name = aristocratic_senate_eastern
+                                            value > 9
+                                        }
+                                        has_character_flag = bribed_aristocrats_eastern
+                                    }
+                                    AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        global_variable_list_size = {
+                                            name = populist_senate_eastern
+                                            value > 9
+                                        }
+                                        has_character_flag = bribed_populists_eastern
+                                    }
+                                    AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        global_variable_list_size = {
+                                            name = traditionalist_senate_eastern
+                                            value > 9
+                                        }
+                                        has_character_flag = bribed_traditionalist_eastern
+                                    }
+                                    AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        has_character_flag = bribed_populists_eastern
+                                        has_character_flag = bribed_aristocrats_eastern
+                                    }
+                                    AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        has_character_flag = bribed_traditionalist_eastern
+                                        has_character_flag = bribed_aristocrats_eastern
+                                    }
+                                    AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        has_character_flag = bribed_populists_eastern
+                                        has_character_flag = bribed_traditionalist_eastern
+                                    }
+							AND = {
+								liege = { access_to_italian_senate = yes }
+								global_variable_list_size = {
+									name = aristocratic_senate_italy
+									value > 9
+								}
+								has_character_flag = bribed_aristocrats_italy
+							}
+							AND = {
+								liege = { access_to_italian_senate = yes }
+								global_variable_list_size = {
+									name = populist_senate_italy
+									value > 9
+								}
+								has_character_flag = bribed_populists_italy
+							}
+							AND = {
+								liege = { access_to_italian_senate = yes }
+								global_variable_list_size = {
+									name = traditionalist_senate_italy
+									value > 9
+								}
+								has_character_flag = bribed_traditionalist_italy
+							}
+							AND = {
+								liege = { access_to_italian_senate = yes }
+								has_character_flag = bribed_populists_italy
+								has_character_flag = bribed_aristocrats_italy
+							}
+							AND = {
+								liege = { access_to_italian_senate = yes }
+								has_character_flag = bribed_traditionalist_italy
+								has_character_flag = bribed_aristocrats_italy
+							}
+							AND = {
+								liege = { access_to_italian_senate = yes }
+								has_character_flag = bribed_populists_italy
+								has_character_flag = bribed_traditionalist_italy
+							}
+						}
+					}
+				}
+				add = {
+					value = 10000
+					desc = SENATE_BRIBED_VICAR
+				}
+			}
+		} 
+	} 
+	salary = { round = no gold = medium_court_position_salary } 
+	scaling_employer_modifiers = { 
+		terrible = { monthly_county_control_growth_add = 0.1 } 
+		poor = { monthly_county_control_growth_add = 0.2 } 
+		average = { monthly_county_control_growth_add = 0.3 } 
+		good = { monthly_county_control_growth_add = 0.4 } 
+		excellent = { monthly_county_control_growth_add = 0.5 } 
+	} 
+	modifier = { monthly_prestige = minor_court_position_prestige_salary } 
+	on_court_position_received = { 
+		if = {
+		limit = {scope:employee = { is_landed = no } }
+			scope:liege = { save_scope_as = employer_saved } 
+			scope:employee = { save_scope_as = employee_saved } 
+			create_title_and_vassal_change = { type = granted save_scope_as = title_change add_claim_on_loss = no } 
+			title:k_epirus = { change_title_holder_include_vassals = { holder = scope:employee change = scope:title_change } } 
+			title:k_epirus = { random_in_de_facto_hierarchy = { limit = { tier = tier_county holder.highest_held_title_tier >= tier_duchy OR = { holder = { has_title = title:k_epirus } holder = { highest_held_title_tier >= tier_kingdom } } } change_title_holder_include_vassals = { holder = scope:employee change = scope:title_change } } holder = { random_vassal = { limit = { highest_held_title_tier = tier_county } change_liege = { liege = scope:employee change = scope:title_change } } } } 
+			resolve_title_and_vassal_change = scope:title_change 
+			create_title_and_vassal_change = { 
+				type = swear_fealty 
+				save_scope_as = title_change_2 add_claim_on_loss = no 
+			} 
+			scope:employee_saved = { change_liege = { liege = scope:employer_saved change = scope:title_change_2 } } 
+			resolve_title_and_vassal_change = scope:title_change_2 
+			change_government = imperial_government
+		}
+	} 
+	on_court_position_revoked = { seneschal_title_revoked_effect = yes k_epirus_revoked_effect = yes } 
+	on_court_position_invalidated = { seneschal_title_revoked_effect = yes }
+	candidate_score = { 
+		value = 250 
+		add = scope:base_value 
+		add = court_position_candidate_score_base_value 
+		 
+		if = {
+			limit = {
+				NOT = { exists = scope:firing_court_position }
+				scope:employee = { has_any_court_position = yes }
+			}
+			add = 150
+		}
+		if = {
+			limit = {
+				scope:employee = {
+				OR = {
+					AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        global_variable_list_size = {
+                                            name = aristocratic_senate_eastern
+                                            value > 9
+                                        }
+                                        has_character_flag = bribed_aristocrats_eastern
+                                    }
+                                    AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        global_variable_list_size = {
+                                            name = populist_senate_eastern
+                                            value > 9
+                                        }
+                                        has_character_flag = bribed_populists_eastern
+                                    }
+                                    AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        global_variable_list_size = {
+                                            name = traditionalist_senate_eastern
+                                            value > 9
+                                        }
+                                        has_character_flag = bribed_traditionalist_eastern
+                                    }
+                                    AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        has_character_flag = bribed_populists_eastern
+                                        has_character_flag = bribed_aristocrats_eastern
+                                    }
+                                    AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        has_character_flag = bribed_traditionalist_eastern
+                                        has_character_flag = bribed_aristocrats_eastern
+                                    }
+                                    AND = {
+                                        liege = { access_to_eastern_senate = yes }
+                                        has_character_flag = bribed_populists_eastern
+                                        has_character_flag = bribed_traditionalist_eastern
+                                    }
+					AND = {
+						liege = { access_to_italian_senate = yes }
+						global_variable_list_size = {
+							name = aristocratic_senate_italy
+							value > 9
+						}
+						has_character_flag = bribed_aristocrats_italy
+					}
+					AND = {
+						liege = { access_to_italian_senate = yes }
+						global_variable_list_size = {
+							name = populist_senate_italy
+							value > 9
+						}
+						has_character_flag = bribed_populists_italy
+					}
+					AND = {
+						liege = { access_to_italian_senate = yes }
+						global_variable_list_size = {
+							name = traditionalist_senate_italy
+							value > 9
+						}
+						has_character_flag = bribed_traditionalist_italy
+					}
+					AND = {
+						liege = { access_to_italian_senate = yes }
+						has_character_flag = bribed_populists_italy
+						has_character_flag = bribed_aristocrats_italy
+					}
+					AND = {
+						liege = { access_to_italian_senate = yes }
+						has_character_flag = bribed_traditionalist_italy
+						has_character_flag = bribed_aristocrats_italy
+					}
+					AND = {
+						liege = { access_to_italian_senate = yes }
+						has_character_flag = bribed_populists_italy
+						has_character_flag = bribed_traditionalist_italy
+					}
+				}
+				}
+			}
+			add = {
+				value = 10000
+				desc = SENATE_BRIBED_VICAR
+			}
+		}
+		if = {
+			limit = {
+				scope:employee = {
+					has_title = title:k_epirus
+				}
+			}
+			add = 200 #to stop AI from revoking alot 
+		}
+		if = {
+			limit = {
+				scope:liege = {
+					has_relation_rival = scope:employee
+				}
+			}
+			add = 900 # rival isn't that big of a deal
+		}
+	} 
+}
+	}
+}
