@@ -26123,6 +26123,326 @@ struggle_eastern_iranian_urbanize_area = {
 	{
 							this = title:k_juteland
 	}
+
+	# From error.log: "Compiling source for special_invasion_cb_seize_land_in_region_trigger failed for unknown arguments: TARGET_EMPIRE"
+	{
+visigothic_revolt_cb = {
+	group = event	#Switching this to event will render the CB invisible.
+	
+	allowed_for_character = { culture = culture:visigothic }
+	target_titles = all
+	target_title_tier = kingdom
+	target_de_jure_regions_above = yes
+	ignore_effect = change_title_holder
+	combine_into_one = yes
+
+
+	should_invalidate = {
+		NOT = {
+			any_in_list = {
+				list = target_titles
+				any_in_de_jure_hierarchy = {
+					tier = tier_county
+					holder = {
+						target_is_same_character_or_above = scope:defender
+					}
+				}
+			}
+		}
+		#Emperors do not deign to migrate. Plus it'll mess up title destruction.
+		scope:attacker = { highest_held_title_tier >= tier_empire }
+	}
+
+	on_invalidated = {
+		if = {
+			limit = { exists = scope:attacker.player_heir }
+			scope:attacker.player_heir = {
+				if = {
+					limit = {
+						culture = culture:german
+						faith = { has_doctrine = unreformed_faith_doctrine }
+					}
+				}
+				#Give scope:attacker back their ability to declare a migration in the event of invalidation.
+				add_character_flag = undertaking_visigothic_migration
+			}
+		}
+	}
+
+	on_invalidated_desc = msg_invasion_war_invalidated_message
+	
+	on_declaration = {
+		on_declared_war = yes
+		#Give scope:attacker some armies to ensure success & use up their free invasion.
+		scope:attacker = {
+			remove_character_flag = undertaking_visigothic_migration
+			#One army to conquer.
+			spawn_army = {
+				name = event_troop_default_name
+				levies = migration_army_levies_very_large
+				men_at_arms = {
+					type = pikemen_unit
+					stacks = migration_army_maa_very_large
+				}
+				men_at_arms = {
+					type = bowmen
+					stacks = migration_army_maa_large
+				}
+				location = scope:attacker.capital_province
+				uses_supply = no
+				war = scope:war
+				inheritable = yes
+			}
+			#And one army to hold.
+			spawn_army = {
+				name = event_troop_default_name
+				levies = migration_army_levies_large
+				men_at_arms = {
+					type = pikemen_unit
+					stacks = migration_army_maa_very_large
+				}
+				location = scope:attacker.capital_province
+				uses_supply = no
+				inheritable = yes
+			}
+		}
+	}	
+
+	on_victory_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					scope:attacker = { is_local_player = yes }
+				}
+				desc = visigothic_invasion_war_victory_desc_attacker
+			}
+			desc = visigothic_invasion_war_victory_desc
+		}
+		triggered_desc = {
+			trigger = {
+				scope:attacker = { is_local_player = yes }
+			}
+			desc = visigothic_invasion_war_warning_desc
+		}
+	}
+	
+	on_victory = {
+		# Legitimacy
+		add_legitimacy_attacker_victory_effect = yes
+
+        #EP2 accolade glory gain for winning against higher ranked enemy
+		scope:attacker = { accolade_attacker_war_end_glory_gain_high_effect = yes }
+		scope:attacker = { show_pow_release_message_effect = yes }
+		#If the Mogyers aren't independent, make them so.
+		#Take lands within Pannonia.
+		hidden_effect = {
+			create_title_and_vassal_change = {
+				type = conquest
+				save_scope_as = change
+				add_claim_on_loss = yes
+			}
+			setup_invasion_cb = {
+				titles = target_titles
+				attacker = scope:attacker
+				defender = scope:defender
+				change = scope:change
+				take_occupied = no
+			}
+			every_in_list = {
+				list = target_titles
+
+				# Personally seize all duchy titles in k_hungary AND duchy titles personally held by the target king.
+				every_in_de_jure_hierarchy = {
+					limit = {
+						tier = tier_kingdom
+						special_invasion_cb_seize_land_in_region_trigger = {
+							TARGET_REGION = custom_roman_illyricum
+							TARGET_EMPIRE = e_italy
+						}
+					}
+					if = {
+						limit = {
+							exists = holder
+							holder = {
+								exists = top_liege
+								top_liege = scope:defender
+
+								# Vassal players in Hungary get to keep their holdings, so they can play as vassals of the new king instead of game-overing.
+								NAND = {
+									NOT = { this = top_liege }
+									is_ai = no
+								}
+							}
+						}
+						custom_description = {
+							text = custom_seize_title_and_below_de_jure
+							subject = scope:attacker
+							object = this
+							change_title_holder = {
+								holder = scope:attacker
+								change = scope:change
+								take_baronies = yes
+							}
+						}
+
+						# Grab the counties that go with the duchies, too.
+						every_in_de_jure_hierarchy = {
+							limit = {
+								tier = tier_county
+								exists = holder
+								holder = {
+									top_liege = scope:defender
+
+									# Vassal players in Hungary get to keep their holdings, so they can play as vassals of the new king instead of game-overing.
+									NAND = {
+										NOT = { this = top_liege }
+										is_ai = no
+									}
+								}
+							}
+							hidden_effect = {
+								change_title_holder = {
+									holder = scope:attacker
+									change = scope:change
+									take_baronies = yes
+								}
+							}
+							add_to_temporary_list = county_titles_under_transfer
+						}
+					}
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+		}
+
+		#Start processing the Hungarian-specific effects.
+		scope:attacker = {
+			visigothic_rebellion_scripted_effect = { INVADER = scope:attacker }
+		}
+		
+		# Attacker gets Prestige Experience, Defender loses Prestige, all other participants gain Prestige based on their war contribution.
+		modify_all_participants_fame_values = {
+			WINNER = scope:attacker
+			LOSER = scope:defender
+			FAME_BASE = scope:cb_prestige_factor # Set by 'setup_invasion_cb'
+			IS_RELIGIOUS_WAR = no
+			WINNER_FAME_SCALE = 10
+			LOSER_FAME_SCALE = -10
+			WINNER_ALLY_FAME_SCALE = 10
+			LOSER_ALLY_FAME_SCALE = 10
+		}
+
+		# Truce
+		add_truce_attacker_victory_effect = yes
+	}
+
+	on_white_peace_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = invasion_war_white_peace_desc_defender
+			}
+			desc = invasion_war_white_peace_desc
+		}
+	}
+	
+	on_white_peace = {
+        #EP2 accolade glory gain for doing ok against higher ranked enemy
+		scope:attacker = { accolade_attacker_war_end_glory_gain_low_effect = yes }
+		scope:defender = { accolade_defender_war_end_glory_gain_med_effect = yes }
+		scope:attacker = { show_pow_release_message_effect = yes }
+		# Prestige for the attacker's war allies
+		add_from_contribution_attackers = {
+			prestige = major_prestige_value
+			opinion = {
+				modifier = contributed_in_war
+			}
+		}
+
+		# Prestige for the defender's war allies
+		add_from_contribution_defenders = {
+			prestige = major_prestige_value
+			opinion = {
+				modifier = contributed_in_war
+			}
+		}
+
+		# Truce
+		add_truce_white_peace_effect = yes
+
+		scope:attacker = {
+			add_prestige = mongol_invasion_cb_prestige_white_peace
+		}
+	}
+
+	on_defeat_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = invasion_war_white_peace_desc_defender
+			}
+			desc = invasion_war_white_peace_desc
+		}
+	}
+	
+	on_defeat = {
+		# Legitimacy
+		add_legitimacy_attacker_defeat_effect = yes
+
+        #EP2 accolade glory gain for winning against higher ranked enemy
+		scope:defender = { accolade_attacker_war_end_glory_gain_high_effect = yes }
+		scope:attacker = { show_pow_release_message_effect = yes }
+
+		# Prestige loss for the attacker
+		scope:attacker = {
+			pay_short_term_gold = {
+				gold = 5
+				target = scope:defender
+				yearly_income = yes
+			}
+			add_prestige = {
+				value = massive_prestige_value
+				multiply = -1.0
+			}
+		}
+
+		# Attacker loses Prestige, all other war participants gain Prestige (Defender gains full prestige, all allies on both sides gain based on war contribution).
+		modify_all_participants_fame_values = {
+			WINNER = scope:defender
+			LOSER = scope:attacker
+			FAME_BASE = scope:cb_prestige_factor # Set by 'setup_claim_cb'
+			IS_RELIGIOUS_WAR = no
+			WINNER_FAME_SCALE = 10
+			LOSER_FAME_SCALE = -10
+			WINNER_ALLY_FAME_SCALE = 10
+			LOSER_ALLY_FAME_SCALE = 10
+		}
+	
+		add_truce_attacker_defeat_effect = yes
+		
+		scope:attacker = {
+			save_temporary_scope_as = loser
+		}
+		on_lost_aggression_war_discontent_loss = yes
+	}
+	
+	transfer_behavior = transfer
+	
+	on_primary_attacker_death = inherit
+	on_primary_defender_death = inherit
+	transfer_behavior = transfer
+	
+	attacker_allies_inherit = yes
+	defender_allies_inherit = yes
+	
+	war_name = "HUNGARIAN_INVASION_WAR_NAME"
+	war_name_base = "HUNGARIAN_INVASION_WAR_NAME_BASE"
+	cb_name = "HUNGARIAN_INVASION_CB_NAME"
+	
+	interface_priority = 100
+
+}
+	}
 }
 
 "common/on_action/tfe_struggle_on_actions.txt" = {
@@ -31276,6 +31596,9 @@ succexpstart = {
 	{
 		style_changing_reformer_dde_abbasid = yes
 	}
+	{
+		style_changing_reformer_western = yes
+	}
 }
 
 
@@ -31293,5 +31616,16 @@ succexpstart = {
 	# From error.log: "Error: "Failed to read key reference: reformed_faith_doctrine: reformed_faith_doctrine"
 	{
 			doctrine = reformed_faith_doctrine
+	}
+}
+
+
+"common/scripted_triggers/TFE_brythonic_struggle_triggers.txt" = {
+	# An effect should not be in scripted_triggers.
+	{
+tfe_struggle_compromise_ender_effect = {
+	give_nickname = nick_the_pragmatic
+	dynasty = { add_dynasty_prestige = 10000 }
+}
 	}
 }
