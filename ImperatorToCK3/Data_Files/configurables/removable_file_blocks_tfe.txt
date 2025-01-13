@@ -31205,9 +31205,24 @@ succexpstart = {
 
 
 "common/traits/TFE_traits.txt" = {
-	# From error.log: "Error: "Unexpected token: fame, near line: 77"
+	# From error.log: "Error: "Unexpected token: fame"
 	{
 	fame = yes
+	}
+
+	# From error.log: "Error: "Unexpected token: can_inherit"
+	{
+	can_inherit = no
+	}
+
+	# From error.log: "Error: "Unexpected token: blocks_from_claim_inheritance"
+	{
+	blocks_from_claim_inheritance = yes
+	}
+
+	# From error.log: "Error: "Unexpected token: popular_opinion"
+	{
+	popular_opinion = 10
 	}
 }
 
@@ -31260,5 +31275,23 @@ succexpstart = {
 	}
 	{
 		style_changing_reformer_dde_abbasid = yes
+	}
+}
+
+
+"common/culture/eras/00_culture_eras.txt" = {
+	# From error.log: "Error: "Unexpected token: modifier"
+	{
+	modifier = {
+		mercenary_hire_cost_mult = 0.15
+	}
+	}
+}
+
+
+"common/religion/religions/00_druidism.txt" = {
+	# From error.log: "Error: "Failed to read key reference: reformed_faith_doctrine: reformed_faith_doctrine"
+	{
+			doctrine = reformed_faith_doctrine
 	}
 }

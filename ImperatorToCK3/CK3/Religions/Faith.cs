@@ -26,10 +26,24 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		attributes = [.. faithData.Attributes];
 
 		// Fixup for issue found in TFE: add reformed_icon if faith has unreformed_faith_doctrine.
-		if (DoctrineIds.Contains("unreformed_faith_doctrine") && !attributes.Any(pair => pair.Key == "reformed_icon")) {
+		if (DoctrineIds.Contains("unreformed_faith_doctrine") && attributes.All(pair => pair.Key != "reformed_icon")) {
 			// Use the icon attribute.
 			var icon = attributes.FirstOrDefault(pair => pair.Key == "icon");
 			attributes = [.. attributes, new KeyValuePair<string, StringOfItem>("reformed_icon", icon.Value)];
+		}
+		
+		// Fix a faith having more doctrines in the same category than allowed.
+		foreach (var category in religion.ReligionCollection.DoctrineCategories) {
+			var doctrinesInCategory = DoctrineIds.Where(d => category.DoctrineIds.Contains(d)).ToArray();
+			if (doctrinesInCategory.Length > category.NumberOfPicks) {
+				Logger.Warn($"Faith {Id} has too many doctrines in category {category.Id}: " +
+				            $"{string.Join(", ", doctrinesInCategory)}. Keeping the last {category.NumberOfPicks} of them.");
+				
+				DoctrineIds.ExceptWith(doctrinesInCategory);
+				foreach (var doctrine in doctrinesInCategory.Reverse().Take(category.NumberOfPicks)) {
+					DoctrineIds.Add(doctrine);
+				}
+			}
 		}
 	}
 

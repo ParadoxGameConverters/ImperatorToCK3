@@ -34,6 +34,20 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 			attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
 		});
 		religionParser.ParseStream(religionReader);
+		
+		// Fix a religion having more doctrines in the same category than allowed.
+		foreach (var category in religions.DoctrineCategories) {
+			var doctrinesInCategory = DoctrineIds.Where(d => category.DoctrineIds.Contains(d)).ToArray();
+			if (doctrinesInCategory.Length > category.NumberOfPicks) {
+				Logger.Warn($"Religion {Id} has too many doctrines in category {category.Id}: " +
+				            $"{string.Join(", ", doctrinesInCategory)}. Keeping the last {category.NumberOfPicks} of them.");
+				
+				DoctrineIds.ExceptWith(doctrinesInCategory);
+				foreach (var doctrine in doctrinesInCategory.Reverse().Take(category.NumberOfPicks)) {
+					DoctrineIds.Add(doctrine);
+				}
+			}
+		}
 	}
 	private void LoadFaith(string faithId, BufferedReader faithReader) {
 		faithData = new FaithData();
