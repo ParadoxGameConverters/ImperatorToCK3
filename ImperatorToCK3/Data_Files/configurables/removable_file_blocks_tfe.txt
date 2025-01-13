@@ -28906,6 +28906,14 @@ icelandic = {
 }
 
 
+"common/decisions/80_major_decisions.txt" = {
+	# innovation_ledger is not in TFE as of the 'After the Pharaohs' update.
+	{
+					has_innovation = innovation_ledger
+	}
+}
+
+
 "common/scripted_triggers/00_coa_triggers.txt" = {
 	# No e_rajastan in TFE as of the 'After The Pharaohs' update
 	{
@@ -31906,5 +31914,24 @@ tributaries.6 = {
 	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
 	{
 	discover_innovation = innovation_ledger
+	}
+}
+
+
+"common/on_action/religion_on_actions.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+				has_innovation = innovation_ledger
+	}
+}
+
+
+"common/scripted_triggers/00_ai_value_triggers.txt" = {
+	# innovation_ledger not in TFE as of the 'After The Pharaohs' update.
+	{
+		AND = {
+			culture = { has_innovation = innovation_ledger }
+			capital_county.title_province.combined_building_level <= 4
+		}
 	}
 }

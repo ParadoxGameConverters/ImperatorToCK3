@@ -73,3 +73,127 @@
 		}
 	}
 }
+
+
+"map_data/geographical_regions/geographical_region.txt" = {
+	# No c_reggio in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_reggio
+		c_camarda
+		}
+		after = {
+		c_camarda
+		}
+	}
+
+	# No c_san in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_san
+		c_parma
+		}
+		after = {
+		c_parma
+		}
+	}
+
+	# No c_sankt in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_sankt
+		c_zurich
+		}
+		after = {
+		c_zurich
+		}
+	}
+
+	# No c_sankt in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_sankt
+		c_amstetten
+		}
+		after = {
+		c_amstetten
+		}
+	}
+
+	# No c_french in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_french
+		c_penthievre
+		}
+		after = {
+		c_penthievre
+		}
+	}
+
+	# No c_ile in TFE as of the 'After The Pharaohs' update.
+	# No c_brie in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_ile
+		c_brie
+		}
+		after = {
+		}
+	}
+
+	# No c_west in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_west
+		c_mahdiya
+		}
+		after = {
+		c_mahdiya
+		}
+	}
+
+	# No c_alcacer in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_alcacer
+		c_alcacer_do_sal
+		}
+		after = {
+		c_alcacer_do_sal
+		}
+	}
+
+	# No c_asturias in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_asturias
+		c_asturias_de_santillana
+		}
+		after = {
+		c_asturias_de_santillana
+		}
+	}
+
+	# No c_alto in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_alto
+		c_alto_aragon
+		}
+		after = {
+		c_alto_aragon
+		}
+	}
+
+	# No c_castelo in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_castelo
+		c_castelo_branco
+		}
+		after = {
+		c_castelo_branco
+		}
+	}
+}
