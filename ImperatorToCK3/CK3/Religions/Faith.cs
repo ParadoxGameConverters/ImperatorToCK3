@@ -92,17 +92,21 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		return sb.ToString();
 	}
 
-	public string? GetDoctrineIdForDoctrineCategoryId(string doctrineCategoryId) {
+	public OrderedSet<string> GetDoctrineIdsForDoctrineCategoryId(string doctrineCategoryId) {
 		var category = Religion.ReligionCollection.DoctrineCategories[doctrineCategoryId];
-		return GetDoctrineIdForDoctrineCategory(category);
+		return GetDoctrineIdsForDoctrineCategory(category);
 	}
 
-	private string? GetDoctrineIdForDoctrineCategory(DoctrineCategory category) {
+	private OrderedSet<string> GetDoctrineIdsForDoctrineCategory(DoctrineCategory category) {
 		var potentialDoctrineIds = category.DoctrineIds;
 
 		// Look in faith first. If not found, look in religion.
-		var matchingInFaith = DoctrineIds.Intersect(potentialDoctrineIds).LastOrDefault();
-		return matchingInFaith ?? Religion.DoctrineIds.Intersect(potentialDoctrineIds).LastOrDefault();
+		var matchingInFaith = DoctrineIds.Intersect(potentialDoctrineIds).ToOrderedSet();
+		if (matchingInFaith.Any()) {
+			return matchingInFaith;
+		} else {
+			return Religion.DoctrineIds.Intersect(potentialDoctrineIds).ToOrderedSet();
+		}
 	}
 	
 	public bool HasDoctrine(string doctrineId) {
@@ -112,6 +116,6 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 			return false;
 		}
 		
-		return GetDoctrineIdForDoctrineCategory(category) == doctrineId;
+		return GetDoctrineIdsForDoctrineCategory(category).Contains(doctrineId);
 	}
 }

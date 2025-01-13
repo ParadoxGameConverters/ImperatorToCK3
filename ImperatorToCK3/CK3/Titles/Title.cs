@@ -1433,12 +1433,12 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					}
 					
 					// Skip if the faith doesn't allow the character's gender to be clergy.
-					var clerigalGenderDoctrine = rulerFaith.GetDoctrineIdForDoctrineCategoryId("doctrine_clerical_gender");
-					if (clerigalGenderDoctrine is not null) {
-						if (clerigalGenderDoctrine == "doctrine_clerical_gender_female_only" && !ck3Official.Female) {
+					var clerigalGenderDoctrines = rulerFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_clerical_gender");
+					if (clerigalGenderDoctrines.Any()) {
+						if (clerigalGenderDoctrines.Contains("doctrine_clerical_gender_female_only") && !ck3Official.Female) {
 							continue;
 						}
-						if (clerigalGenderDoctrine == "doctrine_clerical_gender_male_only" && ck3Official.Female) {
+						if (clerigalGenderDoctrines.Contains("doctrine_clerical_gender_male_only") && ck3Official.Female) {
 							continue;
 						}
 					}
@@ -1447,12 +1447,15 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					if (heldTitlesCount == 0) {
 						var courtFaith = ck3Ruler.GetFaithId(irSaveDate);
 						if (courtFaith is not null) {
-							var dominantGenderDoctrine = religionCollection.GetFaith(courtFaith)?
-								.GetDoctrineIdForDoctrineCategoryId("doctrine_gender");
-							if (dominantGenderDoctrine == "doctrine_gender_male_dominated" && ck3Official.Female) {
+							var dominantGenderDoctrines = religionCollection.GetFaith(courtFaith)?
+								.GetDoctrineIdsForDoctrineCategoryId("doctrine_gender");
+							if (dominantGenderDoctrines is null) {
 								continue;
 							}
-							if (dominantGenderDoctrine == "doctrine_gender_female_dominated" && !ck3Official.Female) {
+							if (dominantGenderDoctrines.Contains("doctrine_gender_male_dominated") && ck3Official.Female) {
+								continue;
+							}
+							if (dominantGenderDoctrines.Contains("doctrine_gender_female_dominated") && !ck3Official.Female) {
 								continue;
 							}
 						}
