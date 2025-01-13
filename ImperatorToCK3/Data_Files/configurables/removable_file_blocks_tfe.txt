@@ -707,6 +707,24 @@
 			}
 		}
 	}
+	# Anachronistic
+	{
+		if = {
+			limit = {
+				game_start_date < 550.1.1
+			}
+			faith:manichean = {
+				deactivate_holy_site = yijinai  # Manichaeism didn't really spread to China until the 6th century, so doesn't make sense
+				deactivate_holy_site = udabhanda  # Replaced by Lyon in earlier start dates when Manichaeism had a significant following in Europe
+			}
+		}
+		else = {
+			faith:manichean = {
+				deactivate_holy_site = lyon
+				deactivate_holy_site = jerusalem
+			}
+		}
+	}
 
 	{
 			set_global_variable = {
@@ -31061,6 +31079,11 @@ artifact_use_byzantine_building_visuals_trigger = {
 			multiply = 0
 		}
 	}
+
+	# No innovation_war_elephants in TFE as of the 'After The Pharaohs' update.
+	{
+					has_innovation = innovation_war_elephants
+	}
 }
 
 
@@ -31626,6 +31649,78 @@ succexpstart = {
 tfe_struggle_compromise_ender_effect = {
 	give_nickname = nick_the_pragmatic
 	dynasty = { add_dynasty_prestige = 10000 }
+}
+	}
+}
+
+
+"events/T4N_tributaries.txt" = {
+	# Unused event; from error.log: "Unknown effect random_war at file: events/T4N_tributaries.txt line: 223"
+	{
+#Suzerain is called to permanent tributary war
+#on_war_started
+#Root is suzerain
+#call_to_arms_tribute is defender
+tributaries.6 = {
+	type = character_event
+	theme = realm
+	title = tributary_6_tit
+	desc = tributary_6_desc
+	right_portrait = {
+		character = scope:call_to_arms_tribute
+		animation = war_defender 
+
+	}
+	left_portrait = { 
+		character = root
+		animation = personality_rational 
+	}
+
+	option = {
+		name = suzerain_joins_the_war
+		add_piety = minor_piety_value
+		scope:call_to_arms_tribute = {
+			random_war = {
+				limit = {
+					root = {
+						NOR = {
+							is_at_war_as_defender = yes
+							is_at_war_with = scope:call_to_arms_tribute
+						}
+					}
+				}
+				if = {
+					limit = {
+						scope:call_to_arms_tribute = {
+							is_at_war_as_attacker = yes
+						}
+					}
+					add_attacker = root
+				}
+				else_if = {
+					limit = {
+						scope:call_to_arms_tribute = {
+							is_at_war_as_defender = yes
+						}
+					}
+					add_defender = root
+				}
+				else = {
+					debug_log = "Something broke, report to typical"
+				}
+			}
+			trigger_event = { id = tributaries.8 } #tributary gets a positive response
+		}	
+	}
+
+	option = {
+		name = suzerain_refuses_to_join_war
+		add_prestige = major_prestige_loss
+		save_scope_as = former_suzerain
+		scope:call_to_arms_tribute = {
+			trigger_event = { id = tributaries.7 } #tributary gets a negative response
+		}
+	}
 }
 	}
 }
