@@ -32078,6 +32078,11 @@ tributaries.6 = {
 	{
 				has_innovation = innovation_ledger
 	}
+
+	# event false_conversion.0001 not in TFE as of the 'After The Pharaohs' update.
+	{
+		false_conversion.0001	# Flag possible false conversions.
+	}
 }
 
 
@@ -33254,5 +33259,33 @@ gladiator_new_event_selection_guest = {
 				
 				}
 			}
+	}
+}
+
+
+"common/culture/innovations/00_late_antiquity_innovations.txt" = {
+	# from error.log:  "Failed to read key reference: TFE_region_china: TFE_region_china, near line: 302"
+	{
+innovation_sky_lanterns = {
+	group = culture_group_regional
+	culture_era = culture_era_late_antiquity
+	region = TFE_region_china
+	icon = @misc_inventions
+
+	character_modifier = {
+		siege_morale_loss = 0.1
+	}
+
+	flag = global_regional
+	flag = late_antiquity_era_regional
+}
+	}
+}
+
+
+"history/cultures/heritage_chinese.txt" = {
+	# We're removing this because innovation_sky_lanterns is removed above.
+	{
+	discover_innovation = innovation_sky_lanterns
 	}
 }

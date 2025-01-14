@@ -435,3 +435,189 @@ main_theme_track = {
 		}
 	}
 }
+
+
+"history/cultures/heritage_iranian.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/heritage_iranian.txt line: 31
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/heritage_israelite.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/heritage_israelite.txt line: 28
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/heritage_kemetic.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/heritage_kemetic.txt line: 32
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/yemeni.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/yemeni.txt line: 32
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/radhanite.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/radhanite.txt line: 28
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/kashmiri.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/kashmiri.txt line: 34
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/heritage_levantine.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/heritage_levantine.txt line: 32
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/kochinim.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/kochinim.txt line: 34
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/nepali.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/nepali.txt line: 34
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/mauro_roman.txt" = {
+	# from error.log:
+	# key reference innovation_crop_rotation found more that one time file: history/cultures/mauro_roman.txt line: 36
+	replace = {
+		before = {
+	discover_innovation = innovation_smithing_tables
+	discover_innovation = innovation_crop_rotation
+		}
+		after = {
+	discover_innovation = innovation_smithing_tables
+		}
+	}
+
+	# from error.log:
+	# key reference innovation_mustering_grounds found more that one time file: history/cultures/mauro_roman.txt line: 38
+	# key reference innovation_development_01 found more that one time file: history/cultures/mauro_roman.txt line: 39
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {}
+	}
+}
+
+"history/cultures/heritage_latin.txt" = {
+	# from error.log:
+	# key reference innovation_crop_rotation found more that one time file: history/cultures/heritage_latin.txt line: 36
+	replace = {
+		before = {
+	discover_innovation = innovation_smithing_tables
+	discover_innovation = innovation_crop_rotation
+		}
+		after = {
+	discover_innovation = innovation_smithing_tables
+		}
+	}
+
+	# from error.log:
+	# key reference innovation_mustering_grounds found more that one time file: history/cultures/heritage_latin.txt line: 38
+	# key reference innovation_development_01 found more that one time file: history/cultures/heritage_latin.txt line: 39
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {}
+	}
+}
