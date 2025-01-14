@@ -443,6 +443,7 @@ l_english:
  anglosaxon_water_god_name_possessive: "$anglosaxon_wealth_god_name_possessive$"
  mithra_name: "Mithra"
  mithra_name_possessive: "Mithra's"
+ mithra_possessive: "$mithra_name_possessive$"
  atenist_high_god_name: "Aten"
  atenist_high_god_name_possessive: "Aten's"
  atenist_high_god_name_alternate: "the Sun Disk"

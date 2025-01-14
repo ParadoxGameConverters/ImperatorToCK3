@@ -88,6 +88,7 @@
 
  berber_pagan: "Megalithic"
  berber_pagan_adj: "Megalithic"
+ berber_pagan_desc: "The ancient culture and religion was a melting pot of traditional Egyptian beliefs, star-worship, and ancestor veneration. Many megaliths - stone constructs raised in honor of the gods - still exist, dotted about the African landscape."
  berber_pagan_adherent: "Megalithic Pagan"
  berber_pagan_adherent_plural: "Megalithic Pagans"
  berber_pagan_old: "Old Megalithic"
@@ -352,6 +353,7 @@
  # Roman Mithraic Mysteries
  mithraic_mysteries: "Mithraic Mysteries"
  mithraic_mysteries_adj: "Mithran"
+ mithraic_mysteries_desc: "The Mithraic Mysteries were a mystery religion centered around the god Mithras. The religion was open only to men and involved complex initiation rituals, secretive ceremonies, and a strong emphasis on loyalty and fraternity among its followers."
  mithraic_mysteries_adherent: "Follower of Mithra"
  mithraic_mysteries_adherent_plural: "Followers of Mithra"
  eleusinian_mysteries: "Eleusinian Mysteries"
@@ -363,10 +365,15 @@
  atenist_pagan_adherent: "Atenite"
  atenist_pagan_adherent_plural: "Atenites"
  atenist_pagan_desc: "Unlike the polytheistic Kemetist religion, the Atenist religion is a monotheistic religion focused on the sole worship of the sun disk Aten. Unlike Kemetism, Atenists denies the existence of other gods and outright criminalizes the worship of them."
- 
+ atenist_pagan_old: "Old Atenism"
+ atenist_pagan_old_adj: "Old Atenist"
+ atenist_pagan_old_adherent: "Old Atenite"
+ atenist_pagan_old_adherent_plural: "Old Atenites"
+
  # Iranian Mithraism
  mithra_religion: "Mithraism"
  mithra_religion_adj: "Mithraist"
+ mithra_religion_desc: "Mithraism is an ancient Iranian religion that venerated the god Mithra. Mithra was a god of covenants, light, oaths, justice, the Sun, contracts, and friendship. In addition to being the divinity of contracts, Mithra is also a judicial figure, an all-seeing protector of Truth (Asha), and the guardian of cattle, the harvest, and the Waters."
  mithra_religion_adherent: "Mithraist"
  mithra_religion_adherent_plural: "Mithraists"
 
