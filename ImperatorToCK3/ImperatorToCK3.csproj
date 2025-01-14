@@ -35,16 +35,16 @@
         <PackageReference Include="ColorHashSharp" Version="1.0.0"/>
         <PackageReference Include="ConcurrentSet" Version="1.0.0"/>
         <PackageReference Include="CWTools" Version="0.5.0-alpha" />
-        <PackageReference Include="DotLiquid" Version="2.3.0" />
+        <PackageReference Include="DotLiquid" Version="2.3.18" />
         <PackageReference Include="FSharp.Core" Version="9.0.100" /> <!-- Needed for CWTools -->
         <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.4.0"/>
-        <PackageReference Include="Meziantou.Analyzer" Version="2.0.185">
+        <PackageReference Include="Meziantou.Analyzer" Version="2.0.186">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="PGCG.commonItems" Version="15.1.3" />
         <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.7"/>
-        <PackageReference Include="Polly" Version="8.5.0" />
+        <PackageReference Include="Polly" Version="8.5.1" />
         <PackageReference Include="Roslynator.Analyzers" Version="4.12.10">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
