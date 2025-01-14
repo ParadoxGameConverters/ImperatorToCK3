@@ -813,3 +813,29 @@ main_theme_track = {
 		}
 	}
 }
+
+
+"common/genes/07_genes_special_accessories_misc.txt" = {
+	# from ck3-tiger:
+	# accessory female_clothes_secular_byzantine_war_nobility_01_low not defined in gfx/portraits/accessories/
+	replace = {
+		before = {
+				0 = female_clothes_secular_byzantine_war_nobility_01_low
+		}
+		after = {
+				0 = f_clothes_sec_byzantine_war_nob_01_lo
+		}
+	}
+}
+
+
+"common\genes\06_genes_special_accessories_headgear.txt" = {
+	replace = {
+		before = {
+					1 = female_headgear_secular_steppe_war_nobility_01
+		}
+		after = {
+					1 = f_headgear_sec_ep2_steppe_war_nob_01
+		}
+	}
+}
