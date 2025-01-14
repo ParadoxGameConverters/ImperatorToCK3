@@ -1,0 +1,48 @@
+# This file contains blocks from vanilla files that can be replaced with new ones.
+# The structure is as follows:
+
+# <file name> = {
+# 	replace = {
+# 		before = {
+# 			some original code			
+# 		}
+# 		after = {
+# 			some modified code			
+# 		}
+# 	}
+#
+# 	replace = {
+# 		before = {
+# 			some original code 2		
+# 		}
+# 		after = {
+# 			some modified code 2		
+# 		}
+# 	}
+# }
+
+# INDENTATION IS IMPORTANT INSIDE the before BLOCK!
+# ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL FILE.
+# OTHERWISE THE BLOCKS WON'T BE MODIFIED!
+
+
+"common/on_action/game_start.txt" = {
+	# from error.log:
+	# add_special_building_slot effect [ Province 'Salamanca' already has a special building slot ]
+	replace = {
+		before = {
+		title:b_salamanca.title_province = { add_special_building_slot = generic_university }
+		}
+
+		after = {
+		title:b_salamanca.title_province = {
+			if = {
+				limit = {
+					has_special_building_slot = no
+				}
+				add_special_building_slot = generic_university
+			}
+		}
+		}
+	}
+}

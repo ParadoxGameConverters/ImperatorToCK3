@@ -70,6 +70,9 @@ after_bookmark_date = {
 
 	# Characters referenced in tests\dynasty_links_tests.txt
 	120
+
+	# Characters referenced in gfx\portraits\portrait_modifiers\06_clothes_special.txt
+	223523
 	
 	# Easter egg characters:
 	easteregg_veronica_pazos
