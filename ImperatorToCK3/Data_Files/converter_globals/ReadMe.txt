@@ -50,5 +50,6 @@ Bronze Age Reborn mod team (https://steamcommunity.com/sharedfiles/filedetails/?
 កាបូន26 - Help with mapping Terra Indomita cultures to Asia Expansion Project
 Nezaros, author of the Rajas of Asia mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2509174436) - Permission to use the Samre culture from their mod
 tanner918 - Data files, mostly for the Terra Indomita -> Rajas of Asia conversion
+ciurlys - Definition of mithra_religion, the Iranian cult of Mithra
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -

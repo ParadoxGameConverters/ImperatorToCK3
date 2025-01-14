@@ -33,6 +33,10 @@ internal sealed class AccessoryGeneTemplate : IIdentifiable<string> {
 		});
 		parser.IgnoreUnregisteredItems();
 	}
+	
+	public int ObjectCountForAgeSex(string ageSex) {
+		return AgeSexWeightBlocks.TryGetValue(ageSex, out var weightBlock) ? weightBlock.ObjectCount : 0;
+	}
 
 	public bool ContainsObjectForAgeSex(string ageSex, string objectName) {
 		return AgeSexWeightBlocks.TryGetValue(ageSex, out var weightBlock) && weightBlock.ContainsObject(objectName);

@@ -10,6 +10,7 @@
 
  anatolian_pagan: "Cybelene"
  anatolian_pagan_adj: "Cybelene"
+ anatolian_pagan_desc: "$anatolian_religion_desc$"
  anatolian_pagan_adherent: "Cybelene"
  anatolian_pagan_adherent_plural: "Cybelenes"
  anatolian_pagan_old: "Old Cybelene"
@@ -47,6 +48,7 @@
 
  armenian_pagan: "Khaldic"
  armenian_pagan_adj: "Khaldic"
+ armenian_pagan_desc: "$armenian_religion_desc$"
  armenian_pagan_adherent: "Khaldic Pagan"
  armenian_pagan_adherent_plural: "Khaldic Pagans"
  armenian_pagan_old: "Old Khaldic"
@@ -66,6 +68,7 @@
 
  dacian_pagan: "Zalmoxian"
  dacian_pagan_adj: "Zalmoxian"
+ dacian_pagan_desc: ""Whether Zalmoxis was originally a prophet or a god, is unknown. The Dacians and Getae however, revere Zalmoxis as a divine being, ascribing many miraculous acts to him."
  dacian_pagan_adherent: "Zalmoxian"
  dacian_pagan_adherent_plural: "Zalmoxians"
  dacian_pagan_old: "Old Zalmoxian"
@@ -85,6 +88,7 @@
 
  berber_pagan: "Megalithic"
  berber_pagan_adj: "Megalithic"
+ berber_pagan_desc: "The ancient culture and religion was a melting pot of traditional Egyptian beliefs, star-worship, and ancestor veneration. Many megaliths - stone constructs raised in honor of the gods - still exist, dotted about the African landscape."
  berber_pagan_adherent: "Megalithic Pagan"
  berber_pagan_adherent_plural: "Megalithic Pagans"
  berber_pagan_old: "Old Megalithic"
@@ -122,6 +126,7 @@
 
  caucasian_pagan: "Armazic"
  caucasian_pagan_adj: "Armazic"
+ caucasian_pagan_desc: "$caucasian_religion_desc$"
  caucasian_pagan_adherent: "Armazic Pagan"
  caucasian_pagan_adherent_plural: "Armazic Pagans"
  caucasian_pagan_old: "Old Armazic"
@@ -191,6 +196,7 @@
 
  mesopotamian_pagan: "Chaldean"
  mesopotamian_pagan_adj: "Chaldean"
+ mesopotamian_pagan_desc: "$mesopotamian_religion_desc$"
  mesopotamian_pagan_adherent: "Chaldean"
  mesopotamian_pagan_adherent_plural: "Chaldeans"
  mesopotamian_pagan_old: "Old Chaldean"
@@ -344,8 +350,10 @@
  anglo_pagan_old_adherent: "Old Ósgeleafen"
  anglo_pagan_old_adherent_plural: "Old Ósgeleafens"
  anglo_pagan_desc: "The native faith of the Anglo-Saxons, Ósgeleafe encompasses various gods with regional identities."
- mithraic_mysteries: "Mithraism"
+ # Roman Mithraic Mysteries
+ mithraic_mysteries: "Mithraic Mysteries"
  mithraic_mysteries_adj: "Mithran"
+ mithraic_mysteries_desc: "The Mithraic Mysteries were a mystery religion centered around the god Mithras. The religion was open only to men and involved complex initiation rituals, secretive ceremonies, and a strong emphasis on loyalty and fraternity among its followers."
  mithraic_mysteries_adherent: "Follower of Mithra"
  mithraic_mysteries_adherent_plural: "Followers of Mithra"
  eleusinian_mysteries: "Eleusinian Mysteries"
@@ -357,6 +365,17 @@
  atenist_pagan_adherent: "Atenite"
  atenist_pagan_adherent_plural: "Atenites"
  atenist_pagan_desc: "Unlike the polytheistic Kemetist religion, the Atenist religion is a monotheistic religion focused on the sole worship of the sun disk Aten. Unlike Kemetism, Atenists denies the existence of other gods and outright criminalizes the worship of them."
+ atenist_pagan_old: "Old Atenism"
+ atenist_pagan_old_adj: "Old Atenist"
+ atenist_pagan_old_adherent: "Old Atenite"
+ atenist_pagan_old_adherent_plural: "Old Atenites"
+
+ # Iranian Mithraism
+ mithra_religion: "Mithraism"
+ mithra_religion_adj: "Mithraist"
+ mithra_religion_desc: "Mithraism is an ancient Iranian religion that venerated the god Mithra. Mithra was a god of covenants, light, oaths, justice, the Sun, contracts, and friendship. In addition to being the divinity of contracts, Mithra is also a judicial figure, an all-seeing protector of Truth (Asha), and the guardian of cattle, the harvest, and the Waters."
+ mithra_religion_adherent: "Mithraist"
+ mithra_religion_adherent_plural: "Mithraists"
 
  # Ajivika
  ajivika_religion: "Ajivika"
@@ -446,6 +465,10 @@
  illyrian_pagan_adherent: "Eiateutan"
  illyrian_pagan_adherent_plural: "Eiateutans"
  illyrian_pagan_desc: "Illyrian paganism is a highly unorganized religion based on the worship of sacred places. The holiness of temples themselves was placed much higher than the deities worshipped here."
+ illyrian_pagan_old: "Old Eiateuta"
+ illyrian_pagan_old_adj: "Old Eiateutan"
+ illyrian_pagan_old_adherent: "Old Eiateutan"
+ illyrian_pagan_old_adherent_plural: "Old Eiateutans"
  illyrian_pagan_high_god_name: "Eia"
  illyrian_pagan_high_god_name_possessive: "Eia's"
  illyran_pagan_high_god_name_alternate: "Dei-pátrous"

@@ -1,10 +1,6 @@
 using commonItems;
-using commonItems.Collections;
 using commonItems.Mods;
-using ImperatorToCK3.CommonUtils;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,9 +9,6 @@ namespace ImperatorToCK3.Outputter;
 public static class OnActionOutputter {
 	public static async Task OutputEverything(Configuration config, ModFilesystem ck3ModFS, string outputModPath){
 		await OutputCustomGameStartOnAction(config);
-		if (config.FallenEagleEnabled) {
-			await DisableUnneededFallenEagleOnActionFiles(outputModPath);
-		}
 		Logger.IncrementProgress();
 	}
 
@@ -23,16 +16,16 @@ public static class OnActionOutputter {
 		Logger.Info("Writing game start on-action...");
 
 		var sb = new StringBuilder();
-		
+
 		const string customOnGameStartOnAction = "irtock3_on_game_start_after_lobby";
-		
+
 		sb.AppendLine("on_game_start_after_lobby = {");
 		sb.AppendLine($"\ton_actions = {{ {customOnGameStartOnAction } }}");
 		sb.AppendLine("}");
-		
+
 		sb.AppendLine($"{customOnGameStartOnAction} = {{");
 		sb.AppendLine("\teffect = {");
-		
+
 		if (config.LegionConversion == LegionConversion.MenAtArms) {
 			sb.AppendLine("""
 			                            	# IRToCK3: add MAA regiments
@@ -75,26 +68,22 @@ public static class OnActionOutputter {
 			                            		}
 			                            	}
 			                            """);
+			// Disable the anachronistic Seven Houses mechanic for Persia,
+			// by making the sevenhouses_enabled scripted trigger evaluate to false.
+			sb.AppendLine("""
+			                            	# IRToCK3: disable the Seven Houses mechanic for Persia.
+			                            	set_global_variable = {
+			                            		name = sevenhouses_dead
+			                            		value = yes
+			                            	}
+			                            """);
 		}
-		
+
 		sb.AppendLine("\t}");
 		sb.AppendLine("}");
-		
+
 		var filePath = $"output/{config.OutputModName}/common/on_action/IRToCK3_game_start.txt";
 		await using var writer = new StreamWriter(filePath, append: false, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
 		await writer.WriteAsync(sb.ToString());
-	}
-
-	private static async Task DisableUnneededFallenEagleOnActionFiles(string outputModPath) {
-		Logger.Info("Disabling unneeded Fallen Eagle on-actions...");
-		var onActionsToDisable = new OrderedSet<string> {
-			"sevenhouses_on_actions.txt",
-			"senate_tasks_on_actions.txt",
-		};
-		foreach (var filename in onActionsToDisable) {
-			var filePath = $"{outputModPath}/common/on_action/{filename}";
-			await using var writer = new StreamWriter(filePath, append: false, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
-			await writer.WriteLineAsync("# disabled by IRToCK3");
-		}
 	}
 }

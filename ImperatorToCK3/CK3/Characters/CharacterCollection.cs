@@ -820,8 +820,53 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			
 			PortraitData? portraitData = character.ImperatorCharacter.PortraitData;
 			if (portraitData is not null) {
-				character.DNA = dnaFactory.GenerateDNA(character.ImperatorCharacter, portraitData);
+				try {
+					character.DNA = dnaFactory.GenerateDNA(character.ImperatorCharacter, portraitData);
+				} catch (Exception e) {
+					Logger.Warn($"Failed to generate DNA for character {character.Id}: {e.Message}");
+				}
 			}
+		}
+	}
+
+	public void RemoveUndefinedTraits(TraitMapper traitMapper) {
+		Logger.Info("Removing undefined traits from CK3 character history...");
+
+		var definedTraits = traitMapper.ValidCK3TraitIDs.ToHashSet();
+		
+		foreach (var character in this) {
+			if (character.FromImperator) {
+				continue;
+			}
+			
+			var traitsField = character.History.Fields["traits"];
+			int removedCount = traitsField.RemoveAllEntries(value => !definedTraits.Contains(value.ToString()?.RemQuotes() ?? string.Empty));
+			if (removedCount > 0) {
+				Logger.Debug($"Removed {removedCount} undefined traits from character {character.Id}.");
+			}
+		}
+	}
+
+	public void RemoveInvalidDynastiesFromHistory(DynastyCollection dynasties) {
+		Logger.Info("Removing invalid dynasties from CK3 character history...");
+
+		var ck3Characters = this.Where(c => !c.FromImperator).ToArray();
+		var validDynastyIds = dynasties.Select(d => d.Id).ToHashSet();
+
+		foreach (var character in ck3Characters) {
+			if (!character.History.Fields.TryGetValue("dynasty", out var dynastyField)) {
+				continue;
+			}
+
+			dynastyField.RemoveAllEntries(value => {
+				var dynastyId = value.ToString()?.RemQuotes();
+
+				if (string.IsNullOrWhiteSpace(dynastyId)) {
+					return true;
+				}
+
+				return !validDynastyIds.Contains(dynastyId);
+			});
 		}
 	}
 }

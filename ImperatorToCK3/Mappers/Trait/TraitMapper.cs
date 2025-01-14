@@ -10,6 +10,8 @@ internal class TraitMapper {
 	protected IDictionary<string, string> ImperatorToCK3TraitMap = new Dictionary<string, string>();
 	protected IdObjectCollection<string, CK3.Characters.Trait> CK3Traits = [];
 	
+	public IEnumerable<string> ValidCK3TraitIDs => CK3Traits.Select(t => t.Id);
+	
 	// TODO: add a method for logging all unmapped I:R traits
 
 	public TraitMapper() { }

@@ -92,7 +92,14 @@ nuragic = {
 		10 = mediterranean
 	}
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { mena_unit_gfx }
@@ -1720,7 +1727,14 @@ oscan = {
 
 	ethos = ethos_egalitarian
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
@@ -1747,7 +1761,14 @@ samnite = {
 
 	ethos = ethos_stoic
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
@@ -1776,7 +1797,14 @@ venetic = { # https://en.wikipedia.org/wiki/Adriatic_Veneti
 
 	ethos = ethos_stoic
 
-    coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
     building_gfx = { mediterranean_building_gfx }
     clothing_gfx = { western_clothing_gfx }
     unit_gfx = { western_unit_gfx }
@@ -1810,7 +1838,14 @@ ligustic = {
 
 	ethos = ethos_stoic
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
@@ -1839,7 +1874,14 @@ messapic = {
 
 	ethos = ethos_stoic
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
@@ -1868,7 +1910,14 @@ sardonian = {
 
 	ethos = ethos_stoic
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
@@ -1897,7 +1946,14 @@ siculian = {
 
 	ethos = ethos_stoic
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
@@ -1935,7 +1991,14 @@ roman = {
 	
 	name_list = name_list_roman
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx } 
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { mediterranean_building_gfx } 
 	clothing_gfx = { byzantine_clothing_gfx } 
 	clothing_gfx = { western_clothing_gfx } 
@@ -2174,7 +2237,14 @@ breathanach = {
 		30 = caucasian_dark_hair
 	}
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
@@ -2207,7 +2277,14 @@ transadrianic = {
 		30 = caucasian_dark_hair
 	}
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
@@ -2240,7 +2317,14 @@ brythenig = {
 		30 = caucasian_dark_hair
 	}
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
@@ -2274,7 +2358,14 @@ laessin = {
 		30 = caucasian_dark_hair
 	}
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
@@ -2307,7 +2398,14 @@ wenedyk = {
 		30 = caucasian_dark_hair
 	}
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
@@ -2460,7 +2558,14 @@ etruscan = {
 		10 = mediterranean
 	}
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
@@ -2490,7 +2595,14 @@ rhaetian = {
 		10 = mediterranean
 	}
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { western_unit_gfx }
@@ -2521,7 +2633,14 @@ lemnian = {
 		10 = mediterranean
 	}
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Solves the error.log containing a line about not matching sequence in noric.
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { western_unit_gfx }

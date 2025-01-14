@@ -123,6 +123,35 @@ public class HistoryTests {
 	}
 
 	[Fact]
+	public void NegativeDatesAreSupported() {
+		var reader = new BufferedReader(
+			@"= {		#Sarkel
+					culture = mykenian
+					-750.1.2 = {
+						culture = macedonian
+					}
+					-100.1.2 = {
+						culture = greek
+					}
+					50.3.4 = {
+						culture = roman
+					}
+				}");
+
+		var provHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
+			.WithSimpleField("culture", "culture", null)
+			.Build();
+		
+		var provHistory = provHistoryFactory.GetHistory(reader);
+		
+		Assert.Equal("mykenian", provHistory.GetFieldValue("culture", new Date(-800, 1, 1))!.ToString());
+		Assert.Equal("macedonian", provHistory.GetFieldValue("culture", new Date(-750, 1, 2))!.ToString());
+		Assert.Equal("macedonian", provHistory.GetFieldValue("culture", new Date(-600, 1, 2))!.ToString());
+		Assert.Equal("greek", provHistory.GetFieldValue("culture", new Date(-100, 1, 2))!.ToString());
+		Assert.Equal("roman", provHistory.GetFieldValue("culture", new Date(50, 3, 4))!.ToString());
+	}
+
+	[Fact]
 	public void HistoryCanBeReadFromMultipleItems() {
 		var reader1 = new BufferedReader(
 		@"= {		#Sarkel
