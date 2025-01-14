@@ -3477,11 +3477,11 @@ celtic_religion = {
 				KnowledgeGodHerHim = CHARACTER_HERHIM_HER
 
 				#WarGod
-				WarGodName = gaelic_war_god_name
+				WarGodName = gaelic_war_god_name # https://en.wikipedia.org/wiki/The_Morr%C3%ADgan (female)
 				WarGodNamePossessive = gaelic_war_god_name_possessive
-				WarGodSheHe = CHARACTER_SHEHE_HE
-				WarGodHerHis = CHARACTER_HERHIS_HIS
-				WarGodHerHim = CHARACTER_HERHIM_HIM
+				WarGodSheHe = CHARACTER_SHEHE_SHE
+				WarGodHerHis = CHARACTER_HERHIS_HER
+				WarGodHerHim = CHARACTER_HERHIM_HER
 
 				#TricksterGod
 				TricksterGodName = ir_lugh
