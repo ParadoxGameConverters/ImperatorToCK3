@@ -36,6 +36,17 @@ internal sealed class CK3RegionMapper {
 		}
 
 		LinkRegions();
+		
+		// Log duchies that don't have any de jure counties.
+		// Such duchies should probably be removed from the regions.
+		var validDeJureDuchyIds = landedTitles.GetDeJureDuchies().Select(d => d.Id).ToHashSet();
+		foreach (var region in regions.Values) {
+			foreach (var regionDuchyId in region.Duchies.Keys) {
+				if (!validDeJureDuchyIds.Contains(regionDuchyId)) {
+					Logger.Debug($"Region {region.Name} contains duchy {regionDuchyId} which has no de jure counties!");
+				}
+			}
+		}
 	}
 	public bool ProvinceIsInRegion(ulong provinceId, string regionName) {
 		if (regions.TryGetValue(regionName, out var region)) {
