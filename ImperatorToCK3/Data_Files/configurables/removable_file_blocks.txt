@@ -2248,6 +2248,34 @@ bookmark_867_northmen_aellas_capture_war_imprisonment_effect = {
 		}
 	}
 
+	# from error.log:
+	# Error: create_artifact effect [ Scoped object is not valid. Type: null weak (Character - 4294967295)! ]
+	{
+		### Persian Drinking Vessel
+		if = {
+			limit = {
+				# Only generated in the earlier bookmarks.
+				current_date < 900.1.1
+				has_dlc_feature = legacy_of_persia
+				exists = title:k_makran
+			}
+			title:k_makran.holder = {
+				create_artifact = {
+					name = fp3_ancient_drinking_vessel
+					description = fp3_ancient_drinking_vessel_desc
+					visuals = persian_drinking_vessel
+					type = goblet
+					wealth = 80
+					quality = 80
+					modifier = artifact_negate_health_penalty_add_2_modifier
+					modifier = artifact_stress_gain_3_modifier
+					modifier = artifact_monthly_prestige_5_modifier
+					modifier = artifact_court_grandeur_baseline_add_3_modifier
+				}
+			}
+		}
+	}
+
 	{
 				create_artifact_statue_constantine_effect = { OWNER = this }
 	}
