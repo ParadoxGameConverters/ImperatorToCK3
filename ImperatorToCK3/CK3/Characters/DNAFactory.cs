@@ -395,7 +395,10 @@ internal sealed class DNAFactory {
 			Logger.Warn($"No object mappings found for {geneInfo.ObjectName} in gene {irGeneName}!");
 			return null;
 		}
+		
+		// Prefer using the smallest template that contains the object.
 		var ck3GeneTemplate = ck3Gene.GeneTemplates
+			.OrderBy(t => t.ObjectCountForAgeSex(irCharacter.AgeSex))
 			.FirstOrDefault(t => t.ContainsObjectForAgeSex(irCharacter.AgeSex, convertedSetEntry));
 		if (ck3GeneTemplate is null) {
 			Logger.Warn($"No template found for {convertedSetEntry} in CK3 gene {ck3Gene.Id}!");

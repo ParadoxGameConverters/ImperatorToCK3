@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Mods;
 using Open.Collections.Synchronized;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Characters;
@@ -33,9 +34,21 @@ internal sealed partial class CharacterCollection {
 			"set_relation_ward", "set_relation_mentor",
 			"add_opinion", "make_concubine",
 		];
-		string[] fieldsToClear = ["friends", "best_friends", "lovers", "rivals", "nemesis", "primary_title", "dna"];
+		string[] fieldsToClear = [
+			"friends", "best_friends", "lovers", "rivals", "nemesis",
+			"primary_title", "dna", "spawn_army", "add_character_modifier", "languages",
+			"claims",
+		];
 
+		var femaleCharacterIds = loadedCharacters.Where(c => c.Female).Select(c => c.Id).ToHashSet();
+		var maleCharacterIds = loadedCharacters.Select(c => c.Id).Except(femaleCharacterIds).ToHashSet();
+		
 		foreach (var character in loadedCharacters) {
+			// Clear some fields we don't need.
+			foreach (var fieldName in fieldsToClear) {
+				character.History.Fields[fieldName].RemoveAllEntries();
+			}
+
 			// Remove post-bookmark history except for births and deaths.
 			foreach (var field in character.History.Fields) {
 				if (field.Id == "birth" || field.Id == "death") {
@@ -58,7 +71,9 @@ internal sealed partial class CharacterCollection {
 				deathField.RemoveAllEntries();
 				deathField.AddEntryToHistory(deathDate, "death", value: true);
 			}
-			
+
+			RemoveInvalidMotherAndFatherEntries(character, femaleCharacterIds, maleCharacterIds);
+
 			// Remove dated name changes like 64.10.13 = { name = "Linus" }
 			var nameField = character.History.Fields["name"];
 			nameField.RemoveHistoryPastDate(birthDate);
@@ -67,14 +82,34 @@ internal sealed partial class CharacterCollection {
 			character.History.Fields["effects"].RemoveAllEntries(
 				entry => irrelevantEffects.Any(effect => entry.ToString()?.Contains(effect) ?? false));
 			
-			// Clear some fields we don't need.
-			foreach (var fieldName in fieldsToClear) {
-				character.History.Fields[fieldName].RemoveAllEntries();
-			}
-			
 			character.InitSpousesCache();
 			character.InitConcubinesCache();
 			character.UpdateChildrenCacheOfParents();
 		}
+	}
+
+	private static void RemoveInvalidMotherAndFatherEntries(Character character, HashSet<string> femaleCharacterIds, HashSet<string> maleCharacterIds) {
+		// Remove wrong sex mother and father references (male mothers, female fathers).
+		var motherField = character.History.Fields["mother"];
+		motherField.RemoveAllEntries(value => {
+			string? motherId = value.ToString()?.RemQuotes();
+			if (motherId is null || !femaleCharacterIds.Contains(motherId)) {
+				Logger.Debug($"Removing invalid mother {motherId} from character {character.Id}");
+				return true;
+			}
+
+			return false;
+		});
+		
+		var fatherField = character.History.Fields["father"];
+		fatherField.RemoveAllEntries(value => {
+			string? fatherId = value.ToString()?.RemQuotes();
+			if (fatherId is null || !maleCharacterIds.Contains(fatherId)) {
+				Logger.Debug($"Removing invalid father {fatherId} from character {character.Id}");
+				return true;
+			}
+
+			return false;
+		});
 	}
 }

@@ -300,7 +300,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 		var aliveFaithsWithSpiritualHeadDoctrine = Faiths
 			.Where(f => aliveCharacterFaithIds.Contains(f.Id) || provinceFaithIds.Contains(f.Id))
-			.Where(f => f.GetDoctrineIdForDoctrineCategoryId("doctrine_head_of_faith") == "doctrine_spiritual_head")
+			.Where(f => f.GetDoctrineIdsForDoctrineCategoryId("doctrine_head_of_faith").Contains("doctrine_spiritual_head"))
 			.ToImmutableList();
 
 		foreach (var faith in aliveFaithsWithSpiritualHeadDoctrine) {

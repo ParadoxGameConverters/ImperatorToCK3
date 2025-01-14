@@ -77,7 +77,8 @@ internal sealed class DynastyCollection : ConcurrentIdObjectCollection<string, D
 			}
 
 			// Neither character nor their father have a dynasty, so we need to create a new one.
-			var newDynasty = new Dynasty(ck3Character, irFamilyName, irWorld.CulturesDB, irLocDB, ck3LocDB, date);
+			Imperator.Characters.Character[] irFamilyMembers = [irCharacter];
+			var newDynasty = new Dynasty(ck3Character, irFamilyName, irFamilyMembers, irWorld.CulturesDB, irLocDB, ck3LocDB, date);
 			AddOrReplace(newDynasty);
 			++createdDynastiesCount;
 		}

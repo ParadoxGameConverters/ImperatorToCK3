@@ -846,4 +846,27 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			}
 		}
 	}
+
+	public void RemoveInvalidDynastiesFromHistory(DynastyCollection dynasties) {
+		Logger.Info("Removing invalid dynasties from CK3 character history...");
+
+		var ck3Characters = this.Where(c => !c.FromImperator).ToArray();
+		var validDynastyIds = dynasties.Select(d => d.Id).ToHashSet();
+
+		foreach (var character in ck3Characters) {
+			if (!character.History.Fields.TryGetValue("dynasty", out var dynastyField)) {
+				continue;
+			}
+
+			dynastyField.RemoveAllEntries(value => {
+				var dynastyId = value.ToString()?.RemQuotes();
+
+				if (string.IsNullOrWhiteSpace(dynastyId)) {
+					return true;
+				}
+
+				return !validDynastyIds.Contains(dynastyId);
+			});
+		}
+	}
 }

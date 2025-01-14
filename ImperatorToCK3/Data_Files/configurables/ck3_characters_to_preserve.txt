@@ -34,6 +34,12 @@ after_bookmark_date = {
 	
 	# Characters referenced in achievements:
 	109607
+	41702
+	6878
+	159137
+	215009
+	34281
+	466517
 	
 	# Characters eferenced in events\dlc\fp2\fp2_el_cid_events.txt:
 	107590 # El Cid
@@ -45,6 +51,25 @@ after_bookmark_date = {
     34014
     34005
     33911
+
+	# Characters referenced in events\dlc\ep3\ep3_story_cycle_violet_poet_events.txt
+	andalusian_0003
+	andalusian_0004
+
+	# Characters referenced in common/scripted_effects/07_dlc_ep3_scripted_effects.txt
+	90028
+
+	# Characters referenced in events\dlc\ep3\ep3_laamp_events.txt
+	122
+	102531
+	364
+	114
+	175
+	172
+	161266
+
+	# Characters referenced in tests\dynasty_links_tests.txt
+	120
 	
 	# Easter egg characters:
 	easteregg_veronica_pazos
@@ -117,7 +142,6 @@ after_bookmark_date = {
 	easteregg_maxence_voleau
 	easteregg_jason_cantalini
 	easteregg_fabian_franzen
-	easteregg_veronica_pazos
 	easteregg_weronika_kowalczyk
 	easteregg_jakob_jorstedt
 	easteregg_tess_lindholm
@@ -155,4 +179,5 @@ after_bookmark_date = {
 	easteregg_lucia_dzediti
 	easteregg_david_ostlund
 	easteregg_neyla_garcia
+	easteregg_anna_johansson
 }

@@ -4,7 +4,6 @@ using commonItems.Mods;
 using commonItems.Serialization;
 using DotLiquid;
 using ImperatorToCK3.CK3;
-using ImperatorToCK3.CK3.Cleanup;
 using ImperatorToCK3.CK3.Legends;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Exceptions;
@@ -29,8 +28,6 @@ internal static class WorldOutputter {
 		CreateFolders(outputPath);
 
 		Task.WaitAll(
-			FileTweaker.RemoveUnneededPartsOfFiles(ck3World.ModFS, outputPath, config),
-			
 			CharactersOutputter.OutputEverything(outputPath, ck3World.Characters, imperatorWorld.EndDate, config.CK3BookmarkDate, ck3World.ModFS),
 			DynastiesOutputter.OutputDynastiesAndHouses(outputPath, ck3World.Dynasties, ck3World.DynastyHouses),
 
@@ -87,7 +84,7 @@ internal static class WorldOutputter {
 		Logger.Info("Writing legend seeds...");
 		await File.WriteAllTextAsync(
 			Path.Combine(outputPath, "common/legends/legend_seeds/IRtoCK3_all_legend_seeds.txt"),
-			PDXSerializer.Serialize(legendSeeds, indent: "", withBraces: false),
+			PDXSerializer.Serialize(legendSeeds.OrderBy(s => s.Id), indent: "", withBraces: false),
 			new UTF8Encoding(encoderShouldEmitUTF8Identifier: true)
 		);
 	}
@@ -169,11 +166,13 @@ internal static class WorldOutputter {
 		modFileBuilder.AppendLine("replace_path=\"common/bookmarks/challenge_characters\"");
 		modFileBuilder.AppendLine("replace_path=\"common/culture/cultures\"");
 		modFileBuilder.AppendLine("replace_path=\"common/culture/pillars\"");
+		modFileBuilder.AppendLine("replace_path=\"common/dna_data\"");
 		modFileBuilder.AppendLine("replace_path=\"common/dynasties\"");
 		modFileBuilder.AppendLine("replace_path=\"common/dynasty_houses\"");
 		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");
 		modFileBuilder.AppendLine("replace_path=\"common/legends/legend_seeds\"");
 		modFileBuilder.AppendLine("replace_path=\"common/religion/religions\"");
+		modFileBuilder.AppendLine("replace_path=\"common/religion/holy_sites\"");
 		modFileBuilder.AppendLine("replace_path=\"history/characters\"");
 		modFileBuilder.AppendLine("replace_path=\"history/province_mapping\"");
 		modFileBuilder.AppendLine("replace_path=\"history/provinces\"");

@@ -131,7 +131,11 @@ internal sealed class World {
 				Logger.Info("Loading map data...");
 				MapData = new MapData(ModFS);
 			},
-			() => CK3CoaMapper = new(ModFS)
+			() => CK3CoaMapper = new(ModFS),
+			() => {
+				// Modify some CK3 and mod files and put them in the output before we start outputting anything.
+				FileTweaker.ModifyAndRemovePartsOfFiles(ModFS, outputModPath, config).Wait();
+			}
 		);
 		
 		OrderedDictionary<string, bool> ck3ModFlags = config.GetCK3ModFlags();
@@ -270,6 +274,8 @@ internal sealed class World {
 		ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
 
 		Dynasties.LoadCK3Dynasties(ModFS);
+		// Now that we have loaded all dynasties from CK3, we can remove invalid dynasty IDs from character history.
+		Characters.RemoveInvalidDynastiesFromHistory(Dynasties);
 		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB, LocDB, CorrectedDate);
 		DynastyHouses.LoadCK3Houses(ModFS);
 		
