@@ -67,3 +67,9 @@
  maganite: "Maganite"
  maganite_prefix: "Maganite"
  maganite_collective_noun: "Maganites"
+
+ # from error.log:
+ # Key is missing localization: TFE_gladiator_completed_log_entry_title
+ # Key is missing localization: TFE_chariot_completed_log_entry_title
+ TFE_gladiator_completed_log_entry_title: "$TFE_gladiator_completed_log_title$"
+ TFE_chariot_completed_log_entry_title: "$TFE_chariot_completed_log_title$"

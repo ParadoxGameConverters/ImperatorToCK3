@@ -402,3 +402,36 @@ main_theme_track = {
 		}
 	}
 }
+
+
+"common/on_action/TFE_game_start.txt" = {
+	# backport of TFE commit 7dfdda5
+	replace = {
+		before = {
+				OR = {
+					government_allows = administrative
+					top_liege = { government_allows = administrative }
+				}
+		}
+		after = {
+				government_allows = administrative
+				top_liege = { government_allows = administrative }
+		}
+	}
+}
+
+
+"common/court_positions/types/missonary_court_positions.txt" = {
+	# from error.log:
+	# [04:13:22][E][jomini_script_system.cpp:284]: Script system error!
+	#  Error: has_doctrine_parameter trigger [ Bool doctrine parameter 'doctrine_missionary_encouraged' does not exist ]
+	#  Script location: file: common/court_positions/types/missonary_court_positions.txt line: 244 (missionary:aptitude)
+	replace = {
+		before = {
+					has_doctrine_parameter = doctrine_missionary_encouraged
+		}
+		after = {
+					has_doctrine = doctrine_missionary_encouraged
+		}
+	}
+}

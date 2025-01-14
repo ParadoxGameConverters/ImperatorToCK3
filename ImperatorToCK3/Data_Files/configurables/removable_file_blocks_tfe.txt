@@ -33237,3 +33237,22 @@ gladiator_new_event_selection_guest = {
 }
 	}
 }
+
+
+"common/on_action/resources_on_actions.txt" = {
+	# from error.log:
+	# [04:13:22][E][jomini_script_system.cpp:284]: Script system error!
+	#  Error: add_county_modifier effect [ Invalid database object 'sugar_resources_modifier' ]
+	#  Script location: file: common/on_action/resources_on_actions.txt line: 5167 (on_resource_start)
+	{
+			##SUGAR
+			title:c_sfax = {
+				add_county_modifier = {
+				modifier = sugar_resources_modifier
+				}
+				title_province = {
+				
+				}
+			}
+	}
+}
