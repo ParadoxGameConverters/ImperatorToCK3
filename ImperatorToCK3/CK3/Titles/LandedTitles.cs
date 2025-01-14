@@ -80,23 +80,28 @@ internal sealed partial class Title {
 			// Cleanup for titles having invalid capital counties.
 			var validTitleIds = this.Select(t => t.Id).ToHashSet();
 			var placeholderCountyId = validTitleIds.Order().First(t => t.StartsWith("c_"));
-			foreach (var title in this) {
-				if (title.CapitalCountyId is null) {
+			foreach (var title in this.Where(t => t.Rank > TitleRank.county)) {
+				if (title.CapitalCountyId is null && !title.Landless) {
+					// For landed titles, the game will generate capitals.
 					continue;
 				}
- 
-				if (!validTitleIds.Contains(title.CapitalCountyId)) {
-					// Try to use the first valid capital of a de jure vassal.
-					var newCapitalId = title.DeJureVassals
-						.Select(v => v.CapitalCountyId)
-						.FirstOrDefault(vassalCapitalId => vassalCapitalId is not null && validTitleIds.Contains(vassalCapitalId));
-					if (newCapitalId is not null) {
-						Logger.Debug($"Title {title.Id} has invalid capital county {title.CapitalCountyId}, replacing it with {newCapitalId}.");
-						title.CapitalCountyId = newCapitalId;
-					} else {
-						Logger.Warn($"Using placeholder county as capital for title {title.Id} with invalid capital county {title.CapitalCountyId}.");
-						title.CapitalCountyId = placeholderCountyId;
-					}
+				if (title.CapitalCountyId is not null && validTitleIds.Contains(title.CapitalCountyId)) {
+					continue;
+				}
+				// Try to use the first valid capital of a de jure vassal.
+				var newCapitalId = title.DeJureVassals
+					.Select(v => v.CapitalCountyId)
+					.FirstOrDefault(vassalCapitalId => vassalCapitalId is not null && validTitleIds.Contains(vassalCapitalId));
+				// If not found, for landless titles try using capital of de jure liege.
+				if (newCapitalId is null && title.Landless) {
+					newCapitalId = title.DeJureLiege?.CapitalCountyId;
+				}
+				if (newCapitalId is not null) {
+					Logger.Debug($"Title {title.Id} has invalid capital county {title.CapitalCountyId ?? "NULL"}, replacing it with {newCapitalId}.");
+					title.CapitalCountyId = newCapitalId;
+				} else {
+					Logger.Warn($"Using placeholder county as capital for title {title.Id} with invalid capital county {title.CapitalCountyId ?? "NULL"}.");
+					title.CapitalCountyId = placeholderCountyId;
 				}
 			}
 

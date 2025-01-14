@@ -28619,6 +28619,161 @@ form_the_hre_TFE = {
 }
 	}
 
+	# Triggers event TFE_major_decisions.0020 that we remove
+	{
+###############################################################
+#															  #
+# 			Establish a new Capital for the Visigoths 		  #
+# 							by Juli				 			  #
+#															  #
+###############################################################
+visigothic_capital_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_destiny_goal.dds"
+	}
+	decision_group_type = cultural
+
+	desc = visigothic_capital_decision_desc
+	selection_tooltip = visigothic_capital_decision_tooltip
+
+	ai_check_interval = 120
+
+	is_shown = {
+		exists = global_var:wre_collapsed #WRE has fallen
+		# Only should be visible for Recently established Visigoths
+		is_ruler = yes
+		is_landed_or_landless_administrative = yes
+		exists = dynasty
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:founded_visigothic_capital
+			}
+		}
+		OR ={
+			culture = { has_cultural_pillar = heritage_east_germanic } # This way other germanic lords that end up being Visigoth Kings may do it too
+			culture = culture:visigothic # This way other post-roman Visigothic lords can also take the decision
+			culture = culture:ostrogothic # This way other post-roman Visigothic lords can also take the decision
+		}
+		root.faith = {
+			religion_tag = christianity_religion
+		}
+		has_title = title:k_visigoths
+		# Must hold a county in Hispania or France
+		any_held_title = {
+			tier = tier_county
+			OR = {
+				title_province = { geographical_region = world_europe_west_iberia }
+				title_province = { geographical_region = world_europe_west_francia }
+			}
+		}
+		# By 567 Toledo became Capital
+		NOT = { game_start_date >= 567.1.1 }
+	}
+
+	is_valid = {
+		#Must be independent.
+		is_independent_ruler = yes
+		#Has to be around to organise the construction.
+		is_imprisoned = no
+		#Must have a capital within title:e_spain or e_france, as we'll use this as a fallback.
+		
+		custom_description = {
+			text = visigothic_capital_decision_your_capital_is_in_spain_or_gaul
+			OR = {
+				capital_county = { title_province = { geographical_region = world_europe_west_iberia }}
+				capital_county = { title_province = { geographical_region = world_europe_west_francia }}
+			}
+		}
+		OR = {
+			religion = religion:christianity_religion
+		}
+		#Should have a decent prestige level.
+		OR = {
+			prestige_level >= very_high_prestige_level
+			AND = {
+				prestige_level >= high_prestige_level
+				completely_controls = title:c_toledo
+			}
+			AND = {
+				prestige_level >= high_prestige_level
+				completely_controls = title:c_toulouse
+			}
+		}
+		#Repeat the time limit concern just so that the player knows it's a thing.
+		custom_description = {
+			text = found_capital_of_the_visigoths_decision_before_last_date
+			current_date <= 600.1.1
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_at_peace_adult = yes
+	}
+
+	effect = {
+		save_scope_as = founder
+		#Nab scope:founder's capital for the initial tooltip; this may be changed in the actual event.
+		scope:founder.capital_county = { save_scope_as = new_visigothic_capital }
+		show_as_tooltip = { found_capital_of_visigoths_scripted_effect = yes }
+		trigger_event = { id = TFE_major_decisions.0020 }
+		#Notifying other players is done in scope:founder's event, as scope:founder may change the circumstances of the decision with their option choice.
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:founded_visigothic_capital
+			}
+		}
+	}
+
+	cost = {
+		gold = 500
+		prestige = 1000
+		piety = 500	
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 0
+
+		# Weight up for traits.
+		modifier = {
+			add = 25
+			has_trait = ambitious
+		}
+		modifier = {
+			add = 25
+			has_trait = arrogant
+		}
+		modifier = {
+			add = 25
+			has_trait = architect
+		}
+		modifier = {
+			add = 25
+			has_trait = administrator
+		}
+		modifier = {
+			add = 25
+			has_trait = viking
+		}
+
+		# Weight up for game year.
+		modifier = {
+			add = 25
+			current_year >= 476
+		}
+		modifier = {
+			add = 25
+			current_year >= 500
+		}
+	}
+}
+	}
+
 	# No d_carthaginensis in TFE as of the 'After The Pharaohs' update.
 	{
 			title:d_carthaginensis = {
@@ -31933,5 +32088,1152 @@ tributaries.6 = {
 			culture = { has_innovation = innovation_ledger }
 			capital_county.title_province.combined_building_level <= 4
 		}
+	}
+}
+
+
+"common/character_interactions/00_adoption.txt" = {
+	# from error.log:
+	#[00:36:38][E][pdx_persistent_reader.cpp:216]: Error: "Unknown trigger type: value, near line: 502
+	#Unknown trigger type: if, near line: 503
+	#Unknown trigger type: if, near line: 521
+	#Unknown trigger type: if, near line: 539" in file: "common/character_interactions/00_adoption.txt" near line: 557
+	{
+adopt_interaction = {
+	icon = icon_dynasty
+	category = interaction_category_diplomacy
+	interface_priority = 60
+
+	desc = adopt_interaction_desc
+	use_diplomatic_range = yes
+	
+	is_shown = {
+		AND = {
+			OR = {
+				# Cultures that default with this tradition should still be able to adopt
+				scope:actor.culture = { has_cultural_parameter = allows_adoption }
+				scope:actor = {
+					AND = {
+						OR = {
+							government_has_flag = government_is_imperial
+							government_has_flag = government_is_administrative
+							government_has_flag = government_is_autocratic
+							government_has_flag = government_is_autocratic_ep3
+							government_has_flag = government_is_imperial_cult
+						}
+						highest_held_title_tier >= tier_kingdom
+					}
+				}
+				scope:actor = {
+					faith = {
+						has_doctrine_parameter = TFE_enables_adoption
+					}
+				}
+			}
+			NOT = { 
+				has_game_rule = no_adoption
+			}
+		}
+		NOT = { 
+			scope:recipient = scope:actor
+		}
+		scope:actor = {
+			is_adult = yes
+			OR = {
+				# Compassionate people like adopting
+				has_trait = compassionate
+				# Game rule as an overriding factor
+				has_game_rule = adoption_always_allowed
+				# You have no kids and your fertility is low
+				AND = {
+					any_child = {
+						count < 1
+					}
+					fertility <= low_fertility
+				}
+				# You are married to a same-sex partner
+				AND = {
+					is_married = yes
+					# People in bisexual polygamous spheres are not valid for this
+					NOT = {
+						OR = {
+							AND = {
+								any_consort = {
+									is_female = yes
+								}
+								is_male = yes
+							}
+							AND = {
+								any_consort = {
+									is_male = yes
+								}
+								is_female = yes
+							}
+						}
+					}
+				}
+				# You are unmarried and uninterested in having biological children
+				AND = {
+					is_married = no
+					OR = {
+						has_sexuality = asexual
+						has_sexuality = homosexual
+					}
+				}
+				OR = {
+					# You have a cultrad that lets you adopt
+					culture = { has_cultural_parameter = allows_adoption }
+					AND = {
+						OR = {
+							government_has_flag = government_is_imperial
+							government_has_flag = government_is_administrative
+							government_has_flag = government_is_autocratic
+							government_has_flag = government_is_autocratic_ep3
+							government_has_flag = government_is_imperial_cult
+						}
+						highest_held_title_tier >= tier_kingdom
+					}
+					faith = {
+						has_doctrine_parameter = TFE_enables_adoption
+					}
+				}
+			}
+			OR = {
+				# You are unmarried
+				is_married = no
+				# You are the dominant partner in at least one of your marriages
+				AND = {
+					is_female = yes
+					matrilinear_marriage = yes
+				}
+				AND = {
+					is_male = yes
+					matrilinear_marriage = no
+				}
+				# Your marriage is same-sex
+				NOT = {
+					OR = {
+						AND = {
+							any_consort = {
+								is_female = yes
+							}
+							is_male = yes
+						}
+						AND = {
+							any_consort = {
+								is_male = yes
+							}
+							is_female = yes
+						}
+					}
+				}
+			}
+		}
+		scope:recipient = {
+			# Younger than you by at least 5
+			#is_adult = no
+			scope:recipient.age <= scope:actor.age_plus_5
+			#age
+			# Landless only (ruler used to catch edge-cases of landless HoF children)
+			is_ruler = no
+			# Don't get imprisoned children and so on
+			is_available = yes
+			# None of their close relatives are rulers
+			NOT = {
+				any_close_or_extended_family_member = { is_ruler = yes }
+			}
+			# They don't already belong to your house
+			NOT = { house = scope:actor.house }
+			# Don't adopt your own grandkids
+			NOT = {
+				any_ancestor = {
+					this = scope:actor
+				}
+			}
+			# Don't steal the King of France's great nephew
+			NOT = {
+				any_liege_or_above = {
+					prev.dynasty = dynasty
+				}
+			}
+		}
+	}
+
+	is_valid = {}
+
+	is_valid_showing_failures_only = {}
+
+	send_option = { # EP3 Influence
+		is_shown = { # Actor must have a government that uses influence 
+			scope:actor = {
+				government_has_flag = government_has_influence
+			}
+		}
+		is_valid = {
+			# Actor has enough influence
+			scope:actor = { influence >= medium_influence_value }
+			# Both characters are within the same top realm
+			scope:recipient.top_liege = scope:actor.top_liege
+		}
+		flag = influence_send_option
+		localization = TRADE_INFLUENCE_FOR_BETTER_AI_ACCEPTANCE
+	}
+	send_options_exclusive = no
+	
+	on_accept = {
+		show_as_tooltip = {
+			adopt_effect = {
+				CHILD = scope:recipient
+				ADOPTER = scope:actor
+			}
+		}
+		hidden_effect = {
+			scope:actor = { trigger_event = adoption.0001 }
+		}
+	}
+	
+	cost = {
+		renown = {
+			value = {
+				add = medium_dynasty_prestige_value
+				if = { # Free for free adoption
+					limit = {
+						scope:actor = {
+							OR = {
+								culture = { has_cultural_parameter = free_adoption }
+								has_game_rule = adoption_always_allowed
+							}
+						}
+					}
+					multiply = 0
+				}
+				if = { # Free for same-sex couples
+					limit = {
+						scope:actor = {
+							OR = {
+								AND = {
+									any_consort = {
+										is_female = yes
+									}
+									is_female = yes
+								}
+								AND = {
+									any_consort = {
+										is_male = yes
+									}
+									is_male = yes
+								}
+							}
+						}
+					}
+					multiply = 0
+				}
+			}
+		}
+		prestige = {
+			value = {
+				add = medium_prestige_value
+				if = {
+					limit = {
+						scope:actor = {
+							OR = {
+								culture = { has_cultural_parameter = free_adoption }
+								has_game_rule = adoption_always_allowed
+							}
+						}
+					}
+					multiply = 0
+				}
+			}
+		}
+		piety = {
+			value = {
+				add = medium_piety_value
+				if = {
+					limit = {
+						scope:actor = {
+							OR = {
+								culture = { has_cultural_parameter = free_adoption }
+								has_game_rule = adoption_always_allowed
+							}
+						}
+					}
+					multiply = 0
+				}
+				# No piety cost for adopting a righteous-faith child
+				if = {
+					limit = {
+						scope:actor.faith = {
+							faith_hostility_level = {
+								target = scope:recipient.faith
+								value < faith_astray_level
+							}
+						}
+					}
+					multiply = 0
+				}
+				else_if = {
+					limit = {
+						scope:actor.faith = {
+							faith_hostility_level = {
+								target = scope:recipient.faith
+								value > faith_astray_level
+							}
+						}
+					}
+					add = minor_piety_value
+				}
+				else_if = {
+					limit = {
+						scope:actor.faith = {
+							faith_hostility_level = {
+								target = scope:recipient.faith
+								value > faith_hostile_level
+							}
+						}
+					}
+					add = medium_piety_value
+				}
+			}
+		}
+		influence = {
+			value = 0
+			if = {
+				limit = { scope:influence_send_option = yes }
+				add = scope:actor.medium_influence_value
+				desc = INFLUENCE_INTERACTION_ACCEPTANCE_SEND_OPTION
+			}
+		}
+	}
+
+	ai_potential = {
+		any_child = {
+			count < 2
+		}
+		OR = {
+			fertility <= low_fertility
+			AND = {
+				is_male = yes
+				NOT = {
+					any_spouse = {
+						fertility > low_fertility
+						is_female = yes
+					}
+				}
+			}
+			AND = {
+				is_female = yes
+				NOT = {
+					any_spouse = {
+						fertility > low_fertility
+						is_male = yes
+					}
+				}
+			}
+		}
+	}
+
+	ai_targets = {
+		health >= fine_health
+		fertility > low_fertility
+		age < 50
+		ai_recipients = courtiers
+		ai_recipients = guests
+		# Friends, wards, etc.
+		ai_recipients = scripted_relations
+		max = 30
+	}
+
+	ai_accept = {
+		base = 0
+		modifier = { # My parents are alive
+			add = -15
+			desc = parents_are_alive_tt
+			OR = {
+				father ?= { is_alive = yes }
+				mother ?= { is_alive = yes }
+			}
+		}
+		modifier = { # I hate my mother
+			add = 10
+			desc = i_hate_my_mother_tt
+			exists = mother
+			mother = { is_alive = yes }
+			opinion = {
+				value <= medium_negative_opinion
+				target = mother
+			}
+		}
+		modifier = { # I hate my father
+			add = 10
+			desc = i_hate_my_father_tt
+			exists = father
+			father = { is_alive = yes }
+			opinion = {
+				value <= medium_negative_opinion
+				target = father
+			}
+		}
+		modifier = { # I like my mother
+			add = -10
+			desc = i_like_my_mother_tt
+			exists = mother
+			mother = { is_alive = yes }
+			opinion = {
+					value >= medium_positive_opinion
+					target = mother
+				}
+		}
+		modifier = { # I like my father
+			add = -10
+			desc = i_like_my_father_tt
+			exists = father
+			father = { is_alive = yes }
+			opinion = {
+				value >= medium_positive_opinion
+				target = father
+			}
+		}
+		modifier = { # I like you
+			add = {
+				value = 5
+				if = {
+					limit = {
+						opinion = {
+							value >= high_positive_opinion
+							target = scope:actor
+						}
+					}
+					add = 10
+				}
+				if = {
+					limit = {
+						opinion = {
+							value >= very_high_positive_opinion
+							target = scope:actor
+						}
+					}
+					add = 10
+				}
+			}
+			desc = i_like_you_tt
+			opinion = {
+				value >= medium_positive_opinion
+				target = scope:actor
+			}
+		}
+		modifier = { # You're my friend :)
+			add = 10
+			desc = youre_my_friend_tt
+			has_relation_friend = scope:actor
+		}
+		modifier = { # You're my guardian
+			add = 10
+			desc = youre_my_guardian_tt
+			has_relation_guardian = scope:actor
+		}
+		modifier = { # I have no mother
+			add = 5
+			desc = i_want_a_mother_tt
+			scope:actor = { is_female = yes }
+			OR = {
+				NOT = { exists = mother }
+				mother = { is_alive = no }
+			}
+		}
+		modifier = { # I have no father
+			add = 5
+			desc = i_want_a_father_tt
+			scope:actor = { is_male = yes }
+			OR = {
+				NOT = { exists = father }
+				father = { is_alive = no }
+			}
+		}
+		modifier = { # I am a noble!
+			add = -15
+			desc = i_am_noble_tt
+			has_no_particular_noble_roots_trigger = no
+		}
+		modifier = { # We are so alike ^^
+			add = { 
+				value = 5
+				if = {
+					limit = {
+						number_of_personality_traits_in_common = {
+							target = scope:actor
+							value = 2
+						}
+					}
+					multiply = 2
+				}
+				else_if = {
+					limit = {
+						number_of_personality_traits_in_common = {
+							target = scope:actor
+							value = 3
+						}
+					}
+					multiply = 3
+				}
+				else_if = {
+					limit = {
+						number_of_personality_traits_in_common = {
+							target = scope:actor
+							value = 4
+						}
+					}
+					multiply = 4
+				}
+			}
+			desc = we_are_alike_tt
+			number_of_personality_traits_in_common = {
+				target = scope:actor
+				value >= 1
+			}
+		}
+		modifier = { # Yo, you're offering me a place in a landed house? Sick.
+			add = 10
+			desc = ambition_tt
+			has_trait = ambitious
+		}
+		modifier = {
+			value = 0
+			if = {
+				limit = {
+					scope:recipient = { has_trait = low_senator }
+					scope:actor = {
+						AND = {
+							OR = {
+								government_has_flag = government_is_imperial
+								government_has_flag = government_is_administrative
+								government_has_flag = government_is_autocratic
+								government_has_flag = government_is_autocratic_ep3
+								government_has_flag = government_is_imperial_cult
+							}
+							highest_held_title_tier > tier_kingdom
+						}
+					}
+				}
+				add = 10
+			}
+			if = {
+				limit = {
+					scope:recipient = { has_trait = senator }
+					scope:actor = {
+						AND = {
+							OR = {
+								government_has_flag = government_is_imperial
+								government_has_flag = government_is_administrative
+								government_has_flag = government_is_autocratic
+								government_has_flag = government_is_autocratic_ep3
+								government_has_flag = government_is_imperial_cult
+							}
+							highest_held_title_tier > tier_kingdom
+						}
+					}
+				}
+				add = 20
+			}
+			if = {
+				limit = {
+					scope:recipient = { has_trait = high_senator }
+					scope:actor = {
+						AND = {
+							OR = {
+								government_has_flag = government_is_imperial
+								government_has_flag = government_is_administrative
+								government_has_flag = government_is_autocratic
+								government_has_flag = government_is_autocratic_ep3
+								government_has_flag = government_is_imperial_cult
+							}
+							highest_held_title_tier > tier_kingdom
+						}
+					}
+				}
+				add = 30
+			}
+		}
+		modifier = {
+			add = 25
+			scope:influence_send_option = yes
+			desc = INFLUENCE_INTERACTION_ACCEPTANCE_SEND_OPTION
+		}
+	}
+	
+	ai_frequency = 120
+	
+	ai_will_do = {
+		base = 50
+
+		modifier = { # I am childless and my marriage will never produce heirs
+			add = 100
+			scope:actor = {
+				any_child = {
+					count < 1
+				}
+				OR = {
+					fertility <= low_fertility
+					AND = {
+						is_male = yes
+						NOT = {
+							any_spouse = {
+								fertility > low_fertility
+								is_female = yes
+							}
+						}
+					}
+					AND = {
+						is_female = yes
+						NOT = {
+							any_spouse = {
+								fertility > low_fertility
+								is_male = yes
+							}
+						}
+					}
+				}
+			}
+		}
+
+		modifier = { # I am kind and the child is an orphan
+			add = 100
+			scope:actor = {
+				ai_compassion >= high_positive_compassion
+			}
+			NOT = {
+				exists = scope:recipient.mother
+				exists = scope:recipient.father
+			}
+		}
+
+		modifier = { # Traits in common
+			add = 25
+			scope:actor = {
+				number_of_personality_traits_in_common = {
+					target = scope:recipient
+					value = 1
+				}
+			}
+		}
+
+		modifier = { # Traits in common
+			add = 25
+			scope:actor = {
+				number_of_personality_traits_in_common = {
+					target = scope:recipient
+					value = 2
+				}
+			}
+		}
+
+		modifier = { # Traits in common
+			add = 25
+			scope:actor = {
+				number_of_personality_traits_in_common = {
+					target = scope:recipient
+					value = 3
+				}
+			}
+		}
+
+		modifier = { # My culture is into adoption
+			add = 25
+			scope:actor = {
+				OR = {
+					culture = { has_cultural_parameter = free_adoption }
+					has_game_rule = adoption_always_allowed
+				}
+			}
+		}
+
+		modifier = { # I like the kid
+			add = 25
+			scope:actor = {
+				opinion = {
+					value >= medium_positive_opinion
+					target = scope:recipient
+				}
+			}
+		}
+
+		modifier = { # The kid is my friend uwu
+			add = 25
+			scope:actor = {
+				has_relation_friend = scope:recipient
+			}
+		}
+
+		modifier = { # The kid is my ward
+			add = 25
+			scope:actor = {
+				has_relation_guardian = scope:recipient
+			}
+		}
+
+		modifier = { # I care about bloodlines and dynasties and whatnot
+			add = -25
+			scope:actor = {
+				NOR = {
+					culture = { has_cultural_parameter = free_adoption }
+					has_game_rule = adoption_always_allowed
+					has_trait = humble
+					has_trait = callous
+				}
+			}
+		}
+		
+		modifier = { # I will not adopt filthy filthy heretics
+			factor = 0
+			faith = {
+				faith_hostility_level = {
+					target = scope:recipient.faith
+					value >= faith_astray_level
+				}
+			}
+		}
+	}
+}
+	}
+}
+
+
+"gfx/portraits/portrait_modifiers/TFE_easter_egg.txt" = {
+	# from error.log:
+	# modes modify, modify_multiply and replace only work for regular genes
+	{
+marshalnsc_portrait_modifier = {
+    usage = game
+    marshalnsc_portrait_modifier = {
+        dna_modifiers = {
+            morph = {
+				mode = replace
+				gene = gene_balding_hair_effect
+				template = no_baldness
+				value = 1
+			}
+            accessory = {
+                mode = add
+                gene = special_headgear_spectacles
+                template = spectacles
+                value = 1
+            }
+        }
+        weight = {
+            base = 0
+            modifier = {
+                add = 100
+                has_character_flag = marshalnsc_portrait_modifier
+            }
+        }
+    }
+}
+	}
+}
+
+
+# TODO: [00:36:38][E][pdx_persistent_reader.cpp:216]: Error: "Malformed token: scope:court_chaplain_check, near line: 84" in file: "common/pool_character_selectors/00_clergy.txt" near line: 84
+
+
+"music/in_game/TFE_music.txt" = {
+	# remove music cue overrides
+	{
+mx_cue_death = {
+	music = "file:/music/TFE/TFE_Death.ogg"
+	pause_factor = 25
+	# play every time
+}
+
+mx_cue_combat_3 = {
+	music = "file:/music/TFE/TFE_WarCry.ogg"
+	pause_factor = 25
+	# Cooldown
+	years = 1
+}
+
+mx_cue_combat_2 = {
+	music = "file:/music/TFE/TFE_Combat1.ogg"
+	pause_factor = 25
+	# Cooldown
+	years = 1
+}
+
+# mx_cue_ck3_vocal_maintheme = {
+# 	music = "event:/MUSIC/Cues/Events/CK3 Vocal Main Theme/mx_cue_ck3_vocal_maintheme"
+# 	pause_factor = 25
+# 	# play every time
+
+# }
+
+# mx_cue_banquet = {
+# 	music = "event:/MUSIC/Cues/Events/Banquet/mx_cue_banquet"
+# 	pause_factor = 25
+# 	# play every time
+# 	calls = 2
+
+# }
+
+mx_cue_crusade_starts = {
+	music = "file:/music/TFE/TFE_WARDECLARED.ogg"
+	pause_factor = 25
+	# play every time
+
+}
+
+mx_cue_war_declared = {
+	music = "file:/music/TFE/TFE_WARDECLARED.ogg"
+	name = "TFE_war_declared"
+	pause_factor = 35
+	# play every time
+}
+
+mx_cue_combat_stinger = {
+	music = "file:/music/TFE/TFE_Combat2.ogg"
+	pause_factor = 25
+	# Cooldown
+	#years = 1
+}
+
+# mx_cue_positive_effect = {
+# 	music = "event:/MUSIC/Cues/Events/Positive/mx_cue_postive_effect"
+# 	pause_factor = 25
+# 	# Cooldown
+# 	#months = 3
+# }
+
+ mx_cue_peace_ensues = {
+	music = "file:/music/TFE/TFE_Champion.ogg"
+	pause_factor = 25
+	# play every time
+}
+
+#  mx_cue_faith_conversion = {
+# 	music = "event:/MUSIC/Cues/Events/faith_conversion/mx_cue_faith_conversion"
+# 	pause_factor = 25
+# 	# Cooldown
+# 	calls = 2
+# }
+
+ mx_cue_birth = {
+	music = "file:/music/TFE/TFE_A_New_Heir.ogg"
+	pause_factor = 25
+	# play only once
+}
+
+ mx_cue_stress = {
+	music = "file:/music/TFE/TFE_Stress.ogg"
+	pause_factor = 25
+	# Cooldown
+	calls = 3
+}
+
+mx_cue_illness = {
+	music = "file:/music/TFE/TFE_Illness.ogg"
+	pause_factor = 25
+	# Cooldown
+	calls = 3
+}
+
+mx_cue_murder = {
+	music = "file:/music/TFE/TFE_Murder.ogg"
+	pause_factor = 25
+	# Cooldown
+	years = 1
+}
+
+mx_cue_succession = {
+	music = "file:/music/TFE/TFE_Death.ogg"
+	pause_factor = 25
+	# play every time
+}
+
+mx_cue_succession_instrumental = {
+	music = "file:/music/TFE/TFE_Death.ogg"
+	#name = "TFE_death"
+	pause_factor = 25
+	# play every time
+}
+	}
+}
+
+
+"music/music_player_categories/TFE_music_categories.txt" = {
+	# from error.log:
+	# [02:36:24][E][music_tracks.cpp:185]: Could not find the track "TFE_main_theme_track" that was specified for the music category "TFE_soundtrack"
+	# [02:36:24][E][music_tracks.cpp:185]: Could not find the track "TFE_war_declared" that was specified for the music category "TFE_soundtrack"
+	{
+		"TFE_main_theme_track"
+	}
+	{
+		"TFE_war_declared"
+	}
+}
+
+
+"events/decisions_events/TFE_major_decisions_events.txt" = {
+	# from error.log:
+	# [02:52:37][E][jomini_effect.cpp:546]: Unknown effect found_capital_of_visigothic_scripted_effect at file: events/decisions_events/TFE_major_decisions_events.txt line: 231 (TFE_major_decisions.0020:option)
+	# [02:52:37][E][jomini_effect.cpp:546]: Unknown effect found_capital_of_visigothic_scripted_effect at file: events/decisions_events/TFE_major_decisions_events.txt line: 280 (TFE_major_decisions.0021:immediate)
+	# [02:52:37][E][jomini_effect.cpp:546]: Unknown effect found_capital_of_visigothic_scripted_effect at file: events/decisions_events/TFE_major_decisions_events.txt line: 319 (TFE_major_decisions.0022:immediate)
+	{
+###############################################################
+#															  #
+# 			Establish a new Capital for the Visigoths 		  #
+# 							by Juli				 			  #
+#						   0020-0022						  #
+###############################################################
+
+#	Founder event
+TFE_major_decisions.0020 = {
+	type = character_event
+	title = TFE_major_decisions.0020.t
+	desc = TFE_major_decisions.0020.desc
+	theme = realm
+	left_portrait = {
+		character = scope:founder
+		animation = personality_honorable
+	}
+
+	override_background = { reference = market_west }
+
+	immediate = {
+		play_music_cue = "mx_cue_epic_sacral_moment"
+	}
+
+	#Toledo shall be my capital.
+	option = {
+		name = TFE_major_decisions.0020.a
+
+		trigger = {
+			#Must have title:c_toledo in order to make it your capital.
+			any_sub_realm_county = { this = title:c_toledo }
+			#And Kiev cannot be held by a player who has _only_ title:c_toledo, unless that player is you.
+			title:c_toledo.holder = {
+				OR = {
+					is_ai = yes
+					any_held_title = {
+						count >= 1
+						tier = tier_county
+						NOT = { this = title:c_toledo }
+					}
+					this = scope:founder
+				}
+			}
+		}
+
+		#Organise the usurpation/capital move of title:c_toledo if appropriate.
+		if = {
+			limit = {
+				NOT = { title:c_toledo.holder = scope:founder }
+			}
+			create_title_and_vassal_change = {
+				type = usurped
+				save_scope_as = change
+				add_claim_on_loss = yes
+			}
+			title:c_toledo = {
+				change_title_holder = {
+					holder = root
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+		}
+		set_realm_capital = title:c_toledo
+		#Otherwise, set title:c_toledo to be scope:new_visigothic_capital & go through with the effect.
+		title:c_toledo = {
+			save_scope_as = new_visigothic_capital
+			found_capital_of_visigoths_scripted_effect = yes
+		}
+
+		ai_chance = {
+			#AI should always take this option if it's available.
+			base = 100
+		}
+	}
+
+	#My current capital shall be my capital!
+	option = {
+		name = TFE_major_decisions.0020.b
+
+		#Not generally necessary, but just to stop some weird loc eventualities.
+		trigger = {
+			NOT = { capital_county = title:c_toledo }
+		}
+
+		#We try to use the player's current capital, but if they've moved it outside of e_spain, then we go with the default set in the standard decision entry.
+		if = {
+			limit = { capital_county.empire = title:e_spain }
+			#Formatted a little inefficiently for readability.
+			capital_county = { save_scope_as = new_visigothic_capital }
+		}
+		#Then enact the actual effects.
+		found_capital_of_visigothic_scripted_effect = yes
+
+		ai_chance = {
+			#AI will only take this option if they have no other choice (i.e., can't get Kiev).
+			base = 0
+		}
+	}
+
+	after = {
+		#Take care of notification events.
+		every_player = {
+			limit = {
+				capital_province = {
+					OR = {
+						geographical_region = world_europe_west
+						geographical_region = world_europe_south
+						geographical_region = world_africa_north
+					}
+				}
+				#Obviously, we exempt scope:founder themselves.
+				NOT = { this = scope:founder }
+			}
+			#Vassal players get a separate event.
+			if = {
+				limit = {
+					any_liege_or_above = { this = scope:founder }
+				}
+				trigger_event = TFE_major_decisions.0021
+			}
+			#Everyone else within range gets a less personal version.
+			else = { trigger_event = TFE_major_decisions.0022 }
+		}
+	}
+}
+
+#	Vassal notification event
+TFE_major_decisions.0021 = {
+	type = character_event
+	title = TFE_major_decisions.0021.t
+	desc = TFE_major_decisions.0021.desc
+	theme = realm
+	left_portrait = {
+		character = scope:founder
+		animation = personality_honorable
+	}
+	
+	override_background = { reference = market_west }
+	immediate = {
+		play_music_cue = "mx_cue_epic_sacral_moment"
+		show_as_tooltip = { found_capital_of_visigothic_scripted_effect = yes }
+	}
+
+	#A worthy capital!
+	option = {
+		name = TFE_major_decisions.0021.a
+
+		ai_chance = {
+			#Doesn't especially matter.
+			base = 100
+		}
+	}
+
+	#Bah, ain't no city of mine.
+	option = {
+		name = TFE_major_decisions.0021.b
+
+		ai_chance = {
+			#Doesn't especially matter.
+			base = 100
+		}
+	}
+}
+
+#	Distant players notification event
+TFE_major_decisions.0022 = {
+	type = character_event
+	title = TFE_major_decisions.0022.t
+	desc = TFE_major_decisions.0022.desc
+	theme = realm
+	left_portrait = {
+		character = scope:founder
+		animation = personality_honorable
+	}
+	
+	override_background = { reference = market_west }
+
+	immediate = {
+		play_music_cue = "mx_cue_epic_sacral_moment"
+		show_as_tooltip = { found_capital_of_visigothic_scripted_effect = yes }
+	}
+
+	#This scope:new_visigothic_capital sounds intriguingly rich...
+	option = {
+		name = TFE_major_decisions.0022.a
+		trigger = {
+			OR = {
+				culture = { has_cultural_pillar = heritage_east_germanic }
+			}
+		}
+
+		ai_chance = {
+			#Doesn't especially matter.
+			base = 100
+		}
+	}
+
+	#They're still just backwards foreigners.
+	option = {
+		name = TFE_major_decisions.0022.b
+		trigger = {
+			NOR = {
+				culture = { has_cultural_pillar = heritage_east_germanic }
+			}
+		}
+
+		ai_chance = {
+			#Doesn't especially matter.
+			base = 100
+		}
+	}
+
+	#I don't really see how this concerns me?
+	option = {
+		name = TFE_major_decisions.0022.c
+
+		ai_chance = {
+			#Doesn't especially matter.
+			base = 100
+		}
+	}
+}
+	}
+}
+
+
+"common/on_action/TFE_activity_on_actions.txt" = {
+	# from error.log:
+	# [02:52:37][E][pdx_persistent_reader.cpp:216]: Error: "Unexpected token: if, near line: 66" in file: "common/on_action/TFE_activity_on_actions.txt" near line: 72
+	# [02:52:37][E][pdx_persistent_reader.cpp:216]: Error: "Unexpected token: else_if, near line: 73" in file: "common/on_action/TFE_activity_on_actions.txt" near line: 78
+	# [02:52:37][E][pdx_persistent_reader.cpp:216]: Error: "Unexpected token: else_if, near line: 79" in file: "common/on_action/TFE_activity_on_actions.txt" near line: 84
+	# [02:52:37][E][pdx_persistent_reader.cpp:216]: Error: "Unexpected token: else, near line: 85" in file: "common/on_action/TFE_activity_on_actions.txt" near line: 87
+	{
+#DOESN'T WORK DO IN ACTIVITY DIRECTLY
+gladiator_new_event_selection_guest = {
+	if = {
+		limit = {
+			#scope:TFE_games_option_fights ?= flag:TFE_games_option_fights_good
+			scope:activity = { is_lodgings_good = yes }
+		}
+		on_action = gladiator_new_event_selection_guest_good
+	}
+	else_if = {
+		limit = {
+			scope:activity = { is_lodgings_very_good = yes }
+		}
+		on_action = gladiator_new_event_selection_guest_very_good
+	}
+	else_if = {
+		limit = {
+			scope:activity = { is_lodgings_bad = yes }
+		}
+		on_action = gladiator_new_event_selection_guest_bad
+	}
+	else = {
+		on_action = gladiator_new_event_selection_guest_default
+	}
+}
 	}
 }

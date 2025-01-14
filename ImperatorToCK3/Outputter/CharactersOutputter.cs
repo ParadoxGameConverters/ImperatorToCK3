@@ -161,7 +161,7 @@ internal static class CharactersOutputter {
 			var accessoryName = grouping.Key.ObjectName;
 
 			var characterFlagName = $"portrait_modifier_{templateName}_obj_{accessoryName}";
-			var characterEffectStr = $"{{ add_character_flag = {characterFlagName} }}";
+			var characterEffectStr = $"{{ add_character_flag = {characterFlagName} add_character_flag = has_scripted_appearance }}";
 
 			foreach (Character character in grouping) {
 				Date effectDate = character.DeathDate ?? conversionDate;

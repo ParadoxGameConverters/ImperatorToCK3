@@ -197,3 +197,208 @@
 		}
 	}
 }
+
+
+"events/TFE_flavour_events.txt" = {
+	# from error.log as of TFE 'After The Pharaohs' update
+	# [01:35:44][E][jomini_script_system.cpp:284]: Script system error!
+	#  Error: death effect [ Unknown death reason 'sickness' ]
+	#  Script location: file: events/TFE_flavour_events.txt line: 1700 (TFE_flavour_events.0039:immediate)
+	replace = {
+		before = {
+				death_reason = sickness
+		}
+		after = {
+				death_reason = death_ill
+		}
+	}
+}
+
+
+"music/main_themes/music.txt" = {
+	# Restore vanilla main theme, the TFE one seems broken as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+main_theme_track = {
+	music = "file:/MUSIC/TFE/TFE_Main.ogg"
+	name = "TFE_main_theme_track"
+	can_be_interrupted = yes
+}
+		}
+		after = {
+main_theme_track = {
+	music = "event:/MUSIC/MainTheme/Maintheme"
+	can_be_interrupted = yes
+}
+		}
+	}
+}
+
+
+"common/culture/traditions/TFE_realm_traditions.txt" = {
+	# from error.log:
+	# [02:52:37][E][pdx_persistent_reader.cpp:216]: Error: "Unexpected token: strong_traits_more_valued, near line: 473" in file: "common/culture/traditions/TFE_realm_traditions.txt" near line: 473
+	# [02:52:37][E][pdx_persistent_reader.cpp:216]: Error: "Unexpected token: strong_traits_more_common, near line: 474" in file: "common/culture/traditions/TFE_realm_traditions.txt" near line: 474
+	# [02:52:37][E][pdx_persistent_reader.cpp:216]: Error: "Unexpected token: weak_traits_looked_down_upon, near line: 475" in file: "common/culture/traditions/TFE_realm_traditions.txt" near line: 475
+	replace = {
+		before = {
+	character_modifier = {
+		strong_traits_more_valued = yes
+		strong_traits_more_common = yes
+		weak_traits_looked_down_upon = yes
+		accolade_glory_gain_mult = 0.1
+		light_cavalry_max_size_add = 2
+	}
+		}
+		after = {
+	character_modifier = {
+		accolade_glory_gain_mult = 0.1
+		light_cavalry_max_size_add = 2
+	}
+		}
+	}
+}
+
+
+"history/cultures/heritage_hellenistic.txt" = {
+	# from error.log: "key reference innovation_animal_husbandry found more that one time"
+	replace = {
+		before = {
+	discover_innovation = innovation_animal_husbandry
+	discover_innovation = innovation_tanning_tables
+	discover_innovation = innovation_animal_husbandry
+		}
+		after = {
+	discover_innovation = innovation_animal_husbandry
+	discover_innovation = innovation_tanning_tables
+		}
+	}
+}
+
+
+"history/cultures/heritage_iberian.txt" = {
+	# from error.log:
+	# [03:32:02][E][culture_history_entry.cpp:42]: key reference innovation_mustering_grounds found more that one time file: history/cultures/heritage_iberian.txt line: 43
+	# [03:32:02][E][culture_history_entry.cpp:42]: key reference innovation_development_01 found more that one time file: history/cultures/heritage_iberian.txt line: 44
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+		}
+	}
+}
+
+
+"history/cultures/afro_roman.txt" = {
+	# from error.log:
+	# [03:32:01][E][culture_history_entry.cpp:42]: key reference innovation_crop_rotation found more that one time file: history/cultures/afro_roman.txt line: 36
+	replace = {
+		before = {
+	discover_innovation = innovation_smithing_tables
+	discover_innovation = innovation_crop_rotation
+		}
+		after = {
+	discover_innovation = innovation_smithing_tables
+		}
+	}
+
+	# from error.log:
+	# [03:32:01][E][culture_history_entry.cpp:42]: key reference innovation_mustering_grounds found more that one time file: history/cultures/afro_roman.txt line: 38
+	# [03:32:01][E][culture_history_entry.cpp:42]: key reference innovation_development_01 found more that one time file: history/cultures/afro_roman.txt line: 39
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {}
+	}
+}
+
+
+"history/cultures/daylamite.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/daylamite.txt line: 30
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/egyptian.txt" = {
+	# from error.log: key reference innovation_development_01 found more that one time file: history/cultures/egyptian.txt line: 32
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/georgian.txt" = {
+	replace = {
+		before = {
+	discover_innovation = innovation_animal_husbandry
+	discover_innovation = innovation_tanning_tables
+	discover_innovation = innovation_animal_husbandry
+		}
+		after = {
+	discover_innovation = innovation_animal_husbandry
+	discover_innovation = innovation_tanning_tables
+		}
+	}
+}
+
+
+"history/cultures/heritage_byzantine.txt" = {
+	replace = {
+		before = {
+	discover_innovation = innovation_animal_husbandry
+	discover_innovation = innovation_tanning_tables
+	discover_innovation = innovation_animal_husbandry
+		}
+		after = {
+	discover_innovation = innovation_animal_husbandry
+	discover_innovation = innovation_tanning_tables
+		}
+	}
+}
+
+
+"history/cultures/heritage_dravidian.txt" = {
+	# from error.log: "key reference innovation_development_01 found more that one time file: history/cultures/heritage_dravidian.txt line: 34"
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/heritage_indo_aryan.txt" = {
+	# from error.log: "key reference innovation_development_01 found more that one time file: history/cultures/heritage_indo_aryan.txt line: 34"
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
