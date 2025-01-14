@@ -2240,7 +2240,13 @@ brythenig = {
 		30 = caucasian_dark_hair
 	}
 
-	coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			coa_gfx = { latin_group_coa_gfx breton_coa_gfx }
+		} ELSE = {
+			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
+		}
+	}
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { northern_clothing_gfx }
 	unit_gfx = { western_unit_gfx }

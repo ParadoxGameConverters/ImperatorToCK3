@@ -621,3 +621,92 @@ main_theme_track = {
 		after = {}
 	}
 }
+
+
+"common/religion/religions/00_zoroastrianism.txt" = {
+	# from ck3-tiger: "title armaz not defined in common/landed_titles/"
+	# Remove religious_head entry and set doctrine_no_head.
+	replace = {
+		before = {
+		armaz = {
+			color = { 0.1 0.7 0.4 }
+			icon = georgian_zoroastrian
+			reformed_icon = georgian_zoroastrian_reformed
+			religious_head = armaz
+
+			holy_site = ushi-darena
+			holy_site = nok_kundi
+			holy_site = takht-i-sangin
+			holy_site = takht-e_soleyman
+			holy_site = yazd
+
+			doctrine = tenet_unrelenting_faith
+			doctrine = tenet_ancestor_worship
+			doctrine = tenet_sacrificial_ceremonies
+			doctrine = doctrine_major_branch_behdin 
+
+			doctrine = doctrine_pluralism_pluralistic
+			doctrine = doctrine_spiritual_head
+			doctrine = unreformed_faith_doctrine
+
+			localization = {
+				HighGodName = urartuism_high_god_name
+				HighGodName2 = urartuism_high_god_name_2
+				HighGodNamePossessive = urartuism_high_god_name_possessive
+				GoodGodNames = {
+					urartu_good_god_vanatur
+					urartu_good_god_the_sun
+					urartu_good_god_mithra
+					urartu_good_god_zoroaster
+				}
+				PriestMale = urartuism_priest_male
+				PriestMalePlural = urartuism_priest_male_plural
+				PriestFemale = urartuism_priest_male
+				PriestFemalePlural = urartuism_priest_male_plural
+				PriestNeuter = urartuism_priest_male
+				PriestNeuterPlural = urartuism_priest_male_plural
+			}
+		}
+		}
+		after = {
+		armaz = {
+			color = { 0.1 0.7 0.4 }
+			icon = georgian_zoroastrian
+			reformed_icon = georgian_zoroastrian_reformed
+
+			holy_site = ushi-darena
+			holy_site = nok_kundi
+			holy_site = takht-i-sangin
+			holy_site = takht-e_soleyman
+			holy_site = yazd
+
+			doctrine = tenet_unrelenting_faith
+			doctrine = tenet_ancestor_worship
+			doctrine = tenet_sacrificial_ceremonies
+			doctrine = doctrine_major_branch_behdin 
+
+			doctrine = doctrine_pluralism_pluralistic
+			doctrine = doctrine_no_head
+			doctrine = unreformed_faith_doctrine
+
+			localization = {
+				HighGodName = urartuism_high_god_name
+				HighGodName2 = urartuism_high_god_name_2
+				HighGodNamePossessive = urartuism_high_god_name_possessive
+				GoodGodNames = {
+					urartu_good_god_vanatur
+					urartu_good_god_the_sun
+					urartu_good_god_mithra
+					urartu_good_god_zoroaster
+				}
+				PriestMale = urartuism_priest_male
+				PriestMalePlural = urartuism_priest_male_plural
+				PriestFemale = urartuism_priest_male
+				PriestFemalePlural = urartuism_priest_male_plural
+				PriestNeuter = urartuism_priest_male
+				PriestNeuterPlural = urartuism_priest_male_plural
+			}
+		}
+		}
+	}
+}

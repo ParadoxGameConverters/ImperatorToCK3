@@ -19179,6 +19179,41 @@ steppe.6666 = {
 			}
 		}
 	}
+
+	# from error.log:
+	# Event #tfe_culture.4001 has no options in events/tfe_culture_events.txt
+	{
+## Add flag for djeddars
+tfe_culture.4001 = {
+	#hidden = yes
+	trigger = {
+		exists = player_heir
+		culture = {
+			has_cultural_pillar = heritage_berber
+		}
+	}
+
+	immediate = {
+		player_heir = {
+			if = {
+				limit = {
+					AND = {
+					religion = religion:christianity_religion
+					culture = {
+						has_cultural_pillar = heritage_berber
+					}
+					}
+				}
+				set_variable = {
+					name = berber_ancestor_to_bury
+					value = root
+					years = 5
+				}
+			}
+		}
+	}
+}
+	}
 }
 
 "common/culture/name_lists/TFE_easter_egg.txt" = {
@@ -33287,5 +33322,142 @@ innovation_sky_lanterns = {
 	# We're removing this because innovation_sky_lanterns is removed above.
 	{
 	discover_innovation = innovation_sky_lanterns
+	}
+}
+
+
+"common/customizable_localization/TFE_custom_loc.txt" = {
+	# error.log
+	# [13:34:07][E][jomini_custom_text.cpp:114]: Invalid/missing scope type for custom localization 'feudal_government_or_dynastic', at 'file: common/customizable_localization/TFE_custom_loc.txt line: 219 (feudal_government_or_dynastic)'
+	# [13:34:07][E][jomini_custom_text.cpp:114]: Invalid/missing scope type for custom localization 'feudal_government_or_dynastic_adj', at 'file: common/customizable_localization/TFE_custom_loc.txt line: 233 (feudal_government_or_dynastic_adj)'
+	# [13:34:07][E][jomini_custom_text.cpp:114]: Invalid/missing scope type for custom localization 'feudal_government_or_dynastic_realm', at 'file: common/customizable_localization/TFE_custom_loc.txt line: 247 (feudal_government_or_dynastic_realm)'
+	{
+feudal_government_or_dynastic = {
+	type = empty
+	text = {
+		trigger = {
+			dummy_male.current_date < 650.1.1
+		}
+		localization_key = feudal_government_dynastic
+	}
+	text = {
+		localization_key = feudal_government_feudal
+		fallback = yes
+	}
+}
+
+feudal_government_or_dynastic_adj = {
+	type = empty
+	text = {
+		trigger = {
+			dummy_male.current_date < 650.1.1
+		}
+		localization_key = feudal_government_dynastic_adj
+	}
+	text = {
+		localization_key = feudal_government_feudal_adj
+		fallback = yes
+	}
+}
+
+feudal_government_or_dynastic_realm = {
+	type = empty
+	text = {
+		trigger = {
+			dummy_male.current_date < 650.1.1
+		}
+		localization_key = feudal_government_dynastic_realm
+	}
+	text = {
+		localization_key = feudal_government_feudal_realm
+		fallback = yes
+	}
+}
+	}
+}
+
+
+"common/religion/doctrines/00_core_tenets.txt" = {
+	# from error.log:
+	# Error: "Unexpected token: monthly_county_control_change_factor, near line: 487" in file: "common/religion/doctrines/00_core_tenets.txt" near line: 487
+	{
+			monthly_county_control_change_factor = 0.15
+	}
+
+	# from error.log:
+	# Error: "Trigger section already read earlier: is_shown, near line: 615" in file: "common/religion/doctrines/00_core_tenets.txt" near line: 621
+	{
+		is_shown = {
+			OR = {
+				religion_tag = judaism_religion
+				religion_tag = christianity_religion
+				religion_tag = islam_religion 
+			}
+		}
+	}
+}
+
+
+"common/character_interactions/00_prison_interactions.txt" = {
+	# from error.log:
+	# Error: "Unknown trigger type: limit, near line: 96" in file: "common/character_interactions/00_prison_interactions.txt" near line: 107
+	{
+		custom_description = {
+			text = great_houses_are_too_strong
+			subject = scope:actor
+			trigger_if = {
+				limit = {
+					AND = {
+						exists = title:e_persia.holder
+						scope:actor = title:e_persia.holder
+						title:e_persia.holder = {
+							government_has_flag = government_is_eranshar
+							sevenhouses_enabled = yes
+							
+						}
+						scope:actor = {
+							sevenhouses_strength_value >= 85
+						}
+					}
+				}
+				NOT = {
+					any_in_global_list = {
+						variable = seven_houses
+						limit = {
+							AND = {
+								exists = dynast
+								dynast = {
+									is_landed = yes
+									is_independent_ruler = no
+								}
+								dynast.top_liege = title:e_persia.holder
+							}
+						}
+						scope:recipient = dynast
+					}
+				}
+			}
+		}
+	}
+}
+
+
+"common/buildings/00_temple_buildings.txt" = {
+	# from error.log:
+	# Error: "Trigger section already read earlier: can_construct_showing_failures_only, near line: 637" in file: "common/buildings/00_temple_buildings.txt" near line: 640
+	{
+	can_construct_showing_failures_only = {
+		building_requirement_tribal = no
+		building_requirement_tribal_holding_in_county = yes
+	}
+	}
+}
+
+
+"common/modifiers/TFE_religion_modifiers.txt" = {
+	# from error.log:
+	# Error: "Unexpected token: forest_movement_speed, near line: 15" in file: "common/modifiers/TFE_religion_modifiers.txt" near line: 15
+	{
+	forest_movement_speed = 0.5
 	}
 }
