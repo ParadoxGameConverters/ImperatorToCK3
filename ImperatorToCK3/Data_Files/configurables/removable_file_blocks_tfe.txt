@@ -18873,6 +18873,15 @@ germanic_events.0033 = {
 }
 
 "events/TFE_flavour_events.txt" = {
+	# from ck3-tiger:
+	# council position councillor_martial not defined in common/council_positions/
+	{
+	right_portrait = {
+		character = cp:councillor_martial
+		animation = worry
+	}
+	}
+
 	{
 TFE_flavour_events.0007 = {
 	title = TFE_flavour_events.0007.t
@@ -33459,5 +33468,16 @@ feudal_government_or_dynastic_realm = {
 	# Error: "Unexpected token: forest_movement_speed, near line: 15" in file: "common/modifiers/TFE_religion_modifiers.txt" near line: 15
 	{
 	forest_movement_speed = 0.5
+	}
+}
+
+
+"common/governments/imperial_government.txt" = {
+	# from error.log:
+	# Error: "Unexpected token: autocratic_government_opinion, near line: 49" in file: "common/governments/imperial_government.txt" near line: 49
+	{
+	character_modifier = {
+		autocratic_government_opinion = -50
+	}
 	}
 }

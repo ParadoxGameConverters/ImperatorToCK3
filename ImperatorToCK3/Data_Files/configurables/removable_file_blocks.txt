@@ -14032,6 +14032,11 @@ story_el_cid = {
 				limit = { character:easteregg_chad_uhl ?= scope:sc_loser }
 				trigger_event = ep3_laamp_flavour_ewan.4065
 			}
+			# Or Anna.
+			else_if = {
+				limit = { character:easteregg_anna_johansson ?= scope:sc_loser }
+				trigger_event = ep3_laamp_flavour_ewan.4067
+			}
 	}
 	{
 		# Log if it was Chad who won.

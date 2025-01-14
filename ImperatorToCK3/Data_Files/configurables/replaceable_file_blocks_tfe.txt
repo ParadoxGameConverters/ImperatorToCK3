@@ -710,3 +710,106 @@ main_theme_track = {
 		}
 	}
 }
+
+
+"common/governments/other_government.txt" = {
+	# from error.log:
+	# Error: "Unexpected token: regiments_prestige_as_gold, near line: 235" in file: "common/governments/other_government.txt" near line: 235
+	# Error: "Unexpected token: dynasty_named_realms, near line: 510" in file: "common/governments/other_government.txt" near line: 510
+	replace = {
+		before = {
+	government_rules = {
+		rulers_should_have_dynasty = yes
+		royal_court = yes
+		legitimacy = yes
+		#landless_playable = yes
+		#mercenary = yes
+	}
+
+	supply_limit_mult_for_others = -0.8
+	valid_holdings = { castle_holding trade_center_holding }
+	regiments_prestige_as_gold = yes
+	required_county_holdings = { tribal_holding city_holding church_holding }
+	flag = government_can_raid_rule
+		}
+
+		after = {
+	government_rules = {
+		rulers_should_have_dynasty = yes
+		regiments_prestige_as_gold = yes
+		royal_court = yes
+		legitimacy = yes
+		#landless_playable = yes
+		#mercenary = yes
+	}
+
+	supply_limit_mult_for_others = -0.8
+	valid_holdings = { castle_holding trade_center_holding }
+	required_county_holdings = { tribal_holding city_holding church_holding }
+	flag = government_can_raid_rule
+		}
+	}
+
+	# from error.log:
+	# Error: "Unexpected enum found: always_use_patronym, near line: 307" in file: "common/governments/other_government.txt" near line: 313
+	# Error: "Unexpected enum found: always_use_patronym, near line: 350" in file: "common/governments/other_government.txt" near line: 356
+	replace = {
+		before = {
+	government_rules = {
+		always_use_patronym = yes
+		dynasty_named_realms = yes
+		create_cadet_branches = yes
+		rulers_should_have_dynasty = yes
+		royal_court = yes
+		legitimacy = yes
+	}
+		}
+
+		after = {
+	government_rules = {
+		dynasty_named_realms = yes
+		create_cadet_branches = yes
+		rulers_should_have_dynasty = yes
+		royal_court = yes
+		legitimacy = yes
+	}
+	always_use_patronym = yes
+		}
+	}
+
+	# from error.log:
+	# Error: "Unexpected token: dynasty_named_realms, near line: 510" in file: "common/governments/other_government.txt" near line: 510
+	replace = {
+		before = {
+	government_rules = {
+		create_cadet_branches = yes
+		rulers_should_have_dynasty = yes
+		royal_court = yes
+		legitimacy = yes
+		dynasty_named_realms = yes
+	}
+	ai = {
+		use_legends = yes
+	}
+	valid_holdings = { tribal_holding castle_holding trade_center_holding }
+	required_county_holdings = { tribal_holding }
+	always_use_patronym = yes
+	dynasty_named_realms = yes
+		}
+
+		after = {
+	government_rules = {
+		create_cadet_branches = yes
+		rulers_should_have_dynasty = yes
+		royal_court = yes
+		legitimacy = yes
+	}
+	ai = {
+		use_legends = yes
+	}
+	valid_holdings = { tribal_holding castle_holding trade_center_holding }
+	required_county_holdings = { tribal_holding }
+	always_use_patronym = yes
+		}
+	}
+}
