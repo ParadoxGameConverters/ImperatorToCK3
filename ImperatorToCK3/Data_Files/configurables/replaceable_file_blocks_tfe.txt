@@ -786,7 +786,6 @@ main_theme_track = {
 		rulers_should_have_dynasty = yes
 		royal_court = yes
 		legitimacy = yes
-		dynasty_named_realms = yes
 	}
 	ai = {
 		use_legends = yes
@@ -803,6 +802,7 @@ main_theme_track = {
 		rulers_should_have_dynasty = yes
 		royal_court = yes
 		legitimacy = yes
+		dynasty_named_realms = yes
 	}
 	ai = {
 		use_legends = yes
