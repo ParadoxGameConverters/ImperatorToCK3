@@ -682,7 +682,6 @@ internal partial class World {
 				ReplaceSubstitutionKeysInLoc(locBlock, language, loc);
 			}
 		}
-
 	}
 
 	private void ReplaceSubstitutionKeysInLoc(LocBlock locBlock, string language, string loc) {
