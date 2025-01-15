@@ -41,7 +41,7 @@ using System.Threading.Tasks;
 namespace ImperatorToCK3.CK3;
 
 internal sealed class World {
-	public OrderedSet<Mod> LoadedMods { get; }
+	public OrderedSet<Mod> LoadedMods { get; private set; }
 	public ModFilesystem ModFS { get; }
 	public CK3LocDB LocDB { get; } = [];
 	private ScriptValueCollection ScriptValues { get; } = new();
@@ -68,10 +68,10 @@ internal sealed class World {
 
 	public World(Imperator.World impWorld, Configuration config, Thread? irCoaExtractThread) {
 		Logger.Info("*** Hello CK3, let's get painting. ***");
-		
-		DetermineCK3Dlcs(config);
 
 		warMapper.DetectUnmappedWarGoals(impWorld.ModFS);
+		
+		DetermineCK3Dlcs(config);
 
 		// Initialize fields that depend on other fields.
 		Religions = new ReligionCollection(LandedTitles);
@@ -85,20 +85,6 @@ internal sealed class World {
 			Logger.Warn($"Corrected save can't be later than CK3 bookmark date, setting CK3 bookmark date to {CorrectedDate}!");
 			config.CK3BookmarkDate = CorrectedDate;
 		}
-
-		Logger.Info("Detecting selected CK3 mods...");
-		List<Mod> incomingCK3Mods = new();
-		foreach (var modPath in config.SelectedCK3Mods) {
-			Logger.Info($"\tSelected CK3 mod: {modPath}");
-			incomingCK3Mods.Add(new Mod(string.Empty, modPath));
-		}
-		Logger.IncrementProgress();
-
-		// Let's locate, verify and potentially update those mods immediately.
-		ModLoader modLoader = new();
-		modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods);
-		LoadedMods = modLoader.UsableMods.ToOrderedSet();
-		config.DetectSpecificCK3Mods(LoadedMods);
 		
 		// Recreate output mod folder.
 		string outputModPath = Path.Join("output", config.OutputModName);
@@ -147,7 +133,7 @@ internal sealed class World {
 				CulturalPillars = new(ck3ColorFactory, ck3ModFlags);
 				CulturalPillars.LoadPillars(ModFS);
 				Logger.Info("Loading converter cultural pillars...");
-				CulturalPillars.LoadConverterPillars("configurables/cultural_pillars");
+				CulturalPillars.LoadConverterPillars("configurables/cultural_pillars", ck3ModFlags);
 				Cultures = new CultureCollection(ck3ColorFactory, CulturalPillars, ck3ModFlags);
 				Cultures.LoadNameLists(ModFS);
 				Cultures.LoadInnovationIds(ModFS);
@@ -414,6 +400,22 @@ internal sealed class World {
 				LegendSeeds.RemoveAnachronisticSeeds("configurables/legend_seeds_to_remove.txt");
 			}
 		);
+	}
+
+	private void LoadAndDetectCK3Mods(Configuration config) {
+		Logger.Info("Detecting selected CK3 mods...");
+		List<Mod> incomingCK3Mods = new();
+		foreach (var modPath in config.SelectedCK3Mods) {
+			Logger.Info($"\tSelected CK3 mod: {modPath}");
+			incomingCK3Mods.Add(new Mod(string.Empty, modPath));
+		}
+		Logger.IncrementProgress();
+
+		// Let's locate, verify and potentially update those mods immediately.
+		ModLoader modLoader = new();
+		modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods);
+		LoadedMods = modLoader.UsableMods.ToOrderedSet();
+		config.DetectSpecificCK3Mods(LoadedMods);
 	}
 
 	private void ImportImperatorWars(Imperator.World irWorld, Date ck3BookmarkDate) {

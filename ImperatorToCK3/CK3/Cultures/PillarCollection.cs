@@ -41,11 +41,11 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 		parser.ParseGameFolder("common/culture/pillars", ck3ModFS, "txt", true);
 	}
 
-	public void LoadConverterPillars(string converterPillarsPath) {
+	public void LoadConverterPillars(string converterPillarsPath, OrderedDictionary<string, bool> ck3ModFlags) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, pillarId) => LoadPillar(pillarId, reader));
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseFolder(converterPillarsPath, "txt", true, logFilePaths: true);
+		parser.ParseFolderWithLiquidSupport(converterPillarsPath, "txt", true, ck3ModFlags, logFilePaths: true);
 		
 		Logger.Debug($"Ignored mod flags when loading pillars: {ignoredModFlags}");
 	}

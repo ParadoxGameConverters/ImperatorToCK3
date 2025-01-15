@@ -1,6 +1,10 @@
 using commonItems;
+using commonItems.Collections;
+using DotLiquid;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace ImperatorToCK3.CK3;
 
@@ -83,5 +87,38 @@ public static class ParserExtensions {
 			modDependentParser.IgnoreAndLogUnregisteredItems();
 			modDependentParser.ParseStream(blocReader);
 		});
+	}
+	
+	public static void ParseLiquidFile(this Parser parser, string filePath, IDictionary<string, bool> ck3ModFlags) {
+		// The file used the Liquid templating language, so convert it to text before parsing.
+		var convertedModFlags = ck3ModFlags.ToDictionary(kv => kv.Key, kv => (object)kv.Value);
+		var context = Hash.FromDictionary(convertedModFlags);
+		
+		var liquidText = File.ReadAllText(filePath);
+		var template = Template.Parse(liquidText);
+		var result = template.Render(context);
+		
+		parser.ParseStream(new BufferedReader(result));
+	}
+
+	public static void ParseFolderWithLiquidSupport(this Parser parser, string path, string extensions, bool recursive, IDictionary<string, bool> ck3ModFlags, bool logFilePaths = false) {
+		var searchPattern = recursive ? "*" : "*.*";
+		var searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
+		var files = Directory.GetFiles(path, searchPattern, searchOption);
+
+		var validExtensions = extensions.Split(';');
+		files.RemoveWhere(f => !validExtensions.Contains(CommonFunctions.GetExtension(f)));
+
+		foreach (var file in files) {
+			if (logFilePaths) {
+				Logger.Debug($"Parsing file: {file}");
+			}
+
+			if (string.Equals(CommonFunctions.GetExtension(file), "liquid", StringComparison.OrdinalIgnoreCase)) {
+				parser.ParseLiquidFile(file, ck3ModFlags);
+			} else {
+				parser.ParseFile(file);
+			}
+		}
 	}
 }

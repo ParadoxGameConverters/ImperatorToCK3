@@ -48,6 +48,7 @@ internal static class CulturesOutputter {
 		Logger.Info("Outputting CCU language parameters...");
 		List<string> languageFamilyParameters = [];
 		List<string> languageBranchParameters = [];
+		List<string> languageGroupParameters = [];
 		
 		// Read converter-added language families and branches from the configurable.
 		var fileParser = new Parser();
@@ -66,6 +67,14 @@ internal static class CulturesOutputter {
 				languageBranchParameters.Add(branchParameter);
 			});
 			branchesParser.ParseStream(reader);
+		});
+		fileParser.RegisterKeyword("language_groups", reader => {
+			var groupsParser = new Parser();
+			groupsParser.RegisterModDependentBloc(ck3ModFlags);
+			groupsParser.RegisterRegex(CommonRegexes.Catchall, (_, groupParameter) => {
+				languageGroupParameters.Add(groupParameter);
+			});
+			groupsParser.ParseStream(reader);
 		});
 		fileParser.ParseFile("configurables/ccu_language_parameters.txt");
 		
@@ -124,6 +133,25 @@ internal static class CulturesOutputter {
 		}
 		branchEffectNode.AllChildren = allChildren;
 		
+		var groupEffectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_language_group_effect");
+		if (groupEffectNode is null) {
+			Logger.Warn("ccu_initialize_language_group_effect effect not found!");
+			return;
+		}
+		allChildren = groupEffectNode.AllChildren;
+		foreach (var languageGroup in languageGroupParameters) {
+			var statementsForGroup = CKParser.parseString(
+			$$"""
+			else_if = {
+				limit = { has_cultural_parameter = {{languageGroup}} }
+				set_variable = { name = language_group value = flag:{{languageGroup}} }
+			} 
+			""", fileName).GetResult();
+			
+			var rootNodeForGroup = Parsers.ProcessStatements(fileName, scriptedEffectsPath, statementsForGroup);
+			allChildren.Add(Child.NewNodeC(rootNodeForGroup.Nodes.First()));
+		}
+		
 		// Output the modified file.
 		var toOutput = rootNode.AllChildren
 			.Select(c => {
@@ -159,6 +187,7 @@ internal static class CulturesOutputter {
 		// Do the same for language branches.
 		bool foundFamily = false;
 		bool foundBranch = false;
+		bool foundGroup = false;
 		var errorSuppressionContent = File.ReadAllText(errorSuppressionPath);
 		var contentLines = errorSuppressionContent.Split('\n');
 		var newContent = new StringBuilder();
@@ -186,6 +215,17 @@ internal static class CulturesOutputter {
 						  		}
 						  """);
 				}
+			} else if (line.Contains("if = { limit = { var:temp = flag:language_group_")) {
+				foundGroup = true;
+				foreach (var groupParameter in languageGroupParameters) {
+					newContent.AppendLine(
+						$$"""
+						  		if = {
+						  			limit = { var:temp = flag:{{groupParameter}} }
+						  			set_variable = { name = temp value = flag:{{groupParameter}} }
+						  		}
+						  """);
+				}
 			}
 		}
 		if (!foundFamily) {
@@ -193,6 +233,9 @@ internal static class CulturesOutputter {
 		}
 		if (!foundBranch) {
 			Logger.Warn("Could not find the line to add language branch parameters to in ccu_error_suppression.txt.");
+		}
+		if (!foundGroup) {
+			Logger.Warn("Could not find the line to add language group parameters to in ccu_error_suppression.txt.");
 		}
 		outputFilePath = Path.Join(outputModPath, errorSuppressionRelativePath);
 		File.WriteAllText(outputFilePath, newContent.ToString(), Encoding.UTF8);

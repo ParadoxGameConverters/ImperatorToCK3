@@ -1,6 +1,6 @@
-# This file contains the language families and language branches added by the converter
+# This file contains the language families, language branches and language groups added by the converter
 # when a CK3 mod that uses Community Culture Utility mechanics is detected.
-# Currently, this includes "When the World Stopped Making Sense" and "Rajas of Asia".
+# Currently, this includes "When the World Stopped Making Sense", "The Fallen Eagle" and ""Rajas of Asia".
 
 
 language_families = {
@@ -26,3 +26,5 @@ language_branches = {
 		}
 	}	
 }
+
+language_groups = {}

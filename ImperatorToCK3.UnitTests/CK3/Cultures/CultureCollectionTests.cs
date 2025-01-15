@@ -51,7 +51,7 @@ public class CultureCollectionTests {
 		Assert.Single(cultures);
 		
 		cultures.AddNameList(new NameList("name_list_albanian", new BufferedReader()));
-		cultures.LoadConverterPillars("TestFiles/CK3/CultureCollectionTests/configurables/converter_pillars");
+		cultures.LoadConverterPillars("TestFiles/CK3/CultureCollectionTests/configurables/converter_pillars", ck3ModFlags);
 		cultures.LoadConverterCultures("TestFiles/CK3/CultureCollectionTests/configurables/converter_cultures.txt");
 		
 		Assert.Equal(2, cultures.Count);
@@ -71,7 +71,7 @@ public class CultureCollectionTests {
 		cultures.AddPillar(new("language_illyrian", new() {Type = "language"}));
 		
 		cultures.AddNameList(new NameList("name_list_albanian", new BufferedReader()));
-		cultures.LoadConverterPillars("TestFiles/CK3/CultureCollectionTests/configurables/converter_pillars");
+		cultures.LoadConverterPillars("TestFiles/CK3/CultureCollectionTests/configurables/converter_pillars", ck3ModFlags);
 		cultures.LoadConverterCultures("TestFiles/CK3/CultureCollectionTests/configurables/converter_cultures.txt");
 		
 		Assert.Equal(2, cultures.Count);
