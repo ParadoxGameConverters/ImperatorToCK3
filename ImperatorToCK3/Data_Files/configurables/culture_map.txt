@@ -468,6 +468,7 @@ link = { ck3=greek @ir_greek_cultures }
 link = { ck3=macedonian ir=macedonian }
 link = { ck3=hellenistic ir=hellenistic }
 link = { ck3=thracian ir=thracian }
+link = { ck3=greek ir=syriote } # syriote comes from Invictus, it's "a blending of Phoenician and Hellenistic traditions"
 
 ## Iberia
 link = { ck3 = andalusian ir = andalusian } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
