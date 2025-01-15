@@ -695,6 +695,7 @@ hellenistic = {
 
 indogreek = {
     INVALIDATED_BY = {
+    	roa = { indo_greek }
 		tfe = { indogreek }
 		vanilla = { indogreek }
 	}
@@ -2119,6 +2120,7 @@ mikligardrish = {
 
 palaungic = {  # from AsiaExtended mod https://steamcommunity.com/sharedfiles/filedetails/?id=2706635752 as of 2022-12-29
     INVALIDATED_BY = {
+    	roa = { palaung } 
 		tfe = { palaungic }
 		vanilla = { palaungic }
 	}
