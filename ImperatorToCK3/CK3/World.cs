@@ -37,11 +37,12 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Open.Collections;
 
 namespace ImperatorToCK3.CK3;
 
 internal sealed class World {
-	public OrderedSet<Mod> LoadedMods { get; private set; }
+	public OrderedSet<Mod> LoadedMods { get; } = [];
 	public ModFilesystem ModFS { get; }
 	public CK3LocDB LocDB { get; } = [];
 	private ScriptValueCollection ScriptValues { get; } = new();
@@ -72,6 +73,7 @@ internal sealed class World {
 		warMapper.DetectUnmappedWarGoals(impWorld.ModFS);
 		
 		DetermineCK3Dlcs(config);
+		LoadAndDetectCK3Mods(config);
 
 		// Initialize fields that depend on other fields.
 		Religions = new ReligionCollection(LandedTitles);
@@ -124,7 +126,7 @@ internal sealed class World {
 			}
 		);
 		
-		OrderedDictionary<string, bool> ck3ModFlags = config.GetCK3ModFlags();
+		System.Collections.Generic.OrderedDictionary<string, bool> ck3ModFlags = config.GetCK3ModFlags();
 		
 		Parallel.Invoke(
 			() => { // depends on ck3ColorFactory and CulturalPillars
@@ -414,7 +416,9 @@ internal sealed class World {
 		// Let's locate, verify and potentially update those mods immediately.
 		ModLoader modLoader = new();
 		modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods);
-		LoadedMods = modLoader.UsableMods.ToOrderedSet();
+		
+		// Add modLoader's UsableMods to LoadedMods.
+		LoadedMods.AddRange(modLoader.UsableMods);
 		config.DetectSpecificCK3Mods(LoadedMods);
 	}
 
@@ -1097,7 +1101,7 @@ internal sealed class World {
 			return;
 		}
 
-		OrderedDictionary<string, string> dlcFileToDlcFlagDict = new() {
+		System.Collections.Generic.OrderedDictionary<string, string> dlcFileToDlcFlagDict = new() {
 			{"dlc001.dlc", "garments_of_hre"},
 			{"dlc002.dlc", "fashion_of_abbasid_court"},
 			{"dlc003.dlc", "northern_lords"},
