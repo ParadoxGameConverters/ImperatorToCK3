@@ -31,7 +31,7 @@ internal static class CulturesOutputter {
 
 		await OutputCultureHistory(outputModPath, cultures, date);
 
-		if (config.WhenTheWorldStoppedMakingSenseEnabled) {
+		if (config.OutputCCULanguageParameters) {
 			OutputCCULanguageParameters(outputModPath, ck3ModFS, config.GetCK3ModFlags());
 		}
 	}
@@ -45,7 +45,7 @@ internal static class CulturesOutputter {
 	}
 
 	private static void OutputCCULanguageParameters(string outputModPath, ModFilesystem ck3ModFS, IDictionary<string, bool> ck3ModFlags) {
-		Logger.Info("Outputting CCU language parameters for WtWSMS...");
+		Logger.Info("Outputting CCU language parameters...");
 		List<string> languageFamilyParameters = [];
 		List<string> languageBranchParameters = [];
 		
@@ -154,15 +154,18 @@ internal static class CulturesOutputter {
 			return;
 		}
 
-		// In the file, add the last line that contains: "if = { limit = { var:temp = flag:language_family",
-		// and add a new line "TEMPORARY LINE" after it.
+		// In the file, find the last line that contains: "if = { limit = { var:temp = flag:language_family",
+		// and similar lines for the converter's language families.
 		// Do the same for language branches.
+		bool foundFamily = false;
+		bool foundBranch = false;
 		var errorSuppressionContent = File.ReadAllText(errorSuppressionPath);
 		var contentLines = errorSuppressionContent.Split('\n');
 		var newContent = new StringBuilder();
 		foreach (var line in contentLines) {
 			newContent.AppendLine(line.TrimEnd());
-			if (line.Contains("if = { limit = { var:temp = flag:language_family_uralic }")) {
+			if (line.Contains("if = { limit = { var:temp = flag:language_family_")) {
+				foundFamily = true;
 				foreach (var familyParameter in languageFamilyParameters) {
 					newContent.AppendLine(
 						$$"""
@@ -172,7 +175,8 @@ internal static class CulturesOutputter {
 						  		}
 						  """);
 				}
-			} else if (line.Contains("if = { limit = { var:temp = flag:language_branch_yeniseian }")) {
+			} else if (line.Contains("if = { limit = { var:temp = flag:language_branch_")) {
+				foundBranch = true;
 				foreach (var branchParameter in languageBranchParameters) {
 					newContent.AppendLine(
 						$$"""
@@ -183,6 +187,12 @@ internal static class CulturesOutputter {
 						  """);
 				}
 			}
+		}
+		if (!foundFamily) {
+			Logger.Warn("Could not find the line to add language family parameters to in ccu_error_suppression.txt.");
+		}
+		if (!foundBranch) {
+			Logger.Warn("Could not find the line to add language branch parameters to in ccu_error_suppression.txt.");
 		}
 		outputFilePath = Path.Join(outputModPath, errorSuppressionRelativePath);
 		File.WriteAllText(outputFilePath, newContent.ToString(), Encoding.UTF8);
