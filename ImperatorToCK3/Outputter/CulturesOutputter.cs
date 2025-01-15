@@ -97,60 +97,44 @@ internal static class CulturesOutputter {
 		if (familyEffectNode is null) {
 			Logger.Warn("ccu_initialize_language_family_effect effect not found!");
 			return;
-		} 
-		List<Child> allChildren = familyEffectNode.AllChildren;
-		foreach (var languageFamily in languageFamilyParameters) {
-			var statementsForFamily = CKParser.parseString(
-			$$"""
-			else_if = {
-				limit = { has_cultural_parameter = {{languageFamily}} }
-				set_variable = { name = language_family value = flag:{{languageFamily}} }
-			} 
-			""", fileName).GetResult();
-			
-			var rootNodeForFamily = Parsers.ProcessStatements(fileName, scriptedEffectsPath, statementsForFamily);
-			allChildren.Add(Child.NewNodeC(rootNodeForFamily.Nodes.First()));
 		}
-		familyEffectNode.AllChildren = allChildren;
+
+		string[] effectNodeStrings = languageFamilyParameters.Select(param =>
+			$$"""
+            else_if = {
+                limit = { has_cultural_parameter = {{param}} }
+                set_variable = { name = language_family value = flag:{{param}} }
+            } 
+            """).ToArray();
+		AddChildrenToNode(familyEffectNode, scriptedEffectsPath, fileName, effectNodeStrings);
 
 		var branchEffectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_language_branch_effect");
 		if (branchEffectNode is null) {
 			Logger.Warn("ccu_initialize_language_branch_effect effect not found!");
 			return;
 		}
-		allChildren = branchEffectNode.AllChildren;
-		foreach (var languageBranch in languageBranchParameters) {
-			var statementsForBranch = CKParser.parseString(
+		string[] branchEffectNodeStrings = languageBranchParameters.Select(param =>
 			$$"""
-			else_if = {
-				limit = { has_cultural_parameter = {{languageBranch}} }
-				set_variable = { name = language_branch value = flag:{{languageBranch}} }
-			} 
-			""", fileName).GetResult();
-			
-			var rootNodeForBranch = Parsers.ProcessStatements(fileName, scriptedEffectsPath, statementsForBranch);
-			allChildren.Add(Child.NewNodeC(rootNodeForBranch.Nodes.First()));
-		}
-		branchEffectNode.AllChildren = allChildren;
+			  else_if = {
+			  	limit = { has_cultural_parameter = {{param}} }
+			  	set_variable = { name = language_branch value = flag:{{param}} }
+			  } 
+			""").ToArray();
+		AddChildrenToNode(branchEffectNode, scriptedEffectsPath, fileName, branchEffectNodeStrings);
 		
 		var groupEffectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_language_group_effect");
 		if (groupEffectNode is null) {
 			Logger.Warn("ccu_initialize_language_group_effect effect not found!");
 			return;
 		}
-		allChildren = groupEffectNode.AllChildren;
-		foreach (var languageGroup in languageGroupParameters) {
-			var statementsForGroup = CKParser.parseString(
+		string[] groupEffectNodeStrings = languageGroupParameters.Select(param =>
 			$$"""
-			else_if = {
-				limit = { has_cultural_parameter = {{languageGroup}} }
-				set_variable = { name = language_group value = flag:{{languageGroup}} }
-			} 
-			""", fileName).GetResult();
-			
-			var rootNodeForGroup = Parsers.ProcessStatements(fileName, scriptedEffectsPath, statementsForGroup);
-			allChildren.Add(Child.NewNodeC(rootNodeForGroup.Nodes.First()));
-		}
+			  else_if = {
+			  	limit = { has_cultural_parameter = {{param}} }
+			  	set_variable = { name = language_group value = flag:{{param}} }
+			  } 
+			""").ToArray();
+		AddChildrenToNode(groupEffectNode, scriptedEffectsPath, fileName, groupEffectNodeStrings);
 		
 		// Output the modified file.
 		var toOutput = rootNode.AllChildren
@@ -239,5 +223,16 @@ internal static class CulturesOutputter {
 		}
 		outputFilePath = Path.Join(outputModPath, errorSuppressionRelativePath);
 		File.WriteAllText(outputFilePath, newContent.ToString(), Encoding.UTF8);
+	}
+
+	private static void AddChildrenToNode(Node node, string filePath, string fileName, string[] childrenStrings) {
+		List<Child> allChildren = node.AllChildren;
+		foreach (var childStr in childrenStrings) {
+			var statementsForFamily = CKParser.parseString(childStr, fileName).GetResult();
+			
+			var rootNodeForFamily = Parsers.ProcessStatements(fileName, filePath, statementsForFamily);
+			allChildren.Add(Child.NewNodeC(rootNodeForFamily.Nodes.First()));
+		}
+		node.AllChildren = allChildren;
 	}
 }
