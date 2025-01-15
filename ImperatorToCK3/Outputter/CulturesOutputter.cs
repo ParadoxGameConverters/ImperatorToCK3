@@ -84,6 +84,7 @@ internal static class CulturesOutputter {
 		var scriptedEffectsPath = ck3ModFS.GetActualFileLocation(relativePath);
 		if (scriptedEffectsPath is null) {
 			Logger.Warn("Could not find ccu_scripted_effects.txt in the CK3 mod. Aborting the outputting of language parameters.");
+			return;
 		}
 		
 		Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
