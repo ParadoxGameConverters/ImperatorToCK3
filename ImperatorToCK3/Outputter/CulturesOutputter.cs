@@ -84,11 +84,13 @@ internal static class CulturesOutputter {
 		var rootNode = Parsers.ProcessStatements(fileName, scriptedEffectsPath, statements);
 		var nodes = rootNode.Nodes.ToArray();
 		
+		// TODO: test and adjust for TFE if needed
+		
 		// There is a difference in the effect names between WtWSMS and RoA.
 		string[] heritageFamilyEffectNames = ["ccu_initialize_heritage_family_effect", "ccu_initialize_heritage_family"];
 		var heritageFamilyNode = nodes.FirstOrDefault(n => heritageFamilyEffectNames.Contains(n.Key));
 		if (heritageFamilyNode is null) {
-			Logger.Warn("ccu_initialize_heritage_family_effect effect not found!");
+			Logger.Warn("Failed to find the scripted effect for CCU heritage family parameters!");
 			return;
 		}
 		// TODO: make sure this has correct format for RoA (which has set_variable instead of add_to_variable_list).
@@ -104,7 +106,7 @@ internal static class CulturesOutputter {
 		string[] heritageGroupEffectNames = ["ccu_initialize_heritage_group_effect", "ccu_initialize_heritage_group"];
 		var heritageGroupNode = nodes.FirstOrDefault(n => heritageGroupEffectNames.Contains(n.Key));
 		if (heritageGroupNode is null) {
-			Logger.Warn("ccu_initialize_heritage_group_effect effect not found!");
+			Logger.Warn("Failed to find the scripted effect for CCU heritage group parameters!");
 			return;
 		}
 		// TODO: make sure this has correct format for RoA (which has set_variable instead of add_to_variable_list).
@@ -120,7 +122,7 @@ internal static class CulturesOutputter {
 		string[] languageFamilyEffectNames = ["ccu_initialize_language_family_effect", "ccu_initialize_language_family"];
 		var familyEffectNode = nodes.FirstOrDefault(n => languageFamilyEffectNames.Contains(n.Key));
 		if (familyEffectNode is null) {
-			Logger.Warn("ccu_initialize_language_family_effect effect not found!");
+			Logger.Warn("Failed to find the scripted effect for CCU language family parameters!");
 			return;
 		}
 		string[] effectNodeStrings = languageFamilyParameters.Select(param =>
@@ -132,25 +134,28 @@ internal static class CulturesOutputter {
             """).ToArray();
 		AddChildrenToNode(familyEffectNode, scriptedEffectsPath, fileName, effectNodeStrings);
 
-		string[] branchEffectNames = ["ccu_initialize_language_branch_effect", "ccu_initialize_language_branch"];
-		var branchEffectNode = nodes.FirstOrDefault(n => branchEffectNames.Contains(n.Key));
-		if (branchEffectNode is null) {
-			Logger.Warn("ccu_initialize_language_branch_effect effect not found!");
-			return;
+		// As of 2025-01-16, only WtWSMS uses the language_branch parameter type.
+		if (ck3ModFlags["wtwsms"]) {
+			string[] branchEffectNames = ["ccu_initialize_language_branch_effect"];
+			var branchEffectNode = nodes.FirstOrDefault(n => branchEffectNames.Contains(n.Key));
+			if (branchEffectNode is null) {
+				Logger.Warn("Failed to find the scripted effect for CCU language branch parameters!");
+				return;
+			}
+			string[] branchEffectNodeStrings = languageBranchParameters.Select(param =>
+				$$"""
+				    else_if = {
+				    	limit = { has_cultural_parameter = {{param}} }
+				    	set_variable = { name = language_branch value = flag:{{param}} }
+				    } 
+				  """).ToArray();
+			AddChildrenToNode(branchEffectNode, scriptedEffectsPath, fileName, branchEffectNodeStrings);
 		}
-		string[] branchEffectNodeStrings = languageBranchParameters.Select(param =>
-			$$"""
-			  else_if = {
-			  	limit = { has_cultural_parameter = {{param}} }
-			  	set_variable = { name = language_branch value = flag:{{param}} }
-			  } 
-			""").ToArray();
-		AddChildrenToNode(branchEffectNode, scriptedEffectsPath, fileName, branchEffectNodeStrings);
 		
 		string[] groupEffectNames = ["ccu_initialize_language_group_effect", "ccu_initialize_language_group"];
 		var groupEffectNode = nodes.FirstOrDefault(n => groupEffectNames.Contains(n.Key));
 		if (groupEffectNode is null) {
-			Logger.Warn("ccu_initialize_language_group_effect effect not found!");
+			Logger.Warn("Failed to find the scripted effect for CCU language group parameters!");
 			return;
 		}
 		string[] groupEffectNodeStrings = languageGroupParameters.Select(param =>
