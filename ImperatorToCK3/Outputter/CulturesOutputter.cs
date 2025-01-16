@@ -84,11 +84,14 @@ internal static class CulturesOutputter {
 		var rootNode = Parsers.ProcessStatements(fileName, scriptedEffectsPath, statements);
 		var nodes = rootNode.Nodes.ToArray();
 		
-		var heritageFamilyNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_heritage_family_effect");
+		// There is a difference in the effect names between WtWSMS and RoA.
+		string[] heritageFamilyEffectNames = ["ccu_initialize_heritage_family_effect", "ccu_initialize_heritage_family"];
+		var heritageFamilyNode = nodes.FirstOrDefault(n => heritageFamilyEffectNames.Contains(n.Key));
 		if (heritageFamilyNode is null) {
 			Logger.Warn("ccu_initialize_heritage_family_effect effect not found!");
 			return;
 		}
+		// TODO: make sure this has correct format for RoA (which has set_variable instead of add_to_variable_list).
 		string[] heritageFamilyEffectNodeStrings = heritageFamilyParameters.Select(param =>
 			$$"""
 			if = {
@@ -98,11 +101,13 @@ internal static class CulturesOutputter {
 			""").ToArray();
 		AddChildrenToNode(heritageFamilyNode, scriptedEffectsPath, fileName, heritageFamilyEffectNodeStrings);
 		
-		var heritageGroupNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_heritage_group_effect");
+		string[] heritageGroupEffectNames = ["ccu_initialize_heritage_group_effect", "ccu_initialize_heritage_group"];
+		var heritageGroupNode = nodes.FirstOrDefault(n => heritageGroupEffectNames.Contains(n.Key));
 		if (heritageGroupNode is null) {
 			Logger.Warn("ccu_initialize_heritage_group_effect effect not found!");
 			return;
 		}
+		// TODO: make sure this has correct format for RoA (which has set_variable instead of add_to_variable_list).
 		string[] heritageGroupEffectNodeStrings = heritageGroupParameters.Select(param =>
 			$$"""
 				if = {
@@ -112,7 +117,8 @@ internal static class CulturesOutputter {
 			""").ToArray();
 		AddChildrenToNode(heritageGroupNode, scriptedEffectsPath, fileName, heritageGroupEffectNodeStrings);
 
-		var familyEffectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_language_family_effect");
+		string[] languageFamilyEffectNames = ["ccu_initialize_language_family_effect", "ccu_initialize_language_family"];
+		var familyEffectNode = nodes.FirstOrDefault(n => languageFamilyEffectNames.Contains(n.Key));
 		if (familyEffectNode is null) {
 			Logger.Warn("ccu_initialize_language_family_effect effect not found!");
 			return;
@@ -126,7 +132,8 @@ internal static class CulturesOutputter {
             """).ToArray();
 		AddChildrenToNode(familyEffectNode, scriptedEffectsPath, fileName, effectNodeStrings);
 
-		var branchEffectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_language_branch_effect");
+		string[] branchEffectNames = ["ccu_initialize_language_branch_effect", "ccu_initialize_language_branch"];
+		var branchEffectNode = nodes.FirstOrDefault(n => branchEffectNames.Contains(n.Key));
 		if (branchEffectNode is null) {
 			Logger.Warn("ccu_initialize_language_branch_effect effect not found!");
 			return;
@@ -140,7 +147,8 @@ internal static class CulturesOutputter {
 			""").ToArray();
 		AddChildrenToNode(branchEffectNode, scriptedEffectsPath, fileName, branchEffectNodeStrings);
 		
-		var groupEffectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_language_group_effect");
+		string[] groupEffectNames = ["ccu_initialize_language_group_effect", "ccu_initialize_language_group"];
+		var groupEffectNode = nodes.FirstOrDefault(n => groupEffectNames.Contains(n.Key));
 		if (groupEffectNode is null) {
 			Logger.Warn("ccu_initialize_language_group_effect effect not found!");
 			return;
@@ -270,8 +278,8 @@ internal static class CulturesOutputter {
 	private static void ReadParamsIntoSet(BufferedReader reader, OrderedSet<string> paramsSet, OrderedDictionary<string, bool> ck3ModFlags) {
 		var paramsParser = new Parser();
 		paramsParser.RegisterModDependentBloc(ck3ModFlags);
-		paramsParser.RegisterRegex(CommonRegexes.Catchall, (_, familyParameter) => {
-			paramsSet.Add(familyParameter);
+		paramsParser.RegisterRegex(CommonRegexes.Catchall, (_, parameter) => {
+			paramsSet.Add(parameter);
 		});
 		paramsParser.ParseStream(reader);
 	}
