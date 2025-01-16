@@ -91,13 +91,15 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 				if (!pillar.Parameters.Any(p => p.Key.StartsWith("language_family_"))) {
 					Logger.Warn($"Language {pillarId} is missing required language_family parameter!");
 				}
-				if (!pillar.Parameters.Any(p => p.Key.StartsWith("language_group_"))) {
-					Logger.Warn($"Language {pillarId} is missing required language_group parameter!");
-				}
 			}
 			if (ck3ModFlags["wtwsms"]) {
 				if (!pillar.Parameters.Any(p => p.Key.StartsWith("language_branch_"))) {
 					Logger.Warn($"Language {pillarId} is missing required language_branch parameter!");
+				}
+			}
+			if (ck3ModFlags["tfe"] || ck3ModFlags["roa"]) {
+				if (!pillar.Parameters.Any(p => p.Key.StartsWith("language_group_"))) {
+					Logger.Warn($"Language {pillarId} is missing required language_group parameter!");
 				}
 			}
 		}

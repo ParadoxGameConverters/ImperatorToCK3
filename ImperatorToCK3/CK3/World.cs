@@ -133,7 +133,7 @@ internal sealed class World {
 				// Load CK3 cultures from CK3 mod filesystem.
 				Logger.Info("Loading cultural pillars...");
 				CulturalPillars = new(ck3ColorFactory, ck3ModFlags);
-				CulturalPillars.LoadPillars(ModFS);
+				CulturalPillars.LoadPillars(ModFS, ck3ModFlags);
 				Logger.Info("Loading converter cultural pillars...");
 				CulturalPillars.LoadConverterPillars("configurables/cultural_pillars", ck3ModFlags);
 				Cultures = new CultureCollection(ck3ColorFactory, CulturalPillars, ck3ModFlags);
