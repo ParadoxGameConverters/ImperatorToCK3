@@ -44,7 +44,7 @@ internal sealed class DynastyCollection : ConcurrentIdObjectCollection<string, D
 			AddOrReplace(dynasty);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFolder("common/dynasties", ck3ModFS, "txt", recursive: true, parallel: true);
+		parser.ParseGameFolder("common/dynasties", ck3ModFS, "txt", recursive: true);
 	}
 
 	private void CreateDynastiesForCharactersFromMinorFamilies(Imperator.World irWorld, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {

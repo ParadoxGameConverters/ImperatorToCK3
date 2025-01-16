@@ -216,6 +216,10 @@ internal sealed class Character : IIdentifiable<string> {
 		.WithLiteralField("if", "if")
 		.WithSimpleField("sexuality", "sexuality", null)
 		.WithLiteralField("domicile", "domicile")
+		.WithLiteralField("create_maa_regiment", "create_maa_regiment")
+		.WithSimpleField("add_gold", "add_gold", null)
+		.WithSimpleField("add_piety_level", "add_piety_level", null)
+		.WithSimpleField("add_prestige_level", "add_prestige_level", null)
 		.Build();
 
 	public History History { get; } = historyFactory.GetHistory();

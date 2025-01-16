@@ -9,8 +9,8 @@ internal class TestCK3CultureCollection() : CultureCollection(colorFactory, new 
 	private static readonly ColorFactory colorFactory = new();
 	private static readonly OrderedDictionary<string, bool> ck3ModFlags = [];
 	
-	public void LoadConverterPillars(string filePath) {
-		PillarCollection.LoadConverterPillars(filePath);
+	public void LoadConverterPillars(string filePath, OrderedDictionary<string, bool> ck3ModFlags) {
+		PillarCollection.LoadConverterPillars(filePath, ck3ModFlags);
 	}
 
 	public void AddNameList(NameList nameList) {

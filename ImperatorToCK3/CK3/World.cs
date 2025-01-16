@@ -37,11 +37,12 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Open.Collections;
 
 namespace ImperatorToCK3.CK3;
 
 internal sealed class World {
-	public OrderedSet<Mod> LoadedMods { get; }
+	public OrderedSet<Mod> LoadedMods { get; } = [];
 	public ModFilesystem ModFS { get; }
 	public CK3LocDB LocDB { get; } = [];
 	private ScriptValueCollection ScriptValues { get; } = new();
@@ -68,10 +69,11 @@ internal sealed class World {
 
 	public World(Imperator.World impWorld, Configuration config, Thread? irCoaExtractThread) {
 		Logger.Info("*** Hello CK3, let's get painting. ***");
-		
-		DetermineCK3Dlcs(config);
 
 		warMapper.DetectUnmappedWarGoals(impWorld.ModFS);
+		
+		DetermineCK3Dlcs(config);
+		LoadAndDetectCK3Mods(config);
 
 		// Initialize fields that depend on other fields.
 		Religions = new ReligionCollection(LandedTitles);
@@ -85,20 +87,6 @@ internal sealed class World {
 			Logger.Warn($"Corrected save can't be later than CK3 bookmark date, setting CK3 bookmark date to {CorrectedDate}!");
 			config.CK3BookmarkDate = CorrectedDate;
 		}
-
-		Logger.Info("Detecting selected CK3 mods...");
-		List<Mod> incomingCK3Mods = new();
-		foreach (var modPath in config.SelectedCK3Mods) {
-			Logger.Info($"\tSelected CK3 mod: {modPath}");
-			incomingCK3Mods.Add(new Mod(string.Empty, modPath));
-		}
-		Logger.IncrementProgress();
-
-		// Let's locate, verify and potentially update those mods immediately.
-		ModLoader modLoader = new();
-		modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods);
-		LoadedMods = modLoader.UsableMods.ToOrderedSet();
-		config.DetectSpecificCK3Mods(LoadedMods);
 		
 		// Recreate output mod folder.
 		string outputModPath = Path.Join("output", config.OutputModName);
@@ -138,16 +126,16 @@ internal sealed class World {
 			}
 		);
 		
-		OrderedDictionary<string, bool> ck3ModFlags = config.GetCK3ModFlags();
+		System.Collections.Generic.OrderedDictionary<string, bool> ck3ModFlags = config.GetCK3ModFlags();
 		
 		Parallel.Invoke(
 			() => { // depends on ck3ColorFactory and CulturalPillars
 				// Load CK3 cultures from CK3 mod filesystem.
 				Logger.Info("Loading cultural pillars...");
 				CulturalPillars = new(ck3ColorFactory, ck3ModFlags);
-				CulturalPillars.LoadPillars(ModFS);
+				CulturalPillars.LoadPillars(ModFS, ck3ModFlags);
 				Logger.Info("Loading converter cultural pillars...");
-				CulturalPillars.LoadConverterPillars("configurables/cultural_pillars");
+				CulturalPillars.LoadConverterPillars("configurables/cultural_pillars", ck3ModFlags);
 				Cultures = new CultureCollection(ck3ColorFactory, CulturalPillars, ck3ModFlags);
 				Cultures.LoadNameLists(ModFS);
 				Cultures.LoadInnovationIds(ModFS);
@@ -189,15 +177,21 @@ internal sealed class World {
 				// Load CK3 religions from game and blankMod.
 				// Holy sites need to be loaded after landed titles.
 				Religions.LoadDoctrines(ModFS);
+				Logger.Info("Loaded CK3 doctrines.");
 				Religions.LoadConverterHolySites("configurables/converter_holy_sites.txt");
+				Logger.Info("Loaded converter holy sites.");
 				Religions.LoadHolySites(ModFS);
+				Logger.Info("Loaded CK3 holy sites.");
 				Logger.Info("Loading religions from CK3 game and mods...");
 				Religions.LoadReligions(ModFS, ck3ColorFactory);
+				Logger.Info("Loaded CK3 religions.");
 				Logger.IncrementProgress();
 				Logger.Info("Loading converter faiths...");
 				Religions.LoadConverterFaiths("configurables/converter_faiths.txt", ck3ColorFactory);
+				Logger.Info("Loaded converter faiths.");
 				Logger.IncrementProgress();
 				Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
+				Logger.Info("Loaded replaceable holy sites.");
 			},
 			
 			() => cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper, Cultures),
@@ -410,6 +404,24 @@ internal sealed class World {
 		);
 	}
 
+	private void LoadAndDetectCK3Mods(Configuration config) {
+		Logger.Info("Detecting selected CK3 mods...");
+		List<Mod> incomingCK3Mods = new();
+		foreach (var modPath in config.SelectedCK3Mods) {
+			Logger.Info($"\tSelected CK3 mod: {modPath}");
+			incomingCK3Mods.Add(new Mod(string.Empty, modPath));
+		}
+		Logger.IncrementProgress();
+
+		// Let's locate, verify and potentially update those mods immediately.
+		ModLoader modLoader = new();
+		modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods);
+		
+		// Add modLoader's UsableMods to LoadedMods.
+		LoadedMods.AddRange(modLoader.UsableMods);
+		config.DetectSpecificCK3Mods(LoadedMods);
+	}
+
 	private void ImportImperatorWars(Imperator.World irWorld, Date ck3BookmarkDate) {
 		Logger.Info("Importing I:R wars...");
 
@@ -436,13 +448,17 @@ internal sealed class World {
 		Logger.IncrementProgress();
 	}
 
-	private void LoadCorrectProvinceMappingsFile(Imperator.World irWorld, Configuration config) {
-		string mappingsToUse;
-		
+	private void LoadCorrectProvinceMappingsFile(Imperator.World irWorld, Configuration config) {		
 		// Terra Indomita mappings should be used if either TI or Antiquitas is detected.
 		bool irHasTI = irWorld.Countries.Any(c => c.Variables.Contains("unification_points")) || irWorld.UsableMods.Any(m => m.Name == "Antiquitas");
 		
-		if (irHasTI && config.AsiaExpansionProjectEnabled) {
+		bool ck3HasRajasOfAsia = config.RajasOfAsiaEnabled;
+		bool ck3HasAEP = config.AsiaExpansionProjectEnabled;
+
+		string mappingsToUse;
+		if (irHasTI && ck3HasRajasOfAsia) {
+			mappingsToUse = "terra_indomita_to_rajas_of_asia";
+		} else if (irHasTI && ck3HasAEP) {
 			mappingsToUse = "terra_indomita_to_aep";
 		} else if (irWorld.GlobalFlags.Contains("is_playing_invictus")) {
 			mappingsToUse = "imperator_invictus";
@@ -1085,7 +1101,7 @@ internal sealed class World {
 			return;
 		}
 
-		OrderedDictionary<string, string> dlcFileToDlcFlagDict = new() {
+		System.Collections.Generic.OrderedDictionary<string, string> dlcFileToDlcFlagDict = new() {
 			{"dlc001.dlc", "garments_of_hre"},
 			{"dlc002.dlc", "fashion_of_abbasid_court"},
 			{"dlc003.dlc", "northern_lords"},

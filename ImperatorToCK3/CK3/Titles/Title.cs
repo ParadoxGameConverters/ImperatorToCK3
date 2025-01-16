@@ -284,7 +284,9 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			if (overLordTitle is null) {
 				Logger.Warn($"Can't find CK3 title for country {dependency.OverlordId}, overlord of {country.Id}.");
 			}
-			DeJureLiege = overLordTitle;
+			if (!config.StaticDeJure) {
+				DeJureLiege = overLordTitle;
+			}
 			SetDeFactoLiege(overLordTitle, dependency.StartDate);
 		}
 	}

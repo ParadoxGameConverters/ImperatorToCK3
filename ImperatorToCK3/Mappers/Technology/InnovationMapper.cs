@@ -1,6 +1,7 @@
 using commonItems;
 using commonItems.Localization;
 using DotLiquid;
+using ImperatorToCK3.CK3;
 using ImperatorToCK3.Imperator.Inventions;
 using System.Collections.Generic;
 using System.IO;
@@ -13,19 +14,13 @@ internal sealed class InnovationMapper {
 	private readonly List<InnovationBonus> innovationBonuses = [];
 
 	public void LoadLinksAndBonuses(string configurablePath, OrderedDictionary<string, bool> ck3ModFlags) {
-		// The file used the Liquid templating language, so convert it to text before parsing.
-		var convertedModFlags = ck3ModFlags.ToDictionary(kv => kv.Key, kv => (object)kv.Value);
-		var context = Hash.FromDictionary(convertedModFlags);
-		
-		var liquidText = File.ReadAllText(configurablePath);
-		var template = Template.Parse(liquidText);
-		var result = template.Render(context);
-		
 		var parser = new Parser();
 		parser.RegisterKeyword("link", reader => innovationLinks.Add(new InnovationLink(reader)));
 		parser.RegisterKeyword("bonus", reader => innovationBonuses.Add(new InnovationBonus(reader)));
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseStream(new BufferedReader(result));
+		
+		// The file uses the Liquid templating language.
+		parser.ParseLiquidFile(configurablePath, ck3ModFlags);
 	}
 
 	public List<string> GetInnovations(IEnumerable<string> irInventions) {

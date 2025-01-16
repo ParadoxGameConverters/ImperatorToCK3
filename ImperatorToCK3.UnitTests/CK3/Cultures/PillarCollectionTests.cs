@@ -1,6 +1,7 @@
 ﻿using commonItems.Mods;
 using ImperatorToCK3.CK3.Cultures;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Xunit;
 
@@ -18,13 +19,14 @@ public class PillarCollectionTests {
 		var pillarsFile = File.CreateText("pillars_test/common/culture/pillars/test_pillars.txt");
 		pillarsFile.WriteLine("pillar_without_type = {}");
 		pillarsFile.Close();
-		
+
+		OrderedDictionary<string, bool> ck3ModFlags = [];
 		var modFS = new ModFilesystem("pillars_test", Array.Empty<Mod>());
-		var collection = new PillarCollection(new commonItems.Colors.ColorFactory(), []);
+		var collection = new PillarCollection(new commonItems.Colors.ColorFactory(), ck3ModFlags);
 		
 		var consoleOut = new StringWriter();
 		Console.SetOut(consoleOut);
-		collection.LoadPillars(modFS);
+		collection.LoadPillars(modFS, ck3ModFlags);
 		Assert.Contains("[WARN] Pillar pillar_without_type has no type defined! Skipping.", consoleOut.ToString());
 	}
 }
