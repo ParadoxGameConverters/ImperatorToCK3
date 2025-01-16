@@ -93,14 +93,25 @@ internal static class CulturesOutputter {
 			Logger.Warn("Failed to find the scripted effect for CCU heritage family parameters!");
 			return;
 		}
-		// TODO: make sure this has correct format for RoA (which has set_variable instead of add_to_variable_list).
-		string[] heritageFamilyEffectNodeStrings = heritageFamilyParameters.Select(param =>
-			$$"""
-			if = {
-				limit = { has_cultural_parameter = {{param}} }
-				add_to_variable_list = { name = heritage_family target = flag:{{param}} }
-			}
-			""").ToArray();
+		// There is a difference in the heritage group effect formats between WtWSMS and RoA.
+		string[] heritageFamilyEffectNodeStrings;
+		if (ck3ModFlags["wtwsms"]) {
+			heritageFamilyEffectNodeStrings = heritageFamilyParameters.Select(param =>
+				$$"""
+				  if = {
+				  	limit = { has_cultural_parameter = {{param}} }
+				  	add_to_variable_list = { name = heritage_family target = flag:{{param}} }
+				  }
+				""").ToArray();
+		} else {
+			heritageFamilyEffectNodeStrings = heritageFamilyParameters.Select(param =>
+				$$"""
+				  	if = {
+				  		limit = { has_cultural_parameter = {{param}} }
+				  		set_variable = { name = heritage_family value = flag:{{param}} }
+				  	}
+				""").ToArray();
+		}
 		AddChildrenToNode(heritageFamilyNode, scriptedEffectsPath, fileName, heritageFamilyEffectNodeStrings);
 		
 		string[] heritageGroupEffectNames = ["ccu_initialize_heritage_group_effect", "ccu_initialize_heritage_group"];
@@ -109,14 +120,26 @@ internal static class CulturesOutputter {
 			Logger.Warn("Failed to find the scripted effect for CCU heritage group parameters!");
 			return;
 		}
-		// TODO: make sure this has correct format for RoA (which has set_variable instead of add_to_variable_list).
-		string[] heritageGroupEffectNodeStrings = heritageGroupParameters.Select(param =>
-			$$"""
-				if = {
-					limit = { has_cultural_parameter = {{param}} }
-					add_to_variable_list = { name = heritage_group target = flag:{{param}} }
-				}
-			""").ToArray();
+		// There is a difference in the heritage group effect formats between WtWSMS and RoA.
+		string[] heritageGroupEffectNodeStrings;
+		if (ck3ModFlags["wtwsms"]) {
+			heritageGroupEffectNodeStrings = heritageGroupParameters.Select(param =>
+				$$"""
+				  	if = {
+				  		limit = { has_cultural_parameter = {{param}} }
+				  		add_to_variable_list = { name = heritage_group target = flag:{{param}} }
+				  	}
+				 """).ToArray();
+		} else {
+			heritageGroupEffectNodeStrings = heritageGroupParameters.Select(param =>
+				$$"""
+				  	if = {
+				  		limit = { has_cultural_parameter = {{param}} }
+				  		set_variable = { name = heritage_group value = flag:{{param}} }
+				  	}
+				""").ToArray();
+		}
+		
 		AddChildrenToNode(heritageGroupNode, scriptedEffectsPath, fileName, heritageGroupEffectNodeStrings);
 
 		string[] languageFamilyEffectNames = ["ccu_initialize_language_family_effect", "ccu_initialize_language_family"];
@@ -187,8 +210,37 @@ internal static class CulturesOutputter {
 		// Output the file with UTF8-BOM encoding.
 		File.WriteAllText(outputFilePath, CKPrinter.printTopLevelKeyValueList(fsharpList), Encoding.UTF8);
 		
-		// Add the language parameters to common/scripted_guis/ccu_error_suppression.txt.
+		// For WtWSMS, add the heritage and language parameters to common/scripted_guis/ccu_error_suppression.txt.
 		// This is what WtWSMS does for the parameters it adds.
+		if (ck3ModFlags["wtwsms"]) {
+			OutputCCUErrorSuppression(outputModPath, ck3ModFS, heritageFamilyParameters, heritageGroupParameters, languageFamilyParameters, languageBranchParameters, languageGroupParameters);
+		}
+	}
+	
+	private static void ReadParamsIntoSet(BufferedReader reader, OrderedSet<string> paramsSet, OrderedDictionary<string, bool> ck3ModFlags) {
+		var paramsParser = new Parser();
+		paramsParser.RegisterModDependentBloc(ck3ModFlags);
+		paramsParser.RegisterRegex(CommonRegexes.Catchall, (_, parameter) => {
+			paramsSet.Add(parameter);
+		});
+		paramsParser.ParseStream(reader);
+	}
+
+	private static void AddChildrenToNode(Node node, string filePath, string fileName, string[] childrenStrings) {
+		List<Child> allChildren = node.AllChildren;
+		foreach (var childStr in childrenStrings) {
+			var statementsForFamily = CKParser.parseString(childStr, fileName).GetResult();
+			
+			var rootNodeForFamily = Parsers.ProcessStatements(fileName, filePath, statementsForFamily);
+			allChildren.Add(Child.NewNodeC(rootNodeForFamily.Nodes.First()));
+		}
+		node.AllChildren = allChildren;
+	}
+
+	private static void OutputCCUErrorSuppression(string outputModPath, ModFilesystem ck3ModFS,
+		OrderedSet<string> heritageFamilyParameters, OrderedSet<string> heritageGroupParameters,
+		OrderedSet<string> languageFamilyParameters, OrderedSet<string> languageBranchParameters,
+		OrderedSet<string> languageGroupParameters) {
 		var errorSuppressionRelativePath = "common/scripted_guis/ccu_error_suppression.txt";
 		var errorSuppressionPath = ck3ModFS.GetActualFileLocation(errorSuppressionRelativePath);
 		if (errorSuppressionPath is null) {
@@ -261,6 +313,7 @@ internal static class CulturesOutputter {
 				}
 			}
 		}
+
 		if (!foundHeritageFamily) {
 			Logger.Warn("Could not find the line to add heritage family parameters to in ccu_error_suppression.txt.");
 		}
@@ -276,27 +329,8 @@ internal static class CulturesOutputter {
 		if (!foundLanguageGroup) {
 			Logger.Warn("Could not find the line to add language group parameters to in ccu_error_suppression.txt.");
 		}
-		outputFilePath = Path.Join(outputModPath, errorSuppressionRelativePath);
-		File.WriteAllText(outputFilePath, newContent.ToString(), Encoding.UTF8);
-	}
-	
-	private static void ReadParamsIntoSet(BufferedReader reader, OrderedSet<string> paramsSet, OrderedDictionary<string, bool> ck3ModFlags) {
-		var paramsParser = new Parser();
-		paramsParser.RegisterModDependentBloc(ck3ModFlags);
-		paramsParser.RegisterRegex(CommonRegexes.Catchall, (_, parameter) => {
-			paramsSet.Add(parameter);
-		});
-		paramsParser.ParseStream(reader);
-	}
 
-	private static void AddChildrenToNode(Node node, string filePath, string fileName, string[] childrenStrings) {
-		List<Child> allChildren = node.AllChildren;
-		foreach (var childStr in childrenStrings) {
-			var statementsForFamily = CKParser.parseString(childStr, fileName).GetResult();
-			
-			var rootNodeForFamily = Parsers.ProcessStatements(fileName, filePath, statementsForFamily);
-			allChildren.Add(Child.NewNodeC(rootNodeForFamily.Nodes.First()));
-		}
-		node.AllChildren = allChildren;
+		string outputFilePath = Path.Join(outputModPath, errorSuppressionRelativePath);
+		File.WriteAllText(outputFilePath, newContent.ToString(), Encoding.UTF8);
 	}
 }
