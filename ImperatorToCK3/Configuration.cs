@@ -33,7 +33,7 @@ public sealed class Configuration {
 	public bool RajasOfAsiaEnabled { get; private set; }
 	public bool AsiaExpansionProjectEnabled { get; private set; }
 
-	public bool OutputCCULanguageParameters => WhenTheWorldStoppedMakingSenseEnabled || RajasOfAsiaEnabled;
+	public bool OutputCCUParameters => WhenTheWorldStoppedMakingSenseEnabled || RajasOfAsiaEnabled;
 
 	public Configuration() { }
 	public Configuration(ConverterVersion converterVersion) {
