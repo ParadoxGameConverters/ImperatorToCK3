@@ -1,4 +1,5 @@
 using commonItems;
+using commonItems.Collections;
 using commonItems.Mods;
 using commonItems.Serialization;
 using CWTools.CSharp;
@@ -44,38 +45,17 @@ internal static class CulturesOutputter {
 		}
 	}
 
-	private static void OutputCCULanguageParameters(string outputModPath, ModFilesystem ck3ModFS, IDictionary<string, bool> ck3ModFlags) {
+	private static void OutputCCULanguageParameters(string outputModPath, ModFilesystem ck3ModFS, OrderedDictionary<string, bool> ck3ModFlags) {
 		Logger.Info("Outputting CCU language parameters...");
-		List<string> languageFamilyParameters = [];
-		List<string> languageBranchParameters = [];
-		List<string> languageGroupParameters = [];
+		OrderedSet<string> languageFamilyParameters = [];
+		OrderedSet<string> languageBranchParameters = [];
+		OrderedSet<string> languageGroupParameters = [];
 		
 		// Read converter-added language families and branches from the configurable.
 		var fileParser = new Parser();
-		fileParser.RegisterKeyword("language_families", reader => {
-			var familiesParser = new Parser();
-			familiesParser.RegisterModDependentBloc(ck3ModFlags);
-			familiesParser.RegisterRegex(CommonRegexes.Catchall, (_, familyParameter) => {
-				languageFamilyParameters.Add(familyParameter);
-			});
-			familiesParser.ParseStream(reader);
-		});
-		fileParser.RegisterKeyword("language_branches", reader => {
-			var branchesParser = new Parser();
-			branchesParser.RegisterModDependentBloc(ck3ModFlags);
-			branchesParser.RegisterRegex(CommonRegexes.Catchall, (_, branchParameter) => {
-				languageBranchParameters.Add(branchParameter);
-			});
-			branchesParser.ParseStream(reader);
-		});
-		fileParser.RegisterKeyword("language_groups", reader => {
-			var groupsParser = new Parser();
-			groupsParser.RegisterModDependentBloc(ck3ModFlags);
-			groupsParser.RegisterRegex(CommonRegexes.Catchall, (_, groupParameter) => {
-				languageGroupParameters.Add(groupParameter);
-			});
-			groupsParser.ParseStream(reader);
-		});
+		fileParser.RegisterKeyword("language_families", reader => ReadParamsIntoSet(reader, languageFamilyParameters, ck3ModFlags));
+		fileParser.RegisterKeyword("language_branches", reader => ReadParamsIntoSet(reader, languageBranchParameters, ck3ModFlags));
+		fileParser.RegisterKeyword("language_groups", reader => ReadParamsIntoSet(reader, languageGroupParameters, ck3ModFlags));
 		fileParser.ParseFile("configurables/ccu_language_parameters.txt");
 		
 		// Modify the common\scripted_effects\ccu_scripted_effects.txt file.
@@ -224,6 +204,15 @@ internal static class CulturesOutputter {
 		}
 		outputFilePath = Path.Join(outputModPath, errorSuppressionRelativePath);
 		File.WriteAllText(outputFilePath, newContent.ToString(), Encoding.UTF8);
+	}
+	
+	private static void ReadParamsIntoSet(BufferedReader reader, OrderedSet<string> paramsSet, OrderedDictionary<string, bool> ck3ModFlags) {
+		var paramsParser = new Parser();
+		paramsParser.RegisterModDependentBloc(ck3ModFlags);
+		paramsParser.RegisterRegex(CommonRegexes.Catchall, (_, familyParameter) => {
+			paramsSet.Add(familyParameter);
+		});
+		paramsParser.ParseStream(reader);
 	}
 
 	private static void AddChildrenToNode(Node node, string filePath, string fileName, string[] childrenStrings) {
