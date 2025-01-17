@@ -34,3 +34,6 @@ DocsGenerator/obj/
 log.txt
 *.user
 .vscode/settings.json
+
+# I:R saves folder
+/Saves/
