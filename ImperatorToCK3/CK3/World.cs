@@ -810,7 +810,12 @@ internal sealed class World {
 
 		title.SetHolder(hermit, bookmarkDate);
 		title.SetGovernment("eremitic_government", bookmarkDate);
-		foreach (var county in title.GetDeJureVassalsAndBelow(rankFilter: "c").Values) {
+
+		OrderedSet<Title> countiesToHandle = [..title.GetDeJureVassalsAndBelow(rankFilter: "c").Values];
+		if (title.Rank == TitleRank.county) {
+			countiesToHandle.Add(title);
+		}
+		foreach (var county in countiesToHandle) {
 			county.SetHolder(hermit, bookmarkDate);
 			county.SetDevelopmentLevel(0, bookmarkDate);
 			foreach (var provinceId in county.CountyProvinceIds) {
