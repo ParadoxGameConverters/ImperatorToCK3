@@ -404,6 +404,7 @@ link = { ck3 = gepid @ir_gothic_cultures
 }
 link = { ck3 = gothic @ir_gothic_cultures }
 link = { ck3 = vandal @ir_vandal_cultures }
+link = { ck3 = norse @ir_vandilian_cultures irProvince = 5953 irProvince = 5381 } # Prevents the Terra-Indomita Norway wasteland from converting to Vandilian
 link = { ck3 = vandilian @ir_vandilian_cultures }
 
 # Franconian
