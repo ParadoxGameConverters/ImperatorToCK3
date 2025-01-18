@@ -175,10 +175,11 @@ link = { ck3 = mahayana ir = buddhism ck3Province = 9421 ck3Province = 9422 ck3P
 link = { ck3 = lamaism ir = buddhism ck3Region = world_tibet } # Vanilla faith, figured I'd add since whole region is now in scope ~~tanner918
 link = { ck3 = ari ir = buddhism irRegion = burma_region } # Vanilla faith, figured I'd add since whole region is now in scope ~~tanner918
 link = { ck3 = phat_giao ir = buddhism irRegion = jiao_region irRegion = ban_area irRegion = rinan_area irRegion = lam_ap_area } # Rajas faith around Vietnam
-link = { ck3 = zenzong ir = buddhism irRegion = yi_region irRegion = yong_region irRegion = you_region irRegion = yu_region irRegion = yang_region irRegion = xu_region irRegion = shuofang_region irRegion = qing_region irRegion = modong_region irRegion = jing_region irRegion = ji_region irRegion = bing_region } # Rajas faith, seems to represent Buddhism around China
+link = { ck3 = zenzong ir = buddhism irRegion = yi_region irRegion = yong_region irRegion = you_region irRegion = yu_region irRegion = yang_region irRegion = xu_region irRegion = shuofang_region irRegion = qing_region irRegion = jing_region irRegion = ji_region irRegion = bing_region } # Rajas faith, seems to represent Buddhism around China
 link = { ck3 = pudgalavada ir = buddhism irRegion = gandhara_region irRegion = maru_region } # Rajas faith, seems to represent Buddhism in this region
 link = { ck3 = azhaliism ir = buddhism irRegion = nanzhong_region } # Rajas faith, seems to represent Buddhism in this region
-link = { ck3 = vajrayana ir = buddhism irRegion = kra_area irRegion = malaya_area irRegion = aceh_area irRegion = kandis_area } # This faith was the most prevelant in this region
+link = { ck3 = mahayana ir = buddhism irRegion = modong_region irRegion = jin_region irRegion = wa_region } # This faith was the most prevelant in these region
+link = { ck3 = vajrayana ir = buddhism irRegion = kra_area irRegion = malaya_area irRegion = aceh_area irRegion = kandis_area irRegion = mobei_region irRegion = austronesia_region } # This faith was the most prevelant in these region
 link = { ck3 = theravada ir = buddhism }
 link = { ck3 = mahayana ir = mahayana } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
