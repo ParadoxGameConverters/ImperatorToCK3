@@ -701,10 +701,12 @@ internal sealed class World {
 		var faiths = Religions.Faiths.ToArray();
 		
 		OrderedSet<string> titleIdsToHandle;
-		if (config.FallenEagleEnabled || irWorld.TerraIndomitaDetected) {
+		if (config.FallenEagleEnabled) {
 			// Iceland doesn't exist on TFE map.
-			// The islands are on the map in TI, so it should be handled normally instead of being given an Eremitic holder.
 			titleIdsToHandle = ["c_faereyar"];
+		} else if (irWorld.TerraIndomitaDetected) {
+			// The Faroe Islands are on the map in TI, so it should be handled normally instead of being given an Eremitic holder.
+			titleIdsToHandle = ["d_iceland"];
 		} else {
 			titleIdsToHandle = ["d_iceland", "c_faereyar"];
 		}
