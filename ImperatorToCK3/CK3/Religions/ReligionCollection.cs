@@ -327,7 +327,6 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		}
 
 		foreach (var faith in aliveFaithsWithSpiritualHeadDoctrine) {
-			
 			GenerateReligiousHeadForFaithIfMissing(faith, titles, characters, provinces, cultures, date);
 		}
 	}
