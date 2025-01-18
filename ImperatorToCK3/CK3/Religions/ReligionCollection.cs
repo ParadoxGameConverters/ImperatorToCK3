@@ -326,6 +326,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	private static string GetCultureIdForGeneratedHeadOfFaith(Faith faith,
 		CharacterCollection characters,
 		ProvinceCollection provinces,
+		Title.LandedTitles titles,
 		CultureCollection cultures,
 		Date date) {
 		var cultureId = provinces
@@ -334,9 +335,19 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 			.FirstOrDefault();
 		if (cultureId is null) {
 			cultureId = characters
+				.Where(c => c.BirthDate <= date && (c.DeathDate is null || c.DeathDate > date))
 				.Where(c => c.GetFaithId(date) == faith.Id)
 				.Select(c => c.GetCultureId(date))
 				.FirstOrDefault();
+		}
+		if (cultureId is null && faith.ReligiousHeadTitleId is not null) {
+			if (titles.TryGetValue(faith.ReligiousHeadTitleId, out var title)) {
+				var capitalCounty = title.CapitalCounty;
+				var capitalProvince = capitalCounty?.CapitalBaronyProvinceId;
+				if (capitalProvince is not null) {
+					cultureId = provinces[capitalProvince.Value].GetCultureId(date);
+				}
+			}
 		}
 		if (cultureId is null) {
 			Logger.Warn($"Found no matching culture for religious head of {faith.Id}, using first one in database!");
@@ -380,7 +391,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		Logger.Debug($"Generating religious head for faith {faith.Id}...");
 
 		// Determine culture.
-		string cultureId = GetCultureIdForGeneratedHeadOfFaith(faith, characters, provinces, cultures, date);
+		string cultureId = GetCultureIdForGeneratedHeadOfFaith(faith, characters, provinces, titles, cultures, date);
 		if (!cultures.TryGetValue(cultureId, out var culture)) {
 			Logger.Warn($"Culture {cultureId} not found!");
 			return;
