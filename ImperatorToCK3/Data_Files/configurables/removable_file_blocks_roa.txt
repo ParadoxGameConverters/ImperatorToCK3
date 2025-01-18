@@ -9496,3 +9496,45 @@ bm_1066_southeast_asia = {
 	}
 
 } # End of 10_sea_bookmarks
+
+
+"common/scripted_character_templates/sea_pool_repopulation_character_templates.txt" = {
+	# Prevent random Muslim characters from being spawned.
+	{
+		else_if = {
+			limit = {
+				OR = {
+					culture = culture:bolghar
+					culture = culture:somali
+				}
+			}
+			set_character_faith = faith:ashari
+			if = {
+				limit = {
+					root.capital_county.faith = {
+						religion_tag = islam_religion
+					}
+				}
+				set_character_faith = root.capital_county.faith
+			}
+		}
+	}
+	{
+		else_if = {
+			limit = {
+				OR = {
+					culture = culture:butr
+					culture = culture:zaghawa
+				}
+			}
+			random_list = {
+				10 = {
+					set_character_faith = faith:ibadi
+				}
+				10 = {
+					set_character_faith = faith:sufri
+				}
+			}
+		}
+	}
+}
