@@ -347,6 +347,18 @@ internal sealed class World {
 		// Apply region-specific tweaks.
 		HandleIcelandAndFaroeIslands(config);
 		
+		// Check if any muslim religion exists in Imperator. Otherwise, remove Islam from the entire CK3 map.
+		var possibleMuslimReligionNames = new List<string> { "muslim", "islam", "sunni", "shiite" };
+		var muslimReligionExists = impWorld.Religions
+			.Any(r => possibleMuslimReligionNames.Contains(r.Id.ToLowerInvariant()));
+		if (muslimReligionExists) {
+			Logger.Info("Found muslim religion in Imperator save, keeping Islam in CK3.");
+		} else {
+			RemoveIslam(config);
+		}
+		Logger.IncrementProgress();
+		
+		// Now that Islam has been handled, we can generate filler holders without the risk of making them Muslim.
 		GenerateFillerHoldersForUnownedLands(Cultures, config);
 		Logger.IncrementProgress();
 		if (!config.StaticDeJure) {
@@ -376,17 +388,6 @@ internal sealed class World {
 		
 		// Now that the title history is basically done, convert officials as council members and courtiers.
 		LandedTitles.ImportImperatorGovernmentOffices(impWorld.JobsDB.OfficeJobs, Religions, impWorld.EndDate);
-		
-		// Check if any muslim religion exists in Imperator. Otherwise, remove Islam from the entire CK3 map.
-		var possibleMuslimReligionNames = new List<string> { "muslim", "islam", "sunni", "shiite" };
-		var muslimReligionExists = impWorld.Religions
-			.Any(r => possibleMuslimReligionNames.Contains(r.Id.ToLowerInvariant()));
-		if (muslimReligionExists) {
-			Logger.Info("Found muslim religion in Imperator save, keeping Islam in CK3.");
-		} else {
-			RemoveIslam(config);
-		}
-		Logger.IncrementProgress();
 
 		Parallel.Invoke(
 			() => ImportImperatorWars(impWorld, config.CK3BookmarkDate),
