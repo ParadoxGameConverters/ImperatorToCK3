@@ -35,5 +35,5 @@ log.txt
 *.user
 .vscode/settings.json
 
-# I:R saves folder
+# Imperator: Rome saves for testing
 /Saves/

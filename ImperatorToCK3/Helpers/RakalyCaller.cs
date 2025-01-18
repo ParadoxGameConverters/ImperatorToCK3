@@ -120,11 +120,8 @@ public static class RakalyCaller {
 
 			if (stdErrText.Contains("Failed to create melted file")) {
 				// Try to copy the file to the converter's temp folder before melting.
-				var saveDisk = Path.GetPathRoot(savePath);
-				var converterDisk = Path.GetPathRoot(Directory.GetCurrentDirectory());
-
-				if (saveDisk != converterDisk) {
-					const string fallbackSavePath = "temp/save_to_be_melted.rome";
+				const string fallbackSavePath = "temp/save_to_be_melted.rome";
+				if (savePath != fallbackSavePath) {
 					File.Copy(savePath, fallbackSavePath, overwrite: true);
 					MeltSave(fallbackSavePath);
 					return;
