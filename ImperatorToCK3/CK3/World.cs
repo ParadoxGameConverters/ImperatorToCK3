@@ -345,7 +345,7 @@ internal sealed class World {
 		LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 		
 		// Apply region-specific tweaks.
-		HandleIcelandAndFaroeIslands(config);
+		HandleIcelandAndFaroeIslands(impWorld, config);
 		
 		// Check if any muslim religion exists in Imperator. Otherwise, remove Islam from the entire CK3 map.
 		var possibleMuslimReligionNames = new List<string> { "muslim", "islam", "sunni", "shiite" };
@@ -453,7 +453,7 @@ internal sealed class World {
 
 	private void LoadCorrectProvinceMappingsFile(Imperator.World irWorld, Configuration config) {		
 		// Terra Indomita mappings should be used if either TI or Antiquitas is detected.
-		bool irHasTI = irWorld.Countries.Any(c => c.Variables.Contains("unification_points")) || irWorld.UsableMods.Any(m => m.Name == "Antiquitas");
+		bool irHasTI = irWorld.TerraIndomitaDetected;
 		
 		bool ck3HasRajasOfAsia = config.RajasOfAsiaEnabled;
 		bool ck3HasAEP = config.AsiaExpansionProjectEnabled;
@@ -463,7 +463,7 @@ internal sealed class World {
 			mappingsToUse = "terra_indomita_to_rajas_of_asia";
 		} else if (irHasTI && ck3HasAEP) {
 			mappingsToUse = "terra_indomita_to_aep";
-		} else if (irWorld.GlobalFlags.Contains("is_playing_invictus")) {
+		} else if (irWorld.InvictusDetected) {
 			mappingsToUse = "imperator_invictus";
 		} else {
 			mappingsToUse = "imperator_vanilla";
@@ -693,15 +693,18 @@ internal sealed class World {
 		}
 	}
 
-	private void HandleIcelandAndFaroeIslands(Configuration config) {
+	private void HandleIcelandAndFaroeIslands(Imperator.World irWorld, Configuration config) {
 		Logger.Info("Handling Iceland and Faroe Islands...");
 		Date bookmarkDate = config.CK3BookmarkDate;
 		var year = bookmarkDate.Year;
 
 		var faiths = Religions.Faiths.ToArray();
+		
 		OrderedSet<string> titleIdsToHandle;
-		if (config.FallenEagleEnabled) {
-			titleIdsToHandle = ["c_faereyar"]; // Iceland doesn't exist on TFE map.
+		if (config.FallenEagleEnabled || irWorld.TerraIndomitaDetected) {
+			// Iceland doesn't exist on TFE map.
+			// The islands are on the map in TI, so it should be handled normally instead of being given an Eremitic holder.
+			titleIdsToHandle = ["c_faereyar"];
 		} else {
 			titleIdsToHandle = ["d_iceland", "c_faereyar"];
 		}
