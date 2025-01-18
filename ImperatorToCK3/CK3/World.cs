@@ -190,6 +190,8 @@ internal sealed class World {
 				Religions.LoadConverterFaiths("configurables/converter_faiths.txt", ck3ColorFactory);
 				Logger.Info("Loaded converter faiths.");
 				Logger.IncrementProgress();
+				Religions.RemoveChristianAndIslamicSyncretismFromAllFaiths();
+				
 				Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
 				Logger.Info("Loaded replaceable holy sites.");
 			},

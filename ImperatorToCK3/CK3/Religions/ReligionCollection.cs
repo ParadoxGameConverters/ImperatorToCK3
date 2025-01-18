@@ -7,6 +7,7 @@ using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.Mappers.HolySiteEffect;
+using Open.Collections;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -55,6 +56,18 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseFile(converterFaithsPath);
+	}
+
+	public void RemoveChristianAndIslamicSyncretismFromAllFaiths() {
+		Logger.Info("Removing Christian and Islamic syncretism tenets from all faiths...");
+		string[] tenetsToRemove = ["tenet_christian_syncretism", "tenet_islamic_syncretism"];
+		
+		foreach (var religion in this) {
+			religion.DoctrineIds.Remove(tenetsToRemove);
+		}
+		foreach (var faith in Faiths) {
+			faith.DoctrineIds.Remove(tenetsToRemove);
+		}
 	}
 
 	private void RegisterHolySitesKeywords(Parser parser, bool areSitesFromConverter) {
@@ -175,7 +188,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 			return new HolySite(barony, ck3Faith, landedTitles);
 		}
 
-		OrderedDictionary<string, double> imperatorModifiers;
+		System.Collections.Generic.OrderedDictionary<string, double> imperatorModifiers;
 		var deity = imperatorProvince.GetHolySiteDeity(imperatorReligions);
 		if (deity is not null) {
 			imperatorModifiers = new(deity.PassiveModifiers);
