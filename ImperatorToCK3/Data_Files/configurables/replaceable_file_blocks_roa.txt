@@ -147,3 +147,104 @@
 		} # end of after
 	}
 }
+
+"common/on_action/government_assignment_on_actions.txt" = {
+	# Adjust RoA's assignment of Stateless government so it is limited to the out-of-scope regions in Indonesia
+	replace = {
+		before = {
+				limit = {
+					has_government = tribal_government
+					#is_independent_ruler = yes
+					highest_held_title_tier <= tier_duchy
+					culture = {
+						OR = {
+							AND = {
+								has_cultural_tradition = tradition_collective_lands
+								NOT = {
+									this = culture:muong
+									has_cultural_parameter = heritage_group_austronesian
+								}
+							}
+							AND = {
+								has_cultural_pillar = heritage_papuan
+								NOT = { this = culture:sepik }
+							}
+							has_cultural_pillar = heritage_kaurareg
+							this = culture:lhomon
+							this = culture:aslian
+							this = culture:motu
+							this = culture:moklen
+						}
+					}
+				}
+		} # end of before
+
+		after = {
+				limit = {
+					has_government = tribal_government
+					#is_independent_ruler = yes
+					highest_held_title_tier <= tier_duchy
+					culture = {
+						OR = {
+							AND = {
+								has_cultural_tradition = tradition_collective_lands
+								NOT = {
+									this = culture:muong
+									has_cultural_parameter = heritage_group_austronesian
+								}
+							}
+							AND = {
+								has_cultural_pillar = heritage_papuan
+								NOT = { this = culture:sepik }
+							}
+							has_cultural_pillar = heritage_kaurareg
+							this = culture:lhomon
+							this = culture:aslian
+							this = culture:motu
+							this = culture:moklen
+						}
+					}
+					# Limit this to out-of-scope regions in Indonesia
+					capital_province = {
+						geographical_region = converter_roa_out_of_scope_region
+					}
+				}
+		} # end of after
+	}
+}
+
+"map_data/geographical_regions/geographical_region.txt" = {
+	# Adds in the relevant region for the out-of-scope stateless assignment
+	replace = {
+		before = {
+seasonal_region_west_africa = {
+	regions = {
+		world_africa_west sea_south_atlantic sea_macaronesia
+	}
+}
+		} # end of before
+		
+		after = {
+seasonal_region_west_africa = {
+	regions = {
+		world_africa_west sea_south_atlantic sea_macaronesia
+	}
+}
+
+# For limiting the RoA stateless government assignment to regions out of scope of Terra-Indomita
+converter_roa_out_of_scope_region = {
+	regions = {
+		world_mindanao world_kalimantan world_java world_timor world_sulawesi world_moluccas world_panua world_micronesia world_papua_new_guinea
+	}
+	duchies = {
+		d_lupah_sug d_sugbu d_buglas d_masbat d_bo_ol d_east_bisaya
+
+		d_palembang d_bangkahulu d_basemah d_lampung d_kerinci d_jambi d_bangka_belitung
+	}
+	counties = {
+		c_ipolot c_oton c_dumangas c_inderapura
+	}
+}
+		} # end of after
+	}
+}
