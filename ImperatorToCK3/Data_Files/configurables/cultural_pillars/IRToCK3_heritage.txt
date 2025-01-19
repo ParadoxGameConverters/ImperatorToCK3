@@ -1,5 +1,5 @@
 ﻿# Add mod-specific stuff inside MOD_DEPENDENT = { IF @[wtwsms] = {} } blocks.
-# WtWSMS uses (broadest->specific): heritage_family -> heritage_group; optionally also allows heritage_kulturbund
+# WtWSMS uses (broadest->specific): heritage_family (multiple allowed) -> heritage_group (multiple allowed); optionally also allows heritage_kulturbund
 # ROA uses (broadest->specific): heritage_family -> heritage_group
 # TFE uses (broadest->specific): heritage_family -> heritage_group
 
