@@ -1,5 +1,5 @@
 ﻿# Add mod-specific stuff inside MOD_DEPENDENT = { IF @[wtwsms] = {} } blocks.
-# WtWSMS uses (broadest->specific): language_family -> language_branch -> language_group (optional) -> language_dialect_continuum (optional); optionally also allows language_creole and language_union
+# WtWSMS uses (broadest->specific): language_family -> language_branch -> language_group (optional) -> language_dialect_continuum (optional, multiple allowed); optionally also allows language_creole and language_union
 # ROA uses (broadest->specific): language_family -> language_group; optionally also allows language_union
 # TFE uses (broadest->specific): language_family -> language_group
 
