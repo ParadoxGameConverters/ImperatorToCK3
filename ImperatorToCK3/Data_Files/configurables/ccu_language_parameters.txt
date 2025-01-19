@@ -10,7 +10,10 @@ language_families = {
     		language_family_elamite_family
     		language_family_paleo_sardinian
     		language_family_tyrsenian
-    	}
+    	} ELSE_IF roa = {
+			language_family_paleo_sardinian
+			language_family_tyrsenian
+		}
     }
 }
 
@@ -27,4 +30,16 @@ language_branches = {
 	}	
 }
 
-language_groups = {}
+language_groups = {
+	MOD_DEPENDENT = {
+		IF roa = {
+			language_group_nuragic
+			language_group_anatolian
+			language_group_italic
+			language_group_etruscan
+			language_group_daco_thracian
+		} ELSE_IF tfe = {
+			language_group_italic
+		}
+	}
+}

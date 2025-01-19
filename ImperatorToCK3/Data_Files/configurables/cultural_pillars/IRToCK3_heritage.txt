@@ -1,8 +1,21 @@
-﻿heritage_nuragic = {
+﻿# Add mod-specific stuff inside MOD_DEPENDENT = { IF @[wtwsms] = {} } blocks.
+# WtWSMS uses (broadest->specific): heritage_family -> heritage_group; optionally also allows heritage_kulturbund
+# ROA uses (broadest->specific): heritage_family -> heritage_group
+# TFE uses (broadest->specific): heritage_family -> heritage_group
+
+heritage_nuragic = {
     REPLACED_BY = {
     	tfe = { heritage_nuragic }
     	vanilla = { heritage_nuragic }
     }
+	MOD_DEPENDENT = {
+		IF @[roa|wtwsms] = {
+			parameters = {
+				heritage_group_nuragic = yes
+				heritage_family_european = yes
+			}
+		}
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -15,7 +28,21 @@
 heritage_anatolian = {
     REPLACED_BY = {
 		tfe = { heritage_anatolian }
+		wtwsms = { heritage_anatolian }
 		vanilla = { heritage_anatolian }
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_byzantine = yes
+				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_byzantine = yes
+				heritage_family_mediterranean = yes 
+			}
+		}
 	}
 	type = heritage
 	is_shown = {
@@ -26,52 +53,18 @@ heritage_anatolian = {
 	audio_parameter = european
 }
 
-heritage_hittite = {
-    REPLACED_BY = {
-    	tfe = { heritage_hittite }
-    	vanilla = { heritage_hittite }
-	}
-	type = heritage
-	is_shown = {
-		heritage_is_shown_trigger = {
-			HERITAGE = heritage_hittite
-		}
-	}
-	audio_parameter = european
-}
-
-heritage_arvanite = {
-    REPLACED_BY = {
-		tfe = { heritage_arvanite }
-		vanilla = { heritage_arvanite }
-	}
-	type = heritage
-	is_shown = {
-		heritage_is_shown_trigger = {
-			HERITAGE = heritage_arvanite
-		}
-	}
-	audio_parameter = european
-}
-
-heritage_chaldean = {
-    REPLACED_BY = {
-		tfe = { heritage_chaldean }
-		vanilla = { heritage_chaldean }
-	}
-	type = heritage
-	is_shown = {
-		heritage_is_shown_trigger = {
-			HERITAGE = heritage_chaldean
-		}
-	}
-	audio_parameter = european
-}
-
 heritage_gaulish = {
     REPLACED_BY = {
 		tfe = { heritage_gaulish }
 		vanilla = { heritage_gaulish }
+	}
+	MOD_DEPENDENT = {
+		IF @[roa|wtwsms] = {
+			parameters = {
+				heritage_group_celtic = yes
+				heritage_family_european = yes
+			}
+		}
 	}
 	type = heritage
 	is_shown = {
@@ -84,8 +77,16 @@ heritage_gaulish = {
 
 heritage_iberian_celtic = { # https://en.wikipedia.org/wiki/List_of_ancient_Celtic_peoples_and_tribes#Hispano-Celts_/_Celts_of_Hispania
     REPLACED_BY = {
-		tfe = { heritage_iberian_celtic }
+		tfe = { heritage_celtiberian }
 		vanilla = { heritage_iberian_celtic }
+	}
+	MOD_DEPENDENT = {
+		IF @[roa|wtwsms] = {
+			parameters = {
+				heritage_group_celtic = yes
+				heritage_family_european = yes
+			}
+		}
 	}
 	type = heritage
 	is_shown = {
@@ -101,6 +102,19 @@ heritage_punic = {
 		tfe = { heritage_punic }
 		vanilla = { heritage_punic }
 	}
+	MOD_DEPENDENT = {
+		IF @[roa|tfe] = {
+			parameters = {
+				heritage_group_levantine = yes
+				heritage_family_middle_eastern = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				heritage_group_west_asian = yes
+				heritage_family_west_asian = yes 
+			}
+		}
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -113,7 +127,16 @@ heritage_punic = {
 heritage_romano_british = {
     REPLACED_BY = {
 		tfe = { heritage_romano_british }
+		wtwsms = { heritage_romano_british }
 		vanilla = { heritage_romano_british }
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_european = yes
+			}
+		}
 	}
 	type = heritage
 	is_shown = {
@@ -129,6 +152,24 @@ heritage_romano_germanic = {
 		tfe = { heritage_romano_germanic }
 		vanilla = { heritage_romano_germanic }
 	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_northern = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				heritage_group_romance = yes
+				heritage_family_european = yes
+			}
+		}
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -141,6 +182,8 @@ heritage_romano_germanic = {
 heritage_east_germanic = {
     REPLACED_BY = {
 		tfe = { heritage_east_germanic }
+		wtwsms = { heritage_east_germanic }
+		roa = { heritage_east_germanic }
 		vanilla = { heritage_east_germanic }
 	}
 	type = heritage
@@ -152,24 +195,23 @@ heritage_east_germanic = {
 	audio_parameter = european
 }
 
-heritage_south_germanic = {
-    REPLACED_BY = {
-		tfe = { heritage_south_germanic }
-		vanilla = { heritage_south_germanic }
-	}
-	type = heritage
-	is_shown = {
-		heritage_is_shown_trigger = {
-			HERITAGE = heritage_south_germanic
-		}
-	}
-	audio_parameter = european
-}
-
 heritage_thracian = {
     REPLACED_BY = {
-		tfe = { heritage_thracian }
+		tfe = { heritage_daco_thracian }
 		vanilla = { heritage_thracian }
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_byzantine = yes
+				heritage_family_european = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				heritage_group_balko_anatolian = yes
+				heritage_family_european = yes
+			}
+		}
 	}
 	type = heritage
 	is_shown = {
@@ -185,6 +227,24 @@ heritage_tyrrhenian = {
 		tfe = { heritage_tyrrhenian }
 		vanilla = { heritage_tyrrhenian }
 	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes 
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				heritage_group_romance = yes
+				heritage_family_european = yes 
+			}
+		}
+	}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -197,7 +257,21 @@ heritage_tyrrhenian = {
 heritage_tai = {
     REPLACED_BY = {
 		tfe = { heritage_tai }
+		roa = { heritage_tai }
 		vanilla = { heritage_tai }
+	}
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_burmese = yes
+				heritage_family_south_asian = yes 
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				heritage_group_greater_indian = yes
+				heritage_family_south_asian = yes 
+			}
+		}
 	}
 	type = heritage
 	is_shown = {
@@ -211,7 +285,21 @@ heritage_tai = {
 heritage_palaungic = {
     REPLACED_BY = {
 		tfe = { heritage_palaungic }
+		roa = { heritage_palaungic }
 		vanilla = { heritage_palaungic }
+	}
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_burmese = yes
+				heritage_family_south_asian = yes 
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				heritage_group_greater_indian = yes
+				heritage_family_south_asian = yes 
+			}
+		}
 	}
 	type = heritage
 	is_shown = {
@@ -222,26 +310,11 @@ heritage_palaungic = {
 	audio_parameter = european
 }
 
-heritage_caucasian = {
-    REPLACED_BY = {
-		tfe = { heritage_caucasian }
-		vanilla = { heritage_caucasian }
-	}
-	type = heritage
-	is_shown = {
-		heritage_is_shown_trigger = {
-			HERITAGE = heritage_caucasian
-		}
-	}
-	audio_parameter = european
-}
-
-heritage_mon_khmer = { # from Rajas of Asia
+heritage_mon_khmer = { # from Rajas of Asia, as of now only need to AEP conversions
 	REPLACED_BY = {
 		roa = { heritage_mon_khmer }
 	}
 	type = heritage
-
 	# parameters = { # heritages for CCU
 	# 	heritage_group_austroasiatic = yes
 	# 	heritage_family_southeast_asian = yes
@@ -249,6 +322,61 @@ heritage_mon_khmer = { # from Rajas of Asia
 	is_shown = {
 		heritage_is_shown_trigger = {
 			HERITAGE = heritage_mon_khmer
+		}
+	}
+	audio_parameter = european
+}
+
+heritage_italic = {
+	REPLACED_BY = {
+		tfe = { heritage_italic }
+		wtwsms = { heritage_italian }
+		vanilla = { heritage_italic }
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes 
+			}
+		}
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_italic
+		}
+	}
+	audio_parameter = european
+}
+
+heritage_frankish = { # To replace assigned Latin heritage group/family in TFE/RoA
+    REPLACED_BY = {
+		wtwsms = { heritage_frankish }
+		vanilla = { heritage_frankish }
+	}
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_germanic = yes
+				heritage_family_northern = yes
+			}
+		} ELSE_IF roa = {
+			parameters = {
+				heritage_group_germanic = yes
+				heritage_family_european = yes
+			}
+		}
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_frankish
 		}
 	}
 	audio_parameter = european

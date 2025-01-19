@@ -1,0 +1,6 @@
+﻿l_english:
+ # language groups
+ culture_parameter_language_group_italic: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Italic [language_group|E]"
+
+ # Language families
+
