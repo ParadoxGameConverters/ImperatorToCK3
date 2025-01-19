@@ -5,4 +5,12 @@
 
 heritage_families = {}
 
-heritage_groups = {}
+heritage_groups = {
+	MOD_DEPENDENT = {
+		IF roa = {
+			heritage_group_nuragic
+		} ELSE_IF wtwsms = {
+			heritage_group_nuragic
+		}
+	}
+}

@@ -420,7 +420,7 @@ dalmatian = {
     
 	color = rgb { 246 223 15 }
 
-	heritage = heritage_arvanite
+	heritage = heritage_albanian
 	language = language_albanian
 	martial_custom = martial_custom_equal
 	traditions = {
@@ -442,42 +442,12 @@ dalmatian = {
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
 }
-albanian = {
-    INVALIDATED_BY = {
-		tfe = { albanian }
-		vanilla = { albanian }
-	}
-    
-	color = { 0.4 0.01 0.02 }
-	parents = { dalmatian }
-	created = 350.1.1
-
-	heritage = heritage_arvanite
-	language = language_albanian
-	martial_custom = martial_custom_male_only
-
-	ethos = ethos_communal
-	traditions = {
-		tradition_druzhina
-		tradition_swords_for_hire
-	}
-
-	name_list = name_list_albanian
-
-	ethnicities = {
-		10 = mediterranean_byzantine
-	}
-
-	coa_gfx = { byzantine_group_coa_gfx }
-	building_gfx = { mediterranean_building_gfx }
-	clothing_gfx = { byzantine_clothing_gfx }
-	unit_gfx = { eastern_unit_gfx }
-}
 
 ancient_egyptian = {  # fallback in case some mod removes vanilla ancient_egyptian
     INVALIDATED_BY = {
 		tfe = { ancient_egyptian kemetic }
 		wtwsms = { ancient_egyptian }
+		roa = { ancient_egyptian }
 		vanilla = { ancient_egyptian kemetic }
 	}
     
@@ -797,7 +767,7 @@ aramaic = {
     
 	color = { 0.05 1.0 0.5 }
 
-	heritage = heritage_chaldean
+	heritage = heritage_syriac
 	language = language_aramaic
 	martial_custom = martial_custom_male_only
 	traditions = {
@@ -832,7 +802,7 @@ babylonian = {
     
 	color = hsv { 0.7 0.15 0.77 }
 
-	heritage = heritage_chaldean
+	heritage = heritage_syriac
 	language = language_babylonian
 	martial_custom = martial_custom_male_only
 	traditions = {
@@ -878,7 +848,7 @@ bazramani = {
 	parents = { roman persian }
 	created = 20.1.1
 
-	heritage = heritage_chaldean
+	heritage = heritage_syriac
 	language = language_latin
 	martial_custom = martial_custom_male_only
 	traditions = {
@@ -912,7 +882,7 @@ judajca = {
 	parents = { roman hebrew }
 	created = 20.1.1
 
-	heritage = heritage_chaldean
+	heritage = heritage_syriac
 	language = language_latin
 	martial_custom = martial_custom_male_only
 	traditions = {
@@ -1637,7 +1607,7 @@ hebrew = { # https://en.wikipedia.org/wiki/Hebrews
 	martial_custom = martial_custom_male_only
 
 	heritage = heritage_israelite
-	language = language_hebrew
+	language = language_israelite
 
 	traditions = {
 		tradition_diasporic
@@ -1670,7 +1640,7 @@ shuadit = { # https://en.wikipedia.org/wiki/Shuadit
 	martial_custom = martial_custom_male_only
 
 	heritage = heritage_israelite
-	language = language_hebrew
+	language = language_israelite
 
 	traditions = {
 		tradition_diasporic
@@ -1703,7 +1673,7 @@ zarphatic = { # https://en.wikipedia.org/wiki/Zarphatic_language
 	martial_custom = martial_custom_male_only
 
 	heritage = heritage_israelite
-	language = language_hebrew
+	language = language_israelite
 
 	traditions = {
 		tradition_diasporic
@@ -1719,8 +1689,13 @@ oscan = {
 	}
     
 	color = { 117 131 50 }
-	# heritage = heritage_proto_italic
-	heritage = heritage_latin
+	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
+		IF @[tfe|roa] = {
+			heritage = heritage_italic
+		} ELSE = { # Otherwise, give it heritage_latin so its actually related to Roman
+			heritage = heritage_latin
+		}
+	}
 	language = language_oscan
 	martial_custom = martial_custom_male_only
 
@@ -1753,8 +1728,13 @@ samnite = {
 		vanilla = { samnite }
 	}
     
-	# heritage = heritage_proto_italic
-	heritage = heritage_latin
+	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
+		IF @[tfe|roa] = {
+			heritage = heritage_italic
+		} ELSE = { # Otherwise, give it heritage_latin so its actually related to Roman
+			heritage = heritage_latin
+		}
+	}
 	language = language_samnite
 	martial_custom = martial_custom_equal
 
@@ -1789,8 +1769,13 @@ venetic = { # https://en.wikipedia.org/wiki/Adriatic_Veneti
 		vanilla = { venetic }
 	}
     
-	# heritage = heritage_proto_italic
-	heritage = heritage_latin
+	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
+		IF @[tfe|roa|wtwsms] = {
+			heritage = heritage_venetic
+		} ELSE = { # Otherwise, give it heritage_latin so its actually related to Roman
+			heritage = heritage_latin
+		}
+	}
 	language = language_venetic
     martial_custom = martial_custom_male_only
 
@@ -1830,8 +1815,13 @@ ligustic = {
 		vanilla = { ligustic }
 	}
     
-	# heritage = heritage_proto_italic
-	heritage = heritage_latin
+	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
+		IF @[tfe|roa] = {
+			heritage = heritage_italic
+		} ELSE = { # Otherwise, give it heritage_latin so its actually related to Roman
+			heritage = heritage_latin
+		}
+	}
 	language = language_ligustic
 	martial_custom = martial_custom_male_only
 
@@ -1866,8 +1856,13 @@ messapic = {
 		vanilla = { messapic }
 	}
     
-	# heritage = heritage_proto_italic
-	heritage = heritage_latin
+	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
+		IF @[tfe|roa] = {
+			heritage = heritage_italic
+		} ELSE = { # Otherwise, give it heritage_latin so its actually related to Roman
+			heritage = heritage_latin
+		}
+	}
 	language = language_messapic
 	martial_custom = martial_custom_male_only
 
@@ -1902,8 +1897,13 @@ sardonian = {
 		vanilla = { sardonian }
 	}
     
-	# heritage = heritage_proto_italic
-	heritage = heritage_latin
+	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
+		IF @[tfe|roa] = {
+			heritage = heritage_italic
+		} ELSE = { # Otherwise, give it heritage_latin so its actually related to Roman
+			heritage = heritage_latin
+		}
+	}
 	language = language_sardonian
 	martial_custom = martial_custom_male_only
 
@@ -1938,8 +1938,13 @@ siculian = {
 		vanilla = { siculian }
 	}
     
-	# heritage = heritage_proto_italic
-	heritage = heritage_latin
+	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
+		IF @[tfe|roa] = {
+			heritage = heritage_italic
+		} ELSE = { # Otherwise, give it heritage_latin so its actually related to Roman
+			heritage = heritage_latin
+		}
+	}
 	language = language_siculian
 	martial_custom = martial_custom_male_only
 
@@ -2451,6 +2456,7 @@ shan = {  # https://en.wikipedia.org/wiki/Shan_people
 thracian = {
     INVALIDATED_BY = {
 		tfe = { thracian }
+		wtwsms = { thracian }
 		vanilla = { thracian }
 	}
     
@@ -2480,6 +2486,7 @@ thracian = {
 dacian = {
     INVALIDATED_BY = {
 		tfe = { dacian }
+		wtwsms = { dacian }
 		vanilla = { dacian }
 	}
     

@@ -57,9 +57,9 @@ l_english:
  nabatean_collective_noun: "Nabateans"
  nabatean_prefix: "Nabateo"
 
- dalmatian: "Dalmatian"
- dalmatian_collective_noun: "Dalmatians"
- dalmatian_prefix: "Dalmato" # https://en.wiktionary.org/wiki/Dalmato-
+ dalmatian: "Illyrian"
+ dalmatian_collective_noun: "Illyrians"
+ dalmatian_prefix: "Illyro"
 
  aramaic: "Aramaic"
  aramaic_collective_noun: "Arameans"
@@ -295,13 +295,6 @@ l_english:
  lemnian: "Lemnian"
  lemnian_collective_noun: "Lemnians"
  lemnian_prefix: "Lemno"
-
- arvanite_group: "Arvanite"
- arvanite_group_collective_noun: "Arvanites"
- #arvanite_group_prefix: "Arvanito" # found 'Takime arbëresho-arvanito-shqiptare në gjysmën e dytë të shek. XIX.'
- albanian: "Albanian"
- albanian_collective_noun: "Albanians"
- albanian_prefix: "Albano" # found 'Albano-Greek Union'
 
  galatian: "Galatian"
  galatian_collective_noun: "Galatians"

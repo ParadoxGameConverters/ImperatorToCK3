@@ -882,7 +882,7 @@ link = { ck3=armenian ir=sophene } # Sophene was a historical region in Upper Me
 link = { ck3=armenian ir=van } # The Kingdom of Van was a historical Armenian state located in the region of Lake Van.
 link = { ck3=armenian ir=brygian } # The Brygians were an ancient Anatolian people who inhabited the region of Phrygia, which is now part of Armenia.
 link = { ck3=aceh ir=linyi irRegion = aceh_area } # CK3 has Aceh as hybrid of Cham and Gayo, figured this make the most sense to have it appear naturally ~~tanner918
-link = { ck3=cham ir=linyi } 
+link = { ck3=cham ir=linyi }
 link = { ck3 = kavalan ir = yizhou @north_formosa }
 link = { ck3 = bunun ir = yizhou @middle_formosa }
 link = { ck3 = paiwan ir = yizhou @south_formosa }
@@ -914,7 +914,8 @@ link = { ck3=tai ir=xiangkhoang } # Xiangkhoang was a historical kingdom in Laos
 link = { ck3=nicobar ir=holchu } # The Nicobarese refer to themselves as Holchu
 link = { ck3=saka ir=buku } # Buku is in the Saka culture group, so for now will group to Saka until a better mapping can be determined
 link = { ck3 = caijia ir = dian } # Mapping for now until a better culture can be determine
-link = { ck3 = yi ir = yelang } # The Yi/Nuosu peoples are considered possible descendants of the Yelang kingdom
+link = { ck3 = wuman ir = yelang } # AEP Culture, adding first to make sure AEP cultures map properly; The Yi/Nuosu peoples are considered possible descendants of the Yelang kingdom
+link = { ck3 = yi ir = yelang } # Used for RoA; The Yi/Nuosu peoples are considered possible descendants of the Yelang kingdom
 link = { ck3 = bai ir = jiuliao }
 link = { ck3 = lisu ir = ailao }
 link = { ck3 = be ir = lier ck3Province = 12458 ck3Province = 12449 ck3Province = 12436 ck3Province = 12419 }
@@ -976,6 +977,7 @@ link = { ck3 = tula ir = qifu irRegion = scytho_siberian_region irRegion = hujie
 link = { ck3 = khori ir = qifu irRegion = mobei_region }
 link = { ck3 = barqut ir = qifu } # Not too sure what would be best for this, all I can find is that they are related to mongolic cultures, and that these cultures might fit, but figured adding this to the already large list of mongol cultures above might blob cultures a bit too much ~~tanner918
 
+
 # Turkic Mappings (I really split this up since there were quite a few Turkic cultures in Rajas of Asia. If it seems like having this split up so much is a bad idea, some could easily be removed ~~tanner918)
 @proto_turks = "ir = dingling ir = xiongnu ir = korgantas ir = arzhan ir = hujie ir = issedonian"
 link = { ck3 = kirghiz @proto_turks irRegion = gryphia_area irRegion = jiankun_area }
@@ -1009,7 +1011,7 @@ link = { ck3 = burmese ir = piaoyue }
 link = { ck3 = saro ir = jinhan ir = byeonhan } # https://en.wikipedia.org/wiki/Three_Kingdoms_of_Korea#Silla
 link = { ck3 = baekje ir = mahan } # https://en.wikipedia.org/wiki/Three_Kingdoms_of_Korea#Baekje
 link = { ck3 = ba_shu ir = ba ir = shu } # https://en.wikipedia.org/wiki/Ba%E2%80%93Shu_culture
-link = { ck3 = gilyak ir = nivkh } # https://en.wikipedia.org/wiki/Nivkh_people
+link = { ck3 = gilyak ir = nivkh ir = susuya } # https://en.wikipedia.org/wiki/Nivkh_people
 link = { ck3 = komi ir = permic } # komi is localized as Permian in CK3
 link = { ck3 = mohese ir = haoshi } # Haoshi/Yuexi were one of the Mohe tribes according to https://en.wikipedia.org/wiki/Mohe_people
 link = {
@@ -1024,3 +1026,16 @@ link = {
 	ck3 = bai
 	ir = bo
 }
+link = { ck3 = qiang ir = kunming ir = zuo ir = qiongdu }
+link = { ck3 = hani ir = dian } # Mapping for now until a better culture can be determine
+link = { ck3=yamato ir=nansei ir=aduma ir=kumaso } # Fallback for AEP since it doesn't have same culture split as RoA
+link = { ck3 = qay ir = qifu }
+link = { ck3 = yi ir = sanmiao } # AEP uses this to represent Miao peoples
+link = { ck3=ilokano ir=igorot } # The Igorot people are a group of indigenous peoples who live in the mountainous regions of the Philippines.
+link = { ck3=champ ir=linyi }
+link = { ck3 = tai ir = ailao }
+link = { ck3 = beish ir = lier ck3Province = 12458 ck3Province = 12449 ck3Province = 12436 ck3Province = 12419 }
+link = { ck3 = liliao ir = lier }
+link = { ck3 = pu ir = gui } # pu called Zhuang in CK3. They are both Tai cultures in the same region, and looking it up, Zhuang peoples are said to be descendants of the Xiou (according to a chinese travel site), and the Nam Cuong tag in Imperator refers to them as the Xiou while having Gui as primary culture
+link = { ck3=komi ir=argippaei }
+link = { ck3=khanty ir=jiankun ir = itkul ir = bolsherechye } # AEP doesn't add many relevant cultures for this, so this might change if a better option is decided
