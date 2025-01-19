@@ -388,8 +388,8 @@ l_english:
  
  neo_minoan: "Neo-Minoan"
  neo_minoan_collective_noun: "Neo-Minoans"
- neo_minoan_prefix: "Neo-Minoan"
+ neo_minoan_prefix: "Mino" # found: "proto-Mino-Greek"
  
  cretan: "Cretan"
  cretan_collective_noun: "Cretans"
- cretan_prefix: "Cretan"
+ cretan_prefix: "Creto" # found: "Creto-Mycenaean texts"
