@@ -24,3 +24,7 @@
  unlock_final_hasan_decisions_1_tt: ""
  unlock_final_hasan_decisions_2_tt: ""
  unlock_final_hasan_decisions_3_tt: ""
+ 
+ # "Chaldean" is a broader term that better encompasses the Babylonian culture added to this heritage.
+ heritage_syriac: "Chaldean"
+ heritage_syriac_collective_noun: "Chaldeans"
