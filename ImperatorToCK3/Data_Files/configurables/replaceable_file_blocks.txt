@@ -46,3 +46,70 @@
 		}
 	}
 }
+
+
+"common/decisions/dlc_decisions/bp3/00_bp3_other_decisions.txt" = {
+	# In form_bosporan_kingdom_decision, make sure the kingdom doesn't have a holder or de jure land.
+	replace = {
+		before = {
+	is_shown = {
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_bosporan_kingdom
+			}
+		}
+		culture = {
+			OR = {
+				has_cultural_pillar = heritage_central_germanic
+				has_cultural_pillar = heritage_byzantine
+			}
+		}
+		highest_held_title_tier <= tier_kingdom
+		any_held_title = {
+			OR = {
+				de_jure_liege = title:d_crimea
+				de_jure_liege = title:d_azov
+				this = title:d_crimea
+				this = title:d_azov
+			}
+		}
+	}
+		} # end of before
+		
+		after = {
+	is_shown = {
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_bosporan_kingdom
+			}
+		}
+		culture = {
+			OR = {
+				has_cultural_pillar = heritage_central_germanic
+				has_cultural_pillar = heritage_byzantine
+			}
+		}
+		highest_held_title_tier <= tier_kingdom
+		any_held_title = {
+			OR = {
+				de_jure_liege = title:d_crimea
+				de_jure_liege = title:d_azov
+				this = title:d_crimea
+				this = title:d_azov
+			}
+		}
+		# IRToCK3: "Added this just making sure the kingdom doesn't have a holder or de jure land" ~~tanner918
+		title:k_bosporan_kingdom = {
+			AND = {
+				NOT = { exists = holder }
+				any_de_jure_county = {
+					count < 1
+				}
+			}
+		}
+	}
+		}
+	}
+}
