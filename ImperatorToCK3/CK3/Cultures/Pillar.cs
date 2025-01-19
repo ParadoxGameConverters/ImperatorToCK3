@@ -40,6 +40,10 @@ internal sealed class Pillar : IIdentifiable<string>, IPDXSerializable {
 		if (Color is not null) {
 			sb.Append(contentIndent).AppendLine($"color={Color}");
 		}
+		if (parameters.Count > 0) {
+			sb.Append(contentIndent).Append("parameters=")
+				.AppendLine(PDXSerializer.Serialize(parameters, indent: contentIndent, withBraces: true));
+		}
 		sb.AppendLine(PDXSerializer.Serialize(Attributes, indent: contentIndent, withBraces: false));
 
 		if (withBraces) {
