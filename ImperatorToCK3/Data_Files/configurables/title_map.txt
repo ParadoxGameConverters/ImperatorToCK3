@@ -134,8 +134,6 @@ link = { ir = ATU ck3 = k_asturias rank = k } # Decision in Base game
 link = { ir = SAR ck3 = k_sardinia rank = k } # Decision in Base game
 link = { ir = CSC ck3 = k_sardinia rank = k } # Included decision in Terra-Indomita, figured I'd include this mapping too since you can't map to duchies
 link = { ir = CYP ck3 = k_cyprus rank = k } # Decision in Base game
-link = { ir = SS1 ck3 = k_magyar rank = k } # Tag in Terra-Indomita. It is the only Magyerian culture nation, and I think is supposed to represent where they originated, so figured I'd include this mapping
-link = { ir = SS1 ck3 = k_magyar rank = d }
 link = { ir = XXS ck3 = k_saxony rank = k } # Decision in Base game
 link = { ir = MGG ck3 = k_sicily rank = k } # Decision in Base game, giving priority over SII since the decision to form MGG requires more pretty much all of de jure k_sicily, while decision to form SII is more de jure d_sicily
 link = { ir = SII ck3 = k_sicily rank = k } # Decision in Base game
