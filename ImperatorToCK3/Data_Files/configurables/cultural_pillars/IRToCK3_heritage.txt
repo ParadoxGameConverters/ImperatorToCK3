@@ -313,6 +313,7 @@ heritage_palaungic = {
 heritage_mon_khmer = { # from Rajas of Asia, as of now only need to AEP conversions
 	REPLACED_BY = {
 		roa = { heritage_mon_khmer }
+		aep = { heritage_khmer }
 	}
 	type = heritage
 	# parameters = { # heritages for CCU
