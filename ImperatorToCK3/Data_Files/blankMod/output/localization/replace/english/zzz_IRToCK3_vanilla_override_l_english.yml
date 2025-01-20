@@ -28,3 +28,13 @@
  # "Chaldean" is a broader term that better encompasses the Babylonian culture added to this heritage.
  heritage_syriac: "Chaldean"
  heritage_syriac_collective_noun: "Chaldeans"
+
+ # "Ancient Egyptian" is weird as a name for a culture that exists in the megacampaign timeline.
+ ancient_egyptian: "Kemetic"
+ ancient_egyptian_collective_noun: "Kemetics"
+ ancient_egyptian_prefix: "Egypto"
+ # "Egyptian" should not be used for the later Arabic-speaking population of Egypt.
+ # Instead, base the name on "Misr", the Arabic name for Egypt.
+ egyptian: "Misri"
+ egyptian_collective_noun: "Misris"
+ egyptian_prefix: "Egypto"
