@@ -1,0 +1,250 @@
+# This file contains blocks from Rajas of Asia files that can be replaced with new ones.
+# The structure is as follows:
+
+# <file name> = {
+# 	replace = {
+# 		before = {
+# 			some original code			
+# 		}
+# 		after = {
+# 			some modified code			
+# 		}
+# 	}
+#
+# 	replace = {
+# 		before = {
+# 			some original code 2		
+# 		}
+# 		after = {
+# 			some modified code 2		
+# 		}
+# 	}
+# }
+
+# INDENTATION IS IMPORTANT INSIDE the before BLOCK!
+# ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL FILE.
+# OTHERWISE THE BLOCKS WON'T BE MODIFIED!
+
+
+"common/script_values/ccu_culture_values.txt" = {
+	# Fix RoA's CCU system to actually use language groups/families/unions
+	replace = {
+		before = {
+		# Increase base acceptance for sharing same language
+		if = {
+			limit = {
+				has_same_culture_language = scope:culture
+			}
+			add = {
+				value = 10 # please update CULTURE_PILLAR_TOOLTIP_LANGUAGE_EFFECT if this number changes
+				desc = ACCEPTANCE_BASELINE_LANGUAGE
+			}
+		}
+		} # end of before
+
+		after = {
+		# Increase base acceptance for sharing same language
+		if = {
+			limit = {
+				has_same_culture_language = scope:culture
+			}
+			add = {
+				value = 10 # please update CULTURE_PILLAR_TOOLTIP_LANGUAGE_EFFECT if this number changes
+				desc = ACCEPTANCE_BASELINE_LANGUAGE
+			}
+		}
+		else_if = {
+			limit = { has_same_language_group_as = { TARGET = scope:culture } }
+			add = {
+				value = same_language_group_cultural_acceptance
+				desc = ACCEPTANCE_BASELINE_LANGUAGE_GROUP
+			}
+		}
+		else_if = {
+			limit = { has_same_language_family_as = { TARGET = scope:culture } }
+			add = {
+				value = same_language_family_cultural_acceptance
+				desc = ACCEPTANCE_BASELINE_LANGUAGE_FAMILY
+			}
+		}
+		else_if = {
+			limit = { is_in_language_union_with = { TARGET = scope:culture } }
+			add = {
+				value = same_language_union_cultural_acceptance
+				desc = ACCEPTANCE_BASELINE_LANGUAGE_UNION
+			}
+		}
+		} # end of after
+	}
+}
+
+"common/decisions/dlc_decisions/bp3/sea_bp3_other_decisions.txt" = {
+	# In form_bosporan_kingdom_decision, make sure the kingdom doesn't have a holder or de jure land.
+	replace = {
+		before = {
+	is_shown = {
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_bosporan_kingdom
+			}
+		}
+		culture = {
+			OR = {
+				has_cultural_pillar = heritage_central_germanic
+				has_cultural_pillar = heritage_byzantine
+			}
+		}
+		highest_held_title_tier <= tier_kingdom
+		any_held_title = {
+			OR = {
+				de_jure_liege = title:d_crimea
+				de_jure_liege = title:d_azov
+				de_jure_liege = title:d_tmutarakan
+				this = title:d_crimea
+				this = title:d_azov
+				this = title:d_tmutarakan
+			}
+		}
+	}
+		} # end of before
+		
+		after = {
+	is_shown = {
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_bosporan_kingdom
+			}
+		}
+		culture = {
+			OR = {
+				has_cultural_pillar = heritage_central_germanic
+				has_cultural_pillar = heritage_byzantine
+			}
+		}
+		highest_held_title_tier <= tier_kingdom
+		any_held_title = {
+			OR = {
+				de_jure_liege = title:d_crimea
+				de_jure_liege = title:d_azov
+				de_jure_liege = title:d_tmutarakan
+				this = title:d_crimea
+				this = title:d_azov
+				this = title:d_tmutarakan
+			}
+		}
+		# IRToCK3: "Added this just making sure the kingdom doesn't have a holder or de jure land" ~~tanner918
+		title:k_bosporan_kingdom = {
+			AND = {
+				NOT = { exists = holder }
+				any_de_jure_county = {
+					count < 1
+				}
+			}
+		}
+	}
+		} # end of after
+	}
+}
+
+"common/on_action/government_assignment_on_actions.txt" = {
+	# Adjust RoA's assignment of Stateless government so it is limited to the out-of-scope regions in Indonesia
+	replace = {
+		before = {
+				limit = {
+					has_government = tribal_government
+					#is_independent_ruler = yes
+					highest_held_title_tier <= tier_duchy
+					culture = {
+						OR = {
+							AND = {
+								has_cultural_tradition = tradition_collective_lands
+								NOT = {
+									this = culture:muong
+									has_cultural_parameter = heritage_group_austronesian
+								}
+							}
+							AND = {
+								has_cultural_pillar = heritage_papuan
+								NOT = { this = culture:sepik }
+							}
+							has_cultural_pillar = heritage_kaurareg
+							this = culture:lhomon
+							this = culture:aslian
+							this = culture:motu
+							this = culture:moklen
+						}
+					}
+				}
+		} # end of before
+
+		after = {
+				limit = {
+					has_government = tribal_government
+					#is_independent_ruler = yes
+					highest_held_title_tier <= tier_duchy
+					culture = {
+						OR = {
+							AND = {
+								has_cultural_tradition = tradition_collective_lands
+								NOT = {
+									this = culture:muong
+									has_cultural_parameter = heritage_group_austronesian
+								}
+							}
+							AND = {
+								has_cultural_pillar = heritage_papuan
+								NOT = { this = culture:sepik }
+							}
+							has_cultural_pillar = heritage_kaurareg
+							this = culture:lhomon
+							this = culture:aslian
+							this = culture:motu
+							this = culture:moklen
+						}
+					}
+					# Limit this to out-of-scope regions in Indonesia
+					capital_province = {
+						geographical_region = converter_roa_out_of_scope_region
+					}
+				}
+		} # end of after
+	}
+}
+
+"map_data/geographical_regions/geographical_region.txt" = {
+	# Adds in the relevant region for the out-of-scope stateless assignment
+	replace = {
+		before = {
+seasonal_region_west_africa = {
+	regions = {
+		world_africa_west sea_south_atlantic sea_macaronesia
+	}
+}
+		} # end of before
+		
+		after = {
+seasonal_region_west_africa = {
+	regions = {
+		world_africa_west sea_south_atlantic sea_macaronesia
+	}
+}
+
+# For limiting the RoA stateless government assignment to regions out of scope of Terra-Indomita
+converter_roa_out_of_scope_region = {
+	regions = {
+		world_mindanao world_kalimantan world_java world_timor world_sulawesi world_moluccas world_panua world_micronesia world_papua_new_guinea
+	}
+	duchies = {
+		d_lupah_sug d_sugbu d_buglas d_masbat d_bo_ol d_east_bisaya
+
+		d_palembang d_bangkahulu d_basemah d_lampung d_kerinci d_jambi d_bangka_belitung
+	}
+	counties = {
+		c_ipolot c_oton c_dumangas c_inderapura
+	}
+}
+		} # end of after
+	}
+}
