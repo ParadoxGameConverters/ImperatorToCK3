@@ -291,6 +291,7 @@ internal sealed class World {
 		// Before we can import Imperator countries and governorships, the I:R CoA extraction thread needs to finish.
 		irCoaExtractThread?.Join();
 
+		SuccessionLawMapper successionLawMapper = new("configurables/succession_law_map.liquid", ck3ModFlags);
 		List<KeyValuePair<Country, Dependency?>> countyLevelCountries = [];
 		LandedTitles.ImportImperatorCountries(
 			impWorld.Countries,
@@ -1149,7 +1150,6 @@ internal sealed class World {
 	private readonly DefiniteFormMapper definiteFormMapper = new(Path.Combine("configurables", "definite_form_names.txt"));
 	private readonly NicknameMapper nicknameMapper = new(Path.Combine("configurables", "nickname_map.txt"));
 	private readonly ProvinceMapper provinceMapper = new();
-	private readonly SuccessionLawMapper successionLawMapper = new(Path.Combine("configurables", "succession_law_map.txt"));
 	private readonly TagTitleMapper tagTitleMapper = new(
 		tagTitleMappingsPath: Path.Combine("configurables", "title_map.txt"),
 		governorshipTitleMappingsPath: Path.Combine("configurables", "governorMappings.txt"),

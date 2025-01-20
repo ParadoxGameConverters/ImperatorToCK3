@@ -10,6 +10,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.SuccessionLaw;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class SuccessionLawMapperTests {
+	private static OrderedDictionary<string, bool> ck3ModFlags = [];
+	
 	[Fact]
 	public void NonMatchGivesEmptySet() {
 		var reader = new BufferedReader("link = { ir=implaw ck3 = ck3law }");
@@ -56,7 +58,7 @@ public class SuccessionLawMapperTests {
 
 	[Fact]
 	public void MappingsAreReadFromFile() {
-		var mapper = new SuccessionLawMapper("TestFiles/configurables/succession_law_map.txt");
+		var mapper = new SuccessionLawMapper("TestFiles/configurables/succession_law_map.txt", ck3ModFlags);
 		Assert.Equal(
 			new SortedSet<string> { "ck3law1", "ck3law2" },
 			mapper.GetCK3LawsForImperatorLaws(new() { "implaw1" })

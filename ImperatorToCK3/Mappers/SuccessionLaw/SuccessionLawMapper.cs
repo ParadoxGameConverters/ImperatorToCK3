@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.SuccessionLaw;
@@ -7,11 +8,11 @@ public sealed class SuccessionLawMapper {
 	private readonly Dictionary<string, SortedSet<string>> impToCK3SuccessionLawMap = new();
 
 	public SuccessionLawMapper() { }
-	public SuccessionLawMapper(string filePath) {
+	public SuccessionLawMapper(string filePath, OrderedDictionary<string, bool> ck3ModFlags) {
 		Logger.Info("Parsing succession law mappings...");
 		var parser = new Parser();
 		RegisterKeys(parser);
-		parser.ParseFile(filePath);
+		parser.ParseLiquidFile(filePath, ck3ModFlags);
 		Logger.Info($"Loaded {impToCK3SuccessionLawMap.Count} succession law links.");
 
 		Logger.IncrementProgress();
