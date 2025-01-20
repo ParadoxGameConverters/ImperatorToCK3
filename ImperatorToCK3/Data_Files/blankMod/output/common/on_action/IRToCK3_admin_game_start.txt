@@ -1,0 +1,27 @@
+﻿
+on_game_start = {
+	on_actions = {
+		IRToCK3_create_admin_noble_families
+	}
+}
+
+IRToCK3_create_admin_noble_families = {
+	effect = {
+		every_ruler = {
+			limit = {
+				government_allows = administrative
+				is_house_head = yes
+				highest_held_title_tier >= tier_duchy
+				NOR = {
+					any_held_title = { is_noble_family_title = yes }
+					house = {
+						any_house_member = {
+							any_held_title = { is_noble_family_title = yes }
+						}
+					}
+				}
+			}
+			create_noble_family_effect = yes
+		}
+	}
+}
