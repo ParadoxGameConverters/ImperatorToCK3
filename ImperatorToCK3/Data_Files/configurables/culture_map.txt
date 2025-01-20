@@ -153,7 +153,7 @@ link = { ck3 = armenian ir = armenian }
 link = { ck3 = luwian ir = carian ir = lycian ir = isaurian ir = pisidian }
 link = { ck3=cilician ir=cilician ir=kennataian ir=cennatean ir=lalasian }
 link = { ck3 = lydian ir = lydian }
-link = { ck3=hittite ir=lycaonian ir=pamphylian ir=cappadocian ir=pontic ir=paphlagonian ir=milyadian ir=oroandian ir=cabalian ir=morimenian ir=cataonian }
+link = { ck3=hittite ir=lycaonian ir=cappadocian ir=pontic ir=paphlagonian ir=milyadian ir=oroandian ir=cabalian ir=morimenian ir=cataonian }
 link = { ck3 = phrygian ir = phrygian ir = mysian }
 #Invictus mod
 link = { ck3 = galatian ir = galatian ir = tylian } # Tylian represent Celts that migrated to Thrace.
@@ -457,7 +457,7 @@ link = { ck3 = german @ir_all_germanic_cultures }
 
 ## Hellenic
 @ir_antiquitas_greek_cultures="ir=doric ir=north_western_doric ir=attican ir=western_ionic ir=eastern_ionic ir=eteocretan ir=elean ir=kerkyran" # # Antiquitas (https://steamcommunity.com/sharedfiles/filedetails/?id=2992438857)
-@ir_greek_cultures = "ir=greek ir=athenian ir=peloponnesian ir=massalian ir=cyrenaican ir=bosporan ir=thessalian ir=cypriot ir=bithynian ir=ionian ir=troan ir=aeolian ir=greco_pontic ir=aegean ir=aetolian ir=euboean ir=boeotian ir=epirote ir=arcadian ir=argolian ir=parthinian ir=cretan ir=achaean ir=enetoian @ir_antiquitas_greek_cultures"
+@ir_greek_cultures = "ir=greek ir=athenian ir=peloponnesian ir=massalian ir=cyrenaican ir=bosporan ir=thessalian ir=cypriot ir=bithynian ir=ionian ir=troan ir=aeolian ir=greco_pontic ir=aegean ir=aetolian ir=euboean ir=boeotian ir=epirote ir=arcadian ir=argolian ir=parthinian ir=cretan ir=achaean ir=enetoian ir=pamphylian @ir_antiquitas_greek_cultures"
 # TFE
 link = { ck3 = pontic ir = greco_pontic }
 link = { ck3 = syrian ir=macedonian ir=hellenistic ir=syracusan ir=thracian @ir_greek_cultures @culture_splitting_region_N  }
