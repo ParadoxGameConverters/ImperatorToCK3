@@ -384,8 +384,8 @@ link = { ck3 = herulian @ir_vandilian_cultures historicalTag=HRE } # TFE
 link = { ck3 = herulian ir = herulian } # TFE
 link = { ck3 = bastarnian ir = bastarnae } # TFE
 link = { ck3 = rugian ir = rugian } # TFE
-link = { ck3 = gothonic @ir_gothic_cultures ck3Region = d_pommerania ck3Region = d_nordmark ck3Region = d_pomerelia ck3Region = d_ostmark ck3Region = d_wielkopolska } # TFE - Archaeological complex associated with the goths: https://en.wikipedia.org/wiki/Wielbark_culture#:~:text=The%20Wielbark%20culture%20(German%3A%20Wielbark,to%20the%205th%20century%20AD.
-link = { ck3 = przeworsk @ir_vandal_cultures ck3Region = d_lesser_poland ck3Region = d_wielkopolska ck3Region = d_mazovia ck3Region = d_kuyavia ck3Region = d_pommerania ck3Region = d_pomerelia } # TFE - Mixed archaeological complex that contained the vandals: https://en.wikipedia.org/wiki/Przeworsk_culture#:~:text=The%20Przeworsk%20culture%20was,%5B14%5D%5B15%5D
+link = { ck3 = gothonic @ir_gothic_cultures ck3Region = d_pommerania ck3Region = d_nordmark ck3Region = d_pomerelia ck3Region = d_ostmark ck3Region = d_wielkopolska } # TFE - Archeological complex associated with the Goths: https://en.wikipedia.org/wiki/Wielbark_culture#:~:text=The%20Wielbark%20culture%20(German%3A%20Wielbark,to%20the%205th%20century%20AD.
+link = { ck3 = przeworsk @ir_vandal_cultures ck3Region = d_lesser_poland ck3Region = d_wielkopolska ck3Region = d_mazovia ck3Region = d_kuyavia ck3Region = d_pommerania ck3Region = d_pomerelia } # TFE - Mixed archeological complex that contained the Vandals: https://en.wikipedia.org/wiki/Przeworsk_culture#:~:text=The%20Przeworsk%20culture%20was,%5B14%5D%5B15%5D
 link = { ck3 = visigothic @ir_gothic_cultures
  	@culture_splitting_region_A @culture_splitting_region_B @culture_splitting_region_C
 	@culture_splitting_region_E @culture_splitting_region_F
