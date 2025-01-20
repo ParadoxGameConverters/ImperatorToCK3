@@ -531,9 +531,10 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		History.AddFieldValue(governorshipStartDate, "holder", "holder", $"imperator{impGovernor.Id}");
 
 		// ------------------ determine government
-		var ck3LiegeGov = country.CK3Title.GetGovernment(governorshipStartDate);
+		Date normalizedGovernorshipStartDate = governorshipStartDate.Year >= 2 ? governorshipStartDate : new(2, 1, 1);
+		var ck3LiegeGov = country.CK3Title.GetGovernment(normalizedGovernorshipStartDate);
 		if (ck3LiegeGov is not null) {
-			History.AddFieldValue(governorshipStartDate, "government", "government", ck3LiegeGov);
+			History.AddFieldValue(normalizedGovernorshipStartDate, "government", "government", ck3LiegeGov);
 		}
 
 		// Determine color.
