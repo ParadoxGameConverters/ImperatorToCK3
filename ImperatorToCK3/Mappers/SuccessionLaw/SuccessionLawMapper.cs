@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using ImperatorToCK3.CK3;
 using System.Collections.Generic;
@@ -41,7 +41,6 @@ public sealed class SuccessionLawMapper {
 				lawsToReturn.UnionWith(match);
 				break;
 			}
-			
 		}
 		return lawsToReturn;
 	}
