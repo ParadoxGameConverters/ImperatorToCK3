@@ -550,10 +550,16 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// determine successions laws
 		// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
+		OrderedSet<string> successionLaws = [];
+		if (ck3LiegeGov is not null && ck3LiegeGov == "administrative_government") {
+			successionLaws.Add("appointment_succession_law");
+		} else {
+			successionLaws.Add("high_partition_succession_law");
+		}
 		History.AddFieldValue(governorshipStartDate,
 			"succession_laws",
 			"succession_laws",
-			new SortedSet<string> { "high_partition_succession_law" }
+			successionLaws
 		);
 
 		// ------------------ determine CoA
