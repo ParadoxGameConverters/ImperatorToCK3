@@ -76,7 +76,7 @@
 		}
 		} # end of after
 	}
-}
+} # end of ccu_culture_values block
 
 "common/decisions/dlc_decisions/bp3/sea_bp3_other_decisions.txt" = {
 	# In form_bosporan_kingdom_decision, make sure the kingdom doesn't have a holder or de jure land.
@@ -146,7 +146,7 @@
 	}
 		} # end of after
 	}
-}
+} # end of sea_bp3_other_decisions block
 
 "common/on_action/government_assignment_on_actions.txt" = {
 	# Adjust RoA's assignment of Stateless government so it is limited to the out-of-scope regions in Indonesia
@@ -211,7 +211,7 @@
 				}
 		} # end of after
 	}
-}
+} # end of government_assignment_on_actions block
 
 "map_data/geographical_regions/geographical_region.txt" = {
 	# Adds in the relevant region for the out-of-scope stateless assignment
@@ -246,5 +246,30 @@ converter_roa_out_of_scope_region = {
 	}
 }
 		} # end of after
+	}
+} # end of geographical_region block
+
+
+"common/scripted_triggers/00_law_triggers.txt" = {
+	# Need to set this trigger to always be false so admin realms end up with the proper succession law
+	replace = {
+		before = {
+non_roman_administrative_gov_trigger = {
+	government_allows = administrative
+	is_independent_ruler = yes
+	primary_title = {
+		NOR = {
+			this = title:e_roman_empire
+			this = title:e_byzantium
+		}
+	}
+}
+		}
+
+		after = {
+non_roman_administrative_gov_trigger = {
+	always = no
+}
+		}
 	}
 }
