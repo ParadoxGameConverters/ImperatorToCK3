@@ -344,7 +344,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		if (imperatorCountry.Government is not null) {
 			var lastCK3TermGov = GetGovernment(conversionDate);
-			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorCountry.Government, imperatorCountry.PrimaryCulture, enabledCK3Dlcs);
+			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorCountry.Government, Rank, imperatorCountry.PrimaryCulture, enabledCK3Dlcs);
 			if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
 				History.AddFieldValue(conversionDate, "government", "government", ck3CountryGov);
 			}
