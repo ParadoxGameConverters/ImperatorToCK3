@@ -5110,7 +5110,6 @@ hasan_expand_the_assassins = {
 
 
 ### --- Rajas of Asia Specific Files ---
-## (Not sure if this will remain in this file, or if a removable_file_blocks_roa file will be made, which would make sense given that RoA overwrites some of the above files, but left here for now for tests )
 # This removes the part of the code assigning stateless governments that often seems to cause the game to crash when converting
 "common/on_action/government_assignment_on_actions.txt" = {
 	# Disable assignment of Nomadic government on game start.
@@ -5194,6 +5193,23 @@ hasan_expand_the_assassins = {
 					scope:ruler = { trigger_event = sea_title_event.2001 }
 				}
 	}
+	{
+			# Chinese Primogeniture
+			if = {
+				limit = {
+					OR = {
+						primary_title = title:e_celestia_china
+						primary_title.empire = title:e_celestia_china
+					}
+					OR = {
+						highest_held_title_tier >= tier_kingdom
+						is_independent_ruler = yes
+					}
+					has_government = administrative_government
+				}
+				add_realm_law_skip_effects = single_heir_succession_law
+			}
+	} # end of "Disable assignment of Primo succession to Chinese realms on game start."
 }
 
 
@@ -9584,50 +9600,3 @@ bm_1066_southeast_asia = {
 		}
 	}
 }
-
-
-# To prevent succession laws assigned by converter from being overwritten
-"common/scripted_triggers/00_succession_triggers.txt" = {
-{
-		government_has_flag = government_should_be_primo
-		non_roman_administrative_gov_trigger = yes
-		has_title = title:k_austria
-		has_title = title:e_roman_empire
-		AND = {
-			has_title = title:e_france
-			is_target_in_global_variable_list = {
-				name = unavailable_unique_decisions
-				target = flag:flag_reformed_carolingian_empire
-			}
-		}
-		#Add any subsequent exceptions here.
-
-		AND = {
-            game_start_date >= 867.1.1
-            game_start_date <= 867.12.31
-
-			has_title = title:k_balhae
-		}
-
-		# Japan
-		culture = { has_cultural_pillar = heritage_yamato }
-
-		# Khitans
-		AND = {
-			has_title = title:e_liao
-
-            game_start_date >= 867.1.1
-		}
-
-		# China
-		has_title = title:e_celestia_china
-		top_liege.primary_title = title:e_celestia_china
-}
-
-{
-	AND = {
-		has_title = title:d_bohemia
-		culture = { has_innovation = innovation_table_of_princes }
-	}
-}
-} # End of 00_succession_triggers

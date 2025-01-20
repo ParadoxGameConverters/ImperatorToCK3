@@ -14831,28 +14831,3 @@ apply_historic_administrative_game_rule_effect = {
 		}
 	}
 }
-
-
-# To prevent succession laws assigned by converter from being overwritten
-"common/scripted_triggers/00_succession_triggers.txt" = {
-{
-		has_title = title:k_austria
-		has_title = title:e_roman_empire
-		has_title = title:e_byzantium
-		AND = {
-			has_title = title:e_france
-			is_target_in_global_variable_list = {
-				name = unavailable_unique_decisions
-				target = flag:flag_reformed_carolingian_empire
-			}
-		}
-		#Add any subsequent exceptions here.
-}
-
-{
-	AND = {
-		has_title = title:d_bohemia
-		culture = { has_innovation = innovation_table_of_princes }
-	}
-}
-} # End of 00_succession_triggers
