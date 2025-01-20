@@ -29,11 +29,11 @@ public sealed class SuccessionLawMapper {
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
-	public OrderedSet<string> GetCK3LawsForImperatorLaws(SortedSet<string> impLaws, IReadOnlyCollection<string> enabledCK3Dlcs) {
+	public OrderedSet<string> GetCK3LawsForImperatorLaws(SortedSet<string> impLaws, string? irGovernment, IReadOnlyCollection<string> enabledCK3Dlcs) {
 		var lawsToReturn = new OrderedSet<string>();
 		foreach (var impLaw in impLaws) {
 			foreach (var mapping in mappings) {
-				var match = mapping.Match(impLaw, enabledCK3Dlcs);
+				var match = mapping.Match(impLaw, irGovernment, enabledCK3Dlcs);
 				if (match is null) {
 					continue;
 				}

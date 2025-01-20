@@ -18,7 +18,7 @@ public class SuccessionLawMapperTests {
 		var reader = new BufferedReader("link = { ir=implaw ck3 = ck3law }");
 		var mapper = new SuccessionLawMapper(reader);
 
-		var ck3Laws = mapper.GetCK3LawsForImperatorLaws(["madeUpLaw"], enabledCK3Dlcs);
+		var ck3Laws = mapper.GetCK3LawsForImperatorLaws(impLaws: ["madeUpLaw"], irGovernment: null, enabledCK3Dlcs);
 		Assert.Empty(ck3Laws);
 	}
 
@@ -27,7 +27,7 @@ public class SuccessionLawMapperTests {
 		var reader = new BufferedReader("link = { ir=implaw ck3 = ck3law }");
 		var mapper = new SuccessionLawMapper(reader);
 
-		var ck3Laws = mapper.GetCK3LawsForImperatorLaws(["implaw"], enabledCK3Dlcs);
+		var ck3Laws = mapper.GetCK3LawsForImperatorLaws(impLaws: ["implaw"], irGovernment: null, enabledCK3Dlcs);
 		Assert.Equal(["ck3law"], ck3Laws);
 	}
 
@@ -54,13 +54,13 @@ public class SuccessionLawMapperTests {
 		);
 		var mapper = new SuccessionLawMapper(reader);
 
-		var ck3Laws = mapper.GetCK3LawsForImperatorLaws(["implaw", "implaw3"], enabledCK3Dlcs);
+		var ck3Laws = mapper.GetCK3LawsForImperatorLaws(impLaws: ["implaw", "implaw3"], irGovernment: null, enabledCK3Dlcs);
 		var expectedReturnedLaws = new SortedSet<string> { "ck3law", "ck3law2", "ck3law5" };
 		Assert.Equal(expectedReturnedLaws, ck3Laws);
 	}
 
 	[Fact]
-	public void EnabledDlcsCanBeUsedInMappings() {
+	public void EnabledCK3DlcsCanBeUsedInMappings() {
 		var reader = new BufferedReader(
 			"""
 			link = { ir=implaw ck3=ck3lawForDLC has_ck3_dlc=roads_to_power }
@@ -69,11 +69,46 @@ public class SuccessionLawMapperTests {
 		);
 		var mapper = new SuccessionLawMapper(reader);
 		
-		var ck3LawsWithDlc = mapper.GetCK3LawsForImperatorLaws(["implaw"], ["roads_to_power"]);
+		var ck3LawsWithDlc = mapper.GetCK3LawsForImperatorLaws(
+			impLaws: ["implaw"],
+			irGovernment: null,
+			enabledCK3Dlcs:["roads_to_power"]);
 		Assert.Equal(["ck3lawForDLC"], ck3LawsWithDlc);
-		
-		var ck3LawsWithoutDlc = mapper.GetCK3LawsForImperatorLaws(["implaw"], []);
+
+		var ck3LawsWithoutDlc = mapper.GetCK3LawsForImperatorLaws(
+			impLaws: ["implaw"],
+			irGovernment: null,
+			enabledCK3Dlcs: []);
 		Assert.Equal(["ck3law"], ck3LawsWithoutDlc);
+	}
+
+	[Fact]
+	public void ImperatorGovernmentCanBeUsedInMappings() {
+		var reader = new BufferedReader(
+			"""
+			link = { ir=implaw ck3=ck3law1 ir_government=imperium ir_government=imperial_cult }
+			link = { ir=implaw ck3=ck3law2 }
+			"""
+		);
+		var mapper = new SuccessionLawMapper(reader);
+		
+		var ck3LawsWithImperialGov = mapper.GetCK3LawsForImperatorLaws(
+			impLaws: ["implaw"],
+			irGovernment: "imperium",
+			enabledCK3Dlcs: enabledCK3Dlcs);
+		Assert.Equal(["ck3law1"], ck3LawsWithImperialGov);
+		
+		var ck3LawsWithoutImperialGov = mapper.GetCK3LawsForImperatorLaws(
+			impLaws: ["implaw"],
+			irGovernment: "imperial_cult",
+			enabledCK3Dlcs: enabledCK3Dlcs);
+		Assert.Equal(["ck3law1"], ck3LawsWithoutImperialGov);
+		
+		var ck3LawsWithoutImperatorGov = mapper.GetCK3LawsForImperatorLaws(
+			impLaws: ["implaw"],
+			irGovernment: "madeUpGov",
+			enabledCK3Dlcs: enabledCK3Dlcs);
+		Assert.Equal(["ck3law2"], ck3LawsWithoutImperatorGov);
 	}
 
 	[Fact]
@@ -81,11 +116,11 @@ public class SuccessionLawMapperTests {
 		var mapper = new SuccessionLawMapper("TestFiles/configurables/succession_law_map.txt", ck3ModFlags);
 		Assert.Equal(
 			["ck3law1", "ck3law2"],
-			mapper.GetCK3LawsForImperatorLaws(["implaw1"], enabledCK3Dlcs)
+			mapper.GetCK3LawsForImperatorLaws(impLaws: ["implaw1"], irGovernment: null, enabledCK3Dlcs)
 		);
 		Assert.Equal(
 			["ck3law3"],
-			mapper.GetCK3LawsForImperatorLaws(["implaw2"], enabledCK3Dlcs)
+			mapper.GetCK3LawsForImperatorLaws(impLaws: ["implaw2"], irGovernment: null, enabledCK3Dlcs)
 		);
 	}
 }

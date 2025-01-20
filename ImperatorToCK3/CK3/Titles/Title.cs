@@ -217,7 +217,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		History.AddFieldValue(conversionDate,
 			"succession_laws",
 			"succession_laws",
-			successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws(), enabledCK3Dlcs)
+			successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws(), country.Government, enabledCK3Dlcs)
 		);
 
 		// Determine CoA.
