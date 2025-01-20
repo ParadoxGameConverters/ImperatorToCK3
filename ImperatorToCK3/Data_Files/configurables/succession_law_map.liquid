@@ -1,5 +1,11 @@
 # IMPERATOR-CK3 SUCCESSION LAW MAPPINGS #
 # link = { ir = [law] ck3 = [law] }
+# link = {
+#	ir = Imperator succession law
+#	ck3 = CK3 succession law
+#	ir_government = Imperator government
+#	has_ck3_dlc = CK3 DLC ID (optional, supported IDs: roads_to_power)
+#}
 # The CK3 law is output in the title's history
 # folder, right after the line defining
 # the holder, as succession_laws = { [law] }
@@ -9,6 +15,39 @@
 # For mappings with multiple ck3 laws, all laws will be written out.
 # For a given Imperator law, only the first matching link will be used.
 
+# Supported CK3 mod flags for conditional blocks:
+# tfe (The Fallen Eagle)
+# wtwsms (When the World Stopped Making Sense)
+# aep (Asia Expansion Project)
+# vanilla (Vanilla CK3)
+
+
+# CK3 Admin, to make sure admin realms get the proper succession laws
+
+link = {
+    ir = agnatic_succession_law
+    ck3 = male_only_law ck3 = acclamation_succession_law
+	ir_government = imperium ir_government = imperial_cult
+    has_ck3_dlc = roads_to_power
+}
+link = {
+    ir = cognatic_succession_law
+    ck3 = male_preference_law ck3 = acclamation_succession_law
+    ir_government = imperium ir_government = imperial_cult
+    has_ck3_dlc = roads_to_power
+}
+link = {
+    ir = agnatic_seniority_succession_law
+    ck3 = acclamation_succession_law
+    ir_government = imperium ir_government = imperial_cult
+    has_ck3_dlc = roads_to_power
+}
+link = {
+    ir = egyption_succession_law
+    ck3 = equal_law ck3 = acclamation_succession_law
+    ir_government = imperium ir_government = imperial_cult
+    has_ck3_dlc = roads_to_power
+}
 
 # Monarchy
 

@@ -9584,3 +9584,50 @@ bm_1066_southeast_asia = {
 		}
 	}
 }
+
+
+# To prevent succession laws assigned by converter from being overwritten
+"common/scripted_triggers/00_succession_triggers.txt" = {
+{
+		government_has_flag = government_should_be_primo
+		non_roman_administrative_gov_trigger = yes
+		has_title = title:k_austria
+		has_title = title:e_roman_empire
+		AND = {
+			has_title = title:e_france
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_reformed_carolingian_empire
+			}
+		}
+		#Add any subsequent exceptions here.
+
+		AND = {
+            game_start_date >= 867.1.1
+            game_start_date <= 867.12.31
+
+			has_title = title:k_balhae
+		}
+
+		# Japan
+		culture = { has_cultural_pillar = heritage_yamato }
+
+		# Khitans
+		AND = {
+			has_title = title:e_liao
+
+            game_start_date >= 867.1.1
+		}
+
+		# China
+		has_title = title:e_celestia_china
+		top_liege.primary_title = title:e_celestia_china
+}
+
+{
+	AND = {
+		has_title = title:d_bohemia
+		culture = { has_innovation = innovation_table_of_princes }
+	}
+}
+} # End of 00_succession_triggers
