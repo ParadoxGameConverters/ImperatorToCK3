@@ -10,7 +10,7 @@
 #	has_ck3_dlc = CK3 DLC ID (optional; supported IDs: roads_to_power)
 #	ck3_title_rank = CK3 title rank tag is converted to (optional; allows b,c,d,k,e)
 #}
-# multiple entries allowed for: ir, irCulture, has_ck3_dlc, ck3_title_rank
+# multiple entries allowed for: ir, irCulture, has_ck3_dlc
 # multiple entries not allowed for: ck3
 
 # NOTE: ck3_title_rank allows all possible rankings in one entry. So for example, ck3_title_rank = ke will work for kingdoms and empires
