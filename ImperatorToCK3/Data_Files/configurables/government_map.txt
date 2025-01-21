@@ -51,7 +51,7 @@ link = { ck3 = theocracy_government
 }
 link = { ck3 = administrative_government
 	has_ck3_dlc = roads_to_power
-	ck3_title_rank = ke # Independent Admin realms must be kingdom/empire
+	ck3_title_rank = e # limiting rank to empires for now since kingdom-level admin realms have a few issues at the moment that need to be looked at
 	ir = imperium
 	ir = imperial_cult
 }
@@ -86,7 +86,7 @@ link = { ck3 = feudal_government ir = rhodian_dictatorship }
 
 link = { ck3 = feudal_government ir = samaritan_judgedom } # This government is defined in the files, but doesn't seem to actually get used anywhere, so it seems impossible to actually get, but will map just in case ~~tanner918
 
-link = { ck3 = administrative_government ir = chinese_empire has_ck3_dlc = roads_to_power ck3_title_rank = ke } # This government seems like it represents the Mandate of Heaven. In RoA, that is just represented by whoever owns e_celestia_china and they use the administrative_government for now, though they might make a new government for China. chinese_empire Description: "As shown by the reigns of the Shang and Zhou Dynasties, in which the divine authority of the Emperor was demonstrated for all under Heaven to see, the Imperial Form of government remains the supreme achievement of political life, all but ensuring peace and prosperity for conscientious stewards of the Mandate of Heaven." ~~tanner918
+link = { ck3 = administrative_government ir = chinese_empire has_ck3_dlc = roads_to_power ck3_title_rank = e } # This government seems like it represents the Mandate of Heaven. In RoA, that is just represented by whoever owns e_celestia_china and they use the administrative_government for now, though they might make a new government for China. chinese_empire Description: "As shown by the reigns of the Shang and Zhou Dynasties, in which the divine authority of the Emperor was demonstrated for all under Heaven to see, the Imperial Form of government remains the supreme achievement of political life, all but ensuring peace and prosperity for conscientious stewards of the Mandate of Heaven." ~~tanner918
 link = { ck3 = chinese_government ir = chinese_empire } # RoA
 link = { ck3 = feudal_government ir = chinese_empire } # Fallback
 
