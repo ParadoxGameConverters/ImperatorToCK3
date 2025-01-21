@@ -90,6 +90,11 @@
 		}
 	}
 	{
+				5 = {
+					set_character_faith = faith:nestorian
+				}
+	}
+	{
 		else_if = {
 			limit = {
 				culture = culture:assyrian
