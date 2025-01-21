@@ -93,7 +93,11 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 	}
 
 	public OrderedSet<string> GetDoctrineIdsForDoctrineCategoryId(string doctrineCategoryId) {
-		var category = Religion.ReligionCollection.DoctrineCategories[doctrineCategoryId];
+		if (!Religion.ReligionCollection.DoctrineCategories.TryGetValue(doctrineCategoryId, out var category)) {
+			Logger.Warn($"Doctrine category {doctrineCategoryId} not found.");
+			return [];
+		}
+		
 		return GetDoctrineIdsForDoctrineCategory(category);
 	}
 
