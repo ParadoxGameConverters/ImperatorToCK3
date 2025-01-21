@@ -44,6 +44,14 @@ public static class FileTweaker {
 			Logger.Info("Reading unneeded parts of Rajas of Asia files...");
 			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_roa.txt", warnIfNotFound: true);
 		}
+
+		if (config.AsiaExpansionProjectEnabled) {
+			Logger.Info("Reading unneeded parts of Rajas of Asia files...");
+			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_aep.txt", warnIfNotFound: true);
+			
+			Logger.Info("Reading parts of Asia Expansion Project files to modify...");
+			ReadPartsOfFileToReplace(partsToModifyPerFile, "configurables/replaceable_file_blocks_aep.txt", warnIfNotFound: true);
+		}
 		
 		bool isVanilla = config.GetCK3ModFlags()["vanilla"];
 		Logger.Info("Reading unneeded parts of vanilla files...");
