@@ -38,9 +38,14 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	}
 
 	public void LoadConverterFaiths(string converterFaithsPath, ColorFactory colorFactory) {
+		OrderedSet<Faith> loadedConverterFaiths = [];
+		
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 			var optReligion = new Religion(religionId, religionReader, this, colorFactory);
+			
+			// For validation, store all faiths loaded inside the converter religion.
+			loadedConverterFaiths.UnionWith(optReligion.Faiths);
 
 			// Check if religion already exists. If it does, add converter faiths to it.
 			// Otherwise, add the converter faith's religion.
@@ -55,6 +60,22 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseFile(converterFaithsPath);
+		
+		// Validation: every faith should have a pilgrimage doctrine.
+		string? pilgrimageFallback = DoctrineCategories.TryGetValue("doctrine_pilgrimage", out var pilgrimageCategory)
+			? pilgrimageCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_pilgrimage_encouraged")
+			: null;
+		foreach (var converterFaith in loadedConverterFaiths) {
+			var pilgrimageDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_pilgrimage");
+			if (pilgrimageDoctrine.Count == 0) {
+				if (pilgrimageFallback is not null) {
+					Logger.Warn($"Faith {converterFaith.Id} has no pilgrimage doctrine! Setting {pilgrimageFallback}");
+					converterFaith.DoctrineIds.Add(pilgrimageFallback);
+				} else {
+					Logger.Warn($"Faith {converterFaith.Id} has no pilgrimage doctrine!");
+				}
+			}
+		}
 	}
 
 	private void RegisterHolySitesKeywords(Parser parser, bool areSitesFromConverter) {
