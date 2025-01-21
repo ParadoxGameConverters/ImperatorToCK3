@@ -58,7 +58,7 @@ public class TitleTests {
 			"TestFiles/configurables/governorMappings.txt", 
 			"TestFiles/configurables/country_rank_map.txt");
 		private GovernmentMapper governmentMapper = new(ck3GovernmentIds: Array.Empty<string>());
-		private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt", ck3ModFlags: []);
+		private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.liquid", ck3ModFlags: []);
 		private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
 		private readonly ReligionMapper religionMapper;

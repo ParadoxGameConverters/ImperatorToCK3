@@ -36,7 +36,7 @@ public class CK3LocBlock : IIdentifiable<string> { // TODO: add ILocBlock interf
 	
 	public void CopyFrom(CK3LocBlock otherBlock) {
 		foreach (var (language, loc) in otherBlock.localizations) {
-			localizations[language] = loc;
+			localizations[language] = (loc.Item1, CK3LocType.ConverterGenerated);
 		}
 	}
 	

@@ -113,7 +113,7 @@ public class SuccessionLawMapperTests {
 
 	[Fact]
 	public void MappingsAreReadFromFile() {
-		var mapper = new SuccessionLawMapper("TestFiles/configurables/succession_law_map.txt", ck3ModFlags);
+		var mapper = new SuccessionLawMapper("TestFiles/configurables/succession_law_map.liquid", ck3ModFlags);
 		Assert.Equal(
 			["ck3law1", "ck3law2"],
 			mapper.GetCK3LawsForImperatorLaws(impLaws: ["implaw1"], irGovernment: null, enabledCK3Dlcs)
