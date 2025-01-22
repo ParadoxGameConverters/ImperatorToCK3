@@ -1175,8 +1175,8 @@ language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/shared
 	}
 	
 	parameters = {
-    		language_branch_palaungic = yes
-    		language_family_austro_asiatic = yes  # already exists in WtWSMS
+		language_branch_palaungic = yes
+		language_family_austro_asiatic = yes  # already exists in WtWSMS
 	}
     
 	type = language
