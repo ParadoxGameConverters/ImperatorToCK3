@@ -106,7 +106,6 @@ neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture sho
 		    tradition_maritime_mercantilism # Cretans were heavy on trade within the mediterranean due to location of crete
      	 	    tradition_seafaring
 		    tradition_artisans # Would become known for different goods due to control of surrounding territories of middle 					       # east and asia outside of greece
-		    tradition_ep3_imperial_tagmata # Greek culture was based around honor and disciple, example is alexander's empire
 	      }
 	      
 	      dlc_tradition = {
