@@ -24,10 +24,10 @@ internal sealed partial class Country {
 	private static void RegisterCountryKeywords(Parser parser, Country parsedCountry) {
 		var colorFactory = new ColorFactory();
 		
-		parser.RegisterKeyword("tag", reader => parsedCountry.Tag = reader.GetString());
+		parser.RegisterKeyword("tag", reader => parsedCountry.tag = reader.GetString());
 		parser.RegisterKeyword("historical", reader => parsedCountry.HistoricalTag = reader.GetString());
 		parser.RegisterKeyword("origin", reader => parsedCountry.parsedOriginCountryId = reader.GetULong());
-		parser.RegisterKeyword("country_name", reader => parsedCountry.CountryName = CountryName.Parse(reader));
+		parser.RegisterKeyword("country_name", reader => parsedCountry.countryName = CountryName.Parse(reader));
 		parser.RegisterKeyword("flag", reader => parsedCountry.Flag = reader.GetString());
 
 		parser.RegisterKeyword("country_type", reader => SetCountryType(reader, parsedCountry));

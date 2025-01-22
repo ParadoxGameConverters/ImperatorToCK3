@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Mappers.Province;
@@ -11,14 +12,25 @@ using System.Linq;
 namespace ImperatorToCK3.Mappers.TagTitle;
 
 internal sealed class TitleMapping {
-	public string? RankMatch(string irTagOrRegion, TitleRank rank, TitleRank maxTitleRank) {
-		if (imperatorTagOrRegion != irTagOrRegion) {
+	public string? RankMatch(Country country, TitleRank rank, TitleRank maxTitleRank) {
+		// If country has an origin (e.g. rebelled from another country), the historical tag probably points to the original country.
+		string tagForMapping = country.OriginCountry is not null ? country.Tag : country.HistoricalTag;
+		
+		// The mapping should have at least an I:R tag or I:R name keys.
+		if (imperatorTagOrRegion is null & irNameKeys.Count == 0) {
+			return null;
+		}
+
+		if (imperatorTagOrRegion is not null & imperatorTagOrRegion != tagForMapping) {
 			return null;
 		}
 		if (maxTitleRank < CK3TitleRank) {
 			return null;
 		}
 		if (ranks.Count > 0 && !ranks.Contains(rank)) {
+			return null;
+		}
+		if (irNameKeys.Count > 0 && !irNameKeys.Contains(country.CountryName.Name)) {
 			return null;
 		}
 		return ck3TitleId;
@@ -59,8 +71,9 @@ internal sealed class TitleMapping {
 	}
 
 	private string ck3TitleId = string.Empty;
-	private string imperatorTagOrRegion = string.Empty;
+	private string? imperatorTagOrRegion;
 	private readonly SortedSet<TitleRank> ranks = [];
+	private readonly SortedSet<string> irNameKeys = [];
 
 	private TitleRank CK3TitleRank => Title.GetRankForId(ck3TitleId);
 
@@ -73,6 +86,7 @@ internal sealed class TitleMapping {
 			var ranksToAdd = reader.GetString().ToCharArray().Select(TitleRankUtils.CharToTitleRank);
 			mappingToReturn.ranks.AddRange(ranksToAdd);
 		});
+		parser.RegisterKeyword("ir_name_key", reader => mappingToReturn.irNameKeys.Add(reader.GetString()));
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 	public static TitleMapping Parse(BufferedReader reader) {
