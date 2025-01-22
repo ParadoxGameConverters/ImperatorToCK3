@@ -17,7 +17,7 @@ gelonian = {
 	      heritige = heritage_greek
 	      language = language_scythian
 	      parents = { hellenistic scythian }
-	      created = 1.1.600 #needs to be BC
+	      created = -600.1.1. #needs to be BC
 	      ethos = ethos_bellicose
 
 	      name_list = name_list_scythian #might consider adding in ancient greek well)
