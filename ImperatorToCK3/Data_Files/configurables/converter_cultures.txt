@@ -102,10 +102,10 @@ neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture sho
 	      martial_custom = martial_custom_male_only
 
 	      traditions = {
-		    tradition_culture_blending # Greek empires or kingdoms would usually try to integrate conquered cultures, look at 				    alexander the great's empire as an example
+		    tradition_culture_blending # Greek empires or kingdoms would usually try to integrate conquered cultures, look at Alexander the great's empire as an example
 		    tradition_maritime_mercantilism # Cretans were heavy on trade within the mediterranean due to location of crete
-     	 	    tradition_seafaring
-		    tradition_artisans # Would become known for different goods due to control of surrounding territories of middle 					       # east and asia outside of greece
+     	 	tradition_seafaring
+		    tradition_artisans # Would become known for different goods due to control of surrounding territories of middle east and asia outside of greece
 	      }
 	      
 	      dlc_tradition = {
