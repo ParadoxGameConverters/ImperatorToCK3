@@ -89,9 +89,18 @@ internal sealed partial class Title {
 					continue;
 				}
 				// Try to use the first valid capital of a de jure vassal.
-				var newCapitalId = title.DeJureVassals
-					.Select(v => v.CapitalCountyId)
-					.FirstOrDefault(vassalCapitalId => vassalCapitalId is not null && validTitleIds.Contains(vassalCapitalId));
+				string? newCapitalId;
+				if (title.Rank >= TitleRank.kingdom) {
+					newCapitalId = title.DeJureVassals
+						.Select(v => v.CapitalCountyId)
+						.FirstOrDefault(vassalCapitalId => vassalCapitalId is not null && validTitleIds.Contains(vassalCapitalId));
+				} else {
+					newCapitalId = title.DeJureVassals
+						.Where(v => v.Rank == TitleRank.county)
+						.Select(c => c.Id)
+						.FirstOrDefault();
+				}
+				
 				// If not found, for landless titles try using capital of de jure liege.
 				if (newCapitalId is null && title.Landless) {
 					newCapitalId = title.DeJureLiege?.CapitalCountyId;
