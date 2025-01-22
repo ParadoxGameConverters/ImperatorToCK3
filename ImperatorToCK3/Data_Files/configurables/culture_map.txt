@@ -456,14 +456,16 @@ link = { ck3 = german @ir_all_germanic_cultures }
 
 
 ## Hellenic
-@ir_antiquitas_greek_cultures="ir=doric ir=north_western_doric ir=attican ir=western_ionic ir=eastern_ionic ir=eteocretan ir=elean ir=kerkyran" # # Antiquitas (https://steamcommunity.com/sharedfiles/filedetails/?id=2992438857)
-@ir_greek_cultures = "ir=greek ir=athenian ir=peloponnesian ir=massalian ir=cyrenaican ir=bosporan ir=thessalian ir=cypriot ir=bithynian ir=ionian ir=troan ir=aeolian ir=greco_pontic ir=aegean ir=aetolian ir=euboean ir=boeotian ir=epirote ir=arcadian ir=argolian ir=parthinian ir=cretan ir=achaean ir=enetoian ir=pamphylian @ir_antiquitas_greek_cultures"
+@ir_cretan_cultures = "ir=cretan ir=eteocretan" # eteocretan comes from the Antiquitas mod
+@ir_antiquitas_greek_cultures="ir=doric ir=north_western_doric ir=attican ir=western_ionic ir=eastern_ionic ir=elean ir=kerkyran" # # Antiquitas (https://steamcommunity.com/sharedfiles/filedetails/?id=2992438857)
+@ir_greek_cultures = "ir=greek ir=athenian ir=peloponnesian ir=massalian ir=cyrenaican ir=bosporan ir=thessalian ir=cypriot ir=bithynian ir=ionian ir=troan ir=aeolian ir=greco_pontic ir=aegean ir=aetolian ir=euboean ir=boeotian ir=epirote ir=arcadian ir=argolian ir=parthinian ir=achaean ir=enetoian ir=pamphylian @ir_antiquitas_greek_cultures"
 # TFE
 link = { ck3 = pontic ir = greco_pontic }
 link = { ck3 = syrian ir=macedonian ir=hellenistic ir=syracusan ir=thracian @ir_greek_cultures @culture_splitting_region_N  }
 link = { ck3 = aegyptian ir=macedonian ir=hellenistic ir=syracusan ir=thracian @ir_greek_cultures @culture_splitting_region_O }
 link = { ck3 = syrian ir = syriote }
 # Vanilla CK3
+link = { ck3=cretan @ir_cretan_cultures }
 link = { ck3=italiote ir=syracusan ir=italiotian }
 link = { ck3=greek @ir_greek_cultures }
 link = { ck3=macedonian ir=macedonian }
@@ -693,7 +695,8 @@ link = {
 	ir = jurcan
 }
 # Invictus mod
-link = { ck3=scythian ir=khotanese ir=gelonian ir=cimmerian }
+link = { ck3=gelonian ir=gelonian } 
+link = { ck3=scythian ir=khotanese ir=cimmerian }
 # Simple Timeline Extender mod
 link = { ck3 = hunnic ir = hunnic }
 link = { ck3 = hunnic ir = huna }
@@ -894,7 +897,7 @@ link = { ck3=palawan ir=tagbanwa } # The Tagbanwa people are an indigenous group
 link = { ck3=bactrian ir=bactra } # Bactria was a historical region in Central Asia that is now part of Afghanistan and Tajikistan. (In game has Bactrian as its name)
 link = { ck3=han ir=yan } # Yan was a historical state in China that existed during the Spring and Autumn period.  # TODO: try to map this manually
 link = { ck3=han ir=jin } # Jin was a historical state in China that existed during the Spring and Autumn and Warring States periods.  # TODO: try to map this manually
-link = { ck3=han ir=qin } # Qin was a historical state in China that existed during the Spring and Autumn and Warring States periods.  # TODO: try to map this manually
+link = { ck3=qin ir=qin }
 link = { ck3=han ir=chu } # Chu was a historical state in China that existed during the Spring and Autumn and Warring States periods.  # TODO: try to map this manually
 link = { ck3=han ir=zhongyuan } # Zhongyuan was a historical region in China that is now part of Henan Province.  # TODO: try to map this manually
 link = { ck3=han ir=qilu } # Qilu was a historical region in China that is now part of Shandong Province.  # TODO: try to map this manually
