@@ -30,7 +30,7 @@ internal enum LineEnding {
 public static class FileTweaker {
 	public static async Task ModifyAndRemovePartsOfFiles(ModFilesystem ck3ModFS, string outputModPath, Configuration config) {
 		// Load removable blocks from configurables.
-		Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile = new();
+		Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile = [];
 		
 		if (config.FallenEagleEnabled) {
 			Logger.Info("Reading unneeded parts of Fallen Eagle files...");
@@ -43,6 +43,9 @@ public static class FileTweaker {
 		if (config.RajasOfAsiaEnabled) {
 			Logger.Info("Reading unneeded parts of Rajas of Asia files...");
 			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_roa.txt", warnIfNotFound: true);
+			
+			Logger.Info("Reading parts of Rajas of Asia files to modify...");
+			ReadPartsOfFileToReplace(partsToModifyPerFile, "configurables/replaceable_file_blocks_roa.txt", warnIfNotFound: true);
 		}
 
 		if (config.AsiaExpansionProjectEnabled) {

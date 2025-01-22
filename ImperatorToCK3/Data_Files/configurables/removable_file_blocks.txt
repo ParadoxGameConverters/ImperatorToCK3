@@ -14743,3 +14743,91 @@ apply_historic_administrative_game_rule_effect = {
 }
 	}
 }
+
+
+"common/scripted_character_templates/00_pool_repopulation_character_templates.txt" = {
+	# Prevent random Muslim characters from being spawned.
+	{
+		else_if = {
+			limit = {
+				OR = {
+					culture = culture:bolghar
+					culture = culture:somali
+				}
+			}
+			set_character_faith = faith:ashari
+			if = {
+				limit = {
+					root.capital_county.faith = {
+						religion_tag = islam_religion
+					}
+				}
+				set_character_faith = root.capital_county.faith
+			}
+		}
+	}
+	{
+		else_if = {
+			limit = {
+				OR = {
+					culture = culture:butr
+					culture = culture:zaghawa
+				}
+			}
+			random_list = {
+				10 = {
+					set_character_faith = faith:ibadi
+				}
+				10 = {
+					set_character_faith = faith:sufri
+				}
+			}
+		}
+	}
+	
+	# Prevent random Christian characters from being spawned.
+	{
+				2 = {
+					trigger = {
+						root.capital_province.faith = {
+							religion_tag = christianity_religion
+						}
+						root.capital_province = {
+							geographical_region = world_europe_west_iberia
+						}
+					}
+					set_character_faith = faith:conversos
+				}
+	}
+	{
+		else_if = {
+			limit = {
+				culture = culture:greek
+			}
+			random_list = {
+				10 = {
+					set_character_faith = faith:iconoclast
+				}
+				10 = {
+					set_character_faith = faith:paulician
+				}
+				10 = {
+					set_character_faith = faith:bogomilist
+				}
+			}
+		}
+	}
+	{
+				5 = {
+					set_character_faith = faith:nestorian
+				}
+	}
+	{
+		else_if = {
+			limit = {
+				culture = culture:assyrian
+			}
+			set_character_faith = faith:nestorian
+		}
+	}
+}

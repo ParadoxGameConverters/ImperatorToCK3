@@ -68,6 +68,9 @@ internal partial class World {
 	public ColorFactory ColorFactory { get; } = new();
 	
 	public IReadOnlyList<Mod> UsableMods { get; private set; } = Array.Empty<Mod>();
+	
+	public bool InvictusDetected { get; private set; }
+	public bool TerraIndomitaDetected { get; private set; }
 
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 	private SaveType saveType = SaveType.Invalid;
@@ -254,6 +257,7 @@ internal partial class World {
 		MatchCollection matches = FlagDefinitionRegex().Matches(content);
 
 		CoaMapper.ParseCoAs(matches.Select(match => match.Value));
+		Logger.Info("Finished reading CoAs from I:R game.log.");
 	}
 
 	private void ExtractDynamicCoatsOfArms(Configuration config) {
@@ -317,6 +321,11 @@ internal partial class World {
 		Countries.LinkFamilies(Families);
 
 		LoadPreImperatorRulers();
+		
+		// Detect specific mods.
+		InvictusDetected = GlobalFlags.Contains("is_playing_invictus");
+		TerraIndomitaDetected = Countries.Any(c => c.Variables.Contains("unification_points")) ||
+		                        UsableMods.Any(m => m.Name == "Antiquitas");
 
 		Logger.Info("*** Good-bye Imperator, rest in peace. ***");
 	}

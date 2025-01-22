@@ -18,11 +18,15 @@
 
 link = { ir = CRT ck3 = k_krete rank = k }
 link = { ir = KNO ck3 = k_krete rank = k }
+link = { ir = EPR ck3 = k_epirus rank = k } # There is a vanilla decision to form this tag by an Epirote culture nation should the EPI tag stop existing, not sure which should be given priority ~~tanner918
 link = { ir = EPI ck3 = k_epirus rank = k }
 
 # Asia Minor
-
+link = { ir = PTU ck3 = k_pontus rank = k } # There is a vanilla decision to form this tag by a Cappadocian culture nation should the PON tag stop existing, not sure which should be given priority ~~tanner918
 link = { ir = PON ck3 = k_pontus rank = k }
+link = { ir = PER ck3 = e_persia rank = e }
+link = { ir = PER ck3 = e_persia rank = k } # There is a vanilla decision to form this tag by a Persian, Caucasian, or Anatolian culture group nation, I think it should be given priority over SEL ~~tanner918
+link = { ir = PER ck3 = e_persia rank = d }
 link = { ir = SEL ck3 = e_persia rank = e }
 link = { ir = SEL ck3 = e_persia rank = k }
 link = { ir = SEL ck3 = e_persia rank = d }
@@ -31,11 +35,13 @@ link = { ir = ARM ck3 = e_armenia rank = e }
 link = { ir = ARM ck3 = k_armenia rank = k }
 link = { ir = COL ck3 = k_georgia rank = k }
 link = { ir = BAC ck3 = e_bactria rank = e }
+link = { ir = BPK ck3 = k_bosporan_kingdom rank = k } # New Vanilla Bosporan Kingdom. I think because of its name the tag will always convert as a kingdom, so this mapping alone should be fine ~~tanner918
 
 # Medieval geography shenanigans
 link = { ir = SCY ck3 = e_caspian-pontic_steppe rank = e }
 
 #Syria
+link = { ir = ISR ck3 = k_israel rank = k } # Decision in Terra-Indomita to form this tag by Hebrew nations, including Judea, so I think it should be given priority ~~tanner918
 link = { ir = JUD ck3 = k_israel rank = k }
 
 ####SULLA####
@@ -128,3 +134,77 @@ link = { ir = VND ck3 = e_wendish_empire rank = e }
 link = { ir = VND ck3 = k_winideheim rank = k }
 link = { ir = VND ck3 = k_sorbia rank = k }
 link = { ir = AES ck3 = k_esthonia rank = k }
+
+### Might need to revisit mappings below to make sure they make sense, or would be necessary. Might also need to look through remaining formable tags in Terra-Indomita to see if anything else should be added. ~~tanner918
+## Terra-Indomita to Rajas of Asia
+# Europe
+link = { ir = AQ2 ck3 = k_aquitaine rank = k } # Decision in Terra-Indomita
+link = { ir = AQI ck3 = k_aquitaine rank = k } # Decision in Base game
+link = { ir = ATU ck3 = k_asturias rank = k } # Decision in Base game
+link = { ir = SAR ck3 = k_sardinia rank = k } # Decision in Base game
+link = { ir = CSC ck3 = k_sardinia rank = k } # Included decision in Terra-Indomita, figured I'd include this mapping too since you can't map to duchies
+link = { ir = CYP ck3 = k_cyprus rank = k } # Decision in Base game
+link = { ir = XXS ck3 = k_saxony rank = k } # Decision in Base game
+link = { ir = MGG ck3 = k_sicily rank = k } # Decision in Base game, giving priority over SII since the decision to form MGG requires more pretty much all of de jure k_sicily, while decision to form SII is more de jure d_sicily
+link = { ir = SII ck3 = k_sicily rank = k } # Decision in Base game
+link = { ir = GEE ck3 = e_germany rank = e }
+link = { ir = GEE ck3 = e_germany rank = k } # Terra-Indomita Decision that requires nation to control a lot of land around Germany and Scandia, so I think that should be rewarded with mapping to e_germany regardless of rank
+link = { ir = GEE ck3 = e_germany rank = d }
+link = { ir = HBR ck3 = e_spain rank = e }
+link = { ir = HBR ck3 = e_spain rank = k } # Base game Decision that requires nation to control a lot of land in Iberia, so I think that should be rewarded with mapping to e_spain (maybe k_castille for kingdom and duchy mappings?)
+link = { ir = HBR ck3 = e_spain rank = d }
+link = { ir = ITL ck3 = e_italy rank = e }
+link = { ir = ITL ck3 = k_italy rank = k } # Decision in Terra-Indomita
+link = { ir = ITL ck3 = k_italy rank = d }
+link = { ir = SLA ck3 = e_slavia rank = e }
+link = { ir = SLA ck3 = e_slavia rank = k } # Decision in Terra-Indomita, requires owning a lot of land in the region, think it should be rewardes with mapping to e_slavia regardless of rank
+link = { ir = SLA ck3 = e_slavia rank = d }
+#link = { ir = HY7 ck3 = k_sapmi rank = k } # Tag added in Terra-Indomita. This tag is the only Sapmi culture tag in Terra-Indomita. Not sure if this is great mapping, but figured I'd include it as a recommendation
+
+# Tibet
+link = { ir = KHT ck3 = k_khotan rank = k } # Would this make sense/necessary?
+
+# China
+# Need to figure out what to do for china mappings. Should tags be mapped to e_celestia_china? I would assume mapping a chinese tag that should convert as an empire would make sense to be mapped to e_celestia_china, but if so what order? Would order really matter as what are the chances there'd be multiple empire conversions?
+# Mappings here are mainly done based off names. I don't really know Chinese history so guessing whether one tag in Imperator "becomes" a title in CK3 is kind of hard. Not even sure if the named tags in Imperator are actually supposed to represent these titles in CK3 just because they have the same name.
+link = { ir = ZHO ck3 = e_celestia_china rank = e } # ZHO represents the Emperor of China (Mandate of Heaven) before the Warring States Period (what Terra-Indomita starts in)
+link = { ir = QIN ck3 = e_celestia_china rank = e }
+link = { ir = YUE ck3 = e_celestia_china rank = e }
+link = { ir = NAN ck3 = e_nanyue rank = e } # Both games include a decision to form Nanyue, but the Imperator decision only requires the land equating to CK3's k_nanyue_china, so I'll let a kingdom conversion map to that, and an empire conversion map to CK3's e_nanyue (the CK'3 decision to form Nanyue also requires Vietnam)
+link = { ir = NAN ck3 = k_nanyue_china rank = k }
+link = { ir = CHU ck3 = e_celestia_china rank = e }
+link = { ir = QII ck3 = e_celestia_china rank = e }
+link = { ir = ZHA ck3 = e_celestia_china rank = e }
+link = { ir = NYE ck3 = e_celestia_china rank = e }
+link = { ir = NYE ck3 = k_wu_china rank = k } # Mapping to Wu since this tags culture is Wuyue, and that is supposed to represent the people living in the region of Wu in CK3
+link = { ir = YAN ck3 = e_celestia_china rank = e }
+link = { ir = HAN ck3 = e_celestia_china rank = e }
+link = { ir = WEI ck3 = e_celestia_china rank = e }
+link = { ir = MNY ck3 = e_celestia_china rank = e }
+link = { ir = SNG ck3 = e_celestia_china rank = e } # Including this mapping since SNG in Imperator is Song, and I'm not sure if it is supposed to represent the same Song that controls China in CK3 since Chinese country names are confusing
+
+# Japan
+link = { ir = YMT ck3 = e_nippon rank = e }
+link = { ir = YMT ck3 = k_yamato rank = k }
+link = { ir = AIU ck3 = k_hitakami rank = k }
+
+# Korea (Including these since they seem to be the main power in their regions)
+link = { ir = JNG ck3 = e_haedong rank = e }
+link = { ir = JNG ck3 = k_goryeo rank = k }
+link = { ir = JSN ck3 = e_haedong rank = e }
+link = { ir = JSN ck3 = k_goguryeo rank = k }
+
+# Burma/Indochina
+link = { ir = PIY ck3 = e_burma rank = e } # Terra-Indomita decision, requires controlling all of Burma region
+link = { ir = PIY ck3 = e_burma rank = k } # Should kingdom conversion map to a kingdom title, or to e_burma since terra-indomita decision represents owning all of burma?
+link = { ir = LAM ck3 = k_champa rank = k }
+link = { ir = XIT ck3 = k_champa rank = k }
+link = { ir = LCV ck3 = k_annam rank = k }
+link = { ir = YUS ck3 = k_annam rank = k }
+link = { ir = AKN ck3 = k_arakan rank = k }
+link = { ir = SHT ck3 = k_shan rank = k }
+link = { ir = TGU ck3 = k_tagaung rank = k }
+
+# Malaysia
+link = { ir = MYY ck3 = e_srivijaya rank = e } # Terra-Indomita decision requires only owning the mainland portion of e_srivijaya to form MYY, so figured I'd do the mappings for it like this
+link = { ir = MYY ck3 = k_pahang rank = k }

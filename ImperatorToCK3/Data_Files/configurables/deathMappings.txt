@@ -70,3 +70,19 @@ link = { ir = death_while_stealing ck3 = death_execution }
 link = { ir = death_egg_and_spoon ck3 = death_mysterious }
 link = { ir = death_escaping ck3 = death_mysterious }
 link = { ir = death_claimed_by_the_underworld ck3 = death_vanished }
+
+# Terra-Indomita to Rajas of Asia
+link = { ir = death_child_sacrifice ck3 = death_sacrificed_to_gods }
+link = { ir = death_ritual_sacrifice ck3 = death_sacrificed_to_gods }
+link = { ir = death_ritual_sallekhana ck3 = death_starved }
+link = { ir = death_tribal_duel ck3 = death_duel }
+link = { ir = death_decapitated ck3 = death_skull_removed }
+link = { ir = death_pulled_limb_by_limb ck3 = death_ripped_apart_limb_by_limb }
+link = { ir = death_by_pirates ck3 = death_attacked }
+link = { ir = death_swallowed_by_wild_animals ck3 = death_wild_animal }
+link = { ir = death_fall_down_the_mountain ck3 = death_fallen_from_a_mountain }
+link = { ir = death_killed_on_a_post ck3 = death_accident }
+link = { ir = eat_poisonous_food ck3 = death_poison }
+link = { ir = beirengjindaguolizhushu ck3 = death_mysterious }
+link = { ir = death_buried_confucian ck3 = death_mysterious }
+link = { ir = death_killer_rabbit ck3 = death_wild_animal }

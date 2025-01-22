@@ -7,14 +7,14 @@ link = { ck3=onager ir=engineer_cohort }
 link = { ir=supply_train } # drop
 
 link = { ck3=armored_horsemen ir=heavy_cavalry }
-link = { ck3=light_horsemen ir=light_cavalry }
+link = { ck3=light_horsemen ir=light_cavalry ir=horse_skirmishers } # horse_skirmishers defined in Terra-Indomitas units folder
 link = { ck3=horse_archers ir=horse_archers }
 link = { ck3=war_elephant ir=warelephant }
 link = { ck3=camel_rider ir=camels }
 
-link = { ck3=bowmen ir=archers }
-link = { ck3=armored_footmen ir=heavy_infantry }
+link = { ck3=bowmen ir=archers ir=slingers } # slingers defined in Terra-Indomitas units folder
+link = { ck3=armored_footmen ir=heavy_infantry ir=axemen } # axemen defined in Terra-Indomitas units folder
 link = { ck3=light_footmen ir=light_infantry }
 
 # Invictus mod
-link = { ck3=pikemen_unit ir=spearmen }
+link = { ck3=pikemen_unit ir=spearmen ir=pikemen } # pikemen defined in Terra-Indomitas units folder

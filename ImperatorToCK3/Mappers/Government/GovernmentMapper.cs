@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3.Titles;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +8,7 @@ using System.Linq;
 namespace ImperatorToCK3.Mappers.Government;
 
 public sealed class GovernmentMapper {
-	private readonly List<GovernmentMapping> mappings = new();
+	private readonly List<GovernmentMapping> mappings = [];
 
 	public GovernmentMapper(ICollection<string> ck3GovernmentIds) {
 		Logger.Info("Parsing government mappings...");
@@ -48,9 +49,9 @@ public sealed class GovernmentMapper {
 		}
 	}
 	
-	public string? GetCK3GovernmentForImperatorGovernment(string irGovernmentId, string? irCultureId, IReadOnlyCollection<string> enabledCK3Dlcs) {
+	public string? GetCK3GovernmentForImperatorGovernment(string irGovernmentId, TitleRank? rank, string? irCultureId, IReadOnlyCollection<string> enabledCK3Dlcs) {
 		foreach (var mapping in mappings) {
-			var match = mapping.Match(irGovernmentId, irCultureId, enabledCK3Dlcs);
+			var match = mapping.Match(irGovernmentId, rank, irCultureId, enabledCK3Dlcs);
 			if (match is not null) {
 				return match;
 			}

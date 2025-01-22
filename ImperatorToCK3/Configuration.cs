@@ -33,6 +33,8 @@ public sealed class Configuration {
 	public bool RajasOfAsiaEnabled { get; private set; }
 	public bool AsiaExpansionProjectEnabled { get; private set; }
 
+	public bool OutputCCUParameters => WhenTheWorldStoppedMakingSenseEnabled || FallenEagleEnabled || RajasOfAsiaEnabled;
+
 	public Configuration() { }
 	public Configuration(ConverterVersion converterVersion) {
 		Logger.Info("Reading configuration file...");

@@ -26,7 +26,18 @@ internal sealed partial class CharacterCollection {
 			loadedCharacters.Add(character);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFolder("history/characters", ck3ModFS, "txt", recursive: true, parallel: true);
+		parser.ParseGameFolder("history/characters", ck3ModFS, "txt", recursive: true);
+		
+		// Make all animation_test_ characters die on 2.1.1.
+		foreach (var character in loadedCharacters) {
+			if (!character.Id.StartsWith("animation_test_")) {
+				continue;
+			}
+			
+			var deathField = character.History.Fields["death"];
+			deathField.RemoveAllEntries();
+			deathField.AddEntryToHistory(new Date(2, 1, 1), "death", value: true);
+		}
 
 		string[] irrelevantEffects = ["set_relation_rival", "set_relation_potential_rival", "set_relation_nemesis",
 			"set_relation_lover", "set_relation_soulmate",
@@ -86,6 +97,8 @@ internal sealed partial class CharacterCollection {
 			character.InitConcubinesCache();
 			character.UpdateChildrenCacheOfParents();
 		}
+		
+		Logger.Info("Loaded CK3 characters.");
 	}
 
 	private static void RemoveInvalidMotherAndFatherEntries(Character character, HashSet<string> femaleCharacterIds, HashSet<string> maleCharacterIds) {

@@ -12,8 +12,11 @@ internal partial class Title {
 	}
 
 	public string? GetGovernment(Date date) {
-		if (History.GetFieldValue("government", date) is string govStr) {
-			return govStr;
+		var value = History.GetFieldValue("government", date);
+		if (value is string govStr) {
+			return govStr.RemQuotes();
+		} else if (value is StringOfItem govItem) {
+			return govItem.ToString().RemQuotes();
 		}
 		return null;
 	}

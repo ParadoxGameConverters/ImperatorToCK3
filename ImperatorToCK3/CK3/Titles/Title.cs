@@ -217,7 +217,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		History.AddFieldValue(conversionDate,
 			"succession_laws",
 			"succession_laws",
-			successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws())
+			successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws(), country.Government, enabledCK3Dlcs)
 		);
 
 		// Determine CoA.
@@ -284,7 +284,9 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			if (overLordTitle is null) {
 				Logger.Warn($"Can't find CK3 title for country {dependency.OverlordId}, overlord of {country.Id}.");
 			}
-			DeJureLiege = overLordTitle;
+			if (!config.StaticDeJure) {
+				DeJureLiege = overLordTitle;
+			}
 			SetDeFactoLiege(overLordTitle, dependency.StartDate);
 		}
 	}
@@ -342,7 +344,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		if (imperatorCountry.Government is not null) {
 			var lastCK3TermGov = GetGovernment(conversionDate);
-			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorCountry.Government, imperatorCountry.PrimaryCulture, enabledCK3Dlcs);
+			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorCountry.Government, Rank, imperatorCountry.PrimaryCulture, enabledCK3Dlcs);
 			if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
 				History.AddFieldValue(conversionDate, "government", "government", ck3CountryGov);
 			}
@@ -529,9 +531,10 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		History.AddFieldValue(governorshipStartDate, "holder", "holder", $"imperator{impGovernor.Id}");
 
 		// ------------------ determine government
-		var ck3LiegeGov = country.CK3Title.GetGovernment(governorshipStartDate);
+		Date normalizedGovernorshipStartDate = governorshipStartDate.Year >= 2 ? governorshipStartDate : new(2, 1, 1);
+		var ck3LiegeGov = country.CK3Title.GetGovernment(normalizedGovernorshipStartDate);
 		if (ck3LiegeGov is not null) {
-			History.AddFieldValue(governorshipStartDate, "government", "government", ck3LiegeGov);
+			History.AddFieldValue(normalizedGovernorshipStartDate, "government", "government", ck3LiegeGov);
 		}
 
 		// Determine color.
@@ -547,10 +550,16 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// determine successions laws
 		// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
+		OrderedSet<string> successionLaws = [];
+		if (ck3LiegeGov is not null && ck3LiegeGov == "administrative_government") {
+			successionLaws.Add("appointment_succession_law");
+		} else {
+			successionLaws.Add("high_partition_succession_law");
+		}
 		History.AddFieldValue(governorshipStartDate,
 			"succession_laws",
 			"succession_laws",
-			new SortedSet<string> { "high_partition_succession_law" }
+			successionLaws
 		);
 
 		// ------------------ determine CoA

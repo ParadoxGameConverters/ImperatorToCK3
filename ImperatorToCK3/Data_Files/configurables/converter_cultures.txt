@@ -11,130 +11,134 @@
 # }
 
 gelonian = {
+	color = { 179 255 102 }
 
-	      color = { 179 255 102 }
+	heritage = heritage_byzantine
+	language = language_scythian
+	parents = { hellenistic scythian }
+	created = -600.1.1 #needs to be BC
+	ethos = ethos_bellicose
 
-	      heritage = heritage_byzantine
-	      language = language_scythian
-	      parents = { hellenistic scythian }
-	      created = -600.1.1 #needs to be BC
-	      ethos = ethos_bellicose
+	name_list = name_list_scythian #might consider adding in ancient greek well)
+	martial_custom = martial_custom_male_only
 
-	      name_list = name_list_scythian #might consider adding in ancient greek well)
-	      martial_custom = marital_custom_male_only
+	traditions = {
+		tradition_artisans
+		tradition_swords_for_hire
+		tradition_culture_blending
+		tradition_maritime_mercantilism
+		tradition_horse_breeder
+		tradition_pastoralists
+	}
 
-              traditions = {
-		    tradition_artisans
-                    tradition_swords_for_hire
-                    tradition_culture_blending
-		    tradition_maritime_mercantilism
-		    tradition_horse_breeder
-		    tradition_pastoralists
-	            }
+	ethnicities = {
+		6 = mediterranean
+		4 = arab 
+	}
 
-	            ethnicities = {
-		            6 = mediterranean
-                            4 = arab 
-	             }
-
-	            coa_gfx = {
-		            steppe_coa_gfx
-	             }
-	            building_gfx = {
-		            steppe_building_gfx
-                            
-	             }
-	             clothing_gfx = {
-		            mongol_clothing_gfx
-                            byzantine_clothing_gfx
-	             }
-	             unit_gfx = { 
-                            mongol_unit_gfx 
-                            eastern_unit_gfx
-                     }
+	coa_gfx = {
+		steppe_coa_gfx
+	}
+	building_gfx = {
+		steppe_building_gfx	
+	}
+	clothing_gfx = {
+		mongol_clothing_gfx
+		byzantine_clothing_gfx
+	}
+	unit_gfx = { 
+		mongol_unit_gfx 
+		eastern_unit_gfx
+	}
 }
 
-#For this culture double check everything outside of traditions. I do not know if any of them are correct. So feel free to fix them if necessary.
 qin = {
+	color = { 153 238 255 }
 
-	      color = { 153 238 255 }
+	heritage = heritage_chinese
+	language = language_chinese
+	ethos = ethos_bureaucratic
 
-	      heritage = heritage_chinese
-	      language = language_chinese
-	      ethos = ethos_bureaucratic
+	name_list = name_list_han
+	martial_custom = martial_custom_male_only
 
-	      name_list = name_list_han
-	      martial_custom = marital_custom_male_only
+	traditions = {
+		tradition_artisans
+		tradition_legalistic
+		tradition_warriors_by_merit
+		tradition_talent_acquisition
+	}
 
-              traditions = {
-		    tradition_artisans
-                    tradition_legalistic
-                    tradition_warriors_by_merit
-		    tradition_recognition_of_talent
-		    tradition_palace_politics
-	            }
+	dlc_tradition = {
+		trait = tradition_ep3_palace_politics
+		requires_dlc_flag = roads_to_power
+		fallback = tradition_formation_fighting
+	}
 
-	            ethnicities = {
-		            10 = chinese
-	             }
+	ethnicities = {
+		10 = chinese
+	}
 
-	            coa_gfx = {
-		            chinese_group_coa_gfx
-	             }
-	            building_gfx = {
-		            chinese_building_gfx
-	             }
-	             clothing_gfx = {
-		            chinese_clothing_gfx
-	             }
-	             unit_gfx = { chinese_unit_gfx }
+	coa_gfx = {
+		chinese_group_coa_gfx
+	}
+	building_gfx = {
+		chinese_building_gfx
+	}
+	clothing_gfx = {
+		chinese_clothing_gfx
+	}
+	unit_gfx = { chinese_unit_gfx }
 }
 
 neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture should only be be able to trigger in the converter if the holder of the culture has a kingdom or empire tier title. Otherwise, cretan should take place over it
+	color = { 0.7 0.6 0.95 }
 
-	      color = { 0.7 0.6 0.95 }
+	heritage = heritage_ancient_greek
+	language = language_ancient_greek
+	ethos = ethos_bureaucratic
 
-	      heritage = heritage_ancient_greek
-	      language = language_ancient_greek
-	      ethos = ethos_bureaucratic
+	name_list = name_list_ancient_greek
+	martial_custom = martial_custom_male_only
 
-	      name_list = name_list_ancient_greek
-	      martial_custom = marital_custom_male_only
+	traditions = {
+		tradition_culture_blending # Greek empires or kingdoms would usually try to integrate conquered cultures, look at Alexander the great's empire as an example
+		tradition_maritime_mercantilism # Cretans were heavy on trade within the mediterranean due to location of crete
+		tradition_seafaring
+		tradition_artisans # Would become known for different goods due to control of surrounding territories of middle east and asia outside of greece
+	}
+	
+	dlc_tradition = {
+		trait = tradition_fp3_beacon_of_learning # One of the first cultures to be well known for philosophy, math, etc.
+		requires_dlc_flag = legacy_of_persia
+		fallback = tradition_philosopher_culture
+	}
 
-	      traditions = {
-		    tradition_culture_blending # Greek empires or kingdoms would usually try to integrate conquered cultures, look at 				    alexander the great's empire as an example
-		    tradition_maritime_mercantilism # Cretans were heavy on trade within the mediterranean due to location of crete
-     	 	    tradition_seafarers
-		    tradition_artisans # Would become known for different goods due to control of surrounding territories of middle 					       # east and asia outside of greece
-		    tradition_ep3_imperial_tagmata # Greek culture was based around honor and disciple, example is alexander's empire
-		    tradition_beacon_of_learning # One of the first cultures to be well known for philosiphy, math, etc.
-	      }
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
 
-	      ethnicities = {
-		      10 = mediterranean_byzantine
-	      }
-
-	      coa_gfx = {
-		    byzantine_group_coa_gfx
-	      }
-	      building_gfx = {
-		         mediterranean_building_gfx
-	      }
-	      clothing_gfx = {
-		         byzantine_clothing_gfx
-	      }
-	      unit_gfx = { eastern_unit_gfx }
+	coa_gfx = {
+		byzantine_group_coa_gfx
+	}
+	building_gfx = {
+		mediterranean_building_gfx
+	}
+	clothing_gfx = {
+		byzantine_clothing_gfx
+	}
+	unit_gfx = { eastern_unit_gfx }
 }
 
 
 cretan = {
-     INVALIDATED_BY = {
-		 vanilla = { cretan }  # In vanilla the cretan culture is a divergence from Greek, done through a descision 
-	 }
+    INVALIDATED_BY = {
+		vanilla = { cretan }  # In vanilla the cretan culture is a divergence from Greek, done through a decision 
+	}
 
-	 color = { 0.7 0.6 0.95 }
+	color = { 0.7 0.6 0.95 }
 
-	 heritage = heritage_byzantine
+	heritage = heritage_byzantine
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			language = language_doric # Doric was used for everyday life while the main greek language at the time (Koine Greek) was used for governance and other matters of administration. The language could be switched to language_ancient_greek depending on specificity or simplicity needed.
@@ -142,34 +146,34 @@ cretan = {
 			language = language_greek
 		}
 	}
-	 ethos = ethos_bellicose
+	ethos = ethos_bellicose
 
-	 name_list = name_list_ancient_greek
-	 martial_custom = marital_custom_male_only
+	name_list = name_list_ancient_greek
+	martial_custom = martial_custom_male_only
 
-	 traditions = {
-		 tradition_swords_for_hire
-		 tradition_legalistic
-		 tradition_maritime_mercantilism
-		 tradition_mountain_homes
-		 tradition_highland_warriors
-		 tradition_seafarers # Can be switched out with tradition_warrior_culture or tradition_ritualized_friendship.
-	 }
+	traditions = {
+		tradition_swords_for_hire
+		tradition_legalistic
+		tradition_maritime_mercantilism
+		tradition_mountain_homes
+		tradition_highland_warriors
+		tradition_seafaring # Can be switched out with tradition_warrior_culture or tradition_ritualized_friendship.
+	}
 
-	 ethnicities = {
+	ethnicities = {
 		10 = mediterranean_byzantine
-	 }
+	}
 
-	 coa_gfx = {
+	coa_gfx = {
 		byzantine_group_coa_gfx
-	 }
-	 building_gfx = {
+	}
+	building_gfx = {
 		mediterranean_building_gfx
-	 }
-	 clothing_gfx = {
+	}
+	clothing_gfx = {
 		byzantine_clothing_gfx
-	 }
-	 unit_gfx = { eastern_unit_gfx }
+	}
+	unit_gfx = { eastern_unit_gfx }
 }
 
 khasi = {
@@ -581,7 +585,7 @@ dalmatian = {
     
 	color = rgb { 246 223 15 }
 
-	heritage = heritage_arvanite
+	heritage = heritage_albanian
 	language = language_albanian
 	martial_custom = martial_custom_equal
 	traditions = {
@@ -603,42 +607,12 @@ dalmatian = {
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
 }
-albanian = {
-    INVALIDATED_BY = {
-		tfe = { albanian }
-		vanilla = { albanian }
-	}
-    
-	color = { 0.4 0.01 0.02 }
-	parents = { dalmatian }
-	created = 350.1.1
-
-	heritage = heritage_arvanite
-	language = language_albanian
-	martial_custom = martial_custom_male_only
-
-	ethos = ethos_communal
-	traditions = {
-		tradition_druzhina
-		tradition_swords_for_hire
-	}
-
-	name_list = name_list_albanian
-
-	ethnicities = {
-		10 = mediterranean_byzantine
-	}
-
-	coa_gfx = { byzantine_group_coa_gfx }
-	building_gfx = { mediterranean_building_gfx }
-	clothing_gfx = { byzantine_clothing_gfx }
-	unit_gfx = { eastern_unit_gfx }
-}
 
 ancient_egyptian = {  # fallback in case some mod removes vanilla ancient_egyptian
     INVALIDATED_BY = {
 		tfe = { ancient_egyptian kemetic }
 		wtwsms = { ancient_egyptian }
+		roa = { ancient_egyptian }
 		vanilla = { ancient_egyptian kemetic }
 	}
     
@@ -856,6 +830,7 @@ hellenistic = {
 
 indogreek = {
     INVALIDATED_BY = {
+    	roa = { indo_greek }
 		tfe = { indogreek }
 		vanilla = { indogreek }
 	}
@@ -957,7 +932,7 @@ aramaic = {
     
 	color = { 0.05 1.0 0.5 }
 
-	heritage = heritage_chaldean
+	heritage = heritage_syriac
 	language = language_aramaic
 	martial_custom = martial_custom_male_only
 	traditions = {
@@ -992,7 +967,7 @@ babylonian = {
     
 	color = hsv { 0.7 0.15 0.77 }
 
-	heritage = heritage_chaldean
+	heritage = heritage_syriac
 	language = language_babylonian
 	martial_custom = martial_custom_male_only
 	traditions = {
@@ -1038,7 +1013,7 @@ bazramani = {
 	parents = { roman persian }
 	created = 20.1.1
 
-	heritage = heritage_chaldean
+	heritage = heritage_syriac
 	language = language_latin
 	martial_custom = martial_custom_male_only
 	traditions = {
@@ -1072,7 +1047,7 @@ judajca = {
 	parents = { roman hebrew }
 	created = 20.1.1
 
-	heritage = heritage_chaldean
+	heritage = heritage_syriac
 	language = language_latin
 	martial_custom = martial_custom_male_only
 	traditions = {
@@ -1797,7 +1772,7 @@ hebrew = { # https://en.wikipedia.org/wiki/Hebrews
 	martial_custom = martial_custom_male_only
 
 	heritage = heritage_israelite
-	language = language_hebrew
+	language = language_israelite
 
 	traditions = {
 		tradition_diasporic
@@ -1830,7 +1805,7 @@ shuadit = { # https://en.wikipedia.org/wiki/Shuadit
 	martial_custom = martial_custom_male_only
 
 	heritage = heritage_israelite
-	language = language_hebrew
+	language = language_israelite
 
 	traditions = {
 		tradition_diasporic
@@ -1863,7 +1838,7 @@ zarphatic = { # https://en.wikipedia.org/wiki/Zarphatic_language
 	martial_custom = martial_custom_male_only
 
 	heritage = heritage_israelite
-	language = language_hebrew
+	language = language_israelite
 
 	traditions = {
 		tradition_diasporic
@@ -1879,8 +1854,13 @@ oscan = {
 	}
     
 	color = { 117 131 50 }
-	# heritage = heritage_proto_italic
-	heritage = heritage_latin
+	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
+		IF @[tfe|roa] = {
+			heritage = heritage_italic
+		} ELSE = { # Otherwise, give it heritage_latin so its actually related to Roman
+			heritage = heritage_latin
+		}
+	}
 	language = language_oscan
 	martial_custom = martial_custom_male_only
 
@@ -1913,8 +1893,13 @@ samnite = {
 		vanilla = { samnite }
 	}
     
-	# heritage = heritage_proto_italic
-	heritage = heritage_latin
+	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
+		IF @[tfe|roa] = {
+			heritage = heritage_italic
+		} ELSE = { # Otherwise, give it heritage_latin so its actually related to Roman
+			heritage = heritage_latin
+		}
+	}
 	language = language_samnite
 	martial_custom = martial_custom_equal
 
@@ -1949,8 +1934,13 @@ venetic = { # https://en.wikipedia.org/wiki/Adriatic_Veneti
 		vanilla = { venetic }
 	}
     
-	# heritage = heritage_proto_italic
-	heritage = heritage_latin
+	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
+		IF @[tfe|roa|wtwsms] = {
+			heritage = heritage_venetic
+		} ELSE = { # Otherwise, give it heritage_latin so its actually related to Roman
+			heritage = heritage_latin
+		}
+	}
 	language = language_venetic
     martial_custom = martial_custom_male_only
 
@@ -1990,8 +1980,13 @@ ligustic = {
 		vanilla = { ligustic }
 	}
     
-	# heritage = heritage_proto_italic
-	heritage = heritage_latin
+	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
+		IF @[tfe|roa] = {
+			heritage = heritage_italic
+		} ELSE = { # Otherwise, give it heritage_latin so its actually related to Roman
+			heritage = heritage_latin
+		}
+	}
 	language = language_ligustic
 	martial_custom = martial_custom_male_only
 
@@ -2026,8 +2021,13 @@ messapic = {
 		vanilla = { messapic }
 	}
     
-	# heritage = heritage_proto_italic
-	heritage = heritage_latin
+	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
+		IF @[tfe|roa] = {
+			heritage = heritage_italic
+		} ELSE = { # Otherwise, give it heritage_latin so its actually related to Roman
+			heritage = heritage_latin
+		}
+	}
 	language = language_messapic
 	martial_custom = martial_custom_male_only
 
@@ -2062,8 +2062,13 @@ sardonian = {
 		vanilla = { sardonian }
 	}
     
-	# heritage = heritage_proto_italic
-	heritage = heritage_latin
+	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
+		IF @[tfe|roa] = {
+			heritage = heritage_italic
+		} ELSE = { # Otherwise, give it heritage_latin so its actually related to Roman
+			heritage = heritage_latin
+		}
+	}
 	language = language_sardonian
 	martial_custom = martial_custom_male_only
 
@@ -2098,8 +2103,13 @@ siculian = {
 		vanilla = { siculian }
 	}
     
-	# heritage = heritage_proto_italic
-	heritage = heritage_latin
+	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
+		IF @[tfe|roa] = {
+			heritage = heritage_italic
+		} ELSE = { # Otherwise, give it heritage_latin so its actually related to Roman
+			heritage = heritage_latin
+		}
+	}
 	language = language_siculian
 	martial_custom = martial_custom_male_only
 
@@ -2280,6 +2290,7 @@ mikligardrish = {
 
 palaungic = {  # from AsiaExtended mod https://steamcommunity.com/sharedfiles/filedetails/?id=2706635752 as of 2022-12-29
     INVALIDATED_BY = {
+    	roa = { palaung } 
 		tfe = { palaungic }
 		vanilla = { palaungic }
 	}
@@ -2610,6 +2621,7 @@ shan = {  # https://en.wikipedia.org/wiki/Shan_people
 thracian = {
     INVALIDATED_BY = {
 		tfe = { thracian }
+		wtwsms = { thracian }
 		vanilla = { thracian }
 	}
     
@@ -2639,6 +2651,7 @@ thracian = {
 dacian = {
     INVALIDATED_BY = {
 		tfe = { dacian }
+		wtwsms = { dacian }
 		vanilla = { dacian }
 	}
     
