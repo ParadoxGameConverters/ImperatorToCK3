@@ -18,7 +18,13 @@ internal sealed partial class Country : IIdentifiable<ulong> {
 	public string? Religion { get; private set; }
 	public List<RulerTerm> RulerTerms { get; set; } = [];
 	public Dictionary<string, int> HistoricalRegnalNumbers { get; private set; } = [];
-	public string Tag { get; private set; } = "";
+
+	private string tag = "";
+	public string Tag {
+		get => tag;
+		init => tag = value;
+	}
+
 	private string? historicalTag;
 	public string HistoricalTag {
 		get => historicalTag ?? Tag;
@@ -29,7 +35,13 @@ internal sealed partial class Country : IIdentifiable<ulong> {
 	public Country? OriginCountry { get; private set; } = null;
 
 	public string Name => CountryName.Name;
-	public CountryName CountryName { get; private set; } = new();
+
+	private CountryName countryName = new();
+	public CountryName CountryName {
+		get => countryName;
+		init => countryName = value;
+	}
+
 	public string Flag { get; private set; } = "";
 	public CountryType CountryType { get; private set; } = CountryType.real;
 	public ulong? CapitalProvinceId { get; private set; }
