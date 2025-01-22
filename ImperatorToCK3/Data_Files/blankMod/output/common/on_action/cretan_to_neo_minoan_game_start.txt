@@ -1,0 +1,45 @@
+﻿# Called from code after history generation
+# Empty scope
+on_game_start = {
+    on_actions = {
+        cretan_to_neo_minoan_on_game_start
+    }
+}
+
+
+cretan_to_neo_minoan_on_game_start = {
+	effect = {
+		# Make Neo-Minoan culture only appear in provinces where the holder is of Cretan culture and is of kingdom or empire tier.
+		every_ruler = {
+			limit = {
+				highest_held_title_tier >= tier_kingdom
+				culture = culture:cretan
+				any_sub_realm_county = {
+					culture = culture:cretan
+					duchy = title:d_krete
+				}
+			}
+			
+			# Convert the character and his entire realm from Cretan to Neo-Minoan.
+			set_culture = culture:neo_minoan
+			every_realm_county = {
+				limit = {
+					culture = culture:cretan
+				}
+				set_county_culture = culture:neo_minoan
+			}
+			every_vassal_or_below = {
+				limit = {
+					culture = culture:cretan
+				}
+				set_culture = culture:neo_minoan
+			}
+			every_close_or_extended_family_member = {
+				limit = {
+					culture = culture:cretan
+				}
+				set_culture = culture:neo_minoan
+			}
+		}
+	}
+}
