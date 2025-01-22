@@ -1,18 +1,14 @@
 ﻿using commonItems;
 using commonItems.Localization;
-using System;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
-internal sealed class CountryName : ICloneable {
-	public string Name { get; private set; } = "";
+internal sealed class CountryName {
+	public string Name { get; init; } = "";
 	private string? adjective;
-	public CountryName? BaseName { get; private set; }
+	public CountryName? BaseName { get; private init; }
 
-	public object Clone() {
-		return new CountryName {Name = Name, adjective = adjective, BaseName = BaseName};
-	}
 
 	public LocBlock? GetNameLocBlock(LocDB irLocDB, CountryCollection imperatorCountries) {
 		// If the name contains a space, it can be a composite name like "egyptian PROV4791_persia"
@@ -190,18 +186,19 @@ internal sealed class CountryName : ICloneable {
 	}
 
 	public static CountryName Parse(BufferedReader reader) {
-		var countryName = new CountryName();
-
+		string parsedName = string.Empty;
+		string? parsedAdjective = null;
+		CountryName? parsedBaseName = null;
+		
 		var parser = new Parser();
-		parser.RegisterKeyword("name", r => countryName.Name = r.GetString());
-		parser.RegisterKeyword("adjective", r => countryName.adjective = r.GetString());
+		parser.RegisterKeyword("name", r => parsedName = r.GetString());
+		parser.RegisterKeyword("adjective", r => parsedAdjective = r.GetString());
 		parser.RegisterKeyword("base", r => {
-			var tempCountryName = (CountryName)countryName.Clone();
-			tempCountryName.BaseName = Parse(r);
-			countryName = (CountryName)tempCountryName.Clone();
+			parsedBaseName = Parse(r);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(reader);
-		return countryName;
+
+		return new() {Name = parsedName, adjective = parsedAdjective, BaseName = parsedBaseName};
 	}
 }

@@ -25,7 +25,9 @@ public class TitleMappingTests {
 	public void SimpleTagMatch() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM }");
 		var mapping = TitleMapping.Parse(reader);
-		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
+		
+		var country = new Country(1) {Tag = "ROM"};
+		var match = mapping.RankMatch(country, TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Equal("e_roman_empire", match);
 	}
@@ -34,7 +36,9 @@ public class TitleMappingTests {
 	public void SimpleTagMatchFailsOnWrongTag() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = REM }");
 		var mapping = TitleMapping.Parse(reader);
-		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
+		
+		var country = new Country(1) {Tag = "ROM"};
+		var match = mapping.RankMatch(country, TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Null(match);
 	}
@@ -43,7 +47,9 @@ public class TitleMappingTests {
 	public void SimpleTagMatchFailsOnNoTag() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire }");
 		var mapping = TitleMapping.Parse(reader);
-		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
+		
+		var country = new Country(1) {Tag = "ROM"};
+		var match = mapping.RankMatch(country, TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Null(match);
 	}
@@ -52,7 +58,9 @@ public class TitleMappingTests {
 	public void TagRankMatch() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM rank = e }");
 		var mapping = TitleMapping.Parse(reader);
-		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
+		
+		var country = new Country(1) {Tag = "ROM"};
+		var match = mapping.RankMatch(country, TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Equal("e_roman_empire", match);
 	}
@@ -61,7 +69,9 @@ public class TitleMappingTests {
 	public void TagRankMatchFailsOnWrongRank() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM rank = k }");
 		var mapping = TitleMapping.Parse(reader);
-		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
+		
+		var country = new Country(1) {Tag = "ROM"};
+		var match = mapping.RankMatch(country, TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Null(match);
 	}
@@ -70,9 +80,37 @@ public class TitleMappingTests {
 	public void TagRankMatchSucceedsOnNoRank() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM }");
 		var mapping = TitleMapping.Parse(reader);
-		var match = mapping.RankMatch("ROM", TitleRank.empire, maxTitleRank: TitleRank.empire);
+		
+		var country = new Country(1) {Tag = "ROM"};
+		var match = mapping.RankMatch(country, TitleRank.empire, maxTitleRank: TitleRank.empire);
 
 		Assert.Equal("e_roman_empire", match);
+	}
+
+	[Fact]
+	public void CountryNameCanBeUsedInAMapping() {
+		var reader = new BufferedReader("""
+            {
+                ck3 = e_byzantium
+                ir_name_key = ERE
+                ir_name_key = eastern_roman_republic_name # multiple ir_name_keys are allowed
+            }
+        """);
+		var mapping = TitleMapping.Parse(reader);
+		
+		// If the mapping has no "ir" parameter, and the country name key matches the ones in the mapping,
+		// the mapping should match regardless of the tag.
+		var ereCountry1 = new Country(1) {Tag = "X01", CountryName = new() { Name = "ERE" }};
+		var ereCountry2 = new Country(2) {Tag = "X02", CountryName = new() { Name = "eastern_roman_republic_name" }};
+		Assert.Equal("e_byzantium", mapping.RankMatch(ereCountry1, TitleRank.empire, maxTitleRank: TitleRank.empire));
+		Assert.Equal("e_byzantium", mapping.RankMatch(ereCountry2, TitleRank.empire, maxTitleRank: TitleRank.empire));
+		
+		var nonEreCountry = new Country(3) {Tag = "X03", CountryName = new() { Name = "non_ERE" }};
+		Assert.Null(mapping.RankMatch(nonEreCountry, TitleRank.empire, maxTitleRank: TitleRank.empire));
+		
+		// A country with tag ERE should not match, we're comparing names!
+		var ereTagCountry = new Country(4) {Tag = "ERE", CountryName = new() { Name = "non_ERE" }};
+		Assert.Null(mapping.RankMatch(ereTagCountry, TitleRank.empire, maxTitleRank: TitleRank.empire));
 	}
 
 	[Fact]

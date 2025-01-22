@@ -1,8 +1,9 @@
 ### I:R - CK3 tag mappings ###
-#link = { ir = a ck3 = b rank = c }
+#link = { ir = a ck3 = b rank = c ir_name_key = d }
 #a = the I:R tag
 #b = the CK3 landed title
 #c = the rank this country has (can only be "d", "k", "e")
+#d = (optional) the localization key the I:R country uses, for example "eastern_roman_republic_name". Multiple entries are allowed.
 
 # Only countries with a "Kingdom" or "Empire" in name should be
 # let map into a title with a different rank than the output
@@ -41,6 +42,15 @@ link = { ir = JUD ck3 = k_israel rank = k }
 
 # Italic
 
+link = {
+	ck3 = e_byzantium
+	ir_name_key = ERE
+	ir_name_key = eastern_rome_name
+	ir_name_key = eastern_roman_republic_name
+	ir_name_key = eastern_roman_empire_name
+	ir_name_key = eastern_roman_kingdom_name
+	ir_name_key = eastern_roman_dictatorship_name
+}
 link = { ir = ROM ck3 = e_roman_empire rank = e }
 link = { ir = ROM ck3 = e_roman_empire rank = k } # Because yes
 link = { ir = NEP ck3 = k_naples rank = k }

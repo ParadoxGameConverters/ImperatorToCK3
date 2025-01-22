@@ -191,16 +191,16 @@ public class TagTitleMapperTests {
 	}
 
 	[Fact]
-	public void GetTitleForTagReturnsNullOnEmptyTag() {
+	public void GetTitleForTagUsesCountryIdIfTagIsEmpty() {
 		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath, rankMappingsPath);
 		var country = Country.Parse(new BufferedReader(string.Empty), 1);
 		Assert.Empty(country.Tag);
 		var match = mapper.GetTitleForTag(country, "", maxTitleRank: TitleRank.empire);
 
-		Assert.Null(match);
+		Assert.Equal("d_IRTOCK3_id_1", match);
 	}
 	[Fact]
-	public void GetTitleGovernorshipTagReturnsNullOnCountryWithNoCK3Title() {
+	public void GetTitleForGovernorshipReturnsNullOnCountryWithNoCK3Title() {
 		var output = new StringWriter();
 		Console.SetOut(output);
 		
