@@ -42,8 +42,6 @@ link = { ir = JUD ck3 = k_israel rank = k }
 
 # Italic
 
-link = { ir = ROM ck3 = e_roman_empire rank = e }
-link = { ir = ROM ck3 = e_roman_empire rank = k } # Because yes
 link = {
 	ck3 = e_byzantium
 	ir_name_key = ERE
@@ -53,6 +51,8 @@ link = {
 	ir_name_key = eastern_roman_kingdom_name
 	ir_name_key = eastern_roman_dictatorship_name
 }
+link = { ir = ROM ck3 = e_roman_empire rank = e }
+link = { ir = ROM ck3 = e_roman_empire rank = k } # Because yes
 link = { ir = NEP ck3 = k_naples rank = k }
 link = { ir = SCU ck3 = k_trinacria rank = k }
 link = { ir = VNT ck3 = k_venice rank = k }
