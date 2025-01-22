@@ -11,134 +11,134 @@
 # }
 
 gelonian = {
+	color = { 179 255 102 }
 
-	      color = { 179 255 102 }
+	heritage = heritage_byzantine
+	language = language_scythian
+	parents = { hellenistic scythian }
+	created = -600.1.1 #needs to be BC
+	ethos = ethos_bellicose
 
-	      heritage = heritage_byzantine
-	      language = language_scythian
-	      parents = { hellenistic scythian }
-	      created = -600.1.1 #needs to be BC
-	      ethos = ethos_bellicose
+	name_list = name_list_scythian #might consider adding in ancient greek well)
+	martial_custom = martial_custom_male_only
 
-	      name_list = name_list_scythian #might consider adding in ancient greek well)
-	      martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_artisans
+		tradition_swords_for_hire
+		tradition_culture_blending
+		tradition_maritime_mercantilism
+		tradition_horse_breeder
+		tradition_pastoralists
+	}
 
-              traditions = {
-		    tradition_artisans
-                    tradition_swords_for_hire
-                    tradition_culture_blending
-		    tradition_maritime_mercantilism
-		    tradition_horse_breeder
-		    tradition_pastoralists
-	            }
+	ethnicities = {
+		6 = mediterranean
+		4 = arab 
+	}
 
-	            ethnicities = {
-		            6 = mediterranean
-                            4 = arab 
-	             }
-
-	            coa_gfx = {
-		            steppe_coa_gfx
-	             }
-	            building_gfx = {
-		            steppe_building_gfx
-                            
-	             }
-	             clothing_gfx = {
-		            mongol_clothing_gfx
-                            byzantine_clothing_gfx
-	             }
-	             unit_gfx = { 
-                            mongol_unit_gfx 
-                            eastern_unit_gfx
-                     }
+	coa_gfx = {
+		steppe_coa_gfx
+	}
+	building_gfx = {
+		steppe_building_gfx	
+	}
+	clothing_gfx = {
+		mongol_clothing_gfx
+		byzantine_clothing_gfx
+	}
+	unit_gfx = { 
+		mongol_unit_gfx 
+		eastern_unit_gfx
+	}
 }
 
-#For this culture double check everything outside of traditions. I do not know if any of them are correct. So feel free to fix them if necessary.
 qin = {
+	color = { 153 238 255 }
 
-	      color = { 153 238 255 }
+	heritage = heritage_chinese
+	language = language_chinese
+	ethos = ethos_bureaucratic
 
-	      heritage = heritage_chinese
-	      language = language_chinese
-	      ethos = ethos_bureaucratic
+	name_list = name_list_han
+	martial_custom = martial_custom_male_only
 
-	      name_list = name_list_han
-	      martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_artisans
+		tradition_legalistic
+		tradition_warriors_by_merit
+		tradition_talent_acquisition
+	}
 
-              traditions = {
-		    tradition_artisans
-                    tradition_legalistic
-                    tradition_warriors_by_merit
-		    tradition_recognition_of_talent
-		    tradition_palace_politics
-	            }
+	dlc_tradition = {
+		trait = tradition_ep3_palace_politics
+		requires_dlc_flag = roads_to_power
+		fallback = tradition_formation_fighting
+	}
 
-	            ethnicities = {
-		            10 = chinese
-	             }
+	ethnicities = {
+		10 = chinese
+	}
 
-	            coa_gfx = {
-		            chinese_group_coa_gfx
-	             }
-	            building_gfx = {
-		            chinese_building_gfx
-	             }
-	             clothing_gfx = {
-		            chinese_clothing_gfx
-	             }
-	             unit_gfx = { chinese_unit_gfx }
+	coa_gfx = {
+		chinese_group_coa_gfx
+	}
+	building_gfx = {
+		chinese_building_gfx
+	}
+	clothing_gfx = {
+		chinese_clothing_gfx
+	}
+	unit_gfx = { chinese_unit_gfx }
 }
 
 neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture should only be be able to trigger in the converter if the holder of the culture has a kingdom or empire tier title. Otherwise, cretan should take place over it
+	color = { 0.7 0.6 0.95 }
 
-	      color = { 0.7 0.6 0.95 }
+	heritage = heritage_ancient_greek
+	language = language_ancient_greek
+	ethos = ethos_bureaucratic
 
-	      heritage = heritage_ancient_greek
-	      language = language_ancient_greek
-	      ethos = ethos_bureaucratic
+	name_list = name_list_ancient_greek
+	martial_custom = martial_custom_male_only
 
-	      name_list = name_list_ancient_greek
-	      martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_culture_blending # Greek empires or kingdoms would usually try to integrate conquered cultures, look at Alexander the great's empire as an example
+		tradition_maritime_mercantilism # Cretans were heavy on trade within the mediterranean due to location of crete
+		tradition_seafaring
+		tradition_artisans # Would become known for different goods due to control of surrounding territories of middle east and asia outside of greece
+	}
+	
+	dlc_tradition = {
+		trait = tradition_fp3_beacon_of_learning # One of the first cultures to be well known for philosiphy, math, etc.
+		requires_dlc_flag = legacy_of_persia
+		fallback = tradition_philosopher_culture
+	}
 
-	      traditions = {
-		    tradition_culture_blending # Greek empires or kingdoms would usually try to integrate conquered cultures, look at Alexander the great's empire as an example
-		    tradition_maritime_mercantilism # Cretans were heavy on trade within the mediterranean due to location of crete
-     	 	tradition_seafaring
-		    tradition_artisans # Would become known for different goods due to control of surrounding territories of middle east and asia outside of greece
-	      }
-	      
-	      dlc_tradition = {
-            trait = tradition_fp3_beacon_of_learning # One of the first cultures to be well known for philosiphy, math, etc.
-            requires_dlc_flag = legacy_of_persia
-            fallback = tradition_philosopher_culture
-          }
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
 
-	      ethnicities = {
-		      10 = mediterranean_byzantine
-	      }
-
-	      coa_gfx = {
-		    byzantine_group_coa_gfx
-	      }
-	      building_gfx = {
-		         mediterranean_building_gfx
-	      }
-	      clothing_gfx = {
-		         byzantine_clothing_gfx
-	      }
-	      unit_gfx = { eastern_unit_gfx }
+	coa_gfx = {
+		byzantine_group_coa_gfx
+	}
+	building_gfx = {
+		mediterranean_building_gfx
+	}
+	clothing_gfx = {
+		byzantine_clothing_gfx
+	}
+	unit_gfx = { eastern_unit_gfx }
 }
 
 
 cretan = {
-     INVALIDATED_BY = {
-		 vanilla = { cretan }  # In vanilla the cretan culture is a divergence from Greek, done through a descision 
-	 }
+    INVALIDATED_BY = {
+		vanilla = { cretan }  # In vanilla the cretan culture is a divergence from Greek, done through a descision 
+	}
 
-	 color = { 0.7 0.6 0.95 }
+	color = { 0.7 0.6 0.95 }
 
-	 heritage = heritage_byzantine
+	heritage = heritage_byzantine
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			language = language_doric # Doric was used for everyday life while the main greek language at the time (Koine Greek) was used for governance and other matters of administration. The language could be switched to language_ancient_greek depending on specificity or simplicity needed.
@@ -146,34 +146,34 @@ cretan = {
 			language = language_greek
 		}
 	}
-	 ethos = ethos_bellicose
+	ethos = ethos_bellicose
 
-	 name_list = name_list_ancient_greek
-	 martial_custom = martial_custom_male_only
+	name_list = name_list_ancient_greek
+	martial_custom = martial_custom_male_only
 
-	 traditions = {
-		 tradition_swords_for_hire
-		 tradition_legalistic
-		 tradition_maritime_mercantilism
-		 tradition_mountain_homes
-		 tradition_highland_warriors
-		 tradition_seafaring # Can be switched out with tradition_warrior_culture or tradition_ritualized_friendship.
-	 }
+	traditions = {
+		tradition_swords_for_hire
+		tradition_legalistic
+		tradition_maritime_mercantilism
+		tradition_mountain_homes
+		tradition_highland_warriors
+		tradition_seafaring # Can be switched out with tradition_warrior_culture or tradition_ritualized_friendship.
+	}
 
-	 ethnicities = {
+	ethnicities = {
 		10 = mediterranean_byzantine
-	 }
+	}
 
-	 coa_gfx = {
+	coa_gfx = {
 		byzantine_group_coa_gfx
-	 }
-	 building_gfx = {
+	}
+	building_gfx = {
 		mediterranean_building_gfx
-	 }
-	 clothing_gfx = {
+	}
+	clothing_gfx = {
 		byzantine_clothing_gfx
-	 }
-	 unit_gfx = { eastern_unit_gfx }
+	}
+	unit_gfx = { eastern_unit_gfx }
 }
 
 khasi = {
