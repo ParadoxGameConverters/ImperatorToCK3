@@ -84,6 +84,7 @@ link = { ck3 = yazidi ir = arabian_pantheon ck3Province = 4773 ck3Province = 477
 link = { ck3 = arabic_pagan ir = arabian_pantheon }
 # Hellenic - TFE
 link = { ck3 = roman_pagan ir = italic_pantheon }
+link = { ck3 = hellenic_pagan ir = greek_pantheon } # greek_pantheon is from the I:R Antiquitas mod
 # Hellenic - Vanilla CK3
 link = { ck3 = eleusinian_mysteries ir = roman_pantheon irRegion = thrace_region } # https://en.wikipedia.org/wiki/Eleusinian_Mysteries
 link = { ck3 = indo_hellenism ir = roman_pantheon ck3Culture = indogreek ck3Culture = indo_greek } # Rajas of Asia faith (mapped to the cultures cause I figured it'd make more sense. Would simply mapping to regions be better?) ~~tanner918
@@ -95,6 +96,7 @@ link = {
 link = {
     ck3 = hellenic_pagan
     ir = roman_pantheon
+    ir = greek_pantheon # I:R Antiquitas mod
     ir = italic_pantheon # Invictus, TODO: create a separate CK3 faith
 }
 
