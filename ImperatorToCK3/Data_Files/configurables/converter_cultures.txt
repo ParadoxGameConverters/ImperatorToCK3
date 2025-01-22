@@ -21,7 +21,7 @@ gelonian = {
 	      ethos = ethos_bellicose
 
 	      name_list = name_list_scythian #might consider adding in ancient greek well)
-	      martial_custom = marital_custom_male_only
+	      martial_custom = martial_custom_male_only
 
               traditions = {
 		    tradition_artisans
@@ -64,7 +64,7 @@ qin = {
 	      ethos = ethos_bureaucratic
 
 	      name_list = name_list_han
-	      martial_custom = marital_custom_male_only
+	      martial_custom = martial_custom_male_only
 
               traditions = {
 		    tradition_artisans
@@ -99,7 +99,7 @@ neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture sho
 	      ethos = ethos_bureaucratic
 
 	      name_list = name_list_ancient_greek
-	      martial_custom = marital_custom_male_only
+	      martial_custom = martial_custom_male_only
 
 	      traditions = {
 		    tradition_culture_blending # Greek empires or kingdoms would usually try to integrate conquered cultures, look at 				    alexander the great's empire as an example
@@ -145,7 +145,7 @@ cretan = {
 	 ethos = ethos_bellicose
 
 	 name_list = name_list_ancient_greek
-	 martial_custom = marital_custom_male_only
+	 martial_custom = martial_custom_male_only
 
 	 traditions = {
 		 tradition_swords_for_hire
