@@ -104,7 +104,7 @@ neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture sho
 	      traditions = {
 		    tradition_culture_blending # Greek empires or kingdoms would usually try to integrate conquered cultures, look at 				    alexander the great's empire as an example
 		    tradition_maritime_mercantilism # Cretans were heavy on trade within the mediterranean due to location of crete
-     	 	    tradition_seafarers
+     	 	    tradition_seafaring
 		    tradition_artisans # Would become known for different goods due to control of surrounding territories of middle 					       # east and asia outside of greece
 		    tradition_ep3_imperial_tagmata # Greek culture was based around honor and disciple, example is alexander's empire
 		    tradition_beacon_of_learning # One of the first cultures to be well known for philosiphy, math, etc.
@@ -153,7 +153,7 @@ cretan = {
 		 tradition_maritime_mercantilism
 		 tradition_mountain_homes
 		 tradition_highland_warriors
-		 tradition_seafarers # Can be switched out with tradition_warrior_culture or tradition_ritualized_friendship.
+		 tradition_seafaring # Can be switched out with tradition_warrior_culture or tradition_ritualized_friendship.
 	 }
 
 	 ethnicities = {
