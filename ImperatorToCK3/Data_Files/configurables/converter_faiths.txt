@@ -238,6 +238,9 @@ scythian_religion = {
 	doctrine = doctrine_clerical_gender_either
 	doctrine = doctrine_clerical_marriage_allowed
 	doctrine = doctrine_clerical_succession_temporal_appointment
+	
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
 
 	traits = {
 		virtues = { brave just honest }
@@ -468,6 +471,9 @@ arabic_religion = {
 	doctrine = doctrine_clerical_gender_either
 	doctrine = doctrine_clerical_marriage_allowed
 	doctrine = doctrine_clerical_succession_temporal_appointment
+	
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
 
 	traits = {
 		virtues = { brave just honest }
@@ -700,6 +706,9 @@ burmic_religion = { # Folk religions of Burmese peoples
 	doctrine = doctrine_clerical_gender_female_only
 	doctrine = doctrine_clerical_marriage_disallowed
 	doctrine = doctrine_clerical_succession_spiritual_appointment
+	
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
 
 	traits = {
 		virtues = { brave compassionate content diligent lifestyle_mystic } # IRToCK3: missing "transgender" trait excluded
@@ -1916,6 +1925,9 @@ anatolian_religion = {
 	doctrine = doctrine_clerical_gender_male_only
 	doctrine = doctrine_clerical_marriage_disallowed # They're eunuchs...
 	doctrine = doctrine_clerical_succession_temporal_appointment
+	
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
 
 	traits = {
 		virtues = { just honest eunuch }
@@ -2148,6 +2160,9 @@ armenian_religion = {
 	doctrine = doctrine_clerical_gender_either
 	doctrine = doctrine_clerical_marriage_allowed
 	doctrine = doctrine_clerical_succession_temporal_appointment
+	
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
 
 	traits = {
 		virtues = { brave just honest }
@@ -2386,6 +2401,9 @@ canaanite_religion = {
 	doctrine = doctrine_clerical_gender_either
 	doctrine = doctrine_clerical_marriage_allowed
 	doctrine = doctrine_clerical_succession_temporal_appointment
+	
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
 
 	traits = {
 		virtues = { brave just honest }
@@ -2617,6 +2635,9 @@ caucasian_religion = {
 	doctrine = doctrine_clerical_gender_either
 	doctrine = doctrine_clerical_marriage_allowed
 	doctrine = doctrine_clerical_succession_temporal_appointment
+	
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
 
 	traits = {
 		virtues = { brave just honest }
@@ -2854,6 +2875,9 @@ celtic_religion = {
 	doctrine = doctrine_clerical_gender_either
 	doctrine = doctrine_clerical_marriage_allowed
 	doctrine = doctrine_clerical_succession_temporal_appointment
+	
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
 
 	traits = {
 		virtues = { brave just honest }
@@ -3780,6 +3804,9 @@ iberic_religion = {
 	doctrine = doctrine_clerical_gender_either
 	doctrine = doctrine_clerical_marriage_allowed
 	doctrine = doctrine_clerical_succession_temporal_appointment
+	
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
 
 	traits = {
 		virtues = { brave just honest }
@@ -3983,6 +4010,9 @@ ajivika_religion = { # credits to Izn from Invictus team for listing the doctrin
 	family = rf_eastern
 	graphical_faith = dharmic_gfx
 	doctrine = eastern_hostility_doctrine
+	
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
 
 	custom_faith_icons = {  # copied from Hinduism
 		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer custom_faith_fp1_valknut custom_faith_fp1_yggdrasil custom_faith_boromian_circles custom_faith_lotus custom_faith_aum_tibetan custom_faith_pentagram custom_faith_pentagram_inverted custom_faith_burning_bush custom_faith_allah custom_faith_gankyil custom_faith_eye_of_providence custom_faith_dove custom_faith_ichthys custom_faith_lamb custom_faith_black_sheep custom_faith_ankh custom_faith_chi_rho custom_faith_hamsa custom_faith_cool_s
@@ -4337,6 +4367,9 @@ mesopotamian_religion = {
 	doctrine = doctrine_clerical_gender_either
 	doctrine = doctrine_clerical_marriage_allowed
 	doctrine = doctrine_clerical_succession_temporal_appointment
+	
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_mandatory # chat.deepseek.com: "The Babylonian nobility (awilu), as part of the upper class, were expected to participate in the Akitu festival, but their involvement was not enforced through legal penalties. Instead, their participation was driven by social and religious expectations"
 
 	traits = {
 		virtues = { brave just honest }
@@ -4568,6 +4601,9 @@ paleo_balkan_religion = {
 	doctrine = doctrine_clerical_gender_either
 	doctrine = doctrine_clerical_marriage_allowed
 	doctrine = doctrine_clerical_succession_temporal_appointment
+	
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
 
 	traits = {
 		virtues = { brave just honest }
@@ -4912,6 +4948,9 @@ hurrian_religion_group = {
 	#Clerical Functions
 	doctrine = doctrine_clerical_gender_either
 	doctrine = doctrine_clerical_marriage_allowed
+	
+	# Pilgrimage
+	doctrine = doctrine_pilgrimage_encouraged
 
 	traits = {
 		virtues = { brave just humble }
