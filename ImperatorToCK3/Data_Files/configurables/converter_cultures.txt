@@ -14,7 +14,7 @@ gelonian = {
 
 	      color = { 179 255 102 }
 
-	      heritige = heritage_byzantine
+	      heritage = heritage_byzantine
 	      language = language_scythian
 	      parents = { hellenistic scythian }
 	      created = -600.1.1 #needs to be BC
@@ -59,7 +59,7 @@ qin = {
 
 	      color = { 153 238 255 }
 
-	      heritige = heritage_chinese
+	      heritage = heritage_chinese
 	      language = language_chinese
 	      ethos = ethos_bureaucratic
 
@@ -94,7 +94,7 @@ neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture sho
 
 	      color = { 0.7 0.6 0.95 }
 
-	      heritige = heritage_ancient_greek
+	      heritage = heritage_ancient_greek
 	      language = language_ancient_greek
 	      ethos = ethos_bureaucratic
 
@@ -134,7 +134,7 @@ cretan = {
 
 	 color = { 0.7 0.6 0.95 }
 
-	 heritige = heritage_byzantine
+	 heritage = heritage_byzantine
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			language = language_doric # Doric was used for everyday life while the main greek language at the time (Koine Greek) was used for governance and other matters of administration. The language could be switched to language_ancient_greek depending on specificity or simplicity needed.
