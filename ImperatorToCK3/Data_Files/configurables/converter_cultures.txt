@@ -142,7 +142,6 @@ cretan = {
 			language = language_greek
 		}
 	}
-	 language = 
 	 ethos = ethos_bellicose
 
 	 name_list = name_list_ancient_greek
