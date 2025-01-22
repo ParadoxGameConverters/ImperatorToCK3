@@ -14,7 +14,7 @@ gelonian = {
 
 	      color = { 179 255 102 }
 
-	      heritige = heritage_greek
+	      heritige = heritage_byzantine
 	      language = language_scythian
 	      parents = { hellenistic scythian }
 	      created = -600.1.1. #needs to be BC
@@ -60,10 +60,10 @@ qin = {
 	      color = { 153 238 255 }
 
 	      heritige = heritage_chinese
-	      language = language_classical_chinese
+	      language = language_chinese
 	      ethos = ethos_bureaucratic
 
-	      name_list = name_list_ancient_chinese
+	      name_list = name_list_han
 	      martial_custom = marital_custom_male_only
 
               traditions = {
@@ -103,7 +103,7 @@ neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture sho
 
 	      traditions = {
 		    tradition_culture_blending # Greek empires or kingdoms would usually try to integrate conquered cultures, look at 				    alexander the great's empire as an example
-		    tradition_maritime_mercantilism # Cretans were heavy on trade 	within the mediterranean due to location of crete
+		    tradition_maritime_mercantilism # Cretans were heavy on trade within the mediterranean due to location of crete
      	 	    tradition_seafarers
 		    tradition_artisans # Would become known for different goods due to control of surrounding territories of middle 					       # east and asia outside of greece
 		    tradition_ep3_imperial_tagmata # Greek culture was based around honor and disciple, example is alexander's empire
@@ -134,7 +134,7 @@ cretan = {
 
 	 color = { 0.7 0.6 0.95 }
 
-	 heritige = heritage_ancient_greek
+	 heritige = heritage_byzantine
 	 language = language_doric # Doric was used for everyday life while the main greek language at the time (Koine Greek) was used 					   # for governance and other matters of administration. The language could be switched to 						   # language_ancient_greek depending on specificity or simplicity needed.
 	 ethos = ethos_bellicose
 
