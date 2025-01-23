@@ -34042,3 +34042,64 @@ restore_palmyrene_empire_decision = {
 }
 	}
 }
+
+
+"common/scripted_modifiers/00_voter_strength_scripted_modifiers.txt" = {
+	# from error.log:
+	# Error: "Unknown trigger type: divide, near line: 1010
+	# Unknown trigger type: round, near line: 1011" in file: "common/scripted_modifiers/00_voter_strength_scripted_modifiers.txt" near line: 1016
+	{
+	modifier = { #Being a good general.
+		desc = tooltip_hunnic_vote_strength_elector_marshal
+		add = prowess
+		add = martial
+		divide = 2
+		round = yes
+		OR = {
+			is_knight_of = scope:holder
+			has_council_position = councillor_marshal
+			is_diarch_of_target = scope:holder
+		}
+	}
+	}
+}
+
+
+"common/vassal_contracts/eranshar.txt" = {
+	# from error.log:
+	# Error: "Unexpected token: liege_opinion, near line: 126" in file: "common/vassal_contracts/eranshar.txt" near line: 126
+	{
+			liege_opinion = -30
+	}
+}
+
+
+"common/vassal_contracts/gupta.txt" = {
+	# from error.log:
+	# Error: "Unexpected token: liege_opinion, near line: 89" in file: "common/vassal_contracts/gupta.txt" near line: 89
+	{
+			liege_opinion = -30
+	}
+}
+
+
+"common/vassal_contracts/islamic.txt" = {
+	# from error.log:
+	# Error: "Unexpected token: if, near line: 91" in file: "common/vassal_contracts/islamic.txt" near line: 104
+	{
+			if = {
+				limit = {
+					AND = {
+						NOT = {
+							scope:vassal.faith = scope:liege.faith
+						}
+						scope:liege = {
+							has_religion = religion:islam_religion
+						}
+					}
+				}
+				tax = 0.2
+				vassal_opinion = -20
+			}
+	}
+}
