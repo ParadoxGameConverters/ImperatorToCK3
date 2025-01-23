@@ -93,9 +93,25 @@ qin = {
 
 neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture should only be be able to trigger in the converter if the holder of the culture has a kingdom or empire tier title. Otherwise, cretan should take place over it
 	color = { 0.7 0.6 0.95 }
+	
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# TFE uses heritage_hellenistic instead of heritage_ancient_greek.
+			heritage = heritage_hellenistic
+		} ELSE = {
+			heritage = heritage_ancient_greek
+		}
+	}
 
-	heritage = heritage_ancient_greek
-	language = language_ancient_greek
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# TFE uses language_greek instead of language_ancient_greek.
+			language = language_greek
+		} ELSE = {
+			language = language_ancient_greek
+		}
+	}
+	
 	ethos = ethos_bureaucratic
 
 	name_list = name_list_ancient_greek

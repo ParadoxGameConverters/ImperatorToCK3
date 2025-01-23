@@ -11,6 +11,8 @@ heritage_groups = {
 			heritage_group_nuragic
 		} ELSE_IF wtwsms = {
 			heritage_group_nuragic
+		} ELSE_IF tfe = {
+			heritage_group_nuragic
 		}
 	}
 }

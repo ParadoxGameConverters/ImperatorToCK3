@@ -235,6 +235,30 @@ main_theme_track = {
 }
 
 
+"music/in_game/TFE_music.txt" = {
+	# Define TFE_General_Cue to avoid "music not defined in music/ or dlc/*/music/" ck3-tiger warnings.
+	replace = {
+		before = {
+mx_cue_senate = {
+	music = "file:/music/TFE/TFE_Senate.ogg"
+	pause_factor = 25
+}
+		} # end of before
+
+		after = {
+mx_cue_senate = {
+	music = "file:/music/TFE/TFE_Senate.ogg"
+	pause_factor = 25
+}
+TFE_General_Cue = {
+	music = "file:/music/TFE/TFE_General_Cue.ogg"
+	pause_factor = 25
+}
+		}
+	}
+}
+
+
 "common/culture/traditions/TFE_realm_traditions.txt" = {
 	# from error.log:
 	# [02:52:37][E][pdx_persistent_reader.cpp:216]: Error: "Unexpected token: strong_traits_more_valued, near line: 473" in file: "common/culture/traditions/TFE_realm_traditions.txt" near line: 473
