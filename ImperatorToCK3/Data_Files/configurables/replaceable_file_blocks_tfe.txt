@@ -60,6 +60,26 @@
 	}
 		} # end of after
 	}
+
+	# from error.log:
+	# any_county_in_region trigger [ Percent cannot be larger than one ]
+	replace = {
+		before = {
+	any_county_in_region = {
+		region = world_europe_west_britannia
+		percent <= 60
+		holder.top_liege = root
+	}
+		} # end of before
+
+		after = {
+	any_county_in_region = {
+		region = world_europe_west_britannia
+		percent <= 0.6
+		holder.top_liege = root
+	}
+		} # end of after
+	}
 }
 
 
@@ -853,7 +873,7 @@ TFE_General_Cue = {
 }
 
 
-"common\genes\06_genes_special_accessories_headgear.txt" = {
+"common/genes/06_genes_special_accessories_headgear.txt" = {
 	replace = {
 		before = {
 					1 = female_headgear_secular_steppe_war_nobility_01
@@ -861,5 +881,15 @@ TFE_General_Cue = {
 		after = {
 					1 = f_headgear_sec_ep2_steppe_war_nob_01
 		}
+	}
+}
+
+
+"events/province_events.txt" = {
+	# from error.log:
+	# More than one colon in event target link 'scope:title:e_western_roman_empire'
+	replace = {
+		before = { scope:title:e_western_roman_empire.holder }
+		after = { title:e_western_roman_empire.holder }
 	}
 }

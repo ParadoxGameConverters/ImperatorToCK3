@@ -43,7 +43,7 @@ language_venetic = {
 					multiply = same_language_family_choice_factor
 				}
 			}
-		} ELSE_IF @[roa|tfe] = {
+		} ELSE_IF roa = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -57,6 +57,22 @@ language_venetic = {
 				else_if = {
 					limit = { has_cultural_parameter = language_family_indo_european }
 					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_venetic }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_italic }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = 2.5
 				}
 			}
 		}

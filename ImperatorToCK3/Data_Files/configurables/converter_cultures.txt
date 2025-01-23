@@ -75,20 +75,40 @@ qin = {
 		fallback = tradition_formation_fighting
 	}
 
-	ethnicities = {
-		10 = chinese
+	MOD_DEPENDENT = {
+		IF tfe = {
+			ethnicities = {
+				10 = asian
+			}
+		}
+		ELSE = {
+			ethnicities = {
+				10 = chinese
+			}
+		}
 	}
 
-	coa_gfx = {
-		chinese_group_coa_gfx
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# copied from han
+			coa_gfx = { chinese_group_coa_gfx }
+			building_gfx = { chinese_building_gfx indian_building_gfx }
+			clothing_gfx = { mongol_clothing_gfx }
+			unit_gfx = { mongol_unit_gfx }
+		}
+		ELSE = {
+			coa_gfx = {
+				chinese_group_coa_gfx
+			}
+			building_gfx = {
+				chinese_building_gfx
+			}
+			clothing_gfx = {
+				chinese_clothing_gfx
+			}
+			unit_gfx = { chinese_unit_gfx }
+		}
 	}
-	building_gfx = {
-		chinese_building_gfx
-	}
-	clothing_gfx = {
-		chinese_clothing_gfx
-	}
-	unit_gfx = { chinese_unit_gfx }
 }
 
 neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture should only be be able to trigger in the converter if the holder of the culture has a kingdom or empire tier title. Otherwise, cretan should take place over it
