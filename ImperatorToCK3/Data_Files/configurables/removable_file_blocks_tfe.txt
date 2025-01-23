@@ -5576,6 +5576,7 @@ set_minorities_game_start = {
 }
 
 "common/on_action/TFE_yearly_on_actions.txt" = {
+	# Anachronistic
 	{
 		if = {
 			limit = {
@@ -5732,6 +5733,7 @@ set_minorities_game_start = {
 		}
 	}
 	
+	# Anachronistic
 	{
 		if = {
 			limit = {
@@ -5771,6 +5773,7 @@ set_minorities_game_start = {
 		}
 	}
 	
+	# Anachronistic
 	{
 		if = {
 			limit = {
@@ -5965,6 +5968,7 @@ set_minorities_game_start = {
 		}
 	}
 
+	# Anachronistic
 	{
 		if = {
 			limit = {
@@ -6001,6 +6005,144 @@ set_minorities_game_start = {
 			}
 		}
 	}
+
+	# Anachronistic
+	{
+five_year_playable_pulse = {
+	on_actions = { TFE_five_year_playable_pulse_hadrians_wall }
+}
+
+TFE_five_year_playable_pulse_hadrians_wall = {
+	effect = {
+		# hadrian's walls are upgraded under roman rules
+		if = {
+			limit = {
+				OR = {
+					any_liege_or_above = {
+						OR = {
+							has_title = title:e_byzantium
+							has_title = title:e_western_roman_empire
+							has_title = title:e_roman_empire
+							has_title = title:e_gaul
+						}
+					}
+					OR = {
+						has_title = title:e_byzantium
+						has_title = title:e_western_roman_empire
+						has_title = title:e_roman_empire
+						has_title = title:e_gaul
+					}
+				}
+				has_title = title:c_northumberland
+			}
+			hidden_effect = {
+				title:c_northumberland = {
+					every_county_province = {
+						limit = { has_building = hadrians_wall_01 }
+						remove_building = hadrians_wall_01
+						add_special_building_slot = real_hadrians_wall_01
+						add_building = real_hadrians_wall_01
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					any_liege_or_above = {
+						OR = {
+							has_title = title:e_byzantium
+							has_title = title:e_western_roman_empire
+							has_title = title:e_roman_empire
+							has_title = title:e_gaul
+						}
+					}
+					OR = {
+						has_title = title:e_byzantium
+						has_title = title:e_western_roman_empire
+						has_title = title:e_roman_empire
+						has_title = title:e_gaul
+					}
+				}
+				has_title = title:c_durham
+			}
+			hidden_effect = {
+				title:c_durham = {
+					every_county_province = {
+						limit = { has_building = hadrians_wall_01 }
+						remove_building = hadrians_wall_01
+						add_special_building_slot = real_hadrians_wall_01
+						add_building = real_hadrians_wall_01
+					}
+				}
+			}
+		}
+		# hadrian's walls are downgraded without roman infrastructure
+		if = {
+			limit = {
+				NOR = {
+					any_liege_or_above = {
+						OR = {
+							has_title = title:e_byzantium
+							has_title = title:e_western_roman_empire
+							has_title = title:e_roman_empire
+							has_title = title:e_gaul
+						}
+					}
+					OR = {
+						has_title = title:e_byzantium
+						has_title = title:e_western_roman_empire
+						has_title = title:e_roman_empire
+						has_title = title:e_gaul
+					}
+				}
+				has_title = title:c_northumberland
+			}
+			hidden_effect = {
+				title:c_northumberland = {
+					every_county_province = {
+						limit = { has_building = real_hadrians_wall_01 }
+						remove_building = real_hadrians_wall_01
+						add_special_building_slot = hadrians_wall_01
+						add_building = hadrians_wall_01
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOR = {
+					any_liege_or_above = {
+						OR = {
+							has_title = title:e_byzantium
+							has_title = title:e_western_roman_empire
+							has_title = title:e_roman_empire
+							has_title = title:e_gaul
+						}
+					}
+					OR = {
+						has_title = title:e_byzantium
+						has_title = title:e_western_roman_empire
+						has_title = title:e_roman_empire
+						has_title = title:e_gaul
+					}
+				}
+				has_title = title:c_durham
+			}
+			hidden_effect = {
+				title:c_durham = {
+					every_county_province = {
+						limit = { has_building = real_hadrians_wall_01 }
+						remove_building = real_hadrians_wall_01
+						add_special_building_slot = hadrians_wall_01
+						add_building = hadrians_wall_01
+					}
+				}
+			}
+		}
+	}
+}
+	} # end of block
 }
 
 "common/on_action/death.txt" = {
