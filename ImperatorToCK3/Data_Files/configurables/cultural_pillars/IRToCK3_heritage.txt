@@ -14,6 +14,11 @@ heritage_nuragic = {
 				heritage_group_nuragic = yes
 				heritage_family_european = yes
 			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_nuragic = yes
+				heritage_family_mediterranean = yes
+			}
 		}
 	}
 	type = heritage
@@ -135,6 +140,11 @@ heritage_romano_british = {
 			parameters = {
 				heritage_group_latin = yes
 				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes
 			}
 		}
 	}

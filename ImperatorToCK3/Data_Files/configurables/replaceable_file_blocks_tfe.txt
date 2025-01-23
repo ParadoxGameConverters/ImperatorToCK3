@@ -60,6 +60,26 @@
 	}
 		} # end of after
 	}
+
+	# from error.log:
+	# any_county_in_region trigger [ Percent cannot be larger than one ]
+	replace = {
+		before = {
+	any_county_in_region = {
+		region = world_europe_west_britannia
+		percent <= 60
+		holder.top_liege = root
+	}
+		} # end of before
+
+		after = {
+	any_county_in_region = {
+		region = world_europe_west_britannia
+		percent <= 0.6
+		holder.top_liege = root
+	}
+		} # end of after
+	}
 }
 
 
@@ -229,6 +249,30 @@ main_theme_track = {
 main_theme_track = {
 	music = "event:/MUSIC/MainTheme/Maintheme"
 	can_be_interrupted = yes
+}
+		}
+	}
+}
+
+
+"music/in_game/TFE_music.txt" = {
+	# Define TFE_General_Cue to avoid "music not defined in music/ or dlc/*/music/" ck3-tiger warnings.
+	replace = {
+		before = {
+mx_cue_senate = {
+	music = "file:/music/TFE/TFE_Senate.ogg"
+	pause_factor = 25
+}
+		} # end of before
+
+		after = {
+mx_cue_senate = {
+	music = "file:/music/TFE/TFE_Senate.ogg"
+	pause_factor = 25
+}
+TFE_General_Cue = {
+	music = "file:/music/TFE/TFE_General_Cue.ogg"
+	pause_factor = 25
 }
 		}
 	}
@@ -829,13 +873,537 @@ main_theme_track = {
 }
 
 
-"common\genes\06_genes_special_accessories_headgear.txt" = {
+"common/genes/06_genes_special_accessories_headgear.txt" = {
 	replace = {
 		before = {
 					1 = female_headgear_secular_steppe_war_nobility_01
 		}
 		after = {
 					1 = f_headgear_sec_ep2_steppe_war_nob_01
+		}
+	}
+}
+
+
+"events/province_events.txt" = {
+	# from error.log:
+	# More than one colon in event target link 'scope:title:e_western_roman_empire'
+	replace = {
+		before = { scope:title:e_western_roman_empire.holder }
+		after = { title:e_western_roman_empire.holder }
+	}
+}
+
+
+"common/vassal_contracts/gupta.txt" = {
+	# from error.log:
+	# Obligation level 'gupta_governance_samarajya' in 'gupta_governance' is marked as default but has an is_valid, the default cannot be conditionally valid it must always be valid
+	replace = {
+		before = {
+		gupta_governance_samarajya = {
+			position = { 0 1 }
+			default = yes
+			score = -1
+			flag = gupta_governance_samarajya
+			ai_vassal_desire =  {
+				value = -30
+			}
+			is_valid = {
+				scope:vassal = {
+					highest_held_title_tier >= tier_county
+				}
+			}
+			
+			ai_liege_desire =  {
+				value = 10
+			}
+		}
+		} # end of before
+
+		after = {
+		gupta_governance_samarajya = {
+			position = { 0 1 }
+			default = yes
+			score = -1
+			flag = gupta_governance_samarajya
+			ai_vassal_desire =  {
+				value = -30
+			}
+			
+			ai_liege_desire =  {
+				value = 10
+			}
+		}
+		} # end of after
+	}
+}
+
+
+"events/migration_events.txt" = {
+	replace = {
+		before = {
+scripted_trigger valid_migrator = {
+	is_available_ai_adult = yes
+	is_alive = yes
+	is_independent_ruler = yes
+	is_landed = yes
+	highest_held_title_tier >= tier_county
+	is_in_an_activity = no
+	culture = {
+		has_cultural_tradition = tradition_migrations
+		NOT = { has_cultural_era_or_later = culture_era_early_medieval }
+	}
+	NOT = {
+		has_character_flag = used_lifetime_migration
+	}
+	NOT = { any_character_war = { using_cb = germanic_migration_cb } }
+	NOT = {
+		realm_size >= 40
+	}
+	# Visigoths
+	trigger_if = {
+		limit = {
+			culture = {
+				OR = {
+					this = culture:gothic
+					this = culture:visigothic
+				}
+			}
+		}
+		NOT = {
+			capital_county.kingdom = title:k_aquitaine
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+		NOT = {
+			capital_county.kingdom = title:k_croatia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_hungary
+		}
+		NOT = {
+			capital_county.empire = title:e_italy
+		}
+	}
+	# Ostrogoths
+	trigger_else_if = {
+		limit = {
+			culture = culture:ostrogothic
+		}
+		NOT = {
+			capital_county.kingdom = title:k_pannonia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_aquitaine
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+		NOT = {
+			capital_county.kingdom = title:k_croatia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_hungary
+		}
+		NOT = {
+			capital_county.empire = title:e_italy
+		}
+	}
+	# Vandals
+	trigger_else_if = {
+		limit = {
+			culture = culture:vandal
+		}
+		NOT = {
+			capital_county.empire = title:e_maghreb
+		}
+	}
+	# Lombards
+	trigger_else_if = {
+		limit = {
+			culture = culture:langobard
+		}
+		NOT = {
+			capital_county.kingdom = title:k_italia_annonariae
+		}
+		NOT = {
+			capital_county.kingdom = title:e_italy
+		}
+	}
+	# Suebi
+	trigger_else_if = {
+		limit = {
+			culture = culture:old_suebi
+		}
+		NOT = {
+			capital_county.kingdom = title:k_spanish_galicia
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+	}
+	# Anglo-Saxons
+	trigger_else_if = {
+		limit = {
+			culture = {
+				OR = {
+					this = culture:old_saxon
+					this = culture:jute
+					this = culture:angle
+				}
+			}
+		}
+		NOT = {
+			capital_county.empire = title:e_britannia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_britannia
+		}
+	}
+	# Alans
+	trigger_else_if = {
+		limit = {
+			culture = culture:alan
+		}
+		NOT = {
+			capital_county.kingdom = title:k_spanish_galicia
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+	}
+	# Sclaveni
+	trigger_else_if = {
+		limit = {
+			culture = culture:sclavenian
+		}
+		NOT = {
+			capital_county.kingdom = title:k_daciae
+		}
+	}
+	# Croats
+	trigger_else_if = {
+		limit = {
+			culture = culture:belocroat
+		}
+		NOT = {
+			capital_county.kingdom = title:k_pannonia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_hungary
+		}
+	}
+	# Serbs
+	trigger_else_if = {
+		limit = {
+			culture = culture:beloserb
+		}
+		NOT = {
+			capital_county.kingdom = title:k_daciae
+		}
+	}
+}
+		} # end of before
+
+		after = {
+scripted_trigger valid_migrator = {
+	is_available_ai_adult = yes
+	is_alive = yes
+	is_independent_ruler = yes
+	is_landed = yes
+	highest_held_title_tier >= tier_county
+	is_in_an_activity = no
+	culture = {
+		has_cultural_tradition = tradition_migrations
+		NOT = { has_cultural_era_or_later = culture_era_early_medieval }
+	}
+	NOT = {
+		has_character_flag = used_lifetime_migration
+	}
+	NOT = { any_character_war = { using_cb = germanic_migration_cb } }
+	NOT = {
+		realm_size >= 40
+	}
+	# Visigoths
+	trigger_if = {
+		limit = {
+			culture = {
+				OR = {
+					this = culture:gothic
+					this = culture:visigothic
+				}
+			}
+		}
+		NOT = {
+			capital_county.kingdom = title:k_aquitaine
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+		NOT = {
+			capital_county.kingdom = title:k_croatia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_hungary
+		}
+		NOT = {
+			capital_county.empire = title:e_italy
+		}
+	}
+	# Ostrogoths
+	trigger_else_if = {
+		limit = {
+			culture = culture:ostrogothic
+		}
+		NOT = {
+			capital_county.kingdom = title:k_pannonia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_aquitaine
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+		NOT = {
+			capital_county.kingdom = title:k_croatia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_hungary
+		}
+		NOT = {
+			capital_county.empire = title:e_italy
+		}
+	}
+	# Vandals
+	trigger_else_if = {
+		limit = {
+			culture = culture:vandal
+		}
+		NOT = {
+			capital_county.empire = title:e_maghreb
+		}
+	}
+	# Lombards
+	trigger_else_if = {
+		limit = {
+			culture = culture:langobard
+		}
+		NOT = {
+			capital_county.kingdom = title:k_italia_annonariae
+		}
+		NOT = {
+			capital_county.kingdom = title:e_italy
+		}
+	}
+	# Suebi
+	trigger_else_if = {
+		limit = {
+			culture = culture:old_suebi
+		}
+		NOT = {
+			capital_county.kingdom = title:k_spanish_galicia
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+	}
+	# Anglo-Saxons
+	trigger_else_if = {
+		limit = {
+			culture = {
+				OR = {
+					this = culture:old_saxon
+					this = culture:jute
+					this = culture:angle
+				}
+			}
+		}
+		NOT = {
+			capital_county.empire = title:e_britannia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_britannia
+		}
+	}
+	# Alans
+	trigger_else_if = {
+		limit = {
+			culture = culture:alan
+		}
+		NOT = {
+			capital_county.kingdom = title:k_spanish_galicia
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+	}
+	# Sclaveni
+	trigger_else_if = {
+		limit = {
+			culture = culture:sclavenian
+		}
+		NOT = {
+			capital_county.kingdom = title:k_daciae
+		}
+	}
+	# Croats
+	trigger_else_if = {
+		limit = {
+			culture = culture:belocroat
+		}
+		NOT = {
+			capital_county.kingdom = title:k_pannonia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_hungary
+		}
+	}
+	# Serbs
+	trigger_else_if = {
+		limit = {
+			culture = culture:beloserb
+		}
+		NOT = {
+			capital_county.kingdom = title:k_daciae
+		}
+	}
+	trigger_else = {
+		always = no
+	}
+}
+		} # end of after
+	}
+}
+
+
+"events/celtic_events.txt" = {
+	# from error.log:
+	# Error: religion_tag trigger [ Invalid religion tag 'pagan_religion' ]
+	replace = {
+		before = {
+				faith = { religion_tag = pagan_religion }
+		}
+		after = {
+				faith = { religion_tag = paganism_religion }
+		}
+	}
+}
+
+
+"gfx/portraits/accessory_variations/EPE_etrxa_accessory.txt" = {
+	# from error.log:
+	# Could not find texture due to 'VFSOpen Error: gfx/portraits/accessory_variations/textures/color_palette_female_headgear_western_nobility_05.dds not found'
+	replace = {
+		before = {
+texture = "gfx/portraits/accessory_variations/textures/color_palette_female_headgear_western_nobility_05.dds"
+		}
+		after = {
+texture = "gfx/portraits/accessory_variations/textures/color_palette_fp2_iberian_christian_low_headgear_female_01.dds"
+		}
+	}
+}
+
+
+"common/bookmark_portraits/bookmark_reconquest_belisarius.txt" = {
+	replace = {
+		before = {
+ 		clothes={ "male_clothes_roman_nobility_03" 0 "most_clothes" 0 }
+ 		headgear={ "no_headgear" 0 "no_headgear" 0 }
+ 		hairstyles={ "fp2_hairstyles_iberian_muslim_wavy" 85 "all_hairstyles" 0 }
+ 		clothes={ "male_clothes_roman_nobility_03" 79 "most_clothes" 0 }
+		} # end of before
+		
+		after = {
+ 		clothes={ "male_clothes_roman_nobility_03" 0 "most_clothes" 0 }
+ 		headgear={ "no_headgear" 0 "no_headgear" 0 }
+ 		hairstyles={ "fp2_hairstyles_iberian_muslim_wavy" 85 "all_hairstyles" 0 }
+		} # end of after
+	}
+}
+
+
+"common/men_at_arms_types/TFE_maa_types.txt" = {
+	# from error.log:
+	# Error: "Variable name 'provisions_cost_infantry_cheap' is already taken: gold, near line: 59 (expanded from file: common/men_at_arms_types/TFE_maa_types.txt line: 58)
+	# Unexpected token: =, near line: 59" in file: "common/men_at_arms_types/TFE_maa_types.txt" near line: 59
+	replace = {
+		before = {
+	high_maintenance_cost = { gold = 0.45 }
+	@provisions_cost_infantry_cheap = 3
+		}
+		after = {
+	high_maintenance_cost = { gold = 0.45 }
+	provision_cost = @provisions_cost_infantry_cheap
+		}
+	}
+}
+
+
+"common/men_at_arms_types/TFE_cultural_maa_types.txt" = {
+	# from error.log:
+	# Error: "Malformed token: provisions_cost_infantry_bankrupting, near line: 91" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 91
+	replace = {
+		before = {
+	provision_cost = provisions_cost_infantry_bankrupting
+		}
+		after = {
+	provision_cost = @provisions_cost_infantry_bankrupting
+		}
+	}
+
+	# from error.log:
+	# Error: "Malformed token: provisions_cost_cavalry_bankrupting, near line: 133" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 133
+	replace = {
+		before = {
+	provision_cost = provisions_cost_cavalry_bankrupting
+		}
+		after = {
+	provision_cost = @provisions_cost_cavalry_bankrupting
+		}
+	}
+
+	# from error.log:
+	# Error: "Malformed token: provisions_cost_infantry_expensive, near line: 54" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 54
+	replace = {
+		before = {
+	provision_cost = provisions_cost_infantry_expensive
+		}
+		after = {
+	provision_cost = @provisions_cost_infantry_expensive
+		}
+	}
+
+	# from error.log:
+	# Error: "Malformed token: provisions_cost_infantry_cheap, near line: 163" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 163
+	replace = {
+		before = {
+	provision_cost = provisions_cost_infantry_cheap
+		}
+		after = {
+	provision_cost = @provisions_cost_infantry_cheap
+		}
+	}
+
+	# from error.log:
+	# Error: "Malformed token: provisions_cost_infantry_moderate, near line: 515" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 515
+	replace = {
+		before = {
+	provision_cost = provisions_cost_infantry_moderate
+		}
+		after = {
+	provision_cost = @provisions_cost_infantry_moderate
+		}
+	}
+
+	# from error.log:
+	# Error: "Malformed token: provisions_cost_cavalry_cheap, near line: 722" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 722
+	replace = {
+		before = {
+	provision_cost = provisions_cost_cavalry_cheap
+		}
+		after = {
+	provision_cost = @provisions_cost_cavalry_cheap
 		}
 	}
 }

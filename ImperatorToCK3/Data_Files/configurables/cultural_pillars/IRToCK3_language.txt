@@ -40,7 +40,7 @@ language_nuragic = {
 				language_branch_nuragic = yes
 				language_family_paleo_sardinian = yes
 			}
-		} ELSE_IF roa = {
+		} ELSE_IF @[roa|tfe] = {
 			parameters = {
 				language_group_nuragic = yes
 				language_family_paleo_sardinian = yes
@@ -86,6 +86,22 @@ language_nuragic = {
 				else_if = {
 					limit = { has_cultural_parameter = language_family_paleo_sardinian }
 					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_nuragic }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_nuragic }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_paleo_sardinian }
+					multiply = 2.5
 				}
 			}
 		}
@@ -265,7 +281,7 @@ language_hittite = {
 				language_branch_anatolian = yes
 				language_family_indo_european = yes
 			}
-		} ELSE_IF roa = {
+		} ELSE_IF @[roa|tfe] = {
 			parameters = {
 				language_group_anatolian = yes
 				language_family_indo_european = yes
@@ -311,6 +327,22 @@ language_hittite = {
 				else_if = {
 					limit = { has_cultural_parameter = language_family_indo_european }
 					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_hittite }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_anatolian }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = 2.5
 				}
 			}
 		}
@@ -440,7 +472,7 @@ language_babylonian = {
 				language_branch_semitic = yes
 				language_family_afro_asiatic = yes
 			}
-		} ELSE_IF roa = {
+		} ELSE_IF @[roa|tfe] = {
 			parameters = {
 				language_group_semitic = yes
 				language_family_afro_asiatic = yes
@@ -486,6 +518,22 @@ language_babylonian = {
 				else_if = {
 					limit = { has_cultural_parameter = language_family_afro_asiatic }
 					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_babylonian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_semitic }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_afro_asiatic }
+					multiply = 2.5
 				}
 			}
 		}

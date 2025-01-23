@@ -5576,6 +5576,7 @@ set_minorities_game_start = {
 }
 
 "common/on_action/TFE_yearly_on_actions.txt" = {
+	# Anachronistic
 	{
 		if = {
 			limit = {
@@ -5732,6 +5733,7 @@ set_minorities_game_start = {
 		}
 	}
 	
+	# Anachronistic
 	{
 		if = {
 			limit = {
@@ -5771,6 +5773,7 @@ set_minorities_game_start = {
 		}
 	}
 	
+	# Anachronistic
 	{
 		if = {
 			limit = {
@@ -5965,6 +5968,7 @@ set_minorities_game_start = {
 		}
 	}
 
+	# Anachronistic
 	{
 		if = {
 			limit = {
@@ -6001,6 +6005,144 @@ set_minorities_game_start = {
 			}
 		}
 	}
+
+	# Anachronistic
+	{
+five_year_playable_pulse = {
+	on_actions = { TFE_five_year_playable_pulse_hadrians_wall }
+}
+
+TFE_five_year_playable_pulse_hadrians_wall = {
+	effect = {
+		# hadrian's walls are upgraded under roman rules
+		if = {
+			limit = {
+				OR = {
+					any_liege_or_above = {
+						OR = {
+							has_title = title:e_byzantium
+							has_title = title:e_western_roman_empire
+							has_title = title:e_roman_empire
+							has_title = title:e_gaul
+						}
+					}
+					OR = {
+						has_title = title:e_byzantium
+						has_title = title:e_western_roman_empire
+						has_title = title:e_roman_empire
+						has_title = title:e_gaul
+					}
+				}
+				has_title = title:c_northumberland
+			}
+			hidden_effect = {
+				title:c_northumberland = {
+					every_county_province = {
+						limit = { has_building = hadrians_wall_01 }
+						remove_building = hadrians_wall_01
+						add_special_building_slot = real_hadrians_wall_01
+						add_building = real_hadrians_wall_01
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					any_liege_or_above = {
+						OR = {
+							has_title = title:e_byzantium
+							has_title = title:e_western_roman_empire
+							has_title = title:e_roman_empire
+							has_title = title:e_gaul
+						}
+					}
+					OR = {
+						has_title = title:e_byzantium
+						has_title = title:e_western_roman_empire
+						has_title = title:e_roman_empire
+						has_title = title:e_gaul
+					}
+				}
+				has_title = title:c_durham
+			}
+			hidden_effect = {
+				title:c_durham = {
+					every_county_province = {
+						limit = { has_building = hadrians_wall_01 }
+						remove_building = hadrians_wall_01
+						add_special_building_slot = real_hadrians_wall_01
+						add_building = real_hadrians_wall_01
+					}
+				}
+			}
+		}
+		# hadrian's walls are downgraded without roman infrastructure
+		if = {
+			limit = {
+				NOR = {
+					any_liege_or_above = {
+						OR = {
+							has_title = title:e_byzantium
+							has_title = title:e_western_roman_empire
+							has_title = title:e_roman_empire
+							has_title = title:e_gaul
+						}
+					}
+					OR = {
+						has_title = title:e_byzantium
+						has_title = title:e_western_roman_empire
+						has_title = title:e_roman_empire
+						has_title = title:e_gaul
+					}
+				}
+				has_title = title:c_northumberland
+			}
+			hidden_effect = {
+				title:c_northumberland = {
+					every_county_province = {
+						limit = { has_building = real_hadrians_wall_01 }
+						remove_building = real_hadrians_wall_01
+						add_special_building_slot = hadrians_wall_01
+						add_building = hadrians_wall_01
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				NOR = {
+					any_liege_or_above = {
+						OR = {
+							has_title = title:e_byzantium
+							has_title = title:e_western_roman_empire
+							has_title = title:e_roman_empire
+							has_title = title:e_gaul
+						}
+					}
+					OR = {
+						has_title = title:e_byzantium
+						has_title = title:e_western_roman_empire
+						has_title = title:e_roman_empire
+						has_title = title:e_gaul
+					}
+				}
+				has_title = title:c_durham
+			}
+			hidden_effect = {
+				title:c_durham = {
+					every_county_province = {
+						limit = { has_building = real_hadrians_wall_01 }
+						remove_building = real_hadrians_wall_01
+						add_special_building_slot = hadrians_wall_01
+						add_building = hadrians_wall_01
+					}
+				}
+			}
+		}
+	}
+}
+	} # end of block
 }
 
 "common/on_action/death.txt" = {
@@ -28837,15 +28979,229 @@ visigothic_capital_decision = {
 "common/decisions/TFE_major_celtic_decisions.txt" = {
 	# No k_britanny in TFE as of the 'After The Pharaohs' update.
 	{
-			title:k_britanny = {
-				set_de_jure_liege_title = title:e_gaul
-			}
-	}
-	{
 			title:d_brittany = {
 				set_de_jure_liege_title = title:k_britanny
 			}
 	}
+
+	
+	# from error.log:
+	# PostValidate of trigger 'trigger_else_if' returned false at file: common/decisions/TFE_major_celtic_decisions.txt line: 658 (become_emperor_of_gaul_decision:is_valid)
+	{
+#Proclaim the Gallic Empire
+become_emperor_of_gaul_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/fp1_decision_raise_runestone.dds"
+	}
+	decision_group_type = major
+
+	desc = become_emperor_of_gaul_decision_desc
+	selection_tooltip = become_emperor_of_gaul_decision_tooltip
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed_or_landless_administrative = yes
+		OR = {
+			government_has_flag = government_is_autocratic
+			government_has_flag = government_is_autocratic_ep3
+			government_has_flag = government_is_imperial
+			government_has_flag = government_is_administrative
+		}
+		culture = { has_cultural_pillar = heritage_latin }
+		any_realm_county = {
+			title_province = {geographical_region = custom_gaul}
+		  }
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:became_emperor_of_gaul
+			}
+		}
+		has_game_rule = larp_enabled
+		highest_held_title_tier < tier_empire
+	}
+
+	is_valid = {
+		highest_held_title_tier = tier_kingdom
+		prestige_level >= high_prestige_level
+		OR = {
+			is_independent_ruler = yes
+			AND = {
+				highest_held_title_tier = tier_kingdom
+				liege = {
+					OR = {
+						government_has_flag = government_is_imperial_cult
+						government_has_flag = government_is_imperial
+						government_has_flag = government_is_administrative
+					}
+				}
+				has_realm_law = de_centeral_law_policy_4
+			}
+		}
+		trigger_if = {
+			limit = {
+				title:e_roman_empire = {
+					is_title_created = yes
+				}
+				title:e_roman_empire.holder = {
+					OR = {
+						government_has_flag = government_is_imperial_cult
+						government_has_flag = government_is_imperial
+						government_has_flag = government_is_administrative
+					}
+				}
+				OR = {
+						has_game_rule = imperial_competence_enabled
+						AND = {
+							has_game_rule = imperial_competence_enabled_in_430
+							current_date >= 430.1.1
+						}
+					}
+			}
+			custom_description = {
+				text = roman_empire_low_competence
+				subject = title:e_roman_empire.holder
+				title:e_roman_empire.holder = {
+					OR = {
+						var:civic_comp < 500
+						var:diplo_comp < 500
+						var:mil_comp < 500
+					}
+				}
+			}
+		}
+		trigger_else_if = {
+			limit = {
+				title:e_western_roman_empire = {
+					is_title_created = yes
+				}
+				title:e_western_roman_empire.holder = {
+					OR = {
+						government_has_flag = government_is_imperial_cult
+						government_has_flag = government_is_imperial
+						government_has_flag = government_is_administrative
+					}
+				}
+				OR = {
+						has_game_rule = imperial_competence_enabled
+						AND = {
+							has_game_rule = imperial_competence_enabled_in_430
+							current_date >= 430.1.1
+						}
+					}
+			}
+			custom_description = {
+				text = roman_empire_low_competence
+				subject = title:e_western_roman_empire.holder
+				title:e_western_roman_empire.holder = {
+					OR = {
+						var:civic_comp < 500
+						var:diplo_comp < 500
+						var:mil_comp < 500
+					}
+				}
+			}
+		}
+		
+		completely_controls_region = custom_gaul
+		completely_controls_region = custom_roman_britannia
+
+	}
+
+	is_valid_showing_failures_only = {
+		is_imprisoned = no
+	}
+
+	effect = {
+		if = {
+			limit = {
+			has_dlc_feature = roads_to_power
+		}
+			change_government = administrative_government
+		}
+		else = {
+			change_government = imperial_government
+		}
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		title:e_gaul = {
+			save_scope_as = title_e_gaul
+		}
+		title:e_gaul = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+			save_scope_as = title_e_gaul
+		}
+		resolve_title_and_vassal_change = scope:title_change
+		
+		trigger_event = {
+			id = province_events.0040
+			days = 2
+		}
+		add_prestige = 1500
+		
+		hidden_effect = {
+			title:k_gallia = {
+				set_de_jure_liege_title = title:e_gaul
+			}
+			title:k_septem_provinciae = {
+				set_de_jure_liege_title = title:e_gaul
+			}
+			title:k_britannia = {
+				set_de_jure_liege_title = title:e_gaul
+			}
+			title:k_england = {
+				set_de_jure_liege_title = title:e_gaul
+			}
+			title:k_wales = {
+				set_de_jure_liege_title = title:e_gaul
+			}
+			title:k_cornwall = {
+				set_de_jure_liege_title = title:e_gaul
+			}
+			title:k_britanny = {
+				set_de_jure_liege_title = title:e_gaul
+			}
+			title:k_france = {
+				set_de_jure_liege_title = title:e_gaul
+			}
+			title:k_aquitaine = {
+				set_de_jure_liege_title = title:e_gaul
+			}
+			title:k_lotharingia = {
+				set_de_jure_liege_title = title:e_gaul
+			}
+			title:k_burgundy = {
+				set_de_jure_liege_title = title:e_gaul
+			}
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:became_emperor_of_gaul
+			}
+		}
+	}
+
+	cost = {
+		gold = 1000
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+	}
+
 }
 
 
@@ -33479,5 +33835,271 @@ feudal_government_or_dynastic_realm = {
 	character_modifier = {
 		autocratic_government_opinion = -50
 	}
+	}
+}
+
+
+"common/decisions/TFE_major_decisions.txt" = {
+	# from error.log:
+	# PostValidate of trigger 'trigger_else_if' returned false at file: common/decisions/TFE_major_decisions.txt line: 238 (restore_palmyrene_empire_decision:is_valid)
+	{
+#Restore the Palmyrene Empire
+restore_palmyrene_empire_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_realm.dds"
+	}
+	decision_group_type = major
+
+	desc = restore_palmyrene_empire_desc
+	selection_tooltip = restore_palmyrene_empire_decision_tooltip
+
+	ai_check_interval = 120
+
+	is_shown = {
+		is_ruler = yes
+		is_landed_or_landless_administrative = yes
+		OR = {
+			culture = {
+				any_parent_culture_or_above = {
+					THIS = culture:bedouin
+				}
+			}
+			culture = {
+				any_parent_culture_or_above = {
+					THIS = culture:aramean
+				}
+			}
+		}
+		OR = {
+			government_has_flag = government_is_autocratic
+			government_has_flag = government_is_autocratic_ep3
+			government_has_flag = government_is_imperial
+			government_has_flag = government_is_administrative
+		}
+		religion = religion:semitic_religion
+		any_realm_county = {
+			title_province = {geographical_region = custom_palmyrene_empire}
+		  }
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:restored_palmyrene_empire
+			}
+		}
+		has_game_rule = larp_enabled
+		highest_held_title_tier < tier_empire
+	}
+
+	is_valid = {
+		highest_held_title_tier = tier_kingdom
+		prestige_level >= high_prestige_level
+		OR = {
+			is_independent_ruler = yes
+			AND = {
+				highest_held_title_tier = tier_kingdom
+				liege = {
+					OR = {
+						government_has_flag = government_is_imperial_cult
+						government_has_flag = government_is_imperial
+						government_has_flag = government_is_administrative
+					}
+				}
+				has_realm_law = de_centeral_law_policy_4
+			}
+		}
+		trigger_if = {
+			limit = {
+				title:e_roman_empire = {
+					is_title_created = yes
+				}
+				title:e_roman_empire.holder = {
+					OR = {
+						government_has_flag = government_is_imperial_cult
+						government_has_flag = government_is_imperial
+						government_has_flag = government_is_administrative
+					}
+				}
+				OR = {
+						has_game_rule = imperial_competence_enabled
+						AND = {
+							has_game_rule = imperial_competence_enabled_in_430
+							current_date >= 430.1.1
+						}
+					}
+			}
+			custom_description = {
+				text = roman_empire_low_competence
+				subject = title:e_roman_empire.holder
+				title:e_roman_empire.holder = {
+					OR = {
+						var:civic_comp < 500
+						var:diplo_comp < 500
+						var:mil_comp < 500
+					}
+				}
+			}
+		}
+		trigger_else_if = {
+			limit = {
+				title:e_byzantium = {
+					is_title_created = yes
+				}
+				title:e_byzantium.holder = {
+					OR = {
+						government_has_flag = government_is_imperial_cult
+						government_has_flag = government_is_imperial
+						government_has_flag = government_is_administrative
+					}
+				}
+				OR = {
+						has_game_rule = imperial_competence_enabled
+						AND = {
+							has_game_rule = imperial_competence_enabled_in_430
+							current_date >= 430.1.1
+						}
+					}
+			}
+			custom_description = {
+				text = roman_empire_low_competence
+				subject = title:e_byzantium.holder
+				title:e_byzantium.holder = {
+					OR = {
+						var:civic_comp < 500
+						var:diplo_comp < 500
+						var:mil_comp < 500
+					}
+				}
+			}
+		}
+
+		
+		completely_controls_region = custom_palmyrene_empire
+
+	}
+
+	is_valid_showing_failures_only = {
+		is_imprisoned = no
+	}
+
+	effect = {
+		if = {
+			limit = {
+			has_dlc_feature = roads_to_power
+		}
+			change_government = administrative_government
+		}
+		else = {
+			change_government = imperial_government
+		}
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = title_change
+			add_claim_on_loss = no
+		}
+		title:e_palmyrene = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+		}
+    	resolve_title_and_vassal_change = scope:title_change
+		
+		trigger_event = {
+			id = province_events.0041
+			days = 2
+		}
+		add_prestige = 1500
+		
+		hidden_effect = {
+			title:k_orientis = {
+				set_de_jure_liege_title = title:e_palmyrene
+			}
+			title:k_asiae = {
+				set_de_jure_liege_title = title:e_palmyrene
+			}
+			title:k_aegyptus = {
+				set_de_jure_liege_title = title:e_palmyrene
+			}
+
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:restored_palmyrene_empire
+			}
+		}
+	}
+
+	cost = {
+		gold = 1000
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+	}
+}
+
+
+"common/scripted_modifiers/00_voter_strength_scripted_modifiers.txt" = {
+	# from error.log:
+	# Error: "Unknown trigger type: divide, near line: 1010
+	# Unknown trigger type: round, near line: 1011" in file: "common/scripted_modifiers/00_voter_strength_scripted_modifiers.txt" near line: 1016
+	{
+	modifier = { #Being a good general.
+		desc = tooltip_hunnic_vote_strength_elector_marshal
+		add = prowess
+		add = martial
+		divide = 2
+		round = yes
+		OR = {
+			is_knight_of = scope:holder
+			has_council_position = councillor_marshal
+			is_diarch_of_target = scope:holder
+		}
+	}
+	}
+}
+
+
+"common/vassal_contracts/eranshar.txt" = {
+	# from error.log:
+	# Error: "Unexpected token: liege_opinion, near line: 126" in file: "common/vassal_contracts/eranshar.txt" near line: 126
+	{
+			liege_opinion = -30
+	}
+}
+
+
+"common/vassal_contracts/gupta.txt" = {
+	# from error.log:
+	# Error: "Unexpected token: liege_opinion, near line: 89" in file: "common/vassal_contracts/gupta.txt" near line: 89
+	{
+			liege_opinion = -30
+	}
+}
+
+
+"common/vassal_contracts/islamic.txt" = {
+	# from error.log:
+	# Error: "Unexpected token: if, near line: 91" in file: "common/vassal_contracts/islamic.txt" near line: 104
+	{
+			if = {
+				limit = {
+					AND = {
+						NOT = {
+							scope:vassal.faith = scope:liege.faith
+						}
+						scope:liege = {
+							has_religion = religion:islam_religion
+						}
+					}
+				}
+				tax = 0.2
+				vassal_opinion = -20
+			}
 	}
 }

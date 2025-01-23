@@ -13,6 +13,8 @@ language_families = {
     	} ELSE_IF roa = {
 			language_family_paleo_sardinian
 			language_family_tyrsenian
+		} ELSE_IF tfe = {
+			language_family_paleo_sardinian
 		}
     }
 }
@@ -39,6 +41,7 @@ language_groups = {
 			language_group_etruscan
 			language_group_daco_thracian
 		} ELSE_IF tfe = {
+			language_group_nuragic
 			language_group_italic
 		}
 	}
