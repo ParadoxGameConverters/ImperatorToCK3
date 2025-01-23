@@ -76,27 +76,29 @@ qin = {
 	}
 
 	MOD_DEPENDENT = {
-		IF tfe = {
+		IF aep = {
 			ethnicities = {
-				10 = asian
+				10 = east_asian_chinese_north
+			}
+		}
+		ELSE_IF roa = {
+			# copied from han
+			ethnicities = {
+				2 = east_asian_han_1
+				2 = east_asian_han_2
+				2 = east_asian_han_3
+				2 = east_asian_han_4
 			}
 		}
 		ELSE = {
 			ethnicities = {
-				10 = chinese
+				10 = asian
 			}
 		}
 	}
 
 	MOD_DEPENDENT = {
-		IF tfe = {
-			# copied from han
-			coa_gfx = { chinese_group_coa_gfx }
-			building_gfx = { chinese_building_gfx indian_building_gfx }
-			clothing_gfx = { mongol_clothing_gfx }
-			unit_gfx = { mongol_unit_gfx }
-		}
-		ELSE = {
+		IF aep = {
 			coa_gfx = {
 				chinese_group_coa_gfx
 			}
@@ -108,6 +110,21 @@ qin = {
 			}
 			unit_gfx = { chinese_unit_gfx }
 		}
+		ELSE_IF tfe = {
+			# copied from han
+			coa_gfx = { chinese_group_coa_gfx }
+			building_gfx = { chinese_building_gfx indian_building_gfx }
+			clothing_gfx = { mongol_clothing_gfx }
+			unit_gfx = { mongol_unit_gfx }
+		}
+		ELSE = {
+			# copied from han
+			coa_gfx = { chinese_group_coa_gfx }
+			building_gfx = { indian_building_gfx }
+			clothing_gfx = { mongol_clothing_gfx }
+			unit_gfx = { mongol_unit_gfx }
+		}
+		
 	}
 }
 
