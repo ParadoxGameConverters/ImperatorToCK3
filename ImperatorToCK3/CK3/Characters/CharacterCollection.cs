@@ -735,6 +735,8 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			//		mesh: ep1_western_pouch_basic_01_a_mesh
 		}
 		
+		var visualsMapper = new ArtifactVisualsMapper("configurables/artifact_visuals_map.txt");
+		
 		var charactersFromImperator = this.Where(c => c.FromImperator).ToList();
 		foreach (var character in charactersFromImperator) {
 			if (!ck3CharacterIdToTreasureIdsListDict.TryGetValue(character.Id, out var irArtifactIds)) {
@@ -780,6 +782,9 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 	private void ImportArtifact(Character character, Treasure irArtifact, ModifierMapper modifierMapper, ModifierCollection ck3Modifiers, ArtifactVisualsMapper visualsMapper, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
 		var ck3Visual = visualsMapper.GetVisual(irArtifact.Key, irArtifact.IconName);
+		if (ck3Visual is null) {
+			Logger.Warn($"Can't find visual for artifact key {irArtifact.Key} and icon {irArtifact.IconName}!");
+		}
 		
 		var ck3ArtifactName = $"IRToCK3_artifact_{irArtifact.Key}_{irArtifact.Id}";
 		var irNameLoc = irLocDB.GetLocBlockForKey(irArtifact.Key);
@@ -828,7 +833,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 				description = {{ ck3DescKey }}
 				type = sculpture {{ TODO }}
 				# template = babr_template # TODO: check if needed
-				visuals = sculpture_babr_e_bayan {{ TODO }}
+				visuals = {{ ck3Visual }}
 				wealth = scope:wealth
 				quality = scope:quality
 				history = {

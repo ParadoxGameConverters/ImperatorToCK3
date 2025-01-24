@@ -9,10 +9,10 @@ public sealed class Treasure : IIdentifiable<ulong> {
 	public ulong Id { get; }
 	public string Key { get; private set; }
 	public string IconName { get; private set; }
-	
-	private Dictionary<string, double> stateModifiers = new();
+
+	private readonly Dictionary<string, double> stateModifiers = [];
 	public IReadOnlyDictionary<string, double> StateModifiers => stateModifiers;
-	private Dictionary<string, double> characterModifiers = new();
+	private readonly Dictionary<string, double> characterModifiers = [];
 	public IReadOnlyDictionary<string, double> CharacterModifiers => characterModifiers;
 
 	public Treasure(ulong id, BufferedReader treasureReader) {
