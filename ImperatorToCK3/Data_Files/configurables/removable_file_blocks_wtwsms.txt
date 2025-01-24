@@ -525,6 +525,27 @@ set_historical_dynasty_renown = {
 		#Family Stuff
 		set_historical_dynasty_renown
 	}
+
+	# Anachronistic
+	{
+create_other_armies = {
+	effect = {
+		#Theodoric gets special troops
+		if = {
+			limit = { current_date = 476.2.2 }
+			character:63 = {
+				create_theodoric_army_effect = { LOCATION = 3643 }
+				create_theodoric_army_effect = { LOCATION = 3643 }
+				create_theodoric_army_effect = { LOCATION = 3643 }
+				create_theodoric_army_effect = { LOCATION = 3643 }
+			}
+		}
+	}
+}
+	}
+	{
+		create_other_armies
+	}
 }
 
 
@@ -543,7 +564,7 @@ set_historical_dynasty_renown = {
 }
 
 
-"WtWSMS/common/scripted_character_templates/00_pool_repopulation_character_templates_BP_overwrite.txt" = {
+"common/scripted_character_templates/00_pool_repopulation_character_templates_BP_overwrite.txt" = {
 	# Prevent random Christian characters being generated.
 	{
 				5 = {
@@ -556,6 +577,19 @@ set_historical_dynasty_renown = {
 				culture = culture:assyrian
 			}
 			set_character_faith = faith:nestorian
+		}
+	}
+}
+
+
+"common/on_action/BP_minority_game_start.txt" = {
+	# Anachronistic
+	{
+		if = {
+			limit = { current_date < 500.1.1 }
+			trigger_event = { on_action = BP_start_date_minorities_476_asoritsan_khuzestan }
+			trigger_event = { on_action = BP_start_date_minorities_476_northwest_africa }
+			trigger_event = { on_action = BP_start_date_minorities_476_oriens_cilicia }
 		}
 	}
 }
