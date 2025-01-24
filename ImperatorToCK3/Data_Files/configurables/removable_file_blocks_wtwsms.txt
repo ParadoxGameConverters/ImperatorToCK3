@@ -593,3 +593,12 @@ create_other_armies = {
 		}
 	}
 }
+
+
+"common/on_action/sea_bp_minority_game_start.txt" = {
+	# Anachronistic
+	{
+		BP_set_minorities_universal
+		BP_set_minorities_by_date_old
+	}
+}
