@@ -144,7 +144,12 @@ neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture sho
 		IF tfe = {
 			# TFE uses language_greek instead of language_ancient_greek.
 			language = language_greek
-		} ELSE = {
+		} 
+		ELSE_IF wtwsms = {
+			# WtWSMS doesn't use language_ancient_greek.
+			language = language_greek
+		}
+		ELSE = {
 			language = language_ancient_greek
 		}
 	}
@@ -1741,6 +1746,7 @@ parthian = {
 elamite = { # https://en.wikipedia.org/wiki/Elam
     INVALIDATED_BY = {
 		tfe = { elamite }
+		wtwsms = { elamite }
 		vanilla = { elamite }
 	}
     
