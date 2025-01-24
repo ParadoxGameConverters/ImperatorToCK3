@@ -1,6 +1,6 @@
-# This file contains the language families and language branches added by the converter
+# This file contains the language families, language branches and language groups added by the converter
 # when a CK3 mod that uses Community Culture Utility mechanics is detected.
-# Currently the only such mod is "When the World Stopped Making Sense".
+# Currently, this includes "When the World Stopped Making Sense", "The Fallen Eagle" and "Rajas of Asia".
 
 
 language_families = {
@@ -10,7 +10,12 @@ language_families = {
     		language_family_elamite_family
     		language_family_paleo_sardinian
     		language_family_tyrsenian
-    	}
+    	} ELSE_IF roa = {
+			language_family_paleo_sardinian
+			language_family_tyrsenian
+		} ELSE_IF tfe = {
+			language_family_paleo_sardinian
+		}
     }
 }
 
@@ -25,4 +30,19 @@ language_branches = {
 			language_branch_etruscan
 		}
 	}	
+}
+
+language_groups = {
+	MOD_DEPENDENT = {
+		IF roa = {
+			language_group_nuragic
+			language_group_anatolian
+			language_group_italic
+			language_group_etruscan
+			language_group_daco_thracian
+		} ELSE_IF tfe = {
+			language_group_nuragic
+			language_group_italic
+		}
+	}
 }

@@ -7,10 +7,12 @@ using System.Text;
 
 namespace ImperatorToCK3.CK3.Cultures; 
 
-public sealed class Pillar : IIdentifiable<string>, IPDXSerializable {
+internal sealed class Pillar : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 	public string Type { get; }
 	public Color? Color { get; }
+	private readonly Dictionary<string, string> parameters;
+	public IReadOnlyDictionary<string, string> Parameters => parameters;
 	private readonly List<KeyValuePair<string, StringOfItem>> attributes;
 	public IReadOnlyCollection<KeyValuePair<string, StringOfItem>> Attributes => attributes;
 
@@ -19,6 +21,7 @@ public sealed class Pillar : IIdentifiable<string>, IPDXSerializable {
 
 		Type = pillarData.Type!;
 		Color = pillarData.Color;
+		parameters = new(pillarData.Parameters);
 		attributes = new List<KeyValuePair<string, StringOfItem>>(pillarData.Attributes);
 	}
 	
@@ -36,6 +39,10 @@ public sealed class Pillar : IIdentifiable<string>, IPDXSerializable {
 		sb.Append(contentIndent).AppendLine($"type={Type}");
 		if (Color is not null) {
 			sb.Append(contentIndent).AppendLine($"color={Color}");
+		}
+		if (parameters.Count > 0) {
+			sb.Append(contentIndent).Append("parameters=")
+				.AppendLine(PDXSerializer.Serialize(parameters, indent: contentIndent, withBraces: true));
 		}
 		sb.AppendLine(PDXSerializer.Serialize(Attributes, indent: contentIndent, withBraces: false));
 

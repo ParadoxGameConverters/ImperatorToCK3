@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class WarsOutputter {
+internal static class WarsOutputter {
 	public static async Task OutputWars(string outputModPath, IEnumerable<War> wars) {
 		Logger.Info("Writing wars...");
 

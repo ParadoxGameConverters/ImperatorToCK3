@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Armies;
 
-public sealed class Unit : IIdentifiable<ulong> {
+internal sealed class Unit : IIdentifiable<ulong> {
 	public ulong Id { get; }
 	public bool IsArmy { get; private set; } = true;
 	public bool IsLegion { get; private set; } = false;
@@ -17,7 +17,7 @@ public sealed class Unit : IIdentifiable<ulong> {
 	private List<ulong> CohortIds { get; } = new();
 
 	public LocBlock? LocalizedName { get; private set; }
-	public IDictionary<string, int> MenPerUnitType { get; }
+	public Dictionary<string, int> MenPerUnitType { get; }
 
 	public Unit(ulong id, BufferedReader legionReader, UnitCollection unitCollection, LocDB irLocDB, ImperatorDefines defines) {
 		Id = id;

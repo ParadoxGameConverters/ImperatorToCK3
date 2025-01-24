@@ -33,6 +33,8 @@ public sealed class Configuration {
 	public bool RajasOfAsiaEnabled { get; private set; }
 	public bool AsiaExpansionProjectEnabled { get; private set; }
 
+	public bool OutputCCUParameters => WhenTheWorldStoppedMakingSenseEnabled || FallenEagleEnabled || RajasOfAsiaEnabled;
+
 	public Configuration() { }
 	public Configuration(ConverterVersion converterVersion) {
 		Logger.Info("Reading configuration file...");
@@ -237,7 +239,7 @@ public sealed class Configuration {
 			                             $"{string.Join(", ", filesInDocFolder)}");
 		}
 		
-		Logger.Debug($"I:R documents path {ImperatorPath} is valid.");
+		Logger.Debug($"I:R documents path {ImperatorDocPath} is valid.");
 	}
 	
 	private void VerifyCK3ModsPath() {

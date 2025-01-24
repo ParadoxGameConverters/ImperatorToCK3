@@ -19,7 +19,7 @@ using Color = SixLabors.ImageSharp.Color;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class BookmarkOutputter {
+internal static class BookmarkOutputter {
 	public static async Task OutputBookmark(World world, Configuration config, CK3LocDB ck3LocDB) {
 		Logger.Info("Creating bookmark...");
 
@@ -83,13 +83,14 @@ public static class BookmarkOutputter {
 
 		// Add character localization for bookmark screen.
 		var holderLoc = ck3LocDB.GetOrCreateLocBlock($"bm_converted_{holder.Id}");
-		if (holder.GetName(config.CK3BookmarkDate) is {} holderName) {
-			if (ck3LocDB.TryGetValue(holderName, out var holderNameLoc)) {
+		string? holderNameKey = holder.GetName(config.CK3BookmarkDate);
+		if (holderNameKey is not null) {
+			if (ck3LocDB.TryGetValue(holderNameKey, out var holderNameLoc)) {
 				holderLoc.CopyFrom(holderNameLoc);
 			} else {
-				// Use the raw name.
+				// Use the raw name key.
 				foreach (var language in ConverterGlobals.SupportedLanguages) {
-					holderLoc[language] = holderName;
+					holderLoc[language] = holderNameKey;
 				}
 			}
 		}

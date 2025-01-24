@@ -8,7 +8,7 @@ using System.Text;
 
 namespace ImperatorToCK3.CK3.Religions;
 
-public sealed class Faith : IIdentifiable<string>, IPDXSerializable {
+internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 	public Religion Religion { get; set; }
 	public Color? Color { get; }
@@ -24,6 +24,27 @@ public sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		DoctrineIds = faithData.DoctrineIds.ToOrderedSet();
 		holySiteIds = faithData.HolySiteIds.ToOrderedSet();
 		attributes = [.. faithData.Attributes];
+
+		// Fixup for issue found in TFE: add reformed_icon if faith has unreformed_faith_doctrine.
+		if (DoctrineIds.Contains("unreformed_faith_doctrine") && attributes.All(pair => pair.Key != "reformed_icon")) {
+			// Use the icon attribute.
+			var icon = attributes.FirstOrDefault(pair => pair.Key == "icon");
+			attributes = [.. attributes, new KeyValuePair<string, StringOfItem>("reformed_icon", icon.Value)];
+		}
+		
+		// Fix a faith having more doctrines in the same category than allowed.
+		foreach (var category in religion.ReligionCollection.DoctrineCategories) {
+			var doctrinesInCategory = DoctrineIds.Where(d => category.DoctrineIds.Contains(d)).ToArray();
+			if (doctrinesInCategory.Length > category.NumberOfPicks) {
+				Logger.Warn($"Faith {Id} has too many doctrines in category {category.Id}: " +
+				            $"{string.Join(", ", doctrinesInCategory)}. Keeping the last {category.NumberOfPicks} of them.");
+				
+				DoctrineIds.ExceptWith(doctrinesInCategory);
+				foreach (var doctrine in doctrinesInCategory.Reverse().Take(category.NumberOfPicks)) {
+					DoctrineIds.Add(doctrine);
+				}
+			}
+		}
 	}
 
 	private readonly OrderedSet<string> holySiteIds;
@@ -71,17 +92,25 @@ public sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		return sb.ToString();
 	}
 
-	public string? GetDoctrineIdForDoctrineCategoryId(string doctrineCategoryId) {
-		var category = Religion.ReligionCollection.DoctrineCategories[doctrineCategoryId];
-		return GetDoctrineIdForDoctrineCategory(category);
+	public OrderedSet<string> GetDoctrineIdsForDoctrineCategoryId(string doctrineCategoryId) {
+		if (!Religion.ReligionCollection.DoctrineCategories.TryGetValue(doctrineCategoryId, out var category)) {
+			Logger.Warn($"Doctrine category {doctrineCategoryId} not found.");
+			return [];
+		}
+		
+		return GetDoctrineIdsForDoctrineCategory(category);
 	}
 
-	private string? GetDoctrineIdForDoctrineCategory(DoctrineCategory category) {
+	private OrderedSet<string> GetDoctrineIdsForDoctrineCategory(DoctrineCategory category) {
 		var potentialDoctrineIds = category.DoctrineIds;
 
 		// Look in faith first. If not found, look in religion.
-		var matchingInFaith = DoctrineIds.Intersect(potentialDoctrineIds).LastOrDefault();
-		return matchingInFaith ?? Religion.DoctrineIds.Intersect(potentialDoctrineIds).LastOrDefault();
+		var matchingInFaith = DoctrineIds.Intersect(potentialDoctrineIds).ToOrderedSet();
+		if (matchingInFaith.Any()) {
+			return matchingInFaith;
+		} else {
+			return Religion.DoctrineIds.Intersect(potentialDoctrineIds).ToOrderedSet();
+		}
 	}
 	
 	public bool HasDoctrine(string doctrineId) {
@@ -91,6 +120,6 @@ public sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 			return false;
 		}
 		
-		return GetDoctrineIdForDoctrineCategory(category) == doctrineId;
+		return GetDoctrineIdsForDoctrineCategory(category).Contains(doctrineId);
 	}
 }

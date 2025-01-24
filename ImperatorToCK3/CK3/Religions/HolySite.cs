@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.CK3.Religions;
 
 [SerializationByProperties]
-public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
+internal sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 	[NonSerialized] public string Id { get; }
 	[NonSerialized] public bool IsFromConverter { get; }
 	[NonSerialized] public Title? County { get; }
@@ -53,6 +53,18 @@ public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 		}
 		if (parsedBaronyId is not null) {
 			Barony = landedTitles[parsedBaronyId];
+		}
+
+		// Fix "barony not in specified county" errors reported by ck3-tiger.
+		if (Barony is not null && County is not null && Barony.DeJureLiege != County) {
+			string baseMessage = $"Holy site {Id} has barony {Barony.Id} not in specified county {County.Id}.";
+			var correctCounty = Barony.DeJureLiege;
+			if (correctCounty is not null) {
+				Logger.Debug($"{baseMessage} Setting county to {correctCounty.Id}.");
+				County = correctCounty;
+			} else {
+				Logger.Warn($"{baseMessage} Cannot find correct county.");
+			}
 		}
 	}
 

@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
-public sealed partial class Country {
+internal sealed partial class Country {
 	private const string monarchyLawRegexStr = "succession_law|monarchy_military_reforms|monarchy_maritime_laws|monarchy_economic_law|monarchy_citizen_law" +
 	                                           "|monarchy_religious_laws|monarchy_legitimacy_laws|monarchy_contract_law|monarchy_divinity_statutes|jewish_monarchy_divinity_statutes|monarchy_subject_laws";
 	private const string republicLawRegexStr = "republic_military_recruitment_laws_rom|republic_election_reforms_rom|corruption_laws_rom|republican_mediterranean_laws_rom|republican_religious_laws_rom|republic_integration_laws_rom|republic_citizen_laws_rom|republican_land_reforms_rom" +
@@ -24,10 +24,10 @@ public sealed partial class Country {
 	private static void RegisterCountryKeywords(Parser parser, Country parsedCountry) {
 		var colorFactory = new ColorFactory();
 		
-		parser.RegisterKeyword("tag", reader => parsedCountry.Tag = reader.GetString());
+		parser.RegisterKeyword("tag", reader => parsedCountry.tag = reader.GetString());
 		parser.RegisterKeyword("historical", reader => parsedCountry.HistoricalTag = reader.GetString());
 		parser.RegisterKeyword("origin", reader => parsedCountry.parsedOriginCountryId = reader.GetULong());
-		parser.RegisterKeyword("country_name", reader => parsedCountry.CountryName = CountryName.Parse(reader));
+		parser.RegisterKeyword("country_name", reader => parsedCountry.countryName = CountryName.Parse(reader));
 		parser.RegisterKeyword("flag", reader => parsedCountry.Flag = reader.GetString());
 
 		parser.RegisterKeyword("country_type", reader => SetCountryType(reader, parsedCountry));

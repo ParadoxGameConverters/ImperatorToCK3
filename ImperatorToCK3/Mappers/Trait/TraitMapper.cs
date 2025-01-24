@@ -6,9 +6,11 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Trait;
 
-public class TraitMapper {
+internal class TraitMapper {
 	protected IDictionary<string, string> ImperatorToCK3TraitMap = new Dictionary<string, string>();
 	protected IdObjectCollection<string, CK3.Characters.Trait> CK3Traits = [];
+	
+	public IEnumerable<string> ValidCK3TraitIDs => CK3Traits.Select(t => t.Id);
 	
 	// TODO: add a method for logging all unmapped I:R traits
 
@@ -46,7 +48,7 @@ public class TraitMapper {
 	public string? GetCK3TraitForImperatorTrait(string impTrait) {
 		return ImperatorToCK3TraitMap.TryGetValue(impTrait, out var ck3Trait) ? ck3Trait : null;
 	}
-	public ISet<string> GetCK3TraitsForImperatorTraits(IEnumerable<string> irTraits) {
+	public HashSet<string> GetCK3TraitsForImperatorTraits(IEnumerable<string> irTraits) {
 		HashSet<string> ck3TraitsToReturn = [];
 		foreach (var irTrait in irTraits) {
 			var ck3Trait = GetCK3TraitForImperatorTrait(irTrait);

@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.TagTitle;
 
-public sealed class TagTitleMapper {
+internal sealed class TagTitleMapper {
 	public TagTitleMapper() { }
 	public TagTitleMapper(string tagTitleMappingsPath, string governorshipTitleMappingsPath, string rankMappingsPath) {
 		Logger.Info("Parsing title mappings...");
@@ -36,14 +36,6 @@ public sealed class TagTitleMapper {
 		usedTitles.Add(ck3Title);
 	}
 	public string? GetTitleForTag(Country country, string localizedTitleName, TitleRank maxTitleRank) {
-		// If country has an origin (e.g. rebelled from another country), the historical tag probably points to the original country.
-		string tagForMapping = country.OriginCountry is not null ? country.Tag : country.HistoricalTag;
-
-		// The only case where we fail is on invalid invocation. Otherwise, failure is not an option!
-		if (string.IsNullOrEmpty(tagForMapping)) {
-			return null;
-		}
-
 		// Look up register.
 		if (registeredCountryTitles.TryGetValue(country.Id, out var titleToReturn)) {
 			return titleToReturn;
@@ -52,7 +44,7 @@ public sealed class TagTitleMapper {
 		// Attempt a title match.
 		var rank = EnumHelper.Min(GetCK3TitleRank(country, localizedTitleName), maxTitleRank);
 		foreach (var mapping in titleMappings) {
-			var match = mapping.RankMatch(tagForMapping, rank, maxTitleRank);
+			var match = mapping.RankMatch(country, rank, maxTitleRank);
 			if (match is not null) {
 				if (usedTitles.Contains(match)) {
 					continue;
@@ -244,7 +236,12 @@ public sealed class TagTitleMapper {
 
 		var ck3TitleId = GetTitlePrefixForRank(ck3Rank);
 		ck3TitleId += GeneratedCK3TitlePrefix;
-		ck3TitleId += country.Tag;
+
+		if (string.IsNullOrEmpty(country.Tag)) {
+			ck3TitleId += $"id_{country.Id}";
+		} else {
+			ck3TitleId += country.Tag;
+		}
 
 		return ck3TitleId;
 	}

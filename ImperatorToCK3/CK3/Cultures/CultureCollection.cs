@@ -16,7 +16,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Cultures;
 
-public class CultureCollection : IdObjectCollection<string, Culture> {
+internal class CultureCollection : IdObjectCollection<string, Culture> {
 	public CultureCollection(ColorFactory colorFactory, PillarCollection pillarCollection, OrderedDictionary<string, bool> ck3ModFlags) {
 		this.PillarCollection = pillarCollection;
 		InitCultureDataParser(colorFactory, ck3ModFlags);
@@ -34,6 +34,11 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		});
 		cultureDataParser.RegisterKeyword("parents", reader => {
 			cultureData.ParentCultureIds = reader.GetStrings().ToOrderedSet();
+
+			if (cultureData.ParentCultureIds.Count > 2) {
+				Logger.Warn("Found a culture that has more than 2 parents! Only the first 2 will be used.");
+				cultureData.ParentCultureIds = cultureData.ParentCultureIds.Take(2).ToOrderedSet();
+			}
 		});
 		cultureDataParser.RegisterKeyword("heritage", reader => {
 			var heritageId = reader.GetString();
@@ -215,11 +220,11 @@ public class CultureCollection : IdObjectCollection<string, Culture> {
 		return cultureMapper.Match(irCulture, ck3ProvinceId, irProvinceId, country.HistoricalTag);
 	}
 
-	public void ImportTechnology(CountryCollection countries, CultureMapper cultureMapper, ProvinceMapper provinceMapper, InventionsDB inventionsDB, LocDB irLocDB) { // TODO: add tests for this
+	public void ImportTechnology(CountryCollection countries, CultureMapper cultureMapper, ProvinceMapper provinceMapper, InventionsDB inventionsDB, LocDB irLocDB, OrderedDictionary<string, bool> ck3ModFlags) { // TODO: add tests for this
 		Logger.Info("Converting Imperator inventions to CK3 innovations...");
 
 		var innovationMapper = new InnovationMapper();
-		innovationMapper.LoadLinksAndBonuses("configurables/inventions_to_innovations_map.txt");
+		innovationMapper.LoadLinksAndBonuses("configurables/inventions_to_innovations_map.liquid", ck3ModFlags);
 		innovationMapper.LogUnmappedInventions(inventionsDB, irLocDB);
 		innovationMapper.RemoveMappingsWithInvalidInnovations(InnovationIds);
 

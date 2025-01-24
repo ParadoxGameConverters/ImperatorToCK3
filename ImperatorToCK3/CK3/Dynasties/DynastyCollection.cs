@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Dynasties;
 
-public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dynasty> {
+internal sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dynasty> {
 	public void ImportImperatorFamilies(Imperator.World irWorld, CultureMapper cultureMapper, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
 		Logger.Info("Importing Imperator families...");
 
@@ -44,7 +44,7 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 			AddOrReplace(dynasty);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFolder("common/dynasties", ck3ModFS, "txt", recursive: true, parallel: true);
+		parser.ParseGameFolder("common/dynasties", ck3ModFS, "txt", recursive: true);
 	}
 
 	private void CreateDynastiesForCharactersFromMinorFamilies(Imperator.World irWorld, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
@@ -77,7 +77,8 @@ public sealed class DynastyCollection : ConcurrentIdObjectCollection<string, Dyn
 			}
 
 			// Neither character nor their father have a dynasty, so we need to create a new one.
-			var newDynasty = new Dynasty(ck3Character, irFamilyName, irWorld.CulturesDB, irLocDB, ck3LocDB, date);
+			Imperator.Characters.Character[] irFamilyMembers = [irCharacter];
+			var newDynasty = new Dynasty(ck3Character, irFamilyName, irFamilyMembers, irWorld.CulturesDB, irLocDB, ck3LocDB, date);
 			AddOrReplace(newDynasty);
 			++createdDynastiesCount;
 		}

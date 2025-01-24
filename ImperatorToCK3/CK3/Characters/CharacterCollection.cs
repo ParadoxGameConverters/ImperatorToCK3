@@ -31,8 +31,8 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Characters;
 
-public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<string, Character> {
-	public void ImportImperatorCharacters(
+internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection<string, Character> {
+	internal void ImportImperatorCharacters(
 		Imperator.World impWorld,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
@@ -54,34 +54,25 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			MaxDegreeOfParallelism = Environment.ProcessorCount - 1,
 		};
 
-		try {
-			Parallel.ForEach(impWorld.Characters, parallelOptions, irCharacter => {
-				ImportImperatorCharacter(
-					irCharacter,
-					religionMapper,
-					cultureMapper,
-					traitMapper,
-					nicknameMapper,
-					impWorld.LocDB,
-					ck3LocDB,
-					impWorld.MapData,
-					provinceMapper,
-					deathReasonMapper,
-					dnaFactory,
-					conversionDate,
-					config,
-					unlocalizedImperatorNames
-				);
-			});
-		} catch (AggregateException e) {
-			var innerException = e.InnerExceptions[0];
-			Logger.Error("Exception thrown during Imperator characters import: " + innerException.Message);
-			Logger.Debug("Exception stack trace: " + innerException.StackTrace);
-			
-			// Rethrow the inner exception to stop the program.
-			throw innerException;
-		}
-		
+		Parallel.ForEach(impWorld.Characters, parallelOptions, irCharacter => {
+			ImportImperatorCharacter(
+				irCharacter,
+				religionMapper,
+				cultureMapper,
+				traitMapper,
+				nicknameMapper,
+				impWorld.LocDB,
+				ck3LocDB,
+				impWorld.MapData,
+				provinceMapper,
+				deathReasonMapper,
+				dnaFactory,
+				conversionDate,
+				config,
+				unlocalizedImperatorNames
+			);
+		});
+	
 		if (unlocalizedImperatorNames.Any()) {
 			Logger.Warn("Found unlocalized Imperator names: " + string.Join(", ", unlocalizedImperatorNames));
 		}
@@ -636,7 +627,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		Logger.IncrementProgress();
 	}
 
-	public void ImportLegions(
+	internal void ImportLegions(
 		Title.LandedTitles titles,
 		UnitCollection imperatorUnits,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
@@ -1007,7 +998,7 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 		});
 	}
 	
-	public void ConvertImperatorCharacterDNA(DNAFactory dnaFactory) {
+	internal void ConvertImperatorCharacterDNA(DNAFactory dnaFactory) {
 		Logger.Info("Converting Imperator character DNA to CK3...");
 		foreach (var character in this) {
 			if (character.ImperatorCharacter is null) {
@@ -1016,8 +1007,53 @@ public sealed partial class CharacterCollection : ConcurrentIdObjectCollection<s
 			
 			PortraitData? portraitData = character.ImperatorCharacter.PortraitData;
 			if (portraitData is not null) {
-				character.DNA = dnaFactory.GenerateDNA(character.ImperatorCharacter, portraitData);
+				try {
+					character.DNA = dnaFactory.GenerateDNA(character.ImperatorCharacter, portraitData);
+				} catch (Exception e) {
+					Logger.Warn($"Failed to generate DNA for character {character.Id}: {e.Message}");
+				}
 			}
+		}
+	}
+
+	public void RemoveUndefinedTraits(TraitMapper traitMapper) {
+		Logger.Info("Removing undefined traits from CK3 character history...");
+
+		var definedTraits = traitMapper.ValidCK3TraitIDs.ToHashSet();
+		
+		foreach (var character in this) {
+			if (character.FromImperator) {
+				continue;
+			}
+			
+			var traitsField = character.History.Fields["traits"];
+			int removedCount = traitsField.RemoveAllEntries(value => !definedTraits.Contains(value.ToString()?.RemQuotes() ?? string.Empty));
+			if (removedCount > 0) {
+				Logger.Debug($"Removed {removedCount} undefined traits from character {character.Id}.");
+			}
+		}
+	}
+
+	public void RemoveInvalidDynastiesFromHistory(DynastyCollection dynasties) {
+		Logger.Info("Removing invalid dynasties from CK3 character history...");
+
+		var ck3Characters = this.Where(c => !c.FromImperator).ToArray();
+		var validDynastyIds = dynasties.Select(d => d.Id).ToHashSet();
+
+		foreach (var character in ck3Characters) {
+			if (!character.History.Fields.TryGetValue("dynasty", out var dynastyField)) {
+				continue;
+			}
+
+			dynastyField.RemoveAllEntries(value => {
+				var dynastyId = value.ToString()?.RemQuotes();
+
+				if (string.IsNullOrWhiteSpace(dynastyId)) {
+					return true;
+				}
+
+				return !validDynastyIds.Contains(dynastyId);
+			});
 		}
 	}
 }

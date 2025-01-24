@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Government;
 using System.Collections.Generic;
 using Xunit;
@@ -10,22 +11,22 @@ public class GovernmentMapperTests {
 	public void NonMatchGivesNull() {
 		var reader = new BufferedReader("link = { ck3 = ck3Government ir = irGovernment }");
 		var mapper = new GovernmentMapper(reader, ck3GovernmentIds: new List<string> { "ck3Government" });
-		var ck3Gov = mapper.GetCK3GovernmentForImperatorGovernment("nonMatchingGovernment", null, []);
+		var ck3Gov = mapper.GetCK3GovernmentForImperatorGovernment("nonMatchingGovernment", rank: null, irCultureId: null, []);
 		Assert.Null(ck3Gov);
 	}
 	[Fact]
 	public void CK3GovernmentCanBeFound() {
 		var reader = new BufferedReader("link = { ck3 = ck3Government ir = irGovernment }");
 		var mapper = new GovernmentMapper(reader, ck3GovernmentIds: new List<string> { "ck3Government" });
-		var ck3Gov = mapper.GetCK3GovernmentForImperatorGovernment("irGovernment", null, []);
+		var ck3Gov = mapper.GetCK3GovernmentForImperatorGovernment("irGovernment", rank: null, irCultureId: null, []);
 		Assert.Equal("ck3Government", ck3Gov);
 	}
 	[Fact]
 	public void MultipleImperatorGovernmentsCanBeInARule() {
 		var reader = new BufferedReader("link = { ck3 = ck3Government ir = irGovernment ir = irGovernment2 }");
 		var mapper = new GovernmentMapper(reader, ck3GovernmentIds: new List<string> { "ck3Government" });
-		var ck3Gov1 = mapper.GetCK3GovernmentForImperatorGovernment("irGovernment", null, []);
-		var ck3Gov2 = mapper.GetCK3GovernmentForImperatorGovernment("irGovernment2", null, []);
+		var ck3Gov1 = mapper.GetCK3GovernmentForImperatorGovernment("irGovernment", rank: null, irCultureId: null, []);
+		var ck3Gov2 = mapper.GetCK3GovernmentForImperatorGovernment("irGovernment2", rank: null, irCultureId: null, []);
 		Assert.Equal("ck3Government", ck3Gov1);
 		Assert.Equal("ck3Government", ck3Gov2);
 	}
@@ -36,7 +37,7 @@ public class GovernmentMapperTests {
 			"link = { ck3 = ck3Government2 ir = irGovernment2 }"
 		);
 		var mapper = new GovernmentMapper(reader, ck3GovernmentIds: new List<string> { "ck3Government", "ck3Government2" });
-		var ck3Gov = mapper.GetCK3GovernmentForImperatorGovernment("irGovernment2", null, []);
+		var ck3Gov = mapper.GetCK3GovernmentForImperatorGovernment("irGovernment2", rank: null, irCultureId: null, []);
 		Assert.Equal("ck3Government2", ck3Gov);
 	}
 
@@ -48,10 +49,32 @@ public class GovernmentMapperTests {
 			"link = { ck3 = govC ir = irGovernment }"
 		);
 		var mapper = new GovernmentMapper(reader, ck3GovernmentIds: new List<string> { "govA", "govB", "govC" });
-		Assert.Equal("govA", mapper.GetCK3GovernmentForImperatorGovernment("irGovernment", "roman", []));
-		Assert.Equal("govB", mapper.GetCK3GovernmentForImperatorGovernment("irGovernment", "greek", []));
-		Assert.Equal("govC", mapper.GetCK3GovernmentForImperatorGovernment("irGovernment", "thracian", []));
-		Assert.Equal("govC", mapper.GetCK3GovernmentForImperatorGovernment("irGovernment", null, []));
+		Assert.Equal("govA", mapper.GetCK3GovernmentForImperatorGovernment("irGovernment", rank: null, "roman", []));
+		Assert.Equal("govB", mapper.GetCK3GovernmentForImperatorGovernment("irGovernment", rank: null, "greek", []));
+		Assert.Equal("govC", mapper.GetCK3GovernmentForImperatorGovernment("irGovernment", rank: null, "thracian", []));
+		Assert.Equal("govC", mapper.GetCK3GovernmentForImperatorGovernment("irGovernment", rank: null, irCultureId: null, []));
+	}
+
+	[Fact]
+	public void CK3TitleRankCanBeUsedToMatch() {
+		var reader = new BufferedReader(
+			"""
+			link = { ck3 = administrative_government ir = imperium ck3_title_rank = ke } # only for kingdoms and empires
+			link = { ck3 = feudal_government ir = imperium }
+			"""
+		);
+		var mapper = new GovernmentMapper(reader, ck3GovernmentIds: [ "administrative_government", "feudal_government" ]);
+
+		foreach (var rank in new List<TitleRank> { TitleRank.empire, TitleRank.kingdom }) {
+			Assert.Equal("administrative_government",
+				mapper.GetCK3GovernmentForImperatorGovernment(
+					irGovernmentId: "imperium", rank, irCultureId: null, enabledCK3Dlcs: []));
+		}
+		foreach (var rank in new List<TitleRank> { TitleRank.duchy, TitleRank.county, TitleRank.barony }) {
+			Assert.Equal("feudal_government",
+				mapper.GetCK3GovernmentForImperatorGovernment(
+					irGovernmentId: "imperium", rank, irCultureId: null, enabledCK3Dlcs: []));
+		}
 	}
 
 	[Fact]
@@ -70,7 +93,7 @@ public class GovernmentMapperTests {
 			""");
 		var mapper = new GovernmentMapper(reader, ck3GovernmentIds: [ "administrative_government", "feudal_government" ]);
 			
-		Assert.Equal("administrative_government", mapper.GetCK3GovernmentForImperatorGovernment("imperium", null, enabledCK3Dlcs: ["roads_to_power"]));
-		Assert.Equal("feudal_government", mapper.GetCK3GovernmentForImperatorGovernment("imperium", null, enabledCK3Dlcs: []));
+		Assert.Equal("administrative_government", mapper.GetCK3GovernmentForImperatorGovernment("imperium", rank: null, irCultureId: null, enabledCK3Dlcs: ["roads_to_power"]));
+		Assert.Equal("feudal_government", mapper.GetCK3GovernmentForImperatorGovernment("imperium", rank: null, irCultureId: null, enabledCK3Dlcs: []));
 	}
 }

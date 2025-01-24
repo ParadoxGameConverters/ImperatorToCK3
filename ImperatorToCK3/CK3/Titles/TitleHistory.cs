@@ -2,7 +2,7 @@
 
 namespace ImperatorToCK3.CK3.Titles;
 
-public partial class Title {
+internal partial class Title {
 	public string GetHolderId(Date date) {
 		var idFromHistory = History.GetFieldValue("holder", date);
 		if (idFromHistory is not null) {
@@ -12,8 +12,11 @@ public partial class Title {
 	}
 
 	public string? GetGovernment(Date date) {
-		if (History.GetFieldValue("government", date) is string govStr) {
-			return govStr;
+		var value = History.GetFieldValue("government", date);
+		if (value is string govStr) {
+			return govStr.RemQuotes();
+		} else if (value is StringOfItem govItem) {
+			return govItem.ToString().RemQuotes();
 		}
 		return null;
 	}

@@ -7,6 +7,8 @@ using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.Mappers.Modifier;
+using ImperatorToCK3.Mappers.HolySiteEffect;
+using Open.Collections;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -15,7 +17,7 @@ using ProvinceCollection = ImperatorToCK3.CK3.Provinces.ProvinceCollection;
 
 namespace ImperatorToCK3.CK3.Religions;
 
-public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObjectCollection<string, Religion> {
+internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObjectCollection<string, Religion> {
 	private readonly Dictionary<string, OrderedSet<string>> replaceableHolySitesByFaith = [];
 	public IReadOnlyDictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith => replaceableHolySitesByFaith;
 	public IdObjectCollection<string, HolySite> HolySites { get; } = [];
@@ -38,9 +40,14 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 	}
 
 	public void LoadConverterFaiths(string converterFaithsPath, ColorFactory colorFactory) {
+		OrderedSet<Faith> loadedConverterFaiths = [];
+		
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 			var optReligion = new Religion(religionId, religionReader, this, colorFactory);
+			
+			// For validation, store all faiths loaded inside the converter religion.
+			loadedConverterFaiths.UnionWith(optReligion.Faiths);
 
 			// Check if religion already exists. If it does, add converter faiths to it.
 			// Otherwise, add the converter faith's religion.
@@ -55,6 +62,34 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseFile(converterFaithsPath);
+		
+		// Validation: every faith should have a pilgrimage doctrine.
+		string? pilgrimageFallback = DoctrineCategories.TryGetValue("doctrine_pilgrimage", out var pilgrimageCategory)
+			? pilgrimageCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_pilgrimage_encouraged")
+			: null;
+		foreach (var converterFaith in loadedConverterFaiths) {
+			var pilgrimageDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_pilgrimage");
+			if (pilgrimageDoctrine.Count == 0) {
+				if (pilgrimageFallback is not null) {
+					Logger.Warn($"Faith {converterFaith.Id} has no pilgrimage doctrine! Setting {pilgrimageFallback}");
+					converterFaith.DoctrineIds.Add(pilgrimageFallback);
+				} else {
+					Logger.Warn($"Faith {converterFaith.Id} has no pilgrimage doctrine!");
+				}
+			}
+		}
+	}
+
+	public void RemoveChristianAndIslamicSyncretismFromAllFaiths() {
+		Logger.Info("Removing Christian and Islamic syncretism tenets from all faiths...");
+		string[] tenetsToRemove = ["tenet_christian_syncretism", "tenet_islamic_syncretism"];
+		
+		foreach (var religion in this) {
+			religion.DoctrineIds.Remove(tenetsToRemove);
+		}
+		foreach (var faith in Faiths) {
+			faith.DoctrineIds.Remove(tenetsToRemove);
+		}
 	}
 
 	private void RegisterHolySitesKeywords(Parser parser, bool areSitesFromConverter) {
@@ -111,7 +146,9 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseFile(filePath);
 
-		Logger.Debug($"Replaceable holy sites not loaded for missing faiths: {string.Join(", ", missingFaithIds)}");
+		if (missingFaithIds.Count > 0) {
+			Logger.Debug($"Replaceable holy sites not loaded for missing faiths: {string.Join(", ", missingFaithIds)}");
+		}
 	}
 
 	public void LoadDoctrines(ModFilesystem ck3ModFS) {
@@ -173,7 +210,7 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 			return new HolySite(barony, ck3Faith, landedTitles);
 		}
 
-		OrderedDictionary<string, double> imperatorModifiers;
+		System.Collections.Generic.OrderedDictionary<string, double> imperatorModifiers;
 		var deity = imperatorProvince.GetHolySiteDeity(imperatorReligions);
 		if (deity is not null) {
 			imperatorModifiers = new(deity.PassiveModifiers);
@@ -300,8 +337,16 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 
 		var aliveFaithsWithSpiritualHeadDoctrine = Faiths
 			.Where(f => aliveCharacterFaithIds.Contains(f.Id) || provinceFaithIds.Contains(f.Id))
-			.Where(f => f.GetDoctrineIdForDoctrineCategoryId("doctrine_head_of_faith") == "doctrine_spiritual_head")
+			.Where(f => f.GetDoctrineIdsForDoctrineCategoryId("doctrine_head_of_faith").Contains("doctrine_spiritual_head"))
 			.ToImmutableList();
+		
+		// Don't generate religious heads for Christianity before it was founded.
+		Date startOfChristianityInCK3 = "30.1.1"; // Based on first holder in k_papal_state history.
+		if (date < startOfChristianityInCK3) {
+			aliveFaithsWithSpiritualHeadDoctrine = aliveFaithsWithSpiritualHeadDoctrine
+				.Where(f => f.Religion.Id != "christianity_religion")
+				.ToImmutableList();
+		}
 
 		foreach (var faith in aliveFaithsWithSpiritualHeadDoctrine) {
 			GenerateReligiousHeadForFaithIfMissing(faith, titles, characters, provinces, cultures, date);
@@ -311,6 +356,7 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 	private static string GetCultureIdForGeneratedHeadOfFaith(Faith faith,
 		CharacterCollection characters,
 		ProvinceCollection provinces,
+		Title.LandedTitles titles,
 		CultureCollection cultures,
 		Date date) {
 		var cultureId = provinces
@@ -319,9 +365,19 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 			.FirstOrDefault();
 		if (cultureId is null) {
 			cultureId = characters
+				.Where(c => c.BirthDate <= date && (c.DeathDate is null || c.DeathDate > date))
 				.Where(c => c.GetFaithId(date) == faith.Id)
 				.Select(c => c.GetCultureId(date))
 				.FirstOrDefault();
+		}
+		if (cultureId is null && faith.ReligiousHeadTitleId is not null) {
+			if (titles.TryGetValue(faith.ReligiousHeadTitleId, out var title)) {
+				var capitalCounty = title.CapitalCounty;
+				var capitalProvince = capitalCounty?.CapitalBaronyProvinceId;
+				if (capitalProvince is not null) {
+					cultureId = provinces[capitalProvince.Value].GetCultureId(date);
+				}
+			}
 		}
 		if (cultureId is null) {
 			Logger.Warn($"Found no matching culture for religious head of {faith.Id}, using first one in database!");
@@ -365,7 +421,7 @@ public sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObje
 		Logger.Debug($"Generating religious head for faith {faith.Id}...");
 
 		// Determine culture.
-		string cultureId = GetCultureIdForGeneratedHeadOfFaith(faith, characters, provinces, cultures, date);
+		string cultureId = GetCultureIdForGeneratedHeadOfFaith(faith, characters, provinces, titles, cultures, date);
 		if (!cultures.TryGetValue(cultureId, out var culture)) {
 			Logger.Warn($"Culture {cultureId} not found!");
 			return;

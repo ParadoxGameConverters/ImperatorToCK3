@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Titles;
 
-public sealed class RulerTerm {
+internal sealed class RulerTerm {
 	public string? CharacterId { get; }
 	public Date StartDate { get; }
 	public string? Government { get; }
@@ -33,7 +33,7 @@ public sealed class RulerTerm {
 		}
 		StartDate = imperatorRulerTerm.StartDate;
 		if (imperatorRulerTerm.Government is not null) {
-			Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorRulerTerm.Government, null, enabledCK3Dlcs);
+			Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorRulerTerm.Government, rank: null, null, enabledCK3Dlcs);
 		}
 
 		PreImperatorRuler = imperatorRulerTerm.PreImperatorRuler;

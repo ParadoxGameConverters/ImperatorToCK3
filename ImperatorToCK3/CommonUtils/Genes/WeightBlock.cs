@@ -8,6 +8,8 @@ namespace ImperatorToCK3.CommonUtils.Genes;
 public sealed class WeightBlock {
 	public uint SumOfAbsoluteWeights { get; private set; } = 0;
 	private readonly List<KeyValuePair<string, uint>> objectsList = [];
+	
+	public int ObjectCount => objectsList.Count;
 
 	public WeightBlock() { }
 	public WeightBlock(BufferedReader reader) {

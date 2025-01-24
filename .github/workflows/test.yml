@@ -46,6 +46,8 @@ jobs:
         fetch-depth: 0
         submodules: recursive
     - name: "Setup Dotnet for use with actions"
+      # don't run on self-hosted Windows
+      if: ${{ !contains(toJSON(matrix.os), 'windows') || !contains(toJSON(matrix.os), 'self-hosted') }}
       uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json

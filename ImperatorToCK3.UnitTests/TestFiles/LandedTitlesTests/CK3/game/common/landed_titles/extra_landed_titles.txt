@@ -3,6 +3,8 @@ e_mongolia = {
 
 	k_mongolia = {
 		capital = c_karakorum
+		
+		c_karakorum = {} # Just for the capital entry to be accepted by the converter.
 	}
 
 	k_jubu = {}

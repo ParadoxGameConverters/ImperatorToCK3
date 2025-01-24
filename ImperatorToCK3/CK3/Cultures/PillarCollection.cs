@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Cultures; 
 
-public sealed class PillarCollection : IdObjectCollection<string, Pillar> {
+internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 	private readonly Dictionary<string, string> mergedPillarsDict = [];
 
 	public PillarCollection(ColorFactory colorFactory, OrderedDictionary<string, bool> ck3ModFlags) {
@@ -34,23 +34,23 @@ public sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 		return languages.FirstOrDefault(p => p.Id == languageId);
 	}
 
-	public void LoadPillars(ModFilesystem ck3ModFS) {
+	public void LoadPillars(ModFilesystem ck3ModFS, OrderedDictionary<string, bool> ck3ModFlags) {
 		var parser = new Parser();
-		parser.RegisterRegex(CommonRegexes.String, (reader, pillarId) => LoadPillar(pillarId, reader));
+		parser.RegisterRegex(CommonRegexes.String, (reader, pillarId) => LoadPillar(pillarId, reader, ck3ModFlags));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/culture/pillars", ck3ModFS, "txt", true);
 	}
 
-	public void LoadConverterPillars(string converterPillarsPath) {
+	public void LoadConverterPillars(string converterPillarsPath, OrderedDictionary<string, bool> ck3ModFlags) {
 		var parser = new Parser();
-		parser.RegisterRegex(CommonRegexes.String, (reader, pillarId) => LoadPillar(pillarId, reader));
+		parser.RegisterRegex(CommonRegexes.String, (reader, pillarId) => LoadPillar(pillarId, reader, ck3ModFlags));
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseFolder(converterPillarsPath, "txt", true, logFilePaths: true);
+		parser.ParseFolderWithLiquidSupport(converterPillarsPath, "txt", true, ck3ModFlags, logFilePaths: true);
 		
 		Logger.Debug($"Ignored mod flags when loading pillars: {ignoredModFlags}");
 	}
 	
-	private void LoadPillar(string pillarId, BufferedReader pillarReader) {
+	private void LoadPillar(string pillarId, BufferedReader pillarReader, OrderedDictionary<string, bool> ck3ModFlags) {
 		pillarData = new PillarData();
 		
 		pillarDataParser.ParseStream(pillarReader);
@@ -70,7 +70,39 @@ public sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 			Logger.Warn($"Pillar {pillarId} has no type defined! Skipping.");
 			return;
 		}
-		AddOrReplace(new Pillar(pillarId, pillarData));
+		
+
+		var pillar = new Pillar(pillarId, pillarData);
+		AddOrReplace(pillar);
+		
+		// Perform some non-breaking validation.
+		if (pillar.Type == "heritage") {
+			if (ck3ModFlags["wtwsms"] || ck3ModFlags["tfe"] || ck3ModFlags["roa"]) {
+				if (!pillar.Parameters.Any(p => p.Key.StartsWith("heritage_family_"))) {
+					Logger.Warn($"Heritage {pillarId} is missing required heritage_family parameter!");
+				}
+				if (!pillar.Parameters.Any(p => p.Key.StartsWith("heritage_group_"))) {
+					Logger.Warn($"Heritage {pillarId} is missing required heritage_group parameter!");
+				}
+			}
+		}
+		if (pillar.Type == "language") {
+			if (ck3ModFlags["wtwsms"] || ck3ModFlags["tfe"] || ck3ModFlags["roa"]) {
+				if (!pillar.Parameters.Any(p => p.Key.StartsWith("language_family_"))) {
+					Logger.Warn($"Language {pillarId} is missing required language_family parameter!");
+				}
+			}
+			if (ck3ModFlags["wtwsms"]) {
+				if (!pillar.Parameters.Any(p => p.Key.StartsWith("language_branch_"))) {
+					Logger.Warn($"Language {pillarId} is missing required language_branch parameter!");
+				}
+			}
+			if (ck3ModFlags["tfe"] || ck3ModFlags["roa"]) {
+				if (!pillar.Parameters.Any(p => p.Key.StartsWith("language_group_"))) {
+					Logger.Warn($"Language {pillarId} is missing required language_group parameter!");
+				}
+			}
+		}
 	}
 
 	private void InitPillarDataParser(ColorFactory colorFactory, OrderedDictionary<string, bool> ck3ModFlags) {
@@ -85,6 +117,10 @@ public sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 			} catch (Exception e) {
 				Logger.Warn($"Found invalid color when parsing pillar! {e.Message}");
 			}
+		});
+		pillarDataParser.RegisterKeyword("parameters", reader => {
+			pillarData.Parameters = reader.GetAssignments()
+				.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 		});
 		pillarDataParser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
 			pillarData.Attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));

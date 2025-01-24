@@ -3,10 +3,38 @@
  # for every overridden loc, explain why we're overriding it!
  # "Eastern Roman" makes little sense for cultures diverging from Roman culture in the West. It's also weird for Roman culture to have "Roman Legacy".
  tradition_roman_legacy_name: "Imperial Legacy"
+
  # "Byzantine" does not make sense for a world where the "Byzantine Empire" never existed.
  heritage_byzantine: "Hellenistic"
  heritage_byzantine_name: "Hellenistic"
  heritage_byzantine_collective_noun: "Hellenists"
+
  # "Hispania" is a Roman name for the Iberian Peninsula.
  e_spain: "Iberia"
  e_spain_adj: "Iberian"
+
+ # Don't mention Justinian in the event description.
+ ep3_emperor_yearly.8030.desc: "A fearsome whale ravages shipping along the straits, my [ROOT.Char.Custom2('RelationToMeShort', complainer)], [complainer.GetTitledFirstName] laments: "Fishermen, merchants — even naval captains! All dread leaving their havens."\n\nDubious stratagems are offered to deal with this terror of the deep, as accounts of its exploits pile up."
+ 
+ # Don't mention Leo the Isaurian in the event description.
+ ep3_emperor_yearly.8040.leo: "The Iconoclastic doctrine brought great strife to the empire, and to Christendom — but only for a time..."
+
+ # Hasan Sabbah decisions are removed by the converter.
+ unlock_evangelize_decision_tt: ""
+ unlock_final_hasan_decisions_1_tt: ""
+ unlock_final_hasan_decisions_2_tt: ""
+ unlock_final_hasan_decisions_3_tt: ""
+ 
+ # "Chaldean" is a broader term that better encompasses the Babylonian culture added to this heritage.
+ heritage_syriac: "Chaldean"
+ heritage_syriac_collective_noun: "Chaldeans"
+
+ # "Ancient Egyptian" is weird as a name for a culture that exists in the megacampaign timeline.
+ ancient_egyptian: "Kemetic"
+ ancient_egyptian_collective_noun: "Kemetics"
+ ancient_egyptian_prefix: "Egypto"
+ # "Egyptian" should not be used for the later Arabic-speaking population of Egypt.
+ # Instead, base the name on "Misr", the Arabic name for Egypt.
+ egyptian: "Misri"
+ egyptian_collective_noun: "Misris"
+ egyptian_prefix: "Egypto"

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class ReligionsOutputter {
+internal static class ReligionsOutputter {
 	public static async Task OutputReligionsAndHolySites(string outputModPath, ReligionCollection ck3ReligionCollection, CK3LocDB ck3LocDB) {
 		await Task.WhenAll(
 			OutputHolySites(outputModPath, ck3ReligionCollection, ck3LocDB),
@@ -22,20 +22,19 @@ public static class ReligionsOutputter {
 	private static async Task OutputHolySites(string outputModPath, ReligionCollection ck3ReligionCollection, CK3LocDB ck3LocDB) {
 		Logger.Info("Writing holy sites...");
 
-		var sitesToOutput = ck3ReligionCollection.HolySites.Where(s => s.IsFromConverter)
-			.ToArray();
+		var sitesToOutput = ck3ReligionCollection.HolySites.ToArray();
 		var sb = new StringBuilder();
 		foreach (var site in sitesToOutput) {
 			sb.AppendLine($"{site.Id}={PDXSerializer.Serialize(site)}");
 		}
 
-		var outputPath = Path.Combine(outputModPath, "common/religion/holy_sites/IRtoCK3_sites.txt");
+		var outputPath = Path.Combine(outputModPath, "common/religion/holy_sites/all_holy_sites.txt");
 		await using var output = FileHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 		sb.Clear();
 
 		// Add localization.
-		foreach (var site in sitesToOutput) {
+		foreach (var site in ck3ReligionCollection.HolySites) {
 			// holy site name
 			var siteNameLocBlock = ck3LocDB.GetOrCreateLocBlock($"holy_site_{site.Id}_name");
 			

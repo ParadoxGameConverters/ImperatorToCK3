@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class DynastiesOutputter {
+internal static class DynastiesOutputter {
 	public static async Task OutputDynasties(string outputModPath, DynastyCollection dynasties) {
 		Logger.Info("Writing dynasties...");
 

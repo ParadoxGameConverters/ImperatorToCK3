@@ -1,24 +1,29 @@
 using commonItems;
 using commonItems.Localization;
+using DotLiquid;
+using ImperatorToCK3.CK3;
 using ImperatorToCK3.Imperator.Inventions;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Technology;
 
-public sealed class InnovationMapper {
+internal sealed class InnovationMapper {
 	private readonly List<InnovationLink> innovationLinks = [];
 	private readonly List<InnovationBonus> innovationBonuses = [];
 
-	public void LoadLinksAndBonuses(string configurablePath) {
+	public void LoadLinksAndBonuses(string configurablePath, OrderedDictionary<string, bool> ck3ModFlags) {
 		var parser = new Parser();
 		parser.RegisterKeyword("link", reader => innovationLinks.Add(new InnovationLink(reader)));
 		parser.RegisterKeyword("bonus", reader => innovationBonuses.Add(new InnovationBonus(reader)));
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseFile(configurablePath);
+		
+		// The file uses the Liquid templating language.
+		parser.ParseLiquidFile(configurablePath, ck3ModFlags);
 	}
 
-	public IList<string> GetInnovations(IEnumerable<string> irInventions) {
+	public List<string> GetInnovations(IEnumerable<string> irInventions) {
 		var ck3Innovations = new List<string>();
 		foreach (var irInvention in irInventions) {
 			foreach (var link in innovationLinks) {
@@ -31,7 +36,7 @@ public sealed class InnovationMapper {
 		return ck3Innovations;
 	}
 
-	public IDictionary<string, ushort> GetInnovationProgresses(ICollection<string> irInventions) {
+	public Dictionary<string, ushort> GetInnovationProgresses(ICollection<string> irInventions) {
 		Dictionary<string, ushort> progressesToReturn = [];
 		foreach (var bonus in innovationBonuses) {
 			var innovationProgress = bonus.GetProgress(irInventions);

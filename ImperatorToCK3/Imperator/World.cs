@@ -36,7 +36,7 @@ using Parser = commonItems.Parser;
 
 namespace ImperatorToCK3.Imperator;
 
-public partial class World {
+internal partial class World {
 	public Date EndDate { get; private set; } = new Date("727.2.17", AUC: true);
 	private readonly IList<string> incomingModPaths = []; // List of all mods used in the save.
 	public ModFilesystem ModFS { get; private set; }
@@ -52,7 +52,7 @@ public partial class World {
 	private readonly PopCollection pops = [];
 	public ProvinceCollection Provinces { get; } = [];
 	public CountryCollection Countries { get; } = [];
-	public CoaMapper CoaMapper { get; private set; } = new();
+	internal CoaMapper CoaMapper { get; private set; } = new();
 	public MapData MapData { get; private set; }
 	public AreaCollection Areas { get; } = [];
 	public ImperatorRegionMapper ImperatorRegionMapper { get; private set; }
@@ -60,13 +60,18 @@ public partial class World {
 	public IReadOnlyCollection<War> Wars { get; private set; } = Array.Empty<War>();
 	public IReadOnlyCollection<Dependency> Dependencies { get; private set; } = Array.Empty<Dependency>();
 	public Jobs.JobsDB JobsDB { get; private set; } = new();
-	public UnitCollection Units { get; } = [];
+	internal UnitCollection Units { get; } = [];
 	public CulturesDB CulturesDB { get; } = [];
 	public ReligionCollection Religions { get; private set; }
 	private GenesDB genesDB = new();
 	public TreasureManager TreasureManager { get; } = new();
 	public InventionsDB InventionsDB { get; } = new();
 	public ColorFactory ColorFactory { get; } = new();
+	
+	public IReadOnlyList<Mod> UsableMods { get; private set; } = Array.Empty<Mod>();
+	
+	public bool InvictusDetected { get; private set; }
+	public bool TerraIndomitaDetected { get; private set; }
 
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 	private SaveType saveType = SaveType.Invalid;
@@ -253,6 +258,7 @@ public partial class World {
 		MatchCollection matches = FlagDefinitionRegex().Matches(content);
 
 		CoaMapper.ParseCoAs(matches.Select(match => match.Value));
+		Logger.Info("Finished reading CoAs from I:R game.log.");
 	}
 
 	private void ExtractDynamicCoatsOfArms(Configuration config) {
@@ -316,6 +322,11 @@ public partial class World {
 		Countries.LinkFamilies(Families);
 
 		LoadPreImperatorRulers();
+		
+		// Detect specific mods.
+		InvictusDetected = GlobalFlags.Contains("is_playing_invictus");
+		TerraIndomitaDetected = Countries.Any(c => c.Variables.Contains("unification_points")) ||
+		                        UsableMods.Any(m => m.Name == "Antiquitas");
 
 		Logger.Info("*** Good-bye Imperator, rest in peace. ***");
 	}
@@ -336,6 +347,7 @@ public partial class World {
 			// Let's locate, verify and potentially update those mods immediately.
 			ModLoader modLoader = new();
 			modLoader.LoadMods(config.ImperatorDocPath, incomingMods);
+			UsableMods = new Mods(modLoader.UsableMods);
 			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
 
 			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
@@ -629,7 +641,7 @@ public partial class World {
 	private void LoadModFilesystemDependentData() {
 		// Some stuff can be loaded in parallel to save time.
 		Parallel.Invoke(
-			() => LocDB.ScrapeLocalizations(ModFS),
+			() => LoadImperatorLocalization(),
 			() => {
 				MapData = new MapData(ModFS);
 				Areas.LoadAreas(ModFS, Provinces);
@@ -663,6 +675,61 @@ public partial class World {
 		);
 		
 		Logger.IncrementProgress();
+	}
+
+	private void LoadImperatorLocalization(){
+		LocDB.ScrapeLocalizations(ModFS);
+
+		// Now that all the I:R loc is loaded, replace substitution parameters with actual loc.
+		// For example:
+		//  E23: "$NABATEAN_SUBJECT$"
+		//  NABATEAN_SUBJECT: "Edom"
+		// Becomes:
+		//  E23: "Edom"
+		//  NABATEAN_SUBJECT: "Edom"
+
+		foreach (var locBlock in LocDB) {
+			foreach (var (language, loc) in locBlock.ToArray()) {
+				if (loc is null) {
+					continue;
+				}
+				
+				ReplaceSubstitutionKeysInLoc(locBlock, language, loc);
+			}
+		}
+	}
+
+	private void ReplaceSubstitutionKeysInLoc(LocBlock locBlock, string language, string loc) {
+		Regex substitutionRegex = new(@"\$[A-Z_]*\$");
+		
+		var matches = substitutionRegex.Matches(loc);
+		foreach (Match? match in matches) {
+			if (match is null) {
+				continue;
+			}
+					
+			var substitutionKey = match.Value[1..^1];
+			
+			// Avoid infinite recursion by checking if the key is already in the loc block.
+			if (substitutionKey == locBlock.Id) {
+				continue;
+			}
+			
+			var substitutionLocBlock = LocDB.GetLocBlockForKey(substitutionKey);
+			if (substitutionLocBlock is null) {
+				continue;
+			}
+			var substitutionLoc = substitutionLocBlock[language];
+			if (substitutionLoc is null) {
+				Logger.Debug($"Substitution for key {substitutionKey} not found in {language} localization for key {locBlock.Id}.");
+				continue;
+			}
+			
+			// If the substitution loc contains a substitution key, replace it first.
+			ReplaceSubstitutionKeysInLoc(substitutionLocBlock, language, substitutionLoc);
+					
+			locBlock[language] = loc.Replace(match.Value, substitutionLoc);
+		}
 	}
 
 	private BufferedReader ProcessSave(string saveGamePath) {

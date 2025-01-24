@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Dynasties;
 
-public sealed class HouseCollection : ConcurrentIdObjectCollection<string, House> {
+internal sealed class HouseCollection : ConcurrentIdObjectCollection<string, House> {
 	public void LoadCK3Houses(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading dynasty houses from CK3...");
 
@@ -17,7 +17,7 @@ public sealed class HouseCollection : ConcurrentIdObjectCollection<string, House
 			AddOrReplace(house);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFolder("common/dynasty_houses", ck3ModFS, "txt", recursive: true, parallel: true);
+		parser.ParseGameFolder("common/dynasty_houses", ck3ModFS, "txt", recursive: true);
 	}
 
 	public void PurgeUnneededHouses(CharacterCollection ck3Characters, Date date) {

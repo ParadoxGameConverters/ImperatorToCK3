@@ -34,7 +34,7 @@ using System.Threading.Tasks;
 namespace ImperatorToCK3.CK3.Titles;
 
 [SerializationByProperties]
-public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
+internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public override string ToString() {
 		return Id;
 	}
@@ -174,7 +174,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			vassal.DeJureLiege = this;
 		}
 	}
-	public void InitializeFromTag(
+	internal void InitializeFromTag(
 		Country country,
 		Dependency? dependency,
 		CountryCollection imperatorCountries,
@@ -217,7 +217,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		History.AddFieldValue(conversionDate,
 			"succession_laws",
 			"succession_laws",
-			successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws())
+			successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws(), country.Government, enabledCK3Dlcs)
 		);
 
 		// Determine CoA.
@@ -284,7 +284,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			if (overLordTitle is null) {
 				Logger.Warn($"Can't find CK3 title for country {dependency.OverlordId}, overlord of {country.Id}.");
 			}
-			DeJureLiege = overLordTitle;
+			if (!config.StaticDeJure) {
+				DeJureLiege = overLordTitle;
+			}
 			SetDeFactoLiege(overLordTitle, dependency.StartDate);
 		}
 	}
@@ -342,7 +344,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		if (imperatorCountry.Government is not null) {
 			var lastCK3TermGov = GetGovernment(conversionDate);
-			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorCountry.Government, imperatorCountry.PrimaryCulture, enabledCK3Dlcs);
+			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorCountry.Government, Rank, imperatorCountry.PrimaryCulture, enabledCK3Dlcs);
 			if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
 				History.AddFieldValue(conversionDate, "government", "government", ck3CountryGov);
 			}
@@ -529,9 +531,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		History.AddFieldValue(governorshipStartDate, "holder", "holder", $"imperator{impGovernor.Id}");
 
 		// ------------------ determine government
-		var ck3LiegeGov = country.CK3Title.GetGovernment(governorshipStartDate);
+		Date normalizedGovernorshipStartDate = governorshipStartDate.Year >= 2 ? governorshipStartDate : new(2, 1, 1);
+		var ck3LiegeGov = country.CK3Title.GetGovernment(normalizedGovernorshipStartDate);
 		if (ck3LiegeGov is not null) {
-			History.AddFieldValue(governorshipStartDate, "government", "government", ck3LiegeGov);
+			History.AddFieldValue(normalizedGovernorshipStartDate, "government", "government", ck3LiegeGov);
 		}
 
 		// Determine color.
@@ -547,10 +550,16 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// determine successions laws
 		// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
+		OrderedSet<string> successionLaws = [];
+		if (ck3LiegeGov is not null && ck3LiegeGov == "administrative_government") {
+			successionLaws.Add("appointment_succession_law");
+		} else {
+			successionLaws.Add("high_partition_succession_law");
+		}
 		History.AddFieldValue(governorshipStartDate,
 			"succession_laws",
 			"succession_laws",
-			new SortedSet<string> { "high_partition_succession_law" }
+			successionLaws
 		);
 
 		// ------------------ determine CoA
@@ -721,9 +730,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return lastDate ?? new Date(1, 1, 1);
 	}
 
-	public ISet<string> GetAllHolderIds() {
+	public HashSet<string> GetAllHolderIds() {
 		if (!History.Fields.TryGetValue("holder", out var holderField)) {
-			return new HashSet<string>();
+			return [];
 		}
 
 		var ids = new HashSet<string>();
@@ -751,8 +760,8 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return ids;
 	}
 	public void SetHolder(Character? character, Date date) {
-		var id = character is null ? "0" : character.Id;
-		History.AddFieldValue(date, "holder", "holder", id);
+		var holderId = character is null ? "0" : character.Id;
+		History.AddFieldValue(date, "holder", "holder", holderId);
 	}
 
 	public void SetDevelopmentLevel(int value, Date date) {
@@ -980,10 +989,10 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	private readonly TitleCollection deJureVassals = [];
 	[SerializeOnlyValue] public IReadOnlyTitleCollection DeJureVassals => deJureVassals; // DIRECT de jure vassals
-	public IDictionary<string, Title> GetDeJureVassalsAndBelow() {
+	public Dictionary<string, Title> GetDeJureVassalsAndBelow() {
 		return GetDeJureVassalsAndBelow("bcdke");
 	}
-	public IDictionary<string, Title> GetDeJureVassalsAndBelow(string rankFilter) {
+	public Dictionary<string, Title> GetDeJureVassalsAndBelow(string rankFilter) {
 		var rankFilterAsArray = rankFilter.ToCharArray();
 		Dictionary<string, Title> deJureVassalsAndBelow = new();
 		foreach (var vassalTitle in DeJureVassals) {
@@ -1003,14 +1012,14 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		return deJureVassalsAndBelow;
 	}
-	public IDictionary<string, Title> GetDeFactoVassals(Date date) { // DIRECT de facto vassals
+	public Dictionary<string, Title> GetDeFactoVassals(Date date) { // DIRECT de facto vassals
 		return parentCollection.Where(t => t.GetDeFactoLiege(date)?.Id == Id)
 			.ToDictionary(t => t.Id, t => t);
 	}
-	public IDictionary<string, Title> GetDeFactoVassalsAndBelow(Date date) {
+	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date) {
 		return GetDeFactoVassalsAndBelow(date, "bcdke");
 	}
-	public IDictionary<string, Title> GetDeFactoVassalsAndBelow(Date date, string rankFilter) {
+	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date, string rankFilter) {
 		var rankFilterAsArray = rankFilter.ToCharArray();
 		Dictionary<string, Title> deFactoVassalsAndBelow = new();
 		foreach (var (vassalTitleName, vassalTitle) in GetDeFactoVassals(date)) {
@@ -1052,9 +1061,9 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("always_follows_primary_heir")] public bool? AlwaysFollowsPrimaryHeir { get; set; }
 	[SerializedName("de_jure_drift_disabled")] public bool? DeJureDriftDisabled { get; set; }
 	[SerializedName("can_be_named_after_dynasty")] public bool? CanBeNamedAfterDynasty { get; set; }
-	[SerializedName("male_names")] public IList<string>? MaleNames { get; private set; }
+	[SerializedName("male_names")] public List<string>? MaleNames { get; private set; }
 	// <culture, loc key>
-	[SerializedName("cultural_names")] public IDictionary<string, string>? CulturalNames { get; private set; }
+	[SerializedName("cultural_names")] public Dictionary<string, string>? CulturalNames { get; private set; }
 
 	public int? GetOwnOrInheritedDevelopmentLevel(Date date) {
 		var ownDev = GetDevelopmentLevel(date);
@@ -1196,7 +1205,7 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		await writer.WriteAsync(sb);
 	}
 
-	public ISet<ulong> GetProvincesInCountry(Date date) {
+	public HashSet<ulong> GetProvincesInCountry(Date date) {
 		var holderId = GetHolderId(date);
 		var heldCounties = new List<Title>(
 			parentCollection.Where(t => t.GetHolderId(date) == holderId && t.Rank == TitleRank.county)
@@ -1433,12 +1442,12 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					}
 					
 					// Skip if the faith doesn't allow the character's gender to be clergy.
-					var clerigalGenderDoctrine = rulerFaith.GetDoctrineIdForDoctrineCategoryId("doctrine_clerical_gender");
-					if (clerigalGenderDoctrine is not null) {
-						if (clerigalGenderDoctrine == "doctrine_clerical_gender_female_only" && !ck3Official.Female) {
+					var clerigalGenderDoctrines = rulerFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_clerical_gender");
+					if (clerigalGenderDoctrines.Any()) {
+						if (clerigalGenderDoctrines.Contains("doctrine_clerical_gender_female_only") && !ck3Official.Female) {
 							continue;
 						}
-						if (clerigalGenderDoctrine == "doctrine_clerical_gender_male_only" && ck3Official.Female) {
+						if (clerigalGenderDoctrines.Contains("doctrine_clerical_gender_male_only") && ck3Official.Female) {
 							continue;
 						}
 					}
@@ -1447,12 +1456,15 @@ public sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					if (heldTitlesCount == 0) {
 						var courtFaith = ck3Ruler.GetFaithId(irSaveDate);
 						if (courtFaith is not null) {
-							var dominantGenderDoctrine = religionCollection.GetFaith(courtFaith)?
-								.GetDoctrineIdForDoctrineCategoryId("doctrine_gender");
-							if (dominantGenderDoctrine == "doctrine_gender_male_dominated" && ck3Official.Female) {
+							var dominantGenderDoctrines = religionCollection.GetFaith(courtFaith)?
+								.GetDoctrineIdsForDoctrineCategoryId("doctrine_gender");
+							if (dominantGenderDoctrines is null) {
 								continue;
 							}
-							if (dominantGenderDoctrine == "doctrine_gender_female_dominated" && !ck3Official.Female) {
+							if (dominantGenderDoctrines.Contains("doctrine_gender_male_dominated") && ck3Official.Female) {
+								continue;
+							}
+							if (dominantGenderDoctrines.Contains("doctrine_gender_female_dominated") && !ck3Official.Female) {
 								continue;
 							}
 						}
