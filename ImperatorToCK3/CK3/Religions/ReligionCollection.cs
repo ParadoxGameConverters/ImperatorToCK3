@@ -7,7 +7,6 @@ using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.Mappers.Modifier;
-using ImperatorToCK3.Mappers.HolySiteEffect;
 using Open.Collections;
 using System;
 using System.Collections.Generic;
