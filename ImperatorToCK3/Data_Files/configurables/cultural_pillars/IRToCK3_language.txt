@@ -1508,6 +1508,7 @@ language_elamite = {
     REPLACED_BY = {
 		tfe = { language_elamite }
 		roa = { language_elamite }
+		wtwsms = { language_elamite }
 		vanilla = { language_elamite }
 	}
 	

@@ -421,6 +421,110 @@ BP_character_events = {
 			title:d_raetia_curiensis.holder = { set_character_faith_history = faith:nicene }
 		}
 	}
+
+	# Anachronistic
+	{
+		#Capital changes for specific time periods
+		title:k_ostrogoths.holder = {
+			if = { #Odoacer's death/Theodoric's conquest of Italy
+				limit = { current_date <= 493.2.25 }
+				set_realm_capital = title:c_szerem
+			}
+		}
+		title:k_visigoths.holder = {
+			if = { #Franks force the capital south
+			limit = {
+					AND = {
+						current_date > 507.1.1
+						current_date < 542.1.1
+					}
+				}
+				set_realm_capital = title:c_barcelona
+			}
+			else_if = { #Final move to Toledo
+				limit = { current_date >= 542.1.1 }
+				set_realm_capital = title:c_toledo
+			}
+		}
+		title:k_yarlung.holder = {
+			if = {
+				limit = { current_date < 637.1.1 }
+				set_realm_capital = title:c_zetang
+			}
+		}
+		title:k_kidarite.holder = {
+			if = { #Kidarite Rump Kingdom in Gandhara
+				limit = { current_date >= 467.1.1 }
+				set_realm_capital = title:c_udabhanda
+			}
+		}
+		title:d_caucasian_albania.holder = {
+			if = {
+				limit = { current_date < 500.1.1 }
+				set_realm_capital = title:c_shaki
+			}
+		}
+		#Make some titular titles align with specific lieges
+		if = {
+			limit = { current_date = 476.2.2 }
+			#k_armenia
+			title:d_gugark = { set_de_jure_liege_title = title:k_armenia }
+			title:d_tayk = { set_de_jure_liege_title = title:k_armenia }
+			#e_peria
+			title:d_gortyene = { set_de_jure_liege_title = title:k_asoristan }
+			title:d_kwrtstan = { set_de_jure_liege_title = title:k_persia }
+			title:d_exilarch = { set_de_jure_liege_title = title:k_asoristan }
+		}
+		#Put specific kingdoms within specific empires where it makes sense
+		if = {
+			limit = { current_date = 476.2.2 }
+			#Britannia
+			title:k_rheged = { set_de_jure_liege_title = title:e_britannia }
+			#Persia
+			title:k_mazandaran = { set_de_jure_liege_title = title:e_persia }
+		}
+		#Remove various claims for people that shouldn't have them
+		if = { #Vache voluntarily abidcated with Persian pressure, so prevent any claims from him
+			limit = { character:159589 = { is_alive = yes } }
+			character:159589 = {
+				save_temporary_scope_as = the_char
+				every_claim = {
+					save_temporary_scope_as = the_claim
+					scope:the_char = {
+						remove_claim = scope:the_claim
+					}
+				}
+			}
+		}
+	}
+
+	# Anachronistic
+	{
+## Family Stuff
+set_historical_dynasty_renown = {
+	effect = {
+		#Iranian Houses
+		dynasty:10424228 = { add_dynasty_prestige_level = 2 } #Ispahbudhan of Tabaristan and Gurgan
+		dynasty:10424226 = { add_dynasty_prestige_level = 2 } #Waraz of East Khoristan
+			#house_karen_pahlav #Karen (fine as is)
+		dynasty:1029027 = { add_dynasty_prestige_level = 2 } #Mihran of Ray
+		dynasty:10424229 = { add_dynasty_prestige_level = 2 } #Spandiyadh of Ray
+		dynasty:10424230 = { add_dynasty_prestige_level = 2 } #Zik of Adurbadagan
+		dynasty:1042143 = { add_dynasty_prestige_level = 2 } #Suren of Sakastan
+		dynasty:1029100 = { add_dynasty_prestige_level = 1 } #Sassanids
+		#Dead Dynasties; Re-evaluate all of these as dynasty tree is filled out for increased accuracy
+		dynasty:israelite_dynn_herodian = { add_dynasty_prestige_level = 1 }
+		dynasty:iranian_dynn_achaemenid = { add_dynasty_prestige_level = 4 }
+		dynasty:bactrian_dynn_orontid = { add_dynasty_prestige_level = 4 }
+		dynasty:104246212 = { add_dynasty_prestige_level = 3 } #Seleucid
+		dynasty:macedonian_dynn_Argead = { add_dynasty_prestige_level = 10 } #Alexander the Great
+	}
+}
+	}
+	{
+		#Family Stuff
+		set_historical_dynasty_renown
+	}
 }
 
 
