@@ -541,3 +541,21 @@ set_historical_dynasty_renown = {
 		character:145226 = { update_all_senate_opinion_about_character_effect = { ACTOR = character:145226 } }
 	}
 }
+
+
+"WtWSMS/common/scripted_character_templates/00_pool_repopulation_character_templates_BP_overwrite.txt" = {
+	# Prevent random Christian characters being generated.
+	{
+				5 = {
+					set_character_faith = faith:nestorian
+				}
+	}
+	{
+		else_if = {
+			limit = {
+				culture = culture:assyrian
+			}
+			set_character_faith = faith:nestorian
+		}
+	}
+}
