@@ -267,11 +267,11 @@ internal static class WorldOutputter {
 		Logger.IncrementProgress();
 	}
 	
-	private static void OutputModifiers(World ck3World, string outputModName) {
+	private static void OutputModifiers(World ck3World, string outputPath) {
 		Logger.Info("Outputting modifiers...");
-		var outputPath = Path.Combine("output", outputModName, "common/modifiers/IRToCK3_modifiers.txt");
+		var fileOutputPath = Path.Combine(outputPath, "common/modifiers/IRToCK3_modifiers.txt");
 		
-		using var modifiersWriter = new StreamWriter(outputPath);
+		using var modifiersWriter = new StreamWriter(fileOutputPath);
 		modifiersWriter.WriteLine(ck3World.Modifiers.ToString());
 	}
 }

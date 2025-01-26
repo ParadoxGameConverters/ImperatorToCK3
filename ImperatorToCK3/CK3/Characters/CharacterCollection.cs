@@ -722,8 +722,8 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		}
 		// TODO: also import artifacts not assigned to holy sites (search for treasures={ 225 226 } in save)
 		
-		// Create visuals for artifacts.
-		var treasureIconNames = treasureManager
+		// TODO: check if needed: Create visuals for artifacts.
+		/*var treasureIconNames = treasureManager
 			.Select(t => t.IconName)
 			.Distinct()
 			.ToList();
@@ -733,7 +733,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			//		icon: artefact_icons_unique_artifact_cheese
 			//		asset entity: ep1_western_pouch_basic_01_a_entity
 			//		mesh: ep1_western_pouch_basic_01_a_mesh
-		}
+		}*/
 		
 		var visualsMapper = new ArtifactMapper("configurables/artifact_map.txt");
 		

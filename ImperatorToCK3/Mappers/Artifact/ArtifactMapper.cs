@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.Mappers.Artifact; 
 
 public class ArtifactMapper {
-	public ArtifactMapper(string mappingsPath) {  // TODO: use this somewhere
+	public ArtifactMapper(string mappingsPath) {
 		Logger.Info("Loading artifact mappings...");
 		var parser = new Parser();
 		RegisterKeys(parser);
@@ -13,6 +13,7 @@ public class ArtifactMapper {
 		Logger.Info($"Loaded {mappings.Count} artifact mappings.");
 		
 		// TODO: implement checking if the ck3 visuals actually exist. We need to read the CK3 visuals files for that.
+		// TODO: also do the same for CK3 artifact types.
 	}
 	
 	private void RegisterKeys(Parser parser) {
