@@ -735,7 +735,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			//		mesh: ep1_western_pouch_basic_01_a_mesh
 		}
 		
-		var visualsMapper = new ArtifactVisualsMapper("configurables/artifact_visuals_map.txt");
+		var visualsMapper = new ArtifactMapper("configurables/artifact_map.txt");
 		
 		var charactersFromImperator = this.Where(c => c.FromImperator).ToList();
 		foreach (var character in charactersFromImperator) {
@@ -780,11 +780,13 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		Logger.IncrementProgress();
 	}
 
-	private void ImportArtifact(Character character, Treasure irArtifact, ModifierMapper modifierMapper, ModifierCollection ck3Modifiers, ArtifactVisualsMapper visualsMapper, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
-		var ck3Visual = visualsMapper.GetVisual(irArtifact.Key, irArtifact.IconName);
-		if (ck3Visual is null) {
-			Logger.Warn($"Can't find visual for artifact key {irArtifact.Key} and icon {irArtifact.IconName}!");
+	private void ImportArtifact(Character character, Treasure irArtifact, ModifierMapper modifierMapper, ModifierCollection ck3Modifiers, ArtifactMapper artifactMapper, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
+		var visualAndType = artifactMapper.GetVisualAndType(irArtifact.Key, irArtifact.IconName);
+		if (visualAndType is null) {
+			Logger.Warn($"Can't find a match for I:R artifact key {irArtifact.Key} and icon {irArtifact.IconName}!");
+			return;
 		}
+		var (ck3Visual, ck3Type) = visualAndType.Value;
 		
 		var ck3ArtifactName = $"IRToCK3_artifact_{irArtifact.Key}_{irArtifact.Id}";
 		var irNameLoc = irLocDB.GetLocBlockForKey(irArtifact.Key);
@@ -831,7 +833,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			create_artifact = {	
 				name = {{ ck3ArtifactName }}
 				description = {{ ck3DescKey }}
-				type = sculpture {{ TODO }}
+				type = {{ ck3Type }}
 				# template = babr_template # TODO: check if needed
 				visuals = {{ ck3Visual }}
 				wealth = scope:wealth

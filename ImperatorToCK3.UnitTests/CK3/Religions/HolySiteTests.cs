@@ -58,7 +58,7 @@ public class HolySiteTests {
 		var titlesReader = new BufferedReader("c_county = { b_barony = { province = 1 } }");
 		titles.LoadTitles(titlesReader);
 
-		var holySiteEffectMapper = new HolySiteEffectMapper("TestFiles/configurables/holy_site_effect_mappings.txt");
+		var holySiteEffectMapper = new ModifierMapper("TestFiles/configurables/holy_site_effect_mappings.txt");
 		var imperatorEffects = new OrderedDictionary<string, double> {
 			{"discipline", 0.2f}, // will be converted to knight_effectiveness_mult with factor of 10
 			{"unmapped_effect", 1f}, // will be skipped
