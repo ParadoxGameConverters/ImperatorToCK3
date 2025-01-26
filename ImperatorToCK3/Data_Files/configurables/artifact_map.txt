@@ -53,15 +53,25 @@ link = {
 	ck3Type = chest
 }
 link = {
-	irIcon = treasure_sarcophagus
-	ck3Visual = chest  # there is no sarcophagus in CK3 as of 1.8
-	ck3Type = chest
+ 	irIcon = treasure_it_sacred_stone_of_emesa
+ 	ck3Visual = chest # We don't have a special visual for this as of CK3 1.14.
+ 	ck3Type = chest
 }
 link = {
-	irIcon = treasure_sarcophagus_hoa
-	ck3Visual = chest  # there is no sarcophagus in CK3 as of 1.8
-	ck3Type = chest
+ 	irIcon = cr_treasure_skins_of_the_gorilla_03
+ 	ck3Visual = large_animal_hide
+ 	ck3Type = animal_hide_big
 }
+#link = { # disabled because sarhophagi don't seem to fit well as CK3 court artifacts, and we have no visuals for them
+#	irIcon = treasure_sarcophagus
+#	ck3Visual = chest  # there is no sarcophagus in CK3 as of 1.8
+#	ck3Type = chest
+#}
+#link = { # disabled because sarhophagi don't seem to fit well as CK3 court artifacts, and we have no visuals for them
+#	irIcon = treasure_sarcophagus_hoa
+#	ck3Visual = chest  # there is no sarcophagus in CK3 as of 1.8
+#	ck3Type = chest
+#}
 link = {
 	irIcon = treasure_sword
 	ck3Visual = sword
