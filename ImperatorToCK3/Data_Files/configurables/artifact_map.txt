@@ -2,6 +2,7 @@
 #	irTreasure = Imperator treasure ID
 # 	irIcon = Imperator treasure icon
 # 	ck3Visual = CK3 visual ID (from common/artifacts/visuals)
+# 	ck3Type = CK3 artifact type (from common/artifacts/types)
 # Every link has to have either irTreasure or irIcon set.
 
 # Imperator treasures list with icons: https://imperator.paradoxwikis.com/Treasure#List_of_treasures
