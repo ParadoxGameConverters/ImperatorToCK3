@@ -26,7 +26,7 @@ internal sealed partial class CharacterCollection {
 			loadedCharacters.Add(character);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFolder("history/characters", ck3ModFS, "txt", recursive: true);
+		parser.ParseGameFolder("history/characters", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 		
 		// Make all animation_test_ characters die on 2.1.1.
 		foreach (var character in loadedCharacters) {

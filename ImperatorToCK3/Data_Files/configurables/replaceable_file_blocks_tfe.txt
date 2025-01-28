@@ -83,18 +83,6 @@
 }
 
 
-"common/culture/pillars/TFE_language.txt" = {
-	replace = {
-		before = {
-			limit = { has_cultural_pillar = languaglanguage_west_himalayane_pyu }
-		}
-		after = {
-			limit = { has_cultural_pillar = language_west_himalayan }
-		}
-	}
-}
-
-
 "map_data/geographical_regions/geographical_region.txt" = {
 	# No c_reggio in TFE as of the 'After The Pharaohs' update.
 	replace = {
@@ -148,17 +136,6 @@
 		}
 		after = {
 		c_penthievre
-		}
-	}
-
-	# No c_ile in TFE as of the 'After The Pharaohs' update.
-	# No c_brie in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_ile
-		c_brie
-		}
-		after = {
 		}
 	}
 
@@ -443,23 +420,6 @@ TFE_General_Cue = {
 		}
 		after = {
 	discover_innovation = innovation_mustering_grounds
-		}
-	}
-}
-
-
-"common/on_action/TFE_game_start.txt" = {
-	# backport of TFE commit 7dfdda5
-	replace = {
-		before = {
-				OR = {
-					government_allows = administrative
-					top_liege = { government_allows = administrative }
-				}
-		}
-		after = {
-				government_allows = administrative
-				top_liege = { government_allows = administrative }
 		}
 	}
 }
@@ -1404,6 +1364,25 @@ texture = "gfx/portraits/accessory_variations/textures/color_palette_fp2_iberian
 		}
 		after = {
 	provision_cost = @provisions_cost_cavalry_cheap
+		}
+	}
+}
+
+
+"history/characters/herulian.txt" = {
+	# No value for employer entry in TFE as of the 2025-01-27 update.
+	replace = {
+		before = {
+	532.1.1 = {
+		add_pressed_claim = title:k_heruli
+		employer = 
+	}
+		} # end of before
+
+		after = {
+	532.1.1 = {
+		add_pressed_claim = title:k_heruli
+	}
 		}
 	}
 }

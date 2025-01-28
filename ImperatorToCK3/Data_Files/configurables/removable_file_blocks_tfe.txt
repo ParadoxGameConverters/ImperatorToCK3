@@ -884,6 +884,11 @@ garamantes_flavour_effect = {
 "common/on_action/sea_minority_game_start.txt" = {
 	# Anachronistic
 	{
+# culture_minorities_large
+# culture_minorities_small
+# faith_minorities_large
+# faith_minorities_small
+
 set_minorities_game_start = {
 	effect = {
 
@@ -1146,6 +1151,7 @@ set_minorities_game_start = {
 		if = {
 			limit = {
 				game_start_date >= 400.1.1
+				game_start_date < 600.1.1
 			}
 			add_culture_minority_effect = {
 				CULTURE = culture:alan
@@ -3882,6 +3888,429 @@ set_minorities_game_start = {
 				COUNTY = title:c_homs
 			}
 		}
+
+		# Sarmatians/Alans in Britannia
+		if = {
+			limit = {
+				game_start_date < 600.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:alan
+				SIZE = large
+				COUNTY = title:c_middlesex
+			}
+			add_culture_minority_effect = { # Alan grave found here
+				CULTURE = culture:alan
+				SIZE = small
+				COUNTY = title:c_cambridgeshire
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:alan
+				SIZE = small
+				COUNTY = title:c_somerset
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:alan
+				SIZE = small
+				COUNTY = title:c_north_riding # York
+			}
+		}
+
+		# Old Saxons in the Saxon Shore/both sides of the Channel
+		if = {
+			limit = {
+				game_start_date < 600.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:old_saxon
+				SIZE = small
+				COUNTY = title:c_rouen
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:old_saxon
+				SIZE = small
+				COUNTY = title:c_brugge
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:old_saxon
+				SIZE = small
+				COUNTY = title:c_avranches
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:old_saxon
+				SIZE = small
+				COUNTY = title:c_vannes
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:old_saxon
+				SIZE = small
+				COUNTY = title:c_nantes
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:old_saxon
+				SIZE = small
+				COUNTY = title:c_middlesex
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:old_saxon
+				SIZE = small
+				COUNTY = title:c_kent
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:old_saxon
+				SIZE = small
+				COUNTY = title:c_hampton
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:old_saxon
+				SIZE = small
+				COUNTY = title:c_norfolk
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:old_saxon
+				SIZE = small
+				COUNTY = title:c_kent
+			}
+		}
+
+		# Ethiopians in Yemen
+		add_culture_minority_effect = {
+			CULTURE = culture:ethiopian
+			SIZE = large
+			COUNTY = title:c_sanaa
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:ethiopian
+			SIZE = large
+			COUNTY = title:c_tihamat-al-yamani
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:ethiopian
+			SIZE = large
+			COUNTY = title:c_najran
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:ethiopian
+			SIZE = large
+			COUNTY = title:c_zabid
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:ethiopian
+			SIZE = large
+			COUNTY = title:c_jawf-al-yamani
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:ethiopian
+			SIZE = large
+			COUNTY = title:c_wabar
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:ethiopian
+			SIZE = large
+			COUNTY = title:c_hadramawt
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:ethiopian
+			SIZE = large
+			COUNTY = title:c_ahqaf
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:ethiopian
+			SIZE = large
+			COUNTY = title:c_kinda_sakun
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:ethiopian
+			SIZE = large
+			COUNTY = title:c_taizz
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:ethiopian
+			SIZE = large
+			COUNTY = title:c_mandab
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:ethiopian
+			SIZE = large
+			COUNTY = title:c_dathina
+		}
+
+		if = {
+			limit = {
+				game_start_date < 451.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_sanaa
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_tihamat-al-yamani
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_najran
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_zabid
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_jawf-al-yamani
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_wabar
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_hadramawt
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_ahqaf
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_kinda_sakun
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_taizz
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_mandab
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_dathina
+			}
+		}
+		else = {
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_sanaa
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_tihamat-al-yamani
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_najran
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_zabid
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_jawf-al-yamani
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_wabar
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_hadramawt
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_ahqaf
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_kinda_sakun
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_taizz
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_mandab
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:coptic
+				SIZE = large
+				COUNTY = title:c_dathina
+			}
+		}
+
+		
+		# Sogdians and Tocharians and other non-Chinese in the Gansu region
+		add_culture_minority_effect = {
+			CULTURE = culture:sogdian
+			SIZE = small
+			COUNTY = title:c_xingqing
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:khurmazta
+			SIZE = small
+			COUNTY = title:c_xingqing
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:sogdian
+			SIZE = small
+			COUNTY = title:c_liangzhou
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:khurmazta
+			SIZE = small
+			COUNTY = title:c_liangzhou
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:sogdian
+			SIZE = small
+			COUNTY = title:c_ganzhou
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:khurmazta
+			SIZE = small
+			COUNTY = title:c_ganzhou
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:sogdian
+			SIZE = small
+			COUNTY = title:c_guazhou
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:khurmazta
+			SIZE = small
+			COUNTY = title:c_guazhou
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:sogdian
+			SIZE = small
+			COUNTY = title:c_yumenguan
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:khurmazta
+			SIZE = small
+			COUNTY = title:c_yumenguan
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:tocharian
+			SIZE = small
+			COUNTY = title:c_shazhou
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:sarvastivada
+			SIZE = small
+			COUNTY = title:c_shazhou
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:saka
+			SIZE = small
+			COUNTY = title:c_xingqing
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:saka
+			SIZE = small
+			COUNTY = title:c_liangzhou
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:saka
+			SIZE = small
+			COUNTY = title:c_ganzhou
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:saka
+			SIZE = small
+			COUNTY = title:c_guazhou
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:saka
+			SIZE = small
+			COUNTY = title:c_yumenguan
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:tocharian
+			SIZE = small
+			COUNTY = title:c_shazhou
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:sarvastivada
+			SIZE = small
+			COUNTY = title:c_shazhou
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:tocharian
+			SIZE = small
+			COUNTY = title:c_xingqing
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:sarvastivada
+			SIZE = small
+			COUNTY = title:c_xingqing
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:tocharian
+			SIZE = small
+			COUNTY = title:c_liangzhou
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:sarvastivada
+			SIZE = small
+			COUNTY = title:c_liangzhou
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:tocharian
+			SIZE = small
+			COUNTY = title:c_ganzhou
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:sarvastivada
+			SIZE = small
+			COUNTY = title:c_ganzhou
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:tocharian
+			SIZE = small
+			COUNTY = title:c_guazhou
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:sarvastivada
+			SIZE = small
+			COUNTY = title:c_guazhou
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:tocharian
+			SIZE = small
+			COUNTY = title:c_yumenguan
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:sarvastivada
+			SIZE = small
+			COUNTY = title:c_yumenguan
+		}
+
 	}
 }
 	}
@@ -3895,11 +4324,6 @@ set_minorities_game_start = {
 	{
 						NOT = {
 							THIS = character:taifal_01
-						}
-	}
-	{
-						NOT = {
-							THIS = character:alan_13
 						}
 	}
 	{
@@ -4054,14 +4478,14 @@ set_minorities_game_start = {
 					}
 					if = {
 						limit = {
-							highest_held_title_tier >= tier_barony
+							highest_held_title_tier >= tier_county
 							has_dlc_feature = roads_to_power
 						}
 						change_government = autocratic_government_ep3
 					}
 					else_if = {
 						limit = {
-							highest_held_title_tier >= tier_barony
+							highest_held_title_tier >= tier_county
 						}
 						change_government = autocratic_government
 					}
@@ -4100,18 +4524,20 @@ set_minorities_game_start = {
 						has_government = feudal_government
 						has_government = republic_government
 						}
-						
+						NOT = {
+							THIS = character:alan_13
+						}
 					}
 					if = {
 						limit = {
-							highest_held_title_tier >= tier_barony
+							highest_held_title_tier >= tier_county
 							has_dlc_feature = roads_to_power
 						}
 						change_government = autocratic_government_ep3
 					}
 					else_if = {
 						limit = {
-							highest_held_title_tier >= tier_barony
+							highest_held_title_tier >= tier_county
 						}
 						change_government = autocratic_government
 					}
@@ -6394,6 +6820,25 @@ start_vandalic_war_effect = {
 	}
 	resolve_title_and_vassal_change = scope:change
 
+	title:d_belisarius_expedition = {
+		save_temporary_scope_as = current_duchy
+	}
+	create_title_and_vassal_change = {
+		type = usurped
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	scope:current_duchy = {
+		change_title_holder = {
+			holder = global_var:justinian_commander
+			change = scope:change
+			take_baronies = yes
+		}
+	}
+	resolve_title_and_vassal_change = scope:change
+
+	title:d_belisarius_expedition = { set_coa = title:d_belisarius_expedition.holder.house }
+
 	if = {
 		limit = {
 			exists = title:e_byzantium.holder
@@ -6531,6 +6976,18 @@ start_vandalic_war_effect = {
 			claimant = global_var:justinian_commander
 		}
 	}
+
+	global_var:justinian_commander = {
+		limit = { 
+			liege = { has_government = administrative_government }
+			NOT = { has_government = administrative_government } 
+		}
+		change_government = administrative_government
+	}
+
+	global_var:justinian_commander = {
+		remove_character_flag = STOP_ADMIN
+	}
 }
 	}
 
@@ -6587,6 +7044,26 @@ start_gothic_war_effect = {
 		}
 		resolve_title_and_vassal_change = scope:change
 	}
+
+	#title:d_belisarius_expedition = {
+	#	save_temporary_scope_as = current_duchy
+	#}
+	#create_title_and_vassal_change = {
+	#	type = usurped
+	#	save_scope_as = change
+	#	add_claim_on_loss = no
+	#}
+	#scope:current_duchy = {
+	#	change_title_holder = {
+	#		holder = global_var:justinian_gothic_commander
+	#		change = scope:change
+	#		take_baronies = yes
+	#	}
+	#}
+	#resolve_title_and_vassal_change = scope:change
+
+	#title:d_belisarius_expedition = { set_coa = title:d_belisarius_expedition.holder.house }
+
 	#title:k_ostrogoths.holder = {
 	#	every_sub_realm_county = {
 	#		limit = {
@@ -6691,6 +7168,7 @@ start_gothic_war_effect = {
 		every_held_title = {
 			limit = {
 				tier >= tier_duchy
+				is_titular = no
 			}
 			add_to_list = list_to_return
 		}
@@ -9505,6 +9983,11 @@ vandalic_war_cb = {
 	on_invalidated_desc = msg_subjugation_war_invalidated_message
 	
 	on_invalidated = {
+		scope:attacker = {
+			limit = { has_title = title:d_belisarius_expedition }
+			scope:attacker = {destroy_title = title:d_belisarius_expedition }
+			add_character_flag = STOP_ADMIN
+		}
 	}
 
 	on_victory_desc = {
@@ -9539,6 +10022,11 @@ vandalic_war_cb = {
 				}
 				scope:defender = { destroy_title = prev }
 			}
+		}
+		scope:attacker = {
+			limit = { has_title = title:d_belisarius_expedition }
+			scope:attacker = {destroy_title = title:d_belisarius_expedition }
+			add_character_flag = STOP_ADMIN
 		}
 		scope:attacker = {
 			top_liege = {
@@ -9711,6 +10199,7 @@ vandalic_war_cb = {
 			global_var:hildirix ?= { release_from_prison = yes }
 			global_var:hildirix ?= { remove_character_flag = is_being_tortured }
 		}
+		scope:attacker = { remove_character_flag = STOP_ADMIN }
 	}
 
 	on_white_peace_desc = {
@@ -9725,6 +10214,11 @@ vandalic_war_cb = {
 	}
 
 	on_white_peace = {
+		scope:attacker = {
+			limit = { has_title = title:d_belisarius_expedition }
+			scope:attacker = {destroy_title = title:d_belisarius_expedition }
+			add_character_flag = STOP_ADMIN
+		}
         #EP2 accolade glory gain for doing ok against higher ranked enemy
 		scope:attacker = { accolade_attacker_war_end_glory_gain_low_effect = yes }
 		scope:defender = { accolade_defender_war_end_glory_gain_med_effect = yes }
@@ -9779,6 +10273,7 @@ vandalic_war_cb = {
 
 		# Truce
 		add_truce_white_peace_effect = yes
+		scope:attacker = { remove_character_flag = STOP_ADMIN }
 	}
 
 	on_defeat_desc = {
@@ -9801,6 +10296,11 @@ vandalic_war_cb = {
 	}
 
 	on_defeat = {
+		scope:attacker = {
+			limit = { has_title = title:d_belisarius_expedition }
+			scope:attacker = {destroy_title = title:d_belisarius_expedition }
+			add_character_flag = STOP_ADMIN
+		}
         #EP2 accolade glory gain for winning against higher ranked enemy
 		scope:defender = { accolade_attacker_war_end_glory_gain_high_effect = yes }
 		scope:attacker = { show_pow_release_message_effect = yes }
@@ -9950,6 +10450,7 @@ vandalic_war_cb = {
 			save_temporary_scope_as = loser
 		}
 		on_lost_aggression_war_discontent_loss = yes
+		scope:attacker = { remove_character_flag = STOP_ADMIN }
 	}
 
 	on_primary_attacker_death = inherit
@@ -11045,6 +11546,10 @@ gothic_duchy_conquest_cb = {
 	on_invalidated_desc = msg_subjugation_war_invalidated_message
 	
 	on_invalidated = {
+		scope:attacker = {
+			limit = { has_title = title:d_belisarius_expedition }
+			scope:attacker = {destroy_title = title:d_belisarius_expedition }
+		}
 	}
 
 	on_declaration = {
@@ -11166,6 +11671,11 @@ gothic_duchy_conquest_cb = {
 	}
 
 	on_victory = {
+		scope:attacker = {
+			limit = { has_title = title:d_belisarius_expedition }
+			scope:attacker = {destroy_title = title:d_belisarius_expedition }
+			add_character_flag = STOP_ADMIN
+		}
 		scope:attacker = { show_pow_release_message_effect = yes }
 		custom_tooltip = gothic_war_end_effect2
 
@@ -11306,6 +11816,9 @@ gothic_duchy_conquest_cb = {
 				}
 			}
 		}
+		scope:attacker = {
+			remove_character_flag = STOP_ADMIN
+		}
 	}
 
 	on_white_peace_desc = {
@@ -11319,6 +11832,10 @@ gothic_duchy_conquest_cb = {
 	}
 
 	on_white_peace = {
+		scope:attacker = {
+			limit = { has_title = title:d_belisarius_expedition }
+			scope:attacker = {destroy_title = title:d_belisarius_expedition }
+		}
 		scope:attacker = { show_pow_release_message_effect = yes }
 		# Prestige loss for the attacker
 
@@ -11365,6 +11882,10 @@ gothic_duchy_conquest_cb = {
 	}
 
 	on_defeat = {
+		scope:attacker = {
+			limit = { has_title = title:d_belisarius_expedition }
+			scope:attacker = {destroy_title = title:d_belisarius_expedition }
+		}
 		scope:attacker = { show_pow_release_message_effect = yes }
 
 		#EP2 accolade glory gain for winning against higher ranked enemy
@@ -12596,17 +13117,41 @@ restore_the_west_empire = {
 				trigger_event = { id = western_roman.0011 }
 				#government stuff
 				change_government = administrative_government
+				if = {
+					limit = { 
+						NOT = { any_held_title = { is_noble_family_title = yes } } 
+						highest_held_title_tier >= tier_duchy
+					}
+					if = {
+						limit = { is_house_head = no }
+						found_cadet_house_decision_effect = { CHARACTER = root }
+					}
+					create_noble_family_effect = yes
+					domicile ?= { set_up_domicile_estate_effect = yes }
+				}
 				every_vassal = {
 					limit = {
 						OR = {
 							government_has_flag = government_is_autocratic_ep3
 							AND = {
-								government_hast_flag = government_is_roman
-								highest_held_title_tier > tief_countiy
+								government_has_flag = government_is_roman
+								highest_held_title_tier > tier_county
 							}
 						}
 					}
 					change_government = administrative_government
+					if = {
+						limit = { 
+							NOT = { any_held_title = { is_noble_family_title = yes } } 
+							highest_held_title_tier >= tier_duchy
+						}
+						if = {
+							limit = { is_house_head = no }
+							found_cadet_house_decision_effect = { CHARACTER = root }
+						}
+						create_noble_family_effect = yes
+						domicile ?= { set_up_domicile_estate_effect = yes }
+					}
 				}
 			}
 		every_player = {
@@ -12759,17 +13304,41 @@ restore_the_east = {
 				trigger_event = { id = western_roman.0021 }
 				#government stuff
 				change_government = administrative_government
+				if = {
+					limit = { 
+						NOT = { any_held_title = { is_noble_family_title = yes } } 
+						highest_held_title_tier >= tier_duchy
+					}
+					if = {
+						limit = { is_house_head = no }
+						found_cadet_house_decision_effect = { CHARACTER = root }
+					}
+					create_noble_family_effect = yes
+					domicile ?= { set_up_domicile_estate_effect = yes }
+				}
 				every_vassal = {
 					limit = {
 						OR = {
 							government_has_flag = government_is_autocratic_ep3
 							AND = {
-								government_hast_flag = government_is_roman
-								highest_held_title_tier > tief_countiy
+								government_has_flag = government_is_roman
+								highest_held_title_tier > tier_county
 							}
 						}
 					}
 					change_government = administrative_government
+					if = {
+						limit = { 
+							NOT = { any_held_title = { is_noble_family_title = yes } } 
+							highest_held_title_tier >= tier_duchy
+						}
+						if = {
+							limit = { is_house_head = no }
+							found_cadet_house_decision_effect = { CHARACTER = root }
+						}
+						create_noble_family_effect = yes
+						domicile ?= { set_up_domicile_estate_effect = yes }
+					}
 				}
 			}
 		#notify other players
@@ -15233,6 +15802,7 @@ western_roman.0039 = {
 			limit = {
 				global_var:belisarius = {
 					is_alive = yes
+					NOT = { highest_held_title_tier >= tier_kingdom }
 				}
 			}
 			global_var:belisarius = {
@@ -15368,7 +15938,7 @@ western_roman.0041 = {
 				save_temporary_scope_as = current_county
 			}
 			create_title_and_vassal_change = {
-				type = usurped
+				type = revoked
 				save_scope_as = change
 				add_claim_on_loss = no
 			}
@@ -15389,7 +15959,7 @@ western_roman.0041 = {
 				save_temporary_scope_as = current_county
 			}
 			create_title_and_vassal_change = {
-				type = usurped
+				type = revoked
 				save_scope_as = change
 				add_claim_on_loss = no
 			}
@@ -15421,7 +15991,7 @@ western_roman.0041 = {
 			save_temporary_scope_as = current_county
 		}
 		create_title_and_vassal_change = {
-			type = usurped
+			type = revoked
 			save_scope_as = change
 			add_claim_on_loss = no
 		}
@@ -15438,7 +16008,7 @@ western_roman.0041 = {
 			save_temporary_scope_as = current_county
 		}
 		create_title_and_vassal_change = {
-			type = usurped
+			type = revoked
 			save_scope_as = change
 			add_claim_on_loss = no
 		}
@@ -15456,7 +16026,7 @@ western_roman.0041 = {
 			save_temporary_scope_as = current_county
 		}
 		create_title_and_vassal_change = {
-			type = usurped
+			type = revoked
 			save_scope_as = change
 			add_claim_on_loss = no
 		}
@@ -15492,7 +16062,7 @@ western_roman.0041 = {
 			save_temporary_scope_as = current_county
 		}
 		create_title_and_vassal_change = {
-			type = usurped
+			type = revoked
 			save_scope_as = change
 			add_claim_on_loss = no
 		}
@@ -15521,7 +16091,7 @@ western_roman.0041 = {
 		}
 
 		create_title_and_vassal_change = {
-			type = usurped
+			type = revoked
 			save_scope_as = title_change
 			add_claim_on_loss = no
 		}
@@ -15546,7 +16116,7 @@ western_roman.0041 = {
 			save_temporary_scope_as = current_county
 		}
 		create_title_and_vassal_change = {
-			type = usurped
+			type = revoked
 			save_scope_as = change
 			add_claim_on_loss = no
 		}
@@ -15569,7 +16139,7 @@ western_roman.0041 = {
 			save_temporary_scope_as = current_county
 		}
 		create_title_and_vassal_change = {
-			type = usurped
+			type = revoked
 			save_scope_as = change
 			add_claim_on_loss = no
 		}
@@ -15605,7 +16175,7 @@ western_roman.0041 = {
 			save_temporary_scope_as = current_county
 		}
 		create_title_and_vassal_change = {
-			type = usurped
+			type = revoked
 			save_scope_as = change
 			add_claim_on_loss = no
 		}
@@ -15676,7 +16246,7 @@ western_roman.0041 = {
 			save_temporary_scope_as = current_county
 		}
 		create_title_and_vassal_change = {
-			type = usurped
+			type = revoked
 			save_scope_as = change
 			add_claim_on_loss = no
 		}
@@ -15693,7 +16263,7 @@ western_roman.0041 = {
 			save_temporary_scope_as = current_county
 		}
 		create_title_and_vassal_change = {
-			type = usurped
+			type = revoked
 			save_scope_as = change
 			add_claim_on_loss = no
 		}
@@ -15957,7 +16527,7 @@ western_roman.0044 = {
 		}
 		scope:emperor = {
 			remove_trait = paranoid
-			add_trait = stubborn
+			#add_trait = stubborn
 			send_interface_toast = {
 				title = western_roman.0044.tt
 				left_icon = root
@@ -16053,10 +16623,22 @@ western_roman.0044 = {
 					limit = {
 						has_dlc_feature = roads_to_power
 					}
-						change_government = administrative_government
+					change_government = administrative_government
+					if = {
+						limit = { 
+							NOT = { any_held_title = { is_noble_family_title = yes } } 
+							highest_held_title_tier >= tier_duchy
+						}
+						if = {
+							limit = { is_house_head = no }
+							found_cadet_house_decision_effect = { CHARACTER = root }
+						}
+						create_noble_family_effect = yes
+						domicile ?= { set_up_domicile_estate_effect = yes }
 					}
-					else = {
-						change_government = imperial_government
+				}
+				else = {
+					change_government = imperial_government
 				} 
 			}
 		}
@@ -16871,8 +17453,8 @@ western_roman.0071 = {
 					is_landed = yes
 					top_liege = scope:truce_breakee
 				}
-				exists = title:k_pontus.holder
-				title:k_pontus.holder.top_liege = scope:truce_breakee
+				exists = title:k_nikaea.holder
+				title:k_nikaea.holder.top_liege = scope:truce_breakee
 			}
 			character:belisarius_001 = {
 				every_held_title = {
@@ -16899,7 +17481,7 @@ western_roman.0071 = {
 			}
 			resolve_title_and_vassal_change = scope:change
 
-			title:k_pontus = {
+			title:k_nikaea = {
 				save_temporary_scope_as = current_county
 			}
 			create_title_and_vassal_change = {
@@ -16937,6 +17519,15 @@ western_roman.0071 = {
 				}
 			}
 			resolve_title_and_vassal_change = scope:title_change
+
+			title:k_nikaea.holder.top_liege = { 
+				every_character_war = { 
+					limit = { 
+						top_liege = { is_defender = yes } 
+					} 
+					add_defender = title:k_nikaea.holder 
+				}
+			}
 		}
 	}
 
@@ -23683,6 +24274,7 @@ eastern_iranian_struggle = {
 
 		# Dezawist
 		nuristani_pagan
+		minaro_pagan
 
 		# Tengri
 		tengri_pagan
@@ -29118,8 +29710,9 @@ become_emperor_of_gaul_decision = {
 		if = {
 			limit = {
 			has_dlc_feature = roads_to_power
-		}
-			change_government = administrative_government
+			}
+			save_scope_as = actor
+			TFE_convert_to_administrative_from_feudalism_effect = yes
 		}
 		else = {
 			change_government = imperial_government
@@ -29201,15 +29794,8 @@ become_emperor_of_gaul_decision = {
 	}
 }
 	}
-
 }
 
-
-"gfx/coat_of_arms/colored_emblems/50_coa_designer_emblems.txt" = {
-	{
-ce_african_cross_NU.dds = { colors = 1 category = crosses_and_knots }
-	}
-}
 
 "events/dlc/fp1/fp1_scandinavian_adventurer_events.txt" = {
 	{
@@ -33984,9 +34570,10 @@ restore_palmyrene_empire_decision = {
 	effect = {
 		if = {
 			limit = {
-			has_dlc_feature = roads_to_power
-		}
-			change_government = administrative_government
+				has_dlc_feature = roads_to_power
+			}
+			save_scope_as = actor
+			TFE_convert_to_administrative_from_feudalism_effect = yes
 		}
 		else = {
 			change_government = imperial_government
