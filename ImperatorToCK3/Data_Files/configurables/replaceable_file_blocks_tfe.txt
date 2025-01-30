@@ -1386,3 +1386,51 @@ texture = "gfx/portraits/accessory_variations/textures/color_palette_fp2_iberian
 		}
 	}
 }
+
+
+"common/dynasties/TFE_dynasties.txt" = {
+	# No gaetuli culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+himyar_dynasty = {
+	name = "dynn_Himyar"
+	culture = "gaetuli"
+}
+gaetuli_dynasty = {
+	name = "dynn_Gaetuli"
+	culture = "gaetuli"
+}
+		} # end of before
+		
+		after = {
+himyar_dynasty = {
+	name = "dynn_Himyar"
+	culture = "gaetulian"
+}
+gaetuli_dynasty = {
+	name = "dynn_Gaetuli"
+	culture = "gaetulian"
+}
+		} # end of after
+	}
+
+	# No alammanic culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = "alammanic"
+		} # end of before
+		after = {
+	culture = alamannic
+		} # end of after
+	}
+
+	# No alemannic culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = alemannic
+		} # end of before
+		after = {
+	culture = alamannic
+		} # end of after
+	}
+}

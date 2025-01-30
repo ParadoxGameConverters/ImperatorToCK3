@@ -91,7 +91,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		cultureIdsPerModFlagParser.ParseStream(reader);
 	}
 
-	public void LoadCultures(ModFilesystem ck3ModFS) {
+	public void LoadCultures(ModFilesystem ck3ModFS, Configuration config) {
 		Logger.Info("Loading cultures...");
 		
 		OrderedDictionary<string, CultureData> culturesData = new(); // Preserves order of insertion.
@@ -102,12 +102,12 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.ParseGameFolder("common/culture/cultures", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 		
 		// After we've load all cultures data, we can validate it and create cultures.
-		ValidateAndLoadCultures(culturesData);
+		ValidateAndLoadCultures(culturesData, config);
 
 		ReplaceInvalidatedParents();
 	}
 
-	public void LoadConverterCultures(string converterCulturesPath) {
+	public void LoadConverterCultures(string converterCulturesPath, Configuration config) {
 		Logger.Info("Loading converter cultures...");
 		
 		OrderedDictionary<string, CultureData> culturesData = new(); // Preserves order of insertion.
@@ -118,7 +118,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.ParseFile(converterCulturesPath);
 		
 		// After we've load all cultures data, we can validate it and create cultures.
-		ValidateAndLoadCultures(culturesData);
+		ValidateAndLoadCultures(culturesData, config);
 
 		ReplaceInvalidatedParents();
 	}
@@ -130,7 +130,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		return cultureData;
 	}
 
-	private void ValidateAndLoadCultures(OrderedDictionary<string, CultureData> culturesData) {
+	private void ValidateAndLoadCultures(OrderedDictionary<string, CultureData> culturesData, Configuration config) {
 		foreach (var (cultureId, data) in culturesData) {
 			if (data.InvalidatingCultureIds.Any()) {
 				bool isInvalidated = false;
@@ -148,8 +148,14 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 				Logger.Debug($"Loading optional culture {cultureId}...");
 			}
 			if (data.Heritage is null) {
-				Logger.Warn($"Culture {cultureId} has no valid heritage defined! Skipping.");
-				continue;
+				// Special handling for TFE hunnic culture. #TODO: remove this when it's fixed on TFE side.
+				if (config.FallenEagleEnabled && cultureId == "hunnic" && PillarCollection.GetHeritageForId("heritage_turkic") is Pillar turkicHeritage) {
+					Logger.Debug("Applying turkic heritage to TFE hunnic culture.");
+					data.Heritage = turkicHeritage;
+				} else {
+					Logger.Warn($"Culture {cultureId} has no valid heritage defined! Skipping.");
+					continue;
+				}
 			}
 			if (data.Language is null) {
 				Logger.Warn($"Culture {cultureId} has no valid language defined! Skipping.");
