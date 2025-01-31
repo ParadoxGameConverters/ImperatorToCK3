@@ -1190,6 +1190,10 @@ gothic = { # https://en.wikipedia.org/wiki/Goths
 }
 
 visigothic = { # override of vanilla culture
+	INVALIDATED_BY = {
+		tfe = { visigothic } # TFE already moves this culture to an East Germanic heritage, so we don't need to override it.
+	}
+
 	color = { 0.55 0.55 0.15 }
 	parents = { gothic }
 	created = 20.1.1
@@ -2963,6 +2967,9 @@ iweric = {
 }
 
 suebi = { # override of vanilla culture
+	INVALIDATED_BY = {
+		tfe = { old_suebi } # In TFE, the pre-Iberian Suebi are represented by the old_suebi culture.
+	}
 	color = { 0.8 0.7 0.4 }
 
 	ethos = ethos_bellicose
