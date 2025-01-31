@@ -1782,6 +1782,9 @@ elamite = { # https://en.wikipedia.org/wiki/Elam
 }
 
 alan = { # override of vanilla culture
+	INVALIDATED_BY = {
+		tfe = { alan } # TFE already removes the creation date from the culture, so no need to override it.
+	}
 	color = { 0.1 0.3 0.7 }
 	# created = 100.1.1 # IRToCK3: disabled the creation date
 
