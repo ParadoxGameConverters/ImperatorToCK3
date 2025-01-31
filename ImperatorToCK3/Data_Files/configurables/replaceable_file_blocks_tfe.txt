@@ -1493,6 +1493,16 @@ gaetuli_dynasty = {
 	culture = suebi
 		} # end of after
 	}
+
+	# No gautish culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = gautish
+		} # end of before
+		after = {
+	culture = norse
+		} # end of after
+	}
 }
 
 
