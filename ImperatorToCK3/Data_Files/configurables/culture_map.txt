@@ -187,7 +187,7 @@ link = { ck3=sinhala ir=dhivehi }
 link = { ck3 = pecheneg ir = pecheneg } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = bactrian ir = bactrian }
 link = { ck3 = pecheneg ir = wusun }
-link = { ck3 = sogdian ir = sogdian }
+link = { ck3 = sogdian ir = sogdian ir = tayuan }
 link = {
 	ck3 = saka
 	ir = saka
@@ -196,8 +196,6 @@ link = {
 	ir = massagetaean
 }
 link = { ck3 = tocharian ir = tocharian ir = phryni ir = yuezhi }
-link = { ck3 = indo_greek ir = tayuan } # Give priority to Rajas of Asia version of culture, but keep converter version as backup
-link = { ck3 = indogreek ir = tayuan } #https://en.wikipedia.org/wiki/Dayuan
 link = { ck3 = tajik ir = tajik } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = tajik ir = margian }
 # Invictus mod
@@ -468,6 +466,7 @@ link = { ck3 = syrian ir = syriote }
 link = { ck3=cretan @ir_cretan_cultures }
 link = { ck3=italiote ir=syracusan ir=italiotian }
 link = { ck3=greek @ir_greek_cultures }
+link = { ck3=syro_hellenic ir=macedonian irRegion = syria_region irRegion = assyria_region irRegion = mesopotamia_region }
 link = { ck3=macedonian ir=macedonian }
 link = { ck3=hellenistic ir=hellenistic }
 link = { ck3=thracian ir=thracian }

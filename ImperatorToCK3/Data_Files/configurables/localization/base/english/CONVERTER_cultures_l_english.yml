@@ -386,3 +386,7 @@ l_english:
  cretan: "Cretan"
  cretan_collective_noun: "Cretans"
  cretan_prefix: "Creto" # found: "Creto-Mycenaean texts"
+ 
+ syro_hellenic: "Syriac"
+ syro_hellenic_collective_noun: "Syrians"
+ syro_hellenic_prefix: "Syro"
