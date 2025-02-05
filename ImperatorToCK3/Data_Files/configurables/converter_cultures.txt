@@ -292,6 +292,7 @@ non_indo_european_iberian = {
 	clothing_gfx = { western_clothing_gfx }
 	unit_gfx = { mena_unit_gfx }
 }
+
 nuragic = {
     INVALIDATED_BY = {
 		tfe = { nuragic }
@@ -945,6 +946,47 @@ italiote = {
 		tradition_swords_for_hire
 	}
 	ethos = ethos_communal
+}
+
+syro_hellenic = {
+    INVALIDATED_BY = {
+		tfe = { syro_hellenic }
+		roa = { syro_hellenic }
+		wtwsms = { syro_hellenic }
+		vanilla = { syro_hellenic }
+	}
+    
+	parents = { macedonian assyrian }
+	created = 2.1.1
+	heritage = heritage_byzantine
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			language = language_doric # https://en.wikipedia.org/wiki/Ancient_Macedonians: They spoke Ancient Macedonian, which is usually classified by scholars as a dialect of Northwest Doric Greek
+		} ELSE = {
+			language = language_greek # IRToCK3: moved from language_ancient_greek
+		}
+	}
+
+	coa_gfx = { byzantine_group_coa_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	unit_gfx = { eastern_unit_gfx }
+
+	color = rgb { 103 145 255 }
+	name_list = name_list_ancient_greek
+	name_list = name_list_assyrian
+	ethnicities = {
+		10 = mediterranean_byzantine
+		10 = arab
+	}
+	martial_custom = martial_custom_male_only
+
+	traditions = {
+		tradition_by_the_sword
+		tradition_religion_blending
+		tradition_philosopher_culture
+	}
+	ethos = ethos_bureaucratic
 }
 
 pemis = {

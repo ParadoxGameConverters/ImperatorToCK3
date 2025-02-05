@@ -18,3 +18,67 @@
  taliaite_name: "Taliaite"
  taliaite_collective_noun: "Taliaites"
  taliaite_prefix: "Taliai"
+
+ eudaimonian_name: "Eudaimonian"
+ eudaimonian_collective_noun: "Eudaimonians"
+ eudaimonian_prefix: "Eudaemono"
+
+ thiluan_name: "Thiluan"
+ thiluan_collective_noun: "Thiluans"
+ thiluan_prefix: "Thiluo"
+
+ heremitic_name: "Heremitic"
+ heremitic_collective_noun: "Heremits"
+ heremitic_prefix: "Heremo"
+
+ leukaethiopian_name: "Leukaethiopian"
+ leukaethiopian_collective_noun: "Leukaethiopians"
+ leukaethiopian_prefix: "Leukethiopo"
+
+ paraethiopian_name: "Paraethiopian"
+ paraethiopian_collective_noun: "Paraethiopians"
+ paraethiopian_prefix: "Paraethiopo"
+
+ pyrrhic_name: "Pyrrhic"
+ pyrrhic_collective_noun: "Pyrrhians"
+ pyrrhic_prefix: "Pyrrho"
+
+ eumenidian_name: "Eumenidian"
+ eumenidian_collective_noun: "Eumenidians"
+ eumenidian_prefix: "Eumenido"
+
+ seleucian_name: "Seleucian"
+ seleucian_collective_noun: "Seleucians"
+ seleucian_prefix: "Seleuco"
+
+ sikandrian_name: "Sikandrian"
+ sikandrian_collective_noun: "Sikandrians"
+ sikandrian_prefix: "Sikandro"
+
+ tichopoetic_name: "Tichopoetic"
+ tichopoetic_collective_noun: "Tichopoets"
+ tichopoetic_prefix: "Ticho"
+
+ eschatian_name: "Eschatian"
+ eschatian_collective_noun: "Eschatians"
+ eschatian_prefix: "Eschato"
+
+ trojan_name: "Trojan"
+ trojan_collective_noun: "Trojans"
+ trojan_prefix: "Trojo"
+
+ coptic_name: "Coptic"
+ coptic_collective_noun: "Copts"
+ coptic_prefix: "Copto"
+
+ ptolemaic_name: "Ptolemaic"
+ ptolemaic_collective_noun: "Ptolemains"
+ ptolemaic_prefix: "Ptolemo"
+
+ egyptian_name: "Misri"
+ egyptian_collective_noun: "Misris"
+ egyptian_prefix: "Egypto"
+
+ pergamene_name: "Pergamene"
+ pergamene_collective_noun: "Pergameans"
+ pergamene_prefix: "Pergameno"
