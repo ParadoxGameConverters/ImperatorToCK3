@@ -1,6 +1,7 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -61,9 +62,7 @@ public sealed class ReligionCollection : IdObjectCollection<string, Religion> {
 			var databaseParser = new Parser();
 			databaseParser.RegisterRegex(CommonRegexes.Integer, (reader, holySiteIdStr) => {
 				var holySiteId = ulong.Parse(holySiteIdStr);
-				var assignmentsDict = reader.GetAssignments()
-					.GroupBy(a => a.Key)
-					.ToDictionary(g => g.Key, g => g.Last().Value);
+				var assignmentsDict = reader.GetAssignmentsAsDict();
 				if (assignmentsDict.TryGetValue("deity", out var deityIdWithQuotes)) {
 					holySiteIdToDeityIdDict[holySiteId] = deityIdWithQuotes.RemQuotes();
 				} else {

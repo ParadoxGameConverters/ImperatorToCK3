@@ -1153,9 +1153,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterKeyword("de_jure_drift_disabled", reader => DeJureDriftDisabled = reader.GetBool());
 		parser.RegisterKeyword("can_be_named_after_dynasty", reader => CanBeNamedAfterDynasty = reader.GetBool());
 		parser.RegisterKeyword("male_names", reader => MaleNames = reader.GetStrings());
-		parser.RegisterKeyword("cultural_names", reader => CulturalNames = reader.GetAssignments()
-			.GroupBy(a => a.Key)
-			.ToDictionary(g => g.Key, g => g.Last().Value));
+		parser.RegisterKeyword("cultural_names", reader => CulturalNames = reader.GetAssignmentsAsDict());
 
 		parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 			IgnoredTokens.Add(token);
