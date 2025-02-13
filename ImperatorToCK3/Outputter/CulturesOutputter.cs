@@ -20,15 +20,18 @@ namespace ImperatorToCK3.Outputter;
 internal static class CulturesOutputter {
 	public static async Task OutputCultures(string outputModPath, CultureCollection cultures, ModFilesystem ck3ModFS, Configuration config, Date date) {
 		Logger.Info("Outputting cultures...");
-
-		var sb = new StringBuilder();
-		foreach (var culture in cultures) {
-			sb.AppendLine($"{culture.Id}={PDXSerializer.Serialize(culture)}");
+		
+		// Output cultures grouped by heritage.
+		foreach (var group in cultures.GroupBy(c => c.Heritage)) {
+			var sb = new StringBuilder();
+			foreach (var culture in group) {
+				sb.AppendLine($"{culture.Id}={PDXSerializer.Serialize(culture)}");
+			}
+			
+			var outputPath = Path.Combine(outputModPath, $"common/culture/cultures/IRtoCK3_{group.Key.Id}.txt");
+			await using var output = FileHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
+			await output.WriteAsync(sb.ToString());
 		}
-
-		var outputPath = Path.Combine(outputModPath, "common/culture/cultures/IRtoCK3_all_cultures.txt");
-		await using var output = FileHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
-		await output.WriteAsync(sb.ToString());
 
 		await OutputCultureHistory(outputModPath, cultures, date);
 
