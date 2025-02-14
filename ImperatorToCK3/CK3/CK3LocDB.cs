@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Localization;
+using Murmur;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -83,6 +84,15 @@ public class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 				return locBlock;
 			}
 			
+			// Check for hash collision.
+			var murmur3A = MurmurHash.Create32();
+			var hashStr = GetHashStrForKey(murmur3A, id);
+			if (hashToKeyDict.TryGetValue(hashStr, out var existingKey)) {
+				Logger.Warn($"Hash collision detected for loc key: {id}. Existing key: {existingKey}");
+			} else {
+				hashToKeyDict[hashStr] = id;
+			}
+			
 			// Create new loc block.
 			locBlock = new CK3LocBlock(id, ConverterGlobals.PrimaryLanguage);
 			Add(locBlock);
@@ -144,4 +154,17 @@ public class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 		
 		return locLinesToOutput;
 	}
+	
+	public bool KeyHasConflictingHash(string key) {
+		var murmur3A = MurmurHash.Create32();
+		return hashToKeyDict.ContainsKey(GetHashStrForKey(murmur3A, key));
+	}
+
+	private string GetHashStrForKey(Murmur32 murmur32, string key) {
+		var keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
+		var hash = murmur32.ComputeHash(keyBytes);
+		return string.Join("", hash.Select(b => b.ToString("X2")));
+	}
+	
+	private readonly Dictionary<string, string> hashToKeyDict = new(); // stores MurmurHash3A hash to key mapping
 }
