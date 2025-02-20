@@ -5562,11 +5562,11 @@ elamite_religion = { # from Bronze Age Reborn mod
 		WaterGodHerHim = CHARACTER_HERHIM_HIM
 		
 		#SunGod
-		SunGodName = elamite_sun_god_name
-		SunGodNamePossessive = elamite_sun_god_name_possessive
-		SunGodSheHe = CHARACTER_SHEHE_HE
-		SunGodHerHis = CHARACTER_HERHIS_HIS
-		SunGodHerHim = CHARACTER_HERHIM_HIM
+		#SunGodName = elamite_sun_god_name
+		#SunGodNamePossessive = elamite_sun_god_name_possessive
+		#SunGodSheHe = CHARACTER_SHEHE_HE
+		#SunGodHerHis = CHARACTER_HERHIS_HIS
+		#SunGodHerHim = CHARACTER_HERHIM_HIM
 		
 		GoodGodNames = { 
 			elamite_high_god_name 
