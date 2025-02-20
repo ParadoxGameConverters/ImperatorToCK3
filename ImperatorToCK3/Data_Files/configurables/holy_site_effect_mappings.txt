@@ -1,7 +1,6 @@
 #
-# Mapping of Imperator Religion Modifier + Deity Passive Effect -> CK3 Effect
-#
-# This is used for conversion of Holy Sites.
+# Originally mappings of I:R Religion Modifier + Deity Passive Effect -> CK3 Effect (meant to be used for conversion of Holy Sites).
+# Now also used for conversion of I:R treasures to CK3 artifacts.
 #
 
 link = { ir = global_citizen_happyness ck3 = county_opinion_add factor = 100 }
@@ -71,3 +70,7 @@ link = { ir = war_exhaustion ck3 = tyranny_loss_mult factor = -10 }
 link = { ir = monthly_legitimacy ck3 = monthly_prestige_gain_mult factor = 1 }
 link = { ir = monthly_experience_gain ck3 = monthly_martial_lifestyle_xp_gain_mult factor = 1 }
 link = { ir = monthly_wage_modifier ck3 = vassal_opinion factor = -100 }
+
+# additional mappings for artifacts
+link = { ir = local_citizen_happyness ck3 = county_opinion_add factor = 100 }
+# TODO: add mappings for the rest
