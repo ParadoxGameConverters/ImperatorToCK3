@@ -46,7 +46,7 @@
         <PackageReference Include="PGCG.commonItems" Version="15.1.6" />
         <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.8"/>
         <PackageReference Include="Polly" Version="8.5.2" />
-        <PackageReference Include="Roslynator.Analyzers" Version="4.13.0">
+        <PackageReference Include="Roslynator.Analyzers" Version="4.13.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
