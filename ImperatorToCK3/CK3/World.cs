@@ -191,6 +191,8 @@ internal sealed class World {
 				Logger.Info("Loaded converter faiths.");
 				Logger.IncrementProgress();
 				Religions.RemoveChristianAndIslamicSyncretismFromAllFaiths();
+				// Now that all the faiths are loaded, remove liege entries from the history of religious head titles.
+				LandedTitles.RemoveLiegeEntriesFromReligiousHeadHistory(Religions);
 				
 				Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
 				Logger.Info("Loaded replaceable holy sites.");
@@ -1132,6 +1134,8 @@ internal sealed class World {
 			{"dlc014.dlc", "roads_to_power"},
 			{"dlc015.dlc", "wandering_nobles"},
 			{"dlc016.dlc", "west_slavic_attire"},
+			{"dlc017.dlc", "medieval_monuments"},
+			{"dlc018.dlc", "arctic_attire"},
 		};
 		
 		var dlcFiles = Directory.GetFiles(dlcFolderPath, "*.dlc", SearchOption.AllDirectories);
