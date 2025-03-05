@@ -191,6 +191,8 @@ internal sealed class World {
 				Logger.Info("Loaded converter faiths.");
 				Logger.IncrementProgress();
 				Religions.RemoveChristianAndIslamicSyncretismFromAllFaiths();
+				// Now that all the faiths are loaded, remove liege entries from the history of religious head titles.
+				LandedTitles.RemoveLiegeEntriesFromReligiousHeadHistory(Religions);
 				
 				Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
 				Logger.Info("Loaded replaceable holy sites.");

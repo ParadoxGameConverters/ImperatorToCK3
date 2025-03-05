@@ -1760,5 +1760,20 @@ internal sealed partial class Title {
 			
 			Logger.Debug($"Set coats of arms for {counter} CK3 titles.");
 		}
+
+		public void RemoveLiegeEntriesFromReligiousHeadHistory(ReligionCollection religions) {
+			var religiousHeadTitleIds = religions.Faiths
+				.Select(f => f.ReligiousHeadTitleId)
+				.Distinct()
+				.Where(id => id is not null)
+				.Select(id => id!);
+			foreach (var religiousHeadTitleId in religiousHeadTitleIds) {
+				if (!TryGetValue(religiousHeadTitleId, out var religiousHeadTitle)) {
+					continue;
+				}
+				
+				religiousHeadTitle.History.Fields.Remove("liege");
+			}
+		}
 	}
 }
