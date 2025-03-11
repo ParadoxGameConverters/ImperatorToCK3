@@ -39,7 +39,13 @@ internal sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> 
 
 	public Dynasty(CK3.Characters.Character character, string irFamilyName, ImperatorCharacter[] irMembers, CulturesDB irCulturesDB, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
 		FromImperator = true;
-		Id = $"dynn_irtock3_from_{character.Id}";
+
+		string id = $"dynn_irtock3_from_{character.Id}";
+		uint counter = 0;
+		while (ck3LocDB.KeyHasConflictingHash(id)) {
+			id = $"dynn_irtock3_from_{character.Id}_{counter++}";
+		}
+		Id = id;
 		Name = Id;
 
 		CultureId = character.GetCultureId(date) ?? character.Father?.GetCultureId(date);

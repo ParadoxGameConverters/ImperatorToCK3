@@ -119,8 +119,7 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 			}
 		});
 		pillarDataParser.RegisterKeyword("parameters", reader => {
-			pillarData.Parameters = reader.GetAssignments()
-				.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+			pillarData.Parameters = reader.GetAssignmentsAsDict();
 		});
 		pillarDataParser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
 			pillarData.Attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
