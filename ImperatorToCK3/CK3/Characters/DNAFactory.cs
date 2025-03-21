@@ -156,7 +156,7 @@ internal sealed class DNAFactory {
 		}
 		
 		// Convert eye accessories.
-		const string blindfoldGeneId = "special_headgear_blindfold";
+		const string blindfoldGeneId = "special_headgear_spectacles";
 		const string blindfoldTemplateId = "blindfold";
 		var irEyeAccessoryGeneTemplateName = irPortraitData.AccessoryGenesDict["eye_accessory"].GeneTemplate;
 		switch (irEyeAccessoryGeneTemplateName) {
@@ -164,11 +164,11 @@ internal sealed class DNAFactory {
 				break;
 			case "eyepatch_1":
 			case "eyepatch_2": // TODO: check if this is correctly added to portrait modifiers if needed
-				var eyePatchTemplate = ck3GenesDB.SpecialAccessoryGenes["special_headgear_eye_patch"]
+				var eyePatchTemplate = ck3GenesDB.SpecialAccessoryGenes["special_headgear_spectacles"]
 					.GeneTemplates["eye_patch"];
 				if (eyePatchTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? eyePatchWeightBlock)) {
 					var eyePatchObjectName = eyePatchWeightBlock.GetMatchingObject(1) ?? eyePatchWeightBlock.ObjectNames.Last();
-					accessoryDNAValues["special_headgear_eye_patch"] = new(eyePatchTemplate.Id, eyePatchObjectName, eyePatchWeightBlock);
+					accessoryDNAValues["special_headgear_spectacles"] = new(eyePatchTemplate.Id, eyePatchObjectName, eyePatchWeightBlock);
 				}
 
 				break;
@@ -225,11 +225,11 @@ internal sealed class DNAFactory {
 				accessoryDNAValues[blindfoldGeneId] = new(blindfoldTemplate.Id, blindfoldObjectName, blindfoldWeighBlock); // TODO: check if this is correctly added to portrait modifiers if needed
 			}
 		} else if (irCharacter.Traits.Contains("one_eyed")) {
-			var eyePatchTemplate = ck3GenesDB.SpecialAccessoryGenes["special_headgear_eye_patch"]
+			var eyePatchTemplate = ck3GenesDB.SpecialAccessoryGenes["special_headgear_spectacles"]
 				.GeneTemplates["eye_patch"];
 			if (eyePatchTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? eyePatchWeighBlock)) {
 				var eyePatchObjectName = eyePatchWeighBlock.GetMatchingObject(1) ?? eyePatchWeighBlock.ObjectNames.Last();
-				accessoryDNAValues["special_headgear_eye_patch"] = new(eyePatchTemplate.Id, eyePatchObjectName, eyePatchWeighBlock); // TODO: check if this is correctly added to portrait modifiers if needed
+				accessoryDNAValues["special_headgear_spectacles"] = new(eyePatchTemplate.Id, eyePatchObjectName, eyePatchWeighBlock); // TODO: check if this is correctly added to portrait modifiers if needed
 			}
 		}
 

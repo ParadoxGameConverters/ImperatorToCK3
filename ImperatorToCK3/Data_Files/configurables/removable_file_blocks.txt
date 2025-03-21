@@ -4005,7 +4005,10 @@ bookmark.1069 = {
 				change_government = theocracy_government
 			}
 		}
-		fire_councillor = character:528
+		if = {
+			limit = { character:528 = { is_councillor_of = root } }
+			fire_councillor = character:528
+		}
 		assign_councillor_type = {
 			type = councillor_court_chaplain
 			remove_existing_councillor = yes
@@ -6058,6 +6061,13 @@ game_rule.1143 = {
 				value = 1.0 
 			}
 			accessory = {
+				mode = add
+				gene = hairstyles
+				template = fp1_hairstyles_wavy
+				value = 0.0 # Please replace with accessory = accessory_name
+				#accessory = female_hair_fp1_02
+			}
+			accessory = {
 				mode = add			  
 				gene = cloaks
 				template = fp1_cloak
@@ -7608,19 +7618,6 @@ game_rule.1143 = {
 		}   
 		weight = {
 			base = 0
-
-			modifier = {
-				add = 999
-				exists = this
-				exists = character:easteregg_elisabeth_gangenes
-				this = character:easteregg_elisabeth_gangenes
-			}
-			modifier = {
-				add = 999
-				exists = this
-				exists = character:easteregg_lucia_dzediti
-				this = character:easteregg_lucia_dzediti
-			}
 		}
 	}
 
@@ -9895,7 +9892,7 @@ hasan_found_the_assassins = {
 #############################################
 hasan_expand_the_assassins = {
 	picture = {
-		reference = "gfx/interface/illustrations/decisions/fp3/fp3_decision_foundation.dds"
+		reference = "gfx/interface/illustrations/decisions/decision_legitimacy.dds"
 	}
 	sort_order = 500
 	ai_check_interval = 120
