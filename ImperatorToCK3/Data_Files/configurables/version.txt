@@ -1,9 +1,9 @@
 # Version info
 
-name = "Trajan"
+name = "Hadrian"
 source = "Imperator"
 minSource = "2.0"
 maxSource = "2.0"
 target = "CK3"
-minTarget = "1.14"
+minTarget = "1.15"
 maxTarget = "1.15"
