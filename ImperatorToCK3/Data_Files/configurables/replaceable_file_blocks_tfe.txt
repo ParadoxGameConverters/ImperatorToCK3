@@ -1369,25 +1369,6 @@ texture = "gfx/portraits/accessory_variations/textures/color_palette_fp2_iberian
 }
 
 
-"history/characters/herulian.txt" = {
-	# No value for employer entry in TFE as of the 2025-01-27 update.
-	replace = {
-		before = {
-	532.1.1 = {
-		add_pressed_claim = title:k_heruli
-		employer = 
-	}
-		} # end of before
-
-		after = {
-	532.1.1 = {
-		add_pressed_claim = title:k_heruli
-	}
-		}
-	}
-}
-
-
 "common/dynasties/TFE_dynasties.txt" = {
 	# No gaetuli culture in TFE as of the 'After the Pharaohs' update.
 	replace = {
