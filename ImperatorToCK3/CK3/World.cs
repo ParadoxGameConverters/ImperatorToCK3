@@ -1136,6 +1136,7 @@ internal sealed class World {
 			{"dlc016.dlc", "west_slavic_attire"},
 			{"dlc017.dlc", "medieval_monuments"},
 			{"dlc018.dlc", "arctic_attire"},
+			{"dlc019.dlc", "crowns_of_the_world"},
 		};
 		
 		var dlcFiles = Directory.GetFiles(dlcFolderPath, "*.dlc", SearchOption.AllDirectories);
