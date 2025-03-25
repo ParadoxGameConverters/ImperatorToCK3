@@ -559,7 +559,7 @@ language_gaulish = {
 	}
     
 	MOD_DEPENDENT = {
-		IF roa = {
+		IF @[tfe|roa] = {
 			parameters = {
 				language_group_celtic = yes
 				language_family_indo_european = yes
@@ -570,11 +570,11 @@ language_gaulish = {
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
-		LANGUAGE = language_gaulish
+			LANGUAGE = language_gaulish
 		}
 	}
 	MOD_DEPENDENT = {
-		IF roa = {
+		IF @[tfe|roa] = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -642,7 +642,7 @@ language_oscan = {
 				language_branch_italic = yes
 				language_family_indo_european = yes
 			}
-		} ELSE_IF roa = {
+		} ELSE_IF @[roa|tfe] = {
 			parameters = {
 				language_group_italic = yes
 				language_family_indo_european = yes
@@ -674,7 +674,7 @@ language_oscan = {
 					multiply = same_language_family_choice_factor
 				}
 			}
-		} ELSE_IF roa = {
+		} ELSE_IF @[roa|tfe] = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -717,7 +717,7 @@ language_samnite = {
 				language_branch_italic = yes
 				language_family_indo_european = yes
 			}
-		} ELSE_IF roa = {
+		} ELSE_IF @[roa|tfe] = {
 			parameters = {
 				language_group_italic = yes
 				language_family_indo_european = yes
@@ -749,7 +749,7 @@ language_samnite = {
 					multiply = same_language_family_choice_factor
 				}
 			}
-		} ELSE_IF roa = {
+		} ELSE_IF @[roa|tfe] = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -792,7 +792,7 @@ language_ligustic = {
 				language_branch_italic = yes
 				language_family_indo_european = yes
 			}
-		} ELSE_IF roa = {
+		} ELSE_IF @[roa|tfe] = {
 			parameters = {
 				language_group_italic = yes
 				language_family_indo_european = yes
@@ -824,7 +824,7 @@ language_ligustic = {
 					multiply = same_language_family_choice_factor
 				}
 			}
-		} ELSE_IF roa = {
+		} ELSE_IF @[roa|tfe] = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -867,7 +867,7 @@ language_messapic = {
 				language_branch_italic = yes
 				language_family_indo_european = yes
 			}
-		} ELSE_IF roa = {
+		} ELSE_IF @[roa|tfe] = {
 			parameters = {
 				language_group_italic = yes
 				language_family_indo_european = yes
@@ -899,7 +899,7 @@ language_messapic = {
 					multiply = same_language_family_choice_factor
 				}
 			}
-		} ELSE_IF roa = {
+		} ELSE_IF @[roa|tfe] = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -942,7 +942,7 @@ language_sardonian = {
 				language_branch_italic = yes
 				language_family_indo_european = yes
 			}
-		} ELSE_IF roa = {
+		} ELSE_IF @[roa|tfe] = {
 			parameters = {
 				language_group_italic = yes
 				language_family_indo_european = yes
@@ -974,7 +974,7 @@ language_sardonian = {
 					multiply = same_language_family_choice_factor
 				}
 			}
-		} ELSE_IF roa = {
+		} ELSE_IF @[roa|tfe] = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -1017,7 +1017,7 @@ language_siculian = {
 				language_branch_italic = yes
 				language_family_indo_european = yes
 			}
-		} ELSE_IF roa = {
+		} ELSE_IF @[roa|tfe] = {
 			parameters = {
 				language_group_italic = yes
 				language_family_indo_european = yes
@@ -1049,7 +1049,7 @@ language_siculian = {
 					multiply = same_language_family_choice_factor
 				}
 			}
-		} ELSE_IF roa = {
+		} ELSE_IF @[roa|tfe] = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -1622,10 +1622,21 @@ language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/shared
 		vanilla = { language_palaungic }
 	}
 	
-	parameters = {
-		language_branch_palaungic = yes
-		language_family_austro_asiatic = yes  # already exists in WtWSMS
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				language_group_mon_khmer = yes
+				language_family_austroasiatic = yes 		
+			}
+		}
+		ELSE = {
+			parameters = {
+				language_branch_palaungic = yes
+				language_family_austro_asiatic = yes  # already exists in WtWSMS
+			}
+		}
 	}
+	
     
 	type = language
 	is_shown = {
@@ -1635,7 +1646,24 @@ language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/shared
 	}
 	
 	MOD_DEPENDENT = {
-		IF wtwsms = {
+		IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_palaungic }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_mon_khmer }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_austroasiatic }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE_IF wtwsms = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -1677,7 +1705,13 @@ language_chong = {
 		}
 	}
 	MOD_DEPENDENT = {
-		IF wtwsms = {
+		IF tfe = {
+			parameters = {
+				language_group_mon_khmer = yes
+				language_family_austroasiatic = yes
+			}
+		}
+		ELSE_IF wtwsms = {
 			parameters = {
 				language_branch_pearic = yes
 				language_family_austro_asiatic = yes
@@ -1685,7 +1719,24 @@ language_chong = {
 		}
 	}
 	MOD_DEPENDENT = {
-		IF wtwsms = {
+		IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_palaungic }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_mon_khmer }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_austroasiatic }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE_IF wtwsms = {
 			ai_will_do = {
 				value = 10
 				if = {

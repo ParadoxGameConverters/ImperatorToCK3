@@ -16,7 +16,8 @@ gelonian = {
 	heritage = heritage_byzantine
 	language = language_scythian
 	parents = { hellenistic scythian }
-	created = -600.1.1 #needs to be BC
+	#created = -600.1.1 #needs to be BC
+	created = 2.1.1 # BC dates are not supported here as of CK3 1.15
 	ethos = ethos_bellicose
 
 	name_list = name_list_scythian #might consider adding in ancient greek well)
@@ -36,19 +37,43 @@ gelonian = {
 		4 = arab 
 	}
 
-	coa_gfx = {
-		steppe_coa_gfx
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture steppe_coa_gfx in moksha doesn't match existing sequence in gelonian"
+			coa_gfx = { steppe_coa_gfx volga_finnic_group_coa_gfx }
+		}
+		ELSE = {
+			coa_gfx = { steppe_coa_gfx }
+		}
 	}
+
 	building_gfx = {
 		steppe_building_gfx	
 	}
-	clothing_gfx = {
-		mongol_clothing_gfx
-		byzantine_clothing_gfx
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture mongol_clothing_gfx in saragur doesn't match existing sequence in gelonian"
+			clothing_gfx = { mongol_clothing_gfx }
+		}
+		ELSE = {
+			clothing_gfx = {
+				mongol_clothing_gfx
+				byzantine_clothing_gfx
+			}
+		}
 	}
-	unit_gfx = { 
-		mongol_unit_gfx 
-		eastern_unit_gfx
+
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture mongol_unit_gfx in saragur doesn't match existing sequence in gelonian"
+			unit_gfx = { mongol_unit_gfx }
+		}
+		ELSE = {
+			unit_gfx = { 
+				mongol_unit_gfx 
+				eastern_unit_gfx
+			}
+		}
 	}
 }
 
