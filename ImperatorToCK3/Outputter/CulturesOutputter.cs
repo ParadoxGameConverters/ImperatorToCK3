@@ -21,14 +21,35 @@ internal static class CulturesOutputter {
 	public static async Task OutputCultures(string outputModPath, CultureCollection cultures, ModFilesystem ck3ModFS, Configuration config, Date date) {
 		Logger.Info("Outputting cultures...");
 
-		var sb = new StringBuilder();
-		foreach (var culture in cultures) {
-			sb.AppendLine($"{culture.Id}={PDXSerializer.Serialize(culture)}");
+		var culturesList = cultures.ToList();
+		
+		// Make sure parent cultures are output before their children.
+		// For every culture, check the last index of a parent culture in the list.
+		// If the last parent's index is greater than the current culture's index, swap the two.
+		for (var i = 0; i < culturesList.Count; ++i) {
+			var culture = culturesList[i];
+			
+			if (culture.ParentCultureIds.Count == 0) {
+				continue;
+			}
+			
+			var lastParentIndex = culturesList.FindLastIndex(c => culture.ParentCultureIds.Contains(c.Id));
+			if (lastParentIndex > i) {
+				(culturesList[i], culturesList[lastParentIndex]) = (culturesList[lastParentIndex], culturesList[i]);
+			}
 		}
-
-		var outputPath = Path.Combine(outputModPath, "common/culture/cultures/IRtoCK3_all_cultures.txt");
-		await using var output = FileHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
-		await output.WriteAsync(sb.ToString());
+		
+		// Output cultures grouped by heritage.
+		foreach (var group in culturesList.GroupBy(c => c.Heritage)) {
+			var sb = new StringBuilder();
+			foreach (var culture in group) {
+				sb.AppendLine($"{culture.Id} = {PDXSerializer.Serialize(culture)}");
+			}
+			
+			var outputPath = Path.Combine(outputModPath, $"common/culture/cultures/{group.Key.Id}.txt");
+			await using var output = FileHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
+			await output.WriteAsync(sb.ToString());
+		}
 
 		await OutputCultureHistory(outputModPath, cultures, date);
 

@@ -1369,19 +1369,180 @@ texture = "gfx/portraits/accessory_variations/textures/color_palette_fp2_iberian
 }
 
 
-"history/characters/herulian.txt" = {
-	# No value for employer entry in TFE as of the 2025-01-27 update.
+"common/dynasties/TFE_dynasties.txt" = {
+	# No gaetuli culture in TFE as of the 'After the Pharaohs' update.
 	replace = {
 		before = {
-	532.1.1 = {
-		add_pressed_claim = title:k_heruli
-		employer = 
+himyar_dynasty = {
+	name = "dynn_Himyar"
+	culture = "gaetuli"
+}
+gaetuli_dynasty = {
+	name = "dynn_Gaetuli"
+	culture = "gaetuli"
+}
+		} # end of before
+		
+		after = {
+himyar_dynasty = {
+	name = "dynn_Himyar"
+	culture = "gaetulian"
+}
+gaetuli_dynasty = {
+	name = "dynn_Gaetuli"
+	culture = "gaetulian"
+}
+		} # end of after
+	}
+
+	# No alammanic culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = "alammanic"
+		} # end of before
+		after = {
+	culture = alamannic
+		} # end of after
+	}
+
+	# No alemannic culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = alemannic
+		} # end of before
+		after = {
+	culture = alamannic
+		} # end of after
+	}
+
+	# No Romano-Gallic culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = "Romano-Gallic"
+		} # end of before
+		after = {
+	culture = gallo_roman
+		} # end of after
+	}
+
+	# No yaziges culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = yaziges
+		} # end of before
+		after = {
+	culture = yazige
+		} # end of after
+	}
+
+	# No romano_briton culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = "romano_briton"
+		} # end of before
+		after = {
+	culture = britano_roman
+		} # end of after
+	}
+
+	# No Hephthalite (uppercase) culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = "Hephthalite"
+		} # end of before
+		after = {
+	culture = hephthalite
+		} # end of after
+	}
+
+	# No nabataean culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = "nabataean"
+		} # end of before
+		after = {
+	culture = nabatean
+		} # end of after
+	}
+
+	# No suebian culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = "suebian"
+		} # end of before
+		after = {
+	culture = suebi
+		} # end of after
+	}
+
+	# No gautish culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = gautish
+		} # end of before
+		after = {
+	culture = norse
+		} # end of after
+	}
+}
+
+
+"common/culture/name_lists/00_magyar.txt" = {
+	# Name lists should not contain commas.
+	replace = {
+		before = {
+	male_names = {
+		Agg, Agmánd, Álmos, Árpád, Ákos, Apor, Atyás, Bahatur, Bal, Beled, Bika, Bodor, Bogát, Botond, Bugardi, Büvész, Bölcs, Bulcsu, Csanád, Csalka, Csep, 
+		Csepke, Chepke, Chunad, Churba, Csák, Csoma, Csomó, Csongor, Csök, Cusid, Doboka, Elek, Elemér, Előd, Ellenes, Endre, Édes, Erős, Ete, Farcas, Fekete, 
+		Feketédi, Feketeydi, Fehér, Fehérsa, Fene, Fényes, Fergudi, File, Fitos, Fodor, Fakó, Gonosz, Guta, Gyula, Gyejcsa, Halaldi, Hamar, Haragos  Hokus, Hóka, 
+		Hyduand, Hős, Jenő, Joember, Jovlegen, Kacs, Kalán, Kálmán, Karuly, Kese, Kond, Koppány, Keserő, Kosid, Lél, Levente, Maglód, Markos, Mauog, Medeu, Medue, 
+		Mocskos, Nagod, Nagy, Nagyod, Nagyos, Nemze, Nogiud, Numel, Numwog, Ond, Ögyek, Őse, Puha, Ruoz, Siket, Szabolcs, Szalók, Szög, Szoárd, Szőke, Táltos, Taksony, 
+		Tas, Turul, Urkond, Urkún, Vad, Vas, Vazul, Vrvmedi, Zacal, Zemdy, Zoltán
+	}
+	female_names = {
+		Agg, Angyalka, Anyás, Aranka, Bal, Banya, Bölcs, Bodor, Bugardi, Büvész, Chunad, Churba, Chepke, Csalka, Csep, Csepke, Csillag, Csoma, Csomó, Csök, Cusid, Draga, 
+		Edlelmes, Édes, Ellenes, Emse, Erős, Feketédi, Feketeydi, Fekete, Fehér, Fehérsa, Fene, Fergudi, File, Fényes, Fitos, Fodor, Genuruch, Gonosz, Guta, Gyöngy, Hajnal, 
+		Halaldi, Hamar, haragos, Hóka, Hős, Hyduand, Jolyan, Kacs, Kese, Keserő, Markos, Mauog, Medeu, Mocskos, Nagy, Nagyod, Nagyos, Nesta, Nogiud, Nuuz, Numel, Numwog, Ördöng, 
+		Puha, Sarolt, Scepa, Siket, Szög, Szőke, Táltos, Tündér, Turul, Vad, Vas, Virág, Vnee, Vrumes, Vrvmedi, Zemdy
 	}
 		} # end of before
 
 		after = {
-	532.1.1 = {
-		add_pressed_claim = title:k_heruli
+	male_names = {
+		Agg Agmánd Álmos Árpád Ákos Apor Atyás Bahatur Bal Beled Bika Bodor Bogát Botond Bugardi Büvész Bölcs Bulcsu Csanád Csalka Csep 
+		Csepke Chepke Chunad Churba Csák Csoma Csomó Csongor Csök Cusid Doboka Elek Elemér Előd Ellenes Endre Édes Erős Ete Farcas Fekete 
+		Feketédi Feketeydi Fehér Fehérsa Fene Fényes Fergudi File Fitos Fodor Fakó Gonosz Guta Gyula Gyejcsa Halaldi Hamar Haragos  Hokus Hóka 
+		Hyduand Hős Jenő Joember Jovlegen Kacs Kalán Kálmán Karuly Kese Kond Koppány Keserő Kosid Lél Levente Maglód Markos Mauog Medeu Medue 
+		Mocskos Nagod Nagy Nagyod Nagyos Nemze Nogiud Numel Numwog Ond Ögyek Őse Puha Ruoz Siket Szabolcs Szalók Szög Szoárd Szőke Táltos Taksony 
+		Tas Turul Urkond Urkún Vad Vas Vazul Vrvmedi Zacal Zemdy Zoltán
+	}
+	female_names = {
+		Agg Angyalka Anyás Aranka Bal Banya Bölcs Bodor Bugardi Büvész Chunad Churba Chepke Csalka Csep Csepke Csillag Csoma Csomó Csök Cusid Draga 
+		Edlelmes Édes Ellenes Emse Erős Feketédi Feketeydi Fekete Fehér Fehérsa Fene Fergudi File Fényes Fitos Fodor Genuruch Gonosz Guta Gyöngy Hajnal 
+		Halaldi Hamar haragos Hóka Hős Hyduand Jolyan Kacs Kese Keserő Markos Mauog Medeu Mocskos Nagy Nagyod Nagyos Nesta Nogiud Nuuz Numel Numwog Ördöng 
+		Puha Sarolt Scepa Siket Szög Szőke Táltos Tündér Turul Vad Vas Virág Vnee Vrumes Vrvmedi Zemdy
+	}
+		} # end of after
+	}
+}
+
+
+"common/culture/traditions/TFE_combat_traditions.txt" = {
+	# from ck3-tiger:
+	# file or directory gfx/interface/icons/culture_tradition/1-pattern/medi does not exist
+	replace = {
+		before = {
+	layers = {
+		0 = martial
+		1 = medi
+		4 = soldiers3.dds
+	}
+		}
+		after = {
+	layers = {
+		0 = martial
+		1 = mediterranean
+		4 = soldiers3.dds
 	}
 		}
 	}

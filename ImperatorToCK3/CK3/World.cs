@@ -141,8 +141,9 @@ internal sealed class World {
 				Cultures = new CultureCollection(ck3ColorFactory, CulturalPillars, ck3ModFlags);
 				Cultures.LoadNameLists(ModFS);
 				Cultures.LoadInnovationIds(ModFS);
-				Cultures.LoadCultures(ModFS);
-				Cultures.LoadConverterCultures("configurables/converter_cultures.txt");
+				Cultures.LoadCultures(ModFS, config);
+				Cultures.LoadConverterCultures("configurables/converter_cultures.txt", config);
+				Cultures.WarnAboutCircularParents();
 				Logger.IncrementProgress();
 			},
 			() => LoadMenAtArmsTypes(ModFS, ScriptValues), // depends on ScriptValues
@@ -1151,6 +1152,7 @@ internal sealed class World {
 			{"dlc016.dlc", "west_slavic_attire"},
 			{"dlc017.dlc", "medieval_monuments"},
 			{"dlc018.dlc", "arctic_attire"},
+			{"dlc019.dlc", "crowns_of_the_world"},
 		};
 		
 		var dlcFiles = Directory.GetFiles(dlcFolderPath, "*.dlc", SearchOption.AllDirectories);

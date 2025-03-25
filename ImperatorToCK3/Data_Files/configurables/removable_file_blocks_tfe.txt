@@ -9850,6 +9850,10 @@ vandalic_war_cb = {
 	on_declaration = {
 		on_declared_war = yes
 		scope:attacker = {
+			add_character_flag = {
+				flag = titles_protected
+				years = 5
+			}
 			capital_county = {
 				add_county_modifier = { modifier = roman_camps years = 5 }
 			}
@@ -9984,6 +9988,7 @@ vandalic_war_cb = {
 	
 	on_invalidated = {
 		scope:attacker = {
+			remove_character_flag = titles_protected
 			limit = { has_title = title:d_belisarius_expedition }
 			scope:attacker = {destroy_title = title:d_belisarius_expedition }
 			add_character_flag = STOP_ADMIN
@@ -10024,6 +10029,7 @@ vandalic_war_cb = {
 			}
 		}
 		scope:attacker = {
+			remove_character_flag = titles_protected
 			limit = { has_title = title:d_belisarius_expedition }
 			scope:attacker = {destroy_title = title:d_belisarius_expedition }
 			add_character_flag = STOP_ADMIN
@@ -10215,6 +10221,7 @@ vandalic_war_cb = {
 
 	on_white_peace = {
 		scope:attacker = {
+			remove_character_flag = titles_protected
 			limit = { has_title = title:d_belisarius_expedition }
 			scope:attacker = {destroy_title = title:d_belisarius_expedition }
 			add_character_flag = STOP_ADMIN
@@ -10297,6 +10304,7 @@ vandalic_war_cb = {
 
 	on_defeat = {
 		scope:attacker = {
+			remove_character_flag = titles_protected
 			limit = { has_title = title:d_belisarius_expedition }
 			scope:attacker = {destroy_title = title:d_belisarius_expedition }
 			add_character_flag = STOP_ADMIN
@@ -11562,7 +11570,32 @@ gothic_duchy_conquest_cb = {
 			name = gothic_attacker_1
 			value = scope:attacker
 		}
+		if = {
+			limit = { 
+				NOT = { title:d_sicily.holder = scope:attacker }
+			}
+			title:d_sicily = {
+				save_temporary_scope_as = current_duchy
+			}
+			create_title_and_vassal_change = {
+				type = conquest
+				save_scope_as = change
+				add_claim_on_loss = yes
+			}
+			scope:current_duchy = {
+				change_title_holder = {
+					holder = scope:attacker
+					change = scope:change
+					take_baronies = yes
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+		}
 		scope:attacker = {
+			add_character_flag = {
+				flag = titles_protected
+				years = 10
+			}
 			capital_county = {
 				add_county_modifier = { modifier = roman_camps years = 5 }
 			}
@@ -11672,6 +11705,7 @@ gothic_duchy_conquest_cb = {
 
 	on_victory = {
 		scope:attacker = {
+			remove_character_flag = titles_protected
 			limit = { has_title = title:d_belisarius_expedition }
 			scope:attacker = {destroy_title = title:d_belisarius_expedition }
 			add_character_flag = STOP_ADMIN
@@ -11817,6 +11851,10 @@ gothic_duchy_conquest_cb = {
 			}
 		}
 		scope:attacker = {
+			add_character_flag = {
+				flag = titles_protected
+				years = 10
+			}
 			remove_character_flag = STOP_ADMIN
 		}
 	}
@@ -11833,6 +11871,7 @@ gothic_duchy_conquest_cb = {
 
 	on_white_peace = {
 		scope:attacker = {
+			remove_character_flag = titles_protected
 			limit = { has_title = title:d_belisarius_expedition }
 			scope:attacker = {destroy_title = title:d_belisarius_expedition }
 		}
@@ -11883,6 +11922,7 @@ gothic_duchy_conquest_cb = {
 
 	on_defeat = {
 		scope:attacker = {
+			remove_character_flag = titles_protected
 			limit = { has_title = title:d_belisarius_expedition }
 			scope:attacker = {destroy_title = title:d_belisarius_expedition }
 		}
@@ -13500,17 +13540,17 @@ dong_zhuo_culture_decision = {
 "gfx/portraits/portrait_modifiers/00_custom_hair.txt" = {
 	{
 			modifier = {
-                add = 200
-                exists = this
-                exists = character:easteregg_joe_parkin
-                this = character:easteregg_joe_parkin
-            }
-            modifier = {
-                add = 200
-                exists = this
-                exists = character:easteregg_alessandro_bragalini
-                this = character:easteregg_alessandro_bragalini
-            }
+				add = 200
+				exists = this
+				exists = character:easteregg_joe_parkin
+				this = character:easteregg_joe_parkin
+			}
+			modifier = {
+				add = 200
+				exists = this
+				exists = character:easteregg_alessandro_bragalini
+				this = character:easteregg_alessandro_bragalini
+			}
 	}
 }
 
@@ -13928,6 +13968,12 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
+            	modifier = {
+               	add = 999
+                exists = this
+		        exists = character:990902 #Nesmeterpanakhet
+		        this = character:990902 #Nesmeterpanakhet
+	        }
         }
     }
 
@@ -14032,6 +14078,18 @@ beards_scripted_characters = {
                 exists = this
                 exists = character:belisarius_001 #Belisarius
                 this = character:belisarius_001 #Belisarius
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:168696 #Dagobert
+                this = character:168696 #Dagobert
+            }
+             modifier = {
+                add = 999
+                exists = this
+                exists = character:994008 #Gundebald
+                this = character:994008 #Gundebald
             }
         }
     }
@@ -14185,6 +14243,11 @@ beards_scripted_characters = {
                 exists = character:hephthalite_misc_017 #Katulf
                 this = character:hephthalite_misc_017 #Katulf
             }
+		modifier = {
+		add = 999
+		exists = character:146154 #Khuterkin
+		this = character:146154 #Khuterkin
+	    }
 	   }
     }
 
@@ -14389,6 +14452,12 @@ beards_scripted_characters = {
                 exists = character:996002 #Odovacar
                 this = character:996002 #Odovacar
             }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:91402 #Pepin
+                this = character:91402 #Pepin
+            }
              modifier = {
                 add = 999
                 exists = this
@@ -14416,7 +14485,12 @@ beards_scripted_characters = {
         }
         weight = {
             base = 0
-
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:frankish_10 #Radulf
+                this = character:frankish_10 #Radulf
+            }
             modifier = {
                 add = 999
                 exists = this
@@ -14462,6 +14536,12 @@ beards_scripted_characters = {
                 exists = this
                 exists = character:997015 #Theodobert
                 this = character:997015 #Theodobert
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:168697 #Charibert
+                this = character:168697 #Charibert
             }
         }
     }
@@ -31043,17 +31123,6 @@ silk_road_urbanization = {
 }
 
 
-"events/dharma_dravidian.txt" = {
-	# ck3-tiger: "`event_background` now causes a crash. It has been replaced by `reference` since 1.9"
-	{
-	override_background = { event_background = throne_room }
-	}
-	{
-	override_background = { event_background = cliff_temple }
-	}
-}
-
-
 "events/decisions_events/middle_europe_decisions_events.txt" = {
 	# Uses k_sorbia which is not in TFE as of the 'After The Pharaohs' update.
 	{
@@ -31932,14 +32001,6 @@ found_kingdom_of_prussia_decision = {
 	}
 	{
 		has_building_gfx = thule_building_gfx
-	}
-}
-
-
-"common/activities/activity_types/TFE_activity_races.txt" = {
-	# error.log: "Compiling source for is_diff_faith_or_culture_trigger failed for unknown arguments: STRUGGLE_TYPE. At common/scripted_triggers"
-	{
-											STRUGGLE_TYPE = iberian_struggle
 	}
 }
 
@@ -34688,5 +34749,13 @@ restore_palmyrene_empire_decision = {
 				tax = 0.2
 				vassal_opinion = -20
 			}
+	}
+}
+
+
+"common/council_tasks/00_steward_tasks.txt" = {
+	# No k_sorbia in TFE as of the 'After the Pharaohs' update.
+	{
+								capital_county.kingdom = title:k_sorbia
 	}
 }

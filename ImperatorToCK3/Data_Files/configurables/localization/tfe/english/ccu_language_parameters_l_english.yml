@@ -1,6 +1,10 @@
 ﻿l_english:
  # language groups
+ culture_parameter_language_group_nuragic: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Nuragic [language_group|E]"
  culture_parameter_language_group_italic: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Italic [language_group|E]"
+ culture_parameter_language_group_tai: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Tai [language_group|E]"
 
  # Language families
+ culture_parameter_language_family_paleo_sardinian: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Paleo-Sardinian [language_family|E]"
+ culture_parameter_language_family_kra_dai: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Kra-Dai [language_family|E]"
 

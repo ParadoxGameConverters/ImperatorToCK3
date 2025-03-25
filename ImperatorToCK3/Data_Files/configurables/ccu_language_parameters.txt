@@ -15,6 +15,7 @@ language_families = {
 			language_family_tyrsenian
 		} ELSE_IF tfe = {
 			language_family_paleo_sardinian
+			language_family_kra_dai
 		}
     }
 }
@@ -43,6 +44,7 @@ language_groups = {
 		} ELSE_IF tfe = {
 			language_group_nuragic
 			language_group_italic
+			language_group_tai
 		}
 	}
 }

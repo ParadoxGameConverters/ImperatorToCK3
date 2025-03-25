@@ -93,6 +93,16 @@ internal sealed partial class CharacterCollection {
 			character.History.Fields["effects"].RemoveAllEntries(
 				entry => irrelevantEffects.Any(effect => entry.ToString()?.Contains(effect) ?? false));
 			
+			// Fix characters being set as their own fathers/mothers.
+			if (character.FatherId == character.Id) {
+				Logger.Warn($"Character {character.Id} is set as their own father! Fixing.");
+				character.Father = null;
+			}
+			if (character.MotherId == character.Id) {
+				Logger.Warn($"Character {character.Id} is set as their own mother! Fixing.");
+				character.Mother = null;
+			}
+			
 			character.InitSpousesCache();
 			character.InitConcubinesCache();
 			character.UpdateChildrenCacheOfParents();

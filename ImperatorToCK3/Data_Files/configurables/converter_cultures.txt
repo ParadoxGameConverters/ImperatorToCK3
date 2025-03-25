@@ -16,7 +16,8 @@ gelonian = {
 	heritage = heritage_byzantine
 	language = language_scythian
 	parents = { hellenistic scythian }
-	created = -600.1.1 #needs to be BC
+	#created = -600.1.1 #needs to be BC
+	created = 2.1.1 # BC dates are not supported here as of CK3 1.15
 	ethos = ethos_bellicose
 
 	name_list = name_list_scythian #might consider adding in ancient greek well)
@@ -36,19 +37,43 @@ gelonian = {
 		4 = arab 
 	}
 
-	coa_gfx = {
-		steppe_coa_gfx
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture steppe_coa_gfx in moksha doesn't match existing sequence in gelonian"
+			coa_gfx = { steppe_coa_gfx volga_finnic_group_coa_gfx }
+		}
+		ELSE = {
+			coa_gfx = { steppe_coa_gfx }
+		}
 	}
+
 	building_gfx = {
 		steppe_building_gfx	
 	}
-	clothing_gfx = {
-		mongol_clothing_gfx
-		byzantine_clothing_gfx
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture mongol_clothing_gfx in saragur doesn't match existing sequence in gelonian"
+			clothing_gfx = { mongol_clothing_gfx }
+		}
+		ELSE = {
+			clothing_gfx = {
+				mongol_clothing_gfx
+				byzantine_clothing_gfx
+			}
+		}
 	}
-	unit_gfx = { 
-		mongol_unit_gfx 
-		eastern_unit_gfx
+
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture mongol_unit_gfx in saragur doesn't match existing sequence in gelonian"
+			unit_gfx = { mongol_unit_gfx }
+		}
+		ELSE = {
+			unit_gfx = { 
+				mongol_unit_gfx 
+				eastern_unit_gfx
+			}
+		}
 	}
 }
 
@@ -352,10 +377,18 @@ luwian = { # https://en.wikipedia.org/wiki/Luwians
 		10 = mediterranean_byzantine
 	}
 
-	coa_gfx = {
-		byzantine_group_coa_gfx
-		# israelite_group_coa_gfx
-		# western_coa_gfx
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture byzantine_group_coa_gfx in armenian doesn't match existing sequence in luwian"
+			coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+		}
+		ELSE = {
+			coa_gfx = {
+				byzantine_group_coa_gfx
+				# israelite_group_coa_gfx
+				# western_coa_gfx
+			}
+		}
 	}
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = {
@@ -388,10 +421,18 @@ cilician = { # https://en.wikipedia.org/wiki/History_of_Cilicia
 		10 = mediterranean_byzantine
 	}
 
-	coa_gfx = {
-		byzantine_group_coa_gfx
-		# israelite_group_coa_gfx
-		# western_coa_gfx
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture byzantine_group_coa_gfx in armenian doesn't match existing sequence in luwian"
+			coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+		}
+		ELSE = {
+			coa_gfx = {
+				byzantine_group_coa_gfx
+				# israelite_group_coa_gfx
+				# western_coa_gfx
+			}
+		}
 	}
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = {
@@ -424,10 +465,18 @@ lydian = {
 		10 = mediterranean_byzantine
 	}
 
-	coa_gfx = {
-		byzantine_group_coa_gfx
-		# israelite_group_coa_gfx
-		# western_coa_gfx
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture byzantine_group_coa_gfx in armenian doesn't match existing sequence in luwian"
+			coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+		}
+		ELSE = {
+			coa_gfx = {
+				byzantine_group_coa_gfx
+				# israelite_group_coa_gfx
+				# western_coa_gfx
+			}
+		}
 	}
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = {
@@ -460,10 +509,18 @@ hittite = {
 		10 = mediterranean_byzantine
 	}
 
-	coa_gfx = {
-		byzantine_group_coa_gfx
-		# israelite_group_coa_gfx
-		# western_coa_gfx
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture byzantine_group_coa_gfx in armenian doesn't match existing sequence in luwian"
+			coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+		}
+		ELSE = {
+			coa_gfx = {
+				byzantine_group_coa_gfx
+				# israelite_group_coa_gfx
+				# western_coa_gfx
+			}
+		}
 	}
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = {
@@ -607,6 +664,10 @@ qahtanite = { # https://en.wikipedia.org/wiki/Qahtanite
 }
 
 egyptian = {  # override of vanilla culture
+    INVALIDATED_BY = {
+		tfe = { egyptian } # TFE already makes this culture a hybrid of bedouin and kemetic, so we don't need to override it.
+	}
+
 	color = { 0.1 0.6 0.1 }
 
 	# ImperatorToCK3: Make Arabic Egyptian a hybrid of Bedouin and Old Egyptian
@@ -638,7 +699,7 @@ egyptian = {  # override of vanilla culture
 
 dalmatian = {
     INVALIDATED_BY = {
-		tfe = { dalmatian }
+		tfe = { dalmatian illyrian } # TFE illyrian represents the same thing.
 		vanilla = { dalmatian }
 	}
     
@@ -669,7 +730,7 @@ dalmatian = {
 
 ancient_egyptian = {  # fallback in case some mod removes vanilla ancient_egyptian
     INVALIDATED_BY = {
-		tfe = { ancient_egyptian kemetic }
+		tfe = { ancient_egyptian }
 		wtwsms = { ancient_egyptian }
 		roa = { ancient_egyptian }
 		vanilla = { ancient_egyptian kemetic }
@@ -1228,6 +1289,10 @@ gothic = { # https://en.wikipedia.org/wiki/Goths
 }
 
 visigothic = { # override of vanilla culture
+	INVALIDATED_BY = {
+		tfe = { visigothic } # TFE already moves this culture to an East Germanic heritage, so we don't need to override it.
+	}
+
 	color = { 0.55 0.55 0.15 }
 	parents = { gothic }
 	created = 20.1.1
@@ -1820,6 +1885,9 @@ elamite = { # https://en.wikipedia.org/wiki/Elam
 }
 
 alan = { # override of vanilla culture
+	INVALIDATED_BY = {
+		tfe = { alan } # TFE already removes the creation date from the culture, so no need to override it.
+	}
 	color = { 0.1 0.3 0.7 }
 	# created = 100.1.1 # IRToCK3: disabled the creation date
 
@@ -2998,6 +3066,9 @@ iweric = {
 }
 
 suebi = { # override of vanilla culture
+	INVALIDATED_BY = {
+		tfe = { old_suebi } # In TFE, the pre-Iberian Suebi are represented by the old_suebi culture.
+	}
 	color = { 0.8 0.7 0.4 }
 
 	ethos = ethos_bellicose
