@@ -1525,3 +1525,25 @@ gaetuli_dynasty = {
 		} # end of after
 	}
 }
+
+
+"common/culture/traditions/TFE_combat_traditions.txt" = {
+	# from ck3-tiger:
+	# file or directory gfx/interface/icons/culture_tradition/1-pattern/medi does not exist
+	replace = {
+		before = {
+	layers = {
+		0 = martial
+		1 = medi
+		4 = soldiers3.dds
+	}
+		}
+		after = {
+	layers = {
+		0 = martial
+		1 = mediterranean
+		4 = soldiers3.dds
+	}
+		}
+	}
+}

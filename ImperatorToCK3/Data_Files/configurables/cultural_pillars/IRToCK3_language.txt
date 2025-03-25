@@ -1763,7 +1763,13 @@ language_tai = {
 	}
 	
 	MOD_DEPENDENT = {
-		IF wtwsms = {
+		IF tfe = {
+			parameters = {
+				language_group_tai = yes
+				language_family_kra_dai = yes
+			}
+		}
+		ELSE_IF wtwsms = {
 			parameters = {
 				language_branch_tai = yes
 				language_family_kra_dai = yes 		
@@ -1779,7 +1785,24 @@ language_tai = {
 	}
 	
 	MOD_DEPENDENT = {
-		IF wtwsms = {
+		IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_tai }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_tai }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_kra_dai }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE_IF wtwsms = {
 			ai_will_do = {
 				value = 10
 				if = {

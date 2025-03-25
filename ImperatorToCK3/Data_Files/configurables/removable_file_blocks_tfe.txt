@@ -34751,3 +34751,11 @@ restore_palmyrene_empire_decision = {
 			}
 	}
 }
+
+
+"common/council_tasks/00_steward_tasks.txt" = {
+	# No k_sorbia in TFE as of the 'After the Pharaohs' update.
+	{
+								capital_county.kingdom = title:k_sorbia
+	}
+}
