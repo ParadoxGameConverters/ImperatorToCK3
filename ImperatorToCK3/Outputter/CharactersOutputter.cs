@@ -89,8 +89,7 @@ internal static class CharactersOutputter {
 		await using var output = FileHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 
 		var sb = new StringBuilder();
-		foreach (var character in charactersWithDNA) {
-			var dna = character.DNA!;
+		foreach (var dna in charactersWithDNA.Select(c => c.DNA!).Distinct()) {
 			sb.AppendLine($"{dna.Id}={{");
 			sb.AppendLine("\tportrait_info={");
 
