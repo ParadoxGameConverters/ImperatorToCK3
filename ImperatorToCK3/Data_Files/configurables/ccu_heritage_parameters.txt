@@ -13,6 +13,7 @@ heritage_groups = {
 			heritage_group_nuragic
 		} ELSE_IF tfe = {
 			heritage_group_nuragic
+			heritage_group_austroasiatic
 		}
 	}
 }
