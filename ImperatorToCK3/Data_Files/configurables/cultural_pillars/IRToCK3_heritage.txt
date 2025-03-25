@@ -326,10 +326,22 @@ heritage_mon_khmer = { # from Rajas of Asia, as of now only need to AEP conversi
 		aep = { heritage_khmer }
 	}
 	type = heritage
-	# parameters = { # heritages for CCU
-	# 	heritage_group_austroasiatic = yes
-	# 	heritage_family_southeast_asian = yes
-	# }
+
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = { 
+				heritage_group_austroasiatic = yes
+				heritage_family_east_asian = yes 
+			}
+		}
+		ELSE = {
+			# parameters = { # heritages for CCU
+			# 	heritage_group_austroasiatic = yes
+			# 	heritage_family_southeast_asian = yes
+			# }
+		}
+	}
+
 	is_shown = {
 		heritage_is_shown_trigger = {
 			HERITAGE = heritage_mon_khmer

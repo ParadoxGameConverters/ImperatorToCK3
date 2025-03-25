@@ -49,7 +49,6 @@ ir_spurius_male = { Spurie Spurius }
 ir_titus_male = { Tite Titus Tito Titos }
 ir_vibius_male = { Vipie Vibius }
 ir_fausta_female = { Fasthi Hasthi Fausta }
-ir_quintus_male = { Quintus Cuinte }
 ir_publius_male = { Publius Puplie }
 ir_aretas_male = { Aretas al-Harith }
 ir_euclid_male = { Euclid Eukleides }
@@ -245,6 +244,9 @@ first_male = { Primus Pervoy }
 second_male = { Secundus Vtorak }
 third_male = { Tertius Tretyak }
 fourth_male = { Quartus Chetvertak }
-fifth_male = { Quintus Pyatak }
+fifth_male = {
+    Quintus Cuinte # from the Roman "Quintus"
+    Pyatak # from the Russian "Pyaty" (fifth)
+}
 sixth_male = { Sextus Shestak }
 seventh_male = { Septimus Semoy }
