@@ -58,15 +58,15 @@ internal sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 			sb.AppendLine("{");
 		}
 
-		sb.Append(contentIndent).AppendLine($"color={Color.OutputRgb()}");
+		sb.Append(contentIndent).AppendLine($"color = {Color.OutputRgb()}");
 		if (ParentCultureIds.Count != 0) {
-			sb.Append(contentIndent).AppendLine($"parents={PDXSerializer.Serialize(ParentCultureIds)}");
+			sb.Append(contentIndent).AppendLine($"parents = {PDXSerializer.Serialize(ParentCultureIds)}");
 		}
-		sb.Append(contentIndent).AppendLine($"heritage={Heritage.Id}");
-		sb.Append(contentIndent).AppendLine($"language={Language.Id}");
-		sb.Append(contentIndent).AppendLine($"traditions={PDXSerializer.Serialize(TraditionIds)}");
+		sb.Append(contentIndent).AppendLine($"heritage = {Heritage.Id}");
+		sb.Append(contentIndent).AppendLine($"language = {Language.Id}");
+		sb.Append(contentIndent).AppendLine($"traditions = {PDXSerializer.Serialize(TraditionIds)}");
 		foreach (var nameList in NameLists) {
-			sb.Append(contentIndent).AppendLine($"name_list={nameList.Id}");
+			sb.Append(contentIndent).AppendLine($"name_list = {nameList.Id}");
 		}
 		sb.AppendLine(PDXSerializer.Serialize(Attributes, indent: contentIndent, withBraces: false));
 

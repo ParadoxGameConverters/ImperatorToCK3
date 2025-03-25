@@ -377,10 +377,18 @@ luwian = { # https://en.wikipedia.org/wiki/Luwians
 		10 = mediterranean_byzantine
 	}
 
-	coa_gfx = {
-		byzantine_group_coa_gfx
-		# israelite_group_coa_gfx
-		# western_coa_gfx
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture byzantine_group_coa_gfx in armenian doesn't match existing sequence in luwian"
+			coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+		}
+		ELSE = {
+			coa_gfx = {
+				byzantine_group_coa_gfx
+				# israelite_group_coa_gfx
+				# western_coa_gfx
+			}
+		}
 	}
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = {
@@ -413,10 +421,18 @@ cilician = { # https://en.wikipedia.org/wiki/History_of_Cilicia
 		10 = mediterranean_byzantine
 	}
 
-	coa_gfx = {
-		byzantine_group_coa_gfx
-		# israelite_group_coa_gfx
-		# western_coa_gfx
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture byzantine_group_coa_gfx in armenian doesn't match existing sequence in luwian"
+			coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+		}
+		ELSE = {
+			coa_gfx = {
+				byzantine_group_coa_gfx
+				# israelite_group_coa_gfx
+				# western_coa_gfx
+			}
+		}
 	}
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = {
@@ -449,10 +465,18 @@ lydian = {
 		10 = mediterranean_byzantine
 	}
 
-	coa_gfx = {
-		byzantine_group_coa_gfx
-		# israelite_group_coa_gfx
-		# western_coa_gfx
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture byzantine_group_coa_gfx in armenian doesn't match existing sequence in luwian"
+			coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+		}
+		ELSE = {
+			coa_gfx = {
+				byzantine_group_coa_gfx
+				# israelite_group_coa_gfx
+				# western_coa_gfx
+			}
+		}
 	}
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = {
@@ -485,10 +509,18 @@ hittite = {
 		10 = mediterranean_byzantine
 	}
 
-	coa_gfx = {
-		byzantine_group_coa_gfx
-		# israelite_group_coa_gfx
-		# western_coa_gfx
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture byzantine_group_coa_gfx in armenian doesn't match existing sequence in luwian"
+			coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+		}
+		ELSE = {
+			coa_gfx = {
+				byzantine_group_coa_gfx
+				# israelite_group_coa_gfx
+				# western_coa_gfx
+			}
+		}
 	}
 	building_gfx = { mena_building_gfx }
 	clothing_gfx = {
@@ -667,7 +699,7 @@ egyptian = {  # override of vanilla culture
 
 dalmatian = {
     INVALIDATED_BY = {
-		tfe = { dalmatian }
+		tfe = { dalmatian illyrian } # TFE illyrian represents the same thing.
 		vanilla = { dalmatian }
 	}
     
@@ -698,7 +730,7 @@ dalmatian = {
 
 ancient_egyptian = {  # fallback in case some mod removes vanilla ancient_egyptian
     INVALIDATED_BY = {
-		tfe = { ancient_egyptian kemetic }
+		tfe = { ancient_egyptian }
 		wtwsms = { ancient_egyptian }
 		roa = { ancient_egyptian }
 		vanilla = { ancient_egyptian kemetic }

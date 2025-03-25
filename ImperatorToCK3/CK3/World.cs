@@ -141,6 +141,7 @@ internal sealed class World {
 				Cultures.LoadInnovationIds(ModFS);
 				Cultures.LoadCultures(ModFS, config);
 				Cultures.LoadConverterCultures("configurables/converter_cultures.txt", config);
+				Cultures.WarnAboutCircularParents();
 				Logger.IncrementProgress();
 			},
 			() => LoadMenAtArmsTypes(ModFS, ScriptValues), // depends on ScriptValues

@@ -254,6 +254,38 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		}
 	}
 
+	internal void WarnAboutCircularParents() {
+		// For every culture, check if it isn't set as its own immediate or distant parent.
+		Logger.Debug("Checking for circular culture parents...");
+		foreach (var culture in this) {
+			var allParents = GetImmediateAndDistantParentsOfCulture(culture);
+			if (allParents.Contains(culture.Id)) {
+				Logger.Error($"Culture {culture.Id} is set as its own parent!");
+			}
+		}
+	}
+
+	private HashSet<string> GetImmediateAndDistantParentsOfCulture(Culture cultureToCheck, HashSet<string>? alreadyChecked = null) {
+		HashSet<string> allParents = [];
+
+		// Get immediate parents.
+		foreach (var parentCultureId in cultureToCheck.ParentCultureIds) {
+			// Avoid infinite recursion.
+			if (alreadyChecked?.Contains(parentCultureId) == true) {
+				continue;
+			}
+
+			allParents.Add(parentCultureId);
+			var parentCulture = this[parentCultureId];
+
+			// Add the parent's parents.
+			var parentParents = GetImmediateAndDistantParentsOfCulture(parentCulture, allParents);
+			allParents.UnionWith(parentParents);
+		}
+
+		return allParents;
+	}
+
 	private readonly IDictionary<string, string> cultureReplacements = new Dictionary<string, string>(); // replaced culture -> replacing culture
 
 	protected readonly PillarCollection PillarCollection;

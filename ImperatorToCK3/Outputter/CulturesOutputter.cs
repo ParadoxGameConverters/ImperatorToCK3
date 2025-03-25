@@ -43,10 +43,10 @@ internal static class CulturesOutputter {
 		foreach (var group in culturesList.GroupBy(c => c.Heritage)) {
 			var sb = new StringBuilder();
 			foreach (var culture in group) {
-				sb.AppendLine($"{culture.Id}={PDXSerializer.Serialize(culture)}");
+				sb.AppendLine($"{culture.Id} = {PDXSerializer.Serialize(culture)}");
 			}
 			
-			var outputPath = Path.Combine(outputModPath, $"common/culture/cultures/IRtoCK3_{group.Key.Id}.txt");
+			var outputPath = Path.Combine(outputModPath, $"common/culture/cultures/{group.Key.Id}.txt");
 			await using var output = FileHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
 			await output.WriteAsync(sb.ToString());
 		}
