@@ -16,7 +16,7 @@
 # ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL FILE.
 # OTHERWISE THE BLOCK WON'T BE REMOVED!
 
-# Adjusted for Rajas of Asia Version 3.5.3.1
+# Adjusted for Rajas of Asia Version 3.6.1
 
 "common/on_action/yearly_on_actions.txt" = {
 	{
@@ -8097,174 +8097,86 @@ start_nanzhao_collapse = {
 
             ## Set tributaries
             # Srivijaya
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_srivijaya.holder
-                    TRIBUTARY = title:d_tanjungpura.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_srivijaya.holder
-                    TRIBUTARY = title:c_panai.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_srivijaya.holder
-                    TRIBUTARY = title:c_nagur.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_srivijaya.holder
-                    TRIBUTARY = title:d_lamuri.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_srivijaya.holder
-                    TRIBUTARY = title:d_wijayapura.holder
+                title:e_srivijaya.holder = {
+                    set_relation_tributary = title:d_tanjungpura.holder
+                    set_relation_tributary = title:c_panai.holder
+                    set_relation_tributary = title:d_tanjungpura.holder
+                    set_relation_tributary = title:c_nagur.holder
+                    set_relation_tributary = title:d_lamuri.holder
+                    set_relation_tributary = title:d_wijayapura.holder
                 }
 
             # Nanzhao
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_myitkyina.holder
-                    TRIBUTARY = title:c_mongyang.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_yongchang.holder
-                    TRIBUTARY = title:c_putao.holder
-                }
-                # Beikthano
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:c_beikthano.holder
-                    TRIBUTARY = title:c_magwe.holder
-                }
-                # Yinsheng
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_kainan.holder
-                    TRIBUTARY = title:d_kengtung.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_kainan.holder
-                    TRIBUTARY = title:d_phongsali.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_kainan.holder
-                    TRIBUTARY = title:c_chiang_hung.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_kainan.holder
-                    TRIBUTARY = title:c_meng_laa.holder
-                }
-                # Tonghai
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:c_tonghai.holder
-                    TRIBUTARY = title:c_hohoxe.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:c_tonghai.holder
-                    TRIBUTARY = title:c_tu_long.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:c_tonghai.holder
-                    TRIBUTARY = title:c_bao_lac.holder
+                # Lishui
+                title:d_myitkyina.holder = {
+                    set_relation_tributary = title:c_mongyang.holder
                 }
 
+                # Yongchang
+                title:d_yongchang.holder = {
+                    set_relation_tributary = title:c_putao.holder
+                }
+
+                # Beikthano
+                title:c_beikthano.holder = {
+                    set_relation_tributary = title:c_magwe.holder
+                }
+
+                # Yinsheng
+                title:d_kainan.holder = {
+                    set_relation_tributary = title:d_kengtung.holder
+                    set_relation_tributary = title:d_phongsali.holder
+                    set_relation_tributary = title:c_chiang_hung.holder
+                    set_relation_tributary = title:c_meng_laa.holder
+                }
+
+                # Tonghai
+                title:c_tonghai.holder = {
+                    set_relation_tributary = title:c_hohoxe.holder
+                    set_relation_tributary = title:c_tu_long.holder
+                    set_relation_tributary = title:c_bao_lac.holder
+                }
 
             # Shan
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_yawnghwe.holder
-                    TRIBUTARY = title:c_yawnghwe.holder
+                title:d_yawnghwe.holder = {
+                    set_relation_tributary = title:c_yawnghwe.holder
                 }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:c_laikha.holder
-                    TRIBUTARY = title:c_mongkung.holder
+                title:c_laikha.holder = {
+                    set_relation_tributary = title:c_mongkung.holder
                 }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_north_shan.holder
-                    TRIBUTARY = title:c_manglon.holder
+                title:d_north_shan.holder = {
+                    set_relation_tributary = title:c_manglon.holder
                 }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_kengtung.holder
-                    TRIBUTARY = title:c_chiang_hung.holder
+                title:d_kengtung.holder = {
+                    set_relation_tributary = title:c_chiang_hung.holder
                 }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:c_chiang_hung.holder
-                    TRIBUTARY = title:c_meng_laa.holder
+                title:c_chiang_hung.holder = {
+                    set_relation_tributary = title:c_meng_laa.holder
                 }
 
             # Mon
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_thaton.holder
-                    TRIBUTARY = title:c_pegu.holder
+                title:d_thaton.holder = {
+                    set_relation_tributary = title:c_pegu.holder
+                    set_relation_tributary = title:c_hpapun.holder
                 }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:c_hpa_an.holder
-                    TRIBUTARY = title:c_kawkareik.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_thaton.holder
-                    TRIBUTARY = title:c_hpapun.holder
+                title:c_hpa_an.holder = {
+                    set_relation_tributary = title:c_kawkareik.holder
                 }
 
             # Annam
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_jinghai.holder
-                    TRIBUTARY = title:d_nong.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_jinghai.holder
-                    TRIBUTARY = title:c_tu_long.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_jinghai.holder
-                    TRIBUTARY = title:c_thuy_vi.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_jinghai.holder
-                    TRIBUTARY = title:c_lo.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_jinghai.holder
-                    TRIBUTARY = title:c_tra_lan.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_jinghai.holder
-                    TRIBUTARY = title:c_quynh_nhai.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_jinghai.holder
-                    TRIBUTARY = title:c_yen_lo.holder
+                title:k_jinghai.holder = {
+                    set_relation_tributary = title:d_nong.holder
+                    set_relation_tributary = title:c_tu_long.holder
+                    set_relation_tributary = title:c_thuy_vi.holder
+                    set_relation_tributary = title:c_lo.holder
+                    set_relation_tributary = title:c_tra_lan.holder
+                    set_relation_tributary = title:c_quynh_nhai.holder
+                    set_relation_tributary = title:c_yen_lo.holder
                 }
 
             # China
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_celestia_china.holder
-                    TRIBUTARY = title:k_guiyi.holder
+                title:e_celestia_china.holder = {
+                    set_relation_tributary = title:k_guiyi.holder
                 }
         }
 
@@ -8277,10 +8189,8 @@ start_nanzhao_collapse = {
 
             ## Set tributaries
             # Srivijaya
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_srivijaya.holder
-                    TRIBUTARY = title:d_sunda.holder
+                title:e_srivijaya.holder = {
+                    set_relation_tributary = title:d_sunda.holder
                 }
         }
 
@@ -8292,38 +8202,21 @@ start_nanzhao_collapse = {
             }
 
             ## Set tributaries
+
             # Jin
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_liao.holder
-                    TRIBUTARY = title:k_jin_china.holder
+                title:e_liao.holder = {
+                    set_relation_tributary = title:k_jin_china.holder
                 }
 
-            # Liangzhou
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_celestia_china.holder
-                    TRIBUTARY = title:d_liangzhou.holder
+                title:e_celestia_china.holder = {
+                    set_relation_tributary = title:d_liangzhou.holder
+                    set_relation_tributary = title:d_dingnan_china.holder
+                    set_relation_tributary = title:k_guiyi.holder
                 }
-            # Dingnan
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_celestia_china.holder
-                    TRIBUTARY = title:d_dingnan_china.holder
-                }
-            # Guiyi
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_celestia_china.holder
-                    TRIBUTARY = title:k_guiyi.holder
-                }
-
 
             # Sri Gotapura
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_kambujadesa.holder
-                    TRIBUTARY = title:d_nakhon_phanom.holder
+                title:e_kambujadesa.holder = {
+                    set_relation_tributary = title:d_nakhon_phanom.holder
                 }
 
         }
@@ -8337,126 +8230,56 @@ start_nanzhao_collapse = {
 
             ## Set tributaries
             # Pagan
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_pagan.holder
-                TRIBUTARY = title:d_arakan.holder
+            title:k_pagan.holder = {
+                set_relation_tributary = title:d_arakan.holder
+                set_relation_tributary = title:c_hsipaw.holder
+                set_relation_tributary = title:d_north_shan.holder
+                set_relation_tributary = title:d_mongpai.holder
+                set_relation_tributary = title:c_kale.holder
+                set_relation_tributary = title:c_bhamo.holder
             }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_pagan.holder
-                TRIBUTARY = title:c_hsipaw.holder
+            title:c_kale.holder = {
+                set_relation_tributary = title:c_thaungdut.holder
             }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_pagan.holder
-                TRIBUTARY = title:d_north_shan.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_pagan.holder
-                TRIBUTARY = title:d_mongpai.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_pagan.holder
-                TRIBUTARY = title:c_kale.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:c_kale.holder
-                TRIBUTARY = title:c_thaungdut.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_pagan.holder
-                TRIBUTARY = title:c_bhamo.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:c_takon.holder
-                TRIBUTARY = title:c_mongyang.holder
+            title:c_takon.holder = {
+                set_relation_tributary = title:c_mongyang.holder
             }
 
             # Liao
                 # Chanyuan Treaty from 1005 to 1125
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_liao.holder
-                    TRIBUTARY = title:e_celestia_china.holder
+                title:e_liao.holder = {
+                    set_relation_tributary = title:e_celestia_china.holder
                 }
 
             # Chola hold over Srivijaya
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_tamilakam.holder
-                    TRIBUTARY = title:e_srivijaya.holder
+                title:k_tamilakam.holder = {
+                    set_relation_tributary = title:e_srivijaya.holder
                 }
 
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_srivijaya.holder
-                    TRIBUTARY = title:d_tambralinga.holder
+                title:e_srivijaya.holder = {
+                    set_relation_tributary = title:d_tambralinga.holder
                 }
 
             # Dai Viet
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_annam.holder
-                    TRIBUTARY = title:d_muong.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_annam.holder
-                    TRIBUTARY = title:c_van_ban.holder
+                title:e_dai_viet.holder = {
+                    set_relation_tributary = title:d_muong.holder
+                    set_relation_tributary = title:c_van_ban.holder
                 }
 
             # Dali
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_nanzhao.holder
-                    TRIBUTARY = title:d_muang_thaeng.holder
+                title:k_nanzhao.holder = {
+                    set_relation_tributary = title:d_muang_thaeng.holder
                 }
+
             # Caucasus
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_cumania.holder
-                    TRIBUTARY = title:c_kassogia.holder
+                title:e_cumania.holder = {
+                    set_relation_tributary = title:c_kassogia.holder
+                    set_relation_tributary = title:c_zichia.holder
+                    set_relation_tributary = title:c_samander.holder
+                    set_relation_tributary = title:c_samiran.holder
+                    set_relation_tributary = title:k_caucasus.holder
+                    set_relation_tributary = title:k_dagestan.holder
                 }
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_cumania.holder
-                    TRIBUTARY = title:c_zichia.holder
-                }
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_cumania.holder
-                    TRIBUTARY = title:c_samander.holder
-                }
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_cumania.holder
-                    TRIBUTARY = title:c_samiran.holder
-                }
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_cumania.holder
-                    TRIBUTARY = title:k_caucasus.holder
-                }
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_cumania.holder
-                    TRIBUTARY = title:k_dagestan.holder
-                }
-
         }
 
         # 1178
@@ -8465,38 +8288,13 @@ start_nanzhao_collapse = {
                 game_start_date >= 1178.1.1
                 game_start_date <= 1178.12.31
             }
-
-            ## Set tributaries
-            # Melayu/Dharmasraya
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_melayu.holder
-                TRIBUTARY = title:d_batak.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_melayu.holder
-                TRIBUTARY = title:d_pahang.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_melayu.holder
-                TRIBUTARY = title:d_kedah.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_melayu.holder
-                TRIBUTARY = title:d_lampung.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_melayu.holder
-                TRIBUTARY = title:k_sunda.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_melayu.holder
-                TRIBUTARY = title:d_aru.holder
+            title:k_melayu.holder = {
+                set_relation_tributary = title:d_batak.holder
+                set_relation_tributary = title:d_pahang.holder
+                set_relation_tributary = title:d_kedah.holder
+                set_relation_tributary = title:d_lampung.holder
+                set_relation_tributary = title:k_sunda.holder
+                set_relation_tributary = title:d_aru.holder
             }
 
         }
