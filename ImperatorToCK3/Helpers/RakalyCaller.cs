@@ -137,7 +137,7 @@ public static class RakalyCaller {
 		string savePathWithoutExtension = CommonFunctions.TrimExtension(savePath);
 		string meltedSavePath;
 		// If savePathWithoutExtension ends with a slash, it means the basename is empty.
-		if (savePathWithoutExtension.EndsWith("/") || savePathWithoutExtension.EndsWith("\\")) {
+		if (savePathWithoutExtension.EndsWith('/') || savePathWithoutExtension.EndsWith('\\')) {
 			meltedSavePath = savePathWithoutExtension + "melted.rome";
 		} else {
 			meltedSavePath = savePathWithoutExtension + "_melted.rome";
