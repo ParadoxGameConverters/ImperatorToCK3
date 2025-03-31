@@ -134,13 +134,20 @@ public static class RakalyCaller {
 			throw new FormatException(exceptionMessage);
 		}
 
-		var meltedSaveName = $"{CommonFunctions.TrimExtension(savePath)}_melted.rome";
+		string savePathWithoutExtension = CommonFunctions.TrimExtension(savePath);
+		string meltedSavePath;
+		// If savePathWithoutExtension ends with a slash, it means the basename is empty.
+		if (savePathWithoutExtension.EndsWith("/") || savePathWithoutExtension.EndsWith("\\")) {
+			meltedSavePath = savePathWithoutExtension + "melted.rome";
+		} else {
+			meltedSavePath = savePathWithoutExtension + "_melted.rome";
+		}
 		const string destFileName = "temp/melted_save.rome";
-		// first, delete target file if exists, as File.Move() does not support overwrite
+		// First, delete target file if exists, as File.Move() does not support overwrite.
 		if (File.Exists(destFileName)) {
 			FileHelper.DeleteWithRetries(destFileName);
 		}
-		FileHelper.MoveWithRetries(meltedSaveName, destFileName);
+		FileHelper.MoveWithRetries(meltedSavePath, destFileName);
 	}
 
 	// https://stackoverflow.com/a/47918132/10249243
