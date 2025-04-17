@@ -39,8 +39,19 @@ link = {
 	ir = imperium
 	ir = imperial_cult
 }
-link = { ir = imperium ir = imperial_cult ck3 = imperial_government } # TFE
+link = { # TFE
+	ck3 = imperial_government
+	# Having the same title rank requirement as above prevents administrative_government realms from having imperial_government vassals.
+	ck3_title_rank = e
+	ir = imperium
+	ir = imperial_cult
+}
 link = { ir = athenian_republic ir = aristocratic_republic ck3 = city_state_government ir = plutocratic_republic } # TFE
+link = {
+	ck3 = autocratic_government_ep3 # TFE uses this instead of autocratic_government when the player has the Roads to Power DLC.
+	has_ck3_dlc = roads_to_power
+	ir = theocratic_monarchy
+}
 link = { ir = theocratic_monarchy ck3 = autocratic_government } # TFE
 link = { ir = stratocratic_monarchy ck3 = legion_government } # TFE
 link = { ir = tribal_chiefdom ck3 = nomadic_government } # TFE
