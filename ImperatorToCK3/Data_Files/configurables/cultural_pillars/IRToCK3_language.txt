@@ -551,6 +551,97 @@ language_babylonian = {
 	color = hsv { 0.7 0.15 0.77 }
 }
 
+language_eblaite = {
+    REPLACED_BY = {
+		tfe = { language_eblaite }
+		vanilla = { language_eblaite }
+	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_semitic = yes
+				language_family_afro_asiatic = yes
+			}
+		} ELSE_IF @[roa|tfe] = {
+			parameters = {
+				language_group_semitic = yes
+				language_family_afro_asiatic = yes
+			}
+		}
+	}
+    
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_eblaite
+		}
+	}
+	
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_eblaite }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_semitic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_afro_asiatic }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF roa = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_eblaite }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_semitic }
+					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_afro_asiatic }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_eblaite }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_semitic }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_afro_asiatic }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_eblaite }
+					multiply = 10
+				}
+			}
+		}
+	}
+
+	color = rgb { 12 77 199 }
+}
+
 language_gaulish = {
     REPLACED_BY = {
 		tfe = { language_gaulish }
@@ -1983,4 +2074,235 @@ language_chong = {
 	}
 
 	color = chong
+}
+
+language_alasiyan = {
+    
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				language_group_semitic = yes
+				language_family_afro_asiatic = yes
+			}
+		}
+	}
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_alasiyan
+		}
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_alasiyan }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_semitic }
+					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_afro_asiatic }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_alasiyan }
+					multiply = 10
+				}
+			}
+		}
+	}
+
+	color = rgb { 201 110 0 }
+}
+
+language_ugaritic = {
+    
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				language_group_semitic = yes
+				language_family_afro_asiatic = yes
+			}
+		}
+	}
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_ugaritic
+		}
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_ugaritic }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_semitic }
+					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_afro_asiatic }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_ugaritic }
+					multiply = 10
+				}
+			}
+		}
+	}
+
+	color = rgb { 130 143 120 }
+}
+
+language_sumerian = { # A true isolate with no known relatives
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_sumerian
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_sumerian }
+			multiply = 10
+		}
+	}
+
+	color = rgb { 45 13 0 }
+}
+
+language_hurrian = { # In the Hurro-Urartian family, long extinct
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_hurrian
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_hurrian }
+			multiply = 10
+		}
+	}
+
+	color = rgb { 89 92 209 }
+}
+
+language_gutian = { # Ancient and long-forgotten language of the Gutians from the Bronze Age, unknown
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_gutian
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_gutian }
+			multiply = 10
+		}
+	}
+
+	color = hsv { 0.97 0.93 0.55 }
+}
+
+language_minoan = { # Ancient Pre-Greek language, unknown classification due to Linear A remaining undeciphered
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_minoan
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_minoan }
+			multiply = 10
+		}
+	}
+
+	color = hsv { 0.97 0.93 0.55 }
+}
+
+language_cycladic = { # Ancient Pre-Greek language of the Cyclades, no written records discovered
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_cycladic
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_cycladic }
+			multiply = 10
+		}
+	}
+
+	color = rgb { 102 102 102 }
+}
+
+language_pelasgian = { # Ancient Pre-Greek language of mainland Greece, no written records discovered
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_pelasgian
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_pelasgian }
+			multiply = 10
+		}
+	}
+
+	color = hsv { 0.1 0.7 0.8 }
+}
+
+language_hatti = { # Pre-Hittite language of central Anatolia
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_hatti
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_hatti }
+			multiply = 10
+		}
+	}
+
+	color = rgb { 200 200 200 }
 }

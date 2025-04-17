@@ -390,3 +390,55 @@ l_english:
  syro_hellenic: "Syriac"
  syro_hellenic_collective_noun: "Syrians"
  syro_hellenic_prefix: "Syro"
+ 
+ hurrian_culture: "Hurrian"
+ hurrian_culture_collective_noun: "Hurrians"
+ hurrian_culture_prefix: "Hurro"
+ 
+ gutian: "Gutian"
+ gutian_collective_noun: "Gutians"
+ gutian_prefix: "Guto"
+ 
+ sumerian: "Sumerian"
+ sumerian_collective_noun: "Sumerians"
+ sumerian_prefix: "Sumero"
+ 
+ eblaite: "Eblaite"
+ eblaite_collective_noun: "Eblaites"
+ eblaite_prefix: "Eblo"
+ 
+ alasiyan: "Alashiyan"
+ alasiyan_collective_noun: "Alashiyans"
+ alasiyan_prefix: "Alasho"
+ 
+ ugaritic: "Ugaritic"
+ ugaritic_collective_noun: "Ugaritics"
+ ugaritic_prefix: "Ugarito"
+ 
+ hatti: "Hatti"
+ hatti_collective_noun: "Hatti"
+ hatti_prefix: "Hatto"
+ 
+ minoan: "Minoan"
+ minoan_collective_noun: "Minoans"
+ minoan_prefix: "Minoao"
+ 
+ cycladic: "Cycladic"
+ cycladic_collective_noun: "Cycladians"
+ cycladic_prefix: "Cyclado"
+ 
+ pelasgian: "Pelasgian"
+ pelasgian_collective_noun: "Pelasgians"
+ pelasgian_prefix: "Pelasgo"
+ 
+ per_sheklesh: "Per-Sheklesh"
+ per_sheklesh_collective_noun: "Per-Sheklesh"
+ per_sheklesh_prefix: "Per-Sheklesho"
+ 
+ niwt_ipt: "Niwt-Ipt"
+ niwt_ipt_collective_noun: "Niwt-Iptians"
+ niwt_ipt_prefix: "Niwt-Ipto"
+ 
+ kizzuwatnan: "Kizzuwatnan"
+ kizzuwatnan_collective_noun: "Kizzuwatnans"
+ kizzuwatnan_prefix: "Kizzuwatno"
