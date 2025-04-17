@@ -415,19 +415,19 @@ internal sealed class Character : IIdentifiable<string> {
 		// to be used by religion mapper. Don't give up without a fight.
 		ulong? irProvinceId = ImperatorCharacter.GetSourceLandProvince(irMapData);
 		
-		var impProvForProvinceMapper = irProvinceId;
-		if ((!impProvForProvinceMapper.HasValue || provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper.Value).Count == 0) && ImperatorCharacter.Father is not null) {
-			impProvForProvinceMapper = ImperatorCharacter.Father.ProvinceId;
+		var irProvIdForProvMapper = irProvinceId;
+		if (IsImperatorProvIdInvalidForCharacterSource(irProvIdForProvMapper, provinceMapper) && ImperatorCharacter.Father is not null) {
+			irProvIdForProvMapper = ImperatorCharacter.Father.ProvinceId;
 		}
-		if ((!impProvForProvinceMapper.HasValue || provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper.Value).Count == 0) && ImperatorCharacter.Mother is not null) {
-			impProvForProvinceMapper = ImperatorCharacter.Mother.ProvinceId;
+		if (IsImperatorProvIdInvalidForCharacterSource(irProvIdForProvMapper, provinceMapper) && ImperatorCharacter.Mother is not null) {
+			irProvIdForProvMapper = ImperatorCharacter.Mother.ProvinceId;
 		}
-		if ((!impProvForProvinceMapper.HasValue || provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper.Value).Count == 0) && ImperatorCharacter.Spouses.Count > 0) {
+		if (IsImperatorProvIdInvalidForCharacterSource(irProvIdForProvMapper, provinceMapper) && ImperatorCharacter.Spouses.Count > 0) {
 			var firstSpouse = ImperatorCharacter.Spouses.First().Value;
-			impProvForProvinceMapper = firstSpouse.ProvinceId;
+			irProvIdForProvMapper = firstSpouse.ProvinceId;
 		}
 
-		var ck3ProvinceNumbers = impProvForProvinceMapper.HasValue ? provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper.Value) : [];
+		var ck3ProvinceNumbers = irProvIdForProvMapper.HasValue ? provinceMapper.GetCK3ProvinceNumbers(irProvIdForProvMapper.Value) : [];
 		ulong? ck3ProvinceId = ck3ProvinceNumbers.Count > 0 ? ck3ProvinceNumbers[0] : null;
 
 		var cultureMatch = cultureMapper.Match(
@@ -526,7 +526,11 @@ internal sealed class Character : IIdentifiable<string> {
 			}
 		}
 	}
-		
+
+	private static bool IsImperatorProvIdInvalidForCharacterSource(ulong? impProvForProvinceMapper, ProvinceMapper provinceMapper) {
+		return !impProvForProvinceMapper.HasValue || provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper.Value).Count == 0;
+	}
+
 	public void SetCultureId(string cultureId, Date? date) {
 		History.AddFieldValue(date, "culture", "culture", cultureId);
 	}
