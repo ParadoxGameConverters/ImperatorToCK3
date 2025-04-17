@@ -912,7 +912,13 @@ per_sheklesh = {  # Egyptian Italy from BA to I:R
 	created = 2.1.1
 
 	name_list = name_list_ancient_egyptian
-	heritage = heritage_egyptian
+	MOD_DEPENDENT = {
+		IF @[tfe|wtwsms] = {
+			heritage = heritage_kemetic
+		} ELSE = {
+			heritage = heritage_egyptian
+		}
+	}
 	language = language_kemetic
 	martial_custom = martial_custom_male_only
 
