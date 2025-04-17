@@ -251,7 +251,9 @@ internal sealed partial class Title {
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			DefiniteFormMapper definiteFormMapper,
-			ImperatorRegionMapper imperatorRegionMapper
+			ImperatorRegionMapper imperatorRegionMapper,
+			GovernmentMapper governmentMapper,
+			IReadOnlyCollection<string> enabledCK3Dlcs
 		) {
 			var newTitle = new Title(this,
 				id,
@@ -266,7 +268,9 @@ internal sealed partial class Title {
 				provinceMapper,
 				coaMapper,
 				definiteFormMapper,
-				imperatorRegionMapper
+				imperatorRegionMapper,
+				governmentMapper,
+				enabledCK3Dlcs
 			);
 			dict[newTitle.Id] = newTitle;
 			return newTitle;
@@ -631,6 +635,8 @@ internal sealed partial class Title {
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
 			CoaMapper coaMapper,
+			GovernmentMapper governmentMapper,
+			IReadOnlyCollection<string> enabledDlcFlags,
 			List<Governorship> countyLevelGovernorships
 		) {
 			Logger.Info("Importing Imperator Governorships...");
@@ -658,6 +664,8 @@ internal sealed partial class Title {
 					definiteFormMapper,
 					imperatorRegionMapper,
 					coaMapper,
+					governmentMapper,
+					enabledDlcFlags,
 					countyLevelGovernorships
 				);
 				++counter;
@@ -680,6 +688,8 @@ internal sealed partial class Title {
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
 			CoaMapper coaMapper,
+			GovernmentMapper governmentMapper,
+			IReadOnlyCollection<string> enabledCK3Dlcs,
 			List<Governorship> countyLevelGovernorships
 		) {
 			var country = governorship.Country;
@@ -708,7 +718,9 @@ internal sealed partial class Title {
 					ck3LocDB,
 					provinceMapper,
 					definiteFormMapper,
-					imperatorRegionMapper
+					imperatorRegionMapper,
+					governmentMapper,
+					enabledCK3Dlcs
 				);
 			} else {
 				Add(
@@ -724,7 +736,9 @@ internal sealed partial class Title {
 					provinceMapper,
 					coaMapper,
 					definiteFormMapper,
-					imperatorRegionMapper
+					imperatorRegionMapper,
+					governmentMapper,
+					enabledCK3Dlcs
 				);
 			}
 		}

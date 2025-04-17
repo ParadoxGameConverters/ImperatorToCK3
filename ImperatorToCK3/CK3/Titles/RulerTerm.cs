@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Nickname;
@@ -14,9 +15,9 @@ internal sealed class RulerTerm {
 	public string? CharacterId { get; }
 	public Date StartDate { get; }
 	public string? Government { get; }
-	public Imperator.Countries.RulerTerm.PreImperatorRulerInfo? PreImperatorRuler { get; }
 
 	public RulerTerm(
+		Title ck3Title,
 		Imperator.Countries.RulerTerm imperatorRulerTerm,
 		Characters.CharacterCollection characters,
 		GovernmentMapper governmentMapper,
@@ -33,22 +34,26 @@ internal sealed class RulerTerm {
 		}
 		StartDate = imperatorRulerTerm.StartDate;
 		if (imperatorRulerTerm.Government is not null) {
-			Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorRulerTerm.Government, rank: null, null, enabledCK3Dlcs);
+			Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(
+				irGovernmentId: imperatorRulerTerm.Government, 
+				rank: ck3Title.Rank, 
+				irCultureId: ck3Title.ImperatorCountry?.PrimaryCulture,
+				enabledCK3Dlcs);
 		}
 
-		PreImperatorRuler = imperatorRulerTerm.PreImperatorRuler;
-		if (PreImperatorRuler?.BirthDate is null) {
+		var preImperatorRuler = imperatorRulerTerm.PreImperatorRuler;
+		if (preImperatorRuler?.BirthDate is null) {
 			return;
 		}
-		if (PreImperatorRuler.DeathDate is null) {
+		if (preImperatorRuler.DeathDate is null) {
 			return;
 		}
-		if (PreImperatorRuler.Country is not null) {
+		if (preImperatorRuler.Country is not null) {
 			// create a new ruler character
 			var character = new Character(
-				PreImperatorRuler,
+				preImperatorRuler,
 				StartDate,
-				PreImperatorRuler.Country,
+				preImperatorRuler.Country,
 				characters,
 				irLocDB,
 				ck3LocDB,

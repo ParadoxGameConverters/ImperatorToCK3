@@ -25,7 +25,6 @@ using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.UnitTests.TestHelpers;
-using Open.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -320,6 +319,8 @@ public class CharacterCollectionTests {
 			config);
 
 		// Import country 589.
+		var governmentMapper = new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>());
+		var enabledCK3Dlcs = Array.Empty<string>();
 		titles.ImportImperatorCountries(
 			imperatorWorld.Countries,
 			Array.Empty<Dependency>(),
@@ -328,7 +329,7 @@ public class CharacterCollectionTests {
 			ck3LocDB,
 			provinceMapper,
 			coaMapper,
-			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
+			governmentMapper,
 			new SuccessionLawMapper(),
 			definiteFormMapper,
 			religionMapper,
@@ -338,7 +339,7 @@ public class CharacterCollectionTests {
 			conversionDate,
 			config,
 			new List<KeyValuePair<Country, Dependency?>>(),
-			enabledCK3Dlcs: []);
+			enabledCK3Dlcs: enabledCK3Dlcs);
 
 		var provinces = new ProvinceCollection(ck3ModFS);
 		var ck3MapData = new MapData(ck3ModFS);
@@ -355,7 +356,9 @@ public class CharacterCollectionTests {
 			definiteFormMapper,
 			imperatorWorld.ImperatorRegionMapper,
 			coaMapper,
-			countyLevelGovernorships: new List<Governorship>());
+			governmentMapper,
+			enabledCK3Dlcs,
+			countyLevelGovernorships: []);
 
 		var ck3Country = titles["e_IRTOCK3_PRY"];
 		Assert.Equal("imperator1000", ck3Country.GetHolderId(conversionDate));

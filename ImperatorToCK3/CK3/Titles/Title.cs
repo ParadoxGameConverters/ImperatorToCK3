@@ -89,6 +89,25 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			enabledCK3Dlcs
 		);
 	}
+	/// <summary>
+	/// Constructs a Title from an Imperator governorship.
+	/// </summary>
+	/// <param name="parentCollection">The collection that will contain this title.</param>
+	/// <param name="id">ID that will be assigned to this title.</param>
+	/// <param name="governorship">Source Imperator governorship.</param>
+	/// <param name="country">Imperator country that owns the governorship.</param>
+	/// <param name="irProvinces">Collection of all I:R provinces (not just the ones in the governorship).</param>
+	/// <param name="imperatorCharacters">Collection of all I:R characters.</param>
+	/// <param name="regionHasMultipleGovernorships">Whether the governorship is in a region with multiple governorships.</param>
+	/// <param name="staticDeJure">Whether the static de jure option is enabled.</param>
+	/// <param name="irLocDB">I:R localization database.</param>
+	/// <param name="ck3LocDB">CK3 localization database.</param>
+	/// <param name="provinceMapper">Province mapper to be used.</param>
+	/// <param name="coaMapper">CoA mapper to be used.</param>
+	/// <param name="definiteFormMapper">Definite form mapper to be used.</param>
+	/// <param name="imperatorRegionMapper">I:R region mapper to be used.</param>
+	/// <param name="governmentMapper">Government mapper to be used.</param>
+	/// <param name="enabledCK3Dlcs">Collection of enabled CK3 DLCs.</param>
 	private Title(LandedTitles parentCollection,
 		string id,
 		Governorship governorship,
@@ -102,7 +121,9 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		ProvinceMapper provinceMapper,
 		CoaMapper coaMapper,
 		DefiniteFormMapper definiteFormMapper,
-		ImperatorRegionMapper imperatorRegionMapper
+		ImperatorRegionMapper imperatorRegionMapper,
+		GovernmentMapper governmentMapper,
+		IReadOnlyCollection<string> enabledCK3Dlcs
 	) {
 		IsCreatedFromImperator = true;
 		this.parentCollection = parentCollection;
@@ -119,7 +140,9 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			ck3LocDB,
 			provinceMapper,
 			definiteFormMapper,
-			imperatorRegionMapper
+			imperatorRegionMapper,
+			governmentMapper,
+			enabledCK3Dlcs
 		);
 	}
 
@@ -310,6 +333,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		foreach (var impRulerTerm in imperatorCountry.RulerTerms) {
 			var rulerTerm = new RulerTerm(
+				this,
 				impRulerTerm,
 				characters,
 				governmentMapper,
@@ -505,7 +529,9 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		CK3LocDB ck3LocDB,
 		ProvinceMapper provinceMapper,
 		DefiniteFormMapper definiteFormMapper,
-		ImperatorRegionMapper imperatorRegionMapper
+		ImperatorRegionMapper imperatorRegionMapper,
+		GovernmentMapper governmentMapper,
+		IReadOnlyCollection<string> enabledCK3Dlcs
 	) {
 		var governorshipStartDate = governorship.StartDate;
 
@@ -530,12 +556,17 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		// ------------------ determine holder
 		History.AddFieldValue(governorshipStartDate, "holder", "holder", $"imperator{impGovernor.Id}");
 
-		// ------------------ determine government
+		// Determine government.
 		Date normalizedGovernorshipStartDate = governorshipStartDate.Year >= 2 ? governorshipStartDate : new(2, 1, 1);
-		var ck3LiegeGov = country.CK3Title.GetGovernment(normalizedGovernorshipStartDate);
-		if (ck3LiegeGov is not null) {
-			History.AddFieldValue(normalizedGovernorshipStartDate, "government", "government", ck3LiegeGov);
-		}
+		string? ck3LiegeGov = country.CK3Title.GetGovernment(normalizedGovernorshipStartDate);
+		TrySetGovernmentForTitleFromGovernorship(
+			governorship,
+			normalizedGovernorshipStartDate,
+			country,
+			ck3LiegeGov,
+			governmentMapper,
+			enabledCK3Dlcs
+		);
 
 		// Determine color.
 		var countryColor = country.Color1;
@@ -622,6 +653,30 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		if (!adjSet) {
 			Logger.Warn($"{Id} needs help with adjective localization!");
+		}
+	}
+
+	private void TrySetGovernmentForTitleFromGovernorship(Governorship governorship, Date normalizedGovernorshipStartDate, Country country, string? ck3LiegeGov, GovernmentMapper governmentMapper, IReadOnlyCollection<string> enabledCK3Dlcs) {
+		string? irCountryGov = country.Government;
+		string? govToUse = null;
+		if (!string.IsNullOrEmpty(irCountryGov)) {
+			var ck3Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(
+				irGovernmentId: irCountryGov,
+				rank: Rank, // At this point the rank is set, so we can use it.
+				irCultureId: country.PrimaryCulture,
+				enabledCK3Dlcs: enabledCK3Dlcs);
+			if (ck3Government is not null) {
+				govToUse = ck3Government;
+			}
+		} else if (ck3LiegeGov is not null) {
+			// We can't separately determine the government for the governorship, so we use the one from the country.
+			govToUse = ck3LiegeGov;
+		}
+
+		if (govToUse is not null) {
+			History.AddFieldValue(normalizedGovernorshipStartDate, "government", "government", govToUse);
+		} else {
+			Logger.Warn($"Could not find CK3 government for {country.Tag} governorship of {governorship.Region.Id}!");
 		}
 	}
 
