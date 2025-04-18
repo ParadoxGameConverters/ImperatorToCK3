@@ -2079,9 +2079,14 @@ language_chong = {
 language_alasiyan = {
     
 	MOD_DEPENDENT = {
-		IF roa = {
+		IF @[roa|tfe] = {
 			parameters = {
 				language_group_semitic = yes
+				language_family_afro_asiatic = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				language_branch_semitic = yes
 				language_family_afro_asiatic = yes
 			}
 		}
@@ -2094,7 +2099,7 @@ language_alasiyan = {
 		}
 	}
 	MOD_DEPENDENT = {
-		IF roa = {
+		IF @[roa|tfe] = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -2104,6 +2109,23 @@ language_alasiyan = {
 				else_if = {
 					limit = { has_cultural_parameter = language_group_semitic }
 					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_afro_asiatic }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE_IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_alasiyan }
+					multiply = same_language_choice_factor
+				}
+				else_if = {
+				limit = { has_cultural_parameter = language_branch_semitic }
+					multiply = same_language_branch_choice_factor
 				}
 				else_if = {
 					limit = { has_cultural_parameter = language_family_afro_asiatic }
@@ -2128,9 +2150,15 @@ language_alasiyan = {
 language_ugaritic = {
     
 	MOD_DEPENDENT = {
-		IF roa = {
+		IF @[roa|tfe] = {
 			parameters = {
 				language_group_semitic = yes
+				language_family_afro_asiatic = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				language_group_northwest_semitic = yes
+				language_branch_semitic = yes
 				language_family_afro_asiatic = yes
 			}
 		}
@@ -2143,7 +2171,7 @@ language_ugaritic = {
 		}
 	}
 	MOD_DEPENDENT = {
-		IF roa = {
+		IF @[roa|tfe] = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -2153,6 +2181,27 @@ language_ugaritic = {
 				else_if = {
 					limit = { has_cultural_parameter = language_group_semitic }
 					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_afro_asiatic }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		}
+		ELSE_IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_ugaritic }
+					multiply = same_language_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_northwest_semitic }
+					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+				limit = { has_cultural_parameter = language_branch_semitic }
+					multiply = same_language_branch_choice_factor
 				}
 				else_if = {
 					limit = { has_cultural_parameter = language_family_afro_asiatic }
@@ -2176,17 +2225,84 @@ language_ugaritic = {
 
 language_sumerian = { # A true isolate with no known relatives
 
+	MOD_DEPENDENT = {
+		IF @[roa|tfe] = {
+			parameters = {
+				language_group_sumerian = yes
+				language_family_sumerian = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				language_branch_sumerian = yes
+				language_family_sumerian = yes
+			}
+		}
+	}
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_sumerian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_sumerian }
-			multiply = 10
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_sumerian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_sumerian }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_sumerian }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF roa = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_sumerian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_sumerian }
+					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_sumerian }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_sumerian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_sumerian }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_sumerian }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_sumerian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -2195,17 +2311,84 @@ language_sumerian = { # A true isolate with no known relatives
 
 language_hurrian = { # In the Hurro-Urartian family, long extinct
 
+	MOD_DEPENDENT = {
+		IF @[roa|tfe] = {
+			parameters = {
+				language_group_hurrian = yes
+				language_family_hurro_urartian = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				language_branch_hurrian = yes
+				language_family_hurro_urartian = yes
+			}
+		}
+	}
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_hurrian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_hurrian }
-			multiply = 10
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_hurrian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_hurrian }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_hurro_urartian }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF roa = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_hurrian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_hurrian }
+					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_hurro_urartian }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_hurrian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_hurrian }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_hurro_urartian }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_hurrian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -2214,17 +2397,84 @@ language_hurrian = { # In the Hurro-Urartian family, long extinct
 
 language_gutian = { # Ancient and long-forgotten language of the Gutians from the Bronze Age, unknown
 
+	MOD_DEPENDENT = {
+		IF @[roa|tfe] = {
+			parameters = {
+				language_group_gutian = yes
+				language_family_gutian = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				language_branch_gutian = yes
+				language_family_gutian = yes
+			}
+		}
+	}
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_gutian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_gutian }
-			multiply = 10
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_gutian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_gutian }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_gutian }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF roa = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_gutian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_gutian }
+					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_gutian }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_gutian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_gutian }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_gutian }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_gutian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -2233,24 +2483,105 @@ language_gutian = { # Ancient and long-forgotten language of the Gutians from th
 
 language_minoan = { # Ancient Pre-Greek language, unknown classification due to Linear A remaining undeciphered
 
+	MOD_DEPENDENT = {
+		IF @[roa|tfe] = {
+			parameters = {
+				language_group_pre_greek = yes
+				language_family_pre_greek = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				language_branch_pre_greek = yes
+				language_family_pre_greek = yes
+			}
+		}
+	}
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_minoan
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_minoan }
-			multiply = 10
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_minoan }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_pre_greek }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_pre_greek }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF roa = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_minoan }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_pre_greek }
+					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_pre_greek }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_minoan }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_pre_greek }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_pre_greek }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_minoan }
+					multiply = 10
+				}
+			}
 		}
 	}
 
-	color = hsv { 0.97 0.93 0.55 }
+	color = hsv { 0.15 0.15 0.05 }
 }
 
 language_cycladic = { # Ancient Pre-Greek language of the Cyclades, no written records discovered
+
+	MOD_DEPENDENT = {
+		IF @[roa|tfe] = {
+			parameters = {
+				language_group_pre_greek = yes
+				language_family_pre_greek = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				language_branch_pre_greek = yes
+				language_family_pre_greek = yes
+			}
+		}
+	}
 
 	type = language
 	is_shown = {
@@ -2258,11 +2589,64 @@ language_cycladic = { # Ancient Pre-Greek language of the Cyclades, no written r
 			LANGUAGE = language_cycladic
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_cycladic }
-			multiply = 10
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_cycladic }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_pre_greek }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_pre_greek }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF roa = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_cycladic }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_pre_greek }
+					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_pre_greek }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_cycladic }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_pre_greek }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_pre_greek }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_pre_greek }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -2271,17 +2655,84 @@ language_cycladic = { # Ancient Pre-Greek language of the Cyclades, no written r
 
 language_pelasgian = { # Ancient Pre-Greek language of mainland Greece, no written records discovered
 
+	MOD_DEPENDENT = {
+		IF @[roa|tfe] = {
+			parameters = {
+				language_group_pre_greek = yes
+				language_family_pre_greek = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				language_branch_pre_greek = yes
+				language_family_pre_greek = yes
+			}
+		}
+	}
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_pelasgian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_pelasgian }
-			multiply = 10
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_pelasgian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_pre_greek }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_pre_greek }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF roa = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_pelasgian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_pre_greek }
+					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_pre_greek }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_pelasgian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_pre_greek }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_pre_greek }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_pelasgian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
@@ -2290,17 +2741,84 @@ language_pelasgian = { # Ancient Pre-Greek language of mainland Greece, no writt
 
 language_hatti = { # Pre-Hittite language of central Anatolia
 
+	MOD_DEPENDENT = {
+		IF @[roa|tfe] = {
+			parameters = {
+				language_group_hatti = yes
+				language_family_hatti = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				language_branch_hatti = yes
+				language_family_hatti = yes
+			}
+		}
+	}
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_hatti
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_hatti }
-			multiply = 10
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_hatti }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_hatti }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_hatti }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF roa = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_hatti }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_hatti }
+					multiply = same_language_group_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_hatti }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_hatti }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_hatti }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_hatti }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_hatti }
+					multiply = 10
+				}
+			}
 		}
 	}
 

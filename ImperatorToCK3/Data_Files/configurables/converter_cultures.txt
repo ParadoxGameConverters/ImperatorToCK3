@@ -674,6 +674,37 @@ kizzuwatnan = { # Ancient Bronze Age people of Cilicia, hybrids between Hurrians
 	unit_gfx = { eastern_unit_gfx }
 }
 
+trojan = {  # Override of vanilla culture
+    INVALIDATED_BY = {
+		tfe = { trojan } # Both TFE and WtWSMS have their own versions of it
+		wtwsms = { trojan }
+	}
+
+	color = trojan
+
+	ethos = ethos_bellicose
+	heritage = heritage_anatolian
+	language = language_luwian
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_philosopher_culture
+		tradition_legalistic
+		tradition_astute_diplomats
+		tradition_maritime_mercantilism
+	}
+	
+	name_list = name_list_luwian
+	
+	coa_gfx = { byzantine_group_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	unit_gfx = { eastern_unit_gfx }
+	
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+}
+
 phrygian = {
     INVALIDATED_BY = {
 		tfe = { phrygian }
@@ -2866,8 +2897,10 @@ ugaritic = {
 	language = language_ugaritic
 	martial_custom = martial_custom_male_only
 	traditions = {
-		tradition_seafaring
+		tradition_maritime_mercantilism
 		tradition_xenophilic
+		tradition_poetry #The Ugarit archive contained many epic poems
+		tradition_astute_diplomats #Reference to the great Ugarit archive containing diplomatic correspondences
 	}
 
 	ethos = ethos_bureaucratic
@@ -3524,7 +3557,7 @@ hatti = { #Pre-Hittite people of central Anatolia
     
 	color = rgb { 200 200 200 }
 
-	heritage = heritage_syriac
+	heritage = heritage_anatolian
 	language = language_hatti
 	martial_custom = martial_custom_male_only
 	traditions = { 
