@@ -1,7 +1,6 @@
 ﻿using commonItems;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Nickname;
