@@ -1,0 +1,3 @@
+﻿l_english:
+ roma_is_capital: "The [GetTitleByKey('c_roma').GetName|U] is your [capital|E]"
+ owns_constantinople_tt: "You own the [GetTitleByKey('c_byzantion').GetName]"

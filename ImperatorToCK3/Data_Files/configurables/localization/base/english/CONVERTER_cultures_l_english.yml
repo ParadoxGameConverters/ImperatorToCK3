@@ -390,3 +390,8 @@ l_english:
  syro_hellenic: "Syriac"
  syro_hellenic_collective_noun: "Syrians"
  syro_hellenic_prefix: "Syro"
+
+ hellenic_greek: "Greek"
+ hellenic_greek_collective_noun: "Greeks"
+ hellenic_greek_prefix: "Greco"
+

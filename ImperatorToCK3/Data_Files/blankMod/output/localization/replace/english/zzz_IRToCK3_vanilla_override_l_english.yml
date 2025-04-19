@@ -43,3 +43,16 @@
  assyrian_collective_noun: "Assyrians"
  assyrian_prefix: "Assyro"
 
+ greek: "Romaios"
+ greek_collective_noun: "Romaioi"
+ greek_prefix: "Romaio"
+
+ # recreate_byzantine_empire_decision overrides to allow Romans to take the decision too
+ is_greek_tt: "You are $greek$ or $roman$"
+ is_greek_descendent_tt: "Your [culture|E] descends from $greek$ or $roman$"
+ no_byz_emp_exists_tt: "No [ruler|E] holds [GetTitleByKey('e_byzantium').GetNameNoTier] or [GetTitleByKey('e_roman_empire').GetNameNoTier]"
+
+ # refound_pandidakterion_decision overrides to account for the fact that the Pandidakterion was never actually founded in the game's timeline, so this would be its founding
+ refound_pandidakterion_decision: "Found the Pandidakterion"
+ refound_pandidakterion_decision_desc: "Being one of the most important cities in the world, it is only proper that [GetTitleByKey('c_byzantion').GetNameNoTier] has the institutions to reflect its status. It is time we make it the largest center of study in the world with the founding of the [Glossary( 'Pandidakterion', 'PANDIDAKTERION_GLOSS' )]!"
+ refound_pandidakterion_decision_tooltip: "Begin organizing the great University of Constantinople"

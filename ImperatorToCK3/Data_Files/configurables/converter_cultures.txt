@@ -15,7 +15,7 @@ gelonian = {
 
 	heritage = heritage_byzantine
 	language = language_scythian
-	parents = { hellenistic scythian }
+	parents = { hellenic_greek scythian }
 	#created = -600.1.1 #needs to be BC
 	created = 2.1.1 # BC dates are not supported here as of CK3 1.15
 	ethos = ethos_bellicose
@@ -867,6 +867,93 @@ arakanese = {  # https://en.wikipedia.org/wiki/Rakhine_people
 	}
 }
 
+hellenic_greek = { # Now used to represent non-Romanized Greeks
+    INVALIDATED_BY = {
+		tfe = { hellenic_greek }
+		roa = { hellenic_greek }
+		wtwsms = { hellenic_greek }
+		vanilla = { hellenic_greek }
+	}
+    
+	color = { 0.58 0.74 0.95 }
+
+	ethos = ethos_bureaucratic
+	heritage = heritage_byzantine
+	language = language_greek
+	martial_custom = martial_custom_male_only
+	traditions = { # From ChatGPT and my own research, non-Romanized Greeks fit better under a diplomatic/warfare-focused culture, instead of a political/intrigue-based one like base game Greek -tanner918
+		tradition_warrior_culture
+		tradition_legalistic
+		tradition_astute_diplomats
+	}
+	
+	name_list = name_list_ancient_greek
+	name_list = name_list_trojan # seems wrong but is localized as "Ancient Greek"
+	
+	coa_gfx = { byzantine_group_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	unit_gfx = { eastern_unit_gfx }
+	
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+}
+
+greek = { # Overwriting the vanilla greek definition to make it better represent the "Romanized" Greeks (basically what base game greek already represents, but doesn't state)
+	INVALIDATED_BY = {
+		tfe = { greek }
+		wtwsms = { greek }
+	}
+
+	parents = { hellenic_greek roman }
+	created = 2.1.1
+
+	color = greek
+	
+	ethos = ethos_bureaucratic
+	heritage = heritage_byzantine
+	language = language_greek
+	martial_custom = martial_custom_male_only
+	
+	dlc_tradition = {
+		trait = tradition_ep3_imperial_tagmata
+		requires_dlc_flag = roads_to_power
+		fallback = tradition_roman_legacy
+	}
+	dlc_tradition = {
+		trait = tradition_ep3_roman_ceremonies
+		requires_dlc_flag = roads_to_power
+		fallback = tradition_byzantine_succession
+	}
+	dlc_tradition = {
+		trait = tradition_ep3_palace_politics
+		requires_dlc_flag = roads_to_power
+		fallback = tradition_formation_fighting
+	}
+	dlc_tradition = {
+		trait = tradition_ep3_cultivated_sophistication
+		requires_dlc_flag = roads_to_power
+		fallback = tradition_legalistic
+	}
+	dlc_tradition = {
+		trait = tradition_religious_patronage
+		requires_dlc_flag = roads_to_power
+		fallback = tradition_religious_patronage
+	}
+	
+	name_list = name_list_greek
+	
+	coa_gfx = { byzantine_group_coa_gfx }
+	building_gfx = { byzantine_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	unit_gfx = { eastern_unit_gfx }
+	
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+}
+
 # Move vanilla CK3 macedonian culture from heritage_ancient_greek to heritage_byzantine
 macedonian = {
     INVALIDATED_BY = {
@@ -958,7 +1045,7 @@ indogreek = {
 	color = hsv { 0.03 0.7 0.7 }
 	heritage = heritage_byzantine
 	language = language_greek
-	parents = { greek bactrian }
+	parents = { hellenic_greek bactrian }
 	created = 2.1.1
 	ethos = ethos_bureaucratic
 
@@ -987,7 +1074,7 @@ italiote = {
 		vanilla = { italiote }
 	}
     
-	parents = { greek }
+	parents = { hellenic_greek }
 	created = 2.1.1
 	heritage = heritage_byzantine
 	language = language_greek
@@ -2430,7 +2517,7 @@ mikligardrish = {
     
 	heritage = heritage_north_germanic
 	language = language_norse
-	parents = { norse greek }
+	parents = { norse hellenic_greek }
 	created = 20.1.1
 	martial_custom = martial_custom_male_only
 	traditions = {
@@ -2959,7 +3046,7 @@ lemnian = {
 	}
     
 	color = rgb { 148 26 254 }
-	parents = { etruscan greek }
+	parents = { etruscan hellenic_greek }
 	created = 20.1.1
 
 	heritage = heritage_tyrrhenian
