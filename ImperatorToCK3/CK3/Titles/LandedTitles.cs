@@ -251,9 +251,7 @@ internal sealed partial class Title {
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			DefiniteFormMapper definiteFormMapper,
-			ImperatorRegionMapper imperatorRegionMapper,
-			GovernmentMapper governmentMapper,
-			IReadOnlyCollection<string> enabledCK3Dlcs
+			ImperatorRegionMapper imperatorRegionMapper
 		) {
 			var newTitle = new Title(this,
 				id,
@@ -268,9 +266,7 @@ internal sealed partial class Title {
 				provinceMapper,
 				coaMapper,
 				definiteFormMapper,
-				imperatorRegionMapper,
-				governmentMapper,
-				enabledCK3Dlcs
+				imperatorRegionMapper
 			);
 			dict[newTitle.Id] = newTitle;
 			return newTitle;
@@ -718,9 +714,7 @@ internal sealed partial class Title {
 					ck3LocDB,
 					provinceMapper,
 					definiteFormMapper,
-					imperatorRegionMapper,
-					governmentMapper,
-					enabledCK3Dlcs
+					imperatorRegionMapper
 				);
 			} else {
 				Add(
@@ -736,9 +730,7 @@ internal sealed partial class Title {
 					provinceMapper,
 					coaMapper,
 					definiteFormMapper,
-					imperatorRegionMapper,
-					governmentMapper,
-					enabledCK3Dlcs
+					imperatorRegionMapper
 				);
 			}
 		}
