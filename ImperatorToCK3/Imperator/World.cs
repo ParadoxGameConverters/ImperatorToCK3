@@ -740,6 +740,10 @@ internal partial class World {
 		}
 	}
 	private void VerifySave(string saveGamePath) {
+		if (new FileInfo(saveGamePath).Length < 4) {
+			throw new UserErrorException("Save file is too small for a valid save.");
+		}
+		
 		using var saveStream = File.Open(saveGamePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 		var buffer = new byte[10];
 		var bytesRead = saveStream.Read(buffer, 0, 4);
