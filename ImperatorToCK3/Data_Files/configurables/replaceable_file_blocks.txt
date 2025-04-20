@@ -1066,6 +1066,71 @@
 		} # end of after
 	} # end of is_shown block
 
+
+	# effect block
+	replace = {
+		before = {
+		if = {
+			limit = {
+				has_active_diarchy = yes
+				has_diarchy_type = co_emperorship
+			}
+			diarch = {
+				save_scope_as = new_holder
+			}
+		}
+		if = {
+			limit = {
+				any_powerful_family = {
+					this != root.house
+					count >= 1
+					exists = house_head
+				}
+			}
+			ordered_powerful_family = {
+				limit = {
+					this != root.house
+				}
+				order_by = house_power_score
+				house_head = {
+					save_scope_as = new_holder
+				}
+			}
+		}
+		} # end of before
+
+
+		after = {
+		if = {
+			limit = {
+				has_active_diarchy = yes
+				has_diarchy_type = co_emperorship
+			}
+			diarch = {
+				save_scope_as = new_holder
+			}
+		}
+		else_if = { # IRToCK3: The base game has this as an if statement, which means if the "new_holder" scope is set above by an existing co-emperor, then that will get overwritten here. Now, this will only get run if there is no co-emperor
+			limit = {
+				any_powerful_family = {
+					this != root.house
+					count >= 1
+					exists = house_head
+				}
+			}
+			ordered_powerful_family = {
+				limit = {
+					this != root.house
+				}
+				order_by = house_power_score
+				house_head = {
+					save_scope_as = new_holder
+				}
+			}
+		}
+		} # end of after
+	}
+
 }
 
 
