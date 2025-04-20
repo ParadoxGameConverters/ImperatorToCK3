@@ -1598,6 +1598,271 @@
 
 
 "common/scripted_effects/00_major_decisions_scripted_effects.txt" = {
+	#########
+	# create_eastern_roman_empire_scripted_effect
+	#########
+
+	# Commenting out the de jure drift of held empire titles
+	replace = {
+		before = {
+		every_held_title = { #Should shift all dejure of all Empires owned at the time.
+			limit = {
+				tier = tier_empire
+			}
+			every_in_de_jure_hierarchy = {
+				limit = {
+					tier = tier_kingdom
+					save_temporary_scope_as = kingdom_to_check
+					any_county_in_region = {
+						region = custom_ep3_restore_rome_eastern_empire
+						any_this_title_or_de_jure_above = {
+							this = scope:kingdom_to_check
+						}
+					}
+				}
+				add_to_list = target_titles
+			}
+		}
+		} # end of before
+
+		after = {
+		# IRToCK3: Commenting this out to prevent the weird de jure drifting that happens because of this, making it so only fully controlled kingdoms drift
+		# every_held_title = { #Should shift all dejure of all Empires owned at the time.
+		# 	limit = {
+		# 		tier = tier_empire
+		# 	}
+		# 	every_in_de_jure_hierarchy = {
+		# 		limit = {
+		# 			tier = tier_kingdom
+		# 			save_temporary_scope_as = kingdom_to_check
+		# 			any_county_in_region = {
+		# 				region = custom_ep3_restore_rome_eastern_empire
+		# 				any_this_title_or_de_jure_above = {
+		# 					this = scope:kingdom_to_check
+		# 				}
+		# 			}
+		# 		}
+		# 		add_to_list = target_titles
+		# 	}
+		# }
+		} # end of after
+	}
+
+	# Change it so that any fully controlled kingdom is drifted, regardless of whether you hold the title or not
+	replace = {
+		before = {
+		every_held_title = { #Completely Controlled Kingdoms as well.
+			limit = {
+				root = { completely_controls = prev }
+				tier = tier_kingdom
+				save_temporary_scope_as = kingdom_to_check
+				any_county_in_region = {
+					region = custom_ep3_restore_rome_eastern_empire
+					any_this_title_or_de_jure_above = {
+						this = scope:kingdom_to_check
+					}
+				}
+			}
+			add_to_list = target_titles
+		}
+		} # end of before
+
+		after = {
+		# IRToCK3: Modified the code so that only the kingdoms that are completely controlled get de jure drifted, without requiring you to hold that specific title like normal decision requires
+		every_sub_realm_county = {
+			limit = {
+				exists = kingdom
+				NOT = { kingdom = { is_in_list = target_titles } }
+				kingdom = {
+					any_de_jure_county = { # IRToCK3: Checks if at least half of the counties are in the correct region, to ensure only relevant kingdoms are drifted
+						percent >= 0.5
+						title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+				OR = { # IRToCK3: Will de jure drift a kingdom only if the kingdom has no holder, the holder is the Roman Emperor, or the holder is a vassal of the Roman Emperor
+					NOT = { exists = kingdom.holder }
+					kingdom.holder = root
+					kingdom.holder.top_liege = root
+				}
+				kingdom = {
+					save_temporary_scope_as = test_kingdom
+				}
+				holder.top_liege = {
+					completely_controls = scope:test_kingdom
+				}
+			}
+			
+			kingdom = { add_to_list = target_titles }
+		}
+
+		# IRToCK3: Also drift over all kingdoms that are de jure under e_roman_empire where at least half of their de jure counties are in the corresponding ERE region to prevent weird gaps
+		title:e_roman_empire = {
+			every_in_de_jure_hierarchy = {
+				limit = {
+					tier = tier_kingdom
+					NOT = { is_in_list = target_titles }
+					any_de_jure_county = { # IRToCK3: Checks if at least half of the counties are in the correct region, to ensure a kingdom is drifted for having only a couple counties in the region
+						percent >= 0.5
+						title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+
+				add_to_list = target_titles
+			}
+		}
+		} # end of after
+	}
+
+	# Change it so that only titles that are currently de facto under e_roman_empire are actually given to e_byzantium
+	replace = {
+		before = {
+			every_in_de_jure_hierarchy = {
+				if = {
+					limit = {
+						holder ?= root
+						tier >= tier_county
+					}
+					change_title_holder = {
+						holder = scope:new_holder
+						change = scope:change
+					}
+				}
+				else = {
+					holder ?= {
+						change_liege = {
+							liege = scope:new_holder
+							change = scope:change
+						}
+					}
+				}
+			}
+		} # End of before
+
+		after = {
+			every_in_de_jure_hierarchy = {
+				if = {
+					limit = {
+						exists = holder
+						holder = root
+						tier >= tier_county
+					}
+					change_title_holder = {
+						holder = scope:new_holder
+						change = scope:change
+					}
+				}
+				else_if = { # IRToCK3: Modified this block so that only titles that are de jure part of e_byzantium and a direct vassal of the Roman Emperor have their liege changed to the new Byzantine Emperor
+					limit = {
+						exists = holder
+						exists = liege
+						liege = root
+					}
+
+					holder = {
+						change_liege = {
+							liege = scope:new_holder
+							change = scope:change
+						}
+					}
+				}
+			}
+			
+			title:e_roman_empire = {
+				holder = {
+					every_held_title = { # IRToCK3: This gives every title held by the Roman Emperor that isn't de jure part of e_roman_empire and is either: a county that is in the custom ERE region; OR a duchy/kingdom where half of it is de jure in the custom ERE region, to the new Byzantine Emperor
+						if = {
+							limit = {
+								NOT = { empire ?= title:e_roman_empire }
+								OR = {
+									AND = {
+										tier = tier_county
+										title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+									}
+									AND = {
+										OR = {
+											tier = tier_duchy
+											tier = tier_kingdom
+										}
+										any_de_jure_county = {
+											percent >= 0.5
+											title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+										}
+									}
+								}
+							}
+	
+							change_title_holder = {
+								holder = scope:new_holder
+								change = scope:change
+							}
+						}
+					}
+
+					every_vassal = { # IRToCK3: This makes it so that any vassal of the Roman Emperor whose primary title is either: a de jure part of e_byzantium; OR at least not de jure part of e_roman_empire but has at least half of it be de jure in the custom ERE region, change liege to the new Byzantine Emperor
+						if = {
+							limit = {
+								OR = {
+									primary_title.empire ?= title:e_byzantium
+									AND = {
+										NOT = { primary_title.empire ?= title:e_roman_empire }
+										any_sub_realm_county = {
+											percent >= 0.5
+											title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+										}
+									}
+								}
+								
+							}
+
+							change_liege = {
+								liege = scope:new_holder
+								change = scope:change
+							}
+						}
+					}
+				}
+			}
+		} # End of after
+	}
+
+	# Change Roman Empire title and de jure hierarchy to the WRE title to represent full Empire split
+	replace = {
+		before = {
+		resolve_title_and_vassal_change = scope:change
+		hidden_effect = { set_primary_title_to = title:e_byzantium }
+		} # end of before
+
+		after = {
+		hidden_effect = { set_primary_title_to = title:e_byzantium }
+
+		# IRToCK3: Swap e_roman_empire title with WRE title
+		title:e_roman_empire = {
+			every_in_de_jure_hierarchy = {
+				limit = {
+					tier = tier_kingdom
+				}
+				set_de_jure_liege_title = title:e_western_roman_empire
+			}
+		}
+
+		title:e_western_roman_empire = {
+			change_title_holder = {
+				holder = title:e_roman_empire.holder
+				change = scope:change
+			}
+		}
+
+		root = {
+			set_primary_title_to = title:e_western_roman_empire
+		}
+
+		resolve_title_and_vassal_change = scope:change
+
+		root = {
+			destroy_title = title:e_roman_empire
+		}
+		} # end of after
+	}
 
 }
 
@@ -1641,6 +1906,130 @@
 
 
 "common/culture/traditions/07_ep3_traditions.txt" = {
+	
+	# tradition_ep3_imperial_tagmata is_shown block
+	replace = {
+		before = {
+		OR = {
+			this = culture:greek
+			any_parent_culture_or_above = {
+				this = culture:greek
+			}
+			has_cultural_pillar = heritage_byzantine
+		}
+		# DLC check.
+		has_ep3_dlc_trigger = yes
+		NOT = {
+			has_cultural_tradition = tradition_roman_legacy
+		}
+		}# end of before
+
+		after = {
+		OR = { # IRToCK3: Added roman as possible culture
+			this = culture:greek
+			this = culture:roman
+			any_parent_culture_or_above = {
+				this = culture:greek
+			}
+			any_parent_culture_or_above = {
+				this = culture:roman
+			}
+			#has_cultural_pillar = heritage_byzantine # IRToCK3: Removed since this heritage know represents general Hellenistic cultures, so it doesn't really fit
+		}
+		# DLC check.
+		has_ep3_dlc_trigger = yes
+		NOT = {
+			has_cultural_tradition = tradition_roman_legacy
+		}
+		} # end of after
+	}
+	
+	# tradition_ep3_roman_ceremonies & tradition_ep3_palace_politics is_shown block
+	replace = {
+		before = {
+		OR = {
+			this = culture:greek
+			any_parent_culture_or_above = {
+				this = culture:greek
+			}
+			has_cultural_pillar = heritage_byzantine
+			scope:character = {
+				OR = {
+					has_title = title:e_byzantium
+					has_title = title:e_roman_empire
+				}
+			}
+		}
+		# DLC check.
+		has_ep3_dlc_trigger = yes
+		NOT = {
+			has_cultural_tradition = tradition_byzantine_succession
+		}
+		}# end of before
+
+		after = {
+		OR = { # IRToCK3: Added roman as possible culture
+			this = culture:greek
+			this = culture:roman
+			any_parent_culture_or_above = {
+				this = culture:greek
+			}
+			any_parent_culture_or_above = {
+				this = culture:roman
+			}
+			#has_cultural_pillar = heritage_byzantine # IRToCK3: Removed since this heritage know represents general Hellenistic cultures, so it doesn't really fit
+			scope:character = {
+				OR = {
+					has_title = title:e_byzantium
+					has_title = title:e_roman_empire
+					has_title = title:e_western_roman_empire # IRToCK3: Added WRE as possible title
+					# IRToCK3: Also made it so that if you are in one of the Roman empire titles, you can choose this, as if being influenced by their traditions
+					top_liege.primary_title = title:e_byzantium
+					top_liege.primary_title = title:e_roman_empire
+					top_liege.primary_title = title:e_western_roman_empire
+				}
+			}
+		}
+		# DLC check.
+		has_ep3_dlc_trigger = yes
+		NOT = {
+			has_cultural_tradition = tradition_byzantine_succession
+		}
+		} # end of after
+	}
+
+	# tradition_ep3_cultivated_sophistication ai_will_do block
+	replace = {
+		before = {
+			limit = { # Admin should be more into this
+				OR = {
+					this = culture:greek
+					any_parent_culture_or_above = {
+						this = culture:greek
+					}
+					has_cultural_pillar = heritage_byzantine
+				}
+			}
+			multiply = 2
+		}# end of before
+
+		after = {
+			limit = { # Admin should be more into this
+				OR = { # IRToCK3: Added roman as possible culture
+					this = culture:greek
+					this = culture:roman
+					any_parent_culture_or_above = {
+						this = culture:greek
+					}
+					any_parent_culture_or_above = {
+						this = culture:roman
+					}
+					#has_cultural_pillar = heritage_byzantine # IRToCK3: Removed since this heritage now represents general Hellenistic cultures
+				}
+			}
+			multiply = 2
+		} # end of after
+	}
 
 }
 
