@@ -2395,10 +2395,11 @@ siculian = {
 	}
 }
 
-# Move vanilla CK3 roman culture from Hellenic to Latin heritage.
+# Overwrite vanilla roman definition so it can actually use the new RtP content
 roman = {
 	INVALIDATED_BY = {
 		tfe = { roman } # Don't overwrite the TFE Roman culture.
+		wtwsms = { roman }  # Don't overwrite the WtWSMS Roman culture.
 	}
 	
 	color = { 0.8 0.1 0.1 }
@@ -2408,12 +2409,27 @@ roman = {
 	language = language_latin
 	martial_custom = martial_custom_male_only
 	traditions = {
-		tradition_formation_fighting
-		tradition_legalistic
-		tradition_roman_legacy
 		tradition_poetry
-		tradition_hereditary_hierarchy
-		tradition_noble_adoption
+	}
+	dlc_tradition = {
+		trait = tradition_ep3_imperial_tagmata
+		requires_dlc_flag = roads_to_power
+		fallback = tradition_roman_legacy
+	}
+	dlc_tradition = {
+		trait = tradition_ep3_roman_ceremonies
+		requires_dlc_flag = roads_to_power
+		fallback = tradition_noble_adoption
+	}
+	dlc_tradition = {
+		trait = tradition_ep3_palace_politics
+		requires_dlc_flag = roads_to_power
+		fallback = tradition_formation_fighting
+	}
+	dlc_tradition = {
+		trait = tradition_ep3_cultivated_sophistication
+		requires_dlc_flag = roads_to_power
+		fallback = tradition_legalistic
 	}
 	
 	name_list = name_list_roman
