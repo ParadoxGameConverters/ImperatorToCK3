@@ -356,8 +356,6 @@ public class CharacterCollectionTests {
 			definiteFormMapper,
 			imperatorWorld.ImperatorRegionMapper,
 			coaMapper,
-			governmentMapper,
-			enabledCK3Dlcs,
 			countyLevelGovernorships: []);
 
 		var ck3Country = titles["e_IRTOCK3_PRY"];

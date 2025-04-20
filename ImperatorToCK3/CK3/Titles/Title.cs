@@ -99,13 +99,13 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	/// <param name="irProvinces">Collection of all I:R provinces (not just the ones in the governorship).</param>
 	/// <param name="imperatorCharacters">Collection of all I:R characters.</param>
 	/// <param name="regionHasMultipleGovernorships">Whether the governorship is in a region with multiple governorships.</param>
-	/// <param name="staticDeJure">Whether the static de jure option is enabled.</param>
 	/// <param name="irLocDB">I:R localization database.</param>
 	/// <param name="ck3LocDB">CK3 localization database.</param>
 	/// <param name="provinceMapper">Province mapper to be used.</param>
 	/// <param name="coaMapper">CoA mapper to be used.</param>
 	/// <param name="definiteFormMapper">Definite form mapper to be used.</param>
 	/// <param name="imperatorRegionMapper">I:R region mapper to be used.</param>
+	/// <param name="config">Configuration object.</param>
 	private Title(LandedTitles parentCollection,
 		string id,
 		Governorship governorship,
@@ -113,13 +113,13 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Imperator.Provinces.ProvinceCollection irProvinces,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
 		bool regionHasMultipleGovernorships,
-		bool staticDeJure,
 		LocDB irLocDB,
 		CK3LocDB ck3LocDB,
 		ProvinceMapper provinceMapper,
 		CoaMapper coaMapper,
 		DefiniteFormMapper definiteFormMapper,
-		ImperatorRegionMapper imperatorRegionMapper
+		ImperatorRegionMapper imperatorRegionMapper,
+		Configuration config
 	) {
 		IsCreatedFromImperator = true;
 		this.parentCollection = parentCollection;
@@ -131,12 +131,12 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			irProvinces,
 			imperatorCharacters,
 			regionHasMultipleGovernorships,
-			staticDeJure,
 			irLocDB,
 			ck3LocDB,
 			provinceMapper,
 			definiteFormMapper,
-			imperatorRegionMapper
+			imperatorRegionMapper,
+			config
 		);
 	}
 
@@ -518,12 +518,12 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Imperator.Provinces.ProvinceCollection irProvinces,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
 		bool regionHasMultipleGovernorships,
-		bool staticDeJure,
 		LocDB irLocDB,
 		CK3LocDB ck3LocDB,
 		ProvinceMapper provinceMapper,
 		DefiniteFormMapper definiteFormMapper,
-		ImperatorRegionMapper imperatorRegionMapper
+		ImperatorRegionMapper imperatorRegionMapper,
+		Configuration config
 	) {
 		var governorshipStartDate = governorship.StartDate;
 
@@ -533,7 +533,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		ClearHolderSpecificHistory();
 
-		if (!staticDeJure) {
+		if (!config.StaticDeJure) {
 			DeJureLiege = country.CK3Title;
 		}
 		SetDeFactoLiege(country.CK3Title, governorshipStartDate);
@@ -550,12 +550,14 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// Determine government.
 		Date normalizedGovernorshipStartDate = governorshipStartDate.Year >= 2 ? governorshipStartDate : new(2, 1, 1);
-		string? ck3LiegeGov = country.CK3Title.GetGovernment(normalizedGovernorshipStartDate);
+		string? currentCK3LiegeGov = country.CK3Title.GetGovernment(config.CK3BookmarkDate);
 		TrySetGovernmentForTitleFromGovernorship(
 			governorship,
-			normalizedGovernorshipStartDate,
 			country,
-			ck3LiegeGov
+			country.CK3Title.GetGovernment(normalizedGovernorshipStartDate),
+			normalizedGovernorshipStartDate,
+			currentCK3LiegeGov,
+			config.CK3BookmarkDate
 		);
 
 		// Determine color.
@@ -569,10 +571,10 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 		}
 
-		// determine successions laws
+		// Determine successions laws.
 		// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
 		OrderedSet<string> successionLaws = [];
-		if (ck3LiegeGov is not null && ck3LiegeGov == "administrative_government") {
+		if (currentCK3LiegeGov is not null && currentCK3LiegeGov == "administrative_government") {
 			successionLaws.Add("appointment_succession_law");
 		} else {
 			successionLaws.Add("high_partition_succession_law");
@@ -646,10 +648,22 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 	}
 
-	private void TrySetGovernmentForTitleFromGovernorship(Governorship governorship, Date normalizedGovernorshipStartDate, Country country, string? ck3LiegeGov) {
-		if (ck3LiegeGov is not null) {
-			History.AddFieldValue(normalizedGovernorshipStartDate, "government", "government", ck3LiegeGov);
-		} else {
+	private void TrySetGovernmentForTitleFromGovernorship(Governorship governorship, Country country, string? ck3LiegeGovAtGovernorshipStartDate, Date normalizedGovernorshipStartDate, string? currentCK3LiegeGov, Date ck3BookmarkDate) {
+		bool govSet = false;
+		
+		// Set government at the start of the governorship.
+		if (ck3LiegeGovAtGovernorshipStartDate is not null) {
+			History.AddFieldValue(normalizedGovernorshipStartDate, "government", "government", ck3LiegeGovAtGovernorshipStartDate);
+			govSet = true;
+		}
+		
+		// Set the government at the bookmark date.
+		if (currentCK3LiegeGov is not null && currentCK3LiegeGov != ck3LiegeGovAtGovernorshipStartDate) {
+			History.AddFieldValue(ck3BookmarkDate, "government", "government", currentCK3LiegeGov);
+			govSet = true;
+		}
+		
+		if (!govSet) {
 			Logger.Warn($"Could not find CK3 government for {country.Tag} governorship of {governorship.Region.Id}!");
 		}
 	}

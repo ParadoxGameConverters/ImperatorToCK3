@@ -337,8 +337,6 @@ internal sealed class World {
 			definiteFormMapper,
 			imperatorRegionMapper,
 			impWorld.CoaMapper,
-			governmentMapper,
-			enabledDlcFlags,
 			countyLevelGovernorships
 		);
 		

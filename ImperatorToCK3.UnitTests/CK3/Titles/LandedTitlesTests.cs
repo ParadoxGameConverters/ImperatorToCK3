@@ -339,7 +339,7 @@ public class LandedTitlesTests {
 		ck3MapData.ProvinceDefinitions.Add(new(3));
 		provinces.ImportImperatorProvinces(imperatorWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 		// Country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level.
-		titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, irLocDB, ck3LocDB, config, provinceMapper, definiteFormMapper, irRegionMapper, coaMapper, governmentMapper, enabledCK3Dlcs, countyLevelGovernorships);
+		titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, irLocDB, ck3LocDB, config, provinceMapper, definiteFormMapper, irRegionMapper, coaMapper, countyLevelGovernorships);
 
 		Assert.Collection(titles,
 			title => Assert.Equal("c_county1", title.Id),
