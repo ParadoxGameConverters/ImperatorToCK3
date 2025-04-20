@@ -10,12 +10,27 @@ language_families = {
     		language_family_elamite_family
     		language_family_paleo_sardinian
     		language_family_tyrsenian
+			language_family_hurro_urartian
+			language_family_sumerian
+			language_family_gutian
+			language_family_pre_greek
+			language_family_hatti
     	} ELSE_IF roa = {
 			language_family_paleo_sardinian
 			language_family_tyrsenian
+			language_family_hurro_urartian
+			language_family_sumerian
+			language_family_gutian
+			language_family_pre_greek
+			language_family_hatti
 		} ELSE_IF tfe = {
 			language_family_paleo_sardinian
 			language_family_kra_dai
+			language_family_hurro_urartian
+			language_family_sumerian
+			language_family_gutian
+			language_family_pre_greek
+			language_family_hatti
 		}
     }
 }
@@ -29,6 +44,11 @@ language_branches = {
 			language_branch_nuragic
 			language_branch_elamite_group
 			language_branch_etruscan
+			language_branch_hurrian
+			language_branch_sumerian
+			language_branch_gutian
+			language_branch_pre_greek
+			language_branch_hatti
 		}
 	}	
 }
@@ -41,10 +61,20 @@ language_groups = {
 			language_group_italic
 			language_group_etruscan
 			language_group_daco_thracian
+			language_group_hurrian
+			language_group_sumerian
+			language_group_gutian
+			language_group_pre_greek
+			language_group_hatti
 		} ELSE_IF tfe = {
 			language_group_nuragic
 			language_group_italic
 			language_group_tai
+			language_group_hurrian
+			language_group_sumerian
+			language_group_gutian
+			language_group_pre_greek
+			language_group_hatti
 		}
 	}
 }

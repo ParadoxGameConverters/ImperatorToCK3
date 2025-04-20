@@ -258,14 +258,14 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		// For every culture, check if it isn't set as its own immediate or distant parent.
 		Logger.Debug("Checking for circular culture parents...");
 		foreach (var culture in this) {
-			var allParents = GetImmediateAndDistantParentsOfCulture(culture);
+			var allParents = GetAncestorsOfCulture(culture);
 			if (allParents.Contains(culture.Id)) {
 				Logger.Error($"Culture {culture.Id} is set as its own parent!");
 			}
 		}
 	}
 
-	private HashSet<string> GetImmediateAndDistantParentsOfCulture(Culture cultureToCheck, HashSet<string>? alreadyChecked = null) {
+	private HashSet<string> GetAncestorsOfCulture(Culture cultureToCheck, HashSet<string>? alreadyChecked = null) {
 		HashSet<string> allParents = [];
 
 		// Get immediate parents.
@@ -276,10 +276,14 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 			}
 
 			allParents.Add(parentCultureId);
-			var parentCulture = this[parentCultureId];
+			
+			if (!TryGetValue(parentCultureId, out var parentCulture)) {
+				Logger.Warn($"Parent culture {parentCultureId} not found for culture {cultureToCheck.Id}.");
+				continue;
+			}
 
 			// Add the parent's parents.
-			var parentParents = GetImmediateAndDistantParentsOfCulture(parentCulture, allParents);
+			var parentParents = GetAncestorsOfCulture(parentCulture, allParents);
 			allParents.UnionWith(parentParents);
 		}
 

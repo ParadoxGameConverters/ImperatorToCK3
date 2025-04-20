@@ -19,11 +19,8 @@ internal sealed class DynastyCollection : ConcurrentIdObjectCollection<string, D
 		var imperatorCharacters = irWorld.Characters;
 		// The collection only holds dynasties converted from Imperator families, as vanilla ones aren't modified.
 		int importedCount = 0;
-		Parallel.ForEach(irWorld.Families, family => {
-			if (family.Minor) {
-				return;
-			}
-
+		var majorFamilies = irWorld.Families.Where(f => !f.Minor).ToArray();
+		Parallel.ForEach(majorFamilies, family => {
 			var newDynasty = new Dynasty(family, imperatorCharacters, irWorld.CulturesDB, cultureMapper, irLocDB, ck3LocDB, date);
 			AddOrReplace(newDynasty);
 			Interlocked.Increment(ref importedCount);

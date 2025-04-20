@@ -16,7 +16,7 @@
 # ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL FILE.
 # OTHERWISE THE BLOCK WON'T BE REMOVED!
 
-# Adjusted for Rajas of Asia Version 3.5.3.1
+# Adjusted for Rajas of Asia Version 3.6.1
 
 "common/on_action/yearly_on_actions.txt" = {
 	{
@@ -2720,140 +2720,6 @@ bookmark.0004 = { #by Mathilda Bjarnehed
 	}
 	
 	{
-# The matter of Jaromir
-bookmark.1069 = {
-	type = character_event
-	title = bookmark.1069.t
-	desc = bookmark.1069.desc
-	theme = faith
-	override_background = { reference = holy_site_generic }
-	override_effect_2d = {
-		reference = rain
-	}
-	left_portrait = {
-		character = character:john_monk
-		animation = prayer
-	}
-	right_portrait = {
-		character = scope:jaromir
-		animation = dismissal
-	}
-	lower_right_portrait = root.faith.religious_head
-
-	trigger = {
-		character:528 ?= {
-			is_alive = yes
-			is_councillor_of = root
-		}
-		character:john_monk ?= {
-			is_alive = yes
-		}
-	}
-
-	immediate = {
-		play_music_cue = "mx_cue_negative"
-		character:528 = {
-			save_scope_as = jaromir
-		}
-		character:john_monk = {
-			save_scope_as = john_monk
-		}
-	}
-
-	option = { # Replace Jaromir with John
-		name = bookmark.1069.a
-		flavor = bookmark.1069.a_flavor
-		
-		faith.religious_head = {
-			add_opinion = {
-				target = root
-				modifier = impious_opinion
-				opinion = -30
-			}
-		}
-		
-		create_title_and_vassal_change = {
-  			type = granted
-  			save_scope_as = change
-  		}
-  		title:c_opava = {
-	  		change_title_holder = {
-				holder = scope:john_monk
-				change = scope:change
-				take_baronies = no
-			}
-  		}
-		resolve_title_and_vassal_change = scope:change
-		scope:john_monk = {
-			hidden_effect = {
-				change_government = theocracy_government
-			}
-		}
-		fire_councillor = character:528
-		assign_councillor_type = {
-			type = councillor_court_chaplain
-			remove_existing_councillor = yes
-			target = character:john_monk
-		}
-		add_character_flag = {
-			flag = bishop_assignment
-			days = 1
-		}
-		ai_chance = {
-			base = 25
-		}
-	}
-
-	option = { # Make great concessions to Jaromir
-		name = bookmark.1069.b
-		flavor = bookmark.1069.b_flavor
-		
-		pay_short_term_gold = {
-			target = scope:jaromir
-			gold = medium_gold_value
-		}
-		
-		scope:jaromir = {
-			add_opinion = {
-				target = root
-				modifier = pleased_opinion
-				opinion = 30
-			}
-			remove_relation_rival = root
-		}
-
-		ai_chance = {
-			base = 75
-		}
-	}
-
-	option = { # Make great concessions to Jaromir
-		name = bookmark.1069.c
-		flavor = bookmark.1069.c_flavor
-
-		ai_chance = {
-			base = 75
-		}
-	}
-	
-	after = {
-		hidden_effect = {
-			if = {
-				limit = {
-					has_character_flag = bishop_assignment
-				}
-				assign_councillor_type = {
-					type = councillor_court_chaplain
-					remove_existing_councillor = yes
-					target = character:john_monk
-				}
-			}
-		}
-	}
-}
-	}
-	
-	{
 ###	Daurama takes Bawo under her wing.
 bookmark.0101 = {
 	type = character_event
@@ -4604,466 +4470,6 @@ fp3_decision.0011 = {
 	}
 }
 
-"common\decisions\dlc_decisions\ep_3\06_ep3_hasan_story_cycle_decisions.txt" = {
-	# Hassan Sabbah, the founder of Assasins
-	{
-#############################################
-# Do some basic missionary work				#
-# by James Beaumont							#
-#############################################
-
-hasan_evangelize_the_faith = {
-	picture = {
-		reference = "gfx/interface/illustrations/decisions/fp3/fp3_decision_secret_faith.dds"
-	}
-	sort_order = 500
-	ai_check_interval = 120
-
-	desc = hasan_evangelize_the_faith_desc
-	selection_tooltip = hasan_evangelize_the_faith_tooltip
-	decision_group_type = story_cycle_hasan
-
-	cooldown = { months = 1 }
-
-	is_shown = {
-		#DLC check.
-		has_ep3_dlc_trigger = yes
-		is_landed = no
-		any_owned_story = {
-			story_type = story_hasan
-		}
-	}
-
-	is_valid = {
-		domicile.domicile_location.county ?= {
-			OR = {
-				hasan_evangelize_province_trigger = yes
-				custom_tooltip = {
-					text = or_a_neigbouring_county_tt
-					save_temporary_scope_as = county_check
-					any_neighboring_county = {
-						hasan_evangelize_province_trigger = yes
-						holder.top_liege = scope:county_check.holder.top_liege
-					}
-				}
-			}
-		}
-	}
-
-	is_valid_showing_failures_only = {
-		is_alive = yes
-		is_available_adult = yes
-		has_contagious_deadly_disease_trigger = no
-	}
-
-	cost = { piety = 250 }
-
-	effect = {
-		domicile.domicile_location.county ?= {
-			if = {
-				limit = { hasan_evangelize_province_trigger = yes }
-				save_scope_as = location
-			}
-			else = {
-				save_temporary_scope_as = county_check
-				random_neighboring_county = {
-					limit = {
-						hasan_evangelize_province_trigger = yes
-						holder.top_liege = scope:county_check.holder.top_liege
-					}
-					save_scope_as = location
-				}
-			}
-		}
-		trigger_event = hasan_sabbah.1010
-		custom_tooltip = chance_to_advance_to_the_assassins_tt
-	}
-
-	ai_potential = { this = character:41702 }
-
-	ai_will_do = {
-		base = 200
-	}
-}
-#############################################
-# Do some RADICAL missionary work 🕶🤙		#
-# by James Beaumont							#
-#############################################
-
-hasan_agitate_the_populace = {
-	picture = {
-		reference = "gfx/interface/illustrations/decisions/fp3/antagonistic.dds"
-	}
-	sort_order = 500
-	ai_check_interval = 120
-
-	desc = hasan_agitate_the_populace_desc
-	selection_tooltip = hasan_agitate_the_populace_tooltip
-	decision_group_type = story_cycle_hasan
-
-	cooldown = { months = 1 }
-
-	is_shown = {
-		#DLC check.
-		has_ep3_dlc_trigger = yes
-		is_landed = no
-		any_owned_story = {
-			story_type = story_hasan
-		}
-	}
-
-	is_valid = {
-		hasan_camp_in_foes_realm_trigger = yes
-		OR = {
-			domicile.domicile_location.county = {
-				NOT = { faith = root.faith }
-				NOT = { has_county_modifier = ep3_agitated_populace }
-				NOT = { has_county_modifier = tougher_to_convert }
-			}
-			custom_tooltip = {
-				text = or_a_neigbouring_county_tt
-				domicile.domicile_location.county = {
-					save_temporary_scope_as = county_check
-					any_neighboring_county = {
-						NOT = { faith = root.faith }
-						NOT = { has_county_modifier = ep3_agitated_populace }
-						NOT = { has_county_modifier = tougher_to_convert }
-						holder.top_liege = scope:county_check.holder.top_liege
-					}
-				}
-			}
-		}
-	}
-
-	is_valid_showing_failures_only = {
-		is_alive = yes
-		is_available_adult = yes
-		has_contagious_deadly_disease_trigger = no
-	}
-
-	cost = { prestige = 250 }
-
-	effect = {
-		if = {
-			limit = {
-				domicile.domicile_location.county = {
-					NOT = { faith = root.faith }
-					NOT = { has_county_modifier = ep3_agitated_populace }
-					NOT = { has_county_modifier = tougher_to_convert }
-				}
-			}
-			domicile.domicile_location.county = { save_scope_as = location }
-		}
-		else = {
-			domicile.domicile_location.county = {
-				save_temporary_scope_as = county_check
-				random_neighboring_county = {
-					limit = {
-						NOT = { faith = root.faith }
-						NOT = { has_county_modifier = ep3_agitated_populace }
-						NOT = { has_county_modifier = tougher_to_convert }
-						holder.top_liege = scope:county_check.holder.top_liege
-					}
-					save_scope_as = location
-				}
-			}
-		}
-		trigger_event = hasan_sabbah.1040
-	}
-
-	ai_potential = { this = character:41702 }
-
-	ai_will_do = {
-		base = 200
-	}
-}
-#############################################
-# Become death, destroyer of Seljuks		#
-# by James Beaumont							#
-#############################################
-hasan_ignite_the_flames = {
-	picture = {
-		reference = "gfx/interface/illustrations/decisions/fp3/fp3_decision_strength.dds"
-	}
-	sort_order = 500
-	ai_check_interval = 120
-
-	desc = hasan_ignite_the_flames_desc
-	selection_tooltip = hasan_ignite_the_flames_tooltip
-	decision_group_type = story_cycle_hasan
-
-	cooldown = { months = 1 }
-
-	is_shown = {
-		#DLC check.
-		has_ep3_dlc_trigger = yes
-		any_owned_story = {
-			story_type = story_hasan
-		}
-	}
-
-	is_valid = {
-		hasan_camp_in_foes_realm_trigger = yes
-		is_at_war = no
-		custom_tooltip = {
-			text = at_least_5_counties_are_nizari
-			domicile.domicile_location.county.holder.top_liege = {
-				any_sub_realm_county = {
-					count >= 5
-					faith = root.faith
-				}
-			}
-		}
-	}
-
-	is_valid_showing_failures_only = {
-		is_alive = yes
-		is_available_adult = yes
-		has_contagious_deadly_disease_trigger = no
-	}
-
-	cost = {
-		prestige = 250
-	}
-
-	effect = {
-		random_owned_story = {
-			limit = {
-				story_type = story_hasan
-			}
-			var:ultimate_foe = { save_scope_as = ultimate_foe }
-		}
-		hasan_sabbah_ignite_decision_effect = yes
-	}
-
-	ai_potential = { this = character:41702 }
-
-	ai_will_do = {
-		base = 200
-	}
-}
-
-#############################################
-# Found the Assassins						#
-# by James Beaumont							#
-#############################################
-hasan_found_the_assassins = {
-	picture = {
-		reference = "gfx/interface/illustrations/decisions/fp3/fp3_decision_sunder.dds"
-	}
-	sort_order = 500
-	ai_check_interval = 120
-
-	desc = hasan_found_the_assassins_desc
-	selection_tooltip = hasan_found_the_assassins_tooltip
-	decision_group_type = story_cycle_hasan
-
-	is_shown = {
-		#DLC check.
-		has_ep3_dlc_trigger = yes
-		any_owned_story = {
-			story_type = story_hasan
-			NOT = { exists = var:assassins }
-		}
-		is_landed = no
-		faith = faith:nizari
-		NOT = {
-			has_character_flag = founded_assassins_already
-		}
-	}
-
-	is_valid = {
-		hasan_camp_in_foes_realm_trigger = yes
-		domicile.domicile_location.barony = { is_leased_out = no }
-		domicile.domicile_location.county.faith = root.faith
-		custom_tooltip = {
-			text = is_mountainous_desc
-			domicile.domicile_location = { is_mountainous_trigger = yes }
-		}
-		domicile.domicile_location = {
-			is_county_capital = no
-		}
-	}
-
-	is_valid_showing_failures_only = {
-		is_alive = yes
-		is_available_adult = yes
-		has_contagious_deadly_disease_trigger = no
-	}
-
-	cost = { piety = 1500 }
-
-	effect = {
-		domicile.domicile_location = { save_scope_as = location }
-		if = {
-			limit = {
-				scope:location = {
-					has_holding = no
-				}
-			}
-			if = {
-				limit = {
-					scope:location.county.holder = {
-						government_has_flag = government_is_tribal
-					}
-				}
-				scope:location = {
-					set_holding_type = church_holding
-				}
-			}
-			else = {
-				scope:location = {
-					set_holding_type = castle_holding
-				}
-			}
-		}
-		create_character = {
-			template = holy_order_leader_character
-			location = scope:location
-			save_scope_as = leader
-		}
-		hidden_effect = {
-			create_title_and_vassal_change = {
-				type = leased_out
-				save_scope_as = change
-				add_claim_on_loss = no
-			}
-			scope:location.barony = {
-				change_title_holder_include_vassals = {
-					holder = scope:location.barony.holder.top_liege
-					change = scope:change
-				}
-			}
-			resolve_title_and_vassal_change = scope:change
-		}
-		create_holy_order = {
-			leader = scope:leader
-			capital = scope:location.barony
-			save_scope_as = new_holy_order
-		}
-		scope:new_holy_order ?= {
-			title = { set_title_name = holy_order_hashshashin }
-		}
-		create_holy_order_effect = yes
-		random_owned_story = {
-			limit = { story_type = story_hasan }
-			set_variable = {
-				name = assassins
-				value = scope:new_holy_order
-			}
-		}
-		add_character_flag = founded_assassins_already
-		scope:location = {
-			if = {
-				limit = {
-					has_special_building = no
-				}
-				add_special_building = assassin_castle_01
-			}
-			else_if = {
-				limit = {
-					has_building_or_higher = alamut_castle_01
-				}
-				hidden_effect = {
-					remove_building = alamut_castle_01
-				}
-				add_special_building = alamut_castle_02
-			}
-		}
-		add_intrigue_skill = 2
-		give_nickname = nick_old_man_of_the_mountain
-	}
-
-	ai_potential = { this = character:41702 }
-
-	ai_will_do = {
-		base = 200
-	}
-}
-
-#############################################
-# Expand the Assassins						#
-# by James Beaumont							#
-#############################################
-hasan_expand_the_assassins = {
-	picture = {
-		reference = "gfx/interface/illustrations/decisions/fp3/fp3_decision_foundation.dds"
-	}
-	sort_order = 500
-	ai_check_interval = 120
-
-	desc = hasan_expand_the_assassins_desc
-	selection_tooltip = hasan_expand_the_assassins_tooltip
-	decision_group_type = story_cycle_hasan
-
-	is_shown = {
-		#DLC check.
-		has_ep3_dlc_trigger = yes
-		any_owned_story = {
-			story_type = story_hasan
-			has_variable = assassins
-		}
-		is_landed = no
-		faith = faith:nizari
-	}
-
-	is_valid = {
-		hasan_camp_in_foes_realm_trigger = yes
-		domicile.domicile_location.barony = { is_leased_out = no }
-		domicile.domicile_location.county.faith = root.faith
-		custom_tooltip = {
-			text = is_mountainous_desc
-			domicile.domicile_location = { is_mountainous_trigger = yes }
-		}
-	}
-
-	is_valid_showing_failures_only = {
-		is_alive = yes
-		is_available_adult = yes
-		has_contagious_deadly_disease_trigger = no
-		domicile.domicile_location = { is_county_capital = no }
-	}
-
-	cost = { piety = 250 }
-
-	effect = {
-		random_owned_story = {
-			limit = {
-				story_type = story_hasan
-			}
-			var:assassins = { save_scope_as = assassins }
-		}
-		show_as_tooltip = {
-			domicile.domicile_location.barony = { lease_out_to = scope:assassins }
-		}
-		hidden_effect = {
-			if = {
-				limit = { NOT = { domicile.domicile_location.barony.holder = root } }
-				create_title_and_vassal_change = {
-					type = leased_out
-					save_scope_as = change
-					add_claim_on_loss = no
-				}
-				domicile.domicile_location.barony = {
-					change_title_holder_include_vassals = {
-						holder = holder.top_liege
-						change = scope:change
-					}
-				}
-				resolve_title_and_vassal_change = scope:change
-				domicile.domicile_location.barony = { lease_out_to = scope:assassins }
-			}
-		}
-	}
-
-	ai_potential = { this = character:41702 }
-
-	ai_will_do = {
-		base = 200
-	}
-}
-	}
-}
 
 "common\casus_belli_types\00_event_war.txt" = {
 	{
@@ -8097,174 +7503,86 @@ start_nanzhao_collapse = {
 
             ## Set tributaries
             # Srivijaya
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_srivijaya.holder
-                    TRIBUTARY = title:d_tanjungpura.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_srivijaya.holder
-                    TRIBUTARY = title:c_panai.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_srivijaya.holder
-                    TRIBUTARY = title:c_nagur.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_srivijaya.holder
-                    TRIBUTARY = title:d_lamuri.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_srivijaya.holder
-                    TRIBUTARY = title:d_wijayapura.holder
+                title:e_srivijaya.holder = {
+                    set_relation_tributary = title:d_tanjungpura.holder
+                    set_relation_tributary = title:c_panai.holder
+                    set_relation_tributary = title:d_tanjungpura.holder
+                    set_relation_tributary = title:c_nagur.holder
+                    set_relation_tributary = title:d_lamuri.holder
+                    set_relation_tributary = title:d_wijayapura.holder
                 }
 
             # Nanzhao
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_myitkyina.holder
-                    TRIBUTARY = title:c_mongyang.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_yongchang.holder
-                    TRIBUTARY = title:c_putao.holder
-                }
-                # Beikthano
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:c_beikthano.holder
-                    TRIBUTARY = title:c_magwe.holder
-                }
-                # Yinsheng
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_kainan.holder
-                    TRIBUTARY = title:d_kengtung.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_kainan.holder
-                    TRIBUTARY = title:d_phongsali.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_kainan.holder
-                    TRIBUTARY = title:c_chiang_hung.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_kainan.holder
-                    TRIBUTARY = title:c_meng_laa.holder
-                }
-                # Tonghai
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:c_tonghai.holder
-                    TRIBUTARY = title:c_hohoxe.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:c_tonghai.holder
-                    TRIBUTARY = title:c_tu_long.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:c_tonghai.holder
-                    TRIBUTARY = title:c_bao_lac.holder
+                # Lishui
+                title:d_myitkyina.holder = {
+                    set_relation_tributary = title:c_mongyang.holder
                 }
 
+                # Yongchang
+                title:d_yongchang.holder = {
+                    set_relation_tributary = title:c_putao.holder
+                }
+
+                # Beikthano
+                title:c_beikthano.holder = {
+                    set_relation_tributary = title:c_magwe.holder
+                }
+
+                # Yinsheng
+                title:d_kainan.holder = {
+                    set_relation_tributary = title:d_kengtung.holder
+                    set_relation_tributary = title:d_phongsali.holder
+                    set_relation_tributary = title:c_chiang_hung.holder
+                    set_relation_tributary = title:c_meng_laa.holder
+                }
+
+                # Tonghai
+                title:c_tonghai.holder = {
+                    set_relation_tributary = title:c_hohoxe.holder
+                    set_relation_tributary = title:c_tu_long.holder
+                    set_relation_tributary = title:c_bao_lac.holder
+                }
 
             # Shan
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_yawnghwe.holder
-                    TRIBUTARY = title:c_yawnghwe.holder
+                title:d_yawnghwe.holder = {
+                    set_relation_tributary = title:c_yawnghwe.holder
                 }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:c_laikha.holder
-                    TRIBUTARY = title:c_mongkung.holder
+                title:c_laikha.holder = {
+                    set_relation_tributary = title:c_mongkung.holder
                 }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_north_shan.holder
-                    TRIBUTARY = title:c_manglon.holder
+                title:d_north_shan.holder = {
+                    set_relation_tributary = title:c_manglon.holder
                 }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_kengtung.holder
-                    TRIBUTARY = title:c_chiang_hung.holder
+                title:d_kengtung.holder = {
+                    set_relation_tributary = title:c_chiang_hung.holder
                 }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:c_chiang_hung.holder
-                    TRIBUTARY = title:c_meng_laa.holder
+                title:c_chiang_hung.holder = {
+                    set_relation_tributary = title:c_meng_laa.holder
                 }
 
             # Mon
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_thaton.holder
-                    TRIBUTARY = title:c_pegu.holder
+                title:d_thaton.holder = {
+                    set_relation_tributary = title:c_pegu.holder
+                    set_relation_tributary = title:c_hpapun.holder
                 }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:c_hpa_an.holder
-                    TRIBUTARY = title:c_kawkareik.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:d_thaton.holder
-                    TRIBUTARY = title:c_hpapun.holder
+                title:c_hpa_an.holder = {
+                    set_relation_tributary = title:c_kawkareik.holder
                 }
 
             # Annam
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_jinghai.holder
-                    TRIBUTARY = title:d_nong.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_jinghai.holder
-                    TRIBUTARY = title:c_tu_long.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_jinghai.holder
-                    TRIBUTARY = title:c_thuy_vi.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_jinghai.holder
-                    TRIBUTARY = title:c_lo.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_jinghai.holder
-                    TRIBUTARY = title:c_tra_lan.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_jinghai.holder
-                    TRIBUTARY = title:c_quynh_nhai.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_jinghai.holder
-                    TRIBUTARY = title:c_yen_lo.holder
+                title:k_jinghai.holder = {
+                    set_relation_tributary = title:d_nong.holder
+                    set_relation_tributary = title:c_tu_long.holder
+                    set_relation_tributary = title:c_thuy_vi.holder
+                    set_relation_tributary = title:c_lo.holder
+                    set_relation_tributary = title:c_tra_lan.holder
+                    set_relation_tributary = title:c_quynh_nhai.holder
+                    set_relation_tributary = title:c_yen_lo.holder
                 }
 
             # China
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_celestia_china.holder
-                    TRIBUTARY = title:k_guiyi.holder
+                title:e_celestia_china.holder = {
+                    set_relation_tributary = title:k_guiyi.holder
                 }
         }
 
@@ -8277,10 +7595,8 @@ start_nanzhao_collapse = {
 
             ## Set tributaries
             # Srivijaya
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_srivijaya.holder
-                    TRIBUTARY = title:d_sunda.holder
+                title:e_srivijaya.holder = {
+                    set_relation_tributary = title:d_sunda.holder
                 }
         }
 
@@ -8292,38 +7608,21 @@ start_nanzhao_collapse = {
             }
 
             ## Set tributaries
+
             # Jin
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_liao.holder
-                    TRIBUTARY = title:k_jin_china.holder
+                title:e_liao.holder = {
+                    set_relation_tributary = title:k_jin_china.holder
                 }
 
-            # Liangzhou
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_celestia_china.holder
-                    TRIBUTARY = title:d_liangzhou.holder
+                title:e_celestia_china.holder = {
+                    set_relation_tributary = title:d_liangzhou.holder
+                    set_relation_tributary = title:d_dingnan_china.holder
+                    set_relation_tributary = title:k_guiyi.holder
                 }
-            # Dingnan
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_celestia_china.holder
-                    TRIBUTARY = title:d_dingnan_china.holder
-                }
-            # Guiyi
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_celestia_china.holder
-                    TRIBUTARY = title:k_guiyi.holder
-                }
-
 
             # Sri Gotapura
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_kambujadesa.holder
-                    TRIBUTARY = title:d_nakhon_phanom.holder
+                title:e_kambujadesa.holder = {
+                    set_relation_tributary = title:d_nakhon_phanom.holder
                 }
 
         }
@@ -8337,126 +7636,56 @@ start_nanzhao_collapse = {
 
             ## Set tributaries
             # Pagan
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_pagan.holder
-                TRIBUTARY = title:d_arakan.holder
+            title:k_pagan.holder = {
+                set_relation_tributary = title:d_arakan.holder
+                set_relation_tributary = title:c_hsipaw.holder
+                set_relation_tributary = title:d_north_shan.holder
+                set_relation_tributary = title:d_mongpai.holder
+                set_relation_tributary = title:c_kale.holder
+                set_relation_tributary = title:c_bhamo.holder
             }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_pagan.holder
-                TRIBUTARY = title:c_hsipaw.holder
+            title:c_kale.holder = {
+                set_relation_tributary = title:c_thaungdut.holder
             }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_pagan.holder
-                TRIBUTARY = title:d_north_shan.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_pagan.holder
-                TRIBUTARY = title:d_mongpai.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_pagan.holder
-                TRIBUTARY = title:c_kale.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:c_kale.holder
-                TRIBUTARY = title:c_thaungdut.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_pagan.holder
-                TRIBUTARY = title:c_bhamo.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:c_takon.holder
-                TRIBUTARY = title:c_mongyang.holder
+            title:c_takon.holder = {
+                set_relation_tributary = title:c_mongyang.holder
             }
 
             # Liao
                 # Chanyuan Treaty from 1005 to 1125
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_liao.holder
-                    TRIBUTARY = title:e_celestia_china.holder
+                title:e_liao.holder = {
+                    set_relation_tributary = title:e_celestia_china.holder
                 }
 
             # Chola hold over Srivijaya
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_tamilakam.holder
-                    TRIBUTARY = title:e_srivijaya.holder
+                title:k_tamilakam.holder = {
+                    set_relation_tributary = title:e_srivijaya.holder
                 }
 
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_srivijaya.holder
-                    TRIBUTARY = title:d_tambralinga.holder
+                title:e_srivijaya.holder = {
+                    set_relation_tributary = title:d_tambralinga.holder
                 }
 
             # Dai Viet
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_annam.holder
-                    TRIBUTARY = title:d_muong.holder
-                }
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_annam.holder
-                    TRIBUTARY = title:c_van_ban.holder
+                title:e_dai_viet.holder = {
+                    set_relation_tributary = title:d_muong.holder
+                    set_relation_tributary = title:c_van_ban.holder
                 }
 
             # Dali
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:k_nanzhao.holder
-                    TRIBUTARY = title:d_muang_thaeng.holder
+                title:k_nanzhao.holder = {
+                    set_relation_tributary = title:d_muang_thaeng.holder
                 }
+
             # Caucasus
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_cumania.holder
-                    TRIBUTARY = title:c_kassogia.holder
+                title:e_cumania.holder = {
+                    set_relation_tributary = title:c_kassogia.holder
+                    set_relation_tributary = title:c_zichia.holder
+                    set_relation_tributary = title:c_samander.holder
+                    set_relation_tributary = title:c_samiran.holder
+                    set_relation_tributary = title:k_caucasus.holder
+                    set_relation_tributary = title:k_dagestan.holder
                 }
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_cumania.holder
-                    TRIBUTARY = title:c_zichia.holder
-                }
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_cumania.holder
-                    TRIBUTARY = title:c_samander.holder
-                }
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_cumania.holder
-                    TRIBUTARY = title:c_samiran.holder
-                }
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_cumania.holder
-                    TRIBUTARY = title:k_caucasus.holder
-                }
-
-                make_tributary = {
-                    TYPE = tributary_permanent
-                    SUZERAIN = title:e_cumania.holder
-                    TRIBUTARY = title:k_dagestan.holder
-                }
-
         }
 
         # 1178
@@ -8465,38 +7694,13 @@ start_nanzhao_collapse = {
                 game_start_date >= 1178.1.1
                 game_start_date <= 1178.12.31
             }
-
-            ## Set tributaries
-            # Melayu/Dharmasraya
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_melayu.holder
-                TRIBUTARY = title:d_batak.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_melayu.holder
-                TRIBUTARY = title:d_pahang.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_melayu.holder
-                TRIBUTARY = title:d_kedah.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_melayu.holder
-                TRIBUTARY = title:d_lampung.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_melayu.holder
-                TRIBUTARY = title:k_sunda.holder
-            }
-            make_tributary = {
-                TYPE = tributary_permanent
-                SUZERAIN = title:k_melayu.holder
-                TRIBUTARY = title:d_aru.holder
+            title:k_melayu.holder = {
+                set_relation_tributary = title:d_batak.holder
+                set_relation_tributary = title:d_pahang.holder
+                set_relation_tributary = title:d_kedah.holder
+                set_relation_tributary = title:d_lampung.holder
+                set_relation_tributary = title:k_sunda.holder
+                set_relation_tributary = title:d_aru.holder
             }
 
         }
