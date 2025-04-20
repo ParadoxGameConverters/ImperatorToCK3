@@ -259,6 +259,106 @@ cretan = {
 	unit_gfx = { eastern_unit_gfx }
 }
 
+minoan = { # The ancient Minoan culture from the Bronze Age
+	color = hsv { 0.15 0.15 0.05 }
+	
+	heritage = heritage_byzantine
+	language = language_minoan #Ancient Pre-Greek language, unknown classification due to Linear A remaining undeciphered
+	ethos = ethos_spiritual
+
+	name_list = name_list_ancient_greek
+	martial_custom = martial_custom_male_only
+
+	traditions = {
+		tradition_city_keepers
+		tradition_legalistic
+		tradition_maritime_mercantilism
+		tradition_mountain_homes
+		tradition_seafaring
+	}
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = {
+		byzantine_group_coa_gfx
+	}
+	building_gfx = {
+		mediterranean_building_gfx
+	}
+	clothing_gfx = {
+		byzantine_clothing_gfx
+	}
+	unit_gfx = { eastern_unit_gfx }
+}
+
+cycladic = { # The ancient Pre-Greek culture of the Cyclades from the Bronze Age, dominated the Aegean before the Minoans
+	color = rgb { 102 102 102 }
+	
+	heritage = heritage_byzantine
+	language = language_cycladic #Ancient Pre-Greek language, unknown classification
+	ethos = ethos_spiritual
+
+	name_list = name_list_ancient_greek
+	martial_custom = martial_custom_male_only
+
+	traditions = {
+		tradition_city_keepers
+		#Given the artisans tradition because they are well-known for their artwork
+		tradition_artisans
+		tradition_maritime_mercantilism
+		tradition_fishermen
+		tradition_seafaring
+	}
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = {
+		byzantine_group_coa_gfx
+	}
+	building_gfx = {
+		mediterranean_building_gfx
+	}
+	clothing_gfx = {
+		byzantine_clothing_gfx
+	}
+	unit_gfx = { eastern_unit_gfx }
+}
+
+pelasgian = { # The ancient pre-Greek people of mainland Greece from the Bronze Age
+	color = hsv { 0.1 0.7 0.8 }
+	
+	heritage = heritage_byzantine
+	language = language_pelasgian #Ancient Pre-Greek language, unknown classification
+	ethos = ethos_spiritual
+
+	name_list = name_list_ancient_greek
+	martial_custom = martial_custom_male_only
+
+	traditions = {
+		tradition_city_keepers
+		tradition_mountain_homes
+	}
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = {
+		byzantine_group_coa_gfx
+	}
+	building_gfx = {
+		mediterranean_building_gfx
+	}
+	clothing_gfx = {
+		byzantine_clothing_gfx
+	}
+	unit_gfx = { eastern_unit_gfx }
+}
+
 khasi = {
     INVALIDATED_BY = {
 		tfe = { khasi }
@@ -530,6 +630,81 @@ hittite = {
 	unit_gfx = { eastern_unit_gfx }
 }
 
+kizzuwatnan = { # Ancient Bronze Age people of Cilicia, hybrids between Hurrians and Luwians
+
+	color = rgb { 161 214 168 }
+	parents = { luwian hurrian_culture }
+	created = 2.1.1
+
+	heritage = heritage_anatolian
+	language = language_luwian
+	martial_custom = martial_custom_male_only
+	ethos = ethos_communal # Tribal society
+	traditions = {
+		tradition_astute_diplomats
+		tradition_ancient_miners
+		tradition_metal_craftsmanship
+		tradition_horse_breeder
+	}
+
+	name_list = name_list_luwian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture byzantine_group_coa_gfx in armenian doesn't match existing sequence in luwian"
+			coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+		}
+		ELSE = {
+			coa_gfx = {
+				byzantine_group_coa_gfx
+				# israelite_group_coa_gfx
+				# western_coa_gfx
+			}
+		}
+	}
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = {
+		byzantine_clothing_gfx
+		# dde_abbasid_clothing_gfx
+	}
+	unit_gfx = { eastern_unit_gfx }
+}
+
+trojan = {  # Override of vanilla culture
+    INVALIDATED_BY = {
+		tfe = { trojan } # Both TFE and WtWSMS have their own versions of it
+		wtwsms = { trojan }
+	}
+
+	color = trojan
+
+	ethos = ethos_bellicose
+	heritage = heritage_anatolian
+	language = language_luwian
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_philosopher_culture
+		tradition_legalistic
+		tradition_astute_diplomats
+		tradition_maritime_mercantilism
+	}
+	
+	name_list = name_list_luwian
+	
+	coa_gfx = { byzantine_group_coa_gfx }
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	unit_gfx = { eastern_unit_gfx }
+	
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+}
+
 phrygian = {
     INVALIDATED_BY = {
 		tfe = { phrygian }
@@ -747,6 +922,76 @@ ancient_egyptian = {  # fallback in case some mod removes vanilla ancient_egypti
 
 	traditions = {
 		tradition_warriors_of_the_dry
+		tradition_artisans # Pyramids
+	}
+
+	ethnicities = {
+		10 = arab
+		4 = african
+	}
+
+	coa_gfx = { berber_group_coa_gfx }
+	building_gfx = { berber_group_building_gfx mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { sub_sahran_unit_gfx }
+}
+
+per_sheklesh = {  # Egyptian Italy from BA to I:R
+    
+	color = rgb { 153 163 0 }
+	parents = { ancient_egyptian }
+	created = 2.1.1
+
+	name_list = name_list_ancient_egyptian
+	MOD_DEPENDENT = {
+		IF @[tfe|wtwsms] = {
+			heritage = heritage_kemetic
+		} ELSE = {
+			heritage = heritage_egyptian
+		}
+	}
+	language = language_kemetic
+	martial_custom = martial_custom_male_only
+
+	ethos = ethos_spiritual
+
+	traditions = {
+		tradition_warriors_of_the_dry
+		tradition_artisans # Pyramids
+	}
+
+	ethnicities = {
+		10 = arab
+		4 = african
+	}
+
+	coa_gfx = { berber_group_coa_gfx }
+	building_gfx = { berber_group_building_gfx mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { sub_sahran_unit_gfx }
+}
+
+niwt_ipt = {  # Egyptian Carthage from BA to I:R
+    
+	color = rgb { 199 176 102 }
+	parents = { ancient_egyptian }
+	created = 2.1.1
+
+	name_list = name_list_ancient_egyptian
+	MOD_DEPENDENT = {
+		IF @[tfe|wtwsms] = {
+			heritage = heritage_kemetic
+		} ELSE = {
+			heritage = heritage_egyptian
+		}
+	}
+	language = language_kemetic
+	martial_custom = martial_custom_male_only
+
+	ethos = ethos_spiritual
+
+	traditions = {
+		tradition_seafaring
 		tradition_artisans # Pyramids
 	}
 
@@ -1145,6 +1390,66 @@ babylonian = {
 		tradition_philosopher_culture
 
 		# Babylonian culture should have Legalistic because Babylonia introduced one of the very first written codes in history, namely the Code of Hammurabi. (One of Hammurabi's most important and lasting works was the compilation of the Babylonian law code, which improved the much earlier codes of Sumer, Akkad and Assyria. This was made by order of Hammurabi after the expulsion of the Elamites and the settlement of his kingdom. (from the Babylonia Wikipedia page)
+		tradition_legalistic
+	}
+
+	name_list = name_list_babylonian
+
+	ethos = ethos_spiritual
+
+	ethnicities = {
+		10 = arab
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+}
+
+sumerian = { 
+    
+	color = rgb { 45 13 0 }
+
+	heritage = heritage_syriac
+	language = language_sumerian
+	martial_custom = martial_custom_male_only
+	traditions = { 
+		tradition_parochialism
+		tradition_eye_for_an_eye
+		tradition_storytellers
+		tradition_wetlanders
+		tradition_legalistic
+	}
+
+	name_list = name_list_sumerian
+
+	ethos = ethos_spiritual
+
+	ethnicities = {
+		10 = arab
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+}
+
+eblaite = { #Ancient Bronze Age people of modern-day Syria, either East Semetic or an early off-shoot half-way between East and West Semetic families
+    
+	color = rgb { 12 77 199 }
+
+	heritage = heritage_syriac
+	language = language_eblaite
+	martial_custom = martial_custom_male_only
+	traditions = { #Same as Babylonian
+		tradition_city_keepers
+		tradition_medicinal_plants
+		tradition_storytellers
+		tradition_philosopher_culture
 		tradition_legalistic
 	}
 
@@ -2551,6 +2856,66 @@ phoenician = {
 	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
 	unit_gfx = { mena_unit_gfx }
 }
+alasiyan = { #Ancient pre-Cypriot people of Cyprus
+    INVALIDATED_BY = {
+		tfe = { alasiyan }
+		vanilla = { alasiyan }
+	}
+    
+	color = rgb { 201 110 0	}
+
+	heritage = heritage_punic
+	language = language_alasiyan
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_ancient_miners
+		tradition_xenophilic
+	}
+
+	ethos = ethos_egalitarian
+
+	name_list = name_list_punic
+
+	ethnicities = {
+		10 = arab
+	}
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = { berber_group_building_gfx mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+}
+ugaritic = {
+    INVALIDATED_BY = {
+		tfe = { ugaritic }
+		vanilla = { ugaritic }
+	}
+    
+	color = rgb { 130 143 120 }
+
+	heritage = heritage_punic
+	language = language_ugaritic
+	martial_custom = martial_custom_male_only
+	traditions = {
+		tradition_maritime_mercantilism
+		tradition_xenophilic
+		tradition_poetry #The Ugarit archive contained many epic poems
+		tradition_astute_diplomats #Reference to the great Ugarit archive containing diplomatic correspondences
+	}
+
+	ethos = ethos_bureaucratic
+
+	name_list = name_list_punic
+
+	ethnicities = {
+		10 = arab
+	}
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = { berber_group_building_gfx mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+}
 
 breathanach = {
     INVALIDATED_BY = {
@@ -3123,3 +3488,97 @@ chong = {  # integrated from Rajas of Asia
 		10 = asian
 	}
 }
+
+hurrian_culture = { 
+    
+	color = rgb { 89 92 209 }
+
+	heritage = heritage_syriac
+	language = language_hurrian
+	martial_custom = martial_custom_male_only
+	traditions = { 
+		tradition_storytellers
+		tradition_metal_craftsmanship
+	}
+	dlc_tradition = {
+		trait = tradition_malleable_invaders
+		requires_dlc_flag = hybridize_culture
+	}
+	dlc_tradition = {
+		trait = tradition_music_theory
+		requires_dlc_flag = hybridize_culture
+	}
+
+	name_list = name_list_hurrian
+
+	ethos = ethos_bellicose
+
+	ethnicities = {
+		10 = arab
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+}
+
+gutian = { #Ancient barbarians of unknown origin who conquered Mesopotamia after the fall of Akkad, reviled by their subjects
+    
+	color = hsv { 0.97 0.93 0.55 }
+
+	heritage = heritage_syriac
+	language = language_gutian
+	martial_custom = martial_custom_male_only
+	traditions = { 
+		tradition_quarrelsome
+		tradition_hill_dwellers
+		tradition_warrior_culture
+		tradition_eye_for_an_eye
+	}
+
+	name_list = name_list_gutian
+
+	ethos = ethos_bellicose
+
+	ethnicities = {
+		10 = arab
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+}
+
+hatti = { #Pre-Hittite people of central Anatolia
+    
+	color = rgb { 200 200 200 }
+
+	heritage = heritage_anatolian
+	language = language_hatti
+	martial_custom = martial_custom_male_only
+	traditions = { 
+		tradition_artisans
+		tradition_storytellers
+		tradition_city_keepers
+	}
+
+	name_list = name_list_luwian
+
+	ethos = ethos_spiritual
+
+	ethnicities = {
+		10 = arab
+		10 = mediterranean_byzantine
+	}
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
+	unit_gfx = { mena_unit_gfx }
+}
+
+

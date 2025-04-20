@@ -280,7 +280,7 @@ link = { ck3 = wa_animism ir = burmese_religion ck3Culture = wa } # Rajas faith
 link = { ck3=burmic ir=burmese_religion }
 
 # Hurrian
-link = { ck3=hurrian ir=hurrian_pantheon } # added by Invictus
+link = { ck3=hurrian ir=hurrian_pantheon ir=hurrian_religion } # added by Invictus and Bronze Age
 
 # Elamite
 link = { ck3 = elamite_faith ir = elamite_pantheon }
