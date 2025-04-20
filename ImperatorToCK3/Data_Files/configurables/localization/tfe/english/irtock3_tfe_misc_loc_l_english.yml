@@ -1,0 +1,4 @@
+﻿l_english:
+ # TFE normally makes a check where at least 5/6 days have passed since game start before imperial_authority_3 can be passed, but the way they set that up isn't compatible with the converter's dynamic start date. So that condition has been changed to requiring a year since game start before it can be passed, and this just notifies the player of that condition.
+ IRTOCK3_TFE_IMPERIAL_AUTHORITY_3_TIME_TRIGGER_TT: "Can not pass this law before a year in-game has passed.\n#weak TFE normally delays the passing of this law by about 5 days, but it isn't compatible with the converter's dynamic start date. Delaying the passing of this law by a year is the best alternative to be compatible with any start date.#!"
+ 
