@@ -51,19 +51,26 @@ public class RulerTermTests {
 		var impRulerTerm = ImperatorToCK3.Imperator.Countries.RulerTerm.Parse(reader);
 		var govReader = new BufferedReader("link = {ir=dictatorship ck3=feudal_government }");
 		var govMapper = new GovernmentMapper(govReader, ck3GovernmentIds: new List<string> {"feudal_government"});
-		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
+		var landedTitles = new Title.LandedTitles();
+		var ck3Religions = new ReligionCollection(landedTitles);
 		var ck3RegionMapper = new CK3RegionMapper();
-		var ck3RulerTerm = new RulerTerm(impRulerTerm,
+		var colorFactory = new ColorFactory();
+		var ck3ModFlags = new OrderedDictionary<string, bool>();
+		
+		var testTitle = landedTitles.Add("k_test_title");
+		var ck3RulerTerm = new RulerTerm(
+			testTitle,
+			impRulerTerm,
 			new ImperatorToCK3.CK3.Characters.CharacterCollection(),
 			govMapper,
 			new LocDB("english"),
 			new TestCK3LocDB(),
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
-			new CultureMapper(irRegionMapper, ck3RegionMapper, new CultureCollection(new ColorFactory(), new PillarCollection(new ColorFactory(), []), [])),
+			new CultureMapper(irRegionMapper, ck3RegionMapper, new CultureCollection(colorFactory, new PillarCollection(colorFactory, ck3ModFlags), ck3ModFlags)),
 			new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 			new ProvinceMapper(),
 			new Configuration(),
-			enabledCK3Dlcs: []
+			enabledCK3Dlcs: Array.Empty<string>()
 		);
 		Assert.Equal("imperator69", ck3RulerTerm.CharacterId);
 		Assert.Equal(new Date(500, 2, 3, AUC: true), ck3RulerTerm.StartDate);
@@ -84,7 +91,8 @@ public class RulerTermTests {
 		);
 		var impRulerTerm = new ImperatorToCK3.Imperator.Countries.RulerTerm(preImpTermReader, countries);
 
-		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
+		var landedTitles = new Title.LandedTitles();
+		var ck3Religions = new ReligionCollection(landedTitles);
 		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
 		var govReader = new BufferedReader("link = {ir=dictatorship ck3=feudal_government }");
 		var govMapper = new GovernmentMapper(govReader, ck3GovernmentIds: new List<string> {"feudal_government"});
@@ -96,7 +104,11 @@ public class RulerTermTests {
 			ck3RegionMapper
 		);
 		var ck3Characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
-		var ck3RulerTerm = new RulerTerm(impRulerTerm,
+		
+		var testTitle = landedTitles.Add("k_test_title");
+		var ck3RulerTerm = new RulerTerm(
+			testTitle,
+			impRulerTerm,
 			ck3Characters,
 			govMapper,
 			new LocDB("english"),
@@ -106,13 +118,11 @@ public class RulerTermTests {
 			new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
 			new ProvinceMapper(),
 			new Configuration(),
-			enabledCK3Dlcs: []
+			enabledCK3Dlcs: Array.Empty<string>()
 		);
+		Assert.NotNull(ck3RulerTerm.CharacterId);
 		Assert.Equal("imperatorRegnalSPAAlexander504_1_1BC", ck3RulerTerm.CharacterId);
 		Assert.Equal(new Date(250, 1, 1, AUC: true), ck3RulerTerm.StartDate);
-		var ruler = ck3RulerTerm.PreImperatorRuler;
-		Assert.NotNull(ruler);
-		Assert.Equal("Alexander", ruler.Name);
 
 		var conversionDate = new Date(1000, 1, 1);
 		var ck3Character = ck3Characters["imperatorRegnalSPAAlexander504_1_1BC"];

@@ -301,6 +301,8 @@ public class LandedTitlesTests {
 		var ck3LocDB = new TestCK3LocDB();
 
 		// Import country 589.
+		var governmentMapper = new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>());
+		var enabledCK3Dlcs = Array.Empty<string>();
 		titles.ImportImperatorCountries(
 			imperatorWorld.Countries,
 			imperatorWorld.Dependencies,
@@ -309,7 +311,7 @@ public class LandedTitlesTests {
 			ck3LocDB,
 			provinceMapper,
 			coaMapper,
-			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
+			governmentMapper,
 			new SuccessionLawMapper(),
 			definiteFormMapper,
 			religionMapper,
@@ -319,7 +321,7 @@ public class LandedTitlesTests {
 			conversionDate,
 			config,
 			new List<KeyValuePair<Country, Dependency?>>(),
-			enabledCK3Dlcs: []);
+			enabledCK3Dlcs);
 		Assert.Collection(titles,
 			title => Assert.Equal("c_county1", title.Id),
 			title => Assert.Equal("b_barony1", title.Id),
