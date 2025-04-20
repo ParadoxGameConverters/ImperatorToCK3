@@ -1224,6 +1224,28 @@
 			}
 		}
 	}
+
+	# IRToCK3: Also drift all kingdoms from held empire titles to ERE, then delete title
+	every_held_title = {
+		limit = {
+			tier = tier_empire
+			NOT = { this = title:e_byzantium }
+		}
+
+		every_in_de_jure_hierarchy = {
+			limit = {
+				tier = tier_kingdom
+			}
+
+			set_de_jure_liege_title = title:e_byzantium
+		}
+
+		save_scope_as = empire_to_delete
+
+		root = {
+			destroy_title = scope:empire_to_delete
+		}
+	}
 		} # end of after
 	}
 
