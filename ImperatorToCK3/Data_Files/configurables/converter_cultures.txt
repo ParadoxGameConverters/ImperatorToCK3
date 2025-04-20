@@ -13,7 +13,14 @@
 gelonian = {
 	color = { 179 255 102 }
 
-	heritage = heritage_byzantine
+	# TFE uses its own hellenistic heritage in place of the byzantine heritage
+	MOD_DEPENDENT = {
+		IF tfe = {
+			heritage = heritage_hellenistic
+		} ELSE = {
+			heritage = heritage_byzantine
+		}
+	}
 	language = language_scythian
 	parents = { hellenic_greek scythian }
 	#created = -600.1.1 #needs to be BC
@@ -154,7 +161,7 @@ qin = {
 }
 
 neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture should only be be able to trigger in the converter if the holder of the culture has a kingdom or empire tier title. Otherwise, cretan should take place over it
-	color = { 0.7 0.6 0.95 }
+	color = { 0.5 0.8 0.8 }
 	
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -219,9 +226,16 @@ cretan = {
 		vanilla = { cretan }  # In vanilla the cretan culture is a divergence from Greek, done through a decision 
 	}
 
-	color = { 0.7 0.6 0.95 }
+	color = { 0.67 0.8 0.8 }
 
-	heritage = heritage_byzantine
+	# TFE uses its own hellenistic heritage in place of the byzantine heritage
+	MOD_DEPENDENT = {
+		IF tfe = {
+			heritage = heritage_hellenistic
+		} ELSE = {
+			heritage = heritage_byzantine
+		}
+	}
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			language = language_doric # Doric was used for everyday life while the main greek language at the time (Koine Greek) was used for governance and other matters of administration. The language could be switched to language_ancient_greek depending on specificity or simplicity needed.
@@ -878,7 +892,14 @@ hellenic_greek = { # Now used to represent non-Romanized Greeks
 	color = { 0.58 0.74 0.95 }
 
 	ethos = ethos_bureaucratic
-	heritage = heritage_byzantine
+	# TFE uses its own hellenistic heritage in place of the byzantine heritage
+	MOD_DEPENDENT = {
+		IF tfe = {
+			heritage = heritage_hellenistic
+		} ELSE = {
+			heritage = heritage_byzantine
+		}
+	}
 	language = language_greek
 	martial_custom = martial_custom_male_only
 	traditions = { # From ChatGPT and my own research, non-Romanized Greeks fit better under a diplomatic/warfare-focused culture, instead of a political/intrigue-based one like base game Greek -tanner918
@@ -912,7 +933,14 @@ greek = { # Overwriting the vanilla greek definition to make it better represent
 	color = greek
 	
 	ethos = ethos_bureaucratic
-	heritage = heritage_byzantine
+	# TFE uses its own hellenistic heritage in place of the byzantine heritage
+	MOD_DEPENDENT = {
+		IF tfe = {
+			heritage = heritage_hellenistic
+		} ELSE = {
+			heritage = heritage_byzantine
+		}
+	}
 	language = language_greek
 	martial_custom = martial_custom_male_only
 	
@@ -963,7 +991,14 @@ macedonian = {
 	color = { 0.7 0.6 0.95 }
 
 	ethos = ethos_bellicose
-	heritage = heritage_byzantine # IRToCK3: moved from heritage_ancient_greek
+	# TFE uses its own hellenistic heritage in place of the byzantine heritage
+	MOD_DEPENDENT = {
+		IF tfe = {
+			heritage = heritage_hellenistic
+		} ELSE = {
+			heritage = heritage_byzantine # IRToCK3: moved from heritage_ancient_greek
+		}
+	}
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			language = language_doric # https://en.wikipedia.org/wiki/Ancient_Macedonians: They spoke Ancient Macedonian, which is usually classified by scholars as a dialect of Northwest Doric Greek
@@ -998,7 +1033,14 @@ hellenistic = {
     
 	color = hsv { 0.65 0.7 0.8 }
 
-	heritage = heritage_byzantine
+	# TFE uses its own hellenistic heritage in place of the byzantine heritage
+	MOD_DEPENDENT = {
+		IF tfe = {
+			heritage = heritage_hellenistic
+		} ELSE = {
+			heritage = heritage_byzantine
+		}
+	}
 	language = language_greek
 	parents = { macedonian persian }
 	created = 2.1.1
@@ -1042,8 +1084,15 @@ indogreek = {
 		vanilla = { indogreek }
 	}
     
-	color = hsv { 0.03 0.7 0.7 }
-	heritage = heritage_byzantine
+	color = hsv { 0.12 0.7 0.7 }
+	# TFE uses its own hellenistic heritage in place of the byzantine heritage
+	MOD_DEPENDENT = {
+		IF tfe = {
+			heritage = heritage_hellenistic
+		} ELSE = {
+			heritage = heritage_byzantine
+		}
+	}
 	language = language_greek
 	parents = { hellenic_greek bactrian }
 	created = 2.1.1
@@ -1076,7 +1125,14 @@ italiote = {
     
 	parents = { hellenic_greek }
 	created = 2.1.1
-	heritage = heritage_byzantine
+	# TFE uses its own hellenistic heritage in place of the byzantine heritage
+	MOD_DEPENDENT = {
+		IF tfe = {
+			heritage = heritage_hellenistic
+		} ELSE = {
+			heritage = heritage_byzantine
+		}
+	}
 	language = language_greek
 	coa_gfx = { byzantine_group_coa_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
@@ -1098,7 +1154,7 @@ italiote = {
 
 syro_hellenic = {
     INVALIDATED_BY = {
-		tfe = { syro_hellenic }
+		tfe = { syro_hellenic syrian }
 		roa = { syro_hellenic }
 		wtwsms = { syro_hellenic }
 		vanilla = { syro_hellenic }
@@ -1106,7 +1162,14 @@ syro_hellenic = {
     
 	parents = { macedonian assyrian }
 	created = 2.1.1
-	heritage = heritage_byzantine
+	# TFE uses its own hellenistic heritage in place of the byzantine heritage
+	MOD_DEPENDENT = {
+		IF tfe = {
+			heritage = heritage_hellenistic
+		} ELSE = {
+			heritage = heritage_byzantine
+		}
+	}
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			language = language_doric # https://en.wikipedia.org/wiki/Ancient_Macedonians: They spoke Ancient Macedonian, which is usually classified by scholars as a dialect of Northwest Doric Greek
@@ -1120,7 +1183,7 @@ syro_hellenic = {
 	building_gfx = { mediterranean_building_gfx }
 	unit_gfx = { eastern_unit_gfx }
 
-	color = rgb { 103 145 255 }
+	color = rgb { 136 145 213 }
 	name_list = name_list_ancient_greek
 	name_list = name_list_assyrian
 	ethnicities = {
