@@ -276,7 +276,14 @@ cretan = {
 minoan = { # The ancient Minoan culture from the Bronze Age
 	color = hsv { 0.15 0.15 0.05 }
 	
-	heritage = heritage_byzantine
+	# TFE uses its own hellenistic heritage in place of the byzantine heritage
+	MOD_DEPENDENT = {
+		IF tfe = {
+			heritage = heritage_hellenistic
+		} ELSE = {
+			heritage = heritage_byzantine
+		}
+	}
 	language = language_minoan #Ancient Pre-Greek language, unknown classification due to Linear A remaining undeciphered
 	ethos = ethos_spiritual
 
@@ -310,7 +317,14 @@ minoan = { # The ancient Minoan culture from the Bronze Age
 cycladic = { # The ancient Pre-Greek culture of the Cyclades from the Bronze Age, dominated the Aegean before the Minoans
 	color = rgb { 102 102 102 }
 	
-	heritage = heritage_byzantine
+	# TFE uses its own hellenistic heritage in place of the byzantine heritage
+	MOD_DEPENDENT = {
+		IF tfe = {
+			heritage = heritage_hellenistic
+		} ELSE = {
+			heritage = heritage_byzantine
+		}
+	}
 	language = language_cycladic #Ancient Pre-Greek language, unknown classification
 	ethos = ethos_spiritual
 
@@ -345,7 +359,14 @@ cycladic = { # The ancient Pre-Greek culture of the Cyclades from the Bronze Age
 pelasgian = { # The ancient pre-Greek people of mainland Greece from the Bronze Age
 	color = hsv { 0.1 0.7 0.8 }
 	
-	heritage = heritage_byzantine
+	# TFE uses its own hellenistic heritage in place of the byzantine heritage
+	MOD_DEPENDENT = {
+		IF tfe = {
+			heritage = heritage_hellenistic
+		} ELSE = {
+			heritage = heritage_byzantine
+		}
+	}
 	language = language_pelasgian #Ancient Pre-Greek language, unknown classification
 	ethos = ethos_spiritual
 
