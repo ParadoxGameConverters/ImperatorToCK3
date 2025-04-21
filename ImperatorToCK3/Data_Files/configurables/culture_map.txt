@@ -256,6 +256,8 @@ link = { ck3 = belgae ir = sennonian ir = bellovacian ir = veliocassian ir = mor
 link = { ck3 = belgae ir = ubian }
 
 ## Britannic
+link = { ck3 = breton ir = breton } # breton comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+
 @ir_south_east_briton_cultures = "ir=britannic ir=brigantic ir=cornovian ir=coritani ir=iceni ir=trinovantian ir=cantian ir=durotrigan ir=dobunnian ir=parisian ir=monapian"
 @ir_welsh_cultures = "ir=demetian ir=ordovitian ir=welsh" # welsh comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 @ir_cumbrian_cultures = "ir=damnonian ir=cumbran" # cumbran comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
@@ -264,6 +266,7 @@ link = { ck3 = belgae ir = ubian }
 link = { ck3 = briton @ir_cumbrian_cultures @ir_welsh_cultures @ir_south_east_briton_cultures @ir_cornish_cultures }
 # vanilla CK3
 link = { ck3 = pictish ir = caledonian ir = votadinian ir = taexalian }
+link = { ck3 = breton @ir_south_east_briton_cultures @ir_cornish_cultures @ir_welsh_cultures @ir_cumbrian_cultures irRegion = armorica_region }
 link = { ck3 = cumbrian @ir_cumbrian_cultures }
 link = { ck3 = welsh @ir_welsh_cultures }
 link = { ck3 = cornish @ir_cornish_cultures }
@@ -330,11 +333,9 @@ link = { ck3 = gaelic @ir_gaelic_cultures }
 link = { ck3=gaelic @ir_irish_cultures }
 
 ## Gallic
-@ir_gallic_cultures = "ir=volcae ir=salluvian ir=arverni ir=aulercian ir=pictonian ir=lemovician ir=santonian ir=carnuti ir=haedui ir=biturigan ir=lepontic ir=vindelician ir=helvetian ir=allobrogian ir=teurian"
-@ir_breton_cultures = "ir=aremorican ir=breton" # breton comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+@ir_gallic_cultures = "ir=volcae ir=salluvian ir=arverni ir=aulercian ir=pictonian ir=lemovician ir=santonian ir=carnuti ir=haedui ir=biturigan ir=lepontic ir=vindelician ir=helvetian ir=allobrogian ir=teurian ir=aremorican" 
 link = { ck3 = gaul @ir_gallic_cultures } # TFE
 link = { ck3 = gallic @ir_gallic_cultures }
-link = { ck3 = breton @ir_breton_cultures }
 
 
 ### Germanic
