@@ -239,7 +239,8 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		// Determine CoA.
 		if (IsCreatedFromImperator || !config.UseCK3Flags) {
-			CoA = coaMapper.GetCoaForFlagName(ImperatorCountry.Flag);
+			bool warnIfMissing = !config.SkipDynamicCoAExtraction;
+			CoA = coaMapper.GetCoaForFlagName(ImperatorCountry.Flag, warnIfMissing);
 		}
 
 		// Determine other attributes:

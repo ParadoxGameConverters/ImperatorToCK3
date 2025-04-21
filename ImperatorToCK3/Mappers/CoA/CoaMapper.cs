@@ -35,10 +35,6 @@ internal sealed class CoaMapper {
 		}
 	}
 
-	public string? GetCoaForFlagName(string flagName) {
-		return GetCoaForFlagName(flagName, warnIfMissing: true);
-	}
-
 	public string? GetCoaForFlagName(string flagName, bool warnIfMissing) {
 		if (!coasMap.TryGetValue(flagName, out string? value)) {
 			if (warnIfMissing) {
