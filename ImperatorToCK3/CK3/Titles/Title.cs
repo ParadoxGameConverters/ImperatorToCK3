@@ -67,7 +67,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	) {
 		IsCreatedFromImperator = true;
 		this.parentCollection = parentCollection;
-		Id = DetermineId(country, dependency, imperatorCountries, tagTitleMapper, irLocDB);
+		Id = DetermineId(country, dependency, imperatorCountries, tagTitleMapper, irLocDB, ck3LocDB);
 		SetRank();
 		InitializeFromTag(
 			country,
@@ -482,7 +482,8 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		Dependency? dependency,
 		CountryCollection imperatorCountries,
 		TagTitleMapper tagTitleMapper,
-		LocDB irLocDB
+		LocDB irLocDB,
+		CK3LocDB ck3LocDB
 	) {
 		var validatedName = GetValidatedName(irCountry, imperatorCountries, irLocDB);
 		var validatedEnglishName = validatedName?[ConverterGlobals.PrimaryLanguage];
@@ -491,11 +492,11 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		
 		if (dependency is not null) {
 			var overlord = imperatorCountries[dependency.OverlordId];
-			titleId = tagTitleMapper.GetTitleForSubject(irCountry, validatedEnglishName ?? string.Empty, overlord);
+			titleId = tagTitleMapper.GetTitleForSubject(irCountry, validatedEnglishName ?? string.Empty, overlord, ck3LocDB);
 		} else if (validatedEnglishName is not null) {
-			titleId = tagTitleMapper.GetTitleForTag(irCountry, validatedEnglishName, maxTitleRank: TitleRank.empire);
+			titleId = tagTitleMapper.GetTitleForTag(irCountry, validatedEnglishName, maxTitleRank: TitleRank.empire, ck3LocDB);
 		} else {
-			titleId = tagTitleMapper.GetTitleForTag(irCountry);
+			titleId = tagTitleMapper.GetTitleForTag(irCountry, ck3LocDB);
 		}
 
 		if (titleId is null) {
