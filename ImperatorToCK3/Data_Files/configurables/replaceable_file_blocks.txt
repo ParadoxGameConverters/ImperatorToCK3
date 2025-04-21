@@ -2052,7 +2052,7 @@
 			any_parent_culture_or_above = {
 				this = culture:roman
 			}
-			#has_cultural_pillar = heritage_byzantine # IRToCK3: Removed since this heritage know represents general Hellenistic cultures, so it doesn't really fit
+			#has_cultural_pillar = heritage_byzantine # IRToCK3: Removed since this heritage now represents general Hellenistic cultures, so it doesn't really fit
 			scope:character = {
 				OR = {
 					has_title = title:e_byzantium
