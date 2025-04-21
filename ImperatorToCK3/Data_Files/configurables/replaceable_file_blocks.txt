@@ -1075,9 +1075,7 @@
 				has_active_diarchy = yes
 				has_diarchy_type = co_emperorship
 			}
-			diarch = {
-				save_scope_as = new_holder
-			}
+			diarch = { save_scope_as = new_holder }
 		}
 		if = {
 			limit = {
@@ -1088,13 +1086,9 @@
 				}
 			}
 			ordered_powerful_family = {
-				limit = {
-					this != root.house
-				}
+				limit = { this != root.house }
 				order_by = house_power_score
-				house_head = {
-					save_scope_as = new_holder
-				}
+				house_head = { save_scope_as = new_holder }
 			}
 		}
 		} # end of before
@@ -1106,11 +1100,9 @@
 				has_active_diarchy = yes
 				has_diarchy_type = co_emperorship
 			}
-			diarch = {
-				save_scope_as = new_holder
-			}
+			diarch = { save_scope_as = new_holder }
 		}
-		else_if = { # IRToCK3: The base game has this as an if statement, which means if the "new_holder" scope is set above by an existing co-emperor, then that will get overwritten here. Now, this will only get run if there is no co-emperor
+		else_if = { # IRToCK3: The base game has this as an if statement, which will cause any "new_holder" assignment made in the above block to get overwritten. This should fix that issue
 			limit = {
 				any_powerful_family = {
 					this != root.house
@@ -1119,13 +1111,9 @@
 				}
 			}
 			ordered_powerful_family = {
-				limit = {
-					this != root.house
-				}
+				limit = { this != root.house }
 				order_by = house_power_score
-				house_head = {
-					save_scope_as = new_holder
-				}
+				house_head = { save_scope_as = new_holder }
 			}
 		}
 		} # end of after
@@ -1625,63 +1613,63 @@
 
 }
 
-
-"common/decisions/80_major_decisions_middle_europe.txt" = {
-	#########
-	# restore_holy_roman_empire_decision
-	#########
+# Commenting this out for now since the decision gets removed entirely right now, until we know what we want to do with the HRE content
+# "common/decisions/80_major_decisions_middle_europe.txt" = {
+# 	#########
+# 	# restore_holy_roman_empire_decision
+# 	#########
 	
-	# For now, just making the decision not possible for the WRE title. It will likely be modified further once it is decided how the decision, and all HRE content, should be handled. (i.e. should it be remade to act as if its mimicking Rome, competing with Rome, act as the "successor" like it did historically but also take WRE into consideration, etc.)
+# 	# For now, just making the decision not possible for the WRE title. It will likely be modified further once it is decided how the decision, and all HRE content, should be handled. (i.e. should it be remade to act as if its mimicking Rome, competing with Rome, act as the "successor" like it did historically but also take WRE into consideration, etc.)
 
-	replace = {
-		before = {
-		NOR = {	#Title existence cnditions.
-			exists = title:e_hre.holder	#Well, that'd be redundant.
-			#highest_held_title_tier = tier_empire	#Existing emperors likewise should not be giving up their empire.
-		}
-		NOR = { #It doesn't make sense for these competing empires.
-			has_title = title:e_byzantium
-			has_title = title:e_roman_empire
-			has_title = title:e_mongol_empire
-		}
-		AND = {	#Faith conditions.
-			NOT = { this = faith.religious_head }	#Nice try, Mr. Pope.
-			faith = {
-				religion_tag = christianity_religion
-				has_doctrine_parameter = spiritual_head_of_faith	#Gotta be invested with the authority by someone other than yourself.
-			}
-			NAND = {	#No need for a competing empire if your faith controls the ERE.
-				exists = title:e_byzantium.holder
-				faith = title:e_byzantium.holder.faith
-			}
-		}
-		} # end of before
+# 	replace = {
+# 		before = {
+# 		NOR = {	#Title existence cnditions.
+# 			exists = title:e_hre.holder	#Well, that'd be redundant.
+# 			#highest_held_title_tier = tier_empire	#Existing emperors likewise should not be giving up their empire.
+# 		}
+# 		NOR = { #It doesn't make sense for these competing empires.
+# 			has_title = title:e_byzantium
+# 			has_title = title:e_roman_empire
+# 			has_title = title:e_mongol_empire
+# 		}
+# 		AND = {	#Faith conditions.
+# 			NOT = { this = faith.religious_head }	#Nice try, Mr. Pope.
+# 			faith = {
+# 				religion_tag = christianity_religion
+# 				has_doctrine_parameter = spiritual_head_of_faith	#Gotta be invested with the authority by someone other than yourself.
+# 			}
+# 			NAND = {	#No need for a competing empire if your faith controls the ERE.
+# 				exists = title:e_byzantium.holder
+# 				faith = title:e_byzantium.holder.faith
+# 			}
+# 		}
+# 		} # end of before
 
-		after = {
-		NOR = {	#Title existence cnditions.
-			exists = title:e_hre.holder	#Well, that'd be redundant.
-			#highest_held_title_tier = tier_empire	#Existing emperors likewise should not be giving up their empire.
-		}
-		NOR = { #It doesn't make sense for these competing empires.
-			has_title = title:e_byzantium
-			has_title = title:e_roman_empire
-			has_title = title:e_mongol_empire
-			has_title = title:e_western_roman_empire # IRToCK3: Added WRE to list of invalid titles
-		}
-		AND = {	#Faith conditions.
-			NOT = { this = faith.religious_head }	#Nice try, Mr. Pope.
-			faith = {
-				religion_tag = christianity_religion
-				has_doctrine_parameter = spiritual_head_of_faith	#Gotta be invested with the authority by someone other than yourself.
-			}
-			NAND = {	#No need for a competing empire if your faith controls the ERE.
-				exists = title:e_byzantium.holder
-				faith = title:e_byzantium.holder.faith
-			}
-		}
-		} # end of after
-	}
-}
+# 		after = {
+# 		NOR = {	#Title existence cnditions.
+# 			exists = title:e_hre.holder	#Well, that'd be redundant.
+# 			#highest_held_title_tier = tier_empire	#Existing emperors likewise should not be giving up their empire.
+# 		}
+# 		NOR = { #It doesn't make sense for these competing empires.
+# 			has_title = title:e_byzantium
+# 			has_title = title:e_roman_empire
+# 			has_title = title:e_mongol_empire
+# 			has_title = title:e_western_roman_empire # IRToCK3: Added WRE to list of invalid titles
+# 		}
+# 		AND = {	#Faith conditions.
+# 			NOT = { this = faith.religious_head }	#Nice try, Mr. Pope.
+# 			faith = {
+# 				religion_tag = christianity_religion
+# 				has_doctrine_parameter = spiritual_head_of_faith	#Gotta be invested with the authority by someone other than yourself.
+# 			}
+# 			NAND = {	#No need for a competing empire if your faith controls the ERE.
+# 				exists = title:e_byzantium.holder
+# 				faith = title:e_byzantium.holder.faith
+# 			}
+# 		}
+# 		} # end of after
+# 	}
+# }
 
 
 "common/scripted_effects/00_major_decisions_scripted_effects.txt" = {
