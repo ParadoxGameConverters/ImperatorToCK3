@@ -245,13 +245,13 @@ internal sealed partial class Title {
 			Imperator.Provinces.ProvinceCollection irProvinces,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
-			bool staticDeJure,
 			LocDB irLocDB,
 			CK3LocDB ck3LocDB,
 			ProvinceMapper provinceMapper,
 			CoaMapper coaMapper,
 			DefiniteFormMapper definiteFormMapper,
-			ImperatorRegionMapper imperatorRegionMapper
+			ImperatorRegionMapper imperatorRegionMapper,
+			Configuration config
 		) {
 			var newTitle = new Title(this,
 				id,
@@ -260,13 +260,13 @@ internal sealed partial class Title {
 				irProvinces,
 				imperatorCharacters,
 				regionHasMultipleGovernorships,
-				staticDeJure,
 				irLocDB,
 				ck3LocDB,
 				provinceMapper,
 				coaMapper,
 				definiteFormMapper,
-				imperatorRegionMapper
+				imperatorRegionMapper,
+				config
 			);
 			dict[newTitle.Id] = newTitle;
 			return newTitle;
@@ -568,7 +568,7 @@ internal sealed partial class Title {
 			List<KeyValuePair<Country, Dependency?>> countyLevelCountries,
 			IReadOnlyCollection<string> enabledCK3Dlcs) {
 			// Create a new title or update existing title.
-			var titleId = DetermineId(country, dependency, imperatorCountries, tagTitleMapper, irLocDB);
+			var titleId = DetermineId(country, dependency, imperatorCountries, tagTitleMapper, irLocDB, ck3LocDB);
 
 			if (GetRankForId(titleId) == TitleRank.county) {
 				countyLevelCountries.Add(new(country, dependency));
@@ -650,7 +650,6 @@ internal sealed partial class Title {
 					irWorld.Provinces,
 					irWorld.Characters,
 					governorshipsPerRegion[governorship.Region.Id] > 1,
-					config.StaticDeJure,
 					tagTitleMapper,
 					irLocDB,
 					ck3LocDB,
@@ -658,7 +657,8 @@ internal sealed partial class Title {
 					definiteFormMapper,
 					imperatorRegionMapper,
 					coaMapper,
-					countyLevelGovernorships
+					countyLevelGovernorships,
+					config
 				);
 				++counter;
 			}
@@ -672,7 +672,6 @@ internal sealed partial class Title {
 			Imperator.Provinces.ProvinceCollection irProvinces,
 			Imperator.Characters.CharacterCollection imperatorCharacters,
 			bool regionHasMultipleGovernorships,
-			bool staticDeJure,
 			TagTitleMapper tagTitleMapper,
 			LocDB irLocDB,
 			CK3LocDB ck3LocDB,
@@ -680,7 +679,8 @@ internal sealed partial class Title {
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
 			CoaMapper coaMapper,
-			List<Governorship> countyLevelGovernorships
+			List<Governorship> countyLevelGovernorships,
+			Configuration config
 		) {
 			var country = governorship.Country;
 
@@ -703,12 +703,12 @@ internal sealed partial class Title {
 					irProvinces,
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
-					staticDeJure,
 					irLocDB,
 					ck3LocDB,
 					provinceMapper,
 					definiteFormMapper,
-					imperatorRegionMapper
+					imperatorRegionMapper,
+					config
 				);
 			} else {
 				Add(
@@ -718,13 +718,13 @@ internal sealed partial class Title {
 					irProvinces,
 					imperatorCharacters,
 					regionHasMultipleGovernorships,
-					staticDeJure,
 					irLocDB,
 					ck3LocDB,
 					provinceMapper,
 					coaMapper,
 					definiteFormMapper,
-					imperatorRegionMapper
+					imperatorRegionMapper,
+					config
 				);
 			}
 		}

@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Helpers;
@@ -35,7 +36,7 @@ internal sealed class TagTitleMapper {
 		registeredGovernorshipTitles.Add($"{imperatorCountryTag}_{imperatorRegion}", ck3Title);
 		usedTitles.Add(ck3Title);
 	}
-	public string? GetTitleForTag(Country country, string localizedTitleName, TitleRank maxTitleRank) {
+	public string? GetTitleForTag(Country country, string localizedTitleName, TitleRank maxTitleRank, CK3LocDB ck3LocDB) {
 		// Look up register.
 		if (registeredCountryTitles.TryGetValue(country.Id, out var titleToReturn)) {
 			return titleToReturn;
@@ -56,15 +57,15 @@ internal sealed class TagTitleMapper {
 		}
 
 		// Generate a new title ID.
-		var generatedTitleId = GenerateNewTitleId(country, localizedTitleName, maxTitleRank);
+		var generatedTitleId = GenerateNewTitleId(country, localizedTitleName, maxTitleRank, ck3LocDB);
 		RegisterCountry(country.Id, generatedTitleId);
 		return generatedTitleId;
 	}
-	public string? GetTitleForTag(Country country) {
-		return GetTitleForTag(country, localizedTitleName: string.Empty, maxTitleRank: TitleRank.empire);
+	public string? GetTitleForTag(Country country, CK3LocDB ck3LocDB) {
+		return GetTitleForTag(country, localizedTitleName: string.Empty, maxTitleRank: TitleRank.empire, ck3LocDB);
 	}
 
-	public string? GetTitleForSubject(Country subject, string localizedTitleName, Country overlord) {
+	public string? GetTitleForSubject(Country subject, string localizedTitleName, Country overlord, CK3LocDB ck3LocDB) {
 		TitleRank maxTitleRank;
 		var ck3OverlordTitle = overlord.CK3Title;
 		if (ck3OverlordTitle is null) {
@@ -74,7 +75,7 @@ internal sealed class TagTitleMapper {
 			maxTitleRank = ck3OverlordTitle.Rank - 1;
 		}
 
-		return GetTitleForTag(subject, localizedTitleName, maxTitleRank);
+		return GetTitleForTag(subject, localizedTitleName, maxTitleRank, ck3LocDB);
 	}
 
 	public string? GetTitleForGovernorship(Governorship governorship, Title.LandedTitles titles, Imperator.Provinces.ProvinceCollection irProvinces, ProvinceCollection ck3Provinces, ImperatorRegionMapper imperatorRegionMapper, ProvinceMapper provMapper) {
@@ -231,16 +232,23 @@ internal sealed class TagTitleMapper {
 			_ => throw new ArgumentException($"Title {ck3LiegeTitleId} has invalid rank to have governorships!", nameof(ck3LiegeTitleId))
 		};
 	}
-	private string GenerateNewTitleId(Country country, string localizedTitleName, TitleRank maxTitleRank) {
+	private string GenerateNewTitleId(Country country, string localizedTitleName, TitleRank maxTitleRank, CK3LocDB ck3LocDB) {
 		var ck3Rank = EnumHelper.Min(GetCK3TitleRank(country, localizedTitleName), maxTitleRank);
 
-		var ck3TitleId = GetTitlePrefixForRank(ck3Rank);
-		ck3TitleId += GeneratedCK3TitlePrefix;
+		var idBase = GetTitlePrefixForRank(ck3Rank);
+		idBase += GeneratedCK3TitlePrefix;
 
 		if (string.IsNullOrEmpty(country.Tag)) {
-			ck3TitleId += $"id_{country.Id}";
+			idBase += $"id_{country.Id}";
 		} else {
-			ck3TitleId += country.Tag;
+			idBase += country.Tag;
+		}
+
+		// If there is a hash conflict for the title name or the title adjective key, append a number to the title ID.
+		string ck3TitleId = idBase;
+		uint counter = 0;
+		while (ck3LocDB.KeyHasConflictingHash(ck3TitleId) || ck3LocDB.KeyHasConflictingHash($"{ck3TitleId}_adj")) {
+			ck3TitleId = $"{idBase}_{counter++}";
 		}
 
 		return ck3TitleId;

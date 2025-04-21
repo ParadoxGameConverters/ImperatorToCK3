@@ -155,6 +155,8 @@ link = { ck3=cilician ir=cilician ir=kennataian ir=cennatean ir=lalasian }
 link = { ck3 = lydian ir = lydian }
 link = { ck3=hittite ir=lycaonian ir=cappadocian ir=pontic ir=paphlagonian ir=milyadian ir=oroandian ir=cabalian ir=morimenian ir=cataonian }
 link = { ck3 = phrygian ir = phrygian ir = mysian }
+link = { ck3 = kizzuwatnan ir = kizzuwatnan }
+link = { ck3 = trojan ir = trojan }
 #Invictus mod
 link = { ck3 = galatian ir = galatian ir = tylian } # Tylian represent Celts that migrated to Thrace.
 
@@ -323,6 +325,8 @@ link = { ck3 = assyrian ir = assyrian }
 link = { ck3 = hebrew ir = aramaic historicalTag=JUD } # Historical assimilation
 link = { ck3 = aramaic ir = aramaic }
 link = { ck3 = babylonian ir = babylonian }
+link = { ck3 = sumerian ir = sumerian }
+link = { ck3 = eblaite ir = eblaite }
 
 ## Gaelic
 @ir_irish_cultures = "ir=hibernian ir=ivernian ir=voluntian ir=irish" # irish comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
@@ -596,6 +600,8 @@ link = { ck3 = rhaetian ir = rhaetian }
 link = { ck3 = kemetic @ir_egyptian_cultures }
 # Vanilla CK3
 link = { ck3 = ancient_egyptian @ir_egyptian_cultures }
+link = { ck3 = per_sheklesh ir = per_sheklesh }
+link = { ck3 = niwt_ipt ir = niwt_ipt }
 
 ## Numidian
 link = { ck3 = baranis ir = baranis } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
@@ -767,6 +773,8 @@ link = { ck3 = sephardi ir = hebrew irRegion = baetica_region irRegion = contest
 #link = { ck3 = khazar ir = hebrew @culture_splitting_region_L } # Commented out for know since Khazar isn't really a Hebrew/Israelite culture, they just adopted Judaism, and I included a possible mapping for khazar below with proto-turkic cultures ~~tanner918
 link = { ck3 = hebrew ir = hebrew }
 link = { ck3 = nabatean ir = nabatean }
+link = { ck3 = alasiyan ir = alasiyan }
+link = { ck3 = ugaritic ir = ugaritic }
 
 ## Invictus Burmese and Tai
 # TFE
@@ -832,6 +840,18 @@ link = { ck3 = finnish @ir_finnic_cultures }
 
 # Magyar
 link = { ck3=hungarian ir=hungarian } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+
+# Hurro-Urartian
+link = { ck3 = hurrian_culture ir = hurrian ir = syro_hurrian ir = subarian ir = tukri ir = lullubi }
+link = { ck3 = gutian ir = gutian }
+
+#Pre-Greek
+link = { ck3 = cycladic ir = cycladic }
+link = { ck3 = minoan ir = minoan ir = leleges ir = telchines }
+link = { ck3 = pelasgian ir = kadmeian ir = sithonian ir = kranaoi ir = kuretes ir = phthiotai ir = mukanai }
+
+#Pre-Anatolian
+link = { ck3 = hatti ir = hatti }
 
 # Meme revivalist Neo-Mitanni culture from Invictus
 link = {

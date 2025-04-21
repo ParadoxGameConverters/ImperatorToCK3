@@ -61,7 +61,7 @@ public class TagTitleMapperTests {
 			var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 			country.RegisterProvince(province);
 		}
-		var match = mapper.GetTitleForTag(country);
+		var match = mapper.GetTitleForTag(country, new TestCK3LocDB());
 
 		Assert.Equal("k_krete", match);
 	}
@@ -116,7 +116,7 @@ public class TagTitleMapperTests {
 			var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 			country.RegisterProvince(province);
 		}
-		var match = mapper.GetTitleForTag(country);
+		var match = mapper.GetTitleForTag(country, new TestCK3LocDB());
 
 		Assert.Equal("d_rankless", match);
 	}
@@ -128,13 +128,14 @@ public class TagTitleMapperTests {
 		for (ulong i = 0; i < 20; ++i) { // makes the country a local power
 			rom.RegisterProvince(new ImperatorToCK3.Imperator.Provinces.Province(i));
 		}
-		var match = mapper.GetTitleForTag(rom, "Rome", maxTitleRank: TitleRank.empire);
+		var ck3LocDB = new TestCK3LocDB();
+		var match = mapper.GetTitleForTag(rom, "Rome", maxTitleRank: TitleRank.empire, ck3LocDB);
 
 		var dre = Country.Parse(new BufferedReader("tag=DRE"), 2);
 		for (ulong i = 0; i < 20; ++i) { // makes the country a local power
 			dre.RegisterProvince(new ImperatorToCK3.Imperator.Provinces.Province(i));
 		}
-		var match2 = mapper.GetTitleForTag(dre, "Dre Empire", maxTitleRank: TitleRank.empire);
+		var match2 = mapper.GetTitleForTag(dre, "Dre Empire", maxTitleRank: TitleRank.empire, ck3LocDB);
 
 		Assert.Equal("k_IRTOCK3_ROM", match);
 		Assert.Equal("e_IRTOCK3_DRE", match2);
@@ -195,7 +196,7 @@ public class TagTitleMapperTests {
 		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath, rankMappingsPath);
 		var country = Country.Parse(new BufferedReader(string.Empty), 1);
 		Assert.Empty(country.Tag);
-		var match = mapper.GetTitleForTag(country, "", maxTitleRank: TitleRank.empire);
+		var match = mapper.GetTitleForTag(country, "", maxTitleRank: TitleRank.empire, new TestCK3LocDB());
 
 		Assert.Equal("d_IRTOCK3_id_1", match);
 	}
@@ -230,7 +231,7 @@ public class TagTitleMapperTests {
 			var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 			country.RegisterProvince(province);
 		}
-		var match = mapper.GetTitleForTag(country);
+		var match = mapper.GetTitleForTag(country, new TestCK3LocDB());
 
 		Assert.Equal("e_boredom", match);
 	}
@@ -288,8 +289,10 @@ public class TagTitleMapperTests {
 			var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 			tag1.RegisterProvince(province);
 		}
+		var ck3LocDB = new TestCK3LocDB();
+		
 		// Should be an empire because of the name containing "Empire".
-		Assert.Equal('e', mapper.GetTitleForTag(tag1, "Test Empire", maxTitleRank: TitleRank.empire)![0]);
+		Assert.Equal('e', mapper.GetTitleForTag(tag1, "Test Empire", maxTitleRank: TitleRank.empire, ck3LocDB)![0]);
 
 		var tag2 = Country.Parse(new BufferedReader("tag=TEST_TAG2"), 2);
 		for (ulong i = 1; i < 2; ++i) { // makes the country a city state
@@ -297,63 +300,79 @@ public class TagTitleMapperTests {
 			tag2.RegisterProvince(province);
 		}
 		// Should be a kingdom because of the name containing "Kingdom".
-		Assert.Equal('k', mapper.GetTitleForTag(tag2, "Test Kingdom", maxTitleRank: TitleRank.empire)![0]);
+		Assert.Equal('k', mapper.GetTitleForTag(tag2, "Test Kingdom", maxTitleRank: TitleRank.empire, ck3LocDB)![0]);
 
 		var tag3 = Country.Parse(new BufferedReader("tag=TEST_TAG3"), 3); // migrant horde
-		Assert.Equal('d', mapper.GetTitleForTag(tag3)![0]);
+		Assert.Equal('d', mapper.GetTitleForTag(tag3, ck3LocDB)![0]);
 
 		var tag4 = Country.Parse(new BufferedReader("tag=TEST_TAG4"), 4);
 		for (ulong i = 1; i < 2; ++i) { // makes the country a city state
 			var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 			tag4.RegisterProvince(province);
 		}
-		Assert.Equal('d', mapper.GetTitleForTag(tag4)![0]);
+		Assert.Equal('d', mapper.GetTitleForTag(tag4, ck3LocDB)![0]);
 
 		var tag5 = Country.Parse(new BufferedReader("tag=TEST_TAG5"), 5);
 		for (ulong i = 1; i < 20; ++i) { // makes the country a local power
 			var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 			tag5.RegisterProvince(province);
 		}
-		Assert.Equal('k', mapper.GetTitleForTag(tag5)![0]);
+		Assert.Equal('k', mapper.GetTitleForTag(tag5, ck3LocDB)![0]);
 
 		var tag6 = Country.Parse(new BufferedReader("tag=TEST_TAG6"), 6);
 		for (ulong i = 1; i < 40; ++i) { // makes the country a regional power
 			var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 			tag6.RegisterProvince(province);
 		}
-		Assert.Equal('k', mapper.GetTitleForTag(tag6)![0]);
+		Assert.Equal('k', mapper.GetTitleForTag(tag6, ck3LocDB)![0]);
 
 		var tag7 = Country.Parse(new BufferedReader("tag=TEST_TAG7"), 7);
 		for (ulong i = 1; i < 200; ++i) { // makes the country a major power
 			var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 			tag7.RegisterProvince(province);
 		}
-		Assert.Equal('k', mapper.GetTitleForTag(tag7)![0]);
+		Assert.Equal('k', mapper.GetTitleForTag(tag7, ck3LocDB)![0]);
 
 		var tag8 = Country.Parse(new BufferedReader("tag=TEST_TAG8"), 8);
 		for (ulong i = 1; i < 501; ++i) { // makes the country a great power
 			var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
 			tag8.RegisterProvince(province);
 		}
-		Assert.Equal('e', mapper.GetTitleForTag(tag8, "Testonia", maxTitleRank: TitleRank.empire)![0]);
+		Assert.Equal('e', mapper.GetTitleForTag(tag8, "Testonia", maxTitleRank: TitleRank.empire, ck3LocDB)![0]);
 		
 		// Rank can be overridden by name containing "Duchy", "Principality" or "Dukedom".
 		var tag9 = Country.Parse(new BufferedReader("tag=TEST_TAG9"), 9);
 		for (ulong i = 1; i < 501; ++i) { // makes the country a great power
 			tag9.RegisterProvince(new(i));
 		}
-		Assert.Equal('d', mapper.GetTitleForTag(tag9, "Test Duchy", maxTitleRank: TitleRank.empire)![0]);
+		Assert.Equal('d', mapper.GetTitleForTag(tag9, "Test Duchy", maxTitleRank: TitleRank.empire, ck3LocDB)![0]);
 		
 		var tag10 = Country.Parse(new BufferedReader("tag=TEST_TAG10"), 10);
 		for (ulong i = 1; i < 501; ++i) { // makes the country a great power
 			tag10.RegisterProvince(new(i));
 		}
-		Assert.Equal('d', mapper.GetTitleForTag(tag10, "Test Principality", maxTitleRank: TitleRank.empire)![0]);
+		Assert.Equal('d', mapper.GetTitleForTag(tag10, "Test Principality", maxTitleRank: TitleRank.empire, ck3LocDB)![0]);
 		
 		var tag11 = Country.Parse(new BufferedReader("tag=TEST_TAG11"), 11);
 		for (ulong i = 1; i < 501; ++i) { // makes the country a great power
 			tag11.RegisterProvince(new(i));
 		}
-		Assert.Equal('d', mapper.GetTitleForTag(tag11, "Test Dukedom", maxTitleRank: TitleRank.empire)![0]);
+		Assert.Equal('d', mapper.GetTitleForTag(tag11, "Test Dukedom", maxTitleRank: TitleRank.empire, ck3LocDB)![0]);
+	}
+
+	[Fact]
+	public void GetTitleForTagPreventsLocKeyHaskConflict() {
+		// k_IRTOCK3_ATV_adj and building_nishapur_mines_02 have a conflicting Murmur3A hash.
+		var ck3LocDB = new TestCK3LocDB();
+		ck3LocDB.AddLocForLanguage("building_nishapur_mines_02", "english", "Nishapur Mines");
+		
+		var mapper = new TagTitleMapper(tagTitleMappingsPath, governorshipTitleMappingsPath, rankMappingsPath);
+		var tag = Country.Parse(new BufferedReader("tag=ATV"), 1);
+		for (ulong i = 1; i < 20; ++i) { // makes the country a local power
+			var province = new ImperatorToCK3.Imperator.Provinces.Province(i);
+			tag.RegisterProvince(province);
+		}
+		var match = mapper.GetTitleForTag(tag, "Test Country", maxTitleRank: TitleRank.empire, ck3LocDB);
+		Assert.Equal("k_IRTOCK3_ATV_0", match); // Number is appended to the title ID to prevent hash conflicts for title name or title adjective keys.
 	}
 }
