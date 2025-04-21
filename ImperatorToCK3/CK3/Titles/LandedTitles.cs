@@ -568,7 +568,7 @@ internal sealed partial class Title {
 			List<KeyValuePair<Country, Dependency?>> countyLevelCountries,
 			IReadOnlyCollection<string> enabledCK3Dlcs) {
 			// Create a new title or update existing title.
-			var titleId = DetermineId(country, dependency, imperatorCountries, tagTitleMapper, irLocDB);
+			var titleId = DetermineId(country, dependency, imperatorCountries, tagTitleMapper, irLocDB, ck3LocDB);
 
 			if (GetRankForId(titleId) == TitleRank.county) {
 				countyLevelCountries.Add(new(country, dependency));
