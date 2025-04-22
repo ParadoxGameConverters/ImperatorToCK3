@@ -1,8 +1,50 @@
 colors = {
 	# used by IRToCK3's culture and languages
-	gothic = hsv { 0.1 0.7 0.05 }
+	irtock3_gothic = hsv { 0.1 0.7 0.05 }
 	elamite = rgb { 127 137 70 }
 	arakanese = rgb { 230 37 82 } # based on d_arakan color
 	shan = rgb { 255 157 0 } # based on orange color from this map: https://upload.wikimedia.org/wikipedia/commons/5/55/Taikadai-en1.png
 	venetic_culture = { 193 117 241 }
+	chong = { 217 189 104 } # from Rajas of Asia
+	
+	# fallback colors for WtWSMS
+	coptic = { 0.20 0.35 0.50 } # taken from the coptic culture color in WtWSMS
+	sakan = { 0.55 0.44 0.33 } # taken from the saka named color in WtWSMS
+	language_latin = hsv{ 0.000 1.000 0.600 } # taken from the roman culture color in WtWSMS
+	language_iberian = { 0.8 0.7 0.0 } # taken from romano_hispanic named color in WtWSMS
+	language_galloromance = { 0.39 0.702 0.412 } # taken from the romano_gallic named color in WtWSMS
+	language_britoromance = { 0.49 0.815 0.82 } # taken from the romano_british named color in WtWSMS
+	language_italoromance = { 0.94 0.45 0.55 } # taken from corsican named color in WtWSMS
+	language_afroromance = { 0.9 0.04 0.04 } # taken from the romano_african named color in WtWSMS
+	language_illyroromance = { 0.7 0.55 0.70 } # taken from the romano_illyrian named color in WtWSMS
+	language_rhaetoromance = { 0.4 0.4 0.5 } # taken from the romano_raetian named color in WtWSMS
+	language_pannonioromance = { 0.8 0.55 0.8 } # taken from the romano_pannonian named color in WtWSMS
+	language_easternromance = { 0.25 0.2 0.52 } # taken from the romano_dacian named color in WtWSMS
+	language_syrianromance = { 0.85 0.3 0.3 } # taken from the romano_aramean named color in WtWSMS
+	trojan = { 0.83 0.55 0.95 } # taken from the trojan named color in vanilla CK3
+	ancient_egyptian = { 0.9 0.85 0.17 } # taken from the ancient_egyptian named color in vanilla CK3
+	
+	# fallback colors for Rajas of Asia
+	samoyed = { 0.3 0.87 0.21 } # taken from RoA samoyed culture
+	guanche = { 0.63 0.26 0.01 }
+	alan = { 0.7 0.5 0.6 } # taken from RoA alan culture
+	romani = { 51 127 51 } # taken from RoA romani culture
+	hani = { 132 69 198 }
+	dani = { 171 22 22 } # taken from RoA ndani culture
+	cai_long = { 201 175 26 } # taken from RoA caijia culture
+	oghuz = { 255 155 25 } # taken from the turkish culture
+	sibir_tatar = { 0.55 0.45 0.10 } # taken from RoA laktan culture, which uses language_sibir_tatar
+	tuvan = { 28 84 45 } # taken from RoA dukha culture which uses language_tuvan
+	ueban = { 0.7 0.3 0.2 } # taken from RoA shatuo culture which uses language_ueban
+	buryat = { 0.1 0.1 0.8 } # taken from RoA buryat culture
+	kyushu = { 175 195 197 } # taken from d_north_kyushu from AEP
+	kangar = { 180 125 69 }
+	barqut = { 78 122 235 } # from MB+
+	tula = { 42 204 168 } # from c_tula in CK2+
+	ekhirit = rgb { 0 114 207 } # from the background of https://commons.wikimedia.org/wiki/File:Flag_of_Ekhirit-Bulagatsky_rayon_(Irkutsk_oblast).png
+	sakha = rgb { 8 154 255 } # from the dominant color of https://upload.wikimedia.org/wikipedia/commons/thumb/e/eb/Flag_of_Sakha.svg/512px-Flag_of_Sakha.svg.png
+	bayundur = rgb { 129 132 163 } # from the cloth color of https://upload.wikimedia.org/wikipedia/commons/a/ad/Senior_Citizen_in_Ashgabat.jpg
+	telengit = rgb { 96 136 146 } # from the телесы map color from https://upload.wikimedia.org/wikipedia/commons/f/f3/Brockhaus_and_Efron_Encyclopedic_Dictionary_b58_809-0.jpg
+	ahom = rgb { 219 2 0 } # from the background color of https://upload.wikimedia.org/wikipedia/commons/b/b8/Ahom_Kingdom.webp
+	yemek = rgb { 255 249 116 } # from the Kimek-Kipchak confederation map color from https://upload.wikimedia.org/wikipedia/commons/d/d6/%D2%9A%D0%B8%D0%BC%D0%B0%D2%9B%D1%82%D0%B0%D1%80.png
 }

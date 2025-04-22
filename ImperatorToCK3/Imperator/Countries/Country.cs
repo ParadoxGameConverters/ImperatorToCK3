@@ -5,19 +5,26 @@ using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Inventions;
 using ImperatorToCK3.Imperator.Provinces;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
-public partial class Country : IIdentifiable<ulong> {
+internal sealed partial class Country : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public bool PlayerCountry { get; set; }
 	private ulong? monarchId;  // >=0 are valid
 	public Character? Monarch { get; private set; }
 	public string? PrimaryCulture { get; private set; }
 	public string? Religion { get; private set; }
-	public IList<RulerTerm> RulerTerms { get; set; } = new List<RulerTerm>();
-	public IDictionary<string, int> HistoricalRegnalNumbers { get; private set; } = new Dictionary<string, int>();
-	public string Tag { get; private set; } = "";
+	public List<RulerTerm> RulerTerms { get; set; } = [];
+	public Dictionary<string, int> HistoricalRegnalNumbers { get; private set; } = [];
+
+	private string tag = "";
+	public string Tag {
+		get => tag;
+		init => tag = value;
+	}
+
 	private string? historicalTag;
 	public string HistoricalTag {
 		get => historicalTag ?? Tag;
@@ -28,21 +35,28 @@ public partial class Country : IIdentifiable<ulong> {
 	public Country? OriginCountry { get; private set; } = null;
 
 	public string Name => CountryName.Name;
-	public CountryName CountryName { get; private set; } = new();
+
+	private CountryName countryName = new();
+	public CountryName CountryName {
+		get => countryName;
+		init => countryName = value;
+	}
+
 	public string Flag { get; private set; } = "";
 	public CountryType CountryType { get; private set; } = CountryType.real;
 	public ulong? CapitalProvinceId { get; private set; }
 	public string? Government { get; private set; }
 	public GovernmentType GovernmentType { get; private set; } = GovernmentType.monarchy;
-	private readonly SortedSet<string> monarchyLaws = new();
-	private readonly SortedSet<string> republicLaws = new();
-	private readonly SortedSet<string> tribalLaws = new();
+	private readonly SortedSet<string> monarchyLaws = [];
+	private readonly SortedSet<string> republicLaws = [];
+	private readonly SortedSet<string> tribalLaws = [];
 	public Color? Color1 { get; private set; }
 	public Color? Color2 { get; private set; }
 	public Color? Color3 { get; private set; }
 	public CountryCurrencies Currencies { get; private set; } = new();
 	private readonly HashSet<ulong> parsedFamilyIds = [];
-	public IDictionary<ulong, Family> Families { get; private set; } = new Dictionary<ulong, Family>();
+	public Dictionary<ulong, Family> Families { get; private set; } = [];
+	public IReadOnlySet<string> Variables { get; private set; } = ImmutableHashSet<string>.Empty;
 	private readonly HashSet<Province> ownedProvinces = [];
 	private readonly List<bool> inventionBooleans = [];
 

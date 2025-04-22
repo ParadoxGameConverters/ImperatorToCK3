@@ -1,0 +1,1667 @@
+# This file contains blocks from The Fallen Eagle files that can be replaced with new ones.
+# The structure is as follows:
+
+# <file name> = {
+# 	replace = {
+# 		before = {
+# 			some original code			
+# 		}
+# 		after = {
+# 			some modified code			
+# 		}
+# 	}
+#
+# 	replace = {
+# 		before = {
+# 			some original code 2		
+# 		}
+# 		after = {
+# 			some modified code 2		
+# 		}
+# 	}
+# }
+
+# INDENTATION IS IMPORTANT INSIDE the before BLOCK!
+# ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL FILE.
+# OTHERWISE THE BLOCKS WON'T BE MODIFIED!
+
+
+"common/scripted_triggers/tfe_culture_triggers.txt" = {
+	replace = {
+		before = {
+	any_county = {
+		limit = {
+			title_province = {
+				geographical_region = custom_england
+			}
+		}
+		count >= 6
+		holder = {
+			OR = {
+				this = scope:valid_opponent
+				any_liege_or_above = { this = scope:valid_opponent }
+			}
+		}
+	}
+		} # end of before
+
+		after = {
+	any_county = {
+		count >= 6
+		title_province = {
+			geographical_region = custom_england
+		}
+		holder = {
+			OR = {
+				this = scope:valid_opponent
+				any_liege_or_above = { this = scope:valid_opponent }
+			}
+		}
+	}
+		} # end of after
+	}
+
+	# from error.log:
+	# any_county_in_region trigger [ Percent cannot be larger than one ]
+	replace = {
+		before = {
+	any_county_in_region = {
+		region = world_europe_west_britannia
+		percent <= 60
+		holder.top_liege = root
+	}
+		} # end of before
+
+		after = {
+	any_county_in_region = {
+		region = world_europe_west_britannia
+		percent <= 0.6
+		holder.top_liege = root
+	}
+		} # end of after
+	}
+}
+
+
+"map_data/geographical_regions/geographical_region.txt" = {
+	# No c_reggio in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_reggio
+		c_camarda
+		}
+		after = {
+		c_camarda
+		}
+	}
+
+	# No c_san in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_san
+		c_parma
+		}
+		after = {
+		c_parma
+		}
+	}
+
+	# No c_sankt in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_sankt
+		c_zurich
+		}
+		after = {
+		c_zurich
+		}
+	}
+
+	# No c_sankt in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_sankt
+		c_amstetten
+		}
+		after = {
+		c_amstetten
+		}
+	}
+
+	# No c_french in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_french
+		c_penthievre
+		}
+		after = {
+		c_penthievre
+		}
+	}
+
+	# No c_west in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_west
+		c_mahdiya
+		}
+		after = {
+		c_mahdiya
+		}
+	}
+
+	# No c_alcacer in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_alcacer
+		c_alcacer_do_sal
+		}
+		after = {
+		c_alcacer_do_sal
+		}
+	}
+
+	# No c_asturias in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_asturias
+		c_asturias_de_santillana
+		}
+		after = {
+		c_asturias_de_santillana
+		}
+	}
+
+	# No c_alto in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_alto
+		c_alto_aragon
+		}
+		after = {
+		c_alto_aragon
+		}
+	}
+
+	# No c_castelo in TFE as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+		c_castelo
+		c_castelo_branco
+		}
+		after = {
+		c_castelo_branco
+		}
+	}
+}
+
+
+"events/TFE_flavour_events.txt" = {
+	# from error.log as of TFE 'After The Pharaohs' update
+	# [01:35:44][E][jomini_script_system.cpp:284]: Script system error!
+	#  Error: death effect [ Unknown death reason 'sickness' ]
+	#  Script location: file: events/TFE_flavour_events.txt line: 1700 (TFE_flavour_events.0039:immediate)
+	replace = {
+		before = {
+				death_reason = sickness
+		}
+		after = {
+				death_reason = death_ill
+		}
+	}
+}
+
+
+"music/main_themes/music.txt" = {
+	# Restore vanilla main theme, the TFE one seems broken as of the 'After The Pharaohs' update.
+	replace = {
+		before = {
+main_theme_track = {
+	music = "file:/MUSIC/TFE/TFE_Main.ogg"
+	name = "TFE_main_theme_track"
+	can_be_interrupted = yes
+}
+		}
+		after = {
+main_theme_track = {
+	music = "event:/MUSIC/MainTheme/Maintheme"
+	can_be_interrupted = yes
+}
+		}
+	}
+}
+
+
+"music/in_game/TFE_music.txt" = {
+	# Define TFE_General_Cue to avoid "music not defined in music/ or dlc/*/music/" ck3-tiger warnings.
+	replace = {
+		before = {
+mx_cue_senate = {
+	music = "file:/music/TFE/TFE_Senate.ogg"
+	pause_factor = 25
+}
+		} # end of before
+
+		after = {
+mx_cue_senate = {
+	music = "file:/music/TFE/TFE_Senate.ogg"
+	pause_factor = 25
+}
+TFE_General_Cue = {
+	music = "file:/music/TFE/TFE_General_Cue.ogg"
+	pause_factor = 25
+}
+		}
+	}
+}
+
+
+"common/culture/traditions/TFE_realm_traditions.txt" = {
+	# from error.log:
+	# [02:52:37][E][pdx_persistent_reader.cpp:216]: Error: "Unexpected token: strong_traits_more_valued, near line: 473" in file: "common/culture/traditions/TFE_realm_traditions.txt" near line: 473
+	# [02:52:37][E][pdx_persistent_reader.cpp:216]: Error: "Unexpected token: strong_traits_more_common, near line: 474" in file: "common/culture/traditions/TFE_realm_traditions.txt" near line: 474
+	# [02:52:37][E][pdx_persistent_reader.cpp:216]: Error: "Unexpected token: weak_traits_looked_down_upon, near line: 475" in file: "common/culture/traditions/TFE_realm_traditions.txt" near line: 475
+	replace = {
+		before = {
+	character_modifier = {
+		strong_traits_more_valued = yes
+		strong_traits_more_common = yes
+		weak_traits_looked_down_upon = yes
+		accolade_glory_gain_mult = 0.1
+		light_cavalry_max_size_add = 2
+	}
+		}
+		after = {
+	character_modifier = {
+		accolade_glory_gain_mult = 0.1
+		light_cavalry_max_size_add = 2
+	}
+		}
+	}
+}
+
+
+"history/cultures/heritage_hellenistic.txt" = {
+	# from error.log: "key reference innovation_animal_husbandry found more that one time"
+	replace = {
+		before = {
+	discover_innovation = innovation_animal_husbandry
+	discover_innovation = innovation_tanning_tables
+	discover_innovation = innovation_animal_husbandry
+		}
+		after = {
+	discover_innovation = innovation_animal_husbandry
+	discover_innovation = innovation_tanning_tables
+		}
+	}
+}
+
+
+"history/cultures/heritage_iberian.txt" = {
+	# from error.log:
+	# [03:32:02][E][culture_history_entry.cpp:42]: key reference innovation_mustering_grounds found more that one time file: history/cultures/heritage_iberian.txt line: 43
+	# [03:32:02][E][culture_history_entry.cpp:42]: key reference innovation_development_01 found more that one time file: history/cultures/heritage_iberian.txt line: 44
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+		}
+	}
+}
+
+
+"history/cultures/afro_roman.txt" = {
+	# from error.log:
+	# [03:32:01][E][culture_history_entry.cpp:42]: key reference innovation_crop_rotation found more that one time file: history/cultures/afro_roman.txt line: 36
+	replace = {
+		before = {
+	discover_innovation = innovation_smithing_tables
+	discover_innovation = innovation_crop_rotation
+		}
+		after = {
+	discover_innovation = innovation_smithing_tables
+		}
+	}
+
+	# from error.log:
+	# [03:32:01][E][culture_history_entry.cpp:42]: key reference innovation_mustering_grounds found more that one time file: history/cultures/afro_roman.txt line: 38
+	# [03:32:01][E][culture_history_entry.cpp:42]: key reference innovation_development_01 found more that one time file: history/cultures/afro_roman.txt line: 39
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {}
+	}
+}
+
+
+"history/cultures/daylamite.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/daylamite.txt line: 30
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/egyptian.txt" = {
+	# from error.log: key reference innovation_development_01 found more that one time file: history/cultures/egyptian.txt line: 32
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/georgian.txt" = {
+	replace = {
+		before = {
+	discover_innovation = innovation_animal_husbandry
+	discover_innovation = innovation_tanning_tables
+	discover_innovation = innovation_animal_husbandry
+		}
+		after = {
+	discover_innovation = innovation_animal_husbandry
+	discover_innovation = innovation_tanning_tables
+		}
+	}
+}
+
+
+"history/cultures/heritage_byzantine.txt" = {
+	replace = {
+		before = {
+	discover_innovation = innovation_animal_husbandry
+	discover_innovation = innovation_tanning_tables
+	discover_innovation = innovation_animal_husbandry
+		}
+		after = {
+	discover_innovation = innovation_animal_husbandry
+	discover_innovation = innovation_tanning_tables
+		}
+	}
+}
+
+
+"history/cultures/heritage_dravidian.txt" = {
+	# from error.log: "key reference innovation_development_01 found more that one time file: history/cultures/heritage_dravidian.txt line: 34"
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/heritage_indo_aryan.txt" = {
+	# from error.log: "key reference innovation_development_01 found more that one time file: history/cultures/heritage_indo_aryan.txt line: 34"
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"common/court_positions/types/missonary_court_positions.txt" = {
+	# from error.log:
+	# [04:13:22][E][jomini_script_system.cpp:284]: Script system error!
+	#  Error: has_doctrine_parameter trigger [ Bool doctrine parameter 'doctrine_missionary_encouraged' does not exist ]
+	#  Script location: file: common/court_positions/types/missonary_court_positions.txt line: 244 (missionary:aptitude)
+	replace = {
+		before = {
+					has_doctrine_parameter = doctrine_missionary_encouraged
+		}
+		after = {
+					has_doctrine = doctrine_missionary_encouraged
+		}
+	}
+}
+
+
+"history/cultures/heritage_iranian.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/heritage_iranian.txt line: 31
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/heritage_israelite.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/heritage_israelite.txt line: 28
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/heritage_kemetic.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/heritage_kemetic.txt line: 32
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/yemeni.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/yemeni.txt line: 32
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/radhanite.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/radhanite.txt line: 28
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/kashmiri.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/kashmiri.txt line: 34
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/heritage_levantine.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/heritage_levantine.txt line: 32
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/kochinim.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/kochinim.txt line: 34
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/nepali.txt" = {
+	# from error.log:
+	# key reference innovation_development_01 found more that one time file: history/cultures/nepali.txt line: 34
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {
+	discover_innovation = innovation_mustering_grounds
+		}
+	}
+}
+
+
+"history/cultures/mauro_roman.txt" = {
+	# from error.log:
+	# key reference innovation_crop_rotation found more that one time file: history/cultures/mauro_roman.txt line: 36
+	replace = {
+		before = {
+	discover_innovation = innovation_smithing_tables
+	discover_innovation = innovation_crop_rotation
+		}
+		after = {
+	discover_innovation = innovation_smithing_tables
+		}
+	}
+
+	# from error.log:
+	# key reference innovation_mustering_grounds found more that one time file: history/cultures/mauro_roman.txt line: 38
+	# key reference innovation_development_01 found more that one time file: history/cultures/mauro_roman.txt line: 39
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {}
+	}
+}
+
+"history/cultures/heritage_latin.txt" = {
+	# from error.log:
+	# key reference innovation_crop_rotation found more that one time file: history/cultures/heritage_latin.txt line: 36
+	replace = {
+		before = {
+	discover_innovation = innovation_smithing_tables
+	discover_innovation = innovation_crop_rotation
+		}
+		after = {
+	discover_innovation = innovation_smithing_tables
+		}
+	}
+
+	# from error.log:
+	# key reference innovation_mustering_grounds found more that one time file: history/cultures/heritage_latin.txt line: 38
+	# key reference innovation_development_01 found more that one time file: history/cultures/heritage_latin.txt line: 39
+	replace = {
+		before = {
+	discover_innovation = innovation_mustering_grounds
+	discover_innovation = innovation_development_01
+		}
+		after = {}
+	}
+}
+
+
+"common/religion/religions/00_zoroastrianism.txt" = {
+	# from ck3-tiger: "title armaz not defined in common/landed_titles/"
+	# Remove religious_head entry and set doctrine_no_head.
+	replace = {
+		before = {
+		armaz = {
+			color = { 0.1 0.7 0.4 }
+			icon = georgian_zoroastrian
+			reformed_icon = georgian_zoroastrian_reformed
+			religious_head = armaz
+
+			holy_site = ushi-darena
+			holy_site = nok_kundi
+			holy_site = takht-i-sangin
+			holy_site = takht-e_soleyman
+			holy_site = yazd
+
+			doctrine = tenet_unrelenting_faith
+			doctrine = tenet_ancestor_worship
+			doctrine = tenet_sacrificial_ceremonies
+			doctrine = doctrine_major_branch_behdin 
+
+			doctrine = doctrine_pluralism_pluralistic
+			doctrine = doctrine_spiritual_head
+			doctrine = unreformed_faith_doctrine
+
+			localization = {
+				HighGodName = urartuism_high_god_name
+				HighGodName2 = urartuism_high_god_name_2
+				HighGodNamePossessive = urartuism_high_god_name_possessive
+				GoodGodNames = {
+					urartu_good_god_vanatur
+					urartu_good_god_the_sun
+					urartu_good_god_mithra
+					urartu_good_god_zoroaster
+				}
+				PriestMale = urartuism_priest_male
+				PriestMalePlural = urartuism_priest_male_plural
+				PriestFemale = urartuism_priest_male
+				PriestFemalePlural = urartuism_priest_male_plural
+				PriestNeuter = urartuism_priest_male
+				PriestNeuterPlural = urartuism_priest_male_plural
+			}
+		}
+		}
+		after = {
+		armaz = {
+			color = { 0.1 0.7 0.4 }
+			icon = georgian_zoroastrian
+			reformed_icon = georgian_zoroastrian_reformed
+
+			holy_site = ushi-darena
+			holy_site = nok_kundi
+			holy_site = takht-i-sangin
+			holy_site = takht-e_soleyman
+			holy_site = yazd
+
+			doctrine = tenet_unrelenting_faith
+			doctrine = tenet_ancestor_worship
+			doctrine = tenet_sacrificial_ceremonies
+			doctrine = doctrine_major_branch_behdin 
+
+			doctrine = doctrine_pluralism_pluralistic
+			doctrine = doctrine_no_head
+			doctrine = unreformed_faith_doctrine
+
+			localization = {
+				HighGodName = urartuism_high_god_name
+				HighGodName2 = urartuism_high_god_name_2
+				HighGodNamePossessive = urartuism_high_god_name_possessive
+				GoodGodNames = {
+					urartu_good_god_vanatur
+					urartu_good_god_the_sun
+					urartu_good_god_mithra
+					urartu_good_god_zoroaster
+				}
+				PriestMale = urartuism_priest_male
+				PriestMalePlural = urartuism_priest_male_plural
+				PriestFemale = urartuism_priest_male
+				PriestFemalePlural = urartuism_priest_male_plural
+				PriestNeuter = urartuism_priest_male
+				PriestNeuterPlural = urartuism_priest_male_plural
+			}
+		}
+		}
+	}
+}
+
+
+"common/governments/other_government.txt" = {
+	# from error.log:
+	# Error: "Unexpected token: regiments_prestige_as_gold, near line: 235" in file: "common/governments/other_government.txt" near line: 235
+	# Error: "Unexpected token: dynasty_named_realms, near line: 510" in file: "common/governments/other_government.txt" near line: 510
+	replace = {
+		before = {
+	government_rules = {
+		rulers_should_have_dynasty = yes
+		royal_court = yes
+		legitimacy = yes
+		#landless_playable = yes
+		#mercenary = yes
+	}
+
+	supply_limit_mult_for_others = -0.8
+	valid_holdings = { castle_holding trade_center_holding }
+	regiments_prestige_as_gold = yes
+	required_county_holdings = { tribal_holding city_holding church_holding }
+	flag = government_can_raid_rule
+		}
+
+		after = {
+	government_rules = {
+		rulers_should_have_dynasty = yes
+		regiments_prestige_as_gold = yes
+		royal_court = yes
+		legitimacy = yes
+		#landless_playable = yes
+		#mercenary = yes
+	}
+
+	supply_limit_mult_for_others = -0.8
+	valid_holdings = { castle_holding trade_center_holding }
+	required_county_holdings = { tribal_holding city_holding church_holding }
+	flag = government_can_raid_rule
+		}
+	}
+
+	# from error.log:
+	# Error: "Unexpected enum found: always_use_patronym, near line: 307" in file: "common/governments/other_government.txt" near line: 313
+	# Error: "Unexpected enum found: always_use_patronym, near line: 350" in file: "common/governments/other_government.txt" near line: 356
+	replace = {
+		before = {
+	government_rules = {
+		always_use_patronym = yes
+		dynasty_named_realms = yes
+		create_cadet_branches = yes
+		rulers_should_have_dynasty = yes
+		royal_court = yes
+		legitimacy = yes
+	}
+		}
+
+		after = {
+	government_rules = {
+		dynasty_named_realms = yes
+		create_cadet_branches = yes
+		rulers_should_have_dynasty = yes
+		royal_court = yes
+		legitimacy = yes
+	}
+	always_use_patronym = yes
+		}
+	}
+
+	# from error.log:
+	# Error: "Unexpected token: dynasty_named_realms, near line: 510" in file: "common/governments/other_government.txt" near line: 510
+	replace = {
+		before = {
+	government_rules = {
+		create_cadet_branches = yes
+		rulers_should_have_dynasty = yes
+		royal_court = yes
+		legitimacy = yes
+	}
+	ai = {
+		use_legends = yes
+	}
+	valid_holdings = { tribal_holding castle_holding trade_center_holding }
+	required_county_holdings = { tribal_holding }
+	always_use_patronym = yes
+	dynasty_named_realms = yes
+		}
+
+		after = {
+	government_rules = {
+		create_cadet_branches = yes
+		rulers_should_have_dynasty = yes
+		royal_court = yes
+		legitimacy = yes
+		dynasty_named_realms = yes
+	}
+	ai = {
+		use_legends = yes
+	}
+	valid_holdings = { tribal_holding castle_holding trade_center_holding }
+	required_county_holdings = { tribal_holding }
+	always_use_patronym = yes
+		}
+	}
+}
+
+
+"common/genes/07_genes_special_accessories_misc.txt" = {
+	# from ck3-tiger:
+	# accessory female_clothes_secular_byzantine_war_nobility_01_low not defined in gfx/portraits/accessories/
+	replace = {
+		before = {
+				0 = female_clothes_secular_byzantine_war_nobility_01_low
+		}
+		after = {
+				0 = f_clothes_sec_byzantine_war_nob_01_lo
+		}
+	}
+}
+
+
+"common/genes/06_genes_special_accessories_headgear.txt" = {
+	replace = {
+		before = {
+					1 = female_headgear_secular_steppe_war_nobility_01
+		}
+		after = {
+					1 = f_headgear_sec_ep2_steppe_war_nob_01
+		}
+	}
+}
+
+
+"events/province_events.txt" = {
+	# from error.log:
+	# More than one colon in event target link 'scope:title:e_western_roman_empire'
+	replace = {
+		before = { scope:title:e_western_roman_empire.holder }
+		after = { title:e_western_roman_empire.holder }
+	}
+}
+
+
+"common/vassal_contracts/gupta.txt" = {
+	# from error.log:
+	# Obligation level 'gupta_governance_samarajya' in 'gupta_governance' is marked as default but has an is_valid, the default cannot be conditionally valid it must always be valid
+	replace = {
+		before = {
+		gupta_governance_samarajya = {
+			position = { 0 1 }
+			default = yes
+			score = -1
+			flag = gupta_governance_samarajya
+			ai_vassal_desire =  {
+				value = -30
+			}
+			is_valid = {
+				scope:vassal = {
+					highest_held_title_tier >= tier_county
+				}
+			}
+			
+			ai_liege_desire =  {
+				value = 10
+			}
+		}
+		} # end of before
+
+		after = {
+		gupta_governance_samarajya = {
+			position = { 0 1 }
+			default = yes
+			score = -1
+			flag = gupta_governance_samarajya
+			ai_vassal_desire =  {
+				value = -30
+			}
+			
+			ai_liege_desire =  {
+				value = 10
+			}
+		}
+		} # end of after
+	}
+}
+
+
+"events/migration_events.txt" = {
+	replace = {
+		before = {
+scripted_trigger valid_migrator = {
+	is_available_ai_adult = yes
+	is_alive = yes
+	is_independent_ruler = yes
+	is_landed = yes
+	highest_held_title_tier >= tier_county
+	is_in_an_activity = no
+	culture = {
+		has_cultural_tradition = tradition_migrations
+		NOT = { has_cultural_era_or_later = culture_era_early_medieval }
+	}
+	NOT = {
+		has_character_flag = used_lifetime_migration
+	}
+	NOT = { any_character_war = { using_cb = germanic_migration_cb } }
+	NOT = {
+		realm_size >= 40
+	}
+	# Visigoths
+	trigger_if = {
+		limit = {
+			culture = {
+				OR = {
+					this = culture:gothic
+					this = culture:visigothic
+				}
+			}
+		}
+		NOT = {
+			capital_county.kingdom = title:k_aquitaine
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+		NOT = {
+			capital_county.kingdom = title:k_croatia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_hungary
+		}
+		NOT = {
+			capital_county.empire = title:e_italy
+		}
+	}
+	# Ostrogoths
+	trigger_else_if = {
+		limit = {
+			culture = culture:ostrogothic
+		}
+		NOT = {
+			capital_county.kingdom = title:k_pannonia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_aquitaine
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+		NOT = {
+			capital_county.kingdom = title:k_croatia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_hungary
+		}
+		NOT = {
+			capital_county.empire = title:e_italy
+		}
+	}
+	# Vandals
+	trigger_else_if = {
+		limit = {
+			culture = culture:vandal
+		}
+		NOT = {
+			capital_county.empire = title:e_maghreb
+		}
+	}
+	# Lombards
+	trigger_else_if = {
+		limit = {
+			culture = culture:langobard
+		}
+		NOT = {
+			capital_county.kingdom = title:k_italia_annonariae
+		}
+		NOT = {
+			capital_county.kingdom = title:e_italy
+		}
+	}
+	# Suebi
+	trigger_else_if = {
+		limit = {
+			culture = culture:old_suebi
+		}
+		NOT = {
+			capital_county.kingdom = title:k_spanish_galicia
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+	}
+	# Anglo-Saxons
+	trigger_else_if = {
+		limit = {
+			culture = {
+				OR = {
+					this = culture:old_saxon
+					this = culture:jute
+					this = culture:angle
+				}
+			}
+		}
+		NOT = {
+			capital_county.empire = title:e_britannia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_britannia
+		}
+	}
+	# Alans
+	trigger_else_if = {
+		limit = {
+			culture = culture:alan
+		}
+		NOT = {
+			capital_county.kingdom = title:k_spanish_galicia
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+	}
+	# Sclaveni
+	trigger_else_if = {
+		limit = {
+			culture = culture:sclavenian
+		}
+		NOT = {
+			capital_county.kingdom = title:k_daciae
+		}
+	}
+	# Croats
+	trigger_else_if = {
+		limit = {
+			culture = culture:belocroat
+		}
+		NOT = {
+			capital_county.kingdom = title:k_pannonia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_hungary
+		}
+	}
+	# Serbs
+	trigger_else_if = {
+		limit = {
+			culture = culture:beloserb
+		}
+		NOT = {
+			capital_county.kingdom = title:k_daciae
+		}
+	}
+}
+		} # end of before
+
+		after = {
+scripted_trigger valid_migrator = {
+	is_available_ai_adult = yes
+	is_alive = yes
+	is_independent_ruler = yes
+	is_landed = yes
+	highest_held_title_tier >= tier_county
+	is_in_an_activity = no
+	culture = {
+		has_cultural_tradition = tradition_migrations
+		NOT = { has_cultural_era_or_later = culture_era_early_medieval }
+	}
+	NOT = {
+		has_character_flag = used_lifetime_migration
+	}
+	NOT = { any_character_war = { using_cb = germanic_migration_cb } }
+	NOT = {
+		realm_size >= 40
+	}
+	# Visigoths
+	trigger_if = {
+		limit = {
+			culture = {
+				OR = {
+					this = culture:gothic
+					this = culture:visigothic
+				}
+			}
+		}
+		NOT = {
+			capital_county.kingdom = title:k_aquitaine
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+		NOT = {
+			capital_county.kingdom = title:k_croatia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_hungary
+		}
+		NOT = {
+			capital_county.empire = title:e_italy
+		}
+	}
+	# Ostrogoths
+	trigger_else_if = {
+		limit = {
+			culture = culture:ostrogothic
+		}
+		NOT = {
+			capital_county.kingdom = title:k_pannonia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_aquitaine
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+		NOT = {
+			capital_county.kingdom = title:k_croatia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_hungary
+		}
+		NOT = {
+			capital_county.empire = title:e_italy
+		}
+	}
+	# Vandals
+	trigger_else_if = {
+		limit = {
+			culture = culture:vandal
+		}
+		NOT = {
+			capital_county.empire = title:e_maghreb
+		}
+	}
+	# Lombards
+	trigger_else_if = {
+		limit = {
+			culture = culture:langobard
+		}
+		NOT = {
+			capital_county.kingdom = title:k_italia_annonariae
+		}
+		NOT = {
+			capital_county.kingdom = title:e_italy
+		}
+	}
+	# Suebi
+	trigger_else_if = {
+		limit = {
+			culture = culture:old_suebi
+		}
+		NOT = {
+			capital_county.kingdom = title:k_spanish_galicia
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+	}
+	# Anglo-Saxons
+	trigger_else_if = {
+		limit = {
+			culture = {
+				OR = {
+					this = culture:old_saxon
+					this = culture:jute
+					this = culture:angle
+				}
+			}
+		}
+		NOT = {
+			capital_county.empire = title:e_britannia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_britannia
+		}
+	}
+	# Alans
+	trigger_else_if = {
+		limit = {
+			culture = culture:alan
+		}
+		NOT = {
+			capital_county.kingdom = title:k_spanish_galicia
+		}
+		NOT = {
+			capital_county.empire = title:e_spain
+		}
+	}
+	# Sclaveni
+	trigger_else_if = {
+		limit = {
+			culture = culture:sclavenian
+		}
+		NOT = {
+			capital_county.kingdom = title:k_daciae
+		}
+	}
+	# Croats
+	trigger_else_if = {
+		limit = {
+			culture = culture:belocroat
+		}
+		NOT = {
+			capital_county.kingdom = title:k_pannonia
+		}
+		NOT = {
+			capital_county.kingdom = title:k_hungary
+		}
+	}
+	# Serbs
+	trigger_else_if = {
+		limit = {
+			culture = culture:beloserb
+		}
+		NOT = {
+			capital_county.kingdom = title:k_daciae
+		}
+	}
+	trigger_else = {
+		always = no
+	}
+}
+		} # end of after
+	}
+}
+
+
+"events/celtic_events.txt" = {
+	# from error.log:
+	# Error: religion_tag trigger [ Invalid religion tag 'pagan_religion' ]
+	replace = {
+		before = {
+				faith = { religion_tag = pagan_religion }
+		}
+		after = {
+				faith = { religion_tag = paganism_religion }
+		}
+	}
+}
+
+
+"gfx/portraits/accessory_variations/EPE_etrxa_accessory.txt" = {
+	# from error.log:
+	# Could not find texture due to 'VFSOpen Error: gfx/portraits/accessory_variations/textures/color_palette_female_headgear_western_nobility_05.dds not found'
+	replace = {
+		before = {
+texture = "gfx/portraits/accessory_variations/textures/color_palette_female_headgear_western_nobility_05.dds"
+		}
+		after = {
+texture = "gfx/portraits/accessory_variations/textures/color_palette_fp2_iberian_christian_low_headgear_female_01.dds"
+		}
+	}
+}
+
+
+"common/bookmark_portraits/bookmark_reconquest_belisarius.txt" = {
+	replace = {
+		before = {
+ 		clothes={ "male_clothes_roman_nobility_03" 0 "most_clothes" 0 }
+ 		headgear={ "no_headgear" 0 "no_headgear" 0 }
+ 		hairstyles={ "fp2_hairstyles_iberian_muslim_wavy" 85 "all_hairstyles" 0 }
+ 		clothes={ "male_clothes_roman_nobility_03" 79 "most_clothes" 0 }
+		} # end of before
+		
+		after = {
+ 		clothes={ "male_clothes_roman_nobility_03" 0 "most_clothes" 0 }
+ 		headgear={ "no_headgear" 0 "no_headgear" 0 }
+ 		hairstyles={ "fp2_hairstyles_iberian_muslim_wavy" 85 "all_hairstyles" 0 }
+		} # end of after
+	}
+}
+
+
+"common/men_at_arms_types/TFE_maa_types.txt" = {
+	# from error.log:
+	# Error: "Variable name 'provisions_cost_infantry_cheap' is already taken: gold, near line: 59 (expanded from file: common/men_at_arms_types/TFE_maa_types.txt line: 58)
+	# Unexpected token: =, near line: 59" in file: "common/men_at_arms_types/TFE_maa_types.txt" near line: 59
+	replace = {
+		before = {
+	high_maintenance_cost = { gold = 0.45 }
+	@provisions_cost_infantry_cheap = 3
+		}
+		after = {
+	high_maintenance_cost = { gold = 0.45 }
+	provision_cost = @provisions_cost_infantry_cheap
+		}
+	}
+}
+
+
+"common/men_at_arms_types/TFE_cultural_maa_types.txt" = {
+	# from error.log:
+	# Error: "Malformed token: provisions_cost_infantry_bankrupting, near line: 91" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 91
+	replace = {
+		before = {
+	provision_cost = provisions_cost_infantry_bankrupting
+		}
+		after = {
+	provision_cost = @provisions_cost_infantry_bankrupting
+		}
+	}
+
+	# from error.log:
+	# Error: "Malformed token: provisions_cost_cavalry_bankrupting, near line: 133" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 133
+	replace = {
+		before = {
+	provision_cost = provisions_cost_cavalry_bankrupting
+		}
+		after = {
+	provision_cost = @provisions_cost_cavalry_bankrupting
+		}
+	}
+
+	# from error.log:
+	# Error: "Malformed token: provisions_cost_infantry_expensive, near line: 54" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 54
+	replace = {
+		before = {
+	provision_cost = provisions_cost_infantry_expensive
+		}
+		after = {
+	provision_cost = @provisions_cost_infantry_expensive
+		}
+	}
+
+	# from error.log:
+	# Error: "Malformed token: provisions_cost_infantry_cheap, near line: 163" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 163
+	replace = {
+		before = {
+	provision_cost = provisions_cost_infantry_cheap
+		}
+		after = {
+	provision_cost = @provisions_cost_infantry_cheap
+		}
+	}
+
+	# from error.log:
+	# Error: "Malformed token: provisions_cost_infantry_moderate, near line: 515" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 515
+	replace = {
+		before = {
+	provision_cost = provisions_cost_infantry_moderate
+		}
+		after = {
+	provision_cost = @provisions_cost_infantry_moderate
+		}
+	}
+
+	# from error.log:
+	# Error: "Malformed token: provisions_cost_cavalry_cheap, near line: 722" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 722
+	replace = {
+		before = {
+	provision_cost = provisions_cost_cavalry_cheap
+		}
+		after = {
+	provision_cost = @provisions_cost_cavalry_cheap
+		}
+	}
+}
+
+
+"common/dynasties/TFE_dynasties.txt" = {
+	# No gaetuli culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+himyar_dynasty = {
+	name = "dynn_Himyar"
+	culture = "gaetuli"
+}
+gaetuli_dynasty = {
+	name = "dynn_Gaetuli"
+	culture = "gaetuli"
+}
+		} # end of before
+		
+		after = {
+himyar_dynasty = {
+	name = "dynn_Himyar"
+	culture = "gaetulian"
+}
+gaetuli_dynasty = {
+	name = "dynn_Gaetuli"
+	culture = "gaetulian"
+}
+		} # end of after
+	}
+
+	# No alammanic culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = "alammanic"
+		} # end of before
+		after = {
+	culture = alamannic
+		} # end of after
+	}
+
+	# No alemannic culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = alemannic
+		} # end of before
+		after = {
+	culture = alamannic
+		} # end of after
+	}
+
+	# No Romano-Gallic culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = "Romano-Gallic"
+		} # end of before
+		after = {
+	culture = gallo_roman
+		} # end of after
+	}
+
+	# No yaziges culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = yaziges
+		} # end of before
+		after = {
+	culture = yazige
+		} # end of after
+	}
+
+	# No romano_briton culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = "romano_briton"
+		} # end of before
+		after = {
+	culture = britano_roman
+		} # end of after
+	}
+
+	# No Hephthalite (uppercase) culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = "Hephthalite"
+		} # end of before
+		after = {
+	culture = hephthalite
+		} # end of after
+	}
+
+	# No nabataean culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = "nabataean"
+		} # end of before
+		after = {
+	culture = nabatean
+		} # end of after
+	}
+
+	# No suebian culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = "suebian"
+		} # end of before
+		after = {
+	culture = suebi
+		} # end of after
+	}
+
+	# No gautish culture in TFE as of the 'After the Pharaohs' update.
+	replace = {
+		before = {
+	culture = gautish
+		} # end of before
+		after = {
+	culture = norse
+		} # end of after
+	}
+}
+
+
+"common/culture/name_lists/00_magyar.txt" = {
+	# Name lists should not contain commas.
+	replace = {
+		before = {
+	male_names = {
+		Agg, Agmánd, Álmos, Árpád, Ákos, Apor, Atyás, Bahatur, Bal, Beled, Bika, Bodor, Bogát, Botond, Bugardi, Büvész, Bölcs, Bulcsu, Csanád, Csalka, Csep, 
+		Csepke, Chepke, Chunad, Churba, Csák, Csoma, Csomó, Csongor, Csök, Cusid, Doboka, Elek, Elemér, Előd, Ellenes, Endre, Édes, Erős, Ete, Farcas, Fekete, 
+		Feketédi, Feketeydi, Fehér, Fehérsa, Fene, Fényes, Fergudi, File, Fitos, Fodor, Fakó, Gonosz, Guta, Gyula, Gyejcsa, Halaldi, Hamar, Haragos  Hokus, Hóka, 
+		Hyduand, Hős, Jenő, Joember, Jovlegen, Kacs, Kalán, Kálmán, Karuly, Kese, Kond, Koppány, Keserő, Kosid, Lél, Levente, Maglód, Markos, Mauog, Medeu, Medue, 
+		Mocskos, Nagod, Nagy, Nagyod, Nagyos, Nemze, Nogiud, Numel, Numwog, Ond, Ögyek, Őse, Puha, Ruoz, Siket, Szabolcs, Szalók, Szög, Szoárd, Szőke, Táltos, Taksony, 
+		Tas, Turul, Urkond, Urkún, Vad, Vas, Vazul, Vrvmedi, Zacal, Zemdy, Zoltán
+	}
+	female_names = {
+		Agg, Angyalka, Anyás, Aranka, Bal, Banya, Bölcs, Bodor, Bugardi, Büvész, Chunad, Churba, Chepke, Csalka, Csep, Csepke, Csillag, Csoma, Csomó, Csök, Cusid, Draga, 
+		Edlelmes, Édes, Ellenes, Emse, Erős, Feketédi, Feketeydi, Fekete, Fehér, Fehérsa, Fene, Fergudi, File, Fényes, Fitos, Fodor, Genuruch, Gonosz, Guta, Gyöngy, Hajnal, 
+		Halaldi, Hamar, haragos, Hóka, Hős, Hyduand, Jolyan, Kacs, Kese, Keserő, Markos, Mauog, Medeu, Mocskos, Nagy, Nagyod, Nagyos, Nesta, Nogiud, Nuuz, Numel, Numwog, Ördöng, 
+		Puha, Sarolt, Scepa, Siket, Szög, Szőke, Táltos, Tündér, Turul, Vad, Vas, Virág, Vnee, Vrumes, Vrvmedi, Zemdy
+	}
+		} # end of before
+
+		after = {
+	male_names = {
+		Agg Agmánd Álmos Árpád Ákos Apor Atyás Bahatur Bal Beled Bika Bodor Bogát Botond Bugardi Büvész Bölcs Bulcsu Csanád Csalka Csep 
+		Csepke Chepke Chunad Churba Csák Csoma Csomó Csongor Csök Cusid Doboka Elek Elemér Előd Ellenes Endre Édes Erős Ete Farcas Fekete 
+		Feketédi Feketeydi Fehér Fehérsa Fene Fényes Fergudi File Fitos Fodor Fakó Gonosz Guta Gyula Gyejcsa Halaldi Hamar Haragos  Hokus Hóka 
+		Hyduand Hős Jenő Joember Jovlegen Kacs Kalán Kálmán Karuly Kese Kond Koppány Keserő Kosid Lél Levente Maglód Markos Mauog Medeu Medue 
+		Mocskos Nagod Nagy Nagyod Nagyos Nemze Nogiud Numel Numwog Ond Ögyek Őse Puha Ruoz Siket Szabolcs Szalók Szög Szoárd Szőke Táltos Taksony 
+		Tas Turul Urkond Urkún Vad Vas Vazul Vrvmedi Zacal Zemdy Zoltán
+	}
+	female_names = {
+		Agg Angyalka Anyás Aranka Bal Banya Bölcs Bodor Bugardi Büvész Chunad Churba Chepke Csalka Csep Csepke Csillag Csoma Csomó Csök Cusid Draga 
+		Edlelmes Édes Ellenes Emse Erős Feketédi Feketeydi Fekete Fehér Fehérsa Fene Fergudi File Fényes Fitos Fodor Genuruch Gonosz Guta Gyöngy Hajnal 
+		Halaldi Hamar haragos Hóka Hős Hyduand Jolyan Kacs Kese Keserő Markos Mauog Medeu Mocskos Nagy Nagyod Nagyos Nesta Nogiud Nuuz Numel Numwog Ördöng 
+		Puha Sarolt Scepa Siket Szög Szőke Táltos Tündér Turul Vad Vas Virág Vnee Vrumes Vrvmedi Zemdy
+	}
+		} # end of after
+	}
+}
+
+
+"common/culture/traditions/TFE_combat_traditions.txt" = {
+	# from ck3-tiger:
+	# file or directory gfx/interface/icons/culture_tradition/1-pattern/medi does not exist
+	replace = {
+		before = {
+	layers = {
+		0 = martial
+		1 = medi
+		4 = soldiers3.dds
+	}
+		}
+		after = {
+	layers = {
+		0 = martial
+		1 = mediterranean
+		4 = soldiers3.dds
+	}
+		}
+	}
+}
+
+
+"common/laws/imperial_laws.txt" = {
+
+	# imperial_authority_3 can_pass block (this fixes an error where you can't pass this law in converted TFE games)
+	replace = {
+		before = {
+		can_pass = {
+			OR = {
+			trigger_if = {
+				limit = {
+					AND = {
+						game_start_date = 361.11.17
+						current_date >= 361.11.22
+						NOT = { has_realm_law = imperial_authority_4 }
+						NOT = { has_realm_law = imperial_authority_5 }
+					}
+				}
+				has_realm_law = imperial_authority_2
+			}
+			trigger_if = {
+				limit = {
+					AND = {
+						game_start_date = 361.11.17
+						current_date >= 361.11.22
+						NOT = { has_realm_law = imperial_authority_4 }
+						NOT = { has_realm_law = imperial_authority_5 }
+					}
+				}
+				has_realm_law = imperial_authority_2
+		}
+		trigger_if = {
+				limit = {
+					AND = {
+						game_start_date = 395.1.17
+						current_date >= 395.1.22
+						NOT = { has_realm_law = imperial_authority_4 }
+						NOT = { has_realm_law = imperial_authority_5 }
+					}
+				}
+				has_realm_law = imperial_authority_2
+		}
+		trigger_if = {
+				limit = {
+					AND = {
+						game_start_date = 476.9.4
+						current_date >= 476.9.9
+						NOT = { has_realm_law = imperial_authority_4 }
+						NOT = { has_realm_law = imperial_authority_5 }
+					}
+				}
+				has_realm_law = imperial_authority_2
+		}
+		trigger_if = {
+				limit = {
+					AND = {
+						game_start_date = 532.2.1
+						current_date >= 532.2.6
+						NOT = { has_realm_law = imperial_authority_4 }
+						NOT = { has_realm_law = imperial_authority_5 }
+					}
+				}
+				has_realm_law = imperial_authority_2
+		}
+		trigger_if = {
+				limit = {
+					AND = {
+						game_start_date = 632.6.8
+						current_date >= 632.6.14
+						NOT = { has_realm_law = imperial_authority_4 }
+						NOT = { has_realm_law = imperial_authority_5 }
+					}
+				}
+				has_realm_law = imperial_authority_2
+			}
+		}
+		custom_description = {
+					subject = root
+					text = "has_crown_authority_cooldown"
+					NAND = {
+						has_variable = crown_authority_cooldown
+						NOT = {
+							culture = { has_innovation = innovation_all_things }
+					}
+				}
+			}
+		}
+		} # end of before
+
+		after = {
+		can_pass = {
+			trigger_if = {
+				limit = {
+					AND = {
+						NOT = { has_realm_law = imperial_authority_4 }
+						NOT = { has_realm_law = imperial_authority_5 }
+					}
+				}
+				custom_description = { # IRToCK3: TFE manually checks if at least 5/6 days has passed since the game start, but checks each of its start dates individually, making it incompatible with converted save games unless they start exactly on one of those start dates. This will make it work regardless of the start date, but does come with a longer delay than TFE does, and sets up a description to notify the player in game.
+					text = "irtock3_tfe_imperial_authority_3_time_trigger"
+					years_from_game_start >= 1
+				}
+				has_realm_law = imperial_authority_2
+			}
+			custom_description = {
+				subject = root
+				text = "has_crown_authority_cooldown"
+				NAND = {
+					has_variable = crown_authority_cooldown
+					NOT = {
+						culture = { has_innovation = innovation_all_things }
+					}
+				}
+			}
+		}
+		} # end of after
+	}
+}

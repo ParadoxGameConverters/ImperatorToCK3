@@ -1,17 +1,16 @@
 using commonItems;
 using commonItems.Collections;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
 namespace ImperatorToCK3.CK3.Cultures; 
 
-public partial class NameList : IIdentifiable<string> {
+public sealed partial class NameList : IIdentifiable<string> {
 	public string Id { get; }
-	private readonly OrderedSet<string> maleNames = new();
-	private readonly OrderedSet<string> femaleNames = new();
-	public IReadOnlyCollection<string> MaleNames => maleNames.ToImmutableList();
-	public IReadOnlyCollection<string> FemaleNames => femaleNames.ToImmutableList();
+	private readonly OrderedSet<string> maleNames = [];
+	private readonly OrderedSet<string> femaleNames = [];
+	public IReadOnlyCollection<string> MaleNames => maleNames;
+	public IReadOnlyCollection<string> FemaleNames => femaleNames;
 
 	public NameList(string id, BufferedReader nameListReader) {
 		Id = id;
@@ -25,8 +24,8 @@ public partial class NameList : IIdentifiable<string> {
 			maleNamesBlockParser.RegisterRegex(CommonRegexes.String, (_, nameStr) => {
 				maleNames.Add(nameStr);
 			});
-			maleNamesBlockParser.RegisterRegex(CommonRegexes.QuotedString, (_, nameStr) => {
-				maleNames.Add(nameStr);
+			maleNamesBlockParser.RegisterRegex(CommonRegexes.QuotedString, (_, quotedNameStr) => {
+				maleNames.Add(quotedNameStr.RemQuotes());
 			});
 			maleNamesBlockParser.IgnoreAndLogUnregisteredItems();
 			maleNamesBlockParser.ParseStream(maleNamesReader);
@@ -39,8 +38,8 @@ public partial class NameList : IIdentifiable<string> {
 			femaleNamesBlockParser.RegisterRegex(CommonRegexes.String, (_, nameStr) => {
 				femaleNames.Add(nameStr);
 			});
-			femaleNamesBlockParser.RegisterRegex(CommonRegexes.QuotedString, (_, nameStr) => {
-				femaleNames.Add(nameStr);
+			femaleNamesBlockParser.RegisterRegex(CommonRegexes.QuotedString, (_, quotedNameStr) => {
+				femaleNames.Add(quotedNameStr.RemQuotes());
 			});
 			femaleNamesBlockParser.IgnoreAndLogUnregisteredItems();
 			femaleNamesBlockParser.ParseStream(reader);

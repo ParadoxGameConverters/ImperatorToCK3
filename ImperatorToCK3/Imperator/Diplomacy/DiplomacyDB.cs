@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Diplomacy;
 
-public class DiplomacyDB {
+internal sealed class DiplomacyDB {
 	private readonly List<War> wars = [];
 	public IReadOnlyList<War> Wars => wars;
 	
@@ -79,6 +79,6 @@ public class DiplomacyDB {
 		dependencies.Add(new(overlordId, subjectId, startDate, subjectType));
 	}
 
-	private readonly IgnoredKeywordsSet ignoredTokens = new();
+	private readonly IgnoredKeywordsSet ignoredTokens = [];
 	private readonly IgnoredKeywordsSet ignoredDatabaseTokens = new();
 }

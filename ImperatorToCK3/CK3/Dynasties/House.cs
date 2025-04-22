@@ -6,7 +6,7 @@ using commonItems.SourceGenerators;
 namespace ImperatorToCK3.CK3.Dynasties;
 
 [SerializationByProperties]
-public partial class House : IPDXSerializable, IIdentifiable<string> {
+public sealed partial class House : IPDXSerializable, IIdentifiable<string> {
 	[NonSerialized] public string Id { get; }
 	
 	[SerializedName("prefix")] public string? Prefix { get; private set; }

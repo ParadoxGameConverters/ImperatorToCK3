@@ -60,8 +60,8 @@ public class CharacterCollectionTests {
 		areas.LoadAreas(irModFS, irProvinces);
 		irRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		irRegionMapper.LoadRegions(irModFS, colorFactory);
-		
-		var ck3ModFlags = new List<string>();
+
+		var ck3ModFlags = new System.Collections.Generic.OrderedDictionary<string, bool>();
 		cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory, ck3ModFlags), ck3ModFlags);
 	}
 
@@ -97,6 +97,7 @@ public class CharacterCollectionTests {
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
+			new TestCK3LocDB(),
 			endDate,
 			configuration);
 
@@ -141,6 +142,7 @@ public class CharacterCollectionTests {
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
+			new TestCK3LocDB(),
 			endDate,
 			configuration);
 
@@ -192,6 +194,7 @@ public class CharacterCollectionTests {
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
+			new TestCK3LocDB(),
 			conversionDate,
 			configuration);
 
@@ -284,7 +287,7 @@ public class CharacterCollectionTests {
 
 		var tagTitleMapper = new TagTitleMapper();
 		var provinceMapper = new ProvinceMapper();
-		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
+		provinceMapper.LoadMappings(provinceMappingsPath);
 		
 		var countryLocBlock = imperatorWorld.LocDB.AddLocBlock("PRY");
 		countryLocBlock["english"] = "Phrygian Empire"; // this ensures that the CK3 title will be an empire
@@ -297,6 +300,7 @@ public class CharacterCollectionTests {
 		var traitMapper = new TraitMapper();
 		var nicknameMapper = new NicknameMapper();
 		var deathReasonMapper = new DeathReasonMapper();
+		var ck3LocDB = new TestCK3LocDB();
 
 		// Import Imperator ruler and governors.
 		var characters = new CharacterCollection();
@@ -310,18 +314,22 @@ public class CharacterCollectionTests {
 			provinceMapper,
 			deathReasonMapper,
 			new DNAFactory(irModFS, ck3ModFS),
+			ck3LocDB,
 			conversionDate,
 			config);
 
 		// Import country 589.
+		var governmentMapper = new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>());
+		var enabledCK3Dlcs = Array.Empty<string>();
 		titles.ImportImperatorCountries(
 			imperatorWorld.Countries,
 			Array.Empty<Dependency>(),
 			tagTitleMapper,
 			imperatorWorld.LocDB,
+			ck3LocDB,
 			provinceMapper,
 			coaMapper,
-			new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>()),
+			governmentMapper,
 			new SuccessionLawMapper(),
 			definiteFormMapper,
 			religionMapper,
@@ -330,22 +338,25 @@ public class CharacterCollectionTests {
 			characters,
 			conversionDate,
 			config,
-			new List<KeyValuePair<Country, Dependency?>>());
+			new List<KeyValuePair<Country, Dependency?>>(),
+			enabledCK3Dlcs: enabledCK3Dlcs);
 
 		var provinces = new ProvinceCollection(ck3ModFS);
-		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
+		var ck3MapData = new MapData(ck3ModFS);
+		provinces.ImportImperatorProvinces(imperatorWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 
 		titles.ImportImperatorGovernorships(
 			imperatorWorld,
 			provinces,
 			tagTitleMapper,
 			imperatorWorld.LocDB,
+			ck3LocDB,
 			config,
 			provinceMapper,
 			definiteFormMapper,
 			imperatorWorld.ImperatorRegionMapper,
 			coaMapper,
-			countyLevelGovernorships: new List<Governorship>());
+			countyLevelGovernorships: []);
 
 		var ck3Country = titles["e_IRTOCK3_PRY"];
 		Assert.Equal("imperator1000", ck3Country.GetHolderId(conversionDate));

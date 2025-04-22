@@ -1,11 +1,10 @@
 ﻿using commonItems;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Province;
 
-public class ProvinceMappingsVersion {
-	public IList<ProvinceMapping> Mappings { get; } = new List<ProvinceMapping>();
+internal sealed class ProvinceMappingsVersion {
+	public List<ProvinceMapping> Mappings { get; } = [];
 	public ProvinceMappingsVersion() { }
 	public ProvinceMappingsVersion(BufferedReader reader) {
 		var referencedImperatorProvs = new HashSet<ulong>();
@@ -34,14 +33,15 @@ public class ProvinceMappingsVersion {
 				referencedCK3Provs.Add(prov);
 			}
 		});
+		parser.RegisterKeyword("triangulation_pair", ParserHelpers.IgnoreItem);
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
 		parser.ParseStream(reader);
 
-		if (imperatorProvsReferencedMoreThanOnce.Any()) {
+		if (imperatorProvsReferencedMoreThanOnce.Count != 0) {
 			Logger.Warn($"I:R provinces referenced more than once: {string.Join(", ", imperatorProvsReferencedMoreThanOnce)}");
 		}
-		if (ck3ProvsReferencedMoreThanOnce.Any()) {
+		if (ck3ProvsReferencedMoreThanOnce.Count != 0) {
 			Logger.Warn($"CK3 provinces referenced more than once: {string.Join(", ", ck3ProvsReferencedMoreThanOnce)}");
 		}
 	}

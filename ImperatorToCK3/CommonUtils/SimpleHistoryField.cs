@@ -5,11 +5,11 @@ using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils;
 
-public class SimpleHistoryField : IHistoryField {
+public sealed class SimpleHistoryField : IHistoryField {
 	public string Id { get; }
-	public IList<KeyValuePair<string, object>> InitialEntries { get; } = new List<KeyValuePair<string, object>>(); // every entry is a <setter, value> pair
+	public IList<KeyValuePair<string, object>> InitialEntries { get; } = []; // every entry is a <setter, value> pair
 
-	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; } = new();
+	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; } = [];
 
 	private readonly OrderedSet<string> setterKeywords;
 
@@ -53,9 +53,9 @@ public class SimpleHistoryField : IHistoryField {
 		if (date is null) {
 			InitialEntries.Add(new KeyValuePair<string, object>(setter, value));
 		} else {
-			DateToEntriesDict[date] = new List<KeyValuePair<string, object>> {
-				new(setter, value)
-			};
+			DateToEntriesDict[date] = [
+				new(setter, value),
+			];
 		}
 	}
 
@@ -63,6 +63,10 @@ public class SimpleHistoryField : IHistoryField {
 		foreach (var setter in setterKeywords) {
 			parser.RegisterKeyword(setter, reader => {
 				var itemStr = reader.GetStringOfItem().ToString();
+				// If itemStr is the question sign from the "?=" operator, get another string.
+				if (itemStr == "?") {
+					itemStr = reader.GetStringOfItem().ToString();
+				}
 				var value = HistoryFactory.GetValue(itemStr);
 				AddEntryToHistory(date, setter, value);
 			});

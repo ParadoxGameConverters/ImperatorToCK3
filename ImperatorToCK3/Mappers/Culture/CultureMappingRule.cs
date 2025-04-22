@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Culture;
 
-public class CultureMappingRule {
+internal sealed class CultureMappingRule {
 	public static CultureMappingRule Parse(BufferedReader reader) {
 		mappingToReturn = new CultureMappingRule();
 		parser.ParseStream(reader);
@@ -36,7 +36,7 @@ public class CultureMappingRule {
 
 		// simple culture-culture match
 		if (ck3Provinces.Count == 0 && irProvinces.Count == 0 && ck3Regions.Count == 0 && irRegions.Count == 0) {
-			return destinationCulture;
+			return CK3CultureId;
 		}
 
 		if (ck3ProvinceId is null && irProvinceId is null) {
@@ -46,7 +46,7 @@ public class CultureMappingRule {
 		// This is a CK3 provinces check
 		if (ck3ProvinceId is not null) {
 			if (ck3Provinces.Contains(ck3ProvinceId.Value)) {
-				return destinationCulture;
+				return CK3CultureId;
 			}
 			// This is a CK3 regions check, it checks if provided ck3ProvinceId is within the mapping's ck3Regions.
 			foreach (var region in ck3Regions) {
@@ -57,7 +57,7 @@ public class CultureMappingRule {
 					continue;
 				}
 				if (ck3RegionMapper.ProvinceIsInRegion(ck3ProvinceId.Value, region)) {
-					return destinationCulture;
+					return CK3CultureId;
 				}
 			}
 		}
@@ -65,7 +65,7 @@ public class CultureMappingRule {
 		// This is an Imperator provinces check.
 		if (irProvinceId is not null) {
 			if (irProvinces.Contains(irProvinceId.Value)) {
-				return destinationCulture;
+				return CK3CultureId;
 			}
 			// This is an Imperator regions check, it checks if provided irProvinceId is within the mapping's irRegions.
 			foreach (var region in irRegions) {
@@ -73,7 +73,7 @@ public class CultureMappingRule {
 					continue;
 				}
 				if (irRegionMapper.ProvinceIsInRegion(irProvinceId.Value, region)) {
-					return destinationCulture;
+					return CK3CultureId;
 				}
 			}
 		}
@@ -81,9 +81,8 @@ public class CultureMappingRule {
 		return null;
 	}
 	
-	public string CK3CultureId => destinationCulture;
+	public string CK3CultureId { get; private set; } = string.Empty;
 
-	private string destinationCulture = string.Empty;
 	private readonly SortedSet<string> cultures = new();
 	private readonly SortedSet<string> irHistoricalTags = new();
 	private readonly SortedSet<ulong> irProvinces = new();
@@ -92,7 +91,7 @@ public class CultureMappingRule {
 	private readonly SortedSet<string> ck3Regions = new();
 
 	static CultureMappingRule() {
-		parser.RegisterKeyword("ck3", reader => mappingToReturn.destinationCulture = reader.GetString());
+		parser.RegisterKeyword("ck3", reader => mappingToReturn.CK3CultureId = reader.GetString());
 		parser.RegisterKeyword("ir", reader => mappingToReturn.cultures.Add(reader.GetString()));
 		parser.RegisterKeyword("historicalTag", reader => mappingToReturn.irHistoricalTags.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3Region", reader => mappingToReturn.ck3Regions.Add(reader.GetString()));

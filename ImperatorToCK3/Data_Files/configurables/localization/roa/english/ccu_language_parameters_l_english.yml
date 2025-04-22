@@ -1,0 +1,21 @@
+﻿l_english:
+ # language groups
+ culture_parameter_language_group_nuragic: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Nuragic [language_group|E]"
+ culture_parameter_language_group_anatolian: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Anatolian [language_group|E]"
+ culture_parameter_language_group_italic: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Italic [language_group|E]"
+ culture_parameter_language_group_etruscan: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Etruscan [language_group|E]"
+ culture_parameter_language_group_daco_thracian: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Daco-Thracian [language_group|E]" 
+ culture_parameter_language_group_hurrian: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Hurrian [language_group|E]"
+ culture_parameter_language_group_sumerian: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Sumerian [language_group|E]"
+ culture_parameter_language_group_gutian: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Gutian [language_group|E]"
+ culture_parameter_language_group_pre_greek: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Pre-Greek [language_group|E]"
+ culture_parameter_language_group_hatti: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Hattian [language_group|E]"
+
+ # Language families
+ culture_parameter_language_family_paleo_sardinian: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Paleo-Sardinian [language_family|E]"
+ culture_parameter_language_family_tyrsenian: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Tyrsenian [language_family|E]"
+ culture_parameter_language_family_hurro_urartian: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Hurro-Urartian [language_family|E]"
+ culture_parameter_language_family_sumerian: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Sumerian [language_family|E]"
+ culture_parameter_language_family_gutian: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Gutian [language_family|E]"
+ culture_parameter_language_family_pre_greek: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Pre-Greek [language_family|E]"
+ culture_parameter_language_family_hatti: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Hattian [language_family|E]"

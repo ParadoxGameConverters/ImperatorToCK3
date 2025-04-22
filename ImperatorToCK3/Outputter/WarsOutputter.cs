@@ -4,33 +4,41 @@ using System.IO;
 using System.Text;
 using ImperatorToCK3.CK3.Wars;
 using ImperatorToCK3.CommonUtils;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class WarsOutputter {
-	public static void OutputWars(string outputModName, IEnumerable<War> wars) {
+internal static class WarsOutputter {
+	public static async Task OutputWars(string outputModPath, IEnumerable<War> wars) {
 		Logger.Info("Writing wars...");
-		// dumping all into one file
-		var path = Path.Combine("output",outputModName, "history/wars/00_wars.txt");
-		using var output = FileOpeningHelper.OpenWriteWithRetries(path, Encoding.UTF8);
+
+		// Dump all into one file.
+		var sb = new StringBuilder();
 		foreach (var war in wars) {
-			OutputWar(output, war);
+			WriteWar(sb, war);
 		}
+
+		var path = Path.Combine(outputModPath, "history/wars/00_wars.txt");
+		await using var output = FileHelper.OpenWriteWithRetries(path, Encoding.UTF8);
+		await output.WriteAsync(sb.ToString());
+
 		Logger.IncrementProgress();
 	}
-	private static void OutputWar(TextWriter output, War war) {
-		output.WriteLine("war = {");
 
-		output.WriteLine($"\tstart_date = {war.StartDate}");
-		output.WriteLine($"\tend_date = {war.EndDate}");
-		output.WriteLine($"\ttargeted_titles={{ {string.Join(' ', war.TargetedTitles)} }}");
+	private static void WriteWar(StringBuilder sb, War war) {
+		sb.AppendLine("war = {");
+
+		sb.AppendLine($"\tstart_date = {war.StartDate}");
+		sb.AppendLine($"\tend_date = {war.EndDate}");
+		sb.AppendLine($"\ttargeted_titles={{ {string.Join(' ', war.TargetedTitles)} }}");
 		if (war.CasusBelli is not null) {
-			output.WriteLine($"\tcasus_belli = {war.CasusBelli}");
+			sb.AppendLine($"\tcasus_belli = {war.CasusBelli}");
 		}
-		output.WriteLine($"\tattackers={{ {string.Join(' ', war.Attackers)} }}");
-		output.WriteLine($"\tdefenders={{ {string.Join(' ', war.Defenders)} }}");
-		output.WriteLine($"\tclaimant = {war.Claimant}");
 
-		output.WriteLine("}");
+		sb.AppendLine($"\tattackers={{ {string.Join(' ', war.Attackers)} }}");
+		sb.AppendLine($"\tdefenders={{ {string.Join(' ', war.Defenders)} }}");
+		sb.AppendLine($"\tclaimant = {war.Claimant}");
+
+		sb.AppendLine("}");
 	}
 }

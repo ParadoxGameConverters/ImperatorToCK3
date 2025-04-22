@@ -24,6 +24,7 @@ using System.Linq;
 using Xunit;
 using CharacterCollection = ImperatorToCK3.CK3.Characters.CharacterCollection;
 using ImperatorToCK3.Mappers.Region;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.IO;
 
@@ -57,7 +58,7 @@ public class TitleTests {
 			"TestFiles/configurables/governorMappings.txt", 
 			"TestFiles/configurables/country_rank_map.txt");
 		private GovernmentMapper governmentMapper = new(ck3GovernmentIds: Array.Empty<string>());
-		private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");
+		private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.liquid", ck3ModFlags: []);
 		private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
 		private readonly ReligionMapper religionMapper;
@@ -77,6 +78,7 @@ public class TitleTests {
 				dependency: null,
 				imperatorCountries,
 				locDB,
+				new TestCK3LocDB(),
 				provinceMapper,
 				coaMapper,
 				tagTitleMapper,
@@ -88,7 +90,8 @@ public class TitleTests {
 				nicknameMapper,
 				characters,
 				ck3BookmarkDate,
-				config
+				config,
+				enabledCK3Dlcs: []
 			);
 		}
 		public TitleBuilder WithCountry(Country country) {
@@ -172,21 +175,6 @@ public class TitleTests {
 	}
 
 	[Fact]
-	public void LocalizationCanBeSet() {
-		var titles = new Title.LandedTitles();
-		var title = titles.Add("k_testtitle");
-		var nameLoc = title.Localizations.AddLocBlock(title.Id);
-		nameLoc["english"] = "engloc";
-		nameLoc["french"] = "frloc";
-		nameLoc["german"] = "germloc";
-		nameLoc["russian"] = "rusloc";
-		nameLoc["simp_chinese"] = "simploc";
-		nameLoc["spanish"] = "spaloc";
-
-		Assert.Equal("engloc", title.Localizations.GetLocBlockForKey(title.Id)!["english"]);
-	}
-
-	[Fact]
 	public void MembersDefaultToBlank() {
 		var titles = new Title.LandedTitles();
 		var title = titles.Add("k_testtitle");
@@ -230,11 +218,25 @@ public class TitleTests {
 	public void DevelopmentLevelCanBeInherited() {
 		var date = new Date(867, 1, 1);
 		var titles = new Title.LandedTitles();
-		var vassal = titles.Add("c_vassal");
-		vassal.DeJureLiege = titles.Add("d_liege");
-		vassal.DeJureLiege.SetDevelopmentLevel(8, date);
-
-		Assert.Equal(8, vassal.GetOwnOrInheritedDevelopmentLevel(date));
+		var county = titles.Add("c_county");
+		var duchy = titles.Add("d_duchy");
+		county.DeJureLiege = duchy;
+		var kingdom = titles.Add("k_kingdom");
+		duchy.DeJureLiege = kingdom;
+		var empire = titles.Add("e_empire");
+		kingdom.DeJureLiege = empire;
+		
+		empire.SetDevelopmentLevel(10, date);
+		Assert.Equal(10, county.GetOwnOrInheritedDevelopmentLevel(date));
+		
+		kingdom.SetDevelopmentLevel(8, date);
+		Assert.Equal(8, county.GetOwnOrInheritedDevelopmentLevel(date));
+		
+		duchy.SetDevelopmentLevel(6, date);
+		Assert.Equal(6, county.GetOwnOrInheritedDevelopmentLevel(date));
+		
+		county.SetDevelopmentLevel(4, date);
+		Assert.Equal(4, county.GetOwnOrInheritedDevelopmentLevel(date));
 	}
 
 	[Fact]

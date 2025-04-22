@@ -6,7 +6,7 @@ using System.IO;
 
 namespace ImperatorToCK3.CK3.Legends;
 
-public class LegendSeedCollection : ConcurrentIdObjectCollection<string, LegendSeed>, IPDXSerializable {
+public sealed class LegendSeedCollection : ConcurrentIdObjectCollection<string, LegendSeed>, IPDXSerializable {
 	public void LoadSeeds(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading legend seeds...");
 		

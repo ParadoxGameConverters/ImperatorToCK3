@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Provinces;
 
-public partial class Province : IIdentifiable<ulong> {
+internal sealed partial class Province : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public ulong? BaseProvinceId { get; private set; }
 
@@ -46,7 +46,7 @@ public partial class Province : IIdentifiable<ulong> {
 		var fieldsToCopy = new[] {"culture", "faith", "terrain"};
 		foreach (var fieldName in fieldsToCopy) {
 			if (History.Fields.TryGetValue(fieldName, out var field)) {
-				if (field.DateToEntriesDict.Any()) {
+				if (field.DateToEntriesDict.Count != 0) {
 					continue;
 				}
 
@@ -162,7 +162,7 @@ public partial class Province : IIdentifiable<ulong> {
 				$"Couldn't determine faith for province {Id} with " +
 				$"primary source religion {PrimaryImperatorProvince.ReligionId} " +
 				$"and source provinces [{string.Join(", ", ImperatorProvinces.Select(p => p.Id))}], " +
-				$"using vanilla religion!");
+				"using vanilla religion!");
 		}
 	}
 	private void SetCultureFromImperator(CultureMapper cultureMapper) {
@@ -258,7 +258,7 @@ public partial class Province : IIdentifiable<ulong> {
 			} => "church_holding",
 			{
 				IsCountyCapital: false,
-				GovernmentType: GovernmentType.monarchy or GovernmentType.tribal,
+				GovernmentType: GovernmentType.monarchy,
 				Fort: true
 			} => "castle_holding",
 			{

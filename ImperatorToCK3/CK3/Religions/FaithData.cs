@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Religions; 
 
-public record FaithData {
-	public IEnumerable<string> InvalidatingFaithIds { get; set; } = new List<string>();
+internal record FaithData {
+	public List<string> InvalidatingFaithIds { get; set; } = [];
 	public Color? Color { get; set; }
 	public string? ReligiousHeadTitleId { get; set; }
-	public IList<string> DoctrineIds { get; } = new List<string>();
-	public IList<string> HolySiteIds { get; init; } = new List<string>();
+	public List<string> DoctrineIds { get; } = [];
+	public List<string> HolySiteIds { get; init; } = [];
 
-	public IList<KeyValuePair<string, StringOfItem>> Attributes { get; init; } = new List<KeyValuePair<string, StringOfItem>>();
+	public List<KeyValuePair<string, StringOfItem>> Attributes { get; init; } = [];
 }

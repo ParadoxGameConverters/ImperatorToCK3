@@ -1,9 +1,0 @@
-REPLACE_ME_NAME={
-	type=female
-	#id=7777
-	age=0.REPLACE_ME_AGE
-	genes={ 		
-		ADD_GENES
-	}
-	entity={ 3942081117 3942081117 }
-}

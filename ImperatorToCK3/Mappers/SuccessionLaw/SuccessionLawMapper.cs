@@ -1,18 +1,20 @@
-﻿using commonItems;
+using commonItems;
+using commonItems.Collections;
+using ImperatorToCK3.CK3;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.SuccessionLaw;
 
-public class SuccessionLawMapper {
-	private readonly Dictionary<string, SortedSet<string>> impToCK3SuccessionLawMap = new();
+public sealed class SuccessionLawMapper {
+	private readonly List<SuccessionLawMapping> mappings = [];
 
 	public SuccessionLawMapper() { }
-	public SuccessionLawMapper(string filePath) {
+	public SuccessionLawMapper(string filePath, OrderedDictionary<string, bool> ck3ModFlags) {
 		Logger.Info("Parsing succession law mappings...");
 		var parser = new Parser();
 		RegisterKeys(parser);
-		parser.ParseFile(filePath);
-		Logger.Info($"Loaded {impToCK3SuccessionLawMap.Count} succession law links.");
+		parser.ParseLiquidFile(filePath, ck3ModFlags);
+		Logger.Info($"Loaded {mappings.Count} succession law links.");
 
 		Logger.IncrementProgress();
 	}
@@ -23,22 +25,21 @@ public class SuccessionLawMapper {
 	}
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterKeyword("link", reader => {
-			var mapping = new SuccessionLawMapping(reader);
-			if (mapping.CK3SuccessionLaws.Count == 0) {
-				Logger.Warn("SuccessionLawMapper: link with no CK3 successions laws");
-				return;
-			}
-			if (!impToCK3SuccessionLawMap.TryAdd(mapping.ImperatorLaw, mapping.CK3SuccessionLaws)) {
-				impToCK3SuccessionLawMap[mapping.ImperatorLaw].UnionWith(mapping.CK3SuccessionLaws);
-			}
+			mappings.Add(new(reader));
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
-	public SortedSet<string> GetCK3LawsForImperatorLaws(SortedSet<string> impLaws) {
-		var lawsToReturn = new SortedSet<string>();
+	public OrderedSet<string> GetCK3LawsForImperatorLaws(SortedSet<string> impLaws, string? irGovernment, IReadOnlyCollection<string> enabledCK3Dlcs) {
+		var lawsToReturn = new OrderedSet<string>();
 		foreach (var impLaw in impLaws) {
-			if (impToCK3SuccessionLawMap.TryGetValue(impLaw, out var ck3Laws)) {
-				lawsToReturn.UnionWith(ck3Laws);
+			foreach (var mapping in mappings) {
+				var match = mapping.Match(impLaw, irGovernment, enabledCK3Dlcs);
+				if (match is null) {
+					continue;
+				}
+				
+				lawsToReturn.UnionWith(match);
+				break;
 			}
 		}
 		return lawsToReturn;

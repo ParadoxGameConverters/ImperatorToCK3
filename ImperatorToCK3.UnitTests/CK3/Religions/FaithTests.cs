@@ -12,6 +12,8 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Religions;
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class FaithTests {
 	private readonly Religion testReligion;
 	

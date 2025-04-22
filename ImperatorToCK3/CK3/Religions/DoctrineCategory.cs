@@ -5,9 +5,11 @@ using System.Collections.Immutable;
 
 namespace ImperatorToCK3.CK3.Religions; 
 
-public class DoctrineCategory : IIdentifiable<string> {
+public sealed class DoctrineCategory : IIdentifiable<string> {
 	public string Id { get; }
 	public string? GroupId { get; private set; }
+	public int NumberOfPicks { get; private set; } = 1;
+	
 	private readonly OrderedSet<string> doctrineIds = new();
 	public IReadOnlyCollection<string> DoctrineIds => doctrineIds.ToImmutableArray();
 
@@ -16,6 +18,7 @@ public class DoctrineCategory : IIdentifiable<string> {
 		
 		var parser = new Parser();
 		parser.RegisterKeyword("group", reader => GroupId = reader.GetString());
+		parser.RegisterKeyword("number_of_picks", reader => NumberOfPicks = reader.GetInt());
 		parser.RegisterRegex(CommonRegexes.String, (reader, doctrineId) => {
 			doctrineIds.Add(doctrineId);
 			ParserHelpers.IgnoreItem(reader);

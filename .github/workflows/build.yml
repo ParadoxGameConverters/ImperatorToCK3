@@ -13,12 +13,18 @@ jobs:
     strategy:
       matrix:
         os: [[self-hosted, windows], [self-hosted, linux], macos-14]
+      fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
       with:
         submodules: recursive
+    - name: "List installed dotnet SDKs"
+      if: matrix.os == 'Windows'
+      run: dotnet --list-sdks
     - name: "Setup Dotnet for use with actions"
+      # don't run on self-hosted Windows
+      if: ${{ !contains(toJSON(matrix.os), 'windows') || !contains(toJSON(matrix.os), 'self-hosted') }}
       uses: actions/setup-dotnet@v4
       with:
         global-json-file: global.json

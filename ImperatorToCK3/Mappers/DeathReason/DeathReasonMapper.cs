@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.DeathReason;
 
-public class DeathReasonMapper {
+public sealed class DeathReasonMapper {
 	public DeathReasonMapper() {
 		Logger.Info("Parsing death reason mappings...");
 		var parser = new Parser();
@@ -19,7 +19,7 @@ public class DeathReasonMapper {
 		parser.ParseStream(reader);
 	}
 	public string? GetCK3ReasonForImperatorReason(string irReason) {
-		return irToCK3ReasonMap.TryGetValue(irReason, out var value) ? value : null;
+		return irToCK3ReasonMap.GetValueOrDefault(irReason);
 	}
 
 	private void RegisterKeys(Parser parser) {

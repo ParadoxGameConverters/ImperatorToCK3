@@ -2,6 +2,8 @@
 using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
+using commonItems.Serialization;
+using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
@@ -82,6 +84,7 @@ public class DynastyTests {
 				traitMapper,
 				nicknameMapper,
 				locDB,
+				new CK3LocDB(ck3ModFS, config.GetActiveCK3ModFlags()),
 				irMapData,
 				provinceMapper,
 				deathReasonMapper,
@@ -140,8 +143,8 @@ public class DynastyTests {
 		var reader = new BufferedReader(string.Empty);
 		var family = Family.Parse(reader, 45);
 
-		var locMapper = new LocDB("english");
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper, locMapper, BookmarkDate);
+		var irLocDB = new LocDB("english");
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper, irLocDB, new TestCK3LocDB(), BookmarkDate);
 
 		Assert.Equal("dynn_irtock3_45", dynasty.Id);
 		Assert.Equal("dynn_irtock3_45", dynasty.Name);
@@ -153,12 +156,14 @@ public class DynastyTests {
 		var reader = new BufferedReader("key = cornelii");
 		var family = Family.Parse(reader, 45);
 
-		var locDB = new LocDB("english");
-		var dynLoc = locDB.AddLocBlock("cornelii");
+		var irLocDB = new LocDB("english");
+		var dynLoc = irLocDB.AddLocBlock("cornelii");
 		dynLoc["english"] = "Cornelii";
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper, locDB, BookmarkDate);
+		
+		var ck3LocDB = new TestCK3LocDB();
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper, irLocDB, ck3LocDB, BookmarkDate);
 
-		Assert.Equal("Cornelii", dynasty.LocalizedName!["english"]);
+		Assert.Equal("Cornelii", ck3LocDB.GetLocBlockForKey(dynasty.Id)!["english"]);
 	}
 
 	[Fact]
@@ -167,10 +172,11 @@ public class DynastyTests {
 		var reader = new BufferedReader("key = cornelii");
 		var family = Family.Parse(reader, 45);
 
-		var locDB = new LocDB("english");
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper, locDB, BookmarkDate);
+		var irLocDB = new LocDB("english");
+		var ck3LocDB = new TestCK3LocDB();
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper, irLocDB, ck3LocDB, BookmarkDate);
 
-		Assert.Equal("cornelii", dynasty.LocalizedName!["english"]);
+		Assert.Equal("cornelii", ck3LocDB.GetLocBlockForKey(dynasty.Id)!["english"]);
 	}
 	[Fact]
 	public void CultureIsBasedOnFirstImperatorMember() {
@@ -201,7 +207,7 @@ public class DynastyTests {
 			new CK3RegionMapper(),
 			Cultures
 		);
-		var locDB = new LocDB("english");
+		var irLocDB = new LocDB("english");
 		var ck3Member1 = new CK3CharacterBuilder()
 			.WithCultureMapper(cultureMapper)
 			.WithImperatorCharacter(member1)
@@ -214,8 +220,33 @@ public class DynastyTests {
 			.WithCultureMapper(cultureMapper)
 			.WithImperatorCharacter(member3)
 			.Build();
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB, BookmarkDate);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, irLocDB, new TestCK3LocDB(), BookmarkDate);
 
 		Assert.Equal("latin", dynasty.CultureId);
+	}
+
+	[Fact]
+	public void UnlocalizedNameIsCorrectlySerialized() {
+		// A dynasty can have a raw unlocalized name. If such name contains whitespace, it must be enclosed in quotes.
+		var reader = new BufferedReader(
+			"""
+			 = {
+				name = "ve Iberia"
+				culture = georgian
+			}
+			""");
+		var dynasty = new Dynasty("georgian_dynn_Iberia", reader);
+		Assert.Equal("georgian_dynn_Iberia", dynasty.Id);
+		Assert.Equal("ve Iberia", dynasty.Name);
+		Assert.Equal("georgian", dynasty.CultureId);
+
+		var serialized = PDXSerializer.Serialize(dynasty);
+		
+		Assert.Equal("""
+		             {
+		             	name = "ve Iberia"
+		             	culture = georgian
+		             }
+		             """, serialized);
 	}
 }

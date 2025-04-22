@@ -1,0 +1,525 @@
+﻿gothogreek = { # https://en.wikipedia.org/wiki/Gothograecia
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = {
+					OR = {
+						this = culture:gothic
+						any_parent_culture_or_above = { this = culture:gothic }
+					}
+				}
+				scope:other_culture = { has_cultural_pillar = language_greek }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = language_greek }
+				scope:other_culture = {
+					OR = {
+						this = culture:gothic
+						any_parent_culture_or_above = { this = culture:gothic }
+					}
+				}
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+carchidonian = {  # before Royal Court a pre-defined fictional culture by Iohannes
+	name = carchidonian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = {
+					OR = {
+						{% if tfe %}
+						# TFE has punic culture instead of carthaginian.
+						this = culture:punic
+						any_parent_culture_or_above = { this = culture:punic }
+						{% else %}
+						this = culture:carthaginian
+						any_parent_culture_or_above = { this = culture:carthaginian }
+						{% endif %}
+					}
+				}
+				scope:other_culture = { has_cultural_pillar = language_greek }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = language_greek }
+				scope:other_culture = {
+					OR = {
+						{% if tfe %}
+						this = culture:punic
+						any_parent_culture_or_above = { this = culture:punic }
+						{% else %}
+						this = culture:carthaginian
+						any_parent_culture_or_above = { this = culture:carthaginian }
+						{% endif %}
+					}
+				}
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+pergamene = { # Roman + Cretan/Neo-Minoan
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:roman }
+				scope:other_culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+			}
+			AND = {
+				scope:culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+				scope:other_culture = { this = culture:roman }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+pyrrhic = { # Macedonian + Italian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:macedonian }
+				scope:other_culture = {
+					OR = {
+						{% if wtwsms %}
+						has_cultural_pillar = heritage_latin
+						has_cultural_pillar = heritage_italian
+						{% else %}
+						has_cultural_pillar = heritage_latin
+						has_cultural_pillar = heritage_italic
+						{% endif %}
+					}
+				}
+			}
+			AND = {
+				scope:culture = {
+					OR = {
+						{% if wtwsms %}
+						has_cultural_pillar = heritage_latin
+						has_cultural_pillar = heritage_italian
+						{% else %}
+						has_cultural_pillar = heritage_latin
+						has_cultural_pillar = heritage_italic
+						{% endif %}
+					}
+				}
+				scope:other_culture = { this = culture:macedonian }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+eumenidian = { # Macedonian + Anatolian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:macedonian }
+				scope:other_culture = { has_cultural_pillar = heritage_anatolian }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_anatolian }
+				scope:other_culture = { this = culture:macedonian }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+seleucian = { # Macedonian + Persian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:macedonian }
+				scope:other_culture = { this = culture:persian }
+			}
+			AND = {
+				scope:culture = { this = culture:persian }
+				scope:other_culture = { this = culture:macedonian }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+sikandrian = { # Macedonian + Indian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:macedonian }
+				scope:other_culture = {
+					OR = {
+						has_cultural_pillar = heritage_dravidian
+						has_cultural_pillar = heritage_indo_aryan
+					}
+				}
+			}
+			AND = {
+				scope:culture = {
+					OR = {
+						has_cultural_pillar = heritage_dravidian
+						has_cultural_pillar = heritage_indo_aryan
+					}
+				}
+				scope:other_culture = { this = culture:macedonian }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+tichopoetic = { # Macedonian + Bactrian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:macedonian }
+				scope:other_culture = { this = culture:bactrian }
+			}
+			AND = {
+				scope:culture = { this = culture:bactrian }
+				scope:other_culture = { this = culture:macedonian }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+eschatian = { # Hellenic (Not Macedonian) + Sogdian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = {
+					AND = {
+						NOT = { this = culture:macedonian }
+						has_cultural_pillar = heritage_byzantine
+					}
+				}
+				scope:other_culture = { this = culture:sogdian }
+			}
+			AND = {
+				scope:culture = { this = culture:sogdian }
+				scope:other_culture = {
+					AND = {
+						NOT = { this = culture:macedonian }
+						has_cultural_pillar = heritage_byzantine
+					}
+				}
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+leukaethiopian = { # Hellenic + Ethiopian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:ethiopian }
+				scope:other_culture = { has_cultural_pillar = heritage_byzantine }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_byzantine }
+				scope:other_culture = { this = culture:ethiopian }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+paraethiopian = { # Hellenic + Nubian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:nubian }
+				scope:other_culture = { has_cultural_pillar = heritage_byzantine }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_byzantine }
+				scope:other_culture = { this = culture:nubian }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+eudaimonian = { # Hellenic + South Arabian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_byzantine }
+				scope:other_culture = { has_cultural_pillar = heritage_arabic }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_arabic }
+				scope:other_culture = { has_cultural_pillar = heritage_byzantine }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+		any_sub_realm_county = {
+			AND = {
+				culture = { has_cultural_pillar = heritage_arabic }
+				duchy = {
+					OR = {
+						{% if wtwsms %}
+						this = title:d_sanaa
+						this = title:d_taizz
+						this = title:d_jawf-al-yamani
+						this = title:d_hadramawt
+						this = title:d_mahra
+						this = title:d_dhofar
+						{% else %}
+						this = title:d_sanaa
+						this = title:d_taizz
+						this = title:d_jawf-al-yamani
+						this = title:d_hadramawt
+						this = title:d_mahra
+						{% endif %}
+					}
+				}
+			}
+		}
+	}
+	hybrid = yes
+}
+
+thiluan = { # Hellenic + East Arabian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_byzantine }
+				scope:other_culture = { has_cultural_pillar = heritage_arabic }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_arabic }
+				scope:other_culture = { has_cultural_pillar = heritage_byzantine }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+		any_sub_realm_county = {
+			AND = {
+				culture = { has_cultural_pillar = heritage_arabic }
+				duchy = {
+					OR = {
+						{% if wtwsms %}
+						this = title:d_al-hasa
+						this = title:d_yamama
+						this = title:d_bahrain
+						this = title:d_hail
+						this = title:d_mesan
+						this = title:d_oman
+						{% else %}
+						this = title:d_oman
+						this = title:d_al-hasa
+						this = title:d_bahrain
+						this = title:d_yamama
+						this = title:d_jawf
+						{% endif %}
+					}
+				}
+			}
+		}
+	}
+	hybrid = yes
+}
+
+heremitic = { # Hellenic + West Arabian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_byzantine }
+				scope:other_culture = { has_cultural_pillar = heritage_arabic }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_arabic }
+				scope:other_culture = { has_cultural_pillar = heritage_byzantine }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+		any_sub_realm_county = {
+			AND = {
+				culture = { has_cultural_pillar = heritage_arabic }
+				duchy = {
+					OR = {
+						{% if wtwsms %}
+						this = title:d_mecca
+						this = title:d_medina
+						this = title:d_tabuk
+						this = title:d_jawf
+						this = title:d_asir
+						this = title:d_najd
+						{% else %}
+						this = title:d_mecca
+						this = title:d_medina
+						this = title:d_shammar
+						this = title:d_asir
+						this = title:d_najd
+						{% endif %}
+					}
+				}
+			}
+		}
+	}
+	hybrid = yes
+}
+
+trojan = { # Roman + Anatolian
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:roman }
+				scope:other_culture = { has_cultural_pillar = heritage_anatolian }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_anatolian }
+				scope:other_culture = { this = culture:roman }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+ptolemaic = { # Hellenic/Greek + Kemetic (Old Egyptian)
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:ancient_egyptian }
+				scope:other_culture = { has_cultural_pillar = heritage_byzantine }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_byzantine }
+				scope:other_culture = { this = culture:ancient_egyptian }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+# Using egyptian as the culture's creation name ID so it gets converted according to the base game's Egyptian culture
+egyptian = { # Arabic + Kemetic (Old Egyptian)
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:ancient_egyptian }
+				scope:other_culture = { has_cultural_pillar = heritage_arabic }
+			}
+			AND = {
+				scope:culture = { has_cultural_pillar = heritage_arabic }
+				scope:other_culture = { this = culture:ancient_egyptian }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}

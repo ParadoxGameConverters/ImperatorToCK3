@@ -10,13 +10,13 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3.Wars;
 
-public class War {
+internal sealed class War {
 	public Date StartDate { get; } = "2.1.1";
 	public Date EndDate { get; }
-	public OrderedSet<string> TargetedTitles { get; } = new();
+	public OrderedSet<string> TargetedTitles { get; } = [];
 	public string? CasusBelli { get; }
-	public IList<string> Attackers { get; } = new List<string>();
-	public IList<string> Defenders { get; } = new List<string>();
+	public List<string> Attackers { get; } = [];
+	public List<string> Defenders { get; } = [];
 	public string Claimant { get; }
 
 	public War(Imperator.Diplomacy.War irWar, Mappers.War.WarMapper warMapper, ProvinceMapper provinceMapper, Imperator.Countries.CountryCollection impCountries, StateCollection irStates, ProvinceCollection ck3Provinces, Title.LandedTitles titles, Date ck3BookmarkDate) {
@@ -37,7 +37,7 @@ public class War {
 			}
 		}
 
-		if (!Attackers.Any()) {
+		if (Attackers.Count == 0) {
 			throw new ConverterException("War has no valid attackers!");
 		}
 		Claimant = Attackers[0];
@@ -69,7 +69,7 @@ public class War {
 				continue;
 			}
 
-			if (Defenders.Count == 0 && !TargetedTitles.Any()) {
+			if (Defenders.Count == 0 && TargetedTitles.Count == 0) {
 				// We're adding the first defender and we have no targeted title so far.
 				// In this case, try to use the defender's capital as targeted title.
 				// This is merely a fallback.

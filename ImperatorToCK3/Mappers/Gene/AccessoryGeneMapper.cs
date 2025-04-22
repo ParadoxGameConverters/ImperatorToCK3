@@ -5,9 +5,9 @@ using Assignment = System.Collections.Generic.KeyValuePair<string, string>;
 
 namespace ImperatorToCK3.Mappers.Gene; 
 
-public class AccessoryGeneMapper {
-	private Dictionary<string, IList<Assignment>> ObjectToObjectMappings { get; } = [];
-	private Dictionary<string, IList<Assignment>> TemplateToTemplateMappings { get; } = [];
+public sealed class AccessoryGeneMapper {
+	private Dictionary<string, List<Assignment>> ObjectToObjectMappings { get; } = [];
+	private Dictionary<string, List<Assignment>> TemplateToTemplateMappings { get; } = [];
 
 	public AccessoryGeneMapper(string mappingsFilePath) {
 		var objectToObjectMappingsParser = new Parser();

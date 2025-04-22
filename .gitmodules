@@ -2,3 +2,7 @@
 	path = Fronter.NET
 	url = https://github.com/ParadoxGameConverters/Fronter.NET
 
+[submodule "InnoDependencyInstaller"]
+	path = InnoDependencyInstaller
+	url = https://github.com/DomGries/InnoDependencyInstaller.git
+	branch = master

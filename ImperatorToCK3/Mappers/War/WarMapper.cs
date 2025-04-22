@@ -4,8 +4,8 @@ using commonItems.Mods;
 
 namespace ImperatorToCK3.Mappers.War;
 
-public class WarMapper {
-	private readonly Dictionary<string, string> impToCK3WarGoalDict = new();
+public sealed class WarMapper {
+	private readonly Dictionary<string, string> impToCK3WarGoalDict = [];
 
 	public WarMapper(string filePath) {
 		Logger.Info("Parsing wargoal mappings...");
@@ -27,7 +27,7 @@ public class WarMapper {
 		Logger.Info($"Loaded {impToCK3WarGoalDict.Count} wargoal links.");
 		Logger.IncrementProgress();
 	}
-	
+
 	public string? GetCK3CBForImperatorWarGoal(string irWarGoal) {
 		if (impToCK3WarGoalDict.TryGetValue(irWarGoal, out var ck3CasusBelli)) {
 			return ck3CasusBelli;
@@ -38,7 +38,7 @@ public class WarMapper {
 
 	public void DetectUnmappedWarGoals(ModFilesystem irModFS) {
 		Logger.Info("Detecting unmapped war goals...");
-		
+
 		var warGoalsParser = new Parser();
 		warGoalsParser.RegisterRegex(CommonRegexes.String, (reader, warGoal) => {
 			if (!impToCK3WarGoalDict.ContainsKey(warGoal)) {

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.UnitType;
 
-public class UnitTypeMapper {
-	private readonly Dictionary<string, string?> unitTypeMap = new(); // imperator -> ck3
+internal sealed class UnitTypeMapper {
+	private readonly Dictionary<string, string?> unitTypeMap = []; // imperator -> ck3
 
 	public UnitTypeMapper(string mappingsFilePath) {
 		var parser = new Parser();
@@ -27,10 +27,10 @@ public class UnitTypeMapper {
 	}
 
 	public string? Match(string imperatorUnitType) {
-		return unitTypeMap.GetValueOrDefault(imperatorUnitType, null);
+		return unitTypeMap.GetValueOrDefault(imperatorUnitType, defaultValue: null);
 	}
 
-	public IDictionary<string, int> GetMenPerCK3UnitType(IDictionary<string, int> menPerImperatorUnitType) {
+	public Dictionary<string, int> GetMenPerCK3UnitType(IDictionary<string, int> menPerImperatorUnitType) {
 		var toReturn = new Dictionary<string, int>();
 
 		foreach (var (imperatorType, imperatorMen) in menPerImperatorUnitType) {
@@ -39,10 +39,8 @@ public class UnitTypeMapper {
 				continue;
 			}
 
-			if (toReturn.ContainsKey(ck3Type)) {
+			if (!toReturn.TryAdd(ck3Type, imperatorMen)) {
 				toReturn[ck3Type] += imperatorMen;
-			} else {
-				toReturn[ck3Type] = imperatorMen;
 			}
 		}
 

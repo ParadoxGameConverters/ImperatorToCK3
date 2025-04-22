@@ -98,8 +98,8 @@ public class ProvincesTests {
 		irWorld.Provinces.Add(irProvince6);
 
 		var provinceMapper = new ProvinceMapper();
-		const string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
-		provinceMapper.LoadMappings(provinceMappingsPath, "6_to_1");
+		const string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings_6_to_1.txt";
+		provinceMapper.LoadMappings(provinceMappingsPath);
 
 		var ck3Provinces = new ProvinceCollection { new(1) };
 		var ck3RegionMapper = new CK3RegionMapper();
@@ -112,7 +112,9 @@ public class ProvincesTests {
 		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper, cultures);
 		var religions = new ReligionCollection(titles);
 		var religionMapper = new ReligionMapper(religions, irRegionMapper, ck3RegionMapper);
-		ck3Provinces.ImportImperatorProvinces(irWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
+		var ck3MapData = new MapData(ck3ModFs);
+		ck3MapData.ProvinceDefinitions.Add(new ProvinceDefinition(1) {});
+		ck3Provinces.ImportImperatorProvinces(irWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 		
 		var targetProvince = ck3Provinces[1];
 		Assert.Equal((ulong)1, targetProvince.Id);
@@ -123,7 +125,7 @@ public class ProvincesTests {
 		// Scenario 2: Single developed province in country 2 outweighs sum of civilisation in country 1.
 		irProvince6.CivilizationValue = 100;
 		ck3Provinces = new ProvinceCollection { new(1) };
-		ck3Provinces.ImportImperatorProvinces(irWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
+		ck3Provinces.ImportImperatorProvinces(irWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 		
 		targetProvince = ck3Provinces[1];
 		Assert.Equal((ulong)1, targetProvince.Id);

@@ -6,49 +6,56 @@ using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Titles;
 
-public class RulerTerm {
+internal sealed class RulerTerm {
 	public string? CharacterId { get; }
 	public Date StartDate { get; }
 	public string? Government { get; }
-	public Imperator.Countries.RulerTerm.PreImperatorRulerInfo? PreImperatorRuler { get; }
 
 	public RulerTerm(
+		Title ck3Title,
 		Imperator.Countries.RulerTerm imperatorRulerTerm,
 		Characters.CharacterCollection characters,
 		GovernmentMapper governmentMapper,
-		LocDB locDB,
+		LocDB irLocDB,
+		CK3LocDB ck3LocDB,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
 		ProvinceMapper provinceMapper,
-		Configuration config
-	) {
+		Configuration config,
+		IReadOnlyCollection<string> enabledCK3Dlcs) {
 		if (imperatorRulerTerm.CharacterId is not null) {
 			CharacterId = $"imperator{imperatorRulerTerm.CharacterId}";
 		}
 		StartDate = imperatorRulerTerm.StartDate;
 		if (imperatorRulerTerm.Government is not null) {
-			Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorRulerTerm.Government, null);
+			Government = governmentMapper.GetCK3GovernmentForImperatorGovernment(
+				irGovernmentId: imperatorRulerTerm.Government, 
+				rank: ck3Title.Rank, 
+				irCultureId: ck3Title.ImperatorCountry?.PrimaryCulture,
+				enabledCK3Dlcs);
 		}
 
-		PreImperatorRuler = imperatorRulerTerm.PreImperatorRuler;
-		if (PreImperatorRuler?.BirthDate is null) {
+		var preImperatorRuler = imperatorRulerTerm.PreImperatorRuler;
+		if (preImperatorRuler?.BirthDate is null) {
 			return;
 		}
-		if (PreImperatorRuler.DeathDate is null) {
+		if (preImperatorRuler.DeathDate is null) {
 			return;
 		}
-		if (PreImperatorRuler.Country is not null) {
+		if (preImperatorRuler.Country is not null) {
 			// create a new ruler character
 			var character = new Character(
-				PreImperatorRuler,
+				preImperatorRuler,
 				StartDate,
-				PreImperatorRuler.Country,
+				preImperatorRuler.Country,
 				characters,
-				locDB,
+				irLocDB,
+				ck3LocDB,
 				religionMapper,
 				cultureMapper,
 				nicknameMapper,
@@ -57,7 +64,7 @@ public class RulerTerm {
 			);
 			if (characters.ContainsKey(character.Id)) {
 				Logger.Warn($"Cannot add pre-Imperator ruler {character.Id} " +
-				            $"- a character with this ID already exists!");
+				            "- a character with this ID already exists!");
 				return;
 			}
 			characters.Add(character);

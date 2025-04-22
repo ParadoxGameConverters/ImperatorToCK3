@@ -1,22 +1,23 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
+using ImperatorToCK3.CK3.Cultures;
+using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using Microsoft.VisualBasic.FileIO;
 using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace ImperatorToCK3.CK3.Provinces;
 
-public class ProvinceCollection : IdObjectCollection<ulong, Province> {
+internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	public ProvinceCollection() { }
 	public ProvinceCollection(ModFilesystem ck3ModFs) {
 		LoadProvincesHistory(ck3ModFs);
@@ -71,7 +72,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		parser.ParseGameFolder("history/provinces", ck3ModFs, "txt", recursive: true);
 	}
 
-	public void ImportVanillaProvinces(ModFilesystem ck3ModFs) {
+	public void ImportVanillaProvinces(ModFilesystem ck3ModFs, ReligionCollection religions, CultureCollection cultures) {
 		var existingProvinceDefinitionsCount = Count;
 		Logger.Info("Importing vanilla provinces...");
 
@@ -81,6 +82,23 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		// Load history/provinces.
 		LoadProvincesHistory(ck3ModFs);
 		Logger.IncrementProgress();
+
+		// Cleanup: remove invalid faith and culture entries from province history
+		var validFaithIds = religions.Faiths.Select(f => f.Id).ToHashSet();
+		var validCultureIds = cultures.Select(c => c.Id).ToHashSet();
+		foreach (var province in this) {
+			var faithField = province.History.Fields["faith"];
+			int removedCount = faithField.RemoveAllEntries(value => !validFaithIds.Contains(value.ToString()?.RemQuotes() ?? string.Empty));
+			if (removedCount > 0) {
+				Logger.Debug($"Removed {removedCount} invalid faith entries from province {province.Id}.");
+			}
+			
+			var cultureField = province.History.Fields["culture"];
+			removedCount = cultureField.RemoveAllEntries(value => !validCultureIds.Contains(value.ToString()?.RemQuotes() ?? string.Empty));
+			if (removedCount > 0) {
+				Logger.Debug($"Removed {removedCount} invalid culture entries from province {province.Id}.");
+			}
+		}
 
 		// Now load the provinces that don't have unique entries in history/provinces.
 		// They instead use history/province_mapping.
@@ -104,6 +122,7 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 
 	public void ImportImperatorProvinces(
 		Imperator.World irWorld,
+		MapData ck3MapData,
 		Title.LandedTitles titles,
 		CultureMapper cultureMapper,
 		ReligionMapper religionMapper,
@@ -115,8 +134,13 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		
 		int importedIRProvsCount = 0;
 		int modifiedCK3ProvsCount = 0;
+
+		var provinceDefs = ck3MapData.ProvinceDefinitions;
+		var landProvinces = this
+			.Where(p => provinceDefs.TryGetValue(p.Id, out var def) && def.IsLand);
+		
 		// Imperator provinces map to a subset of CK3 provinces. We'll only rewrite those we are responsible for.
-		Parallel.ForEach(this, province => {
+		Parallel.ForEach(landProvinces, province => {
 			var sourceProvinceIds = provinceMapper.GetImperatorProvinceNumbers(province.Id);
 			// Provinces we're not affecting will not be in this list.
 			if (sourceProvinceIds.Count == 0) {
@@ -152,7 +176,13 @@ public class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
 			var provId = ulong.Parse(provIdStr);
-			this[provId].UpdateHistory(reader);
+			
+			if (TryGetValue(provId, out var province)) {
+				province.UpdateHistory(reader);
+			} else {
+				Logger.Warn($"Province {provId} referenced in prehistory not found!");
+				ParserHelpers.IgnoreItem(reader);
+			}
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseFile(prehistoryPath);

@@ -4,21 +4,22 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Province;
 
-public class ProvinceMapper {
-	private readonly Dictionary<ulong, IList<ulong>> imperatorToCK3ProvinceMap = new();
-	private readonly Dictionary<ulong, IList<ulong>> ck3ToImperatorProvinceMap = new();
+internal sealed class ProvinceMapper {
+	private readonly Dictionary<ulong, List<ulong>> imperatorToCK3ProvinceMap = [];
+	private readonly Dictionary<ulong, List<ulong>> ck3ToImperatorProvinceMap = [];
 
-	public void LoadMappings(string mappingsPath, string mappingsVersionName) {
+	public void LoadMappings(string mappingsPath) {
 		Logger.Info("Loading province mappings...");
 
 		ProvinceMappingsVersion? version = null;
 		var parser = new Parser();
-		parser.RegisterKeyword(mappingsVersionName, reader => version = new ProvinceMappingsVersion(reader));
+		// The converter only expects one version in a file.
+		parser.RegisterRegex(CommonRegexes.String, reader => version = new ProvinceMappingsVersion(reader));
 		parser.IgnoreUnregisteredItems();
 		parser.ParseFile(mappingsPath);
 
 		if (version is null) {
-			throw new ConverterException($"Mappings version \"{mappingsVersionName}\" not found in province mappings!");
+			throw new ConverterException($"No province mappings found in {mappingsPath}!");
 		}
 		CreateMappings(version);
 		Logger.Info($"{version.Mappings.Count} mappings loaded.");
@@ -49,17 +50,17 @@ public class ProvinceMapper {
 		}
 	}
 
-	public IList<ulong> GetImperatorProvinceNumbers(ulong ck3ProvinceNumber) {
+	public List<ulong> GetImperatorProvinceNumbers(ulong ck3ProvinceNumber) {
 		if (ck3ToImperatorProvinceMap.TryGetValue(ck3ProvinceNumber, out var impProvs)) {
 			return impProvs;
 		}
-		return new List<ulong>();
+		return [];
 	}
 
-	public IList<ulong> GetCK3ProvinceNumbers(ulong impProvinceNumber) {
+	public List<ulong> GetCK3ProvinceNumbers(ulong impProvinceNumber) {
 		if (imperatorToCK3ProvinceMap.TryGetValue(impProvinceNumber, out var ck3Provs)) {
 			return ck3Provs;
 		}
-		return new List<ulong>();
+		return [];
 	}
 }

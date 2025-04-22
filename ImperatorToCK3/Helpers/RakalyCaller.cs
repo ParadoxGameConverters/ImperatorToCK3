@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Exceptions;
 using System;
 using System.ComponentModel;
@@ -9,7 +10,7 @@ using System.Runtime.InteropServices;
 namespace ImperatorToCK3.Helpers;
 
 public static class RakalyCaller {
-	private const string RakalyVersion = "0.5.0";
+	private const string RakalyVersion = "0.5.4";
 	private static readonly string RelativeRakalyPath;
 
 	static RakalyCaller() {
@@ -64,12 +65,12 @@ public static class RakalyCaller {
 		// https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/18d8fbe8-a967-4f1c-ae50-99ca8e491d2d
 		return ex.NativeErrorCode == 0x000000E1; // ERROR_VIRUS_INFECTED
 	}
-	
+
 	private static bool IsFileNotFound(Win32Exception ex) {
 		// https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/18d8fbe8-a967-4f1c-ae50-99ca8e491d2d
 		return ex.NativeErrorCode == 0x00000002; // ERROR_FILE_NOT_FOUND
 	}
-	
+
 	private static void LogWin32ExceptionDetails(Win32Exception ex) {
 		Logger.Debug("Message: " + ex.Message);
 		Logger.Debug("HResult: " + ex.HResult);
@@ -93,21 +94,21 @@ public static class RakalyCaller {
 		catch (Win32Exception e) when (IsFileFlaggedAsInfected(e)) {
 			LogWin32ExceptionDetails(e);
 			string absoluteRakalyPath = Path.Combine(Directory.GetCurrentDirectory(), RelativeRakalyPath);
-			throw new UserErrorException($"Failed to run Rakaly because the antivirus blocked it.\n" +
+			throw new UserErrorException("Failed to run Rakaly because the antivirus blocked it.\n" +
 			                             $"Add an exclusion for \"{absoluteRakalyPath}\" to the antivirus and try again.");
 		} catch (Win32Exception e) when (IsFileNotFound(e)) {
 			LogWin32ExceptionDetails(e);
-			throw new UserErrorException($"Failed to run Rakaly, it was probably removed by an antivirus.\n" +
-			                             $"Resave the save in Imperator debug mode and try again.");
+			throw new UserErrorException("Failed to run Rakaly, it was probably removed by an antivirus.\n" +
+			                             "Resave the save in Imperator debug mode and try again.");
 		}
-		
+
 		int returnCode = process.ExitCode;
 		if (returnCode != 0 && returnCode != 1) {
 			Logger.Debug($"Save path: {savePath}");
 			if (File.Exists(savePath)) {
 				Logger.Debug($"Save file size: {new FileInfo(savePath).Length} bytes");
 			}
-			
+
 			Logger.Debug($"Rakaly exit code: {returnCode}");
 			string stdErrText = process.StandardError.ReadToEnd();
 			Logger.Debug($"Rakaly standard error: {stdErrText}");
@@ -116,20 +117,37 @@ public static class RakalyCaller {
 			if (stdErrText.Contains("There is not enough space on the disk.")) {
 				throw new UserErrorException($"{exceptionMessage} There is not enough space on the disk.");
 			}
-			
+
+			if (stdErrText.Contains("Failed to create melted file")) {
+				// Try to copy the file to the converter's temp folder before melting.
+				const string fallbackSavePath = "temp/save_to_be_melted.rome";
+				if (savePath != fallbackSavePath) {
+					File.Copy(savePath, fallbackSavePath, overwrite: true);
+					MeltSave(fallbackSavePath);
+					return;
+				}
+			}
+
 			if (stdErrText.Contains("memory allocation of")) {
 				exceptionMessage += " One possible reason is that you don't have enough RAM.";
 			}
 			throw new FormatException(exceptionMessage);
 		}
 
-		var meltedSaveName = $"{CommonFunctions.TrimExtension(savePath)}_melted.rome";
-		const string destFileName = "temp/melted_save.rome";
-		// first, delete target file if exists, as File.Move() does not support overwrite
-		if (File.Exists(destFileName)) {
-			File.Delete(destFileName);
+		string savePathWithoutExtension = CommonFunctions.TrimExtension(savePath);
+		string meltedSavePath;
+		// If savePathWithoutExtension ends with a slash, it means the basename is empty.
+		if (savePathWithoutExtension.EndsWith('/') || savePathWithoutExtension.EndsWith('\\')) {
+			meltedSavePath = savePathWithoutExtension + "melted.rome";
+		} else {
+			meltedSavePath = savePathWithoutExtension + "_melted.rome";
 		}
-		File.Move(meltedSaveName, destFileName);
+		const string destFileName = "temp/melted_save.rome";
+		// First, delete target file if exists, as File.Move() does not support overwrite.
+		if (File.Exists(destFileName)) {
+			FileHelper.DeleteWithRetries(destFileName);
+		}
+		FileHelper.MoveWithRetries(meltedSavePath, destFileName);
 	}
 
 	// https://stackoverflow.com/a/47918132/10249243
@@ -143,8 +161,8 @@ public static class RakalyCaller {
 				CreateNoWindow = true,
 				WindowStyle = ProcessWindowStyle.Hidden,
 				FileName = "/bin/bash",
-				Arguments = $"-c \"{escapedArgs}\""
-			}
+				Arguments = $"-c \"{escapedArgs}\"",
+			},
 		};
 
 		process.Start();

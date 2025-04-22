@@ -21,7 +21,7 @@ public class DeityTests {
 	[Fact]
 	public void ModifiersAreRead() {
 		var scriptValues = new ScriptValueCollection();
-		scriptValues.LoadScriptValues(imperatorModFS);
+		scriptValues.LoadScriptValues(imperatorModFS, new Defines());
 
 		var deityReader = new BufferedReader(@"
 			passive_modifier = {

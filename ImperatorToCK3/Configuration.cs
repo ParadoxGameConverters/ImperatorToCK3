@@ -1,15 +1,17 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Mods;
 using ImperatorToCK3.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 
 namespace ImperatorToCK3;
 
 public enum LegionConversion { No, SpecialTroops, MenAtArms }
-public class Configuration {
+public sealed class Configuration {
 	public string SaveGamePath { get; set; } = "";
 	public string ImperatorPath { get; set; } = "";
 	public string ImperatorDocPath { get; set; } = "";
@@ -25,7 +27,13 @@ public class Configuration {
 	public double ImperatorCivilizationWorth { get; set; } = 0.4;
 	public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
 	public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
-	public bool FallenEagleEnabled { get; set; }
+	public bool SkipDynamicCoAExtraction { get; set; } = false;
+	public bool FallenEagleEnabled { get; private set; }
+	public bool WhenTheWorldStoppedMakingSenseEnabled { get; private set; }
+	public bool RajasOfAsiaEnabled { get; private set; }
+	public bool AsiaExpansionProjectEnabled { get; private set; }
+
+	public bool OutputCCUParameters => WhenTheWorldStoppedMakingSenseEnabled || FallenEagleEnabled || RajasOfAsiaEnabled;
 
 	public Configuration() { }
 	public Configuration(ConverterVersion converterVersion) {
@@ -43,6 +51,8 @@ public class Configuration {
 		VerifyImperatorVersion(converterVersion);
 		VerifyCK3Path();
 		VerifyCK3Version(converterVersion);
+		VerifyImperatorDocPath();
+		VerifyCK3ModsPath();
 
 		Logger.IncrementProgress();
 	}
@@ -134,6 +144,15 @@ public class Configuration {
 			}
 			Logger.Info($"CK3 bookmark date set to: {CK3BookmarkDate}");
 		});
+		parser.RegisterKeyword("SkipDynamicCoAExtraction", reader => {
+			var valueString = reader.GetString();
+			try {
+				SkipDynamicCoAExtraction = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+				Logger.Info($"{nameof(SkipDynamicCoAExtraction)} set to: {SkipDynamicCoAExtraction}");
+			} catch (Exception e) {
+				Logger.Error($"Undefined error, {nameof(SkipDynamicCoAExtraction)} value was: {valueString}; Error message: {e}");
+			}
+		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
 
@@ -199,6 +218,45 @@ public class Configuration {
 		}
 	}
 
+	private void VerifyImperatorDocPath() {
+		if (!Directory.Exists(ImperatorDocPath)) {
+			throw new UserErrorException($"{ImperatorDocPath} does not exist!");
+		}
+
+		string[] dirsInDocFolder = ["mod/", "logs/", "save_games/", "cache/"];
+		string[] filesInDocFolder = [
+			"continue_game.json", "dlc_load.json", "dlc_signature", "game_data.json", "pdx_settings.txt"
+		];
+		// If at least one of the paths exists, we consider the folder to be valid.
+		bool docFolderVerified = dirsInDocFolder.Any(dir => Directory.Exists(Path.Combine(ImperatorDocPath, dir)));
+		if (!docFolderVerified) {
+			docFolderVerified = filesInDocFolder.Any(file => File.Exists(Path.Combine(ImperatorDocPath, file)));
+		}
+
+		if (!docFolderVerified) {
+			throw new UserErrorException($"{ImperatorDocPath} is not a valid I:R documents path!\n" +
+			                             "It should contain one of the following files: " +
+			                             $"{string.Join(", ", filesInDocFolder)}");
+		}
+		
+		Logger.Debug($"I:R documents path {ImperatorDocPath} is valid.");
+	}
+	
+	private void VerifyCK3ModsPath() {
+		if (!Directory.Exists(CK3ModsPath)) {
+			throw new UserErrorException($"{CK3ModsPath} does not exist!");
+		}
+		
+		// If the mods folder contains any files, at least one on them should have a .mod extension.
+		var filesInFolder = Directory.GetFiles(CK3ModsPath);
+		if (filesInFolder.Length > 0) {
+			var modFiles = filesInFolder.Where(f => f.EndsWith(".mod", StringComparison.OrdinalIgnoreCase));
+			if (!modFiles.Any()) {
+				throw new UserErrorException($"{CK3ModsPath} does not contain any .mod files!");
+			}
+		}
+	}
+
 	private void SetOutputName() {
 		if (string.IsNullOrWhiteSpace(OutputModName)) {
 			OutputModName = CommonFunctions.TrimExtension(CommonFunctions.TrimPath(SaveGamePath));
@@ -250,11 +308,46 @@ public class Configuration {
 		}
 	}
 
-	public ICollection<string> GetCK3ModFlags() {
-		var flags = new HashSet<string>();
-		if (FallenEagleEnabled) {
-			flags.Add("tfe");
+	public void DetectSpecificCK3Mods(ICollection<Mod> loadedMods) {
+		var tfeMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("The Fallen Eagle", StringComparison.Ordinal));
+		if (tfeMod is not null) {
+			FallenEagleEnabled = true;
+			Logger.Info($"TFE detected: {tfeMod.Name}");
 		}
+		
+		var wtwsmsMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("When the World Stopped Making Sense", StringComparison.Ordinal));
+		if (wtwsmsMod is not null) {
+			WhenTheWorldStoppedMakingSenseEnabled = true;
+			Logger.Info($"WtWSMS detected: {wtwsmsMod.Name}");
+		}
+		
+		var roaMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Rajas of Asia", StringComparison.Ordinal));
+		if (roaMod is not null) {
+			RajasOfAsiaEnabled = true;
+			Logger.Info($"RoA detected: {roaMod.Name}");
+		}
+		
+		var aepMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Asia Expansion Project", StringComparison.Ordinal));
+		if (aepMod is not null) {
+			AsiaExpansionProjectEnabled = true;
+			Logger.Info($"AEP detected: {aepMod.Name}");
+		}
+	}
+
+	/// <summary>Returns a collection of CK3 mod flags with values based on the enabled mods. "vanilla" flag is set to true if no other flags are set.</summary>
+	public OrderedDictionary<string, bool> GetCK3ModFlags() {
+		var flags = new OrderedDictionary<string, bool> {
+			["tfe"] = FallenEagleEnabled,
+			["wtwsms"] = WhenTheWorldStoppedMakingSenseEnabled,
+			["roa"] = RajasOfAsiaEnabled,
+			["aep"] = AsiaExpansionProjectEnabled,
+		};
+
+		flags["vanilla"] = !flags.Any(f => f.Value);
 		return flags;
+	}
+	
+	public IEnumerable<string> GetActiveCK3ModFlags() {
+		return GetCK3ModFlags().Where(f => f.Value).Select(f => f.Key);
 	}
 }

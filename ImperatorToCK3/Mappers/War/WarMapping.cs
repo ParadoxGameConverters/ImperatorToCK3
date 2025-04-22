@@ -3,16 +3,16 @@ using commonItems;
 
 namespace ImperatorToCK3.Mappers.War;
 
-public class WarMapping {
-	public SortedSet<string> ImperatorWarGoals { get; set; } = new();
-	public string? CK3CasusBelli { get; set; }
+internal sealed class WarMapping {
+	public SortedSet<string> ImperatorWarGoals { get; } = [];
+	public string? CK3CasusBelli { get; private set; }
 
 	static WarMapping() {
 		parser.RegisterKeyword("ck3", reader => mappingToReturn.CK3CasusBelli = reader.GetString());
 		parser.RegisterKeyword("ir", reader => mappingToReturn.ImperatorWarGoals.Add(reader.GetString()));
 		parser.IgnoreAndLogUnregisteredItems();
 	}
-	public static WarMapping Parse (BufferedReader reader) {
+	public static WarMapping Parse(BufferedReader reader) {
 		mappingToReturn = new WarMapping();
 		parser.ParseStream(reader);
 		return mappingToReturn;

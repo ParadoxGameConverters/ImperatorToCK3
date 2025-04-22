@@ -5,34 +5,44 @@ using commonItems.SourceGenerators;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.HolySiteEffect;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ImperatorToCK3.CK3.Religions;
 
 [SerializationByProperties]
-public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
+internal sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 	[NonSerialized] public string Id { get; }
-	[NonSerialized] public bool IsGeneratedByConverter { get; }
+	[NonSerialized] public bool IsFromConverter { get; }
 	[NonSerialized] public Title? County { get; }
 	[NonSerialized] public Title? Barony { get; }
 	[SerializedName("county")] public string? CountyId => County?.Id;
 	[SerializedName("barony")] public string? BaronyId => Barony?.Id;
-	[SerializedName("character_modifier")] public IDictionary<string, object> CharacterModifier { get; set; } = new Dictionary<string, object>();
+	[SerializedName("character_modifier")] public OrderedDictionary<string, object> CharacterModifier { get; } = [];
 	[SerializedName("flag")] public string? Flag { get; set; }
 
-	public HolySite(string id, BufferedReader holySiteReader, Title.LandedTitles landedTitles) {
+	public HolySite(string id, BufferedReader holySiteReader, Title.LandedTitles landedTitles, bool isFromConverter) {
 		Id = id;
+		IsFromConverter = isFromConverter;
 
 		string? parsedCountyId = null;
 		string? parsedBaronyId = null;
 
 		var parser = new Parser();
+		parser.RegisterKeyword("county_choices", reader => {
+			foreach (var countyId in reader.GetStrings()) {
+				if (!landedTitles.ContainsKey(countyId)) {
+					continue;
+				}
+				
+				parsedCountyId = countyId;
+				break;
+			}
+		});
 		parser.RegisterKeyword("county", reader => parsedCountyId = reader.GetString());
 		parser.RegisterKeyword("barony", reader => parsedBaronyId = reader.GetString());
 		parser.RegisterKeyword("character_modifier", reader => {
-			CharacterModifier = reader.GetAssignments()
-				.GroupBy(a => a.Key)
-				.ToDictionary(g => g.Key, g => (object)g.Last().Value);
+			foreach (var assignment in reader.GetAssignments()) {
+				CharacterModifier[assignment.Key] = assignment.Value;
+			}
 		});
 		parser.RegisterKeyword("flag", reader => Flag = reader.GetString());
 		parser.IgnoreAndLogUnregisteredItems();
@@ -44,13 +54,25 @@ public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 		if (parsedBaronyId is not null) {
 			Barony = landedTitles[parsedBaronyId];
 		}
+
+		// Fix "barony not in specified county" errors reported by ck3-tiger.
+		if (Barony is not null && County is not null && Barony.DeJureLiege != County) {
+			string baseMessage = $"Holy site {Id} has barony {Barony.Id} not in specified county {County.Id}.";
+			var correctCounty = Barony.DeJureLiege;
+			if (correctCounty is not null) {
+				Logger.Debug($"{baseMessage} Setting county to {correctCounty.Id}.");
+				County = correctCounty;
+			} else {
+				Logger.Warn($"{baseMessage} Cannot find correct county.");
+			}
+		}
 	}
 
 	private static string GenerateHolySiteId(Title barony, Faith faith) {
 		return $"IRtoCK3_{barony.Id}_{faith.Id}";
 	}
 	public HolySite(Title barony, Faith faith, Title.LandedTitles titles) {
-		IsGeneratedByConverter = true;
+		IsFromConverter = true;
 		Id = GenerateHolySiteId(barony, faith);
 		County = titles.GetCountyForProvince(barony.ProvinceId!.Value)!;
 		Barony = barony;
@@ -59,7 +81,7 @@ public sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable {
 		Title barony,
 		Faith faith,
 		Title.LandedTitles titles,
-		IReadOnlyDictionary<string, double> imperatorEffects,
+		OrderedDictionary<string, double> imperatorEffects,
 		HolySiteEffectMapper holySiteEffectMapper
 	) : this(barony, faith, titles) {
 		foreach (var (effect, value) in imperatorEffects) {

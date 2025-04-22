@@ -10,7 +10,7 @@ GitHub project: https://github.com/ParadoxGameConverters/ImperatorToCK3
 REQUIREMENTS
 ----
 Imperator: Rome - version 2.0
-Crusader Kings III - version 1.12
+Crusader Kings III - version 1.15
 
 -----
 INSTRUCTIONS
@@ -46,5 +46,11 @@ Izn - Research and localization for Ajivika religion
 B7E7, author of Africa Plus mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2552371897) - Permission to use Nhialacism faith from their mod
 Herkles, author of Dharmachakra mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2235344327) - Khasi culture
 The Bronze Age: Maryannu mod team (https://steamcommunity.com/sharedfiles/filedetails/?id=2216525506) - Hurrian religion localization
+Bronze Age Reborn mod team (https://steamcommunity.com/sharedfiles/filedetails/?id=3232096613) and Svanley - Hattian religion, Elamite religion
+កាបូន26 - Help with mapping Terra Indomita cultures to Asia Expansion Project
+Nezaros, author of the Rajas of Asia mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2509174436) - Permission to use the Samre culture from their mod
+tanner918 - Data files, mostly for the Terra Indomita -> Rajas of Asia conversion
+ciurlys - Definition of mithra_religion, the Iranian cult of Mithra
+Astures - Help with debugging The Fallen Eagle crashes
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -

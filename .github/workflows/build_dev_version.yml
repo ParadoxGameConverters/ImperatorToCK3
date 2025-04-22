@@ -2,22 +2,11 @@ name: Build development version
 on:
   push:
     branches:
-    - 'master'
+      - '**'  # This will trigger the workflow on push to any branch
 
 jobs:
-  remove_old_artifacts:
-    name: Remove old artifacts
-    runs-on: ubuntu-latest
-    steps:
-    - name: Remove old artifacts
-      uses: ThreadsStyling/purge-artifacts-action@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        expire-in: 0
-
   upload_dev_build_artifact:
     name: Upload development build
-    needs: remove_old_artifacts
     runs-on: ${{ matrix.os }}
     environment: "Build Environment"
     strategy:
@@ -35,6 +24,30 @@ jobs:
           archive_type: tar
           archive_extension: .tgz
     steps:
+    - name: Get branch name (Windows)
+      if: runner.os == 'Windows'
+      run: echo "BRANCH_NAME=${{ github.ref }}" | ForEach-Object {$_ -replace 'refs/heads/', ''} | Out-File -Append $env:GITHUB_ENV
+      env:
+        GITHUB_REF: ${{ github.ref }}
+    - name: Get branch name (Unix)
+      if: runner.os != 'Windows'
+      run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+      env:
+        GITHUB_REF: ${{ github.ref }}
+    - name: "Modify the branch name to be used in artifact name (Windows)"
+      if: runner.os == 'Windows'
+      run: echo "BRANCH_NAME=${BRANCH_NAME.Replace('/', '-').Replace('\', '-').Replace(':', '-').Replace('<', '-').Replace('>', '-').Replace('|', '-').Replace('*', '-').Replace('?', '-').Replace('\r', '-').Replace('\n', '-').Replace('/', '-').Replace('\\', '-')}" | Out-File -Append $env:GITHUB_ENV
+    - name: "Modify the branch name to be used in artifact name (Unix)"
+      if: runner.os != 'Windows'
+      # Invalid characters include:  Double quote ", Colon :, Less than <, Greater than >, Vertical bar |, Asterisk *, Question mark ?, Carriage return \r, Line feed \n, Backslash \, Forward slash /
+      run: echo "BRANCH_NAME=${BRANCH_NAME//[^a-zA-Z0-9]/-}" >> $GITHUB_ENV
+
+    - name: Remove old artifacts
+      uses: ThreadsStyling/purge-artifacts-action@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        expire-in: 0
+        onlyPrefix: 'ImperatorToCK3-${{ matrix.build }}-dev-${{ env.BRANCH_NAME }}'
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
@@ -42,7 +55,8 @@ jobs:
     - name: "Setup Dotnet for use with actions"
       uses: actions/setup-dotnet@v4
       with:
-        global-json-file: Fronter.NET/global.json
+        #global-json-file: Fronter.NET/global.json
+        global-json-file: global.json
     - name: "Replace frontend background image"
       run: |
         rm Fronter.NET/Fronter.NET/Assets/Images/background.png
@@ -52,18 +66,20 @@ jobs:
       with:
         fronter_dir: 'Fronter.NET'
         release_dir: 'Publish'
+        build_updater: false
       env:
         BACKBLAZE_KEY_ID: ${{ secrets.BACKBLAZE_KEY_ID }}
         BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
         BACKBLAZE_BUCKET_ID: ${{ secrets.BACKBLAZE_BUCKET_ID }}
-    - name: Setup Dotnet for use with actions
-      uses: actions/setup-dotnet@v4
-      with:
-        global-json-file: global.json
+    # - name: Setup Dotnet for use with actions
+    #   uses: actions/setup-dotnet@v4
+    #   with:
+    #     global-json-file: global.json
     - name: "Build backend"
       working-directory: ImperatorToCK3
+      # Make sure it builds self-contained, because for the dev build we're not building the InnoSetup installer.
       run: |
-        dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release --output:"../Publish/ImperatorToCK3"
+        dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release --output:"../Publish/ImperatorToCK3" -p:SelfContained=true
     - name: Archive Publish folder
       uses: thedoctor0/zip-release@master
       with:
@@ -74,6 +90,6 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
-        name: ImperatorToCK3-${{ matrix.build }}-dev
+        name: 'ImperatorToCK3-${{ matrix.build }}-dev-${{ env.BRANCH_NAME }}'
         path: 'ImperatorToCK3-${{ matrix.build }}-dev${{ matrix.archive_extension }}'
-        retention-days: 30
+        retention-days: 20

@@ -4,10 +4,12 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Cultures;
 
-public record PillarData {
-	public IEnumerable<string> InvalidatingPillarIds { get; set; } = new List<string>();
+internal record PillarData {
+	public List<string> InvalidatingPillarIds { get; set; } = [];
+	
 	public string? Type { get; set; }
 	public Color? Color { get; set; }
-	
-	public IList<KeyValuePair<string, StringOfItem>> Attributes { get; } = new List<KeyValuePair<string, StringOfItem>>();
+	public Dictionary<string, string> Parameters { get; set; } = [];
+
+	public List<KeyValuePair<string, StringOfItem>> Attributes { get; } = [];
 }

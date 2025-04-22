@@ -17,7 +17,7 @@ jobs:
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
     - name: "Build changelog"
       id: build_changelog
-      uses: mikepenz/release-changelog-builder-action@v4
+      uses: mikepenz/release-changelog-builder-action@v5
       with:
         configuration: ".github/config/changelog-config.json"
       env:
@@ -44,9 +44,6 @@ jobs:
         include:
         - build: win-x64
           os: windows-latest
-          archive_type: zip
-          archive_extension: .zip
-          asset_content_type: application/zip
         - build: linux-x64
           os: ubuntu-22.04
           archive_type: tar
@@ -80,6 +77,7 @@ jobs:
       with:
         fronter_dir: 'Fronter.NET'
         release_dir: 'Publish'
+        self_contained: ${{ matrix.build != 'win-x64' }} # InnoSetup takes care of installing the .NET runtime on Windows.
         build_updater: ${{ matrix.build != 'win-x64' }} # Windows release uses InnoSetup instead.
       env:
         BACKBLAZE_KEY_ID: ${{ secrets.BACKBLAZE_KEY_ID }}
@@ -105,13 +103,6 @@ jobs:
       shell: bash
       run: |
         git rev-parse HEAD > Publish/commit_id.txt
-    - name: "Archive Publish folder"
-      uses: thedoctor0/zip-release@master
-      with:
-        type: '${{ matrix.archive_type }}'
-        directory: 'Publish'
-        path: '.'
-        filename: '../ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
     - name: "Install sed for Windows"
       if: matrix.build == 'win-x64'
       run: |
@@ -133,8 +124,17 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         asset_paths: '["./Output/ImperatorToCK3-${{ matrix.build }}-setup.exe"]'
+    - name: "Archive Publish folder"
+      if: matrix.build != 'win-x64'
+      uses: thedoctor0/zip-release@master
+      with:
+        type: '${{ matrix.archive_type }}'
+        directory: 'Publish'
+        path: '.'
+        filename: '../ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
     - name: "Upload release zip"
       id: upload-release-zip
+      if: matrix.build != 'win-x64'
       uses: alexellis/upload-assets@0.4.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

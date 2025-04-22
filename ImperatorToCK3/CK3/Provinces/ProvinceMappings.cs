@@ -22,7 +22,7 @@ namespace ImperatorToCK3.CK3.Provinces;
 /// </para>
 /// <para>Now 6874 history is same as 6872 history.</para>
 /// </summary>
-public class ProvinceMappings : Dictionary<ulong, ulong> {
+public sealed class ProvinceMappings : Dictionary<ulong, ulong> {
 	public ProvinceMappings(ModFilesystem ck3ModFS) {
 		var parser = new Parser();
 		RegisterKeys(parser);

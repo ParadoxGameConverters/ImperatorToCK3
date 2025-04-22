@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Helpers;
@@ -13,7 +14,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.TagTitle;
 
-public class TagTitleMapper {
+internal sealed class TagTitleMapper {
 	public TagTitleMapper() { }
 	public TagTitleMapper(string tagTitleMappingsPath, string governorshipTitleMappingsPath, string rankMappingsPath) {
 		Logger.Info("Parsing title mappings...");
@@ -22,7 +23,7 @@ public class TagTitleMapper {
 		parser.ParseFile(tagTitleMappingsPath);
 		parser.ParseFile(governorshipTitleMappingsPath);
 		Logger.Info($"{titleMappings.Count} title mappings loaded.");
-		
+
 		LoadRankMappings(rankMappingsPath);
 
 		Logger.IncrementProgress();
@@ -35,15 +36,7 @@ public class TagTitleMapper {
 		registeredGovernorshipTitles.Add($"{imperatorCountryTag}_{imperatorRegion}", ck3Title);
 		usedTitles.Add(ck3Title);
 	}
-	public string? GetTitleForTag(Country country, string localizedTitleName, TitleRank maxTitleRank) {
-		// If country has an origin (e.g. rebelled from another country), the historical tag probably points to the original country.
-		string tagForMapping = country.OriginCountry is not null ? country.Tag : country.HistoricalTag;
-
-		// The only case where we fail is on invalid invocation. Otherwise, failure is not an option!
-		if (string.IsNullOrEmpty(tagForMapping)) {
-			return null;
-		}
-
+	public string? GetTitleForTag(Country country, string localizedTitleName, TitleRank maxTitleRank, CK3LocDB ck3LocDB) {
 		// Look up register.
 		if (registeredCountryTitles.TryGetValue(country.Id, out var titleToReturn)) {
 			return titleToReturn;
@@ -52,7 +45,7 @@ public class TagTitleMapper {
 		// Attempt a title match.
 		var rank = EnumHelper.Min(GetCK3TitleRank(country, localizedTitleName), maxTitleRank);
 		foreach (var mapping in titleMappings) {
-			var match = mapping.RankMatch(tagForMapping, rank, maxTitleRank);
+			var match = mapping.RankMatch(country, rank, maxTitleRank);
 			if (match is not null) {
 				if (usedTitles.Contains(match)) {
 					continue;
@@ -64,15 +57,15 @@ public class TagTitleMapper {
 		}
 
 		// Generate a new title ID.
-		var generatedTitleId = GenerateNewTitleId(country, localizedTitleName, maxTitleRank);
+		var generatedTitleId = GenerateNewTitleId(country, localizedTitleName, maxTitleRank, ck3LocDB);
 		RegisterCountry(country.Id, generatedTitleId);
 		return generatedTitleId;
 	}
-	public string? GetTitleForTag(Country country) {
-		return GetTitleForTag(country, localizedTitleName: string.Empty, maxTitleRank: TitleRank.empire);
+	public string? GetTitleForTag(Country country, CK3LocDB ck3LocDB) {
+		return GetTitleForTag(country, localizedTitleName: string.Empty, maxTitleRank: TitleRank.empire, ck3LocDB);
 	}
 
-	public string? GetTitleForSubject(Country subject, string localizedTitleName, Country overlord) {
+	public string? GetTitleForSubject(Country subject, string localizedTitleName, Country overlord, CK3LocDB ck3LocDB) {
 		TitleRank maxTitleRank;
 		var ck3OverlordTitle = overlord.CK3Title;
 		if (ck3OverlordTitle is null) {
@@ -81,10 +74,10 @@ public class TagTitleMapper {
 		} else {
 			maxTitleRank = ck3OverlordTitle.Rank - 1;
 		}
-		
-		return GetTitleForTag(subject, localizedTitleName, maxTitleRank);
+
+		return GetTitleForTag(subject, localizedTitleName, maxTitleRank, ck3LocDB);
 	}
-	
+
 	public string? GetTitleForGovernorship(Governorship governorship, Title.LandedTitles titles, Imperator.Provinces.ProvinceCollection irProvinces, ProvinceCollection ck3Provinces, ImperatorRegionMapper imperatorRegionMapper, ProvinceMapper provMapper) {
 		var country = governorship.Country;
 		if (country.CK3Title is null) {
@@ -129,15 +122,15 @@ public class TagTitleMapper {
 		if (ck3Country is null) {
 			return null;
 		}
-		
+
 		var ck3CapitalCounty = ck3Country.CapitalCounty;
 		if (ck3CapitalCounty is null) {
 			Logger.Warn($"{ck3Country.Id} has no capital county!");
 			return null;
 		}
-		
+
 		var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
-		
+
 		foreach (var county in titles.Where(t => t.Rank == TitleRank.county)) {
 			if (!county.CapitalBaronyProvinceId.HasValue) {
 				// Title has no capital barony province.
@@ -159,13 +152,13 @@ public class TagTitleMapper {
 			if (irProvince is null) { // probably outside of Imperator map
 				continue;
 			}
-			
+
 			// if title belongs to country ruler's capital's de jure duchy, it needs to be directly held by the ruler
 			var deJureDuchyOfCounty = county.DeJureLiege;
 			if (countryCapitalDuchy is not null && deJureDuchyOfCounty is not null && countryCapitalDuchy.Id == deJureDuchyOfCounty.Id) {
 				continue;
 			}
-			
+
 			if (governorship.Region.Id != imperatorRegionMapper.GetParentRegionName(irProvince.Id)) {
 				continue;
 			}
@@ -181,7 +174,7 @@ public class TagTitleMapper {
 		parser.RegisterKeyword("link", reader => titleMappings.Add(TitleMapping.Parse(reader)));
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
-	
+
 	private void LoadRankMappings(string rankMappingsPath) {
 		Logger.Info("Parsing country rank mappings...");
 		var parser = new Parser();
@@ -194,11 +187,11 @@ public class TagTitleMapper {
 		parser.ParseFile(rankMappingsPath);
 		Logger.Info($"{rankMappings.Count} rank mappings loaded.");
 	}
-	
+
 	private TitleRank GetCK3TitleRank(Country country, string localizedTitleName) {
 		// Split the name into words.
 		var words = localizedTitleName.Split(' ');
-		
+
 		if (empireKeywords.Any(kw => words.Contains(kw, StringComparer.OrdinalIgnoreCase))) {
 			return TitleRank.empire;
 		}
@@ -225,7 +218,7 @@ public class TagTitleMapper {
 				return match.Value;
 			}
 		}
-		
+
 		Logger.Warn($"No rank mapping found for country rank: {countryRankStr} with {country.TerritoriesCount} territories! Defaulting to duchy.");
 		return TitleRank.duchy;
 	}
@@ -239,12 +232,24 @@ public class TagTitleMapper {
 			_ => throw new ArgumentException($"Title {ck3LiegeTitleId} has invalid rank to have governorships!", nameof(ck3LiegeTitleId))
 		};
 	}
-	private string GenerateNewTitleId(Country country, string localizedTitleName, TitleRank maxTitleRank) {
+	private string GenerateNewTitleId(Country country, string localizedTitleName, TitleRank maxTitleRank, CK3LocDB ck3LocDB) {
 		var ck3Rank = EnumHelper.Min(GetCK3TitleRank(country, localizedTitleName), maxTitleRank);
-		
-		var ck3TitleId = GetTitlePrefixForRank(ck3Rank);
-		ck3TitleId += GeneratedCK3TitlePrefix;
-		ck3TitleId += country.Tag;
+
+		var idBase = GetTitlePrefixForRank(ck3Rank);
+		idBase += GeneratedCK3TitlePrefix;
+
+		if (string.IsNullOrEmpty(country.Tag)) {
+			idBase += $"id_{country.Id}";
+		} else {
+			idBase += country.Tag;
+		}
+
+		// If there is a hash conflict for the title name or the title adjective key, append a number to the title ID.
+		string ck3TitleId = idBase;
+		uint counter = 0;
+		while (ck3LocDB.KeyHasConflictingHash(ck3TitleId) || ck3LocDB.KeyHasConflictingHash($"{ck3TitleId}_adj")) {
+			ck3TitleId = $"{idBase}_{counter++}";
+		}
 
 		return ck3TitleId;
 	}

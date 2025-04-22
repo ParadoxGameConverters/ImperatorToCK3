@@ -6,9 +6,23 @@ heritage_venetic = {
     }
 
 	type = heritage
-	parameters = {
-		heritage_group_latin = yes
-		heritage_family_european = yes
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes 
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				heritage_group_romance = yes
+				heritage_family_european = yes
+			}
+		}
 	}
 
 	is_shown = {

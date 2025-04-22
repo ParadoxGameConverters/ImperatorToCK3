@@ -7,22 +7,55 @@
 #	ck3 = CK3 government ID
 #	ir = Imperator government ID
 #	irCulture = Imperator culture ID (optional)
+#	has_ck3_dlc = CK3 DLC ID (optional; supported IDs: roads_to_power)
+#	ck3_title_rank = CK3 title rank tag is converted to (optional; allows b,c,d,k,e)
 #}
-# multiple entries allowed for: ir, irCulture
+# multiple entries allowed for: ir, irCulture, has_ck3_dlc
 # multiple entries not allowed for: ck3
 
-## TFE
-link = { ir = oligarchic_republic ir = democratic_republic ck3 = republic_government }
-link = { ir = theocratic_republic ck3 = theocracy_government }
-link = { ir = dictatorship ck3 = feudal_government ir = despotic_monarchy ir = aristocratic_monarchy ir = plutocratic_monarchy}
-link = { ck3 = tribal_government ir = tribal_kingdom ir = tribal_federation }
-link = { ir = imperium ir = imperial_cult ck3 = imperial_government }
-link = { ir = athenian_republic ir = aristocratic_republic ck3 = city_state_government ir = plutocratic_republic }
-link = { ir = theocratic_monarchy ck3 = autocratic_government }
-link = { ir = stratocratic_monarchy ck3 = legion_government }
-link = { ir = tribal_chiefdom ck3 = nomadic_government }
+# NOTE: Titles created from Imperator governorships do NOT use these mappings! They use the same government as their imported country.
+# NOTE: ck3_title_rank allows all possible rankings in one entry. So for example, ck3_title_rank = ke will work for kingdoms and empires
 
-## Vanilla CK3
+## Cultural Mappings
+# RoA Chinese, for some regional variety, and because I think it makes sense ~~tanner918
+link = { ck3 = chinese_government
+	ir = dictatorship
+	ir = despotic_monarchy
+	ir = aristocratic_monarchy
+	ir = stratocratic_monarchy
+	ir = theocratic_monarchy
+	ir = plutocratic_monarchy
+	irCulture = chu irCulture = duhu irCulture = huaxia irCulture = ji irCulture = jin irCulture = qilu irCulture = qin irCulture = xu irCulture = yaan irCulture = yan irCulture = zhongyuan
+} 
+
+## TFE and vanilla CK3
+link = { ir = oligarchic_republic ir = democratic_republic ck3 = republic_government } # TFE
+link = { ir = theocratic_republic ck3 = theocracy_government } # TFE
+link = { ir = dictatorship ck3 = feudal_government ir = despotic_monarchy ir = aristocratic_monarchy ir = plutocratic_monarchy } # TFE
+link = { ck3 = tribal_government ir = tribal_kingdom ir = tribal_federation } # TFE
+#link = { # TFE, TODO: see what needs to be done in order to make the ruler with this government a head of faith, for example in Hellenic paganism
+#	ck3 = imperial_cult_government
+#	ir = imperial_cult
+#	ir = imperium
+#}
+link = {
+	ck3 = administrative_government # Should take precedence over TFE's imperial_government.
+	has_ck3_dlc = roads_to_power
+	ck3_title_rank = ke # limiting rank to empires and kingdoms
+	ir = imperium
+	ir = imperial_cult
+}
+link = { # TFE
+	ck3 = imperial_government
+	# Having the same title rank requirement as above prevents administrative_government realms from having imperial_government vassals.
+	ck3_title_rank = ke # duchies, kingdoms, and empires
+	ir = imperium
+	ir = imperial_cult
+}
+link = { ir = athenian_republic ir = aristocratic_republic ck3 = city_state_government ir = plutocratic_republic } # TFE
+link = { ir = stratocratic_monarchy ck3 = legion_government } # TFE
+link = { ir = tribal_chiefdom ck3 = nomadic_government } # TFE
+
 link = { ck3 = republic_government
 	ir = aristocratic_republic
 	ir = oligarchic_republic
@@ -40,11 +73,48 @@ link = { ck3 = feudal_government
 	ir = stratocratic_monarchy
 	ir = theocratic_monarchy
 	ir = plutocratic_monarchy
-	ir = imperium
-	ir = imperial_cult
+	ir = imperium # When the user doesn't have the Roads to Power DLC.
+	ir = imperial_cult # When the user doesn't have the Roads to Power DLC.
 }
 link = { ck3 = tribal_government
 	ir = tribal_chiefdom
 	ir = tribal_kingdom
 	ir = tribal_federation
 }
+
+## Terra-Indomita
+link = { ck3 = feudal_government ir = spartan_monarchy }
+
+link = { ck3 = feudal_government ir = spartan_imperium } # Might change this to administrative, need to see the exact requirements to get this to decide ~~tanner918
+
+link = { ck3 = feudal_government ir = spartan_imperial_cult } # Might change this to administrative, need to see the exact requirements to get this to decide ~~tanner918
+
+link = { ck3 = feudal_government ir = judean_empire } # Might change this to administrative, need to see the exact requirements to get this to decide ~~tanner918
+
+link = { ck3 = feudal_government ir = indian_empire } # Might change this to administrative, need to see the exact requirements to get this to decide ~~tanner918
+
+link = { ck3 = feudal_government ir = rhodian_dictatorship }
+
+link = { ck3 = feudal_government ir = samaritan_judgedom } # This government is defined in the files, but doesn't seem to actually get used anywhere, so it seems impossible to actually get, but will map just in case ~~tanner918
+
+link = { ck3 = administrative_government ir = chinese_empire has_ck3_dlc = roads_to_power ck3_title_rank = e } # This government seems like it represents the Mandate of Heaven. In RoA, that is just represented by whoever owns e_celestia_china and they use the administrative_government for now, though they might make a new government for China. chinese_empire Description: "As shown by the reigns of the Shang and Zhou Dynasties, in which the divine authority of the Emperor was demonstrated for all under Heaven to see, the Imperial Form of government remains the supreme achievement of political life, all but ensuring peace and prosperity for conscientious stewards of the Mandate of Heaven." ~~tanner918
+link = { ck3 = chinese_government ir = chinese_empire } # RoA
+link = { ck3 = feudal_government ir = chinese_empire } # Fallback
+
+link = { ck3 = feudal_government ir = yamato_empire } # Might change this to administrative, need to see the exact requirements to get this to decide ~~tanner918
+
+link = { ck3 = chinese_government ir = enfeoffment_zhourites } # For now will map to RoA chinese_government, but might change if I determine another mapping is better. Description: "The system of governance created by our predecessors in the Shang Dynasty remains a viable way of ruling the people to this very day. By creating a vast, decentralized bureaucratic state, in which lands and authority are meted out to powerful vassals in return for oaths of submission, true peace can be secured." ~~tanner918
+link = { ck3 = feudal_government ir = enfeoffment_zhourites } # Fallback
+
+link = { ck3 = chinese_government ir = chinese_duhufu } # For now will map to RoA chinese_government, but might change if I determine another mapping is better. Description: "In order to properly adminster the hinterlands, special types of administrative districts known as 'Duhufu' are established as ways to entrench the Imperial power in the lands that are distant from our capital. The governor of a Duhufu has unquestioned military and economic authority, carrying out the commands of their superiors with one voice." ~~tanner918
+link = { ck3 = feudal_government ir = chinese_duhufu } # Fallback
+
+link = { ck3 = nomadic_government ir = steppe_horde }
+link = { ck3 = tribal_government ir = steppe_horde } # Fallback
+
+link = { ck3 = feudal_government ir = pirate_kingdom } # No description but seems to be a reward for missions for realms that have Duuchuu as their primary culture, it is called a "Piratical Monarchy" so will just map to feudal for now ~~tanner918
+
+link = { ck3 = republic_government ir = punic_republic }
+
+link = { ck3 = nomadic_government ir = steppe_empire } # Might change this to administrative, need to see the exact requirements to get this to decide ~~tanner918
+link = { ck3 = tribal_government ir = steppe_empire } # Fallback

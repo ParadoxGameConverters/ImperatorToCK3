@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace ImperatorToCK3.Imperator.Provinces;
 
 public enum ProvinceRank { settlement, city, city_metropolis }
-public partial class Province : IIdentifiable<ulong> {
+internal sealed partial class Province : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public string Name { get; set; } = "";
 	public string Culture { get; set; } = "";
@@ -17,7 +17,7 @@ public partial class Province : IIdentifiable<ulong> {
 	public State? State { get; private set; } = null;
 	public Country? OwnerCountry { get; set; }
 	public ulong Controller { get; set; } = 0;
-	public IDictionary<ulong, Pop> Pops { get; } = new Dictionary<ulong, Pop>();
+	public Dictionary<ulong, Pop> Pops { get; } = [];
 	public ProvinceRank ProvinceRank { get; set; } = ProvinceRank.settlement;
 	public bool Fort { get; set; } = false;
 	public bool IsHolySite => HolySiteId is not null;

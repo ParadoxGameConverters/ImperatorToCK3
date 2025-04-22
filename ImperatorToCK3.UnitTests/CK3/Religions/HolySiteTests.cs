@@ -12,9 +12,9 @@ namespace ImperatorToCK3.UnitTests.CK3.Religions;
 public class HolySiteTests {
 	[Fact]
 	public void PropertiesHaveCorrectInitialValues() {
-		var site = new HolySite("test_site", new BufferedReader(), new Title.LandedTitles());
+		var site = new HolySite("test_site", new BufferedReader(), new Title.LandedTitles(), isFromConverter: false);
 		Assert.Equal("test_site", site.Id);
-		Assert.False(site.IsGeneratedByConverter);
+		Assert.False(site.IsFromConverter);
 		Assert.Null(site.CountyId);
 		Assert.Null(site.BaronyId);
 		Assert.Empty(site.CharacterModifier);
@@ -34,10 +34,10 @@ public class HolySiteTests {
 			}
 			flag = jerusalem_conversion_bonus # +20% County Conversion
 		");
-		var site = new HolySite("test_site", siteReader, titles);
+		var site = new HolySite("test_site", siteReader, titles, isFromConverter: false);
 
 		Assert.Equal("test_site", site.Id);
-		Assert.False(site.IsGeneratedByConverter);
+		Assert.False(site.IsFromConverter);
 		Assert.Equal("c_county", site.CountyId);
 		Assert.Equal("b_barony", site.BaronyId);
 		Assert.Collection(site.CharacterModifier,
@@ -59,9 +59,9 @@ public class HolySiteTests {
 		titles.LoadTitles(titlesReader);
 
 		var holySiteEffectMapper = new HolySiteEffectMapper("TestFiles/configurables/holy_site_effect_mappings.txt");
-		var imperatorEffects = new Dictionary<string, double> {
+		var imperatorEffects = new OrderedDictionary<string, double> {
 			{"discipline", 0.2f}, // will be converted to knight_effectiveness_mult with factor of 10
-			{"unmapped_effect", 1f} // will be skipped
+			{"unmapped_effect", 1f}, // will be skipped
 		};
 		
 		var religions = new ReligionCollection(new Title.LandedTitles());
@@ -71,7 +71,7 @@ public class HolySiteTests {
 		var site = new HolySite(titles["b_barony"], faith, titles, imperatorEffects, holySiteEffectMapper);
 
 		Assert.Equal("IRtoCK3_b_barony_test_faith", site.Id);
-		Assert.True(site.IsGeneratedByConverter);
+		Assert.True(site.IsFromConverter);
 		Assert.Equal("c_county", site.CountyId);
 		Assert.Equal("b_barony", site.BaronyId);
 		Assert.Collection(site.CharacterModifier,
@@ -80,5 +80,18 @@ public class HolySiteTests {
 				Assert.Equal("2", PDXSerializer.Serialize(kvp1.Value)); // 0.2 * 10
 			});
 		Assert.Null(site.Flag);
+	}
+
+	[Fact]
+	public void CountyChoicesAreUsedToPickFirstExistingCounty() {
+		var titles = new Title.LandedTitles();
+		titles.LoadTitles(new BufferedReader("c_county = { b_barony = {} }"));
+		var siteReader = new BufferedReader(@"
+			county_choices = { c_nonexistent1 c_county c_nonexistent2 }
+			character_modifier = {}
+		");
+		var site = new HolySite("test_site", siteReader, titles, isFromConverter: true);
+		
+		Assert.Equal("c_county", site.CountyId);
 	}
 }

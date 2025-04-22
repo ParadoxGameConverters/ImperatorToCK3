@@ -1,114 +1,84 @@
 ﻿using commonItems;
-using commonItems.Localization;
-using commonItems.Mods;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace ImperatorToCK3.Outputter;
-public static class LocalizationOutputter {
-	public static void OutputLocalization(string outputName, World ck3World) {
-		var outputPath = Path.Combine("output", outputName);
-		var baseLocDir = Path.Join(outputPath, "localization");
+internal static class LocalizationOutputter {
+	public static void OutputLocalization(string outputModPath, World ck3World) {
+		Logger.Info("Writing Localization...");
+		var baseLocDir = Path.Join(outputModPath, "localization");
 		var baseReplaceLocDir = Path.Join(baseLocDir, "replace");
 
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
+			var sb = new StringBuilder();
+			var locLinesForLanguage = ck3World.LocDB.GetLocLinesToOutputForLanguage(language);
+			if (locLinesForLanguage.Count == 0) {
+				return;
+			}
+
+			sb.AppendLine($"l_{language}:");
+			foreach (var line in locLinesForLanguage) {
+				sb.AppendLine(line);
+			}
+
 			var locFilePath = Path.Join(baseReplaceLocDir, language, $"converter_l_{language}.yml");
-			using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, encoding: System.Text.Encoding.UTF8);
-
-			locWriter.WriteLine($"l_{language}:");
-
-			// title localization
-			foreach (var title in ck3World.LandedTitles) {
-				foreach (var locBlock in title.Localizations) {
-					locWriter.WriteLine(locBlock.GetYmlLocLineForLanguage(language));
-				}
-			}
-
-			// character name localization
-			var uniqueKeys = new HashSet<string>();
-			foreach (var character in ck3World.Characters) {
-				foreach (var (key, locBlock) in character.Localizations) {
-					if (uniqueKeys.Contains(key)) {
-						continue;
-					}
-
-					locWriter.WriteLine(locBlock.GetYmlLocLineForLanguage(language));
-					uniqueKeys.Add(key);
-				}
-			}
+			using var locWriter = FileHelper.OpenWriteWithRetries(locFilePath, encoding: Encoding.UTF8);
+			locWriter.WriteLine(sb.ToString());
+			sb.Clear();
 		}
-
-		// dynasty localization
-		foreach (var language in ConverterGlobals.SupportedLanguages) {
-			var dynastyLocFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_dynasty_l_{language}.yml");
-			using var dynastyLocWriter = FileOpeningHelper.OpenWriteWithRetries(dynastyLocFilePath, System.Text.Encoding.UTF8);
-
-			dynastyLocWriter.WriteLine($"l_{language}:");
-
-			foreach (var dynasty in ck3World.Dynasties) {
-				var localizedName = dynasty.LocalizedName;
-				if (localizedName is not null) {
-					dynastyLocWriter.WriteLine(localizedName.GetYmlLocLineForLanguage(language));
-				} else if (dynasty.FromImperator) {
-					Logger.Warn($"Dynasty {dynasty.Id} has no localizations!");
-					dynastyLocWriter.WriteLine($" {dynasty.Name}: \"{dynasty.Name}\"");
-				}
-			}
-		}
+	
+		OutputFallbackLocForMissingSecondaryLanguageLoc(baseLocDir, ck3World.LocDB);
 		
-		OutputFallbackLocForMissingSecondaryLanguageLoc(baseLocDir, ck3World.ModFS);
+		Logger.IncrementProgress();
 	}
 
-	private static void OutputFallbackLocForMissingSecondaryLanguageLoc(string baseLocDir, ModFilesystem ck3ModFS) {
-		var primaryLanguage = ConverterGlobals.PrimaryLanguage;
-		var secondaryLanguages = ConverterGlobals.SecondaryLanguages;
+	private static void OutputFallbackLocForMissingSecondaryLanguageLoc(string baseLocDir, CK3LocDB ck3LocDB) {
+		Logger.Debug("Outputting fallback loc for missing secondary language loc...");
 		
-		// Read loc from CK3 and selected CK3 mods.
-		var ck3LocDB = new LocDB(primaryLanguage, secondaryLanguages);
-		ck3LocDB.ScrapeLocalizations(ck3ModFS);
-
-		// Also read already outputted loc from the output directory.
-		var locFilesInOutputDir = Directory.GetFiles(baseLocDir, "*.yml", SearchOption.AllDirectories);
-		foreach (var outputtedLocFilePath in locFilesInOutputDir) {
-			ck3LocDB.ScrapeFile(outputtedLocFilePath);
-		}
-
 		var languageToLocLinesDict = new Dictionary<string, List<string>>();
-		foreach (var language in secondaryLanguages) {
+		foreach (var language in ConverterGlobals.SecondaryLanguages) {
 			languageToLocLinesDict[language] = [];
 		}
+
+		var allLocKeys = ck3LocDB.Select(locBlock => locBlock.Id).Distinct().ToArray();
 		
-		foreach (var locBlock in ck3LocDB) {
-			if (!locBlock.HasLocForLanguage(primaryLanguage)) {
+		foreach (var locKey in allLocKeys) {
+			if (!ck3LocDB.HasKeyLocForLanguage(locKey, ConverterGlobals.PrimaryLanguage)) {
 				continue;
 			}
 
-			foreach (var secondaryLanguage in secondaryLanguages) {
-				if (locBlock.HasLocForLanguage(secondaryLanguage)) {
+			foreach (var secondaryLanguage in ConverterGlobals.SecondaryLanguages) {
+				if (ck3LocDB.HasKeyLocForLanguage(locKey, secondaryLanguage)) {
 					continue;
 				}
-				
-				languageToLocLinesDict[secondaryLanguage].Add(locBlock.GetYmlLocLineForLanguage(primaryLanguage));
+
+				var locLine = ck3LocDB.GetYmlLocLineForLanguage(locKey, ConverterGlobals.PrimaryLanguage);
+				languageToLocLinesDict[secondaryLanguage].Add(locLine!);
 			}
 		}
-
-		foreach (var language in secondaryLanguages) {
+		
+		var sb = new StringBuilder();
+		foreach (var language in ConverterGlobals.SecondaryLanguages) {
 			var linesToOutput = languageToLocLinesDict[language];
 			if (linesToOutput.Count == 0) {
 				continue;
 			}
 			
 			Logger.Debug($"Outputting {linesToOutput.Count} fallback loc lines for {language}...");
+
+			sb.AppendLine($"l_{language}:");
+			foreach (var line in linesToOutput) {
+				sb.AppendLine(line);
+			}
 			
 			var locFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_fallback_loc_l_{language}.yml");
-			using var locWriter = FileOpeningHelper.OpenWriteWithRetries(locFilePath, System.Text.Encoding.UTF8);
-
-			locWriter.WriteLine($"l_{language}:");
-			foreach (var line in linesToOutput) {
-				locWriter.WriteLine(line);
-			}
+			using var locWriter = FileHelper.OpenWriteWithRetries(locFilePath, Encoding.UTF8);
+			locWriter.Write(sb.ToString());
+			sb.Clear();
 		}
 	}
 }

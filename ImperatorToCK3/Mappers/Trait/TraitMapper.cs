@@ -6,15 +6,19 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Trait;
 
-public class TraitMapper {
+internal class TraitMapper {
 	protected IDictionary<string, string> ImperatorToCK3TraitMap = new Dictionary<string, string>();
-	protected IdObjectCollection<string, CK3.Characters.Trait> CK3Traits = new();
+	protected IdObjectCollection<string, CK3.Characters.Trait> CK3Traits = [];
+	
+	public IEnumerable<string> ValidCK3TraitIDs => CK3Traits.Select(t => t.Id);
+	
+	// TODO: add a method for logging all unmapped I:R traits
 
 	public TraitMapper() { }
 	public TraitMapper(string mappingsPath, ModFilesystem ck3ModFS) {
 		var traitsParser = new Parser();
 		traitsParser.RegisterRegex(CommonRegexes.String, (reader, traitId) => CK3Traits.AddOrReplace(new(traitId, reader)));
-		traitsParser.ParseGameFolder("common/traits", ck3ModFS, "txt", true);
+		traitsParser.ParseGameFolder("common/traits", ck3ModFS, "txt", recursive: true);
 
 		Logger.Info("Parsing trait mappings...");
 		var parser = new Parser();
@@ -44,8 +48,8 @@ public class TraitMapper {
 	public string? GetCK3TraitForImperatorTrait(string impTrait) {
 		return ImperatorToCK3TraitMap.TryGetValue(impTrait, out var ck3Trait) ? ck3Trait : null;
 	}
-	public ISet<string> GetCK3TraitsForImperatorTraits(IEnumerable<string> irTraits) {
-		ISet<string> ck3TraitsToReturn = new HashSet<string>();
+	public HashSet<string> GetCK3TraitsForImperatorTraits(IEnumerable<string> irTraits) {
+		HashSet<string> ck3TraitsToReturn = [];
 		foreach (var irTrait in irTraits) {
 			var ck3Trait = GetCK3TraitForImperatorTrait(irTrait);
 			if (ck3Trait is null) {
@@ -55,7 +59,7 @@ public class TraitMapper {
 		}
 
 		// Remove opposite traits to prevent CK3 log errors
-		foreach (var ck3TraitId in ck3TraitsToReturn.ToList()) {
+		foreach (var ck3TraitId in ck3TraitsToReturn.ToArray()) {
 			if (!ck3TraitsToReturn.Contains(ck3TraitId)) {
 				continue;
 			}

@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Families;
 
-public class FamilyCollection : IdObjectCollection<ulong, Family> {
+internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 	public void LoadFamiliesFromBloc(BufferedReader reader) {
 		var blocParser = new Parser();
 		blocParser.RegisterKeyword("families", LoadFamilies);
@@ -55,17 +55,20 @@ public class FamilyCollection : IdObjectCollection<ulong, Family> {
 
 	public void MergeDividedFamilies(CharacterCollection characters) {
 		Logger.Info("Merging divided families...");
+		
+		Dictionary<ulong, Character[]> familyIdToCharactersCache = new();
 
 		var iteration = 0;
 		bool anotherIterationNeeded = true;
 		while (anotherIterationNeeded) {
-			var familiesPerKey = this.GroupBy(f => f.Key).ToList();
+			var familiesPerKey = this.GroupBy(f => f.Key).ToArray();
 			anotherIterationNeeded = false;
 			++iteration;
 			Logger.Debug($"Family merging iteration {iteration}");
 
 			foreach (var grouping in familiesPerKey) {
-				if (grouping.Count() < 2) {
+				if (!grouping.Skip(1).Any()) {
+					// There is only one family in this group, so no merging is needed.
 					continue;
 				}
 
@@ -81,9 +84,16 @@ public class FamilyCollection : IdObjectCollection<ulong, Family> {
 						}
 
 						var anotherFamilyMemberIds = anotherFamily.MemberIds;
-						var anotherFamilyMembers = characters
-							.Where(c => anotherFamilyMemberIds.Contains(c.Id))
-							.ToList();
+						Character[] anotherFamilyMembers;
+						if (familyIdToCharactersCache.TryGetValue(anotherFamily.Id, out var cachedMembers)) {
+							anotherFamilyMembers = cachedMembers;
+						}
+						else {
+							anotherFamilyMembers = characters
+								.Where(c => anotherFamilyMemberIds.Contains(c.Id))
+								.ToArray();
+							familyIdToCharactersCache[anotherFamily.Id] = anotherFamilyMembers;
+						}
 
 						// Check if any parent of characters from "anotherFamily" belongs to "family".
 						if (!anotherFamilyMembers.Any(c =>

@@ -6,7 +6,7 @@ using System.IO;
 
 namespace ImperatorToCK3.CommonUtils;
 public sealed class HistoryFactory {
-	public class HistoryFactoryBuilder {
+	public sealed class HistoryFactoryBuilder {
 		private readonly List<SimpleFieldDef> simpleFieldDefs = []; // fieldName, setters, initialValue
 		private readonly List<SimpleFieldDef> literalFieldDefs = []; // fieldName, setters, initialValue
 		private readonly List<DiffFieldDef> diffFieldDefs = []; // fieldName, inserter, remover, initialValue
@@ -23,13 +23,13 @@ public sealed class HistoryFactory {
 
 		public HistoryFactoryBuilder WithLiteralField(string fieldName, string setter) {
 			literalFieldDefs.Add(new SimpleFieldDef {
-				FieldName = fieldName, Setters = new OrderedSet<string> { setter }, InitialValue = null
+				FieldName = fieldName, Setters = [setter], InitialValue = null
 			});
 			return this;
 		}
 
 		public HistoryFactoryBuilder WithDiffField(string fieldName, string inserter, string remover) {
-			return WithDiffField(fieldName, new OrderedSet<string> { inserter }, new OrderedSet<string> { remover });
+			return WithDiffField(fieldName, [inserter], [remover]);
 		}
 		public HistoryFactoryBuilder WithDiffField(string fieldName, OrderedSet<string> inserters, OrderedSet<string> removers) {
 			diffFieldDefs.Add(new DiffFieldDef {
@@ -60,6 +60,10 @@ public sealed class HistoryFactory {
 				parser.RegisterKeyword(setter, reader => {
 					// If the value is set outside of dated blocks, override the initial value.
 					var itemStr = reader.GetStringOfItem().ToString();
+					// If itemStr is the question sign from the "?=" operator, get another string.
+					if (itemStr == "?") {
+						itemStr = reader.GetStringOfItem().ToString();
+					}
 					var value = GetValue(itemStr);
 
 					history.Fields[def.FieldName].InitialEntries.Add(
@@ -72,11 +76,14 @@ public sealed class HistoryFactory {
 			foreach (var setter in def.Setters) {
 				parser.RegisterKeyword(setter, reader => {
 					// If the value is set outside of dated blocks, override the initial value.
-					var itemStr = reader.GetStringOfItem().ToString();
-					var value = GetValue(itemStr);
+					var itemStr = reader.GetStringOfItem();
+					// If itemStr is the question sign from the "?=" operator, get another string.
+					if (itemStr.ToString() == "?") {
+						itemStr = reader.GetStringOfItem();
+					}
 
 					history.Fields[def.FieldName].InitialEntries.Add(
-						new KeyValuePair<string, object>(setter, value)
+						new KeyValuePair<string, object>(setter, itemStr)
 					);
 				});
 			}
@@ -84,16 +91,26 @@ public sealed class HistoryFactory {
 		foreach (var def in this.diffFieldDefs) {
 			foreach (var inserterKeyword in def.Inserters) {
 				parser.RegisterKeyword(inserterKeyword, reader => {
+					var valueStr = reader.GetString();
+					// If valueStr is the question sign from the "?=" operator, get another string.
+					if (valueStr == "?") {
+						valueStr = reader.GetString();
+					}
 					var diffField = history.Fields[def.FieldName];
-					var valueToInsert = GetValue(reader.GetString());
+					var valueToInsert = GetValue(valueStr);
 					diffField.InitialEntries.Add(new KeyValuePair<string, object>(inserterKeyword, valueToInsert));
 				});
 			}
 
 			foreach (var removerKeyword in def.Removers) {
 				parser.RegisterKeyword(removerKeyword, reader => {
+					var valueStr = reader.GetString();
+					// If valueStr is the question sign from the "?=" operator, get another string.
+					if (valueStr == "?") {
+						valueStr = reader.GetString();
+					}
 					var diffField = history.Fields[def.FieldName];
-					var valueToRemove = GetValue(reader.GetString());
+					var valueToRemove = GetValue(valueStr);
 					diffField.InitialEntries.Add(new KeyValuePair<string, object>(removerKeyword, valueToRemove));
 				});
 			}
@@ -148,7 +165,7 @@ public sealed class HistoryFactory {
 		if (File.Exists(historyPath)) {
 			parser.ParseGameFile(historyPath, ck3ModFS);
 		} else {
-			parser.ParseGameFolder(historyPath, ck3ModFS, "txt", true);
+			parser.ParseGameFolder(historyPath, ck3ModFS, "txt", recursive: true);
 		}
 
 		if (history.IgnoredKeywords.Count > 0) {

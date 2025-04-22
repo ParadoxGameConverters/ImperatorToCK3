@@ -9,7 +9,7 @@ using System.Text;
 
 namespace ImperatorToCK3.CK3.Religions;
 
-public class Religion : IIdentifiable<string>, IPDXSerializable {
+internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
 	public OrderedSet<string> DoctrineIds { get; } = new();
 
@@ -34,12 +34,26 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 			attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
 		});
 		religionParser.ParseStream(religionReader);
+		
+		// Fix a religion having more doctrines in the same category than allowed.
+		foreach (var category in religions.DoctrineCategories) {
+			var doctrinesInCategory = DoctrineIds.Where(d => category.DoctrineIds.Contains(d)).ToArray();
+			if (doctrinesInCategory.Length > category.NumberOfPicks) {
+				Logger.Warn($"Religion {Id} has too many doctrines in category {category.Id}: " +
+				            $"{string.Join(", ", doctrinesInCategory)}. Keeping the last {category.NumberOfPicks} of them.");
+				
+				DoctrineIds.ExceptWith(doctrinesInCategory);
+				foreach (var doctrine in doctrinesInCategory.Reverse().Take(category.NumberOfPicks)) {
+					DoctrineIds.Add(doctrine);
+				}
+			}
+		}
 	}
 	private void LoadFaith(string faithId, BufferedReader faithReader) {
 		faithData = new FaithData();
 		
 		faithDataParser.ParseStream(faithReader);
-		if (faithData.InvalidatingFaithIds.Any()) { // Faith is an optional faith.
+		if (faithData.InvalidatingFaithIds.Count != 0) { // Faith is an optional faith.
 			foreach (var existingFaith in ReligionCollection.Faiths) {
 				if (!faithData.InvalidatingFaithIds.Contains(existingFaith.Id)) {
 					continue;
@@ -96,7 +110,7 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 		if (withBraces) {
 			sb.AppendLine("{");
 		}
-		
+
 		foreach (var doctrineId in DoctrineIds) {
 			sb.Append(contentIndent).AppendLine($"doctrine={doctrineId}");
 		}

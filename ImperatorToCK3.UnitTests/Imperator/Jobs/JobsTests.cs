@@ -2,6 +2,7 @@
 using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CommonUtils.Map;
+using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Region;
@@ -41,7 +42,7 @@ public class JobsTests {
 		var reader = new BufferedReader(
 			"province_job={who=1 governorship=galatia_region} province_job={who=2 governorship=galatia_region}"
 		);
-		var jobs = new ImperatorToCK3.Imperator.Jobs.JobsDB(reader, countryCollection, irRegionMapper);
+		var jobs = new ImperatorToCK3.Imperator.Jobs.JobsDB(reader, new CharacterCollection(), countryCollection, irRegionMapper);
 		Assert.Collection(jobs.Governorships,
 			item1 => Assert.Equal((ulong)1, item1.Country.Id),
 			item2 => Assert.Equal((ulong)2, item2.Country.Id)
@@ -55,7 +56,7 @@ public class JobsTests {
 		var reader = new BufferedReader(
 			"useless_job = {}"
 		);
-		_ = new ImperatorToCK3.Imperator.Jobs.JobsDB(reader, countryCollection, irRegionMapper);
+		_ = new ImperatorToCK3.Imperator.Jobs.JobsDB(reader, new CharacterCollection(), countryCollection, irRegionMapper);
 
 		Assert.Contains("Ignored Jobs tokens: useless_job", output.ToString());
 	}

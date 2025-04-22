@@ -14,6 +14,7 @@ anglo_pagan = all
 hellenic_pagan = all
 eleusinian_mysteries = all
 mithraic_mysteries = all
+mithra_religion = all
 kushitism_pagan = all
 egyptian_pagan = all
 atenist_pagan = all
@@ -68,6 +69,7 @@ svetambara = all
 yapaniya = all
 digambara = all
 hurrian = all
+elamite_faith = all
 
 # Ajivika
 makkhalist = all

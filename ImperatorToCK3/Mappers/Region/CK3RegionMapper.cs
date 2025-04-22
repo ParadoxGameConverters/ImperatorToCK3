@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Region;
 
-public sealed class CK3RegionMapper {
+internal sealed class CK3RegionMapper {
 	public CK3RegionMapper() { }
 	public CK3RegionMapper(ModFilesystem ck3ModFS, Title.LandedTitles landedTitles) {
 		Logger.Info("Initializing Geography...");
@@ -21,7 +21,7 @@ public sealed class CK3RegionMapper {
 		RegisterRegionKeys(parser);
 
 		var regionsFolderPath = Path.Combine("map_data", "geographical_regions");
-		parser.ParseGameFolder(regionsFolderPath, ck3ModFS, "txt", true);
+		parser.ParseGameFolder(regionsFolderPath, ck3ModFS, "txt", recursive: true);
 
 		var islandRegionFilePath = Path.Combine("map_data", "island_region.txt");
 		parser.ParseGameFile(islandRegionFilePath, ck3ModFS);
@@ -36,6 +36,17 @@ public sealed class CK3RegionMapper {
 		}
 
 		LinkRegions();
+		
+		// Log duchies that don't have any de jure counties.
+		// Such duchies should probably be removed from the regions.
+		var validDeJureDuchyIds = landedTitles.GetDeJureDuchies().Select(d => d.Id).ToHashSet();
+		foreach (var region in regions.Values) {
+			foreach (var regionDuchyId in region.Duchies.Keys) {
+				if (!validDeJureDuchyIds.Contains(regionDuchyId)) {
+					Logger.Debug($"Region {region.Name} contains duchy {regionDuchyId} which has no de jure counties!");
+				}
+			}
+		}
 	}
 	public bool ProvinceIsInRegion(ulong provinceId, string regionName) {
 		if (regions.TryGetValue(regionName, out var region)) {

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Families;
 
-public class Family : IIdentifiable<ulong> {
+internal sealed class Family : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public string Key { get; private set; } = "";
 	public string Culture { get; private set; } = "";
@@ -27,7 +27,7 @@ public class Family : IIdentifiable<ulong> {
 		MemberIds.Add(newMember.Id);
 	}
 	public void RemoveUnlinkedMembers(CharacterCollection characters) {
-		var toRemove = MemberIds.Where(memberId => !characters.ContainsKey(memberId)).ToList();
+		var toRemove = MemberIds.Where(memberId => !characters.ContainsKey(memberId)).ToArray();
 		foreach (var idToRemove in toRemove) {
 			MemberIds.Remove(idToRemove);
 		}

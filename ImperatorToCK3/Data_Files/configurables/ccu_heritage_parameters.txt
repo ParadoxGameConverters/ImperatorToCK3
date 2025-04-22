@@ -1,0 +1,19 @@
+# This file contains the heritage families and heritage groups added by the converter
+# when a CK3 mod that uses Community Culture Utility mechanics is detected.
+# Currently, this includes "When the World Stopped Making Sense", "The Fallen Eagle" and "Rajas of Asia".
+
+
+heritage_families = {}
+
+heritage_groups = {
+	MOD_DEPENDENT = {
+		IF roa = {
+			heritage_group_nuragic
+		} ELSE_IF wtwsms = {
+			heritage_group_nuragic
+		} ELSE_IF tfe = {
+			heritage_group_nuragic
+			heritage_group_austroasiatic
+		}
+	}
+}

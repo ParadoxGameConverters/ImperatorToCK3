@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Armies;
+using ImperatorToCK3.CK3.Localization;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Exceptions;
@@ -14,6 +15,7 @@ using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
+using Open.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -21,9 +23,12 @@ using System.Text;
 
 namespace ImperatorToCK3.CK3.Characters; 
 
-public class Character : IIdentifiable<string> {
+internal sealed class Character : IIdentifiable<string> {
 	public string Id { get; }
 	public bool FromImperator { get; init; } = false;
+	
+	// A flag that marks the character as non-removable.
+	public bool IsNonRemovable { get; set; } = false;
 		
 	public bool Female {
 		get {
@@ -90,7 +95,7 @@ public class Character : IIdentifiable<string> {
 
 	public Date BirthDate {
 		get => History.Fields["birth"].DateToEntriesDict.First().Key;
-		init {
+		set {
 			var field = History.Fields["birth"];
 			field.RemoveAllEntries();
 			field.AddEntryToHistory(value, "birth", true);
@@ -102,7 +107,7 @@ public class Character : IIdentifiable<string> {
 			var entriesDict = History.Fields["death"].DateToEntriesDict;
 			return entriesDict.Count == 0 ? null : entriesDict.First().Key;
 		}
-		private init {
+		set {
 			var field = History.Fields["death"];
 			field.RemoveAllEntries();
 			if (value is not null) {
@@ -116,7 +121,7 @@ public class Character : IIdentifiable<string> {
 			if (entriesDict.Count == 0) {
 				return null;
 			}
-			var deathObj = entriesDict.First().Value.Last().Value;
+			var deathObj = entriesDict.First().Value[^1].Value;
 			if (deathObj is not StringOfItem deathStrOfItem || !deathStrOfItem.IsArrayOrObject()) {
 				return null;
 			}
@@ -138,22 +143,20 @@ public class Character : IIdentifiable<string> {
 				
 			// Modify the last entry in the history to include the death reason.
 			var entriesList = entriesDict.First().Value;
-			var lastEntry = entriesList.Last();
+			var lastEntry = entriesList[^1];
 			// No reason provided.
 			var deathStr = value is null ? "yes" : $"{{ death_reason = {value} }}";
 			entriesList[^1] = new KeyValuePair<string, object>(lastEntry.Key, new StringOfItem(deathStr));
 		}
 	}
 
-	public bool Dead => DeathDate is not null;
-	public IList<Pregnancy> Pregnancies { get; } = new List<Pregnancy>();
+	public List<Pregnancy> Pregnancies { get; } = [];
 
-	public IDictionary<string, int> MenAtArmsStacksPerType { get; } = new Dictionary<string, int>();
+	public Dictionary<string, int> MenAtArmsStacksPerType { get; } = [];
 
-	public IDictionary<string, string> PrisonerIds { get; } = new Dictionary<string, string>(); // <prisoner id, imprisonment type>
-	public IDictionary<string, LocBlock> Localizations { get; } = new Dictionary<string, LocBlock>();
+	public Dictionary<string, string> PrisonerIds { get; } = []; // <prisoner id, imprisonment type>
 
-	public DNA? DNA { get; private set; }
+	internal DNA? DNA { get; set; }
 
 	public Imperator.Characters.Character? ImperatorCharacter { get; set; }
 
@@ -212,8 +215,64 @@ public class Character : IIdentifiable<string> {
 		.WithLiteralField("spawn_army", "spawn_army")
 		.WithLiteralField("if", "if")
 		.WithSimpleField("sexuality", "sexuality", null)
+		.WithLiteralField("domicile", "domicile")
+		.WithLiteralField("create_maa_regiment", "create_maa_regiment")
+		.WithSimpleField("add_gold", "add_gold", null)
+		.WithSimpleField("add_piety_level", "add_piety_level", null)
+		.WithSimpleField("add_prestige_level", "add_prestige_level", null)
 		.Build();
+
 	public History History { get; } = historyFactory.GetHistory();
+
+	public void InitSpousesCache() {
+		var spousesHistoryField = History.Fields["spouses"];
+		foreach (var spouseId in spousesHistoryField.InitialEntries.Select(kvp => kvp.Value.ToString())) {
+			if (spouseId is null) {
+				continue;
+			}
+			if (characters.TryGetValue(spouseId, out var spouse)) {
+				spousesCache.Add(spouse);
+				spouse.spousesCache.Add(this);
+			}
+		}
+		foreach (var entriesList in spousesHistoryField.DateToEntriesDict.Values) {
+			foreach (var entry in entriesList) {
+				var spouseId = entry.Value.ToString();
+				if (spouseId is null) {
+					continue;
+				}
+				if (characters.TryGetValue(spouseId, out var spouse)) {
+					spousesCache.Add(spouse);
+					spouse.spousesCache.Add(this);
+				}
+			}
+		}
+	}
+
+	public void InitConcubinesCache() {
+		var concubinesHistoryField = History.Fields["concubines"];
+		foreach (var concubineId in concubinesHistoryField.InitialEntries.Select(kvp => kvp.Value.ToString())) {
+			if (concubineId is null) {
+				continue;
+			}
+			if (characters.TryGetValue(concubineId, out var concubine)) {
+				concubinesCache.Add(concubine);
+				concubine.concubinesCache.Add(this);
+			}
+		}
+		foreach (var entriesList in concubinesHistoryField.DateToEntriesDict.Values) {
+			foreach (var entry in entriesList) {
+				var concubineId = entry.Value.ToString();
+				if (concubineId is null) {
+					continue;
+				}
+				if (characters.TryGetValue(concubineId, out var concubine)) {
+					concubinesCache.Add(concubine);
+					concubine.concubinesCache.Add(this);
+				}
+			}
+		}
+	}
 
 	public Character(string id, BufferedReader reader, CharacterCollection characters) {
 		this.characters = characters;
@@ -233,7 +292,8 @@ public class Character : IIdentifiable<string> {
 		Date rulerTermStart,
 		Country imperatorCountry,
 		CharacterCollection characters,
-		LocDB locDB,
+		LocDB irLocDB,
+		CK3LocDB ck3LocDB,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
 		NicknameMapper nicknameMapper,
@@ -247,13 +307,12 @@ public class Character : IIdentifiable<string> {
 		var name = preImperatorRuler.Name ?? Id;
 		SetName(name, null);
 		if (!string.IsNullOrEmpty(name)) {
-			var impNameLoc = locDB.GetLocBlockForKey(name);
+			var impNameLoc = irLocDB.GetLocBlockForKey(name);
+			CK3LocBlock ck3NameLoc = ck3LocDB.GetOrCreateLocBlock(name);
 			if (impNameLoc is not null) {
-				Localizations.Add(name, impNameLoc);
+				ck3NameLoc.CopyFrom(impNameLoc);
 			} else {  // fallback: use unlocalized name as displayed name
-				Localizations.Add(name, new LocBlock(name, ConverterGlobals.PrimaryLanguage) {
-					[ConverterGlobals.PrimaryLanguage] = name,
-				});
+				ck3NameLoc[ConverterGlobals.PrimaryLanguage] = name;
 			}
 		}
 
@@ -300,14 +359,15 @@ public class Character : IIdentifiable<string> {
 		}
 	}
 
-	public Character(
+	internal Character(
 		Imperator.Characters.Character impCharacter,
 		CharacterCollection characters,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
 		TraitMapper traitMapper,
 		NicknameMapper nicknameMapper,
-		LocDB locDB,
+		LocDB irLocDB,
+		CK3LocDB ck3LocDB,
 		MapData irMapData,
 		ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 		DeathReasonMapper deathReasonMapper,
@@ -328,52 +388,46 @@ public class Character : IIdentifiable<string> {
 			var locKey = CommonFunctions.NormalizeUTF8Path(loc.FoldToASCII().Replace(' ', '_'));
 			var name = $"IRTOCK3_CUSTOM_NAME_{locKey}";
 			SetName(name, null);
-
-			var locBlock = new LocBlock(name, ConverterGlobals.PrimaryLanguage) {
-				[ConverterGlobals.PrimaryLanguage] = loc
-			};
-			Localizations.Add(name, locBlock);
+			
+			var ck3NameLocBlock = ck3LocDB.GetOrCreateLocBlock(name);
+			foreach (var language in ConverterGlobals.SupportedLanguages) {
+				ck3NameLocBlock[language] = loc;
+			}
 		} else {
 			var nameLoc = ImperatorCharacter.Name;
 			var name = nameLoc.Replace(' ', '_');
 			SetName(name, null);
 			if (!string.IsNullOrEmpty(name)) {
-				var matchedLocBlock = locDB.GetLocBlockForKey(name);
+				var ck3NameLocBlock = ck3LocDB.GetOrCreateLocBlock(name);
+				var matchedLocBlock = irLocDB.GetLocBlockForKey(name);
 				if (matchedLocBlock is not null) {
-					Localizations.Add(name, matchedLocBlock);
+					ck3NameLocBlock.CopyFrom(matchedLocBlock);
 				} else {  // fallback: use unlocalized name as displayed name
 					unlocalizedImperatorNames.Add(name);
-					var locBlock = new LocBlock(name, ConverterGlobals.PrimaryLanguage) {
-						[ConverterGlobals.PrimaryLanguage] = nameLoc
-					};
-					Localizations.Add(name, locBlock);
+					ck3NameLocBlock[ConverterGlobals.PrimaryLanguage] = nameLoc;
 				}
 			}
 		}
 
 		Female = ImperatorCharacter.Female;
-		
-		if (ImperatorCharacter.PortraitData is not null) {
-			DNA = dnaFactory.GenerateDNA(ImperatorCharacter, ImperatorCharacter.PortraitData);
-		}
 
 		// Determine valid (not dropped in province mappings) "source I:R province" and "source CK3 province"
 		// to be used by religion mapper. Don't give up without a fight.
 		ulong? irProvinceId = ImperatorCharacter.GetSourceLandProvince(irMapData);
 		
-		var impProvForProvinceMapper = irProvinceId;
-		if ((!impProvForProvinceMapper.HasValue || provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper.Value).Count == 0) && ImperatorCharacter.Father is not null) {
-			impProvForProvinceMapper = ImperatorCharacter.Father.ProvinceId;
+		var irProvIdForProvMapper = irProvinceId;
+		if (IsImperatorProvIdInvalidForCharacterSource(irProvIdForProvMapper, provinceMapper) && ImperatorCharacter.Father is not null) {
+			irProvIdForProvMapper = ImperatorCharacter.Father.ProvinceId;
 		}
-		if ((!impProvForProvinceMapper.HasValue || provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper.Value).Count == 0) && ImperatorCharacter.Mother is not null) {
-			impProvForProvinceMapper = ImperatorCharacter.Mother.ProvinceId;
+		if (IsImperatorProvIdInvalidForCharacterSource(irProvIdForProvMapper, provinceMapper) && ImperatorCharacter.Mother is not null) {
+			irProvIdForProvMapper = ImperatorCharacter.Mother.ProvinceId;
 		}
-		if ((!impProvForProvinceMapper.HasValue || provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper.Value).Count == 0) && ImperatorCharacter.Spouses.Count > 0) {
+		if (IsImperatorProvIdInvalidForCharacterSource(irProvIdForProvMapper, provinceMapper) && ImperatorCharacter.Spouses.Count > 0) {
 			var firstSpouse = ImperatorCharacter.Spouses.First().Value;
-			impProvForProvinceMapper = firstSpouse.ProvinceId;
+			irProvIdForProvMapper = firstSpouse.ProvinceId;
 		}
 
-		var ck3ProvinceNumbers = impProvForProvinceMapper.HasValue ? provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper.Value) : [];
+		var ck3ProvinceNumbers = irProvIdForProvMapper.HasValue ? provinceMapper.GetCK3ProvinceNumbers(irProvIdForProvMapper.Value) : [];
 		ulong? ck3ProvinceId = ck3ProvinceNumbers.Count > 0 ? ck3ProvinceNumbers[0] : null;
 
 		var cultureMatch = cultureMapper.Match(
@@ -435,7 +489,8 @@ public class Character : IIdentifiable<string> {
 
 		var nicknameMatch = nicknameMapper.GetCK3NicknameForImperatorNickname(ImperatorCharacter.Nickname);
 		if (nicknameMatch is not null) {
-			SetNickname(nicknameMatch, dateOnConversion);
+			var nicknameDate = ImperatorCharacter.DeathDate ?? dateOnConversion;
+			SetNickname(nicknameMatch, nicknameDate);
 		}
 
 		if (ImperatorCharacter.Wealth != 0) {
@@ -471,7 +526,11 @@ public class Character : IIdentifiable<string> {
 			}
 		}
 	}
-		
+
+	private static bool IsImperatorProvIdInvalidForCharacterSource(ulong? impProvForProvinceMapper, ProvinceMapper provinceMapper) {
+		return !impProvForProvinceMapper.HasValue || provinceMapper.GetCK3ProvinceNumbers(impProvForProvinceMapper.Value).Count == 0;
+	}
+
 	public void SetCultureId(string cultureId, Date? date) {
 		History.AddFieldValue(date, "culture", "culture", cultureId);
 	}
@@ -491,6 +550,7 @@ public class Character : IIdentifiable<string> {
 	}
 	public void AddSpouse(Date date, Character spouse) {
 		History.AddFieldValue(date, "spouses", "add_spouse", spouse.Id);
+		spousesCache.Add(spouse);
 		spouse.spousesCache.Add(this);
 	}
 	private void RemoveSpouse(string spouseId) {
@@ -502,6 +562,18 @@ public class Character : IIdentifiable<string> {
 	public void RemoveAllSpouses() {
 		foreach (var spouse in spousesCache) {
 			spouse.RemoveSpouse(Id);
+		}
+	}
+
+	private void RemoveConcubine(string concubineId) {
+		if (History.Fields.TryGetValue("concubines", out var concubinesHistory)) {
+			concubinesHistory.RemoveAllEntries(value => (value.ToString() ?? string.Empty).Equals(concubineId));
+		}
+		concubinesCache.RemoveWhere(c => c.Id == concubineId);
+	}
+	public void RemoveAllConcubines() {
+		foreach (var concubine in concubinesCache) {
+			concubine.RemoveConcubine(Id);
 		}
 	}
 
@@ -530,7 +602,7 @@ public class Character : IIdentifiable<string> {
 				return null;
 			}
 
-			var idObj = entries.Last().Value;
+			var idObj = entries[^1].Value;
 			var idStr = idObj.ToString();
 			if (idStr is null) {
 				Logger.Warn($"Mother ID string is null! Original value: {idObj}");
@@ -578,7 +650,7 @@ public class Character : IIdentifiable<string> {
 				return null;
 			}
 				
-			var idObj = entries.Last().Value;
+			var idObj = entries[^1].Value;
 			var idStr = idObj.ToString();
 			if (idStr is null) {
 				Logger.Warn($"Father ID string is null! Original value: {idObj}");
@@ -628,9 +700,15 @@ public class Character : IIdentifiable<string> {
 	public string? GetDynastyId(Date date) {
 		return History.GetFieldValue("dynasty", date)?.ToString();
 	}
-
+	
+	public void ClearDynastyHouse() {
+		History.Fields["dynasty_house"].RemoveAllEntries();
+	}
 	public string? GetDynastyHouseId(Date date) {
 		return History.GetFieldValue("dynasty_house", date)?.ToString();
+	}
+	public void SetDynastyHouseId(string dynastyHouseId, Date? date) {
+		History.AddFieldValue(date, "dynasty_house", "dynasty_house", dynastyHouseId);
 	}
 
 	private string? jailorId;
@@ -654,17 +732,16 @@ public class Character : IIdentifiable<string> {
 		return true;
 	}
 
-	public void ImportUnitsAsMenAtArms(
+	internal void ImportUnitsAsMenAtArms(
 		IEnumerable<Unit> countryUnits,
 		Date date,
 		UnitTypeMapper unitTypeMapper,
-		IdObjectCollection<string, MenAtArmsType> menAtArmsTypes
+		IdObjectCollection<string, MenAtArmsType> menAtArmsTypes,
+		CK3LocDB ck3LocDB
 	) {
 		var locKey = $"IRToCK3_character_{Id}";
-		var locBlock = new LocBlock(locKey, ConverterGlobals.PrimaryLanguage) {
-			[ConverterGlobals.PrimaryLanguage] = $"[GetPlayer.MakeScope.Var('IRToCK3_character_{Id}').Char.GetID]"
-		};
-		Localizations.Add(locKey, locBlock);
+		var locBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
+		locBlock[ConverterGlobals.PrimaryLanguage] = $"[GetPlayer.MakeScope.Var('IRToCK3_character_{Id}').Char.GetID]";
 
 		var menPerUnitType = new Dictionary<string, int>();
 		foreach (var unit in countryUnits) {
@@ -683,10 +760,8 @@ public class Character : IIdentifiable<string> {
 			menAtArmsTypes.Add(dedicatedType);
 			MenAtArmsStacksPerType[dedicatedType.Id] = 1;
 
-			var maaTypeLocBlock = new LocBlock(dedicatedType.Id, ConverterGlobals.PrimaryLanguage) {
-				[ConverterGlobals.PrimaryLanguage] = $"${baseType.Id}$"
-			};
-			Localizations.Add(dedicatedType.Id, maaTypeLocBlock);
+			var maaTypeLocBlock = ck3LocDB.GetOrCreateLocBlock(dedicatedType.Id);
+			maaTypeLocBlock[ConverterGlobals.PrimaryLanguage] = $"${baseType.Id}$";
 		}
 
 		var sb = new StringBuilder();
@@ -694,12 +769,13 @@ public class Character : IIdentifiable<string> {
 
 		History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
 	}
-	public void ImportUnitsAsSpecialTroops(
+	internal void ImportUnitsAsSpecialTroops(
 		IEnumerable<Unit> countryUnits,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
 		Date date,
 		UnitTypeMapper unitTypeMapper,
-		ProvinceMapper provinceMapper
+		ProvinceMapper provinceMapper,
+		CK3LocDB ck3LocDB
 	) {
 		var sb = new StringBuilder();
 		sb.AppendLine("{");
@@ -718,7 +794,8 @@ public class Character : IIdentifiable<string> {
 			if (unit.LocalizedName is not null) {
 				var locKey = unit.LocalizedName.Id;
 				sb.AppendLine($"\t\t\tname={locKey}");
-				Localizations[locKey] = unit.LocalizedName;
+				var unitLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
+				unitLocBlock.CopyFrom(unit.LocalizedName);
 			}
 
 			foreach (var (type, men) in menPerUnitType) {
@@ -749,7 +826,8 @@ public class Character : IIdentifiable<string> {
 		History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
 	}
 
-	private CharacterCollection characters;
-	private readonly HashSet<Character> spousesCache = new();
+	private readonly CharacterCollection characters;
+	private readonly ConcurrentHashSet<Character> spousesCache = [];
+	private readonly ConcurrentHashSet<Character> concubinesCache = [];
 	private readonly HashSet<Character> childrenCache = new();
 }

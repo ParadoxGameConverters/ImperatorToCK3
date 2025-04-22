@@ -11,13 +11,12 @@ namespace ImperatorToCK3.UnitTests.Outputter;
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ProvinceOutputterTests {
 	[Fact]
-	public void CultureIsOutputted() {
+	public void CultureIsOutputtedIfProvinceIsCountyCapital() {
 		var provReader = new BufferedReader("culture=roman");
 		var province = new Province(1, provReader);
 
 		var sb = new StringBuilder();
-		var sw = new StringWriter(sb);
-		ProvinceOutputter.OutputProvince(sw, province);
+		ProvinceOutputter.WriteProvince(sb, province, isCountyCapital: true);
 
 		var sr = new StringReader(sb.ToString());
 		Assert.Equal("1={", sr.ReadLine());
@@ -25,19 +24,46 @@ public class ProvinceOutputterTests {
 		Assert.Equal("\tholding = none", sr.ReadLine());
 		Assert.Equal("}", sr.ReadLine());
 	}
+	
+	[Fact]
+	public void CultureIsNotOutputtedIfProvinceIsNotCountyCapital() {
+		var provReader = new BufferedReader("culture=roman");
+		var province = new Province(1, provReader);
+
+		var sb = new StringBuilder();
+		ProvinceOutputter.WriteProvince(sb, province, isCountyCapital: false);
+
+		var sr = new StringReader(sb.ToString());
+		Assert.Equal("1={", sr.ReadLine());
+		Assert.Equal("\tholding = none", sr.ReadLine());
+		Assert.Equal("}", sr.ReadLine());
+	}
 
 	[Fact]
-	public void ReligionIsOutputted() {
+	public void ReligionIsOutputtedIfProvinceIsCountyCapital() {
 		var provReader = new BufferedReader("religion=orthodox");
 		var province = new Province(1, provReader);
 
 		var sb = new StringBuilder();
-		var sw = new StringWriter(sb);
-		ProvinceOutputter.OutputProvince(sw, province);
+		ProvinceOutputter.WriteProvince(sb, province, isCountyCapital: true);
 
 		var sr = new StringReader(sb.ToString());
 		Assert.Equal("1={", sr.ReadLine());
 		Assert.Equal("\treligion = orthodox", sr.ReadLine());
+		Assert.Equal("\tholding = none", sr.ReadLine());
+		Assert.Equal("}", sr.ReadLine());
+	}
+	
+	[Fact]
+	public void ReligionIsNotOutputtedIfProvinceIsNotCountyCapital() {
+		var provReader = new BufferedReader("religion=orthodox");
+		var province = new Province(1, provReader);
+
+		var sb = new StringBuilder();
+		ProvinceOutputter.WriteProvince(sb, province, isCountyCapital: false);
+
+		var sr = new StringReader(sb.ToString());
+		Assert.Equal("1={", sr.ReadLine());
 		Assert.Equal("\tholding = none", sr.ReadLine());
 		Assert.Equal("}", sr.ReadLine());
 	}
@@ -48,8 +74,7 @@ public class ProvinceOutputterTests {
 		var province = new Province(1, provReader);
 
 		var sb = new StringBuilder();
-		var sw = new StringWriter(sb);
-		ProvinceOutputter.OutputProvince(sw, province);
+		ProvinceOutputter.WriteProvince(sb, province, isCountyCapital: true);
 
 		var sr = new StringReader(sb.ToString());
 		Assert.Equal("1={", sr.ReadLine());
@@ -63,8 +88,7 @@ public class ProvinceOutputterTests {
 		var province = new Province(1, provReader);
 
 		var sb = new StringBuilder();
-		var sw = new StringWriter(sb);
-		ProvinceOutputter.OutputProvince(sw, province);
+		ProvinceOutputter.WriteProvince(sb, province, isCountyCapital: true);
 
 		var sr = new StringReader(sb.ToString());
 		Assert.Equal("1={", sr.ReadLine());

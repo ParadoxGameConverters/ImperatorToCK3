@@ -4,6 +4,8 @@
 #b = the CK3 landed title
 #c = the rank the converted governorship will have (can only be d or k)
 
+# Might want to do a redo of all/most of these mappings since I think they were originally designed for Vanilla Imperator. Need to see the exact differences between Terra-Indomita and Invictus, because if the regions are the same then these mappings should be changed to reflect those regions only instead of the Vanilla game. ~~tanner918
+
 link = { ir = central_italy_region ck3 = k_romagna rank = k }
 link = { ir = central_italy_region ck3 = d_latium rank = d }
 
@@ -190,7 +192,7 @@ link = { ir = tibet_region ck3 = d_nepal rank = d }
 link = { ir = sogdiana_region ck3 = k_transoxiana rank = k }
 link = { ir = sogdiana_region ck3 = d_soghd rank = d }
 
-link = { ir = scythia_region ck3 = k_oghuz_il rank = k }
+link = { ir = scythia_region ck3 = k_oghuz_il rank = k } # should be k_pontic_steppe?
 link = { ir = scythia_region ck3 = d_transcaspiana rank = d }
 
 link = { ir = lower_egypt_region ck3 = d_cairo rank = d }
@@ -222,3 +224,87 @@ link = { ir = borysthenia_region ck3 = d_minsk rank = d }
 
 link = { ir = burma_region ck3 = k_pagan rank = k }
 link = { ir = burma_region ck3 = d_pagan rank = d }
+
+# New Mappings
+link = { ir = transalpine_gaul_region ck3 = k_burgundy rank = k }
+link = { ir = transalpine_gaul_region ck3 = d_provence rank = d }
+
+link = { ir = hyperborea_region ck3 = k_opolye rank = k }
+link = { ir = hyperborea_region ck3 = d_opolye rank = d }
+
+link = { ir = central_asian_steppes_region ck3 = k_kimek rank = k }
+link = { ir = central_asian_steppes_region ck3 = d_aqtobe rank = d }
+
+link = { ir = sakia_region ck3 = k_oghuz_il rank = k }
+link = { ir = sakia_region ck3 = d_aral_il rank = d }
+
+link = { ir = lower_nubia_region ck3 = d_nobatia rank = d }
+
+link = { ir = scytho_siberian_region ck3 = k_kipchak rank = k }
+link = { ir = scytho_siberian_region ck3 = d_kentarlau rank = d }
+
+link = { ir = xiyu_region ck3 = k_khotan rank = k }
+link = { ir = xiyu_region ck3 = d_kucha rank = d }
+
+link = { ir = liang_region ck3 = k_xia rank = k }
+link = { ir = liang_region ck3 = d_ganzhou rank = d }
+
+link = { ir = mobei_region ck3 = k_otuken rank = k }
+link = { ir = mobei_region ck3 = d_otuken rank = d }
+
+link = { ir = modong_region ck3 = k_balhae rank = k }
+link = { ir = modong_region ck3 = d_yongcheon rank = d }
+
+link = { ir = suvarnabhumi_region ck3 = k_langkasuka rank = k }
+link = { ir = suvarnabhumi_region ck3 = d_tambralinga rank = d }
+
+link = { ir = funan_region ck3 = k_chenla rank = k }
+link = { ir = funan_region ck3 = d_aninditapura rank = d }
+
+link = { ir = jiao_region ck3 = k_annam rank = k }
+link = { ir = jiao_region ck3 = d_hai_dong rank = d }
+
+link = { ir = nanzhong_region ck3 = k_nanzhao rank = k }
+link = { ir = nanzhong_region ck3 = d_shicheng rank = d }
+
+link = { ir = austronesia_region ck3 = k_amianan rank = k }
+link = { ir = austronesia_region ck3 = d_iluek rank = d }
+
+link = { ir = yang_region ck3 = k_yue_china rank = k }
+link = { ir = yang_region ck3 = d_zhedong_china rank = d }
+
+link = { ir = jing_region ck3 = k_chu_china rank = k }
+link = { ir = jing_region ck3 = d_jingnan_china rank = d }
+
+link = { ir = yi_region ck3 = k_han_china rank = k }
+link = { ir = yi_region ck3 = d_ba_china rank = d }
+
+link = { ir = yong_region ck3 = k_qin_china rank = k }
+link = { ir = yong_region ck3 = d_xijing_china rank = d }
+
+link = { ir = shuofang_region ck3 = k_xia_china rank = k }
+link = { ir = shuofang_region ck3 = d_shuofang_china rank = d }
+
+link = { ir = bing_region ck3 = k_jin_china rank = k }
+link = { ir = bing_region ck3 = d_hedong_china rank = d }
+
+link = { ir = ji_region ck3 = k_zhao_china rank = k }
+link = { ir = ji_region ck3 = d_zelu_china rank = d }
+
+link = { ir = qing_region ck3 = k_qi_china rank = k }
+link = { ir = qing_region ck3 = d_ziqing_china rank = d }
+
+link = { ir = xu_region ck3 = k_wu_china rank = k }
+link = { ir = xu_region ck3 = d_huainan_china rank = d }
+
+link = { ir = yu_region ck3 = k_liang_china rank = k }
+link = { ir = yu_region ck3 = d_biansong_china rank = d }
+
+link = { ir = you_region ck3 = k_yan_china rank = k }
+link = { ir = you_region ck3 = d_lulong_china rank = d }
+
+link = { ir = jin_region ck3 = k_goryeo rank = k }
+link = { ir = jin_region ck3 = d_seohae rank = d }
+
+link = { ir = wa_region ck3 = k_yamato rank = k }
+link = { ir = wa_region ck3 = d_kansai rank = d }

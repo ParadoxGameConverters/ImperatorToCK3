@@ -14,7 +14,7 @@ public class CultureCollectionTests {
 	private static readonly ModFilesystem ck3ModFS = new("TestFiles/CK3/game", Array.Empty<Mod>());
 	private static readonly PillarCollection pillars;
 	private static readonly ColorFactory colorFactory = new();
-	private static readonly List<string> ck3ModFlags = [];
+	private static readonly OrderedDictionary<string, bool> ck3ModFlags = new() {{"tfe", false}, {"wtwsms", false}, {"roa", false}};
 
 	static CultureCollectionTests() {
 		pillars = new PillarCollection(colorFactory, []) {
@@ -27,7 +27,7 @@ public class CultureCollectionTests {
 	public void ColorIsLoadedIfDefinedOrGeneratedIfMissing() {
 		var cultures = new CultureCollection(colorFactory, pillars, ck3ModFlags);
 		cultures.LoadNameLists(ck3ModFS);
-		cultures.LoadCultures(ck3ModFS);
+		cultures.LoadCultures(ck3ModFS, new Configuration());
 
 		var cultureWithColor = cultures["culture_with_color"];
 		Assert.Equal(new Color(10, 20, 30), cultureWithColor.Color);
@@ -51,8 +51,8 @@ public class CultureCollectionTests {
 		Assert.Single(cultures);
 		
 		cultures.AddNameList(new NameList("name_list_albanian", new BufferedReader()));
-		cultures.LoadConverterPillars("TestFiles/CK3/CultureCollectionTests/configurables/converter_pillars");
-		cultures.LoadConverterCultures("TestFiles/CK3/CultureCollectionTests/configurables/converter_cultures.txt");
+		cultures.LoadConverterPillars("TestFiles/CK3/CultureCollectionTests/configurables/converter_pillars", ck3ModFlags);
+		cultures.LoadConverterCultures("TestFiles/CK3/CultureCollectionTests/configurables/converter_cultures.txt", new Configuration());
 		
 		Assert.Equal(2, cultures.Count);
 		Assert.Equal("heritage_arberian", cultures["arberian"].Heritage.Id);
@@ -71,8 +71,8 @@ public class CultureCollectionTests {
 		cultures.AddPillar(new("language_illyrian", new() {Type = "language"}));
 		
 		cultures.AddNameList(new NameList("name_list_albanian", new BufferedReader()));
-		cultures.LoadConverterPillars("TestFiles/CK3/CultureCollectionTests/configurables/converter_pillars");
-		cultures.LoadConverterCultures("TestFiles/CK3/CultureCollectionTests/configurables/converter_cultures.txt");
+		cultures.LoadConverterPillars("TestFiles/CK3/CultureCollectionTests/configurables/converter_pillars", ck3ModFlags);
+		cultures.LoadConverterCultures("TestFiles/CK3/CultureCollectionTests/configurables/converter_cultures.txt", new Configuration());
 		
 		Assert.Equal(2, cultures.Count);
 		Assert.Equal("language_illyrian", cultures["albanian"].Language.Id);

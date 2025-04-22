@@ -1,0 +1,651 @@
+# This file contains blocks from the WtWSMS files that can be removed.
+# The structure is as follows:
+
+# <file name> = {
+# 	{
+#          # comments are supported inside
+#          some = code
+#   }
+# 	{
+#          some code
+# 	                some code with other indent
+#   }
+# }
+
+# INDENTATION IS IMPORTANT!
+# ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL FILE.
+# OTHERWISE THE BLOCK WON'T BE REMOVED!
+
+
+"common/on_action/BP_game_start.txt" = {
+	# Anachronistic
+	{
+setup_vassal_contracts = {
+	effect = {
+		every_ruler = {
+			if = { #k_mazandaran always has great rights
+				limit = { primary_title = title:k_mazandaran }
+				vassal_contract_set_obligation_level = {
+					type = religious_rights
+					level = 1
+				}
+				vassal_contract_set_obligation_level = {
+					type = title_revocation_rights
+					level = 1
+				}
+				vassal_contract_set_obligation_level = {
+					type = war_declaration_rights
+					level = 1
+				}
+				vassal_contract_set_obligation_level = {
+					type = prefeudal_government_obligation
+					level = 0
+				}
+			}
+			if = { #d_sophanene, d_sophene have some nice rights
+				limit = {
+					OR = {
+						primary_title = title:d_sophene
+						primary_title = title:d_sophanene
+					}
+				}
+				vassal_contract_set_obligation_level = {
+					type = religious_rights
+					level = 1
+				}
+				vassal_contract_set_obligation_level = {
+					type = title_revocation_rights
+					level = 1
+				}
+			}
+			if = { #Vassals of the Gupta Empire are militarily oriented
+				limit = {
+					liege.primary_title = title:e_rajastan
+					primary_title.tier >= tier_duchy
+					NOT = { this.primary_title = title:e_rajastan } #Excluded the holder of rajasthan (not a vassal)
+					government_has_flag = government_uses_rajamandala_authority
+				}
+				debug_log_scopes = no
+				vassal_contract_set_obligation_level = {
+					type = rajamandala_government_taxes
+					level = 1
+				}
+				vassal_contract_set_obligation_level = {
+					type = rajamandala_government_levies
+					level = 3
+				}
+			}
+			if = { #Non-Zoros have religious freedom in Asoristan
+				limit = {
+					NOT = { this.religion = this.liege.religion }
+					OR = {
+						this.capital_county.kingdom = title:k_asoristan
+						this.capital_county.kingdom = title:k_armenia #Armenians are protected
+						this.primary_title = title:d_exilarch #Jews are protected
+						this.primary_title = title:d_tayk
+						this.primary_title = title:d_gardman
+					}
+					this.top_liege.primary_title = title:e_persia
+					can_have_religious_rights_trigger = yes
+				}
+				vassal_contract_set_obligation_level = {
+					type = religious_rights
+					level = 1
+				}
+			}
+			if = {
+				limit = { this.primary_title = title:d_gugark }
+				vassal_contract_set_obligation_level = {
+					type = religious_rights
+					level = 1
+				}
+			}
+			#Byzantines
+			make_tributary = {
+				TYPE = foederatus_tributary
+				TRIBUTARY = title:d_thracian_goths.holder
+				SUZERAIN = title:e_byzantium.holder
+			}
+			make_tributary = {
+				TYPE = foederatus_tributary
+				TRIBUTARY = title:k_arabia_petraea.holder
+				SUZERAIN = title:e_byzantium.holder
+			}
+			make_tributary = {
+				TYPE = foederatus_tributary
+				TRIBUTARY = title:k_salihid.holder
+				SUZERAIN = title:e_byzantium.holder
+			}
+			make_tributary = {
+				TYPE = tributary_permanent
+				TRIBUTARY = title:k_sarir.holder
+				SUZERAIN = title:e_byzantium.holder
+			}
+			make_tributary = {
+				TYPE = tributary_permanent
+				TRIBUTARY = title:k_lazica.holder
+				SUZERAIN = title:e_byzantium.holder
+			}
+			make_tributary = {
+				TYPE = tributary_permanent
+				TRIBUTARY = title:c_zichia.holder
+				SUZERAIN = title:e_byzantium.holder
+			}
+			#Persians
+			if = {
+				limit = { exists = title:k_caucasian_albania.holder }
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = title:k_caucasian_albania.holder
+					SUZERAIN = title:e_persia.holder
+				}
+			}
+			else = {
+				make_tributary = {
+					TYPE = tributary_permanent
+					TRIBUTARY = title:d_caucasian_albania.holder
+					SUZERAIN = title:e_persia.holder
+				}
+			}
+			make_tributary = {
+				TYPE = tributary_permanent
+				TRIBUTARY = title:k_iberia.holder
+				SUZERAIN = title:e_persia.holder
+			}
+			make_tributary = {
+				TYPE = tributary_permanent
+				TRIBUTARY = title:k_al_hirah.holder
+				SUZERAIN = title:e_persia.holder
+			}
+			#Xiongnu (Hepthalites)
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_khuttal.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_samarkand.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_bukhara.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_khorezm.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_osrushana.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_ferghana.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_chah.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_muyunkum.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_kashgar.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:k_kabulistan.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:k_kucha.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_syr_darya.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_badakhshan.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_munjan.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_wakhan.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_karran.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_shughnan.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:d_suyab.holder
+				SUZERAIN = title:e_xiongnu.holder
+			}
+			#Rouran
+			make_tributary = {
+				TYPE = tributary_non_permanent
+				TRIBUTARY = title:k_gaochang.holder
+				SUZERAIN = title:e_rouran.holder
+			}
+			#Huns
+			make_tributary = { #Still tied to the Huns, for better or worse
+				TYPE = tributary_permanent
+				TRIBUTARY = title:d_acatiri.holder
+				SUZERAIN = title:e_hunnic_empire.holder
+			}
+			#Orleans Alans
+			make_tributary = {
+				TYPE = tributary_permanent#foederatus_tributary
+				TRIBUTARY = title:d_orleans_alans.holder
+				SUZERAIN = title:k_soissons.holder
+			}
+			#Vandals
+			make_tributary = {
+				TYPE = tributary_permanent#foederatus_tributary
+				TRIBUTARY = title:d_auresia.holder
+				SUZERAIN = title:k_vandalica.holder
+			}
+			make_tributary = {
+				TYPE = tributary_permanent#foederatus_tributary
+				TRIBUTARY = title:d_sicca_veneria.holder
+				SUZERAIN = title:k_vandalica.holder
+			}
+			make_tributary = {
+				TYPE = tributary_permanent#foederatus_tributary
+				TRIBUTARY = title:d_capsa.holder
+				SUZERAIN = title:k_vandalica.holder
+			}
+			#### Britannia
+			make_tributary = { #Deria dependence on York
+				TYPE = tributary_permanent
+				TRIBUTARY = title:d_deria.holder
+				SUZERAIN = title:d_york.holder
+			}
+			make_tributary = { #Surrey dependence on Kent (fought over by several groups)
+				TYPE = tributary_permanent
+				TRIBUTARY = title:c_surrey.holder
+				SUZERAIN = title:d_canterbury.holder
+			}
+			make_tributary = { #Middlesex dependence on Essex
+				TYPE = tributary_permanent
+				TRIBUTARY = title:c_middlesex.holder
+				SUZERAIN = title:d_esseaxena.holder
+			}
+		}
+	}
+}
+	}
+	{
+		setup_vassal_contracts
+	}
+
+	# Anachronistic
+	{
+create_BP_artifacts = {
+	effect = {
+		if = {
+			limit = { has_dlc_feature = royal_court }
+			#Tooth of the Buddha
+			title:k_lanka.holder = {
+				save_scope_as = the_holder
+				create_artifact = {
+					name = tooth_of_the_buddha
+					description = tooth_of_the_buddha_desc
+					history = { type = created_before_history }
+					type = pedestal
+					template = buddhism_artifact_template
+					quality = 999
+					decaying = no
+					modifier = tooth_of_the_buddha_modifier
+					visuals = bone
+					save_scope_as = tooth_of_the_buddha_scope
+				}
+				scope:tooth_of_the_buddha_scope = {
+					set_variable = { # required to track usability for template
+						name = saint_bone_faith
+						value = scope:the_holder.faith
+					}
+				}
+			}
+			title:e_byzantium.holder = {
+				create_artifact = {
+					name = nail_of_the_true_cross
+					description = nail_of_the_true_cross_desc
+					history = { type = created_before_history }
+					type = pedestal
+					template = christian_relic_template
+					quality = 999
+					decaying = no
+					modifier = nail_of_the_true_cross_modifier
+					visuals = reliquary
+				}
+			}
+			title:e_persia.holder = {
+				create_artifact = {
+					name = branch_of_the_keshmar_cypress
+					description = branch_of_the_keshmar_cypress_desc
+					history = { type = created_before_history }
+					type = pedestal
+					template = zoroastrian_relic_template
+					quality = 999
+					decaying = no
+					modifier = branch_of_the_keshmar_cypress_modifier
+					visuals = flowers
+				}
+			}
+		}
+	}
+}
+	}
+	{
+		create_BP_artifacts
+	}
+
+	# Anachronistic
+	{
+## Other BP Stuff
+BP_character_events = {
+	effect = {
+		#Persian Emperors start with negative prestige because of Wuzurgan, so flip it
+		character:180624 = {
+			add_prestige = {
+				value = character:180624.prestige
+				multiply = 1.5
+			}
+		}
+		#Fire specific date events for characters
+		if = { #476 Events
+			limit = { current_date = 476.2.2 }
+			character:93 = { #Genseric of the Vandals
+				if = {
+					limit = {
+						is_alive = yes
+						is_landed = yes
+					}
+					save_scope_as = geneseric
+					#Vandals have lots of Roman slaves at start
+					trigger_event = { id = bp_historical_flavor.0001 days = 1 }
+				}
+			}
+			#David of Rheged has Saint Patrick as a Regent; we can't make him a court chaplain anymore, so this is the second-best thing
+			character:8 = { designate_diarch = character:109758 }
+			#Ensure Orestes is Regent for Romulus and make it rather entrenched
+			character:96054 = { designate_diarch = character:96055 }
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:96055
+				LIEGE = character:96054
+			}
+			trigger_event = { id = BP_maintenance_events.0002 }
+		}
+	}
+}
+	}
+	{
+		#Other BP Stuff
+		BP_character_events
+	}
+
+	# Anachronistic
+	{
+		#Handle edge cases:
+		character:109769 = { set_character_faith_history = faith:nicene } #Make Erikos the Massalian Nicene
+		if = { #Raetia should be Nicene
+			limit = { exists = title:d_raetia_curiensis.holder }
+			title:d_raetia_curiensis.holder = { set_character_faith_history = faith:nicene }
+		}
+	}
+
+	# Anachronistic
+	{
+		#Capital changes for specific time periods
+		title:k_ostrogoths.holder = {
+			if = { #Odoacer's death/Theodoric's conquest of Italy
+				limit = { current_date <= 493.2.25 }
+				set_realm_capital = title:c_szerem
+			}
+		}
+		title:k_visigoths.holder = {
+			if = { #Franks force the capital south
+			limit = {
+					AND = {
+						current_date > 507.1.1
+						current_date < 542.1.1
+					}
+				}
+				set_realm_capital = title:c_barcelona
+			}
+			else_if = { #Final move to Toledo
+				limit = { current_date >= 542.1.1 }
+				set_realm_capital = title:c_toledo
+			}
+		}
+		title:k_yarlung.holder = {
+			if = {
+				limit = { current_date < 637.1.1 }
+				set_realm_capital = title:c_zetang
+			}
+		}
+		title:k_kidarite.holder = {
+			if = { #Kidarite Rump Kingdom in Gandhara
+				limit = { current_date >= 467.1.1 }
+				set_realm_capital = title:c_udabhanda
+			}
+		}
+		title:d_caucasian_albania.holder = {
+			if = {
+				limit = { current_date < 500.1.1 }
+				set_realm_capital = title:c_shaki
+			}
+		}
+		#Make some titular titles align with specific lieges
+		if = {
+			limit = { current_date = 476.2.2 }
+			#k_armenia
+			title:d_gugark = { set_de_jure_liege_title = title:k_armenia }
+			title:d_tayk = { set_de_jure_liege_title = title:k_armenia }
+			#e_peria
+			title:d_gortyene = { set_de_jure_liege_title = title:k_asoristan }
+			title:d_kwrtstan = { set_de_jure_liege_title = title:k_persia }
+			title:d_exilarch = { set_de_jure_liege_title = title:k_asoristan }
+		}
+		#Put specific kingdoms within specific empires where it makes sense
+		if = {
+			limit = { current_date = 476.2.2 }
+			#Britannia
+			title:k_rheged = { set_de_jure_liege_title = title:e_britannia }
+			#Persia
+			title:k_mazandaran = { set_de_jure_liege_title = title:e_persia }
+		}
+		#Remove various claims for people that shouldn't have them
+		if = { #Vache voluntarily abidcated with Persian pressure, so prevent any claims from him
+			limit = { character:159589 = { is_alive = yes } }
+			character:159589 = {
+				save_temporary_scope_as = the_char
+				every_claim = {
+					save_temporary_scope_as = the_claim
+					scope:the_char = {
+						remove_claim = scope:the_claim
+					}
+				}
+			}
+		}
+	}
+
+	# Anachronistic
+	{
+## Family Stuff
+set_historical_dynasty_renown = {
+	effect = {
+		#Iranian Houses
+		dynasty:10424228 = { add_dynasty_prestige_level = 2 } #Ispahbudhan of Tabaristan and Gurgan
+		dynasty:10424226 = { add_dynasty_prestige_level = 2 } #Waraz of East Khoristan
+			#house_karen_pahlav #Karen (fine as is)
+		dynasty:1029027 = { add_dynasty_prestige_level = 2 } #Mihran of Ray
+		dynasty:10424229 = { add_dynasty_prestige_level = 2 } #Spandiyadh of Ray
+		dynasty:10424230 = { add_dynasty_prestige_level = 2 } #Zik of Adurbadagan
+		dynasty:1042143 = { add_dynasty_prestige_level = 2 } #Suren of Sakastan
+		dynasty:1029100 = { add_dynasty_prestige_level = 1 } #Sassanids
+		#Dead Dynasties; Re-evaluate all of these as dynasty tree is filled out for increased accuracy
+		dynasty:israelite_dynn_herodian = { add_dynasty_prestige_level = 1 }
+		dynasty:iranian_dynn_achaemenid = { add_dynasty_prestige_level = 4 }
+		dynasty:bactrian_dynn_orontid = { add_dynasty_prestige_level = 4 }
+		dynasty:104246212 = { add_dynasty_prestige_level = 3 } #Seleucid
+		dynasty:macedonian_dynn_Argead = { add_dynasty_prestige_level = 10 } #Alexander the Great
+	}
+}
+	}
+	{
+		#Family Stuff
+		set_historical_dynasty_renown
+	}
+
+	# Anachronistic
+	{
+create_other_armies = {
+	effect = {
+		#Theodoric gets special troops
+		if = {
+			limit = { current_date = 476.2.2 }
+			character:63 = {
+				create_theodoric_army_effect = { LOCATION = 3643 }
+				create_theodoric_army_effect = { LOCATION = 3643 }
+				create_theodoric_army_effect = { LOCATION = 3643 }
+				create_theodoric_army_effect = { LOCATION = 3643 }
+			}
+		}
+	}
+}
+	}
+	{
+		create_other_armies
+	}
+}
+
+
+"events/_BP_events/BP_maintenance_events.txt" = {
+	# Anachronistic
+	{
+		#Make Romulus Augustulus' Diarchy entrenched and give him senatorial approval
+		character:96054 = {
+			start_diarchy = regency
+			set_diarchy_swing = 50
+		}
+		character:96054 = { update_all_senate_opinion_about_character_effect = { ACTOR = character:96054 } }
+		#Give Basilicos Senatorial approval
+		character:145226 = { update_all_senate_opinion_about_character_effect = { ACTOR = character:145226 } }
+	}
+}
+
+
+"common/scripted_character_templates/00_pool_repopulation_character_templates_BP_overwrite.txt" = {
+	# Prevent random Christian characters being generated.
+	{
+				5 = {
+					set_character_faith = faith:nestorian
+				}
+	}
+	{
+		else_if = {
+			limit = {
+				culture = culture:assyrian
+			}
+			set_character_faith = faith:nestorian
+		}
+	}
+}
+
+
+"common/on_action/BP_minority_game_start.txt" = {
+	# Anachronistic
+	{
+		if = {
+			limit = { current_date < 500.1.1 }
+			trigger_event = { on_action = BP_start_date_minorities_476_asoritsan_khuzestan }
+			trigger_event = { on_action = BP_start_date_minorities_476_northwest_africa }
+			trigger_event = { on_action = BP_start_date_minorities_476_oriens_cilicia }
+		}
+	}
+}
+
+
+"common/on_action/sea_bp_minority_game_start.txt" = {
+	# Anachronistic
+	{
+		BP_set_minorities_universal
+		BP_set_minorities_by_date_old
+	}
+}
+
+
+"common/on_action/BP_senate_on_actions.txt" = {
+	# References historical dynasties that don't make sense for a converted game.
+	{
+		#Senatorial Families (West)
+		dynasty:1042312 = { make_west_senate_family_effect = yes } #Anicii Gens
+		#dynasty:1042303 = { make_west_senate_family_effect = yes } #Decii Gens
+		dynasty:1042302 = { make_west_senate_family_effect = yes } #Symmachi Gens
+		dynasty:1042324 = { make_west_senate_family_effect = yes } #Rufii Gens
+		dynasty:1042300 = { make_west_senate_family_effect = yes } #Acilii Gens
+		dynasty:romano_gallic_dynasty_vettius = { make_west_senate_family_effect = yes } #Vettii Gens
+		dynasty:romano_african_dynasty_vettius = { make_west_senate_family_effect = yes } #Vettii Gens
+		#dynasty:roman_dynasty_vibius = { make_west_senate_family_effect = yes } #Vibii Gens
+		dynasty:romano_gallic_dynasty_pontius = { make_west_senate_family_effect = yes } #Pontii Gens
+		dynasty:romano_gallic_dynasty_decimius = { make_west_senate_family_effect = yes } #Decimii Gens
+		#Imperial Gens
+		dynasty:1022195 = { make_west_senate_family_effect = yes } #Constantini Gens
+		dynasty:1042315 = { make_west_senate_family_effect = yes } #Theodesii Gens
+		#Symmachus suggested, no chars/dynasty associated in database:
+		# Egnatii, Turcii, Marii Venantii, Turranii, Synesii
+		
+		#Romano-Gallic Dynasties
+		dynasty:roman_dynn_ferreolus = { make_west_senate_family_effect = yes } #Ferreoli Gens
+		dynasty:1042298 = { make_west_senate_family_effect = yes } #Avitus Gens
+		dynasty:1042301 = { make_west_senate_family_effect = yes } #Apollinarii Gens
+		dynasty:104246202 = { make_west_senate_family_effect = yes } #Ennodii Gens
+		
+		#Senatorial Families (East)
+		dynasty:1042535 = { make_east_senate_family_effect = yes } #Areobindus Gens
+		#Imperial Gens
+		dynasty:1022189 = { make_east_senate_family_effect = yes } #Venerius Gens
+		dynasty:1022188 = { make_east_senate_family_effect = yes } #Leonid Gens
+		#### Taken from Eastern Roman Consuls
+		dynasty:1042365 = { make_east_senate_family_effect = yes } #Family of Gennadius Avienus (ca. 450)
+		dynasty:104246209 = { make_east_senate_family_effect = yes } #Family of F. Taurus Celemntinus Armonius Clementinus
+		
+		#Symmachus suggested, no chars/dynasty associated in database:
+		# Theagenes
+		
+		#Build list of familes that should _not_ be given land; namely the Romano-Gallic Families
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:roman_dynn_ferreolus }
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:1042298 }
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:1042301 }
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:104246202 }
+	}
+}

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace ImperatorToCK3.CommonUtils;
 
-public class LiteralHistoryField : IHistoryField {
+public sealed class LiteralHistoryField : IHistoryField {
 	public string Id { get; }
 	public IList<KeyValuePair<string, object>> InitialEntries { get; } = new List<KeyValuePair<string, object>>(); // every entry is a <setter, value> pair
 
@@ -104,7 +104,11 @@ public class LiteralHistoryField : IHistoryField {
 	public void RegisterKeywords(Parser parser, Date date) {
 		foreach (var setter in setterKeywords) {
 			parser.RegisterKeyword(setter, reader => {
-				var itemStr = reader.GetStringOfItem().ToString();
+				var itemStr = reader.GetStringOfItem();
+				// If itemStr is the question sign from the "?=" operator, get another string.
+				if (itemStr.ToString() == "?") {
+					itemStr = reader.GetStringOfItem();
+				}
 				AddEntryToHistory(date, setter, itemStr);
 			});
 		}

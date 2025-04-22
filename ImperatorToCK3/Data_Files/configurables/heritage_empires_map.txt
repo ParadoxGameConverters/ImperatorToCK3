@@ -1,9 +1,9 @@
 # This file determines which heritages are associated with a predefined empire instead of a generated title
-# during de jure empire setup generation
+# during de jure empire setup generation.
 # These mappings should only be used for empires that are named in a way that they can be undoubtedly connected
 # to specific heritages (and not just because they happen to geographically match the areas of any culture groups).
 # Counter examples:
-# heritage_iranian = e_persia: Iranian is broader than Persian
+# heritage_iranian = e_persia: Iranian heritage is broader than the Persian culture
 # heritage_byzantine = e_byzantium: heritage_byzantine has been renamed to "Hellenistic" in the converter,
 # so it wouldn't make sense to map it to a title with specific flavour about it being the continuation of Rome.
 
@@ -19,6 +19,8 @@ heritage_goidelic = e_britannia
 heritage_romano_british = e_britannia
 heritage_frankish = e_france
 heritage_latin = e_italy
+heritage_venetic = e_italy
+heritage_italic = e_italy
 heritage_north_germanic = e_scandinavia
 heritage_north_germanic = e_germany
 heritage_east_germanic = e_germany
@@ -33,3 +35,14 @@ heritage_west_slavic = e_west_slavia
 heritage_west_slavic = e_slavia
 heritage_east_slavic = e_slavia
 heritage_south_slavic = e_slavia
+
+# Terra-Indomita to Rajas of Asia
+heritage_korean = e_haedong
+heritage_chinese = e_celestia_china
+heritage_yamato = e_japan
+#heritage_ezo = e_japan # latest version of Rajas of Asia puts Ezo Kingdom under Amur (e_manchuria), so not sure ~~tanner918
+heritage_filipino = e_panyupayana
+heritage_micronesian = e_micronesia # Out of scope, but should make sure that the Micronesian islands use correct empire title ~~tanner918
+heritage_burmese = e_burma
+heritage_sayan_altaic = e_sayan
+heritage_tatar = e_mongolia # Rajas of Asia moves quite a few Mongolic cultures to this new heritage, including Mongol itself, so I think this makes sense ~~tanner918

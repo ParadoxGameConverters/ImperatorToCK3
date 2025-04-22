@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Inventions;
 
-public class InventionsDB {
+public sealed class InventionsDB {
 	private readonly OrderedSet<string> inventionIds = [];
 
 	public IReadOnlyCollection<string> InventionIds => inventionIds;

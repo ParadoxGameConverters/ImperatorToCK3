@@ -195,3 +195,25 @@ purple_coa = {
 	color1 = "purple"
 	color2 = "purple"
 }
+
+e_western_roman_empire = {
+	pattern = "pattern_solid.tga"
+	color1 = "roman_red"
+	color2 = "roman_gold"
+
+	colored_emblem = {
+		texture = "ce_roman_eagle.dds"
+		color1 = "roman_gold"
+	}
+}
+
+e_byzantium = {
+	pattern = "pattern_solid.tga"
+	color1 = "ck2_purple"
+	color2 = "roman_gold"
+
+	colored_emblem = {
+		texture = "ce_roman_eagle.dds"
+		color1 = "roman_gold"
+	}
+}
