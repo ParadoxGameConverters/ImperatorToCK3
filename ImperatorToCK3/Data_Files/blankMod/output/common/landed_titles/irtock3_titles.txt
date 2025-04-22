@@ -10,3 +10,13 @@
 
 	capital = c_arrajan # IRToCK3: adjusted for vanilla CK3 map
 }
+
+e_western_roman_empire = {
+	color = hsv { 0 0.91 0.55 }
+	color2 = { 255 255 255 }
+
+	capital = c_roma # Rome
+
+	definite_form = yes
+	ruler_uses_title_name = no
+}

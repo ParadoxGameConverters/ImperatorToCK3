@@ -5,6 +5,12 @@ on_game_start = {
 	}
 }
 
+on_game_start_after_lobby = {
+	on_actions = {
+		IRToCK3_fix_admin_duchies_game_start # IMP-CK3: This on_action is to fix the situation where some duchy vassals created from Imperator governorships are titular, so they don't work properly when inside Admin realms. This is meant to fix that by replacing the titular duchy with a relevant duchy with de jure counties beneath it, so it will work properly.
+	}
+}
+
 IRToCK3_create_admin_noble_families = {
 	effect = {
 		every_ruler = {
@@ -22,6 +28,122 @@ IRToCK3_create_admin_noble_families = {
 				}
 			}
 			create_noble_family_effect = yes
+		}
+	}
+}
+
+IRToCK3_fix_admin_duchies_game_start = {
+	effect = {
+		every_ruler = {
+			limit = { # This effect should only be done on duke-level governors whose duchy title has no de jure counties beneath it. The land they control must also have a de jure duchy that exists but isn't created. This is to ensure this effect only runs on the characters who actually have a viable duchy title to create.
+				government_allows = administrative
+				primary_title = {
+					tier = tier_duchy
+					is_noble_family_title = no
+					is_titular = yes
+				}
+				sub_realm_size >= 1
+				any_sub_realm_county = {
+					exists = duchy
+					NOT = { exists = duchy.holder }
+				}
+			}
+
+			save_scope_as = titular_governor
+
+			primary_title = {
+				save_scope_as = titular_governorship_duchy
+			}
+
+			# Save every duchy the character owns at least one county of in a list to determine which should be given
+			every_sub_realm_county = {
+				limit = {
+					exists = duchy
+					NOT = { exists = duchy.holder } # Obviously they shouldn't steal a duchy from someone else
+				}
+
+				save_scope_as = test_county
+				if = {
+					limit = {
+						scope:titular_governor = {
+							NOT = {
+								is_target_in_variable_list = {
+									name = de_jure_duchies_list
+									target = scope:test_county.duchy
+								}
+							}
+						}
+					}
+
+					scope:titular_governor = {
+						add_to_variable_list = {
+							name = de_jure_duchies_list
+							target = scope:test_county.duchy
+						}
+					}
+				}
+				clear_saved_scope = test_county
+			}
+
+			# Go through all of the duchies in the list, sort them the percentage of the counties they hold, and choose the first one in that ordered list (meaning they hold the greatest percentage of that duchy compared to the rest). This should help make it give priority to duchies they completely control, but allows it to easily determine the best option if they don't completely control any duchy
+			ordered_in_list = {
+				variable = de_jure_duchies_list
+
+				order_by = { # Need to determine percentage of the duchy that they hold
+					value = 0
+
+					every_de_jure_county = { # This gets the number of counties that the character controls
+						limit = {
+							exists = holder
+							OR = {
+								holder = scope:titular_governor
+								holder.liege ?= scope:titular_governor
+							}
+						}
+
+						add = 1
+					}
+
+					multiply = 100 # Don't know how well the game handles decimals, since I think some stuff gets rounded automatically. This is just to prevent any possible problems with decimals before they appear
+
+					divide = { # This will get the total number of counties in that duchy, and then divide that into the value obtained above to get the percentage of the duchy that the character controls
+						value = 0
+
+						every_de_jure_county = {
+							add = 1
+						}
+					}
+				}
+
+				position = 1 # Makes sure that the duchy with highest percentage owned is being saved
+
+				save_scope_as = new_duchy_title
+			}
+
+			# Give the chosen duchy to the character, make it their primary, then destroy the old titular title
+			create_title_and_vassal_change = {
+				type = created
+				save_scope_as = title_change
+				add_claim_on_loss = no
+			}
+			scope:new_duchy_title = {
+				change_title_holder = {
+					holder = scope:titular_governor
+					change = scope:title_change
+				}
+			}
+			resolve_title_and_vassal_change = scope:title_change
+
+			set_primary_title_to = scope:new_duchy_title
+
+			destroy_title = scope:titular_governorship_duchy
+
+			# Variable/Scope Clean Up
+			clear_variable_list = de_jure_duchies_list
+			clear_saved_scope = new_duchy_title
+			clear_saved_scope = titular_governorship_duchy
+			clear_saved_scope = title_change
+			clear_saved_scope = titular_governor
 		}
 	}
 }
