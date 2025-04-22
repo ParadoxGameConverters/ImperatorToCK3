@@ -303,9 +303,9 @@ l_english:
  urslavic: "Slavic"
  urslavic_collective_noun: "Slavs"
  urslavic_prefix: "Slavo" # found 'Slavo-Germanic'
- oscan: "Oscan"
- oscan_collective_noun: "Oscans"
- oscan_prefix: "Osco" # found 'Osco-Umbrian'
+ oscan: "Umbri"
+ oscan_collective_noun: "Umbrii"
+ oscan_prefix: "Umbro" # found 'Osco-Umbrian'
  samnite: "Samnite"
  samnite_collective_noun: "Samnites"
  samnite_prefix: "Samnito" # found 'Acta Provinciae Samnito-Hirpinae'

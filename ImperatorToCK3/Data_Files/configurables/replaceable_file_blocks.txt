@@ -1049,18 +1049,30 @@
 			}
 		}
 
-		# IRToCK3: Need to have Roma as capital
+		# IRToCK3: Need to own land outside of the custom ERE region
 		custom_tooltip = {
-			capital_county = title:c_roma
-			text = roma_is_capital
+			text = own_land_outside_ere_region
+			any_sub_realm_county = {
+				NOT = {
+					title_province = {
+						geographical_region = custom_ep3_restore_rome_eastern_empire
+					}
+				}
+			}
 		}
 
 		# IRToCK3: Need to own all of Thrace since it forcefully takes the title, and the title has no holder, you hold the title, or the holder is your vassal
 		completely_controls = title:d_thrace
 		OR = {
-			NOT = { exists = title:d_thrace.holder }
+			custom_tooltip = {
+				text = thrace_has_no_holder
+				NOT = { exists = title:d_thrace.holder }
+			}
 			has_title = title:d_thrace
-			title:d_thrace.holder.top_liege = root
+			custom_tooltip = {
+				text = top_liege_of_thrace_holder
+				title:d_thrace.holder.top_liege = root
+			}
 		}
 	}
 		} # end of after
@@ -2009,7 +2021,7 @@
 			any_parent_culture_or_above = {
 				this = culture:roman
 			}
-			#has_cultural_pillar = heritage_byzantine # IRToCK3: Removed since this heritage know represents general Hellenistic cultures, so it doesn't really fit
+			#has_cultural_pillar = heritage_byzantine # IRToCK3: Removed since this heritage now represents general Hellenistic cultures, so it doesn't really fit
 		}
 		# DLC check.
 		has_ep3_dlc_trigger = yes
@@ -2052,7 +2064,7 @@
 			any_parent_culture_or_above = {
 				this = culture:roman
 			}
-			#has_cultural_pillar = heritage_byzantine # IRToCK3: Removed since this heritage know represents general Hellenistic cultures, so it doesn't really fit
+			#has_cultural_pillar = heritage_byzantine # IRToCK3: Removed since this heritage now represents general Hellenistic cultures, so it doesn't really fit
 			scope:character = {
 				OR = {
 					has_title = title:e_byzantium

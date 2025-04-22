@@ -109,6 +109,9 @@
 ## Europe Imperator Regions
 @europe_regions = "@culture_splitting_region_K @culture_splitting_region_H @culture_splitting_region_J @culture_splitting_region_R @culture_splitting_region_Q @culture_splitting_region_S @culture_splitting_region_P @culture_splitting_region_I @culture_splitting_region_G @culture_splitting_region_D @culture_splitting_region_C @culture_splitting_region_B @culture_splitting_region_A @culture_splitting_region_E @culture_splitting_region_F @culture_splitting_region_T @culture_splitting_region_U @culture_splitting_region_X @culture_splitting_region_V @culture_splitting_region_W @culture_splitting_region_Y"
 
+## This grouping is just to make it easier to reference all of the Roman tags since they can potentially be used throughout the file
+@roman_tags = "historicalTag=ROM historicalTag=ERE historicalTag=WRE"
+
 ## Aksumite
 link = { ck3 = afar ir = puntic ir = aksumite ck3Province = 8286 ck3Province = 8326 ck3Province = 8344 ck3Province = 8334 ck3Province = 8332 ck3Province = 8339 ck3Province = 8342 }
 link = { ck3=somali ir=puntic }
@@ -265,10 +268,11 @@ link = { ck3 = breton ir = breton } # breton comes from https://steamcommunity.c
 @ir_cumbrian_cultures = "ir=damnonian ir=cumbran" # cumbran comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 @ir_cornish_cultures = "ir=dumnonian ir=cornish" # cornish comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 # TFE
-link = { ck3 = briton @ir_cumbrian_cultures @ir_welsh_cultures @ir_south_east_briton_cultures @ir_cornish_cultures }
+@ir_all_briton_cultures = "@ir_cumbrian_cultures @ir_welsh_cultures @ir_south_east_briton_cultures @ir_cornish_cultures"
+link = { ck3 = briton @ir_all_briton_cultures }
 # vanilla CK3
 link = { ck3 = pictish ir = caledonian ir = votadinian ir = taexalian }
-link = { ck3 = breton @ir_south_east_briton_cultures @ir_cornish_cultures @ir_welsh_cultures @ir_cumbrian_cultures irRegion = armorica_region }
+link = { ck3 = breton @ir_all_briton_cultures irRegion = armorica_region }
 link = { ck3 = cumbrian @ir_cumbrian_cultures }
 link = { ck3 = welsh @ir_welsh_cultures }
 link = { ck3 = cornish @ir_cornish_cultures }
@@ -464,7 +468,7 @@ link = { ck3 = german @ir_all_germanic_cultures }
 @ir_greek_cultures = "ir=greek ir=athenian ir=peloponnesian ir=massalian ir=cyrenaican ir=bosporan ir=thessalian ir=cypriot ir=bithynian ir=ionian ir=troan ir=aeolian ir=greco_pontic ir=aegean ir=aetolian ir=euboean ir=boeotian ir=epirote ir=arcadian ir=argolian ir=parthinian ir=achaean ir=enetoian ir=pamphylian @ir_antiquitas_greek_cultures"
 
 # The Glory of Rome
-link = { ck3 = greek @ir_greek_cultures historicalTag=ROM historicalTag=ERE historicalTag=WRE } # Modified cultures so base game greek represents the Romanized-Greeks
+link = { ck3 = greek @ir_greek_cultures @roman_tags } # Modified cultures so base game greek represents the Romanized-Greeks
 
 # TFE
 link = { ck3 = pontic ir = greco_pontic }
@@ -495,6 +499,7 @@ link = { ck3 = illyrian @illyrian_cultures }
 # Vanilla CK3
 link = { ck3 = albanian @illyrian_cultures irRegion = macedonia_region irRegion = greece_region irRegion = magna_graecia_region ck3Province = 470 ck3Province = 3717 ck3Province = 3720 ck3Province = 3718 ck3Province = 3719 ck3Province = 3721 ck3Province = 3724 ck3Province = 3723 ck3Province = 3722 ck3Province = 3713 ck3Province = 3714 ck3Province = 3715 ck3Province = 3716 ck3Province = 3520 ck3Province = 3711 ck3Province = 3712 }
 link = { ck3 = dalmatian @illyrian_cultures }
+link = { ck3 = messapic ir = messapian }
 
 ## Indian
 #TFE
@@ -529,7 +534,7 @@ link = { ck3 = norman ir = norman } # https://steamcommunity.com/sharedfiles/fil
 @picenian_cultures = "ir = south_picena ir = north_picena" # Terra-Indomita cultures, easier to group together since they should be mapped together
 @ir_latin_cultures = "ir = roman ir = osco_umbrian ir = umbrian ir = samnite ir = ligurian ir = lucanian ir = bruttian ir = sardonian @sicilian_cultures @picenian_cultures"
 # The Glory of Rome
-link = { ck3 = roman @ir_latin_cultures historicalTag=ROM historicalTag=ERE historicalTag=WRE }
+link = { ck3 = roman @ir_latin_cultures @roman_tags }
 
 # TFE -splitting according to regions
 link = { ck3 = hiberno_roman @ir_latin_cultures @culture_splitting_region_A } 
@@ -555,6 +560,15 @@ link = { ck3 = hispano_roman @ir_latin_cultures
 link = { ck3 = mauro_roman @ir_latin_cultures irRegion = mauretainia_region irRegion = atlas_region irRegion = numidia_region }
 link = { ck3 = afro_roman @ir_latin_cultures @culture_splitting_region_O }
 
+# Default
+link = { ck3 = ligustic ir = ligurian }
+link = { ck3 = venetic ir = venetic ir=histrian } # histrian moved to italic in Invictus
+link = { ck3 = roman ir = roman }
+link = { ck3 = samnite ir = samnite ir = lucanian ir = bruttian }
+link = { ck3 = oscan ir = osco_umbrian ir = umbrian @picenian_cultures } # Added Picenian cultures here since in game description says that speak a language like Umbrian ~~tanner918
+link = { ck3 = sardonian ir = sardonian }
+link = { ck3 = siculian @sicilian_cultures }
+
 # Vanilla CK3 - splitting according to regions, TODO: rework this
 link = { ck3 = breathanach @ir_latin_cultures @culture_splitting_region_A }
 link = { ck3 = transadrianic @ir_latin_cultures @culture_splitting_region_B }
@@ -576,16 +590,6 @@ link = { ck3 = asturleonese @ir_latin_cultures @culture_splitting_region_V }
 link = { ck3 = galician @ir_latin_cultures @culture_splitting_region_W }
 link = { ck3 = castilian @ir_latin_cultures @culture_splitting_region_X }
 link = { ck3 = portuguese @ir_latin_cultures @culture_splitting_region_Y }
-
-# Default
-link = { ck3 = ligustic ir = ligurian }
-link = { ck3 = venetic ir = venetic ir=histrian } # histrian moved to italic in Invictus
-link = { ck3 = roman ir = roman }
-link = { ck3 = samnite ir = samnite }
-link = { ck3 = oscan ir = osco_umbrian ir = umbrian @picenian_cultures } # Added Picenian cultures here since in game description says that speak a language like Umbrian ~~tanner918
-link = { ck3 = messapic ir = lucanian ir = bruttian ir = messapian }
-link = { ck3 = sardonian ir = sardonian }
-link = { ck3 = siculian @sicilian_cultures }
 
 # Tyrrenic
 link = { ck3 = rhaetian ir = etruscan ir = rhaetian @culture_splitting_region_G @culture_splitting_region_H @culture_splitting_region_D irRegion = rhaetia_region }
