@@ -85,8 +85,7 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 			}
 			
 			// Check for hash collision.
-			var murmur3A = MurmurHash.Create32();
-			var hashStr = GetHashStrForKey(murmur3A, id);
+			var hashStr = GetHashStrForKey(id);
 			if (hashToKeyDict.TryGetValue(hashStr, out var existingKey)) {
 				Logger.Warn($"Hash collision detected for loc key: {id}. Existing key: {existingKey}");
 			} else {
@@ -156,15 +155,16 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 	}
 	
 	public bool KeyHasConflictingHash(string key) {
-		var murmur3A = MurmurHash.Create32();
-		return hashToKeyDict.ContainsKey(GetHashStrForKey(murmur3A, key));
+		return hashToKeyDict.ContainsKey(GetHashStrForKey(key));
 	}
 
-	private static string GetHashStrForKey(Murmur32 murmur32, string key) {
+	private static string GetHashStrForKey(string key) {
 		var keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
-		var hash = murmur32.ComputeHash(keyBytes);
+		var hash = murmur3A.ComputeHash(keyBytes);
 		return string.Concat(hash.Select(b => b.ToString("X2")));
 	}
 
-	private readonly Dictionary<string, string> hashToKeyDict = new(); // stores MurmurHash3A hash to key mapping
+	private readonly Dictionary<string, string> hashToKeyDict = []; // stores MurmurHash3A hash to key mapping
+	
+	private static readonly Murmur32 murmur3A = MurmurHash.Create32();
 }
