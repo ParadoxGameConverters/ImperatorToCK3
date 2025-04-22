@@ -37,6 +37,11 @@ internal sealed class ProvinceMapper {
 				continue;
 			}
 
+			// We don't want many-to-many mappings.
+			if (mapping.ImperatorProvinces.Count > 1 && mapping.CK3Provinces.Count > 1) {
+				Logger.Warn($"Many-to-many province mapping found: {string.Join(", ", mapping.ImperatorProvinces)} -> {string.Join(", ", mapping.CK3Provinces)}");
+			}
+
 			foreach (var impNumber in mapping.ImperatorProvinces) {
 				if (impNumber != 0) {
 					imperatorToCK3ProvinceMap.Add(impNumber, mapping.CK3Provinces);
