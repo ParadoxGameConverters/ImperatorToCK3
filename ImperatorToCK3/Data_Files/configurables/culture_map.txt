@@ -110,7 +110,7 @@
 @europe_regions = "@culture_splitting_region_K @culture_splitting_region_H @culture_splitting_region_J @culture_splitting_region_R @culture_splitting_region_Q @culture_splitting_region_S @culture_splitting_region_P @culture_splitting_region_I @culture_splitting_region_G @culture_splitting_region_D @culture_splitting_region_C @culture_splitting_region_B @culture_splitting_region_A @culture_splitting_region_E @culture_splitting_region_F @culture_splitting_region_T @culture_splitting_region_U @culture_splitting_region_X @culture_splitting_region_V @culture_splitting_region_W @culture_splitting_region_Y"
 
 ## This grouping is just to make it easier to reference all of the Roman tags since they can potentially be used throughout the file
-@roman_tags = { historicalTag=ROM historicalTag=ERE historicalTag=WRE }
+@roman_tags = "historicalTag=ROM historicalTag=ERE historicalTag=WRE"
 
 ## Aksumite
 link = { ck3 = afar ir = puntic ir = aksumite ck3Province = 8286 ck3Province = 8326 ck3Province = 8344 ck3Province = 8334 ck3Province = 8332 ck3Province = 8339 ck3Province = 8342 }
