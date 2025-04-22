@@ -106,7 +106,7 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 
 		// Look in faith first. If not found, look in religion.
 		var matchingInFaith = DoctrineIds.Intersect(potentialDoctrineIds).ToOrderedSet();
-		if (matchingInFaith.Any()) {
+		if (matchingInFaith.Count != 0) {
 			return matchingInFaith;
 		} else {
 			return Religion.DoctrineIds.Intersect(potentialDoctrineIds).ToOrderedSet();

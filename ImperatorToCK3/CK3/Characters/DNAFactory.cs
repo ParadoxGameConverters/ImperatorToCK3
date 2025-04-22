@@ -299,7 +299,7 @@ internal sealed class DNAFactory {
 				.ToImmutableList();
 			var geneTemplatesToUse = visibleGeneTemplates.Count > 0 ? visibleGeneTemplates : geneTemplates;
 			// Get middle gene template.
-			var templateName = geneTemplatesToUse.ElementAt(geneTemplatesToUse.Count / 2).Id;
+			var templateName = geneTemplatesToUse[geneTemplatesToUse.Count / 2].Id;
 			morphDNAValues.Add(gene.Id, new DNAGeneValue {
 				TemplateName = templateName,
 				IntSliderValue = 128,
@@ -315,7 +315,7 @@ internal sealed class DNAFactory {
 				.OrderBy(t => t.Index)
 				.ToImmutableList();
 			// Get middle gene template.
-			var middleTemplate = geneTemplates.ElementAt(geneTemplates.Count / 2);
+			var middleTemplate = geneTemplates[geneTemplates.Count / 2];
 			if (middleTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? weightBlock)) {
 				var middleObjectName = weightBlock.GetMatchingObject(0.5);
 				if (middleObjectName is not null) {

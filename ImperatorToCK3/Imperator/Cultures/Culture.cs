@@ -37,6 +37,6 @@ public sealed class Culture : IIdentifiable<string> {
 	}
 
 	public string? GetMaleFamilyNameForm(string familyKey) {
-		return familyNamesDict.TryGetValue(familyKey, out var maleForm) ? maleForm : null;
+		return familyNamesDict.GetValueOrDefault(familyKey);
 	}
 }

@@ -386,7 +386,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		return cultureId;
 	}
 
-	private void GenerateReligiousHeadForFaithIfMissing(
+	private static void GenerateReligiousHeadForFaithIfMissing(
 		Faith faith,
 		Title.LandedTitles titles,
 		CharacterCollection characters,

@@ -112,7 +112,7 @@ internal static class MenAtArmsOutputter {
 	public static void OutputMenAtArms(string outputModName, ModFilesystem modFS, CharacterCollection ck3Characters, IdObjectCollection<string, MenAtArmsType> menAtArmsTypes) {
 		Logger.Info("Writing men-at-arms spawning script...");
 
-		var charactersWithMaa = ck3Characters.Where(c => c.MenAtArmsStacksPerType.Any()).ToArray();
+		var charactersWithMaa = ck3Characters.Where(c => c.MenAtArmsStacksPerType.Count != 0).ToArray();
 		OutputHiddenEvent(outputModName, charactersWithMaa);
 		OutputGuiContainer(outputModName, modFS, charactersWithMaa);
 		OutputMenAtArmsTypes(outputModName, menAtArmsTypes);

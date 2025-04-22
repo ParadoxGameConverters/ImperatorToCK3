@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CK3;
 
-public class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
+internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 	public CK3LocDB() { }
 	
 	public CK3LocDB(ModFilesystem ck3ModFS, IEnumerable<string> activeModFlags) {
@@ -160,11 +160,11 @@ public class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 		return hashToKeyDict.ContainsKey(GetHashStrForKey(murmur3A, key));
 	}
 
-	private string GetHashStrForKey(Murmur32 murmur32, string key) {
+	private static string GetHashStrForKey(Murmur32 murmur32, string key) {
 		var keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
 		var hash = murmur32.ComputeHash(keyBytes);
-		return string.Join("", hash.Select(b => b.ToString("X2")));
+		return string.Concat(hash.Select(b => b.ToString("X2")));
 	}
-	
+
 	private readonly Dictionary<string, string> hashToKeyDict = new(); // stores MurmurHash3A hash to key mapping
 }

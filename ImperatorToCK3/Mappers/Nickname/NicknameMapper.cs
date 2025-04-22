@@ -38,6 +38,6 @@ public sealed class NicknameMapper {
 		if (impNickname is null) {
 			return null;
 		}
-		return impToCK3NicknameMap.TryGetValue(impNickname, out var ck3Nickname) ? ck3Nickname : null;
+		return impToCK3NicknameMap.GetValueOrDefault(impNickname);
 	}
 }

@@ -17,11 +17,11 @@ internal sealed class TitleMapping {
 		string tagForMapping = country.OriginCountry is not null ? country.Tag : country.HistoricalTag;
 		
 		// The mapping should have at least an I:R tag or I:R name keys.
-		if (imperatorTagOrRegion is null & irNameKeys.Count == 0) {
+		if (imperatorTagOrRegion is null && irNameKeys.Count == 0) {
 			return null;
 		}
 
-		if (imperatorTagOrRegion is not null & imperatorTagOrRegion != tagForMapping) {
+		if (imperatorTagOrRegion is not null && imperatorTagOrRegion != tagForMapping) {
 			return null;
 		}
 		if (maxTitleRank < CK3TitleRank) {

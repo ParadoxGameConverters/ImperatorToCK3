@@ -1008,7 +1008,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 			
 			if (liegeTitle.Rank <= Rank) {
-				Logger.Debug($"Liege title's rank is not higher than vassal's! " +
+				Logger.Debug("Liege title's rank is not higher than vassal's! " +
 				             $"Title: {Id}, liege: {liegeTitle.Id}");
 				return null;
 			}
@@ -1283,7 +1283,13 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			return false;
 		}
 
-		return DeJureVassals.Any(vassal => vassal.Rank == TitleRank.duchy && vassal.DuchyContainsProvince(provinceId));
+		foreach (var vassal in DeJureVassals) {
+			if (vassal.Rank == TitleRank.duchy && vassal.DuchyContainsProvince(provinceId)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	// used by duchy titles only
@@ -1292,7 +1298,13 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			return false;
 		}
 
-		return DeJureVassals.Any(vassal => vassal.Rank == TitleRank.county && vassal.CountyProvinceIds.Contains(provinceId));
+		foreach (var vassal in DeJureVassals) {
+			if (vassal.Rank == TitleRank.county && vassal.CountyProvinceIds.Contains(provinceId)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	public Title GetTopRealm(Date date) {
@@ -1385,11 +1397,12 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					continue;
 				}
 
-				if (!heldTitlesPerCharacterCache.ContainsKey(ck3Official.Id)) {
-					heldTitlesPerCharacterCache[ck3Official.Id] = parentCollection.Count(t => t.GetHolderId(irSaveDate) == ck3Official.Id);
+				if (!heldTitlesPerCharacterCache.TryGetValue(ck3Official.Id, out int value)) {
+					value = parentCollection.Count(t => t.GetHolderId(irSaveDate) == ck3Official.Id);
+					heldTitlesPerCharacterCache[ck3Official.Id] = value;
 				}
 				// A potential courtier must not be a ruler.
-				if (heldTitlesPerCharacterCache[ck3Official.Id] > 0) {
+				if (value > 0) {
 					continue;
 				}
 
@@ -1485,12 +1498,12 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 					}
 					
 					// Skip if the faith doesn't allow the character's gender to be clergy.
-					var clerigalGenderDoctrines = rulerFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_clerical_gender");
-					if (clerigalGenderDoctrines.Any()) {
-						if (clerigalGenderDoctrines.Contains("doctrine_clerical_gender_female_only") && !ck3Official.Female) {
+					var clericalGenderDoctrines = rulerFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_clerical_gender");
+					if (clericalGenderDoctrines.Count != 0) {
+						if (clericalGenderDoctrines.Contains("doctrine_clerical_gender_female_only") && !ck3Official.Female) {
 							continue;
 						}
-						if (clerigalGenderDoctrines.Contains("doctrine_clerical_gender_male_only") && ck3Official.Female) {
+						if (clericalGenderDoctrines.Contains("doctrine_clerical_gender_male_only") && ck3Official.Female) {
 							continue;
 						}
 					}

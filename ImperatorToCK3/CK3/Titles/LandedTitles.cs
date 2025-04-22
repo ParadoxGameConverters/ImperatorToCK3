@@ -375,7 +375,7 @@ internal sealed partial class Title {
 				
 				// If we have a holder at the bookmark date, remove all holder = 0 entries that precede it.
 				var entryDatesToRemove = holderField.DateToEntriesDict
-					.Where(pair => pair.Key < ck3BookmarkDate && pair.Value.Any(v => v.Value.ToString() == "0"))
+					.Where(pair => pair.Key < ck3BookmarkDate && pair.Value.Exists(v => v.Value.ToString() == "0"))
 					.Select(pair => pair.Key)
 					.ToArray();
 				foreach (var date in entryDatesToRemove) {
@@ -426,7 +426,7 @@ internal sealed partial class Title {
 						continue;
 					}
 					
-					var lastEntry = entriesList.Last();
+					var lastEntry = entriesList[^1];
 					var liegeTitleId = lastEntry.Value.ToString()?.RemQuotes();
 					if (liegeTitleId is null || liegeTitleId == "0") {
 						continue;
@@ -445,7 +445,7 @@ internal sealed partial class Title {
 						if (laterDate == null) {
 							liegeField.DateToEntriesDict.Remove(date);
 						} else {
-							var (setter, value) = liegeField.DateToEntriesDict[date].Last();
+							var (setter, value) = liegeField.DateToEntriesDict[date][^1];
 							liegeField.DateToEntriesDict.Remove(date);
 							liegeField.AddEntryToHistory(laterDate, setter, value);
 						}
@@ -1072,7 +1072,7 @@ internal sealed partial class Title {
 			CultureCollection ck3Cultures,
 			CharacterCollection ck3Characters,
 			HashSet<string> removableEmpireIds,
-			IDictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
+			Dictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
 			Dictionary<string, Title> heritageToEmpireDict,
 			CK3LocDB ck3LocDB,
 			Date ck3BookmarkDate
@@ -1105,7 +1105,7 @@ internal sealed partial class Title {
 				}
 				kingdomToDominantHeritagesDict[kingdom.Id] = dominantHeritages;
 
-				var dominantHeritage = dominantHeritages.First();
+				var dominantHeritage = dominantHeritages[0];
 
 				if (heritageToEmpireDict.TryGetValue(dominantHeritage.Id, out var empire)) {
 					kingdom.DeJureLiege = empire;
@@ -1185,8 +1185,8 @@ internal sealed partial class Title {
 		}
 
 		private void SplitDisconnectedEmpires(
-			IDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByLand,
-			IDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody,
+			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByLand,
+			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody,
 			HashSet<string> removableEmpireIds,
 			Dictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
 			Dictionary<string, Title> heritageToEmpireDict,

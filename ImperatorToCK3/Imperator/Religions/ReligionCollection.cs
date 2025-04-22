@@ -80,7 +80,7 @@ public sealed class ReligionCollection : IdObjectCollection<string, Religion> {
 	}
 
 	private string? GetDeityIdForHolySiteId(ulong holySiteId) {
-		return holySiteIdToDeityIdDict.TryGetValue(holySiteId, out var deityId) ? deityId : null;
+		return holySiteIdToDeityIdDict.GetValueOrDefault(holySiteId);
 	}
 	public Deity? GetDeityForHolySiteId(ulong holySiteId) {
 		var deityId = GetDeityIdForHolySiteId(holySiteId);
