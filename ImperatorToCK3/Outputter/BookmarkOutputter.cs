@@ -1,5 +1,4 @@
 using commonItems;
-using commonItems.Localization;
 using ImageMagick;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Titles;
@@ -238,7 +237,7 @@ internal static class BookmarkOutputter {
 		
 		var colorOnMap = playerTitle.Color1 ?? new commonItems.Colors.Color(0, 0, 0);
 		var rgba32ColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
-		ISet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(config.CK3BookmarkDate);
+		HashSet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(config.CK3BookmarkDate);
 		
 		// Determine which impassables should be colored by the country.
 		HashSet<ulong> provincesToColor = GetImpassableProvincesToColor(mapData, heldProvinces);

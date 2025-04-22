@@ -83,16 +83,16 @@ public sealed class CoaMapperTests {
 	            }
             }";
 		Assert.Equal(coa1.Split('\n').Length,
-			coaMapper.GetCoaForFlagName("e_IRTOCK3_ADI")!.Split('\n').Length);
+			coaMapper.GetCoaForFlagName("e_IRTOCK3_ADI", warnIfMissing: false)!.Split('\n').Length);
 		Assert.Equal(coa2.Split('\n').Length,
-			coaMapper.GetCoaForFlagName("e_IRTOCK3_AMK")!.Split('\n').Length);
+			coaMapper.GetCoaForFlagName("e_IRTOCK3_AMK", warnIfMissing: false)!.Split('\n').Length);
 		Assert.Equal(coa3.Split('\n').Length,
-			coaMapper.GetCoaForFlagName("e_IRTOCK3_ANG")!.Split('\n').Length);
+			coaMapper.GetCoaForFlagName("e_IRTOCK3_ANG", warnIfMissing: false)!.Split('\n').Length);
 	}
 
 	[Fact]
 	public void GetCoaForFlagNameReturnsNullOnNonMatch() {
 		var coaMapper = new CoaMapper(imperatorModFs);
-		Assert.Null(coaMapper.GetCoaForFlagName("e_IRTOCK3_WRONG"));
+		Assert.Null(coaMapper.GetCoaForFlagName("e_IRTOCK3_WRONG", warnIfMissing: false));
 	}
 }

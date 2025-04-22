@@ -57,6 +57,15 @@ link = {
 	ir_name_key = eastern_roman_kingdom_name
 	ir_name_key = eastern_roman_dictatorship_name
 }
+link = {
+	ck3 = e_western_roman_empire
+	ir_name_key = WRE
+	ir_name_key = western_rome_name
+	ir_name_key = western_roman_republic_name
+	ir_name_key = western_roman_empire_name
+	ir_name_key = western_roman_kingdom_name
+	ir_name_key = western_roman_dictatorship_name
+}
 link = { ir = ROM ck3 = e_roman_empire rank = e }
 link = { ir = ROM ck3 = e_roman_empire rank = k } # Because yes
 link = { ir = NEP ck3 = k_naples rank = k }

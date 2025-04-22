@@ -37,7 +37,7 @@ internal sealed class War {
 			}
 		}
 
-		if (!Attackers.Any()) {
+		if (Attackers.Count == 0) {
 			throw new ConverterException("War has no valid attackers!");
 		}
 		Claimant = Attackers[0];

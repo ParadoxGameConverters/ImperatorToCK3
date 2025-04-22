@@ -602,3 +602,50 @@ create_other_armies = {
 		BP_set_minorities_by_date_old
 	}
 }
+
+
+"common/on_action/BP_senate_on_actions.txt" = {
+	# References historical dynasties that don't make sense for a converted game.
+	{
+		#Senatorial Families (West)
+		dynasty:1042312 = { make_west_senate_family_effect = yes } #Anicii Gens
+		#dynasty:1042303 = { make_west_senate_family_effect = yes } #Decii Gens
+		dynasty:1042302 = { make_west_senate_family_effect = yes } #Symmachi Gens
+		dynasty:1042324 = { make_west_senate_family_effect = yes } #Rufii Gens
+		dynasty:1042300 = { make_west_senate_family_effect = yes } #Acilii Gens
+		dynasty:romano_gallic_dynasty_vettius = { make_west_senate_family_effect = yes } #Vettii Gens
+		dynasty:romano_african_dynasty_vettius = { make_west_senate_family_effect = yes } #Vettii Gens
+		#dynasty:roman_dynasty_vibius = { make_west_senate_family_effect = yes } #Vibii Gens
+		dynasty:romano_gallic_dynasty_pontius = { make_west_senate_family_effect = yes } #Pontii Gens
+		dynasty:romano_gallic_dynasty_decimius = { make_west_senate_family_effect = yes } #Decimii Gens
+		#Imperial Gens
+		dynasty:1022195 = { make_west_senate_family_effect = yes } #Constantini Gens
+		dynasty:1042315 = { make_west_senate_family_effect = yes } #Theodesii Gens
+		#Symmachus suggested, no chars/dynasty associated in database:
+		# Egnatii, Turcii, Marii Venantii, Turranii, Synesii
+		
+		#Romano-Gallic Dynasties
+		dynasty:roman_dynn_ferreolus = { make_west_senate_family_effect = yes } #Ferreoli Gens
+		dynasty:1042298 = { make_west_senate_family_effect = yes } #Avitus Gens
+		dynasty:1042301 = { make_west_senate_family_effect = yes } #Apollinarii Gens
+		dynasty:104246202 = { make_west_senate_family_effect = yes } #Ennodii Gens
+		
+		#Senatorial Families (East)
+		dynasty:1042535 = { make_east_senate_family_effect = yes } #Areobindus Gens
+		#Imperial Gens
+		dynasty:1022189 = { make_east_senate_family_effect = yes } #Venerius Gens
+		dynasty:1022188 = { make_east_senate_family_effect = yes } #Leonid Gens
+		#### Taken from Eastern Roman Consuls
+		dynasty:1042365 = { make_east_senate_family_effect = yes } #Family of Gennadius Avienus (ca. 450)
+		dynasty:104246209 = { make_east_senate_family_effect = yes } #Family of F. Taurus Celemntinus Armonius Clementinus
+		
+		#Symmachus suggested, no chars/dynasty associated in database:
+		# Theagenes
+		
+		#Build list of familes that should _not_ be given land; namely the Romano-Gallic Families
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:roman_dynn_ferreolus }
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:1042298 }
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:1042301 }
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:104246202 }
+	}
+}

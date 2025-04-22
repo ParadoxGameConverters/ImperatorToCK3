@@ -661,7 +661,7 @@ internal sealed class World {
 		county.SetDeFactoLiege(null, holderChangeDate);
 	}
 
-	private void GiveCountyToCountyLevelGovernor(Title county,
+	private static void GiveCountyToCountyLevelGovernor(Title county,
 		Governorship governorship,
 		Title ck3Country,
 		Imperator.Characters.CharacterCollection impCharacters) {
@@ -700,7 +700,7 @@ internal sealed class World {
 		return true;
 	}
 
-	private void RevokeBaroniesFromCountyGivenToImperatorCharacter(Title county) {
+	private static void RevokeBaroniesFromCountyGivenToImperatorCharacter(Title county) {
 		foreach (var barony in county.DeJureVassals) {
 			// Skip the county capital barony.
 			if (barony.ProvinceId == county.CapitalBaronyProvinceId) {
@@ -815,7 +815,7 @@ internal sealed class World {
 			faithCandidates = new OrderedSet<string> { "gaelic_paganism", "celtic_pagan", "briton_paganism", "pagan" };
 			cultureId = "gaelic";
 			// ReSharper disable once StringLiteralTypo
-			namePool = new Queue<string>(new[] { "A_engus", "Domnall", "Rechtabra" });
+			namePool = new Queue<string>(["A_engus", "Domnall", "Rechtabra"]);
 		}
 	}
 
@@ -907,7 +907,7 @@ internal sealed class World {
 	}
 
 	private void UseFallbackNonMuslimFaithToRemoveIslam(HashSet<Province> muslimProvinces, IdObjectCollection<string, Faith> muslimFaiths) {
-		if (muslimProvinces.Count <= 0) {
+		if (muslimProvinces.Count == 0) {
 			return;
 		}
 
@@ -922,7 +922,7 @@ internal sealed class World {
 	}
 
 	private void UseClosestProvincesToRemoveIslam(HashSet<Province> muslimProvinces, Date date) {
-		if (muslimProvinces.Count <= 0) {
+		if (muslimProvinces.Count == 0) {
 			return;
 		}
 
@@ -1046,7 +1046,7 @@ internal sealed class World {
 				}
 				if (culture is null) {
 					Logger.Warn($"Found no fitting culture for generated holder of {county.Id}, " +
-					            $"using first culture from database!");
+					            "using first culture from database!");
 					culture = cultures.First();
 				}
 			}
@@ -1074,7 +1074,7 @@ internal sealed class World {
 				}
 				if (faithId is null) {
 					Logger.Warn($"Found no fitting faith for generated holder of {county.Id}, " +
-					            $"using first faith from database!");
+					            "using first faith from database!");
 					faithId = Religions.Faiths.First().Id;
 				}
 			}
@@ -1083,11 +1083,11 @@ internal sealed class World {
 			string name;
 			var maleNames = culture.MaleNames.ToImmutableList();
 			if (maleNames.Count > 0) {
-				name = maleNames.ElementAt(pseudoRandomSeed % maleNames.Count);
+				name = maleNames[pseudoRandomSeed % maleNames.Count];
 			} else { // Generate a female if no male name is available.
 				female = true;
 				var femaleNames = culture.FemaleNames.ToImmutableList();
-				name = femaleNames.ElementAt(pseudoRandomSeed % femaleNames.Count);
+				name = femaleNames[pseudoRandomSeed % femaleNames.Count];
 			}
 			int age = 18 + (pseudoRandomSeed % 60);
 			var holder = new Character($"IRToCK3_{county.Id}_holder", name, date, Characters) {

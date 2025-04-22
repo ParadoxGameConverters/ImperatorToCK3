@@ -700,7 +700,7 @@ internal partial class World {
 	}
 
 	private void ReplaceSubstitutionKeysInLoc(LocBlock locBlock, string language, string loc) {
-		Regex substitutionRegex = new(@"\$[A-Z_]*\$");
+		Regex substitutionRegex = SubstitutionRegex();
 		
 		var matches = substitutionRegex.Matches(loc);
 		foreach (Match? match in matches) {
@@ -802,4 +802,6 @@ internal partial class World {
 
 	[GeneratedRegex(@"^\S+=\s*\{[\s\S]*?^\}", RegexOptions.Multiline)]
 	private static partial Regex FlagDefinitionRegex();
+	[GeneratedRegex(@"\$[A-Z_]*\$")]
+	private static partial Regex SubstitutionRegex();
 }

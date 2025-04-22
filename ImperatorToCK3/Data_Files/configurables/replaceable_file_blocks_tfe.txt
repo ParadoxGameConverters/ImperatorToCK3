@@ -1547,3 +1547,121 @@ gaetuli_dynasty = {
 		}
 	}
 }
+
+
+"common/laws/imperial_laws.txt" = {
+
+	# imperial_authority_3 can_pass block (this fixes an error where you can't pass this law in converted TFE games)
+	replace = {
+		before = {
+		can_pass = {
+			OR = {
+			trigger_if = {
+				limit = {
+					AND = {
+						game_start_date = 361.11.17
+						current_date >= 361.11.22
+						NOT = { has_realm_law = imperial_authority_4 }
+						NOT = { has_realm_law = imperial_authority_5 }
+					}
+				}
+				has_realm_law = imperial_authority_2
+			}
+			trigger_if = {
+				limit = {
+					AND = {
+						game_start_date = 361.11.17
+						current_date >= 361.11.22
+						NOT = { has_realm_law = imperial_authority_4 }
+						NOT = { has_realm_law = imperial_authority_5 }
+					}
+				}
+				has_realm_law = imperial_authority_2
+		}
+		trigger_if = {
+				limit = {
+					AND = {
+						game_start_date = 395.1.17
+						current_date >= 395.1.22
+						NOT = { has_realm_law = imperial_authority_4 }
+						NOT = { has_realm_law = imperial_authority_5 }
+					}
+				}
+				has_realm_law = imperial_authority_2
+		}
+		trigger_if = {
+				limit = {
+					AND = {
+						game_start_date = 476.9.4
+						current_date >= 476.9.9
+						NOT = { has_realm_law = imperial_authority_4 }
+						NOT = { has_realm_law = imperial_authority_5 }
+					}
+				}
+				has_realm_law = imperial_authority_2
+		}
+		trigger_if = {
+				limit = {
+					AND = {
+						game_start_date = 532.2.1
+						current_date >= 532.2.6
+						NOT = { has_realm_law = imperial_authority_4 }
+						NOT = { has_realm_law = imperial_authority_5 }
+					}
+				}
+				has_realm_law = imperial_authority_2
+		}
+		trigger_if = {
+				limit = {
+					AND = {
+						game_start_date = 632.6.8
+						current_date >= 632.6.14
+						NOT = { has_realm_law = imperial_authority_4 }
+						NOT = { has_realm_law = imperial_authority_5 }
+					}
+				}
+				has_realm_law = imperial_authority_2
+			}
+		}
+		custom_description = {
+					subject = root
+					text = "has_crown_authority_cooldown"
+					NAND = {
+						has_variable = crown_authority_cooldown
+						NOT = {
+							culture = { has_innovation = innovation_all_things }
+					}
+				}
+			}
+		}
+		} # end of before
+
+		after = {
+		can_pass = {
+			trigger_if = {
+				limit = {
+					AND = {
+						NOT = { has_realm_law = imperial_authority_4 }
+						NOT = { has_realm_law = imperial_authority_5 }
+					}
+				}
+				custom_description = { # IRToCK3: TFE manually checks if at least 5/6 days has passed since the game start, but checks each of its start dates individually, making it incompatible with converted save games unless they start exactly on one of those start dates. This will make it work regardless of the start date, but does come with a longer delay than TFE does, and sets up a description to notify the player in game.
+					text = "irtock3_tfe_imperial_authority_3_time_trigger"
+					years_from_game_start >= 1
+				}
+				has_realm_law = imperial_authority_2
+			}
+			custom_description = {
+				subject = root
+				text = "has_crown_authority_cooldown"
+				NAND = {
+					has_variable = crown_authority_cooldown
+					NOT = {
+						culture = { has_innovation = innovation_all_things }
+					}
+				}
+			}
+		}
+		} # end of after
+	}
+}

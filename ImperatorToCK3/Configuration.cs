@@ -235,7 +235,7 @@ public sealed class Configuration {
 
 		if (!docFolderVerified) {
 			throw new UserErrorException($"{ImperatorDocPath} is not a valid I:R documents path!\n" +
-			                             $"It should contain one of the following files: " +
+			                             "It should contain one of the following files: " +
 			                             $"{string.Join(", ", filesInDocFolder)}");
 		}
 		
@@ -343,7 +343,7 @@ public sealed class Configuration {
 			["aep"] = AsiaExpansionProjectEnabled,
 		};
 
-		flags["vanilla"] = flags.Count(f => f.Value) == 0;
+		flags["vanilla"] = !flags.Any(f => f.Value);
 		return flags;
 	}
 	

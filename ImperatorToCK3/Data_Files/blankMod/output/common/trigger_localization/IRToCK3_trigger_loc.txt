@@ -1,0 +1,4 @@
+﻿# This is required for the trigger localization to properly display explaining why this law can't be passed right away in TFE
+irtock3_tfe_imperial_authority_3_time_trigger = {
+	first_not = IRTOCK3_TFE_IMPERIAL_AUTHORITY_3_TIME_TRIGGER_TT
+}

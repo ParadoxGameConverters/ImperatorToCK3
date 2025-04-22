@@ -438,7 +438,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	public void LoadCharacterIDsToPreserve(Date ck3BookmarkDate) {
 		Logger.Debug("Loading IDs of CK3 characters to preserve...");
 
-		string configurablePath = "configurables/ck3_characters_to_preserve.txt";
+		const string configurablePath = "configurables/ck3_characters_to_preserve.txt";
 		var parser = new Parser();
 		parser.RegisterRegex("keep_as_is", reader => {
 			var ids = reader.GetStrings();
@@ -859,9 +859,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		Logger.Info("Generating successors for old characters...");
 		
 		var oldCharacters = this
-			.Where(c => c.BirthDate < ck3BookmarkDate && c.DeathDate is null)
-			.Where(c => ck3BookmarkDate.DiffInYears(c.BirthDate) > 60)
-			.ToArray();
+			.Where(c => c.BirthDate < ck3BookmarkDate && c.DeathDate is null && ck3BookmarkDate.DiffInYears(c.BirthDate) > 60).ToArray();
 
 		var titleHolderIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(ck3BookmarkDate);
 		
