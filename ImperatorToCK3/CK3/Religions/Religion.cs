@@ -53,7 +53,7 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 		faithData = new FaithData();
 		
 		faithDataParser.ParseStream(faithReader);
-		if (faithData.InvalidatingFaithIds.Any()) { // Faith is an optional faith.
+		if (faithData.InvalidatingFaithIds.Count != 0) { // Faith is an optional faith.
 			foreach (var existingFaith in ReligionCollection.Faiths) {
 				if (!faithData.InvalidatingFaithIds.Contains(existingFaith.Id)) {
 					continue;

@@ -1,10 +1,8 @@
 using commonItems;
 using commonItems.Localization;
-using DotLiquid;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.Imperator.Inventions;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Technology;
