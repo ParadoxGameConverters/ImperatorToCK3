@@ -13,7 +13,6 @@
 
 e_western_roman_empire = {
 	color = hsv { 0 0.91 0.55 }
-	color2 = { 255 255 255 }
 
 	capital = c_roma # Rome
 

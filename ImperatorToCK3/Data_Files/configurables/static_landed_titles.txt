@@ -28,7 +28,6 @@
 
 e_spain = {
 	color = { 233 200 20 }
-	color2 = { 255 255 255 }
 
 	capital = c_toledo # Toledo
 	can_be_named_after_dynasty = no
@@ -56,7 +55,6 @@ e_spain = {
 
 	k_iberian_galicia = {
 		color = hsv { 0.12 0.48 0.76 }
-		color2 = { 255 255 255 }
 
 		capital = c_coruna # La Coruña
 
@@ -68,7 +66,6 @@ e_spain = {
 
 	k_lusitania = {
 		color = hsv { 0.9 1 0.4 }
-		color2 = { 255 255 255 }
 
 		capital = c_badajoz # Badajoz
 
@@ -79,7 +76,6 @@ e_spain = {
 
 	k_betique = {
 		color = hsv { 0.31 0.14 0.75 }
-		color2 = { 255 255 255 }
 
 		capital = c_cordoba # Cordoba
 
@@ -91,7 +87,6 @@ e_spain = {
 
 	k_contestania = {
 		color = hsv { 0.57 0.77 0.68 }
-		color2 = { 255 255 255 }
 
 		capital = c_valencia # Valencia
 
@@ -103,7 +98,6 @@ e_spain = {
 
 	k_tarragonaise = {
 		color = hsv { 0.31 0.32 0.63 }
-		color2 = { 255 255 255 }
 
 		capital = c_burgos # Burgos
 
@@ -118,7 +112,6 @@ e_spain = {
 
 e_gaul = {
 	color = hsv { 0.77 0.3 0.75 }
-	color2 = { 255 255 20 }
 
 	capital = c_ile_de_france
 
@@ -133,7 +126,6 @@ e_gaul = {
 
 	k_armorique = {
 		color = hsv { 0.26 0.39 0.5 }
-		color2 = { 255 255 20 }
 
 		d_brittany = {}
 		d_normandy = {}
@@ -142,7 +134,6 @@ e_gaul = {
 
 	k_aquitane_gaul = {
 		color = hsv { 0.77 0.64 0.48 }
-		color2 = { 255 255 20 }
 
 		capital = c_bordeaux # Bordaeux
 
@@ -154,7 +145,6 @@ e_gaul = {
 
 	k_belgia = {
 		color = hsv { 0.23 0.93 0.58 }
-		color2 = { 255 255 20 }
 
 		capital = c_brugge
 
@@ -167,7 +157,6 @@ e_gaul = {
 
 	k_celtia_gaul = {
 		color = hsv { 0.65 0.29 0.73 }
-		color2 = { 255 255 20 }
 
 		capital = c_orleans # Orleans
 
@@ -182,7 +171,6 @@ e_gaul = {
 
 	k_south_gaul = {
 		color = hsv { 0.15 0.42 0.29 }
-		color2 = { 255 255 20 }
 
 		capital	= c_venaissin # Arles
 
@@ -197,7 +185,6 @@ e_gaul = {
 
 e_britannia = {
 	color = { 172 22 22 }
-	color2 = { 255 255 255 }
 
 	capital = c_middlesex
 
@@ -222,7 +209,6 @@ e_britannia = {
 
 	k_england = {
 		color = hsv { 0.94 0.63 0.73 }
-		color2 = { 255 255 255 }
 
 		capital = c_middlesex
 
@@ -239,7 +225,6 @@ e_britannia = {
 
 e_western_roman_empire = {
 	color = hsv { 0 0.91 0.55 }
-	color2 = { 255 255 255 }
 
 	capital = c_roma # Rome
 
@@ -247,7 +232,6 @@ e_western_roman_empire = {
 
 	k_north_italy = {
 		color = hsv { 0.31 0.14 0.75 }
-		color2 = { 255 255 255 }
 
 		capital = c_modena # Modena
 
@@ -264,7 +248,6 @@ e_western_roman_empire = {
 
 	k_central_italy = {
 		color = hsv { 0.68 0.95 0.44 }
-		color2 = { 255 255 255 }
 
 		capital = c_roma # Rome
 
@@ -276,7 +259,6 @@ e_western_roman_empire = {
 
 	k_magna_graecia = {
 		color = { 109 43 175 }
-		color2 = { 255 255 255 }
 
 		capital = c_palermo #	Palermo
 
@@ -290,7 +272,6 @@ e_western_roman_empire = {
 
 	k_sardinia = {	#Sardinia & Corsica
 		color = { 210 165 255 }
-		color2 = { 255 255 255 }
 
 		capital = c_cagliari # Cagliari
 
@@ -309,7 +290,6 @@ e_western_roman_empire = {
 
 	k_illiria = {
 		color = hsv { 0.24 0.1 0.89 }
-		color2 = { 255 255 255 }
 
 		capital = c_zadar # Zadar
 
@@ -330,7 +310,6 @@ e_western_roman_empire = {
 
 	k_rhetia = {
 		color = hsv { 0.07 0.37 1 }
-		color2 = { 255 255 255 }
 
 		capital = c_regensburg
 
@@ -345,7 +324,6 @@ e_western_roman_empire = {
 
 e_byzantium = {
 	color =  hsv{ 0.9 1 0.3 } #hsv{ 0.73 0.8 0.4 }  #hsv{ 0.77 0.8 0.6 } #{ 143 12 125 }
-	color2 = { 255 255 255 }
 
 	capital = c_byzantion
 
@@ -362,7 +340,6 @@ e_byzantium = {
 
 	k_macedon = {
 		color = hsv { 0.65 0.65 0.73 }
-		color2 = { 255 255 255 }
 
 		capital = c_turnovo # Turnovo
 
@@ -392,13 +369,11 @@ e_byzantium = {
 
 e_egypte = {
 	color = { 177 183 23 }
-	color2 = { 255 255 255 }
 
 	capital = c_alexandria
 
 	k_egypt = {
 		color = { 10 255 80 }
-		color2 = { 255 255 255 }
 
 		capital	= c_cairo
 
@@ -414,7 +389,6 @@ e_egypte = {
 
 	k_phoenicia = {
 		color = hsv { 0.86 0.21 0.8 }
-		color2 = { 255 255 255 }
 
 		capital = c_antiocheia
 
@@ -425,7 +399,6 @@ e_egypte = {
 
 	k_palestinia = {
 		color = { 0 125 168 }
-		color2 = { 255 255 255 }
 
 		capital = c_jerusalem
 
@@ -436,7 +409,6 @@ e_egypte = {
 
 	k_syria = {
 		color = { 145 130 88 }
-		color2 = { 255 255 255 }
 
 		capital = c_damascus
 	}
@@ -444,7 +416,6 @@ e_egypte = {
 
 e_germany = {
 	color = { 190 200 190 }
-	color2 = { 220 220 20 }
 
 	capital = c_nassau
 
@@ -472,7 +443,6 @@ e_germany = {
 
 	k_germania_superior = {
 		color = hsv { 0.13 0.25 0.6 }
-		color2 = { 220 220 20 }
 
 		capital = c_luxembourg #Luxemburg
 
@@ -497,7 +467,6 @@ e_germany = {
 
 	k_german_bohemia = {
 		color = { 34 108 210 }
-		color2 = { 220 220 20 }
 
 		capital = c_praha # Praha
 
@@ -512,7 +481,6 @@ e_germany = {
 
 	k_central_germania = {
 		color = { 204 161 83 }
-		color2 = { 220 220 20 }
 
 		capital = c_stettin # Szczecin
 
@@ -531,7 +499,6 @@ e_germany = {
 
 e_wendish_empire = {
 	color = { 130 10 0 }
-	color2 = { 200 0 0 }
 
 	capital = c_vidzeme # Riga
 
@@ -554,7 +521,6 @@ e_wendish_empire = {
 
 	k_vistulia = {
 		color = hsv { 0.07 0.37 1 }
-		color2 = { 255 255 255 }
 
 		capital = c_volodymyr # Volodymyr
 
