@@ -19,7 +19,7 @@ public sealed class DeathReasonMapper {
 		parser.ParseStream(reader);
 	}
 	public string? GetCK3ReasonForImperatorReason(string irReason) {
-		return irToCK3ReasonMap.TryGetValue(irReason, out var value) ? value : null;
+		return irToCK3ReasonMap.GetValueOrDefault(irReason);
 	}
 
 	private void RegisterKeys(Parser parser) {

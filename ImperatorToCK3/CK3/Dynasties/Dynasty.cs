@@ -7,7 +7,6 @@ using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Mappers.Culture;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
@@ -95,8 +94,8 @@ internal sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> 
 	[NonSerialized] public StringOfItem? CoA { get; set; }
 	[NonSerialized] public bool FromImperator { get; private set; } = false;
 
-	private void SetCultureFromImperator(Family irFamily, IReadOnlyList<Character> irMembers, CultureMapper cultureMapper, Date date) {
-		if (irMembers.Count > 0) {
+	private void SetCultureFromImperator(Family irFamily, ImperatorCharacter[] irMembers, CultureMapper cultureMapper, Date date) {
+		if (irMembers.Length > 0) {
 			var firstImperatorMember = irMembers[0];
 			// Try to make head's culture the dynasty culture.
 			if (firstImperatorMember.CK3Character is not null) {

@@ -9,7 +9,6 @@ internal sealed class CountryName {
 	private string? adjective;
 	public CountryName? BaseName { get; private init; }
 
-
 	public LocBlock? GetNameLocBlock(LocDB irLocDB, CountryCollection imperatorCountries) {
 		// If the name contains a space, it can be a composite name like "egyptian PROV4791_persia"
 		// (egyptian and PROV4791_persia are both loc keys, so the resulting in-game name is Memphite Hormirzad).
@@ -131,14 +130,10 @@ internal sealed class CountryName {
 	}
 
 	public string GetAdjectiveLocKey() {
-		if (adjective is not null) {
-			return adjective;
-		}
-
-		return Name + "_ADJ";
+		return adjective ?? $"{Name}_ADJ";
 	}
 
-	private string ReplaceDataTypes(string loc, string language, LocDB irLocDB, CountryCollection irCountries) {
+	private static string ReplaceDataTypes(string loc, string language, LocDB irLocDB, CountryCollection irCountries) {
 		if (!loc.Contains("[GetCountry(")) {
 			return loc;
 		}

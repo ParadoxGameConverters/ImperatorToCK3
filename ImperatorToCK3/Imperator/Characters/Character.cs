@@ -92,7 +92,7 @@ internal sealed class Character : IIdentifiable<ulong> {
 	public CharacterAttributes Attributes { get; private set; } = new();
 	public IReadOnlySet<string> Variables { get; private set; } = ImmutableHashSet<string>.Empty;
 	public bool IsBald => Variables.Contains("bald");
-	public uint Age { get; private set; } = new();
+	public uint Age { get; private set; } = 0;
 	public string? DNA { get; private set; }
 	public PortraitData? PortraitData { get; private set; }
 	public string AgeSex {
@@ -343,10 +343,6 @@ internal sealed class Character : IIdentifiable<ulong> {
 		}
 		
 		var motherProvince = Mother?.GetSourceLandProvince(irMapData);
-		if (motherProvince.HasValue) {
-			return motherProvince;
-		}
-		
-		return null;
+		return motherProvince;
 	}
 }

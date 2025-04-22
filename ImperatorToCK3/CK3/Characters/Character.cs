@@ -121,7 +121,7 @@ internal sealed class Character : IIdentifiable<string> {
 			if (entriesDict.Count == 0) {
 				return null;
 			}
-			var deathObj = entriesDict.First().Value.Last().Value;
+			var deathObj = entriesDict.First().Value[^1].Value;
 			if (deathObj is not StringOfItem deathStrOfItem || !deathStrOfItem.IsArrayOrObject()) {
 				return null;
 			}
@@ -143,7 +143,7 @@ internal sealed class Character : IIdentifiable<string> {
 				
 			// Modify the last entry in the history to include the death reason.
 			var entriesList = entriesDict.First().Value;
-			var lastEntry = entriesList.Last();
+			var lastEntry = entriesList[^1];
 			// No reason provided.
 			var deathStr = value is null ? "yes" : $"{{ death_reason = {value} }}";
 			entriesList[^1] = new KeyValuePair<string, object>(lastEntry.Key, new StringOfItem(deathStr));
@@ -602,7 +602,7 @@ internal sealed class Character : IIdentifiable<string> {
 				return null;
 			}
 
-			var idObj = entries.Last().Value;
+			var idObj = entries[^1].Value;
 			var idStr = idObj.ToString();
 			if (idStr is null) {
 				Logger.Warn($"Mother ID string is null! Original value: {idObj}");
@@ -650,7 +650,7 @@ internal sealed class Character : IIdentifiable<string> {
 				return null;
 			}
 				
-			var idObj = entries.Last().Value;
+			var idObj = entries[^1].Value;
 			var idStr = idObj.ToString();
 			if (idStr is null) {
 				Logger.Warn($"Father ID string is null! Original value: {idObj}");
@@ -826,7 +826,7 @@ internal sealed class Character : IIdentifiable<string> {
 		History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
 	}
 
-	private CharacterCollection characters;
+	private readonly CharacterCollection characters;
 	private readonly ConcurrentHashSet<Character> spousesCache = [];
 	private readonly ConcurrentHashSet<Character> concubinesCache = [];
 	private readonly HashSet<Character> childrenCache = new();

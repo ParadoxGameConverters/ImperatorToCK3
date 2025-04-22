@@ -132,7 +132,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 
 	private void ValidateAndLoadCultures(OrderedDictionary<string, CultureData> culturesData, Configuration config) {
 		foreach (var (cultureId, data) in culturesData) {
-			if (data.InvalidatingCultureIds.Any()) {
+			if (data.InvalidatingCultureIds.Count != 0) {
 				bool isInvalidated = false;
 				foreach (var existingCulture in this) {
 					if (!data.InvalidatingCultureIds.Contains(existingCulture.Id)) {
@@ -179,7 +179,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		// Replace invalidated cultures in parent culture lists.
 		foreach (var culture in this) {
 			culture.ParentCultureIds = culture.ParentCultureIds
-				.Select(id => cultureReplacements.TryGetValue(id, out var replacementId) ? replacementId : id)
+				.Select(id => cultureReplacements.GetValueOrDefault(id, defaultValue: id))
 				.ToOrderedSet();
 		}
 	}
@@ -207,7 +207,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.ParseGameFolder("common/culture/innovations", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 	}
 
-	private string? GetCK3CultureIdForImperatorCountry(Country country, CultureMapper cultureMapper, ProvinceMapper provinceMapper) {
+	private static string? GetCK3CultureIdForImperatorCountry(Country country, CultureMapper cultureMapper, ProvinceMapper provinceMapper) {
 		var irCulture = country.PrimaryCulture ?? country.Monarch?.Culture;
 		if (irCulture is null) {
 			if (country.CountryType == CountryType.real) {
@@ -290,7 +290,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		return allParents;
 	}
 
-	private readonly IDictionary<string, string> cultureReplacements = new Dictionary<string, string>(); // replaced culture -> replacing culture
+	private readonly Dictionary<string, string> cultureReplacements = []; // replaced culture -> replacing culture
 
 	protected readonly PillarCollection PillarCollection;
 	protected readonly IdObjectCollection<string, NameList> NameListCollection = [];

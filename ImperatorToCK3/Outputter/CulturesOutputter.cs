@@ -90,7 +90,7 @@ internal static class CulturesOutputter {
 		languageParamsFileParser.ParseFile("configurables/ccu_language_parameters.txt");
 		
 		// Modify the common\scripted_effects\ccu_scripted_effects.txt file.
-		var relativePath = "common/scripted_effects/ccu_scripted_effects.txt";
+		const string relativePath = "common/scripted_effects/ccu_scripted_effects.txt";
 		// Modify the common\scripted_effects\ccu_scripted_effects.txt file.
 		var scriptedEffectsPath = ck3ModFS.GetActualFileLocation(relativePath);
 		if (scriptedEffectsPath is null) {
@@ -421,7 +421,7 @@ internal static class CulturesOutputter {
 		OrderedSet<string> heritageFamilyParameters, OrderedSet<string> heritageGroupParameters,
 		OrderedSet<string> languageFamilyParameters, OrderedSet<string> languageBranchParameters,
 		OrderedSet<string> languageGroupParameters) {
-		var errorSuppressionRelativePath = "common/scripted_guis/ccu_error_suppression.txt";
+		const string errorSuppressionRelativePath = "common/scripted_guis/ccu_error_suppression.txt";
 		var errorSuppressionPath = ck3ModFS.GetActualFileLocation(errorSuppressionRelativePath);
 		if (errorSuppressionPath is null) {
 			Logger.Warn("Could not find ccu_error_suppression.txt in the CK3 mod. " +
