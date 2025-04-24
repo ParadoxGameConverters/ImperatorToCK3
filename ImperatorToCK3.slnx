@@ -1,0 +1,14 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="Fronter.NET/Fronter.NET/Fronter.csproj" />
+  <Project Path="ImperatorToCK3.UnitTests/ImperatorToCK3.UnitTests.csproj" />
+  <Project Path="ImperatorToCK3/ImperatorToCK3.csproj">
+    <BuildDependency Project="Fronter.NET/Fronter.NET/Fronter.csproj" />
+  </Project>
+</Solution>
