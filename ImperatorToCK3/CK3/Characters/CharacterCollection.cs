@@ -435,7 +435,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 		const string configurablePath = "configurables/ck3_characters_to_preserve.txt";
 		var parser = new Parser();
-		parser.RegisterRegex("keep_as_is", reader => {
+		parser.RegisterKeyword("keep_as_is", reader => {
 			var ids = reader.GetStrings();
 			foreach (var id in ids) {
 				if (!TryGetValue(id, out var character)) {
