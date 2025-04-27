@@ -51,7 +51,8 @@ public class LandedTitlesTests {
 		irProvinces.LoadProvinces(
 			new BufferedReader("1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"),
 			new StateCollection(),
-			new CountryCollection()
+			new CountryCollection(),
+			irMapData
 		);
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);

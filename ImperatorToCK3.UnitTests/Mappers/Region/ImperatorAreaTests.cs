@@ -1,4 +1,6 @@
 ﻿using commonItems;
+using commonItems.Mods;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Provinces;
@@ -11,7 +13,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ImperatorAreaTests {
-	private readonly ProvinceCollection provinces = new();
+	private readonly ProvinceCollection provinces = [];
+	private static readonly MapData irMapData = new(new ModFilesystem("TestFiles/AreaTests", []));
 
 	public ImperatorAreaTests() {
 		var states = new StateCollection();
@@ -21,7 +24,8 @@ public class ImperatorAreaTests {
 				"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"
 			),
 			states,
-			countries
+			countries,
+			irMapData
 		);
 	}
 
