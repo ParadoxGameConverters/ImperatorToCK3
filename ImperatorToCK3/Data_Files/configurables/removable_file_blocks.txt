@@ -43,8 +43,8 @@
 	}
 	{
 					modifier = {
-						add = 20
-						exists = character:125501
+						add = 30
+						exists = character:125501 # Temüjin
 						character:125501 = {
 							is_physically_able_ai_adult = yes
 						}
@@ -341,15 +341,15 @@
 				game_start_date >= 1178.10.1
 			}
 			religion:islam_religion = {
-				set_variable = { 
-					name = variable_ghw_unlocked 
-					value = yes 
+				set_variable = {
+					name = variable_ghw_unlocked
+					value = yes
 				}
 			}
 			religion:christianity_religion = {
-				set_variable = { 
-					name = variable_ghw_unlocked 
-					value = yes 
+				set_variable = {
+					name = variable_ghw_unlocked
+					value = yes
 				}
 			}
 			set_global_variable = {
@@ -698,19 +698,19 @@
 				game_start_date >= 1178.10.1
 			}
 			character:231000 = {
-				save_scope_as = leader
+				save_scope_as = leader_1
 			}
 			character:223523 = {
-				save_scope_as = founder
+				save_scope_as = founder_1
 			}
 			title:b_hebron = {
-				save_scope_as = barony
+				save_scope_as = barony_1
 			}
 			create_holy_order_neutral_effect = {
-				LEADER = scope:leader
-				CAPITAL = scope:barony
+				LEADER = scope:leader_1
+				CAPITAL = scope:barony_1
 				NEW_HO_SCOPE = new_holy_order
-				FOUNDER = scope:founder
+				FOUNDER = scope:founder_1
 			}
 		}
 	}
@@ -887,7 +887,7 @@
 			character:3040 = {
 				designate_diarch = character:3050
 				# This is a vizierate as well, so start the diarchy manually.
-				start_diarchy = vizierate
+				try_start_diarchy = vizierate
 				# Tell Alp that he appointed Hassan so he remembers not to dismiss him.
 				set_variable = {
 					name = my_vizier
@@ -898,7 +898,7 @@
 			character:1732 = {
 				if = {
 					limit = { has_ep3_dlc_trigger = yes }
-					start_diarchy = co_emperorship
+					try_start_diarchy = co_emperorship
 					set_diarch = character:1736
 					set_designated_heir = character:1736
 				}
@@ -961,7 +961,7 @@
 			character:215530 = {
 				if = {
 					limit = { has_ep3_dlc_trigger = yes }
-					start_diarchy = junior_emperorship
+					try_start_diarchy = junior_emperorship
 					set_diarch = character:215531
 					set_designated_heir = character:215531
 				}
@@ -969,13 +969,18 @@
 			## Henry II of England and the Young King
 			character:204500 = {
 				designate_diarch = character:204508
-				start_diarchy = co_monarchy
+				try_start_diarchy = co_monarchy
 				set_designated_heir = character:204508
 			}
 			## Teresa of Portugal for Afonso the Conqueror
-			character:209503 = { 
-				start_diarchy = regency
-				set_diarch = character:209510 
+			character:209503 = {
+				try_start_diarchy = regency
+				set_diarch = character:209510
+			}
+			## Kara Khitai, Wolila for Zhilugu
+			character:188912 = {
+				try_start_diarchy = nomad_regency
+				set_diarch = character:188909
 			}
 			# Plus remove all the generated opinions.
 			## Richard I and Eleanor of Aquitaine
@@ -1003,6 +1008,12 @@
 				NEW_DIARCH = character:209510
 				LIEGE = character:209503
 			}
+			## Wolila and Zhilugu 
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:188909
+				LIEGE = character:188912
+			}
+
 		}
 	}
 	{
@@ -1040,7 +1051,7 @@
 		}
 	}
 	{
-			## El Cid 
+			## El Cid
 			character:107590 ?= {
 				if = {
 					limit = {
@@ -1172,7 +1183,7 @@
 				limit = {
 					cid_story_cycle_start_trigger = yes
 				}
-				trigger_event = { 
+				trigger_event = {
 					id = cid.0001
 					days = 1
 				}
@@ -1375,6 +1386,29 @@
 					}
 					add_achievement_global_variable_effect = {
 						VARIABLE = started_mother_of_us_all_achievement
+						VALUE = yes
+					}
+				}
+				if = { # Temüjin
+					limit = {
+						has_mpo_dlc_trigger = yes
+						exists = character:125501
+						this = character:125501
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_the_stallion_that_mounts_the_world_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = {
+						government_has_flag = government_is_nomadic
+						location = {
+							geographical_region = world_steppe_east
+						}
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_steppe_by_steppe_achievement
 						VALUE = yes
 					}
 				}
@@ -1835,6 +1869,22 @@
 					add_achievement_global_variable_effect = {
 						VARIABLE = any_ruler_designed_character_achievement
 						VALUE = yes
+					}
+				}
+				if = {
+					limit = {
+						has_mpo_dlc_trigger = yes
+						exists = character:125501
+						character:125501 = {
+							is_alive = yes
+						}
+					}
+					character:125501 = {
+						create_story = story_temujin_flavor
+						trigger_event = {
+							days = { 12 30 }
+							id = mpo_temujin_flavor.0030 # Borte announces she's pregnant
+						}
 					}
 				}
 			}
@@ -3540,44 +3590,92 @@ bookmark.1073 = {
 			}
 			add_realm_law = camp_purpose_mercenaries
 		}
-		spawn_army = {
-			name = event_troop_default_name
-			men_at_arms = {
-				type = horse_archers
-				stacks = 2
+		if = {
+			limit = {
+				has_mpo_dlc_trigger = yes
 			}
-			men_at_arms = {
-				type = light_horsemen
-				stacks = 2
+			spawn_army = {
+				name = event_troop_default_name
+				men_at_arms = {
+					type = horse_archers
+					stacks = 2
+				}
+				men_at_arms = {
+					type = steppe_raiders
+					stacks = 2
+				}
+				men_at_arms = {
+					type = heavy_horse_archers
+					stacks = 2
+				}
+				location = root.location
+				origin = root.location
 			}
-			men_at_arms = {
-				type = light_footmen
-				stacks = 2
+		}
+		else = {
+			spawn_army = {
+				name = event_troop_default_name
+				men_at_arms = {
+					type = horse_archers
+					stacks = 2
+				}
+				men_at_arms = {
+					type = steppe_raiders
+					stacks = 2
+				}
+				men_at_arms = {
+					type = heavy_horse_archers
+					stacks = 2
+				}
+				location = root.location
+				origin = root.location
 			}
-			location = root.location
-			origin = root.location
 		}
 	}
 
 	option = {
 		name = bookmark.1073.a
 		add_prestige_level = 1
-		spawn_army = {
-			name = event_troop_default_name
-			men_at_arms = {
-				type = horse_archers
-				stacks = 2
+		if = {
+			limit = {
+				has_mpo_dlc_trigger = yes
 			}
-			men_at_arms = {
-				type = light_horsemen
-				stacks = 2
+			spawn_army = {
+				name = event_troop_default_name
+				men_at_arms = {
+					type = horse_archers
+					stacks = 2
+				}
+				men_at_arms = {
+					type = steppe_raiders
+					stacks = 2
+				}
+				men_at_arms = {
+					type = heavy_horse_archers
+					stacks = 2
+				}
+				location = root.location
+				origin = root.location
 			}
-			men_at_arms = {
-				type = light_footmen
-				stacks = 2
+		}
+		else = {
+			spawn_army = {
+				name = event_troop_default_name
+				men_at_arms = {
+					type = horse_archers
+					stacks = 2
+				}
+				men_at_arms = {
+					type = light_horsemen
+					stacks = 2
+				}
+				men_at_arms = {
+					type = light_footmen
+					stacks = 2
+				}
+				location = root.location
+				origin = root.location
 			}
-			location = root.location
-			origin = root.location
 		}
 		ai_chance = {
 			base = 90
@@ -6113,8 +6211,8 @@ game_rule.1143 = {
 			modifier = {
 				add = 999
 				exists = this
-				exists = character:easteregg_rebecca_ronnback
-				this = character:easteregg_rebecca_ronnback
+				exists = character:easteregg_rebecca_gottfredsson
+				this = character:easteregg_rebecca_gottfredsson
 			}
 		}
 	}
@@ -7419,6 +7517,38 @@ game_rule.1143 = {
 		}
 	}
 
+	jacopo_freddi = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = beards
+				template = fp2_beards_straight
+				accessory = male_beard_fp2_iberian_christian_01
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = fp4_cloak_western
+				accessory = m_cloaks_sec_fp4_western_era3_nob_02
+			}
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = all_hairstyles
+				accessory = male_hair_indian_01
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_jacopo_freddi
+				this = character:easteregg_jacopo_freddi
+			}
+		}
+	}
+
 	female_hair_steppe_01 = { # Twin braids with ribbons and earrings
 		dna_modifiers = {
 			accessory = {
@@ -7562,8 +7692,8 @@ game_rule.1143 = {
 			modifier = {
 				add = 999
 				exists = this
-				exists = character:easteregg_melanie_bjurman
-				this = character:easteregg_melanie_bjurman
+				exists = character:easteregg_melanie_albarn
+				this = character:easteregg_melanie_albarn
 			}
 		}
 	}
@@ -7901,7 +8031,7 @@ restore_holy_roman_empire_decision = {
 		NOR = { #It doesn't make sense for these competing empires.
 			has_title = title:e_byzantium
 			has_title = title:e_roman_empire
-			has_title = title:e_mongol_empire
+			mpo_has_gok_mongol_empire_trigger = yes
 		}
 		AND = {	#Faith conditions.
 			NOT = { this = faith.religious_head }	#Nice try, Mr. Pope.
@@ -14531,7 +14661,7 @@ hasan_sabbah_end_war = {
 			limit = {
 				tier >= tier_duchy
 				is_head_of_faith = no
-				NOT = { this = $SELJUK$.capital_county.duchy }		
+				NOT = { this = $SELJUK$.capital_county.duchy }
 			}
 			add_to_temporary_list = titles_to_destroy
 		}

@@ -54,6 +54,11 @@ link = { # TFE
 }
 link = { ir = athenian_republic ir = aristocratic_republic ck3 = city_state_government ir = plutocratic_republic } # TFE
 link = { ir = stratocratic_monarchy ck3 = legion_government } # TFE
+link = { # This mapping to the base game nomad_government should be given priority over the nomadic_government from TFE/ROA
+	ir = tribal_chiefdom
+	ck3 = nomad_government
+	#has_ck3_dlc = khans_of_the_steppe # Needs to have relevant DLC; need to re-enable once this DLC check has properly been added to the converter
+}
 link = { ir = tribal_chiefdom ck3 = nomadic_government } # TFE
 
 link = { ck3 = republic_government

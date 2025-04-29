@@ -1642,7 +1642,7 @@
 # 		NOR = { #It doesn't make sense for these competing empires.
 # 			has_title = title:e_byzantium
 # 			has_title = title:e_roman_empire
-# 			has_title = title:e_mongol_empire
+# 			mpo_has_gok_mongol_empire_trigger = yes
 # 		}
 # 		AND = {	#Faith conditions.
 # 			NOT = { this = faith.religious_head }	#Nice try, Mr. Pope.
@@ -1665,7 +1665,7 @@
 # 		NOR = { #It doesn't make sense for these competing empires.
 # 			has_title = title:e_byzantium
 # 			has_title = title:e_roman_empire
-# 			has_title = title:e_mongol_empire
+# 			mpo_has_gok_mongol_empire_trigger = yes
 # 			has_title = title:e_western_roman_empire # IRToCK3: Added WRE to list of invalid titles
 # 		}
 # 		AND = {	#Faith conditions.
