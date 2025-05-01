@@ -172,6 +172,31 @@
 			}
 		}
 	}
+
+	# This delays Mongol Invasion if Temujin dies without e_mongol_empire, removing just in case it causes any issues
+	{
+		#Tracking whether Genghis is dead or not
+		if = {
+			limit =	{
+				this = character:125501
+			}
+			set_global_variable = genghis_died
+			if = {
+				limit = {
+					NOT = {
+						any_held_title = {
+							this = title:e_mongol_empire
+						}
+					}
+				}
+				set_global_variable = {
+					name = temujin_failed
+					value = yes
+					years = 50
+				}
+			}
+		}
+	}
 }
 
 "common/on_action/game_start.txt" = {
@@ -1935,7 +1960,217 @@
 			title:c_avlonas = { add_county_modifier = backwater_county_modifier }
 		}
 	}
-}
+
+	# This makes it so the extra nomad regions won't start, regardless of game rules, since we will probably handle these things on our own.
+	# There is still a part of this code left that gives nomads in the_great_steppe situation a variable to prevent the season change at the beginning of the game from causing a notification event. That could be modified once we have the whole nomad situation handled.
+	{
+		# Extra Nomad Regions
+		#Sami
+		if = {
+		    limit = {
+				has_mpo_dlc_trigger = yes
+				has_game_rule = sami_nomad_region_on
+			}
+			start_situation = {
+				type = game_rule_extra_nomads_sami
+				start_phase = situation_steppe_abundant_grazing_season
+				save_scope_as = my_situation
+			}
+			scope:my_situation = {
+				every_situation_county = {
+					limit = {
+						holder = {
+							OR = {
+								culture = culture:sami
+								culture = culture:karelian
+								culture = culture:samoyed
+							}
+						}
+					}
+					holder = {
+						set_variable = {
+							name = steppe_game_start_var
+							years = 1
+						}
+						every_held_title = {
+							if = {
+								limit = {
+									title_province = {
+										has_holding_type = tribal_holding
+									}
+								}
+								title_province = {
+									set_holding_type = nomad_holding
+								}
+							}
+						}
+						change_government = nomad_government
+					}
+				}
+			}
+		}
+		#Arabia
+		if = {
+		    limit = {
+				has_mpo_dlc_trigger = yes
+				has_game_rule = arabia_nomad_region_on
+			}
+			start_situation = {
+				type = game_rule_extra_nomads_arabs
+				start_phase = situation_steppe_severe_drought_season
+				save_scope_as = my_situation
+				sub_region = {
+					key = arabia_nomads
+					start_phase = situation_steppe_severe_drought_season
+					map_color = { 34 255 76 }
+					geographical_regions = { arab_nomad_area }
+				}
+				sub_region = {
+					key = egypt_nomads
+					start_phase = situation_steppe_abundant_grazing_season
+					map_color = { 24 155 76 }
+					geographical_regions = { egypt_nomad_area }
+				}
+			}
+			scope:my_situation = {
+				every_situation_county = {
+					limit = {
+						holder = {
+							government_has_flag = government_is_tribal
+						}
+					}
+					holder = {
+						set_variable = {
+							name = steppe_game_start_var
+							years = 1
+						}
+						every_held_title = {
+							if = {
+								limit = {
+									title_province = {
+										has_holding_type = tribal_holding
+									}
+								}
+								title_province = {
+									set_holding_type = nomad_holding
+								}
+							}
+						}
+						change_government = nomad_government
+					}
+				}
+			}
+		}
+		#Sahel
+		if = {
+		    limit = {
+				has_mpo_dlc_trigger = yes
+				has_game_rule = sahel_nomad_region_on
+			}
+		    start_situation = { 
+				type = game_rule_extra_nomads_sahel
+				start_phase = situation_steppe_severe_drought_season
+				save_scope_as = my_situation
+				sub_region = {
+					key = north_africa_nomads
+					start_phase = situation_steppe_abundant_grazing_season
+					map_color = { 155 62 0 }
+					geographical_regions = { sahel_north_africa_nomad_area }
+				}
+				sub_region = {
+					key = sahara_nomads
+					start_phase = situation_steppe_severe_drought_season
+					map_color = { 255 232 100 }
+					geographical_regions = { sahel_desert_nomad_area }
+				}
+				sub_region = {
+					key = sahel_nomads
+					start_phase = situation_steppe_abundant_grazing_season
+					map_color = { 100 46 92 }
+					geographical_regions = { sahel_sub_saharan_africa_nomad_area }
+				}
+			}
+			scope:my_situation = {
+				every_situation_county = {
+					limit = {
+						holder = {
+							government_has_flag = government_is_tribal
+							OR = {
+								culture = { has_cultural_pillar = heritage_berber }
+								culture = culture:bedouin
+							}
+						}
+					}
+					holder = {
+						set_variable = {
+							name = steppe_game_start_var
+							years = 1
+						}
+						every_held_title = {
+							if = {
+								limit = {
+									title_province = {
+										has_holding_type = tribal_holding
+									}
+								}
+								title_province = {
+									set_holding_type = nomad_holding
+								}
+							}
+						}
+						change_government = nomad_government
+					}
+				}
+			}
+		}	
+		#Horn of Africa
+		if = {
+		    limit = {
+				has_mpo_dlc_trigger = yes
+				has_game_rule = horn_of_africa_nomad_region_on
+			}
+		    start_situation = { 
+				type = game_rule_extra_nomads_horn
+				start_phase = situation_steppe_severe_drought_season
+				save_scope_as = my_situation
+			}
+			scope:my_situation = {
+				every_situation_county = {
+					limit = {
+						holder = {
+							government_has_flag = government_is_tribal
+							OR = {
+								culture = culture:somali
+								culture = culture:beja
+								culture = culture:afar
+								culture = culture:bedouin
+							}
+						}
+					}
+					holder = {
+						set_variable = {
+							name = steppe_game_start_var
+							years = 1
+						}
+						every_held_title = {
+							if = {
+								limit = {
+									title_province = {
+										has_holding_type = tribal_holding
+									}
+								}
+								title_province = {
+									set_holding_type = nomad_holding
+								}
+							}
+						}
+						change_government = nomad_government
+					}
+				}
+			}
+		}		
+	}
+} # End of "common/on_action/game_start.txt"
 
 "common/on_action/title_on_actions.txt" = {
 	{
@@ -8541,6 +8776,11 @@ restore_holy_roman_empire_decision = {
 			limit = { this = character:3096 }
 			set_diarchy_swing = 100
 		}
+		## Kara Khitai Zhilugu was put on the throne cause Wolila killed the previous empress
+		else_if = {
+			limit = { this = character:188912 }
+			set_diarchy_swing = 60
+		}
 	}
 }
 
@@ -14956,5 +15196,53 @@ apply_historic_administrative_game_rule_effect = {
 			}
 			set_character_faith = faith:nestorian
 		}
+	}
+}
+
+
+"common/scripted_effects/00_tributary_setup_effects.txt" = {
+	# This is what gets called at game start to setup tributaries. While this effect will likely get overwritten, I am adding this here just in case to ensure there are no issues.
+	{
+	if = {
+		limit = { has_mpo_dlc_trigger = yes	}
+		if = {
+    		limit = { current_date < 1066.9.15 } # so, 867
+        	mpo_867_tributary_setup_effect = yes
+    	}
+    	else_if = {
+    		limit = { current_date = 1066.9.15 }
+        	mpo_1066_tributary_setup_effect = yes
+    	}
+    	else_if = {
+    		limit = { current_date > 1066.9.15 } # so, 1178
+        	mpo_1178_tributary_setup_effect = yes
+    	}
+    }
+	if = {
+		if = {
+    		limit = { current_date < 1066.9.15 } # so, 867
+    		base_867_tributary_setup_effect = yes
+    	}
+    	else_if = {
+    		limit = { current_date = 1066.9.15 }
+        	base_1066_tributary_setup_effect = yes
+    	}
+    	else_if = {
+    		limit = { current_date > 1066.9.15 } # so, 1178
+        	base_1178_tributary_setup_effect = yes
+    	}
+    }
+	}
+}
+
+
+"events/decisions_events/mpo_greatest_of_khans_events.txt" = {
+	
+	# Modifier for ai_chance block for choices on what nickname to choose when becoming Greatest of Khans. Removing it to prevent any possible conflicts with converted save.
+	{
+			modifier = {
+				factor = 100
+				this = character:125501
+			}
 	}
 }

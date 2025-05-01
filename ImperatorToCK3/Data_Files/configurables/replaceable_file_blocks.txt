@@ -2167,3 +2167,291 @@
 	}
 	
 }
+
+
+"common/decisions/dlc_decisions/mpo/mpo_decisions.txt" = {
+	
+	# expand_the_steppe_decision is_shown block
+	replace = {
+		before = {
+        has_mpo_dlc_trigger = yes
+
+        government_has_flag = government_is_nomadic
+
+    	any_character_situation = {
+    		situation:the_great_steppe ?= this
+    	}
+
+        OR = {
+			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_anatolia }
+			great_steppe_not_in_sub_region_trigger = { REGION = custom_eastern_balkans }
+			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_northern_russia }
+			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_southern_russia }
+			great_steppe_not_in_sub_region_trigger = { REGION = custom_hungary }
+			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_poland }
+			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_baltic }
+			great_steppe_not_in_sub_region_trigger = { REGION = dlc_mpo_steppe_caucasus_expansion }
+			great_steppe_not_in_sub_region_trigger = { REGION = world_transoxiana }
+			great_steppe_not_in_sub_region_trigger = { REGION = world_khorasan }
+			great_steppe_not_in_sub_region_trigger = { REGION = dlc_mpo_steppe_persia_expansion }
+			great_steppe_not_in_sub_region_trigger = { REGION = dlc_mpo_steppe_siberia_further_expansion }
+			great_steppe_not_in_sub_region_trigger = { REGION = world_steppe_tarim }
+        }
+		}
+
+		after = {
+		always = no # IRToCK3: This disables the decision since the nomadic situations are being reworked
+
+        has_mpo_dlc_trigger = yes
+
+        government_has_flag = government_is_nomadic
+
+    	any_character_situation = {
+    		situation:the_great_steppe ?= this
+    	}
+
+        OR = {
+			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_anatolia }
+			great_steppe_not_in_sub_region_trigger = { REGION = custom_eastern_balkans }
+			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_northern_russia }
+			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_southern_russia }
+			great_steppe_not_in_sub_region_trigger = { REGION = custom_hungary }
+			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_poland }
+			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_baltic }
+			great_steppe_not_in_sub_region_trigger = { REGION = dlc_mpo_steppe_caucasus_expansion }
+			great_steppe_not_in_sub_region_trigger = { REGION = world_transoxiana }
+			great_steppe_not_in_sub_region_trigger = { REGION = world_khorasan }
+			great_steppe_not_in_sub_region_trigger = { REGION = dlc_mpo_steppe_persia_expansion }
+			great_steppe_not_in_sub_region_trigger = { REGION = dlc_mpo_steppe_siberia_further_expansion }
+			great_steppe_not_in_sub_region_trigger = { REGION = world_steppe_tarim }
+        }
+		}
+	}
+
+	# mpo_become_greatest_of_khans_decision is_valid block
+	replace = {
+		before = {
+			limit = {
+				NOT = { this = character:125501 }
+			}
+		}
+
+		after = {
+			limit = {
+				always = yes # IRToCK3: Since the predefined Temujin won't exist, this limit check will always be true. Just changing this to prevent any possible errors
+			}
+		}
+	}
+
+}
+
+
+"common/scripted_effects/00_mongol_invasion_effects.txt" = {
+
+	#########
+	# spawn_temujin_character_effect
+	#########
+
+	# When setting up a character to become Genghis Khan (I think this is mainly for when the game forces them to appear instead of them becoming Greatest of All Khans through decision), it references the predefined character ID for Temujin. To prevent any possible conflicts with a converted save game, I am simply preventing all of the options in this effect that directly require Temujin, making it only use the options that dynamically create a character instead.
+
+	replace = {
+		before = {
+		limit = {
+			exists = character:125501
+			character:125501 = {
+				is_ai = no
+			}
+		}
+		}
+
+		after = {
+		limit = {
+			always = no # IRToCK3: Prevents this option from being chosen to prevent any possible conflicts with converted save
+			exists = character:125501
+			character:125501 = {
+				is_ai = no
+			}
+		}
+		}
+	}
+
+	replace = {
+		before = {
+		limit = {
+			exists = character:125501
+			character:125501 = { is_physically_able_ai_adult = yes }
+		}
+		}
+
+		after = {
+		limit = {
+			always = no # IRToCK3: Prevents this option from being chosen to prevent any possible conflicts with converted save
+			exists = character:125501
+			character:125501 = { is_physically_able_ai_adult = yes }
+		}
+		}
+	}
+
+	replace = {
+		before = {
+		limit = {
+			exists = character:125501.dynasty
+			character:125501.dynasty = {
+				any_dynasty_member = {
+					is_ai = no
+					is_landed = yes
+				}
+			}
+		}
+		}
+
+		after = {
+		limit = {
+			always = no # IRToCK3: Prevents this option from being chosen to prevent any possible conflicts with converted save
+			exists = character:125501.dynasty
+			character:125501.dynasty = {
+				any_dynasty_member = {
+					is_ai = no
+					is_landed = yes
+				}
+			}
+		}
+		}
+	}
+
+	replace = {
+		before = {
+		limit = {
+			exists = character:125501.dynasty
+			character:125501.dynasty = {
+				any_dynasty_member = {
+					is_physically_able_ai_adult = yes
+				}
+			}
+		}
+		}
+
+		after = {
+		limit = {
+			always = no # IRToCK3: Prevents this option from being chosen to prevent any possible conflicts with converted save
+			exists = character:125501.dynasty
+			character:125501.dynasty = {
+				any_dynasty_member = {
+					is_physically_able_ai_adult = yes
+				}
+			}
+		}
+		}
+	}
+
+}
+
+
+"events/story_cycles/story_cycle_conqueror_events.txt" = {
+
+	# conqueror.0001 has a possible effect for if the player is Temujin, they will instantly form the Mongol Empire if they choose to be a conqueror. Making this impossible to prevent any possible conflicts with converted saves since it references the predefined Temujin character.
+	replace = {
+		before = {
+			limit = {
+				is_ai = no
+				this = character:125501
+				has_mpo_dlc_trigger = yes
+			}
+		}
+
+		after = {
+			limit = {
+				always = no # IRToCK3: Prevents this effect from being possible, as a way of preventing any possible conflicts with convertered saves
+				is_ai = no
+				this = character:125501
+				has_mpo_dlc_trigger = yes
+			}
+		}
+	}
+
+}
+
+
+"events/birth_events.txt" = {
+
+	# birth.1003 has some unique descriptions/effects for Temujin/Borte's first child, just making them impossible to prevent any possible conflicts with converted saves.
+	replace = {
+		before = {
+				trigger = {
+					this = character:125501
+					scope:mother = { has_variable = borte_first_child_var }
+				}
+		}
+
+		after = {
+				trigger = {
+					always = no # IRToCK3: Makes this impossible to prevent any possible conflicts with converted saves
+					this = character:125501
+					scope:mother = { has_variable = borte_first_child_var }
+				}
+		}
+	}
+
+	replace = {
+		before = {
+			limit = {
+				scope:mother = {
+					this = character:172004
+					has_variable = borte_first_child_var
+				}
+			}
+		}
+
+		after = {
+			limit = {
+				always = no # IRToCK3: Makes this impossible to prevent any possible conflicts with converted saves
+				scope:mother = {
+					this = character:172004
+					has_variable = borte_first_child_var
+				}
+			}
+		}
+	}
+
+}
+
+
+"events/pregnancy_events.txt" = {
+
+	# pregnancy.1002 has some unique parts for Temujin/Borte's first child. Making them impossible to prevent any possible conflicts with a converted save.
+	replace = {
+		before = {
+				trigger = {
+					this = character:125501 # You are Temüjin
+					scope:mother = { has_variable = borte_first_child_var }
+				}
+		}
+
+		after = {
+				trigger = {
+					always = no # IRToCK3: Makes this impossible, to prevent any possible conflicts with converted save.
+					this = character:125501 # You are Temüjin
+					scope:mother = { has_variable = borte_first_child_var }
+				}
+		}
+	}
+
+	replace = {
+		before = {
+					AND = {
+						scope:mother = { has_variable = borte_first_child_var }
+						this = character:125501
+					}
+		}
+
+		after = {
+					AND = {
+						always = no # IRToCK3: Makes this impossible to prevent any possible conflicts with converted saves.
+						scope:mother = { has_variable = borte_first_child_var }
+						this = character:125501
+					}
+		}
+	}
+
+
+}
