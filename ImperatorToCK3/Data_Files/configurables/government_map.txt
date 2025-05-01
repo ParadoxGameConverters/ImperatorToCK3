@@ -102,11 +102,12 @@ link = { ck3 = feudal_government ir = rhodian_dictatorship }
 
 link = { ck3 = feudal_government ir = samaritan_judgedom } # This government is defined in the files, but doesn't seem to actually get used anywhere, so it seems impossible to actually get, but will map just in case ~~tanner918
 
-link = { ck3 = administrative_government ir = chinese_empire has_ck3_dlc = roads_to_power ck3_title_rank = e } # This government seems like it represents the Mandate of Heaven. In RoA, that is just represented by whoever owns e_celestia_china and they use the administrative_government for now, though they might make a new government for China. chinese_empire Description: "As shown by the reigns of the Shang and Zhou Dynasties, in which the divine authority of the Emperor was demonstrated for all under Heaven to see, the Imperial Form of government remains the supreme achievement of political life, all but ensuring peace and prosperity for conscientious stewards of the Mandate of Heaven." ~~tanner918
+link = { ck3 = administrative_government ir = chinese_empire has_ck3_dlc = roads_to_power ck3_title_rank = ke } # Will need to have this changed once All Under Heaven comes out
 link = { ck3 = chinese_government ir = chinese_empire } # RoA
 link = { ck3 = feudal_government ir = chinese_empire } # Fallback
 
-link = { ck3 = feudal_government ir = yamato_empire } # Might change this to administrative, need to see the exact requirements to get this to decide ~~tanner918
+link = { ck3 = administrative_government ir = yamato_empire has_ck3_dlc = roads_to_power ck3_title_rank = ke } # Will need to have this changed once All Under Heaven comes out
+link = { ck3 = feudal_government ir = yamato_empire }
 
 link = { ck3 = chinese_government ir = enfeoffment_zhourites } # For now will map to RoA chinese_government, but might change if I determine another mapping is better. Description: "The system of governance created by our predecessors in the Shang Dynasty remains a viable way of ruling the people to this very day. By creating a vast, decentralized bureaucratic state, in which lands and authority are meted out to powerful vassals in return for oaths of submission, true peace can be secured." ~~tanner918
 link = { ck3 = feudal_government ir = enfeoffment_zhourites } # Fallback
@@ -114,6 +115,11 @@ link = { ck3 = feudal_government ir = enfeoffment_zhourites } # Fallback
 link = { ck3 = chinese_government ir = chinese_duhufu } # For now will map to RoA chinese_government, but might change if I determine another mapping is better. Description: "In order to properly adminster the hinterlands, special types of administrative districts known as 'Duhufu' are established as ways to entrench the Imperial power in the lands that are distant from our capital. The governor of a Duhufu has unquestioned military and economic authority, carrying out the commands of their superiors with one voice." ~~tanner918
 link = { ck3 = feudal_government ir = chinese_duhufu } # Fallback
 
+link = { # Base game version of Nomadic, giving it priority over TFE version
+	ck3 = nomad_government
+	ir = steppe_horde
+	#has_ck3_dlc = khans_of_the_steppe # Needs to have relevant DLC; need to re-enable once this DLC check has properly been added to the converter
+}
 link = { ck3 = nomadic_government ir = steppe_horde }
 link = { ck3 = tribal_government ir = steppe_horde } # Fallback
 
@@ -121,5 +127,10 @@ link = { ck3 = feudal_government ir = pirate_kingdom } # No description but seem
 
 link = { ck3 = republic_government ir = punic_republic }
 
-link = { ck3 = nomadic_government ir = steppe_empire } # Might change this to administrative, need to see the exact requirements to get this to decide ~~tanner918
+link = { # Base game version of Nomadic, giving it priority over TFE version
+	ck3 = nomad_government
+	ir = steppe_empire
+	#has_ck3_dlc = khans_of_the_steppe # Needs to have relevant DLC; need to re-enable once this DLC check has properly been added to the converter
+}
+link = { ck3 = nomadic_government ir = steppe_empire }
 link = { ck3 = tribal_government ir = steppe_empire } # Fallback
