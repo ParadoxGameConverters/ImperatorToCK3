@@ -41,15 +41,6 @@
 	{
 		250 = fp3_yearly.8020 # The Lady of the Land
 	}
-	{
-					modifier = {
-						add = 30
-						exists = character:125501 # Temüjin
-						character:125501 = {
-							is_physically_able_ai_adult = yes
-						}
-					}
-	}
 }
 
 "common/on_action/death.txt" = {
@@ -168,31 +159,6 @@
 				trigger_event = {
 					id = ep3_story_cycle_violet_poet.0004
 					days = 1
-				}
-			}
-		}
-	}
-
-	# This delays Mongol Invasion if Temujin dies without e_mongol_empire, removing just in case it causes any issues
-	{
-		#Tracking whether Genghis is dead or not
-		if = {
-			limit =	{
-				this = character:125501
-			}
-			set_global_variable = genghis_died
-			if = {
-				limit = {
-					NOT = {
-						any_held_title = {
-							this = title:e_mongol_empire
-						}
-					}
-				}
-				set_global_variable = {
-					name = temujin_failed
-					value = yes
-					years = 50
 				}
 			}
 		}
@@ -15232,17 +15198,5 @@ apply_historic_administrative_game_rule_effect = {
         	base_1178_tributary_setup_effect = yes
     	}
     }
-	}
-}
-
-
-"events/decisions_events/mpo_greatest_of_khans_events.txt" = {
-	
-	# Modifier for ai_chance block for choices on what nickname to choose when becoming Greatest of Khans. Removing it to prevent any possible conflicts with converted save.
-	{
-			modifier = {
-				factor = 100
-				this = character:125501
-			}
 	}
 }

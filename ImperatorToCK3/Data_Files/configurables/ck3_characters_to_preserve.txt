@@ -13,6 +13,9 @@ keep_as_is = {
 # but who we don't actually want to exist in the game.
 # Consider it an error suppressor.
 after_bookmark_date = {
+	125501 # Temujin, referenced in many files
+	172004 # Borte, Temujin's wife, referenced in several files
+	
 	# Characters referenced in common\casus_belli_types\00_event_war.txt:
 	124 # Tostig
 	140 # William the Conqueror

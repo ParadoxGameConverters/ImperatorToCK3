@@ -1103,6 +1103,12 @@
 				house_head = { save_scope_as = new_holder }
 			}
 		}
+		else = {
+			ordered_powerful_vassal = {
+				order_by = max_military_strength
+				save_scope_as = new_holder
+			}
+		}
 		} # end of before
 
 
@@ -1120,12 +1126,48 @@
 					this != root.house
 					count >= 1
 					exists = house_head
+					house_head = { # IRToCK3: This just makes sure there is a valid powerful family house head, and if they are landed, they need to be in the relevant ere region, to prevent someone nowhere near the area from becoming the Emperor
+						trigger_if = {
+							limit = {
+								is_landed = yes
+							}
+
+							capital_county.title_province = {
+								geographical_region = custom_ep3_restore_rome_eastern_empire
+							}
+						}
+					}
 				}
 			}
 			ordered_powerful_family = {
-				limit = { this != root.house }
+				limit = {
+					this != root.house
+					exists = house_head
+					house_head = { # IRToCK3: This just makes sure there is a valid powerful family house head, and if they are landed, they need to be in the relevant ere region, to prevent someone nowhere near the area from becoming the Emperor
+						trigger_if = {
+							limit = {
+								is_landed = yes
+							}
+
+							capital_county.title_province = {
+								geographical_region = custom_ep3_restore_rome_eastern_empire
+							}
+						}
+					}
+				}
 				order_by = house_power_score
 				house_head = { save_scope_as = new_holder }
+			}
+		}
+		else = {
+			ordered_powerful_vassal = {
+				limit = { # IRToCK3: This just makes sure there is a valid powerful vassal in the relevant ere region, to prevent someone nowhere near the area from becoming the Emperor
+					capital_county.title_province = {
+						geographical_region = custom_ep3_restore_rome_eastern_empire
+					}
+				}
+				order_by = max_military_strength
+				save_scope_as = new_holder
 			}
 		}
 		} # end of after
@@ -1451,6 +1493,7 @@
 	# restore_roman_empire_decision
 	#########
 
+	# is_shown block
 	replace = {
 		before = {
 		is_ruler = yes
@@ -1469,6 +1512,44 @@
 		}
 		NOT = { primary_title = title:e_hre }
 		NOT = { primary_title = title:e_italy }
+		} # end of after
+	}
+
+	# is_valid block
+	replace = {
+		before = {
+		prestige_level >= max_prestige_level
+
+		completely_controls = title:d_latium
+		completely_controls = title:d_venice
+		completely_controls = title:d_romagna
+		} # end of before
+
+		after = {
+		prestige_level >= max_prestige_level
+
+		# IRToCK3: Doesn't make sense for one half of the split Roman Empire to reform Rome if the other remains independent, so you either need to hold both titles or be the only one holding either the ERE or WRE titles
+		custom_tooltip = {
+			text = irtock3_only_roman_emperor
+			OR = {
+				AND = {
+					has_title = title:e_byzantium
+					has_title = title:e_western_roman_empire
+				}
+				AND = {
+					has_title = title:e_byzantium
+					NOT = { exists = title:e_western_roman_empire.holder }
+				}
+				AND = {
+					has_title = title:e_western_roman_empire
+					NOT = { exists = title:e_byzantium.holder }
+				}
+			}
+		}
+
+		completely_controls = title:d_latium
+		completely_controls = title:d_venice
+		completely_controls = title:d_romagna
 		} # end of after
 	}
 
@@ -2227,231 +2308,5 @@
         }
 		}
 	}
-
-	# mpo_become_greatest_of_khans_decision is_valid block
-	replace = {
-		before = {
-			limit = {
-				NOT = { this = character:125501 }
-			}
-		}
-
-		after = {
-			limit = {
-				always = yes # IRToCK3: Since the predefined Temujin won't exist, this limit check will always be true. Just changing this to prevent any possible errors
-			}
-		}
-	}
-
-}
-
-
-"common/scripted_effects/00_mongol_invasion_effects.txt" = {
-
-	#########
-	# spawn_temujin_character_effect
-	#########
-
-	# When setting up a character to become Genghis Khan (I think this is mainly for when the game forces them to appear instead of them becoming Greatest of All Khans through decision), it references the predefined character ID for Temujin. To prevent any possible conflicts with a converted save game, I am simply preventing all of the options in this effect that directly require Temujin, making it only use the options that dynamically create a character instead.
-
-	replace = {
-		before = {
-		limit = {
-			exists = character:125501
-			character:125501 = {
-				is_ai = no
-			}
-		}
-		}
-
-		after = {
-		limit = {
-			always = no # IRToCK3: Prevents this option from being chosen to prevent any possible conflicts with converted save
-			exists = character:125501
-			character:125501 = {
-				is_ai = no
-			}
-		}
-		}
-	}
-
-	replace = {
-		before = {
-		limit = {
-			exists = character:125501
-			character:125501 = { is_physically_able_ai_adult = yes }
-		}
-		}
-
-		after = {
-		limit = {
-			always = no # IRToCK3: Prevents this option from being chosen to prevent any possible conflicts with converted save
-			exists = character:125501
-			character:125501 = { is_physically_able_ai_adult = yes }
-		}
-		}
-	}
-
-	replace = {
-		before = {
-		limit = {
-			exists = character:125501.dynasty
-			character:125501.dynasty = {
-				any_dynasty_member = {
-					is_ai = no
-					is_landed = yes
-				}
-			}
-		}
-		}
-
-		after = {
-		limit = {
-			always = no # IRToCK3: Prevents this option from being chosen to prevent any possible conflicts with converted save
-			exists = character:125501.dynasty
-			character:125501.dynasty = {
-				any_dynasty_member = {
-					is_ai = no
-					is_landed = yes
-				}
-			}
-		}
-		}
-	}
-
-	replace = {
-		before = {
-		limit = {
-			exists = character:125501.dynasty
-			character:125501.dynasty = {
-				any_dynasty_member = {
-					is_physically_able_ai_adult = yes
-				}
-			}
-		}
-		}
-
-		after = {
-		limit = {
-			always = no # IRToCK3: Prevents this option from being chosen to prevent any possible conflicts with converted save
-			exists = character:125501.dynasty
-			character:125501.dynasty = {
-				any_dynasty_member = {
-					is_physically_able_ai_adult = yes
-				}
-			}
-		}
-		}
-	}
-
-}
-
-
-"events/story_cycles/story_cycle_conqueror_events.txt" = {
-
-	# conqueror.0001 has a possible effect for if the player is Temujin, they will instantly form the Mongol Empire if they choose to be a conqueror. Making this impossible to prevent any possible conflicts with converted saves since it references the predefined Temujin character.
-	replace = {
-		before = {
-			limit = {
-				is_ai = no
-				this = character:125501
-				has_mpo_dlc_trigger = yes
-			}
-		}
-
-		after = {
-			limit = {
-				always = no # IRToCK3: Prevents this effect from being possible, as a way of preventing any possible conflicts with convertered saves
-				is_ai = no
-				this = character:125501
-				has_mpo_dlc_trigger = yes
-			}
-		}
-	}
-
-}
-
-
-"events/birth_events.txt" = {
-
-	# birth.1003 has some unique descriptions/effects for Temujin/Borte's first child, just making them impossible to prevent any possible conflicts with converted saves.
-	replace = {
-		before = {
-				trigger = {
-					this = character:125501
-					scope:mother = { has_variable = borte_first_child_var }
-				}
-		}
-
-		after = {
-				trigger = {
-					always = no # IRToCK3: Makes this impossible to prevent any possible conflicts with converted saves
-					this = character:125501
-					scope:mother = { has_variable = borte_first_child_var }
-				}
-		}
-	}
-
-	replace = {
-		before = {
-			limit = {
-				scope:mother = {
-					this = character:172004
-					has_variable = borte_first_child_var
-				}
-			}
-		}
-
-		after = {
-			limit = {
-				always = no # IRToCK3: Makes this impossible to prevent any possible conflicts with converted saves
-				scope:mother = {
-					this = character:172004
-					has_variable = borte_first_child_var
-				}
-			}
-		}
-	}
-
-}
-
-
-"events/pregnancy_events.txt" = {
-
-	# pregnancy.1002 has some unique parts for Temujin/Borte's first child. Making them impossible to prevent any possible conflicts with a converted save.
-	replace = {
-		before = {
-				trigger = {
-					this = character:125501 # You are Temüjin
-					scope:mother = { has_variable = borte_first_child_var }
-				}
-		}
-
-		after = {
-				trigger = {
-					always = no # IRToCK3: Makes this impossible, to prevent any possible conflicts with converted save.
-					this = character:125501 # You are Temüjin
-					scope:mother = { has_variable = borte_first_child_var }
-				}
-		}
-	}
-
-	replace = {
-		before = {
-					AND = {
-						scope:mother = { has_variable = borte_first_child_var }
-						this = character:125501
-					}
-		}
-
-		after = {
-					AND = {
-						always = no # IRToCK3: Makes this impossible to prevent any possible conflicts with converted saves.
-						scope:mother = { has_variable = borte_first_child_var }
-						this = character:125501
-					}
-		}
-	}
-
 
 }
