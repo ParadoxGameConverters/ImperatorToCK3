@@ -56,3 +56,6 @@
  refound_pandidakterion_decision: "Found the Pandidakterion"
  refound_pandidakterion_decision_desc: "Being one of the most important cities in the world, it is only proper that [GetTitleByKey('c_byzantion').GetNameNoTier] has the institutions to reflect its status. It is time we make it the largest center of study in the world with the founding of the [Glossary( 'Pandidakterion', 'PANDIDAKTERION_GLOSS' )]!"
  refound_pandidakterion_decision_tooltip: "Begin organizing the great University of Constantinople"
+
+ # Fixes weird naming for Roman Empire
+ e_roman_empire: "Roman Empire"

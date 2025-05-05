@@ -2,12 +2,14 @@
 on_game_start = {
 	on_actions = {
 		IRToCK3_create_admin_noble_families
+		IRToCK3_fix_roman_empire_name
 	}
 }
 
 on_game_start_after_lobby = {
 	on_actions = {
 		IRToCK3_fix_admin_duchies_game_start # IMP-CK3: This on_action is to fix the situation where some duchy vassals created from Imperator governorships are titular, so they don't work properly when inside Admin realms. This is meant to fix that by replacing the titular duchy with a relevant duchy with de jure counties beneath it, so it will work properly.
+		IRToCK3_setup_nomad_holdings
 	}
 }
 
@@ -144,6 +146,62 @@ IRToCK3_fix_admin_duchies_game_start = {
 			clear_saved_scope = titular_governorship_duchy
 			clear_saved_scope = title_change
 			clear_saved_scope = titular_governor
+		}
+	}
+}
+
+IRToCK3_fix_roman_empire_name = {
+	effect = {
+		# Fixes weird naming of the Roman Empire
+		title:e_roman_empire = {
+			set_definitive_form = yes
+		}
+	}
+}
+
+IRToCK3_setup_nomad_holdings = {
+	effect = {
+		# This is just to make sure that the Nomadic rulers properly start with Nomadic Holdings, and herders start with Herder Holdings
+		every_ruler = {
+			limit = {
+				OR = {
+					has_government = nomad_government
+					has_government = herder_government
+				}
+			}
+
+			if = {
+				limit = {
+					has_government = nomad_government
+				}
+
+				every_held_title = {
+					if = {
+						limit = {
+							title_province = {
+								has_holding_type = tribal_holding
+							}
+						}
+						title_province = {
+							set_holding_type = nomad_holding
+						}
+					}
+				}
+			}
+			else = {
+				every_held_title = {
+					if = {
+						limit = {
+							title_province = {
+								has_holding_type = tribal_holding
+							}
+						}
+						title_province = {
+							set_holding_type = herder_holding
+						}
+					}
+				}
+			}
 		}
 	}
 }

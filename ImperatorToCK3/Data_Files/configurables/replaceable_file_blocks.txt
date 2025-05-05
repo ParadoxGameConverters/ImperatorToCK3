@@ -1121,12 +1121,13 @@
 			diarch = { save_scope_as = new_holder }
 		}
 		else_if = { # IRToCK3: The base game has this as an if statement, which will cause any "new_holder" assignment made in the above block to get overwritten. This should fix that issue
+			# IRToCK3: This just makes sure there is a valid powerful family house head, and if they are landed, they need to be in the relevant ere region, to prevent someone nowhere near the area from becoming the Emperor
 			limit = {
 				any_powerful_family = {
-					this != root.house
 					count >= 1
+					this != root.house
 					exists = house_head
-					house_head = { # IRToCK3: This just makes sure there is a valid powerful family house head, and if they are landed, they need to be in the relevant ere region, to prevent someone nowhere near the area from becoming the Emperor
+					house_head = {
 						trigger_if = {
 							limit = {
 								is_landed = yes
@@ -1139,11 +1140,12 @@
 					}
 				}
 			}
+
 			ordered_powerful_family = {
 				limit = {
 					this != root.house
 					exists = house_head
-					house_head = { # IRToCK3: This just makes sure there is a valid powerful family house head, and if they are landed, they need to be in the relevant ere region, to prevent someone nowhere near the area from becoming the Emperor
+					house_head = {
 						trigger_if = {
 							limit = {
 								is_landed = yes
@@ -1159,14 +1161,79 @@
 				house_head = { save_scope_as = new_holder }
 			}
 		}
-		else = {
+		else_if = {
+			# IRToCK3: This just makes sure there is a valid powerful vassal in the relevant ere region, to prevent someone nowhere near the area from becoming the Emperor, prioritizing those with the same government
+			limit = {
+				any_powerful_vassal = {
+					count >= 1
+					capital_county.title_province = {
+						geographical_region = custom_ep3_restore_rome_eastern_empire
+					}
+				}
+			}
+
 			ordered_powerful_vassal = {
-				limit = { # IRToCK3: This just makes sure there is a valid powerful vassal in the relevant ere region, to prevent someone nowhere near the area from becoming the Emperor
+				limit = {
+					capital_county.title_province = {
+						geographical_region = custom_ep3_restore_rome_eastern_empire
+					}
+					has_same_government = root
+				}
+				alternative_limit = {
 					capital_county.title_province = {
 						geographical_region = custom_ep3_restore_rome_eastern_empire
 					}
 				}
 				order_by = max_military_strength
+				save_scope_as = new_holder
+			}
+		}
+		else_if = {
+			# IRToCK3: Added this check on the off chance none of the powerful vassals are in the region, so it checks if ANY vassal is in the region, prioritizing those with the same government
+			limit = {
+				any_vassal = {
+					count >= 1
+					capital_county.title_province = {
+						geographical_region = custom_ep3_restore_rome_eastern_empire
+					}
+				}
+			}
+
+			ordered_vassal = {
+				limit = {
+					capital_county.title_province = {
+						geographical_region = custom_ep3_restore_rome_eastern_empire
+					}
+					has_same_government = root
+				}
+				alternative_limit = {
+					capital_county.title_province = {
+						geographical_region = custom_ep3_restore_rome_eastern_empire
+					}
+				}
+				order_by = max_military_strength
+				save_scope_as = new_holder
+			}
+		}
+		else = {
+			# IRToCK3: Finally, if all else fails, give it to a courtier, favoring those with higher skill
+			random_courtier = {
+				weight = {
+					base = sum_of_all_skills_value
+					modifier = {
+						is_lowborn = no
+						add = 5
+					}
+					modifier = {
+						faith = root.faith
+						add = 10
+					}
+					modifier = {
+						culture = root.culture
+						add = 5
+					}
+				}
+
 				save_scope_as = new_holder
 			}
 		}
@@ -2309,4 +2376,27 @@
 		}
 	}
 
+}
+
+
+"map_data/geographical_regions/geographical_region.txt" = {
+
+	# The base game doesn't add siberia to the custom ere region, which would leave a weird gap if they somehow held land in that area
+	replace = {
+		before = {
+custom_ep3_restore_rome_eastern_empire = {
+	regions = {
+		world_asia_minor world_middle_east world_africa_east world_india world_steppe world_tibet world_burma world_europe_south_east world_europe_east
+	}
+}
+		} # end of before
+
+		after = {
+custom_ep3_restore_rome_eastern_empire = {
+	regions = {
+		world_asia_minor world_middle_east world_africa_east world_india world_steppe world_tibet world_burma world_europe_south_east world_europe_east world_siberia # IRToCK3: Added Siberia to the region since the base game doesn't include it
+	}
+}
+		} # end of after
+	}
 }
