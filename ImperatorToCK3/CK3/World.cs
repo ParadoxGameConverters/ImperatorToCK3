@@ -1082,6 +1082,7 @@ internal sealed class World {
 			};
 			holder.SetFaithId(faithId, null);
 			holder.SetCultureId(culture.Id, null);
+			holder.History.AddFieldValue(holder.BirthDate, "effects", "effect", "{ set_variable = irtock3_uncolonized_filler }");
 			Characters.AddOrReplace(holder);
 
 			var countyHoldingTypes = county.CountyProvinceIds
