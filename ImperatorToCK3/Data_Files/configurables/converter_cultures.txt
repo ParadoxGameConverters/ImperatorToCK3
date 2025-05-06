@@ -108,12 +108,7 @@ qin = {
 	}
 
 	MOD_DEPENDENT = {
-		IF aep = {
-			ethnicities = {
-				10 = east_asian_chinese_north
-			}
-		}
-		ELSE_IF roa = {
+		IF roa = {
 			# copied from han
 			ethnicities = {
 				2 = east_asian_han_1
@@ -130,19 +125,7 @@ qin = {
 	}
 
 	MOD_DEPENDENT = {
-		IF aep = {
-			coa_gfx = {
-				chinese_group_coa_gfx
-			}
-			building_gfx = {
-				chinese_building_gfx
-			}
-			clothing_gfx = {
-				chinese_clothing_gfx
-			}
-			unit_gfx = { chinese_unit_gfx }
-		}
-		ELSE_IF tfe = {
+		IF tfe = {
 			# copied from han
 			coa_gfx = { chinese_group_coa_gfx }
 			building_gfx = { chinese_building_gfx indian_building_gfx }

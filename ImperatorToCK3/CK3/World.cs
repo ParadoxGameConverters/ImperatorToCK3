@@ -460,13 +460,10 @@ internal sealed class World {
 		bool irHasTI = irWorld.TerraIndomitaDetected;
 		
 		bool ck3HasRajasOfAsia = config.RajasOfAsiaEnabled;
-		bool ck3HasAEP = config.AsiaExpansionProjectEnabled;
 
 		string mappingsToUse;
 		if (irHasTI && ck3HasRajasOfAsia) {
 			mappingsToUse = "terra_indomita_to_rajas_of_asia";
-		} else if (irHasTI && ck3HasAEP) {
-			mappingsToUse = "terra_indomita_to_aep";
 		} else if (irWorld.InvictusDetected) {
 			mappingsToUse = "imperator_invictus";
 		} else {
