@@ -57,7 +57,7 @@ link = { ir = stratocratic_monarchy ck3 = legion_government } # TFE
 link = { # This mapping to the base game nomad_government should be given priority over the nomadic_government from TFE/ROA
 	ir = tribal_chiefdom
 	ck3 = nomad_government
-	#has_ck3_dlc = khans_of_the_steppe # Needs to have relevant DLC; need to re-enable once this DLC check has properly been added to the converter
+	has_ck3_dlc = khans_of_the_steppe # Needs to have relevant DLC
 }
 link = { ir = tribal_chiefdom ck3 = nomadic_government } # TFE
 
@@ -118,7 +118,7 @@ link = { ck3 = feudal_government ir = chinese_duhufu } # Fallback
 link = { # Base game version of Nomadic, giving it priority over TFE version
 	ck3 = nomad_government
 	ir = steppe_horde
-	#has_ck3_dlc = khans_of_the_steppe # Needs to have relevant DLC; need to re-enable once this DLC check has properly been added to the converter
+	has_ck3_dlc = khans_of_the_steppe # Needs to have relevant DLC
 }
 link = { ck3 = nomadic_government ir = steppe_horde }
 link = { ck3 = tribal_government ir = steppe_horde } # Fallback
@@ -130,7 +130,7 @@ link = { ck3 = republic_government ir = punic_republic }
 link = { # Base game version of Nomadic, giving it priority over TFE version
 	ck3 = nomad_government
 	ir = steppe_empire
-	#has_ck3_dlc = khans_of_the_steppe # Needs to have relevant DLC; need to re-enable once this DLC check has properly been added to the converter
+	has_ck3_dlc = khans_of_the_steppe # Needs to have relevant DLC
 }
 link = { ck3 = nomadic_government ir = steppe_empire }
 link = { ck3 = tribal_government ir = steppe_empire } # Fallback
