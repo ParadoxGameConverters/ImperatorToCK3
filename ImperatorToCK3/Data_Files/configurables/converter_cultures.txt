@@ -26,6 +26,7 @@ gelonian = {
 	#created = -600.1.1 #needs to be BC
 	created = 2.1.1 # BC dates are not supported here as of CK3 1.15
 	ethos = ethos_bellicose
+	head_determination = head_determination_domain
 
 	name_list = name_list_scythian #might consider adding in ancient greek well)
 	martial_custom = martial_custom_male_only
@@ -90,6 +91,7 @@ qin = {
 	heritage = heritage_chinese
 	language = language_chinese
 	ethos = ethos_bureaucratic
+	head_determination = head_determination_domain
 
 	name_list = name_list_han
 	martial_custom = martial_custom_male_only
@@ -187,6 +189,7 @@ neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture sho
 	}
 	
 	ethos = ethos_bureaucratic
+	head_determination = head_determination_domain
 
 	name_list = name_list_ancient_greek
 	martial_custom = martial_custom_male_only
@@ -244,6 +247,7 @@ cretan = {
 		}
 	}
 	ethos = ethos_bellicose
+	head_determination = head_determination_domain
 
 	name_list = name_list_ancient_greek
 	martial_custom = martial_custom_male_only
@@ -286,6 +290,7 @@ minoan = { # The ancient Minoan culture from the Bronze Age
 	}
 	language = language_minoan #Ancient Pre-Greek language, unknown classification due to Linear A remaining undeciphered
 	ethos = ethos_spiritual
+	head_determination = head_determination_domain
 
 	name_list = name_list_ancient_greek
 	martial_custom = martial_custom_male_only
@@ -327,6 +332,7 @@ cycladic = { # The ancient Pre-Greek culture of the Cyclades from the Bronze Age
 	}
 	language = language_cycladic #Ancient Pre-Greek language, unknown classification
 	ethos = ethos_spiritual
+	head_determination = head_determination_domain
 
 	name_list = name_list_ancient_greek
 	martial_custom = martial_custom_male_only
@@ -369,6 +375,7 @@ pelasgian = { # The ancient pre-Greek people of mainland Greece from the Bronze 
 	}
 	language = language_pelasgian #Ancient Pre-Greek language, unknown classification
 	ethos = ethos_spiritual
+	head_determination = head_determination_domain
 
 	name_list = name_list_ancient_greek
 	martial_custom = martial_custom_male_only
@@ -406,6 +413,7 @@ khasi = {
 	heritage = heritage_palaungic
 	language = language_palaungic
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 
 	name_list = name_list_palaungic
 
@@ -435,6 +443,7 @@ non_indo_european_iberian = {
 	language = language_basque
 	martial_custom = martial_custom_male_only
 	ethos = ethos_courtly # Iberian system of obligation
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_hit_and_run
 		tradition_metal_craftsmanship
@@ -465,6 +474,7 @@ nuragic = {
 	language = language_nuragic
 	ethos = ethos_communal # Tribal society
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_seafaring
 		tradition_agrarian
@@ -501,6 +511,7 @@ luwian = { # https://en.wikipedia.org/wiki/Luwians
 	language = language_luwian
 	martial_custom = martial_custom_male_only
 	ethos = ethos_communal # Tribal society
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_quarrelsome
 		tradition_hill_dwellers
@@ -545,6 +556,7 @@ cilician = { # https://en.wikipedia.org/wiki/History_of_Cilicia
 	language = language_luwian
 	martial_custom = martial_custom_male_only
 	ethos = ethos_bellicose # seems fitting for pirates
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_practiced_pirates # Cilician pirates
 		tradition_merciful_blindings # represents Greek influence on Cilicia
@@ -589,6 +601,7 @@ lydian = {
 	language = language_lydian
 	martial_custom = martial_custom_male_only
 	ethos = ethos_courtly # Kingdom of Lydia
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_metal_craftsmanship # First use of coinage
 		tradition_strength_in_numbers # Large armies fielded against Cyrus the Great
@@ -633,6 +646,7 @@ hittite = {
 	language = language_hittite
 	martial_custom = martial_custom_male_only
 	ethos = ethos_bureaucratic # Earliest constitutional monarchy
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_legalistic # Hittite laws
 		tradition_hereditary_hierarchy # Prosperity under competent kings, downfall of Hittite kingdoms under poor kings
@@ -675,6 +689,7 @@ kizzuwatnan = { # Ancient Bronze Age people of Cilicia, hybrids between Hurrians
 	language = language_luwian
 	martial_custom = martial_custom_male_only
 	ethos = ethos_communal # Tribal society
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_astute_diplomats
 		tradition_ancient_miners
@@ -721,6 +736,7 @@ trojan = {  # Override of vanilla culture
 	heritage = heritage_anatolian
 	language = language_luwian
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_philosopher_culture
 		tradition_legalistic
@@ -752,6 +768,7 @@ phrygian = {
 	language = language_phrygian
 	martial_custom = martial_custom_male_only
 	ethos = ethos_bellicose # Involved in multiple wars before, during and after the existence of the Phrygian Kingdom in 7th Century BC
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_sorcerous_metallurgy # Legendary King Midas
 		tradition_astute_diplomats # Recorded to be allied with various powers
@@ -787,6 +804,7 @@ nabatean = { # https://en.wikipedia.org/wiki/Nabataeans
 	heritage = heritage_arabic
 	language = language_arabic
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_caravaneers # https://books.openedition.org/momeditions/8587
 		tradition_dryland_dwellers
@@ -820,6 +838,7 @@ adnanite = { # https://en.wikipedia.org/wiki/Adnanites
 	heritage = heritage_arabic
 	language = language_arabic
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_caravaneers
 		tradition_desert_nomads
@@ -851,6 +870,7 @@ qahtanite = { # https://en.wikipedia.org/wiki/Qahtanite
 	heritage = heritage_arabic
 	language = language_arabic
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_mountaineers
 
@@ -888,6 +908,7 @@ egyptian = {  # override of vanilla culture
 	heritage = heritage_arabic
 	language = language_arabic
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_philosopher_culture
 		tradition_agrarian
@@ -918,6 +939,7 @@ dalmatian = {
 	heritage = heritage_albanian
 	language = language_albanian
 	martial_custom = martial_custom_equal
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_hit_and_run
 		tradition_swords_for_hire
@@ -951,6 +973,7 @@ messapic = {
 	name_list = name_list_albanian
 
 	ethos = ethos_stoic
+	head_determination = head_determination_domain
 
 	coa_gfx = { byzantine_group_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
@@ -983,6 +1006,7 @@ ancient_egyptian = {  # fallback in case some mod removes vanilla ancient_egypti
 	martial_custom = martial_custom_male_only
 
 	ethos = ethos_spiritual
+	head_determination = head_determination_domain
 
 	traditions = {
 		tradition_warriors_of_the_dry
@@ -1018,6 +1042,7 @@ per_sheklesh = {  # Egyptian Italy from BA to I:R
 	martial_custom = martial_custom_male_only
 
 	ethos = ethos_spiritual
+	head_determination = head_determination_domain
 
 	traditions = {
 		tradition_warriors_of_the_dry
@@ -1053,6 +1078,7 @@ niwt_ipt = {  # Egyptian Carthage from BA to I:R
 	martial_custom = martial_custom_male_only
 
 	ethos = ethos_spiritual
+	head_determination = head_determination_domain
 
 	traditions = {
 		tradition_seafaring
@@ -1089,6 +1115,7 @@ numidian = {
 		}
 	}
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_herd # All vanilla CK3 berber cultures use herd for culture head (except the guanches, but that is likely since they are separated, on an island), so I just went along with that
 
 	ethos = ethos_stoic
 
@@ -1119,6 +1146,7 @@ brythonic = {
 	heritage=heritage_brythonic
 	ethos=ethos_stoic #https://penelope.uchicago.edu/~grout/encyclopaedia_romana/britannia/miscellanea/geography.html
 	language=language_brythonic
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_concubines
 		tradition_hill_dwellers
@@ -1155,6 +1183,7 @@ arakanese = {  # https://en.wikipedia.org/wiki/Rakhine_people
 	heritage = heritage_burman
 	language = language_burmese
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 
 	name_list = name_list_burmese
 
@@ -1187,6 +1216,7 @@ hellenic_greek = { # Now used to represent non-Romanized Greeks
 	color = { 0.58 0.74 0.95 }
 
 	ethos = ethos_bureaucratic
+	head_determination = head_determination_domain
 	# TFE uses its own hellenistic heritage in place of the byzantine heritage
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -1228,6 +1258,7 @@ greek = { # Overwriting the vanilla greek definition to make it better represent
 	color = greek
 	
 	ethos = ethos_bureaucratic
+	head_determination = head_determination_domain
 	# TFE uses its own hellenistic heritage in place of the byzantine heritage
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -1286,6 +1317,7 @@ macedonian = {
 	color = { 0.7 0.6 0.95 }
 
 	ethos = ethos_bellicose
+	head_determination = head_determination_domain
 	# TFE uses its own hellenistic heritage in place of the byzantine heritage
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -1340,6 +1372,7 @@ hellenistic = {
 	parents = { macedonian persian }
 	created = 2.1.1
 	ethos = ethos_courtly
+	head_determination = head_determination_domain
 
 	name_list = name_list_ancient_greek
 	name_list = name_list_persian
@@ -1392,6 +1425,7 @@ indogreek = {
 	parents = { hellenic_greek bactrian }
 	created = 2.1.1
 	ethos = ethos_bureaucratic
+	head_determination = head_determination_domain
 
 	name_list = name_list_indo_greek
 	martial_custom = martial_custom_male_only
@@ -1429,6 +1463,7 @@ italiote = {
 		}
 	}
 	language = language_greek
+	head_determination = head_determination_domain
 	coa_gfx = { byzantine_group_coa_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	building_gfx = { mediterranean_building_gfx }
@@ -1472,6 +1507,7 @@ syro_hellenic = {
 			language = language_greek # IRToCK3: moved from language_ancient_greek
 		}
 	}
+	head_determination = head_determination_domain
 
 	coa_gfx = { byzantine_group_coa_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
@@ -1511,6 +1547,7 @@ pemis = {
 	name_list = name_list_pemis
 
 	ethos = ethos_courtly
+	head_determination = head_determination_domain
 
 	traditions = {
 		tradition_druzhina
@@ -1541,6 +1578,7 @@ aramaic = {
 	heritage = heritage_syriac
 	language = language_aramaic
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_warriors_of_the_dry
 		# Aramaic culture is mainly located at where all the Syrian desert is.
@@ -1576,6 +1614,7 @@ babylonian = {
 	heritage = heritage_syriac
 	language = language_babylonian
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		# Babylonian culture should have City Keepers tradition as Babylonians built cities as beautiful works of art. (The use of brick led to the early development of the pilaster and column, and of frescoes and enameled tiles. The walls were brilliantly coloured, and sometimes plated with zinc or gold, as well as with tiles. Painted terracotta cones for torches were also embedded in the plaster. (from the Babylonia Wikipedia page))
 		tradition_city_keepers
@@ -1615,6 +1654,7 @@ sumerian = {
 	heritage = heritage_syriac
 	language = language_sumerian
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = { 
 		tradition_parochialism
 		tradition_eye_for_an_eye
@@ -1645,6 +1685,7 @@ eblaite = { #Ancient Bronze Age people of modern-day Syria, either East Semetic 
 	heritage = heritage_syriac
 	language = language_eblaite
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = { #Same as Babylonian
 		tradition_city_keepers
 		tradition_medicinal_plants
@@ -1682,6 +1723,7 @@ bazramani = {
 	heritage = heritage_syriac
 	language = language_latin
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_warriors_of_the_dry
 		tradition_hereditary_hierarchy
@@ -1716,6 +1758,7 @@ judajca = {
 	heritage = heritage_syriac
 	language = language_latin
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_warriors_of_the_dry
 		tradition_hereditary_hierarchy
@@ -1745,6 +1788,7 @@ vandilian = { # https://en.wikipedia.org/wiki/East_Germanic_peoples
 	color = rgb { 215 246 166 }
 	heritage = heritage_east_germanic
 	language = language_gothic
+	head_determination = head_determination_domain
 	name_list = name_list_gothic
 	ethnicities = {
 		25 = caucasian_blond
@@ -1773,6 +1817,7 @@ gothic = { # https://en.wikipedia.org/wiki/Goths
 	color = irtock3_gothic
 	heritage = heritage_east_germanic
 	language = language_gothic
+	head_determination = head_determination_domain
 	name_list = name_list_gothic
 	ethnicities = {
 		25 = caucasian_blond
@@ -1790,6 +1835,10 @@ gothic = { # https://en.wikipedia.org/wiki/Goths
 		tradition_martial_admiration
 		tradition_battlefield_looters
 	}
+	dlc_tradition = {
+		trait = tradition_malleable_invaders
+		requires_dlc_flag = hybridize_culture
+	}
 	ethos = ethos_bellicose
 }
 
@@ -1806,6 +1855,7 @@ visigothic = { # override of vanilla culture
 	heritage = heritage_east_germanic # IRToCK3: moved from Iberian heritage
 	language = language_gothic
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_equal_inheritance
 		tradition_hit_and_run
@@ -1837,6 +1887,7 @@ ostrogothic = { # https://en.wikipedia.org/wiki/Ostrogoths
 	heritage = heritage_east_germanic
 	language = language_gothic
 	name_list = name_list_gothic
+	head_determination = head_determination_domain
 	ethnicities = {
 		25 = caucasian_blond
 		15 = caucasian_ginger
@@ -1864,6 +1915,7 @@ gepid = { # https://en.wikipedia.org/wiki/Gepids
 	color = rgb { 91 66 30 }
 	heritage = heritage_east_germanic
 	language = language_gothic
+	head_determination = head_determination_domain
 	name_list = name_list_gothic
 	ethnicities = {
 		25 = caucasian_blond
@@ -1892,6 +1944,7 @@ vandal = { # https://en.wikipedia.org/wiki/Vandals
     
 	heritage = heritage_east_germanic
 	language = language_gothic
+	head_determination = head_determination_domain
 	color = hsv { 0.05 0.7 0.3 }
 
 	name_list = name_list_gothic
@@ -1926,6 +1979,7 @@ urslavic = {
 	heritage = heritage_east_slavic
 	language = language_east_slavic
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_druzhina
 		tradition_forest_folk
@@ -1957,6 +2011,7 @@ celtic_pannonian = {
 	heritage = heritage_gaulish
 	language = language_gaulish
 	martial_custom = martial_custom_equal
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_hit_and_run
 		tradition_adaptive_skirmishing
@@ -1989,6 +2044,7 @@ celtiberian = {
 	heritage = heritage_iberian_celtic
 	language = language_gaulish
 	martial_custom = martial_custom_equal
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_hit_and_run
 		tradition_adaptive_skirmishing
@@ -2023,6 +2079,7 @@ belgae = {
 	heritage = heritage_gaulish
 	language = language_gaulish
 	martial_custom = martial_custom_equal
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_hit_and_run
 		tradition_adaptive_skirmishing
@@ -2055,6 +2112,7 @@ gallic = {
 	heritage = heritage_gaulish
 	language = language_gaulish
 	martial_custom = martial_custom_equal
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_hit_and_run
 		tradition_adaptive_skirmishing
@@ -2089,6 +2147,7 @@ lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
 	heritage = heritage_iberian_celtic
 	language = language_gaulish
 	martial_custom = martial_custom_equal
+	head_determination = head_determination_domain
 
 	ethos = ethos_stoic
 	traditions = {
@@ -2124,6 +2183,7 @@ galatian = {
 	heritage = heritage_gaulish
 	language = language_gaulish
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 
 	ethos = ethos_bellicose
 
@@ -2162,6 +2222,7 @@ neo_mitanni = { # IRToCK3: a culture for Invictus revival meme Neo-Mitanni cultu
 	heritage = heritage_indo_aryan
 	language = language_vrachada
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_poetry
 		tradition_seafaring
@@ -2196,6 +2257,7 @@ bactrian = {
 	}
 
 	ethos = ethos_stoic
+	head_determination = head_determination_domain
 
 	coa_gfx = { iranian_group_coa_gfx }
 	building_gfx = { mena_building_gfx }
@@ -2225,7 +2287,7 @@ bactrian = {
 		# of Mardonius at the Battle of Plataea (which included Bactrians) as horse archers (hippotoxotai).
 		# Bactrian infantry is described by Herodotus as wearing caps in the Median style, short spears
 		# and reed Scythian style bows. (from the Greco-Bactrian Kingdom Wikipedia page)).
-		tradition_horse_lords
+		tradition_devoted_horsemanship # tradition_horse_lords still defined in base game files, but it has been replaced by this tradition, for the most part
 
 		# Bactrian culture could have Dryland Dwellers tradition rather than Warriors of the Dry.
 		# This is a suggestion out of just balancing; Bactrian culture having
@@ -2265,12 +2327,13 @@ scythian = {
 
 	# "Unlike the other Scythic peoples such as the Sarmatians, where women were allowed to go hunting, ride horses, learn archery and fight with spears just like the men, the society of the Scythians proper was patriarchal and Scythian women possessed little freedom."  (from the Scythians wikipedia page)
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_herd
 
 	traditions = {
 		tradition_horse_breeder
 		tradition_pastoralists
 		tradition_martial_admiration # "… He also states that "Ares," the god of war, was the only god to whom the Scythians dedicated statues, altars or temples. Tumuli were erected to him in every Scythian district, and both animal sacrifices and human sacrifices were performed in honor of him. At least one shrine to "Ares" has been discovered by archaeologists." (from the Scythians Wikipedia page)
-		tradition_horse_lords # Scythians and Sarmatians were well-known for their horse archers.
+		tradition_devoted_horsemanship # tradition_horse_lords still defined in base game files, but it has been replaced by this tradition, for the most part # Scythians and Sarmatians were well-known for their horse archers.
 	}
 }
 
@@ -2301,12 +2364,13 @@ sarmatian = {
 
 	# "Unlike the other Scythic peoples such as the Sarmatians, where women were allowed to go hunting, ride horses, learn archery and fight with spears just like the men, the society of the Scythians proper was patriarchal and Scythian women possessed little freedom."  (from the Scythians Wikipedia page)
 	martial_custom = martial_custom_equal
+	head_determination = head_determination_herd
 
 	traditions = {
 		tradition_horse_breeder
 		tradition_pastoralists
 		tradition_hunters # both because nomads such as these were usually hunter-gathers, and some scholars theorize the name Sarmatia itself comes from the word meaning "hunter". (… Harold Walter Bailey derived the name Saurumatā, composed of … a derivation of the Iranian root *sar-, … which was a cognate of the Old Indic base tsar- (त्सर्) from which were derived the terms tsarati- (त्सरति) and tsaru- (त्सरु), meaning "hunter." (from the Sarmatians Wikipedia page))
-		tradition_horse_lords # Scythians and Sarmatians were well-known for their horse archers.
+		tradition_devoted_horsemanship # tradition_horse_lords still defined in base game files, but it has been replaced by this tradition, for the most part # Scythians and Sarmatians were well-known for their horse archers.
 	}
 }
 
@@ -2326,6 +2390,7 @@ parthian = {
 	}
 
 	ethos = ethos_courtly
+	head_determination = head_determination_domain # The Imperator culture mapped to this culture seems to represent the Parthians after they became more settled
 
 	heritage = heritage_iranian
 	language = language_iranian
@@ -2348,7 +2413,7 @@ parthian = {
 		tradition_culture_blending
 
 		# Parthian culture should have Horse Archers because Parthian empire mainly had cataphract; a cavalry army. (The main striking force of the Parthian army was its cataphracts, heavy cavalry with man and horse decked in mailed armor.[214] The cataphracts were equipped with a lance for charging into enemy lines, but were not equipped with bows and arrows which were restricted to horse archers.[215] Due to the cost of their equipment and armor, cataphracts were recruited from among the aristocratic class who, in return for their services, demanded a measure of autonomy at the local level from the Arsacid kings.[216] The light cavalry was recruited from among the commoner class and acted as horse archers; they wore a simple tunic and trousers into battle. (Parthian Empire Wikipedia)
-		tradition_horse_lords
+		tradition_devoted_horsemanship # tradition_horse_lords still defined in base game files, but it has been replaced by this tradition, for the most part
 
 		# Parthian culture can have Expert Artisans instead of Agrarian because Parthian Empire encouraged and profited heavily from Silk Road trade, texture being one of the main production. (The empire, located on the Silk Road trade route between the Roman Empire in the Mediterranean Basin and the Han dynasty of China, became a center of trade and commerce. (Parthian Empire Wikipedia))
 		tradition_artisans
@@ -2368,6 +2433,7 @@ elamite = { # https://en.wikipedia.org/wiki/Elam
 	heritage = heritage_iranian
 	language = language_elamite
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		# https://study.com/academy/lesson/elamite-empire-art-culture.html
 		# The location of Elam was also very rich agriculturally. This not only provided adequate nutrition and security to the Elamites, but a steady source of good for packaging and selling to other nations and people who traveled through and traded with the Elamites.
@@ -2402,8 +2468,9 @@ alan = { # override of vanilla culture
 	heritage = heritage_iranian
 	language = language_scythian
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
-		tradition_horse_lords
+		tradition_devoted_horsemanship # tradition_horse_lords still defined in base game files, but it has been replaced by this tradition, for the most part
 		tradition_mountaineers
 		tradition_steppe_tolerance
 		tradition_wedding_ceremonies
@@ -2438,6 +2505,7 @@ hebrew = { # https://en.wikipedia.org/wiki/Hebrews
 	}
 
 	ethos = ethos_stoic
+	head_determination = head_determination_domain
 
 	coa_gfx = { israelite_group_coa_gfx }
 	building_gfx = { mena_building_gfx }
@@ -2471,6 +2539,7 @@ shuadit = { # https://en.wikipedia.org/wiki/Shuadit
 	}
 
 	ethos = ethos_egalitarian
+	head_determination = head_determination_domain
 
 	coa_gfx = { israelite_group_coa_gfx }
 	building_gfx = { mena_building_gfx }
@@ -2504,6 +2573,7 @@ zarphatic = { # https://en.wikipedia.org/wiki/Zarphatic_language
 	}
 
 	ethos = ethos_egalitarian
+	head_determination = head_determination_domain
 
 	coa_gfx = { israelite_group_coa_gfx }
 	building_gfx = { mena_building_gfx }
@@ -2541,6 +2611,7 @@ oscan = { # This culture is now meant to represent the ancient Umbrii peoples, b
 	name_list = name_list_oscan
 
 	ethos = ethos_egalitarian
+	head_determination = head_determination_domain
 
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -2581,6 +2652,7 @@ samnite = {
 	name_list = name_list_roman
 
 	ethos = ethos_stoic
+	head_determination = head_determination_domain
 
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -2622,6 +2694,7 @@ venetic = { # https://en.wikipedia.org/wiki/Adriatic_Veneti
 	name_list = name_list_venetic
 
 	ethos = ethos_stoic
+	head_determination = head_determination_domain
 
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -2668,6 +2741,7 @@ ligustic = {
 	name_list = name_list_roman
 
 	ethos = ethos_stoic
+	head_determination = head_determination_domain
 
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -2709,6 +2783,7 @@ sardonian = {
 	name_list = name_list_sardinian
 
 	ethos = ethos_stoic
+	head_determination = head_determination_domain
 
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -2750,6 +2825,7 @@ siculian = {
 	name_list = name_list_sicilian
 
 	ethos = ethos_stoic
+	head_determination = head_determination_domain
 
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -2786,6 +2862,7 @@ roman = {
 	heritage = heritage_latin
 	language = language_latin
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_poetry
 	}
@@ -2830,16 +2907,17 @@ roman = {
 	}
 }
 
-hunnic = { # fallback in case some mod removes vanilla hunnic culture
+hunnic = { # Should now replace base game Hunnic
 	INVALIDATED_BY = {
 		tfe = { hunnic hun }
-		vanilla = { hunnic hun }
+		vanilla = { hun }
 	}
     
 	color = { 254 204 50 }
 
 	heritage = heritage_hunnic
 	language = language_hunnic
+	head_determination = head_determination_herd
 
 	name_list = name_list_hunnic
 
@@ -2860,7 +2938,7 @@ hunnic = { # fallback in case some mod removes vanilla hunnic culture
 		tradition_pastoralists
 
 		# Hunnic culture should have Horse Lords, due to their nomadic lifestyle and their mounted archery (horse archers). (… Like Ammianus, the sixth-century writer Zosimus also emphasizes the Huns' almost exclusive use of horse archers and their extreme swiftness and mobility. (Huns Wikipedia page))
-		tradition_horse_lords
+		tradition_devoted_horsemanship # tradition_horse_lords still defined in base game files, but it has been replaced by this tradition, for the most part
 
 		# Hunnic culture should have Quarrelsome as the Hun empire conquered the Alans, most of the Greuthungi or Eastern Goths, and then most of the Thervingi or Western Goths, with many fleeing into the Roman Empire (Huns Wikipedia page) and under Attila raided East and West Roman Empire numerous times.
 		tradition_quarrelsome
@@ -2883,6 +2961,7 @@ varangian = {
 	heritage = heritage_north_germanic
 	language = language_norse
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_things
 	}
@@ -2914,6 +2993,7 @@ mikligardrish = {
 	parents = { norse hellenic_greek }
 	created = 20.1.1
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_things
 	}
@@ -2952,6 +3032,7 @@ palaungic = {  # from AsiaExtended mod https://steamcommunity.com/sharedfiles/fi
 	heritage = heritage_palaungic
 	language = language_palaungic
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 
 	name_list = name_list_palaungic
 
@@ -2985,6 +3066,7 @@ carthaginian = {
 	heritage = heritage_punic
 	language = language_punic
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_warriors_by_merit
 		tradition_seafaring
@@ -3014,6 +3096,7 @@ phoenician = {
 	heritage = heritage_punic
 	language = language_punic
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_seafaring
 		tradition_xenophilic
@@ -3043,6 +3126,7 @@ alasiyan = { #Ancient pre-Cypriot people of Cyprus
 	heritage = heritage_punic
 	language = language_alasiyan
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_ancient_miners
 		tradition_xenophilic
@@ -3072,6 +3156,7 @@ ugaritic = {
 	heritage = heritage_punic
 	language = language_ugaritic
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_maritime_mercantilism
 		tradition_xenophilic
@@ -3106,6 +3191,7 @@ breathanach = {
 	heritage = heritage_romano_british
 	language = language_breathanach
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_horse_breeder
 	}
@@ -3146,6 +3232,7 @@ transadrianic = {
 	heritage = heritage_romano_british
 	language = language_breathanach
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_horse_breeder
 	}
@@ -3186,6 +3273,7 @@ brythenig = {
 	heritage = heritage_romano_british
 	language = language_breathanach
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_horse_breeder
 	}
@@ -3227,6 +3315,7 @@ laessin = {
 	heritage = heritage_romano_germanic
 	language = language_laessin
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_martial_admiration
 	}
@@ -3267,6 +3356,7 @@ wenedyk = {
 	heritage = heritage_romano_germanic
 	language = language_laessin
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_martial_admiration
 	}
@@ -3307,6 +3397,7 @@ shan = {  # https://en.wikipedia.org/wiki/Shan_people
 	heritage = heritage_tai
 	language = language_tai
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 
 	name_list = name_list_shan
 
@@ -3340,6 +3431,7 @@ thracian = {
 	heritage = heritage_thracian
 	language = language_thracian
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_stand_and_fight
 		tradition_adaptive_skirmishing
@@ -3370,6 +3462,7 @@ dacian = {
 	heritage = heritage_thracian
 	language = language_dacian
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_stand_and_fight
 		tradition_adaptive_skirmishing
@@ -3401,6 +3494,7 @@ getian = {
 	heritage = heritage_thracian
 	language = language_thracian
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_stand_and_fight
 		tradition_adaptive_skirmishing
@@ -3431,6 +3525,7 @@ etruscan = {
 	heritage = heritage_tyrrhenian
 	language = language_etruscan
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_warriors_by_merit
 		tradition_city_keepers
@@ -3468,6 +3563,7 @@ rhaetian = {
 	heritage = heritage_tyrrhenian
 	language = language_etruscan
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_warriors_by_merit
 		tradition_mountain_homes
@@ -3506,6 +3602,7 @@ lemnian = {
 	heritage = heritage_tyrrhenian
 	language = language_etruscan
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_warriors_by_merit
 		tradition_maritime_mercantilism
@@ -3544,6 +3641,7 @@ angle = { # https://en.wikipedia.org/wiki/Angles
 	heritage = heritage_west_germanic
 	language = language_anglic
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_things
 		tradition_seafaring
@@ -3580,6 +3678,7 @@ iweric = {
 	heritage = heritage_west_germanic
 	language = language_anglic
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 
 	traditions = {
 		tradition_things
@@ -3616,6 +3715,7 @@ suebi = { # override of vanilla culture
 	heritage = heritage_west_germanic # IRToCK3: moved from vanilla heritage_iberian
 	language = language_central_germanic
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = {
 		tradition_stand_and_fight
 		tradition_agrarian
@@ -3644,6 +3744,7 @@ chong = {  # integrated from Rajas of Asia
 	heritage = heritage_mon_khmer
 	language = language_chong
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 
 	name_list = name_list_khmer
 
@@ -3672,6 +3773,7 @@ hurrian_culture = {
 	heritage = heritage_syriac
 	language = language_hurrian
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = { 
 		tradition_storytellers
 		tradition_metal_craftsmanship
@@ -3707,6 +3809,7 @@ gutian = { #Ancient barbarians of unknown origin who conquered Mesopotamia after
 	heritage = heritage_syriac
 	language = language_gutian
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = { 
 		tradition_quarrelsome
 		tradition_hill_dwellers
@@ -3736,6 +3839,7 @@ hatti = { #Pre-Hittite people of central Anatolia
 	heritage = heritage_anatolian
 	language = language_hatti
 	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
 	traditions = { 
 		tradition_artisans
 		tradition_storytellers

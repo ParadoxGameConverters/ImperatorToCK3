@@ -232,7 +232,7 @@ link = { ir = transalpine_gaul_region ck3 = d_provence rank = d }
 link = { ir = hyperborea_region ck3 = k_opolye rank = k }
 link = { ir = hyperborea_region ck3 = d_opolye rank = d }
 
-link = { ir = central_asian_steppes_region ck3 = k_kimek rank = k }
+link = { ir = central_asian_steppes_region ck3 = k_bashkiria rank = k } # CK3 1.16 removed the k_kimek title. This is closest de jure kingdom not already used.
 link = { ir = central_asian_steppes_region ck3 = d_aqtobe rank = d }
 
 link = { ir = sakia_region ck3 = k_oghuz_il rank = k }
@@ -250,7 +250,7 @@ link = { ir = liang_region ck3 = k_xia rank = k }
 link = { ir = liang_region ck3 = d_ganzhou rank = d }
 
 link = { ir = mobei_region ck3 = k_otuken rank = k }
-link = { ir = mobei_region ck3 = d_otuken rank = d }
+link = { ir = mobei_region ck3 = d_orkhon rank = d } # CK3 1.16 removed its version of d_otuken, and seems like it was replaced by d_orkhon. Will need to see what Asia mods typically end up using here to see if this should be changed.
 
 link = { ir = modong_region ck3 = k_balhae rank = k }
 link = { ir = modong_region ck3 = d_yongcheon rank = d }

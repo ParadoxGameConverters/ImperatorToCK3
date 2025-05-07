@@ -1082,6 +1082,7 @@ internal sealed class World {
 			};
 			holder.SetFaithId(faithId, null);
 			holder.SetCultureId(culture.Id, null);
+			holder.History.AddFieldValue(holder.BirthDate, "effects", "effect", "{ set_variable = irtock3_uncolonized_filler }");
 			Characters.AddOrReplace(holder);
 
 			var countyHoldingTypes = county.CountyProvinceIds
@@ -1138,6 +1139,7 @@ internal sealed class World {
 			{"dlc017.dlc", "medieval_monuments"},
 			{"dlc018.dlc", "arctic_attire"},
 			{"dlc019.dlc", "crowns_of_the_world"},
+			{"dlc020.dlc", "khans_of_the_steppe"},
 		};
 		
 		var dlcFiles = Directory.GetFiles(dlcFolderPath, "*.dlc", SearchOption.AllDirectories);

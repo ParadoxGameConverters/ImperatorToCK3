@@ -3,6 +3,7 @@
 	color = { 188 199 108 }
 	definite_form = yes
 	ruler_uses_title_name = no
+	can_use_nomadic_naming = no
 
 	no_automatic_claims = yes
 	always_follows_primary_heir = yes
