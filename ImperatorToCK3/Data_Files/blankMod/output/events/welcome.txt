@@ -1,14 +1,21 @@
-﻿# Last updated: CK3 patch 1.10.0.1
+﻿# Last updated: CK3 1.16
 namespace = welcome
-#welcome.1 = {
-#	hidden = no
-#	type = character_event
-#	opening = { desc = welcome_title }
-#	desc = welcome_desc
-#
-#	trigger = { }
-#
-#	option = {
-#		name = welcome_ok
-#	}
-#}
+welcome.1 = {
+	type = character_event
+	title = welcome_title
+	desc = welcome_desc
+	override_background = { reference = relaxing_room }
+	theme = crown
+	right_portrait = {
+		character = root
+		animation = happiness
+	}
+
+	trigger = {
+		is_ai = no
+	}
+
+	option = {
+		name = welcome_ok
+	}
+}

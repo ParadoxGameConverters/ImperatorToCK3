@@ -1106,6 +1106,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("always_follows_primary_heir")] public bool? AlwaysFollowsPrimaryHeir { get; set; }
 	[SerializedName("de_jure_drift_disabled")] public bool? DeJureDriftDisabled { get; set; }
 	[SerializedName("can_be_named_after_dynasty")] public bool? CanBeNamedAfterDynasty { get; set; }
+	[SerializedName("can_use_nomadic_naming")] public bool? CanUseNomadicNaming { get; set; }
 	[SerializedName("male_names")] public List<string>? MaleNames { get; private set; }
 	// <culture, loc key>
 	[SerializedName("cultural_names")] public Dictionary<string, string>? CulturalNames { get; private set; }
@@ -1197,6 +1198,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterKeyword("always_follows_primary_heir", reader => AlwaysFollowsPrimaryHeir = reader.GetBool());
 		parser.RegisterKeyword("de_jure_drift_disabled", reader => DeJureDriftDisabled = reader.GetBool());
 		parser.RegisterKeyword("can_be_named_after_dynasty", reader => CanBeNamedAfterDynasty = reader.GetBool());
+		parser.RegisterKeyword("can_use_nomadic_naming", reader => CanUseNomadicNaming = reader.GetBool());
 		parser.RegisterKeyword("male_names", reader => MaleNames = reader.GetStrings());
 		parser.RegisterKeyword("cultural_names", reader => CulturalNames = reader.GetAssignmentsAsDict());
 

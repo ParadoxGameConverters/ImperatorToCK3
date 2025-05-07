@@ -13,6 +13,9 @@ keep_as_is = {
 # but who we don't actually want to exist in the game.
 # Consider it an error suppressor.
 after_bookmark_date = {
+	125501 # Temujin, referenced in many files
+	172004 # Borte, Temujin's wife, referenced in several files
+	
 	# Characters referenced in common\casus_belli_types\00_event_war.txt:
 	124 # Tostig
 	140 # William the Conqueror
@@ -165,7 +168,7 @@ after_bookmark_date = {
 	easteregg_elisabeth_gangenes
 	easteregg_alva_granholm
 	easteregg_philip_wessman
-	easteregg_rebecca_ronnback
+	easteregg_rebecca_gottfredsson
 	easteregg_anna_strom
 	easteregg_mathias_frostewarn
 	easteregg_marcus_bose
@@ -178,9 +181,10 @@ after_bookmark_date = {
 	easteregg_samet_atasoy
 	easteregg_richard_lindkvist
 	easteregg_daniel_tolman
-	easteregg_melanie_bjurman
+	easteregg_melanie_albarn
 	easteregg_lucia_dzediti
 	easteregg_david_ostlund
 	easteregg_neyla_garcia
 	easteregg_anna_johansson
+	easteregg_jacopo_freddi
 }
