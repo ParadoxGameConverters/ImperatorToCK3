@@ -3,7 +3,6 @@ on_game_start = {
 	on_actions = {
 		IRToCK3_create_admin_noble_families
 		IRToCK3_fix_roman_empire_name
-		IRToCK3_remove_papacy
 	}
 }
 
@@ -714,23 +713,6 @@ IRToCK3_nomad_setup = {
 		## Finally, just recalculate the culture heads
 		recalculate_cultural_heads_of_type = herd
 		recalculate_cultural_heads_of_type = domain
-	}
-}
-
-IRToCK3_remove_papacy = {
-	effect = {
-		# Remove Pope as Head of Faith since it never would have been established yet.
-		if = {
-			limit = { exists = title:k_papal_state }
-			destroy_title = title:k_papal_state
-		}
-		faith:catholic = {
-			if = {
-				limit = { has_doctrine = doctrine_spiritual_head }
-				remove_doctrine = doctrine_spiritual_head
-				hidden_effect = { add_doctrine = doctrine_no_head }
-			}
-		}
 	}
 }
 

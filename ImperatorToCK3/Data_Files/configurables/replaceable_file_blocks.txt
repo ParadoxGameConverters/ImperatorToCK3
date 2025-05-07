@@ -1822,6 +1822,22 @@
 	# dismantle_papacy_decision
 	#########
 
+	# is_shown block
+	replace = {
+		before = {
+		faith:catholic = {
+			has_doctrine = doctrine_spiritual_head
+		}
+		} # end of before
+
+		after = {
+		# IRToCK3: Base game checks if Catholicism has doctrine_spiritual_head, but changing this to just check if a Pope exists so there won't be any issues with a Pope not existing at game start
+		faith:catholic = {
+			exists = religious_head
+		}
+		} # end of after
+	} # End of is_shown block
+
 	# is_valid block
 	replace = {
 		before = {
