@@ -1846,7 +1846,11 @@
 
 		after = {
 			# IRToCK3: Base game checks if they are playable, when they just want to check that they are unlanded, which can be a little confusing when reading the requirements
-			title:k_papal_state.holder = { is_landed = no } #If he fled elsewhere, it cannot be done, the Pope must be landless.
+			title:k_papal_state.holder = {
+				is_landed = no #If he fled elsewhere, it cannot be done, the Pope must be landless.
+				# IRToCK3: Making it so that you must have the Pope as a prisoner to prevent the decision from being possible right after game start, until a better alternative is decided
+				is_imprisoned_by = root
+			} 
 		} # end of after
 	} # End of is_valid block
 }
