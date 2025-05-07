@@ -1709,6 +1709,130 @@
 		} # end of after
 	}
 
+
+	#########
+	# unify_italian_empire_decision
+	#########
+	# Making this decision impossible to take for now, until relevant modifications can be determined for it to make sense.
+
+	# is_shown block
+	replace = {
+		before = {
+		culture = { has_cultural_pillar = heritage_latin }
+		is_ruler = yes
+		is_playable_character = yes
+		highest_held_title_tier > 2 #Dukes and above
+		capital_province = { geographical_region = world_europe_south_italy }
+		}
+
+		after = {
+		always = no # IRToCK3: Makes this decision impossible for now since it doesn't make sense with the world's history changed
+		culture = { has_cultural_pillar = heritage_latin }
+		is_ruler = yes
+		is_playable_character = yes
+		highest_held_title_tier > 2 #Dukes and above
+		capital_province = { geographical_region = world_europe_south_italy }
+		}
+	}
+
+
+	#########
+	# restore_papacy_decision
+	#########
+	# These changes make the decision's localization change depending on whether the Papal States has existed already or not
+
+	# Decision loc info
+	replace = {
+		before = {
+	desc = restore_papacy_decision_desc
+	selection_tooltip = restore_papacy_decision_tooltip
+		} # end of before
+
+		after = {
+	# IRToCK3: Made it so the localization of this decision changes depending on whether the Papal States has existed already or not
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = title:k_papal_state.previous_holder }
+				}
+				desc = restore_papacy_decision_title_set
+			}
+			desc = restore_papacy_decision_title_restore
+		}
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = title:k_papal_state.previous_holder }
+				}
+				desc = restore_papacy_decision_desc_set
+			}
+			desc = restore_papacy_decision_desc_restore
+		}
+	}
+	selection_tooltip = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = title:k_papal_state.previous_holder }
+				}
+				desc = restore_papacy_decision_tooltip_set
+			}
+			desc = restore_papacy_decision_tooltip_restore
+		}
+	}
+	confirm_text = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = title:k_papal_state.previous_holder }
+				}
+				desc = restore_papacy_decision_confirm_set
+			}
+			desc = restore_papacy_decision_confirm_restore
+		}
+	}
+		} # end of after
+	}
+
+	# effect block
+	replace = {
+		before = {
+		custom_tooltip = restore_papacy_decision_effect_tooltip
+		} # end of before
+
+		after = {
+		# IRToCK3: Made it so the custom tooltip chosen depends on whether the Papal States has existed already or not
+		switch = {
+			trigger = exists
+			title:k_papal_state.previous_holder = {
+				custom_tooltip = restore_papacy_decision_effect_tooltip_restore
+			}
+			fallback = {
+				custom_tooltip = restore_papacy_decision_effect_tooltip_set
+			}
+		}
+		} # end of after
+	} # End of effect block
+
+
+	#########
+	# dismantle_papacy_decision
+	#########
+
+	# is_valid block
+	replace = {
+		before = {
+			title:k_papal_state.holder = { is_playable_character = no } #If he fled elsewhere, it cannot be done, the Pope must be landless.
+		} # end of before
+
+		after = {
+			# IRToCK3: Base game checks if they are playable, when they just want to check that they are unlanded, which can be a little confusing when reading the requirements
+			title:k_papal_state.holder = { is_landed = no } #If he fled elsewhere, it cannot be done, the Pope must be landless.
+		} # end of after
+	} # End of is_valid block
 }
 
 
@@ -2317,68 +2441,6 @@
 }
 
 
-"common/decisions/dlc_decisions/mpo/mpo_decisions.txt" = {
-	
-	# expand_the_steppe_decision is_shown block
-	replace = {
-		before = {
-        has_mpo_dlc_trigger = yes
-
-        government_has_flag = government_is_nomadic
-
-    	any_character_situation = {
-    		situation:the_great_steppe ?= this
-    	}
-
-        OR = {
-			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_anatolia }
-			great_steppe_not_in_sub_region_trigger = { REGION = custom_eastern_balkans }
-			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_northern_russia }
-			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_southern_russia }
-			great_steppe_not_in_sub_region_trigger = { REGION = custom_hungary }
-			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_poland }
-			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_baltic }
-			great_steppe_not_in_sub_region_trigger = { REGION = dlc_mpo_steppe_caucasus_expansion }
-			great_steppe_not_in_sub_region_trigger = { REGION = world_transoxiana }
-			great_steppe_not_in_sub_region_trigger = { REGION = world_khorasan }
-			great_steppe_not_in_sub_region_trigger = { REGION = dlc_mpo_steppe_persia_expansion }
-			great_steppe_not_in_sub_region_trigger = { REGION = dlc_mpo_steppe_siberia_further_expansion }
-			great_steppe_not_in_sub_region_trigger = { REGION = world_steppe_tarim }
-        }
-		}
-
-		after = {
-		always = no # IRToCK3: This disables the decision since the nomadic situations are being reworked
-
-        has_mpo_dlc_trigger = yes
-
-        government_has_flag = government_is_nomadic
-
-    	any_character_situation = {
-    		situation:the_great_steppe ?= this
-    	}
-
-        OR = {
-			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_anatolia }
-			great_steppe_not_in_sub_region_trigger = { REGION = custom_eastern_balkans }
-			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_northern_russia }
-			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_southern_russia }
-			great_steppe_not_in_sub_region_trigger = { REGION = custom_hungary }
-			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_poland }
-			great_steppe_not_in_sub_region_trigger = { REGION = ghw_region_baltic }
-			great_steppe_not_in_sub_region_trigger = { REGION = dlc_mpo_steppe_caucasus_expansion }
-			great_steppe_not_in_sub_region_trigger = { REGION = world_transoxiana }
-			great_steppe_not_in_sub_region_trigger = { REGION = world_khorasan }
-			great_steppe_not_in_sub_region_trigger = { REGION = dlc_mpo_steppe_persia_expansion }
-			great_steppe_not_in_sub_region_trigger = { REGION = dlc_mpo_steppe_siberia_further_expansion }
-			great_steppe_not_in_sub_region_trigger = { REGION = world_steppe_tarim }
-        }
-		}
-	}
-
-}
-
-
 "map_data/geographical_regions/geographical_region.txt" = {
 
 	# The base game doesn't add siberia to the custom ere region, which would leave a weird gap if they somehow held land in that area
@@ -2400,3 +2462,156 @@ custom_ep3_restore_rome_eastern_empire = {
 		} # end of after
 	}
 }
+
+
+"events\decisions_events\roman_restoration_events.txt" = {
+
+	#########
+	# roman_restoration.0124
+	#########
+
+	# Event description block
+	replace = {
+		before = {
+	desc = roman_restoration.0124.desc
+		} # end of before
+
+		after = {
+	# IRToCK3: This makes it so the description of the event changes depending on whether the Papal States have existed already or not
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = title:k_papal_state.previous_holder }
+				}
+				desc = roman_restoration.0124.desc_set
+			}
+			desc = roman_restoration.0124.desc_restore
+		}
+	}
+		} # end of after
+	} # End of event description block
+
+	# Option A block
+	replace = {
+		before = {
+		name = roman_restoration.0124.a
+		} # end of before
+
+		after = {
+		# IRToCK3: This makes it so the name of this option changes depending on whether the Papal States have existed already or not
+		name = {
+			trigger = {
+				NOT = { exists = title:k_papal_state.previous_holder }
+			}
+			text = roman_restoration.0124.a_set
+		}
+		name = {
+			trigger = {
+				exists = title:k_papal_state.previous_holder
+			}
+			text = roman_restoration.0124.a_restore
+		}
+		} # end of after
+	} # End of Option A block
+
+
+	#########
+	# roman_restoration.0125
+	#########
+
+	# Event description block
+	replace = {
+		before = {
+	desc = {
+		first_valid = {
+			# Catholic Reaction
+			triggered_desc = {
+				trigger = {
+					root.faith = faith:catholic
+				}
+				desc = roman_restoration.0125.desc.catholic
+			}
+			# Every other Christian
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						root.faith = faith:catholic
+					}
+
+				}
+				desc = roman_restoration.0125.desc.other
+			}
+		}
+	}
+		} # end of before
+
+		after = {
+	# IRToCK3: This changes the description of the event based off whether the character is Catholic/not Catholic, and whether the Papacy has existed already or not
+	desc = {
+		first_valid = {
+			# Catholic Reaction
+			triggered_desc = {
+				trigger = {
+					root.faith = faith:catholic
+					NOT = { exists = title:k_papal_state.previous_holder }
+				}
+				desc = roman_restoration.0125.desc.catholic_set
+			}
+			triggered_desc = {
+				trigger = {
+					root.faith = faith:catholic
+					exists = title:k_papal_state.previous_holder
+				}
+				desc = roman_restoration.0125.desc.catholic_restore
+			}
+			# Every other Christian
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						root.faith = faith:catholic
+					}
+					NOT = { exists = title:k_papal_state.previous_holder }
+				}
+				desc = roman_restoration.0125.desc.other_set
+			}
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						root.faith = faith:catholic
+					}
+					exists = title:k_papal_state.previous_holder
+				}
+				desc = roman_restoration.0125.desc.other_restore
+			}
+		}
+	}
+		} # end of after
+	} # End of Event description block
+
+	# Option A block
+	replace = {
+		before = {
+		name = roman_restoration.0125.a
+		} # end of before
+
+		after = {
+		# IRToCK3: This makes it so the name of this option changes depending on whether the Papal States have existed already or not
+		name = {
+			trigger = {
+				NOT = { exists = title:k_papal_state.previous_holder }
+			}
+			text = roman_restoration.0125.a_set
+		}
+		name = {
+			trigger = {
+				exists = title:k_papal_state.previous_holder
+			}
+			text = roman_restoration.0125.a_restore
+		}
+		} # end of after
+	} # End of Option A block
+
+}
+
+

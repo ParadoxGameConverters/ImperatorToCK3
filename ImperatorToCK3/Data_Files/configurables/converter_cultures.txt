@@ -1835,6 +1835,10 @@ gothic = { # https://en.wikipedia.org/wiki/Goths
 		tradition_martial_admiration
 		tradition_battlefield_looters
 	}
+	dlc_tradition = {
+		trait = tradition_malleable_invaders
+		requires_dlc_flag = hybridize_culture
+	}
 	ethos = ethos_bellicose
 }
 
@@ -2903,10 +2907,10 @@ roman = {
 	}
 }
 
-hunnic = { # fallback in case some mod removes vanilla hunnic culture
+hunnic = { # Should now replace base game Hunnic
 	INVALIDATED_BY = {
 		tfe = { hunnic hun }
-		vanilla = { hunnic hun }
+		vanilla = { hun }
 	}
     
 	color = { 254 204 50 }

@@ -1,0 +1,3 @@
+﻿filler_rulers = {
+	parent = ruler
+}

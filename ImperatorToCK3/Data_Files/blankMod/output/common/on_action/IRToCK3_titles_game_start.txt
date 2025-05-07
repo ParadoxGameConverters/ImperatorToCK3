@@ -3,13 +3,15 @@ on_game_start = {
 	on_actions = {
 		IRToCK3_create_admin_noble_families
 		IRToCK3_fix_roman_empire_name
+		IRToCK3_remove_papacy
 	}
 }
 
 on_game_start_after_lobby = {
 	on_actions = {
 		IRToCK3_fix_admin_duchies_game_start # IMP-CK3: This on_action is to fix the situation where some duchy vassals created from Imperator governorships are titular, so they don't work properly when inside Admin realms. This is meant to fix that by replacing the titular duchy with a relevant duchy with de jure counties beneath it, so it will work properly.
-		IRToCK3_setup_nomad_holdings
+		IRToCK3_nomad_setup
+		IRToCK3_gamestart_events
 	}
 }
 
@@ -159,9 +161,514 @@ IRToCK3_fix_roman_empire_name = {
 	}
 }
 
-IRToCK3_setup_nomad_holdings = {
+# NOTE: The setup of the Nomads and the Great Steppe situation will likely be changed/expanded in the future
+IRToCK3_nomad_setup = {
 	effect = {
-		# This is just to make sure that the Nomadic rulers properly start with Nomadic Holdings, and herders start with Herder Holdings
+		## Need to have Khans of the Steppe and have it enabled in game rules
+		if = {
+			limit = {
+				has_mpo_dlc_trigger = yes
+				has_game_rule = situation_the_great_steppe_toggle_on
+			}
+
+			## Start Great Steppe Situation
+			start_situation = {
+                type = the_great_steppe
+                start_phase = situation_steppe_abundant_grazing_season
+            }
+            situation:the_great_steppe = { # A bit skewed so you don't start in an immediate bad situation
+                situation_sub_region:steppe_west = {
+                    random_list = {
+                        5 = { } # Stay as Abundant Grazing
+                        1 = { change_phase = { phase = situation_steppe_severe_drought_season } }
+                        1 = { change_phase = { phase = situation_steppe_white_zud_season } }
+                        1 = { change_phase = { phase = situation_steppe_cold_zud_season } }
+                        5 = { change_phase = { phase = situation_steppe_warm_nights_season } }
+                    }
+                }
+                situation_sub_region:steppe_central = {
+                    random_list = {
+                        5 = { } # Stay as Abundant Grazing
+                        1 = { change_phase = { phase = situation_steppe_severe_drought_season } }
+                        1 = { change_phase = { phase = situation_steppe_white_zud_season } }
+                        1 = { change_phase = { phase = situation_steppe_cold_zud_season } }
+                        5 = { change_phase = { phase = situation_steppe_warm_nights_season } }
+                    }
+                }
+                situation_sub_region:steppe_east = {
+                    random_list = {
+                        5 = { } # Stay as Abundant Grazing
+                        1 = { change_phase = { phase = situation_steppe_severe_drought_season } }
+                        1 = { change_phase = { phase = situation_steppe_white_zud_season } }
+                        1 = { change_phase = { phase = situation_steppe_cold_zud_season } }
+                        5 = { change_phase = { phase = situation_steppe_warm_nights_season } }
+                    }
+                }
+            }
+
+			## Begin applying chosen game rules
+			# Game rule deciding whether to allow Imperator tags converted to Nomadic to remain Nomadic
+			switch = {
+				trigger = has_game_rule
+				irtock3_gamerule_nomads_leave_everything = { } # This game rule changes nothing
+				irtock3_gamerule_nomads_only_steppe = {
+					# This game rule makes sure only Imperator tags in the steppe remain Nomadic
+					every_ruler = {
+						limit = {
+							has_government = nomad_government
+							NOT = { has_variable = irtock3_uncolonized_filler } # This makes sure only the tags converted from Imperator are checked, not the characters created by the converter to fill in uncolonized land
+							NOT = { # Need to make sure they aren't involved in the Great Steppe situation
+								any_character_situation = {
+									this = situation:the_great_steppe
+								}
+							}
+						}
+
+						change_government = tribal_government # Make them tribal
+						every_held_title = { # Make sure they have tribal holdings
+							if = {
+								limit = {
+									title_province = {
+										NOT = { has_holding_type = tribal_holding }
+									}
+								}
+								title_province = {
+									set_holding_type = tribal_holding
+								}
+							}
+						}
+					}
+				}
+				irtock3_gamerule_nomads_no_nomads = {
+					# This game rule makes all Imperator tags that were converted to Nomadic become Tribal
+					every_ruler = {
+						limit = {
+							has_government = nomad_government
+							NOT = { has_variable = irtock3_uncolonized_filler } # This makes sure only the tags converted from Imperator are checked, not the characters created by the converter to fill in uncolonized land
+						}
+
+						change_government = tribal_government # Make them tribal
+						every_held_title = { # Make sure they have tribal holdings
+							if = {
+								limit = {
+									title_province = {
+										NOT = { has_holding_type = tribal_holding }
+									}
+								}
+								title_province = {
+									set_holding_type = tribal_holding
+								}
+							}
+						}
+					}
+				}
+			}
+
+			# Game rule deciding how to handle the filler rulers
+			switch = {
+				trigger = has_game_rule
+				irtock3_gamerule_filler_rulers_leave_alone = { } # This game rule changes nothing, will typically result in Tribal filler rulers
+				irtock3_gamerule_filler_rulers_all_nomads = {
+					# This game rule makes all filler rulers Nomadic
+					every_ruler = {
+						limit = {
+							has_variable = irtock3_uncolonized_filler # This makes sure only the filler rulers are checked
+						}
+
+						if = {
+							limit = {
+								NOT = { has_government = nomad_government }
+							}
+
+							change_government = nomad_government # Make them Nomadic
+						}
+					}
+				}
+				irtock3_gamerule_filler_rulers_steppe_nomads_all = {
+					# This game rule makes all filler rulers in the Great Steppe Nomadic
+					every_ruler = {
+						limit = {
+							has_variable = irtock3_uncolonized_filler # This makes sure only the filler rulers are checked
+						}
+
+						if = {
+							limit = {
+								any_character_situation = { this = situation:the_great_steppe } # Make sure they are in the Great Steppe
+							}
+
+							if = {
+								limit = {
+									NOT = { has_government = nomad_government }
+								}
+								change_government = nomad_government # Make them Nomadic
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { has_government = tribal_government }
+							}
+							change_government = tribal_government # Make them Tribal
+							every_held_title = { # Make sure they have tribal holdings
+								if = {
+									limit = {
+										title_province = {
+											NOT = { has_holding_type = tribal_holding }
+										}
+									}
+									title_province = {
+										set_holding_type = tribal_holding
+									}
+								}
+							}
+						}
+					}
+				}
+				irtock3_gamerule_filler_rulers_steppe_nomads_heritage = {
+					# This game rule makes filler rulers in the Great Steppe Nomadic based off their heritage
+					every_ruler = {
+						limit = {
+							has_variable = irtock3_uncolonized_filler # This makes sure only the filler rulers are checked
+						}
+
+						if = {
+							limit = {
+								any_character_situation = { this = situation:the_great_steppe } # Make sure they are in the Great Steppe
+								culture = { # Make sure they have a relevant heritage
+									OR = {
+										has_cultural_pillar = heritage_mongolic
+										has_cultural_pillar = heritage_turkic
+										has_cultural_pillar = heritage_iranian
+										has_cultural_pillar = heritage_magyar
+										has_cultural_pillar = heritage_ugro_permian
+									}
+								}
+							}
+
+							if = {
+								limit = {
+									NOT = { has_government = nomad_government }
+								}
+								change_government = nomad_government # Make them Nomadic
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { has_government = tribal_government }
+							}
+							change_government = tribal_government # Make them Tribal
+							every_held_title = { # Make sure they have tribal holdings
+								if = {
+									limit = {
+										title_province = {
+											NOT = { has_holding_type = tribal_holding }
+										}
+									}
+									title_province = {
+										set_holding_type = tribal_holding
+									}
+								}
+							}
+						}
+					}
+				}
+				irtock3_gamerule_filler_rulers_steppe_nomads_herdhead = {
+					# This game rule makes filler rulers in the Great Steppe Nomadic based off how their cultural head is determined
+					every_ruler = {
+						limit = {
+							has_variable = irtock3_uncolonized_filler # This makes sure only the filler rulers are checked
+						}
+
+						if = {
+							limit = {
+								any_character_situation = { this = situation:the_great_steppe } # Make sure they are in the Great Steppe
+								culture = { has_cultural_pillar = head_determination_herd } # Make sure their culture head is determined by herd
+							}
+
+							if = {
+								limit = {
+									NOT = { has_government = nomad_government }
+								}
+								change_government = nomad_government # Make them Nomadic
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { has_government = tribal_government }
+							}
+							change_government = tribal_government # Make them Tribal
+							every_held_title = { # Make sure they have tribal holdings
+								if = {
+									limit = {
+										title_province = {
+											NOT = { has_holding_type = tribal_holding }
+										}
+									}
+									title_province = {
+										set_holding_type = tribal_holding
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				has_mpo_dlc_trigger = yes
+				has_game_rule = situation_the_great_steppe_toggle_off
+			}
+
+			## Begin applying chosen game rules
+			# Game rule deciding whether to allow Imperator tags converted to Nomadic to remain Nomadic
+			# With the Great Steppe disabled, Nomads can't really do much, but maybe the player wants that
+			switch = {
+				trigger = has_game_rule
+				irtock3_gamerule_nomads_leave_everything = { } # This game rule changes nothing
+				irtock3_gamerule_nomads_only_steppe = {
+					# This game rule makes sure only Imperator tags in the steppe remain Nomadic
+					every_ruler = {
+						limit = {
+							has_government = nomad_government
+							NOT = { has_variable = irtock3_uncolonized_filler } # This makes sure only the tags converted from Imperator are checked, not the characters created by the converter to fill in uncolonized land
+							any_sub_realm_county = { # Need to make sure they aren't in the Steppe region, so for now will make limit if half of their realm is in the Steppe
+								percent >= 0.5
+								title_province = {
+									NOR = {
+										geographical_region = world_steppe_west
+										geographical_region = world_steppe_central
+										geographical_region = dlc_mpo_steppe_central_siberia_addon
+										geographical_region = world_steppe_east
+										geographical_region = dlc_mpo_steppe_east_buryatia_addon
+									}
+								}
+							}
+						}
+
+						change_government = tribal_government # Make them tribal
+						every_held_title = { # Make sure they have tribal holdings
+							if = {
+								limit = {
+									title_province = {
+										NOT = { has_holding_type = tribal_holding }
+									}
+								}
+								title_province = {
+									set_holding_type = tribal_holding
+								}
+							}
+						}
+					}
+				}
+				irtock3_gamerule_nomads_no_nomads = {
+					# This game rule makes all Imperator tags that were converted to Nomadic become Tribal
+					every_ruler = {
+						limit = {
+							has_government = nomad_government
+							NOT = { has_variable = irtock3_uncolonized_filler } # This makes sure only the tags converted from Imperator are checked, not the characters created by the converter to fill in uncolonized land
+						}
+
+						change_government = tribal_government # Make them tribal
+						every_held_title = { # Make sure they have tribal holdings
+							if = {
+								limit = {
+									title_province = {
+										NOT = { has_holding_type = tribal_holding }
+									}
+								}
+								title_province = {
+									set_holding_type = tribal_holding
+								}
+							}
+						}
+					}
+				}
+			}
+
+			# Game rule deciding how to handle the filler rulers
+			switch = {
+				trigger = has_game_rule
+				irtock3_gamerule_filler_rulers_leave_alone = { } # This game rule changes nothing, will typically result in Tribal filler rulers
+				irtock3_gamerule_filler_rulers_all_nomads = {
+					# This game rule makes all filler rulers Nomadic
+					every_ruler = {
+						limit = {
+							has_variable = irtock3_uncolonized_filler # This makes sure only the filler rulers are checked
+						}
+
+						if = {
+							limit = {
+								NOT = { has_government = nomad_government }
+							}
+
+							change_government = nomad_government # Make them Nomadic
+						}
+					}
+				}
+				irtock3_gamerule_filler_rulers_steppe_nomads_all = {
+					# This game rule makes all filler rulers in the Great Steppe Nomadic
+					every_ruler = {
+						limit = {
+							has_variable = irtock3_uncolonized_filler # This makes sure only the filler rulers are checked
+						}
+
+						if = {
+							limit = {
+								any_sub_realm_county = { # Need to make sure they are in the Steppe region, so for now will make limit if half of their realm is in the Steppe
+									percent >= 0.5
+									title_province = {
+										OR = {
+											geographical_region = world_steppe_west
+											geographical_region = world_steppe_central
+											geographical_region = dlc_mpo_steppe_central_siberia_addon
+											geographical_region = world_steppe_east
+											geographical_region = dlc_mpo_steppe_east_buryatia_addon
+										}
+									}
+								}
+							}
+
+							if = {
+								limit = {
+									NOT = { has_government = nomad_government }
+								}
+								change_government = nomad_government # Make them Nomadic
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { has_government = tribal_government }
+							}
+							change_government = tribal_government # Make them Tribal
+							every_held_title = { # Make sure they have tribal holdings
+								if = {
+									limit = {
+										title_province = {
+											NOT = { has_holding_type = tribal_holding }
+										}
+									}
+									title_province = {
+										set_holding_type = tribal_holding
+									}
+								}
+							}
+						}
+					}
+				}
+				irtock3_gamerule_filler_rulers_steppe_nomads_heritage = {
+					# This game rule makes filler rulers in the Great Steppe Nomadic based off their heritage
+					every_ruler = {
+						limit = {
+							has_variable = irtock3_uncolonized_filler # This makes sure only the filler rulers are checked
+						}
+
+						if = {
+							limit = {
+								any_sub_realm_county = { # Need to make sure they are in the Steppe region, so for now will make limit if half of their realm is in the Steppe
+									percent >= 0.5
+									title_province = {
+										OR = {
+											geographical_region = world_steppe_west
+											geographical_region = world_steppe_central
+											geographical_region = dlc_mpo_steppe_central_siberia_addon
+											geographical_region = world_steppe_east
+											geographical_region = dlc_mpo_steppe_east_buryatia_addon
+										}
+									}
+								}
+								culture = { # Make sure they have a relevant heritage
+									OR = {
+										has_cultural_pillar = heritage_mongolic
+										has_cultural_pillar = heritage_turkic
+										has_cultural_pillar = heritage_iranian
+										has_cultural_pillar = heritage_magyar
+										has_cultural_pillar = heritage_ugro_permian
+									}
+								}
+							}
+
+							if = {
+								limit = {
+									NOT = { has_government = nomad_government }
+								}
+								change_government = nomad_government # Make them Nomadic
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { has_government = tribal_government }
+							}
+							change_government = tribal_government # Make them Tribal
+							every_held_title = { # Make sure they have tribal holdings
+								if = {
+									limit = {
+										title_province = {
+											NOT = { has_holding_type = tribal_holding }
+										}
+									}
+									title_province = {
+										set_holding_type = tribal_holding
+									}
+								}
+							}
+						}
+					}
+				}
+				irtock3_gamerule_filler_rulers_steppe_nomads_herdhead = {
+					# This game rule makes filler rulers in the Great Steppe Nomadic based off how their cultural head is determined
+					every_ruler = {
+						limit = {
+							has_variable = irtock3_uncolonized_filler # This makes sure only the filler rulers are checked
+						}
+
+						if = {
+							limit = {
+								any_sub_realm_county = { # Need to make sure they are in the Steppe region, so for now will make limit if half of their realm is in the Steppe
+									percent >= 0.5
+									title_province = {
+										OR = {
+											geographical_region = world_steppe_west
+											geographical_region = world_steppe_central
+											geographical_region = dlc_mpo_steppe_central_siberia_addon
+											geographical_region = world_steppe_east
+											geographical_region = dlc_mpo_steppe_east_buryatia_addon
+										}
+									}
+								}
+								culture = { has_cultural_pillar = head_determination_herd } # Make sure their culture head is determined by herd
+							}
+
+							if = {
+								limit = {
+									NOT = { has_government = nomad_government }
+								}
+								change_government = nomad_government # Make them Nomadic
+							}
+						}
+						else_if = {
+							limit = {
+								NOT = { has_government = tribal_government }
+							}
+							change_government = tribal_government # Make them Tribal
+							every_held_title = { # Make sure they have tribal holdings
+								if = {
+									limit = {
+										title_province = {
+											NOT = { has_holding_type = tribal_holding }
+										}
+									}
+									title_province = {
+										set_holding_type = tribal_holding
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		## This is just to make sure that the Nomadic rulers properly start with Nomadic Holdings, and herders start with Herder Holdings
 		every_ruler = {
 			limit = {
 				OR = {
@@ -179,7 +686,7 @@ IRToCK3_setup_nomad_holdings = {
 					if = {
 						limit = {
 							title_province = {
-								has_holding_type = tribal_holding
+								NOT = { has_holding_type = nomad_holding }
 							}
 						}
 						title_province = {
@@ -193,7 +700,7 @@ IRToCK3_setup_nomad_holdings = {
 					if = {
 						limit = {
 							title_province = {
-								has_holding_type = tribal_holding
+								NOT = { has_holding_type = herder_holding }
 							}
 						}
 						title_province = {
@@ -202,6 +709,36 @@ IRToCK3_setup_nomad_holdings = {
 					}
 				}
 			}
+		}
+
+		## Finally, just recalculate the culture heads
+		recalculate_cultural_heads_of_type = herd
+		recalculate_cultural_heads_of_type = domain
+	}
+}
+
+IRToCK3_remove_papacy = {
+	effect = {
+		# Remove Pope as Head of Faith since it never would have been established yet.
+		if = {
+			limit = { exists = title:k_papal_state }
+			destroy_title = title:k_papal_state
+		}
+		faith:catholic = {
+			if = {
+				limit = { has_doctrine = doctrine_spiritual_head }
+				remove_doctrine = doctrine_spiritual_head
+				hidden_effect = { add_doctrine = doctrine_no_head }
+			}
+		}
+	}
+}
+
+# This is just to trigger any relevant after lobby events needed
+IRToCK3_gamestart_events = {
+	effect = {
+		every_player = {
+			trigger_event = welcome.1 # This event so far just notifies the players of the game rules added by the converter
 		}
 	}
 }
