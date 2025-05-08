@@ -323,7 +323,6 @@ heritage_palaungic = {
 heritage_mon_khmer = { # from Rajas of Asia
 	REPLACED_BY = {
 		roa = { heritage_mon_khmer }
-		aep = { heritage_khmer }
 		wtwsms = { heritage_burman } # In WtWSMS, heritage_burman is localized as "Southeast Asian"
 	}
 	type = heritage

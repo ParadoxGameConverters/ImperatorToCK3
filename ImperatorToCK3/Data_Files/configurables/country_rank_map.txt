@@ -7,13 +7,15 @@ duchy_keywords = { "duchy" "principality" "dukedom" "ducatus" }
 # d - duchy, k - kingdom, e - empire
 # Mapping to county and barony level is not supported.
 
-# A mapping can contain optional required_territories field.
+# A mapping can contain an optional required_territories field.
 # Use it if you want to base the CK3 rank on the number of owned I:R territories.
 
 # First matching mapping is used.
+# Multiple ir_government_type entries are allowed in a link. Supported values: monarchy, republic, tribal.
 				
 link = { ir=migrant_horde ck3=d }
 link = { ir=city_power ck3=d }
+link = { ir=local_power ir_government_type=tribal ck3=d }
 link = { ir=local_power ck3=k }
 link = { ir=regional_power ck3=k }
 link = { ir=major_power required_territories=300 ck3=e }

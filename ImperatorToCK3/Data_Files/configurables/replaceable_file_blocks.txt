@@ -1103,6 +1103,12 @@
 				house_head = { save_scope_as = new_holder }
 			}
 		}
+		else = {
+			ordered_powerful_vassal = {
+				order_by = max_military_strength
+				save_scope_as = new_holder
+			}
+		}
 		} # end of before
 
 
@@ -1115,17 +1121,120 @@
 			diarch = { save_scope_as = new_holder }
 		}
 		else_if = { # IRToCK3: The base game has this as an if statement, which will cause any "new_holder" assignment made in the above block to get overwritten. This should fix that issue
+			# IRToCK3: This just makes sure there is a valid powerful family house head, and if they are landed, they need to be in the relevant ere region, to prevent someone nowhere near the area from becoming the Emperor
 			limit = {
 				any_powerful_family = {
-					this != root.house
 					count >= 1
+					this != root.house
 					exists = house_head
+					house_head = {
+						trigger_if = {
+							limit = {
+								is_landed = yes
+							}
+
+							capital_county.title_province = {
+								geographical_region = custom_ep3_restore_rome_eastern_empire
+							}
+						}
+					}
 				}
 			}
+
 			ordered_powerful_family = {
-				limit = { this != root.house }
+				limit = {
+					this != root.house
+					exists = house_head
+					house_head = {
+						trigger_if = {
+							limit = {
+								is_landed = yes
+							}
+
+							capital_county.title_province = {
+								geographical_region = custom_ep3_restore_rome_eastern_empire
+							}
+						}
+					}
+				}
 				order_by = house_power_score
 				house_head = { save_scope_as = new_holder }
+			}
+		}
+		else_if = {
+			# IRToCK3: This just makes sure there is a valid powerful vassal in the relevant ere region, to prevent someone nowhere near the area from becoming the Emperor, prioritizing those with the same government
+			limit = {
+				any_powerful_vassal = {
+					count >= 1
+					capital_county.title_province = {
+						geographical_region = custom_ep3_restore_rome_eastern_empire
+					}
+				}
+			}
+
+			ordered_powerful_vassal = {
+				limit = {
+					capital_county.title_province = {
+						geographical_region = custom_ep3_restore_rome_eastern_empire
+					}
+					has_same_government = root
+				}
+				alternative_limit = {
+					capital_county.title_province = {
+						geographical_region = custom_ep3_restore_rome_eastern_empire
+					}
+				}
+				order_by = max_military_strength
+				save_scope_as = new_holder
+			}
+		}
+		else_if = {
+			# IRToCK3: Added this check on the off chance none of the powerful vassals are in the region, so it checks if ANY vassal is in the region, prioritizing those with the same government
+			limit = {
+				any_vassal = {
+					count >= 1
+					capital_county.title_province = {
+						geographical_region = custom_ep3_restore_rome_eastern_empire
+					}
+				}
+			}
+
+			ordered_vassal = {
+				limit = {
+					capital_county.title_province = {
+						geographical_region = custom_ep3_restore_rome_eastern_empire
+					}
+					has_same_government = root
+				}
+				alternative_limit = {
+					capital_county.title_province = {
+						geographical_region = custom_ep3_restore_rome_eastern_empire
+					}
+				}
+				order_by = max_military_strength
+				save_scope_as = new_holder
+			}
+		}
+		else = {
+			# IRToCK3: Finally, if all else fails, give it to a courtier, favoring those with higher skill
+			random_courtier = {
+				weight = {
+					base = sum_of_all_skills_value
+					modifier = {
+						is_lowborn = no
+						add = 5
+					}
+					modifier = {
+						faith = root.faith
+						add = 10
+					}
+					modifier = {
+						culture = root.culture
+						add = 5
+					}
+				}
+
+				save_scope_as = new_holder
 			}
 		}
 		} # end of after
@@ -1451,6 +1560,7 @@
 	# restore_roman_empire_decision
 	#########
 
+	# is_shown block
 	replace = {
 		before = {
 		is_ruler = yes
@@ -1469,6 +1579,44 @@
 		}
 		NOT = { primary_title = title:e_hre }
 		NOT = { primary_title = title:e_italy }
+		} # end of after
+	}
+
+	# is_valid block
+	replace = {
+		before = {
+		prestige_level >= max_prestige_level
+
+		completely_controls = title:d_latium
+		completely_controls = title:d_venice
+		completely_controls = title:d_romagna
+		} # end of before
+
+		after = {
+		prestige_level >= max_prestige_level
+
+		# IRToCK3: Doesn't make sense for one half of the split Roman Empire to reform Rome if the other remains independent, so you either need to hold both titles or be the only one holding either the ERE or WRE titles
+		custom_tooltip = {
+			text = irtock3_only_roman_emperor
+			OR = {
+				AND = {
+					has_title = title:e_byzantium
+					has_title = title:e_western_roman_empire
+				}
+				AND = {
+					has_title = title:e_byzantium
+					NOT = { exists = title:e_western_roman_empire.holder }
+				}
+				AND = {
+					has_title = title:e_western_roman_empire
+					NOT = { exists = title:e_byzantium.holder }
+				}
+			}
+		}
+
+		completely_controls = title:d_latium
+		completely_controls = title:d_venice
+		completely_controls = title:d_romagna
 		} # end of after
 	}
 
@@ -1561,6 +1709,150 @@
 		} # end of after
 	}
 
+
+	#########
+	# unify_italian_empire_decision
+	#########
+	# Making this decision impossible to take for now, until relevant modifications can be determined for it to make sense.
+
+	# is_shown block
+	replace = {
+		before = {
+		culture = { has_cultural_pillar = heritage_latin }
+		is_ruler = yes
+		is_playable_character = yes
+		highest_held_title_tier > 2 #Dukes and above
+		capital_province = { geographical_region = world_europe_south_italy }
+		}
+
+		after = {
+		always = no # IRToCK3: Makes this decision impossible for now since it doesn't make sense with the world's history changed
+		culture = { has_cultural_pillar = heritage_latin }
+		is_ruler = yes
+		is_playable_character = yes
+		highest_held_title_tier > 2 #Dukes and above
+		capital_province = { geographical_region = world_europe_south_italy }
+		}
+	}
+
+
+	#########
+	# restore_papacy_decision
+	#########
+	# These changes make the decision's localization change depending on whether the Papal States has existed already or not
+
+	# Decision loc info
+	replace = {
+		before = {
+	desc = restore_papacy_decision_desc
+	selection_tooltip = restore_papacy_decision_tooltip
+		} # end of before
+
+		after = {
+	# IRToCK3: Made it so the localization of this decision changes depending on whether the Papal States has existed already or not
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = title:k_papal_state.previous_holder }
+				}
+				desc = restore_papacy_decision_title_set
+			}
+			desc = restore_papacy_decision_title_restore
+		}
+	}
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = title:k_papal_state.previous_holder }
+				}
+				desc = restore_papacy_decision_desc_set
+			}
+			desc = restore_papacy_decision_desc_restore
+		}
+	}
+	selection_tooltip = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = title:k_papal_state.previous_holder }
+				}
+				desc = restore_papacy_decision_tooltip_set
+			}
+			desc = restore_papacy_decision_tooltip_restore
+		}
+	}
+	confirm_text = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = title:k_papal_state.previous_holder }
+				}
+				desc = restore_papacy_decision_confirm_set
+			}
+			desc = restore_papacy_decision_confirm_restore
+		}
+	}
+		} # end of after
+	}
+
+	# effect block
+	replace = {
+		before = {
+		custom_tooltip = restore_papacy_decision_effect_tooltip
+		} # end of before
+
+		after = {
+		# IRToCK3: Made it so the custom tooltip chosen depends on whether the Papal States has existed already or not
+		switch = {
+			trigger = exists
+			title:k_papal_state.previous_holder = {
+				custom_tooltip = restore_papacy_decision_effect_tooltip_restore
+			}
+			fallback = {
+				custom_tooltip = restore_papacy_decision_effect_tooltip_set
+			}
+		}
+		} # end of after
+	} # End of effect block
+
+
+	#########
+	# dismantle_papacy_decision
+	#########
+
+	# is_shown block
+	replace = {
+		before = {
+		faith:catholic = {
+			has_doctrine = doctrine_spiritual_head
+		}
+		} # end of before
+
+		after = {
+		# IRToCK3: Base game checks if Catholicism has doctrine_spiritual_head, but changing this to just check if a Pope exists so there won't be any issues with a Pope not existing at game start
+		faith:catholic = {
+			exists = religious_head
+		}
+		} # end of after
+	} # End of is_shown block
+
+	# is_valid block
+	replace = {
+		before = {
+			title:k_papal_state.holder = { is_playable_character = no } #If he fled elsewhere, it cannot be done, the Pope must be landless.
+		} # end of before
+
+		after = {
+			# IRToCK3: Base game checks if they are playable, when they just want to check that they are unlanded, which can be a little confusing when reading the requirements
+			title:k_papal_state.holder = {
+				is_landed = no #If he fled elsewhere, it cannot be done, the Pope must be landless.
+				# IRToCK3: Making it so that you must have the Pope as a prisoner to prevent the decision from being possible right after game start, until a better alternative is decided
+				is_imprisoned_by = root
+			} 
+		} # end of after
+	} # End of is_valid block
 }
 
 
@@ -1642,7 +1934,7 @@
 # 		NOR = { #It doesn't make sense for these competing empires.
 # 			has_title = title:e_byzantium
 # 			has_title = title:e_roman_empire
-# 			has_title = title:e_mongol_empire
+# 			mpo_has_gok_mongol_empire_trigger = yes
 # 		}
 # 		AND = {	#Faith conditions.
 # 			NOT = { this = faith.religious_head }	#Nice try, Mr. Pope.
@@ -1665,7 +1957,7 @@
 # 		NOR = { #It doesn't make sense for these competing empires.
 # 			has_title = title:e_byzantium
 # 			has_title = title:e_roman_empire
-# 			has_title = title:e_mongol_empire
+# 			mpo_has_gok_mongol_empire_trigger = yes
 # 			has_title = title:e_western_roman_empire # IRToCK3: Added WRE to list of invalid titles
 # 		}
 # 		AND = {	#Faith conditions.
@@ -2167,3 +2459,179 @@
 	}
 	
 }
+
+
+"map_data/geographical_regions/geographical_region.txt" = {
+
+	# The base game doesn't add siberia to the custom ere region, which would leave a weird gap if they somehow held land in that area
+	replace = {
+		before = {
+custom_ep3_restore_rome_eastern_empire = {
+	regions = {
+		world_asia_minor world_middle_east world_africa_east world_india world_steppe world_tibet world_burma world_europe_south_east world_europe_east
+	}
+}
+		} # end of before
+
+		after = {
+custom_ep3_restore_rome_eastern_empire = {
+	regions = {
+		world_asia_minor world_middle_east world_africa_east world_india world_steppe world_tibet world_burma world_europe_south_east world_europe_east world_siberia # IRToCK3: Added Siberia to the region since the base game doesn't include it
+	}
+}
+		} # end of after
+	}
+}
+
+
+"events\decisions_events\roman_restoration_events.txt" = {
+
+	#########
+	# roman_restoration.0124
+	#########
+
+	# Event description block
+	replace = {
+		before = {
+	desc = roman_restoration.0124.desc
+		} # end of before
+
+		after = {
+	# IRToCK3: This makes it so the description of the event changes depending on whether the Papal States have existed already or not
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = title:k_papal_state.previous_holder }
+				}
+				desc = roman_restoration.0124.desc_set
+			}
+			desc = roman_restoration.0124.desc_restore
+		}
+	}
+		} # end of after
+	} # End of event description block
+
+	# Option A block
+	replace = {
+		before = {
+		name = roman_restoration.0124.a
+		} # end of before
+
+		after = {
+		# IRToCK3: This makes it so the name of this option changes depending on whether the Papal States have existed already or not
+		name = {
+			trigger = {
+				NOT = { exists = title:k_papal_state.previous_holder }
+			}
+			text = roman_restoration.0124.a_set
+		}
+		name = {
+			trigger = {
+				exists = title:k_papal_state.previous_holder
+			}
+			text = roman_restoration.0124.a_restore
+		}
+		} # end of after
+	} # End of Option A block
+
+
+	#########
+	# roman_restoration.0125
+	#########
+
+	# Event description block
+	replace = {
+		before = {
+	desc = {
+		first_valid = {
+			# Catholic Reaction
+			triggered_desc = {
+				trigger = {
+					root.faith = faith:catholic
+				}
+				desc = roman_restoration.0125.desc.catholic
+			}
+			# Every other Christian
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						root.faith = faith:catholic
+					}
+
+				}
+				desc = roman_restoration.0125.desc.other
+			}
+		}
+	}
+		} # end of before
+
+		after = {
+	# IRToCK3: This changes the description of the event based off whether the character is Catholic/not Catholic, and whether the Papacy has existed already or not
+	desc = {
+		first_valid = {
+			# Catholic Reaction
+			triggered_desc = {
+				trigger = {
+					root.faith = faith:catholic
+					NOT = { exists = title:k_papal_state.previous_holder }
+				}
+				desc = roman_restoration.0125.desc.catholic_set
+			}
+			triggered_desc = {
+				trigger = {
+					root.faith = faith:catholic
+					exists = title:k_papal_state.previous_holder
+				}
+				desc = roman_restoration.0125.desc.catholic_restore
+			}
+			# Every other Christian
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						root.faith = faith:catholic
+					}
+					NOT = { exists = title:k_papal_state.previous_holder }
+				}
+				desc = roman_restoration.0125.desc.other_set
+			}
+			triggered_desc = {
+				trigger = {
+					NOT = {
+						root.faith = faith:catholic
+					}
+					exists = title:k_papal_state.previous_holder
+				}
+				desc = roman_restoration.0125.desc.other_restore
+			}
+		}
+	}
+		} # end of after
+	} # End of Event description block
+
+	# Option A block
+	replace = {
+		before = {
+		name = roman_restoration.0125.a
+		} # end of before
+
+		after = {
+		# IRToCK3: This makes it so the name of this option changes depending on whether the Papal States have existed already or not
+		name = {
+			trigger = {
+				NOT = { exists = title:k_papal_state.previous_holder }
+			}
+			text = roman_restoration.0125.a_set
+		}
+		name = {
+			trigger = {
+				exists = title:k_papal_state.previous_holder
+			}
+			text = roman_restoration.0125.a_restore
+		}
+		} # end of after
+	} # End of Option A block
+
+}
+
+
