@@ -1,9 +1,9 @@
 # Version info
 
-name = "Hadrian"
+name = "Antoninus Pius"
 source = "Imperator"
 minSource = "2.0"
 maxSource = "2.0"
 target = "CK3"
-minTarget = "1.15"
-maxTarget = "1.15"
+minTarget = "1.16"
+maxTarget = "1.16"

@@ -460,13 +460,10 @@ internal sealed class World {
 		bool irHasTI = irWorld.TerraIndomitaDetected;
 		
 		bool ck3HasRajasOfAsia = config.RajasOfAsiaEnabled;
-		bool ck3HasAEP = config.AsiaExpansionProjectEnabled;
 
 		string mappingsToUse;
 		if (irHasTI && ck3HasRajasOfAsia) {
 			mappingsToUse = "terra_indomita_to_rajas_of_asia";
-		} else if (irHasTI && ck3HasAEP) {
-			mappingsToUse = "terra_indomita_to_aep";
 		} else if (irWorld.InvictusDetected) {
 			mappingsToUse = "imperator_invictus";
 		} else {
@@ -1082,6 +1079,7 @@ internal sealed class World {
 			};
 			holder.SetFaithId(faithId, null);
 			holder.SetCultureId(culture.Id, null);
+			holder.History.AddFieldValue(holder.BirthDate, "effects", "effect", "{ set_variable = irtock3_uncolonized_filler }");
 			Characters.AddOrReplace(holder);
 
 			var countyHoldingTypes = county.CountyProvinceIds
@@ -1138,6 +1136,7 @@ internal sealed class World {
 			{"dlc017.dlc", "medieval_monuments"},
 			{"dlc018.dlc", "arctic_attire"},
 			{"dlc019.dlc", "crowns_of_the_world"},
+			{"dlc020.dlc", "khans_of_the_steppe"},
 		};
 		
 		var dlcFiles = Directory.GetFiles(dlcFolderPath, "*.dlc", SearchOption.AllDirectories);
