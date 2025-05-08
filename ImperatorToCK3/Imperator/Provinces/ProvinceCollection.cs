@@ -19,9 +19,6 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseStream(provincesReader);
 		
-		
-		// TODO: for impassables that are colored after the neighboring I:R countries, treat them as owned by the country
-		
 		// After all the provinces are loaded, we can determine if there are impassables to be considered owned.
 		// This should match the impassables colored with a country color on the Imperator map.
 		DetermineImpassableOwnership(irMapData);
@@ -54,7 +51,6 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		}
 
 		foreach (var (provinceId, country) in impassableOwnership) {
-			Logger.Notice($"Assigning impassable province {provinceId} to country {country.Name}"); // TODO: remove this
 			var province = this[provinceId];
 			province.OwnerCountry = country;
 			country.RegisterProvince(province);

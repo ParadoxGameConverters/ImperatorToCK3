@@ -639,8 +639,6 @@ internal partial class World {
 			() => {
 				MapData = new MapData(ModFS);
 				
-				Logger.Notice($"Count of I:R colorable impassables: {MapData.ColorableImpassableProvinceIds.Count}");
-				
 				Areas.LoadAreas(ModFS, Provinces);
 				ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
 			},
