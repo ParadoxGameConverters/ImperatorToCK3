@@ -33,6 +33,7 @@ shibi_chakravarti
 afrasiyab
 descendants_of_brahman
 menelik_i
+magi_descendant # could be left in if conditions for it are changed
 
 # TFE seeds
 TFE_ashina_she_wolf

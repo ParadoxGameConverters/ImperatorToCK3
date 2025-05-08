@@ -56,3 +56,42 @@
  refound_pandidakterion_decision: "Found the Pandidakterion"
  refound_pandidakterion_decision_desc: "Being one of the most important cities in the world, it is only proper that [GetTitleByKey('c_byzantion').GetNameNoTier] has the institutions to reflect its status. It is time we make it the largest center of study in the world with the founding of the [Glossary( 'Pandidakterion', 'PANDIDAKTERION_GLOSS' )]!"
  refound_pandidakterion_decision_tooltip: "Begin organizing the great University of Constantinople"
+
+ # Fixes weird naming for Roman Empire
+ e_roman_empire: "Roman Empire"
+
+ # Makes naming of Saxons/Old Saxons a little more immersive
+ saxon: "Saxonian"
+ saxon_collective_noun: "Saxonians"
+ old_saxon: "Saxon"
+ old_saxon_collective_noun: "Saxons"
+
+ restore_papacy_decision_title_set: "Set the Papacy"
+ restore_papacy_decision_title_restore: "Restore the Papacy"
+
+ restore_papacy_decision_confirm_set: "The Papacy will be set"
+ restore_papacy_decision_confirm_restore: "The Papacy will be restored"
+
+ restore_papacy_decision_desc_set: "If a pious Catholic were to control the core territories of Saint Peter's patrimony, the Holy See could be set to its rightful place in the Vatican."
+ restore_papacy_decision_desc_restore: "If a pious Catholic were to recover the core territories of Saint Peter's patrimony, the Holy See could be restored once more to its rightful place in the Vatican."
+
+ restore_papacy_decision_tooltip_set: "Set the Holy See"
+ restore_papacy_decision_tooltip_restore: "Restore the Holy See"
+
+ restore_papacy_decision_effect_tooltip_set: "The Papacy will be set."
+ restore_papacy_decision_effect_tooltip_restore: "The Papacy will be restored."
+
+ roman_restoration.0124.desc_set: "The age of uncertainty for the Catholic world has come to an end: with a Pope set in the historical seat of Rome, the one true Church can finally begin expanding in these trying times.\n\nWith the help of [new_pope.GetFaith.HighGodName], [new_pope.GetTitledFirstName] will bring order and stability to the Catholic clergy scattered across Europe and establish a strict hierarchy to the Church."
+ roman_restoration.0124.desc_restore: "The age of turmoil and despair for the Catholic world has come to an end: with a new Pope restore to the historical seat of Rome, the one true Church can finally recover from the disastrous setbacks suffered in recent times.\n\nWith the help of [new_pope.GetFaith.HighGodName], [new_pope.GetTitledFirstName] will bring order and stability to the Catholic clergy once scattered across Europe and re-establish a strict hierarchy to the Church."
+
+ roman_restoration.0124.a_set: "The Holy See will rise!"
+ roman_restoration.0124.a_restore: "The Holy See has risen from its ashes!"
+
+ roman_restoration.0125.desc.catholic_set: "Thanks to the blessed intervention of [reformer.GetTitledFirstName], the age of uncertainty for the Catholic world has come to an end: with a Pope set in the historical seat of Rome, the one true Church can finally begin expanding in these trying times.\n\nWith the help of [new_pope.GetFaith.HighGodName], [new_pope.GetTitledFirstName] will bring order and stability to the Catholic clergy scattered across Europe and establish a strict hierarchy to the Church."
+ roman_restoration.0125.desc.catholic_restore: "Thanks to the blessed intervention of [reformer.GetTitledFirstName], the age of turmoil and despair for the Catholic world has come to an end: with a new Pope restore to the historical seat of Rome, the one true Church can finally recover from the disastrous setbacks suffered in recent times.\n\nWith the help of [new_pope.GetFaith.HighGodName], [new_pope.GetTitledFirstName] will bring order and stability to the Catholic clergy once scattered across Europe and re-establish a strict hierarchy to the Church."
+
+ roman_restoration.0125.desc.other_set: "Not having an official seat of power or official supporters, the Catholic Church was by many considered on the verge of collapse. Yet, thanks to the pious intervention of [reformer.GetTitledFirstName], a Pope now reigns in Rome.\n\nWith this new Holy See, the Catholics might be able to claim their place as a major Christian branch."
+ roman_restoration.0125.desc.other_restore: "After losing its ancestral seat and most of its supporters, the Catholic Church was by many considered on the verge of collapse. Yet, thanks to the pious intervention of [reformer.GetTitledFirstName], a new Pope reigns in Rome once again.\n\nWith the Holy See finally restored, the Catholics might be able to reclaim their place as a major Christian branch."
+
+ roman_restoration.0125.a_set: "Our Mother Church is whole!"
+ roman_restoration.0125.a_restore: "Our Mother Church is whole once more!"
