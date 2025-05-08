@@ -1,6 +1,7 @@
 using commonItems;
 using commonItems.Mods;
 using FluentAssertions;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Provinces;
@@ -65,7 +66,7 @@ public class StateTests {
 			5={}
 		"""
 		);
-		provinces.LoadProvinces(provincesReader, states, countries);
+		provinces.LoadProvinces(provincesReader, states, countries, new MapData(irModFS));
 		Assert.Equal((ulong)2, state.CapitalProvince.Id);
 		state.Provinces.Select(p=>p.Id).Should().Equal(1, 2, 3);
 	}
