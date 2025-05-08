@@ -1,0 +1,42 @@
+0.0.0 = {
+	triangulation_pair = { srcX = 1378 srcY = 2934 dstX = 2457 dstY = 2355 }
+	triangulation_pair = { srcX = 1328 srcY = 3011 dstX = 2373 dstY = 2468 }
+	triangulation_pair = { srcX = 1410 srcY = 3062 dstX = 2484 dstY = 2550 }
+	triangulation_pair = { srcX = 1330 srcY = 3060 dstX = 2369 dstY = 2540 }
+	triangulation_pair = { srcX = 1332 srcY = 3094 dstX = 2367 dstY = 2590 }
+	triangulation_pair = { srcX = 956 srcY = 3074 dstX = 1794 dstY = 2540 }
+	triangulation_pair = { srcX = 900 srcY = 2977 dstX = 1701 dstY = 2385 }
+	triangulation_pair = { srcX = 1005 srcY = 2969 dstX = 1863 dstY = 2376 }
+	triangulation_pair = { srcX = 996 srcY = 3027 dstX = 1854 dstY = 2466 }
+	triangulation_pair = { srcX = 792 srcY = 2890 dstX = 1521 dstY = 2249 }
+	triangulation_pair = { srcX = 754 srcY = 2947 dstX = 1466 dstY = 2334 }
+	triangulation_pair = { srcX = 794 srcY = 2756 dstX = 1507 dstY = 2023 }
+	triangulation_pair = { srcX = 626 srcY = 2735 dstX = 1213 dstY = 1978 }
+	triangulation_pair = { srcX = 571 srcY = 2779 dstX = 1134 dstY = 2049 }
+	triangulation_pair = { srcX = 481 srcY = 2847 dstX = 1002 dstY = 2159 }
+	triangulation_pair = { srcX = 583 srcY = 2886 dstX = 1176 dstY = 2221 }
+	triangulation_pair = { srcX = 559 srcY = 2888 dstX = 1143 dstY = 2225 }
+	triangulation_pair = { srcX = 549 srcY = 2925 dstX = 1131 dstY = 2284 }
+	triangulation_pair = { srcX = 498 srcY = 2944 dstX = 1054 dstY = 2311 }
+	triangulation_pair = { srcX = 411 srcY = 2982 dstX = 925 dstY = 2369 }
+	triangulation_pair = { srcX = 451 srcY = 2935 dstX = 974 dstY = 2298 }
+	triangulation_pair = { srcX = 234 srcY = 3028 dstX = 661 dstY = 2454 }
+	triangulation_pair = { srcX = 109 srcY = 2968 dstX = 457 dstY = 2385 }
+	triangulation_pair = { srcX = 153 srcY = 2747 dstX = 454 dstY = 2045 }
+	triangulation_pair = { srcX = 203 srcY = 2668 dstX = 503 dstY = 1912 }
+	triangulation_pair = { srcX = 235 srcY = 2248 dstX = 449 dstY = 1187 }
+	triangulation_pair = { srcX = 368 srcY = 2261 dstX = 701 dstY = 1189 }
+	triangulation_pair = { srcX = 376 srcY = 2200 dstX = 710 dstY = 1090 }
+	triangulation_pair = { srcX = 299 srcY = 2282 dstX = 585 dstY = 1232 }
+	triangulation_pair = { srcX = 344 srcY = 2119 dstX = 645 dstY = 969 }
+	triangulation_pair = { srcX = 328 srcY = 2015 dstX = 600 dstY = 812 }
+	triangulation_pair = { srcX = 370 srcY = 1987 dstX = 678 dstY = 763 }
+	triangulation_pair = { srcX = 456 srcY = 1978 dstX = 848 dstY = 740 }
+	triangulation_pair = { srcX = 508 srcY = 1922 dstX = 955 dstY = 654 }
+	triangulation_pair = { srcX = 527 srcY = 1873 dstX = 997 dstY = 586 }
+	triangulation_pair = { srcX = 387 srcY = 1805 dstX = 684 dstY = 507 }
+	triangulation_pair = { srcX = 36 srcY = 1591 dstX = 209 dstY = 238 }
+	triangulation_pair = { srcX = 251 srcY = 1522 dstX = 512 dstY = 144 }
+	triangulation_pair = { srcX = 20 srcY = 1504 dstX = 206 dstY = 133 }
+	link = { imp = 1471 ck3 = 2646 } # Melita -> MALTA
+}

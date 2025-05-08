@@ -458,22 +458,22 @@ internal sealed class World {
 	private void LoadCorrectProvinceMappingsFile(Imperator.World irWorld, Configuration config) {		
 		// Terra Indomita mappings should be used if either TI or Antiquitas is detected.
 		bool irHasTI = irWorld.TerraIndomitaDetected;
-		
-		bool ck3HasRajasOfAsia = config.RajasOfAsiaEnabled;
 
 		string mappingsToUse;
-		if (irHasTI && ck3HasRajasOfAsia) {
+		if (irHasTI && config.RajasOfAsiaEnabled) {
 			mappingsToUse = "terra_indomita_to_rajas_of_asia";
+		} else if (irHasTI && config.MoreBookmarksPlusEnabled) {
+			mappingsToUse = "terra_indomita_to_more_bookmarks_plus";
 		} else if (irWorld.InvictusDetected) {
 			mappingsToUse = "imperator_invictus";
 		} else {
 			mappingsToUse = "imperator_vanilla";
 			Logger.Warn("Support for non-Invictus Imperator saves is deprecated.");
 		}
-		
+
 		Logger.Info($"Using province mappings: {mappingsToUse}");
 		var mappingsPath = Path.Combine("configurables/province_mappings", mappingsToUse + ".txt");
-		
+
 		provinceMapper.LoadMappings(mappingsPath);
 	}
 

@@ -31,6 +31,7 @@ public sealed class Configuration {
 	public bool FallenEagleEnabled { get; private set; }
 	public bool WhenTheWorldStoppedMakingSenseEnabled { get; private set; }
 	public bool RajasOfAsiaEnabled { get; private set; }
+	public bool MoreBookmarksPlusEnabled { get; private set; }
 
 	public bool OutputCCUParameters => WhenTheWorldStoppedMakingSenseEnabled || FallenEagleEnabled || RajasOfAsiaEnabled;
 
@@ -326,6 +327,13 @@ public sealed class Configuration {
 			Logger.Info($"RoA detected: {roaMod.Name}");
 		}
 
+		var mbplusMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("More Bookmarks+", StringComparison.Ordinal));
+		if (mbplusMod is not null) {
+			MoreBookmarksPlusEnabled = true;
+			Logger.Info($"More Bookmarks+ detected: {mbplusMod.Name}");
+		}
+
+		// For mods that were supported in the past but are no longer, it's a good idea to let the user know.
 		var aepMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Asia Expansion Project", StringComparison.Ordinal));
 		if (aepMod is not null) {
 			throw new UserErrorException("Asia Expansion Project is no longer supported because it's not updated for the current version of CK3. See AEP's description on Steam Workshop.");
@@ -338,6 +346,7 @@ public sealed class Configuration {
 			["tfe"] = FallenEagleEnabled,
 			["wtwsms"] = WhenTheWorldStoppedMakingSenseEnabled,
 			["roa"] = RajasOfAsiaEnabled,
+			["mbplus"] = MoreBookmarksPlusEnabled,
 		};
 
 		flags["vanilla"] = !flags.Any(f => f.Value);
