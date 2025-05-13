@@ -1394,8 +1394,11 @@
 				if = {
 					limit = {
 						government_has_flag = government_is_nomadic
-						location = {
-							geographical_region = world_steppe_east
+						save_temporary_scope_as = nomad_ruler
+						situation:the_great_steppe ?= {
+							situation_sub_region:steppe_east = {
+								situation_sub_region_has_county = scope:nomad_ruler.capital_county
+							}
 						}
 					}
 					add_achievement_global_variable_effect = {
