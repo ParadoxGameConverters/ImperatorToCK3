@@ -63,7 +63,7 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 
 		// Group the neighboring provinces by their owner. The one with most owned neighbors may be the owner of the impassable.
 		var ownerCandidate = neighborProvIds
-			.Select(provId => this[provId].OwnerCountry)
+			.Select(provId => TryGetValue(provId, out var prov) ? prov.OwnerCountry : null)
 			.Where(country => country is not null)
 			.GroupBy(country => country)
 			.OrderByDescending(group => group.Count())
