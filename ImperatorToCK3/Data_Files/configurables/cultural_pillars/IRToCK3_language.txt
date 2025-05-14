@@ -1079,7 +1079,7 @@ language_messapic = {
 				}
 			}
 		}
-		ELSE = {
+		ELSE_IF tfe = {
 			ai_will_do = {
 				value = 10
 				if = {
@@ -2677,7 +2677,7 @@ language_cycladic = { # Ancient Pre-Greek language of the Cyclades, no written r
 			ai_will_do = {
 				value = 10
 				if = {
-					limit = { has_cultural_pillar = language_pre_greek }
+					limit = { has_cultural_pillar = language_cycladic }
 					multiply = 10
 				}
 			}
