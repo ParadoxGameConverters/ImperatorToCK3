@@ -3793,14 +3793,18 @@ imperator_invictus = {
 	link = { imp = 32 ck3 = 2607 } # Bovianum -> ISERNIA
 	link = { imp = 33 imp = 41 ck3 = 2669 } # Corneliani, Beneventum -> ALIFE
 	link = { imp = 35 imp = 48 imp = 49 ck3 = 2605 } # Buca, Terventum, Gerumum -> LARINO
-	link = { imp = 50 imp = 36 ck3 = 2610 ck3 = 8758 } # MANY-TO-MANY: Urium, Teanum Apulum -> LUCERA, Vieste
-	link = { imp = 44 imp = 45 imp = 5005 ck3 = 2615 ck3 = 8757 } # MANY-TO-MANY: Tuticum, Ausculum, IMPASSIBLE TERRAIN 005 -> MELFI, Ariano
+	link = { imp = 50 ck3 = 8758 } # Urium -> Vieste
+	link = { imp = 36 ck3 = 2610 } # Teanum Apulum -> LUCERA
+	link = { imp = 44 ck3 = 8757 } # Tuticum -> Ariano
+	link = { imp = 45 imp = 5005 ck3 = 2615 } # Ausculum, IMPASSIBLE TERRAIN 005 -> MELFI
 	link = { imp = 38 imp = 39 imp = 37 ck3 = 2614 } # Sipontum, Canusium, Luceria -> SIPONTO
-	link = { imp = 7 imp = 40 ck3 = 2608 ck3 = 8756 } # MANY-TO-MANY: Neapolis, Nola -> NAPOLI, Aversa
-	link = { imp = 43 imp = 1718 ck3 = 2609 ck3 = 789 } # MANY-TO-MANY: Compsa, Aeclanum -> BENEVENTO, Southern Apennine Mountains
+	link = { imp = 40 ck3 = 8756 } # Nola -> Aversa
+	link = { imp = 7 imp = 7733 ck3 = 2608 } # Neapolis, Vesuvius Volcano -> NAPOLI
+	link = { imp = 43 imp = 1718 ck3 = 2609 } # Compsa, Aeclanum -> BENEVENTO
 	link = { imp = 9 imp = 1713 imp = 1716 ck3 = 2611 } # Pompeii, Nuceria, Abellinum -> AMALFI
 	link = { imp = 47 ck3 = 2616 } # Acerronia -> POTENZA
-	link = { imp = 13 imp = 12 ck3 = 2613 ck3 = 8754 } # MANY-TO-MANY: Blanda, Velia -> MARATEA, Policastro
+	link = { imp = 12 ck3 = 8754 } # Velia -> Policastro
+	link = { imp = 13 ck3 = 2613 } # Blanda -> MARATEA
 	link = { imp = 11 imp = 10 ck3 = 2612 } # Paestum, Salerna -> SALERNO
 	link = { imp = 53 imp = 59 ck3 = 2632 } # Grumentum, Consilinum -> STIGLIANO
 	link = { imp = 71 imp = 46 ck3 = 2617 } # Hostiliusanus, Potentia -> ACERENZA
