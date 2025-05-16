@@ -336,7 +336,7 @@ internal partial class World {
 
 		Thread? localCoaExtractThread = null;
 		
-		parser.RegisterRegex(@"\bSAV\w*\b", _ => { });
+		parser.RegisterRegex(SaveStartRegex(), _ => { });
 		parser.RegisterKeyword("version", reader => VerifySaveVersion(converterVersion, reader));
 		parser.RegisterKeyword("date", reader => LoadSaveDate(config, reader));
 		parser.RegisterKeyword("enabled_dlcs", LogEnabledDLCs);
@@ -795,6 +795,8 @@ internal partial class World {
 
 	private readonly IgnoredKeywordsSet ignoredTokens = [];
 
+	[GeneratedRegex(@"\bSAV\w*\b")]
+	private static partial Regex SaveStartRegex();
 	[GeneratedRegex(@"^\S+=\s*\{[\s\S]*?^\}", RegexOptions.Multiline)]
 	private static partial Regex FlagDefinitionRegex();
 	[GeneratedRegex(@"\$[A-Z_]*\$")]
