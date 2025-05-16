@@ -107,18 +107,19 @@ internal static class WorldOutputter {
 		// Hash expects the dictionary values to be of type object, so we need to cast the bools to objects.
 		var convertedModFlags = ck3ModFlags.ToDictionary(kv => kv.Key, kv => (object)kv.Value);
 		var context = Hash.FromDictionary(convertedModFlags);
-		
-		// In the output path, find .liquid files, parse them with DotLiquid and write them back as .txt files.
+
+		// In the output path, find .liquid files, parse them with DotLiquid and write them back without the .liquid extension.
+		// For example, this will convert file.txt.liquid to file.txt and loc.yml.liquid to loc.yml.
 		var liquidFiles = Directory.GetFiles(outputPath, "*.liquid", SearchOption.AllDirectories);
 		foreach (var liquidFilePath in liquidFiles) {
 			var liquidText = File.ReadAllText(liquidFilePath);
 			var template = Template.Parse(liquidText);
 			var result = template.Render(context);
-			var txtFilePath = liquidFilePath[..^7] + ".txt";
-			// Write the result to a .txt file and delete the .liquid file. Use UTF8-BOM encoding.
-			File.WriteAllText(txtFilePath, result, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
+			var renderedFilePath = liquidFilePath[..^7];
+			// Write the rendered file and delete the .liquid file. Use UTF8-BOM encoding.
+			File.WriteAllText(renderedFilePath, result, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
 			File.Delete(liquidFilePath);
-			Logger.Debug("Converted " + liquidFilePath + " to " + txtFilePath);
+			Logger.Debug("Converted " + liquidFilePath + " to " + renderedFilePath);
 		}
 		
 		Logger.IncrementProgress();

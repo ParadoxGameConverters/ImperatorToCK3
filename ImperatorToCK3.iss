@@ -33,10 +33,10 @@ Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 
-ArchitecturesInstallIn64BitMode=x64
+ArchitecturesInstallIn64BitMode=x64compatible
 
 ; keep the next line if you want to prevent Setup from running on 32-bit Windows
-ArchitecturesAllowed=x64
+ArchitecturesAllowed=x64compatible
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"

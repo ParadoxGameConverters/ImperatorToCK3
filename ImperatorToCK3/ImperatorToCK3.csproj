@@ -36,7 +36,7 @@
         <PackageReference Include="ConcurrentSet" Version="1.0.0"/>
         <PackageReference Include="CWTools" Version="0.5.0-alpha" />
         <PackageReference Include="DotLiquid" Version="2.3.197" />
-        <PackageReference Include="FSharp.Core" Version="9.0.202" /> <!-- Needed for CWTools -->
+        <PackageReference Include="FSharp.Core" Version="9.0.300" /> <!-- Needed for CWTools -->
         <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.6.0"/>
         <PackageReference Include="Meziantou.Analyzer" Version="2.0.201">
             <PrivateAssets>all</PrivateAssets>

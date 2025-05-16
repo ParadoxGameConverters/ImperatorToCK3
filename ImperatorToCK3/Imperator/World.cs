@@ -493,7 +493,7 @@ internal partial class World {
 
 	private void LoadProvinces(BufferedReader reader) {
 		Logger.Info("Loading provinces...");
-		Provinces.LoadProvinces(reader, States, Countries);
+		Provinces.LoadProvinces(reader, States, Countries, MapData);
 		Logger.Debug($"Ignored Province tokens: {Province.IgnoredTokens}");
 		Logger.Info($"Loaded {Provinces.Count} provinces.");
 
@@ -644,6 +644,7 @@ internal partial class World {
 			() => LoadImperatorLocalization(),
 			() => {
 				MapData = new MapData(ModFS);
+				
 				Areas.LoadAreas(ModFS, Provinces);
 				ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
 			},
