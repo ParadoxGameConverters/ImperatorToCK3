@@ -258,33 +258,35 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		// For every culture, check if it isn't set as its own immediate or distant parent.
 		Logger.Debug("Checking for circular culture parents...");
 		foreach (var culture in this) {
-			var allParents = GetAncestorsOfCulture(culture);
+			var allParents = GetAncestorsOfCulture(culture, alreadyChecked: []);
 			if (allParents.Contains(culture.Id)) {
-				Logger.Error($"Culture {culture.Id} is set as its own parent!");
+				Logger.Error($"Culture {culture.Id} is set as its own direct or indirect parent!");
 			}
 		}
 	}
 
-	private HashSet<string> GetAncestorsOfCulture(Culture cultureToCheck, HashSet<string>? alreadyChecked = null) {
+	private HashSet<string> GetAncestorsOfCulture(Culture cultureToCheck, HashSet<string> alreadyChecked) {
 		HashSet<string> allParents = [];
 
 		// Get immediate parents.
 		foreach (var parentCultureId in cultureToCheck.ParentCultureIds) {
-			// Avoid infinite recursion.
-			if (alreadyChecked?.Contains(parentCultureId) == true) {
-				continue;
-			}
-
 			allParents.Add(parentCultureId);
-			
-			if (!TryGetValue(parentCultureId, out var parentCulture)) {
-				Logger.Warn($"Parent culture {parentCultureId} not found for culture {cultureToCheck.Id}.");
+		}
+		
+		// Prevent infinite recursion.
+		alreadyChecked.Add(cultureToCheck.Id);
+
+		// For parents that haven't been checked yet, get their parents.
+		foreach (var parentCultureId in cultureToCheck.ParentCultureIds) {
+			if (alreadyChecked.Contains(parentCultureId)) {
 				continue;
 			}
-
-			// Add the parent's parents.
-			var parentParents = GetAncestorsOfCulture(parentCulture, allParents);
-			allParents.UnionWith(parentParents);
+			if (!TryGetValue(parentCultureId, out var parentCulture)) {
+				Logger.Warn($"Parent culture {parentCultureId} not found for culture {cultureToCheck.Id}!");
+				continue;
+			}
+			var parentAncestors = GetAncestorsOfCulture(parentCulture, alreadyChecked);
+			allParents.UnionWith(parentAncestors);
 		}
 
 		return allParents;
