@@ -4,6 +4,7 @@ using Microsoft.VisualBasic.FileIO;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -119,7 +120,7 @@ internal sealed class MapData {
 		var staticWaterProvinces = ProvinceDefinitions
 			.Where(p => p.IsStaticWater)
 			.Select(p => p.Id)
-			.ToHashSet();
+			.ToFrozenSet();
 
 		var provinceGroups = new List<HashSet<ulong>>();
 		foreach (var provinceId in staticWaterProvinces) {
@@ -199,9 +200,9 @@ internal sealed class MapData {
 	private bool IsStaticWater(ulong provinceId) => ProvinceDefinitions[provinceId].IsStaticWater;
 	private bool IsRiver(ulong provinceId) => ProvinceDefinitions[provinceId].IsRiver;
 
-	public IReadOnlySet<ulong> ColorableImpassableProvinceIds => ProvinceDefinitions
+	public FrozenSet<ulong> ColorableImpassableProvinceIds => ProvinceDefinitions
 		.Where(p => p.IsColorableImpassable).Select(p => p.Id)
-		.ToHashSet();
+		.ToFrozenSet();
 
 	public IReadOnlySet<ulong> MapEdgeProvinceIds => mapEdgeProvinces;
 
@@ -349,11 +350,11 @@ internal sealed class MapData {
 	}
 
 	/// Function for checking if two provinces are directly neighboring or border the same static water body.
-	public bool AreProvinceGroupsAdjacent(HashSet<ulong> group1, HashSet<ulong> group2) {
+	public bool AreProvinceGroupsAdjacent(FrozenSet<ulong> group1, FrozenSet<ulong> group2) {
 		return AreProvinceGroupsAdjacentByLand(group1, group2) || AreProvinceGroupsConnectedByWaterBody(group1, group2);
 	}
 
-	public bool AreProvinceGroupsAdjacentByLand(HashSet<ulong> group1, HashSet<ulong> group2) {
+	public bool AreProvinceGroupsAdjacentByLand(FrozenSet<ulong> group1, FrozenSet<ulong> group2) {
 		var group1Neighbors = new HashSet<ulong>();
 		foreach (var province in group1) {
 			if (NeighborsDict.TryGetValue(province, out var neighbors)) {
@@ -377,7 +378,7 @@ internal sealed class MapData {
 		var group2RiverProvinceNeighbors = group2
 			.SelectMany(provId => NeighborsDict.TryGetValue(provId, out var neighbors) ? neighbors : [])
 			.Where(IsRiver)
-			.ToHashSet();
+			.ToFrozenSet();
 		if (group1Neighbors.Overlaps(group2RiverProvinceNeighbors)) {
 			return true;
 		}
@@ -386,7 +387,7 @@ internal sealed class MapData {
 	}
 
 	// Function for checking if two land provinces are connected to the same water body.
-	public bool AreProvinceGroupsConnectedByWaterBody(HashSet<ulong> group1, HashSet<ulong> group2) {
+	public bool AreProvinceGroupsConnectedByWaterBody(FrozenSet<ulong> group1, FrozenSet<ulong> group2) {
 		var group1WaterNeighbors = new HashSet<ulong>();
 		foreach (var provId in group1) {
 			if (!NeighborsDict.TryGetValue(provId, out var neighbors)) {
@@ -403,12 +404,12 @@ internal sealed class MapData {
 		var group2WaterNeighbors = group2
 			.SelectMany(provId => NeighborsDict.TryGetValue(provId, out var neighbors) ? neighbors : [])
 			.Where(IsStaticWater)
-			.ToHashSet();
+			.ToFrozenSet();
 		if (group2WaterNeighbors.Count == 0) {
 			return false;
 		}
 
-		var group1WaterBodies = group1WaterNeighbors.Select(id => waterBodiesDict[id]).ToHashSet();
+		var group1WaterBodies = group1WaterNeighbors.Select(id => waterBodiesDict[id]).ToFrozenSet();
 
 		return group2WaterNeighbors
 			.Any(group2ProvId => group1WaterBodies.Contains(waterBodiesDict[group2ProvId]));

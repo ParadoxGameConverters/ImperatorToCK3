@@ -6,7 +6,7 @@ using ImperatorToCK3.CK3.Localization;
 using Murmur;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using ZLinq;
 
 namespace ImperatorToCK3.CK3;
 
@@ -23,7 +23,7 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 		modFSLocDB.ScrapeLocalizations(ck3ModFS);
 		ImportLocFromLocDB(modFSLocDB);
 		
-		// Read loc from ImperatorToCK3 congifurables.
+		// Read loc from ImperatorToCK3 configurables.
 		// It will only be outputted for keys localized in neither ModFSLocDB nor ConverterGeneratedLocDB.
 		LoadOptionalLoc(activeModFlags);
 	}
@@ -54,7 +54,8 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 			if (!Directory.Exists(modLocDir)) {
 				continue;
 			}
-			optionalLocFilePaths = optionalLocFilePaths.Concat(Directory.GetFiles(modLocDir, "*.yml", SearchOption.AllDirectories)).ToArray();
+			optionalLocFilePaths = optionalLocFilePaths.AsValueEnumerable()
+				.Concat(Directory.GetFiles(modLocDir, "*.yml", SearchOption.AllDirectories)).ToArray();
 		}
 		
 		var optionalConverterLocDB = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
@@ -161,7 +162,13 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 	private static string GetHashStrForKey(string key) {
 		var keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
 		var hash = murmur3A.ComputeHash(keyBytes);
-		return string.Concat(hash.Select(b => b.ToString("X2")));
+
+		var sb = new System.Text.StringBuilder(hash.Length * 2);
+		foreach (byte t in hash) {
+			sb.Append(t.ToString("X2"));
+		}
+
+		return sb.ToString();
 	}
 
 	private readonly Dictionary<string, string> hashToKeyDict = []; // stores MurmurHash3A hash to key mapping

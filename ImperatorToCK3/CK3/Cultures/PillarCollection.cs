@@ -4,6 +4,7 @@ using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CommonUtils;
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,7 +18,7 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 	}
 
 	public Pillar? GetHeritageForId(string heritageId) {
-		var heritages = this.Where(p => p.Type == "heritage").ToHashSet();
+		var heritages = this.Where(p => p.Type == "heritage").ToFrozenSet();
 		if (mergedPillarsDict.TryGetValue(heritageId, out var mergedHeritageId)) {
 			return heritages.FirstOrDefault(p => p.Id == mergedHeritageId);
 		}
@@ -26,7 +27,7 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 	}
 	
 	public Pillar? GetLanguageForId(string languageId) {
-		var languages = this.Where(p => p.Type == "language").ToHashSet();
+		var languages = this.Where(p => p.Type == "language").ToFrozenSet();
 		if (mergedPillarsDict.TryGetValue(languageId, out var mergedLanguageId)) {
 			return languages.FirstOrDefault(p => p.Id == mergedLanguageId);
 		}

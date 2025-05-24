@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,7 +40,7 @@ internal sealed class CK3RegionMapper {
 		
 		// Log duchies that don't have any de jure counties.
 		// Such duchies should probably be removed from the regions.
-		var validDeJureDuchyIds = landedTitles.GetDeJureDuchies().Select(d => d.Id).ToHashSet();
+		var validDeJureDuchyIds = landedTitles.GetDeJureDuchies().Select(d => d.Id).ToFrozenSet();
 		foreach (var region in regions.Values) {
 			foreach (var regionDuchyId in region.Duchies.Keys) {
 				if (!validDeJureDuchyIds.Contains(regionDuchyId)) {

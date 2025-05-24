@@ -3,6 +3,7 @@ using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CommonUtils;
 using Open.Collections;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -104,7 +105,7 @@ internal static class CharactersOutputter {
 		}
 	}
 	
-	private static HashSet<string> GetValidAccessoryIDs(ModFilesystem ck3ModFS) {
+	private static FrozenSet<string> GetValidAccessoryIDs(ModFilesystem ck3ModFS) {
 		Logger.Debug("Getting valid CK3 accessory IDs...");
 		
 		var accessoryIDs = new ConcurrentHashSet<string>();
@@ -117,7 +118,7 @@ internal static class CharactersOutputter {
 		accessoryFilesParser.IgnoreAndLogUnregisteredItems();
 		accessoryFilesParser.ParseGameFolder("gfx/portraits/accessories", ck3ModFS, "txt", recursive: true, logFilePaths: false, parallel: true);
 
-		return accessoryIDs.ToHashSet();
+		return accessoryIDs.ToFrozenSet();
 	}
 
 	private static async Task OutputPortraitModifiers(string outputPath, IReadOnlyCollection<Character> charactersWithDNA, Date conversionDate, ModFilesystem ck3ModFS) {
@@ -139,7 +140,7 @@ internal static class CharactersOutputter {
 
 	private static async Task OutputPortraitModifiersForGene(
 		string geneName,
-		HashSet<string> validAccessoryIDs,
+		FrozenSet<string> validAccessoryIDs,
 		IReadOnlyCollection<Character> charactersWithDNA,
 		TextWriter output,
 		Date conversionDate

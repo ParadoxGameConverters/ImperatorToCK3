@@ -8,7 +8,7 @@ namespace ImperatorToCK3.CommonUtils;
 
 public sealed class LiteralHistoryField : IHistoryField {
 	public string Id { get; }
-	public IList<KeyValuePair<string, object>> InitialEntries { get; } = new List<KeyValuePair<string, object>>(); // every entry is a <setter, value> pair
+	public List<KeyValuePair<string, object>> InitialEntries { get; } = []; // every entry is a <setter, value> pair
 
 	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; } = new();
 
