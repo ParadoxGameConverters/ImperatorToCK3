@@ -4,7 +4,7 @@ using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using System.Collections.Frozen;
 using System.Collections.Generic;
-using System.Linq;
+using ZLinq;
 
 namespace ImperatorToCK3.CK3.Dynasties;
 
@@ -33,7 +33,7 @@ internal sealed class HouseCollection : ConcurrentIdObjectCollection<string, Hou
 		nonRemovableIdsParser.IgnoreAndLogUnregisteredItems();
 		nonRemovableIdsParser.ParseFile("configurables/dynasty_houses_to_preserve.txt");
 
-		FrozenSet<string> houseIdsToKeep = ck3Characters
+		FrozenSet<string> houseIdsToKeep = ck3Characters.AsValueEnumerable()
 			.Select(c => c.GetDynastyHouseId(date))
 			.Where(id => id is not null)
 			.Distinct()
@@ -41,7 +41,7 @@ internal sealed class HouseCollection : ConcurrentIdObjectCollection<string, Hou
 			.ToFrozenSet();
 
 		int removedCount = 0;
-		foreach (var house in this.ToArray()) {
+		foreach (var house in this.AsValueEnumerable().ToArray()) {
 			if (houseIdsToKeep.Contains(house.Id)) {
 				continue;
 			}

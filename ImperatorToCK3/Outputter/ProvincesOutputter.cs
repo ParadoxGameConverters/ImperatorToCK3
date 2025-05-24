@@ -5,8 +5,8 @@ using ImperatorToCK3.CommonUtils;
 using Open.Collections;
 using System.Collections.Frozen;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
+using ZLinq;
 
 namespace ImperatorToCK3.Outputter;
 
@@ -18,7 +18,7 @@ internal static class ProvincesOutputter {
 	) {
 		Logger.Info("Writing provinces...");
 		
-		FrozenSet<ulong> countyCapitalProvinceIds = titles.Counties
+		FrozenSet<ulong> countyCapitalProvinceIds = titles.Counties.AsValueEnumerable()
 			.Select(title => title.CapitalBaronyProvinceId)
 			.Where(id => id is not null)
 			.Select(id => id!.Value)

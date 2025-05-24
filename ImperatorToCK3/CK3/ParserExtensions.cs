@@ -4,7 +4,7 @@ using DotLiquid;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using ZLinq;
 
 namespace ImperatorToCK3.CK3;
 
@@ -91,7 +91,7 @@ public static class ParserExtensions {
 	
 	public static void ParseLiquidFile(this Parser parser, string filePath, IDictionary<string, bool> ck3ModFlags) {
 		// The file used the Liquid templating language, so convert it to text before parsing.
-		var convertedModFlags = ck3ModFlags.ToDictionary(kv => kv.Key, kv => (object)kv.Value);
+		var convertedModFlags = ck3ModFlags.AsValueEnumerable().ToDictionary(kv => kv.Key, kv => (object)kv.Value);
 		var context = Hash.FromDictionary(convertedModFlags);
 		
 		var liquidText = File.ReadAllText(filePath);
@@ -104,10 +104,10 @@ public static class ParserExtensions {
 	public static void ParseFolderWithLiquidSupport(this Parser parser, string path, string extensions, bool recursive, IDictionary<string, bool> ck3ModFlags, bool logFilePaths = false) {
 		var searchPattern = recursive ? "*" : "*.*";
 		var searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-		var files = Directory.GetFiles(path, searchPattern, searchOption).ToList();
+		var files = Directory.GetFiles(path, searchPattern, searchOption).AsValueEnumerable().ToList();
 
 		var validExtensions = extensions.Split(';');
-		files.RemoveWhere(f => !validExtensions.Contains(CommonFunctions.GetExtension(f)));
+		files.RemoveWhere(f => !validExtensions.AsValueEnumerable().Contains(CommonFunctions.GetExtension(f)));
 
 		foreach (var file in files) {
 			if (logFilePaths) {

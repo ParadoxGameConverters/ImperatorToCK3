@@ -3,7 +3,7 @@ using commonItems.Localization;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.Imperator.Inventions;
 using System.Collections.Generic;
-using System.Linq;
+using ZLinq;
 
 namespace ImperatorToCK3.Mappers.Technology;
 
@@ -56,11 +56,11 @@ internal sealed class InnovationMapper {
 
 	public void LogUnmappedInventions(InventionsDB inventionsDB, LocDB irLocDB) {
 		// Log Imperator inventions for which neither link nor bonus for CK3 innovations exists.
-		var unmappedInventions = inventionsDB.InventionIds
+		var unmappedInventions = inventionsDB.InventionIds.AsValueEnumerable()
 			.Where(invention => !innovationLinks.Exists(link => link.Match(invention) is not null) && !innovationBonuses.Exists(bonus => bonus.GetProgress([invention]) is not null))
 			.ToArray();
 
-		var inventionsWithLoc = unmappedInventions
+		var inventionsWithLoc = unmappedInventions.AsValueEnumerable()
 			.Select(inventionId => {
 				if (irLocDB.GetLocBlockForKey(inventionId) is { } locBlock) {
 					return $"{inventionId} ({locBlock[ConverterGlobals.PrimaryLanguage]})";
@@ -68,7 +68,7 @@ internal sealed class InnovationMapper {
 				return inventionId;
 			});
 
-		Logger.Debug($"Unmapped I:R inventions: {string.Join(", ", inventionsWithLoc)}");
+		Logger.Debug($"Unmapped I:R inventions: {inventionsWithLoc.JoinToString(", ")}");
 	}
 
 	// TODO: ALSO LOG UNMAPPED CK3 MARTIAL AND CIVIC INNOVATIONS

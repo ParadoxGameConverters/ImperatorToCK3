@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ImperatorToCK3.CommonUtils;
 
-public sealed class History : IPDXSerializable {
+internal sealed class History : IPDXSerializable {
 	[NonSerialized] public IdObjectCollection<string, IHistoryField> Fields { get; } = []; // fieldName, field
 	[NonSerialized] public IgnoredKeywordsSet IgnoredKeywords { get; } = [];
 

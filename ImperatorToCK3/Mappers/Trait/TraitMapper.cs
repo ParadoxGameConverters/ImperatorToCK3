@@ -7,7 +7,7 @@ using System.Linq;
 namespace ImperatorToCK3.Mappers.Trait;
 
 internal class TraitMapper {
-	protected IDictionary<string, string> ImperatorToCK3TraitMap = new Dictionary<string, string>();
+	protected Dictionary<string, string> ImperatorToCK3TraitMap = [];
 	protected IdObjectCollection<string, CK3.Characters.Trait> CK3Traits = [];
 	
 	public IEnumerable<string> ValidCK3TraitIDs => CK3Traits.Select(t => t.Id);

@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace ImperatorToCK3.CommonUtils;
 
-public sealed class LiteralHistoryField : IHistoryField {
+internal sealed class LiteralHistoryField : IHistoryField {
 	public string Id { get; }
 	public List<KeyValuePair<string, object>> InitialEntries { get; } = []; // every entry is a <setter, value> pair
 

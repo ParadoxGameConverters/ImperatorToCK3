@@ -638,7 +638,7 @@ internal sealed partial class Title {
 
 			var governorships = irWorld.JobsDB.Governorships;
 			var governorshipsPerRegion = governorships.GroupBy(g => g.Region.Id)
-				.ToDictionary(g => g.Key, g => g.Count());
+				.ToFrozenDictionary(g => g.Key, g => g.Count());
 
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
 			// add new ones from Imperator governorships.
@@ -1053,12 +1053,12 @@ internal sealed partial class Title {
 			Logger.Debug("Building kingdom adjacencies dict...");
 			// Create a cache of province IDs per kingdom.
 			var provincesPerKingdomDict = deJureKingdoms
-				.ToDictionary(
+				.ToFrozenDictionary(
 					k => k.Id,
 					k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToFrozenSet()
 				);
-			var kingdomAdjacenciesByLand = deJureKingdoms.ToDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
-			var kingdomAdjacenciesByWaterBody = deJureKingdoms.ToDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
+			var kingdomAdjacenciesByLand = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
+			var kingdomAdjacenciesByWaterBody = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
 			Parallel.ForEach(deJureKingdoms, kingdom => {
 				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdom.Id, provincesPerKingdomDict, kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody);
 			});
@@ -1123,10 +1123,10 @@ internal sealed partial class Title {
 
 		private static void FindKingdomsAdjacentToKingdom(
 			MapData ck3MapData,
-			IReadOnlyCollection<Title> deJureKingdoms,
-			string kingdomId, Dictionary<string, FrozenSet<ulong>> provincesPerKingdomDict,
-			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByLand,
-			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody)
+			ImmutableArray<Title> deJureKingdoms,
+			string kingdomId, FrozenDictionary<string, FrozenSet<ulong>> provincesPerKingdomDict,
+			FrozenDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByLand,
+			FrozenDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody)
 		{
 			foreach (var otherKingdom in deJureKingdoms) {
 				// Since this code is parallelized, make sure we don't check the same pair twice.
@@ -1186,8 +1186,8 @@ internal sealed partial class Title {
 		}
 
 		private void SplitDisconnectedEmpires(
-			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByLand,
-			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody,
+			FrozenDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByLand,
+			FrozenDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody,
 			HashSet<string> removableEmpireIds,
 			Dictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
 			Dictionary<string, Title> heritageToEmpireDict,
@@ -1656,7 +1656,7 @@ internal sealed partial class Title {
 			.Where(t => t is {Rank: TitleRank.duchy, DeJureVassals.Count: > 0})
 			.ToImmutableArray();
 		
-		public IReadOnlyCollection<Title> GetDeJureKingdoms() => this
+		public ImmutableArray<Title> GetDeJureKingdoms() => this
 			.Where(t => t is {Rank: TitleRank.kingdom, DeJureVassals.Count: > 0})
 			.ToImmutableArray();
 		
