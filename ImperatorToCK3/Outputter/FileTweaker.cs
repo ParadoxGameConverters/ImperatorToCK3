@@ -48,6 +48,14 @@ public static class FileTweaker {
 			ReadPartsOfFileToReplace(partsToModifyPerFile, "configurables/replaceable_file_blocks_roa.txt", warnIfNotFound: true);
 		}
 
+		if (config.AsiaExpansionProjectEnabled) {
+			Logger.Info("Reading unneeded parts of Rajas of Asia files...");
+			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_aep.txt", warnIfNotFound: true);
+			
+			Logger.Info("Reading parts of Asia Expansion Project files to modify...");
+			ReadPartsOfFileToReplace(partsToModifyPerFile, "configurables/replaceable_file_blocks_aep.txt", warnIfNotFound: true);
+		}
+
 		if (config.WhenTheWorldStoppedMakingSenseEnabled) {
 			Logger.Info("Reading unneeded parts of When the World Stopped Making Sense files...");
 			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_wtwsms.txt", warnIfNotFound: true);
