@@ -149,14 +149,8 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 				Logger.Debug($"Loading optional culture {cultureId}...");
 			}
 			if (data.Heritage is null) {
-				// Special handling for TFE hunnic culture. #TODO: remove this when it's fixed on TFE side.
-				if (config.FallenEagleEnabled && cultureId == "hunnic" && PillarCollection.GetHeritageForId("heritage_turkic") is Pillar turkicHeritage) {
-					Logger.Debug("Applying turkic heritage to TFE hunnic culture.");
-					data.Heritage = turkicHeritage;
-				} else {
-					Logger.Warn($"Culture {cultureId} has no valid heritage defined! Skipping.");
-					continue;
-				}
+				Logger.Warn($"Culture {cultureId} has no valid heritage defined! Skipping.");
+				continue;
 			}
 			if (data.Language is null) {
 				Logger.Warn($"Culture {cultureId} has no valid language defined! Skipping.");
