@@ -148,7 +148,7 @@ internal sealed class Character : IIdentifiable<ulong> {
 		});
 		parser.RegisterKeyword("death", reader => character.DeathReason = string.Intern(reader.GetString()));
 		parser.RegisterKeyword("attributes", reader => character.Attributes = CharacterAttributes.Parse(reader));
-		parser.RegisterKeyword("nickname", reader => character.Nickname = reader.GetString());
+		parser.RegisterKeyword("nickname", reader => character.Nickname = string.Intern(reader.GetString()));
 		parser.RegisterKeyword("dna", reader => character.DNA = reader.GetString());
 		parser.RegisterKeyword("mother", reader => character.parsedMotherId = reader.GetULong());
 		parser.RegisterKeyword("father", reader => character.parsedFatherId = reader.GetULong());

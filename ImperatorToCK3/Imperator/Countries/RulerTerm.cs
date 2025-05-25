@@ -61,7 +61,7 @@ internal sealed class RulerTerm {
 		});
 		prehistoryParser.RegisterKeyword("religion", reader => PreImperatorRuler.Religion = string.Intern(reader.GetString()));
 		prehistoryParser.RegisterKeyword("culture", reader => PreImperatorRuler.Culture = string.Intern(reader.GetString()));
-		prehistoryParser.RegisterKeyword("nickname", reader => PreImperatorRuler.Nickname = reader.GetString());
+		prehistoryParser.RegisterKeyword("nickname", reader => PreImperatorRuler.Nickname = string.Intern(reader.GetString()));
 		prehistoryParser.RegisterKeyword("country", reader => {
 			var tag = reader.GetString();
 			if (tagToCountryCache.TryGetValue(tag, out var cachedCountry)) {
