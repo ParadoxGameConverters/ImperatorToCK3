@@ -64,7 +64,7 @@ internal sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> 
 		var parser = new Parser();
 		parser.RegisterKeyword("prefix", reader => Prefix = reader.GetString());
 		parser.RegisterKeyword("name", reader => Name = reader.GetString());
-		parser.RegisterKeyword("culture", reader => CultureId = reader.GetString());
+		parser.RegisterKeyword("culture", reader => CultureId = string.Intern(reader.GetString()));
 		parser.RegisterKeyword("motto", reader => Motto = reader.GetString());
 		parser.RegisterKeyword("forced_coa_religiongroup", reader => ForcedCoaReligionGroup = reader.GetString());
 		parser.IgnoreAndLogUnregisteredItems();

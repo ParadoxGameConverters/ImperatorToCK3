@@ -10,4 +10,12 @@ internal static class BufferedReaderExtensions {
 			.GroupBy(a => a.Key)
 			.ToDictionary(g => g.Key, g => g.Last().Value);
 	}
+
+	internal static List<string> GetAndInternStrings(this BufferedReader reader) {
+		var strings = new List<string>();
+		foreach (var str in reader.GetStrings()) {
+			strings.Add(string.Intern(str));
+		}
+		return strings;
+	}
 }

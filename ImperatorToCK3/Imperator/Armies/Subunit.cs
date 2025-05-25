@@ -14,8 +14,8 @@ public sealed class Subunit : IIdentifiable<ulong> {
 		Id = id;
 
 		var parser = new Parser();
-		parser.RegisterKeyword("category", reader => Category = reader.GetString());
-		parser.RegisterKeyword("type", reader => Type = reader.GetString());
+		parser.RegisterKeyword("category", reader => Category = string.Intern(reader.GetString()));
+		parser.RegisterKeyword("type", reader => Type = string.Intern(reader.GetString()));
 		parser.RegisterKeyword("country", reader => CountryId = reader.GetULong());
 		parser.RegisterKeyword("strength", reader => Strength = reader.GetDouble());
 		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
@@ -23,5 +23,5 @@ public sealed class Subunit : IIdentifiable<ulong> {
 		parser.ParseStream(subunitReader);
 	}
 
-	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
+	public static IgnoredKeywordsSet IgnoredTokens { get; } = [];
 }

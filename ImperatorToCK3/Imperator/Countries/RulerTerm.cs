@@ -29,7 +29,7 @@ internal sealed class RulerTerm {
 			var dateString = r.GetString();
 			newTerm.StartDate = new Date(dateString, AUC: true);
 		});
-		parser.RegisterKeyword("government", r => newTerm.Government = r.GetString());
+		parser.RegisterKeyword("government", r => newTerm.Government = string.Intern(r.GetString()));
 		parser.RegisterRegex(CommonRegexes.Catchall, (r, token) => {
 			IgnoredTokens.Add(token);
 			ParserHelpers.IgnoreItem(r);
@@ -59,9 +59,9 @@ internal sealed class RulerTerm {
 			var dateStr = reader.GetString();
 			StartDate = new Date(dateStr, AUC: true);
 		});
-		prehistoryParser.RegisterKeyword("religion", reader => PreImperatorRuler.Religion = reader.GetString());
-		prehistoryParser.RegisterKeyword("culture", reader => PreImperatorRuler.Culture = reader.GetString());
-		prehistoryParser.RegisterKeyword("nickname", reader => PreImperatorRuler.Nickname = reader.GetString());
+		prehistoryParser.RegisterKeyword("religion", reader => PreImperatorRuler.Religion = string.Intern(reader.GetString()));
+		prehistoryParser.RegisterKeyword("culture", reader => PreImperatorRuler.Culture = string.Intern(reader.GetString()));
+		prehistoryParser.RegisterKeyword("nickname", reader => PreImperatorRuler.Nickname = string.Intern(reader.GetString()));
 		prehistoryParser.RegisterKeyword("country", reader => {
 			var tag = reader.GetString();
 			if (tagToCountryCache.TryGetValue(tag, out var cachedCountry)) {
