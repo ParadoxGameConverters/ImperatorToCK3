@@ -11,6 +11,7 @@ using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Technology;
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -249,7 +250,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 
 			var irInventions = grouping
 				.SelectMany(c => c.Country.GetActiveInventionIds(inventionsDB))
-				.ToHashSet();
+				.ToFrozenSet();
 			culture.ImportInnovationsFromImperator(irInventions, innovationMapper);
 		}
 	}

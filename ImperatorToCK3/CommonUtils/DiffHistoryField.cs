@@ -6,7 +6,7 @@ namespace ImperatorToCK3.CommonUtils;
 
 internal sealed class DiffHistoryField : IHistoryField {
 	public string Id { get; }
-	public IList<KeyValuePair<string, object>> InitialEntries { get; } = new List<KeyValuePair<string, object>>();
+	public List<KeyValuePair<string, object>> InitialEntries { get; } = [];
 
 	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; } = new();
 

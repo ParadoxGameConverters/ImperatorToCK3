@@ -40,6 +40,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Open.Collections;
 using DiplomacyDB = ImperatorToCK3.CK3.Diplomacy.DiplomacyDB;
+using System.Collections.Frozen;
 
 namespace ImperatorToCK3.CK3;
 
@@ -513,10 +514,10 @@ internal sealed class World {
 		}
 	}
 
-	private void OverwriteCountiesHistory(CountryCollection irCountries, IEnumerable<Governorship> governorships, IList<KeyValuePair<Country, Dependency?>> countyLevelCountries, IEnumerable<Governorship> countyLevelGovernorships, Imperator.Characters.CharacterCollection impCharacters, Imperator.Provinces.ProvinceCollection irProvinces, Date conversionDate) {
+	private void OverwriteCountiesHistory(CountryCollection irCountries, List<Governorship> governorships, List<KeyValuePair<Country, Dependency?>> countyLevelCountries, List<Governorship> countyLevelGovernorships, Imperator.Characters.CharacterCollection impCharacters, Imperator.Provinces.ProvinceCollection irProvinces, Date conversionDate) {
 		Logger.Info("Overwriting counties' history...");
-		HashSet<Governorship> governorshipsSet = governorships.ToHashSet();
-		HashSet<Governorship> countyLevelGovernorshipsSet = countyLevelGovernorships.ToHashSet();
+		FrozenSet<Governorship> governorshipsSet = governorships.ToFrozenSet();
+		FrozenSet<Governorship> countyLevelGovernorshipsSet = countyLevelGovernorships.ToFrozenSet();
 		
 		foreach (var county in LandedTitles.Where(t => t.Rank == TitleRank.county)) {
 			if (county.CapitalBaronyProvinceId is null) {
@@ -578,9 +579,9 @@ internal sealed class World {
 	private bool TryGiveCountyToGovernor(Title county,
 		Imperator.Provinces.Province irProvince,
 		Country irCountry,
-		HashSet<Governorship> governorshipsSet,
+		FrozenSet<Governorship> governorshipsSet,
 		Imperator.Provinces.ProvinceCollection irProvinces,
-		HashSet<Governorship> countyLevelGovernorshipsSet,
+		FrozenSet<Governorship> countyLevelGovernorshipsSet,
 		Imperator.Characters.CharacterCollection irCharacters) {
 		var ck3Country = irCountry.CK3Title;
 		if (ck3Country is null) {
@@ -668,7 +669,7 @@ internal sealed class World {
 
 	private bool TryGiveCountyToCountyLevelRuler(Title county,
 		Country irCountry,
-		IList<KeyValuePair<Country, Dependency?>> countyLevelCountries,
+		List<KeyValuePair<Country, Dependency?>> countyLevelCountries,
 		CountryCollection irCountries) {
 		var matchingCountyLevelRulers = countyLevelCountries.Where(c => c.Key.Id == irCountry.Id).ToArray();
 		if (matchingCountyLevelRulers.Length == 0) {
@@ -921,12 +922,12 @@ internal sealed class World {
 		var provincesWithValidFaith = Provinces
 			.Except(muslimProvinces)
 			.Where(p => p.GetFaithId(date) is not null)
-			.ToHashSet();
+			.ToFrozenSet();
 		foreach (var province in muslimProvinces) {
 			var closestValidProvince = provincesWithValidFaith
 				.Except(muslimProvinces)
 				.Select(p => new {
-					Province = p, 
+					Province = p,
 					Distance = MapData.GetDistanceBetweenProvinces(province.Id, p.Id),
 				})
 				.Where(x => x.Distance > 0)
@@ -1098,7 +1099,7 @@ internal sealed class World {
 				.Select(p => p!.GetHoldingType(date))
 				.Where(t => t is not null)
 				.Select(t => t!)
-				.ToHashSet();
+				.ToFrozenSet();
 			string government = countyHoldingTypes.Contains("castle_holding")
 				? "feudal_government"
 				: "tribal_government";

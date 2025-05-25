@@ -9,6 +9,7 @@ using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -274,8 +275,8 @@ internal static class BookmarkOutputter {
 		bookmarkMapImage.Mutate(x => x.DrawImage(realmHighlightImage, 0.5f));
 	}
 
-	private static HashSet<ulong> GetColorableImpassablesExceptMapEdgeProvinces(MapData mapData) {
-		return mapData.ColorableImpassableProvinceIds.Except(mapData.MapEdgeProvinceIds).ToHashSet();
+	private static FrozenSet<ulong> GetColorableImpassablesExceptMapEdgeProvinces(MapData mapData) {
+		return mapData.ColorableImpassableProvinceIds.Except(mapData.MapEdgeProvinceIds).ToFrozenSet();
 	}
 
 	private static HashSet<ulong> GetImpassableProvincesToColor(MapData mapData, ISet<ulong> heldProvinceIds) {
@@ -284,7 +285,7 @@ internal static class BookmarkOutputter {
 		foreach (ulong impassableId in impassableIds) {
 			var nonImpassableNeighborProvIds = mapData.GetNeighborProvinceIds(impassableId)
 				.Except(impassableIds)
-				.ToHashSet();
+				.ToFrozenSet();
 			if (nonImpassableNeighborProvIds.Count == 0) {
 				continue;
 			}
