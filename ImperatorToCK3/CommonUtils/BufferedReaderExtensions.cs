@@ -14,7 +14,7 @@ internal static class BufferedReaderExtensions {
 	internal static List<string> GetAndInternStrings(this BufferedReader reader) {
 		var strings = new List<string>();
 		foreach (var str in reader.GetStrings()) {
-			string.Intern(str);
+			strings.Add(string.Intern(str));
 		}
 		return strings;
 	}
