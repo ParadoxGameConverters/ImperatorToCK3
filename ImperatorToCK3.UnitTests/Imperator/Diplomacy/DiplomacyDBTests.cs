@@ -99,4 +99,21 @@ public class DiplomacyDBTests {
 		Assert.Equal(new Date("1.1.1", AUC: true), diplomacy.Dependencies[0].StartDate);
 		Assert.Equal("tributary", diplomacy.Dependencies[0].SubjectType);
 	}
+
+	[Fact]
+	public void DefensiveLeagueCanBeLoaded() {
+		var reader = new BufferedReader(
+			"""
+			defensive_league={
+				member=7
+				member=552
+			}
+			""");
+		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
+
+		Assert.Single(diplomacy.DefensiveLeagues);
+		Assert.Equal(2, diplomacy.DefensiveLeagues[0].Count);
+		Assert.Equal((ulong)7, diplomacy.DefensiveLeagues[0][0]);
+		Assert.Equal((ulong)552, diplomacy.DefensiveLeagues[0][1]);
+	}
 }
