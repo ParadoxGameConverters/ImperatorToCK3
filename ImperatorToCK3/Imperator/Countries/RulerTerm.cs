@@ -29,7 +29,7 @@ internal sealed class RulerTerm {
 			var dateString = r.GetString();
 			newTerm.StartDate = new Date(dateString, AUC: true);
 		});
-		parser.RegisterKeyword("government", r => newTerm.Government = r.GetString());
+		parser.RegisterKeyword("government", r => newTerm.Government = string.Intern(r.GetString()));
 		parser.RegisterRegex(CommonRegexes.Catchall, (r, token) => {
 			IgnoredTokens.Add(token);
 			ParserHelpers.IgnoreItem(r);

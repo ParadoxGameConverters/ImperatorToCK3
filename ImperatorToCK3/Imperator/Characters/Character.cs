@@ -125,7 +125,7 @@ internal sealed class Character : IIdentifiable<ulong> {
 		parser.RegisterKeyword("fertility", reader => character.Fertility = reader.GetDouble());
 		parser.RegisterKeyword("health", reader => character.Health = reader.GetDouble());
 		parser.RegisterKeyword("family", reader => character.parsedFamilyId = reader.GetULong());
-		parser.RegisterKeyword("traits", reader => character.Traits = reader.GetStrings());
+		parser.RegisterKeyword("traits", reader => character.Traits = reader.GetAndInternStrings());
 		parser.RegisterKeyword("female", reader => character.Female = reader.GetBool());
 		parser.RegisterKeyword("children", reader => character.parsedChildrenIds = [.. reader.GetULongs()]);
 		parser.RegisterKeyword("spouse", reader => character.parsedSpouseIds = [.. reader.GetULongs()]);
@@ -146,7 +146,7 @@ internal sealed class Character : IIdentifiable<ulong> {
 			var dateStr = reader.GetString();
 			character.DeathDate = new Date(dateStr, AUC: true); // converted to AD
 		});
-		parser.RegisterKeyword("death", reader => character.DeathReason = reader.GetString());
+		parser.RegisterKeyword("death", reader => character.DeathReason = string.Intern(reader.GetString()));
 		parser.RegisterKeyword("attributes", reader => character.Attributes = CharacterAttributes.Parse(reader));
 		parser.RegisterKeyword("nickname", reader => character.Nickname = reader.GetString());
 		parser.RegisterKeyword("dna", reader => character.DNA = reader.GetString());
