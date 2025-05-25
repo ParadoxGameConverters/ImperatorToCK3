@@ -150,6 +150,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 			}
 			if (data.Heritage is null) {
 				Logger.Warn($"Culture {cultureId} has no valid heritage defined! Skipping.");
+				continue;
 			}
 			if (data.Language is null) {
 				Logger.Warn($"Culture {cultureId} has no valid language defined! Skipping.");
