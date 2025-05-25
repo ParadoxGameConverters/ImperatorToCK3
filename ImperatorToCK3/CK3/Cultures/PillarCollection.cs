@@ -4,10 +4,11 @@ using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CommonUtils;
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
-using System.Linq;
+using ZLinq;
 
-namespace ImperatorToCK3.CK3.Cultures; 
+namespace ImperatorToCK3.CK3.Cultures;
 
 internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 	private readonly Dictionary<string, string> mergedPillarsDict = [];
@@ -17,21 +18,21 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 	}
 
 	public Pillar? GetHeritageForId(string heritageId) {
-		var heritages = this.Where(p => p.Type == "heritage").ToHashSet();
+		var heritages = this.AsValueEnumerable().Where(p => p.Type == "heritage").ToFrozenSet();
 		if (mergedPillarsDict.TryGetValue(heritageId, out var mergedHeritageId)) {
-			return heritages.FirstOrDefault(p => p.Id == mergedHeritageId);
+			return heritages.AsValueEnumerable().FirstOrDefault(p => p.Id == mergedHeritageId);
 		}
 		
-		return heritages.FirstOrDefault(p => p.Id == heritageId);
+		return heritages.AsValueEnumerable().FirstOrDefault(p => p.Id == heritageId);
 	}
 	
 	public Pillar? GetLanguageForId(string languageId) {
-		var languages = this.Where(p => p.Type == "language").ToHashSet();
+		var languages = this.AsValueEnumerable().Where(p => p.Type == "language").ToFrozenSet();
 		if (mergedPillarsDict.TryGetValue(languageId, out var mergedLanguageId)) {
-			return languages.FirstOrDefault(p => p.Id == mergedLanguageId);
+			return languages.AsValueEnumerable().FirstOrDefault(p => p.Id == mergedLanguageId);
 		}
 		
-		return languages.FirstOrDefault(p => p.Id == languageId);
+		return languages.AsValueEnumerable().FirstOrDefault(p => p.Id == languageId);
 	}
 
 	public void LoadPillars(ModFilesystem ck3ModFS, OrderedDictionary<string, bool> ck3ModFlags) {
@@ -55,7 +56,7 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 		
 		pillarDataParser.ParseStream(pillarReader);
 
-		if (pillarData.InvalidatingPillarIds.Any()) {
+		if (pillarData.InvalidatingPillarIds.AsValueEnumerable().Any()) {
 			foreach (var existingPillar in this) {
 				if (!pillarData.InvalidatingPillarIds.Contains(existingPillar.Id)) {
 					continue;
@@ -78,27 +79,27 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 		// Perform some non-breaking validation.
 		if (pillar.Type == "heritage") {
 			if (ck3ModFlags["wtwsms"] || ck3ModFlags["tfe"] || ck3ModFlags["roa"]) {
-				if (!pillar.Parameters.Any(p => p.Key.StartsWith("heritage_family_"))) {
+				if (!pillar.Parameters.AsValueEnumerable().Any(p => p.Key.StartsWith("heritage_family_"))) {
 					Logger.Warn($"Heritage {pillarId} is missing required heritage_family parameter!");
 				}
-				if (!pillar.Parameters.Any(p => p.Key.StartsWith("heritage_group_"))) {
+				if (!pillar.Parameters.AsValueEnumerable().Any(p => p.Key.StartsWith("heritage_group_"))) {
 					Logger.Warn($"Heritage {pillarId} is missing required heritage_group parameter!");
 				}
 			}
 		}
 		if (pillar.Type == "language") {
 			if (ck3ModFlags["wtwsms"] || ck3ModFlags["tfe"] || ck3ModFlags["roa"]) {
-				if (!pillar.Parameters.Any(p => p.Key.StartsWith("language_family_"))) {
+				if (!pillar.Parameters.AsValueEnumerable().Any(p => p.Key.StartsWith("language_family_"))) {
 					Logger.Warn($"Language {pillarId} is missing required language_family parameter!");
 				}
 			}
 			if (ck3ModFlags["wtwsms"]) {
-				if (!pillar.Parameters.Any(p => p.Key.StartsWith("language_branch_"))) {
+				if (!pillar.Parameters.AsValueEnumerable().Any(p => p.Key.StartsWith("language_branch_"))) {
 					Logger.Warn($"Language {pillarId} is missing required language_branch parameter!");
 				}
 			}
 			if (ck3ModFlags["tfe"] || ck3ModFlags["roa"]) {
-				if (!pillar.Parameters.Any(p => p.Key.StartsWith("language_group_"))) {
+				if (!pillar.Parameters.AsValueEnumerable().Any(p => p.Key.StartsWith("language_group_"))) {
 					Logger.Warn($"Language {pillarId} is missing required language_group parameter!");
 				}
 			}
@@ -135,7 +136,7 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 				pillarData.InvalidatingPillarIds = modPillarIdsReader.GetStrings();
 			});
 		} else {
-			foreach (var modFlag in ck3ModFlags.Where(f => f.Value)) {
+			foreach (var modFlag in ck3ModFlags.AsValueEnumerable().Where(f => f.Value)) {
 				pillarIdsPerModFlagParser.RegisterKeyword(modFlag.Key, modPillarIdsReader => {
 					pillarData.InvalidatingPillarIds = modPillarIdsReader.GetStrings();
 				});

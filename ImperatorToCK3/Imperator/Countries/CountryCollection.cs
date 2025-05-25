@@ -2,9 +2,9 @@
 using commonItems.Collections;
 using ImperatorToCK3.Imperator.Families;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Channels;
 using System.Threading.Tasks;
+using ZLinq;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
@@ -61,7 +61,7 @@ internal sealed class CountryCollection : ConcurrentIdObjectCollection<ulong, Co
 
 	public void LinkFamilies(FamilyCollection families) {
 		SortedSet<ulong> idsWithoutDefinition = new();
-		var counter = this.Sum(country => country.LinkFamilies(families, idsWithoutDefinition));
+		var counter = this.AsValueEnumerable().Sum(country => country.LinkFamilies(families, idsWithoutDefinition));
 
 		if (idsWithoutDefinition.Count > 0) {
 			Logger.Debug($"Families without definition: {string.Join(", ", idsWithoutDefinition)}");

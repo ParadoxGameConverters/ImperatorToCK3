@@ -10,6 +10,7 @@ using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
 using Microsoft.VisualBasic.FileIO;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -84,8 +85,8 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		Logger.IncrementProgress();
 
 		// Cleanup: remove invalid faith and culture entries from province history
-		var validFaithIds = religions.Faiths.Select(f => f.Id).ToHashSet();
-		var validCultureIds = cultures.Select(c => c.Id).ToHashSet();
+		var validFaithIds = religions.Faiths.Select(f => f.Id).ToFrozenSet();
+		var validCultureIds = cultures.Select(c => c.Id).ToFrozenSet();
 		foreach (var province in this) {
 			var faithField = province.History.Fields["faith"];
 			int removedCount = faithField.RemoveAllEntries(value => !validFaithIds.Contains(value.ToString()?.RemQuotes() ?? string.Empty));

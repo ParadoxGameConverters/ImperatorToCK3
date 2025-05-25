@@ -3,12 +3,13 @@ using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CommonUtils;
 using Open.Collections;
+using System.Collections.Frozen;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZLinq;
 
 namespace ImperatorToCK3.Outputter;
 
@@ -27,14 +28,14 @@ internal static class CharactersOutputter {
 
 		// Portrait modifiers need to be outputted before characters themselves,
 		// because while outputting the portrait modifiers we're adding character flags to character history.
-		var charactersWithDNA = characters
+		var charactersWithDNA = characters.AsValueEnumerable()
 			.Where(c => c.DNA is not null)
 			.ToImmutableList();
 		await OutputPortraitModifiers(outputPath, charactersWithDNA, conversionDate, ck3ModFS);
 		
-		var charactersFromIR = characters.Where(c => c.FromImperator)
+		var charactersFromIR = characters.AsValueEnumerable().Where(c => c.FromImperator)
 			.OrderBy(c => c.Id).ToImmutableList();
-		var charactersFromCK3 = characters.Except(charactersFromIR)
+		var charactersFromCK3 = characters.AsValueEnumerable().Except(charactersFromIR)
 			.OrderBy(c => c.Id).ToImmutableList();
 		
 		var sb = new StringBuilder();
@@ -104,7 +105,7 @@ internal static class CharactersOutputter {
 		}
 	}
 	
-	private static HashSet<string> GetValidAccessoryIDs(ModFilesystem ck3ModFS) {
+	private static FrozenSet<string> GetValidAccessoryIDs(ModFilesystem ck3ModFS) {
 		Logger.Debug("Getting valid CK3 accessory IDs...");
 		
 		var accessoryIDs = new ConcurrentHashSet<string>();
@@ -117,7 +118,7 @@ internal static class CharactersOutputter {
 		accessoryFilesParser.IgnoreAndLogUnregisteredItems();
 		accessoryFilesParser.ParseGameFolder("gfx/portraits/accessories", ck3ModFS, "txt", recursive: true, logFilePaths: false, parallel: true);
 
-		return accessoryIDs.ToHashSet();
+		return accessoryIDs.ToFrozenSet();
 	}
 
 	private static async Task OutputPortraitModifiers(string outputPath, IReadOnlyCollection<Character> charactersWithDNA, Date conversionDate, ModFilesystem ck3ModFS) {
@@ -131,7 +132,7 @@ internal static class CharactersOutputter {
 		await using var output = FileHelper.OpenWriteWithRetries(portraitModifiersOutputPath, Encoding.UTF8);
 
 		await OutputPortraitModifiersForGene("hairstyles", validAccessoryIDs, charactersWithDNA, output, conversionDate);
-		var malesWithBeards = charactersWithDNA
+		var malesWithBeards = charactersWithDNA.AsValueEnumerable()
 			.Where(c => !c.Female && c.DNA!.AccessoryDNAValues.ContainsKey("beards"))
 			.ToImmutableList();
 		await OutputPortraitModifiersForGene("beards", validAccessoryIDs, malesWithBeards, output, conversionDate);
@@ -139,14 +140,14 @@ internal static class CharactersOutputter {
 
 	private static async Task OutputPortraitModifiersForGene(
 		string geneName,
-		HashSet<string> validAccessoryIDs,
+		FrozenSet<string> validAccessoryIDs,
 		IReadOnlyCollection<Character> charactersWithDNA,
 		TextWriter output,
 		Date conversionDate
 	) {
 		var sb = new StringBuilder();
 
-		var charactersByGeneValue = charactersWithDNA
+		var charactersByGeneValue = charactersWithDNA.AsValueEnumerable()
 			.Where(c => c.DNA!.AccessoryDNAValues.ContainsKey(geneName))
 			.GroupBy(c => new {
 				c.DNA!.AccessoryDNAValues[geneName].TemplateName,
@@ -176,7 +177,7 @@ internal static class CharactersOutputter {
 			
 			string accessoryOrValueString = validAccessoryIDs.Contains(accessoryName)
 				? $"accessory = {accessoryName}"
-				: $"value = {grouping.First().DNA!.AccessoryDNAValues[geneName].SliderValueBetween0And1:0.####}";
+				: $"value = {grouping.AsValueEnumerable().First().DNA!.AccessoryDNAValues[geneName].SliderValueBetween0And1:0.####}";
 			sb.AppendLine($"\t\t\t\t{accessoryOrValueString}");
 			sb.AppendLine("\t\t\t}");
 			sb.AppendLine("\t\t}");

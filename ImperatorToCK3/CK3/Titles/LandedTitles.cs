@@ -23,6 +23,7 @@ using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using Open.Collections;
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -78,7 +79,7 @@ internal sealed partial class Title {
 			}
 
 			// Cleanup for titles having invalid capital counties.
-			var validTitleIds = this.Select(t => t.Id).ToHashSet();
+			var validTitleIds = this.Select(t => t.Id).ToFrozenSet();
 			var placeholderCountyId = validTitleIds.Order().First(t => t.StartsWith("c_"));
 			foreach (var title in this.Where(t => t.Rank > TitleRank.county)) {
 				if (title.CapitalCountyId is null && !title.Landless) {
@@ -637,7 +638,7 @@ internal sealed partial class Title {
 
 			var governorships = irWorld.JobsDB.Governorships;
 			var governorshipsPerRegion = governorships.GroupBy(g => g.Region.Id)
-				.ToDictionary(g => g.Key, g => g.Count());
+				.ToFrozenDictionary(g => g.Key, g => g.Count());
 
 			// landedTitles holds all titles imported from CK3. We'll now overwrite some and
 			// add new ones from Imperator governorships.
@@ -937,8 +938,8 @@ internal sealed partial class Title {
 		private void SetDeJureKingdoms(CK3LocDB ck3LocDB, Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure kingdoms...");
 
-			var duchies = this.Where(t => t.Rank == TitleRank.duchy).ToHashSet();
-			var duchiesWithDeJureVassals = duchies.Where(d => d.DeJureVassals.Count > 0).ToHashSet();
+			var duchies = this.Where(t => t.Rank == TitleRank.duchy).ToFrozenSet();
+			var duchiesWithDeJureVassals = duchies.Where(d => d.DeJureVassals.Count > 0).ToFrozenSet();
 
 			foreach (var duchy in duchiesWithDeJureVassals) {
 				// If capital county belongs to an empire and contains the empire's capital,
@@ -1052,12 +1053,12 @@ internal sealed partial class Title {
 			Logger.Debug("Building kingdom adjacencies dict...");
 			// Create a cache of province IDs per kingdom.
 			var provincesPerKingdomDict = deJureKingdoms
-				.ToDictionary(
+				.ToFrozenDictionary(
 					k => k.Id,
-					k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToHashSet()
+					k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToFrozenSet()
 				);
-			var kingdomAdjacenciesByLand = deJureKingdoms.ToDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
-			var kingdomAdjacenciesByWaterBody = deJureKingdoms.ToDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
+			var kingdomAdjacenciesByLand = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
+			var kingdomAdjacenciesByWaterBody = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
 			Parallel.ForEach(deJureKingdoms, kingdom => {
 				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdom.Id, provincesPerKingdomDict, kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody);
 			});
@@ -1122,10 +1123,10 @@ internal sealed partial class Title {
 
 		private static void FindKingdomsAdjacentToKingdom(
 			MapData ck3MapData,
-			IReadOnlyCollection<Title> deJureKingdoms,
-			string kingdomId, Dictionary<string, HashSet<ulong>> provincesPerKingdomDict,
-			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByLand,
-			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody)
+			ImmutableArray<Title> deJureKingdoms,
+			string kingdomId, FrozenDictionary<string, FrozenSet<ulong>> provincesPerKingdomDict,
+			FrozenDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByLand,
+			FrozenDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody)
 		{
 			foreach (var otherKingdom in deJureKingdoms) {
 				// Since this code is parallelized, make sure we don't check the same pair twice.
@@ -1185,8 +1186,8 @@ internal sealed partial class Title {
 		}
 
 		private void SplitDisconnectedEmpires(
-			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByLand,
-			Dictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody,
+			FrozenDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByLand,
+			FrozenDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody,
 			HashSet<string> removableEmpireIds,
 			Dictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
 			Dictionary<string, Title> heritageToEmpireDict,
@@ -1229,7 +1230,7 @@ internal sealed partial class Title {
 					var adjacentEmpiresByLand = kingdomAdjacenciesByLand[kingdom.Id].Select(k => this[k].DeJureLiege)
 						.Where(e => e is not null)
 						.Select(e => e!)
-						.ToHashSet();
+						.ToFrozenSet();
 					
 					// Try to find valid neighbor by land first, to reduce the number of exclaves.
 					Title? validNeighbor = null;
@@ -1251,7 +1252,7 @@ internal sealed partial class Title {
 						var adjacentEmpiresByWaterBody = kingdomAdjacenciesByWaterBody[kingdom.Id].Select(k => this[k].DeJureLiege)
 							.Where(e => e is not null)
 							.Select(e => e!)
-							.ToHashSet();
+							.ToFrozenSet();
 						
 						foreach (var secondaryHeritage in dominantHeritages.Skip(1)) {
 							if (!heritageToEmpireDict.TryGetValue(secondaryHeritage.Id, out var heritageEmpire)) {
@@ -1334,7 +1335,7 @@ internal sealed partial class Title {
 
 				// Unassign de jure kingdoms that have no de jure land themselves.
 				var deJureKingdomsWithoutLand =
-					deJureKingdoms.Where(k => k.GetDeJureVassalsAndBelow("c").Count == 0).ToHashSet();
+					deJureKingdoms.Where(k => k.GetDeJureVassalsAndBelow("c").Count == 0).ToFrozenSet();
 				foreach (var deJureKingdomWithLand in deJureKingdomsWithoutLand) {
 					deJureKingdomWithLand.DeJureLiege = null;
 				}
@@ -1392,13 +1393,13 @@ internal sealed partial class Title {
 			return dictToReturn;
 		}
 
-		private static bool AreTitlesAdjacent(HashSet<ulong> title1ProvinceIds, HashSet<ulong> title2ProvinceIds, MapData mapData) {
+		private static bool AreTitlesAdjacent(FrozenSet<ulong> title1ProvinceIds, FrozenSet<ulong> title2ProvinceIds, MapData mapData) {
 			return mapData.AreProvinceGroupsAdjacent(title1ProvinceIds, title2ProvinceIds);
 		}
-		private static bool AreTitlesAdjacentByLand(HashSet<ulong> title1ProvinceIds, HashSet<ulong> title2ProvinceIds, MapData mapData) {
+		private static bool AreTitlesAdjacentByLand(FrozenSet<ulong> title1ProvinceIds, FrozenSet<ulong> title2ProvinceIds, MapData mapData) {
 			return mapData.AreProvinceGroupsAdjacentByLand(title1ProvinceIds, title2ProvinceIds);
 		}
-		private static bool AreTitlesAdjacentByWaterBody(HashSet<ulong> title1ProvinceIds, HashSet<ulong> title2ProvinceIds, MapData mapData) {
+		private static bool AreTitlesAdjacentByWaterBody(FrozenSet<ulong> title1ProvinceIds, FrozenSet<ulong> title2ProvinceIds, MapData mapData) {
 			return mapData.AreProvinceGroupsConnectedByWaterBody(title1ProvinceIds, title2ProvinceIds);
 		}
 
@@ -1612,9 +1613,14 @@ internal sealed partial class Title {
 			string[] ignoredOfficeTypes = ["office_plebeian_aedile"];
 
 			// Log all unhandled office types.
-			var irOfficeTypesFromSave = irOfficeJobs.Select(j => j.OfficeType).ToHashSet();
-			var handledOfficeTypes = councilPositionToSourcesDict.Values.SelectMany(v => v).Concat(courtPositionToSourcesDict.Values.SelectMany(v => v)).Concat(ignoredOfficeTypes).ToHashSet();
-			var unmappedOfficeTypes = irOfficeTypesFromSave.Where(officeType => !handledOfficeTypes.Contains(officeType)).ToArray();
+			var irOfficeTypesFromSave = irOfficeJobs.Select(j => j.OfficeType).ToFrozenSet();
+			var handledOfficeTypes = councilPositionToSourcesDict.Values
+				.SelectMany(v => v)
+				.Concat(courtPositionToSourcesDict.Values.SelectMany(v => v))
+				.Concat(ignoredOfficeTypes)
+				.ToFrozenSet();
+			var unmappedOfficeTypes = irOfficeTypesFromSave
+				.Where(officeType => !handledOfficeTypes.Contains(officeType)).ToArray();
 			if (unmappedOfficeTypes.Length > 0) {
 				Logger.Error($"Unmapped office types: {string.Join(", ", unmappedOfficeTypes)}");
 			}
@@ -1650,16 +1656,16 @@ internal sealed partial class Title {
 			.Where(t => t is {Rank: TitleRank.duchy, DeJureVassals.Count: > 0})
 			.ToImmutableArray();
 		
-		public IReadOnlyCollection<Title> GetDeJureKingdoms() => this
+		public ImmutableArray<Title> GetDeJureKingdoms() => this
 			.Where(t => t is {Rank: TitleRank.kingdom, DeJureVassals.Count: > 0})
 			.ToImmutableArray();
 		
-		private HashSet<Color> UsedColors => this.Select(t => t.Color1).Where(c => c is not null).ToHashSet()!;
+		private FrozenSet<Color> UsedColors => this.Select(t => t.Color1).Where(c => c is not null).ToFrozenSet()!;
 		public bool IsColorUsed(Color color) {
 			return UsedColors.Contains(color);
 		}
 		public Color GetDerivedColor(Color baseColor) {
-			HashSet<Color> usedHueColors = UsedColors.Where(c => Math.Abs(c.H - baseColor.H) < 0.001).ToHashSet();
+			FrozenSet<Color> usedHueColors = UsedColors.Where(c => Math.Abs(c.H - baseColor.H) < 0.001).ToFrozenSet();
 
 			for (double v = 0.05; v <= 1; v += 0.02) {
 				var newColor = new Color(baseColor.H, baseColor.S, v);

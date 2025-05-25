@@ -8,7 +8,7 @@ using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Mappers.Culture;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
+using ZLinq;
 
 using ImperatorCharacter = ImperatorToCK3.Imperator.Characters.Character;
 
@@ -22,7 +22,7 @@ internal sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> 
 		Name = Id;
 
 		var imperatorMemberIds = irFamily.MemberIds;
-		var imperatorMembers = irCharacters
+		var imperatorMembers = irCharacters.AsValueEnumerable()
 			.Where(c => imperatorMemberIds.Contains(c.Id))
 			.ToArray();
 
@@ -84,7 +84,7 @@ internal sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> 
 	public string NameForSerialization {
 		get {
 			// If the name contains whitespace, it needs to be quoted.
-			return Name.Any(char.IsWhiteSpace) ? $"\"{Name}\"" : Name;
+			return Name.AsValueEnumerable().Any(char.IsWhiteSpace) ? $"\"{Name}\"" : Name;
 		}
 	}
 	[NonSerialized] public string Name { get; private set; }
@@ -104,7 +104,7 @@ internal sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> 
 			}
 
 			// Try to set culture from other members.
-			var otherImperatorMembers = irMembers.Skip(1).ToArray();
+			var otherImperatorMembers = irMembers.AsValueEnumerable().Skip(1).ToArray();
 			foreach (var otherImperatorMember in otherImperatorMembers) {
 				if (otherImperatorMember.CK3Character is null) {
 					continue;
@@ -117,10 +117,10 @@ internal sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> 
 
 		// Try to set culture from family.
 		var irCultureId = irFamily.Culture;
-		var irProvinceIdForMapping = irMembers
+		var irProvinceIdForMapping = irMembers.AsValueEnumerable()
 			.Select(m => m.ProvinceId)
 			.FirstOrDefault(id => id.HasValue);
-		var countryTag = irMembers
+		var countryTag = irMembers.AsValueEnumerable()
 			.Select(m => m.Country?.HistoricalTag)
 			.FirstOrDefault(tag => tag is not null, defaultValue: null);
 		var ck3CultureId = cultureMapper.Match(irCultureId, null, irProvinceIdForMapping, countryTag);

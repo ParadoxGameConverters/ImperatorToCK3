@@ -19,6 +19,7 @@ using ImperatorToCK3.Mappers.UnitType;
 using Open.Collections;
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -266,8 +267,8 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			return conversionDate;
 		}
 		Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
-			var childrenOfFather = father.Children.Values.ToHashSet();
-			var childrenOfMother = mother.Children.Values.ToHashSet();
+			var childrenOfFather = father.Children.Values.ToFrozenSet();
+			var childrenOfMother = mother.Children.Values.ToFrozenSet();
 			var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child => child.BirthDate).ToArray();
 
 			Date? firstChildBirthDate = commonChildren.Length > 0 ? commonChildren.FirstOrDefault()?.BirthDate : null;
@@ -386,7 +387,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		var casteSystemCultureIds = cultures
 			.Where(c => c.TraditionIds.Contains("tradition_caste_system"))
 			.Select(c => c.Id)
-			.ToHashSet();
+			.ToFrozenSet();
 		var learningEducationTraits = new[]{"education_learning_1", "education_learning_2", "education_learning_3", "education_learning_4"};
 
 		foreach (var character in this.OrderBy(c => c.BirthDate)) {
@@ -418,14 +419,14 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			}
 
 			// Try to set caste based on character's traits.
-			var traitIds = character.BaseTraits.ToHashSet();
+			var traitIds = character.BaseTraits.ToFrozenSet();
 			character.AddBaseTrait(traitIds.Intersect(learningEducationTraits).Any() ? "brahmin" : "kshatriya");
 		}
 		return;
 
 		static string? GetCasteTraitFromParent(Character parentCharacter) {
 			var casteTraits = new[]{"brahmin", "kshatriya", "vaishya", "shudra"};
-			var parentTraitIds = parentCharacter.BaseTraits.ToHashSet();
+			var parentTraitIds = parentCharacter.BaseTraits.ToFrozenSet();
 			return casteTraits.Intersect(parentTraitIds).FirstOrDefault();
 		}
 	}
@@ -503,7 +504,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			.Select(character => character.GetDynastyId(ck3BookmarkDate))
 			.Distinct()
 			.Where(id => id is not null)
-			.ToHashSet();
+			.ToFrozenSet();
 
 		var i = 0;
 		var charactersToRemove = new List<Character>();
@@ -595,7 +596,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			var vassalCharacterIds = ck3Country.GetDeFactoVassals(bookmarkDate).Values
 				.Where(vassalTitle => !vassalTitle.Landless)
 				.Select(vassalTitle => vassalTitle.GetHolderId(bookmarkDate))
-				.ToHashSet();
+				.ToFrozenSet();
 
 			var vassalCharacters = new HashSet<Character>();
 			foreach (var vassalCharacterId in vassalCharacterIds) {
@@ -830,7 +831,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	public void RemoveUndefinedTraits(TraitMapper traitMapper) {
 		Logger.Info("Removing undefined traits from CK3 character history...");
 
-		var definedTraits = traitMapper.ValidCK3TraitIDs.ToHashSet();
+		var definedTraits = traitMapper.ValidCK3TraitIDs.ToFrozenSet();
 		
 		foreach (var character in this) {
 			if (character.FromImperator) {
@@ -849,7 +850,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		Logger.Info("Removing invalid dynasties from CK3 character history...");
 
 		var ck3Characters = this.Where(c => !c.FromImperator).ToArray();
-		var validDynastyIds = dynasties.Select(d => d.Id).ToHashSet();
+		var validDynastyIds = dynasties.Select(d => d.Id).ToFrozenSet();
 
 		foreach (var character in ck3Characters) {
 			if (!character.History.Fields.TryGetValue("dynasty", out var dynastyField)) {

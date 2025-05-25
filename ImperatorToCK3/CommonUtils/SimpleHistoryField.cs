@@ -5,9 +5,9 @@ using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils;
 
-public sealed class SimpleHistoryField : IHistoryField {
+internal sealed class SimpleHistoryField : IHistoryField {
 	public string Id { get; }
-	public IList<KeyValuePair<string, object>> InitialEntries { get; } = []; // every entry is a <setter, value> pair
+	public List<KeyValuePair<string, object>> InitialEntries { get; } = []; // every entry is a <setter, value> pair
 
 	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; } = [];
 
