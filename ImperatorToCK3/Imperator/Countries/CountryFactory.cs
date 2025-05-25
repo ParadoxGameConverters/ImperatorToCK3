@@ -49,8 +49,8 @@ internal sealed partial class Country {
 				.GroupBy(a => a.Key)
 				.ToFrozenDictionary(g => g.Key, g => int.Parse(g.Last().Value));
 		});
-		parser.RegisterKeyword("primary_culture", reader => parsedCountry.PrimaryCulture = reader.GetString());
-		parser.RegisterKeyword("religion", reader => parsedCountry.Religion = reader.GetString());
+		parser.RegisterKeyword("primary_culture", reader => parsedCountry.PrimaryCulture = string.Intern(reader.GetString()));
+		parser.RegisterKeyword("religion", reader => parsedCountry.Religion = string.Intern(reader.GetString()));
 		parser.RegisterKeyword("government_key", reader => SetGovernmentType(reader, parsedCountry));
 		parser.RegisterKeyword("family", reader => parsedCountry.parsedFamilyIds.Add(reader.GetULong()));
 		parser.RegisterKeyword("minor_family", reader => parsedCountry.parsedFamilyIds.Add(reader.GetULong()));
