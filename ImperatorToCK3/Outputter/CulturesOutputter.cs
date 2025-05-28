@@ -97,7 +97,8 @@ internal static class CulturesOutputter {
 			Logger.Warn("Could not find ccu_scripted_effects.txt in the CK3 mod. Aborting the outputting of CCU parameters.");
 			return;
 		}
-		
+		Logger.Debug($"Found ccu_scripted_effects.txt at {scriptedEffectsPath}");
+
 		Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 		
 		string fileText = File.ReadAllText(scriptedEffectsPath, Encoding.UTF8);
@@ -400,13 +401,13 @@ internal static class CulturesOutputter {
 	private static void AddChildrenToNodeAfterLastChildContainingText(Node node, string filePath, string fileName, string[] childrenStrings, string precedingChildText) {
 		List<Child> allChildren = node.AllChildren;
 		
-		Child? predecingChild = allChildren.LastOrNull(c => CKPrinter.api.prettyPrintStatement.Invoke(c.node.ToRaw).Contains(precedingChildText));
-		if (predecingChild is null) {
+		Child? precedingChild = allChildren.LastOrNull(c => CKPrinter.api.prettyPrintStatement.Invoke(c.node.ToRaw) is string childRawStr && childRawStr.Contains(precedingChildText));
+		if (!precedingChild.HasValue) {
 			Logger.Warn($"Failed to find the preceding child containing the text '{precedingChildText}'!");
 			return;
 		}
 		
-		int indexToUse = allChildren.IndexOf(predecingChild.Value) + 1;
+		int indexToUse = allChildren.IndexOf(precedingChild.Value) + 1;
 		
 		foreach (var childStr in childrenStrings) {
 			var statements = CKParser.parseString(childStr, fileName).GetResult();
@@ -428,6 +429,7 @@ internal static class CulturesOutputter {
 			            "Some harmless errors related to converter-added language parameters may appear in error.log.");
 			return;
 		}
+		Logger.Debug($"Found ccu_error_suppression.txt at {errorSuppressionPath}");
 
 		// In the file, find the last line that contains: "if = { limit = { var:temp = flag:heritage_family_",
 		// and output the same line for each heritage family parameter.
