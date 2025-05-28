@@ -401,7 +401,7 @@ internal static class CulturesOutputter {
 	private static void AddChildrenToNodeAfterLastChildContainingText(Node node, string filePath, string fileName, string[] childrenStrings, string precedingChildText) {
 		List<Child> allChildren = node.AllChildren;
 		
-		Child? precedingChild = allChildren.LastOrNull(c => CKPrinter.api.prettyPrintStatement.Invoke(c.node.ToRaw) is string childRawStr && childRawStr.Contains(precedingChildText));
+		Child? precedingChild = allChildren.LastOrNull(c => CKPrinter.api.prettyPrintStatement.Invoke(c.node.ToRaw).Contains(precedingChildText));
 		if (!precedingChild.HasValue) {
 			Logger.Warn($"Failed to find the preceding child containing the text '{precedingChildText}'!");
 			return;
