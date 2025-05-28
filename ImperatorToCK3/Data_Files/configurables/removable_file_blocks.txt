@@ -1930,6 +1930,19 @@
 		}
 	}
 
+	{
+		if = {
+			limit = {
+				title:k_magyar = {
+					exists = holder
+				}
+			}
+			title:k_magyar = {
+				add_title_law = confederation_elective_succession_law
+			}
+		}
+	}
+
 } # End of "common/on_action/game_start.txt"
 
 "common/on_action/title_on_actions.txt" = {
