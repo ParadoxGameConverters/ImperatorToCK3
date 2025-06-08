@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+﻿using AwesomeAssertions;
 using ImperatorToCK3.Helpers;
 using System.Text.Json;
 using System;
