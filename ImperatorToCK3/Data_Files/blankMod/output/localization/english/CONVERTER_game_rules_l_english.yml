@@ -31,8 +31,3 @@
 
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead: "Steppe Nomads\nHerd Culture Head"
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead_desc: "Requires Khans of the Steppe to work. Converts all [filler_rulers|E] in the Steppe to be [nomadic|E] if their [culture|E] determines its [culture_head|E] using [herd|E]. The rest are made [tribal|E]."
-
-
- welcome_title: "IMP-CK3 Game Rules"
- welcome_desc: "Thank you for using the Imperator to CK3 converter. If you haven't done so already, make sure you look through your game rules.\n\nThe converter currently includes game rules for:\n - Deciding which Imperator tags can be [nomadic|E]\n - Deciding how the [filler_rulers|E] should have their [government|E] decided"
- welcome_ok: "OK"

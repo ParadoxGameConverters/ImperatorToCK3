@@ -15,7 +15,7 @@ internal static class DiplomacyOutputter {
 		var sb = new StringBuilder();
 		sb.AppendLine(
 			"""
-			on_game_start/on_game_start_after_lobby = {
+			on_game_start_after_lobby = {
 				on_actions = {
 					irtock3_confederation_setup
 				}
@@ -48,13 +48,12 @@ internal static class DiplomacyOutputter {
 		var secondMemberId = leagueMemberIds[1];
 		sb.AppendLine(
 			$$"""
+			  		## Beginning of new confederation/league setup
 			  		title:{{firstMemberId}}.holder = {
 			  			add_to_list = irtock3_confederation_members
-			  			save_scope_as = first_confed_member
 			  		}
 			  		title:{{secondMemberId}}.holder = {
 			  			add_to_list = irtock3_confederation_members
-			  			save_scope_as = second_confed_member
 			  		}
 			  """);
 
@@ -68,25 +67,9 @@ internal static class DiplomacyOutputter {
 				  """);
 		}
 
-		sb.AppendLine("\t\tirtock3_confederation_name_setup_effect = yes");
-
-		sb.AppendLine("\t\tscope:new_confederation = {");
-		sb.AppendLine($"\t\t\tadd_confederation_member = title:{secondMemberId}.holder");
-		foreach (var otherMemberId in otherMembersIds) {
-			sb.AppendLine($"\t\t\tadd_confederation_member = title:{otherMemberId}.holder");
-		}
-
-		sb.AppendLine(
-			"""
-						irtock3_confederation_finish_setup_effect = yes
-					}
-					# Do some scope/list cleanup so there are no issues when setting up multiple confederations.
-					clear_saved_scope = first_confed_member
-					clear_saved_scope = second_confed_member
-			""");
-		foreach (var memberId in leagueMemberIds) {
-			sb.AppendLine($"\t\ttitle:{memberId}.holder = {{ remove_from_list = irtock3_confederation_members }}");
-		}
+		sb.AppendLine("\t\tirtock3_confederation_setup_effect = yes");
+		sb.AppendLine("\t\t## End of this confederation/league setup");
+		sb.AppendLine();
 		sb.AppendLine();
 	}
 }

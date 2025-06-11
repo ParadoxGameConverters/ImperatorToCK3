@@ -1,0 +1,233 @@
+﻿## This handles setting up the defensive leagues converted from Imperator
+# Inputs:
+# list = irtock3_confederation_members - A list containing all of the members of the specific Imperator Defensive League
+irtock3_confederation_setup_effect = {
+	if = { # Check if the Confederations & Leagues mod is loaded, allowing more than Nomads/Tribes into confederations
+		limit = { has_global_variable = confed_league_enabled }
+
+		if = {
+			limit = { # Need to make sure that there are enough members in the Imperator Defensive League of appropriate rank. Confederations & Leagues might be modified to allow smaller kingdoms into Confederations/Leagues (likely as a game rule), so when that is done, this will likely get modified to account for that.
+				any_in_list = {
+					list = irtock3_confederation_members
+					count > 1
+					CL_has_appropriate_title_tier = yes
+				}
+			}
+
+			# Remove rulers who can't be in a confederation/league because of title rank or government, so they aren't added later or considered for anything else later on
+			every_in_list = {
+				limit = {
+					OR = {
+						CL_has_appropriate_title_tier = no
+						AND = {
+							CL_uses_confederations = no
+							CL_uses_leagues = no
+						}
+					}
+				}
+				list = irtock3_confederation_members
+				remove_from_list = irtock3_confederation_members
+			}
+
+			## Need to determine whether this specific Imperator Defensive League will convert to a Confederation or a League, so check the government of every member, and count how many should be in confederations and how many should be in leagues
+			set_global_variable = {
+				name = confed_num
+				value = 0
+			}
+			set_global_variable = {
+				name = league_num
+				value = 0
+			}
+			every_in_list = {
+				list = irtock3_confederation_members
+
+				if = {
+					limit = { CL_uses_confederations = yes }
+					change_global_variable = {
+						name = confed_num
+						add = 1
+					}
+				}
+				else_if = {
+					limit = { CL_uses_leagues = yes }
+					change_global_variable = {
+						name = league_num
+						add = 1
+					}
+				}
+			}
+
+			# Now need to get relevant rulers to be used to determine the name of the confederation/league. For now, will just take the two with the largest military strength
+			if = {
+				limit = { global_var:league_num >= global_var:confed_num } # This should imply they should be in a Defensive League
+
+				# Get first member, for the 'actor' scope
+				ordered_in_list = {
+					limit = { CL_uses_leagues = yes }
+					alternative_limit = { always = yes } # Incase somehow this was chosen and no one is actually capable of using leagues, need to make sure someone is chosen
+					list = irtock3_confederation_members
+					order_by = max_military_strength
+					save_scope_as = actor
+					save_scope_as = confederation_offerer
+				}
+				# Get second member, for the 'recipient' scope
+				ordered_in_list = {
+					limit = {
+						CL_uses_leagues = yes
+						NOT = { this = scope:actor }
+					}
+					alternative_limit = { # Incase somehow this was chosen and no one is actually capable of using leagues, need to make sure someone is chosen
+						NOT = { this = scope:actor }
+					}
+					list = irtock3_confederation_members
+					order_by = max_military_strength
+					save_scope_as = recipient
+					save_scope_as = confederation_accepter
+				}
+
+				# When an Imperator Defensive League is converted, its members will always be allowed into the confederation/league, regardless of government, so need to give them a variable that signifies they should be allowed in
+				every_in_list = {
+					limit = { CL_uses_leagues = no }
+					list = irtock3_confederation_members
+					set_variable = allowed_in_leagues
+				}
+			}
+			else = { # Otherwise, they will be put into a confederation
+				# Get first member, for the 'actor' scope
+				ordered_in_list = {
+					limit = { CL_uses_confederations = yes }
+					alternative_limit = { always = yes } # Incase somehow this was chosen an no one is actually capable of using confederations, need to make sure someone is chosen
+					list = irtock3_confederation_members
+					order_by = max_military_strength
+					save_scope_as = actor
+					save_scope_as = confederation_offerer
+				}
+				# Get second member, for the 'recipient' scope
+				ordered_in_list = {
+					limit = {
+						CL_uses_confederations = yes
+						NOT = { this = scope:actor }
+					}
+					alternative_limit = { # Incase somehow this was chosen an no one is actually capable of using confederations, need to make sure someone is chosen
+						NOT = { this = scope:actor }
+					}
+					list = irtock3_confederation_members
+					order_by = max_military_strength
+					save_scope_as = recipient
+					save_scope_as = confederation_accepter
+				}
+
+				# When an Imperator Defensive League is converted, its members will always be allowed into the confederation/league, regardless of government (as long as they meet the rank requirements), so need to give them a variable that signifies they should be allowed in
+				every_in_list = {
+					limit = { CL_uses_confederations = no }
+					list = irtock3_confederation_members
+					set_variable = allowed_in_confederations
+				}
+			}
+
+			# Trigger the event that will create the confederation/league and have both scope:actor and scope:recipient added to it
+			scope:actor = {
+				#Event distributor event
+				trigger_event = mpo_interactions_events.0001
+			}
+
+			# Add other Defensive League members
+			every_in_list = {
+				limit = { is_confederation_member = no }
+				list = irtock3_confederation_members
+				save_scope_as = new_member
+				scope:actor.confederation = { add_confederation_member = scope:new_member }
+				clear_saved_scope = new_member
+			}
+
+			# Cleanup so it doesn't cause any issues when converting multiple Defensive Leagues from Imperator
+			remove_global_variable = league_num
+			remove_global_variable = confed_num
+			clear_saved_scope = actor
+			clear_saved_scope = confederation_offerer
+			clear_saved_scope = recipient
+			clear_saved_scope = confederation_accepter
+			clear_saved_scope = new_confederation
+		}
+	}
+	# Otherwise, assume just using base game confederations, meaning only Nomads/Tribes should be allowed in
+	else = {
+		if = {
+			limit = { # Need to make sure that there are enough members in the Imperator Defensive League of appropriate rank and government for base game confederations
+				any_in_list = {
+					list = irtock3_confederation_members
+					count > 1
+					AND = {
+						highest_held_title_tier < tier_kingdom
+						OR = {
+							has_government = nomad_government
+							has_government = tribal_government
+						}
+					}
+				}
+			}
+
+			# Remove rulers who can't be in a confederation because of title rank or government, so they aren't added later on
+			every_in_list = {
+				limit = {
+					OR = {
+						highest_held_title_tier >= tier_kingdom
+						NOR = {
+							has_government = nomad_government
+							has_government = tribal_government
+						}
+					}
+				}
+				list = irtock3_confederation_members
+				remove_from_list = irtock3_confederation_members
+			}
+
+			## Now need to get relevant rulers to be used to determine the name of the confederation. For now, will just take the two with the largest military strength
+			# Get first member, for the 'actor' scope
+			ordered_in_list = {
+				list = irtock3_confederation_members
+				order_by = max_military_strength
+				save_scope_as = actor
+				save_scope_as = confederation_offerer
+			}
+			# Get second member, for the 'recipient' scope
+			ordered_in_list = {
+				limit = {
+					NOT = { this = scope:actor }
+				}
+				list = irtock3_confederation_members
+				order_by = max_military_strength
+				save_scope_as = recipient
+				save_scope_as = confederation_accepter
+			}
+
+			# Trigger the event that will create the confederation and have both scope:actor and scope:recipient added to it
+			scope:actor = {
+				#Event distributor event
+				trigger_event = mpo_interactions_events.0001
+			}
+
+			# Add other Defensive League members
+			every_in_list = {
+				limit = { is_confederation_member = no }
+				list = irtock3_confederation_members
+				save_scope_as = new_member
+				scope:actor.confederation = { add_confederation_member = scope:new_member }
+				clear_saved_scope = new_member
+			}
+
+			# Cleanup so it doesn't cause any issues when converting multiple Defensive Leagues from Imperator
+			clear_saved_scope = actor
+			clear_saved_scope = confederation_offerer
+			clear_saved_scope = recipient
+			clear_saved_scope = confederation_accepter
+			clear_saved_scope = new_confederation
+		}
+	}
+
+	# Empty the list of members so there are no conflicts when converting multiple Imperator Defensive Leagues
+	every_in_list = {
+		list = irtock3_confederation_members
+		remove_from_list = irtock3_confederation_members
+	}
+}
