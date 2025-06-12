@@ -718,43 +718,6 @@ TFE_General_Cue = {
 
 "common/governments/other_government.txt" = {
 	# from error.log:
-	# Error: "Unexpected token: regiments_prestige_as_gold, near line: 235" in file: "common/governments/other_government.txt" near line: 235
-	# Error: "Unexpected token: dynasty_named_realms, near line: 510" in file: "common/governments/other_government.txt" near line: 510
-	replace = {
-		before = {
-	government_rules = {
-		rulers_should_have_dynasty = yes
-		royal_court = yes
-		legitimacy = yes
-		#landless_playable = yes
-		#mercenary = yes
-	}
-
-	supply_limit_mult_for_others = -0.8
-	valid_holdings = { castle_holding trade_center_holding }
-	regiments_prestige_as_gold = yes
-	required_county_holdings = { tribal_holding city_holding church_holding }
-	flag = government_can_raid_rule
-		}
-
-		after = {
-	government_rules = {
-		rulers_should_have_dynasty = yes
-		regiments_prestige_as_gold = yes
-		royal_court = yes
-		legitimacy = yes
-		#landless_playable = yes
-		#mercenary = yes
-	}
-
-	supply_limit_mult_for_others = -0.8
-	valid_holdings = { castle_holding trade_center_holding }
-	required_county_holdings = { tribal_holding city_holding church_holding }
-	flag = government_can_raid_rule
-		}
-	}
-
-	# from error.log:
 	# Error: "Unexpected enum found: always_use_patronym, near line: 307" in file: "common/governments/other_government.txt" near line: 313
 	# Error: "Unexpected enum found: always_use_patronym, near line: 350" in file: "common/governments/other_government.txt" near line: 356
 	replace = {
@@ -1665,3 +1628,427 @@ gaetuli_dynasty = {
 		} # end of after
 	}
 }
+
+
+"common/scripted_effects/00_mongol_invasion_effects.txt" = {
+	# spawn_temujin_character_effect; Character 125501 (Temujin) is not in TFE as of the 'After The Pharaohs' update. Converter removed part of this effect, but the part that remains needs to be modified to start with an "if" instead of "else_if" in order to work properly.
+	replace = {
+		before = {
+	else_if = {
+		limit = {
+			#Generate Temujin if there has BEEN NO Temujin
+			NOT = {
+				has_global_variable = temujin_was_born
+			}
+		}
+		if = {
+			limit = { has_game_rule = inversed_gender_equality }
+			create_character = {
+				name = "Borte" # AKA: Genghis Khan's wife
+				gender = female
+				location = scope:temujins_birthplace
+				template = borte_character_template
+				save_scope_as = temujin
+			}
+			scope:temujin = {
+				# Make temporarily immune to disease
+				add_character_flag = {
+					flag = immune_to_disease
+					years = 15
+				}
+
+				add_trait = greatest_of_khans
+				give_temujin_land_effect = yes
+				add_gold = 5000
+				add_dread = high_dread
+				spawn_temujins_court_effect = yes
+				form_the_mongol_empire_effect = yes
+				add_prestige = 25000
+				give_nickname = nick_genghis_khan
+				if = {
+					limit = {
+						has_mpo_dlc_trigger = no
+						NOT = { has_perk = peacemaker_perk }
+					}
+					add_perk = peacemaker_perk
+				}
+				dynasty = {
+					add_dynasty_prestige_level = 5
+					add_dynasty_prestige = 10000
+					add_dynasty_perk = warfare_legacy_1
+					add_dynasty_perk = warfare_legacy_2
+					add_dynasty_perk = warfare_legacy_3
+					add_dynasty_perk = warfare_legacy_4
+					add_dynasty_perk = warfare_legacy_5
+					if = {
+						limit = {
+							has_dlc_feature = hybridize_culture
+						}
+						add_dynasty_perk = ep1_culture_legacy_1
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = { has_game_rule = full_gender_equality }
+			random_list = {
+				#Female Ghengis Khan.
+				50 = {
+					create_character = {
+						name = "Borte" # AKA: Genghis Khan's wife
+						gender = female
+						location = scope:temujins_birthplace
+						template = borte_character_template
+						save_scope_as = temujin
+					}
+					scope:temujin = {
+						# Make temporarily immune to disease
+						add_character_flag = {
+							flag = immune_to_disease
+							years = 15
+						}
+
+						add_trait = greatest_of_khans
+						give_temujin_land_effect = yes
+						add_gold = 5000
+						add_dread = high_dread
+						spawn_temujins_court_effect = yes
+						form_the_mongol_empire_effect = yes
+						add_prestige = 25000
+						give_nickname = nick_genghis_khan
+						if = {
+							limit = {
+								has_mpo_dlc_trigger = no
+								NOT = { has_perk = peacemaker_perk }
+							}
+							add_perk = peacemaker_perk
+						}
+						dynasty = {
+							add_dynasty_prestige_level = 5
+							add_dynasty_prestige = 10000
+							add_dynasty_perk = warfare_legacy_1
+							add_dynasty_perk = warfare_legacy_2
+							add_dynasty_perk = warfare_legacy_3
+							add_dynasty_perk = warfare_legacy_4
+							add_dynasty_perk = warfare_legacy_5
+							if = {
+								limit = {
+									has_dlc_feature = hybridize_culture
+								}
+								add_dynasty_perk = ep1_culture_legacy_1
+							}
+						}
+					}
+				}
+				#Male Ghengis Khan.
+				50 = {
+					create_character = {
+						name = "Temujin" # AKA: Genghis Khan
+						location = scope:temujins_birthplace
+						template = genghis_khan_character_template
+						save_scope_as = temujin
+					}
+					scope:temujin = {
+						# Make temporarily immune to disease
+						add_character_flag = {
+							flag = immune_to_disease
+							years = 15
+						}
+
+						add_trait = greatest_of_khans
+						give_temujin_land_effect = yes
+						add_gold = 5000
+						add_dread = high_dread
+						spawn_temujins_court_effect = yes
+						form_the_mongol_empire_effect = yes
+						add_prestige = 25000
+						give_nickname = nick_genghis_khan
+						if = {
+							limit = {
+								has_mpo_dlc_trigger = no
+								NOT = { has_perk = peacemaker_perk }
+							}
+							add_perk = peacemaker_perk
+						}
+						dynasty = {
+							add_dynasty_prestige_level = 5
+							add_dynasty_prestige = 10000
+							add_dynasty_perk = warfare_legacy_1
+							add_dynasty_perk = warfare_legacy_2
+							add_dynasty_perk = warfare_legacy_3
+							add_dynasty_perk = warfare_legacy_4
+							add_dynasty_perk = warfare_legacy_5
+							if = {
+								limit = {
+									has_dlc_feature = hybridize_culture
+								}
+								add_dynasty_perk = ep1_culture_legacy_1
+							}
+						}
+					}
+				}
+			}
+		}
+		else = {
+			create_character = {
+				name = "Temujin" # AKA: Genghis Khan
+				location = scope:temujins_birthplace
+				template = genghis_khan_character_template
+				save_scope_as = temujin
+			}
+			scope:temujin = {
+				# Make temporarily immune to disease
+				add_character_flag = {
+					flag = immune_to_disease
+					years = 15
+				}
+
+				add_trait = greatest_of_khans
+				give_temujin_land_effect = yes
+				add_gold = 5000
+				add_dread = high_dread
+				spawn_temujins_court_effect = yes
+				form_the_mongol_empire_effect = yes
+				add_prestige = 25000
+				give_nickname = nick_genghis_khan
+				if = {
+					limit = {
+						has_mpo_dlc_trigger = no
+						NOT = { has_perk = peacemaker_perk }
+					}
+					add_perk = peacemaker_perk
+				}
+				dynasty = {
+					add_dynasty_prestige_level = 5
+					add_dynasty_prestige = 10000
+					add_dynasty_perk = warfare_legacy_1
+					add_dynasty_perk = warfare_legacy_2
+					add_dynasty_perk = warfare_legacy_3
+					add_dynasty_perk = warfare_legacy_4
+					add_dynasty_perk = warfare_legacy_5
+					if = {
+						limit = {
+							has_dlc_feature = hybridize_culture
+						}
+						add_dynasty_perk = ep1_culture_legacy_1
+					}
+				}
+			}
+		}
+		set_global_variable = {
+			name =  temujin_was_born
+			value = scope:temujin
+		}
+	}
+		} # End of before
+
+		after = {
+	if = {
+		limit = {
+			#Generate Temujin if there has BEEN NO Temujin
+			NOT = {
+				has_global_variable = temujin_was_born
+			}
+		}
+		if = {
+			limit = { has_game_rule = inversed_gender_equality }
+			create_character = {
+				name = "Borte" # AKA: Genghis Khan's wife
+				gender = female
+				location = scope:temujins_birthplace
+				template = borte_character_template
+				save_scope_as = temujin
+			}
+			scope:temujin = {
+				# Make temporarily immune to disease
+				add_character_flag = {
+					flag = immune_to_disease
+					years = 15
+				}
+
+				add_trait = greatest_of_khans
+				give_temujin_land_effect = yes
+				add_gold = 5000
+				add_dread = high_dread
+				spawn_temujins_court_effect = yes
+				form_the_mongol_empire_effect = yes
+				add_prestige = 25000
+				give_nickname = nick_genghis_khan
+				if = {
+					limit = {
+						has_mpo_dlc_trigger = no
+						NOT = { has_perk = peacemaker_perk }
+					}
+					add_perk = peacemaker_perk
+				}
+				dynasty = {
+					add_dynasty_prestige_level = 5
+					add_dynasty_prestige = 10000
+					add_dynasty_perk = warfare_legacy_1
+					add_dynasty_perk = warfare_legacy_2
+					add_dynasty_perk = warfare_legacy_3
+					add_dynasty_perk = warfare_legacy_4
+					add_dynasty_perk = warfare_legacy_5
+					if = {
+						limit = {
+							has_dlc_feature = hybridize_culture
+						}
+						add_dynasty_perk = ep1_culture_legacy_1
+					}
+				}
+			}
+		}
+		else_if = {
+			limit = { has_game_rule = full_gender_equality }
+			random_list = {
+				#Female Ghengis Khan.
+				50 = {
+					create_character = {
+						name = "Borte" # AKA: Genghis Khan's wife
+						gender = female
+						location = scope:temujins_birthplace
+						template = borte_character_template
+						save_scope_as = temujin
+					}
+					scope:temujin = {
+						# Make temporarily immune to disease
+						add_character_flag = {
+							flag = immune_to_disease
+							years = 15
+						}
+
+						add_trait = greatest_of_khans
+						give_temujin_land_effect = yes
+						add_gold = 5000
+						add_dread = high_dread
+						spawn_temujins_court_effect = yes
+						form_the_mongol_empire_effect = yes
+						add_prestige = 25000
+						give_nickname = nick_genghis_khan
+						if = {
+							limit = {
+								has_mpo_dlc_trigger = no
+								NOT = { has_perk = peacemaker_perk }
+							}
+							add_perk = peacemaker_perk
+						}
+						dynasty = {
+							add_dynasty_prestige_level = 5
+							add_dynasty_prestige = 10000
+							add_dynasty_perk = warfare_legacy_1
+							add_dynasty_perk = warfare_legacy_2
+							add_dynasty_perk = warfare_legacy_3
+							add_dynasty_perk = warfare_legacy_4
+							add_dynasty_perk = warfare_legacy_5
+							if = {
+								limit = {
+									has_dlc_feature = hybridize_culture
+								}
+								add_dynasty_perk = ep1_culture_legacy_1
+							}
+						}
+					}
+				}
+				#Male Ghengis Khan.
+				50 = {
+					create_character = {
+						name = "Temujin" # AKA: Genghis Khan
+						location = scope:temujins_birthplace
+						template = genghis_khan_character_template
+						save_scope_as = temujin
+					}
+					scope:temujin = {
+						# Make temporarily immune to disease
+						add_character_flag = {
+							flag = immune_to_disease
+							years = 15
+						}
+
+						add_trait = greatest_of_khans
+						give_temujin_land_effect = yes
+						add_gold = 5000
+						add_dread = high_dread
+						spawn_temujins_court_effect = yes
+						form_the_mongol_empire_effect = yes
+						add_prestige = 25000
+						give_nickname = nick_genghis_khan
+						if = {
+							limit = {
+								has_mpo_dlc_trigger = no
+								NOT = { has_perk = peacemaker_perk }
+							}
+							add_perk = peacemaker_perk
+						}
+						dynasty = {
+							add_dynasty_prestige_level = 5
+							add_dynasty_prestige = 10000
+							add_dynasty_perk = warfare_legacy_1
+							add_dynasty_perk = warfare_legacy_2
+							add_dynasty_perk = warfare_legacy_3
+							add_dynasty_perk = warfare_legacy_4
+							add_dynasty_perk = warfare_legacy_5
+							if = {
+								limit = {
+									has_dlc_feature = hybridize_culture
+								}
+								add_dynasty_perk = ep1_culture_legacy_1
+							}
+						}
+					}
+				}
+			}
+		}
+		else = {
+			create_character = {
+				name = "Temujin" # AKA: Genghis Khan
+				location = scope:temujins_birthplace
+				template = genghis_khan_character_template
+				save_scope_as = temujin
+			}
+			scope:temujin = {
+				# Make temporarily immune to disease
+				add_character_flag = {
+					flag = immune_to_disease
+					years = 15
+				}
+
+				add_trait = greatest_of_khans
+				give_temujin_land_effect = yes
+				add_gold = 5000
+				add_dread = high_dread
+				spawn_temujins_court_effect = yes
+				form_the_mongol_empire_effect = yes
+				add_prestige = 25000
+				give_nickname = nick_genghis_khan
+				if = {
+					limit = {
+						has_mpo_dlc_trigger = no
+						NOT = { has_perk = peacemaker_perk }
+					}
+					add_perk = peacemaker_perk
+				}
+				dynasty = {
+					add_dynasty_prestige_level = 5
+					add_dynasty_prestige = 10000
+					add_dynasty_perk = warfare_legacy_1
+					add_dynasty_perk = warfare_legacy_2
+					add_dynasty_perk = warfare_legacy_3
+					add_dynasty_perk = warfare_legacy_4
+					add_dynasty_perk = warfare_legacy_5
+					if = {
+						limit = {
+							has_dlc_feature = hybridize_culture
+						}
+						add_dynasty_perk = ep1_culture_legacy_1
+					}
+				}
+			}
+		}
+		set_global_variable = {
+			name =  temujin_was_born
+			value = scope:temujin
+		}
+	}
+		} # End of after
+	}
+} # End of "common/scripted_effects/00_mongol_invasion_effects.txt"
