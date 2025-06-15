@@ -12,6 +12,11 @@ internal sealed class DiplomacyDB {
 	private readonly List<Dependency> dependencies = [];
 	public IReadOnlyList<Dependency> Dependencies => dependencies;
 	
+	private readonly List<List<ulong>> defensiveLeagues = []; // stored as lists of member IDs
+	public IReadOnlyList<List<ulong>> DefensiveLeagues => defensiveLeagues;
+	
+	public DiplomacyDB() {}
+	
 	public DiplomacyDB(BufferedReader diplomacyReader) {
 		var parser = new Parser();
 		parser.RegisterKeyword("database", databaseReader => {
@@ -22,18 +27,22 @@ internal sealed class DiplomacyDB {
 			databaseParser.ParseStream(databaseReader);
 		});
 		parser.RegisterKeyword("dependency", LoadDependency);
+		parser.RegisterKeyword("defensive_league", LoadDefensiveLeague);
 		parser.IgnoreAndStoreUnregisteredItems(ignoredTokens);
 
 		parser.ParseStream(diplomacyReader);
 
 		if (War.IgnoredTokens.Any()) {
 			Logger.Debug($"Ignored War tokens: {War.IgnoredTokens}");
+			War.IgnoredTokens.Clear();
 		}
 		if (ignoredDatabaseTokens.Count > 0) {
 			Logger.Debug($"Ignored Diplomacy database tokens: {ignoredDatabaseTokens}");
+			ignoredDatabaseTokens.Clear();
 		}
 		if (ignoredTokens.Any()) {
 			Logger.Debug($"Ignored Diplomacy tokens: {ignoredTokens}");
+			ignoredTokens.Clear();
 		}
 		Logger.Info($"Loaded {Wars.Count} wars.");
 	}
@@ -79,6 +88,22 @@ internal sealed class DiplomacyDB {
 		dependencies.Add(new(overlordId, subjectId, startDate, subjectType));
 	}
 
+	private void LoadDefensiveLeague(BufferedReader leagueReader) {
+		List<ulong> memberIds = [];
+
+		var leagueParser = new Parser();
+		leagueParser.RegisterKeyword("member", r => memberIds.Add(r.GetULong()));
+		leagueParser.IgnoreAndLogUnregisteredItems();
+		leagueParser.ParseStream(leagueReader);
+
+		if (memberIds.Count < 2) {
+			Logger.Debug($"Skipping defensive league with {memberIds.Count} members: {string.Join(", ", memberIds)}");
+			return;
+		}
+
+		defensiveLeagues.Add(memberIds);
+	}
+
 	private readonly IgnoredKeywordsSet ignoredTokens = [];
-	private readonly IgnoredKeywordsSet ignoredDatabaseTokens = new();
+	private readonly IgnoredKeywordsSet ignoredDatabaseTokens = [];
 }
