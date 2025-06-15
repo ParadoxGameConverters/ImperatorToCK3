@@ -1,7 +1,7 @@
 using commonItems;
 using commonItems.Colors;
 using commonItems.Serialization;
-using FluentAssertions;
+using AwesomeAssertions;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using System;
