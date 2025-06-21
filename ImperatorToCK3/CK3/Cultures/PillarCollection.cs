@@ -93,12 +93,12 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 					Logger.Warn($"Language {pillarId} is missing required language_family parameter!");
 				}
 			}
-			if (ck3ModFlags["wtwsms"]) {
+			if (ck3ModFlags["wtwsms"] || ck3ModFlags["roa"]) {
 				if (!pillar.Parameters.AsValueEnumerable().Any(p => p.Key.StartsWith("language_branch_"))) {
 					Logger.Warn($"Language {pillarId} is missing required language_branch parameter!");
 				}
 			}
-			if (ck3ModFlags["tfe"] || ck3ModFlags["roa"]) {
+			if (ck3ModFlags["tfe"]) {
 				if (!pillar.Parameters.AsValueEnumerable().Any(p => p.Key.StartsWith("language_group_"))) {
 					Logger.Warn($"Language {pillarId} is missing required language_group parameter!");
 				}

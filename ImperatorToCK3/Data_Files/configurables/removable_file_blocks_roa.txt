@@ -331,19 +331,19 @@
 				game_start_date >= 1178.10.1
 			}
 			character:231000 = {
-				save_scope_as = leader
+				save_scope_as = leader_1
 			}
 			character:223523 = {
-				save_scope_as = founder
+				save_scope_as = founder_1
 			}
 			title:b_hebron = {
-				save_scope_as = barony
+				save_scope_as = barony_1
 			}
 			create_holy_order_neutral_effect = {
-				LEADER = scope:leader
-				CAPITAL = scope:barony
+				LEADER = scope:leader_1
+				CAPITAL = scope:barony_1
 				NEW_HO_SCOPE = new_holy_order
-				FOUNDER = scope:founder
+				FOUNDER = scope:founder_1
 			}
 		}
 	}
@@ -407,6 +407,13 @@
 			character:1700 = {
 				add_legitimacy = major_legitimacy_gain
 			}
+
+			## ROA ##
+			# I don't know why his legitimacy starts so low but anyway
+			character:cham012 = {
+				add_legitimacy = monumental_legitimacy_gain
+			}
+			## END ROA ##
 		}
 	}
 	{
@@ -476,13 +483,15 @@
 		## 867.
 		if = {
 			limit = { game_start_date = 867.1.1 }
-			character:japan056 = { designate_diarch = character:fujiwara0002 }
+			character:japan056 = {
+				designate_diarch = character:fujiwara0002
+				try_start_diarchy = japanese_regency
+			}
 			remove_generated_diarch_consequences_effect = {
 				NEW_DIARCH = character:fujiwara0002
 				LIEGE = character:japan056
 			}
 			character:japan056 = {
-				start_diarchy = japanese_regency
 				set_diarchy_swing = 60
 			}
 		}
@@ -490,40 +499,44 @@
 		## 936
 		if = {
 			limit = { game_start_date = 936.1.1 }
-			character:japan061 = { designate_diarch = character:fujiwara00303 }
+			character:japan061 = {
+				designate_diarch = character:fujiwara00303
+				try_start_diarchy = japanese_regency
+			}
 			remove_generated_diarch_consequences_effect = {
-				NEW_DIARCH = character:fujiwara00303 # Fujiwara no Tadahira
+				NEW_DIARCH = character:fujiwara00303
 				LIEGE = character:japan061
 			}
 			character:japan061 = {
-				start_diarchy = japanese_regency
 				set_diarchy_swing = 80 # shrug emoji
 			}
-		}
-		if = {
-			limit = { game_start_date = 936.1.1 }
-			character:yangpu_wu = { designate_diarch = character:xuzhigao_wu }
+
+			character:yangpu_wu = {
+				designate_diarch = character:xuzhigao_wu
+				try_start_diarchy = regency
+			}
 			remove_generated_diarch_consequences_effect = {
 				NEW_DIARCH = character:xuzhigao_wu # Xu Zhigao AKA Li Bian
 				LIEGE = character:yangpu_wu
 			}
 			character:yangpu_wu = {
-				start_diarchy = regency
 				set_diarchy_swing = 100
 			}
 		}
 		## 1066.
 		if = {
 			limit = { game_start_date = 1066.9.15 }
-			# Designate some regents.
 
-			character:japan070 = { designate_diarch = character:fujiwara003030203030103 }
+			# Designate some regents.
+			character:japan070 = {
+				designate_diarch = character:fujiwara003030203030103
+				try_start_diarchy = japanese_regency
+			}
 			remove_generated_diarch_consequences_effect = {
 				NEW_DIARCH = character:fujiwara003030203030103 # Fujiwara no Yorimichi
 				LIEGE = character:japan070
 			}
 			character:japan070 = {
-				start_diarchy = japanese_regency
 				set_diarchy_swing = 100
 			}
 
@@ -568,7 +581,7 @@
 			character:3040 = {
 				designate_diarch = character:3050
 				# This is a vizierate as well, so start the diarchy manually.
-				start_diarchy = vizierate
+				try_start_diarchy = vizierate
 				# Tell Alp that he appointed Hassan so he remembers not to dismiss him.
 				set_variable = {
 					name = my_vizier
@@ -579,7 +592,7 @@
 			character:1732 = {
 				if = {
 					limit = { has_ep3_dlc_trigger = yes }
-					start_diarchy = co_emperorship
+					try_start_diarchy = co_emperorship
 					set_diarch = character:1736
 					set_designated_heir = character:1736
 				}
@@ -636,24 +649,28 @@
 			# Set up some diarchs.
 
 			# Fujiwara Regent
-			character:japan080 = { designate_diarch = character:fujiwara008 }
+			character:japan080 = {
+				designate_diarch = character:fujiwara008
+				try_start_diarchy = japanese_regency
+			}
 			remove_generated_diarch_consequences_effect = {
 				NEW_DIARCH = character:fujiwara008 # Fujiwara no Motofusa
 				LIEGE = character:japan080
 			}
 			character:japan080 = {
-				start_diarchy = japanese_regency
 				set_diarchy_swing = 100
 			}
 
 			# Goryeo military dictatorship
-			character:goryeo019 = { designate_diarch = character:goryeo101 }
+			character:goryeo019 = {
+				designate_diarch = character:goryeo101
+				try_start_diarchy = regency
+			}
 			remove_generated_diarch_consequences_effect = {
 				NEW_DIARCH = character:goryeo101 # Jeong Jung-bu
 				LIEGE = character:goryeo019
 			}
 			character:goryeo019 = {
-				start_diarchy = regency
 				set_diarchy_swing = 100
 			}
 
@@ -665,7 +682,7 @@
 			character:215530 = {
 				if = {
 					limit = { has_ep3_dlc_trigger = yes }
-					start_diarchy = junior_emperorship
+					try_start_diarchy = junior_emperorship
 					set_diarch = character:215531
 					set_designated_heir = character:215531
 				}
@@ -673,13 +690,18 @@
 			## Henry II of England and the Young King
 			character:204500 = {
 				designate_diarch = character:204508
-				start_diarchy = co_monarchy
+				try_start_diarchy = co_monarchy
 				set_designated_heir = character:204508
 			}
 			## Teresa of Portugal for Afonso the Conqueror
 			character:209503 = {
-				start_diarchy = regency
+				try_start_diarchy = regency
 				set_diarch = character:209510
+			}
+			## Kara Khitai, Wolila for Zhilugu
+			character:188912 = {
+				try_start_diarchy = nomad_regency
+				set_diarch = character:188909
 			}
 			# Plus remove all the generated opinions.
 			## Richard I and Eleanor of Aquitaine
@@ -707,6 +729,12 @@
 				NEW_DIARCH = character:209510
 				LIEGE = character:209503
 			}
+			## Wolila and Zhilugu
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:188909
+				LIEGE = character:188912
+			}
+
 		}
 	}
 	{
@@ -877,6 +905,32 @@
 					}
 					add_achievement_global_variable_effect = {
 						VARIABLE = started_mother_of_us_all_achievement
+						VALUE = yes
+					}
+				}
+				if = { # Temüjin
+					limit = {
+						has_mpo_dlc_trigger = yes
+						exists = character:125501
+						this = character:125501
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_the_stallion_that_mounts_the_world_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = {
+						government_has_flag = government_is_nomadic
+						save_temporary_scope_as = nomad_ruler
+						situation:the_great_steppe ?= {
+							situation_sub_region:steppe_east = {
+								situation_sub_region_has_county = scope:nomad_ruler.capital_county
+							}
+						}
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_steppe_by_steppe_achievement
 						VALUE = yes
 					}
 				}
@@ -1339,6 +1393,22 @@
 						VALUE = yes
 					}
 				}
+				if = {
+					limit = {
+						has_mpo_dlc_trigger = yes
+						exists = character:125501
+						character:125501 = {
+							is_alive = yes
+						}
+					}
+					character:125501 = {
+						create_story = story_temujin_flavor
+						trigger_event = {
+							days = { 12 30 }
+							id = mpo_temujin_flavor.0030 # Borte announces she's pregnant
+						}
+					}
+				}
 			}
 		}
 	}
@@ -1506,6 +1576,10 @@
 			}
 			title:k_england = { set_coa = k_england_norman}
 		}
+	}
+
+	{
+		ROA_setup_tributaries_effect = yes # defined in sea_tributary_setup_effect.txt
 	}
 }
 
@@ -4516,2915 +4590,16 @@ fp3_decision.0011 = {
 
 
 ### --- Rajas of Asia Specific Files ---
-# This removes the part of the code assigning stateless governments that often seems to cause the game to crash when converting
-"common/on_action/government_assignment_on_actions.txt" = {
-	# Disable assignment of Nomadic government on game start.
-    {
-			if = {
-				limit = {
-					has_government = tribal_government
-					exists = capital_county
-					culture = { has_cultural_tradition = tradition_horse_lords }
-					NOR = {
-						culture = culture:tuyuhun
-						culture = culture:alan
-						culture = culture:shatuo
-						AND = {
-							top_liege.primary_title = title:k_hungary
-							game_start_date > 907.1.1
-						}
-					}
-				}
-				change_government = nomadic_government
-			}
-			if = {
-				limit = {
-					exists = capital_county
-					OR = {
-						has_government = tribal_government
-						has_government = feudal_government
-					}
-					OR = {
-						culture = culture:uyghur
-						culture = culture:kirghiz
-					}
-				}
-				if = {
-					limit = { game_start_date < 877.1.1 }
-					change_government = nomadic_government
-				}
-			}
-	} # end of "Disable assignment of Nomadic government on game start."
-	{
-				if = {
-					limit = { highest_held_title_tier < tier_duchy }
-
-					# Create a titular duchy
-					# scope:new_title
-					create_title_and_vassal_change = {
-						type = created
-						save_scope_as = change
-						add_claim_on_loss = no
-					}
-					create_dynamic_title = {
-						tier = duchy
-						name = ANARCHIST_TITLE_NAME
-					}
-					scope:new_title = {
-						set_destroy_on_gain_same_tier = yes
-						set_no_automatic_claims = yes
-						set_can_be_named_after_dynasty = no
-						change_title_holder = {
-							holder = scope:ruler
-							change = scope:change
-						}
-					}
-					resolve_title_and_vassal_change = scope:change
-
-					# Generate a new CoA
-					## We do this in a separate block so that the effect has time to see that the title has a holder, since it'll error otherwise.
-					scope:new_title = {
-						generate_coa = yes
-						set_color_from_title = scope:commune_capital
-					}
-				}
-
-				add_realm_law_skip_effects = single_heir_dynasty_house
-				primary_title = {
-					add_title_law = anarchist_elective_succession_law
-				}
-				every_held_title = {
-					limit = { tier = tier_county }
-					save_scope_as = title
-					scope:ruler = { trigger_event = sea_title_event.2001 }
-				}
-	}
-	{
-			# Chinese Primogeniture
-			if = {
-				limit = {
-					OR = {
-						primary_title = title:e_celestia_china
-						primary_title.empire = title:e_celestia_china
-					}
-					OR = {
-						highest_held_title_tier >= tier_kingdom
-						is_independent_ruler = yes
-					}
-					has_government = administrative_government
-				}
-				add_realm_law_skip_effects = single_heir_succession_law
-			}
-	} # end of "Disable assignment of Primo succession to Chinese realms on game start."
-}
-
-
-
 # This is to get rid of the minority cultures/faiths setup in Rajas since they don't make sense anymore
 "common\on_action\sea_minority_game_start.txt" = {
 	{
 		set_minorities_game_start
 		setup_indian_christian_minorities
 		setup_RICE_minorities
+		setup_tondrakian_minorities
+		setup_caucasus_south_minorities
 	}
-
-{
-set_minorities_game_start = {
-	effect = {
-		every_county = {
-			limit = { culture = culture:basque }
-			add_faith_minority_effect = {
-				FAITH = faith:basque_pagan
-				SIZE = small
-				COUNTY = this
-			}
-		}
-
-		add_culture_minority_effect = {
-			CULTURE = culture:kochinim
-			SIZE = small
-			COUNTY = title:c_kerala
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:malabarism
-			SIZE = small
-			COUNTY = title:c_kerala
-		}
-
-
-		# Yazidis
-
-		add_faith_minority_effect = {
-			FAITH = faith:yazidi
-			SIZE = large
-			COUNTY = title:c_ninive
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:yazidi
-			SIZE = large
-			COUNTY = title:c_nasibin
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:yazidi
-			SIZE = large
-			COUNTY = title:c_sinjar
-		}
-
-
-		# Jewish
-
-		# Middle East
-
-		add_faith_minority_effect = {
-			FAITH = faith:samaritan
-			SIZE = large
-			COUNTY = title:c_tiberias
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:radhanite
-			SIZE = large
-			COUNTY = title:c_tiberias
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bavlim
-			SIZE = large
-			COUNTY = title:c_tiberias
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:orthodox
-			SIZE = large
-			COUNTY = title:c_jerusalem
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_jerusalem
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:radhanite
-			SIZE = large
-			COUNTY = title:c_jerusalem
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bavlim
-			SIZE = large
-			COUNTY = title:c_jerusalem
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_acre
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:radhanite
-			SIZE = large
-			COUNTY = title:c_acre
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bavlim
-			SIZE = large
-			COUNTY = title:c_acre
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_jaffa
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:radhanite
-			SIZE = large
-			COUNTY = title:c_jaffa
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bavlim
-			SIZE = large
-			COUNTY = title:c_jaffa
-		}
-
-		add_culture_minority_effect = {
-			CULTURE = culture:radhanite
-			SIZE = small
-			COUNTY = title:c_alexandria
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_alexandria
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:coptic
-			SIZE = large
-			COUNTY = title:c_alexandria
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_byzantion
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:radhanite
-			SIZE = large
-			COUNTY = title:c_byzantion
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:ashari
-			SIZE = small
-			COUNTY = title:c_byzantion
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:levantine
-			SIZE = small
-			COUNTY = title:c_byzantion
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:circassian
-			SIZE = small
-			COUNTY = title:c_byzantion
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_taizz
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:yemenite
-			SIZE = small
-			COUNTY = title:c_taizz
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_mandab
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:yemenite
-			SIZE = small
-			COUNTY = title:c_mandab
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_dathina
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:yemenite
-			SIZE = small
-			COUNTY = title:c_dathina
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_sanaa
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:yemenite
-			SIZE = large
-			COUNTY = title:c_sanaa
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_mahra
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:yemenite
-			SIZE = large
-			COUNTY = title:c_mahra
-		}
-
-		if = {
-			limit = { current_date <= 910.1.1 }
-			add_faith_minority_effect = {
-				FAITH = faith:ibadi
-				SIZE = large
-				COUNTY = title:c_socotra
-			}
-		}
-		else = {
-			add_faith_minority_effect = {
-				FAITH = faith:ibadi
-				SIZE = small
-				COUNTY = title:c_socotra
-			}
-		}
-
-		# East
-
-		add_faith_minority_effect = {
-			FAITH = faith:manichean
-			SIZE = small
-			COUNTY = title:c_shazhou
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:ashari
-			SIZE = small
-			COUNTY = title:c_shazhou
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_shazhou
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:radhanite
-			SIZE = small
-			COUNTY = title:c_shazhou
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:levantine
-			SIZE = small
-			COUNTY = title:c_shazhou
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:manichean
-			SIZE = small
-			COUNTY = title:c_liangzhou
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:ashari
-			SIZE = small
-			COUNTY = title:c_liangzhou
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bedouin
-			SIZE = small
-			COUNTY = title:c_liangzhou
-		}
-
-
-		# Spain
-
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = large
-			COUNTY = title:c_cordoba
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_cordoba
-		}
-
-
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = large
-			COUNTY = title:c_sevilla
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_sevilla
-		}
-
-
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = large
-			COUNTY = title:c_granada
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_granada
-		}
-
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_toledo
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = large
-			COUNTY = title:c_toledo
-		}
-
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_barcelona
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_barcelona
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_lisboa
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_lisboa
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_malaga
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = large
-			COUNTY = title:c_malaga
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_cabra
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_cabra
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_almeria
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_almeria
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_cadiz
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_cadiz
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_algeciras
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_algeciras
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_andujar
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_andujar
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_almader
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_almader
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_calatrava
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_calatrava
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_niebla
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_niebla
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_moura
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_moura
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_avila
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_avila
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_leon
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_leon
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_soria
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_soria
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_salamanca
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_salamanca
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_cuellar
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_cuellar
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_burgos
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_burgos
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_tangiers
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_tangiers
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_fes
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:sephardi
-			SIZE = small
-			COUNTY = title:c_fes
-		}
-
-		# France
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_carcassonne
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:ashkenazi
-			SIZE = small
-			COUNTY = title:c_carcassonne
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_troyes
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:ashkenazi
-			SIZE = small
-			COUNTY = title:c_troyes
-		}
-
-
-		# Germany
-
-		if = {
-            limit = { game_start_date <= 1066.1.1 }
-
-			add_culture_minority_effect = {
-				CULTURE = culture:saxon
-				SIZE = small
-				COUNTY = title:c_magdeburg
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:saxon
-				SIZE = small
-				COUNTY = title:c_mersenburg
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:saxon
-				SIZE = small
-				COUNTY = title:c_stendal
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:saxon
-				SIZE = small
-				COUNTY = title:c_dannenberg
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:franconian
-				SIZE = small
-				COUNTY = title:c_orlamunde
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:franconian
-				SIZE = small
-				COUNTY = title:c_lobdaburg
-			}
-		}
-
-		if = {
-            limit = { game_start_date >= 1066.1.1 }
-
-			add_culture_minority_effect = {
-				CULTURE = culture:saxon
-				SIZE = large
-				COUNTY = title:c_magdeburg
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:saxon
-				SIZE = large
-				COUNTY = title:c_mersenburg
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:saxon
-				SIZE = large
-				COUNTY = title:c_stendal
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:saxon
-				SIZE = large
-				COUNTY = title:c_dannenberg
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:saxon
-				SIZE = small
-				COUNTY = title:c_wittenberg
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:franconian
-				SIZE = large
-				COUNTY = title:c_orlamunde
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:franconian
-				SIZE = large
-				COUNTY = title:c_lobdaburg
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:franconian
-				SIZE = small
-				COUNTY = title:c_osterland
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:franconian
-				SIZE = small
-				COUNTY = title:c_naumburg
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:franconian
-				SIZE = small
-				COUNTY = title:c_vogtland
-			}
-		}
-
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_metz
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:ashkenazi
-			SIZE = small
-			COUNTY = title:c_metz
-		}
-
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_speyer
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:ashkenazi
-			SIZE = small
-			COUNTY = title:c_speyer
-		}
-
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_worms
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:ashkenazi
-			SIZE = small
-			COUNTY = title:c_worms
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_cologne
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:ashkenazi
-			SIZE = small
-			COUNTY = title:c_cologne
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_magdeburg
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:ashkenazi
-			SIZE = small
-			COUNTY = title:c_magdeburg
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_magdeburg
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:ashkenazi
-			SIZE = small
-			COUNTY = title:c_magdeburg
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_praha
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:ashkenazi
-			SIZE = small
-			COUNTY = title:c_praha
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_trier
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:ashkenazi
-			SIZE = small
-			COUNTY = title:c_trier
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_regensburg
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:ashkenazi
-			SIZE = small
-			COUNTY = title:c_regensburg
-		}
-
-		# Insular Christians
-
-		add_faith_minority_effect = {
-			FAITH = faith:insular_celtic
-			SIZE = large
-			COUNTY = title:c_dublin
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:irish
-			SIZE = large
-			COUNTY = title:c_dublin
-		}
-
-
-		# Egypt
-
-		add_faith_minority_effect = {
-			FAITH = faith:coptic
-			SIZE = large
-			COUNTY = title:c_cairo
-		}
-
-		# Baghdad
-
-		add_faith_minority_effect = {
-			FAITH = faith:karaism
-			SIZE = large
-			COUNTY = title:c_baghdad
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_baghdad
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:radhanite
-			SIZE = large
-			COUNTY = title:c_baghdad
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bavlim
-			SIZE = large
-			COUNTY = title:c_baghdad
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:karaism
-			SIZE = large
-			COUNTY = title:c_samarra
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_samarra
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bavlim
-			SIZE = large
-			COUNTY = title:c_samarra
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_anbar
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bavlim
-			SIZE = large
-			COUNTY = title:c_anbar
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_badaraya
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bavlim
-			SIZE = large
-			COUNTY = title:c_badaraya
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_iskaf
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bavlim
-			SIZE = large
-			COUNTY = title:c_iskaf
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_karbala
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bavlim
-			SIZE = large
-			COUNTY = title:c_karbala
-		}
-
-		# Persia
-
-		if = {
-			limit = { game_start_date <= 1060.1.1 }
-
-			add_faith_minority_effect = {
-				FAITH = faith:mazdayasna
-				SIZE = large
-				COUNTY = title:c_yazd
-			}
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_isfahan
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:radhanite
-			SIZE = large
-			COUNTY = title:c_isfahan
-		}
-
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_herat
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bukharim
-			SIZE = small
-			COUNTY = title:c_herat
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_kabul
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bukharim
-			SIZE = small
-			COUNTY = title:c_kabul
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_merv
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bukharim
-			SIZE = small
-			COUNTY = title:c_merv
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_bukhara
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bukharim
-			SIZE = large
-			COUNTY = title:c_bukhara
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = large
-			COUNTY = title:c_samarkand
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bukharim
-			SIZE = large
-			COUNTY = title:c_samarkand
-		}
-
-
-		#Radhanim
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_kiev
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:radhanite
-			SIZE = small
-			COUNTY = title:c_kiev
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_peremyshl
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:radhanite
-			SIZE = small
-			COUNTY = title:c_peremyshl
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_taraz
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:radhanite
-			SIZE = small
-			COUNTY = title:c_taraz
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_dunhuang
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:radhanite
-			SIZE = small
-			COUNTY = title:c_dunhuang
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:haymanot
-			SIZE = large
-			COUNTY = title:c_lasta
-		}
-
-
-		# Parsees
-
-        if = {
-            limit = { game_start_date <= 1066.1.1 }
-
-			add_faith_minority_effect = {
-				FAITH = faith:zurvanism
-				SIZE = large
-				COUNTY = title:c_daman
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:persian
-				SIZE = large
-				COUNTY = title:c_daman
-			}
-		}
-
-		# Roma
-
-        if = {
-            limit = {
-            	# game_start_date >= 800.1.1
-            	game_start_date <= 900.1.1
-            }
-
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_panjgur
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_kiz
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_turan
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_bhakkar
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_ranikot
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_siwistan
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_aror
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_vijnot
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_rajanpur
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_uch
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_multan
-			}
-        }
-        else_if = {
-            limit = {
-            	game_start_date >= 900.1.1
-            	game_start_date <= 1000.1.1
-            }
-
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_bailaqan
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_maragha
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_dinawar
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_hamadan
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_nihawand
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_qom
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_ardestan
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_isfahan
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_luristan
-			}
-        }
-        else_if = {
-            limit = {
-            	game_start_date >= 1000.1.1
-            	# game_start_date <= 1100.1.1
-            }
-
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_cerasus
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_colonea
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_trebizond
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_acampse
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_theodosiopolis
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_tao
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_turuberan
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_bagrewand
-			}
-            add_culture_minority_effect = {
-				CULTURE = culture:romani
-				SIZE = small
-				COUNTY = title:c_apahunik
-			}
-        }
-
-		#Vlachs (Aromanians, Megleno-Romanians, Istroromanians)
-
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = large
-			COUNTY = title:c_pula
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = small
-			COUNTY = title:c_aetolia
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = large
-			COUNTY = title:c_strumica
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = large
-			COUNTY = title:c_pirin
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = large
-			COUNTY = title:c_antipatreia
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = small
-			COUNTY = title:c_arbanon
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = small
-			COUNTY = title:c_ohrid
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = small
-			COUNTY = title:c_metzovo
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = large
-			COUNTY = title:c_thessalia
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = small
-			COUNTY = title:c_thessaliotis
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = small
-			COUNTY = title:c_veria
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = small
-			COUNTY = title:c_epeiros
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = small
-			COUNTY = title:c_philippopolis
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = small
-			COUNTY = title:c_skopje
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = small
-			COUNTY = title:c_velbazhd
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:vlach
-			SIZE = small
-			COUNTY = title:c_serres
-		}
-
-		#Armenians
-
-		add_culture_minority_effect = {
-			CULTURE = culture:armenian
-			SIZE = large
-			COUNTY = title:c_zela
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:armenian
-			SIZE = large
-			COUNTY = title:c_sebasteia
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:armenian
-			SIZE = large
-			COUNTY = title:c_azysia
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:armenian
-			SIZE = large
-			COUNTY = title:c_ablastha
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:armenian
-			SIZE = large
-			COUNTY = title:c_trebizond
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:armenian
-			SIZE = large
-			COUNTY = title:c_satala
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:armenian
-			SIZE = large
-			COUNTY = title:c_colonea
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:armenian
-			SIZE = large
-			COUNTY = title:c_cilicia
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:armenian
-			SIZE = large
-			COUNTY = title:c_seleucia
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:armenian
-			SIZE = large
-			COUNTY = title:c_seleucia
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:armenian
-			SIZE = large
-			COUNTY = title:c_tall_hamid
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:armenian
-			SIZE = small
-			COUNTY = title:c_alexandretta
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:armenian
-			SIZE = small
-			COUNTY = title:c_antiocheia
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:armenian
-			SIZE = small
-			COUNTY = title:c_tripoli
-		}
-
-		#Greeks
-		add_culture_minority_effect = {
-			CULTURE = culture:greek
-			SIZE = small
-			COUNTY = title:c_tripoli
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:greek
-			SIZE = small
-			COUNTY = title:c_beirut
-		}
-
-		#Syriacs
-
-		#Rus
-
-
-		## India and it's religious diversity
-		#========================
-		every_county = {
-			limit = {
-				title_province = { geographical_region = world_india }
-				faith = {
-					has_doctrine = eastern_hostility_doctrine
-					NOT = { has_doctrine = tenet_communal_identity }
-				}
-			}
-			this = { save_temporary_scope_as = the_county_temp }
-			every_neighboring_county = {
-				if = {
-					limit = {
-						faith = {
-							has_doctrine = eastern_hostility_doctrine
-							NOT = { has_doctrine = tenet_communal_identity }
-							NOT = { this = scope:the_county_temp.faith }
-						}
-					}
-					faith = { add_to_list = neighboring_faiths }
-				}
-			}
-			every_in_list = {
-				list = neighboring_faiths
-				this = { save_temporary_scope_as = the_faith_temp }
-				scope:the_county_temp = {
-					add_to_variable_list = {
-						name = faith_minorities_small
-						target = scope:the_faith_temp
-					}
-				}
-				this = { remove_from_list = neighboring_faiths }
-			}
-			scope:the_county_temp.holder.faith = {
-				if = {
-					limit = {
-						has_doctrine = eastern_hostility_doctrine
-						NOT = { has_doctrine = tenet_communal_identity }
-						NOT = { this = scope:the_county_temp.faith }
-					}
-					add_to_variable_list = {
-						name = faith_minorities_small
-						target = scope:the_faith_temp
-					}
-				}
-			}
-		}
-
-		### RICE Sri Lanka Struggle-related minorities
-		if = {
-			limit = { has_global_variable = is_RICE_loaded_global_variable }
-
-			# Veddas
-
-			add_culture_minority_effect = {
-				CULTURE = culture:vedda
-				SIZE = large
-				COUNTY = title:c_dakhina_desa
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:vedda
-				SIZE = large
-				COUNTY = title:c_kandy
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:vedda
-				SIZE = large
-				COUNTY = title:c_rohana
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:vedda
-				SIZE = large
-				COUNTY = title:c_batticaloa
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:vedda
-				SIZE = large
-				COUNTY = title:c_phiti
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:vedda
-				SIZE = large
-				COUNTY = title:c_trincomalee
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:vedda
-				SIZE = large
-				COUNTY = title:c_jaffna
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:vedda
-				SIZE = large
-				COUNTY = title:c_kotte
-			}
-
-			add_faith_minority_effect = {
-				FAITH = faith:vedda_pagan
-				SIZE = large
-				COUNTY = title:c_dakhina_desa
-			}
-
-			add_faith_minority_effect = {
-				FAITH = faith:vedda_pagan
-				SIZE = large
-				COUNTY = title:c_kandy
-			}
-
-			add_faith_minority_effect = {
-				FAITH = faith:vedda_pagan
-				SIZE = large
-				COUNTY = title:c_rohana
-			}
-
-			add_faith_minority_effect = {
-				FAITH = faith:vedda_pagan
-				SIZE = large
-				COUNTY = title:c_batticaloa
-			}
-
-			add_faith_minority_effect = {
-				FAITH = faith:vedda_pagan
-				SIZE = large
-				COUNTY = title:c_phiti
-			}
-
-			add_faith_minority_effect = {
-				FAITH = faith:vedda_pagan
-				SIZE = large
-				COUNTY = title:c_trincomalee
-			}
-
-			add_faith_minority_effect = {
-				FAITH = faith:vedda_pagan
-				SIZE = large
-				COUNTY = title:c_jaffna
-			}
-
-			add_faith_minority_effect = {
-				FAITH = faith:vedda_pagan
-				SIZE = large
-				COUNTY = title:c_kotte
-			}
-		}
-
-		### ROA ###
-
-		if = {
-            limit = { game_start_date >= 1050.1.1 }
-
-			add_culture_minority_effect = {
-				CULTURE = culture:sheren
-				SIZE = large
-				COUNTY = title:c_qianzhou_jiangxi_china
-			}
-		}
-
-
-		add_faith_minority_effect = {
-			FAITH = faith:manichean
-			SIZE = small
-			COUNTY = title:c_lanzhou_longxi_china
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:ashari
-			SIZE = small
-			COUNTY = title:c_lanzhou_longxi_china
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_lanzhou_longxi_china
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:radhanite
-			SIZE = small
-			COUNTY = title:c_lanzhou_longxi_china
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:levantine
-			SIZE = small
-			COUNTY = title:c_lanzhou_longxi_china
-		}
-
-
-		add_faith_minority_effect = {
-			FAITH = faith:manichean
-			SIZE = small
-			COUNTY = title:c_changan_china
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:ashari
-			SIZE = small
-			COUNTY = title:c_changan_china
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_changan_china
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:radhanite
-			SIZE = small
-			COUNTY = title:c_changan_china
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:levantine
-			SIZE = small
-			COUNTY = title:c_lanzhou_longxi_china
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:rabbinism
-			SIZE = small
-			COUNTY = title:c_bianzhou_china
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:kaifengim
-			SIZE = small
-			COUNTY = title:c_bianzhou_china
-		}
-
-
-		add_faith_minority_effect = {
-			FAITH = faith:ashari
-			SIZE = small
-			COUNTY = title:c_zhangzhou_min_china
-		}
-
-		add_faith_minority_effect = {
-			FAITH = faith:ashari
-			SIZE = small
-			COUNTY = title:c_nanhai_china
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:nestorian
-			SIZE = small
-			COUNTY = title:c_nanhai_china
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:mazdayasna
-			SIZE = small
-			COUNTY = title:c_nanhai_china
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bedouin
-			SIZE = small
-			COUNTY = title:c_lanzhou_longxi_china
-		}
-
-
-		add_faith_minority_effect = {
-			FAITH = faith:ashari
-			SIZE = small
-			COUNTY = title:c_pasai
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bedouin
-			SIZE = small
-			COUNTY = title:c_pasai
-		}
-
-
-		add_faith_minority_effect = {
-			FAITH = faith:ashari
-			SIZE = small
-			COUNTY = title:c_lamuri
-		}
-		add_culture_minority_effect = {
-			CULTURE = culture:bedouin
-			SIZE = small
-			COUNTY = title:c_lamuri
-		}
-
-        if = {
-            limit = { game_start_date >= 986.1.1 }
-
-			add_culture_minority_effect = {
-				CULTURE = culture:cham
-				SIZE = small
-				COUNTY = title:c_zhenzhou_zhuyajun_china
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:chamic_shaivism
-				SIZE = small
-				COUNTY = title:c_zhenzhou_zhuyajun_china
-			}
-		}
-
-		if = {
-			limit = {
-				game_start_date >= 1030.1.1
-				game_start_date <= 1066.12.31
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:tamil
-				SIZE = small
-				COUNTY = title:c_lamuri
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:shaivism
-				SIZE = small
-				COUNTY = title:c_lamuri
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:tamil
-				SIZE = small
-				COUNTY = title:c_pasai
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:shaivism
-				SIZE = small
-				COUNTY = title:c_pasai
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:tamil
-				SIZE = small
-				COUNTY = title:c_perlak
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:shaivism
-				SIZE = small
-				COUNTY = title:c_perlak
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:tamil
-				SIZE = small
-				COUNTY = title:c_siak
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:shaivism
-				SIZE = small
-				COUNTY = title:c_siak
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:tamil
-				SIZE = small
-				COUNTY = title:c_palembang
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:shaivism
-				SIZE = small
-				COUNTY = title:c_palembang
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:tamil
-				SIZE = large
-				COUNTY = title:c_barus
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:shaivism
-				SIZE = large
-				COUNTY = title:c_barus
-			}
-		}
-
-		title:k_chenla = {
-			every_de_jure_county = {
-				limit = {
-					culture = culture:khmer
-				}
-
-				add_faith_minority_effect = {
-					FAITH = faith:theravada
-					SIZE = small
-					COUNTY = this
-				}
-				add_faith_minority_effect = {
-					FAITH = faith:mahayana
-					SIZE = large
-					COUNTY = this
-				}
-			}
-		}
-
-		# Goryeo
-		if = {
-			limit = {
-				game_start_date = 936.1.1
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:balhae
-				SIZE = large
-				COUNTY = title:c_kaeseong
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:goguryeo
-				SIZE = large
-				COUNTY = title:c_kaeseong
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:balhae
-				SIZE = large
-				COUNTY = title:c_pyongyang
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:goguryeo
-				SIZE = large
-				COUNTY = title:c_pyongyang
-			}
-
-			add_culture_minority_effect = {
-				CULTURE = culture:balhae
-				SIZE = large
-				COUNTY = title:c_seohae
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:goguryeo
-				SIZE = large
-				COUNTY = title:c_seohae
-			}
-		}
-
-		# Crimea
-		if = {
-			limit = {
-				game_start_date <= 1346.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:greek
-				SIZE = large
-				COUNTY = title:c_kerch
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:circassian
-				SIZE = large
-				COUNTY = title:c_kerch
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 1346.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:greek
-				SIZE = small
-				COUNTY = title:c_kerch
-			}
-		}
-
-		# Caucasus Steppe
-		if = {
-			limit = {
-				game_start_date >= 700.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:khazar
-				SIZE = large
-				COUNTY = title:c_khumar
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:tengri_pagan
-				SIZE = large
-				COUNTY = title:c_khumar
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:circassian
-				SIZE = large
-				COUNTY = title:c_azov
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:khazar
-				SIZE = large
-				COUNTY = title:c_papagia
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:tengri_pagan
-				SIZE = large
-				COUNTY = title:c_papagia
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:khazar
-				SIZE = small
-				COUNTY = title:c_samiran
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:circassian
-				SIZE = small
-				COUNTY = title:c_maghas
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:tengri_pagan
-				SIZE = small
-				COUNTY = title:c_samiran
-			}
-		}
-
-		# North-East Caucasus
-		if = {
-			limit = {
-				game_start_date >= 734.1.1
-				game_start_date <= 1236.1.1
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:ashari
-				SIZE = small
-				COUNTY = title:c_avaria
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:ashari
-				SIZE = small
-				COUNTY = title:c_samanderia
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:ashari
-				SIZE = small
-				COUNTY = title:c_kuba
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:ashari
-				SIZE = small
-				COUNTY = title:c_balanjar
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:ashari
-				SIZE = large
-				COUNTY = title:c_derbent
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 700.1.1
-				game_start_date <= 900.1.1
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:tengri_pagan
-				SIZE = small
-				COUNTY = title:c_cabardinia
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:tawlu
-				SIZE = small
-				COUNTY = title:c_cabardinia
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 900.1.1
-				game_start_date <= 1000.1.1
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:tengri_pagan
-				SIZE = large
-				COUNTY = title:c_cabardinia
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:tawlu
-				SIZE = large
-				COUNTY = title:c_cabardinia
-			}
-		}
-
-		# North-West Caucasus
-		if = {
-			limit = {
-				game_start_date >= 1000.1.1
-				game_start_date <= 1239.1.1
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:apsuara
-				SIZE = small
-				COUNTY = title:c_kassogia
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:abasgi
-				SIZE = small
-				COUNTY = title:c_kassogia
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 1239.1.1
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:orthodox
-				SIZE = large
-				COUNTY = title:c_kassogia
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:abasgi
-				SIZE = large
-				COUNTY = title:c_kassogia
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 100.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:alan
-				SIZE = small
-				COUNTY = title:c_kassogia
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:alan_pagan
-				SIZE = small
-				COUNTY = title:c_kassogia
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:ubykh
-				SIZE = small
-				COUNTY = title:c_abkhazia
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:ubykh
-				SIZE = large
-				COUNTY = title:c_zichia
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:afrabasgi
-				SIZE = small
-				COUNTY = title:c_abkhazia
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 500.1.1
-				game_start_date <= 1000.1.1
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:orthodox
-				SIZE = large
-				COUNTY = title:c_abkhazia
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 500.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:georgian
-				SIZE = large
-				COUNTY = title:c_abkhazia
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 700.1.1
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:rabbinism
-				SIZE = small
-				COUNTY = title:c_zichia
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:radhanite
-				SIZE = small
-				COUNTY = title:c_zichia
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 700.1.1
-				game_start_date <= 990.1.1
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:orthodox
-				SIZE = large
-				COUNTY = title:c_tmutarakan
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 700.1.1
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:rabbinism
-				SIZE = small
-				COUNTY = title:c_tmutarakan
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:radhanite
-				SIZE = small
-				COUNTY = title:c_tmutarakan
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:greek
-				SIZE = large
-				COUNTY = title:c_tmutarakan
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:georgian
-				SIZE = small
-				COUNTY = title:c_tmutarakan
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:russian
-				SIZE = small
-				COUNTY = title:c_tmutarakan
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:alan
-				SIZE = small
-				COUNTY = title:c_tmutarakan
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:armenian_apostolic
-				SIZE = small
-				COUNTY = title:c_tmutarakan
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:armenian
-				SIZE = small
-				COUNTY = title:c_tmutarakan
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:lezgic
-				SIZE = small
-				COUNTY = title:c_tmutarakan
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:circassian
-				SIZE = large
-				COUNTY = title:c_tmutarakan
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:circassian_christianity
-				SIZE = large
-				COUNTY = title:c_tmutarakan
-			}
-		}
-
-		# Kingdom of Vladimir-Opolye
-		if = {
-			limit = {
-				game_start_date >= 1050.1.1
-				game_start_date <= 1337.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:merya
-				SIZE = small
-				COUNTY = title:c_yaroslavl
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:mari_pagan
-				SIZE = small
-				COUNTY = title:c_yaroslavl
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 1000.1.1
-				game_start_date <= 1108.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:russian
-				SIZE = large
-				COUNTY = title:c_vladimir
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:orthodox
-				SIZE = small
-				COUNTY = title:c_vladimir
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 1000.1.1
-				game_start_date <= 1150.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:russian
-				SIZE = large
-				COUNTY = title:c_suzdal
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:orthodox
-				SIZE = small
-				COUNTY = title:c_suzdal
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 1135.1.1
-				game_start_date <= 1337.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:merya
-				SIZE = small
-				COUNTY = title:c_tver
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:mari_pagan
-				SIZE = small
-				COUNTY = title:c_tver
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 1100.1.1
-				game_start_date <= 1337.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:meshchera
-				SIZE = large
-				COUNTY = title:c_moskva
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:erzya_pagan
-				SIZE = large
-				COUNTY = title:c_moskva
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 1150.1.1
-				game_start_date <= 1337.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:meshchera
-				SIZE = large
-				COUNTY = title:c_ryazan
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:erzya_pagan
-				SIZE = large
-				COUNTY = title:c_ryazan
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 1150.1.1
-				game_start_date <= 1337.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:meshchera
-				SIZE = large
-				COUNTY = title:c_tula
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:moksha_pagan
-				SIZE = large
-				COUNTY = title:c_tula
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 1150.1.1
-				game_start_date <= 1337.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:muroma
-				SIZE = large
-				COUNTY = title:c_murom
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:erzya_pagan
-				SIZE = large
-				COUNTY = title:c_murom
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 1150.1.1
-				game_start_date <= 1337.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:mari
-				SIZE = large
-				COUNTY = title:c_nizhny_novgorod
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:mari_pagan
-				SIZE = large
-				COUNTY = title:c_nizhny_novgorod
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 1150.1.1
-				game_start_date <= 1337.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:merya
-				SIZE = large
-				COUNTY = title:c_plyos
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:mari_pagan
-				SIZE = large
-				COUNTY = title:c_plyos
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 1150.1.1
-				game_start_date <= 1337.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:merya
-				SIZE = large
-				COUNTY = title:c_manturovo
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:mari_pagan
-				SIZE = large
-				COUNTY = title:c_manturovo
-			}
-		}
-
-		# Pamir
-		if = {
-			limit = {
-				game_start_date >= 100.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:burusho
-				SIZE = large
-				COUNTY = title:c_gilgit
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 100.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:burusho
-				SIZE = large
-				COUNTY = title:c_yasin
-			}
-		}
-		if = {
-			limit = {
-				game_start_date >= 100.1.1
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:burusho
-				SIZE = large
-				COUNTY = title:c_golaghmuli
-			}
-		}
-	}
-}
-}
-
-{
-setup_indian_christian_minorities = {
-	effect = {
-		title:c_kerala = {
-			save_scope_as = county
-			promote_faith_minority_effect = { FAITH = faith:indian_catholic }
-		}
-		title:c_jaffna = {
-			save_scope_as = county
-			promote_faith_minority_effect = { FAITH = faith:indian_catholic }
-		}
-		title:c_kotte = {
-			save_scope_as = county
-			promote_faith_minority_effect = { FAITH = faith:indian_catholic }
-		}
-		title:c_venadu = {
-			save_scope_as = county
-			promote_faith_minority_effect = { FAITH = faith:indian_catholic }
-		}
-		title:c_kanara = {
-			save_scope_as = county
-			promote_faith_minority_effect = { FAITH = faith:indian_catholic }
-		}
-		# Also setting up deactivated holy sites here since it's related
-		faith:indian_catholic = {
-			deactivate_holy_site = rome_nasrani
-			deactivate_holy_site = constantinople_nasrani
-		}
-	}
-}
-
-
-
-setup_RICE_minorities = {
-	trigger = {
-		has_global_variable = is_RICE_loaded_global_variable
-	}
-	effect = {
-		every_county_in_region = {
-			region = RICE_pamir_region
-			save_scope_as = county
-			add_culture_minority_effect = {
-				CULTURE = culture:burusho
-				COUNTY = scope:county
-				SIZE = small
-			}
-		}
-		every_county_in_region = {
-			region = RICE_pamir_full_region
-			save_scope_as = county
-			add_culture_minority_effect = {
-				CULTURE = culture:nuristani
-				COUNTY = scope:county
-				SIZE = small
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:nuristani_pagan
-				COUNTY = scope:county
-				SIZE = small
-			}
-		}
-		every_county = {
-			limit = {
-				has_county_modifier = RICE_pamir_brahui_tribes
-			}
-			save_scope_as = county
-			add_culture_minority_effect = {
-				CULTURE = culture:brahui
-				COUNTY = scope:county
-				SIZE = small
-			}
-		}
-		title:c_socotra = {
-			save_scope_as = county
-			if = {
-				limit = { current_date <= 1000.1.1 }
-				promote_faith_minority_effect = { FAITH = faith:arabic_pagan }
-				promote_faith_minority_effect = { FAITH = faith:south_arabian_pagan }
-			}
-			promote_faith_minority_effect = { FAITH = faith:malagasy_pagan }
-			promote_faith_minority_effect = { FAITH = faith:shona_pagan }
-			promote_culture_minority_effect = { CULTURE = culture:malagasy }
-			promote_culture_minority_effect = { CULTURE = culture:shona }
-			promote_culture_minority_effect = { CULTURE = culture:swahili }
-		}
-		title:c_zabid = {
-			save_scope_as = county
-			if = {
-				limit = { current_date <= 1000.1.1 }
-				promote_culture_minority_effect = { CULTURE = culture:himyarite }
-			}
-		}
-		title:c_taizz = {
-			save_scope_as = county
-			if = {
-				limit = { current_date <= 1000.1.1 }
-				promote_culture_minority_effect = { CULTURE = culture:himyarite }
-			}
-		}
-		title:c_mandab = {
-			save_scope_as = county
-			if = {
-				limit = { current_date <= 1000.1.1 }
-				promote_culture_minority_effect = { CULTURE = culture:himyarite }
-			}
-		}
-		add_culture_minority_effect = {
-			COUNTY = title:c_sanaa
-			CULTURE = culture:teimani
-			SIZE = large
-		}
-		add_culture_minority_effect = {
-			COUNTY = title:c_taizz
-			CULTURE = culture:teimani
-			SIZE = large
-		}
-		add_culture_minority_effect = {
-			COUNTY = title:c_tihamat-al-yamani
-			CULTURE = culture:teimani
-			SIZE = small
-		}
-		add_culture_minority_effect = {
-			COUNTY = title:c_zabid
-			CULTURE = culture:teimani
-			SIZE = small
-		}
-		add_culture_minority_effect = {
-			COUNTY = title:c_mandab
-			CULTURE = culture:teimani
-			SIZE = small
-		}
-		add_culture_minority_effect = {
-			COUNTY = title:c_dathina
-			CULTURE = culture:teimani
-			SIZE = small
-		}
-		add_faith_minority_effect = {
-			COUNTY = title:c_hamadan
-			FAITH = faith:rabbinism
-			SIZE = large
-		}
-		title:c_hamadan = {
-			every_neighboring_county = {
-				save_scope_as = county
-				promote_faith_minority_effect = { FAITH = faith:rabbinism }
-			}
-		}
-		add_culture_minority_effect = {
-			COUNTY = title:c_tustar
-			CULTURE = culture:parsim
-			SIZE = small
-		}
-		add_faith_minority_effect = {
-			COUNTY = title:c_tustar
-			FAITH = faith:rabbinism
-			SIZE = small
-		}
-		every_county = {
-			limit = {
-				kingdom = title:k_persia
-				county_has_specific_minority_faith_trigger = { FAITH = faith:rabbinism }
-			}
-			save_scope_as = county
-			if = {
-				limit = {
-					county_has_specific_small_minority_faith_trigger = { FAITH = faith:rabbinism }
-				}
-				add_culture_minority_effect = {
-					CULTURE = culture:parsim
-					COUNTY = scope:county
-					SIZE = small
-				}
-			}
-			else_if = {
-				limit = {
-					county_has_specific_large_minority_faith_trigger = { FAITH = faith:rabbinism }
-				}
-				add_culture_minority_effect = {
-					CULTURE = culture:parsim
-					COUNTY = scope:county
-					SIZE = large
-				}
-			}
-		}
-		add_culture_minority_effect = {
-			COUNTY = title:c_gamo
-			CULTURE = culture:aari
-			SIZE = small
-		}
-		add_culture_minority_effect = {
-			COUNTY = title:c_burji
-			CULTURE = culture:aari
-			SIZE = small
-		}
-		add_faith_minority_effect = {
-			COUNTY = title:c_gamo
-			FAITH = faith:south_omotic_pagan
-			SIZE = small
-		}
-		add_faith_minority_effect = {
-			COUNTY = title:c_burji
-			FAITH = faith:south_omotic_pagan
-			SIZE = small
-		}
-		#Sicily
-		#gonna just rip off India's religious diversity schtick for RICE Sicily's faiths and cultures
-		every_county = {
-			limit = {
-				title_province = { geographical_region = custom_sicily }
-			}
-			this = { save_temporary_scope_as = the_county_temp }
-			every_neighboring_county = {
-				if = {
-					limit = {
-						faith = {
-							NOT = { this = scope:the_county_temp.faith }
-						}
-					}
-					faith = { add_to_list = neighboring_faiths }
-				}
-				if = {
-					limit = {
-						culture = {
-							NOT = { this = scope:the_county_temp.culture }
-						}
-					}
-					culture = { add_to_list = neighboring_cultures }
-				}
-			}
-			if = {
-				limit = { NOT = { faith = holder.faith } }
-				holder.faith = { add_to_list = neighboring_faiths }
-			}
-			if = {
-				limit = { NOT = { culture = holder.culture } }
-				holder.faith = { add_to_list = neighboring_cultures }
-			}
-			every_in_list = {
-				list = neighboring_faiths
-				this = { save_temporary_scope_as = the_faith_temp }
-				scope:the_county_temp = {
-					add_to_variable_list = {
-						name = faith_minorities_small
-						target = scope:the_faith_temp
-					}
-				}
-				this = { remove_from_list = neighboring_faiths }
-			}
-			every_in_list = {
-				list = neighboring_cultures
-				this = { save_temporary_scope_as = the_culture_temp }
-				scope:the_county_temp = {
-					add_to_variable_list = {
-						name = culture_minorities_small
-						target = scope:the_culture_temp
-					}
-				}
-				this = { remove_from_list = neighboring_cultures }
-			}
-		}
-	}
-}
-}
-
 } # End of sea_minority_game_start
-
-
-
-# Remove various story/historical events that dont really make sense because of conversion. (Only removing content inside on_actions since trying to remove the initial call to the on_action at the start of the file caused some issues, I probably did it wrong.)
-"common\on_action\sea_game_start.txt" = {
-
-# assign_nanzhao_state code
-
-	{
-        if = {
-            limit = {
-                current_date < 902.1.1
-            }
-            title:k_nanzhao = {
-                set_variable = nanzhao
-            }
-        }
-        else_if = {
-            limit = {
-                current_date >= 902.1.1
-                current_date < 928.1.1
-            }
-            title:k_nanzhao = {
-                set_variable = dachanghe
-            }
-        }
-        else_if = {
-            limit = {
-                current_date >= 928.1.1
-                current_date < 929.1.1
-            }
-            title:k_nanzhao = {
-                set_variable = datianxing
-            }
-        }
-        else_if = {
-            limit = {
-                current_date >= 929.1.1
-                current_date < 937.1.1
-            }
-            title:k_nanzhao = {
-                set_variable = dayining
-            }
-        }
-	}
-
-# sea_historical_artifacts code
-
-	{
-        if = {
-            limit = {
-                has_dlc_feature = royal_court
-                exists = title:e_kambujadesa.holder
-            }
-
-            if = { # Emerald Buddha
-                limit = { current_date >= 1432.1.1 }
-                title:e_kambujadesa.holder = {
-                    create_artifact_emerald_buddha = { OWNER = this }
-                }
-            }
-
-            if = { # Laguna Copperplate
-                limit = { current_date >= 900.1.1 }
-                title:c_tondo.holder = {
-                    create_artifact_laguna_copperplate = { OWNER = this }
-                }
-            }
-
-            if = { # Heirloom Seal of the Realm
-                limit = { current_date <= 907.1.1 }
-                title:e_celestia_china.holder = {
-                    create_artifact_heirloom_seal = { OWNER = this }
-                }
-            }
-
-            if = { # Kavirajamarga - The Royal Path for Poets written by Amoghavarsha
-                limit = { current_date < 1000.1.1 } #Only generated for early start
-                title:k_karnata.holder = {
-                    create_artifact_kavirajamarga_effect = { OWNER = this }
-                }
-            }
-
-            if = { # Wujing Zongyao / 武經總要
-                limit = { current_date > 1044.1.1 }
-                title:e_celestia_china.holder = {
-                    create_artifact_wujing_zongyao_effect = { OWNER = this }
-                }
-            }
-        }
-	}
-
-# sea_historical_chinese_vassal_contracts code
-
-	{
-		title:e_celestia_china.holder = {
-
-            if = {
-                limit = {
-                    game_start_date <= 900.1.1 # Tang Dynasty
-                    has_government = chinese_government
-                }
-
-                if = {
-                    limit = { NOT = { has_realm_law = bureaucratic_authority_1 } }
-                    add_realm_law_skip_effects = bureaucratic_authority_1
-                }
-
-                # Set all vassals to military
-                every_vassal = {
-                    limit = {
-                        primary_title.tier >= tier_county
-                        has_government = chinese_government
-                    }
-
-                    vassal_contract_set_obligation_level = {
-                        type = chinese_administration_type
-                        level = chinese_administration_type_military
-                    }
-
-                    if = {
-                        limit = {
-                            OR = {
-                                # Three Fanzhen of Hebei
-                                this = character:tangv017
-                                this = character:tangv018
-                                this = character:tangv019
-                            }
-                        }
-                        vassal_contract_set_obligation_level = {
-                            type = chinese_centralization_level
-                            level = chinese_centralization_level_1
-                        }
-                        vassal_contract_set_obligation_level = {
-                            type = chinese_centralization_level
-                            level = chinese_centralization_level_0
-                        }
-                    }
-                }
-            }
-            else_if = {
-                limit = {
-                    game_start_date >= 960.1.1 # Song Dynasty
-                }
-
-                if = {
-                    limit = { NOT = { has_realm_law = bureaucratic_authority_2 } }
-                    add_realm_law_skip_effects = bureaucratic_authority_2
-                }
-            }
-        }
-	}
-
-# set_court_languages code
-
-	{
-        if = {
-            limit = { exists = title:e_nanzhao.holder }
-            title:e_nanzhao.holder = { set_court_language = language_chinese }
-        }
-        if = {
-            limit = { exists = title:k_nanzhao.holder }
-            title:k_nanzhao.holder = { set_court_language = language_chinese }
-        }
-        if = {
-            limit = { exists = title:k_annam.holder }
-            title:k_annam.holder = { set_court_language = language_chinese }
-        }
-	}
-
-# nerf_japan code
-
-	{
-        title:k_yamato.holder = {
-            every_vassal = {
-                limit = { highest_held_title_tier > tier_barony }
-                vassal_contract_set_obligation_level = {
-                    type = title_revocation_rights
-                    level = 1
-                }
-                vassal_contract_set_obligation_level = {
-                    type = feudal_government_taxes
-                    level = 0
-                }
-                vassal_contract_set_obligation_level = {
-                    type = feudal_government_levies
-                    level = 0
-                }
-            }
-        }
-	}
-
-# sea_936_conquerors code
-
-	{
-        # Otto the Great
-        character:1282 = {
-            if = { limit = { is_alive = yes } }
-            create_story = story_conqueror
-        }
-        # Taizong of Great Liao
-        character:194326 = {
-            if = { limit = { is_alive = yes } }
-            create_story = story_conqueror
-        }
-	}
-
-} # End of sea_game_start
-
 
 
 "common\on_action\sea_yearly_on_actions.txt" = {
@@ -7489,227 +4664,6 @@ start_nanzhao_collapse = {
 
 
 
-"common\on_action\sea_tributaries_game_start.txt" = {
-
-# set_tributaries_on_game_start code
-
-	{
-        # 867
-        if = {
-            limit = {
-                game_start_date >= 867.1.1
-                game_start_date <= 867.12.31
-            }
-
-            ## Set tributaries
-            # Srivijaya
-                title:e_srivijaya.holder = {
-                    set_relation_tributary = title:d_tanjungpura.holder
-                    set_relation_tributary = title:c_panai.holder
-                    set_relation_tributary = title:d_tanjungpura.holder
-                    set_relation_tributary = title:c_nagur.holder
-                    set_relation_tributary = title:d_lamuri.holder
-                    set_relation_tributary = title:d_wijayapura.holder
-                }
-
-            # Nanzhao
-                # Lishui
-                title:d_myitkyina.holder = {
-                    set_relation_tributary = title:c_mongyang.holder
-                }
-
-                # Yongchang
-                title:d_yongchang.holder = {
-                    set_relation_tributary = title:c_putao.holder
-                }
-
-                # Beikthano
-                title:c_beikthano.holder = {
-                    set_relation_tributary = title:c_magwe.holder
-                }
-
-                # Yinsheng
-                title:d_kainan.holder = {
-                    set_relation_tributary = title:d_kengtung.holder
-                    set_relation_tributary = title:d_phongsali.holder
-                    set_relation_tributary = title:c_chiang_hung.holder
-                    set_relation_tributary = title:c_meng_laa.holder
-                }
-
-                # Tonghai
-                title:c_tonghai.holder = {
-                    set_relation_tributary = title:c_hohoxe.holder
-                    set_relation_tributary = title:c_tu_long.holder
-                    set_relation_tributary = title:c_bao_lac.holder
-                }
-
-            # Shan
-                title:d_yawnghwe.holder = {
-                    set_relation_tributary = title:c_yawnghwe.holder
-                }
-                title:c_laikha.holder = {
-                    set_relation_tributary = title:c_mongkung.holder
-                }
-                title:d_north_shan.holder = {
-                    set_relation_tributary = title:c_manglon.holder
-                }
-                title:d_kengtung.holder = {
-                    set_relation_tributary = title:c_chiang_hung.holder
-                }
-                title:c_chiang_hung.holder = {
-                    set_relation_tributary = title:c_meng_laa.holder
-                }
-
-            # Mon
-                title:d_thaton.holder = {
-                    set_relation_tributary = title:c_pegu.holder
-                    set_relation_tributary = title:c_hpapun.holder
-                }
-                title:c_hpa_an.holder = {
-                    set_relation_tributary = title:c_kawkareik.holder
-                }
-
-            # Annam
-                title:k_jinghai.holder = {
-                    set_relation_tributary = title:d_nong.holder
-                    set_relation_tributary = title:c_tu_long.holder
-                    set_relation_tributary = title:c_thuy_vi.holder
-                    set_relation_tributary = title:c_lo.holder
-                    set_relation_tributary = title:c_tra_lan.holder
-                    set_relation_tributary = title:c_quynh_nhai.holder
-                    set_relation_tributary = title:c_yen_lo.holder
-                }
-
-            # China
-                title:e_celestia_china.holder = {
-                    set_relation_tributary = title:k_guiyi.holder
-                }
-        }
-
-        # 867
-        if = {
-            limit = {
-                game_start_date >= 867.1.1
-                game_start_date <= 930.1.1
-            }
-
-            ## Set tributaries
-            # Srivijaya
-                title:e_srivijaya.holder = {
-                    set_relation_tributary = title:d_sunda.holder
-                }
-        }
-
-        # 936
-        if = {
-            limit = {
-                game_start_date >= 936.1.1
-                game_start_date < 937.1.1
-            }
-
-            ## Set tributaries
-
-            # Jin
-                title:e_liao.holder = {
-                    set_relation_tributary = title:k_jin_china.holder
-                }
-
-                title:e_celestia_china.holder = {
-                    set_relation_tributary = title:d_liangzhou.holder
-                    set_relation_tributary = title:d_dingnan_china.holder
-                    set_relation_tributary = title:k_guiyi.holder
-                }
-
-            # Sri Gotapura
-                title:e_kambujadesa.holder = {
-                    set_relation_tributary = title:d_nakhon_phanom.holder
-                }
-
-        }
-
-        # 1066
-        if = {
-            limit = {
-                game_start_date >= 1066.1.1
-                game_start_date <= 1066.12.31
-            }
-
-            ## Set tributaries
-            # Pagan
-            title:k_pagan.holder = {
-                set_relation_tributary = title:d_arakan.holder
-                set_relation_tributary = title:c_hsipaw.holder
-                set_relation_tributary = title:d_north_shan.holder
-                set_relation_tributary = title:d_mongpai.holder
-                set_relation_tributary = title:c_kale.holder
-                set_relation_tributary = title:c_bhamo.holder
-            }
-            title:c_kale.holder = {
-                set_relation_tributary = title:c_thaungdut.holder
-            }
-            title:c_takon.holder = {
-                set_relation_tributary = title:c_mongyang.holder
-            }
-
-            # Liao
-                # Chanyuan Treaty from 1005 to 1125
-                title:e_liao.holder = {
-                    set_relation_tributary = title:e_celestia_china.holder
-                }
-
-            # Chola hold over Srivijaya
-                title:k_tamilakam.holder = {
-                    set_relation_tributary = title:e_srivijaya.holder
-                }
-
-                title:e_srivijaya.holder = {
-                    set_relation_tributary = title:d_tambralinga.holder
-                }
-
-            # Dai Viet
-                title:e_dai_viet.holder = {
-                    set_relation_tributary = title:d_muong.holder
-                    set_relation_tributary = title:c_van_ban.holder
-                }
-
-            # Dali
-                title:k_nanzhao.holder = {
-                    set_relation_tributary = title:d_muang_thaeng.holder
-                }
-
-            # Caucasus
-                title:e_cumania.holder = {
-                    set_relation_tributary = title:c_kassogia.holder
-                    set_relation_tributary = title:c_zichia.holder
-                    set_relation_tributary = title:c_samander.holder
-                    set_relation_tributary = title:c_samiran.holder
-                    set_relation_tributary = title:k_caucasus.holder
-                    set_relation_tributary = title:k_dagestan.holder
-                }
-        }
-
-        # 1178
-        if = {
-            limit = {
-                game_start_date >= 1178.1.1
-                game_start_date <= 1178.12.31
-            }
-            title:k_melayu.holder = {
-                set_relation_tributary = title:d_batak.holder
-                set_relation_tributary = title:d_pahang.holder
-                set_relation_tributary = title:d_kedah.holder
-                set_relation_tributary = title:d_lampung.holder
-                set_relation_tributary = title:k_sunda.holder
-                set_relation_tributary = title:d_aru.holder
-            }
-
-        }
-	}
-
-} # End of sea_tributaries_game_start
-
-
-
 # Try to remove bookmark data so it defaults to the converter's bookmark
 # Rajas's other bookmark file, 11_sea_bookmarks, is completely commented out and seems to be more for potential bookmarks that could be made, so that'll be left
 "common\bookmarks\bookmarks\10_sea_bookmarks.txt" = {
@@ -7720,7 +4674,7 @@ bm_867_sea = {
 	group = bm_group_867
 
 	weight = {
-		value = 1000
+		value = 0
 	}
 
 	# Pyinbya of Pagan
@@ -7736,34 +4690,16 @@ bm_867_sea = {
 		religion = ari
 		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
 		history_id = earlyburman001
-		position = { 258 493 }
+		position = { 308 493 }
 
 		animation = personality_rational
-	}
-
-	# Jayavarman III of Kambujadesa
-	character = {
-		name = "bookmark_sea_jayavarman_iii"
-		dynasty = 4200000
-		dynasty_splendor_level = 1
-		type = male
-		birth = 821.1.1
-		title = e_kambujadesa
-		government = mandala_government
-		culture = khmer
-		religion = shaivism
-		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
-		history_id = 420011
-		position = { 424 834 }
-
-		animation = shame
 	}
 
 	# Indravarman I
 	character = {
 		name = "bookmark_sea_indravarman_i"
 		dynasty = 4200000
-		dynasty_splendor_level = 2
+		dynasty_splendor_level = 3
 		type = male
 		birth = 824.1.1
 		title = d_sambhupura
@@ -7772,9 +4708,22 @@ bm_867_sea = {
 		religion = shaivism
 		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
 		history_id = 420012
-		position = { 624 534 }
+		position = { 524 794 }
 
 		animation = schadenfreude
+
+		# Jayavarman III of Kambujadesa
+		character = {
+			name = "bookmark_sea_indravarman_i_jayavarman_iii"
+			relation = "BOOKMARK_RELATION_LIEGE"
+			dynasty = 4200000
+			type = male
+			birth = 821.1.1
+			culture = khmer
+			religion = shaivism
+			history_id = 420011
+			animation = shame
+		}
 	}
 
 	# Khuc Thua Du
@@ -7799,7 +4748,7 @@ bm_867_sea = {
 	character = {
 		name = "bookmark_sea_indravarman_ii"
 		dynasty = 4210009
-		dynasty_splendor_level = 2
+		dynasty_splendor_level = 1
 		type = male
 		birth = 835.1.1
 		title = k_champa
@@ -7808,7 +4757,7 @@ bm_867_sea = {
 		religion = mahayana
 		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
 		history_id = cham012
-		position = { 1112 819 }
+		position = { 1052 839 }
 
 		animation = personality_bold
 	}
@@ -7826,7 +4775,7 @@ bm_867_sea = {
 		religion = azhaliism
 		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
 		history_id = 421011
-		position = { 866 251 }
+		position = { 936 221 }
 
 		animation = war_over_win
 	}
@@ -7844,9 +4793,22 @@ bm_867_sea = {
 		religion = azhaliism
 		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
 		history_id = zheng0005
-		position = { 346 261 }
+		position = { 346 180 }
 
 		animation = war_over_win
+
+		# Jayavarman III of Kambujadesa
+		character = {
+			name = "bookmark_sea_zheng_maisi"
+			relation = "BOOKMARK_RELATION_SON"
+			dynasty = d_zheng
+			type = male
+			birth = 861.1.1
+			culture = han
+			religion = azhaliism
+			history_id = 421200
+			animation = shame
+		}
 	}
 }
 
@@ -7856,14 +4818,14 @@ bm_867_nusantara = {
 	group = bm_group_867
 
 	weight = {
-		value = 1000
+		value = 0
 	}
 
 	# Sri Maharaja Balaputradewa of Srivijaya
 	character = {
 		name = "bookmark_nusantara_balaputradewa"
 		dynasty = dynn_sailendra
-		dynasty_splendor_level = 4
+		dynasty_splendor_level = 3
 		type = male
 		birth = 818.1.1
 		title = e_srivijaya
@@ -7899,7 +4861,7 @@ bm_867_nusantara = {
 	character = {
 		name = "bookmark_nusantara_gajah_kulon"
 		dynasty = dynn_galuh
-		dynasty_splendor_level = 3
+		dynasty_splendor_level = 2
 		type = male
 		birth = 800.1.1
 		title = d_galuh
@@ -7917,7 +4879,7 @@ bm_867_nusantara = {
 	character = {
 		name = "bookmark_nusantara_indra_warmandewa"
 		dynasty = dynn_warman
-		dynasty_splendor_level = 3
+		dynasty_splendor_level = 2
 		type = male
 		birth = 800.1.1
 		title = d_kutai
@@ -7932,184 +4894,20 @@ bm_867_nusantara = {
 	}
 }
 
-#bm_867_sea_india = {
-#	start_date = 867.1.1
-#	is_playable = yes
-#	group = bm_group_867
-#
-#	weight = {
-#		value = 100
-#	}
-#
-#	# Bhoja Pratihara
-#	character = {
-#		name = "bookmark_sea_india_pratihara"
-#		dynasty = 1042066
-#		dynasty_splendor_level = 5
-#		type = male
-#		birth = 816.4.13
-#		title = k_kosala
-#		government = mandala_government
-#		culture = rajput
-#		religion = vaishnavism
-#		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
-#		history_id = 188008
-#		position = { 588 293 }
-#
-#		animation = personality_bold
-#	}
-#
-#	# Amoghavarsha Rashtrakuta
-#	character = {
-#		name = "bookmark_sea_india_rashtrakuta"
-#		dynasty = 1043003
-#		dynasty_splendor_level = 3
-#		type = male
-#		birth = 800.1.1
-#		title = k_karnata
-#		government = mandala_government
-#		culture = kannada
-#		religion = digambara
-#		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
-#		history_id = 175030
-#		position = { 558 743 }
-#
-#		animation = personality_zealous
-#	}
-#
-#	# Narayanapala Pala
-#	character = {
-#		name = "bookmark_sea_india_pala"
-#		dynasty = 1043000
-#		dynasty_splendor_level = 2
-#		type = male
-#		birth = 839.1.1
-#		title = k_bengal
-#		government = mandala_government
-#		culture = bengali
-#		religion = mahayana
-#		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
-#		history_id = 190009
-#		position = { 1158 693 }
-#
-#		animation = worry
-#	}
-#}
-#
-#bm_867_sea_tibet = {
-#	start_date = 867.1.1
-#	is_playable = yes
-#	group = bm_group_867
-#
-#	weight = {
-#		value = 100
-#	}
-#
-#	# Vikarma Vijaya of Khotan
-#	character = {
-#		name = "bookmark_sea_tibet_khotan"
-#		dynasty = 1040024
-#		dynasty_splendor_level = 5
-#		type = male
-#		birth = 847.1.1
-#		title = k_khotan
-#		government = feudal_government
-#		culture = saka
-#		religion = mahayana
-#		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
-#		history_id = 166681
-#		position = { 288 603 }
-#
-#		animation = personality_rational
-#	}
-#
-#	# Bokut Bilga of Qocho
-#	character = {
-#		name = "bookmark_sea_tibet_qocho"
-#		dynasty = 1040065
-#		dynasty_splendor_level = 1
-#		type = male
-#		birth = 839.6.5
-#		title = k_qocho
-#		government = feudal_government
-#		culture = uyghur
-#		religion = manichean
-#		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
-#		history_id = 302972
-#		position = { 458 233 }
-#
-#		animation = personality_bold
-#	}
-#
-#	# Zhang Huaishen of Guiyi
-#	character = {
-#		name = "bookmark_sea_tibet_guiyi"
-#		dynasty = 1055006
-#		dynasty_splendor_level = 1
-#		type = male
-#		birth = 820.1.1
-#		title = k_guiyi
-#		government = chinese_government
-#		culture = han
-#		religion = zhengyi
-#		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
-#		history_id = 244004
-#		position = { 1100 203 }
-#
-#		animation = personality_honorable
-#	}
-#
-#	# Mande Osung of Guge
-#	character = {
-#		name = "bookmark_sea_tibet_guge"
-#		dynasty = 105800
-#		dynasty_splendor_level = 5
-#		type = male
-#		birth = 840.1.1
-#		title = k_guge
-#		government = feudal_government
-#		culture = bodpa
-#		religion = lamaism
-#		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_HARD"
-#		history_id = 247131
-#		position = { 388 833 }
-#
-#		animation = war_attacker
-#	}
-#
-#	# Tride Yumten of U
-#	character = {
-#		name = "bookmark_sea_tibet_u"
-#		dynasty = 105800
-#		dynasty_splendor_level = 5
-#		type = male
-#		birth = 842.1.1
-#		title = k_u
-#		government = feudal_government
-#		culture = bodpa
-#		religion = old_bon
-#		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_HARD"
-#		history_id = 247132
-#		position = { 1200 700 }
-#
-#		animation = personality_vengeful
-#	}
-#}
-
 bm_867_sea_china = {
 	start_date = 867.1.1
 	is_playable = yes
 	group = bm_group_867
 
 	weight = {
-		value = 1000
+		value = 0
 	}
 
 	# tang
 	character = {
 		name = "bookmark_sea_china_tang"
 		dynasty = tang_d01
-		dynasty_splendor_level = 5
+		dynasty_splendor_level = 3
 		type = male
 		birth = 833.1.1
 		title = e_tang
@@ -8128,7 +4926,7 @@ bm_867_sea_china = {
 	character = {
 		name = "bookmark_sea_china_balhae"
 		dynasty = balhae_d01
-		dynasty_splendor_level = 5
+		dynasty_splendor_level = 2
 		type = male
 		birth = 812.1.1
 		title = k_balhae
@@ -8146,7 +4944,7 @@ bm_867_sea_china = {
 	character = {
 		name = "bookmark_sea_china_muege"
 		dynasty = 4210003
-		dynasty_splendor_level = 5
+		dynasty_splendor_level = 2
 		type = male
 		birth = 843.1.1
 		title = d_bozhou_qian_china
@@ -8164,7 +4962,7 @@ bm_867_sea_china = {
 	character = {
 		name = "bookmark_sea_china_lulong"
 		dynasty = tang_d03
-		dynasty_splendor_level = 0
+		dynasty_splendor_level = 1
 		type = male
 		birth = 785.1.1
 		title = d_lulong_china
@@ -8182,7 +4980,7 @@ bm_867_sea_china = {
 	character = {
 		name = "bookmark_sea_china_yamato"
 		dynasty = yamatod001
-		dynasty_splendor_level = 5
+		dynasty_splendor_level = 2
 		type = male
 		birth = 850.5.10
 		title = k_yamato
@@ -8200,7 +4998,7 @@ bm_867_sea_china = {
 	character = {
 		name = "bookmark_sea_china_silla"
 		dynasty_house = house_silla_kim
-		dynasty_splendor_level = 5
+		dynasty_splendor_level = 1
 		type = male
 		birth = 846.1.1
 		title = k_silla
@@ -8212,6 +5010,107 @@ bm_867_sea_china = {
 		position = { 1088 263 }
 
 		animation = schadenfreude
+	}
+}
+
+bm_867_sea_caucasus = {
+	start_date = 867.1.1
+	is_playable = yes
+	group = bm_group_867
+
+	weight = {
+		value = 1000
+	}
+
+	# Abu Ishaq
+	character = {
+		name = "bookmark_sea_caucasus_abu_ishaq"
+		dynasty = abu_ishaq_dynasty
+		dynasty_splendor_level = 1
+		type = male
+		birth = 822.1.1
+		title = d_laamp_abu_ishaq
+		government = landless_adventurer_government
+		culture = persian
+		religion = ashari
+		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
+		history_id = abu_ishaq_adventurer
+		position = { 700 150 }
+		# requires_dlc_flag = landless_adventurer
+
+		animation = personality_zealous
+	}
+
+	# Ashot
+	character = {
+		name = "bookmark_sea_caucasus_ashot"
+		dynasty = 507
+		dynasty_splendor_level = 3
+		type = male
+		birth = 820.1.1
+		title = k_armenian_principality
+		government = feudal_government
+		culture = armenian
+		religion = armenian_apostolic
+		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
+		history_id = 41505
+		position = { 500 800 }
+
+		animation = personality_zealous
+	}
+
+	# Abkhazia
+	character = {
+		name = "bookmark_sea_caucasus_abkhazia"
+		dynasty_house = house_achba
+		dynasty_splendor_level = 3
+		type = male
+		birth = 805.1.1
+		title = k_abkhazia
+		government = feudal_government
+		culture = abkhaz
+		religion = orthodox
+		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
+		history_id = 70471
+		position = { 400 550 }
+
+		animation = personality_zealous
+	}
+
+	# Derbent
+	character = {
+		name = "bookmark_sea_caucasus_derbent"
+		dynasty = 7326
+		dynasty_splendor_level = 1
+		type = male
+		birth = 835.1.1
+		title = d_derbent
+		government = clan_government
+		culture = persian
+		religion = ashari
+		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
+		history_id = 93010
+		position = { 1050 550 }
+
+		animation = personality_zealous
+	}
+
+	# Tuahy
+	character = {
+		name = "bookmark_sea_caucasus_tuahy"
+		dynasty = berzeg_dynasty
+		dynasty_splendor_level = 1
+		type = male
+		birth = 830.1.1
+		title = c_tuahy
+		government = tribal_government
+		culture = ubykh
+		religion = circassian_pagan
+		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
+		history_id = qermisha_berzeg
+		position = { 300 300 }
+
+		animation = personality_zealous
 	}
 }
 
@@ -8232,12 +5131,12 @@ bm_936_sea_five_dynasties = {
 		type = male
 		birth = 902.11.25
 		title = e_liao
-		government = nomadic_government
+		government = nomad_government
 		culture = khitan
 		religion = mahayana
 		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
 		history_id = 194326
-		position = { 356 294 }
+		position = { 256 294 }
 
 		animation = dismissal
 	}
@@ -8256,7 +5155,7 @@ bm_936_sea_five_dynasties = {
 		religion = shangqing
 		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
 		history_id = licongke_tang
-		position = { 666 804 }
+		position = { 766 704 }
 
 		animation = worry
 	}
@@ -8274,7 +5173,7 @@ bm_936_sea_five_dynasties = {
 		religion = shangqing
 		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
 		history_id = shijingtang_jin
-		position = { 276 624 }
+		position = { 426 524 }
 
 		animation = rage
 	}
@@ -8310,9 +5209,40 @@ bm_936_sea_five_dynasties = {
 		religion = mahayana
 		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
 		history_id = goryeo001
-		position = { 1056 724 }
+		position = { 1156 724 }
 
 		animation = personality_compassionate
+	}
+
+	# Song
+	character = {
+		name = "bookmark_five_dynasties_song"
+		dynasty = song_d01
+		dynasty_splendor_level = 1
+		type = male
+		birth = 899.1.1
+		title = d_nf_zhao
+		government = administrative_government
+		fallback_government = chinese_government
+		culture = han
+		religion = zhengyi
+		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
+		history_id = song000
+		position = { 320 804 }
+
+		animation = personality_honorable
+
+		character = {
+			name = "bookmark_five_dynasties_song_taizu"
+			relation = "BOOKMARK_RELATION_SON"
+			dynasty = song_d01
+			type = male
+			birth = 927.3.21
+			culture = han
+			religion = zhengyi
+			history_id = song001
+			animation = personality_bold
+		}
 	}
 }
 
@@ -8514,8 +5444,8 @@ bm_1066_sea_china = {
 		dynasty_splendor_level = 3
 		type = male
 		birth = 1032.9.14
-		title = e_liao_dynasty
-		government = nomadic_government
+		title = e_liao
+		government = nomad_government
 		culture = khitan
 		religion = mahayana
 		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
@@ -8707,11 +5637,127 @@ bm_1066_southeast_asia = {
 	}
 }
 
-
-#bm_1271_sea = {
-# 	start_date = 1271.12.18
-# 	is_playable = yes
-# 	group = bm_group_867
+#bm_1178_caucasus = {
+#	start_date = 1178.10.1
+#	is_playable = yes
+#	group = bm_group_1178
+#
+#	weight = {
+#		value = 0
+#	}
+#
+#	character = {
+#		name = "bookmark_caucasus_new_england"
+#		dynasty = 744
+#		dynasty_splendor_level = 1
+#		type = male
+#		birth = 1128.4.1
+#		title = c_zichia
+#		government = feudal_government
+#		culture = anglo_saxon
+#		religion = catholic
+#		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_HARD"
+#		history_id = siward_3
+#		position = { 350 200 }
+#
+#		animation = survey
+#	}
+#
+#	character = {
+#		name = "bookmark_caucasus_tuqar_of_zichia"
+#		dynasty = tuqariqo
+#		dynasty_splendor_level = 1
+#		type = male
+#		birth = 1165.4.1
+#		title = d_zichia
+#		government = tribal_government
+#		culture = circassian
+#		religion = circassian_christianity
+#		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_HARD"
+#		history_id = circassian_tuqar
+#		position = { 500 350 }
+#
+#		animation = thinking
+#	}
+#
+#	character = {
+#		name = "bookmark_caucasus_jahan_pahlavan"
+#		dynasty = 101876
+#		dynasty_splendor_level = 2
+#		type = male
+#		birth = 1137.4.1
+#		title = k_adurbadagan
+#		government = clan_government
+#		culture = turkish
+#		religion = maturidi
+#		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_EASY"
+#		history_id = 144052
+#		position = { 520 700 }
+#
+#		animation = personality_honorable
+#	}
+#
+#	character = {
+#		name = "bookmark_caucasus_vladislav_suarny"
+#		dynasty_house = house_tzarason
+#		dynasty_splendor_level = 4
+#		type = male
+#		birth = 1160.4.1
+#		title = d_alania
+#		government = tribal_government
+#		culture = alan
+#		religion = mtielta
+#		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_HARD"
+#		history_id = 93036
+#		position = { 800 425 }
+#
+#		animation = disapproval
+#
+#		character = {
+#			name = "bookmark_caucasus_vladislav_suarny_alania"
+#			relation = "BOOKMARK_RELATION_LIEGE"
+#			dynasty_house = house_bagrationi
+#			type = male
+#			birth = 1120.1.2
+#			title = k_caucasus
+#			government = tribal_government
+#			culture = alan
+#			religion = mtielta
+#			history_id = 216524
+#			animation = dismissal
+#		}
+#	}
+#
+#	character = {
+#		name = "bookmark_caucasus_khour_of_ogra"
+#		dynasty = khasi_dynasty
+#		dynasty_splendor_level = 1
+#		type = male
+#		birth = 1172.4.1
+#		title = c_orga
+#		government = tribal_government
+#		culture = nakh
+#		religion = NEC_orthodox
+#		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
+#		history_id = khasi_3
+#		position = { 1000 150 }
+#
+#		animation = admiration
+#
+#		character = {
+#			name = "bookmark_caucasus_khour_of_ogra_dzurdzuketia"
+#			relation = "BOOKMARK_RELATION_FATHER"
+#			dynasty = khasi_dynasty
+#			type = male
+#			birth = 1155.1.2
+#			title = d_chechnya
+#			government = tribal_government
+#			culture = nakh
+#			religion = NEC_orthodox
+#			history_id = khasi_1
+#			animation = boredom
+#		}
+#	}
 #}
 	}
 
