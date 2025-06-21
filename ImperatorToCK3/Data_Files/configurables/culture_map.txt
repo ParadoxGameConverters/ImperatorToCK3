@@ -469,6 +469,7 @@ link = { ck3 = german @ir_all_germanic_cultures }
 
 # The Glory of Rome
 link = { ck3 = greek @ir_greek_cultures @roman_tags } # Modified cultures so base game greek represents the Romanized-Greeks
+link = { ck3 = greek ir = romano_hellenic ir = helleno_roman } # From "Terra Europea - Terra Indomita Sub-Mod". Both represent a sort of Roman-Hellenic hybridized culture, which, as of now, best matches the base game greek culture, so will map to that for now until a better mapping is determined.
 
 # TFE
 link = { ck3 = pontic ir = greco_pontic }
@@ -666,10 +667,10 @@ link = { ck3 = nepali ir = kasi ir = vrji ir = malla }
 
 ## Proto European
 # TFE
-link = { ck3 = aquitanian ir = cantabrian ir = ilergetian ir = autrigonian ir = vasconian ir = aquitani ir = talaiotic }
+link = { ck3 = aquitanian ir = cantabrian ir = ilergetian ir = autrigonian ir = vasconian ir = aquitani }
 # Vanilla CK3
-link = { ck3 = basque ir = cantabrian ir = ilergetian ir = autrigonian ir = vasconian ir = aquitani ir = talaiotic }
-link = { ck3 = nuragic ir = nuragic ir = corsian }
+link = { ck3 = basque ir = cantabrian ir = ilergetian ir = autrigonian ir = vasconian ir = aquitani }
+link = { ck3 = nuragic ir = nuragic ir = corsian ir = talaiotic }
 
 ## Scythian
 link = { ck3 = cuman ir = cuman } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
@@ -979,7 +980,8 @@ link = { ck3=georgian ir=sasperires } # Sasperires were an ancient tribe in the 
 link = { ck3=udmurt ir=argippaei } # Argippaei were described by Herodotus as living north of Scythia, possibly related to Sarmatians or Alans (But the converter already has quite a few cultures mapped to those, and doing research/asking chatgpt doesn't give a single answer as they may not have been an atual culture, just a mis-identified one. So for now, will map it to something different for more variety. ChatGPT recommneded cultures like Komi, but since another culture is mapped to that, for now I will just map it to Udmurt ~~tanner918)
 link = { ck3=samoyed ir=arimphaei } # Arimphaei were described as living in the far north, possibly related to Finno-Ugric peoples
 link = { ck3=kurykan ir=jiankun } # Both cultures seem to have same/similar language and culture group/background
-link = { ck3=samoyed ir=sargat ck3Region = d_ustyug ck3Region = d_vologda ck3Region = d_chudia ck3Region = d_biarmia ck3Region = d_nizhny_novgorod ck3Region = d_vepsia } # This mapping is here since the russian impassable wasteland at the top of the map appears to be Sargat, and it covers the region of Bjarmaland. So I am including this mapping to make sure that Bjarmian gets setup there. ~~tanner918
+link = { ck3=samoyed ir=sargat ck3Region = d_ustyug ck3Region = d_vologda ck3Region = d_chudia ck3Region = d_biarmia ck3Region = d_nizhny_novgorod ck3Region = d_vepsia ck3Region = d_pinega } # This mapping is here since the russian impassable wasteland at the top of the map appears to be Sargat, and it covers the region of Bjarmaland. So I am including this mapping to make sure that Bjarmian gets setup there. ~~tanner918
+link = { ck3=nenets ir=sargat ck3Region = d_cherdyn ck3Region = d_mezen ck3Region = d_pyras ck3Region = d_vychegda ck3Region = d_vym ck3Region = d_pechora ck3Region = d_nenetsia ck3Region = d_ortina ck3Region = d_izhma } # This mapping is here since the russian impassable wasteland at the top of the map covers the Nenets' region, so I am including this mapping to make sure that they get setup there. ~~tanner918
 link = { ck3=khanty ir=sargat } # Wikipedia says they could have been a mix of Ugrian and Siberian peoples, and some early Iranian/Indo-Iranian peoples. Since it is in the Uralic culture group, mapping to Khanty for now
 link = { ck3 = tocharian ir = jushi } # ChatGPT and Wikipedia state they most likely spoke a Sakan or Tocharian language, and that they eventually got pushed out by incoming invading Turkic peoples. So for now, will map to Tocharian ~~tanner918
 link = { ck3 = komi ir = permic } 

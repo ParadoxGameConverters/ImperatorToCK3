@@ -1,33 +1,32 @@
 # This file contains the language families, language branches and language groups added by the converter
 # when a CK3 mod that uses Community Culture Utility mechanics is detected.
-# Currently, this includes "When the World Stopped Making Sense", "The Fallen Eagle" and "Rajas of Asia".
+# Currently, this includes "When the World Stopped Making Sense" (wtwsms), "The Fallen Eagle" (tfe), and "Rajas of Asia" (roa).
 
 
 language_families = {
 	MOD_DEPENDENT = {
     	IF wtwsms = {
     		language_family_kra_dai
-    		language_family_elamite_family
-    		language_family_paleo_sardinian
-    		language_family_tyrsenian
-			language_family_hurro_urartian
+			language_family_paleo_sardinian
+			language_family_tyrsenian
 			language_family_sumerian
+    		language_family_hurro_urartian
 			language_family_gutian
 			language_family_pre_greek
 			language_family_hatti
     	} ELSE_IF roa = {
 			language_family_paleo_sardinian
 			language_family_tyrsenian
-			language_family_hurro_urartian
 			language_family_sumerian
+			language_family_hurro_urartian
 			language_family_gutian
 			language_family_pre_greek
 			language_family_hatti
 		} ELSE_IF tfe = {
 			language_family_paleo_sardinian
 			language_family_kra_dai
-			language_family_hurro_urartian
 			language_family_sumerian
+			language_family_hurro_urartian
 			language_family_gutian
 			language_family_pre_greek
 			language_family_hatti
@@ -38,14 +37,24 @@ language_families = {
 language_branches = {
 	MOD_DEPENDENT = {
 		IF wtwsms = {
-			language_branch_palaungic
-			language_branch_pearic
 			language_branch_tai
 			language_branch_nuragic
-			language_branch_elamite_group
 			language_branch_etruscan
-			language_branch_hurrian
+			language_branch_palaungic
+			language_branch_pearic
 			language_branch_sumerian
+			language_branch_hurrian
+			language_branch_gutian
+			language_branch_pre_greek
+			language_branch_hatti
+		}
+		ELSE_IF roa = {
+			language_branch_nuragic
+			language_branch_anatolian
+			language_branch_balkan
+			language_branch_etruscan
+			language_branch_sumerian
+			language_branch_hurrian
 			language_branch_gutian
 			language_branch_pre_greek
 			language_branch_hatti
@@ -56,25 +65,22 @@ language_branches = {
 language_groups = {
 	MOD_DEPENDENT = {
 		IF roa = {
-			language_group_nuragic
-			language_group_anatolian
-			language_group_italic
-			language_group_etruscan
+			language_group_continental_celtic
+			language_group_sabellic
+			language_group_celto_italic
 			language_group_daco_thracian
-			language_group_hurrian
-			language_group_sumerian
-			language_group_gutian
-			language_group_pre_greek
-			language_group_hatti
 		} ELSE_IF tfe = {
+			language_group_tai
 			language_group_nuragic
 			language_group_italic
-			language_group_tai
-			language_group_hurrian
 			language_group_sumerian
+			language_group_hurrian
 			language_group_gutian
 			language_group_pre_greek
 			language_group_hatti
+		} ELSE_IF wtwsms = {
+			language_group_sabellic
+			language_group_celto_italic
 		}
 	}
 }
