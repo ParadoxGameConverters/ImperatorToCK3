@@ -64,7 +64,9 @@ internal static class WorldOutputter {
 				if (config.LegionConversion == LegionConversion.MenAtArms) {
 					MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
 				}
-			})
+			}),
+			
+			DiplomacyOutputter.OutputLeagues(outputPath, ck3World.Diplomacy.Leagues)
 		);
 
 		// Localization should be output last, as it uses data written by other outputters.

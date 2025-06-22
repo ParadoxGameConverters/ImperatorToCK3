@@ -3,6 +3,7 @@ on_game_start = {
 	on_actions = {
 		IRToCK3_create_admin_noble_families
 		IRToCK3_fix_roman_empire_name
+		IRToCK3_initial_variables
 	}
 }
 
@@ -722,5 +723,12 @@ IRToCK3_gamestart_events = {
 		every_player = {
 			trigger_event = welcome.1 # This event so far just notifies the players of the game rules added by the converter
 		}
+	}
+}
+
+# This just sets up a global variable that could be checked by any theoretical mod that wants to consider whether the converter was used
+IRToCK3_initial_variables = {
+	effect = {
+		set_global_variable = irtock3_enabled
 	}
 }

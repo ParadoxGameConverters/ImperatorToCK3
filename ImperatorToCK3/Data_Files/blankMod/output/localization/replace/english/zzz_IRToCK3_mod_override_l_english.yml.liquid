@@ -74,4 +74,14 @@ l_english:
  # Key is missing localization: TFE_chariot_completed_log_entry_title
  TFE_gladiator_completed_log_entry_title: "$TFE_gladiator_completed_log_title$"
  TFE_chariot_completed_log_entry_title: "$TFE_chariot_completed_log_title$"
+
+ # TFE refers to this heritage group as the Latin Heritage Group, but because the converter adds in non-Latin Italic cultures, this should be renamed to be the Italic Heritage Group instead
+ culture_parameter_heritage_group_latin: "#P +[EmptyScope.ScriptValue('same_heritage_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Italic [heritage_group|E]"
+{% elsif roa %}
+l_english:
+ # MUST READ:
+ # for every overridden loc, explain why we're overriding it!
+
+ # ROA refers to this heritage group as the Romance Heritage Group, but because the converter adds in non-Latin Italic cultures, this should be renamed to be the Italic Heritage Group instead
+ culture_parameter_heritage_group_latin: "#P +[EmptyScope.ScriptValue('same_heritage_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Italic [heritage_group|E]"
 {% endif %}

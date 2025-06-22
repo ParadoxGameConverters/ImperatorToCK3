@@ -5,6 +5,7 @@ using commonItems.Mods;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
+using ImperatorToCK3.CK3.Diplomacy;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Legends;
 using ImperatorToCK3.CK3.Provinces;
@@ -38,6 +39,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Open.Collections;
+using DiplomacyDB = ImperatorToCK3.CK3.Diplomacy.DiplomacyDB;
 using System.Collections.Frozen;
 
 namespace ImperatorToCK3.CK3;
@@ -60,6 +62,7 @@ internal sealed class World {
 	public MapData MapData { get; private set; } = null!;
 	public List<Wars.War> Wars { get; } = [];
 	public LegendSeedCollection LegendSeeds { get; } = [];
+	public DiplomacyDB Diplomacy { get; } = new();
 	internal CoaMapper CK3CoaMapper { get; private set; } = null!;
 	private readonly List<string> enabledDlcFlags = [];
 
@@ -408,6 +411,10 @@ internal sealed class World {
 			() => {
 				LegendSeeds.LoadSeeds(ModFS);
 				LegendSeeds.RemoveAnachronisticSeeds("configurables/legend_seeds_to_remove.txt");
+			},
+
+			() => {
+				Diplomacy.ImportImperatorLeagues(impWorld.DefensiveLeagues, impWorld.Countries);
 			}
 		);
 	}
