@@ -882,6 +882,7 @@ garamantes_flavour_effect = {
 	}
 }
 
+# Can probably move this to replaceable_file_blocks_tfe.txt once that is working properly so this file isn't as long, and just have the call to the set_minorities_game_start on_action get removed
 "common/on_action/sea_minority_game_start.txt" = {
 	# Anachronistic
 	{
@@ -30056,14 +30057,6 @@ icelandic = {
 }
 
 
-"common/decisions/80_major_decisions_south_asia.txt" = {
-	# No e_rajastan in TFE as of the 'After The Pharaohs' update
-	{
-		completely_controls = title:e_rajastan
-	}
-}
-
-
 "common/decisions/80_major_decisions.txt" = {
 	# innovation_ledger is not in TFE as of the 'After the Pharaohs' update.
 	{
@@ -30081,18 +30074,6 @@ icelandic = {
 
 
 "common/scripted_effects/00_decisions_effects.txt" = {
-	# No e_rajastan in TFE as of the 'After The Pharaohs' update
-	{
-	title:e_rajastan = { add_to_list = indian_empire }
-	}
-
-	{
-		if = {
-			limit = { has_title = title:e_rajastan }
-			destroy_title = title:e_rajastan
-		}
-	}
-
 	# No k_sorbia in TFE as of the 'After The Pharaohs' update
 	{
 	title:k_sorbia = { add_to_list = west_slavic_kingdoms }
@@ -30646,305 +30627,6 @@ on_yearly_sevenhouses = {
 	# fix "Unexpected token: prefix, near line: 386" from error.log
 	{
 	prefix = yes
-	}
-}
-
-
-"common/scripted_effects/00_mongol_invasion_effects.txt" = {
-	# Character 125501 (Temujin) is not in TFE as of the 'After The Pharaohs' update.
-	{
-	if = {
-		limit = {
-			exists = character:125501
-			character:125501 = {
-				is_ai = no
-			}
-		}
-		character:125501 = {
-			save_scope_as = temujin
-		}
-		if = {
-			limit = {
-				#The DLC has our own BECOME GENGHIS stuff for players
-				has_mpo_dlc_trigger = no
-			}
-			scope:temujin = {
-				give_temujin_land_effect = yes
-				# Make temporarily immune to disease
-				add_character_flag = {
-					flag = immune_to_disease
-					years = 15
-				}
-
-				add_trait = greatest_of_khans
-				form_the_mongol_empire_effect = yes
-				add_prestige = 25000
-				give_nickname = nick_genghis_khan
-				trigger_event = conqueror.0001
-			}
-		}
-		else = {
-			scope:temujin = {
-				# Make temporarily immune to disease
-				add_character_flag = {
-					flag = immune_to_disease
-					years = 15
-				}
-				trigger_event = conqueror.0001
-			}
-		}
-	}
-	else_if = {
-		limit = {
-			exists = character:125501
-			character:125501 = { is_physically_able_ai_adult = yes }
-		}
-		character:125501 = {
-			save_scope_as = temujin
-		}
-		scope:temujin = {
-			# Make temporarily immune to disease
-			add_character_flag = {
-				flag = immune_to_disease
-				years = 15
-			}
-
-			add_trait = greatest_of_khans
-			give_temujin_land_effect = yes
-			add_gold = 5000
-			add_dread = high_dread
-			spawn_temujins_court_effect = yes
-			form_the_mongol_empire_effect = yes
-			add_prestige = 25000
-			if = {
-				limit = {
-					has_mpo_dlc_trigger = no
-					NOT = { has_perk = peacemaker_perk }
-				}
-				add_perk = peacemaker_perk
-			}
-			remove_trait = education_diplomacy_1
-			remove_trait = education_diplomacy_2
-			remove_trait = education_diplomacy_3
-			remove_trait = education_diplomacy_4
-			remove_trait = education_diplomacy_5
-			remove_trait = education_intrigue_1
-			remove_trait = education_intrigue_2
-			remove_trait = education_intrigue_3
-			remove_trait = education_intrigue_4
-			remove_trait = education_intrigue_5
-			remove_trait = education_stewardship_1
-			remove_trait = education_stewardship_2
-			remove_trait = education_stewardship_3
-			remove_trait = education_stewardship_4
-			remove_trait = education_stewardship_5
-			remove_trait = education_learning_1
-			remove_trait = education_learning_2
-			remove_trait = education_learning_3
-			remove_trait = education_learning_4
-			remove_trait = education_learning_5
-			remove_trait = education_martial_1
-			remove_trait = education_martial_2
-			remove_trait = education_martial_3
-			remove_trait = education_martial_4
-			add_trait = education_martial_5
-			add_trait = flexible_leader
-			add_trait = athletic
-			if = {
-				limit = { has_dlc_feature = tours_and_tournaments }
-				add_trait = tourney_participant
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = lifestyle_hunter
-					TRACK = hunter
-					LEVEL_1 = yes
-					LEVEL_3 = no
-				}
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = tourney_participant
-					TRACK = horse
-					LEVEL_1 = yes
-					LEVEL_3 = yes
-				}
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = tourney_participant
-					TRACK = bow
-					LEVEL_1 = yes
-					LEVEL_3 = yes
-				}
-			}
-			dynasty = {
-				add_dynasty_prestige_level = 5
-				add_dynasty_prestige = 10000
-				add_dynasty_perk = warfare_legacy_1
-				add_dynasty_perk = warfare_legacy_2
-				add_dynasty_perk = warfare_legacy_3
-				add_dynasty_perk = warfare_legacy_4
-				add_dynasty_perk = warfare_legacy_5
-				if = {
-					limit = {
-						has_dlc_feature = hybridize_culture
-					}
-					add_dynasty_perk = ep1_culture_legacy_1
-				}
-			}
-			give_nickname = nick_genghis_khan
-		}
-	}
-	else_if = {
-		limit = {
-			exists = character:125501.dynasty
-			character:125501.dynasty = {
-				any_dynasty_member = {
-					is_ai = no
-					is_landed = yes
-				}
-			}
-		}
-		character:125501.dynasty = {
-			random_dynasty_member = {
-				limit = {
-					is_ai = no
-					is_landed = yes
-				}
-				save_scope_as = temujin
-			}
-		}
-		if = {
-			limit = { has_mpo_dlc_trigger = no }
-			scope:temujin = {
-				# Make temporarily immune to disease
-				add_character_flag = {
-					flag = immune_to_disease
-					years = 15
-				}
-
-				add_trait = greatest_of_khans
-				form_the_mongol_empire_effect = yes
-				add_prestige = 25000
-				give_nickname = nick_genghis_khan
-				trigger_event = conqueror.0001
-			}
-		}
-		else = {
-			scope:temujin = {
-				# Make temporarily immune to disease
-				add_character_flag = {
-					flag = immune_to_disease
-					years = 15
-				}
-				trigger_event = conqueror.0001
-			}
-		}
-	}
-	else_if = {
-		limit = {
-			exists = character:125501.dynasty
-			character:125501.dynasty = {
-				any_dynasty_member = {
-					is_physically_able_ai_adult = yes
-				}
-			}
-		}
-		character:125501.dynasty = {
-			random_dynasty_member = {
-				limit = {
-					is_physically_able_ai_adult = yes
-					is_landed = yes
-				}
-				alternative_limit = {
-					is_physically_able_ai_adult = yes
-				}
-				save_scope_as = temujin
-			}
-		}
-		scope:temujin = {
-			# Make temporarily immune to disease
-			add_character_flag = {
-				flag = immune_to_disease
-				years = 15
-			}
-
-			add_trait = greatest_of_khans
-			give_temujin_land_effect = yes
-			add_gold = 5000
-			add_dread = high_dread
-			spawn_temujins_court_effect = yes
-			form_the_mongol_empire_effect = yes
-			add_prestige = 25000
-			if = {
-				limit = {
-					has_mpo_dlc_trigger = no
-					NOT = { has_perk = peacemaker_perk }
-				}
-				add_perk = peacemaker_perk
-			}
-			remove_trait = education_diplomacy_1
-			remove_trait = education_diplomacy_2
-			remove_trait = education_diplomacy_3
-			remove_trait = education_diplomacy_4
-			remove_trait = education_diplomacy_5
-			remove_trait = education_intrigue_1
-			remove_trait = education_intrigue_2
-			remove_trait = education_intrigue_3
-			remove_trait = education_intrigue_4
-			remove_trait = education_intrigue_5
-			remove_trait = education_stewardship_1
-			remove_trait = education_stewardship_2
-			remove_trait = education_stewardship_3
-			remove_trait = education_stewardship_4
-			remove_trait = education_stewardship_5
-			remove_trait = education_learning_1
-			remove_trait = education_learning_2
-			remove_trait = education_learning_3
-			remove_trait = education_learning_4
-			remove_trait = education_learning_5
-			remove_trait = education_martial_1
-			remove_trait = education_martial_2
-			remove_trait = education_martial_3
-			remove_trait = education_martial_4
-			add_trait = education_martial_5
-			add_trait = flexible_leader
-			add_trait = athletic
-			if = {
-				limit = { has_dlc_feature = tours_and_tournaments }
-				add_trait = tourney_participant
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = lifestyle_hunter
-					TRACK = hunter
-					LEVEL_1 = yes
-					LEVEL_3 = no
-				}
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = tourney_participant
-					TRACK = horse
-					LEVEL_1 = yes
-					LEVEL_3 = yes
-				}
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = tourney_participant
-					TRACK = bow
-					LEVEL_1 = yes
-					LEVEL_3 = yes
-				}
-			}
-			dynasty = {
-				add_dynasty_prestige_level = 5
-				add_dynasty_prestige = 10000
-				add_dynasty_perk = warfare_legacy_1
-				add_dynasty_perk = warfare_legacy_2
-				add_dynasty_perk = warfare_legacy_3
-				add_dynasty_perk = warfare_legacy_4
-				add_dynasty_perk = warfare_legacy_5
-				if = {
-					limit = {
-						has_dlc_feature = hybridize_culture
-					}
-					add_dynasty_perk = ep1_culture_legacy_1
-				}
-			}
-			give_nickname = nick_genghis_khan
-		}
-	}
 	}
 }
 
@@ -32814,78 +32496,6 @@ tfe_struggle_compromise_ender_effect = {
 }
 
 
-"events/T4N_tributaries.txt" = {
-	# Unused event; from error.log: "Unknown effect random_war at file: events/T4N_tributaries.txt line: 223"
-	{
-#Suzerain is called to permanent tributary war
-#on_war_started
-#Root is suzerain
-#call_to_arms_tribute is defender
-tributaries.6 = {
-	type = character_event
-	theme = realm
-	title = tributary_6_tit
-	desc = tributary_6_desc
-	right_portrait = {
-		character = scope:call_to_arms_tribute
-		animation = war_defender 
-
-	}
-	left_portrait = { 
-		character = root
-		animation = personality_rational 
-	}
-
-	option = {
-		name = suzerain_joins_the_war
-		add_piety = minor_piety_value
-		scope:call_to_arms_tribute = {
-			random_war = {
-				limit = {
-					root = {
-						NOR = {
-							is_at_war_as_defender = yes
-							is_at_war_with = scope:call_to_arms_tribute
-						}
-					}
-				}
-				if = {
-					limit = {
-						scope:call_to_arms_tribute = {
-							is_at_war_as_attacker = yes
-						}
-					}
-					add_attacker = root
-				}
-				else_if = {
-					limit = {
-						scope:call_to_arms_tribute = {
-							is_at_war_as_defender = yes
-						}
-					}
-					add_defender = root
-				}
-				else = {
-					debug_log = "Something broke, report to typical"
-				}
-			}
-			trigger_event = { id = tributaries.8 } #tributary gets a positive response
-		}	
-	}
-
-	option = {
-		name = suzerain_refuses_to_join_war
-		add_prestige = major_prestige_loss
-		save_scope_as = former_suzerain
-		scope:call_to_arms_tribute = {
-			trigger_event = { id = tributaries.7 } #tributary gets a negative response
-		}
-	}
-}
-	}
-}
-
-
 "history/cultures/heritage_pictish.txt" = {
 	# innovation_pictish_warbands not in TFE as of the 'After The Pharaohs' update.
 	{
@@ -33956,7 +33566,7 @@ mx_cue_succession_instrumental = {
 	# play every time
 }
 	}
-}
+} # End of "music/in_game/TFE_music.txt"
 
 
 "music/music_player_categories/TFE_music_categories.txt" = {
@@ -34404,18 +34014,6 @@ feudal_government_or_dynastic_realm = {
 }
 
 
-"common/buildings/00_temple_buildings.txt" = {
-	# from error.log:
-	# Error: "Trigger section already read earlier: can_construct_showing_failures_only, near line: 637" in file: "common/buildings/00_temple_buildings.txt" near line: 640
-	{
-	can_construct_showing_failures_only = {
-		building_requirement_tribal = no
-		building_requirement_tribal_holding_in_county = yes
-	}
-	}
-}
-
-
 "common/modifiers/TFE_religion_modifiers.txt" = {
 	# from error.log:
 	# Error: "Unexpected token: forest_movement_speed, near line: 15" in file: "common/modifiers/TFE_religion_modifiers.txt" near line: 15
@@ -34663,7 +34261,16 @@ restore_palmyrene_empire_decision = {
 }
 
 
-"common/vassal_contracts/eranshar.txt" = {
+"common/council_tasks/00_steward_tasks.txt" = {
+	# No k_sorbia in TFE as of the 'After the Pharaohs' update.
+	{
+								capital_county.kingdom = title:k_sorbia
+	}
+}
+
+
+# TFE includes liege_opinion modifiers in various subject contracts, which aren't valid to have in contracts
+"common/subject_contracts/contracts/eranshar.txt" = {
 	# from error.log:
 	# Error: "Unexpected token: liege_opinion, near line: 126" in file: "common/vassal_contracts/eranshar.txt" near line: 126
 	{
@@ -34672,40 +34279,10 @@ restore_palmyrene_empire_decision = {
 }
 
 
-"common/vassal_contracts/gupta.txt" = {
+"common/subject_contracts/contracts/gupta.txt" = {
 	# from error.log:
 	# Error: "Unexpected token: liege_opinion, near line: 89" in file: "common/vassal_contracts/gupta.txt" near line: 89
 	{
 			liege_opinion = -30
-	}
-}
-
-
-"common/vassal_contracts/islamic.txt" = {
-	# from error.log:
-	# Error: "Unexpected token: if, near line: 91" in file: "common/vassal_contracts/islamic.txt" near line: 104
-	{
-			if = {
-				limit = {
-					AND = {
-						NOT = {
-							scope:vassal.faith = scope:liege.faith
-						}
-						scope:liege = {
-							has_religion = religion:islam_religion
-						}
-					}
-				}
-				tax = 0.2
-				vassal_opinion = -20
-			}
-	}
-}
-
-
-"common/council_tasks/00_steward_tasks.txt" = {
-	# No k_sorbia in TFE as of the 'After the Pharaohs' update.
-	{
-								capital_county.kingdom = title:k_sorbia
 	}
 }

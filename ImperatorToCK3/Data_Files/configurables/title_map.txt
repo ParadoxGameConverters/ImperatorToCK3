@@ -99,9 +99,9 @@ link = { ir = NRC ck3 = k_austria rank = k }
 
 
 #India/Tibet
-link = { ir = MRY ck3 = e_india rank = e }
-link = { ir = MRY ck3 = e_india rank = k }
-link = { ir = MRY ck3 = e_india rank = d }
+link = { ir = BHA ck3 = e_india rank = e }
+link = { ir = BHA ck3 = e_india rank = k } # e_india and BHA represent the same thing (a united India) that you get from conquering all of india and taking the relevant decision. Having MRY map to e_india sometimes causes issues with the CK3 decision to unite India.
+link = { ir = BHA ck3 = e_india rank = d }
 link = { ir = KHT ck3 = k_khotan rank = k }
 link = { ir = ANU ck3 = k_lanka rank = k }
 link = { ir = ANH ck3 = k_andhra rank = k }
@@ -136,7 +136,7 @@ link = { ir = DAN ck3 = k_denmark rank = k }
 link = { ir = RGG ck3 = k_pomerania rank = k }
 
 #Extra Ireland
-link = { ir = IVE ck3 = k_ireland rank = k }
+link = { ir = HIB ck3 = k_ireland rank = k } # HIB represents a united Ireland
 
 # Extra Baltic
 link = { ir = VND ck3 = e_wendish_empire rank = e }
@@ -169,9 +169,6 @@ link = { ir = SLA ck3 = e_slavia rank = e }
 link = { ir = SLA ck3 = e_slavia rank = k } # Decision in Terra-Indomita, requires owning a lot of land in the region, think it should be rewardes with mapping to e_slavia regardless of rank
 link = { ir = SLA ck3 = e_slavia rank = d }
 #link = { ir = HY7 ck3 = k_sapmi rank = k } # Tag added in Terra-Indomita. This tag is the only Sapmi culture tag in Terra-Indomita. Not sure if this is great mapping, but figured I'd include it as a recommendation
-
-# Tibet
-link = { ir = KHT ck3 = k_khotan rank = k } # Would this make sense/necessary?
 
 # China
 # Need to figure out what to do for china mappings. Should tags be mapped to e_celestia_china? I would assume mapping a chinese tag that should convert as an empire would make sense to be mapped to e_celestia_china, but if so what order? Would order really matter as what are the chances there'd be multiple empire conversions?

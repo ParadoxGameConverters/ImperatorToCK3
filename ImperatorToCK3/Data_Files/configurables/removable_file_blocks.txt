@@ -15007,3 +15007,302 @@ apply_historic_administrative_game_rule_effect = {
     }
 	}
 }
+
+
+"common/scripted_effects/00_mongol_invasion_effects.txt" = {
+	# Character 125501 (Temujin) won't exist, so just removing this part
+	{
+	if = {
+		limit = {
+			exists = character:125501
+			character:125501 = {
+				is_ai = no
+			}
+		}
+		character:125501 = {
+			save_scope_as = temujin
+		}
+		if = {
+			limit = {
+				#The DLC has our own BECOME GENGHIS stuff for players
+				has_mpo_dlc_trigger = no
+			}
+			scope:temujin = {
+				give_temujin_land_effect = yes
+				# Make temporarily immune to disease
+				add_character_flag = {
+					flag = immune_to_disease
+					years = 15
+				}
+
+				add_trait = greatest_of_khans
+				form_the_mongol_empire_effect = yes
+				add_prestige = 25000
+				give_nickname = nick_genghis_khan
+				trigger_event = conqueror.0001
+			}
+		}
+		else = {
+			scope:temujin = {
+				# Make temporarily immune to disease
+				add_character_flag = {
+					flag = immune_to_disease
+					years = 15
+				}
+				trigger_event = conqueror.0001
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			exists = character:125501
+			character:125501 = { is_physically_able_ai_adult = yes }
+		}
+		character:125501 = {
+			save_scope_as = temujin
+		}
+		scope:temujin = {
+			# Make temporarily immune to disease
+			add_character_flag = {
+				flag = immune_to_disease
+				years = 15
+			}
+
+			add_trait = greatest_of_khans
+			give_temujin_land_effect = yes
+			add_gold = 5000
+			add_dread = high_dread
+			spawn_temujins_court_effect = yes
+			form_the_mongol_empire_effect = yes
+			add_prestige = 25000
+			if = {
+				limit = {
+					has_mpo_dlc_trigger = no
+					NOT = { has_perk = peacemaker_perk }
+				}
+				add_perk = peacemaker_perk
+			}
+			remove_trait = education_diplomacy_1
+			remove_trait = education_diplomacy_2
+			remove_trait = education_diplomacy_3
+			remove_trait = education_diplomacy_4
+			remove_trait = education_diplomacy_5
+			remove_trait = education_intrigue_1
+			remove_trait = education_intrigue_2
+			remove_trait = education_intrigue_3
+			remove_trait = education_intrigue_4
+			remove_trait = education_intrigue_5
+			remove_trait = education_stewardship_1
+			remove_trait = education_stewardship_2
+			remove_trait = education_stewardship_3
+			remove_trait = education_stewardship_4
+			remove_trait = education_stewardship_5
+			remove_trait = education_learning_1
+			remove_trait = education_learning_2
+			remove_trait = education_learning_3
+			remove_trait = education_learning_4
+			remove_trait = education_learning_5
+			remove_trait = education_martial_1
+			remove_trait = education_martial_2
+			remove_trait = education_martial_3
+			remove_trait = education_martial_4
+			add_trait = education_martial_5
+			add_trait = flexible_leader
+			add_trait = athletic
+			if = {
+				limit = { has_dlc_feature = tours_and_tournaments }
+				add_trait = tourney_participant
+				add_random_tiered_trait_track_xp_effect = {
+					TRAIT = lifestyle_hunter
+					TRACK = hunter
+					LEVEL_1 = yes
+					LEVEL_3 = no
+				}
+				add_random_tiered_trait_track_xp_effect = {
+					TRAIT = tourney_participant
+					TRACK = horse
+					LEVEL_1 = yes
+					LEVEL_3 = yes
+				}
+				add_random_tiered_trait_track_xp_effect = {
+					TRAIT = tourney_participant
+					TRACK = bow
+					LEVEL_1 = yes
+					LEVEL_3 = yes
+				}
+			}
+			dynasty = {
+				add_dynasty_prestige_level = 5
+				add_dynasty_prestige = 10000
+				add_dynasty_perk = warfare_legacy_1
+				add_dynasty_perk = warfare_legacy_2
+				add_dynasty_perk = warfare_legacy_3
+				add_dynasty_perk = warfare_legacy_4
+				add_dynasty_perk = warfare_legacy_5
+				if = {
+					limit = {
+						has_dlc_feature = hybridize_culture
+					}
+					add_dynasty_perk = ep1_culture_legacy_1
+				}
+			}
+			give_nickname = nick_genghis_khan
+		}
+	}
+	else_if = {
+		limit = {
+			exists = character:125501.dynasty
+			character:125501.dynasty = {
+				any_dynasty_member = {
+					is_ai = no
+					is_landed = yes
+				}
+			}
+		}
+		character:125501.dynasty = {
+			random_dynasty_member = {
+				limit = {
+					is_ai = no
+					is_landed = yes
+				}
+				save_scope_as = temujin
+			}
+		}
+		if = {
+			limit = { has_mpo_dlc_trigger = no }
+			scope:temujin = {
+				# Make temporarily immune to disease
+				add_character_flag = {
+					flag = immune_to_disease
+					years = 15
+				}
+
+				add_trait = greatest_of_khans
+				form_the_mongol_empire_effect = yes
+				add_prestige = 25000
+				give_nickname = nick_genghis_khan
+				trigger_event = conqueror.0001
+			}
+		}
+		else = {
+			scope:temujin = {
+				# Make temporarily immune to disease
+				add_character_flag = {
+					flag = immune_to_disease
+					years = 15
+				}
+				trigger_event = conqueror.0001
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			exists = character:125501.dynasty
+			character:125501.dynasty = {
+				any_dynasty_member = {
+					is_physically_able_ai_adult = yes
+				}
+			}
+		}
+		character:125501.dynasty = {
+			random_dynasty_member = {
+				limit = {
+					is_physically_able_ai_adult = yes
+					is_landed = yes
+				}
+				alternative_limit = {
+					is_physically_able_ai_adult = yes
+				}
+				save_scope_as = temujin
+			}
+		}
+		scope:temujin = {
+			# Make temporarily immune to disease
+			add_character_flag = {
+				flag = immune_to_disease
+				years = 15
+			}
+
+			add_trait = greatest_of_khans
+			give_temujin_land_effect = yes
+			add_gold = 5000
+			add_dread = high_dread
+			spawn_temujins_court_effect = yes
+			form_the_mongol_empire_effect = yes
+			add_prestige = 25000
+			if = {
+				limit = {
+					has_mpo_dlc_trigger = no
+					NOT = { has_perk = peacemaker_perk }
+				}
+				add_perk = peacemaker_perk
+			}
+			remove_trait = education_diplomacy_1
+			remove_trait = education_diplomacy_2
+			remove_trait = education_diplomacy_3
+			remove_trait = education_diplomacy_4
+			remove_trait = education_diplomacy_5
+			remove_trait = education_intrigue_1
+			remove_trait = education_intrigue_2
+			remove_trait = education_intrigue_3
+			remove_trait = education_intrigue_4
+			remove_trait = education_intrigue_5
+			remove_trait = education_stewardship_1
+			remove_trait = education_stewardship_2
+			remove_trait = education_stewardship_3
+			remove_trait = education_stewardship_4
+			remove_trait = education_stewardship_5
+			remove_trait = education_learning_1
+			remove_trait = education_learning_2
+			remove_trait = education_learning_3
+			remove_trait = education_learning_4
+			remove_trait = education_learning_5
+			remove_trait = education_martial_1
+			remove_trait = education_martial_2
+			remove_trait = education_martial_3
+			remove_trait = education_martial_4
+			add_trait = education_martial_5
+			add_trait = flexible_leader
+			add_trait = athletic
+			if = {
+				limit = { has_dlc_feature = tours_and_tournaments }
+				add_trait = tourney_participant
+				add_random_tiered_trait_track_xp_effect = {
+					TRAIT = lifestyle_hunter
+					TRACK = hunter
+					LEVEL_1 = yes
+					LEVEL_3 = no
+				}
+				add_random_tiered_trait_track_xp_effect = {
+					TRAIT = tourney_participant
+					TRACK = horse
+					LEVEL_1 = yes
+					LEVEL_3 = yes
+				}
+				add_random_tiered_trait_track_xp_effect = {
+					TRAIT = tourney_participant
+					TRACK = bow
+					LEVEL_1 = yes
+					LEVEL_3 = yes
+				}
+			}
+			dynasty = {
+				add_dynasty_prestige_level = 5
+				add_dynasty_prestige = 10000
+				add_dynasty_perk = warfare_legacy_1
+				add_dynasty_perk = warfare_legacy_2
+				add_dynasty_perk = warfare_legacy_3
+				add_dynasty_perk = warfare_legacy_4
+				add_dynasty_perk = warfare_legacy_5
+				if = {
+					limit = {
+						has_dlc_feature = hybridize_culture
+					}
+					add_dynasty_perk = ep1_culture_legacy_1
+				}
+			}
+			give_nickname = nick_genghis_khan
+		}
+	}
+	}
+}

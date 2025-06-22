@@ -83,119 +83,6 @@
 }
 
 
-"map_data/geographical_regions/geographical_region.txt" = {
-	# No c_reggio in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_reggio
-		c_camarda
-		}
-		after = {
-		c_camarda
-		}
-	}
-
-	# No c_san in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_san
-		c_parma
-		}
-		after = {
-		c_parma
-		}
-	}
-
-	# No c_sankt in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_sankt
-		c_zurich
-		}
-		after = {
-		c_zurich
-		}
-	}
-
-	# No c_sankt in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_sankt
-		c_amstetten
-		}
-		after = {
-		c_amstetten
-		}
-	}
-
-	# No c_french in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_french
-		c_penthievre
-		}
-		after = {
-		c_penthievre
-		}
-	}
-
-	# No c_west in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_west
-		c_mahdiya
-		}
-		after = {
-		c_mahdiya
-		}
-	}
-
-	# No c_alcacer in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_alcacer
-		c_alcacer_do_sal
-		}
-		after = {
-		c_alcacer_do_sal
-		}
-	}
-
-	# No c_asturias in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_asturias
-		c_asturias_de_santillana
-		}
-		after = {
-		c_asturias_de_santillana
-		}
-	}
-
-	# No c_alto in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_alto
-		c_alto_aragon
-		}
-		after = {
-		c_alto_aragon
-		}
-	}
-
-	# No c_castelo in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_castelo
-		c_castelo_branco
-		}
-		after = {
-		c_castelo_branco
-		}
-	}
-}
-
-
 "events/TFE_flavour_events.txt" = {
 	# from error.log as of TFE 'After The Pharaohs' update
 	# [01:35:44][E][jomini_script_system.cpp:284]: Script system error!
@@ -270,11 +157,22 @@ TFE_General_Cue = {
 		accolade_glory_gain_mult = 0.1
 		light_cavalry_max_size_add = 2
 	}
+	parameters = {
+		culture_can_raid_over_land_even_if_feudal = yes
+		blademaster_trait_bonuses = yes
+	}
 		}
 		after = {
 	character_modifier = {
 		accolade_glory_gain_mult = 0.1
 		light_cavalry_max_size_add = 2
+	}
+	parameters = {
+		culture_can_raid_over_land_even_if_feudal = yes
+		blademaster_trait_bonuses = yes
+		strong_traits_more_valued = yes
+		strong_traits_more_common = yes
+		weak_traits_looked_down_upon = yes
 	}
 		}
 	}
@@ -818,7 +716,7 @@ TFE_General_Cue = {
 }
 
 
-"common/vassal_contracts/gupta.txt" = {
+"common/subject_contracts/contracts/gupta.txt" = {
 	# from error.log:
 	# Obligation level 'gupta_governance_samarajya' in 'gupta_governance' is marked as default but has an is_valid, the default cannot be conditionally valid it must always be valid
 	replace = {
@@ -858,6 +756,59 @@ TFE_General_Cue = {
 			}
 		}
 		} # end of after
+	}
+
+	# TFE has vassal_opinion being used in the subject contracts, which aren't valid
+	replace = {
+		before = {
+			vassal_opinion
+		}
+
+		after = {
+			subject_opinion
+		}
+	}
+}
+
+
+"common/subject_contracts/contracts/islamic.txt" = {
+	# TFE has vassal_opinion being used in the subject contracts, which aren't valid
+	replace = {
+		before = {
+			vassal_opinion
+		}
+
+		after = {
+			subject_opinion
+		}
+	}
+}
+
+
+"common/subject_contracts/contracts/imperial.txt" = {
+	# TFE has vassal_opinion being used in the subject contracts, which aren't valid
+	replace = {
+		before = {
+			vassal_opinion
+		}
+
+		after = {
+			subject_opinion
+		}
+	}
+}
+
+
+"common/subject_contracts/contracts/eranshar.txt" = {
+	# TFE has vassal_opinion being used in the subject contracts, which aren't valid
+	replace = {
+		before = {
+			vassal_opinion
+		}
+
+		after = {
+			subject_opinion
+		}
 	}
 }
 
@@ -1263,75 +1214,6 @@ texture = "gfx/portraits/accessory_variations/textures/color_palette_fp2_iberian
 }
 
 
-"common/men_at_arms_types/TFE_cultural_maa_types.txt" = {
-	# from error.log:
-	# Error: "Malformed token: provisions_cost_infantry_bankrupting, near line: 91" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 91
-	replace = {
-		before = {
-	provision_cost = provisions_cost_infantry_bankrupting
-		}
-		after = {
-	provision_cost = @provisions_cost_infantry_bankrupting
-		}
-	}
-
-	# from error.log:
-	# Error: "Malformed token: provisions_cost_cavalry_bankrupting, near line: 133" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 133
-	replace = {
-		before = {
-	provision_cost = provisions_cost_cavalry_bankrupting
-		}
-		after = {
-	provision_cost = @provisions_cost_cavalry_bankrupting
-		}
-	}
-
-	# from error.log:
-	# Error: "Malformed token: provisions_cost_infantry_expensive, near line: 54" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 54
-	replace = {
-		before = {
-	provision_cost = provisions_cost_infantry_expensive
-		}
-		after = {
-	provision_cost = @provisions_cost_infantry_expensive
-		}
-	}
-
-	# from error.log:
-	# Error: "Malformed token: provisions_cost_infantry_cheap, near line: 163" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 163
-	replace = {
-		before = {
-	provision_cost = provisions_cost_infantry_cheap
-		}
-		after = {
-	provision_cost = @provisions_cost_infantry_cheap
-		}
-	}
-
-	# from error.log:
-	# Error: "Malformed token: provisions_cost_infantry_moderate, near line: 515" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 515
-	replace = {
-		before = {
-	provision_cost = provisions_cost_infantry_moderate
-		}
-		after = {
-	provision_cost = @provisions_cost_infantry_moderate
-		}
-	}
-
-	# from error.log:
-	# Error: "Malformed token: provisions_cost_cavalry_cheap, near line: 722" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 722
-	replace = {
-		before = {
-	provision_cost = provisions_cost_cavalry_cheap
-		}
-		after = {
-	provision_cost = @provisions_cost_cavalry_cheap
-		}
-	}
-}
-
-
 "common/dynasties/TFE_dynasties.txt" = {
 	# No gaetuli culture in TFE as of the 'After the Pharaohs' update.
 	replace = {
@@ -1450,46 +1332,6 @@ gaetuli_dynasty = {
 }
 
 
-"common/culture/name_lists/00_magyar.txt" = {
-	# Name lists should not contain commas.
-	replace = {
-		before = {
-	male_names = {
-		Agg, Agmánd, Álmos, Árpád, Ákos, Apor, Atyás, Bahatur, Bal, Beled, Bika, Bodor, Bogát, Botond, Bugardi, Büvész, Bölcs, Bulcsu, Csanád, Csalka, Csep, 
-		Csepke, Chepke, Chunad, Churba, Csák, Csoma, Csomó, Csongor, Csök, Cusid, Doboka, Elek, Elemér, Előd, Ellenes, Endre, Édes, Erős, Ete, Farcas, Fekete, 
-		Feketédi, Feketeydi, Fehér, Fehérsa, Fene, Fényes, Fergudi, File, Fitos, Fodor, Fakó, Gonosz, Guta, Gyula, Gyejcsa, Halaldi, Hamar, Haragos  Hokus, Hóka, 
-		Hyduand, Hős, Jenő, Joember, Jovlegen, Kacs, Kalán, Kálmán, Karuly, Kese, Kond, Koppány, Keserő, Kosid, Lél, Levente, Maglód, Markos, Mauog, Medeu, Medue, 
-		Mocskos, Nagod, Nagy, Nagyod, Nagyos, Nemze, Nogiud, Numel, Numwog, Ond, Ögyek, Őse, Puha, Ruoz, Siket, Szabolcs, Szalók, Szög, Szoárd, Szőke, Táltos, Taksony, 
-		Tas, Turul, Urkond, Urkún, Vad, Vas, Vazul, Vrvmedi, Zacal, Zemdy, Zoltán
-	}
-	female_names = {
-		Agg, Angyalka, Anyás, Aranka, Bal, Banya, Bölcs, Bodor, Bugardi, Büvész, Chunad, Churba, Chepke, Csalka, Csep, Csepke, Csillag, Csoma, Csomó, Csök, Cusid, Draga, 
-		Edlelmes, Édes, Ellenes, Emse, Erős, Feketédi, Feketeydi, Fekete, Fehér, Fehérsa, Fene, Fergudi, File, Fényes, Fitos, Fodor, Genuruch, Gonosz, Guta, Gyöngy, Hajnal, 
-		Halaldi, Hamar, haragos, Hóka, Hős, Hyduand, Jolyan, Kacs, Kese, Keserő, Markos, Mauog, Medeu, Mocskos, Nagy, Nagyod, Nagyos, Nesta, Nogiud, Nuuz, Numel, Numwog, Ördöng, 
-		Puha, Sarolt, Scepa, Siket, Szög, Szőke, Táltos, Tündér, Turul, Vad, Vas, Virág, Vnee, Vrumes, Vrvmedi, Zemdy
-	}
-		} # end of before
-
-		after = {
-	male_names = {
-		Agg Agmánd Álmos Árpád Ákos Apor Atyás Bahatur Bal Beled Bika Bodor Bogát Botond Bugardi Büvész Bölcs Bulcsu Csanád Csalka Csep 
-		Csepke Chepke Chunad Churba Csák Csoma Csomó Csongor Csök Cusid Doboka Elek Elemér Előd Ellenes Endre Édes Erős Ete Farcas Fekete 
-		Feketédi Feketeydi Fehér Fehérsa Fene Fényes Fergudi File Fitos Fodor Fakó Gonosz Guta Gyula Gyejcsa Halaldi Hamar Haragos  Hokus Hóka 
-		Hyduand Hős Jenő Joember Jovlegen Kacs Kalán Kálmán Karuly Kese Kond Koppány Keserő Kosid Lél Levente Maglód Markos Mauog Medeu Medue 
-		Mocskos Nagod Nagy Nagyod Nagyos Nemze Nogiud Numel Numwog Ond Ögyek Őse Puha Ruoz Siket Szabolcs Szalók Szög Szoárd Szőke Táltos Taksony 
-		Tas Turul Urkond Urkún Vad Vas Vazul Vrvmedi Zacal Zemdy Zoltán
-	}
-	female_names = {
-		Agg Angyalka Anyás Aranka Bal Banya Bölcs Bodor Bugardi Büvész Chunad Churba Chepke Csalka Csep Csepke Csillag Csoma Csomó Csök Cusid Draga 
-		Edlelmes Édes Ellenes Emse Erős Feketédi Feketeydi Fekete Fehér Fehérsa Fene Fergudi File Fényes Fitos Fodor Genuruch Gonosz Guta Gyöngy Hajnal 
-		Halaldi Hamar haragos Hóka Hős Hyduand Jolyan Kacs Kese Keserő Markos Mauog Medeu Mocskos Nagy Nagyod Nagyos Nesta Nogiud Nuuz Numel Numwog Ördöng 
-		Puha Sarolt Scepa Siket Szög Szőke Táltos Tündér Turul Vad Vas Virág Vnee Vrumes Vrvmedi Zemdy
-	}
-		} # end of after
-	}
-}
-
-
 "common/culture/traditions/TFE_combat_traditions.txt" = {
 	# from ck3-tiger:
 	# file or directory gfx/interface/icons/culture_tradition/1-pattern/medi does not exist
@@ -1510,545 +1352,3 @@ gaetuli_dynasty = {
 		}
 	}
 }
-
-
-"common/laws/imperial_laws.txt" = {
-
-	# imperial_authority_3 can_pass block (this fixes an error where you can't pass this law in converted TFE games)
-	replace = {
-		before = {
-		can_pass = {
-			OR = {
-			trigger_if = {
-				limit = {
-					AND = {
-						game_start_date = 361.11.17
-						current_date >= 361.11.22
-						NOT = { has_realm_law = imperial_authority_4 }
-						NOT = { has_realm_law = imperial_authority_5 }
-					}
-				}
-				has_realm_law = imperial_authority_2
-			}
-			trigger_if = {
-				limit = {
-					AND = {
-						game_start_date = 361.11.17
-						current_date >= 361.11.22
-						NOT = { has_realm_law = imperial_authority_4 }
-						NOT = { has_realm_law = imperial_authority_5 }
-					}
-				}
-				has_realm_law = imperial_authority_2
-		}
-		trigger_if = {
-				limit = {
-					AND = {
-						game_start_date = 395.1.17
-						current_date >= 395.1.22
-						NOT = { has_realm_law = imperial_authority_4 }
-						NOT = { has_realm_law = imperial_authority_5 }
-					}
-				}
-				has_realm_law = imperial_authority_2
-		}
-		trigger_if = {
-				limit = {
-					AND = {
-						game_start_date = 476.9.4
-						current_date >= 476.9.9
-						NOT = { has_realm_law = imperial_authority_4 }
-						NOT = { has_realm_law = imperial_authority_5 }
-					}
-				}
-				has_realm_law = imperial_authority_2
-		}
-		trigger_if = {
-				limit = {
-					AND = {
-						game_start_date = 532.2.1
-						current_date >= 532.2.6
-						NOT = { has_realm_law = imperial_authority_4 }
-						NOT = { has_realm_law = imperial_authority_5 }
-					}
-				}
-				has_realm_law = imperial_authority_2
-		}
-		trigger_if = {
-				limit = {
-					AND = {
-						game_start_date = 632.6.8
-						current_date >= 632.6.14
-						NOT = { has_realm_law = imperial_authority_4 }
-						NOT = { has_realm_law = imperial_authority_5 }
-					}
-				}
-				has_realm_law = imperial_authority_2
-			}
-		}
-		custom_description = {
-					subject = root
-					text = "has_crown_authority_cooldown"
-					NAND = {
-						has_variable = crown_authority_cooldown
-						NOT = {
-							culture = { has_innovation = innovation_all_things }
-					}
-				}
-			}
-		}
-		} # end of before
-
-		after = {
-		can_pass = {
-			trigger_if = {
-				limit = {
-					AND = {
-						NOT = { has_realm_law = imperial_authority_4 }
-						NOT = { has_realm_law = imperial_authority_5 }
-					}
-				}
-				custom_description = { # IRToCK3: TFE manually checks if at least 5/6 days has passed since the game start, but checks each of its start dates individually, making it incompatible with converted save games unless they start exactly on one of those start dates. This will make it work regardless of the start date, but does come with a longer delay than TFE does, and sets up a description to notify the player in game.
-					text = "irtock3_tfe_imperial_authority_3_time_trigger"
-					years_from_game_start >= 1
-				}
-				has_realm_law = imperial_authority_2
-			}
-			custom_description = {
-				subject = root
-				text = "has_crown_authority_cooldown"
-				NAND = {
-					has_variable = crown_authority_cooldown
-					NOT = {
-						culture = { has_innovation = innovation_all_things }
-					}
-				}
-			}
-		}
-		} # end of after
-	}
-}
-
-
-"common/scripted_effects/00_mongol_invasion_effects.txt" = {
-	# spawn_temujin_character_effect; Character 125501 (Temujin) is not in TFE as of the 'After The Pharaohs' update. Converter removed part of this effect, but the part that remains needs to be modified to start with an "if" instead of "else_if" in order to work properly.
-	replace = {
-		before = {
-	else_if = {
-		limit = {
-			#Generate Temujin if there has BEEN NO Temujin
-			NOT = {
-				has_global_variable = temujin_was_born
-			}
-		}
-		if = {
-			limit = { has_game_rule = inversed_gender_equality }
-			create_character = {
-				name = "Borte" # AKA: Genghis Khan's wife
-				gender = female
-				location = scope:temujins_birthplace
-				template = borte_character_template
-				save_scope_as = temujin
-			}
-			scope:temujin = {
-				# Make temporarily immune to disease
-				add_character_flag = {
-					flag = immune_to_disease
-					years = 15
-				}
-
-				add_trait = greatest_of_khans
-				give_temujin_land_effect = yes
-				add_gold = 5000
-				add_dread = high_dread
-				spawn_temujins_court_effect = yes
-				form_the_mongol_empire_effect = yes
-				add_prestige = 25000
-				give_nickname = nick_genghis_khan
-				if = {
-					limit = {
-						has_mpo_dlc_trigger = no
-						NOT = { has_perk = peacemaker_perk }
-					}
-					add_perk = peacemaker_perk
-				}
-				dynasty = {
-					add_dynasty_prestige_level = 5
-					add_dynasty_prestige = 10000
-					add_dynasty_perk = warfare_legacy_1
-					add_dynasty_perk = warfare_legacy_2
-					add_dynasty_perk = warfare_legacy_3
-					add_dynasty_perk = warfare_legacy_4
-					add_dynasty_perk = warfare_legacy_5
-					if = {
-						limit = {
-							has_dlc_feature = hybridize_culture
-						}
-						add_dynasty_perk = ep1_culture_legacy_1
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = { has_game_rule = full_gender_equality }
-			random_list = {
-				#Female Ghengis Khan.
-				50 = {
-					create_character = {
-						name = "Borte" # AKA: Genghis Khan's wife
-						gender = female
-						location = scope:temujins_birthplace
-						template = borte_character_template
-						save_scope_as = temujin
-					}
-					scope:temujin = {
-						# Make temporarily immune to disease
-						add_character_flag = {
-							flag = immune_to_disease
-							years = 15
-						}
-
-						add_trait = greatest_of_khans
-						give_temujin_land_effect = yes
-						add_gold = 5000
-						add_dread = high_dread
-						spawn_temujins_court_effect = yes
-						form_the_mongol_empire_effect = yes
-						add_prestige = 25000
-						give_nickname = nick_genghis_khan
-						if = {
-							limit = {
-								has_mpo_dlc_trigger = no
-								NOT = { has_perk = peacemaker_perk }
-							}
-							add_perk = peacemaker_perk
-						}
-						dynasty = {
-							add_dynasty_prestige_level = 5
-							add_dynasty_prestige = 10000
-							add_dynasty_perk = warfare_legacy_1
-							add_dynasty_perk = warfare_legacy_2
-							add_dynasty_perk = warfare_legacy_3
-							add_dynasty_perk = warfare_legacy_4
-							add_dynasty_perk = warfare_legacy_5
-							if = {
-								limit = {
-									has_dlc_feature = hybridize_culture
-								}
-								add_dynasty_perk = ep1_culture_legacy_1
-							}
-						}
-					}
-				}
-				#Male Ghengis Khan.
-				50 = {
-					create_character = {
-						name = "Temujin" # AKA: Genghis Khan
-						location = scope:temujins_birthplace
-						template = genghis_khan_character_template
-						save_scope_as = temujin
-					}
-					scope:temujin = {
-						# Make temporarily immune to disease
-						add_character_flag = {
-							flag = immune_to_disease
-							years = 15
-						}
-
-						add_trait = greatest_of_khans
-						give_temujin_land_effect = yes
-						add_gold = 5000
-						add_dread = high_dread
-						spawn_temujins_court_effect = yes
-						form_the_mongol_empire_effect = yes
-						add_prestige = 25000
-						give_nickname = nick_genghis_khan
-						if = {
-							limit = {
-								has_mpo_dlc_trigger = no
-								NOT = { has_perk = peacemaker_perk }
-							}
-							add_perk = peacemaker_perk
-						}
-						dynasty = {
-							add_dynasty_prestige_level = 5
-							add_dynasty_prestige = 10000
-							add_dynasty_perk = warfare_legacy_1
-							add_dynasty_perk = warfare_legacy_2
-							add_dynasty_perk = warfare_legacy_3
-							add_dynasty_perk = warfare_legacy_4
-							add_dynasty_perk = warfare_legacy_5
-							if = {
-								limit = {
-									has_dlc_feature = hybridize_culture
-								}
-								add_dynasty_perk = ep1_culture_legacy_1
-							}
-						}
-					}
-				}
-			}
-		}
-		else = {
-			create_character = {
-				name = "Temujin" # AKA: Genghis Khan
-				location = scope:temujins_birthplace
-				template = genghis_khan_character_template
-				save_scope_as = temujin
-			}
-			scope:temujin = {
-				# Make temporarily immune to disease
-				add_character_flag = {
-					flag = immune_to_disease
-					years = 15
-				}
-
-				add_trait = greatest_of_khans
-				give_temujin_land_effect = yes
-				add_gold = 5000
-				add_dread = high_dread
-				spawn_temujins_court_effect = yes
-				form_the_mongol_empire_effect = yes
-				add_prestige = 25000
-				give_nickname = nick_genghis_khan
-				if = {
-					limit = {
-						has_mpo_dlc_trigger = no
-						NOT = { has_perk = peacemaker_perk }
-					}
-					add_perk = peacemaker_perk
-				}
-				dynasty = {
-					add_dynasty_prestige_level = 5
-					add_dynasty_prestige = 10000
-					add_dynasty_perk = warfare_legacy_1
-					add_dynasty_perk = warfare_legacy_2
-					add_dynasty_perk = warfare_legacy_3
-					add_dynasty_perk = warfare_legacy_4
-					add_dynasty_perk = warfare_legacy_5
-					if = {
-						limit = {
-							has_dlc_feature = hybridize_culture
-						}
-						add_dynasty_perk = ep1_culture_legacy_1
-					}
-				}
-			}
-		}
-		set_global_variable = {
-			name =  temujin_was_born
-			value = scope:temujin
-		}
-	}
-		} # End of before
-
-		after = {
-	if = {
-		limit = {
-			#Generate Temujin if there has BEEN NO Temujin
-			NOT = {
-				has_global_variable = temujin_was_born
-			}
-		}
-		if = {
-			limit = { has_game_rule = inversed_gender_equality }
-			create_character = {
-				name = "Borte" # AKA: Genghis Khan's wife
-				gender = female
-				location = scope:temujins_birthplace
-				template = borte_character_template
-				save_scope_as = temujin
-			}
-			scope:temujin = {
-				# Make temporarily immune to disease
-				add_character_flag = {
-					flag = immune_to_disease
-					years = 15
-				}
-
-				add_trait = greatest_of_khans
-				give_temujin_land_effect = yes
-				add_gold = 5000
-				add_dread = high_dread
-				spawn_temujins_court_effect = yes
-				form_the_mongol_empire_effect = yes
-				add_prestige = 25000
-				give_nickname = nick_genghis_khan
-				if = {
-					limit = {
-						has_mpo_dlc_trigger = no
-						NOT = { has_perk = peacemaker_perk }
-					}
-					add_perk = peacemaker_perk
-				}
-				dynasty = {
-					add_dynasty_prestige_level = 5
-					add_dynasty_prestige = 10000
-					add_dynasty_perk = warfare_legacy_1
-					add_dynasty_perk = warfare_legacy_2
-					add_dynasty_perk = warfare_legacy_3
-					add_dynasty_perk = warfare_legacy_4
-					add_dynasty_perk = warfare_legacy_5
-					if = {
-						limit = {
-							has_dlc_feature = hybridize_culture
-						}
-						add_dynasty_perk = ep1_culture_legacy_1
-					}
-				}
-			}
-		}
-		else_if = {
-			limit = { has_game_rule = full_gender_equality }
-			random_list = {
-				#Female Ghengis Khan.
-				50 = {
-					create_character = {
-						name = "Borte" # AKA: Genghis Khan's wife
-						gender = female
-						location = scope:temujins_birthplace
-						template = borte_character_template
-						save_scope_as = temujin
-					}
-					scope:temujin = {
-						# Make temporarily immune to disease
-						add_character_flag = {
-							flag = immune_to_disease
-							years = 15
-						}
-
-						add_trait = greatest_of_khans
-						give_temujin_land_effect = yes
-						add_gold = 5000
-						add_dread = high_dread
-						spawn_temujins_court_effect = yes
-						form_the_mongol_empire_effect = yes
-						add_prestige = 25000
-						give_nickname = nick_genghis_khan
-						if = {
-							limit = {
-								has_mpo_dlc_trigger = no
-								NOT = { has_perk = peacemaker_perk }
-							}
-							add_perk = peacemaker_perk
-						}
-						dynasty = {
-							add_dynasty_prestige_level = 5
-							add_dynasty_prestige = 10000
-							add_dynasty_perk = warfare_legacy_1
-							add_dynasty_perk = warfare_legacy_2
-							add_dynasty_perk = warfare_legacy_3
-							add_dynasty_perk = warfare_legacy_4
-							add_dynasty_perk = warfare_legacy_5
-							if = {
-								limit = {
-									has_dlc_feature = hybridize_culture
-								}
-								add_dynasty_perk = ep1_culture_legacy_1
-							}
-						}
-					}
-				}
-				#Male Ghengis Khan.
-				50 = {
-					create_character = {
-						name = "Temujin" # AKA: Genghis Khan
-						location = scope:temujins_birthplace
-						template = genghis_khan_character_template
-						save_scope_as = temujin
-					}
-					scope:temujin = {
-						# Make temporarily immune to disease
-						add_character_flag = {
-							flag = immune_to_disease
-							years = 15
-						}
-
-						add_trait = greatest_of_khans
-						give_temujin_land_effect = yes
-						add_gold = 5000
-						add_dread = high_dread
-						spawn_temujins_court_effect = yes
-						form_the_mongol_empire_effect = yes
-						add_prestige = 25000
-						give_nickname = nick_genghis_khan
-						if = {
-							limit = {
-								has_mpo_dlc_trigger = no
-								NOT = { has_perk = peacemaker_perk }
-							}
-							add_perk = peacemaker_perk
-						}
-						dynasty = {
-							add_dynasty_prestige_level = 5
-							add_dynasty_prestige = 10000
-							add_dynasty_perk = warfare_legacy_1
-							add_dynasty_perk = warfare_legacy_2
-							add_dynasty_perk = warfare_legacy_3
-							add_dynasty_perk = warfare_legacy_4
-							add_dynasty_perk = warfare_legacy_5
-							if = {
-								limit = {
-									has_dlc_feature = hybridize_culture
-								}
-								add_dynasty_perk = ep1_culture_legacy_1
-							}
-						}
-					}
-				}
-			}
-		}
-		else = {
-			create_character = {
-				name = "Temujin" # AKA: Genghis Khan
-				location = scope:temujins_birthplace
-				template = genghis_khan_character_template
-				save_scope_as = temujin
-			}
-			scope:temujin = {
-				# Make temporarily immune to disease
-				add_character_flag = {
-					flag = immune_to_disease
-					years = 15
-				}
-
-				add_trait = greatest_of_khans
-				give_temujin_land_effect = yes
-				add_gold = 5000
-				add_dread = high_dread
-				spawn_temujins_court_effect = yes
-				form_the_mongol_empire_effect = yes
-				add_prestige = 25000
-				give_nickname = nick_genghis_khan
-				if = {
-					limit = {
-						has_mpo_dlc_trigger = no
-						NOT = { has_perk = peacemaker_perk }
-					}
-					add_perk = peacemaker_perk
-				}
-				dynasty = {
-					add_dynasty_prestige_level = 5
-					add_dynasty_prestige = 10000
-					add_dynasty_perk = warfare_legacy_1
-					add_dynasty_perk = warfare_legacy_2
-					add_dynasty_perk = warfare_legacy_3
-					add_dynasty_perk = warfare_legacy_4
-					add_dynasty_perk = warfare_legacy_5
-					if = {
-						limit = {
-							has_dlc_feature = hybridize_culture
-						}
-						add_dynasty_perk = ep1_culture_legacy_1
-					}
-				}
-			}
-		}
-		set_global_variable = {
-			name =  temujin_was_born
-			value = scope:temujin
-		}
-	}
-		} # End of after
-	}
-} # End of "common/scripted_effects/00_mongol_invasion_effects.txt"
