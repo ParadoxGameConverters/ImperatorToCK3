@@ -4,6 +4,7 @@ using commonItems.Colors;
 using commonItems.Serialization;
 using ImperatorToCK3.Mappers.Technology;
 using Open.Collections;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -103,7 +104,7 @@ internal sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 		await historyWriter.WriteAsync(historyStrBuilder.ToString());
 	}
 
-	public void ImportInnovationsFromImperator(ISet<string> irInventions, InnovationMapper innovationMapper) {
+	public void ImportInnovationsFromImperator(FrozenSet<string> irInventions, InnovationMapper innovationMapper) {
 		innovationsFromImperator.AddRange(innovationMapper.GetInnovations(irInventions));
 
 		var progresses = innovationMapper.GetInnovationProgresses(irInventions);

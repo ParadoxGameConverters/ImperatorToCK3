@@ -56,7 +56,7 @@ internal sealed class Family : IIdentifiable<ulong> {
 				family.PrestigeRatio = reader.GetDouble()
 			);
 			parser.RegisterKeyword("culture", reader =>
-				family.Culture = reader.GetString()
+				family.Culture = string.Intern(reader.GetString())
 			);
 			parser.RegisterKeyword("minor_family", reader =>
 				family.Minor = reader.GetBool()

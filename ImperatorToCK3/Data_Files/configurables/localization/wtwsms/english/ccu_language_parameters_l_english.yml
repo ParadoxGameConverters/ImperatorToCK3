@@ -22,3 +22,7 @@
  culture_parameter_language_branch_gutian: "#P +[EmptyScope.ScriptValue('same_language_branch_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Gutian [language_branch|E]"
  culture_parameter_language_branch_pre_greek: "#P +[EmptyScope.ScriptValue('same_language_branch_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Pre-Greek [language_branch|E]"
  culture_parameter_language_branch_hatti: "#P +[EmptyScope.ScriptValue('same_language_branch_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Hattian [language_branch|E]"
+
+# Language Group
+ culture_parameter_language_group_sabellic: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Sabellic [language_group|E]"
+ culture_parameter_language_group_celto_italic: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Celto-Italic [language_group|E]"

@@ -1,6 +1,8 @@
 ﻿l_english:
  # heritage groups
  culture_parameter_heritage_group_austroasiatic: "#P +[EmptyScope.ScriptValue('same_heritage_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Austroasiatic [heritage_group|E]"
+ culture_parameter_heritage_group_nuragic: "#P +[EmptyScope.ScriptValue('same_heritage_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Nuragic [heritage_group|E]"
+ culture_parameter_heritage_group_balko_anatolian: "#P +[EmptyScope.ScriptValue('same_heritage_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Balko-Anatolian [heritage_group|E]"
 
  # heritage families
  

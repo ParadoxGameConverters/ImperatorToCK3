@@ -57,8 +57,12 @@ internal partial class World {
 	public AreaCollection Areas { get; } = [];
 	public ImperatorRegionMapper ImperatorRegionMapper { get; private set; }
 	public StateCollection States { get; } = [];
-	public IReadOnlyCollection<War> Wars { get; private set; } = Array.Empty<War>();
-	public IReadOnlyCollection<Dependency> Dependencies { get; private set; } = Array.Empty<Dependency>();
+
+	private DiplomacyDB diplomacyDB;
+	public IReadOnlyCollection<War> Wars => diplomacyDB.Wars;
+	public IReadOnlyCollection<Dependency> Dependencies => diplomacyDB.Dependencies;
+	public IReadOnlyCollection<List<ulong>> DefensiveLeagues => diplomacyDB.DefensiveLeagues; // TODO: convert this to CK3
+	
 	public Jobs.JobsDB JobsDB { get; private set; } = new();
 	internal UnitCollection Units { get; } = [];
 	public CulturesDB CulturesDB { get; } = [];
@@ -85,6 +89,8 @@ internal partial class World {
 		
 		Religions = new ReligionCollection(new ScriptValueCollection());
 		ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
+
+		diplomacyDB = new();
 	}
 	
 	private static void OutputGuiContainer(ModFilesystem modFS, IEnumerable<string> tagsNeedingFlags, Configuration config) {
@@ -337,7 +343,7 @@ internal partial class World {
 
 		Thread? localCoaExtractThread = null;
 		
-		parser.RegisterRegex(@"\bSAV\w*\b", _ => { });
+		parser.RegisterRegex(SaveStartRegex(), _ => { });
 		parser.RegisterKeyword("version", reader => VerifySaveVersion(converterVersion, reader));
 		parser.RegisterKeyword("date", reader => LoadSaveDate(config, reader));
 		parser.RegisterKeyword("enabled_dlcs", LogEnabledDLCs);
@@ -453,9 +459,7 @@ internal partial class World {
 
 	private void LoadDiplomacy(BufferedReader reader) {
 		Logger.Info("Loading diplomacy...");
-		var diplomacy = new Diplomacy.DiplomacyDB(reader);
-		Wars = diplomacy.Wars;
-		Dependencies = diplomacy.Dependencies;
+		diplomacyDB = new DiplomacyDB(reader);
 		Logger.IncrementProgress();
 	}
 
@@ -801,6 +805,8 @@ internal partial class World {
 
 	private readonly IgnoredKeywordsSet ignoredTokens = [];
 
+	[GeneratedRegex(@"\bSAV\w*\b")]
+	private static partial Regex SaveStartRegex();
 	[GeneratedRegex(@"^\S+=\s*\{[\s\S]*?^\}", RegexOptions.Multiline)]
 	private static partial Regex FlagDefinitionRegex();
 	[GeneratedRegex(@"\$[A-Z_]*\$")]

@@ -122,7 +122,7 @@
 					}
 					character:70519 = {
 						designate_diarch = character:rufinus_02
-						start_diarchy = regency
+						try_start_diarchy = regency
 						set_diarchy_swing = 40
 					}
 				}
@@ -153,7 +153,7 @@
 					}
 					character:145227 = {
 						designate_diarch = character:900062
-						start_diarchy = regency
+						try_start_diarchy = regency
 						set_diarchy_swing = 40
 					}
 				}
@@ -251,6 +251,7 @@
 					}
 				}
 			}
+			title:e_byzantium.holder = { consume_imprisonment_reasons = title:e_byzantium.holder.primary_spouse }
 			set_global_variable = {
 				name = justinian
 				value = title:e_byzantium.holder
@@ -334,7 +335,7 @@
 						}
 						character:992023 = {
 							designate_diarch = character:992020
-							start_diarchy = regency
+							try_start_diarchy = regency
 							set_diarchy_swing = 40
 						}
 					}
@@ -881,6 +882,7 @@ garamantes_flavour_effect = {
 	}
 }
 
+# Can probably move this to replaceable_file_blocks_tfe.txt once that is working properly so this file isn't as long, and just have the call to the set_minorities_game_start on_action get removed
 "common/on_action/sea_minority_game_start.txt" = {
 	# Anachronistic
 	{
@@ -1399,11 +1401,6 @@ set_minorities_game_start = {
 			SIZE = large
 			COUNTY = title:c_kongu
 		}
-		add_faith_minority_effect = {
-			FAITH = faith:dravida_saiva
-			SIZE = large
-			COUNTY = title:c_korkai
-		}
 
 		# Digambaras in Tamilakam
 		add_faith_minority_effect = {
@@ -1420,11 +1417,6 @@ set_minorities_game_start = {
 			FAITH = faith:digambara
 			SIZE = large
 			COUNTY = title:c_madurai
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:dravida_saiva
-			SIZE = large
-			COUNTY = title:c_korkai
 		}
 
 		# Tamils in Tambapanni
@@ -4357,7 +4349,7 @@ set_minorities_game_start = {
 						limit = {
 							has_government = tribal_government
 						}
-						change_government = nomadic_government
+						change_government = nomad_government
 					}
 				}
 			}
@@ -4372,7 +4364,7 @@ set_minorities_game_start = {
 						limit = {
 							has_government = tribal_government
 						}
-						change_government = nomadic_government
+						change_government = nomad_government
 					}
 				}
 			}
@@ -4387,7 +4379,7 @@ set_minorities_game_start = {
 						limit = {
 							has_government = tribal_government
 						}
-						change_government = nomadic_government
+						change_government = nomad_government
 					}
 				}
 			}
@@ -4402,7 +4394,7 @@ set_minorities_game_start = {
 						limit = {
 							has_government = tribal_government
 						}
-						change_government = nomadic_government
+						change_government = nomad_government
 					}
 				}
 			}
@@ -4417,7 +4409,7 @@ set_minorities_game_start = {
 						limit = {
 							has_government = tribal_government
 						}
-						change_government = nomadic_government
+						change_government = nomad_government
 					}
 				}
 			}
@@ -4508,16 +4500,6 @@ set_minorities_game_start = {
 				}
 			}
 			title:k_france.holder ?= {
-				if = {
-					limit = {
-						highest_held_title_tier >= tier_kingdom
-						has_dlc_feature = roads_to_power
-					}
-					change_government = autocratic_government_ep3
-				}
-				else_if = {
-					change_government = autocratic_government
-				}
 				every_vassal_or_below = {
 					limit = {
 						OR = {
@@ -4811,8 +4793,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:kushan_014
 					SUZERAIN = character:900963 
 				}
@@ -4825,8 +4807,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:matraka_01
 					SUZERAIN = character:900963 
 				}
@@ -4839,8 +4821,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:yaudheya_01
 					SUZERAIN = character:900963 
 				}
@@ -4853,8 +4835,8 @@ set_minorities_game_start = {
 			#			exists = character:900963
 			#		}
 			#	}
-			#	make_tributary = {
-			#		TYPE = tributary_permanent
+			#	start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 			#		TRIBUTARY = character:malava_01
 			#		SUZERAIN = character:900963 
 			#	}
@@ -4867,8 +4849,8 @@ set_minorities_game_start = {
 			#			exists = character:900963
 			#		}
 			#	}
-			#	make_tributary = {
-			#		TYPE = tributary_permanent
+			#	start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 			#		TRIBUTARY = character:guptasad_32
 			#		SUZERAIN = character:900963 
 			#	}
@@ -4881,8 +4863,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:karttripura_01
 					SUZERAIN = character:900963 
 				}
@@ -4895,8 +4877,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:licchavi_02
 					SUZERAIN = character:900963
 				}
@@ -4909,8 +4891,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:190054
 					SUZERAIN = character:900963 
 				}
@@ -4923,8 +4905,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:davaka_01
 					SUZERAIN = character:900963 
 				}
@@ -4937,8 +4919,8 @@ set_minorities_game_start = {
 			#			exists = character:900963
 			#		}
 			#	}
-			#	make_tributary = {
-			#		TYPE = tributary_permanent
+			#	start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 			#		TRIBUTARY = character:samatata_01
 			#		SUZERAIN = character:900963 
 			#	}
@@ -4951,8 +4933,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:orissa_01
 					SUZERAIN = character:900963 
 				}
@@ -4965,8 +4947,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:orissa_02
 					SUZERAIN = character:900963 
 				}
@@ -4979,8 +4961,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:salankayana_01
 					SUZERAIN = character:900963 
 				}
@@ -4994,8 +4976,8 @@ set_minorities_game_start = {
 					}
 
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:orissa_06
 					SUZERAIN = character:900963 
 				}
@@ -5008,8 +4990,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:orissa_08
 					SUZERAIN = character:900963 
 				}
@@ -5023,8 +5005,8 @@ set_minorities_game_start = {
 						exists = character:aksum_12
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:meroitic_misc_01
 					SUZERAIN = character:aksum_12 
 				}
@@ -5036,8 +5018,8 @@ set_minorities_game_start = {
 						exists = character:aksum_12
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:dinka_01
 					SUZERAIN = character:aksum_12 
 				}
@@ -5049,8 +5031,8 @@ set_minorities_game_start = {
 						exists = character:aksum_12
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:dinka_05
 					SUZERAIN = character:aksum_12 
 				}
@@ -5062,8 +5044,8 @@ set_minorities_game_start = {
 						exists = character:aksum_12
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:dinka_09
 					SUZERAIN = character:aksum_12 
 				}
@@ -5124,8 +5106,8 @@ set_minorities_game_start = {
 						exists = character:70519
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:judham_11
 					SUZERAIN = character:70519 
 				}
@@ -5137,8 +5119,8 @@ set_minorities_game_start = {
 						exists = character:70519
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:amilah_01
 					SUZERAIN = character:70519 
 				}
@@ -5150,8 +5132,8 @@ set_minorities_game_start = {
 						exists = character:70519
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:lazika_03
 					SUZERAIN = character:70519 
 				}
@@ -5163,8 +5145,8 @@ set_minorities_game_start = {
 						exists = character:70519
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:tanukhid_011
 					SUZERAIN = character:70519 
 				}
@@ -5179,8 +5161,8 @@ set_minorities_game_start = {
 			#			exists = character:2020123
 			#		}
 			#	}
-			#	make_tributary = {
-			#		TYPE = tributary_permanent
+			#	start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 			#		TRIBUTARY = character:matraka_01
 			#		SUZERAIN = character:2020123 
 			#	}
@@ -5193,8 +5175,8 @@ set_minorities_game_start = {
 						exists = character:2020123
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:yaudheya_01
 					SUZERAIN = character:2020123 
 				}
@@ -5207,8 +5189,8 @@ set_minorities_game_start = {
 						exists = character:2020123
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:karttripura_02
 					SUZERAIN = character:2020123 
 				}
@@ -5221,8 +5203,8 @@ set_minorities_game_start = {
 						exists = character:2020123
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:licchavi_02
 					SUZERAIN = character:2020123 
 				}
@@ -5235,8 +5217,8 @@ set_minorities_game_start = {
 						exists = character:2020123
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:190055
 					SUZERAIN = character:2020123 
 				}
@@ -5249,8 +5231,8 @@ set_minorities_game_start = {
 						exists = character:2020123
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:davaka_01
 					SUZERAIN = character:2020123 
 				}
@@ -5263,8 +5245,8 @@ set_minorities_game_start = {
 			#			exists = character:2020123
 			#		}
 			#	}
-			#	make_tributary = {
-			#		TYPE = tributary_permanent
+			#	start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 			#		TRIBUTARY = character:samatata_01
 			#		SUZERAIN = character:2020123 
 			#	}
@@ -5281,8 +5263,8 @@ set_minorities_game_start = {
 						exists = character:70515
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:996002
 					SUZERAIN = character:70515
 				}
@@ -5294,8 +5276,8 @@ set_minorities_game_start = {
 						exists = character:70515
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:tanukhid_03
 					SUZERAIN = character:70515 
 				}
@@ -5307,8 +5289,8 @@ set_minorities_game_start = {
 						exists = character:70515
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:lazika_05
 					SUZERAIN = character:70515 
 				}
@@ -5377,8 +5359,8 @@ set_minorities_game_start = {
 						exists = character:145227
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:159009
 					SUZERAIN = character:145227
 				}
@@ -5390,8 +5372,8 @@ set_minorities_game_start = {
 						exists = character:145227
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:mauri_18
 					SUZERAIN = character:145227
 				}
@@ -5403,8 +5385,8 @@ set_minorities_game_start = {
 						exists = character:145227
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:afroroman_01
 					SUZERAIN = character:145227
 				}
@@ -5416,8 +5398,8 @@ set_minorities_game_start = {
 						exists = character:mauri_18
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:mauri_28
 					SUZERAIN = character:mauri_18
 				}
@@ -5429,8 +5411,8 @@ set_minorities_game_start = {
 						exists = character:145227
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:mauri_23
 					SUZERAIN = character:145227
 				}
@@ -5451,8 +5433,8 @@ set_minorities_game_start = {
 						exists = character:145237
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:afroroman_01
 					SUZERAIN = character:145237
 				}
@@ -5464,8 +5446,8 @@ set_minorities_game_start = {
 						exists = character:145237
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:mauri_17
 					SUZERAIN = character:145237
 				}
@@ -5477,8 +5459,8 @@ set_minorities_game_start = {
 						exists = character:145237
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:arsacid_46
 					SUZERAIN = character:145237
 				}
@@ -5490,8 +5472,8 @@ set_minorities_game_start = {
 						exists = character:mauri_17
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:mauri_27
 					SUZERAIN = character:mauri_17
 				}
@@ -5503,8 +5485,8 @@ set_minorities_game_start = {
 						exists = character:145237
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:mauri_22
 					SUZERAIN = character:145237
 				}
@@ -5517,8 +5499,8 @@ set_minorities_game_start = {
 						exists = character:180617
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:159582
 					SUZERAIN = character:180617 
 				}
@@ -5530,8 +5512,8 @@ set_minorities_game_start = {
 						exists = character:180617
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:159758
 					SUZERAIN = character:180617 
 				}
@@ -5543,8 +5525,8 @@ set_minorities_game_start = {
 						exists = character:180617
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:lakhmid_03
 					SUZERAIN = character:180617 
 				}
@@ -5556,8 +5538,8 @@ set_minorities_game_start = {
 						exists = character:himyar_11
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:khinda_05
 					SUZERAIN = character:himyar_11
 				}
@@ -5611,23 +5593,23 @@ set_minorities_game_start = {
 					game_start_date < 396.1.1
 				}
 			}
-			make_tributary = {
-				TYPE = tributary_permanent
+			start_tributary_interaction_effect = {
+				#TYPE = tributary_permanent
 				TRIBUTARY = character:lakhmid_06
 				SUZERAIN = character:180618 
 			}
-			make_tributary = {
-				TYPE = tributary_permanent
+			start_tributary_interaction_effect = {
+				#TYPE = tributary_permanent
 				TRIBUTARY = character:159583
 				SUZERAIN = character:180618 
 			}
-			make_tributary = {
-				TYPE = tributary_permanent
+			start_tributary_interaction_effect = {
+				#TYPE = tributary_permanent
 				TRIBUTARY = character:159761
 				SUZERAIN = character:180618 
 			}
-			make_tributary = {
-				TYPE = tributary_permanent
+			start_tributary_interaction_effect = {
+				#TYPE = tributary_permanent
 				TRIBUTARY = character:arsacid_58
 				SUZERAIN = character:180618 
 			}
@@ -5646,8 +5628,8 @@ set_minorities_game_start = {
 						exists = character:180624
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:lakhmid_08
 					SUZERAIN = character:180624 
 				}
@@ -5659,8 +5641,8 @@ set_minorities_game_start = {
 						exists = character:180624
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:159766
 					SUZERAIN = character:180624 
 				}
@@ -5672,8 +5654,8 @@ set_minorities_game_start = {
 						exists = character:180624
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:159859
 					SUZERAIN = character:180624 
 				}
@@ -5695,8 +5677,8 @@ set_minorities_game_start = {
 						exists = character:2020123
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:salankayana_02
 					SUZERAIN = character:2020123
 				}
@@ -5718,8 +5700,8 @@ set_minorities_game_start = {
 						exists = title:e_byzantium.holder
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = title:d_abkhazia.holder
 					SUZERAIN = title:e_byzantium.holder
 				}
@@ -5731,8 +5713,8 @@ set_minorities_game_start = {
 						exists = title:e_persia.holder
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = title:d_georgia.holder
 					SUZERAIN = title:e_persia.holder
 				}
@@ -5744,8 +5726,8 @@ set_minorities_game_start = {
 						exists = title:e_persia.holder
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = title:d_albania.holder
 					SUZERAIN = title:e_persia.holder
 				}
@@ -5757,8 +5739,8 @@ set_minorities_game_start = {
 						exists = title:e_persia.holder
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = title:k_lakhmid.holder
 					SUZERAIN = title:e_persia.holder
 				}
@@ -5770,8 +5752,8 @@ set_minorities_game_start = {
 						exists = title:e_byzantium.holder
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = title:k_ghassanid.holder
 					SUZERAIN = title:e_byzantium.holder
 				}
@@ -6101,7 +6083,7 @@ set_minorities_game_start = {
 				NOT = { exists = title:k_ostrogoths.holder }
 				exists = title:e_byzantium.holder
 				has_global_variable = gothic_war_won
-				#NOT = { has_global_variable = has_eternal_peace }
+				NOT = { has_global_variable = ostrogoth_revolt }
 				NOT = { has_global_variable = gothic_war_stalemate }
 				title:e_byzantium.holder = {
 					any_vassal_or_below = {
@@ -6153,6 +6135,10 @@ set_minorities_game_start = {
 				}
 				trigger_event = {
 					id = germanic_events.0028
+					set_global_variable = {
+						name = ostrogoth_revolt
+						value = yes
+					}
 					days = 1
 				}
 			}
@@ -16316,8 +16302,8 @@ western_roman.0041 = {
 		}
 		resolve_title_and_vassal_change = scope:change
 
-		make_tributary = {
-			TYPE = tributary_permanent
+		start_tributary_interaction_effect = {
+			#TYPE = tributary_permanent
 			SUZERAIN = title:e_byzantium.holder
 			TRIBUTARY = global_var:hildirix
 		}
@@ -20046,7 +20032,7 @@ tfe_culture.4001 = {
 
 "common\scripted_modifiers\00_faction_modifiers.txt" = {
 	{
-	# Keep it while the Calip is alive
+	# Keep it while the Caliph is alive
 	modifier = {
 		add = -1000
 		$FACTION_TARGET$ = {
@@ -24477,8 +24463,8 @@ eastern_iranian_struggle = {
 					unlocks_border_raid_casus_belli = yes
 					unlocks_contract_assistance_interaction = yes
 					unlocks_bargain_fealty_interaction = yes
-					more_nomadic_migration_armies = yes
-					cheaper_nomadic_migrations_within_struggle_region = yes
+					#more_nomadic_migration_armies = yes
+					#cheaper_nomadic_migrations_within_struggle_region = yes
 				}
 
 				involved_character_modifier = {
@@ -26922,76 +26908,6 @@ struggle_eastern_iranian_urbanize_area = {
 }
 
 "common/casus_belli_types/00_migration_wars.txt" = {
-	# The converter removes eastern_iranian_struggle
-	{
-			if = {
-				limit = {
-					AND = {
-						exists = struggle:eastern_iranian_struggle
-						struggle:eastern_iranian_struggle = {
-							AND = {
-								has_struggle_phase_parameter = cheaper_nomadic_migrations_within_struggle_region
-								is_culture_involved_in_struggle = scope:attacker.culture
-							}
-						}
-					}
-				}
-				multiply = {
-					value = 0.5
-					desc = EASTERN_IRANIAN_STRUGGLE
-				}
-			}
-	}
-
-	# The converter removes eastern_iranian_struggle
-	{
-			if = {
-				limit = {
-					OR = {
-						AND = {
-							exists = struggle:eastern_iranian_struggle
-							migration_levies_value >= 10
-							struggle:eastern_iranian_struggle = {
-								has_struggle_phase_parameter = more_nomadic_migration_armies
-							}
-							any_in_list = {
-								list = target_titles
-								title_capital_county.title_province = {
-									geographical_region = TFE_eastern_iranian_struggle_region
-								}
-							}
-							has_cultural_tradition = tradition_nomadic_migrations
-						}
-						AND = {
-							exists = struggle:north_indian_struggle
-							migration_levies_value >= 10
-							struggle:north_indian_struggle = {
-								has_struggle_phase_parameter = more_nomadic_migration_armies
-							}
-							any_in_list = {
-								list = target_titles
-								title_capital_county.title_province = {
-									geographical_region = TFE_north_indian_struggle_region
-								}
-							}
-							has_cultural_tradition = tradition_nomadic_migrations
-						}
-					}
-				}
-				spawn_army = {
-					name = event_troop_default_name
-					levies = migration_army_levies_small
-					men_at_arms = {
-						type = light_horsemen
-						stacks = migration_army_maa_small
-					}
-					location = scope:attacker.capital_province
-					uses_supply = no
-					inheritable = yes
-				}
-			}
-	}
-
 	# k_juteland not in TFE as of the 'After the Pharaohs' update
 	{
 								this = title:k_juteland
@@ -28003,6 +27919,28 @@ TFE_eastern_iranian_struggle_compromise_de_jure_effect = {
 		}
 		title:d_muyunkum.holder = {
 			get_title = title:k_muyunkum_struggle
+		}
+	}
+
+	#split from muyunkum
+	# d_talas_alatau
+	title:d_talas_alatau = {
+		set_de_jure_liege_title = title:k_talas_alatau_struggle
+	}
+	title:k_talas_alatau_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_talas_alatau.holder
+			NOT = {
+				title:d_talas_alatau.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_talas_alatau.holder = {
+			get_title = title:k_talas_alatau_struggle
 		}
 	}
 
@@ -30119,14 +30057,6 @@ icelandic = {
 }
 
 
-"common/decisions/80_major_decisions_south_asia.txt" = {
-	# No e_rajastan in TFE as of the 'After The Pharaohs' update
-	{
-		completely_controls = title:e_rajastan
-	}
-}
-
-
 "common/decisions/80_major_decisions.txt" = {
 	# innovation_ledger is not in TFE as of the 'After the Pharaohs' update.
 	{
@@ -30144,18 +30074,6 @@ icelandic = {
 
 
 "common/scripted_effects/00_decisions_effects.txt" = {
-	# No e_rajastan in TFE as of the 'After The Pharaohs' update
-	{
-	title:e_rajastan = { add_to_list = indian_empire }
-	}
-
-	{
-		if = {
-			limit = { has_title = title:e_rajastan }
-			destroy_title = title:e_rajastan
-		}
-	}
-
 	# No k_sorbia in TFE as of the 'After The Pharaohs' update
 	{
 	title:k_sorbia = { add_to_list = west_slavic_kingdoms }
@@ -30473,20 +30391,6 @@ d_phoenicia = { item = { trigger = { coa_switch_to_roman_trigger = yes } coat_of
 
 
 "common/scripted_effects/TFE_dejure.txt" = {
-	# No c_placensia in TFE as of the 'After The Pharaohs' update
-	{
-	title:c_placensia = {
-		set_de_jure_liege_title = title:d_badajoz
-	}
-	}
-
-	# No c_clemont_sur_allier in TFE as of the 'After The Pharaohs' update
-	{
-	title:c_clemont_sur_allier = {
-		set_de_jure_liege_title = title:d_auvergne
-	}
-	}
-
 	# No d_gloucestor in TFE as of the 'After The Pharaohs' update
 	{
 	title:c_hereford = {
@@ -30727,270 +30631,6 @@ on_yearly_sevenhouses = {
 }
 
 
-"common/scripted_effects/00_mongol_invasion_effects.txt" = {
-	# Character 125501 (Temujin) is not in TFE as of the 'After The Pharaohs' update.
-	{
-	if = {
-		limit = {
-			exists = character:125501
-			character:125501 = {
-				is_ai = no
-				is_landed = yes
-			}
-		}
-		character:125501 = {
-			save_scope_as = temujin
-		}
-		scope:temujin = {
-			# Make temporarily immune to disease
-			add_character_flag = {
-				flag = immune_to_disease
-				years = 15
-			}
-
-			add_trait = greatest_of_khans
-			form_the_mongol_empire_effect = yes
-			add_prestige = 25000
-			give_nickname = nick_genghis_khan
-			trigger_event = conqueror.0001
-		}
-	}
-	else_if = {
-		limit = {
-			exists = character:125501
-			character:125501 = { is_physically_able_ai_adult = yes }
-		}
-		character:125501 = {
-			save_scope_as = temujin
-		}
-		scope:temujin = {
-			# Make temporarily immune to disease
-			add_character_flag = {
-				flag = immune_to_disease
-				years = 15
-			}
-
-			add_trait = greatest_of_khans
-			give_temujin_land_effect = yes
-			add_gold = 5000
-			add_dread = high_dread
-			spawn_temujins_court_effect = yes
-			form_the_mongol_empire_effect = yes
-			add_prestige = 25000
-			if = {
-				limit = { NOT = { has_perk = peacemaker_perk } }
-				add_perk = peacemaker_perk
-			}
-			remove_trait = education_diplomacy_1
-			remove_trait = education_diplomacy_2
-			remove_trait = education_diplomacy_3
-			remove_trait = education_diplomacy_4
-			remove_trait = education_diplomacy_5
-			remove_trait = education_intrigue_1
-			remove_trait = education_intrigue_2
-			remove_trait = education_intrigue_3
-			remove_trait = education_intrigue_4
-			remove_trait = education_intrigue_5
-			remove_trait = education_stewardship_1
-			remove_trait = education_stewardship_2
-			remove_trait = education_stewardship_3
-			remove_trait = education_stewardship_4
-			remove_trait = education_stewardship_5
-			remove_trait = education_learning_1
-			remove_trait = education_learning_2
-			remove_trait = education_learning_3
-			remove_trait = education_learning_4
-			remove_trait = education_learning_5
-			remove_trait = education_martial_1
-			remove_trait = education_martial_2
-			remove_trait = education_martial_3
-			remove_trait = education_martial_4
-			add_trait = education_martial_5
-			add_trait = flexible_leader
-			add_trait = athletic
-			if = {
-				limit = { has_dlc_feature = tours_and_tournaments }
-				add_trait = tourney_participant
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = lifestyle_hunter
-					TRACK = hunter
-					LEVEL_1 = yes
-					LEVEL_3 = no
-				}
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = tourney_participant
-					TRACK = horse
-					LEVEL_1 = yes
-					LEVEL_3 = yes
-				}
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = tourney_participant
-					TRACK = bow
-					LEVEL_1 = yes
-					LEVEL_3 = yes
-				}
-			}
-			dynasty = {
-				add_dynasty_prestige_level = 5
-				add_dynasty_prestige = 10000
-				add_dynasty_perk = warfare_legacy_1
-				add_dynasty_perk = warfare_legacy_2
-				add_dynasty_perk = warfare_legacy_3
-				add_dynasty_perk = warfare_legacy_4
-				add_dynasty_perk = warfare_legacy_5
-				if = {
-					limit = {
-						has_dlc_feature = hybridize_culture
-					}
-					add_dynasty_perk = ep1_culture_legacy_1
-				}
-			}
-			give_nickname = nick_genghis_khan
-		}
-	}
-	else_if = {
-		limit = {
-			exists = character:125501.dynasty
-			character:125501.dynasty = {
-				any_dynasty_member = {
-					is_ai = no
-					is_landed = yes
-				}
-			}
-		}
-		character:125501.dynasty = {
-			random_dynasty_member = {
-				limit = {
-					is_ai = no
-					is_landed = yes
-				}
-				save_scope_as = temujin
-			}
-		}
-		scope:temujin = {
-			# Make temporarily immune to disease
-			add_character_flag = {
-				flag = immune_to_disease
-				years = 15
-			}
-
-			add_trait = greatest_of_khans
-			form_the_mongol_empire_effect = yes
-			add_prestige = 25000
-			give_nickname = nick_genghis_khan
-			trigger_event = conqueror.0001
-		}
-	}
-	else_if = {
-		limit = {
-			exists = character:125501.dynasty
-			character:125501.dynasty = {
-				any_dynasty_member = {
-					is_physically_able_ai_adult = yes
-				}
-			}
-		}
-		character:125501.dynasty = {
-			random_dynasty_member = {
-				limit = {
-					is_physically_able_ai_adult = yes
-					is_landed = yes
-				}
-				alternative_limit = {
-					is_physically_able_ai_adult = yes
-				}
-				save_scope_as = temujin
-			}
-		}
-		scope:temujin = {
-			# Make temporarily immune to disease
-			add_character_flag = {
-				flag = immune_to_disease
-				years = 15
-			}
-
-			add_trait = greatest_of_khans
-			give_temujin_land_effect = yes
-			add_gold = 5000
-			add_dread = high_dread
-			spawn_temujins_court_effect = yes
-			form_the_mongol_empire_effect = yes
-			add_prestige = 25000
-			if = {
-				limit = { NOT = { has_perk = peacemaker_perk } }
-				add_perk = peacemaker_perk
-			}
-			remove_trait = education_diplomacy_1
-			remove_trait = education_diplomacy_2
-			remove_trait = education_diplomacy_3
-			remove_trait = education_diplomacy_4
-			remove_trait = education_diplomacy_5
-			remove_trait = education_intrigue_1
-			remove_trait = education_intrigue_2
-			remove_trait = education_intrigue_3
-			remove_trait = education_intrigue_4
-			remove_trait = education_intrigue_5
-			remove_trait = education_stewardship_1
-			remove_trait = education_stewardship_2
-			remove_trait = education_stewardship_3
-			remove_trait = education_stewardship_4
-			remove_trait = education_stewardship_5
-			remove_trait = education_learning_1
-			remove_trait = education_learning_2
-			remove_trait = education_learning_3
-			remove_trait = education_learning_4
-			remove_trait = education_learning_5
-			remove_trait = education_martial_1
-			remove_trait = education_martial_2
-			remove_trait = education_martial_3
-			remove_trait = education_martial_4
-			add_trait = education_martial_5
-			add_trait = flexible_leader
-			add_trait = athletic
-			if = {
-				limit = { has_dlc_feature = tours_and_tournaments }
-				add_trait = tourney_participant
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = lifestyle_hunter
-					TRACK = hunter
-					LEVEL_1 = yes
-					LEVEL_3 = no
-				}
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = tourney_participant
-					TRACK = horse
-					LEVEL_1 = yes
-					LEVEL_3 = yes
-				}
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = tourney_participant
-					TRACK = bow
-					LEVEL_1 = yes
-					LEVEL_3 = yes
-				}
-			}
-			dynasty = {
-				add_dynasty_prestige_level = 5
-				add_dynasty_prestige = 10000
-				add_dynasty_perk = warfare_legacy_1
-				add_dynasty_perk = warfare_legacy_2
-				add_dynasty_perk = warfare_legacy_3
-				add_dynasty_perk = warfare_legacy_4
-				add_dynasty_perk = warfare_legacy_5
-				if = {
-					limit = {
-						has_dlc_feature = hybridize_culture
-					}
-					add_dynasty_perk = ep1_culture_legacy_1
-				}
-			}
-			give_nickname = nick_genghis_khan
-		}
-	}
-	}
-}
-
-
 "common/coat_of_arms/coat_of_arms/new_landed_titles.txt" = {
 	# No ce_gaetulia.dds in TFE as of the 'After The Pharaohs' update.
 	{
@@ -31111,14 +30751,6 @@ silk_road_urbanization = {
 	parent = eastern_iranian_struggle
 	texture = "gfx/interface/icons/council_task_types/task_develop_county.dds"
 }
-	}
-}
-
-
-"common/governments/other_government.txt" = {
-	# Not defined in TFE as of the 'After The Pharaohs' update.
-	{
-		clan_government_obligations
 	}
 }
 
@@ -32864,78 +32496,6 @@ tfe_struggle_compromise_ender_effect = {
 }
 
 
-"events/T4N_tributaries.txt" = {
-	# Unused event; from error.log: "Unknown effect random_war at file: events/T4N_tributaries.txt line: 223"
-	{
-#Suzerain is called to permanent tributary war
-#on_war_started
-#Root is suzerain
-#call_to_arms_tribute is defender
-tributaries.6 = {
-	type = character_event
-	theme = realm
-	title = tributary_6_tit
-	desc = tributary_6_desc
-	right_portrait = {
-		character = scope:call_to_arms_tribute
-		animation = war_defender 
-
-	}
-	left_portrait = { 
-		character = root
-		animation = personality_rational 
-	}
-
-	option = {
-		name = suzerain_joins_the_war
-		add_piety = minor_piety_value
-		scope:call_to_arms_tribute = {
-			random_war = {
-				limit = {
-					root = {
-						NOR = {
-							is_at_war_as_defender = yes
-							is_at_war_with = scope:call_to_arms_tribute
-						}
-					}
-				}
-				if = {
-					limit = {
-						scope:call_to_arms_tribute = {
-							is_at_war_as_attacker = yes
-						}
-					}
-					add_attacker = root
-				}
-				else_if = {
-					limit = {
-						scope:call_to_arms_tribute = {
-							is_at_war_as_defender = yes
-						}
-					}
-					add_defender = root
-				}
-				else = {
-					debug_log = "Something broke, report to typical"
-				}
-			}
-			trigger_event = { id = tributaries.8 } #tributary gets a positive response
-		}	
-	}
-
-	option = {
-		name = suzerain_refuses_to_join_war
-		add_prestige = major_prestige_loss
-		save_scope_as = former_suzerain
-		scope:call_to_arms_tribute = {
-			trigger_event = { id = tributaries.7 } #tributary gets a negative response
-		}
-	}
-}
-	}
-}
-
-
 "history/cultures/heritage_pictish.txt" = {
 	# innovation_pictish_warbands not in TFE as of the 'After The Pharaohs' update.
 	{
@@ -34006,7 +33566,7 @@ mx_cue_succession_instrumental = {
 	# play every time
 }
 	}
-}
+} # End of "music/in_game/TFE_music.txt"
 
 
 "music/music_player_categories/TFE_music_categories.txt" = {
@@ -34454,18 +34014,6 @@ feudal_government_or_dynastic_realm = {
 }
 
 
-"common/buildings/00_temple_buildings.txt" = {
-	# from error.log:
-	# Error: "Trigger section already read earlier: can_construct_showing_failures_only, near line: 637" in file: "common/buildings/00_temple_buildings.txt" near line: 640
-	{
-	can_construct_showing_failures_only = {
-		building_requirement_tribal = no
-		building_requirement_tribal_holding_in_county = yes
-	}
-	}
-}
-
-
 "common/modifiers/TFE_religion_modifiers.txt" = {
 	# from error.log:
 	# Error: "Unexpected token: forest_movement_speed, near line: 15" in file: "common/modifiers/TFE_religion_modifiers.txt" near line: 15
@@ -34713,7 +34261,16 @@ restore_palmyrene_empire_decision = {
 }
 
 
-"common/vassal_contracts/eranshar.txt" = {
+"common/council_tasks/00_steward_tasks.txt" = {
+	# No k_sorbia in TFE as of the 'After the Pharaohs' update.
+	{
+								capital_county.kingdom = title:k_sorbia
+	}
+}
+
+
+# TFE includes liege_opinion modifiers in various subject contracts, which aren't valid to have in contracts
+"common/subject_contracts/contracts/eranshar.txt" = {
 	# from error.log:
 	# Error: "Unexpected token: liege_opinion, near line: 126" in file: "common/vassal_contracts/eranshar.txt" near line: 126
 	{
@@ -34722,40 +34279,10 @@ restore_palmyrene_empire_decision = {
 }
 
 
-"common/vassal_contracts/gupta.txt" = {
+"common/subject_contracts/contracts/gupta.txt" = {
 	# from error.log:
 	# Error: "Unexpected token: liege_opinion, near line: 89" in file: "common/vassal_contracts/gupta.txt" near line: 89
 	{
 			liege_opinion = -30
-	}
-}
-
-
-"common/vassal_contracts/islamic.txt" = {
-	# from error.log:
-	# Error: "Unexpected token: if, near line: 91" in file: "common/vassal_contracts/islamic.txt" near line: 104
-	{
-			if = {
-				limit = {
-					AND = {
-						NOT = {
-							scope:vassal.faith = scope:liege.faith
-						}
-						scope:liege = {
-							has_religion = religion:islam_religion
-						}
-					}
-				}
-				tax = 0.2
-				vassal_opinion = -20
-			}
-	}
-}
-
-
-"common/council_tasks/00_steward_tasks.txt" = {
-	# No k_sorbia in TFE as of the 'After the Pharaohs' update.
-	{
-								capital_county.kingdom = title:k_sorbia
 	}
 }

@@ -1,5 +1,5 @@
 ﻿using commonItems;
-using FluentAssertions;
+using AwesomeAssertions;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.Outputter;
 using System.IO;

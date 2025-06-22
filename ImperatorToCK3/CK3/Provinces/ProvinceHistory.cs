@@ -4,7 +4,7 @@ using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
+using ZLinq;
 
 namespace ImperatorToCK3.CK3.Provinces;
 
@@ -68,11 +68,11 @@ internal sealed partial class Province {
 		var buildingsValue = History.GetFieldValue("buildings", date);
 		switch (buildingsValue) {
 			case IList<object> buildingsList:
-				return buildingsList.Select(b => b.ToString()!).ToImmutableList();
+				return buildingsList.AsValueEnumerable().Select(b => b.ToString()!).ToImmutableList();
 			case IList<string> buildingsList:
 				return buildingsList.ToImmutableList();
 			case IList<StringOfItem> buildingsList:
-				return buildingsList.Select(b=>b.ToString()).ToImmutableList();
+				return buildingsList.AsValueEnumerable().Select(b=>b.ToString()).ToImmutableList();
 			default:
 				Logger.Warn($"Wrong province buildings value: {buildingsValue}");
 				return ImmutableList<string>.Empty;

@@ -31,6 +31,7 @@ public sealed class Configuration {
 	public bool FallenEagleEnabled { get; private set; }
 	public bool WhenTheWorldStoppedMakingSenseEnabled { get; private set; }
 	public bool RajasOfAsiaEnabled { get; private set; }
+	public bool AsiaExpansionProjectEnabled { get; private set; }
 
 	public bool OutputCCUParameters => WhenTheWorldStoppedMakingSenseEnabled || FallenEagleEnabled || RajasOfAsiaEnabled;
 
@@ -319,16 +320,17 @@ public sealed class Configuration {
 			WhenTheWorldStoppedMakingSenseEnabled = true;
 			Logger.Info($"WtWSMS detected: {wtwsmsMod.Name}");
 		}
-
+		
 		var roaMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Rajas of Asia", StringComparison.Ordinal));
 		if (roaMod is not null) {
 			RajasOfAsiaEnabled = true;
 			Logger.Info($"RoA detected: {roaMod.Name}");
 		}
-
+		
 		var aepMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Asia Expansion Project", StringComparison.Ordinal));
 		if (aepMod is not null) {
-			throw new UserErrorException("Asia Expansion Project is no longer supported because it's not updated for the current version of CK3. See AEP's description on Steam Workshop.");
+			AsiaExpansionProjectEnabled = true;
+			Logger.Info($"AEP detected: {aepMod.Name}");
 		}
 	}
 
@@ -338,6 +340,7 @@ public sealed class Configuration {
 			["tfe"] = FallenEagleEnabled,
 			["wtwsms"] = WhenTheWorldStoppedMakingSenseEnabled,
 			["roa"] = RajasOfAsiaEnabled,
+			["aep"] = AsiaExpansionProjectEnabled,
 		};
 
 		flags["vanilla"] = !flags.Any(f => f.Value);

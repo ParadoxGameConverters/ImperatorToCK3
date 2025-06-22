@@ -3,8 +3,8 @@ using ImperatorToCK3.CK3;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
+using ZLinq;
 
 namespace ImperatorToCK3.Outputter;
 internal static class LocalizationOutputter {
@@ -44,7 +44,7 @@ internal static class LocalizationOutputter {
 			languageToLocLinesDict[language] = [];
 		}
 
-		var allLocKeys = ck3LocDB.Select(locBlock => locBlock.Id).Distinct().ToArray();
+		var allLocKeys = ck3LocDB.AsValueEnumerable().Select(locBlock => locBlock.Id).Distinct().ToArray();
 		
 		foreach (var locKey in allLocKeys) {
 			if (!ck3LocDB.HasKeyLocForLanguage(locKey, ConverterGlobals.PrimaryLanguage)) {

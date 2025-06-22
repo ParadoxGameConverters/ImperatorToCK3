@@ -1,8 +1,9 @@
 ﻿using commonItems;
 using commonItems.Mods;
 using Open.Collections.Synchronized;
+using System.Collections.Frozen;
 using System.Collections.Generic;
-using System.Linq;
+using ZLinq;
 
 namespace ImperatorToCK3.CK3.Characters;
 
@@ -51,8 +52,10 @@ internal sealed partial class CharacterCollection {
 			"claims",
 		];
 
-		var femaleCharacterIds = loadedCharacters.Where(c => c.Female).Select(c => c.Id).ToHashSet();
-		var maleCharacterIds = loadedCharacters.Select(c => c.Id).Except(femaleCharacterIds).ToHashSet();
+		var femaleCharacterIds = loadedCharacters.AsValueEnumerable()
+			.Where(c => c.Female).Select(c => c.Id).ToFrozenSet();
+		var maleCharacterIds = loadedCharacters.AsValueEnumerable()
+			.Select(c => c.Id).Except(femaleCharacterIds).ToFrozenSet();
 		
 		foreach (var character in loadedCharacters) {
 			// Clear some fields we don't need.
@@ -91,7 +94,8 @@ internal sealed partial class CharacterCollection {
 
 			// Remove effects that set relations. They don't matter a lot in our alternate timeline.
 			character.History.Fields["effects"].RemoveAllEntries(
-				entry => irrelevantEffects.Any(effect => entry.ToString()?.Contains(effect) ?? false));
+				entry => irrelevantEffects.AsValueEnumerable()
+					.Any(effect => entry.ToString()?.Contains(effect) ?? false));
 			
 			// Fix characters being set as their own fathers/mothers.
 			if (character.FatherId == character.Id) {
@@ -111,7 +115,7 @@ internal sealed partial class CharacterCollection {
 		Logger.Info("Loaded CK3 characters.");
 	}
 
-	private static void RemoveInvalidMotherAndFatherEntries(Character character, HashSet<string> femaleCharacterIds, HashSet<string> maleCharacterIds) {
+	private static void RemoveInvalidMotherAndFatherEntries(Character character, FrozenSet<string> femaleCharacterIds, FrozenSet<string> maleCharacterIds) {
 		// Remove wrong sex mother and father references (male mothers, female fathers).
 		var motherField = character.History.Fields["mother"];
 		motherField.RemoveAllEntries(value => {

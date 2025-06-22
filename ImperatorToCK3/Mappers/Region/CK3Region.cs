@@ -1,7 +1,7 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
 using System.Collections.Generic;
-using System.Linq;
+using ZLinq;
 
 namespace ImperatorToCK3.Mappers.Region;
 
@@ -55,13 +55,13 @@ internal sealed class CK3Region {
 		Counties[theCounty.Id] = theCounty;
 	}
 	public bool ContainsProvince(ulong provinceId) {
-		if (Regions.Values.Any(region => region.ContainsProvince(provinceId))) {
+		if (Regions.Values.AsValueEnumerable().Any(region => region.ContainsProvince(provinceId))) {
 			return true;
 		}
-		if (Duchies.Values.Any(duchy => duchy.DuchyContainsProvince(provinceId))) {
+		if (Duchies.Values.AsValueEnumerable().Any(duchy => duchy.DuchyContainsProvince(provinceId))) {
 			return true;
 		}
-		if (Counties.Values.Any(county => county.CountyProvinceIds.Contains(provinceId))) {
+		if (Counties.Values.AsValueEnumerable().Any(county => county.CountyProvinceIds.AsValueEnumerable().Contains(provinceId))) {
 			return true;
 		}
 		return Provinces.Contains(provinceId);

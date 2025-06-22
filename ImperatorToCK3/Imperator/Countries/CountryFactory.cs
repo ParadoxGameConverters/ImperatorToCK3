@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CommonUtils;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
@@ -46,10 +47,10 @@ internal sealed partial class Country {
 		parser.RegisterKeyword("historical_regnal_numbers", reader => {
 			parsedCountry.HistoricalRegnalNumbers = reader.GetAssignments()
 				.GroupBy(a => a.Key)
-				.ToDictionary(g => g.Key, g => int.Parse(g.Last().Value));
+				.ToFrozenDictionary(g => g.Key, g => int.Parse(g.Last().Value));
 		});
-		parser.RegisterKeyword("primary_culture", reader => parsedCountry.PrimaryCulture = reader.GetString());
-		parser.RegisterKeyword("religion", reader => parsedCountry.Religion = reader.GetString());
+		parser.RegisterKeyword("primary_culture", reader => parsedCountry.PrimaryCulture = string.Intern(reader.GetString()));
+		parser.RegisterKeyword("religion", reader => parsedCountry.Religion = string.Intern(reader.GetString()));
 		parser.RegisterKeyword("government_key", reader => SetGovernmentType(reader, parsedCountry));
 		parser.RegisterKeyword("family", reader => parsedCountry.parsedFamilyIds.Add(reader.GetULong()));
 		parser.RegisterKeyword("minor_family", reader => parsedCountry.parsedFamilyIds.Add(reader.GetULong()));
@@ -58,7 +59,7 @@ internal sealed partial class Country {
 			var variablesParser = new Parser();
 			variablesParser.RegisterKeyword("data", dataReader => {
 				var blobParser = new Parser();
-				blobParser.RegisterKeyword("flag", blobReader => variables.Add(blobReader.GetString()));
+				blobParser.RegisterKeyword("flag", blobReader => variables.Add(string.Intern(blobReader.GetString())));
 				blobParser.IgnoreUnregisteredItems();
 				
 				foreach (var blob in new BlobList(dataReader).Blobs) {
@@ -77,9 +78,12 @@ internal sealed partial class Country {
 		});
 		parser.RegisterKeyword("mark_invention", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("ruler_term", reader => parsedCountry.RulerTerms.Add(RulerTerm.Parse(reader)));
-		parser.RegisterRegex(monarchyLawRegexStr, reader => parsedCountry.monarchyLaws.Add(reader.GetString()));
-		parser.RegisterRegex(republicLawRegexStr, reader => parsedCountry.republicLaws.Add(reader.GetString()));
-		parser.RegisterRegex(tribalLawRegexStr, reader => parsedCountry.tribalLaws.Add(reader.GetString()));
+		parser.RegisterRegex(monarchyLawRegexStr, reader =>
+			parsedCountry.monarchyLaws.Add(string.Intern(reader.GetString())));
+		parser.RegisterRegex(republicLawRegexStr, reader =>
+			parsedCountry.republicLaws.Add(string.Intern(reader.GetString())));
+		parser.RegisterRegex(tribalLawRegexStr, reader =>
+			parsedCountry.tribalLaws.Add(string.Intern(reader.GetString())));
 		parser.RegisterKeyword("is_antagonist", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("has_senior_ally", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("cached_happiness_for_owned", ParserHelpers.IgnoreItem);
@@ -91,7 +95,7 @@ internal sealed partial class Country {
 	}
 
 	private static void SetGovernmentType(BufferedReader reader, Country parsedCountry) {
-		var governmentStr = reader.GetString();
+		var governmentStr = string.Intern(reader.GetString());
 		parsedCountry.Government = governmentStr;
 		// set government type
 		if (monarchyGovernments.Contains(governmentStr)) {

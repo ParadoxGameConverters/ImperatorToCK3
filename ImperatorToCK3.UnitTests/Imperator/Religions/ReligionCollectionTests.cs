@@ -1,6 +1,6 @@
 using commonItems;
 using commonItems.Mods;
-using FluentAssertions;
+using AwesomeAssertions;
 using ImperatorToCK3.Imperator.Religions;
 using System.Collections.Generic;
 using System.Linq;

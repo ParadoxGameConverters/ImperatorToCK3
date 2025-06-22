@@ -110,7 +110,12 @@ qin = {
 	}
 
 	MOD_DEPENDENT = {
-		IF roa = {
+		IF aep = {
+			ethnicities = {
+				10 = east_asian_chinese_north
+			}
+		}
+		ELSE_IF roa = {
 			# copied from han
 			ethnicities = {
 				2 = east_asian_han_1
@@ -127,7 +132,19 @@ qin = {
 	}
 
 	MOD_DEPENDENT = {
-		IF tfe = {
+		IF aep = {
+			coa_gfx = {
+				chinese_group_coa_gfx
+			}
+			building_gfx = {
+				chinese_building_gfx
+			}
+			clothing_gfx = {
+				chinese_clothing_gfx
+			}
+			unit_gfx = { chinese_unit_gfx }
+		}
+		ELSE_IF tfe = {
 			# copied from han
 			coa_gfx = { chinese_group_coa_gfx }
 			building_gfx = { chinese_building_gfx indian_building_gfx }
@@ -3844,4 +3861,38 @@ hatti = { #Pre-Hittite people of central Anatolia
 	unit_gfx = { mena_unit_gfx }
 }
 
+# No guarentee that the Visigoths will conquer Iberia, so changing Visigothic Codes to Equal Inheritance, since they seem to have at least practiced that
+basque = {
+	INVALIDATED_BY = {
+		tfe = { basque } # TFE makes its own changes that should be kept
+		wtwsms = { basque } # WtWSMS makes its own changes that should be kept
+	}
+	color = basque
+	
+	ethos = ethos_egalitarian
+	heritage = heritage_iberian
+	language = language_basque
+	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
+	traditions = {
+		tradition_equal_inheritance
+		tradition_mountaineers
+		tradition_wedding_ceremonies
+	}
 
+	dlc_tradition = {
+		trait = tradition_fp2_ritualised_friendship
+		requires_dlc_flag = the_fate_of_iberia
+	}
+	
+	name_list = name_list_basque
+	
+	coa_gfx = { iberian_group_coa_gfx western_coa_gfx }
+	building_gfx = { iberian_building_gfx }
+	clothing_gfx = { iberian_christian_clothing_gfx western_clothing_gfx }
+	unit_gfx = { iberian_christian_unit_gfx }
+	
+	ethnicities = {
+		10 = mediterranean
+	}
+}

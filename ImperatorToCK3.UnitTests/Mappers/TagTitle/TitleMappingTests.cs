@@ -1,7 +1,7 @@
 ﻿using commonItems;
 using commonItems.Colors;
 using commonItems.Mods;
-using FluentAssertions;
+using AwesomeAssertions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Characters;

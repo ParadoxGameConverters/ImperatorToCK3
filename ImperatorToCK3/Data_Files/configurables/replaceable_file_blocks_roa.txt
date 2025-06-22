@@ -25,59 +25,6 @@
 # ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL FILE.
 # OTHERWISE THE BLOCKS WON'T BE MODIFIED!
 
-
-"common/script_values/ccu_culture_values.txt" = {
-	# Fix RoA's CCU system to actually use language groups/families/unions
-	replace = {
-		before = {
-		# Increase base acceptance for sharing same language
-		if = {
-			limit = {
-				has_same_culture_language = scope:culture
-			}
-			add = {
-				value = 10 # please update CULTURE_PILLAR_TOOLTIP_LANGUAGE_EFFECT if this number changes
-				desc = ACCEPTANCE_BASELINE_LANGUAGE
-			}
-		}
-		} # end of before
-
-		after = {
-		# Increase base acceptance for sharing same language
-		if = {
-			limit = {
-				has_same_culture_language = scope:culture
-			}
-			add = {
-				value = 10 # please update CULTURE_PILLAR_TOOLTIP_LANGUAGE_EFFECT if this number changes
-				desc = ACCEPTANCE_BASELINE_LANGUAGE
-			}
-		}
-		else_if = {
-			limit = { has_same_language_group_as = { TARGET = scope:culture } }
-			add = {
-				value = same_language_group_cultural_acceptance
-				desc = ACCEPTANCE_BASELINE_LANGUAGE_GROUP
-			}
-		}
-		else_if = {
-			limit = { has_same_language_family_as = { TARGET = scope:culture } }
-			add = {
-				value = same_language_family_cultural_acceptance
-				desc = ACCEPTANCE_BASELINE_LANGUAGE_FAMILY
-			}
-		}
-		else_if = {
-			limit = { is_in_language_union_with = { TARGET = scope:culture } }
-			add = {
-				value = same_language_union_cultural_acceptance
-				desc = ACCEPTANCE_BASELINE_LANGUAGE_UNION
-			}
-		}
-		} # end of after
-	}
-} # end of ccu_culture_values block
-
 "common/decisions/dlc_decisions/bp3/sea_bp3_other_decisions.txt" = {
 	# In form_bosporan_kingdom_decision, make sure the kingdom doesn't have a holder or de jure land.
 	replace = {
@@ -91,6 +38,7 @@
 		}
 		culture = {
 			OR = {
+				has_cultural_pillar = heritage_east_germanic
 				has_cultural_pillar = heritage_central_germanic
 				has_cultural_pillar = heritage_byzantine
 			}
@@ -99,11 +47,17 @@
 		any_held_title = {
 			OR = {
 				de_jure_liege = title:d_crimea
+				de_jure_liege = title:d_klimata
 				de_jure_liege = title:d_azov
 				de_jure_liege = title:d_tmutarakan
+				de_jure_liege = title:d_eudusia
+				de_jure_liege = title:d_khegayk
 				this = title:d_crimea
+				this = title:d_klimata
 				this = title:d_azov
 				this = title:d_tmutarakan
+				this = title:d_eudusia
+				this = title:d_khegayk
 			}
 		}
 	}
@@ -119,6 +73,7 @@
 		}
 		culture = {
 			OR = {
+				has_cultural_pillar = heritage_east_germanic
 				has_cultural_pillar = heritage_central_germanic
 				has_cultural_pillar = heritage_byzantine
 			}
@@ -127,11 +82,17 @@
 		any_held_title = {
 			OR = {
 				de_jure_liege = title:d_crimea
+				de_jure_liege = title:d_klimata
 				de_jure_liege = title:d_azov
 				de_jure_liege = title:d_tmutarakan
+				de_jure_liege = title:d_eudusia
+				de_jure_liege = title:d_khegayk
 				this = title:d_crimea
+				this = title:d_klimata
 				this = title:d_azov
 				this = title:d_tmutarakan
+				this = title:d_eudusia
+				this = title:d_khegayk
 			}
 		}
 		# IRToCK3: "Added this just making sure the kingdom doesn't have a holder or de jure land" ~~tanner918
@@ -163,6 +124,7 @@
 								NOT = {
 									this = culture:muong
 									has_cultural_parameter = heritage_group_austronesian
+									has_cultural_pillar = heritage_aghvank
 								}
 							}
 							AND = {
@@ -191,6 +153,7 @@
 								NOT = {
 									this = culture:muong
 									has_cultural_parameter = heritage_group_austronesian
+									has_cultural_pillar = heritage_aghvank
 								}
 							}
 							AND = {
@@ -273,3 +236,221 @@ non_roman_administrative_gov_trigger = {
 		}
 	}
 }
+
+
+"common\on_action\sea_game_start.txt" = {
+	## Because of the way this file is formatted, to disable some of the game_start stuff, it is easier to just remove the calls to the specific on_actions this way
+	replace = { # Begin on_game_start
+		before = {
+on_game_start = {
+    on_actions = {
+        # holy_site_buildings_on_game_start
+        # holy_site_descriptions_on_game_start
+        assign_nanzhao_state
+        acculturate_steppelads
+        #holy_site_fix
+        lock_indo_greek
+        EEE_sea_setup_on_actions
+        fix_government_types
+        #generate_shangshu
+        nerf_japan
+        misc_ROA_stuff
+
+        # Optional admin realms via gamerules; PDX does it before and after lobby, so will we.
+        sea_optional_admin_realms
+
+        # update title CoAs
+        sea_title_coa_on_start
+
+        fragment_cumania
+    }
+}
+		} # end of before
+
+		after = {
+on_game_start = {
+    on_actions = {
+        # holy_site_buildings_on_game_start
+        # holy_site_descriptions_on_game_start
+        #assign_nanzhao_state # IRToCK3: Disabled
+        #acculturate_steppelads # IRToCK3: Disabled
+        #holy_site_fix
+        lock_indo_greek
+        EEE_sea_setup_on_actions
+        fix_government_types
+        #generate_shangshu
+        #nerf_japan # IRToCK3: Disabled
+        #misc_ROA_stuff # IRToCK3: Disabled
+
+        # Optional admin realms via gamerules; PDX does it before and after lobby, so will we.
+        #sea_optional_admin_realms # IRToCK3: Disabled
+
+        # update title CoAs
+        #sea_title_coa_on_start # IRToCK3: Disabled
+
+        #fragment_cumania # IRToCK3: Disabled
+    }
+}
+		} # end of after
+	} # End on_game_start
+
+
+	replace = { # Begin on_game_start_after_lobby
+		before = {
+on_game_start_after_lobby = {
+    on_actions = {
+        #ruler_popup_events
+        sea_set_cultural_acceptance
+        on_yearly_assign_culture_faith
+        sea_historical_artifacts
+        set_tai_language
+        # assign_varnas
+        set_court_languages
+
+        # Chinese gov setup
+        sea_historical_chinese_vassal_contracts
+
+        # Set
+        sea_give_gunpowder_innos
+
+        # 930 conquerors
+        sea_936_conquerors
+
+        # Optional admin realms via gamerules
+        sea_optional_admin_realms
+    }
+}
+		} # end of before
+
+		after = {
+on_game_start_after_lobby = {
+    on_actions = {
+        #ruler_popup_events
+        #sea_set_cultural_acceptance # IRToCK3: Disabled
+        on_yearly_assign_culture_faith
+        #sea_historical_artifacts # IRToCK3: Disabled
+        #set_tai_language # IRToCK3: Disabled
+        # assign_varnas
+        #set_court_languages # IRToCK3: Disabled
+
+        # Chinese gov setup
+        #sea_historical_chinese_vassal_contracts # IRToCK3: Disabled
+
+        # Set
+        #sea_give_gunpowder_innos # IRToCK3: Disabled
+
+        # 930 conquerors
+        #sea_936_conquerors # IRToCK3: Disabled
+
+        # Optional admin realms via gamerules
+        #sea_optional_admin_realms # IRToCK3: Disabled
+    }
+}
+		} # end of after
+	} # End on_game_start_after_lobby
+
+} # End of sea_game_start.txt
+
+
+"common\decisions\80_major_decisions_south_asia.txt" = {
+	##################
+	## become_chakravarti_decision
+	##################
+	# ROA slightly modifies this decision and it requires its own separate changes
+
+	# is_valid block
+	replace = {
+		before = {
+		completely_controls = title:e_dravida
+		piety_level >= 5
+		} # end of before
+
+		after = {
+		# IRToCK3: ROA adds in that it requires you to also completely control the empire of Dravida, so that was removed as well
+		piety_level >= 5
+		} # end of after
+	}
+} # End of 80_major_decisions_south_asia.txt
+
+
+"common\scripted_effects\zz_vanilla_override.txt" = {
+	##################
+	## unite_india_decision_effect
+	##################
+	# ROA slightly modifies this effect and it requires its own separate changes
+	replace = {
+		before = {
+	title:e_rajastan = { add_to_list = indian_empire }
+	title:e_deccan = { add_to_list = indian_empire }
+	title:e_bengal = { add_to_list = indian_empire }
+	if = {
+		limit = {
+			NOT = {
+				is_titular = title:e_hindustan
+			}
+		}
+		title:e_hindustan = { add_to_list = indian_empire }
+	}
+		} # end of before
+
+		after = {
+	# IRToCK3: This effect normally adds the Empires of Rajastan, Deccan, Bengal, and Hindustan to a list, and then they have all of their kingdoms made de jure vassals of e_india. This is being changed to instead take all empires that are 80% in the india region.
+	every_county_in_region = {
+		region = world_india
+		limit = {
+			NOT = {
+				empire ?= { is_in_list = indian_empire }
+			}
+		}
+
+		if = {
+			limit = {
+				empire = {
+					any_de_jure_county = {
+						percent >= 0.8
+						title_province = { geographical_region = world_india }
+					}
+				}
+			}
+
+			empire = { add_to_list = indian_empire }
+		}
+	}
+		} # end of after
+	}
+
+	replace = {
+		before = {
+	hidden_effect = {
+		if = {
+			limit = { has_title = title:e_rajastan }
+			destroy_title = title:e_rajastan
+		}
+		if = {
+			limit = { has_title = title:e_deccan }
+			destroy_title = title:e_deccan
+		}
+		if = {
+			limit = { has_title = title:e_bengal }
+			destroy_title = title:e_bengal
+		}
+		if = {
+			limit = { has_title = title:e_hindustan }
+			destroy_title = title:e_hindustan
+		}
+	}
+		} # end of before
+
+		after = {
+	hidden_effect = {
+		# IRToCK3: The effect normally destroys Rajastan, Deccan, Bengal and/or Hindustan if you have them while taking this decision. This was instead changed to destroy any title you hold that had its kingdoms drifted to be under e_india
+		every_held_title = {
+			limit = { is_in_list = indian_empire }
+			save_scope_as = destroy_empire_title
+			root = { destroy_title = scope:destroy_empire_title }
+		}
+	}
+		} # end of after
+	}
+} # End of 00_decisions_effects.txt
+

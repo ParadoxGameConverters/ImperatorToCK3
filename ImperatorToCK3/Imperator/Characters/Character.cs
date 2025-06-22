@@ -120,12 +120,12 @@ internal sealed class Character : IIdentifiable<ulong> {
 		parser.RegisterKeyword("country", reader => character.parsedCountryId = reader.GetULong());
 		parser.RegisterKeyword("home_country", reader => character.parsedHomeCountryId = reader.GetULong());
 		parser.RegisterKeyword("province", reader => character.ProvinceId = reader.GetULong());
-		parser.RegisterKeyword("culture", reader => character.culture = reader.GetString());
-		parser.RegisterKeyword("religion", reader => character.Religion = reader.GetString());
+		parser.RegisterKeyword("culture", reader => character.culture = string.Intern(reader.GetString()));
+		parser.RegisterKeyword("religion", reader => character.Religion = string.Intern(reader.GetString()));
 		parser.RegisterKeyword("fertility", reader => character.Fertility = reader.GetDouble());
 		parser.RegisterKeyword("health", reader => character.Health = reader.GetDouble());
 		parser.RegisterKeyword("family", reader => character.parsedFamilyId = reader.GetULong());
-		parser.RegisterKeyword("traits", reader => character.Traits = reader.GetStrings());
+		parser.RegisterKeyword("traits", reader => character.Traits = reader.GetAndInternStrings());
 		parser.RegisterKeyword("female", reader => character.Female = reader.GetBool());
 		parser.RegisterKeyword("children", reader => character.parsedChildrenIds = [.. reader.GetULongs()]);
 		parser.RegisterKeyword("spouse", reader => character.parsedSpouseIds = [.. reader.GetULongs()]);
@@ -146,9 +146,9 @@ internal sealed class Character : IIdentifiable<ulong> {
 			var dateStr = reader.GetString();
 			character.DeathDate = new Date(dateStr, AUC: true); // converted to AD
 		});
-		parser.RegisterKeyword("death", reader => character.DeathReason = reader.GetString());
+		parser.RegisterKeyword("death", reader => character.DeathReason = string.Intern(reader.GetString()));
 		parser.RegisterKeyword("attributes", reader => character.Attributes = CharacterAttributes.Parse(reader));
-		parser.RegisterKeyword("nickname", reader => character.Nickname = reader.GetString());
+		parser.RegisterKeyword("nickname", reader => character.Nickname = string.Intern(reader.GetString()));
 		parser.RegisterKeyword("dna", reader => character.DNA = reader.GetString());
 		parser.RegisterKeyword("mother", reader => character.parsedMotherId = reader.GetULong());
 		parser.RegisterKeyword("father", reader => character.parsedFatherId = reader.GetULong());
@@ -171,7 +171,7 @@ internal sealed class Character : IIdentifiable<ulong> {
 			var variablesParser = new Parser();
 			variablesParser.RegisterKeyword("data", dataReader => {
 				var blobParser = new Parser();
-				blobParser.RegisterKeyword("flag", blobReader => variables.Add(blobReader.GetString()));
+				blobParser.RegisterKeyword("flag", blobReader => variables.Add(string.Intern(blobReader.GetString())));
 				blobParser.IgnoreUnregisteredItems();
 				
 				foreach (var blob in new BlobList(dataReader).Blobs) {
