@@ -27,7 +27,7 @@ internal class DiplomacyDB {
 			}
 
 			if (ck3LeagueMembers.Count < 2) {
-				Logger.Notice("Not enough members in league to import it, skipping: " +
+				Logger.Debug("Not enough members in league to import it, skipping: " +
 				             $"{string.Join(", ", ck3LeagueMembers.Select(t => t.Id))}");
 				continue;
 			}

@@ -232,7 +232,6 @@ link = { ck3 = armenian_apostolic ir = apostolic } # https://steamcommunity.com/
 @catholic_regions = "irRegion = atlas_region irRegion = central_italy_region irRegion = lusitania_region irRegion = germania_region irRegion = transalpine_gaul_region irRegion = gallaecia_region irRegion = pannonia_region irRegion = bohemia_area irRegion = bohemia_region irRegion = illyria_region irRegion = magna_graecia_region irRegion = belgica_region irRegion = vistulia_region irRegion = venedia_region irRegion = central_gaul_region irRegion = germania_superior_region irRegion = contestania_region irRegion = armorica_region irRegion = mauretainia_region irRegion = aquitaine_region irRegion = tarraconensis_region irRegion = cisalpine_gaul_region irRegion = africa_region irRegion = numidia_region irRegion = rhaetia_region irRegion = baetica_region irRegion = scandinavia_region"
 @after_nestorian_schism = "date_gte = 432.10.30"
 @after_chalcedon = "date_gte = 451.8.25"
-@after_acacian_schism = "date_gte = 484.3.22"
 ## only with heresiesInHistoricalAreas enabled
 link = { ck3 = priscillianism ir = christianity heresiesInHistoricalAreas=yes ck3Province = 1831 ck3Province = 1912 ck3Province = 1919 ck3Province = 1954 irRegion = lusitania_region }
 link = { ck3 = valentinianism ir = christianity heresiesInHistoricalAreas=yes irRegion = decapolis_area irRegion = peraea_area irRegion = arabia_petrea_area irRegion = sinai_area }
@@ -251,10 +250,12 @@ link = { ck3 = circassian_christianity ir = christianity @after_nestorian_schism
 @nestorian_regions = "@indian_catholic_regions irRegion = assyria_region irRegion = mesopotamia_region irRegion = persis_region irRegion = media_region irRegion = bactriana_region irRegion = gedrosia_region irRegion = ariana_region irRegion = parthia_region irRegion = tibet_region irRegion = himalayan_region irRegion = sogdiana_region irRegion = burma_region irRegion = xu_region irRegion = yang_region irRegion = yi_region irRegion = yong_region irRegion = you_region irRegion = yu_region irRegion = shuofang_region irRegion = qing_region irRegion = nanzhong_region irRegion = liang_region irRegion = jing_region irRegion = jiao_region irRegion = ji_region irRegion = bing_region irRegion = pyu_region irRegion = funan_region irRegion = suvarnabhumi_region irRegion = austronesia_region irRegion = wa_region irRegion = jin_region irRegion = modong_region irRegion = mobei_region irRegion = xiyu_region irRegion = scytho_siberian_region" # Modified to include Asia
 link = { ck3 = indian_catholic ir = christianity @after_nestorian_schism @indian_catholic_regions } # Rajas faith
 link = { ck3 = nestorian ir = christianity @after_nestorian_schism @nestorian_regions }
-link = { ck3 = catholic ir = christianity @after_acacian_schism @catholic_regions }
-link = { ck3 = orthodox ir = christianity @after_acacian_schism } # vanilla CK3 fallback
 link = { ck3 = chalcedonian ir = christianity @after_chalcedon } # TFE fallback
 link = { ck3 = nicene ir = christianity } # TFE fallback
+## for conversions that don't have a united Nicene/Chalcedonian faith
+@after_acacian_schism = "date_gte = 484.3.22"
+link = { ck3 = catholic ir = christianity @after_acacian_schism @catholic_regions }
+link = { ck3 = orthodox ir = christianity @after_acacian_schism }
 link = { ck3 = catholic ir = christianity @catholic_regions }
 link = { ck3 = orthodox ir = christianity } # vanilla CK3 fallback
 
