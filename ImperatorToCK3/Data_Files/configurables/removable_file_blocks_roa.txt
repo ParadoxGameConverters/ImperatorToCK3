@@ -16,7 +16,7 @@
 # ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL FILE.
 # OTHERWISE THE BLOCK WON'T BE REMOVED!
 
-# Adjusted for Rajas of Asia Version 3.6.1
+# Adjusted for Rajas of Asia Version 4.0.1
 
 "common/on_action/yearly_on_actions.txt" = {
 	{
@@ -5132,6 +5132,7 @@ bm_936_sea_five_dynasties = {
 		birth = 902.11.25
 		title = e_liao
 		government = nomad_government
+		fallback_government = tribal_government
 		culture = khitan
 		religion = mahayana
 		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
@@ -5446,6 +5447,7 @@ bm_1066_sea_china = {
 		birth = 1032.9.14
 		title = e_liao
 		government = nomad_government
+		fallback_government = tribal_government
 		culture = khitan
 		religion = mahayana
 		difficulty = "BOOKMARK_CHARACTER_DIFFICULTY_MEDIUM"
@@ -5587,7 +5589,7 @@ bm_1066_southeast_asia = {
 
 	character = {
 		name = "bookmark_1066_southeast_asia_srilanka"
-		dynasty_house = house_vijayabahu
+		dynasty = 1029172
 		dynasty_splendor_level = 3
 		type = male
 		birth = 1030.1.1
@@ -5604,7 +5606,7 @@ bm_1066_southeast_asia = {
 
 	character = {
 		name = "bookmark_1066_southeast_asia_kalyani_chalukya"
-		dynasty_house = house_kalyani_chalukya
+		dynasty_house = 12319
 		dynasty_splendor_level = 3
 		type = male
 		birth = 1002.1.1
