@@ -114,7 +114,7 @@ public static class RakalyCaller {
 			Logger.Debug($"Rakaly standard error: {stdErrText}");
 
 			string exceptionMessage = "Rakaly melter failed to melt the save.";
-			if (stdErrText.Contains("There is not enough space on the disk.")) {
+			if (stdErrText.Contains("(os error 112)")) {
 				throw new UserErrorException($"{exceptionMessage} There is not enough space on the disk.");
 			}
 
