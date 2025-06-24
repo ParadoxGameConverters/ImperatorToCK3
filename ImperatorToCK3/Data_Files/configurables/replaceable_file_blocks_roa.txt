@@ -25,6 +25,8 @@
 # ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL FILE.
 # OTHERWISE THE BLOCKS WON'T BE MODIFIED!
 
+# Adjusted for Rajas of Asia Version 4.0.1
+
 "common/decisions/dlc_decisions/bp3/sea_bp3_other_decisions.txt" = {
 	# In form_bosporan_kingdom_decision, make sure the kingdom doesn't have a holder or de jure land.
 	replace = {
@@ -176,42 +178,6 @@
 	}
 } # end of government_assignment_on_actions block
 
-"map_data/geographical_regions/geographical_region.txt" = {
-	# Adds in the relevant region for the out-of-scope stateless assignment
-	replace = {
-		before = {
-seasonal_region_west_africa = {
-	regions = {
-		world_africa_west sea_south_atlantic sea_macaronesia
-	}
-}
-		} # end of before
-		
-		after = {
-seasonal_region_west_africa = {
-	regions = {
-		world_africa_west sea_south_atlantic sea_macaronesia
-	}
-}
-
-# For limiting the RoA stateless government assignment to regions out of scope of Terra-Indomita
-converter_roa_out_of_scope_region = {
-	regions = {
-		world_mindanao world_kalimantan world_java world_timor world_sulawesi world_moluccas world_panua world_micronesia world_papua_new_guinea
-	}
-	duchies = {
-		d_lupah_sug d_sugbu d_buglas d_masbat d_bo_ol d_east_bisaya
-
-		d_palembang d_bangkahulu d_basemah d_lampung d_kerinci d_jambi d_bangka_belitung
-	}
-	counties = {
-		c_ipolot c_oton c_dumangas c_inderapura
-	}
-}
-		} # end of after
-	}
-} # end of geographical_region block
-
 
 "common/scripted_triggers/00_law_triggers.txt" = {
 	# Need to set this trigger to always be false so admin realms end up with the proper succession law
@@ -262,7 +228,7 @@ on_game_start = {
         # update title CoAs
         sea_title_coa_on_start
 
-        fragment_cumania
+        setup_cumania
     }
 }
 		} # end of before
@@ -288,7 +254,7 @@ on_game_start = {
         # update title CoAs
         #sea_title_coa_on_start # IRToCK3: Disabled
 
-        #fragment_cumania # IRToCK3: Disabled
+        #setup_cumania # IRToCK3: Disabled
     }
 }
 		} # end of after
