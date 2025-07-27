@@ -39,7 +39,7 @@
         <PackageReference Include="DotLiquid" Version="2.3.197" />
         <PackageReference Include="FSharp.Core" Version="9.0.300" /> <!-- Needed for CWTools -->
         <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.7.0" />
-        <PackageReference Include="Meziantou.Analyzer" Version="2.0.205">
+        <PackageReference Include="Meziantou.Analyzer" Version="2.0.208">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -47,12 +47,12 @@
         <PackageReference Include="PGCG.commonItems" Version="15.2.0" />
         <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.9" />
         <PackageReference Include="Polly" Version="8.6.2" />
-        <PackageReference Include="Roslynator.Analyzers" Version="4.13.1">
+        <PackageReference Include="Roslynator.Analyzers" Version="4.14.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="SixLabors.ImageSharp" Version="3.1.10" />
-        <PackageReference Include="ZLinq" Version="1.5.1" />
+        <PackageReference Include="ZLinq" Version="1.5.2" />
     </ItemGroup>
 
     <ItemGroup>
