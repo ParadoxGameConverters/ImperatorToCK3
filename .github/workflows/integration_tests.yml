@@ -74,7 +74,7 @@ jobs:
         $tigerConfigPath = "$env:GITHUB_WORKSPACE\.github\workflows\ck3-tiger.conf"
         
         # Run tiger and capture output
-        & $tigerPath --no-color --config $tigerConfigPath $modPath > result.txt 2> result-error.txt
+        cmd /c "`"$tigerPath`" --no-color --config `"$tigerConfigPath`" `"$modPath`" > result.txt 2> result-error.txt"
 
         # Display any errors from stderr
         if (Test-Path "result-error.txt") {
