@@ -72,10 +72,11 @@ jobs:
         $modPath = "$env:GITHUB_WORKSPACE\Release\ImperatorToCK3\output\test_save"
         $tigerPath = "$env:GITHUB_WORKSPACE\ck3-tiger\ck3-tiger.exe"
         $ck3GamePath = "C:\Program Files (x86)\Steam\steamapps\common\Crusader Kings III"
+        $tigerConfigPath = "$env:GITHUB_WORKSPACE\.github\workflows\ck3-tiger.conf"
         
         # Run tiger and capture output
-        & $tigerPath --game $ck3GamePath $modPath > result.txt 2> result-error.txt
-        
+        & $tigerPath --no-color --config $tigerConfigPath --game $ck3GamePath $modPath > result.txt 2> result-error.txt
+
         # Display any errors from stderr
         if (Test-Path "result-error.txt") {
           $errorContent = Get-Content "result-error.txt" -Raw
