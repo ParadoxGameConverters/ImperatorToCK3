@@ -1,6 +1,7 @@
 name: "Integration tests"
 
 on:
+  pull_request: # TODO: remove this once the ck3-tiger validation step works
   release:
     types: [published]
 
@@ -51,11 +52,30 @@ jobs:
         echo 'targetGameModPath = "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"' >> configuration.txt
         echo 'SaveGame = "../../save.rome"' >> configuration.txt
         echo 'SkipDynamicCoAExtraction = 1' >> configuration.txt
+        echo 'output_name = "test_save"' >> configuration.txt
         cat configuration.txt
     - name: "Run conversion"
       working-directory: Release/ImperatorToCK3
       run: |
         dotnet ImperatorToCK3Converter.dll
+
+    - name: Checkout kaiser-chris/tiger-action-public
+      uses: actions/checkout@v4.2.2
+      with:
+        repository: kaiser-chris/tiger-action-public
+        ref: 'main'
+        path: 'validation'
+
+    - name: "Validate generated mod with ck3-tiger"
+      uses: ./validation/
+      with:
+        update-tiger: true
+        # Relative path to the mod directory from repository root (defaults to repository root directory)
+        mod-directory: 'Release/ImperatorToCK3/output/test_save'
+        # Relative path to the validation action repository root (defaults to repository root directory)
+        action-directory: 'validation'
+        # Which game files should be used for validation (ck3 or vic3 but defaults to vic3) 
+        game: 'ck3'
 
     - name: "Cleanup"
       if: always()
