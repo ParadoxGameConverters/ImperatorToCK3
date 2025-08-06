@@ -1013,6 +1013,10 @@
 			limit = { exists = character:3096 }
 			character:3096 = { trigger_event = diarchy.0012 }
 		}
+		else_if = {
+			limit = { exists = character:188912 }
+			character:188912 = { trigger_event = diarchy.0012 }
+		}
 	}
 	{
 		### STRUGGLES ###

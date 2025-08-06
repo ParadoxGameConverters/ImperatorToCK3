@@ -77,6 +77,27 @@ after_bookmark_date = {
 	# Characters referenced in gfx\portraits\portrait_modifiers\06_clothes_special.txt
 	223523
 	
+	# Characters referenced in common\on_action\war_on_actions.txt
+	mpo_mongol_1
+	
+	# Characters referenced in common\scripted_effects\00_tributary_setup_effects.txt
+	fictional_mogyers_1
+	34872
+	188834
+	188852
+	188834
+	fictional_karluks_16
+	fictional_karluks_18
+	74031
+	fictional_turkish_5
+	fictional_turkish_7
+	fictional_turkish_9
+	fictional_turkish_10
+	fictional_turkish_11
+	fictional_turkish_13
+	fictional_turkish_31
+	fictional_turkish_33
+	
 	# Easter egg characters:
 	easteregg_veronica_pazos
 	easteregg_jakub_potapczyk
