@@ -37,3 +37,8 @@ log.txt
 
 # Imperator: Rome saves for testing
 /Saves/
+
+# Files related to local ck3-tiger validation
+validate-with-ck3-tiger.ps1
+result-error.txt
+result.txt

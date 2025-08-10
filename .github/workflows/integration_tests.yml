@@ -51,11 +51,105 @@ jobs:
         echo 'targetGameModPath = "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"' >> configuration.txt
         echo 'SaveGame = "../../save.rome"' >> configuration.txt
         echo 'SkipDynamicCoAExtraction = 1' >> configuration.txt
+        echo 'output_name = "test_save"' >> configuration.txt
         cat configuration.txt
     - name: "Run conversion"
       working-directory: Release/ImperatorToCK3
       run: |
         dotnet ImperatorToCK3Converter.dll
+
+    - name: "Download and unzip ck3-tiger"
+      run: |
+        Invoke-WebRequest -Uri "https://github.com/amtep/tiger/releases/download/v1.11.0/ck3-tiger-windows-v1.11.0.zip" -OutFile "ck3-tiger.zip"
+        Expand-Archive -Path "ck3-tiger.zip" -DestinationPath "ck3-tiger"
+        Remove-Item -Path "ck3-tiger.zip"
+
+    - name: "Validate generated mod with ck3-tiger"
+      run: |
+        # Run ck3-tiger validation on the generated mod
+        $modPath = "$env:GITHUB_WORKSPACE\Release\ImperatorToCK3\output\test_save"
+        $tigerPath = "$env:GITHUB_WORKSPACE\ck3-tiger\ck3-tiger.exe"
+        $tigerConfigPath = "$env:GITHUB_WORKSPACE\.github\workflows\ck3-tiger.conf"
+        
+        # Run tiger and capture output
+        cmd /c "`"$tigerPath`" --no-color --config `"$tigerConfigPath`" `"$modPath`" > result.txt 2> result-error.txt"
+
+        # Display any errors from stderr
+        if (Test-Path "result-error.txt") {
+          $errorContent = Get-Content "result-error.txt" -Raw
+          if ($errorContent) {
+            Write-Host $errorContent
+          }
+        }
+        
+        # Count base errors (initialization failures)
+        $baseErrors = 0
+        if (Test-Path "result-error.txt") {
+          $baseErrors = (Select-String -Path "result-error.txt" -Pattern "Error" -AllMatches).Matches.Count
+        }
+        
+        # Check if validator failed to initialize
+        if ($baseErrors -gt 0) {
+          Write-Host ""
+          Write-Host "The validator could not be initialized!" -ForegroundColor Red -BackgroundColor Black
+          exit 1
+        }
+        
+        # Process results if file exists and has content
+        if ((Test-Path "result.txt") -and (Get-Item "result.txt").Length -gt 0) {
+          # Display full results
+          Get-Content "result.txt"
+          
+          # Count different types of issues
+          $tips = (Select-String -Path "result.txt" -Pattern "tips" -AllMatches).Matches.Count
+          $untidy = (Select-String -Path "result.txt" -Pattern "untidy" -AllMatches).Matches.Count
+          $warnings = (Select-String -Path "result.txt" -Pattern "warning" -AllMatches).Matches.Count
+          $errors = (Select-String -Path "result.txt" -Pattern "error" -AllMatches).Matches.Count
+          $fatal = (Select-String -Path "result.txt" -Pattern "fatal" -AllMatches).Matches.Count
+          
+          Write-Host ""
+          Write-Host "Overview:" -ForegroundColor White
+          
+          if ($tips -gt 0) {
+            Write-Host " - $tips tips" -ForegroundColor White
+          } else {
+            Write-Host " - no tips" -ForegroundColor White
+          }
+          
+          if ($untidy -gt 0) {
+            Write-Host " - $untidy untidy hints" -ForegroundColor White
+          } else {
+            Write-Host " - no untidy hints" -ForegroundColor White
+          }
+          
+          if ($warnings -gt 0) {
+            Write-Host " - $warnings warnings" -ForegroundColor White
+          } else {
+            Write-Host " - no warnings" -ForegroundColor White
+          }
+          
+          if ($errors -gt 0) {
+            Write-Host " - $errors errors" -ForegroundColor White
+          } else {
+            Write-Host " - no errors" -ForegroundColor White
+          }
+          
+          if ($fatal -gt 0) {
+            Write-Host " - $fatal fatal errors" -ForegroundColor White
+          } else {
+            Write-Host " - no fatal errors" -ForegroundColor White
+          }
+          
+          # Check if validation failed
+          if ($warnings -gt 0 -or $errors -gt 0 -or $fatal -gt 0) {
+            Write-Host ""
+            Write-Host "There are warnings or errors. The validation failed!" -ForegroundColor Red -BackgroundColor Black
+            exit 1
+          }
+        } else {
+          Write-Host ""
+          Write-Host "Successfully validated!" -ForegroundColor Green -BackgroundColor Black
+        }
 
     - name: "Cleanup"
       if: always()
