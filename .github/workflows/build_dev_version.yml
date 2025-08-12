@@ -48,7 +48,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         expire-in: 0
         onlyPrefix: 'ImperatorToCK3-${{ matrix.build }}-dev-${{ env.BRANCH_NAME }}'
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0
         submodules: recursive
