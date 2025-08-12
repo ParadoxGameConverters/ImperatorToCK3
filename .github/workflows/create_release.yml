@@ -9,7 +9,7 @@ jobs:
     outputs:
       tag: ${{ steps.previoustag.outputs.tag }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0
     - name: "Get previous tag"
@@ -55,7 +55,7 @@ jobs:
           archive_extension: .tgz
           asset_content_type: application/gzip
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0
         submodules: recursive
