@@ -713,10 +713,14 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			if (cultureId is not null) {
 				maleNames = cultureIdToMaleNames[cultureId];
 			} else {
-				Logger.Warn($"Failed to find male names for successors of {oldCharacter.Id}.");
-				maleNames = ["Alexander"];
+				Logger.Debug($"Failed to find male names for successors of {oldCharacter.Id}.");
+				if (oldCharacter.Female) {
+					maleNames = [oldCharacter.Father?.GetName(ck3BookmarkDate) ?? "Alexander"];
+				} else {
+					maleNames = [oldCharacter.GetName(ck3BookmarkDate) ?? "Alexander"];
+				}
 			}
-			
+
 			var randomSeedForCharacter = randomSeed ^ (oldCharacter.ImperatorCharacter?.Id ?? 0);
 			var random = new Random((int)randomSeedForCharacter);
 
