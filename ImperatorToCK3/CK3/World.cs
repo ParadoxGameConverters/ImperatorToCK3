@@ -346,8 +346,12 @@ internal sealed class World {
 		
 		// Give counties to rulers and governors.
 		OverwriteCountiesHistory(impWorld.Countries, impWorld.JobsDB.Governorships, countyLevelCountries, countyLevelGovernorships, impWorld.Characters, impWorld.Provinces, CorrectedDate);
-		// Import holding owners as barons and counts.
-		LandedTitles.ImportImperatorHoldings(Provinces, impWorld.Characters, impWorld.EndDate);
+		// Import holding owners as barons and counts (optional).
+		if (!config.SkipHoldingOwnersImport) {
+			LandedTitles.ImportImperatorHoldings(Provinces, impWorld.Characters, impWorld.EndDate);
+		} else {
+			Logger.Info("Skipping holding owners import per configuration.");
+		}
 		
 		LandedTitles.ImportDevelopmentFromImperator(Provinces, CorrectedDate, config.ImperatorCivilizationWorth);
 		LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
