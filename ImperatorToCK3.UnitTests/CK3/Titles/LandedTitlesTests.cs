@@ -1,7 +1,9 @@
-﻿using commonItems;
+﻿using AwesomeAssertions;
+using commonItems;
 using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
+using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
@@ -608,6 +610,59 @@ public class LandedTitlesTests {
 		var mongoliaKingdom = titles["k_mongolia"];
 		Assert.Equal(new Color(20, 65, 25), mongoliaKingdom.Color1);
 		Assert.Equal("c_karakorum", mongoliaKingdom.CapitalCountyId);
+	}
+
+	[Fact]
+	public void RemoveBreaksAllLinks() {
+		var landedTitles = new Title.LandedTitles();
+		var empire = landedTitles.Add("e_empire");
+		var kingdom = landedTitles.Add("k_kingdom"); // the title we will be removing
+		var duchy = landedTitles.Add("d_duchy");
+		
+		// Establish vassal relationships: empire > kingdom > duchy.
+		Date date = "1000.1.1";
+		kingdom.DeJureLiege = empire;
+		duchy.DeJureLiege = kingdom;
+		kingdom.SetDeFactoLiege(empire, date);
+		duchy.SetDeFactoLiege(kingdom, date);
+		Assert.Equal(kingdom, duchy.GetDeFactoLiege(date));
+		Assert.Equal(empire, kingdom.GetDeFactoLiege(date));
+		
+		// Establish I:R country - CK3 title link.
+		var country = new Country(1);
+		kingdom.InitializeFromTag(country,
+			dependency: null,
+			new CountryCollection(),
+			new LocDB("english"),
+			new CK3LocDB(),
+			new ProvinceMapper(),
+			new CoaMapper(),
+			new GovernmentMapper(Array.Empty<string>()),
+			new SuccessionLawMapper(),
+			new DefiniteFormMapper(),
+			new ReligionMapper(new ReligionCollection(landedTitles), irRegionMapper, new CK3RegionMapper()),
+			new CultureMapper(irRegionMapper, new CK3RegionMapper(), cultures),
+			new NicknameMapper(),
+			new CharacterCollection(),
+			date,
+			new Configuration(),
+			enabledCK3Dlcs: []);
+		Assert.Equal(kingdom, country.CK3Title);
+		Assert.Equal(country, kingdom.ImperatorCountry);
+		
+		// Remove the kingdom title.
+		landedTitles.Remove(kingdom.Id);
+		
+		// Check if the title is actually removed.
+		Assert.False(landedTitles.ContainsKey(kingdom.Id));
+		// Check if de jure links are broken.
+		Assert.Equal(empire, duchy.DeJureLiege);
+		empire.DeJureVassals.Should().BeEquivalentTo([duchy]); // The duchy should now be a direct vassal of the empire.
+		// Check if de facto links are broken.
+		Assert.Equal(empire, duchy.GetDeFactoLiege(date));
+		empire.GetDeFactoVassals(date).Keys.Should().BeEquivalentTo([duchy.Id]); // The duchy should now be a direct vassal of the empire.
+		// Check if I:R country - CK3 title link is broken.
+		Assert.Null(country.CK3Title);
 	}
 }
 

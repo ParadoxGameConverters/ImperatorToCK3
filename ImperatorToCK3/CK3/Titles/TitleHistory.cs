@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using System;
 
 namespace ImperatorToCK3.CK3.Titles;
 
@@ -25,9 +26,19 @@ internal partial class Title {
 		History.AddFieldValue(date, "government", "government", governmentId);
 	}
 
-	public string? GetLiegeId(Date date) {
+	public string? GetLiegeId(Date? date) {
+		if (date is not null && Id == "k_kingdom") { // TODO: REMOVE THIS
+			var val = History.GetFieldValue("liege", date);
+			//throw new Exception($"{val} with type {val?.GetType()}");
+		}
 		if (History.GetFieldValue("liege", date) is string liegeStr) {
+			if (date is not null && Id == "k_kingdom") { // TODO: REMOVE THIS
+				// throw new Exception($"LIEGE ID of {Id} AT {date}: {liegeStr}");
+			}
 			return liegeStr;
+		}
+		if (date is not null && Id == "k_kingdom") { // TODO: REMOVE THIS
+			//throw new Exception($"LIEGE ID of {Id} at {date}: null");
 		}
 		return null;
 	}
