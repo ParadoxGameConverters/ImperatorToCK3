@@ -342,6 +342,23 @@ public sealed class Configuration {
 			AsiaExpansionProjectEnabled = true;
 			Logger.Info($"AEP detected: {aepMod.Name}");
 		}
+
+		ThrowUserErrorExceptionForUnsupportedModCombinations();
+	}
+
+	private void ThrowUserErrorExceptionForUnsupportedModCombinations() {
+		if (FallenEagleEnabled && WhenTheWorldStoppedMakingSenseEnabled) {
+			throw new UserErrorException("The converter doesn't support combining The Fallen Eagle with When the World Stopped Making Sense!");
+		}
+		if (RajasOfAsiaEnabled && AsiaExpansionProjectEnabled) {
+			throw new UserErrorException("The converter doesn't support combining Rajas of Asia with Asia Expansion Project!");
+		}
+		if (FallenEagleEnabled && RajasOfAsiaEnabled) {
+			throw new UserErrorException("The converter doesn't support combining The Fallen Eagle with Rajas of Asia!");
+		}
+		if (FallenEagleEnabled && AsiaExpansionProjectEnabled) {
+			throw new UserErrorException("The converter doesn't support combining The Fallen Eagle with Asia Expansion Project!");
+		}
 	}
 
 	/// <summary>Returns a collection of CK3 mod flags with values based on the enabled mods. "vanilla" flag is set to true if no other flags are set.</summary>
