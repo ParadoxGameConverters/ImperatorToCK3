@@ -619,16 +619,8 @@ public class LandedTitlesTests {
 		var kingdom = landedTitles.Add("k_kingdom"); // the title we will be removing
 		var duchy = landedTitles.Add("d_duchy");
 		
-		// Establish vassal relationships: empire > kingdom > duchy.
-		Date date = "1000.1.1";
-		kingdom.DeJureLiege = empire;
-		duchy.DeJureLiege = kingdom;
-		kingdom.SetDeFactoLiege(empire, date);
-		duchy.SetDeFactoLiege(kingdom, date);
-		Assert.Equal(kingdom, duchy.GetDeFactoLiege(date));
-		Assert.Equal(empire, kingdom.GetDeFactoLiege(date));
-		
 		// Establish I:R country - CK3 title link.
+		Date date = "1000.1.1";
 		var country = new Country(1);
 		kingdom.InitializeFromTag(country,
 			dependency: null,
@@ -649,6 +641,16 @@ public class LandedTitlesTests {
 			enabledCK3Dlcs: []);
 		Assert.Equal(kingdom, country.CK3Title);
 		Assert.Equal(country, kingdom.ImperatorCountry);
+		
+		// Establish vassal relationships: empire > kingdom > duchy.
+		kingdom.DeJureLiege = empire;
+		duchy.DeJureLiege = kingdom;
+		kingdom.SetDeFactoLiege(empire, date);
+		duchy.SetDeFactoLiege(kingdom, date);
+		Assert.Equal(kingdom, duchy.DeJureLiege);
+		Assert.Equal(empire, kingdom.DeJureLiege);
+		Assert.Equal(kingdom, duchy.GetDeFactoLiege(date));
+		Assert.Equal(empire, kingdom.GetDeFactoLiege(date));
 		
 		// Remove the kingdom title.
 		landedTitles.Remove(kingdom.Id);

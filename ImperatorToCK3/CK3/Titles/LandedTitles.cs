@@ -293,7 +293,7 @@ internal sealed partial class Title {
 					if (title.Rank >= titleToErase.Rank) {
 						continue;
 					}
-					
+
 					if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
 						continue;
 					}
@@ -304,16 +304,11 @@ internal sealed partial class Title {
 							liegeField.InitialEntries[i] = new(kvp.Key, newDFLiegeIdForInitialEntries);
 						}
 					}
-					// throw new Exception("FUCKING LEN OF DATE TO ENTRIES DICT: " + liegeField.DateToEntriesDict.Count); // todo: remove this
 					foreach (var datedEntriesBlock in liegeField.DateToEntriesDict) {
 						for (int i = 0; i < datedEntriesBlock.Value.Count; i++) {
 							var kvp = datedEntriesBlock.Value[i];
-							// throw new Exception(kvp.Value.ToString()); // TODO: REMOVE THIS, returns k_kingdom
 							if (kvp.Value.ToString()?.RemQuotes() == titleToErase.Id) {
-								var uncleanedNewLiegeId = titleToErase.GetLiegeId(datedEntriesBlock.Key);
-								throw new Exception(title.Id + " " + datedEntriesBlock.Key+ " " + uncleanedNewLiegeId); // todo: remove this
 								var newDFLiegeId = titleToErase.GetLiegeId(datedEntriesBlock.Key)?.RemQuotes() ?? "0";
-								//throw new Exception(datedEntriesBlock.Key.ToString() + " " + newDFLiegeId.ToString()); // todo: remove this
 								datedEntriesBlock.Value[i] = new(kvp.Key, newDFLiegeId);
 							}
 						}
