@@ -391,14 +391,6 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 	}
 
-	internal void RemoveDeFactoLiegeReferences(string liegeName) {
-		if (!History.Fields.TryGetValue("liege", out var liegeField)) {
-			return;
-		}
-
-		liegeField.RemoveAllEntries(v => v is string str && str == liegeName);
-	}
-
 	private static LocBlock? GetValidatedName(Country imperatorCountry, CountryCollection imperatorCountries, LocDB irLocDB) {
 		switch (imperatorCountry.Name) {
 			// Hard code for Antigonid Kingdom, Seleucid Empire and Maurya.

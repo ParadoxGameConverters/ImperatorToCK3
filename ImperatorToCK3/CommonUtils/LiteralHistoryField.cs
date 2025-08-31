@@ -31,18 +31,20 @@ internal sealed class LiteralHistoryField : IHistoryField {
 		}
 	}
 
-	private KeyValuePair<string, object>? GetLastEntry(Date date) {
-		var pairsWithEarlierOrSameDate = DateToEntriesDict.TakeWhile(d => d.Key <= date);
+	private KeyValuePair<string, object>? GetLastEntry(Date? date) {
+		if (date is not null) {
+			var pairsWithEarlierOrSameDate = DateToEntriesDict.TakeWhile(d => d.Key <= date);
 
-		foreach (var (_, entries) in pairsWithEarlierOrSameDate.Reverse()) {
-			foreach (var entry in Enumerable.Reverse(entries)) {
-				return entry;
+			foreach (var (_, entries) in pairsWithEarlierOrSameDate.Reverse()) {
+				foreach (var entry in Enumerable.Reverse(entries)) {
+					return entry;
+				}
 			}
 		}
 
 		return InitialEntries.LastOrDefault();
 	}
-	public object? GetValue(Date date) {
+	public object? GetValue(Date? date) {
 		return GetLastEntry(date)?.Value;
 	}
 

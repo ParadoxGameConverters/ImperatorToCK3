@@ -22,7 +22,7 @@ internal sealed class History : IPDXSerializable {
 		Fields = fields;
 	}
 
-	public object? GetFieldValue(string fieldName, Date date) {
+	public object? GetFieldValue(string fieldName, Date? date) {
 		return Fields.TryGetValue(fieldName, out var value) ? value.GetValue(date) : null;
 	}
 
