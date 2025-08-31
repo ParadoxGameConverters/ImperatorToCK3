@@ -237,6 +237,11 @@ public class TitleTests {
 		
 		county.SetDevelopmentLevel(4, date);
 		Assert.Equal(4, county.GetOwnOrInheritedDevelopmentLevel(date));
+		
+		// Development level set for de jure liege at a later date overrides the county's previously set level.
+		Date laterDate = date.ChangeByYears(1);
+		empire.SetDevelopmentLevel(12, laterDate);
+		Assert.Equal(12, county.GetOwnOrInheritedDevelopmentLevel(laterDate));
 	}
 
 	[Fact]

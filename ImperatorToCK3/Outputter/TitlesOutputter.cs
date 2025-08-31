@@ -26,9 +26,13 @@ internal static class TitlesOutputter {
 			alreadyOutputtedTitles.Add(title.Id);
 
 			// output the kingdom's de jure vassals' history
-			foreach (var (deJureVassalName, deJureVassal) in title.GetDeJureVassalsAndBelow()) {
+			// Order the outputted titles first by rank (duchies before counties), then by title ID.
+			var deJureVassalsAndBelow = title.GetDeJureVassalsAndBelow()
+				.OrderByDescending(t => t.Value.Rank)
+				.ThenBy(t => t.Key);
+			foreach (var (deJureVassalTitleId, deJureVassal) in deJureVassalsAndBelow) {
 				await deJureVassal.OutputHistory(historyOutput);
-				alreadyOutputtedTitles.Add(deJureVassalName);
+				alreadyOutputtedTitles.Add(deJureVassalTitleId);
 			}
 		}
 
