@@ -1,4 +1,5 @@
-﻿using commonItems;
+﻿using AwesomeAssertions;
+using commonItems;
 using ImperatorToCK3.Imperator.Families;
 using System;
 using System.Collections.Generic;
@@ -59,6 +60,8 @@ public class FamilyTests {
 
 	[Fact]
 	public void IgnoredTokensAreSaved() {
+		Family.IgnoredTokens.Clear(); // Ensure no bleed-over from other tests.
+		
 		var reader1 = new BufferedReader("= { culture=paradoxian ignoredKeyword1=something ignoredKeyword2={} }");
 		var reader2 = new BufferedReader("= { ignoredKeyword1=stuff ignoredKeyword3=stuff }");
 		_ = Family.Parse(reader1, 1);
@@ -67,6 +70,6 @@ public class FamilyTests {
 		var expectedIgnoredTokens = new HashSet<string> {
 			"ignoredKeyword1", "ignoredKeyword2", "ignoredKeyword3"
 		};
-		Assert.True(Family.IgnoredTokens.SetEquals(expectedIgnoredTokens));
+		Family.IgnoredTokens.Should().BeEquivalentTo(expectedIgnoredTokens);
 	}
 }

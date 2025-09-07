@@ -1746,10 +1746,14 @@ internal sealed partial class Title {
 			Logger.Info($"Loaded {loadedHistoriesCount} title histories.");
 
 			// Add vanilla development to counties
-			// For counties that inherit development level from de jure lieges, assign it to them directly for better reliability.
-			foreach (var title in this.Where(t => t.Rank == TitleRank.county && t.GetDevelopmentLevel(ck3BookmarkDate) is null)) {
-				var inheritedDev = title.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate);
-				title.SetDevelopmentLevel(inheritedDev ?? 0, ck3BookmarkDate);
+			// Assign development level directly to each county for better reliability, then remove it from duchies and above.
+			foreach (var county in Counties) {
+				var inheritedDev = county.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate);
+				county.History.Fields.Remove("development_level");
+				county.SetDevelopmentLevel(inheritedDev ?? 0, ck3BookmarkDate);
+			}
+			foreach (var title in this.Where(t => t.Rank > TitleRank.county)) {
+				title.History.Fields.Remove("development_level");
 			}
 
 			// Remove history entries past the bookmark date.
