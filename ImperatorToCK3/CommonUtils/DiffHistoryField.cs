@@ -38,10 +38,14 @@ internal sealed class DiffHistoryField : IHistoryField {
 		}
 	}
 
-	public object? GetValue(Date date) {
+	public object? GetValue(Date? date) {
 		var toReturn = new OrderedSet<object>();
 		foreach (var (keyword, value) in InitialEntries) {
 			AddOrRemoveToValueSet(toReturn, keyword, value);
+		}
+
+		if (date is null) {
+			return toReturn;
 		}
 
 		foreach (var (entriesDate, entries) in DateToEntriesDict) {
