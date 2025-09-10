@@ -158,7 +158,7 @@ link = { ck3 = armenian ir = armenian }
 link = { ck3 = luwian ir = carian ir = lycian ir = isaurian ir = pisidian }
 link = { ck3=cilician ir=cilician ir=kennataian ir=cennatean ir=lalasian }
 link = { ck3 = lydian ir = lydian }
-link = { ck3=hittite ir=lycaonian ir=cappadocian ir=pontic ir=paphlagonian ir=milyadian ir=oroandian ir=cabalian ir=morimenian ir=cataonian }
+link = { ck3=anatolian ir=lycaonian ir=cappadocian ir=pontic ir=paphlagonian ir=milyadian ir=oroandian ir=cabalian ir=morimenian ir=cataonian } # Used to map to converter's hittite culture
 link = { ck3 = phrygian ir = phrygian ir = mysian }
 link = { ck3 = kizzuwatnan ir = kizzuwatnan }
 link = { ck3 = trojan ir = trojan }

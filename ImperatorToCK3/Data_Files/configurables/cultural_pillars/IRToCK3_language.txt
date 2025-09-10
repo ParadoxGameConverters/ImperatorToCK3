@@ -2596,3 +2596,80 @@ language_venetic = {
 
 	color = venetic_culture
 }
+
+language_anatolian = {
+    REPLACED_BY = {
+		tfe = { language_anatolian }
+		wtwsms = { language_anatolian }
+		roa = { language_anatolian }
+		vanilla = { language_anatolian }
+	}
+	
+	MOD_DEPENDENT = {
+		IF @[roa|wtwsms] = {
+			parameters = {
+				language_branch_anatolian = yes
+				language_family_indo_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				language_group_anatolian = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
+    
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_anatolian
+		}
+	}
+	
+	MOD_DEPENDENT = {
+		IF @[roa|wtwsms] = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_anatolian }
+					multiply = same_language_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_anatolian }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_anatolian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_anatolian }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_anatolian }
+					multiply = 10
+				}
+			}
+		}
+	}
+
+	color = rgb { 85 148 124 }
+}
