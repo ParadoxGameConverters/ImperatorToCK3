@@ -169,19 +169,19 @@ internal partial class World {
 		Logger.Info("Retrieving random CoAs from Imperator...");
 		OutputContinueGameJson(config);
 		OutputDlcLoadJson(config);
-		
+
 		string imperatorBinaryName = OperatingSystem.IsWindows() ? "imperator.exe" : "imperator";
 		var imperatorBinaryPath = Path.Combine(config.ImperatorPath, "binaries", imperatorBinaryName);
 		if (!File.Exists(imperatorBinaryPath)) {
 			Logger.Warn("Imperator binary not found! Aborting the random CoA extraction!");
 			return;
 		}
-		
+
 		string dataTypesLogPath = Path.Combine(config.ImperatorDocPath, "logs/data_types.log");
 		if (File.Exists(dataTypesLogPath)) {
 			FileHelper.DeleteWithRetries(dataTypesLogPath);
 		}
-		
+
 		Logger.Debug("Launching Imperator to extract coats of arms...");
 
 		var processStartInfo = new ProcessStartInfo {
@@ -197,16 +197,25 @@ internal partial class World {
 			Logger.Warn("Failed to start Imperator process! Aborting!");
 			return;
 		}
-		
+
 		imperatorProcess.Exited += HandleImperatorProcessExit(config, imperatorProcess);
-		
+
 		// Make sure that if converter is closed, Imperator is closed as well.
 		AppDomain.CurrentDomain.ProcessExit += (_, _) => {
 			if (!imperatorProcess.HasExited) {
 				imperatorProcess.Kill();
 			}
 		};
-		
+
+		WaitForImperatorDataTypesLog(imperatorProcess, dataTypesLogPath);
+
+		if (!imperatorProcess.HasExited) {
+			Logger.Debug("Killing Imperator process...");
+			imperatorProcess.Kill();
+		}
+	}
+
+	private void WaitForImperatorDataTypesLog(Process imperatorProcess, string dataTypesLogPath) {
 		// Wait until data_types.log exists (it will be created by the dumpdatatypes command).
 		var stopwatch = new Stopwatch();
 		stopwatch.Start();
@@ -222,11 +231,6 @@ internal partial class World {
 			}
 			
 			Thread.Sleep(100);
-		}
-
-		if (!imperatorProcess.HasExited) {
-			Logger.Debug("Killing Imperator process...");
-			imperatorProcess.Kill();
 		}
 	}
 
@@ -815,3 +819,4 @@ internal partial class World {
 	[GeneratedRegex(@"\$[A-Z_]*\$")]
 	private static partial Regex SubstitutionRegex();
 }
+
