@@ -62,3 +62,10 @@ l_english:
  SKIP_DYNAMIC_COA_EXTRACTION_0_TIP: "The converter will launch Imperator to extract all game-generated flags."
  SKIP_DYNAMIC_COA_EXTRACTION_1: "Yes"
  SKIP_DYNAMIC_COA_EXTRACTION_1_TIP: "The converted will not launch Imperator to extract all game-generated flags."
+
+ SKIP_HOLDING_OWNERS_IMPORT: "Should importing holding owners be skipped?"
+ SKIP_HOLDING_OWNERS_IMPORT_TIP: "Whether the converter should import Imperator holding owners as barons and counts."
+ SKIP_HOLDING_OWNERS_IMPORT_0: "No"
+ SKIP_HOLDING_OWNERS_IMPORT_0_TIP: "The converter will import holding owners as barons and counts."
+ SKIP_HOLDING_OWNERS_IMPORT_1: "Yes"
+ SKIP_HOLDING_OWNERS_IMPORT_1_TIP: "The converter will not import holding owners as barons and counts."

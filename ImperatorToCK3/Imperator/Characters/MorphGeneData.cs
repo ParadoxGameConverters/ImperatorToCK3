@@ -1,6 +1,6 @@
 using System;
 
-namespace ImperatorToCK3.Imperator.Characters; 
+namespace ImperatorToCK3.Imperator.Characters;
 
 public readonly struct MorphGeneData : IEquatable<MorphGeneData> {
 	public required string TemplateName { get; init; }

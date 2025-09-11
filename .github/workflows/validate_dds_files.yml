@@ -12,8 +12,8 @@ jobs:
   validate-dds-files:
     runs-on: macos-15
     steps:
-    - uses: actions/checkout@v4
-    - uses: mfinelli/setup-imagemagick@v6
+    - uses: actions/checkout@v5
+    - uses: mfinelli/setup-imagemagick@v7
       with:
         install-libfuse2: true
     - name: "Install Wand library"

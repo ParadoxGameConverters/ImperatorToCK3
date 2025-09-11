@@ -28,6 +28,7 @@ public sealed class Configuration {
 	public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
 	public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
 	public bool SkipDynamicCoAExtraction { get; set; } = false;
+	public bool SkipHoldingOwnersImport { get; set; } = true;
 	public bool FallenEagleEnabled { get; private set; }
 	public bool WhenTheWorldStoppedMakingSenseEnabled { get; private set; }
 	public bool RajasOfAsiaEnabled { get; private set; }
@@ -151,6 +152,15 @@ public sealed class Configuration {
 				Logger.Info($"{nameof(SkipDynamicCoAExtraction)} set to: {SkipDynamicCoAExtraction}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(SkipDynamicCoAExtraction)} value was: {valueString}; Error message: {e}");
+			}
+		});
+		parser.RegisterKeyword("SkipHoldingOwnersImport", reader => {
+			var valueString = reader.GetString();
+			try {
+				SkipHoldingOwnersImport = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+				Logger.Info($"{nameof(SkipHoldingOwnersImport)} set to: {SkipHoldingOwnersImport}");
+			} catch (Exception e) {
+				Logger.Error($"Undefined error, {nameof(SkipHoldingOwnersImport)} value was: {valueString}; Error message: {e}");
 			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
@@ -331,6 +341,23 @@ public sealed class Configuration {
 		if (aepMod is not null) {
 			AsiaExpansionProjectEnabled = true;
 			Logger.Info($"AEP detected: {aepMod.Name}");
+		}
+
+		ThrowUserErrorExceptionForUnsupportedModCombinations();
+	}
+
+	private void ThrowUserErrorExceptionForUnsupportedModCombinations() {
+		if (FallenEagleEnabled && WhenTheWorldStoppedMakingSenseEnabled) {
+			throw new UserErrorException("The converter doesn't support combining The Fallen Eagle with When the World Stopped Making Sense!");
+		}
+		if (RajasOfAsiaEnabled && AsiaExpansionProjectEnabled) {
+			throw new UserErrorException("The converter doesn't support combining Rajas of Asia with Asia Expansion Project!");
+		}
+		if (FallenEagleEnabled && RajasOfAsiaEnabled) {
+			throw new UserErrorException("The converter doesn't support combining The Fallen Eagle with Rajas of Asia!");
+		}
+		if (FallenEagleEnabled && AsiaExpansionProjectEnabled) {
+			throw new UserErrorException("The converter doesn't support combining The Fallen Eagle with Asia Expansion Project!");
 		}
 	}
 

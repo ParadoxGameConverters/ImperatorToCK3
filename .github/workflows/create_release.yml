@@ -9,7 +9,7 @@ jobs:
     outputs:
       tag: ${{ steps.previoustag.outputs.tag }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0
     - name: "Get previous tag"
@@ -55,7 +55,7 @@ jobs:
           archive_extension: .tgz
           asset_content_type: application/gzip
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0
         submodules: recursive
@@ -65,7 +65,7 @@ jobs:
         cd ImperatorToCK3/Data_Files/configurables
         printf "\nversion = ${{ needs.create_release.outputs.tag }}" >> version.txt
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         global-json-file: Fronter.NET/global.json
     - name: "Replace frontend background image"
@@ -84,7 +84,7 @@ jobs:
         BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
         BACKBLAZE_BUCKET_ID: ${{ secrets.BACKBLAZE_BUCKET_ID }}
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         global-json-file: global.json
     - name: "Build backend"

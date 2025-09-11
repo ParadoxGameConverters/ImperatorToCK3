@@ -829,5 +829,5 @@ internal sealed class Character : IIdentifiable<string> {
 	private readonly CharacterCollection characters;
 	private readonly ConcurrentHashSet<Character> spousesCache = [];
 	private readonly ConcurrentHashSet<Character> concubinesCache = [];
-	private readonly HashSet<Character> childrenCache = new();
+	private readonly ConcurrentHashSet<Character> childrenCache = [];
 }

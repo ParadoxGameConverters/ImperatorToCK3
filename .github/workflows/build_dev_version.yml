@@ -48,12 +48,12 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         expire-in: 0
         onlyPrefix: 'ImperatorToCK3-${{ matrix.build }}-dev-${{ env.BRANCH_NAME }}'
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0
         submodules: recursive
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         #global-json-file: Fronter.NET/global.json
         global-json-file: global.json
@@ -72,7 +72,7 @@ jobs:
         BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
         BACKBLAZE_BUCKET_ID: ${{ secrets.BACKBLAZE_BUCKET_ID }}
     # - name: Setup Dotnet for use with actions
-    #   uses: actions/setup-dotnet@v4
+    #   uses: actions/setup-dotnet@v5
     #   with:
     #     global-json-file: global.json
     - name: "Build backend"
