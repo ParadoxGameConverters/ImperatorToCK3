@@ -2530,6 +2530,8 @@
  Drypetina: "Дрипетина"
  Orsabaris: "Орсабарис"
  Hypsicratea: "Гипсикратеа"
+ Boa: "Боа"
+ Amasia: "Амазия"
  #Cappadocian dynasties
  dynn_Surenid: "Суренид"
  dynn_Karinid: "Каринид"
@@ -4781,6 +4783,7 @@
  prefix_yiliydoa: "илидоа "
  prefix_dbartoa: "дбартоа "
  prefix_dmen: "дмэн "
+ prefix_hams: "Хамс "
  Bardo: "Бардо"
  Bardol: "Бардол"
  Barnahy: "Барнаги"

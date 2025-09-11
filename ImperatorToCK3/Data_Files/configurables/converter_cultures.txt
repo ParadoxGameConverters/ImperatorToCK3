@@ -3923,7 +3923,7 @@ anatolian = {
 		requires_dlc_flag = hybridize_culture
 	}
 
-	name_list = name_list_hittite
+	name_list = name_list_anatolian
 
 	ethnicities = {
 		10 = mediterranean_byzantine
