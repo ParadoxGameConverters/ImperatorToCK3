@@ -595,10 +595,16 @@ internal sealed class World {
 			Logger.Warn($"{irCountry.Name} has no CK3 title!"); // should not happen
 			return false;
 		}
-		var matchingGovernorships = new List<Governorship>(governorshipsSet.Where(g =>
-			g.Country.Id == irCountry.Id &&
-			g.Region.Id == imperatorRegionMapper.GetParentRegionName(irProvince.Id)
-		));
+
+		var parentRegionName = imperatorRegionMapper.GetParentRegionName(irProvince.Id);
+		var matchingGovernorships = governorshipsSet
+			.Where(g => g.Country.Id == irCountry.Id && g.Region.Id == parentRegionName)
+			.ToArray();
+
+		if (matchingGovernorships.Length == 0) {
+			// We have no matching governorship.
+			return false;
+		}
 
 		var ck3CapitalCounty = ck3Country.CapitalCounty;
 		if (ck3CapitalCounty is null) {
@@ -610,11 +616,6 @@ internal sealed class World {
 		var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
 		var deJureDuchyOfCounty = county.DeJureLiege;
 		if (countryCapitalDuchy is not null && deJureDuchyOfCounty is not null && countryCapitalDuchy.Id == deJureDuchyOfCounty.Id) {
-			return false;
-		}
-
-		if (matchingGovernorships.Count == 0) {
-			// we have no matching governorship
 			return false;
 		}
 
