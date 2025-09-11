@@ -470,7 +470,7 @@ internal sealed class World {
 		Logger.IncrementProgress();
 	}
 
-	private void LoadCorrectProvinceMappingsFile(Imperator.World irWorld, Configuration config) {		
+	private void LoadCorrectProvinceMappingsFile(Imperator.World irWorld, Configuration config) {
 		// Terra Indomita mappings should be used if either TI or Antiquitas is detected.
 		bool irHasTI = irWorld.TerraIndomitaDetected;
 		
@@ -583,6 +583,20 @@ internal sealed class World {
 		return true;
 	}
 
+	// Decides if governor assignment should be skipped due to capital duchy constraints.
+	private static bool ShouldSkipGovernorDueToCapitalDuchy(Title county, Title ck3Country) {
+		var ck3CapitalCounty = ck3Country.CapitalCounty;
+		if (ck3CapitalCounty is null) {
+			var logLevel = ck3Country.ImperatorCountry?.PlayerCountry == true ? Level.Warn : Level.Debug;
+			Logger.Log(logLevel, $"{ck3Country} has no capital county!");
+			return true;
+		}
+		// If title belongs to country ruler's capital's de jure duchy, it needs to be directly held by the ruler.
+		var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
+		var deJureDuchyOfCounty = county.DeJureLiege;
+		return countryCapitalDuchy is not null && deJureDuchyOfCounty is not null && countryCapitalDuchy.Id == deJureDuchyOfCounty.Id;
+	}
+
 	private bool TryGiveCountyToGovernor(Title county,
 		Imperator.Provinces.Province irProvince,
 		Country irCountry,
@@ -600,22 +614,12 @@ internal sealed class World {
 		var matchingGovernorships = governorshipsSet
 			.Where(g => g.Country.Id == irCountry.Id && g.Region.Id == parentRegionName)
 			.ToArray();
-
 		if (matchingGovernorships.Length == 0) {
 			// We have no matching governorship.
 			return false;
 		}
 
-		var ck3CapitalCounty = ck3Country.CapitalCounty;
-		if (ck3CapitalCounty is null) {
-			var logLevel = ck3Country.ImperatorCountry?.PlayerCountry == true ? Level.Warn : Level.Debug;
-			Logger.Log(logLevel, $"{ck3Country} has no capital county!");
-			return false;
-		}
-		// if title belongs to country ruler's capital's de jure duchy, it needs to be directly held by the ruler
-		var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
-		var deJureDuchyOfCounty = county.DeJureLiege;
-		if (countryCapitalDuchy is not null && deJureDuchyOfCounty is not null && countryCapitalDuchy.Id == deJureDuchyOfCounty.Id) {
+		if (ShouldSkipGovernorDueToCapitalDuchy(county, ck3Country)) {
 			return false;
 		}
 
@@ -1184,3 +1188,4 @@ internal sealed class World {
 	private readonly ImperatorRegionMapper imperatorRegionMapper;
 	private readonly WarMapper warMapper = new("configurables/wargoal_mappings.txt");
 }
+
