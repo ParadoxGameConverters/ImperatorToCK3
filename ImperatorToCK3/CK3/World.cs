@@ -69,7 +69,7 @@ internal sealed class World {
 	/// <summary>
 	/// Date based on I:R save date, but normalized for CK3 purposes.
 	/// </summary>
-	public Date CorrectedDate { get; }
+	public Date CorrectedDate { get; private set; }
 
 	public World(Imperator.World impWorld, Configuration config, Thread? irCoaExtractThread) {
 		Logger.Info("*** Hello CK3, let's get painting. ***");
@@ -82,16 +82,8 @@ internal sealed class World {
 		// Initialize fields that depend on other fields.
 		Religions = new ReligionCollection(LandedTitles);
 
-		// Determine CK3 bookmark date.
-		CorrectedDate = impWorld.EndDate.Year > 1 ? impWorld.EndDate : new Date(2, 1, 1);
-		if (config.CK3BookmarkDate.Year == 0) { // bookmark date is not set
-			config.CK3BookmarkDate = CorrectedDate;
-			Logger.Info($"CK3 bookmark date set to: {config.CK3BookmarkDate}");
-		} else if (CorrectedDate > config.CK3BookmarkDate) {
-			Logger.Warn($"Corrected save can't be later than CK3 bookmark date, setting CK3 bookmark date to {CorrectedDate}!");
-			config.CK3BookmarkDate = CorrectedDate;
-		}
-		
+		DetermineCK3BookmarkDate(impWorld, config);
+
 		// Recreate output mod folder.
 		string outputModPath = Path.Join("output", config.OutputModName);
 		WorldOutputter.ClearOutputModFolder(outputModPath);
@@ -421,6 +413,17 @@ internal sealed class World {
 				Diplomacy.ImportImperatorLeagues(impWorld.DefensiveLeagues, impWorld.Countries);
 			}
 		);
+	}
+
+	private void DetermineCK3BookmarkDate(Imperator.World irWorld, Configuration config) {
+		CorrectedDate = irWorld.EndDate.Year > 1 ? irWorld.EndDate : new Date(2, 1, 1);
+		if (config.CK3BookmarkDate.Year == 0) { // bookmark date is not set
+			config.CK3BookmarkDate = CorrectedDate;
+			Logger.Info($"CK3 bookmark date set to: {config.CK3BookmarkDate}");
+		} else if (CorrectedDate > config.CK3BookmarkDate) {
+			Logger.Warn($"Corrected save can't be later than CK3 bookmark date, setting CK3 bookmark date to {CorrectedDate}!");
+			config.CK3BookmarkDate = CorrectedDate;
+		}
 	}
 
 	private void LoadAndDetectCK3Mods(Configuration config) {
