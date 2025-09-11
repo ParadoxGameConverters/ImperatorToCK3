@@ -189,6 +189,7 @@ internal partial class World {
 			Arguments = "-continuelastsave -debug_mode",
 			CreateNoWindow = true,
 			RedirectStandardOutput = true,
+			UseShellExecute = false, // Required for output redirection.
 			WindowStyle = ProcessWindowStyle.Hidden,
 		};
 		var imperatorProcess = Process.Start(processStartInfo);
@@ -564,30 +565,8 @@ internal partial class World {
 	private void LoadPreImperatorRulers() {
 		const string filePath = "configurables/characters_prehistory.txt";
 		const string noRulerWarning = "Pre-Imperator ruler term has no pre-Imperator ruler!";
-		const string noCountryIdWarning = "Pre-Imperator ruler term has no country ID!";
 
-		var preImperatorRulerTerms = new Dictionary<ulong, List<RulerTerm>>(); // <country id, list of terms>
-		var parser = new Parser();
-		parser.RegisterKeyword("ruler", reader => {
-			var rulerTerm = new RulerTerm(reader, Countries);
-			if (rulerTerm.PreImperatorRuler is null) {
-				Logger.Warn(noRulerWarning);
-				return;
-			}
-			if (rulerTerm.PreImperatorRuler.Country is null) {
-				Logger.Warn(noCountryIdWarning);
-				return;
-			}
-			var countryId = rulerTerm.PreImperatorRuler.Country.Id;
-			Countries[countryId].RulerTerms.Add(rulerTerm);
-			if (preImperatorRulerTerms.TryGetValue(countryId, out var list)) {
-				list.Add(rulerTerm);
-			} else {
-				preImperatorRulerTerms[countryId] = new List<RulerTerm> { rulerTerm };
-			}
-		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		parser.ParseFile(filePath);
+		Dictionary<ulong, List<RulerTerm>> preIRRulerTerms = ParsePreImperatorRulers(filePath, noRulerWarning); // <country id, list of terms>
 
 		foreach (var country in Countries) {
 			country.RulerTerms = [.. country.RulerTerms.OrderBy(t => t.StartDate)];
@@ -596,14 +575,14 @@ internal partial class World {
 		// verify with data from historical_regnal_numbers
 		var regnalNameCounts = new Dictionary<ulong, Dictionary<string, int>>(); // <country id, <name, count>>
 		foreach (var country in Countries) {
-			if (!preImperatorRulerTerms.ContainsKey(country.Id)) {
+			if (!preIRRulerTerms.ContainsKey(country.Id)) {
 				continue;
 			}
 
 			regnalNameCounts.Add(country.Id, []);
 			var countryRulerTerms = regnalNameCounts[country.Id];
 
-			foreach (var term in preImperatorRulerTerms[country.Id]) {
+			foreach (var term in preIRRulerTerms[country.Id]) {
 				if (term.PreImperatorRuler is null) {
 					Logger.Warn(noRulerWarning);
 					continue;
@@ -634,6 +613,36 @@ internal partial class World {
 				Logger.Debug($"List of pre-Imperator rulers of {country.Tag} doesn't match data from save!");
 			}
 		}
+	}
+
+	private Dictionary<ulong, List<RulerTerm>> ParsePreImperatorRulers(string filePath, string noRulerWarning) {
+		Dictionary<ulong, List<RulerTerm>> preImperatorRulerTerms = []; // <country id, list of terms>
+
+		const string noCountryIdWarning = "Pre-Imperator ruler term has no country ID!";
+
+		var parser = new Parser();
+		parser.RegisterKeyword("ruler", reader => {
+			var rulerTerm = new RulerTerm(reader, Countries);
+			if (rulerTerm.PreImperatorRuler is null) {
+				Logger.Warn(noRulerWarning);
+				return;
+			}
+			if (rulerTerm.PreImperatorRuler.Country is null) {
+				Logger.Warn(noCountryIdWarning);
+				return;
+			}
+			var countryId = rulerTerm.PreImperatorRuler.Country.Id;
+			Countries[countryId].RulerTerms.Add(rulerTerm);
+			if (preImperatorRulerTerms.TryGetValue(countryId, out var list)) {
+				list.Add(rulerTerm);
+			} else {
+				preImperatorRulerTerms[countryId] = [rulerTerm];
+			}
+		});
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.ParseFile(filePath);
+
+		return preImperatorRulerTerms;
 	}
 
 	private void LoadModFilesystemDependentData() {
