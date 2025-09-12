@@ -102,7 +102,6 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	/// <param name="irLocDB">I:R localization database.</param>
 	/// <param name="ck3LocDB">CK3 localization database.</param>
 	/// <param name="provinceMapper">Province mapper to be used.</param>
-	/// <param name="coaMapper">CoA mapper to be used.</param>
 	/// <param name="definiteFormMapper">Definite form mapper to be used.</param>
 	/// <param name="imperatorRegionMapper">I:R region mapper to be used.</param>
 	/// <param name="config">Configuration object.</param>
@@ -116,7 +115,6 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		LocDB irLocDB,
 		CK3LocDB ck3LocDB,
 		ProvinceMapper provinceMapper,
-		CoaMapper coaMapper,
 		DefiniteFormMapper definiteFormMapper,
 		ImperatorRegionMapper imperatorRegionMapper,
 		Configuration config

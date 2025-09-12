@@ -249,7 +249,6 @@ internal sealed partial class Title {
 			LocDB irLocDB,
 			CK3LocDB ck3LocDB,
 			ProvinceMapper provinceMapper,
-			CoaMapper coaMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
 			Configuration config
@@ -264,7 +263,6 @@ internal sealed partial class Title {
 				irLocDB,
 				ck3LocDB,
 				provinceMapper,
-				coaMapper,
 				definiteFormMapper,
 				imperatorRegionMapper,
 				config
@@ -753,7 +751,6 @@ internal sealed partial class Title {
 					irLocDB,
 					ck3LocDB,
 					provinceMapper,
-					coaMapper,
 					definiteFormMapper,
 					imperatorRegionMapper,
 					config
