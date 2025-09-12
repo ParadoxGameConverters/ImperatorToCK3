@@ -103,16 +103,16 @@ jobs:
       shell: bash
       run: |
         git rev-parse HEAD > Publish/commit_id.txt
-    - name: "Install sed for Windows"
+    - name: "Install sed and Inno Setup for Windows"
       if: matrix.build == 'win-x64'
       run: |
-        choco install sed
+        choco install sed --version=4.9
+        choco install innosetup --version=6.4.0
     - name: "Build installer for Windows"
       if: matrix.build == 'win-x64'
       run: |
-        dotnet tool install --global dotnet-innosetup --version 6.2.1
-        cp Fronter.NET/Fronter.NET/Assets/converter.ico Publish/Assets/
         iscc --version
+        cp Fronter.NET/Fronter.NET/Assets/converter.ico Publish/Assets/
         sed -i '5i\\#define MyAppVersion "${{ needs.create_release.outputs.tag }}"' ImperatorToCK3.iss
         cat ImperatorToCK3.iss
         iscc ImperatorToCK3.iss
