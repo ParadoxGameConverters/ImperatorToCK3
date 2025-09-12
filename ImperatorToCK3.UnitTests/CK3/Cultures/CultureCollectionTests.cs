@@ -29,7 +29,7 @@ public class CultureCollectionTests {
 	public void ColorIsLoadedIfDefinedOrGeneratedIfMissing() {
 		var cultures = new CultureCollection(colorFactory, pillars, ck3ModFlags);
 		cultures.LoadNameLists(ck3ModFS);
-		cultures.LoadCultures(ck3ModFS, new Configuration());
+		cultures.LoadCultures(ck3ModFS);
 
 		var cultureWithColor = cultures["culture_with_color"];
 		Assert.Equal(new Color(10, 20, 30), cultureWithColor.Color);
@@ -54,7 +54,7 @@ public class CultureCollectionTests {
 		
 		cultures.AddNameList(new NameList("name_list_albanian", new BufferedReader()));
 		cultures.LoadConverterPillars("TestFiles/CK3/CultureCollectionTests/configurables/converter_pillars", ck3ModFlags);
-		cultures.LoadConverterCultures("TestFiles/CK3/CultureCollectionTests/configurables/converter_cultures.txt", new Configuration());
+		cultures.LoadConverterCultures("TestFiles/CK3/CultureCollectionTests/configurables/converter_cultures.txt");
 		
 		Assert.Equal(2, cultures.Count);
 		Assert.Equal("heritage_arberian", cultures["arberian"].Heritage.Id);
@@ -74,7 +74,7 @@ public class CultureCollectionTests {
 		
 		cultures.AddNameList(new NameList("name_list_albanian", new BufferedReader()));
 		cultures.LoadConverterPillars("TestFiles/CK3/CultureCollectionTests/configurables/converter_pillars", ck3ModFlags);
-		cultures.LoadConverterCultures("TestFiles/CK3/CultureCollectionTests/configurables/converter_cultures.txt", new Configuration());
+		cultures.LoadConverterCultures("TestFiles/CK3/CultureCollectionTests/configurables/converter_cultures.txt");
 		
 		Assert.Equal(2, cultures.Count);
 		Assert.Equal("language_illyrian", cultures["albanian"].Language.Id);

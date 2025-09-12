@@ -2,61 +2,60 @@
 using commonItems.Mods;
 using ImageMagick;
 using System;
-using System.Collections.Generic;
+using System.Collections.Frozen;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class CoatOfArmsEmblemsOutputter {
+internal static class CoatOfArmsEmblemsOutputter {
+	private static readonly FrozenSet<string> acceptedEmblemExtensions = new[] {"dds", "tga", "png"}.ToFrozenSet();
+
 	private static void ConvertColoredEmblems(string outputModPath, ModFilesystem imperatorModFS) {
 		Logger.Info("Converting colored emblems...");
 		const string coloredEmblemsFolder = "gfx/coat_of_arms/colored_emblems";
-		var acceptedExtensions = new HashSet<string>{ "dds", "tga", "png" };
 
 		var emblemFiles = imperatorModFS.GetAllFilesInFolderRecursive(coloredEmblemsFolder);
 		Parallel.ForEach(emblemFiles, fileInfo => {
-			if (!acceptedExtensions.Contains(CommonFunctions.GetExtension(fileInfo.RelativePath))) {
+			if (!acceptedEmblemExtensions.Contains(CommonFunctions.GetExtension(fileInfo.RelativePath))) {
 				return;
 			}
-			CopyEmblem(fileInfo.AbsolutePath);
+			CopyEmblem(outputModPath, fileInfo.AbsolutePath);
 		});
 		Logger.IncrementProgress();
-		return;
+	}
 
-		void CopyEmblem(string emblemFilePath) {
-			var fileName = CommonFunctions.TrimPath(emblemFilePath);
+	private static void CopyEmblem(string outputModPath, string emblemFilePath) {
+		var fileName = CommonFunctions.TrimPath(emblemFilePath);
 
-			// Load an image.
-			MagickImage image;
-			try {
-				image = new(emblemFilePath);
-				image.Negate(channels: Channels.Red);
-			} catch (Exception ex) {
-				Logger.Debug($"Exception occurred while loading {emblemFilePath}: {ex}");
-				Logger.Warn($"Failed to load colored emblem {fileName}. CoAs using this emblem will be broken.");
-				return;
-			}
-			
-			// Write the image to new file.
-			var outputPath = Path.Combine(outputModPath, "gfx/coat_of_arms/colored_emblems", fileName);
-			try {
-				image.Write(outputPath);
-			} catch (Exception ex) {
-				Logger.Debug($"Exception occurred while writing {outputPath}: {ex}");
-				Logger.Warn($"Failed to write colored emblem {fileName}. CoAs using this emblem will be broken.");
-			}
+		// Load an image.
+		MagickImage image;
+		try {
+			image = new(emblemFilePath);
+			image.Negate(channels: Channels.Red);
+		} catch (Exception ex) {
+			Logger.Debug($"Exception occurred while loading {emblemFilePath}: {ex}");
+			Logger.Warn($"Failed to load colored emblem {fileName}. CoAs using this emblem will be broken.");
+			return;
+		}
+
+		// Write the image to new file.
+		var outputPath = Path.Combine(outputModPath, "gfx/coat_of_arms/colored_emblems", fileName);
+		try {
+			image.Write(outputPath);
+		} catch (Exception ex) {
+			Logger.Debug($"Exception occurred while writing {outputPath}: {ex}");
+			Logger.Warn($"Failed to write colored emblem {fileName}. CoAs using this emblem will be broken.");
 		}
 	}
-	
+
 	private static void CopyTexturedEmblems(string outputModPath, ModFilesystem imperatorModFS) {
 		Logger.Info("Copying textured emblems...");
 		const string texturedEmblemsFolder = "gfx/coat_of_arms/textured_emblems";
-		var acceptedExtensions = new HashSet<string>{ "dds", "tga", "png" };
 
 		var emblemFiles = imperatorModFS.GetAllFilesInFolderRecursive(texturedEmblemsFolder);
 		foreach (var fileInfo in emblemFiles) {
-			if (!acceptedExtensions.Contains(CommonFunctions.GetExtension(fileInfo.RelativePath))) {
+			if (!acceptedEmblemExtensions.Contains(CommonFunctions.GetExtension(fileInfo.RelativePath))) {
 				continue;
 			}
 			

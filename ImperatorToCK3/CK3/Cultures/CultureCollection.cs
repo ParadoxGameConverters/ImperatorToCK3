@@ -92,10 +92,10 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		cultureIdsPerModFlagParser.ParseStream(reader);
 	}
 
-	public void LoadCultures(ModFilesystem ck3ModFS, Configuration config) {
+	public void LoadCultures(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading cultures...");
 		
-		OrderedDictionary<string, CultureData> culturesData = new(); // Preserves order of insertion.
+		OrderedDictionary<string, CultureData> culturesData = []; // Preserves order of insertion.
 
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => culturesData[cultureId] = LoadCultureData(reader));
@@ -103,15 +103,15 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.ParseGameFolder("common/culture/cultures", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 		
 		// After we've load all cultures data, we can validate it and create cultures.
-		ValidateAndLoadCultures(culturesData, config);
+		ValidateAndLoadCultures(culturesData);
 
 		ReplaceInvalidatedParents();
 	}
 
-	public void LoadConverterCultures(string converterCulturesPath, Configuration config) {
+	public void LoadConverterCultures(string converterCulturesPath) {
 		Logger.Info("Loading converter cultures...");
 		
-		OrderedDictionary<string, CultureData> culturesData = new(); // Preserves order of insertion.
+		OrderedDictionary<string, CultureData> culturesData = []; // Preserves order of insertion.
 
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => culturesData[cultureId] = LoadCultureData(reader));
@@ -119,7 +119,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.ParseFile(converterCulturesPath);
 		
 		// After we've load all cultures data, we can validate it and create cultures.
-		ValidateAndLoadCultures(culturesData, config);
+		ValidateAndLoadCultures(culturesData);
 
 		ReplaceInvalidatedParents();
 	}
@@ -131,7 +131,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		return cultureData;
 	}
 
-	private void ValidateAndLoadCultures(OrderedDictionary<string, CultureData> culturesData, Configuration config) {
+	private void ValidateAndLoadCultures(OrderedDictionary<string, CultureData> culturesData) {
 		foreach (var (cultureId, data) in culturesData) {
 			if (data.InvalidatingCultureIds.Count != 0) {
 				bool isInvalidated = false;
