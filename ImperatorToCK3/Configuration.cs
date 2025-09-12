@@ -10,8 +10,8 @@ using System.Linq;
 
 namespace ImperatorToCK3;
 
-public enum LegionConversion { No, SpecialTroops, MenAtArms }
-public sealed class Configuration {
+internal enum LegionConversion { No, SpecialTroops, MenAtArms }
+internal sealed class Configuration {
 	public string SaveGamePath { get; set; } = "";
 	public string ImperatorPath { get; set; } = "";
 	public string ImperatorDocPath { get; set; } = "";

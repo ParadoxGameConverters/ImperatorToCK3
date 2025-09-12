@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.CommonUtils.Map;
 
-public sealed class ProvinceDefinition(ulong id) : IIdentifiable<ulong> {
+internal sealed class ProvinceDefinition(ulong id) : IIdentifiable<ulong> {
 	public ulong Id { get; } = id;
 	private readonly HashSet<SpecialProvinceCategory> specialCategories = [];
 
