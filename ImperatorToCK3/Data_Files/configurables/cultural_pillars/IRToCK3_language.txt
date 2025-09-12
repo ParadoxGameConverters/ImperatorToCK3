@@ -2673,3 +2673,80 @@ language_anatolian = {
 
 	color = rgb { 85 148 124 }
 }
+
+language_illyrian = {
+    REPLACED_BY = {
+		tfe = { language_illyrian }
+		wtwsms = { language_illyrian }
+		roa = { language_illyrian }
+		vanilla = { language_illyrian }
+	}
+	
+	MOD_DEPENDENT = {
+		IF @[roa|wtwsms] = {
+			parameters = {
+				language_branch_balkan = yes
+				language_family_indo_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				language_group_illyrian = yes
+				language_family_indo_european = yes
+			}
+		}
+	}
+    
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_illyrian
+		}
+	}
+	
+	MOD_DEPENDENT = {
+		IF @[roa|wtwsms] = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_illyrian }
+					multiply = same_language_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_balkan }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_illyrian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_illyrian }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_indo_european }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_illyrian }
+					multiply = 10
+				}
+			}
+		}
+	}
+
+	color = rgb { 246 223 15 }
+}

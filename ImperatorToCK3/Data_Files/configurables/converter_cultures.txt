@@ -937,7 +937,7 @@ dalmatian = {
 	color = rgb { 246 223 15 }
 
 	heritage = heritage_albanian
-	language = language_albanian
+	language = language_illyrian
 	martial_custom = martial_custom_equal
 	head_determination = head_determination_domain
 	traditions = {

@@ -496,11 +496,11 @@ link = { ck3 = non_indo_european_iberian ir = turdulian ir = couneian ir = turde
 # liburnian is deprecated, liburnian_culture is used
 # iapodian is from Invictus mod
 # pannonian moved from Invictus mod
-@illyrian_cultures = "ir=taulantian ir=dardanian ir=deurian ir=deraemestian ir=catari ir=liburnian ir=liburnian_culture ir=abrian ir=greco_illyrian ir=iapodian ir = pannonian"
+@illyrian_cultures = "ir=dardanian ir=deurian ir=deraemestian ir=catari ir=liburnian ir=liburnian_culture ir=greco_illyrian ir=iapodian ir = pannonian"
 # TFE
 link = { ck3 = illyrian @illyrian_cultures }
 # Vanilla CK3
-link = { ck3 = albanian @illyrian_cultures irRegion = macedonia_region irRegion = greece_region irRegion = magna_graecia_region ck3Province = 470 ck3Province = 3717 ck3Province = 3720 ck3Province = 3718 ck3Province = 3719 ck3Province = 3721 ck3Province = 3724 ck3Province = 3723 ck3Province = 3722 ck3Province = 3713 ck3Province = 3714 ck3Province = 3715 ck3Province = 3716 ck3Province = 3520 ck3Province = 3711 ck3Province = 3712 }
+link = { ck3 = albanian ir = taulantian ir = abrian } # These are considered the likely ancestors to Albanian
 link = { ck3 = dalmatian @illyrian_cultures }
 link = { ck3 = messapic ir = messapian }
 

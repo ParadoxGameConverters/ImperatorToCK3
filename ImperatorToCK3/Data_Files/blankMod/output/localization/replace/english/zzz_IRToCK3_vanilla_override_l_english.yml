@@ -95,3 +95,8 @@
 
  roman_restoration.0125.a_set: "Our Mother Church is whole!"
  roman_restoration.0125.a_restore: "Our Mother Church is whole once more!"
+
+ # "Albanian" heritage now used for more than just Albanians
+ heritage_albanian: "Illyrian"
+ heritage_albanian_name: "Illyrian"
+ heritage_albanian_collective_noun: "Illyrians"
