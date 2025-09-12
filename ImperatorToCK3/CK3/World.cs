@@ -5,7 +5,6 @@ using commonItems.Mods;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
-using ImperatorToCK3.CK3.Diplomacy;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Legends;
 using ImperatorToCK3.CK3.Provinces;
@@ -69,7 +68,7 @@ internal sealed class World {
 	/// <summary>
 	/// Date based on I:R save date, but normalized for CK3 purposes.
 	/// </summary>
-	public Date CorrectedDate { get; private set; }
+	public Date CorrectedDate { get; private set; } = new Date(2, 1, 1); // overwritten by DetermineCK3BookmarkDate
 
 	public World(Imperator.World impWorld, Configuration config, Thread? irCoaExtractThread) {
 		Logger.Info("*** Hello CK3, let's get painting. ***");
