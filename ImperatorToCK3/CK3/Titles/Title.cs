@@ -597,8 +597,18 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			return;
 		}
 
-		var adjSet = false;
-		// Try to generate adjective from name.
+		bool adjSet = TryToGenerateGovernorshipAdjectiveFromName(governorship, irLocDB, ck3LocDB, adjKey);
+
+		if (!adjSet) {
+			adjSet = TryToUseCountryAdjectiveForGovernorshipAdjective(country, ck3LocDB, adjKey);
+		}
+
+		if (!adjSet) {
+			Logger.Warn($"{Id} needs help with adjective localization!");
+		}
+	}
+
+	private bool TryToGenerateGovernorshipAdjectiveFromName(Governorship governorship, LocDB irLocDB, CK3LocDB ck3LocDB, string adjKey) {
 		CK3LocBlock? nameLocBlock = ck3LocDB.GetLocBlockForKey(Id);
 		if (nameLocBlock is null) {
 			var irRegionLoc = irLocDB.GetLocBlockForKey(governorship.Region.Id);
@@ -606,33 +616,35 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				nameLocBlock = new CK3LocBlock(irRegionLoc.Id, ConverterGlobals.PrimaryLanguage, irRegionLoc);
 			}
 		}
-		if (!adjSet && nameLocBlock is not null) {
-			var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(adjKey);
-			adjLocBlock.CopyFrom(nameLocBlock);
 
-			var englishLoc = adjLocBlock["english"];
-			if (englishLoc is not null) {
-				adjLocBlock["english"] = englishLoc.GetAdjective();
-			}
-
-			adjSet = true;
-		}
-		// Try to use country adjective.
-		if (!adjSet) {
-			var ck3Country = country.CK3Title;
-			if (ck3Country is null) {
-				return;
-			}
-			if (ck3LocDB.TryGetValue($"{ck3Country.Id}_adj", out var countryAdjectiveLocBlock)) {
-				var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(adjKey);
-				adjLocBlock.CopyFrom(countryAdjectiveLocBlock);
-				adjSet = true;
-			}
+		if (nameLocBlock is null) {
+			return false;
 		}
 
-		if (!adjSet) {
-			Logger.Warn($"{Id} needs help with adjective localization!");
+		var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(adjKey);
+		adjLocBlock.CopyFrom(nameLocBlock);
+
+		var englishLoc = adjLocBlock["english"];
+		if (englishLoc is not null) {
+			adjLocBlock["english"] = englishLoc.GetAdjective();
 		}
+
+		return true;
+	}
+
+	private static bool TryToUseCountryAdjectiveForGovernorshipAdjective(Country country, CK3LocDB ck3LocDB, string adjKey) {
+		var ck3Country = country.CK3Title;
+		if (ck3Country is null) {
+			return false;
+		}
+
+		if (!ck3LocDB.TryGetValue($"{ck3Country.Id}_adj", out var countryAdjectiveLocBlock)) {
+			return false;
+		}
+
+		var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(adjKey);
+		adjLocBlock.CopyFrom(countryAdjectiveLocBlock);
+		return true;
 	}
 
 	private void TrySetGovernmentForTitleFromGovernorship(Governorship governorship, Country country, string? ck3LiegeGovAtGovernorshipStartDate, Date normalizedGovernorshipStartDate, string? currentCK3LiegeGov, Date ck3BookmarkDate) {
