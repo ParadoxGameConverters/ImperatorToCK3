@@ -242,6 +242,9 @@ scythian_religion = {
 	# Pilgrimage
 	doctrine = doctrine_pilgrimage_encouraged
 
+	# Funeral
+	doctrine = doctrine_funeral_sky_burial
+
 	#Coronation tradition
 	doctrine = doctrine_no_anointment
 
@@ -477,6 +480,9 @@ arabic_religion = {
 	
 	# Pilgrimage
 	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_bewailment
 
 	#Coronation tradition
 	doctrine = doctrine_no_anointment
@@ -715,6 +721,9 @@ burmic_religion = { # Folk religions of Burmese peoples
 	
 	# Pilgrimage
 	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals 
+	doctrine = doctrine_funeral_cremation
 
 	#Coronation tradition
 	doctrine = doctrine_no_anointment
@@ -1706,6 +1715,9 @@ dinka_religion = {
 	#Allow pilgrimages
 	doctrine = doctrine_pilgrimage_encouraged
 
+	#Funeral tradition
+	doctrine = doctrine_funeral_bewailment
+
 	#Coronation tradition
 	doctrine = doctrine_no_anointment
 
@@ -1942,6 +1954,9 @@ anatolian_religion = {
 	
 	# Pilgrimage
 	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_cremation
 
 	#Coronation tradition
 	doctrine = doctrine_no_anointment
@@ -2180,6 +2195,9 @@ armenian_religion = {
 	
 	# Pilgrimage
 	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_cremation
 
 	#Coronation tradition
 	doctrine = doctrine_no_anointment
@@ -2425,6 +2443,9 @@ canaanite_religion = {
 	# Pilgrimage
 	doctrine = doctrine_pilgrimage_encouraged
 
+	# Funerals
+	doctrine = doctrine_funeral_bewailment
+
 	#Coronation tradition
 	doctrine = doctrine_no_anointment
 
@@ -2661,6 +2682,9 @@ caucasian_religion = {
 	
 	# Pilgrimage
 	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_stoic
 
 	#Coronation tradition
 	doctrine = doctrine_no_anointment
@@ -2904,6 +2928,9 @@ celtic_religion = {
 	
 	# Pilgrimage
 	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_cremation
 
 	#Coronation tradition
 	doctrine = doctrine_no_anointment
@@ -3837,6 +3864,9 @@ iberic_religion = {
 	# Pilgrimage
 	doctrine = doctrine_pilgrimage_encouraged
 
+	# Funerals
+	doctrine = doctrine_funeral_cremation
+
 	#Coronation tradition
 	doctrine = doctrine_no_anointment
 
@@ -4045,6 +4075,9 @@ ajivika_religion = { # credits to Izn from Invictus team for listing the doctrin
 	
 	# Pilgrimage
 	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_cremation
 
 	#Coronation tradition
 	doctrine = doctrine_no_anointment
@@ -4406,6 +4439,9 @@ mesopotamian_religion = {
 	# Pilgrimage
 	doctrine = doctrine_pilgrimage_mandatory # chat.deepseek.com: "The Babylonian nobility (awilu), as part of the upper class, were expected to participate in the Akitu festival, but their involvement was not enforced through legal penalties. Instead, their participation was driven by social and religious expectations"
 
+	# Funerals
+	doctrine = doctrine_funeral_bewailment
+
 	#Coronation tradition
 	doctrine = doctrine_no_anointment
 
@@ -4642,6 +4678,9 @@ paleo_balkan_religion = {
 	
 	# Pilgrimage
 	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_cremation
 
 	#Coronation tradition
 	doctrine = doctrine_no_anointment
@@ -4992,6 +5031,9 @@ hurrian_religion_group = {
 	
 	# Pilgrimage
 	doctrine = doctrine_pilgrimage_encouraged
+
+	# Funerals
+	doctrine = doctrine_funeral_bewailment
 
 	#Coronation tradition
 	doctrine = doctrine_no_anointment
