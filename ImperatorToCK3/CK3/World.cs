@@ -71,7 +71,7 @@ internal sealed class World {
 	/// <summary>
 	/// Date based on I:R save date, but normalized for CK3 purposes.
 	/// </summary>
-	public Date CorrectedDate { get; }
+	public Date CorrectedDate { get; private set; }
 
 	public World(Imperator.World impWorld, Configuration config, Thread? irCoaExtractThread) {
 		Logger.Info("*** Hello CK3, let's get painting. ***");
@@ -84,16 +84,8 @@ internal sealed class World {
 		// Initialize fields that depend on other fields.
 		Religions = new ReligionCollection(LandedTitles);
 
-		// Determine CK3 bookmark date.
-		CorrectedDate = impWorld.EndDate.Year > 1 ? impWorld.EndDate : new Date(2, 1, 1);
-		if (config.CK3BookmarkDate.Year == 0) { // bookmark date is not set
-			config.CK3BookmarkDate = CorrectedDate;
-			Logger.Info($"CK3 bookmark date set to: {config.CK3BookmarkDate}");
-		} else if (CorrectedDate > config.CK3BookmarkDate) {
-			Logger.Warn($"Corrected save can't be later than CK3 bookmark date, setting CK3 bookmark date to {CorrectedDate}!");
-			config.CK3BookmarkDate = CorrectedDate;
-		}
-		
+		DetermineCK3BookmarkDate(impWorld, config);
+
 		// Recreate output mod folder.
 		string outputModPath = Path.Join("output", config.OutputModName);
 		WorldOutputter.ClearOutputModFolder(outputModPath);
@@ -145,8 +137,8 @@ internal sealed class World {
 				Cultures = new CultureCollection(ck3ColorFactory, CulturalPillars, ck3ModFlags);
 				Cultures.LoadNameLists(ModFS);
 				Cultures.LoadInnovationIds(ModFS);
-				Cultures.LoadCultures(ModFS, config);
-				Cultures.LoadConverterCultures("configurables/converter_cultures.txt", config);
+				Cultures.LoadCultures(ModFS);
+				Cultures.LoadConverterCultures("configurables/converter_cultures.txt");
 				Cultures.WarnAboutCircularParents();
 				Logger.IncrementProgress();
 			},
@@ -438,6 +430,17 @@ internal sealed class World {
 		);
 	}
 
+	private void DetermineCK3BookmarkDate(Imperator.World irWorld, Configuration config) {
+		CorrectedDate = irWorld.EndDate.Year > 1 ? irWorld.EndDate : new Date(2, 1, 1);
+		if (config.CK3BookmarkDate.Year == 0) { // bookmark date is not set
+			config.CK3BookmarkDate = CorrectedDate;
+			Logger.Info($"CK3 bookmark date set to: {config.CK3BookmarkDate}");
+		} else if (CorrectedDate > config.CK3BookmarkDate) {
+			Logger.Warn($"Corrected save can't be later than CK3 bookmark date, setting CK3 bookmark date to {CorrectedDate}!");
+			config.CK3BookmarkDate = CorrectedDate;
+		}
+	}
+
 	private void LoadAndDetectCK3Mods(Configuration config) {
 		Logger.Info("Detecting selected CK3 mods...");
 		List<Mod> incomingCK3Mods = new();
@@ -482,7 +485,7 @@ internal sealed class World {
 		Logger.IncrementProgress();
 	}
 
-	private void LoadCorrectProvinceMappingsFile(Imperator.World irWorld, Configuration config) {		
+	private void LoadCorrectProvinceMappingsFile(Imperator.World irWorld, Configuration config) {
 		// Terra Indomita mappings should be used if either TI or Antiquitas is detected.
 		bool irHasTI = irWorld.TerraIndomitaDetected;
 		
@@ -595,6 +598,20 @@ internal sealed class World {
 		return true;
 	}
 
+	// Decides if governor assignment should be skipped due to capital duchy constraints.
+	private static bool ShouldSkipGovernorDueToCapitalDuchy(Title county, Title ck3Country) {
+		var ck3CapitalCounty = ck3Country.CapitalCounty;
+		if (ck3CapitalCounty is null) {
+			var logLevel = ck3Country.ImperatorCountry?.PlayerCountry == true ? Level.Warn : Level.Debug;
+			Logger.Log(logLevel, $"{ck3Country} has no capital county!");
+			return true;
+		}
+		// If title belongs to country ruler's capital's de jure duchy, it needs to be directly held by the ruler.
+		var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
+		var deJureDuchyOfCounty = county.DeJureLiege;
+		return countryCapitalDuchy is not null && deJureDuchyOfCounty is not null && countryCapitalDuchy.Id == deJureDuchyOfCounty.Id;
+	}
+
 	private bool TryGiveCountyToGovernor(Title county,
 		Imperator.Provinces.Province irProvince,
 		Country irCountry,
@@ -607,26 +624,17 @@ internal sealed class World {
 			Logger.Warn($"{irCountry.Name} has no CK3 title!"); // should not happen
 			return false;
 		}
-		var matchingGovernorships = new List<Governorship>(governorshipsSet.Where(g =>
-			g.Country.Id == irCountry.Id &&
-			g.Region.Id == imperatorRegionMapper.GetParentRegionName(irProvince.Id)
-		));
 
-		var ck3CapitalCounty = ck3Country.CapitalCounty;
-		if (ck3CapitalCounty is null) {
-			var logLevel = ck3Country.ImperatorCountry?.PlayerCountry == true ? Level.Warn : Level.Debug;
-			Logger.Log(logLevel, $"{ck3Country} has no capital county!");
-			return false;
-		}
-		// if title belongs to country ruler's capital's de jure duchy, it needs to be directly held by the ruler
-		var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
-		var deJureDuchyOfCounty = county.DeJureLiege;
-		if (countryCapitalDuchy is not null && deJureDuchyOfCounty is not null && countryCapitalDuchy.Id == deJureDuchyOfCounty.Id) {
+		var parentRegionName = imperatorRegionMapper.GetParentRegionName(irProvince.Id);
+		var matchingGovernorships = governorshipsSet
+			.Where(g => g.Country.Id == irCountry.Id && g.Region.Id == parentRegionName)
+			.ToArray();
+		if (matchingGovernorships.Length == 0) {
+			// We have no matching governorship.
 			return false;
 		}
 
-		if (matchingGovernorships.Count == 0) {
-			// we have no matching governorship
+		if (ShouldSkipGovernorDueToCapitalDuchy(county, ck3Country)) {
 			return false;
 		}
 
@@ -1195,3 +1203,4 @@ internal sealed class World {
 	private readonly ImperatorRegionMapper imperatorRegionMapper;
 	private readonly WarMapper warMapper = new("configurables/wargoal_mappings.txt");
 }
+

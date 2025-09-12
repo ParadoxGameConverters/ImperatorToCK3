@@ -9,18 +9,6 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-internal readonly struct PartOfFileToModify(string textBefore, string textAfter, bool warnIfNotFound = true) {
-	internal readonly string TextBefore = textBefore;
-	internal readonly string TextAfter = textAfter;
-	internal readonly bool WarnIfNotFound = warnIfNotFound;
-
-	public void Deconstruct(out string textBefore, out string textAfter, out bool warnIfNotFound) {
-		textBefore = TextBefore;
-		textAfter = TextAfter;
-		warnIfNotFound = WarnIfNotFound;
-	}
-}
-
 internal enum LineEnding {
 	CRLF,
 	LF,
