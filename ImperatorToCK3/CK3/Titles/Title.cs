@@ -102,7 +102,6 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	/// <param name="irLocDB">I:R localization database.</param>
 	/// <param name="ck3LocDB">CK3 localization database.</param>
 	/// <param name="provinceMapper">Province mapper to be used.</param>
-	/// <param name="coaMapper">CoA mapper to be used.</param>
 	/// <param name="definiteFormMapper">Definite form mapper to be used.</param>
 	/// <param name="imperatorRegionMapper">I:R region mapper to be used.</param>
 	/// <param name="config">Configuration object.</param>
@@ -116,7 +115,6 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		LocDB irLocDB,
 		CK3LocDB ck3LocDB,
 		ProvinceMapper provinceMapper,
-		CoaMapper coaMapper,
 		DefiniteFormMapper definiteFormMapper,
 		ImperatorRegionMapper imperatorRegionMapper,
 		Configuration config
@@ -391,82 +389,80 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 	}
 
+	private static LocBlock? GetValidatedNameForCountryWithSpecificMonarchFamily(
+		LocDB irLocDB,
+		string fetchLocKey,
+		string baseNameKey,
+		string fallbackLocKey,
+		string defaultEnglishName
+	) {
+		var fetchLocBlock = irLocDB.GetLocBlockForKey(fetchLocKey);
+		if (fetchLocBlock is null) {
+			return fetchLocBlock;
+		}
+
+		var modifiedLocBlock = new LocBlock(fetchLocKey, fetchLocBlock);
+		var baseNameLoc = irLocDB.GetLocBlockForKey(baseNameKey) ?? new LocBlock(baseNameKey, ConverterGlobals.PrimaryLanguage) {
+			[ConverterGlobals.PrimaryLanguage] = defaultEnglishName
+		};
+
+		modifiedLocBlock.ModifyForEveryLanguage(
+			otherBlock: baseNameLoc,
+			(loc, modifyingLoc, language) => {
+				var locToReturn = loc?.Replace($"${baseNameKey}$", modifyingLoc);
+				if (locToReturn?.Contains("[GetCountry(") == true) {
+					locToReturn = irLocDB.GetLocBlockForKey(fallbackLocKey)?[language];
+				}
+				return locToReturn;
+			}
+		);
+
+		return modifiedLocBlock;
+	}
+
+	private static LocBlock? GetValidatedAdjectiveForCountryWithSpecificMonarchFamily(
+		LocDB irLocDB,
+		string fetchLocKey,
+		string baseAdjKey,
+		string fallbackLocKey,
+		string defaultEnglishAdj
+	) {
+		var fetchLocBlock = irLocDB.GetLocBlockForKey(fetchLocKey);
+		if (fetchLocBlock is null) {
+			return fetchLocBlock;
+		}
+
+		var modifiedLocBlock = new LocBlock(fetchLocKey, fetchLocBlock);
+		var baseAdjLoc = irLocDB.GetLocBlockForKey(baseAdjKey) ?? new LocBlock(baseAdjKey, ConverterGlobals.PrimaryLanguage) {
+			[ConverterGlobals.PrimaryLanguage] = defaultEnglishAdj
+		};
+
+		modifiedLocBlock.ModifyForEveryLanguage(
+			otherBlock: baseAdjLoc,
+			(loc, modifyingLoc, language) => {
+				var locToReturn = loc?.Replace($"${baseAdjKey}$", modifyingLoc);
+				if (locToReturn?.Contains("[GetCountry(") == true) {
+					locToReturn = irLocDB.GetLocBlockForKey(fallbackLocKey)?[language];
+				}
+				return locToReturn;
+			}
+		);
+
+		return modifiedLocBlock;
+	}
+
 	private static LocBlock? GetValidatedName(Country imperatorCountry, CountryCollection imperatorCountries, LocDB irLocDB) {
-		switch (imperatorCountry.Name) {
+		return imperatorCountry.Name switch {
 			// Hard code for Antigonid Kingdom, Seleucid Empire and Maurya.
 			// These countries use customizable localization for name and adjective.
-			case "PRY_DYN" when imperatorCountry.Monarch?.Family?.Key == "Antigonid":
-				const string pryLocKey = "get_pry_name_fetch";
-				var pryLocBlock = irLocDB.GetLocBlockForKey(pryLocKey);
-				if (pryLocBlock is null) {
-					return pryLocBlock;
-				}
-
-				var modifiedPrylocBlockToReturn = new LocBlock(pryLocKey, pryLocBlock);
-				const string pryNameKey = "PRY";
-				modifiedPrylocBlockToReturn.ModifyForEveryLanguage(
-					otherBlock: irLocDB.GetLocBlockForKey(pryNameKey) ?? new LocBlock(pryNameKey, ConverterGlobals.PrimaryLanguage) {
-						[ConverterGlobals.PrimaryLanguage] = "Antigonid Kingdom"
-					},
-					(loc, modifyingLoc, language) => {
-						var locToReturn = loc?.Replace($"${pryNameKey}$", modifyingLoc);
-						if (locToReturn is not null && locToReturn.Contains("[GetCountry(")) {
-							locToReturn = irLocDB.GetLocBlockForKey("get_pry_name_fallback")?[language];
-						}
-						return locToReturn;
-					});
-				return modifiedPrylocBlockToReturn;
-			case "PRY_DYN":
-				return irLocDB.GetLocBlockForKey("get_pry_name_fallback");
-			case "SEL_DYN" when imperatorCountry.Monarch?.Family?.Key == "Seleukid":
-				const string selLocKey = "get_sel_name_fetch";
-				var selLocBlock = irLocDB.GetLocBlockForKey(selLocKey);
-				if (selLocBlock is null) {
-					return selLocBlock;
-				}
-
-				var modifiedSelLocBlockToReturn = new LocBlock(selLocKey, selLocBlock);
-				const string selNameKey = "SEL";
-				modifiedSelLocBlockToReturn.ModifyForEveryLanguage(
-					otherBlock: irLocDB.GetLocBlockForKey(selNameKey) ?? new LocBlock(selNameKey, ConverterGlobals.PrimaryLanguage) {
-						[ConverterGlobals.PrimaryLanguage] = "Seleukid Empire"
-					},
-					(loc, modifyingLoc, language) => {
-						var locToReturn = loc?.Replace($"${selNameKey}$", modifyingLoc);
-						if (locToReturn is not null && locToReturn.Contains("[GetCountry(")) {
-							locToReturn = irLocDB.GetLocBlockForKey("get_sel_name_fallback")?[language];
-						}
-						return locToReturn;
-					});
-				return modifiedSelLocBlockToReturn;
-			case "SEL_DYN":
-				return irLocDB.GetLocBlockForKey("get_sel_name_fallback");
-			case "MRY_DYN" when imperatorCountry.Monarch?.Family?.Key == "Maurya":
-				const string mryLocKey = "get_mry_name_fetch";
-				var mryLocBlock = irLocDB.GetLocBlockForKey(mryLocKey);
-				if (mryLocBlock is null) {
-					return mryLocBlock;
-				}
-				
-				var modifiedMryLocBlockToReturn = new LocBlock(mryLocKey, mryLocBlock);
-				const string mryNameKey = "MRY";
-				modifiedMryLocBlockToReturn.ModifyForEveryLanguage(
-					otherBlock: irLocDB.GetLocBlockForKey(mryNameKey) ?? new LocBlock(mryNameKey, ConverterGlobals.PrimaryLanguage) {
-						[ConverterGlobals.PrimaryLanguage] = "Maurya"
-					},
-					(loc, modifyingLoc, language) => {
-						var locToReturn = loc?.Replace($"${mryNameKey}$", modifyingLoc);
-						if (locToReturn is not null && locToReturn.Contains("[GetCountry(")) {
-							locToReturn = irLocDB.GetLocBlockForKey("get_mry_name_fallback")?[language];
-						}
-						return locToReturn;
-					});
-				return modifiedMryLocBlockToReturn;
-			case "MRY_DYN":
-				return irLocDB.GetLocBlockForKey("get_mry_name_fallback");
-			default:
-				return imperatorCountry.CountryName.GetNameLocBlock(irLocDB, imperatorCountries);
-		}
+			"PRY_DYN" when imperatorCountry.Monarch?.Family?.Key == "Antigonid" => GetValidatedNameForCountryWithSpecificMonarchFamily(irLocDB, "get_pry_name_fetch", "PRY", "get_pry_name_fallback", "Antigonid Kingdom"),
+			"PRY_DYN" => irLocDB.GetLocBlockForKey("get_pry_name_fallback"),
+			"SEL_DYN" when imperatorCountry.Monarch?.Family?.Key == "Seleukid" => GetValidatedNameForCountryWithSpecificMonarchFamily(irLocDB, "get_sel_name_fetch", "SEL", "get_sel_name_fallback", "Seleukid Empire"),
+			"SEL_DYN" => irLocDB.GetLocBlockForKey("get_sel_name_fallback"),
+			"MRY_DYN" when imperatorCountry.Monarch?.Family?.Key == "Maurya" => GetValidatedNameForCountryWithSpecificMonarchFamily(irLocDB, "get_mry_name_fetch", "MRY", "get_mry_name_fallback", "Maurya"),
+			"MRY_DYN" => irLocDB.GetLocBlockForKey("get_mry_name_fallback"),
+			_ => imperatorCountry.CountryName.GetNameLocBlock(irLocDB, imperatorCountries),
+		};
 	}
 
 	public static string DetermineId(
@@ -491,10 +487,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			titleId = tagTitleMapper.GetTitleForTag(irCountry, ck3LocDB);
 		}
 
-		if (titleId is null) {
-			throw new ArgumentException($"Country {irCountry.Tag} could not be mapped to CK3 Title!");
-		}
-		return titleId;
+		return titleId ?? throw new ArgumentException($"Country {irCountry.Tag} could not be mapped to CK3 Title!", nameof(irCountry));
 	}
 
 	public static string? DetermineId(Governorship governorship, LandedTitles titles, Imperator.Provinces.ProvinceCollection irProvinces, ProvinceCollection ck3Provinces, ImperatorRegionMapper imperatorRegionMapper, TagTitleMapper tagTitleMapper, ProvinceMapper provMapper) {
@@ -604,8 +597,18 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			return;
 		}
 
-		var adjSet = false;
-		// Try to generate adjective from name.
+		bool adjSet = TryToGenerateGovernorshipAdjectiveFromName(governorship, irLocDB, ck3LocDB, adjKey);
+
+		if (!adjSet) {
+			adjSet = TryToUseCountryAdjectiveForGovernorshipAdjective(country, ck3LocDB, adjKey);
+		}
+
+		if (!adjSet) {
+			Logger.Warn($"{Id} needs help with adjective localization!");
+		}
+	}
+
+	private bool TryToGenerateGovernorshipAdjectiveFromName(Governorship governorship, LocDB irLocDB, CK3LocDB ck3LocDB, string adjKey) {
 		CK3LocBlock? nameLocBlock = ck3LocDB.GetLocBlockForKey(Id);
 		if (nameLocBlock is null) {
 			var irRegionLoc = irLocDB.GetLocBlockForKey(governorship.Region.Id);
@@ -613,33 +616,35 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				nameLocBlock = new CK3LocBlock(irRegionLoc.Id, ConverterGlobals.PrimaryLanguage, irRegionLoc);
 			}
 		}
-		if (!adjSet && nameLocBlock is not null) {
-			var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(adjKey);
-			adjLocBlock.CopyFrom(nameLocBlock);
 
-			var englishLoc = adjLocBlock["english"];
-			if (englishLoc is not null) {
-				adjLocBlock["english"] = englishLoc.GetAdjective();
-			}
-
-			adjSet = true;
-		}
-		// Try to use country adjective.
-		if (!adjSet) {
-			var ck3Country = country.CK3Title;
-			if (ck3Country is null) {
-				return;
-			}
-			if (ck3LocDB.TryGetValue($"{ck3Country.Id}_adj", out var countryAdjectiveLocBlock)) {
-				var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(adjKey);
-				adjLocBlock.CopyFrom(countryAdjectiveLocBlock);
-				adjSet = true;
-			}
+		if (nameLocBlock is null) {
+			return false;
 		}
 
-		if (!adjSet) {
-			Logger.Warn($"{Id} needs help with adjective localization!");
+		var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(adjKey);
+		adjLocBlock.CopyFrom(nameLocBlock);
+
+		var englishLoc = adjLocBlock["english"];
+		if (englishLoc is not null) {
+			adjLocBlock["english"] = englishLoc.GetAdjective();
 		}
+
+		return true;
+	}
+
+	private static bool TryToUseCountryAdjectiveForGovernorshipAdjective(Country country, CK3LocDB ck3LocDB, string adjKey) {
+		var ck3Country = country.CK3Title;
+		if (ck3Country is null) {
+			return false;
+		}
+
+		if (!ck3LocDB.TryGetValue($"{ck3Country.Id}_adj", out var countryAdjectiveLocBlock)) {
+			return false;
+		}
+
+		var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(adjKey);
+		adjLocBlock.CopyFrom(countryAdjectiveLocBlock);
+		return true;
 	}
 
 	private void TrySetGovernmentForTitleFromGovernorship(Governorship governorship, Country country, string? ck3LiegeGovAtGovernorshipStartDate, Date normalizedGovernorshipStartDate, string? currentCK3LiegeGov, Date ck3BookmarkDate) {
@@ -819,85 +824,16 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var locKey = $"{Id}_adj";
 
 		if (ImperatorCountry.Tag is "PRY" or "SEL" or "MRY") {
-			// these tags use customizable loc for adj
-			LocBlock? validatedAdj;
-			switch (ImperatorCountry.Name) {
-				case "PRY_DYN" when ImperatorCountry.Monarch?.Family?.Key == "Antigonid":
-					var pryAdjLocBlock = irLocDB.GetLocBlockForKey("get_pry_adj_fetch");
-					if (pryAdjLocBlock is not null) {
-						const string pryAdjKey = "PRY_ADJ";
-						validatedAdj = new LocBlock(pryAdjLocBlock.Id, pryAdjLocBlock);
-						validatedAdj.ModifyForEveryLanguage(
-							otherBlock: irLocDB.GetLocBlockForKey(pryAdjKey) ?? new LocBlock(pryAdjKey, ConverterGlobals.PrimaryLanguage) {
-								[ConverterGlobals.PrimaryLanguage] = "Antigonid"
-							},
-							(loc, modifyingLoc, language) => {
-								var locToReturn = loc?.Replace($"${pryAdjKey}$", modifyingLoc);
-								if (locToReturn is not null && locToReturn.Contains("[GetCountry(")) {
-									locToReturn = irLocDB.GetLocBlockForKey("get_pry_adj_fallback")?[language];
-								}
-								return locToReturn;
-							});
-					} else {
-						validatedAdj = pryAdjLocBlock;
-					}
-
-					break;
-				case "PRY_DYN":
-					validatedAdj = irLocDB.GetLocBlockForKey("get_pry_adj_fallback");
-					break;
-				case "SEL_DYN" when ImperatorCountry.Monarch?.Family?.Key == "Seleukid":
-					var selAdjLocBlock = irLocDB.GetLocBlockForKey("get_sel_adj_fetch");
-					if (selAdjLocBlock is not null) {
-						const string selAdjKey = "SEL_ADJ";
-						validatedAdj = new LocBlock(selAdjLocBlock.Id, selAdjLocBlock);
-						validatedAdj.ModifyForEveryLanguage(
-							otherBlock: irLocDB.GetLocBlockForKey(selAdjKey) ?? new LocBlock(selAdjKey, ConverterGlobals.PrimaryLanguage) {
-								[ConverterGlobals.PrimaryLanguage] = "Seleukid"
-							},
-							(loc, modifyingLoc, language) => {
-								var locToReturn = loc?.Replace($"${selAdjKey}$", modifyingLoc);
-								if (locToReturn is not null && locToReturn.Contains("[GetCountry(")) {
-									locToReturn = irLocDB.GetLocBlockForKey("get_sel_adj_fallback")?[language];
-								}
-								return locToReturn;
-							});
-					} else {
-						validatedAdj = selAdjLocBlock;
-					}
-					
-					break;
-				case "SEL_DYN":
-					validatedAdj = irLocDB.GetLocBlockForKey("get_sel_adj_fallback");
-					break;
-				case "MRY_DYN" when ImperatorCountry.Monarch?.Family?.Key == "Maurya":
-					var mryAdjLocBlock = irLocDB.GetLocBlockForKey("get_mry_adj_fetch");
-					if (mryAdjLocBlock is not null) {
-						const string mryAdjKey = "MRY_ADJ";
-						validatedAdj = new LocBlock(mryAdjLocBlock.Id, mryAdjLocBlock);
-						validatedAdj.ModifyForEveryLanguage(
-							otherBlock: irLocDB.GetLocBlockForKey(mryAdjKey) ?? new LocBlock(mryAdjKey, ConverterGlobals.PrimaryLanguage) {
-								[ConverterGlobals.PrimaryLanguage] = "Mauryan"
-							},
-							(loc, modifyingLoc, language) => {
-								var locToReturn = loc?.Replace($"${mryAdjKey}$", modifyingLoc);
-								if (locToReturn is not null && locToReturn.Contains("[GetCountry(")) {
-									locToReturn = irLocDB.GetLocBlockForKey("get_mry_adj_fallback")?[language];
-								}
-								return locToReturn;
-							});
-					} else {
-						validatedAdj = mryAdjLocBlock;
-					}
-					break;
-				case "MRY_DYN":
-					validatedAdj = irLocDB.GetLocBlockForKey("get_mry_adj_fallback");
-					break;
-				default:
-					validatedAdj = null;
-					break;
-			}
-
+			// These tags use customizable loc for adj.
+			LocBlock? validatedAdj = ImperatorCountry.Name switch {
+				"PRY_DYN" when ImperatorCountry.Monarch?.Family?.Key == "Antigonid" => GetValidatedAdjectiveForCountryWithSpecificMonarchFamily(irLocDB, "get_pry_adj_fetch", "PRY_ADJ", "get_pry_adj_fallback", "Antigonid"),
+				"PRY_DYN" => irLocDB.GetLocBlockForKey("get_pry_adj_fallback"),
+				"SEL_DYN" when ImperatorCountry.Monarch?.Family?.Key == "Seleukid" => GetValidatedAdjectiveForCountryWithSpecificMonarchFamily(irLocDB, "get_sel_adj_fetch", "SEL_ADJ", "get_sel_adj_fallback", "Seleukid"),
+				"SEL_DYN" => irLocDB.GetLocBlockForKey("get_sel_adj_fallback"),
+				"MRY_DYN" when ImperatorCountry.Monarch?.Family?.Key == "Maurya" => GetValidatedAdjectiveForCountryWithSpecificMonarchFamily(irLocDB, "get_mry_adj_fetch", "MRY_ADJ", "get_mry_adj_fallback", "Mauryan"),
+				"MRY_DYN" => irLocDB.GetLocBlockForKey("get_mry_adj_fallback"),
+				_ => null,
+			};
 			if (validatedAdj is not null) {
 				var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
 				adjLocBlock.CopyFrom(validatedAdj);
@@ -913,47 +849,69 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 		}
 		if (!adjSet) {
-			// Try to use the country name as adjective.
-			var adjLocalizationMatch = irLocDB.GetLocBlockForKey(ImperatorCountry.Tag);
-			if (adjLocalizationMatch is not null) {
-				var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
-				adjLocBlock.CopyFrom(adjLocalizationMatch);
-				adjSet = true;
-			}
+			adjSet = TryToUseCountryNameAsAdjective(irLocDB, ck3LocDB, locKey);
 		}
-		
-		// Try to generate English adjective from country name.
+
 		if (!adjSet) {
-			if (ck3LocDB.TryGetValue(Id, out var nameLocBlock) && nameLocBlock["english"] is {} name) {
-				// If name has 3 characters and last 2 characters are digits, it's probably a raw Imperator tag.
-				// In that case, we don't want to use it as a base for adjective.
-				if (!(name.Length == 3 && char.IsDigit(name[1]) && char.IsDigit(name[2]))) {
-					var generatedAdjective = name.GetAdjective();
-					Logger.Debug($"Generated adjective for country \"{name}\": \"{generatedAdjective}\"");
-				
-					var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
-					adjLocBlock["english"] = generatedAdjective;
-					adjSet = true;
-				}
-			}
+			adjSet = TryToGenerateEnglishAdjectiveFromCountryName(ck3LocDB, locKey);
 		}
-		
+
 		if (!adjSet) {
-			// Use unlocalized name if not empty
-			var name = ImperatorCountry.Name;
-			if (!string.IsNullOrEmpty(name)) {
-				Logger.Warn($"Using unlocalized Imperator name {name} as adjective for {Id}!");
-				var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
-				adjLocBlock[ConverterGlobals.PrimaryLanguage] = name;
-				adjSet = true;
-			}
+			adjSet = UseUnlocalizedNameAsAdjectiveIfNotEmpty(ck3LocDB, locKey);
 		}
-		
+
 		// Give up.
 		if (!adjSet) {
 			Logger.Warn($"{Id} needs help with localization for adjective! {ImperatorCountry.Name}_adj?");
 		}
 	}
+
+	private bool UseUnlocalizedNameAsAdjectiveIfNotEmpty(CK3LocDB ck3LocDB, string locKey) {
+		string? name = ImperatorCountry?.Name;
+		if (string.IsNullOrEmpty(name)) {
+			return false;
+		}
+
+		Logger.Warn($"Using unlocalized Imperator name {name} as adjective for {Id}!");
+		var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
+		adjLocBlock[ConverterGlobals.PrimaryLanguage] = name;
+		return true;
+	}
+
+	private bool TryToUseCountryNameAsAdjective(LocDB irLocDB, CK3LocDB ck3LocDB, string locKey) {
+		if (ImperatorCountry is null) {
+			return false;
+		}
+
+		var adjLocalizationMatch = irLocDB.GetLocBlockForKey(ImperatorCountry.Tag);
+		if (adjLocalizationMatch is null) {
+			return false;
+		}
+
+		var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
+		adjLocBlock.CopyFrom(adjLocalizationMatch);
+		return true;
+	}
+
+	private bool TryToGenerateEnglishAdjectiveFromCountryName(CK3LocDB ck3LocDB, string locKey) {
+		if (!ck3LocDB.TryGetValue(Id, out var nameLocBlock) || nameLocBlock["english"] is not { } name) {
+			return false;
+		}
+
+		// If name has 3 characters and last 2 characters are digits, it's probably a raw Imperator tag.
+		// In that case, we don't want to use it as a base for adjective.
+		if (name.Length == 3 && char.IsDigit(name[1]) && char.IsDigit(name[2])) {
+			return false;
+		}
+
+		var generatedAdjective = name.GetAdjective();
+		Logger.Debug($"Generated adjective for country \"{name}\": \"{generatedAdjective}\"");
+
+		var adjLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
+		adjLocBlock["english"] = generatedAdjective;
+		return true;
+	}
+
 	[commonItems.Serialization.NonSerialized] public string? CoA { get; private set; }
 
 	[SerializedName("capital")] public string? CapitalCountyId { get; private set; }
