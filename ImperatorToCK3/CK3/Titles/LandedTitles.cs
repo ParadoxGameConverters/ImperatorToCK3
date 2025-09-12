@@ -38,7 +38,7 @@ internal sealed partial class Title {
 	// This is a recursive class that scrapes common/landed_titles looking for title colors, landlessness,
 	// and most importantly relation between baronies and barony provinces so we can link titles to actual clay.
 	// Since titles are nested according to hierarchy we do this recursively.
-	public sealed class LandedTitles : TitleCollection {
+	internal sealed class LandedTitles : TitleCollection {
 		public Dictionary<string, object> Variables { get; } = [];
 	
 		public IEnumerable<Title> Counties => this.Where(t => t.Rank == TitleRank.county);

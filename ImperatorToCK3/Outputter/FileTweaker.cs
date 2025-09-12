@@ -15,7 +15,7 @@ internal enum LineEnding {
 	CR
 }
 
-public static class FileTweaker {
+internal static class FileTweaker {
 	public static async Task ModifyAndRemovePartsOfFiles(ModFilesystem ck3ModFS, string outputModPath, Configuration config) {
 		// Load removable blocks from configurables.
 		Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile = [];

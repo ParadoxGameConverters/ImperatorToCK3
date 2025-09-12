@@ -4,9 +4,9 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ImperatorToCK3.Outputter; 
+namespace ImperatorToCK3.Outputter;
 
-public static class OnActionOutputter {
+internal static class OnActionOutputter {
 	public static async Task OutputEverything(Configuration config, ModFilesystem ck3ModFS, string outputModPath){
 		await OutputCustomGameStartOnAction(config);
 		Logger.IncrementProgress();
