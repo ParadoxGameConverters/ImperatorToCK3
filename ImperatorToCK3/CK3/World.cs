@@ -524,8 +524,8 @@ internal sealed class World {
 		Logger.Info("Overwriting counties' history...");
 		FrozenSet<Governorship> governorshipsSet = governorships.ToFrozenSet();
 		FrozenSet<Governorship> countyLevelGovernorshipsSet = countyLevelGovernorships.ToFrozenSet();
-		
-		foreach (var county in LandedTitles.Where(t => t.Rank == TitleRank.county)) {
+
+		foreach (var county in LandedTitles.Counties) {
 			if (county.CapitalBaronyProvinceId is null) {
 				Logger.Warn($"County {county} has no capital barony province!");
 				continue;
@@ -548,26 +548,32 @@ internal sealed class World {
 				continue;
 			}
 
-			var irCountry = irProvince.OwnerCountry;
-
-			if (irCountry is null || irCountry.CountryType == CountryType.rebels) { // e.g. uncolonized Imperator province
-				county.SetHolder(null, conversionDate);
-				county.SetDeFactoLiege(null, conversionDate);
-				RevokeBaroniesFromCountyGivenToImperatorCharacter(county);
-			} else {
-				bool given = TryGiveCountyToCountyLevelRuler(county, irCountry, countyLevelCountries, irCountries);
-				if (!given) {
-					given = TryGiveCountyToGovernor(county, irProvince, irCountry, governorshipsSet, irProvinces, countyLevelGovernorshipsSet, impCharacters);
-				}
-				if (!given) {
-					given = TryGiveCountyToMonarch(county, irCountry);
-				}
-				if (!given) {
-					Logger.Warn($"County {county} was not given to anyone!");
-				}
-			}
+			OverwriteCountyHistory(county, irProvince, irCountries, countyLevelCountries, governorshipsSet, countyLevelGovernorshipsSet, impCharacters, irProvinces, conversionDate);
 		}
 		Logger.IncrementProgress();
+	}
+
+	private void OverwriteCountyHistory(Title county, Imperator.Provinces.Province irProvince, CountryCollection irCountries,
+		List<KeyValuePair<Country, Dependency?>> countyLevelCountries, FrozenSet<Governorship> governorshipsSet, FrozenSet<Governorship> countyLevelGovernorshipsSet,
+		Imperator.Characters.CharacterCollection irCharacters, Imperator.Provinces.ProvinceCollection irProvinces, Date conversionDate) {
+		var irCountry = irProvince.OwnerCountry;
+
+		if (irCountry is null || irCountry.CountryType == CountryType.rebels) { // e.g. uncolonized Imperator province
+			county.SetHolder(null, conversionDate);
+			county.SetDeFactoLiege(null, conversionDate);
+			RevokeBaroniesFromCountyGivenToImperatorCharacter(county);
+		} else {
+			bool given = TryGiveCountyToCountyLevelRuler(county, irCountry, countyLevelCountries, irCountries);
+			if (!given) {
+				given = TryGiveCountyToGovernor(county, irProvince, irCountry, governorshipsSet, irProvinces, countyLevelGovernorshipsSet, irCharacters);
+			}
+			if (!given) {
+				given = TryGiveCountyToMonarch(county, irCountry);
+			}
+			if (!given) {
+				Logger.Warn($"County {county} was not given to anyone!");
+			}
+		}
 	}
 
 	private bool TryGiveCountyToMonarch(Title county, Country irCountry) {
