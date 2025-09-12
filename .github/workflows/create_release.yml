@@ -110,12 +110,12 @@ jobs:
     - name: "Build installer for Windows"
       if: matrix.build == 'win-x64'
       run: |
-        dotnet tool install --global InnoSetup
+        dotnet tool install --global dotnet-innosetup
         cp Fronter.NET/Fronter.NET/Assets/converter.ico Publish/Assets/
-        iscc --version
+        dotnet iscc --version
         sed -i '5i\\#define MyAppVersion "${{ needs.create_release.outputs.tag }}"' ImperatorToCK3.iss
         cat ImperatorToCK3.iss
-        iscc ImperatorToCK3.iss
+        dotnet iscc ImperatorToCK3.iss
     - name: "Upload installer for Windows"
       id: upload-installer
       if: matrix.build == 'win-x64'
