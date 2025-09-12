@@ -33,7 +33,7 @@ public class EnumerableExtensionsTests {
     [Fact]
     public void LastOrNull_ReturnsNull_WhenSourceEmpty() {
         // Arrange
-        IEnumerable<int> numbers = new int[0];
+        IEnumerable<int> numbers = System.Array.Empty<int>();
 
         // Act
         int? result = numbers.LastOrNull(n => n > 0);
