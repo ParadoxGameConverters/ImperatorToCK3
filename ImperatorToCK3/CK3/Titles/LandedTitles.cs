@@ -272,53 +272,64 @@ internal sealed partial class Title {
 		}
 		public override void Remove(string titleId) {
 			if (dict.TryGetValue(titleId, out var titleToErase)) {
-				// For all the de jure vassals of titleToErase, make titleToErase's liege their direct liege.
-				if (titleToErase.DeJureLiege is not null) {
-					foreach (var vassal in titleToErase.DeJureVassals) {
-						vassal.DeJureLiege = titleToErase.DeJureLiege;
-					}
-				}
-				// Remove two-way de jure liege-vassal link.
-				titleToErase.DeJureLiege = null;
-
-				// For all the de facto vassals of titleToErase, make titleToErase's liege their direct liege.
-				var newDFLiegeIdForInitialEntries = titleToErase.GetLiegeId(date: null)?.RemQuotes() ?? "0";
-				foreach (var title in this) {
-					if (title.Id == titleToErase.Id) {
-						continue;
-					}
-
-					if (title.Rank >= titleToErase.Rank) {
-						continue;
-					}
-
-					if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
-						continue;
-					}
-
-					for (int i = 0; i < liegeField.InitialEntries.Count; i++) {
-						var kvp = liegeField.InitialEntries[i];
-						if (kvp.Value.ToString()?.RemQuotes() == titleToErase.Id) {
-							liegeField.InitialEntries[i] = new(kvp.Key, newDFLiegeIdForInitialEntries);
-						}
-					}
-					foreach (var datedEntriesBlock in liegeField.DateToEntriesDict) {
-						for (int i = 0; i < datedEntriesBlock.Value.Count; i++) {
-							var kvp = datedEntriesBlock.Value[i];
-							if (kvp.Value.ToString()?.RemQuotes() == titleToErase.Id) {
-								var newDFLiegeId = titleToErase.GetLiegeId(datedEntriesBlock.Key)?.RemQuotes() ?? "0";
-								datedEntriesBlock.Value[i] = new(kvp.Key, newDFLiegeId);
-							}
-						}
-					}
-				}
+				RemoveTitleFromDeJureRelationships(titleToErase);
+				RemoveTitleFromDeFactoRelationships(titleToErase);
 
 				if (titleToErase.ImperatorCountry is not null) {
 					titleToErase.ImperatorCountry.CK3Title = null;
 				}
 			}
+
 			dict.Remove(titleId);
 		}
+
+		private void RemoveTitleFromDeFactoRelationships(Title titleToErase) {
+			// For all the de facto vassals of titleToErase, make titleToErase's liege their direct liege.
+			var newDFLiegeIdForInitialEntries = titleToErase.GetLiegeId(date: null)?.RemQuotes() ?? "0";
+			foreach (var title in this) {
+				if (title.Id == titleToErase.Id) {
+					continue;
+				}
+
+				if (title.Rank >= titleToErase.Rank) {
+					continue;
+				}
+
+				if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
+					continue;
+				}
+
+				for (int i = 0; i < liegeField.InitialEntries.Count; i++) {
+					var kvp = liegeField.InitialEntries[i];
+					if (kvp.Value.ToString()?.RemQuotes() == titleToErase.Id) {
+						liegeField.InitialEntries[i] = new(kvp.Key, newDFLiegeIdForInitialEntries);
+					}
+				}
+
+				foreach (var datedEntriesBlock in liegeField.DateToEntriesDict) {
+					for (int i = 0; i < datedEntriesBlock.Value.Count; i++) {
+						var kvp = datedEntriesBlock.Value[i];
+						if (kvp.Value.ToString()?.RemQuotes() == titleToErase.Id) {
+							var newDFLiegeId = titleToErase.GetLiegeId(datedEntriesBlock.Key)?.RemQuotes() ?? "0";
+							datedEntriesBlock.Value[i] = new(kvp.Key, newDFLiegeId);
+						}
+					}
+				}
+			}
+		}
+
+		private static void RemoveTitleFromDeJureRelationships(Title titleToErase) {
+			// For all the de jure vassals of titleToErase, make titleToErase's liege their direct liege.
+			if (titleToErase.DeJureLiege is not null) {
+				foreach (var vassal in titleToErase.DeJureVassals) {
+					vassal.DeJureLiege = titleToErase.DeJureLiege;
+				}
+			}
+
+			// Remove two-way de jure liege-vassal link.
+			titleToErase.DeJureLiege = null;
+		}
+
 		public Title? GetCountyForProvince(ulong provinceId) {
 			foreach (var county in this.Where(title => title.Rank == TitleRank.county)) {
 				if (county.CountyProvinceIds.Contains(provinceId)) {
