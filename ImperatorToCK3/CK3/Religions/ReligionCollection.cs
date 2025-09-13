@@ -77,6 +77,38 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 				}
 			}
 		}
+		
+		// Validation: every faith should have a funeral doctrine.
+		string? funeralFallback = DoctrineCategories.TryGetValue("doctrine_funeral", out var funeralCategory)
+			? funeralCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_funeral_stoic")
+			: null;
+		foreach (var converterFaith in loadedConverterFaiths) {
+			var funeralDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_funeral");
+			if (funeralDoctrine.Count == 0) {
+				if (funeralFallback is not null) {
+					Logger.Warn($"Faith {converterFaith.Id} has no funeral doctrine! Setting {funeralFallback}");
+					converterFaith.DoctrineIds.Add(funeralFallback);
+				} else {
+					Logger.Warn($"Faith {converterFaith.Id} has no funeral doctrine!");
+				}
+			}
+		}
+		
+		// Validation: every faith should have a coronation doctrine.
+		string? coronationFallback = DoctrineCategories.TryGetValue("doctrine_coronation", out var coronationCategory)
+			? coronationCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_no_anointment")
+			: null;
+		foreach (var converterFaith in loadedConverterFaiths) {
+			var coronationDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_coronation");
+			if (coronationDoctrine.Count == 0) {
+				if (coronationFallback is not null) {
+					Logger.Warn($"Faith {converterFaith.Id} has no coronation doctrine! Setting {coronationFallback}");
+					converterFaith.DoctrineIds.Add(coronationFallback);
+				} else {
+					Logger.Warn($"Faith {converterFaith.Id} has no coronation doctrine!");
+				}
+			}
+		}
 	}
 
 	public void RemoveChristianAndIslamicSyncretismFromAllFaiths() {

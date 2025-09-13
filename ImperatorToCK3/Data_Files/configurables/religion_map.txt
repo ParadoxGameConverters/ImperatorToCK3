@@ -30,10 +30,10 @@
 # TFE
 link = { ck3 = guanche_pagan ir = berber_religion ck3Province = 8713 ck3Province = 8714 ck3Province = 8715 ck3Province = 8716 ck3Province = 849 }
 link = { ck3 = amazigh_pagan ir = berber_religion }
-link = { ck3 = apsuara ir = indo_iranian_religion ck3Culture = abkhaz } # Rajas faith
-link = { ck3 = khabzism ir = indo_iranian_religion ck3Culture = circassian } # Rajas faith
+link = { ck3 = apsuara ir = indo_iranian_religion ck3Culture = abkhaz ck3Culture = abasgian } # Rajas faith (Change to use circassian_pantheon once Terra-Indomita adds it)
+link = { ck3 = khabzism ir = indo_iranian_religion ck3Culture = circassian } # Rajas faith (Change to use circassian_pantheon once Terra-Indomita adds it)
 link = { ck3 = alan_pagan ir = indo_iranian_religion ck3Culture = alan } # Rajas faith
-link = { ck3 = scythian_pagan ir = indo_iranian_religion }
+link = { ck3 = scythian_pagan ir = indo_iranian_religion ir = circassian_pantheon } # Best fallback for circassian_pantheon as of now
 link = { ck3 = carthage_pagan ir = carthaginian_pantheon }
 # Vanilla CK3
 link = { ck3 = kushitism_pagan ir = egyptian_pantheon irRegion = nubia_region irRegion = punt_region }
@@ -292,6 +292,7 @@ link = { ck3 = jingxue ir = confucian } # Mapping to Jingxue since it seems to h
 
 ## Shenic
 link = { ck3 = shendao ir = chinese_religions } # Shenic seems like it is supposed to represent traditional chinese religions/beliefs
+link = { ck3 = pagan ir = chinese_religions } # Fallback for Invictus since they added it until All Under Heaven gets released (hopefully adding a good mapping). Might need to create a custom converter faith later if nothing good comes.
 
 ## Taoism
 link = { ck3 = zhengyi ir = taoism }

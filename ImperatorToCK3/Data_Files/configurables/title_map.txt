@@ -118,6 +118,8 @@ link = { ir = TSA ck3 = k_tsang rank = k }
 link = { ir = TSA ck3 = e_tibet rank = e }
 link = { ir = SMT ck3 = k_bihar rank = k }
 link = { ir = SMT ck3 = e_bengal rank = e }
+link = { ir = HND ck3 = e_hindustan rank = e }
+link = { ir = HND ck3 = e_hindustan rank = k }
 
 #Germanic
 link = { ir = SXS ck3 = k_frisia rank = k } # NOT Saxony
