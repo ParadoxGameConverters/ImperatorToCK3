@@ -31,6 +31,7 @@ using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
 using ImperatorToCK3.Outputter;
 using log4net.Core;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -272,20 +273,9 @@ internal sealed class World {
 		Characters.RemoveInvalidDynastiesFromHistory(Dynasties);
 		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB, LocDB, CorrectedDate);
 		DynastyHouses.LoadCK3Houses(ModFS);
-		
-		// Load existing CK3 government IDs.
-		Logger.Info("Loading CK3 government IDs...");
-		var ck3GovernmentIds = new HashSet<string>();
-		var governmentsParser = new Parser();
-		governmentsParser.RegisterRegex(CommonRegexes.String, (reader, governmentId) => {
-			ck3GovernmentIds.Add(governmentId);
-			ParserHelpers.IgnoreItem(reader);
-		});
-		governmentsParser.ParseGameFolder("common/governments", ModFS, "txt", recursive: false, logFilePaths: true);
-		Logger.IncrementProgress();
-		GovernmentMapper governmentMapper = new(ck3GovernmentIds);
-		Logger.IncrementProgress();
-		
+
+		GovernmentMapper governmentMapper = InitializeGovernmentMapper();
+
 		// Before we can import Imperator countries and governorships, the I:R CoA extraction thread needs to finish.
 		irCoaExtractThread?.Join();
 
@@ -337,30 +327,16 @@ internal sealed class World {
 		
 		// Give counties to rulers and governors.
 		OverwriteCountiesHistory(impWorld.Countries, impWorld.JobsDB.Governorships, countyLevelCountries, countyLevelGovernorships, impWorld.Characters, impWorld.Provinces, CorrectedDate);
-		// Import holding owners as barons and counts (optional).
-		if (!config.SkipHoldingOwnersImport) {
-			LandedTitles.ImportImperatorHoldings(Provinces, impWorld.Characters, impWorld.EndDate);
-		} else {
-			Logger.Info("Skipping holding owners import per configuration.");
-		}
-		
+		ImportImperatorHoldingsIfNotDisabledByConfiguration(impWorld, config);
+
 		LandedTitles.ImportDevelopmentFromImperator(Provinces, CorrectedDate, config.ImperatorCivilizationWorth);
 		LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 		
 		// Apply region-specific tweaks.
 		HandleIcelandAndFaroeIslands(impWorld, config);
-		
-		// Check if any muslim religion exists in Imperator. Otherwise, remove Islam from the entire CK3 map.
-		var possibleMuslimReligionNames = new List<string> { "muslim", "islam", "sunni", "shiite" };
-		var muslimReligionExists = impWorld.Religions
-			.Any(r => possibleMuslimReligionNames.Contains(r.Id.ToLowerInvariant()));
-		if (muslimReligionExists) {
-			Logger.Info("Found muslim religion in Imperator save, keeping Islam in CK3.");
-		} else {
-			RemoveIslam(config);
-		}
-		Logger.IncrementProgress();
-		
+
+		RemoveIslamFromMapIfNotInImperator(impWorld, config);
+
 		// Now that Islam has been handled, we can generate filler holders without the risk of making them Muslim.
 		GenerateFillerHoldersForUnownedLands(Cultures, config);
 		Logger.IncrementProgress();
@@ -412,6 +388,44 @@ internal sealed class World {
 				Diplomacy.ImportImperatorLeagues(impWorld.DefensiveLeagues, impWorld.Countries);
 			}
 		);
+	}
+
+	private void ImportImperatorHoldingsIfNotDisabledByConfiguration(Imperator.World irWorld, Configuration config) {
+		if (!config.SkipHoldingOwnersImport) {
+			// Import holding owners as barons and counts.
+			LandedTitles.ImportImperatorHoldings(Provinces, irWorld.Characters, irWorld.EndDate);
+		} else {
+			Logger.Info("Skipping holding owners import per configuration.");
+		}
+	}
+
+	private GovernmentMapper InitializeGovernmentMapper() {
+		// Load existing CK3 government IDs.
+		Logger.Info("Loading CK3 government IDs...");
+		var ck3GovernmentIds = new HashSet<string>();
+		var governmentsParser = new Parser();
+		governmentsParser.RegisterRegex(CommonRegexes.String, (reader, governmentId) => {
+			ck3GovernmentIds.Add(governmentId);
+			ParserHelpers.IgnoreItem(reader);
+		});
+		governmentsParser.ParseGameFolder("common/governments", ModFS, "txt", recursive: false, logFilePaths: true);
+		Logger.IncrementProgress();
+
+		GovernmentMapper governmentMapper = new(ck3GovernmentIds);
+		Logger.IncrementProgress();
+		return governmentMapper;
+	}
+
+	private void RemoveIslamFromMapIfNotInImperator(Imperator.World irWorld, Configuration config) {
+		// Check if any muslim religion exists in Imperator. Otherwise, remove Islam from the entire CK3 map.
+		var possibleMuslimReligionNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "muslim", "islam", "sunni", "shiite" };
+		var muslimReligionExists = irWorld.Religions.Any(r => possibleMuslimReligionNames.Contains(r.Id));
+		if (muslimReligionExists) {
+			Logger.Info("Found muslim religion in Imperator save, keeping Islam in CK3.");
+		} else {
+			RemoveIslam(config);
+		}
+		Logger.IncrementProgress();
 	}
 
 	private void DetermineCK3BookmarkDate(Imperator.World irWorld, Configuration config) {
