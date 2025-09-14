@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <RuntimeIdentifiers>win-x64;linux-x64;osx-arm64</RuntimeIdentifiers>
         <ApplicationIcon>thumbnail.ico</ApplicationIcon>
-        <LangVersion>13</LangVersion>
+        <LangVersion>latest</LangVersion>
         <CETCompat>false</CETCompat> <!-- see https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/2638 -->
     </PropertyGroup>
 
