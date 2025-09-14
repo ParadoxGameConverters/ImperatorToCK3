@@ -73,7 +73,7 @@ internal sealed class InnovationMapper {
 
 	// TODO: ALSO LOG UNMAPPED CK3 MARTIAL AND CIVIC INNOVATIONS
 
-	public void RemoveMappingsWithInvalidInnovations(ISet<string> innovationIds) {
+	public void RemoveMappingsWithInvalidInnovations(HashSet<string> innovationIds) {
 		int removedCount = 0;
 
 		removedCount += innovationLinks
