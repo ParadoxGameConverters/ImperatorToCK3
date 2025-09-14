@@ -23,7 +23,6 @@ using ImperatorToCK3.UnitTests.TestHelpers;
 using Xunit;
 using Character = ImperatorToCK3.CK3.Characters.Character;
 using System;
-using System.Collections.Generic;
 using CharacterCollection = ImperatorToCK3.Imperator.Characters.CharacterCollection;
 
 // ReSharper disable StringLiteralTypo
@@ -91,7 +90,7 @@ public class DynastyTests {
 				new DNAFactory(IRModFS, ck3ModFS),
 				new Date(867, 1, 1),
 				config,
-				unlocalizedImperatorNames: new HashSet<string>()
+				unlocalizedImperatorNames: []
 			);
 			return character;
 		}
