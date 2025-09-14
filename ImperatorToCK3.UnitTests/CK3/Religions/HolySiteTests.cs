@@ -94,4 +94,73 @@ public class HolySiteTests {
 		
 		Assert.Equal("c_county", site.CountyId);
 	}
+
+	[Fact]
+	public void BaronyCountyMismatchIsFixedWhenCorrectCountyExists() {
+		var titles = new Title.LandedTitles();
+		// Create a structure where barony belongs to correct_county, but site specifies wrong_county
+		titles.LoadTitles(new BufferedReader(@"
+			c_correct_county = { 
+				b_test_barony = {} 
+			}
+			c_wrong_county = {}
+		"));
+		
+		var siteReader = new BufferedReader(@"
+			county = c_wrong_county
+			barony = b_test_barony
+			character_modifier = {}
+		");
+		
+		var site = new HolySite("test_site", siteReader, titles, isFromConverter: false);
+		
+		// County should be corrected to the barony's de jure liege
+		Assert.Equal("c_correct_county", site.CountyId);
+		Assert.Equal("b_test_barony", site.BaronyId);
+	}
+
+	[Fact]
+	public void BaronyCountyMismatchIsNotFixedWhenBaronyHasNoDeJureLiege() {
+		var titles = new Title.LandedTitles();
+		// Create a barony without a parent county and a separate county
+		titles.LoadTitles(new BufferedReader(@"
+			b_orphan_barony = {}
+			c_some_county = {}
+		"));
+		
+		var siteReader = new BufferedReader(@"
+			county = c_some_county
+			barony = b_orphan_barony
+			character_modifier = {}
+		");
+		
+		var site = new HolySite("test_site", siteReader, titles, isFromConverter: false);
+		
+		// County should remain unchanged since barony has no de jure liege
+		Assert.Equal("c_some_county", site.CountyId);
+		Assert.Equal("b_orphan_barony", site.BaronyId);
+	}
+
+	[Fact]
+	public void BaronyCountyMatchingIsNotChangedWhenAlreadyCorrect() {
+		var titles = new Title.LandedTitles();
+		// Create a structure where barony correctly belongs to the specified county
+		titles.LoadTitles(new BufferedReader(@"
+			c_correct_county = { 
+				b_test_barony = {} 
+			}
+		"));
+		
+		var siteReader = new BufferedReader(@"
+			county = c_correct_county
+			barony = b_test_barony
+			character_modifier = {}
+		");
+		
+		var site = new HolySite("test_site", siteReader, titles, isFromConverter: false);
+		
+		// County should remain unchanged since it's already correct
+		Assert.Equal("c_correct_county", site.CountyId);
+		Assert.Equal("b_test_barony", site.BaronyId);
+	}
 }

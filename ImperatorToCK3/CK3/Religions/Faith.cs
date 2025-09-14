@@ -108,9 +108,9 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		var matchingInFaith = DoctrineIds.Intersect(potentialDoctrineIds).ToOrderedSet();
 		if (matchingInFaith.Count != 0) {
 			return matchingInFaith;
-		} else {
-			return Religion.DoctrineIds.Intersect(potentialDoctrineIds).ToOrderedSet();
 		}
+
+		return Religion.DoctrineIds.Intersect(potentialDoctrineIds).ToOrderedSet();
 	}
 	
 	public bool HasDoctrine(string doctrineId) {

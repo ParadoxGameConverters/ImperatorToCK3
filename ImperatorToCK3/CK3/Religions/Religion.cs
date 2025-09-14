@@ -97,8 +97,8 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 		faithDataParser.IgnoreAndLogUnregisteredItems();
 	}
 
-	public IdObjectCollection<string, Faith> Faiths { get; } = new();
-	private readonly List<KeyValuePair<string, StringOfItem>> attributes = new();
+	public IdObjectCollection<string, Faith> Faiths { get; } = [];
+	private readonly List<KeyValuePair<string, StringOfItem>> attributes = [];
 
 	public string Serialize(string indent, bool withBraces) {
 		var contentIndent = indent;
