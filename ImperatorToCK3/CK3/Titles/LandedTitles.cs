@@ -50,7 +50,17 @@ internal sealed partial class Title {
 			RegisterKeys(parser);
 			parser.ParseGameFolder("common/landed_titles", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 			LogIgnoredTokens();
-			
+
+			MakeSureEveryCountyHasAnAdjective(ck3LocDB);
+
+			CleanUpCountriesHavingCapitalEntries();
+
+			CleanUpTitlesHavingInvalidCapitalCounties();
+
+			Logger.IncrementProgress();
+		}
+
+		private void MakeSureEveryCountyHasAnAdjective(CK3LocDB ck3LocDB) {
 			// Make sure every county has an adjective.
 			foreach (var county in Counties) {
 				string adjLocKey = county.Id + "_adj";
@@ -63,11 +73,13 @@ internal sealed partial class Title {
 					if (ck3LocDB.HasKeyLocForLanguage(adjLocKey, language)) {
 						continue;
 					}
-					
+
 					ck3LocDB.AddLocForLanguage(adjLocKey, language, nameLoc[language] ?? nameLoc[ConverterGlobals.PrimaryLanguage] ?? county.Id);
 				}
 			}
+		}
 
+		private void CleanUpCountriesHavingCapitalEntries() {
 			// Cleanup for counties having "capital" entries (found in TFE).
 			foreach (var county in Counties) {
 				if (county.CapitalCountyId is null) {
@@ -77,7 +89,9 @@ internal sealed partial class Title {
 				Logger.Debug($"Removing capital entry from county {county.Id}.");
 				county.CapitalCountyId = null;
 			}
+		}
 
+		private void CleanUpTitlesHavingInvalidCapitalCounties() {
 			// Cleanup for titles having invalid capital counties.
 			var validTitleIds = this.Select(t => t.Id).ToFrozenSet();
 			var placeholderCountyId = validTitleIds.Order().First(t => t.StartsWith("c_"));
@@ -101,7 +115,7 @@ internal sealed partial class Title {
 						.Select(c => c.Id)
 						.FirstOrDefault();
 				}
-				
+
 				// If not found, for landless titles try using capital of de jure liege.
 				if (newCapitalId is null && title.Landless) {
 					newCapitalId = title.DeJureLiege?.CapitalCountyId;
@@ -114,9 +128,8 @@ internal sealed partial class Title {
 					title.CapitalCountyId = placeholderCountyId;
 				}
 			}
-
-			Logger.IncrementProgress();
 		}
+
 		public void LoadTitles(BufferedReader reader) {
 			var parser = new Parser();
 			RegisterKeys(parser);
