@@ -60,7 +60,7 @@ jobs:
 
     - name: "Download and unzip ck3-tiger"
       run: |
-        Invoke-WebRequest -Uri "https://github.com/amtep/tiger/releases/download/v1.11.0/ck3-tiger-windows-v1.11.0.zip" -OutFile "ck3-tiger.zip"
+        Invoke-WebRequest -Uri "https://github.com/amtep/tiger/releases/download/v1.12.0/ck3-tiger-windows-v1.12.0.zip" -OutFile "ck3-tiger.zip"
         Expand-Archive -Path "ck3-tiger.zip" -DestinationPath "ck3-tiger"
         Remove-Item -Path "ck3-tiger.zip"
 
