@@ -96,9 +96,9 @@ internal sealed class Character : IIdentifiable<string> {
 	public Date BirthDate {
 		get => History.Fields["birth"].DateToEntriesDict.AsValueEnumerable().First().Key;
 		set {
-			var field = History.Fields["birth"];
-			field.RemoveAllEntries();
-			field.AddEntryToHistory(value, "birth", true);
+			var historyField = History.Fields["birth"];
+			historyField.RemoveAllEntries();
+			historyField.AddEntryToHistory(value, "birth", true);
 		}
 	}
 		
@@ -108,10 +108,10 @@ internal sealed class Character : IIdentifiable<string> {
 			return entriesDict.Count == 0 ? null : entriesDict.AsValueEnumerable().First().Key;
 		}
 		set {
-			var field = History.Fields["death"];
-			field.RemoveAllEntries();
+			var historyField = History.Fields["death"];
+			historyField.RemoveAllEntries();
 			if (value is not null) {
-				field.AddEntryToHistory(value, "death", true);
+				historyField.AddEntryToHistory(value, "death", true);
 			}
 		}
 	}
@@ -596,8 +596,8 @@ internal sealed class Character : IIdentifiable<string> {
 
 	public string? MotherId {
 		get {
-			var field = History.Fields["mother"];
-			var entries = field.InitialEntries;
+			var historyField = History.Fields["mother"];
+			var entries = historyField.InitialEntries;
 			if (entries.Count == 0) {
 				return null;
 			}
@@ -614,8 +614,8 @@ internal sealed class Character : IIdentifiable<string> {
 			}
 
 			idStr = idStr.RemQuotes();
-			field.RemoveAllEntries();
-			field.AddEntryToHistory(null, "mother", idStr);
+			historyField.RemoveAllEntries();
+			historyField.AddEntryToHistory(null, "mother", idStr);
 			return idStr;
 		}
 	}
@@ -644,8 +644,8 @@ internal sealed class Character : IIdentifiable<string> {
 
 	public string? FatherId {
 		get {
-			var field = History.Fields["father"];
-			var entries = field.InitialEntries;
+			var historyField = History.Fields["father"];
+			var entries = historyField.InitialEntries;
 			if (entries.Count == 0) {
 				return null;
 			}
@@ -662,8 +662,8 @@ internal sealed class Character : IIdentifiable<string> {
 			}
 				
 			idStr = idStr.RemQuotes();
-			field.RemoveAllEntries();
-			field.AddEntryToHistory(null, "father", idStr);
+			historyField.RemoveAllEntries();
+			historyField.AddEntryToHistory(null, "father", idStr);
 			return idStr;
 		}
 	}

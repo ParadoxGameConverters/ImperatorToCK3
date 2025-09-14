@@ -12,7 +12,7 @@ public static class EnumerableExtensions {
 			return null;
 		}
 
-		foreach (var element in enumerable.Reverse()) {
+		foreach (var element in Enumerable.Reverse(enumerable)) {
 			if (predicate(element)) {
 				return element;
 			}
