@@ -374,7 +374,7 @@ internal sealed class Character : IIdentifiable<string> {
 		DNAFactory dnaFactory,
 		Date dateOnConversion,
 		Configuration config,
-		ISet<string> unlocalizedImperatorNames
+		ConcurrentHashSet<string> unlocalizedImperatorNames
 	) {
 		this.characters = characters;
 			
