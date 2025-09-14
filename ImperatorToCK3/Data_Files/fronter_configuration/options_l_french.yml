@@ -1,0 +1,64 @@
+l_french:
+ ENABLED: "Activé"
+ DISABLED: "Désactivé"
+
+ STATIC_DEJURE: "Voulez-vous des royaumes et empires de jure dynamiques ?"
+ STATIC_DEJURE_TIP: "Dynamique est recommandé. En Dynamique, aucun royaume ou empire de jure ne sera conservé de CK3 vanilla, et de nouveaux seront créés le cas échéant basés sur les gouvernorats d'Imperator. En Statique, les royaumes et empires de jure seront basés sur un fichier de configuration."
+ STATIC_DEJURE_1: "Dynamique"
+ STATIC_DEJURE_1_TIP: "Déterminer le de jure CK3 par les gouvernorats d'Imperator."
+ STATIC_DEJURE_2: "Statique"
+ STATIC_DEJURE_2_TIP: "Prédéterminer le de jure CK3 principalement par CK3 vanilla mais avec des ajustements appropriés à l'époque."
+
+ FILLER_DUKES: "Rang des détenteurs générés pour les zones non possédées"
+ FILLER_DUKES_TIP: "Si une zone n'a pas de détenteur dans l'histoire, elle sera possédée par un détenteur de ce rang."
+ FILLER_DUKES_0: "Comte"
+ FILLER_DUKES_0_TIP: "Le convertisseur générera des comtes pour les zones non possédées."
+ FILLER_DUKES_1: "Duc"
+ FILLER_DUKES_1_TIP: "Le convertisseur générera des ducs pour les zones non possédées."
+
+ USE_CK3_FLAGS: "Les drapeaux CK3 doivent-ils être utilisés si possible ?"
+ USE_CK3_FLAGS_TIP: "Si les drapeaux CK3 doivent être utilisés pour les pays qui sont associés aux titres CK3 existants."
+ USE_CK3_FLAGS_0: "Non"
+ USE_CK3_FLAGS_0_TIP: "Le convertisseur utilisera les drapeaux d'Imperator pour tous les pays convertis."
+ USE_CK3_FLAGS_1: "Oui"
+ USE_CK3_FLAGS_1_TIP: "Le convertisseur utilisera les drapeaux CK3 pour les pays qui sont associés aux titres CK3 existants."
+
+ HERESIES_IN_HISTORICAL_AREAS: "Voulez-vous convertir avec les hérésies historiques ?"
+ HERESIES_IN_HISTORICAL_AREAS_TIP: "Cette option convertira certaines populations chrétiennes et manichéennes, si elles existent dans votre jeu, dans certaines zones de la carte d'Imperator: Rome vers une foi gnostique/dualiste ou une foi hérétique chrétienne dans les zones correspondantes de la carte de Crusader Kings III, selon où elles sont apparues historiquement. Par exemple, certaines provinces avec une majorité de population chrétienne ou manichéenne dans I:R pourraient être converties au Priscillianisme dans CK3."
+ HERESIES_IN_HISTORICAL_AREAS_1: "Oui"
+ HERESIES_IN_HISTORICAL_AREAS_2: "Non"
+
+ IMPERATOR_CURRENCY_RATE: "Taux de change de la monnaie d'Imperator"
+ IMPERATOR_CURRENCY_RATE_TIP: "Combien d'or CK3 devrait valoir 1 unité d'or d'Imperator ?"
+ IMPERATOR_CURRENCY_RATE_INPUT_TIP: "Utilisez le point comme séparateur décimal."
+
+ IMPERATOR_CIVILIZATION_WORTH: "Valeur de la civilisation d'Imperator"
+ IMPERATOR_CIVILIZATION_WORTH_TIP: "Combien de développement CK3 devrait valoir 1 civilisation d'Imperator ?"
+ IMPERATOR_CIVILIZATION_WORTH_INPUT_TIP: "Utilisez le point comme séparateur décimal."
+
+ LEGION_CONVERSION: "[EXPÉRIMENTAL] Comment importer les légions dans CK3 ?"
+ LEGION_CONVERSION_NO: "Ne pas le faire."
+ LEGION_CONVERSION_SPECIAL: "Comme troupes spéciales."
+ LEGION_CONVERSION_MAA: "[CASSE LE MULTIJOUEUR] Comme MAA."
+
+ MODNAME: "Nom de sortie du mod (optionnel) :"
+ MODNAMETIP: "Veuillez vous en tenir aux lettres latines."
+ MODNAMETIP2: "Nom optionnel pour le mod converti (le nom par défaut est celui de la sauvegarde)."
+
+ BOOKMARKDATE: "Date de repère CK3 (après J.-C., optionnel)"
+ BOOKMARKDATETIP: "Date Anno Domini du repère CK3 généré, ne peut pas être antérieure à la date Anno Domini de la sauvegarde d'Imperator. Laissez vide pour utiliser par défaut la date actuelle de la sauvegarde d'Imperator."
+ BOOKMARKDATETIP2: "Date Anno Domini du repère CK3 généré, ne peut pas être antérieure à la date Anno Domini de la sauvegarde d'Imperator. Laissez vide pour utiliser par défaut la date actuelle de la sauvegarde d'Imperator."
+
+ SKIP_DYNAMIC_COA_EXTRACTION: "L'extraction des CoA générées par le jeu doit-elle être ignorée ?"
+ SKIP_DYNAMIC_COA_EXTRACTION_TIP: "Si le convertisseur doit lancer Imperator pour extraire automatiquement tous les drapeaux générés par le jeu."
+ SKIP_DYNAMIC_COA_EXTRACTION_0: "Non"
+ SKIP_DYNAMIC_COA_EXTRACTION_0_TIP: "Le convertisseur lancera Imperator pour extraire tous les drapeaux générés par le jeu."
+ SKIP_DYNAMIC_COA_EXTRACTION_1: "Oui"
+ SKIP_DYNAMIC_COA_EXTRACTION_1_TIP: "Le convertisseur ne lancera pas Imperator pour extraire tous les drapeaux générés par le jeu."
+
+ SKIP_HOLDING_OWNERS_IMPORT: "L'importation des propriétaires de domaines doit-elle être ignorée ?"
+ SKIP_HOLDING_OWNERS_IMPORT_TIP: "Si le convertisseur doit importer les propriétaires de domaines d'Imperator comme barons et comtes."
+ SKIP_HOLDING_OWNERS_IMPORT_0: "Non"
+ SKIP_HOLDING_OWNERS_IMPORT_0_TIP: "Le convertisseur importera les propriétaires de domaines comme barons et comtes."
+ SKIP_HOLDING_OWNERS_IMPORT_1: "Oui"
+ SKIP_HOLDING_OWNERS_IMPORT_1_TIP: "Le convertisseur n'importera pas les propriétaires de domaines comme barons et comtes."

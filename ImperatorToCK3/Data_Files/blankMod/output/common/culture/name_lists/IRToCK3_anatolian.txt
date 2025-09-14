@@ -172,3 +172,49 @@ name_list_phrygian = {
 		{ name = "ir_band_of_anatolia" coat_of_arms = "antiochus_seleucid" }
 	}
 }
+name_list_anatolian = {
+	cadet_dynasty_names = {
+		dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+		dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+		dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+		dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+		dynn_Frataraka
+	}
+
+	dynasty_names = {
+		dynn_Aramid dynn_Arid dynn_Arkhid dynn_Asinid dynn_Arsacid dynn_Deiocid dynn_Menid dynn_Pacorid
+		dynn_Savacid dynn_Vardanid dynn_Surenid dynn_Karinid dynn_Gaumatid dynn_Gobryasid
+		dynn_Hydarnid dynn_Smerdid dynn_Vivanid dynn_Xerxid dynn_Abadanid dynn_Orontid dynn_Atropatid
+		dynn_Mithridatid dynn_Artiaxid dynn_Mihranid dynn_Chosroid dynn_Artashid dynn_Bagabignid dynn_Cambysid
+		dynn_Frataraka
+	}
+
+	male_names = {
+		Morzios Pylaemenes Mithridates Datames Ariobarzanes Ariamnes Ariarathes Croesus Gyges Ardys Sadyattes Atys Adrastus Gordias Midas
+		Hecatomnus Hyssaldomus Mausolus Idrieus Pixodarus Lygdamis Kybernis Kuprilli
+		Arppakhu Arbinas Kheriga Kherei Abistamenes Syennesis Appuasu Oromedon
+		Zipoetes Bas Ziaelas Prusias Arcathias Xiphares Dareios Gaizatorix Odius Gergis
+	}
+
+	female_names = {
+		Nysa Aryenis Ada Glaphyra Pythodorida Etazeta Drypetina Orsabaris Hypsicratea Boa Amasia
+	} 
+
+	# Patronymics (Apparently comes from Hittite/Luwian words for "descendant". Best I could find without being really repetitive)
+	patronym_prefix_male = prefix_hams
+	patronym_prefix_female = prefix_hams
+
+	# Chance of male children being named after their paternal or maternal grandfather, or their father. Sum must not exceed 100.
+	pat_grf_name_chance = 50
+	mat_grf_name_chance = 5
+	father_name_chance = 20
+
+	# Chance of female children being named after their paternal or maternal grandmother, or their mother. Sum must not exceed 100.
+	pat_grm_name_chance = 10
+	mat_grm_name_chance = 50
+	mother_name_chance = 5
+
+	mercenary_names = {
+		{ name = "ir_band_of_anatolia" coat_of_arms = "antiochus_seleucid" }
+	}
+}

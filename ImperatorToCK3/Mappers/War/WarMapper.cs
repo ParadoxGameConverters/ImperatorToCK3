@@ -4,7 +4,7 @@ using commonItems.Mods;
 
 namespace ImperatorToCK3.Mappers.War;
 
-public sealed class WarMapper {
+internal sealed class WarMapper {
 	private readonly Dictionary<string, string> impToCK3WarGoalDict = [];
 
 	public WarMapper(string filePath) {

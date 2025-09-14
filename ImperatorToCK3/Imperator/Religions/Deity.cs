@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Religions;
 
-public sealed class Deity : IIdentifiable<string> {
+internal sealed class Deity : IIdentifiable<string> {
 	public string Id { get; }
 	public OrderedDictionary<string, double> PassiveModifiers { get; } = [];
 

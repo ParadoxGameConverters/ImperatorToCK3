@@ -2532,6 +2532,8 @@
  Drypetina: "德律珀提那"
  Orsabaris: "俄萨巴里斯"
  Hypsicratea: "绣球菌"
+ Boa: "玻娅"
+ Amasia: "阿马西亚"
  #Cappadocian dynasties
  dynn_Surenid: "苏雷尼德"
  dynn_Karinid: "卡里尼德"
@@ -4781,6 +4783,7 @@
  prefix_yiliydoa: "耶利多亚·"
  prefix_dbartoa: "达巴托亚·"
  prefix_dmen: "德门·"
+ prefix_hams: "哈姆斯·"
  Bardo: "巴多"
  Bardol: "巴多尔"
  Barnahy: "巴纳希"

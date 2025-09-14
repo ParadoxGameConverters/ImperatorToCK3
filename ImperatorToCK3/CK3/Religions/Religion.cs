@@ -11,7 +11,7 @@ namespace ImperatorToCK3.CK3.Religions;
 
 internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
-	public OrderedSet<string> DoctrineIds { get; } = new();
+	public OrderedSet<string> DoctrineIds { get; } = [];
 
 	public ReligionCollection ReligionCollection { get; }
 
@@ -43,7 +43,7 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 				            $"{string.Join(", ", doctrinesInCategory)}. Keeping the last {category.NumberOfPicks} of them.");
 				
 				DoctrineIds.ExceptWith(doctrinesInCategory);
-				foreach (var doctrine in doctrinesInCategory.Reverse().Take(category.NumberOfPicks)) {
+				foreach (var doctrine in Enumerable.Reverse(doctrinesInCategory).Take(category.NumberOfPicks)) {
 					DoctrineIds.Add(doctrine);
 				}
 			}

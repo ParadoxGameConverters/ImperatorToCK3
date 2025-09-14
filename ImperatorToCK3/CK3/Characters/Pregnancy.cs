@@ -2,7 +2,7 @@ using commonItems;
 
 namespace ImperatorToCK3.CK3.Characters;
 
-public sealed class Pregnancy {
+internal sealed class Pregnancy {
 	public string FatherId { get; init; }
 	public string MotherId { get; init; }
 	public Date BirthDate { get; init; }

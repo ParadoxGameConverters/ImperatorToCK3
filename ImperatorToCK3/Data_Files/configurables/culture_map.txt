@@ -123,6 +123,7 @@ link = { ck3=beja
 	# "Adabulians could be classified as Blemmyan instead as they had intense relations and it seems the Blemmyans absorbed them anyway by the birth of Christ."
 	# ~shocky27 on Invictus discord
 	ir=adabulian
+	ir=blemmye # Culture added in Invictus
 }
 link = { ck3=ethiopian
 	ir=boran
@@ -135,6 +136,7 @@ link = { ck3=ethiopian
 link = { ck3=somali
 	ir=berberian # not to be confused with Berbers
 	ir=avalitian # "The people of Avalites were probably proto-Somalis, called Barbaras": https://en.wikipedia.org/wiki/Avalites
+	ir=erythraean # Culture added in Invictus available through a "Horn of Africa" mission
 }
 
 ## Meroitic
@@ -156,7 +158,7 @@ link = { ck3 = armenian ir = armenian }
 link = { ck3 = luwian ir = carian ir = lycian ir = isaurian ir = pisidian }
 link = { ck3=cilician ir=cilician ir=kennataian ir=cennatean ir=lalasian }
 link = { ck3 = lydian ir = lydian }
-link = { ck3=hittite ir=lycaonian ir=cappadocian ir=pontic ir=paphlagonian ir=milyadian ir=oroandian ir=cabalian ir=morimenian ir=cataonian }
+link = { ck3=anatolian ir=lycaonian ir=cappadocian ir=pontic ir=paphlagonian ir=milyadian ir=oroandian ir=cabalian ir=morimenian ir=cataonian } # Used to map to converter's hittite culture
 link = { ck3 = phrygian ir = phrygian ir = mysian }
 link = { ck3 = kizzuwatnan ir = kizzuwatnan }
 link = { ck3 = trojan ir = trojan }
@@ -279,9 +281,9 @@ link = { ck3 = cornish @ir_cornish_cultures }
 link = { ck3 = brythonic @ir_south_east_briton_cultures }
 
 ## Caucasian
-@ir_georgian_cultures = "ir=colchian ir=abasgoi ir=suani ir=sasperian ir=lazi ir=georgian"
+@ir_georgian_cultures = "ir=colchian ir=abasgoi ir=suani ir=sasperian ir=lazi ir=georgian ir=gelaean"
 # caspian comes from Invictus https://en.wikipedia.org/wiki/Caspians
-# abasgoi, suani (Svans), sasperian and lazi come from Invictus
+# gelaean, abasgoi, suani (Svans), sasperian and lazi come from Invictus
 # georgian comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 # TFE
 link = { ck3 = arran ir = albanian }
@@ -303,11 +305,11 @@ link = { ck3 = georgian ir = albanian ir = ibero @ir_georgian_cultures }
 link = { ck3 = aquitanian ir = caristian ir = vardulian ir = sedetanian }
 link = { ck3 = asturian ir = asturian }
 link = { ck3 = castran ir = callaecian }
-link = { ck3 = cantabrian ir = vaccaeian ir = lobetanian ir = celtiberian ir = celtician ir = carpetanian ir = oppidanian ir = cantabrian }
+link = { ck3 = cantabrian ir = vaccaeian ir = lobetanian ir = celtiberian ir = celtician ir = carpetanian ir = oppidanian ir = cantabrian ir = elesycian }
 # Vanilla CK3
 link = { ck3 = basque ir = basque } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = basque ir = caristian ir = vardulian }
-link = { ck3 = celtiberian ir = asturian ir = vaccaeian ir = sedetanian ir = lobetanian ir = celtiberian ir = celtician ir = carpetanian ir = oppidanian }
+link = { ck3 = celtiberian ir = asturian ir = vaccaeian ir = sedetanian ir = lobetanian ir = celtiberian ir = celtician ir = carpetanian ir = oppidanian ir = elesycian }
 link = { ck3 = lusoiberian ir = callaecian ir = lusitanian ir = vettonian }
 
 ## Celto Pannonian
@@ -465,7 +467,7 @@ link = { ck3 = german @ir_all_germanic_cultures }
 ## Hellenic
 @ir_cretan_cultures = "ir=cretan ir=eteocretan" # eteocretan comes from the Antiquitas mod
 @ir_antiquitas_greek_cultures="ir=doric ir=north_western_doric ir=attican ir=western_ionic ir=eastern_ionic ir=elean ir=kerkyran" # # Antiquitas (https://steamcommunity.com/sharedfiles/filedetails/?id=2992438857)
-@ir_greek_cultures = "ir=greek ir=athenian ir=peloponnesian ir=massalian ir=cyrenaican ir=bosporan ir=thessalian ir=cypriot ir=bithynian ir=ionian ir=troan ir=aeolian ir=greco_pontic ir=aegean ir=aetolian ir=euboean ir=boeotian ir=epirote ir=arcadian ir=argolian ir=parthinian ir=achaean ir=enetoian ir=pamphylian @ir_antiquitas_greek_cultures"
+@ir_greek_cultures = "ir=greek ir=athenian ir=peloponnesian ir=massalian ir=cyrenaican ir=bosporan ir=thessalian ir=cypriot ir=bithynian ir=ionian ir=troan ir=aeolian ir=greco_pontic ir=aegean ir=aetolian ir=euboean ir=boeotian ir=epirote ir=arcadian ir=argolian ir=parthinian ir=achaean ir=enetoian ir=pamphylian ir=ciliciote @ir_antiquitas_greek_cultures"
 
 # The Glory of Rome
 link = { ck3 = greek @ir_greek_cultures @roman_tags } # Modified cultures so base game greek represents the Romanized-Greeks
@@ -494,11 +496,11 @@ link = { ck3 = non_indo_european_iberian ir = turdulian ir = couneian ir = turde
 # liburnian is deprecated, liburnian_culture is used
 # iapodian is from Invictus mod
 # pannonian moved from Invictus mod
-@illyrian_cultures = "ir=taulantian ir=dardanian ir=deurian ir=deraemestian ir=catari ir=liburnian ir=liburnian_culture ir=abrian ir=greco_illyrian ir=iapodian ir = pannonian"
+@illyrian_cultures = "ir=dardanian ir=deurian ir=deraemestian ir=catari ir=liburnian ir=liburnian_culture ir=greco_illyrian ir=iapodian ir = pannonian"
 # TFE
 link = { ck3 = illyrian @illyrian_cultures }
 # Vanilla CK3
-link = { ck3 = albanian @illyrian_cultures irRegion = macedonia_region irRegion = greece_region irRegion = magna_graecia_region ck3Province = 470 ck3Province = 3717 ck3Province = 3720 ck3Province = 3718 ck3Province = 3719 ck3Province = 3721 ck3Province = 3724 ck3Province = 3723 ck3Province = 3722 ck3Province = 3713 ck3Province = 3714 ck3Province = 3715 ck3Province = 3716 ck3Province = 3520 ck3Province = 3711 ck3Province = 3712 }
+link = { ck3 = albanian ir = taulantian ir = abrian } # These are considered the likely ancestors to Albanian
 link = { ck3 = dalmatian @illyrian_cultures }
 link = { ck3 = messapic ir = messapian }
 

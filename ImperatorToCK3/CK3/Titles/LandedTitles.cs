@@ -38,7 +38,7 @@ internal sealed partial class Title {
 	// This is a recursive class that scrapes common/landed_titles looking for title colors, landlessness,
 	// and most importantly relation between baronies and barony provinces so we can link titles to actual clay.
 	// Since titles are nested according to hierarchy we do this recursively.
-	public sealed class LandedTitles : TitleCollection {
+	internal sealed class LandedTitles : TitleCollection {
 		public Dictionary<string, object> Variables { get; } = [];
 	
 		public IEnumerable<Title> Counties => this.Where(t => t.Rank == TitleRank.county);
@@ -50,7 +50,17 @@ internal sealed partial class Title {
 			RegisterKeys(parser);
 			parser.ParseGameFolder("common/landed_titles", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 			LogIgnoredTokens();
-			
+
+			MakeSureEveryCountyHasAnAdjective(ck3LocDB);
+
+			CleanUpCountriesHavingCapitalEntries();
+
+			CleanUpTitlesHavingInvalidCapitalCounties();
+
+			Logger.IncrementProgress();
+		}
+
+		private void MakeSureEveryCountyHasAnAdjective(CK3LocDB ck3LocDB) {
 			// Make sure every county has an adjective.
 			foreach (var county in Counties) {
 				string adjLocKey = county.Id + "_adj";
@@ -63,11 +73,13 @@ internal sealed partial class Title {
 					if (ck3LocDB.HasKeyLocForLanguage(adjLocKey, language)) {
 						continue;
 					}
-					
+
 					ck3LocDB.AddLocForLanguage(adjLocKey, language, nameLoc[language] ?? nameLoc[ConverterGlobals.PrimaryLanguage] ?? county.Id);
 				}
 			}
+		}
 
+		private void CleanUpCountriesHavingCapitalEntries() {
 			// Cleanup for counties having "capital" entries (found in TFE).
 			foreach (var county in Counties) {
 				if (county.CapitalCountyId is null) {
@@ -77,7 +89,9 @@ internal sealed partial class Title {
 				Logger.Debug($"Removing capital entry from county {county.Id}.");
 				county.CapitalCountyId = null;
 			}
+		}
 
+		private void CleanUpTitlesHavingInvalidCapitalCounties() {
 			// Cleanup for titles having invalid capital counties.
 			var validTitleIds = this.Select(t => t.Id).ToFrozenSet();
 			var placeholderCountyId = validTitleIds.Order().First(t => t.StartsWith("c_"));
@@ -101,7 +115,7 @@ internal sealed partial class Title {
 						.Select(c => c.Id)
 						.FirstOrDefault();
 				}
-				
+
 				// If not found, for landless titles try using capital of de jure liege.
 				if (newCapitalId is null && title.Landless) {
 					newCapitalId = title.DeJureLiege?.CapitalCountyId;
@@ -114,9 +128,8 @@ internal sealed partial class Title {
 					title.CapitalCountyId = placeholderCountyId;
 				}
 			}
-
-			Logger.IncrementProgress();
 		}
+
 		public void LoadTitles(BufferedReader reader) {
 			var parser = new Parser();
 			RegisterKeys(parser);
@@ -249,7 +262,6 @@ internal sealed partial class Title {
 			LocDB irLocDB,
 			CK3LocDB ck3LocDB,
 			ProvinceMapper provinceMapper,
-			CoaMapper coaMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
 			Configuration config
@@ -264,7 +276,6 @@ internal sealed partial class Title {
 				irLocDB,
 				ck3LocDB,
 				provinceMapper,
-				coaMapper,
 				definiteFormMapper,
 				imperatorRegionMapper,
 				config
@@ -274,53 +285,64 @@ internal sealed partial class Title {
 		}
 		public override void Remove(string titleId) {
 			if (dict.TryGetValue(titleId, out var titleToErase)) {
-				// For all the de jure vassals of titleToErase, make titleToErase's liege their direct liege.
-				if (titleToErase.DeJureLiege is not null) {
-					foreach (var vassal in titleToErase.DeJureVassals) {
-						vassal.DeJureLiege = titleToErase.DeJureLiege;
-					}
-				}
-				// Remove two-way de jure liege-vassal link.
-				titleToErase.DeJureLiege = null;
-
-				// For all the de facto vassals of titleToErase, make titleToErase's liege their direct liege.
-				var newDFLiegeIdForInitialEntries = titleToErase.GetLiegeId(date: null)?.RemQuotes() ?? "0";
-				foreach (var title in this) {
-					if (title.Id == titleToErase.Id) {
-						continue;
-					}
-
-					if (title.Rank >= titleToErase.Rank) {
-						continue;
-					}
-
-					if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
-						continue;
-					}
-
-					for (int i = 0; i < liegeField.InitialEntries.Count; i++) {
-						var kvp = liegeField.InitialEntries[i];
-						if (kvp.Value.ToString()?.RemQuotes() == titleToErase.Id) {
-							liegeField.InitialEntries[i] = new(kvp.Key, newDFLiegeIdForInitialEntries);
-						}
-					}
-					foreach (var datedEntriesBlock in liegeField.DateToEntriesDict) {
-						for (int i = 0; i < datedEntriesBlock.Value.Count; i++) {
-							var kvp = datedEntriesBlock.Value[i];
-							if (kvp.Value.ToString()?.RemQuotes() == titleToErase.Id) {
-								var newDFLiegeId = titleToErase.GetLiegeId(datedEntriesBlock.Key)?.RemQuotes() ?? "0";
-								datedEntriesBlock.Value[i] = new(kvp.Key, newDFLiegeId);
-							}
-						}
-					}
-				}
+				RemoveTitleFromDeJureRelationships(titleToErase);
+				RemoveTitleFromDeFactoRelationships(titleToErase);
 
 				if (titleToErase.ImperatorCountry is not null) {
 					titleToErase.ImperatorCountry.CK3Title = null;
 				}
 			}
+
 			dict.Remove(titleId);
 		}
+
+		private void RemoveTitleFromDeFactoRelationships(Title titleToErase) {
+			// For all the de facto vassals of titleToErase, make titleToErase's liege their direct liege.
+			var newDFLiegeIdForInitialEntries = titleToErase.GetLiegeId(date: null)?.RemQuotes() ?? "0";
+			foreach (var title in this) {
+				if (title.Id == titleToErase.Id) {
+					continue;
+				}
+
+				if (title.Rank >= titleToErase.Rank) {
+					continue;
+				}
+
+				if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
+					continue;
+				}
+
+				for (int i = 0; i < liegeField.InitialEntries.Count; i++) {
+					var kvp = liegeField.InitialEntries[i];
+					if (kvp.Value.ToString()?.RemQuotes() == titleToErase.Id) {
+						liegeField.InitialEntries[i] = new(kvp.Key, newDFLiegeIdForInitialEntries);
+					}
+				}
+
+				foreach (var datedEntriesBlock in liegeField.DateToEntriesDict) {
+					for (int i = 0; i < datedEntriesBlock.Value.Count; i++) {
+						var kvp = datedEntriesBlock.Value[i];
+						if (kvp.Value.ToString()?.RemQuotes() == titleToErase.Id) {
+							var newDFLiegeId = titleToErase.GetLiegeId(datedEntriesBlock.Key)?.RemQuotes() ?? "0";
+							datedEntriesBlock.Value[i] = new(kvp.Key, newDFLiegeId);
+						}
+					}
+				}
+			}
+		}
+
+		private static void RemoveTitleFromDeJureRelationships(Title titleToErase) {
+			// For all the de jure vassals of titleToErase, make titleToErase's liege their direct liege.
+			if (titleToErase.DeJureLiege is not null) {
+				foreach (var vassal in titleToErase.DeJureVassals) {
+					vassal.DeJureLiege = titleToErase.DeJureLiege;
+				}
+			}
+
+			// Remove two-way de jure liege-vassal link.
+			titleToErase.DeJureLiege = null;
+		}
+
 		public Title? GetCountyForProvince(ulong provinceId) {
 			foreach (var county in this.Where(title => title.Rank == TitleRank.county)) {
 				if (county.CountyProvinceIds.Contains(provinceId)) {
@@ -753,7 +775,6 @@ internal sealed partial class Title {
 					irLocDB,
 					ck3LocDB,
 					provinceMapper,
-					coaMapper,
 					definiteFormMapper,
 					imperatorRegionMapper,
 					config

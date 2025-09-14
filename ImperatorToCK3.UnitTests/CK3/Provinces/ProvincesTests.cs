@@ -113,7 +113,7 @@ public class ProvincesTests {
 		var religions = new ReligionCollection(titles);
 		var religionMapper = new ReligionMapper(religions, irRegionMapper, ck3RegionMapper);
 		var ck3MapData = new MapData(ck3ModFs);
-		ck3MapData.ProvinceDefinitions.Add(new ProvinceDefinition(1) {});
+		ck3MapData.ProvinceDefinitions.Add(new ProvinceDefinition(1));
 		ck3Provinces.ImportImperatorProvinces(irWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 		
 		var targetProvince = ck3Provinces[1];
