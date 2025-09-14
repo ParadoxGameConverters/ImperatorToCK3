@@ -31,6 +31,7 @@ using ImperatorToCK3.Mappers.War;
 using ImperatorToCK3.Mappers.UnitType;
 using ImperatorToCK3.Outputter;
 using log4net.Core;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
