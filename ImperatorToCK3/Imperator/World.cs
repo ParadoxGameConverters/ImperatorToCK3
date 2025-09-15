@@ -331,9 +331,9 @@ internal partial class World {
 		Logger.Info("Linking Countries with Families...");
 		Countries.LinkFamilies(Families);
 
-		RemoveEmptyCountries();
-
 		LoadPreImperatorRulers();
+
+		RemoveEmptyCountries();
 
 		// Detect specific mods.
 		InvictusDetected = GlobalFlags.Contains("is_playing_invictus");
@@ -404,10 +404,10 @@ internal partial class World {
 	}
 
 	private void RemoveEmptyCountries() {
-		// Drop countries with no monarch and no territories.
-		int count = Countries.RemoveAll(country => country is {Monarch: null, TerritoriesCount: 0});
+		// Drop countries with no monarch, no territories and no pre-Imperator rulers.
+		int count = Countries.RemoveAll(c => c is {Monarch: null, TerritoriesCount: 0, RulerTerms.Count: 0});
 		if (count > 0) {
-			Logger.Info($"Removed {count} empty countries.");
+			Logger.Notice($"Removed {count} empty countries.");
 		}
 	}
 
