@@ -407,7 +407,7 @@ internal partial class World {
 		// Drop countries with no monarch, no territories and no pre-Imperator rulers.
 		int count = Countries.RemoveAll(c => c is {Monarch: null, TerritoriesCount: 0, RulerTerms.Count: 0});
 		if (count > 0) {
-			Logger.Notice($"Removed {count} empty countries.");
+			Logger.Info($"Removed {count} empty countries.");
 		}
 	}
 
