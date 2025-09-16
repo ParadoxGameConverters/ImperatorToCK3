@@ -101,8 +101,6 @@ jobs:
           Get-Content "result.txt"
           
           # Count different types of issues
-          $tips = (Select-String -Path "result.txt" -Pattern "tips(" -AllMatches).Matches.Count
-          $untidy = (Select-String -Path "result.txt" -Pattern "untidy(" -AllMatches).Matches.Count
           $warnings = (Select-String -Path "result.txt" -Pattern "warning(" -AllMatches).Matches.Count
           $errors = (Select-String -Path "result.txt" -Pattern "error(" -AllMatches).Matches.Count
           $fatal = (Select-String -Path "result.txt" -Pattern "fatal(" -AllMatches).Matches.Count
