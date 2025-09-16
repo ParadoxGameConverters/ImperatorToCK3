@@ -74,3 +74,7 @@
  burmic_afterlife: "the city of Nats"
  witchgodname_burmic_the_shadow: "the Shadow"
  witchgodname_burmic_the_shadow_possessive: "the Shadow's"
+
+ burmic_positive_afterlife: "$burmic_afterlife$" # defined to IRToCK3 because it was missing
+ burmic_priest_term_plural: "$paganism_priest_alternate_plural$" # defined to IRToCK3 because it was missing
+ burmic_negative_afterlife: "$paganism_afterlife$" # defined to IRToCK3 because it was missing
