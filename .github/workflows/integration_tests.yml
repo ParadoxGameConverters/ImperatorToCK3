@@ -72,7 +72,7 @@ jobs:
         $tigerConfigPath = "$env:GITHUB_WORKSPACE\.github\workflows\ck3-tiger.conf"
         
         # Run tiger and capture output
-        cmd /c "`"$tigerPath`" --no-color --config `"$tigerConfigPath`" `"$modPath`" > result.txt 2> result-error.txt"
+        cmd /c "`"$tigerPath`" --no-color --consolidate --config `"$tigerConfigPath`" `"$modPath`" > result.txt 2> result-error.txt"
 
         # Display any errors from stderr
         if (Test-Path "result-error.txt") {
@@ -101,44 +101,11 @@ jobs:
           Get-Content "result.txt"
           
           # Count different types of issues
-          $tips = (Select-String -Path "result.txt" -Pattern "tips" -AllMatches).Matches.Count
-          $untidy = (Select-String -Path "result.txt" -Pattern "untidy" -AllMatches).Matches.Count
-          $warnings = (Select-String -Path "result.txt" -Pattern "warning" -AllMatches).Matches.Count
-          $errors = (Select-String -Path "result.txt" -Pattern "error" -AllMatches).Matches.Count
-          $fatal = (Select-String -Path "result.txt" -Pattern "fatal" -AllMatches).Matches.Count
-          
-          Write-Host ""
-          Write-Host "Overview:" -ForegroundColor White
-          
-          if ($tips -gt 0) {
-            Write-Host " - $tips tips" -ForegroundColor White
-          } else {
-            Write-Host " - no tips" -ForegroundColor White
-          }
-          
-          if ($untidy -gt 0) {
-            Write-Host " - $untidy untidy hints" -ForegroundColor White
-          } else {
-            Write-Host " - no untidy hints" -ForegroundColor White
-          }
-          
-          if ($warnings -gt 0) {
-            Write-Host " - $warnings warnings" -ForegroundColor White
-          } else {
-            Write-Host " - no warnings" -ForegroundColor White
-          }
-          
-          if ($errors -gt 0) {
-            Write-Host " - $errors errors" -ForegroundColor White
-          } else {
-            Write-Host " - no errors" -ForegroundColor White
-          }
-          
-          if ($fatal -gt 0) {
-            Write-Host " - $fatal fatal errors" -ForegroundColor White
-          } else {
-            Write-Host " - no fatal errors" -ForegroundColor White
-          }
+          $tips = (Select-String -Path "result.txt" -Pattern "tips(" -AllMatches).Matches.Count
+          $untidy = (Select-String -Path "result.txt" -Pattern "untidy(" -AllMatches).Matches.Count
+          $warnings = (Select-String -Path "result.txt" -Pattern "warning(" -AllMatches).Matches.Count
+          $errors = (Select-String -Path "result.txt" -Pattern "error(" -AllMatches).Matches.Count
+          $fatal = (Select-String -Path "result.txt" -Pattern "fatal(" -AllMatches).Matches.Count
           
           # Check if validation failed
           if ($warnings -gt 0 -or $errors -gt 0 -or $fatal -gt 0) {
