@@ -24,7 +24,9 @@ public class ReligionTests {
 			faith => Assert.Equal("catholic", faith.Id));
 
 		var religionStrWithoutWhitespace = Regex.Replace(PDXSerializer.Serialize(religion), @"\s", "");
-		religionStrWithoutWhitespace.Should().ContainAll("orthodox={}", "catholic={}");
+		religionStrWithoutWhitespace.Should().ContainAll(
+			"orthodox={localization={}}",
+			"catholic={localization={}}");
 	}
 
 	[Fact]
@@ -159,6 +161,51 @@ public class ReligionTests {
 		// Assert: The religious head should be serialized in the faith
 		religionStr.Should().Contain("religious_head=k_papal_state");
 	}
+	
+	[Fact]
+	public void DuplicatesInReligionLocalizationAreRemoved() {
+		var reader = new BufferedReader("""
+        {
+            localization = {
+                ReligiousHeadName = first_title
+                ReligiousHeadAdj = first_adj
+                ReligiousHeadName = second_title
+                ReligiousHeadAdj = second_adj
+            }
+        }
+        """);
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var religion = new Religion("test_religion", reader, religions, new ColorFactory());
+		string serializedReligion = PDXSerializer.Serialize(religion);
+		serializedReligion.Should().Contain("ReligiousHeadName=second_title");
+		serializedReligion.Should().Contain("ReligiousHeadAdj=second_adj");
+		serializedReligion.Should().NotContain("first_title");
+		serializedReligion.Should().NotContain("first_adj");
+	}
+
+	[Fact]
+	public void DuplicatesInFaithLocalizationAreRemoved() {
+		var reader = new BufferedReader(@"{
+			faiths = {
+				test_faith = {
+					localization = {
+						ReligiousHeadName = first_title
+						ReligiousHeadAdj = first_adj
+						ReligiousHeadName = second_title
+						ReligiousHeadAdj = second_adj
+					}
+				}
+			}
+		}");
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var religion = new Religion("test_religion", reader, religions, new ColorFactory());
+		var faith = religion.Faiths.First(f => f.Id == "test_faith");
+		string serializedFaith = PDXSerializer.Serialize(faith);
+		serializedFaith.Should().Contain("ReligiousHeadName=second_title");
+		serializedFaith.Should().Contain("ReligiousHeadAdj=second_adj");
+		serializedFaith.Should().NotContain("first_title");
+		serializedFaith.Should().NotContain("first_adj");
+	}
 
 	[Fact]
 	public void FaithAttributesAreParsedAndStored() {
@@ -167,9 +214,9 @@ public class ReligionTests {
 			faiths = {
 				test_faith = {
 					icon = custom_faith_icon
-					localization = test_faith_loc
 					custom_modifier = some_value
 					special_mechanic = yes
+					localization = {}
 				}
 			}
 		}");
@@ -184,9 +231,9 @@ public class ReligionTests {
 		var faithStr = PDXSerializer.Serialize(faith);
 		faithStr.Should().ContainAll(
 			"icon = custom_faith_icon",
-			"localization = test_faith_loc", 
 			"custom_modifier = some_value",
-			"special_mechanic = yes"
+			"special_mechanic = yes",
+			"localization={"
 		);
 	}
 }

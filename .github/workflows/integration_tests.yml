@@ -101,9 +101,9 @@ jobs:
           Get-Content "result.txt"
           
           # Count different types of issues
-          $warnings = (Select-String -Path "result.txt" -Pattern "warning(" -AllMatches).Matches.Count
-          $errors = (Select-String -Path "result.txt" -Pattern "error(" -AllMatches).Matches.Count
-          $fatal = (Select-String -Path "result.txt" -Pattern "fatal(" -AllMatches).Matches.Count
+          $warnings = (Select-String -Path "result.txt" -Pattern "warning\(" -AllMatches).Matches.Count
+          $errors = (Select-String -Path "result.txt" -Pattern "error\(" -AllMatches).Matches.Count
+          $fatal = (Select-String -Path "result.txt" -Pattern "fatal\(" -AllMatches).Matches.Count
           
           # Check if validation failed
           if ($warnings -gt 0 -or $errors -gt 0 -or $fatal -gt 0) {
