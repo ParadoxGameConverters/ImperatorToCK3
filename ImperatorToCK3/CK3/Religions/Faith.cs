@@ -23,6 +23,7 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		ReligiousHeadTitleId = faithData.ReligiousHeadTitleId;
 		DoctrineIds = faithData.DoctrineIds.ToOrderedSet();
 		holySiteIds = faithData.HolySiteIds.ToOrderedSet();
+		localization = new(faithData.Localization);
 		attributes = [.. faithData.Attributes];
 
 		// Fixup for issue found in TFE: add reformed_icon if faith has unreformed_faith_doctrine.
@@ -50,6 +51,7 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 	private readonly OrderedSet<string> holySiteIds;
 	public IReadOnlyCollection<string> HolySiteIds => [.. holySiteIds];
 	private readonly KeyValuePair<string, StringOfItem>[] attributes;
+	private readonly OrderedDictionary<string, StringOfItem> localization;
 
 	public void ReplaceHolySiteId(string oldId, string newId) {
 		if (holySiteIds.Remove(oldId)) {
@@ -82,7 +84,13 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		foreach (var doctrineId in DoctrineIds) {
 			sb.Append(contentIndent).AppendLine($"doctrine={doctrineId}");
 		}
-		
+
+		sb.Append(contentIndent).AppendLine("localization={");
+		foreach (var (key, value) in localization) {
+			sb.Append(contentIndent).Append('\t').AppendLine($"{key}={value}");
+		}
+		sb.Append(contentIndent).AppendLine("}");
+
 		sb.AppendLine(PDXSerializer.Serialize(attributes, indent: contentIndent, withBraces: false));
 
 		if (withBraces) {
