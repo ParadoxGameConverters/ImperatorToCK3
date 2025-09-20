@@ -175,7 +175,8 @@ internal static class FileTweaker {
 				
 				if (!fileContent.Contains(searchString)) {
 					if (warnIfNotFound) {
-						Logger.Warn($"Block not found in file {relativePath}: {searchString}");
+						string escapedSearchString = searchString.Replace("\r", "\\r").Replace("\n", "\\n");
+						Logger.Warn($"Block not found in file {relativePath}: {escapedSearchString}");
 					}
 					continue;
 				}
