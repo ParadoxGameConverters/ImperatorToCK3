@@ -1045,107 +1045,50 @@ set_minorities_game_start = {
 		# Punic
 		if = {
 			limit = {
-				game_start_date <= 600.1.1
+				game_start_date < 600.1.1
 			}
 			add_culture_minority_effect = {
 				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_tunis
+				SIZE = small
+				COUNTY = title:c_syrte
 			}
 			add_faith_minority_effect = {
 				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_tunis
+				SIZE = small
+				COUNTY = title:c_syrte
 			}
 			add_culture_minority_effect = {
 				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_satfura
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_satfura
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_medjerda
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_medjerda
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_kairwan
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_kairwan
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_mahdiya
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_mahdiya
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_sfax
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_sfax
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_gabes
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_gabes
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_djerba
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_djerba
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_tripolitana
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_tripolitana
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
+				SIZE = small
 				COUNTY = title:c_labda
 			}
 			add_faith_minority_effect = {
 				FAITH = faith:carthage_pagan
-				SIZE = large
+				SIZE = small
 				COUNTY = title:c_labda
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:punic
+				SIZE = small
+				COUNTY = title:c_tripolitana
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:carthage_pagan
+				SIZE = small
+				COUNTY = title:c_tripolitana
+			}
+		}
+
+		# Romans in Vandal Carthage
+		if = {
+			limit = {
+				game_start_date < 550.1.1
+				game_start_date > 440.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:afro_roman
+				SIZE = large
+				COUNTY = title:c_tunis
 			}
 		}
 
@@ -2392,6 +2335,11 @@ set_minorities_game_start = {
 			SIZE = large
 			COUNTY = title:c_batina
 		}
+		add_faith_minority_effect = { # There were Mazdakite communities in Arabia, unclear where
+			FAITH = faith:mazdakism
+			SIZE = small
+			COUNTY = title:c_batina
+		}
 		add_culture_minority_effect = {
 			CULTURE = culture:persian
 			SIZE = large
@@ -2400,6 +2348,11 @@ set_minorities_game_start = {
 		add_faith_minority_effect = {
 			FAITH = faith:mazdayasna
 			SIZE = large
+			COUNTY = title:c_muscat
+		}
+		add_faith_minority_effect = { # There were Mazdakite communities in Arabia, unclear where
+			FAITH = faith:mazdakism
+			SIZE = small
 			COUNTY = title:c_muscat
 		}
 		add_culture_minority_effect = {
@@ -2409,6 +2362,11 @@ set_minorities_game_start = {
 		}
 		add_faith_minority_effect = {
 			FAITH = faith:mazdayasna
+			SIZE = small
+			COUNTY = title:c_julfar
+		}
+		add_faith_minority_effect = { # There were Mazdakite communities in Arabia, unclear where
+			FAITH = faith:mazdakism
 			SIZE = small
 			COUNTY = title:c_julfar
 		}
@@ -4303,6 +4261,344 @@ set_minorities_game_start = {
 			COUNTY = title:c_yumenguan
 		}
 
+		# Egyptians across the border in Nubia
+		add_culture_minority_effect = {
+			CULTURE = culture:kemetic
+			SIZE = large
+			COUNTY = title:c_kalabsha
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:aegyptian
+			SIZE = large
+			COUNTY = title:c_kalabsha
+		}
+		if = {
+			limit = {
+				game_start_date <= 476.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:egyptian_pagan
+				SIZE = large
+				COUNTY = title:c_kalabsha
+			}
+		}
+		# Roman remnants in Dodekaschoinos (northern part of Triakontaschoinos) which was abandoned in 298 CE officially
+		if = {
+			limit = {
+				game_start_date < 400.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:kemetic
+				SIZE = small
+				COUNTY = title:c_qurta
+			}			
+			add_culture_minority_effect = {
+				CULTURE = culture:aegyptian
+				SIZE = small
+				COUNTY = title:c_qurta
+			}			
+			add_faith_minority_effect = {
+				FAITH = faith:egyptian_pagan
+				SIZE = small
+				COUNTY = title:c_qurta
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:kemetic
+				SIZE = small
+				COUNTY = title:c_qasr_ibrim
+			}			
+			add_culture_minority_effect = {
+				CULTURE = culture:aegyptian
+				SIZE = small
+				COUNTY = title:c_qasr_ibrim
+			}			
+			add_faith_minority_effect = {
+				FAITH = faith:egyptian_pagan
+				SIZE = small
+				COUNTY = title:c_qasr_ibrim
+			}
+		}
+		#Brittonic minority in south-east Britain
+		if = {
+			limit = {
+				game_start_date < 600.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:briton
+				SIZE = large
+				COUNTY = title:c_essex
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:briton
+				SIZE = large
+				COUNTY = title:c_kent
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:briton
+				SIZE = large
+				COUNTY = title:c_surrey
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:briton
+				SIZE = large
+				COUNTY = title:c_sussex
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:briton
+				SIZE = large
+				COUNTY = title:c_hampton
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:briton
+				SIZE = large
+				COUNTY = title:c_isle_of_wight
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:briton
+				SIZE = small
+				COUNTY = title:c_middlesex
+			}
+		}
+		#Britano-Roman minority in major british cities
+		if = {
+			limit = {
+				game_start_date < 410.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:britano_roman
+				SIZE = small
+				COUNTY = title:c_gloucestershire
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:britano_roman
+				SIZE = small
+				COUNTY = title:c_warwickshire
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:britano_roman
+				SIZE = small
+				COUNTY = title:c_north_riding
+			}
+		}
+		#Greeks in Constantinople
+		if = {
+			limit = {
+				game_start_date < 476.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:greek
+				SIZE = large
+				COUNTY = title:c_byzantion
+			}
+		}
+		# Judaism in North Arabia
+		if = {
+			limit = {
+				game_start_date < 600.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:rabbinism
+				SIZE = large
+				COUNTY = title:c_medina
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:rabbinism
+				SIZE = large
+				COUNTY = title:c_tayma
+			}
+		}
+		# Emerging Christianity in Arabia
+		if = {
+			limit = {
+				game_start_date < 395.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_al-arid
+			}
+		}
+		if = {
+			limit = {
+				game_start_date > 390.1.1
+				game_start_date < 451.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_surrah
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_yamama
+			}
+		}
+		if = {
+			limit = {
+				game_start_date > 451.1.1
+				game_start_date < 532.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = small
+				COUNTY = title:c_falaj
+			}
+		}
+		if = {
+			limit = {
+				game_start_date > 532.1.1
+				game_start_date < 600.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_yamama
+			}
+		}
+
+		if = {
+			limit = {
+				game_start_date > 300.1.1
+				game_start_date < 395.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_qatif
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_uwal
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_uqayr
+			}
+		}
+		if = {
+			limit = {
+				game_start_date > 395.1.1
+				game_start_date < 451.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_qatif
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_uwal
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_uqayr
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_julfar
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_dhafra
+			}
+
+		}
+		if = {
+			limit = {
+				game_start_date > 451.1.1
+				game_start_date < 532.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_uqayr
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_dhafra
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_julfar
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_uwal
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:mazdayasna
+				SIZE = small
+				COUNTY = title:c_uwal
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:persian
+				SIZE = small
+				COUNTY = title:c_uwal
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_qatif
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = small
+				COUNTY = title:c_batina
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = small
+				COUNTY = title:c_muscat
+			}
+		}
+		# Persians in North East Arabia
+		if = {
+			limit = {
+				game_start_date > 532.1.1
+				game_start_date < 600.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:mazdayasna
+				SIZE = large
+				COUNTY = title:c_uwal
+			}
+			add_faith_minority_effect = { # There were Mazdakite communities in Arabia, unclear where
+				FAITH = faith:mazdakism
+				SIZE = small
+				COUNTY = title:c_uwal
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:persian
+				SIZE = large
+				COUNTY = title:c_uwal
+			}
+		}
+		# Ebionites in North West Arabia that possibly survived in NW Arabia, particularly Tayma, into the 11th century
+		add_faith_minority_effect = {
+			FAITH = faith:ebionite
+			SIZE = large
+			COUNTY = title:c_tabuk
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:ebionite
+			SIZE = large
+			COUNTY = title:c_maan
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:ebionite
+			SIZE = large
+			COUNTY = title:c_tayma
+		}
 	}
 }
 	}
@@ -4339,102 +4635,81 @@ set_minorities_game_start = {
 						}
 	}
 	{
-		title:e_mongolia = {
-			every_in_de_jure_hierarchy = {
-				limit = {
-					is_title_created = yes
-				}
-				holder = {
-					if = {
-						limit = {
-							has_government = tribal_government
-						}
-						change_government = nomad_government
+			title:e_mongolia = {
+				every_in_de_jure_hierarchy = {
+					limit = {
+						is_title_created = yes
 					}
-				}
-			}
-		}
-		title:e_siberia = {
-			every_in_de_jure_hierarchy = {
-				limit = {
-					is_title_created = yes
-				}
-				holder = {
-					if = {
-						limit = {
-							has_government = tribal_government
-						}
-						change_government = nomad_government
-					}
-				}
-			}
-		}
-		title:e_volga-ural = {
-			every_in_de_jure_hierarchy = {
-				limit = {
-					is_title_created = yes
-				}
-				holder = {
-					if = {
-						limit = {
-							has_government = tribal_government
-						}
-						change_government = nomad_government
-					}
-				}
-			}
-		}
-		title:e_tartaria = {
-			every_in_de_jure_hierarchy = {
-				limit = {
-					is_title_created = yes
-				}
-				holder = {
-					if = {
-						limit = {
-							has_government = tribal_government
-						}
-						change_government = nomad_government
-					}
-				}
-			}
-		}
-		title:k_oghuz_il = {
-			every_in_de_jure_hierarchy = {
-				limit = {
-					is_title_created = yes
-				}
-				holder = {
-					if = {
-						limit = {
-							has_government = tribal_government
-						}
-						change_government = nomad_government
-					}
-				}
-			}
-		}
-		title:e_rajastan = {
-			every_in_de_jure_hierarchy = {
-				limit = {
-					is_title_created = yes
-				}
-				holder = {
-					if = {
-						limit = {
-							culture ?= {
-								has_cultural_tradition = tradition_gana_sangha
+					holder = {
+						if = {
+							limit = {
+								has_government = tribal_government
 							}
-							government_has_flag = government_is_tribal
-						}
-						change_government = gana_sangha_government
-						primary_title = {
-							add_title_law = gana_sangha_elective_succession_law
+							change_government = nomad_government
 						}
 					}
 				}
 			}
-		}
+			title:e_siberia = {
+				every_in_de_jure_hierarchy = {
+					limit = {
+						is_title_created = yes
+					}
+					holder = {
+						if = {
+							limit = {
+								has_government = tribal_government
+							}
+							change_government = nomad_government
+						}
+					}
+				}
+			}
+			title:e_volga-ural = {
+				every_in_de_jure_hierarchy = {
+					limit = {
+						is_title_created = yes
+					}
+					holder = {
+						if = {
+							limit = {
+								has_government = tribal_government
+							}
+							change_government = nomad_government
+						}
+					}
+				}
+			}
+			title:e_tartaria = {
+				every_in_de_jure_hierarchy = {
+					limit = {
+						is_title_created = yes
+					}
+					holder = {
+						if = {
+							limit = {
+								has_government = tribal_government
+							}
+							change_government = nomad_government
+						}
+					}
+				}
+			}
+			title:k_oghuz_il = {
+				every_in_de_jure_hierarchy = {
+					limit = {
+						is_title_created = yes
+					}
+					holder = {
+						if = {
+							limit = {
+								has_government = tribal_government
+							}
+							change_government = nomad_government
+						}
+					}
+				}
+			}
 	}
 
 	# Anachronistic
@@ -4494,12 +4769,22 @@ set_minorities_game_start = {
 				title:k_france = {
 					is_title_created = yes
 				}
-					title:k_croatia.holder ?= {
+					title:k_france.holder ?= {
 						game_start_date = 476.9.4
 					}
 				}
 			}
 			title:k_france.holder ?= {
+				if = {
+					limit = {
+						highest_held_title_tier >= tier_kingdom
+						has_dlc_feature = roads_to_power
+					}
+					change_government = autocratic_government_ep3
+				}
+				else_if = {
+					change_government = autocratic_government
+				}
 				every_vassal_or_below = {
 					limit = {
 						OR = {
@@ -5050,6 +5335,20 @@ set_minorities_game_start = {
 					SUZERAIN = character:aksum_12 
 				}
 			}
+			#Tanukhids
+			if = {
+				limit = {
+					AND = {
+						exists = character:tanukhid_01
+						exists = character:145237
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:tanukhid_01
+					SUZERAIN = character:145237 
+				}
+			}
 			character:990016 = {
 				add_prestige = 1500
 				add_gold = 250
@@ -5256,6 +5555,34 @@ set_minorities_game_start = {
 			limit = {
 				game_start_date = 476.9.4
 			}
+			#Theodoric
+			if = {
+				limit = {
+					AND = {
+						exists = character:992016
+						exists = character:70515
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:992016
+					SUZERAIN = character:70515
+				}
+			}
+			#Strabo
+			if = {
+				limit = {
+					AND = {
+						exists = character:strabo_02
+						exists = character:70515
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:strabo_02
+					SUZERAIN = character:70515
+				}
+			}
 			if = {
 				limit = {
 					AND = {
@@ -5352,6 +5679,20 @@ set_minorities_game_start = {
 					game_start_date < 396.1.1
 				}
 			}
+			#Franks
+			if = {
+				limit = {
+					AND = {
+						exists = character:900016
+						exists = character:145227
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:900016
+					SUZERAIN = character:145227 
+				}
+			}
 			if = {
 				limit = {
 					AND = {
@@ -5418,7 +5759,7 @@ set_minorities_game_start = {
 				}
 			}
 		}
-
+		#ROMAN TRIBS 361
 		if = {
 			limit = {
 				AND = {
@@ -5429,8 +5770,8 @@ set_minorities_game_start = {
 			if = {
 				limit = {
 					AND = {
-						exists = character:afroroman_01
-						exists = character:145237
+						exists = character:afroroman_01 #Navigius
+						exists = character:145237 #Julian
 					}
 				}
 				start_tributary_interaction_effect = {
@@ -5443,7 +5784,7 @@ set_minorities_game_start = {
 				limit = {
 					AND = {
 						exists = character:mauri_17
-						exists = character:145237
+						exists = character:145237 #Julian
 					}
 				}
 				start_tributary_interaction_effect = {
@@ -5455,8 +5796,8 @@ set_minorities_game_start = {
 			if = {
 				limit = {
 					AND = {
-						exists = character:arsacid_46
-						exists = character:145237
+						exists = character:arsacid_46 #Arshak (Armenia)
+						exists = character:145237 #Julian
 					}
 				}
 				start_tributary_interaction_effect = {
@@ -5482,12 +5823,38 @@ set_minorities_game_start = {
 				limit = {
 					AND = {
 						exists = character:mauri_22
-						exists = character:145237
+						exists = character:145237 #Julian
 					}
 				}
 				start_tributary_interaction_effect = {
 					#TYPE = tributary_permanent
 					TRIBUTARY = character:mauri_22
+					SUZERAIN = character:145237
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:lazika_03 #Levan (Lazica)
+						exists = character:145237 #Julian
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:lazika_03
+					SUZERAIN = character:145237
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:159758 #Saurmag (Iberia)
+						exists = character:145237 #Julian
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:159758
 					SUZERAIN = character:145237
 				}
 			}
@@ -5502,19 +5869,6 @@ set_minorities_game_start = {
 				start_tributary_interaction_effect = {
 					#TYPE = tributary_permanent
 					TRIBUTARY = character:159582
-					SUZERAIN = character:180617 
-				}
-			}
-			if = {
-				limit = {
-					AND = {
-						exists = character:159758
-						exists = character:180617
-					}
-				}
-				start_tributary_interaction_effect = {
-					#TYPE = tributary_permanent
-					TRIBUTARY = character:159758
 					SUZERAIN = character:180617 
 				}
 			}
@@ -5684,6 +6038,29 @@ set_minorities_game_start = {
 				}
 			}
 		}
+		
+		###TIBET
+		# if = {
+		# 	limit = {
+		# 		AND = {
+		# 			game_start_date > 630.1.1
+		# 			game_start_date < 640.1.1
+		# 		}
+		# 	}
+		# 	if = {
+		# 		limit = {
+		# 			AND = {
+		# 				exists = character:sumpa_10
+		# 				exists = character:247075
+		# 			}
+		# 		}
+		# 		start_tributary_interaction_effect = {
+		# 			#TYPE = tributary_permanent
+		# 			TRIBUTARY = character:sumpa_10
+		# 			SUZERAIN = character:247075
+		# 		}
+		# 	}
+		# }
 
 		###532 BM Caucasus
 		if = {
@@ -5691,6 +6068,20 @@ set_minorities_game_start = {
 				AND = {
 					game_start_date > 530.1.1
 					game_start_date < 540.1.1
+				}
+			}
+			#Heruli
+			if = {
+				limit = {
+					AND = {
+						exists = title:k_heruli.holder
+						exists = title:e_byzantium.holder
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = title:k_heruli.holder
+					SUZERAIN = title:e_byzantium.holder
 				}
 			}
 			if = {
@@ -5756,6 +6147,83 @@ set_minorities_game_start = {
 					#TYPE = tributary_permanent
 					TRIBUTARY = title:k_ghassanid.holder
 					SUZERAIN = title:e_byzantium.holder
+				}
+			}
+		}
+
+		###632 BM/Bookmark Tributaries
+		if = {
+			limit = {
+				AND = {
+					game_start_date > 630.1.1
+					game_start_date < 640.1.1
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = title:c_bamian.holder
+						exists = title:k_kabulistan.holder # Tukhara Yabghus
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = title:c_bamian.holder
+					SUZERAIN = title:k_kabulistan.holder
+				}
+			}
+			###EASTERN ROMAN 632
+			if = {
+				limit = {
+					AND = {
+						exists = character:160025 #Barnuk (Lazica/Abkhazia)
+						exists = character:145071 #Heraclius
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:160025
+					SUZERAIN = character:145071
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:159778 #Adarnase (Iberia)
+						exists = character:145071 #Heraclius
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:159778
+					SUZERAIN = character:145071
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:ghassanid_42 #Jabalah (Ghassanids)
+						exists = character:145071 #Heraclius
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:ghassanid_42
+					SUZERAIN = character:145071
+				}
+			}
+			###AVARS 632
+			if = {
+				limit = {
+					AND = {
+						exists = character:159117 #Kubrat
+						exists = character:146154 #Khuterkin
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:159117
+					SUZERAIN = character:146154
 				}
 			}
 		}
@@ -6133,12 +6601,12 @@ set_minorities_game_start = {
 						top_liege = title:e_byzantium.holder
 					}
 				}
+				set_global_variable = {
+					name = ostrogoth_revolt
+					value = yes
+				}
 				trigger_event = {
 					id = germanic_events.0028
-					set_global_variable = {
-						name = ostrogoth_revolt
-						value = yes
-					}
 					days = 1
 				}
 			}
@@ -6958,7 +7426,7 @@ start_vandalic_war_effect = {
 		start_war = {
 			cb = vandalic_war_cb
 			target = title:k_vandals.holder
-			target_title = title:k_vandals
+			target_title = title:k_vandals.holder.capital_county
 			claimant = global_var:justinian_commander
 		}
 	}
@@ -7223,10 +7691,19 @@ start_gothic_war_effect = {
 			}
 		}
 		title:e_byzantium.holder = {
+			if = {
+				limit = {
+					OR = {
+						any_truce_target = { this = title:k_ostrogoths.holder }
+						any_truce_holder = { this = title:k_ostrogoths.holder }
+					}
+				}
+				cancel_truce_both_ways = title:k_ostrogoths.holder
+			}
 			start_war = {
 				cb = gothic_war_regular_cb
 				target = title:k_ostrogoths.holder
-				target_title = title:k_ostrogoths
+				target_title = title:k_ostrogoths.holder.capital_county
 				claimant = title:e_byzantium.holder
 			}
 		}
@@ -7314,27 +7791,11 @@ end_gothic_war_early_effect = {
 	        }
 	}
 	{
-            	modifier = {
-               	add = 999
-                exists = this
-		        exists = character:himyarite_30 #Abraha
-		        this = character:himyarite_30 #Abraha
-	        }
-	}
-	{
             modifier = {
                 add = 999
 		        exists = this
                 exists = character:142 #robert_curthose
                 this = character:142 #robert_curthose
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:70515  #Zeno
-                this = character:70515  #Zeno
             }
 	}
 	{
@@ -7348,33 +7809,9 @@ end_gothic_war_early_effect = {
 	{
             modifier = {
                 add = 999
-                exists = this
-                exists = character:syagri_06 #Syagrus
-                this = character:syagri_06 #Syagrus
-            }
-	}
-	{
-	    modifier = {
-                add = 999
-                exists = this
-                exists = character:rugian_03 #Feletheus
-                this = character:rugian_03 #Feletheus
-            }
-	}
-	{
-            modifier = {
-                add = 999
 				exists = this
 				exists = character:6878 #jarl_haesteinn
 				this = character:6878 #jarl_haesteinn
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:aelling_01 #Aelle
-                this = character:aelling_01 #Aelle
             }
 	}
 
@@ -7405,30 +7842,6 @@ end_gothic_war_early_effect = {
                 exists = character:765 #princess_swietoslawa
                 this = character:765 #princess_swietoslawa
             }
-            modifier = {
-               	add = 999
-                exists = this
-                exists = character:930551279 #eudoxia
-                this = character:930551279 #eudoxia
-            }
-            modifier = {
-               	add = 999
-                exists = this
-                exists = character:placidia_01 #placidia
-                this = character:placidia_01 #placidia
-            }
-            modifier = {
-               	add = 999
-                exists = this
-                exists = character:900065 #serena
-                this = character:900065 #serena
-            }
-		modifier = {
-			add = 999
-                	exists = this
-                	exists = character:992020 #Amalasuntha
-                	this = character:992020 #Amalasuntha
-		}
  		modifier = {
 			add = 999
                 	exists = this
@@ -7537,11 +7950,6 @@ end_gothic_war_early_effect = {
                 exists = character:997005 #Chlodovech
                 this = character:997005 #Chlodovech
             }
-		modifier = {
-		add = 999
-		exists = character:997013 #Chlothar
-		this = character:997013 #Chlothar
-	    }
             modifier = {
                 add = 999
                 exists = this
@@ -7569,18 +7977,6 @@ end_gothic_war_early_effect = {
                 exists = this
                 exists = character:145072 #Focas
                 this = character:145072 #Focas
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:145071 #Heraclius
-                this = character:145071 #Heraclius
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:armenian_01 #Narses
-                this = character:armenian_01 #Narses
             }
             modifier = {
                 add = 999
@@ -7674,32 +8070,20 @@ end_gothic_war_early_effect = {
             modifier = {
                 add = 999
                 exists = this
-                exists = character:200290 #Atawulf
-                this = character:200290 #Arawulf
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:180618 #Bahram
-                this = character:180618 #Bahram
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997004 #Childeric
-                this = character:997004 #Childeric
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997009 #Theodoric Meroving
-                this = character:997009 #Theodoric Meroving
-            }
-            modifier = {
-                add = 999
-                exists = this
                 exists = character:997011 #Chlodomir
                 this = character:997011 #Chlodomir
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:168697 #Charibert
+                this = character:168697 #Charibert
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:168696 #Dagobert
+                this = character:168696 #Dagobert
             }
 	}
 	{
@@ -7733,45 +8117,13 @@ end_gothic_war_early_effect = {
                 exists = character:easteregg_christian_daflos
                 this = character:easteregg_christian_daflos
             }
-            modifier = {
-                add = 999
-		exists = this
-                exists = character:70517  #Leo
-                this = character:70517  #Leo
-            }
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:mauro_roman_kings_02  #Massonas
-                this = character:mauro_roman_kings_02  #Massonas
-            }
 	}
 	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:205141 #Ceredig
-                this = character:205141 #Ceredig
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:70512 #Justinian
-                this = character:70512 #Justinian
-            }
             modifier = {
                 add = 999
                 exists = this
                 exists = character:cappadocia_07 #Ioannes
                 this = character:cappadocia_07 #Ioannes
-            }
-	}
-	{
-            modifier = {
-                add = 999
-				exists = this
-                exists = character:quadi_04 # Hermerich of the Quadi
-                this = character:quadi_04 # Hermerich of the Quadi
             }
 	}
 	{
@@ -7823,12 +8175,6 @@ end_gothic_war_early_effect = {
                 exists = character:easteregg_martin_anward
                 this = character:easteregg_martin_anward
             }
-            modifier = {
-                add = 999
-                exists = this
-		        exists = character:6392 #charlemagne
-		        this = character:6392 #charlemagne
-            }
 	}
 	{
             modifier = {
@@ -7860,43 +8206,7 @@ end_gothic_war_early_effect = {
                 exists = this
                 exists = character:easteregg_zack_holmgren
                 this = character:easteregg_zack_holmgren
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:159431 #Conan Meriadoc
-                this = character:159431 #tiberius
             } 
-            modifier = {
-               	add = 999
-                exists = this
-		        exists = character:999103 #king_alaric
-		        this = character:999103 #king_alaric
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:159038 #Coel
-                this = character:159038 #ACoel
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:constantinus_05 #Ambrosius
-                this = character:constantinus_05 #Ambrosius
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:mauri_42 #Iabdas
-                this = character:mauri_42 #Iabdas
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997002 #Chlodio
-                this = character:997002 #Chlodio
-            }
 	}
 	{
             modifier = {
@@ -7904,30 +8214,6 @@ end_gothic_war_early_effect = {
 				exists = this
 				exists = character:easteregg_james_beaumont
 				this = character:easteregg_james_beaumont
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:maldras_06 #Hermenerich
-                this = character:maldras_06 #Hermenerich
-            }
-	    modifier = {
-                add = 999
-                exists = this
-                exists = character:982001 #Abu Karib
-                this = character:982001 #Abu Karib
-            }
-	    modifier = {
-                add = 999
-                exists = this
-                exists = character:xionite_001 #Kidara
-                this = character:xionite_001 #Kidara
-            }
-	    modifier = {
-                add = 999
-                exists = this
-                exists = character:samo_01  #Samo
-                this = character:samo_01  #Samo
             }
 	}
 	{
@@ -7943,106 +8229,6 @@ end_gothic_war_early_effect = {
                 exists = character:1316 #emperor_heinrich
                 this = character:1316 #emperor_heinrich
             }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992016 #theodoric_the_great
-                this = character:992016 #theodoric_the_great
-            }
-            modifier = {
-                add = 999
-		        exists = this
-                exists = character:83432 #Eochaid
-                this = character:83432 #Eochaid
-            }
-	}
-	{
-            modifier = {
-             modifier = {
-                add = 999
-				exists = this
-                exists = character:easteregg_nils_wadensten
-                this = character:easteregg_nils_wadensten
-            }
-              	add = 999
-                exists = this
-		        exists = character:900062 #stilicho
-		        this = character:900062 #stilicho
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:70519  #Imperator Arcadius I
-                this = character:70519  #Imperator Arcadius I
-	        }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:145227 #Imperator Honorius I
-                this = character:145227 #Imperator Honorius I
-	        }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:nepos_02  #Nepos
-                this = character:nepos_02  #Nepos
-	        }
-            modifier = {
-               	add = 999
-                exists = this
-		exists = character:145237 #julian_the_apostate
-		this = character:145237 #julian_the_apostate
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:londinium_01 #Riothamus
-                this = character:londinium_01 #Riothamus
-            }
-	    modifier = {
-               	add = 999
-                exists = this
-		exists = character:arsacid_58 #vramshapuh
-		this = character:arsacid_58 #vramshapuh
-	    }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:vandals_005 #Hilderic
-                this = character:vandals_005 #Hilderic
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992022 #Theodahad
-                this = character:992022 #Theodahad
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:991004 #Mundus
-                this = character:991004 #Mundus
-            }
-             modifier = {
-                add = 999
-                exists = this
-                exists = character:greek_20 #Proklos
-                this = character:greek_20 #Proklos
-            }
-	}
-	{
-		modifier = {
-			add = 999
-                	exists = this
-                	exists = character:nuvelan_11 #Gildo
-                	this = character:nuvelan_11 #Gildo
-		}
-		modifier = {
-			add = 999
-                	exists = this
-                	exists = character:aksum_16 #Ouazeba
-                	this = character:aksum_16 #Ouazeba
-		}
 	}
 	{
             modifier = {
@@ -8089,12 +8275,6 @@ end_gothic_war_early_effect = {
                 exists = character:997003 #Merovech
                 this = character:997003 #Merovech
             }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992003 #Hermanaric
-                this = character:992003 #Hermanaric
-            }
 	}
 	{
             modifier = {
@@ -8120,12 +8300,6 @@ end_gothic_war_early_effect = {
 				exists = this
                 exists = character:easteregg_jonas_wickerstrom
                 this = character:easteregg_jonas_wickerstrom
-            }
-            modifier = {
-                add = 999
-                exists = this
-		        exists = character:900016 #faramund
-		        this = character:900016 #faramund
             }
 	}
 	{
@@ -8163,48 +8337,6 @@ end_gothic_war_early_effect = {
             }
 	}
 	{
-	        modifier = {
-                add = 999
-                exists = this
-                exists = character:alchonid_005 #Khingila
-                this = character:alchonid_005 #Khingila
-            }
-	        modifier = {
-                add = 999
-                exists = this
-                exists = character:hephthalite_misc_017 #Katulf
-                this = character:hephthalite_misc_017 #Katulf
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:belisarius_001 #Belisarius
-                this = character:belisarius_001 #Belisarius
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:200284 #euric
-                this = character:200284 #euric
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:180628 #Khosrau
-                this = character:180628 #Khosrau
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:mauri_36 #Masties
-                this = character:mauri_36 #Masties
-            }
-	}
-	{
             modifier = {
                 add = 999
                 exists = this
@@ -8223,97 +8355,6 @@ end_gothic_war_early_effect = {
                 exists = this
                 exists = character:107590 #el_cid
                 this = character:107590 #el_cid
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:159012 #Cadwallon
-                this = character:159012 #Cadwallon
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:ashina_03 #Tuwu
-                this = character:ashina_03 #Tuwu
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:ashina_05 #Istemi
-                this = character:ashina_05 #Istemi
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:200280 #Theodis
-                this = character:200280 #Theodis
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:ashina_04 #Bumin
-                this = character:ashina_04 #Bumin
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:waegmunding_2 #Beowulf
-                this = character:waegmunding_2 #Beowulf
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:996002 #odoacer
-                this = character:996002 #odoacer
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992023 #Athalaric
-                this = character:992023 #Athalaric
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992063 #Fritigern
-                this = character:992063 #Fritigern
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:900016 #Faramund
-                this = character:900016 #Faramund
-            }
-		modifier = {
-		add = 999
-		exists = character:990006 #Attila
-		this = character:990006 #Attila
-	    }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997012 #Childebert
-                this = character:997012 #Childebert
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:vandals_012 #Gelimer
-                this = character:vandals_012 #Gelimer
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:marshalnsc 
-                this = character:marshalnsc 
             }
 	}
 	{
@@ -8977,7 +9018,7 @@ cb_gothic_wars = {
 	}
 
 	
-	target_titles = neighbor_land
+	target_titles = all
 	target_title_tier = county
 	ignore_effect = change_title_holder
 	should_show_war_goal_subview = yes
@@ -9208,7 +9249,7 @@ radagaisus_invasion_cb = {
 
 	combine_into_one = yes
 
-	target_titles = none
+	target_titles = all
 	target_title_tier = all
 	target_de_jure_regions_above = yes
 	ignore_effect = change_title_holder
@@ -9436,7 +9477,7 @@ cb_gothic_wars_amalasuntha = {
 	allowed_against_character = {
 	}
 
-	target_titles = none
+	target_titles = all
 	target_title_tier = all
 	target_de_jure_regions_above = yes
 	ignore_effect = change_title_holder
@@ -11828,10 +11869,19 @@ gothic_duchy_conquest_cb = {
 					id = western_roman.0063
 					days = 1
 				}
+				if = {
+					limit = {
+						OR = {
+							any_truce_target = { this = title:k_ostrogoths.holder }
+							any_truce_holder = { this = title:k_ostrogoths.holder }
+						}
+					}
+					cancel_truce_both_ways = title:k_ostrogoths.holder
+				}
 				start_war = {
 					cb = gothic_war_regular_cb
 					target = title:k_ostrogoths.holder
-					target_title = title:k_ostrogoths
+					target_title = title:k_ostrogoths.holder.capital_county
 					claimant = title:e_byzantium.holder
 				}
 			}
@@ -13585,56 +13635,14 @@ beards_scripted_characters = {
             modifier = {
                 add = 999
                 exists = this
-                exists = character:159038 #Coel
-                this = character:159038 #ACoel
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:900062 #Stilicho
-                this = character:900062 #Stilicho
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:180618 #Bahram
-                this = character:180618 #Bahram
-            }
-            modifier = {
-                add = 999
-		        exists = this
-                exists = character:83432 #Eochaid
-                this = character:83432 #Eochaid
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:londinium_01 #Riothamus
-                this = character:londinium_01 #Riothamus
-            }
-            modifier = {
-                add = 999
-                exists = this
                 exists = character:vigg_04 #Hengest
                 this = character:vigg_04 #Hengest
             }
             modifier = {
                 add = 999
                 exists = this
-                exists = character:constantinus_05 #Ambrosius
-                this = character:constantinus_05 #Ambrosius
-            }
-            modifier = {
-                add = 999
-                exists = this
                 exists = character:cappadocia_07 #Ioannes
                 this = character:cappadocia_07 #Ioannes
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:mauri_42 #Iabdas
-                this = character:mauri_42 #Iabdas
             }
             modifier = {
                 add = 999
@@ -13667,12 +13675,6 @@ beards_scripted_characters = {
 				exists = this
                 exists = character:42018 #karlmann
                 this = character:42018 #karlmann
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:991004 #Mundus
-                this = character:991004 #Mundus
             }
         }
     }
@@ -13756,12 +13758,6 @@ beards_scripted_characters = {
                 exists = character:easteregg_nils_wadensten
                 this = character:easteregg_nils_wadensten
             }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:waegmunding_2 #Beowulf
-                this = character:waegmunding_2 #Beowulf
-            }
         }
     }
 
@@ -13787,18 +13783,6 @@ beards_scripted_characters = {
 				exists = this
                 exists = character:1128 #duke_robert
                 this = character:1128 #duke_robert
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992016 #theodoric_the_great
-                this = character:992016 #theodoric_the_great
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992022 #Theodahad
-                this = character:992022 #Theodahad
             }
             modifier = {
                 add = 999
@@ -13832,18 +13816,6 @@ beards_scripted_characters = {
                 exists = character:easteregg_paul_depre
                 this = character:easteregg_paul_depre
             }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:999103 #Alaric I
-                this = character:999103 #Alaric I
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997002 #Chlodio
-                this = character:997002 #Chlodio
-            }
         }
     }
 
@@ -13858,12 +13830,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997004 #Childeric
-                this = character:997004 #Childeric
-            }
         }
     }
 
@@ -13890,18 +13856,6 @@ beards_scripted_characters = {
                 exists = character:easteregg_max_weltz
                 this = character:easteregg_max_weltz
             }
-            modifier = {
-               	add = 999
-                exists = this
-		exists = character:arsacid_58 #vramshapuh
-		this = character:arsacid_58 #vramshapuh
-	    }
-            modifier = {
-               	add = 999
-                exists = this
-                exists = character:145071 #Heraclius
-                this = character:145071 #Heraclius
-	    }
         }
     }
 
@@ -13916,30 +13870,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:159431 #Conan Meriadoc
-                this = character:159431 #Conan Meriadoc
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:maldras_06 #Hermenerich
-                this = character:maldras_06 #Hermenerich
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997009 #Theodoric Meroving
-                this = character:997009 #Theodoric Meroving
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992063 #Fritigern
-                this = character:992063 #Fritigern
-            }
         }
     }
 
@@ -13954,12 +13884,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-            	modifier = {
-               	add = 999
-                exists = this
-		        exists = character:990902 #Nesmeterpanakhet
-		        this = character:990902 #Nesmeterpanakhet
-	        }
         }
     }
 
@@ -13974,13 +13898,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-
-		modifier = {
-                add = 999
-                exists = this
-                exists = character:982001 #Abu Karib
-                this = character:982001 #Abu Karib
-            }
         }
     }
 
@@ -14000,18 +13917,6 @@ beards_scripted_characters = {
 				exists = this
                 exists = character:3924 #emir_yahya
                 this = character:3924 #emir_yahya
-            }
-	    modifier = {
-                add = 999
-                exists = this
-                exists = character:lakhmid_06 #al-Nu'Man
-                this = character:lakhmid_06 #al-Nu'Man
-            }
-	    modifier = {
-                add = 999
-                exists = this
-                exists = character:rugian_03 #Feletheus
-                this = character:rugian_03 #Feletheus
             }
         }
     }
@@ -14043,27 +13948,9 @@ beards_scripted_characters = {
             base = 0
             modifier = {
                 add = 999
-				exists = this
-                exists = character:quadi_04 # Hermerich of the Quadi
-                this = character:quadi_04 # Hermerich of the Quadi
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:syagri_06 #Syagrus
-                this = character:syagri_06 #Syagrus
-            }
-            modifier = {
-                add = 999
                 exists = this
                 exists = character:997005 #Chlodovech
                 this = character:997005 #Chlodovech
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:belisarius_001 #Belisarius
-                this = character:belisarius_001 #Belisarius
             }
             modifier = {
                 add = 999
@@ -14164,11 +14051,6 @@ beards_scripted_characters = {
                 exists = character:easteregg_peter_johannesson
                 this = character:easteregg_peter_johannesson
             }
-		modifier = {
-		add = 999
-		exists = character:997013 #Chlothar
-		this = character:997013 #Chlothar
-	    }
 	   }
     }
 
@@ -14183,16 +14065,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-		modifier = {
-		add = 999
-		exists = character:ashina_03 #Tuwu
-		this = character:ashina_03 #Tuwu
-	    }
-		modifier = {
-		add = 999
-		exists = character:ashina_04 #Bumin
-		this = character:ashina_04 #Bumin
-	    }
 	   }
     }
 
@@ -14213,27 +14085,6 @@ beards_scripted_characters = {
                 exists = character:159137 #almos_arpad
                 this = character:159137 #almos_arpad
             }
-		modifier = {
-		add = 999
-		exists = character:990006 #Attila
-		this = character:990006 #Attila
-	    }
-		modifier = {
-		add = 999
-		exists = character:ashina_05 #Istemi
-		this = character:ashina_05 #Istemi
-	    }
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:hephthalite_misc_017 #Katulf
-                this = character:hephthalite_misc_017 #Katulf
-            }
-		modifier = {
-		add = 999
-		exists = character:146154 #Khuterkin
-		this = character:146154 #Khuterkin
-	    }
 	   }
     }
 
@@ -14245,31 +14096,10 @@ beards_scripted_characters = {
                 template = scripted_character_beards_01
                 value = 0.64 # For the randomness to work correctly
             }
-        }   
+        }
         weight = {
             base = 0
         }
-        weight = {
-               	base = 0
-		modifier = {
-			add = 999
-                	exists = this
-                	exists = character:nuvelan_11 #Gildo
-                	this = character:nuvelan_11 #Gildo
-		}
-		modifier = {
-			add = 999
-                	exists = this
-                	exists = character:aksum_16 #Ouazeba
-                	this = character:aksum_16 #Ouazeba
-		}
-            	modifier = {
-               	add = 999
-                exists = this
-		        exists = character:himyarite_30 #Abraha
-		        this = character:himyarite_30 #Abraha
-	        }
-	}
     }
 
     male_beard_sub_saharan_02 = { # Stylish african goatee
@@ -14326,12 +14156,6 @@ beards_scripted_characters = {
 	    modifier = {
                 add = 999
                 exists = this
-                exists = character:alchonid_005 #Khingila
-                this = character:alchonid_005 #Khingila
-            }
-	    modifier = {
-                add = 999
-                exists = this
                 exists = character:arsacid_64 #Mystakon
                 this = character:arsacid_64 #Mystakon
             }
@@ -14349,18 +14173,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:900016 #Faramund
-                this = character:900016 #Faramund
-            }
-	    modifier = {
-                add = 999
-                exists = this
-                exists = character:xionite_001 #Kidara
-                this = character:xionite_001 #Kidara
-            }
 	    modifier = {
                 add = 999
                 exists = this
@@ -14435,12 +14247,6 @@ beards_scripted_characters = {
             modifier = {
                 add = 999
                 exists = this
-                exists = character:996002 #Odovacar
-                this = character:996002 #Odovacar
-            }
-            modifier = {
-                add = 999
-                exists = this
                 exists = character:91402 #Pepin
                 this = character:91402 #Pepin
             }
@@ -14471,12 +14277,6 @@ beards_scripted_characters = {
         }
         weight = {
             base = 0
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:frankish_10 #Radulf
-                this = character:frankish_10 #Radulf
-            }
             modifier = {
                 add = 999
                 exists = this
@@ -14514,12 +14314,6 @@ beards_scripted_characters = {
             modifier = {
                 add = 999
                 exists = this
-                exists = character:200280 #Theodis
-                this = character:200280 #Theodis
-            }
-            modifier = {
-                add = 999
-                exists = this
                 exists = character:997015 #Theodobert
                 this = character:997015 #Theodobert
             }
@@ -14550,37 +14344,11 @@ beards_scripted_characters = {
                 exists = character:70150
                 this = character:70150
             }
-
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:180628 #Khosrau
-                this = character:180628 #Khosrau
-            }
-
              modifier = {
                 add = 999
                 exists = this
                 exists = character:73683
                 this = character:73683
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:200284 #euric
-                this = character:200284 #euric
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:aelling_01 #Aelle
-                this = character:aelling_01 #Aelle
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:159012 #Cadwallon
-                this = character:159012 #Cadwallon
             }
         }
     }
@@ -14609,12 +14377,6 @@ beards_scripted_characters = {
                 exists = character:vandals_003
                 this = character:vandals_003
             }
-            modifier = {
-               	add = 999
-                exists = this
-		exists = character:145237 #julian_the_apostate
-		this = character:145237 #julian_the_apostate
-            }
              modifier = {
                 add = 999
                 exists = this
@@ -14637,12 +14399,6 @@ beards_scripted_characters = {
         }
         weight = {
             base = 0
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:mauri_36 #Masties
-                this = character:mauri_36 #Masties
-            }
         }
     }
 
@@ -14665,75 +14421,15 @@ beards_scripted_characters = {
             }
             modifier = {
                 add = 999
-	        	exists = this
-                exists = character:nepos_02 #Nepos
-                this = character:nepos_02 #Nepos
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:70512 #Justinian
-                this = character:70512 #Justinian
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:205141 #Ceredig
-                this = character:205141 #Ceredig
-            }
-            modifier = {
-                add = 999
                 exists = this
                 exists = character:vandals_005 #Hilderic
                 this = character:vandals_005 #Hilderic
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:vandals_012 #Gelimer
-                this = character:vandals_012 #Gelimer
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992023 #Athalaric
-                this = character:992023 #Athalaric
-            }
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:70515  #Zeno
-                this = character:70515  #Zeno
-            }
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:70517  #Leo
-                this = character:70517  #Leo
             }
            modifier = {
                 add = 999
                 exists = this
                 exists = character:70514  #Anastasius
                 this = character:70514  #Anastasius
-            }
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:armenian_01  #Narses
-                this = character:armenian_01  #Narses
-            }
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:mauro_roman_kings_02  #Massonas
-                this = character:mauro_roman_kings_02  #Massonas
-            }
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:samo_01  #Samo
-                this = character:samo_01  #Samo
             }
         }
     }
@@ -14765,12 +14461,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:159117  #Kubrat
-                this = character:159117  #Kubrat
-            }
         }
     }
 
@@ -14814,18 +14504,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997012 #Childebert
-                this = character:997012 #Childebert
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992003 #Hermanaric
-                this = character:992003 #Hermanaric
-            }
         }
     }
 }
@@ -14863,25 +14541,7 @@ headgear_scripted_characters = {
 			exists = character:108501
               	  	this = character:108501
 		}
-            	modifier = {
-               	 	add = 999
-                	exists = this
-                	exists = character:900062 #Stilicho
-                	this = character:900062 #Stilicho
-		}
-            	modifier = {
-               	 	add = 999
-                	exists = this
-                	exists = character:nuvelan_11 #Gildo
-                	this = character:nuvelan_11 #Gildo
-		}
-		modifier = {
-                	add = 999
-                	exists = this
-                	exists = character:belisarius_001 #Belisarius
-                	this = character:belisarius_001 #Belisarius
-		}
-          }
+      }
     }
 
     male_headgear_secular_fp2_iberian_muslim_common_01_low = {
@@ -14934,21 +14594,9 @@ headgear_scripted_characters = {
 		}
 		weight = {
 			base = 0
-            			modifier = {
-               	 		add = 999
-                		exists = this
-                		exists = character:nepos_02 #Nepos
-                		this = character:nepos_02 #Nepos
-			}
 		}
 		weight = {
 			base = 0
-            			modifier = {
-               	 		add = 999
-                		exists = this
-                		exists = character:syagri_06 #Syagrius
-                		this = character:syagri_06 #Syagrius
-			}
 		}
 	}
 	male_headgear_secular_western_high_nobility = {
@@ -14962,12 +14610,6 @@ headgear_scripted_characters = {
 		}
 		weight = {
 			base = 0
-				modifier = {
-                		add = 999
-                		exists = this
-                		exists = character:900016 #Faramund
-                		this = character:900016 #Faramund
-			}
 		}
 	}
 	male_headgear_secular_roman_diadem = {
@@ -14981,12 +14623,6 @@ headgear_scripted_characters = {
 		}
 		weight = {
 			base = 0
-				modifier = {
-                		add = 999
-                		exists = this
-                		exists = character:70515  #Zeno
-                		this = character:70515  #Zeno
-			}
 		}
 	}
 	male_headgear_secular_sassanid_crown = {
@@ -15000,12 +14636,6 @@ headgear_scripted_characters = {
 		}
 		weight = {
 			base = 0
-				modifier = {
-                		add = 999
-                		exists = this
-                		exists = character:180628 #Khosrau
-                		this = character:180628 #Khosrau
-			}
 		}
 	}
 }
@@ -15802,13 +15432,17 @@ western_roman.0038 = {
 			character:vandals_005 = {
 				add_character_flag = {
 					flag = is_being_tortured
-					years = 20 #
+					years = 5 #
+				}
+				add_character_modifier = {
+					modifier = recently_tortured
+					years = 5
 				}
 			}
 			title:k_vandals.holder = {
 				imprison = {
 					target = global_var:hildirix
-					type = house_arrest
+					type = dungeon
 				}
 			}
 			set_global_variable = {
@@ -17589,7 +17223,7 @@ western_roman.0071 = {
 			title:k_nikaea.holder.top_liege = { 
 				every_character_war = { 
 					limit = { 
-						top_liege = { is_defender = yes } 
+						top_liege = { is_primary_defender = yes } 
 					} 
 					add_defender = title:k_nikaea.holder 
 				}
@@ -18652,6 +18286,7 @@ germanic_events.0015 = {
 			start_war = {
 				cb = cb_gothic_wars_amalasuntha
 				target = scope:roman_king
+				target_title = title:k_italy
 			}
 		}
 
@@ -24272,7 +23907,7 @@ establish_the_electorate_of_saxony_decision = {
 	}
 }
 
-"common/struggle\struggles/tfe_eastern_iranian_struggle.txt" = {
+"common/struggle/struggles/tfe_eastern_iranian_struggle.txt" = {
 	{
 eastern_iranian_struggle = {
 	# has_fp2_dlc_trigger = yes  #TODO_CD_AN Request support for dlc locking on struggles
@@ -24309,6 +23944,8 @@ eastern_iranian_struggle = {
 		# Turkic
 		avar
 		kangar
+		tiele
+		tujue
 
 		# Semitic
 		assyrian
