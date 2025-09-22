@@ -51,18 +51,18 @@ internal static class CulturesOutputter {
 			await output.WriteAsync(sb.ToString());
 		}
 
-		await OutputCultureHistory(outputModPath, cultures, date);
+		await OutputCultureHistory(outputModPath, cultures, config, date);
 
 		if (config.OutputCCUParameters) {
 			OutputCCUParameters(outputModPath, ck3ModFS, config.GetCK3ModFlags());
 		}
 	}
 
-	private static async Task OutputCultureHistory(string outputModPath, CultureCollection cultures, Date date) {
+	private static async Task OutputCultureHistory(string outputModPath, CultureCollection cultures, Configuration config, Date date) {
 		Logger.Info("Outputting cultures history...");
 
 		foreach (var culture in cultures) {
-			await culture.OutputHistory(outputModPath, date);
+			await culture.OutputHistory(outputModPath, config, date);
 		}
 	}
 
