@@ -29,7 +29,7 @@ internal sealed class InventionsDB {
 		inventionGroupsParser.ParseGameFolder("common/inventions", irModFS, "txt", recursive: true);
 	}
 
-	public IEnumerable<string> GetActiveInventionIds(IList<bool> booleans) {
+	public IEnumerable<string> GetActiveInventionIds(List<bool> booleans) {
 		// Enumerate over the inventions and return the ones that are active (bool is true).
 		foreach (var item in inventionIds.Select((inventionId, i) => new { i, inventionId })) {
 			if (item.i < booleans.Count && booleans[item.i]) {

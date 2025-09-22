@@ -325,8 +325,8 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	}
 
 	// Returns a dictionary with CK3 provinces that are mapped to Imperator provinces, grouped by faith.
-	public static IDictionary<string, ISet<Province>> GetProvincesFromImperatorByFaith(ProvinceCollection ck3Provinces, Date date) {
-		var provincesByFaith = new Dictionary<string, ISet<Province>>();
+	public static Dictionary<string, HashSet<Province>> GetProvincesFromImperatorByFaith(ProvinceCollection ck3Provinces, Date date) {
+		var provincesByFaith = new Dictionary<string, HashSet<Province>>();
 
 		foreach (var province in ck3Provinces) {
 			var imperatorProvince = province.PrimaryImperatorProvince;
@@ -342,7 +342,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 			if (provincesByFaith.TryGetValue(faith, out var set)) {
 				set.Add(province);
 			} else {
-				provincesByFaith[faith] = new HashSet<Province> {province};
+				provincesByFaith[faith] = [province];
 			}
 		}
 
@@ -484,13 +484,13 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		title.SetHolder(character, date);
 	}
 
-	private List<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, IDictionary<string, ISet<Province>> provincesByFaith) {
+	private List<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, Dictionary<string, HashSet<Province>> provincesByFaith) {
 		// Collect all Imperator territories that are mapped to this faith.
-		ISet<Province> faithTerritories;
+		HashSet<Province> faithTerritories;
 		if (provincesByFaith.TryGetValue(faith.Id, out var set)) {
 			faithTerritories = set;
 		} else {
-			faithTerritories = new HashSet<Province>();
+			faithTerritories = [];
 		}
 
 		// Split the territories into 2 sets: territories that have a holy site and territories that do not.

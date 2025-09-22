@@ -279,7 +279,7 @@ internal static class BookmarkOutputter {
 		return mapData.ColorableImpassableProvinceIds.Except(mapData.MapEdgeProvinceIds).ToFrozenSet();
 	}
 
-	private static HashSet<ulong> GetImpassableProvincesToColor(MapData mapData, ISet<ulong> heldProvinceIds) {
+	private static HashSet<ulong> GetImpassableProvincesToColor(MapData mapData, HashSet<ulong> heldProvinceIds) {
 		var provinceIdsToColor = new HashSet<ulong>(heldProvinceIds);
 		var impassableIds = GetColorableImpassablesExceptMapEdgeProvinces(mapData);
 		foreach (ulong impassableId in impassableIds) {

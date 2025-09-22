@@ -103,7 +103,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		DNAFactory dnaFactory,
 		Date endDate,
 		Configuration config,
-		ISet<string> unlocalizedImperatorNames) {
+		ConcurrentHashSet<string> unlocalizedImperatorNames) {
 		// Create a new CK3 character.
 		var newCharacter = new Character(
 			irCharacter,

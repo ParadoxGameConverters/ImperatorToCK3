@@ -14,6 +14,7 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 	public OrderedSet<string> DoctrineIds { get; } = [];
 
 	public ReligionCollection ReligionCollection { get; }
+	private readonly OrderedDictionary<string, StringOfItem> localization = [];
 
 	public Religion(string id, BufferedReader religionReader, ReligionCollection religions, ColorFactory colorFactory) {
 		Id = id;
@@ -29,6 +30,13 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 			faithsParser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => LoadFaith(faithId, faithReader));
 			faithsParser.IgnoreAndLogUnregisteredItems();
 			faithsParser.ParseStream(faithsReader);
+		});
+		religionParser.RegisterKeyword("localization", reader => {
+			var localizationParser = new Parser();
+			localizationParser.RegisterRegex(CommonRegexes.Catchall, (locReader, locKey) => {
+				localization[locKey] = locReader.GetStringOfItem();
+			});
+			localizationParser.ParseStream(reader);
 		});
 		religionParser.RegisterRegex(CommonRegexes.Catchall, (reader, keyword) => {
 			attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
@@ -91,14 +99,21 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 		});
 		faithDataParser.RegisterKeyword("holy_site", reader => faithData.HolySiteIds.Add(reader.GetString()));
 		faithDataParser.RegisterKeyword("doctrine", reader => faithData.DoctrineIds.Add(reader.GetString()));
+		faithDataParser.RegisterKeyword("localization", reader => {
+			var localizationParser = new Parser();
+			localizationParser.RegisterRegex(CommonRegexes.Catchall, (locReader, locKey) => {
+				faithData.Localization[locKey] = locReader.GetStringOfItem();
+			});
+			localizationParser.ParseStream(reader);
+		});
 		faithDataParser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
 			faithData.Attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
 		});
 		faithDataParser.IgnoreAndLogUnregisteredItems();
 	}
 
-	public IdObjectCollection<string, Faith> Faiths { get; } = new();
-	private readonly List<KeyValuePair<string, StringOfItem>> attributes = new();
+	public IdObjectCollection<string, Faith> Faiths { get; } = [];
+	private readonly List<KeyValuePair<string, StringOfItem>> attributes = [];
 
 	public string Serialize(string indent, bool withBraces) {
 		var contentIndent = indent;
@@ -114,6 +129,13 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 		foreach (var doctrineId in DoctrineIds) {
 			sb.Append(contentIndent).AppendLine($"doctrine={doctrineId}");
 		}
+
+		sb.Append(contentIndent).AppendLine("localization={");
+		foreach (var (key, value) in localization) {
+			sb.Append(contentIndent).Append('\t').AppendLine($"{key}={value}");
+		}
+		sb.Append(contentIndent).AppendLine("}");
+
 		sb.AppendLine(PDXSerializer.Serialize(attributes, indent: contentIndent+'\t', withBraces: false));
 
 		sb.Append(contentIndent).AppendLine("faiths={");
