@@ -1469,6 +1469,11 @@
 		}
 	}
 
+	# Anachronistic
+	{
+					NOT = { this = character:1316 } # Heinrich IV was coronated in 1084
+	}
+
 # achievements
 	{
 		### ACHIEVEMENT TRACKING FOR STARTING CHARACTERS
