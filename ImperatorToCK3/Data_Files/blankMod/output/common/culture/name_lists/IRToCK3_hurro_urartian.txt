@@ -1,71 +1,71 @@
 ﻿name_list_hurrian = { #From Bronze Age: Reborn
 		cadet_dynasty_names = {
-			Atal-sen-Teshub Biridaswa-Kumarbi Kikkula-Shaushka Kirta-Hebat Mattiwaza-Sharruma Parattarna-Shimegi Parsatatar-Kushuh Sattawaza-Hutena Saushtatar-Hutelluri
-			Shuttarna-Sumuqan Tehiptilla-Ashtabil Tushratta-Ningal Hui-zzi-Tashmisu Hupa-zza-Kubaba Elhip-ninu-Ashtabil Iku-za-Ebrimusha Nana-kka-Nabarbi Ilu-Ila-Pirinki
-			Tagis-nati-e-Hebat Tagu-zza-Sharruma Uzu-na-n-Nubadig Wari-kipa-Pirinki Zuzu-Tashmisu Tadukhepa-Allani Ahahuia-Ebrimusha Ahassunu-Nubadig
+			Atal_sen_Teshub Biridaswa_Kumarbi Kikkula_Shaushka Kirta_Hebat Mattiwaza_Sharruma Parattarna_Shimegi Parsatatar_Kushuh Sattawaza_Hutena Saushtatar_Hutelluri
+			Shuttarna_Sumuqan Tehiptilla_Ashtabil Tushratta_Ningal Hui_zzi_Tashmisu Hupa_zza_Kubaba Elhip_ninu_Ashtabil Iku_za_Ebrimusha Nana_kka_Nabarbi Ilu_Ila_Pirinki
+			Tagis_nati_e_Hebat Tagu_zza_Sharruma Uzu_na_n_Nubadig Wari_kipa_Pirinki Zuzu_Tashmisu Tadukhepa_Allani Ahahuia_Ebrimusha Ahassunu_Nubadig
 		}
 
 		dynasty_names = {
-			Atal-sen-Teshub Biridaswa-Kumarbi Kikkula-Shaushka Kirta-Hebat Mattiwaza-Sharruma Parattarna-Shimegi Parsatatar-Kushuh Sattawaza-Hutena Saushtatar-Hutelluri
-			Shuttarna-Sumuqan Tehiptilla-Ashtabil Tushratta-Ningal Hui-zzi-Tashmisu Hupa-zza-Kubaba Elhip-ninu-Ashtabil Iku-za-Ebrimusha Nana-kka-Nabarbi Ilu-Ila-Pirinki
-			Tagis-nati-e-Hebat Tagu-zza-Sharruma Uzu-na-n-Nubadig Wari-kipa-Pirinki Zuzu-Tashmisu Tadukhepa-Allani Ahahuia-Ebrimusha Ahassunu-Nubadig
+			Atal_sen_Teshub Biridaswa_Kumarbi Kikkula_Shaushka Kirta_Hebat Mattiwaza_Sharruma Parattarna_Shimegi Parsatatar_Kushuh Sattawaza_Hutena Saushtatar_Hutelluri
+			Shuttarna_Sumuqan Tehiptilla_Ashtabil Tushratta_Ningal Hui_zzi_Tashmisu Hupa_zza_Kubaba Elhip_ninu_Ashtabil Iku_za_Ebrimusha Nana_kka_Nabarbi Ilu_Ila_Pirinki
+			Tagis_nati_e_Hebat Tagu_zza_Sharruma Uzu_na_n_Nubadig Wari_kipa_Pirinki Zuzu_Tashmisu Tadukhepa_Allani Ahahuia_Ebrimusha Ahassunu_Nubadig
 		}
 
 		male_names = {
-			Biridaswa Kikkula Kirta Mattiwaza Parattarna Parsatatar Sattawaza Saushtatar Shuttarna Tehiptilla Tushratta Abi-tisan
-			Adal-seni Aga-tisan Agap-eli Agap-tanu Aya-zi Aka-ya Aki-ya Aki-yan Aki-ra Aku-ya Alla-e Allae-kiyazi Allai-az Alli-turah Amma-ta-n Amman-kiyazi
-			Amman-tahi Ammen-ammume Ammen-ki Ammin-na Ana-ta-n Anis-hurpe Anis-kipa-l Anni-kabi Anni-sar Ara-zah Arda-kanda Arim-adal Arip-hurmis Arip-Negal
-			Arip-Tesub Ari-tupki Arip-turi Ari-ab Arip-an Arriyuk Aru-pa Aru-pal Arzi-hip Asar-musni Asa-kka Asma-ate Asmun-saki Asta-kuzi Astu Astua-unna
-			Asu-zi Atta-ha-n Atta-za Attu-Aya Attu-e Attu-ki Attu-zar Awi-yazi Awis-na Azi-za-n Azu-na-n Azzu Azzu-e Azzu-eli Azzu-ka Azzu-kki Azzu-nni Ehli
-			Ehlip-adal Ehlip-sarri Ela-ni Ela-pi Elan-kiyazi Elan-saki Elan-za Ela-patal Ela-paraluh Elen-za Elili-s Elili-sa Elum-sehir-e Enis-agum Eni-ya
-			Etem-meni Ete-ya Ewe Ewe-ni Ewenni-kki Hama-nna Hame-za Hapa-luk Hapi-ya Hapu-ri Hari-pan Hari-ya Hari-yazu Hazip-adal Hazip-aranzih Hazi-pa Hazi-pa-n
-			Hazip-Kakka Hazip-Kuzuli Hazip-Nawar Hazip-saki Hazip-saya Hazip-sarri Hazip-Tesub Hazip-ulme Hazu-ka-n Herzu-k Hui-zzi Hupa-zza Hupa-za-n Iku-za
-			Illu-te Ilu-Ila Ilu-Ili Ima-ku Inna-ha-n Ira-he Iwari Iza-mu Izi-za Iza-n Izza-ni Izzu-nni Kabi Kabi-ata Kabi-pursa Kabi-ta Kabi-ta-ya Kabi-ya
-			Kai-ta Kali-ya Kana-n Kani-pa-n Kanni Kannu-kka Kanzu Kari-ta-n Kari-ya Katir-he Katu-li Kilip-sarri Kili-ya Kilum-allai Kilum-ana Kimma Kinum-adal
-			Kinzi-ya Kipa-r Kipi-ri Kipu-seni Kiyazi Kizzi-ya Kupa-m Kupa-n Kuppi-ya Kuta-te Kutti Kuwari-ya Kuza-n Kuza-ri-na Kuza-zzi Kuzi Kuzuh-adal
-			Kuzu-zari Kuza-ri Memen-kanazi Memen-ki Memen-saki Mema-nna Menna Mulu-ka-n Muza-n-adal Muza-ni Muzu-m Muzum-eni Nana-kka Nana-ta-n Nani-ku
-			Nanip-naya Nanip-sawri Nani-ya Nawar-adal Nawar-kanazi Nawar-zi Nenis-naya Nergal-adal Nikir-sarri Nubar-ela Nubar-sarri Nubar-wari Nuki-za-n
-			Nupa-ta Nupa-tiya Nupu-ri Nupu-ta Nuza-pa Nuza-wari Nuzu-kka Paban-sarri Pahar-mi Pai-la Pai-pa Paip-sarri Paki-annae Paki-la Paku-zi Pala-Ila
-			Pala-mi Pala-n Pandi Pandi-ya Papu-zi Paru-ri Patala-n Patalla Pata-ni-te Pinzi-ya Pirhen-saki Pirhu-na Pir-kina Pir-kinnu Pir-paya Piru-ya-n
-			Pisr-uhli Pthu-na Piz-kina Puhe-n Puh-tani Purama-n Puram-zi Purra-n Puta-ma-n Puta-n Sadum-naya Sadun-sarri Sahis-menni Saki-ya-n Sama-his
-			Sama-hul Samba-ri Sanin-naya Sa-pi-lum-kiyazi Sas-karu Sat-pa Satta-kiyazi Sattu-ri Sazu-e Sazum-sarri Sahhi-ya Sehlip-sarri Sehlum-naya
-			Sehrum-nirzi Seh-saya Sena-m Sena-ya Senip-sarri Senis-wari Senu-urhi Serum-naya Ser-za-n Sewa-ni Sewum-sarri Sime-tagup Sim-kinna Sinim-sali
-			Sinis-tar-e Sinu-ka Sukrum-nawar Sukrum-Tesub Suk-siya Sur-e Sur-siya Susa-ki Taga-zi Tagi Tagis-nati-e Tagu-zza Tahi Tahi-ya Tahu-k Tahu-za-n
-			Tai-ra Tai-zi Taki-ki Taki-ya Taku-na Talmu-asihi Tamaku-meni TAmar-tahi Tamaru Tamar-zi Tami Tamma Tanu-ta Tapu-zi Tarma-ri-s Tasap-kildi
-			Tata-ra Tatta Tawe-nna Tidi-ka-n Tis-ulme Tisan-ki Tiswen-adal Tizi-ha-n Tizwi-na Tuli-s Tundi Tupki Turip-seni Turum-nadki Tuza-na Tuza-ya
-			Ullu-ki Ullum-tisni Ullu-ni Ullu-ri Ullu-waru Ulme Una-kka Unap-sarri Unap-se Unap-tagi Una-tis Una-ya Uni-na Un-takki Unus-kiyazi Ura-ki
-			Urra-n Usse Uski-za-n Ussu-ultu Usta-ni Ustan-sarri Ustap-adal Ustap-kiris Usta-ya Uti-na Uwe-hul-e Uza-na Uzi Uzzi-ya Uzzu Uzu-li Uzu-na-n
-			Wari-kipa Wari-muza Wari-taldu Zata-n Zaza-naya Zazi-ya Zigi Zigil-tanu-m Zika-n Zina-ki Zirbi-kuni Ziri-ta-n Zirri Zitu-ya Ziwe-ni Ziza-pa-n
-			Zuna-n Zunna Zunzu-m Zuwe-ne Zuza-n Zuzu Zip-musni
+			Biridaswa Kikkula Kirta Mattiwaza Parattarna Parsatatar Sattawaza Saushtatar Shuttarna Tehiptilla Tushratta Abi_tisan
+			Adal_seni Aga_tisan Agap_eli Agap_tanu Aya_zi Aka_ya Aki_ya Aki_yan Aki_ra Aku_ya Alla_e Allae_kiyazi Allai_az Alli_turah Amma_ta_n Amman_kiyazi
+			Amman_tahi Ammen_ammume Ammen_ki Ammin_na Ana_ta_n Anis_hurpe Anis_kipa_l Anni_kabi Anni_sar Ara_zah Arda_kanda Arim_adal Arip_hurmis Arip_Negal
+			Arip_Tesub Ari_tupki Arip_turi Ari_ab Arip_an Arriyuk Aru_pa Aru_pal Arzi_hip Asar_musni Asa_kka Asma_ate Asmun_saki Asta_kuzi Astu Astua_unna
+			Asu_zi Atta_ha_n Atta_za Attu_Aya Attu_e Attu_ki Attu_zar Awi_yazi Awis_na Azi_za_n Azu_na_n Azzu Azzu_e Azzu_eli Azzu_ka Azzu_kki Azzu_nni Ehli
+			Ehlip_adal Ehlip_sarri Ela_ni Ela_pi Elan_kiyazi Elan_saki Elan_za Ela_patal Ela_paraluh Elen_za Elili_s Elili_sa Elum_sehir_e Enis_agum Eni_ya
+			Etem_meni Ete_ya Ewe Ewe_ni Ewenni_kki Hama_nna Hame_za Hapa_luk Hapi_ya Hapu_ri Hari_pan Hari_ya Hari_yazu Hazip_adal Hazip_aranzih Hazi_pa Hazi_pa_n
+			Hazip_Kakka Hazip_Kuzuli Hazip_Nawar Hazip_saki Hazip_saya Hazip_sarri Hazip_Tesub Hazip_ulme Hazu_ka_n Herzu_k Hui_zzi Hupa_zza Hupa_za_n Iku_za
+			Illu_te Ilu_Ila Ilu_Ili Ima_ku Inna_ha_n Ira_he Iwari Iza_mu Izi_za Iza_n Izza_ni Izzu_nni Kabi Kabi_ata Kabi_pursa Kabi_ta Kabi_ta_ya Kabi_ya
+			Kai_ta Kali_ya Kana_n Kani_pa_n Kanni Kannu_kka Kanzu Kari_ta_n Kari_ya Katir_he Katu_li Kilip_sarri Kili_ya Kilum_allai Kilum_ana Kimma Kinum_adal
+			Kinzi_ya Kipa_r Kipi_ri Kipu_seni Kiyazi Kizzi_ya Kupa_m Kupa_n Kuppi_ya Kuta_te Kutti Kuwari_ya Kuza_n Kuza_ri_na Kuza_zzi Kuzi Kuzuh_adal
+			Kuzu_zari Kuza_ri Memen_kanazi Memen_ki Memen_saki Mema_nna Menna Mulu_ka_n Muza_n_adal Muza_ni Muzu_m Muzum_eni Nana_kka Nana_ta_n Nani_ku
+			Nanip_naya Nanip_sawri Nani_ya Nawar_adal Nawar_kanazi Nawar_zi Nenis_naya Nergal_adal Nikir_sarri Nubar_ela Nubar_sarri Nubar_wari Nuki_za_n
+			Nupa_ta Nupa_tiya Nupu_ri Nupu_ta Nuza_pa Nuza_wari Nuzu_kka Paban_sarri Pahar_mi Pai_la Pai_pa Paip_sarri Paki_annae Paki_la Paku_zi Pala_Ila
+			Pala_mi Pala_n Pandi Pandi_ya Papu_zi Paru_ri Patala_n Patalla Pata_ni_te Pinzi_ya Pirhen_saki Pirhu_na Pir_kina Pir_kinnu Pir_paya Piru_ya_n
+			Pisr_uhli Pthu_na Piz_kina Puhe_n Puh_tani Purama_n Puram_zi Purra_n Puta_ma_n Puta_n Sadum_naya Sadun_sarri Sahis_menni Saki_ya_n Sama_his
+			Sama_hul Samba_ri Sanin_naya Sa_pi_lum_kiyazi Sas_karu Sat_pa Satta_kiyazi Sattu_ri Sazu_e Sazum_sarri Sahhi_ya Sehlip_sarri Sehlum_naya
+			Sehrum_nirzi Seh_saya Sena_m Sena_ya Senip_sarri Senis_wari Senu_urhi Serum_naya Ser_za_n Sewa_ni Sewum_sarri Sime_tagup Sim_kinna Sinim_sali
+			Sinis_tar_e Sinu_ka Sukrum_nawar Sukrum_Tesub Suk_siya Sur_e Sur_siya Susa_ki Taga_zi Tagi Tagis_nati_e Tagu_zza Tahi Tahi_ya Tahu_k Tahu_za_n
+			Tai_ra Tai_zi Taki_ki Taki_ya Taku_na Talmu_asihi Tamaku_meni TAmar_tahi Tamaru Tamar_zi Tami Tamma Tanu_ta Tapu_zi Tarma_ri_s Tasap_kildi
+			Tata_ra Tatta Tawe_nna Tidi_ka_n Tis_ulme Tisan_ki Tiswen_adal Tizi_ha_n Tizwi_na Tuli_s Tundi Tupki Turip_seni Turum_nadki Tuza_na Tuza_ya
+			Ullu_ki Ullum_tisni Ullu_ni Ullu_ri Ullu_waru Ulme Una_kka Unap_sarri Unap_se Unap_tagi Una_tis Una_ya Uni_na Un_takki Unus_kiyazi Ura_ki
+			Urra_n Usse Uski_za_n Ussu_ultu Usta_ni Ustan_sarri Ustap_adal Ustap_kiris Usta_ya Uti_na Uwe_hul_e Uza_na Uzi Uzzi_ya Uzzu Uzu_li Uzu_na_n
+			Wari_kipa Wari_muza Wari_taldu Zata_n Zaza_naya Zazi_ya Zigi Zigil_tanu_m Zika_n Zina_ki Zirbi_kuni Ziri_ta_n Zirri Zitu_ya Ziwe_ni Ziza_pa_n
+			Zuna_n Zunna Zunzu_m Zuwe_ne Zuza_n Zuzu Zip_musni
 	    }
 
 	    female_names = {
-			Gilukhepa Tadukhepa Ahahuia Ahassunu Ahat-abisha Ahat-kubi Ahatiia Akim-ninu Ala-Pusha Alitu Allai-talma Allai-tatta Allai-turahe Allai-wahri
-			Allaishe Allie-shar Allisha Anza-peki Arip-umella Elhip-ninu Elip-nuzu Epiritu Eres-kenni Erwin-nirshe Halb-abusa Halb-ahi Halu-teni Haluti
-			Tulpun-naja Nama-zzani
+			Gilukhepa Tadukhepa Ahahuia Ahassunu Ahat_abisha Ahat_kubi Ahatiia Akim_ninu Ala_Pusha Alitu Allai_talma Allai_tatta Allai_turahe Allai_wahri
+			Allaishe Allie_shar Allisha Anza_peki Arip_umella Elhip_ninu Elip_nuzu Epiritu Eres_kenni Erwin_nirshe Halb_abusa Halb_ahi Halu_teni Haluti
+			Tulpun_naja Nama_zzani
 	    }
 }
 
 name_list_gutian = { #From Bronze Age: Reborn
 		cadet_dynasty_names = {
-			Agum-Duniash Arshanta-Gidar Gab-Indash Hurba-Bugash Gurzar-Duzagash Shipta-Alban Gandash-Mirizir Kunigi-Maruttash Badar-Akmul Dakash-Laguda Mushia-Kassu
-			Purna-Sah Ipashi-Sali Ashlulu-Kamulla Uzibi-Nanai Kadash-Miriash Hala-Shihu Ukin-Shipak Barhu-Shikme Ambaru-Shugurra Gabnila-Sah Kukla-Shimalia Apa-Zini
-			Huta-Tassi Manudi-Turgu Ulam-Kassu
+			Agum_Duniash Arshanta_Gidar Gab_Indash Hurba_Bugash Gurzar_Duzagash Shipta_Alban Gandash_Mirizir Kunigi_Maruttash Badar_Akmul Dakash_Laguda Mushia_Kassu
+			Purna_Sah Ipashi_Sali Ashlulu_Kamulla Uzibi_Nanai Kadash_Miriash Hala_Shihu Ukin_Shipak Barhu_Shikme Ambaru_Shugurra Gabnila_Sah Kukla_Shimalia Apa_Zini
+			Huta_Tassi Manudi_Turgu Ulam_Kassu
 		}
 
 		dynasty_names = {
-			Agum-Duniash Arshanta-Gidar Gab-Indash Hurba-Bugash Gurzar-Duzagash Shipta-Alban Gandash-Mirizir Kunigi-Maruttash Badar-Akmul Dakash-Laguda Mushia-Kassu
-			Purna-Sah Ipashi-Sali Ashlulu-Kamulla Uzibi-Nanai Kadash-Miriash Hala-Shihu Ukin-Shipak Barhu-Shikme Ambaru-Shugurra Gabnila-Sah Kukla-Shimalia Apa-Zini
-			Huta-Tassi Manudi-Turgu Ulam-Kassu
+			Agum_Duniash Arshanta_Gidar Gab_Indash Hurba_Bugash Gurzar_Duzagash Shipta_Alban Gandash_Mirizir Kunigi_Maruttash Badar_Akmul Dakash_Laguda Mushia_Kassu
+			Purna_Sah Ipashi_Sali Ashlulu_Kamulla Uzibi_Nanai Kadash_Miriash Hala_Shihu Ukin_Shipak Barhu_Shikme Ambaru_Shugurra Gabnila_Sah Kukla_Shimalia Apa_Zini
+			Huta_Tassi Manudi_Turgu Ulam_Kassu
 		}
 
 		male_names = {
-			Inkishush Zarlagab Shulme Yarlagash Silulumesh Silulu Inimabakesh Igeshaush Yarlagab Ibate Yarla Kurum Apilkin La-erabum Irarum Ibranum Hablum
-			Puzur-Suen Yarlaganda Tirigan Duga Ilu-An Yarlangab Erridupizir Imta Nibia Sarlagab
+			Inkishush Zarlagab Shulme Yarlagash Silulumesh Silulu Inimabakesh Igeshaush Yarlagab Ibate Yarla Kurum Apilkin La_erabum Irarum Ibranum Hablum
+			Puzur_Suen Yarlaganda Tirigan Duga Ilu_An Yarlangab Erridupizir Imta Nibia Sarlagab
 	    }
 
 	    female_names = {
-			Demeetheresu Nigsummulugal Deemethereesu Niiqarquusu Manishtusu Seluku Nur-Ayya Amata Belessunu Arahunaa Ahatsunu Ubalnu Gemeti Ettu Zakiti
+			Demeetheresu Nigsummulugal Deemethereesu Niiqarquusu Manishtusu Seluku Nur_Ayya Amata Belessunu Arahunaa Ahatsunu Ubalnu Gemeti Ettu Zakiti
 			Humusi Alittum Arwia Kullaa Mushezibti Nidintu Enheduana
 	    }
 }
