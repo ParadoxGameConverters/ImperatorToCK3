@@ -378,7 +378,7 @@ link = {
 	ir = wa_religions
 }
 link = {
-	ck3 = eastern_siberian_religion # Eastern Siberian Shamanism
+	ck3 = endurism # From TI's desc for Shamanism: "The shamans of the Enduri spirits most venerated Abka Enduri, the Sky Mother who created all of being."
 	ir = tunguistic_religion # Shamanism
 }
 link = {
