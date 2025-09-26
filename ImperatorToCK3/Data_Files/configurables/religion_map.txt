@@ -363,8 +363,8 @@ link = { ck3 = lixue ir = confucian }
 link = { ck3 = lixue ir = chinese_religions } # The TI desc of the religion mentions Kong Fuzi (Confucius).
 link = { ck3 = zhengyi ir = taoism }
 link = { ck3 = hanitu ir = taiwan_religion }
-link = { ck3 = moshir ir = ainu_religion } # https://www.tota.world/article/853/
-link = { ck3 = yzng ir = nivkh_religion }
+link = { ck3 = kamuyism ir = ainu_religion } # https://www.tota.world/article/853/. From AEP's loc: "According to Ainu tradition, the world is divided into two realms: Kamuy-Moshir, the dwelling place of spirits and deities, and Ainu-Moshir, the physical world inhabited primarily by humans[...]"
+link = { ck3 = kivungism ir = nivkh_religion } # AEP characters with gilyak and mishihase cultures (heritage_nivkh) follow this faith.
 link = { ck3 = utaki ir = okinawa_religion } # Utaki is the AEP faith for Ryukyu Islands
 link = { ck3 = anito ir = pinoy_religion }
 link = { ck3 = musok ir = yi_religions } # Muism
@@ -378,7 +378,7 @@ link = {
 	ir = wa_religions
 }
 link = {
-	ck3 = hehe # uses shamanism_reformed icon, also matches the geographical area
+	ck3 = eastern_siberian_religion # Eastern Siberian Shamanism
 	ir = tunguistic_religion # Shamanism
 }
 link = {
