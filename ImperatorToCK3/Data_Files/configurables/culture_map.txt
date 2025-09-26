@@ -536,7 +536,8 @@ link = { ck3 = norman ir = norman } # https://steamcommunity.com/sharedfiles/fil
 
 @sicilian_cultures = "ir = siculian ir = elymian ir = sicanian" # Elymian and Sicanian are Terra-Indomita cultures that go along with vanilla siculian culture
 @picenian_cultures = "ir = south_picena ir = north_picena" # Terra-Indomita cultures, easier to group together since they should be mapped together
-@ir_latin_cultures = "ir = roman ir = osco_umbrian ir = umbrian ir = samnite ir = ligurian ir = lucanian ir = bruttian ir = sardonian @sicilian_cultures @picenian_cultures"
+@ir_antiquitas_italic_cultures = "ir = latins ir = volsci ir = capuan"
+@ir_latin_cultures = "ir = roman ir = osco_umbrian ir = umbrian ir = samnite ir = ligurian ir = lucanian ir = bruttian ir = sardonian @sicilian_cultures @picenian_cultures @ir_antiquitas_italic_cultures"
 # The Glory of Rome
 link = { ck3 = roman @ir_latin_cultures @roman_tags }
 
@@ -567,9 +568,19 @@ link = { ck3 = afro_roman @ir_latin_cultures @culture_splitting_region_O }
 # Default
 link = { ck3 = ligustic ir = ligurian }
 link = { ck3 = venetic ir = venetic ir=histrian } # histrian moved to italic in Invictus
-link = { ck3 = roman ir = roman }
+link = {
+	ck3 = roman
+	ir = roman
+	ir = latins # Comes from the Antiquitas mod. Latins were the Italic tribe that spoke Latin.
+}
 link = { ck3 = samnite ir = samnite ir = lucanian ir = bruttian }
-link = { ck3 = oscan ir = osco_umbrian ir = umbrian @picenian_cultures } # Added Picenian cultures here since in game description says that speak a language like Umbrian ~~tanner918
+link = {
+	ck3 = oscan
+	ir = osco_umbrian ir = umbrian
+	ir = capuan # Comes from the Antiquitas mod.
+	ir = volsci # Comes from the Antiquitas mod. Volsci belonged the Osco-Umbrian family. https://en.wikipedia.org/wiki/List_of_ancient_Italic_peoples
+	@picenian_cultures # Added Picenian cultures here since in game description says that speak a language like Umbrian ~~tanner918
+}
 link = { ck3 = sardonian ir = sardonian }
 link = { ck3 = siculian @sicilian_cultures }
 
