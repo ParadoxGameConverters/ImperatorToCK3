@@ -1081,14 +1081,33 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("cultural_names")] public Dictionary<string, string>? CulturalNames { get; private set; }
 
 	public int? GetOwnOrInheritedDevelopmentLevel(Date date) {
-		var ownDev = GetDevelopmentLevel(date);
-		if (ownDev is not null) { // if development level is already set, just return it
-			return ownDev;
+		// Latest date (<= date) takes precedence.
+		// If multiple titles have the same date, lowest rank takes precedence.
+		// Consider all de jure lieges up to empire level.
+		var titlesToConsider = new List<Title> { this };
+		var currentLiege = DeJureLiege;
+		while (currentLiege is not null && currentLiege.Rank <= TitleRank.empire) {
+			titlesToConsider.Add(currentLiege);
+			currentLiege = currentLiege.DeJureLiege;
 		}
-		if (deJureLiege is not null) { // if de jure liege exists, return their level
-			return deJureLiege.GetOwnOrInheritedDevelopmentLevel(date);
+		Date? bestDate = null;
+		Title? bestTitle = null;
+		foreach (var title in titlesToConsider) {
+			if (!title.History.Fields.TryGetValue("development_level", out var devField)) {
+				continue;
+			}
+			(Date? entryDate, object? value) = devField.GetLastEntryWithDate(date);
+			if (value is null) {
+				continue;
+			}
+
+			if (bestDate is null || (entryDate is not null && entryDate > bestDate) || (entryDate == bestDate && title.Rank < bestTitle?.Rank)) {
+				bestDate = entryDate;
+				bestTitle = title;
+			}
 		}
-		return null;
+
+		return bestTitle?.GetDevelopmentLevel(bestDate ?? date);
 	}
 
 	public ICollection<string> GetSuccessionLaws(Date date) {

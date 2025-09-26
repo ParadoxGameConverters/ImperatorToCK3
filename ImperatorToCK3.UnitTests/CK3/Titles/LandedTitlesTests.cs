@@ -558,9 +558,7 @@ public class LandedTitlesTests {
 		var date = new Date(867, 1, 1);
 		var config = new Configuration {
 			CK3BookmarkDate = date,
-			CK3Path = "TestFiles/LandedTitlesTests/CK3"
 		};
-		var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
 
 		var titles = new Title.LandedTitles();
 		var title = titles.Add("k_greece");
@@ -568,7 +566,7 @@ public class LandedTitlesTests {
 		titles.LoadHistory(config, ck3ModFS);
 
 		Assert.Equal("420", title.GetHolderId(date));
-		Assert.Equal(20, title.GetDevelopmentLevel(date));
+		Assert.Equal("e_persia", title.GetLiegeId(date));
 	}
 
 	[Fact]
