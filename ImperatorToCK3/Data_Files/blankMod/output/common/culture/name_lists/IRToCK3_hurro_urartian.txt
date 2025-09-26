@@ -1,14 +1,14 @@
 ﻿name_list_hurrian = { #From Bronze Age: Reborn
 		cadet_dynasty_names = {
-			Atal-sen-Teshub Biridaswa-Kumarbi Kikkula-Shaushka Kirta-Hebat Mattiwaza-Sharruma Parattarna-Shimegi Parsatatar-Kushuh Sattawaza-Hutena Saushtatar-Hutelluri
-			Shuttarna-Sumuqan Tehiptilla-Ashtabil Tushratta-Ningal Hui-zzi-Tashmisu Hupa-zza-Kubaba Elhip-ninu-Ashtabil Iku-za-Ebrimusha Nana-kka-Nabarbi Ilu-Ila-Pirinki
-			Tagis-nati-e-Hebat Tagu-zza-Sharruma Uzu-na-n-Nubadig Wari-kipa-Pirinki Zuzu-Tashmisu Tadukhepa-Allani Ahahuia-Ebrimusha Ahassunu-Nubadig
+			Atal_sen_Teshub Biridaswa_Kumarbi Kikkula_Shaushka Kirta_Hebat Mattiwaza_Sharruma Parattarna_Shimegi Parsatatar_Kushuh Sattawaza_Hutena Saushtatar_Hutelluri
+			Shuttarna_Sumuqan Tehiptilla_Ashtabil Tushratta_Ningal Hui_zzi_Tashmisu Hupa_zza_Kubaba Elhip_ninu_Ashtabil Iku_za_Ebrimusha Nana_kka_Nabarbi Ilu_Ila_Pirinki
+			Tagis_nati_e_Hebat Tagu_zza_Sharruma Uzu_na_n_Nubadig Wari_kipa_Pirinki Zuzu_Tashmisu Tadukhepa_Allani Ahahuia_Ebrimusha Ahassunu_Nubadig
 		}
 
 		dynasty_names = {
-			Atal-sen-Teshub Biridaswa-Kumarbi Kikkula-Shaushka Kirta-Hebat Mattiwaza-Sharruma Parattarna-Shimegi Parsatatar-Kushuh Sattawaza-Hutena Saushtatar-Hutelluri
-			Shuttarna-Sumuqan Tehiptilla-Ashtabil Tushratta-Ningal Hui-zzi-Tashmisu Hupa-zza-Kubaba Elhip-ninu-Ashtabil Iku-za-Ebrimusha Nana-kka-Nabarbi Ilu-Ila-Pirinki
-			Tagis-nati-e-Hebat Tagu-zza-Sharruma Uzu-na-n-Nubadig Wari-kipa-Pirinki Zuzu-Tashmisu Tadukhepa-Allani Ahahuia-Ebrimusha Ahassunu-Nubadig
+			Atal_sen_Teshub Biridaswa_Kumarbi Kikkula_Shaushka Kirta_Hebat Mattiwaza_Sharruma Parattarna_Shimegi Parsatatar_Kushuh Sattawaza_Hutena Saushtatar_Hutelluri
+			Shuttarna_Sumuqan Tehiptilla_Ashtabil Tushratta_Ningal Hui_zzi_Tashmisu Hupa_zza_Kubaba Elhip_ninu_Ashtabil Iku_za_Ebrimusha Nana_kka_Nabarbi Ilu_Ila_Pirinki
+			Tagis_nati_e_Hebat Tagu_zza_Sharruma Uzu_na_n_Nubadig Wari_kipa_Pirinki Zuzu_Tashmisu Tadukhepa_Allani Ahahuia_Ebrimusha Ahassunu_Nubadig
 		}
 
 		male_names = {
