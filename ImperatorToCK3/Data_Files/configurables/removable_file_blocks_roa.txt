@@ -1581,6 +1581,204 @@
 	{
 		ROA_setup_tributaries_effect = yes # defined in sea_tributary_setup_effect.txt
 	}
+
+	# Anachronistic
+	{
+		### CORONATION LOCATION SETUP ###
+		if = {
+			limit = {
+				current_date >= 1066.1.1
+				has_dlc_feature = coronations
+			}
+			# London (England)
+			province:1527 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Aachen (Germany)
+			province:2092 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Reims (France)
+			province:2390 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Rome (Italy)
+			province:2575 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Milan (Italy)
+			province:2482 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Gniezno (Poland)
+			province:4905 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Szekesfehervar (Hungary)
+			province:3805 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Scone Abbey, Gowrie (Scotland)
+			province:1741 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Byzantium (Byzantines)
+			province:496 = { 
+				add_province_modifier = coronation_long_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 10
+				}
+			}
+			# Mahdiya (Africa)
+			province:4578 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Cairo (Egypt)
+			province:6042 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Damascus (Syria)
+			province:5924 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Baghdad (Mesopotamia)
+			province:4828 = { 
+				add_province_modifier = coronation_long_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 10
+				}
+			}
+			# Rayy (Persia)
+			province:4319 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Ghazna (Kabulistan)
+			province:4500 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Lahur (Punjab)
+			province:1362 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Samarkand (Transoxiana)
+			province:4404 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Bukhara (Transoxiana)
+			province:4394 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Medina (Arabia)
+			province:6212 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Kutaisi (Georgia)
+			province:601 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+		}
+		if = {
+			limit = {
+				current_date >= 1178.1.1
+				has_dlc_feature = coronations
+			}
+			# Marrakesh (Maghreb)
+			province:4718 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Karakorum (Mongolia)
+			province:1457 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+		}
+	}
+
+	# Anachronistic
+	{
+					NOT = { this = character:1316 } # Heinrich IV was coronated in 1084
+	}
 }
 
 "common/on_action/title_on_actions.txt" = {
@@ -5851,4 +6049,1117 @@ bm_1066_southeast_asia = {
 			set_character_faith = faith:nestorian
 		}
 	}
+} # End of sea_pool_repopulation_character_templates.txt
+
+
+"common\scripted_effects\zz_RICE_setup_override.txt" = {
+	#####################
+	## RICE_setup_yazidi_flavor_pack_effect
+	#####################
+	# Begin history changes section
+	{
+	# Kurdish paganism and other stuff
+	title:c_istakhr = {
+		set_county_culture = culture:persian
+	}	
+	title:c_kermanshah = {
+		set_county_faith = faith:kitebacilweism
+		holder = {			
+			every_courtier_or_guest = {
+				limit = {
+					is_lowborn = yes
+					culture = culture:kurdish
+				}
+				random = {
+					chance = 20
+					set_character_faith = faith:kitebacilweism
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			game_start_date <= 1000
+		}	
+		title:c_masabadhan = {
+			set_county_faith = faith:kitebacilweism
+			holder = {			
+				every_courtier_or_guest = {
+					limit = {
+						is_lowborn = yes
+						culture = culture:kurdish
+					}
+					random = {
+						chance = 20
+						set_character_faith = faith:kitebacilweism
+					}
+				}
+			}
+		}
+	}
+	if = {
+		limit = {
+			character:kurdish0001 = {
+				is_alive = yes
+				is_landed = yes
+			}
+		}
+		character:kurdish0001 = {
+			hidden_effect = {
+				RICE_jizya_contract_at_start_effect = yes
+			}
+		}
+	}
+	title:c_upper_khabur.holder = {
+		every_courtier_or_guest = {
+			limit = {
+				is_lowborn = yes
+			}
+			random = {
+				chance = 30
+				set_character_faith = faith:shamsi_pagan
+			}
+		}
+	}
+	title:c_amida.holder = {
+		every_courtier_or_guest = {
+			limit = {
+				is_lowborn = yes
+				culture = culture:armenian
+			}
+			random = {
+				chance = 30
+				set_character_faith = faith:urartuism
+			}
+		}
+	}
+	title:c_samosata.holder = {
+		every_courtier_or_guest = {
+			limit = {
+				is_lowborn = yes
+				culture = culture:armenian
+			}
+			random = {
+				chance = 30
+				set_character_faith = faith:urartuism
+			}
+		}
+	}
+	}
+	# End history changes section
+
+
+	# Begin Miscellaneous section
+	{
+	# For 1066 bookmark
+	if = {
+		limit = {
+			game_start_date = 1066.9.15
+		}
+		# Give some territory to Tirahaye Kurds
+		character:RICE_kurdish_pagan_001 = {
+			RICE_jizya_contract_at_start_effect = yes
+		}
+	}
+	}
+	# End Miscellaneous section
+
+	#####################
+	## RICE_setup_tarim_basin_flavor_pack_effect
+	#####################
+	# Begin CULTURE AND RELIGION STUFF section
+	{
+	culture:khitan = {
+		# Start of the Liao Dynasty
+		if = {
+			limit = {
+				game_start_date >= 916.1.1
+			}
+			add_culture_tradition = tradition_RICE_image_of_china
+			remove_variable = tradition_cooldown
+		}
+		set_culture_pillar = ethos_bureaucratic
+	}	
+	}
+	# End CULTURE AND RELIGION STUFF section
+
+
+	# Begin HISTORY TWEAKS section
+	{
+	# Set up Dunhuang vassals
+	if = {
+		limit = {
+			current_date > 865.1.1
+			current_date < 875.1.1	
+			NOT = { exists = global_var:hmi_immersion_pack_loaded }		
+		}
+		title:k_guiyi = {
+			add_title_law = male_only_law
+		}
+
+		# Fix up Zhang Yichao
+		character:206811 = {
+			save_scope_as = zhang_yichao
+			add_character_modifier = {
+				modifier = RICE_tarim_basin_is_zhang_yichao
+			}
+			dynasty = {
+				add_dynasty_modifier = {
+					modifier = RICE_tarim_basin_zhang_clan
+				}
+			}
+		}
+
+		# Give Cao Yijin some more land and historical aspirations
+		character:1059714 = {
+			get_title = title:c_guazhou
+			RICE_setup_new_granted_ruler_bonuses_effect = yes
+			dynasty = {
+				add_dynasty_modifier = {
+					modifier = RICE_tarim_basin_cao_clan
+				}
+			}
+			save_scope_as = cao_yijin
+			add_character_modifier = {
+				modifier = RICE_tarim_basin_aspiration_restore_order_guiyi
+			}
+			set_variable = {
+				name = RICE_historical_aspiration
+				value = flag:cao_yijin
+			}
+		}
+
+		character:RICE_zhai_003 = {
+			save_scope_as = zhai_farong
+		}
+		character:RICE_zhai_005 = {
+			save_scope_as = zhai_fengda_uncle
+		}
+		character:RICE_zhai_013 = {
+			save_scope_as = zhai_huaiguan
+		}
+		character:RICE_zhai_014 = {
+			save_scope_as = zhai_huaien
+		}
+		character:RICE_zhai_015 = {
+			save_scope_as = zhang_yichao_niece
+		}
+
+		# Give Zhai Huixin/Xin (Zhai Fengda's father) territory under the Caos
+		# Otherwise, he should already have it
+		character:RICE_zhai_004 = {
+			if = {
+				limit = {
+					NOT = { has_dlc_feature = roads_to_power }
+				}
+				get_title = title:c_hongliuyuan
+				RICE_setup_new_granted_ruler_bonuses_effect = yes
+				add_courtier = scope:zhai_fengda_uncle
+				add_courtier = scope:zhai_farong
+				add_courtier = scope:zhai_huaiguan
+				add_courtier = scope:zhai_huaien
+				add_courtier = scope:zhang_yichao_niece
+			}
+			dynasty = {
+				add_dynasty_modifier = {
+					modifier = RICE_tarim_basin_zhai_clan
+				}
+			}
+		}
+
+		# Li Mingzhen - give him all of the stuff in Ganzhou
+		character:304192 = {
+			RICE_setup_new_granted_ruler_bonuses_effect = yes
+			dynasty = {
+				add_dynasty_modifier = {
+					modifier = RICE_tarim_basin_li_clan
+				}
+			}
+		}
+
+		# Suo Hanjun - give him Suzhou
+		character:RICE_suo_006 = {
+			if = {
+				limit = {
+					NOT = { has_dlc_feature = roads_to_power }
+				}
+				get_title = title:c_suzhou
+				RICE_setup_new_granted_ruler_bonuses_effect = yes
+			}
+			dynasty = {
+				add_dynasty_modifier = {
+					modifier = RICE_tarim_basin_suo_clan
+				}
+			}
+		}
+
+		# Li Mingda - Mingzhen's brother
+		character:RICE_li_005 = {
+			if = {
+				limit = {
+					NOT = { has_dlc_feature = roads_to_power }
+				}
+				get_title = title:c_baichengzi
+				RICE_setup_new_granted_ruler_bonuses_effect = yes
+			}
+		}
+
+		# Li Mingcheng (fictional name) - Mingzhen's other brother
+		character:RICE_li_006 = {
+			if = {
+				limit = {
+					NOT = { has_dlc_feature = roads_to_power }
+				}
+				get_title = title:b_jiayuguan
+				RICE_setup_new_granted_ruler_bonuses_effect = yes
+			}
+		}
+
+		# Zhu Zaiqing - give him Subei
+
+		# Yin Wentong - give him all of the stuff in Qilin, since he helped fight off the Tibetans
+		character:RICE_yin_001 = { 
+			RICE_setup_new_granted_ruler_bonuses_effect = yes
+			dynasty = {
+				add_dynasty_modifier = {
+					modifier = RICE_tarim_basin_yin_clan
+				}
+			}
+			change_government = feudal_government
+		}
+
+		# Yin Jifeng - official under Zhang Yichao who later helped the Zhang family reclaim Guiyi
+		character:RICE_yin_003 = {
+			if = {
+				limit = {
+					NOT = { has_dlc_feature = roads_to_power }
+				}
+				get_title = title:c_yalong
+				RICE_setup_new_granted_ruler_bonuses_effect = yes
+				change_government = feudal_government
+			}
+		}
+
+		character:RICE_suo_007 = {
+			save_scope_as = suo_xun_daughter
+			create_betrothal = scope:cao_yijin
+		}
+
+		# Suo Xun - give him all of the stuff in Liangzhou
+
+		# Yan Yingda - give him Yumenguan
+		character:RICE_dunhuang_misc_005 = {
+			if = {
+				limit = {
+					NOT = { has_dlc_feature = roads_to_power }
+				}
+				get_title = title:b_yumenguan
+				RICE_setup_new_granted_ruler_bonuses_effect = yes
+			}
+			dynasty = {
+				add_dynasty_modifier = {
+					modifier = RICE_tarim_basin_yan_clan
+				}
+			}
+		}
+
+		# Suo Zhongxin - give him Baiting
+		if = {
+			limit = {
+				NOT = { has_dlc_feature = roads_to_power }
+			}
+			character:RICE_suo_005 = {
+				get_title = title:c_baiting
+				RICE_setup_new_granted_ruler_bonuses_effect = yes
+			}
+		}
+
+		# An Jingmin - Sogdian vice commissioner of Guiyi army
+		character:RICE_an_001 = {
+			get_title = title:c_shouchang
+			RICE_setup_new_granted_ruler_bonuses_effect = yes
+			save_scope_as = an_jingmin
+			if = {
+				limit = {
+					NOT = { has_dlc_feature = roads_to_power }
+				}
+				change_government = feudal_government
+			}
+		}
+
+		# Fictitious Wenmo leader
+		# The Wenmo would establish an independent state in Liangzhou in 884
+		character:RICE_wenmo_001 = {
+			RICE_setup_new_granted_ruler_bonuses_effect = yes
+			RICE_dunhuang_wenmo_troop_spawn_effect = yes # Have him start with some troops so he could cause trouble if he wanted
+		}
+
+		# Gao Jinda - one of Zhang Yichao's OG commanders who was sent as his first envoy to the Tang Dynasty in 850 CE
+		character:RICE_dunhuang_misc_003 = { 
+			if = {
+				limit = {
+					NOT = { has_dlc_feature = roads_to_power }
+				}
+				get_title = title:c_dajing
+				RICE_setup_new_granted_ruler_bonuses_effect = yes
+			}
+			add_character_flag = RICE_gao_jinda
+		}
+
+		# Kang Tongxin - Sogdian magistrate Prefect of Guazhou at one point
+		character:RICE_kang_002 = { 
+			RICE_setup_new_granted_ruler_bonuses_effect = yes
+			save_scope_as = kang_master
+		}
+		
+		# Kang Shijun - Sogdian magistrate Prefect of Guazhou at one point
+		if = {
+			limit = {
+				NOT = { has_dlc_feature = roads_to_power }
+			}
+			character:RICE_kang_003 = { 
+				get_title = title:c_yulin_guiyi
+				RICE_setup_new_granted_ruler_bonuses_effect = yes
+			}
+		}
+
+		# Zhang Wenche - official who led the Guiyi envoy group to the Tang Dynasty alongside Song Runying in 887 CE, and *may* have led the coup against Zhang Huaishen in c. 890
+		character:RICE_dunhuang_misc_006 = { 
+			if = {
+				limit = {
+					NOT = { has_dlc_feature = roads_to_power }
+				}
+				get_title = title:c_huanzhouliangzhou
+				RICE_setup_new_granted_ruler_bonuses_effect = yes
+			}
+			add_character_flag = RICE_zhang_wenche
+		}
+
+		# Song Runying - Official who led the Guiyi envoy group to the Tang Dynasty alongside Zhang Wenche in 887 CE
+		character:RICE_song_001 = { 
+			if = {
+				limit = {
+					NOT = { has_dlc_feature = roads_to_power }
+				}
+				get_title = title:c_tiantishan
+				RICE_setup_new_granted_ruler_bonuses_effect = yes
+			}
+			add_character_flag = RICE_song_runying
+		}
+
+		title:c_khotan.holder = {
+			add_character_modifier = {
+				modifier = RICE_tarim_basin_khotan_eight_protectors
+			}
+		}
+
+		# Fu Murong (or whoever's supposed to be the last Tuyuhun in-game)
+		character:247407 = {
+			add_character_flag = do_not_generate_starting_family
+		}
+
+		# Kill off fictional Dunhuang characters - RoA just makes them unlanded
+
+		title:k_guiyi.holder = {
+			every_vassal_or_below = {
+				limit = {
+					is_landed = no
+					domicile ?= {
+						is_domicile_type = estate
+					}
+				}
+				domicile ?= { move_domicile = title:b_shazhou.title_province }				
+			}
+		}
+
+		# If not running with Roads to Power, add in courtiers who would've been random Admin families
+		if = {
+			limit = {
+				NOT = { has_dlc_feature = roads_to_power }
+			}
+			if = {
+				limit = {
+					character:RICE_dunhuang_misc_001 = {
+						is_playable_character = no
+						is_ruler = no
+						NOT = { is_courtier_of = scope:zhang_yichao }
+					}
+				}
+				scope:zhang_yichao = {
+					add_courtier = character:RICE_dunhuang_misc_001
+				}
+			}
+			if = {
+				limit = {
+					character:RICE_dunhuang_misc_004 = {
+						is_playable_character = no
+						is_ruler = no
+						NOT = { is_courtier_of = scope:zhang_yichao }
+					}
+				}
+				scope:zhang_yichao = {
+					add_courtier = character:RICE_dunhuang_misc_004
+				}
+			}
+			if = {
+				limit = {
+					character:RICE_dunhuang_misc_007 = {
+						is_playable_character = no
+						is_ruler = no
+						NOT = { is_courtier_of = scope:zhang_yichao }
+					}
+				}
+				scope:zhang_yichao = {
+					add_courtier = character:RICE_dunhuang_misc_007
+				}
+			}
+		}
+	}
+
+	# 1066 start date shenanigans
+	if = {
+		limit = {
+			game_start_date > 1050.1.1
+		}
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:RICE_tarim_basin_fake_china_proclaimed_flag
+		}
+		set_global_variable = {
+			name = RICE_tarim_basin_khotan_eight_protectors_abandoned
+			value = yes
+		}
+		set_global_variable = {
+			name = RICE_ordam_mazar_festival_triggered
+			value = yes
+		}
+	}
+
+	# 1066 start date shenanigans
+	if = {
+		limit = {
+			game_start_date > 1050.1.1
+			game_start_date < 1100.1.1
+		}
+		character:3014 = {
+			# Not sure why he was made lustful in vanilla - couldn't find anything suggesting that in my research, though I might have missed something
+			dynasty = {
+				add_dynasty_modifier = {
+					modifier = RICE_tarim_basin_fake_china_dynasty
+				}
+			}
+		}
+	}
+
+	# Al-Kashgari/Turkic Dictionary stuff
+	if = {
+		limit = {
+			game_start_date >= 1029.5.8
+			game_start_date <= 1102.8.5
+		}
+		# Al-Kashgari
+		character:RICE_kashgar_001 = {
+			if = {
+				limit = {
+					has_playable_adventurer_dlc_trigger = no
+					NOT = { exists = global_var:hmi_immersion_pack_loaded }	
+				}
+				get_title = title:c_terek_pass
+			}
+			RICE_setup_new_granted_ruler_bonuses_effect = yes
+			add_character_modifier = {
+				modifier = RICE_tarim_basin_is_al_kashgari
+			}
+			set_variable = {
+				name = RICE_historical_aspiration
+				value = flag:al_kashgari
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			game_start_date < 1029.5.8
+		}
+		set_global_variable = {
+			name = RICE_anyone_can_write_turkic_dictionary
+			value = yes
+		}
+	}
+	else = {
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:RICE_tarim_basin_compile_turkic_dictionary_done
+		}
+	}
+
+	if = {
+		limit = {
+			game_start_date = 1178.10.1
+			NOT = { exists = global_var:hmi_immersion_pack_loaded }	
+		}
+		# Setting up Kara-Khitan and Yelu Zhilugu
+		# Zhilugu
+		#character:188912 - stuff here left up to BossDanger to handle
+		#character:188909 - stuff here left up to BossDanger to handle
+		#character:188910 - in RoA he is dead
+		# Setting up Wo Daochong, Tangut official + his son
+		if = {
+			limit = {
+				NOT = { has_dlc_feature = roads_to_power }
+			}
+			character:RICE_xixia_wo_002 = {
+				get_title = title:c_huanzhouliangzhou
+				RICE_setup_new_granted_ruler_bonuses_effect = yes
+			}
+		}
+		# Some Genghis Khan stuff because I dunno where else to put it
+		# Borte
+		# Hoelun
+	}
+	}
+	# End HISTORY TWEAKS section
+
+	#####################
+	## RICE_setup_pamir_flavor_pack_effect
+	#####################
+	# Begin CULTURE CHANGES section
+	{
+	# Remove Brahui rulers from Makran
+	every_ruler = {
+		limit = {
+			culture = culture:brahui
+		}
+		set_culture = culture:sindhi
+		every_vassal = {
+			limit = {
+				culture = culture:brahui
+			}
+			set_culture = culture:sindhi
+		}
+	}
+
+	# Below is based on Encyclopedia Iranica, citing Mahmud Kashgari who lived in the 11th century during the 1066 start date, so should be considered accurate enough for game purposes
+		# See https://iranicaonline.org/articles/sogdiana-iii-history-and-archeology and https://iranicaonline.org/articles/yaghnobi
+		# Latest Sogdian texts come from Talas (c_taraz), Kashgari mentions people there are bilingual in Sogdian and Turkic
+		# Per Encyclopedia Iranica, much of the area between Samarkand and Bukhara (c_dabusiya) was still Sogdian until 15th century, even if elites abandoned language
+		# Roughly areas where Yagnobi, a descendant of Sogdian, is spoken nowadays
+		# Actual Yagnobi valley is in mountainous terrain, Encyclopedia Iranica suggests it was once spoken in a wider area (c_zarafshan), however
+		# Area (c_oshrusana) of origin for Yagnobi dialect
+
+	if = {
+		limit = {
+			current_date > 700.1.1
+			current_date < 900.1.1
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:turco_hephthalite
+			SIZE = large
+			COUNTY = title:c_west-tokharestan
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:turco_hephthalite
+			SIZE = large
+			COUNTY = title:c_east-tokharestan
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:turco_hephthalite
+			SIZE = large
+			COUNTY = title:c_balkh
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:zunism
+			SIZE = small
+			COUNTY = title:c_ghazna
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:turco_hephthalite
+			SIZE = large
+			COUNTY = title:c_ghazna
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:turco_hephthalite
+			SIZE = large
+			COUNTY = title:c_rukhaj
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:turco_hephthalite
+			SIZE = large
+			COUNTY = title:c_zabulistan
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:afghan
+			SIZE = large
+			COUNTY = title:c_zamindawar
+		}
+	}
+	else_if = {
+		limit = {
+			current_date >= 900.1.1
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:khalaj
+			SIZE = small
+			COUNTY = title:c_ghazna
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:afghan
+			SIZE = small
+			COUNTY = title:c_zamindawar
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:afghan
+			SIZE = large
+			COUNTY = title:c_zabulistan
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:afghan
+			SIZE = large
+			COUNTY = title:c_rukhaj
+		}
+	}
+
+	if = {
+		limit = {
+			current_date > 1000.1.1
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:brahui
+			SIZE = large
+			COUNTY = title:c_sibi
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:brahui
+			SIZE = large
+			COUNTY = title:c_turan
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:brahui
+			SIZE = small
+			COUNTY = title:c_kalat
+		}
+	}
+	}
+	# End CULTURE CHANGES section
+
+
+	# Begin MODIFIERS section
+	{
+	## Pamir Modifiers
+	title:c_pashai = {
+		add_county_modifier = {
+			modifier = RICE_pamir_land_of_the_kafirs
+		}
+	}
+	title:c_kunar = {
+		add_county_modifier = {
+			modifier = RICE_pamir_land_of_the_kafirs
+		}
+	}
+	title:c_kati = {
+		add_county_modifier = {
+			modifier = RICE_pamir_land_of_the_kafirs
+		}
+	}
+	title:c_waygal = {
+		add_county_modifier = {
+			modifier = RICE_pamir_land_of_the_kafirs
+		}
+	}
+	title:c_chitral = {
+		add_county_modifier = {
+			modifier = RICE_pamir_land_of_the_kafirs
+		}
+	}
+	title:c_kunar = {
+		add_county_modifier = {
+			modifier = RICE_pamir_land_of_the_kafirs
+		}
+	}
+	title:c_yasin = {
+		add_county_modifier = {
+			modifier = RICE_pamir_land_of_the_kafirs
+		}
+	}
+	title:c_hunza = {
+		add_county_modifier = {
+			modifier = RICE_pamir_land_of_the_kafirs
+			modifier = RICE_pamir_karakoram_watchposts_default
+		}
+	}
+	title:c_gilgit = {
+		add_county_modifier = {
+			modifier = RICE_pamir_karakoram_watchposts_default
+		}
+	}
+	title:c_astore = {
+		add_county_modifier = {
+			modifier = RICE_pamir_karakoram_watchposts_default
+		}
+	}
+	title:c_wakhan = {
+		add_county_modifier = {
+			modifier = RICE_pamir_wakhan_watchposts_default
+		}
+	}
+	title:c_sariq_qol = {
+		add_county_modifier = {
+			modifier = RICE_pamir_wakhan_watchposts_default
+		}
+	}
+	if = {
+		limit = {
+			current_date > 1000.1.1
+		}
+		title:c_kalat = {
+			add_county_modifier = {
+				modifier = RICE_pamir_brahui_tribes
+			}
+		}
+		title:c_sibi = {
+			add_county_modifier = {
+				modifier = RICE_pamir_brahui_tribes
+			}
+		}
+		title:c_turan = {
+			add_county_modifier = {
+				modifier = RICE_pamir_brahui_tribes
+			}
+		}
+	}
+	if = {
+		limit = {
+			has_global_variable = RICE_game_started_on_TFE_start_date
+		}
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:RICE_pamir_zun_idol_has_been_restored
+		}
+		set_global_variable = {
+			name = RICE_pamir_bibi_fatima_not_known
+			value = yes
+		}
+		title:c_zamindawar = {
+			add_county_modifier = {
+				modifier = RICE_pamir_zun_idol_is_restored
+			}
+		}
+	}
+	}
+	# End MODIFIERS section
+
+
+	# Begin HISTORICAL CHARACTERS section
+	{
+	if = {
+		limit = {
+			current_date < 900.1.1
+			current_date > 800.1.1
+		}
+		# PAMIR
+		character:RICE_pamir_001 = {
+			save_scope_as = pamir_puteshan_king
+		}
+		character:RICE_pamir_002 = {
+			save_scope_as = pamir_wakhanshah_king
+		}
+		character:RICE_pamir_003 = {
+			save_scope_as = pamir_shugnanshah_king
+		}
+		character:RICE_pamir_004 = {
+			save_scope_as = pamir_shugnanshah_king_2
+		}
+		character:188712 = { # Firuz. Zunbils are pagan and independent until 870 CE, ID# 188710 is the cousin
+			add_gold = 25
+			add_piety = 100
+			add_prestige = 100
+		}
+		character:RICE_pamir_013 = { # Give titles and bonuses to Azur Jamshid
+			save_scope_as = azur_jamshid
+			add_gold = 50
+			add_piety = 1000
+			add_prestige = 1000
+			dynasty = { add_dynasty_prestige = 500 }
+			add_character_modifier = {
+				modifier = RICE_pamir_is_azur_jamshid
+			}
+		}
+	}
+		
+	if = {
+		limit = {
+			current_date > 1000.1.1
+			current_date < 1100.1.1
+		}
+		character:persian_scholars_3 = { # Make Nasir Khusraw better
+			add_character_modifier = {
+				modifier = RICE_pamir_nasir_khusraw
+			}
+			add_character_flag = do_not_generate_starting_family
+			save_scope_as = nasir_khusraw
+		}
+		character:248023 = {
+			save_scope_as = muhtajid_ruler
+		}
+		character:RICE_pamir_021 = { # Azur Jamshid's descendant
+			dynasty = { add_dynasty_prestige = 1000 }
+		}
+		# Ali ibn Asad, Nasir Khusraw's friend
+		character:badakhshanids_2 = { 
+			save_scope_as = ali_ibn_asad
+			trigger_event = pamir.0003
+		}
+	}
+
+	if = {
+		limit = {
+			current_date > 1150.1.1
+			current_date < 1200.1.1
+		}
+		character:RICE_pamir_023 = { # Azur Jamshid's descendant
+			dynasty = { add_dynasty_prestige = 1000 }
+		}
+	}
+
+	if = {
+		# this is here for now
+		limit = {
+			current_date < 900.1.1
+			current_date > 800.1.1
+		}
+		character:163099 = { # Give titles to Pamir Chieftains
+			trigger_event = pamir.0001
+			save_scope_as = samanid_ruler
+		}
+		character:188712 = { # Firuz. Zunbils are pagan and independent until 870 CE, ID# 188710 is the cousin
+			add_gold = 25
+			add_piety = 100
+			add_prestige = 100
+			add_character_modifier = {
+				modifier = RICE_pamir_aspiration_assert_zunbil_independence
+			}
+			set_variable = {
+				name = RICE_historical_aspiration
+				value = flag:zunbil
+			}
+		}
+	}
+	if = {
+		# this is here for now
+		limit = {
+			current_date > 1000.1.1
+			current_date < 1100.1.1
+		}
+		# Ali ibn Asad, Nasir Khusraw's friend
+		character:badakhshanids_2 = { 
+			save_scope_as = ali_ibn_asad
+			trigger_event = pamir.0003
+		}
+	}
+	}
+	# End HISTORICAL CHARACTERS section
+
+
+	# Begin MISC+ section
+	{
+	if = {
+		limit = {
+			current_date > 870.1.1
+		}
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:RICE_pamir_shri_badat_palace_destroyed
+		}
+		set_global_variable = {
+			name = RICE_pamir_azur_jamshid_passed_away
+			value = yes
+		}
+	}
+
+	if = {
+		limit = {
+			current_date < 870.1.1
+			current_date > 840.1.1
+		}
+		title:c_gilgit = {
+			add_county_modifier = {
+				modifier = RICE_pamir_shri_badats_palace
+			}
+		}
+	}
+	if = {
+		limit = {
+			current_date > 870.1.1
+		}
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:RICE_pamir_shri_badat_palace_destroyed
+		}
+		set_global_variable = {
+			name = RICE_pamir_azur_jamshid_passed_away
+			value = yes
+		}
+	}
+
+	if = {
+		limit = {
+			current_date >= 900.1.1
+		}
+		set_global_variable = {
+			name = khalaj_culture_creation
+			value = yes
+		}
+	}
+
+	if = {
+		limit = {
+			current_date > 1000.1.1
+		}
+		set_global_variable = {
+			name = RICE_pamir_nasir_khusraw_born_1066_start
+			value = yes
+		}
+		set_global_variable = {
+			name = RICE_pamir_brahui_migrations_happened
+			value = yes
+		}
+	}
+
+	if = {
+		limit = {
+			game_start_date >= 1075.1.1 # Nasir Khusraw's death IRL is uncertain but vanilla game puts it at 1075
+		}
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:RICE_pamir_nasir_khusraw_shrine_decision_done
+		}
+		title:c_badakhshan = {
+			add_county_modifier = {
+				modifier = RICE_pamir_nasir_khusraw_shrine
+			}
+		}
+	}
+	}
+	# End MISC+ section
+
+	#####################
+	## RICE_setup_magadha_flavor_pack_effect
+	#####################
+	# Begin MISCELLANEOUS section
+	{
+	title:c_magadha = {
+		add_county_modifier = {
+			modifier = RICE_magadha_rajgir_hot_springs_buddhist
+		}
+	}
+	}
+	# End MISCELLANEOUS section
+
+	#####################
+	## RICE_setup_bamian_flavor_pack_effect
+	#####################
+	# Begin HISTORY/TITLE CHANGES section
+	{
+	# Set up Sher Bamiyan family
+	if = {
+		limit = {
+			current_date > 860.1.1
+			current_date < 875.1.1			
+		}
+		# Re-arrange Banijurid Territories a bit
+		# Obscure Sa'id father and son who ruled over Andarab
+		character:RICE_bamian_said_001 = {
+			# Persian struggle traits
+			RICE_make_caliphal_supporter = yes
+		}
+		# Muslim branch of the Sher Bamiyan working under the Abbasids
+		# Al-Hasan, son of Harthamah
+		character:RICE_bamian_005 = {
+			# Persian struggle traits
+			RICE_make_caliphal_supporter = yes
+		}
+		# Buddhist branch of the Sher Bamiyan
+		character:RICE_bamian_008 = {
+			# Persian struggle traits
+			RICE_make_caliphal_supporter = yes
+		}
+	}
+	}
+	# End HISTORY/TITLE CHANGES section
+
+
+	# Begin MISCELLANEOUS section
+	{
+	# For 1066 bookmark
+	if = {
+		limit = {
+			game_start_date = 867.1.1
+		}
+		# Siman-Tov's modifier
+		character:RICE_bamian_jewish_005 = {
+			add_character_modifier = {
+				modifier = RICE_bamian_hiwi_al_balkhi_modifier
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			game_start_date = 1066.9.15
+		}
+		# Siman-Tov's modifier
+		character:RICE_bamian_jewish_003 = {
+			add_character_modifier = {
+				modifier = RICE_bamian_siman_tov_modifier
+			}
+		}
+	}
+	}
+	# End MISCELLANEOUS section
+
+} # End of zz_RICE_setup_override.txt
+
+
+"common\on_action\sea_caucasus_on_actions.txt" = {
+	{
+on_game_start = {
+	on_actions = {
+		armenianmerchants_action
+		ildeguzids_action_1178
+		roa_gold_give
+		saladin_languages_action
+		abbasid_regnal_beginning_1178
+		abkhazia_regnal_beginning
+		cappadocian_action
+		#georgia_councillor
+		vanilla_characters_action_1066
+		caucasus_misc_stuff_action
+		ramadan_calculator_action
+	}
 }
+
+on_game_start_after_lobby = {
+    on_actions = {
+		intro_event_action
+		character_intro_event_action
+    }
+}
+	}
+
+	{
+yearly_global_pulse = {
+	on_actions = {
+		avar_nutsal_action
+		rum_sultan_nickname_action
+		ildeguzid_nickname_action
+		abbasid_regnal_check
+		abkhazia_regnal_check
+		caucasus_character_events_action
+	}
+}
+	}
+
+	# START LOOKING THROUGH THE yearly_global_pulse SECTION
+} # End of sea_caucasus_on_actions.txt
+
+
+
+
