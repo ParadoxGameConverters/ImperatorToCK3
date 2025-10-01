@@ -133,13 +133,14 @@ public class TitleTests {
 	}
 
 	private readonly TitleBuilder builder = new();
+	private static readonly ColorFactory colorFactory = new();
 
 	[Fact]
 	public void TitlePrimitivesDefaultToBlank() {
 		var reader = new BufferedReader(string.Empty);
 		var landedTitles = new Title.LandedTitles();
 		var title = landedTitles.Add("k_testtitle");
-		title.LoadTitles(reader);
+		title.LoadTitles(reader, colorFactory);
 
 		Assert.False(title.HasDefiniteForm);
 		Assert.False(title.Landless);
@@ -162,7 +163,7 @@ public class TitleTests {
 
 		var titles = new Title.LandedTitles();
 		var title = titles.Add("k_testtitle");
-		title.LoadTitles(reader);
+		title.LoadTitles(reader, colorFactory);
 
 		Assert.True(title.HasDefiniteForm);
 		Assert.True(title.Landless);
@@ -411,7 +412,7 @@ public class TitleTests {
 		var titles = new Title.LandedTitles();
 		var countyReader = new BufferedReader("b_barony = { province=1}");
 		var county = titles.Add("c_county");
-		county.LoadTitles(countyReader);
+		county.LoadTitles(countyReader, colorFactory);
 		Assert.False(county.DuchyContainsProvince(1));
 	}
 	[Fact]
@@ -419,7 +420,7 @@ public class TitleTests {
 		var titles = new Title.LandedTitles();
 		var countyReader = new BufferedReader("b_barony = { province=1}");
 		var county = titles.Add("c_county");
-		county.LoadTitles(countyReader);
+		county.LoadTitles(countyReader, colorFactory);
 		var duchy = titles.Add("d_duchy");
 		county.DeJureLiege = duchy;
 		Assert.True(duchy.DuchyContainsProvince(1));
@@ -429,7 +430,7 @@ public class TitleTests {
 		var titles = new Title.LandedTitles();
 		var countyReader = new BufferedReader("b_barony = { province=1}");
 		var county = titles.Add("c_county");
-		county.LoadTitles(countyReader);
+		county.LoadTitles(countyReader, colorFactory);
 		var duchy = titles.Add("d_duchy");
 		county.DeJureLiege = duchy;
 		Assert.False(duchy.DuchyContainsProvince(2)); // wrong id
@@ -440,7 +441,7 @@ public class TitleTests {
 		var titles = new Title.LandedTitles();
 		var countyReader = new BufferedReader("b_barony = { province=1}");
 		var county = titles.Add("c_county");
-		county.LoadTitles(countyReader);
+		county.LoadTitles(countyReader, colorFactory);
 		Assert.False(county.KingdomContainsProvince(1));
 	}
 	[Fact]
@@ -448,7 +449,7 @@ public class TitleTests {
 		var titles = new Title.LandedTitles();
 		var countyReader = new BufferedReader("b_barony = { province=1}");
 		var county = titles.Add("c_county");
-		county.LoadTitles(countyReader);
+		county.LoadTitles(countyReader, colorFactory);
 		var duchy = titles.Add("d_duchy");
 		county.DeJureLiege = duchy;
 		var kingdom = titles.Add("k_kingdom");
@@ -460,7 +461,7 @@ public class TitleTests {
 		var titles = new Title.LandedTitles();
 		var countyReader = new BufferedReader("b_barony = { province=1}");
 		var county = titles.Add("c_county");
-		county.LoadTitles(countyReader);
+		county.LoadTitles(countyReader, colorFactory);
 		var duchy = titles.Add("d_duchy");
 		county.DeJureLiege = duchy;
 		var kingdom = titles.Add("k_kingdom");

@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Region;
 using Xunit;
@@ -6,6 +7,7 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests.Mappers.Region;
 
 public class CK3RegionTests {
+	private static readonly ColorFactory colorFactory = new();
 	[Fact]
 	public void BlankRegionLoadsWithNoRegionsAndNoDuchies() {
 		var reader = new BufferedReader(string.Empty);
@@ -77,7 +79,7 @@ public class CK3RegionTests {
 			"{ c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } }"
 		);
 		var duchy2 = titles.Add("d_athens");
-		duchy2.LoadTitles(reader2);
+		duchy2.LoadTitles(reader2, colorFactory);
 
 		Assert.False(region.Duchies.ContainsKey("d_athens")); // not linked yet
 		region.LinkDuchy(duchy2);
@@ -94,7 +96,7 @@ public class CK3RegionTests {
 			"= { c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } }"
 		);
 		var duchy2 = titles.Add("d_athens");
-		duchy2.LoadTitles(reader2);
+		duchy2.LoadTitles(reader2, colorFactory);
 
 		region.LinkDuchy(duchy2);
 
@@ -112,7 +114,7 @@ public class CK3RegionTests {
 			"{ c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } }"
 		);
 		var duchy2 = titles.Add("d_athens");
-		duchy2.LoadTitles(reader2);
+		duchy2.LoadTitles(reader2, colorFactory);
 
 		region.LinkDuchy(duchy2);
 

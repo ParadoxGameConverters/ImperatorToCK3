@@ -43,11 +43,11 @@ internal sealed partial class Title {
 	
 		public IEnumerable<Title> Counties => this.Where(t => t.Rank == TitleRank.county);
 
-		public void LoadTitles(ModFilesystem ck3ModFS, CK3LocDB ck3LocDB) {
+		public void LoadTitles(ModFilesystem ck3ModFS, CK3LocDB ck3LocDB, ColorFactory colorFactory) {
 			Logger.Info("Loading landed titles...");
 
 			var parser = new Parser();
-			RegisterKeys(parser);
+			RegisterKeys(parser, colorFactory);
 			parser.ParseGameFolder("common/landed_titles", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 			LogIgnoredTokens();
 
@@ -130,18 +130,18 @@ internal sealed partial class Title {
 			}
 		}
 
-		public void LoadTitles(BufferedReader reader) {
+		public void LoadTitles(BufferedReader reader, ColorFactory colorFactory) {
 			var parser = new Parser();
-			RegisterKeys(parser);
+			RegisterKeys(parser, colorFactory);
 			parser.ParseStream(reader);
 
 			LogIgnoredTokens();
 		}
-		public void LoadStaticTitles() {
+		public void LoadStaticTitles(ColorFactory colorFactory) {
 			Logger.Info("Loading static landed titles...");
 
 			var parser = new Parser();
-			RegisterKeys(parser);
+			RegisterKeys(parser, colorFactory);
 
 			parser.ParseFile("configurables/static_landed_titles.txt");
 
@@ -174,7 +174,7 @@ internal sealed partial class Title {
 			}
 		}
 
-		private void RegisterKeys(Parser parser) {
+		private void RegisterKeys(Parser parser, ColorFactory colorFactory) {
 			parser.RegisterRegex(CommonRegexes.Variable, (reader, variableName) => {
 				var variableValue = reader.GetString();
 				Variables[variableName[1..]] = variableValue;
@@ -183,10 +183,10 @@ internal sealed partial class Title {
 				// Pull the titles beneath this one and add them to the lot.
 				// A title can be defined in multiple files, in that case merge the definitions.
 				if (TryGetValue(titleNameStr, out var titleToUpdate)) {
-					titleToUpdate.LoadTitles(reader);
+					titleToUpdate.LoadTitles(reader, colorFactory);
 				} else {
 					var newTitle = Add(titleNameStr);
-					newTitle.LoadTitles(reader);
+					newTitle.LoadTitles(reader, colorFactory);
 				}
 			});
 			parser.IgnoreAndLogUnregisteredItems();
