@@ -143,13 +143,13 @@ internal sealed class World {
 			() => LoadMenAtArmsTypes(ModFS, ScriptValues), // depends on ScriptValues
 			() => { // depends on LocDB and CK3CoaMapper
 				// Load vanilla CK3 landed titles and their history
-				LandedTitles.LoadTitles(ModFS, LocDB);
+				LandedTitles.LoadTitles(ModFS, LocDB, ck3ColorFactory);
 				
 				if (config.StaticDeJure) {
 					Logger.Info("Setting static de jure kingdoms and empires...");
 
 					Title.LandedTitles overrideTitles = [];
-					overrideTitles.LoadStaticTitles();
+					overrideTitles.LoadStaticTitles(ck3ColorFactory);
 					LandedTitles.CarveTitles(overrideTitles);
 
 					Logger.IncrementProgress();

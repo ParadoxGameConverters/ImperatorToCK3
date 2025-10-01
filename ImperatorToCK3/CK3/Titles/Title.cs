@@ -776,9 +776,9 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return nameSet;
 	}
 
-	public void LoadTitles(BufferedReader reader) {
+	public void LoadTitles(BufferedReader reader, ColorFactory colorFactory) {
 		var parser = new Parser();
-		RegisterKeys(parser);
+		RegisterKeys(parser, colorFactory);
 		parser.ParseStream(reader);
 
 		TrySetCapitalBarony();
@@ -1132,15 +1132,15 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 	[commonItems.Serialization.NonSerialized] public bool IsCreatedFromImperator { get; private set; } = false;
 
-	private void RegisterKeys(Parser parser) {
+	private void RegisterKeys(Parser parser, ColorFactory colorFactory) {
 		parser.RegisterRegex(Regexes.TitleId, (reader, titleNameStr) => {
 			// Pull the titles beneath this one and add them to the lot.
 			// A title can be defined in multiple files, in that case merge the definitions.
 			if (parentCollection.TryGetValue(titleNameStr, out var childTitle)) {
-				childTitle.LoadTitles(reader);
+				childTitle.LoadTitles(reader, colorFactory);
 			} else {
 				childTitle = parentCollection.Add(titleNameStr);
-				childTitle.LoadTitles(reader);
+				childTitle.LoadTitles(reader, colorFactory);
 			}
 
 			if (childTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBaronyId)) {
@@ -1220,7 +1220,6 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	[commonItems.Serialization.NonSerialized] public History History { get; } = new();
-	private static readonly ColorFactory colorFactory = new();
 
 	private void SetRank() {
 		Rank = GetRankForId(Id);

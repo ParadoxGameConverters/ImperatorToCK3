@@ -21,11 +21,12 @@ public class ReligionCollectionTests {
 	private readonly ModFilesystem ck3ModFS = new(CK3Root, Array.Empty<Mod>());
 	private const string TestReligionsDirectory = "TestFiles/CK3/game/common/religion/religions";
 	private const string TestReplaceableHolySitesFile = "TestFiles/configurables/replaceable_holy_sites.txt";
+	private static readonly ColorFactory colorFactory = new();
 
 	[Fact]
 	public void ReligionsAreLoaded() {
 		var religions = new ReligionCollection(new Title.LandedTitles());
-		religions.LoadReligions(ck3ModFS, new ColorFactory());
+		religions.LoadReligions(ck3ModFS, colorFactory);
 
 		var religionIds = religions.Select(r => r.Id);
 		religionIds.Should().Contain(new[] { "religion_a", "religion_b", "religion_c" });
@@ -34,7 +35,7 @@ public class ReligionCollectionTests {
 	[Fact]
 	public void ReplaceableHolySitesCanBeLoaded() {
 		var religions = new ReligionCollection(new Title.LandedTitles());
-		religions.LoadReligions(ck3ModFS, new ColorFactory());
+		religions.LoadReligions(ck3ModFS, colorFactory);
 		religions.LoadReplaceableHolySites(TestReplaceableHolySitesFile);
 
 		religions.ReplaceableHolySitesByFaith["religion_a_faith"]
@@ -142,11 +143,11 @@ public class ReligionCollectionTests {
 			"c_site_county3={ b_site_barony3={province=10} } " +
 			"c_site_county4={ b_site_barony4={province=11} } " +
 			"c_site_county5={ b_site_barony5={province=12} }");
-		titles.LoadTitles(titlesReader);
+		titles.LoadTitles(titlesReader, colorFactory);
 
 		var religions = new ReligionCollection(titles);
 		religions.LoadHolySites(ck3ModFS);
-		religions.LoadReligions(ck3ModFS, new ColorFactory());
+		religions.LoadReligions(ck3ModFS, colorFactory);
 		religions.LoadReplaceableHolySites("TestFiles/configurables/replaceable_holy_sites.txt");
 
 		var faith = religions.GetFaith("ck3Faith");
@@ -171,7 +172,6 @@ public class ReligionCollectionTests {
 	[Fact]
 	public void OptionalFaithIsNotLoadedIfInvalidatedByExistingFaiths() {
 		var religions = new ReligionCollection(new Title.LandedTitles());
-		var colorFactory = new ColorFactory();
 		religions.LoadReligions(ck3ModFS, colorFactory);
 		Assert.Contains(religions.Faiths, f => f.Id == "religion_a_faith");
 		
@@ -183,7 +183,6 @@ public class ReligionCollectionTests {
 	[Fact]
 	public void OptionalFaithCanBeLoaded() {
 		var religions = new ReligionCollection(new Title.LandedTitles());
-		var colorFactory = new ColorFactory();
 		Assert.DoesNotContain(religions.Faiths, r => r.Id == "religion_a_faith");
 		
 		religions.LoadConverterFaiths("TestFiles/configurables/optional_faiths.txt", colorFactory);
