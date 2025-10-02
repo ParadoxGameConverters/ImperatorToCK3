@@ -99,26 +99,6 @@
 }
 
 
-"music/main_themes/music.txt" = {
-	# Restore vanilla main theme, the TFE one seems broken as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-main_theme_track = {
-	music = "file:/MUSIC/TFE/TFE_Main.ogg"
-	name = "TFE_main_theme_track"
-	can_be_interrupted = yes
-}
-		}
-		after = {
-main_theme_track = {
-	music = "event:/MUSIC/MainTheme/Maintheme"
-	can_be_interrupted = yes
-}
-		}
-	}
-}
-
-
 "music/in_game/TFE_music.txt" = {
 	# Define TFE_General_Cue to avoid "music not defined in music/ or dlc/*/music/" ck3-tiger warnings.
 	replace = {
@@ -1179,24 +1159,6 @@ texture = "gfx/portraits/accessory_variations/textures/color_palette_fp2_iberian
 }
 
 
-"common/bookmark_portraits/bookmark_reconquest_belisarius.txt" = {
-	replace = {
-		before = {
- 		clothes={ "male_clothes_roman_nobility_03" 0 "most_clothes" 0 }
- 		headgear={ "no_headgear" 0 "no_headgear" 0 }
- 		hairstyles={ "fp2_hairstyles_iberian_muslim_wavy" 85 "all_hairstyles" 0 }
- 		clothes={ "male_clothes_roman_nobility_03" 79 "most_clothes" 0 }
-		} # end of before
-		
-		after = {
- 		clothes={ "male_clothes_roman_nobility_03" 0 "most_clothes" 0 }
- 		headgear={ "no_headgear" 0 "no_headgear" 0 }
- 		hairstyles={ "fp2_hairstyles_iberian_muslim_wavy" 85 "all_hairstyles" 0 }
-		} # end of after
-	}
-}
-
-
 "common/men_at_arms_types/TFE_maa_types.txt" = {
 	# from error.log:
 	# Error: "Variable name 'provisions_cost_infantry_cheap' is already taken: gold, near line: 59 (expanded from file: common/men_at_arms_types/TFE_maa_types.txt line: 58)
@@ -1300,16 +1262,6 @@ gaetuli_dynasty = {
 		} # end of after
 	}
 
-	# No nabataean culture in TFE as of the 'After the Pharaohs' update.
-	replace = {
-		before = {
-	culture = "nabataean"
-		} # end of before
-		after = {
-	culture = nabatean
-		} # end of after
-	}
-
 	# No suebian culture in TFE as of the 'After the Pharaohs' update.
 	replace = {
 		before = {
@@ -1349,6 +1301,55 @@ gaetuli_dynasty = {
 		1 = mediterranean
 		4 = soldiers3.dds
 	}
+		}
+	}
+}
+
+
+"common/on_action/TFE_game_start_chars.txt" = {
+	replace = {
+		before = {
+	on_actions = {
+		TFE_on_game_start_chars
+	}
+		}
+
+		after = {
+	on_actions = {
+		#TFE_on_game_start_chars # IRToCK3: Disabled
+	}
+		}
+	}
+}
+
+
+"common/governments/imperial_government.txt" = {
+	# from error.log:
+	# Error: "Unexpected token: autocratic_government_opinion, near line: 49" in file: "common/governments/imperial_government.txt" near line: 49
+	# For some reason, the autocratic opinion modifier doesn't work for imperial_government, despite working for other governments, so having it be removed here.
+	replace = {
+		before = {
+	character_modifier = {
+		autocratic_government_opinion = -50
+		feudal_government_tax_contribution_mult = -0.5
+		feudal_government_levy_contribution_mult = -0.5
+		clan_government_tax_contribution_mult = -0.5
+		clan_government_levy_contribution_mult = -0.5
+	}
+
+	vassal_contract_group = imperial_vassal
+		}
+
+		after = {
+	character_modifier = {
+		#autocratic_government_opinion = -50 # IRToCK3: Disabled, doesn't work for some reason
+		feudal_government_tax_contribution_mult = -0.5
+		feudal_government_levy_contribution_mult = -0.5
+		clan_government_tax_contribution_mult = -0.5
+		clan_government_levy_contribution_mult = -0.5
+	}
+
+	vassal_contract_group = imperial_vassal
 		}
 	}
 }

@@ -30,6 +30,7 @@ language_families = {
 			language_family_gutian
 			language_family_pre_greek
 			language_family_hatti
+			language_family_burushaski
 		}
     }
 }
@@ -78,6 +79,7 @@ language_groups = {
 			language_group_gutian
 			language_group_pre_greek
 			language_group_hatti
+			language_group_burusho
 		} ELSE_IF wtwsms = {
 			language_group_sabellic
 			language_group_celto_italic
