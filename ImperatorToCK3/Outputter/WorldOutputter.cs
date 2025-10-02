@@ -166,6 +166,7 @@ internal static class WorldOutputter {
 		modFileBuilder.AppendLine($"name = \"Converted - {outputName}\"");
 		modFileBuilder.AppendLine($"path = \"mod/{outputName}\"");
 		modFileBuilder.AppendLine("replace_path=\"common/bookmarks\"");
+		modFileBuilder.AppendLine("replace_path=\"common/bookmarks/bookmarks\"");
 		modFileBuilder.AppendLine("replace_path=\"common/bookmarks/challenge_characters\"");
 		modFileBuilder.AppendLine("replace_path=\"common/culture/cultures\"");
 		modFileBuilder.AppendLine("replace_path=\"common/culture/pillars\"");

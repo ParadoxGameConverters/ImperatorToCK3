@@ -42,10 +42,9 @@ public class CharacterCollectionTests {
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private readonly ModFilesystem ck3ModFS = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
 	private static readonly CultureCollection cultures;
+	private static readonly ColorFactory colorFactory = new();
 
 	static CharacterCollectionTests() {
-		var colorFactory = new ColorFactory();
-		
 		var states = new StateCollection();
 		var countries = new CountryCollection();
 		ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
@@ -251,7 +250,7 @@ public class CharacterCollectionTests {
 		Assert.True(imperatorWorld.Areas.ContainsKey("galatia_area"));
 		Assert.True(imperatorWorld.Areas.ContainsKey("paphlagonia_area"));
 		
-		imperatorWorld.ImperatorRegionMapper.LoadRegions(imperatorWorld.ModFS, new ColorFactory());
+		imperatorWorld.ImperatorRegionMapper.LoadRegions(imperatorWorld.ModFS, colorFactory);
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("galatia_area"));
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("paphlagonia_area"));
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("galatia_region"));
@@ -283,7 +282,7 @@ public class CharacterCollectionTests {
 			c_county3 = { b_barony3={province=3} }
 			c_county4 = { b_barony4={province=4} }
 			c_county5 = { b_barony5={province=5} }
-			c_county6 = { b_barony6={province=6} }")
+			c_county6 = { b_barony6={province=6} }"), colorFactory
 		);
 
 		var tagTitleMapper = new TagTitleMapper();

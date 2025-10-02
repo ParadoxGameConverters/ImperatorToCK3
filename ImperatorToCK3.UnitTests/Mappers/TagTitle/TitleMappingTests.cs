@@ -21,6 +21,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.TagTitle;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class TitleMappingTests {
+	private readonly ColorFactory colorFactory = new();
+	
 	[Fact]
 	public void SimpleTagMatch() {
 		var reader = new BufferedReader("{ ck3 = e_roman_empire ir = ROM }");
@@ -167,7 +169,7 @@ public class TitleMappingTests {
 				c_county3 = { b_barony3 = { province = 3 } }
 			}
 		""");
-		titles.LoadTitles(titlesReader);
+		titles.LoadTitles(titlesReader, colorFactory);
 		Assert.Contains(duchyId, titles.GetDeJureDuchies().Select(d => d.Id));
 		
 		var mappingReader = new BufferedReader($"{{ ck3={duchyId} ir={irRegionId} rank=d }}");
