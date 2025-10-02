@@ -71,7 +71,7 @@ internal static class FileTweaker {
 			ReadBlocksToRemoveForFile(fileName, reader, partsToModifyPerFile, warnIfNotFound);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		
+
 		parser.ParseFile(configurablePath);
 	}
 
@@ -153,9 +153,13 @@ internal static class FileTweaker {
 
 		foreach (var (relativePath, partsToRemove) in partsToModifyPerFile) {
 			var inputPath = ck3ModFS.GetActualFileLocation(relativePath);
+			if (inputPath is null) {
+				Logger.Warn($"{relativePath} not found in mod filesystem.");
+				continue;
+			}
 			if (!File.Exists(inputPath)) {
-				Logger.Debug($"{relativePath} not found.");
-				return;
+				Logger.Warn($"{relativePath} not found at {inputPath}.");
+				continue;
 			}
 
 			LineEnding lineEndings = GetLineEndingsInFile(inputPath);
