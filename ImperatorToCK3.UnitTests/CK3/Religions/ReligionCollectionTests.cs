@@ -6,7 +6,7 @@ using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Pops;
-using ImperatorToCK3.Mappers.HolySiteEffect;
+using ImperatorToCK3.Mappers.Modifier;
 using System;
 using System.Linq;
 using Xunit;
@@ -156,7 +156,7 @@ public class ReligionCollectionTests {
 		religions.DetermineHolySites(
 			provinces,
 			imperatorReligions,
-			new HolySiteEffectMapper("TestFiles/HolySiteEffectMapperTests/mappings.txt"),
+			new ModifierMapper("TestFiles/HolySiteEffectMapperTests/mappings.txt"),
 			new Date("476.1.1")
 		);
 
