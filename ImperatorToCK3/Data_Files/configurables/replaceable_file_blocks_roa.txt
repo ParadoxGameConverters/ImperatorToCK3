@@ -445,7 +445,7 @@ EEE_sea_setup_on_actions = {
 } # End of zz_vanilla_override.txt
 
 
-"common\scripted_effects\zz_RICE_setup_override.txt" = {
+"common/scripted_effects/zz_RICE_setup_override.txt" = {
 	#####################
 	## RICE_setup_tarim_basin_flavor_pack_effect
 	#####################
