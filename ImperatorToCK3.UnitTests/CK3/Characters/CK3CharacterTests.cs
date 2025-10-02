@@ -6,7 +6,6 @@ using commonItems.Mods;
 using AwesomeAssertions;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
@@ -28,7 +27,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using Culture = ImperatorToCK3.Imperator.Cultures.Culture;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters;
 
@@ -94,7 +92,7 @@ public class CK3CharacterTests {
 				DNAFactory,
 				new Date(867, 1, 1),
 				config,
-				unlocalizedImperatorNames: new HashSet<string>()
+				unlocalizedImperatorNames: []
 			);
 			return character;
 		}

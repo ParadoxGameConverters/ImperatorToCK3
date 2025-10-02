@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Region;
@@ -12,6 +13,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class CK3RegionMapperTests {
+	private static readonly ColorFactory colorFactory = new();
+	
 	[Fact]
 	public void RegionMapperCanBeEnabled() {
 		// We start humble, it's a machine.
@@ -34,7 +37,7 @@ public class CK3RegionMapperTests {
 		var landedTitlesReader = new BufferedReader(
 			"k_anglia = { d_aquitane = { c_mers = { b_hgy = { province = 69 } } } }"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LoadingBrokenRegionWillThrowException";
 		var ck3Root = Path.Combine(ck3Path, "game");
 		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
@@ -51,7 +54,7 @@ public class CK3RegionMapperTests {
 		var landedTitlesReader = new BufferedReader(
 			"k_anglia = { d_broken_aquitane = { c_mers = { b_hgy = { province = 69 } } } }"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LoadingBrokenDuchyWillThrowException";
 		var ck3Root = Path.Combine(ck3Path, "game");
 		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
@@ -68,7 +71,7 @@ public class CK3RegionMapperTests {
 		var landedTitlesReader = new BufferedReader(
 			"k_anglia = { d_aquitane = { c_mers_broken = { b_hgy = { province = 69 } } } } \n"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LoadingBrokenCountyWillThrowException";
 		var ck3Root = Path.Combine(ck3Path, "game");
 		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
@@ -86,7 +89,7 @@ public class CK3RegionMapperTests {
 		var landedTitlesReader = new BufferedReader(
 			"d_aquitane = { c_mers = { b_hgy = { province = 69 } } }"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LocationServicesWork";
 		var ck3Root = Path.Combine(ck3Path, "game");
 		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
@@ -107,7 +110,7 @@ public class CK3RegionMapperTests {
 			"d_testduchy = { 1 2 3 } \n" +
 			"d_testduchy2 = { 4 5 6 } "
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LocationServicesCorrectlyFail";
 		var ck3Root = Path.Combine(ck3Path, "game");
 		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
@@ -126,7 +129,7 @@ public class CK3RegionMapperTests {
 			"k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } } } \n" +
 			"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } }"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LocationServicesFailForNonsense";
 		var ck3Root = Path.Combine(ck3Path, "game");
 		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
@@ -145,7 +148,7 @@ public class CK3RegionMapperTests {
 			"k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } } } } \n" +
 			"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } } \n"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/CorrectParentLocationsReported";
 		var ck3Root = Path.Combine(ck3Path, "game");
 		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
@@ -166,7 +169,7 @@ public class CK3RegionMapperTests {
 			"d_testduchy = { 1 2 3 } \n" +
 			"d_testduchy2 = { 4 5 6 } "
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/WrongParentLocationsReturnNull";
 		var ck3Root = Path.Combine(ck3Path, "game");
 		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
@@ -186,7 +189,7 @@ public class CK3RegionMapperTests {
 			"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } } \n" +
 			"c_county = { b_barony = { province = 69 } } \n"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LocationNameValidationWorks";
 		var ck3Root = Path.Combine(ck3Path, "game");
 		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());
@@ -220,7 +223,7 @@ public class CK3RegionMapperTests {
 		var landedTitlesReader = new BufferedReader(
 			"c_athens = { b_athens = { province = 79 } b_newbarony = { province = 56 } }"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 		const string ck3Path = "TestFiles/regions/CK3RegionMapperTests/LocationServicesSucceedsForCountyField";
 		var ck3Root = Path.Combine(ck3Path, "game");
 		var ck3ModFS = new ModFilesystem(ck3Root, new List<Mod>());

@@ -2,7 +2,7 @@
 
 namespace ImperatorToCK3.CommonUtils.Map;
 
-public sealed class ProvincePosition {
+internal sealed class ProvincePosition {
 	public ulong Id { get; private set; }
 	public double X { get; private set; }
 	public double Y { get; private set; }

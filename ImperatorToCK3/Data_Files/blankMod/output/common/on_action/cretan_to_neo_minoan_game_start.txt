@@ -9,6 +9,9 @@ on_game_start = {
 
 cretan_to_neo_minoan_on_game_start = {
 	effect = {
+		# Give Neo-Minoan the culture innovations from Cretan
+		culture:neo_minoan = { get_all_innovations_from = culture:cretan }
+
 		# Make Neo-Minoan culture only appear in provinces where the holder is of Cretan culture and is of kingdom or empire tier.
 		every_ruler = {
 			limit = {
@@ -23,21 +26,32 @@ cretan_to_neo_minoan_on_game_start = {
 			# Convert the character and his entire realm from Cretan to Neo-Minoan.
 			set_culture = culture:neo_minoan
 			every_realm_county = {
-				limit = {
-					culture = culture:cretan
-				}
+				limit = { culture = culture:cretan }
 				set_county_culture = culture:neo_minoan
 			}
+
 			every_vassal_or_below = {
-				limit = {
-					culture = culture:cretan
-				}
+				limit = { culture = culture:cretan }
 				set_culture = culture:neo_minoan
-			}
-			every_close_or_extended_family_member = {
-				limit = {
-					culture = culture:cretan
+
+				every_close_or_extended_family_member = {
+					limit = { culture = culture:cretan }
+					set_culture = culture:neo_minoan
 				}
+
+				every_courtier = {
+					limit = { culture = culture:cretan }
+					set_culture = culture:neo_minoan
+				}
+			}
+
+			every_close_or_extended_family_member = {
+				limit = { culture = culture:cretan }
+				set_culture = culture:neo_minoan
+				}
+
+			every_courtier = {
+				limit = { culture = culture:cretan }
 				set_culture = culture:neo_minoan
 			}
 		}

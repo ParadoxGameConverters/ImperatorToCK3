@@ -108,7 +108,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		DNAFactory dnaFactory,
 		Date endDate,
 		Configuration config,
-		ISet<string> unlocalizedImperatorNames) {
+		ConcurrentHashSet<string> unlocalizedImperatorNames) {
 		// Create a new CK3 character.
 		var newCharacter = new Character(
 			irCharacter,
@@ -872,18 +872,18 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		var randomForCharactersWithoutTitles = new Random((int)randomSeed);
 		foreach (var oldCharacter in oldCharacters.Except(oldTitleHolders)) {
 			// Roll a dice to determine how much longer the character will live.
-			var yearsToLive = randomForCharactersWithoutTitles.Next(0, 30);
+			var monthsToLive = randomForCharactersWithoutTitles.Next(1, 30 * 12); // Can live up to 30 years more.
 			
 			// If the character is female and pregnant, make sure she doesn't die before the pregnancy ends.
 			if (oldCharacter is {Female: true, ImperatorCharacter: not null}) {
 				var lastPregnancy = oldCharacter.Pregnancies.OrderBy(p => p.BirthDate).LastOrDefault();
 				if (lastPregnancy is not null) {
-					oldCharacter.DeathDate = lastPregnancy.BirthDate.ChangeByYears(yearsToLive);
+					oldCharacter.DeathDate = lastPregnancy.BirthDate.ChangeByMonths(monthsToLive);
 					continue;
 				}
 			}
-			
-			oldCharacter.DeathDate = irSaveDate.ChangeByYears(yearsToLive);
+
+			oldCharacter.DeathDate = irSaveDate.ChangeByMonths(monthsToLive);
 		}
 		
 		ConcurrentDictionary<string, Title[]> titlesByHolderId = new(titles

@@ -10,8 +10,8 @@ using System.Linq;
 
 namespace ImperatorToCK3;
 
-public enum LegionConversion { No, SpecialTroops, MenAtArms }
-public sealed class Configuration {
+internal enum LegionConversion { No, SpecialTroops, MenAtArms }
+internal sealed class Configuration {
 	public string SaveGamePath { get; set; } = "";
 	public string ImperatorPath { get; set; } = "";
 	public string ImperatorDocPath { get; set; } = "";
@@ -256,7 +256,18 @@ public sealed class Configuration {
 		if (!Directory.Exists(CK3ModsPath)) {
 			throw new UserErrorException($"{CK3ModsPath} does not exist!");
 		}
-		
+
+		var normalizedCK3ModsPath = Path.TrimEndingDirectorySeparator(
+			CK3ModsPath.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar)
+		);
+		var expectedSuffix = Path.Combine("Paradox Interactive", "Crusader Kings III", "mod");
+		var comparison = OperatingSystem.IsWindows() || OperatingSystem.IsMacOS()
+			? StringComparison.OrdinalIgnoreCase
+			: StringComparison.Ordinal;
+		if (!normalizedCK3ModsPath.EndsWith(expectedSuffix, comparison)) {
+			throw new UserErrorException($"{CK3ModsPath} is not a valid CK3 mods directory! It should end with {expectedSuffix}.");
+		}
+
 		// If the mods folder contains any files, at least one on them should have a .mod extension.
 		var filesInFolder = Directory.GetFiles(CK3ModsPath);
 		if (filesInFolder.Length > 0) {

@@ -937,7 +937,7 @@ dalmatian = {
 	color = rgb { 246 223 15 }
 
 	heritage = heritage_albanian
-	language = language_albanian
+	language = language_illyrian
 	martial_custom = martial_custom_equal
 	head_determination = head_determination_domain
 	traditions = {
@@ -3895,4 +3895,57 @@ basque = {
 	ethnicities = {
 		10 = mediterranean
 	}
+}
+
+# Broader Anatolian culture to replace old anachronistic Hittite culture
+anatolian = {
+    INVALIDATED_BY = {
+		tfe = { anatolian }
+		wtwsms = { anatolian }
+		roa = { anatolian }
+		vanilla = { anatolian }
+	}
+
+	color = rgb { 85 148 124 }
+
+	heritage = heritage_anatolian
+	language = language_anatolian
+	martial_custom = martial_custom_male_only
+	ethos = ethos_bellicose # Were known warriors/mercenaries
+	head_determination = head_determination_domain
+	traditions = {
+		tradition_hill_dwellers # Many lived in Hill Forts
+		tradition_highland_warriors # Lived in hills, known to be mercenaries/warriors
+		tradition_swords_for_hire # Known to be mercenaries
+	}
+	dlc_tradition = {
+		trait = tradition_culture_blending # Had to adapt to changing overlords/neighboring influential powers
+		requires_dlc_flag = hybridize_culture
+	}
+
+	name_list = name_list_anatolian
+
+	ethnicities = {
+		10 = mediterranean_byzantine
+	}
+
+	MOD_DEPENDENT = {
+		IF tfe = {
+			# Fixes "Gfx culture byzantine_group_coa_gfx in armenian doesn't match existing sequence in luwian"
+			coa_gfx = { byzantine_group_coa_gfx western_coa_gfx }
+		}
+		ELSE = {
+			coa_gfx = {
+				byzantine_group_coa_gfx
+				# israelite_group_coa_gfx
+				# western_coa_gfx
+			}
+		}
+	}
+	building_gfx = { mena_building_gfx }
+	clothing_gfx = {
+		byzantine_clothing_gfx
+		# dde_abbasid_clothing_gfx
+	}
+	unit_gfx = { eastern_unit_gfx }
 }

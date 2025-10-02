@@ -275,6 +275,228 @@
 
 	# Anachronistic
 	{
+		### ARMENIAN SETUP ###
+		title:e_byzantium.holder ?= {
+			every_vassal = {
+				limit = {
+					government_has_flag = government_is_feudal
+					vassal_contract_has_modifiable_obligations = yes
+					faith = faith:armenian_apostolic
+				}
+				vassal_contract_set_obligation_level = { type = religious_rights level = 1 }
+				set_subject_contract_modification_blocked = no
+			}
+		}
+		title:e_arabia.holder ?= {
+			every_vassal = {
+				limit = {
+					government_has_flag = government_is_feudal
+					vassal_contract_has_modifiable_obligations = yes
+					faith = faith:armenian_apostolic
+				}
+				vassal_contract_set_obligation_level = { type = feudal_government_taxes level = 3 }
+				vassal_contract_set_obligation_level = { type = feudal_government_levies level = 2 }
+				vassal_contract_set_obligation_level = { type = jizya_special_rights level = 1 }
+				set_subject_contract_modification_blocked = no
+			}
+		}
+	}
+
+	# Anachronistic
+	{
+		### CORONATION LOCATION SETUP ###
+		if = {
+			limit = {
+				current_date >= 1066.1.1
+				has_dlc_feature = coronations
+			}
+			# London (England)
+			province:1527 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Aachen (Germany)
+			province:2092 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Reims (France)
+			province:2390 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Rome (Italy)
+			province:2575 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Milan (Italy)
+			province:2482 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Gniezno (Poland)
+			province:4905 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Szekesfehervar (Hungary)
+			province:3805 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Scone Abbey, Gowrie (Scotland)
+			province:1741 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Byzantium (Byzantines)
+			province:496 = { 
+				add_province_modifier = coronation_long_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 10
+				}
+			}
+			# Mahdiya (Africa)
+			province:4578 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Cairo (Egypt)
+			province:6042 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Damascus (Syria)
+			province:5924 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Baghdad (Mesopotamia)
+			province:4828 = { 
+				add_province_modifier = coronation_long_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 10
+				}
+			}
+			# Rayy (Persia)
+			province:4319 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Ghazna (Kabulistan)
+			province:4500 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Lahur (Punjab)
+			province:1362 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Samarkand (Transoxiana)
+			province:4404 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Bukhara (Transoxiana)
+			province:4394 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Medina (Arabia)
+			province:6212 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Kutaisi (Georgia)
+			province:601 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+		}
+		if = {
+			limit = {
+				current_date >= 1178.1.1
+				has_dlc_feature = coronations
+			}
+			# Marrakesh (Maghreb)
+			province:4718 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Karakorum (Mongolia)
+			province:1457 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+		}
+	}
+
+	# Anachronistic
+	{
 		### GAME RULE: EXTRA ADMINS
 		apply_historic_administrative_game_rule_effect = yes
 	}
@@ -1245,6 +1467,11 @@
 				create_story = story_conqueror
 			}
 		}
+	}
+
+	# Anachronistic
+	{
+					NOT = { this = character:1316 } # Heinrich IV was coronated in 1084
 	}
 
 # achievements
@@ -2615,7 +2842,7 @@ create_artifact_monomachus_crown_effect = {
 	create_artifact = {	
 		name = monomachus_crown_name
 		description = monomachus_crown_description
-		template = general_unique_template
+		template = crown_wearable_template
 		type = helmet
 		visuals = pedestal_justinian
 		wealth = scope:wealth

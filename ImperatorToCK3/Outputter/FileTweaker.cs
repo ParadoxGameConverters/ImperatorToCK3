@@ -15,7 +15,7 @@ internal enum LineEnding {
 	CR
 }
 
-public static class FileTweaker {
+internal static class FileTweaker {
 	public static async Task ModifyAndRemovePartsOfFiles(ModFilesystem ck3ModFS, string outputModPath, Configuration config) {
 		// Load removable blocks from configurables.
 		Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile = [];
@@ -71,7 +71,7 @@ public static class FileTweaker {
 			ReadBlocksToRemoveForFile(fileName, reader, partsToModifyPerFile, warnIfNotFound);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		
+
 		parser.ParseFile(configurablePath);
 	}
 
@@ -153,9 +153,13 @@ public static class FileTweaker {
 
 		foreach (var (relativePath, partsToRemove) in partsToModifyPerFile) {
 			var inputPath = ck3ModFS.GetActualFileLocation(relativePath);
+			if (inputPath is null) {
+				Logger.Warn($"{relativePath} not found in mod filesystem.");
+				continue;
+			}
 			if (!File.Exists(inputPath)) {
-				Logger.Debug($"{relativePath} not found.");
-				return;
+				Logger.Warn($"{relativePath} not found at {inputPath}.");
+				continue;
 			}
 
 			LineEnding lineEndings = GetLineEndingsInFile(inputPath);
@@ -175,7 +179,8 @@ public static class FileTweaker {
 				
 				if (!fileContent.Contains(searchString)) {
 					if (warnIfNotFound) {
-						Logger.Warn($"Block not found in file {relativePath}: {searchString}");
+						string escapedSearchString = searchString.Replace("\r", "\\r").Replace("\n", "\\n");
+						Logger.Warn($"Block not found in file {relativePath}: {escapedSearchString}");
 					}
 					continue;
 				}

@@ -61,7 +61,7 @@ internal partial class World {
 	private DiplomacyDB diplomacyDB;
 	public IReadOnlyCollection<War> Wars => diplomacyDB.Wars;
 	public IReadOnlyCollection<Dependency> Dependencies => diplomacyDB.Dependencies;
-	public IReadOnlyCollection<List<ulong>> DefensiveLeagues => diplomacyDB.DefensiveLeagues; // TODO: convert this to CK3
+	public IReadOnlyCollection<List<ulong>> DefensiveLeagues => diplomacyDB.DefensiveLeagues;
 	
 	public Jobs.JobsDB JobsDB { get; private set; } = new();
 	internal UnitCollection Units { get; } = [];
@@ -333,7 +333,9 @@ internal partial class World {
 		Countries.LinkFamilies(Families);
 
 		LoadPreImperatorRulers();
-		
+
+		RemoveEmptyCountries();
+
 		// Detect specific mods.
 		InvictusDetected = GlobalFlags.Contains("is_playing_invictus");
 		TerraIndomitaDetected = Countries.Any(c => c.Variables.Contains("unification_points")) ||
@@ -405,6 +407,14 @@ internal partial class World {
 
 		// The CoA extraction may continue after ParseSave finishes executing.
 		coaExtractionThread = localCoaExtractThread;
+	}
+
+	private void RemoveEmptyCountries() {
+		// Drop countries with no monarch, no territories and no pre-Imperator rulers.
+		int count = Countries.RemoveAll(c => c is {Monarch: null, TerritoriesCount: 0, RulerTerms.Count: 0});
+		if (count > 0) {
+			Logger.Info($"Removed {count} empty countries.");
+		}
 	}
 
 	private Mods DetectUsedMods(BufferedReader reader) {

@@ -1,0 +1,20 @@
+l_french:
+ IMPDISPLAYNAME: "Imperator: Rome vers Crusader Kings III"
+ IMPGAME: "Imperator: Rome"
+ IMPFOLDER: "Répertoire d'installation d'Imperator: Rome"
+ IMPFOLDERTIP: "Le chemin sur votre ordinateur où Imperator: Rome est installé"
+ IMPMOD: "Répertoire des mods d'Imperator: Rome"
+ IMPMODTIP: "Le chemin sur votre ordinateur où Imperator: Rome stocke les mods"
+ IMPDOC: "Répertoire des documents d'Imperator: Rome"
+ IMPDOCTIP: "Le chemin sur votre ordinateur où Imperator: Rome conserve les fichiers temporaires"
+
+ CK3GAME: "Crusader Kings III"
+ CK3FOLDER: "Répertoire d'installation de Crusader Kings III"
+ CK3FOLDERTIP: "Le chemin sur votre ordinateur où Crusader Kings III est installé"
+ CK3MOD: "Répertoire des mods de Crusader Kings III"
+ CK3MODTIP: "Le chemin sur votre ordinateur où Crusader Kings III stocke les mods"
+
+ IMPFILE: "Chemin vers l'exécutable du convertisseur"
+ IMPFILETIP: "Chemin vers ImperatorToCK3Converter.exe"
+ IMPSAVE: "Chemin vers la sauvegarde d'Imperator: Rome"
+ IMPSAVETIP: "Chemin vers votre sauvegarde d'Imperator: Rome"

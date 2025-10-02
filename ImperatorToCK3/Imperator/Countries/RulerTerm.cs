@@ -6,7 +6,7 @@ using System.Linq;
 namespace ImperatorToCK3.Imperator.Countries;
 
 internal sealed class RulerTerm {
-	public sealed class PreImperatorRulerInfo {
+	internal sealed class PreImperatorRulerInfo {
 		public string? Name { get; set; }
 		public Date? BirthDate { get; set; }
 		public Date? DeathDate { get; set; }
