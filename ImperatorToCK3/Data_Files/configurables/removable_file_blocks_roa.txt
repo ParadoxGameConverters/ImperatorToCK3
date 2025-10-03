@@ -6817,7 +6817,7 @@ bm_1066_southeast_asia = {
 } # End of zz_RICE_setup_override.txt
 
 
-"common\on_action\sea_caucasus_on_actions.txt" = {
+"common/on_action/sea_caucasus_on_actions.txt" = {
 	{
 on_game_start = {
 	on_actions = {
