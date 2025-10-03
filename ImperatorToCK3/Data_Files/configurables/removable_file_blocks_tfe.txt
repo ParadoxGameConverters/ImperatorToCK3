@@ -30049,25 +30049,6 @@ custom=yes
 	}	
 	}
 
-	# No color gray in TFE as of the 'After The Pharaohs' update.
-	{
-sisenanding = {
-	pattern="pattern_solid.dds"
-	color1=rgb { 62 22 22 }
-	color2=yellow
-	colored_emblem={
-		color1=yellow
-		color2=red
-		texture="ce_snake.dds"
-		instance={
-			scale={ 0.900000 0.900000 }
-		}
-
-	}
-
-}
-	}
-
 	# ck3-tiger: 2 errors as of the TFE 'After The Pharaohs' update.
 	{
 900077 = {
