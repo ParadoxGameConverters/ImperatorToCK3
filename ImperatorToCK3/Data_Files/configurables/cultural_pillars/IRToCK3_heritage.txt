@@ -58,9 +58,9 @@ heritage_anatolian = {
 	audio_parameter = european
 }
 
+# TFE added their own version of this heritage, but left out the heritage family parameter, so adding it here to get rid of converter error until TFE fixes it.
 heritage_gaulish = {
     REPLACED_BY = {
-		tfe = { heritage_gaulish }
 		vanilla = { heritage_gaulish }
 	}
 	MOD_DEPENDENT = {
@@ -68,6 +68,11 @@ heritage_gaulish = {
 			parameters = {
 				heritage_group_celtic = yes
 				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes 
 			}
 		}
 	}
@@ -577,4 +582,104 @@ heritage_caucasian = {
 		}
 	}
 	audio_parameter = european
+}
+
+# TFE doesn't give group/family parameters for this heritage, despite using it in code, so set this up to replace TFE's definition with one that mimics the Turkic heritage, which their base game Hun culture uses. Just adding this to get rid of converter error until TFE handles it.
+heritage_hunnic = {
+    REPLACED_BY = {
+		roa = { heritage_hunnic }
+		wtwsms = { heritage_hunnic }
+		vanilla = { heritage_hunnic }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_hunnic
+		}
+	}
+	audio_parameter = european
+	
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_turkic = yes
+				heritage_family_steppe = yes 
+			}
+		}
+	}
+}
+
+# TFE added this heritage but forgot to give it a family parameter, so adding it here to get rid of converter error. Replacing with heritage_latin when not using TFE to prevent a random unused heritage from being loaded.
+heritage_gallo_rhaetian_latin = {
+    REPLACED_BY = {
+		roa = { heritage_latin }
+		wtwsms = { heritage_latin }
+		vanilla = { heritage_latin }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_gallo_rhaetian_latin
+		}
+	}
+	audio_parameter = european
+
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes 
+			}
+		}
+	}
+}
+
+# TFE added this heritage but forgot to give it a family parameter, so adding it here to get rid of converter error. Replacing with heritage_latin when not using TFE to prevent a random unused heritage from being loaded.
+heritage_british_latin = {
+    REPLACED_BY = {
+		roa = { heritage_latin }
+		wtwsms = { heritage_latin }
+		vanilla = { heritage_latin }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_british_latin
+		}
+	}
+	audio_parameter = european
+	
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes 
+			}
+		}
+	}
+}
+
+# TFE added this heritage but forgot to give it a family parameter, so adding it here to get rid of converter error. Replacing with heritage_latin when not using TFE to prevent a random unused heritage from being loaded.
+heritage_occitan = {
+    REPLACED_BY = {
+		roa = { heritage_latin }
+		wtwsms = { heritage_latin }
+		vanilla = { heritage_latin }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_occitan
+		}
+	}
+	audio_parameter = european
+	
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes 
+			}
+		}
+	}
 }

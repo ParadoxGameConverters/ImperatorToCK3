@@ -26,7 +26,10 @@
 					game_start_date <= 768.1.1
 				}
 			}
-			start_struggle = { struggle_type = britannia_struggle start_phase = struggle_britannia_phase_migration }
+			start_struggle = {
+				struggle_type = britannia_struggle
+				start_phase = struggle_britannia_phase_migration
+			}
 		}
 	}
 	{
@@ -34,20 +37,32 @@
 			limit = {
 				game_start_date >= 476.9.4
 			}
-			start_struggle = { struggle_type = italian_struggle start_phase = struggle_TFE_italian_phase_turmoil }
+			start_struggle = {
+				struggle_type = italian_struggle
+				start_phase = struggle_TFE_italian_phase_turmoil
+			}
 		}
 	}
 	{
 		if = {
 			limit = {
 				AND = {
-					game_start_date <= 651.1.1 # Death of Yazdegerd III
+					game_start_date <= 651.1.1					# Death of Yazdegerd III
 				}
 			}
-			start_struggle = { struggle_type = roman_persian_struggle start_phase = struggle_TFE_roman_persian_phase_contention }
+			start_struggle = {
+				struggle_type = roman_persian_struggle
+				start_phase = struggle_TFE_roman_persian_phase_contention
+			}
 		}
-		start_struggle = { struggle_type = eastern_iranian_struggle start_phase = struggle_TFE_eastern_iranian_phase_expansion }
-		start_struggle = { struggle_type = north_indian_struggle start_phase = struggle_TFE_north_indian_phase_invasion }
+		start_struggle = {
+			struggle_type = eastern_iranian_struggle
+			start_phase = struggle_TFE_eastern_iranian_phase_expansion
+		}
+		start_struggle = {
+			struggle_type = north_indian_struggle
+			start_phase = struggle_TFE_north_indian_phase_invasion
+		}
 	}
 	
 	# Other
@@ -103,6 +118,9 @@
 					days = 90
 				}
 			}
+			character:200290 = {
+				remove_claim = title:d_muntenia
+			}
 			if = {
 				limit = {
 					character:rufinus_02 = {
@@ -111,7 +129,9 @@
 							is_vassal_of = character:70519
 							is_courtier_of = character:70519
 						}
-						NOT = { is_diarch = yes }
+						NOT = {
+							is_diarch = yes
+						}
 					}
 				}
 				if = {
@@ -142,7 +162,9 @@
 							is_vassal_of = character:145227
 							is_courtier_of = character:145227
 						}
-						NOT = { is_diarch = yes }
+						NOT = {
+							is_diarch = yes
+						}
 					}
 				}
 				if = {
@@ -169,25 +191,29 @@
 		if = {
 			limit = {
 				game_start_date = 476.9.4
-				AND = {
-					exists = title:k_croatia.holder
-					title:k_croatia.holder = {
-						culture = {
-							OR = {
-								THIS = culture:roman
-								any_parent_culture_or_above = {
-									this = culture:roman
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = title:k_croatia.holder
+						title:k_croatia.holder = {
+							culture = {
+								OR = {
+									THIS = culture:roman
+									any_parent_culture_or_above = {
+										this = culture:roman
+									}
 								}
 							}
 						}
 					}
 				}
-			}
-			title:k_croatia.holder = {
-				add_character_flag = nepos_ambition_triggered
-				trigger_event = {
-					id = western_roman.0027
-					days = 5
+				title:k_croatia.holder = {
+					add_character_flag = nepos_ambition_triggered
+					trigger_event = {
+						id = western_roman.0027
+						days = 5
+					}
 				}
 			}
 		}
@@ -251,7 +277,9 @@
 					}
 				}
 			}
-			title:e_byzantium.holder = { consume_imprisonment_reasons = title:e_byzantium.holder.primary_spouse }
+			title:e_byzantium.holder = {
+				consume_imprisonment_reasons = title:e_byzantium.holder.primary_spouse
+			}
 			set_global_variable = {
 				name = justinian
 				value = title:e_byzantium.holder
@@ -308,9 +336,9 @@
 						name = hildirix
 						value = scope:bugfix
 					}
-					death = { 
-						death_reason = death_vanished 
-					} 
+					death = {
+						death_reason = death_vanished
+					}
 				}
 			}
 		}
@@ -324,7 +352,9 @@
 								is_vassal_of = character:992023
 								is_courtier_of = character:992023
 							}
-							NOT = { is_diarch = yes }
+							NOT = {
+								is_diarch = yes
+							}
 						}
 					}
 					if = {
@@ -391,13 +421,17 @@
 						learn_language = language_latin
 					}
 					if = {
-						limit = { has_trait = drunkard }
+						limit = {
+							has_trait = drunkard
+						}
 						add_character_modifier = {
 							modifier = tragic_drunk_modifier
 							years = 3
 						}
 					}
-					else = { add_trait = drunkard }
+					else = {
+						add_trait = drunkard
+					}
 					if = {
 						limit = {
 							THIS = character:992023
@@ -442,8 +476,8 @@
 		# Greek/Egyptian rulers in Egypt now know both Coptic and Greek
 		if = {
 			limit = {
-				game_start_date >= 500.1.1 # Rough timeframe for transition
-			}		
+				game_start_date >= 500.1.1				# Rough timeframe for transition
+			}
 			every_county_in_region = {
 				region = custom_roman_aegyptus
 				if = {
@@ -480,7 +514,9 @@
 				game_start_date >= 551.7.9
 			}
 			title:b_beirut.title_province = {
-				limit = { has_building = beirut_university }
+				limit = {
+					has_building = beirut_university
+				}
 				remove_building = beirut_university
 			}
 		}
@@ -489,7 +525,9 @@
 				game_start_date >= 800.1.1
 			}
 			title:b_urmiya.title_province = {
-				limit = { has_building = adur_gushnasp }
+				limit = {
+					has_building = adur_gushnasp
+				}
 				remove_building = adur_gushnasp
 			}
 		}
@@ -498,7 +536,9 @@
 				game_start_date >= 529.1.1
 			}
 			title:b_athens.title_province = {
-				limit = { has_building = generic_university }
+				limit = {
+					has_building = generic_university
+				}
 				remove_building = generic_university
 			}
 		}
@@ -529,7 +569,10 @@
 	# Something related to Jewish Exilarchs, seems not needed for converted games
 	{
 		title:c_iskaf.holder = {
-			vassal_contract_set_obligation_level = { type = religious_rights level = 1 }
+			vassal_contract_set_obligation_level = {
+				type = religious_rights
+				level = 1
+			}
 		}
 	}
 
@@ -551,9 +594,14 @@
 				every_vassal = {
 					if = {
 						limit = {
-							NOT = { faith = title:k_yemen.holder.faith }
+							NOT = {
+								faith = title:k_yemen.holder.faith
+							}
 						}
-						vassal_contract_set_obligation_level = { type = religious_rights level = 1 }
+						vassal_contract_set_obligation_level = {
+							type = religious_rights
+							level = 1
+						}
 					}
 				}
 				reverse_add_opinion = {
@@ -619,31 +667,31 @@
 	# In converted games we don't know if yazd is a holy site.
 	{
 			faith:mazdayasna = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:zurvanism = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:gayomarthianism = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:khurmazta = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:mazdakism = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:khurramism = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:urartuism = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:armaz = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:magousaian = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 	}
 
@@ -685,10 +733,10 @@
 		if = {
 			limit = {
 				OR = {
-					game_start_date <= 376.1.1 # End of the Former Liang Dynasty
-					game_start_date >= 441.1.1 # Northern Wei conquest of Northern Liang, reunifying Liang province
+					game_start_date <= 376.1.1					# End of the Former Liang Dynasty
+					game_start_date >= 441.1.1					# Northern Wei conquest of Northern Liang, reunifying Liang province
 				}
-			}		
+			}
 			set_global_variable = {
 				name = TFE_order_restored_to_liang
 				value = yes
@@ -715,8 +763,8 @@
 				game_start_date < 550.1.1
 			}
 			faith:manichean = {
-				deactivate_holy_site = yijinai  # Manichaeism didn't really spread to China until the 6th century, so doesn't make sense
-				deactivate_holy_site = udabhanda  # Replaced by Lyon in earlier start dates when Manichaeism had a significant following in Europe
+				deactivate_holy_site = yijinai				# Manichaeism didn't really spread to China until the 6th century, so doesn't make sense
+				deactivate_holy_site = udabhanda				# Replaced by Lyon in earlier start dates when Manichaeism had a significant following in Europe
 			}
 		}
 		else = {
@@ -802,7 +850,7 @@ TFE_on_game_start_larp_history = {
 		if = {
 			limit = {
 				any_ruler = {
-					has_game_rule = dead_cultures_enabled 
+					has_game_rule = dead_cultures_enabled
 				}
 			}
 			title:c_kairwan = {
@@ -821,7 +869,6 @@ TFE_on_game_start_larp_history = {
 				set_county_culture = culture:punic
 				set_county_faith = faith:carthage_pagan
 			}
-
 			title:c_vermandois = {
 				set_county_culture = culture:gaul
 			}
@@ -880,7 +927,173 @@ garamantes_flavour_effect = {
 	{
 		garamantes_flavour_effect
 	}
-}
+
+	{
+		#Saxon Confederation set up
+		if = {
+			limit = {
+				game_start_date >= 361.1.1
+				game_start_date <= 396.1.1
+			}
+			title:c_osnabruck.holder = {
+				create_confederation = {
+					name = saxon_confederation_name_setup
+				}
+				scope:new_confederation = {
+					add_confederation_member = title:c_tecklenburg.holder
+					add_confederation_member = title:c_oldenburg.holder
+					add_confederation_member = title:c_minden.holder
+					add_confederation_member = title:c_bremen.holder
+					add_confederation_member = title:c_stade.holder
+					add_confederation_member = title:c_hildesheim.holder
+					add_confederation_member = title:c_hannover.holder
+					add_confederation_member = title:c_wolpe.holder
+					add_confederation_member = title:c_brunswick.holder
+					add_confederation_member = title:c_stendal.holder
+					add_confederation_member = title:c_dannenberg.holder
+					add_confederation_member = title:c_luneburg.holder
+					add_confederation_member = title:c_hamburg.holder
+				}
+			}
+		}
+		if = {
+			limit = {
+				game_start_date >= 476.1.1
+				game_start_date <= 477.1.1
+			}
+			title:c_osnabruck.holder = {
+				create_confederation = {
+					name = saxon_confederation_name_setup
+				}
+				scope:new_confederation = {
+					add_confederation_member = title:c_tecklenburg.holder
+					add_confederation_member = title:c_oldenburg.holder
+					add_confederation_member = title:c_minden.holder
+					add_confederation_member = title:c_bremen.holder
+					add_confederation_member = title:c_stade.holder
+					add_confederation_member = title:c_hildesheim.holder
+					add_confederation_member = title:c_hannover.holder
+					add_confederation_member = title:c_wolpe.holder
+					add_confederation_member = title:c_brunswick.holder
+					add_confederation_member = title:c_dannenberg.holder
+					add_confederation_member = title:c_luneburg.holder
+					add_confederation_member = title:c_hamburg.holder
+					add_confederation_member = title:c_ostfriesland.holder
+					add_confederation_member = title:c_groningen.holder
+					add_confederation_member = title:c_oversticht.holder
+					add_confederation_member = title:c_munster.holder
+					add_confederation_member = title:c_lippe.holder
+				}
+			}
+		}
+		if = {
+			limit = {
+				game_start_date >= 532.1.1
+				game_start_date <= 533.1.1
+			}
+			title:c_osnabruck.holder = {
+				create_confederation = {
+					name = saxon_confederation_name_setup
+				}
+				scope:new_confederation = {
+					add_confederation_member = title:c_tecklenburg.holder
+					add_confederation_member = title:c_oldenburg.holder
+					add_confederation_member = title:c_minden.holder
+					add_confederation_member = title:c_bremen.holder
+					add_confederation_member = title:c_stade.holder
+					add_confederation_member = title:c_hildesheim.holder
+					add_confederation_member = title:c_hannover.holder
+					add_confederation_member = title:c_wolpe.holder
+					add_confederation_member = title:c_brunswick.holder
+					add_confederation_member = title:c_dannenberg.holder
+					add_confederation_member = title:c_luneburg.holder
+					add_confederation_member = title:c_hamburg.holder
+					add_confederation_member = title:c_lippe.holder
+					add_confederation_member = title:c_paderborn.holder
+					add_confederation_member = title:c_stendal.holder
+					add_confederation_member = title:c_lubeck.holder
+					add_confederation_member = title:c_ditmarschen.holder
+					add_confederation_member = title:c_gottingen.holder
+					add_confederation_member = title:c_halberstadt.holder
+					add_confederation_member = title:c_blankenburg.holder
+					add_confederation_member = title:c_mansfeld.holder
+				}
+			}
+		}
+		if = {
+			limit = {
+				game_start_date >= 632.1.1
+				game_start_date <= 633.1.1
+			}
+			title:c_osnabruck.holder = {
+				create_confederation = {
+					name = saxon_confederation_name_setup
+				}
+				scope:new_confederation = {
+					add_confederation_member = title:c_tecklenburg.holder
+					add_confederation_member = title:c_oldenburg.holder
+					add_confederation_member = title:c_minden.holder
+					add_confederation_member = title:c_bremen.holder
+					add_confederation_member = title:c_stade.holder
+					add_confederation_member = title:c_hildesheim.holder
+					add_confederation_member = title:c_hannover.holder
+					add_confederation_member = title:c_wolpe.holder
+					add_confederation_member = title:c_brunswick.holder
+					add_confederation_member = title:c_dannenberg.holder
+					add_confederation_member = title:c_luneburg.holder
+					add_confederation_member = title:c_hamburg.holder
+					add_confederation_member = title:c_lippe.holder
+					add_confederation_member = title:c_paderborn.holder
+					add_confederation_member = title:c_stendal.holder
+					add_confederation_member = title:c_lubeck.holder
+					add_confederation_member = title:c_ditmarschen.holder
+				}
+			}
+		}
+		#Seven Slavic Tribes set up
+		if = {
+			limit = {
+				game_start_date >= 632.1.1
+				game_start_date <= 633.1.1
+			}
+			title:c_giurgiu.holder = {
+				create_confederation = {
+					name = d_seven_slavic_tribes
+				}
+				scope:new_confederation = {
+					add_confederation_member = title:c_constanta.holder
+					add_confederation_member = title:c_buzau.holder
+					add_confederation_member = title:c_craiova.holder
+					add_confederation_member = title:c_calafat.holder
+					add_confederation_member = title:c_nikopolis.holder
+					add_confederation_member = title:c_turnovo.holder
+				}
+			}
+		}
+		#make Constantine III Co-Emperor of Heraclius
+		character:145071 = {
+			#Heraclius
+			if = {
+				limit = {
+					game_start_date = 632.6.8
+					has_ep3_dlc_trigger = yes
+				}
+				try_start_diarchy = co_emperorship
+				set_diarch = character:70509				#Constantine Heraclius
+				set_designated_heir = character:70509
+			}
+		}
+		# Make sure that Dagobert has Neustria as his primary title
+		if = {
+			limit = {
+				game_start_date = 632.6.8
+			}
+			character:168696 = {
+				set_primary_title_to = title:k_france
+			}
+		}
+	}
+} # End of "common/on_action/TFE_game_start.txt"
 
 # Can probably move this to replaceable_file_blocks_tfe.txt once that is working properly so this file isn't as long, and just have the call to the set_minorities_game_start on_action get removed
 "common/on_action/sea_minority_game_start.txt" = {
@@ -4611,11 +4824,6 @@ set_minorities_game_start = {
 "common/on_action/government_change_on_actions.txt" = {
 	{
 						NOT = {
-							THIS = character:taifal_01
-						}
-	}
-	{
-						NOT = {
 							THIS = character:persian_armenia_01
 						}
 						NOT = {
@@ -4710,353 +4918,6 @@ set_minorities_game_start = {
 					}
 				}
 			}
-	}
-
-	# Anachronistic
-	{
-		if = {
-			limit = {
-				AND = {
-				title:k_croatia = {
-					is_title_created = yes
-				}
-					title:k_croatia.holder ?= {
-						game_start_date = 476.9.4
-					}
-				}
-			}
-			title:k_croatia.holder ?= {
-				if = {
-					limit = {
-						highest_held_title_tier >= tier_kingdom
-						has_dlc_feature = roads_to_power
-					}
-					change_government = autocratic_government_ep3
-				}
-				else_if = {
-					change_government = autocratic_government
-				}
-				every_vassal_or_below = {
-					limit = {
-						OR = {
-						has_government = feudal_government
-						has_government = republic_government
-						}
-					}
-					if = {
-						limit = {
-							highest_held_title_tier >= tier_county
-							has_dlc_feature = roads_to_power
-						}
-						change_government = autocratic_government_ep3
-					}
-					else_if = {
-						limit = {
-							highest_held_title_tier >= tier_county
-						}
-						change_government = autocratic_government
-					}
-				}
-			}
-		}
-	}
-
-	# Anachronistic
-	{
-		if = {
-			limit = {
-				AND = {
-				title:k_france = {
-					is_title_created = yes
-				}
-					title:k_france.holder ?= {
-						game_start_date = 476.9.4
-					}
-				}
-			}
-			title:k_france.holder ?= {
-				if = {
-					limit = {
-						highest_held_title_tier >= tier_kingdom
-						has_dlc_feature = roads_to_power
-					}
-					change_government = autocratic_government_ep3
-				}
-				else_if = {
-					change_government = autocratic_government
-				}
-				every_vassal_or_below = {
-					limit = {
-						OR = {
-						has_government = feudal_government
-						has_government = republic_government
-						}
-						NOT = {
-							THIS = character:alan_13
-						}
-					}
-					if = {
-						limit = {
-							highest_held_title_tier >= tier_county
-							has_dlc_feature = roads_to_power
-						}
-						change_government = autocratic_government_ep3
-					}
-					else_if = {
-						limit = {
-							highest_held_title_tier >= tier_county
-						}
-						change_government = autocratic_government
-					}
-				}
-			}
-		}
-	}
-
-	# Anachronistic
-	{
-		if = {
-			limit = {
-				current_date = 476.9.4
-			}
-			title:k_visigoths.holder ?= {
-				change_government = roman_government
-				every_held_title = {
-					limit = {
-						AND = {
-							tier = tier_county
-							NOT = {
-								title_province = {
-									has_holding_type = estate_holding
-								}
-							}
-						}
-					}
-					title_province = {
-						set_holding_type = estate_holding
-					}
-				}
-				every_vassal_or_below = {
-					limit = {
-						has_government = feudal_government
-					}
-					change_government = roman_government
-					every_held_title = {
-						limit = {
-							AND = {
-								tier = tier_county
-								NOT = {
-									title_province = {
-										has_holding_type = estate_holding
-									}
-								}
-							}
-						}
-						title_province = {
-							set_holding_type = estate_holding
-						}
-					}
-				}
-			}
-			title:e_spain = {
-				every_in_de_jure_hierarchy = {
-					limit = {
-						AND = {
-							tier = tier_county
-							holder = {
-								OR = {
-								government_has_flag = government_is_autocratic
-								government_has_flag = government_is_autocratic_ep3
-								}
-							}
-							holder = {
-								highest_held_title_tier = tier_county
-							}
-						}
-					}
-					holder = {
-						change_government = roman_government
-						every_held_title = {
-							limit = {
-								AND = {
-									tier = tier_county
-									NOT = {
-										title_province = {
-											has_holding_type = estate_holding
-										}
-									}
-								}
-							}
-							title_province = {
-								set_holding_type = estate_holding
-							}
-						}
-					}
-				}
-			}
-			title:k_italy.holder ?= {
-				change_government = roman_government
-				every_held_title = {
-					limit = {
-						AND = {
-							tier = tier_county
-							NOT = {
-								title_province = {
-									has_holding_type = estate_holding
-								}
-							}
-						}
-					}
-					title_province = {
-						set_holding_type = estate_holding
-					}
-				}
-				every_vassal_or_below = {
-					limit = {
-						has_government = feudal_government
-					}
-					change_government = roman_government
-					every_held_title = {
-						limit = {
-							AND = {
-								tier = tier_county
-								NOT = {
-									title_province = {
-										has_holding_type = estate_holding
-									}
-								}
-							}
-						}
-						title_province = {
-							set_holding_type = estate_holding
-						}
-					}
-				}
-			}
-		}
-		if = {
-			limit = {
-				current_date = 532.2.1
-			}
-			title:k_visigoths.holder ?= {
-				change_government = roman_government
-				every_held_title = {
-					limit = {
-						AND = {
-							tier = tier_county
-							NOT = {
-								title_province = {
-									has_holding_type = estate_holding
-								}
-							}
-						}
-					}
-					title_province = {
-						set_holding_type = estate_holding
-					}
-				}
-				every_vassal_or_below = {
-					limit = {
-						OR = {
-							has_government = feudal_government
-							has_government = autocratic_government
-							has_government = autocratic_government_ep3
-						}
-					}
-					change_government = roman_government
-					every_held_title = {
-						limit = {
-							AND = {
-								tier = tier_county
-								NOT = {
-									title_province = {
-										has_holding_type = estate_holding
-									}
-								}
-							}
-						}
-						title_province = {
-							set_holding_type = estate_holding
-						}
-					}
-				}
-			}
-			title:e_spain = {
-				every_in_de_jure_hierarchy = {
-					limit = {
-						AND = {
-							tier = tier_county
-							holder = {
-								OR = {
-								government_has_flag = government_is_autocratic
-								government_has_flag = government_is_autocratic_ep3
-								}
-							}
-							holder = {
-								highest_held_title_tier = tier_county
-							}
-						}
-					}
-					holder = {
-						change_government = roman_government
-						every_held_title = {
-							limit = {
-								AND = {
-									tier = tier_county
-									NOT = {
-										title_province = {
-											has_holding_type = estate_holding
-										}
-									}
-								}
-							}
-							title_province = {
-								set_holding_type = estate_holding
-							}
-						}
-					}
-				}
-			}
-			title:k_ostrogoths.holder ?= {
-				change_government = roman_government
-				every_held_title = {
-					limit = {
-						AND = {
-							tier = tier_county
-							NOT = {
-								title_province = {
-									has_holding_type = estate_holding
-								}
-							}
-						}
-					}
-					title_province = {
-						set_holding_type = estate_holding
-					}
-				}
-				every_vassal_or_below = {
-					limit = {
-						has_government = feudal_government
-					}
-					change_government = roman_government
-					every_held_title = {
-						limit = {
-							AND = {
-								tier = tier_county
-								NOT = {
-									title_province = {
-										has_holding_type = estate_holding
-									}
-								}
-							}
-						}
-						title_province = {
-							set_holding_type = estate_holding
-						}
-					}
-				}
-			}
-		}
 	}
 }
 
@@ -5349,53 +5210,10 @@ set_minorities_game_start = {
 					SUZERAIN = character:145237 
 				}
 			}
-			character:990016 = {
-				add_prestige = 1500
-				add_gold = 250
-				spawn_army = {
-					name = "Hunnic Migrators"
-					levies = 1000
-					men_at_arms = {
-						type = horse_archers
-						stacks = 5
-					}
-					men_at_arms = {
-						type = light_footmen
-						stacks = 5
-					}
-					men_at_arms = {
-						type = siege_towers
-						stacks = 5
-					}
-					location = title:b_itil.title_province
-					inheritable = no
-				}
-				spawn_army = {
-					name = "Hunnic Migrators"
-					levies = 1000
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 5
-					}
-					men_at_arms = {
-						type = horse_archers
-						stacks = 5
-					}
-					men_at_arms = {
-						type = siege_towers
-						stacks = 5
-					}
-					location = title:b_engels.title_province
-					inheritable = no
-				}
-			}
 		}
 		if = {
 			limit = {
-				AND = {
-					game_start_date > 394.1.1
-					game_start_date < 396.1.1
-				}
+				game_start_date = 395.1.17
 			}
 			###EASTERN ROMAN
 			if = {
@@ -5674,10 +5492,7 @@ set_minorities_game_start = {
 		###WESTERN ROMAN AND AFRICAN
 		if = {
 			limit = {
-				AND = {
-					game_start_date > 394.1.1
-					game_start_date < 396.1.1
-				}
+				game_start_date = 395.1.17
 			}
 			#Franks
 			if = {
@@ -5762,10 +5577,7 @@ set_minorities_game_start = {
 		#ROMAN TRIBS 361
 		if = {
 			limit = {
-				AND = {
-					game_start_date > 360.1.1
-					game_start_date < 362.1.1
-				}
+				game_start_date = 361.11.17
 			}
 			if = {
 				limit = {
@@ -5898,54 +5710,12 @@ set_minorities_game_start = {
 					SUZERAIN = character:himyar_11
 				}
 			}
-			#character:990016 ?= {
-			#	add_gold = 250
-			#	spawn_army = {
-			#		name = "Hunnic Invaders"
-			#		levies = 2000
-			#		men_at_arms = {
-			#			type = light_horsemen
-			#			stacks = 15
-			#		}
-			#		men_at_arms = {
-			#			type = horse_archers
-			#			stacks = 15
-			#		}
-			#		men_at_arms = {
-			#			type = siege_towers
-			#			stacks = 5
-			#		}
-			#		location = capital_province
-			#		inheritable = no
-			#	}
-			#	spawn_army = {
-			#		name = "Hunnic Invaders"
-			#		levies = 1000
-			#		men_at_arms = {
-			#			type = light_horsemen
-			#			stacks = 10
-			#		}
-			#		men_at_arms = {
-			#			type = horse_archers
-			#			stacks = 10
-			#		}
-			#		men_at_arms = {
-			#			type = siege_towers
-			#			stacks = 5
-			#		}
-			#		location = capital_province
-			#		inheritable = yes
-			#	}
-			#}
 		}
 		
 		###PERSIAN
 		if = {
 			limit = {
-				AND = {
-					game_start_date > 394.1.1
-					game_start_date < 396.1.1
-				}
+				game_start_date = 395.1.17
 			}
 			start_tributary_interaction_effect = {
 				#TYPE = tributary_permanent
@@ -6224,192 +5994,6 @@ set_minorities_game_start = {
 					#TYPE = tributary_permanent
 					TRIBUTARY = character:159117
 					SUZERAIN = character:146154
-				}
-			}
-		}
-
-		#I'm too lazy to make another file :p
-		if = {
-			limit = {
-				game_start_date = 476.9.4
-			}
-			title:k_italy.holder ?= {
-				add_gold = 200
-				spawn_army = {
-					name = "Scirian Invaders"
-					levies = 1500
-					men_at_arms = {
-						type = bowmen
-						stacks = 3
-					}
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 2
-					}
-					men_at_arms = {
-						type = light_footmen
-						stacks = 4
-					}
-					location = capital_province
-					inheritable = no
-				}
-				spawn_army = {
-					name = "Scirian Invaders"
-					levies = 1500
-					men_at_arms = {
-						type = bowmen
-						stacks = 3
-					}
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 2
-					}
-					men_at_arms = {
-						type = light_footmen
-						stacks = 4
-					}
-					location = capital_province
-					inheritable = yes
-				}
-			}
-			title:k_visigoths.holder ?= {
-				add_gold = 300
-				spawn_army = {
-					name = gothic_event_troops
-					levies = 2000
-					men_at_arms = {
-						type = bowmen
-						stacks = 2
-					}
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 2
-					}
-					men_at_arms = {
-						type = light_footmen
-						stacks = 4
-					}
-					location = capital_province
-					inheritable = no
-				}
-				spawn_army = {
-					name = gothic_event_troops
-					levies = 2000
-					men_at_arms = {
-						type = bowmen
-						stacks = 2
-					}
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 2
-					}
-					men_at_arms = {
-						type = light_footmen
-						stacks = 4
-					}
-					location = capital_province
-					inheritable = yes
-				}
-			}
-		}
-		else_if = {
-			limit = {
-				AND = {
-					game_start_date > 394.1.1
-					game_start_date < 396.1.1
-				}
-			}
-			title:e_western_roman_empire.holder ?= {
-				add_gold = 1000
-			}
-			title:e_byzantium.holder ?= {
-				add_gold = 1000
-			}
-			character:200290 = {
-				remove_claim = title:d_muntenia
-			}
-			character:balamer_01 ?= {
-				add_prestige = 3000
-				spawn_army = {
-					name = "Hunnic Invaders"
-					levies = 2000
-					men_at_arms = {
-						type = horse_archers
-						stacks = 10
-					}
-					men_at_arms = {
-						type = light_footmen
-						stacks = 20
-					}
-					men_at_arms = {
-						type = siege_towers
-						stacks = 5
-					}
-					location = title:b_peremyshl.title_province
-					inheritable = no
-				}
-				spawn_army = {
-					name = "Hunnic Invaders"
-					levies = 2000
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 10
-					}
-					men_at_arms = {
-						type = horse_archers
-						stacks = 10
-					}
-					men_at_arms = {
-						type = light_footmen
-						stacks = 10
-					}
-					men_at_arms = {
-						type = siege_towers
-						stacks = 5
-					}
-					location = title:b_stoenesti.title_province
-					inheritable = no
-				}
-			}
-			character:990000 ?= {
-				spawn_army = {
-					name = "Hunnic Invaders"
-					levies = 2000
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 10
-					}
-					men_at_arms = {
-						type = horse_archers
-						stacks = 10
-					}
-					men_at_arms = {
-						type = siege_towers
-						stacks = 5
-					}
-					location = capital_province
-					inheritable = no
-				}
-			}
-			character:yujiulu_072 ?= {
-				add_prestige = 500
-				spawn_army = {
-					name = "Rouran Invaders"
-					levies = 1000
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 3
-					}
-					men_at_arms = {
-						type = horse_archers
-						stacks = 3
-					}
-					men_at_arms = {
-						type = siege_towers
-						stacks = 2
-					}
-					location = capital_province
-					inheritable = yes
 				}
 			}
 		}
@@ -7023,6 +6607,137 @@ TFE_five_year_playable_pulse_hadrians_wall = {
 	}
 }
 	} # end of block
+
+	# This code handles de jure changes for when Rome loses control of certain regions. But it can mess up the converted save's de jure map setup at game start, so disabled it for now.
+	{
+		# WRE
+		if = { #Rome loses Italy
+			limit = {
+				NAND = {
+					has_global_variable = italia_suburbicariae_dejure_split
+					title:k_italia_suburbicariae = { is_titular = yes }
+					title:k_italia_annonariae = { is_titular = yes }
+				}
+				AND = {
+					any_county_in_region = {
+						region = italia_annonariae_and_suburbicariae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_western_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = italia_annonariae_and_suburbicariae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_byzantium.holder
+					}
+					any_county_in_region = {
+						region = italia_annonariae_and_suburbicariae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = italia_annonariae_and_suburbicariae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_gaul.holder
+					}
+				}
+			}
+			dejure_shift_italia_suburbicariae_effect = yes
+			dejure_shift_italia_annonariae_effect = yes
+		}
+		if = { #Rome loses Africae
+			limit = {
+				NAND = {
+					has_global_variable = africae_dejure_split
+					title:k_africae = { is_titular = yes }
+				}
+				AND = {
+					any_county_in_region = {
+						region = africae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_western_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = africae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_byzantium.holder
+					}
+					any_county_in_region = {
+						region = africae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = africae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_gaul.holder
+					}
+				}
+			}
+			dejure_shift_africae_effect = yes
+		}
+		if = { #Rome loses Illyricum
+			limit = {
+				NAND = {
+					has_global_variable = illyricum_dejure_split
+					title:k_pannonia = { is_titular = yes }
+				}
+				AND = {
+					any_county_in_region = {
+						region = illyricum_pannoniae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_western_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = illyricum_pannoniae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_byzantium.holder
+					}
+					any_county_in_region = {
+						region = illyricum_pannoniae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = illyricum_pannoniae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_gaul.holder
+					}
+				}
+			}
+			dejure_shift_illyricum_effect = yes
+		}
+		if = { #Rome loses Britannia
+			limit = {
+				NOT = {
+					has_global_variable = britannia_dejure_split
+					title:k_britannia = { is_titular = yes }
+				}
+				AND = {
+					any_county_in_region = {
+						region = britannia_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_western_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = britannia_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_byzantium.holder
+					}
+					any_county_in_region = {
+						region = britannia_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = britannia_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_gaul.holder
+					}
+				}
+			}
+			dejure_shift_britannia_effect = yes
+		}
+	}
 }
 
 "common/on_action/death.txt" = {
@@ -15364,8 +15079,6 @@ western_roman.0027 = {
 		add_pressed_claim = title:k_italy
 		add_pressed_claim = title:d_romagna
 		add_pressed_claim = title:c_ravenna
-		remove_trait = diligent
-		add_trait = impatient
 		custom_tooltip = nepos_ambition_tooltip
 		set_global_variable = {
 			name = nepos_ambition_var
@@ -19407,17 +19120,13 @@ TFE_flavour_events.0051 = {
 	{
 palace_khawarnaq = {
 	construction_time = slow_construction_time
-
 	type_icon = "aljaferia.dds"
-
 	can_construct_potential = {
 		always = yes
 	}
-
 	can_construct = {
 		always = yes
 	}
-
 	character_modifier = {
 		vassal_opinion = 5
 		monthly_prestige_gain_per_happy_powerful_vassal_add = 0.05
@@ -25929,6 +25638,10 @@ establish_the_old_north = {
 	}
 
 	effect = {
+		if = {
+			limit = { has_ach_dlc_trigger = yes }
+			add_character_flag = ach_ended_struggle
+		}
 		save_scope_as = founder
 		show_as_tooltip = { old_north_scripted_effect = yes }
 		trigger_event = { id = britannia_struggle.7000 }
@@ -26040,6 +25753,10 @@ struggle_eastern_iranian_ending_domination_decision = {
 	}
 
 	effect = {
+		if = {
+			limit = { has_ach_dlc_trigger = yes }
+			add_character_flag = ach_ended_struggle
+		}
 		if = {
 			limit = { has_dlc_feature = legends }
 			legend_seed_struggle_ending_effect = {
@@ -26170,6 +25887,10 @@ struggle_eastern_iranian_ending_silk_road_decision = {
 	}
 
 	effect = {
+		if = {
+			limit = { has_ach_dlc_trigger = yes }
+			add_character_flag = ach_ended_struggle
+		}
 		if = {
 			limit = { has_dlc_feature = legends }
 			legend_seed_struggle_ending_effect = {
@@ -26339,6 +26060,10 @@ struggle_eastern_iranian_ending_compromise_decision = {
 	}
 
 	effect = {
+		if = {
+			limit = { has_ach_dlc_trigger = yes }
+			add_character_flag = ach_ended_struggle
+		}
 		if = {
 			limit = { has_dlc_feature = legends }
 			legend_seed_struggle_ending_effect = {
@@ -28707,7 +28432,7 @@ tfe_character_interloper_in_struggle_trigger_persia = {
 	}
 }
 
-"localization/english/names/TFE_names_error_log_l_english.yml" = {
+"localization/english/replace/names/TFE_names_error_log_l_english.yml" = {
 	{
  NÃ¤cken:0 "NÃ¤cken"
 	}
@@ -29377,6 +29102,34 @@ become_emperor_of_gaul_decision = {
 			save_scope_as = title_change
 			add_claim_on_loss = no
 		}
+		every_vassal_or_below = {
+			if = {
+				limit = {
+					has_dlc_feature = roads_to_power
+					OR = {
+						government_has_flag = government_is_autocratic_ep3
+						AND = {
+							government_has_flag = government_is_roman
+							highest_held_title_tier > tier_county
+						}
+					}
+				}
+				change_government = administrative_government
+			}
+			else_if = {
+				limit = {
+					NOT = { has_dlc_feature = roads_to_power }
+					OR = {
+						government_has_flag = government_is_autocratic
+						AND = {
+							government_has_flag = government_is_roman
+							highest_held_title_tier > tier_county
+						}
+					}
+				}
+				change_government = imperial_government
+			}
+		}
 		title:e_gaul = {
 			save_scope_as = title_e_gaul
 		}
@@ -30027,16 +29780,6 @@ d_phoenicia = { item = { trigger = { coa_switch_to_roman_trigger = yes } coat_of
 }
 
 
-"common/scripted_effects/TFE_dejure.txt" = {
-	# No d_gloucestor in TFE as of the 'After The Pharaohs' update
-	{
-	title:c_hereford = {
-		set_de_jure_liege_title = title:d_gloucestor
-	}
-	}
-}
-
-
 "common/flavorization/00_title_holders.txt" = {
 	# error: female used instead of title tier
 	{
@@ -30304,21 +30047,6 @@ custom=yes
 		color2 = "yellow"		
 		instance = { position = { 0.5 0.5 } scale = { 1.0 1.0 } }		
 	}	
-	}
-
-	# No color gray in TFE as of the 'After The Pharaohs' update.
-	{
-sisenanding = {
-	pattern = "pattern_solid.dds"
-		color1 = "gray"
-		color2 = "gray"
-	colored_emblem = {
-		texture = "ce_snake.dds"
-		color1 = "yellow"
-		color2 = "red"
-		instance = { position = { 0.5 0.5 } scale = { 0.9 0.9 }  }
-	}
-}
 	}
 
 	# ck3-tiger: 2 errors as of the TFE 'After The Pharaohs' update.
@@ -33084,137 +32812,11 @@ marshalnsc_portrait_modifier = {
 # TODO: [00:36:38][E][pdx_persistent_reader.cpp:216]: Error: "Malformed token: scope:court_chaplain_check, near line: 84" in file: "common/pool_character_selectors/00_clergy.txt" near line: 84
 
 
-"music/in_game/TFE_music.txt" = {
-	# remove music cue overrides
-	{
-mx_cue_death = {
-	music = "file:/music/TFE/TFE_Death.ogg"
-	pause_factor = 25
-	# play every time
-}
-
-mx_cue_combat_3 = {
-	music = "file:/music/TFE/TFE_WarCry.ogg"
-	pause_factor = 25
-	# Cooldown
-	years = 1
-}
-
-mx_cue_combat_2 = {
-	music = "file:/music/TFE/TFE_Combat1.ogg"
-	pause_factor = 25
-	# Cooldown
-	years = 1
-}
-
-# mx_cue_ck3_vocal_maintheme = {
-# 	music = "event:/MUSIC/Cues/Events/CK3 Vocal Main Theme/mx_cue_ck3_vocal_maintheme"
-# 	pause_factor = 25
-# 	# play every time
-
-# }
-
-# mx_cue_banquet = {
-# 	music = "event:/MUSIC/Cues/Events/Banquet/mx_cue_banquet"
-# 	pause_factor = 25
-# 	# play every time
-# 	calls = 2
-
-# }
-
-mx_cue_crusade_starts = {
-	music = "file:/music/TFE/TFE_WARDECLARED.ogg"
-	pause_factor = 25
-	# play every time
-
-}
-
-mx_cue_war_declared = {
-	music = "file:/music/TFE/TFE_WARDECLARED.ogg"
-	name = "TFE_war_declared"
-	pause_factor = 35
-	# play every time
-}
-
-mx_cue_combat_stinger = {
-	music = "file:/music/TFE/TFE_Combat2.ogg"
-	pause_factor = 25
-	# Cooldown
-	#years = 1
-}
-
-# mx_cue_positive_effect = {
-# 	music = "event:/MUSIC/Cues/Events/Positive/mx_cue_postive_effect"
-# 	pause_factor = 25
-# 	# Cooldown
-# 	#months = 3
-# }
-
- mx_cue_peace_ensues = {
-	music = "file:/music/TFE/TFE_Champion.ogg"
-	pause_factor = 25
-	# play every time
-}
-
-#  mx_cue_faith_conversion = {
-# 	music = "event:/MUSIC/Cues/Events/faith_conversion/mx_cue_faith_conversion"
-# 	pause_factor = 25
-# 	# Cooldown
-# 	calls = 2
-# }
-
- mx_cue_birth = {
-	music = "file:/music/TFE/TFE_A_New_Heir.ogg"
-	pause_factor = 25
-	# play only once
-}
-
- mx_cue_stress = {
-	music = "file:/music/TFE/TFE_Stress.ogg"
-	pause_factor = 25
-	# Cooldown
-	calls = 3
-}
-
-mx_cue_illness = {
-	music = "file:/music/TFE/TFE_Illness.ogg"
-	pause_factor = 25
-	# Cooldown
-	calls = 3
-}
-
-mx_cue_murder = {
-	music = "file:/music/TFE/TFE_Murder.ogg"
-	pause_factor = 25
-	# Cooldown
-	years = 1
-}
-
-mx_cue_succession = {
-	music = "file:/music/TFE/TFE_Death.ogg"
-	pause_factor = 25
-	# play every time
-}
-
-mx_cue_succession_instrumental = {
-	music = "file:/music/TFE/TFE_Death.ogg"
-	#name = "TFE_death"
-	pause_factor = 25
-	# play every time
-}
-	}
-} # End of "music/in_game/TFE_music.txt"
-
-
 "music/music_player_categories/TFE_music_categories.txt" = {
 	# from error.log:
 	# [02:36:24][E][music_tracks.cpp:185]: Could not find the track "TFE_main_theme_track" that was specified for the music category "TFE_soundtrack"
-	# [02:36:24][E][music_tracks.cpp:185]: Could not find the track "TFE_war_declared" that was specified for the music category "TFE_soundtrack"
 	{
 		"TFE_main_theme_track"
-	}
-	{
-		"TFE_war_declared"
 	}
 }
 
@@ -33660,17 +33262,6 @@ feudal_government_or_dynastic_realm = {
 }
 
 
-"common/governments/imperial_government.txt" = {
-	# from error.log:
-	# Error: "Unexpected token: autocratic_government_opinion, near line: 49" in file: "common/governments/imperial_government.txt" near line: 49
-	{
-	character_modifier = {
-		autocratic_government_opinion = -50
-	}
-	}
-}
-
-
 "common/decisions/TFE_major_decisions.txt" = {
 	# from error.log:
 	# PostValidate of trigger 'trigger_else_if' returned false at file: common/decisions/TFE_major_decisions.txt line: 238 (restore_palmyrene_empire_decision:is_valid)
@@ -33921,5 +33512,218 @@ restore_palmyrene_empire_decision = {
 	# Error: "Unexpected token: liege_opinion, near line: 89" in file: "common/vassal_contracts/gupta.txt" near line: 89
 	{
 			liege_opinion = -30
+	}
+}
+
+
+# This scripted effect doesn't seem to actually get triggered yet, so it shouldn't do anything, but setting it up to be removed for now in case they add it in later
+"common/scripted_effects/TFE_game_start_effects.txt" = {
+	{
+	# For Rome in the 361 start date
+	if = {
+		limit = {
+			game_start_date <= 362.1.1
+			title:c_roma = {
+				development_level >= 30
+			}
+		}
+		if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 70
+				}
+			}
+			title:c_roma = {
+				change_development_level = -60
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 60
+				}
+			}
+			title:c_roma = {
+				change_development_level = -50
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 50
+				}
+			}
+			title:c_roma = {
+				change_development_level = -40
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 40
+				}
+			}
+			title:c_roma = {
+				change_development_level = -30
+			}
+		}
+		else = {
+			title:c_roma = {
+				change_development_level = -20
+			}
+		}
+	}
+	# For Rome in the 395 start date
+	else_if = {
+		limit = {
+			game_start_date <= 400.1.1
+			OR = {
+				title:c_roma = {
+					development_level >= 20
+				}
+				title:c_lombardia = {
+					development_level >= 20
+				}
+				title:c_byzantion = {
+					development_level >= 20
+				}
+			}
+		}
+		if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 70
+				}
+			}
+			title:c_roma = {
+				change_development_level = -55
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 60
+				}
+			}
+			title:c_roma = {
+				change_development_level = -45
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 50
+				}
+			}
+			title:c_roma = {
+				change_development_level = -35
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 40
+				}
+			}
+			title:c_roma = {
+				change_development_level = -25
+			}
+		}
+		else = {
+			title:c_roma = {
+				change_development_level = -15
+			}
+		}
+		if = {
+			limit = {
+				title:c_lombardia = {
+					development_level >= 70
+				}
+			}
+			title:c_lombardia = {
+				change_development_level = -60
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_lombardia = {
+					development_level >= 60
+				}
+			}
+			title:c_lombardia = {
+				change_development_level = -50
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_lombardia = {
+					development_level >= 50
+				}
+			}
+			title:c_lombardia = {
+				change_development_level = -40
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_lombardia = {
+					development_level >= 40
+				}
+			}
+			title:c_lombardia = {
+				change_development_level = -30
+			}
+		}
+		else = {
+			title:c_lombardia = {
+				change_development_level = -20
+			}
+		}
+		if = {
+			limit = {
+				title:c_byzantion = {
+					development_level >= 70
+				}
+			}
+			title:c_byzantion = {
+				change_development_level = -55
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_byzantion = {
+					development_level >= 60
+				}
+			}
+			title:c_byzantion = {
+				change_development_level = -45
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_byzantion = {
+					development_level >= 50
+				}
+			}
+			title:c_byzantion = {
+				change_development_level = -35
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_byzantion = {
+					development_level >= 40
+				}
+			}
+			title:c_byzantion = {
+				change_development_level = -25
+			}
+		}
+		else = {
+			title:c_byzantion = {
+				change_development_level = -15
+			}
+		}
+	}
 	}
 }
