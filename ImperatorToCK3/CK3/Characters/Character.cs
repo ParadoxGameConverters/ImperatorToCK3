@@ -16,6 +16,7 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
 using Open.Collections;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Text;
 using ZLinq;
@@ -371,9 +372,9 @@ internal sealed class Character : IIdentifiable<string> {
 		MapData irMapData,
 		ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 		DeathReasonMapper deathReasonMapper,
-		DNAFactory dnaFactory,
 		Date dateOnConversion,
 		Configuration config,
+		FrozenDictionary<string, string> nameOverrides,
 		ConcurrentHashSet<string> unlocalizedImperatorNames
 	) {
 		this.characters = characters;
@@ -395,6 +396,9 @@ internal sealed class Character : IIdentifiable<string> {
 			}
 		} else {
 			var nameLoc = ImperatorCharacter.Name;
+			if (nameOverrides.TryGetValue(nameLoc, out var overrideName)) {
+				nameLoc = overrideName;
+			}
 			var name = nameLoc.Replace(' ', '_');
 			SetName(name, null);
 			if (!string.IsNullOrEmpty(name)) {

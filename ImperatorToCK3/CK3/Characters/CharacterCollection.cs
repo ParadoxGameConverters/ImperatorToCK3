@@ -21,6 +21,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -45,6 +46,8 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		Logger.Info("Importing Imperator Characters...");
 
 		var unlocalizedImperatorNames = new ConcurrentHashSet<string>();
+		
+		var nameOverrides = GetImperatorCharacterNameOverrides();
 
 		var parallelOptions = new ParallelOptions {
 			MaxDegreeOfParallelism = Environment.ProcessorCount - 1,
@@ -62,9 +65,9 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 				impWorld.MapData,
 				provinceMapper,
 				deathReasonMapper,
-				dnaFactory,
 				conversionDate,
 				config,
+				nameOverrides,
 				unlocalizedImperatorNames
 			);
 		});
@@ -89,6 +92,16 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		}
 	}
 
+	private static FrozenDictionary<string, string> GetImperatorCharacterNameOverrides() {
+		const string configurablePath = "configurables/character_name_overrides.txt";
+		if (!File.Exists(configurablePath)) {
+			Logger.Warn($"{configurablePath} not found, will not override any Imperator character names.");
+			return FrozenDictionary<string, string>.Empty;
+		}
+		var reader = new BufferedReader(File.ReadAllText(configurablePath));
+		return reader.GetAssignments().ToFrozenDictionary();
+	}
+
 	private void ImportImperatorCharacter(
 		Imperator.Characters.Character irCharacter,
 		ReligionMapper religionMapper,
@@ -100,9 +113,9 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		MapData irMapData,
 		ProvinceMapper provinceMapper,
 		DeathReasonMapper deathReasonMapper,
-		DNAFactory dnaFactory,
 		Date endDate,
 		Configuration config,
+		FrozenDictionary<string, string> nameOverrides,
 		ConcurrentHashSet<string> unlocalizedImperatorNames) {
 		// Create a new CK3 character.
 		var newCharacter = new Character(
@@ -117,9 +130,9 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			irMapData,
 			provinceMapper,
 			deathReasonMapper,
-			dnaFactory,
 			endDate,
 			config,
+			nameOverrides,
 			unlocalizedImperatorNames
 		);
 		irCharacter.CK3Character = newCharacter;

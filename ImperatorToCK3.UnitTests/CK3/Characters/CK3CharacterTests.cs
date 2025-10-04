@@ -24,6 +24,7 @@ using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.UnitTests.Mappers.Trait;
 using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
@@ -44,6 +45,7 @@ public class CK3CharacterTests {
 	private static readonly ModFilesystem CK3ModFS = new(CK3Root, Array.Empty<Mod>());
 	private static readonly DNAFactory DNAFactory = new(IRModFS, CK3ModFS);
 	private static TestCK3CultureCollection cultures = new();
+	private static readonly FrozenDictionary<string, string> characterNameOverrides = FrozenDictionary<string, string>.Empty;
 	
 	static CK3CharacterTests() {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
@@ -89,9 +91,9 @@ public class CK3CharacterTests {
 				irMapData,
 				provinceMapper,
 				deathReasonMapper,
-				DNAFactory,
 				new Date(867, 1, 1),
 				config,
+				nameOverrides: characterNameOverrides,
 				unlocalizedImperatorNames: []
 			);
 			return character;
