@@ -17,6 +17,7 @@ internal sealed partial class MenAtArmsType : IIdentifiable<string>, IPDXSeriali
 	[SerializedName("buy_cost")] public MenAtArmsCost? BuyCost { get; set; }
 	[SerializedName("low_maintenance_cost")] public MenAtArmsCost? LowMaintenanceCost { get; set; }
 	[SerializedName("high_maintenance_cost")] public MenAtArmsCost? HighMaintenanceCost { get; set; }
+	[SerializedName("provision_cost")] public double? ProvisionCost { get; set; }
 
 	[SerializeOnlyValue] private Dictionary<string, StringOfItem> Attributes { get; } = new();
 	[NonSerialized] public bool ToBeOutputted { get; } = false;
@@ -30,6 +31,7 @@ internal sealed partial class MenAtArmsType : IIdentifiable<string>, IPDXSeriali
 		parser.RegisterKeyword("buy_cost", costReader => BuyCost = new MenAtArmsCost(costReader, scriptValues));
 		parser.RegisterKeyword("low_maintenance_cost", costReader => LowMaintenanceCost = new MenAtArmsCost(costReader, scriptValues));
 		parser.RegisterKeyword("high_maintenance_cost", costReader => HighMaintenanceCost = new MenAtArmsCost(costReader, scriptValues));
+		parser.RegisterKeyword("provision_cost", costReader => ProvisionCost = costReader.GetDouble());
 		parser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
 			Attributes[keyword] = reader.GetStringOfItem();
 		});
@@ -56,6 +58,9 @@ internal sealed partial class MenAtArmsType : IIdentifiable<string>, IPDXSeriali
 		}
 		if (baseType.HighMaintenanceCost is not null) {
 			HighMaintenanceCost = baseType.HighMaintenanceCost * stackRatio;
+		}
+		if (baseType.ProvisionCost is not null) {
+			ProvisionCost = baseType.ProvisionCost * stackRatio;
 		}
 
 		Attributes = new Dictionary<string, StringOfItem>(baseType.Attributes);

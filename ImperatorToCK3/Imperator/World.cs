@@ -416,11 +416,10 @@ internal partial class World {
 		foreach (var modPath in reader.GetStrings()) {
 			incomingModPaths.Add(modPath);
 		}
-		if (incomingModPaths.Count == 0) {
-			Logger.Warn("Save game claims no mods used.");
-		} else {
-			Logger.Info($"Save game claims {incomingModPaths.Count} mods used:");
-		}
+
+		Logger.Info(incomingModPaths.Count == 0
+			? "Save game claims no mods used."
+			: $"Save game claims {incomingModPaths.Count} mods used:");
 		Mods incomingMods = [];
 		foreach (var modPath in incomingModPaths) {
 			Logger.Info($"Used mod: {modPath}");
