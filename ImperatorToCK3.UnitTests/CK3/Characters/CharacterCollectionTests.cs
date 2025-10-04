@@ -382,13 +382,14 @@ public class CharacterCollectionTests {
 	}
 
 	[Fact]
-	public void ImperatorCharacterNamesCanBeChangedByDict() {
+	public void ImperatorCharacterNamesCanBeOverriddenByConfigurable() {
 		Date ck3BookmarkDate = new(867, 1, 1);
 		var configuration = new Configuration { CK3BookmarkDate = ck3BookmarkDate };
 		var imperatorWorld = new TestImperatorWorld(configuration);
 
 		imperatorWorld.Characters.Add(new(0) {Name = "Mallobald"});
 		
+		Directory.CreateDirectory("configurables");
 		const string overridesFilePath = "configurables/character_name_overrides.txt";
 		File.WriteAllText(overridesFilePath, "Mallobald = Mallobald_collision_fix # avoids hash collision in CK3");
 
