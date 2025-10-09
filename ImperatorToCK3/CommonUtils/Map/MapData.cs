@@ -175,12 +175,22 @@ internal sealed class MapData {
 
 	public double GetDistanceBetweenProvinces(ulong province1, ulong province2) {
 		if (!ProvincePositions.TryGetValue(province1, out var province1Position)) {
-			Logger.Warn($"Province {province1} has no position defined!");
+			if (!(ProvinceDefinitions.TryGetValue(province1, out var province) && province is { IsImpassable: true })) {
+				Logger.Warn($"Province {province1} has no position defined!");
+			}
+			
+			// TODO: try to calculate province position as the centroid of its pixels on the map.
+			
 			return 0;
 		}
 
 		if (!ProvincePositions.TryGetValue(province2, out var province2Position)) {
-			Logger.Warn($"Province {province2} has no position defined!");
+			if (!(ProvinceDefinitions.TryGetValue(province2, out var province) && province is { IsImpassable: true })) {
+				Logger.Warn($"Province {province2} has no position defined!");
+			}
+			
+			// TODO: try to calculate province position as the centroid of its pixels on the map.
+			
 			return 0;
 		}
 

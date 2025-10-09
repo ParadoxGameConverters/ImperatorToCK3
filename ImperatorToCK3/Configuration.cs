@@ -33,6 +33,7 @@ internal sealed class Configuration {
 	public bool WhenTheWorldStoppedMakingSenseEnabled { get; private set; }
 	public bool RajasOfAsiaEnabled { get; private set; }
 	public bool AsiaExpansionProjectEnabled { get; private set; }
+	public bool AfricaPlusEnabled { get; private set; }
 
 	public bool OutputCCUParameters => WhenTheWorldStoppedMakingSenseEnabled || FallenEagleEnabled || RajasOfAsiaEnabled;
 
@@ -353,6 +354,12 @@ internal sealed class Configuration {
 			AsiaExpansionProjectEnabled = true;
 			Logger.Info($"AEP detected: {aepMod.Name}");
 		}
+		
+		var apMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Africa Plus", StringComparison.Ordinal));
+		if (apMod is not null) {
+			AfricaPlusEnabled = true;
+			Logger.Info($"Africa Plus detected: {apMod.Name}");
+		}
 
 		ThrowUserErrorExceptionForUnsupportedModCombinations();
 	}
@@ -379,6 +386,7 @@ internal sealed class Configuration {
 			["wtwsms"] = WhenTheWorldStoppedMakingSenseEnabled,
 			["roa"] = RajasOfAsiaEnabled,
 			["aep"] = AsiaExpansionProjectEnabled,
+			["bap"] = AfricaPlusEnabled,
 		};
 
 		flags["vanilla"] = !flags.Any(f => f.Value);
