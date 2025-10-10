@@ -335,6 +335,8 @@ internal partial class World {
 
 		RemoveEmptyCountries();
 
+		Characters.PurgeUnneededCharacters();
+
 		// Detect specific mods.
 		InvictusDetected = GlobalFlags.Contains("is_playing_invictus");
 		TerraIndomitaDetected = Countries.Any(c => c.Variables.Contains("unification_points")) ||

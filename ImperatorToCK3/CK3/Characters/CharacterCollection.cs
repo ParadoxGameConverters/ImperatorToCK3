@@ -484,35 +484,27 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 	public void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
 		Logger.Info("Purging unneeded characters...");
+
+		// Characters from I:R should be kept (the unimportant ones have already been purged during I:R processing).
+		var charactersToCheck = this.Where(c => !c.FromImperator);
 		
 		// Characters from CK3 that hold titles at the bookmark date should be kept.
 		var currentTitleHolderIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(ck3BookmarkDate);
 		var landedCharacters = this
 			.Where(character => currentTitleHolderIds.Contains(character.Id))
 			.ToArray();
-		var charactersToCheck = this.Except(landedCharacters);
-		
-		// Characters from I:R that held or hold titles should be kept.
-		var allTitleHolderIds = titles.GetAllHolderIds();
-		var imperatorTitleHolders = this
-			.Where(character => character.FromImperator && allTitleHolderIds.Contains(character.Id))
-			.ToArray();
-		charactersToCheck = charactersToCheck.Except(imperatorTitleHolders);
+		charactersToCheck = charactersToCheck.Except(landedCharacters);
 
 		// Don't purge animation_test characters.
 		charactersToCheck = charactersToCheck
 			.Where(c => !c.Id.StartsWith("animation_test_"));
-
-		// Keep alive Imperator characters.
-		charactersToCheck = charactersToCheck
-			.Where(c => c is not {FromImperator: true, ImperatorCharacter.IsDead: false});
 
 		// Make some exceptions for characters referenced in game's script files.
 		charactersToCheck = charactersToCheck
 			.Where(character => !character.IsNonRemovable)
 			.ToArray();
 
-		// I:R members of landed dynasties will be preserved, unless dead and childless.
+		// Members of landed dynasties will be preserved, unless dead and childless.
 		var dynastyIdsOfLandedCharacters = landedCharacters
 			.Select(character => character.GetDynastyId(ck3BookmarkDate))
 			.Distinct()
@@ -543,8 +535,8 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 			// See who can be removed.
 			foreach (var character in charactersToCheck) {
-				// Is the character from Imperator and do they belong to a dynasty that holds or held titles?
-				if (character.FromImperator && dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
+				// Does the character belong to a dynasty that holds or held titles?
+				if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
 					// Is the character dead and childless? Purge.
 					if (!parentIdsCache.Contains(character.Id)) {
 						charactersToRemove.Add(character);
@@ -560,7 +552,9 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded characters in iteration {i}.");
 			charactersToCheck = charactersToCheck.Except(charactersToRemove).ToArray();
-		} while(charactersToRemove.Count > 0);
+		} while (charactersToRemove.Count > 0);
+		
+		// TODO: modify the CK3 world's PurgeUnneededCharacters function to make all preserved I:R characters safe from purging
 
 		// At this point we probably have many dynasties with no characters left.
 		// Let's purge them.

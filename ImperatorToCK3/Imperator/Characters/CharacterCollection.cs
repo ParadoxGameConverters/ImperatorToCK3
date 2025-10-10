@@ -93,5 +93,95 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 		Logger.Info($"{counter} prisoner homes linked to characters.");
 	}
 
+	public void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
+		Logger.Info("Purging unneeded Imperator characters...");
+
+		// TODO: modify this to work with the Imperator world.
+		// Alive characters should be kept.
+		// All rulers should be kept.
+		// Families of rulers should be kept.
+		
+		// Characters from CK3 that hold titles at the bookmark date should be kept.
+		var currentTitleHolderIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(ck3BookmarkDate);
+		var landedCharacters = this
+			.Where(character => currentTitleHolderIds.Contains(character.Id))
+			.ToArray();
+		var charactersToCheck = this.Except(landedCharacters);
+		
+		// Characters from I:R should be kept.
+		var allTitleHolderIds = titles.GetAllHolderIds();
+		var imperatorTitleHolders = this
+			.Where(character => character.FromImperator && allTitleHolderIds.Contains(character.Id))
+			.ToArray();
+		charactersToCheck = charactersToCheck.Except(imperatorTitleHolders);
+
+		// Keep alive Imperator characters.
+		charactersToCheck = charactersToCheck
+			.Where(c => c is not {FromImperator: true, ImperatorCharacter.IsDead: false});
+
+		// Make some exceptions for characters referenced in game's script files.
+		charactersToCheck = charactersToCheck
+			.Where(character => !character.IsNonRemovable)
+			.ToArray();
+
+		// I:R members of landed dynasties will be preserved, unless dead and childless.
+		var dynastyIdsOfLandedCharacters = landedCharacters
+			.Select(character => character.GetDynastyId(ck3BookmarkDate))
+			.Distinct()
+			.Where(id => id is not null)
+			.ToFrozenSet();
+
+		var i = 0;
+		var charactersToRemove = new List<Character>();
+		var parentIdsCache = new HashSet<string>();
+		do {
+			Logger.Debug($"Beginning iteration {i} of characters purge...");
+			charactersToRemove.Clear();
+			parentIdsCache.Clear();
+			++i;
+
+			// Build cache of all parent IDs.
+			foreach (var character in this) {
+				var motherId = character.MotherId;
+				if (motherId is not null) {
+					parentIdsCache.Add(motherId);
+				}
+
+				var fatherId = character.FatherId;
+				if (fatherId is not null) {
+					parentIdsCache.Add(fatherId);
+				}
+			}
+
+			// See who can be removed.
+			foreach (var character in charactersToCheck) {
+				// Is the character from Imperator and do they belong to a dynasty that holds or held titles?
+				if (character.FromImperator && dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
+					// Is the character dead and childless? Purge.
+					if (!parentIdsCache.Contains(character.Id)) {
+						charactersToRemove.Add(character);
+					}
+
+					continue;
+				}
+
+				charactersToRemove.Add(character);
+			}
+
+			BulkRemove(charactersToRemove.ConvertAll(c => c.Id));
+
+			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded characters in iteration {i}.");
+			charactersToCheck = charactersToCheck.Except(charactersToRemove).ToArray();
+		} while (charactersToRemove.Count > 0);
+		
+		// TODO: modify the CK3 world's PurgeUnneededCharacters function to make all preserved I:R characters safe from purging
+
+		// At this point we probably have many dynasties with no characters left.
+		// Let's purge them.
+		houses.PurgeUnneededHouses(this, ck3BookmarkDate);
+		dynasties.PurgeUnneededDynasties(this, houses, ck3BookmarkDate);
+		dynasties.FlattenDynastiesWithNoFounders(this, houses, ck3BookmarkDate);
+	}
+
 	public GenesDB? GenesDB { get; set; }
 }
