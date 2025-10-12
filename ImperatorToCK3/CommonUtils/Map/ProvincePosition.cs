@@ -6,6 +6,13 @@ internal sealed class ProvincePosition {
 	public ulong Id { get; private set; }
 	public double X { get; private set; }
 	public double Y { get; private set; }
+
+	public ProvincePosition(ulong id, double x, double y) {
+		Id = id;
+		X = x;
+		Y = y;
+	}
+	private ProvincePosition() { }
 	public static ProvincePosition Parse(BufferedReader reader) {
 		positionToReturn = new ProvincePosition();
 		parser.ParseStream(reader);

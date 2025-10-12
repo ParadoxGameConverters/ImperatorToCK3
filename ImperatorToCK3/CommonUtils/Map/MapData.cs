@@ -107,6 +107,7 @@ internal sealed class MapData {
 		if (provincesMapPath is not null) {
 			using Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath);
 			DetermineNeighbors(provincesMap, ProvinceDefinitions);
+			DeterminePositionForProvincesWithoutDefinedLocators(provincesMap);
 		}
 
 		GroupStaticWaterProvinces();
@@ -173,24 +174,14 @@ internal sealed class MapData {
 		return null;
 	}
 
-	public double GetDistanceBetweenProvinces(ulong province1, ulong province2) {
-		if (!ProvincePositions.TryGetValue(province1, out var province1Position)) {
-			if (!(ProvinceDefinitions.TryGetValue(province1, out var province) && province is { IsImpassable: true })) {
-				Logger.Warn($"Province {province1} has no position defined!");
-			}
-			
-			// TODO: try to calculate province position as the centroid of its pixels on the map.
-			
+	public double GetDistanceBetweenProvinces(ulong province1Id, ulong province2Id) {
+		if (!ProvincePositions.TryGetValue(province1Id, out var province1Position)) {
+			Logger.Warn($"Province {province1Id} has no position defined!");
 			return 0;
 		}
 
-		if (!ProvincePositions.TryGetValue(province2, out var province2Position)) {
-			if (!(ProvinceDefinitions.TryGetValue(province2, out var province) && province is { IsImpassable: true })) {
-				Logger.Warn($"Province {province2} has no position defined!");
-			}
-			
-			// TODO: try to calculate province position as the centroid of its pixels on the map.
-			
+		if (!ProvincePositions.TryGetValue(province2Id, out var province2Position)) {
+			Logger.Warn($"Province {province2Id} has no position defined!");
 			return 0;
 		}
 
@@ -217,7 +208,7 @@ internal sealed class MapData {
 	public IReadOnlySet<ulong> MapEdgeProvinceIds => mapEdgeProvinces;
 
 	private void DetermineProvincePositions(ModFilesystem modFS) {
-		const string provincePositionsPath = "gfx/map/map_object_data/building_locators.txt";
+		const string provincePositionsPath = "gfx/map/map_object_data/combat_locators.txt";
 		var fileParser = new Parser();
 		fileParser.RegisterKeyword("game_object_locator", reader => {
 			var listParser = new Parser();
@@ -262,6 +253,24 @@ internal sealed class MapData {
 
 				if (!centerColor.Equals(leftColor)) {
 					HandleNeighbor(centerColor, leftColor, provinceDefinitions);
+				}
+			}
+		}
+	}
+
+	private void DeterminePositionForProvincesWithoutDefinedLocators(Image<Rgb24> provincesMap) {
+		Logger.Debug("Determining positions for provinces without defined locators...");
+		int height = provincesMap.Height;
+		int width = provincesMap.Width;
+
+		// For each province without a defined position, use first found pixel of its color in the map as its position.
+		for (int y = 0; y < height; ++y) {
+			for (int x = 0; x < width; ++x) {
+				var position = new Point(x, y);
+				Rgb24 color = GetCenterColor(position, provincesMap);
+				ulong provinceId = ProvinceDefinitions.ColorToProvinceDict[color];
+				if (!provincePositions.ContainsKey(provinceId)) {
+					provincePositions[provinceId] = new ProvincePosition(provinceId, x, y);
 				}
 			}
 		}
