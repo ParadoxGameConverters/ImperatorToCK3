@@ -487,7 +487,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 		// Characters from I:R should be kept (the unimportant ones have already been purged during I:R processing).
 		var charactersToCheck = this.Where(c => !c.FromImperator);
-		
+
 		// Characters from CK3 that hold titles at the bookmark date should be kept.
 		var currentTitleHolderIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(ck3BookmarkDate);
 		var landedCharacters = this
@@ -553,8 +553,6 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded characters in iteration {i}.");
 			charactersToCheck = charactersToCheck.Except(charactersToRemove).ToArray();
 		} while (charactersToRemove.Count > 0);
-		
-		// TODO: modify the CK3 world's PurgeUnneededCharacters function to make all preserved I:R characters safe from purging
 
 		// At this point we probably have many dynasties with no characters left.
 		// Let's purge them.

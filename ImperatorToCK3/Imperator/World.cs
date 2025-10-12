@@ -335,7 +335,7 @@ internal partial class World {
 
 		RemoveEmptyCountries();
 
-		Characters.PurgeUnneededCharacters();
+		Characters.PurgeUnneededCharacters(Countries, JobsDB.Governorships, Families);
 
 		// Detect specific mods.
 		InvictusDetected = GlobalFlags.Contains("is_playing_invictus");

@@ -3,6 +3,8 @@ using commonItems.Collections;
 using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
+using ImperatorToCK3.Imperator.Jobs;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Channels;
@@ -93,47 +95,36 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 		Logger.Info($"{counter} prisoner homes linked to characters.");
 	}
 
-	public void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
+	public void PurgeUnneededCharacters(CountryCollection countries, List<Governorship> governorships, FamilyCollection families) {
 		Logger.Info("Purging unneeded Imperator characters...");
 
-		// TODO: modify this to work with the Imperator world.
 		// Alive characters should be kept.
-		// All rulers should be kept.
-		// Families of rulers should be kept.
-		
-		// Characters from CK3 that hold titles at the bookmark date should be kept.
-		var currentTitleHolderIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(ck3BookmarkDate);
-		var landedCharacters = this
-			.Where(character => currentTitleHolderIds.Contains(character.Id))
-			.ToArray();
-		var charactersToCheck = this.Except(landedCharacters);
-		
-		// Characters from I:R should be kept.
-		var allTitleHolderIds = titles.GetAllHolderIds();
-		var imperatorTitleHolders = this
-			.Where(character => character.FromImperator && allTitleHolderIds.Contains(character.Id))
-			.ToArray();
-		charactersToCheck = charactersToCheck.Except(imperatorTitleHolders);
+		var charactersToCheck = this
+			.Where(character => character.IsDead);
 
-		// Keep alive Imperator characters.
+		// All landed characters should be kept.
+		var allRulerIds = countries
+			.SelectMany(country => country.RulerTerms.Select(term => term.CharacterId))
+			.Where(id => id is not null)
+			.Cast<ulong>();
+		var allGovernorIds = governorships.Select(g => g.CharacterId);
+		var landedCharacterIds = allRulerIds.Concat(allGovernorIds).ToFrozenSet();
 		charactersToCheck = charactersToCheck
-			.Where(c => c is not {FromImperator: true, ImperatorCharacter.IsDead: false});
-
-		// Make some exceptions for characters referenced in game's script files.
-		charactersToCheck = charactersToCheck
-			.Where(character => !character.IsNonRemovable)
+			.Where(character => !landedCharacterIds.Contains(character.Id))
 			.ToArray();
 
-		// I:R members of landed dynasties will be preserved, unless dead and childless.
-		var dynastyIdsOfLandedCharacters = landedCharacters
-			.Select(character => character.GetDynastyId(ck3BookmarkDate))
+		// Members of rulers' families should be kept, unless dead and childless.
+		var familyIdsOfLandedCharacters = this
+			.Where(character => landedCharacterIds.Contains(character.Id))
+			.Select(character => character.Family?.Id)
 			.Distinct()
 			.Where(id => id is not null)
+			.Cast<ulong>()
 			.ToFrozenSet();
 
 		var i = 0;
 		var charactersToRemove = new List<Character>();
-		var parentIdsCache = new HashSet<string>();
+		var parentIdsCache = new HashSet<ulong>();
 		do {
 			Logger.Debug($"Beginning iteration {i} of characters purge...");
 			charactersToRemove.Clear();
@@ -142,22 +133,22 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 
 			// Build cache of all parent IDs.
 			foreach (var character in this) {
-				var motherId = character.MotherId;
+				ulong? motherId = character.Mother?.Id;
 				if (motherId is not null) {
-					parentIdsCache.Add(motherId);
+					parentIdsCache.Add(motherId.Value);
 				}
 
-				var fatherId = character.FatherId;
+				ulong? fatherId = character.Father?.Id;
 				if (fatherId is not null) {
-					parentIdsCache.Add(fatherId);
+					parentIdsCache.Add(fatherId.Value);
 				}
 			}
 
 			// See who can be removed.
 			foreach (var character in charactersToCheck) {
-				// Is the character from Imperator and do they belong to a dynasty that holds or held titles?
-				if (character.FromImperator && dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
-					// Is the character dead and childless? Purge.
+				// Does the character belong to a landed family?
+				if (character.Family?.Id is ulong familyId && familyIdsOfLandedCharacters.Contains(familyId)) {
+					// Is the dead character childless? Purge.
 					if (!parentIdsCache.Contains(character.Id)) {
 						charactersToRemove.Add(character);
 					}
@@ -170,17 +161,31 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 
 			BulkRemove(charactersToRemove.ConvertAll(c => c.Id));
 
-			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded characters in iteration {i}.");
+			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded Imperator characters in iteration {i}.");
 			charactersToCheck = charactersToCheck.Except(charactersToRemove).ToArray();
 		} while (charactersToRemove.Count > 0);
 		
-		// TODO: modify the CK3 world's PurgeUnneededCharacters function to make all preserved I:R characters safe from purging
-
-		// At this point we probably have many dynasties with no characters left.
+		// At this point we may have families with no characters left.
 		// Let's purge them.
-		houses.PurgeUnneededHouses(this, ck3BookmarkDate);
-		dynasties.PurgeUnneededDynasties(this, houses, ck3BookmarkDate);
-		dynasties.FlattenDynastiesWithNoFounders(this, houses, ck3BookmarkDate);
+		families.PurgeUnneededFamilies(this);
+	}
+	
+	private void BulkRemove(List<ulong> ids) {
+		// Remove parent/child/spouse references to the characters to be removed.
+		foreach (var character in this) {
+			if (character.Mother is not null && ids.Contains(character.Mother.Id)) {
+				character.Mother = null;
+			}
+			if (character.Father is not null && ids.Contains(character.Father.Id)) {
+				character.Father = null;
+			}
+			character.Children.RemoveWhere(child => ids.Contains(child.Key));
+			character.Spouses.RemoveWhere(spouse => ids.Contains(spouse.Key));
+		}
+		
+		foreach (var id in ids) {
+			Remove(id);
+		}
 	}
 
 	public GenesDB? GenesDB { get; set; }
