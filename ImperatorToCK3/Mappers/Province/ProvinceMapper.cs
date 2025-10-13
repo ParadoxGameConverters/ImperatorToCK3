@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Exceptions;
 using System.Collections.Generic;
 
@@ -67,5 +68,25 @@ internal sealed class ProvinceMapper {
 			return ck3Provs;
 		}
 		return [];
+	}
+
+	public void DetectInvalidMappings(MapData irMapData, MapData ck3MapData) {
+		// There should be no land-water or water-land mappings.
+		foreach (var (irProvId, ck3ProvIds) in imperatorToCK3ProvinceMap) {
+			bool irProvIsLand = irMapData.IsLand(irProvId);
+			if (irProvIsLand) {
+				foreach (var ck3ProvId in ck3ProvIds) {
+					if (!ck3MapData.IsLand(ck3ProvId)) {
+						Logger.Warn($"I:R land province {irProvId} is mapped to CK3 non-land province {ck3ProvId}! Fix the province mappings!");
+					}
+				}
+			} else {
+				foreach (var ck3ProvId in ck3ProvIds) {
+					if (!ck3MapData.IsLand(ck3ProvId)) {
+						Logger.Warn($"I:R non-land province {irProvId} is mapped to CK3 land province {ck3ProvId}! Fix the province mappings!");
+					}
+				}
+			}
+		}
 	}
 }
