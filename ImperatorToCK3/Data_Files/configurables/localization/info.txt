@@ -3,4 +3,4 @@ Localization from this folder is only added to the generated mod if the localiza
 The "base" folder contains files to be included in the mod regardless of the CK3 mods enabled.
 The "wtwsms" folder contains files to be only included when the WtWSMS CK3 mod is enabled.
 The "roa" folder contains files to be only included when the Rajas of Asia CK3 mod is enabled.
-The "tfe" folder contains files to be only included when the The Fallen Eagle CK3 mod is enabled.
+The "tfe" folder contains files to be only included when The Fallen Eagle CK3 mod is enabled.
