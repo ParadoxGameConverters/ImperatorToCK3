@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using ImperatorToCK3.Exceptions;
 using log4net.Core;
 using System;
@@ -73,7 +73,6 @@ public static class Program {
 			}
 			Environment.Exit(-1); // Ensure the process exits with a non-zero code.
 		};
-
 	}
 
 	private static void SetInvariantCulture() {
