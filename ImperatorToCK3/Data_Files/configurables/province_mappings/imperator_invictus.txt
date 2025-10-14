@@ -1219,7 +1219,7 @@ imperator_invictus = {
 	link = { imp = 6148 imp = 6143 imp = 6140 imp = 6152 ck3 = 557 } # Nynt, Aghonor, Tahent, Kilgad -> Khortytsia
 	link = { imp = 4555 imp = 4554 imp = 6155 imp = 6163 ck3 = 5280 } # Hygreis, Halieuma Theou, Kisko, Vyonots -> Mariupol
 	link = { imp = 4553 imp = 7193 imp = 6154 imp = 6149 ck3 = 5281 } # Kremnoi, Settina, Rynek, Ghahko -> Kutur-Ogly
-	link = { imp = 4552 imp = 4551 imp = 6391 imp = 7192 ck3 = 5279 } # Limnaioi, Coretia, LAKE, Sarmapolis -> Kyzyl Jar
+	link = { imp = 4552 imp = 4551 imp = 7192 ck3 = 5279 } # Limnaioi, Coretia, Sarmapolis -> Kyzyl Jar
 	link = { imp = 4531 imp = 4532 imp = 4530 imp = 7190 ck3 = 558 } # Karkine, Hylaia, Ichthyaleia, Kanit -> Oleshye
 	link = { comment = "POLAND BY IHT" }
 	link = { imp = 4774 ck3 = 4913 ck3 = 4910 } # Elysiana -> Koscian, Kozmin
@@ -1742,7 +1742,7 @@ imperator_invictus = {
 	link = { imp = 7555 ck3 = 6180 } # Arabia Deserta -> SIRHAN
 	link = { imp = 7558 ck3 = 5989 } # Arabia Deserta -> QURAQIR
 	link = { imp = 7561 ck3 = 6176 ck3 = 6177 } # Sakaka -> SAKAKA, AL-QARA
-	link = { imp = 7562 imp = 7564 imp = 7563 ck3 = 6169 } # Arabia Deserta, SEAZONE IMPASSABLE WASTELAND, SEAZONE IMPASSABLE WASTELAND -> ZUBALA
+	link = { imp = 7562 ck3 = 6169 } # Arabia Deserta -> ZUBALA
 	link = { imp = 5940 ck3 = 6170 ck3 = 6175 ck3 = 6168 ck3 = 6164 ck3 = 6165 ck3 = 6174 } # Arabian Impassable -> LINA, BITAN, ATH-THALABIYA, HAFAR, AL-MAWIYA, AS-SUMAINA
 	link = { imp = 944 imp = 7196 ck3 = 6161 } # Akkaz, Adros -> KAZIMA
 	link = { imp = 8845 imp = 8844 ck3 = 6203 } # Dharghat, Qamra -> FADAK
