@@ -71,7 +71,7 @@ internal sealed class ProvinceMapper {
 		return [];
 	}
 
-	public void DetectInvalidMappings(MapData irMapData, MapData ck3MapData) { // TODO: add unit tests for this
+	public void DetectInvalidMappings(MapData irMapData, MapData ck3MapData) {
 		Logger.Info("Detecting invalid province mappings...");
 
 		// There should be no land-water or water-land mappings.
