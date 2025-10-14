@@ -16,5 +16,5 @@ internal sealed class ProvinceDefinition(ulong id) : IIdentifiable<ulong> {
 	                            specialCategories.Contains(SpecialProvinceCategory.ColorableImpassable);
 	public bool IsStaticWater => specialCategories.Contains(SpecialProvinceCategory.StaticWater);
 	public bool IsRiver => specialCategories.Contains(SpecialProvinceCategory.River);
-	public bool IsLand => !IsStaticWater && !IsRiver;
+	public bool IsLand => (!IsStaticWater && !IsRiver) || IsColorableImpassable; // handles provinces 1107 and 1108 being both impassable_mountains and lakes as of CK3 1.17.1
 }
