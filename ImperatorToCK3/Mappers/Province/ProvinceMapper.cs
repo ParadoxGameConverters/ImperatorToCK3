@@ -2,6 +2,7 @@
 using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Exceptions;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Province;
 
@@ -70,21 +71,21 @@ internal sealed class ProvinceMapper {
 		return [];
 	}
 
-	public void DetectInvalidMappings(MapData irMapData, MapData ck3MapData) {
+	public void DetectInvalidMappings(MapData irMapData, MapData ck3MapData) { // TODO: add unit tests for this
+		Logger.Info("Detecting invalid province mappings...");
+
 		// There should be no land-water or water-land mappings.
 		foreach (var (irProvId, ck3ProvIds) in imperatorToCK3ProvinceMap) {
 			bool irProvIsLand = irMapData.IsLand(irProvId);
 			if (irProvIsLand) {
-				foreach (var ck3ProvId in ck3ProvIds) {
-					if (!ck3MapData.IsLand(ck3ProvId)) {
-						Logger.Warn($"I:R land province {irProvId} is mapped to CK3 non-land province {ck3ProvId}! Fix the province mappings!");
-					}
+				ulong[] invalidTargets = [.. ck3ProvIds.Where(ck3ProvId => !ck3MapData.IsLand(ck3ProvId))];
+				if (invalidTargets.Length > 0) {
+					Logger.Warn($"I:R land province {irProvId} is mapped to CK3 water provinces {string.Join(',', invalidTargets)}! Fix the province mappings!");
 				}
 			} else {
-				foreach (var ck3ProvId in ck3ProvIds) {
-					if (!ck3MapData.IsLand(ck3ProvId)) {
-						Logger.Warn($"I:R non-land province {irProvId} is mapped to CK3 land province {ck3ProvId}! Fix the province mappings!");
-					}
+				ulong[] invalidTargets = [.. ck3ProvIds.Where(ck3MapData.IsLand)];
+				if (invalidTargets.Length > 0) {
+					Logger.Warn($"I:R water province {irProvId} is mapped to CK3 land provinces {string.Join(',', invalidTargets)}! Fix the province mappings!");
 				}
 			}
 		}
