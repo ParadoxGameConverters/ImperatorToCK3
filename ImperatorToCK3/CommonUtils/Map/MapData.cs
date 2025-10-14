@@ -48,10 +48,34 @@ internal sealed class MapData {
 	private readonly HashSet<ulong> mapEdgeProvinces = [];
 
 	private string provincesMapFilename = "provinces.png";
+	private string adjacenciesFilename = "adjacencies.csv";
 
 	public MapData(ModFilesystem modFS) {
-		string adjacenciesFilename = "adjacencies.csv";
+		ParseDefaultMap(modFS);
 
+		Logger.Info("Loading province positions...");
+		DetermineProvincePositions(modFS);
+		Logger.IncrementProgress();
+
+		Logger.Info("Loading province adjacencies...");
+		LoadAdjacencies(adjacenciesFilename, modFS);
+
+		DetermineMapEdgeProvinces(modFS);
+
+		Logger.Info("Determining province neighbors...");
+		var provincesMapPath = GetProvincesMapPath(modFS);
+		if (provincesMapPath is not null) {
+			using Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath);
+			DetermineNeighbors(provincesMap, ProvinceDefinitions);
+			DeterminePositionForProvincesWithoutDefinedLocators(provincesMap);
+		}
+
+		GroupStaticWaterProvinces();
+
+		Logger.IncrementProgress();
+	}
+
+	private void ParseDefaultMap(ModFilesystem modFS) {
 		Logger.Info("Loading default map data...");
 		const string defaultMapPath = "map_data/default.map";
 		var defaultMapParser = new Parser();
@@ -91,27 +115,6 @@ internal sealed class MapData {
 
 		defaultMapParser.IgnoreAndLogUnregisteredItems();
 		defaultMapParser.ParseGameFile(defaultMapPath, modFS);
-		Logger.IncrementProgress();
-
-		Logger.Info("Loading province positions...");
-		DetermineProvincePositions(modFS);
-		Logger.IncrementProgress();
-
-		Logger.Info("Loading province adjacencies...");
-		LoadAdjacencies(adjacenciesFilename, modFS);
-
-		DetermineMapEdgeProvinces(modFS);
-
-		Logger.Info("Determining province neighbors...");
-		var provincesMapPath = GetProvincesMapPath(modFS);
-		if (provincesMapPath is not null) {
-			using Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath);
-			DetermineNeighbors(provincesMap, ProvinceDefinitions);
-			DeterminePositionForProvincesWithoutDefinedLocators(provincesMap);
-		}
-
-		GroupStaticWaterProvinces();
-
 		Logger.IncrementProgress();
 	}
 
@@ -200,6 +203,7 @@ internal sealed class MapData {
 
 	private bool IsStaticWater(ulong provinceId) => ProvinceDefinitions[provinceId].IsStaticWater;
 	private bool IsRiver(ulong provinceId) => ProvinceDefinitions[provinceId].IsRiver;
+	internal bool IsLand(ulong provinceId) => ProvinceDefinitions[provinceId].IsLand;
 
 	public FrozenSet<ulong> ColorableImpassableProvinceIds => ProvinceDefinitions
 		.Where(p => p.IsColorableImpassable).Select(p => p.Id)
