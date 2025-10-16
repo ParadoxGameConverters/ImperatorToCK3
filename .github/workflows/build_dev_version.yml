@@ -44,7 +44,7 @@ jobs:
       run: echo "BRANCH_NAME=${BRANCH_NAME//[^a-zA-Z0-9]/-}" >> $GITHUB_ENV
 
     - name: Remove old artifacts
-      uses: ThreadsStyling/purge-artifacts-action@v1
+      uses: kolpav/purge-artifacts-action@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         expire-in: 0
