@@ -214,7 +214,7 @@ public class CharacterCollectionTests {
 		var config = new Configuration {
 			ImperatorPath = "TestFiles/LandedTitlesTests/Imperator",
 			CK3BookmarkDate = conversionDate,
-			ImperatorCurrencyRate = 0.5 // 1 Imperator gold is worth 0.5 CK3 gold
+			ImperatorCurrencyRate = 0.5f // 1 Imperator gold is worth 0.5 CK3 gold
 		};
 
 		var imperatorWorld = new TestImperatorWorld(config);

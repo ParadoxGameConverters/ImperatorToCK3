@@ -27,7 +27,7 @@ internal partial class Province {
 			parsedProvince.parsedPopIds.Add(reader.GetULong())
 		);
 		provinceParser.RegisterKeyword("civilization_value", reader =>
-			parsedProvince.CivilizationValue = reader.GetDouble()
+			parsedProvince.CivilizationValue = reader.GetFloat()
 		);
 		provinceParser.RegisterKeyword("province_rank", SetParsedProvinceRank());
 		provinceParser.RegisterKeyword("fort", reader =>

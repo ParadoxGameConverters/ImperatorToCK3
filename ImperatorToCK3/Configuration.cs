@@ -23,7 +23,7 @@ internal sealed class Configuration {
 	public bool StaticDeJure { get; set; } = false;
 	public bool FillerDukes { get; set; } = true;
 	public bool UseCK3Flags { get; set; } = true;
-	public double ImperatorCurrencyRate { get; set; } = 1.0d;
+	public float ImperatorCurrencyRate { get; set; } = 1.0f;
 	public double ImperatorCivilizationWorth { get; set; } = 0.4;
 	public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
 	public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
@@ -112,7 +112,7 @@ internal sealed class Configuration {
 			}
 		});
 		parser.RegisterKeyword("ImperatorCurrencyRate", reader => {
-			ImperatorCurrencyRate = reader.GetDouble();
+			ImperatorCurrencyRate = reader.GetFloat();
 			Logger.Info($"{nameof(ImperatorCurrencyRate)} set to: {ImperatorCurrencyRate}");
 		});
 		parser.RegisterKeyword("ImperatorCivilizationWorth", reader => {

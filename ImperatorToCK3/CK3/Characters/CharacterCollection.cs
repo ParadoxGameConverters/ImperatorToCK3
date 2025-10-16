@@ -577,7 +577,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	/// <param name="titles">Landed titles collection</param>
 	/// <param name="config">Current configuration</param>
 	public void DistributeCountriesGold(Title.LandedTitles titles, Configuration config) {
-		static void AddGoldToCharacter(Character character, double gold) {
+		static void AddGoldToCharacter(Character character, float gold) {
 			if (character.Gold is null) {
 				character.Gold = gold;
 			} else {

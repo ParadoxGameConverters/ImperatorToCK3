@@ -278,13 +278,13 @@ public class CK3CharacterTests {
 	[Fact]
 	public void GoldCanBeConverterFromImperator() {
 		var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
-			Wealth = 420.69
+			Wealth = 420.69f
 		};
 
 		var character = builder
 			.WithImperatorCharacter(imperatorCharacter)
 			.Build();
-		Assert.Equal(420.69, character.Gold);
+		Assert.Equal(420.69f, character.Gold);
 	}
 
 	[Fact]
