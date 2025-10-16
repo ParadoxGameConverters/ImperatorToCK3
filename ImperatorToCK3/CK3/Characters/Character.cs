@@ -77,7 +77,7 @@ internal sealed class Character : IIdentifiable<string> {
 		History.Fields["traits"].InitialEntries.Add(new KeyValuePair<string, object>("trait", traitId));
 	}
 		
-	public double? Gold { get; set; }
+	public float? Gold { get; set; }
 
 	public uint GetAge(Date date) {
 		var birthDate = BirthDate;
