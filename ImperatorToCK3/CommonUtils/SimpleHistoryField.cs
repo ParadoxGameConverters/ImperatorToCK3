@@ -55,7 +55,7 @@ internal sealed class SimpleHistoryField : IHistoryField {
 		if (date is null) {
 			InitialEntries.Add(new KeyValuePair<string, object>(setter, value));
 		} else {
-			DateToEntriesDict[date] = [
+			DateToEntriesDict[date.Value] = [
 				new(setter, value),
 			];
 		}

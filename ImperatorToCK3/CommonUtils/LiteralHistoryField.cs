@@ -56,13 +56,11 @@ internal sealed class LiteralHistoryField : IHistoryField {
 		if (date is null) {
 			InitialEntries.Add(new KeyValuePair<string, object>(setter, value));
 		} else {
-			if (DateToEntriesDict.TryGetValue(date, out var entriesList)) {
+			if (DateToEntriesDict.TryGetValue(date.Value, out var entriesList)) {
 				entriesList.Add(new KeyValuePair<string, object>(setter, value));
 			}
 			else {
-				DateToEntriesDict[date] = new List<KeyValuePair<string, object>> {
-					new(setter, value)
-				};
+				DateToEntriesDict[date.Value] = [new(setter, value)];
 			}
 		}
 	}

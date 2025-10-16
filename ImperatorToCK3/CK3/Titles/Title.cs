@@ -787,8 +787,8 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	public Date GetDateOfLastHolderChange() {
 		var field = History.Fields["holder"];
 		var dates = new SortedSet<Date>(field.DateToEntriesDict.Keys);
-		var lastDate = dates.Max;
-		return lastDate ?? new Date(1, 1, 1);
+
+		return dates.Count > 0 ? dates.Max : new Date(1, 1, 1);
 	}
 
 	public HashSet<string> GetAllHolderIds() {
