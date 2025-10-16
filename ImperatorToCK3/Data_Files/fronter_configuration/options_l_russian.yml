@@ -1,0 +1,71 @@
+l_russian:
+ ENABLED: "Включено"
+ DISABLED: "Отключено"
+
+ STATIC_DEJURE: "Нужна ли динамическая де-юре карта королевств и империй?"
+ STATIC_DEJURE_TIP: "Рекомендуется динамический режим. В динамическом режиме де-юре королевства и империи не сохраняются из ванильного CK3 и создаются на основе губернаторств Imperator. В статическом режиме де-юре королевства и империи определяются файлом конфигурации."
+ STATIC_DEJURE_1: "Динамический"
+ STATIC_DEJURE_1_TIP: "Определять де-юре титулы CK3 по губернаторствам Imperator."
+ STATIC_DEJURE_2: "Статический"
+ STATIC_DEJURE_2_TIP: "Предопределить де-юре титулы CK3 в основном по ванильному CK3 с историческими поправками."
+
+ FILLER_DUKES: "Звание правителей, создаваемых для незанятых областей"
+ FILLER_DUKES_TIP: "Если в истории у области нет правителя, она будет передана правителю этого ранга."
+ FILLER_DUKES_0: "Граф"
+ FILLER_DUKES_0_TIP: "Конвертер сгенерирует графов для незанятых областей."
+ FILLER_DUKES_1: "Герцог"
+ FILLER_DUKES_1_TIP: "Конвертер сгенерирует герцогов для незанятых областей."
+
+ USE_CK3_FLAGS: "Использовать гербы CK3, если возможно?"
+ USE_CK3_FLAGS_TIP: "Следует ли использовать гербы CK3 для стран, сопоставленных существующим титулам CK3."
+ USE_CK3_FLAGS_0: "Нет"
+ USE_CK3_FLAGS_0_TIP: "Конвертер будет использовать гербы Imperator для всех стран."
+ USE_CK3_FLAGS_1: "Да"
+ USE_CK3_FLAGS_1_TIP: "Конвертер будет использовать гербы CK3 для стран, сопоставленных существующим титулам CK3."
+
+ HERESIES_IN_HISTORICAL_AREAS: "Использовать ли исторические ереси при конверсии?"
+ HERESIES_IN_HISTORICAL_AREAS_TIP: "Эта опция конвертирует некоторые христианские и манихейские популяции, если они есть в вашей игре, в определённых областях карты Imperator: Rome в гностические, дуалистические или исторические христианские ереси на соответствующих территориях карты Crusader Kings III. Например, провинции с большинством христиан или манихеев в I:R могут быть преобразованы в прециллианство в CK3."
+ HERESIES_IN_HISTORICAL_AREAS_1: "Да"
+ HERESIES_IN_HISTORICAL_AREAS_2: "Нет"
+
+ IMPERATOR_CURRENCY_RATE: "Курс валюты Imperator"
+ IMPERATOR_CURRENCY_RATE_TIP: "Сколько золота CK3 должна стоить 1 единица золота Imperator?"
+ IMPERATOR_CURRENCY_RATE_INPUT_TIP: "Используйте точку в качестве десятичного разделителя."
+
+ IMPERATOR_CIVILIZATION_WORTH: "Ценность цивилизации Imperator"
+ IMPERATOR_CIVILIZATION_WORTH_TIP: "Сколько развития CK3 должна давать 1 единица цивилизации Imperator?"
+ IMPERATOR_CIVILIZATION_WORTH_INPUT_TIP: "Используйте точку в качестве десятичного разделителя."
+
+ LEGION_CONVERSION: "[EXPERIMENTAL] Как импортировать легионы в CK3?"
+ LEGION_CONVERSION_NO: "Не конвертировать."
+ LEGION_CONVERSION_SPECIAL: "Как особые войска."
+ LEGION_CONVERSION_MAA: "[ЛОМАНИЕ МУЛЬТИПЛЕЕРА] Как МАА."
+
+ #CONVERTCHARACTERBIRTHANDDEATHDATES: "База для конверсии дат рождения персонажей"
+ #CONVERTCHARACTERBIRTHANDDEATHDATES_TIP: "Даты рождения персонажей могут основываться либо на их датах рождения в Imperator, либо на их возрасте."
+ #CONVERTCHARACTERBIRTHANDDEATHDATES_1: "Дата рождения"
+ #CONVERTCHARACTERBIRTHANDDEATHDATES_1_TIP: "Рекомендуется, если вы конвертируете без большого временного разрыва."
+ #CONVERTCHARACTERBIRTHANDDEATHDATES_2: "Возраст"
+ #CONVERTCHARACTERBIRTHANDDEATHDATES_2_TIP: "Рекомендуется, если вы конвертируете значительно раньше даты закладки CK3."
+
+ MODNAME: "Имя выходного мода (необязательно):"
+ MODNAMETIP: "Пожалуйста, используйте латинские буквы."
+ MODNAMETIP2: "Необязательное имя для конвертированного мода (по умолчанию используется имя сохранения)."
+
+ BOOKMARKDATE: "Дата закладки CK3 (н. э., необязательно)"
+ BOOKMARKDATETIP: "Дата закладки CK3 в системе Anno Domini не может быть раньше даты сохранения Imperator. Оставьте пустым, чтобы использовать текущую дату из сохранения Imperator."
+ BOOKMARKDATETIP2: "Дата закладки CK3 в системе Anno Domini не может быть раньше даты сохранения Imperator. Оставьте пустым, чтобы использовать текущую дату из сохранения Imperator."
+
+ SKIP_DYNAMIC_COA_EXTRACTION: "Пропустить извлечение сгенерированных гербов?"
+ SKIP_DYNAMIC_COA_EXTRACTION_TIP: "Следует ли запускать Imperator для автоматического извлечения всех сгенерированных в игре флагов."
+ SKIP_DYNAMIC_COA_EXTRACTION_0: "Нет"
+ SKIP_DYNAMIC_COA_EXTRACTION_0_TIP: "Конвертер запустит Imperator и извлечёт все сгенерированные флаги."
+ SKIP_DYNAMIC_COA_EXTRACTION_1: "Да"
+ SKIP_DYNAMIC_COA_EXTRACTION_1_TIP: "Конвертер не будет запускать Imperator для извлечения сгенерированных флагов."
+
+ SKIP_HOLDING_OWNERS_IMPORT: "Пропустить импорт владельцев владений?"
+ SKIP_HOLDING_OWNERS_IMPORT_TIP: "Следует ли импортировать владельцев владений Imperator как баронов и графов."
+ SKIP_HOLDING_OWNERS_IMPORT_0: "Нет"
+ SKIP_HOLDING_OWNERS_IMPORT_0_TIP: "Конвертер импортирует владельцев как баронов и графов."
+ SKIP_HOLDING_OWNERS_IMPORT_1: "Да"
+ SKIP_HOLDING_OWNERS_IMPORT_1_TIP: "Конвертер не будет импортировать владельцев как баронов и графов."
