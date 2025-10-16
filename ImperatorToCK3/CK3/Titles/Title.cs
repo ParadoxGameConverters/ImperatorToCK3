@@ -551,10 +551,10 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var countryColor = country.Color1;
 		if (countryColor is not null) {
 			var regionColor = governorship.Region.Color;
-			if (regionColor is not null && !parentCollection.IsColorUsed(regionColor)) {
+			if (regionColor is not null && !parentCollection.IsColorUsed(regionColor.Value)) {
 				Color1 = regionColor;
 			} else {
-				Color1 = parentCollection.GetDerivedColor(countryColor);
+				Color1 = parentCollection.GetDerivedColor(countryColor.Value);
 			}
 		}
 
