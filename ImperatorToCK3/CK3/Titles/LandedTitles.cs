@@ -1712,7 +1712,11 @@ internal sealed partial class Title {
 			.Where(t => t is {Rank: TitleRank.kingdom, DeJureVassals.Count: > 0})
 			.ToImmutableArray();
 		
-		private FrozenSet<Color> UsedColors => this.Select(t => t.Color1).Where(c => c is not null).ToFrozenSet()!;
+		private FrozenSet<Color> UsedColors => this
+			.Select(t => t.Color1)
+			.Where(c => c is not null)
+			.Cast<Color>()
+			.ToFrozenSet();
 		public bool IsColorUsed(Color color) {
 			return UsedColors.Contains(color);
 		}
