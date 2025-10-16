@@ -85,7 +85,7 @@ internal sealed class Character : IIdentifiable<string> {
 		if (deathDate is null) {
 			return (uint)date.DiffInYears(birthDate);
 		}
-		return (uint)deathDate.DiffInYears(birthDate);
+		return (uint)deathDate.Value.DiffInYears(birthDate);
 	}
 	public string GetAgeSex(Date date) {
 		if (GetAge(date) >= 16) {
@@ -106,7 +106,10 @@ internal sealed class Character : IIdentifiable<string> {
 	public Date? DeathDate {
 		get {
 			var entriesDict = History.Fields["death"].DateToEntriesDict;
-			return entriesDict.Count == 0 ? null : entriesDict.AsValueEnumerable().First().Key;
+			if (entriesDict.Count == 0) {
+				return null;
+			}
+			return entriesDict.AsValueEnumerable().First().Key;
 		}
 		set {
 			var historyField = History.Fields["death"];
@@ -317,7 +320,7 @@ internal sealed class Character : IIdentifiable<string> {
 			}
 		}
 
-		BirthDate = preImperatorRuler.BirthDate!;
+		BirthDate = preImperatorRuler.BirthDate!.Value;
 		DeathDate = preImperatorRuler.DeathDate!;
 
 		// determine culture and religion

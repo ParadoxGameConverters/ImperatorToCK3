@@ -32,7 +32,7 @@ internal static class CharacterOutputter {
 			Date goldDate = ck3BookmarkDate;
 			var deathDate = character.DeathDate;
 			if (deathDate is not null && deathDate < ck3BookmarkDate) {
-				goldDate = deathDate;
+				goldDate = deathDate.Value;
 			}
 			character.History.AddFieldValue(goldDate, "effects", "effect", effectStr);
 		}

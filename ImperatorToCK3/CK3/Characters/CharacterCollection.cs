@@ -266,15 +266,15 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			var birthDateOfCommonChild = GetBirthDateOfFirstCommonChild(imperatorCharacter, imperatorSpouse);
 			if (birthDateOfCommonChild is not null) {
 				// We assume the child was conceived after marriage.
-				var estimatedConceptionDate = birthDateOfCommonChild.ChangeByDays(-280);
+				var estimatedConceptionDate = birthDateOfCommonChild.Value.ChangeByDays(-280);
 				if (marriageDeathDate is not null && marriageDeathDate < estimatedConceptionDate) {
-					estimatedConceptionDate = marriageDeathDate.ChangeByDays(-1);
+					estimatedConceptionDate = marriageDeathDate.Value.ChangeByDays(-1);
 				}
 				return estimatedConceptionDate;
 			}
 
 			if (marriageDeathDate is not null) {
-				return marriageDeathDate.ChangeByDays(-1); // Death is not a good moment to marry.
+				return marriageDeathDate.Value.ChangeByDays(-1); // Death is not a good moment to marry.
 			}
 
 			return conversionDate;
