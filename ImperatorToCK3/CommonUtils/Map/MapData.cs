@@ -14,9 +14,9 @@ namespace ImperatorToCK3.CommonUtils.Map;
 
 internal sealed class MapData {
 	[StructLayout(LayoutKind.Auto)]
-	private struct Point(int x, int y) : IEquatable<Point> {
-		public int X { get; set; } = x;
-		public int Y { get; set; } = y;
+	private readonly struct Point(int x, int y) : IEquatable<Point> {
+		public int X { get; } = x;
+		public int Y { get; } = y;
 
 		public readonly bool Equals(Point other) {
 			return X == other.X && Y == other.Y;
@@ -292,35 +292,39 @@ internal sealed class MapData {
 	}
 
 	private static Rgb24 GetAboveColor(Point position, Image<Rgb24> provincesMap) {
-		if (position.Y > 0) {
-			--position.Y;
+		int y = position.Y;
+		if (y > 0) {
+			--y;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(position.X, y), provincesMap);
 	}
 
 	private static Rgb24 GetBelowColor(Point position, int height, Image<Rgb24> provincesMap) {
-		if (position.Y < height - 1) {
-			++position.Y;
+		int y = position.Y;
+		if (y < height - 1) {
+			++y;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(position.X, y), provincesMap);
 	}
 
 	private static Rgb24 GetLeftColor(Point position, Image<Rgb24> provincesMap) {
-		if (position.X > 0) {
-			--position.X;
+		int x = position.X;
+		if (x > 0) {
+			--x;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(x, position.Y), provincesMap);
 	}
 
 	private static Rgb24 GetRightColor(Point position, int width, Image<Rgb24> provincesMap) {
-		if (position.X < width - 1) {
-			++position.X;
+		int x = position.X;
+		if (x < width - 1) {
+			++x;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(x, position.Y), provincesMap);
 	}
 
 	private static Rgb24 GetPixelColor(Point position, Image<Rgb24> provincesMap) {
