@@ -168,7 +168,7 @@ public class TitleTests {
 		Assert.True(title.HasDefiniteForm);
 		Assert.True(title.Landless);
 		Assert.NotNull(title.Color1);
-		Assert.Equal("rgb { 23 23 23 }", title.Color1.OutputRgb());
+		Assert.Equal("rgb { 23 23 23 }", title.Color1.Value.OutputRgb());
 		Assert.Equal((ulong)345, title.ProvinceId);
 
 		Assert.NotNull(title.CapitalCounty);

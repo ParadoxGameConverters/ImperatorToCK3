@@ -73,7 +73,7 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		}
 
 		if (Color is not null) {
-			sb.Append(contentIndent).AppendLine($"color={Color.OutputRgb()}");
+			sb.Append(contentIndent).AppendLine($"color={Color.Value.OutputRgb()}");
 		}
 		if (ReligiousHeadTitleId is not null) {
 			sb.Append(contentIndent).AppendLine($"religious_head={ReligiousHeadTitleId}");
