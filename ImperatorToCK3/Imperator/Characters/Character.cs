@@ -1,11 +1,13 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.CommonUtils.Map;
 using Open.Collections;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
@@ -91,7 +93,7 @@ internal sealed class Character : IIdentifiable<ulong> {
 	public List<string> Traits { get; set; } = [];
 	public CharacterAttributes Attributes { get; private set; } = new();
 	public IReadOnlySet<string> Variables { get; private set; } = ImmutableHashSet<string>.Empty;
-	public bool IsBald => Variables.Contains("bald");
+	public bool IsBald { get; private set; }
 	public uint Age { get; private set; } = 0;
 	public string? DNA { get; private set; }
 	public PortraitData? PortraitData { get; private set; }
@@ -170,21 +172,77 @@ internal sealed class Character : IIdentifiable<ulong> {
 			var variables = new HashSet<string>();
 			var variablesParser = new Parser();
 			variablesParser.RegisterKeyword("data", dataReader => {
-				var blobParser = new Parser();
-				blobParser.RegisterKeyword("flag", blobReader => variables.Add(string.Intern(blobReader.GetString())));
-				blobParser.IgnoreUnregisteredItems();
-				
 				foreach (var blob in new BlobList(dataReader).Blobs) {
-					var blobReader = new BufferedReader(blob);
-					blobParser.ParseStream(blobReader);
+					
+					ParseCharacterVariable(c);
 				}
 			});
 			variablesParser.RegisterKeyword("list", ParserHelpers.IgnoreItem);
 			variablesParser.IgnoreAndLogUnregisteredItems();
 			variablesParser.ParseStream(reader);
 			character.Variables = variables.ToImmutableHashSet();
+			if (character.Variables.Contains("bald")) {
+				character.IsBald = true;
+				// Remove the "bald" flag to save memory.
+				variables.Remove("bald");
+			}
 		});
 		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
+	}
+
+	private static void ParseCharacterVariable(string blob, IdObjectCollection<string, Variable> variables) {
+		string? name = null;
+		int? tick = null;
+		string? type = null;
+		
+		var blobParser = new Parser();
+				
+		// TODO: use CharacterVariable<T> struct here
+				
+		blobParser.RegisterKeyword("flag", blobReader => name = string.Intern(blobReader.GetString()));
+		blobParser.RegisterKeyword("data", dataReader => {
+			var variableDataParser = new Parser();
+			variableDataParser.RegisterKeyword("type", typeReader => {
+				type = typeReader.GetString();
+			});
+			// TODO: also handle "tick" (days remaining)
+			variableDataParser.RegisterKeyword("tick", tickReader => tick = tickReader.GetInt());
+			variableDataParser.RegisterKeyword("identity", valueReader => {
+				// At this point we know everything we need, so we can add the variable to the collection right after reading its value.
+				if (name is null) {
+					Logger.Warn("Can't store character variable without knowing its name!");
+					return;
+				}
+				if (type is null) {
+					Logger.Warn("Can't store character variable without knowing its type!");
+				}
+				switch (type) {
+					case "boolean":
+						variables.Add(new Variable(name, valueReader.GetBool()));
+						break;
+					case "value": // TODO: check if needed
+						// This represent a real number.
+						// For example, 12.34 is stores as "1234000".
+						var ulongValue = valueReader.GetULong();
+						var realValue = ulongValue / 100000.0f;
+						variables.Add(new Variable(name, realValue));
+						// TODO: HOW TO HANDLE NEGATIVE VALUES?
+						throw new NotImplementedException();
+						break;
+					default:
+						Logger.Warn($"Unrecognized character variable type: {type}!");
+						break;
+				}
+		
+				variables.Add(new CharacterVariable(name, value));
+			});
+			variableDataParser.IgnoreAndLogUnregisteredItems();
+			variableDataParser.ParseStream(dataReader);
+		});
+		blobParser.IgnoreUnregisteredItems();
+					
+		var blobReader = new BufferedReader(blob);
+		blobParser.ParseStream(blobReader);
 	}
 	public static Character Parse(BufferedReader reader, string idString, GenesDB? genesDB) {
 		var parser = new Parser();
