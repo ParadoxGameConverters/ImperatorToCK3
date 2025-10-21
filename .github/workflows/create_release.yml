@@ -107,7 +107,7 @@ jobs:
       if: matrix.build == 'win-x64'
       run: |
         choco install sed --version=4.9
-        choco install innosetup --version=6.5.4
+        choco install innosetup
     - name: "Build installer for Windows"
       if: matrix.build == 'win-x64'
       run: |
