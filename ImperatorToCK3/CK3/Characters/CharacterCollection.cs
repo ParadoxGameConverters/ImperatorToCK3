@@ -26,6 +26,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -50,6 +51,8 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		Logger.Info("Importing Imperator Characters...");
 
 		var unlocalizedImperatorNames = new ConcurrentHashSet<string>();
+		
+		var nameOverrides = GetImperatorCharacterNameOverrides();
 
 		var parallelOptions = new ParallelOptions {
 			MaxDegreeOfParallelism = Environment.ProcessorCount - 1,
@@ -67,9 +70,9 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 				impWorld.MapData,
 				provinceMapper,
 				deathReasonMapper,
-				dnaFactory,
 				conversionDate,
 				config,
+				nameOverrides,
 				unlocalizedImperatorNames
 			);
 		});
@@ -94,6 +97,16 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		}
 	}
 
+	private static FrozenDictionary<string, string> GetImperatorCharacterNameOverrides() {
+		const string configurablePath = "configurables/character_name_overrides.txt";
+		if (!File.Exists(configurablePath)) {
+			Logger.Warn($"{configurablePath} not found, will not override any Imperator character names.");
+			return FrozenDictionary<string, string>.Empty;
+		}
+		var reader = new BufferedReader(File.ReadAllText(configurablePath));
+		return reader.GetAssignments().ToFrozenDictionary();
+	}
+
 	private void ImportImperatorCharacter(
 		Imperator.Characters.Character irCharacter,
 		ReligionMapper religionMapper,
@@ -105,9 +118,9 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		MapData irMapData,
 		ProvinceMapper provinceMapper,
 		DeathReasonMapper deathReasonMapper,
-		DNAFactory dnaFactory,
 		Date endDate,
 		Configuration config,
+		FrozenDictionary<string, string> nameOverrides,
 		ConcurrentHashSet<string> unlocalizedImperatorNames) {
 		// Create a new CK3 character.
 		var newCharacter = new Character(
@@ -122,9 +135,9 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			irMapData,
 			provinceMapper,
 			deathReasonMapper,
-			dnaFactory,
 			endDate,
 			config,
+			nameOverrides,
 			unlocalizedImperatorNames
 		);
 		irCharacter.CK3Character = newCharacter;
@@ -258,15 +271,15 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			var birthDateOfCommonChild = GetBirthDateOfFirstCommonChild(imperatorCharacter, imperatorSpouse);
 			if (birthDateOfCommonChild is not null) {
 				// We assume the child was conceived after marriage.
-				var estimatedConceptionDate = birthDateOfCommonChild.ChangeByDays(-280);
+				var estimatedConceptionDate = birthDateOfCommonChild.Value.ChangeByDays(-280);
 				if (marriageDeathDate is not null && marriageDeathDate < estimatedConceptionDate) {
-					estimatedConceptionDate = marriageDeathDate.ChangeByDays(-1);
+					estimatedConceptionDate = marriageDeathDate.Value.ChangeByDays(-1);
 				}
 				return estimatedConceptionDate;
 			}
 
 			if (marriageDeathDate is not null) {
-				return marriageDeathDate.ChangeByDays(-1); // Death is not a good moment to marry.
+				return marriageDeathDate.Value.ChangeByDays(-1); // Death is not a good moment to marry.
 			}
 
 			return conversionDate;
@@ -476,35 +489,27 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 	public void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
 		Logger.Info("Purging unneeded characters...");
-		
+
+		// Characters from I:R should be kept (the unimportant ones have already been purged during I:R processing).
+		var charactersToCheck = this.Where(c => !c.FromImperator);
+
 		// Characters from CK3 that hold titles at the bookmark date should be kept.
 		var currentTitleHolderIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(ck3BookmarkDate);
 		var landedCharacters = this
 			.Where(character => currentTitleHolderIds.Contains(character.Id))
 			.ToArray();
-		var charactersToCheck = this.Except(landedCharacters);
-		
-		// Characters from I:R that held or hold titles should be kept.
-		var allTitleHolderIds = titles.GetAllHolderIds();
-		var imperatorTitleHolders = this
-			.Where(character => character.FromImperator && allTitleHolderIds.Contains(character.Id))
-			.ToArray();
-		charactersToCheck = charactersToCheck.Except(imperatorTitleHolders);
+		charactersToCheck = charactersToCheck.Except(landedCharacters);
 
 		// Don't purge animation_test characters.
 		charactersToCheck = charactersToCheck
 			.Where(c => !c.Id.StartsWith("animation_test_"));
-
-		// Keep alive Imperator characters.
-		charactersToCheck = charactersToCheck
-			.Where(c => c is not {FromImperator: true, ImperatorCharacter.IsDead: false});
 
 		// Make some exceptions for characters referenced in game's script files.
 		charactersToCheck = charactersToCheck
 			.Where(character => !character.IsNonRemovable)
 			.ToArray();
 
-		// I:R members of landed dynasties will be preserved, unless dead and childless.
+		// Members of landed dynasties will be preserved, unless dead and childless.
 		var dynastyIdsOfLandedCharacters = landedCharacters
 			.Select(character => character.GetDynastyId(ck3BookmarkDate))
 			.Distinct()
@@ -535,8 +540,8 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 			// See who can be removed.
 			foreach (var character in charactersToCheck) {
-				// Is the character from Imperator and do they belong to a dynasty that holds or held titles?
-				if (character.FromImperator && dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
+				// Does the character belong to a dynasty that holds or held titles?
+				if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
 					// Is the character dead and childless? Purge.
 					if (!parentIdsCache.Contains(character.Id)) {
 						charactersToRemove.Add(character);
@@ -552,7 +557,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded characters in iteration {i}.");
 			charactersToCheck = charactersToCheck.Except(charactersToRemove).ToArray();
-		} while(charactersToRemove.Count > 0);
+		} while (charactersToRemove.Count > 0);
 
 		// At this point we probably have many dynasties with no characters left.
 		// Let's purge them.
@@ -577,7 +582,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	/// <param name="titles">Landed titles collection</param>
 	/// <param name="config">Current configuration</param>
 	public void DistributeCountriesGold(Title.LandedTitles titles, Configuration config) {
-		static void AddGoldToCharacter(Character character, double gold) {
+		static void AddGoldToCharacter(Character character, float gold) {
 			if (character.Gold is null) {
 				character.Gold = gold;
 			} else {

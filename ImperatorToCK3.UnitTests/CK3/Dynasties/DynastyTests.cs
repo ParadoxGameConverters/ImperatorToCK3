@@ -4,7 +4,6 @@ using commonItems.Localization;
 using commonItems.Mods;
 using commonItems.Serialization;
 using ImperatorToCK3.CK3;
-using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
@@ -23,6 +22,7 @@ using ImperatorToCK3.UnitTests.TestHelpers;
 using Xunit;
 using Character = ImperatorToCK3.CK3.Characters.Character;
 using System;
+using System.Collections.Frozen;
 using CharacterCollection = ImperatorToCK3.Imperator.Characters.CharacterCollection;
 
 // ReSharper disable StringLiteralTypo
@@ -39,6 +39,7 @@ public class DynastyTests {
 	private static readonly ImperatorRegionMapper IRRegionMapper;
 	private static readonly CultureMapper CultureMapper;
 	private static readonly TestCK3CultureCollection Cultures = [];
+	private static readonly FrozenDictionary<string, string> characterNameOverrides = FrozenDictionary<string, string>.Empty;
 	
 	static DynastyTests() {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
@@ -87,9 +88,9 @@ public class DynastyTests {
 				irMapData,
 				provinceMapper,
 				deathReasonMapper,
-				new DNAFactory(IRModFS, ck3ModFS),
 				new Date(867, 1, 1),
 				config,
+				nameOverrides: characterNameOverrides,
 				unlocalizedImperatorNames: []
 			);
 			return character;

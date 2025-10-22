@@ -2750,3 +2750,231 @@ language_illyrian = {
 
 	color = rgb { 246 223 15 }
 }
+
+# TFE doesn't give this language group/family parameters, so I'm adding them here just to get rid of the converter errors. Group parameter given isn't accurate, but there's no need to go through the process of adding new parameters for a language that doesn't seem to actually get used in the mod.
+language_sabaki = {
+    REPLACED_BY = {
+		wtwsms = { language_sabaki }
+		roa = { language_sabaki }
+		vanilla = { language_sabaki }
+	}
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_sabaki
+		}
+	}
+	
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				language_group_cushitic = yes
+				language_family_atlantic_congo = yes
+			}
+		}
+	}
+	
+	MOD_DEPENDENT = {
+		IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_sabaki }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_cushitic }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_atlantic_congo }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_sabaki }
+					multiply = 10
+				}
+			}
+		}
+	}
+
+	
+	
+	color = hsv{ 0.6 0.5 0.7 }
+}
+
+# TFE doesn't give this language group/family parameters, so I'm adding them here just to get rid of the converter errors.
+language_north_dravidian = {
+    REPLACED_BY = {
+		wtwsms = { language_north_dravidian }
+		roa = { language_north_dravidian }
+		vanilla = { language_north_dravidian }
+	}
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_north_dravidian
+		}
+	}
+	
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				language_group_north_dravidian = yes
+				language_family_dravidian = yes
+			}
+		}
+	}
+	
+	MOD_DEPENDENT = {
+		IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_north_dravidian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_north_dravidian }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_dravidian }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_north_dravidian }
+					multiply = 10
+				}
+			}
+		}
+	}
+
+	
+	
+	color = brahui
+}
+
+# TFE doesn't give this language group/family parameters, so I'm adding them here just to get rid of the converter errors.
+language_burusho = {
+    REPLACED_BY = {
+		wtwsms = { language_burusho }
+		roa = { language_burusho }
+		vanilla = { language_burusho }
+	}
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_burusho
+		}
+	}
+	
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				language_group_burusho = yes
+				language_family_burushaski = yes
+			}
+		}
+	}
+	
+	MOD_DEPENDENT = {
+		IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_burusho }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_burusho }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_burushaski }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_burusho }
+					multiply = 10
+				}
+			}
+		}
+	}
+
+	
+	
+	color = { 0.39 0.19 0.09 }
+}
+
+# TFE doesn't give this language group/family parameters, so I'm adding them here just to get rid of the converter errors.
+language_kordofanian = {
+    REPLACED_BY = {
+		wtwsms = { language_kordofanian }
+		roa = { language_kordofanian }
+		vanilla = { language_kordofanian }
+	}
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_kordofanian
+		}
+	}
+	
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				language_group_sudanic = yes
+				language_family_nilo_saharan = yes
+			}
+		}
+	}
+	
+	MOD_DEPENDENT = {
+		IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_kordofanian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_sudanic }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_nilo_saharan }
+					multiply = 2.5
+				}
+			}
+		}
+		ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_kordofanian }
+					multiply = 10
+				}
+			}
+		}
+	}
+
+	
+	
+	color = { 96 55 48 }
+}

@@ -494,7 +494,9 @@ internal sealed partial class Title {
 						liegeTitle.History.Fields.TryGetValue("holder", out var liegeHolderField);
 						Date? laterDate = liegeHolderField?.DateToEntriesDict
 							.Where(kvp => kvp.Key > date && kvp.Key <= ck3BookmarkDate && kvp.Value.Count != 0 && kvp.Value[^1].Value.ToString() != "0")
-							.Min(kvp => kvp.Key);
+							.OrderBy(kvp => kvp.Key)
+							.Select(kvp => (Date?)kvp.Key)
+							.FirstOrDefault(defaultValue: null);
 
 						if (laterDate == null) {
 							liegeField.DateToEntriesDict.Remove(date);
@@ -1712,7 +1714,11 @@ internal sealed partial class Title {
 			.Where(t => t is {Rank: TitleRank.kingdom, DeJureVassals.Count: > 0})
 			.ToImmutableArray();
 		
-		private FrozenSet<Color> UsedColors => this.Select(t => t.Color1).Where(c => c is not null).ToFrozenSet()!;
+		private FrozenSet<Color> UsedColors => this
+			.Select(t => t.Color1)
+			.Where(c => c is not null)
+			.Cast<Color>()
+			.ToFrozenSet();
 		public bool IsColorUsed(Color color) {
 			return UsedColors.Contains(color);
 		}

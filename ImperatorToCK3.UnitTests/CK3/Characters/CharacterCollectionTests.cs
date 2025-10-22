@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using System;
+using System.IO;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters;
 
@@ -213,7 +214,7 @@ public class CharacterCollectionTests {
 		var config = new Configuration {
 			ImperatorPath = "TestFiles/LandedTitlesTests/Imperator",
 			CK3BookmarkDate = conversionDate,
-			ImperatorCurrencyRate = 0.5 // 1 Imperator gold is worth 0.5 CK3 gold
+			ImperatorCurrencyRate = 0.5f // 1 Imperator gold is worth 0.5 CK3 gold
 		};
 
 		var imperatorWorld = new TestImperatorWorld(config);
@@ -378,5 +379,40 @@ public class CharacterCollectionTests {
 				Assert.Equal("imperator1002", ck3Vassal2.Id);
 				Assert.Equal(25, ck3Vassal2.Gold);
 			});
+	}
+
+	[Fact]
+	public void ImperatorCharacterNamesCanBeOverriddenByConfigurable() {
+		Date ck3BookmarkDate = new(867, 1, 1);
+		var configuration = new Configuration { CK3BookmarkDate = ck3BookmarkDate };
+		var imperatorWorld = new TestImperatorWorld(configuration);
+
+		imperatorWorld.Characters.Add(new(0) {Name = "Mallobald"});
+		
+		Directory.CreateDirectory("configurables");
+		const string overridesFilePath = "configurables/character_name_overrides.txt";
+		File.WriteAllText(overridesFilePath, "Mallobald = Mallobald_collision_fix # avoids hash collision in CK3");
+
+		var ck3Characters = new CharacterCollection();
+		var config = new Configuration { CK3BookmarkDate = ck3BookmarkDate };
+		ck3Characters.ImportImperatorCharacters(
+			imperatorWorld,
+			new ReligionMapper(new ReligionCollection(new Title.LandedTitles()), irRegionMapper, new CK3RegionMapper()),
+			new CultureMapper(irRegionMapper, new CK3RegionMapper(), cultures),
+			cultures,
+			new TraitMapper(),
+			new NicknameMapper(),
+			new ProvinceMapper(),
+			new DeathReasonMapper(),
+			new DNAFactory(irModFS, ck3ModFS),
+			new TestCK3LocDB(),
+			new Date(1000, 1, 1, AUC: true),
+			config);
+		
+		var ck3Character = ck3Characters["imperator0"];
+		Assert.Equal("Mallobald_collision_fix", ck3Character.GetName(ck3BookmarkDate));
+		
+		// Clean up.
+		File.Delete(overridesFilePath);
 	}
 }

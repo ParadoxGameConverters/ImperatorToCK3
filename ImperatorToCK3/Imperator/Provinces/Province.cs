@@ -26,7 +26,7 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 	public IReadOnlyCollection<ulong> TreasureIds => treasureIds;
 	public ulong? HoldingOwnerId { get; set; } = null;
 	public uint BuildingCount { get; set; } = 0;
-	public double CivilizationValue { get; set; } = 0;
+	public float CivilizationValue { get; set; } = 0;
 
 	public Province(ulong id) {
 		Id = id;

@@ -14,9 +14,9 @@ namespace ImperatorToCK3.CommonUtils.Map;
 
 internal sealed class MapData {
 	[StructLayout(LayoutKind.Auto)]
-	private struct Point(int x, int y) : IEquatable<Point> {
-		public int X { get; set; } = x;
-		public int Y { get; set; } = y;
+	private readonly struct Point(int x, int y) : IEquatable<Point> {
+		public int X { get; } = x;
+		public int Y { get; } = y;
 
 		public readonly bool Equals(Point other) {
 			return X == other.X && Y == other.Y;
@@ -48,10 +48,33 @@ internal sealed class MapData {
 	private readonly HashSet<ulong> mapEdgeProvinces = [];
 
 	private string provincesMapFilename = "provinces.png";
+	private string adjacenciesFilename = "adjacencies.csv";
 
 	public MapData(ModFilesystem modFS) {
-		string adjacenciesFilename = "adjacencies.csv";
+		ParseDefaultMap(modFS);
 
+		Logger.Info("Loading province positions...");
+		DetermineProvincePositions(modFS);
+		Logger.IncrementProgress();
+
+		Logger.Info("Loading province adjacencies...");
+		LoadAdjacencies(adjacenciesFilename, modFS);
+
+		DetermineMapEdgeProvinces(modFS);
+
+		Logger.Info("Determining province neighbors...");
+		var provincesMapPath = GetProvincesMapPath(modFS);
+		if (provincesMapPath is not null) {
+			using Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath);
+			DetermineNeighbors(provincesMap, ProvinceDefinitions);
+		}
+
+		GroupStaticWaterProvinces();
+
+		Logger.IncrementProgress();
+	}
+
+	private void ParseDefaultMap(ModFilesystem modFS) {
 		Logger.Info("Loading default map data...");
 		const string defaultMapPath = "map_data/default.map";
 		var defaultMapParser = new Parser();
@@ -91,26 +114,6 @@ internal sealed class MapData {
 
 		defaultMapParser.IgnoreAndLogUnregisteredItems();
 		defaultMapParser.ParseGameFile(defaultMapPath, modFS);
-		Logger.IncrementProgress();
-
-		Logger.Info("Loading province positions...");
-		DetermineProvincePositions(modFS);
-		Logger.IncrementProgress();
-
-		Logger.Info("Loading province adjacencies...");
-		LoadAdjacencies(adjacenciesFilename, modFS);
-
-		DetermineMapEdgeProvinces(modFS);
-
-		Logger.Info("Determining province neighbors...");
-		var provincesMapPath = GetProvincesMapPath(modFS);
-		if (provincesMapPath is not null) {
-			using Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath);
-			DetermineNeighbors(provincesMap, ProvinceDefinitions);
-		}
-
-		GroupStaticWaterProvinces();
-
 		Logger.IncrementProgress();
 	}
 
@@ -199,6 +202,7 @@ internal sealed class MapData {
 
 	private bool IsStaticWater(ulong provinceId) => ProvinceDefinitions[provinceId].IsStaticWater;
 	private bool IsRiver(ulong provinceId) => ProvinceDefinitions[provinceId].IsRiver;
+	internal bool IsLand(ulong provinceId) => ProvinceDefinitions[provinceId].IsLand;
 
 	public FrozenSet<ulong> ColorableImpassableProvinceIds => ProvinceDefinitions
 		.Where(p => p.IsColorableImpassable).Select(p => p.Id)
@@ -288,35 +292,39 @@ internal sealed class MapData {
 	}
 
 	private static Rgb24 GetAboveColor(Point position, Image<Rgb24> provincesMap) {
-		if (position.Y > 0) {
-			--position.Y;
+		int y = position.Y;
+		if (y > 0) {
+			--y;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(position.X, y), provincesMap);
 	}
 
 	private static Rgb24 GetBelowColor(Point position, int height, Image<Rgb24> provincesMap) {
-		if (position.Y < height - 1) {
-			++position.Y;
+		int y = position.Y;
+		if (y < height - 1) {
+			++y;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(position.X, y), provincesMap);
 	}
 
 	private static Rgb24 GetLeftColor(Point position, Image<Rgb24> provincesMap) {
-		if (position.X > 0) {
-			--position.X;
+		int x = position.X;
+		if (x > 0) {
+			--x;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(x, position.Y), provincesMap);
 	}
 
 	private static Rgb24 GetRightColor(Point position, int width, Image<Rgb24> provincesMap) {
-		if (position.X < width - 1) {
-			++position.X;
+		int x = position.X;
+		if (x < width - 1) {
+			++x;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(x, position.Y), provincesMap);
 	}
 
 	private static Rgb24 GetPixelColor(Point position, Image<Rgb24> provincesMap) {
