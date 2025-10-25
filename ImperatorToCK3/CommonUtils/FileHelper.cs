@@ -1,10 +1,11 @@
-﻿namespace ImperatorToCK3.CommonUtils;
+﻿using commonItems.Exceptions;
+
+namespace ImperatorToCK3.CommonUtils;
 
 using commonItems;
 using System;
 using Polly;
 using System.IO;
-using Exceptions;
 using System.Text;
 
 public static class FileHelper {

@@ -1,8 +1,8 @@
 using commonItems;
+using commonItems.Exceptions;
 using commonItems.Mods;
 using ImageMagick;
 using ImperatorToCK3.CommonUtils.Genes;
-using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Mappers.Gene;
 using System;

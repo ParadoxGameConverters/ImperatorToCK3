@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
+using commonItems.Exceptions;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Characters;
@@ -11,7 +12,6 @@ using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils.Map;
-using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Jobs;
@@ -451,7 +451,7 @@ internal sealed class World {
 
 		// Let's locate, verify and potentially update those mods immediately.
 		ModLoader modLoader = new();
-		modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods);
+		modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods, config.CK3Version, throwForOutOfDateMods: true);
 		
 		// Add modLoader's UsableMods to LoadedMods.
 		LoadedMods.AddRange(modLoader.UsableMods);
