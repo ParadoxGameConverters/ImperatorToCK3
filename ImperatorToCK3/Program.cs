@@ -1,5 +1,5 @@
 using commonItems;
-using ImperatorToCK3.Exceptions;
+using commonItems.Exceptions;
 using log4net.Core;
 using System;
 using System.Globalization;
