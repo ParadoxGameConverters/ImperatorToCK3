@@ -196,13 +196,50 @@ internal sealed class MapData {
 		return NeighborsDict.TryGetValue(provinceId, out var neighbors) ? neighbors : [];
 	}
 
-	public bool IsColorableImpassable(ulong provinceId) => ProvinceDefinitions.TryGetValue(provinceId, out var province) && province.IsColorableImpassable;
+	public bool IsColorableImpassable(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsColorableImpassable;
+		}
 
-	public bool IsImpassable(ulong provinceId) => ProvinceDefinitions.TryGetValue(provinceId, out var province) && province.IsImpassable;
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
 
-	private bool IsStaticWater(ulong provinceId) => ProvinceDefinitions[provinceId].IsStaticWater;
-	private bool IsRiver(ulong provinceId) => ProvinceDefinitions[provinceId].IsRiver;
-	internal bool IsLand(ulong provinceId) => ProvinceDefinitions[provinceId].IsLand;
+	public bool IsImpassable(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsImpassable;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
+
+	private bool IsStaticWater(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsStaticWater;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
+
+	private bool IsRiver(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsRiver;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
+
+	internal bool IsLand(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsLand;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
 
 	public FrozenSet<ulong> ColorableImpassableProvinceIds => ProvinceDefinitions
 		.Where(p => p.IsColorableImpassable).Select(p => p.Id)
