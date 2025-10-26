@@ -1,12 +1,12 @@
 using commonItems;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Mappers.HolySiteEffect;
+namespace ImperatorToCK3.Mappers.Modifier;
 
-internal sealed class HolySiteEffectMapper {
+internal sealed class ModifierMapper {
 	private readonly Dictionary<string, KeyValuePair<string, double>> effectMap = new(); // imperator effect, <ck3 effect, factor>
 
-	public HolySiteEffectMapper(string mappingsFilePath) {
+	public ModifierMapper(string mappingsFilePath) {
 		var parser = new Parser();
 		parser.RegisterKeyword("link", mappingReader => {
 			string? ir = null;
@@ -19,9 +19,11 @@ internal sealed class HolySiteEffectMapper {
 			mappingParser.RegisterKeyword("factor", reader => factor = reader.GetDouble());
 			mappingParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			mappingParser.ParseStream(mappingReader);
-
-			if (ir is null || ck3 is null) {
-				Logger.Warn($"Holy site effect mapping {ir} {ck3} {factor} has no ir or ck3 entry!");
+			
+			if (ir is null) {
+				Logger.Warn($"Modifier mapping {ir} {ck3} {factor} has no {nameof(ir)} entry!");
+			} else if (ck3 is null) {
+				Logger.Warn($"Modifier mapping {ir} {ck3} {factor} has no {nameof(ck3)} entry!");
 			} else {
 				effectMap[ir] = new KeyValuePair<string, double>(ck3, factor);
 			}
