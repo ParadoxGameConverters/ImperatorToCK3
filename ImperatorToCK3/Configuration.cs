@@ -311,6 +311,7 @@ internal sealed class Configuration {
 	private void VerifyCK3Version(ConverterVersion converterVersion) {
 		var path = Path.Combine(CK3Path, "launcher/launcher-settings.json");
 		CK3Version = GameVersion.ExtractVersionFromLauncher(path) ??
+		             GetCK3VersionFromTitusBranchFile() ??
 		             throw new ConverterException("CK3 version could not be determined.");
 
 		Logger.Info($"CK3 version: {CK3Version.ToShortString()}");
@@ -323,6 +324,20 @@ internal sealed class Configuration {
 			Logger.Error($"CK3 version is v{CK3Version.ToShortString()}, converter requires maximum v{converterVersion.MaxTarget.ToShortString()}!");
 			throw new UserErrorException("Converter vs CK3 installation mismatch!");
 		}
+	}
+
+	private GameVersion? GetCK3VersionFromTitusBranchFile() {
+		var path = Path.Combine(CK3Path, "titus_branch.txt");
+
+		if (!File.Exists(path)) {
+			Logger.Warn("titus_branch.txt not found");
+			return null;
+		}
+
+		// The file contains the game version in the following format: release/X.Y.Z.
+		var versionStr = File.ReadAllText(path).Trim().Replace("release/", "");
+		var version = new GameVersion(versionStr);
+		return version;
 	}
 
 	public void DetectSpecificCK3Mods(ICollection<Mod> loadedMods) {
