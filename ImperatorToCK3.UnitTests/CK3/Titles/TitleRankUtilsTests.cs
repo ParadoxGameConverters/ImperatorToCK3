@@ -6,6 +6,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles;
 
 public class TitleRankUtilsTests {
 	[Theory]
+	[InlineData('h', TitleRank.hegemony)]
 	[InlineData('e', TitleRank.empire)]
 	[InlineData('k', TitleRank.kingdom)]
 	[InlineData('d', TitleRank.duchy)]

@@ -1004,7 +1004,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	private readonly TitleCollection deJureVassals = [];
 	[SerializeOnlyValue] public IReadOnlyTitleCollection DeJureVassals => deJureVassals; // DIRECT de jure vassals
 	public Dictionary<string, Title> GetDeJureVassalsAndBelow() {
-		return GetDeJureVassalsAndBelow("bcdke");
+		return GetDeJureVassalsAndBelow("bcdkeh");
 	}
 	public Dictionary<string, Title> GetDeJureVassalsAndBelow(string rankFilter) {
 		var rankFilterAsArray = rankFilter.ToCharArray();
@@ -1031,7 +1031,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			.ToDictionary(t => t.Id, t => t);
 	}
 	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date) {
-		return GetDeFactoVassalsAndBelow(date, "bcdke");
+		return GetDeFactoVassalsAndBelow(date, "bcdkeh");
 	}
 	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date, string rankFilter) {
 		var rankFilterAsArray = rankFilter.ToCharArray();
@@ -1354,6 +1354,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			'd' => TitleRank.duchy,
 			'k' => TitleRank.kingdom,
 			'e' => TitleRank.empire,
+			'h' => TitleRank.hegemony,
 			_ => throw new FormatException($"Title {titleId}: unknown rank!")
 		};
 	}

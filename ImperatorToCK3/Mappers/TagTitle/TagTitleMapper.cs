@@ -226,6 +226,7 @@ internal sealed class TagTitleMapper {
 		var ck3LiegeRank = Title.GetRankForId(ck3LiegeTitleId);
 
 		return ck3LiegeRank switch {
+			TitleRank.hegemony => TitleRank.kingdom,
 			TitleRank.empire => TitleRank.kingdom,
 			TitleRank.kingdom => TitleRank.duchy,
 			TitleRank.duchy => TitleRank.county,
@@ -271,11 +272,12 @@ internal sealed class TagTitleMapper {
 
 	private static string GetTitlePrefixForRank(TitleRank titleRank) {
 		return titleRank switch {
-			TitleRank.empire => "e_",
-			TitleRank.kingdom => "k_",
-			TitleRank.duchy => "d_",
-			TitleRank.county => "c_",
 			TitleRank.barony => "b_",
+			TitleRank.county => "c_",
+			TitleRank.duchy => "d_",
+			TitleRank.kingdom => "k_",
+			TitleRank.empire => "e_",
+			TitleRank.hegemony => "h_",
 			_ => throw new ArgumentOutOfRangeException(nameof(titleRank))
 		};
 	}
