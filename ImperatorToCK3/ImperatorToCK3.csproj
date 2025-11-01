@@ -38,20 +38,20 @@
         <PackageReference Include="CWTools" Version="0.5.0-alpha" />
         <PackageReference Include="DotLiquid" Version="2.3.197" />
         <PackageReference Include="FSharp.Core" Version="9.0.303" /> <!-- Needed for CWTools -->
-        <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.9.0" />
-        <PackageReference Include="Meziantou.Analyzer" Version="2.0.228">
+        <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.9.1" />
+        <PackageReference Include="Meziantou.Analyzer" Version="2.0.239">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="MurmurHash.NETStandard" Version="1.0.0" />
-        <PackageReference Include="PGCG.commonItems" Version="17.0.1" />
+        <PackageReference Include="PGCG.commonItems" Version="18.0.1" />
         <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.9" />
         <PackageReference Include="Polly" Version="8.6.4" />
         <PackageReference Include="Roslynator.Analyzers" Version="4.14.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
+        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
         <PackageReference Include="ZLinq" Version="1.5.3" />
     </ItemGroup>
 

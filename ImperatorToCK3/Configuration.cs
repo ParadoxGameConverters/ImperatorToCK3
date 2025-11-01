@@ -1,7 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Exceptions;
 using commonItems.Mods;
-using ImperatorToCK3.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -29,6 +29,8 @@ internal sealed class Configuration {
 	public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
 	public bool SkipDynamicCoAExtraction { get; set; } = false;
 	public bool SkipHoldingOwnersImport { get; set; } = true;
+	public GameVersion IRVersion { get; private set; } = new();
+	public GameVersion CK3Version { get; private set; } = new();
 	public bool FallenEagleEnabled { get; private set; }
 	public bool WhenTheWorldStoppedMakingSenseEnabled { get; private set; }
 	public bool RajasOfAsiaEnabled { get; private set; }
@@ -291,42 +293,51 @@ internal sealed class Configuration {
 
 	private void VerifyImperatorVersion(ConverterVersion converterVersion) {
 		var path = Path.Combine(ImperatorPath, "launcher/launcher-settings.json");
-		var irVersion = GameVersion.ExtractVersionFromLauncher(path);
-		if (irVersion is null) {
-			Logger.Error("Imperator version could not be determined, proceeding blind!");
-			return;
-		}
+		IRVersion = GameVersion.ExtractVersionFromLauncher(path) ??
+		                   throw new ConverterException("Imperator version could not be determined.");
 
-		Logger.Info($"Imperator version: {irVersion.ToShortString()}");
+		Logger.Info($"Imperator version: {IRVersion.ToShortString()}");
 
-		if (converterVersion.MinSource > irVersion) {
-			Logger.Error($"Imperator version is v{irVersion.ToShortString()}, converter requires minimum v{converterVersion.MinSource.ToShortString()}!");
+		if (converterVersion.MinSource > IRVersion) {
+			Logger.Error($"Imperator version is v{IRVersion.ToShortString()}, converter requires minimum v{converterVersion.MinSource.ToShortString()}!");
 			throw new UserErrorException("Converter vs Imperator installation mismatch!");
 		}
-		if (!converterVersion.MaxSource.IsLargerishThan(irVersion)) {
-			Logger.Error($"Imperator version is v{irVersion.ToShortString()}, converter requires maximum v{converterVersion.MaxSource.ToShortString()}!");
+		if (!converterVersion.MaxSource.IsLargerishThan(IRVersion)) {
+			Logger.Error($"Imperator version is v{IRVersion.ToShortString()}, converter requires maximum v{converterVersion.MaxSource.ToShortString()}!");
 			throw new UserErrorException("Converter vs Imperator installation mismatch!");
 		}
 	}
 
 	private void VerifyCK3Version(ConverterVersion converterVersion) {
 		var path = Path.Combine(CK3Path, "launcher/launcher-settings.json");
-		var ck3Version = GameVersion.ExtractVersionFromLauncher(path);
-		if (ck3Version is null) {
-			Logger.Error("CK3 version could not be determined, proceeding blind!");
-			return;
-		}
+		CK3Version = GameVersion.ExtractVersionFromLauncher(path) ??
+		             GetCK3VersionFromTitusBranchFile() ??
+		             throw new ConverterException("CK3 version could not be determined.");
 
-		Logger.Info($"CK3 version: {ck3Version.ToShortString()}");
+		Logger.Info($"CK3 version: {CK3Version.ToShortString()}");
 
-		if (converterVersion.MinTarget > ck3Version) {
-			Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires minimum v{converterVersion.MinTarget.ToShortString()}!");
+		if (converterVersion.MinTarget > CK3Version) {
+			Logger.Error($"CK3 version is v{CK3Version.ToShortString()}, converter requires minimum v{converterVersion.MinTarget.ToShortString()}!");
 			throw new UserErrorException("Converter vs CK3 installation mismatch!");
 		}
-		if (!converterVersion.MaxTarget.IsLargerishThan(ck3Version)) {
-			Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires maximum v{converterVersion.MaxTarget.ToShortString()}!");
+		if (!converterVersion.MaxTarget.IsLargerishThan(CK3Version)) {
+			Logger.Error($"CK3 version is v{CK3Version.ToShortString()}, converter requires maximum v{converterVersion.MaxTarget.ToShortString()}!");
 			throw new UserErrorException("Converter vs CK3 installation mismatch!");
 		}
+	}
+
+	private GameVersion? GetCK3VersionFromTitusBranchFile() {
+		var path = Path.Combine(CK3Path, "titus_branch.txt");
+
+		if (!File.Exists(path)) {
+			Logger.Warn("titus_branch.txt not found");
+			return null;
+		}
+
+		// The file contains the game version in the following format: release/X.Y.Z.
+		var versionStr = File.ReadAllText(path).Trim().Replace("release/", "");
+		var version = new GameVersion(versionStr);
+		return version;
 	}
 
 	public void DetectSpecificCK3Mods(ICollection<Mod> loadedMods) {
