@@ -115,4 +115,24 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 
 		Logger.IncrementProgress();
 	}
+
+	public void PurgeUnneededFamilies(CharacterCollection characters) {
+		// Drop families with no members.
+		var familiesIdToKeep = characters
+			.Select(c => c.Family?.Id)
+			.Where(id => id is not null)
+			.Cast<ulong>()
+			.ToHashSet();
+		int removedCount = 0;
+		foreach (var family in this.ToArray()) {
+			if (familiesIdToKeep.Contains(family.Id)) {
+				continue;
+			}
+
+			Remove(family.Id);
+			++removedCount;
+		}
+		
+		Logger.Info($"Purged {removedCount} unneeded Imperator families.");
+	}
 }

@@ -1,0 +1,25 @@
+﻿irtock3_gamerule_imperator_nomads = {
+	categories = {
+		titles irtock3 ai
+	}
+	
+	default = irtock3_gamerule_nomads_only_steppe
+
+	irtock3_gamerule_nomads_leave_everything = {}
+	irtock3_gamerule_nomads_only_steppe = {}
+	irtock3_gamerule_nomads_no_nomads = {}
+}
+
+irtock3_gameruler_filler_rulers = {
+	categories = {
+		titles irtock3 ai
+	}
+	
+	default = irtock3_gamerule_filler_rulers_steppe_nomads_all
+
+	irtock3_gamerule_filler_rulers_leave_alone = {}
+	irtock3_gamerule_filler_rulers_all_nomads = {}
+	irtock3_gamerule_filler_rulers_steppe_nomads_all = {}
+	irtock3_gamerule_filler_rulers_steppe_nomads_heritage = {}
+	irtock3_gamerule_filler_rulers_steppe_nomads_herdhead = {}
+}

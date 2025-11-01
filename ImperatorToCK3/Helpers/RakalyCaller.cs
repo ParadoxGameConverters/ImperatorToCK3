@@ -1,6 +1,6 @@
 ﻿using commonItems;
+using commonItems.Exceptions;
 using ImperatorToCK3.CommonUtils;
-using ImperatorToCK3.Exceptions;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 namespace ImperatorToCK3.Helpers;
 
 public static class RakalyCaller {
-	private const string RakalyVersion = "0.5.4";
+	private const string RakalyVersion = "0.7.0";
 	private static readonly string RelativeRakalyPath;
 
 	static RakalyCaller() {
@@ -114,7 +114,7 @@ public static class RakalyCaller {
 			Logger.Debug($"Rakaly standard error: {stdErrText}");
 
 			string exceptionMessage = "Rakaly melter failed to melt the save.";
-			if (stdErrText.Contains("There is not enough space on the disk.")) {
+			if (stdErrText.Contains("(os error 112)")) {
 				throw new UserErrorException($"{exceptionMessage} There is not enough space on the disk.");
 			}
 

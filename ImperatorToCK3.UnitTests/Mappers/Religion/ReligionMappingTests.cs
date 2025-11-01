@@ -23,9 +23,10 @@ public class ReligionMappingTests {
 	private static readonly ImperatorRegionMapper irRegionMapper = new(areas, irMapData);
 	private const string ck3Path = "TestFiles/regions/ReligionMappingTests";
 	private string CK3Root => Path.Combine(ck3Path, "game");
+	private static readonly ColorFactory colorFactory = new();
 	
 	public ReligionMappingTests() {
-		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
+		irRegionMapper.LoadRegions(irModFS, colorFactory);
 	}
 
 	[Fact]
@@ -68,7 +69,7 @@ public class ReligionMappingTests {
 			"k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } } } } \n" +
 			"k_ghef = { d_hujhu = { c_defff = { b_newbarony2 = { province = 4 } } } } \n"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 
 		var ck3ModFS = new ModFilesystem(CK3Root, new List<Mod>());
 		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
@@ -87,7 +88,7 @@ public class ReligionMappingTests {
 			"k_ugada = { d_wakaba = { } } \n" +
 			"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } } } } \n"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 
 		var ck3ModFS = new ModFilesystem(CK3Root, new List<Mod>());
 		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
@@ -106,7 +107,7 @@ public class ReligionMappingTests {
 			"k_ugada = { d_wakaba = { } } \n" +
 			"k_ghef = { d_hujhu = { } } \n"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 
 		var ck3ModFS = new ModFilesystem(CK3Root, new List<Mod>());
 		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
@@ -125,7 +126,7 @@ public class ReligionMappingTests {
 			"k_ugada = { d_wakaba = { } } \n" +
 			"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } } \n"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 
 		var ck3ModFS = new ModFilesystem(CK3Root, new List<Mod>());
 		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);

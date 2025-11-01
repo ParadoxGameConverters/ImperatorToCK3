@@ -5,8 +5,8 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.CoA;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
+using ZLinq;
 
 namespace ImperatorToCK3.Outputter;
 public static class CoatOfArmsOutputter {
@@ -35,7 +35,7 @@ public static class CoatOfArmsOutputter {
 		}
 
 		// Output CoAs for dynasties.
-		foreach (var dynasty in dynasties.Where(d => d.CoA is not null)) {
+		foreach (var dynasty in dynasties.AsValueEnumerable().Where(d => d.CoA is not null)) {
 			sb.AppendLine($"{dynasty.Id}={dynasty.CoA}");
 		}
 

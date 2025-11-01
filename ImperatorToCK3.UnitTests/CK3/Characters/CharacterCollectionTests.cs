@@ -1,7 +1,7 @@
 using commonItems;
 using commonItems.Colors;
 using commonItems.Mods;
-using FluentAssertions;
+using AwesomeAssertions;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using System;
+using System.IO;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters;
 
@@ -42,10 +43,9 @@ public class CharacterCollectionTests {
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private readonly ModFilesystem ck3ModFS = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
 	private static readonly CultureCollection cultures;
+	private static readonly ColorFactory colorFactory = new();
 
 	static CharacterCollectionTests() {
-		var colorFactory = new ColorFactory();
-		
 		var states = new StateCollection();
 		var countries = new CountryCollection();
 		ImperatorToCK3.Imperator.Provinces.ProvinceCollection irProvinces = new();
@@ -54,7 +54,8 @@ public class CharacterCollectionTests {
 				"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"
 			),
 			states,
-			countries
+			countries,
+			irMapData
 		);
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);
@@ -213,7 +214,7 @@ public class CharacterCollectionTests {
 		var config = new Configuration {
 			ImperatorPath = "TestFiles/LandedTitlesTests/Imperator",
 			CK3BookmarkDate = conversionDate,
-			ImperatorCurrencyRate = 0.5 // 1 Imperator gold is worth 0.5 CK3 gold
+			ImperatorCurrencyRate = 0.5f // 1 Imperator gold is worth 0.5 CK3 gold
 		};
 
 		var imperatorWorld = new TestImperatorWorld(config);
@@ -250,7 +251,7 @@ public class CharacterCollectionTests {
 		Assert.True(imperatorWorld.Areas.ContainsKey("galatia_area"));
 		Assert.True(imperatorWorld.Areas.ContainsKey("paphlagonia_area"));
 		
-		imperatorWorld.ImperatorRegionMapper.LoadRegions(imperatorWorld.ModFS, new ColorFactory());
+		imperatorWorld.ImperatorRegionMapper.LoadRegions(imperatorWorld.ModFS, colorFactory);
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("galatia_area"));
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("paphlagonia_area"));
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("galatia_region"));
@@ -282,7 +283,7 @@ public class CharacterCollectionTests {
 			c_county3 = { b_barony3={province=3} }
 			c_county4 = { b_barony4={province=4} }
 			c_county5 = { b_barony5={province=5} }
-			c_county6 = { b_barony6={province=6} }")
+			c_county6 = { b_barony6={province=6} }"), colorFactory
 		);
 
 		var tagTitleMapper = new TagTitleMapper();
@@ -378,5 +379,40 @@ public class CharacterCollectionTests {
 				Assert.Equal("imperator1002", ck3Vassal2.Id);
 				Assert.Equal(25, ck3Vassal2.Gold);
 			});
+	}
+
+	[Fact]
+	public void ImperatorCharacterNamesCanBeOverriddenByConfigurable() {
+		Date ck3BookmarkDate = new(867, 1, 1);
+		var configuration = new Configuration { CK3BookmarkDate = ck3BookmarkDate };
+		var imperatorWorld = new TestImperatorWorld(configuration);
+
+		imperatorWorld.Characters.Add(new(0) {Name = "Mallobald"});
+		
+		Directory.CreateDirectory("configurables");
+		const string overridesFilePath = "configurables/character_name_overrides.txt";
+		File.WriteAllText(overridesFilePath, "Mallobald = Mallobald_collision_fix # avoids hash collision in CK3");
+
+		var ck3Characters = new CharacterCollection();
+		var config = new Configuration { CK3BookmarkDate = ck3BookmarkDate };
+		ck3Characters.ImportImperatorCharacters(
+			imperatorWorld,
+			new ReligionMapper(new ReligionCollection(new Title.LandedTitles()), irRegionMapper, new CK3RegionMapper()),
+			new CultureMapper(irRegionMapper, new CK3RegionMapper(), cultures),
+			cultures,
+			new TraitMapper(),
+			new NicknameMapper(),
+			new ProvinceMapper(),
+			new DeathReasonMapper(),
+			new DNAFactory(irModFS, ck3ModFS),
+			new TestCK3LocDB(),
+			new Date(1000, 1, 1, AUC: true),
+			config);
+		
+		var ck3Character = ck3Characters["imperator0"];
+		Assert.Equal("Mallobald_collision_fix", ck3Character.GetName(ck3BookmarkDate));
+		
+		// Clean up.
+		File.Delete(overridesFilePath);
 	}
 }

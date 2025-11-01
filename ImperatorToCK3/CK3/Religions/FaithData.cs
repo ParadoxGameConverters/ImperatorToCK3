@@ -2,7 +2,7 @@ using commonItems;
 using commonItems.Colors;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.CK3.Religions; 
+namespace ImperatorToCK3.CK3.Religions;
 
 internal record FaithData {
 	public List<string> InvalidatingFaithIds { get; set; } = [];
@@ -10,6 +10,7 @@ internal record FaithData {
 	public string? ReligiousHeadTitleId { get; set; }
 	public List<string> DoctrineIds { get; } = [];
 	public List<string> HolySiteIds { get; init; } = [];
+	public OrderedDictionary<string, StringOfItem> Localization { get; } = [];
 
 	public List<KeyValuePair<string, StringOfItem>> Attributes { get; init; } = [];
 }

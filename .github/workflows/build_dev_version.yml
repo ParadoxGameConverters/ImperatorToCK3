@@ -1,8 +1,9 @@
 name: Build development version
 on:
-  push:
+  pull_request:
     branches:
-      - '**'  # This will trigger the workflow on push to any branch
+      - '**'
+    types: [opened, synchronize]
 
 jobs:
   upload_dev_build_artifact:
@@ -36,24 +37,24 @@ jobs:
         GITHUB_REF: ${{ github.ref }}
     - name: "Modify the branch name to be used in artifact name (Windows)"
       if: runner.os == 'Windows'
-      run: echo "BRANCH_NAME=${BRANCH_NAME.Replace('/', '-').Replace('\', '-').Replace(':', '-').Replace('<', '-').Replace('>', '-').Replace('|', '-').Replace('*', '-').Replace('?', '-').Replace('\r', '-').Replace('\n', '-').Replace('/', '-').Replace('\\', '-')}" | Out-File -Append $env:GITHUB_ENV
+      run: echo "BRANCH_NAME=${BRANCH_NAME.Replace('/', '-').Replace('\\', '-').Replace(':', '-').Replace('<', '-').Replace('>', '-').Replace('|', '-').Replace('*', '-').Replace('?', '-').Replace('\r', '-').Replace('\n', '-').Replace('/', '-').Replace('\\', '-') }" | Out-File -Append $env:GITHUB_ENV
     - name: "Modify the branch name to be used in artifact name (Unix)"
       if: runner.os != 'Windows'
-      # Invalid characters include:  Double quote ", Colon :, Less than <, Greater than >, Vertical bar |, Asterisk *, Question mark ?, Carriage return \r, Line feed \n, Backslash \, Forward slash /
+      # Invalid characters include:  Double quote ", Colon :, Less than <, Greater than >, Vertical bar |, Asterisk *, Question mark ?, Carriage return \r, Line feed \n, Backslash \\, Forward slash /
       run: echo "BRANCH_NAME=${BRANCH_NAME//[^a-zA-Z0-9]/-}" >> $GITHUB_ENV
 
     - name: Remove old artifacts
-      uses: ThreadsStyling/purge-artifacts-action@v1
+      uses: rokibhasansagar/purge-artifacts-action@master
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         expire-in: 0
         onlyPrefix: 'ImperatorToCK3-${{ matrix.build }}-dev-${{ env.BRANCH_NAME }}'
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0
         submodules: recursive
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         #global-json-file: Fronter.NET/global.json
         global-json-file: global.json
@@ -72,7 +73,7 @@ jobs:
         BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
         BACKBLAZE_BUCKET_ID: ${{ secrets.BACKBLAZE_BUCKET_ID }}
     # - name: Setup Dotnet for use with actions
-    #   uses: actions/setup-dotnet@v4
+    #   uses: actions/setup-dotnet@v5
     #   with:
     #     global-json-file: global.json
     - name: "Build backend"
@@ -88,7 +89,7 @@ jobs:
         path: '.'
         filename: '../ImperatorToCK3-${{ matrix.build }}-dev${{ matrix.archive_extension }}'
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: 'ImperatorToCK3-${{ matrix.build }}-dev-${{ env.BRANCH_NAME }}'
         path: 'ImperatorToCK3-${{ matrix.build }}-dev${{ matrix.archive_extension }}'

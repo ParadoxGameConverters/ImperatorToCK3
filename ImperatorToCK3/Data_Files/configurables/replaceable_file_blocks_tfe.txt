@@ -83,119 +83,6 @@
 }
 
 
-"map_data/geographical_regions/geographical_region.txt" = {
-	# No c_reggio in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_reggio
-		c_camarda
-		}
-		after = {
-		c_camarda
-		}
-	}
-
-	# No c_san in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_san
-		c_parma
-		}
-		after = {
-		c_parma
-		}
-	}
-
-	# No c_sankt in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_sankt
-		c_zurich
-		}
-		after = {
-		c_zurich
-		}
-	}
-
-	# No c_sankt in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_sankt
-		c_amstetten
-		}
-		after = {
-		c_amstetten
-		}
-	}
-
-	# No c_french in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_french
-		c_penthievre
-		}
-		after = {
-		c_penthievre
-		}
-	}
-
-	# No c_west in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_west
-		c_mahdiya
-		}
-		after = {
-		c_mahdiya
-		}
-	}
-
-	# No c_alcacer in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_alcacer
-		c_alcacer_do_sal
-		}
-		after = {
-		c_alcacer_do_sal
-		}
-	}
-
-	# No c_asturias in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_asturias
-		c_asturias_de_santillana
-		}
-		after = {
-		c_asturias_de_santillana
-		}
-	}
-
-	# No c_alto in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_alto
-		c_alto_aragon
-		}
-		after = {
-		c_alto_aragon
-		}
-	}
-
-	# No c_castelo in TFE as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-		c_castelo
-		c_castelo_branco
-		}
-		after = {
-		c_castelo_branco
-		}
-	}
-}
-
-
 "events/TFE_flavour_events.txt" = {
 	# from error.log as of TFE 'After The Pharaohs' update
 	# [01:35:44][E][jomini_script_system.cpp:284]: Script system error!
@@ -207,26 +94,6 @@
 		}
 		after = {
 				death_reason = death_ill
-		}
-	}
-}
-
-
-"music/main_themes/music.txt" = {
-	# Restore vanilla main theme, the TFE one seems broken as of the 'After The Pharaohs' update.
-	replace = {
-		before = {
-main_theme_track = {
-	music = "file:/MUSIC/TFE/TFE_Main.ogg"
-	name = "TFE_main_theme_track"
-	can_be_interrupted = yes
-}
-		}
-		after = {
-main_theme_track = {
-	music = "event:/MUSIC/MainTheme/Maintheme"
-	can_be_interrupted = yes
-}
 		}
 	}
 }
@@ -270,11 +137,22 @@ TFE_General_Cue = {
 		accolade_glory_gain_mult = 0.1
 		light_cavalry_max_size_add = 2
 	}
+	parameters = {
+		culture_can_raid_over_land_even_if_feudal = yes
+		blademaster_trait_bonuses = yes
+	}
 		}
 		after = {
 	character_modifier = {
 		accolade_glory_gain_mult = 0.1
 		light_cavalry_max_size_add = 2
+	}
+	parameters = {
+		culture_can_raid_over_land_even_if_feudal = yes
+		blademaster_trait_bonuses = yes
+		strong_traits_more_valued = yes
+		strong_traits_more_common = yes
+		weak_traits_looked_down_upon = yes
 	}
 		}
 	}
@@ -718,43 +596,6 @@ TFE_General_Cue = {
 
 "common/governments/other_government.txt" = {
 	# from error.log:
-	# Error: "Unexpected token: regiments_prestige_as_gold, near line: 235" in file: "common/governments/other_government.txt" near line: 235
-	# Error: "Unexpected token: dynasty_named_realms, near line: 510" in file: "common/governments/other_government.txt" near line: 510
-	replace = {
-		before = {
-	government_rules = {
-		rulers_should_have_dynasty = yes
-		royal_court = yes
-		legitimacy = yes
-		#landless_playable = yes
-		#mercenary = yes
-	}
-
-	supply_limit_mult_for_others = -0.8
-	valid_holdings = { castle_holding trade_center_holding }
-	regiments_prestige_as_gold = yes
-	required_county_holdings = { tribal_holding city_holding church_holding }
-	flag = government_can_raid_rule
-		}
-
-		after = {
-	government_rules = {
-		rulers_should_have_dynasty = yes
-		regiments_prestige_as_gold = yes
-		royal_court = yes
-		legitimacy = yes
-		#landless_playable = yes
-		#mercenary = yes
-	}
-
-	supply_limit_mult_for_others = -0.8
-	valid_holdings = { castle_holding trade_center_holding }
-	required_county_holdings = { tribal_holding city_holding church_holding }
-	flag = government_can_raid_rule
-		}
-	}
-
-	# from error.log:
 	# Error: "Unexpected enum found: always_use_patronym, near line: 307" in file: "common/governments/other_government.txt" near line: 313
 	# Error: "Unexpected enum found: always_use_patronym, near line: 350" in file: "common/governments/other_government.txt" near line: 356
 	replace = {
@@ -855,7 +696,7 @@ TFE_General_Cue = {
 }
 
 
-"common/vassal_contracts/gupta.txt" = {
+"common/subject_contracts/contracts/gupta.txt" = {
 	# from error.log:
 	# Obligation level 'gupta_governance_samarajya' in 'gupta_governance' is marked as default but has an is_valid, the default cannot be conditionally valid it must always be valid
 	replace = {
@@ -895,6 +736,59 @@ TFE_General_Cue = {
 			}
 		}
 		} # end of after
+	}
+
+	# TFE has vassal_opinion being used in the subject contracts, which aren't valid
+	replace = {
+		before = {
+			vassal_opinion
+		}
+
+		after = {
+			subject_opinion
+		}
+	}
+}
+
+
+"common/subject_contracts/contracts/islamic.txt" = {
+	# TFE has vassal_opinion being used in the subject contracts, which aren't valid
+	replace = {
+		before = {
+			vassal_opinion
+		}
+
+		after = {
+			subject_opinion
+		}
+	}
+}
+
+
+"common/subject_contracts/contracts/imperial.txt" = {
+	# TFE has vassal_opinion being used in the subject contracts, which aren't valid
+	replace = {
+		before = {
+			vassal_opinion
+		}
+
+		after = {
+			subject_opinion
+		}
+	}
+}
+
+
+"common/subject_contracts/contracts/eranshar.txt" = {
+	# TFE has vassal_opinion being used in the subject contracts, which aren't valid
+	replace = {
+		before = {
+			vassal_opinion
+		}
+
+		after = {
+			subject_opinion
+		}
 	}
 }
 
@@ -1265,24 +1159,6 @@ texture = "gfx/portraits/accessory_variations/textures/color_palette_fp2_iberian
 }
 
 
-"common/bookmark_portraits/bookmark_reconquest_belisarius.txt" = {
-	replace = {
-		before = {
- 		clothes={ "male_clothes_roman_nobility_03" 0 "most_clothes" 0 }
- 		headgear={ "no_headgear" 0 "no_headgear" 0 }
- 		hairstyles={ "fp2_hairstyles_iberian_muslim_wavy" 85 "all_hairstyles" 0 }
- 		clothes={ "male_clothes_roman_nobility_03" 79 "most_clothes" 0 }
-		} # end of before
-		
-		after = {
- 		clothes={ "male_clothes_roman_nobility_03" 0 "most_clothes" 0 }
- 		headgear={ "no_headgear" 0 "no_headgear" 0 }
- 		hairstyles={ "fp2_hairstyles_iberian_muslim_wavy" 85 "all_hairstyles" 0 }
-		} # end of after
-	}
-}
-
-
 "common/men_at_arms_types/TFE_maa_types.txt" = {
 	# from error.log:
 	# Error: "Variable name 'provisions_cost_infantry_cheap' is already taken: gold, near line: 59 (expanded from file: common/men_at_arms_types/TFE_maa_types.txt line: 58)
@@ -1295,75 +1171,6 @@ texture = "gfx/portraits/accessory_variations/textures/color_palette_fp2_iberian
 		after = {
 	high_maintenance_cost = { gold = 0.45 }
 	provision_cost = @provisions_cost_infantry_cheap
-		}
-	}
-}
-
-
-"common/men_at_arms_types/TFE_cultural_maa_types.txt" = {
-	# from error.log:
-	# Error: "Malformed token: provisions_cost_infantry_bankrupting, near line: 91" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 91
-	replace = {
-		before = {
-	provision_cost = provisions_cost_infantry_bankrupting
-		}
-		after = {
-	provision_cost = @provisions_cost_infantry_bankrupting
-		}
-	}
-
-	# from error.log:
-	# Error: "Malformed token: provisions_cost_cavalry_bankrupting, near line: 133" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 133
-	replace = {
-		before = {
-	provision_cost = provisions_cost_cavalry_bankrupting
-		}
-		after = {
-	provision_cost = @provisions_cost_cavalry_bankrupting
-		}
-	}
-
-	# from error.log:
-	# Error: "Malformed token: provisions_cost_infantry_expensive, near line: 54" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 54
-	replace = {
-		before = {
-	provision_cost = provisions_cost_infantry_expensive
-		}
-		after = {
-	provision_cost = @provisions_cost_infantry_expensive
-		}
-	}
-
-	# from error.log:
-	# Error: "Malformed token: provisions_cost_infantry_cheap, near line: 163" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 163
-	replace = {
-		before = {
-	provision_cost = provisions_cost_infantry_cheap
-		}
-		after = {
-	provision_cost = @provisions_cost_infantry_cheap
-		}
-	}
-
-	# from error.log:
-	# Error: "Malformed token: provisions_cost_infantry_moderate, near line: 515" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 515
-	replace = {
-		before = {
-	provision_cost = provisions_cost_infantry_moderate
-		}
-		after = {
-	provision_cost = @provisions_cost_infantry_moderate
-		}
-	}
-
-	# from error.log:
-	# Error: "Malformed token: provisions_cost_cavalry_cheap, near line: 722" in file: "common/men_at_arms_types/TFE_cultural_maa_types.txt" near line: 722
-	replace = {
-		before = {
-	provision_cost = provisions_cost_cavalry_cheap
-		}
-		after = {
-	provision_cost = @provisions_cost_cavalry_cheap
 		}
 	}
 }
@@ -1455,16 +1262,6 @@ gaetuli_dynasty = {
 		} # end of after
 	}
 
-	# No nabataean culture in TFE as of the 'After the Pharaohs' update.
-	replace = {
-		before = {
-	culture = "nabataean"
-		} # end of before
-		after = {
-	culture = nabatean
-		} # end of after
-	}
-
 	# No suebian culture in TFE as of the 'After the Pharaohs' update.
 	replace = {
 		before = {
@@ -1482,46 +1279,6 @@ gaetuli_dynasty = {
 		} # end of before
 		after = {
 	culture = norse
-		} # end of after
-	}
-}
-
-
-"common/culture/name_lists/00_magyar.txt" = {
-	# Name lists should not contain commas.
-	replace = {
-		before = {
-	male_names = {
-		Agg, Agmánd, Álmos, Árpád, Ákos, Apor, Atyás, Bahatur, Bal, Beled, Bika, Bodor, Bogát, Botond, Bugardi, Büvész, Bölcs, Bulcsu, Csanád, Csalka, Csep, 
-		Csepke, Chepke, Chunad, Churba, Csák, Csoma, Csomó, Csongor, Csök, Cusid, Doboka, Elek, Elemér, Előd, Ellenes, Endre, Édes, Erős, Ete, Farcas, Fekete, 
-		Feketédi, Feketeydi, Fehér, Fehérsa, Fene, Fényes, Fergudi, File, Fitos, Fodor, Fakó, Gonosz, Guta, Gyula, Gyejcsa, Halaldi, Hamar, Haragos  Hokus, Hóka, 
-		Hyduand, Hős, Jenő, Joember, Jovlegen, Kacs, Kalán, Kálmán, Karuly, Kese, Kond, Koppány, Keserő, Kosid, Lél, Levente, Maglód, Markos, Mauog, Medeu, Medue, 
-		Mocskos, Nagod, Nagy, Nagyod, Nagyos, Nemze, Nogiud, Numel, Numwog, Ond, Ögyek, Őse, Puha, Ruoz, Siket, Szabolcs, Szalók, Szög, Szoárd, Szőke, Táltos, Taksony, 
-		Tas, Turul, Urkond, Urkún, Vad, Vas, Vazul, Vrvmedi, Zacal, Zemdy, Zoltán
-	}
-	female_names = {
-		Agg, Angyalka, Anyás, Aranka, Bal, Banya, Bölcs, Bodor, Bugardi, Büvész, Chunad, Churba, Chepke, Csalka, Csep, Csepke, Csillag, Csoma, Csomó, Csök, Cusid, Draga, 
-		Edlelmes, Édes, Ellenes, Emse, Erős, Feketédi, Feketeydi, Fekete, Fehér, Fehérsa, Fene, Fergudi, File, Fényes, Fitos, Fodor, Genuruch, Gonosz, Guta, Gyöngy, Hajnal, 
-		Halaldi, Hamar, haragos, Hóka, Hős, Hyduand, Jolyan, Kacs, Kese, Keserő, Markos, Mauog, Medeu, Mocskos, Nagy, Nagyod, Nagyos, Nesta, Nogiud, Nuuz, Numel, Numwog, Ördöng, 
-		Puha, Sarolt, Scepa, Siket, Szög, Szőke, Táltos, Tündér, Turul, Vad, Vas, Virág, Vnee, Vrumes, Vrvmedi, Zemdy
-	}
-		} # end of before
-
-		after = {
-	male_names = {
-		Agg Agmánd Álmos Árpád Ákos Apor Atyás Bahatur Bal Beled Bika Bodor Bogát Botond Bugardi Büvész Bölcs Bulcsu Csanád Csalka Csep 
-		Csepke Chepke Chunad Churba Csák Csoma Csomó Csongor Csök Cusid Doboka Elek Elemér Előd Ellenes Endre Édes Erős Ete Farcas Fekete 
-		Feketédi Feketeydi Fehér Fehérsa Fene Fényes Fergudi File Fitos Fodor Fakó Gonosz Guta Gyula Gyejcsa Halaldi Hamar Haragos  Hokus Hóka 
-		Hyduand Hős Jenő Joember Jovlegen Kacs Kalán Kálmán Karuly Kese Kond Koppány Keserő Kosid Lél Levente Maglód Markos Mauog Medeu Medue 
-		Mocskos Nagod Nagy Nagyod Nagyos Nemze Nogiud Numel Numwog Ond Ögyek Őse Puha Ruoz Siket Szabolcs Szalók Szög Szoárd Szőke Táltos Taksony 
-		Tas Turul Urkond Urkún Vad Vas Vazul Vrvmedi Zacal Zemdy Zoltán
-	}
-	female_names = {
-		Agg Angyalka Anyás Aranka Bal Banya Bölcs Bodor Bugardi Büvész Chunad Churba Chepke Csalka Csep Csepke Csillag Csoma Csomó Csök Cusid Draga 
-		Edlelmes Édes Ellenes Emse Erős Feketédi Feketeydi Fekete Fehér Fehérsa Fene Fergudi File Fényes Fitos Fodor Genuruch Gonosz Guta Gyöngy Hajnal 
-		Halaldi Hamar haragos Hóka Hős Hyduand Jolyan Kacs Kese Keserő Markos Mauog Medeu Mocskos Nagy Nagyod Nagyos Nesta Nogiud Nuuz Numel Numwog Ördöng 
-		Puha Sarolt Scepa Siket Szög Szőke Táltos Tündér Turul Vad Vas Virág Vnee Vrumes Vrvmedi Zemdy
-	}
 		} # end of after
 	}
 }
@@ -1549,119 +1306,50 @@ gaetuli_dynasty = {
 }
 
 
-"common/laws/imperial_laws.txt" = {
-
-	# imperial_authority_3 can_pass block (this fixes an error where you can't pass this law in converted TFE games)
+"common/on_action/TFE_game_start_chars.txt" = {
 	replace = {
 		before = {
-		can_pass = {
-			OR = {
-			trigger_if = {
-				limit = {
-					AND = {
-						game_start_date = 361.11.17
-						current_date >= 361.11.22
-						NOT = { has_realm_law = imperial_authority_4 }
-						NOT = { has_realm_law = imperial_authority_5 }
-					}
-				}
-				has_realm_law = imperial_authority_2
-			}
-			trigger_if = {
-				limit = {
-					AND = {
-						game_start_date = 361.11.17
-						current_date >= 361.11.22
-						NOT = { has_realm_law = imperial_authority_4 }
-						NOT = { has_realm_law = imperial_authority_5 }
-					}
-				}
-				has_realm_law = imperial_authority_2
+	on_actions = {
+		TFE_on_game_start_chars
+	}
 		}
-		trigger_if = {
-				limit = {
-					AND = {
-						game_start_date = 395.1.17
-						current_date >= 395.1.22
-						NOT = { has_realm_law = imperial_authority_4 }
-						NOT = { has_realm_law = imperial_authority_5 }
-					}
-				}
-				has_realm_law = imperial_authority_2
-		}
-		trigger_if = {
-				limit = {
-					AND = {
-						game_start_date = 476.9.4
-						current_date >= 476.9.9
-						NOT = { has_realm_law = imperial_authority_4 }
-						NOT = { has_realm_law = imperial_authority_5 }
-					}
-				}
-				has_realm_law = imperial_authority_2
-		}
-		trigger_if = {
-				limit = {
-					AND = {
-						game_start_date = 532.2.1
-						current_date >= 532.2.6
-						NOT = { has_realm_law = imperial_authority_4 }
-						NOT = { has_realm_law = imperial_authority_5 }
-					}
-				}
-				has_realm_law = imperial_authority_2
-		}
-		trigger_if = {
-				limit = {
-					AND = {
-						game_start_date = 632.6.8
-						current_date >= 632.6.14
-						NOT = { has_realm_law = imperial_authority_4 }
-						NOT = { has_realm_law = imperial_authority_5 }
-					}
-				}
-				has_realm_law = imperial_authority_2
-			}
-		}
-		custom_description = {
-					subject = root
-					text = "has_crown_authority_cooldown"
-					NAND = {
-						has_variable = crown_authority_cooldown
-						NOT = {
-							culture = { has_innovation = innovation_all_things }
-					}
-				}
-			}
-		}
-		} # end of before
 
 		after = {
-		can_pass = {
-			trigger_if = {
-				limit = {
-					AND = {
-						NOT = { has_realm_law = imperial_authority_4 }
-						NOT = { has_realm_law = imperial_authority_5 }
-					}
-				}
-				custom_description = { # IRToCK3: TFE manually checks if at least 5/6 days has passed since the game start, but checks each of its start dates individually, making it incompatible with converted save games unless they start exactly on one of those start dates. This will make it work regardless of the start date, but does come with a longer delay than TFE does, and sets up a description to notify the player in game.
-					text = "irtock3_tfe_imperial_authority_3_time_trigger"
-					years_from_game_start >= 1
-				}
-				has_realm_law = imperial_authority_2
-			}
-			custom_description = {
-				subject = root
-				text = "has_crown_authority_cooldown"
-				NAND = {
-					has_variable = crown_authority_cooldown
-					NOT = {
-						culture = { has_innovation = innovation_all_things }
-					}
-				}
-			}
+	on_actions = {
+		#TFE_on_game_start_chars # IRToCK3: Disabled
+	}
 		}
-		} # end of after
+	}
+}
+
+
+"common/governments/imperial_government.txt" = {
+	# from error.log:
+	# Error: "Unexpected token: autocratic_government_opinion, near line: 49" in file: "common/governments/imperial_government.txt" near line: 49
+	# For some reason, the autocratic opinion modifier doesn't work for imperial_government, despite working for other governments, so having it be removed here.
+	replace = {
+		before = {
+	character_modifier = {
+		autocratic_government_opinion = -50
+		feudal_government_tax_contribution_mult = -0.5
+		feudal_government_levy_contribution_mult = -0.5
+		clan_government_tax_contribution_mult = -0.5
+		clan_government_levy_contribution_mult = -0.5
+	}
+
+	vassal_contract_group = imperial_vassal
+		}
+
+		after = {
+	character_modifier = {
+		#autocratic_government_opinion = -50 # IRToCK3: Disabled, doesn't work for some reason
+		feudal_government_tax_contribution_mult = -0.5
+		feudal_government_levy_contribution_mult = -0.5
+		clan_government_tax_contribution_mult = -0.5
+		clan_government_levy_contribution_mult = -0.5
+	}
+
+	vassal_contract_group = imperial_vassal
+		}
 	}
 }

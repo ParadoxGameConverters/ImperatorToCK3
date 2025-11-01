@@ -6,10 +6,12 @@ using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Cultures; 
 
+[Collection("Sequential")]
 public class CultureCollectionTests {
 	private static readonly ModFilesystem ck3ModFS = new("TestFiles/CK3/game", Array.Empty<Mod>());
 	private static readonly PillarCollection pillars;
@@ -27,7 +29,7 @@ public class CultureCollectionTests {
 	public void ColorIsLoadedIfDefinedOrGeneratedIfMissing() {
 		var cultures = new CultureCollection(colorFactory, pillars, ck3ModFlags);
 		cultures.LoadNameLists(ck3ModFS);
-		cultures.LoadCultures(ck3ModFS, new Configuration());
+		cultures.LoadCultures(ck3ModFS);
 
 		var cultureWithColor = cultures["culture_with_color"];
 		Assert.Equal(new Color(10, 20, 30), cultureWithColor.Color);
@@ -52,7 +54,7 @@ public class CultureCollectionTests {
 		
 		cultures.AddNameList(new NameList("name_list_albanian", new BufferedReader()));
 		cultures.LoadConverterPillars("TestFiles/CK3/CultureCollectionTests/configurables/converter_pillars", ck3ModFlags);
-		cultures.LoadConverterCultures("TestFiles/CK3/CultureCollectionTests/configurables/converter_cultures.txt", new Configuration());
+		cultures.LoadConverterCultures("TestFiles/CK3/CultureCollectionTests/configurables/converter_cultures.txt");
 		
 		Assert.Equal(2, cultures.Count);
 		Assert.Equal("heritage_arberian", cultures["arberian"].Heritage.Id);
@@ -72,10 +74,61 @@ public class CultureCollectionTests {
 		
 		cultures.AddNameList(new NameList("name_list_albanian", new BufferedReader()));
 		cultures.LoadConverterPillars("TestFiles/CK3/CultureCollectionTests/configurables/converter_pillars", ck3ModFlags);
-		cultures.LoadConverterCultures("TestFiles/CK3/CultureCollectionTests/configurables/converter_cultures.txt", new Configuration());
+		cultures.LoadConverterCultures("TestFiles/CK3/CultureCollectionTests/configurables/converter_cultures.txt");
 		
 		Assert.Equal(2, cultures.Count);
 		Assert.Equal("language_illyrian", cultures["albanian"].Language.Id);
 		Assert.Equal("language_illyrian", cultures["dalmatian"].Language.Id);
+	}
+
+	[Fact]
+	public void WarnAboutCircularParentsLogsCorrectWarningsForAPairOfCultures() {
+		var cultures = new TestCK3CultureCollection();
+		
+		// Create a circular dependency by making "french" a child of "roman"
+		// and "roman" a child of "french".
+		cultures.GenerateTestCulture("roman", "heritage_latin");
+		cultures.GenerateTestCulture("french", "heritage_latin");
+		cultures["french"].ParentCultureIds.Add("roman");
+		cultures["roman"].ParentCultureIds.Add("french");
+		
+		var output = new StringWriter();
+		Console.SetOut(output);
+		cultures.WarnAboutCircularParents();
+		var outputString = output.ToString();
+		
+		Assert.Contains("[ERROR] Culture french is set as its own direct or indirect parent!", outputString);
+		Assert.Contains("[ERROR] Culture roman is set as its own direct or indirect parent!", outputString);
+	}
+
+	[Fact]
+	public void WarnAboutCircularParentsLogsCorrectWarningForCultureBeingItsOwnParent() {
+		var cultures = new TestCK3CultureCollection();
+		// Create a culture that is its own parent.
+		cultures.GenerateTestCulture("roman", "heritage_latin");
+		cultures["roman"].ParentCultureIds.Add("roman");
+		
+		var output = new StringWriter();
+		Console.SetOut(output);
+		cultures.WarnAboutCircularParents();
+		var outputString = output.ToString();
+		
+		Assert.Contains("[ERROR] Culture roman is set as its own direct or indirect parent!", outputString);
+	}
+	
+	[Fact]
+	public void WarnAboutCircularParentsDoesNotLogAnythingForValidCultures() {
+		var cultures = new TestCK3CultureCollection();
+		// Just French being a child of Roman, no circular dependency.
+		cultures.GenerateTestCulture("roman", "heritage_latin");
+		cultures.GenerateTestCulture("french", "heritage_latin");
+		cultures["french"].ParentCultureIds.Add("roman");
+		
+		var output = new StringWriter();
+		Console.SetOut(output);
+		cultures.WarnAboutCircularParents();
+		var outputString = output.ToString();
+		
+		Assert.DoesNotContain("[ERROR]", outputString);
 	}
 }

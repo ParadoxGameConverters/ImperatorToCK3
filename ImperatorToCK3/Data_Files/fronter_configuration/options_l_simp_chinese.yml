@@ -18,3 +18,10 @@ l_simp_chinese:
  MODNAME: "MOD导出名称（可选）："
  MODNAMETIP: "请使用Latin字母"
  MODNAMETIP2: "可选的MOD导出名称（默认名称使用存档名之一）"
+
+ SKIP_HOLDING_OWNERS_IMPORT: "是否跳过导入领地所有者？"
+ SKIP_HOLDING_OWNERS_IMPORT_TIP: "是否将 Imperator 的领地所有者导入为男爵和伯爵。"
+ SKIP_HOLDING_OWNERS_IMPORT_0: "否"
+ SKIP_HOLDING_OWNERS_IMPORT_0_TIP: "转换器会将领地所有者导入为男爵和伯爵。"
+ SKIP_HOLDING_OWNERS_IMPORT_1: "是"
+ SKIP_HOLDING_OWNERS_IMPORT_1_TIP: "转换器不会将领地所有者导入为男爵和伯爵。"

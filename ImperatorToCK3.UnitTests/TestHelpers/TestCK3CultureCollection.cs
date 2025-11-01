@@ -33,7 +33,8 @@ internal class TestCK3CultureCollection() : CultureCollection(colorFactory, new 
 		
 		var cultureData = new CultureData {
 			Heritage = heritage,
-			NameLists = {nameList}
+			NameLists = {nameList},
+			Color = new Color(100, 150, 200)
 		};
 		var culture = new Culture(id, cultureData);
 		Add(culture);

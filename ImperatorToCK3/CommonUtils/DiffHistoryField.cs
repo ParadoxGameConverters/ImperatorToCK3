@@ -6,7 +6,7 @@ namespace ImperatorToCK3.CommonUtils;
 
 internal sealed class DiffHistoryField : IHistoryField {
 	public string Id { get; }
-	public IList<KeyValuePair<string, object>> InitialEntries { get; } = new List<KeyValuePair<string, object>>();
+	public List<KeyValuePair<string, object>> InitialEntries { get; } = [];
 
 	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; } = new();
 
@@ -38,10 +38,14 @@ internal sealed class DiffHistoryField : IHistoryField {
 		}
 	}
 
-	public object? GetValue(Date date) {
+	public object? GetValue(Date? date) {
 		var toReturn = new OrderedSet<object>();
 		foreach (var (keyword, value) in InitialEntries) {
 			AddOrRemoveToValueSet(toReturn, keyword, value);
+		}
+
+		if (date is null) {
+			return toReturn;
 		}
 
 		foreach (var (entriesDate, entries) in DateToEntriesDict) {
@@ -63,12 +67,10 @@ internal sealed class DiffHistoryField : IHistoryField {
 			if (date is null) {
 				InitialEntries.Add(newEntry);
 			} else {
-				if (DateToEntriesDict.TryGetValue(date, out var entriesList)) {
+				if (DateToEntriesDict.TryGetValue(date.Value, out var entriesList)) {
 					entriesList.Add(newEntry);
 				} else {
-					DateToEntriesDict.Add(date, new List<KeyValuePair<string, object>> {
-						newEntry
-					});
+					DateToEntriesDict.Add(date.Value, [newEntry]);
 				}
 			}
 		} else {

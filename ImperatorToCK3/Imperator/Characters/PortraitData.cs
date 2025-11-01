@@ -1,8 +1,9 @@
 ﻿using commonItems;
 using ImperatorToCK3.CommonUtils.Genes;
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
-using System.Linq;
+using ZLinq;
 
 namespace ImperatorToCK3.Imperator.Characters; 
 
@@ -16,6 +17,8 @@ internal sealed class PortraitData {
 
 	public Dictionary<string, AccessoryGeneData> AccessoryGenesDict { get; } = [];
 	public Dictionary<string, MorphGeneData> MorphGenesDict { get; } = [];
+	
+	private static readonly FrozenSet<string> morphGenesToIgnore = ["expression"];
 
 	public PortraitData(string dnaString, GenesDB genesDB, string ageSexString = "male") {
 		var decodedDnaStr = Convert.FromBase64String(dnaString);
@@ -40,8 +43,7 @@ internal sealed class PortraitData {
 		EyeColor2PaletteCoordinates.Y = decodedDnaStr[eyeColorPaletteXIndex + 3] * 2;
 		
 		// morph genes
-		var morphGenesToIgnore = new[] {"expression"};
-		var morphGenesToLoad = genesDB.MorphGenes
+		var morphGenesToLoad = genesDB.MorphGenes.AsValueEnumerable()
 			.Where(g => !morphGenesToIgnore.Contains(g.Id));
 		foreach (var gene in morphGenesToLoad) {
 			var geneIndex = gene.Index;

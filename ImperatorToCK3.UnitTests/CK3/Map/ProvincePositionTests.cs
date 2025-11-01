@@ -20,7 +20,7 @@ public class ProvincePositionTests {
 		var reader = new BufferedReader(blob);
 		var pos = ProvincePosition.Parse(reader);
 		Assert.Equal((ulong)5, pos.Id);
-		Assert.Equal(271.722198, pos.X);
-		Assert.Equal(3950.798096, pos.Y);
+		Assert.Equal(271.722198f, pos.X);
+		Assert.Equal(3950.798096f, pos.Y);
 	}
 }

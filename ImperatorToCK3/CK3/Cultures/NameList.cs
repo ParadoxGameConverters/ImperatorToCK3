@@ -3,9 +3,9 @@ using commonItems.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace ImperatorToCK3.CK3.Cultures; 
+namespace ImperatorToCK3.CK3.Cultures;
 
-public sealed partial class NameList : IIdentifiable<string> {
+internal sealed partial class NameList : IIdentifiable<string> {
 	public string Id { get; }
 	private readonly OrderedSet<string> maleNames = [];
 	private readonly OrderedSet<string> femaleNames = [];

@@ -11,6 +11,7 @@ using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Technology;
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -91,10 +92,10 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		cultureIdsPerModFlagParser.ParseStream(reader);
 	}
 
-	public void LoadCultures(ModFilesystem ck3ModFS, Configuration config) {
+	public void LoadCultures(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading cultures...");
 		
-		OrderedDictionary<string, CultureData> culturesData = new(); // Preserves order of insertion.
+		OrderedDictionary<string, CultureData> culturesData = []; // Preserves order of insertion.
 
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => culturesData[cultureId] = LoadCultureData(reader));
@@ -102,15 +103,15 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.ParseGameFolder("common/culture/cultures", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 		
 		// After we've load all cultures data, we can validate it and create cultures.
-		ValidateAndLoadCultures(culturesData, config);
+		ValidateAndLoadCultures(culturesData);
 
 		ReplaceInvalidatedParents();
 	}
 
-	public void LoadConverterCultures(string converterCulturesPath, Configuration config) {
+	public void LoadConverterCultures(string converterCulturesPath) {
 		Logger.Info("Loading converter cultures...");
 		
-		OrderedDictionary<string, CultureData> culturesData = new(); // Preserves order of insertion.
+		OrderedDictionary<string, CultureData> culturesData = []; // Preserves order of insertion.
 
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => culturesData[cultureId] = LoadCultureData(reader));
@@ -118,7 +119,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		parser.ParseFile(converterCulturesPath);
 		
 		// After we've load all cultures data, we can validate it and create cultures.
-		ValidateAndLoadCultures(culturesData, config);
+		ValidateAndLoadCultures(culturesData);
 
 		ReplaceInvalidatedParents();
 	}
@@ -130,7 +131,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		return cultureData;
 	}
 
-	private void ValidateAndLoadCultures(OrderedDictionary<string, CultureData> culturesData, Configuration config) {
+	private void ValidateAndLoadCultures(OrderedDictionary<string, CultureData> culturesData) {
 		foreach (var (cultureId, data) in culturesData) {
 			if (data.InvalidatingCultureIds.Count != 0) {
 				bool isInvalidated = false;
@@ -148,14 +149,8 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 				Logger.Debug($"Loading optional culture {cultureId}...");
 			}
 			if (data.Heritage is null) {
-				// Special handling for TFE hunnic culture. #TODO: remove this when it's fixed on TFE side.
-				if (config.FallenEagleEnabled && cultureId == "hunnic" && PillarCollection.GetHeritageForId("heritage_turkic") is Pillar turkicHeritage) {
-					Logger.Debug("Applying turkic heritage to TFE hunnic culture.");
-					data.Heritage = turkicHeritage;
-				} else {
-					Logger.Warn($"Culture {cultureId} has no valid heritage defined! Skipping.");
-					continue;
-				}
+				Logger.Warn($"Culture {cultureId} has no valid heritage defined! Skipping.");
+				continue;
 			}
 			if (data.Language is null) {
 				Logger.Warn($"Culture {cultureId} has no valid language defined! Skipping.");
@@ -249,7 +244,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 
 			var irInventions = grouping
 				.SelectMany(c => c.Country.GetActiveInventionIds(inventionsDB))
-				.ToHashSet();
+				.ToFrozenSet();
 			culture.ImportInnovationsFromImperator(irInventions, innovationMapper);
 		}
 	}
@@ -258,33 +253,35 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		// For every culture, check if it isn't set as its own immediate or distant parent.
 		Logger.Debug("Checking for circular culture parents...");
 		foreach (var culture in this) {
-			var allParents = GetAncestorsOfCulture(culture);
+			var allParents = GetAncestorsOfCulture(culture, alreadyChecked: []);
 			if (allParents.Contains(culture.Id)) {
-				Logger.Error($"Culture {culture.Id} is set as its own parent!");
+				Logger.Error($"Culture {culture.Id} is set as its own direct or indirect parent!");
 			}
 		}
 	}
 
-	private HashSet<string> GetAncestorsOfCulture(Culture cultureToCheck, HashSet<string>? alreadyChecked = null) {
+	private HashSet<string> GetAncestorsOfCulture(Culture cultureToCheck, HashSet<string> alreadyChecked) {
 		HashSet<string> allParents = [];
 
 		// Get immediate parents.
 		foreach (var parentCultureId in cultureToCheck.ParentCultureIds) {
-			// Avoid infinite recursion.
-			if (alreadyChecked?.Contains(parentCultureId) == true) {
-				continue;
-			}
-
 			allParents.Add(parentCultureId);
-			
-			if (!TryGetValue(parentCultureId, out var parentCulture)) {
-				Logger.Warn($"Parent culture {parentCultureId} not found for culture {cultureToCheck.Id}.");
+		}
+		
+		// Prevent infinite recursion.
+		alreadyChecked.Add(cultureToCheck.Id);
+
+		// For parents that haven't been checked yet, get their parents.
+		foreach (var parentCultureId in cultureToCheck.ParentCultureIds) {
+			if (alreadyChecked.Contains(parentCultureId)) {
 				continue;
 			}
-
-			// Add the parent's parents.
-			var parentParents = GetAncestorsOfCulture(parentCulture, allParents);
-			allParents.UnionWith(parentParents);
+			if (!TryGetValue(parentCultureId, out var parentCulture)) {
+				Logger.Warn($"Parent culture {parentCultureId} not found for culture {cultureToCheck.Id}!");
+				continue;
+			}
+			var parentAncestors = GetAncestorsOfCulture(parentCulture, alreadyChecked);
+			allParents.UnionWith(parentAncestors);
 		}
 
 		return allParents;

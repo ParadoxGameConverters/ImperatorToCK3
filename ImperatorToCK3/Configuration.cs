@@ -1,7 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Exceptions;
 using commonItems.Mods;
-using ImperatorToCK3.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,8 +10,8 @@ using System.Linq;
 
 namespace ImperatorToCK3;
 
-public enum LegionConversion { No, SpecialTroops, MenAtArms }
-public sealed class Configuration {
+internal enum LegionConversion { No, SpecialTroops, MenAtArms }
+internal sealed class Configuration {
 	public string SaveGamePath { get; set; } = "";
 	public string ImperatorPath { get; set; } = "";
 	public string ImperatorDocPath { get; set; } = "";
@@ -23,11 +23,14 @@ public sealed class Configuration {
 	public bool StaticDeJure { get; set; } = false;
 	public bool FillerDukes { get; set; } = true;
 	public bool UseCK3Flags { get; set; } = true;
-	public double ImperatorCurrencyRate { get; set; } = 1.0d;
+	public float ImperatorCurrencyRate { get; set; } = 1.0f;
 	public double ImperatorCivilizationWorth { get; set; } = 0.4;
 	public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
 	public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
 	public bool SkipDynamicCoAExtraction { get; set; } = false;
+	public bool SkipHoldingOwnersImport { get; set; } = true;
+	public GameVersion IRVersion { get; private set; } = new();
+	public GameVersion CK3Version { get; private set; } = new();
 	public bool FallenEagleEnabled { get; private set; }
 	public bool WhenTheWorldStoppedMakingSenseEnabled { get; private set; }
 	public bool RajasOfAsiaEnabled { get; private set; }
@@ -111,7 +114,7 @@ public sealed class Configuration {
 			}
 		});
 		parser.RegisterKeyword("ImperatorCurrencyRate", reader => {
-			ImperatorCurrencyRate = reader.GetDouble();
+			ImperatorCurrencyRate = reader.GetFloat();
 			Logger.Info($"{nameof(ImperatorCurrencyRate)} set to: {ImperatorCurrencyRate}");
 		});
 		parser.RegisterKeyword("ImperatorCivilizationWorth", reader => {
@@ -151,6 +154,15 @@ public sealed class Configuration {
 				Logger.Info($"{nameof(SkipDynamicCoAExtraction)} set to: {SkipDynamicCoAExtraction}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(SkipDynamicCoAExtraction)} value was: {valueString}; Error message: {e}");
+			}
+		});
+		parser.RegisterKeyword("SkipHoldingOwnersImport", reader => {
+			var valueString = reader.GetString();
+			try {
+				SkipHoldingOwnersImport = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+				Logger.Info($"{nameof(SkipHoldingOwnersImport)} set to: {SkipHoldingOwnersImport}");
+			} catch (Exception e) {
+				Logger.Error($"Undefined error, {nameof(SkipHoldingOwnersImport)} value was: {valueString}; Error message: {e}");
 			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
@@ -246,7 +258,18 @@ public sealed class Configuration {
 		if (!Directory.Exists(CK3ModsPath)) {
 			throw new UserErrorException($"{CK3ModsPath} does not exist!");
 		}
-		
+
+		var normalizedCK3ModsPath = Path.TrimEndingDirectorySeparator(
+			CK3ModsPath.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar)
+		);
+		var expectedSuffix = Path.Combine("Paradox Interactive", "Crusader Kings III", "mod");
+		var comparison = OperatingSystem.IsWindows() || OperatingSystem.IsMacOS()
+			? StringComparison.OrdinalIgnoreCase
+			: StringComparison.Ordinal;
+		if (!normalizedCK3ModsPath.EndsWith(expectedSuffix, comparison)) {
+			throw new UserErrorException($"{CK3ModsPath} is not a valid CK3 mods directory! It should end with {expectedSuffix}.");
+		}
+
 		// If the mods folder contains any files, at least one on them should have a .mod extension.
 		var filesInFolder = Directory.GetFiles(CK3ModsPath);
 		if (filesInFolder.Length > 0) {
@@ -270,42 +293,51 @@ public sealed class Configuration {
 
 	private void VerifyImperatorVersion(ConverterVersion converterVersion) {
 		var path = Path.Combine(ImperatorPath, "launcher/launcher-settings.json");
-		var irVersion = GameVersion.ExtractVersionFromLauncher(path);
-		if (irVersion is null) {
-			Logger.Error("Imperator version could not be determined, proceeding blind!");
-			return;
-		}
+		IRVersion = GameVersion.ExtractVersionFromLauncher(path) ??
+		                   throw new ConverterException("Imperator version could not be determined.");
 
-		Logger.Info($"Imperator version: {irVersion.ToShortString()}");
+		Logger.Info($"Imperator version: {IRVersion.ToShortString()}");
 
-		if (converterVersion.MinSource > irVersion) {
-			Logger.Error($"Imperator version is v{irVersion.ToShortString()}, converter requires minimum v{converterVersion.MinSource.ToShortString()}!");
+		if (converterVersion.MinSource > IRVersion) {
+			Logger.Error($"Imperator version is v{IRVersion.ToShortString()}, converter requires minimum v{converterVersion.MinSource.ToShortString()}!");
 			throw new UserErrorException("Converter vs Imperator installation mismatch!");
 		}
-		if (!converterVersion.MaxSource.IsLargerishThan(irVersion)) {
-			Logger.Error($"Imperator version is v{irVersion.ToShortString()}, converter requires maximum v{converterVersion.MaxSource.ToShortString()}!");
+		if (!converterVersion.MaxSource.IsLargerishThan(IRVersion)) {
+			Logger.Error($"Imperator version is v{IRVersion.ToShortString()}, converter requires maximum v{converterVersion.MaxSource.ToShortString()}!");
 			throw new UserErrorException("Converter vs Imperator installation mismatch!");
 		}
 	}
 
 	private void VerifyCK3Version(ConverterVersion converterVersion) {
 		var path = Path.Combine(CK3Path, "launcher/launcher-settings.json");
-		var ck3Version = GameVersion.ExtractVersionFromLauncher(path);
-		if (ck3Version is null) {
-			Logger.Error("CK3 version could not be determined, proceeding blind!");
-			return;
-		}
+		CK3Version = GameVersion.ExtractVersionFromLauncher(path) ??
+		             GetCK3VersionFromTitusBranchFile() ??
+		             throw new ConverterException("CK3 version could not be determined.");
 
-		Logger.Info($"CK3 version: {ck3Version.ToShortString()}");
+		Logger.Info($"CK3 version: {CK3Version.ToShortString()}");
 
-		if (converterVersion.MinTarget > ck3Version) {
-			Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires minimum v{converterVersion.MinTarget.ToShortString()}!");
+		if (converterVersion.MinTarget > CK3Version) {
+			Logger.Error($"CK3 version is v{CK3Version.ToShortString()}, converter requires minimum v{converterVersion.MinTarget.ToShortString()}!");
 			throw new UserErrorException("Converter vs CK3 installation mismatch!");
 		}
-		if (!converterVersion.MaxTarget.IsLargerishThan(ck3Version)) {
-			Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires maximum v{converterVersion.MaxTarget.ToShortString()}!");
+		if (!converterVersion.MaxTarget.IsLargerishThan(CK3Version)) {
+			Logger.Error($"CK3 version is v{CK3Version.ToShortString()}, converter requires maximum v{converterVersion.MaxTarget.ToShortString()}!");
 			throw new UserErrorException("Converter vs CK3 installation mismatch!");
 		}
+	}
+
+	private GameVersion? GetCK3VersionFromTitusBranchFile() {
+		var path = Path.Combine(CK3Path, "titus_branch.txt");
+
+		if (!File.Exists(path)) {
+			Logger.Warn("titus_branch.txt not found");
+			return null;
+		}
+
+		// The file contains the game version in the following format: release/X.Y.Z.
+		var versionStr = File.ReadAllText(path).Trim().Replace("release/", "");
+		var version = new GameVersion(versionStr);
+		return version;
 	}
 
 	public void DetectSpecificCK3Mods(ICollection<Mod> loadedMods) {
@@ -331,6 +363,23 @@ public sealed class Configuration {
 		if (aepMod is not null) {
 			AsiaExpansionProjectEnabled = true;
 			Logger.Info($"AEP detected: {aepMod.Name}");
+		}
+
+		ThrowUserErrorExceptionForUnsupportedModCombinations();
+	}
+
+	private void ThrowUserErrorExceptionForUnsupportedModCombinations() {
+		if (FallenEagleEnabled && WhenTheWorldStoppedMakingSenseEnabled) {
+			throw new UserErrorException("The converter doesn't support combining The Fallen Eagle with When the World Stopped Making Sense!");
+		}
+		if (RajasOfAsiaEnabled && AsiaExpansionProjectEnabled) {
+			throw new UserErrorException("The converter doesn't support combining Rajas of Asia with Asia Expansion Project!");
+		}
+		if (FallenEagleEnabled && RajasOfAsiaEnabled) {
+			throw new UserErrorException("The converter doesn't support combining The Fallen Eagle with Rajas of Asia!");
+		}
+		if (FallenEagleEnabled && AsiaExpansionProjectEnabled) {
+			throw new UserErrorException("The converter doesn't support combining The Fallen Eagle with Asia Expansion Project!");
 		}
 	}
 

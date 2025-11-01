@@ -4,7 +4,6 @@ using commonItems.Localization;
 using commonItems.Mods;
 using commonItems.Serialization;
 using ImperatorToCK3.CK3;
-using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
@@ -23,7 +22,7 @@ using ImperatorToCK3.UnitTests.TestHelpers;
 using Xunit;
 using Character = ImperatorToCK3.CK3.Characters.Character;
 using System;
-using System.Collections.Generic;
+using System.Collections.Frozen;
 using CharacterCollection = ImperatorToCK3.Imperator.Characters.CharacterCollection;
 
 // ReSharper disable StringLiteralTypo
@@ -39,7 +38,8 @@ public class DynastyTests {
 	private static readonly MapData irMapData = new(IRModFS);
 	private static readonly ImperatorRegionMapper IRRegionMapper;
 	private static readonly CultureMapper CultureMapper;
-	private static readonly TestCK3CultureCollection Cultures = new();
+	private static readonly TestCK3CultureCollection Cultures = [];
+	private static readonly FrozenDictionary<string, string> characterNameOverrides = FrozenDictionary<string, string>.Empty;
 	
 	static DynastyTests() {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
@@ -66,7 +66,7 @@ public class DynastyTests {
 		private static readonly ModFilesystem ck3ModFS = new(CK3Root, Array.Empty<Mod>());
 
 		private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
-		private ImperatorToCK3.CK3.Characters.CharacterCollection characters = new();
+		private readonly ImperatorToCK3.CK3.Characters.CharacterCollection characters = [];
 		private ReligionMapper religionMapper = new(new ReligionCollection(new Title.LandedTitles()), IRRegionMapper, new CK3RegionMapper());
 		private CultureMapper cultureMapper = new(IRRegionMapper, new CK3RegionMapper(), Cultures);
 		private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", ck3ModFS);
@@ -88,10 +88,10 @@ public class DynastyTests {
 				irMapData,
 				provinceMapper,
 				deathReasonMapper,
-				new DNAFactory(IRModFS, ck3ModFS),
 				new Date(867, 1, 1),
 				config,
-				unlocalizedImperatorNames: new HashSet<string>()
+				nameOverrides: characterNameOverrides,
+				unlocalizedImperatorNames: []
 			);
 			return character;
 		}
@@ -144,7 +144,7 @@ public class DynastyTests {
 		var family = Family.Parse(reader, 45);
 
 		var irLocDB = new LocDB("english");
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper, irLocDB, new TestCK3LocDB(), BookmarkDate);
+		var dynasty = new Dynasty(family, characters, [], CultureMapper, irLocDB, new TestCK3LocDB(), BookmarkDate);
 
 		Assert.Equal("dynn_irtock3_45", dynasty.Id);
 		Assert.Equal("dynn_irtock3_45", dynasty.Name);
@@ -174,7 +174,7 @@ public class DynastyTests {
 
 		var irLocDB = new LocDB("english");
 		var ck3LocDB = new TestCK3LocDB();
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper, irLocDB, ck3LocDB, BookmarkDate);
+		var dynasty = new Dynasty(family, characters, [], CultureMapper, irLocDB, ck3LocDB, BookmarkDate);
 
 		Assert.Equal("cornelii", ck3LocDB.GetLocBlockForKey(dynasty.Id)!["english"]);
 	}
@@ -208,15 +208,15 @@ public class DynastyTests {
 			Cultures
 		);
 		var irLocDB = new LocDB("english");
-		var ck3Member1 = new CK3CharacterBuilder()
+		new CK3CharacterBuilder()
 			.WithCultureMapper(cultureMapper)
 			.WithImperatorCharacter(member1)
 			.Build();
-		var ck3Member2 = new CK3CharacterBuilder()
+		new CK3CharacterBuilder()
 			.WithCultureMapper(cultureMapper)
 			.WithImperatorCharacter(member2)
 			.Build();
-		var ck3Member3 = new CK3CharacterBuilder()
+		new CK3CharacterBuilder()
 			.WithCultureMapper(cultureMapper)
 			.WithImperatorCharacter(member3)
 			.Build();

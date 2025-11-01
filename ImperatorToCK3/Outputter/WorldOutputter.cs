@@ -1,12 +1,12 @@
 using commonItems;
 using commonItems.Collections;
+using commonItems.Exceptions;
 using commonItems.Mods;
 using commonItems.Serialization;
 using DotLiquid;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Legends;
 using ImperatorToCK3.CommonUtils;
-using ImperatorToCK3.Exceptions;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -64,7 +64,9 @@ internal static class WorldOutputter {
 				if (config.LegionConversion == LegionConversion.MenAtArms) {
 					MenAtArmsOutputter.OutputMenAtArms(outputName, ck3World.ModFS, ck3World.Characters, ck3World.MenAtArmsTypes);
 				}
-			})
+			}),
+			
+			DiplomacyOutputter.OutputLeagues(outputPath, ck3World.Diplomacy.Leagues)
 		);
 
 		// Localization should be output last, as it uses data written by other outputters.
@@ -105,18 +107,19 @@ internal static class WorldOutputter {
 		// Hash expects the dictionary values to be of type object, so we need to cast the bools to objects.
 		var convertedModFlags = ck3ModFlags.ToDictionary(kv => kv.Key, kv => (object)kv.Value);
 		var context = Hash.FromDictionary(convertedModFlags);
-		
-		// In the output path, find .liquid files, parse them with DotLiquid and write them back as .txt files.
+
+		// In the output path, find .liquid files, parse them with DotLiquid and write them back without the .liquid extension.
+		// For example, this will convert file.txt.liquid to file.txt and loc.yml.liquid to loc.yml.
 		var liquidFiles = Directory.GetFiles(outputPath, "*.liquid", SearchOption.AllDirectories);
 		foreach (var liquidFilePath in liquidFiles) {
 			var liquidText = File.ReadAllText(liquidFilePath);
 			var template = Template.Parse(liquidText);
 			var result = template.Render(context);
-			var txtFilePath = liquidFilePath[..^7] + ".txt";
-			// Write the result to a .txt file and delete the .liquid file. Use UTF8-BOM encoding.
-			File.WriteAllText(txtFilePath, result, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
+			var renderedFilePath = liquidFilePath[..^7];
+			// Write the rendered file and delete the .liquid file. Use UTF8-BOM encoding.
+			File.WriteAllText(renderedFilePath, result, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
 			File.Delete(liquidFilePath);
-			Logger.Debug("Converted " + liquidFilePath + " to " + txtFilePath);
+			Logger.Debug("Converted " + liquidFilePath + " to " + renderedFilePath);
 		}
 		
 		Logger.IncrementProgress();
@@ -163,6 +166,7 @@ internal static class WorldOutputter {
 		modFileBuilder.AppendLine($"name = \"Converted - {outputName}\"");
 		modFileBuilder.AppendLine($"path = \"mod/{outputName}\"");
 		modFileBuilder.AppendLine("replace_path=\"common/bookmarks\"");
+		modFileBuilder.AppendLine("replace_path=\"common/bookmarks/bookmarks\"");
 		modFileBuilder.AppendLine("replace_path=\"common/bookmarks/challenge_characters\"");
 		modFileBuilder.AppendLine("replace_path=\"common/culture/cultures\"");
 		modFileBuilder.AppendLine("replace_path=\"common/culture/pillars\"");

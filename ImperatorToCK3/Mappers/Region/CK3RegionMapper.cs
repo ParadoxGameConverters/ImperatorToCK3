@@ -3,7 +3,7 @@ using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using ZLinq;
 
 namespace ImperatorToCK3.Mappers.Region;
 
@@ -39,7 +39,7 @@ internal sealed class CK3RegionMapper {
 		
 		// Log duchies that don't have any de jure counties.
 		// Such duchies should probably be removed from the regions.
-		var validDeJureDuchyIds = landedTitles.GetDeJureDuchies().Select(d => d.Id).ToHashSet();
+		var validDeJureDuchyIds = landedTitles.GetDeJureDuchies().AsValueEnumerable().Select(d => d.Id).ToFrozenSet();
 		foreach (var region in regions.Values) {
 			foreach (var regionDuchyId in region.Duchies.Keys) {
 				if (!validDeJureDuchyIds.Contains(regionDuchyId)) {
@@ -59,7 +59,7 @@ internal sealed class CK3RegionMapper {
 		}
 
 		// And sometimes they don't mean what people think they mean at all.
-		return counties.TryGetValue(regionName, out var county) && county.CountyProvinceIds.Contains(provinceId);
+		return counties.TryGetValue(regionName, out var county) && county.CountyProvinceIds.AsValueEnumerable().Contains(provinceId);
 	}
 	public bool RegionNameIsValid(string regionName) {
 		if (regions.ContainsKey(regionName)) {
@@ -79,7 +79,7 @@ internal sealed class CK3RegionMapper {
 	}
 	public string? GetParentCountyName(ulong provinceId) {
 		foreach (var (countyName, county) in counties) {
-			if (county.CountyProvinceIds.Contains(provinceId)) {
+			if (county.CountyProvinceIds.AsValueEnumerable().Contains(provinceId)) {
 				return countyName;
 			}
 		}

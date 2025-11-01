@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace ImperatorToCK3.CommonUtils;
-public sealed class HistoryFactory {
-	public sealed class HistoryFactoryBuilder {
+internal sealed class HistoryFactory {
+	internal sealed class HistoryFactoryBuilder {
 		private readonly List<SimpleFieldDef> simpleFieldDefs = []; // fieldName, setters, initialValue
 		private readonly List<SimpleFieldDef> literalFieldDefs = []; // fieldName, setters, initialValue
 		private readonly List<DiffFieldDef> diffFieldDefs = []; // fieldName, inserter, remover, initialValue

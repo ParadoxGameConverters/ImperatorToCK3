@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ImperatorToCK3.CommonUtils;
 
-public sealed class History : IPDXSerializable {
+internal sealed class History : IPDXSerializable {
 	[NonSerialized] public IdObjectCollection<string, IHistoryField> Fields { get; } = []; // fieldName, field
 	[NonSerialized] public IgnoredKeywordsSet IgnoredKeywords { get; } = [];
 
@@ -22,7 +22,7 @@ public sealed class History : IPDXSerializable {
 		Fields = fields;
 	}
 
-	public object? GetFieldValue(string fieldName, Date date) {
+	public object? GetFieldValue(string fieldName, Date? date) {
 		return Fields.TryGetValue(fieldName, out var value) ? value.GetValue(date) : null;
 	}
 

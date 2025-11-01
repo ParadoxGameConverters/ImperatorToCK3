@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Imperator.Pops;
 
-public sealed class PopCollection : ConcurrentIdObjectCollection<ulong, Pop> {
+internal sealed class PopCollection : ConcurrentIdObjectCollection<ulong, Pop> {
 	public void LoadPopsFromBloc(BufferedReader blocReader) {
 		var blocParser = new Parser();
 		blocParser.RegisterKeyword("population", LoadPops);

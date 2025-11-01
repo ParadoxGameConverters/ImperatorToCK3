@@ -2,10 +2,10 @@
 
 namespace ImperatorToCK3.CommonUtils.Map;
 
-public sealed class ProvincePosition {
+internal sealed class ProvincePosition {
 	public ulong Id { get; private set; }
-	public double X { get; private set; }
-	public double Y { get; private set; }
+	public float X { get; private set; }
+	public float Y { get; private set; }
 	public static ProvincePosition Parse(BufferedReader reader) {
 		positionToReturn = new ProvincePosition();
 		parser.ParseStream(reader);
@@ -16,7 +16,7 @@ public sealed class ProvincePosition {
 			positionToReturn.Id = reader.GetULong()
 		);
 		parser.RegisterKeyword("position", reader => {
-			var positionsList = reader.GetDoubles();
+			var positionsList = reader.GetFloats();
 			positionToReturn.X = positionsList[0];
 			positionToReturn.Y = positionsList[2];
 		});

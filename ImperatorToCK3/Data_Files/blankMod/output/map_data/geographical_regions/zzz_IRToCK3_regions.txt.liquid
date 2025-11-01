@@ -1,0 +1,20 @@
+﻿{% if tfe %}
+
+{% elsif roa %}
+# For limiting the RoA stateless government assignment to regions out of scope of Terra-Indomita
+converter_roa_out_of_scope_region = {
+	regions = {
+		world_mindanao world_kalimantan world_java world_timor world_sulawesi world_moluccas world_panua world_micronesia world_papua_new_guinea
+	}
+	duchies = {
+		d_lupah_sug d_sugbu d_buglas d_bo_ol d_east_bisaya
+
+		d_palembang d_bangkahulu d_basemah d_lampung d_kerinci d_jambi d_bangka_belitung
+	}
+	counties = {
+		c_ipolot c_oton c_dumangas c_inderapura c_masbat
+	}
+}
+{% elsif wtwsms %}
+
+{% endif %}

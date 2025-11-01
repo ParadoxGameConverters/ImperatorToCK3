@@ -1,6 +1,6 @@
 ﻿using commonItems.Collections;
 using commonItems.Mods;
-using FluentAssertions;
+using AwesomeAssertions;
 using ImperatorToCK3.Mappers.Trait;
 using System;
 using System.Collections.Generic;

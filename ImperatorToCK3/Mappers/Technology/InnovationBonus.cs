@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Technology;
 
-public sealed class InnovationBonus {
+internal sealed class InnovationBonus {
 	private readonly HashSet<string> imperatorInventions = [];
 	public string? CK3InnovationId { get; private set; }
 

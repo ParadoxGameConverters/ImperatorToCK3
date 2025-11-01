@@ -3,15 +3,15 @@ using ImperatorToCK3.CommonUtils;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
-public sealed class CountryCurrencies : Parser {
-	public double Manpower { get; private set; } = 0;
-	public double Gold { get; private set; } = 0;
-	public double Stability { get; private set; } = 50;
-	public double Tyranny { get; private set; } = 0;
-	public double WarExhaustion { get; private set; } = 0;
-	public double AggressiveExpansion { get; private set; } = 0;
-	public double PoliticalInfluence { get; private set; } = 0;
-	public double MilitaryExperience { get; private set; } = 0;
+internal sealed class CountryCurrencies : Parser {
+	public float Manpower { get; private set; } = 0;
+	public float Gold { get; private set; } = 0;
+	public float Stability { get; private set; } = 50;
+	public float Tyranny { get; private set; } = 0;
+	public float WarExhaustion { get; private set; } = 0;
+	public float AggressiveExpansion { get; private set; } = 0;
+	public float PoliticalInfluence { get; private set; } = 0;
+	public float MilitaryExperience { get; private set; } = 0;
 
 	public CountryCurrencies() { }
 	public CountryCurrencies(BufferedReader reader) {
@@ -20,14 +20,14 @@ public sealed class CountryCurrencies : Parser {
 		ClearRegisteredRules();
 	}
 	private void RegisterKeys() {
-		RegisterKeyword("manpower", reader => Manpower = reader.GetDouble());
-		RegisterKeyword("gold", reader => Gold = reader.GetDouble());
-		RegisterKeyword("stability", reader => Stability = reader.GetDouble());
-		RegisterKeyword("tyranny", reader => Tyranny = reader.GetDouble());
-		RegisterKeyword("war_exhaustion", reader => WarExhaustion = reader.GetDouble());
-		RegisterKeyword("aggressive_expansion", reader => AggressiveExpansion = reader.GetDouble());
-		RegisterKeyword("political_influence", reader => PoliticalInfluence = reader.GetDouble());
-		RegisterKeyword("military_experience", reader => MilitaryExperience = reader.GetDouble());
+		RegisterKeyword("manpower", reader => Manpower = reader.GetFloat());
+		RegisterKeyword("gold", reader => Gold = reader.GetFloat());
+		RegisterKeyword("stability", reader => Stability = reader.GetFloat());
+		RegisterKeyword("tyranny", reader => Tyranny = reader.GetFloat());
+		RegisterKeyword("war_exhaustion", reader => WarExhaustion = reader.GetFloat());
+		RegisterKeyword("aggressive_expansion", reader => AggressiveExpansion = reader.GetFloat());
+		RegisterKeyword("political_influence", reader => PoliticalInfluence = reader.GetFloat());
+		RegisterKeyword("military_experience", reader => MilitaryExperience = reader.GetFloat());
 		RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 			IgnoredTokens.Add(token);
 			ParserHelpers.IgnoreItem(reader);

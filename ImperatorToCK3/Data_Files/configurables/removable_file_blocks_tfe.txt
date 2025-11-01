@@ -26,7 +26,10 @@
 					game_start_date <= 768.1.1
 				}
 			}
-			start_struggle = { struggle_type = britannia_struggle start_phase = struggle_britannia_phase_migration }
+			start_struggle = {
+				struggle_type = britannia_struggle
+				start_phase = struggle_britannia_phase_migration
+			}
 		}
 	}
 	{
@@ -34,20 +37,32 @@
 			limit = {
 				game_start_date >= 476.9.4
 			}
-			start_struggle = { struggle_type = italian_struggle start_phase = struggle_TFE_italian_phase_turmoil }
+			start_struggle = {
+				struggle_type = italian_struggle
+				start_phase = struggle_TFE_italian_phase_turmoil
+			}
 		}
 	}
 	{
 		if = {
 			limit = {
 				AND = {
-					game_start_date <= 651.1.1 # Death of Yazdegerd III
+					game_start_date <= 651.1.1					# Death of Yazdegerd III
 				}
 			}
-			start_struggle = { struggle_type = roman_persian_struggle start_phase = struggle_TFE_roman_persian_phase_contention }
+			start_struggle = {
+				struggle_type = roman_persian_struggle
+				start_phase = struggle_TFE_roman_persian_phase_contention
+			}
 		}
-		start_struggle = { struggle_type = eastern_iranian_struggle start_phase = struggle_TFE_eastern_iranian_phase_expansion }
-		start_struggle = { struggle_type = north_indian_struggle start_phase = struggle_TFE_north_indian_phase_invasion }
+		start_struggle = {
+			struggle_type = eastern_iranian_struggle
+			start_phase = struggle_TFE_eastern_iranian_phase_expansion
+		}
+		start_struggle = {
+			struggle_type = north_indian_struggle
+			start_phase = struggle_TFE_north_indian_phase_invasion
+		}
 	}
 	
 	# Other
@@ -103,6 +118,9 @@
 					days = 90
 				}
 			}
+			character:200290 = {
+				remove_claim = title:d_muntenia
+			}
 			if = {
 				limit = {
 					character:rufinus_02 = {
@@ -111,7 +129,9 @@
 							is_vassal_of = character:70519
 							is_courtier_of = character:70519
 						}
-						NOT = { is_diarch = yes }
+						NOT = {
+							is_diarch = yes
+						}
 					}
 				}
 				if = {
@@ -122,7 +142,7 @@
 					}
 					character:70519 = {
 						designate_diarch = character:rufinus_02
-						start_diarchy = regency
+						try_start_diarchy = regency
 						set_diarchy_swing = 40
 					}
 				}
@@ -142,7 +162,9 @@
 							is_vassal_of = character:145227
 							is_courtier_of = character:145227
 						}
-						NOT = { is_diarch = yes }
+						NOT = {
+							is_diarch = yes
+						}
 					}
 				}
 				if = {
@@ -153,7 +175,7 @@
 					}
 					character:145227 = {
 						designate_diarch = character:900062
-						start_diarchy = regency
+						try_start_diarchy = regency
 						set_diarchy_swing = 40
 					}
 				}
@@ -169,25 +191,29 @@
 		if = {
 			limit = {
 				game_start_date = 476.9.4
-				AND = {
-					exists = title:k_croatia.holder
-					title:k_croatia.holder = {
-						culture = {
-							OR = {
-								THIS = culture:roman
-								any_parent_culture_or_above = {
-									this = culture:roman
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = title:k_croatia.holder
+						title:k_croatia.holder = {
+							culture = {
+								OR = {
+									THIS = culture:roman
+									any_parent_culture_or_above = {
+										this = culture:roman
+									}
 								}
 							}
 						}
 					}
 				}
-			}
-			title:k_croatia.holder = {
-				add_character_flag = nepos_ambition_triggered
-				trigger_event = {
-					id = western_roman.0027
-					days = 5
+				title:k_croatia.holder = {
+					add_character_flag = nepos_ambition_triggered
+					trigger_event = {
+						id = western_roman.0027
+						days = 5
+					}
 				}
 			}
 		}
@@ -251,6 +277,9 @@
 					}
 				}
 			}
+			title:e_byzantium.holder = {
+				consume_imprisonment_reasons = title:e_byzantium.holder.primary_spouse
+			}
 			set_global_variable = {
 				name = justinian
 				value = title:e_byzantium.holder
@@ -307,9 +336,9 @@
 						name = hildirix
 						value = scope:bugfix
 					}
-					death = { 
-						death_reason = death_vanished 
-					} 
+					death = {
+						death_reason = death_vanished
+					}
 				}
 			}
 		}
@@ -323,7 +352,9 @@
 								is_vassal_of = character:992023
 								is_courtier_of = character:992023
 							}
-							NOT = { is_diarch = yes }
+							NOT = {
+								is_diarch = yes
+							}
 						}
 					}
 					if = {
@@ -334,7 +365,7 @@
 						}
 						character:992023 = {
 							designate_diarch = character:992020
-							start_diarchy = regency
+							try_start_diarchy = regency
 							set_diarchy_swing = 40
 						}
 					}
@@ -390,13 +421,17 @@
 						learn_language = language_latin
 					}
 					if = {
-						limit = { has_trait = drunkard }
+						limit = {
+							has_trait = drunkard
+						}
 						add_character_modifier = {
 							modifier = tragic_drunk_modifier
 							years = 3
 						}
 					}
-					else = { add_trait = drunkard }
+					else = {
+						add_trait = drunkard
+					}
 					if = {
 						limit = {
 							THIS = character:992023
@@ -441,8 +476,8 @@
 		# Greek/Egyptian rulers in Egypt now know both Coptic and Greek
 		if = {
 			limit = {
-				game_start_date >= 500.1.1 # Rough timeframe for transition
-			}		
+				game_start_date >= 500.1.1				# Rough timeframe for transition
+			}
 			every_county_in_region = {
 				region = custom_roman_aegyptus
 				if = {
@@ -479,7 +514,9 @@
 				game_start_date >= 551.7.9
 			}
 			title:b_beirut.title_province = {
-				limit = { has_building = beirut_university }
+				limit = {
+					has_building = beirut_university
+				}
 				remove_building = beirut_university
 			}
 		}
@@ -488,7 +525,9 @@
 				game_start_date >= 800.1.1
 			}
 			title:b_urmiya.title_province = {
-				limit = { has_building = adur_gushnasp }
+				limit = {
+					has_building = adur_gushnasp
+				}
 				remove_building = adur_gushnasp
 			}
 		}
@@ -497,7 +536,9 @@
 				game_start_date >= 529.1.1
 			}
 			title:b_athens.title_province = {
-				limit = { has_building = generic_university }
+				limit = {
+					has_building = generic_university
+				}
 				remove_building = generic_university
 			}
 		}
@@ -528,7 +569,10 @@
 	# Something related to Jewish Exilarchs, seems not needed for converted games
 	{
 		title:c_iskaf.holder = {
-			vassal_contract_set_obligation_level = { type = religious_rights level = 1 }
+			vassal_contract_set_obligation_level = {
+				type = religious_rights
+				level = 1
+			}
 		}
 	}
 
@@ -550,9 +594,14 @@
 				every_vassal = {
 					if = {
 						limit = {
-							NOT = { faith = title:k_yemen.holder.faith }
+							NOT = {
+								faith = title:k_yemen.holder.faith
+							}
 						}
-						vassal_contract_set_obligation_level = { type = religious_rights level = 1 }
+						vassal_contract_set_obligation_level = {
+							type = religious_rights
+							level = 1
+						}
 					}
 				}
 				reverse_add_opinion = {
@@ -618,31 +667,31 @@
 	# In converted games we don't know if yazd is a holy site.
 	{
 			faith:mazdayasna = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:zurvanism = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:gayomarthianism = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:khurmazta = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:mazdakism = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:khurramism = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:urartuism = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:armaz = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 			faith:magousaian = {
-				deactivate_holy_site = yazd  # Yazd hasn't been consacrated yet
+				deactivate_holy_site = yazd				# Yazd hasn't been consacrated yet
 			}
 	}
 
@@ -684,10 +733,10 @@
 		if = {
 			limit = {
 				OR = {
-					game_start_date <= 376.1.1 # End of the Former Liang Dynasty
-					game_start_date >= 441.1.1 # Northern Wei conquest of Northern Liang, reunifying Liang province
+					game_start_date <= 376.1.1					# End of the Former Liang Dynasty
+					game_start_date >= 441.1.1					# Northern Wei conquest of Northern Liang, reunifying Liang province
 				}
-			}		
+			}
 			set_global_variable = {
 				name = TFE_order_restored_to_liang
 				value = yes
@@ -714,8 +763,8 @@
 				game_start_date < 550.1.1
 			}
 			faith:manichean = {
-				deactivate_holy_site = yijinai  # Manichaeism didn't really spread to China until the 6th century, so doesn't make sense
-				deactivate_holy_site = udabhanda  # Replaced by Lyon in earlier start dates when Manichaeism had a significant following in Europe
+				deactivate_holy_site = yijinai				# Manichaeism didn't really spread to China until the 6th century, so doesn't make sense
+				deactivate_holy_site = udabhanda				# Replaced by Lyon in earlier start dates when Manichaeism had a significant following in Europe
 			}
 		}
 		else = {
@@ -801,7 +850,7 @@ TFE_on_game_start_larp_history = {
 		if = {
 			limit = {
 				any_ruler = {
-					has_game_rule = dead_cultures_enabled 
+					has_game_rule = dead_cultures_enabled
 				}
 			}
 			title:c_kairwan = {
@@ -820,7 +869,6 @@ TFE_on_game_start_larp_history = {
 				set_county_culture = culture:punic
 				set_county_faith = faith:carthage_pagan
 			}
-
 			title:c_vermandois = {
 				set_county_culture = culture:gaul
 			}
@@ -879,8 +927,175 @@ garamantes_flavour_effect = {
 	{
 		garamantes_flavour_effect
 	}
-}
 
+	{
+		#Saxon Confederation set up
+		if = {
+			limit = {
+				game_start_date >= 361.1.1
+				game_start_date <= 396.1.1
+			}
+			title:c_osnabruck.holder = {
+				create_confederation = {
+					name = saxon_confederation_name_setup
+				}
+				scope:new_confederation = {
+					add_confederation_member = title:c_tecklenburg.holder
+					add_confederation_member = title:c_oldenburg.holder
+					add_confederation_member = title:c_minden.holder
+					add_confederation_member = title:c_bremen.holder
+					add_confederation_member = title:c_stade.holder
+					add_confederation_member = title:c_hildesheim.holder
+					add_confederation_member = title:c_hannover.holder
+					add_confederation_member = title:c_wolpe.holder
+					add_confederation_member = title:c_brunswick.holder
+					add_confederation_member = title:c_stendal.holder
+					add_confederation_member = title:c_dannenberg.holder
+					add_confederation_member = title:c_luneburg.holder
+					add_confederation_member = title:c_hamburg.holder
+				}
+			}
+		}
+		if = {
+			limit = {
+				game_start_date >= 476.1.1
+				game_start_date <= 477.1.1
+			}
+			title:c_osnabruck.holder = {
+				create_confederation = {
+					name = saxon_confederation_name_setup
+				}
+				scope:new_confederation = {
+					add_confederation_member = title:c_tecklenburg.holder
+					add_confederation_member = title:c_oldenburg.holder
+					add_confederation_member = title:c_minden.holder
+					add_confederation_member = title:c_bremen.holder
+					add_confederation_member = title:c_stade.holder
+					add_confederation_member = title:c_hildesheim.holder
+					add_confederation_member = title:c_hannover.holder
+					add_confederation_member = title:c_wolpe.holder
+					add_confederation_member = title:c_brunswick.holder
+					add_confederation_member = title:c_dannenberg.holder
+					add_confederation_member = title:c_luneburg.holder
+					add_confederation_member = title:c_hamburg.holder
+					add_confederation_member = title:c_ostfriesland.holder
+					add_confederation_member = title:c_groningen.holder
+					add_confederation_member = title:c_oversticht.holder
+					add_confederation_member = title:c_munster.holder
+					add_confederation_member = title:c_lippe.holder
+				}
+			}
+		}
+		if = {
+			limit = {
+				game_start_date >= 532.1.1
+				game_start_date <= 533.1.1
+			}
+			title:c_osnabruck.holder = {
+				create_confederation = {
+					name = saxon_confederation_name_setup
+				}
+				scope:new_confederation = {
+					add_confederation_member = title:c_tecklenburg.holder
+					add_confederation_member = title:c_oldenburg.holder
+					add_confederation_member = title:c_minden.holder
+					add_confederation_member = title:c_bremen.holder
+					add_confederation_member = title:c_stade.holder
+					add_confederation_member = title:c_hildesheim.holder
+					add_confederation_member = title:c_hannover.holder
+					add_confederation_member = title:c_wolpe.holder
+					add_confederation_member = title:c_brunswick.holder
+					add_confederation_member = title:c_dannenberg.holder
+					add_confederation_member = title:c_luneburg.holder
+					add_confederation_member = title:c_hamburg.holder
+					add_confederation_member = title:c_lippe.holder
+					add_confederation_member = title:c_paderborn.holder
+					add_confederation_member = title:c_stendal.holder
+					add_confederation_member = title:c_lubeck.holder
+					add_confederation_member = title:c_ditmarschen.holder
+					add_confederation_member = title:c_gottingen.holder
+					add_confederation_member = title:c_halberstadt.holder
+					add_confederation_member = title:c_blankenburg.holder
+					add_confederation_member = title:c_mansfeld.holder
+				}
+			}
+		}
+		if = {
+			limit = {
+				game_start_date >= 632.1.1
+				game_start_date <= 633.1.1
+			}
+			title:c_osnabruck.holder = {
+				create_confederation = {
+					name = saxon_confederation_name_setup
+				}
+				scope:new_confederation = {
+					add_confederation_member = title:c_tecklenburg.holder
+					add_confederation_member = title:c_oldenburg.holder
+					add_confederation_member = title:c_minden.holder
+					add_confederation_member = title:c_bremen.holder
+					add_confederation_member = title:c_stade.holder
+					add_confederation_member = title:c_hildesheim.holder
+					add_confederation_member = title:c_hannover.holder
+					add_confederation_member = title:c_wolpe.holder
+					add_confederation_member = title:c_brunswick.holder
+					add_confederation_member = title:c_dannenberg.holder
+					add_confederation_member = title:c_luneburg.holder
+					add_confederation_member = title:c_hamburg.holder
+					add_confederation_member = title:c_lippe.holder
+					add_confederation_member = title:c_paderborn.holder
+					add_confederation_member = title:c_stendal.holder
+					add_confederation_member = title:c_lubeck.holder
+					add_confederation_member = title:c_ditmarschen.holder
+				}
+			}
+		}
+		#Seven Slavic Tribes set up
+		if = {
+			limit = {
+				game_start_date >= 632.1.1
+				game_start_date <= 633.1.1
+			}
+			title:c_giurgiu.holder = {
+				create_confederation = {
+					name = d_seven_slavic_tribes
+				}
+				scope:new_confederation = {
+					add_confederation_member = title:c_constanta.holder
+					add_confederation_member = title:c_buzau.holder
+					add_confederation_member = title:c_craiova.holder
+					add_confederation_member = title:c_calafat.holder
+					add_confederation_member = title:c_nikopolis.holder
+					add_confederation_member = title:c_turnovo.holder
+				}
+			}
+		}
+		#make Constantine III Co-Emperor of Heraclius
+		character:145071 = {
+			#Heraclius
+			if = {
+				limit = {
+					game_start_date = 632.6.8
+					has_ep3_dlc_trigger = yes
+				}
+				try_start_diarchy = co_emperorship
+				set_diarch = character:70509				#Constantine Heraclius
+				set_designated_heir = character:70509
+			}
+		}
+		# Make sure that Dagobert has Neustria as his primary title
+		if = {
+			limit = {
+				game_start_date = 632.6.8
+			}
+			character:168696 = {
+				set_primary_title_to = title:k_france
+			}
+		}
+	}
+} # End of "common/on_action/TFE_game_start.txt"
+
+# Can probably move this to replaceable_file_blocks_tfe.txt once that is working properly so this file isn't as long, and just have the call to the set_minorities_game_start on_action get removed
 "common/on_action/sea_minority_game_start.txt" = {
 	# Anachronistic
 	{
@@ -1043,107 +1258,50 @@ set_minorities_game_start = {
 		# Punic
 		if = {
 			limit = {
-				game_start_date <= 600.1.1
+				game_start_date < 600.1.1
 			}
 			add_culture_minority_effect = {
 				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_tunis
+				SIZE = small
+				COUNTY = title:c_syrte
 			}
 			add_faith_minority_effect = {
 				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_tunis
+				SIZE = small
+				COUNTY = title:c_syrte
 			}
 			add_culture_minority_effect = {
 				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_satfura
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_satfura
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_medjerda
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_medjerda
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_kairwan
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_kairwan
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_mahdiya
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_mahdiya
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_sfax
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_sfax
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_gabes
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_gabes
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_djerba
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_djerba
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
-				COUNTY = title:c_tripolitana
-			}
-			add_faith_minority_effect = {
-				FAITH = faith:carthage_pagan
-				SIZE = large
-				COUNTY = title:c_tripolitana
-			}
-			add_culture_minority_effect = {
-				CULTURE = culture:punic
-				SIZE = large
+				SIZE = small
 				COUNTY = title:c_labda
 			}
 			add_faith_minority_effect = {
 				FAITH = faith:carthage_pagan
-				SIZE = large
+				SIZE = small
 				COUNTY = title:c_labda
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:punic
+				SIZE = small
+				COUNTY = title:c_tripolitana
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:carthage_pagan
+				SIZE = small
+				COUNTY = title:c_tripolitana
+			}
+		}
+
+		# Romans in Vandal Carthage
+		if = {
+			limit = {
+				game_start_date < 550.1.1
+				game_start_date > 440.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:afro_roman
+				SIZE = large
+				COUNTY = title:c_tunis
 			}
 		}
 
@@ -1399,11 +1557,6 @@ set_minorities_game_start = {
 			SIZE = large
 			COUNTY = title:c_kongu
 		}
-		add_faith_minority_effect = {
-			FAITH = faith:dravida_saiva
-			SIZE = large
-			COUNTY = title:c_korkai
-		}
 
 		# Digambaras in Tamilakam
 		add_faith_minority_effect = {
@@ -1420,11 +1573,6 @@ set_minorities_game_start = {
 			FAITH = faith:digambara
 			SIZE = large
 			COUNTY = title:c_madurai
-		}
-		add_faith_minority_effect = {
-			FAITH = faith:dravida_saiva
-			SIZE = large
-			COUNTY = title:c_korkai
 		}
 
 		# Tamils in Tambapanni
@@ -2400,6 +2548,11 @@ set_minorities_game_start = {
 			SIZE = large
 			COUNTY = title:c_batina
 		}
+		add_faith_minority_effect = { # There were Mazdakite communities in Arabia, unclear where
+			FAITH = faith:mazdakism
+			SIZE = small
+			COUNTY = title:c_batina
+		}
 		add_culture_minority_effect = {
 			CULTURE = culture:persian
 			SIZE = large
@@ -2408,6 +2561,11 @@ set_minorities_game_start = {
 		add_faith_minority_effect = {
 			FAITH = faith:mazdayasna
 			SIZE = large
+			COUNTY = title:c_muscat
+		}
+		add_faith_minority_effect = { # There were Mazdakite communities in Arabia, unclear where
+			FAITH = faith:mazdakism
+			SIZE = small
 			COUNTY = title:c_muscat
 		}
 		add_culture_minority_effect = {
@@ -2417,6 +2575,11 @@ set_minorities_game_start = {
 		}
 		add_faith_minority_effect = {
 			FAITH = faith:mazdayasna
+			SIZE = small
+			COUNTY = title:c_julfar
+		}
+		add_faith_minority_effect = { # There were Mazdakite communities in Arabia, unclear where
+			FAITH = faith:mazdakism
 			SIZE = small
 			COUNTY = title:c_julfar
 		}
@@ -4311,6 +4474,344 @@ set_minorities_game_start = {
 			COUNTY = title:c_yumenguan
 		}
 
+		# Egyptians across the border in Nubia
+		add_culture_minority_effect = {
+			CULTURE = culture:kemetic
+			SIZE = large
+			COUNTY = title:c_kalabsha
+		}
+		add_culture_minority_effect = {
+			CULTURE = culture:aegyptian
+			SIZE = large
+			COUNTY = title:c_kalabsha
+		}
+		if = {
+			limit = {
+				game_start_date <= 476.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:egyptian_pagan
+				SIZE = large
+				COUNTY = title:c_kalabsha
+			}
+		}
+		# Roman remnants in Dodekaschoinos (northern part of Triakontaschoinos) which was abandoned in 298 CE officially
+		if = {
+			limit = {
+				game_start_date < 400.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:kemetic
+				SIZE = small
+				COUNTY = title:c_qurta
+			}			
+			add_culture_minority_effect = {
+				CULTURE = culture:aegyptian
+				SIZE = small
+				COUNTY = title:c_qurta
+			}			
+			add_faith_minority_effect = {
+				FAITH = faith:egyptian_pagan
+				SIZE = small
+				COUNTY = title:c_qurta
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:kemetic
+				SIZE = small
+				COUNTY = title:c_qasr_ibrim
+			}			
+			add_culture_minority_effect = {
+				CULTURE = culture:aegyptian
+				SIZE = small
+				COUNTY = title:c_qasr_ibrim
+			}			
+			add_faith_minority_effect = {
+				FAITH = faith:egyptian_pagan
+				SIZE = small
+				COUNTY = title:c_qasr_ibrim
+			}
+		}
+		#Brittonic minority in south-east Britain
+		if = {
+			limit = {
+				game_start_date < 600.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:briton
+				SIZE = large
+				COUNTY = title:c_essex
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:briton
+				SIZE = large
+				COUNTY = title:c_kent
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:briton
+				SIZE = large
+				COUNTY = title:c_surrey
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:briton
+				SIZE = large
+				COUNTY = title:c_sussex
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:briton
+				SIZE = large
+				COUNTY = title:c_hampton
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:briton
+				SIZE = large
+				COUNTY = title:c_isle_of_wight
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:briton
+				SIZE = small
+				COUNTY = title:c_middlesex
+			}
+		}
+		#Britano-Roman minority in major british cities
+		if = {
+			limit = {
+				game_start_date < 410.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:britano_roman
+				SIZE = small
+				COUNTY = title:c_gloucestershire
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:britano_roman
+				SIZE = small
+				COUNTY = title:c_warwickshire
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:britano_roman
+				SIZE = small
+				COUNTY = title:c_north_riding
+			}
+		}
+		#Greeks in Constantinople
+		if = {
+			limit = {
+				game_start_date < 476.1.1
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:greek
+				SIZE = large
+				COUNTY = title:c_byzantion
+			}
+		}
+		# Judaism in North Arabia
+		if = {
+			limit = {
+				game_start_date < 600.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:rabbinism
+				SIZE = large
+				COUNTY = title:c_medina
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:rabbinism
+				SIZE = large
+				COUNTY = title:c_tayma
+			}
+		}
+		# Emerging Christianity in Arabia
+		if = {
+			limit = {
+				game_start_date < 395.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_al-arid
+			}
+		}
+		if = {
+			limit = {
+				game_start_date > 390.1.1
+				game_start_date < 451.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_surrah
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_yamama
+			}
+		}
+		if = {
+			limit = {
+				game_start_date > 451.1.1
+				game_start_date < 532.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = small
+				COUNTY = title:c_falaj
+			}
+		}
+		if = {
+			limit = {
+				game_start_date > 532.1.1
+				game_start_date < 600.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:chalcedonian
+				SIZE = large
+				COUNTY = title:c_yamama
+			}
+		}
+
+		if = {
+			limit = {
+				game_start_date > 300.1.1
+				game_start_date < 395.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_qatif
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_uwal
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_uqayr
+			}
+		}
+		if = {
+			limit = {
+				game_start_date > 395.1.1
+				game_start_date < 451.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_qatif
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_uwal
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = large
+				COUNTY = title:c_uqayr
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_julfar
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nicene
+				SIZE = small
+				COUNTY = title:c_dhafra
+			}
+
+		}
+		if = {
+			limit = {
+				game_start_date > 451.1.1
+				game_start_date < 532.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_uqayr
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_dhafra
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_julfar
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_uwal
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:mazdayasna
+				SIZE = small
+				COUNTY = title:c_uwal
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:persian
+				SIZE = small
+				COUNTY = title:c_uwal
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = large
+				COUNTY = title:c_qatif
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = small
+				COUNTY = title:c_batina
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:nestorian
+				SIZE = small
+				COUNTY = title:c_muscat
+			}
+		}
+		# Persians in North East Arabia
+		if = {
+			limit = {
+				game_start_date > 532.1.1
+				game_start_date < 600.1.1
+			}
+			add_faith_minority_effect = {
+				FAITH = faith:mazdayasna
+				SIZE = large
+				COUNTY = title:c_uwal
+			}
+			add_faith_minority_effect = { # There were Mazdakite communities in Arabia, unclear where
+				FAITH = faith:mazdakism
+				SIZE = small
+				COUNTY = title:c_uwal
+			}
+			add_culture_minority_effect = {
+				CULTURE = culture:persian
+				SIZE = large
+				COUNTY = title:c_uwal
+			}
+		}
+		# Ebionites in North West Arabia that possibly survived in NW Arabia, particularly Tayma, into the 11th century
+		add_faith_minority_effect = {
+			FAITH = faith:ebionite
+			SIZE = large
+			COUNTY = title:c_tabuk
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:ebionite
+			SIZE = large
+			COUNTY = title:c_maan
+		}
+		add_faith_minority_effect = {
+			FAITH = faith:ebionite
+			SIZE = large
+			COUNTY = title:c_tayma
+		}
 	}
 }
 	}
@@ -4321,11 +4822,6 @@ set_minorities_game_start = {
 }
 
 "common/on_action/government_change_on_actions.txt" = {
-	{
-						NOT = {
-							THIS = character:taifal_01
-						}
-	}
 	{
 						NOT = {
 							THIS = character:persian_armenia_01
@@ -4347,449 +4843,81 @@ set_minorities_game_start = {
 						}
 	}
 	{
-		title:e_mongolia = {
-			every_in_de_jure_hierarchy = {
-				limit = {
-					is_title_created = yes
-				}
-				holder = {
-					if = {
-						limit = {
-							has_government = tribal_government
-						}
-						change_government = nomadic_government
-					}
-				}
-			}
-		}
-		title:e_siberia = {
-			every_in_de_jure_hierarchy = {
-				limit = {
-					is_title_created = yes
-				}
-				holder = {
-					if = {
-						limit = {
-							has_government = tribal_government
-						}
-						change_government = nomadic_government
-					}
-				}
-			}
-		}
-		title:e_volga-ural = {
-			every_in_de_jure_hierarchy = {
-				limit = {
-					is_title_created = yes
-				}
-				holder = {
-					if = {
-						limit = {
-							has_government = tribal_government
-						}
-						change_government = nomadic_government
-					}
-				}
-			}
-		}
-		title:e_tartaria = {
-			every_in_de_jure_hierarchy = {
-				limit = {
-					is_title_created = yes
-				}
-				holder = {
-					if = {
-						limit = {
-							has_government = tribal_government
-						}
-						change_government = nomadic_government
-					}
-				}
-			}
-		}
-		title:k_oghuz_il = {
-			every_in_de_jure_hierarchy = {
-				limit = {
-					is_title_created = yes
-				}
-				holder = {
-					if = {
-						limit = {
-							has_government = tribal_government
-						}
-						change_government = nomadic_government
-					}
-				}
-			}
-		}
-		title:e_rajastan = {
-			every_in_de_jure_hierarchy = {
-				limit = {
-					is_title_created = yes
-				}
-				holder = {
-					if = {
-						limit = {
-							culture ?= {
-								has_cultural_tradition = tradition_gana_sangha
-							}
-							government_has_flag = government_is_tribal
-						}
-						change_government = gana_sangha_government
-						primary_title = {
-							add_title_law = gana_sangha_elective_succession_law
-						}
-					}
-				}
-			}
-		}
-	}
-
-	# Anachronistic
-	{
-		if = {
-			limit = {
-				AND = {
-				title:k_croatia = {
-					is_title_created = yes
-				}
-					title:k_croatia.holder ?= {
-						game_start_date = 476.9.4
-					}
-				}
-			}
-			title:k_croatia.holder ?= {
-				if = {
-					limit = {
-						highest_held_title_tier >= tier_kingdom
-						has_dlc_feature = roads_to_power
-					}
-					change_government = autocratic_government_ep3
-				}
-				else_if = {
-					change_government = autocratic_government
-				}
-				every_vassal_or_below = {
-					limit = {
-						OR = {
-						has_government = feudal_government
-						has_government = republic_government
-						}
-					}
-					if = {
-						limit = {
-							highest_held_title_tier >= tier_county
-							has_dlc_feature = roads_to_power
-						}
-						change_government = autocratic_government_ep3
-					}
-					else_if = {
-						limit = {
-							highest_held_title_tier >= tier_county
-						}
-						change_government = autocratic_government
-					}
-				}
-			}
-		}
-	}
-
-	# Anachronistic
-	{
-		if = {
-			limit = {
-				AND = {
-				title:k_france = {
-					is_title_created = yes
-				}
-					title:k_croatia.holder ?= {
-						game_start_date = 476.9.4
-					}
-				}
-			}
-			title:k_france.holder ?= {
-				if = {
-					limit = {
-						highest_held_title_tier >= tier_kingdom
-						has_dlc_feature = roads_to_power
-					}
-					change_government = autocratic_government_ep3
-				}
-				else_if = {
-					change_government = autocratic_government
-				}
-				every_vassal_or_below = {
-					limit = {
-						OR = {
-						has_government = feudal_government
-						has_government = republic_government
-						}
-						NOT = {
-							THIS = character:alan_13
-						}
-					}
-					if = {
-						limit = {
-							highest_held_title_tier >= tier_county
-							has_dlc_feature = roads_to_power
-						}
-						change_government = autocratic_government_ep3
-					}
-					else_if = {
-						limit = {
-							highest_held_title_tier >= tier_county
-						}
-						change_government = autocratic_government
-					}
-				}
-			}
-		}
-	}
-
-	# Anachronistic
-	{
-		if = {
-			limit = {
-				current_date = 476.9.4
-			}
-			title:k_visigoths.holder ?= {
-				change_government = roman_government
-				every_held_title = {
-					limit = {
-						AND = {
-							tier = tier_county
-							NOT = {
-								title_province = {
-									has_holding_type = estate_holding
-								}
-							}
-						}
-					}
-					title_province = {
-						set_holding_type = estate_holding
-					}
-				}
-				every_vassal_or_below = {
-					limit = {
-						has_government = feudal_government
-					}
-					change_government = roman_government
-					every_held_title = {
-						limit = {
-							AND = {
-								tier = tier_county
-								NOT = {
-									title_province = {
-										has_holding_type = estate_holding
-									}
-								}
-							}
-						}
-						title_province = {
-							set_holding_type = estate_holding
-						}
-					}
-				}
-			}
-			title:e_spain = {
+			title:e_mongolia = {
 				every_in_de_jure_hierarchy = {
 					limit = {
-						AND = {
-							tier = tier_county
-							holder = {
-								OR = {
-								government_has_flag = government_is_autocratic
-								government_has_flag = government_is_autocratic_ep3
-								}
-							}
-							holder = {
-								highest_held_title_tier = tier_county
-							}
-						}
+						is_title_created = yes
 					}
 					holder = {
-						change_government = roman_government
-						every_held_title = {
+						if = {
 							limit = {
-								AND = {
-									tier = tier_county
-									NOT = {
-										title_province = {
-											has_holding_type = estate_holding
-										}
-									}
-								}
+								has_government = tribal_government
 							}
-							title_province = {
-								set_holding_type = estate_holding
-							}
+							change_government = nomad_government
 						}
 					}
 				}
 			}
-			title:k_italy.holder ?= {
-				change_government = roman_government
-				every_held_title = {
-					limit = {
-						AND = {
-							tier = tier_county
-							NOT = {
-								title_province = {
-									has_holding_type = estate_holding
-								}
-							}
-						}
-					}
-					title_province = {
-						set_holding_type = estate_holding
-					}
-				}
-				every_vassal_or_below = {
-					limit = {
-						has_government = feudal_government
-					}
-					change_government = roman_government
-					every_held_title = {
-						limit = {
-							AND = {
-								tier = tier_county
-								NOT = {
-									title_province = {
-										has_holding_type = estate_holding
-									}
-								}
-							}
-						}
-						title_province = {
-							set_holding_type = estate_holding
-						}
-					}
-				}
-			}
-		}
-		if = {
-			limit = {
-				current_date = 532.2.1
-			}
-			title:k_visigoths.holder ?= {
-				change_government = roman_government
-				every_held_title = {
-					limit = {
-						AND = {
-							tier = tier_county
-							NOT = {
-								title_province = {
-									has_holding_type = estate_holding
-								}
-							}
-						}
-					}
-					title_province = {
-						set_holding_type = estate_holding
-					}
-				}
-				every_vassal_or_below = {
-					limit = {
-						OR = {
-							has_government = feudal_government
-							has_government = autocratic_government
-							has_government = autocratic_government_ep3
-						}
-					}
-					change_government = roman_government
-					every_held_title = {
-						limit = {
-							AND = {
-								tier = tier_county
-								NOT = {
-									title_province = {
-										has_holding_type = estate_holding
-									}
-								}
-							}
-						}
-						title_province = {
-							set_holding_type = estate_holding
-						}
-					}
-				}
-			}
-			title:e_spain = {
+			title:e_siberia = {
 				every_in_de_jure_hierarchy = {
 					limit = {
-						AND = {
-							tier = tier_county
-							holder = {
-								OR = {
-								government_has_flag = government_is_autocratic
-								government_has_flag = government_is_autocratic_ep3
-								}
-							}
-							holder = {
-								highest_held_title_tier = tier_county
-							}
-						}
+						is_title_created = yes
 					}
 					holder = {
-						change_government = roman_government
-						every_held_title = {
+						if = {
 							limit = {
-								AND = {
-									tier = tier_county
-									NOT = {
-										title_province = {
-											has_holding_type = estate_holding
-										}
-									}
-								}
+								has_government = tribal_government
 							}
-							title_province = {
-								set_holding_type = estate_holding
-							}
+							change_government = nomad_government
 						}
 					}
 				}
 			}
-			title:k_ostrogoths.holder ?= {
-				change_government = roman_government
-				every_held_title = {
+			title:e_volga-ural = {
+				every_in_de_jure_hierarchy = {
 					limit = {
-						AND = {
-							tier = tier_county
-							NOT = {
-								title_province = {
-									has_holding_type = estate_holding
-								}
+						is_title_created = yes
+					}
+					holder = {
+						if = {
+							limit = {
+								has_government = tribal_government
 							}
-						}
-					}
-					title_province = {
-						set_holding_type = estate_holding
-					}
-				}
-				every_vassal_or_below = {
-					limit = {
-						has_government = feudal_government
-					}
-					change_government = roman_government
-					every_held_title = {
-						limit = {
-							AND = {
-								tier = tier_county
-								NOT = {
-									title_province = {
-										has_holding_type = estate_holding
-									}
-								}
-							}
-						}
-						title_province = {
-							set_holding_type = estate_holding
+							change_government = nomad_government
 						}
 					}
 				}
 			}
-		}
+			title:e_tartaria = {
+				every_in_de_jure_hierarchy = {
+					limit = {
+						is_title_created = yes
+					}
+					holder = {
+						if = {
+							limit = {
+								has_government = tribal_government
+							}
+							change_government = nomad_government
+						}
+					}
+				}
+			}
+			title:k_oghuz_il = {
+				every_in_de_jure_hierarchy = {
+					limit = {
+						is_title_created = yes
+					}
+					holder = {
+						if = {
+							limit = {
+								has_government = tribal_government
+							}
+							change_government = nomad_government
+						}
+					}
+				}
+			}
 	}
 }
 
@@ -4811,8 +4939,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:kushan_014
 					SUZERAIN = character:900963 
 				}
@@ -4825,8 +4953,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:matraka_01
 					SUZERAIN = character:900963 
 				}
@@ -4839,8 +4967,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:yaudheya_01
 					SUZERAIN = character:900963 
 				}
@@ -4853,8 +4981,8 @@ set_minorities_game_start = {
 			#			exists = character:900963
 			#		}
 			#	}
-			#	make_tributary = {
-			#		TYPE = tributary_permanent
+			#	start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 			#		TRIBUTARY = character:malava_01
 			#		SUZERAIN = character:900963 
 			#	}
@@ -4867,8 +4995,8 @@ set_minorities_game_start = {
 			#			exists = character:900963
 			#		}
 			#	}
-			#	make_tributary = {
-			#		TYPE = tributary_permanent
+			#	start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 			#		TRIBUTARY = character:guptasad_32
 			#		SUZERAIN = character:900963 
 			#	}
@@ -4881,8 +5009,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:karttripura_01
 					SUZERAIN = character:900963 
 				}
@@ -4895,8 +5023,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:licchavi_02
 					SUZERAIN = character:900963
 				}
@@ -4909,8 +5037,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:190054
 					SUZERAIN = character:900963 
 				}
@@ -4923,8 +5051,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:davaka_01
 					SUZERAIN = character:900963 
 				}
@@ -4937,8 +5065,8 @@ set_minorities_game_start = {
 			#			exists = character:900963
 			#		}
 			#	}
-			#	make_tributary = {
-			#		TYPE = tributary_permanent
+			#	start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 			#		TRIBUTARY = character:samatata_01
 			#		SUZERAIN = character:900963 
 			#	}
@@ -4951,8 +5079,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:orissa_01
 					SUZERAIN = character:900963 
 				}
@@ -4965,8 +5093,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:orissa_02
 					SUZERAIN = character:900963 
 				}
@@ -4979,8 +5107,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:salankayana_01
 					SUZERAIN = character:900963 
 				}
@@ -4994,8 +5122,8 @@ set_minorities_game_start = {
 					}
 
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:orissa_06
 					SUZERAIN = character:900963 
 				}
@@ -5008,8 +5136,8 @@ set_minorities_game_start = {
 						exists = character:900963
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:orissa_08
 					SUZERAIN = character:900963 
 				}
@@ -5023,8 +5151,8 @@ set_minorities_game_start = {
 						exists = character:aksum_12
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:meroitic_misc_01
 					SUZERAIN = character:aksum_12 
 				}
@@ -5036,8 +5164,8 @@ set_minorities_game_start = {
 						exists = character:aksum_12
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:dinka_01
 					SUZERAIN = character:aksum_12 
 				}
@@ -5049,8 +5177,8 @@ set_minorities_game_start = {
 						exists = character:aksum_12
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:dinka_05
 					SUZERAIN = character:aksum_12 
 				}
@@ -5062,59 +5190,30 @@ set_minorities_game_start = {
 						exists = character:aksum_12
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:dinka_09
 					SUZERAIN = character:aksum_12 
 				}
 			}
-			character:990016 = {
-				add_prestige = 1500
-				add_gold = 250
-				spawn_army = {
-					name = "Hunnic Migrators"
-					levies = 1000
-					men_at_arms = {
-						type = horse_archers
-						stacks = 5
+			#Tanukhids
+			if = {
+				limit = {
+					AND = {
+						exists = character:tanukhid_01
+						exists = character:145237
 					}
-					men_at_arms = {
-						type = light_footmen
-						stacks = 5
-					}
-					men_at_arms = {
-						type = siege_towers
-						stacks = 5
-					}
-					location = title:b_itil.title_province
-					inheritable = no
 				}
-				spawn_army = {
-					name = "Hunnic Migrators"
-					levies = 1000
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 5
-					}
-					men_at_arms = {
-						type = horse_archers
-						stacks = 5
-					}
-					men_at_arms = {
-						type = siege_towers
-						stacks = 5
-					}
-					location = title:b_engels.title_province
-					inheritable = no
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:tanukhid_01
+					SUZERAIN = character:145237 
 				}
 			}
 		}
 		if = {
 			limit = {
-				AND = {
-					game_start_date > 394.1.1
-					game_start_date < 396.1.1
-				}
+				game_start_date = 395.1.17
 			}
 			###EASTERN ROMAN
 			if = {
@@ -5124,8 +5223,8 @@ set_minorities_game_start = {
 						exists = character:70519
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:judham_11
 					SUZERAIN = character:70519 
 				}
@@ -5137,8 +5236,8 @@ set_minorities_game_start = {
 						exists = character:70519
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:amilah_01
 					SUZERAIN = character:70519 
 				}
@@ -5150,8 +5249,8 @@ set_minorities_game_start = {
 						exists = character:70519
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:lazika_03
 					SUZERAIN = character:70519 
 				}
@@ -5163,8 +5262,8 @@ set_minorities_game_start = {
 						exists = character:70519
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:tanukhid_011
 					SUZERAIN = character:70519 
 				}
@@ -5179,8 +5278,8 @@ set_minorities_game_start = {
 			#			exists = character:2020123
 			#		}
 			#	}
-			#	make_tributary = {
-			#		TYPE = tributary_permanent
+			#	start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 			#		TRIBUTARY = character:matraka_01
 			#		SUZERAIN = character:2020123 
 			#	}
@@ -5193,8 +5292,8 @@ set_minorities_game_start = {
 						exists = character:2020123
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:yaudheya_01
 					SUZERAIN = character:2020123 
 				}
@@ -5207,8 +5306,8 @@ set_minorities_game_start = {
 						exists = character:2020123
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:karttripura_02
 					SUZERAIN = character:2020123 
 				}
@@ -5221,8 +5320,8 @@ set_minorities_game_start = {
 						exists = character:2020123
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:licchavi_02
 					SUZERAIN = character:2020123 
 				}
@@ -5235,8 +5334,8 @@ set_minorities_game_start = {
 						exists = character:2020123
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:190055
 					SUZERAIN = character:2020123 
 				}
@@ -5249,8 +5348,8 @@ set_minorities_game_start = {
 						exists = character:2020123
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:davaka_01
 					SUZERAIN = character:2020123 
 				}
@@ -5263,8 +5362,8 @@ set_minorities_game_start = {
 			#			exists = character:2020123
 			#		}
 			#	}
-			#	make_tributary = {
-			#		TYPE = tributary_permanent
+			#	start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 			#		TRIBUTARY = character:samatata_01
 			#		SUZERAIN = character:2020123 
 			#	}
@@ -5274,6 +5373,34 @@ set_minorities_game_start = {
 			limit = {
 				game_start_date = 476.9.4
 			}
+			#Theodoric
+			if = {
+				limit = {
+					AND = {
+						exists = character:992016
+						exists = character:70515
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:992016
+					SUZERAIN = character:70515
+				}
+			}
+			#Strabo
+			if = {
+				limit = {
+					AND = {
+						exists = character:strabo_02
+						exists = character:70515
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:strabo_02
+					SUZERAIN = character:70515
+				}
+			}
 			if = {
 				limit = {
 					AND = {
@@ -5281,8 +5408,8 @@ set_minorities_game_start = {
 						exists = character:70515
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:996002
 					SUZERAIN = character:70515
 				}
@@ -5294,8 +5421,8 @@ set_minorities_game_start = {
 						exists = character:70515
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:tanukhid_03
 					SUZERAIN = character:70515 
 				}
@@ -5307,8 +5434,8 @@ set_minorities_game_start = {
 						exists = character:70515
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:lazika_05
 					SUZERAIN = character:70515 
 				}
@@ -5365,9 +5492,20 @@ set_minorities_game_start = {
 		###WESTERN ROMAN AND AFRICAN
 		if = {
 			limit = {
-				AND = {
-					game_start_date > 394.1.1
-					game_start_date < 396.1.1
+				game_start_date = 395.1.17
+			}
+			#Franks
+			if = {
+				limit = {
+					AND = {
+						exists = character:900016
+						exists = character:145227
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:900016
+					SUZERAIN = character:145227 
 				}
 			}
 			if = {
@@ -5377,8 +5515,8 @@ set_minorities_game_start = {
 						exists = character:145227
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:159009
 					SUZERAIN = character:145227
 				}
@@ -5390,8 +5528,8 @@ set_minorities_game_start = {
 						exists = character:145227
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:mauri_18
 					SUZERAIN = character:145227
 				}
@@ -5403,8 +5541,8 @@ set_minorities_game_start = {
 						exists = character:145227
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:afroroman_01
 					SUZERAIN = character:145227
 				}
@@ -5416,8 +5554,8 @@ set_minorities_game_start = {
 						exists = character:mauri_18
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:mauri_28
 					SUZERAIN = character:mauri_18
 				}
@@ -5429,30 +5567,27 @@ set_minorities_game_start = {
 						exists = character:145227
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:mauri_23
 					SUZERAIN = character:145227
 				}
 			}
 		}
-
+		#ROMAN TRIBS 361
 		if = {
 			limit = {
-				AND = {
-					game_start_date > 360.1.1
-					game_start_date < 362.1.1
-				}
+				game_start_date = 361.11.17
 			}
 			if = {
 				limit = {
 					AND = {
-						exists = character:afroroman_01
-						exists = character:145237
+						exists = character:afroroman_01 #Navigius
+						exists = character:145237 #Julian
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:afroroman_01
 					SUZERAIN = character:145237
 				}
@@ -5461,11 +5596,11 @@ set_minorities_game_start = {
 				limit = {
 					AND = {
 						exists = character:mauri_17
-						exists = character:145237
+						exists = character:145237 #Julian
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:mauri_17
 					SUZERAIN = character:145237
 				}
@@ -5473,12 +5608,12 @@ set_minorities_game_start = {
 			if = {
 				limit = {
 					AND = {
-						exists = character:arsacid_46
-						exists = character:145237
+						exists = character:arsacid_46 #Arshak (Armenia)
+						exists = character:145237 #Julian
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:arsacid_46
 					SUZERAIN = character:145237
 				}
@@ -5490,8 +5625,8 @@ set_minorities_game_start = {
 						exists = character:mauri_17
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:mauri_27
 					SUZERAIN = character:mauri_17
 				}
@@ -5500,12 +5635,38 @@ set_minorities_game_start = {
 				limit = {
 					AND = {
 						exists = character:mauri_22
-						exists = character:145237
+						exists = character:145237 #Julian
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:mauri_22
+					SUZERAIN = character:145237
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:lazika_03 #Levan (Lazica)
+						exists = character:145237 #Julian
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:lazika_03
+					SUZERAIN = character:145237
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:159758 #Saurmag (Iberia)
+						exists = character:145237 #Julian
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:159758
 					SUZERAIN = character:145237
 				}
 			}
@@ -5517,22 +5678,9 @@ set_minorities_game_start = {
 						exists = character:180617
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:159582
-					SUZERAIN = character:180617 
-				}
-			}
-			if = {
-				limit = {
-					AND = {
-						exists = character:159758
-						exists = character:180617
-					}
-				}
-				make_tributary = {
-					TYPE = tributary_permanent
-					TRIBUTARY = character:159758
 					SUZERAIN = character:180617 
 				}
 			}
@@ -5543,8 +5691,8 @@ set_minorities_game_start = {
 						exists = character:180617
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:lakhmid_03
 					SUZERAIN = character:180617 
 				}
@@ -5556,78 +5704,36 @@ set_minorities_game_start = {
 						exists = character:himyar_11
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:khinda_05
 					SUZERAIN = character:himyar_11
 				}
 			}
-			#character:990016 ?= {
-			#	add_gold = 250
-			#	spawn_army = {
-			#		name = "Hunnic Invaders"
-			#		levies = 2000
-			#		men_at_arms = {
-			#			type = light_horsemen
-			#			stacks = 15
-			#		}
-			#		men_at_arms = {
-			#			type = horse_archers
-			#			stacks = 15
-			#		}
-			#		men_at_arms = {
-			#			type = siege_towers
-			#			stacks = 5
-			#		}
-			#		location = capital_province
-			#		inheritable = no
-			#	}
-			#	spawn_army = {
-			#		name = "Hunnic Invaders"
-			#		levies = 1000
-			#		men_at_arms = {
-			#			type = light_horsemen
-			#			stacks = 10
-			#		}
-			#		men_at_arms = {
-			#			type = horse_archers
-			#			stacks = 10
-			#		}
-			#		men_at_arms = {
-			#			type = siege_towers
-			#			stacks = 5
-			#		}
-			#		location = capital_province
-			#		inheritable = yes
-			#	}
-			#}
 		}
 		
 		###PERSIAN
 		if = {
 			limit = {
-				AND = {
-					game_start_date > 394.1.1
-					game_start_date < 396.1.1
-				}
+				game_start_date = 395.1.17
 			}
-			make_tributary = {
-				TYPE = tributary_permanent
+			start_tributary_interaction_effect = {
+				#TYPE = tributary_permanent
 				TRIBUTARY = character:lakhmid_06
 				SUZERAIN = character:180618 
 			}
-			make_tributary = {
-				TYPE = tributary_permanent
+			start_tributary_interaction_effect = {
+				#TYPE = tributary_permanent
 				TRIBUTARY = character:159583
 				SUZERAIN = character:180618 
 			}
-			make_tributary = {
-				TYPE = tributary_permanent
+			start_tributary_interaction_effect = {
+				#TYPE = tributary_permanent
 				TRIBUTARY = character:159761
 				SUZERAIN = character:180618 
 			}
-			make_tributary = {
-				TYPE = tributary_permanent
+			start_tributary_interaction_effect = {
+				#TYPE = tributary_permanent
 				TRIBUTARY = character:arsacid_58
 				SUZERAIN = character:180618 
 			}
@@ -5646,8 +5752,8 @@ set_minorities_game_start = {
 						exists = character:180624
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:lakhmid_08
 					SUZERAIN = character:180624 
 				}
@@ -5659,8 +5765,8 @@ set_minorities_game_start = {
 						exists = character:180624
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:159766
 					SUZERAIN = character:180624 
 				}
@@ -5672,8 +5778,8 @@ set_minorities_game_start = {
 						exists = character:180624
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:159859
 					SUZERAIN = character:180624 
 				}
@@ -5695,13 +5801,36 @@ set_minorities_game_start = {
 						exists = character:2020123
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = character:salankayana_02
 					SUZERAIN = character:2020123
 				}
 			}
 		}
+		
+		###TIBET
+		# if = {
+		# 	limit = {
+		# 		AND = {
+		# 			game_start_date > 630.1.1
+		# 			game_start_date < 640.1.1
+		# 		}
+		# 	}
+		# 	if = {
+		# 		limit = {
+		# 			AND = {
+		# 				exists = character:sumpa_10
+		# 				exists = character:247075
+		# 			}
+		# 		}
+		# 		start_tributary_interaction_effect = {
+		# 			#TYPE = tributary_permanent
+		# 			TRIBUTARY = character:sumpa_10
+		# 			SUZERAIN = character:247075
+		# 		}
+		# 	}
+		# }
 
 		###532 BM Caucasus
 		if = {
@@ -5711,6 +5840,20 @@ set_minorities_game_start = {
 					game_start_date < 540.1.1
 				}
 			}
+			#Heruli
+			if = {
+				limit = {
+					AND = {
+						exists = title:k_heruli.holder
+						exists = title:e_byzantium.holder
+					}
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = title:k_heruli.holder
+					SUZERAIN = title:e_byzantium.holder
+				}
+			}
 			if = {
 				limit = {
 					AND = {
@@ -5718,8 +5861,8 @@ set_minorities_game_start = {
 						exists = title:e_byzantium.holder
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = title:d_abkhazia.holder
 					SUZERAIN = title:e_byzantium.holder
 				}
@@ -5731,8 +5874,8 @@ set_minorities_game_start = {
 						exists = title:e_persia.holder
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = title:d_georgia.holder
 					SUZERAIN = title:e_persia.holder
 				}
@@ -5744,8 +5887,8 @@ set_minorities_game_start = {
 						exists = title:e_persia.holder
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = title:d_albania.holder
 					SUZERAIN = title:e_persia.holder
 				}
@@ -5757,8 +5900,8 @@ set_minorities_game_start = {
 						exists = title:e_persia.holder
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = title:k_lakhmid.holder
 					SUZERAIN = title:e_persia.holder
 				}
@@ -5770,196 +5913,87 @@ set_minorities_game_start = {
 						exists = title:e_byzantium.holder
 					}
 				}
-				make_tributary = {
-					TYPE = tributary_permanent
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
 					TRIBUTARY = title:k_ghassanid.holder
 					SUZERAIN = title:e_byzantium.holder
 				}
 			}
 		}
 
-		#I'm too lazy to make another file :p
+		###632 BM/Bookmark Tributaries
 		if = {
 			limit = {
-				game_start_date = 476.9.4
-			}
-			title:k_italy.holder ?= {
-				add_gold = 200
-				spawn_army = {
-					name = "Scirian Invaders"
-					levies = 1500
-					men_at_arms = {
-						type = bowmen
-						stacks = 3
-					}
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 2
-					}
-					men_at_arms = {
-						type = light_footmen
-						stacks = 4
-					}
-					location = capital_province
-					inheritable = no
-				}
-				spawn_army = {
-					name = "Scirian Invaders"
-					levies = 1500
-					men_at_arms = {
-						type = bowmen
-						stacks = 3
-					}
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 2
-					}
-					men_at_arms = {
-						type = light_footmen
-						stacks = 4
-					}
-					location = capital_province
-					inheritable = yes
-				}
-			}
-			title:k_visigoths.holder ?= {
-				add_gold = 300
-				spawn_army = {
-					name = gothic_event_troops
-					levies = 2000
-					men_at_arms = {
-						type = bowmen
-						stacks = 2
-					}
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 2
-					}
-					men_at_arms = {
-						type = light_footmen
-						stacks = 4
-					}
-					location = capital_province
-					inheritable = no
-				}
-				spawn_army = {
-					name = gothic_event_troops
-					levies = 2000
-					men_at_arms = {
-						type = bowmen
-						stacks = 2
-					}
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 2
-					}
-					men_at_arms = {
-						type = light_footmen
-						stacks = 4
-					}
-					location = capital_province
-					inheritable = yes
-				}
-			}
-		}
-		else_if = {
-			limit = {
 				AND = {
-					game_start_date > 394.1.1
-					game_start_date < 396.1.1
+					game_start_date > 630.1.1
+					game_start_date < 640.1.1
 				}
 			}
-			title:e_western_roman_empire.holder ?= {
-				add_gold = 1000
-			}
-			title:e_byzantium.holder ?= {
-				add_gold = 1000
-			}
-			character:200290 = {
-				remove_claim = title:d_muntenia
-			}
-			character:balamer_01 ?= {
-				add_prestige = 3000
-				spawn_army = {
-					name = "Hunnic Invaders"
-					levies = 2000
-					men_at_arms = {
-						type = horse_archers
-						stacks = 10
+			if = {
+				limit = {
+					AND = {
+						exists = title:c_bamian.holder
+						exists = title:k_kabulistan.holder # Tukhara Yabghus
 					}
-					men_at_arms = {
-						type = light_footmen
-						stacks = 20
-					}
-					men_at_arms = {
-						type = siege_towers
-						stacks = 5
-					}
-					location = title:b_peremyshl.title_province
-					inheritable = no
 				}
-				spawn_army = {
-					name = "Hunnic Invaders"
-					levies = 2000
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 10
-					}
-					men_at_arms = {
-						type = horse_archers
-						stacks = 10
-					}
-					men_at_arms = {
-						type = light_footmen
-						stacks = 10
-					}
-					men_at_arms = {
-						type = siege_towers
-						stacks = 5
-					}
-					location = title:b_stoenesti.title_province
-					inheritable = no
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = title:c_bamian.holder
+					SUZERAIN = title:k_kabulistan.holder
 				}
 			}
-			character:990000 ?= {
-				spawn_army = {
-					name = "Hunnic Invaders"
-					levies = 2000
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 10
+			###EASTERN ROMAN 632
+			if = {
+				limit = {
+					AND = {
+						exists = character:160025 #Barnuk (Lazica/Abkhazia)
+						exists = character:145071 #Heraclius
 					}
-					men_at_arms = {
-						type = horse_archers
-						stacks = 10
-					}
-					men_at_arms = {
-						type = siege_towers
-						stacks = 5
-					}
-					location = capital_province
-					inheritable = no
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:160025
+					SUZERAIN = character:145071
 				}
 			}
-			character:yujiulu_072 ?= {
-				add_prestige = 500
-				spawn_army = {
-					name = "Rouran Invaders"
-					levies = 1000
-					men_at_arms = {
-						type = light_horsemen
-						stacks = 3
+			if = {
+				limit = {
+					AND = {
+						exists = character:159778 #Adarnase (Iberia)
+						exists = character:145071 #Heraclius
 					}
-					men_at_arms = {
-						type = horse_archers
-						stacks = 3
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:159778
+					SUZERAIN = character:145071
+				}
+			}
+			if = {
+				limit = {
+					AND = {
+						exists = character:ghassanid_42 #Jabalah (Ghassanids)
+						exists = character:145071 #Heraclius
 					}
-					men_at_arms = {
-						type = siege_towers
-						stacks = 2
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:ghassanid_42
+					SUZERAIN = character:145071
+				}
+			}
+			###AVARS 632
+			if = {
+				limit = {
+					AND = {
+						exists = character:159117 #Kubrat
+						exists = character:146154 #Khuterkin
 					}
-					location = capital_province
-					inheritable = yes
+				}
+				start_tributary_interaction_effect = {
+					#TYPE = tributary_permanent
+					TRIBUTARY = character:159117
+					SUZERAIN = character:146154
 				}
 			}
 		}
@@ -6101,7 +6135,7 @@ set_minorities_game_start = {
 				NOT = { exists = title:k_ostrogoths.holder }
 				exists = title:e_byzantium.holder
 				has_global_variable = gothic_war_won
-				#NOT = { has_global_variable = has_eternal_peace }
+				NOT = { has_global_variable = ostrogoth_revolt }
 				NOT = { has_global_variable = gothic_war_stalemate }
 				title:e_byzantium.holder = {
 					any_vassal_or_below = {
@@ -6150,6 +6184,10 @@ set_minorities_game_start = {
 						}
 						top_liege = title:e_byzantium.holder
 					}
+				}
+				set_global_variable = {
+					name = ostrogoth_revolt
+					value = yes
 				}
 				trigger_event = {
 					id = germanic_events.0028
@@ -6569,6 +6607,137 @@ TFE_five_year_playable_pulse_hadrians_wall = {
 	}
 }
 	} # end of block
+
+	# This code handles de jure changes for when Rome loses control of certain regions. But it can mess up the converted save's de jure map setup at game start, so disabled it for now.
+	{
+		# WRE
+		if = { #Rome loses Italy
+			limit = {
+				NAND = {
+					has_global_variable = italia_suburbicariae_dejure_split
+					title:k_italia_suburbicariae = { is_titular = yes }
+					title:k_italia_annonariae = { is_titular = yes }
+				}
+				AND = {
+					any_county_in_region = {
+						region = italia_annonariae_and_suburbicariae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_western_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = italia_annonariae_and_suburbicariae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_byzantium.holder
+					}
+					any_county_in_region = {
+						region = italia_annonariae_and_suburbicariae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = italia_annonariae_and_suburbicariae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_gaul.holder
+					}
+				}
+			}
+			dejure_shift_italia_suburbicariae_effect = yes
+			dejure_shift_italia_annonariae_effect = yes
+		}
+		if = { #Rome loses Africae
+			limit = {
+				NAND = {
+					has_global_variable = africae_dejure_split
+					title:k_africae = { is_titular = yes }
+				}
+				AND = {
+					any_county_in_region = {
+						region = africae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_western_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = africae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_byzantium.holder
+					}
+					any_county_in_region = {
+						region = africae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = africae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_gaul.holder
+					}
+				}
+			}
+			dejure_shift_africae_effect = yes
+		}
+		if = { #Rome loses Illyricum
+			limit = {
+				NAND = {
+					has_global_variable = illyricum_dejure_split
+					title:k_pannonia = { is_titular = yes }
+				}
+				AND = {
+					any_county_in_region = {
+						region = illyricum_pannoniae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_western_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = illyricum_pannoniae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_byzantium.holder
+					}
+					any_county_in_region = {
+						region = illyricum_pannoniae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = illyricum_pannoniae_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_gaul.holder
+					}
+				}
+			}
+			dejure_shift_illyricum_effect = yes
+		}
+		if = { #Rome loses Britannia
+			limit = {
+				NOT = {
+					has_global_variable = britannia_dejure_split
+					title:k_britannia = { is_titular = yes }
+				}
+				AND = {
+					any_county_in_region = {
+						region = britannia_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_western_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = britannia_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_byzantium.holder
+					}
+					any_county_in_region = {
+						region = britannia_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_roman_empire.holder
+					}
+					any_county_in_region = {
+						region = britannia_diocese_region
+						percent <= 0.10
+						holder.top_liege = title:e_gaul.holder
+					}
+				}
+			}
+			dejure_shift_britannia_effect = yes
+		}
+	}
 }
 
 "common/on_action/death.txt" = {
@@ -6972,7 +7141,7 @@ start_vandalic_war_effect = {
 		start_war = {
 			cb = vandalic_war_cb
 			target = title:k_vandals.holder
-			target_title = title:k_vandals
+			target_title = title:k_vandals.holder.capital_county
 			claimant = global_var:justinian_commander
 		}
 	}
@@ -7237,10 +7406,19 @@ start_gothic_war_effect = {
 			}
 		}
 		title:e_byzantium.holder = {
+			if = {
+				limit = {
+					OR = {
+						any_truce_target = { this = title:k_ostrogoths.holder }
+						any_truce_holder = { this = title:k_ostrogoths.holder }
+					}
+				}
+				cancel_truce_both_ways = title:k_ostrogoths.holder
+			}
 			start_war = {
 				cb = gothic_war_regular_cb
 				target = title:k_ostrogoths.holder
-				target_title = title:k_ostrogoths
+				target_title = title:k_ostrogoths.holder.capital_county
 				claimant = title:e_byzantium.holder
 			}
 		}
@@ -7328,27 +7506,11 @@ end_gothic_war_early_effect = {
 	        }
 	}
 	{
-            	modifier = {
-               	add = 999
-                exists = this
-		        exists = character:himyarite_30 #Abraha
-		        this = character:himyarite_30 #Abraha
-	        }
-	}
-	{
             modifier = {
                 add = 999
 		        exists = this
                 exists = character:142 #robert_curthose
                 this = character:142 #robert_curthose
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:70515  #Zeno
-                this = character:70515  #Zeno
             }
 	}
 	{
@@ -7362,33 +7524,9 @@ end_gothic_war_early_effect = {
 	{
             modifier = {
                 add = 999
-                exists = this
-                exists = character:syagri_06 #Syagrus
-                this = character:syagri_06 #Syagrus
-            }
-	}
-	{
-	    modifier = {
-                add = 999
-                exists = this
-                exists = character:rugian_03 #Feletheus
-                this = character:rugian_03 #Feletheus
-            }
-	}
-	{
-            modifier = {
-                add = 999
 				exists = this
 				exists = character:6878 #jarl_haesteinn
 				this = character:6878 #jarl_haesteinn
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:aelling_01 #Aelle
-                this = character:aelling_01 #Aelle
             }
 	}
 
@@ -7419,30 +7557,6 @@ end_gothic_war_early_effect = {
                 exists = character:765 #princess_swietoslawa
                 this = character:765 #princess_swietoslawa
             }
-            modifier = {
-               	add = 999
-                exists = this
-                exists = character:930551279 #eudoxia
-                this = character:930551279 #eudoxia
-            }
-            modifier = {
-               	add = 999
-                exists = this
-                exists = character:placidia_01 #placidia
-                this = character:placidia_01 #placidia
-            }
-            modifier = {
-               	add = 999
-                exists = this
-                exists = character:900065 #serena
-                this = character:900065 #serena
-            }
-		modifier = {
-			add = 999
-                	exists = this
-                	exists = character:992020 #Amalasuntha
-                	this = character:992020 #Amalasuntha
-		}
  		modifier = {
 			add = 999
                 	exists = this
@@ -7551,11 +7665,6 @@ end_gothic_war_early_effect = {
                 exists = character:997005 #Chlodovech
                 this = character:997005 #Chlodovech
             }
-		modifier = {
-		add = 999
-		exists = character:997013 #Chlothar
-		this = character:997013 #Chlothar
-	    }
             modifier = {
                 add = 999
                 exists = this
@@ -7583,18 +7692,6 @@ end_gothic_war_early_effect = {
                 exists = this
                 exists = character:145072 #Focas
                 this = character:145072 #Focas
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:145071 #Heraclius
-                this = character:145071 #Heraclius
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:armenian_01 #Narses
-                this = character:armenian_01 #Narses
             }
             modifier = {
                 add = 999
@@ -7688,32 +7785,20 @@ end_gothic_war_early_effect = {
             modifier = {
                 add = 999
                 exists = this
-                exists = character:200290 #Atawulf
-                this = character:200290 #Arawulf
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:180618 #Bahram
-                this = character:180618 #Bahram
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997004 #Childeric
-                this = character:997004 #Childeric
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997009 #Theodoric Meroving
-                this = character:997009 #Theodoric Meroving
-            }
-            modifier = {
-                add = 999
-                exists = this
                 exists = character:997011 #Chlodomir
                 this = character:997011 #Chlodomir
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:168697 #Charibert
+                this = character:168697 #Charibert
+            }
+            modifier = {
+                add = 999
+                exists = this
+                exists = character:168696 #Dagobert
+                this = character:168696 #Dagobert
             }
 	}
 	{
@@ -7747,45 +7832,13 @@ end_gothic_war_early_effect = {
                 exists = character:easteregg_christian_daflos
                 this = character:easteregg_christian_daflos
             }
-            modifier = {
-                add = 999
-		exists = this
-                exists = character:70517  #Leo
-                this = character:70517  #Leo
-            }
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:mauro_roman_kings_02  #Massonas
-                this = character:mauro_roman_kings_02  #Massonas
-            }
 	}
 	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:205141 #Ceredig
-                this = character:205141 #Ceredig
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:70512 #Justinian
-                this = character:70512 #Justinian
-            }
             modifier = {
                 add = 999
                 exists = this
                 exists = character:cappadocia_07 #Ioannes
                 this = character:cappadocia_07 #Ioannes
-            }
-	}
-	{
-            modifier = {
-                add = 999
-				exists = this
-                exists = character:quadi_04 # Hermerich of the Quadi
-                this = character:quadi_04 # Hermerich of the Quadi
             }
 	}
 	{
@@ -7837,12 +7890,6 @@ end_gothic_war_early_effect = {
                 exists = character:easteregg_martin_anward
                 this = character:easteregg_martin_anward
             }
-            modifier = {
-                add = 999
-                exists = this
-		        exists = character:6392 #charlemagne
-		        this = character:6392 #charlemagne
-            }
 	}
 	{
             modifier = {
@@ -7874,43 +7921,7 @@ end_gothic_war_early_effect = {
                 exists = this
                 exists = character:easteregg_zack_holmgren
                 this = character:easteregg_zack_holmgren
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:159431 #Conan Meriadoc
-                this = character:159431 #tiberius
             } 
-            modifier = {
-               	add = 999
-                exists = this
-		        exists = character:999103 #king_alaric
-		        this = character:999103 #king_alaric
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:159038 #Coel
-                this = character:159038 #ACoel
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:constantinus_05 #Ambrosius
-                this = character:constantinus_05 #Ambrosius
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:mauri_42 #Iabdas
-                this = character:mauri_42 #Iabdas
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997002 #Chlodio
-                this = character:997002 #Chlodio
-            }
 	}
 	{
             modifier = {
@@ -7918,30 +7929,6 @@ end_gothic_war_early_effect = {
 				exists = this
 				exists = character:easteregg_james_beaumont
 				this = character:easteregg_james_beaumont
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:maldras_06 #Hermenerich
-                this = character:maldras_06 #Hermenerich
-            }
-	    modifier = {
-                add = 999
-                exists = this
-                exists = character:982001 #Abu Karib
-                this = character:982001 #Abu Karib
-            }
-	    modifier = {
-                add = 999
-                exists = this
-                exists = character:xionite_001 #Kidara
-                this = character:xionite_001 #Kidara
-            }
-	    modifier = {
-                add = 999
-                exists = this
-                exists = character:samo_01  #Samo
-                this = character:samo_01  #Samo
             }
 	}
 	{
@@ -7957,106 +7944,6 @@ end_gothic_war_early_effect = {
                 exists = character:1316 #emperor_heinrich
                 this = character:1316 #emperor_heinrich
             }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992016 #theodoric_the_great
-                this = character:992016 #theodoric_the_great
-            }
-            modifier = {
-                add = 999
-		        exists = this
-                exists = character:83432 #Eochaid
-                this = character:83432 #Eochaid
-            }
-	}
-	{
-            modifier = {
-             modifier = {
-                add = 999
-				exists = this
-                exists = character:easteregg_nils_wadensten
-                this = character:easteregg_nils_wadensten
-            }
-              	add = 999
-                exists = this
-		        exists = character:900062 #stilicho
-		        this = character:900062 #stilicho
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:70519  #Imperator Arcadius I
-                this = character:70519  #Imperator Arcadius I
-	        }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:145227 #Imperator Honorius I
-                this = character:145227 #Imperator Honorius I
-	        }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:nepos_02  #Nepos
-                this = character:nepos_02  #Nepos
-	        }
-            modifier = {
-               	add = 999
-                exists = this
-		exists = character:145237 #julian_the_apostate
-		this = character:145237 #julian_the_apostate
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:londinium_01 #Riothamus
-                this = character:londinium_01 #Riothamus
-            }
-	    modifier = {
-               	add = 999
-                exists = this
-		exists = character:arsacid_58 #vramshapuh
-		this = character:arsacid_58 #vramshapuh
-	    }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:vandals_005 #Hilderic
-                this = character:vandals_005 #Hilderic
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992022 #Theodahad
-                this = character:992022 #Theodahad
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:991004 #Mundus
-                this = character:991004 #Mundus
-            }
-             modifier = {
-                add = 999
-                exists = this
-                exists = character:greek_20 #Proklos
-                this = character:greek_20 #Proklos
-            }
-	}
-	{
-		modifier = {
-			add = 999
-                	exists = this
-                	exists = character:nuvelan_11 #Gildo
-                	this = character:nuvelan_11 #Gildo
-		}
-		modifier = {
-			add = 999
-                	exists = this
-                	exists = character:aksum_16 #Ouazeba
-                	this = character:aksum_16 #Ouazeba
-		}
 	}
 	{
             modifier = {
@@ -8103,12 +7990,6 @@ end_gothic_war_early_effect = {
                 exists = character:997003 #Merovech
                 this = character:997003 #Merovech
             }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992003 #Hermanaric
-                this = character:992003 #Hermanaric
-            }
 	}
 	{
             modifier = {
@@ -8134,12 +8015,6 @@ end_gothic_war_early_effect = {
 				exists = this
                 exists = character:easteregg_jonas_wickerstrom
                 this = character:easteregg_jonas_wickerstrom
-            }
-            modifier = {
-                add = 999
-                exists = this
-		        exists = character:900016 #faramund
-		        this = character:900016 #faramund
             }
 	}
 	{
@@ -8177,48 +8052,6 @@ end_gothic_war_early_effect = {
             }
 	}
 	{
-	        modifier = {
-                add = 999
-                exists = this
-                exists = character:alchonid_005 #Khingila
-                this = character:alchonid_005 #Khingila
-            }
-	        modifier = {
-                add = 999
-                exists = this
-                exists = character:hephthalite_misc_017 #Katulf
-                this = character:hephthalite_misc_017 #Katulf
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:belisarius_001 #Belisarius
-                this = character:belisarius_001 #Belisarius
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:200284 #euric
-                this = character:200284 #euric
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:180628 #Khosrau
-                this = character:180628 #Khosrau
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:mauri_36 #Masties
-                this = character:mauri_36 #Masties
-            }
-	}
-	{
             modifier = {
                 add = 999
                 exists = this
@@ -8237,97 +8070,6 @@ end_gothic_war_early_effect = {
                 exists = this
                 exists = character:107590 #el_cid
                 this = character:107590 #el_cid
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:159012 #Cadwallon
-                this = character:159012 #Cadwallon
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:ashina_03 #Tuwu
-                this = character:ashina_03 #Tuwu
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:ashina_05 #Istemi
-                this = character:ashina_05 #Istemi
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:200280 #Theodis
-                this = character:200280 #Theodis
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:ashina_04 #Bumin
-                this = character:ashina_04 #Bumin
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:waegmunding_2 #Beowulf
-                this = character:waegmunding_2 #Beowulf
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:996002 #odoacer
-                this = character:996002 #odoacer
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992023 #Athalaric
-                this = character:992023 #Athalaric
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992063 #Fritigern
-                this = character:992063 #Fritigern
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:900016 #Faramund
-                this = character:900016 #Faramund
-            }
-		modifier = {
-		add = 999
-		exists = character:990006 #Attila
-		this = character:990006 #Attila
-	    }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997012 #Childebert
-                this = character:997012 #Childebert
-            }
-	}
-	{
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:vandals_012 #Gelimer
-                this = character:vandals_012 #Gelimer
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:marshalnsc 
-                this = character:marshalnsc 
             }
 	}
 	{
@@ -8991,7 +8733,7 @@ cb_gothic_wars = {
 	}
 
 	
-	target_titles = neighbor_land
+	target_titles = all
 	target_title_tier = county
 	ignore_effect = change_title_holder
 	should_show_war_goal_subview = yes
@@ -9222,7 +8964,7 @@ radagaisus_invasion_cb = {
 
 	combine_into_one = yes
 
-	target_titles = none
+	target_titles = all
 	target_title_tier = all
 	target_de_jure_regions_above = yes
 	ignore_effect = change_title_holder
@@ -9450,7 +9192,7 @@ cb_gothic_wars_amalasuntha = {
 	allowed_against_character = {
 	}
 
-	target_titles = none
+	target_titles = all
 	target_title_tier = all
 	target_de_jure_regions_above = yes
 	ignore_effect = change_title_holder
@@ -11842,10 +11584,19 @@ gothic_duchy_conquest_cb = {
 					id = western_roman.0063
 					days = 1
 				}
+				if = {
+					limit = {
+						OR = {
+							any_truce_target = { this = title:k_ostrogoths.holder }
+							any_truce_holder = { this = title:k_ostrogoths.holder }
+						}
+					}
+					cancel_truce_both_ways = title:k_ostrogoths.holder
+				}
 				start_war = {
 					cb = gothic_war_regular_cb
 					target = title:k_ostrogoths.holder
-					target_title = title:k_ostrogoths
+					target_title = title:k_ostrogoths.holder.capital_county
 					claimant = title:e_byzantium.holder
 				}
 			}
@@ -13599,56 +13350,14 @@ beards_scripted_characters = {
             modifier = {
                 add = 999
                 exists = this
-                exists = character:159038 #Coel
-                this = character:159038 #ACoel
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:900062 #Stilicho
-                this = character:900062 #Stilicho
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:180618 #Bahram
-                this = character:180618 #Bahram
-            }
-            modifier = {
-                add = 999
-		        exists = this
-                exists = character:83432 #Eochaid
-                this = character:83432 #Eochaid
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:londinium_01 #Riothamus
-                this = character:londinium_01 #Riothamus
-            }
-            modifier = {
-                add = 999
-                exists = this
                 exists = character:vigg_04 #Hengest
                 this = character:vigg_04 #Hengest
             }
             modifier = {
                 add = 999
                 exists = this
-                exists = character:constantinus_05 #Ambrosius
-                this = character:constantinus_05 #Ambrosius
-            }
-            modifier = {
-                add = 999
-                exists = this
                 exists = character:cappadocia_07 #Ioannes
                 this = character:cappadocia_07 #Ioannes
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:mauri_42 #Iabdas
-                this = character:mauri_42 #Iabdas
             }
             modifier = {
                 add = 999
@@ -13681,12 +13390,6 @@ beards_scripted_characters = {
 				exists = this
                 exists = character:42018 #karlmann
                 this = character:42018 #karlmann
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:991004 #Mundus
-                this = character:991004 #Mundus
             }
         }
     }
@@ -13770,12 +13473,6 @@ beards_scripted_characters = {
                 exists = character:easteregg_nils_wadensten
                 this = character:easteregg_nils_wadensten
             }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:waegmunding_2 #Beowulf
-                this = character:waegmunding_2 #Beowulf
-            }
         }
     }
 
@@ -13801,18 +13498,6 @@ beards_scripted_characters = {
 				exists = this
                 exists = character:1128 #duke_robert
                 this = character:1128 #duke_robert
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992016 #theodoric_the_great
-                this = character:992016 #theodoric_the_great
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992022 #Theodahad
-                this = character:992022 #Theodahad
             }
             modifier = {
                 add = 999
@@ -13846,18 +13531,6 @@ beards_scripted_characters = {
                 exists = character:easteregg_paul_depre
                 this = character:easteregg_paul_depre
             }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:999103 #Alaric I
-                this = character:999103 #Alaric I
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997002 #Chlodio
-                this = character:997002 #Chlodio
-            }
         }
     }
 
@@ -13872,12 +13545,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997004 #Childeric
-                this = character:997004 #Childeric
-            }
         }
     }
 
@@ -13904,18 +13571,6 @@ beards_scripted_characters = {
                 exists = character:easteregg_max_weltz
                 this = character:easteregg_max_weltz
             }
-            modifier = {
-               	add = 999
-                exists = this
-		exists = character:arsacid_58 #vramshapuh
-		this = character:arsacid_58 #vramshapuh
-	    }
-            modifier = {
-               	add = 999
-                exists = this
-                exists = character:145071 #Heraclius
-                this = character:145071 #Heraclius
-	    }
         }
     }
 
@@ -13930,30 +13585,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:159431 #Conan Meriadoc
-                this = character:159431 #Conan Meriadoc
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:maldras_06 #Hermenerich
-                this = character:maldras_06 #Hermenerich
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997009 #Theodoric Meroving
-                this = character:997009 #Theodoric Meroving
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992063 #Fritigern
-                this = character:992063 #Fritigern
-            }
         }
     }
 
@@ -13968,12 +13599,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-            	modifier = {
-               	add = 999
-                exists = this
-		        exists = character:990902 #Nesmeterpanakhet
-		        this = character:990902 #Nesmeterpanakhet
-	        }
         }
     }
 
@@ -13988,13 +13613,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-
-		modifier = {
-                add = 999
-                exists = this
-                exists = character:982001 #Abu Karib
-                this = character:982001 #Abu Karib
-            }
         }
     }
 
@@ -14014,18 +13632,6 @@ beards_scripted_characters = {
 				exists = this
                 exists = character:3924 #emir_yahya
                 this = character:3924 #emir_yahya
-            }
-	    modifier = {
-                add = 999
-                exists = this
-                exists = character:lakhmid_06 #al-Nu'Man
-                this = character:lakhmid_06 #al-Nu'Man
-            }
-	    modifier = {
-                add = 999
-                exists = this
-                exists = character:rugian_03 #Feletheus
-                this = character:rugian_03 #Feletheus
             }
         }
     }
@@ -14057,27 +13663,9 @@ beards_scripted_characters = {
             base = 0
             modifier = {
                 add = 999
-				exists = this
-                exists = character:quadi_04 # Hermerich of the Quadi
-                this = character:quadi_04 # Hermerich of the Quadi
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:syagri_06 #Syagrus
-                this = character:syagri_06 #Syagrus
-            }
-            modifier = {
-                add = 999
                 exists = this
                 exists = character:997005 #Chlodovech
                 this = character:997005 #Chlodovech
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:belisarius_001 #Belisarius
-                this = character:belisarius_001 #Belisarius
             }
             modifier = {
                 add = 999
@@ -14178,11 +13766,6 @@ beards_scripted_characters = {
                 exists = character:easteregg_peter_johannesson
                 this = character:easteregg_peter_johannesson
             }
-		modifier = {
-		add = 999
-		exists = character:997013 #Chlothar
-		this = character:997013 #Chlothar
-	    }
 	   }
     }
 
@@ -14197,16 +13780,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-		modifier = {
-		add = 999
-		exists = character:ashina_03 #Tuwu
-		this = character:ashina_03 #Tuwu
-	    }
-		modifier = {
-		add = 999
-		exists = character:ashina_04 #Bumin
-		this = character:ashina_04 #Bumin
-	    }
 	   }
     }
 
@@ -14227,27 +13800,6 @@ beards_scripted_characters = {
                 exists = character:159137 #almos_arpad
                 this = character:159137 #almos_arpad
             }
-		modifier = {
-		add = 999
-		exists = character:990006 #Attila
-		this = character:990006 #Attila
-	    }
-		modifier = {
-		add = 999
-		exists = character:ashina_05 #Istemi
-		this = character:ashina_05 #Istemi
-	    }
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:hephthalite_misc_017 #Katulf
-                this = character:hephthalite_misc_017 #Katulf
-            }
-		modifier = {
-		add = 999
-		exists = character:146154 #Khuterkin
-		this = character:146154 #Khuterkin
-	    }
 	   }
     }
 
@@ -14259,31 +13811,10 @@ beards_scripted_characters = {
                 template = scripted_character_beards_01
                 value = 0.64 # For the randomness to work correctly
             }
-        }   
+        }
         weight = {
             base = 0
         }
-        weight = {
-               	base = 0
-		modifier = {
-			add = 999
-                	exists = this
-                	exists = character:nuvelan_11 #Gildo
-                	this = character:nuvelan_11 #Gildo
-		}
-		modifier = {
-			add = 999
-                	exists = this
-                	exists = character:aksum_16 #Ouazeba
-                	this = character:aksum_16 #Ouazeba
-		}
-            	modifier = {
-               	add = 999
-                exists = this
-		        exists = character:himyarite_30 #Abraha
-		        this = character:himyarite_30 #Abraha
-	        }
-	}
     }
 
     male_beard_sub_saharan_02 = { # Stylish african goatee
@@ -14340,12 +13871,6 @@ beards_scripted_characters = {
 	    modifier = {
                 add = 999
                 exists = this
-                exists = character:alchonid_005 #Khingila
-                this = character:alchonid_005 #Khingila
-            }
-	    modifier = {
-                add = 999
-                exists = this
                 exists = character:arsacid_64 #Mystakon
                 this = character:arsacid_64 #Mystakon
             }
@@ -14363,18 +13888,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:900016 #Faramund
-                this = character:900016 #Faramund
-            }
-	    modifier = {
-                add = 999
-                exists = this
-                exists = character:xionite_001 #Kidara
-                this = character:xionite_001 #Kidara
-            }
 	    modifier = {
                 add = 999
                 exists = this
@@ -14449,12 +13962,6 @@ beards_scripted_characters = {
             modifier = {
                 add = 999
                 exists = this
-                exists = character:996002 #Odovacar
-                this = character:996002 #Odovacar
-            }
-            modifier = {
-                add = 999
-                exists = this
                 exists = character:91402 #Pepin
                 this = character:91402 #Pepin
             }
@@ -14485,12 +13992,6 @@ beards_scripted_characters = {
         }
         weight = {
             base = 0
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:frankish_10 #Radulf
-                this = character:frankish_10 #Radulf
-            }
             modifier = {
                 add = 999
                 exists = this
@@ -14528,12 +14029,6 @@ beards_scripted_characters = {
             modifier = {
                 add = 999
                 exists = this
-                exists = character:200280 #Theodis
-                this = character:200280 #Theodis
-            }
-            modifier = {
-                add = 999
-                exists = this
                 exists = character:997015 #Theodobert
                 this = character:997015 #Theodobert
             }
@@ -14564,37 +14059,11 @@ beards_scripted_characters = {
                 exists = character:70150
                 this = character:70150
             }
-
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:180628 #Khosrau
-                this = character:180628 #Khosrau
-            }
-
              modifier = {
                 add = 999
                 exists = this
                 exists = character:73683
                 this = character:73683
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:200284 #euric
-                this = character:200284 #euric
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:aelling_01 #Aelle
-                this = character:aelling_01 #Aelle
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:159012 #Cadwallon
-                this = character:159012 #Cadwallon
             }
         }
     }
@@ -14623,12 +14092,6 @@ beards_scripted_characters = {
                 exists = character:vandals_003
                 this = character:vandals_003
             }
-            modifier = {
-               	add = 999
-                exists = this
-		exists = character:145237 #julian_the_apostate
-		this = character:145237 #julian_the_apostate
-            }
              modifier = {
                 add = 999
                 exists = this
@@ -14651,12 +14114,6 @@ beards_scripted_characters = {
         }
         weight = {
             base = 0
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:mauri_36 #Masties
-                this = character:mauri_36 #Masties
-            }
         }
     }
 
@@ -14679,75 +14136,15 @@ beards_scripted_characters = {
             }
             modifier = {
                 add = 999
-	        	exists = this
-                exists = character:nepos_02 #Nepos
-                this = character:nepos_02 #Nepos
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:70512 #Justinian
-                this = character:70512 #Justinian
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:205141 #Ceredig
-                this = character:205141 #Ceredig
-            }
-            modifier = {
-                add = 999
                 exists = this
                 exists = character:vandals_005 #Hilderic
                 this = character:vandals_005 #Hilderic
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:vandals_012 #Gelimer
-                this = character:vandals_012 #Gelimer
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992023 #Athalaric
-                this = character:992023 #Athalaric
-            }
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:70515  #Zeno
-                this = character:70515  #Zeno
-            }
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:70517  #Leo
-                this = character:70517  #Leo
             }
            modifier = {
                 add = 999
                 exists = this
                 exists = character:70514  #Anastasius
                 this = character:70514  #Anastasius
-            }
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:armenian_01  #Narses
-                this = character:armenian_01  #Narses
-            }
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:mauro_roman_kings_02  #Massonas
-                this = character:mauro_roman_kings_02  #Massonas
-            }
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:samo_01  #Samo
-                this = character:samo_01  #Samo
             }
         }
     }
@@ -14779,12 +14176,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-           modifier = {
-                add = 999
-                exists = this
-                exists = character:159117  #Kubrat
-                this = character:159117  #Kubrat
-            }
         }
     }
 
@@ -14828,18 +14219,6 @@ beards_scripted_characters = {
         }   
         weight = {
             base = 0
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:997012 #Childebert
-                this = character:997012 #Childebert
-            }
-            modifier = {
-                add = 999
-                exists = this
-                exists = character:992003 #Hermanaric
-                this = character:992003 #Hermanaric
-            }
         }
     }
 }
@@ -14877,25 +14256,7 @@ headgear_scripted_characters = {
 			exists = character:108501
               	  	this = character:108501
 		}
-            	modifier = {
-               	 	add = 999
-                	exists = this
-                	exists = character:900062 #Stilicho
-                	this = character:900062 #Stilicho
-		}
-            	modifier = {
-               	 	add = 999
-                	exists = this
-                	exists = character:nuvelan_11 #Gildo
-                	this = character:nuvelan_11 #Gildo
-		}
-		modifier = {
-                	add = 999
-                	exists = this
-                	exists = character:belisarius_001 #Belisarius
-                	this = character:belisarius_001 #Belisarius
-		}
-          }
+      }
     }
 
     male_headgear_secular_fp2_iberian_muslim_common_01_low = {
@@ -14948,21 +14309,9 @@ headgear_scripted_characters = {
 		}
 		weight = {
 			base = 0
-            			modifier = {
-               	 		add = 999
-                		exists = this
-                		exists = character:nepos_02 #Nepos
-                		this = character:nepos_02 #Nepos
-			}
 		}
 		weight = {
 			base = 0
-            			modifier = {
-               	 		add = 999
-                		exists = this
-                		exists = character:syagri_06 #Syagrius
-                		this = character:syagri_06 #Syagrius
-			}
 		}
 	}
 	male_headgear_secular_western_high_nobility = {
@@ -14976,12 +14325,6 @@ headgear_scripted_characters = {
 		}
 		weight = {
 			base = 0
-				modifier = {
-                		add = 999
-                		exists = this
-                		exists = character:900016 #Faramund
-                		this = character:900016 #Faramund
-			}
 		}
 	}
 	male_headgear_secular_roman_diadem = {
@@ -14995,12 +14338,6 @@ headgear_scripted_characters = {
 		}
 		weight = {
 			base = 0
-				modifier = {
-                		add = 999
-                		exists = this
-                		exists = character:70515  #Zeno
-                		this = character:70515  #Zeno
-			}
 		}
 	}
 	male_headgear_secular_sassanid_crown = {
@@ -15014,12 +14351,6 @@ headgear_scripted_characters = {
 		}
 		weight = {
 			base = 0
-				modifier = {
-                		add = 999
-                		exists = this
-                		exists = character:180628 #Khosrau
-                		this = character:180628 #Khosrau
-			}
 		}
 	}
 }
@@ -15748,8 +15079,6 @@ western_roman.0027 = {
 		add_pressed_claim = title:k_italy
 		add_pressed_claim = title:d_romagna
 		add_pressed_claim = title:c_ravenna
-		remove_trait = diligent
-		add_trait = impatient
 		custom_tooltip = nepos_ambition_tooltip
 		set_global_variable = {
 			name = nepos_ambition_var
@@ -15816,13 +15145,17 @@ western_roman.0038 = {
 			character:vandals_005 = {
 				add_character_flag = {
 					flag = is_being_tortured
-					years = 20 #
+					years = 5 #
+				}
+				add_character_modifier = {
+					modifier = recently_tortured
+					years = 5
 				}
 			}
 			title:k_vandals.holder = {
 				imprison = {
 					target = global_var:hildirix
-					type = house_arrest
+					type = dungeon
 				}
 			}
 			set_global_variable = {
@@ -16316,8 +15649,8 @@ western_roman.0041 = {
 		}
 		resolve_title_and_vassal_change = scope:change
 
-		make_tributary = {
-			TYPE = tributary_permanent
+		start_tributary_interaction_effect = {
+			#TYPE = tributary_permanent
 			SUZERAIN = title:e_byzantium.holder
 			TRIBUTARY = global_var:hildirix
 		}
@@ -17603,7 +16936,7 @@ western_roman.0071 = {
 			title:k_nikaea.holder.top_liege = { 
 				every_character_war = { 
 					limit = { 
-						top_liege = { is_defender = yes } 
+						top_liege = { is_primary_defender = yes } 
 					} 
 					add_defender = title:k_nikaea.holder 
 				}
@@ -18666,6 +17999,7 @@ germanic_events.0015 = {
 			start_war = {
 				cb = cb_gothic_wars_amalasuntha
 				target = scope:roman_king
+				target_title = title:k_italy
 			}
 		}
 
@@ -19786,17 +19120,13 @@ TFE_flavour_events.0051 = {
 	{
 palace_khawarnaq = {
 	construction_time = slow_construction_time
-
 	type_icon = "aljaferia.dds"
-
 	can_construct_potential = {
 		always = yes
 	}
-
 	can_construct = {
 		always = yes
 	}
-
 	character_modifier = {
 		vassal_opinion = 5
 		monthly_prestige_gain_per_happy_powerful_vassal_add = 0.05
@@ -20046,7 +19376,7 @@ tfe_culture.4001 = {
 
 "common\scripted_modifiers\00_faction_modifiers.txt" = {
 	{
-	# Keep it while the Calip is alive
+	# Keep it while the Caliph is alive
 	modifier = {
 		add = -1000
 		$FACTION_TARGET$ = {
@@ -24286,7 +23616,7 @@ establish_the_electorate_of_saxony_decision = {
 	}
 }
 
-"common/struggle\struggles/tfe_eastern_iranian_struggle.txt" = {
+"common/struggle/struggles/tfe_eastern_iranian_struggle.txt" = {
 	{
 eastern_iranian_struggle = {
 	# has_fp2_dlc_trigger = yes  #TODO_CD_AN Request support for dlc locking on struggles
@@ -24323,6 +23653,8 @@ eastern_iranian_struggle = {
 		# Turkic
 		avar
 		kangar
+		tiele
+		tujue
 
 		# Semitic
 		assyrian
@@ -24477,8 +23809,8 @@ eastern_iranian_struggle = {
 					unlocks_border_raid_casus_belli = yes
 					unlocks_contract_assistance_interaction = yes
 					unlocks_bargain_fealty_interaction = yes
-					more_nomadic_migration_armies = yes
-					cheaper_nomadic_migrations_within_struggle_region = yes
+					#more_nomadic_migration_armies = yes
+					#cheaper_nomadic_migrations_within_struggle_region = yes
 				}
 
 				involved_character_modifier = {
@@ -26306,6 +25638,10 @@ establish_the_old_north = {
 	}
 
 	effect = {
+		if = {
+			limit = { has_ach_dlc_trigger = yes }
+			add_character_flag = ach_ended_struggle
+		}
 		save_scope_as = founder
 		show_as_tooltip = { old_north_scripted_effect = yes }
 		trigger_event = { id = britannia_struggle.7000 }
@@ -26417,6 +25753,10 @@ struggle_eastern_iranian_ending_domination_decision = {
 	}
 
 	effect = {
+		if = {
+			limit = { has_ach_dlc_trigger = yes }
+			add_character_flag = ach_ended_struggle
+		}
 		if = {
 			limit = { has_dlc_feature = legends }
 			legend_seed_struggle_ending_effect = {
@@ -26547,6 +25887,10 @@ struggle_eastern_iranian_ending_silk_road_decision = {
 	}
 
 	effect = {
+		if = {
+			limit = { has_ach_dlc_trigger = yes }
+			add_character_flag = ach_ended_struggle
+		}
 		if = {
 			limit = { has_dlc_feature = legends }
 			legend_seed_struggle_ending_effect = {
@@ -26716,6 +26060,10 @@ struggle_eastern_iranian_ending_compromise_decision = {
 	}
 
 	effect = {
+		if = {
+			limit = { has_ach_dlc_trigger = yes }
+			add_character_flag = ach_ended_struggle
+		}
 		if = {
 			limit = { has_dlc_feature = legends }
 			legend_seed_struggle_ending_effect = {
@@ -26922,76 +26270,6 @@ struggle_eastern_iranian_urbanize_area = {
 }
 
 "common/casus_belli_types/00_migration_wars.txt" = {
-	# The converter removes eastern_iranian_struggle
-	{
-			if = {
-				limit = {
-					AND = {
-						exists = struggle:eastern_iranian_struggle
-						struggle:eastern_iranian_struggle = {
-							AND = {
-								has_struggle_phase_parameter = cheaper_nomadic_migrations_within_struggle_region
-								is_culture_involved_in_struggle = scope:attacker.culture
-							}
-						}
-					}
-				}
-				multiply = {
-					value = 0.5
-					desc = EASTERN_IRANIAN_STRUGGLE
-				}
-			}
-	}
-
-	# The converter removes eastern_iranian_struggle
-	{
-			if = {
-				limit = {
-					OR = {
-						AND = {
-							exists = struggle:eastern_iranian_struggle
-							migration_levies_value >= 10
-							struggle:eastern_iranian_struggle = {
-								has_struggle_phase_parameter = more_nomadic_migration_armies
-							}
-							any_in_list = {
-								list = target_titles
-								title_capital_county.title_province = {
-									geographical_region = TFE_eastern_iranian_struggle_region
-								}
-							}
-							has_cultural_tradition = tradition_nomadic_migrations
-						}
-						AND = {
-							exists = struggle:north_indian_struggle
-							migration_levies_value >= 10
-							struggle:north_indian_struggle = {
-								has_struggle_phase_parameter = more_nomadic_migration_armies
-							}
-							any_in_list = {
-								list = target_titles
-								title_capital_county.title_province = {
-									geographical_region = TFE_north_indian_struggle_region
-								}
-							}
-							has_cultural_tradition = tradition_nomadic_migrations
-						}
-					}
-				}
-				spawn_army = {
-					name = event_troop_default_name
-					levies = migration_army_levies_small
-					men_at_arms = {
-						type = light_horsemen
-						stacks = migration_army_maa_small
-					}
-					location = scope:attacker.capital_province
-					uses_supply = no
-					inheritable = yes
-				}
-			}
-	}
-
 	# k_juteland not in TFE as of the 'After the Pharaohs' update
 	{
 								this = title:k_juteland
@@ -28003,6 +27281,28 @@ TFE_eastern_iranian_struggle_compromise_de_jure_effect = {
 		}
 		title:d_muyunkum.holder = {
 			get_title = title:k_muyunkum_struggle
+		}
+	}
+
+	#split from muyunkum
+	# d_talas_alatau
+	title:d_talas_alatau = {
+		set_de_jure_liege_title = title:k_talas_alatau_struggle
+	}
+	title:k_talas_alatau_struggle = {
+		set_de_jure_liege_title = title:e_turan
+	}
+	if = {
+		limit = {
+			exists = title:d_talas_alatau.holder
+			NOT = {
+				title:d_talas_alatau.holder = {
+					any_held_title = { tier = tier_kingdom }
+				}
+			}
+		}
+		title:d_talas_alatau.holder = {
+			get_title = title:k_talas_alatau_struggle
 		}
 	}
 
@@ -29132,7 +28432,7 @@ tfe_character_interloper_in_struggle_trigger_persia = {
 	}
 }
 
-"localization/english/names/TFE_names_error_log_l_english.yml" = {
+"localization/english/replace/names/TFE_names_error_log_l_english.yml" = {
 	{
  NÃ¤cken:0 "NÃ¤cken"
 	}
@@ -29802,6 +29102,34 @@ become_emperor_of_gaul_decision = {
 			save_scope_as = title_change
 			add_claim_on_loss = no
 		}
+		every_vassal_or_below = {
+			if = {
+				limit = {
+					has_dlc_feature = roads_to_power
+					OR = {
+						government_has_flag = government_is_autocratic_ep3
+						AND = {
+							government_has_flag = government_is_roman
+							highest_held_title_tier > tier_county
+						}
+					}
+				}
+				change_government = administrative_government
+			}
+			else_if = {
+				limit = {
+					NOT = { has_dlc_feature = roads_to_power }
+					OR = {
+						government_has_flag = government_is_autocratic
+						AND = {
+							government_has_flag = government_is_roman
+							highest_held_title_tier > tier_county
+						}
+					}
+				}
+				change_government = imperial_government
+			}
+		}
 		title:e_gaul = {
 			save_scope_as = title_e_gaul
 		}
@@ -30119,14 +29447,6 @@ icelandic = {
 }
 
 
-"common/decisions/80_major_decisions_south_asia.txt" = {
-	# No e_rajastan in TFE as of the 'After The Pharaohs' update
-	{
-		completely_controls = title:e_rajastan
-	}
-}
-
-
 "common/decisions/80_major_decisions.txt" = {
 	# innovation_ledger is not in TFE as of the 'After the Pharaohs' update.
 	{
@@ -30144,18 +29464,6 @@ icelandic = {
 
 
 "common/scripted_effects/00_decisions_effects.txt" = {
-	# No e_rajastan in TFE as of the 'After The Pharaohs' update
-	{
-	title:e_rajastan = { add_to_list = indian_empire }
-	}
-
-	{
-		if = {
-			limit = { has_title = title:e_rajastan }
-			destroy_title = title:e_rajastan
-		}
-	}
-
 	# No k_sorbia in TFE as of the 'After The Pharaohs' update
 	{
 	title:k_sorbia = { add_to_list = west_slavic_kingdoms }
@@ -30472,30 +29780,6 @@ d_phoenicia = { item = { trigger = { coa_switch_to_roman_trigger = yes } coat_of
 }
 
 
-"common/scripted_effects/TFE_dejure.txt" = {
-	# No c_placensia in TFE as of the 'After The Pharaohs' update
-	{
-	title:c_placensia = {
-		set_de_jure_liege_title = title:d_badajoz
-	}
-	}
-
-	# No c_clemont_sur_allier in TFE as of the 'After The Pharaohs' update
-	{
-	title:c_clemont_sur_allier = {
-		set_de_jure_liege_title = title:d_auvergne
-	}
-	}
-
-	# No d_gloucestor in TFE as of the 'After The Pharaohs' update
-	{
-	title:c_hereford = {
-		set_de_jure_liege_title = title:d_gloucestor
-	}
-	}
-}
-
-
 "common/flavorization/00_title_holders.txt" = {
 	# error: female used instead of title tier
 	{
@@ -30727,270 +30011,6 @@ on_yearly_sevenhouses = {
 }
 
 
-"common/scripted_effects/00_mongol_invasion_effects.txt" = {
-	# Character 125501 (Temujin) is not in TFE as of the 'After The Pharaohs' update.
-	{
-	if = {
-		limit = {
-			exists = character:125501
-			character:125501 = {
-				is_ai = no
-				is_landed = yes
-			}
-		}
-		character:125501 = {
-			save_scope_as = temujin
-		}
-		scope:temujin = {
-			# Make temporarily immune to disease
-			add_character_flag = {
-				flag = immune_to_disease
-				years = 15
-			}
-
-			add_trait = greatest_of_khans
-			form_the_mongol_empire_effect = yes
-			add_prestige = 25000
-			give_nickname = nick_genghis_khan
-			trigger_event = conqueror.0001
-		}
-	}
-	else_if = {
-		limit = {
-			exists = character:125501
-			character:125501 = { is_physically_able_ai_adult = yes }
-		}
-		character:125501 = {
-			save_scope_as = temujin
-		}
-		scope:temujin = {
-			# Make temporarily immune to disease
-			add_character_flag = {
-				flag = immune_to_disease
-				years = 15
-			}
-
-			add_trait = greatest_of_khans
-			give_temujin_land_effect = yes
-			add_gold = 5000
-			add_dread = high_dread
-			spawn_temujins_court_effect = yes
-			form_the_mongol_empire_effect = yes
-			add_prestige = 25000
-			if = {
-				limit = { NOT = { has_perk = peacemaker_perk } }
-				add_perk = peacemaker_perk
-			}
-			remove_trait = education_diplomacy_1
-			remove_trait = education_diplomacy_2
-			remove_trait = education_diplomacy_3
-			remove_trait = education_diplomacy_4
-			remove_trait = education_diplomacy_5
-			remove_trait = education_intrigue_1
-			remove_trait = education_intrigue_2
-			remove_trait = education_intrigue_3
-			remove_trait = education_intrigue_4
-			remove_trait = education_intrigue_5
-			remove_trait = education_stewardship_1
-			remove_trait = education_stewardship_2
-			remove_trait = education_stewardship_3
-			remove_trait = education_stewardship_4
-			remove_trait = education_stewardship_5
-			remove_trait = education_learning_1
-			remove_trait = education_learning_2
-			remove_trait = education_learning_3
-			remove_trait = education_learning_4
-			remove_trait = education_learning_5
-			remove_trait = education_martial_1
-			remove_trait = education_martial_2
-			remove_trait = education_martial_3
-			remove_trait = education_martial_4
-			add_trait = education_martial_5
-			add_trait = flexible_leader
-			add_trait = athletic
-			if = {
-				limit = { has_dlc_feature = tours_and_tournaments }
-				add_trait = tourney_participant
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = lifestyle_hunter
-					TRACK = hunter
-					LEVEL_1 = yes
-					LEVEL_3 = no
-				}
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = tourney_participant
-					TRACK = horse
-					LEVEL_1 = yes
-					LEVEL_3 = yes
-				}
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = tourney_participant
-					TRACK = bow
-					LEVEL_1 = yes
-					LEVEL_3 = yes
-				}
-			}
-			dynasty = {
-				add_dynasty_prestige_level = 5
-				add_dynasty_prestige = 10000
-				add_dynasty_perk = warfare_legacy_1
-				add_dynasty_perk = warfare_legacy_2
-				add_dynasty_perk = warfare_legacy_3
-				add_dynasty_perk = warfare_legacy_4
-				add_dynasty_perk = warfare_legacy_5
-				if = {
-					limit = {
-						has_dlc_feature = hybridize_culture
-					}
-					add_dynasty_perk = ep1_culture_legacy_1
-				}
-			}
-			give_nickname = nick_genghis_khan
-		}
-	}
-	else_if = {
-		limit = {
-			exists = character:125501.dynasty
-			character:125501.dynasty = {
-				any_dynasty_member = {
-					is_ai = no
-					is_landed = yes
-				}
-			}
-		}
-		character:125501.dynasty = {
-			random_dynasty_member = {
-				limit = {
-					is_ai = no
-					is_landed = yes
-				}
-				save_scope_as = temujin
-			}
-		}
-		scope:temujin = {
-			# Make temporarily immune to disease
-			add_character_flag = {
-				flag = immune_to_disease
-				years = 15
-			}
-
-			add_trait = greatest_of_khans
-			form_the_mongol_empire_effect = yes
-			add_prestige = 25000
-			give_nickname = nick_genghis_khan
-			trigger_event = conqueror.0001
-		}
-	}
-	else_if = {
-		limit = {
-			exists = character:125501.dynasty
-			character:125501.dynasty = {
-				any_dynasty_member = {
-					is_physically_able_ai_adult = yes
-				}
-			}
-		}
-		character:125501.dynasty = {
-			random_dynasty_member = {
-				limit = {
-					is_physically_able_ai_adult = yes
-					is_landed = yes
-				}
-				alternative_limit = {
-					is_physically_able_ai_adult = yes
-				}
-				save_scope_as = temujin
-			}
-		}
-		scope:temujin = {
-			# Make temporarily immune to disease
-			add_character_flag = {
-				flag = immune_to_disease
-				years = 15
-			}
-
-			add_trait = greatest_of_khans
-			give_temujin_land_effect = yes
-			add_gold = 5000
-			add_dread = high_dread
-			spawn_temujins_court_effect = yes
-			form_the_mongol_empire_effect = yes
-			add_prestige = 25000
-			if = {
-				limit = { NOT = { has_perk = peacemaker_perk } }
-				add_perk = peacemaker_perk
-			}
-			remove_trait = education_diplomacy_1
-			remove_trait = education_diplomacy_2
-			remove_trait = education_diplomacy_3
-			remove_trait = education_diplomacy_4
-			remove_trait = education_diplomacy_5
-			remove_trait = education_intrigue_1
-			remove_trait = education_intrigue_2
-			remove_trait = education_intrigue_3
-			remove_trait = education_intrigue_4
-			remove_trait = education_intrigue_5
-			remove_trait = education_stewardship_1
-			remove_trait = education_stewardship_2
-			remove_trait = education_stewardship_3
-			remove_trait = education_stewardship_4
-			remove_trait = education_stewardship_5
-			remove_trait = education_learning_1
-			remove_trait = education_learning_2
-			remove_trait = education_learning_3
-			remove_trait = education_learning_4
-			remove_trait = education_learning_5
-			remove_trait = education_martial_1
-			remove_trait = education_martial_2
-			remove_trait = education_martial_3
-			remove_trait = education_martial_4
-			add_trait = education_martial_5
-			add_trait = flexible_leader
-			add_trait = athletic
-			if = {
-				limit = { has_dlc_feature = tours_and_tournaments }
-				add_trait = tourney_participant
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = lifestyle_hunter
-					TRACK = hunter
-					LEVEL_1 = yes
-					LEVEL_3 = no
-				}
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = tourney_participant
-					TRACK = horse
-					LEVEL_1 = yes
-					LEVEL_3 = yes
-				}
-				add_random_tiered_trait_track_xp_effect = {
-					TRAIT = tourney_participant
-					TRACK = bow
-					LEVEL_1 = yes
-					LEVEL_3 = yes
-				}
-			}
-			dynasty = {
-				add_dynasty_prestige_level = 5
-				add_dynasty_prestige = 10000
-				add_dynasty_perk = warfare_legacy_1
-				add_dynasty_perk = warfare_legacy_2
-				add_dynasty_perk = warfare_legacy_3
-				add_dynasty_perk = warfare_legacy_4
-				add_dynasty_perk = warfare_legacy_5
-				if = {
-					limit = {
-						has_dlc_feature = hybridize_culture
-					}
-					add_dynasty_perk = ep1_culture_legacy_1
-				}
-			}
-			give_nickname = nick_genghis_khan
-		}
-	}
-	}
-}
-
-
 "common/coat_of_arms/coat_of_arms/new_landed_titles.txt" = {
 	# No ce_gaetulia.dds in TFE as of the 'After The Pharaohs' update.
 	{
@@ -31027,21 +30047,6 @@ custom=yes
 		color2 = "yellow"		
 		instance = { position = { 0.5 0.5 } scale = { 1.0 1.0 } }		
 	}	
-	}
-
-	# No color gray in TFE as of the 'After The Pharaohs' update.
-	{
-sisenanding = {
-	pattern = "pattern_solid.dds"
-		color1 = "gray"
-		color2 = "gray"
-	colored_emblem = {
-		texture = "ce_snake.dds"
-		color1 = "yellow"
-		color2 = "red"
-		instance = { position = { 0.5 0.5 } scale = { 0.9 0.9 }  }
-	}
-}
 	}
 
 	# ck3-tiger: 2 errors as of the TFE 'After The Pharaohs' update.
@@ -31111,14 +30116,6 @@ silk_road_urbanization = {
 	parent = eastern_iranian_struggle
 	texture = "gfx/interface/icons/council_task_types/task_develop_county.dds"
 }
-	}
-}
-
-
-"common/governments/other_government.txt" = {
-	# Not defined in TFE as of the 'After The Pharaohs' update.
-	{
-		clan_government_obligations
 	}
 }
 
@@ -32864,78 +31861,6 @@ tfe_struggle_compromise_ender_effect = {
 }
 
 
-"events/T4N_tributaries.txt" = {
-	# Unused event; from error.log: "Unknown effect random_war at file: events/T4N_tributaries.txt line: 223"
-	{
-#Suzerain is called to permanent tributary war
-#on_war_started
-#Root is suzerain
-#call_to_arms_tribute is defender
-tributaries.6 = {
-	type = character_event
-	theme = realm
-	title = tributary_6_tit
-	desc = tributary_6_desc
-	right_portrait = {
-		character = scope:call_to_arms_tribute
-		animation = war_defender 
-
-	}
-	left_portrait = { 
-		character = root
-		animation = personality_rational 
-	}
-
-	option = {
-		name = suzerain_joins_the_war
-		add_piety = minor_piety_value
-		scope:call_to_arms_tribute = {
-			random_war = {
-				limit = {
-					root = {
-						NOR = {
-							is_at_war_as_defender = yes
-							is_at_war_with = scope:call_to_arms_tribute
-						}
-					}
-				}
-				if = {
-					limit = {
-						scope:call_to_arms_tribute = {
-							is_at_war_as_attacker = yes
-						}
-					}
-					add_attacker = root
-				}
-				else_if = {
-					limit = {
-						scope:call_to_arms_tribute = {
-							is_at_war_as_defender = yes
-						}
-					}
-					add_defender = root
-				}
-				else = {
-					debug_log = "Something broke, report to typical"
-				}
-			}
-			trigger_event = { id = tributaries.8 } #tributary gets a positive response
-		}	
-	}
-
-	option = {
-		name = suzerain_refuses_to_join_war
-		add_prestige = major_prestige_loss
-		save_scope_as = former_suzerain
-		scope:call_to_arms_tribute = {
-			trigger_event = { id = tributaries.7 } #tributary gets a negative response
-		}
-	}
-}
-	}
-}
-
-
 "history/cultures/heritage_pictish.txt" = {
 	# innovation_pictish_warbands not in TFE as of the 'After The Pharaohs' update.
 	{
@@ -33887,137 +32812,11 @@ marshalnsc_portrait_modifier = {
 # TODO: [00:36:38][E][pdx_persistent_reader.cpp:216]: Error: "Malformed token: scope:court_chaplain_check, near line: 84" in file: "common/pool_character_selectors/00_clergy.txt" near line: 84
 
 
-"music/in_game/TFE_music.txt" = {
-	# remove music cue overrides
-	{
-mx_cue_death = {
-	music = "file:/music/TFE/TFE_Death.ogg"
-	pause_factor = 25
-	# play every time
-}
-
-mx_cue_combat_3 = {
-	music = "file:/music/TFE/TFE_WarCry.ogg"
-	pause_factor = 25
-	# Cooldown
-	years = 1
-}
-
-mx_cue_combat_2 = {
-	music = "file:/music/TFE/TFE_Combat1.ogg"
-	pause_factor = 25
-	# Cooldown
-	years = 1
-}
-
-# mx_cue_ck3_vocal_maintheme = {
-# 	music = "event:/MUSIC/Cues/Events/CK3 Vocal Main Theme/mx_cue_ck3_vocal_maintheme"
-# 	pause_factor = 25
-# 	# play every time
-
-# }
-
-# mx_cue_banquet = {
-# 	music = "event:/MUSIC/Cues/Events/Banquet/mx_cue_banquet"
-# 	pause_factor = 25
-# 	# play every time
-# 	calls = 2
-
-# }
-
-mx_cue_crusade_starts = {
-	music = "file:/music/TFE/TFE_WARDECLARED.ogg"
-	pause_factor = 25
-	# play every time
-
-}
-
-mx_cue_war_declared = {
-	music = "file:/music/TFE/TFE_WARDECLARED.ogg"
-	name = "TFE_war_declared"
-	pause_factor = 35
-	# play every time
-}
-
-mx_cue_combat_stinger = {
-	music = "file:/music/TFE/TFE_Combat2.ogg"
-	pause_factor = 25
-	# Cooldown
-	#years = 1
-}
-
-# mx_cue_positive_effect = {
-# 	music = "event:/MUSIC/Cues/Events/Positive/mx_cue_postive_effect"
-# 	pause_factor = 25
-# 	# Cooldown
-# 	#months = 3
-# }
-
- mx_cue_peace_ensues = {
-	music = "file:/music/TFE/TFE_Champion.ogg"
-	pause_factor = 25
-	# play every time
-}
-
-#  mx_cue_faith_conversion = {
-# 	music = "event:/MUSIC/Cues/Events/faith_conversion/mx_cue_faith_conversion"
-# 	pause_factor = 25
-# 	# Cooldown
-# 	calls = 2
-# }
-
- mx_cue_birth = {
-	music = "file:/music/TFE/TFE_A_New_Heir.ogg"
-	pause_factor = 25
-	# play only once
-}
-
- mx_cue_stress = {
-	music = "file:/music/TFE/TFE_Stress.ogg"
-	pause_factor = 25
-	# Cooldown
-	calls = 3
-}
-
-mx_cue_illness = {
-	music = "file:/music/TFE/TFE_Illness.ogg"
-	pause_factor = 25
-	# Cooldown
-	calls = 3
-}
-
-mx_cue_murder = {
-	music = "file:/music/TFE/TFE_Murder.ogg"
-	pause_factor = 25
-	# Cooldown
-	years = 1
-}
-
-mx_cue_succession = {
-	music = "file:/music/TFE/TFE_Death.ogg"
-	pause_factor = 25
-	# play every time
-}
-
-mx_cue_succession_instrumental = {
-	music = "file:/music/TFE/TFE_Death.ogg"
-	#name = "TFE_death"
-	pause_factor = 25
-	# play every time
-}
-	}
-}
-
-
 "music/music_player_categories/TFE_music_categories.txt" = {
 	# from error.log:
 	# [02:36:24][E][music_tracks.cpp:185]: Could not find the track "TFE_main_theme_track" that was specified for the music category "TFE_soundtrack"
-	# [02:36:24][E][music_tracks.cpp:185]: Could not find the track "TFE_war_declared" that was specified for the music category "TFE_soundtrack"
 	{
 		"TFE_main_theme_track"
-	}
-	{
-		"TFE_war_declared"
 	}
 }
 
@@ -34454,34 +33253,11 @@ feudal_government_or_dynastic_realm = {
 }
 
 
-"common/buildings/00_temple_buildings.txt" = {
-	# from error.log:
-	# Error: "Trigger section already read earlier: can_construct_showing_failures_only, near line: 637" in file: "common/buildings/00_temple_buildings.txt" near line: 640
-	{
-	can_construct_showing_failures_only = {
-		building_requirement_tribal = no
-		building_requirement_tribal_holding_in_county = yes
-	}
-	}
-}
-
-
 "common/modifiers/TFE_religion_modifiers.txt" = {
 	# from error.log:
 	# Error: "Unexpected token: forest_movement_speed, near line: 15" in file: "common/modifiers/TFE_religion_modifiers.txt" near line: 15
 	{
 	forest_movement_speed = 0.5
-	}
-}
-
-
-"common/governments/imperial_government.txt" = {
-	# from error.log:
-	# Error: "Unexpected token: autocratic_government_opinion, near line: 49" in file: "common/governments/imperial_government.txt" near line: 49
-	{
-	character_modifier = {
-		autocratic_government_opinion = -50
-	}
 	}
 }
 
@@ -34713,7 +33489,16 @@ restore_palmyrene_empire_decision = {
 }
 
 
-"common/vassal_contracts/eranshar.txt" = {
+"common/council_tasks/00_steward_tasks.txt" = {
+	# No k_sorbia in TFE as of the 'After the Pharaohs' update.
+	{
+								capital_county.kingdom = title:k_sorbia
+	}
+}
+
+
+# TFE includes liege_opinion modifiers in various subject contracts, which aren't valid to have in contracts
+"common/subject_contracts/contracts/eranshar.txt" = {
 	# from error.log:
 	# Error: "Unexpected token: liege_opinion, near line: 126" in file: "common/vassal_contracts/eranshar.txt" near line: 126
 	{
@@ -34722,7 +33507,7 @@ restore_palmyrene_empire_decision = {
 }
 
 
-"common/vassal_contracts/gupta.txt" = {
+"common/subject_contracts/contracts/gupta.txt" = {
 	# from error.log:
 	# Error: "Unexpected token: liege_opinion, near line: 89" in file: "common/vassal_contracts/gupta.txt" near line: 89
 	{
@@ -34731,31 +33516,214 @@ restore_palmyrene_empire_decision = {
 }
 
 
-"common/vassal_contracts/islamic.txt" = {
-	# from error.log:
-	# Error: "Unexpected token: if, near line: 91" in file: "common/vassal_contracts/islamic.txt" near line: 104
+# This scripted effect doesn't seem to actually get triggered yet, so it shouldn't do anything, but setting it up to be removed for now in case they add it in later
+"common/scripted_effects/TFE_game_start_effects.txt" = {
 	{
-			if = {
-				limit = {
-					AND = {
-						NOT = {
-							scope:vassal.faith = scope:liege.faith
-						}
-						scope:liege = {
-							has_religion = religion:islam_religion
-						}
-					}
-				}
-				tax = 0.2
-				vassal_opinion = -20
+	# For Rome in the 361 start date
+	if = {
+		limit = {
+			game_start_date <= 362.1.1
+			title:c_roma = {
+				development_level >= 30
 			}
+		}
+		if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 70
+				}
+			}
+			title:c_roma = {
+				change_development_level = -60
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 60
+				}
+			}
+			title:c_roma = {
+				change_development_level = -50
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 50
+				}
+			}
+			title:c_roma = {
+				change_development_level = -40
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 40
+				}
+			}
+			title:c_roma = {
+				change_development_level = -30
+			}
+		}
+		else = {
+			title:c_roma = {
+				change_development_level = -20
+			}
+		}
 	}
-}
-
-
-"common/council_tasks/00_steward_tasks.txt" = {
-	# No k_sorbia in TFE as of the 'After the Pharaohs' update.
-	{
-								capital_county.kingdom = title:k_sorbia
+	# For Rome in the 395 start date
+	else_if = {
+		limit = {
+			game_start_date <= 400.1.1
+			OR = {
+				title:c_roma = {
+					development_level >= 20
+				}
+				title:c_lombardia = {
+					development_level >= 20
+				}
+				title:c_byzantion = {
+					development_level >= 20
+				}
+			}
+		}
+		if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 70
+				}
+			}
+			title:c_roma = {
+				change_development_level = -55
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 60
+				}
+			}
+			title:c_roma = {
+				change_development_level = -45
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 50
+				}
+			}
+			title:c_roma = {
+				change_development_level = -35
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_roma = {
+					development_level >= 40
+				}
+			}
+			title:c_roma = {
+				change_development_level = -25
+			}
+		}
+		else = {
+			title:c_roma = {
+				change_development_level = -15
+			}
+		}
+		if = {
+			limit = {
+				title:c_lombardia = {
+					development_level >= 70
+				}
+			}
+			title:c_lombardia = {
+				change_development_level = -60
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_lombardia = {
+					development_level >= 60
+				}
+			}
+			title:c_lombardia = {
+				change_development_level = -50
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_lombardia = {
+					development_level >= 50
+				}
+			}
+			title:c_lombardia = {
+				change_development_level = -40
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_lombardia = {
+					development_level >= 40
+				}
+			}
+			title:c_lombardia = {
+				change_development_level = -30
+			}
+		}
+		else = {
+			title:c_lombardia = {
+				change_development_level = -20
+			}
+		}
+		if = {
+			limit = {
+				title:c_byzantion = {
+					development_level >= 70
+				}
+			}
+			title:c_byzantion = {
+				change_development_level = -55
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_byzantion = {
+					development_level >= 60
+				}
+			}
+			title:c_byzantion = {
+				change_development_level = -45
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_byzantion = {
+					development_level >= 50
+				}
+			}
+			title:c_byzantion = {
+				change_development_level = -35
+			}
+		}
+		else_if = {
+			limit = {
+				title:c_byzantion = {
+					development_level >= 40
+				}
+			}
+			title:c_byzantion = {
+				change_development_level = -25
+			}
+		}
+		else = {
+			title:c_byzantion = {
+				change_development_level = -15
+			}
+		}
+	}
 	}
 }

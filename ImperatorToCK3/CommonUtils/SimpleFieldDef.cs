@@ -2,8 +2,8 @@
 
 namespace ImperatorToCK3.CommonUtils;
 
-public sealed class SimpleFieldDef {
+internal sealed class SimpleFieldDef {
 	public string FieldName { get; init; } = "";
-	public OrderedSet<string> Setters { get; init; } = new();
+	public OrderedSet<string> Setters { get; init; } = [];
 	public object? InitialValue { get; init; }
 }

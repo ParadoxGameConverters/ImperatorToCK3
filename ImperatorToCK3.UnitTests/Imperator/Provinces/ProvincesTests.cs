@@ -1,4 +1,6 @@
 ﻿using commonItems;
+using commonItems.Mods;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.States;
 using System;
@@ -12,11 +14,13 @@ namespace ImperatorToCK3.UnitTests.Imperator.Provinces;
 public class ProvincesTests {
 	private readonly StateCollection states = new();
 	private readonly CountryCollection countries = new();
+	private static readonly MapData irMapData = new(new ModFilesystem("TestFiles/ProvincesTests", []));
+	
 	[Fact]
 	public void ProvincesDefaultToEmpty() {
 		var reader = new BufferedReader("={}");
 		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
-		provinces.LoadProvinces(reader, states, countries);
+		provinces.LoadProvinces(reader, states, countries, irMapData);
 
 		Assert.Empty(provinces);
 	}
@@ -32,7 +36,7 @@ public class ProvincesTests {
 			"""
 		);
 		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
-		provinces.LoadProvinces(reader, states, countries);
+		provinces.LoadProvinces(reader, states, countries, irMapData);
 
 		Assert.Equal((ulong)42, provinces[42].Id);
 		Assert.Equal((ulong)43, provinces[43].Id);
@@ -42,7 +46,7 @@ public class ProvincesTests {
 	public void PopCanBeLinked() {
 		var reader = new BufferedReader("={42={pop=8}}\n");
 		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
-		provinces.LoadProvinces(reader, states, countries);
+		provinces.LoadProvinces(reader, states, countries, irMapData);
 
 		var reader2 = new BufferedReader(
 			"8={type=\"citizen\" culture=\"roman\" religion=\"paradoxian\"}\n"
@@ -68,7 +72,7 @@ public class ProvincesTests {
 			"}\n"
 		);
 		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
-		provinces.LoadProvinces(reader, states, countries);
+		provinces.LoadProvinces(reader, states, countries, irMapData);
 
 		var reader2 = new BufferedReader(
 			"={\n" +
@@ -105,7 +109,7 @@ public class ProvincesTests {
 			"}\n"
 		);
 		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
-		provinces.LoadProvinces(reader, states, countries);
+		provinces.LoadProvinces(reader, states, countries, irMapData);
 
 		var reader2 = new BufferedReader(
 			"={\n" +

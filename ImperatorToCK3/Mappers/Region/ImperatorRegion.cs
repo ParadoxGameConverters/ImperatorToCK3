@@ -4,7 +4,7 @@ using commonItems.Colors;
 using ImperatorToCK3.Imperator.Geography;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using ZLinq;
 
 namespace ImperatorToCK3.Mappers.Region;
 
@@ -49,7 +49,7 @@ internal sealed class ImperatorRegion : IIdentifiable<string> {
 	}
 
 	public bool ContainsProvince(ulong province) {
-		return Areas.Any(area => area.ContainsProvince(province));
+		return Areas.AsValueEnumerable().Any(area => area.ContainsProvince(province));
 	}
 
 	private readonly HashSet<string> parsedAreas = new();

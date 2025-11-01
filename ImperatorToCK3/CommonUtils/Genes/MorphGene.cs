@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils.Genes; 
 
-public sealed class MorphGene : Gene, IIdentifiable<string> {
+internal sealed class MorphGene : Gene, IIdentifiable<string> {
 	public string Id { get; }
 	public uint? Index { get; private set; }
 	public IdObjectCollection<string, MorphGeneTemplate> GeneTemplates { get; } = [];

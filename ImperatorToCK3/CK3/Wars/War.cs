@@ -1,10 +1,11 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Exceptions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.Province;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -53,7 +54,7 @@ internal sealed class War {
 				.Where(t => t is not null)
 				.Cast<Title>()
 				.Select(t => t.Id)
-				.ToHashSet();
+				.ToFrozenSet();
 			TargetedTitles.UnionWith(targetedCountyIds);
 		}
 

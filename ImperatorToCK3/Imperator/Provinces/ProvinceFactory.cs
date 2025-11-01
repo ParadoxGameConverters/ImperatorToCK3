@@ -18,16 +18,16 @@ internal partial class Province {
 			parsedProvince.Controller = reader.GetULong()
 		);
 		provinceParser.RegisterKeyword("culture", reader =>
-			parsedProvince.Culture = reader.GetString()
+			parsedProvince.Culture = string.Intern(reader.GetString())
 		);
 		provinceParser.RegisterKeyword("religion", reader =>
-			parsedProvince.ReligionId = reader.GetString()
+			parsedProvince.ReligionId = string.Intern(reader.GetString())
 		);
 		provinceParser.RegisterKeyword("pop", reader =>
 			parsedProvince.parsedPopIds.Add(reader.GetULong())
 		);
 		provinceParser.RegisterKeyword("civilization_value", reader =>
-			parsedProvince.CivilizationValue = reader.GetDouble()
+			parsedProvince.CivilizationValue = reader.GetFloat()
 		);
 		provinceParser.RegisterKeyword("province_rank", SetParsedProvinceRank());
 		provinceParser.RegisterKeyword("fort", reader =>

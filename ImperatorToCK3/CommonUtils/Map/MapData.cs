@@ -4,6 +4,7 @@ using Microsoft.VisualBasic.FileIO;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,9 +14,9 @@ namespace ImperatorToCK3.CommonUtils.Map;
 
 internal sealed class MapData {
 	[StructLayout(LayoutKind.Auto)]
-	private struct Point(int x, int y) : IEquatable<Point> {
-		public int X { get; set; } = x;
-		public int Y { get; set; } = y;
+	private readonly struct Point(int x, int y) : IEquatable<Point> {
+		public int X { get; } = x;
+		public int Y { get; } = y;
 
 		public readonly bool Equals(Point other) {
 			return X == other.X && Y == other.Y;
@@ -47,10 +48,33 @@ internal sealed class MapData {
 	private readonly HashSet<ulong> mapEdgeProvinces = [];
 
 	private string provincesMapFilename = "provinces.png";
+	private string adjacenciesFilename = "adjacencies.csv";
 
 	public MapData(ModFilesystem modFS) {
-		string adjacenciesFilename = "adjacencies.csv";
+		ParseDefaultMap(modFS);
 
+		Logger.Info("Loading province positions...");
+		DetermineProvincePositions(modFS);
+		Logger.IncrementProgress();
+
+		Logger.Info("Loading province adjacencies...");
+		LoadAdjacencies(adjacenciesFilename, modFS);
+
+		DetermineMapEdgeProvinces(modFS);
+
+		Logger.Info("Determining province neighbors...");
+		var provincesMapPath = GetProvincesMapPath(modFS);
+		if (provincesMapPath is not null) {
+			using Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath);
+			DetermineNeighbors(provincesMap, ProvinceDefinitions);
+		}
+
+		GroupStaticWaterProvinces();
+
+		Logger.IncrementProgress();
+	}
+
+	private void ParseDefaultMap(ModFilesystem modFS) {
 		Logger.Info("Loading default map data...");
 		const string defaultMapPath = "map_data/default.map";
 		var defaultMapParser = new Parser();
@@ -91,26 +115,6 @@ internal sealed class MapData {
 		defaultMapParser.IgnoreAndLogUnregisteredItems();
 		defaultMapParser.ParseGameFile(defaultMapPath, modFS);
 		Logger.IncrementProgress();
-
-		Logger.Info("Loading province positions...");
-		DetermineProvincePositions(modFS);
-		Logger.IncrementProgress();
-
-		Logger.Info("Loading province adjacencies...");
-		LoadAdjacencies(adjacenciesFilename, modFS);
-
-		DetermineMapEdgeProvinces(modFS);
-
-		Logger.Info("Determining province neighbors...");
-		var provincesMapPath = GetProvincesMapPath(modFS);
-		if (provincesMapPath is not null) {
-			using Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath);
-			DetermineNeighbors(provincesMap, ProvinceDefinitions);
-		}
-
-		GroupStaticWaterProvinces();
-
-		Logger.IncrementProgress();
 	}
 
 	private void GroupStaticWaterProvinces() {
@@ -119,7 +123,7 @@ internal sealed class MapData {
 		var staticWaterProvinces = ProvinceDefinitions
 			.Where(p => p.IsStaticWater)
 			.Select(p => p.Id)
-			.ToHashSet();
+			.ToFrozenSet();
 
 		var provinceGroups = new List<HashSet<ulong>>();
 		foreach (var provinceId in staticWaterProvinces) {
@@ -192,16 +196,54 @@ internal sealed class MapData {
 		return NeighborsDict.TryGetValue(provinceId, out var neighbors) ? neighbors : [];
 	}
 
-	private bool IsColorableImpassable(ulong provinceId) => ProvinceDefinitions[provinceId].IsColorableImpassable;
+	public bool IsColorableImpassable(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsColorableImpassable;
+		}
 
-	public bool IsImpassable(ulong provinceId) => ProvinceDefinitions.TryGetValue(provinceId, out var province) && province.IsImpassable;
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
 
-	private bool IsStaticWater(ulong provinceId) => ProvinceDefinitions[provinceId].IsStaticWater;
-	private bool IsRiver(ulong provinceId) => ProvinceDefinitions[provinceId].IsRiver;
+	public bool IsImpassable(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsImpassable;
+		}
 
-	public IReadOnlySet<ulong> ColorableImpassableProvinceIds => ProvinceDefinitions
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
+
+	private bool IsStaticWater(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsStaticWater;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
+
+	private bool IsRiver(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsRiver;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
+
+	internal bool IsLand(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsLand;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
+
+	public FrozenSet<ulong> ColorableImpassableProvinceIds => ProvinceDefinitions
 		.Where(p => p.IsColorableImpassable).Select(p => p.Id)
-		.ToHashSet();
+		.ToFrozenSet();
 
 	public IReadOnlySet<ulong> MapEdgeProvinceIds => mapEdgeProvinces;
 
@@ -287,35 +329,39 @@ internal sealed class MapData {
 	}
 
 	private static Rgb24 GetAboveColor(Point position, Image<Rgb24> provincesMap) {
-		if (position.Y > 0) {
-			--position.Y;
+		int y = position.Y;
+		if (y > 0) {
+			--y;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(position.X, y), provincesMap);
 	}
 
 	private static Rgb24 GetBelowColor(Point position, int height, Image<Rgb24> provincesMap) {
-		if (position.Y < height - 1) {
-			++position.Y;
+		int y = position.Y;
+		if (y < height - 1) {
+			++y;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(position.X, y), provincesMap);
 	}
 
 	private static Rgb24 GetLeftColor(Point position, Image<Rgb24> provincesMap) {
-		if (position.X > 0) {
-			--position.X;
+		int x = position.X;
+		if (x > 0) {
+			--x;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(x, position.Y), provincesMap);
 	}
 
 	private static Rgb24 GetRightColor(Point position, int width, Image<Rgb24> provincesMap) {
-		if (position.X < width - 1) {
-			++position.X;
+		int x = position.X;
+		if (x < width - 1) {
+			++x;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(x, position.Y), provincesMap);
 	}
 
 	private static Rgb24 GetPixelColor(Point position, Image<Rgb24> provincesMap) {
@@ -349,11 +395,11 @@ internal sealed class MapData {
 	}
 
 	/// Function for checking if two provinces are directly neighboring or border the same static water body.
-	public bool AreProvinceGroupsAdjacent(HashSet<ulong> group1, HashSet<ulong> group2) {
+	public bool AreProvinceGroupsAdjacent(FrozenSet<ulong> group1, FrozenSet<ulong> group2) {
 		return AreProvinceGroupsAdjacentByLand(group1, group2) || AreProvinceGroupsConnectedByWaterBody(group1, group2);
 	}
 
-	public bool AreProvinceGroupsAdjacentByLand(HashSet<ulong> group1, HashSet<ulong> group2) {
+	public bool AreProvinceGroupsAdjacentByLand(FrozenSet<ulong> group1, FrozenSet<ulong> group2) {
 		var group1Neighbors = new HashSet<ulong>();
 		foreach (var province in group1) {
 			if (NeighborsDict.TryGetValue(province, out var neighbors)) {
@@ -377,7 +423,7 @@ internal sealed class MapData {
 		var group2RiverProvinceNeighbors = group2
 			.SelectMany(provId => NeighborsDict.TryGetValue(provId, out var neighbors) ? neighbors : [])
 			.Where(IsRiver)
-			.ToHashSet();
+			.ToFrozenSet();
 		if (group1Neighbors.Overlaps(group2RiverProvinceNeighbors)) {
 			return true;
 		}
@@ -386,7 +432,7 @@ internal sealed class MapData {
 	}
 
 	// Function for checking if two land provinces are connected to the same water body.
-	public bool AreProvinceGroupsConnectedByWaterBody(HashSet<ulong> group1, HashSet<ulong> group2) {
+	public bool AreProvinceGroupsConnectedByWaterBody(FrozenSet<ulong> group1, FrozenSet<ulong> group2) {
 		var group1WaterNeighbors = new HashSet<ulong>();
 		foreach (var provId in group1) {
 			if (!NeighborsDict.TryGetValue(provId, out var neighbors)) {
@@ -403,12 +449,12 @@ internal sealed class MapData {
 		var group2WaterNeighbors = group2
 			.SelectMany(provId => NeighborsDict.TryGetValue(provId, out var neighbors) ? neighbors : [])
 			.Where(IsStaticWater)
-			.ToHashSet();
+			.ToFrozenSet();
 		if (group2WaterNeighbors.Count == 0) {
 			return false;
 		}
 
-		var group1WaterBodies = group1WaterNeighbors.Select(id => waterBodiesDict[id]).ToHashSet();
+		var group1WaterBodies = group1WaterNeighbors.Select(id => waterBodiesDict[id]).ToFrozenSet();
 
 		return group2WaterNeighbors
 			.Any(group2ProvId => group1WaterBodies.Contains(waterBodiesDict[group2ProvId]));

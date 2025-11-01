@@ -21,7 +21,7 @@ public class CultureMapperTests {
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
 	private static readonly MapData irMapData = new(irModFS);
 	private static readonly ImperatorRegionMapper irRegionMapper;
-	private static readonly TestCK3CultureCollection cultures = new();
+	private static readonly TestCK3CultureCollection cultures = [];
 	
 	static CultureMapperTests() {
 		var irProvinces = new ProvinceCollection {new(1), new(2), new(3)};

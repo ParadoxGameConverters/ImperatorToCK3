@@ -4,14 +4,14 @@ using System;
 
 namespace ImperatorToCK3.CK3.Characters;
 
-public readonly struct DNAAccessoryGeneValue(
+internal readonly struct DNAAccessoryGeneValue(
 	string templateName,
 	string objectName,
 	WeightBlock weightBlock,
 	string templateRecessiveName,
 	string objectRecessiveName,
 	WeightBlock weightBlockRecessive
-) {
+) : IEquatable<DNAAccessoryGeneValue> {
 	public DNAAccessoryGeneValue(
 		string templateName,
 		string objectName,
@@ -57,12 +57,12 @@ public readonly struct DNAAccessoryGeneValue(
 		return $"\"{TemplateName}\" {IntSliderValue} \"{TemplateRecessiveName}\" {IntSliderValueRecessive}";
 	}
 
-	public bool Equals(DNAGeneValue other) {
+	public bool Equals(DNAAccessoryGeneValue other) {
 		return TemplateName == other.TemplateName && IntSliderValue == other.IntSliderValue && TemplateRecessiveName == other.TemplateRecessiveName && IntSliderValueRecessive == other.IntSliderValueRecessive;
 	}
 
 	public override bool Equals(object? obj) {
-		return obj is DNAGeneValue other && Equals(other);
+		return obj is DNAAccessoryGeneValue other && Equals(other);
 	}
 
 	public override int GetHashCode() {

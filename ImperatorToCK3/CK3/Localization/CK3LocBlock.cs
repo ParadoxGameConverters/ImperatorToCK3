@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.CK3.Localization;
 
-public class CK3LocBlock : IIdentifiable<string> { // TODO: add ILocBlock interface that both this and commonItems' LocBlock would implement.
+internal class CK3LocBlock : IIdentifiable<string> { // TODO: add ILocBlock interface that both this and commonItems' LocBlock would implement.
 	private readonly string baseLanguage;
 	private readonly ConcurrentDictionary<string, (string, CK3LocType)> localizations = new();
 	

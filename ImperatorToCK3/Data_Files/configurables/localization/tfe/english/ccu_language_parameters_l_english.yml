@@ -8,6 +8,8 @@
  culture_parameter_language_group_gutian: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Gutian [language_group|E]"
  culture_parameter_language_group_pre_greek: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Pre-Greek [language_group|E]"
  culture_parameter_language_group_hatti: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Hattian [language_group|E]"
+ culture_parameter_language_group_burusho: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Burusho [language_group|E]"
+
 
  # Language families
  culture_parameter_language_family_paleo_sardinian: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Paleo-Sardinian [language_family|E]"
@@ -17,4 +19,5 @@
  culture_parameter_language_family_gutian: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Gutian [language_family|E]"
  culture_parameter_language_family_pre_greek: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Pre-Greek [language_family|E]"
  culture_parameter_language_family_hatti: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Hattian [language_family|E]"
+ culture_parameter_language_family_burushaski: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Burushaski [language_family|E]"
 

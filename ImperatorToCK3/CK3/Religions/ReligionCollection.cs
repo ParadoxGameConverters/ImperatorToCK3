@@ -77,6 +77,38 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 				}
 			}
 		}
+		
+		// Validation: every faith should have a funeral doctrine.
+		string? funeralFallback = DoctrineCategories.TryGetValue("doctrine_funeral", out var funeralCategory)
+			? funeralCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_funeral_stoic")
+			: null;
+		foreach (var converterFaith in loadedConverterFaiths) {
+			var funeralDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_funeral");
+			if (funeralDoctrine.Count == 0) {
+				if (funeralFallback is not null) {
+					Logger.Warn($"Faith {converterFaith.Id} has no funeral doctrine! Setting {funeralFallback}");
+					converterFaith.DoctrineIds.Add(funeralFallback);
+				} else {
+					Logger.Warn($"Faith {converterFaith.Id} has no funeral doctrine!");
+				}
+			}
+		}
+		
+		// Validation: every faith should have a coronation doctrine.
+		string? coronationFallback = DoctrineCategories.TryGetValue("doctrine_coronation", out var coronationCategory)
+			? coronationCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_no_anointment")
+			: null;
+		foreach (var converterFaith in loadedConverterFaiths) {
+			var coronationDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_coronation");
+			if (coronationDoctrine.Count == 0) {
+				if (coronationFallback is not null) {
+					Logger.Warn($"Faith {converterFaith.Id} has no coronation doctrine! Setting {coronationFallback}");
+					converterFaith.DoctrineIds.Add(coronationFallback);
+				} else {
+					Logger.Warn($"Faith {converterFaith.Id} has no coronation doctrine!");
+				}
+			}
+		}
 	}
 
 	public void RemoveChristianAndIslamicSyncretismFromAllFaiths() {
@@ -293,8 +325,8 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	}
 
 	// Returns a dictionary with CK3 provinces that are mapped to Imperator provinces, grouped by faith.
-	public static IDictionary<string, ISet<Province>> GetProvincesFromImperatorByFaith(ProvinceCollection ck3Provinces, Date date) {
-		var provincesByFaith = new Dictionary<string, ISet<Province>>();
+	public static Dictionary<string, HashSet<Province>> GetProvincesFromImperatorByFaith(ProvinceCollection ck3Provinces, Date date) {
+		var provincesByFaith = new Dictionary<string, HashSet<Province>>();
 
 		foreach (var province in ck3Provinces) {
 			var imperatorProvince = province.PrimaryImperatorProvince;
@@ -310,7 +342,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 			if (provincesByFaith.TryGetValue(faith, out var set)) {
 				set.Add(province);
 			} else {
-				provincesByFaith[faith] = new HashSet<Province> {province};
+				provincesByFaith[faith] = [province];
 			}
 		}
 
@@ -452,13 +484,13 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		title.SetHolder(character, date);
 	}
 
-	private List<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, IDictionary<string, ISet<Province>> provincesByFaith) {
+	private List<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, Dictionary<string, HashSet<Province>> provincesByFaith) {
 		// Collect all Imperator territories that are mapped to this faith.
-		ISet<Province> faithTerritories;
+		HashSet<Province> faithTerritories;
 		if (provincesByFaith.TryGetValue(faith.Id, out var set)) {
 			faithTerritories = set;
 		} else {
-			faithTerritories = new HashSet<Province>();
+			faithTerritories = [];
 		}
 
 		// Split the territories into 2 sets: territories that have a holy site and territories that do not.

@@ -45,13 +45,13 @@ internal sealed class Governorship {
 		}
 	}
 
-	public IReadOnlyCollection<Province> GetIRProvinces(ProvinceCollection irProvinces) {
+	public ImmutableArray<Province> GetIRProvinces(ProvinceCollection irProvinces) {
 		return irProvinces
 			.Where(p => p.OwnerCountry == Country && Region.ContainsProvince(p.Id))
 			.ToImmutableArray();
 	}
 
-	public IReadOnlyCollection<ulong> GetCK3ProvinceIds(ProvinceCollection irProvinces, ProvinceMapper provMapper) {
+	public ImmutableArray<ulong> GetCK3ProvinceIds(ProvinceCollection irProvinces, ProvinceMapper provMapper) {
 		return GetIRProvinces(irProvinces)
 			.Select(p => p.Id)
 			.SelectMany(provMapper.GetCK3ProvinceNumbers)

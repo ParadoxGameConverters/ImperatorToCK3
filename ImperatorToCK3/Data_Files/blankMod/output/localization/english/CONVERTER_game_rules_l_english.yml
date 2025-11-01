@@ -1,0 +1,33 @@
+﻿l_english:
+ game_rule_category_irtock3: "IRToCK3 Converter"
+
+ rule_irtock3_gamerule_imperator_nomads: "IRToCK3 - [nomads|E] (Khans of the Steppe)"
+
+ setting_irtock3_gamerule_nomads_leave_everything: "Leave Everything As Is"
+ setting_irtock3_gamerule_nomads_leave_everything_desc: "Changes nothing, leaving everything exactly how the converter set it.\n#weak NOTE: [nomads|E] can't [migrate|E] when not involved in a [situation|E] that allows it! #!"
+
+ setting_irtock3_gamerule_nomads_only_steppe: "Only in Steppe"
+ setting_irtock3_gamerule_nomads_only_steppe_desc: "Makes all Imperator tags made [nomadic|E] by the converter that are outside the Steppe convert to [tribal|E].\n#weak NOTE: [nomads|E] can't [migrate|E] when not involved in a [situation|E] that allows it! #!"
+
+ setting_irtock3_gamerule_nomads_no_nomads: "No Nomads"
+ setting_irtock3_gamerule_nomads_no_nomads_desc: "Makes all Imperator tags made [nomadic|E] by the converter [tribal|E]."
+
+
+ rule_irtock3_gameruler_filler_rulers: "IRToCK3 - [filler_rulers|E]"
+ game_concept_filler_rulers: "Filler Rulers"
+ game_concept_filler_rulers_desc: "Filler rulers are [rulers|E] created by the IMP-CK3 converter to fill in the uncolonized land from Imperator. Their rank was determined in the Frontend during conversion to be either [counts|E] or [dukes|E]."
+
+ setting_irtock3_gamerule_filler_rulers_leave_alone: "Leave Everything As Is"
+ setting_irtock3_gamerule_filler_rulers_leave_alone_desc: "Changes nothing, leaving all [filler_rulers|E] exactly how the converter set them.\n#weak NOTE: This will typically have them be [tribal|E]. #!"
+
+ setting_irtock3_gamerule_filler_rulers_all_nomads: "Force Nomadic"
+ setting_irtock3_gamerule_filler_rulers_all_nomads_desc: "Requires Khans of the Steppe to work. Converts ALL [filler_rulers|E] to be [nomads|E].\n#weak NOTE: [nomads|E] can't [migrate|E] when not involved in a [situation|E] that allows it! #!"
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_all: "Steppe Nomads\n         ALL"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_all_desc: "Requires Khans of the Steppe to work. Converts all [filler_rulers|E] in the Steppe to be [nomadic|E]. The rest are made [tribal|E]."
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage: "Steppe Nomads\n     Heritage"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage_desc: "Requires Khans of the Steppe to work. Converts all [filler_rulers|E] in the Steppe to be [nomadic|E] if their [heritage|E] is: Iranian, Mongolic, Turkic, Magyar, or Ugro-Permian. The rest are made [tribal|E]."
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead: "Steppe Nomads\nHerd Culture Head"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead_desc: "Requires Khans of the Steppe to work. Converts all [filler_rulers|E] in the Steppe to be [nomadic|E] if their [culture|E] determines its [culture_head|E] using [herd|E]. The rest are made [tribal|E]."

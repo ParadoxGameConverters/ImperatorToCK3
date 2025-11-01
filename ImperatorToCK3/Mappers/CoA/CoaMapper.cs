@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Mods;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -49,9 +50,9 @@ internal sealed class CoaMapper {
 	/// <summary>
 	/// For a given collection of flag names, returns ones that don't have a defined CoA.
 	/// </summary>
-	public HashSet<string> GetAllMissingFlagKeys(IEnumerable<string> flagKeys) {
-		var existingFlagKeys = coasMap.Keys.ToHashSet();
-		return flagKeys.Where(flagKey => !existingFlagKeys.Contains(flagKey)).ToHashSet();
+	public FrozenSet<string> GetAllMissingFlagKeys(IEnumerable<string> flagKeys) {
+		var existingFlagKeys = coasMap.Keys.ToFrozenSet();
+		return flagKeys.Where(flagKey => !existingFlagKeys.Contains(flagKey)).ToFrozenSet();
 	}
 
 	private readonly Dictionary<string, string> coasMap = [];

@@ -1,6 +1,6 @@
 using commonItems;
 using commonItems.Localization;
-using FluentAssertions;
+using AwesomeAssertions;
 using ImperatorToCK3.Imperator;
 using ImperatorToCK3.Imperator.Armies;
 using System.Linq;

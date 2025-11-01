@@ -35,7 +35,7 @@ internal static class MenAtArmsOutputter {
 
 		sb.AppendLine("}");
 		
-		var outputPath = Path.Combine("output", outputModName, "events", "irtock3_hidden_events.txt");
+		var outputPath = Path.Combine("output", outputModName, "events/irtock3_hidden_events.txt");
 		using var output = FileHelper.OpenWriteWithRetries(outputPath, System.Text.Encoding.UTF8);
 		output.Write(sb.ToString());
 	}

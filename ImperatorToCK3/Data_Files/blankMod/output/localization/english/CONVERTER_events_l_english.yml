@@ -1,0 +1,15 @@
+﻿l_english:
+ # Welcome Event
+ welcome_ok: "OK"
+ welcome_back: "Back"
+
+ welcome_title: "IMP-CK3 Welcome"
+ welcome_desc: "Thank you for using the Imperator to CK3 converter. If you haven't done so already, make sure you look through your game rules.\n\nThe converter currently includes game rules for:\n - Deciding which Imperator tags can be [nomadic|E]\n - Deciding how the [filler_rulers|E] should have their [government|E] decided"
+ welcome_mods: "IMP-CK3 Intended Mods"
+ 
+ welcome_mods_title: "IMP-CK3 Mods"
+ welcome_mods_desc: "Here are some mods made with the intent to work alongside the Imperator-CK3 converter.\n\nEach option shows the name and author of the mod to make it easier to find in the workshop. Hover over each option to get a brief description of the mod. Click any of the mod options to exit this event.\n\nIf a mod shows this in the description:\n\t$welcome_mods_must_choose_in_converter$\nThat means that in order to use the mod with a converted save, it must have been chosen as a CK3 mod you were playing with when converting the Imperator save in order for it to work. But, if you see this:\n\t$welcome_mods_recommend_choose_in_converter$\nThat means it is recommended that the mod was chosen in the converter when converting the save, likely because it adds stuff like cultures/faiths that could be used when converting the save or because it is to ensure that the mod is loaded at game start, but it isn't required.\nIf the mod doesn't show either, then it doesn't need to be chosen when converting the save game, it could be added manually to the playlist after conversion."
+ welcome_mods_must_choose_in_converter: "@warning_icon! #warning THIS MOD MUST BE CHOSEN WHEN RUNNING CONVERTER TO WORK#!"
+ welcome_mods_recommend_choose_in_converter: "@warning_icon! #alert_trial IT IS RECOMMENDED THIS MOD BE CHOSEN WHEN RUNNING CONVERTER#!"
+ welcome_mods_confed_leagues: "'Confederations & Leagues' by tanner918"
+ welcome_mods_confed_leagues_desc: "This mod expands the confederation system. Using this mod will allow:\n$EFFECT_LIST_BULLET$Non-Tribal/Nomadic realms to form Defensive Leagues\n$EFFECT_LIST_BULLET$Faith-based Confederations/Leagues, instead of just Culture-based like in base game\n$EFFECT_LIST_BULLET$Some historical Confederation/League names to appear, with some creating new cultures when elevating the confederation/league\n$EFFECT_LIST_BULLET$Allows Imperator Defensive Leagues to be fully converted over upon game start, instead of just the ones containing Tribes/Nomads"

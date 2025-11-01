@@ -1,6 +1,6 @@
 ﻿# Add mod-specific stuff inside MOD_DEPENDENT = { IF @[wtwsms] = {} } blocks.
-# WtWSMS uses (broadest->specific): heritage_family (multiple allowed) -> heritage_group (multiple allowed); optionally also allows heritage_kulturbund
-# ROA uses (broadest->specific): heritage_family -> heritage_group
+# WtWSMS uses (broadest->specific): heritage_family (multiple allowed) -> heritage_group (multiple allowed); optionally also allows heritage_kulturbund (multiple allowed)
+# ROA uses (broadest->specific): heritage_family (multiple allowed) -> heritage_group (multiple allowed); optionally also allows heritage_kulturbund
 # TFE uses (broadest->specific): heritage_family -> heritage_group
 
 heritage_nuragic = {
@@ -39,12 +39,12 @@ heritage_anatolian = {
 	MOD_DEPENDENT = {
 		IF roa = {
 			parameters = {
-				heritage_group_byzantine = yes
+				heritage_group_anatolian = yes
 				heritage_family_european = yes
 			}
 		} ELSE_IF tfe = {
 			parameters = {
-				heritage_group_byzantine = yes
+				heritage_group_balko_anatolian = yes
 				heritage_family_mediterranean = yes 
 			}
 		}
@@ -58,9 +58,9 @@ heritage_anatolian = {
 	audio_parameter = european
 }
 
+# TFE added their own version of this heritage, but left out the heritage family parameter, so adding it here to get rid of converter error until TFE fixes it.
 heritage_gaulish = {
     REPLACED_BY = {
-		tfe = { heritage_gaulish }
 		vanilla = { heritage_gaulish }
 	}
 	MOD_DEPENDENT = {
@@ -68,6 +68,11 @@ heritage_gaulish = {
 			parameters = {
 				heritage_group_celtic = yes
 				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes 
 			}
 		}
 	}
@@ -138,13 +143,13 @@ heritage_romano_british = {
 	MOD_DEPENDENT = {
 		IF roa = {
 			parameters = {
-				heritage_group_latin = yes
+				heritage_group_celtic = yes # Romano-British, historically, were likely native Britons who began adopting Roman culture
 				heritage_family_european = yes
 			}
 		} ELSE_IF tfe = {
 			parameters = {
-				heritage_group_latin = yes
-				heritage_family_mediterranean = yes
+				heritage_group_celtic = yes # Romano-British, historically, were likely native Britons who began adopting Roman culture
+				heritage_family_northern = yes
 			}
 		}
 	}
@@ -163,20 +168,15 @@ heritage_romano_germanic = {
 		vanilla = { heritage_romano_germanic }
 	}
 	MOD_DEPENDENT = {
-		IF roa = {
+		IF @[roa|wtwsms] = {
 			parameters = {
-				heritage_group_latin = yes
+				heritage_group_germanic = yes # Historically, the Romano-Germanic peoples would have been Germanic peoples who began adopting Roman culture.
 				heritage_family_european = yes
 			}
 		} ELSE_IF tfe = {
 			parameters = {
-				heritage_group_latin = yes
+				heritage_group_germanic = yes # Historically, the Romano-Germanic peoples would have been Germanic peoples who began adopting Roman culture.
 				heritage_family_northern = yes
-			}
-		} ELSE_IF wtwsms = {
-			parameters = {
-				heritage_group_romance = yes
-				heritage_family_european = yes
 			}
 		}
 	}
@@ -211,14 +211,14 @@ heritage_thracian = {
 		vanilla = { heritage_thracian }
 	}
 	MOD_DEPENDENT = {
-		IF roa = {
-			parameters = {
-				heritage_group_byzantine = yes
-				heritage_family_european = yes
-			}
-		} ELSE_IF wtwsms = {
+		IF wtwsms = {
 			parameters = {
 				heritage_group_balko_anatolian = yes
+				heritage_family_european = yes
+			}
+		} ELSE_IF roa = {
+			parameters = {
+				heritage_group_balkan = yes
 				heritage_family_european = yes
 			}
 		}
@@ -335,12 +335,6 @@ heritage_mon_khmer = { # from Rajas of Asia
 				heritage_family_east_asian = yes 
 			}
 		}
-		ELSE = {
-			# parameters = { # heritages for CCU
-			# 	heritage_group_austroasiatic = yes
-			# 	heritage_family_southeast_asian = yes
-			# }
-		}
 	}
 
 	is_shown = {
@@ -404,4 +398,288 @@ heritage_frankish = { # To replace assigned Latin heritage group/family in TFE/R
 		}
 	}
 	audio_parameter = european
+}
+
+heritage_venetic = {
+    REPLACED_BY = {
+		tfe = { heritage_venetic }
+		vanilla = { heritage_venetic }
+    }
+
+	type = heritage
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes 
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				heritage_group_romance = yes
+				heritage_family_european = yes
+			}
+		}
+	}
+
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_venetic
+		}
+	}
+	audio_parameter = european
+}
+
+# To remove them from being in the "Romance" group in RoA
+heritage_iberian = {
+    REPLACED_BY = {
+		tfe = { heritage_iberian }
+		wtwsms = { heritage_iberian }
+		vanilla = { heritage_iberian }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_iberian
+		}
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_iberian = yes
+				heritage_family_european = yes
+			}
+		}
+	}
+	audio_parameter = european
+}
+
+# To remove heritage_group_byzantine from it in RoA, since the Byzantines aren't guarenteed to exist, and they already have a proper heritage group
+heritage_byzantine = {
+    REPLACED_BY = {
+		tfe = { heritage_byzantine }
+		wtwsms = { heritage_byzantine }
+		vanilla = { heritage_byzantine }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_byzantine
+		}
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_balkan = yes
+				heritage_family_west_asian = yes
+				heritage_family_european = yes
+			}
+		}
+	}
+	audio_parameter = european
+}
+
+# To rework CCU parameters, since they are based mainly around the Magyars/Hungarians being already near Europe
+heritage_magyar = {
+    REPLACED_BY = {
+		tfe = { heritage_magyar }
+		wtwsms = { heritage_magyar }
+		vanilla = { heritage_magyar }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_magyar
+		}
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_steppe = yes
+				heritage_group_ugro_permian = yes
+				heritage_family_eurasian = yes
+			}
+		}
+	}
+	audio_parameter = european
+}
+
+# To remove heritage_group_byzantine from it in RoA, since the Byzantines aren't guarenteed to exist, and they already have a proper heritage group
+heritage_south_slavic = {
+    REPLACED_BY = {
+		tfe = { heritage_south_slavic }
+		wtwsms = { heritage_south_slavic }
+		vanilla = { heritage_south_slavic }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_south_slavic
+		}
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_central_european = yes
+				heritage_group_balkan = yes
+				heritage_family_european = yes
+			}
+		}
+	}
+	audio_parameter = european
+}
+
+# To remove heritage_group_byzantine and heritage_group_latin from it in RoA, since the Byzantines aren't guarenteed to exist, they are not ethnically "Latin/Italic", and they already have a proper heritage group
+heritage_vlach = {
+    REPLACED_BY = {
+		tfe = { heritage_vlach }
+		wtwsms = { heritage_vlach }
+		vanilla = { heritage_vlach }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_vlach
+		}
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_balkan = yes
+				heritage_family_european = yes
+			}
+		}
+	}
+	audio_parameter = european
+}
+
+# To remove heritage_group_byzantine from it in RoA, since the Byzantines aren't guarenteed to exist, and they already have a proper heritage group
+heritage_caucasian = {
+    REPLACED_BY = {
+		tfe = { heritage_caucasian }
+		wtwsms = { heritage_caucasian }
+		vanilla = { heritage_caucasian }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_caucasian
+		}
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_iranian = yes
+				heritage_group_levantine = yes
+				heritage_family_caucasian = yes
+				heritage_family_west_asian = yes
+				heritage_family_eurasian = yes
+			}
+		}
+	}
+	audio_parameter = european
+}
+
+# TFE doesn't give group/family parameters for this heritage, despite using it in code, so set this up to replace TFE's definition with one that mimics the Turkic heritage, which their base game Hun culture uses. Just adding this to get rid of converter error until TFE handles it.
+heritage_hunnic = {
+    REPLACED_BY = {
+		roa = { heritage_hunnic }
+		wtwsms = { heritage_hunnic }
+		vanilla = { heritage_hunnic }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_hunnic
+		}
+	}
+	audio_parameter = european
+	
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_turkic = yes
+				heritage_family_steppe = yes 
+			}
+		}
+	}
+}
+
+# TFE added this heritage but forgot to give it a family parameter, so adding it here to get rid of converter error. Replacing with heritage_latin when not using TFE to prevent a random unused heritage from being loaded.
+heritage_gallo_rhaetian_latin = {
+    REPLACED_BY = {
+		roa = { heritage_latin }
+		wtwsms = { heritage_latin }
+		vanilla = { heritage_latin }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_gallo_rhaetian_latin
+		}
+	}
+	audio_parameter = european
+
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes 
+			}
+		}
+	}
+}
+
+# TFE added this heritage but forgot to give it a family parameter, so adding it here to get rid of converter error. Replacing with heritage_latin when not using TFE to prevent a random unused heritage from being loaded.
+heritage_british_latin = {
+    REPLACED_BY = {
+		roa = { heritage_latin }
+		wtwsms = { heritage_latin }
+		vanilla = { heritage_latin }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_british_latin
+		}
+	}
+	audio_parameter = european
+	
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes 
+			}
+		}
+	}
+}
+
+# TFE added this heritage but forgot to give it a family parameter, so adding it here to get rid of converter error. Replacing with heritage_latin when not using TFE to prevent a random unused heritage from being loaded.
+heritage_occitan = {
+    REPLACED_BY = {
+		roa = { heritage_latin }
+		wtwsms = { heritage_latin }
+		vanilla = { heritage_latin }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_occitan
+		}
+	}
+	audio_parameter = european
+	
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes 
+			}
+		}
+	}
 }

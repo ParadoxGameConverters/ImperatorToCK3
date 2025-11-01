@@ -213,7 +213,7 @@ internal sealed class TagTitleMapper {
 		};
 
 		foreach (var mapping in rankMappings) {
-			var match = mapping.Match(countryRankStr, country.TerritoriesCount);
+			var match = mapping.Match(countryRankStr, country.TerritoriesCount, country.GovernmentType);
 			if (match is not null) {
 				return match.Value;
 			}

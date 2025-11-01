@@ -1,7 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Serialization;
-using FluentAssertions;
+using AwesomeAssertions;
 using ImperatorToCK3.CommonUtils;
 using System;
 using System.Collections.Generic;

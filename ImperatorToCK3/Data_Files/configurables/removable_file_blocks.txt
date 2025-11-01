@@ -41,15 +41,6 @@
 	{
 		250 = fp3_yearly.8020 # The Lady of the Land
 	}
-	{
-					modifier = {
-						add = 20
-						exists = character:125501
-						character:125501 = {
-							is_physically_able_ai_adult = yes
-						}
-					}
-	}
 }
 
 "common/on_action/death.txt" = {
@@ -284,6 +275,228 @@
 
 	# Anachronistic
 	{
+		### ARMENIAN SETUP ###
+		title:e_byzantium.holder ?= {
+			every_vassal = {
+				limit = {
+					government_has_flag = government_is_feudal
+					vassal_contract_has_modifiable_obligations = yes
+					faith = faith:armenian_apostolic
+				}
+				vassal_contract_set_obligation_level = { type = religious_rights level = 1 }
+				set_subject_contract_modification_blocked = no
+			}
+		}
+		title:e_arabia.holder ?= {
+			every_vassal = {
+				limit = {
+					government_has_flag = government_is_feudal
+					vassal_contract_has_modifiable_obligations = yes
+					faith = faith:armenian_apostolic
+				}
+				vassal_contract_set_obligation_level = { type = feudal_government_taxes level = 3 }
+				vassal_contract_set_obligation_level = { type = feudal_government_levies level = 2 }
+				vassal_contract_set_obligation_level = { type = jizya_special_rights level = 1 }
+				set_subject_contract_modification_blocked = no
+			}
+		}
+	}
+
+	# Anachronistic
+	{
+		### CORONATION LOCATION SETUP ###
+		if = {
+			limit = {
+				current_date >= 1066.1.1
+				has_dlc_feature = coronations
+			}
+			# London (England)
+			province:1527 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Aachen (Germany)
+			province:2092 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Reims (France)
+			province:2390 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Rome (Italy)
+			province:2575 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Milan (Italy)
+			province:2482 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Gniezno (Poland)
+			province:4905 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Szekesfehervar (Hungary)
+			province:3805 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Scone Abbey, Gowrie (Scotland)
+			province:1741 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Byzantium (Byzantines)
+			province:496 = { 
+				add_province_modifier = coronation_long_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 10
+				}
+			}
+			# Mahdiya (Africa)
+			province:4578 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Cairo (Egypt)
+			province:6042 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Damascus (Syria)
+			province:5924 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Baghdad (Mesopotamia)
+			province:4828 = { 
+				add_province_modifier = coronation_long_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 10
+				}
+			}
+			# Rayy (Persia)
+			province:4319 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Ghazna (Kabulistan)
+			province:4500 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Lahur (Punjab)
+			province:1362 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Samarkand (Transoxiana)
+			province:4404 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Bukhara (Transoxiana)
+			province:4394 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Medina (Arabia)
+			province:6212 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Kutaisi (Georgia)
+			province:601 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+		}
+		if = {
+			limit = {
+				current_date >= 1178.1.1
+				has_dlc_feature = coronations
+			}
+			# Marrakesh (Maghreb)
+			province:4718 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+			# Karakorum (Mongolia)
+			province:1457 = { 
+				add_province_modifier = coronation_tradition_modifier 
+				set_variable = {
+					name = coronation_tradition_location
+					value = 5
+				}
+			}
+		}
+	}
+
+	# Anachronistic
+	{
 		### GAME RULE: EXTRA ADMINS
 		apply_historic_administrative_game_rule_effect = yes
 	}
@@ -341,15 +554,15 @@
 				game_start_date >= 1178.10.1
 			}
 			religion:islam_religion = {
-				set_variable = { 
-					name = variable_ghw_unlocked 
-					value = yes 
+				set_variable = {
+					name = variable_ghw_unlocked
+					value = yes
 				}
 			}
 			religion:christianity_religion = {
-				set_variable = { 
-					name = variable_ghw_unlocked 
-					value = yes 
+				set_variable = {
+					name = variable_ghw_unlocked
+					value = yes
 				}
 			}
 			set_global_variable = {
@@ -698,19 +911,19 @@
 				game_start_date >= 1178.10.1
 			}
 			character:231000 = {
-				save_scope_as = leader
+				save_scope_as = leader_1
 			}
 			character:223523 = {
-				save_scope_as = founder
+				save_scope_as = founder_1
 			}
 			title:b_hebron = {
-				save_scope_as = barony
+				save_scope_as = barony_1
 			}
 			create_holy_order_neutral_effect = {
-				LEADER = scope:leader
-				CAPITAL = scope:barony
+				LEADER = scope:leader_1
+				CAPITAL = scope:barony_1
 				NEW_HO_SCOPE = new_holy_order
-				FOUNDER = scope:founder
+				FOUNDER = scope:founder_1
 			}
 		}
 	}
@@ -887,7 +1100,7 @@
 			character:3040 = {
 				designate_diarch = character:3050
 				# This is a vizierate as well, so start the diarchy manually.
-				start_diarchy = vizierate
+				try_start_diarchy = vizierate
 				# Tell Alp that he appointed Hassan so he remembers not to dismiss him.
 				set_variable = {
 					name = my_vizier
@@ -898,7 +1111,7 @@
 			character:1732 = {
 				if = {
 					limit = { has_ep3_dlc_trigger = yes }
-					start_diarchy = co_emperorship
+					try_start_diarchy = co_emperorship
 					set_diarch = character:1736
 					set_designated_heir = character:1736
 				}
@@ -961,7 +1174,7 @@
 			character:215530 = {
 				if = {
 					limit = { has_ep3_dlc_trigger = yes }
-					start_diarchy = junior_emperorship
+					try_start_diarchy = junior_emperorship
 					set_diarch = character:215531
 					set_designated_heir = character:215531
 				}
@@ -969,13 +1182,18 @@
 			## Henry II of England and the Young King
 			character:204500 = {
 				designate_diarch = character:204508
-				start_diarchy = co_monarchy
+				try_start_diarchy = co_monarchy
 				set_designated_heir = character:204508
 			}
 			## Teresa of Portugal for Afonso the Conqueror
-			character:209503 = { 
-				start_diarchy = regency
-				set_diarch = character:209510 
+			character:209503 = {
+				try_start_diarchy = regency
+				set_diarch = character:209510
+			}
+			## Kara Khitai, Wolila for Zhilugu
+			character:188912 = {
+				try_start_diarchy = nomad_regency
+				set_diarch = character:188909
 			}
 			# Plus remove all the generated opinions.
 			## Richard I and Eleanor of Aquitaine
@@ -1003,6 +1221,12 @@
 				NEW_DIARCH = character:209510
 				LIEGE = character:209503
 			}
+			## Wolila and Zhilugu 
+			remove_generated_diarch_consequences_effect = {
+				NEW_DIARCH = character:188909
+				LIEGE = character:188912
+			}
+
 		}
 	}
 	{
@@ -1010,6 +1234,10 @@
 		if = {
 			limit = { exists = character:3096 }
 			character:3096 = { trigger_event = diarchy.0012 }
+		}
+		else_if = {
+			limit = { exists = character:188912 }
+			character:188912 = { trigger_event = diarchy.0012 }
 		}
 	}
 	{
@@ -1040,7 +1268,7 @@
 		}
 	}
 	{
-			## El Cid 
+			## El Cid
 			character:107590 ?= {
 				if = {
 					limit = {
@@ -1172,7 +1400,7 @@
 				limit = {
 					cid_story_cycle_start_trigger = yes
 				}
-				trigger_event = { 
+				trigger_event = {
 					id = cid.0001
 					days = 1
 				}
@@ -1239,6 +1467,11 @@
 				create_story = story_conqueror
 			}
 		}
+	}
+
+	# Anachronistic
+	{
+					NOT = { this = character:1316 } # Heinrich IV was coronated in 1084
 	}
 
 # achievements
@@ -1375,6 +1608,32 @@
 					}
 					add_achievement_global_variable_effect = {
 						VARIABLE = started_mother_of_us_all_achievement
+						VALUE = yes
+					}
+				}
+				if = { # Temüjin
+					limit = {
+						has_mpo_dlc_trigger = yes
+						exists = character:125501
+						this = character:125501
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_the_stallion_that_mounts_the_world_achievement
+						VALUE = yes
+					}
+				}
+				if = {
+					limit = {
+						government_has_flag = government_is_nomadic
+						save_temporary_scope_as = nomad_ruler
+						situation:the_great_steppe ?= {
+							situation_sub_region:steppe_east = {
+								situation_sub_region_has_county = scope:nomad_ruler.capital_county
+							}
+						}
+					}
+					add_achievement_global_variable_effect = {
+						VARIABLE = started_steppe_by_steppe_achievement
 						VALUE = yes
 					}
 				}
@@ -1837,6 +2096,22 @@
 						VALUE = yes
 					}
 				}
+				if = {
+					limit = {
+						has_mpo_dlc_trigger = yes
+						exists = character:125501
+						character:125501 = {
+							is_alive = yes
+						}
+					}
+					character:125501 = {
+						create_story = story_temujin_flavor
+						trigger_event = {
+							days = { 12 30 }
+							id = mpo_temujin_flavor.0030 # Borte announces she's pregnant
+						}
+					}
+				}
 			}
 		}
 	}
@@ -1885,7 +2160,21 @@
 			title:c_avlonas = { add_county_modifier = backwater_county_modifier }
 		}
 	}
-}
+
+	{
+		if = {
+			limit = {
+				title:k_magyar = {
+					exists = holder
+				}
+			}
+			title:k_magyar = {
+				add_title_law = confederation_elective_succession_law
+			}
+		}
+	}
+
+} # End of "common/on_action/game_start.txt"
 
 "common/on_action/title_on_actions.txt" = {
 	{
@@ -2553,7 +2842,7 @@ create_artifact_monomachus_crown_effect = {
 	create_artifact = {	
 		name = monomachus_crown_name
 		description = monomachus_crown_description
-		template = general_unique_template
+		template = crown_wearable_template
 		type = helmet
 		visuals = pedestal_justinian
 		wealth = scope:wealth
@@ -3540,44 +3829,92 @@ bookmark.1073 = {
 			}
 			add_realm_law = camp_purpose_mercenaries
 		}
-		spawn_army = {
-			name = event_troop_default_name
-			men_at_arms = {
-				type = horse_archers
-				stacks = 2
+		if = {
+			limit = {
+				has_mpo_dlc_trigger = yes
 			}
-			men_at_arms = {
-				type = light_horsemen
-				stacks = 2
+			spawn_army = {
+				name = event_troop_default_name
+				men_at_arms = {
+					type = horse_archers
+					stacks = 2
+				}
+				men_at_arms = {
+					type = steppe_raiders
+					stacks = 2
+				}
+				men_at_arms = {
+					type = heavy_horse_archers
+					stacks = 2
+				}
+				location = root.location
+				origin = root.location
 			}
-			men_at_arms = {
-				type = light_footmen
-				stacks = 2
+		}
+		else = {
+			spawn_army = {
+				name = event_troop_default_name
+				men_at_arms = {
+					type = horse_archers
+					stacks = 2
+				}
+				men_at_arms = {
+					type = steppe_raiders
+					stacks = 2
+				}
+				men_at_arms = {
+					type = heavy_horse_archers
+					stacks = 2
+				}
+				location = root.location
+				origin = root.location
 			}
-			location = root.location
-			origin = root.location
 		}
 	}
 
 	option = {
 		name = bookmark.1073.a
 		add_prestige_level = 1
-		spawn_army = {
-			name = event_troop_default_name
-			men_at_arms = {
-				type = horse_archers
-				stacks = 2
+		if = {
+			limit = {
+				has_mpo_dlc_trigger = yes
 			}
-			men_at_arms = {
-				type = light_horsemen
-				stacks = 2
+			spawn_army = {
+				name = event_troop_default_name
+				men_at_arms = {
+					type = horse_archers
+					stacks = 2
+				}
+				men_at_arms = {
+					type = steppe_raiders
+					stacks = 2
+				}
+				men_at_arms = {
+					type = heavy_horse_archers
+					stacks = 2
+				}
+				location = root.location
+				origin = root.location
 			}
-			men_at_arms = {
-				type = light_footmen
-				stacks = 2
+		}
+		else = {
+			spawn_army = {
+				name = event_troop_default_name
+				men_at_arms = {
+					type = horse_archers
+					stacks = 2
+				}
+				men_at_arms = {
+					type = light_horsemen
+					stacks = 2
+				}
+				men_at_arms = {
+					type = light_footmen
+					stacks = 2
+				}
+				location = root.location
+				origin = root.location
 			}
-			location = root.location
-			origin = root.location
 		}
 		ai_chance = {
 			base = 90
@@ -6113,8 +6450,8 @@ game_rule.1143 = {
 			modifier = {
 				add = 999
 				exists = this
-				exists = character:easteregg_rebecca_ronnback
-				this = character:easteregg_rebecca_ronnback
+				exists = character:easteregg_rebecca_gottfredsson
+				this = character:easteregg_rebecca_gottfredsson
 			}
 		}
 	}
@@ -7419,6 +7756,38 @@ game_rule.1143 = {
 		}
 	}
 
+	jacopo_freddi = {
+		dna_modifiers = {
+			accessory = {
+				mode = add
+				gene = beards
+				template = fp2_beards_straight
+				accessory = male_beard_fp2_iberian_christian_01
+			}
+			accessory = {
+				mode = add
+				gene = cloaks
+				template = fp4_cloak_western
+				accessory = m_cloaks_sec_fp4_western_era3_nob_02
+			}
+			accessory = {
+				mode = add
+				gene = hairstyles
+				template = all_hairstyles
+				accessory = male_hair_indian_01
+			}
+		}
+		weight = {
+			base = 0
+			modifier = {
+				add = 999
+				exists = this
+				exists = character:easteregg_jacopo_freddi
+				this = character:easteregg_jacopo_freddi
+			}
+		}
+	}
+
 	female_hair_steppe_01 = { # Twin braids with ribbons and earrings
 		dna_modifiers = {
 			accessory = {
@@ -7562,8 +7931,8 @@ game_rule.1143 = {
 			modifier = {
 				add = 999
 				exists = this
-				exists = character:easteregg_melanie_bjurman
-				this = character:easteregg_melanie_bjurman
+				exists = character:easteregg_melanie_albarn
+				this = character:easteregg_melanie_albarn
 			}
 		}
 	}
@@ -7901,7 +8270,7 @@ restore_holy_roman_empire_decision = {
 		NOR = { #It doesn't make sense for these competing empires.
 			has_title = title:e_byzantium
 			has_title = title:e_roman_empire
-			has_title = title:e_mongol_empire
+			mpo_has_gok_mongol_empire_trigger = yes
 		}
 		AND = {	#Faith conditions.
 			NOT = { this = faith.religious_head }	#Nice try, Mr. Pope.
@@ -8410,6 +8779,11 @@ restore_holy_roman_empire_decision = {
 		if = {
 			limit = { this = character:3096 }
 			set_diarchy_swing = 100
+		}
+		## Kara Khitai Zhilugu was put on the throne cause Wolila killed the previous empress
+		else_if = {
+			limit = { this = character:188912 }
+			set_diarchy_swing = 60
 		}
 	}
 }
@@ -14531,7 +14905,7 @@ hasan_sabbah_end_war = {
 			limit = {
 				tier >= tier_duchy
 				is_head_of_faith = no
-				NOT = { this = $SELJUK$.capital_county.duchy }		
+				NOT = { this = $SELJUK$.capital_county.duchy }
 			}
 			add_to_temporary_list = titles_to_destroy
 		}
@@ -14826,5 +15200,340 @@ apply_historic_administrative_game_rule_effect = {
 			}
 			set_character_faith = faith:nestorian
 		}
+	}
+}
+
+
+"common/scripted_effects/00_tributary_setup_effects.txt" = {
+	# This is what gets called at game start to setup tributaries. While this effect will likely get overwritten, I am adding this here just in case to ensure there are no issues.
+	{
+	if = {
+		limit = { has_mpo_dlc_trigger = yes	}
+		if = {
+    		limit = { current_date < 1066.9.15 } # so, 867
+        	mpo_867_tributary_setup_effect = yes
+    	}
+    	else_if = {
+    		limit = { current_date = 1066.9.15 }
+        	mpo_1066_tributary_setup_effect = yes
+    	}
+    	else_if = {
+    		limit = { current_date > 1066.9.15 } # so, 1178
+        	mpo_1178_tributary_setup_effect = yes
+    	}
+    }
+	if = {
+		if = {
+    		limit = { current_date < 1066.9.15 } # so, 867
+    		base_867_tributary_setup_effect = yes
+    	}
+    	else_if = {
+    		limit = { current_date = 1066.9.15 }
+        	base_1066_tributary_setup_effect = yes
+    	}
+    	else_if = {
+    		limit = { current_date > 1066.9.15 } # so, 1178
+        	base_1178_tributary_setup_effect = yes
+    	}
+    }
+	}
+}
+
+
+"common/scripted_effects/00_mongol_invasion_effects.txt" = {
+	# Character 125501 (Temujin) won't exist, so just removing this part
+	{
+	if = {
+		limit = {
+			exists = character:125501
+			character:125501 = {
+				is_ai = no
+			}
+		}
+		character:125501 = {
+			save_scope_as = temujin
+		}
+		if = {
+			limit = {
+				#The DLC has our own BECOME GENGHIS stuff for players
+				has_mpo_dlc_trigger = no
+			}
+			scope:temujin = {
+				give_temujin_land_effect = yes
+				# Make temporarily immune to disease
+				add_character_flag = {
+					flag = immune_to_disease
+					years = 15
+				}
+
+				add_trait = greatest_of_khans
+				form_the_mongol_empire_effect = yes
+				add_prestige = 25000
+				give_nickname = nick_genghis_khan
+				trigger_event = conqueror.0001
+			}
+		}
+		else = {
+			scope:temujin = {
+				# Make temporarily immune to disease
+				add_character_flag = {
+					flag = immune_to_disease
+					years = 15
+				}
+				trigger_event = conqueror.0001
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			exists = character:125501
+			character:125501 = { is_physically_able_ai_adult = yes }
+		}
+		character:125501 = {
+			save_scope_as = temujin
+		}
+		scope:temujin = {
+			# Make temporarily immune to disease
+			add_character_flag = {
+				flag = immune_to_disease
+				years = 15
+			}
+
+			add_trait = greatest_of_khans
+			give_temujin_land_effect = yes
+			add_gold = 5000
+			add_dread = high_dread
+			spawn_temujins_court_effect = yes
+			form_the_mongol_empire_effect = yes
+			add_prestige = 25000
+			if = {
+				limit = {
+					has_mpo_dlc_trigger = no
+					NOT = { has_perk = peacemaker_perk }
+				}
+				add_perk = peacemaker_perk
+			}
+			remove_trait = education_diplomacy_1
+			remove_trait = education_diplomacy_2
+			remove_trait = education_diplomacy_3
+			remove_trait = education_diplomacy_4
+			remove_trait = education_diplomacy_5
+			remove_trait = education_intrigue_1
+			remove_trait = education_intrigue_2
+			remove_trait = education_intrigue_3
+			remove_trait = education_intrigue_4
+			remove_trait = education_intrigue_5
+			remove_trait = education_stewardship_1
+			remove_trait = education_stewardship_2
+			remove_trait = education_stewardship_3
+			remove_trait = education_stewardship_4
+			remove_trait = education_stewardship_5
+			remove_trait = education_learning_1
+			remove_trait = education_learning_2
+			remove_trait = education_learning_3
+			remove_trait = education_learning_4
+			remove_trait = education_learning_5
+			remove_trait = education_martial_1
+			remove_trait = education_martial_2
+			remove_trait = education_martial_3
+			remove_trait = education_martial_4
+			add_trait = education_martial_5
+			add_trait = flexible_leader
+			add_trait = athletic
+			if = {
+				limit = { has_dlc_feature = tours_and_tournaments }
+				add_trait = tourney_participant
+				add_random_tiered_trait_track_xp_effect = {
+					TRAIT = lifestyle_hunter
+					TRACK = hunter
+					LEVEL_1 = yes
+					LEVEL_3 = no
+				}
+				add_random_tiered_trait_track_xp_effect = {
+					TRAIT = tourney_participant
+					TRACK = horse
+					LEVEL_1 = yes
+					LEVEL_3 = yes
+				}
+				add_random_tiered_trait_track_xp_effect = {
+					TRAIT = tourney_participant
+					TRACK = bow
+					LEVEL_1 = yes
+					LEVEL_3 = yes
+				}
+			}
+			dynasty = {
+				add_dynasty_prestige_level = 5
+				add_dynasty_prestige = 10000
+				add_dynasty_perk = warfare_legacy_1
+				add_dynasty_perk = warfare_legacy_2
+				add_dynasty_perk = warfare_legacy_3
+				add_dynasty_perk = warfare_legacy_4
+				add_dynasty_perk = warfare_legacy_5
+				if = {
+					limit = {
+						has_dlc_feature = hybridize_culture
+					}
+					add_dynasty_perk = ep1_culture_legacy_1
+				}
+			}
+			give_nickname = nick_genghis_khan
+		}
+	}
+	else_if = {
+		limit = {
+			exists = character:125501.dynasty
+			character:125501.dynasty = {
+				any_dynasty_member = {
+					is_ai = no
+					is_landed = yes
+				}
+			}
+		}
+		character:125501.dynasty = {
+			random_dynasty_member = {
+				limit = {
+					is_ai = no
+					is_landed = yes
+				}
+				save_scope_as = temujin
+			}
+		}
+		if = {
+			limit = { has_mpo_dlc_trigger = no }
+			scope:temujin = {
+				# Make temporarily immune to disease
+				add_character_flag = {
+					flag = immune_to_disease
+					years = 15
+				}
+
+				add_trait = greatest_of_khans
+				form_the_mongol_empire_effect = yes
+				add_prestige = 25000
+				give_nickname = nick_genghis_khan
+				trigger_event = conqueror.0001
+			}
+		}
+		else = {
+			scope:temujin = {
+				# Make temporarily immune to disease
+				add_character_flag = {
+					flag = immune_to_disease
+					years = 15
+				}
+				trigger_event = conqueror.0001
+			}
+		}
+	}
+	else_if = {
+		limit = {
+			exists = character:125501.dynasty
+			character:125501.dynasty = {
+				any_dynasty_member = {
+					is_physically_able_ai_adult = yes
+				}
+			}
+		}
+		character:125501.dynasty = {
+			random_dynasty_member = {
+				limit = {
+					is_physically_able_ai_adult = yes
+					is_landed = yes
+				}
+				alternative_limit = {
+					is_physically_able_ai_adult = yes
+				}
+				save_scope_as = temujin
+			}
+		}
+		scope:temujin = {
+			# Make temporarily immune to disease
+			add_character_flag = {
+				flag = immune_to_disease
+				years = 15
+			}
+
+			add_trait = greatest_of_khans
+			give_temujin_land_effect = yes
+			add_gold = 5000
+			add_dread = high_dread
+			spawn_temujins_court_effect = yes
+			form_the_mongol_empire_effect = yes
+			add_prestige = 25000
+			if = {
+				limit = {
+					has_mpo_dlc_trigger = no
+					NOT = { has_perk = peacemaker_perk }
+				}
+				add_perk = peacemaker_perk
+			}
+			remove_trait = education_diplomacy_1
+			remove_trait = education_diplomacy_2
+			remove_trait = education_diplomacy_3
+			remove_trait = education_diplomacy_4
+			remove_trait = education_diplomacy_5
+			remove_trait = education_intrigue_1
+			remove_trait = education_intrigue_2
+			remove_trait = education_intrigue_3
+			remove_trait = education_intrigue_4
+			remove_trait = education_intrigue_5
+			remove_trait = education_stewardship_1
+			remove_trait = education_stewardship_2
+			remove_trait = education_stewardship_3
+			remove_trait = education_stewardship_4
+			remove_trait = education_stewardship_5
+			remove_trait = education_learning_1
+			remove_trait = education_learning_2
+			remove_trait = education_learning_3
+			remove_trait = education_learning_4
+			remove_trait = education_learning_5
+			remove_trait = education_martial_1
+			remove_trait = education_martial_2
+			remove_trait = education_martial_3
+			remove_trait = education_martial_4
+			add_trait = education_martial_5
+			add_trait = flexible_leader
+			add_trait = athletic
+			if = {
+				limit = { has_dlc_feature = tours_and_tournaments }
+				add_trait = tourney_participant
+				add_random_tiered_trait_track_xp_effect = {
+					TRAIT = lifestyle_hunter
+					TRACK = hunter
+					LEVEL_1 = yes
+					LEVEL_3 = no
+				}
+				add_random_tiered_trait_track_xp_effect = {
+					TRAIT = tourney_participant
+					TRACK = horse
+					LEVEL_1 = yes
+					LEVEL_3 = yes
+				}
+				add_random_tiered_trait_track_xp_effect = {
+					TRAIT = tourney_participant
+					TRACK = bow
+					LEVEL_1 = yes
+					LEVEL_3 = yes
+				}
+			}
+			dynasty = {
+				add_dynasty_prestige_level = 5
+				add_dynasty_prestige = 10000
+				add_dynasty_perk = warfare_legacy_1
+				add_dynasty_perk = warfare_legacy_2
+				add_dynasty_perk = warfare_legacy_3
+				add_dynasty_perk = warfare_legacy_4
+				add_dynasty_perk = warfare_legacy_5
+				if = {
+					limit = {
+						has_dlc_feature = hybridize_culture
+					}
+					add_dynasty_perk = ep1_culture_legacy_1
+				}
+			}
+			give_nickname = nick_genghis_khan
+		}
+	}
 	}
 }

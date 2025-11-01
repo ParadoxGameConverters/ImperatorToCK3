@@ -3,14 +3,14 @@ using commonItems.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
-namespace ImperatorToCK3.CK3.Religions; 
+namespace ImperatorToCK3.CK3.Religions;
 
-public sealed class DoctrineCategory : IIdentifiable<string> {
+internal sealed class DoctrineCategory : IIdentifiable<string> {
 	public string Id { get; }
 	public string? GroupId { get; private set; }
 	public int NumberOfPicks { get; private set; } = 1;
 	
-	private readonly OrderedSet<string> doctrineIds = new();
+	private readonly OrderedSet<string> doctrineIds = [];
 	public IReadOnlyCollection<string> DoctrineIds => doctrineIds.ToImmutableArray();
 
 	public DoctrineCategory(string id, BufferedReader categoryReader) {

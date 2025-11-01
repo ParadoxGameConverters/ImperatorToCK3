@@ -30,10 +30,10 @@
 # TFE
 link = { ck3 = guanche_pagan ir = berber_religion ck3Province = 8713 ck3Province = 8714 ck3Province = 8715 ck3Province = 8716 ck3Province = 849 }
 link = { ck3 = amazigh_pagan ir = berber_religion }
-link = { ck3 = apsuara ir = indo_iranian_religion ck3Culture = abkhaz } # Rajas faith
-link = { ck3 = khabzism ir = indo_iranian_religion ck3Culture = circassian } # Rajas faith
+link = { ck3 = apsuara ir = indo_iranian_religion ck3Culture = abkhaz ck3Culture = abasgian } # Rajas faith (Change to use circassian_pantheon once Terra-Indomita adds it)
+link = { ck3 = khabzism ir = indo_iranian_religion ck3Culture = circassian } # Rajas faith (Change to use circassian_pantheon once Terra-Indomita adds it)
 link = { ck3 = alan_pagan ir = indo_iranian_religion ck3Culture = alan } # Rajas faith
-link = { ck3 = scythian_pagan ir = indo_iranian_religion }
+link = { ck3 = scythian_pagan ir = indo_iranian_religion ir = circassian_pantheon } # Best fallback for circassian_pantheon as of now
 link = { ck3 = carthage_pagan ir = carthaginian_pantheon }
 # Vanilla CK3
 link = { ck3 = kushitism_pagan ir = egyptian_pantheon irRegion = nubia_region irRegion = punt_region }
@@ -232,7 +232,6 @@ link = { ck3 = armenian_apostolic ir = apostolic } # https://steamcommunity.com/
 @catholic_regions = "irRegion = atlas_region irRegion = central_italy_region irRegion = lusitania_region irRegion = germania_region irRegion = transalpine_gaul_region irRegion = gallaecia_region irRegion = pannonia_region irRegion = bohemia_area irRegion = bohemia_region irRegion = illyria_region irRegion = magna_graecia_region irRegion = belgica_region irRegion = vistulia_region irRegion = venedia_region irRegion = central_gaul_region irRegion = germania_superior_region irRegion = contestania_region irRegion = armorica_region irRegion = mauretainia_region irRegion = aquitaine_region irRegion = tarraconensis_region irRegion = cisalpine_gaul_region irRegion = africa_region irRegion = numidia_region irRegion = rhaetia_region irRegion = baetica_region irRegion = scandinavia_region"
 @after_nestorian_schism = "date_gte = 432.10.30"
 @after_chalcedon = "date_gte = 451.8.25"
-@after_acacian_schism = "date_gte = 484.3.22"
 ## only with heresiesInHistoricalAreas enabled
 link = { ck3 = priscillianism ir = christianity heresiesInHistoricalAreas=yes ck3Province = 1831 ck3Province = 1912 ck3Province = 1919 ck3Province = 1954 irRegion = lusitania_region }
 link = { ck3 = valentinianism ir = christianity heresiesInHistoricalAreas=yes irRegion = decapolis_area irRegion = peraea_area irRegion = arabia_petrea_area irRegion = sinai_area }
@@ -251,10 +250,12 @@ link = { ck3 = circassian_christianity ir = christianity @after_nestorian_schism
 @nestorian_regions = "@indian_catholic_regions irRegion = assyria_region irRegion = mesopotamia_region irRegion = persis_region irRegion = media_region irRegion = bactriana_region irRegion = gedrosia_region irRegion = ariana_region irRegion = parthia_region irRegion = tibet_region irRegion = himalayan_region irRegion = sogdiana_region irRegion = burma_region irRegion = xu_region irRegion = yang_region irRegion = yi_region irRegion = yong_region irRegion = you_region irRegion = yu_region irRegion = shuofang_region irRegion = qing_region irRegion = nanzhong_region irRegion = liang_region irRegion = jing_region irRegion = jiao_region irRegion = ji_region irRegion = bing_region irRegion = pyu_region irRegion = funan_region irRegion = suvarnabhumi_region irRegion = austronesia_region irRegion = wa_region irRegion = jin_region irRegion = modong_region irRegion = mobei_region irRegion = xiyu_region irRegion = scytho_siberian_region" # Modified to include Asia
 link = { ck3 = indian_catholic ir = christianity @after_nestorian_schism @indian_catholic_regions } # Rajas faith
 link = { ck3 = nestorian ir = christianity @after_nestorian_schism @nestorian_regions }
-link = { ck3 = catholic ir = christianity @after_acacian_schism @catholic_regions }
-link = { ck3 = orthodox ir = christianity @after_acacian_schism } # vanilla CK3 fallback
 link = { ck3 = chalcedonian ir = christianity @after_chalcedon } # TFE fallback
 link = { ck3 = nicene ir = christianity } # TFE fallback
+## for conversions that don't have a united Nicene/Chalcedonian faith
+@after_acacian_schism = "date_gte = 484.3.22"
+link = { ck3 = catholic ir = christianity @after_acacian_schism @catholic_regions }
+link = { ck3 = orthodox ir = christianity @after_acacian_schism }
 link = { ck3 = catholic ir = christianity @catholic_regions }
 link = { ck3 = orthodox ir = christianity } # vanilla CK3 fallback
 
@@ -291,6 +292,7 @@ link = { ck3 = jingxue ir = confucian } # Mapping to Jingxue since it seems to h
 
 ## Shenic
 link = { ck3 = shendao ir = chinese_religions } # Shenic seems like it is supposed to represent traditional chinese religions/beliefs
+link = { ck3 = pagan ir = chinese_religions } # Fallback for Invictus since they added it until All Under Heaven gets released (hopefully adding a good mapping). Might need to create a custom converter faith later if nothing good comes.
 
 ## Taoism
 link = { ck3 = zhengyi ir = taoism }
@@ -361,8 +363,8 @@ link = { ck3 = lixue ir = confucian }
 link = { ck3 = lixue ir = chinese_religions } # The TI desc of the religion mentions Kong Fuzi (Confucius).
 link = { ck3 = zhengyi ir = taoism }
 link = { ck3 = hanitu ir = taiwan_religion }
-link = { ck3 = moshir ir = ainu_religion } # https://www.tota.world/article/853/
-link = { ck3 = yzng ir = nivkh_religion }
+link = { ck3 = kamuyism ir = ainu_religion } # https://www.tota.world/article/853/. From AEP's loc: "According to Ainu tradition, the world is divided into two realms: Kamuy-Moshir, the dwelling place of spirits and deities, and Ainu-Moshir, the physical world inhabited primarily by humans[...]"
+link = { ck3 = kivungism ir = nivkh_religion } # AEP characters with gilyak and mishihase cultures (heritage_nivkh) follow this faith.
 link = { ck3 = utaki ir = okinawa_religion } # Utaki is the AEP faith for Ryukyu Islands
 link = { ck3 = anito ir = pinoy_religion }
 link = { ck3 = musok ir = yi_religions } # Muism
@@ -376,7 +378,7 @@ link = {
 	ir = wa_religions
 }
 link = {
-	ck3 = hehe # uses shamanism_reformed icon, also matches the geographical area
+	ck3 = endurism # From TI's desc for Shamanism: "The shamans of the Enduri spirits most venerated Abka Enduri, the Sky Mother who created all of being."
 	ir = tunguistic_religion # Shamanism
 }
 link = {

@@ -1,11 +1,11 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Exceptions;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Localization;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.CommonUtils.Map;
-using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
@@ -16,12 +16,12 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.Mappers.UnitType;
 using Open.Collections;
+using System.Collections.Frozen;
 using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
 using System.Text;
+using ZLinq;
 
-namespace ImperatorToCK3.CK3.Characters; 
+namespace ImperatorToCK3.CK3.Characters;
 
 internal sealed class Character : IIdentifiable<string> {
 	public string Id { get; }
@@ -37,7 +37,7 @@ internal sealed class Character : IIdentifiable<string> {
 				return false;
 			}
 
-			var value = entries.LastOrDefault().Value;
+			var value = entries.AsValueEnumerable().LastOrDefault().Value;
 			if (value is string str) {
 				return str == "yes";
 			}
@@ -66,17 +66,18 @@ internal sealed class Character : IIdentifiable<string> {
 	public string? GetNickname(Date date) {
 		return History.GetFieldValue("give_nickname", date)?.ToString();
 	}
-	
-	public IEnumerable<string> BaseTraits => History.Fields["traits"].InitialEntries
+
+	public List<string> BaseTraits => History.Fields["traits"].InitialEntries.AsValueEnumerable()
 		.Where(kvp => kvp.Key == "trait")
 		.Select(kvp => kvp.Value)
-		.Cast<string>();
+		.Cast<string>()
+		.ToList();
 
 	public void AddBaseTrait(string traitId) {
 		History.Fields["traits"].InitialEntries.Add(new KeyValuePair<string, object>("trait", traitId));
 	}
 		
-	public double? Gold { get; set; }
+	public float? Gold { get; set; }
 
 	public uint GetAge(Date date) {
 		var birthDate = BirthDate;
@@ -84,7 +85,7 @@ internal sealed class Character : IIdentifiable<string> {
 		if (deathDate is null) {
 			return (uint)date.DiffInYears(birthDate);
 		}
-		return (uint)deathDate.DiffInYears(birthDate);
+		return (uint)deathDate.Value.DiffInYears(birthDate);
 	}
 	public string GetAgeSex(Date date) {
 		if (GetAge(date) >= 16) {
@@ -94,24 +95,27 @@ internal sealed class Character : IIdentifiable<string> {
 	}
 
 	public Date BirthDate {
-		get => History.Fields["birth"].DateToEntriesDict.First().Key;
+		get => History.Fields["birth"].DateToEntriesDict.AsValueEnumerable().First().Key;
 		set {
-			var field = History.Fields["birth"];
-			field.RemoveAllEntries();
-			field.AddEntryToHistory(value, "birth", true);
+			var historyField = History.Fields["birth"];
+			historyField.RemoveAllEntries();
+			historyField.AddEntryToHistory(value, "birth", true);
 		}
 	}
 		
 	public Date? DeathDate {
 		get {
 			var entriesDict = History.Fields["death"].DateToEntriesDict;
-			return entriesDict.Count == 0 ? null : entriesDict.First().Key;
+			if (entriesDict.Count == 0) {
+				return null;
+			}
+			return entriesDict.AsValueEnumerable().First().Key;
 		}
 		set {
-			var field = History.Fields["death"];
-			field.RemoveAllEntries();
+			var historyField = History.Fields["death"];
+			historyField.RemoveAllEntries();
 			if (value is not null) {
-				field.AddEntryToHistory(value, "death", true);
+				historyField.AddEntryToHistory(value, "death", true);
 			}
 		}
 	}
@@ -121,7 +125,7 @@ internal sealed class Character : IIdentifiable<string> {
 			if (entriesDict.Count == 0) {
 				return null;
 			}
-			var deathObj = entriesDict.First().Value[^1].Value;
+			var deathObj = entriesDict.AsValueEnumerable().First().Value[^1].Value;
 			if (deathObj is not StringOfItem deathStrOfItem || !deathStrOfItem.IsArrayOrObject()) {
 				return null;
 			}
@@ -142,7 +146,7 @@ internal sealed class Character : IIdentifiable<string> {
 			}
 				
 			// Modify the last entry in the history to include the death reason.
-			var entriesList = entriesDict.First().Value;
+			var entriesList = entriesDict.AsValueEnumerable().First().Value;
 			var lastEntry = entriesList[^1];
 			// No reason provided.
 			var deathStr = value is null ? "yes" : $"{{ death_reason = {value} }}";
@@ -226,7 +230,7 @@ internal sealed class Character : IIdentifiable<string> {
 
 	public void InitSpousesCache() {
 		var spousesHistoryField = History.Fields["spouses"];
-		foreach (var spouseId in spousesHistoryField.InitialEntries.Select(kvp => kvp.Value.ToString())) {
+		foreach (var spouseId in spousesHistoryField.InitialEntries.AsValueEnumerable().Select(kvp => kvp.Value.ToString())) {
 			if (spouseId is null) {
 				continue;
 			}
@@ -251,7 +255,7 @@ internal sealed class Character : IIdentifiable<string> {
 
 	public void InitConcubinesCache() {
 		var concubinesHistoryField = History.Fields["concubines"];
-		foreach (var concubineId in concubinesHistoryField.InitialEntries.Select(kvp => kvp.Value.ToString())) {
+		foreach (var concubineId in concubinesHistoryField.InitialEntries.AsValueEnumerable().Select(kvp => kvp.Value.ToString())) {
 			if (concubineId is null) {
 				continue;
 			}
@@ -316,7 +320,7 @@ internal sealed class Character : IIdentifiable<string> {
 			}
 		}
 
-		BirthDate = preImperatorRuler.BirthDate!;
+		BirthDate = preImperatorRuler.BirthDate!.Value;
 		DeathDate = preImperatorRuler.DeathDate!;
 
 		// determine culture and religion
@@ -371,10 +375,10 @@ internal sealed class Character : IIdentifiable<string> {
 		MapData irMapData,
 		ProvinceMapper provinceMapper,   // used to determine ck3 province for religion mapper
 		DeathReasonMapper deathReasonMapper,
-		DNAFactory dnaFactory,
 		Date dateOnConversion,
 		Configuration config,
-		ISet<string> unlocalizedImperatorNames
+		FrozenDictionary<string, string> nameOverrides,
+		ConcurrentHashSet<string> unlocalizedImperatorNames
 	) {
 		this.characters = characters;
 			
@@ -395,6 +399,9 @@ internal sealed class Character : IIdentifiable<string> {
 			}
 		} else {
 			var nameLoc = ImperatorCharacter.Name;
+			if (nameOverrides.TryGetValue(nameLoc, out var overrideName)) {
+				nameLoc = overrideName;
+			}
 			var name = nameLoc.Replace(' ', '_');
 			SetName(name, null);
 			if (!string.IsNullOrEmpty(name)) {
@@ -423,7 +430,7 @@ internal sealed class Character : IIdentifiable<string> {
 			irProvIdForProvMapper = ImperatorCharacter.Mother.ProvinceId;
 		}
 		if (IsImperatorProvIdInvalidForCharacterSource(irProvIdForProvMapper, provinceMapper) && ImperatorCharacter.Spouses.Count > 0) {
-			var firstSpouse = ImperatorCharacter.Spouses.First().Value;
+			var firstSpouse = ImperatorCharacter.Spouses.AsValueEnumerable().First().Value;
 			irProvIdForProvMapper = firstSpouse.ProvinceId;
 		}
 
@@ -579,11 +586,11 @@ internal sealed class Character : IIdentifiable<string> {
 
 	public void RemoveAllChildren() {
 		if (Female) {
-			foreach (var child in childrenCache.Where(c => c.MotherId == Id)) {
+			foreach (var child in childrenCache.AsValueEnumerable().Where(c => c.MotherId == Id)) {
 				child.Mother = null;
 			}
 		} else {
-			foreach (var child in childrenCache.Where(c => c.FatherId == Id)) {
+			foreach (var child in childrenCache.AsValueEnumerable().Where(c => c.FatherId == Id)) {
 				child.Father = null;
 			}
 		}
@@ -596,8 +603,8 @@ internal sealed class Character : IIdentifiable<string> {
 
 	public string? MotherId {
 		get {
-			var field = History.Fields["mother"];
-			var entries = field.InitialEntries;
+			var historyField = History.Fields["mother"];
+			var entries = historyField.InitialEntries;
 			if (entries.Count == 0) {
 				return null;
 			}
@@ -614,8 +621,8 @@ internal sealed class Character : IIdentifiable<string> {
 			}
 
 			idStr = idStr.RemQuotes();
-			field.RemoveAllEntries();
-			field.AddEntryToHistory(null, "mother", idStr);
+			historyField.RemoveAllEntries();
+			historyField.AddEntryToHistory(null, "mother", idStr);
 			return idStr;
 		}
 	}
@@ -644,8 +651,8 @@ internal sealed class Character : IIdentifiable<string> {
 
 	public string? FatherId {
 		get {
-			var field = History.Fields["father"];
-			var entries = field.InitialEntries;
+			var historyField = History.Fields["father"];
+			var entries = historyField.InitialEntries;
 			if (entries.Count == 0) {
 				return null;
 			}
@@ -662,8 +669,8 @@ internal sealed class Character : IIdentifiable<string> {
 			}
 				
 			idStr = idStr.RemQuotes();
-			field.RemoveAllEntries();
-			field.AddEntryToHistory(null, "father", idStr);
+			historyField.RemoveAllEntries();
+			historyField.AddEntryToHistory(null, "father", idStr);
 			return idStr;
 		}
 	}
@@ -690,7 +697,7 @@ internal sealed class Character : IIdentifiable<string> {
 		}
 	}
 
-	public IReadOnlyCollection<Character> Children => characters
+	public IReadOnlyCollection<Character> Children => characters.AsValueEnumerable()
 		.Where(c => c.FatherId == Id || c.MotherId == Id)
 		.ToImmutableList();
 
@@ -802,7 +809,7 @@ internal sealed class Character : IIdentifiable<string> {
 				sb.AppendLine($"\t\t\tmen_at_arms={{type={type} men={men}}}");
 			}
 
-			var ck3Location = provinceMapper.GetCK3ProvinceNumbers(unit.Location)
+			var ck3Location = provinceMapper.GetCK3ProvinceNumbers(unit.Location).AsValueEnumerable()
 				.Cast<ulong?>()
 				.FirstOrDefault(defaultValue: null);
 			if (ck3Location is not null) {
@@ -829,5 +836,5 @@ internal sealed class Character : IIdentifiable<string> {
 	private readonly CharacterCollection characters;
 	private readonly ConcurrentHashSet<Character> spousesCache = [];
 	private readonly ConcurrentHashSet<Character> concubinesCache = [];
-	private readonly HashSet<Character> childrenCache = new();
+	private readonly ConcurrentHashSet<Character> childrenCache = [];
 }

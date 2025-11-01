@@ -1,12 +1,12 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
+using commonItems.Exceptions;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.CommonUtils.Map;
-using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Characters;
@@ -57,8 +57,12 @@ internal partial class World {
 	public AreaCollection Areas { get; } = [];
 	public ImperatorRegionMapper ImperatorRegionMapper { get; private set; }
 	public StateCollection States { get; } = [];
-	public IReadOnlyCollection<War> Wars { get; private set; } = Array.Empty<War>();
-	public IReadOnlyCollection<Dependency> Dependencies { get; private set; } = Array.Empty<Dependency>();
+
+	private DiplomacyDB diplomacyDB;
+	public IReadOnlyCollection<War> Wars => diplomacyDB.Wars;
+	public IReadOnlyCollection<Dependency> Dependencies => diplomacyDB.Dependencies;
+	public IReadOnlyCollection<List<ulong>> DefensiveLeagues => diplomacyDB.DefensiveLeagues;
+	
 	public Jobs.JobsDB JobsDB { get; private set; } = new();
 	internal UnitCollection Units { get; } = [];
 	public CulturesDB CulturesDB { get; } = [];
@@ -84,6 +88,8 @@ internal partial class World {
 		
 		Religions = new ReligionCollection(new ScriptValueCollection());
 		ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
+
+		diplomacyDB = new();
 	}
 	
 	private static void OutputGuiContainer(ModFilesystem modFS, IEnumerable<string> tagsNeedingFlags, Configuration config) {
@@ -163,19 +169,19 @@ internal partial class World {
 		Logger.Info("Retrieving random CoAs from Imperator...");
 		OutputContinueGameJson(config);
 		OutputDlcLoadJson(config);
-		
+
 		string imperatorBinaryName = OperatingSystem.IsWindows() ? "imperator.exe" : "imperator";
 		var imperatorBinaryPath = Path.Combine(config.ImperatorPath, "binaries", imperatorBinaryName);
 		if (!File.Exists(imperatorBinaryPath)) {
 			Logger.Warn("Imperator binary not found! Aborting the random CoA extraction!");
 			return;
 		}
-		
+
 		string dataTypesLogPath = Path.Combine(config.ImperatorDocPath, "logs/data_types.log");
 		if (File.Exists(dataTypesLogPath)) {
 			FileHelper.DeleteWithRetries(dataTypesLogPath);
 		}
-		
+
 		Logger.Debug("Launching Imperator to extract coats of arms...");
 
 		var processStartInfo = new ProcessStartInfo {
@@ -183,6 +189,7 @@ internal partial class World {
 			Arguments = "-continuelastsave -debug_mode",
 			CreateNoWindow = true,
 			RedirectStandardOutput = true,
+			UseShellExecute = false, // Required for output redirection.
 			WindowStyle = ProcessWindowStyle.Hidden,
 		};
 		var imperatorProcess = Process.Start(processStartInfo);
@@ -190,16 +197,25 @@ internal partial class World {
 			Logger.Warn("Failed to start Imperator process! Aborting!");
 			return;
 		}
-		
+
 		imperatorProcess.Exited += HandleImperatorProcessExit(config, imperatorProcess);
-		
+
 		// Make sure that if converter is closed, Imperator is closed as well.
 		AppDomain.CurrentDomain.ProcessExit += (_, _) => {
 			if (!imperatorProcess.HasExited) {
 				imperatorProcess.Kill();
 			}
 		};
-		
+
+		WaitForImperatorDataTypesLog(imperatorProcess, dataTypesLogPath);
+
+		if (!imperatorProcess.HasExited) {
+			Logger.Debug("Killing Imperator process...");
+			imperatorProcess.Kill();
+		}
+	}
+
+	private void WaitForImperatorDataTypesLog(Process imperatorProcess, string dataTypesLogPath) {
 		// Wait until data_types.log exists (it will be created by the dumpdatatypes command).
 		var stopwatch = new Stopwatch();
 		stopwatch.Start();
@@ -215,11 +231,6 @@ internal partial class World {
 			}
 			
 			Thread.Sleep(100);
-		}
-
-		if (!imperatorProcess.HasExited) {
-			Logger.Debug("Killing Imperator process...");
-			imperatorProcess.Kill();
 		}
 	}
 
@@ -321,7 +332,11 @@ internal partial class World {
 		Countries.LinkFamilies(Families);
 
 		LoadPreImperatorRulers();
-		
+
+		RemoveEmptyCountries();
+
+		Characters.PurgeUnneededCharacters(Countries, JobsDB.Governorships, Families);
+
 		// Detect specific mods.
 		InvictusDetected = GlobalFlags.Contains("is_playing_invictus");
 		TerraIndomitaDetected = Countries.Any(c => c.Variables.Contains("unification_points")) ||
@@ -336,7 +351,7 @@ internal partial class World {
 
 		Thread? localCoaExtractThread = null;
 		
-		parser.RegisterRegex(@"\bSAV\w*\b", _ => { });
+		parser.RegisterRegex(SaveStartRegex(), _ => { });
 		parser.RegisterKeyword("version", reader => VerifySaveVersion(converterVersion, reader));
 		parser.RegisterKeyword("date", reader => LoadSaveDate(config, reader));
 		parser.RegisterKeyword("enabled_dlcs", LogEnabledDLCs);
@@ -345,7 +360,7 @@ internal partial class World {
 
 			// Let's locate, verify and potentially update those mods immediately.
 			ModLoader modLoader = new();
-			modLoader.LoadMods(config.ImperatorDocPath, incomingMods);
+			modLoader.LoadMods(config.ImperatorDocPath, incomingMods, config.IRVersion, throwForOutOfDateMods: false);
 			UsableMods = new Mods(modLoader.UsableMods);
 			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
 
@@ -390,16 +405,23 @@ internal partial class World {
 		coaExtractionThread = localCoaExtractThread;
 	}
 
+	private void RemoveEmptyCountries() {
+		// Drop countries with no monarch, no territories and no pre-Imperator rulers.
+		int count = Countries.RemoveAll(c => c is {Monarch: null, TerritoriesCount: 0, RulerTerms.Count: 0});
+		if (count > 0) {
+			Logger.Info($"Removed {count} empty countries.");
+		}
+	}
+
 	private Mods DetectUsedMods(BufferedReader reader) {
 		Logger.Info("Detecting used mods...");
 		foreach (var modPath in reader.GetStrings()) {
 			incomingModPaths.Add(modPath);
 		}
-		if (incomingModPaths.Count == 0) {
-			Logger.Warn("Save game claims no mods used.");
-		} else {
-			Logger.Info($"Save game claims {incomingModPaths.Count} mods used:");
-		}
+
+		Logger.Info(incomingModPaths.Count == 0
+			? "Save game claims no mods used."
+			: $"Save game claims {incomingModPaths.Count} mods used:");
 		Mods incomingMods = [];
 		foreach (var modPath in incomingModPaths) {
 			Logger.Info($"Used mod: {modPath}");
@@ -447,9 +469,7 @@ internal partial class World {
 
 	private void LoadDiplomacy(BufferedReader reader) {
 		Logger.Info("Loading diplomacy...");
-		var diplomacy = new Diplomacy.DiplomacyDB(reader);
-		Wars = diplomacy.Wars;
-		Dependencies = diplomacy.Dependencies;
+		diplomacyDB = new DiplomacyDB(reader);
 		Logger.IncrementProgress();
 	}
 
@@ -487,7 +507,7 @@ internal partial class World {
 
 	private void LoadProvinces(BufferedReader reader) {
 		Logger.Info("Loading provinces...");
-		Provinces.LoadProvinces(reader, States, Countries);
+		Provinces.LoadProvinces(reader, States, Countries, MapData);
 		Logger.Debug($"Ignored Province tokens: {Province.IgnoredTokens}");
 		Logger.Info($"Loaded {Provinces.Count} provinces.");
 
@@ -560,30 +580,8 @@ internal partial class World {
 	private void LoadPreImperatorRulers() {
 		const string filePath = "configurables/characters_prehistory.txt";
 		const string noRulerWarning = "Pre-Imperator ruler term has no pre-Imperator ruler!";
-		const string noCountryIdWarning = "Pre-Imperator ruler term has no country ID!";
 
-		var preImperatorRulerTerms = new Dictionary<ulong, List<RulerTerm>>(); // <country id, list of terms>
-		var parser = new Parser();
-		parser.RegisterKeyword("ruler", reader => {
-			var rulerTerm = new RulerTerm(reader, Countries);
-			if (rulerTerm.PreImperatorRuler is null) {
-				Logger.Warn(noRulerWarning);
-				return;
-			}
-			if (rulerTerm.PreImperatorRuler.Country is null) {
-				Logger.Warn(noCountryIdWarning);
-				return;
-			}
-			var countryId = rulerTerm.PreImperatorRuler.Country.Id;
-			Countries[countryId].RulerTerms.Add(rulerTerm);
-			if (preImperatorRulerTerms.TryGetValue(countryId, out var list)) {
-				list.Add(rulerTerm);
-			} else {
-				preImperatorRulerTerms[countryId] = new List<RulerTerm> { rulerTerm };
-			}
-		});
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		parser.ParseFile(filePath);
+		Dictionary<ulong, List<RulerTerm>> preIRRulerTerms = ParsePreImperatorRulers(filePath, noRulerWarning); // <country id, list of terms>
 
 		foreach (var country in Countries) {
 			country.RulerTerms = [.. country.RulerTerms.OrderBy(t => t.StartDate)];
@@ -592,14 +590,14 @@ internal partial class World {
 		// verify with data from historical_regnal_numbers
 		var regnalNameCounts = new Dictionary<ulong, Dictionary<string, int>>(); // <country id, <name, count>>
 		foreach (var country in Countries) {
-			if (!preImperatorRulerTerms.ContainsKey(country.Id)) {
+			if (!preIRRulerTerms.ContainsKey(country.Id)) {
 				continue;
 			}
 
 			regnalNameCounts.Add(country.Id, []);
 			var countryRulerTerms = regnalNameCounts[country.Id];
 
-			foreach (var term in preImperatorRulerTerms[country.Id]) {
+			foreach (var term in preIRRulerTerms[country.Id]) {
 				if (term.PreImperatorRuler is null) {
 					Logger.Warn(noRulerWarning);
 					continue;
@@ -632,12 +630,43 @@ internal partial class World {
 		}
 	}
 
+	private Dictionary<ulong, List<RulerTerm>> ParsePreImperatorRulers(string filePath, string noRulerWarning) {
+		Dictionary<ulong, List<RulerTerm>> preImperatorRulerTerms = []; // <country id, list of terms>
+
+		const string noCountryIdWarning = "Pre-Imperator ruler term has no country ID!";
+
+		var parser = new Parser();
+		parser.RegisterKeyword("ruler", reader => {
+			var rulerTerm = new RulerTerm(reader, Countries);
+			if (rulerTerm.PreImperatorRuler is null) {
+				Logger.Warn(noRulerWarning);
+				return;
+			}
+			if (rulerTerm.PreImperatorRuler.Country is null) {
+				Logger.Warn(noCountryIdWarning);
+				return;
+			}
+			var countryId = rulerTerm.PreImperatorRuler.Country.Id;
+			Countries[countryId].RulerTerms.Add(rulerTerm);
+			if (preImperatorRulerTerms.TryGetValue(countryId, out var list)) {
+				list.Add(rulerTerm);
+			} else {
+				preImperatorRulerTerms[countryId] = [rulerTerm];
+			}
+		});
+		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.ParseFile(filePath);
+
+		return preImperatorRulerTerms;
+	}
+
 	private void LoadModFilesystemDependentData() {
 		// Some stuff can be loaded in parallel to save time.
 		Parallel.Invoke(
 			() => LoadImperatorLocalization(),
 			() => {
 				MapData = new MapData(ModFS);
+				
 				Areas.LoadAreas(ModFS, Provinces);
 				ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
 			},
@@ -794,8 +823,11 @@ internal partial class World {
 
 	private readonly IgnoredKeywordsSet ignoredTokens = [];
 
+	[GeneratedRegex(@"\bSAV\w*\b")]
+	private static partial Regex SaveStartRegex();
 	[GeneratedRegex(@"^\S+=\s*\{[\s\S]*?^\}", RegexOptions.Multiline)]
 	private static partial Regex FlagDefinitionRegex();
 	[GeneratedRegex(@"\$[A-Z_]*\$")]
 	private static partial Regex SubstitutionRegex();
 }
+

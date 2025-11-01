@@ -6,9 +6,9 @@ using System.Text.RegularExpressions;
 
 namespace ImperatorToCK3.CommonUtils;
 
-public sealed class LiteralHistoryField : IHistoryField {
+internal sealed class LiteralHistoryField : IHistoryField {
 	public string Id { get; }
-	public IList<KeyValuePair<string, object>> InitialEntries { get; } = new List<KeyValuePair<string, object>>(); // every entry is a <setter, value> pair
+	public List<KeyValuePair<string, object>> InitialEntries { get; } = []; // every entry is a <setter, value> pair
 
 	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; } = new();
 
@@ -31,18 +31,20 @@ public sealed class LiteralHistoryField : IHistoryField {
 		}
 	}
 
-	private KeyValuePair<string, object>? GetLastEntry(Date date) {
-		var pairsWithEarlierOrSameDate = DateToEntriesDict.TakeWhile(d => d.Key <= date);
+	private KeyValuePair<string, object>? GetLastEntry(Date? date) {
+		if (date is not null) {
+			var pairsWithEarlierOrSameDate = DateToEntriesDict.TakeWhile(d => d.Key <= date);
 
-		foreach (var (_, entries) in pairsWithEarlierOrSameDate.Reverse()) {
-			foreach (var entry in Enumerable.Reverse(entries)) {
-				return entry;
+			foreach (var (_, entries) in pairsWithEarlierOrSameDate.Reverse()) {
+				foreach (var entry in Enumerable.Reverse(entries)) {
+					return entry;
+				}
 			}
 		}
 
 		return InitialEntries.LastOrDefault();
 	}
-	public object? GetValue(Date date) {
+	public object? GetValue(Date? date) {
 		return GetLastEntry(date)?.Value;
 	}
 
@@ -54,13 +56,11 @@ public sealed class LiteralHistoryField : IHistoryField {
 		if (date is null) {
 			InitialEntries.Add(new KeyValuePair<string, object>(setter, value));
 		} else {
-			if (DateToEntriesDict.TryGetValue(date, out var entriesList)) {
+			if (DateToEntriesDict.TryGetValue(date.Value, out var entriesList)) {
 				entriesList.Add(new KeyValuePair<string, object>(setter, value));
 			}
 			else {
-				DateToEntriesDict[date] = new List<KeyValuePair<string, object>> {
-					new(setter, value)
-				};
+				DateToEntriesDict[date.Value] = [new(setter, value)];
 			}
 		}
 	}

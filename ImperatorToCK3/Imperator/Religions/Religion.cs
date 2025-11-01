@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Religions;
 
-public sealed class Religion : IIdentifiable<string> {
+internal sealed class Religion : IIdentifiable<string> {
 	public string Id { get; }
 	public OrderedDictionary<string, double> Modifiers { get; }
 

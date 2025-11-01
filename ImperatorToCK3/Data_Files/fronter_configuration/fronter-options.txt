@@ -140,6 +140,26 @@ option = {
 }
 
 option = {
+	name = SkipHoldingOwnersImport
+	displayName = SKIP_HOLDING_OWNERS_IMPORT
+	tooltip = SKIP_HOLDING_OWNERS_IMPORT_TIP
+	radioSelector = {
+		radioOption = {
+			name = 1
+			displayName = SKIP_HOLDING_OWNERS_IMPORT_1
+			tooltip = SKIP_HOLDING_OWNERS_IMPORT_1_TIP
+			default = true
+		}
+		radioOption = {
+			name = 0
+			displayName = SKIP_HOLDING_OWNERS_IMPORT_0
+			tooltip = SKIP_HOLDING_OWNERS_IMPORT_0_TIP
+			default = false
+		}
+	}
+}
+
+option = {
 	name = output_name
 	displayName = MODNAME
 	tooltip = MODNAMETIP

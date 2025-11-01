@@ -1,9 +1,21 @@
-﻿using commonItems;
+﻿using AwesomeAssertions;
+using commonItems;
+using commonItems.Localization;
+using ImperatorToCK3.CK3.Dynasties;
+using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils.Genes;
+using ImperatorToCK3.Imperator.Characters;
+using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Cultures;
+using ImperatorToCK3.Imperator.Families;
+using ImperatorToCK3.Imperator.Jobs;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Xunit;
+using RulerTerm = ImperatorToCK3.Imperator.Countries.RulerTerm;
 
 namespace ImperatorToCK3.UnitTests.Imperator.Characters; 
 
@@ -355,5 +367,63 @@ public class CharacterTests {
 		character.LinkPrisonerHome(countries);
 
 		Assert.Contains("[WARN] Country with ID 69 has no definition!", output.ToString());
+	}
+	
+	[Fact]
+	public void UnneededCharactersArePurged() {
+		// dead and unlanded
+		var impCharacterReader = new BufferedReader("death_date = 1.1.1");
+		var unlandedCharacter = Character.Parse(impCharacterReader, "1", genesDB);
+		var irCharacters = new CharacterCollection { unlandedCharacter };
+
+		irCharacters.PurgeUnneededCharacters(new CountryCollection(), new List<Governorship>(), new FamilyCollection());
+
+		Assert.Empty(irCharacters);
+	}
+
+	[Fact]
+	public void DeadLandlessCharactersArePurgedIfChildless() {
+		var irFamily = new Family(1);
+		var irFamilies = new FamilyCollection { irFamily };
+		var irCharacters = new CharacterCollection();
+
+		var charactersReader = new BufferedReader("""
+			1 = { death_date=450.1.1 family=1 father=2 }
+			2 = { death_date=400.1.1 family=1 }
+			3 = { death_date=440.1.1 family=1 father=2 }
+			""");
+
+		irCharacters.LoadCharacters(charactersReader);
+		irCharacters.LinkFamilies(irFamilies);
+
+		irCharacters[1].Father.Should().BeSameAs(irCharacters[2]);
+		irCharacters[2].Father.Should().BeNull();
+		irCharacters[3].Father.Should().BeSameAs(irCharacters[2]);
+
+		// dead but won't be purged because he's landed
+		var landedCharacter = irCharacters[1];
+		var countries = new CountryCollection();
+		var country = new Country(1);
+		countries.Add(country);
+		country.RulerTerms.Add(RulerTerm.Parse(new BufferedReader("character = 1")));
+		Assert.Equal((ulong)1, country.RulerTerms.First().CharacterId);
+
+		// dead but won't be purged because he belongs to a dynasty of a landed character
+		// and has a child
+		var fatherOfLandedCharacter = irCharacters[2];
+
+		// another dead relative, will be purged because he's landless and childless
+		var childlessRelative = irCharacters[3];
+		
+		Assert.Equal(irFamily, landedCharacter.Family);
+		Assert.Equal(irFamily, fatherOfLandedCharacter.Family);
+		Assert.Equal(irFamily, childlessRelative.Family);
+		
+		irCharacters.PurgeUnneededCharacters(countries, new List<Governorship>(), irFamilies);
+
+		irCharacters.Should().BeEquivalentTo([
+			fatherOfLandedCharacter,
+			landedCharacter,
+		]);
 	}
 }

@@ -34,7 +34,8 @@
 		Hraugmund Hraugram Hraugric Hroco Ingast Ingbald Inger Ingmund
 		Ingoht Ingoleik Ingomar Ingram Ingrand Ingrauc Ingric Ingsun
 		Inguiomer Ingwald Laikwald Leigmund Leikbolad Leikrauc Leko
-		Malact Malleik Mallobald Mallobaudes Mallovendus Malo Malobald
+		Malact Malleik Mallobald_collision_fix Mallobaudes Mallovendus Malo Malobald # In CK3 there's a hash collision between the keys "Mallobald" and "laamp_base_contract_schemes.2541.e.tt.employer_has_trait.paranoid", so the key "Mallobald" has been changed to "Mallobald_collision_fix".
+
 		Malogan Malogast Maloger Malogund Maloram Malorand Malorauc
 		Maloric Malowind Malwald Marcobold Marcogan Marcogast Marcoger
 		Marcogund Marcoleik Marcomer Marcomund Marcoram Marcorauc

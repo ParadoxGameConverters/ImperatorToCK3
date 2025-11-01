@@ -1,8 +1,8 @@
 using commonItems;
+using commonItems.Exceptions;
 using commonItems.Mods;
 using ImageMagick;
 using ImperatorToCK3.CommonUtils.Genes;
-using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Mappers.Gene;
 using System;
@@ -495,7 +495,7 @@ internal sealed class DNAFactory {
 				continue;
 			}
 
-			var coordinates = new DNA.PaletteCoordinates { X = pixel.X, Y = pixel.Y };
+			var coordinates = new DNA.PaletteCoordinates { X = (ushort) pixel.X, Y = (ushort) pixel.Y };
 			ck3ColorToCoordinatesDict[color] = coordinates;
 		}
 	}
@@ -558,7 +558,7 @@ internal sealed class DNAFactory {
 		// Age is not stored in I:R character DNA.
 		const string ck3AgeGeneName = "gene_age";
 		var ck3Gene = ck3GenesDB.MorphGenes.First(g => g.Id == ck3AgeGeneName);
-		var excludedAgeTemplateNames = new List<string> {"old_beauty_1", "no_aging"};
+		var excludedAgeTemplateNames = new HashSet<string> {"old_beauty_1", "no_aging"};
 		var possibleAgeTemplates = ck3Gene.GeneTemplates
 			.Where(t => !excludedAgeTemplateNames.Contains(t.Id))
 			.ToArray();

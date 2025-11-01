@@ -44,7 +44,7 @@
  armenian_religion_adj: "Armenian"
  armenian_religion_adherent: "Armenian"
  armenian_religion_adherent_plural: "Armenians"
- armenian_religion_desc: "	The Khaldic pantheon represents a religion which grew out of the Urartian culture, many centuries before. A principally polytheistic faith, the chief god was known as Khaldi, and was worshiped as a warrior god."
+ armenian_religion_desc: "The Khaldic pantheon represents a religion which grew out of the Urartian culture, many centuries before. A principally polytheistic faith, the chief god was known as Khaldi, and was worshiped as a warrior god."
 
  armenian_pagan: "Khaldic"
  armenian_pagan_adj: "Khaldic"
@@ -68,7 +68,7 @@
 
  dacian_pagan: "Zalmoxian"
  dacian_pagan_adj: "Zalmoxian"
- dacian_pagan_desc: ""Whether Zalmoxis was originally a prophet or a god, is unknown. The Dacians and Getae however, revere Zalmoxis as a divine being, ascribing many miraculous acts to him."
+ dacian_pagan_desc: "Whether Zalmoxis was originally a prophet or a god, is unknown. The Dacians and Getae however, revere Zalmoxis as a divine being, ascribing many miraculous acts to him."
  dacian_pagan_adherent: "Zalmoxian"
  dacian_pagan_adherent_plural: "Zalmoxians"
  dacian_pagan_old: "Old Zalmoxian"
@@ -358,6 +358,7 @@
  mithraic_mysteries_adherent_plural: "Followers of Mithra"
  eleusinian_mysteries: "Eleusinian Mysteries"
  eleusinian_mysteries_adj: "Eleusinian"
+ eleusinian_mysteries_desc: "The Eleusinian Mysteries were initiation ceremonies held every year for the cult of Demeter and Persephone based at Eleusis in ancient Greece. They are the 'most famous of the secret religious rites of ancient Greece'. The mysteries represented the myth of the abduction of Persephone from her mother Demeter by Hades, the god of the underworld. The rites symbolized the cycle of life and death, as well as the promise of rebirth and eternal life."
  eleusinian_mysteries_adherent: "Eleusinian"
  eleusinian_mysteries_adherent_plural: "Eleusinian Brethren"
  atenist_pagan: "Atenism"

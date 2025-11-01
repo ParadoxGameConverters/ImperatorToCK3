@@ -3,6 +3,7 @@
  language_luwian_name: "$luwian$"
  language_lydian_name: "$lydian$"
  language_hittite_name: "$hittite$"
+ language_anatolian_name: "$anatolian$"
  language_phrygian_name: "$phrygian$"
  language_albanian_name: "$albanian$"
  language_kemetic_name: "Kemetic"
@@ -37,3 +38,4 @@
  language_minoan_name: "$minoan$"
  language_cycladic_name: "$cycladic$"
  language_pelasgian_name: "$pelasgian$"
+ language_illyrian_name: "$dalmatian$"

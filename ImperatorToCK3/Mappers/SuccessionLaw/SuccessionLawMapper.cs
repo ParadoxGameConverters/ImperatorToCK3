@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.SuccessionLaw;
 
-public sealed class SuccessionLawMapper {
+internal sealed class SuccessionLawMapper {
 	private readonly List<SuccessionLawMapping> mappings = [];
 
 	public SuccessionLawMapper() { }

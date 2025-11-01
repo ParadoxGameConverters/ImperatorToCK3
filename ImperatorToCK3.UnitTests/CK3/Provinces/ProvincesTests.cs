@@ -29,6 +29,7 @@ public class ProvincesTests {
 	private const string CK3Root = "TestFiles/CK3ProvincesTests";
 	private readonly ModFilesystem ck3ModFs = new(CK3Root, new List<Mod>());
 	private readonly Date ck3BookmarkDate = new("867.1.1");
+	private readonly ColorFactory colorFactory = new();
 
 	[Fact]
 	public void ProvincesDefaultToEmpty() {
@@ -76,7 +77,7 @@ public class ProvincesTests {
 				b_barony1={province=1}
 			}
 			""");
-		titles.LoadTitles(titlesReader);
+		titles.LoadTitles(titlesReader, colorFactory);
 		
 		// Scenario 1: Sum of civilisation in country 1 outweighs single more civilized province in country 2.
 		var irWorld = new TestImperatorWorld(config);
@@ -106,14 +107,13 @@ public class ProvincesTests {
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irWorld.Provinces);
 		var irRegionMapper = new ImperatorRegionMapper(areas, new MapData(irModFS));
-		var colorFactory = new ColorFactory();
 		irRegionMapper.LoadRegions(irModFS, colorFactory);
 		var cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory, []), []);
 		var cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper, cultures);
 		var religions = new ReligionCollection(titles);
 		var religionMapper = new ReligionMapper(religions, irRegionMapper, ck3RegionMapper);
 		var ck3MapData = new MapData(ck3ModFs);
-		ck3MapData.ProvinceDefinitions.Add(new ProvinceDefinition(1) {});
+		ck3MapData.ProvinceDefinitions.Add(new ProvinceDefinition(1));
 		ck3Provinces.ImportImperatorProvinces(irWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 		
 		var targetProvince = ck3Provinces[1];

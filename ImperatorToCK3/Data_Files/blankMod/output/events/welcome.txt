@@ -1,14 +1,53 @@
-﻿# Last updated: CK3 patch 1.10.0.1
+﻿# Last updated: CK3 1.16
 namespace = welcome
-#welcome.1 = {
-#	hidden = no
-#	type = character_event
-#	opening = { desc = welcome_title }
-#	desc = welcome_desc
-#
-#	trigger = { }
-#
-#	option = {
-#		name = welcome_ok
-#	}
-#}
+welcome.1 = {
+	type = character_event
+	title = welcome_title
+	desc = welcome_desc
+	override_background = { reference = relaxing_room }
+	theme = crown
+	right_portrait = {
+		character = root
+		animation = happiness
+	}
+
+	trigger = {
+		is_ai = no
+	}
+
+	option = {
+		name = welcome_ok
+	}
+
+	option = { # Look at what mods are recommend/available
+		name = welcome_mods
+		trigger_event = welcome.2
+	}
+}
+
+welcome.2 = {
+	type = character_event
+	title = welcome_mods_title
+	desc = welcome_mods_desc
+	override_background = { reference = relaxing_room }
+	theme = crown
+	right_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		is_ai = no
+	}
+
+	option = {
+		name = welcome_mods_confed_leagues
+		custom_tooltip = welcome_mods_recommend_choose_in_converter
+		custom_tooltip = welcome_mods_confed_leagues_desc
+	}
+
+	option = { # Go back to main welcome screen
+		name = welcome_back
+		trigger_event = welcome.1
+	}
+}

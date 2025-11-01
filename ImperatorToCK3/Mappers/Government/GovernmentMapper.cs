@@ -2,12 +2,11 @@
 using ImperatorToCK3.CK3.Titles;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Government;
 
-public sealed class GovernmentMapper {
+internal sealed class GovernmentMapper {
 	private readonly List<GovernmentMapping> mappings = [];
 
 	public GovernmentMapper(ICollection<string> ck3GovernmentIds) {
@@ -15,19 +14,11 @@ public sealed class GovernmentMapper {
 
 		var parser = new Parser();
 		RegisterKeys(parser);
-		var mappingsPath = Path.Combine("configurables", "government_map.txt");
-		parser.ParseFile(mappingsPath);
+		parser.ParseFile("configurables/government_map.txt");
 
 		Logger.Info($"Loaded {mappings.Count} government links.");
 		
 		Logger.Debug("Removing invalid government links...");
-		RemoveInvalidLinks(ck3GovernmentIds);
-	}
-	public GovernmentMapper(BufferedReader reader, ICollection<string> ck3GovernmentIds) { // used for testing only, TODO: remove
-		var parser = new Parser();
-		RegisterKeys(parser);
-		parser.ParseStream(reader);
-		
 		RemoveInvalidLinks(ck3GovernmentIds);
 	}
 	private void RegisterKeys(Parser parser) {

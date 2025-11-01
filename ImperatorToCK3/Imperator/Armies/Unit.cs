@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CommonUtils;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -17,7 +18,7 @@ internal sealed class Unit : IIdentifiable<ulong> {
 	private List<ulong> CohortIds { get; } = new();
 
 	public LocBlock? LocalizedName { get; private set; }
-	public Dictionary<string, int> MenPerUnitType { get; }
+	public FrozenDictionary<string, int> MenPerUnitType { get; }
 
 	public Unit(ulong id, BufferedReader legionReader, UnitCollection unitCollection, LocDB irLocDB, ImperatorDefines defines) {
 		Id = id;
@@ -83,12 +84,12 @@ internal sealed class Unit : IIdentifiable<ulong> {
 		return nameLocBlock;
 	}
 
-	private Dictionary<string, int> GetMenPerUnitType(UnitCollection unitCollection, ImperatorDefines defines) {
+	private FrozenDictionary<string, int> GetMenPerUnitType(UnitCollection unitCollection, ImperatorDefines defines) {
 		var cohortSize = defines.CohortSize;
 
 		return unitCollection.Subunits.Where(s => CohortIds.Contains(s.Id))
 			.GroupBy(s=>s.Type)
-			.ToDictionary(g => g.Key, g => (int)g.Sum(s => cohortSize * s.Strength));
+			.ToFrozenDictionary(g => g.Key, g => (int)g.Sum(s => cohortSize * s.Strength));
 	}
 
 	public static IgnoredKeywordsSet IgnoredTokens { get; } = [];

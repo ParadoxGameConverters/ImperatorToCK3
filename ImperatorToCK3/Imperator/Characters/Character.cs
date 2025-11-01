@@ -38,7 +38,7 @@ internal sealed class Character : IIdentifiable<ulong> {
 		set => culture = value;
 	}
 	public string Religion { get; set; } = string.Empty;
-	public double? Health { get; private set; }
+	public float? Health { get; private set; }
 	public string Name { get; set; } = string.Empty;
 	public string? CustomName { get; set; }
 
@@ -104,8 +104,8 @@ internal sealed class Character : IIdentifiable<ulong> {
 		}
 	}
 	public bool Female { get; set; } = false;
-	public double? Fertility { get; private set; }
-	public double Wealth { get; set; } = 0;
+	public float? Fertility { get; private set; }
+	public float Wealth { get; set; } = 0;
 	public ImmutableList<Unborn> Unborns { get; private set; } = [];
 
 	public CK3.Characters.Character? CK3Character { get; set; }
@@ -120,12 +120,12 @@ internal sealed class Character : IIdentifiable<ulong> {
 		parser.RegisterKeyword("country", reader => character.parsedCountryId = reader.GetULong());
 		parser.RegisterKeyword("home_country", reader => character.parsedHomeCountryId = reader.GetULong());
 		parser.RegisterKeyword("province", reader => character.ProvinceId = reader.GetULong());
-		parser.RegisterKeyword("culture", reader => character.culture = reader.GetString());
-		parser.RegisterKeyword("religion", reader => character.Religion = reader.GetString());
-		parser.RegisterKeyword("fertility", reader => character.Fertility = reader.GetDouble());
-		parser.RegisterKeyword("health", reader => character.Health = reader.GetDouble());
+		parser.RegisterKeyword("culture", reader => character.culture = string.Intern(reader.GetString()));
+		parser.RegisterKeyword("religion", reader => character.Religion = string.Intern(reader.GetString()));
+		parser.RegisterKeyword("fertility", reader => character.Fertility = reader.GetFloat());
+		parser.RegisterKeyword("health", reader => character.Health = reader.GetFloat());
 		parser.RegisterKeyword("family", reader => character.parsedFamilyId = reader.GetULong());
-		parser.RegisterKeyword("traits", reader => character.Traits = reader.GetStrings());
+		parser.RegisterKeyword("traits", reader => character.Traits = reader.GetAndInternStrings());
 		parser.RegisterKeyword("female", reader => character.Female = reader.GetBool());
 		parser.RegisterKeyword("children", reader => character.parsedChildrenIds = [.. reader.GetULongs()]);
 		parser.RegisterKeyword("spouse", reader => character.parsedSpouseIds = [.. reader.GetULongs()]);
@@ -146,13 +146,13 @@ internal sealed class Character : IIdentifiable<ulong> {
 			var dateStr = reader.GetString();
 			character.DeathDate = new Date(dateStr, AUC: true); // converted to AD
 		});
-		parser.RegisterKeyword("death", reader => character.DeathReason = reader.GetString());
+		parser.RegisterKeyword("death", reader => character.DeathReason = string.Intern(reader.GetString()));
 		parser.RegisterKeyword("attributes", reader => character.Attributes = CharacterAttributes.Parse(reader));
-		parser.RegisterKeyword("nickname", reader => character.Nickname = reader.GetString());
+		parser.RegisterKeyword("nickname", reader => character.Nickname = string.Intern(reader.GetString()));
 		parser.RegisterKeyword("dna", reader => character.DNA = reader.GetString());
 		parser.RegisterKeyword("mother", reader => character.parsedMotherId = reader.GetULong());
 		parser.RegisterKeyword("father", reader => character.parsedFatherId = reader.GetULong());
-		parser.RegisterKeyword("wealth", reader => character.Wealth = reader.GetDouble());
+		parser.RegisterKeyword("wealth", reader => character.Wealth = reader.GetFloat());
 		parser.RegisterKeyword("unborn", reader => {
 			var unborns = new List<Unborn>();
 			foreach (var blob in new BlobList(reader).Blobs) {
@@ -171,7 +171,7 @@ internal sealed class Character : IIdentifiable<ulong> {
 			var variablesParser = new Parser();
 			variablesParser.RegisterKeyword("data", dataReader => {
 				var blobParser = new Parser();
-				blobParser.RegisterKeyword("flag", blobReader => variables.Add(blobReader.GetString()));
+				blobParser.RegisterKeyword("flag", blobReader => variables.Add(string.Intern(blobReader.GetString())));
 				blobParser.IgnoreUnregisteredItems();
 				
 				foreach (var blob in new BlobList(dataReader).Blobs) {

@@ -4,6 +4,7 @@ using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Inventions;
 using ImperatorToCK3.Imperator.Provinces;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 
@@ -17,7 +18,7 @@ internal sealed partial class Country : IIdentifiable<ulong> {
 	public string? PrimaryCulture { get; private set; }
 	public string? Religion { get; private set; }
 	public List<RulerTerm> RulerTerms { get; set; } = [];
-	public Dictionary<string, int> HistoricalRegnalNumbers { get; private set; } = [];
+	public FrozenDictionary<string, int> HistoricalRegnalNumbers { get; private set; } = FrozenDictionary<string, int>.Empty;
 
 	private string tag = "";
 	public string Tag {

@@ -2,7 +2,7 @@ using commonItems;
 using commonItems.Mods;
 namespace ImperatorToCK3.Imperator;
 
-public sealed class ImperatorDefines : Defines {
+internal sealed class ImperatorDefines : Defines {
 	public int CohortSize { get; private set; } = 500;
 
 	public new void LoadDefines(ModFilesystem modFS) {

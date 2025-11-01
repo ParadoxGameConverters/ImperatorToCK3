@@ -9,7 +9,7 @@ jobs:
     outputs:
       tag: ${{ steps.previoustag.outputs.tag }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0
     - name: "Get previous tag"
@@ -17,7 +17,7 @@ jobs:
       uses: "WyriHaximus/github-action-get-previous-tag@v1"
     - name: "Build changelog"
       id: build_changelog
-      uses: mikepenz/release-changelog-builder-action@v5
+      uses: mikepenz/release-changelog-builder-action@v6
       with:
         configuration: ".github/config/changelog-config.json"
       env:
@@ -55,7 +55,7 @@ jobs:
           archive_extension: .tgz
           asset_content_type: application/gzip
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         fetch-depth: 0
         submodules: recursive
@@ -65,7 +65,7 @@ jobs:
         cd ImperatorToCK3/Data_Files/configurables
         printf "\nversion = ${{ needs.create_release.outputs.tag }}" >> version.txt
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         global-json-file: Fronter.NET/global.json
     - name: "Replace frontend background image"
@@ -84,7 +84,7 @@ jobs:
         BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
         BACKBLAZE_BUCKET_ID: ${{ secrets.BACKBLAZE_BUCKET_ID }}
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         global-json-file: global.json
     - name: "Build backend"
@@ -103,16 +103,16 @@ jobs:
       shell: bash
       run: |
         git rev-parse HEAD > Publish/commit_id.txt
-    - name: "Install sed for Windows"
+    - name: "Install sed and Inno Setup for Windows"
       if: matrix.build == 'win-x64'
       run: |
-        choco install sed
+        choco install sed --version=4.9
+        choco install innosetup
     - name: "Build installer for Windows"
       if: matrix.build == 'win-x64'
       run: |
-        dotnet tool install --global InnoSetup
-        cp Fronter.NET/Fronter.NET/Assets/converter.ico Publish/Assets/
         iscc --version
+        cp Fronter.NET/Fronter.NET/Assets/converter.ico Publish/Assets/
         sed -i '5i\\#define MyAppVersion "${{ needs.create_release.outputs.tag }}"' ImperatorToCK3.iss
         cat ImperatorToCK3.iss
         iscc ImperatorToCK3.iss

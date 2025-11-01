@@ -3,10 +3,9 @@ using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
-using FluentAssertions;
+using AwesomeAssertions;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Characters;
-using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
@@ -25,10 +24,10 @@ using ImperatorToCK3.Mappers.Trait;
 using ImperatorToCK3.UnitTests.Mappers.Trait;
 using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using Culture = ImperatorToCK3.Imperator.Cultures.Culture;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters;
 
@@ -46,6 +45,7 @@ public class CK3CharacterTests {
 	private static readonly ModFilesystem CK3ModFS = new(CK3Root, Array.Empty<Mod>());
 	private static readonly DNAFactory DNAFactory = new(IRModFS, CK3ModFS);
 	private static TestCK3CultureCollection cultures = new();
+	private static readonly FrozenDictionary<string, string> characterNameOverrides = FrozenDictionary<string, string>.Empty;
 	
 	static CK3CharacterTests() {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
@@ -91,10 +91,10 @@ public class CK3CharacterTests {
 				irMapData,
 				provinceMapper,
 				deathReasonMapper,
-				DNAFactory,
 				new Date(867, 1, 1),
 				config,
-				unlocalizedImperatorNames: new HashSet<string>()
+				nameOverrides: characterNameOverrides,
+				unlocalizedImperatorNames: []
 			);
 			return character;
 		}
@@ -278,13 +278,13 @@ public class CK3CharacterTests {
 	[Fact]
 	public void GoldCanBeConverterFromImperator() {
 		var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
-			Wealth = 420.69
+			Wealth = 420.69f
 		};
 
 		var character = builder
 			.WithImperatorCharacter(imperatorCharacter)
 			.Build();
-		Assert.Equal(420.69, character.Gold);
+		Assert.Equal(420.69f, character.Gold);
 	}
 
 	[Fact]
@@ -441,13 +441,7 @@ public class CK3CharacterTests {
 
 	[Fact]
 	public void UnneededCharactersArePurged() {
-		// dead and unlanded from Imperator
-		var impCharacterReader = new BufferedReader("death_date = 1.1.1");
-		var unlandedFromImperator = builder
-			.WithImperatorCharacter(ImperatorToCK3.Imperator.Characters.Character.Parse(impCharacterReader, "1", null))
-			.Build();
-
-		var ck3Characters = new CharacterCollection {unlandedFromImperator};
+		var ck3Characters = new CharacterCollection();
 
 		// dead and unlanded from CK3
 		var unlandedFromCK3 = new Character("bob", "Bob", birthDate: new Date("50.1.1"), ck3Characters);
@@ -462,57 +456,42 @@ public class CK3CharacterTests {
 	[Fact]
 	public void DeadLandlessCharactersArePurgedIfChildless() {
 		var titles = new Title.LandedTitles();
-
-		var irFamily = new Family(1);
-		var irFamilies = new FamilyCollection { irFamily };
-		var irCharacters = new ImperatorToCK3.Imperator.Characters.CharacterCollection();
-
-		var charactersReader = new BufferedReader("""
-			1 = { death_date=450.1.1 family=1 father=2 }
-			2 = { death_date=400.1.1 family=1 }
-			3 = { death_date=440.1.1 family=1 father=2 }
-			""");
-
-		irCharacters.LoadCharacters(charactersReader);
-		irCharacters.LinkFamilies(irFamilies);
-
-		irCharacters[1].Father.Should().BeSameAs(irCharacters[2]);
-		irCharacters[2].Father.Should().BeNull();
-		irCharacters[3].Father.Should().BeSameAs(irCharacters[2]);
 		
 		var ck3Characters = new CharacterCollection();
 
-		// dead but won't be purged because he's landed
-		var landedCharacter = builder
-			.WithImperatorCharacter(irCharacters[1])
-			.WithCharacterCollection(ck3Characters)
-			.Build();
+		// Dead but won't be purged because he's landed.
+		var landedCharacter = new Character("1", new BufferedReader("""
+            dynasty = dynasty_1
+            400.1.1 = { birth = yes }
+            450.1.1 = { death = yes }
+            father = 2
+            """), ck3Characters);
 		ck3Characters.Add(landedCharacter);
 		var kingdom = titles.Add("k_dead_georgia_boys");
 		kingdom.SetHolder(landedCharacter, new Date("400.1.1"));
-		Assert.Equal("imperator1", kingdom.GetHolderId(new Date("400.1.1")));
+		Assert.Equal("1", kingdom.GetHolderId(new Date("400.1.1")));
 		Assert.Collection(kingdom.GetAllHolderIds(),
-			id => Assert.Equal("imperator1", id));
-
-		// dead but won't be purged because he belongs to a dynasty of a landed character
-		// and has a child
-		var fatherOfLandedCharacter = builder
-			.WithImperatorCharacter(irCharacters[2])
-			.WithCharacterCollection(ck3Characters)
-			.Build();
+			id => Assert.Equal("1", id));
+		
+		// Dead but won't be purged because he belongs to a dynasty of a landed character
+		// and has a child.
+		var fatherOfLandedCharacter = new Character("2", new BufferedReader("""
+           dynasty = dynasty_1
+           350.1.1 = { birth = yes }
+           400.1.1 = { death = yes }
+           """), ck3Characters);
 		ck3Characters.Add(fatherOfLandedCharacter);
-
-		// another dead relative, will be purged because he's landless and childless
-		var childlessRelative = builder
-			.WithImperatorCharacter(irCharacters[3])
-			.WithCharacterCollection(ck3Characters)
-			.Build();
+		
+		// Another dead relative, will be purged because he's landless and childless.
+		var childlessRelative = new Character("3", new BufferedReader("""
+			dynasty = dynasty_1
+			390.1.1 = { birth = yes }
+			440.1.1 = { death = yes }
+			father = 2
+			"""), ck3Characters);
 		ck3Characters.Add(childlessRelative);
 
-		landedCharacter.Father = fatherOfLandedCharacter;
-		childlessRelative.Father = fatherOfLandedCharacter;
-
-		var dynasty = new Dynasty(irFamily, irCharacters, new CulturesDB(), CultureMapper, new LocDB("english"), new TestCK3LocDB(), ConversionDate);
+		var dynasty = new Dynasty("dynasty_1", new BufferedReader());
 		var dynasties = new DynastyCollection { dynasty };
 		Assert.Equal(dynasty.Id, landedCharacter.GetDynastyId(ConversionDate));
 		Assert.Equal(dynasty.Id, fatherOfLandedCharacter.GetDynastyId(ConversionDate));

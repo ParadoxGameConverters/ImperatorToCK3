@@ -3,9 +3,9 @@ using commonItems.Serialization;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CommonUtils;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZLinq;
 
 namespace ImperatorToCK3.Outputter;
 
@@ -14,7 +14,7 @@ internal static class DynastiesOutputter {
 		Logger.Info("Writing dynasties...");
 
 		var sb = new StringBuilder();
-		foreach (var dynasty in dynasties.OrderBy(d => d.Id)) {
+		foreach (var dynasty in dynasties.AsValueEnumerable().OrderBy(d => d.Id)) {
 			sb.AppendLine($"{dynasty.Id}={PDXSerializer.Serialize(dynasty, string.Empty)}");
 		}
 
@@ -27,7 +27,7 @@ internal static class DynastiesOutputter {
 		Logger.Info("Writing dynasty houses...");
 
 		var sb = new StringBuilder();
-		foreach (var house in houses.OrderBy(h => h.Id)) {
+		foreach (var house in houses.AsValueEnumerable().OrderBy(h => h.Id)) {
 			sb.AppendLine($"{house.Id}={PDXSerializer.Serialize(house, string.Empty)}");
 		}
 
