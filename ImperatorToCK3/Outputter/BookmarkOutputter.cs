@@ -186,11 +186,11 @@ internal static class BookmarkOutputter {
 		var ck3ModFS = ck3World.ModFS;
 		var provincesMapPath = ck3ModFS.GetActualFileLocation("map_data/provinces.png");
 		if (provincesMapPath is null) {
-			throw new FileNotFoundException($"{nameof(provincesMapPath)} not found!");
+			throw new FileNotFoundException("provinces.png not found!");
 		}
-		var flatmapPath = ck3ModFS.GetActualFileLocation("gfx/map/terrain/flatmap.dds");
+		var flatmapPath = ck3ModFS.GetActualFileLocation("gfx/map/terrain/flat_maps/flatmap.dds");
 		if (flatmapPath is null) {
-			throw new FileNotFoundException($"{nameof(flatmapPath)} not found!");
+			throw new FileNotFoundException("flatmap.dds not found!");
 		}
 		const string tmpFlatmapPath = "temp/flatmap.png";
 
