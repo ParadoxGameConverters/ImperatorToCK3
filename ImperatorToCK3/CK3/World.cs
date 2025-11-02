@@ -497,9 +497,9 @@ internal sealed class World {
 		} else if (irHasTI && ck3HasAEP) {
 			mappingsToUse = "terra_indomita_to_aep";
 		} else if (irWorld.InvictusDetected) {
-			mappingsToUse = "imperator_invictus";
+			mappingsToUse = "invictus_to_vanilla_ck3";
 		} else {
-			mappingsToUse = "imperator_vanilla";
+			mappingsToUse = "vanilla_ir_to_vanilla_ck3";
 			Logger.Warn("Support for non-Invictus Imperator saves is deprecated.");
 		}
 		
