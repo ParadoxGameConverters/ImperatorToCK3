@@ -35,6 +35,11 @@ heritage_west_slavic = e_west_slavia
 heritage_west_slavic = e_slavia
 heritage_east_slavic = e_slavia
 heritage_south_slavic = e_slavia
+heritage_buyeo = e_goryeo
+heritage_korean = e_goryeo
+heritage_japonic = e_japan
+heritage_albanian = e_illyria
+heritage_anatolian = e_anatolia
 
 # Terra-Indomita to Rajas of Asia
 heritage_korean = e_haedong

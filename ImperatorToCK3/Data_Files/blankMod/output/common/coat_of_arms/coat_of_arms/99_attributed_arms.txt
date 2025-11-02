@@ -196,7 +196,7 @@ purple_coa = {
 	color2 = "purple"
 }
 
-e_western_roman_empire = {
+h_western_roman_empire = {
 	pattern = "pattern_solid.tga"
 	color1 = "roman_red"
 	color2 = "roman_gold"

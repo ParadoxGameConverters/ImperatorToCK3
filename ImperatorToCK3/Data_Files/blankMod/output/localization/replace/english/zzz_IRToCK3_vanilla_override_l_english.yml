@@ -100,3 +100,7 @@
  heritage_albanian: "Illyrian"
  heritage_albanian_name: "Illyrian"
  heritage_albanian_collective_noun: "Illyrians"
+
+ converter_custom_hindustan_region: "Hindustan Core"
+ hindustan_control_3_kingdoms: "Hold at least 3 [kingdoms|E] with 80% of its land in [GetGeographicalRegion('world_india_rajastan').GetName]"
+ hindustan_control_rajastan: "Control at least 80% of [GetGeographicalRegion('world_india_rajastan').GetName]"

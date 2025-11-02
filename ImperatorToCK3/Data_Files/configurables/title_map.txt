@@ -49,7 +49,7 @@ link = { ir = JUD ck3 = k_israel rank = k }
 # Italic
 
 link = {
-	ck3 = e_byzantium
+	ck3 = h_eastern_roman_empire
 	ir_name_key = ERE
 	ir_name_key = eastern_rome_name
 	ir_name_key = eastern_roman_republic_name
@@ -58,7 +58,7 @@ link = {
 	ir_name_key = eastern_roman_dictatorship_name
 }
 link = {
-	ck3 = e_western_roman_empire
+	ck3 = h_western_roman_empire
 	ir_name_key = WRE
 	ir_name_key = western_rome_name
 	ir_name_key = western_roman_republic_name
