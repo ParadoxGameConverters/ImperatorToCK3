@@ -11027,7 +11027,7 @@ fp1_scandinavian_adventurers.0021 = {
 	}
 }
 
-"common\on_action\yearly_groups_on_actions.txt" = {
+"common/on_action/yearly_groups_on_actions.txt" = {
 	{
 		160 = fp2_yearly.1004   # The Hawk of Quarysh 
 	}
