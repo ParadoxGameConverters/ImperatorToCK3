@@ -881,41 +881,16 @@ link = {
 # Terra Indomita to Rajas of Asia
 link = { ck3 = tagalog ir = tagalog }
 link = { ck3 = bisaya ir = bisaya }
-link = { ck3 = goguryeo ir = goguryeo }
-link = { ck3 = yamato ir = wa }
-link = { ck3 = ainu ir = ainu }
-link = { ck3 = emishi ir = emishi }
-link = { ck3 = nivkh ir = nivkh }
 link = { ck3 = bahnar ir = bahnar } # Stieng and Mnong are two cultures that are the same as Bahnar in game, just with different names. For now will just map to Bahnar, but might be worth splitting if it makes sense later on
 link = { ck3 = andaman ir = andaman }
 link = { ck3 = munda ir = munda }
 link = { ck3 = mari ir = mari }
 link = { ck3=old_viet ir=lacviet } # The Lac Viet were an ancient Vietnamese people who lived in the Red River Delta.
-link = { ck3=ryukyu ir=duuchuu } # Duuchuu was a historical province in Japan.
-link = { ck3=ryukyu ir=yaeyama } # The Yaeyama Islands are a group of islands that are part of Japan.
-link = { ck3=hayato ir=kumaso } # The Kumaso were an indigenous people who lived in southern Japan. (Not mapping to Yamato for diversity and to better match culture split in EU4/EU5)
-link = { ck3=oshu ir=aduma } # The Aduma were an indigenous people who lived in southern Japan. (Not mapping to Yamato for diversity and to better match culture split in EU4/EU5)
-link = { ck3=kyushu ir=nansei } # The Nansei Islands are a group of islands that are part of Japan.(Not mapping to Yamato for diversity and to better match culture split in EU4/EU5)
-link = { ck3 = emishi ir = jomon_yayoi } # This is a special culture available to the native emishi tags from missions that allows them to switch to this special culture to be closer to the Yayoi culture group. Since this is technically Emishi (Jomon) trying to be closer to the Yayoi culture group, realistically might make more sense to have a custom culture thats a hybrid of emishi and yamato.
-link = { ck3=emishi ir=sunazawa } # Sunazawa was a historical province in Japan.
-link = { ck3=emishi ir=dewa } # Dewa was a historical province in Japan.
-link = { ck3=emishi ir=mitinooku } # Mitinooku was a historical province in Japan.
 link = { ck3 = batak ir = minangkabau historicalTag = A21 } # This tag represents a group of people described under the "Batak" grouping
 link = { ck3 = mentawai ir = minangkabau irProvince = 11043 }
 link = { ck3 = nias ir = minangkabau irProvince = 11044 } # Added these different mappings for more variety, could be changed if desired
 link = { ck3 = gayo ir = minangkabau irRegion = aceh_area }
 link = { ck3=malay ir=minangkabau } # https://en.wikipedia.org/wiki/Minangkabau_people
-link = { ck3=goguryeo ir=woju } # The Woju were a Korean people who lived in the Liaodong Peninsula.
-link = { ck3=goguryeo ir=lelang } # Lelang was a historical Korean kingdom that existed in the Liaodong Peninsula.
-link = { ck3=goguryeo ir=dongwei } # Dongwei was a historical Korean kingdom that existed in the Liaodong Peninsula.
-link = { ck3=goguryeo ir=yilyu } # Yilyu was a historical Korean kingdom that existed in the Liaodong Peninsula.
-link = { ck3=goguryeo ir=joseon } # Joseon was a historical Korean kingdom that existed from the 14th to the 19th centuries.
-link = { ck3=goguryeo ir=fuyu } # Fuyu was a historical Korean kingdom that existed in the Liaodong Peninsula.
-link = { ck3 = jeju ir = byeonhan ir = jinhan ir = mahan irProvince = 9285 } # Right now just map to Jeju Island province. Would it be better to map to the Imperator Damna (DMN) tag?
-link = { ck3=samhan ir=jinhan } # Jinhan was a historical Korean confederacy that existed in the Korean Peninsula.
-link = { ck3=samhan ir=mahan } # Mahan was a historical Korean confederacy that existed in the Korean Peninsula.
-link = { ck3=samhan ir=byeonhan } # Byeonhan was a historical Korean confederacy that existed in the Korean Peninsula.
-link = { ck3=ainu ir=jeulmeun } # Jeulmeun is a revivalist culture, and belongs to the same culture group as the Ainu in Terra Indomita.
 link = { ck3=chong ir=pear } # In RoA, the chong culture is localized as Samre, which is the same ethnic group as the Pear people.
 link = { ck3=sichuan ir=ba } # https://en.wikipedia.org/wiki/Ba_(state): "an ancient state in eastern Sichuan, China"
 link = { ck3=sichuan ir=bo } # https://en.wikipedia.org/wiki/Bo_people_(China): "The Bo people were native to southeastern Sichuan."
@@ -939,7 +914,6 @@ link = { ck3=bactrian ir=bactra } # Bactria was a historical region in Central A
 link = { ck3=yao ir=yangyu } # Yangyu was a historical region in China that is now part of Guangdong Province.
 link = { ck3 = sheren ir = sanmiao irRegion = yang_region irRegion = jiao_region } # She seems to be closely related to Hmong/Miao
 link = { ck3 = hmong ir = sanmiao }
-link = { ck3=nivkh ir=susuya } # Susuya is in the Nivkh culture group
 link = { ck3 = khmu ir = minpu } # It is called Khmu in Imperator
 link = { ck3=khmer ir=phnom } # The Phnom were an ancient people who lived in southern China.
 link = { ck3=kuy ir=ban } # Culture is called Katu in Imperator, and Kuy is a Katuic culture. There are other Katuic cultures that could potentially be mapped to, but they are all clumped together, so Determining exactly what their mapping conditions should be might be difficult to prevent having only one or two provinces convert
@@ -955,10 +929,6 @@ link = { ck3 = be ir = lier ck3Province = 12458 ck3Province = 12449 ck3Province 
 link = { ck3 = hlai ir = lier }
 link = { ck3 = nong ir = gui } # nong called Zhuang in CK3. They are both Tai cultures in the same region, and looking it up, Zhuang peoples are said to be descendants of the Xiou (according to a chinese travel site), and the Nam Cuong tag in Imperator refers to them as the Xiou while having Gui as primary culture
 link = { ck3=pyu ir=piaoyue } # The Pyu were an ancient people who lived in Myanmar.
-link = { ck3 = evenk ir = haoshi ir = huifa ir = sushen irRegion = amur_area irRegion = sahaliyan_area irRegion = mobei_region irRegion = scytho_siberian_region irRegion = hyperborea_region } # To represent that they are a Tungusic culture closer to Siberia
-link = { ck3 = nanai ir = sushen irRegion = modong_region } # Probably not a 1:1 realistic match, but it should help with some diversity
-link = { ck3 = udege ir = haoshi irRegion = modong_region } # Probably not a 1:1 realistic match, but it should help with some diversity
-link = { ck3 = jurchen ir = haoshi ir = huifa ir = sushen } # Jurchens expanded the most out of that region, so it will be the fallback
 link = { ck3=levantine ir=philistine } # The Philistines were an ancient people who lived in the southern Levant.
 link = { ck3 = tocharian ir = loulan } # Initially mapped to uyghur, but according to ChatGPT, the loulan wouldn't be considered ancestors since the uyghurs are of turkic origin
 link = { ck3=han ir=huaiyi } # Was in the Yi culture group in Terra-Indomita, not chinese culture group. But there is no Rajas of Asia culture to actually represent this and they likely got assimilated by the han
@@ -1025,23 +995,13 @@ link = { ck3 = turkish @proto_turks }
 
 
 # Terra Indomita to Asia Expansion Project
-link = { ck3 = yaeyama ir = yaeyama }
-link = { ck3 = yaeyama ir = duuchuu irProvince = 9739 } # Yaeyama island.
-link = { ck3 = amami ir = duuchuu irProvince = 9734 } # Amami island.
-link = { ck3 = okinawa ir = duuchuu irProvince = 9737 } # Okinawa island.
-link = { ck3 = miyako ir = duuchuu irProvince = 9738 } # Miyako island.
-link = { ck3 = okinawa ir = duuchuu } # Chose Okinawa culture as the fallback mapping for Duuchuu because it's the biggest island in the Ryukyu archipelago.
 link = { ck3 = andamanese ir = andaman }
 link = { ck3 = bahnaric ir = bahnar }
 link = { ck3 = kinh ir = lacviet }
 link = { ck3 = nicobarese ir = holchu }
 link = { ck3 = burmese ir = piaoyue }
-link = { ck3 = saro ir = jinhan ir = byeonhan } # https://en.wikipedia.org/wiki/Three_Kingdoms_of_Korea#Silla
-link = { ck3 = baekje ir = mahan } # https://en.wikipedia.org/wiki/Three_Kingdoms_of_Korea#Baekje
 link = { ck3 = ba_shu ir = ba ir = shu } # https://en.wikipedia.org/wiki/Ba%E2%80%93Shu_culture
-link = { ck3 = gilyak ir = nivkh ir = susuya } # https://en.wikipedia.org/wiki/Nivkh_people
 link = { ck3 = komi ir = permic } # komi is localized as Permian in CK3
-link = { ck3 = mohese ir = haoshi } # Haoshi/Yuexi were one of the Mohe tribes according to https://en.wikipedia.org/wiki/Mohe_people
 link = {
 	# https://en.wikipedia.org/wiki/Xiangkhouang:
 	# 	"Xiangkhouang is home to five different ethnic groups: the Tai Dam, Tai Daeng, Phuan, Khmu, and Hmong."
@@ -1055,7 +1015,6 @@ link = {
 	ir = bo
 }
 link = { ck3 = hani ir = dian } # Mapping for now until a better culture can be determine
-link = { ck3=yamato ir=nansei ir=aduma ir=kumaso } # Fallback for AEP since it doesn't have same culture split as RoA
 link = { ck3 = qay ir = qifu }
 link = { ck3 = yi ir = sanmiao } # AEP uses this to represent Miao peoples
 link = { ck3=ilokano ir=igorot } # The Igorot people are a group of indigenous peoples who live in the mountainous regions of the Philippines.
@@ -1123,26 +1082,6 @@ link = { ck3=khanty ir=jiankun ir = itkul ir = bolsherechye } # AEP doesn't add 
 # ✓ Bai
 # ✓ Yi (Speaks Burmese)
 
-## Nivkh Heritage
-# ✓ Nivkh
-
-## Japonic Heritage
-# ✓ Japanese (Yamato)
-# ✓ Ryukyuan
-
-## Ainuic Heritage
-# ✓ Emishi (Speak Japonic)
-# ✓ Ainu
-
-## Samhanic (korean) Heritage
-# ✕ Goryeo [Represents the unified Korean culture, so won't map to it.]
-# ✓ Silla
-# ✓ Baekje
-
-## Buyeo (northern korean) Heritage
-# ✓ Goguryeo
-# ✕ Balhae (Speaks Tungusic; hybrid with Mohe) [Seems to have appeared around 7/8th century, could make an event/decision that allows it to be formed.]
-
 ## Mongolic Heritage
 # Mongol (Older culture)
 # Buryat (Older culture)
@@ -1153,193 +1092,227 @@ link = { ck3=khanty ir=jiankun ir = itkul ir = bolsherechye } # AEP doesn't add 
 # Tuyuhun (Older culture)
 # Shiwei
 
-## Tungusic Heritage
-# ✕ Jurchen (Older culture, was Mongolic; diverged from Mohe) [Seems to have appeared around 8/9th century, should an event be created to represent their rise, or a creation name?]
-# ✓ Mohe
-
 ### End of CK3 Cultures
 ########################
 
 ## Pu Culture Group
-# Andaman -> Nakkavaram
-# Bahnar -> Khmer (Should this also be made its own culture to better map to EU5?)
-# Katu -> Khmer (Should probably make a custom Katuic/Kuy culture)
-# Holchu -> Nakkavaram
-# Jaintia -> Khasi (Converter Culture)
-# Lacviet -> Viet
-# Khmu -> Khmu
-# Mon -> Mon
-# Munda -> Khasi (Converter Culture; Should be made its own culture to also map better to EU5)
-# Pear -> Chong (Samre; Converter Culture)
-# Khmer -> Khmer
-# Palaung (pubu) -> Palaungic (Converter Culture)
-# Rhakine -> Arakanese (Converter Culture)
-# Xiangkhoang -> Khmu
+#- Andaman -> Nakkavaram
+#- Bahnar -> Khmer (Should this also be made its own culture to better map to EU5?)
+#- Katu -> Khmer (Should probably make a custom Katuic/Kuy culture)
+#- Holchu -> Nakkavaram
+#- Jaintia -> Khasi (Converter Culture)
+#- Lacviet -> Viet
+#- Khmu -> Khmu
+#- Mon -> Mon
+#- Munda -> Khasi (Converter Culture; Should be made its own culture to also map better to EU5)
+#- Pear -> Chong (Samre; Converter Culture)
+#- Khmer -> Khmer
+#- Palaung (pubu) -> Palaungic (Converter Culture)
+#- Rhakine -> Arakanese (Converter Culture)
+#- Xiangkhoang -> Khmu
 
 
-## Austronesian Culture Group
-# Bisaya -> Bisayan
-# Chaiya <Imperator provinces 11032,11033,11034,11035,11036,11037,11038> -> Senoi
-# Chaiya -> Malay
-# Igorot -> Iloko
-# Linyi <in aceh_area> -> Acehnese (Speaks Chamic)
-# Linyi -> Cham
-# Malayan <Imperator provinces 11032,11033,11034,11035,11036,11037,11038> -> Senoi
-# Malayan -> Malay
-# Minangkabau <in tag Lamuri, A23> -> Acehnese (Speaks Chamic)
-# Minangkabau <Imperator provinces 11043,11044> -> Nakkavaram
-# Minangkabau <Imperator provinces 11032,11033,11034,11035,11036,11037,11038> -> Senoi
-# Minangkabau -> Malay
-# Tagalog -> Tagalog
-# Tagbanwa -> Bisayan (There is no Palawan culture, and AUH has them be Bisayan)
-# Yizhou -> Amis (Formosan)
+## Austronesian Culture Group [Terra-Indomita]
+#- Bisaya -> Bisayan
+#- Chaiya <Imperator provinces 11032,11033,11034,11035,11036,11037,11038> -> Senoi
+#- Chaiya -> Malay
+#- Igorot -> Iloko
+#- Linyi <in aceh_area> -> Acehnese (Speaks Chamic)
+#- Linyi -> Cham
+#- Malayan <Imperator provinces 11032,11033,11034,11035,11036,11037,11038> -> Senoi
+#- Malayan -> Malay
+#- Minangkabau <in tag Lamuri, A23> -> Acehnese (Speaks Chamic)
+#- Minangkabau <Imperator provinces 11043,11044> -> Nakkavaram
+#- Minangkabau <Imperator provinces 11032,11033,11034,11035,11036,11037,11038> -> Senoi
+#- Minangkabau -> Malay
+#- Tagalog -> Tagalog
+#- Tagbanwa -> Bisayan (There is no Palawan culture, and AUH has them be Bisayan)
+#- Yizhou -> Amis (Formosan)
 
 
-## Tai Culture Group
-# Ailao -> Tai (Central Thai)
-# Dian -> Tai (Central Thai)
-# Gui -> Bouxcuengh (Zhuang)
-# Jiuliao -> Yi (Speaks Burmese; Should probably see about changing its heritage)
-# Lier -> Hlai (Li)
-# Shan -> Shan (Converter Culture)
-# Yelang -> Yi (Speaks Burmese; Should probably see about changing its heritage)
+## Tai Culture Group [Terra-Indomita]
+#- Ailao -> Tai (Central Thai)
+#- Dian -> Tai (Central Thai)
+#- Gui -> Bouxcuengh (Zhuang)
+#- Jiuliao -> Yi (Speaks Burmese; Should probably see about changing its heritage)
+#- Lier -> Hlai (Li)
+#- Shan -> Shan (Converter Culture)
+#- Yelang -> Yi (Speaks Burmese; Should probably see about changing its heritage)
 
 
-## Bashu Culture Group
-# Ba <in jing_region> -> Tujia (Supposedly the Tujia can trace themselves back to the Ba Kingdom)
-# Ba -> Bashu (Converter Culture; Need to make, check out RobotEnjoyer's old_bashu culture)
-# Bo -> Bai (Should probably see about changing its heritage)
-# Shu -> Bashu (Converter Culture; Need to make, check out RobotEnjoyer's old_bashu culture)
+## Bashu Culture Group [Terra-Indomita]
+#- Ba <in jing_region> -> Tujia (Supposedly the Tujia can trace themselves back to the Ba Kingdom)
+#- Ba -> Bashu (Converter Culture; Need to make, check out RobotEnjoyer's old_bashu culture)
+#- Bo -> Bai (Should probably see about changing its heritage)
+#- Shu -> Bashu (Converter Culture; Need to make, check out RobotEnjoyer's old_bashu culture)
 
 
-## Miao Culture Group
-# Miao -> Hmong
-# Yangyu -> Yao
+## Miao Culture Group [Terra-Indomita]
+#- Miao -> Hmong
+#- Yangyu -> Yao
 
 
-## Yue Culture Group
-# Fulou -> Baiyue (Converter Culture; Need to create, check out RobotEnjoyer's version)
-# Minyue -> Baiyue (Converter Culture; Need to create, check out RobotEnjoyer's version)
-# Nanyue -> Baiyue (Converter Culture; Need to create, check out RobotEnjoyer's version)
-# Ouyue -> Baiyue (Converter Culture; Need to create, check out RobotEnjoyer's version)
-# Wuyue -> Baiyue (Converter Culture; Need to create, check out RobotEnjoyer's version)
-# Yangyue -> Baiyue (Converter Culture; Need to create, check out RobotEnjoyer's version)
+## Yue Culture Group [Terra-Indomita]
+#- Fulou -> Baiyue (Converter Culture; Need to create, check out RobotEnjoyer's version)
+#- Minyue -> Baiyue (Converter Culture; Need to create, check out RobotEnjoyer's version)
+#- Nanyue -> Baiyue (Converter Culture; Need to create, check out RobotEnjoyer's version)
+#- Ouyue -> Baiyue (Converter Culture; Need to create, check out RobotEnjoyer's version)
+#- Wuyue -> Baiyue (Converter Culture; Need to create, check out RobotEnjoyer's version)
+#- Yangyue -> Baiyue (Converter Culture; Need to create, check out RobotEnjoyer's version)
 
 
-## Yi Culture Group
-# Guzhu -> Dongyi (Converter Culture; Need to create, check out RobotEnjoyer's version)
-# Huaiyi -> Dongyi (Converter Culture; Need to create, check out RobotEnjoyer's version)
-# Laiyi -> Dongyi (Converter Culture; Need to create, check out RobotEnjoyer's version)
-# Lingzhi -> Dongyi (Converter Culture; Need to create, check out RobotEnjoyer's version)
+## Yi Culture Group [Terra-Indomita]
+#- Guzhu -> Dongyi (Converter Culture; Need to create, check out RobotEnjoyer's version)
+#- Huaiyi -> Dongyi (Converter Culture; Need to create, check out RobotEnjoyer's version)
+#- Laiyi -> Dongyi (Converter Culture; Need to create, check out RobotEnjoyer's version)
+#- Lingzhi -> Dongyi (Converter Culture; Need to create, check out RobotEnjoyer's version)
 
 
 ## Chinese Culture Group [Terra-Indomita]
-# Chu
-# Duhu (Doesn't seem to actually be used in Terra-Indomita, not sure exactly what this is supposed to represent)
-# Huaxia (Doesn't seem to actually be used in Terra-Indomita, but is likely just supposed to represent a unified Chinese culture)
-# Ji
-# Jin
-# Qilu
-# Qin
-# Sino-Xiongnu (xiongnu_chinese)
-# Xu
-# Yaan
-# Yan
-# Zhongyuan
+#- Chu
+#- Duhu (Doesn't seem to actually be used in Terra-Indomita, not sure exactly what this is supposed to represent)
+#- Huaxia (Doesn't seem to actually be used in Terra-Indomita, but is likely just supposed to represent a unified Chinese culture)
+#- Ji
+#- Jin
+#- Qilu
+#- Qin
+#- Sino-Xiongnu (xiongnu_chinese)
+#- Xu
+#- Yaan
+#- Yan
+#- Zhongyuan
 @chinese_cultures = "ir=chu ir=duhu ir=huaxia ir=ji ir=jin ir=qilu ir=qin ir=xu ir=yaan ir=yan ir=zhongyuan"
 # Regional Chinese Cultures
 link = { ck3 = qin ir = qin }
 link = { ck3 = kinh @chinese_cultures ir = lingzhi irRegion = hong_area irRegion = jiaozhi_area irRegion = jiuzhen_area } # In ROA, Kinh is represented as a hybrid of Lac Viet and Han. This is probably the only way to realistically represent this for now since you can't specify country cultures as conditions
 # Chinese Fallbacks
-link = { ck3 = han ir=@chinese_cultures }
+link = { ck3 = han @chinese_cultures }
 link = { ck3 = shatuo ir = xiongnu_chinese } # The Sino-Xiongnu were a group of Xiongnu people who had assimilated into Chinese culture. (This seems similar to the Shatou culture in CK3, which is a hybrid of Ueban and Han, so will map to that for now ~~tanner918)
 
 
 ## Rong Culture Group [Terra-Indomita]
-# Di Qiang (di_qiang)
-# Gyalrong
-# Juyan
-# Kunming
-# Nuomuhong
-# Qiang
-# Qiongdu
-# Ruoqiang
-# Shajing
-# Shanma
-# Yiqu
-# Zuo
-@qiangic_cultures = "ir = di_qiang ir = gyalrong ir = juyan ir = kunming ir = nuomuhong ir = qiang ir = qiongdu ir = ruoqiang ir = shajing ir = shanma ir = yiqu ir = zuo"
+#- Di Qiang (di_qiang)
+#- Gyalrong
+#- Juyan
+#- Kunming
+#- Nuomuhong
+#- Qiang
+#- Qiongdu
+#- Ruoqiang
+#- Shajing
+#- Shanma
+#- Yiqu
+#- Zuo
+@qiangic_cultures = "ir=di_qiang ir=gyalrong ir=juyan ir=kunming ir=nuomuhong ir=qiang ir=qiongdu ir=ruoqiang ir=shajing ir=shanma ir=yiqu ir=zuo"
 link = { ck3 = achang @qiangic_cultures irRegion = burma_region } # ROA Culture; This CK3 culture is Qiangic, but speaks Burmese, so just going to map any Qiangic culture in Burma to it ~~tanner918
 link = { ck3 = nakhi ir = kunming ir = zuo ir = qiongdu } # ROA Culture; Not sure if best mapping, areas more or less match up ~~tanner918
 link = { ck3 = tangut ir = juyan ir = nuomuhong ir = shajing ir = shanma ir = yiqu } # Not sure if best mapping, areas more or less match up ~~tanner918
 link = { ck3 = qiang ir = qiang ir = gyalrong ir = di_qiang ir = ruoqiang ir = kunming ir = zuo ir = qiongdu } # Not sure if best mapping, areas more or less match up ~~tanner918
 
 
-## Di Culture Group
-# Arzhan -> 
-# Baidi -> 
-# Chanlan -> 
-# Chidi -> 
-# Dingling -> 
-# Hujie -> 
-# Huna -> 
-# Hunnic -> 
-# Issedonian -> 
-# Korgantes -> 
-# Linhu -> 
-# Loufan -> 
-# Shanrong -> 
-# Xiongnu -> 
+## Di Culture Group [Terra-Indomita]
+#- Arzhan -> 
+#- Baidi -> 
+#- Chanlan -> 
+#- Chidi -> 
+#- Dingling -> 
+#- Hujie -> 
+#- Huna -> 
+#- Hunnic -> 
+#- Issedonian -> 
+#- Korgantes -> 
+#- Linhu -> 
+#- Loufan -> 
+#- Shanrong -> 
+#- Xiongnu -> 
 
 
-## Hu Culture Group
-# Donghu -> 
-# Qifu -> 
-# Wuhuan -> 
-# Xianbei -> 
+## Hu Culture Group [Terra-Indomita]
+#- Donghu -> 
+#- Qifu -> 
+#- Wuhuan -> 
+#- Xianbei -> 
 
 
-## Huimo Culture Group
-# Dongwei -> Goguryeo
-# Fuyu -> Goguryeo
-# Goguryeo -> Goguryeo
-# Joseon -> Goguryeo
-# Lelang -> Goguryeo
-# Woju -> Goguryeo
-# Yilyu -> Goguryeo
+## Huimo Culture Group [Terra-Indomita]
+#- Dongwei
+#- Fuyu
+#- Goguryeo
+#- Joseon
+#- Lelang
+#- Woju
+#- Yilyu
+link = { ck3 = goguryeo ir = dongwei ir = fuyu ir = goguryeo ir = joseon ir = lelang ir = woju ir = yilyu }
 
 
-## Samhan Culture Group
-# Byeonhan -> Silla
-# Jinhan -> Silla
-# Mahan -> Baekje
+## Samhan Culture Group [Terra-Indomita]
+#- Byeonhan
+#- Jinhan
+#- Mahan
+link = { ck3 = jeju ir = byeonhan ir = jinhan ir = mahan irProvince = 9285 } # RoA
+link = { ck3 = tamna ir = byeonhan ir = jinhan ir = mahan irProvince = 9285 } # AEP
+link = { ck3 = samhan ir = byeonhan ir = jinhan ir = mahan } # RoA
+link = { ck3 = saro ir = jinhan ir = byeonhan } # AEP
+link = { ck3 = silla ir = jinhan ir = byeonhan } # Base Game
+link = { ck3 = baekje ir = mahan } # Base Game/AEP
 
 
-## Tungusic Culture Group
-# Haoshi -> Mohe
-# Huifa -> Mohe
-# Sushen -> Mohe
+## Tungusic Culture Group [Terra-Indomita]
+#- Haoshi
+#- Huifa
+#- Sushen
+# Tungusic Mappings
+link = { ck3 = mohe ir = haoshi ir = huifa ir = sushen } # Base Game; Wanted to make sure it was before the mods since Jurchen, which diverges from Mohe, will likely eventually be handled through something like an event allowing them to appear
+link = { ck3 = evenk ir = haoshi ir = huifa ir = sushen irRegion = amur_area irRegion = sahaliyan_area } # RoA/AEP; To represent that they are a Tungusic culture closer to Siberia
+link = { ck3 = udege ir = haoshi } # RoA/AEP; Probably not a perfect match, but should do for now
+link = { ck3 = jurchen ir = huifa } # RoA/AEP; Probably not a perfect match, but should do for now
+link = { ck3 = nanai ir = sushen } # RoA; Probably not a perfect match, but should do for now
+link = { ck3 = mohese ir = sushen } # AEP; Probably not a perfect match, but should do for now
 
 
-## Nivkh Culture Group
-# Nivkh -> Nivkh
-# Susuya -> Nivkh
+
+## Nivkh Culture Group [Terra-Indomita]
+#- Nivkh
+#- Susuya
+# Nivkh Fallbacks
+link = { ck3 = gilyak ir = nivkh ir = susuya } # AEP
+link = { ck3 = nivkh ir = nivkh ir = susuya } # RoA/Base Game
 
 
-## Jomon (Emishi) Culture Group
-# Ezo -> Ainu
-# Dewa -> Emishi
-# Duuchuu -> Ryukyuan
-# Emishi -> Emishi
-# Jeulmeun (Special culture from Jomon tag completing a mission about controlling part of Korea) -> Emishi (Should a custom culture be created to represent this, or a creation_name that is setup at game start?)
-# Sirakawa -> Emishi
-# Sunazawa -> Emishi
-# Yaeyama (Special culture from Ryukyuan tag completing a mission about controlling around Formosa) -> Ryukyuan (Should a custom culture be created to represent this, or a creation_name that is setup at game start?)
+## Jomon (Emishi) Culture Group [Terra-Indomita]
+#- Ezo (ainu)
+#- Dewa
+#- Duuchuu
+#- Emishi
+#- Jeulmeun (Special culture from Jomon tag completing a mission about controlling part of Korea; Should a custom culture be created to represent this, or a creation_name that is setup at game start?)
+#- Sirakawa (mitinooku)
+#- Sunazawa
+#- Yaeyama (Special culture from Ryukyuan tag completing a mission about controlling around Formosa; Should a custom culture be created to represent this, or a creation_name that is setup at game start?)
+# AEP Mappings
+link = { ck3 = yaeyama ir = yaeyama }
+link = { ck3 = yaeyama ir = duuchuu irProvince = 9739 } # Yaeyama island.
+link = { ck3 = amami ir = duuchuu irProvince = 9734 } # Amami island.
+link = { ck3 = miyako ir = duuchuu irProvince = 9738 } # Miyako island.
+link = { ck3 = okinawa ir = duuchuu irProvince = 9737 } # Okinawa island.
+link = { ck3 = okinawa ir = duuchuu } # Chose Okinawa culture as the fallback mapping for Duuchuu because it's the biggest island in the Ryukyu archipelago.
+# Jomon/Emishi Fallbacks
+link = { ck3 = ainu ir = ainu }
+link = { ck3 = emishi ir = emishi ir = jeulmeun ir = sunazawa ir = dewa ir = mitinooku }
+link = { ck3 = ryukyu ir = duuchuu ir = yaeyama } # RoA
+link = { ck3 = ryukyuan ir = duuchuu ir = yaeyama } # Base Game
 
 
-## Yayoi (Japanese) Culture Group
-# Aduma -> Yamato
-# Jomon (Special culture dealing with a Jomon culture "Yayoifying", becoming closer to the Yayoi (Japanese)) -> Yamato (Should a custom culture be created to represent this?)
-# Kumaso -> Yamato
-# Nansei (Special culture dealing with Kumaso tag controlling or around Ryukyu, or vice versa) -> Yamato
-# Wa -> Yamato
+## Yayoi (Japanese) Culture Group [Terra-Indomita]
+#- Aduma
+#- Jomon (jomon_yayoi; Special culture dealing with a Jomon culture "Yayoifying", becoming closer to the Yayoi (Japanese); Should a custom culture be created to represent this?)
+#- Kumaso
+#- Nansei (Special culture dealing with Kumaso tag controlling or around Ryukyu, or vice versa; Should a custom culture be created to represent this?)
+#- Wa
+# Yayoi/Japanese Fallbacks
+link = { ck3 = yamato ir = aduma ir = kumaso ir = nansei ir = wa ir = jomon_yayoi } # RoA/AEP
+link = { ck3 = japanese ir = aduma ir = kumaso ir = nansei ir = wa ir = jomon_yayoi } # Base Game
+# RoA Mappings
+# These won't get used by default since even RoA just uses Yamato, but left them here in case you want more variety in the Japanese mappings since RoA includes them. Just put these mappings before the Fallback mappings above to use them.
+link = { ck3 = hayato ir = kumaso } # RoA
+link = { ck3 = oshu ir = aduma } # RoA
+link = { ck3 = kyushu ir = nansei } # RoA
