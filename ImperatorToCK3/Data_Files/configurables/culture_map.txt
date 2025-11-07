@@ -892,8 +892,6 @@ link = { ck3 = nias ir = minangkabau irProvince = 11044 } # Added these differen
 link = { ck3 = gayo ir = minangkabau irRegion = aceh_area }
 link = { ck3=malay ir=minangkabau } # https://en.wikipedia.org/wiki/Minangkabau_people
 link = { ck3=chong ir=pear } # In RoA, the chong culture is localized as Samre, which is the same ethnic group as the Pear people.
-link = { ck3=sichuan ir=ba } # https://en.wikipedia.org/wiki/Ba_(state): "an ancient state in eastern Sichuan, China"
-link = { ck3=sichuan ir=bo } # https://en.wikipedia.org/wiki/Bo_people_(China): "The Bo people were native to southeastern Sichuan."
 link = { ck3=georgian ir=bekhyrian } # the region of Bekhyria (https://upload.wikimedia.org/wikipedia/commons/4/4d/Georgian_States_Colchis_and_Iberia_%28600-150BC%29-en.svg) is inhabited by the Colchians in TI, the Bekhyrian culture doesn't have any pops.
 link = { ck3=nubian ir=syrbotian } # https://en.wikipedia.org/wiki/Syrbotae
 link = { ck3=armenian ir=phasiane } # Armenia was also known as Greater Armenia, which included the region of Phasiane.
@@ -911,9 +909,6 @@ link = { ck3=malay ir=malayan } # The Malayan people are a group of ethnic Malay
 link = { ck3=idaya ir=igorot } # The Igorot people are a group of indigenous peoples who live in the mountainous regions of the Philippines.
 link = { ck3=palawan ir=tagbanwa } # The Tagbanwa people are an indigenous group who live in the Palawan Islands of the Philippines.
 link = { ck3=bactrian ir=bactra } # Bactria was a historical region in Central Asia that is now part of Afghanistan and Tajikistan. (In game has Bactrian as its name)
-link = { ck3=yao ir=yangyu } # Yangyu was a historical region in China that is now part of Guangdong Province.
-link = { ck3 = sheren ir = sanmiao irRegion = yang_region irRegion = jiao_region } # She seems to be closely related to Hmong/Miao
-link = { ck3 = hmong ir = sanmiao }
 link = { ck3 = khmu ir = minpu } # It is called Khmu in Imperator
 link = { ck3=khmer ir=phnom } # The Phnom were an ancient people who lived in southern China.
 link = { ck3=kuy ir=ban } # Culture is called Katu in Imperator, and Kuy is a Katuic culture. There are other Katuic cultures that could potentially be mapped to, but they are all clumped together, so Determining exactly what their mapping conditions should be might be difficult to prevent having only one or two provinces convert
@@ -923,7 +918,6 @@ link = { ck3=saka ir=buku } # Buku is in the Saka culture group, so for now will
 link = { ck3 = caijia ir = dian } # Mapping for now until a better culture can be determine
 link = { ck3 = wuman ir = yelang } # AEP Culture, adding first to make sure AEP cultures map properly; The Yi/Nuosu peoples are considered possible descendants of the Yelang kingdom
 link = { ck3 = yi ir = yelang } # Used for RoA; The Yi/Nuosu peoples are considered possible descendants of the Yelang kingdom
-link = { ck3 = bai ir = jiuliao }
 link = { ck3 = lisu ir = ailao }
 link = { ck3 = be ir = lier ck3Province = 12458 ck3Province = 12449 ck3Province = 12436 ck3Province = 12419 }
 link = { ck3 = hlai ir = lier }
@@ -946,7 +940,6 @@ link = { ck3=mogyer ir=gorokhov } # The Gorokhovs were a Hungarian tribe that li
 link = { ck3 = solqumyt ir = itkul } # Not sure what sort of cultures would best map, I figured given its location and Uralic culture group, maybe Samoyedic cultures, might change if a better choice is determined
 link = { ck3 = kott ir = bolsherechye } # Not sure what sort of cultures would best map, I figured given its location and Uralic culture group, maybe Samoyedic cultures, might change if a better choice is determined
 link = { ck3=urslavic ir=slavian } # Both represent early Slavic cultures
-link = { ck3=sichuan ir=shu } # Shu is an ancient state in the Sichuan region
 link = { ck3=georgian ir=sasperires } # Sasperires were an ancient tribe in the region of modern Georgia
 link = { ck3=udmurt ir=argippaei } # Argippaei were described by Herodotus as living north of Scythia, possibly related to Sarmatians or Alans (But the converter already has quite a few cultures mapped to those, and doing research/asking chatgpt doesn't give a single answer as they may not have been an atual culture, just a mis-identified one. So for now, will map it to something different for more variety. ChatGPT recommneded cultures like Komi, but since another culture is mapped to that, for now I will just map it to Udmurt ~~tanner918)
 link = { ck3=samoyed ir=arimphaei } # Arimphaei were described as living in the far north, possibly related to Finno-Ugric peoples
@@ -1000,7 +993,6 @@ link = { ck3 = bahnaric ir = bahnar }
 link = { ck3 = kinh ir = lacviet }
 link = { ck3 = nicobarese ir = holchu }
 link = { ck3 = burmese ir = piaoyue }
-link = { ck3 = ba_shu ir = ba ir = shu } # https://en.wikipedia.org/wiki/Ba%E2%80%93Shu_culture
 link = { ck3 = komi ir = permic } # komi is localized as Permian in CK3
 link = {
 	# https://en.wikipedia.org/wiki/Xiangkhouang:
@@ -1009,14 +1001,8 @@ link = {
 	ck3 = khmu
 	ir = xiangkhoang
 }
-link = {
-	# https://zh.wikipedia.org/wiki/%E5%83%B0%E4%BA%BA: "明代僰人即今日白族之先民。從族姓上來看，明代僰人的段、楊、高、尹諸姓，都是現在白族中的大姓。"
-	ck3 = bai
-	ir = bo
-}
 link = { ck3 = hani ir = dian } # Mapping for now until a better culture can be determine
 link = { ck3 = qay ir = qifu }
-link = { ck3 = yi ir = sanmiao } # AEP uses this to represent Miao peoples
 link = { ck3=ilokano ir=igorot } # The Igorot people are a group of indigenous peoples who live in the mountainous regions of the Philippines.
 link = { ck3=champ ir=linyi }
 link = { ck3 = tai ir = ailao }
@@ -1046,7 +1032,6 @@ link = { ck3=khanty ir=jiankun ir = itkul ir = bolsherechye } # AEP doesn't add 
 # ✓ Hlai (Li)
 # ✓ Tai (Central Thai)
 # ✓ Bouxcuengh (Zhuang)
-# ✓ Tujia
 
 ## Viet Heritage
 # ✓ Viet
@@ -1073,13 +1058,8 @@ link = { ck3=khanty ir=jiankun ir = itkul ir = bolsherechye } # AEP doesn't add 
 # ✓ Amis (Formosan)
 # ✓ Nakkavaram (Culture on Andaman/Nias Islands)
 
-## Hmongic Heritage
-# ✓ Hmong
-# ✓ Yao
-
 ## Chinese Heritage
 # ✓✕ Han (Need to see about splitting this up into different regional cultures.)
-# ✓ Bai
 # ✓ Yi (Speaks Burmese)
 
 ## Mongolic Heritage
@@ -1141,15 +1121,21 @@ link = { ck3=khanty ir=jiankun ir = itkul ir = bolsherechye } # AEP doesn't add 
 
 
 ## Bashu Culture Group [Terra-Indomita]
-#- Ba <in jing_region> -> Tujia (Supposedly the Tujia can trace themselves back to the Ba Kingdom)
-#- Ba -> Bashu (Converter Culture; Need to make, check out RobotEnjoyer's old_bashu culture)
-#- Bo -> Bai (Should probably see about changing its heritage)
-#- Shu -> Bashu (Converter Culture; Need to make, check out RobotEnjoyer's old_bashu culture)
+#- Ba
+#- Bo
+#- Shu
+link = { ck3 = tujia ir = ba irRegion = jing_region } # The Tujia can supposedly trace themselves to the Ba Kingdom
+link = { ck3 = old_bashu ir = ba ir = shu }
+link = { ck3 = bai ir = bo } # The Bai peoples supposedly can trace themselves back to the Bo
 
 
 ## Miao Culture Group [Terra-Indomita]
-#- Miao -> Hmong
-#- Yangyu -> Yao
+#- Miao (sanmiao)
+#- Yangyu
+link = { ck3 = yao ir = yangyu } # Maybe not best mapping, but should be good enough for now
+link = { ck3 = sheren ir = sanmiao irRegion = yang_region irRegion = jiao_region } # ROA/AEP
+link = { ck3 = hmong ir = sanmiao } # Base Game/ROA
+link = { ck3 = yi ir = sanmiao } # AEP uses this to represent Miao peoples, so set it last to make sure it doesn't interfere with converting to ROA/Base Game
 
 
 ## Yue Culture Group [Terra-Indomita]
@@ -1183,6 +1169,8 @@ link = { ck3=khanty ir=jiankun ir = itkul ir = bolsherechye } # AEP doesn't add 
 #- Zhongyuan
 @chinese_cultures = "ir=chu ir=duhu ir=huaxia ir=ji ir=jin ir=qilu ir=qin ir=xu ir=yaan ir=yan ir=zhongyuan"
 # Regional Chinese Cultures
+# Notes for future mappings:
+# - In AEP, Sichuan is ba_shu
 link = { ck3 = qin ir = qin }
 link = { ck3 = kinh @chinese_cultures ir = lingzhi irRegion = hong_area irRegion = jiaozhi_area irRegion = jiuzhen_area } # In ROA, Kinh is represented as a hybrid of Lac Viet and Han. This is probably the only way to realistically represent this for now since you can't specify country cultures as conditions
 # Chinese Fallbacks
@@ -1268,7 +1256,6 @@ link = { ck3 = udege ir = haoshi } # RoA/AEP; Probably not a perfect match, but 
 link = { ck3 = jurchen ir = huifa } # RoA/AEP; Probably not a perfect match, but should do for now
 link = { ck3 = nanai ir = sushen } # RoA; Probably not a perfect match, but should do for now
 link = { ck3 = mohese ir = sushen } # AEP; Probably not a perfect match, but should do for now
-
 
 
 ## Nivkh Culture Group [Terra-Indomita]

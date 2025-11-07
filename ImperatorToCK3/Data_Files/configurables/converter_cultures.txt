@@ -4254,3 +4254,155 @@ anatolian = {
 	}
 	unit_gfx = { eastern_unit_gfx }
 }
+
+old_bashu = {
+	INVALIDATED_BY = {
+		tfe = { old_bashu }
+		wtwsms = { old_bashu }
+		roa = { old_bashu }
+		vanilla = { old_bashu }
+	}
+
+	color = { 107 153 126 }
+
+	ethos = ethos_communal
+	heritage = heritage_loloish # ROA uses Loloish, and from what I've been able to find online potential descendents of them seem to speak languages related to Loloish, so this might be a good match for now until something else is determined so they are lumped together with the actual Chinese cultures
+	language = language_bashu
+	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
+	house_coa_frame = house_frame_04
+
+	traditions = {
+		tradition_culinary_art
+		tradition_metal_craftsmanship 
+		tradition_music_theory
+		tradition_swords_for_hire
+	}
+
+	name_list = name_list_han # For now
+
+	MOD_DEPENDENT = {
+		IF aep = {
+			ethnicities = {
+				10 = east_asian_chinese_north
+			}
+		}
+		ELSE_IF roa = {
+			ethnicities = {
+				2 = east_asian_han_1
+				2 = east_asian_han_2
+				2 = east_asian_han_3
+				2 = east_asian_han_4
+			}
+		}
+		ELSE = {
+			ethnicities = {
+				10 = asian_han_chinese
+			}
+		}
+	}
+
+	MOD_DEPENDENT = {
+		IF aep = {
+			coa_gfx = { chinese_group_coa_gfx }
+			building_gfx = { chinese_building_gfx }
+			clothing_gfx = { chinese_clothing_gfx }
+			unit_gfx = { japanese_unit_gfx }
+		}
+		ELSE_IF tfe = {
+			coa_gfx = { chinese_group_coa_gfx }
+			building_gfx = { chinese_building_gfx indian_building_gfx }
+			clothing_gfx = { mongol_clothing_gfx }
+			unit_gfx = { mongol_unit_gfx }
+		}
+		ELSE_IF roa = {
+			coa_gfx = { chinese_group_coa_gfx }
+			building_gfx = { chinese_building_gfx }
+			clothing_gfx = { han_clothing_gfx chinese_clothing_gfx }
+			unit_gfx = { mongol_unit_gfx }
+		}
+		ELSE = {
+			coa_gfx = { chinese_group_coa_gfx }
+			building_gfx = { chinese_building_gfx }
+			clothing_gfx = { chinese_clothing_gfx }
+			unit_gfx = { chinese_unit_gfx }
+		}
+	} 
+}
+
+# Base game has them as Tai, but it seems that's not the best match, so setting them to Lolo to match Bashu, since they are theoretically related
+tujia = {
+	INVALIDATED_BY = {
+		tfe = { tujia }
+		wtwsms = { tujia }
+		roa = { tujia }
+	}
+
+	color = { 141 186 119 }
+
+	ethos = ethos_bellicose
+	heritage = heritage_loloish
+	language = language_tujian
+	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
+
+	traditions = {
+		tradition_warrior_monks
+		tradition_loyal_soldiers
+		tradition_storytellers
+		tradition_highland_warriors
+	}
+
+	name_list = name_list_tai
+
+	coa_gfx = { chinese_group_coa_gfx }
+	building_gfx = { indian_building_gfx }
+	clothing_gfx = { southeast_asian_clothing_gfx }
+	unit_gfx = { mongol_unit_gfx }
+	house_coa_frame = house_frame_04
+
+	ethnicities = {
+		10 = asian_han_chinese
+	}
+}
+
+# Base game has them as Chinese, but it seems that's not the best match, so setting them to Lolo to match Bashu, since they are theoretically related
+bai = {
+	INVALIDATED_BY = {
+		tfe = { bai }
+		wtwsms = { bai }
+		roa = { bai }
+	}
+	
+	color = { 0.9 0.4 0.1 }
+
+	name_order_convention = dynasty_always_first
+	ethos = ethos_courtly
+	heritage = heritage_loloish
+	language = language_bai
+	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
+
+	traditions = {
+		tradition_hill_dwellers
+		tradition_xenophilic
+		tradition_ruling_caste
+	}
+	
+	dlc_tradition = {
+		trait = tradition_tgp_hydraulic_builders
+		requires_dlc_flag = all_under_heaven
+	}
+
+	name_list = name_list_han
+
+	coa_gfx = { chinese_group_coa_gfx }
+	building_gfx = { chinese_building_gfx }
+	clothing_gfx = { chinese_clothing_gfx }
+	unit_gfx = { chinese_unit_gfx }
+	house_coa_frame = house_china
+
+	ethnicities = {
+		10 = asian_han_chinese
+	}
+}

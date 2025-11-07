@@ -2978,3 +2978,78 @@ language_kordofanian = {
 	
 	color = { 96 55 48 }
 }
+
+language_bashu = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+		tfe = { language_bashu }
+		wtwsms = { language_bashu }
+		roa = { language_bashu }
+		vanilla = { language_bashu }
+	}
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_bashu
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_bashu }
+			multiply = 10
+		}
+	}
+
+	color = { 107 153 126 }
+}
+
+language_tujian = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+		tfe = { language_tujian }
+		wtwsms = { language_tujian }
+		roa = { language_tujian }
+		vanilla = { language_tujian }
+	}
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_tujian
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_tujian }
+			multiply = 10
+		}
+	}
+
+	color = { 141 186 119 }
+}
+
+language_bai = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+		tfe = { language_bai }
+		wtwsms = { language_bai }
+		roa = { language_bai }
+		vanilla = { language_bai }
+	}
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_bai
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_bai }
+			multiply = 10
+		}
+	}
+
+	color = { 0.9 0.4 0.1 }
+}

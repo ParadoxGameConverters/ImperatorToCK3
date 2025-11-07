@@ -683,3 +683,20 @@ heritage_occitan = {
 		}
 	}
 }
+
+heritage_loloish = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+    	tfe = { heritage_loloish }
+		wtwsms = { heritage_loloish }
+		roa = { heritage_loloish }
+    	vanilla = { heritage_loloish }
+    }
+	
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_loloish
+		}
+	}
+	audio_parameter = sea
+}
