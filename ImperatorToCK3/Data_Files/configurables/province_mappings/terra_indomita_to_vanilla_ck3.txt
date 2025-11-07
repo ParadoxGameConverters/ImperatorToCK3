@@ -1,4 +1,25 @@
 terra_indomita_to_vanilla_ck3 = {
+	triangulation_pair = { srcX = 3892 srcY = 433 dstX = 7863 dstY = 1047 }
+	triangulation_pair = { srcX = 3830 srcY = 375 dstX = 7852 dstY = 948 }
+	triangulation_pair = { srcX = 3311 srcY = 907 dstX = 6281 dstY = 832 }
+	triangulation_pair = { srcX = 3437 srcY = 843 dstX = 6577 dstY = 955 }
+	triangulation_pair = { srcX = 3460 srcY = 712 dstX = 6772 dstY = 870 }
+	triangulation_pair = { srcX = 3448 srcY = 661 dstX = 6810 dstY = 833 }
+	triangulation_pair = { srcX = 3613 srcY = 493 dstX = 7301 dstY = 899 }
+	triangulation_pair = { srcX = 3664 srcY = 559 dstX = 7306 dstY = 940 }
+	triangulation_pair = { srcX = 3833 srcY = 465 dstX = 7735 dstY = 1013 }
+	triangulation_pair = { srcX = 3926 srcY = 465 dstX = 7849 dstY = 1105 }
+	triangulation_pair = { srcX = 3937 srcY = 471 dstX = 7853 dstY = 1115 }
+	triangulation_pair = { srcX = 4046 srcY = 612 dstX = 7743 dstY = 1341 }
+	triangulation_pair = { srcX = 4106 srcY = 714 dstX = 7670 dstY = 1481 }
+	triangulation_pair = { srcX = 4260 srcY = 819 dstX = 7666 dstY = 1719 }
+	triangulation_pair = { srcX = 4153 srcY = 770 dstX = 7637 dstY = 1569 }
+	triangulation_pair = { srcX = 4180 srcY = 826 dstX = 7571 dstY = 1647 }
+	triangulation_pair = { srcX = 4200 srcY = 808 dstX = 7618 dstY = 1653 }
+	triangulation_pair = { srcX = 4295 srcY = 759 dstX = 7794 dstY = 1714 }
+	triangulation_pair = { srcX = 4351 srcY = 787 dstX = 7815 dstY = 1820 }
+	triangulation_pair = { srcX = 4396 srcY = 792 dstX = 7842 dstY = 1885 }
+	triangulation_pair = { srcX = 4365 srcY = 926 dstX = 7626 dstY = 1951 }
 	triangulation_pair = { srcX = 4367 srcY = 639 dstX = 8048 dstY = 1711 }
 	triangulation_pair = { srcX = 4333 srcY = 469 dstX = 8265 dstY = 1552 }
 	triangulation_pair = { srcX = 4332 srcY = 434 dstX = 8312 dstY = 1527 }
@@ -52,6 +73,23 @@ terra_indomita_to_vanilla_ck3 = {
 	triangulation_pair = { srcX = 4505 srcY = 2782 dstX = 5913 dstY = 3476 }
 	triangulation_pair = { srcX = 4589 srcY = 2810 dstX = 5957 dstY = 3532 }
 	triangulation_pair = { srcX = 4404 srcY = 2733 dstX = 5866 dstY = 3398 }
+	triangulation_pair = { srcX = 4484 srcY = 1807 dstX = 6702 dstY = 2733 }
+	triangulation_pair = { srcX = 4603 srcY = 1781 dstX = 6821 dstY = 2809 }
+	triangulation_pair = { srcX = 4710 srcY = 2136 dstX = 6582 dstY = 3161 }
+	triangulation_pair = { srcX = 4761 srcY = 2172 dstX = 6586 dstY = 3230 }
+	triangulation_pair = { srcX = 4756 srcY = 2232 dstX = 6535 dstY = 3264 }
+	triangulation_pair = { srcX = 4876 srcY = 2221 dstX = 6641 dstY = 3356 }
+	triangulation_pair = { srcX = 4870 srcY = 2330 dstX = 6537 dstY = 3420 }
+	triangulation_pair = { srcX = 4740 srcY = 2314 dstX = 6453 dstY = 3310 }
+	triangulation_pair = { srcX = 4689 srcY = 2325 dstX = 6405 dstY = 3275 }
+	triangulation_pair = { srcX = 4593 srcY = 2356 dstX = 6304 dstY = 3231 }
+	triangulation_pair = { srcX = 4672 srcY = 2517 dstX = 6237 dstY = 3379 }
+	triangulation_pair = { }
+	triangulation_pair = { srcX = 5141 srcY = 2622 dstX = 6488 dstY = 3725 }
+	triangulation_pair = { srcX = 5037 srcY = 2540 dstX = 6474 dstY = 3590 }
+	triangulation_pair = { srcX = 4929 srcY = 2633 dstX = 6326 dstY = 3586 }
+	triangulation_pair = { srcX = 4700 srcY = 2608 dstX = 6187 dstY = 3457 }
+	triangulation_pair = { srcX = 4147 srcY = 2419 dstX = 5879 dstY = 3012 }
 	triangulation_pair = { srcX = 4312 srcY = 2605 dstX = 5880 dstY = 3263 }
 	triangulation_pair = { srcX = 3274 srcY = 861 dstX = 6256 dstY = 748 }
 	triangulation_pair = { srcX = 3247 srcY = 976 dstX = 6117 dstY = 828 }
