@@ -4406,3 +4406,205 @@ bai = {
 		10 = asian_han_chinese
 	}
 }
+
+baiyue = {
+	INVALIDATED_BY = {
+		tfe = { baiyue }
+		wtwsms = { baiyue }
+		roa = { baiyue }
+		vanilla = { baiyue }
+	}
+
+	color = { 13 59 128 }
+
+	heritage = heritage_baiyue
+	language = language_baiyue
+	
+	ethos = ethos_communal
+	head_determination = head_determination_domain
+	martial_custom = martial_custom_equal
+
+	traditions = {
+		tradition_maritime_mercantilism
+		tradition_fishermen
+		tradition_metal_craftsmanship
+	}
+
+	dlc_tradition = {
+		trait = tradition_tgp_rice_cultivators
+		requires_dlc_flag = all_under_heaven
+		fallback = tradition_agrarian
+	}
+
+	# Adding both Vietic and Chinese names to represent the somewhat mixed influence, but 
+	name_list = name_list_vietnamese
+	name_list = name_list_han
+
+	MOD_DEPENDENT = {
+		IF aep = {
+			ethnicities = {
+				10 = east_asian_chinese_north
+			}
+		}
+		ELSE_IF roa = {
+			ethnicities = {
+				2 = east_asian_han_1
+				2 = east_asian_han_2
+				2 = east_asian_han_3
+				2 = east_asian_han_4
+			}
+		}
+		ELSE = {
+			ethnicities = {
+				10 = asian_han_chinese
+			}
+		}
+	}
+
+	MOD_DEPENDENT = {
+		IF aep = {
+			coa_gfx = { chinese_group_coa_gfx }
+			building_gfx = { chinese_building_gfx }
+			clothing_gfx = { chinese_clothing_gfx }
+			unit_gfx = { japanese_unit_gfx }
+		}
+		ELSE_IF tfe = {
+			coa_gfx = { chinese_group_coa_gfx }
+			building_gfx = { chinese_building_gfx indian_building_gfx }
+			clothing_gfx = { mongol_clothing_gfx }
+			unit_gfx = { mongol_unit_gfx }
+		}
+		ELSE_IF roa = {
+			coa_gfx = { chinese_group_coa_gfx }
+			building_gfx = { chinese_building_gfx }
+			clothing_gfx = { han_clothing_gfx chinese_clothing_gfx }
+			unit_gfx = { mongol_unit_gfx }
+		}
+		ELSE = {
+			coa_gfx = { chinese_group_coa_gfx }
+			building_gfx = { chinese_building_gfx }
+			clothing_gfx = { chinese_clothing_gfx }
+			unit_gfx = { chinese_unit_gfx }
+		}
+	}
+}
+
+dongyi = {
+	INVALIDATED_BY = {
+		tfe = { dongyi }
+		wtwsms = { dongyi }
+		roa = { dongyi }
+		vanilla = { dongyi }
+	}
+
+	color = { 193 230 46 }
+
+	heritage = heritage_dongyi
+	language = language_dongyi
+	ethos = ethos_egalitarian
+	head_determination = head_determination_domain
+
+	name_list = name_list_han # For now
+	martial_custom = martial_custom_equal
+
+	traditions = {
+		tradition_maritime_mercantilism
+		tradition_adaptive_skirmishing
+		tradition_seafaring
+	}
+
+	dlc_tradition = {
+		trait = tradition_sinophilic
+		requires_dlc_flag = all_under_heaven
+	}
+
+	MOD_DEPENDENT = {
+		IF aep = {
+			ethnicities = {
+				10 = east_asian_chinese_north
+			}
+		}
+		ELSE_IF roa = {
+			ethnicities = {
+				2 = east_asian_han_1
+				2 = east_asian_han_2
+				2 = east_asian_han_3
+				2 = east_asian_han_4
+			}
+		}
+		ELSE = {
+			ethnicities = {
+				10 = asian_han_chinese
+			}
+		}
+	}
+
+	MOD_DEPENDENT = {
+		IF aep = {
+			coa_gfx = { chinese_group_coa_gfx }
+			building_gfx = { chinese_building_gfx }
+			clothing_gfx = { chinese_clothing_gfx }
+			unit_gfx = { japanese_unit_gfx }
+		}
+		ELSE_IF tfe = {
+			coa_gfx = { chinese_group_coa_gfx }
+			building_gfx = { chinese_building_gfx indian_building_gfx }
+			clothing_gfx = { mongol_clothing_gfx }
+			unit_gfx = { mongol_unit_gfx }
+		}
+		ELSE_IF roa = {
+			coa_gfx = { chinese_group_coa_gfx }
+			building_gfx = { chinese_building_gfx }
+			clothing_gfx = { han_clothing_gfx chinese_clothing_gfx }
+			unit_gfx = { mongol_unit_gfx }
+		}
+		ELSE = {
+			coa_gfx = { chinese_group_coa_gfx }
+			building_gfx = { chinese_building_gfx }
+			clothing_gfx = { chinese_clothing_gfx }
+			unit_gfx = { chinese_unit_gfx }
+		}
+	} 
+}
+
+# Base game has them as Chinese, but Lolo would be a better fit
+yi = {
+	INVALIDATED_BY = {
+		aep = { wuman } # Localized as Nuosu in game, another name for the Yi
+		tfe = { yi }
+		wtwsms = { yi }
+		roa = { yi }
+	}
+
+	color = { 0.9 0.9 0.9 }
+
+	name_order_convention = dynasty_always_first
+	ethos = ethos_stoic
+	heritage = heritage_loloish
+	language = language_yi
+	martial_custom = martial_custom_male_only
+	head_determination = head_determination_domain
+
+	traditions = {
+		tradition_hill_dwellers
+		tradition_highland_warriors
+	}
+
+	dlc_tradition = {
+		trait = tradition_fp2_malleable_subjects
+		requires_dlc_flag = the_fate_of_iberia
+		fallback = tradition_xenophilic
+	}
+
+	name_list = name_list_han
+
+	coa_gfx = { chinese_group_coa_gfx }
+	building_gfx = { chinese_building_gfx }
+	clothing_gfx = { chinese_clothing_gfx }
+	unit_gfx = { chinese_unit_gfx }
+	house_coa_frame = house_china
+
+	ethnicities = {
+		10 = asian_han_chinese
+	}
+}
