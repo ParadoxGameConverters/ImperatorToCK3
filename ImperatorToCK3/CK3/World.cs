@@ -543,6 +543,9 @@ internal sealed class World {
 		FrozenSet<Governorship> countyLevelGovernorshipsSet = countyLevelGovernorships.ToFrozenSet();
 
 		foreach (var county in LandedTitles.Counties) {
+			if (county.NobleFamily == true) {
+				continue;
+			}
 			if (county.CapitalBaronyProvinceId is null) {
 				Logger.Warn($"County {county} has no capital barony province!");
 				continue;
