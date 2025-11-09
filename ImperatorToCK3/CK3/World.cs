@@ -1004,6 +1004,10 @@ internal sealed class World {
 		var date = config.CK3BookmarkDate;
 		List<Title> unheldCounties = [];
 		foreach (var county in LandedTitles.Counties) {
+			if (county.NobleFamily == true) {
+				continue;
+			}
+			
 			var holderId = county.GetHolderId(date);
 			if (holderId == "0") {
 				unheldCounties.Add(county);
