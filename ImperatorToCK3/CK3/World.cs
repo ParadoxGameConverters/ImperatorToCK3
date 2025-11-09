@@ -496,6 +496,8 @@ internal sealed class World {
 			mappingsToUse = "terra_indomita_to_rajas_of_asia";
 		} else if (irHasTI && ck3HasAEP) {
 			mappingsToUse = "terra_indomita_to_aep";
+		} else if (irHasTI) {
+			mappingsToUse = "terra_indomita_to_vanilla_ck3";
 		} else if (irWorld.InvictusDetected) {
 			mappingsToUse = "invictus_to_vanilla_ck3";
 		} else {
