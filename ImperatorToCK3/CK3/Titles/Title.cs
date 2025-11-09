@@ -1079,6 +1079,15 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("male_names")] public List<string>? MaleNames { get; private set; }
 	// <culture, loc key>
 	[SerializedName("cultural_names")] public Dictionary<string, string>? CulturalNames { get; private set; }
+	[SerializedName("allow_domicile")] public bool? AllowDomicile { get; set; }
+	[SerializedName("enable_regnal_numbers")] public bool? EnableRegnalNumbers { get; set; }
+	[SerializedName("figurehead")] public bool? Figurehead { get; set; }
+	[SerializedName("holding_regnal_male_names")] public StringOfItem? HoldingRegnalMaleNames { get; private set; }
+	[SerializedName("holding_regnal_female_names")] public StringOfItem? HoldingRegnalFemaleNames { get; private set; }
+	[SerializedName("posthumous_regnal_male_names")] public StringOfItem? PosthumousRegnalMaleNames { get; private set; }
+	[SerializedName("posthumous_regnal_female_names")] public StringOfItem? PosthumousRegnalFemaleNames { get; private set; }
+	[SerializedName("personal_relation_entry")] public StringOfItem? PersonalRelationEntry { get; private set; }
+	[SerializedName("personal_relation_vassal")] public StringOfItem? PersonalRelationVassal { get; private set; }
 
 	public int? GetOwnOrInheritedDevelopmentLevel(Date date) {
 		// Latest date (<= date) takes precedence.
@@ -1189,6 +1198,15 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterKeyword("can_use_nomadic_naming", reader => CanUseNomadicNaming = reader.GetBool());
 		parser.RegisterKeyword("male_names", reader => MaleNames = reader.GetStrings());
 		parser.RegisterKeyword("cultural_names", reader => CulturalNames = reader.GetAssignmentsAsDict());
+		parser.RegisterKeyword("allow_domicile", reader => AllowDomicile = reader.GetBool());
+		parser.RegisterKeyword("enable_regnal_numbers", reader => EnableRegnalNumbers = reader.GetBool());
+		parser.RegisterKeyword("figurehead", reader => Figurehead = reader.GetBool());
+		parser.RegisterKeyword("holding_regnal_male_names", reader => HoldingRegnalMaleNames = reader.GetStringOfItem());
+		parser.RegisterKeyword("holding_regnal_female_names", reader => HoldingRegnalFemaleNames = reader.GetStringOfItem());
+		parser.RegisterKeyword("posthumous_regnal_male_names", reader => PosthumousRegnalMaleNames = reader.GetStringOfItem());
+		parser.RegisterKeyword("posthumous_regnal_female_names", reader => PosthumousRegnalFemaleNames = reader.GetStringOfItem());
+		parser.RegisterKeyword("personal_relation_entry", reader => PersonalRelationEntry = reader.GetStringOfItem());
+		parser.RegisterKeyword("personal_relation_vassal", reader => PersonalRelationVassal = reader.GetStringOfItem());
 
 		parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 			IgnoredTokens.Add(token);
