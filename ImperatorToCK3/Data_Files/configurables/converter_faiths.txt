@@ -214,6 +214,7 @@ scythian_religion = {
 	pagan_roots = yes
 
 	#Main Group
+	doctrine = doctrine_polytheist
 	doctrine = doctrine_no_head
 	doctrine = doctrine_gender_male_dominated
 	doctrine = doctrine_pluralism_pluralistic
@@ -453,6 +454,7 @@ arabic_religion = {
 	pagan_roots = yes
 
 	#Main Group
+	doctrine = doctrine_polytheist
 	doctrine = doctrine_no_head
 	doctrine = doctrine_gender_male_dominated
 	doctrine = doctrine_pluralism_pluralistic
@@ -694,6 +696,7 @@ burmic_religion = { # Folk religions of Burmese peoples
 	pagan_roots = yes
 
 	#Main Group
+	doctrine = doctrine_polytheist
 	doctrine = doctrine_no_head
 	doctrine = doctrine_gender_equal
 	doctrine = doctrine_pluralism_pluralistic
@@ -1687,6 +1690,7 @@ dinka_religion = {
 	pagan_roots = yes
 
 	#Main Group
+	doctrine = doctrine_polytheist
 	doctrine = doctrine_no_head
 	doctrine = doctrine_gender_male_dominated
 	doctrine = doctrine_pluralism_righteous
@@ -1927,6 +1931,7 @@ anatolian_religion = {
 	pagan_roots = yes
 
 	#Main Group
+	doctrine = doctrine_polytheist
 	doctrine = doctrine_no_head
 	doctrine = doctrine_gender_male_dominated
 	doctrine = doctrine_pluralism_pluralistic
@@ -2168,6 +2173,7 @@ armenian_religion = {
 	pagan_roots = yes
 
 	#Main Group
+	doctrine = doctrine_polytheist
 	doctrine = doctrine_no_head
 	doctrine = doctrine_gender_male_dominated
 	doctrine = doctrine_pluralism_pluralistic
@@ -2415,6 +2421,7 @@ canaanite_religion = {
 	}
 
 	#Main Group
+	doctrine = doctrine_polytheist
 	doctrine = doctrine_no_head
 	doctrine = doctrine_gender_male_dominated
 	doctrine = doctrine_pluralism_pluralistic
@@ -2655,6 +2662,7 @@ caucasian_religion = {
 	pagan_roots = yes
 
 	#Main Group
+	doctrine = doctrine_polytheist
 	doctrine = doctrine_no_head
 	doctrine = doctrine_gender_male_dominated
 	doctrine = doctrine_pluralism_pluralistic
@@ -2901,6 +2909,7 @@ celtic_religion = {
 	}
 
 	#Main Group
+	doctrine = doctrine_polytheist
 	doctrine = doctrine_no_head
 	doctrine = doctrine_gender_male_dominated
 	doctrine = doctrine_pluralism_pluralistic
@@ -3836,6 +3845,7 @@ iberic_religion = {
 	pagan_roots = yes
 
 	#Main Group
+	doctrine = doctrine_polytheist
 	doctrine = doctrine_no_head
 	doctrine = doctrine_gender_male_dominated
 	doctrine = doctrine_pluralism_pluralistic
@@ -4072,6 +4082,8 @@ ajivika_religion = { # credits to Izn from Invictus team for listing the doctrin
 	family = rf_eastern
 	graphical_faith = dharmic_gfx
 	doctrine = eastern_hostility_doctrine
+
+	doctrine = doctrine_polytheist
 	
 	# Pilgrimage
 	doctrine = doctrine_pilgrimage_encouraged
@@ -4411,6 +4423,7 @@ mesopotamian_religion = {
 	pagan_roots = yes
 
 	#Main Group
+	doctrine = doctrine_polytheist
 	doctrine = doctrine_no_head
 	doctrine = doctrine_gender_male_dominated
 	doctrine = doctrine_pluralism_pluralistic
@@ -4651,6 +4664,7 @@ paleo_balkan_religion = {
 	pagan_roots = yes
 
 	#Main Group
+	doctrine = doctrine_polytheist
 	doctrine = doctrine_no_head
 	doctrine = doctrine_gender_male_dominated
 	doctrine = doctrine_pluralism_pluralistic
@@ -5010,6 +5024,7 @@ hurrian_religion_group = {
 	doctrine = pagan_hostility_doctrine
 
 	#Main Group
+	doctrine = doctrine_polytheist
 	doctrine = doctrine_no_head
 	doctrine = doctrine_gender_male_dominated
 	doctrine = doctrine_pluralism_pluralistic
@@ -5245,6 +5260,7 @@ hattian_religion = { # From Bronze Age Reborn mod
 	doctrine = pagan_hostility_doctrine
 
 	#Main Group
+	doctrine = doctrine_polytheist
 	doctrine = doctrine_no_head # IRToCK3: changed from doctrine_spiritual_head because that way we don't need a HoF landed title
 	doctrine = doctrine_gender_male_dominated
 	doctrine = doctrine_pluralism_pluralistic
@@ -5515,6 +5531,7 @@ elamite_religion = { # from Bronze Age Reborn mod
 	doctrine = pagan_hostility_doctrine
 
 	#Main Group
+	doctrine = doctrine_polytheist
 	doctrine = doctrine_spiritual_head
 	doctrine = doctrine_gender_male_dominated
 	doctrine = doctrine_pluralism_pluralistic
@@ -5764,6 +5781,263 @@ elamite_religion = { # from Bronze Age Reborn mod
 			doctrine = tenet_sanctity_of_nature
 			doctrine = tenet_ritual_celebrations
 			doctrine = tenet_astrology
+		}
+	}
+}
+
+chinese_religion = {
+	family = rf_sinitic
+	doctrine = eastern_hostility_doctrine
+	graphical_faith = dharmic_gfx
+
+	#Main Group
+	doctrine = doctrine_polytheist
+	doctrine = doctrine_no_head
+	doctrine = doctrine_gender_male_dominated
+	doctrine = doctrine_pluralism_pluralistic
+	doctrine = doctrine_theocracy_temporal
+
+	#Marriage
+	doctrine = doctrine_concubines
+	doctrine = doctrine_divorce_allowed
+	doctrine = doctrine_bastardry_none
+	doctrine = doctrine_consanguinity_cousins
+
+	#Crimes
+	doctrine = doctrine_homosexuality_accepted
+	doctrine = doctrine_adultery_men_shunned
+	doctrine = doctrine_adultery_women_shunned
+	doctrine = doctrine_kinslaying_any_dynasty_member_crime
+	doctrine = doctrine_deviancy_shunned
+	doctrine = doctrine_witchcraft_accepted
+
+	#Clerical Functions
+	doctrine = doctrine_clerical_function_alms_and_pacification
+	doctrine = doctrine_clerical_gender_male_only
+	doctrine = doctrine_clerical_marriage_allowed
+	doctrine = doctrine_clerical_succession_temporal_appointment
+
+	#Special Doctrine for Eastern Syncretism
+	doctrine = special_doctrine_is_eastern_faith
+	doctrine = special_doctrine_immaterial_harmony
+
+	#Allow pilgrimages
+	doctrine = doctrine_pilgrimage_local_rites
+
+	#Funeral tradition
+	doctrine = doctrine_funeral_stoic
+
+	#Coronation tradition
+	doctrine = doctrine_no_anointment
+
+	traits = {
+		virtues = {
+			compassionate
+			content
+			humble
+		}
+		sins = {
+			sadistic
+			ambitious
+			arrogant
+		}
+	}
+
+	custom_faith_icons = {
+		custom_faith_1 custom_faith_2 custom_faith_3 custom_faith_4 custom_faith_5 custom_faith_6 custom_faith_7 custom_faith_8 custom_faith_9 custom_faith_10 dualism_custom_1 zoroastrian_custom_1 zoroastrian_custom_2 buddhism_custom_1 buddhism_custom_2 buddhism_custom_3 buddhism_custom_4 taoism_custom_1 yazidi_custom_1 sunni_custom_2 sunni_custom_3 sunni_custom_4 muhakkima_1 muhakkima_2 muhakkima_4 muhakkima_5 muhakkima_6 judaism_custom_1 custom_faith_fp1_fenrir custom_faith_fp1_irminsul custom_faith_fp1_jormungandr custom_faith_fp1_odins_ravens custom_faith_fp1_runestone_moon custom_faith_fp1_thors_hammer custom_faith_fp1_valknut custom_faith_fp1_yggdrasil custom_faith_boromian_circles custom_faith_lotus custom_faith_aum_tibetan custom_faith_pentagram custom_faith_pentagram_inverted custom_faith_burning_bush custom_faith_allah custom_faith_gankyil custom_faith_eye_of_providence custom_faith_dove custom_faith_ichthys custom_faith_lamb custom_faith_black_sheep custom_faith_ankh custom_faith_chi_rho custom_faith_hamsa custom_faith_cool_s custom_faith_magatama custom_faith_soto custom_faith_benzhuism
+	}
+
+	# For now just using Taoism localization
+	localization = {
+		HighGodName = taoism_high_god_name
+		HighGodName2 = taoism_high_god_name_2
+		HighGodNamePossessive = taoism_high_god_name_possessive
+		HighGodNameSheHe = CHARACTER_SHEHE_IT
+		HighGodHerselfHimself = CHARACTER_ITSELF
+		HighGodHerHis = CHARACTER_HERHIS_ITS
+		HighGodNameAlternate = taoism_high_god_name_alternate
+		HighGodNameAlternatePossessive = taoism_high_god_name_alternate_possessive
+
+		#Creator
+		CreatorName = taoism_creator_god_name
+		CreatorNamePossessive = taoism_creator_god_name_possessive
+		CreatorSheHe = CHARACTER_SHEHE_HE
+		CreatorHerHis = CHARACTER_HERHIS_HIS
+		CreatorHerHim = CHARACTER_HERHIM_HIM
+
+		#HealthGod
+		HealthGodName = taoism_health_god_name
+		HealthGodNamePossessive = taoism_health_god_name_possessive
+		HealthGodSheHe = CHARACTER_SHEHE_HE
+		HealthGodHerHis = CHARACTER_HERHIS_HIS
+		HealthGodHerHim = CHARACTER_HERHIM_HIM
+		
+		#FertilityGod
+		FertilityGodName = taoism_fertility_god_name
+		FertilityGodNamePossessive = taoism_fertility_god_name_possessive
+		FertilityGodSheHe = CHARACTER_SHEHE_HE
+		FertilityGodHerHis = CHARACTER_HERHIS_HIS
+		FertilityGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WealthGod
+		WealthGodName = taoism_wealth_god_name
+		WealthGodNamePossessive = taoism_wealth_god_name_possessive
+		WealthGodSheHe = CHARACTER_SHEHE_HE
+		WealthGodHerHis = CHARACTER_HERHIS_HIS
+		WealthGodHerHim = CHARACTER_HERHIM_HIM
+
+		#HouseholdGod
+		HouseholdGodName = taoism_household_god_name
+		HouseholdGodNamePossessive = taoism_household_god_name_possessive
+		HouseholdGodSheHe = CHARACTER_SHEHE_HE
+		HouseholdGodHerHis = CHARACTER_HERHIS_HIS
+		HouseholdGodHerHim = CHARACTER_HERHIM_HIM
+
+		#FateGod
+		FateGodName = taoism_fate_god_name
+		FateGodNamePossessive = taoism_fate_god_name_possessive
+		FateGodSheHe = CHARACTER_SHEHE_IT
+		FateGodHerHis = CHARACTER_HERHIS_ITS
+		FateGodHerHim = CHARACTER_HERHIM_IT
+
+		#KnowledgeGod
+		KnowledgeGodName = taoism_knowledge_god_name
+		KnowledgeGodNamePossessive = taoism_knowledge_god_name_possessive
+		KnowledgeGodSheHe = CHARACTER_SHEHE_HE
+		KnowledgeGodHerHis = CHARACTER_HERHIS_HIS
+		KnowledgeGodHerHim = CHARACTER_HERHIM_HIM
+
+		#WarGod
+		WarGodName = taoism_war_god_name
+		WarGodNamePossessive = taoism_war_god_name_possessive
+		WarGodSheHe = CHARACTER_SHEHE_HE
+		WarGodHerHis = CHARACTER_HERHIS_HIS
+		WarGodHerHim = CHARACTER_HERHIM_HIM
+
+		#TricksterGod
+		TricksterGodName = taoism_trickster_god_name
+		TricksterGodNamePossessive = taoism_trickster_god_name_possessive
+		TricksterGodSheHe = CHARACTER_SHEHE_SHE
+		TricksterGodHerHis = CHARACTER_HERHIS_HER
+		TricksterGodHerHim = CHARACTER_HERHIM_HER
+
+		#NightGod
+		NightGodName = taoism_night_god_name
+		NightGodNamePossessive = taoism_night_god_name_possessive
+		NightGodSheHe = CHARACTER_SHEHE_SHE
+		NightGodHerHis = CHARACTER_HERHIS_HER
+		NightGodHerHim = CHARACTER_HERHIM_HER
+
+		#WaterGod
+		WaterGodName = taoism_water_god_name
+		WaterGodNamePossessive = taoism_water_god_name_possessive
+		WaterGodSheHe = CHARACTER_SHEHE_HE
+		WaterGodHerHis = CHARACTER_HERHIS_HIS
+		WaterGodHerHim = CHARACTER_HERHIM_HIM
+
+		PantheonTerm = religion_the_gods
+		PantheonTerm2 = religion_the_gods_2
+		PantheonTerm3 = religion_the_gods_3
+		PantheonTermHasHave = pantheon_term_have
+		GoodGodNames = {
+			taoism_good_god_name_three_pure_ones
+			taoism_wealth_god_name
+			taoism_health_god_name
+			taoism_knowledge_god_name
+			taoism_war_god_name
+			taoism_night_god_name
+			taoism_water_god_name
+		}
+		DevilName = taoism_devil_name
+		DevilNamePossessive = taoism_devil_name_possessive
+		DevilSheHe = CHARACTER_SHEHE_IT
+		DevilHerHis = CHARACTER_HERHIS_ITS
+		DevilHerselfHimself = CHARACTER_ITSELF
+		EvilGodNames = { taoism_devil_name }
+		HouseOfWorship = taoism_house_of_worship
+		HouseOfWorship2 = taoism_house_of_worship_2
+		HouseOfWorship3 = taoism_house_of_worship_3
+		HouseOfWorshipPlural = taoism_house_of_worship_plural
+		ReligiousSymbol = taoism_religious_symbol
+		ReligiousSymbol2 = taoism_religious_symbol_2
+		ReligiousSymbol3 = taoism_religious_symbol_3
+		ReligiousText = taoism_religious_text
+		ReligiousText2 = taoism_religious_text_2
+		ReligiousText3 = taoism_religious_text_3
+		ReligiousHeadName = taoism_religious_head_title
+		ReligiousHeadTitleName = taoism_religious_head_title_name
+		DevoteeMale = taoism_devotee_male
+		DevoteeMalePlural = taoism_devotee_male_plural
+		DevoteeFemale = taoism_devotee_female
+		DevoteeFemalePlural = taoism_devotee_female_plural
+		DevoteeNeuter = taoism_devotee_neuter
+		DevoteeNeuterPlural = taoism_devotee_neuter_plural
+		PriestMale = taoism_priest_male
+		PriestMalePlural = taoism_priest_male_plural
+		PriestFemale = taoism_priest_female
+		PriestFemalePlural = taoism_priest_female_plural
+		PriestNeuter = taoism_priest_neuter
+		PriestNeuterPlural = taoism_priest_neuter_plural
+		AltPriestTermPlural = taoism_alternate_priest_term_plural
+		BishopMale = taoism_priest_male
+		BishopMalePlural = taoism_priest_male_plural
+		BishopFemale = taoism_priest_female
+		BishopFemalePlural = taoism_priest_female_plural
+		BishopNeuter = taoism_priest_neuter
+		BishopNeuterPlural = taoism_priest_neuter_plural
+
+		DivineRealm = taoism_divine_realm
+		DivineRealm2 = taoism_divine_realm_2
+		DivineRealm3 = taoism_divine_realm_3
+		PositiveAfterLife = taoism_positive_afterlife
+		PositiveAfterLife2 = taoism_positive_afterlife_2
+		PositiveAfterLife3 = taoism_positive_afterlife_3
+		NegativeAfterLife = taoism_negative_afterlife
+		NegativeAfterLife2 = taoism_negative_afterlife_2
+		NegativeAfterLife3 = taoism_negative_afterlife_3
+		DeathDeityName = paganism_death_deity_name
+		DeathDeityNamePossessive = paganism_death_deity_name_possessive
+		DeathDeitySheHe = CHARACTER_SHEHE_IT
+		DeathDeityHerHis = CHARACTER_HERSHIS_ITS
+		DeathDeityHerHim = CHARACTER_HERHIM_IT
+		WitchGodName = witchgodname_taoism_daode_tianzun
+		WitchGodNamePossessive = witchgodname_taoism_daode_tianzun_possessive
+		WitchGodHerHis = CHARACTER_HERHIS_HER
+		WitchGodSheHe = CHARACTER_SHEHE_SHE
+		WitchGodHerHim = CHARACTER_HERHIM_HER
+		WitchGodMistressMaster = mistress
+		WitchGodMotherFather = mother
+
+		GHWName = ghw_purification
+		GHWNamePlural = ghw_purifications
+	}
+
+	faiths = {
+		shenic = {
+			INVALIDATED_BY = { shendao }
+
+			color = { 255 163 26}
+			icon = shenic
+			reformed_icon = shenic
+
+			holy_site = chang_an
+			holy_site = mount_tai
+			holy_site = mount_wudang
+			holy_site = qufu
+			holy_site = bianliang
+			
+			doctrine = unreformed_faith_doctrine
+
+			#Clerical Functions
+			doctrine = doctrine_clerical_function_taxation
+
+			doctrine = tenet_ancestor_worship
+			doctrine = tenet_inner_journey
+			doctrine_selection_pair = {
+				requires_dlc_flag = all_under_heaven
+				doctrine = tenet_harmonious_society
+				fallback_doctrine = tenet_adaptive
+			}
 		}
 	}
 }
