@@ -1190,6 +1190,7 @@ internal sealed class World {
 			{"dlc019.dlc", "crowns_of_the_world"},
 			{"dlc020.dlc", "khans_of_the_steppe"},
 			{"dlc021.dlc", "coronations"},
+			{"dlc022.dlc", "all_under_heaven"},
 		};
 		
 		var dlcFiles = Directory.GetFiles(dlcFolderPath, "*.dlc", SearchOption.AllDirectories);
