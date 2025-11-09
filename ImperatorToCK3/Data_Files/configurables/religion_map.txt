@@ -289,14 +289,14 @@ link = { ck3 = elamite_faith ir = elamite_pantheon }
 
 ### Terra-Indomita
 ## Ruism
-link = { ck3 = jingxue ir = confucian } # Mapping to Jingxue since it seems to have a higher emphasis on classical teachings. Lixue seems to have been created during the Song dynasty, well after Imperator Rome, and Hanru was during the Han Dynasty, which is a specific state that doesn't actually exist in Imperator Rome (Not to be confused with the Han tag, they are different)
+link = { ck3 = jingxue ir = confucian } # Mapping to Jingxue since it seems to have a higher emphasis on classical teachings. Lixue/Daoxue seems to have been created during the Song dynasty, well after Imperator Rome
 
 ## Shenic
 link = { ck3 = shendao ir = chinese_religions } # ROA
 link = { ck3 = shenic ir = chinese_religions }
 
 ## Taoism
-link = { ck3 = zhengyi ir = taoism }
+link = { ck3 = zhengyi ir = taoism } # This seems to be the most relevant form of Taoism at the time, so for now will just map to this, could change later.
 
 ## Hanitu
 link = { ck3 = formosa_animism ir = taiwan_religion } # ROA
@@ -332,10 +332,10 @@ link = { ck3 = mu ir = yi_religions } # Base Game
 
 ## Baiyue
 link = { ck3 = hmongism ir = baiyue_religions ck3Culture = hmong ck3Culture = sheren ck3Culture = yao } # In Imperator, cultures that map to these cultures follow Baiyue
-link = { ck3 = shendao ir = baiyue_religions } # Not sure how realistic this is. In Imperator, Baiyue is followed by the Yue and Miao culture groups. The Miao cultures map to hmongism above. The Yue cultures map to Wu, Min, and Yue in CK3, which all largely practice Wuism (shendao)
+link = { ck3 = baiyue_faith ir = baiyue_religions }
 
 ## Mohist
-link = { ck3 = quanzhen ir = mohism } # Wikipedia says it was a major rival to confucianism, and that it eventually got integrated into sects of Taoism, and ChatGPT says this is the better mapping
+link = { ck3 = mohism ir = mohism } 
 
 ## Kodo
 link = { ck3 = shinto ir = wa_religions }
@@ -379,14 +379,7 @@ link = { ck3 = moism ir = tai_religion } # Base Game/ROA
 link = { ck3 = ban_phi ir = tai_religion } # AEP uses this in place of Moism
 
 # East Asian religions
-## For Asia Expansion Project mod
-link = { ck3 = lixue ir = confucian }
-link = { ck3 = zhengyi ir = taoism }
-link = { ck3 = pagan ir = baiyue_religions } # Found no match, TODO: add a Baiyue faith to CK3.
-link = {
-	ck3 = lixue # According to ChatGPT: "Mohism shares Confucianism's focus on social structure and ethics, but it diverges in its approach to love and the rigidity of social roles. Taoism, on the other hand, is more metaphysical and detached from the ethical and societal concerns of both Mohism and Confucianism. Therefore, Mohism is closer to Confucianism in its social and ethical concerns, even though it is distinct from both schools."	
-	ir = mohism # TODO: add Mohism to CK3.
-}
+
 link = {
 	ck3 = shaivism # https://en.wikipedia.org/wiki/Khas_people: "The Khas people also had their own sect of Shaivism known as Masto religion where 12 Masto gods were worshipped."
 	ir = masto_pantheon
@@ -414,18 +407,3 @@ link = { ck3 = azariqa ir = kharijite }
 
 # not in the two games
 link = { ck3 = arian ir = arian }
-
-
-###################
-## All Under Heaven
-###################
-## Baiyue (baiyue_religions)
-
-
-## Ruism (confucian)
-
-
-## Mohist (mohism)
-
-
-## Taoism (taoism)

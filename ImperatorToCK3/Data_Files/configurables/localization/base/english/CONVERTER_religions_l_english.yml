@@ -517,3 +517,41 @@
  shenic_old_adj: "Old Shenic"
  shenic_old_adherent: "Old Shenist"
  shenic_old_adherent_plural: "Old Shenists"
+
+ #---------------------------------------------------
+ # MOHISM
+ #---------------------------------------------------
+ mohist_religion: "Mohist"
+ mohist_religion_adj: "Mohist"
+ mohist_religion_adherent: "Mohist"
+ mohist_religion_adherent_plural: "Mohists"
+ mohist_religion_desc: "Mohism focuses on the teachings of Mozi. Of these, the most prominent is that of altruism, and universal concern and caring for everyone, whether they be family or a stranger."
+
+ mohism: "Mohism"
+ mohism_adj: "Mohist"
+ mohism_desc: "$mohist_religion_desc$"
+ mohism_adherent: "Mohist"
+ mohism_adherent_plural: "Mohists"
+ mohism_old: "Old Mohism"
+ mohism_old_adj: "Old Mohist"
+ mohism_old_adherent: "Old Mohist"
+ mohism_old_adherent_plural: "Old Mohists"
+
+ #---------------------------------------------------
+ # BAIYUE
+ #---------------------------------------------------
+ baiyue_religion: "Baiyue"
+ baiyue_religion_adj: "Baiyue"
+ baiyue_religion_adherent: "Baiyue"
+ baiyue_religion_adherent_plural: "Baiyue"
+ baiyue_religion_desc: "The Baiyue worship the spirits of nature and their ancestors, calling upon mountain, river, and sky to bless their harvests and guide their kin."
+
+ baiyue_faith: "Baiyue"
+ baiyue_faith_adj: "Baiyue"
+ baiyue_faith_desc: "$baiyue_religion_desc$"
+ baiyue_faith_adherent: "Baiyue"
+ baiyue_faith_adherent_plural: "Baiyue"
+ baiyue_faith_old: "Old Baiyue"
+ baiyue_faith_old_adj: "Old Baiyue"
+ baiyue_faith_old_adherent: "Old Baiyue"
+ baiyue_faith_old_adherent_plural: "Old Baiyue"
