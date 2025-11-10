@@ -6,7 +6,7 @@ using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CK3.Provinces;
-using ImperatorToCK3.Mappers.HolySiteEffect;
+using ImperatorToCK3.Mappers.Modifier;
 using Open.Collections;
 using System;
 using System.Collections.Generic;
@@ -233,7 +233,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		Faith ck3Faith,
 		ProvinceCollection ck3Provinces,
 		Imperator.Religions.ReligionCollection imperatorReligions,
-		HolySiteEffectMapper holySiteEffectMapper
+		ModifierMapper modifierMapper
 	) {
 		var imperatorProvince = GetImperatorProvinceForBarony(barony, ck3Provinces);
 		if (imperatorProvince is null) {
@@ -255,13 +255,13 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 			}
 		}
 
-		return new HolySite(barony, ck3Faith, landedTitles, imperatorModifiers, holySiteEffectMapper);
+		return new HolySite(barony, ck3Faith, landedTitles, imperatorModifiers, modifierMapper);
 	}
 
 	public void DetermineHolySites(
 		ProvinceCollection ck3Provinces,
 		Imperator.Religions.ReligionCollection imperatorReligions,
-		HolySiteEffectMapper holySiteEffectMapper,
+		ModifierMapper modifierMapper,
 		Date date
 	) {
 		var provincesByFaith = GetProvincesFromImperatorByFaith(ck3Provinces, date);
@@ -290,7 +290,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 							faith,
 							ck3Provinces,
 							imperatorReligions,
-							holySiteEffectMapper
+							modifierMapper
 						);
 						if (HolySites.ContainsKey(newHolySiteInSameBarony.Id)) {
 							Logger.Warn($"Created duplicate holy site: {newHolySiteInSameBarony.Id}!");
@@ -311,7 +311,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 						faith,
 						ck3Provinces,
 						imperatorReligions,
-						holySiteEffectMapper
+						modifierMapper
 					);
 					if (HolySites.ContainsKey(replacementSite.Id)) {
 						Logger.Warn($"Created duplicate holy site: {replacementSite.Id}!");
