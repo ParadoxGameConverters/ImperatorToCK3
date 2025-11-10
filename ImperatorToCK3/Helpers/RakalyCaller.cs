@@ -1,6 +1,6 @@
 ﻿using commonItems;
+using commonItems.Exceptions;
 using ImperatorToCK3.CommonUtils;
-using ImperatorToCK3.Exceptions;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
