@@ -12,6 +12,12 @@
  setting_irtock3_gamerule_nomads_no_nomads: "No Nomads"
  setting_irtock3_gamerule_nomads_no_nomads_desc: "Makes all Imperator tags made [nomadic|E] by the converter [tribal|E]."
 
+ setting_irtock3_gamerule_nomads_leave_outside_force_steppe_tribes: "Leave Outside, Force Inside"
+ setting_irtock3_gamerule_nomads_leave_outside_force_steppe_tribes_desc: "Any Imperator tags made [nomadic|E] by the converter that are outside the Steppe remain Nomadic, and any [tribal|E] Imperator tags in the Steppe are forced to be Nomadic."
+
+ setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes: "None Outside, Force Inside"
+ setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes_desc: "All Imperator tags made [nomadic|E] by the converter that are outside the Steppe are made [tribal|E], and any Tribal Imperator tags in the Steppe are forced to be Nomadic."
+
 
  rule_irtock3_gameruler_filler_rulers: "IRToCK3 - [filler_rulers|E]"
  game_concept_filler_rulers: "Filler Rulers"

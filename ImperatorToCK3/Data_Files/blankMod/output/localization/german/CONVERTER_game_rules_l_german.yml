@@ -1,0 +1,40 @@
+﻿l_german:
+# Translated using Google Translate, sorry if wrong / Übersetzt mit Google Translate, Entschuldigung für eventuelle Fehler.
+ game_rule_category_irtock3: "IRToCK3-Konverter"
+
+ rule_irtock3_gamerule_imperator_nomads: "IRToCK3 - [nomads|E] (Khans of the Steppe)"
+
+ setting_irtock3_gamerule_nomads_leave_everything: "Alles so lassen, wie es ist"
+ setting_irtock3_gamerule_nomads_leave_everything_desc: "Es ändert sich nichts, alles bleibt genau so, wie es der Konverter eingestellt hat.\n#weak HINWEIS: [nomads|E] können nicht [migrate|E], wenn sie sich nicht in einer [situation|E] befinden, die dies erlaubt! #!"
+
+ setting_irtock3_gamerule_nomads_only_steppe: "Nur in der Steppe"
+ setting_irtock3_gamerule_nomads_only_steppe_desc: "Sorgt dafür, dass alle Imperator-Tags, die vom Konverter als [nomadic|E] markiert wurden und sich außerhalb der Steppe befinden, in [tribal|E] umgewandelt werden.\n#weak HINWEIS: [nomads|E] können nicht [migrate|E], wenn sie sich nicht in einer [situation|E] befinden, die dies erlaubt! #!"
+
+ setting_irtock3_gamerule_nomads_no_nomads: "Keine Nomaden"
+ setting_irtock3_gamerule_nomads_no_nomads_desc: "Macht alle Imperator-Tags, die vom Konverter [nomadic|E] erstellt wurden, zu [tribal|E]."
+
+ setting_irtock3_gamerule_nomads_leave_outside_force_steppe_tribes: "Draußen lassen, drinnen eingreifen"
+ setting_irtock3_gamerule_nomads_leave_outside_force_steppe_tribes_desc: "Alle vom Konverter zu [nomadic|E] gemachten Imperator-Tags, die sich außerhalb der Steppe befinden, bleiben nomadisch, und alle [tribal|E] Imperator-Tags in der Steppe werden gezwungen, nomadisch zu sein."
+
+ setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes: "Draußen niemand, drinnen Gewalt"
+ setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes_desc: "Alle Imperator-Tags, die vom Konverter außerhalb der Steppe zu [nomadic|E] gemacht wurden, werden zu [tribal|E] gemacht, und alle Tribal-Imperator-Tags in der Steppe werden gezwungen, nomadisch zu sein."
+
+
+ rule_irtock3_gameruler_filler_rulers: "IRToCK3 - [filler_rulers|E]"
+ game_concept_filler_rulers: "Fülllineale"
+ game_concept_filler_rulers_desc: "Die sogenannten Filler Rulers sind [rulers|E], die vom IMP-CK3-Konverter erstellt wurden, um das nicht kolonisierte Land aus Imperator zu füllen. Ihr Rang wurde während der Konvertierung im Frontend auf [counts|E] oder [dukes|E] festgelegt."
+
+ setting_irtock3_gamerule_filler_rulers_leave_alone: "Alles so lassen, wie es ist"
+ setting_irtock3_gamerule_filler_rulers_leave_alone_desc: "Ändert nichts, alle [filler_rulers|E] bleiben genau so, wie sie vom Konverter festgelegt wurden.\n#weak HINWEIS: Dies wird typischerweise dazu führen, dass sie [tribal|E] sind. #!"
+
+ setting_irtock3_gamerule_filler_rulers_all_nomads: "Force Nomadic"
+ setting_irtock3_gamerule_filler_rulers_all_nomads_desc: "Erfordert die Arbeit der Khane der Steppe. Wandelt ALLE [filler_rulers|E] in [nomads|E] um.\n#weak HINWEIS: [nomads|E] können nicht [migrate|E], wenn sie sich nicht in einer [situation|E] befinden, die dies erlaubt! #!"
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_all: "Steppennomaden\n         ALLE"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_all_desc: "Erfordert die Arbeit der Khane der Steppe. Converts all [filler_rulers|E] in the Steppe to be [nomadic|E]. The rest are made [tribal|E]."
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage: "Steppennomaden\n     Erbe"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage_desc: "Erfordert die Arbeit der Khane der Steppe. Alle [filler_rulers|E] in der Steppe werden zu [nomadic|E] Stämmen, deren [heritage|E] iranisch, mongolisch, türkisch, magyar oder ugrömisch-permisch ist. Die übrigen werden zu [tribal|E] Stämmen."
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead: "Steppennomaden\nHerdenkultur-Leiter"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead_desc: "Erfordert die Arbeit der Khane der Steppe. Alle [filler_rulers|E] in der Steppe werden zu [nomadic|E], wenn ihre [culture|E] ihren [culture_head|E] anhand der [herd|E] bestimmt. Die übrigen werden zu [tribal|E]."

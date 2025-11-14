@@ -331,7 +331,8 @@ link = { ck3 = musok ir = yi_religions } # AEP
 link = { ck3 = mu ir = yi_religions } # Base Game
 
 ## Baiyue
-link = { ck3 = hmongism ir = baiyue_religions ck3Culture = hmong ck3Culture = sheren ck3Culture = yao } # In Imperator, cultures that map to these cultures follow Baiyue
+link = { ck3 = hmongism ir = baiyue_religions ck3Culture = hmong ck3Culture = sheren ck3Culture = yao } # ROA
+link = { ck3 = dab_qhuas ir = baiyue_religions ck3Culture = hmong ck3Culture = sheren ck3Culture = yao } # Base Game
 link = { ck3 = baiyue_faith ir = baiyue_religions }
 
 ## Mohist

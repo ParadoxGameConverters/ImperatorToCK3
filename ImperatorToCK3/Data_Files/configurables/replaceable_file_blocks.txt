@@ -46,6 +46,64 @@
 		}
 	}
 
+	# Base game sets "landlocked nomad cultures" based off their specific culture setup, but that could change based off what happens in Imperator, so it needs to be modified to account for this
+	replace = {
+		before = {
+			every_culture_global = {
+				limit = {
+					OR = {
+						has_cultural_pillar = heritage_mongolic
+						has_cultural_pillar = heritage_ugro_permian
+					}
+				}
+				add_to_global_variable_list = {
+					name = fully_landlocked_nomad_cultures
+					target = this
+				}
+			}
+			add_to_global_variable_list = {
+				name = fully_landlocked_nomad_cultures
+				target = culture:kipchak
+			}
+			add_to_global_variable_list = {
+				name = fully_landlocked_nomad_cultures
+				target = culture:uyghur
+			}
+			add_to_global_variable_list = {
+				name = fully_landlocked_nomad_cultures
+				target = culture:kirghiz
+			}
+			add_to_global_variable_list = {
+				name = fully_landlocked_nomad_cultures
+				target = culture:tangut
+			}
+			add_to_global_variable_list = {
+				name = fully_landlocked_nomad_cultures
+				target = culture:bashkir
+			}
+			add_to_global_variable_list = {
+				name = fully_landlocked_nomad_cultures
+				target = culture:laktan
+			}
+		}
+
+		after = {
+			every_culture_global = {
+				limit = {
+					has_cultural_pillar = head_determination_herd # IRToCK3: Made it check that the culture uses Herd to determine culture head, instead of checking specific heritages
+					# IRToCK3: Making sure that the Nomad culture has no coastal counties
+					NOT = {
+						any_culture_county = { is_coastal_county = yes }
+					}
+				}
+				add_to_global_variable_list = {
+					name = fully_landlocked_nomad_cultures
+					target = this
+				}
+			}
+		}
+	}
+
 	# Base game assumes e_japan will always have a holder, changed to check if a holder exists at game start. Also made it so that if someone holds e_japan at game start, they also get k_chrysanthemum_throne, to make sure that gets handed out.
 	replace = {
 		before = {
@@ -123,6 +181,44 @@
 					}
 					resolve_title_and_vassal_change = scope:change
 				}
+		}
+	}
+
+	# Allows government setup based around game rules to be properly handled
+	replace = {
+		before = {
+		# To prevent the Season Changes event from triggering on game start
+		situation:the_great_steppe ?= {
+			every_participant_group = {
+				every_situation_group_participant = {
+					set_variable = {
+						name = steppe_game_start_var
+						years = 1
+					}
+				}
+			}
+		}
+
+		# Extra Nomad Regions
+		}
+
+		after = {
+		# IRToCK3: Need to make sure that government setup based around game rules is properly handled
+		irtock3_setup_governments = yes
+		
+		# To prevent the Season Changes event from triggering on game start
+		situation:the_great_steppe ?= {
+			every_participant_group = {
+				every_situation_group_participant = {
+					set_variable = {
+						name = steppe_game_start_var
+						years = 1
+					}
+				}
+			}
+		}
+
+		# Extra Nomad Regions
 		}
 	}
 }
@@ -1469,9 +1565,9 @@
 		} # end of before
 
 		after = {
-		# IRToCK3: Base game checks if Catholicism has doctrine_spiritual_head, but changing this to just check if a Pope exists so there won't be any issues with a Pope not existing at game start
 		faith:catholic = {
-			exists = religious_head
+			has_doctrine = doctrine_spiritual_head
+			exists = religious_head # IRToCK3: Also making sure that there is actually a Pope to remove
 		}
 		} # end of after
 	} # End of is_shown block
@@ -1479,7 +1575,7 @@
 	# is_valid block
 	replace = {
 		before = {
-			title:k_papal_state.holder = { is_playable_character = no } #If he fled elsewhere, it cannot be done, the Pope must be landless.
+			title:k_papal_state.holder = { is_landed = no } #If he fled elsewhere, it cannot be done, the Pope must be landless.
 		} # end of before
 
 		after = {
@@ -2814,3 +2910,118 @@
 		} # End of after
 	}
 } # End of "common/scripted_effects/00_mongol_invasion_effects.txt"
+
+
+"events/artifacts/historical_artifacts_events.txt" = {
+	# The game hands out Seals of Investiture to every Meritocratic King+ at game start, when they are supposed to be given out to tributaries the Chinese Emperor likes. Changing this so that they are only given out at game start if they are tributaries of the Chinese Emperor.
+	replace = {
+		before = {
+		#Imperial Seals
+		every_character_with_royal_court = {
+			limit = {
+				has_tgp_dlc_trigger = yes
+				is_independent_ruler = yes
+				government_allows = merit
+			}
+			create_artifact_dynastic_imperial_seal_effect = {
+				OWNER = this
+				SMITH = this
+			}
+		}
+		}
+
+		after = {
+		#Imperial Seals
+		every_character_with_royal_court = {
+			limit = {
+				has_tgp_dlc_trigger = yes
+				# IRToCK3: Changed this so Seals are only given out at game start to tributaries of China
+				exists = title:h_china.holder
+				is_tributary_of = title:h_china.holder
+				government_allows = merit
+			}
+			create_artifact_dynastic_imperial_seal_effect = {
+				OWNER = this
+				SMITH = this
+			}
+		}
+		}
+	}
+
+	# This doesn't check if h_china.holder exists, so need to change that
+	replace = {
+		before = {
+		#Armillary Sphere
+		if = {
+			limit = {
+				has_tgp_dlc_trigger = yes
+			}
+			title:h_china.holder = {
+				create_artifact_chinese_armillary_sphere_effect = {
+					OWNER = this
+				}
+			}
+		}
+		}
+
+		after = {
+		#Armillary Sphere
+		if = {
+			limit = {
+				has_tgp_dlc_trigger = yes
+				exists = title:h_china.holder # IRToCK3: Needed to check if someone actually hold h_china
+			}
+			title:h_china.holder = {
+				create_artifact_chinese_armillary_sphere_effect = {
+					OWNER = this
+				}
+			}
+		}
+		}
+	}
+}
+
+
+"common/scripted_triggers/10_tgp_triggers.txt" = {
+	
+	# This determines whether you can become Meritocratic through the "Adopt a Centralized Bureaucracy" decision
+	replace = {
+		before = {
+			OR = {
+				has_government = meritocratic_government
+				any_neighboring_and_across_water_top_liege_realm_owner = { government_allows = merit }
+			}
+		}
+
+		after = {
+			OR = {
+				has_government = meritocratic_government
+				any_neighboring_and_across_water_top_liege_realm_owner = { government_allows = merit }
+				culture = { has_cultural_tradition = tradition_sinophilic } # IRToCK3: Made it so Sinophilic cultures can also choose to become Meritocratic
+			}
+		}
+	}
+
+	# This determines whether you can become Celestial through the "Adopt a Centralized Bureaucracy" decision
+	replace = {
+		before = {
+			has_government = celestial_government
+			has_title = title:h_china
+			culture = culture:han
+			culture = {
+				any_parent_culture_or_above = { this = culture:han }
+			}
+		}
+
+		after = {
+			has_government = celestial_government
+			has_title = title:h_china
+			culture = culture:han
+			culture = {
+				any_parent_culture_or_above = { this = culture:han }
+			}
+			culture = { has_cultural_pillar = heritage_chinese } # IRToCK3: Made it so simply having Chinese Heritage allows it, to account for Chinese culture split
+		}
+	}
+
+}

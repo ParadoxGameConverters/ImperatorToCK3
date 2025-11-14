@@ -58,3 +58,70 @@ converter_custom_hindustan_region = {
 		d_kuru d_vodamayutja d_haritanaka d_mathura
 	}
 }
+
+# Out-of-scope region for Terra-Indomita that should be made Hantuist
+converter_AUH_out_of_scope_region_hantuist = {
+	counties = {
+		c_SUM_jambi c_SUM_karang_brahi c_SUM_riak_nan_berbedur c_SUM_bengkulu c_riau
+		c_SUM_lingga # This county being in this region could change depending on how the province_mappings change, so this could be removed
+	}
+	duchies = {
+		d_SUM_palembang d_JAV_taruma d_JAV_mataram d_IDO_bali d_IDO_lesser_sunda d_IDO_timor
+	}
+}
+
+# Out-of-scope region for Terra-Indomita that should be made Tolotang
+converter_AUH_out_of_scope_region_tolotang = {
+	counties = {
+		c_SuMa_butun c_SuMa_moronene c_SuMa_konawe c_SuMa_luwu c_SuMa_ajatappareng c_SuMa_siang
+	}
+	duchies = {
+		d_papua d_SuMa_halmahera d_SuMa_maluku
+	}
+}
+
+# Out-of-scope region for Terra-Indomita that should be made Aluk
+converter_AUH_out_of_scope_region_aluk = {
+	counties = {
+		c_SuMa_sampaga c_SuMa_tamboeko
+	}
+	duchies = {
+		d_SuMa_tompotika
+	}
+}
+
+# Out-of-scope region for Terra-Indomita that should be made Kaharingan
+converter_AUH_out_of_scope_region_kaharingan = {
+	duchies = {
+		d_SuMa_minahasa d_BOR_barune d_BOR_kutai d_BOR_nan_sarunai d_BOR_tanjungpura d_BOR_santubong
+	}
+}
+
+# Out-of-scope region for Terra-Indomita in Indonesia
+converter_AUH_out_of_scope_indonesia = {
+	regions = {
+		converter_AUH_out_of_scope_region_kaharingan
+		converter_AUH_out_of_scope_region_aluk
+		converter_AUH_out_of_scope_region_tolotang
+		converter_AUH_out_of_scope_region_hantuist
+	}
+	duchies = {
+		d_PHI_maguindanao d_PHI_butuan
+	}
+	counties = {
+		c_PHI_bool_and_cebu c_PHI_buglas c_PHI_samar c_PHI_tandaya
+	}
+}
+
+# Region to check whether the above out-of-scope regions should have their faiths changed
+converter_AUH_out_of_scope_region_faith_check = {
+	counties = {
+		c_SUM_indragiri c_SUM_dharmasraya c_SUM_minangkabau
+	}
+	duchies = {
+		d_SUM_aceh d_nias d_SUM_riau d_lop_buri
+	}
+	regions = {
+		world_asia_malaysia omnod_dalai_khanate_de_jure_region
+	}
+}

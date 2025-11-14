@@ -1,0 +1,40 @@
+﻿l_korean:
+# Translated using Google Translate, sorry if wrong / Google Translate를 사용하여 번역했습니다. 틀렸다면 죄송합니다.
+ game_rule_category_irtock3: "IRToCK3 변환기"
+
+ rule_irtock3_gamerule_imperator_nomads: "IRToCK3 - [nomads|E] (Khans of the Steppe)"
+
+ setting_irtock3_gamerule_nomads_leave_everything: "모든 것을 그대로 두세요"
+ setting_irtock3_gamerule_nomads_leave_everything_desc: "아무것도 변경되지 않고, 모든 것이 변환기에서 설정한 대로 그대로 유지됩니다.\n#weak 참고: [nomads|E]은 [migrate|E]를 허용하는 [상황|E]에 속하지 않을 경우 [situation|E]할 수 없습니다! #!"
+
+ setting_irtock3_gamerule_nomads_only_steppe: "대초원에서만"
+ setting_irtock3_gamerule_nomads_only_steppe_desc: "변환기에 의해 만들어진 [nomadic|E] 태그 중 대초원 밖에 있는 모든 Imperator 태그를 [tribal|E] 태그로 변환합니다.\n#weak 참고: [nomads|E]은 [migrate|E]를 허용하는 [상황|E]에 속하지 않을 경우 [situation|E]할 수 없습니다! #!"
+
+ setting_irtock3_gamerule_nomads_no_nomads: "유목민 없음"
+ setting_irtock3_gamerule_nomads_no_nomads_desc: "변환기 [tribal|E]에 의해 만들어진 모든 Imperator 태그를 [nomadic|E]로 만듭니다."
+
+ setting_irtock3_gamerule_nomads_leave_outside_force_steppe_tribes: "밖에 두고, 안에 강제로 두다"
+ setting_irtock3_gamerule_nomads_leave_outside_force_steppe_tribes_desc: "변환기에 의해 [nomadic|E]으로 만들어진 모든 황제 태그는 대초원 밖에 있고, 대초원에 있는 모든 [tribal|E] 황제 태그는 유목민이 되도록 강제됩니다."
+
+ setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes: "외부는 없고, 내부는 강제로"
+ setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes_desc: "대초원 밖에 있는 변환기에 의해 [nomadic|E]으로 만들어진 모든 Imperator 태그는 [tribal|E]으로 만들어지고, 대초원에 있는 모든 부족 Imperator 태그는 유목민이 되도록 강제됩니다."
+
+
+ rule_irtock3_gameruler_filler_rulers: "IRToCK3 - [filler_rulers|E]"
+ game_concept_filler_rulers: "필러 룰러"
+ game_concept_filler_rulers_desc: "필러 통치자는 IMP-CK3 변환기가 임페라토르의 식민지화되지 않은 영토를 채우기 위해 생성한 [rulers|E]입니다. 통치자의 계급은 변환 과정에서 프런트엔드에서 [counts|E] 또는 [dukes|E]로 결정되었습니다."
+
+ setting_irtock3_gamerule_filler_rulers_leave_alone: "모든 것을 그대로 두세요"
+ setting_irtock3_gamerule_filler_rulers_leave_alone_desc: "아무것도 변경하지 않고 모든 [filler_rulers|E]를 변환기가 설정한 대로 그대로 둡니다.\n#weak 참고: 일반적으로 [tribal|E]가 됩니다. #!"
+
+ setting_irtock3_gamerule_filler_rulers_all_nomads: "포스 노마딕"
+ setting_irtock3_gamerule_filler_rulers_all_nomads_desc: "대초원의 칸이 일해야 합니다. 모든 [filler_rulers|E]를 [nomads|E]로 변환합니다.\n#weak 참고: [nomads|E]은 [migrate|E]를 허용하는 [상황|E]에 속하지 않을 경우 [situation|E]할 수 없습니다! #!"
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_all: "대초원 유목민\n         모두"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_all_desc: "대초원의 칸이 일해야 합니다. 대초원의 모든 [filler_rulers|E]를 [nomadic|E]로 변환합니다. 나머지는 [tribal|E]로 변환합니다."
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage: "대초원 유목민\n     유산"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage_desc: "대초원의 칸이 일해야 합니다. 대초원의 모든 [filler_rulers|E]를 [nomadic|E]으로 변환합니다. [heritage|E]이 이란계, 몽골계, 투르크계, 마자르계 또는 우그로-페름계인 경우입니다. 나머지는 [tribal|E]으로 변환합니다."
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead: "대초원 유목민\n가축 문화 책임자"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead_desc: "대초원의 칸이 일해야 합니다. 대초원의 모든 [filler_rulers|E]를 [culture|E]가 [herd|E]를 사용하여 [culture_head|E]를 결정하는 경우 [nomadic|E]로 변환합니다. 나머지는 [tribal|E]로 변환합니다."

@@ -331,160 +331,160 @@
 				has_dlc_feature = coronations
 			}
 			# London (England)
-			province:1527 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:1527 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Aachen (Germany)
-			province:2092 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:2092 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Reims (France)
-			province:2390 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:2390 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Rome (Italy)
-			province:2575 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:2575 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Milan (Italy)
-			province:2482 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:2482 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Gniezno (Poland)
-			province:4905 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:4905 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Szekesfehervar (Hungary)
-			province:3805 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:3805 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Scone Abbey, Gowrie (Scotland)
-			province:1741 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:1741 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Byzantium (Byzantines)
-			province:496 = { 
-				add_province_modifier = coronation_long_tradition_modifier 
+			province:496 = {
+				add_province_modifier = coronation_long_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 10
 				}
 			}
 			# Mahdiya (Africa)
-			province:4578 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:4578 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Cairo (Egypt)
-			province:6042 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:6042 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Damascus (Syria)
-			province:5924 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:5924 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Baghdad (Mesopotamia)
-			province:4828 = { 
-				add_province_modifier = coronation_long_tradition_modifier 
+			province:4828 = {
+				add_province_modifier = coronation_long_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 10
 				}
 			}
 			# Rayy (Persia)
-			province:4319 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:4319 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Ghazna (Kabulistan)
-			province:4500 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:4500 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Lahur (Punjab)
-			province:1362 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:1362 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Samarkand (Transoxiana)
-			province:4404 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:4404 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Bukhara (Transoxiana)
-			province:4394 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:4394 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Medina (Arabia)
-			province:6212 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:6212 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Kutaisi (Georgia)
-			province:601 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:601 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
@@ -497,16 +497,16 @@
 				has_dlc_feature = coronations
 			}
 			# Marrakesh (Maghreb)
-			province:4718 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:4718 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Karakorum (Mongolia)
-			province:1457 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:1457 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
@@ -918,7 +918,13 @@
 			limit = {
 				game_start_date >= 1067.12.25
 			}
-			title:k_england = { set_coa = k_england_norman}
+			title:k_england = { set_coa = k_england_norman }
+		}
+		if = {
+			limit = {
+				game_start_date >= 938.1.1
+			}
+			title:k_viet = { set_coa = k_dai_viet }
 		}
 	}
 	
@@ -2460,8 +2466,8 @@
 			}
 	}
 	{
-			## Liang Zhu Quanzhong
-			character:liang_zhu_1 ?= {
+			## Zhu Quanzhong
+			character:zhu_quanzhong_1 ?= {
 				if = {
 					limit = {
 						is_alive = yes
@@ -2473,7 +2479,7 @@
 	}
 	{
 			## Miyoshi Kiyotsura
-			character:miyoshi_kiyotsura_1 ?= {
+			character:japanese_miyoshi_4 ?= {
 				if = {
 					limit = {
 						is_alive = yes
@@ -2484,8 +2490,8 @@
 			}
 	}
 	{
-			## Yang-kil
-			character:yang_kil_1 ?= {
+			## Ki Hwon
+			character:ki_hwon_1 ?= {
 				if = {
 					limit = {
 						is_alive = yes
@@ -3586,7 +3592,7 @@
 	# Anachronistic
 	{
 		#set up cultural acceptance between China and East Asian Empires to aid in the learning of Chinese effect for on_birthday_adulthood
-		
+
 		if = {
 			limit = { game_start_date = 867.1.1 }
 			culture:japanese = {
@@ -4418,6 +4424,210 @@ bookmark_867_northmen_aellas_capture_war_imprisonment_effect = {
 
 	{
 				create_artifact_statue_constantine_effect = { OWNER = this }
+	}
+
+	{
+		### Higekiri ~950
+		if = { # Seiwa
+			limit = {
+				current_date = 1066.9.15
+				exists = title:c_nf_minamoto_seiwa.holder
+			}
+			title:c_nf_minamoto_seiwa.holder = {
+				create_artifact_higekiri_sword_effect = { OWNER = this }
+			}
+		}
+		else_if = { # Kawachi
+			limit = {
+				current_date >= 1178.10.1
+				exists = title:c_nf_minamoto_kawachi.holder
+			}
+			title:c_nf_minamoto_kawachi.holder = {
+				create_artifact_higekiri_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Hizamaru ~950
+		if = { # Kawachi
+			limit = {
+				current_date = 1066.9.15
+				exists = title:c_nf_minamoto_kawachi.holder
+			}
+			title:c_nf_minamoto_kawachi.holder = {
+				create_artifact_hizamaru_sword_effect = { OWNER = this }
+			}
+		}
+		else_if = { # Yoshitsune
+			limit = {
+				current_date >= 1178.10.1
+				exists = title:d_laamp_yoshitsune.holder
+			}
+			title:d_laamp_yoshitsune.holder = {
+				create_artifact_hizamaru_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Dojigiri ~880
+		if = { # Uona
+			limit = {
+				current_date = 1066.9.15
+				exists = title:c_nf_fujiwara_uona.holder
+			}
+			title:c_nf_fujiwara_uona.holder = {
+				create_artifact_dojigiri_sword_effect = { OWNER = this }
+			}
+		}
+		else_if = { # Oshu
+			limit = {
+				current_date >= 1178.10.1
+				exists = title:c_nf_fujiwara_oshu.holder
+			}
+			title:c_nf_fujiwara_oshu.holder = {
+				create_artifact_dojigiri_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Mikazuki Munechika ~980
+		if = {  # Kan'in
+			limit = {
+				current_date = 1066.9.15
+				exists = title:c_nf_fujiwara_kanin.holder
+			}
+			title:c_nf_fujiwara_kanin.holder = {
+				create_artifact_mikazuki_munechika_sword_effect = { OWNER = this }
+			}
+		}
+		else_if = { # Tokudaiji
+			limit = {
+				current_date >= 1178.10.1
+				exists = title:c_nf_fujiwara_ashikaga.holder
+			}
+			title:c_nf_fujiwara_ashikaga.holder = {
+				create_artifact_mikazuki_munechika_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Ōtenta ~1082
+		if = { # Kiso
+			limit = {
+				current_date >= 1178.10.1
+				exists = title:c_nf_minamoto_kiso.holder
+			}
+			title:c_nf_minamoto_kiso.holder = {
+				create_artifact_odenta_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Hamayumi ~1145
+		if = { # Chrysanthemum Throne
+			limit = {
+				has_dlc_feature = royal_court
+				current_date >= 1178.1.1
+				exists = title:k_chrysanthemum_throne.holder
+			}
+			title:k_chrysanthemum_throne.holder = {
+				create_artifact_pedestal_hamayumi_bow_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Gyerim-ro dagger ~867
+		if = { # Silla
+			limit = {
+				current_date = 867.1.1 # Only 867
+				exists = title:k_silla.holder
+			}
+			title:k_silla.holder = {
+				create_artifact_pedestal_gyerimro_dagger_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Nukemaru ~1120
+		if = { # Taira
+			limit = {
+				current_date >= 1178.1.1
+				exists = title:c_nf_taira_kanmu.holder
+			}
+			title:c_nf_taira_kanmu.holder = {
+				create_artifact_nukemaru_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Kogarasumaru ~945
+		if = { # Taira
+			limit = {
+				current_date >= 1066.9.15
+				exists = title:c_nf_taira_kanmu.holder
+			}
+			title:c_nf_taira_kanmu.holder = {
+				create_artifact_kogarasumaru_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Karakawa ~800
+		if = { # Taira
+			limit = {
+				current_date >= 867.1.1
+				exists = title:c_nf_taira_kanmu.holder
+			}
+			title:c_nf_taira_kanmu.holder = {
+				create_artifact_karakawa_armor_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		title:k_chrysanthemum_throne.holder ?= {
+			create_artifact_dynastic_imperial_seal_effect = {
+				OWNER = this
+				SMITH = this
+			}
+		}
+	}
+
+	{
+		#Eight-Fold Chest
+		if = {
+			limit = {
+				has_tgp_dlc_trigger = yes
+			}
+			title:h_china.holder = {
+				create_artifact_eight_fold_chest_effect = {
+					OWNER = this
+				}
+			}
+		}
+	}
+
+	{
+		#Complete Military Classics
+		if = {
+			limit = {
+				has_tgp_dlc_trigger = yes
+			}
+			title:h_china.holder = {
+				create_artifact_military_classics_effect = {
+					OWNER = this
+				}
+			}
+		}
 	}
 }
 
@@ -10093,6 +10303,7 @@ game_rule.1143 = {
 # Refound HRE 				#
 # by Ewan Cowhig Croft		#
 #############################
+### Restore the Holy Roman Empire ###
 restore_holy_roman_empire_decision = {
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
@@ -15975,7 +16186,7 @@ el_cid_landless_or_landed_on_action = {
 		if = {
 			limit = {
 				scope:attacker = {
-					is_ai = no 
+					is_ai = no
 					this = character:223523
 				}
 				scope:defender = {
@@ -15994,7 +16205,7 @@ el_cid_landless_or_landed_on_action = {
 		if = {
 			limit = {
 				scope:defender = {
-					is_ai = no 
+					is_ai = no
 					this = character:223523
 				}
 				scope:attacker = {

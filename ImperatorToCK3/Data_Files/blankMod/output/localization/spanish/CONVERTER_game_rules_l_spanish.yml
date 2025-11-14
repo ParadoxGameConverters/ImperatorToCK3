@@ -1,0 +1,40 @@
+﻿l_spanish:
+# Translated using Google Translate, sorry if wrong / Traducido con Google Translate, disculpen si hay errores.
+  game_rule_category_irtock3: "Convertidor IRToCK3"
+
+  rule_irtock3_gamerule_imperator_nomads: "IRToCK3 - [nomads|E] (Khans of the Steppe)"
+
+  setting_irtock3_gamerule_nomads_leave_everything: "Dejar todo como está"
+  setting_irtock3_gamerule_nomads_leave_everything_desc: "No cambia nada, dejando todo exactamente como lo configuró el convertidor.\n#weak NOTA: ¡Los [nomads|E] no pueden [migrate|E] cuando no están involucrados en una [situation|E] que lo permita! #!"
+
+  setting_irtock3_gamerule_nomads_only_steppe: "Solo en la Estepa"
+  setting_irtock3_gamerule_nomads_only_steppe_desc: "Convierte todas las etiquetas de Imperator creadas como [nomadic|E] por el convertidor que estén fuera de la Estepa en [tribales|E].\n#weak NOTA: ¡Los [nomads|E] no pueden [migrate|E] cuando no están involucrados en una [situation|E] que lo permita! #!"
+
+  setting_irtock3_gamerule_nomads_no_nomads: "Sin nómadas"
+  setting_irtock3_gamerule_nomads_no_nomads_desc: "Convierte todas las etiquetas de Imperator creadas como [nomadic|E] por el convertidor en [tribal|E]."
+
+  setting_irtock3_gamerule_nomads_leave_outside_force_steppe_tribes: "Salir afuera, forzar adentro"
+  setting_irtock3_gamerule_nomads_leave_outside_force_steppe_tribes_desc: "Cualquier etiqueta de Imperator convertida a [nomadic|E] por el convertidor que se encuentre fuera de la Estepa permanece Nómada, y cualquier etiqueta de Imperator [tribal|E] dentro de la Estepa se convierte a la fuerza en Nómada."
+
+  setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes: "Ninguno fuera, forzado dentro"
+  setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes_desc: "Todas las etiquetas de Imperator creadas como [nomadic|E] por el convertidor que se encuentren fuera de la Estepa se convierten en [tribal|E], y cualquier etiqueta de Imperator Tribal en la Estepa se convierte a la fuerza en Nómada."
+
+
+  rule_irtock3_gameruler_filler_rulers: "IRToCK3 - [filler_rulers|E]"
+  game_concept_filler_rulers: "Gobernantes de relleno"
+  game_concept_filler_rulers_desc: "Los gobernantes de relleno son [rulers|E] creados por el convertidor IMP-CK3 para completar las tierras no colonizadas de Imperator. Su rango se determinó en la interfaz durante la conversión como [counts|E] o [dukes|E]."
+
+  setting_irtock3_gamerule_filler_rulers_leave_alone: "Dejar todo como está"
+  setting_irtock3_gamerule_filler_rulers_leave_alone_desc: "No cambia nada, dejando a todos los [filler_rulers|E] exactamente como los configuró el convertidor.\n#weak NOTA: Normalmente serán [tribal|E]. #!"
+
+  setting_irtock3_gamerule_filler_rulers_all_nomads: "Forzar nómada"
+  setting_irtock3_gamerule_filler_rulers_all_nomads_desc: "Requiere Khans of the Steppe para funcionar. Convierte a TODOS los [filler_rulers|E] en [nomads|E].\n#weak NOTA: ¡Los [nomads|E] no pueden [migrate|E] cuando no están involucrados en una [situation|E] que lo permita! #!"
+
+  setting_irtock3_gamerule_filler_rulers_steppe_nomads_all: "Nómadas de la estepa\n TODOS"
+  setting_irtock3_gamerule_filler_rulers_steppe_nomads_all_desc: "Requiere Khans of the Steppe para funcionar. Convierte a todos los [filler_rulers|E] de la estepa en [nomadic|E]. El resto se convierten en [tribal|E]."
+
+  setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage: "Nómadas de la Estepa\n Herencia"
+  setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage_desc: "Requiere Khans of the Steppe para funcionar. Convierte a todos los [filler_rulers|E] de la estepa en [nomadic|E] si su [heritage|E] es iraní, mongólica, turca, magiar o ugrio-pérmica. El resto se convierten en [tribal|E]."
+
+  setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead: "Nómadas de la Estepa\nCultura de Rebaño"
+  setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead_desc: "Requiere Khans of the Steppe para funcionar. Convierte a todos los [filler_rulers|E] de la Estepa en [nomadic|E] si su [culture|E] determina su [culture_head|E] mediante [herd|E]. El resto se convierten en [tribal|E]."

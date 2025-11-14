@@ -1,0 +1,40 @@
+﻿l_french:
+# Translated using Google Translate, sorry if wrong / Traduit avec Google Traduction, désolé si c'est incorrect.
+ game_rule_category_irtock3: "Convertisseur IRToCK3"
+
+ rule_irtock3_gamerule_imperator_nomads: "IRToCK3 - [nomads|E] (Khans of the Steppe)"
+
+ setting_irtock3_gamerule_nomads_leave_everything: "Laissez tout tel quel"
+ setting_irtock3_gamerule_nomads_leave_everything_desc: "Cela ne change rien, tout restant exactement comme le convertisseur l'avait configuré.\n#weak REMARQUE: [nomads|E] ne peuvent pas [migrate|E] lorsqu'ils ne sont pas impliqués dans une [situation|E] qui le permet! #!"
+
+ setting_irtock3_gamerule_nomads_only_steppe: "Uniquement dans la steppe"
+ setting_irtock3_gamerule_nomads_only_steppe_desc: "Convertit toutes les étiquettes Imperator créées [nomadic|E] par le convertisseur qui sont en dehors de la steppe en [tribal|E].\n#weak REMARQUE: [nomads|E] ne peuvent pas [migrate|E] lorsqu'ils ne sont pas impliqués dans une [situation|E] qui le permet! #!"
+
+ setting_irtock3_gamerule_nomads_no_nomads: "Pas de nomades"
+ setting_irtock3_gamerule_nomads_no_nomads_desc: "Rend toutes les étiquettes Imperator rendues [nomadic|E] par le convertisseur [tribal|E]."
+
+ setting_irtock3_gamerule_nomads_leave_outside_force_steppe_tribes: "Laisser à l'extérieur, forcer à l'intérieur"
+ setting_irtock3_gamerule_nomads_leave_outside_force_steppe_tribes_desc: "Toutes les étiquettes Imperator rendues [nomadic|E] par le convertisseur qui sont en dehors de la steppe restent nomades, et toutes les étiquettes Imperator [tribal|E] dans la steppe sont forcées d'être nomades."
+
+ setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes: "Rien à l'extérieur, force à l'intérieur"
+ setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes_desc: "Toutes les étiquettes Imperator rendues [nomadic|E] par le convertisseur qui sont en dehors de la Steppe sont rendues [tribal|E], et toutes les étiquettes Imperator tribales dans la Steppe sont forcées d'être nomades."
+
+
+ rule_irtock3_gameruler_filler_rulers: "IRToCK3 - [filler_rulers|E]"
+ game_concept_filler_rulers: "Souverain de remplissage"
+ game_concept_filler_rulers_desc: "Les souverains de remplissage sont des [rulers|E] créés par le convertisseur IMP-CK3 pour coloniser les territoires non colonisés d'Imperator. Leur rang a été déterminé dans l'interface lors de la conversion: [counts|E] ou [dukes|E]."
+
+ setting_irtock3_gamerule_filler_rulers_leave_alone: "Laissez tout tel quel"
+ setting_irtock3_gamerule_filler_rulers_leave_alone_desc: "Cela ne change rien, laissant tous les [filler_rulers|E] exactement comme le convertisseur les a définis.\n#weak REMARQUE : Il s'agira généralement de [tribal|E]. #!"
+
+ setting_irtock3_gamerule_filler_rulers_all_nomads: "Force nomade"
+ setting_irtock3_gamerule_filler_rulers_all_nomads_desc: "Nécessite Khans of the Steppe pour fonctionner. Convertit TOUS les [filler_rulers|E] en [nomads|E].\n#weak REMARQUE: [nomads|E] ne peuvent pas [migrate|E] lorsqu'ils ne sont pas impliqués dans une [situation|E] qui le permet! #!"
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_all: "Nomades des steppes\n         TOUT"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_all_desc: "Nécessite Khans of the Steppe pour fonctionner. Convertit tous les [filler_rulers|E] de la steppe en [nomads|E]. Les autres deviennent [tribal|E]."
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage: "Nomades des steppes\n     Patrimoine"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage_desc: "Nécessite Khans of the Steppe pour fonctionner. Convertit tous les [filler_rulers|E] de la Steppe en [nomads|E] si leur [heritage|E] est: iranien, mongol, turc, magyar ou ougro-permien. Les autres deviennent [tribal|E]."
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead: "Nomades des steppes\nChef culturel de Troupeau"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead_desc: "Nécessite Khans of the Steppe pour fonctionner. Convertit tous les [filler_rulers|E] de la steppe en [nomads|E] si leur [culture|E] détermine son [culture_head|E] à l'aide du [herd|E]. Les autres deviennent [tribal|E]."

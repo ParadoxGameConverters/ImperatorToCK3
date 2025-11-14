@@ -231,3 +231,416 @@ irtock3_confederation_setup_effect = {
 		remove_from_list = irtock3_confederation_members
 	}
 }
+
+
+## This handles setting up some governments and the filler rulers created by the converter for uncolonized Imperator land
+# This will likely need to be run near the beginning of game_start.txt, as, so far, it depends on checking existing situations before they possibly get stopped
+irtock3_setup_governments = {
+	# Trying to get everything in a single every_ruler block for performance, so it might be a little confusing ~~tanner918
+	every_ruler = {
+		# Handling this through if/else_if statements to prevent one block from overwriting the effects of another
+
+		##########################
+		### Setup Wanua Rulers ###
+		##########################
+		# Converter can't use geographical location as conditions for government mappings, and a lot of the region is out-of-scope, so handling Wanua needs to be handled through CK3 script
+		if = {
+			limit = {
+				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
+				OR = { # Monarchies/Republics shouldn't become Wanua
+					has_government = tribal_government
+					has_government = nomad_government # Imperator migratory tribes might convert as this
+					capital_province = { geographical_region = converter_AUH_out_of_scope_indonesia } # Some out-of-scope counties are castles, this should make sure EVERY out-of-scope ruler is properly affected
+				}
+				OR = { # Need to actually be in the relevant region
+					# Either have capital and at least half of realm in region
+					AND = {
+						capital_province = { geographical_region = seasonal_region_maritime_southeast_asia }
+						any_sub_realm_county = {
+							percent >= 0.5
+							title_province = { geographical_region = seasonal_region_maritime_southeast_asia }
+						}
+					}
+					# OR, don't have capital in region, but have 80% of realm in region
+					AND = {
+						NOT = {
+							capital_province = { geographical_region = seasonal_region_maritime_southeast_asia }
+						}
+						any_sub_realm_county = {
+							percent >= 0.8
+							title_province = { geographical_region = seasonal_region_maritime_southeast_asia }
+						}
+					}
+				}
+			}
+			change_government = wanua_government
+		}
+		###########################
+		### Setup Filler Rulers ###
+		###########################
+		## Game rule deciding how to handle the filler rulers
+		# If you don't have Khans of the Steppe, this basically does nothing, as if you chose irtock3_gamerule_filler_rulers_leave_alone (since you can't have Nomads)
+		else_if = {
+			limit = {
+				has_mpo_dlc_trigger = yes # Need Khans of the Steppe to get anything from this game rule for now
+				has_variable = irtock3_uncolonized_filler # Need to make sure this only affects filler rulers
+			}
+
+			switch = {
+				trigger = has_game_rule
+				irtock3_gamerule_filler_rulers_leave_alone = { } # This game rule changes nothing, will typically result in Tribal filler rulers
+				irtock3_gamerule_filler_rulers_all_nomads = { # This game rule makes all filler rulers Nomadic
+					if = {
+						limit = {
+							NOT = { has_government = nomad_government }
+						}
+						change_government = nomad_government # Make them Nomadic
+					}
+				}
+				irtock3_gamerule_filler_rulers_steppe_nomads_all = { # This game rule makes all filler rulers in the Great Steppe Nomadic
+					if = {
+						limit = {
+							# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
+							any_sub_realm_county = {
+								percent >= 0.5
+								any_county_situation = { this = situation:the_great_steppe }
+							}
+							NOT = { has_government = nomad_government }
+						}
+						change_government = nomad_government # Make them Nomadic
+					}
+					else_if = {
+						limit = {
+							NOT = { has_government = tribal_government }
+						}
+						change_government = tribal_government # Make them Tribal
+					}
+				}
+				irtock3_gamerule_filler_rulers_steppe_nomads_heritage = { # This game rule makes filler rulers in the Great Steppe Nomadic based off their heritage
+					if = {
+						limit = {
+							# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
+							any_sub_realm_county = {
+								percent >= 0.5
+								any_county_situation = { this = situation:the_great_steppe }
+							}
+							NOT = { has_government = nomad_government }
+							culture = { # Make sure they have a relevant heritage
+								OR = {
+									has_cultural_pillar = heritage_mongolic
+									has_cultural_pillar = heritage_turkic
+									has_cultural_pillar = heritage_iranian
+									has_cultural_pillar = heritage_magyar
+									has_cultural_pillar = heritage_ugro_permian
+								}
+							}
+						}
+						change_government = nomad_government # Make them Nomadic
+					}
+					else_if = {
+						limit = {
+							NOT = { has_government = tribal_government }
+						}
+						change_government = tribal_government # Make them Tribal
+					}
+				}
+				irtock3_gamerule_filler_rulers_steppe_nomads_herdhead = { # This game rule makes filler rulers in the Great Steppe Nomadic based off how their cultural head is determined
+					if = {
+						limit = {
+							# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
+							any_sub_realm_county = {
+								percent >= 0.5
+								any_county_situation = { this = situation:the_great_steppe }
+							}
+							NOT = { has_government = nomad_government }
+							culture = { has_cultural_pillar = head_determination_herd } # Make sure their culture head is determined by herd
+						}
+						change_government = nomad_government # Make them Nomadic
+					}
+					else_if = {
+						limit = {
+							NOT = { has_government = tribal_government }
+						}
+						change_government = tribal_government # Make them Tribal
+					}
+				}
+			}
+		}
+		##############################
+		### Setup Imperator Rulers ###
+		##############################
+		## Game rule deciding whether to allow Imperator tags converted to Nomadic to remain Nomadic
+		# If you don't have Khans of the Steppe, this basically does nothing, as if you chose irtock3_gamerule_nomads_leave_everything (since you can't have Nomads)
+		else_if = {
+			limit = {
+				has_mpo_dlc_trigger = yes # Need Khans of the Steppe to get anything from this game rule for now
+				NOT = { has_variable = irtock3_uncolonized_filler } # Need to make sure this only affects rulers converted from Imperator
+			}
+			
+			switch = {
+				trigger = has_game_rule
+				irtock3_gamerule_nomads_leave_everything = { } # This game rule changes nothing
+				irtock3_gamerule_nomads_only_steppe = { # This game rule makes sure only Imperator tags in the steppe remain Nomadic
+					if = {
+						limit = {
+							has_government = nomad_government
+							NOT = { # Need to make sure they aren't involved in the Great Steppe situation
+								# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
+								any_sub_realm_county = {
+									percent >= 0.5
+									any_county_situation = { this = situation:the_great_steppe }
+								}
+							}
+						}
+						change_government = tribal_government # Make them tribal
+					}
+				}
+				irtock3_gamerule_nomads_no_nomads = { # This game rule makes all Imperator tags that were converted to Nomadic become Tribal
+					if = {
+						limit = { has_government = nomad_government }
+						change_government = tribal_government # Make them tribal
+					}
+				}
+				irtock3_gamerule_nomads_leave_outside_force_steppe_tribes = { # This game rule allows all Imperator tags to remain Nomadic, and also makes any tribal tags in the Steppe Nomadic
+					if = {
+						limit = {
+							has_government = tribal_government
+							# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
+							any_sub_realm_county = {
+								percent >= 0.5
+								any_county_situation = { this = situation:the_great_steppe }
+							}
+						}
+						change_government = nomad_government # Make them nomadic
+					}
+				}
+				irtock3_gamerule_nomads_none_outside_force_steppe_tribes = { # This game rule makes all Imperator tags that were converted to Nomadic that are outside the Steppe Tribal, and also makes any tribal tags in the Steppe Nomadic
+					if = {
+						limit = {
+							has_government = tribal_government
+							# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
+							any_sub_realm_county = {
+								percent >= 0.5
+								any_county_situation = { this = situation:the_great_steppe }
+							}
+						}
+						change_government = nomad_government # Make them nomadic
+					}
+					else_if = {
+						limit = {
+							has_government = nomad_government
+							NOT = { # Need to make sure they aren't involved in the Great Steppe situation
+								# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
+								any_sub_realm_county = {
+									percent >= 0.5
+									any_county_situation = { this = situation:the_great_steppe }
+								}
+							}
+						}
+						change_government = tribal_government # Make them tribal
+					}
+				}
+			}
+		}
+
+		###############
+		### Cleanup ###
+		###############
+		## Need to make sure rulers possibly modified by script start with the correct holding types
+		if = { # Nomads should start with just a nomad holding in their counties
+			limit = { has_government = nomad_government }
+
+			every_sub_realm_county = {
+				every_county_province = {
+					if = { # Capital Barony
+						limit = {
+							is_county_capital = yes
+							NOT = { has_holding_type = nomad_holding }
+						}
+						set_holding_type = nomad_holding
+					}
+					else = { # Non-Capital Barony
+						if = {
+							limit = { has_holding = yes }
+							remove_holding = yes
+						}
+					}
+				}
+			}
+		}
+		else_if = { # Herders should start with just a herder holding in their counties
+			limit = { has_government = herder_government }
+
+			every_sub_realm_county = {
+				every_county_province = {
+					if = { # Capital Barony
+						limit = {
+							is_county_capital = yes
+							NOT = { has_holding_type = herder_holding }
+						}
+						set_holding_type = herder_holding
+					}
+					else = { # Non-Capital Barony
+						if = {
+							limit = { has_holding = yes }
+							remove_holding = yes
+						}
+					}
+				}
+			}
+		}
+		else_if = { # Tribes/Wanua need to have Tribal counties
+			limit = {
+				OR = {
+					has_government = tribal_government
+					has_government = wanua_government
+				}
+			}
+
+			every_held_title = {
+				title_tier = county
+				if = {
+					limit = {
+						title_province = {
+							NOT = { has_holding_type = tribal_holding }
+						}
+					}
+					title_province = { set_holding_type = tribal_holding }
+				}
+			}
+		}
+
+		## Some duchy vassals created from Imperator governorships might be titular, so they don't work properly when inside Admin realms. This is meant to fix that by replacing the titular duchy with a relevant duchy with de jure counties beneath it, so it will work properly.
+		if = {
+			limit = { # This effect should only be done on duke-level governors whose duchy title has no de jure counties beneath it. The land they control must also have a de jure duchy that exists but isn't created.
+				government_allows = administrative
+				primary_title = {
+					tier = tier_duchy
+					is_noble_family_title = no
+					is_titular = yes
+				}
+				sub_realm_size >= 1
+				any_sub_realm_county = {
+					exists = duchy
+					NOT = { exists = duchy.holder }
+				}
+			}
+
+			save_scope_as = titular_governor
+
+			primary_title = { save_scope_as = titular_governorship_duchy }
+
+			# Save every duchy the character owns at least one county of in a list to determine which should be given
+			every_sub_realm_county = {
+				limit = {
+					exists = duchy
+					NOT = { exists = duchy.holder } # Obviously they shouldn't steal a duchy from someone else
+				}
+				save_scope_as = test_county
+
+				if = {
+					limit = {
+						scope:titular_governor = {
+							NOT = {
+								is_target_in_variable_list = {
+									name = de_jure_duchies_list
+									target = scope:test_county.duchy
+								}
+							}
+						}
+					}
+
+					scope:titular_governor = {
+						add_to_variable_list = {
+							name = de_jure_duchies_list
+							target = scope:test_county.duchy
+						}
+					}
+				}
+
+				clear_saved_scope = test_county
+			}
+
+			# Go through all of the duchies in the list, sort them the percentage of the counties they hold, and choose the first one in that ordered list (meaning they hold the greatest percentage of that duchy compared to the rest). This should help make it give priority to duchies they completely control, but allows it to easily determine the best option if they don't completely control any duchy
+			ordered_in_list = {
+				variable = de_jure_duchies_list
+				order_by = { # Need to determine percentage of the duchy that they hold
+					value = 0
+
+					every_de_jure_county = { # This gets the number of counties that the character controls
+						limit = {
+							exists = holder
+							OR = {
+								holder = scope:titular_governor
+								holder.liege ?= scope:titular_governor
+							}
+						}
+						add = 1
+					}
+
+					multiply = 100 # Don't know how well the game handles decimals, since I think some stuff gets rounded automatically. This is just to prevent any possible problems with decimals before they appear
+
+					divide = { # This will get the total number of counties in that duchy, and then divide that into the value obtained above to get the percentage of the duchy that the character controls
+						value = 0
+						every_de_jure_county = { add = 1 }
+					}
+				}
+				position = 1 # Makes sure that the duchy with highest percentage owned is being saved
+				save_scope_as = new_duchy_title
+			}
+
+			# Give the chosen duchy to the character, make it their primary, then destroy the old titular title
+			create_title_and_vassal_change = {
+				type = created
+				save_scope_as = title_change
+				add_claim_on_loss = no
+			}
+			scope:new_duchy_title = {
+				change_title_holder = {
+					holder = scope:titular_governor
+					change = scope:title_change
+				}
+			}
+			resolve_title_and_vassal_change = scope:title_change
+
+			set_primary_title_to = scope:new_duchy_title
+
+			destroy_title = scope:titular_governorship_duchy
+
+			# Variable/Scope Clean Up
+			clear_variable_list = de_jure_duchies_list
+			clear_saved_scope = new_duchy_title
+			clear_saved_scope = titular_governorship_duchy
+			clear_saved_scope = title_change
+			clear_saved_scope = titular_governor
+		}
+
+		## Need to make sure relevant rulers have Noble Family titles
+		if = {
+			limit = {
+				government_allows = noble_families
+				is_lowborn = no
+				house.house_head = this
+				NOT = {
+					house = {
+						any_house_member = {
+							any_held_title = { is_noble_family_title = yes }
+						}
+					}
+				}
+				OR = {
+					highest_held_title_tier >= main_administrative_tier
+					AND = {
+						government_has_flag = government_has_county_tier_noble_families
+						highest_held_title_tier >= tier_county
+					}
+				}
+			}
+			create_noble_family_effect = { GOVERNMENT_GIVER = this }
+		}
+	}
+	
+	## Finally, recalculate the culture heads
+	recalculate_cultural_heads_of_type = herd
+	recalculate_cultural_heads_of_type = domain
+}

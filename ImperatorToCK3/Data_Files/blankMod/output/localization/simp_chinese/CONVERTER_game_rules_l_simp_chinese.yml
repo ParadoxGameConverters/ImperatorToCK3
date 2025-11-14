@@ -1,0 +1,40 @@
+﻿l_simp_chinese:
+# Translated using Google Translate, sorry if wrong / 使用谷歌翻译翻译，如有错误敬请谅解。
+ game_rule_category_irtock3: "IRToCK3转换器"
+
+ rule_irtock3_gamerule_imperator_nomads: "IRToCK3 - [nomads|E] (Khans of the Steppe)"
+
+ setting_irtock3_gamerule_nomads_leave_everything: "一切保持原样"
+ setting_irtock3_gamerule_nomads_leave_everything_desc: "不做任何更改，一切都保持转换器设置时的状态.\n#weak 注意：[nomads|E] 如果不处于允许迁徙的[situation|E]中，就无法[migrate|E]! #!"
+
+ setting_irtock3_gamerule_nomads_only_steppe: "只有在草原上"
+ setting_irtock3_gamerule_nomads_only_steppe_desc: "将转换器创建的所有位于草原之外的 [nomadic|E] Imperator 标签转换为 [tribal|E].\n#weak 注意：[nomads|E] 如果不处于允许迁徙的[situation|E]中，就无法[migrate|E]! #!"
+
+ setting_irtock3_gamerule_nomads_no_nomads: "没有游牧民"
+ setting_irtock3_gamerule_nomads_no_nomads_desc: "将转换器 [tribal|E] 生成的所有 Imperator 标签都标记为 [nomadic|E]."
+
+ setting_irtock3_gamerule_nomads_leave_outside_force_steppe_tribes: "离开外面，强行进入"
+ setting_irtock3_gamerule_nomads_leave_outside_force_steppe_tribes_desc: "任何由转换器生成的 [nomadic|E] 帝国标签，如果位于草原之外，则保持游牧状态；任何位于草原的 [tribal|E] 帝国标签将被强制变为游牧状态."
+
+ setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes: "外部无力，内部有力"
+ setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes_desc: "转换器生成的位于草原之外的所有 [nomadic|E] 帝王标签都会被转换为 [tribal|E]，而草原上的任何部落帝王标签都会被强制转换为游牧."
+
+
+ rule_irtock3_gameruler_filler_rulers: "IRToCK3 - [filler_rulers|E]"
+ game_concept_filler_rulers: "填充尺"
+ game_concept_filler_rulers_desc: "填充统治者是由 IMP-CK3 转换器创建的 [rulers|E]，用于填充 Imperator 中未被殖民的土地. 他们的等级在转换过程中由前端确定为 [counts|E] 或 [dukes|E]."
+
+ setting_irtock3_gamerule_filler_rulers_leave_alone: "一切保持原样"
+ setting_irtock3_gamerule_filler_rulers_leave_alone_desc: "不做任何更改，所有 [filler_rulers|E] 都保持转换器设置时的状态.\n#weak 注意：这通常会使它们成为 [tribal|E]. #!"
+
+ setting_irtock3_gamerule_filler_rulers_all_nomads: "游牧力量"
+ setting_irtock3_gamerule_filler_rulers_all_nomads_desc: "需要《草原可汗》DLC才能运行. 将所有 [filler_rulers|E] 转换为 [nomads|E].\n#weak 注意：[nomads|E] 如果不处于允许迁徙的[situation|E]中，就无法[migrate|E]! #!"
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_all: "草原游牧民族\n         全部"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_all_desc: "需要《草原可汗》DLC才能运行. 将草原上的所有 [filler_rulers|E] 转换为 [nomadic|E]. 其余的则转换为 [tribal|E]."
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage: "草原游牧民族\n     遗产"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage_desc: "需要《草原可汗》DLC才能运行. 将草原上所有[filler_rulers|E]的[heritage|E]（伊朗语系、蒙古语系、突厥语系、马扎尔语系或乌戈尔-二叠纪语系）转换为[nomadic|E]。其余的则转换为[tribal|E]."
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead: "草原游牧民族\n畜群文化负责人"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead_desc: "需要《草原可汗》DLC才能运行. 如果草原上所有 [filler_rulers|E] 的 [culture|E] 通过 [herd|E] 决定其 [culture_head|E]，则将其转换为 [nomadic|E]。其余的则转换为 [tribal|E]."
