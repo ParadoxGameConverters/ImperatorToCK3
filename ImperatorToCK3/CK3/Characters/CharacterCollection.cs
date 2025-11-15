@@ -9,6 +9,7 @@ using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Armies;
 using ImperatorToCK3.Imperator.Characters;
+using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Nickname;
@@ -632,6 +633,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		Title.LandedTitles titles,
 		UnitCollection imperatorUnits,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
+		CountryCollection irCountries,
 		Date date,
 		UnitTypeMapper unitTypeMapper,
 		IdObjectCollection<string, MenAtArmsType> menAtArmsTypes,
@@ -660,7 +662,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			if (config.LegionConversion == LegionConversion.MenAtArms) {
 				ruler.ImportUnitsAsMenAtArms(countryLegions, date, unitTypeMapper, menAtArmsTypes, ck3LocDB);
 			} else if (config.LegionConversion == LegionConversion.SpecialTroops) {
-				ruler.ImportUnitsAsSpecialTroops(countryLegions, imperatorCharacters, date, unitTypeMapper, provinceMapper, ck3LocDB);
+				ruler.ImportUnitsAsSpecialTroops(countryLegions, imperatorCharacters, irCountries, date, unitTypeMapper, provinceMapper, ck3LocDB);
 			}
 		}
 
