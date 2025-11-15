@@ -778,7 +778,8 @@ internal sealed class Character : IIdentifiable<string> {
 	}
 	internal void ImportUnitsAsSpecialTroops(
 		IEnumerable<Unit> countryUnits,
-		Imperator.Characters.CharacterCollection imperatorCharacters,
+		Imperator.Characters.CharacterCollection irCharacters,
+		CountryCollection irCountries,
 		Date date,
 		UnitTypeMapper unitTypeMapper,
 		ProvinceMapper provinceMapper,
@@ -790,8 +791,17 @@ internal sealed class Character : IIdentifiable<string> {
 		foreach (var unit in countryUnits) {
 			var menPerUnitType = unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType);
 
-			var imperatorLeader = imperatorCharacters[unit.LeaderId];
-			var ck3Leader = imperatorLeader.CK3Character;
+			if (unit.LeaderId is null || !irCharacters.TryGetValue(unit.LeaderId.Value, out var irLeader)) {
+				// Use country ruler.
+				irLeader = irCountries[unit.CountryId].Monarch;
+			}
+
+			if (irLeader is null) {
+				Logger.Warn($"Unit {unit.Id} has no leader and country {unit.CountryId} has no ruler! Skipping special troop spawn.");
+				continue;
+			}
+
+			var ck3Leader = irLeader.CK3Character;
 
 			sb.AppendLine("\t\tspawn_army={");
 
