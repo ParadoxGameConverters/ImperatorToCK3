@@ -14,6 +14,7 @@ A: Yes.
 Q: What about mods?
 A: The converter officially supports these Imperator mods:
 - Imperator: Invictus (https://steamcommunity.com/workshop/filedetails/?id=2532715348)
+- Imperator: Invictus 1.7.0.3 (old) (https://steamcommunity.com/sharedfiles/filedetails/?id=3181950031)
 - Timeline Extension for Invictus (https://steamcommunity.com/sharedfiles/filedetails/?id=2845446001)
 - Full Mechanical Overhaul (https://steamcommunity.com/sharedfiles/filedetails/?id=2805839904)
 - Imperator: Invictus - More Cultural Names (https://steamcommunity.com/sharedfiles/filedetails/?id=2827761791)
@@ -33,6 +34,15 @@ The converter also supports these CK3 mods:
 - Rajas of Asia (https://steamcommunity.com/workshop/filedetails/?id=2509174436)
 As for other mods, unless they change the map or how cultures, religions or flags work, you can probably use them.
 Total map overhauls are not supported (of course), and whatever new cultures and religions are brought by the mod - you'll have to add manually in the files in configurables folder.
+
+Q: Which mod combinations are supported?
+A: The converter supports the following combinations:
+- Terra Indomita -> Rajas of Asia
+- Terra Indomita -> Asia Expansion Project
+- Terra Indomita -> vanilla CK3
+- Invictus (latest version) -> vanilla CK3
+- Invictus 1.7 -> vanilla CK3
+- vanilla Imperator -> vanilla CK3
 
 Q: How can I customize my game after converting?
 A: Use the guide in after_converting.txt in the converter subdirectory. Scan through configurables/ folder and look into the myriad of configuration files - a great majority of these files is intended to be modified by users to achieve
