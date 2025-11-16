@@ -882,7 +882,6 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	}
 
 	internal void CalculateChineseDynasticCycleVariables(Title.LandedTitles titles, Date irEndDate, Date ck3BookmarkDate) {
-		// TODO: ADD UNIT TEST FOR THIS
 		var celestialGovTitles = titles
 			.Where(t => t.ImperatorCountry is not null &&
 			            string.Equals(t.ImperatorCountry.Government, "chinese_empire", StringComparison.Ordinal) &&
@@ -895,7 +894,6 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			}
 
 			// Calculate "years_with_government" value (estimated years the country had chinese_empire government).
-			// TODO: unit test for this
 			double yearsWithChineseGov = 0;
 			Date dateOfFirstChineseGovTerm = irEndDate;
 			foreach (var term in Enumerable.Reverse(title.ImperatorCountry!.RulerTerms)) {
