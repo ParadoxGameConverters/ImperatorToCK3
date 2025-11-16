@@ -84,6 +84,8 @@ internal sealed partial class Country {
 			parsedCountry.republicLaws.Add(string.Intern(reader.GetString())));
 		parser.RegisterRegex(tribalLawRegexStr, reader =>
 			parsedCountry.tribalLaws.Add(string.Intern(reader.GetString())));
+		parser.RegisterKeyword("total_power_base", reader => parsedCountry.TotalPowerBase = reader.GetFloat());
+		parser.RegisterKeyword("non_loyal_power_base", reader => parsedCountry.NonLoyalPowerBase = reader.GetFloat());
 		parser.RegisterKeyword("is_antagonist", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("has_senior_ally", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("cached_happiness_for_owned", ParserHelpers.IgnoreItem);
