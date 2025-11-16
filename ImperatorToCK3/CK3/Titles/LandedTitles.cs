@@ -86,6 +86,10 @@ internal sealed partial class Title {
 					continue;
 				}
 
+				if (county.NobleFamily == true) {
+					continue;
+				}
+
 				Logger.Debug($"Removing capital entry from county {county.Id}.");
 				county.CapitalCountyId = null;
 			}
