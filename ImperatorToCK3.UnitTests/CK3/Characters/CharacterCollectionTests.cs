@@ -458,7 +458,7 @@ public class CharacterCollectionTests {
 		Assert.Equal(ck3BookmarkDate, effectEntry.Key);
 		var effectString = Assert.IsType<StringOfItem>(Assert.Single(effectEntry.Value).Value).ToString();
 
-		var expectedYearsWithGovernment = ck3BookmarkDate.DiffInYears(earliestChineseStartDate) + earliestChineseStartDate.DiffInYears(precedingNonChineseStartDate) / 2;
+		var expectedYearsWithGovernment = ck3BookmarkDate.DiffInYears(earliestChineseStartDate) + (earliestChineseStartDate.DiffInYears(precedingNonChineseStartDate) / 2);
 		var expectedUnrest = imperatorCountry.NonLoyalPowerBase / imperatorCountry.TotalPowerBase;
 		var effectLines = effectString.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 		var yearsLine = Assert.Single(effectLines, line => line.Contains("years_with_government", StringComparison.Ordinal));
