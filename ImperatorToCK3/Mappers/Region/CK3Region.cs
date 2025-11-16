@@ -90,6 +90,10 @@ internal sealed class CK3Region {
 				regionToReturn.Provinces.Add(id);
 			}
 		});
+		parser.RegisterKeyword("should_remember_counties_order", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("generate_modifiers", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("color", ParserHelpers.IgnoreItem);
+		
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
 	public static CK3Region Parse(string name, BufferedReader reader) {
