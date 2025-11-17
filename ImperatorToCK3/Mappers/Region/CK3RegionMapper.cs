@@ -32,6 +32,8 @@ internal sealed class CK3RegionMapper {
 				counties[title.Id] = title;
 			} else if (titleRank == TitleRank.duchy) {
 				duchies[title.Id] = title;
+			} else if (titleRank == TitleRank.kingdom) {
+				kingdoms[title.Id] = title;
 			}
 		}
 
@@ -104,10 +106,11 @@ internal sealed class CK3RegionMapper {
 	}
 	private void LinkRegions() {
 		foreach (var region in regions.Values) {
-			region.LinkRegions(regions, duchies, counties);
+			region.LinkRegions(regions, kingdoms, duchies, counties);
 		}
 	}
-	private readonly Dictionary<string, CK3Region> regions = new();
-	private readonly Dictionary<string, Title> duchies = new();
-	private readonly Dictionary<string, Title> counties = new();
+	private readonly Dictionary<string, CK3Region> regions = [];
+	private readonly Dictionary<string, Title> kingdoms = [];
+	private readonly Dictionary<string, Title> duchies = [];
+	private readonly Dictionary<string, Title> counties = [];
 }
