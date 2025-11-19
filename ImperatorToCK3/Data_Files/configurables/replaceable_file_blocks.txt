@@ -3025,3 +3025,126 @@
 	}
 
 }
+
+
+"common/on_action/title_on_actions.txt" = {
+	# Need to modify on_actions relating to inheriting China to prevent the Cycle from changing Eras at game start
+	replace = {
+		before = {
+					# When conquering China - Change to conquest phase
+					if = {
+						limit = {
+							root.dynasty != scope:previous_holder.dynasty
+						}
+						if = {
+							limit = {
+								is_valid_celestial_dynasty = no
+							}
+							situation:dynastic_cycle = {
+								situation_top_sub_region = {
+									change_phase = { phase = situation_dynastic_cycle_phase_instability_conquest }
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								situation:dynastic_cycle ?= {
+									situation_current_phase = situation_dynastic_cycle_phase_instability_conquest
+								}
+							}
+							situation:dynastic_cycle = {
+								situation_top_sub_region = {
+									change_phase = { phase = situation_dynastic_cycle_phase_instability }
+								}
+							}
+						}
+					}
+		}
+
+		after = {
+					# When conquering China - Change to conquest phase
+					if = {
+						limit = {
+							current_date_is_start_date_trigger = no # IRToCK3: We check this to avoid potentially triggering this immediately on game start
+							root.dynasty != scope:previous_holder.dynasty
+						}
+						if = {
+							limit = {
+								is_valid_celestial_dynasty = no
+							}
+							situation:dynastic_cycle = {
+								situation_top_sub_region = {
+									change_phase = { phase = situation_dynastic_cycle_phase_instability_conquest }
+								}
+							}
+						}
+						else_if = {
+							limit = {
+								situation:dynastic_cycle ?= {
+									situation_current_phase = situation_dynastic_cycle_phase_instability_conquest
+								}
+							}
+							situation:dynastic_cycle = {
+								situation_top_sub_region = {
+									change_phase = { phase = situation_dynastic_cycle_phase_instability }
+								}
+							}
+						}
+					}
+		}
+	}
+}
+
+
+"common/scripted_triggers/00_scripted_triggers.txt" = {
+	# Some content depends on not triggering at game start, but the check for that only checks the base game start dates, so modifying it to use a temporary global variable instead
+	replace = {
+		before = {
+	OR = {
+		AND = {
+			game_start_date = 867.1.1
+			current_date = 867.1.1
+		}
+		AND = {
+			game_start_date = 1066.09.15
+			current_date = 1066.09.15
+		}
+		AND = {
+			game_start_date = 1178.10.1
+			current_date = 1178.10.1
+		}
+	}
+		}
+
+		after = {
+	has_global_variable = irtock3_date_is_start_date # IRToCK3: Using this temporary global variable instead so it should work for any start date
+		}
+	}
+}
+
+
+"events/dlc/tgp/tgp_dynastic_cycle_events.txt" = {
+	# Need to modify the initial notification event for the Dynastic Cycle so that it can actually be triggered for everyone who is relevant at the beginning of the game so everyone knows what Era its starting in.
+	replace = {
+		before = {
+		is_ai = no
+		is_player_tutorial_character = no
+		NOT = { has_character_flag = tgp_dynastic_cycle_intro_event_flag }
+		tgp_is_hegemon_or_below_in_dynastic_cycle_trigger = yes
+		}
+
+		after = {
+		is_ai = no
+		is_player_tutorial_character = no
+		NOT = { has_character_flag = tgp_dynastic_cycle_intro_event_flag }
+		OR = {
+			tgp_is_hegemon_or_below_in_dynastic_cycle_trigger = yes
+			# IRToCK3: Adding an alternative condition so that this event can trigger for everyone that is relevant at the beginning of the game
+			AND = {
+				has_global_variable = irtock3_date_is_start_date
+				tgp_does_this_player_care_about_the_dynastic_cycle = yes
+			}
+		}
+		}
+	}
+}

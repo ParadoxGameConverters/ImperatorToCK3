@@ -236,17 +236,49 @@ irtock3_confederation_setup_effect = {
 ## This handles setting up some governments and the filler rulers created by the converter for uncolonized Imperator land
 # This will likely need to be run near the beginning of game_start.txt, as, so far, it depends on checking existing situations before they possibly get stopped
 irtock3_setup_governments = {
-	# Trying to get everything in a single every_ruler block for performance, so it might be a little confusing ~~tanner918
+	# Trying to get everything in a single every_ruler block for performance
 	every_ruler = {
 		# Handling this through if/else_if statements to prevent one block from overwriting the effects of another
 
+		######################
+		### Chinese Rulers ###
+		######################
+		# Need to know exactly what rulers might get involved in the Dynastic Cycle
+		if = {
+			limit = {
+				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
+				exists = situation:dynastic_cycle
+				top_liege = this # Needs to be independent
+				# Need to create a list of rulers relevant to the Dynastic Cycle
+				OR = {
+					# Converted from Terra-Indomita's chinese_empire (represents Chinese Emperor in Terra-Indomita)
+					has_government = celestial_government
+					# Converted from any Imperator Monarchy with Chinese culture
+					AND = {
+						has_government = meritocratic_government
+						culture = { has_cultural_pillar = heritage_chinese }
+					}
+					# Filler rulers setup from an Imperator save converted from Invictus
+					AND = {
+						has_variable = irtock3_uncolonized_filler
+						has_government = feudal_government
+						culture = { has_cultural_pillar = heritage_chinese }
+					}
+				}
+			}
+			add_to_list = dynastic_cycle_rulers
+		}
 		##########################
 		### Setup Wanua Rulers ###
 		##########################
 		# Converter can't use geographical location as conditions for government mappings, and a lot of the region is out-of-scope, so handling Wanua needs to be handled through CK3 script
-		if = {
+		else_if = {
 			limit = {
 				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
+				NOR = { # Shouldn't even check this block if using a mod that doesn't even include the region
+					global_var:irtock3_enabled = flag:wtwsms
+					global_var:irtock3_enabled = flag:tfe
+				}
 				OR = { # Monarchies/Republics shouldn't become Wanua
 					has_government = tribal_government
 					has_government = nomad_government # Imperator migratory tribes might convert as this
@@ -275,11 +307,36 @@ irtock3_setup_governments = {
 			}
 			change_government = wanua_government
 		}
+		############################
+		### Setup Mandala Rulers ###
+		############################
+		# Converter can't get perfect mappings for Mandala given its dependence on specific culture/faith conditions, so setting them up here instead
+		else_if = {
+			limit = {
+				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
+				has_government = feudal_government
+				has_mandala_culture_trigger = yes # Need relevant culture
+				has_mandala_faith_trigger = yes # Need relevant faith
+				# Depending on game rules, setting Mandala might be limited to only SEA
+				trigger_if = {
+					limit = { has_game_rule = irtock3_gamerule_mandala_rulers_sea }
+					any_sub_realm_county = {
+						percent >= 0.5
+						title_province = {
+							OR = {
+								geographical_region = world_burma
+								geographical_region = world_asia_southeast
+							}
+						}
+					}
+				}
+			}
+			change_government = mandala_government
+		}
 		###########################
 		### Setup Filler Rulers ###
 		###########################
-		## Game rule deciding how to handle the filler rulers
-		# If you don't have Khans of the Steppe, this basically does nothing, as if you chose irtock3_gamerule_filler_rulers_leave_alone (since you can't have Nomads)
+		# Game rule deciding how to handle the filler rulers (If you don't have Khans of the Steppe, this basically does nothing, as if you chose irtock3_gamerule_filler_rulers_leave_alone, since you can't have Nomads anyway)
 		else_if = {
 			limit = {
 				has_mpo_dlc_trigger = yes # Need Khans of the Steppe to get anything from this game rule for now
@@ -369,8 +426,7 @@ irtock3_setup_governments = {
 		##############################
 		### Setup Imperator Rulers ###
 		##############################
-		## Game rule deciding whether to allow Imperator tags converted to Nomadic to remain Nomadic
-		# If you don't have Khans of the Steppe, this basically does nothing, as if you chose irtock3_gamerule_nomads_leave_everything (since you can't have Nomads)
+		## Game rule deciding whether to allow Imperator tags converted to Nomadic to remain Nomadic (If you don't have Khans of the Steppe, this basically does nothing, as if you chose irtock3_gamerule_nomads_leave_everything, since you can't have Nomads anyway)
 		else_if = {
 			limit = {
 				has_mpo_dlc_trigger = yes # Need Khans of the Steppe to get anything from this game rule for now
@@ -509,6 +565,20 @@ irtock3_setup_governments = {
 				}
 			}
 		}
+		else_if = { # Mandala rulers need a Temple Citadel
+			limit = { has_government = mandala_government }
+
+			every_sub_realm_county = {
+				title_province = {
+					if = {
+						limit = {
+							NOT = { has_holding_type = temple_citadel_holding }
+						}
+						set_holding_type = temple_citadel_holding
+					}
+				}
+			}
+		}
 
 		## Some duchy vassals created from Imperator governorships might be titular, so they don't work properly when inside Admin realms. This is meant to fix that by replacing the titular duchy with a relevant duchy with de jure counties beneath it, so it will work properly.
 		if = {
@@ -605,6 +675,8 @@ irtock3_setup_governments = {
 
 			set_primary_title_to = scope:new_duchy_title
 
+			scope:new_duchy_title = { copy_title_history = scope:titular_governorship_duchy }
+
 			destroy_title = scope:titular_governorship_duchy
 
 			# Variable/Scope Clean Up
@@ -639,6 +711,222 @@ irtock3_setup_governments = {
 			create_noble_family_effect = { GOVERNMENT_GIVER = this }
 		}
 	}
+
+	######################
+	### Dynastic Cycle ###
+	######################
+	# Shouldn't run if using a mod that doesn't include East Asia
+	if = {
+		limit = {
+			NOR = {
+				global_var:irtock3_enabled = flag:wtwsms
+				global_var:irtock3_enabled = flag:tfe
+			}
+		}
+
+		# Until a better setup is determined, make every empire where at least half of the de jure counties beneath it are Chinese be de jure under h_china, and then make sure that land is added to the Dynastic Cycle situation
+		every_empire = {
+			limit = {
+				is_titular = no
+				NOT = { exists = hegemony } # If, somehow, an empire converts over already belonging to a hegemony (likely Rome, India, Helenistic Empire, etc), don't want to steal it, since it will likely already have a ruler
+				any_de_jure_county = {
+					percent >= 0.5
+					culture = { has_cultural_pillar = heritage_chinese }
+				}
+			}
+			set_de_jure_liege_title = title:h_china
+		}
+		if = {
+			limit = { exists = situation:dynastic_cycle }
+			situation:dynastic_cycle.situation_sub_region:core = { add_dejure_title_to_sub_region = title:h_china }
+		}
+
+		# Check if one person in list has Celestial Government
+		if = {
+			limit = {
+				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
+				any_in_list = {
+					list = dynastic_cycle_rulers
+					count = 1
+					has_government = celestial_government
+				}
+			}
+
+			# Save ruler that has Celestial Government
+			random_in_list = {
+				list = dynastic_cycle_rulers
+				limit = { has_government = celestial_government }
+				save_scope_as = chinese_emperor
+			}
+
+			# Grant the Hegemon title
+			create_title_and_vassal_change = {
+				type = created
+				save_scope_as = mandate_change
+				add_claim_on_loss = no
+			}
+			title:h_china = {
+				change_title_holder = {
+					holder = scope:chinese_emperor
+					change = scope:mandate_change
+				}
+			}
+			resolve_title_and_vassal_change = scope:mandate_change
+
+			## Determine what Era to start the Dynastic Cycle in
+			# If they don't have Chinese Heritage, and haven't had the chinese_empire government for long from Imperator end date, start in Conquest Era
+			if = {
+				limit = {
+					scope:chinese_emperor = {
+						culture = {
+							NOT = { has_cultural_pillar = heritage_chinese }
+						}
+						has_variable = years_with_government
+						var:years_with_government < 100 # Going with this for now, might need to change later
+					}
+				}
+
+				situation:dynastic_cycle = {
+					situation_top_sub_region = {
+						change_phase = { phase = situation_dynastic_cycle_phase_instability_conquest }
+					}
+				}
+
+				# Trigger event for players to introduce the situation
+				every_player = {
+					limit = { tgp_does_this_player_care_about_the_dynastic_cycle = yes }
+					trigger_event = tgp_dynastic_cycle.0051
+				}
+			}
+			# Regardless of Heritage, if they had relatively high unrest in Imperator, start in Instability Era
+			else_if = {
+				limit = {
+					scope:chinese_emperor = {
+						has_variable = imperator_unrest
+						var:imperator_unrest > 30 # Imperator uses 25% as the base line for ticking towards civil war and that almost always just goes down. Figured I'd at least give a little leeway
+					}
+				}
+
+				situation:dynastic_cycle = {
+					situation_top_sub_region = {
+						change_phase = { phase = situation_dynastic_cycle_phase_instability }
+					}
+				}
+
+				# Trigger event for players to introduce the situation
+				every_player = {
+					limit = { tgp_does_this_player_care_about_the_dynastic_cycle = yes }
+					trigger_event = tgp_dynastic_cycle.0051
+				}
+			}
+			# If they don't meet either of the above circumstances, then let them start in a Stable Era
+			else = {
+				scope:chinese_emperor = {
+					trigger_event = welcome.0071
+				}
+			}
+		}
+		# This means there are either multiple rulers with Celestial Government ("competing Emperors"), OR no rulers with Celestial. Both start in Division Era.
+		else_if = {
+			limit = {
+				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
+				any_in_list = {
+					list = dynastic_cycle_rulers
+					count >= 1
+				}
+			}
+
+			# If there are multiple Celestial rulers, make them rivals
+			if = {
+				limit = {
+					any_in_list = {
+						list = dynastic_cycle_rulers
+						count > 1
+						has_government = celestial_government
+					}
+				}
+
+				every_in_list = {
+					list = dynastic_cycle_rulers
+					limit = { has_government = celestial_government }
+
+					save_scope_as = first
+
+					every_in_list = {
+						list = dynastic_cycle_rulers
+						limit = {
+							has_government = celestial_government
+							NOT = { has_relation_rival = scope:first }
+						}
+
+						set_relation_rival = {
+							target = scope:first
+							reason = rival_claiming_mandate_of_heaven
+						}
+					}
+
+					clear_saved_scope = first
+				}
+			}
+
+			# The base game has Chinese states continue using Celestial during the Division Era, so convert the other relevant rulers to Celestial
+			every_in_list = {
+				list = dynastic_cycle_rulers
+				limit = {
+					NOT = { has_government = celestial_government }
+				}
+				save_scope_as = liege
+				# First, make sure to convert all same government vassals
+				every_vassal_or_below = {
+					limit = {
+						highest_held_title_tier >= tier_county
+						has_same_government = scope:liege
+					}
+
+					# Checks if they have a domicile/noble family title that matches Celestial
+					tgp_domicile_conversion_when_changing_government_type = {
+						NEW_DOMICILE_TYPE = east_asian_estate
+						NEW_GOVERNMENT_TYPE = celestial_government
+					}
+					change_government = celestial_government
+					# Sets up a noble family title, if they don't have one
+					if = {
+						limit = {
+							primary_title.tier >= min_appointment_tier
+							NOT = {
+								any_held_title = { is_noble_family_title = yes }
+							}
+						}
+						create_noble_family_effect = { GOVERNMENT_GIVER = this }
+					}
+				}
+
+				# Checks if they have a domicile/noble family title that matches Celestial
+				tgp_domicile_conversion_when_changing_government_type = {
+					NEW_DOMICILE_TYPE = east_asian_estate
+					NEW_GOVERNMENT_TYPE = celestial_government
+				}
+				change_government = celestial_government
+				# Sets up a noble family title, if they don't have one
+				if = {
+					limit = {
+						primary_title.tier >= min_appointment_tier
+						NOT = {
+							any_held_title = { is_noble_family_title = yes }
+						}
+					}
+					create_noble_family_effect = { GOVERNMENT_GIVER = this }
+				}
+			}
+
+			# Cycle already starts in Division Era, but give the event that indicates the Era
+			every_player = {
+				limit = { tgp_does_this_player_care_about_the_dynastic_cycle = yes }
+				trigger_event = tgp_dynastic_cycle.0051
+			}
+		}
+	}
+
 	
 	## Finally, recalculate the culture heads
 	recalculate_cultural_heads_of_type = herd

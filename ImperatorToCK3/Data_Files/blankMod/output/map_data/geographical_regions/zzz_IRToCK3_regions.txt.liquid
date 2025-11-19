@@ -20,6 +20,8 @@ converter_roa_out_of_scope_region = {
 }
 {% elsif wtwsms %}
 
+{% elsif aep %}
+
 {% endif %}
 
 ###############################
@@ -59,6 +61,7 @@ converter_custom_hindustan_region = {
 	}
 }
 
+{% if vanilla or roa or aep %}
 # Out-of-scope region for Terra-Indomita that should be made Hantuist
 converter_AUH_out_of_scope_region_hantuist = {
 	counties = {
@@ -125,3 +128,4 @@ converter_AUH_out_of_scope_region_faith_check = {
 		world_asia_malaysia omnod_dalai_khanate_de_jure_region
 	}
 }
+{% endif %}

@@ -20,7 +20,7 @@
  setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes_desc: "대초원 밖에 있는 변환기에 의해 [nomadic|E]으로 만들어진 모든 Imperator 태그는 [tribal|E]으로 만들어지고, 대초원에 있는 모든 부족 Imperator 태그는 유목민이 되도록 강제됩니다."
 
 
- rule_irtock3_gameruler_filler_rulers: "IRToCK3 - [filler_rulers|E]"
+ rule_irtock3_gamerule_filler_rulers: "IRToCK3 - [filler_rulers|E]"
  game_concept_filler_rulers: "필러 룰러"
  game_concept_filler_rulers_desc: "필러 통치자는 IMP-CK3 변환기가 임페라토르의 식민지화되지 않은 영토를 채우기 위해 생성한 [rulers|E]입니다. 통치자의 계급은 변환 과정에서 프런트엔드에서 [counts|E] 또는 [dukes|E]로 결정되었습니다."
 
@@ -34,7 +34,19 @@
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_all_desc: "대초원의 칸이 일해야 합니다. 대초원의 모든 [filler_rulers|E]를 [nomadic|E]로 변환합니다. 나머지는 [tribal|E]로 변환합니다."
 
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage: "대초원 유목민\n     유산"
- setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage_desc: "대초원의 칸이 일해야 합니다. 대초원의 모든 [filler_rulers|E]를 [nomadic|E]으로 변환합니다. [heritage|E]이 이란계, 몽골계, 투르크계, 마자르계 또는 우그로-페름계인 경우입니다. 나머지는 [tribal|E]으로 변환합니다."
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage_desc: "대초원의 칸이 일해야 합니다. 대초원의 모든 [filler_rulers|E]를 [nomadic|E]로 변환하려면 해당 [heritage|E]가 $heritage_iranian_name$, $heritage_mongolic_name$, $heritage_turkic_name$, $heritage_magyar_name$ 또는 $heritage_ugro_permian_name$이어야 합니다. 나머지는 [tribal|E]으로 변환합니다."
 
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead: "대초원 유목민\n가축 문화 책임자"
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead_desc: "대초원의 칸이 일해야 합니다. 대초원의 모든 [filler_rulers|E]를 [culture|E]가 [herd|E]를 사용하여 [culture_head|E]를 결정하는 경우 [nomadic|E]로 변환합니다. 나머지는 [tribal|E]로 변환합니다."
+
+ rule_irtock3_gamerule_mandala_rulers: "IRToCK3 - [mandala|E] (All Under Heaven)"
+
+ setting_irtock3_gamerule_mandala_rulers_all: "어디에나"
+ setting_irtock3_gamerule_mandala_rulers_all_desc: "모든 [feudal|E] [rulers|E]는 어디에 있든 [mandala_conditions|E]을 충족하는 한 [mandala|E]가 됩니다."
+
+ setting_irtock3_gamerule_mandala_rulers_sea: "동남아시아"
+ setting_irtock3_gamerule_mandala_rulers_sea_desc: "동남아시아의 [feudal|E] [rulers|E]만이 [mandala|E]가 될 수 있는데, 이는 그들이 [mandala_conditions|E]을 충족하는 경우에 한합니다."
+
+ game_concept_mandala_conditions: "만다라 조건"
+ game_concept_mandala_conditions_desc: "[mandala|E]가 되기 위해서는 [ruler|E]가 $doctrine_polytheist_name$ [doctrine|E]을 가진 [organized|E] [faith|E]을 따라야 하며, 그들의 [culture|E]는 다음 [heritage|E] 중 하나를 가져야 합니다: $heritage_austronesian_name$, $heritage_tai_name$, $heritage_mon_khmer_name$, $heritage_viet_name$, $heritage_indo_aryan_name$, 또는 $heritage_burman_name$."
+

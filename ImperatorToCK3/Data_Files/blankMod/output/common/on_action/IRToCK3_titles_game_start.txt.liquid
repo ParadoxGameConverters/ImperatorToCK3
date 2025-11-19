@@ -13,16 +13,113 @@ on_game_start_after_lobby = {
 
 IRToCK3_game_start_onaction_effects = {
 	effect = {
-		## Sets a global variable that could be checked by other mods that want to consider whether the IMP-CK3 converter was used
-		set_global_variable = irtock3_enabled
+		#################
+		### Variables ###
+		#################
+		## Sets a global variable that could be checked by other mods that want to consider whether the IMP-CK3 converter was used, and the value of the variable indicates what the main mod being used during conversion was. This includes:
+		# flag:tfe (The Fallen Eagle)
+		# flag:roa (Rajas of Asia)
+		# flag:wtwsms (When the World Stopped Making Sense)
+		# flag:aep (Asia Expansion Project)
+		# flag:vanilla (a fallback if none of the above mods were used)
+		{% if tfe %}
+		set_global_variable = {
+			name = irtock3_enabled
+			value = flag:tfe
+		}
+		{% elsif roa %}
+		set_global_variable = {
+			name = irtock3_enabled
+			value = flag:roa
+		}
+		{% elsif wtwsms %}
+		set_global_variable = {
+			name = irtock3_enabled
+			value = flag:wtwsms
+		}
+		{% elsif aep %}
+		set_global_variable = {
+			name = irtock3_enabled
+			value = flag:aep
+		}
+		{% else %}
+		set_global_variable = {
+			name = irtock3_enabled
+			value = flag:vanilla
+		}
+		{% endif %}
 
+		## Some things are setup to not trigger at the game's start date, which isn't setup by the converter. This variable will be used to handle that instead, as it will disappear after a single day, indicating you are no longer on the start date.
+		set_global_variable = {
+			name = irtock3_date_is_start_date
+			value = yes
+			days = 1
+		}
+
+
+		####################
+		### Roman Empire ###
+		####################
 		## Fixes weird naming of the Roman Empire
 		title:e_roman_empire = { set_definitive_form = yes }
 		title:h_roman_empire = { set_definitive_form = yes }
 
-		###################
+
+		##################
+		### Neo-Minoan ###
+		##################
+		# Give Neo-Minoan the culture innovations from Cretan
+		culture:neo_minoan = { get_all_innovations_from = culture:cretan }
+
+		# Make Neo-Minoan culture only appear in provinces where the holder is of Cretan culture and is of kingdom or empire tier.
+		every_ruler = {
+			limit = {
+				highest_held_title_tier >= tier_kingdom
+				culture = culture:cretan
+				any_sub_realm_county = {
+					culture = culture:cretan
+					duchy = title:d_krete
+				}
+			}
+			
+			# Convert the character and his entire realm from Cretan to Neo-Minoan.
+			set_culture = culture:neo_minoan
+			every_realm_county = {
+				limit = { culture = culture:cretan }
+				set_county_culture = culture:neo_minoan
+			}
+
+			every_vassal_or_below = {
+				limit = { culture = culture:cretan }
+				set_culture = culture:neo_minoan
+
+				every_close_or_extended_family_member = {
+					limit = { culture = culture:cretan }
+					set_culture = culture:neo_minoan
+				}
+
+				every_courtier = {
+					limit = { culture = culture:cretan }
+					set_culture = culture:neo_minoan
+				}
+			}
+
+			every_close_or_extended_family_member = {
+				limit = { culture = culture:cretan }
+				set_culture = culture:neo_minoan
+				}
+
+			every_courtier = {
+				limit = { culture = culture:cretan }
+				set_culture = culture:neo_minoan
+			}
+		}
+
+		{% if vanilla or aep or roa %}
+		#################
+		### Indonesia ###
+		#################
 		## Remove Buddhism/Hinduism/Jainism from Indonesia, if relevant
-		###################
 		# Check if Buddhism should be removed
 		if = {
 			limit = {
@@ -244,9 +341,7 @@ IRToCK3_game_start_onaction_effects = {
 			clear_saved_scope = county_check
 		}
 
-		###################
 		## Setup Out-of-Scope Indonesia Holdings
-		###################
 		# Make sure all of the counties only have their capital barony as tribal, all other baronies should have no holding
 		every_county_in_region = {
 			region = converter_AUH_out_of_scope_indonesia
@@ -270,6 +365,7 @@ IRToCK3_game_start_onaction_effects = {
 				}
 			}
 		}
+		{% endif %}
 	}
 }
 

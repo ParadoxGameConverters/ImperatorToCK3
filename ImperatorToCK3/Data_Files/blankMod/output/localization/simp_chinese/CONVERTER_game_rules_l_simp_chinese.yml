@@ -1,5 +1,5 @@
 ﻿l_simp_chinese:
-# Translated using Google Translate, sorry if wrong / 使用谷歌翻译翻译，如有错误敬请谅解。
+# Translated using Google Translate, sorry if wrong / 使用谷歌翻译翻译，如有错误敬请谅解.
  game_rule_category_irtock3: "IRToCK3转换器"
 
  rule_irtock3_gamerule_imperator_nomads: "IRToCK3 - [nomads|E] (Khans of the Steppe)"
@@ -20,7 +20,7 @@
  setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes_desc: "转换器生成的位于草原之外的所有 [nomadic|E] 帝王标签都会被转换为 [tribal|E]，而草原上的任何部落帝王标签都会被强制转换为游牧."
 
 
- rule_irtock3_gameruler_filler_rulers: "IRToCK3 - [filler_rulers|E]"
+ rule_irtock3_gamerule_filler_rulers: "IRToCK3 - [filler_rulers|E]"
  game_concept_filler_rulers: "填充尺"
  game_concept_filler_rulers_desc: "填充统治者是由 IMP-CK3 转换器创建的 [rulers|E]，用于填充 Imperator 中未被殖民的土地. 他们的等级在转换过程中由前端确定为 [counts|E] 或 [dukes|E]."
 
@@ -34,7 +34,18 @@
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_all_desc: "需要《草原可汗》DLC才能运行. 将草原上的所有 [filler_rulers|E] 转换为 [nomadic|E]. 其余的则转换为 [tribal|E]."
 
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage: "草原游牧民族\n     遗产"
- setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage_desc: "需要《草原可汗》DLC才能运行. 将草原上所有[filler_rulers|E]的[heritage|E]（伊朗语系、蒙古语系、突厥语系、马扎尔语系或乌戈尔-二叠纪语系）转换为[nomadic|E]。其余的则转换为[tribal|E]."
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage_desc: "需要《草原可汗》DLC才能运行. 如果草原上的所有 [filler_rulers|E] 的 [heritage|E] 为：$heritage_iranian_name$、$heritage_mongolic_name$、$heritage_turkic_name$、$heritage_magyar_name$ 或 $heritage_ugro_permian_name$，则将其转换为 [nomadic|E]. 其余的则转换为[tribal|E]."
 
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead: "草原游牧民族\n畜群文化负责人"
- setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead_desc: "需要《草原可汗》DLC才能运行. 如果草原上所有 [filler_rulers|E] 的 [culture|E] 通过 [herd|E] 决定其 [culture_head|E]，则将其转换为 [nomadic|E]。其余的则转换为 [tribal|E]."
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead_desc: "需要《草原可汗》DLC才能运行. 如果草原上所有 [filler_rulers|E] 的 [culture|E] 通过 [herd|E] 决定其 [culture_head|E]，则将其转换为 [nomadic|E]. 其余的则转换为 [tribal|E]."
+
+ rule_irtock3_gamerule_mandala_rulers: "IRToCK3 - [mandala|E] (All Under Heaven)"
+
+ setting_irtock3_gamerule_mandala_rulers_all: "到处"
+ setting_irtock3_gamerule_mandala_rulers_all_desc: "每一个 [feudal|E] [ruler|E]，无论身在何处，只要满足 [mandala_conditions|E]，都会成为 [mandala|E]."
+
+ setting_irtock3_gamerule_mandala_rulers_sea: "东南亚"
+ setting_irtock3_gamerule_mandala_rulers_sea_desc: "只有东南亚的 [feudal|E] [rulers|E] 才能成为 [mandala|E]，只要他们满足 [mandala_conditions|E]."
+
+ game_concept_mandala_conditions: "曼陀罗条件"
+ game_concept_mandala_conditions_desc: "为了成为[mandala|E], [ruler|E]必须遵循具有$doctrine_polytheist_name$ [doctrine|E]的[organized|E] [faith|E]，并且他们的[culture|E]必须具有以下[heritage|E]之一：$heritage_austronesian_name$、$heritage_tai_name$、$heritage_mon_khmer_name$、$heritage_viet_name$、$heritage_indo_aryan_name$或$heritage_burman_name$。"

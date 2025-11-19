@@ -1,3 +1,7 @@
 ﻿filler_rulers = {
 	parent = ruler
 }
+
+mandala_conditions = {
+	parent = mandala
+}

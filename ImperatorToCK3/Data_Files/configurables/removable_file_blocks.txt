@@ -17635,3 +17635,20 @@ apply_historic_administrative_game_rule_effect = {
 		copy_title_history = title:e_byzantium
 	}
 }
+
+
+"common/situation/situations/tgp_dynastic_cycle.txt" = {
+	# With a converted save, the introduction event for the Dynastic Cycle will be handled through the game start event switching Eras. So don't want this spamming too many events.
+	{
+		every_situation_participant = {
+			if = {
+				limit = { is_ai = no }
+				trigger_event = tgp_dynastic_cycle.0051 # Introduction to the dynastic cycle
+				if = {
+					limit = { is_player_tutorial_character = no }
+					trigger_event = tgp_china_career.0001 # Introduction to your starting situation
+				}
+			}
+		}
+	}
+}

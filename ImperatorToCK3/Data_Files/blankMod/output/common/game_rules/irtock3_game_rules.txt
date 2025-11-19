@@ -1,6 +1,6 @@
 ﻿irtock3_gamerule_imperator_nomads = {
 	categories = {
-		titles irtock3 ai
+		titles irtock3
 	}
 	
 	default = irtock3_gamerule_nomads_only_steppe
@@ -12,7 +12,7 @@
 	irtock3_gamerule_nomads_none_outside_force_steppe_tribes = {}
 }
 
-irtock3_gameruler_filler_rulers = {
+irtock3_gamerule_filler_rulers = {
 	categories = {
 		titles irtock3 ai
 	}
@@ -24,4 +24,15 @@ irtock3_gameruler_filler_rulers = {
 	irtock3_gamerule_filler_rulers_steppe_nomads_all = {}
 	irtock3_gamerule_filler_rulers_steppe_nomads_heritage = {}
 	irtock3_gamerule_filler_rulers_steppe_nomads_herdhead = {}
+}
+
+irtock3_gamerule_mandala_rulers = {
+	categories = {
+		titles irtock3
+	}
+	
+	default = irtock3_gamerule_mandala_rulers_sea
+
+	irtock3_gamerule_mandala_rulers_all = {}
+	irtock3_gamerule_mandala_rulers_sea = {}
 }

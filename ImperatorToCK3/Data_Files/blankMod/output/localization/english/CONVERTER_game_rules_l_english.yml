@@ -19,7 +19,7 @@
  setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes_desc: "All Imperator tags made [nomadic|E] by the converter that are outside the Steppe are made [tribal|E], and any Tribal Imperator tags in the Steppe are forced to be Nomadic."
 
 
- rule_irtock3_gameruler_filler_rulers: "IRToCK3 - [filler_rulers|E]"
+ rule_irtock3_gamerule_filler_rulers: "IRToCK3 - [filler_rulers|E]"
  game_concept_filler_rulers: "Filler Rulers"
  game_concept_filler_rulers_desc: "Filler rulers are [rulers|E] created by the IMP-CK3 converter to fill in the uncolonized land from Imperator. Their rank was determined in the Frontend during conversion to be either [counts|E] or [dukes|E]."
 
@@ -33,7 +33,18 @@
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_all_desc: "Requires Khans of the Steppe to work. Converts all [filler_rulers|E] in the Steppe to be [nomadic|E]. The rest are made [tribal|E]."
 
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage: "Steppe Nomads\n     Heritage"
- setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage_desc: "Requires Khans of the Steppe to work. Converts all [filler_rulers|E] in the Steppe to be [nomadic|E] if their [heritage|E] is: Iranian, Mongolic, Turkic, Magyar, or Ugro-Permian. The rest are made [tribal|E]."
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage_desc: "Requires Khans of the Steppe to work. Converts all [filler_rulers|E] in the Steppe to be [nomadic|E] if their [heritage|E] is: $heritage_iranian_name$, $heritage_mongolic_name$, $heritage_turkic_name$, $heritage_magyar_name$, or $heritage_ugro_permian_name$. The rest are made [tribal|E]."
 
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead: "Steppe Nomads\nHerd Culture Head"
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead_desc: "Requires Khans of the Steppe to work. Converts all [filler_rulers|E] in the Steppe to be [nomadic|E] if their [culture|E] determines its [culture_head|E] using [herd|E]. The rest are made [tribal|E]."
+
+ rule_irtock3_gamerule_mandala_rulers: "IRToCK3 - [mandala|E] (All Under Heaven)"
+
+ setting_irtock3_gamerule_mandala_rulers_all: "Everywhere"
+ setting_irtock3_gamerule_mandala_rulers_all_desc: "Every [feudal|E] [ruler|E], regardless of where they are, will become [mandala|E], as long as they meet the [mandala_conditions|E]."
+
+ setting_irtock3_gamerule_mandala_rulers_sea: "South East Asia"
+ setting_irtock3_gamerule_mandala_rulers_sea_desc: "Only [feudal|E] [rulers|E] in South East Asia will become [mandala|E], as long as they meet the [mandala_conditions|E]."
+
+ game_concept_mandala_conditions: "Mandala Conditions"
+ game_concept_mandala_conditions_desc: "In order to become [mandala|E], a [ruler|E] must follow an [organized|E] [faith|E] with the $doctrine_polytheist_name$ [doctrine|E], and their [culture|E] must have one of the following [heritage|E]: $heritage_austronesian_name$, $heritage_tai_name$, $heritage_mon_khmer_name$, $heritage_viet_name$, $heritage_indo_aryan_name$, or $heritage_burman_name$."

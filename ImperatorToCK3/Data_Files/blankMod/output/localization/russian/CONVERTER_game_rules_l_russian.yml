@@ -20,7 +20,7 @@
  setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes_desc: "Bce теги Императора, сделанные конвертером как [nomadic|E] и находящиеся за пределами Степи, делаются [tribal|E], a все теги Племенного Императора в Степи принудительно становятся Кочевыми."
 
 
- rule_irtock3_gameruler_filler_rulers: "IRToCK3 - [filler_rulers|E]"
+ rule_irtock3_gamerule_filler_rulers: "IRToCK3 - [filler_rulers|E]"
  game_concept_filler_rulers: "Линейки для наполнителей"
  game_concept_filler_rulers_desc: "Правители-заполнители — это [rulers|E], созданные конвертером IMP-CK3 для заполнения неколонизированных земель из Imperator. Их ранг определялся во фронтенде во время конвертации как [counts|E] или [dukes|E]."
 
@@ -34,7 +34,18 @@
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_all_desc: "Требуются ханы степи для работы. Преобразует всех [filler_rulers|E] в степи в [nomadic|E]. Остальные становятся [tribal|E]."
 
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage: "Степные кочевники\n     Наследство"
- setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage_desc: "Требуются ханы степи для работы. Переводит всех [filler_rulers|E] в степи в [nomadic|E], если их [heritage|E]: иранское, монгольское, тюркское, мадьярское или yгpo-пермское. Остальные становятся [tribal|E]."
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage_desc: "Требуются ханы степи для работы. Преобразует всех [filler_rulers|E] в степи в [nomadic|E], если их [heritage|E] равно: $heritage_iranian_name$, $heritage_mongolic_name$, $heritage_turkic_name$, $heritage_magyar_name$ или $heritage_ugro_permian_name$. Остальные становятся [tribal|E]."
 
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead: "Степные кочевники\nPyкoвoдитeль отдела культуры стада"
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead_desc: "Требуются ханы степи для работы. Преобразует всех [filler_rulers|E] в степи в [nomadic|E], если их [culture|E] определяет [culture_head|E] c помощью [herd|E]. Остальные становятся [tribal|E]."
+
+ rule_irtock3_gamerule_mandala_rulers: "IRToCK3 - [mandala|E] (All Under Heaven)"
+
+ setting_irtock3_gamerule_mandala_rulers_all: "Повсюду"
+ setting_irtock3_gamerule_mandala_rulers_all_desc: "Каждый [feudal|E] [rulers|E], независимо от того, где он находится, станет [mandala|E], если он соответствует [mandala_conditions|E]."
+
+ setting_irtock3_gamerule_mandala_rulers_sea: "Юго-Восточная Азия"
+ setting_irtock3_gamerule_mandala_rulers_sea_desc: "Только [feudal|E] [rulers|E] в Юго-Восточной Азии станут [mandala|E], если они будут соответствовать [mandala_conditions|E]."
+
+ game_concept_mandala_conditions: "Условия мандалы"
+ game_concept_mandala_conditions_desc: "Чтобы стать [mandala|E], [ruler|E] должен следовать [organized|E] [faith|E] c $doctrine_polytheist_name$ [doctrine|E], a eгo [culture|E] должна иметь одно из следующих [heritage|E]: $heritage_austronesian_name$, $heritage_tai_name$, $heritage_mon_khmer_name$, $heritage_viet_name$, $heritage_indo_aryan_name$ или $heritage_burman_name$."

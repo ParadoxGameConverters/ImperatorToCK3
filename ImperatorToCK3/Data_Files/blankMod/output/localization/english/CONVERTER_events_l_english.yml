@@ -4,7 +4,7 @@
  welcome_back: "Back"
 
  welcome_title: "IMP-CK3 Welcome"
- welcome_desc: "Thank you for using the Imperator to CK3 converter. If you haven't done so already, make sure you look through your game rules.\n\nThe converter currently includes game rules for:\n - Deciding which Imperator tags can be [nomadic|E]\n - Deciding how the [filler_rulers|E] should have their [government|E] decided"
+ welcome_desc: "Thank you for using the Imperator to CK3 converter. If you haven't done so already, make sure you look through your game rules.\n\nThe converter currently includes game rules for:\n - Deciding which Imperator tags can be [nomadic|E]\n - Deciding how the [filler_rulers|E] should have their [government|E] decided\n - Deciding where the [mandala|E] [government|E] should be set up"
  welcome_mods: "IMP-CK3 Intended Mods"
  
  welcome_mods_title: "IMP-CK3 Mods"
