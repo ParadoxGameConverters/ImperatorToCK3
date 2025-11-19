@@ -51,3 +51,6 @@ heritage_micronesian = e_micronesia # Out of scope, but should make sure that th
 heritage_burmese = e_burma
 heritage_sayan_altaic = e_sayan
 heritage_tatar = e_mongolia # Rajas of Asia moves quite a few Mongolic cultures to this new heritage, including Mongol itself, so I think this makes sense ~~tanner918
+
+# Terra-Indomita to vanilla CK3
+heritage_chinese = none # China is a hegemony level title (h_china), so we can't use it. Setting to none will prevent a new empire from being created.

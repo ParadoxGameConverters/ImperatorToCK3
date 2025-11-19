@@ -94,6 +94,10 @@ internal static class BookmarkOutputter {
 				}
 			}
 		}
+		var subheadingLoc = ck3LocDB.GetOrCreateLocBlock($"bm_converted_{holder.Id}_subheading");
+		foreach (var language in ConverterGlobals.SupportedLanguages) {
+			subheadingLoc[language] = "$BOOKMARK_SUBHEADING_DEFAULT$";
+		}
 		var holderDescLoc = ck3LocDB.GetOrCreateLocBlock($"bm_converted_{holder.Id}_desc");
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			holderDescLoc[language] = string.Empty;

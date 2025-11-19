@@ -361,8 +361,12 @@ internal sealed class World {
 
 		// Gold needs to be distributed after characters' successors are generated.
 		Characters.DistributeCountriesGold(LandedTitles, config);
-		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, LocDB, config);
+		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, impWorld.Countries, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, LocDB, config);
 
+		// For titles linked to I:R countries with chinese_empire government, ensure the character variables
+		// needed for Dynastic Cycle script are calculated and stores as character variables.
+		Characters.CalculateChineseDynasticCycleVariables(LandedTitles, impWorld.EndDate, config.CK3BookmarkDate);
+		
 		// After the purging of unneeded characters, we should clean up the title history.
 		LandedTitles.CleanUpHistory(Characters, config.CK3BookmarkDate);
 
@@ -498,6 +502,8 @@ internal sealed class World {
 			mappingsToUse = "terra_indomita_to_aep";
 		} else if (irHasTI) {
 			mappingsToUse = "terra_indomita_to_vanilla_ck3";
+		} else if (irWorld is {InvictusDetected: true, Invictus1_7Detected: true}) {
+			mappingsToUse = "invictus_1_7_to_vanilla_ck3";
 		} else if (irWorld.InvictusDetected) {
 			mappingsToUse = "invictus_to_vanilla_ck3";
 		} else {
