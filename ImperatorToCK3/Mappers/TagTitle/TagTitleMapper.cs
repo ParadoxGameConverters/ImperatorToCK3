@@ -178,6 +178,7 @@ internal sealed class TagTitleMapper {
 	private void LoadRankMappings(string rankMappingsPath) {
 		Logger.Info("Parsing country rank mappings...");
 		var parser = new Parser();
+		parser.RegisterKeyword("hegemony_keywords", reader => hegemonyKeywords.AddRange(reader.GetStrings()));
 		parser.RegisterKeyword("empire_keywords", reader => empireKeywords.AddRange(reader.GetStrings()));
 		parser.RegisterKeyword("kingdom_keywords", reader => kingdomKeywords.AddRange(reader.GetStrings()));
 		parser.RegisterKeyword("duchy_keywords", reader => duchyKeywords.AddRange(reader.GetStrings()));
@@ -192,6 +193,9 @@ internal sealed class TagTitleMapper {
 		// Split the name into words.
 		var words = localizedTitleName.Split(' ');
 
+		if (hegemonyKeywords.Any(kw => words.Contains(kw, StringComparer.OrdinalIgnoreCase))) {
+			return TitleRank.hegemony;
+		}
 		if (empireKeywords.Any(kw => words.Contains(kw, StringComparer.OrdinalIgnoreCase))) {
 			return TitleRank.empire;
 		}
@@ -287,6 +291,7 @@ internal sealed class TagTitleMapper {
 	private readonly Dictionary<string, string> registeredGovernorshipTitles = new(); // We store already mapped governorships here.
 	private readonly SortedSet<string> usedTitles = new();
 
+	private readonly HashSet<string> hegemonyKeywords = [];
 	private readonly HashSet<string> empireKeywords = ["empire"];
 	private readonly HashSet<string> kingdomKeywords = ["kingdom"];
 	private readonly HashSet<string> duchyKeywords = ["duchy"];
