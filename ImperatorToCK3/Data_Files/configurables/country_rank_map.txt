@@ -1,10 +1,11 @@
-# Some words specific to empires, kingdoms and duchies override the mappings based on rank.
+# Some words specific to hegemonies, empires, kingdoms and duchies found in country names can override the rank-based mappings.
+hegemony_keywords = { }
 empire_keywords = { "empire" "imperium" }
 kingdom_keywords = { "kingdom" "regnum" }
 duchy_keywords = { "duchy" "principality" "dukedom" "ducatus" }
 
 # Every Imperator country rank should be mapped to CK3 title rank.
-# d - duchy, k - kingdom, e - empire
+# d - duchy, k - kingdom, e - empire, h - hegemony
 # Mapping to county and barony level is not supported.
 
 # A mapping can contain an optional required_territories field.
