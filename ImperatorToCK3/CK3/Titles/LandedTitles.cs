@@ -443,7 +443,7 @@ internal sealed partial class Title {
 
 			// Remove liege entries of the same rank as the title they're in.
 			// For example, TFE had more or less this: d_kordofan = { liege = d_kordofan }
-			var validRankChars = new HashSet<char> { 'e', 'k', 'd', 'c', 'b'};
+			var validRankChars = new HashSet<char> { 'h', 'e', 'k', 'd', 'c', 'b'};
 			Parallel.ForEach(this, title => {
 				if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
 					return;
