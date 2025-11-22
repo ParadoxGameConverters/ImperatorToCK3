@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Localization;
@@ -443,7 +443,7 @@ internal sealed partial class Title {
 
 			// Remove liege entries of the same rank as the title they're in.
 			// For example, TFE had more or less this: d_kordofan = { liege = d_kordofan }
-			var validRankChars = new HashSet<char> { 'e', 'k', 'd', 'c', 'b'};
+			var validRankChars = new HashSet<char> { 'h', 'e', 'k', 'd', 'c', 'b'};
 			Parallel.ForEach(this, title => {
 				if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
 					return;
@@ -818,7 +818,6 @@ internal sealed partial class Title {
 				.ToArray();
 			
 			var nonCapitalBaronies = eligibleBaronies.Except(countyCapitalBaronies).OrderBy(b => b.Id).ToArray();
-			
 
 			// In CK3, a county holder shouldn't own baronies in counties that are not their own.
 			// This dictionary tracks what counties are held by what characters.

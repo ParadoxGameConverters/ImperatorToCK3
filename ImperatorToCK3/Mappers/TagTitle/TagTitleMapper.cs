@@ -62,7 +62,7 @@ internal sealed class TagTitleMapper {
 		return generatedTitleId;
 	}
 	public string? GetTitleForTag(Country country, CK3LocDB ck3LocDB) {
-		return GetTitleForTag(country, localizedTitleName: string.Empty, maxTitleRank: TitleRank.empire, ck3LocDB);
+		return GetTitleForTag(country, localizedTitleName: string.Empty, maxTitleRank: TitleRank.hegemony, ck3LocDB);
 	}
 
 	public string? GetTitleForSubject(Country subject, string localizedTitleName, Country overlord, CK3LocDB ck3LocDB) {
