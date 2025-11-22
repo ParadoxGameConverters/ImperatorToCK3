@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Localization;
@@ -818,7 +818,6 @@ internal sealed partial class Title {
 				.ToArray();
 			
 			var nonCapitalBaronies = eligibleBaronies.Except(countyCapitalBaronies).OrderBy(b => b.Id).ToArray();
-			
 
 			// In CK3, a county holder shouldn't own baronies in counties that are not their own.
 			// This dictionary tracks what counties are held by what characters.
