@@ -482,7 +482,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			var overlord = imperatorCountries[dependency.OverlordId];
 			titleId = tagTitleMapper.GetTitleForSubject(irCountry, validatedEnglishName ?? string.Empty, overlord, ck3LocDB);
 		} else if (validatedEnglishName is not null) {
-			titleId = tagTitleMapper.GetTitleForTag(irCountry, validatedEnglishName, maxTitleRank: TitleRank.empire, ck3LocDB);
+			titleId = tagTitleMapper.GetTitleForTag(irCountry, validatedEnglishName, maxTitleRank: TitleRank.hegemony, ck3LocDB);
 		} else {
 			titleId = tagTitleMapper.GetTitleForTag(irCountry, ck3LocDB);
 		}
