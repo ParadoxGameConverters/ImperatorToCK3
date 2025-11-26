@@ -932,3 +932,219 @@ irtock3_setup_governments = {
 	recalculate_cultural_heads_of_type = herd
 	recalculate_cultural_heads_of_type = domain
 }
+
+
+## This handles the effects of split_roman_empire_decision. Because of the amount of changes being made, it is easier to rewrite the effect block as a scripted_effect
+irtock3_split_roman_empire_effect = {
+	## Determine whether the character that took the decision will get the ERE or WRE
+	if = {
+		limit = {
+			OR = {
+				capital_county = title:c_byzantion # Their capital is Byzantion
+				capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire } # OR, at least in the ERE region (fallback in case they somehow were able to take this decision without having the proper capital)
+			}
+		}
+		# They get ERE
+		save_scope_as = new_ERE_ruler
+	}
+	else = {
+		# Otherwise, they get WRE
+		save_scope_as = new_WRE_ruler
+	}
+
+	## Determine which character should be given the other half of the Empire
+	if = {
+		limit = {
+			has_active_diarchy = yes
+			has_diarchy_type = co_emperorship
+		}
+		diarch = { save_scope_as = new_holder }
+	}
+	else_if = { # IRToCK3: The base game has this as an if statement, which will cause any "new_holder" assignment made in the above block to get overwritten. This should fix that issue.
+		# This checks if there is a valid powerful family house head
+		limit = {
+			any_powerful_family = {
+				count >= 1
+				this != root.house
+				exists = house_head
+			}
+		}
+
+		ordered_powerful_family = {
+			limit = { # The main limit tries to choose a valid house head that is landed in the relevant region
+				this != root.house
+				house_head ?= {
+					is_landed = yes
+					trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+						limit = { exists = scope:new_WRE_ruler }
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+					trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+						NOT = { 
+							capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+						}
+					}
+				}
+			}
+			alternative_limit = { # If the above limit finds no one, this alternative limit checks if there is a valid unlanded house head, to prevent border gore
+				this != root.house
+				house_head ?= { is_landed = no }
+			}
+			order_by = house_power_score
+			house_head = { save_scope_as = new_holder }
+		}
+	}
+	else_if = {
+		# IRToCK3: This just makes sure there is a valid powerful vassal in the relevant region, to prevent someone nowhere near the area from becoming the Emperor, prioritizing those with the same government
+		limit = {
+			any_powerful_vassal = {
+				count >= 1
+				is_landed = yes
+				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+					limit = { exists = scope:new_WRE_ruler }
+					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+					NOT = { 
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+			}
+		}
+
+		ordered_powerful_vassal = {
+			limit = {
+				is_landed = yes
+				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+					limit = { exists = scope:new_WRE_ruler }
+					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+					NOT = { 
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+				has_same_government = root
+			}
+			alternative_limit = {
+				is_landed = yes
+				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+					limit = { exists = scope:new_WRE_ruler }
+					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+					NOT = { 
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+			}
+			order_by = max_military_strength
+			save_scope_as = new_holder
+		}
+	}
+	else_if = {
+		# IRToCK3: Added this check on the off chance none of the powerful vassals are in the region, so it checks if ANY vassal is in the region, prioritizing those with the same government
+		limit = {
+			any_vassal = {
+				count >= 1
+				is_landed = yes
+				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+					limit = { exists = scope:new_WRE_ruler }
+					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+					NOT = { 
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+			}
+		}
+
+		ordered_vassal = {
+			limit = {
+				is_landed = yes
+				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+					limit = { exists = scope:new_WRE_ruler }
+					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+					NOT = { 
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+				has_same_government = root
+			}
+			alternative_limit = {
+				is_landed = yes
+				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+					limit = { exists = scope:new_WRE_ruler }
+					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+					NOT = { 
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+			}
+			order_by = max_military_strength
+			save_scope_as = new_holder
+		}
+	}
+	else = {
+		# IRToCK3: Finally, if all else fails, give it to a courtier, favoring those with higher skill
+		random_courtier = {
+			weight = {
+				base = sum_of_all_skills_value
+				modifier = {
+					is_lowborn = no
+					add = 5
+				}
+				modifier = {
+					faith = root.faith
+					add = 10
+				}
+				modifier = {
+					culture = root.culture
+					add = 5
+				}
+			}
+			save_scope_as = new_holder
+		}
+	}
+
+	## Remaining effects to split and hand out the Empire
+	# At this point, the character that took the decision will be saved in either the new_ERE_ruler or new_WRE_ruler scope, depending on which half of the Empire they are getting, and the other ruler is saved in the new_holder scope
+	custom_tooltip = {
+		text = form_eastern_roman_empire_tt
+		create_eastern_roman_empire_scripted_effect = yes
+	}
+
+	# Add truce with new Emperor
+	add_truce_both_ways = {
+		character = scope:new_holder
+		years = 10
+		name = TRUCE_COLLABORATION
+	}
+
+	# Some additional bonuses
+	change_influence = {
+		value = monumental_influence_gain
+		multiply = 2
+	}
+
+	if = {
+		limit = {
+			any_owned_story = { 
+				type = ep3_story_cycle_restoring_rome 
+				has_variable = roman_empire_hard_mode
+			}
+		}
+		custom_tooltip = {
+			text = ending_of_restore_rome_trials_tt
+			random_owned_story = {
+				limit = { story_type = ep3_story_cycle_restoring_rome }
+				remove_variable = roman_empire_hard_mode
+			}
+		}
+	}
+}

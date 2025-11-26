@@ -4,4 +4,5 @@
  thrace_has_no_holder: "[GetTitleByKey('d_thrace').GetName] has no [holder|E]"
  top_liege_of_thrace_holder: "You are the [top_liege|E] of [GetTitleByKey('d_thrace').GetName]"
  owns_constantinople_tt: "You own the [GetTitleByKey('c_byzantion').GetName]"
- irtock3_only_roman_emperor: "Hold both [GetTitleByKey('h_eastern_roman_empire').GetNameNoTier] and [GetTitleByKey('h_western_roman_empire').GetNameNoTier], or hold one with no one holding the other."
+ irtock3_only_roman_emperor: "You are the only ruler holding any of the following titles: [GetTitleByKey('h_eastern_roman_empire').GetNameNoTier], [GetTitleByKey('h_western_roman_empire').GetNameNoTier], [GetTitleByKey('e_western_roman_empire').GetNameNoTier], or [GetTitleByKey('e_byzantium').GetNameNoTier]"
+ not_wre_emperor: "You are not the Western Roman Emperor"

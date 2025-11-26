@@ -1,0 +1,200 @@
+﻿############################
+### Head of Faith Titles ###
+############################
+d_cult_of_humban = { # from the Bronze Age Reborn mod
+	landless = yes
+	color = { 188 199 108 }
+	definite_form = yes
+	ruler_uses_title_name = no
+	can_use_nomadic_naming = no
+
+	no_automatic_claims = yes
+	always_follows_primary_heir = yes
+	destroy_if_invalid_heir = yes
+
+	capital = c_arrajan # IRToCK3: adjusted for vanilla CK3 map
+}
+
+###########################
+### Roman Empire Titles ###
+###########################
+h_western_roman_empire = {
+	color = hsv { 0 0.91 0.55 }
+
+	capital = c_roma # Rome
+	definite_form = yes
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						AND = {
+							any_parent_culture_or_above = { this = culture:roman }
+							has_cultural_pillar = heritage_latin
+						}
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = {
+		rule_title_creation_imperial_power_projection_title_creation_trigger = yes
+	}
+}
+
+e_western_roman_empire = {
+	color = hsv { 0 0.91 0.55 }
+
+	capital = c_roma # Rome
+	definite_form = yes
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						AND = {
+							any_parent_culture_or_above = { this = culture:roman }
+							has_cultural_pillar = heritage_latin
+						}
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = {
+		rule_title_creation_imperial_power_projection_title_creation_trigger = yes
+	}
+}
+
+e_roman_empire = {
+	color = { 167 10 0 }
+
+	capital = c_roma # Rome
+	definite_form = yes
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						AND = {
+							any_parent_culture_or_above = { this = culture:roman }
+							has_cultural_pillar = heritage_latin
+						}
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = {
+		rule_title_creation_imperial_power_projection_title_creation_trigger = yes
+	}
+}
+
+k_rome = {
+	color = { 167 10 0 }
+
+	capital = c_roma # Rome
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						AND = {
+							any_parent_culture_or_above = { this = culture:roman }
+							has_cultural_pillar = heritage_latin
+						}
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+}
+
+d_rome = {
+	color = { 167 10 0 }
+
+	capital = c_roma # Rome
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						AND = {
+							any_parent_culture_or_above = { this = culture:roman }
+							has_cultural_pillar = heritage_latin
+						}
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+}
+
+####################
+### Other Titles ###
+####################
+# Hegemony title representing Alexander the Great's reformed Hellenistic Empire
+h_hellenistic_empire = {
+	color = { 34 108 210 }
+
+	capital = c_thessalonika
+	definite_form = yes
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = { has_cultural_pillar = heritage_byzantine }
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+}
+
+# Empire title to use for the Byzantine/Hellenistic Heritage Empire, to ensure it doesn't have the same name as h_hellenistic_empire
+e_greek_heritage_empire = {
+	color = { 167 152 229 }
+
+	capital = c_attica # Athens
+	definite_form = yes
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = { has_cultural_pillar = heritage_byzantine }
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+}

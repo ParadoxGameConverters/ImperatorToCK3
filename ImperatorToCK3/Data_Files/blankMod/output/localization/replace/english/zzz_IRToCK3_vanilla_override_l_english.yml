@@ -43,6 +43,7 @@
  assyrian_collective_noun: "Assyrians"
  assyrian_prefix: "Assyro"
 
+ # Base game greek culture now being used to represent Romanized-Greeks, so it needs to be renamed
  greek: "Romaios"
  greek_collective_noun: "Romaioi"
  greek_prefix: "Romaio"
@@ -50,7 +51,10 @@
  # recreate_byzantine_empire_decision overrides to allow Romans to take the decision too
  is_greek_tt: "You are $greek$ or $roman$"
  is_greek_descendent_tt: "Your [culture|E] descends from $greek$ or $roman$"
- no_byz_emp_exists_tt: "No [ruler|E] holds [GetTitleByKey('e_byzantium').GetNameNoTier] or [GetTitleByKey('e_roman_empire').GetNameNoTier]"
+ no_byz_emp_exists_tt: "No [ruler|E] holds [GetTitleByKey('h_roman_empire').GetNameNoTier], [GetTitleByKey('h_eastern_roman_empire').GetNameNoTier] or [GetTitleByKey('e_byzantium').GetNameNoTier]"
+
+ # split_roman_empire_decision overrides since the title you get now depends on where you capital is
+ form_eastern_roman_empire_tt: "[GetTitleByKey('h_roman_empire').GetNameNoTier] is split between you and [new_holder.GetName]\n$EFFECT_LIST_BULLET$If your [realm_capital|E] is [GetTitleByKey('c_roma').GetBaseNameNoTier], you get [GetTitleByKey('h_western_roman_empire').GetNameNoTier], while if it is [GetTitleByKey('c_byzantion').GetBaseNameNoTier], you get [GetTitleByKey('h_eastern_roman_empire').GetNameNoTier]\n$EFFECT_LIST_BULLET$[new_holder.GetName] gets the other [title|E]"
 
  # refound_pandidakterion_decision overrides to account for the fact that the Pandidakterion was never actually founded in the game's timeline, so this would be its founding
  refound_pandidakterion_decision: "Found the Pandidakterion"
@@ -59,6 +63,7 @@
 
  # Fixes weird naming for Roman Empire
  e_roman_empire: "Roman Empire"
+ h_roman_empire: "Roman Empire"
 
  # Makes naming of Saxons/Old Saxons a little more immersive
  saxon: "Saxonian"
@@ -66,6 +71,7 @@
  old_saxon: "Saxon"
  old_saxon_collective_noun: "Saxons"
 
+ # Overwriting Restore Papacy localization to represent situation where Papal States never existed yet
  restore_papacy_decision_title_set: "Set the Papacy"
  restore_papacy_decision_title_restore: "Restore the Papacy"
 
@@ -101,6 +107,7 @@
  heritage_albanian_name: "Illyrian"
  heritage_albanian_collective_noun: "Illyrians"
 
+ # Had to modify the Form Hindustan decision to account for situation where the base game empires/kingdoms aren't properly setup
  converter_custom_hindustan_region: "Hindustan Core"
  hindustan_control_3_kingdoms: "Hold at least 3 [kingdoms|E] with 80% of its land in [GetGeographicalRegion('world_india_rajastan').GetName]"
  hindustan_control_rajastan: "Control at least 80% of [GetGeographicalRegion('world_india_rajastan').GetName]"

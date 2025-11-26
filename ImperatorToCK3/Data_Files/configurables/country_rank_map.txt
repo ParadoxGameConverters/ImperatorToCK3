@@ -21,4 +21,5 @@ link = { ir=local_power ck3=k }
 link = { ir=regional_power ck3=k }
 link = { ir=major_power required_territories=300 ck3=e }
 link = { ir=major_power ck3=k }
+link = { ir=great_power required_territories=800 ck3=h }
 link = { ir=great_power ck3=e }

@@ -1,0 +1,278 @@
+﻿## Needed to overwrite this scripted_effect because of how much it is going to be changed.
+# Relevant info:
+# scope:new_ERE_ruler - References the character that took the decision to split the Empire, if they are getting the ERE
+# scope:new_WRE_ruler - References the character that took the decision to split the Empire, if they are getting the WRE
+# scope:new_holder - References the other character that is getting the other half of the Empire
+create_eastern_roman_empire_scripted_effect = {
+	## Handle the new liege
+	scope:new_holder = {
+		add_trait = augustus
+
+		# Ensure they get the relevant Rome/Byzantion county
+		create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		if = {
+			limit = {
+				exists = scope:new_WRE_ruler
+				scope:new_holder != title:c_byzantion.holder
+			}
+			title:c_byzantion = {
+				change_title_holder = {
+					holder = scope:new_holder
+					change = scope:change
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:new_ERE_ruler
+				scope:new_holder != title:c_roma.holder
+			}
+			title:c_roma = {
+				change_title_holder = {
+					holder = scope:new_holder
+					change = scope:change
+				}
+			}
+		}
+
+		# They get every held county from current root in the relevant region
+		root = { 
+			every_held_title = {
+				limit = {
+					tier = tier_county
+					is_landless_type_title = no
+					trigger_if = {
+						limit = { exists = scope:new_WRE_ruler }
+						title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+					trigger_else = {
+						NOT = {
+							title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+						}
+					}
+				}
+				change_title_holder = {
+					holder = scope:new_holder
+					change = scope:change
+				}
+			}
+		}
+		resolve_title_and_vassal_change = scope:change # Resolve the 'granted' title change
+
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+
+		# Give them the relevant ERE/WRE titles
+		if = {
+			limit = { exists = scope:new_WRE_ruler }
+			title:h_eastern_roman_empire = {
+				change_title_holder = {
+					holder = scope:new_holder
+					change = scope:change
+				}
+			}
+			title:h_western_roman_empire = {
+				change_title_holder = {
+					holder = scope:new_WRE_ruler
+					change = scope:change
+				}
+			}
+		}
+		else = {
+			title:h_western_roman_empire = {
+				change_title_holder = {
+					holder = scope:new_holder
+					change = scope:change
+				}
+			}
+			title:h_eastern_roman_empire = {
+				change_title_holder = {
+					holder = scope:new_ERE_ruler
+					change = scope:change
+				}
+			}
+		}
+
+		resolve_title_and_vassal_change = scope:change # Resolve first 'created' title change
+
+		# Setup their primary title and capital
+		if = {
+			limit = { exists = scope:new_WRE_ruler }
+			set_primary_title_to = title:h_eastern_roman_empire
+			set_realm_capital = title:c_byzantion
+			root = { set_primary_title_to = title:h_western_roman_empire }
+		}
+		else = {
+			set_primary_title_to = title:h_western_roman_empire
+			set_realm_capital = title:c_roma
+			root = { set_primary_title_to = title:h_eastern_roman_empire }
+		}
+	}
+	
+	## Transfer over relevant vassals to new liege
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	# Then all the direct vassals who should move over
+	every_vassal = {
+		limit = {
+			highest_held_title_tier >= tier_county
+			trigger_if = {
+				limit = { exists = scope:new_WRE_ruler }
+				capital_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+			}
+			trigger_else = {
+				NOT = {
+					capital_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+			}
+		}
+		change_liege = {
+			liege = scope:new_holder
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change # Resolve second 'created' title (vassal) change
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	# Then vassals who are not directly in line
+	every_vassal_or_below = {
+		limit = {
+			highest_held_title_tier >= tier_county
+			trigger_if = {
+				limit = { exists = scope:new_WRE_ruler }
+				capital_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+			}
+			trigger_else = {
+				NOT = {
+					capital_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+			}
+		}
+		change_liege = {
+			liege = scope:new_holder
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change # Resolve third 'created' title (vassal) change
+
+	## De Jure Setup
+	# Change the de_jure for empires that are de jure part of the Roman Empire, but who has mostly broken free
+	every_empire = {
+		limit = {
+			hegemony ?= title:h_roman_empire
+			any_de_jure_county = {
+				percent >= 0.51
+				title_province = {
+					geographical_region = custom_ep3_restore_rome_eastern_empire
+				}
+			}
+		}
+		set_de_jure_liege_title = title:h_eastern_roman_empire
+	}
+
+	create_title_and_vassal_change = {
+		type = granted
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	# Then every title that aren't county title held by root, but they have a majority of the titles under their rule
+	every_held_title = {
+		limit = {
+			NOR = { 
+				tier = tier_county 
+				tier = tier_hegemony
+				this = root.primary_title
+			}
+			is_landless_type_title = no
+			any_de_jure_county = {
+				percent >= 0.51
+				trigger_if = {
+					limit = { exists = scope:new_WRE_ruler }
+					title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = {
+					NOT = {
+						title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+			}
+		}
+		change_title_holder = {
+			holder = scope:new_holder
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change # Resolve second 'granted' title change
+	
+	every_empire = {
+		limit = {
+			OR = {
+				any_de_jure_county = {
+					percent >= 0.75
+					holder = {
+						OR = {
+							this = scope:new_holder
+							any_liege_or_above = { this = scope:new_holder }
+						}
+					}
+				}
+				AND = {
+					de_jure_liege = title:h_eastern_roman_empire
+					any_de_jure_county = {
+						percent >= 0.51
+						holder = {
+							OR = {
+								this = scope:new_holder
+								any_liege_or_above = { this = scope:new_holder }
+							}
+						}
+					}
+				}
+			}
+		}
+		set_de_jure_liege_title = title:h_eastern_roman_empire
+	}
+
+	# Set remaining empires to be under WRE
+	title:h_roman_empire = {
+		every_in_de_jure_hierarchy = {
+			limit = { tier = tier_empire }
+			set_de_jure_liege_title = title:h_western_roman_empire
+		}
+	}
+
+	destroy_title = title:h_roman_empire
+
+	## Handle Domiciles/Governments
+	# Move their domiciles, if necessary
+	if = { 
+		limit = {
+			exists = domicile
+			NOT = { domicile.domicile_location.county.holder.top_liege = this }
+		}
+		domicile = { move_domicile = root.capital_province }
+	}
+
+	scope:new_holder = {
+		if = { 
+			limit = {
+				exists = domicile
+				NOT = { domicile.domicile_location.county.holder.top_liege = this }
+			}
+			domicile = { move_domicile = root.capital_province }
+		}
+	}
+}

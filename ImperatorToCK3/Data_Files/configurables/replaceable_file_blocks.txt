@@ -228,20 +228,6 @@
 	# In form_bosporan_kingdom_decision, make sure the kingdom doesn't have a holder or de jure land.
 	replace = {
 		before = {
-	is_shown = {
-		NOT = {
-			is_target_in_global_variable_list = {
-				name = unavailable_unique_decisions
-				target = flag:flag_bosporan_kingdom
-			}
-		}
-		culture = {
-			OR = {
-				has_cultural_pillar = heritage_central_germanic
-				has_cultural_pillar = heritage_byzantine
-			}
-		}
-		highest_held_title_tier <= tier_kingdom
 		any_held_title = {
 			OR = {
 				de_jure_liege = title:d_crimea
@@ -250,24 +236,9 @@
 				this = title:d_azov
 			}
 		}
-	}
 		} # end of before
 		
 		after = {
-	is_shown = {
-		NOT = {
-			is_target_in_global_variable_list = {
-				name = unavailable_unique_decisions
-				target = flag:flag_bosporan_kingdom
-			}
-		}
-		culture = {
-			OR = {
-				has_cultural_pillar = heritage_central_germanic
-				has_cultural_pillar = heritage_byzantine
-			}
-		}
-		highest_held_title_tier <= tier_kingdom
 		any_held_title = {
 			OR = {
 				de_jure_liege = title:d_crimea
@@ -285,7 +256,6 @@
 				}
 			}
 		}
-	}
 		} # end of after
 	}
 }
@@ -343,25 +313,6 @@
 			exists = title:e_byzantium.holder
 			exists = title:h_roman_empire.holder
 			exists = title:h_eastern_roman_empire.holder
-		}
-		# IRToCK3: Will always make sure the titles don't have holders, but if the Latin Empire doesn't have a holder (implying either the Splintered Crusade hasn't launched yet, or it has been finished and e_latin_empire was destroyed) then it should also make sure that the titles don't have any de jure land. If ERE has land, it could be formed the normal way, and if Rome has land, that should be the title formed, not the ERE
-		trigger_if = {
-			limit = {
-				NOT = { exists = title:e_latin_empire.holder } # IRToCK3: Only need to check if it has a holder because once the title is broken/destroyed, all land is given back to e_byzantium
-			}
-
-			AND = {
-				title:e_byzantium = {
-					any_de_jure_county = {
-						count < 1
-					}
-				}
-				title:h_roman_empire = {
-					any_de_jure_county = {
-						count < 1
-					}
-				}
-			}
 		}
 		OR = {
 			# IRToCK3: Allow Romans to use this decision too
@@ -446,31 +397,23 @@
 				empire = title:e_byzantium
 			}
 		}
-		trigger_if = {
-			limit = {
-				is_ai = no
-				has_legitimacy = yes
-			}
-			legitimacy_level >= 3
-		}
-		#A liiiiiittle easier for AI
-		trigger_if = {
-			limit = {
-				is_ai = yes
-				has_legitimacy = yes
-			}
-			legitimacy_level >= 1
-		}
 		} # end of before
 		
 		after = {
 		# IRToCK3: Can't have the WRE since they should focus on forming h_roman_empire
-		NOT = { has_title = title:h_western_roman_empire }
-		# IRToCK3: Show that e_byzantium and h_roman_empire can't have holders
+		custom_tooltip = {
+			NOR = {
+				has_title = title:h_western_roman_empire
+				has_title = title:e_western_roman_empire
+			}
+			text = not_wre_emperor
+		}
+		# IRToCK3: Show that e_byzantium, h_roman_empire, and h_eastern_roman_empire can't have holders
 		custom_tooltip = {
 			NOR = {
 				exists = title:e_byzantium.holder
 				exists = title:h_roman_empire.holder
+				exists = title:h_eastern_roman_empire.holder
 			}
 			text = no_byz_emp_exists_tt
 		}
@@ -511,7 +454,7 @@
 			realm_size >= 12
 		}
 		trigger_else = {
-			realm_size >= 80
+			realm_size >= 65
 		}
 
 		custom_tooltip = {
@@ -540,21 +483,6 @@
 					empire = title:e_byzantium
 				}
 			}
-		}
-		trigger_if = {
-			limit = {
-				is_ai = no
-				has_legitimacy = yes
-			}
-			legitimacy_level >= 3
-		}
-		#A liiiiiittle easier for AI
-		trigger_if = {
-			limit = {
-				is_ai = yes
-				has_legitimacy = yes
-			}
-			legitimacy_level >= 1
 		}
 		} # end of after
 	} # end of is_valid block
@@ -653,9 +581,13 @@
 		NOR = {
 			exists = title:e_byzantium.holder
 			exists = title:h_roman_empire.holder
+			exists = title:h_eastern_roman_empire.holder
 		}
 		# IRToCK3: AI shouldn't bother if they have the WRE since they should focus on h_roman_empire
-		NOT = { has_title = title:h_western_roman_empire }
+		NOR = {
+			has_title = title:h_western_roman_empire
+			has_title = title:e_western_roman_empire
+		}
 		any_held_title = {
 			title_tier = kingdom
 			# IRToCK3: Modified so that the de jure empire the kingdom belongs to is only checked if the Latin Empire exists, so that it is only relevant during the Splintered Crusade
@@ -938,6 +870,28 @@
 		} # end of after
 	} # end of is_shown block
 
+	# is_valid block
+	replace = {
+		before = {
+		capital_county = title:c_roma
+		has_title = title:c_byzantion
+		}
+
+		after = {
+		# IRToCK3: Made it so that you can choose to either have your capital in Rome but hold Byzantion, or vice versa. Which is your capital affects which title you end up getting.
+		OR = {
+			AND = {
+				capital_county = title:c_roma
+				has_title = title:c_byzantion
+			}
+			AND = {
+				capital_county = title:c_byzantion
+				has_title = title:c_roma
+			}
+		}
+		}
+	}
+
 	# effect block
 	replace = {
 		before = {
@@ -975,114 +929,75 @@
 		title:h_roman_empire = {
 			set_title_name = h_roman_empire_western
 		}
+
+		# Add truce with new Byzantine Emperor
+		add_truce_both_ways = {
+			character = scope:new_holder
+			years = 10
+			name = TRUCE_COLLABORATION
+		}
+
+		# Some additional bonuses
+		change_influence = {
+			value = monumental_influence_gain
+			multiply = 2
+		}
+
+		if = {
+			limit = {
+				any_owned_story = { 
+					type = ep3_story_cycle_restoring_rome 
+					has_variable = roman_empire_hard_mode
+				}
+			}
+			custom_tooltip = {
+				text = ending_of_restore_rome_trials_tt
+				random_owned_story = {
+					limit = { story_type = ep3_story_cycle_restoring_rome }
+					remove_variable = roman_empire_hard_mode
+				}
+			}
+		}
 		} # end of before
 
 
 		after = {
-		if = {
-			limit = {
-				has_active_diarchy = yes
-				has_diarchy_type = co_emperorship
-			}
-			diarch = { save_scope_as = new_holder }
-		}
-		else_if = { # IRToCK3: The base game has this as an if statement, which will cause any "new_holder" assignment made in the above block to get overwritten. This should fix that issue
-			# IRToCK3: This just makes sure there is a valid powerful family house head, and if they are landed, they need to be in the relevant ere region, to prevent someone nowhere near the area from becoming the Emperor
-			limit = {
-				any_powerful_family = {
-					count >= 1
-					this != root.house
-					house_head ?= {
-						trigger_if = {
-							limit = { is_landed = yes }
-							capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
-						}
-					}
-				}
-			}
-
-			ordered_powerful_family = {
-				limit = {
-					this != root.house
-					house_head ?= {
-						trigger_if = {
-							limit = { is_landed = yes }
-							capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
-						}
-					}
-				}
-				order_by = house_power_score
-				house_head = { save_scope_as = new_holder }
-			}
-		}
-		else_if = {
-			# IRToCK3: This just makes sure there is a valid powerful vassal in the relevant ere region, to prevent someone nowhere near the area from becoming the Emperor, prioritizing those with the same government
-			limit = {
-				any_powerful_vassal = {
-					count >= 1
-					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
-				}
-			}
-
-			ordered_powerful_vassal = {
-				limit = {
-					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
-					has_same_government = root
-				}
-				alternative_limit = {
-					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
-				}
-				order_by = max_military_strength
-				save_scope_as = new_holder
-			}
-		}
-		else_if = {
-			# IRToCK3: Added this check on the off chance none of the powerful vassals are in the region, so it checks if ANY vassal is in the region, prioritizing those with the same government
-			limit = {
-				any_vassal = {
-					count >= 1
-					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
-				}
-			}
-
-			ordered_vassal = {
-				limit = {
-					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
-					has_same_government = root
-				}
-				alternative_limit = {
-					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
-				}
-				order_by = max_military_strength
-				save_scope_as = new_holder
-			}
-		}
-		else = {
-			# IRToCK3: Finally, if all else fails, give it to a courtier, favoring those with higher skill
-			random_courtier = {
-				weight = {
-					base = sum_of_all_skills_value
-					modifier = {
-						is_lowborn = no
-						add = 5
-					}
-					modifier = {
-						faith = root.faith
-						add = 10
-					}
-					modifier = {
-						culture = root.culture
-						add = 5
-					}
-				}
-				save_scope_as = new_holder
-			}
-		}
-		custom_tooltip = {
-			text = form_eastern_roman_empire_tt
-			create_eastern_roman_empire_scripted_effect = yes
-		}
+		# IRToCK3: Put effects of this decision in a scripted effect to make it easier to modify later, if needed
+		irtock3_split_roman_empire_effect = yes
 		} # end of after
+	}
+
+
+	#########
+	# found_varangian_guard_decision
+	#########
+	replace = {
+		before = {
+		OR = {
+			any_realm_county = { culture = culture:norse }
+			any_courtier = {
+				count >= 5
+				culture = culture:norse
+			}
+			any_ally = { culture = culture:norse }
+		}
+		}
+
+		after = {
+		# IRToCK3: Changed this so instead of specifically only checking the norse culture, it checks for North Germanic cultures
+		OR = {
+			any_realm_county = {
+				culture = { has_cultural_pillar = heritage_north_germanic }
+			}
+			any_courtier = {
+				count >= 5
+				culture = { has_cultural_pillar = heritage_north_germanic }
+			}
+			any_ally = {
+				culture = { has_cultural_pillar = heritage_north_germanic }
+			}
+		}
+		}
 	}
 
 }
@@ -1223,6 +1138,7 @@
 		OR = { # IRToCK3: Also allow the WRE to take this decision
 			has_title = title:h_roman_empire
 			has_title = title:h_western_roman_empire
+			has_title = title:e_western_roman_empire
 		}
 		NOT = { capital_county = { this = title:c_roma } }
 		} # end of after
@@ -1241,6 +1157,7 @@
 		OR = { # IRToCK3: Also allow the WRE to take this decision
 			has_title = title:h_roman_empire
 			has_title = title:h_western_roman_empire
+			has_title = title:e_western_roman_empire
 		}
 	}
 		} # end of after
@@ -1275,17 +1192,6 @@
 
 	replace = {
 		before = {
-		exists = title:e_byzantium.holder #Must exist in the first place...
-		NOT = {
-			root = title:e_byzantium.holder #That'd be awkward...
-		}
-		OR = {
-			culture = { has_cultural_pillar = heritage_frankish }
-			culture = { has_cultural_pillar = heritage_central_germanic }
-			culture = { has_cultural_pillar = heritage_latin }
-		}
-		is_ruler = yes
-		is_playable_character = yes
 		is_roman_emperor_trigger = yes
 		NOR = { #Once an Emperor throws the challenge, he has only one chance to dismantle the Empire.
 			has_character_flag = flag_emperor_challenging_byz #Applied below.
@@ -1294,16 +1200,6 @@
 		} # end of before
 
 		after = {
-		exists = title:e_byzantium.holder #Must exist in the first place...
-		NOT = {
-			root = title:e_byzantium.holder #That'd be awkward...
-		}
-		OR = { # IRToCK3: Removed heritage_latin since limiting this to HRE
-			culture = { has_cultural_pillar = heritage_frankish }
-			culture = { has_cultural_pillar = heritage_central_germanic }
-		}
-		is_ruler = yes
-		is_playable_character = yes
 		has_title = title:e_hre # IRToCK3: Limiting this decision so only the HRE can take it
 		NOR = { #Once an Emperor throws the challenge, he has only one chance to dismantle the Empire.
 			has_character_flag = flag_emperor_challenging_byz #Applied below.
@@ -1370,9 +1266,11 @@
 		after = {
 		is_ruler = yes
 		is_playable_character = yes
-		OR = { # IRToCK3: Making it so only the WRE/ERE can reform rome, so forming one of those first would be the priority
+		OR = { # IRToCK3: Making it so any of the WRE/ERE can reform rome, so forming one of those first would be the priority
 			has_title = title:h_eastern_roman_empire
 			has_title = title:h_western_roman_empire
+			has_title = title:e_byzantium
+			has_title = title:e_western_roman_empire
 		}
 		NOT = { primary_title = title:e_hre }
 		NOT = { primary_title = title:e_italy }
@@ -1393,22 +1291,13 @@
 		prestige_level >= max_prestige_level
 
 		# IRToCK3: Doesn't make sense for one half of the split Roman Empire to reform Rome if the other remains independent, so you either need to hold both titles or be the only one holding either the ERE or WRE titles
+		# IRToCK3: TO DO - Once the effects/decisions are in place to allow e_byzantium and e_western_roman_empire to be formed naturally after the other half of the Empire falls, rework this to account for those changes
 		custom_tooltip = {
 			text = irtock3_only_roman_emperor
-			OR = {
-				AND = {
-					has_title = title:h_eastern_roman_empire
-					has_title = title:h_western_roman_empire
-				}
-				AND = {
-					has_title = title:h_eastern_roman_empire
-					NOT = { exists = title:h_western_roman_empire.holder }
-				}
-				AND = {
-					has_title = title:h_western_roman_empire
-					NOT = { exists = title:h_eastern_roman_empire.holder }
-				}
-			}
+			title:h_western_roman_empire.holder ?= this
+			title:h_eastern_roman_empire.holder ?= this
+			title:e_byzantium.holder ?= this
+			title:e_western_roman_empire.holder ?= this
 		}
 
 		completely_controls = title:d_latium
@@ -1608,6 +1497,32 @@
 		NOT = { capital_county = { this = title:c_byzantion } }
 		}
 	}
+
+
+	#########
+	# restore_pope_in_rome_decision
+	#########
+
+	# is_shown block
+	replace = {
+		before = {
+		NOR = {
+			has_title = title:k_papal_state
+			is_roman_emperor_excluding_byzantium_trigger = yes
+		}
+		}
+
+		after = {
+		NOR = {
+			has_title = title:k_papal_state
+			is_roman_emperor_excluding_byzantium_trigger = yes
+			# IRToCK3: Exclude WRE and Kingdom of Rome
+			has_title = title:e_western_roman_empire
+			has_title = title:k_rome
+		}
+		}
+	}
+
 }
 
 
@@ -1648,99 +1563,6 @@
 
 
 "common/scripted_effects/00_major_decisions_scripted_effects.txt" = {
-	#########
-	# create_eastern_roman_empire_scripted_effect
-	#########
-
-	# Change Roman Empire title and de jure hierarchy to the WRE title to represent full Empire split
-	replace = {
-		before = {
-	resolve_title_and_vassal_change = scope:change
-	
-	every_empire = {
-		limit = {
-			OR = {
-				any_de_jure_county = {
-					percent >= 0.75
-					holder = {
-						OR = {
-							this = scope:new_holder
-							any_liege_or_above = { this = scope:new_holder }
-						}
-					}
-				}
-				AND = {
-					de_jure_liege = title:h_eastern_roman_empire
-					any_de_jure_county = {
-						percent >= 0.51
-						holder = {
-							OR = {
-								this = scope:new_holder
-								any_liege_or_above = { this = scope:new_holder }
-							}
-						}
-					}
-				}
-			}
-		}
-		set_de_jure_liege_title = title:h_eastern_roman_empire
-	}
-		} # end of before
-
-		after = {
-	every_empire = {
-		limit = {
-			OR = {
-				any_de_jure_county = {
-					percent >= 0.75
-					holder = {
-						OR = {
-							this = scope:new_holder
-							any_liege_or_above = { this = scope:new_holder }
-						}
-					}
-				}
-				AND = {
-					de_jure_liege = title:h_eastern_roman_empire
-					any_de_jure_county = {
-						percent >= 0.51
-						holder = {
-							OR = {
-								this = scope:new_holder
-								any_liege_or_above = { this = scope:new_holder }
-							}
-						}
-					}
-				}
-			}
-		}
-		set_de_jure_liege_title = title:h_eastern_roman_empire
-	}
-
-	# IRToCK3: Set remaining empires to be under WRE, and swap h_roman_empire title with WRE title
-	title:h_roman_empire = {
-		every_in_de_jure_hierarchy = {
-			limit = { tier = tier_empire }
-			set_de_jure_liege_title = title:h_western_roman_empire
-		}
-	}
-
-	title:h_western_roman_empire = {
-		change_title_holder = {
-			holder = title:h_roman_empire.holder
-			change = scope:change
-		}
-	}
-
-	root = { set_primary_title_to = title:h_western_roman_empire }
-
-	resolve_title_and_vassal_change = scope:change
-
-	root = { destroy_title = title:h_roman_empire }
-		} # end of after
-	}
-
-
 	#########
 	# split_byzantine_empire_effect
 	#########
@@ -3093,6 +2915,72 @@
 					}
 		}
 	}
+
+	# This is responsible for giving out the Augustus trait when you get one of the Roman Empire titles. Need to modify to account for WRE
+	replace = {
+		before = {
+						OR = {
+							scope:title = title:h_roman_empire
+							scope:title = title:h_eastern_roman_empire 
+						}
+						NOT = { has_trait = augustus }
+		}
+
+		after = {
+						OR = {
+							scope:title = title:h_roman_empire
+							scope:title = title:h_eastern_roman_empire 
+							scope:title = title:h_western_roman_empire # IRToCK3: Added WRE as possible title
+						}
+						NOT = { has_trait = augustus }
+		}
+	}
+
+	# These are responsible for specifying a ruler should be using the custom Caesar flavourization. Need to make sure WRE is included
+	replace = {
+		before = {
+			limit = { 
+				OR = {
+					scope:title = title:h_roman_empire 
+					scope:title = title:h_eastern_roman_empire
+				}
+			}
+			set_variable = uses_custom_caesar_flavourization
+		}
+
+		after = {
+			limit = { 
+				OR = {
+					scope:title = title:h_roman_empire 
+					scope:title = title:h_eastern_roman_empire
+					scope:title = title:h_western_roman_empire # IRToCK3: Added WRE as possible title
+				}
+			}
+			set_variable = uses_custom_caesar_flavourization
+		}
+	}
+	replace = {
+		before = {
+			limit = { 
+				OR = {
+					scope:title = title:h_roman_empire 
+					scope:title = title:h_eastern_roman_empire
+				}
+			}
+			remove_variable = uses_custom_caesar_flavourization
+		}
+
+		after = {
+			limit = { 
+				OR = {
+					scope:title = title:h_roman_empire 
+					scope:title = title:h_eastern_roman_empire
+					scope:title = title:h_western_roman_empire # IRToCK3: Added WRE as possible title
+				}
+			}
+			remove_variable = uses_custom_caesar_flavourization
+		}
+	}
 }
 
 
@@ -3147,4 +3035,132 @@
 		}
 		}
 	}
+}
+
+
+"common/scripted_triggers/07_ep3_triggers.txt" = {
+	# This scripted trigger is used in a few places to make sure you have the "Restoring Rome" story cycle, and one of the relevant titles
+	replace = {
+		before = {
+	OR = {
+		this = title:h_roman_empire.holder
+		this = title:h_eastern_roman_empire.holder
+	}
+	any_owned_story = {
+		type = ep3_story_cycle_restoring_rome
+		has_variable = roman_empire_hard_mode
+	}
+		}
+
+		after = {
+	OR = {
+		this = title:h_roman_empire.holder
+		this = title:h_eastern_roman_empire.holder
+		this = title:h_western_roman_empire.holder # IRToCK3: Added WRE
+	}
+	any_owned_story = {
+		type = ep3_story_cycle_restoring_rome
+		has_variable = roman_empire_hard_mode
+	}
+		}
+	}
+
+	# This checks if a character has a relevant title to be considered a "Roman Emperor", need to account for new Rome titles
+	replace = {
+		before = {
+is_roman_emperor_trigger = {
+	OR = {
+		has_title = title:e_byzantium
+		has_title = title:h_roman_empire
+		has_title = title:h_eastern_roman_empire
+	}
+}
+		}
+
+		after = {
+is_roman_emperor_trigger = {
+	OR = {
+		has_title = title:e_byzantium
+		has_title = title:h_roman_empire
+		has_title = title:h_eastern_roman_empire
+		# IRToCK3: Added new titles from converter
+		has_title = title:h_western_roman_empire
+		has_title = title:e_western_roman_empire
+		has_title = title:e_roman_empire
+	}
+}
+		}
+	}
+
+	# This checks if a character has a relevant primary title to be considered a "Roman Emperor", need to account for new Rome titles
+	replace = {
+		before = {
+is_roman_emperor_primary_title_trigger = {
+	OR = {
+		primary_title ?= title:e_byzantium
+		primary_title ?= title:h_roman_empire
+		primary_title ?= title:h_eastern_roman_empire
+	}
+}
+		}
+
+		after = {
+is_roman_emperor_primary_title_trigger = {
+	OR = {
+		primary_title ?= title:e_byzantium
+		primary_title ?= title:h_roman_empire
+		primary_title ?= title:h_eastern_roman_empire
+		# IRToCK3: Added new titles from converter
+		primary_title ?= title:h_western_roman_empire
+		primary_title ?= title:e_western_roman_empire
+		primary_title ?= title:e_roman_empire
+	}
+}
+		}
+	}
+
+	# This checks if the character has one of the Rome titles, excluding Byzantium, need to account for new Rome titles
+	replace = {
+		before = {
+is_roman_emperor_excluding_byzantium_trigger = {
+	OR = {
+		has_title = title:h_roman_empire
+		has_title = title:h_eastern_roman_empire
+	}
+}
+		}
+
+		after = {
+is_roman_emperor_excluding_byzantium_trigger = {
+	OR = {
+		has_title = title:h_roman_empire
+		has_title = title:h_eastern_roman_empire
+		has_title = title:h_western_roman_empire # IRToCK3: Added WRE
+	}
+}
+		}
+	}
+
+	# This checks if the character has one of the Rome primary titles, excluding Byzantium, need to account for new Rome titles
+	replace = {
+		before = {
+is_roman_emperor_primary_title_excluding_byzantium_trigger = {
+	OR = {
+		primary_title ?= title:h_roman_empire
+		primary_title ?= title:h_eastern_roman_empire
+	}
+}
+		}
+
+		after = {
+is_roman_emperor_primary_title_excluding_byzantium_trigger = {
+	OR = {
+		primary_title ?= title:h_roman_empire
+		primary_title ?= title:h_eastern_roman_empire
+		primary_title ?= title:h_western_roman_empire # IRToCK3: Added WRE
+	}
+}
+		}
+	}
+
 }
