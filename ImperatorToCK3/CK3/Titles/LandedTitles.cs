@@ -1074,6 +1074,9 @@ internal sealed partial class Title {
 			Logger.Info("Setting de jure empires...");
 			var deJureKingdoms = GetDeJureKingdoms();
 			
+			// TODO: exclude hegemonies from this process?
+			throw new NotImplementedException();
+			
 			// Try to assign kingdoms to existing empires.
 			foreach (var kingdom in deJureKingdoms) {
 				// Don't change the de jure inside h_china, to avoid messing with the Dynastic Cycle and shit.
@@ -1479,6 +1482,10 @@ internal sealed partial class Title {
 			return mapData.AreProvinceGroupsConnectedByWaterBody(title1ProvinceIds, title2ProvinceIds);
 		}
 
+		private void SetDeJureHegemonies(Date ck3BookmarkDate) {
+			throw new NotImplementedException("De jure hegemonies are not implemented yet.");
+		}
+
 		private void SetEmpireCapitals(Date ck3BookmarkDate) {
 			// Make sure every empire's capital is within the empire's de jure land.
 			Logger.Info("Setting empire capitals...");
@@ -1513,6 +1520,7 @@ internal sealed partial class Title {
 		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3LocDB ck3LocDB) {
 			SetDeJureKingdoms(ck3LocDB, ck3BookmarkDate);
 			SetDeJureEmpires(ck3Cultures, ck3Characters, ck3MapData, ck3LocDB, ck3BookmarkDate);
+			SetDeJureHegemonies(ck3BookmarkDate);
 		}
 
 		private HashSet<string> GetCountyHolderIds(Date date) {
