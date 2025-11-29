@@ -74,10 +74,10 @@ irtock3_confederation_setup_effect = {
 				ordered_in_list = {
 					limit = {
 						CL_uses_leagues = yes
-						NOT = { this = scope:actor }
+						this != scope:actor
 					}
 					alternative_limit = { # Incase somehow this was chosen and no one is actually capable of using leagues, need to make sure someone is chosen
-						NOT = { this = scope:actor }
+						this != scope:actor
 					}
 					list = irtock3_confederation_members
 					order_by = max_military_strength
@@ -106,10 +106,10 @@ irtock3_confederation_setup_effect = {
 				ordered_in_list = {
 					limit = {
 						CL_uses_confederations = yes
-						NOT = { this = scope:actor }
+						this != scope:actor
 					}
 					alternative_limit = { # Incase somehow this was chosen an no one is actually capable of using confederations, need to make sure someone is chosen
-						NOT = { this = scope:actor }
+						this != scope:actor
 					}
 					list = irtock3_confederation_members
 					order_by = max_military_strength
@@ -193,7 +193,7 @@ irtock3_confederation_setup_effect = {
 			# Get second member, for the 'recipient' scope
 			ordered_in_list = {
 				limit = {
-					NOT = { this = scope:actor }
+					this != scope:actor
 				}
 				list = irtock3_confederation_members
 				order_by = max_military_strength
