@@ -7,23 +7,43 @@ namespace ImperatorToCK3.Mappers.Region;
 
 internal sealed class CK3Region {
 	public string Name { get; }
-	private readonly HashSet<string> parsedRegionIds = new();
-	public Dictionary<string, CK3Region> Regions { get; } = new();
-	private readonly HashSet<string> parsedDuchyIds = new();
-	public Dictionary<string, Title> Duchies { get; } = new();
-	private readonly HashSet<string> parsedCountyIds = new();
-	public Dictionary<string, Title> Counties { get; } = new();
-	public SortedSet<ulong> Provinces { get; } = new();
+	private readonly HashSet<string> parsedRegionIds = [];
+	public Dictionary<string, CK3Region> Regions { get; } = [];
+	private readonly HashSet<string> parsedDuchyIds = [];
+	private readonly HashSet<string> parsedKingdomIds = [];
+	public Dictionary<string, Title> Duchies { get; } = [];
+	private readonly HashSet<string> parsedCountyIds = [];
+	public Dictionary<string, Title> Counties { get; } = [];
+	public SortedSet<ulong> Provinces { get; } = [];
 
 	public CK3Region(string name) => Name = name;
 
-	public void LinkRegions(Dictionary<string, CK3Region> regions, Dictionary<string, Title> duchies, Dictionary<string, Title> counties) {
+	public void LinkRegions(Dictionary<string, CK3Region> regions, Dictionary<string, Title> kingdoms, Dictionary<string, Title> duchies, Dictionary<string, Title> counties) {
 		// regions
 		foreach (var requiredRegionName in parsedRegionIds) {
 			if (regions.TryGetValue(requiredRegionName, out var regionToLink)) {
 				LinkRegion(regionToLink);
 			} else {
 				Logger.Warn($"Region's {Name} region {requiredRegionName} does not exist!");
+			}
+		}
+
+		// kingdoms
+		foreach (var requiredKingdomName in parsedKingdomIds) {
+			// We can't just keep the kingdom because the converter changes the de jure kingdoms setup.
+			// So get all the de jure vassals of the kingdom and link them instead.
+			if (kingdoms.TryGetValue(requiredKingdomName, out var kingdom)) {
+				foreach (var deJureVassal in kingdom.DeJureVassals) {
+					if (deJureVassal.Rank == TitleRank.duchy) {
+						LinkDuchy(deJureVassal);
+					} else if (deJureVassal.Rank == TitleRank.county) {
+						LinkCounty(deJureVassal);
+					} else if (deJureVassal is {Rank: TitleRank.barony, ProvinceId: not null}) {
+						Provinces.Add(deJureVassal.ProvinceId.Value);
+					}
+				}
+			} else {
+				Logger.Warn($"Region's {Name} kingdom {requiredKingdomName} does not exist!");
 			}
 		}
 
@@ -75,6 +95,11 @@ internal sealed class CK3Region {
 				regionToReturn.parsedRegionIds.Add(id);
 			}
 		});
+		parser.RegisterKeyword("kingdoms", reader => {
+			foreach (var id in reader.GetStrings()) {
+				regionToReturn.parsedKingdomIds.Add(id);
+			}
+		});
 		parser.RegisterKeyword("duchies", reader => {
 			foreach (var id in reader.GetStrings()) {
 				regionToReturn.parsedDuchyIds.Add(id);
@@ -90,6 +115,9 @@ internal sealed class CK3Region {
 				regionToReturn.Provinces.Add(id);
 			}
 		});
+		parser.RegisterKeyword("should_remember_counties_order", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("generate_modifiers", ParserHelpers.IgnoreItem);
+		parser.RegisterKeyword("color", ParserHelpers.IgnoreItem);
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
 	public static CK3Region Parse(string name, BufferedReader reader) {

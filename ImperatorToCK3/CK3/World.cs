@@ -363,6 +363,10 @@ internal sealed class World {
 		Characters.DistributeCountriesGold(LandedTitles, config);
 		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, impWorld.Countries, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, LocDB, config);
 
+		// For titles linked to I:R countries with chinese_empire government, ensure the character variables
+		// needed for Dynastic Cycle script are calculated and stores as character variables.
+		Characters.CalculateChineseDynasticCycleVariables(LandedTitles, impWorld.EndDate, config.CK3BookmarkDate);
+		
 		// After the purging of unneeded characters, we should clean up the title history.
 		LandedTitles.CleanUpHistory(Characters, config.CK3BookmarkDate);
 
@@ -496,10 +500,14 @@ internal sealed class World {
 			mappingsToUse = "terra_indomita_to_rajas_of_asia";
 		} else if (irHasTI && ck3HasAEP) {
 			mappingsToUse = "terra_indomita_to_aep";
+		} else if (irHasTI) {
+			mappingsToUse = "terra_indomita_to_vanilla_ck3";
+		} else if (irWorld is {InvictusDetected: true, Invictus1_7Detected: true}) {
+			mappingsToUse = "invictus_1_7_to_vanilla_ck3";
 		} else if (irWorld.InvictusDetected) {
-			mappingsToUse = "imperator_invictus";
+			mappingsToUse = "invictus_to_vanilla_ck3";
 		} else {
-			mappingsToUse = "imperator_vanilla";
+			mappingsToUse = "vanilla_ir_to_vanilla_ck3";
 			Logger.Warn("Support for non-Invictus Imperator saves is deprecated.");
 		}
 		
@@ -541,6 +549,9 @@ internal sealed class World {
 		FrozenSet<Governorship> countyLevelGovernorshipsSet = countyLevelGovernorships.ToFrozenSet();
 
 		foreach (var county in LandedTitles.Counties) {
+			if (county.NobleFamily == true) {
+				continue;
+			}
 			if (county.CapitalBaronyProvinceId is null) {
 				Logger.Warn($"County {county} has no capital barony province!");
 				continue;
@@ -1002,6 +1013,10 @@ internal sealed class World {
 		var date = config.CK3BookmarkDate;
 		List<Title> unheldCounties = [];
 		foreach (var county in LandedTitles.Counties) {
+			if (county.NobleFamily == true) {
+				continue;
+			}
+			
 			var holderId = county.GetHolderId(date);
 			if (holderId == "0") {
 				unheldCounties.Add(county);
@@ -1181,6 +1196,7 @@ internal sealed class World {
 			{"dlc019.dlc", "crowns_of_the_world"},
 			{"dlc020.dlc", "khans_of_the_steppe"},
 			{"dlc021.dlc", "coronations"},
+			{"dlc022.dlc", "all_under_heaven"},
 		};
 		
 		var dlcFiles = Directory.GetFiles(dlcFolderPath, "*.dlc", SearchOption.AllDirectories);
