@@ -161,18 +161,13 @@ irtock3_formalize_korean_kingdom_decision = {
 			highest_held_title_tier = tier_kingdom
 		}
 		top_liege = this # Independent
-		# Need to completely control at least three de jure duchies in Korea
-		save_temporary_scope_as = test_ruler
+		# Need to control a certain amount of Korea
 		custom_tooltip = {
-			text = irtock3_control_korean_duchies
-			any_sub_realm_duchy = {
-				count => 3
-				any_de_jure_county = {
-					count = all
-					title_province = { geographical_region = world_asia_korea }
-				}
-				save_temporary_scope_as = test_duchy
-				scope:test_ruler = { completely_controls = scope:test_duchy }
+			text = irtock3_control_korean_counties
+			any_county_in_region = {
+				region = world_asia_korea
+				count >= 12
+				holder.top_liege ?= root
 			}
 		}
 	}
@@ -245,6 +240,10 @@ irtock3_formalize_korean_kingdom_decision = {
 
 		# Setup new title (similar to setup of new custom kingdom)
 		custom_tooltip = irtock3_new_korean_kingdom
+		if = {
+			limit = { highest_held_title_tier >= tier_kingdom }
+			custom_tooltip = irtock3_merge_korean_kingdom
+		}
 		hidden_effect = {
 			save_scope_as = founder
 			
@@ -306,38 +305,69 @@ irtock3_formalize_korean_kingdom_decision = {
 			}
 			
 			every_held_title = {
-				title_tier = duchy
-				if = {
-					limit = {
-						#Check if you need to notify a player
-						OR = {
-							AND = {
-								kingdom ?= {
-									holder ?= {
-										this != root
-										is_ai = no
-									}
-								}
-							}
-							AND = {
-								empire ?= {
-									holder ?= {
-										this != root
-										is_ai = no
-									}
-								}
-							}
-						}
+				limit = {
+					OR = {
+						tier = tier_duchy
+						tier = tier_kingdom
 					}
-					add_to_temporary_list = duchy_for_notification
-					root = {
-						save_temporary_scope_value_as = {
-							name = send_notifications
-							value = yes
-						}
-					}
+					NOT = { this = scope:new_title }
 				}
-				set_de_jure_liege_title = scope:new_title
+
+				if = {
+					limit = { tier = tier_duchy }
+
+					if = {
+						limit = {
+							#Check if you need to notify a player
+							OR = {
+								AND = {
+									kingdom ?= {
+										holder ?= {
+											this != root
+											is_ai = no
+										}
+									}
+								}
+								AND = {
+									empire ?= {
+										holder ?= {
+											this != root
+											is_ai = no
+										}
+									}
+								}
+							}
+						}
+						add_to_temporary_list = duchy_for_notification
+						root = {
+							save_temporary_scope_value_as = {
+								name = send_notifications
+								value = yes
+							}
+						}
+					}
+					set_de_jure_liege_title = scope:new_title
+				}
+				else_if = {
+					limit = {
+						tier = tier_kingdom
+						is_figurehead_title = no
+						is_head_of_faith = no
+					}
+
+					if = {
+						limit = {
+							any_in_de_jure_hierarchy = { tier = tier_duchy }
+						}
+
+						every_in_de_jure_hierarchy = {
+							limit = { tier = tier_duchy }
+							set_de_jure_liege_title = scope:new_title
+						}
+					}
+
+					root = { destroy_title = prev }
+				}
 			}
 
 			every_sub_realm_county = {
