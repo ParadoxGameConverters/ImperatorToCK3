@@ -3145,6 +3145,46 @@
 		}
 		}
 	}
+
+	# Modifying the event that sets China's Dynastic Name so that the AI always chooses the name they used in Imperator
+	replace = {
+		before = {
+		if = {
+			limit = {
+				is_ai = yes
+				NOT = { is_title_localization_key_used = dynn_title_yuan }
+				highest_held_title_tier >= tier_empire
+				culture = {
+					has_cultural_pillar = heritage_mongolic
+				}
+			}
+			primary_title = {
+				set_title_name_dynamic = dynn_title_yuan
+			}
+		}
+		}
+
+		after = {
+		if = { # IRToCK3: Added this section so that the AI always sets China's name to be the same as what it was in Imperator
+			limit = { has_variable = irtock3_china_primary_name }
+			var:irtock3_china_primary_name = { save_scope_as = irtock3_china_primary_name }
+			primary_title = { set_title_name_dynamic = irtock3_imperator_china_name }
+		}
+		else_if = {
+			limit = {
+				is_ai = yes
+				NOT = { is_title_localization_key_used = dynn_title_yuan }
+				highest_held_title_tier >= tier_empire
+				culture = {
+					has_cultural_pillar = heritage_mongolic
+				}
+			}
+			primary_title = {
+				set_title_name_dynamic = dynn_title_yuan
+			}
+		}
+		}
+	}
 }
 
 

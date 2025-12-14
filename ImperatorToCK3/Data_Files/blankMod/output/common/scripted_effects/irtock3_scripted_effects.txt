@@ -759,6 +759,20 @@ irtock3_setup_governments = {
 				save_scope_as = chinese_emperor
 			}
 
+			# If the Emperor is an AI ruler, save their current primary title so that it can be referenced later when choosing the Dynastic Name for China (Human Emperors can choose whatever name they want, so they can set it to be the same as what it was in Imperator, if they want)
+			if = {
+				limit = {
+					scope:chinese_emperor = { is_ai = yes }
+				}
+				scope:chinese_emperor = {
+					primary_title = { save_scope_as = old_primary_title }
+					set_variable = {
+						name = irtock3_china_primary_name
+						value = scope:old_primary_title
+					}
+				}
+			}
+
 			# Grant the Hegemon title
 			create_title_and_vassal_change = {
 				type = created
@@ -772,6 +786,44 @@ irtock3_setup_governments = {
 				}
 			}
 			resolve_title_and_vassal_change = scope:mandate_change
+			scope:chinese_emperor = { set_primary_title_to = title:h_china }
+
+			# Make sure all of h_china is properly involved in the Dynastic Cycle
+			if = {
+				limit = { exists = situation:dynastic_cycle }
+				situation:dynastic_cycle.situation_sub_region:core = { add_dejure_title_to_sub_region = title:h_china }
+			}
+
+			# If the ruler converted over from Imperator with a Hegemony title, it should be destroyed and its de jure empires given to h_china
+			if = {
+				limit = {
+					scope:chinese_emperor = {
+						any_held_title = {
+							title_tier = hegemony
+							this != title:h_china
+						}
+					}
+				}
+				
+				scope:chinese_emperor = {
+					every_held_title = {
+						title_tier = hegemony
+						limit = { title:h_china != this }
+						save_scope_as = old_hegemony
+						every_in_de_jure_hierarchy = {
+							limit = { tier = tier_empire }
+							set_de_jure_liege_title = title:h_china
+						}
+						scope:chinese_emperor = { destroy_title = scope:old_hegemony }
+					}
+
+					# The base game doesn't seem to trigger the event to choose your Dynasty Name and Color if you get h_china while already holding a hegemony title, so need to manually trigger that here
+					trigger_event = {
+						id = tgp_dynastic_cycle.9000
+						days = 1 # so the player gets to choose first
+					}
+				}
+			}
 
 			## Determine what Era to start the Dynastic Cycle in
 			# If they don't have Chinese Heritage, and haven't had the chinese_empire government for long from Imperator end date, start in Conquest Era

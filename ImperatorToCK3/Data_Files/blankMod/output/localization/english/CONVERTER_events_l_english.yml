@@ -13,3 +13,10 @@
  welcome_mods_recommend_choose_in_converter: "@warning_icon! #alert_trial IT IS RECOMMENDED THIS MOD BE CHOSEN WHEN RUNNING CONVERTER#!"
  welcome_mods_confed_leagues: "'Confederations & Leagues' by tanner918"
  welcome_mods_confed_leagues_desc: "This mod expands the confederation system. Using this mod will allow:\n$EFFECT_LIST_BULLET$Non-Tribal/Nomadic realms to form Defensive Leagues\n$EFFECT_LIST_BULLET$Faith-based Confederations/Leagues, instead of just Culture-based like in base game\n$EFFECT_LIST_BULLET$Some historical Confederation/League names to appear, with some creating new cultures when elevating the confederation/league\n$EFFECT_LIST_BULLET$Allows Imperator Defensive Leagues to be fully converted over upon game start, instead of just the ones containing Tribes/Nomads"
+
+
+
+
+ # Setup for AI to name China from Imperator tag
+ irtock3_imperator_china_name: "[irtock3_china_primary_name.GetNameNoTierNoTooltip]"
+ irtock3_imperator_china_name_adj: "[irtock3_china_primary_name.GetAdjectiveNoTooltip]"
