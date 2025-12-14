@@ -3546,3 +3546,60 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 		}
 	}
 }
+
+
+"common/decisions/80_major_decisions.txt" = {
+	#########################
+	## expand_duchy_decision
+	#########################
+	# The "Expand Duchy" decision doesn't make sure the new duchy being expanded has a proper de jure kingdom, so fixing that here
+	replace = {
+		before = {
+		scope:barony.county ?= {
+			set_de_jure_liege_title = scope:duchy_title_scope
+		}
+		}
+
+		after = {
+		scope:barony.duchy ?= { save_scope_as = old_duchy } # IRToCK3: Save old duchy as a scope to reference later
+		scope:barony.county ?= {
+			set_de_jure_liege_title = scope:duchy_title_scope
+		}
+		# IRToCK3: The base game decision doesn't make sure the expanded duchy has a de jure kingdom, so that is added below
+		if = {
+			limit = {
+				NOT = { exists = scope:duchy_title_scope.kingdom }
+			}
+
+			if = { # IRToCK3: If the old duchy has a kingdom it belongs to, just make that the kingdom for the new duchy
+				limit = {
+					exists = scope:old_duchy
+					exists = scope:old_duchy.kingdom
+				}
+				scope:duchy_title_scope = { set_de_jure_liege_title = scope:old_duchy.kingdom }
+			}
+			else = { # IRToCK3: Otherwise, choose a neighboring kingdom based of the amount of bordering counties
+				scope:barony.county ?= {
+					every_title_to_title_neighboring_and_across_water_county = { add_to_list = neighboring_counties }
+					ordered_title_to_title_neighboring_and_across_water_kingdom = {
+						order_by = {
+							value = 0
+							save_temporary_scope_as = test_kingdom
+							every_in_list = {
+								list = neighboring_counties
+								if = {
+									limit = { kingdom ?= scope:kingdom }
+									add = 1
+								}
+							}
+						}
+						max = 1
+						save_scope_as = new_kingdom
+					}
+				}
+				scope:duchy_title_scope = { set_de_jure_liege_title = scope:new_kingdom }
+			}
+		}
+		}
+	}
+}
