@@ -1192,7 +1192,10 @@
 
 	replace = {
 		before = {
-		is_roman_emperor_trigger = yes
+		OR = {
+			is_roman_emperor_trigger = yes
+			has_title = title:e_hre
+		}
 		NOR = { #Once an Emperor throws the challenge, he has only one chance to dismantle the Empire.
 			has_character_flag = flag_emperor_challenging_byz #Applied below.
 			has_character_flag = flag_emperor_challenged_byz #Applied in war.
@@ -1579,6 +1582,9 @@
 							title:k_sicily ?= this
 							title:k_naples ?= this
 							title:k_venice ?= this
+							title:k_romagna ?= this
+							title:k_sardinia ?= this
+							title:k_italy ?= this
 						}
 					}
 		}
@@ -1592,6 +1598,9 @@
 							title:k_sicily ?= this
 							title:k_naples ?= this
 							title:k_venice ?= this
+							title:k_romagna ?= this
+							title:k_sardinia ?= this
+							title:k_italy ?= this
 							# IRToCK3: Added this so that any kingdom where more than half of it is in the region also gets drifted
 							any_de_jure_county = {
 								percent >= 0.51
@@ -1624,13 +1633,10 @@
 					limit = {
 						tier = tier_kingdom	
 						OR = {
-							title:k_trinacria ?= this
+							# IRToCK3: Removed a lot of the kingdoms listed here that would be better suited for just Italy
 							title:k_croatia ?= this
 							title:k_serbia ?= this
 							title:k_bosnia ?= this
-							title:k_sicily ?= this
-							title:k_venice ?= this
-							title:k_naples ?= this
 							# IRToCK3: Added this so that any kingdom where more than half of it is in the region also gets drifted
 							any_de_jure_county = {
 								percent >= 0.51
@@ -1688,7 +1694,6 @@
 							title:k_mentese ?= this
 							title:k_karaman ?= this
 							title:k_germiyan ?= this
-							title:k_cyprus ?= this
 							title:k_eretnid ?= this
 							title:k_candar ?= this
 							title:k_nikaea ?= this
@@ -1715,7 +1720,6 @@
 							title:k_mentese ?= this
 							title:k_karaman ?= this
 							title:k_germiyan ?= this
-							title:k_cyprus ?= this
 							title:k_eretnid ?= this
 							title:k_candar ?= this
 							title:k_nikaea ?= this
@@ -1730,6 +1734,112 @@
 							any_de_jure_county = {
 								percent >= 0.51
 								title_province = { geographical_region = converter_custom_anatolia_region }
+							}
+						}
+					}
+		}
+	}
+
+	# Setting up e_oriens
+	replace = {
+		before = {
+					limit = {
+						exists = title:e_oriens
+						tier = tier_kingdom
+						OR = {
+							title:k_syria ?= this
+							title:k_jerusalem ?= this
+							title:k_jazira ?= this
+							title:k_mesopotamia ?= this
+							title:k_arabia ?= this
+							title:k_yemen ?= this
+							title:k_cyprus ?= this
+						}
+					}
+		}
+
+		after = {
+					limit = {
+						exists = title:e_oriens
+						tier = tier_kingdom
+						OR = {
+							title:k_syria ?= this
+							title:k_jerusalem ?= this
+							title:k_jazira ?= this
+							title:k_mesopotamia ?= this
+							title:k_arabia ?= this
+							title:k_yemen ?= this
+							title:k_cyprus ?= this
+							# IRToCK3: Added this so that any kingdom where more than half of it is in the region also gets drifted
+							any_de_jure_county = {
+								percent >= 0.51
+								title_province = { geographical_region = converter_custom_oriens_region }
+							}
+						}
+					}
+		}
+	}
+
+	# Setting up e_aegyptus
+	replace = {
+		before = {
+					limit = {
+						exists = title:e_aegyptus
+						tier = tier_kingdom
+						OR = {
+							title:k_egypt ?= this
+							title:k_blemmyia ?= this
+							title:k_nubia ?= this
+							title:k_abyssinia ?= this
+						}
+					}
+		}
+
+		after = {
+					limit = {
+						exists = title:e_aegyptus
+						tier = tier_kingdom
+						OR = {
+							title:k_egypt ?= this
+							title:k_blemmyia ?= this
+							title:k_nubia ?= this
+							title:k_abyssinia ?= this
+							# IRToCK3: Added this so that any kingdom where more than half of it is in the region also gets drifted
+							any_de_jure_county = {
+								percent >= 0.51
+								title_province = { geographical_region = ghw_region_egypt_et_al }
+							}
+						}
+					}
+		}
+	}
+
+	# Setting up e_africa
+	replace = {
+		before = {
+					limit = {
+						exists = title:e_africa
+						tier = tier_kingdom
+						OR = {
+							title:k_africa ?= this
+							title:k_tahert ?= this
+							title:k_maghreb ?= this
+						}
+					}
+		}
+
+		after = {
+					limit = {
+						exists = title:e_africa
+						tier = tier_kingdom
+						OR = {
+							title:k_africa ?= this
+							title:k_tahert ?= this
+							title:k_maghreb ?= this
+							# IRToCK3: Added this so that any kingdom where more than half of it is in the region also gets drifted
+							any_de_jure_county = {
+								percent >= 0.51
+								title_province = { geographical_region = converter_custom_africa_region }
 							}
 						}
 					}
@@ -3163,4 +3273,276 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 		}
 	}
 
+}
+
+
+"common/decisions/dlc_decisions/tgp/tgp_korea_decisions.txt" = {
+	# The "Unite the Husamguk" decision requires owning one of either Silla, Goguryeo, or Baekje, but those might not exist in a converted save, so that needs to be accounted for.
+	replace = {
+		before = {
+		OR = {
+			has_title = title:k_silla
+			has_title = title:k_goguryeo
+			has_title = title:k_baekje
+		}
+		custom_tooltip = {
+			text = tgp_korea_unify_goryeo_decision_no_other_korean_kingdoms_tt
+			trigger_if = {
+				limit = { exists = title:k_silla.holder }
+				title:k_silla.holder = root
+			}
+			trigger_if = {
+				limit = { exists = title:k_goguryeo.holder }
+				title:k_goguryeo.holder = root
+			}
+			trigger_if = {
+				limit = { exists = title:k_baekje.holder }
+				title:k_baekje.holder = root
+			}
+		}
+		}
+
+		after = {
+		## IRToCK3: Because e_goryeo, and the Korean kingdom titles may not actually convert over from Imperator, the decision is modified to account for this.
+		trigger_if = { # IRToCK3: If e_goryeo is titular (has no de jure land), it follows the base game and requires one of either Silla/Goguryeo/Baekje, which are formable through a new decision added through the converter.
+			limit = {
+				title:e_goryeo = { is_titular = yes }
+			}
+
+			OR = {
+				has_title = title:k_silla
+				has_title = title:k_goguryeo
+				has_title = title:k_baekje
+			}
+			custom_tooltip = {
+				text = tgp_korea_unify_goryeo_decision_no_other_korean_kingdoms_tt
+				trigger_if = {
+					limit = { exists = title:k_silla.holder }
+					title:k_silla.holder = root
+				}
+				trigger_if = {
+					limit = { exists = title:k_goguryeo.holder }
+					title:k_goguryeo.holder = root
+				}
+				trigger_if = {
+					limit = { exists = title:k_baekje.holder }
+					title:k_baekje.holder = root
+				}
+			}
+		}
+		trigger_else = { # IRToCK3: Otherwise, e_goryeo has de jure land, so it can use any of the kingdoms beneath it instead of requiring one of the above.
+			custom_tooltip = {
+				text = irtock3_unify_goryeo_decision_no_other_korean_kingdoms_tt
+				
+				any_held_title = {
+					title_tier = kingdom
+					empire ?= title:e_goryeo
+				}
+				title:e_goryeo = {
+					any_in_de_jure_hierarchy = {
+						count = all
+						filter =  { tier = tier_kingdom }
+						OR = {
+							holder ?= root
+							is_title_created = no
+						}
+					}
+				}
+			}
+		}
+		}
+	}
+}
+
+
+"common/scripted_effects/10_dlc_tgp_korea_scripted_effects.txt" = {
+	replace = {
+		before = {
+	# Destroy old titles
+	title:k_silla = { add_to_list = korea_kingdoms }
+	title:k_baekje = { add_to_list = korea_kingdoms }
+	title:k_goguryeo = { add_to_list = korea_kingdoms }
+	every_in_list = {
+		list = korea_kingdoms
+		limit = { holder = scope:king_of_goryeo }
+		save_scope_as = korean_kingdom 
+		scope:king_of_goryeo = { destroy_title = scope:korean_kingdom }
+	}
+	#If owned, annex Balhae.
+	if = {
+		limit = { title:k_balhae.holder ?= scope:king_of_goryeo }
+		title:k_balhae = { set_de_jure_liege_title = title:e_goryeo }
+	}
+	# Rename Ceremonial throne if relevant
+	title:k_yongson_throne ?= {
+		hidden_effect = {
+			if = {
+				limit = { scope:king_of_goryeo.culture = culture:silla }
+				set_title_name = "cn_silla_throne"
+			}
+		}
+	}
+		}
+
+		after = {
+	# IRToCK3: If e_goryeo is titular, give it de jure land
+	if = {
+		limit = {
+			title:e_goryeo = { is_titular = yes }
+		}
+
+		# IRToCK3: Make Silla/Baekje/Goguryeo de jure part of e_goryeo, under certain circumstances
+		if = {
+			limit = {
+				title:k_silla = {
+					OR = {
+						holder ?= root # IRToCK3: Always, if the character has it
+						# IRToCK3: If the title either isn't created OR held by another ruler, AND either has no land OR is at least 25% in Korea
+						AND = {
+							OR = {
+								is_title_created = no
+								AND = {
+									exists = holder
+									NOT = { holder = root }
+								}
+							}
+							OR = {
+								is_titular = yes
+								any_de_jure_county = {
+									percent >= 0.25
+									title_province = { geographical_region = world_asia_korea }
+								}
+							}
+						}
+					}
+				}
+			}
+			title:k_silla = { set_de_jure_liege_title = title:e_goryeo }
+		}
+		if = {
+			limit = {
+				title:k_baekje = {
+					OR = {
+						holder ?= root # IRToCK3: Always, if the character has it
+						# IRToCK3: If the title either isn't created OR held by another ruler, AND either has no land OR is at least 25% in Korea
+						AND = {
+							OR = {
+								is_title_created = no
+								AND = {
+									exists = holder
+									NOT = { holder = root }
+								}
+							}
+							OR = {
+								is_titular = yes
+								any_de_jure_county = {
+									percent >= 0.25
+									title_province = { geographical_region = world_asia_korea }
+								}
+							}
+						}
+					}
+				}
+			}
+			title:k_baekje = { set_de_jure_liege_title = title:e_goryeo }
+		}
+		if = {
+			limit = {
+				title:k_goguryeo = {
+					OR = {
+						holder ?= root # IRToCK3: Always, if the character has it
+						# IRToCK3: If the title either isn't created OR held by another ruler, AND either has no land OR is at least 25% in Korea
+						AND = {
+							OR = {
+								is_title_created = no
+								AND = {
+									exists = holder
+									NOT = { holder = root }
+								}
+							}
+							OR = {
+								is_titular = yes
+								any_de_jure_county = {
+									percent >= 0.25
+									title_province = { geographical_region = world_asia_korea }
+								}
+							}
+						}
+					}
+				}
+			}
+			title:k_goguryeo = { set_de_jure_liege_title = title:e_goryeo }
+		}
+
+		# IRToCK3: Then, add every other kingdom title with at least 25% of its counties in Korea
+		every_county_in_region = {
+			region = world_asia_korea
+			limit = {
+				exists = kingdom
+				kingdom = {
+					trigger_if = {
+						limit = { exists = empire }
+						NOT = { empire = title:e_goryeo }
+					}
+					any_de_jure_county = {
+						percent >= 0.25
+						title_province = { geographical_region = world_asia_korea }
+					}
+				}
+			}
+			kingdom = { set_de_jure_liege_title = title:e_goryeo }
+		}
+	}
+
+	# Destroy old titles
+	title:k_silla = { add_to_list = korea_kingdoms }
+	title:k_baekje = { add_to_list = korea_kingdoms }
+	title:k_goguryeo = { add_to_list = korea_kingdoms }
+	title:e_goryeo = { # IRToCK3: Also add every other kingdom under e_goryeo to account for converted save not making the above Korea kingdoms
+		every_in_de_jure_hierarchy = {
+			limit = {
+				tier = tier_kingdom
+				NOT = { is_in_list = korea_kingdoms }
+			}
+			add_to_list = korea_kingdoms
+		}
+	}
+	every_in_list = {
+		list = korea_kingdoms
+		limit = { holder = scope:king_of_goryeo }
+		save_scope_as = korean_kingdom 
+		scope:king_of_goryeo = { destroy_title = scope:korean_kingdom }
+	}
+	#If owned, annex Balhae.
+	if = {
+		limit = { title:k_balhae.holder ?= scope:king_of_goryeo }
+		title:k_balhae = { set_de_jure_liege_title = title:e_goryeo }
+	}
+	# Rename Ceremonial throne if relevant
+	title:k_yongson_throne ?= {
+		hidden_effect = {
+			if = {
+				limit = {
+					# IRToCK3: Base game just checks if the character's culture is Silla, changed to also include a culture descended from Silla (but not the other Korean cultures)
+					scope:king_of_goryeo.culture = {
+						OR = {
+							this = culture:silla
+							AND = {
+								any_parent_culture_or_above = {
+									this = culture:silla
+									NOT = { this = culture:baekje }
+									NOT = { this = culture:goguryeo }
+								}
+								
+								
+							}
+						}
+					}
+				}
+				set_title_name = "cn_silla_throne"
+			}
+		}
+	}
+		}
+	}
 }

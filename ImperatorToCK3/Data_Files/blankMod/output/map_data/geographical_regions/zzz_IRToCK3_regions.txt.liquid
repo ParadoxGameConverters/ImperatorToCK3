@@ -24,42 +24,6 @@ converter_roa_out_of_scope_region = {
 
 {% endif %}
 
-###############################
-### Regions to have always have
-###############################
-# This is mainly to better split up e_byzantium for the split_byzantine_empire_effect scripted effect
-converter_custom_macedonia_region = {
-	regions = {
-		ghw_region_greece ghw_region_thessalonika
-	}
-	duchies = {
-		d_krete
-		
-		# Bulgaria
-		d_vidin d_turnovo d_dobrudja d_bulgaria d_philippopolis
-	}
-}
-
-# This is mainly to better split up e_byzantium for the split_byzantine_empire_effect scripted effect
-converter_custom_anatolia_region = {
-	regions = {
-		ghw_region_anatolia
-	}
-	duchies = {
-		d_cyprus d_aegean_islands
-	}
-}
-
-# The form Hindustan decision depends on titles that might not exist. This region is made to account for that.
-converter_custom_hindustan_region = {
-	duchies = {
-		# Punjab
-		d_lahore d_multan d_gandhara
-
-		# Delhi
-		d_kuru d_vodamayutja d_haritanaka d_mathura
-	}
-}
 
 {% if vanilla or roa or aep %}
 # Out-of-scope region for Terra-Indomita that should be made Hantuist
@@ -129,3 +93,58 @@ converter_AUH_out_of_scope_region_faith_check = {
 	}
 }
 {% endif %}
+
+###############################
+### Regions to have always have
+###############################
+# This is mainly to better split up e_byzantium for the split_byzantine_empire_effect scripted effect
+converter_custom_macedonia_region = {
+	regions = {
+		ghw_region_greece ghw_region_thessalonika
+	}
+	duchies = {
+		d_krete
+		
+		# Bulgaria
+		d_vidin d_turnovo d_dobrudja d_bulgaria d_philippopolis
+	}
+}
+
+# This is mainly to better split up e_byzantium for the split_byzantine_empire_effect scripted effect
+converter_custom_anatolia_region = {
+	regions = {
+		ghw_region_anatolia
+	}
+	duchies = {
+		d_aegean_islands
+	}
+}
+
+# This is mainly to better split up e_byzantium for the split_byzantine_empire_effect scripted effect
+converter_custom_africa_region = {
+	regions = {
+		world_africa_north_west
+	}
+	duchies = {
+		d_syrte d_tripolitania
+	}
+}
+
+# This is mainly to better split up e_byzantium for the split_byzantine_empire_effect scripted effect
+converter_custom_oriens_region = {
+	regions = {
+		world_middle_east_jerusalem world_middle_east_arabia
+	}
+}
+
+# The form Hindustan decision depends on titles that might not exist. This region is made to account for that.
+converter_custom_hindustan_region = {
+	duchies = {
+		# Punjab
+		d_lahore d_multan d_gandhara
+
+		# Delhi
+		d_kuru d_vodamayutja d_haritanaka d_mathura
+	}
+}
+

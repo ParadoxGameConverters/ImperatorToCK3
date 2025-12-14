@@ -235,6 +235,19 @@
 				}
 			}
 		}
+
+		character:bookmark_huang_chao = {
+			if = {
+				limit = {
+					is_alive = yes
+					is_playable_character = yes
+				}
+				trigger_event = {
+					id = bookmark.0500
+					days = 1
+				}
+			}
+		}
 	}
 	{
 		# Basileios has just murdered Michael III.
@@ -513,12 +526,6 @@
 				}
 			}
 		}
-	}
-
-	# Anachronistic
-	{
-		### GAME RULE: EXTRA ADMINS
-		apply_historic_administrative_game_rule_effect = yes
 	}
 
 	# Anachronistic
@@ -2676,7 +2683,7 @@
 					add_realm_law_skip_effects = camp_purpose_mercenaries
 				}
 			}
-			character:bojo_jinul_1 ?= {
+			character:il_eom_1 ?= {
 				if = {
 					limit = {
 						is_alive = yes
@@ -4011,10 +4018,6 @@
 	}
 	
 	{
-		fp1_major_decisions.1011	# Harald Tanglehair becomes Harald Fairhair.
-		fp1_major_decisions.1012	# If Norway has just been created for the first time, flag that.
-	}
-	{
 			# Norway stuff
 			else_if = {
 				limit = {
@@ -4621,9 +4624,25 @@ bookmark_867_northmen_aellas_capture_war_imprisonment_effect = {
 		if = {
 			limit = {
 				has_tgp_dlc_trigger = yes
+				current_date > 1150.1.1 #Needs to be long past creation date for this to make sense
 			}
 			title:h_china.holder = {
 				create_artifact_military_classics_effect = {
+					OWNER = this
+				}
+			}
+		}
+	}
+
+	{
+		#Green Stone Amitabha Buddha Statue
+		if = {
+			limit = {
+				has_tgp_dlc_trigger = yes
+				current_date >= 1066.5.1
+			}
+			title:k_viet.holder = {
+				create_artifact_statue_viet_green_amitabha_buddha_effect = {
 					OWNER = this
 				}
 			}
@@ -4925,6 +4944,10 @@ create_artifact_monomachus_crown_effect = {
 		add_artifact_title_history = {
 			target = title:e_byzantium
 			date = 1055.1.11
+		}
+		set_variable = {
+			name = artifact_succession_title
+			value = title:e_byzantium
 		}
 	}
 }
@@ -6064,7 +6087,7 @@ bookmark.0001 = { #by Mathilda Bjarnehed
 		}
 	}
 }
-		
+	
 ### Alfred is pretty cool so we give him a nickname
 bookmark.0002 = { #by Mathilda Bjarnehed
 	type = character_event
@@ -6809,6 +6832,400 @@ bookmark.0300 = {
 			base = 100	# AI doesn't get this event, but should always pick no.
 		}
 		custom_tooltip = bookmark.0300.b.tt
+	}
+}
+	}
+
+	{
+bookmark.0400 = {
+	type = character_event
+	title = bookmark.0400.t
+	desc = bookmark.0400.desc
+
+	theme = family
+
+	left_portrait = {
+		character = root
+		animation = disapproval
+	}
+	lower_left_portrait = {
+		character = scope:brother
+	}
+	lower_right_portrait = {
+		character = scope:child
+	}
+	right_portrait = {
+		character = scope:emperor
+		animation = pain
+	}
+
+	trigger = {
+		is_ai = no
+		character:206651 = { # your husband
+			is_alive = yes
+			is_ai = yes
+			is_landed = yes
+		}
+		character:206653 = { # your child
+			is_alive = yes
+			is_ai = yes
+			top_liege = root.top_liege
+		}
+		character:tangut_liang_2 = { # your brother
+			is_alive = yes
+			is_ai = yes
+			top_liege = root.top_liege
+		}
+	}
+
+	immediate = {
+		character:206651 = { save_scope_as = emperor }
+		character:206653 = { save_scope_as = child }
+		character:tangut_liang_2 = { save_scope_as = brother }
+		scope:emperor.primary_title = { save_scope_as = xia }
+	}
+	
+	option = {
+		name = bookmark.0400.a
+
+		custom_tooltip = {
+			text = bookmark.0400.a.tt
+
+			scope:emperor = {
+				every_held_title = {
+					limit = {
+						tier >= tier_county
+						is_landless_type_title = no
+					}
+					add_to_list = titles_to_transfer
+				}
+			}
+
+			create_title_and_vassal_change = {
+				type = usurped
+				save_scope_as = change
+				add_claim_on_loss = yes
+			}
+
+			every_in_list = {
+				list = titles_to_transfer
+				change_title_holder = {
+					holder = root
+					change = scope:change
+				}
+			}
+
+			scope:emperor = {
+				every_vassal = {
+					limit = {
+						NOT = {
+							this = root
+						}
+					}
+					change_liege = {
+						LIEGE = root
+						CHANGE = scope:change
+					}
+				}
+			}
+
+			resolve_title_and_vassal_change = scope:change
+
+			scope:emperor = {
+				death = {
+					death_reason = death_wounds
+				}
+			}
+		}
+
+		if = {
+			limit = { 
+				exists = cp:councillor_chancellor
+				cp:councillor_chancellor != character:tangut_liang_2
+			}
+			fire_councillor = cp:councillor_chancellor
+			assign_councillor_type = {
+				type = councillor_chancellor
+				target = character:tangut_liang_2
+			}
+		}
+
+		every_child = {
+			limit = {
+				house != root.house
+			}
+			set_house = root.house
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	option = {
+		name = bookmark.0400.b
+
+		custom_tooltip = {
+			text = bookmark.0400.b.tt
+			add_character_flag = has_had_diarch_intro_event_flag
+
+			scope:emperor = {
+				designate_diarch = root
+				try_start_diarchy = regency
+				set_diarchy_swing = 100
+				if = {
+					limit = { 
+						exists = cp:councillor_chancellor
+						cp:councillor_chancellor != character:tangut_liang_2
+					}
+					fire_councillor = cp:councillor_chancellor
+					scope:brother = {
+						set_employer = scope:emperor
+					}
+					assign_councillor_type = {
+						type = councillor_chancellor
+						target = character:tangut_liang_2
+					}
+				}
+			}
+		}
+		change_influence = monumental_influence_gain
+		add_prestige = monumental_prestige_gain
+
+		ai_chance = {
+			base = 100
+		}
+	}
+	option = {
+		name = bookmark.0400.c
+
+		custom_tooltip = {
+			text = bookmark.0400.c.tt
+			add_character_flag = has_had_diarch_intro_event_flag
+
+			scope:emperor = {
+				death = {
+					death_reason = death_wounds
+				}
+			}
+			scope:brother = {
+				set_employer = scope:child
+			}
+			scope:child = {
+				set_diarch = root
+				set_diarchy_swing = 100
+				if = {
+					limit = { 
+						exists = cp:councillor_chancellor
+						cp:councillor_chancellor != character:tangut_liang_2
+					}
+					fire_councillor = cp:councillor_chancellor
+					assign_councillor_type = {
+						type = councillor_chancellor
+						target = character:tangut_liang_2
+					}
+				}
+			}
+		}
+		change_influence = monumental_influence_gain
+		add_prestige = monumental_prestige_gain
+
+		ai_chance = {
+			base = 0
+		}
+	}
+	after = {
+		add_hook = {
+			type = loyalty_hook
+			target = scope:brother
+		}
+
+		scope:brother = {
+			change_influence = massive_influence_gain
+			add_prestige = massive_prestige_gain
+		}
+	}
+}
+	}
+
+	{
+bookmark.0500 = {
+	type = character_event
+	title = bookmark.0500.t
+	desc = bookmark.0500.desc
+	window = big_event_window
+	theme = merit
+	override_background = bedchamber
+
+	left_portrait = {
+		character = root
+		animation = disapproval
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+	
+	option = {
+		name = bookmark.0500.a
+
+		add_character_modifier = {
+			modifier = tgp_wiles_is_the_way_modifier
+			years = 10
+		}
+
+		domicile ?= {
+			hidden_effect = {
+				add_domicile_building = east_asian_peasant_quarters_01
+				add_domicile_building = east_asian_peasant_quarters_02
+				add_domicile_building = east_asian_peasant_quarters_03
+			}
+			add_domicile_building = east_asian_peasant_quarters_04
+			custom_tooltip = domicile_building_parameter_can_use_incite_revolts
+			custom_tooltip = domicile_building_parameter_can_join_peasant_factions
+		} 
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = bookmark.0500.b
+
+		trigger = {
+			is_landed = no
+		}
+
+		add_trait = conqueror
+
+		create_title_and_vassal_change = {
+  			type = usurped
+  			save_scope_as = change
+  		}
+  		title:c_caozhou = {
+	  		change_title_holder = {
+				holder = root
+				change = scope:change
+				take_baronies = yes
+			}
+  		}
+  		hidden_effect = {
+ 			becomes_independent = {
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		start_war = {
+			casus_belli = admin_barbarian_conquest_cb
+			target = title:d_biansong.holder
+		}
+
+		spawn_army = {
+			levies = 5000
+			location = root.capital_province
+			origin = root.capital_province
+			inheritable = no
+			uses_supply = yes
+			name = faithful_followers
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+	option = {
+		name = bookmark.0500.c
+
+		trigger = {
+			has_dlc_feature = roads_to_power
+		}
+
+		create_landless_adventurer_title_tooltip_effect = yes
+		add_character_modifier = {
+			modifier = ep3_voluntary_laamp_character_modifier
+			years = 5
+		}
+		hidden_effect = {
+			# Create Adventurer
+			create_landless_adventurer_title_effect = {
+				REASON = flag:runaway_allowed
+				FLAVOR_CHAR = root
+			}
+			domicile ?= {
+				change_provisions = major_provisions_gain
+			}
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	option = {
+		name = bookmark.0500.d
+
+		trigger = {
+			is_landed = no
+		}
+
+		set_character_faith = faith:maitreya
+
+		faith:maitreya = {
+			change_fervor = {
+				value = 100
+				desc = maitreya_has_descended_fervor_desc
+			}
+		}
+
+		add_character_modifier = claimed_mantle_of_maitreya_modifier
+
+		hidden_effect = {
+			set_global_variable = {
+				name = the_maitreya_has_descended
+				value = yes
+			}
+		}
+		add_trait = peasant_leader
+
+		create_title_and_vassal_change = {
+  			type = usurped
+  			save_scope_as = change
+  		}
+  		title:c_caozhou = {
+	  		change_title_holder = {
+				holder = root
+				change = scope:change
+				take_baronies = yes
+			}
+  		}
+  		hidden_effect = {
+ 			becomes_independent = {
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		start_war = {
+			casus_belli = admin_barbarian_conquest_cb
+			target = title:d_biansong.holder
+		}
+
+		spawn_army = {
+			levies = 5000
+			location = root.capital_province
+			origin = root.capital_province
+			inheritable = no
+			uses_supply = yes
+			name = maitreya_devotees
+		}
+
+		ai_chance = {
+			base = 0
+		}
 	}
 }
 	}
@@ -10876,6 +11293,7 @@ scripted_effect fp1_1011_gib_pretty_hair_effect = {
 #	Tanglehair becomes Fairhair.
 fp1_major_decisions.1011 = {
 	type = character_event
+	window = big_event_window
 	title = fp1_major_decisions.1011.t
 	desc = {
 		desc = fp1_major_decisions.1011.desc.intro
@@ -10899,44 +11317,63 @@ fp1_major_decisions.1011 = {
 	}
 	override_background = { reference = fp1_ocean_norse }
 
-	trigger = {
-		# This character is Harald Fairhair.
-		exists = character:144000
-		this = character:144000
-		# The title they've acquired is Norway.
-		scope:title = title:k_norway
-		# Norway has been created by them.
-		scope:transfer_type = flag:created
-		# Norway has not been created previously.
-		NOT = { exists = global_var:norway_created }
-	}
-
 	immediate = {
 		play_music_cue = "mx_cue_succession"
 		# Check to see if Gyda is still around and kicking, and if so, treat this as a romance.
 		character:166044 = {
-			if = {
-				limit = {
-					is_alive = yes
-					can_marry_character_trigger = { CHARACTER = root }
-					has_any_bad_relationship_with_root_trigger = no
-					is_ai = yes
+			hidden_effect = {
+				if = {
+					limit = {
+						betrothed ?= {
+							NOR = {
+								this = character:144000
+								is_ai = no
+							}
+						}
+					}
+					break_betrothal = betrothed
 				}
-				save_scope_as = gyda
+				else_if = {
+					limit = {
+						is_adult = yes
+						is_married = yes
+						any_spouse = {
+							NOR = {
+								this = character:144000
+								is_ai = no
+							}
+						}
+					}
+					every_spouse = {
+						prev = {
+							divorce = prev
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						exists = concubinist
+						concubinist = {
+							NOR = {
+								this = character:144000
+								is_ai = no
+							}
+						}
+					}
+					concubinist = {
+						remove_concubine = prev
+					}
+				}
+				if = {
+					limit = {
+						is_alive = yes
+						could_marry_character_trigger = { CHARACTER = root }
+						has_any_bad_relationship_with_root_trigger = no
+						is_ai = yes
+					}
+					save_scope_as = gyda
+				}
 			}
-		}
-	}
-
-	# My vow fulfilled!
-	option = {
-		name = fp1_major_decisions.1011.a
-
-		# Apply standard haircut effects.
-		fp1_1011_gib_pretty_hair_effect = yes
-
-		ai_chance = {
-			# AI should only default to this if Gyda is unavailable.
-			base = 0
 		}
 	}
 	
@@ -10947,13 +11384,41 @@ fp1_major_decisions.1011 = {
 			# Gyda must have been valid.
 			exists = scope:gyda
 			# And, for MP, remain valid.
-			can_marry_character_trigger = { CHARACTER = scope:gyda }
+			could_marry_character_trigger = { CHARACTER = scope:gyda }
+		}
+		
+		if = {
+			limit = {
+				is_married = yes
+				primary_spouse ?= {
+					NOT = {
+						this = character:144000
+					}
+				}
+			}
+			divorce = primary_spouse
+		}
+		else_if = {
+			limit = {
+				betrothed ?= {
+					NOT = {
+						this = character:144000
+					}
+				}
+			}
+			break_betrothal = betrothed
 		}
 
 		# Apply standard haircut effects.
 		fp1_1011_gib_pretty_hair_effect = yes
 		# Harald & Gyda are wed.
 		if = {
+			limit = {
+				scope:gyda = { is_adult = no }
+			}
+			create_betrothal = scope:gyda
+		}
+		else_if = {
 			limit = {
 				has_ep2_dlc_trigger = yes
 			}
@@ -10969,17 +11434,32 @@ fp1_major_decisions.1011 = {
 		add_opinion = {
 			target = scope:gyda
 			modifier = love_opinion
-			opinion = 50
+			opinion = 150
 		}
 		reverse_add_opinion = {
 			target = scope:gyda
 			modifier = love_opinion
-			opinion = 50
+			opinion = 150
 		}
+		
+		add_stress = -200
 
 		ai_chance = {
 			# AI should always select this option if it's present.
 			base = 100
+		}
+	}
+
+	# My vow fulfilled!
+	option = {
+		name = fp1_major_decisions.1011.a
+
+		# Apply standard haircut effects.
+		fp1_1011_gib_pretty_hair_effect = yes
+
+		ai_chance = {
+			# AI should only default to this if Gyda is unavailable.
+			base = 0
 		}
 	}
 	
@@ -12942,6 +13422,12 @@ hasan_sabbah.1000 = {
 		}
 
 		set_character_faith = faith:ismaili
+		if = {
+			limit = { 
+				faith:ismaili = { has_doctrine = doctrine_monotheist }
+			}
+			custom_description_no_bullet = { text = mandala_monotheist_warning_tt }
+		}
 		custom_tooltip = {
 			text = unlock_evangelize_decision_tt
 			create_story = story_hasan
@@ -15532,7 +16018,10 @@ cid.2020 = {
 			}
 		}
 		set_variable = had_cid_2020
-		var:cid_liege = { save_scope_as = liege }
+		var:cid_liege = {
+			save_scope_as = liege
+			save_scope_as = defender
+		}
 		scope:liege.primary_title = {
 			every_de_jure_county = {
 				limit = {
@@ -15543,6 +16032,11 @@ cid.2020 = {
 					}
 				}
 				add_to_list = granted_title
+			}
+			ordered_in_list = {
+				list = granted_title
+				order_by = development_level
+				save_scope_as = target
 			}
 		}
 	}
@@ -15558,11 +16052,12 @@ cid.2020 = {
 			ALWAYS_INDEPENDENT = no
 			TITLE_LIST = granted_title
 		}
-		ep3_become_landed_transfer_no_ennobled_modifier_effect = {
+		ep3_become_landed_transfer_effect = {
 			TITLE_RECEIVER = root
 			TITLE_LIST = granted_title
 			TYPE = granted
 			REASON = flag:negotiated
+			ENNOBLED_ADVENTURER = flag:no
 		}
 		
 		ai_chance = {
@@ -15718,7 +16213,10 @@ cid.4010 = {
 
 	immediate = {
 		set_variable = had_cid_4010
-		var:cid_liege = { save_scope_as = liege }
+		var:cid_liege = {
+			save_scope_as = liege
+			save_scope_as = defender
+		}
 		if = {
 			limit = {
 				scope:liege = {
@@ -15756,17 +16254,23 @@ cid.4010 = {
 		cid_4010_disloyal_effect = yes
 		var:cid_title_to_give = {
 			every_de_jure_county = { add_to_list = seized_titles }
+			ordered_in_list = {
+				list = seized_titles
+				order_by = development_level
+				save_scope_as = target
+			}
 		}
 		ep3_become_landed_save_liege_effect = {
 			TITLE_GIVER = var:cid_title_to_give.holder
 			ALWAYS_INDEPENDENT = yes
 			TITLE_LIST = seized_titles
 		}
-		ep3_become_landed_transfer_no_ennobled_modifier_effect = {
+		ep3_become_landed_transfer_effect = {
 			TITLE_RECEIVER = root
 			TITLE_LIST = seized_titles
 			TYPE = usurped
 			REASON = flag:seize_realm
+			ENNOBLED_ADVENTURER = flag:no
 		}
 		
 		ai_chance = {

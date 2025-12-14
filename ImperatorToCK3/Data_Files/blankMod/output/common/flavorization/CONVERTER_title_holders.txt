@@ -1,4 +1,4 @@
-﻿# Last updated: CK3 patch 1.13.1
+﻿# Last updated: CK3 patch 1.18.1.1
 emperor_feudal_male_ancient_egyptian = { # Pharaoh
     type = character
 	gender = male
