@@ -3642,4 +3642,264 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 		}
 		}
 	}
+
+	#########################
+	## declare_bloodline_holy_decision
+	#########################
+	# Need to modify to account for the fact that the Yamato dynasty might not be the Japanese Imperial Dynasty
+	replace = {
+		before = {
+				dynasty:japanese_yamato ?= this # Already divine
+		}
+
+		after = {
+				global_var:japanese_imperial_dynasty ?= this # Already divine # IRToCK3: Modified to account for Yamato possibly not being Japanese Imperial Dynasty
+		}
+	}
+}
+
+
+"events/activities/hunt_activity/hunt_events.txt" = {
+	# Need to modify to account for the fact that the Yamato dynasty might not be the Japanese Imperial Dynasty
+	replace = {
+		before = {
+						dynasty = dynasty:japanese_yamato 
+		}
+
+		after = {
+						global_var:japanese_imperial_dynasty ?= dynasty # IRToCK3: Modified to account for Yamato possibly not being Japanese Imperial Dynasty
+		}
+	}
+}
+
+
+"common/scripted_effects/10_dlc_tgp_japan_scripted_effects.txt" = {
+	# Need to modify to account for the fact that the Yamato dynasty might not be the Japanese Imperial Dynasty
+	replace = {
+		before = {
+	dynasty:japanese_yamato.dynasty_founder.house ?= {
+		save_scope_as = house_yamato
+		if = {
+			limit = { this = scope:kampaku.house }
+			if = { # Avoid display of short tooltips after creation
+				limit = { NOT = { exists = scope:scion } }
+				custom_tooltip = tgp_restore_japanese_monarchy_yamato_scion_kampaku_tt
+			}
+			scope:kampaku = { save_scope_as = scion }
+		}
+		else_if = {
+			limit = {
+				scope:last_tenno ?= { tgp_japan_valid_restore_monarchy_scion_trigger = yes }
+			}
+			if = { # Avoid display of short tooltips after creation
+				limit = { NOT = { exists = scope:scion } }
+				custom_tooltip = tgp_restore_japanese_monarchy_yamato_scion_last_tt
+			}
+			scope:last_tenno = { save_scope_as = scion }
+		}
+		else_if = {
+			limit = {
+				scope:last_tenno ?= {
+					any_child = { tgp_japan_valid_restore_monarchy_scion_trigger = yes }
+				}
+			}
+			if = { # Avoid display of short tooltips after creation
+				limit = { NOT = { exists = scope:scion } }
+				custom_tooltip = tgp_restore_japanese_monarchy_yamato_scion_last_child_tt
+			}
+			scope:last_tenno = {
+				ordered_child = {
+					limit = { tgp_japan_valid_restore_monarchy_scion_trigger = yes }
+					order_by = age
+					save_scope_as = scion
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:last_tenno ?= {
+					any_close_family_member = { tgp_japan_valid_restore_monarchy_scion_trigger = yes }
+				}
+			}
+			if = { # Avoid display of short tooltips after creation
+				limit = { NOT = { exists = scope:scion } }
+				custom_tooltip = tgp_restore_japanese_monarchy_yamato_scion_last_close_family_tt
+			}
+			scope:last_tenno = {
+				ordered_close_family_member = {
+					limit = { tgp_japan_valid_restore_monarchy_scion_trigger = yes }
+					order_by = age
+					save_scope_as = scion
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_house_member = {
+					is_ruler = no
+					can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = root.top_liege }
+					is_healthy = yes
+				}
+			}
+			if = { # Avoid display of short tooltips after creation
+				limit = { NOT = { exists = scope:scion } }
+				custom_tooltip = tgp_restore_japanese_monarchy_yamato_scion_found_tt
+			}
+			ordered_house_member = {
+				limit = {
+					top_liege = root.top_liege
+					is_ruler = no
+					can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = root.top_liege }
+					is_healthy = yes
+				}
+				order_by = age
+				save_scope_as = scion
+			}
+		}
+		else = {
+			tgp_restore_japanese_monarchy_yamato_creation_effect = yes
+			if = { # Avoid display of short tooltips after creation
+				limit = { NOT = { exists = scope:scion } }
+				custom_tooltip = tgp_restore_japanese_monarchy_yamato_scion_created_tt
+			}
+		}
+		# Save children for portraits
+		scope:scion = {
+			save_scope_as = background_throne_room_scope
+			ordered_child = {
+				limit = { house = scope:scion.house }
+				max = 3
+				check_range_bounds = no
+				order_by = age
+				switch = {
+					trigger = exists
+					scope:scion_child_2 = { save_scope_as = scion_child_3 }
+					scope:scion_child_1 = { save_scope_as = scion_child_2 }
+					fallback = { save_scope_as = scion_child_1 }
+				}
+			}
+		}
+	}
+		}
+
+		after = {
+	global_var:japanese_imperial_dynasty.dynasty_founder.house ?= { # IRToCK3: Modified to account for Yamato possibly not being Japanese Imperial Dynasty
+		save_scope_as = house_yamato
+		if = {
+			limit = { this = scope:kampaku.house }
+			if = { # Avoid display of short tooltips after creation
+				limit = { NOT = { exists = scope:scion } }
+				custom_tooltip = tgp_restore_japanese_monarchy_yamato_scion_kampaku_tt
+			}
+			scope:kampaku = { save_scope_as = scion }
+		}
+		else_if = {
+			limit = {
+				scope:last_tenno ?= { tgp_japan_valid_restore_monarchy_scion_trigger = yes }
+			}
+			if = { # Avoid display of short tooltips after creation
+				limit = { NOT = { exists = scope:scion } }
+				custom_tooltip = tgp_restore_japanese_monarchy_yamato_scion_last_tt
+			}
+			scope:last_tenno = { save_scope_as = scion }
+		}
+		else_if = {
+			limit = {
+				scope:last_tenno ?= {
+					any_child = { tgp_japan_valid_restore_monarchy_scion_trigger = yes }
+				}
+			}
+			if = { # Avoid display of short tooltips after creation
+				limit = { NOT = { exists = scope:scion } }
+				custom_tooltip = tgp_restore_japanese_monarchy_yamato_scion_last_child_tt
+			}
+			scope:last_tenno = {
+				ordered_child = {
+					limit = { tgp_japan_valid_restore_monarchy_scion_trigger = yes }
+					order_by = age
+					save_scope_as = scion
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				scope:last_tenno ?= {
+					any_close_family_member = { tgp_japan_valid_restore_monarchy_scion_trigger = yes }
+				}
+			}
+			if = { # Avoid display of short tooltips after creation
+				limit = { NOT = { exists = scope:scion } }
+				custom_tooltip = tgp_restore_japanese_monarchy_yamato_scion_last_close_family_tt
+			}
+			scope:last_tenno = {
+				ordered_close_family_member = {
+					limit = { tgp_japan_valid_restore_monarchy_scion_trigger = yes }
+					order_by = age
+					save_scope_as = scion
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				any_house_member = {
+					is_ruler = no
+					can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = root.top_liege }
+					is_healthy = yes
+				}
+			}
+			if = { # Avoid display of short tooltips after creation
+				limit = { NOT = { exists = scope:scion } }
+				custom_tooltip = tgp_restore_japanese_monarchy_yamato_scion_found_tt
+			}
+			ordered_house_member = {
+				limit = {
+					top_liege = root.top_liege
+					is_ruler = no
+					can_be_combatant_based_on_gender_trigger = { ARMY_OWNER = root.top_liege }
+					is_healthy = yes
+				}
+				order_by = age
+				save_scope_as = scion
+			}
+		}
+		else = {
+			tgp_restore_japanese_monarchy_yamato_creation_effect = yes
+			if = { # Avoid display of short tooltips after creation
+				limit = { NOT = { exists = scope:scion } }
+				custom_tooltip = tgp_restore_japanese_monarchy_yamato_scion_created_tt
+			}
+		}
+		# Save children for portraits
+		scope:scion = {
+			save_scope_as = background_throne_room_scope
+			ordered_child = {
+				limit = { house = scope:scion.house }
+				max = 3
+				check_range_bounds = no
+				order_by = age
+				switch = {
+					trigger = exists
+					scope:scion_child_2 = { save_scope_as = scion_child_3 }
+					scope:scion_child_1 = { save_scope_as = scion_child_2 }
+					fallback = { save_scope_as = scion_child_1 }
+				}
+			}
+		}
+	}
+		}
+	}
+}
+
+
+"common/decisions/dlc_decisions/tgp/tgp_japan_decisions.txt" = {
+	# Need to modify to account for the fact that the Yamato dynasty might not be the Japanese Imperial Dynasty
+	replace = {
+		before = {
+							NOT = { this = dynasty:japanese_yamato }
+		}
+
+		after = {
+							NOT = { global_var:japanese_imperial_dynasty ?= this } # IRToCK3: Modified to account for Yamato possibly not being Japanese Imperial Dynasty
+		}
+	}
 }

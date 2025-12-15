@@ -56,6 +56,13 @@ IRToCK3_game_start_onaction_effects = {
 			days = 1
 		}
 
+		## Setup a global variable that indicates which dynasty should be the Japanese Imperial Dynasty
+		# The base game Yamato dynasty is set at game start to make sure everything that references the variable can actually reference something. It will get changed later when Japan gets properly formed/setup
+		set_global_variable = {
+			name = japanese_imperial_dynasty
+			value = dynasty:japanese_yamato
+		}
+
 
 		####################
 		### Title Naming ###

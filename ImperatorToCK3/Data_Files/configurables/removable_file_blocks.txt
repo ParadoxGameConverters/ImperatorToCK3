@@ -4430,6 +4430,20 @@ bookmark_867_northmen_aellas_capture_war_imprisonment_effect = {
 	}
 
 	{
+		### Banke no Hoken ~785
+		if = { # Chrysanthemum Throne
+			limit = {
+				has_dlc_feature = royal_court
+				current_date >= 867.1.1
+				exists = title:k_chrysanthemum_throne.holder
+			}
+			title:k_chrysanthemum_throne.holder = {
+				create_artifact_pedestal_sakanoue_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
 		### Higekiri ~950
 		if = { # Seiwa
 			limit = {
@@ -4540,6 +4554,19 @@ bookmark_867_northmen_aellas_capture_war_imprisonment_effect = {
 			}
 			title:k_chrysanthemum_throne.holder = {
 				create_artifact_pedestal_hamayumi_bow_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Shichishitō <500
+		if = { # Chrysanthemum Throne
+			limit = {
+				current_date >= 867.1.1
+				exists = title:k_chrysanthemum_throne.holder
+			}
+			title:k_chrysanthemum_throne.holder = {
+				create_artifact_pedestal_seven_branched_sword_effect = { OWNER = this }
 			}
 		}
 	}

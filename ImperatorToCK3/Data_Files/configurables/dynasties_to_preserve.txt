@@ -7,6 +7,7 @@ jamshid
 613 # Seljuk, referenced in events\yearly_events\yearly_events_persia.txt
 25061 # Karling, referenced in common/achievements/standard_achievements.txt
 105800 # in achievements
+japanese_yamato
 
 # TFE
 900021 # referenced in common\scripted_guis\sevenhouses.txt
