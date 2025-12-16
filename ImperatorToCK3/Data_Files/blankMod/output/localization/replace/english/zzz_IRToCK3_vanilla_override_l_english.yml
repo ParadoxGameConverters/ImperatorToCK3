@@ -111,3 +111,10 @@
  converter_custom_hindustan_region: "Hindustan Core"
  hindustan_control_3_kingdoms: "Hold at least 3 [kingdoms|E] with 80% of its land in [GetGeographicalRegion('world_india_rajastan').GetName]"
  hindustan_control_rajastan: "Control at least 80% of [GetGeographicalRegion('world_india_rajastan').GetName]"
+
+ # Need to modify these to account for the Yamato dynasty posisbly not being the Japanese Imperial Dynasty
+ tgp_japan_decision.9901.t: "[GetGlobalVariable('japanese_imperial_dynasty').Dynasty.GetBaseNameNoTooltip] Ten'nō Restored"
+ tgp_japan_decision.9901.desc: "The Ten'nō stands strong, and the Chrysanthemum Throne returns to it's rightful heir. This rule is not merely of a noble title or status, but reflects the ancient connection of the [GetGlobalVariable('japanese_imperial_dynasty').Dynasty.GetBaseNameNoTooltip] to these lands."
+ tgp_japan_decision.9902.desc: "The sacred [GetGlobalVariable('japanese_imperial_dynasty').Dynasty.GetBaseNameNoTooltip] bloodline exudes its presence in the Imperial Palace once more. A child of Amaterasu, [scion.GetName] stands as its heir, just as in the days of old.\n\nWith this return to tradition, the realm may flourish again under the glistening light of the Chrysanthemum Throne."
+ tgp_japan_restore_japanese_monarchy_decision: "Restore a [GetGlobalVariable('japanese_imperial_dynasty').Dynasty.GetBaseNameNoTooltip] Ten'nō"
+ tgp_japan_restore_japanese_monarchy_decision_desc: "Amaterasu's unbroken bloodline has ever ruled over these islands, if we are to restore the might of Japan, a rightful [GetGlobalVariable('japanese_imperial_dynasty').Dynasty.GetBaseNameNoTooltip] heir must be restored."

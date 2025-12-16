@@ -3892,6 +3892,9 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 
 
 "common/decisions/dlc_decisions/tgp/tgp_japan_decisions.txt" = {
+	#########################
+	## tgp_japan_imperial_branch_decision
+	#########################
 	# Need to modify to account for the fact that the Yamato dynasty might not be the Japanese Imperial Dynasty
 	replace = {
 		before = {
@@ -3900,6 +3903,33 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 
 		after = {
 							NOT = { global_var:japanese_imperial_dynasty ?= this } # IRToCK3: Modified to account for Yamato possibly not being Japanese Imperial Dynasty
+		}
+	}
+
+	#########################
+	## tgp_japan_restore_japanese_monarchy_decision
+	#########################
+	# Need to make sure that someone has actually previously held the Chrysanthemum Throne, otherwise this doesn't make sense
+	replace = {
+		before = {
+		# Chrysanthemum no longer part of Japan or destroyed
+		trigger_if = {
+			limit = { exists = title:k_chrysanthemum_throne.holder }
+			NOT = { title:e_japan.holder ?= title:k_chrysanthemum_throne.holder.top_liege }
+		}
+		}
+
+		after = {
+		# IRToCK3: This decision only really matters if you are a part of e_japan (whether you have the title yourself or are a vassal)
+		top_liege ?= { has_title = title:e_japan }
+		# Chrysanthemum no longer part of Japan or destroyed
+		trigger_if = {
+			limit = { exists = title:k_chrysanthemum_throne.holder }
+			NOT = { title:e_japan.holder ?= title:k_chrysanthemum_throne.holder.top_liege }
+		}
+		trigger_else = { # IRToCK3: Added this check so that if the throne isn't created, it needs to have a previous holder, otherwise this decision doesn't make sense
+			title:k_chrysanthemum_throne ?= { exists = previous_holder }
+		}
 		}
 	}
 }
