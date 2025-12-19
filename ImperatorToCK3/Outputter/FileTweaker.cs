@@ -144,7 +144,6 @@ internal static class FileTweaker {
 		parserForFile.ParseStream(reader);
 	}
 
-	
 	private static async Task ModifyPartsOfFiles(Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, ModFilesystem ck3ModFS, string outputModPath) {
 		// Log count of blocks to remove for each file.
 		foreach (var (relativePath, partsToRemove) in partsToModifyPerFile) {
