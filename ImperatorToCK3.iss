@@ -58,8 +58,8 @@ Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChang
 [Code]
 function InitializeSetup: Boolean;
 begin
-  // Install .NET 9 runtime if it is not already installed.
-  Dependency_AddDotNet90;
+  // Install .NET 10 runtime if it is not already installed.
+  Dependency_AddDotNet100;
 
   Result := True;
 end;
