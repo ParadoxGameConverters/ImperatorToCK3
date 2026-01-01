@@ -103,7 +103,11 @@ jobs:
       shell: bash
       run: |
         git rev-parse HEAD > Publish/commit_id.txt
-
+    - name: "Make rakaly binary executable"
+      if: matrix.build != 'win-x64'
+      shell: bash
+      run: |
+        chmod +x Publish/ImperatorToCK3/Resources/rakaly/rakaly-*/rakaly
     - name: "Create macOS .app bundle"
       if: matrix.build == 'osx-arm64'
       shell: bash
