@@ -92,13 +92,6 @@ jobs:
       shell: bash
       run: |
         dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release --output:"../Publish/ImperatorToCK3"
-        if [ "$RUNNER_OS" = "macOS" ]
-        then
-          echo "Signing binary..."
-          codesign --force -s - "../Publish/ImperatorToCK3/ImperatorToCK3Converter"
-          echo "Verifying signature..."
-          codesign -dv --verbose=4 "../Publish/ImperatorToCK3/ImperatorToCK3Converter"
-        fi
     - name: "Save commit ID"
       shell: bash
       run: |
@@ -162,9 +155,28 @@ jobs:
 
         chmod +x "${MACOS_DIR}/ConverterFrontend"
 
+        echo "Signing executables inside .app (ad-hoc)..."
+        codesign --force -s - "${MACOS_DIR}/ConverterFrontend"
+        codesign --force -s - "${MACOS_DIR}/ImperatorToCK3/ImperatorToCK3Converter"
+
+        shopt -s nullglob
+        rakaly_bins=("${MACOS_DIR}/ImperatorToCK3/Resources/rakaly/rakaly-"*"/rakaly")
+        if [ ${#rakaly_bins[@]} -eq 0 ]; then
+          echo "Rakaly binary not found in app bundle" >&2
+          exit 1
+        fi
+        for rakaly_bin in "${rakaly_bins[@]}"; do
+          echo "Signing ${rakaly_bin}"
+          codesign --force -s - "${rakaly_bin}"
+          echo "Verifying ${rakaly_bin}"
+          codesign --verify --verbose=4 "${rakaly_bin}"
+          codesign -dv --verbose=4 "${rakaly_bin}"
+        done
+
         echo "Signing .app bundle (ad-hoc)..."
-        codesign --force --deep -s - "${APP_DIR}"
+        codesign --force -s - "${APP_DIR}"
         echo "Verifying signature..."
+        codesign --verify --verbose=4 "${APP_DIR}"
         codesign -dv --verbose=4 "${APP_DIR}"
     - name: "Install sed and Inno Setup for Windows"
       if: matrix.build == 'win-x64'
