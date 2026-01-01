@@ -1,6 +1,8 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
+using System;
 using System.Collections.Generic;
+using System.Text;
 using ZLinq;
 
 namespace ImperatorToCK3.Mappers.Region;
@@ -124,5 +126,44 @@ internal sealed class CK3Region {
 		regionToReturn = new CK3Region(name);
 		parser.ParseStream(reader);
 		return regionToReturn;
+	}
+
+	public override string ToString() {
+		var sb = new StringBuilder();
+		sb.Append(Name).Append(" = {");
+		if (Regions.Count > 0) {
+			sb.Append("\tregions = {");
+			foreach (string regionId in Regions.Keys) {
+				sb.Append(regionId).Append(' ');
+			}
+			sb.AppendLine("}");
+		}
+
+		if (Duchies.Count > 0) {
+			sb.Append("\tduchies = {");
+			foreach (var duchyId in Duchies.Values) {
+				sb.Append(duchyId).Append(' ');
+			}
+			sb.AppendLine("}");
+		}
+
+		if (Counties.Count > 0) {
+			sb.Append("\tcounties = {");
+			foreach (var countyId in Counties.Values) {
+				sb.Append(countyId).Append(' ');
+			}
+			sb.AppendLine("}");
+		}
+
+		if (Provinces.Count > 0) {
+			sb.Append("\tprovinces = {");
+			foreach (var provinceId in Provinces) {
+				sb.Append(provinceId).Append(' ');
+			}
+			sb.AppendLine("}");
+		}
+
+		sb.Append('}');
+		return sb.ToString();
 	}
 }

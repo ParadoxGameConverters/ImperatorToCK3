@@ -7,7 +7,6 @@ using DotLiquid;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Legends;
 using ImperatorToCK3.CommonUtils;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -27,12 +26,9 @@ internal static class WorldOutputter {
 		OutputModFile(outputName);
 
 		CreateFolders(outputPath);
-		
-		// TODO: output all geographical regions to a single file, because we modify de jure kingdoms setup and regions now reference de jure kingdoms
-		// TODO: also consider geographical_regions from blankMod (zzz_IRToCK3_regions.txt.liquid)
-		throw new NotImplementedException();
 
 		Task.WaitAll(
+			GeographicalRegionOutputter.OutputRegions(outputPath, ck3World.CK3RegionMapper),
 			CharactersOutputter.OutputEverything(outputPath, ck3World.Characters, imperatorWorld.EndDate, config.CK3BookmarkDate, ck3World.ModFS),
 			DynastiesOutputter.OutputDynastiesAndHouses(outputPath, ck3World.Dynasties, ck3World.DynastyHouses),
 

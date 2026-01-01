@@ -63,6 +63,9 @@ internal sealed class World {
 	public List<Wars.War> Wars { get; } = [];
 	public LegendSeedCollection LegendSeeds { get; } = [];
 	public DiplomacyDB Diplomacy { get; } = new();
+
+	public CK3RegionMapper CK3RegionMapper { get; }
+
 	internal CoaMapper CK3CoaMapper { get; private set; } = null!;
 	private readonly List<string> enabledDlcFlags = [];
 
@@ -164,7 +167,7 @@ internal sealed class World {
 		);
 
 		// Load regions.
-		ck3RegionMapper = new CK3RegionMapper(ModFS, LandedTitles);
+		CK3RegionMapper = new CK3RegionMapper(ModFS, LandedTitles);
 		imperatorRegionMapper = impWorld.ImperatorRegionMapper;
 
 		CultureMapper cultureMapper = null!;
@@ -196,7 +199,7 @@ internal sealed class World {
 				Logger.Info("Loaded replaceable holy sites.");
 			},
 
-			() => cultureMapper = new CultureMapper(imperatorRegionMapper, ck3RegionMapper, Cultures),
+			() => cultureMapper = new CultureMapper(imperatorRegionMapper, CK3RegionMapper, Cultures),
 
 			() => traitMapper = new("configurables/trait_map.txt", ModFS),
 
@@ -212,7 +215,7 @@ internal sealed class World {
 			}
 		);
 
-		var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, ck3RegionMapper);
+		var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, CK3RegionMapper);
 
 		Parallel.Invoke(
 			() => Cultures.ImportTechnology(impWorld.Countries, cultureMapper, provinceMapper, impWorld.InventionsDB, impWorld.LocDB, ck3ModFlags),
@@ -805,7 +808,7 @@ internal sealed class World {
 					// If all the Gaels are pagan but at least one province in Ireland or Scotland is Christian,
 					// give the handled titles to a generated ruler of the same culture as that Christian province.
 					var potentialSourceProvinces = Provinces.Where(p =>
-						ck3RegionMapper.ProvinceIsInRegion(p.Id, "custom_ireland") || ck3RegionMapper.ProvinceIsInRegion(p.Id, "custom_scotland"));
+						CK3RegionMapper.ProvinceIsInRegion(p.Id, "custom_ireland") || CK3RegionMapper.ProvinceIsInRegion(p.Id, "custom_scotland"));
 					foreach (var potentialSourceProvince in potentialSourceProvinces) {
 						var faithId = potentialSourceProvince.GetFaithId(bookmarkDate);
 						if (faithId is null || !christianFaiths.ContainsKey(faithId)) {
@@ -924,7 +927,7 @@ internal sealed class World {
 
 		foreach (var (regionId, faithId) in regionToNewFaithMap) {
 			var regionProvinces = muslimProvinces
-				.Where(p => ck3RegionMapper.ProvinceIsInRegion(p.Id, regionId));
+				.Where(p => CK3RegionMapper.ProvinceIsInRegion(p.Id, regionId));
 			foreach (var province in regionProvinces) {
 				province.SetFaithIdAndOverrideExistingEntries(faithId);
 				muslimProvinces.Remove(province);
@@ -1221,7 +1224,6 @@ internal sealed class World {
 		rankMappingsPath: "configurables/country_rank_map.txt"
 	);
 	private readonly UnitTypeMapper unitTypeMapper = new("configurables/unit_types_map.txt");
-	private readonly CK3RegionMapper ck3RegionMapper;
 	private readonly ImperatorRegionMapper imperatorRegionMapper;
 	private readonly WarMapper warMapper = new("configurables/wargoal_mappings.txt");
 }

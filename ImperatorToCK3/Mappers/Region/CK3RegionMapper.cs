@@ -8,6 +8,8 @@ using ZLinq;
 namespace ImperatorToCK3.Mappers.Region;
 
 internal sealed class CK3RegionMapper {
+	public IReadOnlyDictionary<string, CK3Region> Regions => regions;
+
 	public CK3RegionMapper() { }
 	public CK3RegionMapper(ModFilesystem ck3ModFS, Title.LandedTitles landedTitles) {
 		Logger.Info("Initializing Geography...");
