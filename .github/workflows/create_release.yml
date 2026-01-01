@@ -103,6 +103,65 @@ jobs:
       shell: bash
       run: |
         git rev-parse HEAD > Publish/commit_id.txt
+
+    - name: "Create macOS .app bundle"
+      if: matrix.build == 'osx-arm64'
+      shell: bash
+      env:
+        VERSION: ${{ needs.create_release.outputs.tag }}
+      run: |
+        set -euo pipefail
+
+        APP_NAME="ImperatorToCK3"
+        APP_DIR="Publish/${APP_NAME}.app"
+        CONTENTS_DIR="${APP_DIR}/Contents"
+        MACOS_DIR="${CONTENTS_DIR}/MacOS"
+
+        mkdir -p "${MACOS_DIR}"
+
+        cat > "${CONTENTS_DIR}/Info.plist" <<PLIST
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+          <dict>
+            <key>CFBundleDevelopmentRegion</key>
+            <string>en</string>
+            <key>CFBundleDisplayName</key>
+            <string>${APP_NAME}</string>
+            <key>CFBundleExecutable</key>
+            <string>ConverterFrontend</string>
+            <key>CFBundleIdentifier</key>
+            <string>com.paradoxgameconverters.imperator-to-ck3</string>
+            <key>CFBundleInfoDictionaryVersion</key>
+            <string>6.0</string>
+            <key>CFBundleName</key>
+            <string>${APP_NAME}</string>
+            <key>CFBundlePackageType</key>
+            <string>APPL</string>
+            <key>CFBundleShortVersionString</key>
+            <string>${VERSION}</string>
+            <key>CFBundleVersion</key>
+            <string>${VERSION}</string>
+          </dict>
+        </plist>
+        PLIST
+
+        # Move everything we published into the app bundle so the frontend can
+        # find the backend and assets relative to AppContext.BaseDirectory.
+        shopt -s dotglob nullglob
+        for item in Publish/*; do
+          if [ "${item}" = "${APP_DIR}" ]; then
+            continue
+          fi
+          mv "${item}" "${MACOS_DIR}/"
+        done
+
+        chmod +x "${MACOS_DIR}/ConverterFrontend"
+
+        echo "Signing .app bundle (ad-hoc)..."
+        codesign --force --deep -s - "${APP_DIR}"
+        echo "Verifying signature..."
+        codesign -dv --verbose=4 "${APP_DIR}"
     - name: "Install sed and Inno Setup for Windows"
       if: matrix.build == 'win-x64'
       run: |
