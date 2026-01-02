@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Outputter;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System.IO;
 using System.Threading.Tasks;
 using Xunit;
@@ -40,15 +41,15 @@ public class TitlesOutputterTests {
 
 		Assert.True(File.Exists(kingdomHistoryPath));
 		var kingdomHistoryText = await File.ReadAllTextAsync(kingdomHistoryPath);
-		Assert.Equal("k_kingdom={\n\t20.1.1 = { liege = 0 }\n}\n", NormalizeNewlines(kingdomHistoryText));
+		Assert.Equal("k_kingdom={\n\t20.1.1 = { liege = 0 }\n}\n", TextTestUtils.NormalizeNewlines(kingdomHistoryText));
 
 		Assert.True(File.Exists(otherTitlesHistoryPath));
 		var otherTitlesHistoryText = await File.ReadAllTextAsync(otherTitlesHistoryPath);
-		Assert.Equal("k_special_title={\n\t20.1.1 = { holder = bob_42 }\n}\n", NormalizeNewlines(otherTitlesHistoryText));
+		Assert.Equal("k_special_title={\n\t20.1.1 = { holder = bob_42 }\n}\n", TextTestUtils.NormalizeNewlines(otherTitlesHistoryText));
 
 		Assert.True(File.Exists(landedTitlesPath));
 		var landedTitlesText = await File.ReadAllTextAsync(landedTitlesPath);
-		var expectedLandedTitles = NormalizeNewlines("""
+		var expectedLandedTitles = TextTestUtils.NormalizeNewlines("""
 		k_kingdom = {
 			d_duchy = {
 				c_county = {
@@ -75,7 +76,7 @@ public class TitlesOutputterTests {
 			ruler_uses_title_name = no
 		}
 		""");
-		Assert.Equal(expectedLandedTitles, NormalizeNewlines(landedTitlesText));
+		Assert.Equal(expectedLandedTitles, TextTestUtils.NormalizeNewlines(landedTitlesText));
 	}
 
 	[Fact]
@@ -94,12 +95,10 @@ public class TitlesOutputterTests {
 
 		Assert.True(File.Exists(landedTitlesPath));
 		var landedTitlesText = await File.ReadAllTextAsync(landedTitlesPath);
-		var expectedVariables = NormalizeNewlines("""
+		var expectedVariables = TextTestUtils.NormalizeNewlines("""
 		@default_ai_priority=20
 		@default_ai_aggressiveness=40
 		""");
-		Assert.Equal(expectedVariables, NormalizeNewlines(landedTitlesText).TrimEnd());
+		Assert.Equal(expectedVariables, TextTestUtils.NormalizeNewlines(landedTitlesText).TrimEnd());
 	}
-
-	private static string NormalizeNewlines(string text) => text.Replace("\r\n", "\n");
 }
