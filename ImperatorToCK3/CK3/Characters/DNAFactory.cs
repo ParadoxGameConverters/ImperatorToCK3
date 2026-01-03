@@ -330,17 +330,17 @@ internal sealed class DNAFactory {
 	}
 
 	private void ConvertBaldness(Imperator.Characters.Character irCharacter, Dictionary<string, DNAGeneValue> morphDNAValues, Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues) {
-		if (irCharacter.IsBald) {  // TODO: CHECK IF BALD CHARACTERS STILL CORRECTLY APPEAR BALD IN CK3
+		if (irCharacter.IsBald) {
 			morphDNAValues["gene_baldness"] = new DNAGeneValue {
 				TemplateName = "male_pattern_baldness",
 				IntSliderValue = 127,
 				TemplateRecessiveName = "male_pattern_baldness",
 				IntSliderValueRecessive = 127
 			};
-			
+
 			if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("hairstyles", out var hairstylesGene)) {
 				DNAAccessoryGeneValue? hairstylesGeneValue = null;
-				
+
 				// If m_hair_fp4_indian_01_full_bald (which is close to I:R baldness) exists, use it.
 				const string indianBaldnessObjectName = "m_hair_fp4_indian_01_full_bald";
 				if (hairstylesGene.GeneTemplates.TryGetValue("fp4_bald_hairstyles", out var ck3GeneTemplate)) {
@@ -348,7 +348,7 @@ internal sealed class DNAFactory {
 						hairstylesGeneValue = new DNAAccessoryGeneValue(ck3GeneTemplate.Id, indianBaldnessObjectName, weightBlock);
 					}
 				}
-				
+
 				// Otherwise, just use the no_hairstyles template.
 				const string baldnessObjectName = "bald";
 				if (hairstylesGeneValue is null && hairstylesGene.GeneTemplates.TryGetValue("no_hairstyles", out var noHairStylesTemplate)) {
@@ -356,12 +356,12 @@ internal sealed class DNAFactory {
 						hairstylesGeneValue = new DNAAccessoryGeneValue(noHairStylesTemplate.Id, baldnessObjectName, weightBlock);
 					}
 				}
-				
+
 				if (hairstylesGeneValue.HasValue) {
 					accessoryDNAValues["hairstyles"] = hairstylesGeneValue.Value;
 				}
 			}
-			
+
 			morphDNAValues["gene_balding_hair_effect"] = new DNAGeneValue {
 				TemplateName = "baldness_stage_2",
 				IntSliderValue = 255,
