@@ -482,7 +482,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			var overlord = imperatorCountries[dependency.OverlordId];
 			titleId = tagTitleMapper.GetTitleForSubject(irCountry, validatedEnglishName ?? string.Empty, overlord, ck3LocDB);
 		} else if (validatedEnglishName is not null) {
-			titleId = tagTitleMapper.GetTitleForTag(irCountry, validatedEnglishName, maxTitleRank: TitleRank.empire, ck3LocDB);
+			titleId = tagTitleMapper.GetTitleForTag(irCountry, validatedEnglishName, maxTitleRank: TitleRank.hegemony, ck3LocDB);
 		} else {
 			titleId = tagTitleMapper.GetTitleForTag(irCountry, ck3LocDB);
 		}
@@ -1004,7 +1004,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	private readonly TitleCollection deJureVassals = [];
 	[SerializeOnlyValue] public IReadOnlyTitleCollection DeJureVassals => deJureVassals; // DIRECT de jure vassals
 	public Dictionary<string, Title> GetDeJureVassalsAndBelow() {
-		return GetDeJureVassalsAndBelow("bcdke");
+		return GetDeJureVassalsAndBelow("bcdkeh");
 	}
 	public Dictionary<string, Title> GetDeJureVassalsAndBelow(string rankFilter) {
 		var rankFilterAsArray = rankFilter.ToCharArray();
@@ -1031,7 +1031,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			.ToDictionary(t => t.Id, t => t);
 	}
 	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date) {
-		return GetDeFactoVassalsAndBelow(date, "bcdke");
+		return GetDeFactoVassalsAndBelow(date, "bcdkeh");
 	}
 	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date, string rankFilter) {
 		var rankFilterAsArray = rankFilter.ToCharArray();
@@ -1079,6 +1079,15 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("male_names")] public List<string>? MaleNames { get; private set; }
 	// <culture, loc key>
 	[SerializedName("cultural_names")] public Dictionary<string, string>? CulturalNames { get; private set; }
+	[SerializedName("allow_domicile")] public bool? AllowDomicile { get; set; }
+	[SerializedName("enable_regnal_numbers")] public bool? EnableRegnalNumbers { get; set; }
+	[SerializedName("figurehead")] public bool? Figurehead { get; set; }
+	[SerializedName("holding_regnal_male_names")] public StringOfItem? HoldingRegnalMaleNames { get; private set; }
+	[SerializedName("holding_regnal_female_names")] public StringOfItem? HoldingRegnalFemaleNames { get; private set; }
+	[SerializedName("posthumous_regnal_male_names")] public StringOfItem? PosthumousRegnalMaleNames { get; private set; }
+	[SerializedName("posthumous_regnal_female_names")] public StringOfItem? PosthumousRegnalFemaleNames { get; private set; }
+	[SerializedName("personal_relation_entry")] public StringOfItem? PersonalRelationEntry { get; private set; }
+	[SerializedName("personal_relation_vassal")] public StringOfItem? PersonalRelationVassal { get; private set; }
 
 	public int? GetOwnOrInheritedDevelopmentLevel(Date date) {
 		// Latest date (<= date) takes precedence.
@@ -1189,6 +1198,15 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterKeyword("can_use_nomadic_naming", reader => CanUseNomadicNaming = reader.GetBool());
 		parser.RegisterKeyword("male_names", reader => MaleNames = reader.GetStrings());
 		parser.RegisterKeyword("cultural_names", reader => CulturalNames = reader.GetAssignmentsAsDict());
+		parser.RegisterKeyword("allow_domicile", reader => AllowDomicile = reader.GetBool());
+		parser.RegisterKeyword("enable_regnal_numbers", reader => EnableRegnalNumbers = reader.GetBool());
+		parser.RegisterKeyword("figurehead", reader => Figurehead = reader.GetBool());
+		parser.RegisterKeyword("holding_regnal_male_names", reader => HoldingRegnalMaleNames = reader.GetStringOfItem());
+		parser.RegisterKeyword("holding_regnal_female_names", reader => HoldingRegnalFemaleNames = reader.GetStringOfItem());
+		parser.RegisterKeyword("posthumous_regnal_male_names", reader => PosthumousRegnalMaleNames = reader.GetStringOfItem());
+		parser.RegisterKeyword("posthumous_regnal_female_names", reader => PosthumousRegnalFemaleNames = reader.GetStringOfItem());
+		parser.RegisterKeyword("personal_relation_entry", reader => PersonalRelationEntry = reader.GetStringOfItem());
+		parser.RegisterKeyword("personal_relation_vassal", reader => PersonalRelationVassal = reader.GetStringOfItem());
 
 		parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 			IgnoredTokens.Add(token);
@@ -1354,6 +1372,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			'd' => TitleRank.duchy,
 			'k' => TitleRank.kingdom,
 			'e' => TitleRank.empire,
+			'h' => TitleRank.hegemony,
 			_ => throw new FormatException($"Title {titleId}: unknown rank!")
 		};
 	}

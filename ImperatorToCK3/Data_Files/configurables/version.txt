@@ -1,9 +1,9 @@
 # Version info
 
-name = "Marcus Aurelius"
+name = "Lucius Verus"
 source = "Imperator"
 minSource = "2.0"
 maxSource = "2.0"
 target = "CK3"
-minTarget = "1.17"
-maxTarget = "1.17"
+minTarget = "1.18"
+maxTarget = "1.18"
