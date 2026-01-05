@@ -20,10 +20,22 @@ internal static class GeographicalRegionOutputter {
 			sb.AppendLine(region.ToString());
 		}
 
-		var outputPath = Path.Combine(outputModPath, "map_data/geographical_regions/irtock3_all_regions.txt");
+		const string regionsFileName = "irtock3_all_regions.txt";
+		var outputPath = Path.Combine(outputModPath, "map_data/geographical_regions", regionsFileName);
 		var output = FileHelper.OpenWriteWithRetries(outputPath, encoding: Encoding.UTF8);
 		await using (output.ConfigureAwait(false)) {
 			await output.WriteAsync(sb.ToString()).ConfigureAwait(false);
+		}
+
+		// There may be other region files due to being in the removable_file_blocks*.txt, replaceable_file_blocks*.txt
+		// or blankMod. Their contents are already in the irtock3_all_regions.txt file outputted above,
+		// so we can remove the extra files.
+		var regionsFiles = Directory.GetFiles(Path.Combine(outputModPath, "map_data/geographical_regions"), "*.txt");
+		foreach (var file in regionsFiles) {
+			if (Path.GetFileName(file) == regionsFileName) {
+				continue;
+			}
+			File.Delete(file);
 		}
 	}
 }
