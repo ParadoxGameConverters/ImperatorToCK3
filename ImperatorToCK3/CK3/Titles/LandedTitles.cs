@@ -1075,7 +1075,6 @@ internal sealed partial class Title {
 			var deJureKingdoms = GetDeJureKingdoms();
 			
 			// TODO: exclude hegemonies from this process?
-			throw new NotImplementedException();
 			
 			// Try to assign kingdoms to existing empires.
 			foreach (var kingdom in deJureKingdoms) {
@@ -1483,7 +1482,7 @@ internal sealed partial class Title {
 		}
 
 		private void SetDeJureHegemonies(Date ck3BookmarkDate) {
-			throw new NotImplementedException("De jure hegemonies are not implemented yet.");
+			// TODO: De jure hegemonies are not implemented yet.
 		}
 
 		private void SetEmpireCapitals(Date ck3BookmarkDate) {
