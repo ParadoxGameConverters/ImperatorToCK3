@@ -8,7 +8,6 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.Serialization;
 using Xunit.Sdk;
 using Xunit;
 
@@ -33,16 +32,16 @@ public sealed class DNAFactoryTests {
 	}
 
 	private static PortraitData CreatePortraitDataWithEyeAccessoryGeneTemplate(string geneTemplateName) {
-		var portraitData = (PortraitData)FormatterServices.GetUninitializedObject(typeof(PortraitData));
-		var dict = new Dictionary<string, AccessoryGeneData> {
-			["eye_accessory"] = new AccessoryGeneData {
-				GeneTemplate = geneTemplateName,
-				ObjectName = "dummy",
-				GeneTemplateRecessive = geneTemplateName,
-				ObjectNameRecessive = "dummy"
-			}
+		// PortraitData requires a DNA string, but ConvertEyeAccessories only needs AccessoryGenesDict.
+		// Use a minimal valid DNA payload (12 bytes) and then populate AccessoryGenesDict directly.
+		var dummyDna = Convert.ToBase64String(new byte[12]);
+		var portraitData = new PortraitData(dummyDna, new GenesDB());
+		portraitData.AccessoryGenesDict["eye_accessory"] = new AccessoryGeneData {
+			GeneTemplate = geneTemplateName,
+			ObjectName = "dummy",
+			GeneTemplateRecessive = geneTemplateName,
+			ObjectNameRecessive = "dummy"
 		};
-		SetNonPublicField(portraitData, "<AccessoryGenesDict>k__BackingField", dict);
 		return portraitData;
 	}
 
