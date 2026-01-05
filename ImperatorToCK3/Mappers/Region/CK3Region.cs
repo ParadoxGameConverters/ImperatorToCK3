@@ -130,9 +130,9 @@ internal sealed class CK3Region {
 
 	public override string ToString() {
 		var sb = new StringBuilder();
-		sb.Append(Name).Append(" = {");
+		sb.Append(Name).AppendLine(" = {");
 		if (Regions.Count > 0) {
-			sb.Append("\tregions = {");
+			sb.Append("\tregions = { ");
 			foreach (string regionId in Regions.Keys) {
 				sb.Append(regionId).Append(' ');
 			}
@@ -140,7 +140,7 @@ internal sealed class CK3Region {
 		}
 
 		if (Duchies.Count > 0) {
-			sb.Append("\tduchies = {");
+			sb.Append("\tduchies = { ");
 			foreach (var duchyId in Duchies.Values) {
 				sb.Append(duchyId).Append(' ');
 			}
@@ -148,7 +148,7 @@ internal sealed class CK3Region {
 		}
 
 		if (Counties.Count > 0) {
-			sb.Append("\tcounties = {");
+			sb.Append("\tcounties = { ");
 			foreach (var countyId in Counties.Values) {
 				sb.Append(countyId).Append(' ');
 			}
@@ -156,7 +156,7 @@ internal sealed class CK3Region {
 		}
 
 		if (Provinces.Count > 0) {
-			sb.Append("\tprovinces = {");
+			sb.Append("\tprovinces = { ");
 			foreach (var provinceId in Provinces) {
 				sb.Append(provinceId).Append(' ');
 			}
