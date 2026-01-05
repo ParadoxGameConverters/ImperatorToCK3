@@ -12,6 +12,10 @@ To help with development, please visit the official [development thread](https:/
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8a9f106c7b9a43faa37ad74b5897edc5)](https://www.codacy.com/gh/ParadoxGameConverters/ImperatorToCK3/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ParadoxGameConverters/ImperatorToCK3&amp;utm_campaign=Badge_Grade)
 [![Coverage Status](https://coveralls.io/repos/github/ParadoxGameConverters/ImperatorToCK3/badge.svg?branch=master)](https://coveralls.io/github/ParadoxGameConverters/ImperatorToCK3?branch=master)
 
+## Building and running
+See [Building and running](https://github.com/ParadoxGameConverters/ImperatorToCK3/wiki/Building-and-running)  on our GitHub wiki.
+For more exotic setups, try following the steps from `.github/workflows/build_dev_version.yml`.
+
 ## Credits
 - Iohannes - Data files, ideas
 - comagoosie - librakaly save melter
