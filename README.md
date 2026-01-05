@@ -13,7 +13,8 @@ To help with development, please visit the official [development thread](https:/
 [![Coverage Status](https://coveralls.io/repos/github/ParadoxGameConverters/ImperatorToCK3/badge.svg?branch=master)](https://coveralls.io/github/ParadoxGameConverters/ImperatorToCK3?branch=master)
 
 ## Building and running
-See [Building and running](https://github.com/ParadoxGameConverters/ImperatorToCK3/wiki/Building-and-running)  on our GitHub wiki.
+See [Building and running](https://github.com/ParadoxGameConverters/ImperatorToCK3/wiki/Building-and-running) on our GitHub wiki.
+
 For more exotic setups, try following the steps from `.github/workflows/build_dev_version.yml`.
 
 ## Credits
@@ -43,6 +44,6 @@ For more exotic setups, try following the steps from `.github/workflows/build_de
 - Bronze Age Reborn mod team (https://steamcommunity.com/sharedfiles/filedetails/?id=3232096613) and Svanley - Hattian religion, Elamite religion
 - កាបូន26 - Help with mapping Terra Indomita cultures to Asia Expansion Project
 - Nezaros, author of the Rajas of Asia mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2509174436) - Permission to use the Samre culture from their mod
-- tanner918 - Data files, mostly for the Terra Indomita -> Rajas of Asia conversion
+- tanner918 - Data files and compatching for new CK3 and mod versions
 - ciurlys - Definition of mithra_religion, the Iranian cult of Mithra
 - Astures - Help with debugging The Fallen Eagle crashes
