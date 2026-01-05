@@ -19,9 +19,17 @@ internal sealed class WeightBlock {
 	}
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, absoluteWeightStr) => {
-			var newObjectName = reader.GetString();
+			var objectIdStrOfItem = reader.GetStringOfItem();
+			string objectId;
+			if (objectIdStrOfItem.IsArrayOrObject()) {
+				// For example: "2 = { m_clothes_sec_ccp4_khanty_com_01 m_clothes_sec_ccp4_khanty_com_01_hood }"
+				// In such cases, just pick the first entry as the object ID.
+				objectId = new BufferedReader(objectIdStrOfItem.ToString()).GetStrings()[0];
+			} else {
+				objectId = objectIdStrOfItem.ToString();
+			}
 			if (uint.TryParse(absoluteWeightStr, out var weight)) {
-				AddObject(newObjectName, weight);
+				AddObject(objectId, weight);
 			} else {
 				Logger.Error($"Could not parse absolute weight: {absoluteWeightStr}");
 			}
