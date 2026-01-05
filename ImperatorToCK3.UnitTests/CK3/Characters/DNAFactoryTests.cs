@@ -35,13 +35,14 @@ public sealed class DNAFactoryTests {
 		// PortraitData requires a DNA string, but ConvertEyeAccessories only needs AccessoryGenesDict.
 		// Use a minimal valid DNA payload (12 bytes) and then populate AccessoryGenesDict directly.
 		var dummyDna = Convert.ToBase64String(new byte[12]);
-		var portraitData = new PortraitData(dummyDna, new GenesDB());
-		portraitData.AccessoryGenesDict["eye_accessory"] = new AccessoryGeneData {
-			GeneTemplate = geneTemplateName,
-			ObjectName = "dummy",
-			GeneTemplateRecessive = geneTemplateName,
-			ObjectNameRecessive = "dummy"
-		};
+		var portraitData = new PortraitData(dummyDna, new GenesDB()) {
+			AccessoryGenesDict = {["eye_accessory"] = new() {
+				GeneTemplate = geneTemplateName,
+				ObjectName = "dummy",
+				GeneTemplateRecessive = geneTemplateName,
+				ObjectNameRecessive = "dummy",
+			}
+		}};
 		return portraitData;
 	}
 
@@ -237,7 +238,7 @@ public sealed class DNAFactoryTests {
 			width: 4,
 			height: 4,
 			rgbByPixel: new Dictionary<(int x, int y), ushort[]> {
-				[(2, 3)] = new ushort[] { 1000, 2000, 3000 },
+				[(2, 3)] = [1000, 2000, 3000],
 			}
 		);
 		var irPixels = irImage.GetPixels();
@@ -345,8 +346,9 @@ public sealed class DNAFactoryTests {
 		var character = CreateAdultMale();
 		var portraitData = CreatePortraitDataWithEyeAccessoryGeneTemplate("red_eyes");
 		var ck3GenesDb = CreateCk3GenesDbForEyeAccessories();
-		var eyeColorCache = new ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates>();
-		eyeColorCache[new MagickColor("#ff0000")] = new DNA.PaletteCoordinates { X = 100, Y = 200 };
+		var eyeColorCache = new ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> {
+			[new MagickColor("#ff0000")] = new() { X = 100, Y = 200 },
+		};
 
 		var original = new DNAColorGeneValue { X = 1, Y = 2, XRecessive = 3, YRecessive = 4 };
 		var colorDna = new Dictionary<string, DNAColorGeneValue> {
@@ -379,7 +381,7 @@ public sealed class DNAFactoryTests {
 		var eyeColorCache = new ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates>();
 
 		var colorDna = new Dictionary<string, DNAColorGeneValue> {
-			["eye_color"] = new DNAColorGeneValue { X = 1, Y = 2, XRecessive = 3, YRecessive = 4 }
+			["eye_color"] = new() { X = 1, Y = 2, XRecessive = 3, YRecessive = 4 }
 		};
 		var accessoryDna = new Dictionary<string, DNAAccessoryGeneValue>();
 
