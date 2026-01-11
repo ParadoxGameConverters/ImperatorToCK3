@@ -82,3 +82,169 @@
  pergamene_name: "Pergamene"
  pergamene_collective_noun: "Pergameans"
  pergamene_prefix: "Pergameno"
+
+ # Cretan/Neo minoan hybrids
+
+ armenos_name: "Armenos"
+ armenos_collective_noun: "Armenoi"
+ armenos_prefix: "Armen"
+
+ caldenos_name: "Caldēnos"
+ caldenos_collective_noun: "Caldēnoi"
+ caldenos_prefix: "Cald"
+
+ ponticor_name: "Ponticor"
+ ponticor_collective_noun: "Pontikores"
+ ponticor_prefix: "Pontic"
+
+ galites_name: "Galitēs"
+ galites_collective_noun: "Galitai"
+ galites_prefix: "Galit"
+
+ geranes_name: "Geranēs"
+ geranes_collective_noun: "Geraneis"
+ geranes_prefix: "Geran"
+
+ medeanos_name: "Medeanos"
+ medeanos_collective_noun: "Medeanoi"
+ medeanos_prefix: "Medean"
+
+ doriades_name: "Doriadēs"
+ doriades_collective_noun: "Doriadia"
+ doriades_prefix: "Doriad"
+
+ kemnis_name: "Kemnis"
+ kemnis_collective_noun: "Kemnides"
+ kemnis_prefix: "Kemn"
+
+# Regional Offshoots (Cretan)
+
+ kemites_name: "Kēmitēs"
+ kemites_collective_noun: "Kēmitai"
+ kemites_prefix: "Kemit"
+
+ napataios_name: "Napatāios"
+ napataios_collective_noun: "Napatāioi"
+ napataios_prefix: "Napat"
+
+ phoinites_name: "Phoinitēs"
+ phoinites_collective_noun: "Phoinitai"
+ phoinites_prefix: "Phoin"
+
+ pamphites_name: "Pamphitēs"
+ pamphites_collective_noun: "Pamphitai"
+ pamphites_prefix: "Pamph"
+
+ phrygites_name: "Phrygitēs"
+ phrygites_collective_noun: "Phrygitai"
+ phrygites_prefix: "Phryg"
+
+ pontikos_name: "Pontikos"
+ pontikos_collective_noun: "Pontikoi"
+ pontikos_prefix: "Pont"
+
+ assyrites_name: "Assyritēs"
+ assyrites_collective_noun: "Assyritai"
+ assyrites_prefix: "Assyr"
+
+ chaldos_name: "Chaldos"
+ chaldos_collective_noun: "Chaldoi"
+ chaldos_prefix: "Chald"
+
+ medanos_name: "Mēdanos"
+ medanos_collective_noun: "Mēdanoi"
+ medanos_prefix: "Med"
+
+ baktrios_name: "Baktrios"
+ baktrios_collective_noun: "Baktrioi"
+ baktrios_prefix: "Baktri"
+
+ armenios_name: "Armenios"
+ armenios_collective_noun: "Armenioi"
+ armenios_prefix: "Armeni"
+
+ geran_name: "Geran"
+ geran_collective_noun: "Geranai"
+ geran_prefix: "Geran"
+
+ nabanos_name: "Nabanos"
+ nabanos_collective_noun: "Nabanoi"
+ nabanos_prefix: "Naban"
+
+ illyrios_name: "Illyrios"
+ illyrios_collective_noun: "Illyrioi"
+ illyrios_prefix: "Illyr"
+
+ thrakos_name: "Thrākos"
+ thrakos_collective_noun: "Thrākoi"
+ thrakos_prefix: "Thrak"
+
+ gelan_name: "Gelān"
+ gelan_collective_noun: "Gelānai"
+ gelan_prefix: "Gel"
+
+ # Regional Offshoots (Neo Minoan)
+
+ kemnos_name: "Kémnos"
+ kemnos_collective_noun: "Kemnói"
+ kemnos_prefix: "Kemn"
+
+ napios_name: "Nápios"
+ napios_collective_noun: "Nápioi"
+ napios_prefix: "Nap"
+
+ phoinos_name: "Phoínos"
+ phoinos_collective_noun: "Phoînoi"
+ phoinos_prefix: "Phoin"
+
+ pamphos_name: "Pamphós"
+ pamphos_collective_noun: "Pámphoi"
+ pamphos_prefix: "Pamph"
+
+ phrymos_name: "Phrymos"
+ phrymos_collective_noun: "Phrymoí"
+ phrymos_prefix: "Phrym"
+
+ pontos_name: "Póntos"
+ pontos_collective_noun: "Póntoi"
+ pontos_prefix: "Pont"
+
+ assyros_name: "Assýros"
+ assyros_collective_noun: "Assýroi"
+ assyros_prefix: "Assyr"
+
+ khaldos_name: "Kháldos"
+ khaldos_collective_noun: "Kháldoi"
+ khaldos_prefix: "Khald"
+
+ medos_name: "Médos"
+ medos_collective_noun: "Mêdoi"
+ medos_prefix: "Med"
+
+ bakros_name: "Bákros"
+ bakros_collective_noun: "Bákroi"
+ bakros_prefix: "Bakr"
+
+ arminos_name: "Armínos"
+ arminos_collective_noun: "Armínoi"
+ arminos_prefix: "Armin"
+
+ gerros_name: "Gérros"
+ gerros_collective_noun: "Gérroi"
+ gerros_prefix: "Gerr"
+
+ nabos_name: "Nábos"
+ nabos_collective_noun: "Náboi"
+ nabos_prefix: "Nab"
+
+ ilyros_name: "Ílyros"
+ ilyros_collective_noun: "Ilýroi"
+ ilyros_prefix: "Ilyr"
+
+ thrakos_name: "Thrākos"
+ thrakos_collective_noun: "Thrâkoi"
+ thrakos_prefix: "Thrak"
+
+ gelos_name: "Gélos"
+ gelos_collective_noun: "Géloi"
+ gelos_prefix: "Gel"
