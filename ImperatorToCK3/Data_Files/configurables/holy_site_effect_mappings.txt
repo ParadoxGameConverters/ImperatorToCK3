@@ -73,4 +73,27 @@ link = { ir = monthly_wage_modifier ck3 = vassal_opinion factor = -100 }
 
 # additional mappings for artifacts
 link = { ir = local_citizen_happyness ck3 = county_opinion_add factor = 100 }
-# TODO: add mappings for the rest
+link = { ir = local_freemen_happyness ck3 = county_opinion_add factor = 100 }
+link = { ir = local_tribesmen_happyness ck3 = county_opinion_add factor = 100 }
+link = { ir = local_nobles_happyness ck3 = county_opinion_add factor = 100 }
+link = { ir = local_citizen_output ck3 = tax_mult factor = 0.5 }
+link = { ir = local_freemen_output ck3 = tax_mult factor = 0.5 }
+link = { ir = local_tribesmen_output ck3 = tax_mult factor = 0.5 }
+link = { ir = local_nobles_output ck3 = tax_mult factor = 0.5 }
+link = { ir = local_slaves_output ck3 = tax_mult factor = 0.5 }
+link = { ir = local_happiness_for_same_culture_modifier ck3 = same_culture_opinion factor = 50 }
+link = { ir = local_happiness_for_same_religion_modifier ck3 = same_faith_opinion factor = 50 }
+link = { ir = local_base_trade_routes_modifier ck3 = tax_mult factor = 0.05 }
+link = { ir = local_monthly_state_loyalty ck3 = county_opinion_add factor = 500 }
+link = { ir = local_pop_conversion_speed_modifier ck3 = county_opinion_add factor = 50 }
+link = { ir = local_population_growth ck3 = development_growth_factor factor = 0.5 }
+link = { ir = local_defensive ck3 = additional_fort_level factor = 5 }
+link = { ir = local_population_capacity ck3 = development_growth_factor factor = 0.5 }
+link = { ir = local_population_capacity_modifier ck3 = development_growth_factor factor = 0.5 }
+link = { ir = local_manpower_modifier ck3 = levy_size factor = 0.5 }
+link = { ir = local_research_points_modifier ck3 = cultural_head_fascination_mult factor = 0.5 }
+link = { ir = local_building_slot ck3 = building_slot_add factor = 1 }
+link = { ir = local_goods_from_slaves ck3 = tax_mult factor = 0.5 }
+link = { ir = local_unrest ck3 = monthly_county_control_decline_add factor = 1 }]
+link = { ir = monthly_local_governor_wage ck3 = domain_tax_mult factor = -1 }
+link = { ir = local_population_happiness ck3 = county_opinion_add factor = 100 }

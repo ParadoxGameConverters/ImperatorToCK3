@@ -1,7 +1,7 @@
 using commonItems;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Mappers.Artifact; 
+namespace ImperatorToCK3.Mappers.Artifact;
 
 public class ArtifactMapper {
 	public ArtifactMapper(string mappingsPath) {
@@ -9,7 +9,7 @@ public class ArtifactMapper {
 		var parser = new Parser();
 		RegisterKeys(parser);
 		parser.ParseFile(mappingsPath);
-		
+
 		Logger.Info($"Loaded {mappings.Count} artifact mappings.");
 		
 		// TODO: implement checking if the ck3 visuals actually exist. We need to read the CK3 visuals files for that.
@@ -58,10 +58,10 @@ public class ArtifactMapper {
 			if (mapping.IRIconIds.Count > 0 && !mapping.IRIconIds.Contains(irIconId)) {
 				continue;
 			}
-			
+
 			return (mapping.CK3Visual, mapping.CK3Type);
 		}
-		
+
 		return null;
 	}
 
