@@ -92,17 +92,92 @@ jobs:
       shell: bash
       run: |
         dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release --output:"../Publish/ImperatorToCK3"
-        if [ "$RUNNER_OS" = "macOS" ]
-        then
-          echo "Signing binary..."
-          codesign --force -s - "../Publish/ImperatorToCK3/ImperatorToCK3Converter"
-          echo "Verifying signature..."
-          codesign -dv --verbose=4 "../Publish/ImperatorToCK3/ImperatorToCK3Converter"
-        fi
     - name: "Save commit ID"
       shell: bash
       run: |
         git rev-parse HEAD > Publish/commit_id.txt
+    - name: "Make rakaly binary executable"
+      if: matrix.build != 'win-x64'
+      shell: bash
+      run: |
+        chmod +x Publish/ImperatorToCK3/Resources/rakaly/rakaly-*/rakaly
+    - name: "Create macOS .app bundle"
+      if: matrix.build == 'osx-arm64'
+      shell: bash
+      env:
+        VERSION: ${{ needs.create_release.outputs.tag }}
+      run: |
+        set -euo pipefail
+
+        APP_NAME="ImperatorToCK3"
+        APP_DIR="Publish/${APP_NAME}.app"
+        CONTENTS_DIR="${APP_DIR}/Contents"
+        MACOS_DIR="${CONTENTS_DIR}/MacOS"
+
+        mkdir -p "${MACOS_DIR}"
+
+        cat > "${CONTENTS_DIR}/Info.plist" <<PLIST
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+          <dict>
+            <key>CFBundleDevelopmentRegion</key>
+            <string>en</string>
+            <key>CFBundleDisplayName</key>
+            <string>${APP_NAME}</string>
+            <key>CFBundleExecutable</key>
+            <string>ConverterFrontend</string>
+            <key>CFBundleIdentifier</key>
+            <string>com.paradoxgameconverters.imperator-to-ck3</string>
+            <key>CFBundleInfoDictionaryVersion</key>
+            <string>6.0</string>
+            <key>CFBundleName</key>
+            <string>${APP_NAME}</string>
+            <key>CFBundlePackageType</key>
+            <string>APPL</string>
+            <key>CFBundleShortVersionString</key>
+            <string>${VERSION}</string>
+            <key>CFBundleVersion</key>
+            <string>${VERSION}</string>
+          </dict>
+        </plist>
+        PLIST
+
+        # Move everything we published into the app bundle so the frontend can
+        # find the backend and assets relative to AppContext.BaseDirectory.
+        shopt -s dotglob nullglob
+        for item in Publish/*; do
+          if [ "${item}" = "${APP_DIR}" ]; then
+            continue
+          fi
+          mv "${item}" "${MACOS_DIR}/"
+        done
+
+        chmod +x "${MACOS_DIR}/ConverterFrontend"
+
+        echo "Signing executables inside .app (ad-hoc)..."
+        codesign --force -s - "${MACOS_DIR}/ConverterFrontend"
+        codesign --force -s - "${MACOS_DIR}/ImperatorToCK3/ImperatorToCK3Converter"
+
+        shopt -s nullglob
+        rakaly_bins=("${MACOS_DIR}/ImperatorToCK3/Resources/rakaly/rakaly-"*"/rakaly")
+        if [ ${#rakaly_bins[@]} -eq 0 ]; then
+          echo "Rakaly binary not found in app bundle" >&2
+          exit 1
+        fi
+        for rakaly_bin in "${rakaly_bins[@]}"; do
+          echo "Signing ${rakaly_bin}"
+          codesign --force -s - "${rakaly_bin}"
+          echo "Verifying ${rakaly_bin}"
+          codesign --verify --verbose=4 "${rakaly_bin}"
+          codesign -dv --verbose=4 "${rakaly_bin}"
+        done
+
+        echo "Signing .app bundle (ad-hoc)..."
+        codesign --force -s - "${APP_DIR}"
+        echo "Verifying signature..."
+        codesign --verify --verbose=4 "${APP_DIR}"
+        codesign -dv --verbose=4 "${APP_DIR}"
     - name: "Install sed and Inno Setup for Windows"
       if: matrix.build == 'win-x64'
       run: |
