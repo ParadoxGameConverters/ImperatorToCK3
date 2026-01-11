@@ -49,6 +49,11 @@ link = {
 	ck3Type = armor_scale
 }
 link = {
+	irIcon = treasure_helmet_sarduri
+	ck3Visual = armor_mail
+	ck3Type = helmet_simple
+}
+link = {
 	irIcon = treasure_chest
 	ck3Visual = chest
 	ck3Type = chest
@@ -59,10 +64,105 @@ link = {
  	ck3Type = chest
 }
 link = {
+	irIcon = treasure_sucellus_jar
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_stelae_baal_hammon
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_lion_headed_tanit
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_warrior_image
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_ma_figure
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_bronze_cauldron_of_shivini
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_theispas_icon
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_silver_cauldron
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_bronze_hand_sabazios
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_sphinx_of_the_naxians
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_serpent_column
+	ck3Visual = chest
+	ck3Type = chest
+}
+
+link = {
  	irIcon = cr_treasure_skins_of_the_gorilla_03
  	ck3Visual = large_animal_hide
  	ck3Type = animal_hide_big
 }
+
+link = {
+	irIcon = treasure_silver_idol_ga
+	ck3Visual = statue_roman_woman
+	ck3Type = sculpture
+}
+link = {
+	irIcon = treasure_seated_persephone
+	ck3Visual = statue_roman_woman
+	ck3Type = sculpture
+}
+link = {
+	irIcon = treasure_statue_of_khryseis
+	ck3Visual = statue_roman_woman
+	ck3Type = sculpture
+}
+link = {
+	irIcon = treasure_statue_of_nike
+	ck3Visual = statue_roman_woman
+	ck3Type = sculpture
+}
+
+link = {
+	irIcon = treasure_dog_figurine
+	ck3Visual = animal_figurine
+	ck3Type = miscellaneous
+}
+link = {
+	irIcon = treasure_bone_figurines
+	ck3Visual = animal_figurine
+	ck3Type = miscellaneous
+}
+
+link = {
+	irTreasure = phasis_constitution
+	ck3Visual = scroll
+	ck3Type = miscellaneous
+}
+
 #link = { # disabled because sarhophagi don't seem to fit well as CK3 court artifacts, and we have no visuals for them
 #	irIcon = treasure_sarcophagus
 #	ck3Visual = chest  # there is no sarcophagus in CK3 as of 1.8
@@ -73,9 +173,34 @@ link = {
 #	ck3Visual = chest  # there is no sarcophagus in CK3 as of 1.8
 #	ck3Type = chest
 #}
+#link = { # disabled because sarhophagi don't seem to fit well as CK3 court artifacts, and we have no visuals for them
+#	irIcon = treasure_sarcophagus_ahiram
+#	ck3Visual = chest  # there is no sarcophagus in CK3 as of 1.8
+#	ck3Type = chest
+#}
+
 link = {
 	irIcon = treasure_sword
 	ck3Visual = sword
 	ck3Type = sword
 }
 
+link = {
+	irIcon = treasure_brigantias_spear
+	ck3Visual = spear
+	ck3Type = spear
+}
+
+link = {
+	irIcon = treasure_axe_of_zalmoxis
+	ck3Visual = axe
+	ck3Type = axe
+}
+
+link = {
+	irIcon = treasure_necklace_of_adgilis_deda
+	ck3Visual = necklace
+	ck3Type = necklace
+}
+
+# TODO: drop treasure_serpent_column (Serpent Column of Delphi) because it's too big for a CK3 artifact

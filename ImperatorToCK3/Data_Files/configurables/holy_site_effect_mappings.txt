@@ -94,6 +94,6 @@ link = { ir = local_manpower_modifier ck3 = levy_size factor = 0.5 }
 link = { ir = local_research_points_modifier ck3 = cultural_head_fascination_mult factor = 0.5 }
 link = { ir = local_building_slot ck3 = building_slot_add factor = 1 }
 link = { ir = local_goods_from_slaves ck3 = tax_mult factor = 0.5 }
-link = { ir = local_unrest ck3 = monthly_county_control_decline_add factor = 1 }]
+link = { ir = local_unrest ck3 = monthly_county_control_decline_add factor = 1 }
 link = { ir = monthly_local_governor_wage ck3 = domain_tax_mult factor = -1 }
 link = { ir = local_population_happiness ck3 = county_opinion_add factor = 100 }
