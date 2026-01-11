@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <RuntimeIdentifiers>win-x64;linux-x64;osx-arm64</RuntimeIdentifiers>
         <ApplicationIcon>thumbnail.ico</ApplicationIcon>
@@ -37,22 +37,22 @@
         <PackageReference Include="ConcurrentSet" Version="1.0.0" />
         <PackageReference Include="CWTools" Version="0.5.0-alpha" />
         <PackageReference Include="DotLiquid" Version="2.3.197" />
-        <PackageReference Include="FSharp.Core" Version="9.0.303" /> <!-- Needed for CWTools -->
-        <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.9.1" />
-        <PackageReference Include="Meziantou.Analyzer" Version="2.0.249">
+        <PackageReference Include="FSharp.Core" Version="10.0.101" /> <!-- Needed for CWTools -->
+        <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.10.1" />
+        <PackageReference Include="Meziantou.Analyzer" Version="2.0.270">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="MurmurHash.NETStandard" Version="1.0.0" />
-        <PackageReference Include="PGCG.commonItems" Version="18.0.1" />
+        <PackageReference Include="PGCG.commonItems" Version="18.0.4" />
         <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.9" />
-        <PackageReference Include="Polly" Version="8.6.4" />
-        <PackageReference Include="Roslynator.Analyzers" Version="4.14.1">
+        <PackageReference Include="Polly" Version="8.6.5" />
+        <PackageReference Include="Roslynator.Analyzers" Version="4.15.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
-        <PackageReference Include="ZLinq" Version="1.5.3" />
+        <PackageReference Include="ZLinq" Version="1.5.4" />
     </ItemGroup>
 
     <ItemGroup>

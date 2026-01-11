@@ -144,7 +144,6 @@ internal static class FileTweaker {
 		parserForFile.ParseStream(reader);
 	}
 
-	
 	private static async Task ModifyPartsOfFiles(Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, ModFilesystem ck3ModFS, string outputModPath) {
 		// Log count of blocks to remove for each file.
 		foreach (var (relativePath, partsToRemove) in partsToModifyPerFile) {
@@ -167,15 +166,8 @@ internal static class FileTweaker {
 			var fileContent = await File.ReadAllTextAsync(inputPath);
 
 			foreach (var (blockBefore, blockAfter, warnIfNotFound) in partsToRemove) {
-				// If the file uses other line endings than CRLF, we need to modify the search string.
-				string searchString;
-				if (lineEndings == LineEnding.LF) {
-					searchString = blockBefore.Replace("\r\n", "\n");
-				} else if (lineEndings == LineEnding.CR) {
-					searchString = blockBefore.Replace("\r\n", "\r");
-				} else {
-					searchString = blockBefore;
-				}
+				string searchString = NormalizeToLineEnding(blockBefore, lineEndings);
+				string replacementString = NormalizeToLineEnding(blockAfter, lineEndings);
 				
 				if (!fileContent.Contains(searchString)) {
 					if (warnIfNotFound) {
@@ -185,7 +177,7 @@ internal static class FileTweaker {
 					continue;
 				}
 				
-				fileContent = fileContent.Replace(searchString, blockAfter);
+				fileContent = fileContent.Replace(searchString, replacementString);
 			}
 
 			string outputPath = $"{outputModPath}/{relativePath}";
@@ -200,6 +192,16 @@ internal static class FileTweaker {
 		}
 	}
 
+	private static string NormalizeToLineEnding(string text, LineEnding targetLineEnding) {
+		// Normalize any combination of CRLF/CR/LF to LF first.
+		var normalized = text.Replace("\r\n", "\n").Replace("\r", "\n");
+		return targetLineEnding switch {
+			LineEnding.CRLF => normalized.Replace("\n", "\r\n"),
+			LineEnding.CR => normalized.Replace("\n", "\r"),
+			_ => normalized,
+		};
+	}
+
 	private static LineEnding GetLineEndingsInFile(string filePath) {
 		using StreamReader sr = new StreamReader(filePath);
 		bool returnSeen = false;
@@ -208,17 +210,14 @@ internal static class FileTweaker {
 			if (c == '\n') {
 				return returnSeen ? LineEnding.CRLF : LineEnding.LF;
 			}
-			else if (returnSeen) {
+
+			if (returnSeen) {
 				return LineEnding.CR;
 			}
 
 			returnSeen = c == '\r';
 		}
 
-		if (returnSeen) {
-			return LineEnding.CR;
-		} else {
-			return LineEnding.LF;
-		}
+		return returnSeen ? LineEnding.CR : LineEnding.LF;
 	}
 }
