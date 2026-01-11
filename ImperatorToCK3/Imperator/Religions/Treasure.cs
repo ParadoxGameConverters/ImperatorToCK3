@@ -1,9 +1,9 @@
 using commonItems;
 using commonItems.Collections;
-using ImperatorToCK3.Exceptions;
+using commonItems.Exceptions;
 using System.Collections.Generic;
 
-namespace ImperatorToCK3.Imperator.Religions; 
+namespace ImperatorToCK3.Imperator.Religions;
 
 public sealed class Treasure : IIdentifiable<ulong> {
 	public ulong Id { get; }
