@@ -54,9 +54,7 @@ internal partial class Province {
 			treasureSlotsParser.RegisterKeyword("treasures", treasuresReader => {
 				// 4294967295 equals (2^32 − 1) and is the default value.
 				// Any other value is an ID of a treasure.
-				parsedProvince.treasureIds = treasuresReader.GetULongs()
-					.Where(id => id != 4294967295)
-					.ToList();
+				parsedProvince.treasureIds = [.. treasuresReader.GetULongs().Where(id => id != 4294967295)];
 			});
 			treasureSlotsParser.IgnoreAndLogUnregisteredItems();
 			treasureSlotsParser.ParseStream(treasureSlotsReader);

@@ -22,7 +22,7 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 	public bool Fort { get; set; } = false;
 	public bool IsHolySite => HolySiteId is not null;
 	public ulong? HolySiteId { get; set; } = null;
-	private List<ulong> treasureIds = new();
+	private List<ulong> treasureIds = [];
 	public IReadOnlyCollection<ulong> TreasureIds => treasureIds;
 	public ulong? HoldingOwnerId { get; set; } = null;
 	public uint BuildingCount { get; set; } = 0;
