@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Armies;
@@ -756,9 +756,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 				var irArtifact = treasureManager[irArtifactId];
 				ImportArtifact(character, irArtifact, modifierMapper, ck3Modifiers, visualsMapper, irLocDB, ck3LocDB, date);
 			}
-			
-			
-			
+
 			/*
 			 * # Create the artifact
 			create_artifact = {	
