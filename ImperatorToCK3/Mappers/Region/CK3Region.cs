@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using commonItems.Serialization;
 using ImperatorToCK3.CK3.Titles;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ internal sealed class CK3Region {
 	private readonly HashSet<string> parsedCountyIds = [];
 	public Dictionary<string, Title> Counties { get; } = [];
 	public SortedSet<ulong> Provinces { get; } = [];
+	private readonly List<KeyValuePair<string, StringOfItem>> attributes = [];
 
 	public CK3Region(string name) => Name = name;
 
@@ -117,10 +119,9 @@ internal sealed class CK3Region {
 				regionToReturn.Provinces.Add(id);
 			}
 		});
-		parser.RegisterKeyword("should_remember_counties_order", ParserHelpers.IgnoreItem);
-		parser.RegisterKeyword("generate_modifiers", ParserHelpers.IgnoreItem);
-		parser.RegisterKeyword("color", ParserHelpers.IgnoreItem);
-		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+		parser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
+			regionToReturn.attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
+		});
 	}
 	public static CK3Region Parse(string name, BufferedReader reader) {
 		regionToReturn = new CK3Region(name);
@@ -161,6 +162,10 @@ internal sealed class CK3Region {
 				sb.Append(provinceId).Append(' ');
 			}
 			sb.AppendLine("}");
+		}
+
+		if (attributes.Count > 0) {
+			sb.AppendLine(PDXSerializer.Serialize(attributes, indent: "\t", withBraces: false));
 		}
 
 		sb.Append('}');
