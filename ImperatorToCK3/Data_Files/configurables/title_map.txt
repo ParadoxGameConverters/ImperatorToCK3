@@ -49,7 +49,7 @@ link = { ir = JUD ck3 = k_israel rank = k }
 # Italic
 
 link = {
-	ck3 = e_byzantium
+	ck3 = h_eastern_roman_empire
 	ir_name_key = ERE
 	ir_name_key = eastern_rome_name
 	ir_name_key = eastern_roman_republic_name
@@ -58,7 +58,7 @@ link = {
 	ir_name_key = eastern_roman_dictatorship_name
 }
 link = {
-	ck3 = e_western_roman_empire
+	ck3 = h_western_roman_empire
 	ir_name_key = WRE
 	ir_name_key = western_rome_name
 	ir_name_key = western_roman_republic_name
@@ -196,11 +196,10 @@ link = { ir = YMT ck3 = e_nippon rank = e }
 link = { ir = YMT ck3 = k_yamato rank = k }
 link = { ir = AIU ck3 = k_hitakami rank = k }
 
-# Korea (Including these since they seem to be the main power in their regions)
-link = { ir = JNG ck3 = e_haedong rank = e }
-link = { ir = JNG ck3 = k_goryeo rank = k }
-link = { ir = JSN ck3 = e_haedong rank = e }
-link = { ir = JSN ck3 = k_goguryeo rank = k }
+# Korea
+link = { ir = GAY ck3 = k_goguryeo rank = k } # In Terra-Indomita, this is the only Goguryeo tag, and its in the correct location, so its the best mapping
+link = { ir = BAE ck3 = k_baekje rank = k }
+link = { ir = SRO ck3 = k_silla rank = k } # Saro seems to have been the name of the city that dominated its region, forming Silla
 
 # Burma/Indochina
 link = { ir = PIY ck3 = e_burma rank = e } # Terra-Indomita decision, requires controlling all of Burma region
