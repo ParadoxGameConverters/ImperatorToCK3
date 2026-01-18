@@ -118,6 +118,26 @@ link = {
 	ck3Visual = chest
 	ck3Type = chest
 }
+link = {
+	irIcon = stone_of_jacob
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_it_second_temple_menorah
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_sun_chariot
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = black_stone
+	ck3Visual = chest
+	ck3Type = chest
+}
 
 link = {
  	irIcon = cr_treasure_skins_of_the_gorilla_03
@@ -142,6 +162,11 @@ link = {
 }
 link = {
 	irIcon = treasure_statue_of_nike
+	ck3Visual = statue_roman_woman
+	ck3Type = sculpture
+}
+link = {
+	irIcon = treasure_lady_of_ephesos
 	ck3Visual = statue_roman_woman
 	ck3Type = sculpture
 }
