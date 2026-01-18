@@ -54,6 +54,8 @@ internal static class WorldOutputter {
 			CoatOfArmsOutputter.OutputCoas(outputPath, ck3World.LandedTitles, ck3World.Dynasties, ck3World.CK3CoaMapper),
 			Task.Run(() => CoatOfArmsOutputter.CopyCoaPatterns(imperatorWorld.ModFS, outputPath)),
 
+			Task.Run(() => OutputModifiers(ck3World, outputPath)),
+
 			BookmarkOutputter.OutputBookmark(ck3World, config, ck3World.LocDB)
 		);
 
@@ -219,6 +221,7 @@ internal static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "landed_titles"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "legends", "legend_seeds"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "men_at_arms_types"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "modifiers"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "on_action"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "holy_sites"));
@@ -266,5 +269,13 @@ internal static class WorldOutputter {
 		}
 
 		Logger.IncrementProgress();
+	}
+	
+	private static void OutputModifiers(World ck3World, string outputPath) {
+		Logger.Info("Outputting modifiers...");
+		var fileOutputPath = Path.Combine(outputPath, "common/modifiers/IRToCK3_modifiers.txt");
+		
+		using var modifiersWriter = new StreamWriter(fileOutputPath);
+		modifiersWriter.WriteLine(ck3World.Modifiers.ToString());
 	}
 }
