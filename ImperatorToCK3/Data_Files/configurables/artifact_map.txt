@@ -140,9 +140,21 @@ link = {
 }
 
 link = {
+	irIcon = treasure_scythian_altar
+	ck3Visual = bunga_mas
+	ck3Type = pedestal
+}
+
+link = {
  	irIcon = cr_treasure_skins_of_the_gorilla_03
  	ck3Visual = large_animal_hide
  	ck3Type = animal_hide_big
+}
+
+link = {
+	irIcon = treasure_hermes_of_olympia
+	ck3Visual = statue_constantine
+	ck3Type = sculpture
 }
 
 link = {
@@ -169,6 +181,12 @@ link = {
 	irIcon = treasure_lady_of_ephesos
 	ck3Visual = statue_roman_woman
 	ck3Type = sculpture
+}
+
+link = {
+	irIcon = treasure_gold_idol_gacim
+	ck3Visual = statuette
+	ck3Type = pedestal
 }
 
 link = {
@@ -220,6 +238,12 @@ link = {
 	irIcon = treasure_axe_of_zalmoxis
 	ck3Visual = axe
 	ck3Type = axe
+}
+
+link = {
+	irIcon = treasure_copper_shield_of_athena
+	ck3Visual = wall_shield
+	ck3Type = wall_shield
 }
 
 link = {
