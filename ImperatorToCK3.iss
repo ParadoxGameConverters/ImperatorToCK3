@@ -49,8 +49,12 @@ Type: filesandordirs; Name: "{app}\ImperatorToCK3\temp"
 Source: "Publish\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
+[Tasks]
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\ConverterFrontend.exe"; IconFilename: "{app}\Assets\converter.ico"
+Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\ConverterFrontend.exe"; IconFilename: "{app}\Assets\converter.ico"; Tasks: desktopicon
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent runascurrentuser
@@ -58,8 +62,8 @@ Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChang
 [Code]
 function InitializeSetup: Boolean;
 begin
-  // Install .NET 9 runtime if it is not already installed.
-  Dependency_AddDotNet90;
+  // Install .NET 10 runtime if it is not already installed.
+  Dependency_AddDotNet100;
 
   Result := True;
 end;

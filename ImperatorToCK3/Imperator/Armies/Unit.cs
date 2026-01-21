@@ -13,9 +13,9 @@ internal sealed class Unit : IIdentifiable<ulong> {
 	public bool IsArmy { get; private set; } = true;
 	public bool IsLegion { get; private set; } = false;
 	public ulong CountryId { get; set; }
-	public ulong LeaderId { get; set; } // character id
+	public ulong? LeaderId { get; set; } // character id
 	public ulong Location { get; set; } // province id
-	private List<ulong> CohortIds { get; } = new();
+	private List<ulong> CohortIds { get; } = [];
 
 	public LocBlock? LocalizedName { get; private set; }
 	public FrozenDictionary<string, int> MenPerUnitType { get; }
