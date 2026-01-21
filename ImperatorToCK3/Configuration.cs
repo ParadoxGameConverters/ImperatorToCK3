@@ -70,6 +70,7 @@ internal sealed class Configuration {
 		parser.RegisterKeyword("CK3directory", reader => CK3Path = reader.GetString());
 		parser.RegisterKeyword("targetGameModPath", reader => CK3ModsPath = reader.GetString());
 		parser.RegisterKeyword("selectedMods", reader => {
+			SelectedCK3Mods.Clear();
 			SelectedCK3Mods.UnionWith(reader.GetStrings());
 			Logger.Info($"{SelectedCK3Mods.Count} mods selected by configuration.");
 		});
