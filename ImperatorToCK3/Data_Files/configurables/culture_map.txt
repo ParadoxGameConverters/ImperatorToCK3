@@ -137,7 +137,11 @@ link = { ck3=meroitic ck3=cushite } # Cushitic is from I:R Antiquitas mod.
 link = { ck3=nubian ir=meroitic }
 link = { ck3=nubian ir=cushite }
 # Invictus mod
-link = { ck3=nubian ir=nubian ir=lower_nubian ir=napatan ir=moyan ir=alutan }
+link = {
+	ck3=nubian
+	ir=nubian ir=lower_nubian ir=napatan ir=moyan ir=alutan ir=zankorian
+	ir=midobian # https://en.wikipedia.org/wiki/Midob_people
+}
 
 ## Anatolian
 # TFE
@@ -611,9 +615,9 @@ link = { ck3 = niwt_ipt ir = niwt_ipt }
 link = { ck3 = baranis ir = baranis } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = butr ir = butr } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 # TFE
-link = { ck3 = garamantian ir = nasamonian ir = macaean ir = psyllic ir = garamantic ir = libyan ir = berber ir = phazani ir = lotophagoi ir = gyzantian }
+link = { ck3 = garamantian ir = nasamonian ir = macaean ir = psyllic ir = garamantic ir = libyan ir = berber ir = phazani ir = lotophagoi ir = gyzantian ir = atarantian ir = atlantean }
 link = { ck3 = autoleles ir = nectiberean ir = autolalean ir = cetianian }
-link = { ck3 = pharusian ir = lixitoi ir = perorsian ir = canarian }
+link = { ck3 = pharusian ir = lixitoi ir = perorsian ir = canarian ir = pharusian }
 link = { ck3 = maurian ir = massylian ir = berber ir = gaetulian ir = melanogaetulian ir = socossian ir = massaesylian ir = libyan ir = garamantic ir = numidian irRegion = mauretainia_region }
 link = { ck3 = gaetulian ir = massylian ir = massaesylian ir = gaetulian ir = melanogaetulian ir = abannaean ir = capariensian }
 link = { ck3 = tuareg ir = massylian ir = berber ir = gaetulian ir = melanogaetulian ir = socossian ir = massaesylian ir = libyan ir = garamantic ir = numidian ck3Province = 6590 ck3Province = 6591 ck3Province = 6465 ck3Province = 6466 ck3Province = 6467 ck3Province = 6468 ck3Province = 4612 }
@@ -624,7 +628,7 @@ link = { ck3 = butr ir = libyan ir = garamantic }
 link = { ck3 = numidian ir = numidian }
 # Invictus mod
 link = { ck3=baranis ir=lixitoi ir=autolalean ir=cetianian ir=nectiberean }
-link = { ck3=butr ir=gyzantian ir=psyllic ir=nasamonian ir=perorsian ir=phazani ir=canarian ir=daphnitaean ir=macaean }
+link = { ck3=butr ir=gyzantian ir=psyllic ir=nasamonian ir=perorsian ir=phazani ir=canarian ir=daphnitaean ir=macaean ir=pharusian ir=nigirtean ir=atarantian ir=atlantean }
 link = { ck3=numidian ir=capariensian ir=lotophagoi ir=abannaean }
 
 ## Persian and Iranian
