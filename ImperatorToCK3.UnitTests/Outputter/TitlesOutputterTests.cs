@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Outputter;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System.IO;
 using System.Threading.Tasks;
 using Xunit;
@@ -39,50 +40,43 @@ public class TitlesOutputterTests {
 		await TitlesOutputter.OutputTitles(outputModPath, titles);
 
 		Assert.True(File.Exists(kingdomHistoryPath));
-		await using var kingdomHistoryFile = File.OpenRead(kingdomHistoryPath);
-		var reader = new StreamReader(kingdomHistoryFile);
-		Assert.Equal("k_kingdom={", await reader.ReadLineAsync());
-		Assert.Equal("\t20.1.1 = { liege = 0 }", await reader.ReadLineAsync());
-		Assert.Equal("}", await reader.ReadLineAsync());
-		Assert.True(reader.EndOfStream);
+		var kingdomHistoryText = await File.ReadAllTextAsync(kingdomHistoryPath);
+		Assert.Equal("k_kingdom={\n\t20.1.1 = { liege = 0 }\n}\n", TextTestUtils.NormalizeNewlines(kingdomHistoryText));
 
 		Assert.True(File.Exists(otherTitlesHistoryPath));
-		await using var otherTitlesHistoryFile = File.OpenRead(otherTitlesHistoryPath);
-		reader = new StreamReader(otherTitlesHistoryFile);
-		Assert.Equal("k_special_title={", await reader.ReadLineAsync());
-		Assert.Equal("\t20.1.1 = { holder = bob_42 }", await reader.ReadLineAsync());
-		Assert.Equal("}", await reader.ReadLineAsync());
-		Assert.True(reader.EndOfStream);
+		var otherTitlesHistoryText = await File.ReadAllTextAsync(otherTitlesHistoryPath);
+		Assert.Equal("k_special_title={\n\t20.1.1 = { holder = bob_42 }\n}\n", TextTestUtils.NormalizeNewlines(otherTitlesHistoryText));
 
 		Assert.True(File.Exists(landedTitlesPath));
-		await using var landedTitlesFile = File.OpenRead(landedTitlesPath);
-		reader = new StreamReader(landedTitlesFile);
-		Assert.Equal("k_kingdom = {", await reader.ReadLineAsync());
-		Assert.Equal("\td_duchy = {", await reader.ReadLineAsync());
-		Assert.Equal("\t\tc_county = {", await reader.ReadLineAsync());
-		Assert.Equal("\t\t\tb_barony = {", await reader.ReadLineAsync());
-		Assert.Equal("\t\t\t\tlandless = no", await reader.ReadLineAsync());
-		Assert.Equal("\t\t\t\tdefinite_form = no", await reader.ReadLineAsync());
-		Assert.Equal("\t\t\t\truler_uses_title_name = no", await reader.ReadLineAsync());
-		Assert.Equal("\t\t\t}", await reader.ReadLineAsync());
-		Assert.Equal("\t\t\tlandless = no", await reader.ReadLineAsync());
-		Assert.Equal("\t\t\tdefinite_form = no", await reader.ReadLineAsync());
-		Assert.Equal("\t\t\truler_uses_title_name = no", await reader.ReadLineAsync());
-		Assert.Equal("\t\t}", await reader.ReadLineAsync());
-		Assert.Equal("\t\tlandless = no", await reader.ReadLineAsync());
-		Assert.Equal("\t\tdefinite_form = no", await reader.ReadLineAsync());
-		Assert.Equal("\t\truler_uses_title_name = no", await reader.ReadLineAsync());
-		Assert.Equal("\t}", await reader.ReadLineAsync());
-		Assert.Equal("\tlandless = no", await reader.ReadLineAsync());
-		Assert.Equal("\tdefinite_form = no", await reader.ReadLineAsync());
-		Assert.Equal("\truler_uses_title_name = no", await reader.ReadLineAsync());
-		Assert.Equal("}", await reader.ReadLineAsync());
-		Assert.Equal("k_special_title = {", await reader.ReadLineAsync());
-		Assert.Equal("\tlandless = no", await reader.ReadLineAsync());
-		Assert.Equal("\tdefinite_form = no", await reader.ReadLineAsync());
-		Assert.Equal("\truler_uses_title_name = no", await reader.ReadLineAsync());
-		Assert.Equal("}", await reader.ReadLineAsync());
-		Assert.True(reader.EndOfStream);
+		var landedTitlesText = await File.ReadAllTextAsync(landedTitlesPath);
+		var expectedLandedTitles = TextTestUtils.NormalizeNewlines("""
+		k_kingdom = {
+			d_duchy = {
+				c_county = {
+					b_barony = {
+						landless = no
+						definite_form = no
+						ruler_uses_title_name = no
+					}
+					landless = no
+					definite_form = no
+					ruler_uses_title_name = no
+				}
+				landless = no
+				definite_form = no
+				ruler_uses_title_name = no
+			}
+			landless = no
+			definite_form = no
+			ruler_uses_title_name = no
+		}
+		k_special_title = {
+			landless = no
+			definite_form = no
+			ruler_uses_title_name = no
+		}
+		""");
+		Assert.Equal(expectedLandedTitles, TextTestUtils.NormalizeNewlines(landedTitlesText));
 	}
 
 	[Fact]
@@ -100,10 +94,11 @@ public class TitlesOutputterTests {
 		await TitlesOutputter.OutputTitles(outputModPath, titles);
 
 		Assert.True(File.Exists(landedTitlesPath));
-		await using var landedTitlesFile = File.OpenRead(landedTitlesPath);
-		var reader = new StreamReader(landedTitlesFile);
-		Assert.Equal("@default_ai_priority=20", await reader.ReadLineAsync());
-		Assert.Equal("@default_ai_aggressiveness=40", await reader.ReadLineAsync());
-		Assert.True(reader.EndOfStream);
+		var landedTitlesText = await File.ReadAllTextAsync(landedTitlesPath);
+		var expectedVariables = TextTestUtils.NormalizeNewlines("""
+		@default_ai_priority=20
+		@default_ai_aggressiveness=40
+		""");
+		Assert.Equal(expectedVariables, TextTestUtils.NormalizeNewlines(landedTitlesText).TrimEnd());
 	}
 }

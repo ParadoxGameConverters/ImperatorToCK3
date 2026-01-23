@@ -94,6 +94,10 @@ internal static class BookmarkOutputter {
 				}
 			}
 		}
+		var subheadingLoc = ck3LocDB.GetOrCreateLocBlock($"bm_converted_{holder.Id}_subheading");
+		foreach (var language in ConverterGlobals.SupportedLanguages) {
+			subheadingLoc[language] = "$BOOKMARK_SUBHEADING_DEFAULT$";
+		}
 		var holderDescLoc = ck3LocDB.GetOrCreateLocBlock($"bm_converted_{holder.Id}_desc");
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			holderDescLoc[language] = string.Empty;
@@ -186,11 +190,11 @@ internal static class BookmarkOutputter {
 		var ck3ModFS = ck3World.ModFS;
 		var provincesMapPath = ck3ModFS.GetActualFileLocation("map_data/provinces.png");
 		if (provincesMapPath is null) {
-			throw new FileNotFoundException($"{nameof(provincesMapPath)} not found!");
+			throw new FileNotFoundException("provinces.png not found!");
 		}
-		var flatmapPath = ck3ModFS.GetActualFileLocation("gfx/map/terrain/flatmap.dds");
+		var flatmapPath = ck3ModFS.GetActualFileLocation("gfx/map/terrain/flat_maps/flatmap.dds");
 		if (flatmapPath is null) {
-			throw new FileNotFoundException($"{nameof(flatmapPath)} not found!");
+			throw new FileNotFoundException("flatmap.dds not found!");
 		}
 		const string tmpFlatmapPath = "temp/flatmap.png";
 
