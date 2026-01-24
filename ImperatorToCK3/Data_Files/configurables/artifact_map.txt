@@ -1,0 +1,231 @@
+# Usage:
+#	irTreasure = Imperator treasure ID
+# 	irIcon = Imperator treasure icon
+# 	ck3Visual = CK3 visual ID (from common/artifacts/visuals)
+# 	ck3Type = CK3 artifact type (from common/artifacts/types)
+# Every link has to have either irTreasure or irIcon set.
+
+# Imperator treasures list with icons: https://imperator.paradoxwikis.com/Treasure#List_of_treasures
+
+link = {
+	irTreasure = treasure_armor_of_alexander
+	ck3Visual = pedestal_alexander_armor
+	ck3Type = pedestal
+}
+
+link = {
+	irIcon = treasure_urn_1
+	ck3Visual = urn
+	ck3Type = urn
+}
+link = {
+	irIcon = treasure_urn_2
+	ck3Visual = urn
+	ck3Type = urn
+}
+link = {
+	irIcon = treasure_urn_3
+	ck3Visual = urn
+	ck3Type = urn
+}
+link = {
+	irIcon = treasure_architecture
+	ck3Visual = statue
+	ck3Type = sculpture
+}
+link = {
+	irIcon = treasure_architecture_hoa
+	ck3Visual = statue
+	ck3Type = sculpture
+}
+link = {
+	irIcon = treasure_armor
+	ck3Visual = armor
+	ck3Type = armor_mail
+}
+link = {
+	irIcon = treasure_armor_hoa
+	ck3Visual = armor
+	ck3Type = armor_scale
+}
+link = {
+	irIcon = treasure_helmet_sarduri
+	ck3Visual = armor_mail
+	ck3Type = helmet_simple
+}
+link = {
+	irIcon = treasure_chest
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+ 	irIcon = treasure_it_sacred_stone_of_emesa
+ 	ck3Visual = chest # We don't have a special visual for this as of CK3 1.14.
+ 	ck3Type = chest
+}
+link = {
+	irIcon = treasure_sucellus_jar
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_stelae_baal_hammon
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_lion_headed_tanit
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_warrior_image
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_ma_figure
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_bronze_cauldron_of_shivini
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_theispas_icon
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_silver_cauldron
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_bronze_hand_sabazios
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_sphinx_of_the_naxians
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_serpent_column
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = stone_of_jacob
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_it_second_temple_menorah
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = treasure_sun_chariot
+	ck3Visual = chest
+	ck3Type = chest
+}
+link = {
+	irIcon = black_stone
+	ck3Visual = chest
+	ck3Type = chest
+}
+
+link = {
+ 	irIcon = cr_treasure_skins_of_the_gorilla_03
+ 	ck3Visual = large_animal_hide
+ 	ck3Type = animal_hide_big
+}
+
+link = {
+	irIcon = treasure_silver_idol_ga
+	ck3Visual = statue_roman_woman
+	ck3Type = sculpture
+}
+link = {
+	irIcon = treasure_seated_persephone
+	ck3Visual = statue_roman_woman
+	ck3Type = sculpture
+}
+link = {
+	irIcon = treasure_statue_of_khryseis
+	ck3Visual = statue_roman_woman
+	ck3Type = sculpture
+}
+link = {
+	irIcon = treasure_statue_of_nike
+	ck3Visual = statue_roman_woman
+	ck3Type = sculpture
+}
+link = {
+	irIcon = treasure_lady_of_ephesos
+	ck3Visual = statue_roman_woman
+	ck3Type = sculpture
+}
+
+link = {
+	irIcon = treasure_dog_figurine
+	ck3Visual = animal_figurine
+	ck3Type = miscellaneous
+}
+link = {
+	irIcon = treasure_bone_figurines
+	ck3Visual = animal_figurine
+	ck3Type = miscellaneous
+}
+
+link = {
+	irTreasure = phasis_constitution
+	ck3Visual = scroll
+	ck3Type = miscellaneous
+}
+
+#link = { # disabled because sarhophagi don't seem to fit well as CK3 court artifacts, and we have no visuals for them
+#	irIcon = treasure_sarcophagus
+#	ck3Visual = chest  # there is no sarcophagus in CK3 as of 1.8
+#	ck3Type = chest
+#}
+#link = { # disabled because sarhophagi don't seem to fit well as CK3 court artifacts, and we have no visuals for them
+#	irIcon = treasure_sarcophagus_hoa
+#	ck3Visual = chest  # there is no sarcophagus in CK3 as of 1.8
+#	ck3Type = chest
+#}
+#link = { # disabled because sarhophagi don't seem to fit well as CK3 court artifacts, and we have no visuals for them
+#	irIcon = treasure_sarcophagus_ahiram
+#	ck3Visual = chest  # there is no sarcophagus in CK3 as of 1.8
+#	ck3Type = chest
+#}
+
+link = {
+	irIcon = treasure_sword
+	ck3Visual = sword
+	ck3Type = sword
+}
+
+link = {
+	irIcon = treasure_brigantias_spear
+	ck3Visual = spear
+	ck3Type = spear
+}
+
+link = {
+	irIcon = treasure_axe_of_zalmoxis
+	ck3Visual = axe
+	ck3Type = axe
+}
+
+link = {
+	irIcon = treasure_necklace_of_adgilis_deda
+	ck3Visual = necklace
+	ck3Type = necklace
+}
+
+# TODO: drop treasure_serpent_column (Serpent Column of Delphi) because it's too big for a CK3 artifact
