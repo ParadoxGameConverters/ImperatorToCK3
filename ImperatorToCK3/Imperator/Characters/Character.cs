@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CommonUtils;
@@ -173,7 +173,6 @@ internal sealed class Character : IIdentifiable<ulong> {
 			var variablesParser = new Parser();
 			variablesParser.RegisterKeyword("data", dataReader => {
 				foreach (var blob in new BlobList(dataReader).Blobs) {
-					
 					ParseCharacterVariable(c);
 				}
 			});
