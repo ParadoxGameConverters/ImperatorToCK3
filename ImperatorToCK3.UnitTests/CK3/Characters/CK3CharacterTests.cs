@@ -399,6 +399,27 @@ public class CK3CharacterTests {
 		Assert.Equal("alexandros", character.GetName(ConversionDate));
 		Assert.Equal("Alexandros", ck3LocDB.GetLocBlockForKey("alexandros")!["english"]);
 	}
+	
+	[Fact]
+	public void VariablesAreConvertedFromImperator() {
+		var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character.Parse(
+			new BufferedReader(
+				"variables = {\n" +
+				"    irtock3_ambition_progress = 0.42\n" +
+				"    irtock3_some_other_variable = 69.0\n" +
+				"}"
+			),
+			"1",
+			new GenesDB()
+		);
+		
+		var character = builder
+			.WithImperatorCharacter(imperatorCharacter)
+			.Build();
+		var date = new Date(1, 1, 1);
+		Assert.Equal(0.42, character.History.GetFieldValue("irtock3_ambition_progress", date));
+		Assert.Equal(69.0, character.History.GetFieldValue("irtock3_some_other_variable", date));
+	}
 
 	[Fact]
 	public void AgeSexReturnsCorrectString() {
