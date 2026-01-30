@@ -212,7 +212,7 @@ link = { ir = SNG ck3 = e_celestia_china rank = e } # Including this mapping sin
 link = { ir = YMT ck3 = e_nippon rank = e } # ROA
 link = { ir = YMT ck3 = e_japan rank = e } # Base Game
 link = { ir = YMT ck3 = k_yamato rank = k }
-link = { ir = AIU ck3 = k_hitakami rank = k }
+#link = { ir = AIU ck3 = k_hitakami rank = k }
 
 # Korea
 link = { ir = GAY ck3 = k_goguryeo rank = k } # In Terra-Indomita, this is the only Goguryeo tag, and its in the correct location, so its the best mapping

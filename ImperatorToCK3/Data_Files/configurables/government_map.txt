@@ -50,17 +50,18 @@ link = {
 
 
 ## AUH Japanese Governments
-# Ritsuryo; Even Ritsuryo Counts can be independent, so no need for title ranks. Want it to have priority over any other option for Japanese states.
-link = {
-	ck3 = japan_administrative_government
-	ir = dictatorship ir = despotic_monarchy ir = aristocratic_monarchy ir = stratocratic_monarchy ir = theocratic_monarchy ir = plutocratic_monarchy ir = imperium ir = imperial_cult
-	irCulture = wa irCulture = kumaso irCulture = aduma irCulture = nansei irCulture = jomon_yayoi
-	#irCulture = ainu irCulture = dewa irCulture = sunazawa irCulture = mitinooku irCulture = duuchuu irCulture = yaeyama irCulture = emishi irCulture = jeulmeun # Alt History: These are the Jomon/Emishi cultures; Uncomment this line to make them to map to Ritsuryo as well
-	has_ck3_dlc = all_under_heaven # Needs to have relevant DLC
-}
+# Ritsuryo (japan_administrative_government); Even Ritsuryo Counts can be independent, so no need for title ranks. Want it to have priority over any other option for Japanese states.
 link = {
 	ck3 = japan_administrative_government
 	ir = yamato_empire # Terra-Indomita Governments
+	has_ck3_dlc = all_under_heaven # Needs to have relevant DLC
+}
+# Soryo (japan_feudal_government)
+link = {
+	ck3 = japan_feudal_government
+	ir = dictatorship ir = despotic_monarchy ir = aristocratic_monarchy ir = stratocratic_monarchy ir = theocratic_monarchy ir = plutocratic_monarchy ir = imperium ir = imperial_cult
+	irCulture = wa irCulture = kumaso irCulture = aduma irCulture = nansei irCulture = jomon_yayoi
+	#irCulture = ainu irCulture = dewa irCulture = sunazawa irCulture = mitinooku irCulture = duuchuu irCulture = yaeyama irCulture = emishi irCulture = jeulmeun # Alt History: These are the Jomon/Emishi cultures; Uncomment this line to make them to map to Soryo as well
 	has_ck3_dlc = all_under_heaven # Needs to have relevant DLC
 }
 

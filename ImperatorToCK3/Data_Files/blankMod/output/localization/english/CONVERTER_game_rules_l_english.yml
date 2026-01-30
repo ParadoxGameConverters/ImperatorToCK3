@@ -1,6 +1,8 @@
 ﻿l_english:
+ # General
  game_rule_category_irtock3: "IRToCK3 Converter"
 
+ # Imperator-converted Nomads
  rule_irtock3_gamerule_imperator_nomads: "IRToCK3 - [nomads|E] (Khans of the Steppe)"
 
  setting_irtock3_gamerule_nomads_leave_everything: "Leave Everything As Is"
@@ -18,7 +20,7 @@
  setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes: "None Outside, Force Inside"
  setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes_desc: "All Imperator tags made [nomadic|E] by the converter that are outside the Steppe are made [tribal|E], and any Tribal Imperator tags in the Steppe are forced to be Nomadic."
 
-
+ # Filler Rulers
  rule_irtock3_gamerule_filler_rulers: "IRToCK3 - [filler_rulers|E]"
  game_concept_filler_rulers: "Filler Rulers"
  game_concept_filler_rulers_desc: "Filler rulers are [rulers|E] created by the IMP-CK3 converter to fill in the uncolonized land from Imperator. Their rank was determined in the Frontend during conversion to be either [counts|E] or [dukes|E]."
@@ -38,6 +40,7 @@
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead: "Steppe Nomads\nHerd Culture Head"
  setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead_desc: "Requires Khans of the Steppe to work. Converts all [filler_rulers|E] in the Steppe to be [nomadic|E] if their [culture|E] determines its [culture_head|E] using [herd|E]. The rest are made [tribal|E]."
 
+ # Mandala Rulers
  rule_irtock3_gamerule_mandala_rulers: "IRToCK3 - [mandala|E] (All Under Heaven)"
 
  setting_irtock3_gamerule_mandala_rulers_all: "Everywhere"
@@ -47,4 +50,22 @@
  setting_irtock3_gamerule_mandala_rulers_sea_desc: "Only [feudal|E] [rulers|E] in South East Asia will become [mandala|E], as long as they meet the [mandala_conditions|E]."
 
  game_concept_mandala_conditions: "Mandala Conditions"
- game_concept_mandala_conditions_desc: "In order to become [mandala|E], a [ruler|E] must follow an [organized|E] [faith|E] with the $doctrine_polytheist_name$ [doctrine|E], and their [culture|E] must have one of the following [heritage|E]: $heritage_austronesian_name$, $heritage_tai_name$, $heritage_mon_khmer_name$, $heritage_viet_name$, $heritage_indo_aryan_name$, or $heritage_burman_name$."
+ game_concept_mandala_conditions_desc: "In order to become [mandala|E], a [ruler|E] must follow an [organized|E] [faith|E] with the $doctrine_polytheist_name$ [doctrine|E], and the [heritage|E] of their [culture|E] must be one of the following: \n$EFFECT_LIST_BULLET$$heritage_austronesian_name$ \n$EFFECT_LIST_BULLET$$heritage_tai_name$ \n$EFFECT_LIST_BULLET$$heritage_mon_khmer_name$ \n$EFFECT_LIST_BULLET$$heritage_viet_name$ \n$EFFECT_LIST_BULLET$$heritage_indo_aryan_name$ \n$EFFECT_LIST_BULLET$$heritage_burman_name$"
+
+ # Japanese Imperial Dynasty
+ rule_irtock3_gamerule_ritsuryo_rulers: "IRToCK3 - Japan Setup (All Under Heaven)"
+
+ setting_irtock3_gamerule_ritsuryo_rulers_any: "Any"
+ setting_irtock3_gamerule_ritsuryo_rulers_any_desc: "[gamerule_ritsuryo_rulers_any_explanation|E]"
+ game_concept_gamerule_ritsuryo_rulers_any_explanation: "Japan Setup - 'Any' Explanation"
+ game_concept_gamerule_ritsuryo_rulers_any_explanation_desc: "At game start, if no one has the Empire of Japan title, an existing [ritsuryo|E] [empire|E] whose capital is in [GetGeographicalRegion('world_asia_japan').GetNameNoTooltip], regardless of [culture|E], will be given the Empire of Japan, the Chrysanthemum Throne and [GetLaw('single_heir_succession_law').GetName], and Japan will be given the de jure land they control. If there are no Ritsuryō empires at game start and Japan has no [de_jure|E] land, it can still be formed through the '$irtock3_form_japan_decision$' decision by a $heritage_japonic_name$ heritage [king|E].\n\n#weak NOTE: This game rule only determines if anyone should be given the Empire of Japan at the start of the game. Regardless of what setting is selected for this rule, ALL Ritsuryō empires will be given their own [ceremonial_liege|E] title and [GetLaw('single_heir_succession_law').GetName|V] at game start, or when they form during the game. If a [liberty_faction|E] ends up pressing their demands against them, they will be given [GetLaw('japanese_regency_succession_law').GetName|V].#!"
+
+ setting_irtock3_gamerule_ritsuryo_rulers_japan: "$heritage_japonic_name$ Heritage"
+ setting_irtock3_gamerule_ritsuryo_rulers_japan_desc: "[gamerule_ritsuryo_rulers_japan_explanation|E]"
+ game_concept_gamerule_ritsuryo_rulers_japan_explanation: "Japan Setup - '$heritage_japonic_name$ Heritage' Explanation"
+ game_concept_gamerule_ritsuryo_rulers_japan_explanation_desc: "At game start, if no one has the Empire of Japan title, an existing [ritsuryo|E] [empire|E] whose capital is in [GetGeographicalRegion('world_asia_japan').GetNameNoTooltip], whose ruler's [culture|E] has the $heritage_japonic_name$ heritage, will be given the Empire of Japan, the Chrysanthemum Throne and [GetLaw('single_heir_succession_law').GetName], and Japan will be given the de jure land they control. If there are no Ritsuryō empires at game start and Japan has no [de_jure|E] land, it can still be formed through the '$irtock3_form_japan_decision$' decision by a $heritage_japonic_name$ heritage [king|E].\n\n#weak NOTE: This game rule only determines if anyone should be given the Empire of Japan at the start of the game. Regardless of what setting is selected for this rule, ALL Ritsuryō empires will be given their own [ceremonial_liege|E] title and [GetLaw('single_heir_succession_law').GetName|V] at game start, or when they form during the game. If a [liberty_faction|E] ends up pressing their demands against them, they will be given [GetLaw('japanese_regency_succession_law').GetName|V].#!"
+
+ setting_irtock3_gamerule_ritsuryo_rulers_none: "None"
+ setting_irtock3_gamerule_ritsuryo_rulers_none_desc: "[gamerule_ritsuryo_rulers_none_explanation|E]"
+ game_concept_gamerule_ritsuryo_rulers_none_explanation: "Japan Setup - 'None' Explanation"
+ game_concept_gamerule_ritsuryo_rulers_none_explanation_desc: "At game start, if no one has the Empire of Japan, it will NOT be given out to any ruler. If Japan has no [de_jure|E] land, it can still be formed through the '$irtock3_form_japan_decision$' decision by a $heritage_japonic_name$ heritage [king|E].\n\n#weak NOTE: This game rule only determines if anyone should be given the Empire of Japan at the start of the game. Regardless of what setting is selected for this rule, ALL Ritsuryō empires will be given their own [ceremonial_liege|E] title and [GetLaw('single_heir_succession_law').GetName|V] at game start, or when they form during the game. If a [liberty_faction|E] ends up pressing their demands against them, they will be given [GetLaw('japanese_regency_succession_law').GetName|V].#!"

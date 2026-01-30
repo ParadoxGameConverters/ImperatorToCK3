@@ -104,7 +104,7 @@
 		}
 	}
 
-	# Base game assumes e_japan will always have a holder, changed to check if a holder exists at game start. Also made it so that if someone holds e_japan at game start, they also get k_chrysanthemum_throne, to make sure that gets handed out.
+	# Base game assumes e_japan will always have a holder, changed to check if a holder exists at game start.
 	replace = {
 		before = {
 				holder = {
@@ -165,21 +165,6 @@
 							}
 						}
 					}
-
-					# IRToCK3: Need to also give out k_chrysanthemum_throne
-					save_scope_as = japan_emp
-					create_title_and_vassal_change = {
-						type = created
-						save_scope_as = change
-					}
-					title:k_chrysanthemum_throne = {
-						change_title_holder = {
-							holder = scope:japan_emp
-							change = scope:change
-						}
-						copy_title_history = title:e_japan
-					}
-					resolve_title_and_vassal_change = scope:change
 				}
 		}
 	}
@@ -2915,7 +2900,9 @@
 
 
 "common/scripted_triggers/10_tgp_triggers.txt" = {
-	
+	#########################
+	## tgp_should_become_meritocratic_trigger
+	#########################
 	# This determines whether you can become Meritocratic through the "Adopt a Centralized Bureaucracy" decision
 	replace = {
 		before = {
@@ -2934,6 +2921,9 @@
 		}
 	}
 
+	#########################
+	## tgp_can_become_celestial_trigger
+	#########################
 	# This determines whether you can become Celestial through the "Adopt a Centralized Bureaucracy" decision
 	replace = {
 		before = {
@@ -2956,6 +2946,61 @@
 		}
 	}
 
+	#########################
+	## tgp_is_ceremonial_regent_trigger
+	#########################
+	# Modifying to give it a custom localization
+	replace = {
+		before = {
+tgp_is_ceremonial_regent_trigger = {
+	is_independent_ruler = yes
+	is_landed = yes
+	tgp_realm_has_ceremonial_liege_trigger = yes
+	tgp_has_ceremonial_liege_title_trigger = no
+}
+		}
+
+		after = {
+tgp_is_ceremonial_regent_trigger = {
+	custom_tooltip = {
+		text = irtock3_is_ceremonial_regent_trigger_tt
+		is_independent_ruler = yes
+		is_landed = yes
+		tgp_realm_has_ceremonial_liege_trigger = yes
+		tgp_has_ceremonial_liege_title_trigger = no
+	}
+}
+		}
+	}
+
+	#########################
+	## tgp_can_become_japan_administrative_trigger
+	#########################
+	# This determines whether you can become Ritsuryo through the "Adopt a Centralized Bureaucracy" decision
+	replace = {
+		before = {
+		top_liege = {
+			OR = {
+				government_is_japanese_trigger = yes
+				has_character_flag = tgp_japan_restore_japanese_government_flag
+			}
+		}
+		government_is_japanese_trigger = yes
+		has_character_flag = tgp_japan_restore_japanese_government_flag
+		}
+
+		after = {
+		top_liege = {
+			OR = {
+				government_is_japanese_trigger = yes
+				has_character_flag = tgp_japan_restore_japanese_government_flag
+			}
+		}
+		government_is_japanese_trigger = yes
+		has_character_flag = tgp_japan_restore_japanese_government_flag
+		culture = { has_cultural_pillar = heritage_japonic } # IRToCK3: Made it so simply having Japonic Heritage allows it, to account for more Ritsuryo realms being allowed
+		}
+	}
 }
 
 
@@ -3089,6 +3134,255 @@
 				}
 			}
 			remove_variable = uses_custom_caesar_flavourization
+		}
+	}
+
+	# This causes an issue where if a character gets a title with the 'ceremonial_title', they can forcefully have their government changed, even when it shouldn't, so need to change this
+	replace = {
+		before = {
+			if = {
+				limit = { exists = scope:title.var:ceremonial_title }
+				add_character_flag = ceremonial_liege_flag
+				if = {
+					limit = { has_trait = devoted }
+					remove_trait = devoted
+				}
+				destroy_laamp_effect = { ADVENTURER = this }
+			}
+		}
+
+		after = {
+			if = {
+				limit = { exists = scope:title.var:ceremonial_title }
+				add_character_flag = ceremonial_liege_flag
+				if = {
+					limit = { has_trait = devoted }
+					remove_trait = devoted
+				}
+				if = {
+					limit = {
+						any_held_title = { has_variable = adventurer_creation_reason } # IRTOCK3: Added this condition because this seems like it should only really trigger if the character was an Adventurer, as it causes issues with Ritsuryo rulers getting the Ceremonial Monarch title
+					}
+					destroy_laamp_effect = { ADVENTURER = this }
+				}
+			}
+		}
+	}
+	replace = {
+		before = {
+			# IMPERIAL INHERITANCE
+			else_if = {
+				limit = {
+					exists = scope:title.var:ceremonial_title
+				}
+				add_character_flag = ceremonial_liege_flag
+				if = {
+					limit = { has_trait = devoted }
+					remove_trait = devoted
+				}
+				destroy_laamp_effect = { ADVENTURER = this }
+				trigger_event = {
+					id = tgp_japan_general.9100
+					days = 1
+				}
+			}
+		}
+
+		after = {
+			# IMPERIAL INHERITANCE
+			else_if = {
+				limit = {
+					exists = scope:title.var:ceremonial_title
+				}
+				add_character_flag = ceremonial_liege_flag
+				if = {
+					limit = { has_trait = devoted }
+					remove_trait = devoted
+				}
+				if = {
+					limit = {
+						any_held_title = { has_variable = adventurer_creation_reason } # IRTOCK3: Added this condition because this seems like it should only really trigger if the character was an Adventurer, as it causes issues with Ritsuryo rulers getting the Ceremonial Monarch title
+					}
+					destroy_laamp_effect = { ADVENTURER = this }
+				}
+				trigger_event = {
+					id = tgp_japan_general.9100
+					days = 1
+				}
+			}
+		}
+	}
+
+	# This section is responsible for things like setting up variables/flags/laws when inheriting Japan. Changed so that it can properly apply to any Ritsuryo/Soryo Empire realm
+	replace = {
+		before = {
+				else_if = {
+					limit = { scope:title = title:e_japan }
+					# TGP RETIRED EMPEROR
+					if = {
+						limit = {
+							exists = title:e_japan.var:administrative_ui_special_title
+							has_title = title:e_japan.var:administrative_ui_special_title
+						}
+						# Flavourization setup
+						title:e_japan = { remove_variable = shogun_flag }
+						remove_character_flag = shogun_flag
+						if = { # Flavourization setup
+							limit = { has_global_variable = tenno_restored }
+							title:e_japan = { set_variable = ceremonial_liege_flag }
+							add_character_flag = ceremonial_liege_flag
+							trigger_event = {
+								id = tgp_japan_general.9100
+								days = 1
+							}
+						}
+						else = { # Event to abdicate and become Joko
+							trigger_event = {
+								id = tgp_japan_general.9120
+								days = 1
+							}
+						}
+					}
+					# TGP SHOGUN
+					else_if = {
+						limit = {
+							has_government = japan_feudal_government
+							has_global_variable = shogunate_established
+						}
+						title:e_japan = { remove_variable = ceremonial_liege_flag }
+						remove_character_flag = ceremonial_liege_flag
+						title:e_japan = { set_variable = shogun_flag }
+						add_character_flag = shogun_flag
+					}
+					# TGP KAMPAKU
+					else = {
+						title:e_japan = { remove_variable = ceremonial_liege_flag }
+						remove_character_flag = ceremonial_liege_flag
+						title:e_japan = { remove_variable = shogun_flag }
+						remove_character_flag = shogun_flag
+					}
+					# Japanese regent laws
+					if = {
+						limit = {
+							tgp_realm_has_ceremonial_liege_trigger = yes
+							government_is_japanese_trigger = yes
+							NOR = {
+								has_global_variable = shogunate_established
+								has_global_variable = tenno_restored
+							}
+						}
+						if = {
+							limit = {
+								government_has_flag = government_is_japan_administrative
+								NOT = { has_realm_law = japanese_regency_succession_law }
+							}
+							add_realm_law_skip_effects = japanese_regency_succession_law
+						}
+						else_if = {
+							limit = {
+								government_has_flag = government_is_japan_feudal
+								has_realm_law = japanese_regency_succession_law
+							}
+							remove_realm_law = japanese_regency_succession_law
+						}
+					}
+				}
+		}
+
+		after = {
+				else_if = { # IRToCK3: Modified this whole block to properly allow it to work for any Ritsuryo/Soryo Empire realm, not just Japan
+					limit = {
+						exists = scope:title.var:administrative_ui_special_title
+						government_is_japanese_trigger = yes
+					}
+					# TGP RETIRED EMPEROR
+					if = {
+						limit = {
+							exists = scope:title.var:administrative_ui_special_title
+							has_title = scope:title.var:administrative_ui_special_title
+						}
+						# Flavourization setup
+						scope:title = { remove_variable = shogun_flag }
+						remove_character_flag = shogun_flag
+						if = { # Flavourization setup
+							limit = {
+								scope:title = { has_variable = tenno_restored }
+							}
+							scope:title = { set_variable = ceremonial_liege_flag }
+							add_character_flag = ceremonial_liege_flag
+							trigger_event = {
+								id = tgp_japan_general.9100
+								days = 1
+							}
+						}
+						else = { # Event to abdicate and become Joko
+							trigger_event = {
+								id = tgp_japan_general.9120
+								days = 1
+							}
+						}
+					}
+					# TGP SHOGUN
+					else_if = {
+						limit = {
+							has_government = japan_feudal_government
+							scope:title = { has_variable = shogunate_established }
+						}
+						scope:title = { remove_variable = ceremonial_liege_flag }
+						remove_character_flag = ceremonial_liege_flag
+						scope:title = { set_variable = shogun_flag }
+						add_character_flag = shogun_flag
+					}
+					# TGP KAMPAKU
+					else = {
+						scope:title = { remove_variable = ceremonial_liege_flag }
+						remove_character_flag = ceremonial_liege_flag
+						scope:title = { remove_variable = shogun_flag }
+						remove_character_flag = shogun_flag
+					}
+					# Japanese regent laws
+					if = {
+						limit = {
+							tgp_realm_has_ceremonial_liege_trigger = yes
+							government_is_japanese_trigger = yes
+							scope:title = {
+								NOR = {
+									has_variable = shogunate_established
+									has_variable = tenno_restored
+								}
+							}
+						}
+						if = {
+							limit = {
+								government_has_flag = government_is_japan_administrative
+								NOT = { has_realm_law = japanese_regency_succession_law }
+							}
+							add_realm_law_skip_effects = japanese_regency_succession_law
+						}
+						else_if = {
+							limit = {
+								government_has_flag = government_is_japan_feudal
+								has_realm_law = japanese_regency_succession_law
+							}
+							remove_realm_law = japanese_regency_succession_law
+						}
+					}
+				}
+		}
+	}
+
+	# This part is just about notifying players in the same realm as someone getting a new administrative title, unless the title being obtained is the Chrysanthemum Throne. Changed to make sure it works for any Ritsuryo/Soryo realms too
+	replace = {
+		before = {
+						scope:title != title:k_chrysanthemum_throne
+		}
+
+		after = {
+						# IRToCK3: Modified to make sure it works for any Ritsuryo/Soryo realm, not just Japan
+						trigger_if = {
+							limit = { exists = top_liege.primary_title.var:administrative_ui_special_title }
+							scope:title != top_liege.primary_title.var:administrative_ui_special_title
+						}
 		}
 	}
 }
@@ -3396,6 +3690,9 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 
 
 "common/scripted_effects/10_dlc_tgp_korea_scripted_effects.txt" = {
+	#########################
+	## korea_unify_goryeo_reward_effect
+	#########################
 	replace = {
 		before = {
 	# Destroy old titles
@@ -3568,13 +3865,15 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 						OR = {
 							this = culture:silla
 							AND = {
-								any_parent_culture_or_above = {
-									this = culture:silla
-									NOT = { this = culture:baekje }
-									NOT = { this = culture:goguryeo }
+								any_parent_culture_or_above = { this = culture:silla }
+								NOT = {
+									any_parent_culture_or_above = {
+										OR = {
+											this = culture:baekje
+											this = culture:goguryeo
+										}
+									}
 								}
-								
-								
 							}
 						}
 					}
@@ -3583,6 +3882,69 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 			}
 		}
 	}
+		}
+	}
+
+	#########################
+	## tgp_create_meritocratic_ruling_regent_title_effect
+	#########################
+	# Changed so "Yongson Throne" can be given out as long as you have the Korea title (since the Wang dynasty won't exist in game), and if you have 
+	replace = {
+		before = {
+			if = {
+				limit = { dynasty = dynasty:korean_wang_goryeo }
+				create_dynamic_title = {
+					tier = kingdom
+					name = k_yongson_throne
+				}
+				scope:new_title = { set_coa = k_yongson_throne }
+			}
+		}
+
+		after = {
+			if = {
+				limit = { # IRToCK3: Modified to just require the Korea title, since the base game's Wang dynasty won't exist, and the Yongson Throne title localization can't have been used before
+					primary_title = title:e_goryeo
+					NOT = { is_title_localization_key_used = k_yongson_throne }
+				}
+				create_dynamic_title = {
+					tier = kingdom
+					name = k_yongson_throne
+				}
+				scope:new_title = { set_coa = k_yongson_throne }
+			}
+		}
+	}
+
+	# Changed so that Meritocratic ceremonial liege titles are properly landless and figurehead titles (allowing them to have their own royal courts, which seems to be what is intended since the predefined k_yongson_throne title is setup that way)
+	replace = {
+		before = {
+			scope:new_title = {
+				save_scope_as = monarch_title
+				set_definitive_form = yes
+				# LINK TITLES
+				set_variable = {
+					name = ceremonial_title
+					value = scope:founder.primary_title
+				}
+			}
+		}
+
+		after = {
+			scope:new_title = {
+				save_scope_as = monarch_title
+				set_definitive_form = yes
+				# LINK TITLES
+				set_variable = {
+					name = ceremonial_title
+					value = scope:founder.primary_title
+				}
+				# IRToCK3: Added the below effects, mainly to make sure they can have their own royal court, which seems to be intended, and to also make sure the title doesn't accidentally get destroyed because someone was landless when they inherited it and this title was set as being landless
+				set_capital_county = scope:founder.capital_county
+				set_landless_title = yes
+				set_figurehead_title = yes
+				set_de_jure_liege_title = scope:founder.primary_title
+			}
 		}
 	}
 }
@@ -3653,7 +4015,7 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 		}
 
 		after = {
-				global_var:japanese_imperial_dynasty ?= this # Already divine # IRToCK3: Modified to account for Yamato possibly not being Japanese Imperial Dynasty
+				has_variable = divine_ritsuryo_dynasty # Already divine # IRToCK3: Modified to work better with other ritsuryo/soryo realms
 		}
 	}
 }
@@ -3667,16 +4029,84 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 		}
 
 		after = {
-						global_var:japanese_imperial_dynasty ?= dynasty # IRToCK3: Modified to account for Yamato possibly not being Japanese Imperial Dynasty
+						top_liege.primary_title.var:administrative_ui_special_title.var:imperial_dynasty ?= dynasty # IRToCK3: Generalized to better be compatible with other ritsuryo/soryo realms
 		}
 	}
 }
 
 
 "common/scripted_effects/10_dlc_tgp_japan_scripted_effects.txt" = {
-	# Need to modify to account for the fact that the Yamato dynasty might not be the Japanese Imperial Dynasty
+	#########################
+	## japan_clear_flavour_flags_effect
+	#########################
+	# Need to generalize the effect, so that one ritsuryo realm doesn't affect another
 	replace = {
 		before = {
+	remove_global_variable = shogunate_established
+	remove_global_variable = tenno_restored
+		}
+
+		after = {
+	# IRToCK3: Generalized to work for any Ritsuryo/Soryo realm
+	top_liege.primary_title = {
+		remove_variable = shogunate_established
+		remove_variable = tenno_restored
+	}
+		}
+	}
+
+	#########################
+	## japanese_become_shogun_reward_effect
+	#########################
+	# Need to generalize the effect, so that one ritsuryo realm doesn't affect another
+	replace = {
+		before = {
+	set_global_variable = {
+		name = shogunate_established
+		value = yes
+	}
+		}
+
+		after = {
+	top_liege.primary_title = {
+		set_variable = {
+			name = shogunate_established
+			value = yes
+		}
+	}
+		}
+	}
+
+	#########################
+	## restore_ceremonial_liege_faction_combined_effect
+	#########################
+	# Need to generalize the effect, so that one ritsuryo realm doesn't affect another
+	replace = {
+		before = {
+	set_global_variable = {
+		name = tenno_restored
+		value = yes
+	}
+		}
+
+		after = {
+	top_liege.primary_title = {
+		set_variable = {
+			name = tenno_restored
+			value = yes
+		}
+	}
+		}
+	}
+
+	#########################
+	## tgp_restore_japanese_monarchy_yamato_scion_effect
+	#########################
+	# Need to generalize the effect, so that one ritsuryo realm doesn't affect another
+	# Changes necessary for this effect to work properly in a generalized way would be complicated to do alone through replaceable_file_blocks.txt without
+	replace = {
+		before = {
+	title:k_chrysanthemum_throne.previous_holder ?= { save_scope_as = last_tenno }
 	dynasty:japanese_yamato.dynasty_founder.house ?= {
 		save_scope_as = house_yamato
 		if = {
@@ -3783,7 +4213,10 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 		}
 
 		after = {
-	global_var:japanese_imperial_dynasty.dynasty_founder.house ?= { # IRToCK3: Modified to account for Yamato possibly not being Japanese Imperial Dynasty
+	# IRToCK3: Modified so that it was generalized to work for any ritsuryo realm, not just Japan and the Yamato dynasty
+	top_liege.primary_title.var:administrative_ui_special_title.previous_holder ?= { save_scope_as = last_tenno }
+	top_liege.primary_title.var:administrative_ui_special_title = { save_scope_as = realm_ceremonial_title }
+	top_liege.primary_title.var:administrative_ui_special_title.var:imperial_house ?= {
 		save_scope_as = house_yamato
 		if = {
 			limit = { this = scope:kampaku.house }
@@ -3888,28 +4321,450 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 	}
 		}
 	}
+
+	#########################
+	## tgp_restore_japanese_monarchy_yamato_restoration_effect
+	#########################
+	# Need to generalize the trigger, so that one ritsuryo realm doesn't affect another
+	replace = {
+		before = {
+		if = {
+			limit = { exists = title:k_chrysanthemum_throne.holder }
+			create_title_and_vassal_change = {
+				type = usurped
+				save_scope_as = change
+				add_claim_on_loss = yes
+			}
+		}
+		else = {
+			create_title_and_vassal_change = {
+				type = created
+				save_scope_as = change
+			}
+		}
+		title:k_chrysanthemum_throne ?= {
+			change_title_holder = {
+				holder = scope:scion
+				change = scope:change
+			}
+		}
+		}
+
+		after = {
+		# IRToCK3: Generalized so that it works for any ritsuryo realm, not just Japan and the Chrysanthemum Throne
+		if = {
+			limit = { exists = top_liege.primary_title.var:administrative_ui_special_title.holder }
+			create_title_and_vassal_change = {
+				type = usurped
+				save_scope_as = change
+				add_claim_on_loss = yes
+			}
+		}
+		else = {
+			create_title_and_vassal_change = {
+				type = created
+				save_scope_as = change
+			}
+		}
+		top_liege.primary_title.var:administrative_ui_special_title ?= {
+			change_title_holder = {
+				holder = scope:scion
+				change = scope:change
+			}
+		}
+		}
+	}
+
+	# Need to make sure the ceremonial liege title is given primogeniture succession
+	replace = {
+		before = {
+		scope:scion = {
+			if = {
+				limit = {
+					NOT = { government_has_flag = government_is_japan_administrative }
+				}
+				change_government = japan_administrative_government
+			}
+		}
+		}
+
+		after = {
+		scope:scion = {
+			if = {
+				limit = {
+					NOT = { government_has_flag = government_is_japan_administrative }
+				}
+				change_government = japan_administrative_government
+			}
+		}
+		# IRToCK3: Making sure the ceremonial liege title has primogeniture succession
+		top_liege.primary_title.var:administrative_ui_special_title ?= {
+			if = {
+				limit = {
+					NOT = { has_title_law = single_heir_succession_law }
+				}
+				add_title_law = single_heir_succession_law
+			}
+		}
+		}
+	}
+
+	#########################
+	## tgp_destroy_ceremonial_liege_title_effect
+	#########################
+	# The base game has this effect unlink a realm (empire) title from its associated ceremonial liege title, which sometimes can cause repeat ceremonial liege titles to be created for the same realm. Modifying to hopefully avoid that, but this might need to be changed later if issues arise.
+	replace = {
+		before = {
+		scope:ceremonial_title = { remove_variable = ceremonial_title }
+		scope:regent_title = { remove_variable = administrative_ui_special_title }
+		}
+
+		after = {
+		# IRToCK3: Commented out so that the ceremonial liege title remains linked to the realm title, hopefully avoiding repeat creations of the same ceremonial title for one realm
+		#scope:ceremonial_title = { remove_variable = ceremonial_title }
+		#scope:regent_title = { remove_variable = administrative_ui_special_title }
+		}
+	}
 }
 
 
 "common/decisions/dlc_decisions/tgp/tgp_japan_decisions.txt" = {
 	#########################
+	## tgp_japan_establish_soryo_administration_decision
+	#########################
+	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	
+	# is_shown block
+	replace = {
+		before = {
+		NOR = { 
+			government_has_flag = government_is_japan_feudal 
+			has_global_variable = shogunate_established
+		}
+		}
+
+		after = {
+		NOR = { 
+			government_has_flag = government_is_japan_feudal 
+			top_liege.primary_title = { has_variable = shogunate_established } # IRToCK3: Changed this from checking a global variable to checking if the primary title has the variable, so that one ritsuryo realm doesn't affect another
+		}
+		}
+	}
+
+	# is_valid block
+	replace = {
+		before = {
+		# Is Regent
+		trigger_if = {
+			limit = {
+				has_title = title:e_japan
+			}
+			has_realm_law = japanese_regency_succession_law
+		}
+		}
+
+		after = {
+		# Is Regent
+		trigger_if = {
+			limit = {
+				exists = top_liege.primary_title.var:administrative_ui_special_title # IRToCK3: Base game just checks if the ruler has e_japan, likely because they are assuming they would be the only ritsuryo realm with a ceremonial liege. Changed to make it apply better to more realms.
+			}
+			has_realm_law = japanese_regency_succession_law
+		}
+		}
+	}
+
+	replace = {
+		before = {
+		custom_tooltip = {
+			text = house_head_create_faction_cohesion_hard_tt
+			house.house_confederation ?= {
+				leading_house ?= root.house
+				has_cohesion_level_parameter = house_head_adopt_soryo_regency
+			}
+		}
+		custom_tooltip = {
+			text = house_head_adopt_soryo_regency_tt
+			house.house_confederation ?= {
+				leading_house ?= root.house
+				has_cohesion_level_parameter = house_head_adopt_soryo_regency
+			}
+		}
+		}
+
+		after = {
+		# IRToCK3: Changed the conditions in these tooltips to better match what they actually say/intend in game
+		custom_tooltip = {
+			text = irtock3_house_head_bloc_cohesion_hard_tt
+			house.house_confederation ?= {
+				leading_house ?= root.house
+				cohesion >= 75
+			}
+		}
+		custom_tooltip = {
+			text = house_head_adopt_soryo_regency_tt
+			house.house_confederation ?= {
+				confederation_type = confederation_type:house_bloc_strength
+			}
+		}
+		}
+	}
+
+	#########################
+	## tgp_japan_become_shogun_decision
+	#########################
+	## Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+
+	# is_shown block
+	replace = {
+		before = {
+		top_liege = { has_title = title:e_japan }
+		NOR = {
+			has_global_variable = shogunate_established
+			has_global_variable = tenno_restored
+		}
+		}
+
+		after = {
+		# IRToCK3: Changed the below conditions so one Ritsuryo realm couldn't affect another
+		tgp_realm_has_ceremonial_liege_trigger = yes
+		top_liege.primary_title = {
+			NOR = {
+				has_variable = shogunate_established
+				has_variable = tenno_restored
+			}
+		}
+		}
+	}
+
+	# is_valid block
+	replace = {
+		before = {
+		# Is Regent
+		custom_tooltip = {
+			text = tgp_japan_become_shogun_decision_top_liege_trigger
+			has_title = title:e_japan
+		}
+		}
+
+		after = {
+		# Is Regent # IRToCK3: Changed this so that it just makes sure you are a Ceremonial Regent, which is what is intended
+		tgp_is_ceremonial_regent_trigger = yes
+		}
+	}
+
+	replace = {
+		before = {
+		custom_tooltip = {
+			text = tgp_japan_become_shogun_decision_land_trigger
+			top_liege = {
+				completely_controls = title:d_kinai
+				completely_controls = title:d_nankaido
+				completely_controls = title:d_hokurikudo
+				completely_controls = title:d_west_bando
+				completely_controls = title:d_north_saikaido
+			}
+		}
+		}
+
+		after = {
+		# IRToCK3: For localization
+		top_liege.primary_title = { save_temporary_scope_as = target_title }
+		save_temporary_scope_value_as = {
+			name = required_county_percentage
+			value = 0.5
+		}
+		custom_tooltip = {
+			text = irtock3_control_de_jure_percentage_trigger
+			#IRToCK3: Base game requires you to control specific duchies that makeup a little less than 45% of de jure japan. Tried generalizing this to work for any realm.
+			scope:target_title = {
+				any_de_jure_county = {
+					percent >= scope:required_county_percentage
+					OR = {
+						holder = root
+						holder = {
+							any_liege_or_above = { this = root }
+						}
+					}
+				}
+			}
+		}
+		}
+	}
+
+	# effect block
+	replace = {
+		before = {
+		trigger_event = tgp_japan_decision.9101
+		}
+
+		after = {
+		top_liege.primary_title = { save_scope_as = realm_title } # IRToCK3: Event localization
+		trigger_event = tgp_japan_decision.9101
+		}
+	}
+
+	#########################
+	## tgp_japan_emperor_restoration_decision
+	#########################
+
+	# is_shown block
+	replace = {
+		before = {
+		has_tgp_dlc_trigger = yes
+		top_liege = { has_title = title:e_japan }
+		tgp_realm_has_ceremonial_liege_trigger = yes
+		custom_tooltip = {
+			text = tgp_is_ceremonial_liege_tt
+			tgp_has_ceremonial_liege_title_trigger = yes
+		}
+		NOT = { has_global_variable = tenno_restored }
+		}
+
+		after = {
+		has_tgp_dlc_trigger = yes
+		# IRToCK3: The base game just checks that your top_liege has e_japan. Generalized to just make sure you have a japanese government, since that is the main relevant factor
+		government_is_japanese_trigger = yes
+		tgp_realm_has_ceremonial_liege_trigger = yes
+		custom_tooltip = {
+			text = tgp_is_ceremonial_liege_tt
+			tgp_has_ceremonial_liege_title_trigger = yes
+		}
+		# IRToCK3: Changed from checking a global variable to checking if the primary title has the variable, so that one ritsuryo realm doesn't affect another
+		top_liege.primary_title = {
+			NOT = { has_variable = tenno_restored }
+		}
+		}
+	}
+
+	# is_valid block
+	replace = {
+		before = {
+		is_independent_ruler = yes
+		has_title = title:e_japan
+		tgp_has_ceremonial_liege_title_trigger = yes
+		}
+
+		after = {
+		is_independent_ruler = yes
+		#has_title = title:e_japan # IRToCK3: Base game requires having e_japan, since that is the only real ritsuryo/soryo realm in base game. Commented out for now to allow other realms to take this decision, but might change this later if a better condition is determined.
+		tgp_has_ceremonial_liege_title_trigger = yes
+		}
+	}
+
+	replace = {
+		before = {
+		completely_controls = title:d_kinai
+		completely_controls = title:d_nankaido
+		completely_controls = title:d_hokurikudo
+		completely_controls = title:d_west_bando
+		completely_controls = title:d_north_saikaido
+		custom_tooltip = {
+			text = tgp_japan_no_other_powerful_forces_trigger
+			NOT = {
+				title:e_japan.holder = {
+					any_vassal = {
+						NOR = {
+							this = root
+							is_allied_to = root
+							house = root.house
+						}
+						current_strength_with_allies_value > root.current_strength_with_allies_fifty_percent_value
+					}
+				}
+			}
+		}
+		}
+
+		after = {
+		# IRToCK3: For localization
+		top_liege.primary_title = { save_temporary_scope_as = target_title }
+		save_temporary_scope_value_as = {
+			name = required_county_percentage
+			value = 0.5
+		}
+		custom_tooltip = {
+			text = irtock3_control_de_jure_percentage_trigger
+			#IRToCK3: Base game requires you to control specific duchies that makeup a little less than 45% of de jure japan. Tried generalizing this to work for any realm.
+			scope:target_title = {
+				any_de_jure_county = {
+					percent >= scope:required_county_percentage
+					OR = {
+						holder = root
+						holder = {
+							any_liege_or_above = { this = root }
+						}
+					}
+				}
+			}
+		}
+		custom_tooltip = {
+			text = tgp_japan_no_other_powerful_forces_trigger
+			NOT = {
+				scope:top_realm_title.holder = {
+					any_vassal = {
+						NOR = {
+							this = root
+							is_allied_to = root
+							house = root.house
+						}
+						current_strength_with_allies_value > root.current_strength_with_allies_fifty_percent_value
+					}
+				}
+			}
+		}
+		# IRToCK3: Added this condition to prevent someone from restoring direct imperial rule immediately after losing to a liberty faction
+		trigger_if = {
+			limit = {
+				top_liege.primary_title.var:administrative_ui_special_title = { has_variable = tenno_lost_power }
+			}
+			custom_tooltip = {
+				text = irtock3_tenno_recently_lost_power
+				NOT = {
+					top_liege.primary_title.var:administrative_ui_special_title = { has_variable = tenno_lost_power }
+				}
+			}
+		}
+		}
+	}
+	
+	#########################
 	## tgp_japan_imperial_branch_decision
 	#########################
-	# Need to modify to account for the fact that the Yamato dynasty might not be the Japanese Imperial Dynasty
+
+	# is_shown block
+	replace = {
+		before = {
+		# Monks need not apply
+		NOT = { has_trait = devoted }
+		# Must be within Japan
+		top_liege = { has_title = title:e_japan }
+		}
+
+		after = {
+		# Monks need not apply
+		NOT = { has_trait = devoted }
+		# Must be within Japan
+		#top_liege = { has_title = title:e_japan } # IRToCK3: Commented out to allow other realms aside from e_japan to take this decision, as other conditions should be good enough to limit it appropriately
+		}
+	}
+
+	# effect block
 	replace = {
 		before = {
 							NOT = { this = dynasty:japanese_yamato }
 		}
 
 		after = {
-							NOT = { global_var:japanese_imperial_dynasty ?= this } # IRToCK3: Modified to account for Yamato possibly not being Japanese Imperial Dynasty
+							NOT = { root.top_liege.primary_title.var:administrative_ui_special_title.var:imperial_dynasty = this } # IRToCK3: Generalized to better work for any realm
 		}
 	}
 
 	#########################
 	## tgp_japan_restore_japanese_monarchy_decision
 	#########################
-	# Need to make sure that someone has actually previously held the Chrysanthemum Throne, otherwise this doesn't make sense
+
+	# is_shown block
 	replace = {
 		before = {
 		# Chrysanthemum no longer part of Japan or destroyed
@@ -3917,18 +4772,1576 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 			limit = { exists = title:k_chrysanthemum_throne.holder }
 			NOT = { title:e_japan.holder ?= title:k_chrysanthemum_throne.holder.top_liege }
 		}
+		# Japanese culture
+		culture = {
+			OR = {
+				this = culture:japanese
+				any_parent_culture_or_above = { this = culture:japanese }
+			}
+		}
 		}
 
 		after = {
-		# IRToCK3: This decision only really matters if you are a part of e_japan (whether you have the title yourself or are a vassal)
-		top_liege ?= { has_title = title:e_japan }
-		# Chrysanthemum no longer part of Japan or destroyed
+		# IRToCK3: Base game just checks for the k_chrysanthemum_throne title, changed to check for whatever ceremonial liege title the realm has
+		exists = top_liege.primary_title.var:administrative_ui_special_title
 		trigger_if = {
-			limit = { exists = title:k_chrysanthemum_throne.holder }
-			NOT = { title:e_japan.holder ?= title:k_chrysanthemum_throne.holder.top_liege }
+			limit = { exists = top_liege.primary_title.var:administrative_ui_special_title.holder }
+			NOT = { top_liege = top_liege.primary_title.var:administrative_ui_special_title.holder.top_liege }
 		}
-		trigger_else = { # IRToCK3: Added this check so that if the throne isn't created, it needs to have a previous holder, otherwise this decision doesn't make sense
-			title:k_chrysanthemum_throne ?= { exists = previous_holder }
+		# IRToCK3: Base game limits this decision to just Japanese cultures, removed so it can be done by anyone
+		}
+	}
+
+	# is_valid block
+	replace = {
+		before = {
+		has_title = title:e_japan
+		completely_controls = title:c_yamashiro # Kyoto
+		custom_tooltip = { # Chrysanthemum destroyed or no longer part of Japan
+			text = tgp_japan_restore_japanese_monarchy_decision_title_tt
+			trigger_if = {
+				limit = { exists = title:k_chrysanthemum_throne.holder.top_liege }
+				NOT = { title:e_japan.holder ?= title:k_chrysanthemum_throne.holder.top_liege }
+			}
+			trigger_else = { always = yes }
+		}
+		}
+
+		after = {
+		# IRToCK3: Base game limits this decision to just e_japan, removed to allow any realm
+		completely_controls = top_liege.primary_title.title_capital_county # IRToCK3: Base game requires you to control Kyoto/Yamashiro, changed to just requiring you to control whatever the preferered capital county of your realm is
+		top_liege.primary_title.var:administrative_ui_special_title = { save_temporary_scope_as = realm_ceremonial_title }
+		custom_tooltip = { # Chrysanthemum destroyed or no longer part of Japan
+			text = tgp_japan_restore_japanese_monarchy_decision_title_tt
+			# IRToCK3: Base game just checks for the k_chrysanthemum_throne title, changed to check for whatever ceremonial liege title the realm has
+			trigger_if = {
+				limit = { exists = top_liege.primary_title.var:administrative_ui_special_title.holder }
+				NOT = { top_liege = top_liege.primary_title.var:administrative_ui_special_title.holder.top_liege }
+			}
+			trigger_else = { always = yes }
+		}
+		}
+	}
+
+	#########################
+	## tgp_japan_assert_regional_dominion_government_decision
+	#########################
+
+	# desc block
+	replace = {
+		before = {
+				trigger = {
+					has_global_variable = shogunate_established
+				}
+				desc = tgp_japan_assert_regional_dominion_government_decision_shogun_desc
+		}
+
+		after = {
+				trigger = {
+					top_liege.primary_title = { has_variable = shogunate_established } # IRToCK3: Generalized to better work with any realm
+				}
+				desc = tgp_japan_assert_regional_dominion_government_decision_shogun_desc
+		}
+	}
+
+	#########################
+	## move_shogunate_court_decision
+	#########################
+
+	# is_shown block
+	replace = {
+		before = {
+		has_global_variable = shogunate_established
+		NOT = { has_variable = moved_shogunate_court }
+		domain_size > 1
+		capital_county = title:c_yamashiro
+		}
+
+		after = {
+		primary_title = {
+			has_variable = shogunate_established # IRToCK3: Changed from checking a global variable to checking if the primary title has the variable, so that one ritsuryo/soryo realm doesn't affect another
+			NOT = { has_variable = moved_shogunate_court } # IRToCK3: Changed from checking a character variable to checking if the primary title has the variable, so that you can't constantly move the court around
+		}
+		NOT = { has_variable = moved_shogunate_court }
+		domain_size > 1
+		top_liege = this # IRToCK3: This decision is intended to be taken by independent rulers, not vassals, so added this additional condition
+		# IRToCK3: The base game just checks that your capital is in Yamashiro. Changed to check if this decision was taken before (which would set the original_capital_county variable) and use that to determine if the capital is in the original location, otherwise just check that the capital is in the realm's current capital county (implying this decision hasn't been taken before)
+		trigger_if = {
+			limit = {
+				primary_title = { has_variable = original_capital_county }
+			}
+			capital_county = primary_title.var:original_capital_county
+		}
+		trigger_else = {
+			capital_county = primary_title.title_capital_county
+		}
+		}
+	}
+
+	# is_valid block
+	replace = {
+		before = {
+	is_valid = {
+		has_title = title:e_japan
+	}
+		}
+
+		after = {
+	is_valid = {
+		# IRToCK3: The base game just checks that you have e_japan. Changed to check if this decision was taken before (which would set the original_capital_county variable) and use that to determine if the capital is in the original location, otherwise just check that the capital is in the realm's current capital county (implying this decision hasn't been taken before)
+		trigger_if = {
+			limit = {
+				primary_title = { has_variable = original_capital_county }
+			}
+			capital_county = primary_title.var:original_capital_county
+		}
+		trigger_else = {
+			capital_county = primary_title.title_capital_county
+		}
+	}
+		}
+	}
+
+	# effect block
+	replace = {
+		before = {
+		title:e_japan = { set_capital_county = scope:barony.county }
+		}
+
+		after = {
+		# IRToCK3: To prevent someone from constantly moving the capital, made it so that the primary_title also gets the variable and it lasts 25 years, so the capital can't be moved again until that expires
+		primary_title = {
+			save_scope_as = prim_realm_title
+			# IRToCK3: If this decision hasn't been taken for this title yet, save original capital county to a variable so that if this decision becomes available again later, that can be used (similar to how in the base game it always checks that you have Yamashiro as your capital, not the new capital after moving it)
+			if = {
+				limit = {
+					NOT = { has_variable = original_capital_county }
+				}
+				set_variable = {
+					name = original_capital_county
+					value = scope:prim_realm_title.title_capital_county
+				}
+				scope:prim_realm_title.title_capital_county = { save_scope_as = realm_capital_county }
+			}
+			else = {
+				var:original_capital_county = { save_scope_as = realm_capital_county }
+			}
+		}
+		custom_tooltip = {
+			text = irtock3_move_shogunate_court_decision_tt
+			scope:prim_realm_title = {
+				set_variable = {
+					name = moved_shogunate_court
+					value = yes
+					days = 9125 # 25 years
+				}
+			}
+		}
+		scope:prim_realm_title = { set_capital_county = scope:barony.county }
+		}
+	}
+
+	# widget block
+	replace = {
+		before = {
+				county != title:c_yamashiro
+		}
+
+		after = {
+				# IRToCK3: The base game makes sure that the new chosen county isn't Yamashiro. Mirrored that condition by making sure the chosen county isn't the original capital county (if the decision has been taken before)
+				trigger_if = {
+					limit = { exists = scope:ruler.primary_title.var:original_capital_county }
+					county != scope:ruler.primary_title.var:original_capital_county
+				}
+				trigger_else = { # IRToCK3: Otherwise, prevent them from selecting what the current title's capital county is
+					county != scope:ruler.primary_title.title_capital_county
+				}
+		}
+	}
+
+	# ai_potential block
+	replace = {
+		before = {
+		is_playable_character = yes
+		has_global_variable = shogunate_established
+		}
+
+		after = {
+		is_playable_character = yes
+		primary_title = { has_variable = shogunate_established } # IRToCK3: Changed from checking a global variable to checking if the primary title has the variable, so that one ritsuryo/soryo realm doesn't affect another
+		}
+	}
+}
+
+
+"events/factions/faction_demands.txt" = {
+	#########################
+	## faction_demand.0101
+	#########################
+	# Need to modify event so that if the realm is Ritsuryo, the relevant Ceremonial Liege effects are triggered
+	replace = {
+		before = {
+		# MERITOCRATIC EMPIRE CEREMONIAL MONARCH/REGENCY CREATION
+		tgp_create_meritocratic_ruling_regent_title_effect = yes
+		}
+
+		after = {
+		# MERITOCRATIC EMPIRE CEREMONIAL MONARCH/REGENCY CREATION
+		tgp_create_meritocratic_ruling_regent_title_effect = yes
+
+		# IRToCK3 RITSURYO EMPIRE CEREMONIAL MONARCH/REGENCY CREATION
+		irtock3_create_ritsuryo_ruling_regent_title_effect = yes
+		}
+	}
+}
+
+
+"common/casus_belli_types/00_civil_war.txt" = {
+	#########################
+	## liberty_faction_war
+	#########################
+	# Need to modify event so that if the realm is Ritsuryo, the relevant Ceremonial Liege effects are triggered
+	replace = {
+		before = {
+			# MERITOCRATIC EMPIRE CEREMONIAL MONARCH/REGENCY CREATION
+			tgp_create_meritocratic_ruling_regent_title_effect = yes
+		}
+
+		after = {
+			# MERITOCRATIC EMPIRE CEREMONIAL MONARCH/REGENCY CREATION
+			tgp_create_meritocratic_ruling_regent_title_effect = yes
+
+			# IRToCK3 RITSURYO EMPIRE CEREMONIAL MONARCH/REGENCY CREATION
+			irtock3_create_ritsuryo_ruling_regent_title_effect = yes
+		}
+	}
+}
+
+
+"common/scripted_triggers/10_tgp_japan_triggers.txt" = {
+	#########################
+	## tgp_is_japanese_kampaku_trigger
+	#########################
+	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	replace = {
+		before = {
+	has_title = title:e_japan
+	NOR = {
+		has_title = title:k_chrysanthemum_throne
+		has_global_variable = tenno_restored
+		has_global_variable = shogunate_established
+	}
+		}
+
+		after = {
+	# IRToCK3: NOTE, this trigger doesn't seem to actually be used anywhere, but modified it anyway just in case. Tried generalizing it so that it could work for any ritsuryo/soryo realm, not just Japan
+	top_liege = this
+	exists = top_liege.primary_title.var:administrative_ui_special_title
+	NOR = {
+		has_title = top_liege.primary_title.var:administrative_ui_special_title
+		# IRToCK3: Changed from checking global variables to checking variables on the primary title, so that one ritsuryo realm doesn't affect another
+		top_liege.primary_title = { has_variable = tenno_restored }
+		top_liege.primary_title = { has_variable = shogunate_established }
+	}
+	has_government = japan_administrative_government # IRToCK3: Added this check to make sure the realm is Ritsuryo administrative government, since that is the only government that would have a kampaku
+		}
+	}
+
+	#########################
+	## tgp_japan_offensive_wars_ban_trigger
+	#########################
+	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	replace = {
+		before = {
+				has_title = title:e_japan
+				scope:defender.top_liege != this
+				government_is_japanese_trigger = yes
+				realm_law_use_imperial_policy_trigger = yes
+		}
+
+		after = {
+				highest_held_title_tier = tier_empire # IRToCK3: Instead of limiting to just e_japan, make it apply to any ritsuryo/soryo empire realm
+				scope:defender.top_liege != this
+				government_is_japanese_trigger = yes
+				realm_law_use_imperial_policy_trigger = yes
+		}
+	}
+	
+	#########################
+	## can_have_japanese_regency_succession_law_trigger
+	#########################
+	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	replace = {
+		before = {
+	OR = {
+		has_title = title:k_chrysanthemum_throne
+		any_vassal_or_below = { has_title = title:k_chrysanthemum_throne }
+	}
+	NOT = {
+		has_global_variable = tenno_restored
+	}
+		}
+
+		after = {
+	# IRToCK3: Instead of just checking for k_chrysanthemum_throne, just having it check if the realm has a ceremonial liege title, so one ritsuryo realm doesn't affect another. The base game also only checks that you or a vassal has the ceremonial liege title, which causes issues if that title gets destroyed or leaves the realm, so trying to just check if the ceremonial liege title exists instead
+	exists = primary_title.var:administrative_ui_special_title
+	# IRToCK3: Changed tenno_restored to be a variable on the primary title instead of a global variable, so need to check that
+	primary_title = {
+		NOT = { has_variable = tenno_restored }
+	}
+		}
+	}
+
+	#########################
+	## can_have_japanese_appointment_succession_law_trigger
+	#########################
+	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	replace = {
+		before = {
+	has_tgp_dlc_trigger = yes
+	government_has_flag = government_is_japan_administrative
+	is_independent_ruler = no
+	NOT = { has_title = title:k_chrysanthemum_throne }
+		}
+
+		after = {
+	has_tgp_dlc_trigger = yes
+	government_has_flag = government_is_japan_administrative
+	is_independent_ruler = no
+	# IRToCK3: Instead of just checking for k_chrysanthemum_throne, just having it check if the realm has a ceremonial liege title, and that you don't have it, so one ritsuryo realm doesn't affect another
+	trigger_if = {
+		limit = { exists = top_liege.primary_title.var:administrative_ui_special_title }
+		NOT = { has_title = top_liege.primary_title.var:administrative_ui_special_title }
+	}
+		}
+	}
+
+	#########################
+	## tgp_japan_single_heir_succession_override_trigger
+	#########################
+	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	replace = {
+		before = {
+		title:k_chrysanthemum_throne.holder ?= scope:holder_temp
+		AND = {
+			has_global_variable = tenno_restored
+			title:e_japan.holder ?= scope:holder_temp
+		}
+		}
+
+		after = {
+		# IRToCK3: Generalized from just checking for k_chrysanthemum_throne/e_japan, so that one ritsuryo realm doesn't affect another
+		top_liege.primary_title.var:administrative_ui_special_title.holder ?= scope:holder_temp
+		AND = {
+			top_liege.primary_title = { has_variable = tenno_restored }
+			top_liege.primary_title.holder ?= scope:holder_temp
+		}
+		}
+	}
+
+	#########################
+	## tgp_blocked_action_against_tenno_trigger
+	#########################
+	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	replace = {
+		before = {
+		NAND = {
+			$TARGET$ = { has_title = title:k_chrysanthemum_throne }
+			$TARGET$.top_liege = $ACTOR$.top_liege
+		}
+		}
+
+		after = {
+		NAND = {
+			# IRToCK3: Generalized from just checking for k_chrysanthemum_throne, so that one ritsuryo realm doesn't affect another
+			$TARGET$.top_liege = $ACTOR$.top_liege
+			$TARGET$ = {
+				exists = top_liege.primary_title.var:administrative_ui_special_title
+				has_title = top_liege.primary_title.var:administrative_ui_special_title
+			}
+		}
+		}
+	}
+
+	#########################
+	## tgp_blocked_ruler_against_ceremonial_action_trigger
+	#########################
+	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	replace = {
+		before = {
+		NAND = {
+			$TENNO$ = { has_title = title:k_chrysanthemum_throne }
+			$REGENT$ = $TENNO$.liege
+		}
+		}
+
+		after = {
+		# IRToCK3: This trigger doesn't seem to actually be used anywhere, but modified it anyway just in case
+		NAND = {
+			$REGENT$ = $TENNO$.liege
+			$TENNO$ = {
+				exists = top_liege.primary_title.var:administrative_ui_special_title
+				has_title = top_liege.primary_title.var:administrative_ui_special_title
+			}
+		}
+		}
+	}
+
+	#########################
+	## japan_imperial_expansion_cb_allowed_for_character_trigger
+	#########################
+	# This CB very specifically targets land outside of e_japan in specific geographical_regions. Until it can best be determined how to generalize this, it is being modified to make sure it is only possible in e_japan
+	# Another associated trigger in this file is 'japan_imperial_expansion_cb_allowed_against_character_trigger'. But, since this CB is being kept only for Japan for now, that isn't being modified. Once it is determined how to best generalize this CB, this trigger will also need to be modified.
+	# Unfortunately, there is another trigger in the same file that gets used for the japan imperial reconquest CB that has the same exact conditions, but it shouldn't be modified, so the entire trigger (including the name) needs to be included here so only it gets properly changed.
+	replace = {
+		before = {
+japan_imperial_expansion_cb_allowed_for_character_trigger = {
+	# DLC check
+	has_tgp_dlc_trigger = yes
+	# Must have a Japanese government form with policies
+	realm_law_use_imperial_policy_trigger = yes
+	# Must be part of Japan with functional imperial family
+	tgp_realm_has_ceremonial_liege_trigger = yes
+}
+		}
+
+		after = {
+japan_imperial_expansion_cb_allowed_for_character_trigger = {
+	# DLC check
+	has_tgp_dlc_trigger = yes
+	# Must have a Japanese government form with policies
+	realm_law_use_imperial_policy_trigger = yes
+	# Must be part of Japan with functional imperial family
+	tgp_realm_has_ceremonial_liege_trigger = yes
+	# IRToCK3: Added this to make sure that this CB can only be used within e_japan, as the base game CB is very specifically designed around that area, until a better way to generalize the CB can be determined
+	top_liege = { has_title = title:e_japan }
+}
+		}
+	}
+
+	#########################
+	## japan_imperial_reconquest_cb_allowed_against_character_trigger
+	#########################
+	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	replace = {
+		before = {
+	# Must own Japanese de-jure land
+	any_sub_realm_county = { empire = title:e_japan }
+		}
+
+		after = {
+	# IRToCK3: Generalized from just e_japan, so that it can be used for any ritsuryo empire realm
+	scope:attacker.top_liege = { highest_held_title_tier = tier_empire }
+	any_sub_realm_county = { empire = scope:attacker.top_liege.primary_title }
+		}
+	}
+
+	#########################
+	## tgp_install_regent_faction_can_create_trigger
+	#########################
+	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	replace = {
+		before = {
+		text = replace_ceremonial_regent_faction_kampaku_trigger
+		NOR = {
+			has_global_variable = shogunate_established
+			has_global_variable = tenno_restored
+		}
+		}
+
+		after = {
+		text = replace_ceremonial_regent_faction_kampaku_trigger
+		# IRToCK3: Changed from checking global variables to checking variables on the primary title, so that one ritsuryo realm doesn't affect another
+		top_liege.primary_title = {
+			NOR = {
+				has_variable = shogunate_established
+				has_variable = tenno_restored
+			}
+		}
+		}
+	}
+
+	#########################
+	## japan_government_japan_kingdom_restriction_trigger
+	#########################
+	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another (NOTE: Will need to look into whether this should be more generalized to apply to other realms, and exactly how to do that. Currently, the base game sets this trigger in the 'can_create' block of the kingdom titles that make up the area around modern day Japan, so technically even in the base game kingdom titles could be created outside of Japan, so not sure what would be best)
+	replace = {
+		before = {
+		limit = {
+			government_is_japanese_trigger = yes
+			OR = {
+				is_independent_ruler = no
+				AND = {
+					NOT = { highest_held_title_tier = tier_kingdom }
+					has_title = title:e_japan
+				}
+			}
+		}
+		custom_tooltip = {
+			text = japan_government_japan_kingdom_restriction_tt
+			has_global_variable = tenno_restored
+		}
+		}
+
+		after = {
+		limit = {
+			government_is_japanese_trigger = yes
+			OR = {
+				is_independent_ruler = no
+				AND = {
+					NOT = { highest_held_title_tier = tier_kingdom }
+					highest_held_title_tier = tier_empire # IRToCK3: Changed from just checking for e_japan to checking for any ritsuryo/soryo empire realm
+				}
+			}
+		}
+		custom_tooltip = {
+			text = japan_government_japan_kingdom_restriction_tt
+			top_liege.primary_title = { has_variable = tenno_restored } # IRToCK3: Changed from checking a global variable to checking a variable on the primary title, so that one ritsuryo realm doesn't affect another
+		}
+		}
+	}
+
+	#########################
+	## japan_government_japan_duchy_restriction_trigger
+	#########################
+	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another (NOTE: Just like with the above kingdom restriction trigger, this trigger is applied in the 'can_create' block of the duchy titles that make up the area around modern day Japan, so technically even in the base game duchy titles could be created outside of Japan, so not sure what would be best)
+	replace = {
+		before = {
+			text = japan_government_japan_duchy_restriction_tt
+			has_global_variable = tenno_restored
+		}
+
+		after = {
+			text = japan_government_japan_duchy_restriction_tt
+			top_liege.primary_title = { has_variable = tenno_restored } # IRToCK3: Changed from checking a global variable to checking a variable on the primary title, so that one ritsuryo realm doesn't affect another
+		}
+	}
+}
+
+
+"common/script_values/00_ai_values.txt" = {
+	# Modifying this so that the AI won't create more empire titles if their primary title already has the Ceremonial Liege title variable setup, as that can cause issues with how those governments handle the ceremonial liege stuff
+	replace = {
+		before = {
+	# times 10 for counts over vassal limit
+	if = {
+		limit = {
+			root.primary_title.tier = tier_county
+			vassal_limit_available <= 0
+		}
+		multiply = 10
+	}
+		}
+
+		after = {
+	# times 10 for counts over vassal limit
+	if = {
+		limit = {
+			root.primary_title.tier = tier_county
+			vassal_limit_available <= 0
+		}
+		multiply = 10
+	}
+
+	# IRToCK3: Prevent AI from creating more empire titles if their primary title already has the Ceremonial Liege title variable setup, as it can cause issues with how those governments handle the ceremonial liege stuff
+	if = {
+		limit = {
+			highest_held_title_tier = tier_empire
+			scope:title_tier_rank = tier_empire
+			exists = primary_title.var:administrative_ui_special_title
+		}
+		multiply = 0
+	}
+		}
+	}
+}
+
+
+"common/scripted_triggers/00_succession_triggers.txt" = {
+	#########################
+	## can_have_meritocratic_regency_succession_law_trigger
+	#########################
+	# Modifying to remove specific, anachronistic use of this trigger for 1178
+	replace = {
+		before = {
+	OR = {
+		# Ceremonial Monarch title always pairs with law
+		exists = primary_title.var:administrative_ui_special_title
+		# Jipjeong Jeong Jung-bu
+		AND = {
+			game_start_date = 1178.10.1
+			has_title = title:e_goryeo
+			months_from_game_start < 1
+		}
+	}
+		}
+
+		after = {
+	# IRToCK3: Removed specific, anachronistic use of this trigger for 1178 to prevent any errors with conversion
+	# Ceremonial Monarch title always pairs with law
+	exists = primary_title.var:administrative_ui_special_title
+		}
+	}
+}
+
+
+"common/laws/00_succession_laws.txt" = {
+	#########################
+	## japanese_appointment_succession_law
+	#########################
+	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	replace = {
+		before = {
+			government_has_flag = government_is_japan_administrative
+			is_independent_ruler = no
+			NOT = { has_title = title:k_chrysanthemum_throne }
+		}
+
+		after = {
+			government_has_flag = government_is_japan_administrative
+			is_independent_ruler = no
+			# IRToCK3: Instead of just checking for k_chrysanthemum_throne, just having it check if the realm has a ceremonial liege title, and that you don't have it
+			trigger_if = {
+				limit = { exists = top_liege.primary_title.var:administrative_ui_special_title }
+				NOT = { has_title = top_liege.primary_title.var:administrative_ui_special_title }
+			}
+		}
+	}
+}
+
+
+"events/dlc/tgp/tgp_japan_decision_events.txt" = {
+	#########################
+	## tgp_japan_decision.9201
+	#########################
+	# Need to generalize the effect, so that one ritsuryo realm doesn't affect another
+	replace = {
+		before = {
+					limit = { top_liege = title:e_japan.holder }
+		}
+
+		after = {
+					limit = { top_liege = root.top_liege } # IRToCK3: Changed from just checking for e_japan to simply checking for the top liege of root, so that one ritsuryo realm doesn't affect another
+		}
+	}
+
+	#########################
+	## tgp_japan_decision.9301
+	#########################
+	# Need to generalize the effect, so that one ritsuryo realm doesn't affect another
+	replace = {
+		before = {
+		set_global_variable = {
+			name = tenno_restored
+			value = yes
+		}
+		}
+
+		after = {
+		# IRToCK3: Changed from setting a global variable to setting a variable on the primary title, so that one ritsuryo realm doesn't affect another
+		top_liege.primary_title = {
+			set_variable = {
+				name = tenno_restored
+				value = yes
+			}
+		}
+		}
+	}
+}
+
+
+"events/dlc/tgp/tgp_japan_yearly_events.txt" = {
+	#########################
+	## tgp_japan_yearly_events.1200
+	#########################
+	# Need to generalize the effect, so that one ritsuryo realm doesn't affect another
+
+	# trigger block
+	replace = {
+		before = {
+		location = root.capital_province 
+		has_title = title:e_japan
+		government_has_flag = government_is_japan_administrative
+		}
+
+		after = {
+		location = root.capital_province 
+		government_has_flag = government_is_japan_administrative
+		# IRToCK3: The base game just checks that you have e_japan, and kind of just assumes that there is a tenno and he is your vassal. Changed to make sure you are actually a ceremonial regent, so it should work for any ritsuryo/soryo realm
+		tgp_is_ceremonial_regent_trigger = yes
+		}
+	}
+
+	# immediate block
+	replace = {
+		before = {
+		title:k_chrysanthemum_throne.holder ?= {
+			save_scope_as = emperor 
+		}
+		}
+
+		after = {
+		# IRToCK3: Generalized so it should work for any ritsuryo/soryo realm
+		primary_title.var:administrative_ui_special_title.holder ?= {
+			save_scope_as = emperor 
+		}
+		}
+	}
+}
+
+
+"events/dlc/tgp/tgp_japan_general_events.txt" = {
+	#########################
+	## tgp_japan_general.9100
+	#########################
+	# Need to generalize the effect, so that one ritsuryo realm doesn't affect another
+	
+	# immediate block
+	replace = {
+		before = {
+							NOT = { has_global_variable = tenno_restored }
+		}
+
+		after = {
+							# IRToCK3: Generalized to better work with any ritsuryo/soryo realm
+							top_liege.primary_title = {
+								NOT = { has_variable = tenno_restored }
+							}
+		}
+	}
+
+
+	#########################
+	## tgp_japan_general.9120
+	#########################
+	# Need to generalize the effect, so that one ritsuryo realm doesn't affect another
+
+	# lower_left_portrait block
+	replace = {
+		before = {
+		character = scope:emperor_player_heir
+		trigger = { this != title:e_japan.previous_holder }
+		}
+
+		after = {
+		character = scope:emperor_player_heir
+		trigger = {
+			# IRToCK3: Generalized, so it can better be used for any ritsuryo/soryo realm
+			trigger_if = {
+				limit = { exists = scope:title.previous_holder }
+				this != scope:title.previous_holder
+			}
+			trigger_else = { always = yes }
+		}
+		}
+	}
+
+	# lower_right_portrait block
+	replace = {
+		before = {
+		character = title:e_japan.previous_holder
+		}
+
+		after = {
+		character = scope:title.previous_holder # IRToCK3: Generalized, so it can better be used for any ritsuryo/soryo realm
+		trigger = { exists = scope:title.previous_holder }
+		}
+	}
+
+	# trigger block
+	replace = {
+		before = {
+			has_global_variable = tenno_restored
+			var:ascended_throne_reason ?= flag:conquest_claim
+			var:ascended_throne_reason ?= flag:conquest
+		}
+
+		after = {
+			scope:title = { has_variable = tenno_restored }
+			var:ascended_throne_reason ?= flag:conquest_claim
+			var:ascended_throne_reason ?= flag:conquest
+		}
+	}
+
+	# 'Become Cloistered Emperor' option block
+	replace = {
+		before = {
+		title:k_chrysanthemum_throne = {
+			change_title_holder = {
+				holder = scope:emperor_player_heir
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+		scope:emperor_player_heir = { add_character_flag = ceremonial_liege_flag }
+		tgp_new_ceremonial_liege_notification_effect = { TITLE = title:k_chrysanthemum_throne }
+		}
+
+		after = {
+		scope:title.var:administrative_ui_special_title = { # IRToCK3: Generalized, so it can better be used for any ritsuryo/soryo realm
+			change_title_holder = {
+				holder = scope:emperor_player_heir
+				change = scope:title_change
+			}
+		}
+		resolve_title_and_vassal_change = scope:title_change
+		scope:emperor_player_heir = { add_character_flag = ceremonial_liege_flag }
+		tgp_new_ceremonial_liege_notification_effect = { TITLE = scope:title.var:administrative_ui_special_title } # IRToCK3: Generalized, so it can better be used for any ritsuryo/soryo realm
+		}
+	}
+}
+
+
+"common/scripted_modifiers/10_tgp_faction_modifiers.txt" = {
+	#########################
+	## replace_ceremonial_regent_faction_modifiers
+	#########################
+	# Need to generalize the decision, so that one ritsuryo/soryo realm doesn't affect another
+	replace = {
+		before = {
+		$FACTION_TARGET$ = { has_title = title:k_chrysanthemum_throne }
+		NOT = { has_global_variable = tenno_restored }
+		}
+
+		after = {
+		# IRToCK3: Generalized from just checking for k_chrysanthemum_throne, so that one ritsuryo/soryo realm doesn't affect another
+		$FACTION_TARGET$ = { has_title = top_liege.primary_title.var:administrative_ui_special_title }
+		top_liege.primary_title = {
+			NOT = { has_variable = tenno_restored }
+		}
+		}
+	}
+}
+
+
+"common/scripted_effects/00_war_effects.txt" = {
+	#########################
+	## on_lost_faction_revolt_war
+	#########################
+	# Need to generalize the decision, so that it works for any ritsuryo/soryo realm
+	replace = {
+		before = {
+				limit = {
+					has_title = title:k_chrysanthemum_throne
+					exists = title:k_chrysanthemum_throne.current_heir
+				}
+				title:k_chrysanthemum_throne.current_heir = { save_scope_as = new_emperor }
+				create_title_and_vassal_change = {
+					type = revoked
+					save_scope_as = title_change
+				}
+				title:k_chrysanthemum_throne = {
+					change_title_holder = {
+						holder = scope:new_emperor
+						change = scope:title_change
+					}
+				}
+		}
+
+		after = {
+				limit = {
+					exists = top_liege.primary_title.var:administrative_ui_special_title
+					has_title = top_liege.primary_title.var:administrative_ui_special_title
+					exists = top_liege.primary_title.var:administrative_ui_special_title.current_heir
+				}
+				# IRToCK3: Generalized from just checking for k_chrysanthemum_throne, so that it works for any ritsuryo/soryo realm
+				top_liege.primary_title.var:administrative_ui_special_title.current_heir = { save_scope_as = new_emperor }
+				create_title_and_vassal_change = {
+					type = revoked
+					save_scope_as = title_change
+				}
+				top_liege.primary_title.var:administrative_ui_special_title = {
+					change_title_holder = {
+						holder = scope:new_emperor
+						change = scope:title_change
+					}
+				}
+		}
+	}
+}
+
+
+"common/character_interactions/10_tgp_japan_interactions.txt" = {
+	#########################
+	## assume_house_bloc_leadership_interaction
+	#########################
+	# Need to generalize the interaction to better work with any realm, not just Japan
+
+	# cost block
+	replace = {
+		before = {
+						OR = {
+							is_landed = yes
+							has_title = title:k_chrysanthemum_throne
+						}
+		}
+
+		after = {
+						OR = {
+							is_landed = yes
+							tgp_has_ceremonial_liege_title_trigger = yes # IRToCK3: Generalized from just checking for k_chrysanthemum_throne, so that it can better be used for any ritsuryo/soryo realm
+						}
+		}
+	}
+
+	# auto_accept block
+	replace = {
+		before = {
+			limit = {
+				scope:recipient = {
+					is_ai = yes
+					is_landed = no
+					NOT = { has_title = title:k_chrysanthemum_throne }
+				}
+			}
+			scope:recipient = {
+				is_ai = yes
+				is_landed = no
+				NOT = { has_title = title:k_chrysanthemum_throne }
+			}
+		}
+
+		after = {
+			limit = {
+				scope:recipient = {
+					is_ai = yes
+					is_landed = no
+					# IRToCK3: Generalized from just checking for k_chrysanthemum_throne, so that it can better be used for any ritsuryo/soryo realm
+					trigger_if = {
+						limit = { exists = top_liege.primary_title.var:administrative_ui_special_title }
+						NOT = { has_title = top_liege.primary_title.var:administrative_ui_special_title }
+					}
+				}
+			}
+			scope:recipient = {
+				is_ai = yes
+				is_landed = no
+				# IRToCK3: Generalized from just checking for k_chrysanthemum_throne, so that it can better be used for any ritsuryo/soryo realm
+				trigger_if = {
+					limit = { exists = top_liege.primary_title.var:administrative_ui_special_title }
+					NOT = { has_title = top_liege.primary_title.var:administrative_ui_special_title }
+				}
+			}
+		}
+	}
+
+	# ai_will_do block
+	replace = {
+		before = {
+			scope:recipient = {
+				is_landed = no
+				NOT = { has_title = title:k_chrysanthemum_throne }
+			}
+		}
+
+		after = {
+			scope:recipient = {
+				is_landed = no
+				# IRToCK3: Generalized from just checking for k_chrysanthemum_throne, so that it can better be used for any ritsuryo/soryo realm
+				trigger_if = {
+					limit = { exists = top_liege.primary_title.var:administrative_ui_special_title }
+					NOT = { has_title = top_liege.primary_title.var:administrative_ui_special_title }
+				}
+			}
+		}
+	}
+
+	#########################
+	## invite_to_house_bloc_interaction
+	#########################
+	# Need to generalize the interaction to better work with any realm, not just Japan
+
+	# ai_accept block
+	replace = {
+		before = {
+			add = 50
+			scope:actor = { has_title = title:e_japan }
+			desc = TIER_REASON_EMPEROR
+		}
+
+		after = {
+			add = 50
+			scope:actor = {
+				# IRToCK3: Generalized from just checking that they have e_japan, so that it can better be used for any ritsuryo/soryo realm
+				this = scope:recipient.top_liege
+				highest_held_title_tier = tier_empire
+			}
+			desc = TIER_REASON_EMPEROR
+		}
+	}
+
+	#########################
+	## invite_to_house_bloc_interaction
+	#########################
+	# Need to generalize the interaction to better work with any realm, not just Japan
+
+	# join_house_bloc_interaction block
+	replace = {
+		before = {
+			scope:actor = { has_title = title:e_japan }
+			add = 200
+			desc = TIER_REASON_EMPEROR
+		}
+
+		after = {
+			scope:actor = {
+				# IRToCK3: Generalized from just checking that they have e_japan, so that it can better be used for any ritsuryo/soryo realm
+				this = scope:recipient.top_liege
+				highest_held_title_tier = tier_empire
+			}
+			add = 200
+			desc = TIER_REASON_EMPEROR
+		}
+	}
+
+	# ai_will_do block
+	replace = {
+		before = {
+			scope:actor = {
+				has_title = title:e_japan
+				is_confederation_member = no
+				has_same_government = scope:recipient
+			}
+		}
+
+		after = {
+			scope:actor = {
+				# IRToCK3: Generalized from just checking that they have e_japan, so that it can better be used for any ritsuryo/soryo realm
+				this = scope:recipient.top_liege
+				highest_held_title_tier = tier_empire
+				is_confederation_member = no
+				has_same_government = scope:recipient
+			}
+		}
+	}
+
+	#########################
+	## assume_house_bloc_leadership_interaction
+	#########################
+	# Need to generalize the interaction to better work with any realm, not just Japan
+
+	# ai_will_do block
+	replace = {
+		before = {
+			scope:recipient = {
+				has_title = title:e_japan
+			}
+		}
+
+		after = {
+			scope:recipient = {
+				# IRToCK3: Generalized from just checking that they have e_japan, so that it can better be used for any ritsuryo/soryo realm
+				this = scope:actor.top_liege
+			}
+		}
+	}
+
+	#########################
+	## assume_house_bloc_leadership_interaction
+	#########################
+	# Need to generalize the interaction to better work with any realm, not just Japan
+
+	# ai_will_do block
+	replace = {
+		before = {
+			scope:actor = {
+				has_title = title:e_japan
+			}
+		}
+
+		after = {
+			scope:actor = {
+				# IRToCK3: Generalized from just checking that they have e_japan, so that it can better be used for any ritsuryo/soryo realm
+				this = scope:recipient.top_liege
+			}
+		}
+	}
+}
+
+
+"common/casus_belli_types/10_tgp_japan_wars.txt" = {
+	#########################
+	## japan_imperial_reconquest_cb
+	#########################
+	# Need to generalize the CB, so that it better works for any ritsuryo/soryo realm
+
+	# cost block
+	replace = {
+		before = {
+					limit = { empire = title:e_japan }
+		}
+
+		after = {
+					limit = { empire = scope:attacker.top_liege.primary_title } # IRToCK3: Changed from just checking for e_japan to simply checking for the top liege's primary title, so that it better works for any ritsuryo/soryo realm
+		}
+	}
+
+	# valid_to_start block
+	replace = {
+		before = {
+		scope:target = {
+			tier = tier_duchy
+			empire = title:e_japan
+		}
+		}
+
+		after = {
+		scope:target = {
+			tier = tier_duchy
+			empire = scope:attacker.top_liege.primary_title # IRToCK3: Changed from just checking for e_japan to simply checking for the top liege's primary title, so that it better works for any ritsuryo/soryo realm
+		}
+		}
+	}
+
+	# valid_to_start_display_regardless block
+	replace = {
+		before = {
+		custom_tooltip = {
+			text = tgp_japan_reconquest_war_valid_de_jure_tt
+			scope:target.empire ?= title:e_japan
+		}
+		}
+
+		after = {
+		scope:attacker.top_liege.primary_title = { save_temporary_scope_as = attacker_empire } # IRToCK3: Save the attacker's top liege primary title as a temporary scope to use in the tooltip
+		custom_tooltip = {
+			text = tgp_japan_reconquest_war_valid_de_jure_tt
+			scope:target.empire ?= scope:attacker_empire # IRToCK3: Changed from just checking for e_japan to simply checking for the top liege's primary title, so that it better works for any ritsuryo/soryo realm
+		}
+		}
+	}
+}
+
+
+"common/character_interactions/00_prison_interactions.txt" = {
+	#########################
+	## imprison_interaction
+	#########################
+	# Need to generalize the interaction to better work with any realm, not just Japan
+
+	# ai_will_do block
+	replace = {
+		before = {
+				primary_title = title:e_japan
+				has_imprisonment_reason = scope:recipient
+		}
+
+		after = {
+				# IRToCK3: Generalized from just checking for e_japan, so that it can better be used for any ritsuryo/soryo realm
+				government_is_japanese_trigger = yes
+				top_liege = this
+				highest_held_title_tier = tier_empire
+				has_imprisonment_reason = scope:recipient
+		}
+	}
+}
+
+
+"common/character_interactions/00_vassal_interactions.txt" = {
+	#########################
+	## create_claimant_faction_against_interaction
+	#########################
+	# Need to generalize the interaction to better work with any realm, not just Japan
+
+	# can_send block
+	replace = {
+		before = {
+			scope:recipient ?= { has_title = title:e_japan }
+		}
+
+		after = {
+			# IRToCK3: Generalized from just checking for e_japan, so that it can better be used for any ritsuryo/soryo realm
+			scope:recipient ?= { tgp_is_ceremonial_regent_trigger = yes }
+		}
+	}
+}
+
+
+"common/script_values/10_tgp_japan_values.txt" = {
+	#########################
+	## japanese_shogun_opposition_vassals_value
+	#########################
+	# Need to generalize the value to better work with any realm, not just Japan
+	replace = {
+		before = {
+		title:e_japan.holder ?= {
+			every_vassal = {
+				limit = {
+					NOR = {
+						this = root
+						is_allied_to = root
+						house = root.house
+					}
+					current_strength_with_allies_value > root.current_strength_with_allies_fifty_percent_value
+				}
+				add = 1
+			}
+		}
+		}
+
+		after = {
+		scope:top_realm_title.holder ?= { # IRToCK3: Changed from just checking e_japan to better work for any ritsuryo/soryo realm
+			every_vassal = {
+				limit = {
+					NOR = {
+						this = root
+						is_allied_to = root
+						house = root.house
+					}
+					current_strength_with_allies_value > root.current_strength_with_allies_fifty_percent_value
+				}
+				add = 1
+			}
+		}
+		}
+	}
+}
+
+
+"common/governments/01_japan_government_types.txt" = {
+	replace = {
+		before = {
+		NOT = { primary_title ?= title:e_japan }
+		}
+
+		after = {
+		# IRToCK3: Since these governments are originally designed specifically for e_japan, and the intent is that Kampaku/Shogun/etc can't change the capital, changed it to just make sure that your primary title doesn't have a ceremonial liege title variable setup
+		NOT = {
+			primary_title = { has_variable = administrative_ui_special_title }
+		}
+		}
+	}
+}
+
+
+"common/script_values/tgp_japan_values.txt" = {
+	#########################
+	## japan_imperial_reconquest_war_prestige_value
+	## japan_imperial_reconquest_war_influence_value
+	#########################
+	# Need to generalize the value to better work with any realm, not just Japan
+	replace = {
+		before = {
+			limit = { empire = title:e_japan }
+		}
+
+		after = {
+			limit = { empire = scope:attacker.top_liege.primary_title } # IRToCK3: Generalized to better work with any ritsuryo/soryo realm
+		}
+	}
+}
+
+
+"events/realm_maintenance_events.txt" = {
+	#########################
+	## realm_maintenance.2001
+	#########################
+	# Generalizing to better fit any ritsuryo/soryo realm, not just Japan
+	replace = {
+		before = {
+    		scope:title = title:e_japan
+    		exists = top_liege.primary_title.var:administrative_ui_special_title
+			has_title = top_liege.primary_title.var:administrative_ui_special_title
+		}
+
+		after = {
+			# IRToCK3: Generalized from just checking for e_japan, so that it can better be used for any ritsuryo/soryo realm
+			government_is_japanese_trigger = yes
+			scope:title = top_liege.primary_title
+			exists = top_liege.primary_title.var:administrative_ui_special_title
+			has_title = top_liege.primary_title.var:administrative_ui_special_title
+		}
+	}
+}
+
+
+"common/scripted_effects/10_dlc_tgp_house_bloc_scripted_effects.txt" = {
+	#########################
+	## tgp_on_member_house_left_shared_effect
+	#########################
+	# Need to generalize the effect to better work with any realm, not just Japan
+	replace = {
+		before = {
+			limit = {
+				any_confederation_member = { has_title = title:e_japan }
+			}
+			random_confederation_member = {
+				limit = { has_title = title:e_japan }
+				save_scope_as = new_leader_scope
+			}
+		}
+
+		after = {
+			limit = {
+				any_confederation_member = { has_title = scope:house_head.top_liege.primary_title } # IRToCK3: Base game checks for someone that has e_japan. Tried generalizing to work better for any realm
+			}
+			random_confederation_member = {
+				limit = { has_title = scope:house_head.top_liege.primary_title }
+				save_scope_as = new_leader_scope
+			}
+		}
+	}
+}
+
+
+"common/succession_appointment/japanese_admin_governor.txt" = {
+	#########################
+	## japanese_governor
+	#########################
+	# Need to generalize the decision to better work with any realm, not just Japan
+
+	# candidate_score block
+	replace = {
+		before = {
+				limit = { has_title = title:e_japan }
+		}
+
+		after = {
+				limit = { has_title = top_liege.primary_title } # IRToCK3: Modified to hopefully work better for any ritsuryo/soryo realm, instead of just Japan
+		}
+	}
+}
+
+
+"common/succession_appointment/japanese_admin_regent.txt" = {
+	#########################
+	## japanese_regent
+	#########################
+	# Need to generalize the decision to better work with any realm, not just Japan
+
+	# candidate_score block
+	replace = {
+		before = {
+			# Domicile is in the capital
+			if = {
+				limit = {
+					house ?= {
+						any_house_member = {
+							any_held_title = { is_noble_family_title = yes }
+							domicile ?= {
+								is_domicile_type = japanese_manor
+								domicile_location.county ?= title:e_japan.holder.capital_county
+							}
+						}
+					}
+				}
+				add = 25
+			}
+			# Block non-admin
+			if = {
+				limit = {
+					NOT = { government_allows = administrative }
+				}
+				add = -2500
+			}
+		}
+
+		after = {
+			# Domicile is in the capital
+			if = {
+				limit = {
+					house ?= {
+						any_house_member = {
+							any_held_title = { is_noble_family_title = yes }
+							domicile ?= {
+								is_domicile_type = japanese_manor
+								domicile_location.county ?= root.top_liege.capital_county # IRToCK3: Generalized to better work for any ritsuryo/soryo realm, not just Japan
+							}
+						}
+					}
+				}
+				add = {
+					value = 25
+					desc = family_domicile_in_capital_bonus # IRToCK3: Base game doesn't have this localized, so this effect on your candidate score is invisible to the player. There are many others like this, but just this one was changed so far since its condition also had to be changed.
+				}
+			}
+			# Block non-admin
+			if = {
+				limit = {
+					NOT = { government_allows = administrative }
+				}
+				add = {
+					value = -2500
+					desc = non_administrative_government_penalty # IRToCK3: Base game doesn't have this localized, so this effect on your candidate score is invisible to the player.
+				}
+			}
+		}
+	}
+}
+
+
+"common/succession_appointment/meritocratic_regent.txt" = {
+	#########################
+	## meritocratic_regent
+	#########################
+
+	# candidate_score block
+	replace = {
+		before = {
+			# Domicile is in the capital
+			if = {
+				limit = {
+					house ?= {
+						any_house_member = {
+							any_held_title = { is_noble_family_title = yes }
+							domicile ?= {
+								is_domicile_type = japanese_manor
+								domicile_location.county ?= title:e_japan.holder.capital_county
+							}
+						}
+					}
+				}
+				add = 25
+			}
+			# Block non-admin
+			if = {
+				limit = {
+					NOT = { government_allows = administrative }
+				}
+				add = -2500
+			}
+		}
+
+		after = {
+			# Domicile is in the capital
+			if = {
+				limit = {
+					house ?= {
+						any_house_member = {
+							any_held_title = { is_noble_family_title = yes }
+							domicile ?= {
+								is_domicile_type = east_asian_estate # IRToCK3: The base game checks 'japanese_manor', which isn't used for Meritocratic, so fixed that here
+								domicile_location.county ?= root.top_liege.capital_county # IRToCK3: The base game checks if the domicile is in e_japan's capital county, changed to actually work for any realm
+							}
+						}
+					}
+				}
+				add = {
+					value = 25
+					desc = family_domicile_in_capital_bonus # IRToCK3: Base game doesn't have this localized, so this effect on your candidate score is invisible to the player.
+				}
+			}
+			# Block non-admin
+			if = {
+				limit = {
+					NOT = { government_allows = administrative }
+				}
+				add = {
+					value = -2500
+					desc = non_administrative_government_penalty # IRToCK3: Base game doesn't have this localized, so this effect on your candidate score is invisible to the player.
+				}
+			}
+		}
+	}
+}
+
+
+"events/decisions_events/pledge_loyalty_to_liege_events.txt" = {
+	#########################
+	## pledge_loyalty_to_liege_overdue.1030
+	#########################
+	# Need to generalize the effect to better work with any realm, not just Japan
+	replace = {
+		before = {
+		add_unpressed_claim = title:e_japan
+		}
+
+		after = {
+		add_unpressed_claim = liege.primary_title # IRToCK3: The base game for some reason just gives a claim on e_japan, despite that not possibly not always being their liege's primary title. Changed to better work for any realm
+		}
+	}
+}
+
+
+"events/dlc/tgp/tgp_faction_events.txt" = {
+	#########################
+	## tgp_faction_events.0101
+	#########################
+	# Need to generalize the effect to better work with any realm, not just Japan
+
+	# FACTION_DEMAND_ACCEPT block
+	replace = {
+		before = {
+			modifier = { # The Kampaku always fights
+				factor = 0
+				has_title = title:e_japan
+				government_has_flag = government_is_japan_administrative
+			}
+		}
+
+		after = {
+			modifier = { # The Kampaku always fights
+				factor = 0
+				has_title = top_liege.primary_title # IRToCK3: Generalized from just checking for e_japan, so that it can better be used for any ritsuryo/soryo realm
+				government_has_flag = government_is_japan_administrative
+			}
+		}
+	}
+}
+
+
+"events/dlc/tgp/tgp_japan_yearly_events_ariana.txt" = {
+	#########################
+	## tgp_japan_yearly_events.1140
+	#########################
+	# Need to generalize the event to better work with any realm, not just Japan
+
+	# trigger block
+	replace = {
+		before = {
+		title:e_japan.holder != root
+		}
+
+		after = {
+		location.county.holder.top_liege != root # IRToCK3: Base game just makes sure the root character isn't the holder of e_japan, likely implying a Soryo ruler wouldn't try stopping the Tenno/Kampaku/Shogun/etc. As such, just generalized so that the character can't be the local ruler's top liege, which should give the same effect
+		}
+	}
+
+	#########################
+	## tgp_japan_yearly_events.1150
+	#########################
+	# Need to generalize the event to better work with any realm, not just Japan
+
+	# trigger block
+	replace = {
+		before = {
+		title:e_japan.holder = {
+			has_realm_law = japanese_bureaucracy_0
+			this != root
+		}
+
+		any_held_title = {
+			tier = tier_county
+			title:e_japan.holder.location.county = this
+		}
+		}
+
+		after = {
+		top_liege = { # IRToCK3: Generalized to better work for any ritsuryo/soryo realm
+			has_realm_law = japanese_bureaucracy_0
+			this != root
+		}
+
+		any_held_title = {
+			tier = tier_county
+			top_liege.location.county = this # IRToCK3: Generalized to better work for any ritsuryo/soryo realm
+		}
+		}
+	}
+
+	# immediate block
+	replace = {
+		before = {
+		title:e_japan.holder = {
+			save_scope_as = emperor
+			location.county = { save_scope_as = emperor_location }
+		}
+		}
+
+		after = {
+		top_liege = {
+			save_scope_as = emperor
+			location.county = { save_scope_as = emperor_location }
 		}
 		}
 	}

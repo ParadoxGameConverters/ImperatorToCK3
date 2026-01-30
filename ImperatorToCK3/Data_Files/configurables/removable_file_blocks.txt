@@ -3679,6 +3679,28 @@
 			japan_dynasty_tracker_setup_effect = yes
 	}
 
+	# Removing this from game_start.txt so it can be moved into the custom government setup scripted_effect so it can apply to ever Ritsuryo/Soryo realm, not just e_japan
+	{
+			### TGP NOBLE FAMILIES & DOMICILE SETUP ###
+			# Required due to landless top liege
+			title:e_japan.holder ?= {
+				add_realm_law_skip_effects = japanese_bureaucracy_1
+				noble_family_title_realm_setup_effect = yes
+				every_vassal_or_below = { # Move Soryo domiciles to their own realm
+					limit = {
+						government_has_flag = government_is_japan_feudal
+					}
+					domicile ?= { move_domicile = owner.capital_province }
+				}
+				every_vassal_or_below = { # Move Ritsuryo domiciles to the capital
+					limit = {
+						government_has_flag = government_is_japan_administrative
+					}
+					domicile ?= { move_domicile = title:e_japan.holder.capital_province }
+				}
+			}
+	}
+
 	{
 			#Starting Mandala Temple Complexes
 			#Dvaravati
@@ -16962,15 +16984,6 @@ story_el_cid = {
 	text = { # Offa's Dyke
 		trigger = {
 			has_special_building = yes
-			#OR = {
-			#	this = province:1643 # Cheshire
-			#	this = province:1646 # Shropshire
-			#	this = province:1648 # Bishop's Castle
-			#	this = province:1580 # Gloucester
-			#	this = province:1632 # Hereford
-			#	this = province:1633 # Wigmore
-			#	this = province:1634 # Clifford
-			#}
 			has_building_or_higher = offas_dyke_01
 		}
 		setup_scope = {
@@ -18179,6 +18192,272 @@ apply_historic_administrative_game_rule_effect = {
 					limit = { is_player_tutorial_character = no }
 					trigger_event = tgp_china_career.0001 # Introduction to your starting situation
 				}
+			}
+		}
+	}
+}
+
+
+"common/decisions/dlc_decisions/tgp/tgp_japan_decisions.txt" = {
+	#########################
+	## tgp_japan_become_shogun_decision
+	#########################
+	# Removing reference to character:japanese_minamoto_seiwa_10 and their achievement since they won't exist in a converted save
+	{
+		if = {
+			limit = {
+				is_ai = no
+				this = character:japanese_minamoto_seiwa_10
+			}
+			add_achievement_global_variable_effect = {
+				VARIABLE = finished_ep4_08_shogun_achievement
+				VALUE = yes
+			}
+		}
+	}
+
+	#########################
+	## tgp_japan_emperor_restoration_decision
+	#########################
+	# Removing reference to title:k_chrysanthemum_throne and the relevant achievement since it wouldn't make sense to have in a converted save
+	{
+		if = {
+			limit = {
+				is_ai = no
+				has_title = title:k_chrysanthemum_throne
+			}
+			add_achievement_global_variable_effect = {
+				VARIABLE = finished_ep4_03_sword_of_japan_achievement
+				VALUE = yes
+			}
+		}
+	}
+}
+
+
+"common/scripted_effects/10_dlc_tgp_japan_scripted_effects.txt" = {
+	# Removing this scripted_effect since its no longer used, and to prevent errors in log
+	{
+tgp_dynasty_house_name_setup_effect = {
+	# Fujiwara
+	dynasty:japanese_fujiwara.dynasty_founder.house ?= { set_house_name = "dynn_Fujiwara_Hok_ke" }
+	dynasty:japanese_fujiwara_oshu.dynasty_founder.house ?= { set_house_name = "dynn_Fujiwara_O_shU_" }
+	# Kiyohara
+	dynasty:japanese_kiyohara_hirozumi.dynasty_founder.house ?= { set_house_name = "dynn_Kiyohara_Hirozumi" }
+	# Minamoto
+	dynasty:japanese_minamoto_daigo.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Daigo" }
+	dynasty:japanese_minamoto_kazan.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Kazan" }
+	dynasty:japanese_minamoto_koko.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_KO_kO_" }
+	dynasty:japanese_minamoto_gosanjo.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Go_SanjO_" }
+	dynasty:japanese_minamoto_montoku.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Montoku" }
+	dynasty:japanese_minamoto_murakami.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Murakami" }
+	dynasty:japanese_minamoto_ninmyo.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_NinmyO_" }
+	dynasty:japanese_minamoto_saga.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Saga" }
+	dynasty:japanese_minamoto_sanjo.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_SanjO_" }
+	dynasty:japanese_minamoto_seiwa.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Seiwa" }
+	dynasty:japanese_minamoto_uda.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Uda" }
+	dynasty:japanese_minamoto_yozei.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_YO_zei" }
+	# Taira
+	dynasty:japanese_taira_kanmu.dynasty_founder.house ?= { set_house_name = "dynn_Taira_Kanmu" }
+	dynasty:japanese_taira_koko.dynasty_founder.house ?= { set_house_name = "dynn_Taira_KO_kO_" }
+	dynasty:japanese_taira_montoku.dynasty_founder.house ?= { set_house_name = "dynn_Taira_Montoku" }
+	dynasty:japanese_taira_ninmyo.dynasty_founder.house ?= { set_house_name = "dynn_Taira_NinmyO_" }
+}
+	}
+
+	# Removing this scripted_effect since its no longer used, and to prevent errors in log
+	{
+japan_dynasty_tracker_setup_effect = {
+	# FUJIWARA
+	dynasty:japanese_fujiwara ?= { add_to_list = fujiwara_list }
+	dynasty:japanese_fujiwara_oshu ?= { add_to_list = fujiwara_list }
+	every_in_list = {
+		list = fujiwara_list
+		set_variable = { name = fujiwara_flag }
+	}
+	# MINAMOTO
+	dynasty:japanese_minamoto_daigo ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_kazan ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_koko ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_gosanjo ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_montoku ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_murakami ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_ninmyo ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_saga ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_sanjo ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_seiwa ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_uda ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_yozei ?= { add_to_list = minamoto_list }
+	every_in_list = {
+		list = minamoto_list
+		set_variable = { name = minamoto_flag }
+		#dynasty_founder.house ?= { set_house_name = "dynn_Minamoto" } # For easier parsing of house names
+	}
+	# TAIRA
+	dynasty:japanese_taira_kanmu ?= { add_to_list = taira_list }
+	dynasty:japanese_taira_koko ?= { add_to_list = taira_list }
+	dynasty:japanese_taira_montoku ?= { add_to_list = taira_list }
+	dynasty:japanese_taira_ninmyo ?= { add_to_list = taira_list }
+	every_in_list = {
+		list = taira_list
+		set_variable = { name = taira_flag }
+		#dynasty_founder.house ?= { set_house_name = "dynn_Taira" } # For easier parsing of house names
+	}
+}
+	}
+
+	# Removing this scripted_effect since its no longer used, and to prevent errors in log
+	{
+tgp_setup_historical_house_relation_effect = {
+	### 867 ###
+	if = {
+		limit = { game_start_date = 867.1.1 }
+		house:house_fujiwara_ashikaga = {
+			tgp_set_historical_house_relation_effect = { # 
+				OTHER_HOUSE = house:house_minamoto_kozuke
+				LEVEL = rivalry
+			}
+		}
+	}
+	### 1066 ###
+	else_if = {
+		limit = { game_start_date = 1066.9.15 }
+		dynasty:japanese_minamoto_murakami.dynasty_founder.house = {
+			tgp_set_historical_house_relation_effect = { # 
+				OTHER_HOUSE = dynasty:japanese_fujiwara.dynasty_founder.house
+				LEVEL = friendly
+			}
+		}
+	}
+	### 1178 ###
+	else_if = {
+		limit = { game_start_date = 1178.10.1 }
+		dynasty:japanese_sugawara.dynasty_founder.house = {
+			tgp_set_historical_house_relation_effect = { # 
+				OTHER_HOUSE = dynasty:japanese_ki.dynasty_founder.house
+				LEVEL = friendly
+			}
+		}
+		house:house_minamoto_kiso = {
+			tgp_set_historical_house_relation_effect = { # Yoshikata killed by Yoshihira
+				OTHER_HOUSE = dynasty:japanese_nakahara_kiso.dynasty_founder.house
+				LEVEL = friendly
+			}
+		}
+		house:house_minamoto_kawachi = {
+			tgp_set_historical_house_relation_effect = { # Yoritomo's brothers killed by Kiyomori
+				OTHER_HOUSE = dynasty:japanese_nakahara_kiso.dynasty_founder.house
+				LEVEL = rivalry
+			}
+			tgp_set_historical_house_relation_effect = { # Marriage and historical alliance
+				OTHER_HOUSE = house:house_taira_hojo
+				LEVEL = friendly
+			}
+		}
+		house:house_kudo_kawazu = {
+			tgp_set_historical_house_relation_effect = { # Soga brothers
+				OTHER_HOUSE = house:house_kudo_ito_2
+				LEVEL = rivalry
+			}
+		}
+		house:house_taira_wada = {
+			tgp_set_historical_house_relation_effect = { # Yoshimune killed by Tsunetomo
+				OTHER_HOUSE = dynasty:japanese_nagasa.dynasty_founder.house
+				LEVEL = rivalry
+			}
+		}
+		house:house_taira_chichibu = {
+			tgp_set_historical_house_relation_effect = { # Shigetaka killed by Yoshihira
+				OTHER_HOUSE = house:house_minamoto_kawachi
+				LEVEL = rivalry
+			}
+		}
+		house:house_taira_soga = {
+			tgp_set_historical_house_relation_effect = { # Soga brothers
+				OTHER_HOUSE = house:house_minamoto_kawachi
+				LEVEL = rivalry
+			}
+		}
+		dynasty:japanese_ito.dynasty_founder.house = {
+			tgp_set_historical_house_relation_effect = { # Tadanao killed by Tametomo
+				OTHER_HOUSE = house:house_minamoto_kawachi
+				LEVEL = rivalry
+			}
+		}
+		house:house_kudo_ito_2 = {
+			tgp_set_historical_house_relation_effect = { # Sukeyasu_2 killed by Suketsune_2
+				OTHER_HOUSE = house:house_kudo_kawazu
+				LEVEL = rivalry
+			}
+		}
+		house:house_fujiwara_shijo = {
+			tgp_set_historical_house_relation_effect = { # Takasue's brothers killed by Kiyomori
+				OTHER_HOUSE = dynasty:japanese_taira_kanmu.dynasty_founder.house
+				LEVEL = rivalry
+			}
+		}
+		dynasty:japanese_fujiwara.dynasty_founder.house = {
+			tgp_set_historical_house_relation_effect = { # Yorinaga killed by Shigesada
+				OTHER_HOUSE = house:house_minamoto_mitsumasa
+				LEVEL = rivalry
+			}
+		}
+	}
+}
+	}
+}
+
+"common/script_values/tgp_japan_values.txt" = {
+	# Removing references to specific predefined houses
+	{
+		# History
+		house = {
+			if = {
+				limit = {
+					years_from_game_start < 5
+					trigger_if = {
+						limit = { game_start_date = 867.1.1 }
+						OR = {
+							# Minamoto
+							dynasty:japanese_minamoto_ninmyo.dynasty_founder.house ?= this # Ninmyo Minamoto
+							# Other
+							dynasty:japanese_ariwara.dynasty_founder.house ?= this # Ariwara
+							dynasty:japanese_harusumi.dynasty_founder.house ?= this # Harusumi
+							dynasty:japanese_ki.dynasty_founder.house ?= this # Ki
+							dynasty:japanese_kudara.dynasty_founder.house ?= this # Kudara
+							dynasty:japanese_oe.dynasty_founder.house ?= this # Oe
+							dynasty:japanese_shimada.dynasty_founder.house ?= this # Shimada
+							dynasty:japanese_sugawara.dynasty_founder.house ?= this # Sugawara
+							dynasty:japanese_yamato.dynasty_founder.house ?= this # Yamato
+						}
+					}
+					trigger_else_if = {
+						limit = { game_start_date = 1066.9.15 }
+						OR = {
+							# Fujiwara
+							house:house_fujiwara_kajuji ?= this # Kajuji
+							# Minamoto
+							dynasty:japanese_minamoto_daigo.dynasty_founder.house ?= this # Daigo Minamoto
+							dynasty:japanese_minamoto_murakami.dynasty_founder.house ?= this # Murakami Minamoto
+							dynasty:japanese_minamoto_sanjo.dynasty_founder.house ?= this # Sanjo Minamoto
+							dynasty:japanese_minamoto_uda.dynasty_founder.house ?= this # Uda Minamoto
+							# Other
+							dynasty:japanese_ki.dynasty_founder.house ?= this # Ki
+							dynasty:japanese_oe.dynasty_founder.house ?= this # Oe
+							dynasty:japanese_sugawara.dynasty_founder.house ?= this # Sugawara
+							dynasty:japanese_tachibana.dynasty_founder.house ?= this # Tachibana
+							dynasty:japanese_yamato.dynasty_founder.house ?= this # Yamato
+						}
+					}
+					trigger_else_if = {
+						limit = { game_start_date = 1178.10.1 }
+						OR = {
+							dynasty:japanese_yamato.dynasty_founder.house ?= this # Yamato
+						}
+					}
+					trigger_else = { always = no }
+				}
+				add = house_aspiration_bookmark_ai_score_value
 			}
 		}
 	}

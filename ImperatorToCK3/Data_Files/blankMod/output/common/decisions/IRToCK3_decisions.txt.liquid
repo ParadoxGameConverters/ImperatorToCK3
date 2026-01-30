@@ -1,9 +1,7 @@
 ﻿{% if vanilla or roa or aep %}
 ## Form Silla/Baekje/Goguryeo Kingdoms
 irtock3_formalize_korean_kingdom_decision = {
-	picture = {
-		reference = "gfx/interface/illustrations/activity_splash_screens/tour_arrival_asia_welcome.dds"
-	}
+	picture = { reference = "gfx/interface/illustrations/activity_splash_screens/tour_arrival_asia_welcome.dds" }
 	decision_group_type = major
 
 	ai_check_interval_by_tier = {
@@ -119,6 +117,7 @@ irtock3_formalize_korean_kingdom_decision = {
 			has_title = title:k_baekje
 			has_title = title:k_goguryeo
 		}
+
 		# Need to have a relevant culture
 		culture = {
 			OR = {
@@ -132,11 +131,10 @@ irtock3_formalize_korean_kingdom_decision = {
 				}
 			}
 		}
-		# Only Dukes or Kings
-		OR = {
-			highest_held_title_tier = tier_duchy
-			highest_held_title_tier = tier_kingdom
-		}
+
+		# Decision will only be available to Dukes/Kings, but show for Counts as well so they know it exists
+		highest_held_title_tier <= tier_kingdom
+
 		# This decision can only be taken once for each of the base game kingdoms, so need to check there is at least one of the kingdoms this hasn't been taken for yet
 		NAND = {
 			is_target_in_global_variable_list = {
@@ -160,14 +158,22 @@ irtock3_formalize_korean_kingdom_decision = {
 			highest_held_title_tier = tier_duchy
 			highest_held_title_tier = tier_kingdom
 		}
-		top_liege = this # Independent
+
+		# Independent
+		is_independent_ruler = yes
+
 		# Need to control a certain amount of Korea
 		custom_tooltip = {
 			text = irtock3_control_korean_counties
 			any_county_in_region = {
 				region = world_asia_korea
-				count >= 12
-				holder.top_liege ?= root
+				count >= 20
+				OR = {
+					holder = root
+					holder = {
+						any_liege_or_above = { this = root }
+					}
+				}
 			}
 		}
 	}
@@ -463,6 +469,357 @@ irtock3_formalize_korean_kingdom_decision = {
 			highest_held_title_tier = tier_duchy
 			highest_held_title_tier = tier_kingdom
 		}
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+
+## Form Japan
+irtock3_form_japan_decision = {
+	picture = { reference = "gfx/interface/illustrations/activity_splash_screens/tour_arrival_asia_welcome.dds" }
+	decision_group_type = major
+
+	ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 12
+		empire = 12
+		hegemony = 0
+	}
+
+	is_shown = {
+		# Can't be lowborn
+		exists = dynasty
+
+		# This decision should only be available if e_japan is titular and has no holder
+		title:e_japan = {
+			is_titular = yes
+			NOT = { exists = holder }
+		}
+
+		# Need relevant culture
+		culture = { has_cultural_pillar = heritage_japonic }
+
+		# Need to be a king
+		highest_held_title_tier <= tier_kingdom
+		
+		# Decision can only be done once
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:irtock3_form_japan_decision
+			}
+		}
+	}
+
+	is_valid = {
+		# Needs to be Independent
+		is_independent_ruler = yes
+
+		# Need to be a king
+		highest_held_title_tier = tier_kingdom
+
+		# Control 50% of Japan
+		custom_tooltip = {
+			text = irtock3_controlling_japan
+			any_county_in_region = {
+				region = world_asia_japan
+				percent >= 0.5 # If this percentage gets changed, make sure to change the irtock3_controlling_japan loc key to match
+				holder.top_liege = root
+			}
+		}
+
+		# Control Yamashiro
+		custom_tooltip = {
+			text = irtock3_control_yamashiro
+			title:c_yamashiro.holder.top_liege = root
+		}
+
+		# Have piety level 4 (3 for AI) - (Should this be further lowered by 1 level if realm is religiously diverse to encourage Japan becoming as diverse as it is in the base game?)
+		piety_level >= {
+			value = 3
+			if = {
+				limit = { is_ai = no }
+				add = 1
+			}
+		}
+
+		# Have prestige level 3 (2 for AI)
+		prestige_level >= {
+			value = 2
+			if = {
+				limit = { is_ai = no }
+				add = 1
+			}
+		}
+
+		# If you don't already have an administrative government, all powerful vassals have 40+ opinion of you (30+ for AI)
+		trigger_if = {
+			limit = {
+				NOT = { government_allows = administrative }
+			}
+			
+			# For some reason, modifying the "value" below doesn't work the same as it does above, so need to do them separately
+			trigger_if = {
+				limit = { is_ai = no }
+				any_powerful_vassal = {
+					count = all
+					opinion = {
+						target = root
+						value >= 40
+					}
+				}
+			}
+			trigger_else = {
+				any_powerful_vassal = {
+					count = all
+					opinion = {
+						target = root
+						value >= 30
+					}
+				}
+			}
+		}
+		
+		# Japan can't be created
+		title:e_japan = { save_temporary_scope_as = title_not_created }
+		custom_tooltip = {
+			text = irtock3_title_not_created
+			scope:title_not_created = { is_title_created = no }
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		is_at_war = no
+	}
+
+	cost = {
+		gold = {
+			value = 300
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 300
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = 500
+		piety = {
+			value = 500
+			if = {
+				limit = {
+					government_has_flag = government_is_nomadic
+				}
+				multiply = 0
+			}
+		}
+	}
+
+	effect = {
+		# Make sure this decision can't be taken again
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:irtock3_form_japan_decision
+		}
+
+		# Save a character flag indicating they took this decision for event localization later
+		add_character_flag = irtock3_took_form_japan_decision
+
+		# If ruler doesn't have Japan, give it to them
+		if = {
+			limit = {
+				NOT = { has_title = title:e_japan }
+			}
+			create_title_and_vassal_change = {
+				type = created
+				save_scope_as = change
+				add_claim_on_loss = yes
+			}
+			title:e_japan = {
+				change_title_holder = {
+					holder = root
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+		}
+
+		# If you don't have Yamashiro, usurp it
+		if = {
+			limit = {
+				NOT = { has_title = title:c_yamashiro }
+			}
+			create_title_and_vassal_change = {
+				type = usurped
+				save_scope_as = change
+				add_claim_on_loss = yes
+			}
+			title:c_yamashiro = {
+				change_title_holder = {
+					holder = root
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+		}
+		set_realm_capital = title:c_yamashiro
+		
+		hidden_effect = {
+			set_primary_title_to = title:e_japan
+			title:e_japan = { set_capital_county = title:c_yamashiro }
+			if = {
+				limit = { exists = domicile }
+				domicile = { move_domicile = root.capital_province }
+			}
+		}
+
+		# For now, it is treated as if the Imperial Family has full control (primogeniture). Later, if they lose a war against their vassals, it switches to the Regency succession, making it like the base game (might also add a new decision that would allow a ruler, under certain circumstances, to willingly abdicate control to a regent)
+		custom_tooltip = irtock3_japan_primogeniture_liberty_war # Setting up laws/variables/etc are handled through a separate on_action
+
+		# Make every held/controlled kingdom de jure part of Japan, and destroy those titles
+		custom_tooltip = {
+			text = irtock3_make_kingdoms_de_jure_japan
+			title:k_chrysanthemum_throne = { set_de_jure_liege_title = title:e_japan }
+			every_held_title = {
+				title_tier = kingdom
+				if = {
+					limit = { this != title:k_chrysanthemum_throne }
+					set_de_jure_liege_title = title:e_japan
+					root = { destroy_title = prev }
+				}
+			}
+			every_realm_de_jure_kingdom = {
+				limit = {
+					NOT = { empire ?= title:e_japan }
+					any_de_jure_county = {
+						count = all
+						holder.top_liege = root
+					}
+				}
+				set_de_jure_liege_title = title:e_japan
+			}
+		}
+
+		# If you aren't Ritsuryo, convert to it
+		if = {
+			limit = {
+				NOT = { has_government = japan_administrative_government }
+			}
+
+			add_character_flag = tgp_japan_restore_japanese_government_flag # Necessary to convert to Ritsuryo from a non-Japanese government
+			change_government = japan_administrative_government
+			remove_character_flag = tgp_japan_restore_japanese_government_flag
+			
+			# If Character already has a Noble Family Title/Domicile, need to change it over to Japanese Manor. If they don't have one, need to make sure its created
+			if = {
+				limit = {
+					any_held_title = { is_noble_family_title = yes }
+				}
+				tgp_domicile_conversion_when_changing_government_type = {
+					NEW_DOMICILE_TYPE = japanese_manor
+					NEW_GOVERNMENT_TYPE = japan_administrative_government
+				}
+			}
+			else = {
+				create_noble_family_effect = { GOVERNMENT_GIVER = this }
+				domicile ?= {
+					set_up_domicile_estate_effect = yes
+				}
+			}
+
+			custom_tooltip = {
+				text = irtock3_vassals_convert_to_ritsuryo
+				every_vassal_or_below = {
+					if = {
+						limit = {
+							NOT = { has_government = japan_administrative_government }
+						}
+
+						change_government = japan_administrative_government
+						
+						if = {
+							limit = {
+								highest_held_title_tier >= tier_county
+								OR = {
+									AND = {
+										exists = house
+										OR = {
+											house.house_head = this
+											NOT = { house.house_head.top_liege = top_liege }
+										}
+									}
+									NOT = { exists = dynasty }
+								}
+							}
+
+							# If they don't have a dynasty, make one
+							if = {
+								limit = {
+									NOT = { exists = dynasty }
+								}
+								create_dynasty = {
+									spread_to_descendants = yes
+								}
+							}
+							# Otherwise, if they are in a different realm from their house head, make them a new house
+							else_if = {
+								limit = {
+									exists = house
+									NOT = { house.house_head = this }
+									NOT = { house.house_head.top_liege = top_liege }
+								}
+								create_cadet_branch = {
+									spread_to_descendants = yes
+								}
+								house = { set_house_head = prev }
+							}
+
+							# If Character already has a Noble Family Title/Domicile, need to change it over to Japanese Manor. If they don't have one, need to make sure its created
+							if = {
+								limit = {
+									any_held_title = { is_noble_family_title = yes }
+								}
+								tgp_domicile_conversion_when_changing_government_type = {
+									NEW_DOMICILE_TYPE = japanese_manor
+									NEW_GOVERNMENT_TYPE = japan_administrative_government
+								}
+							}
+							else = {
+								create_noble_family_effect = { GOVERNMENT_GIVER = this }
+								domicile ?= {
+									set_up_domicile_estate_effect = yes
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	ai_potential = {
+		# Can't be a lowborn
+		exists = dynasty
+		# Need relevant culture
+		culture = { has_cultural_pillar = heritage_japonic }
+		# Need to be a king
+		highest_held_title_tier = tier_kingdom
 	}
 
 	ai_will_do = {

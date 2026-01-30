@@ -1,7 +1,24 @@
-﻿filler_rulers = {
+﻿# Use 'shown_in_encyclopedia = no' if you don't want a concept/explantation being shown in the in-game Encyclopedia
+filler_rulers = {
 	parent = ruler
 }
 
 mandala_conditions = {
 	parent = mandala
+}
+
+
+
+
+# The below "concepts" are used to store longer explanations for things like Game Rules, that otherwise would just get cut off because of limited UI space
+gamerule_ritsuryo_rulers_any_explanation = {
+	shown_in_encyclopedia = no
+}
+
+gamerule_ritsuryo_rulers_japan_explanation = {
+	shown_in_encyclopedia = no
+}
+
+gamerule_ritsuryo_rulers_none_explanation = {
+	shown_in_encyclopedia = no
 }

@@ -1,15 +1,62 @@
 ﻿# Make sure you don't use "irtock3_on_game_start_after_lobby" as an on_action name to prevent it overwriting another on_action setup internally be the converter
+
+# root = NONE
 on_game_start = {
 	on_actions = {
 		IRToCK3_game_start_onaction_effects
 	}
 }
 
+# root = NONE
 on_game_start_after_lobby = {
 	on_actions = {
 		IRToCK3_game_start_after_lobby_onaction_effects
 	}
 }
+
+# root = Character who changed government
+# scope:old_government = Character's old government type
+on_government_change = {
+	on_actions = {
+		IRToCK3_ritsuryo_empire_setup
+	}
+}
+
+# root = Character ranking up
+# scope:title = Old primary title
+on_rank_up = {
+	on_actions = {
+		IRToCK3_ritsuryo_empire_setup
+	}
+}
+
+# root = Character ranking down
+# scope:title = Old primary title
+on_rank_down = {
+	on_actions = {
+		IRToCK3_ritsuryo_empire_setup
+	}
+}
+
+# root = character
+# scope:previous_title = previous primary title held by character
+# Not called if new primary title is the same as the previous primary title
+on_primary_title_change = {
+	on_actions = {
+		IRToCK3_ritsuryo_multiple_empires
+	}
+}
+
+# root = the new holder
+# scope:title = the title that changes hands
+# scope:previous_holder = previous holder. Might be dead
+on_title_gain = {
+	on_actions = {
+		IRToCK3_ritsuryo_multiple_empires
+	}
+}
+
+
 
 IRToCK3_game_start_onaction_effects = {
 	effect = {
@@ -56,12 +103,6 @@ IRToCK3_game_start_onaction_effects = {
 			days = 1
 		}
 
-		## Setup a global variable that indicates which dynasty should be the Japanese Imperial Dynasty
-		# The base game Yamato dynasty is set at game start to make sure everything that references the variable can actually reference something. It will get changed later when Japan gets properly formed/setup
-		set_global_variable = {
-			name = japanese_imperial_dynasty
-			value = dynasty:japanese_yamato
-		}
 
 
 		####################
@@ -384,5 +425,254 @@ IRToCK3_game_start_onaction_effects = {
 IRToCK3_game_start_after_lobby_onaction_effects = {
 	effect = {
 		every_player = { trigger_event = welcome.1 } # This event so far just notifies the players of the game rules added by the converter, and any relevant mods to use
+	}
+}
+
+# This on_action is about making sure a risturyo empire realm is properly set up with things like the ceremonial liege title
+IRToCK3_ritsuryo_empire_setup = {
+	trigger = {
+		government_has_flag = government_is_japan_administrative # Need to be Ritsuryo
+		top_liege = this # Independent
+		highest_held_title_tier = tier_empire # Need to be an Emperor
+		NOT = { exists = primary_title.var:administrative_ui_special_title } # Primary title can't already have a ceremonial liege title associated with it
+	}
+	effect = {
+		save_scope_as = founder
+
+		# If you somehow don't have a dynasty, create one
+		if = {
+			limit = {
+				NOT = { exists = dynasty }
+			}
+			create_dynasty = {
+				spread_to_descendants = yes
+			}
+		}
+
+		# If one of your other empire titles already has a ceremonial liege title, make that your primary title (otherwise, a lot of the stuff related to ceremonial lieges breaks)
+		if = {
+			limit = {
+				any_held_title = {
+					title_tier = empire
+					exists = var:administrative_ui_special_title
+				}
+			}
+			# Save current primary title for event localization
+			primary_title = { save_scope_as = ritsuryo_previous_empire_title }
+
+			# Save new primary title that has a ceremonial liege title
+			random_held_title = {
+				limit = {
+					tier = tier_empire
+					exists = var:administrative_ui_special_title
+				}
+				save_scope_as = realm_title
+			}
+
+			# Remove 'tenno_restored'/'shogunate_established' from every other held empire title that has it to prevent any possible errors
+			every_held_title = {
+				limit = { this != scope:realm_title }
+				remove_variable = tenno_restored
+				remove_variable = shogunate_established
+			}
+
+			scope:realm_title.var:administrative_ui_special_title = {
+				save_scope_as = ceremonial_liege_title
+				
+				# If someone is already holding that title, save them
+				if = {
+					limit = { exists = holder }
+					holder = { save_scope_as = existing_ceremonial_liege }
+
+					# If they are somehow not in your realm, save that as a flag for localization
+					if = {
+						limit = { holder.top_liege != scope:founder }
+						holder.top_liege = { save_scope_as = ceremonial_liege_top_liege }
+					}
+				}
+				# Otherwise, if the title has an 'imperial_house' variable, save that house as a scope
+				else_if = {
+					limit = { has_variable = imperial_house }
+					var:imperial_house = { save_scope_as = existing_ceremonial_house }
+				}
+				# Otherwise, if the title has an 'imperial_dynasty' variable, save that dynasty as a scope
+				else_if = {
+					limit = { has_variable = imperial_dynasty }
+					var:imperial_dynasty = { save_scope_as = existing_ceremonial_dynasty }
+				}
+			}
+
+			set_primary_title_to = scope:realm_title
+
+			# Set/remove laws/flags depending on the situation of the new primary title
+			## If the title had 'tenno_restored' and you happen to have the ceremonial_liege title, give them primogeniture
+			if = {
+				limit = {
+					scope:realm_title = { has_variable = tenno_restored }
+					has_title = scope:ceremonial_liege_title
+				}
+
+				scope:realm_title = {
+					remove_variable = shogun_flag
+					set_variable = ceremonial_liege_flag
+				}
+				remove_character_flag = shogun_flag
+				add_character_flag = ceremonial_liege_flag
+
+				if = {
+					limit = {
+						NOT = { has_realm_law = single_heir_succession_law }
+					}
+					add_realm_law_skip_effects = single_heir_succession_law
+				}
+			}
+			# Otherwise, make sure both variables are removed, and regency succession is put in place
+			else = {
+				japan_clear_flavour_flags_effect = yes
+
+				# Localization flag setup
+				if = {
+					limit = { has_title = scope:ceremonial_liege_title }
+					add_character_flag = ceremonial_liege_flag
+					scope:realm_title = { set_variable = ceremonial_liege_flag }
+				}
+				else = { add_character_flag = ceremonial_regent_flag }
+
+				if = {
+					limit = {
+						NOT = { has_realm_law = japanese_regency_succession_law }
+					}
+					add_realm_law_skip_effects = japanese_regency_succession_law
+				}
+			}
+		}
+		# Otherwise, none of your titles have a ceremonial liege, so it should be setup
+		else = {
+			japan_clear_flavour_flags_effect = yes
+			# Remove 'tenno_restored'/'shogunate_established' from every other held empire title that has it to prevent any possible errors
+			every_held_title = {
+				remove_variable = tenno_restored
+				remove_variable = shogunate_established
+			}
+
+			primary_title = { save_scope_as = realm_title }
+
+			# CREATE CEREMONIAL TITLE (TITULAR)
+			if = { # If your primary title is Japan and Chrysanthemum Throne is unheld, use that
+				limit = {
+					scope:realm_title = title:e_japan
+					NOT = { exists = title:k_chrysanthemum_throne.holder }
+				}
+				title:k_chrysanthemum_throne = { save_scope_as = new_title }
+			}
+			else = { # Otherwise, create a new Ceremonial Liege title
+				create_dynamic_title = {
+					tier = kingdom
+					name = MERITOCRATIC_CEREMONIAL_LIEGE_TITLE
+				}
+				scope:new_title = {
+					set_coa = scope:founder.house
+					set_capital_county = scope:founder.capital_county
+					set_landless_title = yes
+					set_figurehead_title = yes
+				}
+			}
+
+			create_title_and_vassal_change = {
+				type = created
+				save_scope_as = change
+				add_claim_on_loss = yes
+			}
+			scope:new_title = {
+				save_scope_as = ceremonial_liege_title
+				set_de_jure_liege_title = scope:realm_title
+				set_definitive_form = yes
+				# LINK TITLES
+				set_variable = {
+					name = ceremonial_title
+					value = scope:realm_title
+				}
+
+				# Set this variable to indicate what dynasty should actually be on this throne
+				set_variable = {
+					name = imperial_dynasty
+					value = scope:founder.dynasty
+				}
+
+				# Set this variable to indicate what the main house should actually be for this throne
+				set_variable = {
+					name = imperial_house
+					value = scope:founder.house
+				}
+
+				# Set a variable on the character's House to indicate that house is associated with this ceremonial liege title
+				scope:founder.house = {
+					set_variable = {
+						name = house_ceremonial_liege_title
+						value = scope:new_title
+					}
+				}
+
+				# GRANT CEREMONIAL TITLE
+				change_title_holder = {
+					holder = scope:founder
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+
+			scope:realm_title = {
+				set_variable = {
+					name = administrative_ui_special_title
+					value = scope:ceremonial_liege_title
+				}
+
+				# Set variable indicating the tenno/emperor is currently in direct control
+				set_variable = {
+					name = tenno_restored
+					value = yes
+				}
+
+				set_variable = ceremonial_liege_flag # For localization
+			}
+			add_character_flag = ceremonial_liege_flag # For localization
+
+			if = {
+				limit = {
+					NOT = { has_realm_law = single_heir_succession_law }
+				}
+				add_realm_law_skip_effects = single_heir_succession_law
+			}
+		}
+
+		# Fire event to notify player about what is happening
+		trigger_event = irtock3_ritsuryo_events.1
+	}
+}
+
+# This on_action will trigger if you have multiple empire titles while one of them has a ceremonial liege associated with it, to alert you of the issues regarding that
+IRToCK3_ritsuryo_multiple_empires = {
+	trigger = {
+		top_liege = this # Independent
+		highest_held_title_tier = tier_empire # Need to be an Emperor
+		# At least one empire title needs to already have a ceremonial liege title associated with it
+		any_held_title = {
+			title_tier = empire
+			has_variable = administrative_ui_special_title
+		}
+		# Need to have more than one empire title
+		any_held_title = {
+			title_tier = empire
+			count > 1
+		}
+		# If this on_action was triggered by 'on_title_gain', only display this if the title gained was an empire title to reduce spam
+		trigger_if = {
+			limit = { exists = scope:title }
+			scope:title.tier = tier_empire
+		}
+	}
+	effect = {
+		# Trigger event notifying ruler of them having multiple empire titles, the issues, and some solutions
+		trigger_event = irtock3_ritsuryo_events.2
 	}
 }
