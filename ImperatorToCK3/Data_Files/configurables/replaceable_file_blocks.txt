@@ -4103,7 +4103,6 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 	## tgp_restore_japanese_monarchy_yamato_scion_effect
 	#########################
 	# Need to generalize the effect, so that one ritsuryo realm doesn't affect another
-	# Changes necessary for this effect to work properly in a generalized way would be complicated to do alone through replaceable_file_blocks.txt without
 	replace = {
 		before = {
 	title:k_chrysanthemum_throne.previous_holder ?= { save_scope_as = last_tenno }

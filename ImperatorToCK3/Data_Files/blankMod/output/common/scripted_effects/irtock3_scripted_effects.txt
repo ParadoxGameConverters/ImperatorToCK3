@@ -310,10 +310,7 @@ irtock3_setup_governments = {
 		else_if = {
 			limit = {
 				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
-				NOR = { # Shouldn't even check this block if using a mod that doesn't even include the region
-					global_var:irtock3_enabled = flag:wtwsms
-					global_var:irtock3_enabled = flag:tfe
-				}
+				NOT = { global_var:irtock3_enabled = flag:wtwsms } # Shouldn't even check this block if using a mod that doesn't even include the region
 				OR = { # Monarchies/Republics shouldn't become Wanua
 					has_government = tribal_government
 					has_government = nomad_government # Imperator migratory tribes might convert as this
@@ -881,10 +878,7 @@ irtock3_setup_governments = {
 	# Shouldn't run if using a mod that doesn't include East Asia
 	if = {
 		limit = {
-			NOR = {
-				global_var:irtock3_enabled = flag:wtwsms
-				global_var:irtock3_enabled = flag:tfe
-			}
+			NOT = { global_var:irtock3_enabled = flag:wtwsms }
 		}
 
 		# Until a better setup is determined, make every empire where at least half of the de jure counties beneath it are Chinese be de jure under h_china, and then make sure that land is added to the Dynastic Cycle situation
