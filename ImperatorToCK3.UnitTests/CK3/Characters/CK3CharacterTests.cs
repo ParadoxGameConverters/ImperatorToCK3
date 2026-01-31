@@ -405,8 +405,8 @@ public class CK3CharacterTests {
 		var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character.Parse(
 			new BufferedReader(
 				"variables = {\n" +
-				"    irtock3_ambition_progress = 0.42\n" +
-				"    irtock3_some_other_variable = 69.0\n" +
+				"    irtock3_ambition_progress = 1234000\n" + // 12.34 * 100000
+				"    irtock3_some_other_variable = 18446744073708317616\n" + // 2^64 - 12.34 * 100000
 				"}"
 			),
 			"1",
@@ -417,8 +417,8 @@ public class CK3CharacterTests {
 			.WithImperatorCharacter(imperatorCharacter)
 			.Build();
 		var date = new Date(1, 1, 1);
-		Assert.Equal(0.42, character.History.GetFieldValue("irtock3_ambition_progress", date));
-		Assert.Equal(69.0, character.History.GetFieldValue("irtock3_some_other_variable", date));
+		Assert.Equal(12.34, character.History.GetFieldValue("irtock3_ambition_progress", date));
+		Assert.Equal(-12.34, character.History.GetFieldValue("irtock3_some_other_variable", date));
 	}
 
 	[Fact]

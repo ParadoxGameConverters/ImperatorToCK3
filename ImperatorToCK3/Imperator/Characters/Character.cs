@@ -92,7 +92,7 @@ internal sealed class Character : IIdentifiable<ulong> {
 
 	public List<string> Traits { get; set; } = [];
 	public CharacterAttributes Attributes { get; private set; } = new();
-	public IReadOnlySet<string> Variables { get; private set; } = ImmutableHashSet<string>.Empty;
+	public IdObjectCollection<string, Variable> Variables { get; private set; } = [];
 	public bool IsBald { get; private set; }
 	public uint Age { get; private set; } = 0;
 	public string? DNA { get; private set; }
@@ -169,21 +169,19 @@ internal sealed class Character : IIdentifiable<ulong> {
 		});
 		parser.RegisterKeyword("prisoner_home", reader => character.parsedPrisonerHomeId = reader.GetULong());
 		parser.RegisterKeyword("variables", reader => {
-			var variables = new HashSet<string>();
 			var variablesParser = new Parser();
 			variablesParser.RegisterKeyword("data", dataReader => {
 				foreach (var blob in new BlobList(dataReader).Blobs) {
-					ParseCharacterVariable(c);
+					ParseCharacterVariable(blob, character.Variables);
 				}
 			});
 			variablesParser.RegisterKeyword("list", ParserHelpers.IgnoreItem);
 			variablesParser.IgnoreAndLogUnregisteredItems();
 			variablesParser.ParseStream(reader);
-			character.Variables = variables.ToImmutableHashSet();
-			if (character.Variables.Contains("bald")) {
+			if (character.Variables.ContainsKey("bald")) { // TODO: check if antigonus is converted bald
 				character.IsBald = true;
 				// Remove the "bald" flag to save memory.
-				variables.Remove("bald");
+				character.Variables.Remove("bald");
 			}
 		});
 		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
@@ -219,21 +217,21 @@ internal sealed class Character : IIdentifiable<ulong> {
 					case "boolean":
 						variables.Add(new Variable(name, valueReader.GetBool()));
 						break;
-					case "value": // TODO: check if needed
-						// This represent a real number.
-						// For example, 12.34 is stores as "1234000".
+					case "value":
+						// This represents a real number.
+						// The game uses fixed point arithmetic, for example:
+						// 12.34 is stores as 12.34 * 100000 = 1234000.
+						// Negative values:
+						// -12.34 is stored as 2^64 - (12.34 * 100000) = 18446744073708317616.
 						var ulongValue = valueReader.GetULong();
-						var realValue = ulongValue / 100000.0f;
+						var signedValue = unchecked((long)ulongValue);
+						var realValue = signedValue / 100000.0;
 						variables.Add(new Variable(name, realValue));
-						// TODO: HOW TO HANDLE NEGATIVE VALUES?
-						throw new NotImplementedException();
 						break;
 					default:
 						Logger.Warn($"Unrecognized character variable type: {type}!");
 						break;
 				}
-		
-				variables.Add(new CharacterVariable(name, value));
 			});
 			variableDataParser.IgnoreAndLogUnregisteredItems();
 			variableDataParser.ParseStream(dataReader);
