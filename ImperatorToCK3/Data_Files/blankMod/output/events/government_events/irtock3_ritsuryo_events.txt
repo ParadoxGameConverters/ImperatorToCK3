@@ -362,7 +362,7 @@ irtock3_ritsuryo_events.1 = {
 								# Percent difference = ((vassal_military_power - liege_military_power) / ((vassal_military_power + liege_military_power) / 2)) * 100
 								subtract = {
 									value = 200
-									mulitply = {
+									multiply = {
 										value = military_power
 										subtract = root.military_power
 									}
@@ -401,7 +401,7 @@ irtock3_ritsuryo_events.1 = {
 								# Percent difference = ((liege_military_power - vassal_military_power) / ((liege_military_power + vassal_military_power) / 2)) * 100
 								subtract = {
 									value = 200
-									mulitply = {
+									multiply = {
 										value = root.military_power
 										subtract = military_power
 									}
