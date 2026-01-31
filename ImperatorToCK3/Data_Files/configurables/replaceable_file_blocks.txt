@@ -3979,6 +3979,17 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 		scope:barony.duchy ?= { save_scope_as = old_duchy } # IRToCK3: Save old duchy as a scope to reference later
 		scope:barony.county ?= {
 			set_de_jure_liege_title = scope:duchy_title_scope
+			# IRToCK3: If the title getting the county is d_rome, save what the old duchy as a variable on the county so when d_rome gets elevated to k_rome, d_rome can have its de jure counties properly returned to their original duchy
+			if = {
+				limit = {
+					exists = scope:old_duchy
+					title:d_rome ?= scope:duchy_title_scope
+				}
+				set_variable = {
+					name = old_duchy_title
+					value = scope:old_duchy
+				}
+			}
 		}
 		# IRToCK3: The base game decision doesn't make sure the expanded duchy has a de jure kingdom, so that is added below
 		if = {
