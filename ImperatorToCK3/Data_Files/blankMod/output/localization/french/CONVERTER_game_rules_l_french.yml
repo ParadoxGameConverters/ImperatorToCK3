@@ -1,0 +1,51 @@
+﻿l_french:
+# Translated using Google Translate, sorry if wrong / Traduit avec Google Traduction, désolé si c'est incorrect.
+ game_rule_category_irtock3: "Convertisseur IRToCK3"
+
+ rule_irtock3_gamerule_imperator_nomads: "IRToCK3 - [nomads|E] (Khans of the Steppe)"
+
+ setting_irtock3_gamerule_nomads_leave_everything: "Laissez tout tel quel"
+ setting_irtock3_gamerule_nomads_leave_everything_desc: "Cela ne change rien, tout restant exactement comme le convertisseur l'avait configuré.\n#weak REMARQUE: [nomads|E] ne peuvent pas [migrate|E] lorsqu'ils ne sont pas impliqués dans une [situation|E] qui le permet! #!"
+
+ setting_irtock3_gamerule_nomads_only_steppe: "Uniquement dans la steppe"
+ setting_irtock3_gamerule_nomads_only_steppe_desc: "Convertit toutes les étiquettes Imperator créées [nomadic|E] par le convertisseur qui sont en dehors de la steppe en [tribal|E].\n#weak REMARQUE: [nomads|E] ne peuvent pas [migrate|E] lorsqu'ils ne sont pas impliqués dans une [situation|E] qui le permet! #!"
+
+ setting_irtock3_gamerule_nomads_no_nomads: "Pas de nomades"
+ setting_irtock3_gamerule_nomads_no_nomads_desc: "Rend toutes les étiquettes Imperator rendues [nomadic|E] par le convertisseur [tribal|E]."
+
+ setting_irtock3_gamerule_nomads_leave_outside_force_steppe_tribes: "Laisser à l'extérieur, forcer à l'intérieur"
+ setting_irtock3_gamerule_nomads_leave_outside_force_steppe_tribes_desc: "Toutes les étiquettes Imperator rendues [nomadic|E] par le convertisseur qui sont en dehors de la steppe restent nomades, et toutes les étiquettes Imperator [tribal|E] dans la steppe sont forcées d'être nomades."
+
+ setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes: "Rien à l'extérieur, force à l'intérieur"
+ setting_irtock3_gamerule_nomads_none_outside_force_steppe_tribes_desc: "Toutes les étiquettes Imperator rendues [nomadic|E] par le convertisseur qui sont en dehors de la Steppe sont rendues [tribal|E], et toutes les étiquettes Imperator tribales dans la Steppe sont forcées d'être nomades."
+
+
+ rule_irtock3_gamerule_filler_rulers: "IRToCK3 - [filler_rulers|E]"
+ game_concept_filler_rulers: "Souverain de remplissage"
+ game_concept_filler_rulers_desc: "Les souverains de remplissage sont des [rulers|E] créés par le convertisseur IMP-CK3 pour coloniser les territoires non colonisés d'Imperator. Leur rang a été déterminé dans l'interface lors de la conversion: [counts|E] ou [dukes|E]."
+
+ setting_irtock3_gamerule_filler_rulers_leave_alone: "Laissez tout tel quel"
+ setting_irtock3_gamerule_filler_rulers_leave_alone_desc: "Cela ne change rien, laissant tous les [filler_rulers|E] exactement comme le convertisseur les a définis.\n#weak REMARQUE : Il s'agira généralement de [tribal|E]. #!"
+
+ setting_irtock3_gamerule_filler_rulers_all_nomads: "Force nomade"
+ setting_irtock3_gamerule_filler_rulers_all_nomads_desc: "Nécessite Khans of the Steppe pour fonctionner. Convertit TOUS les [filler_rulers|E] en [nomads|E].\n#weak REMARQUE: [nomads|E] ne peuvent pas [migrate|E] lorsqu'ils ne sont pas impliqués dans une [situation|E] qui le permet! #!"
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_all: "Nomades des steppes\n         TOUT"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_all_desc: "Nécessite Khans of the Steppe pour fonctionner. Convertit tous les [filler_rulers|E] de la steppe en [nomads|E]. Les autres deviennent [tribal|E]."
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage: "Nomades des steppes\n     Patrimoine"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_heritage_desc: "Nécessite Khans of the Steppe pour fonctionner. Convertit tous les [filler_rulers|E] de la Steppe en [nomads|E] si leur [heritage|E] est: $heritage_iranian_name$, $heritage_mongolic_name$, $heritage_turkic_name$, $heritage_magyar_name$, ou $heritage_ugro_permian_name$. Les autres deviennent [tribal|E]."
+
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead: "Nomades des steppes\nChef culturel de Troupeau"
+ setting_irtock3_gamerule_filler_rulers_steppe_nomads_herdhead_desc: "Nécessite Khans of the Steppe pour fonctionner. Convertit tous les [filler_rulers|E] de la steppe en [nomads|E] si leur [culture|E] détermine son [culture_head|E] à l'aide du [herd|E]. Les autres deviennent [tribal|E]."
+
+ rule_irtock3_gamerule_mandala_rulers: "IRToCK3 - [mandala|E] (All Under Heaven)"
+
+ setting_irtock3_gamerule_mandala_rulers_all: "Partout"
+ setting_irtock3_gamerule_mandala_rulers_all_desc: "Chaque [feudal|E] [rulers|E], quel que soit l'endroit où il se trouve, deviendra [mandala|E], à condition qu'il remplisse les [mandala_conditions|E]."
+
+ setting_irtock3_gamerule_mandala_rulers_sea: "Asie du Sud-Est"
+ setting_irtock3_gamerule_mandala_rulers_sea_desc: "Seuls les [feudal|E] [rulers|E] d'Asie du Sud-Est deviendront [mandala|E], à condition qu'ils remplissent les [mandala_conditions|E]."
+
+ game_concept_mandala_conditions: "Conditions du mandala"
+ game_concept_mandala_conditions_desc: "Pour devenir [mandala|E], un [ruler|E] doit suivre une [faith|E] [organized|E] avec la [doctrine|E] $doctrine_polytheist_name$, et sa [culture|E] doit avoir l'un des [heritage|E] suivants : $heritage_austronesian_name$, $heritage_tai_name$, $heritage_mon_khmer_name$, $heritage_viet_name$, $heritage_indo_aryan_name$ ou $heritage_burman_name$."

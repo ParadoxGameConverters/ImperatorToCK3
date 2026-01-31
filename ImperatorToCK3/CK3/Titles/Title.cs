@@ -563,6 +563,12 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		OrderedSet<string> successionLaws = [];
 		if (currentCK3LiegeGov is not null && currentCK3LiegeGov == "administrative_government") {
 			successionLaws.Add("appointment_succession_law");
+		} else if (currentCK3LiegeGov is not null && currentCK3LiegeGov == "celestial_government") {
+			successionLaws.Add("celestial_appointment_succession_law");
+		} else if (currentCK3LiegeGov is not null && currentCK3LiegeGov == "japan_administrative_government") {
+			successionLaws.Add("japanese_appointment_succession_law");
+		} else if (currentCK3LiegeGov is not null && currentCK3LiegeGov == "meritocratic_government") {
+			successionLaws.Add("meritocratic_appointment_succession_law");
 		} else {
 			successionLaws.Add("high_partition_succession_law");
 		}

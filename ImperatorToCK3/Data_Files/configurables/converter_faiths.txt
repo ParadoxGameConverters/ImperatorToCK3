@@ -5818,7 +5818,6 @@ chinese_religion = {
 	doctrine = doctrine_clerical_succession_temporal_appointment
 
 	#Special Doctrine for Eastern Syncretism
-	doctrine = special_doctrine_is_eastern_faith
 	doctrine = special_doctrine_immaterial_harmony
 
 	#Allow pilgrimages
@@ -6099,7 +6098,6 @@ baiyue_religion = {
 	doctrine = doctrine_clerical_succession_temporal_appointment
 
 	#Special Doctrine for Eastern Syncretism
-	doctrine = special_doctrine_is_eastern_faith
 	doctrine = special_doctrine_immaterial_harmony
 
 	#Allow pilgrimages

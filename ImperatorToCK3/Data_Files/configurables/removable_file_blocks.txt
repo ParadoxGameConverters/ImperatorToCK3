@@ -235,6 +235,19 @@
 				}
 			}
 		}
+
+		character:bookmark_huang_chao = {
+			if = {
+				limit = {
+					is_alive = yes
+					is_playable_character = yes
+				}
+				trigger_event = {
+					id = bookmark.0500
+					days = 1
+				}
+			}
+		}
 	}
 	{
 		# Basileios has just murdered Michael III.
@@ -331,160 +344,160 @@
 				has_dlc_feature = coronations
 			}
 			# London (England)
-			province:1527 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:1527 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Aachen (Germany)
-			province:2092 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:2092 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Reims (France)
-			province:2390 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:2390 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Rome (Italy)
-			province:2575 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:2575 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Milan (Italy)
-			province:2482 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:2482 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Gniezno (Poland)
-			province:4905 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:4905 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Szekesfehervar (Hungary)
-			province:3805 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:3805 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Scone Abbey, Gowrie (Scotland)
-			province:1741 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:1741 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Byzantium (Byzantines)
-			province:496 = { 
-				add_province_modifier = coronation_long_tradition_modifier 
+			province:496 = {
+				add_province_modifier = coronation_long_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 10
 				}
 			}
 			# Mahdiya (Africa)
-			province:4578 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:4578 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Cairo (Egypt)
-			province:6042 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:6042 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Damascus (Syria)
-			province:5924 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:5924 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Baghdad (Mesopotamia)
-			province:4828 = { 
-				add_province_modifier = coronation_long_tradition_modifier 
+			province:4828 = {
+				add_province_modifier = coronation_long_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 10
 				}
 			}
 			# Rayy (Persia)
-			province:4319 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:4319 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Ghazna (Kabulistan)
-			province:4500 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:4500 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Lahur (Punjab)
-			province:1362 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:1362 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Samarkand (Transoxiana)
-			province:4404 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:4404 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Bukhara (Transoxiana)
-			province:4394 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:4394 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Medina (Arabia)
-			province:6212 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:6212 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Kutaisi (Georgia)
-			province:601 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:601 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
@@ -497,28 +510,22 @@
 				has_dlc_feature = coronations
 			}
 			# Marrakesh (Maghreb)
-			province:4718 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:4718 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 			# Karakorum (Mongolia)
-			province:1457 = { 
-				add_province_modifier = coronation_tradition_modifier 
+			province:1457 = {
+				add_province_modifier = coronation_tradition_modifier
 				set_variable = {
 					name = coronation_tradition_location
 					value = 5
 				}
 			}
 		}
-	}
-
-	# Anachronistic
-	{
-		### GAME RULE: EXTRA ADMINS
-		apply_historic_administrative_game_rule_effect = yes
 	}
 
 	# Anachronistic
@@ -918,7 +925,13 @@
 			limit = {
 				game_start_date >= 1067.12.25
 			}
-			title:k_england = { set_coa = k_england_norman}
+			title:k_england = { set_coa = k_england_norman }
+		}
+		if = {
+			limit = {
+				game_start_date >= 938.1.1
+			}
+			title:k_viet = { set_coa = k_dai_viet }
 		}
 	}
 	
@@ -2460,8 +2473,8 @@
 			}
 	}
 	{
-			## Liang Zhu Quanzhong
-			character:liang_zhu_1 ?= {
+			## Zhu Quanzhong
+			character:zhu_quanzhong_1 ?= {
 				if = {
 					limit = {
 						is_alive = yes
@@ -2473,7 +2486,7 @@
 	}
 	{
 			## Miyoshi Kiyotsura
-			character:miyoshi_kiyotsura_1 ?= {
+			character:japanese_miyoshi_4 ?= {
 				if = {
 					limit = {
 						is_alive = yes
@@ -2484,8 +2497,8 @@
 			}
 	}
 	{
-			## Yang-kil
-			character:yang_kil_1 ?= {
+			## Ki Hwon
+			character:ki_hwon_1 ?= {
 				if = {
 					limit = {
 						is_alive = yes
@@ -2670,7 +2683,7 @@
 					add_realm_law_skip_effects = camp_purpose_mercenaries
 				}
 			}
-			character:bojo_jinul_1 ?= {
+			character:il_eom_1 ?= {
 				if = {
 					limit = {
 						is_alive = yes
@@ -3586,7 +3599,7 @@
 	# Anachronistic
 	{
 		#set up cultural acceptance between China and East Asian Empires to aid in the learning of Chinese effect for on_birthday_adulthood
-		
+
 		if = {
 			limit = { game_start_date = 867.1.1 }
 			culture:japanese = {
@@ -3664,6 +3677,28 @@
 	{
 			### DYNASTY TRACKING SETUP
 			japan_dynasty_tracker_setup_effect = yes
+	}
+
+	# Removing this from game_start.txt so it can be moved into the custom government setup scripted_effect so it can apply to ever Ritsuryo/Soryo realm, not just e_japan
+	{
+			### TGP NOBLE FAMILIES & DOMICILE SETUP ###
+			# Required due to landless top liege
+			title:e_japan.holder ?= {
+				add_realm_law_skip_effects = japanese_bureaucracy_1
+				noble_family_title_realm_setup_effect = yes
+				every_vassal_or_below = { # Move Soryo domiciles to their own realm
+					limit = {
+						government_has_flag = government_is_japan_feudal
+					}
+					domicile ?= { move_domicile = owner.capital_province }
+				}
+				every_vassal_or_below = { # Move Ritsuryo domiciles to the capital
+					limit = {
+						government_has_flag = government_is_japan_administrative
+					}
+					domicile ?= { move_domicile = title:e_japan.holder.capital_province }
+				}
+			}
 	}
 
 	{
@@ -4004,10 +4039,6 @@
 			}
 	}
 	
-	{
-		fp1_major_decisions.1011	# Harald Tanglehair becomes Harald Fairhair.
-		fp1_major_decisions.1012	# If Norway has just been created for the first time, flag that.
-	}
 	{
 			# Norway stuff
 			else_if = {
@@ -4419,6 +4450,253 @@ bookmark_867_northmen_aellas_capture_war_imprisonment_effect = {
 	{
 				create_artifact_statue_constantine_effect = { OWNER = this }
 	}
+
+	{
+		### Banke no Hoken ~785
+		if = { # Chrysanthemum Throne
+			limit = {
+				has_dlc_feature = royal_court
+				current_date >= 867.1.1
+				exists = title:k_chrysanthemum_throne.holder
+			}
+			title:k_chrysanthemum_throne.holder = {
+				create_artifact_pedestal_sakanoue_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Higekiri ~950
+		if = { # Seiwa
+			limit = {
+				current_date = 1066.9.15
+				exists = title:c_nf_minamoto_seiwa.holder
+			}
+			title:c_nf_minamoto_seiwa.holder = {
+				create_artifact_higekiri_sword_effect = { OWNER = this }
+			}
+		}
+		else_if = { # Kawachi
+			limit = {
+				current_date >= 1178.10.1
+				exists = title:c_nf_minamoto_kawachi.holder
+			}
+			title:c_nf_minamoto_kawachi.holder = {
+				create_artifact_higekiri_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Hizamaru ~950
+		if = { # Kawachi
+			limit = {
+				current_date = 1066.9.15
+				exists = title:c_nf_minamoto_kawachi.holder
+			}
+			title:c_nf_minamoto_kawachi.holder = {
+				create_artifact_hizamaru_sword_effect = { OWNER = this }
+			}
+		}
+		else_if = { # Yoshitsune
+			limit = {
+				current_date >= 1178.10.1
+				exists = title:d_laamp_yoshitsune.holder
+			}
+			title:d_laamp_yoshitsune.holder = {
+				create_artifact_hizamaru_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Dojigiri ~880
+		if = { # Uona
+			limit = {
+				current_date = 1066.9.15
+				exists = title:c_nf_fujiwara_uona.holder
+			}
+			title:c_nf_fujiwara_uona.holder = {
+				create_artifact_dojigiri_sword_effect = { OWNER = this }
+			}
+		}
+		else_if = { # Oshu
+			limit = {
+				current_date >= 1178.10.1
+				exists = title:c_nf_fujiwara_oshu.holder
+			}
+			title:c_nf_fujiwara_oshu.holder = {
+				create_artifact_dojigiri_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Mikazuki Munechika ~980
+		if = {  # Kan'in
+			limit = {
+				current_date = 1066.9.15
+				exists = title:c_nf_fujiwara_kanin.holder
+			}
+			title:c_nf_fujiwara_kanin.holder = {
+				create_artifact_mikazuki_munechika_sword_effect = { OWNER = this }
+			}
+		}
+		else_if = { # Tokudaiji
+			limit = {
+				current_date >= 1178.10.1
+				exists = title:c_nf_fujiwara_ashikaga.holder
+			}
+			title:c_nf_fujiwara_ashikaga.holder = {
+				create_artifact_mikazuki_munechika_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Ōtenta ~1082
+		if = { # Kiso
+			limit = {
+				current_date >= 1178.10.1
+				exists = title:c_nf_minamoto_kiso.holder
+			}
+			title:c_nf_minamoto_kiso.holder = {
+				create_artifact_odenta_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Hamayumi ~1145
+		if = { # Chrysanthemum Throne
+			limit = {
+				has_dlc_feature = royal_court
+				current_date >= 1178.1.1
+				exists = title:k_chrysanthemum_throne.holder
+			}
+			title:k_chrysanthemum_throne.holder = {
+				create_artifact_pedestal_hamayumi_bow_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Shichishitō <500
+		if = { # Chrysanthemum Throne
+			limit = {
+				current_date >= 867.1.1
+				exists = title:k_chrysanthemum_throne.holder
+			}
+			title:k_chrysanthemum_throne.holder = {
+				create_artifact_pedestal_seven_branched_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Gyerim-ro dagger ~867
+		if = { # Silla
+			limit = {
+				current_date = 867.1.1 # Only 867
+				exists = title:k_silla.holder
+			}
+			title:k_silla.holder = {
+				create_artifact_pedestal_gyerimro_dagger_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Nukemaru ~1120
+		if = { # Taira
+			limit = {
+				current_date >= 1178.1.1
+				exists = title:c_nf_taira_kanmu.holder
+			}
+			title:c_nf_taira_kanmu.holder = {
+				create_artifact_nukemaru_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Kogarasumaru ~945
+		if = { # Taira
+			limit = {
+				current_date >= 1066.9.15
+				exists = title:c_nf_taira_kanmu.holder
+			}
+			title:c_nf_taira_kanmu.holder = {
+				create_artifact_kogarasumaru_sword_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		### Karakawa ~800
+		if = { # Taira
+			limit = {
+				current_date >= 867.1.1
+				exists = title:c_nf_taira_kanmu.holder
+			}
+			title:c_nf_taira_kanmu.holder = {
+				create_artifact_karakawa_armor_effect = { OWNER = this }
+			}
+		}
+	}
+
+	{
+		title:k_chrysanthemum_throne.holder ?= {
+			create_artifact_dynastic_imperial_seal_effect = {
+				OWNER = this
+				SMITH = this
+			}
+		}
+	}
+
+	{
+		#Eight-Fold Chest
+		if = {
+			limit = {
+				has_tgp_dlc_trigger = yes
+			}
+			title:h_china.holder = {
+				create_artifact_eight_fold_chest_effect = {
+					OWNER = this
+				}
+			}
+		}
+	}
+
+	{
+		#Complete Military Classics
+		if = {
+			limit = {
+				has_tgp_dlc_trigger = yes
+				current_date > 1150.1.1 #Needs to be long past creation date for this to make sense
+			}
+			title:h_china.holder = {
+				create_artifact_military_classics_effect = {
+					OWNER = this
+				}
+			}
+		}
+	}
+
+	{
+		#Green Stone Amitabha Buddha Statue
+		if = {
+			limit = {
+				has_tgp_dlc_trigger = yes
+				current_date >= 1066.5.1
+			}
+			title:k_viet.holder = {
+				create_artifact_statue_viet_green_amitabha_buddha_effect = {
+					OWNER = this
+				}
+			}
+		}
+	}
 }
 
 "common/scripted_effects/03_dlc_fp2_scripted_effects.txt" = {
@@ -4715,6 +4993,10 @@ create_artifact_monomachus_crown_effect = {
 		add_artifact_title_history = {
 			target = title:e_byzantium
 			date = 1055.1.11
+		}
+		set_variable = {
+			name = artifact_succession_title
+			value = title:e_byzantium
 		}
 	}
 }
@@ -5854,7 +6136,7 @@ bookmark.0001 = { #by Mathilda Bjarnehed
 		}
 	}
 }
-		
+	
 ### Alfred is pretty cool so we give him a nickname
 bookmark.0002 = { #by Mathilda Bjarnehed
 	type = character_event
@@ -6599,6 +6881,400 @@ bookmark.0300 = {
 			base = 100	# AI doesn't get this event, but should always pick no.
 		}
 		custom_tooltip = bookmark.0300.b.tt
+	}
+}
+	}
+
+	{
+bookmark.0400 = {
+	type = character_event
+	title = bookmark.0400.t
+	desc = bookmark.0400.desc
+
+	theme = family
+
+	left_portrait = {
+		character = root
+		animation = disapproval
+	}
+	lower_left_portrait = {
+		character = scope:brother
+	}
+	lower_right_portrait = {
+		character = scope:child
+	}
+	right_portrait = {
+		character = scope:emperor
+		animation = pain
+	}
+
+	trigger = {
+		is_ai = no
+		character:206651 = { # your husband
+			is_alive = yes
+			is_ai = yes
+			is_landed = yes
+		}
+		character:206653 = { # your child
+			is_alive = yes
+			is_ai = yes
+			top_liege = root.top_liege
+		}
+		character:tangut_liang_2 = { # your brother
+			is_alive = yes
+			is_ai = yes
+			top_liege = root.top_liege
+		}
+	}
+
+	immediate = {
+		character:206651 = { save_scope_as = emperor }
+		character:206653 = { save_scope_as = child }
+		character:tangut_liang_2 = { save_scope_as = brother }
+		scope:emperor.primary_title = { save_scope_as = xia }
+	}
+	
+	option = {
+		name = bookmark.0400.a
+
+		custom_tooltip = {
+			text = bookmark.0400.a.tt
+
+			scope:emperor = {
+				every_held_title = {
+					limit = {
+						tier >= tier_county
+						is_landless_type_title = no
+					}
+					add_to_list = titles_to_transfer
+				}
+			}
+
+			create_title_and_vassal_change = {
+				type = usurped
+				save_scope_as = change
+				add_claim_on_loss = yes
+			}
+
+			every_in_list = {
+				list = titles_to_transfer
+				change_title_holder = {
+					holder = root
+					change = scope:change
+				}
+			}
+
+			scope:emperor = {
+				every_vassal = {
+					limit = {
+						NOT = {
+							this = root
+						}
+					}
+					change_liege = {
+						LIEGE = root
+						CHANGE = scope:change
+					}
+				}
+			}
+
+			resolve_title_and_vassal_change = scope:change
+
+			scope:emperor = {
+				death = {
+					death_reason = death_wounds
+				}
+			}
+		}
+
+		if = {
+			limit = { 
+				exists = cp:councillor_chancellor
+				cp:councillor_chancellor != character:tangut_liang_2
+			}
+			fire_councillor = cp:councillor_chancellor
+			assign_councillor_type = {
+				type = councillor_chancellor
+				target = character:tangut_liang_2
+			}
+		}
+
+		every_child = {
+			limit = {
+				house != root.house
+			}
+			set_house = root.house
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	option = {
+		name = bookmark.0400.b
+
+		custom_tooltip = {
+			text = bookmark.0400.b.tt
+			add_character_flag = has_had_diarch_intro_event_flag
+
+			scope:emperor = {
+				designate_diarch = root
+				try_start_diarchy = regency
+				set_diarchy_swing = 100
+				if = {
+					limit = { 
+						exists = cp:councillor_chancellor
+						cp:councillor_chancellor != character:tangut_liang_2
+					}
+					fire_councillor = cp:councillor_chancellor
+					scope:brother = {
+						set_employer = scope:emperor
+					}
+					assign_councillor_type = {
+						type = councillor_chancellor
+						target = character:tangut_liang_2
+					}
+				}
+			}
+		}
+		change_influence = monumental_influence_gain
+		add_prestige = monumental_prestige_gain
+
+		ai_chance = {
+			base = 100
+		}
+	}
+	option = {
+		name = bookmark.0400.c
+
+		custom_tooltip = {
+			text = bookmark.0400.c.tt
+			add_character_flag = has_had_diarch_intro_event_flag
+
+			scope:emperor = {
+				death = {
+					death_reason = death_wounds
+				}
+			}
+			scope:brother = {
+				set_employer = scope:child
+			}
+			scope:child = {
+				set_diarch = root
+				set_diarchy_swing = 100
+				if = {
+					limit = { 
+						exists = cp:councillor_chancellor
+						cp:councillor_chancellor != character:tangut_liang_2
+					}
+					fire_councillor = cp:councillor_chancellor
+					assign_councillor_type = {
+						type = councillor_chancellor
+						target = character:tangut_liang_2
+					}
+				}
+			}
+		}
+		change_influence = monumental_influence_gain
+		add_prestige = monumental_prestige_gain
+
+		ai_chance = {
+			base = 0
+		}
+	}
+	after = {
+		add_hook = {
+			type = loyalty_hook
+			target = scope:brother
+		}
+
+		scope:brother = {
+			change_influence = massive_influence_gain
+			add_prestige = massive_prestige_gain
+		}
+	}
+}
+	}
+
+	{
+bookmark.0500 = {
+	type = character_event
+	title = bookmark.0500.t
+	desc = bookmark.0500.desc
+	window = big_event_window
+	theme = merit
+	override_background = bedchamber
+
+	left_portrait = {
+		character = root
+		animation = disapproval
+	}
+
+	trigger = {
+	}
+
+	immediate = {
+	}
+	
+	option = {
+		name = bookmark.0500.a
+
+		add_character_modifier = {
+			modifier = tgp_wiles_is_the_way_modifier
+			years = 10
+		}
+
+		domicile ?= {
+			hidden_effect = {
+				add_domicile_building = east_asian_peasant_quarters_01
+				add_domicile_building = east_asian_peasant_quarters_02
+				add_domicile_building = east_asian_peasant_quarters_03
+			}
+			add_domicile_building = east_asian_peasant_quarters_04
+			custom_tooltip = domicile_building_parameter_can_use_incite_revolts
+			custom_tooltip = domicile_building_parameter_can_join_peasant_factions
+		} 
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	option = {
+		name = bookmark.0500.b
+
+		trigger = {
+			is_landed = no
+		}
+
+		add_trait = conqueror
+
+		create_title_and_vassal_change = {
+  			type = usurped
+  			save_scope_as = change
+  		}
+  		title:c_caozhou = {
+	  		change_title_holder = {
+				holder = root
+				change = scope:change
+				take_baronies = yes
+			}
+  		}
+  		hidden_effect = {
+ 			becomes_independent = {
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		start_war = {
+			casus_belli = admin_barbarian_conquest_cb
+			target = title:d_biansong.holder
+		}
+
+		spawn_army = {
+			levies = 5000
+			location = root.capital_province
+			origin = root.capital_province
+			inheritable = no
+			uses_supply = yes
+			name = faithful_followers
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+	option = {
+		name = bookmark.0500.c
+
+		trigger = {
+			has_dlc_feature = roads_to_power
+		}
+
+		create_landless_adventurer_title_tooltip_effect = yes
+		add_character_modifier = {
+			modifier = ep3_voluntary_laamp_character_modifier
+			years = 5
+		}
+		hidden_effect = {
+			# Create Adventurer
+			create_landless_adventurer_title_effect = {
+				REASON = flag:runaway_allowed
+				FLAVOR_CHAR = root
+			}
+			domicile ?= {
+				change_provisions = major_provisions_gain
+			}
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	option = {
+		name = bookmark.0500.d
+
+		trigger = {
+			is_landed = no
+		}
+
+		set_character_faith = faith:maitreya
+
+		faith:maitreya = {
+			change_fervor = {
+				value = 100
+				desc = maitreya_has_descended_fervor_desc
+			}
+		}
+
+		add_character_modifier = claimed_mantle_of_maitreya_modifier
+
+		hidden_effect = {
+			set_global_variable = {
+				name = the_maitreya_has_descended
+				value = yes
+			}
+		}
+		add_trait = peasant_leader
+
+		create_title_and_vassal_change = {
+  			type = usurped
+  			save_scope_as = change
+  		}
+  		title:c_caozhou = {
+	  		change_title_holder = {
+				holder = root
+				change = scope:change
+				take_baronies = yes
+			}
+  		}
+  		hidden_effect = {
+ 			becomes_independent = {
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		start_war = {
+			casus_belli = admin_barbarian_conquest_cb
+			target = title:d_biansong.holder
+		}
+
+		spawn_army = {
+			levies = 5000
+			location = root.capital_province
+			origin = root.capital_province
+			inheritable = no
+			uses_supply = yes
+			name = maitreya_devotees
+		}
+
+		ai_chance = {
+			base = 0
+		}
 	}
 }
 	}
@@ -10093,6 +10769,7 @@ game_rule.1143 = {
 # Refound HRE 				#
 # by Ewan Cowhig Croft		#
 #############################
+### Restore the Holy Roman Empire ###
 restore_holy_roman_empire_decision = {
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
@@ -10665,6 +11342,7 @@ scripted_effect fp1_1011_gib_pretty_hair_effect = {
 #	Tanglehair becomes Fairhair.
 fp1_major_decisions.1011 = {
 	type = character_event
+	window = big_event_window
 	title = fp1_major_decisions.1011.t
 	desc = {
 		desc = fp1_major_decisions.1011.desc.intro
@@ -10688,44 +11366,63 @@ fp1_major_decisions.1011 = {
 	}
 	override_background = { reference = fp1_ocean_norse }
 
-	trigger = {
-		# This character is Harald Fairhair.
-		exists = character:144000
-		this = character:144000
-		# The title they've acquired is Norway.
-		scope:title = title:k_norway
-		# Norway has been created by them.
-		scope:transfer_type = flag:created
-		# Norway has not been created previously.
-		NOT = { exists = global_var:norway_created }
-	}
-
 	immediate = {
 		play_music_cue = "mx_cue_succession"
 		# Check to see if Gyda is still around and kicking, and if so, treat this as a romance.
 		character:166044 = {
-			if = {
-				limit = {
-					is_alive = yes
-					can_marry_character_trigger = { CHARACTER = root }
-					has_any_bad_relationship_with_root_trigger = no
-					is_ai = yes
+			hidden_effect = {
+				if = {
+					limit = {
+						betrothed ?= {
+							NOR = {
+								this = character:144000
+								is_ai = no
+							}
+						}
+					}
+					break_betrothal = betrothed
 				}
-				save_scope_as = gyda
+				else_if = {
+					limit = {
+						is_adult = yes
+						is_married = yes
+						any_spouse = {
+							NOR = {
+								this = character:144000
+								is_ai = no
+							}
+						}
+					}
+					every_spouse = {
+						prev = {
+							divorce = prev
+						}
+					}
+				}
+				else_if = {
+					limit = {
+						exists = concubinist
+						concubinist = {
+							NOR = {
+								this = character:144000
+								is_ai = no
+							}
+						}
+					}
+					concubinist = {
+						remove_concubine = prev
+					}
+				}
+				if = {
+					limit = {
+						is_alive = yes
+						could_marry_character_trigger = { CHARACTER = root }
+						has_any_bad_relationship_with_root_trigger = no
+						is_ai = yes
+					}
+					save_scope_as = gyda
+				}
 			}
-		}
-	}
-
-	# My vow fulfilled!
-	option = {
-		name = fp1_major_decisions.1011.a
-
-		# Apply standard haircut effects.
-		fp1_1011_gib_pretty_hair_effect = yes
-
-		ai_chance = {
-			# AI should only default to this if Gyda is unavailable.
-			base = 0
 		}
 	}
 	
@@ -10736,13 +11433,41 @@ fp1_major_decisions.1011 = {
 			# Gyda must have been valid.
 			exists = scope:gyda
 			# And, for MP, remain valid.
-			can_marry_character_trigger = { CHARACTER = scope:gyda }
+			could_marry_character_trigger = { CHARACTER = scope:gyda }
+		}
+		
+		if = {
+			limit = {
+				is_married = yes
+				primary_spouse ?= {
+					NOT = {
+						this = character:144000
+					}
+				}
+			}
+			divorce = primary_spouse
+		}
+		else_if = {
+			limit = {
+				betrothed ?= {
+					NOT = {
+						this = character:144000
+					}
+				}
+			}
+			break_betrothal = betrothed
 		}
 
 		# Apply standard haircut effects.
 		fp1_1011_gib_pretty_hair_effect = yes
 		# Harald & Gyda are wed.
 		if = {
+			limit = {
+				scope:gyda = { is_adult = no }
+			}
+			create_betrothal = scope:gyda
+		}
+		else_if = {
 			limit = {
 				has_ep2_dlc_trigger = yes
 			}
@@ -10758,17 +11483,32 @@ fp1_major_decisions.1011 = {
 		add_opinion = {
 			target = scope:gyda
 			modifier = love_opinion
-			opinion = 50
+			opinion = 150
 		}
 		reverse_add_opinion = {
 			target = scope:gyda
 			modifier = love_opinion
-			opinion = 50
+			opinion = 150
 		}
+		
+		add_stress = -200
 
 		ai_chance = {
 			# AI should always select this option if it's present.
 			base = 100
+		}
+	}
+
+	# My vow fulfilled!
+	option = {
+		name = fp1_major_decisions.1011.a
+
+		# Apply standard haircut effects.
+		fp1_1011_gib_pretty_hair_effect = yes
+
+		ai_chance = {
+			# AI should only default to this if Gyda is unavailable.
+			base = 0
 		}
 	}
 	
@@ -12731,6 +13471,12 @@ hasan_sabbah.1000 = {
 		}
 
 		set_character_faith = faith:ismaili
+		if = {
+			limit = { 
+				faith:ismaili = { has_doctrine = doctrine_monotheist }
+			}
+			custom_description_no_bullet = { text = mandala_monotheist_warning_tt }
+		}
 		custom_tooltip = {
 			text = unlock_evangelize_decision_tt
 			create_story = story_hasan
@@ -15321,7 +16067,10 @@ cid.2020 = {
 			}
 		}
 		set_variable = had_cid_2020
-		var:cid_liege = { save_scope_as = liege }
+		var:cid_liege = {
+			save_scope_as = liege
+			save_scope_as = defender
+		}
 		scope:liege.primary_title = {
 			every_de_jure_county = {
 				limit = {
@@ -15332,6 +16081,11 @@ cid.2020 = {
 					}
 				}
 				add_to_list = granted_title
+			}
+			ordered_in_list = {
+				list = granted_title
+				order_by = development_level
+				save_scope_as = target
 			}
 		}
 	}
@@ -15347,11 +16101,12 @@ cid.2020 = {
 			ALWAYS_INDEPENDENT = no
 			TITLE_LIST = granted_title
 		}
-		ep3_become_landed_transfer_no_ennobled_modifier_effect = {
+		ep3_become_landed_transfer_effect = {
 			TITLE_RECEIVER = root
 			TITLE_LIST = granted_title
 			TYPE = granted
 			REASON = flag:negotiated
+			ENNOBLED_ADVENTURER = flag:no
 		}
 		
 		ai_chance = {
@@ -15507,7 +16262,10 @@ cid.4010 = {
 
 	immediate = {
 		set_variable = had_cid_4010
-		var:cid_liege = { save_scope_as = liege }
+		var:cid_liege = {
+			save_scope_as = liege
+			save_scope_as = defender
+		}
 		if = {
 			limit = {
 				scope:liege = {
@@ -15545,17 +16303,23 @@ cid.4010 = {
 		cid_4010_disloyal_effect = yes
 		var:cid_title_to_give = {
 			every_de_jure_county = { add_to_list = seized_titles }
+			ordered_in_list = {
+				list = seized_titles
+				order_by = development_level
+				save_scope_as = target
+			}
 		}
 		ep3_become_landed_save_liege_effect = {
 			TITLE_GIVER = var:cid_title_to_give.holder
 			ALWAYS_INDEPENDENT = yes
 			TITLE_LIST = seized_titles
 		}
-		ep3_become_landed_transfer_no_ennobled_modifier_effect = {
+		ep3_become_landed_transfer_effect = {
 			TITLE_RECEIVER = root
 			TITLE_LIST = seized_titles
 			TYPE = usurped
 			REASON = flag:seize_realm
+			ENNOBLED_ADVENTURER = flag:no
 		}
 		
 		ai_chance = {
@@ -15975,7 +16739,7 @@ el_cid_landless_or_landed_on_action = {
 		if = {
 			limit = {
 				scope:attacker = {
-					is_ai = no 
+					is_ai = no
 					this = character:223523
 				}
 				scope:defender = {
@@ -15994,7 +16758,7 @@ el_cid_landless_or_landed_on_action = {
 		if = {
 			limit = {
 				scope:defender = {
-					is_ai = no 
+					is_ai = no
 					this = character:223523
 				}
 				scope:attacker = {
@@ -16220,15 +16984,6 @@ story_el_cid = {
 	text = { # Offa's Dyke
 		trigger = {
 			has_special_building = yes
-			#OR = {
-			#	this = province:1643 # Cheshire
-			#	this = province:1646 # Shropshire
-			#	this = province:1648 # Bishop's Castle
-			#	this = province:1580 # Gloucester
-			#	this = province:1632 # Hereford
-			#	this = province:1633 # Wigmore
-			#	this = province:1634 # Clifford
-			#}
 			has_building_or_higher = offas_dyke_01
 		}
 		setup_scope = {
@@ -17422,5 +18177,288 @@ apply_historic_administrative_game_rule_effect = {
 	# Having this be removed since it'll overwrite h_roman_empire's title history since the game assumes it doesn't exist at game start, but it might with a converted save.
 	{
 		copy_title_history = title:e_byzantium
+	}
+}
+
+
+"common/situation/situations/tgp_dynastic_cycle.txt" = {
+	# With a converted save, the introduction event for the Dynastic Cycle will be handled through the game start event switching Eras. So don't want this spamming too many events.
+	{
+		every_situation_participant = {
+			if = {
+				limit = { is_ai = no }
+				trigger_event = tgp_dynastic_cycle.0051 # Introduction to the dynastic cycle
+				if = {
+					limit = { is_player_tutorial_character = no }
+					trigger_event = tgp_china_career.0001 # Introduction to your starting situation
+				}
+			}
+		}
+	}
+}
+
+
+"common/decisions/dlc_decisions/tgp/tgp_japan_decisions.txt" = {
+	#########################
+	## tgp_japan_become_shogun_decision
+	#########################
+	# Removing reference to character:japanese_minamoto_seiwa_10 and their achievement since they won't exist in a converted save
+	{
+		if = {
+			limit = {
+				is_ai = no
+				this = character:japanese_minamoto_seiwa_10
+			}
+			add_achievement_global_variable_effect = {
+				VARIABLE = finished_ep4_08_shogun_achievement
+				VALUE = yes
+			}
+		}
+	}
+
+	#########################
+	## tgp_japan_emperor_restoration_decision
+	#########################
+	# Removing reference to title:k_chrysanthemum_throne and the relevant achievement since it wouldn't make sense to have in a converted save
+	{
+		if = {
+			limit = {
+				is_ai = no
+				has_title = title:k_chrysanthemum_throne
+			}
+			add_achievement_global_variable_effect = {
+				VARIABLE = finished_ep4_03_sword_of_japan_achievement
+				VALUE = yes
+			}
+		}
+	}
+}
+
+
+"common/scripted_effects/10_dlc_tgp_japan_scripted_effects.txt" = {
+	# Removing this scripted_effect since its no longer used, and to prevent errors in log
+	{
+tgp_dynasty_house_name_setup_effect = {
+	# Fujiwara
+	dynasty:japanese_fujiwara.dynasty_founder.house ?= { set_house_name = "dynn_Fujiwara_Hok_ke" }
+	dynasty:japanese_fujiwara_oshu.dynasty_founder.house ?= { set_house_name = "dynn_Fujiwara_O_shU_" }
+	# Kiyohara
+	dynasty:japanese_kiyohara_hirozumi.dynasty_founder.house ?= { set_house_name = "dynn_Kiyohara_Hirozumi" }
+	# Minamoto
+	dynasty:japanese_minamoto_daigo.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Daigo" }
+	dynasty:japanese_minamoto_kazan.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Kazan" }
+	dynasty:japanese_minamoto_koko.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_KO_kO_" }
+	dynasty:japanese_minamoto_gosanjo.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Go_SanjO_" }
+	dynasty:japanese_minamoto_montoku.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Montoku" }
+	dynasty:japanese_minamoto_murakami.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Murakami" }
+	dynasty:japanese_minamoto_ninmyo.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_NinmyO_" }
+	dynasty:japanese_minamoto_saga.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Saga" }
+	dynasty:japanese_minamoto_sanjo.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_SanjO_" }
+	dynasty:japanese_minamoto_seiwa.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Seiwa" }
+	dynasty:japanese_minamoto_uda.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_Uda" }
+	dynasty:japanese_minamoto_yozei.dynasty_founder.house ?= { set_house_name = "dynn_Minamoto_YO_zei" }
+	# Taira
+	dynasty:japanese_taira_kanmu.dynasty_founder.house ?= { set_house_name = "dynn_Taira_Kanmu" }
+	dynasty:japanese_taira_koko.dynasty_founder.house ?= { set_house_name = "dynn_Taira_KO_kO_" }
+	dynasty:japanese_taira_montoku.dynasty_founder.house ?= { set_house_name = "dynn_Taira_Montoku" }
+	dynasty:japanese_taira_ninmyo.dynasty_founder.house ?= { set_house_name = "dynn_Taira_NinmyO_" }
+}
+	}
+
+	# Removing this scripted_effect since its no longer used, and to prevent errors in log
+	{
+japan_dynasty_tracker_setup_effect = {
+	# FUJIWARA
+	dynasty:japanese_fujiwara ?= { add_to_list = fujiwara_list }
+	dynasty:japanese_fujiwara_oshu ?= { add_to_list = fujiwara_list }
+	every_in_list = {
+		list = fujiwara_list
+		set_variable = { name = fujiwara_flag }
+	}
+	# MINAMOTO
+	dynasty:japanese_minamoto_daigo ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_kazan ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_koko ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_gosanjo ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_montoku ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_murakami ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_ninmyo ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_saga ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_sanjo ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_seiwa ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_uda ?= { add_to_list = minamoto_list }
+	dynasty:japanese_minamoto_yozei ?= { add_to_list = minamoto_list }
+	every_in_list = {
+		list = minamoto_list
+		set_variable = { name = minamoto_flag }
+		#dynasty_founder.house ?= { set_house_name = "dynn_Minamoto" } # For easier parsing of house names
+	}
+	# TAIRA
+	dynasty:japanese_taira_kanmu ?= { add_to_list = taira_list }
+	dynasty:japanese_taira_koko ?= { add_to_list = taira_list }
+	dynasty:japanese_taira_montoku ?= { add_to_list = taira_list }
+	dynasty:japanese_taira_ninmyo ?= { add_to_list = taira_list }
+	every_in_list = {
+		list = taira_list
+		set_variable = { name = taira_flag }
+		#dynasty_founder.house ?= { set_house_name = "dynn_Taira" } # For easier parsing of house names
+	}
+}
+	}
+
+	# Removing this scripted_effect since its no longer used, and to prevent errors in log
+	{
+tgp_setup_historical_house_relation_effect = {
+	### 867 ###
+	if = {
+		limit = { game_start_date = 867.1.1 }
+		house:house_fujiwara_ashikaga = {
+			tgp_set_historical_house_relation_effect = { # 
+				OTHER_HOUSE = house:house_minamoto_kozuke
+				LEVEL = rivalry
+			}
+		}
+	}
+	### 1066 ###
+	else_if = {
+		limit = { game_start_date = 1066.9.15 }
+		dynasty:japanese_minamoto_murakami.dynasty_founder.house = {
+			tgp_set_historical_house_relation_effect = { # 
+				OTHER_HOUSE = dynasty:japanese_fujiwara.dynasty_founder.house
+				LEVEL = friendly
+			}
+		}
+	}
+	### 1178 ###
+	else_if = {
+		limit = { game_start_date = 1178.10.1 }
+		dynasty:japanese_sugawara.dynasty_founder.house = {
+			tgp_set_historical_house_relation_effect = { # 
+				OTHER_HOUSE = dynasty:japanese_ki.dynasty_founder.house
+				LEVEL = friendly
+			}
+		}
+		house:house_minamoto_kiso = {
+			tgp_set_historical_house_relation_effect = { # Yoshikata killed by Yoshihira
+				OTHER_HOUSE = dynasty:japanese_nakahara_kiso.dynasty_founder.house
+				LEVEL = friendly
+			}
+		}
+		house:house_minamoto_kawachi = {
+			tgp_set_historical_house_relation_effect = { # Yoritomo's brothers killed by Kiyomori
+				OTHER_HOUSE = dynasty:japanese_nakahara_kiso.dynasty_founder.house
+				LEVEL = rivalry
+			}
+			tgp_set_historical_house_relation_effect = { # Marriage and historical alliance
+				OTHER_HOUSE = house:house_taira_hojo
+				LEVEL = friendly
+			}
+		}
+		house:house_kudo_kawazu = {
+			tgp_set_historical_house_relation_effect = { # Soga brothers
+				OTHER_HOUSE = house:house_kudo_ito_2
+				LEVEL = rivalry
+			}
+		}
+		house:house_taira_wada = {
+			tgp_set_historical_house_relation_effect = { # Yoshimune killed by Tsunetomo
+				OTHER_HOUSE = dynasty:japanese_nagasa.dynasty_founder.house
+				LEVEL = rivalry
+			}
+		}
+		house:house_taira_chichibu = {
+			tgp_set_historical_house_relation_effect = { # Shigetaka killed by Yoshihira
+				OTHER_HOUSE = house:house_minamoto_kawachi
+				LEVEL = rivalry
+			}
+		}
+		house:house_taira_soga = {
+			tgp_set_historical_house_relation_effect = { # Soga brothers
+				OTHER_HOUSE = house:house_minamoto_kawachi
+				LEVEL = rivalry
+			}
+		}
+		dynasty:japanese_ito.dynasty_founder.house = {
+			tgp_set_historical_house_relation_effect = { # Tadanao killed by Tametomo
+				OTHER_HOUSE = house:house_minamoto_kawachi
+				LEVEL = rivalry
+			}
+		}
+		house:house_kudo_ito_2 = {
+			tgp_set_historical_house_relation_effect = { # Sukeyasu_2 killed by Suketsune_2
+				OTHER_HOUSE = house:house_kudo_kawazu
+				LEVEL = rivalry
+			}
+		}
+		house:house_fujiwara_shijo = {
+			tgp_set_historical_house_relation_effect = { # Takasue's brothers killed by Kiyomori
+				OTHER_HOUSE = dynasty:japanese_taira_kanmu.dynasty_founder.house
+				LEVEL = rivalry
+			}
+		}
+		dynasty:japanese_fujiwara.dynasty_founder.house = {
+			tgp_set_historical_house_relation_effect = { # Yorinaga killed by Shigesada
+				OTHER_HOUSE = house:house_minamoto_mitsumasa
+				LEVEL = rivalry
+			}
+		}
+	}
+}
+	}
+}
+
+"common/script_values/tgp_japan_values.txt" = {
+	# Removing references to specific predefined houses
+	{
+		# History
+		house = {
+			if = {
+				limit = {
+					years_from_game_start < 5
+					trigger_if = {
+						limit = { game_start_date = 867.1.1 }
+						OR = {
+							# Minamoto
+							dynasty:japanese_minamoto_ninmyo.dynasty_founder.house ?= this # Ninmyo Minamoto
+							# Other
+							dynasty:japanese_ariwara.dynasty_founder.house ?= this # Ariwara
+							dynasty:japanese_harusumi.dynasty_founder.house ?= this # Harusumi
+							dynasty:japanese_ki.dynasty_founder.house ?= this # Ki
+							dynasty:japanese_kudara.dynasty_founder.house ?= this # Kudara
+							dynasty:japanese_oe.dynasty_founder.house ?= this # Oe
+							dynasty:japanese_shimada.dynasty_founder.house ?= this # Shimada
+							dynasty:japanese_sugawara.dynasty_founder.house ?= this # Sugawara
+							dynasty:japanese_yamato.dynasty_founder.house ?= this # Yamato
+						}
+					}
+					trigger_else_if = {
+						limit = { game_start_date = 1066.9.15 }
+						OR = {
+							# Fujiwara
+							house:house_fujiwara_kajuji ?= this # Kajuji
+							# Minamoto
+							dynasty:japanese_minamoto_daigo.dynasty_founder.house ?= this # Daigo Minamoto
+							dynasty:japanese_minamoto_murakami.dynasty_founder.house ?= this # Murakami Minamoto
+							dynasty:japanese_minamoto_sanjo.dynasty_founder.house ?= this # Sanjo Minamoto
+							dynasty:japanese_minamoto_uda.dynasty_founder.house ?= this # Uda Minamoto
+							# Other
+							dynasty:japanese_ki.dynasty_founder.house ?= this # Ki
+							dynasty:japanese_oe.dynasty_founder.house ?= this # Oe
+							dynasty:japanese_sugawara.dynasty_founder.house ?= this # Sugawara
+							dynasty:japanese_tachibana.dynasty_founder.house ?= this # Tachibana
+							dynasty:japanese_yamato.dynasty_founder.house ?= this # Yamato
+						}
+					}
+					trigger_else_if = {
+						limit = { game_start_date = 1178.10.1 }
+						OR = {
+							dynasty:japanese_yamato.dynasty_founder.house ?= this # Yamato
+						}
+					}
+					trigger_else = { always = no }
+				}
+				add = house_aspiration_bookmark_ai_score_value
+			}
+		}
 	}
 }

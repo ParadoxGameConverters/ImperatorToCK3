@@ -1,7 +1,63 @@
 ﻿l_english:
+## Trigger Localization
+ # For 'any_powerful_vassal' with 'count = all' condition
+ any_powerful_vassal_all: "All [powerful_vassals|E]:"
+
+ # Custom localization to use when making sure a title has no holder (mainly to be used alongside 'is_title_created')
+ ## Need to use 'save_temporary_scope_as = title_not_created' before the custom_tooltip block to get this to work
+ irtock3_title_not_created: "[title_not_created.GetName] has no [holder|E]"
+
+ # Custom localization to use for 'tgp_is_ceremonial_regent_trigger' so that it can properly display what it means in game
+ irtock3_is_ceremonial_regent_trigger_tt: "[THIS.Char.GetShortUIName|U] [CharAreIs(THIS.Char)] the [ceremonial_regent|E] of [THIS.Char.GetTopLiege.GetPrimaryTitle.GetName]"
+
+ # Custom localization to use for any trigger that requires you to control a certain percentage of a title's de jure counties. Look at how its setup for 'tgp_japan_establish_soryo_administration_decision' in replaceable_file_blocks to get an example of how to use it.
+ # REQUIRES THE FOLLOWING:
+ ## scope:target_title = The title you want to check de jure control for
+ ## scope:required_county_percentage = A scope value (so you need to use 'save_temporary_scope_value_as') that contains the required percentage value AS A DECIMAL (0-1)
+ irtock3_control_de_jure_percentage_trigger: "You must control at least #V [SCOPE.ScriptValue('irtock3_control_de_jure_percentage_required_value')|0V]%#! of the [de_jure|E] [counties|E] under [target_title.GetName] #weak (Current: [SCOPE.ScriptValue('irtock3_control_de_jure_percentage_current_value')|0V]%)#!"
+
+## Rome Decisions
  own_land_outside_ere_region: "You own land outside of [GetGeographicalRegion('custom_ep3_restore_rome_eastern_empire').GetName]"
  custom_ep3_restore_rome_eastern_empire: "Split Roman Empire - Eastern Roman Empire Region"
  thrace_has_no_holder: "[GetTitleByKey('d_thrace').GetName] has no [holder|E]"
  top_liege_of_thrace_holder: "You are the [top_liege|E] of [GetTitleByKey('d_thrace').GetName]"
  owns_constantinople_tt: "You own the [GetTitleByKey('c_byzantion').GetName]"
- irtock3_only_roman_emperor: "Hold both [GetTitleByKey('h_eastern_roman_empire').GetNameNoTier] and [GetTitleByKey('h_western_roman_empire').GetNameNoTier], or hold one with no one holding the other."
+ irtock3_only_roman_emperor: "You are the only ruler holding any of the following titles: [GetTitleByKey('h_eastern_roman_empire').GetNameNoTier], [GetTitleByKey('h_western_roman_empire').GetNameNoTier], [GetTitleByKey('e_western_roman_empire').GetNameNoTier], or [GetTitleByKey('e_byzantium').GetNameNoTier]"
+ not_wre_emperor: "You are not the Western Roman Emperor"
+
+## Korea Decisions
+ irtock3_unify_goryeo_decision_no_other_korean_kingdoms_tt: "You are the only [ruler|E] holding any [kingdom|E] [de_jure|E] belonging to [GetTitleByKey('e_goryeo').GetName]"
+ irtock3_formalize_korean_kingdom_decision: "Form Korean Kingdom"
+ irtock3_formalize_korean_kingdom_decision_desc: "While many states have existed in this region throughout history, it is time we properly establish a [kingdom|E] for our own people!"
+ irtock3_formalize_korean_kingdom_decision_tooltip: "Form Korean Kingdom"
+ irtock3_formalize_korean_kingdom_decision_confirm: "Form Kingdom"
+ irtock3_control_korean_counties: "Control at least 20 [counties|E] in [GetGeographicalRegion('world_asia_korea').GetName]"
+ irtock3_korean_kingdom_not_formed: "This [kingdom|E] has already been formed through this decision"
+ irtock3_new_korean_kingdom: "You form [new_title.GetName], and it is made the [de_jure|E] liege of every held or [completely_controlled|E] [duchy|E]"
+ irtock3_merge_korean_kingdom: "Your [kingdom|E] [titles|E], that aren't [head_of_faith|E] or [ceremonial_liege|E] titles, will have their [de_jure|E] [duchies|E] [de_jure_drift_drifted|E] to be under [new_title.GetName], and those kingdoms will be destroyed"
+ irtock3_korean_kingdom_is_titular: "The [kingdom|E] must be a [titular_title|E]"
+ irtock3_korean_kingdom_baekje_culture: "Your [culture|E] must be, or descend from, [GetCultureByKey('baekje').GetName]"
+ irtock3_korean_kingdom_goguryeo_culture: "Your [culture|E] must be, or descend from, [GetCultureByKey('goguryeo').GetName]"
+ irtock3_korean_kingdom_silla_culture: "Your [culture|E] must be, or descend from, [GetCultureByKey('silla').GetName]"
+ irtock3_form_baekje_kingdom: "[GetTitleByKey('k_baekje').GetNameNoTierNoTooltip]"
+ irtock3_form_baekje_tooltip: "Form [GetTitleByKey('k_baekje').GetNameNoTierNoTooltip]"
+ irtock3_form_goguryeo_kingdom: "[GetTitleByKey('k_goguryeo').GetNameNoTierNoTooltip]"
+ irtock3_form_goguryeo_tooltip: "Form [GetTitleByKey('k_goguryeo').GetNameNoTierNoTooltip]"
+ irtock3_form_silla_kingdom: "[GetTitleByKey('k_silla').GetNameNoTierNoTooltip]"
+ irtock3_form_silla_tooltip: "Form [GetTitleByKey('k_silla').GetNameNoTierNoTooltip]"
+
+## Japan Decisions
+ irtock3_form_japan_decision: "Form Japan"
+ irtock3_form_japan_decision_desc: "Our forefathers were led to this island by their ancestors, the gods themselves. As such, it is clearly [ROOT.Char.GetFaith.HighGodName]'s will that we show the world we are the rightful rulers of this land!"
+ irtock3_form_japan_decision_tooltip: "Form [GetTitleByKey('e_japan').GetName]"
+ irtock3_form_japan_decision_confirm: "Let it be known!"
+ irtock3_control_yamashiro: "[GetTitleByKey('c_yamashiro').GetName] is in your [realm|E]"
+ irtock3_controlling_japan: "Control at least #V 50%#! of [GetGeographicalRegion('world_asia_japan').GetName]"
+ irtock3_japan_primogeniture_liberty_war: "You get [GetLaw('single_heir_succession_law').GetName|V]\n@alert_icon! #alert_trial If a [liberty_faction|E] presses their demands against you, this will change to [GetLaw('japanese_regency_succession_law').GetName|V]#!"
+ irtock3_make_kingdoms_de_jure_japan: "[GetTitleByKey('e_japan').GetName] becomes the [de_jure|E] [liege|E] of all [kingdoms|E] you [hold|E] or [completely_control|E]. Kingdoms you hold will be destroyed."
+ irtock3_create_ritsuryo_ruling_regent_title_effect: "Due to being [ruler|E] of a [GetGovernment('japan_administrative_government').GetName] [empire|E]:"
+ irtock3_tenno_recently_lost_power: "Can't take this decision since the Imperial Family recently lost power to a [liberty_faction|E] #weak ([GetTimeDifferenceWithDays( THIS.Char.GetTopLiege.GetPrimaryTitle.MakeScope.Var('administrative_ui_special_title').Title.MakeScope.VarRemaining( 'tenno_lost_power' ) )] remaining)#!"
+ irtock3_cant_immediately_restore_imperial_rule: "@warning_icon! #warning You will not be able to $tgp_japan_emperor_restoration_decision$ for#! #V 10 years #!"
+ irtock3_vassals_convert_to_ritsuryo: "All your [vassals|E] will convert to [ritsuryo|E]"
+ irtock3_house_head_bloc_cohesion_hard_tt: "You must be the leader of a [bloc|E] that has at least #V 75#! [cohesion|E]"
+ irtock3_move_shogunate_court_decision_tt: "@warning_icon! #warning This decision can't be taken again for [prim_realm_title.GetName] for#! #V 25 years #!\n@alert_icon! #alert_trial When this decision is available again, it will still require controlling the original capital #! #weak ([realm_capital_county.GetName]) #!"

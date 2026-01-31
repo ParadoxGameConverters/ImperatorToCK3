@@ -26,6 +26,9 @@
 # link = { ck3=belgae @germ_religions irProvince=1 }
 # link = { ck3=delgae @germ_religions irProvince=2 }
 
+## Mainland China Imperator Regions
+@china_regions = "irRegion = xu_region irRegion = yang_region irRegion = yi_region irRegion = yong_region irRegion = you_region irRegion = yu_region irRegion = shuofang_region irRegion = qing_region irRegion = nanzhong_region irRegion = liang_region irRegion = jing_region irRegion = jiao_region irRegion = ji_region irRegion = bing_region"
+
 ## Pagan
 # TFE
 link = { ck3 = guanche_pagan ir = berber_religion ck3Province = 8713 ck3Province = 8714 ck3Province = 8715 ck3Province = 8716 ck3Province = 849 }
@@ -169,6 +172,7 @@ link = { # quote from Izn who added the religion to Invictus: "voxite closest to
 # Simple Timeline Extender mod
 link = { ck3 = mandeaism ir = manichaeism irRegion = palestine_region } # TFE
 link = { ck3 = priscillianism ir = manichaeism heresiesInHistoricalAreas=yes irRegion = lusitania_region irRegion = gallaecia_region irRegion = baetica_region irRegion = tarraconensis_region irRegion = contestania_region irRegion = aquitaine_region }
+link = { ck3 = mingism ir = manichaeism @china_regions }
 link = { ck3 = manichean ir = manichaeism }
 
 #Buddhism
@@ -331,7 +335,8 @@ link = { ck3 = musok ir = yi_religions } # AEP
 link = { ck3 = mu ir = yi_religions } # Base Game
 
 ## Baiyue
-link = { ck3 = hmongism ir = baiyue_religions ck3Culture = hmong ck3Culture = sheren ck3Culture = yao } # In Imperator, cultures that map to these cultures follow Baiyue
+link = { ck3 = hmongism ir = baiyue_religions ck3Culture = hmong ck3Culture = sheren ck3Culture = yao } # ROA
+link = { ck3 = dab_qhuas ir = baiyue_religions ck3Culture = hmong ck3Culture = sheren ck3Culture = yao } # Base Game
 link = { ck3 = baiyue_faith ir = baiyue_religions }
 
 ## Mohist

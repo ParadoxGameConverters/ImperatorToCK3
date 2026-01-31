@@ -2,7 +2,7 @@
 #link = { ir = a ck3 = b rank = c ir_name_key = d }
 #a = the I:R tag
 #b = the CK3 landed title
-#c = the rank this country has (can only be "d", "k", "e")
+#c = the rank this country has (can only be "d", "k", "e", "h")
 #d = (optional) the localization key the I:R country uses, for example "eastern_roman_republic_name". Multiple entries are allowed.
 
 # Only countries with a "Kingdom" or "Empire" in name should be
@@ -15,7 +15,15 @@
 # There is no need for all tags to be mapped.
 
 # Greece / Macedonia
-
+link = {
+	ck3 = h_hellenistic_empire
+	ir_name_key = MACEDONIAN_EMPIRE_NAME
+	ir_name_key = ARGEAD_NAME
+}
+link = { ir = ALX ck3 = h_hellenistic_empire rank = h }
+link = { ir = ALX ck3 = h_hellenistic_empire rank = e }
+link = { ir = ALX ck3 = h_hellenistic_empire rank = k }
+link = { ir = ALX ck3 = h_hellenistic_empire rank = d }
 link = { ir = CRT ck3 = k_krete rank = k }
 link = { ir = KNO ck3 = k_krete rank = k }
 link = { ir = EPR ck3 = k_epirus rank = k } # There is a vanilla decision to form this tag by an Epirote culture nation should the EPI tag stop existing, not sure which should be given priority ~~tanner918
@@ -66,8 +74,10 @@ link = {
 	ir_name_key = western_roman_kingdom_name
 	ir_name_key = western_roman_dictatorship_name
 }
+link = { ir = ROM ck3 = h_roman_empire rank = h }
 link = { ir = ROM ck3 = e_roman_empire rank = e }
-link = { ir = ROM ck3 = e_roman_empire rank = k } # Because yes
+link = { ir = ROM ck3 = k_rome rank = k }
+link = { ir = ROM ck3 = d_rome rank = d }
 link = { ir = NEP ck3 = k_naples rank = k }
 link = { ir = SCU ck3 = k_trinacria rank = k }
 link = { ir = VNT ck3 = k_venice rank = k }
@@ -99,9 +109,11 @@ link = { ir = NRC ck3 = k_austria rank = k }
 
 
 #India/Tibet
-link = { ir = BHA ck3 = e_india rank = e }
-link = { ir = BHA ck3 = e_india rank = k } # e_india and BHA represent the same thing (a united India) that you get from conquering all of india and taking the relevant decision. Having MRY map to e_india sometimes causes issues with the CK3 decision to unite India.
-link = { ir = BHA ck3 = e_india rank = d }
+link = { ir_name_key = BHARATVARSHA_NAME ck3 = h_india } # h_india and BHA represent the same thing (a united India) that you get from conquering all of India and taking the relevant decision
+link = { ir = BHA ck3 = h_india rank = h }
+link = { ir = BHA ck3 = h_india rank = e }
+link = { ir = BHA ck3 = h_india rank = k }
+link = { ir = BHA ck3 = h_india rank = d }
 link = { ir = KHT ck3 = k_khotan rank = k }
 link = { ir = ANU ck3 = k_lanka rank = k }
 link = { ir = ANH ck3 = k_andhra rank = k }
@@ -129,7 +141,12 @@ link = { ir = RAM ck3 = k_norway rank = k }
 link = { ir = SWE ck3 = e_scandinavia rank = e }
 link = { ir = GIT ck3 = e_scandinavia rank = e }
 link = { ir = RAM ck3 = e_scandinavia rank = e }
-link = { ir = ANG ck3 = k_england rank = k }
+link = {
+	ck3 = k_england
+	ir_name_key = SAXON_KINGDOM_NAME
+	ir_name_key = ANGLO_SAXON_NAME
+	ir_name_key = JUTO_SAXON_NAME
+}
 
 
 #Extra Germany
@@ -192,9 +209,10 @@ link = { ir = MNY ck3 = e_celestia_china rank = e }
 link = { ir = SNG ck3 = e_celestia_china rank = e } # Including this mapping since SNG in Imperator is Song, and I'm not sure if it is supposed to represent the same Song that controls China in CK3 since Chinese country names are confusing
 
 # Japan
-link = { ir = YMT ck3 = e_nippon rank = e }
+link = { ir = YMT ck3 = e_nippon rank = e } # ROA
+link = { ir = YMT ck3 = e_japan rank = e } # Base Game
 link = { ir = YMT ck3 = k_yamato rank = k }
-link = { ir = AIU ck3 = k_hitakami rank = k }
+#link = { ir = AIU ck3 = k_hitakami rank = k }
 
 # Korea
 link = { ir = GAY ck3 = k_goguryeo rank = k } # In Terra-Indomita, this is the only Goguryeo tag, and its in the correct location, so its the best mapping

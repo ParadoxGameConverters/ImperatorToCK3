@@ -43,6 +43,7 @@
  assyrian_collective_noun: "Assyrians"
  assyrian_prefix: "Assyro"
 
+ # Base game greek culture now being used to represent Romanized-Greeks, so it needs to be renamed
  greek: "Romaios"
  greek_collective_noun: "Romaioi"
  greek_prefix: "Romaio"
@@ -50,7 +51,10 @@
  # recreate_byzantine_empire_decision overrides to allow Romans to take the decision too
  is_greek_tt: "You are $greek$ or $roman$"
  is_greek_descendent_tt: "Your [culture|E] descends from $greek$ or $roman$"
- no_byz_emp_exists_tt: "No [ruler|E] holds [GetTitleByKey('e_byzantium').GetNameNoTier] or [GetTitleByKey('e_roman_empire').GetNameNoTier]"
+ no_byz_emp_exists_tt: "No [ruler|E] holds [GetTitleByKey('h_roman_empire').GetNameNoTier], [GetTitleByKey('h_eastern_roman_empire').GetNameNoTier] or [GetTitleByKey('e_byzantium').GetNameNoTier]"
+
+ # split_roman_empire_decision overrides since the title you get now depends on where you capital is
+ form_eastern_roman_empire_tt: "[GetTitleByKey('h_roman_empire').GetNameNoTier] is split between you and [new_holder.GetName]\n$EFFECT_LIST_BULLET$If your [realm_capital|E] is [GetTitleByKey('c_roma').GetBaseNameNoTier], you get [GetTitleByKey('h_western_roman_empire').GetNameNoTier], while if it is [GetTitleByKey('c_byzantion').GetBaseNameNoTier], you get [GetTitleByKey('h_eastern_roman_empire').GetNameNoTier]\n$EFFECT_LIST_BULLET$[new_holder.GetName] gets the other [title|E]"
 
  # refound_pandidakterion_decision overrides to account for the fact that the Pandidakterion was never actually founded in the game's timeline, so this would be its founding
  refound_pandidakterion_decision: "Found the Pandidakterion"
@@ -59,6 +63,7 @@
 
  # Fixes weird naming for Roman Empire
  e_roman_empire: "Roman Empire"
+ h_roman_empire: "Roman Empire"
 
  # Makes naming of Saxons/Old Saxons a little more immersive
  saxon: "Saxonian"
@@ -66,6 +71,7 @@
  old_saxon: "Saxon"
  old_saxon_collective_noun: "Saxons"
 
+ # Overwriting Restore Papacy localization to represent situation where Papal States never existed yet
  restore_papacy_decision_title_set: "Set the Papacy"
  restore_papacy_decision_title_restore: "Restore the Papacy"
 
@@ -101,6 +107,40 @@
  heritage_albanian_name: "Illyrian"
  heritage_albanian_collective_noun: "Illyrians"
 
+ # Had to modify the Form Hindustan decision to account for situation where the base game empires/kingdoms aren't properly setup
  converter_custom_hindustan_region: "Hindustan Core"
  hindustan_control_3_kingdoms: "Hold at least 3 [kingdoms|E] with 80% of its land in [GetGeographicalRegion('world_india_rajastan').GetName]"
  hindustan_control_rajastan: "Control at least 80% of [GetGeographicalRegion('world_india_rajastan').GetName]"
+
+ # Need to generalize these localizations so they should work for any Ritsuryo/Soryo realm, not just Japan
+ tgp_japan_decision.9901.t: "[house_yamato.GetBaseNameNoTooltip] Ten'nō Restored"
+ tgp_japan_decision.9901.desc: "The Ten'nō stands strong, and [realm_ceremonial_title.GetNameNoTier] returns to it's rightful heir. This rule is not merely of a noble title or status, but reflects the ancient connection of the [house_yamato.GetBaseNameNoTooltip] to these lands."
+ tgp_japan_decision.9902.desc: "The sacred [house_yamato.GetBaseNameNoTooltip] bloodline exudes its presence in the Imperial Palace once more. A child of Amaterasu, [scion.GetName] stands as its heir, just as in the days of old.\n\nWith this return to tradition, the realm may flourish again under the glistening light of [realm_ceremonial_title.GetNameNoTier]."
+ tgp_japan_restore_japanese_monarchy_decision: "Restore a [ROOT.Char.GetTopLiege.GetPrimaryTitle.MakeScope.Var('administrative_ui_special_title').Title.MakeScope.Var('imperial_house').House.GetNameNoTooltip] Ten'nō"
+ tgp_japan_restore_japanese_monarchy_decision_desc: "Amaterasu's unbroken bloodline has ever ruled over these lands. If we are to restore the might of [ROOT.Char.GetTopLiege.GetPrimaryTitle.GetName], a rightful [ROOT.Char.GetTopLiege.GetPrimaryTitle.MakeScope.Var('administrative_ui_special_title').Title.MakeScope.Var('imperial_house').House.GetName] heir must be restored."
+ tgp_japan_restore_japanese_monarchy_decision_tooltip: "Re-establish the realm's imperial family"
+ tgp_japan_restore_japanese_monarchy_decision_title_tt: "[realm_ceremonial_title.GetNameNoTier] is vacant, or part of another [realm|E]"
+ tgp_restore_japanese_monarchy_yamato_scion_found_tt: "A member of [house|E] [house_yamato.GetBaseName] will accede to [realm_ceremonial_title.GetNameNoTier]"
+ tgp_restore_japanese_monarchy_yamato_scion_created_tt: "A scion of [house|E] [house_yamato.GetBaseName] will accede to [realm_ceremonial_title.GetNameNoTier]"
+ tgp_restore_japanese_monarchy_yamato_scion_kampaku_tt: "[kampaku.GetShortUIName|U] will accede to [realm_ceremonial_title.GetNameNoTier]"
+ tgp_restore_japanese_monarchy_yamato_scion_last_tt: "[last_tenno.GetShortUIName] will accede to [realm_ceremonial_title.GetNameNoTier] once more"
+ tgp_restore_japanese_monarchy_yamato_scion_last_child_tt: "A child of [last_tenno.GetShortUIName] will accede to [realm_ceremonial_title.GetNameNoTier]"
+ tgp_restore_japanese_monarchy_yamato_scion_last_close_family_tt: "A close relative of [last_tenno.GetShortUIName] will accede to [realm_ceremonial_title.GetNameNoTier]"
+ tgp_japan_yearly_events.1200.desc: "It's been a long morning of meetings in [kampaku.GetCurrentLocation.GetBaronyNameExplicitly], the work of a [kampaku.GetTitleAsName] is never done! My party sets off for the palace to attend a ceremony in which the [emperor.GetTitleAsName] will be present.\n\nFor many, the hustle and bustle of the capital is a challenge to navigate, but as the [kampaku.GetTitleAsNameNoTooltip] the people part like sardines in the presence of a shark.\n\nSuddenly my party's progress is brought to a halt. My attendants alert me that the upstart [upstart.GetName] has cut ahead of us on the road and will not move [upstart.GetHerHis] horse aside to let us pass. The obstinate swine!"
+ japan_offensive_wars_ban_tt: "[rulers|E] in [ritsuryo|E] or [soryo|E] [empires|E] cannot declare external [wars|E] unless the [imperial_policy|E] is [GetLaw('imperial_expansion_law').GetName]"
+ tgp_japan_reconquest_war_valid_de_jure_tt: "Target must be a [de_jure|E] part of [attacker_empire.GetDefinitiveName]"
+ JAPAN_IMPERIAL_RECONQUEST_CB_NAME: "Imperial Reconquest of [ATTACKER.GetTopLiege.GetPrimaryTitle.GetDefinitiveName] #weak ([de_jure|E])#!"
+ JAPAN_IMPERIAL_RECONQUEST_WAR_NAME: "[ConcatIfNeitherEmpty('$ORDER|q$', ' ')]Imperial Reconquest of [ATTACKER.GetTopLiege.GetPrimaryTitle.GetDefinitiveName]"
+ tgp_japan_no_other_powerful_forces_trigger: "No landed [vassals|E] of [target_title.GetBaseNameNoTier] with greater than #V 50%#! of your total military strength (including their allies) are not your [ally|E], [house|E] member, or [hooked|E] #weak (Current: [SCOPE.ScriptValue('japanese_shogun_opposition_vassals_value')|0V])#!"
+ tgp_japan_decision.9101.desc: "A new age dawns upon [realm_title.GetBaseNameNoTierNoTooltip], as power shifts from pen to sword. Under [ROOT.Char.GetHouse.GetBaseNameNoTooltip] leadership, order will at last be restored, and the last vestiges of the old bureaucracy consigned to history.\n\nBut let none be mistaken — my authority is derived from our divine [ceremonial_liege.GetTitleAsNameNoTooltip]..."
+ japan_government_japan_kingdom_restriction_tt: "[GetGovernment('japan_administrative_government').GetName] and [GetGovernment('japan_feudal_government').GetName] [rulers|E] can only create [kingdoms|E] in Japan if they are [independent|E] or hold a [kingdom|E] [title|E] without holding an [empire|E] [title|E]" # This restriction on creating titles is specifically setup on the kingdom titles themselves that normally are in the region of Japan in the base game. As such, it is harder to apply this restriction in a more generalized way without going through every single kingdom title in the game and adding the restriction there. Once that issue is figured out, this can probably be changed.
+ tgp_japan_become_shogun_decision_tooltip: "Strengthen the Shōgunate's power over [ROOT.Char.GetTopLiege.GetPrimaryTitle.GetBaseNameNoTier]"
+
+ # Overwriting the base game localization to properly display the realm's name
+ tgp_is_ceremonial_liege_tt: "[THIS.Char.GetShortUIName|U] [CharAreIs(THIS.Char)] the [ceremonial_liege|E] of [THIS.Char.GetTopLiege.GetPrimaryTitle.GetName]"
+
+ # For 'is_titular', to make it properly display the scoped title since the game doesn't always properly show the scoped title in the effect
+ IS_TITULAR_TRIGGER: "[TITLE.GetName] is a [titular_title|E]"
+
+ # This gets used for the trigger 'government_allows = administrative', but in the base game only directly refers to the Administrative government. Changed so that it better reflects the actual meaning.
+ administrative_trigger: "[government_bureaucratic_gov|E]"

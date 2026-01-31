@@ -1,0 +1,5 @@
+﻿irtock3_create_ritsuryo_ruling_regent_title_effect = {
+	global = irtock3_create_ritsuryo_ruling_regent_title_effect
+	first = irtock3_create_ritsuryo_ruling_regent_title_effect
+	third = irtock3_create_ritsuryo_ruling_regent_title_effect
+}

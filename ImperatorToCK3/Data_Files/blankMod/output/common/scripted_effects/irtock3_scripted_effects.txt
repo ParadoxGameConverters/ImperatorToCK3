@@ -231,3 +231,1702 @@ irtock3_confederation_setup_effect = {
 		remove_from_list = irtock3_confederation_members
 	}
 }
+
+
+## This handles setting up some governments and the filler rulers created by the converter for uncolonized Imperator land
+# This will likely need to be run near the beginning of game_start.txt, as, so far, it depends on checking existing situations before they possibly get stopped
+irtock3_setup_governments = {
+	# Trying to get everything in a single every_ruler block for performance
+	every_ruler = {
+		# Handling this through if/else_if statements to prevent one block from overwriting the effects of another
+
+		######################
+		### Chinese Rulers ###
+		######################
+		# Need to know exactly what rulers might get involved in the Dynastic Cycle
+		if = {
+			limit = {
+				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
+				exists = situation:dynastic_cycle
+				top_liege = this # Needs to be independent
+				# Need to create a list of rulers relevant to the Dynastic Cycle
+				OR = {
+					# Converted from Terra-Indomita's chinese_empire (represents Chinese Emperor in Terra-Indomita)
+					has_government = celestial_government
+					# Converted from any Imperator Monarchy with Chinese culture
+					AND = {
+						has_government = meritocratic_government
+						culture = { has_cultural_pillar = heritage_chinese }
+					}
+					# Filler rulers setup from an Imperator save converted from Invictus
+					AND = {
+						has_variable = irtock3_uncolonized_filler
+						has_government = feudal_government
+						culture = { has_cultural_pillar = heritage_chinese }
+					}
+				}
+			}
+			add_to_list = dynastic_cycle_rulers
+		}
+		####################
+		### Setup Japan ###
+		####################
+		# Need to know exactly which rulers are Ritsuryo at game start, to determine if anyone, and who, will start the game off as the "Japanese Imperial Dynasty"
+		else_if = { # Independent Rulers
+			limit = {
+				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
+				top_liege = this # Needs to be independent
+				government_is_japanese_trigger = yes
+			}
+
+			# Add Ritsuryo rulers to their own list so their realm can properly be setup
+			if = {
+				limit = {
+					government_has_flag = government_is_japan_administrative
+					highest_held_title_tier = tier_empire # Make sure they are already an empire so they aren't getting a free empire title
+				}
+				add_to_list = ritsuryo_rulers
+			}
+
+			add_to_list = japanese_gov_rulers
+		}
+		else_if = { # Vassal Feudal Rulers under a Japanese-government liege
+			limit = {
+				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
+				top_liege != this # Needs to be a vassal
+				any_liege_or_above = { government_is_japanese_trigger = yes } # Need to be under a Japanese-government liege
+				has_government = feudal_government # Needs to be Feudal
+			}
+
+			# If a Feudal vassal exists under a Japanese-government liege (or above), they should change to be Soryo, since that is the Japanese equivalent government
+			# This is likely only ever going to happen for rulers who are given land because they had holdings in Imperator (the converter gives them that holding in CK3 and makes them a Feudal vassal)
+			# Noble family titles are created later in script
+			change_government = japan_feudal_government
+		}
+		##########################
+		### Setup Wanua Rulers ###
+		##########################
+		# Converter can't use geographical location as conditions for government mappings, and a lot of the region is out-of-scope, so handling Wanua needs to be handled through CK3 script
+		else_if = {
+			limit = {
+				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
+				NOT = { global_var:irtock3_enabled = flag:wtwsms } # Shouldn't even check this block if using a mod that doesn't even include the region
+				OR = { # Monarchies/Republics shouldn't become Wanua
+					has_government = tribal_government
+					has_government = nomad_government # Imperator migratory tribes might convert as this
+					capital_province = { geographical_region = converter_AUH_out_of_scope_indonesia } # Some out-of-scope counties are castles, this should make sure EVERY out-of-scope ruler is properly affected
+				}
+				OR = { # Need to actually be in the relevant region
+					# Either have capital and at least half of realm in region
+					AND = {
+						capital_province = { geographical_region = seasonal_region_maritime_southeast_asia }
+						any_sub_realm_county = {
+							percent >= 0.5
+							title_province = { geographical_region = seasonal_region_maritime_southeast_asia }
+						}
+					}
+					# OR, don't have capital in region, but have 80% of realm in region
+					AND = {
+						NOT = {
+							capital_province = { geographical_region = seasonal_region_maritime_southeast_asia }
+						}
+						any_sub_realm_county = {
+							percent >= 0.8
+							title_province = { geographical_region = seasonal_region_maritime_southeast_asia }
+						}
+					}
+				}
+			}
+			change_government = wanua_government
+		}
+		############################
+		### Setup Mandala Rulers ###
+		############################
+		# Converter can't get perfect mappings for Mandala given its dependence on specific culture/faith conditions, so setting them up here instead
+		else_if = {
+			limit = {
+				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
+				has_government = feudal_government
+				has_mandala_culture_trigger = yes # Need relevant culture
+				has_mandala_faith_trigger = yes # Need relevant faith
+				# Depending on game rules, setting Mandala might be limited to only SEA
+				trigger_if = {
+					limit = { has_game_rule = irtock3_gamerule_mandala_rulers_sea }
+					any_sub_realm_county = {
+						percent >= 0.5
+						title_province = {
+							OR = {
+								geographical_region = world_burma
+								geographical_region = world_asia_southeast
+							}
+						}
+					}
+				}
+			}
+			change_government = mandala_government
+		}
+		###########################
+		### Setup Filler Rulers ###
+		###########################
+		# Game rule deciding how to handle the filler rulers (If you don't have Khans of the Steppe, this basically does nothing, as if you chose irtock3_gamerule_filler_rulers_leave_alone, since you can't have Nomads anyway)
+		else_if = {
+			limit = {
+				has_mpo_dlc_trigger = yes # Need Khans of the Steppe to get anything from this game rule for now
+				has_variable = irtock3_uncolonized_filler # Need to make sure this only affects filler rulers
+			}
+
+			switch = {
+				trigger = has_game_rule
+				irtock3_gamerule_filler_rulers_leave_alone = { } # This game rule changes nothing, will typically result in Tribal filler rulers
+				irtock3_gamerule_filler_rulers_all_nomads = { # This game rule makes all filler rulers Nomadic
+					if = {
+						limit = {
+							NOT = { has_government = nomad_government }
+						}
+						change_government = nomad_government # Make them Nomadic
+					}
+				}
+				irtock3_gamerule_filler_rulers_steppe_nomads_all = { # This game rule makes all filler rulers in the Great Steppe Nomadic
+					if = {
+						limit = {
+							# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
+							any_sub_realm_county = {
+								percent >= 0.5
+								any_county_situation = { this = situation:the_great_steppe }
+							}
+							NOT = { has_government = nomad_government }
+						}
+						change_government = nomad_government # Make them Nomadic
+					}
+					else_if = {
+						limit = {
+							NOT = { has_government = tribal_government }
+						}
+						change_government = tribal_government # Make them Tribal
+					}
+				}
+				irtock3_gamerule_filler_rulers_steppe_nomads_heritage = { # This game rule makes filler rulers in the Great Steppe Nomadic based off their heritage
+					if = {
+						limit = {
+							# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
+							any_sub_realm_county = {
+								percent >= 0.5
+								any_county_situation = { this = situation:the_great_steppe }
+							}
+							NOT = { has_government = nomad_government }
+							culture = { # Make sure they have a relevant heritage
+								OR = {
+									has_cultural_pillar = heritage_mongolic
+									has_cultural_pillar = heritage_turkic
+									has_cultural_pillar = heritage_iranian
+									has_cultural_pillar = heritage_magyar
+									has_cultural_pillar = heritage_ugro_permian
+								}
+							}
+						}
+						change_government = nomad_government # Make them Nomadic
+					}
+					else_if = {
+						limit = {
+							NOT = { has_government = tribal_government }
+						}
+						change_government = tribal_government # Make them Tribal
+					}
+				}
+				irtock3_gamerule_filler_rulers_steppe_nomads_herdhead = { # This game rule makes filler rulers in the Great Steppe Nomadic based off how their cultural head is determined
+					if = {
+						limit = {
+							# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
+							any_sub_realm_county = {
+								percent >= 0.5
+								any_county_situation = { this = situation:the_great_steppe }
+							}
+							NOT = { has_government = nomad_government }
+							culture = { has_cultural_pillar = head_determination_herd } # Make sure their culture head is determined by herd
+						}
+						change_government = nomad_government # Make them Nomadic
+					}
+					else_if = {
+						limit = {
+							NOT = { has_government = tribal_government }
+						}
+						change_government = tribal_government # Make them Tribal
+					}
+				}
+			}
+		}
+		##############################
+		### Setup Imperator Rulers ###
+		##############################
+		## Game rule deciding whether to allow Imperator tags converted to Nomadic to remain Nomadic (If you don't have Khans of the Steppe, this basically does nothing, as if you chose irtock3_gamerule_nomads_leave_everything, since you can't have Nomads anyway)
+		else_if = {
+			limit = {
+				has_mpo_dlc_trigger = yes # Need Khans of the Steppe to get anything from this game rule for now
+				NOT = { has_variable = irtock3_uncolonized_filler } # Need to make sure this only affects rulers converted from Imperator
+			}
+			
+			switch = {
+				trigger = has_game_rule
+				irtock3_gamerule_nomads_leave_everything = { } # This game rule changes nothing
+				irtock3_gamerule_nomads_only_steppe = { # This game rule makes sure only Imperator tags in the steppe remain Nomadic
+					if = {
+						limit = {
+							has_government = nomad_government
+							NOT = { # Need to make sure they aren't involved in the Great Steppe situation
+								# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
+								any_sub_realm_county = {
+									percent >= 0.5
+									any_county_situation = { this = situation:the_great_steppe }
+								}
+							}
+						}
+						change_government = tribal_government # Make them tribal
+					}
+				}
+				irtock3_gamerule_nomads_no_nomads = { # This game rule makes all Imperator tags that were converted to Nomadic become Tribal
+					if = {
+						limit = { has_government = nomad_government }
+						change_government = tribal_government # Make them tribal
+					}
+				}
+				irtock3_gamerule_nomads_leave_outside_force_steppe_tribes = { # This game rule allows all Imperator tags to remain Nomadic, and also makes any tribal tags in the Steppe Nomadic
+					if = {
+						limit = {
+							has_government = tribal_government
+							# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
+							any_sub_realm_county = {
+								percent >= 0.5
+								any_county_situation = { this = situation:the_great_steppe }
+							}
+						}
+						change_government = nomad_government # Make them nomadic
+					}
+				}
+				irtock3_gamerule_nomads_none_outside_force_steppe_tribes = { # This game rule makes all Imperator tags that were converted to Nomadic that are outside the Steppe Tribal, and also makes any tribal tags in the Steppe Nomadic
+					if = {
+						limit = {
+							has_government = tribal_government
+							# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
+							any_sub_realm_county = {
+								percent >= 0.5
+								any_county_situation = { this = situation:the_great_steppe }
+							}
+						}
+						change_government = nomad_government # Make them nomadic
+					}
+					else_if = {
+						limit = {
+							has_government = nomad_government
+							NOT = { # Need to make sure they aren't involved in the Great Steppe situation
+								# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
+								any_sub_realm_county = {
+									percent >= 0.5
+									any_county_situation = { this = situation:the_great_steppe }
+								}
+							}
+						}
+						change_government = tribal_government # Make them tribal
+					}
+				}
+			}
+		}
+
+		###############
+		### Cleanup ###
+		###############
+		# Need to make sure rulers possibly modified by script start with the correct holding types and laws
+		if = { # Nomads should start with just a nomad holding in their counties
+			limit = { has_government = nomad_government }
+
+			every_sub_realm_county = {
+				every_county_province = {
+					if = { # Capital Barony
+						limit = {
+							is_county_capital = yes
+							NOT = { has_holding_type = nomad_holding }
+						}
+						set_holding_type = nomad_holding
+					}
+					else = { # Non-Capital Barony
+						if = {
+							limit = { has_holding = yes }
+							remove_holding = yes
+						}
+					}
+				}
+			}
+		}
+		else_if = { # Herders should start with just a herder holding in their counties
+			limit = { has_government = herder_government }
+
+			every_sub_realm_county = {
+				every_county_province = {
+					if = { # Capital Barony
+						limit = {
+							is_county_capital = yes
+							NOT = { has_holding_type = herder_holding }
+						}
+						set_holding_type = herder_holding
+					}
+					else = { # Non-Capital Barony
+						if = {
+							limit = { has_holding = yes }
+							remove_holding = yes
+						}
+					}
+				}
+			}
+		}
+		else_if = { # Tribes/Wanua need to have Tribal counties
+			limit = {
+				OR = {
+					has_government = tribal_government
+					has_government = wanua_government
+				}
+			}
+
+			every_held_title = {
+				title_tier = county
+				if = {
+					limit = {
+						title_province = {
+							NOT = { has_holding_type = tribal_holding }
+						}
+					}
+					title_province = { set_holding_type = tribal_holding }
+				}
+			}
+		}
+		else_if = { # Mandala rulers need a Temple Citadel and Mandala Succession
+			limit = { has_government = mandala_government }
+
+			every_sub_realm_county = {
+				title_province = {
+					if = {
+						limit = {
+							NOT = { has_holding_type = temple_citadel_holding }
+						}
+						set_holding_type = temple_citadel_holding
+					}
+				}
+			}
+
+			# Make sure they have Mandala Succession
+			if = {
+				limit = {
+					NOT = { has_realm_law = mandala_succession_law }
+				}
+				add_realm_law_skip_effects = mandala_succession_law
+			}
+		}
+		else_if = { # Ritsuryo rulers need to start with Primogeniture if independent, otherwise Ritsuryo Appointment
+			limit = { has_government = japan_administrative_government }
+
+			if = {
+				limit = { top_liege = this }
+
+				if = {
+					limit = {
+						NOT = { has_realm_law = single_heir_succession_law }
+					}
+					add_realm_law_skip_effects = single_heir_succession_law
+				}
+
+				# Give Noble Family titles to relevant courtiers
+				every_courtier = {
+					if = {
+						limit = {
+							exists = house
+							house.house_head = this
+							NOT = {
+								house = {
+									any_house_member = {
+										any_held_title = { is_noble_family_title = yes }
+									}
+								}
+							}
+						}
+						create_noble_family_effect = { GOVERNMENT_GIVER = prev }
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						NOT = { has_realm_law = japanese_appointment_succession_law }
+					}
+					add_realm_law_skip_effects = japanese_appointment_succession_law
+				}
+			}
+		}
+		else_if = { # Celestial rulers need to start with Primogeniture if independent, otherwise Celestial Appointment
+			limit = { has_government = celestial_government }
+
+			if = {
+				limit = { top_liege = this }
+
+				if = {
+					limit = {
+						NOT = { has_realm_law = single_heir_succession_law }
+					}
+					add_realm_law_skip_effects = single_heir_succession_law
+				}
+
+				# Give Noble Family titles to relevant courtiers
+				every_courtier = {
+					if = {
+						limit = {
+							exists = house
+							house.house_head = this
+							NOT = {
+								house = {
+									any_house_member = {
+										any_held_title = { is_noble_family_title = yes }
+									}
+								}
+							}
+						}
+						create_noble_family_effect = { GOVERNMENT_GIVER = prev }
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						NOT = { has_realm_law = celestial_appointment_succession_law }
+					}
+					add_realm_law_skip_effects = celestial_appointment_succession_law
+				}
+			}
+		}
+		else_if = { # Meritocratic rulers need to start with Primogeniture if independent, otherwise Meritocratic Appointment
+			limit = { has_government = meritocratic_government }
+
+			if = {
+				limit = { top_liege = this }
+
+				if = {
+					limit = {
+						NOT = { has_realm_law = single_heir_succession_law }
+					}
+					add_realm_law_skip_effects = single_heir_succession_law
+				}
+
+				# Give Noble Family titles to relevant courtiers
+				every_courtier = {
+					if = {
+						limit = {
+							exists = house
+							house.house_head = this
+							NOT = {
+								house = {
+									any_house_member = {
+										any_held_title = { is_noble_family_title = yes }
+									}
+								}
+							}
+						}
+						create_noble_family_effect = { GOVERNMENT_GIVER = prev }
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						NOT = { has_realm_law = meritocratic_appointment_succession_law }
+					}
+					add_realm_law_skip_effects = meritocratic_appointment_succession_law
+				}
+			}
+		}
+
+		# Some duchy vassals created from Imperator governorships might be titular, so they don't work properly when inside Admin realms. This is meant to fix that by replacing the titular duchy with a relevant duchy with de jure counties beneath it, so it will work properly.
+		if = {
+			limit = { # This effect should only be done on duke-level governors whose duchy title has no de jure counties beneath it. The land they control must also have a de jure duchy that exists but isn't created.
+				government_allows = administrative
+				primary_title = {
+					tier = tier_duchy
+					is_noble_family_title = no
+					is_titular = yes
+				}
+				sub_realm_size >= 1
+				any_sub_realm_county = {
+					exists = duchy
+					NOT = { exists = duchy.holder }
+				}
+			}
+
+			save_scope_as = titular_governor
+
+			primary_title = { save_scope_as = titular_governorship_duchy }
+
+			# Save every duchy the character owns at least one county of in a list to determine which should be given
+			every_sub_realm_county = {
+				limit = {
+					exists = duchy
+					NOT = { exists = duchy.holder } # Obviously they shouldn't steal a duchy from someone else
+				}
+				save_scope_as = test_county
+
+				if = {
+					limit = {
+						scope:titular_governor = {
+							NOT = {
+								is_target_in_variable_list = {
+									name = de_jure_duchies_list
+									target = scope:test_county.duchy
+								}
+							}
+						}
+					}
+
+					scope:titular_governor = {
+						add_to_variable_list = {
+							name = de_jure_duchies_list
+							target = scope:test_county.duchy
+						}
+					}
+				}
+
+				clear_saved_scope = test_county
+			}
+
+			# Go through all of the duchies in the list, sort them the percentage of the counties they hold, and choose the first one in that ordered list (meaning they hold the greatest percentage of that duchy compared to the rest). This should help make it give priority to duchies they completely control, but allows it to easily determine the best option if they don't completely control any duchy
+			ordered_in_list = {
+				variable = de_jure_duchies_list
+				order_by = { # Need to determine percentage of the duchy that they hold
+					value = 0
+
+					every_de_jure_county = { # This gets the number of counties that the character controls
+						limit = {
+							exists = holder
+							OR = {
+								holder = scope:titular_governor
+								holder.liege ?= scope:titular_governor
+							}
+						}
+						add = 1
+					}
+
+					multiply = 100 # Don't know how well the game handles decimals, since I think some stuff gets rounded automatically. This is just to prevent any possible problems with decimals before they appear
+
+					divide = { # This will get the total number of counties in that duchy, and then divide that into the value obtained above to get the percentage of the duchy that the character controls
+						value = 0
+						every_de_jure_county = { add = 1 }
+					}
+				}
+				position = 1 # Makes sure that the duchy with highest percentage owned is being saved
+				save_scope_as = new_duchy_title
+			}
+
+			# Give the chosen duchy to the character, make it their primary, then destroy the old titular title
+			create_title_and_vassal_change = {
+				type = created
+				save_scope_as = title_change
+				add_claim_on_loss = no
+			}
+			scope:new_duchy_title = {
+				change_title_holder = {
+					holder = scope:titular_governor
+					change = scope:title_change
+				}
+			}
+			resolve_title_and_vassal_change = scope:title_change
+
+			set_primary_title_to = scope:new_duchy_title
+
+			scope:new_duchy_title = { copy_title_history = scope:titular_governorship_duchy }
+
+			destroy_title = scope:titular_governorship_duchy
+
+			# Variable/Scope Clean Up
+			clear_variable_list = de_jure_duchies_list
+			clear_saved_scope = new_duchy_title
+			clear_saved_scope = titular_governorship_duchy
+			clear_saved_scope = title_change
+			clear_saved_scope = titular_governor
+		}
+
+		## Need to make sure relevant rulers have Noble Family titles
+		if = {
+			limit = {
+				save_temporary_scope_as = ruler_temp
+				government_allows = noble_families
+				NOT = {
+					any_held_title = { is_noble_family_title = yes }
+				}
+				exists = house
+				OR = {
+					house.house_head = this
+					NOT = { house.house_head.top_liege = top_liege }
+				}
+				OR = {
+					highest_held_title_tier >= main_administrative_tier
+					AND = {
+						government_has_flag = government_has_county_tier_noble_families
+						highest_held_title_tier >= tier_county
+					}
+				}
+			}
+			create_noble_family_effect = { GOVERNMENT_GIVER = this }
+		}
+	}
+
+	######################
+	### Dynastic Cycle ###
+	######################
+	# Shouldn't run if using a mod that doesn't include East Asia
+	if = {
+		limit = {
+			NOT = { global_var:irtock3_enabled = flag:wtwsms }
+		}
+
+		# Until a better setup is determined, make every empire where at least half of the de jure counties beneath it are Chinese be de jure under h_china, and then make sure that land is added to the Dynastic Cycle situation
+		every_empire = {
+			limit = {
+				is_titular = no
+				NOT = { exists = hegemony } # If, somehow, an empire converts over already belonging to a hegemony (likely Rome, India, Helenistic Empire, etc), don't want to steal it, since it will likely already have a ruler
+				any_de_jure_county = {
+					percent >= 0.5
+					culture = { has_cultural_pillar = heritage_chinese }
+				}
+			}
+			set_de_jure_liege_title = title:h_china
+		}
+		if = {
+			limit = { exists = situation:dynastic_cycle }
+			situation:dynastic_cycle.situation_sub_region:core = { add_dejure_title_to_sub_region = title:h_china }
+		}
+
+		# Check if one person in list has Celestial Government
+		if = {
+			limit = {
+				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
+				any_in_list = {
+					list = dynastic_cycle_rulers
+					count = 1
+					has_government = celestial_government
+				}
+			}
+
+			# Save ruler that has Celestial Government
+			random_in_list = {
+				list = dynastic_cycle_rulers
+				limit = { has_government = celestial_government }
+				save_scope_as = chinese_emperor
+			}
+
+			# If the Emperor is an AI ruler, save their current primary title so that it can be referenced later when choosing the Dynastic Name for China (Human Emperors can choose whatever name they want, so they can set it to be the same as what it was in Imperator, if they want)
+			if = {
+				limit = {
+					scope:chinese_emperor = { is_ai = yes }
+				}
+				scope:chinese_emperor = {
+					primary_title = { save_scope_as = old_primary_title }
+					set_variable = {
+						name = irtock3_china_primary_name
+						value = scope:old_primary_title
+					}
+				}
+			}
+
+			# Grant the Hegemon title
+			create_title_and_vassal_change = {
+				type = created
+				save_scope_as = mandate_change
+				add_claim_on_loss = no
+			}
+			title:h_china = {
+				change_title_holder = {
+					holder = scope:chinese_emperor
+					change = scope:mandate_change
+				}
+			}
+			resolve_title_and_vassal_change = scope:mandate_change
+			scope:chinese_emperor = { set_primary_title_to = title:h_china }
+
+			# Make sure all of h_china is properly involved in the Dynastic Cycle
+			if = {
+				limit = { exists = situation:dynastic_cycle }
+				situation:dynastic_cycle.situation_sub_region:core = { add_dejure_title_to_sub_region = title:h_china }
+			}
+
+			# If the ruler converted over from Imperator with a Hegemony title, it should be destroyed and its de jure empires given to h_china
+			if = {
+				limit = {
+					scope:chinese_emperor = {
+						any_held_title = {
+							title_tier = hegemony
+							this != title:h_china
+						}
+					}
+				}
+				
+				scope:chinese_emperor = {
+					every_held_title = {
+						title_tier = hegemony
+						limit = { title:h_china != this }
+						save_scope_as = old_hegemony
+						every_in_de_jure_hierarchy = {
+							limit = { tier = tier_empire }
+							set_de_jure_liege_title = title:h_china
+						}
+						scope:chinese_emperor = { destroy_title = scope:old_hegemony }
+					}
+
+					# The base game doesn't seem to trigger the event to choose your Dynasty Name and Color if you get h_china while already holding a hegemony title, so need to manually trigger that here
+					trigger_event = {
+						id = tgp_dynastic_cycle.9000
+						days = 1 # so the player gets to choose first
+					}
+				}
+			}
+
+			## Determine what Era to start the Dynastic Cycle in
+			# If they don't have Chinese Heritage, and haven't had the chinese_empire government for long from Imperator end date, start in Conquest Era
+			if = {
+				limit = {
+					scope:chinese_emperor = {
+						culture = {
+							NOT = { has_cultural_pillar = heritage_chinese }
+						}
+						has_variable = years_with_government
+						var:years_with_government < 100 # Going with this for now, might need to change later
+					}
+				}
+
+				situation:dynastic_cycle = {
+					situation_top_sub_region = {
+						change_phase = { phase = situation_dynastic_cycle_phase_instability_conquest }
+					}
+				}
+
+				# Trigger event for players to introduce the situation
+				every_player = {
+					limit = { tgp_does_this_player_care_about_the_dynastic_cycle = yes }
+					trigger_event = tgp_dynastic_cycle.0051
+				}
+			}
+			# Regardless of Heritage, if they had relatively high unrest in Imperator, start in Instability Era
+			else_if = {
+				limit = {
+					scope:chinese_emperor = {
+						has_variable = imperator_unrest
+						var:imperator_unrest > 30 # Imperator uses 25% as the base line for ticking towards civil war and that almost always just goes down. Figured I'd at least give a little leeway
+					}
+				}
+
+				situation:dynastic_cycle = {
+					situation_top_sub_region = {
+						change_phase = { phase = situation_dynastic_cycle_phase_instability }
+					}
+				}
+
+				# Trigger event for players to introduce the situation
+				every_player = {
+					limit = { tgp_does_this_player_care_about_the_dynastic_cycle = yes }
+					trigger_event = tgp_dynastic_cycle.0051
+				}
+			}
+			# If they don't meet either of the above circumstances, then let them start in a Stable Era
+			else = {
+				scope:chinese_emperor = {
+					trigger_event = welcome.0071
+				}
+			}
+		}
+		# This means there are either multiple rulers with Celestial Government ("competing Emperors"), OR no rulers with Celestial. Both start in Division Era.
+		else_if = {
+			limit = {
+				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
+				any_in_list = {
+					list = dynastic_cycle_rulers
+					count >= 1
+				}
+			}
+
+			# If there are multiple Celestial rulers, make them rivals
+			if = {
+				limit = {
+					any_in_list = {
+						list = dynastic_cycle_rulers
+						count > 1
+						has_government = celestial_government
+					}
+				}
+
+				every_in_list = {
+					list = dynastic_cycle_rulers
+					limit = { has_government = celestial_government }
+
+					save_scope_as = first
+
+					every_in_list = {
+						list = dynastic_cycle_rulers
+						limit = {
+							has_government = celestial_government
+							NOT = { has_relation_rival = scope:first }
+						}
+
+						set_relation_rival = {
+							target = scope:first
+							reason = rival_claiming_mandate_of_heaven
+						}
+					}
+
+					clear_saved_scope = first
+				}
+			}
+
+			# The base game has Chinese states continue using Celestial during the Division Era, so convert the other relevant rulers to Celestial
+			every_in_list = {
+				list = dynastic_cycle_rulers
+				limit = {
+					NOT = { has_government = celestial_government }
+				}
+				save_scope_as = liege
+
+				# First, make sure to convert all same government vassals
+				every_vassal_or_below = {
+					limit = {
+						highest_held_title_tier >= tier_county
+						has_same_government = scope:liege
+					}
+
+					# Checks if they have a domicile/noble family title that matches Celestial
+					tgp_domicile_conversion_when_changing_government_type = {
+						NEW_DOMICILE_TYPE = east_asian_estate
+						NEW_GOVERNMENT_TYPE = celestial_government
+					}
+					change_government = celestial_government
+
+					# Sets up a noble family title, if they don't have one
+					if = {
+						limit = {
+							exists = house
+							NOT = { house = scope:liege.house } # If they are the same house as the top liege, the top liege should get the title
+							house.house_head = this
+							NOT = {
+								house = {
+									any_house_member = {
+										any_held_title = { is_noble_family_title = yes }
+									}
+								}
+							}
+							OR = {
+								highest_held_title_tier >= main_administrative_tier
+								AND = {
+									government_has_flag = government_has_county_tier_noble_families
+									highest_held_title_tier >= tier_county
+								}
+							}
+						}
+						create_noble_family_effect = { GOVERNMENT_GIVER = this }
+					}
+
+					if = {
+						limit = {
+							NOT = { has_realm_law = celestial_appointment_succession_law }
+						}
+						add_realm_law_skip_effects = celestial_appointment_succession_law
+					}
+				}
+
+				# Checks if they have a domicile/noble family title that matches Celestial
+				tgp_domicile_conversion_when_changing_government_type = {
+					NEW_DOMICILE_TYPE = east_asian_estate
+					NEW_GOVERNMENT_TYPE = celestial_government
+				}
+				change_government = celestial_government
+
+				# Sets up a noble family title, if they don't have one
+				if = {
+					limit = {
+						primary_title.tier >= min_appointment_tier
+						NOT = {
+							any_held_title = { is_noble_family_title = yes }
+						}
+					}
+
+					if = {
+						limit = {
+							NOT = { house.house_head = this }
+						}
+						house = { set_house_head = scope:liege }
+					}
+
+					create_noble_family_effect = { GOVERNMENT_GIVER = this }
+				}
+
+				if = {
+					limit = {
+						NOT = { has_realm_law = single_heir_succession_law }
+					}
+					add_realm_law_skip_effects = single_heir_succession_law
+				}
+
+				# Give Noble Family titles to relevant courtiers
+				every_courtier = {
+					if = {
+						limit = {
+							exists = house
+							house.house_head = this
+							NOT = {
+								house = {
+									any_house_member = {
+										any_held_title = { is_noble_family_title = yes }
+									}
+								}
+							}
+						}
+						create_noble_family_effect = { GOVERNMENT_GIVER = this }
+					}
+				}
+			}
+
+			# Cycle already starts in Division Era, but give the event that indicates the Era
+			every_player = {
+				limit = { tgp_does_this_player_care_about_the_dynastic_cycle = yes }
+				trigger_event = tgp_dynastic_cycle.0051
+			}
+		}
+	}
+
+	#######################
+	### Ritsuryo Rulers ###
+	#######################
+	# This is just to make sure that Ritsuryo rulers properly have their realms setup with things like Ceremonial Liege titles, laws, etc
+	if = {
+		limit = {
+			any_in_list = { list = ritsuryo_rulers }
+		}
+
+		# Depending on game rule, choose someone to start with Japan, if no one already does
+		if = {
+			limit = {
+				NOT = { has_game_rule = irtock3_gamerule_ritsuryo_rulers_none }
+				NOT = { exists = title:e_japan.holder }
+			}
+
+			# Choose the best ruler from the list to get Japan
+			ordered_in_list = {
+				list = ritsuryo_rulers
+				order_by = {
+					value = 1
+					every_realm_county = { # Prioritize by number of counties in Japan
+						limit = {
+							title_province = { geographical_region = world_asia_japan }
+						}
+						add = 10
+					}
+				}
+				limit = {
+					capital_county.title_province = { geographical_region = world_asia_japan }
+					# If the "Japonic Heritage" only game rule was chosen, the ruler NEEDS to have that heritage
+					trigger_if = {
+						limit = { has_game_rule = irtock3_gamerule_ritsuryo_rulers_japan }
+						culture = { has_cultural_pillar = heritage_japonic }
+					}
+				}
+				max = 1
+				save_scope_as = japanese_imperial_dynasty_ruler
+			}
+
+			# Set them up with Japan and the Chrysanthemum Throne
+			if = {
+				limit = { exists = scope:japanese_imperial_dynasty_ruler }
+
+				scope:japanese_imperial_dynasty_ruler = {
+					remove_from_list = ritsuryo_rulers
+
+					# Set a flag so that irtock3_ritsuryo_events.1 doesn't get triggered while the realm is being set up
+					add_character_flag = dont_trigger_irtock3_ritsuryo_events_1
+
+					# If they somehow don't have a dynasty, create one for them
+					if = {
+						limit = {
+							NOT = { exists = dynasty }
+						}
+						create_dynasty = {
+							spread_to_descendants = yes
+						}
+					}
+
+					# If they don't have Japan/Chrysanthemum Throne, give it to them and de jure drift their land under Japan
+					create_title_and_vassal_change = {
+						type = created
+						save_scope_as = change
+						add_claim_on_loss = yes
+					}
+					if = {
+						limit = {
+							NOT = { has_title = title:e_japan }
+						}
+
+						primary_title = { save_scope_as = old_prim_title }
+						
+						title:e_japan = {
+							change_title_holder = {
+								holder = scope:japanese_imperial_dynasty_ruler
+								change = scope:change
+							}
+							copy_title_history = scope:old_prim_title
+						}
+						
+						# De Jure drift kingdoms to be under e_japan, so it should hopefully start with some land, if it doesn't already
+						every_realm_de_jure_kingdom = {
+							limit = {
+								# If someone holds the kingdom, they should already be a vassal under the chosen ruler
+								trigger_if = {
+									limit = { exists = holder }
+									holder.top_liege = scope:japanese_imperial_dynasty_ruler
+								}
+								# The ruler must control at least 70% of the counties under the kingdom
+								any_de_jure_county = {
+									percent >= 0.70
+									holder.top_liege = scope:japanese_imperial_dynasty_ruler
+								}
+							}
+							set_de_jure_liege_title = title:e_japan
+						}
+
+						# De jure drift all held kingdom titles to be under e_japan, then destroy them
+						every_held_title = {
+							title_tier = kingdom
+							if = {
+								limit = {
+									NOT = { this = title:k_chrysanthemum_throne }
+								}
+								set_de_jure_liege_title = title:e_japan
+								scope:japanese_imperial_dynasty_ruler = { destroy_title = prev }
+							}
+						}
+					}
+					title:k_chrysanthemum_throne = {
+						change_title_holder = {
+							holder = scope:japanese_imperial_dynasty_ruler
+							change = scope:change
+						}
+					}
+					resolve_title_and_vassal_change = scope:change
+
+					# Destroy old primary title
+					if = {
+						limit = { exists = scope:old_prim_title }
+						destroy_title = scope:old_prim_title
+					}
+
+					# Setup new ruler of Japan
+					title:k_chrysanthemum_throne = {
+						set_definitive_form = yes
+						set_de_jure_liege_title = title:e_japan
+						# LINK TITLES
+						set_variable = {
+							name = ceremonial_title
+							value = title:e_japan
+						}
+
+						# Set this variable to indicate what dynasty should actually be on this throne
+						set_variable = {
+							name = imperial_dynasty
+							value = scope:japanese_imperial_dynasty_ruler.dynasty
+						}
+
+						# Set this variable to indicate what the main house should actually be for this throne
+						set_variable = {
+							name = imperial_house
+							value = scope:japanese_imperial_dynasty_ruler.house
+						}
+
+						# Set a variable on the character's House to indicate that house is associated with this ceremonial liege title
+						scope:japanese_imperial_dynasty_ruler.house = {
+							set_variable = {
+								name = house_ceremonial_liege_title
+								value = title:k_chrysanthemum_throne
+							}
+						}
+					}
+					title:e_japan = {
+						# LINK TITLES
+						set_variable = {
+							name = administrative_ui_special_title
+							value = title:k_chrysanthemum_throne
+						}
+
+						# Set this variable to indicate that the Tenno is in control of Japan (will get removed later if Liberty Faction presses their demands)
+						set_variable = {
+							name = tenno_restored
+							value = yes
+						}
+					}
+					scope:japanese_imperial_dynasty_ruler = {
+						set_primary_title_to = title:e_japan
+
+						if = {
+							limit = {
+								NOT = { has_realm_law = single_heir_succession_law }
+							}
+							add_realm_law_skip_effects = single_heir_succession_law
+						}
+					}
+
+					remove_character_flag = dont_trigger_irtock3_ritsuryo_events_1
+				}
+
+				clear_saved_scope = japanese_imperial_dynasty_ruler
+				clear_saved_scope = old_prim_title
+			}
+		}
+
+		# If there are any rulers left in the list, make sure their realm is properly set up
+		if = {
+			limit = {
+				any_in_list = { list = ritsuryo_rulers }
+			}
+
+			every_in_list = {
+				list = ritsuryo_rulers
+
+				# Get necessary scopes
+				save_scope_as = founder
+
+				# Set a flag so that irtock3_ritsuryo_events.1 doesn't get triggered while the realm is being set up
+				add_character_flag = dont_trigger_irtock3_ritsuryo_events_1
+
+				# If they somehow don't have a dynasty, create one for them
+				if = {
+					limit = {
+						NOT = { exists = dynasty }
+					}
+					create_dynasty = {
+						spread_to_descendants = yes
+					}
+				}
+
+				# Give them a Ceremonial Liege title
+				create_title_and_vassal_change = {
+					type = created
+					save_scope_as = change
+					add_claim_on_loss = yes
+				}
+				create_dynamic_title = {
+					tier = kingdom
+					name = MERITOCRATIC_CEREMONIAL_LIEGE_TITLE
+				}
+				scope:new_title = {
+					set_capital_county = scope:founder.capital_county
+					set_landless_title = yes
+					set_figurehead_title = yes
+					change_title_holder = {
+						holder = scope:founder
+						change = scope:change
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+
+				# Setup Realm/Liege titles
+				scope:new_title = {
+					set_coa = scope:founder.house
+					set_de_jure_liege_title = scope:founder.primary_title
+					set_definitive_form = yes
+					# LINK TITLES
+					set_variable = {
+						name = ceremonial_title
+						value = scope:founder.primary_title
+					}
+
+					# Set this variable to indicate what dynasty should actually be on this throne
+					set_variable = {
+						name = imperial_dynasty
+						value = scope:founder.dynasty
+					}
+
+					# Set this variable to indicate what the main house should actually be for this throne
+					set_variable = {
+						name = imperial_house
+						value = scope:founder.house
+					}
+
+					# Set a variable on the character's House to indicate that house is associated with this ceremonial liege title
+					scope:founder.house = {
+						set_variable = {
+							name = house_ceremonial_liege_title
+							value = scope:new_title
+						}
+					}
+				}
+				scope:founder.primary_title = {
+					# LINK TITLES
+					set_variable = {
+						name = administrative_ui_special_title
+						value = scope:new_title
+					}
+
+					# Set this variable to indicate that the emperor is in direct control of the realm (will get removed later if Liberty Faction presses their demands)
+					set_variable = {
+						name = tenno_restored
+						value = yes
+					}
+				}
+
+				if = {
+					limit = {
+						NOT = { has_realm_law = single_heir_succession_law }
+					}
+					add_realm_law_skip_effects = single_heir_succession_law
+				}
+
+				# Clear scopes to prevent problems
+				clear_saved_scope = founder
+				clear_saved_scope = new_title
+				remove_character_flag = dont_trigger_irtock3_ritsuryo_events_1
+			}
+		}
+	}
+
+	#######################
+	### Japanese Rulers ###
+	#######################
+	# The base game has a part of game_start.txt that makes sure Japan is setup with things like House heads actually having the Noble Family titles, and everyone's domicile being in the right location. Added this here so that it can actually apply to every Ritsuryo/Soryo realm, not just e_japan. Need this to run after the Ritsuryo setup above to make sure everything else for the realms is properly done.
+	if = {
+		limit = {
+			any_in_list = { list = japanese_gov_rulers }
+		}
+
+		every_in_list = {
+			list = japanese_gov_rulers
+
+			save_scope_as = top_liege_ruler
+
+			noble_family_title_realm_setup_effect = yes
+			every_vassal_or_below = { # Move Soryo domiciles to their own realm
+				limit = { government_has_flag = government_is_japan_feudal }
+				domicile ?= { move_domicile = owner.capital_province }
+			}
+			every_vassal_or_below = { # Move Ritsuryo domiciles to the capital
+				limit = { government_has_flag = government_is_japan_administrative }
+				domicile ?= { move_domicile = scope:top_liege_ruler.capital_province }
+			}
+		}
+	}
+
+	
+	## Finally, recalculate the culture heads
+	recalculate_cultural_heads_of_type = herd
+	recalculate_cultural_heads_of_type = domain
+}
+
+
+## This handles the effects of split_roman_empire_decision. Because of the amount of changes being made, it is easier to rewrite the effect block as a scripted_effect
+irtock3_split_roman_empire_effect = {
+	## Determine whether the character that took the decision will get the ERE or WRE
+	if = {
+		limit = {
+			OR = {
+				capital_county = title:c_byzantion # Their capital is Byzantion
+				capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire } # OR, at least in the ERE region (fallback in case they somehow were able to take this decision without having the proper capital)
+			}
+		}
+		# They get ERE
+		save_scope_as = new_ERE_ruler
+	}
+	else = {
+		# Otherwise, they get WRE
+		save_scope_as = new_WRE_ruler
+	}
+
+	## Determine which character should be given the other half of the Empire
+	if = {
+		limit = {
+			has_active_diarchy = yes
+			has_diarchy_type = co_emperorship
+		}
+		diarch = { save_scope_as = new_holder }
+	}
+	else_if = { # IRToCK3: The base game has this as an if statement, which will cause any "new_holder" assignment made in the above block to get overwritten. This should fix that issue.
+		# This checks if there is a valid powerful family house head
+		limit = {
+			any_powerful_family = {
+				count >= 1
+				this != root.house
+				exists = house_head
+			}
+		}
+
+		ordered_powerful_family = {
+			limit = { # The main limit tries to choose a valid house head that is landed in the relevant region
+				this != root.house
+				house_head ?= {
+					is_landed = yes
+					trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+						limit = { exists = scope:new_WRE_ruler }
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+					trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+						NOT = { 
+							capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+						}
+					}
+				}
+			}
+			alternative_limit = { # If the above limit finds no one, this alternative limit checks if there is a valid unlanded house head, to prevent border gore
+				this != root.house
+				house_head ?= { is_landed = no }
+			}
+			order_by = house_power_score
+			house_head = { save_scope_as = new_holder }
+		}
+	}
+	else_if = {
+		# IRToCK3: This just makes sure there is a valid powerful vassal in the relevant region, to prevent someone nowhere near the area from becoming the Emperor, prioritizing those with the same government
+		limit = {
+			any_powerful_vassal = {
+				count >= 1
+				is_landed = yes
+				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+					limit = { exists = scope:new_WRE_ruler }
+					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+					NOT = { 
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+			}
+		}
+
+		ordered_powerful_vassal = {
+			limit = {
+				is_landed = yes
+				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+					limit = { exists = scope:new_WRE_ruler }
+					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+					NOT = { 
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+				has_same_government = root
+			}
+			alternative_limit = {
+				is_landed = yes
+				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+					limit = { exists = scope:new_WRE_ruler }
+					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+					NOT = { 
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+			}
+			order_by = max_military_strength
+			save_scope_as = new_holder
+		}
+	}
+	else_if = {
+		# IRToCK3: Added this check on the off chance none of the powerful vassals are in the region, so it checks if ANY vassal is in the region, prioritizing those with the same government
+		limit = {
+			any_vassal = {
+				count >= 1
+				is_landed = yes
+				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+					limit = { exists = scope:new_WRE_ruler }
+					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+					NOT = { 
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+			}
+		}
+
+		ordered_vassal = {
+			limit = {
+				is_landed = yes
+				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+					limit = { exists = scope:new_WRE_ruler }
+					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+					NOT = { 
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+				has_same_government = root
+			}
+			alternative_limit = {
+				is_landed = yes
+				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+					limit = { exists = scope:new_WRE_ruler }
+					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+					NOT = { 
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+			}
+			order_by = max_military_strength
+			save_scope_as = new_holder
+		}
+	}
+	else = {
+		# IRToCK3: Finally, if all else fails, give it to a courtier, favoring those with higher skill
+		random_courtier = {
+			weight = {
+				base = sum_of_all_skills_value
+				modifier = {
+					exists = house
+					add = 5
+				}
+				modifier = {
+					faith = root.faith
+					add = 10
+				}
+				modifier = {
+					culture = root.culture
+					add = 5
+				}
+			}
+			save_scope_as = new_holder
+		}
+	}
+
+	## Remaining effects to split and hand out the Empire
+	# At this point, the character that took the decision will be saved in either the new_ERE_ruler or new_WRE_ruler scope, depending on which half of the Empire they are getting, and the other ruler is saved in the new_holder scope
+	custom_tooltip = {
+		text = form_eastern_roman_empire_tt
+		create_eastern_roman_empire_scripted_effect = yes
+	}
+
+	# Add truce with new Emperor
+	add_truce_both_ways = {
+		character = scope:new_holder
+		years = 10
+		name = TRUCE_COLLABORATION
+	}
+
+	# Some additional bonuses
+	change_influence = {
+		value = monumental_influence_gain
+		multiply = 2
+	}
+
+	if = {
+		limit = {
+			any_owned_story = { 
+				type = ep3_story_cycle_restoring_rome 
+				has_variable = roman_empire_hard_mode
+			}
+		}
+		custom_tooltip = {
+			text = ending_of_restore_rome_trials_tt
+			random_owned_story = {
+				limit = { story_type = ep3_story_cycle_restoring_rome }
+				remove_variable = roman_empire_hard_mode
+			}
+		}
+	}
+}
+
+
+# Create a Ceremonial Monarch title and apply the Ritsuryo Regency succession law to the Realm (Copy of the base game's 'tgp_create_meritocratic_ruling_regent_title_effect' effect, but for ritsuryo realms. Made separate since Ritsuryo realms will be affected differently than Meritocratic realms after Liberty Faction)
+irtock3_create_ritsuryo_ruling_regent_title_effect = {
+	save_scope_as = founder
+	# A Ritsuryo Empire with no active Ceremonial Liege should get one
+	if = {
+		limit = {
+			has_tgp_dlc_trigger = yes
+			# Strictly Independent Empires
+			is_independent_ruler = yes
+			highest_held_title_tier = tier_empire
+			# Validity
+			has_realm_law = single_heir_succession_law
+			NOT = { exists = primary_title.var:administrative_ui_special_title }
+			# Strictly Ritsuryo
+			government_has_flag = government_is_japan_administrative
+		}
+		custom_description_no_bullet = { text = irtock3_create_ritsuryo_ruling_regent_title_effect }
+		custom_tooltip = {
+			text = tgp_create_meritocratic_ruling_regent_title_effect_title_tt
+
+			# Set a flag so that irtock3_ritsuryo_events.1 doesn't get triggered while the realm is being set up
+			add_character_flag = dont_trigger_irtock3_ritsuryo_events_1
+
+			# CREATE CEREMONIAL TITLE (TITULAR)
+			if = { # If your primary title is Japan and Chrysanthemum Throne is unheld, use that
+				limit = {
+					primary_title = title:e_japan
+					NOT = { exists = title:k_chrysanthemum_throne.holder }
+				}
+				title:k_chrysanthemum_throne = { save_scope_as = new_title }
+			}
+			else = { # Otherwise, create a new Ceremonial Liege title
+				create_dynamic_title = {
+					tier = kingdom
+					name = MERITOCRATIC_CEREMONIAL_LIEGE_TITLE
+				}
+				scope:new_title = {
+					set_coa = scope:founder.house
+					set_capital_county = scope:founder.capital_county
+					set_landless_title = yes
+					set_figurehead_title = yes
+				}
+			}
+			scope:new_title = {
+				save_scope_as = monarch_title
+				set_de_jure_liege_title = scope:founder.primary_title
+				set_definitive_form = yes
+				# LINK TITLES
+				set_variable = {
+					name = ceremonial_title
+					value = scope:founder.primary_title
+				}
+
+				# Set this variable to indicate what dynasty should actually be on this throne
+				set_variable = {
+					name = imperial_dynasty
+					value = scope:founder.dynasty
+				}
+
+				# Set this variable to indicate what the main house should actually be for this throne
+				set_variable = {
+					name = imperial_house
+					value = scope:founder.house
+				}
+
+				# Set a variable on the character's House to indicate that house is associated with this ceremonial liege title
+				scope:founder.house = {
+					set_variable = {
+						name = house_ceremonial_liege_title
+						value = scope:new_title
+					}
+				}
+			}
+			# GRANT CEREMONIAL TITLE
+			create_title_and_vassal_change = {
+				type = created
+				save_scope_as = change
+				add_claim_on_loss = yes
+			}
+			scope:monarch_title = {
+				change_title_holder = {
+					holder = scope:founder
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+			# SETUP MONARCH SUCCESSION
+			scope:monarch_title = { add_title_law = single_heir_succession_law } # Monarchy inherited separately
+			# LINK TITLES
+			primary_title = {
+				save_scope_as = regent_title
+				set_variable = {
+					name = administrative_ui_special_title
+					value = scope:monarch_title
+				}
+
+				# Remove this variable to indicate that the Emperor/Tenno is no longer in direct control of the realm
+				if = {
+					limit = { has_variable = tenno_restored }
+					remove_variable = tenno_restored
+				}
+			}
+
+			remove_character_flag = dont_trigger_irtock3_ritsuryo_events_1
+		}
+		custom_tooltip = tgp_create_meritocratic_ruling_regent_title_effect_faction_tt
+		# SETUP REGENCY SUCCESION
+		add_realm_law_skip_effects = japanese_regency_succession_law # Regency inherited separately
+		hidden_effect = {
+			every_player = {
+				limit = { top_liege = scope:founder.top_liege }
+				send_interface_message = {
+					title = tgp_create_meritocratic_ruling_regent_title_message_title
+					left_icon = scope:founder
+					right_icon = scope:monarch_title
+					show_as_tooltip = {
+						scope:founder = {
+							add_realm_law_skip_effects = japanese_regency_succession_law
+							get_title = scope:monarch_title
+							scope:monarch_title = { add_title_law = single_heir_succession_law }
+						}
+					}
+				}
+			}
+		}
+
+		# Set a variable indicating that the tenno 'lost some of their direct power' (basically just used to prevent a tenno from losing to a Liberty Faction and then immediately trying to 'Restore Direct Imperial Control')
+		custom_tooltip = {
+			text = irtock3_cant_immediately_restore_imperial_rule
+			scope:monarch_title = {
+				set_variable = {
+					name = tenno_lost_power
+					value = scope:founder
+					days = 3650
+				}
+			}
+		}
+	}
+	# A Ritsuryo Empire that already has a Ceremonial Liege title and they are also the de facto liege should simply have their realm law changed
+	else_if = {
+		limit = {
+			has_tgp_dlc_trigger = yes
+			# Strictly Independent Empires
+			is_independent_ruler = yes
+			highest_held_title_tier = tier_empire
+			# Validity
+			has_realm_law = single_heir_succession_law
+			tgp_realm_has_ceremonial_liege_trigger = yes
+			tgp_has_ceremonial_liege_title_trigger = yes
+			# Strictly Ritsuryo
+			government_has_flag = government_is_japan_administrative
+		}
+		custom_description_no_bullet = { text = irtock3_create_ritsuryo_ruling_regent_title_effect }
+		top_liege.primary_title.var:administrative_ui_special_title = {
+			add_title_law = single_heir_succession_law # Monarchy inherited separately
+			save_scope_as = monarch_title
+		} 
+		add_realm_law_skip_effects = japanese_regency_succession_law # Regency inherited separately
+
+		hidden_effect = {
+			every_player = {
+				limit = { top_liege = scope:founder.top_liege }
+				send_interface_message = {
+					title = tgp_create_meritocratic_ruling_regent_title_message_title
+					left_icon = scope:founder
+					right_icon = scope:monarch_title
+					show_as_tooltip = {
+						scope:founder = {
+							add_realm_law_skip_effects = japanese_regency_succession_law
+							scope:monarch_title = { add_title_law = single_heir_succession_law }
+						}
+					}
+				}
+			}
+		}
+
+		# Remove the 'tenno_restored' variable, if its set, indicating the Imperial Family may no longer be in control again
+		primary_title = {
+			if = {
+				limit = { has_variable = tenno_restored }
+				remove_variable = tenno_restored
+			}
+		}
+
+		# Set a variable indicating that the tenno 'lost some of their direct power' (basically just used to prevent a tenno from losing to a Liberty Faction and then immediately trying to 'Restore Direct Imperial Control')
+		custom_tooltip = {
+			text = irtock3_cant_immediately_restore_imperial_rule
+			scope:monarch_title = {
+				set_variable = {
+					name = tenno_lost_power
+					value = scope:founder
+					days = 3650
+				}
+			}
+		}
+	}
+}
