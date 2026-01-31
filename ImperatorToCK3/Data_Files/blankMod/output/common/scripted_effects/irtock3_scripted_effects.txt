@@ -1345,6 +1345,9 @@ irtock3_setup_governments = {
 								value = title:k_chrysanthemum_throne
 							}
 						}
+
+						# Set a variable on the character's Dynasty to indicate that they are considered "divine", so can't take the decision to declare their bloodline holy (just like the Yamato Dynasty in the base game)
+						scope:japanese_imperial_dynasty_ruler.dynasty = { set_variable = divine_ritsuryo_dynasty }
 					}
 					title:e_japan = {
 						# LINK TITLES
@@ -1454,6 +1457,9 @@ irtock3_setup_governments = {
 							value = scope:new_title
 						}
 					}
+
+					# Set a variable on the character's Dynasty to indicate that they are considered "divine", so can't take the decision to declare their bloodline holy (just like the Yamato Dynasty in the base game)
+					scope:founder.dynasty = { set_variable = divine_ritsuryo_dynasty }
 				}
 				scope:founder.primary_title = {
 					# LINK TITLES
@@ -1805,6 +1811,9 @@ irtock3_create_ritsuryo_ruling_regent_title_effect = {
 						value = scope:new_title
 					}
 				}
+
+				# Set a variable on the character's Dynasty to indicate that they are considered "divine", so can't take the decision to declare their bloodline holy (just like the Yamato Dynasty in the base game)
+				scope:founder.dynasty = { set_variable = divine_ritsuryo_dynasty }
 			}
 			# GRANT CEREMONIAL TITLE
 			create_title_and_vassal_change = {

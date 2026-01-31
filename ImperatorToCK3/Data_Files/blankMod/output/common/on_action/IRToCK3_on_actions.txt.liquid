@@ -613,6 +613,9 @@ IRToCK3_ritsuryo_empire_setup = {
 					}
 				}
 
+				# Set a variable on the character's Dynasty to indicate that they are considered "divine", so can't take the decision to declare their bloodline holy (just like the Yamato Dynasty in the base game)
+				scope:founder.dynasty = { set_variable = divine_ritsuryo_dynasty }
+
 				# GRANT CEREMONIAL TITLE
 				change_title_holder = {
 					holder = scope:founder
