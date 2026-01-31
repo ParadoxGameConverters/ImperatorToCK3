@@ -1519,6 +1519,19 @@
 	# convert_to_administrative_decision
 	#########
 
+	# effect block
+	replace = {
+		before = {
+			convert_to_administrative_from_feudalism_effect = { GOVERNMENT_TO_ADOPT = flag:japan_administrative }
+		}
+
+		after = {
+			add_character_flag = tgp_japan_restore_japanese_government_flag # IRToCK3: Need to add this so you actually can convert to Ritsuryo through this decision
+			convert_to_administrative_from_feudalism_effect = { GOVERNMENT_TO_ADOPT = flag:japan_administrative }
+			remove_character_flag = tgp_japan_restore_japanese_government_flag
+		}
+	}
+
 	# ai_will_do block
 	replace = {
 		before = {
