@@ -1839,7 +1839,7 @@ irtock3_create_ritsuryo_ruling_regent_title_effect = {
 			remove_character_flag = dont_trigger_irtock3_ritsuryo_events_1
 		}
 		custom_tooltip = tgp_create_meritocratic_ruling_regent_title_effect_faction_tt
-		# SETUP REGENCY SUCCESION
+		# SETUP REGENCY SUCCESSION
 		add_realm_law_skip_effects = japanese_regency_succession_law # Regency inherited separately
 		hidden_effect = {
 			every_player = {
