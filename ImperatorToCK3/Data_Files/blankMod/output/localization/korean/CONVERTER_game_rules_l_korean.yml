@@ -48,5 +48,5 @@
  setting_irtock3_gamerule_mandala_rulers_sea_desc: "동남아시아의 [feudal|E] [rulers|E]만이 [mandala|E]가 될 수 있는데, 이는 그들이 [mandala_conditions|E]을 충족하는 경우에 한합니다."
 
  game_concept_mandala_conditions: "만다라 조건"
- game_concept_mandala_conditions_desc: "[mandala|E]가 되기 위해서는 [ruler|E]가 $doctrine_polytheist_name$ [doctrine|E]을 가진 [organized|E] [faith|E]을 따라야 하며, 그들의 [culture|E]는 다음 [heritage|E] 중 하나를 가져야 합니다: $heritage_austronesian_name$, $heritage_tai_name$, $heritage_mon_khmer_name$, $heritage_viet_name$, $heritage_indo_aryan_name$, 또는 $heritage_burman_name$."
+ game_concept_mandala_conditions_desc: "[mandala|E]가 되기 위해서는 [ruler|E]가 $doctrine_polytheist_name$ [doctrine|E]을 가진 [organized|E] [faith|E]을 따라야 하며, 그들의 [culture|E]는 다음 [heritage|E] 중 하나를 가져야 합니다: \n$EFFECT_LIST_BULLET$$heritage_austronesian_name$ \n$EFFECT_LIST_BULLET$$heritage_tai_name$ \n$EFFECT_LIST_BULLET$$heritage_mon_khmer_name$ \n$EFFECT_LIST_BULLET$$heritage_viet_name$ \n$EFFECT_LIST_BULLET$$heritage_indo_aryan_name$ \n$EFFECT_LIST_BULLET$$heritage_burman_name$ \n$EFFECT_LIST_BULLET$$heritage_dravidian_name$ \n$EFFECT_LIST_BULLET$$heritage_qiangic_name$"
 
