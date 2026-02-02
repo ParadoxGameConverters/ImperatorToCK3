@@ -24,6 +24,20 @@
  owns_constantinople_tt: "You own the [GetTitleByKey('c_byzantion').GetName]"
  irtock3_only_roman_emperor: "You are the only ruler holding any of the following titles: [GetTitleByKey('h_eastern_roman_empire').GetNameNoTier], [GetTitleByKey('h_western_roman_empire').GetNameNoTier], [GetTitleByKey('e_western_roman_empire').GetNameNoTier], or [GetTitleByKey('e_byzantium').GetNameNoTier]"
  not_wre_emperor: "You are not the Western Roman Emperor"
+ # These are localizations to use for the decisions to form a new Kingdom/Empire, so that they can be used instead to elevate d_rome->k_rome & k_rome->e_roman_empire
+ irtock3_found_kingdom_decision_rome_title: "Declare Rome a Kingdom"
+ irtock3_found_kingdom_decision_rome_desc: "Our [realm|E] has grown so much from our humble origins in [GetTitleByKey('c_roma').GetNameNoTier]. It is time the world recognizes our glory!"
+ irtock3_elevate_roman_duchy_de_jure_changes: "Becomes [de_jure|E] [duchies|E] of [GetTitleByKey('k_rome').GetName]"
+ irtock3_change_roman_duchy_counties_tt: "All [de_jure|E] [counties|E] of [GetTitleByKey('d_rome').GetName] will be distributed either back to their original [duchy|E] or a nearby one"
+ irtock3_rome_duchy_elevated_to_kingdom_tt: "[GetTitleByKey('d_rome').GetName] is destroyed and replaced by [GetTitleByKey('k_rome').GetName]"
+ irtock3_found_empire_decision_rome_title: "Declare Rome an Empire"
+ irtock3_elevate_roman_kingdom_de_jure_changes: "Becomes [de_jure|E] [kingdoms|E] of [GetTitleByKey('e_roman_empire').GetName]"
+ irtock3_change_roman_kingdom_duchies_tt: "All [de_jure|E] [duchies|E] of [GetTitleByKey('k_rome').GetName] will be put under a new [kingdom|E] [title|E]"
+ irtock3_rome_kingdom_elevated_to_empire_tt: "[GetTitleByKey('k_rome').GetName] is destroyed and replaced by [GetTitleByKey('e_roman_empire').GetName]"
+
+
+
+
 
 ## Korea Decisions
  irtock3_unify_goryeo_decision_no_other_korean_kingdoms_tt: "You are the only [ruler|E] holding any [kingdom|E] [de_jure|E] belonging to [GetTitleByKey('e_goryeo').GetName]"

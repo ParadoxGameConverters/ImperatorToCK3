@@ -3983,7 +3983,7 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 			if = {
 				limit = {
 					exists = scope:old_duchy
-					title:d_rome ?= scope:duchy_title_scope
+					scope:duchy_title_scope = title:d_rome
 				}
 				set_variable = {
 					name = old_duchy_title
@@ -4040,6 +4040,248 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 
 		after = {
 				has_variable = divine_ritsuryo_dynasty # Already divine # IRToCK3: Modified to work better with other ritsuryo/soryo realms
+		}
+	}
+
+	#########################
+	## found_kingdom_decision
+	#########################
+	# Changing this decision so that it can be used to elevate d_rome to k_rome
+
+	# Change title/description/tooltip to account for d_rome to k_rome change
+	replace = {
+		before = {
+	desc = found_kingdom_decision_desc
+		}
+
+		after = {
+	# IRToCK3: Made it so that the title/description/tooltip change if the decision is being used to elevate d_rome to k_rome
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_title = title:d_rome }
+				desc = irtock3_found_kingdom_decision_rome_title
+			}
+			desc = found_kingdom_decision
+		}
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_title = title:d_rome }
+				desc = irtock3_found_kingdom_decision_rome_desc
+			}
+			desc = found_kingdom_decision_desc
+		}
+	}
+
+	selection_tooltip = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_title = title:d_rome }
+				desc = irtock3_found_kingdom_decision_rome_title
+			}
+			desc = found_kingdom_decision_tooltip
+		}
+	}
+		}
+	}
+
+	# is_shown block
+	replace = {
+		before = {
+		highest_held_title_tier = tier_duchy
+		NOT = {
+			has_game_rule = off_custom_kingdoms
+		}
+		}
+
+		after = {
+		highest_held_title_tier = tier_duchy
+		# IRToCK3: Modified so that this decision can still be used to elevate d_rome to k_rome even if the game rules for custom kingdoms is off
+		trigger_if = {
+			limit = { has_title = title:d_rome }
+			NOT = {
+				is_target_in_global_variable_list = {
+					name = unavailable_unique_decisions
+					target = flag:irtock3_roman_duchy_elevated
+				}
+			}
+		}
+		trigger_else = {
+			NOT = { has_game_rule = off_custom_kingdoms }
+		}
+		}
+	}
+
+	# is_valid block
+	replace = {
+		before = {
+		OR = {
+			custom_description = {
+				text = found_kingdom_decision_three_duchies_held
+				any_held_title = {
+					count > 2
+					title_tier = duchy
+				}
+			}
+			sub_realm_size >= 30
+		}
+		}
+
+		after = {
+		OR = {
+			custom_description = {
+				text = found_kingdom_decision_three_duchies_held
+				any_held_title = {
+					count > 2
+					title_tier = duchy
+				}
+			}
+			sub_realm_size >= 30
+		}
+		# IRToCK3: Modified so that if this decision is going to be used to elevate d_rome to k_rome, you need your capital to be c_roma
+		trigger_if = {
+			limit = { has_title = title:d_rome }
+			capital_county = title:c_roma
+		}
+		}
+	}
+
+	# effect block
+	replace = {
+		before = {
+		create_custom_kingdom_effect = yes
+		}
+
+		after = {
+		# IRToCK3: Modified so that if you have d_rome, only the effects relevant to elevating it to k_rome happen
+		if = {
+			limit = { has_title = title:d_rome }
+			irtock3_elevate_roman_duchy_effects = yes
+		}
+		else = {
+			create_custom_kingdom_effect = yes
+		}
+		}
+	}
+
+	#########################
+	## found_empire_decision
+	#########################
+	# Changing this decision so that it can be used to elevate k_rome to e_roman_empire
+
+	# Change title/description/tooltip to account for k_rome to e_roman_empire change
+	replace = {
+		before = {
+	desc = found_empire_decision_desc
+		}
+
+		after = {
+	# IRToCK3: Made it so that the title/description/tooltip change if the decision is being used to elevate k_rome to e_roman_empire
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_title = title:k_rome }
+				desc = irtock3_found_empire_decision_rome_title
+			}
+			desc = found_empire_decision
+		}
+	}
+
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_title = title:k_rome }
+				desc = irtock3_found_kingdom_decision_rome_desc
+			}
+			desc = found_empire_decision_desc
+		}
+	}
+
+	selection_tooltip = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_title = title:k_rome }
+				desc = irtock3_found_empire_decision_rome_title
+			}
+			desc = found_empire_decision_tooltip
+		}
+	}
+		}
+	}
+
+	# is_shown block
+	replace = {
+		before = {
+		OR = {
+			top_liege = this
+			any_held_title = {
+				count >= 3
+				title_tier = kingdom
+			}
+		}
+		NOT = {
+			has_game_rule = off_custom_kingdoms
+		}
+		}
+
+		after = {
+		OR = {
+			top_liege = this
+			any_held_title = {
+				count >= 3
+				title_tier = kingdom
+			}
+		}
+		# IRToCK3: Modified so that this decision can still be used to elevate k_rome to e_roman_empire even if the game rules for custom kingdoms/empires is off
+		trigger_if = {
+			limit = { has_title = title:k_rome }
+			NOT = {
+				is_target_in_global_variable_list = {
+					name = unavailable_unique_decisions
+					target = flag:irtock3_roman_kingdom_elevated
+				}
+			}
+		}
+		trigger_else = {
+			NOT = { has_game_rule = off_custom_kingdoms }
+		}
+		}
+	}
+
+	# is_valid block
+	replace = {
+		before = {
+		rule_title_creation_imperial_power_projection_title_creation_trigger = yes
+		}
+
+		after = {
+		rule_title_creation_imperial_power_projection_title_creation_trigger = yes
+
+		# IRToCK3: Modified so that if this decision is going to be used to elevate k_rome to e_roman_empire, you need your capital to be c_roma
+		trigger_if = {
+			limit = { has_title = title:k_rome }
+			capital_county = title:c_roma
+		}
+		}
+	}
+
+	# effect block
+	replace = {
+		before = {
+			create_custom_empire_effect = yes
+		}
+
+		after = {
+			if = {
+				limit = { has_title = title:k_rome }
+				irtock3_elevate_roman_kingdom_effects = yes
+			}
+			else = {
+				create_custom_empire_effect = yes
+			}
 		}
 	}
 }
