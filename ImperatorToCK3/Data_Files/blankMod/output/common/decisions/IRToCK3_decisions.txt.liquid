@@ -827,3 +827,162 @@ irtock3_form_japan_decision = {
 	}
 }
 {% endif %}
+
+## Elevate e_roman_empire -> h_roman_empire
+irtock3_elevate_roman_empire_decision = {
+	picture = { reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds" }
+	decision_group_type = roman
+
+	# Should probably come up with a better name/tooltip
+	desc = irtock3_found_kingdom_decision_rome_desc # Should make a custom desc that better fits this
+	confirm_text = found_empire_decision_confirm
+	selection_tooltip = irtock3_elevate_roman_empire_decision
+
+	ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 48
+		hegemony = 0
+	}
+
+	is_shown = {
+		highest_held_title_tier = tier_empire
+		has_title = title:e_roman_empire
+		NOT = {
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:irtock3_elevate_roman_empire_decision
+			}
+		}
+		is_landed_or_landless_administrative = yes
+		is_confederation_member = no
+	}
+
+	is_valid = {
+		# Needs high prestige (less for AI so they can actually do this)
+		trigger_if = {
+			limit = { is_ai = no }
+			prestige_level >= 5
+		}
+		trigger_else = {
+			prestige_level >= 4
+		}
+
+		# Needs to be independent
+		is_independent_ruler = yes
+		
+		# Need Roma as capital
+		capital_county = title:c_roma
+
+		# Need certain realm size
+		sub_realm_size >= 500 # For reference, the base game empires of Francia, Italia, Hispania, and Byzantium cover about 435 counties
+
+		# Need to control specific key regions around the Mediterranean
+		completely_controls_region = irtock3_key_roman_locations
+
+		# Leftovers from base game's "Form New Empire" decision, not sure if/how they should be changed
+		trigger_if = {
+			limit = {
+				government_has_flag = government_is_nomadic
+			}
+			OR = {
+				has_realm_law = nomadic_authority_5
+				has_realm_law = nomadic_authority_4
+			}
+		}
+		trigger_if = {
+			limit = {
+				exists = struggle:iberian_struggle
+				# only display the condition for people from relevant faiths and cultures
+				struggle:iberian_struggle = {
+					OR = {
+						is_culture_involved_in_struggle = root.culture
+						is_faith_involved_in_struggle = root.faith
+					}
+				}
+				# and living nearby
+				any_realm_county = {
+ 					title_province = {
+ 						OR = {
+ 							geographical_region = ghw_region_north_africa
+ 							geographical_region = world_europe_west
+ 							geographical_region = world_europe_south
+					 	}
+ 					}
+ 				}
+			}
+			custom_description = {
+				text = found_empire_decision_not_part_of_iberian_struggle
+				NOT = {
+					any_character_struggle = {
+						is_struggle_type = iberian_struggle
+					}
+				}
+			}
+		}
+	}
+
+	is_valid_showing_failures_only = {
+		is_available_adult = yes
+		is_at_war = no
+	}
+
+	# Right now, the cost is the same as forming a new empire title. Might need to change
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = 2000
+		piety = {
+			value = 600
+			if = {
+				limit = {
+					government_has_flag = government_is_nomadic
+				}
+				multiply = 0
+			}
+		}
+	}
+
+	effect = {
+		if = {
+			limit = {
+				NOT = { government_has_flag = government_is_nomadic }
+			}
+			irtock3_elevate_roman_empire_effects = yes
+			gain_heroic_legend_seed_tooltip_effect = yes
+			hidden_effect = { legend_seed_new_title_effect = yes }
+		}
+		else = {
+			irtock3_elevate_roman_empire_effects = yes
+		}
+	}
+
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}

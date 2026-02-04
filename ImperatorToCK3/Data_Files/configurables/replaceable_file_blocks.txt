@@ -1273,6 +1273,18 @@
 		completely_controls = title:d_latium
 		completely_controls = title:d_venice
 		completely_controls = title:d_romagna
+		completely_controls = title:d_sicily
+		completely_controls = title:d_genoa
+		completely_controls = title:d_capua
+		completely_controls = title:d_apulia
+		completely_controls = title:d_thrace
+		completely_controls = title:d_antioch
+		completely_controls = title:d_palestine
+		completely_controls = title:d_alexandria
+		completely_controls = title:d_athens
+		completely_controls = title:d_tunis
+		completely_controls = title:d_croatia
+		completely_controls = title:d_thessalonika
 		} # end of before
 
 		after = {
@@ -1282,15 +1294,26 @@
 		# IRToCK3: TO DO - Once the effects/decisions are in place to allow e_byzantium and e_western_roman_empire to be formed naturally after the other half of the Empire falls, rework this to account for those changes
 		custom_tooltip = {
 			text = irtock3_only_roman_emperor
-			title:h_western_roman_empire.holder ?= this
-			title:h_eastern_roman_empire.holder ?= this
-			title:e_byzantium.holder ?= this
-			title:e_western_roman_empire.holder ?= this
+			trigger_if = {
+				limit = { exists = title:h_western_roman_empire.holder }
+				title:h_western_roman_empire.holder = this
+			}
+			trigger_if = {
+				limit = { exists = title:h_eastern_roman_empire.holder }
+				title:h_eastern_roman_empire.holder = this
+			}
+			trigger_if = {
+				limit = { exists = title:e_byzantium.holder }
+				title:e_byzantium.holder = this
+			}
+			trigger_if = {
+				limit = { exists = title:e_western_roman_empire.holder }
+				title:e_western_roman_empire.holder = this
+			}
 		}
 
-		completely_controls = title:d_latium
-		completely_controls = title:d_venice
-		completely_controls = title:d_romagna
+		# IRToCK3: Changed this from referencing specific duchies to being based off a region just in case those specific de jure duchies change in game
+		completely_controls_region = irtock3_restore_roman_locations
 		} # end of after
 	}
 

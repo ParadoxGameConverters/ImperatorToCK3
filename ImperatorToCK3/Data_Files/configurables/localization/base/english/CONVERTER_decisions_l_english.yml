@@ -34,8 +34,13 @@
  irtock3_elevate_roman_kingdom_de_jure_changes: "Becomes [de_jure|E] [kingdoms|E] of [GetTitleByKey('e_roman_empire').GetName]"
  irtock3_change_roman_kingdom_duchies_tt: "All [de_jure|E] [duchies|E] of [GetTitleByKey('k_rome').GetName] will be put under a new [kingdom|E] [title|E]"
  irtock3_rome_kingdom_elevated_to_empire_tt: "[GetTitleByKey('k_rome').GetName] is destroyed and replaced by [GetTitleByKey('e_roman_empire').GetName]"
-
-
+ irtock3_elevate_roman_empire_decision: "Declare Rome a Hegemony"
+ irtock3_key_roman_locations: "Key Roman Provinces"
+ irtock3_restore_roman_locations: "Restore Rome Provinces"
+ create_title_every_held_empire: "Every Empire title you [hold|E] or [completely_control|E]"
+ irtock3_elevate_roman_empire_de_jure_changes: "Becomes [de_jure|E] [empires|E] of [GetTitleByKey('h_roman_empire').GetName]"
+ irtock3_change_roman_empire_kingdoms_tt: "All [de_jure|E] [kingdoms|E] of [GetTitleByKey('e_roman_empire').GetName] will be put under a new [empire|E] [title|E]"
+ irtock3_rome_empire_elevated_to_hegemony_tt: "[GetTitleByKey('e_roman_empire').GetName] is destroyed and replaced by [GetTitleByKey('h_roman_empire').GetName]"
 
 
 

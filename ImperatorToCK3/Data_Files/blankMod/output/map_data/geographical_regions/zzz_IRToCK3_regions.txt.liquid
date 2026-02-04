@@ -148,3 +148,30 @@ converter_custom_hindustan_region = {
 	}
 }
 
+# This region is to store what locations are needed for the decision to Restore the Roman Empire (hegemony title), since the exact de jure titles needed may get changed in game
+irtock3_restore_roman_locations = {
+	duchies = {
+		# Italy
+		d_latium d_venice d_romagna d_sicily d_genoa d_capua d_apulia
+
+		# Balkans
+		d_thrace d_athens d_thessalonika d_croatia
+
+		# Levant/Egypt
+		d_antioch d_palestine d_alexandria
+
+		# Africa
+		d_tunis
+	}
+}
+
+# This region is to store what locations are needed for the decision to elevate Rome to a hegemony, since the exact de jure titles needed may get changed in game
+irtock3_key_roman_locations = {
+	counties = {
+		# Strait of Gibraltar
+		c_algeciras c_cadiz c_ceuta c_tangiers
+	}
+	regions = {
+		irtock3_restore_roman_locations
+	}
+}
