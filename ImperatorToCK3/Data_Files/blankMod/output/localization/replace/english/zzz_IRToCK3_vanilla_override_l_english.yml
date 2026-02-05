@@ -144,3 +144,6 @@
 
  # This gets used for the trigger 'government_allows = administrative', but in the base game only directly refers to the Administrative government. Changed so that it better reflects the actual meaning.
  administrative_trigger: "[government_bureaucratic_gov|E]"
+
+ # The decision to Found the Varangian Guard references just e_byzantium, despite being available to any empire/hegemony title
+ unlocked_varangian_guard_desc: "Unlocks the [court_position|E] $akolouthos_court_position$ and the [GetMaA('varangian_guards').GetName] [men_at_arms|E] for [varangian_title.GetName]."

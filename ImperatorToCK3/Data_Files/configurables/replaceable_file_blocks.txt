@@ -956,6 +956,8 @@
 	#########
 	# found_varangian_guard_decision
 	#########
+
+	# is_valid block
 	replace = {
 		before = {
 		OR = {
@@ -981,6 +983,20 @@
 			any_ally = {
 				culture = { has_cultural_pillar = heritage_north_germanic }
 			}
+		}
+		}
+	}
+
+	# effect block
+	replace = {
+		before = {
+		primary_title = { set_variable = founded_varangian_guard }
+		}
+
+		after = {
+		primary_title = {
+			set_variable = founded_varangian_guard
+			save_scope_as = varangian_title # IRToCK3: Used for updated localization
 		}
 		}
 	}
