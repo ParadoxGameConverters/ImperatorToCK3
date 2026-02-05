@@ -122,4 +122,26 @@ public class TraitMapperTests {
 		var ck3Traits = mapper.GetCK3TraitsForImperatorTraits(new[] { "impTrait" });
 		ck3Traits.Should().Contain("undefined");
 	}
+
+	[Fact]
+	public void UnmappedImperatorTraitsAreLoggedUnlessExplicitlyDropped() {
+		const string tempTestFile = "TestFiles/configurables/temp_trait_map_unmapped_logging.txt";
+		File.WriteAllText(tempTestFile,
+			"link = { ck3 = ck3Trait ir = mapped_trait }" +
+			"link = { ir = dropped_trait }"
+		);
+		var ck3ModFS = new ModFilesystem("TestFiles/CK3/game", new List<Mod>());
+		var mapper = new TraitMapper(tempTestFile, ck3ModFS);
+
+		var irModFS = new ModFilesystem("TestFiles/Imperator/game", new List<Mod>());
+		var output = new StringWriter();
+		Console.SetOut(output);
+
+		mapper.LogUnmappedImperatorTraits(irModFS);
+
+		var outputString = output.ToString();
+		Assert.DoesNotContain("No mapping for Imperator trait mapped_trait found in trait mappings!", outputString);
+		Assert.DoesNotContain("No mapping for Imperator trait dropped_trait found in trait mappings!", outputString);
+		Assert.Contains("No mapping for Imperator trait unmapped_trait found in trait mappings!", outputString);
+	}
 }

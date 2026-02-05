@@ -1,6 +1,8 @@
 # Usage:
 # link = { ck3 = ck3Trait ir = irTrait }
 # Multiples of ir are allowed.
+# You can explicitly drop a trait by omitting the ck3 side. Example: link = { ir = irTraitToDrop }
+# The converter will log all traits that were neither mapper nor explicitly dropped.
 
 
 # Personality
@@ -53,10 +55,62 @@ link = { ck3 = education_intrigue_3 ir = crafty }
 link = { ck3 = callous ir = cruel ir = cold}
 link = { ck3 = compassionate ir = merciful ir = loving }
 
-link = { ck3 = lifestyle_mystic ir = scholar ir = polymath }
+link = {
+    ck3 = lifestyle_mystic ir = scholar ir = polymath
+    ir = horseman_cultist # less-obvious: closest CK3 mystic/cultist trait
+    ir = pirate_cultist # less-obvious: closest CK3 mystic/cultist trait
+    ir = serpent_cultist # less-obvious: closest CK3 mystic/cultist trait
+    ir = sun_cultist # less-obvious: closest CK3 mystic/cultist trait
+    ir = wolf_cultist # less-obvious: closest CK3 mystic/cultist trait
+    ir = meditating ir = sotapanna ir = sakadagami ir = anagami ir = arhat ir = samyaksambodhi # Buddhist meditation traits
+}
 link = { ck3 = stubborn ir = narrowminded ir = stubborn }
 link = { ck3 = fickle ir = weak_willed }
+link = { ck3 = shy ir = shy }
+link = { ck3 = patient ir = patient }
+link = { ck3 = impatient ir = impatient }
+link = { ck3 = paranoid ir = paranoid }
+link = { ck3 = drunkard ir = drunkard }
+link = { ck3 = reclusive ir = reclusive }
+link = { ck3 = incapable ir = incapable }
+link = { ck3 = dull ir = dull }
+link = { ck3 = cannibal ir = cannibal_trait }
+link = { ck3 = eccentric ir = eccentric }
+link = { ck3 = charming ir = charming }
+link = { ck3 = humble ir = humble }
+link = { ck3 = lifestyle_poet ir = poet }
+link = { ck3 = generous ir = benefactor }
+link = { ck3 = gregarious ir = comradely }
+link = { ck3 = calm ir = easygoing }
+link = { ck3 = just ir = impartial }
+link = { ck3 = compassionate ir = kindly }
+link = { ck3 = arrogant ir = narcissistic }
+link = { ck3 = diligent ir = obsessive_perfectionist }
+link = { ck3 = education_diplomacy_4 ir = orator }
+link = { ck3 = education_stewardship_4 ir = midas_touched }
+link = { ck3 = reckless ir = rash }
+link = { ck3 = honest ir = trustworthy }
+link = { ck3 = deceitful ir = two_faced }
+link = { ck3 = callous ir = uncaring }
+link = { ck3 = stubborn ir = tactically_inflexible }
+link = { ck3 = zealous ir = righteous } # moral zeal
+link = { ck3 = drunkard ir = carouser } # habitual heavy drinking
+link = { ck3 = lifestyle_traveler ir = explorer } # less-obvious: traveler lifestyle trait
+link = { ck3 = athletic ir = gladiator } # less-obvious: closest physical prowess trait
+link = { ck3 = architect ir = great_builder } # less-obvious: builder-focused lifestyle trait
+link = { ck3 = compassionate ir = good_natured } # less-obvious: closest kindness trait
+link = { ck3 = callous ir = harsh } # less-obvious: low empathy
+link = { ck3 = shy ir = insecure } # less-obvious: low confidence/withdrawn
+link = { ck3 = calm ir = pacifist } # less-obvious: non-violent temperament
+link = { ck3 = reaver ir = pillager } # less-obvious: raiding focus
+link = { ck3 = humble ir = submissive } # less-obvious: low dominance
+link = { ck3 = shy ir = unnoticeable } # less-obvious: low presence
+link = { ck3 = intellect_good_2 ir = wise } # less-obvious: above-average intellect
+ 
 
+
+# Fame
+link = { ck3 = divine_blood ir = divine_blood }
 
 
 # Health
@@ -69,7 +123,7 @@ link = { ck3 = cancer ir = cancer }
 link = { ck3 = gout_ridden ir = gout }
 link = { ck3 = physique_bad_2 ir = frail }
 link = { ck3 = maimed ir = maimed }
-link = { ck3 = eunuch_1 ir = castrated }
+link = { ck3 = eunuch_1 ir = castrated ir = gallus }
 link = { ck3 = leper ir = leper }
 link = { ck3 = pneumonic ir = pneumonia }
 link = { ck3 = beauty_bad_2 ir = ugly }
@@ -79,6 +133,14 @@ link = { ck3 = lunatic_genetic ir = lunatic ir = schizophrenic }
 link = { ck3 = smallpox ir = plague }
 link = { ck3 = depressed_1 ir = depressed }
 link = { ck3 = wounded_2 ir = wounded }
+link = { ck3 = dysentery ir = dysentery }
+link = { ck3 = infertile ir = barren }
+link = { ck3 = possessed_1 ir = epileptic } # CK3 uses possessed to represent temporal-lobe epilepsy
+link = { ck3 = lunatic_1 ir = dementia } # closest CK3 mental degeneration trait
+link = { ck3 = infirm ir = paralysis } # closest CK3 permanent debility trait
+link = { ck3 = infirm ir = invalid } # general frailty match
+link = { ck3 = incapable ir = brain_damaged } # closest CK3 loss of function trait
+
 
 # Military
 link = { ck3 = aggressive_attacker ir = aggressive }
@@ -87,3 +149,107 @@ link = { ck3 = forder ir = coastal_raider ir = squadron_leader ir = oarmaster ir
 link = { ck3 = flexible_leader ir = tactician }
 link = { ck3 = military_engineer ir = original_thinker }
 link = { ck3 = organizer ir = disciplined }
+link = { ck3 = conqueror ir = conqueror }
+link = { ck3 = conqueror ir = victorious } # successful war leader
+
+
+# Bloodline traits, dropped for now
+link = { ir = blood_of_germanic_kings }
+link = { ir = blood_of_albion_kings }
+link = { ir = blood_of_aratus }
+link = { ir = blood_of_aretid }
+link = { ir = blood_of_arhan }
+link = { ir = blood_of_bharata }
+link = { ir = blood_of_forcos }
+link = { ir = blood_of_menander }
+link = { ir = blood_of_midas }
+link = { ir = blood_of_obodid }
+link = { ir = blood_of_pandava }
+link = { ir = blood_of_pharnavazid }
+link = { ir = blood_of_porus }
+link = { ir = blood_of_pylaemenes }
+link = { ir = blood_of_shaushtatar }
+link = { ir = blood_of_teres }
+link = { ir = blood_of_vijaya }
+link = { ir = blood_of_zipoetes }
+link = { ir = achaemenid }
+link = { ir = aeacidae }
+link = { ir = pandya }
+link = { ir = barca }
+link = { ir = agathocles }
+link = { ir = arsaces }
+link = { ir = blood_of_david }
+link = { ir = aeetes }
+link = { ir = agiad }
+link = { ir = antenorid }
+link = { ir = alcimachid }
+link = { ir = antigonids }
+link = { ir = antipatrid }
+link = { ir = arganthonios }
+link = { ir = argeads }
+link = { ir = ariovistid }
+link = { ir = ateas }
+link = { ir = atropates }
+link = { ir = attalid }
+link = { ir = balbid }
+link = { ir = battiad }
+link = { ir = brennus }
+link = { ir = chola }
+link = { ir = claudii }
+link = { ir = chera }
+link = { ir = fabii }
+link = { ir = eurypontid }
+link = { ir = eumenid }
+link = { ir = hannonid }
+link = { ir = hecatomnid }
+link = { ir = illyrius }
+link = { ir = lagids }
+link = { ir = magonid }
+link = { ir = maurya }
+link = { ir = mithridates }
+link = { ir = seleucids }
+link = { ir = sophytid }
+link = { ir = kalinga }
+link = { ir = cornelii }
+link = { ir = demosthenid }
+link = { ir = dido }
+link = { ir = teucer }
+link = { ir = zadok }
+link = { ir = spartocid }
+link = { ir = superbus }
+link = { ir = vercingetorix }
+link = { ir = oxyartid }
+link = { ir = orontid }
+link = { ir = diodotus }
+
+
+# Item traits, dropped for now
+link = { ir = albion_ring_power }
+link = { ir = albion_sword }
+link = { ir = albion_throne }
+link = { ir = dacian_helmet }
+link = { ir = dacian_mantle }
+link = { ir = dacian_shield }
+link = { ir = dacian_weapon }
+
+
+# Birth order traits, dropped
+link = { ir = first_born }
+link = { ir = second_born }
+link = { ir = third_born }
+link = { ir = fourth_born }
+link = { ir = fifth_born }
+link = { ir = sixth_born }
+link = { ir = seventh_born }
+link = { ir = eighth_born }
+link = { ir = ninth_born }
+link = { ir = tenth_born }
+link = { ir = eleventh_born }
+link = { ir = twelfth_born }
+link = { ir = thirteenth_born }
+link = { ir = fourteenth_born }
+link = { ir = fifteenth_born }
+
+
+# TODO: map or drop these I:R traits:
+#  abrasive, arthritis, assertive, corrupt, cultured, cyr_geography, diphtheria, dishonored_pharaoh, extravagant, fair, forger, founder, gangrene, hebrew_high_priest, hemorrhagic_fever, immature, infection, inferiority_complex, inflammation, intimidating, invictus, jealous, limp, magas, mahout, mentagra, mercenary_trait, monotonous, mourning, nur_horned_warrior, olympic_champion, olympic_competitor, overbearing, personal_deity_buddha, personal_deity_ganga, personal_deity_kartikeya, personal_deity_krishna, personal_deity_murugan, personal_deity_shakti, personal_deity_shiva, personal_deity_surya, personal_deity_vishnu, pessimistic, pharaoh, pharnabazid, priest_king, prominent, provocateur, pyromaniac, resourceful, saba, secure, seeking_treatment_trait, stressed, tolerant, uncouth, valanira, well_connected, xenophobic
