@@ -106,7 +106,6 @@ link = { ck3 = reaver ir = pillager } # less-obvious: raiding focus
 link = { ck3 = humble ir = submissive } # less-obvious: low dominance
 link = { ck3 = shy ir = unnoticeable } # less-obvious: low presence
 link = { ck3 = intellect_good_2 ir = wise } # less-obvious: above-average intellect
- 
 
 
 # Fame
@@ -151,6 +150,10 @@ link = { ck3 = military_engineer ir = original_thinker }
 link = { ck3 = organizer ir = disciplined }
 link = { ck3 = conqueror ir = conqueror }
 link = { ck3 = conqueror ir = victorious } # successful war leader
+link = { 
+    ck3 = education_martial_4 # Brilliant Strategist
+    ir = invictus # "seemingly unstoppable"
+}
 
 
 # Bloodline traits, dropped for now
@@ -221,6 +224,8 @@ link = { ir = vercingetorix }
 link = { ir = oxyartid }
 link = { ir = orontid }
 link = { ir = diodotus }
+link = { ir = magas } # "Blood of Magas and Berenike"
+link = { ir = saba } 
 
 
 # Item traits, dropped for now
@@ -251,5 +256,23 @@ link = { ir = fourteenth_born }
 link = { ir = fifteenth_born }
 
 
+# Personal deities, dropped for now
+link = { ir = personal_deity_buddha }
+link = { ir = personal_deity_ganga }
+link = { ir = personal_deity_kartikeya }
+link = { ir = personal_deity_krishna }
+link = { ir = personal_deity_murugan }
+link = { ir = personal_deity_shakti }
+link = { ir = personal_deity_shiva }
+link = { ir = personal_deity_surya }
+link = { ir = personal_deity_vishnu }
+
+
+# TODO: convert stressed as character stress
+
+
 # TODO: map or drop these I:R traits:
-#  abrasive, arthritis, assertive, corrupt, cultured, cyr_geography, diphtheria, dishonored_pharaoh, extravagant, fair, forger, founder, gangrene, hebrew_high_priest, hemorrhagic_fever, immature, infection, inferiority_complex, inflammation, intimidating, invictus, jealous, limp, magas, mahout, mentagra, mercenary_trait, monotonous, mourning, nur_horned_warrior, olympic_champion, olympic_competitor, overbearing, personal_deity_buddha, personal_deity_ganga, personal_deity_kartikeya, personal_deity_krishna, personal_deity_murugan, personal_deity_shakti, personal_deity_shiva, personal_deity_surya, personal_deity_vishnu, pessimistic, pharaoh, pharnabazid, priest_king, prominent, provocateur, pyromaniac, resourceful, saba, secure, seeking_treatment_trait, stressed, tolerant, uncouth, valanira, well_connected, xenophobic
+#  abrasive, arthritis, assertive, corrupt, cultured, cyr_geography, diphtheria, dishonored_pharaoh, extravagant, fair, forger, founder, gangrene, hebrew_high_priest,
+#  hemorrhagic_fever, immature, infection, inferiority_complex, inflammation, intimidating, jealous, limp, mahout, mentagra, mercenary_trait, monotonous, mourning, nur_horned_warrior,
+#  olympic_champion, olympic_competitor, overbearing, pessimistic, pharaoh, pharnabazid, priest_king, prominent, provocateur, pyromaniac, resourceful, secure, seeking_treatment_trait,
+#  tolerant, uncouth, valanira, well_connected, xenophobic
