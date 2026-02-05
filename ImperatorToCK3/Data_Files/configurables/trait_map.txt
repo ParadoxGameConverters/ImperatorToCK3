@@ -2,7 +2,7 @@
 # link = { ck3 = ck3Trait ir = irTrait }
 # Multiples of ir are allowed.
 # You can explicitly drop a trait by omitting the ck3 side. Example: link = { ir = irTraitToDrop }
-# The converter will log all traits that were neither mapper nor explicitly dropped.
+# The converter will log all traits that were neither mapped nor explicitly dropped.
 
 
 # Personality
