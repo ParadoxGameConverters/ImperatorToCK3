@@ -140,9 +140,6 @@ public class TraitMapperTests {
 		mapper.LogUnmappedImperatorTraits(irModFS);
 
 		var outputString = output.ToString();
-		Assert.Contains("No mapping for I:R traits found in trait mappings:", outputString);
-		Assert.DoesNotContain("mapped_trait", outputString);
-		Assert.DoesNotContain("dropped_trait", outputString);
-		Assert.Contains("unmapped_trait", outputString);
+		Assert.Contains($"No mapping for I:R traits found in trait mappings: unmapped_trait{Environment.NewLine}", outputString);
 	}
 }
