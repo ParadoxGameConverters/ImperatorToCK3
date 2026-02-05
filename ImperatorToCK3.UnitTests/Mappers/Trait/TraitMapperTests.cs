@@ -134,7 +134,7 @@ public class TraitMapperTests {
 		var mapper = new TraitMapper(tempTestFile, ck3ModFS);
 
 		var irModFS = new ModFilesystem("TestFiles/Imperator/game", new List<Mod>());
-		var output = new StringWriter();
+		using var output = new StringWriter();
 		Console.SetOut(output);
 
 		mapper.LogUnmappedImperatorTraits(irModFS);
