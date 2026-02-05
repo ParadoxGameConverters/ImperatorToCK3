@@ -201,7 +201,10 @@ internal sealed class World {
 
 			() => cultureMapper = new CultureMapper(imperatorRegionMapper, CK3RegionMapper, Cultures),
 
-			() => traitMapper = new("configurables/trait_map.txt", ModFS),
+			() => {
+				traitMapper = new("configurables/trait_map.txt", ModFS);
+				traitMapper.LogUnmappedImperatorTraits(impWorld.ModFS);
+			},
 
 			() => {
 				Logger.Info("Initializing DNA factory...");
