@@ -867,11 +867,11 @@
 		OR = {
 			AND = {
 				capital_county = title:c_roma
-				has_title = title:c_byzantion
+				title:c_byzantion = { is_title_in_realm_trigger = yes }
 			}
 			AND = {
 				capital_county = title:c_byzantion
-				has_title = title:c_roma
+				title:c_roma = { is_title_in_realm_trigger = yes }
 			}
 		}
 		}
@@ -1588,6 +1588,124 @@
 
 "common/scripted_effects/00_major_decisions_scripted_effects.txt" = {
 	#########
+	# create_roman_empire_scripted_effect
+	#########
+	# This effect handles setting up h_roman_empire when the decision to reform it is taken. Need to change it to account for new Rome titles added through converter
+
+	# Make sure that h_roman_empire gets all the de jure land from h_western_roman_empire and h_eastern_roman_empire
+	replace = {
+		before = {
+	if = {
+		limit = { capital_county = { this = title:c_byzantion } }
+		title:h_roman_empire = {
+			set_capital_county = title:c_byzantion
+		}
+	}
+
+	hidden_effect = {
+		every_held_title = { #Should shift all dejure of all Empires owned at the time.
+			title_tier = empire
+
+			set_de_jure_liege_title = title:h_roman_empire
+		}
+		every_empire = {
+			limit = {
+				NOT = { exists = hegemony }
+				any_de_jure_county = {
+					percent >= 0.6
+					holder = {
+						OR = {
+							this = root
+							any_liege_or_above = { this = root }
+						}
+					}
+				}
+			}
+			set_de_jure_liege_title = title:h_roman_empire
+		}
+	}
+		}
+
+		after = {
+	if = {
+		limit = { capital_county = { this = title:c_byzantion } }
+		title:h_roman_empire = {
+			set_capital_county = title:c_byzantion
+		}
+	}
+
+	hidden_effect = {
+		# IRToCK3: Made it so h_roman_empire gets the de jure land from both the ERE and WRE
+		title:h_western_roman_empire = {
+			every_in_de_jure_hierarchy = {
+				limit = { tier = tier_empire }
+				set_de_jure_liege_title = title:h_roman_empire
+			}
+		}
+		title:h_eastern_roman_empire = {
+			every_in_de_jure_hierarchy = {
+				limit = { tier = tier_empire }
+				set_de_jure_liege_title = title:h_roman_empire
+			}
+		}
+		every_held_title = { #Should shift all dejure of all Empires owned at the time.
+			title_tier = empire
+
+			set_de_jure_liege_title = title:h_roman_empire
+		}
+		every_empire = {
+			limit = {
+				NOT = { exists = hegemony }
+				any_de_jure_county = {
+					percent >= 0.6
+					holder = {
+						OR = {
+							this = root
+							any_liege_or_above = { this = root }
+						}
+					}
+				}
+			}
+			set_de_jure_liege_title = title:h_roman_empire
+		}
+	}
+		}
+	}
+
+	# Shouldn't have h_roman_empire take e_byzantium's title history, and should make sure that other hegemony titles get destroyed if held
+	replace = {
+		before = {
+	title:h_roman_empire = {
+		change_title_holder = {
+			holder = root
+			change = scope:change
+		}
+		copy_title_history = title:e_byzantium
+	}
+	resolve_title_and_vassal_change = scope:change
+		}
+
+		after = {
+	title:h_roman_empire = {
+		change_title_holder = {
+			holder = root
+			change = scope:change
+		}
+		# IRToCK3: Removed copying title history from e_byzantium
+	}
+	resolve_title_and_vassal_change = scope:change
+	# IRToCK3: Destroy hegemony titles
+	every_held_title = {
+		title_tier = hegemony
+		limit = { this != title:h_roman_empire }
+		root = { destroy_title = prev }
+	}
+		}
+	}
+
+
+
+	#########
 	# split_byzantine_empire_effect
 	#########
 	# This effect splits up e_byzantium into several regional empires that better match the Roman administrative divisions, but they need to be changed to account for the fact that converted save games won't look the same as the base game
@@ -2250,13 +2368,11 @@
 				target = flag:become_chakravarti_decision
 			}
 		}
-		# IRToCK3: Added this so that the decision will require that e_india has no holder or de jure land, so it can only be taken when it makes sense.
-		title:e_india = {
+		# IRToCK3: Added this so that the decision will require that h_india has no holder or de jure land, so it can only be taken when it makes sense.
+		title:h_india = {
 			AND = {
 				NOT = { exists = holder }
-				any_de_jure_county = {
-					count < 1
-				}
+				is_titular = yes
 			}
 		}
 		} # end of after

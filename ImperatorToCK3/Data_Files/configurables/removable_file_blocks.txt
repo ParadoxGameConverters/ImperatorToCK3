@@ -18173,14 +18173,6 @@ apply_historic_administrative_game_rule_effect = {
 }
 
 
-"common/scripted_effects/00_major_decisions_scripted_effects.txt" = {
-	# Having this be removed since it'll overwrite h_roman_empire's title history since the game assumes it doesn't exist at game start, but it might with a converted save.
-	{
-		copy_title_history = title:e_byzantium
-	}
-}
-
-
 "common/situation/situations/tgp_dynastic_cycle.txt" = {
 	# With a converted save, the introduction event for the Dynastic Cycle will be handled through the game start event switching Eras. So don't want this spamming too many events.
 	{

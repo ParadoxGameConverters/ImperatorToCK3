@@ -1,0 +1,8 @@
+﻿# This trigger checks if the current holder of a title is in your realm. Intended to be used with counties, but could be used with other tiers too.
+# scope = title
+is_title_in_realm_trigger = {
+	custom_tooltip = {
+		text = is_title_in_realm_tt
+		holder.top_liege = root
+	}
+}

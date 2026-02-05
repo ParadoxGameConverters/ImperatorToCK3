@@ -16,12 +16,14 @@
  ## scope:required_county_percentage = A scope value (so you need to use 'save_temporary_scope_value_as') that contains the required percentage value AS A DECIMAL (0-1)
  irtock3_control_de_jure_percentage_trigger: "You must control at least #V [SCOPE.ScriptValue('irtock3_control_de_jure_percentage_required_value')|0V]%#! of the [de_jure|E] [counties|E] under [target_title.GetName] #weak (Current: [SCOPE.ScriptValue('irtock3_control_de_jure_percentage_current_value')|0V]%)#!"
 
+ # Custom localization to be used with the 'is_title_in_realm_trigger' scripted_trigger that checks if the current holder of a title is in your realm. Intended to be used with counties, but could be used with other tiers too.
+ is_title_in_realm_tt: "[THIS.Title.GetName] is in your [realm|E]"
+
 ## Rome Decisions
  own_land_outside_ere_region: "You own land outside of [GetGeographicalRegion('custom_ep3_restore_rome_eastern_empire').GetName]"
  custom_ep3_restore_rome_eastern_empire: "Split Roman Empire - Eastern Roman Empire Region"
  thrace_has_no_holder: "[GetTitleByKey('d_thrace').GetName] has no [holder|E]"
  top_liege_of_thrace_holder: "You are the [top_liege|E] of [GetTitleByKey('d_thrace').GetName]"
- owns_constantinople_tt: "You own the [GetTitleByKey('c_byzantion').GetName]"
  irtock3_only_roman_emperor: "You are the only ruler holding any of the following titles: [GetTitleByKey('h_eastern_roman_empire').GetNameNoTier], [GetTitleByKey('h_western_roman_empire').GetNameNoTier], [GetTitleByKey('e_western_roman_empire').GetNameNoTier], or [GetTitleByKey('e_byzantium').GetNameNoTier]"
  not_wre_emperor: "You are not the Western Roman Emperor"
  # These are localizations to use for the decisions to form a new Kingdom/Empire, so that they can be used instead to elevate d_rome->k_rome & k_rome->e_roman_empire
