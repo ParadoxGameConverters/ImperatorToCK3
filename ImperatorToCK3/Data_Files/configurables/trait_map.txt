@@ -47,7 +47,12 @@ link = {
     ir = pious
     ir = righteous # moral zeal
 }
-link = { ck3 = cynical ir = lapsed ir = sceptical }
+link = {
+    ck3 = cynical
+    ir = lapsed
+    ir = sceptical
+    ir = pessimistic # less-obvious: negative worldview
+}
 
 link = {
     ck3 = just
@@ -136,10 +141,15 @@ link = {
     ir = stubborn
     ir = tactically_inflexible
 }
-link = { ck3 = fickle ir = weak_willed }
+link = {
+    ck3 = fickle
+    ir = weak_willed
+    ir = immature # less-obvious: childish/impulsive
+}
 link = {
     ck3 = shy
     ir = shy
+    ir = inferiority_complex # less-obvious: low self-confidence
     ir = insecure # less-obvious: low confidence/withdrawn
     ir = unnoticeable # less-obvious: low presence
 }
@@ -156,7 +166,7 @@ link = { ck3 = cannibal ir = cannibal_trait }
 link = { ck3 = eccentric ir = eccentric }
 link = { ck3 = charming ir = charming }
 link = { ck3 = lifestyle_poet ir = poet }
-link = { ck3 = gregarious ir = comradely }
+link = { ck3 = gregarious ir = comradely ir = well_connected } # broad social network
 link = {
     ck3 = calm
     ir = easygoing
@@ -294,7 +304,8 @@ link = { ir = oxyartid }
 link = { ir = orontid }
 link = { ir = diodotus }
 link = { ir = magas } # "Blood of Magas and Berenike"
-link = { ir = saba } 
+link = { ir = saba }
+link = { ir = pharnabazid }
 
 
 # Item traits, dropped for now
@@ -339,9 +350,8 @@ link = { ir = personal_deity_vishnu }
 
 # TODO: convert stressed as character stress
 
-
 # TODO: map or drop these I:R traits:
 #  abrasive, arthritis, assertive, corrupt, cultured, cyr_geography, diphtheria, dishonored_pharaoh, extravagant, fair, forger, founder, gangrene, hebrew_high_priest,
-#  hemorrhagic_fever, immature, infection, inferiority_complex, inflammation, intimidating, jealous, limp, mahout, mentagra, mercenary_trait, monotonous, mourning, nur_horned_warrior,
-#  olympic_champion, olympic_competitor, overbearing, pessimistic, pharaoh, pharnabazid, priest_king, prominent, provocateur, pyromaniac, resourceful, secure, seeking_treatment_trait,
-#  tolerant, uncouth, valanira, well_connected, xenophobic
+#  hemorrhagic_fever, infection, inflammation, intimidating, jealous, limp, mahout, mentagra, mercenary_trait, monotonous, mourning, nur_horned_warrior,
+#  olympic_champion, olympic_competitor, overbearing, pharaoh, priest_king, prominent, provocateur, pyromaniac, resourceful, secure, seeking_treatment_trait,
+#  tolerant, uncouth, valanira, xenophobic
