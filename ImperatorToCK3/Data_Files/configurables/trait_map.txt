@@ -15,34 +15,88 @@ link = { ck3 = chaste ir = chaste }
 link = { ck3 = gluttonous ir = gluttonous }
 link = { ck3 = temperate ir = self_controlled }
 
-link = { ck3 = diligent ir = energetic ir = obsessive }
+link = {
+    ck3 = diligent
+    ir = energetic
+    ir = obsessive
+    ir = obsessive_perfectionist
+}
 link = { ck3 = lazy ir = lazy }
 
 link = { ck3 = ambitious ir = ambitious }
 link = { ck3 = content ir = content }
 
-link = { ck3 = arrogant ir = arrogant ir = proud ir = sarcastic }
-link = { ck3 = humble ir = modest ir = modest }
+link = {
+    ck3 = arrogant
+    ir = arrogant
+    ir = proud
+    ir = sarcastic
+    ir = narcissistic
+}
+link = {
+    ck3 = humble
+    ir = modest
+    ir = humble
+    ir = submissive # less-obvious: low dominance
+}
 
-link = { ck3 = zealous ir = devout ir = zealous ir = pious }
+link = {
+    ck3 = zealous
+    ir = devout
+    ir = zealous
+    ir = pious
+    ir = righteous # moral zeal
+}
 link = { ck3 = cynical ir = lapsed ir = sceptical }
 
-link = { ck3 = just ir = just }
+link = {
+    ck3 = just
+    ir = just
+    ir = impartial
+}
 link = { ck3 = arbitrary ir = arbitrary }
 
-link = { ck3 = generous ir = generous }
+link = {
+    ck3 = generous
+    ir = generous
+    ir = benefactor
+}
 link = { ck3 = greedy ir = selfish ir = miserly }
 
-link = { ck3 = honest ir = honest ir = blunt ir = plain_speaking }
-link = { ck3 = deceitful ir = deceitful }
+link = {
+    ck3 = honest
+    ir = honest
+    ir = blunt
+    ir = plain_speaking
+    ir = trustworthy
+}
+link = {
+    ck3 = deceitful
+    ir = deceitful
+    ir = two_faced
+}
 
-link = { ck3 = intellect_good_2 ir = intelligent }
+link = {
+    ck3 = intellect_good_2
+    ir = intelligent
+    ir = wise # less-obvious: above-average intellect
+}
 link = { ck3 = intellect_bad_2 ir = dumb }
 
-link = { ck3 = paranoid ir = shrewd ir = suspicious }
+link = {
+    ck3 = paranoid
+    ir = shrewd
+    ir = suspicious
+    ir = paranoid
+}
 link = { ck3 = trusting ir = foolish ir = trusting ir = guileless }
 
-link = { ck3 = reckless ir = reckless ir = confident }
+link = {
+    ck3 = reckless
+    ir = reckless
+    ir = confident
+    ir = rash
+}
 link = { ck3 = cautious_leader ir = cautious }
 
 link = { ck3 = vengeful ir = vengeful }
@@ -52,8 +106,20 @@ link = { ck3 = education_diplomacy_3 ir = silver_tongued }
 
 link = { ck3 = education_intrigue_3 ir = crafty }
 
-link = { ck3 = callous ir = cruel ir = cold}
-link = { ck3 = compassionate ir = merciful ir = loving }
+link = {
+    ck3 = callous
+    ir = cruel
+    ir = cold
+    ir = uncaring
+    ir = harsh # less-obvious: low empathy
+}
+link = {
+    ck3 = compassionate
+    ir = merciful
+    ir = loving
+    ir = kindly
+    ir = good_natured # less-obvious: closest kindness trait
+}
 
 link = {
     ck3 = lifestyle_mystic ir = scholar ir = polymath
@@ -64,48 +130,44 @@ link = {
     ir = wolf_cultist # less-obvious: closest CK3 mystic/cultist trait
     ir = meditating ir = sotapanna ir = sakadagami ir = anagami ir = arhat ir = samyaksambodhi # Buddhist meditation traits
 }
-link = { ck3 = stubborn ir = narrowminded ir = stubborn }
+link = {
+    ck3 = stubborn
+    ir = narrowminded
+    ir = stubborn
+    ir = tactically_inflexible
+}
 link = { ck3 = fickle ir = weak_willed }
-link = { ck3 = shy ir = shy }
+link = {
+    ck3 = shy
+    ir = shy
+    ir = insecure # less-obvious: low confidence/withdrawn
+    ir = unnoticeable # less-obvious: low presence
+}
 link = { ck3 = patient ir = patient }
 link = { ck3 = impatient ir = impatient }
-link = { ck3 = paranoid ir = paranoid }
-link = { ck3 = drunkard ir = drunkard }
+link = {
+    ck3 = drunkard
+    ir = drunkard
+    ir = carouser # habitual heavy drinking
+}
 link = { ck3 = reclusive ir = reclusive }
-link = { ck3 = incapable ir = incapable }
 link = { ck3 = dull ir = dull }
 link = { ck3 = cannibal ir = cannibal_trait }
 link = { ck3 = eccentric ir = eccentric }
 link = { ck3 = charming ir = charming }
-link = { ck3 = humble ir = humble }
 link = { ck3 = lifestyle_poet ir = poet }
-link = { ck3 = generous ir = benefactor }
 link = { ck3 = gregarious ir = comradely }
-link = { ck3 = calm ir = easygoing }
-link = { ck3 = just ir = impartial }
-link = { ck3 = compassionate ir = kindly }
-link = { ck3 = arrogant ir = narcissistic }
-link = { ck3 = diligent ir = obsessive_perfectionist }
+link = {
+    ck3 = calm
+    ir = easygoing
+    ir = pacifist # less-obvious: non-violent temperament
+}
 link = { ck3 = education_diplomacy_4 ir = orator }
 link = { ck3 = education_stewardship_4 ir = midas_touched }
-link = { ck3 = reckless ir = rash }
-link = { ck3 = honest ir = trustworthy }
-link = { ck3 = deceitful ir = two_faced }
-link = { ck3 = callous ir = uncaring }
-link = { ck3 = stubborn ir = tactically_inflexible }
-link = { ck3 = zealous ir = righteous } # moral zeal
-link = { ck3 = drunkard ir = carouser } # habitual heavy drinking
 link = { ck3 = lifestyle_traveler ir = explorer } # less-obvious: traveler lifestyle trait
 link = { ck3 = athletic ir = gladiator } # less-obvious: closest physical prowess trait
 link = { ck3 = architect ir = great_builder } # less-obvious: builder-focused lifestyle trait
-link = { ck3 = compassionate ir = good_natured } # less-obvious: closest kindness trait
-link = { ck3 = callous ir = harsh } # less-obvious: low empathy
-link = { ck3 = shy ir = insecure } # less-obvious: low confidence/withdrawn
-link = { ck3 = calm ir = pacifist } # less-obvious: non-violent temperament
 link = { ck3 = reaver ir = pillager } # less-obvious: raiding focus
-link = { ck3 = humble ir = submissive } # less-obvious: low dominance
-link = { ck3 = shy ir = unnoticeable } # less-obvious: low presence
-link = { ck3 = intellect_good_2 ir = wise } # less-obvious: above-average intellect
 
 
 # Fame
@@ -136,9 +198,16 @@ link = { ck3 = dysentery ir = dysentery }
 link = { ck3 = infertile ir = barren }
 link = { ck3 = possessed_1 ir = epileptic } # CK3 uses possessed to represent temporal-lobe epilepsy
 link = { ck3 = lunatic_1 ir = dementia } # closest CK3 mental degeneration trait
-link = { ck3 = infirm ir = paralysis } # closest CK3 permanent debility trait
-link = { ck3 = infirm ir = invalid } # general frailty match
-link = { ck3 = incapable ir = brain_damaged } # closest CK3 loss of function trait
+link = {
+    ck3 = infirm
+    ir = paralysis # closest CK3 permanent debility trait
+    ir = invalid # general frailty match
+}
+link = {
+    ck3 = incapable
+    ir = incapable
+    ir = brain_damaged # closest CK3 loss of function trait
+}
 
 
 # Military
