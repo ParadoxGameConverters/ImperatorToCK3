@@ -263,7 +263,6 @@ internal sealed class World {
 			nicknameMapper,
 			provinceMapper,
 			deathReasonMapper,
-			dnaFactory,
 			LocDB,
 			impWorld.EndDate,
 			config
@@ -352,8 +351,6 @@ internal sealed class World {
 
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		Characters.PurgeUnneededCharacters(LandedTitles, Dynasties, DynastyHouses, config.CK3BookmarkDate);
-		// We could convert Imperator character DNA while importing the characters.
-		// But that'd be wasteful, because some of them are purged. So, we do it now.
 		Characters.ConvertImperatorCharacterDNA(dnaFactory);
 
 		// If there's a gap between the I:R save date and the CK3 bookmark date,
