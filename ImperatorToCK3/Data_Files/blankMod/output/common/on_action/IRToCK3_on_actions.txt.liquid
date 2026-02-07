@@ -56,6 +56,14 @@ on_title_gain = {
 	}
 }
 
+# Called every Jan 1st
+# Root does not exist
+yearly_global_pulse = {
+	on_actions = {
+		IRToCK3_roman_empire_decline_effect
+	}
+}
+
 
 
 IRToCK3_game_start_onaction_effects = {
@@ -677,5 +685,141 @@ IRToCK3_ritsuryo_multiple_empires = {
 	effect = {
 		# Trigger event notifying ruler of them having multiple empire titles, the issues, and some solutions
 		trigger_event = irtock3_ritsuryo_events.2
+	}
+}
+
+# This on_action will trigger when the Roman Empire is split between h_western_roman_empire and h_eastern_roman_empire, one of them is destroyed, and the other has lost a decent amount of their land. It will downgrade them to empire titles, like the Byzantine Empire
+IRToCK3_roman_empire_decline_effect = {
+	trigger = {
+		# Someone needs to hold either the WRE or ERE, while no one else holds the other
+		OR = {
+			exists = title:h_western_roman_empire.holder
+			exists = title:h_eastern_roman_empire.holder
+		}
+		## Someone holds the WRE
+		trigger_if = {
+			limit = { exists = title:h_western_roman_empire.holder }
+
+			# Someone can't have the ERE
+			NOT = { exists = title:h_eastern_roman_empire.holder }
+
+			# The WRE doesn't control a lot of land
+			title:h_western_roman_empire.holder = { realm_size <= 120 }
+		}
+		## Someone holds the ERE
+		trigger_if = {
+			limit = { exists = title:h_eastern_roman_empire.holder }
+
+			# Someone can't have the WRE
+			NOT = { exists = title:h_western_roman_empire.holder }
+
+			# The ERE doesn't control a lot of land
+			title:h_eastern_roman_empire.holder = { realm_size <= 120 }
+		}
+	}
+	effect = {
+		# Save the scopes for whichever half of the Roman Empire remains
+		## WRE
+		if = {
+			limit = { exists = title:h_western_roman_empire.holder }
+			title:h_western_roman_empire = {
+				save_scope_as = roman_hegemony_title
+				holder = { save_scope_as = roman_emperor }
+				title:e_western_roman_empire = { save_scope_as = roman_empire_title }
+			}
+		}
+		## ERE
+		else_if = {
+			limit = { exists = title:h_eastern_roman_empire.holder }
+			title:h_eastern_roman_empire = {
+				save_scope_as = roman_hegemony_title
+				holder = { save_scope_as = roman_emperor }
+				title:e_byzantium = { save_scope_as = roman_empire_title }
+			}
+		}
+
+		# If any vassals have empire titles, destroy the empires and add them to a list for event localization later. If the empire title was de jure part of the ruler's hegemony title, drift its kingdoms to become part of the associated Rome empire title
+		scope:roman_emperor = {
+			every_vassal = {
+				limit = { highest_held_title_tier = tier_empire }
+				save_scope_as = empire_vassal
+				every_held_title = {
+					title_tier = empire
+					if = {
+						limit = { hegemony ?= scope:roman_hegemony_title }
+						every_in_de_jure_hierarchy = {
+							limit = { tier = tier_kingdom }
+							set_de_jure_liege_title = scope:roman_empire_title
+						}
+					}
+					scope:empire_vassal = { destroy_title = prev }
+				}
+				clear_saved_scope = empire_vassal
+				add_to_list = empire_tier_vassals
+			}
+		}
+
+		# De Jure Changes
+		## Transfer land from held empire titles, then destroy them
+		scope:roman_emperor = {
+			every_held_title = {
+				title_tier = empire
+				limit = { hegemony = scope:roman_hegemony_title }
+
+				every_in_de_jure_hierarchy = {
+					limit = { tier = tier_kingdom }
+					set_de_jure_liege_title = scope:roman_empire_title
+				}
+				scope:roman_emperor = { destroy_title = prev }
+			}
+		}
+
+		## Transfer every kingdom that you completely control that is de jure under your hegemony title
+		scope:roman_hegemony_title = {
+			every_in_de_jure_hierarchy = {
+				limit = { tier = tier_kingdom }
+
+				if = {
+					limit = {
+						any_de_jure_county = {
+							count = all
+							holder.top_liege = scope:roman_emperor
+						}
+					}
+					set_de_jure_liege_title = scope:roman_empire_title
+				}
+			}
+		}
+
+		# Give the ruler their corresponding Empire title
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:roman_empire_title = {
+			change_title_holder = {
+				holder = scope:roman_emperor
+				change = scope:change
+			}
+			set_de_jure_liege_title = scope:roman_hegemony_title
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		# Destroy the hegemony title
+		scope:roman_emperor = {
+			destroy_title = scope:roman_hegemony_title
+			set_primary_title_to = scope:roman_empire_title
+		}
+
+		# Notification Events
+		scope:roman_emperor = { trigger_event = irtock3_roman_events.1 }
+		every_player = {
+			limit = {
+				this != scope:roman_emperor
+				in_diplomatic_range = scope:roman_emperor
+			}
+			trigger_event = irtock3_roman_events.1
+		}
 	}
 }

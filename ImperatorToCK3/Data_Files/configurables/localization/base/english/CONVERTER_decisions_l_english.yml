@@ -19,6 +19,12 @@
  # Custom localization to be used with the 'is_title_in_realm_trigger' scripted_trigger that checks if the current holder of a title is in your realm. Intended to be used with counties, but could be used with other tiers too.
  is_title_in_realm_tt: "[THIS.Title.GetName] is in your [realm|E]"
 
+ # Just used for the 'can_create' block in titles to give a custom tooltip when a title can't be created
+ irtock3_title_cant_be_created_tt: "This title can't be created through normal means"
+
+ # This trigger is mainly to be used when a specific title can only be created through certain decisions. Before its custom_tooltip block, make sure you save the specific decision as a scope like this: 'decision:NAME_OF_DECISION = { save_temporary_scope_as = decision }'
+ irtock3_title_formed_through_decision_tt: "Can only be created through the decision: [decision.GetName|V]"
+
 ## Rome Decisions
  own_land_outside_ere_region: "You own land outside of [GetGeographicalRegion('custom_ep3_restore_rome_eastern_empire').GetName]"
  custom_ep3_restore_rome_eastern_empire: "Split Roman Empire - Eastern Roman Empire Region"

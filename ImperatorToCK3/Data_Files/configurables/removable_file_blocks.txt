@@ -18454,3 +18454,21 @@ tgp_setup_historical_house_relation_effect = {
 		}
 	}
 }
+
+"common/decisions/80_major_decisions_roman.txt" = {
+	# Make the decision to restore the Roman Empire available more than once
+	{
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_restored_roman_empire
+			}
+		}
+	}
+	{
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_restored_roman_empire
+			}
+	}
+}

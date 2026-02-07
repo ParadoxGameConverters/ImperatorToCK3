@@ -1,0 +1,66 @@
+﻿# This file is to overwrite title definitions for vanilla or mod titles, since the converter can't manually edit them at the moment
+# Don't include any de jure vassal titles in these definitions
+
+###########################
+### Roman Empire Titles ###
+###########################
+# Vanilla titles
+h_roman_empire = {
+	color = { 167 10 0 }
+
+	capital = c_roma # Rome
+	definite_form = yes
+	can_be_named_after_dynasty = no
+
+	can_create = {
+		decision:restore_roman_empire_decision = { save_temporary_scope_as = decision }
+		custom_tooltip = {
+			text = irtock3_title_formed_through_decision_tt
+			always = no
+		}
+	}
+}
+
+h_eastern_roman_empire = {
+	color = { 150 35 165 }
+
+	capital = c_byzantion # Constantinople
+	definite_form = yes
+	can_be_named_after_dynasty = no
+
+	can_create = {
+		custom_tooltip = {
+			text = irtock3_title_cant_be_created_tt
+			always = no
+		}
+	}
+}
+
+e_byzantium = {
+	color =  hsv{ 0.9 1 0.3 } #hsv{ 0.73 0.8 0.4 }  #hsv{ 0.77 0.8 0.6 } #{ 143 12 125 }
+
+	capital = c_byzantion
+
+	definite_form = yes
+
+	can_create = {
+		rule_title_creation_imperial_power_projection_title_creation_trigger = yes
+		custom_tooltip = {
+			text = holds_latin_empire_tt
+			NOT = {
+				any_held_title = {
+					this = title:e_latin_empire
+				} 
+			}
+		}
+	}
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = { has_cultural_pillar = heritage_byzantine }
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+}

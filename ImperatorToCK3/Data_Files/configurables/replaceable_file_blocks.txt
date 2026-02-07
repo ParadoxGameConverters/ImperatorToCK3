@@ -3173,6 +3173,33 @@ tgp_is_ceremonial_regent_trigger = {
 
 
 "common/on_action/title_on_actions.txt" = {
+	# Need to make it so the 'byz_collapse_counter' global variable only triggers during the Fourth Crusade
+	replace = {
+		before = {
+			set_global_variable = {
+				name = byz_collapse_counter
+				value = {
+					value = current_year
+					add = 100
+				}
+			}
+		}
+
+		after = {
+			# IRToCK3: Made it so this variable is only set if the Fourth Crusade has happened, since it is intended to go along with it
+			if = {
+				limit = { exists = title:e_latin_empire.holder }
+				set_global_variable = {
+					name = byz_collapse_counter
+					value = {
+						value = current_year
+						add = 100
+					}
+				}
+			}
+		}
+	}
+
 	# Need to modify on_actions relating to inheriting China to prevent the Cycle from changing Eras at game start
 	replace = {
 		before = {

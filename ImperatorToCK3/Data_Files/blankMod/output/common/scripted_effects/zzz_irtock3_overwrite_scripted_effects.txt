@@ -224,8 +224,8 @@ create_eastern_roman_empire_scripted_effect = {
 					percent >= 0.75
 					holder = {
 						OR = {
-							this = scope:new_holder
-							any_liege_or_above = { this = scope:new_holder }
+							this = title:h_eastern_roman_empire.holder
+							any_liege_or_above = { this = title:h_eastern_roman_empire.holder }
 						}
 					}
 				}
@@ -235,8 +235,8 @@ create_eastern_roman_empire_scripted_effect = {
 						percent >= 0.51
 						holder = {
 							OR = {
-								this = scope:new_holder
-								any_liege_or_above = { this = scope:new_holder }
+								this = title:h_eastern_roman_empire.holder
+								any_liege_or_above = { this = title:h_eastern_roman_empire.holder }
 							}
 						}
 					}

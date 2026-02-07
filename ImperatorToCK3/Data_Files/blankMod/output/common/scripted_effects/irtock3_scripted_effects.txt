@@ -1556,6 +1556,7 @@ irtock3_split_roman_empire_effect = {
 				count >= 1
 				this != root.house
 				exists = house_head
+				is_imprisoned = no
 			}
 		}
 
@@ -1574,12 +1575,15 @@ irtock3_split_roman_empire_effect = {
 						}
 					}
 				}
+				is_imprisoned = no
 			}
 			alternative_limit = { # If the above limit finds no one, this alternative limit checks if there is a valid unlanded house head, to prevent border gore
 				this != root.house
 				house_head ?= { is_landed = no }
+				is_imprisoned = no
 			}
 			order_by = house_power_score
+			max = 1
 			house_head = { save_scope_as = new_holder }
 		}
 	}
@@ -1598,6 +1602,7 @@ irtock3_split_roman_empire_effect = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
+				is_imprisoned = no
 			}
 		}
 
@@ -1614,6 +1619,7 @@ irtock3_split_roman_empire_effect = {
 					}
 				}
 				has_same_government = root
+				is_imprisoned = no
 			}
 			alternative_limit = {
 				is_landed = yes
@@ -1626,8 +1632,10 @@ irtock3_split_roman_empire_effect = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
+				is_imprisoned = no
 			}
 			order_by = max_military_strength
+			max = 1
 			save_scope_as = new_holder
 		}
 	}
@@ -1646,6 +1654,7 @@ irtock3_split_roman_empire_effect = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
+				is_imprisoned = no
 			}
 		}
 
@@ -1662,6 +1671,7 @@ irtock3_split_roman_empire_effect = {
 					}
 				}
 				has_same_government = root
+				is_imprisoned = no
 			}
 			alternative_limit = {
 				is_landed = yes
@@ -1674,14 +1684,17 @@ irtock3_split_roman_empire_effect = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
+				is_imprisoned = no
 			}
 			order_by = max_military_strength
+			max = 1
 			save_scope_as = new_holder
 		}
 	}
 	else = {
 		# IRToCK3: Finally, if all else fails, give it to a courtier, favoring those with higher skill
 		random_courtier = {
+			limit = { is_imprisoned = no }
 			weight = {
 				base = sum_of_all_skills_value
 				modifier = {

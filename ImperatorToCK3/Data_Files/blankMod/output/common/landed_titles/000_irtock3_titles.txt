@@ -44,7 +44,10 @@ h_western_roman_empire = {
 	}
 
 	can_create = {
-		rule_title_creation_imperial_power_projection_title_creation_trigger = yes
+		custom_tooltip = {
+			text = irtock3_title_cant_be_created_tt
+			always = no
+		}
 	}
 }
 
@@ -75,6 +78,15 @@ e_western_roman_empire = {
 
 	can_create = {
 		rule_title_creation_imperial_power_projection_title_creation_trigger = yes
+		# In case the Fourth Crusade content is modified to target either WRE/ERE empire title
+		custom_tooltip = {
+			text = holds_latin_empire_tt
+			NOT = {
+				any_held_title = {
+					this = title:e_latin_empire
+				} 
+			}
+		}
 	}
 }
 
