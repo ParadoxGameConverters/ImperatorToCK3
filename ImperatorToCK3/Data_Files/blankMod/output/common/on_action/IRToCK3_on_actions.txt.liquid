@@ -111,6 +111,48 @@ IRToCK3_game_start_onaction_effects = {
 			days = 1
 		}
 
+		## Depending on what tier Rome title exists at game start, certain variables should be set to indicate Rome has elevated to at least that rank
+		if = {
+			limit = { exists = title:k_rome.holder }
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:irtock3_roman_duchy_elevated
+			}
+		}
+		else_if = {
+			limit = { exists = title:e_roman_empire.holder }
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:irtock3_roman_duchy_elevated
+			}
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:irtock3_roman_kingdom_elevated
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					exists = title:h_roman_empire.holder
+					exists = title:h_western_roman_empire.holder
+					exists = title:h_eastern_roman_empire.holder
+					exists = title:e_western_roman_empire.holder
+					exists = title:e_byzantium.holder
+				}
+			}
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:irtock3_roman_duchy_elevated
+			}
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:irtock3_roman_kingdom_elevated
+			}
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:irtock3_elevate_roman_empire_decision
+			}
+		}
 
 
 		####################

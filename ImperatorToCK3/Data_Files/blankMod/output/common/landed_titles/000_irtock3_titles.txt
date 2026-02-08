@@ -77,14 +77,23 @@ e_western_roman_empire = {
 	}
 
 	can_create = {
-		rule_title_creation_imperial_power_projection_title_creation_trigger = yes
-		# In case the Fourth Crusade content is modified to target either WRE/ERE empire title
-		custom_tooltip = {
-			text = holds_latin_empire_tt
-			NOT = {
-				any_held_title = {
-					this = title:e_latin_empire
-				} 
+		trigger_if = {
+			limit = { exists = title:e_latin_empire.holder }
+			rule_title_creation_imperial_power_projection_title_creation_trigger = yes
+			# In case the Fourth Crusade content is modified to target either WRE/ERE empire title
+			custom_tooltip = {
+				text = holds_latin_empire_tt
+				NOT = {
+					any_held_title = {
+						this = title:e_latin_empire
+					} 
+				}
+			}
+		}
+		trigger_else = {
+			custom_tooltip = {
+				text = irtock3_title_creation_fourth_crusade_tt
+				always = no
 			}
 		}
 	}
@@ -116,7 +125,22 @@ e_roman_empire = {
 	}
 
 	can_create = {
-		rule_title_creation_imperial_power_projection_title_creation_trigger = yes
+		# If Rome has already elevated past this rank, it can't be created again
+		trigger_if = {
+			limit = {
+				is_target_in_global_variable_list = {
+					name = unavailable_unique_decisions
+					target = flag:irtock3_elevate_roman_empire_decision
+				}
+			}
+			custom_tooltip = {
+				text = irtock3_title_creation_rome_elevated_tt
+				always = no
+			}
+		}
+		trigger_else = {
+			rule_title_creation_imperial_power_projection_title_creation_trigger = yes
+		}
 	}
 }
 
@@ -143,6 +167,29 @@ k_rome = {
 			add = @correct_culture_primary_score
 		}
 	}
+
+	can_create = {
+		# If Rome has already elevated past this rank, it can't be created again
+		trigger_if = {
+			limit = {
+				OR = {
+					is_target_in_global_variable_list = {
+						name = unavailable_unique_decisions
+						target = flag:irtock3_roman_kingdom_elevated
+					}
+					is_target_in_global_variable_list = {
+						name = unavailable_unique_decisions
+						target = flag:irtock3_elevate_roman_empire_decision
+					}
+				}
+			}
+			custom_tooltip = {
+				text = irtock3_title_creation_rome_elevated_tt
+				always = no
+			}
+		}
+		trigger_else = { always = yes }
+	}
 }
 
 d_rome = {
@@ -167,6 +214,33 @@ d_rome = {
 			}
 			add = @correct_culture_primary_score
 		}
+	}
+
+	can_create = {
+		# If Rome has already elevated past this rank, it can't be created again
+		trigger_if = {
+			limit = {
+				OR = {
+					is_target_in_global_variable_list = {
+						name = unavailable_unique_decisions
+						target = flag:irtock3_roman_duchy_elevated
+					}
+					is_target_in_global_variable_list = {
+						name = unavailable_unique_decisions
+						target = flag:irtock3_roman_kingdom_elevated
+					}
+					is_target_in_global_variable_list = {
+						name = unavailable_unique_decisions
+						target = flag:irtock3_elevate_roman_empire_decision
+					}
+				}
+			}
+			custom_tooltip = {
+				text = irtock3_title_creation_rome_elevated_tt
+				always = no
+			}
+		}
+		trigger_else = { always = yes }
 	}
 }
 

@@ -44,13 +44,23 @@ e_byzantium = {
 	definite_form = yes
 
 	can_create = {
-		rule_title_creation_imperial_power_projection_title_creation_trigger = yes
-		custom_tooltip = {
-			text = holds_latin_empire_tt
-			NOT = {
-				any_held_title = {
-					this = title:e_latin_empire
-				} 
+		trigger_if = {
+			limit = { exists = title:e_latin_empire.holder }
+			rule_title_creation_imperial_power_projection_title_creation_trigger = yes
+			# In case the Fourth Crusade content is modified to target either WRE/ERE empire title
+			custom_tooltip = {
+				text = holds_latin_empire_tt
+				NOT = {
+					any_held_title = {
+						this = title:e_latin_empire
+					} 
+				}
+			}
+		}
+		trigger_else = {
+			custom_tooltip = {
+				text = irtock3_title_creation_fourth_crusade_tt
+				always = no
 			}
 		}
 	}

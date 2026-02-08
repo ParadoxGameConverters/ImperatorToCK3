@@ -21,6 +21,8 @@
 
  # Just used for the 'can_create' block in titles to give a custom tooltip when a title can't be created
  irtock3_title_cant_be_created_tt: "This title can't be created through normal means"
+ irtock3_title_creation_fourth_crusade_tt: "This title can only be recreated during the Splintered Crusade (Someone must hold [GetTitleByKey('e_latin_empire').GetName|V])"
+ irtock3_title_creation_rome_elevated_tt: "Rome has already risen above this tier, so this title can't be created"
 
  # This trigger is mainly to be used when a specific title can only be created through certain decisions. Before its custom_tooltip block, make sure you save the specific decision as a scope like this: 'decision:NAME_OF_DECISION = { save_temporary_scope_as = decision }'
  irtock3_title_formed_through_decision_tt: "Can only be created through the decision: [decision.GetName|V]"
