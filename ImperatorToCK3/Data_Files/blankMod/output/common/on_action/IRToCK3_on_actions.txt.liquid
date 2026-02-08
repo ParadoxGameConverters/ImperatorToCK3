@@ -427,6 +427,58 @@ IRToCK3_game_start_onaction_effects = {
 			}
 		}
 		{% endif %}
+
+		#################
+		### Silk Road ###
+		#################
+		# Need to make sure the Silk Road Markets are buildable in their correct locations
+		if = {
+			limit = { has_tgp_dlc_trigger = yes }
+
+			# It is possible that some of the baronies get special buildings like holy site buildings, so need to make sure those are removed so the market buildings can properly be added
+
+			# Chang'an
+			title:b_zhouzhi.title_province ?= {
+				replace_building_effect = changan_market_01
+				remove_building = changan_market_01
+				add_special_building_slot = changan_market_01
+			}
+
+			# Lhasa
+			title:b_potala.title_province ?= {
+				replace_building_effect = lhasa_market_01
+				remove_building = lhasa_market_01
+				add_special_building_slot = lhasa_market_01
+			}
+
+			# Lahur
+			title:b_lahur.title_province ?= {
+				replace_building_effect = lahur_bazaar_01
+				remove_building = lahur_bazaar_01
+				add_special_building_slot = lahur_bazaar_01
+			}
+
+			# Dunhuang
+			title:b_dunhuang.title_province ?= {
+				replace_building_effect = dunhuang_market_01
+				remove_building = dunhuang_market_01
+				add_special_building_slot = dunhuang_market_01
+			}
+
+			# Khiva
+			title:b_khiva.title_province ?= {
+				replace_building_effect = khiva_bazaar_01
+				remove_building = khiva_bazaar_01
+				add_special_building_slot = khiva_bazaar_01
+			}
+
+			# Dvin
+			title:b_dvin.title_province ?= {
+				replace_building_effect = dvin_shuka_01
+				remove_building = dvin_shuka_01
+				add_special_building_slot = dvin_shuka_01
+			}
+		}
 	}
 }
 

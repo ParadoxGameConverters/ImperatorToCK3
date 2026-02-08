@@ -6793,3 +6793,292 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		}
 	}
 }
+
+
+"events/dlc/fp2/neutral_struggle_events.txt" = {
+	# Need to make sure that innovation set for the Silk Road is randomized to work with a converted save
+	replace = {
+		before = {
+		if = {
+			limit = { has_game_rule = silk_road_starting_innovations_random }
+			while = {
+				count = 4
+				random_culture_innovation = {
+					limit = {
+						has_innovation_parameter = silk_road_innovation_parameter
+						is_known_by_culture = title:c_jingzhao.culture
+						NOR = {
+							scope:innovation_1 ?= this
+							scope:innovation_2 ?= this
+							scope:innovation_3 ?= this
+						}
+					}
+					if = {
+						limit = { exists = scope:innovation_3 }
+						save_scope_as = innovation_4
+					}
+					else_if = {
+						limit = { exists = scope:innovation_2 }
+						save_scope_as = innovation_3
+					}
+					else_if = {
+						limit = { exists = scope:innovation_1 }
+						save_scope_as = innovation_2
+					}
+					else = { save_scope_as = innovation_1 }
+				}
+			}
+			situation_sub_region:region_silk_road_proper_china = {
+				set_variable = { name = innovation value = scope:innovation_1 }
+			}
+			situation_sub_region:region_silk_road_proper_tibet = {
+				set_variable = { name = innovation value = scope:innovation_2 }
+			}
+			situation_sub_region:region_silk_road_proper_central_asia = {
+				set_variable = { name = innovation value = scope:innovation_2 }
+			}
+			situation_sub_region:region_silk_road_proper_india = {
+				set_variable = { name = innovation value = scope:innovation_3 }
+			}
+			situation_sub_region:region_silk_road_proper_transcaspia = {
+				set_variable = { name = innovation value = scope:innovation_3 }
+			}
+			situation_sub_region:region_silk_road_proper_occident = {
+				set_variable = { name = innovation value = scope:innovation_4 }
+			}
+		}
+		else = {
+			if = {
+				limit = { game_start_date = 867.1.1 }
+				situation_sub_region:region_silk_road_proper_china = {
+					set_variable = { name = innovation value = culture_innovation:innovation_dragon_kiln }
+				}
+				situation_sub_region:region_silk_road_proper_tibet = {
+					set_variable = { name = innovation value = culture_innovation:innovation_block_printing }
+				}
+				situation_sub_region:region_silk_road_proper_central_asia = {
+					set_variable = { name = innovation value = culture_innovation:innovation_block_printing }
+				}
+				situation_sub_region:region_silk_road_proper_india = {
+					set_variable = { name = innovation value = culture_innovation:innovation_waterworks }
+				}
+				situation_sub_region:region_silk_road_proper_transcaspia = {
+					set_variable = { name = innovation value = culture_innovation:innovation_waterworks }
+				}
+				situation_sub_region:region_silk_road_proper_occident = {
+					set_variable = { name = innovation value = culture_innovation:innovation_cupellation }
+				}
+			}
+			else_if = {
+				limit = { game_start_date = 1066.9.15 }
+				situation_sub_region:region_silk_road_proper_china = {
+					set_variable = { name = innovation value = culture_innovation:innovation_compass }
+				}
+				situation_sub_region:region_silk_road_proper_tibet = {
+					set_variable = { name = innovation value = culture_innovation:innovation_fire_medicine }
+				}
+				situation_sub_region:region_silk_road_proper_central_asia = {
+					set_variable = { name = innovation value = culture_innovation:innovation_fire_medicine }
+				}
+				situation_sub_region:region_silk_road_proper_india = {
+					set_variable = { name = innovation value = culture_innovation:innovation_champa_rice }
+				}
+				situation_sub_region:region_silk_road_proper_transcaspia = {
+					set_variable = { name = innovation value = culture_innovation:innovation_champa_rice }
+				}
+				situation_sub_region:region_silk_road_proper_occident = {
+					set_variable = { name = innovation value = culture_innovation:innovation_pharmacopoeia }
+				}
+			}
+			else_if = {
+				limit = { game_start_date = 1178.10.1 }
+				situation_sub_region:region_silk_road_proper_china = {
+					set_variable = { name = innovation value = culture_innovation:innovation_grenades }
+				}
+				situation_sub_region:region_silk_road_proper_tibet = {
+					set_variable = { name = innovation value = culture_innovation:innovation_pharmacopoeia }
+				}
+				situation_sub_region:region_silk_road_proper_central_asia = {
+					set_variable = { name = innovation value = culture_innovation:innovation_pharmacopoeia }
+				}
+				situation_sub_region:region_silk_road_proper_india = {
+					set_variable = { name = innovation value = culture_innovation:innovation_coking }
+				}
+				situation_sub_region:region_silk_road_proper_transcaspia = {
+					set_variable = { name = innovation value = culture_innovation:innovation_coking }
+				}
+				situation_sub_region:region_silk_road_proper_occident = {
+					set_variable = { name = innovation value = culture_innovation:innovation_bulkheads }
+				}
+			}
+		}
+		}
+
+		after = {
+		# IRToCK3: Innovation setup needs to be random
+		while = {
+			count = 4
+			random_culture_innovation = {
+				limit = {
+					has_innovation_parameter = silk_road_innovation_parameter
+					is_known_by_culture = title:c_jingzhao.culture
+					NOR = {
+						scope:innovation_1 ?= this
+						scope:innovation_2 ?= this
+						scope:innovation_3 ?= this
+					}
+				}
+				if = {
+					limit = { exists = scope:innovation_3 }
+					save_scope_as = innovation_4
+				}
+				else_if = {
+					limit = { exists = scope:innovation_2 }
+					save_scope_as = innovation_3
+				}
+				else_if = {
+					limit = { exists = scope:innovation_1 }
+					save_scope_as = innovation_2
+				}
+				else = { save_scope_as = innovation_1 }
+			}
+		}
+		# IRToCK3: Making sure that innovations were actually chosen, to prevent errors
+		if = {
+			limit = { exists = scope:innovation_1 }
+			situation_sub_region:region_silk_road_proper_china = {
+				set_variable = { name = innovation value = scope:innovation_1 }
+			}
+		}
+		if = {
+			limit = { exists = scope:innovation_2 }
+			situation_sub_region:region_silk_road_proper_tibet = {
+				set_variable = { name = innovation value = scope:innovation_2 }
+			}
+			situation_sub_region:region_silk_road_proper_central_asia = {
+				set_variable = { name = innovation value = scope:innovation_2 }
+			}
+		}
+		if = {
+			limit = { exists = scope:innovation_3 }
+			situation_sub_region:region_silk_road_proper_india = {
+				set_variable = { name = innovation value = scope:innovation_3 }
+			}
+			situation_sub_region:region_silk_road_proper_transcaspia = {
+				set_variable = { name = innovation value = scope:innovation_3 }
+			}
+		}
+		if = {
+			limit = { exists = scope:innovation_4 }
+			situation_sub_region:region_silk_road_proper_occident = {
+				set_variable = { name = innovation value = scope:innovation_4 }
+			}
+		}
+		}
+	}
+}
+
+
+"common/scripted_effects/10_dlc_tgp_silk_road_scripted_effects.txt" = {
+	#########################
+	## tgp_silk_road_movement_stream_effect
+	#########################
+	replace = {
+		before = {
+	scope:sub_region_temp = {
+		every_player = {
+			limit = {
+				save_temporary_scope_as = player_temp
+				scope:sub_region_temp = { any_situation_sub_region_participant = { this = scope:player_temp } }
+			}
+			send_interface_message = {
+				type = msg_silk_road_innovation_movement
+				title = msg_silk_road_innovation_movement_stream_title
+				desc = msg_silk_road_innovation_movement_stream_desc
+				custom_tooltip = msg_silk_road_innovation_movement_tt
+			}
+		}
+		set_variable = {
+			name = innovation
+			value = scope:new_innovation_temp
+		}
+	}
+		}
+
+		after = {
+	# IRToCK3: Making sure there is actually an innovation to pass down, to prevent errors
+	if = {
+		limit = { exists = scope:new_innovation_temp }
+		scope:sub_region_temp = {
+			every_player = {
+				limit = {
+					save_temporary_scope_as = player_temp
+					scope:sub_region_temp = { any_situation_sub_region_participant = { this = scope:player_temp } }
+				}
+				send_interface_message = {
+					type = msg_silk_road_innovation_movement
+					title = msg_silk_road_innovation_movement_stream_title
+					desc = msg_silk_road_innovation_movement_stream_desc
+					custom_tooltip = msg_silk_road_innovation_movement_tt
+				}
+			}
+			set_variable = {
+				name = innovation
+				value = scope:new_innovation_temp
+			}
+		}
+	}
+		}
+	}
+
+	#########################
+	## tgp_silk_road_movement_china_effect
+	#########################
+	replace = {
+		before = {
+	scope:sub_region_temp = {
+		every_player = {
+			limit = {
+				save_temporary_scope_as = player_temp
+				scope:sub_region_temp = { any_situation_sub_region_participant = { this = scope:player_temp } }
+			}
+			send_interface_message = {
+				type = msg_silk_road_innovation_movement
+				title = msg_silk_road_innovation_movement_china_title
+				desc = msg_silk_road_innovation_movement_china_desc
+				custom_tooltip = msg_silk_road_innovation_movement_tt
+			}
+		}
+		set_variable = {
+			name = innovation
+			value = scope:new_innovation_temp
+		}
+	}
+		}
+
+		after = {
+	# IRToCK3: Making sure there is actually an innovation to pass down, to prevent errors
+	if = {
+		limit = { exists = scope:new_innovation_temp }
+		scope:sub_region_temp = {
+			every_player = {
+				limit = {
+					save_temporary_scope_as = player_temp
+					scope:sub_region_temp = { any_situation_sub_region_participant = { this = scope:player_temp } }
+				}
+				send_interface_message = {
+					type = msg_silk_road_innovation_movement
+					title = msg_silk_road_innovation_movement_china_title
+					desc = msg_silk_road_innovation_movement_china_desc
+					custom_tooltip = msg_silk_road_innovation_movement_tt
+				}
+			}
+			set_variable = {
+				name = innovation
+				value = scope:new_innovation_temp
+			}
+		}
+	}
+		}
+	}
+}
