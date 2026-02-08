@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Localization;
@@ -83,6 +83,10 @@ internal sealed partial class Title {
 			// Cleanup for counties having "capital" entries (found in TFE).
 			foreach (var county in Counties) {
 				if (county.CapitalCountyId is null) {
+					continue;
+				}
+
+				if (county.NobleFamily == true) {
 					continue;
 				}
 
@@ -439,7 +443,7 @@ internal sealed partial class Title {
 
 			// Remove liege entries of the same rank as the title they're in.
 			// For example, TFE had more or less this: d_kordofan = { liege = d_kordofan }
-			var validRankChars = new HashSet<char> { 'e', 'k', 'd', 'c', 'b'};
+			var validRankChars = new HashSet<char> { 'h', 'e', 'k', 'd', 'c', 'b'};
 			Parallel.ForEach(this, title => {
 				if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
 					return;
@@ -814,7 +818,6 @@ internal sealed partial class Title {
 				.ToArray();
 			
 			var nonCapitalBaronies = eligibleBaronies.Except(countyCapitalBaronies).OrderBy(b => b.Id).ToArray();
-			
 
 			// In CK3, a county holder shouldn't own baronies in counties that are not their own.
 			// This dictionary tracks what counties are held by what characters.
@@ -996,11 +999,16 @@ internal sealed partial class Title {
 			var duchiesWithDeJureVassals = duchies.Where(d => d.DeJureVassals.Count > 0).ToFrozenSet();
 
 			foreach (var duchy in duchiesWithDeJureVassals) {
+				// Don't change the de jure inside h_china, to avoid messing with the Dynastic Cycle and shit.
+				if (string.Equals(duchy.DeJureLiege?.DeJureLiege?.DeJureLiege?.Id, "h_china", StringComparison.Ordinal)) {
+					continue;
+				}
+
 				// If capital county belongs to an empire and contains the empire's capital,
 				// create a kingdom from the duchy and make the empire a de jure liege of the kingdom.
 				var capitalEmpireRealm = duchy.CapitalCounty?.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
 				var duchyCounties = duchy.GetDeJureVassalsAndBelow("c").Values;
-				if (capitalEmpireRealm is not null && duchyCounties.Any(c => c.Id == capitalEmpireRealm.CapitalCountyId)) {
+				if (capitalEmpireRealm is not null && duchyCounties.Any(c => c.Id.Equals(capitalEmpireRealm.CapitalCountyId, StringComparison.Ordinal))) {
 					var kingdom = Add("k_IRTOCK3_kingdom_from_" + duchy.Id);
 					kingdom.Color1 = duchy.Color1;
 					kingdom.CapitalCounty = duchy.CapitalCounty;
@@ -1066,8 +1074,15 @@ internal sealed partial class Title {
 			Logger.Info("Setting de jure empires...");
 			var deJureKingdoms = GetDeJureKingdoms();
 			
+			// TODO: exclude hegemonies from this process?
+			
 			// Try to assign kingdoms to existing empires.
 			foreach (var kingdom in deJureKingdoms) {
+				// Don't change the de jure inside h_china, to avoid messing with the Dynastic Cycle and shit.
+				if (string.Equals(kingdom.DeJureLiege?.DeJureLiege?.Id, "h_china", StringComparison.Ordinal)) {
+					continue;
+				}
+
 				var empireShares = new Dictionary<string, int>();
 				var kingdomProvincesCount = 0;
 				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
@@ -1128,7 +1143,7 @@ internal sealed partial class Title {
 			CharacterCollection ck3Characters,
 			HashSet<string> removableEmpireIds,
 			Dictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
-			Dictionary<string, Title> heritageToEmpireDict,
+			Dictionary<string, Title?> heritageToEmpireDict,
 			CK3LocDB ck3LocDB,
 			Date ck3BookmarkDate
 		) {
@@ -1163,12 +1178,16 @@ internal sealed partial class Title {
 				var dominantHeritage = dominantHeritages[0];
 
 				if (heritageToEmpireDict.TryGetValue(dominantHeritage.Id, out var empire)) {
+					if (empire is null) {
+						// The heritage is not supposed to have an empire.
+						continue;
+					}
 					kingdom.DeJureLiege = empire;
 				} else {
 					// Create new de jure empire based on heritage.
 					var heritageEmpire = CreateEmpireForHeritage(dominantHeritage, ck3Cultures, ck3LocDB);
 					removableEmpireIds.Add(heritageEmpire.Id);
-					
+
 					kingdom.DeJureLiege = heritageEmpire;
 					heritageToEmpireDict[dominantHeritage.Id] = heritageEmpire;
 				}
@@ -1201,14 +1220,22 @@ internal sealed partial class Title {
 			}
 		}
 
-		private Dictionary<string, Title> GetHeritageIdToExistingTitleDict() {
-			var heritageToEmpireDict = new Dictionary<string, Title>();
+		private Dictionary<string, Title?> GetHeritageIdToExistingTitleDict() {
+			var heritageToEmpireDict = new Dictionary<string, Title?>();
 
 			var reader = new BufferedReader(File.ReadAllText("configurables/heritage_empires_map.txt"));
 			foreach (var (heritageId, empireId) in reader.GetAssignments()) {
 				if (heritageToEmpireDict.ContainsKey(heritageId)) {
 					continue;
 				}
+
+				if (empireId == "none") {
+					// This means the heritage shouldn't have an empire created for it.
+					heritageToEmpireDict[heritageId] = null;
+					Logger.Debug($"Mapped heritage {heritageId} to no empire.");
+					continue;
+				}
+				
 				if (!TryGetValue(empireId, out var empire)) {
 					continue;
 				}
@@ -1446,15 +1473,16 @@ internal sealed partial class Title {
 
 			return dictToReturn;
 		}
-
-		private static bool AreTitlesAdjacent(FrozenSet<ulong> title1ProvinceIds, FrozenSet<ulong> title2ProvinceIds, MapData mapData) {
-			return mapData.AreProvinceGroupsAdjacent(title1ProvinceIds, title2ProvinceIds);
-		}
+		
 		private static bool AreTitlesAdjacentByLand(FrozenSet<ulong> title1ProvinceIds, FrozenSet<ulong> title2ProvinceIds, MapData mapData) {
 			return mapData.AreProvinceGroupsAdjacentByLand(title1ProvinceIds, title2ProvinceIds);
 		}
 		private static bool AreTitlesAdjacentByWaterBody(FrozenSet<ulong> title1ProvinceIds, FrozenSet<ulong> title2ProvinceIds, MapData mapData) {
 			return mapData.AreProvinceGroupsConnectedByWaterBody(title1ProvinceIds, title2ProvinceIds);
+		}
+
+		private void SetDeJureHegemonies(Date ck3BookmarkDate) {
+			// TODO: De jure hegemonies are not implemented yet.
 		}
 
 		private void SetEmpireCapitals(Date ck3BookmarkDate) {
@@ -1491,6 +1519,7 @@ internal sealed partial class Title {
 		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3LocDB ck3LocDB) {
 			SetDeJureKingdoms(ck3LocDB, ck3BookmarkDate);
 			SetDeJureEmpires(ck3Cultures, ck3Characters, ck3MapData, ck3LocDB, ck3BookmarkDate);
+			SetDeJureHegemonies(ck3BookmarkDate);
 		}
 
 		private HashSet<string> GetCountyHolderIds(Date date) {

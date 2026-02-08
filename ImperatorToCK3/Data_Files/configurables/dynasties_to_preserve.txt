@@ -7,6 +7,9 @@ jamshid
 613 # Seljuk, referenced in events\yearly_events\yearly_events_persia.txt
 25061 # Karling, referenced in common/achievements/standard_achievements.txt
 105800 # in achievements
+japanese_yamato
+japanese_taira_kanmu # Referenced with Imperial Branch/Honsei stuff for Japan, like events\dlc\tgp\tgp_japan_decision_events.txt
+japanese_minamoto_seiwa # Referenced with Imperial Branch/Honsei stuff for Japan, like events\dlc\tgp\tgp_japan_decision_events.txt
 
 # TFE
 900021 # referenced in common\scripted_guis\sevenhouses.txt

@@ -1,6 +1,7 @@
-﻿irtock3_gamerule_imperator_nomads = {
+﻿# Game rule about what tags made Nomadic from Imperator should be allowed to remain Nomadic
+irtock3_gamerule_imperator_nomads = {
 	categories = {
-		titles irtock3 ai
+		titles irtock3
 	}
 	
 	default = irtock3_gamerule_nomads_only_steppe
@@ -8,9 +9,12 @@
 	irtock3_gamerule_nomads_leave_everything = {}
 	irtock3_gamerule_nomads_only_steppe = {}
 	irtock3_gamerule_nomads_no_nomads = {}
+	irtock3_gamerule_nomads_leave_outside_force_steppe_tribes = {}
+	irtock3_gamerule_nomads_none_outside_force_steppe_tribes = {}
 }
 
-irtock3_gameruler_filler_rulers = {
+# Game rule determining how filler rulers are handled
+irtock3_gamerule_filler_rulers = {
 	categories = {
 		titles irtock3 ai
 	}
@@ -22,4 +26,29 @@ irtock3_gameruler_filler_rulers = {
 	irtock3_gamerule_filler_rulers_steppe_nomads_all = {}
 	irtock3_gamerule_filler_rulers_steppe_nomads_heritage = {}
 	irtock3_gamerule_filler_rulers_steppe_nomads_herdhead = {}
+}
+
+# Game rule determining what rulers should be made Mandala at game start
+irtock3_gamerule_mandala_rulers = {
+	categories = {
+		titles irtock3
+	}
+	
+	default = irtock3_gamerule_mandala_rulers_sea
+
+	irtock3_gamerule_mandala_rulers_all = {}
+	irtock3_gamerule_mandala_rulers_sea = {}
+}
+
+# Game rule determining how Japan and other Ritsuryo realms should be handled at game start
+irtock3_gamerule_ritsuryo_rulers = {
+	categories = {
+		titles irtock3
+	}
+	
+	default = irtock3_gamerule_ritsuryo_rulers_japan
+
+	irtock3_gamerule_ritsuryo_rulers_none = {}
+	irtock3_gamerule_ritsuryo_rulers_japan = {}
+	irtock3_gamerule_ritsuryo_rulers_any = {}
 }
