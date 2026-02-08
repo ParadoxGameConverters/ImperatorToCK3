@@ -7082,3 +7082,131 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		}
 	}
 }
+
+
+"common/culture/traditions/tgp_traditions.txt" = {
+	#########################
+	## tradition_sinophilic
+	#########################
+
+	# is_shown block
+	replace = {
+		before = {
+		has_tgp_dlc_trigger = yes
+		NOT = { has_cultural_pillar = heritage_chinese } #Can't be Sinophilic when you're Chinese
+		culture:han.culture_head ?= {
+			in_diplomatic_range = scope:character
+		}
+		}
+
+		after = {
+		has_tgp_dlc_trigger = yes
+		NOT = { has_cultural_pillar = heritage_chinese } #Can't be Sinophilic when you're Chinese
+		# IRToCK3: Instead of just checking the Han culture head, check any Chinese heritage culture head
+		any_culture_global = {
+			has_cultural_pillar = heritage_chinese
+			culture_head ?= { in_diplomatic_range = scope:character }
+		}
+		}
+	}
+
+	# cost block
+	replace = {
+		before = {
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_bureaucratic = { is_in_list = traits }
+						culture_pillar:ethos_courtly = { is_in_list = traits }
+						culture_pillar:ethos_spiritual = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_bureaucratic_courtly_or_spiritual_desc
+				}
+			}
+			if = {
+				limit = {
+					trigger_if = {
+						limit = {
+							scope:character = {
+								is_ai = no
+							}
+						}
+						NOT = {
+							any_ruler = {
+								count >= 5
+								culture = prev
+								primary_title.tier >= tier_county
+								has_trait = scholar
+							}
+						}
+					}
+					trigger_else = {
+						always = no
+					}
+				}
+				add = {
+					value = tradition_unfulfilled_criteria_penalty
+					desc = rulers_with_scholar_desc
+				}
+			}
+		}
+
+		after = {
+			if = {
+				limit = {
+					NOR = {
+						culture_pillar:ethos_bureaucratic = { is_in_list = traits }
+						culture_pillar:ethos_courtly = { is_in_list = traits }
+						culture_pillar:ethos_spiritual = { is_in_list = traits }
+					}
+				}
+				add = {
+					value = tradition_incompatible_ethos_penalty
+					desc = not_bureaucratic_courtly_or_spiritual_desc
+				}
+			}
+			if = {
+				limit = {
+					trigger_if = {
+						limit = {
+							scope:character = {
+								is_ai = no
+							}
+						}
+						NOT = {
+							any_ruler = {
+								count >= 5
+								culture = prev
+								primary_title.tier >= tier_county
+								has_trait = scholar
+							}
+						}
+					}
+					trigger_else = {
+						always = no
+					}
+				}
+				add = {
+					value = tradition_unfulfilled_criteria_penalty
+					desc = rulers_with_scholar_desc
+				}
+			}
+			# IRToCK3: If you are a tributary/vassal of China, cut cost in half
+			if = {
+				limit = {
+					scope:character = {
+						NOT = { has_title = title:h_china }
+						top_overlord = { has_title = title:h_china }
+					}
+				}
+				multiply = {
+					value = 0.5
+					desc = subject_of_china_desc
+				}
+			}
+		}
+	}
+}

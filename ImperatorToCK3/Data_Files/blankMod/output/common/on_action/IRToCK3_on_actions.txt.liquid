@@ -479,6 +479,18 @@ IRToCK3_game_start_onaction_effects = {
 				add_special_building_slot = dvin_shuka_01
 			}
 		}
+
+		###########################
+		### Sinophilic Cultures ###
+		###########################
+		# In a converted save, there is no guarentee that most cultures were properly influenced enough to be considered "Sinophilic"
+		every_culture_global = {
+			limit = {
+				this != culture:dongyi
+				has_cultural_tradition = tradition_sinophilic
+			}
+			remove_culture_tradition = tradition_sinophilic
+		}
 	}
 }
 
