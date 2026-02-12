@@ -2518,42 +2518,10 @@ irtock3_elevate_roman_empire_effects = {
 		}
 	}
 
-	### ONCE THE DE JURE EMPIRE SPLIT (split_byzantine_empire_effect) FOR THE ROMAN HEGEMONY TITLES IS DETERMINED FOR THE ENTIRE MAP, THIS SHOULD PROBABLY BE CHANGED SO THAT INSTEAD OF REPLACING e_roman_empire WITH A NEW EMPIRE, IT SHOULD PROBABLY BE SPLIT ACCORDING TO THAT EFFECT
-	# If e_roman_empire has de jure kingdoms beneath it, make sure those kingdoms are given to a new empire to replace e_roman_empire
-	if = {
-		limit = {
-			title:e_roman_empire = {
-				any_in_de_jure_hierarchy = { tier = tier_kingdom }
-			}
-		}
-
-		custom_tooltip = {
-			text = irtock3_change_roman_empire_kingdoms_tt
-
-			# Create a new empire for the de jure kingdoms, named after your capital's duchy
-			capital_county.duchy = { save_scope_as = old_title }
-			create_dynamic_title = {
-				tier = empire
-				name = NEW_CREATED_TITLE_NAME
-			}
-			scope:new_title = {
-				set_coa = scope:old_title
-				set_color_from_title = scope:old_title
-				set_capital_county = scope:old_title.title_capital_county
-				set_de_jure_liege_title = title:h_roman_empire
-			}
-
-			# Drift all kingdoms from e_roman_empire to the new empire
-			title:e_roman_empire = {
-				every_in_de_jure_hierarchy = {
-					limit = { tier = tier_kingdom }
-					set_de_jure_liege_title = scope:new_title
-				}
-			}
-
-			# Don't want this scope interfering with h_roman_empire being saved in scope:new_title later
-			clear_saved_scope = new_title
-		}
+	# Split apart e_roman_empire
+	custom_tooltip = {
+		text = irtock3_change_roman_empire_kingdoms_tt
+		split_byzantine_empire_effect = yes
 	}
 
 	# Replace e_roman_empire with h_roman_empire
@@ -2683,4 +2651,81 @@ irtock3_elevate_roman_empire_effects = {
 			}
 		}
 	}	
+}
+
+
+# This scripted_effect is to be used with the overwritten 'split_byzantine_empire_effect' so that it can be changed a lot easier, without having to worry about titles, regions, etc. being correct in multiple places
+# This effect is being called from within the scope of whatever Rome empire title is being split apart (e_byzantium, e_roman_empire, e_western_roman_empire) 
+# INPUTS:
+## $REGION$ - The geographical region being checked
+## $EMPIRE$ - The empire title kingdoms in this region should be de jure under after the split (When referencing this script, this input should NOT have "title:" added. For example, for Italia, use "EMPIRE = e_italy")
+irtock3_split_rome_empire_region_effect = {
+	# The EMPIRE title being used needs to meet certain conditions to actually get used, to ensure its not being stolen from another ruler, and that it actually makes sense for it to be used (i.e. it's somehow not on the other side of the map)
+	if = {
+		limit = {
+			title:$EMPIRE$ ?= {
+				irtock3_can_empire_be_used_for_rome_region = {
+					REGION = $REGION$
+				}
+			}
+		}
+		title:$EMPIRE$ = { save_scope_as = new_title }
+	}
+	# If there is already an existing dynamic empire title that was created for this region, use that one before creating a new one
+	else_if = {
+		limit = {
+			any_in_global_list = {
+				variable = rome_dynamic_empire_region_$REGION$
+				irtock3_can_empire_be_used_for_rome_region = {
+					REGION = $REGION$
+				}
+			}
+		}
+		random_in_global_list = {
+			variable = rome_dynamic_empire_region_$REGION$
+			limit = {
+				irtock3_can_empire_be_used_for_rome_region = {
+					REGION = $REGION$
+				}
+			}
+			save_scope_as = new_title
+		}
+	}
+	# If EMPIRE doesn't meet the conditions and there isn't an existing dynamic title, create a new one
+	else = {
+		# Get the most developed county in the region to use as the capital
+		ordered_county_in_region = {
+			region = $REGION$
+			limit = { duchy.title_capital_county ?= this } # Prefer that the chosen county be the capital of its duchy
+			alternative_limit = { always = yes } # If, somehow, no county meets the above condition, just pick the most developed county in the region
+			order_by = development_level
+			max = 1
+			save_scope_as = old_title # For localization
+		}
+		create_dynamic_title = {
+			tier = empire
+			name = NEW_CREATED_TITLE_NAME
+		}
+		scope:new_title = {
+			set_color_from_title = scope:old_title
+			set_coa = scope:old_title
+			set_capital_county = scope:old_title
+		}
+		add_to_global_variable_list = {
+			name = rome_dynamic_empire_region_$REGION$
+			target = scope:new_title
+		}
+	}
+	every_in_de_jure_hierarchy = {
+		limit = {
+			tier = tier_kingdom
+			any_de_jure_county = {
+				percent >= 0.51
+				title_province = { geographical_region = $REGION$ }
+			}
+		}
+		set_de_jure_liege_title = scope:new_title
+		scope:new_title = { set_de_jure_liege_title = title:h_roman_empire }
+	}
+	clear_saved_scope = new_title
 }

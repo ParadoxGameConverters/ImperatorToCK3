@@ -6,3 +6,23 @@ is_title_in_realm_trigger = {
 		holder.top_liege = root
 	}
 }
+
+# This trigger is used for 'irtock3_split_rome_empire_region_effect' since these exact conditions need to be checked multiple times, so its eaisier to have them handled through a scripted_trigger
+# ROOT = Character who ended up causing this effect to trigger (will likely be holding the Rome empire title being split apart)
+# scope = empire title being checked
+# $REGION$ = The geographical region being checked
+irtock3_can_empire_be_used_for_rome_region = {
+	# Can't have a holder, or the holder is in the same realm as the ROOT ruler (or is the ROOT ruler)
+	OR = {
+		NOT = { exists = holder }
+		holder.top_liege ?= root.top_liege
+	}
+	# Title must be titular, or have most of its de jure counties already in the REGION
+	OR = {
+		is_titular = yes
+		any_de_jure_county = {
+			percent >= 0.75
+			title_province = { geographical_region = $REGION$ }
+		}
+	}
+}

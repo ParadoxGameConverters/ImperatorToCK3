@@ -276,3 +276,83 @@ create_eastern_roman_empire_scripted_effect = {
 		}
 	}
 }
+
+
+# In the base game, this scripted effect is used to split e_byzantium into different regional empire titles to be put under h_roman_empire. Need to generalize this effect so it can be used to split various Rome empire titles apart and put them under various hegemony titles
+split_byzantine_empire_effect = {
+	hidden_effect = {
+		# Add the Rome empire titles to a list, to make sure they all properly get split up, since none should have de jure land after this event is called
+		title:e_roman_empire = { add_to_list = rome_empire_titles }
+		title:e_byzantium = { add_to_list = rome_empire_titles }
+		title:e_western_roman_empire = { add_to_list = rome_empire_titles }
+
+		# The base game goes through every held title in e_byzantium for specific kingdom titles. But, in a converted save, that should probably be avoided since titles can potentially end up anywhere
+
+		# Go through every de jure kingdom in the Rome empire titles
+		every_in_list = {
+			list = rome_empire_titles
+			if = { 
+				limit = {
+					OR = {
+						NOT = { exists = holder }
+						holder ?= root
+					}
+				}
+				# Italy
+				irtock3_split_rome_empire_region_effect = {
+					REGION = world_europe_south_italy
+					EMPIRE = e_italy
+				}
+				# Illyria
+				irtock3_split_rome_empire_region_effect = {
+					REGION = custom_roman_illyricum
+					EMPIRE = e_illyria
+				}
+				# Macedonia/Greece
+				irtock3_split_rome_empire_region_effect = {
+					REGION = converter_custom_macedonia_region
+					EMPIRE = e_macedonia
+				}
+				# Anatolia
+				irtock3_split_rome_empire_region_effect = {
+					REGION = converter_custom_anatolia_region
+					EMPIRE = e_anatolia
+				}
+				# Oriens/Levant/Arabia
+				irtock3_split_rome_empire_region_effect = {
+					REGION = converter_custom_oriens_region
+					EMPIRE = e_oriens
+				}
+				# Egypt/Nubia
+				irtock3_split_rome_empire_region_effect = {
+					REGION = ghw_region_egypt_et_al
+					EMPIRE = e_aegyptus
+				}
+				# Africa
+				irtock3_split_rome_empire_region_effect = {
+					REGION = converter_custom_africa_region
+					EMPIRE = e_africa
+				}
+
+
+				# DELETE THIS AFTER ENTIRE MAP IS SETUP
+				every_in_de_jure_hierarchy = {
+					limit = {
+						tier = tier_kingdom
+					}
+					if = {
+						limit = {
+							any_title_to_title_neighboring_and_across_water_empire = {
+								count >= 1
+							}
+						}
+						random_title_to_title_neighboring_and_across_water_empire = {
+							save_scope_as = new_empire_de_jure
+						}
+						set_de_jure_liege_title = scope:new_empire_de_jure
+					}
+				}
+			}
+		}
+	}
+}
