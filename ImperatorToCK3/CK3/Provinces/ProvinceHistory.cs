@@ -1,5 +1,4 @@
 ﻿using commonItems;
-using commonItems.Collections;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
@@ -86,12 +85,13 @@ internal sealed partial class Province {
 
 	private static readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
 		.WithSimpleField("culture", "culture", null)
-		.WithSimpleField("faith", new OrderedSet<string> {"faith", "religion"}, null)
+		.WithSimpleField("faith", ["faith", "religion"], null)
 		.WithSimpleField("holding", "holding", "none")
 		.WithSimpleField("buildings", "buildings", new List<string>())
 		.WithSimpleField("special_building_slot", "special_building_slot", null)
 		.WithSimpleField("special_building", "special_building", null)
 		.WithSimpleField("duchy_capital_building", "duchy_capital_building", null)
 		.WithSimpleField("terrain", "terrain", null)
+		.WithLiteralField("effects", "effect")
 		.Build();
 }

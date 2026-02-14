@@ -62,18 +62,20 @@ public class DynastiesOutputterTests {
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 		await DynastiesOutputter.OutputDynasties(outputModPath, dynasties);
 
-		await using var file = File.OpenRead(outputPath);
-		var reader = new StreamReader(file);
+		var actualText = TextTestUtils.NormalizeNewlines(await File.ReadAllTextAsync(outputPath));
+		var expectedText = TextTestUtils.NormalizeNewlines(
+			"""
+			dynn_irtock3_1={
+				name = dynn_irtock3_1
+			}
+			dynn_irtock3_2={
+				name = dynn_irtock3_2
+				culture = roman
+			}
+			
+			"""
+		);
 
-		Assert.Equal("dynn_irtock3_1={", await reader.ReadLineAsync());
-		Assert.Equal("\tname = dynn_irtock3_1", await reader.ReadLineAsync());
-		Assert.Equal("}", await reader.ReadLineAsync());
-
-		Assert.Equal("dynn_irtock3_2={", await reader.ReadLineAsync());
-		Assert.Equal("\tname = dynn_irtock3_2", await reader.ReadLineAsync());
-		Assert.Equal("\tculture = roman", await reader.ReadLineAsync());
-		Assert.Equal("}", await reader.ReadLineAsync());
-		Assert.True(string.IsNullOrWhiteSpace(await reader.ReadLineAsync()));
-		Assert.True(reader.EndOfStream);
+		Assert.Equal(expectedText, actualText);
 	}
 }

@@ -96,16 +96,6 @@
 ## India Imperator Regions
 @india_regions = "irRegion = gandhara_region irRegion = maru_region irRegion = madhyadesa_region irRegion = pracya_region irRegion = avanti_region irRegion = vindhyaprstha_region irRegion = aparanta_region irRegion = karnata_region irRegion = dravida_region"
 
-# Imperator has Formosa all under one culture, but CK3 has every county be its own culture. For some variety, but also to make the cultures a little consolidated, I will split up the cultures across Formosa into 3 different cultures, then another one as fallback in case the culture ends up somewhere else ~~tanner918
-## North Formosa Imperator
-@north_formosa = "irProvince = 10825 irProvince = 10826 irProvince = 10835 irProvince = 10836"
-
-## Middle Formosa Imperator
-@middle_formosa = "irProvince = 10827 irProvince = 10828 irProvince = 10829 irProvince = 10837 irProvince = 10838 irProvince = 10834"
-
-## South Formosa Imperator
-@south_formosa = "irProvince = 10839 irProvince = 10830 irProvince = 10833 irProvince = 10832 irProvince = 10831"
-
 ## Europe Imperator Regions
 @europe_regions = "@culture_splitting_region_K @culture_splitting_region_H @culture_splitting_region_J @culture_splitting_region_R @culture_splitting_region_Q @culture_splitting_region_S @culture_splitting_region_P @culture_splitting_region_I @culture_splitting_region_G @culture_splitting_region_D @culture_splitting_region_C @culture_splitting_region_B @culture_splitting_region_A @culture_splitting_region_E @culture_splitting_region_F @culture_splitting_region_T @culture_splitting_region_U @culture_splitting_region_X @culture_splitting_region_V @culture_splitting_region_W @culture_splitting_region_Y"
 
@@ -147,7 +137,11 @@ link = { ck3=meroitic ck3=cushite } # Cushitic is from I:R Antiquitas mod.
 link = { ck3=nubian ir=meroitic }
 link = { ck3=nubian ir=cushite }
 # Invictus mod
-link = { ck3=nubian ir=nubian ir=lower_nubian ir=napatan ir=moyan ir=alutan }
+link = {
+	ck3=nubian
+	ir=nubian ir=lower_nubian ir=napatan ir=moyan ir=alutan ir=zankorian
+	ir=midobian # https://en.wikipedia.org/wiki/Midob_people
+}
 
 ## Anatolian
 # TFE
@@ -192,9 +186,7 @@ link = { ck3 = hindustani ir = kosala ir = kuru }
 link = { ck3=sinhala ir=dhivehi }
 
 ## Bactrian
-link = { ck3 = pecheneg ir = pecheneg } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = bactrian ir = bactrian }
-link = { ck3 = pecheneg ir = wusun }
 link = { ck3 = sogdian ir = sogdian ir = tayuan }
 link = {
 	ck3 = saka
@@ -202,6 +194,7 @@ link = {
 	ir = shule
 	# Invictus mod
 	ir = massagetaean
+	ir = wusun
 }
 link = { ck3 = tocharian ir = tocharian ir = phryni ir = yuezhi }
 link = { ck3 = tajik ir = tajik } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
@@ -209,10 +202,6 @@ link = { ck3 = tajik ir = margian }
 # Invictus mod
 link = { ck3=indo_greek ir=greco_indian } # Give priority to Rajas of Asia version of culture, but keep converter version as backup
 link = { ck3=indogreek ir=greco_indian }
-
-## Turkic
-link = { ck3 = turkish ir = oghuz } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
-link = { ck3 = karluk ir = karluk } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 
 ## Baltic & Balto-Finnic
 @ir_baltic_cultures = "ir=aestian ir=baltics_tribs" # baltics_tribs comes from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
@@ -626,9 +615,9 @@ link = { ck3 = niwt_ipt ir = niwt_ipt }
 link = { ck3 = baranis ir = baranis } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 link = { ck3 = butr ir = butr } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 # TFE
-link = { ck3 = garamantian ir = nasamonian ir = macaean ir = psyllic ir = garamantic ir = libyan ir = berber ir = phazani ir = lotophagoi ir = gyzantian }
+link = { ck3 = garamantian ir = nasamonian ir = macaean ir = psyllic ir = garamantic ir = libyan ir = berber ir = phazani ir = lotophagoi ir = gyzantian ir = atarantian ir = atlantean }
 link = { ck3 = autoleles ir = nectiberean ir = autolalean ir = cetianian }
-link = { ck3 = pharusian ir = lixitoi ir = perorsian ir = canarian }
+link = { ck3 = pharusian ir = lixitoi ir = perorsian ir = canarian ir = pharusian }
 link = { ck3 = maurian ir = massylian ir = berber ir = gaetulian ir = melanogaetulian ir = socossian ir = massaesylian ir = libyan ir = garamantic ir = numidian irRegion = mauretainia_region }
 link = { ck3 = gaetulian ir = massylian ir = massaesylian ir = gaetulian ir = melanogaetulian ir = abannaean ir = capariensian }
 link = { ck3 = tuareg ir = massylian ir = berber ir = gaetulian ir = melanogaetulian ir = socossian ir = massaesylian ir = libyan ir = garamantic ir = numidian ck3Province = 6590 ck3Province = 6591 ck3Province = 6465 ck3Province = 6466 ck3Province = 6467 ck3Province = 6468 ck3Province = 4612 }
@@ -639,7 +628,7 @@ link = { ck3 = butr ir = libyan ir = garamantic }
 link = { ck3 = numidian ir = numidian }
 # Invictus mod
 link = { ck3=baranis ir=lixitoi ir=autolalean ir=cetianian ir=nectiberean }
-link = { ck3=butr ir=gyzantian ir=psyllic ir=nasamonian ir=perorsian ir=phazani ir=canarian ir=daphnitaean ir=macaean }
+link = { ck3=butr ir=gyzantian ir=psyllic ir=nasamonian ir=perorsian ir=phazani ir=canarian ir=daphnitaean ir=macaean ir=pharusian ir=nigirtean ir=atarantian ir=atlantean }
 link = { ck3=numidian ir=capariensian ir=lotophagoi ir=abannaean }
 
 ## Persian and Iranian
@@ -687,8 +676,6 @@ link = { ck3 = basque ir = cantabrian ir = ilergetian ir = autrigonian ir = vasc
 link = { ck3 = nuragic ir = nuragic ir = corsian ir = talaiotic }
 
 ## Scythian
-link = { ck3 = cuman ir = cuman } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
-link = { ck3 = kimek ir = kimek } # https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
 # TFE
 link = { ck3 = roxolan ir = sarmatian historicalTag=ROX }
 link = { ck3 = yazige ir = sarmatian historicalTag=IAZ } # https://en.wikipedia.org/wiki/Iazyges#:~:text=The%20Iazyges%27%20name,sacrifices.%5B22%5D
@@ -789,7 +776,6 @@ link = { ck3 = shuadit ir = hebrew @culture_splitting_region_F }
 link = { ck3 = zarphatic ir = hebrew @culture_splitting_region_E }
 link = { ck3 = ashkenazi ir = hebrew @culture_splitting_region_D @culture_splitting_region_G @culture_splitting_region_H }
 link = { ck3 = sephardi ir = hebrew irRegion = baetica_region irRegion = contestania_region irRegion = tarraconensis_region @culture_splitting_region_Y irRegion = gallaecia_region }
-#link = { ck3 = khazar ir = hebrew @culture_splitting_region_L } # Commented out for know since Khazar isn't really a Hebrew/Israelite culture, they just adopted Judaism, and I included a possible mapping for khazar below with proto-turkic cultures ~~tanner918
 link = { ck3 = hebrew ir = hebrew }
 link = { ck3 = nabatean ir = nabatean }
 link = { ck3 = alasiyan ir = alasiyan }
@@ -799,17 +785,11 @@ link = { ck3 = ugaritic ir = ugaritic }
 # TFE
 link = { ck3 = pyu ir = pyu }
 # Vanilla CK3
-link = { ck3=mon ir=mon }
-link = { ck3=burmese ir=pyu }
-link = { ck3=arakanese ir=rhakine }
-link = { ck3=palaung ir=pubu } # Rajas culture, giving it priority over converter's version
-link = { ck3=palaungic ir=pubu }
-link = { ck3=shan ir=shan }
-link = {
-    ck3 = khasi
-    ir = jaintia # Pnar, https://en.wikipedia.org/wiki/Pnar_people
-}
-
+link = { ck3 = kachin ir = pyu ir = piaoyue irRegion = pubu_area } # Approximately where they are located
+link = { ck3 = burmese ir = pyu ir = piaoyue }
+# Karen Mappings (The region where Karen would appear in CK3 is Impassable Terrain in Imperator, so these need to be made to help make sure that Karen is likely to appear)
+link = { ck3 = karen ir = shan irProvince = 9843 }
+link = { ck3 = karen ir = mon irProvince = 9841 irProvince = 9842 }
 
 ## Finnic
 @ir_finnic_cultures = "ir=mordvin ir=androphagian ir=volgaic ir=fennic"
@@ -879,210 +859,385 @@ link = {
 }
 
 # Terra Indomita to Rajas of Asia
-link = { ck3 = tagalog ir = tagalog }
-link = { ck3 = bisaya ir = bisaya }
-link = { ck3 = goguryeo ir = goguryeo }
-link = { ck3 = yamato ir = wa }
-link = { ck3 = ainu ir = ainu }
-link = { ck3 = emishi ir = emishi }
-link = { ck3 = nivkh ir = nivkh }
-link = { ck3 = bahnar ir = bahnar } # Stieng and Mnong are two cultures that are the same as Bahnar in game, just with different names. For now will just map to Bahnar, but might be worth splitting if it makes sense later on
-link = { ck3 = andaman ir = andaman }
-link = { ck3 = munda ir = munda }
 link = { ck3 = mari ir = mari }
-link = { ck3=old_viet ir=lacviet } # The Lac Viet were an ancient Vietnamese people who lived in the Red River Delta.
-link = { ck3=ryukyu ir=duuchuu } # Duuchuu was a historical province in Japan.
-link = { ck3=ryukyu ir=yaeyama } # The Yaeyama Islands are a group of islands that are part of Japan.
-link = { ck3=hayato ir=kumaso } # The Kumaso were an indigenous people who lived in southern Japan. (Not mapping to Yamato for diversity and to better match culture split in EU4/EU5)
-link = { ck3=oshu ir=aduma } # The Aduma were an indigenous people who lived in southern Japan. (Not mapping to Yamato for diversity and to better match culture split in EU4/EU5)
-link = { ck3=kyushu ir=nansei } # The Nansei Islands are a group of islands that are part of Japan.(Not mapping to Yamato for diversity and to better match culture split in EU4/EU5)
-link = { ck3 = emishi ir = jomon_yayoi } # This is a special culture available to the native emishi tags from missions that allows them to switch to this special culture to be closer to the Yayoi culture group. Since this is technically Emishi (Jomon) trying to be closer to the Yayoi culture group, realistically might make more sense to have a custom culture thats a hybrid of emishi and yamato.
-link = { ck3=emishi ir=sunazawa } # Sunazawa was a historical province in Japan.
-link = { ck3=emishi ir=dewa } # Dewa was a historical province in Japan.
-link = { ck3=emishi ir=mitinooku } # Mitinooku was a historical province in Japan.
-link = { ck3 = batak ir = minangkabau historicalTag = A21 } # This tag represents a group of people described under the "Batak" grouping
-link = { ck3 = mentawai ir = minangkabau irProvince = 11043 }
-link = { ck3 = nias ir = minangkabau irProvince = 11044 } # Added these different mappings for more variety, could be changed if desired
-link = { ck3 = gayo ir = minangkabau irRegion = aceh_area }
-link = { ck3=malay ir=minangkabau } # https://en.wikipedia.org/wiki/Minangkabau_people
-link = { ck3=goguryeo ir=woju } # The Woju were a Korean people who lived in the Liaodong Peninsula.
-link = { ck3=goguryeo ir=lelang } # Lelang was a historical Korean kingdom that existed in the Liaodong Peninsula.
-link = { ck3=goguryeo ir=dongwei } # Dongwei was a historical Korean kingdom that existed in the Liaodong Peninsula.
-link = { ck3=goguryeo ir=yilyu } # Yilyu was a historical Korean kingdom that existed in the Liaodong Peninsula.
-link = { ck3=goguryeo ir=joseon } # Joseon was a historical Korean kingdom that existed from the 14th to the 19th centuries.
-link = { ck3=goguryeo ir=fuyu } # Fuyu was a historical Korean kingdom that existed in the Liaodong Peninsula.
-link = { ck3 = jeju ir = byeonhan ir = jinhan ir = mahan irProvince = 9285 } # Right now just map to Jeju Island province. Would it be better to map to the Imperator Damna (DMN) tag?
-link = { ck3=samhan ir=jinhan } # Jinhan was a historical Korean confederacy that existed in the Korean Peninsula.
-link = { ck3=samhan ir=mahan } # Mahan was a historical Korean confederacy that existed in the Korean Peninsula.
-link = { ck3=samhan ir=byeonhan } # Byeonhan was a historical Korean confederacy that existed in the Korean Peninsula.
-link = { ck3=ainu ir=jeulmeun } # Jeulmeun is a revivalist culture, and belongs to the same culture group as the Ainu in Terra Indomita.
-link = { ck3=chong ir=pear } # In RoA, the chong culture is localized as Samre, which is the same ethnic group as the Pear people.
-link = { ck3 = kinh ir = chu ir = duhu ir = huaxia ir = ji ir = jin ir = qilu ir = qin ir = xu ir = yaan ir = yan ir = zhongyuan ir = guzhu  ir = huaiyi  ir = laiyi  ir = lingzhi irRegion = hong_area irRegion = jiaozhi_area irRegion = jiuzhen_area } # In CK3, Kinh is represented as a hybrid of Lac Viet and Han. This is probably the best way to realistically represent this culture appearing naturally outside of listing every single possible chinese tag as a condition for lacviet to convert to kinh if its inside their realm
-link = { ck3=han ir=huaxia } # Huaxia was a historical term used to refer to the Chinese people. # https://en.wikipedia.org/wiki/Huaxia
-link = { ck3=sichuan ir=ba } # https://en.wikipedia.org/wiki/Ba_(state): "an ancient state in eastern Sichuan, China"
-link = { ck3=sichuan ir=bo } # https://en.wikipedia.org/wiki/Bo_people_(China): "The Bo people were native to southeastern Sichuan."
 link = { ck3=georgian ir=bekhyrian } # the region of Bekhyria (https://upload.wikimedia.org/wikipedia/commons/4/4d/Georgian_States_Colchis_and_Iberia_%28600-150BC%29-en.svg) is inhabited by the Colchians in TI, the Bekhyrian culture doesn't have any pops.
 link = { ck3=nubian ir=syrbotian } # https://en.wikipedia.org/wiki/Syrbotae
 link = { ck3=armenian ir=phasiane } # Armenia was also known as Greater Armenia, which included the region of Phasiane.
 link = { ck3=armenian ir=sophene } # Sophene was a historical region in Upper Mesopotamia, which is now part of Armenia.
 link = { ck3=armenian ir=van } # The Kingdom of Van was a historical Armenian state located in the region of Lake Van.
 link = { ck3=armenian ir=brygian } # The Brygians were an ancient Anatolian people who inhabited the region of Phrygia, which is now part of Armenia.
-link = { ck3=aceh ir=linyi irRegion = aceh_area } # CK3 has Aceh as hybrid of Cham and Gayo, figured this make the most sense to have it appear naturally ~~tanner918
-link = { ck3=cham ir=linyi }
-link = { ck3 = kavalan ir = yizhou @north_formosa }
-link = { ck3 = bunun ir = yizhou @middle_formosa }
-link = { ck3 = paiwan ir = yizhou @south_formosa }
-link = { ck3 = siraya ir = yizhou } # CK3 has each county in Formosa be a different culture. Setting that up might be annoying, and probably wouldn't make sense since it is likely to be owned by one tag. This setup splits yizhou into three cultures on the island, and then another as a fallback for anywhere else. This can obviously be changed if desired
-link = { ck3=malay ir=chaiya } # Chaiya was a historical kingdom in Southeast Asia that is now part of Thailand.
-link = { ck3=malay ir=malayan } # The Malayan people are a group of ethnic Malays who live in the Malay Peninsula.
-link = { ck3=idaya ir=igorot } # The Igorot people are a group of indigenous peoples who live in the mountainous regions of the Philippines.
-link = { ck3=palawan ir=tagbanwa } # The Tagbanwa people are an indigenous group who live in the Palawan Islands of the Philippines.
 link = { ck3=bactrian ir=bactra } # Bactria was a historical region in Central Asia that is now part of Afghanistan and Tajikistan. (In game has Bactrian as its name)
-link = { ck3=han ir=yan } # Yan was a historical state in China that existed during the Spring and Autumn period.  # TODO: try to map this manually
-link = { ck3=han ir=jin } # Jin was a historical state in China that existed during the Spring and Autumn and Warring States periods.  # TODO: try to map this manually
-link = { ck3=qin ir=qin }
-link = { ck3=han ir=chu } # Chu was a historical state in China that existed during the Spring and Autumn and Warring States periods.  # TODO: try to map this manually
-link = { ck3=han ir=zhongyuan } # Zhongyuan was a historical region in China that is now part of Henan Province.  # TODO: try to map this manually
-link = { ck3=han ir=qilu } # Qilu was a historical region in China that is now part of Shandong Province.  # TODO: try to map this manually
-link = { ck3=han ir=yaan } # Yaan was a historical region in China that is now part of Sichuan Province.  # TODO: try to map this manually
-link = { ck3=han ir=ji } # Ji was a historical state in China that existed during the Spring and Autumn and Warring States periods.  # TODO: try to map this manually
-link = { ck3=han ir=xu } # Xu was a historical state in China that existed during the Spring and Autumn and Warring States periods.  # TODO: try to map this manually
-link = { ck3=han ir=duhu } # Duhu was a historical region in China that is now part of Gansu Province.  # TODO: try to map this manually
-link = { ck3=shatuo ir=xiongnu_chinese } # The Sino-Xiongnu were a group of Xiongnu people who had assimilated into Chinese culture. (This seems similar to the Shatou culture in CK3, which is a hybrid of Ueban and Han, so will map to that for now ~~tanner918)
-link = { ck3=yao ir=yangyu } # Yangyu was a historical region in China that is now part of Guangdong Province.
-link = { ck3 = sheren ir = sanmiao irRegion = yang_region irRegion = jiao_region } # She seems to be closely related to Hmong/Miao
-link = { ck3 = hmong ir = sanmiao }
-link = { ck3=nivkh ir=susuya } # Susuya is in the Nivkh culture group
-link = { ck3 = khmu ir = minpu } # It is called Khmu in Imperator
-link = { ck3=khmer ir=phnom } # The Phnom were an ancient people who lived in southern China.
-link = { ck3=kuy ir=ban } # Culture is called Katu in Imperator, and Kuy is a Katuic culture. There are other Katuic cultures that could potentially be mapped to, but they are all clumped together, so Determining exactly what their mapping conditions should be might be difficult to prevent having only one or two provinces convert
-link = { ck3=tai ir=xiangkhoang } # Xiangkhoang was a historical kingdom in Laos. From what I can tell, they were related closer to Tai peoples ~~tanner918
-link = { ck3=nicobar ir=holchu } # The Nicobarese refer to themselves as Holchu
 link = { ck3=saka ir=buku } # Buku is in the Saka culture group, so for now will group to Saka until a better mapping can be determined
-link = { ck3 = caijia ir = dian } # Mapping for now until a better culture can be determine
-link = { ck3 = wuman ir = yelang } # AEP Culture, adding first to make sure AEP cultures map properly; The Yi/Nuosu peoples are considered possible descendants of the Yelang kingdom
-link = { ck3 = yi ir = yelang } # Used for RoA; The Yi/Nuosu peoples are considered possible descendants of the Yelang kingdom
-link = { ck3 = bai ir = jiuliao }
-link = { ck3 = lisu ir = ailao }
-link = { ck3 = be ir = lier ck3Province = 12458 ck3Province = 12449 ck3Province = 12436 ck3Province = 12419 }
-link = { ck3 = hlai ir = lier }
-link = { ck3 = nong ir = gui } # nong called Zhuang in CK3. They are both Tai cultures in the same region, and looking it up, Zhuang peoples are said to be descendants of the Xiou (according to a chinese travel site), and the Nam Cuong tag in Imperator refers to them as the Xiou while having Gui as primary culture
 link = { ck3=pyu ir=piaoyue } # The Pyu were an ancient people who lived in Myanmar.
-link = { ck3 = evenk ir = haoshi ir = huifa ir = sushen irRegion = amur_area irRegion = sahaliyan_area irRegion = mobei_region irRegion = scytho_siberian_region irRegion = hyperborea_region } # To represent that they are a Tungusic culture closer to Siberia
-link = { ck3 = nanai ir = sushen irRegion = modong_region } # Probably not a 1:1 realistic match, but it should help with some diversity
-link = { ck3 = udege ir = haoshi irRegion = modong_region } # Probably not a 1:1 realistic match, but it should help with some diversity
-link = { ck3 = jurchen ir = haoshi ir = huifa ir = sushen } # Jurchens expanded the most out of that region, so it will be the fallback
 link = { ck3=levantine ir=philistine } # The Philistines were an ancient people who lived in the southern Levant.
 link = { ck3 = tocharian ir = loulan } # Initially mapped to uyghur, but according to ChatGPT, the loulan wouldn't be considered ancestors since the uyghurs are of turkic origin
-link = { ck3=han ir=huaiyi } # Was in the Yi culture group in Terra-Indomita, not chinese culture group. But there is no Rajas of Asia culture to actually represent this and they likely got assimilated by the han
-link = { ck3=han ir=laiyi } # Was in the Yi culture group in Terra-Indomita, not chinese culture group. But there is no Rajas of Asia culture to actually represent this and they likely got assimilated by the han
-link = { ck3=han ir=guzhu } # Was in the Yi culture group in Terra-Indomita, not chinese culture group. But there is no Rajas of Asia culture to actually represent this and they likely got assimilated by the han
-link = { ck3=han ir=lingzhi } # Was in the Yi culture group in Terra-Indomita, not chinese culture group. But there is no Rajas of Asia culture to actually represent this and they likely got assimilated by the han
-link = { ck3 = wu ir = wuyue } # Rajas of Asia has this culture diverge from Han in 1050, but it seems to represent the same regional/cultural differences that the Terra-Indomita culture represents
-link = { ck3 = yue ir = ouyue } # Rajas of Asia has this culture diverge from Han in 1050, but it seems to represent the same regional/cultural differences that the Terra-Indomita culture represents
-link = { ck3 = min ir = minyue } # Rajas of Asia has this culture diverge from Han in 1050, but it seems to represent the same regional/cultural differences that the Terra-Indomita culture represents
-link = { ck3 = yue ir = yangyue } # Rajas of Asia has this culture diverge from Han in 1050, but it seems to represent the same regional/cultural differences that the Terra-Indomita culture represents
-link = { ck3 = min ir = fulou } # Rajas of Asia has this culture diverge from Han in 1050, but it seems to represent the same regional/cultural differences that the Terra-Indomita culture represents
-link = { ck3 = yue ir = nanyue } # Rajas of Asia has this culture diverge from Han in 1050, but it seems to represent the same regional/cultural differences that the Terra-Indomita culture represents
 link = { ck3=sami ir=sapmi } # Sapmi is the traditional homeland of the Sami people.
 link = { ck3=mogyer ir=gorokhov } # The Gorokhovs were a Hungarian tribe that lived in the Carpathian Mountains.
 link = { ck3 = solqumyt ir = itkul } # Not sure what sort of cultures would best map, I figured given its location and Uralic culture group, maybe Samoyedic cultures, might change if a better choice is determined
 link = { ck3 = kott ir = bolsherechye } # Not sure what sort of cultures would best map, I figured given its location and Uralic culture group, maybe Samoyedic cultures, might change if a better choice is determined
 link = { ck3=urslavic ir=slavian } # Both represent early Slavic cultures
-link = { ck3=sichuan ir=shu } # Shu is an ancient state in the Sichuan region
 link = { ck3=georgian ir=sasperires } # Sasperires were an ancient tribe in the region of modern Georgia
 link = { ck3=udmurt ir=argippaei } # Argippaei were described by Herodotus as living north of Scythia, possibly related to Sarmatians or Alans (But the converter already has quite a few cultures mapped to those, and doing research/asking chatgpt doesn't give a single answer as they may not have been an atual culture, just a mis-identified one. So for now, will map it to something different for more variety. ChatGPT recommneded cultures like Komi, but since another culture is mapped to that, for now I will just map it to Udmurt ~~tanner918)
 link = { ck3=samoyed ir=arimphaei } # Arimphaei were described as living in the far north, possibly related to Finno-Ugric peoples
 link = { ck3=kurykan ir=jiankun } # Both cultures seem to have same/similar language and culture group/background
-link = { ck3=samoyed ir=sargat ck3Region = d_ustyug ck3Region = d_vologda ck3Region = d_chudia ck3Region = d_biarmia ck3Region = d_nizhny_novgorod ck3Region = d_vepsia ck3Region = d_pinega } # This mapping is here since the russian impassable wasteland at the top of the map appears to be Sargat, and it covers the region of Bjarmaland. So I am including this mapping to make sure that Bjarmian gets setup there. ~~tanner918
-link = { ck3=nenets ir=sargat ck3Region = d_cherdyn ck3Region = d_mezen ck3Region = d_pyras ck3Region = d_vychegda ck3Region = d_vym ck3Region = d_pechora ck3Region = d_nenetsia ck3Region = d_ortina ck3Region = d_izhma } # This mapping is here since the russian impassable wasteland at the top of the map covers the Nenets' region, so I am including this mapping to make sure that they get setup there. ~~tanner918
 link = { ck3=khanty ir=sargat } # Wikipedia says they could have been a mix of Ugrian and Siberian peoples, and some early Iranian/Indo-Iranian peoples. Since it is in the Uralic culture group, mapping to Khanty for now
 link = { ck3 = tocharian ir = jushi } # ChatGPT and Wikipedia state they most likely spoke a Sakan or Tocharian language, and that they eventually got pushed out by incoming invading Turkic peoples. So for now, will map to Tocharian ~~tanner918
 link = { ck3 = komi ir = permic } 
 
-# Qiangic Mappings
-@qiangic_cultures = "ir = di_qiang ir = gyalrong ir = juyan ir = kunming ir = nuomuhong ir = qiang ir = qiongdu ir = ruoqiang ir = shajing ir = shanma ir = yiqu ir = zuo"
-link = { ck3 = achang @qiangic_cultures irRegion = burma_region } # This CK3 culture is Qiangic, but speaks Burmese, so just going to map any Qiangic culture in Burma to it ~~tanner918
-link = { ck3 = nakhi ir = kunming ir = zuo ir = qiongdu } # Not sure if best mapping, areas more or less match up ~~tanner918
-link = { ck3 = tangut ir = juyan ir = nuomuhong ir = shajing ir = shanma ir = yiqu } # Not sure if best mapping, areas more or less match up ~~tanner918
-link = { ck3 = qiang ir = qiang ir = gyalrong ir = di_qiang ir = ruoqiang } # Not sure if best mapping, areas more or less match up ~~tanner918
-
-# Mongolic Mappings (Mapping for Mongolic/Turkic cultures kind of hard to get realistic matches since quite a few cultures in the region are said to be ancestors of mongolic or turkic cultures, both, or it is uncertain. So I just grouped some of the cultures together into different groups and will map them based off location. These mappings might need to be redone if better mappings are decided ~~tanner918)
-# Xiongnu getting mapped in both Mongolic and Turkic cultures is to represent that they are supposedly ancestors to both culture groups
-@mongolic_cultures = "ir = shanrong ir = loufan ir = linhu ir = baidi ir = chidi ir = chanlan"
-link = { ck3 = qay @mongolic_cultures ir = xiongnu irRegion = raole_area irRegion = aimag_area irRegion = terigun_area }
-link = { ck3 = onggirad @mongolic_cultures ir = xiongnu irRegion = modong_area irRegion = ulaanzuukh_area irRegion = gonglu_area }
-link = { ck3 = tuyuhun @mongolic_cultures ir = xiongnu ir = donghu ir = xianbei irRegion = liang_region irRegion = tibet_region irRegion = xiyu_region }
-link = { ck3 = khitan ir = donghu ir = xianbei irRegion = you_region irRegion = raole_area irRegion = wuhuan_area }
-link = { ck3 = sibe ir = donghu ir = xianbei irRegion = modong_region }
-link = { ck3 = uriankhai @mongolic_cultures ir = xianbei irProvince = 9773 irProvince = 9775 irProvince = 9385 } # These provinces are some of the wasteland provinces in northern manchuria, and some of them seem to have been assigned Mongolic cultures, but they are mapped to areas out of scope of Terra-Indomita in northern manchuria. I am mapping to Uriankhai since it is a Mongolic culture from around that area, should prevent that region from just having Mongol there, split off from the rest of the Mongol provinces. ~~tanner918
-link = { ck3 = mongol @mongolic_cultures ir = xianbei }
-link = { ck3 = mongol ir = xiongnu irRegion = modong_region }
-link = { ck3 = khitan ir = wuhuan ir = donghu }
-
-link = { ck3 = tula ir = qifu irRegion = scytho_siberian_region irRegion = hujie_area irRegion = altai_area }
-link = { ck3 = khori ir = qifu irRegion = mobei_region }
-link = { ck3 = barqut ir = qifu } # Not too sure what would be best for this, all I can find is that they are related to mongolic cultures, and that these cultures might fit, but figured adding this to the already large list of mongol cultures above might blob cultures a bit too much ~~tanner918
-
-
-# Turkic Mappings (I really split this up since there were quite a few Turkic cultures in Rajas of Asia. If it seems like having this split up so much is a bad idea, some could easily be removed ~~tanner918)
-@proto_turks = "ir = dingling ir = xiongnu ir = korgantas ir = arzhan ir = hujie ir = issedonian"
-link = { ck3 = kirghiz @proto_turks irRegion = gryphia_area irRegion = jiankun_area }
-link = { ck3 = shor @proto_turks irRegion = ob_area }
-link = { ck3 = cik @proto_turks irRegion = ulangom_area }
-link = { ck3 = az @proto_turks irRegion = altai_area }
-link = { ck3 = todzh @proto_turks irRegion = dingling_area irRegion = khuvsgul_area }
-link = { ck3 = dukha @proto_turks irRegion = guyan_area irRegion = transbaikal_area irRegion = bayanundar_area }
-link = { ck3 = uigur @proto_turks irRegion = xiyu_region }
-link = { ck3 = bolghar @proto_turks irRegion = hyperborea_region }
-link = { ck3 = bashkir @proto_turks irRegion = ulytau_area irRegion = kostanay_area irRegion = magyarok_area irRegion = ingala_area irRegion = itkul_area }
-link = { ck3 = khazar @proto_turks irRegion = taurica_region irRegion = sarmatia_asiatica_region irRegion = scythia_region }
-link = { ck3 = avar @proto_turks @europe_regions }
-link = { ck3 = kurykan @proto_turks irProvince = 5975 } # This corresponds to the Eurasian Northland wasteland province next to Lake Baikal. It seems to have one of these cultures assigned to it, and given the area it covers, I think Kurykan would be the best choice given that it is a Turkic speaking Sayan-Altaic culture. I mainly included this to prevent Oghuz from appearing in the huge out of scope region above Lake Baikal. ~~tanner918
-link = { ck3 = turkish @proto_turks }
 
 
 
 # Terra Indomita to Asia Expansion Project
+link = { ck3 = komi ir = permic } # komi is localized as Permian in CK3
+link = { ck3 = qay ir = qifu }
+link = { ck3=komi ir=argippaei }
+link = { ck3=khanty ir=jiankun ir = itkul ir = bolsherechye } # AEP doesn't add many relevant cultures for this, so this might change if a better option is decided
+
+
+###################
+## All Under Heaven
+###################
+## Pu Culture Group
+#- Andaman
+#- Bahnar
+#- Katu (ban)
+#- Holchu
+#- Jaintia
+#- Lacviet
+#- Khmu (minpu)
+#- Mon
+#- Munda
+#- Pear
+#- Khmer (phnom)
+#- Palaung (pubu)
+#- Rhakine
+#- Xiangkhoang
+link = { ck3 = andamanese ir = andaman } # AEP
+link = { ck3 = andaman ir = andaman } # ROA
+link = { ck3 = nicobarese ir = holchu } # AEP
+link = { ck3 = nicobar ir = holchu } # ROA
+link = { ck3 = nakkavaram ir = andaman ir = holchu } # Base Game uses this to represent peoples living across Andaman, Nicobar, Nias, and Mentawai
+link = { ck3 = old_viet ir = lacviet } # ROA
+link = { ck3 = muong ir = lacviet } # AEP; The Muong can arguably be considered the Unsinicized Vietic peoples, and this is the best culture AEP has to represent that
+link = { ck3 = viet ir = lacviet } # Base Game
+link = { ck3 = munda ir = munda } # ROA/AEP
+link = { ck3 = khasi ir = jaintia ir = munda } # Base Game
+link = { ck3 = arakanese ir = rhakine }
+link = { ck3 = mon ir = mon }
+link = { ck3 = khmu ir = xiangkhoang ir = minpu }
+link = { ck3 = chong ir = pear } # chong localized as Samre, another name for the Pear peoples
+link = { ck3 = bahnar ir = bahnar } # ROA
+link = { ck3 = bahnaric ir = bahnar } # AEP
+link = { ck3 = kuy ir = ban } # AEP/ROA
+link = { ck3 = khmer ir = phnom ir = bahnar ir = ban } # Base Game
+link = { ck3 = palaung ir = pubu } # ROA
+link = { ck3 = palaungic ir = pubu } # AEP/Base Game
+
+
+## Austronesian Culture Group [Terra-Indomita]
+#- Bisaya
+#- Chaiya
+#- Igorot
+#- Linyi
+#- Malayan
+#- Minangkabau
+#- Tagalog
+#- Tagbanwa
+#- Yizhou
+# Formosan Mappings (AEP/ROA really split them up)
+link = { ck3 = amis ir = yizhou irProvince = 10834 irProvince = 10838 irProvince = 10837 } # AEP/ROA/Base Game
+link = { ck3 = atayal ir = yizhou irProvince = 10835 irProvince = 10836 } # AEP/ROA
+link = { ck3 = bunun ir = yizhou irProvince = 9377 } # AEP/ROA
+link = { ck3 = kavalan ir = yizhou irProvince = 10825 irProvince = 10826 } # ROA
+link = { ck3 = kulun ir = yizhou irProvince = 10825 irProvince = 10826 } # AEP
+link = { ck3 = paiwan ir = yizhou irProvince = 10833 irProvince = 10832 } # ROA
+link = { ck3 = paiwanese ir = yizhou irProvince = 10833 irProvince = 10832 } # AEP
+link = { ck3 = pepo ir = yizhou irProvince = 10827 irProvince = 10828 irProvince = 10829 } # ROA
+link = { ck3 = babuza ir = yizhou irProvince = 10827 irProvince = 10828 irProvince = 10829 } # AEP
+link = { ck3 = siraya ir = yizhou irProvince = 10839 irProvince = 10830 irProvince = 10831 } # AEP/ROA
+link = { ck3 = amis ir = yizhou } # Base Game/ROA/AEP Fallback
+# Filipino Mappings (AEP/ROA split it up a bit, but will determine how to better split up when mods update)
+link = { ck3 = idaya ir = igorot } # ROA
+link = { ck3 = ilokano ir = igorot } # AEP
+link = { ck3 = iloko ir = igorot } # Base Game
+link = { ck3 = tagalog ir = tagalog }
+link = { ck3 = palawan ir = tagbanwa } # AEP/ROA
+link = { ck3 = bisaya ir = bisaya } # AEP/ROA
+link = { ck3 = bisayan ir = bisaya ir = tagbanwa } # Base Game
+# Rest of Mappings
+link = { ck3 = aceh ir = linyi irRegion = aceh_area } # AEP/ROA; Aceh speak a Chamic language
+link = { ck3 = acehnese ir = linyi irRegion = aceh_area } # Base Game; Aceh speak a Chamic language
+link = { ck3 = champ ir = linyi } # AEP
+link = { ck3 = cham ir = linyi } # Base Game/ROA
+link = { ck3 = aceh ir = minangkabau historicalTag = A23 } # AEP/ROA; Lamuri was early Aceh kingdom, and they use Minangkabau in Terra-Indomita
+link = { ck3 = acehnese ir = minangkabau historicalTag = A23 } # Base Game; Lamuri was early Aceh kingdom, and they use Minangkabau in Terra-Indomita
+link = { ck3 = batak ir = minangkabau historicalTag = A21 } # ROA/AEP; This tag represents a group of people described under the "Batak" grouping
+link = { ck3 = batak ir = minangkabau irProvince = 11046 irProvince = 11051 } # ROA/AEP; These provinces represent areas where Batak peoples lived
+link = { ck3 = mentawai ir = minangkabau irProvince = 11043 } # ROA/AEP
+link = { ck3 = nias ir = minangkabau irProvince = 11044 } # ROA/AEP
+link = { ck3 = nakkavaram ir = minangkabau irProvince = 11043 irProvince = 11044 } # Base Game uses this to represent peoples living across Andaman, Nicobar, Nias, and Mentawai
+link = { ck3 = gayo ir = minangkabau irRegion = aceh_area } # ROA/AEP
+link = { ck3 = aslian ir = minangkabau ir = chaiya ir = malayan irProvince = 11032 irProvince = 11033 irProvince = 11034 irProvince = 11035 irProvince = 11036 irProvince = 11037 irProvince = 11038 } # AEP/ROA; As a way of making sure this culture appears
+link = { ck3 = senoi ir = minangkabau ir = chaiya ir = malayan irProvince = 11032 irProvince = 11033 irProvince = 11034 irProvince = 11035 irProvince = 11036 irProvince = 11037 irProvince = 11038 } # Base Game; As a way of making sure this culture appears
+link = { ck3 = malay ir = minangkabau ir = chaiya ir = malayan } # Fallback
+
+
+## Tai Culture Group [Terra-Indomita]
+#- Ailao
+#- Dian
+#- Gui
+#- Jiuliao
+#- Lier
+#- Shan
+#- Yelang
+link = { ck3 = pu ir = gui } # pu called Zhuang in AEP
+link = { ck3 = nong ir = gui } # nong called Zhuang in ROA
+link = { ck3 = bouxcuengh ir = gui } # Base Game; Zhuang are also called Bouxcuengh
+link = { ck3 = beish ir = lier irProvince = 9212 irProvince = 9213 irProvince = 9169 } # AEP
+link = { ck3 = be ir = lier irProvince = 9212 irProvince = 9213 irProvince = 9169 } # ROA
+link = { ck3 = liliao ir = lier } # liliao called Hlai in AEP
+link = { ck3 = hlai ir = lier } # Base Game/ROA
+link = { ck3 = shan ir = shan }
+link = { ck3 = hani ir = yelang ir = jiuliao irRegion = hong_area irRegion = yongchang_area } # AEP; Region choices mainly for a bit of variety, matching approximately where they are located
+link = { ck3 = wuman ir = yelang ir = jiuliao } # wuman is called Nuosu in AEP, another name for the Yi. Need this before other mappings to Yi to make sure things get properly mapped since AEP actually uses yi for Miao, so we don't want this being mapped
+link = { ck3 = lisu ir = yelang ir = jiuliao irRegion = liang_region } # ROA; They live around the south of liang_region, but mapped to entire region for a little more diversity
+link = { ck3 = yi ir = yelang ir = jiuliao } # Base Game/ROA
+link = { ck3 = tay ir = ailao ir = dian irRegion = jiao_region } # AEP
+link = { ck3 = kam_sui ir = ailao ir = dian irRegion = jing_region } # AEP
+link = { ck3 = tai ir = ailao ir = dian }
+
+
+## Bashu Culture Group [Terra-Indomita]
+#- Ba
+#- Bo
+#- Shu
+link = { ck3 = tujia ir = ba irRegion = jing_region } # The Tujia can supposedly trace themselves to the Ba Kingdom
+link = { ck3 = old_bashu ir = ba ir = shu }
+link = { ck3 = caijia ir = bo irRegion = zangke_area } # ROA; Caijia related to Bai, chose region that roughly corresponds to where they are
+link = { ck3 = bai ir = bo } # The Bai peoples supposedly can trace themselves back to the Bo
+
+
+## Miao Culture Group [Terra-Indomita]
+#- Miao (sanmiao)
+#- Yangyu
+link = { ck3 = yao ir = yangyu } # Maybe not best mapping, but should be good enough for now
+link = { ck3 = sheren ir = sanmiao irRegion = yang_region irRegion = jiao_region } # ROA/AEP
+link = { ck3 = hmong ir = sanmiao } # Base Game/ROA
+link = { ck3 = yi ir = sanmiao } # AEP uses this to represent Miao peoples, so set it last to make sure it doesn't interfere with converting to ROA/Base Game
+
+
+## Yue Culture Group [Terra-Indomita]
+#- Fulou
+#- Minyue
+#- Nanyue
+#- Ouyue
+#- Wuyue
+#- Yangyue
+link = { ck3 = baiyue ir = fulou ir = minyue ir = nanyue ir = ouyue ir = wuyue ir = yangyue }
+
+
+## Yi Culture Group [Terra-Indomita]
+#- Guzhu
+#- Huaiyi
+#- Laiyi
+#- Lingzhi
+link = { ck3 = dongyi ir = guzhu ir = huaiyi ir = laiyi ir = lingzhi }
+
+
+## Chinese Culture Group [Terra-Indomita]
+#- Chu
+#- Duhu (Doesn't seem to actually be used in Terra-Indomita, not sure exactly what this is supposed to represent)
+#- Huaxia (Doesn't seem to actually be used in Terra-Indomita, but is likely just supposed to represent a unified Chinese culture)
+#- Ji
+#- Jin
+#- Qilu
+#- Qin
+#- Sino-Xiongnu (xiongnu_chinese)
+#- Xu
+#- Yaan
+#- Yan
+#- Zhongyuan
+@chinese_cultures = "ir=chu ir=duhu ir=huaxia ir=ji ir=jin ir=qilu ir=qin ir=xu ir=yaan ir=yan ir=zhongyuan"
+# Regional Chinese Cultures
+# Notes for future mappings:
+# - In AEP, Sichuan is ba_shu
+# - ROA has some regional cultures, like wu, yue, min
+# link = { ck3 = qin ir = qin } # Commenting out for now until we figure out regional Chinese cultures since it's a little weird to have just Qin as a separate culture
+link = { ck3 = kinh @chinese_cultures irRegion = hong_area irRegion = jiaozhi_area irRegion = jiuzhen_area } # ROA/AEP; The Kinh could be considered the Sinicized Vietic peoples, but because mappings don't allow the primary culture of a country as a condition, this is probably the best mapping for now
+# Chinese Fallbacks
+link = { ck3 = han @chinese_cultures }
+link = { ck3 = shatuo ir = xiongnu_chinese } # The Sino-Xiongnu were a group of Xiongnu people who had assimilated into Chinese culture. (This seems similar to the Shatou culture in CK3, which is a hybrid of Ueban and Han, so will map to that for now ~~tanner918)
+
+
+## Rong Culture Group [Terra-Indomita]
+#- Di Qiang (di_qiang)
+#- Gyalrong
+#- Juyan
+#- Kunming
+#- Nuomuhong
+#- Qiang
+#- Qiongdu
+#- Ruoqiang
+#- Shajing
+#- Shanma
+#- Yiqu
+#- Zuo
+@qiangic_cultures = "ir=di_qiang ir=gyalrong ir=juyan ir=kunming ir=nuomuhong ir=qiang ir=qiongdu ir=ruoqiang ir=shajing ir=shanma ir=yiqu ir=zuo"
+link = { ck3 = achang @qiangic_cultures irRegion = burma_region } # ROA Culture; This CK3 culture is Qiangic, but speaks Burmese, so just going to map any Qiangic culture in Burma to it ~~tanner918
+link = { ck3 = nakhi ir = kunming ir = zuo ir = qiongdu } # ROA Culture; Not sure if best mapping, areas more or less match up ~~tanner918
+link = { ck3 = tangut ir = juyan ir = nuomuhong ir = shajing ir = shanma ir = yiqu } # Not sure if best mapping, areas more or less match up ~~tanner918
+link = { ck3 = qiang ir = qiang ir = gyalrong ir = di_qiang ir = ruoqiang ir = kunming ir = zuo ir = qiongdu } # Not sure if best mapping, areas more or less match up ~~tanner918
+
+
+## Di Culture Group [Terra-Indomita]
+#- Arzhan 
+#- Baidi
+#- Chanlan
+#- Chidi
+#- Dingling
+#- Hujie
+#- Huna
+#- Hunnic
+#- Issedonian
+#- Korgantes
+#- Linhu
+#- Loufan
+#- Shanrong
+#- Xiongnu
+#    +
+## Hu Culture Group [Terra-Indomita]
+#- Donghu
+#- Qifu
+#- Wuhuan
+#- Xianbei
+
+## While the Hu culture group likely represents just proto-Mongols, the Di culture group represents a mix of proto-Mongols and proto-Turks, so these culture groups will be mapped together, especially since it is difficult to say one Imperator culture is definitely a direct ancestor of one CK3 culture. Their mappings will, for the most part, just be mapping based off where they appear in CK3. ~~tanner918
+
+# Mongolic Mappings
+@mongolic_cultures = "ir=shanrong ir=loufan ir=linhu ir=baidi ir=chidi ir=chanlan ir=donghu ir=qifu ir=wuhuan ir=xianbei ir=xiongnu"
+link = { ck3 = qay @mongolic_cultures irRegion = raole_area irRegion = aimag_area irRegion = terigun_area } # AEP/ROA
+link = { ck3 = khitan @mongolic_cultures irRegion = you_region irRegion = jin_region irRegion = raole_area irRegion = wuhuan_area }
+link = { ck3 = onggirad @mongolic_cultures irRegion = modong_area irRegion = ulaanzuukh_area irRegion = gonglu_area } # ROA
+link = { ck3 = mongol @mongolic_cultures irRegion = terigun_area irRegion = aimag_area irRegion = gonglu_area irRegion = ulaanzuukh_area irRegion = transbaikal_area irRegion = bayanundar_area irRegion = guyan_area  }
+link = { ck3 = sibe @mongolic_cultures irRegion = daxianbeishan_east_area } # ROA
+link = { ck3 = shiwei @mongolic_cultures irRegion = modong_region }
+link = { ck3 = buryat @mongolic_cultures irRegion = dingling_area irRegion = jiankun_area }
+link = { ck3 = tuyuhun @mongolic_cultures irRegion = liang_region irRegion = tibet_region irRegion = xiyu_region }
+link = { ck3 = oirat @mongolic_cultures irRegion = khuvsgul_area irRegion = ulangom_area irRegion = altai_area }
+link = { ck3 = kerait @mongolic_cultures irRegion = fuyangju_area }
+link = { ck3 = naiman @mongolic_cultures irRegion = gobi_altai_area irRegion = xihai_area irRegion = hujie_area }
+link = { ck3 = mongol @mongolic_cultures }
+
+# Turkic Mappings
+@proto_turks = "ir=dingling ir=korgantas ir=arzhan ir=hujie ir=issedonian"
+link = { ck3 = az @proto_turks irRegion = altai_area } # ROA
+link = { ck3 = todzh @proto_turks irRegion = dingling_area irRegion = khuvsgul_area } # ROA
+link = { ck3 = dukha @proto_turks irRegion = guyan_area irRegion = transbaikal_area irRegion = bayanundar_area } # ROA
+link = { ck3 = kirghiz @proto_turks irRegion = gryphia_area irRegion = jiankun_area irRegion = altai_area irRegion = dingling_area irRegion = khuvsgul_area irRegion = guyan_area irRegion = transbaikal_area irRegion = bayanundar_area }
+link = { ck3 = bashkir @proto_turks irRegion = kostanay_area irRegion = magyarok_area irRegion = ingala_area irRegion = itkul_area }
+link = { ck3 = shor @proto_turks irRegion = ob_area } # ROA
+link = { ck3 = laktan @proto_turks irRegion = ob_area }
+link = { ck3 = uriankhai @proto_turks irRegion = ulangom_area irRegion = gobi_altai_area irRegion = xihai_area}
+link = { ck3 = cik @proto_turks irRegion = ulangom_area irRegion = gobi_altai_area irRegion = xihai_area } # ROA
+link = { ck3 = cuman @proto_turks irRegion = aktobe_area irRegion = iurcia_area irRegion = aspisi_area irRegion = ulytau_area irRegion = detpakdala_area }
+link = { ck3 = kipchak @proto_turks irRegion = busu_area irRegion = koshkarkol_area }
+link = { ck3 = kimek @proto_turks irRegion = akmola_area irRegion = korgantas_area }
+link = { ck3 = karluk @proto_turks irRegion = ili_area irRegion = chu_area irRegion = kapchagay_area irRegion = issyk_area }
+link = { ck3 = turkish @proto_turks irRegion = sakia_region }
+link = { ck3 = khazar @proto_turks irRegion = taurica_region irRegion = sarmatia_asiatica_region irRegion = scythia_region }
+link = { ck3 = bolghar @proto_turks irRegion = hyperborea_region }
+link = { ck3 = pecheneg @proto_turks irRegion = central_asian_steppes_region }
+link = { ck3 = uigur @proto_turks irRegion = xiyu_region } # ROA
+link = { ck3 = uyghur @proto_turks irRegion = xiyu_region } # ROA
+link = { ck3 = avar @proto_turks @europe_regions }
+link = { ck3 = turkish @proto_turks }
+
+# Extra Mappings from https://steamcommunity.com/sharedfiles/filedetails/?id=3098496649
+link = { ck3 = cuman ir = cuman }
+link = { ck3 = kimek ir = kimek }
+link = { ck3 = turkish ir = oghuz }
+link = { ck3 = karluk ir = karluk }
+link = { ck3 = pecheneg ir = pecheneg }
+
+
+## Huimo Culture Group [Terra-Indomita]
+#- Dongwei
+#- Fuyu
+#- Goguryeo
+#- Joseon
+#- Lelang
+#- Woju
+#- Yilyu
+link = { ck3 = goguryeo ir = dongwei ir = fuyu ir = goguryeo ir = joseon ir = lelang ir = woju ir = yilyu }
+
+
+## Samhan Culture Group [Terra-Indomita]
+#- Byeonhan
+#- Jinhan
+#- Mahan
+link = { ck3 = jeju ir = byeonhan ir = jinhan ir = mahan irProvince = 9285 } # RoA
+link = { ck3 = tamna ir = byeonhan ir = jinhan ir = mahan irProvince = 9285 } # AEP
+link = { ck3 = samhan ir = byeonhan ir = jinhan ir = mahan } # RoA
+link = { ck3 = saro ir = jinhan ir = byeonhan } # AEP
+link = { ck3 = silla ir = jinhan ir = byeonhan } # Base Game
+link = { ck3 = baekje ir = mahan } # Base Game/AEP
+
+
+## Tungusic Culture Group [Terra-Indomita]
+#- Haoshi
+#- Huifa
+#- Sushen
+# Tungusic Mappings
+link = { ck3 = mohe ir = haoshi ir = huifa ir = sushen } # Base Game; Wanted to make sure it was before the mods since Jurchen, which diverges from Mohe, will likely eventually be handled through something like an event allowing them to appear
+link = { ck3 = evenk ir = haoshi ir = huifa ir = sushen irRegion = amur_area irRegion = sahaliyan_area } # RoA/AEP; To represent that they are a Tungusic culture closer to Siberia
+link = { ck3 = udege ir = haoshi } # RoA/AEP; Probably not a perfect match, but should do for now
+link = { ck3 = jurchen ir = huifa } # RoA/AEP; Probably not a perfect match, but should do for now
+link = { ck3 = nanai ir = sushen } # RoA; Probably not a perfect match, but should do for now
+link = { ck3 = mohese ir = sushen } # AEP; Probably not a perfect match, but should do for now
+
+
+## Nivkh Culture Group [Terra-Indomita]
+#- Nivkh
+#- Susuya
+# Nivkh Fallbacks
+link = { ck3 = gilyak ir = nivkh ir = susuya } # AEP
+link = { ck3 = nivkh ir = nivkh ir = susuya } # RoA/Base Game
+
+
+## Jomon (Emishi) Culture Group [Terra-Indomita]
+#- Ezo (ainu)
+#- Dewa
+#- Duuchuu
+#- Emishi
+#- Jeulmeun (Special culture from Jomon tag completing a mission about controlling part of Korea; Should a custom culture be created to represent this, or a creation_name that is setup at game start?)
+#- Sirakawa (mitinooku)
+#- Sunazawa
+#- Yaeyama (Special culture from Ryukyuan tag completing a mission about controlling around Formosa; Should a custom culture be created to represent this, or a creation_name that is setup at game start?)
+# AEP Mappings
 link = { ck3 = yaeyama ir = yaeyama }
 link = { ck3 = yaeyama ir = duuchuu irProvince = 9739 } # Yaeyama island.
 link = { ck3 = amami ir = duuchuu irProvince = 9734 } # Amami island.
-link = { ck3 = okinawa ir = duuchuu irProvince = 9737 } # Okinawa island.
 link = { ck3 = miyako ir = duuchuu irProvince = 9738 } # Miyako island.
+link = { ck3 = okinawa ir = duuchuu irProvince = 9737 } # Okinawa island.
 link = { ck3 = okinawa ir = duuchuu } # Chose Okinawa culture as the fallback mapping for Duuchuu because it's the biggest island in the Ryukyu archipelago.
-link = { ck3 = andamanese ir = andaman }
-link = { ck3 = bahnaric ir = bahnar }
-link = { ck3 = kinh ir = lacviet }
-link = { ck3 = nicobarese ir = holchu }
-link = { ck3 = burmese ir = piaoyue }
-link = { ck3 = saro ir = jinhan ir = byeonhan } # https://en.wikipedia.org/wiki/Three_Kingdoms_of_Korea#Silla
-link = { ck3 = baekje ir = mahan } # https://en.wikipedia.org/wiki/Three_Kingdoms_of_Korea#Baekje
-link = { ck3 = ba_shu ir = ba ir = shu } # https://en.wikipedia.org/wiki/Ba%E2%80%93Shu_culture
-link = { ck3 = gilyak ir = nivkh ir = susuya } # https://en.wikipedia.org/wiki/Nivkh_people
-link = { ck3 = komi ir = permic } # komi is localized as Permian in CK3
-link = { ck3 = mohese ir = haoshi } # Haoshi/Yuexi were one of the Mohe tribes according to https://en.wikipedia.org/wiki/Mohe_people
-link = {
-	# https://en.wikipedia.org/wiki/Xiangkhouang:
-	# 	"Xiangkhouang is home to five different ethnic groups: the Tai Dam, Tai Daeng, Phuan, Khmu, and Hmong."
-	# 	"Part of the Mon-Khmer branch of the Austro-Asiatic linguistic family, the Khmu are one of the largest ethnic groups in Laos. They settled in the area several thousand years ago."
-	ck3 = khmu
-	ir = xiangkhoang
-}
-link = {
-	# https://zh.wikipedia.org/wiki/%E5%83%B0%E4%BA%BA: "明代僰人即今日白族之先民。從族姓上來看，明代僰人的段、楊、高、尹諸姓，都是現在白族中的大姓。"
-	ck3 = bai
-	ir = bo
-}
-link = { ck3 = qiang ir = kunming ir = zuo ir = qiongdu }
-link = { ck3 = hani ir = dian } # Mapping for now until a better culture can be determine
-link = { ck3=yamato ir=nansei ir=aduma ir=kumaso } # Fallback for AEP since it doesn't have same culture split as RoA
-link = { ck3 = qay ir = qifu }
-link = { ck3 = yi ir = sanmiao } # AEP uses this to represent Miao peoples
-link = { ck3=ilokano ir=igorot } # The Igorot people are a group of indigenous peoples who live in the mountainous regions of the Philippines.
-link = { ck3=champ ir=linyi }
-link = { ck3 = tai ir = ailao }
-link = { ck3 = beish ir = lier ck3Province = 12458 ck3Province = 12449 ck3Province = 12436 ck3Province = 12419 }
-link = { ck3 = liliao ir = lier }
-link = { ck3 = pu ir = gui } # pu called Zhuang in CK3. They are both Tai cultures in the same region, and looking it up, Zhuang peoples are said to be descendants of the Xiou (according to a chinese travel site), and the Nam Cuong tag in Imperator refers to them as the Xiou while having Gui as primary culture
-link = { ck3=komi ir=argippaei }
-link = { ck3=khanty ir=jiankun ir = itkul ir = bolsherechye } # AEP doesn't add many relevant cultures for this, so this might change if a better option is decided
+# Jomon/Emishi Fallbacks
+link = { ck3 = ainu ir = ainu }
+link = { ck3 = emishi ir = emishi ir = jeulmeun ir = sunazawa ir = dewa ir = mitinooku }
+link = { ck3 = ryukyu ir = duuchuu ir = yaeyama } # RoA
+link = { ck3 = ryukyuan ir = duuchuu ir = yaeyama } # Base Game
+
+
+## Yayoi (Japanese) Culture Group [Terra-Indomita]
+#- Aduma
+#- Jomon (jomon_yayoi; Special culture dealing with a Jomon culture "Yayoifying", becoming closer to the Yayoi (Japanese); Should a custom culture be created to represent this?)
+#- Kumaso
+#- Nansei (Special culture dealing with Kumaso tag controlling or around Ryukyu, or vice versa; Should a custom culture be created to represent this?)
+#- Wa
+# Yayoi/Japanese Fallbacks
+link = { ck3 = yamato ir = aduma ir = kumaso ir = nansei ir = wa ir = jomon_yayoi } # RoA/AEP
+link = { ck3 = japanese ir = aduma ir = kumaso ir = nansei ir = wa ir = jomon_yayoi } # Base Game
+# RoA Mappings
+# These won't get used by default since even RoA just uses Yamato, but left them here in case you want more variety in the Japanese mappings since RoA includes them. Just put these mappings before the Fallback mappings above to use them.
+link = { ck3 = hayato ir = kumaso } # RoA
+link = { ck3 = oshu ir = aduma } # RoA
+link = { ck3 = kyushu ir = nansei } # RoA

@@ -109,6 +109,22 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 				}
 			}
 		}
+		
+		// Validation: every faith should have a theism doctrine.
+		string? theismFallback = DoctrineCategories.TryGetValue("doctrine_theism", out var theismCategory)
+			? theismCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_polytheist")
+			: null;
+		foreach (var converterFaith in loadedConverterFaiths) {
+			var theismDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_theism");
+			if (theismDoctrine.Count == 0) {
+				if (theismFallback is not null) {
+					Logger.Warn($"Faith {converterFaith.Id} has no theism doctrine! Setting {theismFallback}");
+					converterFaith.DoctrineIds.Add(theismFallback);
+				} else {
+					Logger.Warn($"Faith {converterFaith.Id} has no theism doctrine!");
+				}
+			}
+		}
 	}
 
 	public void RemoveChristianAndIslamicSyncretismFromAllFaiths() {

@@ -1,0 +1,326 @@
+﻿# CB used when a new ritsuryo emperor tries to forcefully destroy their vassal's non-county titles
+## Will mainly be triggered from the event 'irtock3_ritsuryo_events.1'
+irtock3_ritsuryo_county_war = {
+	icon = ritsuryo
+	group = civil_war
+
+	war_name = "DEPOSE_WAR_NAME"
+	interface_priority = 80
+
+	ai_only_against_liege = yes
+	allow_hostages = no
+	white_peace_possible = no
+
+	allowed_for_character = {
+		has_tgp_dlc_trigger = yes
+		always = no # Started by script
+	}
+
+	allowed_against_character = {
+		scope:attacker.top_liege = scope:defender
+	}
+
+	on_victory_desc = {
+		# Description will vary based off things like whether the defender is in direct control of the realm or just a regent, and what realm authority law they have
+		first_valid = {
+			# Defender is local player in direct control of the realm (primogeniture)
+			triggered_desc = {
+				trigger = {
+					scope:defender = {
+						is_local_player = yes
+						has_realm_law = single_heir_succession_law
+					}
+				}
+				desc = irtock3_ritsuryo_county_war_victory_defender_primogeniture_desc
+			}
+			# Defender isn't local player, but is in direct control of the realm (primogeniture)
+			triggered_desc = {
+				trigger = {
+					scope:defender = {
+						is_local_player = no
+						has_realm_law = single_heir_succession_law
+					}
+				}
+				desc = irtock3_ritsuryo_county_war_victory_primogeniture_desc
+			}
+			# Defender is local player with regency succession and the ceremonial liege title
+			triggered_desc = {
+				trigger = {
+					scope:defender = {
+						is_local_player = yes
+						has_realm_law = japanese_regency_succession_law
+						tgp_has_ceremonial_liege_title_trigger = yes
+					}
+				}
+				desc = irtock3_ritsuryo_county_war_victory_defender_regency_desc_ceremonial_liege
+			}
+			# Defender isn't local player, but has regency succession and the ceremonial liege title
+			triggered_desc = {
+				trigger = {
+					scope:defender = {
+						is_local_player = no
+						has_realm_law = japanese_regency_succession_law
+						tgp_has_ceremonial_liege_title_trigger = yes
+					}
+				}
+				desc = irtock3_ritsuryo_county_war_victory_regency_desc_ceremonial_liege
+			}
+			# Defender is local player with regency succession
+			triggered_desc = {
+				trigger = {
+					scope:defender = {
+						is_local_player = yes
+						has_realm_law = japanese_regency_succession_law
+						tgp_has_ceremonial_liege_title_trigger = no
+					}
+				}
+				desc = irtock3_ritsuryo_county_war_victory_defender_regency_desc
+			}
+			# Defender isn't local player, but has regency succession
+			triggered_desc = {
+				trigger = {
+					scope:defender = {
+						is_local_player = no
+						has_realm_law = japanese_regency_succession_law
+						tgp_has_ceremonial_liege_title_trigger = no
+					}
+				}
+				desc = irtock3_ritsuryo_county_war_victory_regency_desc
+			}
+		}
+	}
+
+	# Vassals win
+	on_victory = {
+		scope:attacker = { show_pow_release_message_effect = yes }
+
+		#EP2 Accolade glory gain from winning against higher ranked enemy
+		scope:attacker = { accolade_attacker_war_end_glory_gain_med_effect = yes }
+
+		# LEGITIMACY FROM LOSING FACTION WAR
+		faction_war_end_defeat_legitimacy_effect = yes
+
+		scope:defender = {
+			switch = {
+				trigger = has_realm_law
+				japanese_bureaucracy_1 = { add_realm_law = japanese_bureaucracy_0 }
+				japanese_bureaucracy_2 = { add_realm_law = japanese_bureaucracy_1 }
+				japanese_bureaucracy_3 = { add_realm_law = japanese_bureaucracy_2 }
+			}
+
+			add_prestige = -500
+
+			# Liege is in direct control (primogeniture), so needs to switch to regency succession
+			if = {
+				limit = { has_realm_law = single_heir_succession_law }
+				add_realm_law_skip_effects = japanese_regency_succession_law
+				primary_title = {
+					remove_variable = tenno_restored
+					var:administrative_ui_special_title = {
+						add_title_law = single_heir_succession_law
+						# Set a variable indicating that the tenno 'lost some of their direct power' (basically just used to prevent a tenno from losing to a Liberty Faction and then immediately trying to 'Restore Direct Imperial Control')
+						custom_tooltip = {
+							text = irtock3_cant_immediately_restore_imperial_rule
+							set_variable = {
+								name = tenno_lost_power
+								value = scope:defender
+								days = 3650
+							}
+						}
+					}
+				}
+			}
+			# Liege has the realm's ceremonial liege title and already has regency succession, so every rebellious vassal gets a hook on them
+			else_if = {
+				limit = {
+					has_realm_law = japanese_regency_succession_law
+					tgp_has_ceremonial_liege_title_trigger = yes
+				}
+				
+				every_character_war = {
+					limit = {
+						is_attacker = scope:attacker
+						is_defender = scope:defender
+					}
+					every_war_attacker = {
+						if = {
+							limit = {
+								can_add_hook = {
+									type = favor_hook
+									target = scope:defender
+								}
+							}
+							add_hook = {
+								type = favor_hook
+								target = scope:defender
+							}
+						}
+					}
+				}
+			}
+			# Liege has regency succession, so abdicates to the attacker
+			else_if = {
+				limit = { has_realm_law = japanese_regency_succession_law }
+				
+				create_title_and_vassal_change = {
+					type = usurped
+					save_scope_as = change
+					add_claim_on_loss = yes
+				}
+
+				every_held_title = {
+					limit = {
+						is_noble_family_title = no
+						NOT = { has_variable = ceremonial_title } # Don't destroy any ceremonial liege titles
+					}
+					change_title_holder = {
+						holder = scope:attacker
+						change = scope:change
+					}
+				}
+
+				resolve_title_and_vassal_change = scope:change
+			}
+		}
+
+		hidden_effect = {
+			scope:attacker = {
+				add_truce_both_ways = {
+					character = scope:defender
+					days = 1825
+					war = scope:war
+					result = victory
+				}
+			}
+		}
+
+		# EP3: note gold gained from military assistance/join war contracts and their war contribution threshold
+		laamp_as_mercenary_payout_tooltip_effect = yes
+
+		#Mandalas gain or lose piety/devotion depending on Decree
+		mandala_war_victory_effects = yes
+	}
+
+	on_defeat_desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { scope:defender = { is_local_player = yes } }
+				desc = irtock3_ritsuryo_county_war_defeat_defender_desc
+			}
+			triggered_desc = {
+				trigger = {
+					scope:war = {
+						any_war_attacker = { is_local_player = yes }
+					}
+				}
+				desc = irtock3_ritsuryo_county_war_defeat_attacker_desc
+			}
+			desc = irtock3_ritsuryo_county_war_defeat_desc
+		}
+	}
+
+	# Liege wins
+	on_defeat = {
+		scope:attacker = { show_pow_release_message_effect = yes }
+		scope:defender = {
+			save_scope_as = imprisoner
+
+			mandala_peacemaker_perk_serenity_effect = yes
+			add_dread = medium_dread_gain
+
+			# LEGITIMACY FROM WINNING FACTION WAR
+			faction_war_end_victory_legitimacy_effect = yes
+		}
+
+		scope:war = {
+			every_war_attacker = {
+				limit = {
+					exists = liege
+					any_liege_or_above = { this = scope:defender }
+				}
+				save_scope_as = attacker_temp
+
+				if = {
+					limit = {
+						exists = top_liege.primary_title.var:administrative_ui_special_title
+						has_title = top_liege.primary_title.var:administrative_ui_special_title
+						exists = top_liege.primary_title.var:administrative_ui_special_title.current_heir
+					}
+					top_liege.primary_title.var:administrative_ui_special_title.current_heir = { save_scope_as = new_emperor }
+					create_title_and_vassal_change = {
+						type = revoked
+						save_scope_as = title_change
+					}
+					top_liege.primary_title.var:administrative_ui_special_title = {
+						change_title_holder = {
+							holder = scope:new_emperor
+							change = scope:title_change
+						}
+					}
+					resolve_title_and_vassal_change = scope:title_change
+				}
+				if = { # Imprison them if they aren't imprisoned.
+					limit = {
+						is_imprisoned = no
+					}
+					hard_imprison_character_effect = {
+						TARGET = this
+						IMPRISONER = scope:defender
+					}
+				}
+				scope:defender = {
+					add_opinion = {
+						target = scope:attacker_temp
+						modifier = vassal_lost_faction_revolt_war
+					}
+				}
+
+				# Destroy non-county titles held by rebellious vassals
+				every_held_title = {
+					limit = {
+						tier > tier_county
+						is_noble_family_title = no # Don't destroy noble family titles
+						NOT = { has_variable = ceremonial_title } # Don't destroy any ceremonial liege titles
+					}
+					save_scope_as = title_to_destroy
+					scope:attacker_temp = { destroy_title = scope:title_to_destroy }
+					clear_saved_scope = title_to_destroy
+				}
+
+				clear_saved_scope = attacker_temp
+			}
+		}
+
+		# EP3: note gold gained from military assistance/join war contracts and their war contribution threshold
+		laamp_as_mercenary_payout_tooltip_effect = yes
+
+		#Mandalas gain or lose piety/devotion depending on Decree
+		mandala_war_defeat_effects = yes
+	}
+
+	should_invalidate = {
+		scope:defender = { government_has_flag = government_is_japan_feudal }
+	}
+
+	on_invalidated_desc = msg_invalidate_war_title
+
+	on_primary_attacker_death = inherit
+	on_primary_defender_death = inherit
+
+	attacker_allies_inherit = yes
+	defender_allies_inherit = yes
+
+	ticking_war_score_targets_entire_realm = yes
+	attacker_ticking_warscore = 0.01
+	attacker_wargoal_percentage = 0.01
+	attacker_score_from_occupation_scale = 50
+	defender_score_from_occupation_scale = 50
+	attacker_score_from_battles_scale = 250
+	defender_score_from_battles_scale = 250
+
+	max_attacker_score_from_battles = 200
+	max_defender_score_from_battles = 200
+	
+	max_defender_score_from_occupation = 50
+	max_attacker_score_from_occupation = 50
+}
