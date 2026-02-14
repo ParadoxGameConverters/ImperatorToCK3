@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Exceptions;
 using commonItems.Mods;
+using ImperatorToCK3.CommonUtils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -65,10 +66,10 @@ internal sealed class Configuration {
 			SaveGamePath = reader.GetString();
 			Logger.Info($"Save game set to: {SaveGamePath}");
 		});
-		parser.RegisterKeyword("ImperatorDirectory", reader => ImperatorPath = reader.GetString());
-		parser.RegisterKeyword("ImperatorDocDirectory", reader => ImperatorDocPath = reader.GetString());
-		parser.RegisterKeyword("CK3directory", reader => CK3Path = reader.GetString());
-		parser.RegisterKeyword("targetGameModPath", reader => CK3ModsPath = reader.GetString());
+		parser.RegisterKeyword("ImperatorDirectory", reader => ImperatorPath = PathHelper.RemoveTrailingSeparators(reader.GetString()));
+		parser.RegisterKeyword("ImperatorDocDirectory", reader => ImperatorDocPath = PathHelper.RemoveTrailingSeparators(reader.GetString()));
+		parser.RegisterKeyword("CK3directory", reader => CK3Path = PathHelper.RemoveTrailingSeparators(reader.GetString()));
+		parser.RegisterKeyword("targetGameModPath", reader => CK3ModsPath = PathHelper.RemoveTrailingSeparators(reader.GetString()));
 		parser.RegisterKeyword("selectedMods", reader => {
 			SelectedCK3Mods.Clear();
 			SelectedCK3Mods.UnionWith(reader.GetStrings());
