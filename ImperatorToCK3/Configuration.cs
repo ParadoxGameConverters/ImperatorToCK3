@@ -296,7 +296,8 @@ internal sealed class Configuration {
 	private void VerifyImperatorVersion(ConverterVersion converterVersion) {
 		var path = Path.Combine(ImperatorPath, "launcher/launcher-settings.json");
 		IRVersion = GameVersion.ExtractVersionFromLauncher(path) ??
-		                   throw new ConverterException("Imperator version could not be determined.");
+		            GetImperatorVersionFromSullaBranchFile() ??
+		            throw new ConverterException("Imperator version could not be determined.");
 
 		Logger.Info($"Imperator version: {IRVersion.ToShortString()}");
 
@@ -308,6 +309,21 @@ internal sealed class Configuration {
 			Logger.Error($"Imperator version is v{IRVersion.ToShortString()}, converter requires maximum v{converterVersion.MaxSource.ToShortString()}!");
 			throw new UserErrorException("Converter vs Imperator installation mismatch!");
 		}
+	}
+
+	private GameVersion? GetImperatorVersionFromSullaBranchFile() {
+		const string sullaBranchFileName = "sulla_branch.txt";
+		var path = Path.Combine(ImperatorPath, sullaBranchFileName);
+
+		if (!File.Exists(path)) {
+			Logger.Warn($"{sullaBranchFileName} not found");
+			return null;
+		}
+
+		// The file contains the game version in the following format: release/X.Y.Z.
+		var versionStr = File.ReadAllText(path).Trim().Replace("release/", "");
+		var version = new GameVersion(versionStr);
+		return version;
 	}
 
 	private void VerifyCK3Version(ConverterVersion converterVersion) {
@@ -329,10 +345,11 @@ internal sealed class Configuration {
 	}
 
 	private GameVersion? GetCK3VersionFromTitusBranchFile() {
-		var path = Path.Combine(CK3Path, "titus_branch.txt");
+		const string titusBranchFileName = "titus_branch.txt";
+		var path = Path.Combine(CK3Path, titusBranchFileName);
 
 		if (!File.Exists(path)) {
-			Logger.Warn("titus_branch.txt not found");
+			Logger.Warn($"{titusBranchFileName} not found");
 			return null;
 		}
 
