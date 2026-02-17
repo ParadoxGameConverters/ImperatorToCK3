@@ -1269,9 +1269,14 @@ hellenism_religion = {
 
 zoroastrianism_religion = {
 	faiths = {
-		mithra_religion= { # Iranian cult of Mithra
-			# Exists in TFE as kitebacilweism
-		    INVALIDATED_BY = { mithra_religion kitebacilweism }
+		mithra_religion = { # Iranian cult of Mithra
+			{% if tfe %}
+            # Exists in TFE as kitebacilweism (they reused the vanilla ID to represent "Mehrism/West Iranic paganism from RICE").
+            INVALIDATED_BY = { kitebacilweism }
+            {% else %}
+			# Just making sure that if a mod adds mithra_religion, we don't replace it with our own.
+            INVALIDATED_BY = { mithra_religion }
+            {% endif %}
 		
             color = {210 0 0}
             icon = mithraic_mysteries

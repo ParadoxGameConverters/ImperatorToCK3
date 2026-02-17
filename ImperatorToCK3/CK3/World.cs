@@ -188,7 +188,7 @@ internal sealed class World {
 				Logger.Info("Loaded CK3 religions.");
 				Logger.IncrementProgress();
 				Logger.Info("Loading converter faiths...");
-				Religions.LoadConverterFaiths("configurables/converter_faiths.txt", ck3ColorFactory);
+				Religions.LoadConverterFaiths("configurables/converter_faiths.liquid", ck3ColorFactory, ck3ModFlags);
 				Logger.Info("Loaded converter faiths.");
 				Logger.IncrementProgress();
 				Religions.RemoveChristianAndIslamicSyncretismFromAllFaiths();
