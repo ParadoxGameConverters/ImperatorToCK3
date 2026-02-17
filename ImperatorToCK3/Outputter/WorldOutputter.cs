@@ -91,7 +91,7 @@ internal static class WorldOutputter {
 		);
 	}
 
-	public static void CopyBlankModFilesToOutput(string outputPath, OrderedDictionary<string, bool> ck3ModFlags) {
+	public static void CopyBlankModFilesToOutput(string outputPath, OrderedDictionary<string, bool> ck3ModFlags, OrderedDictionary<string, bool> converterOptions) {
 		Logger.Info("Copying blankMod files to output...");
 		
 		var folderPath = Path.Combine("blankMod", "output");
@@ -103,9 +103,13 @@ internal static class WorldOutputter {
 			outputPath
 		);
 		
-		// Use the CK3 mod flags in the DotLiquid template context.
+		// Use the CK3 mod flags and converter options in the DotLiquid template context.
 		// Hash expects the dictionary values to be of type object, so we need to cast the bools to objects.
 		var convertedModFlags = ck3ModFlags.ToDictionary(kv => kv.Key, kv => (object)kv.Value);
+		// Add converter options to the context.
+		foreach (var option in converterOptions) {
+			convertedModFlags[option.Key] = option.Value;
+		}
 		var context = Hash.FromDictionary(convertedModFlags);
 
 		// In the output path, find .liquid files, parse them with DotLiquid and write them back without the .liquid extension.

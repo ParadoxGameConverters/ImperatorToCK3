@@ -89,7 +89,7 @@ internal sealed class World {
 		WorldOutputter.ClearOutputModFolder(outputModPath);
 		WorldOutputter.CreateModFolder(outputModPath);
 		// This will also convert all Liquid templates into simple text files.
-		WorldOutputter.CopyBlankModFilesToOutput(outputModPath, config.GetCK3ModFlags());
+		WorldOutputter.CopyBlankModFilesToOutput(outputModPath, config.GetCK3ModFlags(), config.GetConverterOptions());
 
 		// Include a fake mod pointing to blankMod in the output folder.
 		LoadedMods.Add(new Mod("blankMod", outputModPath));

@@ -418,4 +418,40 @@ internal sealed class Configuration {
 	public IEnumerable<string> GetActiveCK3ModFlags() {
 		return GetCK3ModFlags().Where(f => f.Value).Select(f => f.Key);
 	}
+
+	/// <summary>Returns a collection of converter frontend options with their selected choice values in the format "optionName_choiceValue".</summary>
+	public OrderedDictionary<string, bool> GetConverterOptions() {
+		var options = new OrderedDictionary<string, bool> {
+			// Boolean options - choice 0 is false, choice 1 is true
+			["HeresiesInHistoricalAreas_0"] = !HeresiesInHistoricalAreas,
+			["HeresiesInHistoricalAreas_1"] = HeresiesInHistoricalAreas,
+			
+			// StaticDeJure - choice 1 is dynamic (false), choice 2 is static (true)
+			["StaticDeJure_1"] = !StaticDeJure,
+			["StaticDeJure_2"] = StaticDeJure,
+			
+			// FillerDukes - choice 0 is count (false), choice 1 is duke (true)
+			["FillerDukes_0"] = !FillerDukes,
+			["FillerDukes_1"] = FillerDukes,
+			
+			// UseCK3Flags - choice 0 is false, choice 1 is true
+			["UseCK3Flags_0"] = !UseCK3Flags,
+			["UseCK3Flags_1"] = UseCK3Flags,
+			
+			// LegionConversion - enum values
+			["LegionConversion_No"] = LegionConversion == LegionConversion.No,
+			["LegionConversion_SpecialTroops"] = LegionConversion == LegionConversion.SpecialTroops,
+			["LegionConversion_MenAtArms"] = LegionConversion == LegionConversion.MenAtArms,
+			
+			// SkipDynamicCoAExtraction - choice 0 is false, choice 1 is true
+			["SkipDynamicCoAExtraction_0"] = !SkipDynamicCoAExtraction,
+			["SkipDynamicCoAExtraction_1"] = SkipDynamicCoAExtraction,
+			
+			// SkipHoldingOwnersImport - choice 0 is false, choice 1 is true
+			["SkipHoldingOwnersImport_0"] = !SkipHoldingOwnersImport,
+			["SkipHoldingOwnersImport_1"] = SkipHoldingOwnersImport,
+		};
+		
+		return options;
+	}
 }
