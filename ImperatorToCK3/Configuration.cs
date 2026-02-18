@@ -402,8 +402,21 @@ internal sealed class Configuration {
 		}
 	}
 
+	/// <summary>Returns a collection of liquid template flags including CK3 mod flags and converter options. Access using square bracket notation in templates: ['optionName:choiceValue']</summary>
+	public OrderedDictionary<string, bool> GetLiquidFlags() {
+		var flags = GetCK3ModFlags();
+		var options = GetConverterOptions();
+		
+		// Merge converter options into flags
+		foreach (var option in options) {
+			flags[option.Key] = option.Value;
+		}
+		
+		return flags;
+	}
+	
 	/// <summary>Returns a collection of CK3 mod flags with values based on the enabled mods. "vanilla" flag is set to true if no other flags are set.</summary>
-	public OrderedDictionary<string, bool> GetCK3ModFlags() {
+	private OrderedDictionary<string, bool> GetCK3ModFlags() {
 		var flags = new OrderedDictionary<string, bool> {
 			["tfe"] = FallenEagleEnabled,
 			["wtwsms"] = WhenTheWorldStoppedMakingSenseEnabled,
@@ -419,37 +432,37 @@ internal sealed class Configuration {
 		return GetCK3ModFlags().Where(f => f.Value).Select(f => f.Key);
 	}
 
-	/// <summary>Returns a collection of converter frontend options with their selected choice values in the format "optionName_choiceValue".</summary>
-	public OrderedDictionary<string, bool> GetConverterOptions() {
+	/// <summary>Returns a collection of converter frontend options with their selected choice values in the format "optionName:choiceValue".</summary>
+	private OrderedDictionary<string, bool> GetConverterOptions() {
 		var options = new OrderedDictionary<string, bool> {
 			// Boolean options - choice 0 is false, choice 1 is true
-			["HeresiesInHistoricalAreas_0"] = !HeresiesInHistoricalAreas,
-			["HeresiesInHistoricalAreas_1"] = HeresiesInHistoricalAreas,
+			["HeresiesInHistoricalAreas:0"] = !HeresiesInHistoricalAreas,
+			["HeresiesInHistoricalAreas:1"] = HeresiesInHistoricalAreas,
 			
 			// StaticDeJure - choice 1 is dynamic (false), choice 2 is static (true)
-			["StaticDeJure_1"] = !StaticDeJure,
-			["StaticDeJure_2"] = StaticDeJure,
+			["StaticDeJure:1"] = !StaticDeJure,
+			["StaticDeJure:2"] = StaticDeJure,
 			
 			// FillerDukes - choice 0 is count (false), choice 1 is duke (true)
-			["FillerDukes_0"] = !FillerDukes,
-			["FillerDukes_1"] = FillerDukes,
+			["FillerDukes:0"] = !FillerDukes,
+			["FillerDukes:1"] = FillerDukes,
 			
 			// UseCK3Flags - choice 0 is false, choice 1 is true
-			["UseCK3Flags_0"] = !UseCK3Flags,
-			["UseCK3Flags_1"] = UseCK3Flags,
+			["UseCK3Flags:0"] = !UseCK3Flags,
+			["UseCK3Flags:1"] = UseCK3Flags,
 			
 			// LegionConversion - enum values
-			["LegionConversion_No"] = LegionConversion == LegionConversion.No,
-			["LegionConversion_SpecialTroops"] = LegionConversion == LegionConversion.SpecialTroops,
-			["LegionConversion_MenAtArms"] = LegionConversion == LegionConversion.MenAtArms,
+			["LegionConversion:No"] = LegionConversion == LegionConversion.No,
+			["LegionConversion:SpecialTroops"] = LegionConversion == LegionConversion.SpecialTroops,
+			["LegionConversion:MenAtArms"] = LegionConversion == LegionConversion.MenAtArms,
 			
 			// SkipDynamicCoAExtraction - choice 0 is false, choice 1 is true
-			["SkipDynamicCoAExtraction_0"] = !SkipDynamicCoAExtraction,
-			["SkipDynamicCoAExtraction_1"] = SkipDynamicCoAExtraction,
+			["SkipDynamicCoAExtraction:0"] = !SkipDynamicCoAExtraction,
+			["SkipDynamicCoAExtraction:1"] = SkipDynamicCoAExtraction,
 			
 			// SkipHoldingOwnersImport - choice 0 is false, choice 1 is true
-			["SkipHoldingOwnersImport_0"] = !SkipHoldingOwnersImport,
-			["SkipHoldingOwnersImport_1"] = SkipHoldingOwnersImport,
+			["SkipHoldingOwnersImport:0"] = !SkipHoldingOwnersImport,
+			["SkipHoldingOwnersImport:1"] = SkipHoldingOwnersImport,
 		};
 		
 		return options;

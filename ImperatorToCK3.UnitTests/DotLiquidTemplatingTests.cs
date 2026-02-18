@@ -70,47 +70,47 @@ public class DotLiquidTemplatingTests {
 			LegionConversion = LegionConversion.MenAtArms
 		};
 
-		var converterOptions = config.GetConverterOptions();
+		var liquidFlags = config.GetLiquidFlags();
 		
 		// FillerDukes = true means choice 1 is selected
-		Assert.True(converterOptions["FillerDukes_1"]);
-		Assert.False(converterOptions["FillerDukes_0"]);
+		Assert.True(liquidFlags["FillerDukes:1"]);
+		Assert.False(liquidFlags["FillerDukes:0"]);
 		
 		// StaticDeJure = false means choice 1 is selected (dynamic)
-		Assert.True(converterOptions["StaticDeJure_1"]);
-		Assert.False(converterOptions["StaticDeJure_2"]);
+		Assert.True(liquidFlags["StaticDeJure:1"]);
+		Assert.False(liquidFlags["StaticDeJure:2"]);
 		
 		// LegionConversion = MenAtArms
-		Assert.True(converterOptions["LegionConversion_MenAtArms"]);
-		Assert.False(converterOptions["LegionConversion_No"]);
-		Assert.False(converterOptions["LegionConversion_SpecialTroops"]);
+		Assert.True(liquidFlags["LegionConversion:MenAtArms"]);
+		Assert.False(liquidFlags["LegionConversion:No"]);
+		Assert.False(liquidFlags["LegionConversion:SpecialTroops"]);
 		
-		// Test that these options work in liquid templates
+		// Test that these options work in liquid templates using square bracket notation
 		var template = Template.Parse(
 			"""
-				{% if FillerDukes_1 %}
+				{% if ['FillerDukes:1'] %}
 					filler_rank = duke
-				{% elsif FillerDukes_0 %}
+				{% elsif ['FillerDukes:0'] %}
 					filler_rank = count
 				{% endif %}
 				
-				{% if StaticDeJure_1 %}
+				{% if ['StaticDeJure:1'] %}
 					dejure = dynamic
-				{% elsif StaticDeJure_2 %}
+				{% elsif ['StaticDeJure:2'] %}
 					dejure = static
 				{% endif %}
 				
-				{% if LegionConversion_MenAtArms %}
+				{% if ['LegionConversion:MenAtArms'] %}
 					legions = maa
-				{% elsif LegionConversion_SpecialTroops %}
+				{% elsif ['LegionConversion:SpecialTroops'] %}
 					legions = special
-				{% elsif LegionConversion_No %}
+				{% elsif ['LegionConversion:No'] %}
 					legions = none
 				{% endif %}
 			""");
 		
-		var convertedOptions = converterOptions.ToDictionary(kv => kv.Key, kv => (object)kv.Value);
-		var context = Hash.FromDictionary(convertedOptions);
+		var convertedFlags = liquidFlags.ToDictionary(kv => kv.Key, kv => (object)kv.Value);
+		var context = Hash.FromDictionary(convertedFlags);
 		var result = template.Render(context);
 		
 		string? fillerRank = null;
@@ -135,19 +135,19 @@ public class DotLiquidTemplatingTests {
 			LegionConversion = LegionConversion.No
 		};
 
-		var converterOptions = config.GetConverterOptions();
+		var liquidFlags = config.GetLiquidFlags();
 		
 		// FillerDukes = false means choice 0 is selected
-		Assert.True(converterOptions["FillerDukes_0"]);
-		Assert.False(converterOptions["FillerDukes_1"]);
+		Assert.True(liquidFlags["FillerDukes:0"]);
+		Assert.False(liquidFlags["FillerDukes:1"]);
 		
 		// StaticDeJure = true means choice 2 is selected (static)
-		Assert.True(converterOptions["StaticDeJure_2"]);
-		Assert.False(converterOptions["StaticDeJure_1"]);
+		Assert.True(liquidFlags["StaticDeJure:2"]);
+		Assert.False(liquidFlags["StaticDeJure:1"]);
 		
 		// LegionConversion = No
-		Assert.True(converterOptions["LegionConversion_No"]);
-		Assert.False(converterOptions["LegionConversion_MenAtArms"]);
-		Assert.False(converterOptions["LegionConversion_SpecialTroops"]);
+		Assert.True(liquidFlags["LegionConversion:No"]);
+		Assert.False(liquidFlags["LegionConversion:MenAtArms"]);
+		Assert.False(liquidFlags["LegionConversion:SpecialTroops"]);
 	}
 }

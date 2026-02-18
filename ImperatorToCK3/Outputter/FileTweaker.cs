@@ -52,7 +52,7 @@ internal static class FileTweaker {
 			ReadPartsOfFileToReplace(partsToModifyPerFile, "configurables/replaceable_file_blocks_wtwsms.txt", warnIfNotFound: true);
 		}
 
-		bool isVanilla = config.GetCK3ModFlags()["vanilla"];
+		bool isVanilla = config.GetLiquidFlags()["vanilla"];
 		Logger.Info("Reading unneeded parts of vanilla files...");
 		ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks.txt", warnIfNotFound: isVanilla);
 		Logger.Info("Reading parts of vanilla files to modify...");

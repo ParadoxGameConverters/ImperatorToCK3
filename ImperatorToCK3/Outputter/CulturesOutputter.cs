@@ -54,7 +54,7 @@ internal static class CulturesOutputter {
 		await OutputCultureHistory(outputModPath, cultures, config, date);
 
 		if (config.OutputCCUParameters) {
-			OutputCCUParameters(outputModPath, ck3ModFS, config.GetCK3ModFlags());
+			OutputCCUParameters(outputModPath, ck3ModFS, config.GetLiquidFlags());
 		}
 	}
 
