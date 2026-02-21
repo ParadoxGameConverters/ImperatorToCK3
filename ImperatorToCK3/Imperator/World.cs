@@ -791,18 +791,18 @@ internal partial class World {
 		} while (ch != '\n' && ch != '\r');
 
 		var length = saveStream.Length;
-		if (length < 65536) {
+		if (length < 65_536) {
 			throw new InvalidDataException("Save game seems a bit too small.");
 		}
 
 		saveStream.Position = 0;
-		var bigBuf = new byte[65536];
+		var bigBuf = new byte[65_536];
 		var bytesReadCount = saveStream.Read(bigBuf);
-		if (bytesReadCount < 65536) {
+		if (bytesReadCount < 65_536) {
 			throw new InvalidDataException($"Read only {bytesReadCount}bytes.");
 		}
 		saveType = SaveType.Plaintext;
-		for (var i = 0; i < 65533; ++i) {
+		for (var i = 0; i < 65_533; ++i) {
 			if (BitConverter.ToUInt32(bigBuf, i) == 0x04034B50 && BitConverter.ToUInt16(bigBuf, i - 2) == 4) {
 				saveType = SaveType.CompressedEncoded;
 			}
