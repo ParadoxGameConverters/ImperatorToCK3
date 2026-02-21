@@ -254,14 +254,18 @@
 	# is_shown block
 	replace = {
 		before = {
-		has_dlc_feature = roads_to_power
-		NOR = {
-			exists = title:e_byzantium.holder
-			exists = title:h_roman_empire.holder
-			exists = title:h_eastern_roman_empire.holder
-		}
 		title:e_byzantium = { is_titular = no }
-		OR = {
+		}
+
+		after = {
+		title:e_byzantium = { is_titular = no }
+		# IRToCK3: Require someone holds the Latin Empire so this only happens during the Fourth Crusade content
+		exists = title:e_latin_empire.holder
+		}
+	}
+
+	replace = {
+		before = {
 			culture = {
 				OR = {
 					this = culture:greek
@@ -278,28 +282,9 @@
 					empire = title:e_latin_empire
 				}
 			}
-			AND = {
-				OR = {
-					ep3_orthodox_faith_trigger = yes
-					faith = faith:hellenic_pagan
-				}
-				primary_title = {
-					tier <= tier_empire
-					empire = title:e_byzantium
-				}
-			}
-		}
 		} # end of before
 		
 		after = {
-		has_dlc_feature = roads_to_power
-		exists = title:e_byzantium.previous_holder # IRToCK3: Make sure e_byzantium has a previous holder to ensure it existed previously (otherwise why would this decision even make sense?)
-		NOR = {
-			exists = title:e_byzantium.holder
-			exists = title:h_roman_empire.holder
-			exists = title:h_eastern_roman_empire.holder
-		}
-		OR = {
 			# IRToCK3: Allow Romans to use this decision too
 			culture = {
 				OR = {
@@ -319,17 +304,6 @@
 					empire = title:e_latin_empire
 				}
 			}
-			AND = {
-				OR = {
-					ep3_orthodox_faith_trigger = yes
-					faith = faith:hellenic_pagan
-				}
-				primary_title = {
-					tier <= tier_empire
-					empire = title:e_byzantium
-				}
-			}
-		}
 		} # end of after
 	} # end of is_shown block
 
@@ -358,29 +332,6 @@
 			}
 			ep3_orthodox_faith_trigger = yes
 			faith = faith:hellenic_pagan
-		}
-		highest_held_title_tier >= tier_kingdom
-		
-		realm_size >= 12
-		custom_tooltip = {
-			title:c_byzantion.holder = {
-				exists = this
-				OR = {
-					this = root
-					AND = {
-						is_ai = yes
-						top_liege = root
-					}
-				}
-			}
-			text = pandidakterion_tt
-		}
-		primary_title = {
-			tier <= tier_empire
-			OR = {
-				empire = title:e_latin_empire
-				empire = title:e_byzantium
-			}
 		}
 		} # end of before
 		
@@ -427,47 +378,6 @@
 			}
 			ep3_orthodox_faith_trigger = yes
 			faith = faith:hellenic_pagan
-		}
-		highest_held_title_tier >= tier_kingdom
-		
-		# IRToCK3: Modified so that it only requires the normal 12 realm size if the Latin Empire exists so it uses those intended mechanics/conditions. Otherwise, if it doesn't exist, then that means it is just a normal Roman/Romaioi (greek) character trying to restore the empire, so making it a bit more on par with other empire restoration/creation decisions
-		trigger_if = {
-			limit = {
-				exists = title:e_latin_empire.holder
-			}
-
-			realm_size >= 12
-		}
-		trigger_else = {
-			realm_size >= 65
-		}
-
-		custom_tooltip = {
-			title:c_byzantion.holder = {
-				exists = this
-				OR = {
-					this = root
-					AND = {
-						is_ai = yes
-						top_liege = root
-					}
-				}
-			}
-			text = pandidakterion_tt
-		}
-		# IRToCK3: Modified so that this condition is only checked if the Latin Empire exists (since that indicates the Splintered Crusade happened, so it should use those intended mechanics/conditions)
-		trigger_if = {
-			limit = {
-				exists = title:e_latin_empire.holder
-			}
-
-			primary_title = {
-				tier <= tier_empire
-				OR = {
-					empire = title:e_latin_empire
-					empire = title:e_byzantium
-				}
-			}
 		}
 		} # end of after
 	} # end of is_valid block
@@ -575,16 +485,9 @@
 		}
 		any_held_title = {
 			title_tier = kingdom
-			# IRToCK3: Modified so that the de jure empire the kingdom belongs to is only checked if the Latin Empire exists, so that it is only relevant during the Splintered Crusade
-			trigger_if = {
-				limit = {
-					exists = title:e_latin_empire.holder
-				}
-
-				OR = {
-					empire = title:e_latin_empire
-					empire = title:e_byzantium
-				}
+			OR = {
+				empire = title:e_latin_empire
+				empire = title:e_byzantium
 			}
 		}
 		OR = {
@@ -678,7 +581,6 @@
 	# is_shown block
 	replace = {
 		before = {
-		has_ep3_dlc_trigger = yes
 		# Byz emperor or governor
 		OR = {
 			has_title = title:e_byzantium
@@ -694,15 +596,9 @@
 				valid_for_pagan_conversion_trigger = yes
 			}
 		}
-		trigger_else = {
-			any_neighboring_and_across_water_realm_same_rank_owner = {
-				valid_for_pagan_conversion_trigger = yes
-			}
-		}
 		} # end of before
 
 		after = {
-		has_ep3_dlc_trigger = yes
 		# Byz emperor or governor
 		OR = {
 			is_roman_emperor_trigger = yes # IRToCK3: Extend to other Roman Empire titles
@@ -718,18 +614,12 @@
 				valid_for_pagan_conversion_trigger = yes
 			}
 		}
-		trigger_else = {
-			any_neighboring_and_across_water_realm_same_rank_owner = {
-				valid_for_pagan_conversion_trigger = yes
-			}
-		}
 		} # end of after
 	} # end of is_shown block
 
 	# is_valid block
 	replace = {
 		before = {
-		government_has_flag = government_is_administrative
 		trigger_if = {
 			limit = {
 				has_title = title:e_byzantium
@@ -741,18 +631,9 @@
 				text = valid_neighboring_and_across_water_top_liege
 			}
 		}
-		trigger_else = {
-			custom_tooltip = {
-				any_neighboring_and_across_water_realm_same_rank_owner = {
-					valid_for_pagan_conversion_trigger = yes
-				}
-				text = valid_neighboring_and_across_water_realm_same_rank
-			}
-		}
 		} # end of before
 
 		after = {
-		government_has_flag = government_is_administrative
 		trigger_if = {
 			limit = {
 				is_roman_emperor_trigger = yes # IRToCK3: Extend to other Roman Empire titles
@@ -764,31 +645,19 @@
 				text = valid_neighboring_and_across_water_top_liege
 			}
 		}
-		trigger_else = {
-			custom_tooltip = {
-				any_neighboring_and_across_water_realm_same_rank_owner = {
-					valid_for_pagan_conversion_trigger = yes
-				}
-				text = valid_neighboring_and_across_water_realm_same_rank
-			}
-		}
 		} # end of after
 	} # end of is_valid block
 
 	# ai_potential block
 	replace = {
 		before = {
-	ai_potential = {
 		piety > massive_piety_value
 		has_title = title:e_byzantium
-	}
 		} # end of before
 
 		after = {
-	ai_potential = {
 		piety > massive_piety_value
 		is_roman_emperor_trigger = yes # IRToCK3: Extend to other Roman Empire titles
-	}
 		} # end of after
 	} # end of ai_potential block
 
@@ -836,22 +705,18 @@
 	# is_shown block
 	replace = {
 		before = {
-	is_shown = {
 		has_ep3_dlc_trigger = yes
 		primary_title = title:h_roman_empire
 		NOT = { exists = title:h_eastern_roman_empire.holder }
-	}
 		} # end of before
 
 		after = {
-	is_shown = {
 		has_ep3_dlc_trigger = yes
 		primary_title = title:h_roman_empire
 		NOR = { # IRToCK3: Made it so both ERE and WRE can't have holders for decision to be taken
 			exists = title:h_eastern_roman_empire.holder
 			exists = title:h_western_roman_empire.holder
 		}
-	}
 		} # end of after
 	} # end of is_shown block
 
@@ -1001,6 +866,163 @@
 		}
 	}
 
+
+	#########
+	# expunge_latin_dominion_decision
+	#########
+
+	# is_shown block
+	replace = {
+		before = {
+			culture = culture:greek
+			culture = culture:roman
+			culture = {
+				any_parent_culture_or_above = {
+					this = culture:greek
+				}
+			}
+		}
+
+		after = {
+			culture = culture:greek
+			culture = culture:roman
+			culture = {
+				any_parent_culture_or_above = {
+					this = culture:greek
+				}
+			}
+			# IRToCK3: Allowing culture to descend from Roman as well
+			culture = {
+				any_parent_culture_or_above = {
+					this = culture:roman
+				}
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			AND = {
+				exists = title:e_byzantium.holder
+				this = title:e_byzantium.holder
+			}
+			AND = {
+				exists = title:h_roman_empire.holder
+				this = title:h_roman_empire.holder
+			}
+			AND = {
+				exists = title:h_eastern_roman_empire.holder
+				this = title:h_eastern_roman_empire.holder
+			}
+		}
+
+		after = {
+			AND = {
+				exists = title:e_byzantium.holder
+				this = title:e_byzantium.holder
+			}
+			AND = {
+				exists = title:h_roman_empire.holder
+				this = title:h_roman_empire.holder
+			}
+			AND = {
+				exists = title:h_eastern_roman_empire.holder
+				this = title:h_eastern_roman_empire.holder
+			}
+			# IRToCK3: Added new Roman Empire titles as well
+			AND = {
+				exists = title:e_western_roman_empire.holder
+				this = title:e_western_roman_empire.holder
+			}
+			AND = {
+				exists = title:h_western_roman_empire.holder
+				this = title:h_western_roman_empire.holder
+			}
+		}
+	}
+
+	# is_valid block
+	replace = {
+		before = {
+				highest_held_title_tier <= tier_kingdom
+				custom_tooltip = {
+					exists = title:e_byzantium.holder
+					this = title:e_byzantium.holder
+					text = holds_byz_emp_tt
+				}
+				custom_tooltip = {
+					exists = title:h_roman_empire.holder
+					this = title:h_roman_empire.holder
+					text = holds_roman_emp_tt
+				}
+				custom_tooltip = {
+					exists = title:h_eastern_roman_empire.holder
+					this = title:h_eastern_roman_empire.holder
+					text = holds_roman_emp_tt
+				}
+		}
+
+		after = {
+				highest_held_title_tier <= tier_kingdom
+				# IRToCK3: Simplified the conditions in this decision to just directly check that you have the relevant titles, and also added the new WRE titles
+				has_title = title:h_roman_empire
+				has_title = title:h_western_roman_empire
+				has_title = title:h_eastern_roman_empire
+				has_title = title:e_western_roman_empire
+				has_title = title:e_byzantium
+		}
+	}
+
+	replace = {
+		before = {
+			custom_tooltip = {
+				culture = {
+					any_parent_culture_or_above = { this = culture:greek }
+				}
+				text = is_greek_descendent_tt
+			}
+			ep3_orthodox_faith_trigger = yes
+			faith = faith:hellenic_pagan
+			custom_tooltip = {
+				exists = title:e_byzantium.holder
+				this = title:e_byzantium.holder
+				text = holds_byz_emp_tt
+			}
+			custom_tooltip = {
+				exists = title:h_roman_empire.holder
+				this = title:h_roman_empire.holder
+				text = holds_roman_emp_tt
+			}
+			custom_tooltip = {
+				exists = title:h_eastern_roman_empire.holder
+				this = title:h_eastern_roman_empire.holder
+				text = holds_roman_emp_tt
+			}
+		}
+
+		after = {
+			# IRToCK3: Allow Greek- OR Roman-descendent cultures
+			custom_tooltip = {
+				culture = {
+					any_parent_culture_or_above = {
+						OR = {
+							this = culture:greek
+							this = culture:roman
+						}
+					}
+				}
+				text = is_greek_descendent_tt
+			}
+			ep3_orthodox_faith_trigger = yes
+			faith = faith:hellenic_pagan
+			# IRToCK3: Simplified the conditions in this decision to just directly check that you have the relevant titles, and also added the new WRE titles
+			has_title = title:h_roman_empire
+			has_title = title:h_western_roman_empire
+			has_title = title:h_eastern_roman_empire
+			has_title = title:e_western_roman_empire
+			has_title = title:e_byzantium
+		}
+	}
 }
 
 
@@ -1270,7 +1292,7 @@
 		after = {
 		is_ruler = yes
 		is_playable_character = yes
-		OR = { # IRToCK3: Making it so any of the WRE/ERE can reform rome, so forming one of those first would be the priority
+		OR = { # IRToCK3: Making it so any of the WRE/ERE can reform rome
 			has_title = title:h_eastern_roman_empire
 			has_title = title:h_western_roman_empire
 			has_title = title:e_byzantium
@@ -1349,6 +1371,11 @@
 		} # end of before
 
 		after = {
+		# IRToCK3: Requires Rome to at least have elevated to hegemony rank, otherwise why would they be influential enough to mimic?
+		is_target_in_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:irtock3_elevate_roman_empire_decision
+		}
 		NOT = { culture = culture:greek }
 		NOT = { culture = culture:roman } # IRToCK3: Added roman as invalid culture
 		NOT = { faith.religion = religion:christianity_religion }
@@ -1525,6 +1552,22 @@
 		}
 	}
 
+	# ai_potential block
+	replace = {
+		before = {
+		primary_title.tier = tier_empire
+		has_title = title:e_byzantium
+		}
+
+		after = {
+		primary_title.tier = tier_empire
+		OR = {
+			has_title = title:e_byzantium
+			has_title = title:h_eastern_roman_empire # IRToCK3: Added ERE as possible title
+		}
+		}
+	}
+
 
 	#########
 	# restore_pope_in_rome_decision
@@ -1543,9 +1586,11 @@
 		NOR = {
 			has_title = title:k_papal_state
 			is_roman_emperor_excluding_byzantium_trigger = yes
-			# IRToCK3: Exclude WRE and Kingdom of Rome
+			# IRToCK3: Exclude certain Rome titles
 			has_title = title:e_western_roman_empire
+			has_title = title:e_roman_empire
 			has_title = title:k_rome
+			has_title = title:d_rome
 		}
 		}
 	}
@@ -1788,7 +1833,6 @@
 			any_parent_culture_or_above = {
 				this = culture:roman
 			}
-			#has_cultural_pillar = heritage_byzantine # IRToCK3: Removed since this heritage now represents general Hellenistic cultures, so it doesn't really fit
 		}
 		# DLC check.
 		has_ep3_dlc_trigger = yes
@@ -1811,11 +1855,6 @@
 				is_roman_emperor_trigger = yes
 			}
 		}
-		# DLC check.
-		has_ep3_dlc_trigger = yes
-		NOT = {
-			has_cultural_tradition = tradition_byzantine_succession
-		}
 		}# end of before
 
 		after = {
@@ -1828,19 +1867,9 @@
 			any_parent_culture_or_above = {
 				this = culture:roman
 			}
-			#has_cultural_pillar = heritage_byzantine # IRToCK3: Removed since this heritage now represents general Hellenistic cultures, so it doesn't really fit
 			scope:character = {
-				OR = {
-					is_roman_emperor_trigger = yes
-					# IRToCK3: Also made it so that if you are in one of the Roman empire titles, you can choose this, as if being influenced by their traditions
-					top_liege = { is_roman_emperor_trigger = yes }
-				}
+				is_roman_emperor_trigger = yes
 			}
-		}
-		# DLC check.
-		has_ep3_dlc_trigger = yes
-		NOT = {
-			has_cultural_tradition = tradition_byzantine_succession
 		}
 		} # end of after
 	}
@@ -1930,6 +1959,29 @@
 
 
 "events/decisions_events/roman_restoration_events.txt" = {
+
+	#########
+	# roman_restoration.0005
+	#########
+	# trigger block
+	replace = {
+		before = {
+		OR = {
+			scope:title = title:h_roman_empire
+			scope:title = title:h_eastern_roman_empire
+		}
+		NOT = { has_trait = augustus }
+		}
+
+		after = {
+		OR = {
+			scope:title = title:h_roman_empire
+			scope:title = title:h_eastern_roman_empire
+			scope:title = title:h_western_roman_empire # IRToCK3: Added WRE
+		}
+		NOT = { has_trait = augustus }
+		}
+	}
 
 	#########
 	# roman_restoration.0124
@@ -2782,6 +2834,38 @@
 		}
 		}
 	}
+
+	# Changing seeding of Visigothic Votive Crowns so that they are only given to relevant rulers if Visigothic is actually in the region
+	replace = {
+		before = {
+			limit = { has_fp2_dlc_trigger = yes }
+			every_county_in_region = {
+				region = world_europe_west_iberia
+				holder = { add_to_list = potential_votive_crown_holders_list }
+			}
+		}
+
+		after = {
+			limit = {
+				has_fp2_dlc_trigger = yes
+				# IRToCK3: Only made this artifact be distributed if Visigothic culture/rulers are in the region
+				any_county_in_region = {
+					region = world_europe_west_iberia
+					OR = {
+						culture = culture:visigothic
+						holder.culture = culture:visigothic
+						holder = {
+							any_liege_or_above = { culture = culture:visigothic }
+						}
+					}
+				}
+			}
+			every_county_in_region = {
+				region = world_europe_west_iberia
+				holder = { add_to_list = potential_votive_crown_holders_list }
+			}
+		}
+	}
 }
 
 
@@ -3298,6 +3382,35 @@ tgp_is_ceremonial_regent_trigger = {
 						}
 		}
 	}
+
+	# Admin Imperial Succession event checks specific base game start dates, had to change to work with any start date
+	replace = {
+		before = {
+					trigger_if = {
+						limit = {
+							game_start_date = 867.1.1
+						}
+						current_date >= 867.1.4
+					}
+					trigger_if = {
+						limit = {
+							game_start_date = 1066.9.15
+						}
+						current_date >= 1066.9.18
+					}
+					trigger_if = {
+						limit = {
+							game_start_date = 1178.10.1
+						}
+						current_date >= 1178.10.4
+					}
+		}
+
+		after = {
+					# IRToCK3: Base game just checks it's specific start dates, which won't work for a converted save, so had to change to be based off a global variable
+					NOT = { has_global_variable = irtock3_date_is_start_date }
+		}
+	}
 }
 
 
@@ -3396,6 +3509,9 @@ tgp_is_ceremonial_regent_trigger = {
 
 
 "common/scripted_triggers/07_ep3_triggers.txt" = {
+	######################################
+	## ep3_restored_rome_hard_mode_trigger
+	######################################
 	# This scripted trigger is used in a few places to make sure you have the "Restoring Rome" story cycle, and one of the relevant titles
 	replace = {
 		before = {
@@ -3422,20 +3538,20 @@ tgp_is_ceremonial_regent_trigger = {
 		}
 	}
 
+	###########################
+	## is_roman_emperor_trigger
+	###########################
 	# This checks if a character has a relevant title to be considered a "Roman Emperor", need to account for new Rome titles
 	replace = {
 		before = {
-is_roman_emperor_trigger = {
 	OR = {
 		has_title = title:e_byzantium
 		has_title = title:h_roman_empire
 		has_title = title:h_eastern_roman_empire
 	}
-}
 		}
 
 		after = {
-is_roman_emperor_trigger = {
 	OR = {
 		has_title = title:e_byzantium
 		has_title = title:h_roman_empire
@@ -3445,24 +3561,23 @@ is_roman_emperor_trigger = {
 		has_title = title:e_western_roman_empire
 		has_title = title:e_roman_empire
 	}
-}
 		}
 	}
 
+	#########################################
+	## is_roman_emperor_primary_title_trigger
+	#########################################
 	# This checks if a character has a relevant primary title to be considered a "Roman Emperor", need to account for new Rome titles
 	replace = {
 		before = {
-is_roman_emperor_primary_title_trigger = {
 	OR = {
 		primary_title ?= title:e_byzantium
 		primary_title ?= title:h_roman_empire
 		primary_title ?= title:h_eastern_roman_empire
 	}
-}
 		}
 
 		after = {
-is_roman_emperor_primary_title_trigger = {
 	OR = {
 		primary_title ?= title:e_byzantium
 		primary_title ?= title:h_roman_empire
@@ -3472,54 +3587,85 @@ is_roman_emperor_primary_title_trigger = {
 		primary_title ?= title:e_western_roman_empire
 		primary_title ?= title:e_roman_empire
 	}
-}
 		}
 	}
 
+	###############################################
+	## is_roman_emperor_excluding_byzantium_trigger
+	###############################################
 	# This checks if the character has one of the Rome titles, excluding Byzantium, need to account for new Rome titles
 	replace = {
 		before = {
-is_roman_emperor_excluding_byzantium_trigger = {
 	OR = {
 		has_title = title:h_roman_empire
 		has_title = title:h_eastern_roman_empire
 	}
-}
 		}
 
 		after = {
-is_roman_emperor_excluding_byzantium_trigger = {
 	OR = {
 		has_title = title:h_roman_empire
 		has_title = title:h_eastern_roman_empire
 		has_title = title:h_western_roman_empire # IRToCK3: Added WRE
 	}
-}
 		}
 	}
 
+	#############################################################
+	## is_roman_emperor_primary_title_excluding_byzantium_trigger
+	#############################################################
 	# This checks if the character has one of the Rome primary titles, excluding Byzantium, need to account for new Rome titles
 	replace = {
 		before = {
-is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 	OR = {
 		primary_title ?= title:h_roman_empire
 		primary_title ?= title:h_eastern_roman_empire
 	}
-}
 		}
 
 		after = {
-is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 	OR = {
 		primary_title ?= title:h_roman_empire
 		primary_title ?= title:h_eastern_roman_empire
 		primary_title ?= title:h_western_roman_empire # IRToCK3: Added WRE
 	}
-}
 		}
 	}
 
+	###################
+	## ep3_admin_faction_trigger
+	###################
+	replace = {
+		before = {
+		$FACTION_TARGET$ = { has_title = title:e_byzantium }
+		}
+
+		after = {
+		# IRToCK3: Changed to allow any Rome empire+ title
+		$FACTION_TARGET$ = { is_roman_emperor_trigger = yes }
+		}
+	}
+
+	###################
+	## valid_for_pagan_conversion_trigger
+	###################
+	replace = {
+		before = {
+	NOR = {
+		has_character_flag = do_not_disturb_preachers
+		primary_title = { has_variable = do_not_disturb_preachers }
+	}
+		}
+
+		after = {
+	# IRToCK3: Adding a requirement that they are landed, just to prevent the decision from mistakenly picking some wandering character
+	is_landed = yes
+	NOR = {
+		has_character_flag = do_not_disturb_preachers
+		primary_title = { has_variable = do_not_disturb_preachers }
+	}
+		}
+	}
 }
 
 
@@ -5158,6 +5304,19 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 		irtock3_create_ritsuryo_ruling_regent_title_effect = yes
 		}
 	}
+
+	# A Lot of events
+	## The game just has it set so e_byzantium will almost always refuse demands from most factions, changing to use any Rome empire title
+	replace = {
+		before = {
+					has_title = title:e_byzantium
+		}
+
+		after = {
+					# IRToCK3: Made this use any Rome empire title instead of just e_byzantium
+					is_roman_emperor_trigger = yes
+		}
+	}
 }
 
 
@@ -5187,7 +5346,7 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 	#########################
 	## tgp_is_japanese_kampaku_trigger
 	#########################
-	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	# Need to generalize the trigger, so that one ritsuryo realm doesn't affect another
 	replace = {
 		before = {
 	has_title = title:e_japan
@@ -5215,7 +5374,7 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 	#########################
 	## tgp_japan_offensive_wars_ban_trigger
 	#########################
-	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	# Need to generalize the trigger, so that one ritsuryo realm doesn't affect another
 	replace = {
 		before = {
 				has_title = title:e_japan
@@ -5235,7 +5394,7 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 	#########################
 	## can_have_japanese_regency_succession_law_trigger
 	#########################
-	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	# Need to generalize the trigger, so that one ritsuryo realm doesn't affect another
 	replace = {
 		before = {
 	OR = {
@@ -5260,7 +5419,7 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 	#########################
 	## can_have_japanese_appointment_succession_law_trigger
 	#########################
-	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	# Need to generalize the trigger, so that one ritsuryo realm doesn't affect another
 	replace = {
 		before = {
 	has_tgp_dlc_trigger = yes
@@ -5284,7 +5443,7 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 	#########################
 	## tgp_japan_single_heir_succession_override_trigger
 	#########################
-	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	# Need to generalize the trigger, so that one ritsuryo realm doesn't affect another
 	replace = {
 		before = {
 		title:k_chrysanthemum_throne.holder ?= scope:holder_temp
@@ -5307,7 +5466,7 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 	#########################
 	## tgp_blocked_action_against_tenno_trigger
 	#########################
-	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	# Need to generalize the trigger, so that one ritsuryo realm doesn't affect another
 	replace = {
 		before = {
 		NAND = {
@@ -5331,7 +5490,7 @@ is_roman_emperor_primary_title_excluding_byzantium_trigger = {
 	#########################
 	## tgp_blocked_ruler_against_ceremonial_action_trigger
 	#########################
-	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	# Need to generalize the trigger, so that one ritsuryo realm doesn't affect another
 	replace = {
 		before = {
 		NAND = {
@@ -5552,9 +5711,27 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 
 "common/laws/00_succession_laws.txt" = {
 	#########################
+	## acclamation_succession_law
+	#########################
+	# should_start_with block
+	replace = {
+		before = {
+			has_ep3_dlc_trigger = yes
+			has_title = title:e_byzantium
+			government_allows = administrative
+		}
+
+		after = {
+			has_ep3_dlc_trigger = yes
+			# IRToCK3: Removed reference to Byzantine Empire. Instead of forcing different realms to have different succession laws at game start, should be based off what they had in Imperator
+			always = no
+		}
+	}
+
+	#########################
 	## japanese_appointment_succession_law
 	#########################
-	# Need to generalize the decision, so that one ritsuryo realm doesn't affect another
+	# Need to generalize the law, so that one ritsuryo realm doesn't affect another
 	replace = {
 		before = {
 			government_has_flag = government_is_japan_administrative
@@ -6925,6 +7102,828 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 					desc = subject_of_china_desc
 				}
 			}
+		}
+	}
+}
+
+
+"common/casus_belli_types/00_dejure_war.txt" = {
+	#########################
+	## imperial_reconquest_cb
+	#########################
+
+	# valid_to_start block
+	replace = {
+		before = {
+			any_in_de_jure_hierarchy = {
+				tier = tier_county
+				title_province = { geographical_region = custom_roman_full_borders }
+			}
+		}
+
+		after = {
+			# IRToCK3: Changed this CB so it can only target land that was once de jure part of one of the Rome hegemony titles, since Rome might not have controlled its historical land in a converted save
+			hegemony ?= {
+				OR = {
+					title:h_roman_empire ?= this
+					title:h_eastern_roman_empire ?= this
+					title:h_western_roman_empire ?= this
+				}
+			}
+		}
+	}
+}
+
+
+"common/casus_belli_types/07_ep3_wars.txt" = {
+	#########################
+	## ep3_roman_empire_border_war
+	#########################
+
+	# allowed_for_character block
+	replace = {
+		before = {
+			title:h_roman_empire ?= { is_title_created = yes }
+			title:h_eastern_roman_empire ?= { is_title_created = yes }
+		}
+
+		after = {
+			title:h_roman_empire ?= { is_title_created = yes }
+			title:h_eastern_roman_empire ?= { is_title_created = yes }
+			# IRToCK3: Added WRE hegemony title as well
+			title:h_western_roman_empire ?= { is_title_created = yes }
+		}
+	}
+}
+
+
+"common/story_cycles/story_cycle_restored_roman_provinces.txt" = {
+	# on_action_roman_restoration_pulse effect_group block
+	replace = {
+		before = {
+						has_title = title:h_roman_empire #Not for Byzantium.
+						has_title = title:h_eastern_roman_empire #Not for Byzantium.
+		}
+
+		after = {
+						has_title = title:h_roman_empire #Not for Byzantium.
+						has_title = title:h_eastern_roman_empire #Not for Byzantium.
+						# IRToCK3: Added WRE hegemony title
+						has_title = title:h_western_roman_empire
+		}
+	}
+
+	# Maintenance group effect_group block
+	replace = {
+		before = {
+			story_owner = { is_landed = no }
+		}
+
+		after = {
+			OR = {
+				story_owner = { is_landed = no }
+				# IRToCK3: This story cycle does nothing if you have Roads to Power, so it should be ended if you have the DLC for performance
+				has_ep3_dlc_trigger = yes
+			}
+		}
+	}
+}
+
+
+"common/decisions/00_major_decisions_iberia_north_africa.txt" = {
+	#########################
+	## favour_the_countryside_basques_decision
+	#########################
+
+	# is_shown block
+	replace = {
+		before = {
+		# Must either have a Basque county or be Basque/recently Basque (in some form).
+		OR = {
+			favour_the_countryside_basques_counts_as_basque_trigger = yes
+			any_held_title = {
+				title_tier = county
+				favour_the_countryside_basques_counts_as_basque_trigger = yes
+			}
+		}
+		}
+
+		after = {
+		# IRToCK3: For now, requiring that the basque faith has Christian Syncretism so this decision only shows when it really makes sense
+		faith:basque_pagan = { has_doctrine = tenet_christian_syncretism }
+		# Must either have a Basque county or be Basque/recently Basque (in some form).
+		OR = {
+			favour_the_countryside_basques_counts_as_basque_trigger = yes
+			any_held_title = {
+				title_tier = county
+				favour_the_countryside_basques_counts_as_basque_trigger = yes
+			}
+		}
+		}
+	}
+}
+
+
+"common/story_cycles/ep3_story_cycle_restoring_rome.txt" = {
+	# on_owner_death block
+	replace = {
+		before = {
+		else_if = {
+			limit = {
+				story_owner = { has_title = title:e_byzantium }
+				title:e_byzantium.current_heir = { is_ai = no }
+			}
+			make_story_owner = title:e_byzantium.current_heir
+		}
+		}
+
+		after = {
+		else_if = {
+			limit = {
+				story_owner = { has_title = title:e_byzantium }
+				title:e_byzantium.current_heir = { is_ai = no }
+			}
+			make_story_owner = title:e_byzantium.current_heir
+		}
+		# IRToCK3: Made story account for new WRE titles
+		else_if = {
+			limit = {
+				story_owner = { has_title = title:h_western_roman_empire }
+				title:h_western_roman_empire.current_heir = { is_ai = no }
+			}
+			make_story_owner = title:h_western_roman_empire.current_heir
+		}
+		else_if = {
+			limit = {
+				story_owner = { has_title = title:e_western_roman_empire }
+				title:e_western_roman_empire.current_heir = { is_ai = no }
+			}
+			make_story_owner = title:e_western_roman_empire.current_heir
+		}
+		}
+	}
+}
+
+
+"common/legends/chronicles/00_chronicles.txt" = {
+	############
+	## new_title
+	############
+	# name/description block
+	replace = {
+		before = {
+				trigger = {
+					scope:title = title:h_eastern_roman_empire
+				}
+		}
+
+		after = {
+				trigger = {
+					# IRToCK3: Added WRE hegemony title
+					OR = {
+						scope:title = title:h_eastern_roman_empire
+						scope:title = title:h_western_roman_empire
+					}
+				}
+		}
+	}
+}
+
+
+"common/scripted_effects/00_scheme_scripted_effects.txt" = {
+	#############################
+	## claim_throne_set_mythical_founder_variable_effect
+	#############################
+	
+	replace = {
+		before = {
+	else_if = { # Alexander
+		limit = {
+			OR = {			
+				scope:target_title = title:k_thessalonika
+				scope:target_title = title:k_hellas
+				scope:target_title = title:k_egypt
+				AND = {
+					OR = {
+						scope:target_title = title:k_persia
+						scope:target_title = title:e_persia
+					}
+					NOR = {
+						root.faith.religion = religion:islam_religion
+						root.faith.religion = religion:zoroastrianism_religion
+					}
+				}
+				scope:target_title = title:k_anatolia
+			}
+		}
+		set_variable = {
+			name = mythical_founder
+			value = flag:alexander
+		}
+	}
+		}
+
+		after = {
+	if = { # Alexander
+		limit = {
+			OR = {			
+				scope:target_title = title:k_thessalonika
+				scope:target_title = title:k_hellas
+				scope:target_title = title:k_egypt
+				AND = {
+					OR = {
+						scope:target_title = title:k_persia
+						scope:target_title = title:e_persia
+					}
+					NOR = {
+						root.faith.religion = religion:islam_religion
+						root.faith.religion = religion:zoroastrianism_religion
+					}
+				}
+				scope:target_title = title:k_anatolia
+			}
+		}
+		set_variable = {
+			name = mythical_founder
+			value = flag:alexander
+		}
+	}
+		}
+	}
+
+	replace = {
+		before = {
+		limit = {
+			OR = {
+				scope:target_title = title:k_italy
+				scope:target_title = title:k_romagna
+				scope:target_title = title:k_sardinia
+				scope:target_title = title:e_italy
+				scope:target_title = title:h_roman_empire
+				scope:target_title = title:h_eastern_roman_empire
+			}
+		}
+		set_variable = {
+			name = mythical_founder
+			value = flag:romulus
+		}
+		}
+
+		after = {
+		limit = {
+			OR = {
+				scope:target_title = title:k_italy
+				scope:target_title = title:k_romagna
+				scope:target_title = title:k_sardinia
+				scope:target_title = title:e_italy
+				scope:target_title = title:h_roman_empire
+				scope:target_title = title:h_eastern_roman_empire
+				scope:target_title = title:h_western_roman_empire # IRToCK3: Added WRE hegemony title
+			}
+		}
+		set_variable = {
+			name = mythical_founder
+			value = flag:romulus
+		}
+		}
+	}
+}
+
+
+"common/scripted_triggers/00_title_triggers.txt" = {
+	##################
+	## has_mythical_founder_trigger
+	##################
+	replace = {
+		before = {
+		OR = { # Romulus
+			this = title:k_italy
+			this = title:k_romagna
+			this = title:k_sardinia
+			this = title:e_italy
+			this = title:h_roman_empire
+			this = title:h_eastern_roman_empire
+		}
+		}
+
+		after = {
+		OR = { # Romulus
+			this = title:k_italy
+			this = title:k_romagna
+			this = title:k_sardinia
+			this = title:e_italy
+			this = title:h_roman_empire
+			this = title:h_eastern_roman_empire
+			this = title:h_western_roman_empire # IRToCK3: Added WRE hegemony title
+		}
+		}
+	}
+}
+
+
+"events/decisions_events/middle_east_decisions_events.txt" = {
+	#########################
+	## middle_east_decisions.0014
+	#########################
+
+	# immediate block
+	replace = {
+		before = {
+		else_if = {
+			limit = { exists = title:h_eastern_roman_empire.holder }
+			title:h_eastern_roman_empire.holder = { save_scope_as = roman_emperor }
+		}
+		}
+
+		after = {
+		else_if = {
+			limit = { exists = title:h_eastern_roman_empire.holder }
+			title:h_eastern_roman_empire.holder = { save_scope_as = roman_emperor }
+		}
+		# IRToCK3: Added new Rome titles
+		else_if = {
+			limit = { exists = title:h_western_roman_empire.holder }
+			title:h_western_roman_empire.holder = { save_scope_as = roman_emperor }
+		}
+		else_if = {
+			limit = { exists = title:e_western_roman_empire.holder }
+			title:e_western_roman_empire.holder = { save_scope_as = roman_emperor }
+		}
+		}
+	}
+}
+
+
+"common/scripted_triggers/music_triggers.txt" = {
+	##########################
+	## should_use_byzantine_music_trigger
+	##########################
+	replace = {
+		before = {
+		top_liege = { has_title = title:e_byzantium }
+		top_liege = { has_title = title:h_roman_empire }
+		}
+
+		after = {
+		# IRToCK3: Changed to use any Rome title
+		top_liege = { is_roman_emperor_trigger = yes }
+		}
+	}
+}
+
+
+"common/scripted_triggers/00_law_triggers.txt" = {
+	##############
+	## can_keep_acclamation_succession_law_trigger
+	##############
+	replace = {
+		before = {
+			can_have_acclamation_succession_law_trigger = yes
+			has_title = title:e_byzantium
+		}
+
+		after = {
+			can_have_acclamation_succession_law_trigger = yes
+			# IRToCK3: The base game allows e_byzantium here, implying even if they somehow became a vassal of a hegemon, they should still be allowed to keep acclamation. Changed to allow any of the Rome empire titles
+			is_roman_emperor_trigger = yes
+		}
+	}
+}
+
+
+"events/travel_events/travel_events_cities.txt" = {
+	#################
+	## travel_events_cities.1030
+	#################
+	replace = {
+		before = {
+		NOT = {
+			has_title = title:e_byzantium #This just does not work for a byzantine emperor, even if they moved their capital out of the city
+		}
+		}
+
+		after = {
+		# IRToCK3: Changed to use more of the Rome titles than just e_byzantium, where it makes sense
+		NOR = {
+			has_title = title:e_byzantium #This just does not work for a byzantine emperor, even if they moved their capital out of the city
+			has_title = title:h_eastern_roman_empire
+			AND = {
+				has_title = title:h_roman_empire
+				capital_county = title:c_byzantion
+			}
+		}
+		}
+	}
+}
+
+
+"events/scheme_events/governor_contract_events.txt" = {
+	#################
+	## governor_contract_event.2071
+	#################
+	replace = {
+		before = {
+					liege = { has_title = title:e_byzantium }
+		}
+
+		after = {
+					# IRToCK3: Changed to make sure you are in any Rome realm
+					top_liege = { is_roman_emperor_trigger = yes }
+		}
+	}
+}
+
+
+"events/dlc/ep3/ep3_story_cycle_grand_ambitions_events.txt" = {
+	#################
+	## grand_ambitions.0180
+	#################
+	replace = {
+		before = {
+			triggered_desc = {
+				trigger = { scope:target_char.capital_county = title:e_byzantium }
+				desc = grand_ambitions.0180.intro_hagia_sofia
+			}
+		}
+
+		after = {
+			triggered_desc = {
+				# IRToCK3: Generalized this so instead of checking for e_byzantium, it checks that the capital county has the Hagia Sophia building. Also makes sure its built so it isn't anachronistically referenced
+				trigger = {
+					scope:target_char.capital_county = {
+						any_county_province = {
+							OR = {
+								has_building = hagia_sophia_01
+								has_building = hagia_sophia_02
+							}
+						}
+					}
+				}
+				desc = grand_ambitions.0180.intro_hagia_sofia
+			}
+		}
+	}
+}
+
+
+"events/dlc/fp1/fp1_yearly_events.txt" = {
+	#################
+	## fp1_yearly.1014
+	#################
+	replace = {
+		before = {
+						trigger = { exists = title:e_byzantium.holder }
+						add_trait = varangian
+		}
+
+		after = {
+						trigger = {
+							# IRToCK3: Instead of just checking if someone holds Byzantium to give the Varangian trait, check if any empire/hegemony has founded the Varangian Guard
+							OR = {
+								any_empire = {
+									has_variable = founded_varangian_guard
+									exists = holder
+								}
+								any_hegemony = {
+									has_variable = founded_varangian_guard
+									exists = holder
+								}
+							}
+						}
+						add_trait = varangian
+		}
+	}
+}
+
+
+"common/character_interactions/00_heir.txt" = {
+	#################
+	## designate_heir_interaction
+	#################
+	replace = {
+		before = {
+				scope:actor = { NOT = { primary_title = title:e_byzantium } }
+		}
+
+		after = {
+				# IRToCK3: Changed to allow any Rome title, not just Byzantine Empire
+				scope:actor = { is_roman_emperor_primary_title_trigger = no }
+		}
+	}
+}
+
+
+"common/court_positions/types/00_court_positions.txt" = {
+	#################
+	## charioteer_court_position / bookmaker_court_position
+	#################
+
+	# ai_position_score block
+	replace = {
+		before = {
+				limit = {
+					has_title = title:e_byzantium
+				}
+		}
+
+		after = {
+				limit = {
+					# IRToCK3: Base game only increases chances for e_byzantium, but this will be changed to better fit any realm, not just Byzantium
+					highest_held_title_tier >= tier_empire
+				}
+		}
+	}
+
+	#################
+	## bodyguard_court_position
+	#################
+
+	# aptitude block
+	replace = {
+		before = {
+					has_title = title:e_byzantium
+					employs_court_position = akolouthos_court_position
+		}
+
+		after = {
+					# IRToCK3: Base game only applies this bonus if your employer has the Byzantine Empire title. Removed to better work with any realm
+					employs_court_position = akolouthos_court_position
+		}
+	}
+}
+
+
+"common/culture/traditions/00_regional_traditions.txt" = {
+	#################
+	## tradition_byzantine_succession
+	#################
+
+	# is_shown block
+	replace = {
+		before = {
+		OR = {
+			has_cultural_pillar = heritage_byzantine
+			scope:character = {
+				has_title = title:e_byzantium
+			}
+		}
+		}
+
+		after = {
+		OR = {
+			# IRToCK3: Since heritage_byzantine is now used as a general Hellenic heritage, changing this to be based off the 'greek'/Romaioi culture
+			culture = culture:greek
+			culture = {
+				any_parent_culture_or_above = { this = culture:greek }
+			}
+			scope:character = {
+				has_title = title:e_byzantium
+			}
+		}
+		}
+	}
+
+	# can_pick block
+	replace = {
+		before = {
+		has_cultural_pillar = heritage_byzantine
+		scope:character = {
+			has_title = title:e_byzantium
+		}
+		custom_tooltip = {
+			text = cannot_have_tradition_court_eunuchs
+			NOT = { culture_tradition:tradition_court_eunuchs = { is_in_list = traits } }
+		}
+		}
+
+		after = {
+		# IRToCK3: Since heritage_byzantine is now used as a general Hellenic heritage, changing this to be based off the 'greek'/Romaioi culture
+		OR = {
+			culture = culture:greek
+			culture = {
+				any_parent_culture_or_above = { this = culture:greek }
+			}
+		}
+		scope:character = {
+			has_title = title:e_byzantium
+		}
+		custom_tooltip = {
+			text = cannot_have_tradition_court_eunuchs
+			NOT = { culture_tradition:tradition_court_eunuchs = { is_in_list = traits } }
+		}
+		}
+	}
+}
+
+
+"common/script_values/00_war_values.txt" = {
+	#################
+	## byzantium_conquests_ai_score_value
+	#################
+	replace = {
+		before = {
+						NOT = {
+							exists = title:e_byzantium
+						}
+						primary_title = {
+							tier <= tier_empire
+							OR = {
+								empire = title:e_byzantium
+								empire = title:e_latin_empire
+							}
+						}
+						OR = {
+							culture = { has_cultural_pillar = heritage_byzantine }
+							culture = culture:greek
+							culture = {
+    								any_parent_culture_or_above = {
+									this = culture:greek
+								}
+							}
+						}
+		}
+
+		after = {
+						NOT = {
+							# IRToCK3: Base game checks if e_byzantium doesn't exist, instead of checking that it has no holder, meaning this block will always fail
+							exists = title:e_byzantium.holder
+						}
+						primary_title = {
+							tier <= tier_empire
+							OR = {
+								empire = title:e_byzantium
+								empire = title:e_latin_empire
+							}
+						}
+						OR = {
+							# IRToCK3: Instead of checking heritage_byzantine since that's now a generic Hellenic heritage, checking just the greek/Romaioi culture
+							culture = culture:greek
+							culture = {
+    								any_parent_culture_or_above = {
+									this = culture:greek
+								}
+							}
+						}
+		}
+	}
+}
+
+
+"common/scripted_character_templates/04_ep2_accolade_character_templates.txt" = {
+	replace = {
+		before = {
+				root = {
+					has_title = title:e_byzantium
+				}
+		}
+
+		after = {
+				root = {
+					# IRToCK3: Instead of just checking e_byzantium, made it so the varangian trait can be given in any realm where the Varangian Guard was founded
+					primary_title = { has_variable = founded_varangian_guard }
+				}
+		}
+	}
+}
+
+
+"common/scripted_effects/00_accolades_scripted_effects.txt" = {
+	#################
+	## save_varangian_successor_culture_effect
+	#################
+	replace = {
+		before = {
+				has_title = title:e_byzantium
+		}
+
+		after = {
+				# IRToCK3: Instead of just checking e_byzantium, made it so it just checks if any of your held titles has founded the Varangian Guard
+				any_held_title = { has_variable = founded_varangian_guard }
+		}
+	}
+
+	#################
+	## accolade_character_creation_effect
+	#################
+	replace = {
+		before = {
+					any_held_title = { this = title:e_byzantium }
+		}
+
+		after = {
+					# IRToCK3: Base game checks if you have e_byzantium, but that mainly seems to be related to the Varangian Guard culture effect, so changing it to match that condition
+					any_held_title = { has_variable = founded_varangian_guard }
+		}
+	}
+}
+
+
+"events/single_combat_events.txt" = {
+	#################
+	## scripted_effect select_special_tier_move_effect
+	#################
+	replace = {
+		before = {
+					AND = {
+						this = scope:sc_defender
+						scope:sc_attacker = { has_title = title:e_byzantium }
+					}
+					AND = {
+						this = scope:sc_attacker
+						scope:sc_defender = { has_title = title:e_byzantium }
+					}
+		}
+
+		after = {
+					# IRToCK3: Changed so instead of only checking Byzantium, it checks if any of their titles has founded the Varangian Guard
+					AND = {
+						this = scope:sc_defender
+						scope:sc_attacker = {
+							any_held_title = { has_variable = founded_varangian_guard }
+						}
+					}
+					AND = {
+						this = scope:sc_attacker
+						scope:sc_defender = {
+							any_held_title = { has_variable = founded_varangian_guard }
+						}
+					}
+		}
+	}
+}
+
+
+"events/dlc/ep3/ep3_decisions_events.txt" = {
+	#################
+	## ep3_decisions_event.4020
+	#################
+
+	# immediate block
+	replace = {
+		before = {
+				has_title = title:e_byzantium
+		}
+
+		after = {
+				# IRToCK3: Allowing any Rome title
+				is_roman_emperor_trigger = yes
+		}
+	}
+}
+
+
+"events/dlc/ep3/ep3_emperor_yearly_8.txt" = {
+	#################
+	## ep3_emperor_yearly.8050
+	#################
+
+	# 'Recruit' option block
+	replace = {
+		before = {
+		name = {
+			text = ep3_emperor_yearly.8050.b.byz
+			trigger = { primary_title = title:e_byzantium }
+		}
+		name = {
+			text = ep3_emperor_yearly.8050.b
+			trigger = { primary_title != title:e_byzantium }
+		}
+		pay_short_term_gold = {
+			gold = minor_gold_value
+			target = scope:raider
+		}
+		if = {
+			limit = { has_title = title:e_byzantium }
+			scope:raider = { add_trait = varangian }
+		}
+		}
+
+		after = {
+		# IRToCK3: Instead of specifically checking for Byzantium, just checking if primary title has founded the Varangian Guard
+		name = {
+			text = ep3_emperor_yearly.8050.b.byz
+			trigger = {
+				primary_title = { has_variable = founded_varangian_guard }
+			}
+		}
+		name = {
+			text = ep3_emperor_yearly.8050.b
+			trigger = {
+				NOT = {
+					primary_title = { has_variable = founded_varangian_guard }
+				}
+			}
+		}
+		pay_short_term_gold = {
+			gold = minor_gold_value
+			target = scope:raider
+		}
+		if = {
+			limit = {
+				primary_title = { has_variable = founded_varangian_guard }
+			}
+			scope:raider = { add_trait = varangian }
+		}
 		}
 	}
 }

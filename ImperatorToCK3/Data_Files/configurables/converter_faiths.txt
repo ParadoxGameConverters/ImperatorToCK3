@@ -6296,8 +6296,8 @@ baiyue_religion = {
 			INVALIDATED_BY = { baiyue_faith }
 
 			color = { 13 59 127 }
-			icon = baiyue_faith
-			reformed_icon = baiyue_faith # Once Baiyue has its icon made, make sure its reformed icon is setup as well
+			icon = baiyue
+			reformed_icon = baiyue_reformed
 
 			# Hard to tell what would actually be good sites, so just chose an assortment of existing Holy Sites around south China
 			holy_site = quanzhou

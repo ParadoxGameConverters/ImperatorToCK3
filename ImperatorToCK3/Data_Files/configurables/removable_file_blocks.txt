@@ -18399,6 +18399,7 @@ tgp_setup_historical_house_relation_effect = {
 	}
 }
 
+
 "common/script_values/tgp_japan_values.txt" = {
 	# Removing references to specific predefined houses
 	{
@@ -18455,6 +18456,7 @@ tgp_setup_historical_house_relation_effect = {
 	}
 }
 
+
 "common/decisions/80_major_decisions_roman.txt" = {
 	# Make the decision to restore the Roman Empire available more than once
 	{
@@ -18470,5 +18472,255 @@ tgp_setup_historical_house_relation_effect = {
 				name = unavailable_unique_decisions
 				target = flag:flag_restored_roman_empire
 			}
+	}
+}
+
+
+"common/scripted_effects/00_scheme_scripted_effects.txt" = {
+	# Anachronistic
+	{
+	if = {
+		limit = {
+			AND = { # Charles Martell
+				OR = {
+					scope:target_title = title:k_france
+					scope:target_title = title:e_france
+				}
+				current_date > 1000.1.1
+			}
+		}
+		set_variable = {
+			name = mythical_founder
+			value = flag:charles_martell
+		}
+	}
+	}
+
+	{
+	else_if = { # Lech
+		limit = {
+			scope:target_title = title:k_poland # Lech
+		}
+		set_variable = {
+			name = mythical_founder
+			value = flag:lech
+		}
+	}
+	}
+
+	{
+	else_if = { # Czech
+		limit = {
+			scope:target_title = title:k_bohemia # Lech
+		}
+		set_variable = {
+			name = mythical_founder
+			value = flag:czech
+		}
+	}
+	}
+
+	{
+	else_if = { # Rus
+		limit = {
+			OR = { # Rus
+				scope:target_title = title:k_white_rus
+				scope:target_title = title:k_ruthenia
+				scope:target_title = title:e_russia
+			}
+		}
+		set_variable = {
+			name = mythical_founder
+			value = flag:rus
+		}
+	}
+	}
+
+	{
+	else_if = { # Arthur
+		limit = {
+			OR = {
+				scope:target_title = title:k_wales
+				scope:target_title = title:k_cornwall
+				scope:target_title = title:k_england
+				scope:target_title = title:e_britannia
+			}
+		}
+		set_variable = {
+			name = mythical_founder
+			value = flag:arthur
+		}
+	}
+	}
+
+	{
+	else_if = { # Belisarius
+		limit = {
+			OR = {
+				scope:target_title = title:k_italy
+				scope:target_title = title:k_romagna
+				scope:target_title = title:k_sardinia
+				scope:target_title = title:e_italy
+				scope:target_title = title:h_roman_empire
+				scope:target_title = title:h_eastern_roman_empire
+			}
+			faith = faith:orthodox
+		}
+		set_variable = {
+			name = mythical_founder
+			value = flag:belisarius
+		}
+	}
+	}
+
+	{
+	else_if = { # Ardashir
+		limit = {
+			OR = {
+				scope:target_title = title:k_persia
+				scope:target_title = title:e_persia
+			}
+		}
+		set_variable = {
+			name = mythical_founder
+			value = flag:ardashir
+		}
+	}
+	}
+
+	{
+	else_if = { # The Visigothic Kings
+		limit = {
+			OR = {
+				scope:target_title = title:k_castille
+				scope:target_title = title:k_aragon
+				scope:target_title = title:k_navarra
+				scope:target_title = title:k_andalusia
+				scope:target_title = title:k_portugal
+				scope:target_title = title:e_spain
+			}
+			NOT = { religion = religion:islam_religion }
+		}
+		set_variable = {
+			name = mythical_founder
+			value = flag:visigothic_kings
+		}
+	}
+	}
+
+	{
+	else_if = { # Abd al-Rahman
+		limit = {
+			OR = {
+				scope:target_title = title:k_castille
+				scope:target_title = title:k_aragon
+				scope:target_title = title:k_navarra
+				scope:target_title = title:k_andalusia
+				scope:target_title = title:k_portugal
+				scope:target_title = title:e_spain
+			}
+			religion = religion:islam_religion
+		}
+		set_variable = {
+			name = mythical_founder
+			value = flag:abd_al_rahman
+		}
+	}
+	}
+
+	{
+	else_if = { # Zenobia
+		limit = {
+			OR = {
+				scope:target_title = title:k_syria
+				scope:target_title = title:k_mesopotamia
+			}
+			NOT = { religion = religion:islam_religion }
+		}
+		set_variable = {
+			name = mythical_founder
+			value = flag:zenobia
+		}
+	}
+	}
+}
+
+
+"common/scripted_triggers/00_title_triggers.txt" = {
+	##################
+	## has_mythical_founder_trigger
+	##################
+	# Anachronistic
+	{
+		AND = { # Charles Martell (?)
+			OR = {
+				this = title:k_france
+				this = title:e_france
+			}
+			current_date > 1000.1.1
+		}
+	}
+
+	{
+		this = title:k_poland # Lech
+		this = title:k_bohemia # Czech
+		OR = { # Rus
+			this = title:k_white_rus
+			this = title:k_ruthenia
+			this = title:e_russia
+		}
+		OR = { # Arthur
+			this = title:k_england
+			this = title:e_britannia
+		}
+		AND = {
+			OR = { # Belisarius
+				this = title:k_italy
+				this = title:k_romagna
+				this = title:k_sardinia
+				this = title:k_naples
+				this = title:e_italy
+			}
+			root.faith = faith:orthodox
+		}
+	}
+
+	{
+		OR = { # Ardashir
+			this = title:k_persia
+			this = title:e_persia
+		}
+	}
+
+	{
+		AND = { # Visigothic Kings
+			OR = {
+				this = title:k_castille
+				this = title:k_aragon
+				this = title:k_navarra
+				this = title:k_andalusia
+				this = title:k_portugal
+				this = title:e_spain
+			}
+			NOT = { root.faith.religion = religion:islam_religion }
+		}
+		AND = { # Abd al-Rahman
+			OR = {
+				this = title:k_castille
+				this = title:k_aragon
+				this = title:k_navarra
+				this = title:k_andalusia
+				this = title:k_portugal
+				this = title:e_spain
+			}
+			root.faith.religion = religion:islam_religion
+		}
+		AND = { # Zenobia
+			OR = {
+				this = title:k_syria
+				this = title:k_mesopotamia
+			}
+			NOT = { root.faith.religion = religion:islam_religion }
+		}
 	}
 }
