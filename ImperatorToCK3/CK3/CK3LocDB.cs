@@ -157,7 +157,9 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 	}
 	
 	public bool KeyHasConflictingHash(string key) {
-		return hashToKeyDict.ContainsKey(GetHashForKey(key));
+		lock (insertionLock) {
+			return hashToKeyDict.ContainsKey(GetHashForKey(key));
+		}
 	}
 
     private static uint GetHashForKey(string key) {
