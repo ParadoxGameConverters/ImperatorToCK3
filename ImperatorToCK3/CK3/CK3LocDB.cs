@@ -4,6 +4,7 @@ using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Localization;
 using Murmur;
+using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using ZLinq;
@@ -160,15 +161,28 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 	}
 
 	private static string GetHashStrForKey(string key) {
-		var keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
-		var hash = murmur3A.ComputeHash(keyBytes);
+		// Encode key into rented buffer to avoid allocating a dedicated byte[] for every key.
+		var enc = System.Text.Encoding.UTF8;
+		var pool = ArrayPool<byte>.Shared;
+		int maxBytes = enc.GetMaxByteCount(key.Length);
+		byte[]? rented = pool.Rent(maxBytes);
+		try {
+			int bytesWritten = enc.GetBytes(key, 0, key.Length, rented, 0);
+			// Use ComputeHash overload that accepts offset/count to avoid copying the buffer.
+			var hash = murmur3A.ComputeHash(rented, 0, bytesWritten);
 
-		var sb = new System.Text.StringBuilder(hash.Length * 2);
-		foreach (byte t in hash) {
-			sb.Append(t.ToString("X2"));
+			// Create hex string directly without intermediate allocations.
+			return string.Create(hash.Length * 2, hash, (span, h) => {
+				const string hex = "0123456789ABCDEF";
+				for (int i = 0; i < h.Length; ++i) {
+					byte b = h[i];
+					span[2 * i] = hex[(b >> 4) & 0xF];
+					span[(2 * i) + 1] = hex[b & 0xF];
+				}
+			});
+		} finally {
+			if (rented is not null) pool.Return(rented);
 		}
-
-		return sb.ToString();
 	}
 
 	private readonly Dictionary<string, string> hashToKeyDict = []; // stores MurmurHash3A hash to key mapping
