@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Localization;
+using MurmurHash.Net;
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -169,7 +170,7 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 		try {
 			int bytesWritten = enc.GetBytes(key, 0, key.Length, rented, 0);
 			ReadOnlySpan<byte> bytes = rented.AsSpan(0, bytesWritten);
-			return MurmurHash.MurmurHash3.Hash32(ref bytes, seed: 0);
+			return MurmurHash3.Hash32(bytes, seed: 0);
 		} finally {
 			if (rented is not null) pool.Return(rented);
 		}

@@ -38,7 +38,7 @@
         <PackageReference Include="CWTools" Version="0.5.0-alpha" />
         <PackageReference Include="DotLiquid" Version="2.3.197" />
         <PackageReference Include="FSharp.Core" Version="10.0.103" /> <!-- Needed for CWTools -->
-        <PackageReference Include="JeremyEspresso.MurmurHash" Version="0.0.1" />
+        <PackageReference Include="MurmurHash.Net" Version="0.0.2" />
         <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.10.2" />
         <PackageReference Include="Meziantou.Analyzer" Version="2.0.302">
             <PrivateAssets>all</PrivateAssets>
