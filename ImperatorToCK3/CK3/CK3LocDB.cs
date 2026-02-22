@@ -3,7 +3,9 @@ using commonItems.Collections;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Localization;
-using Murmur;
+using MurmurHash.Net;
+using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
 using ZLinq;
@@ -84,15 +86,15 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 			if (TryGetValue(id, out var locBlock)) {
 				return locBlock;
 			}
-			
+
 			// Check for hash collision.
-			var hashStr = GetHashStrForKey(id);
-			if (hashToKeyDict.TryGetValue(hashStr, out var existingKey)) {
+			var hash = GetHashForKey(id);
+			if (hashToKeyDict.TryGetValue(hash, out var existingKey)) {
 				Logger.Warn($"Hash collision detected for loc key: {id}. Existing key: {existingKey}");
 			} else {
-				hashToKeyDict[hashStr] = id;
+				hashToKeyDict[hash] = id;
 			}
-			
+
 			// Create new loc block.
 			locBlock = new CK3LocBlock(id, ConverterGlobals.PrimaryLanguage);
 			Add(locBlock);
@@ -101,8 +103,7 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 	}
 	
 	// TODO: add unit test for combining loc from all the sources into one locblock
-	
-	
+
 	public CK3LocBlock? GetLocBlockForKey(string key) {
 		if (TryGetValue(key, out var locBlock)) {
 			return locBlock;
@@ -156,22 +157,25 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 	}
 	
 	public bool KeyHasConflictingHash(string key) {
-		return hashToKeyDict.ContainsKey(GetHashStrForKey(key));
-	}
-
-	private static string GetHashStrForKey(string key) {
-		var keyBytes = System.Text.Encoding.UTF8.GetBytes(key);
-		var hash = murmur3A.ComputeHash(keyBytes);
-
-		var sb = new System.Text.StringBuilder(hash.Length * 2);
-		foreach (byte t in hash) {
-			sb.Append(t.ToString("X2"));
+		lock (insertionLock) {
+			return hashToKeyDict.ContainsKey(GetHashForKey(key));
 		}
-
-		return sb.ToString();
 	}
 
-	private readonly Dictionary<string, string> hashToKeyDict = []; // stores MurmurHash3A hash to key mapping
-	
-	private static readonly Murmur32 murmur3A = MurmurHash.Create32();
+    private static uint GetHashForKey(string key) {
+		// Encode key into rented buffer to avoid allocating a dedicated byte[] for every key.
+		var enc = System.Text.Encoding.UTF8;
+		var pool = ArrayPool<byte>.Shared;
+		int maxBytes = enc.GetMaxByteCount(key.Length);
+		byte[]? rented = pool.Rent(maxBytes);
+		try {
+			int bytesWritten = enc.GetBytes(key, 0, key.Length, rented, 0);
+			ReadOnlySpan<byte> bytes = rented.AsSpan(0, bytesWritten);
+			return MurmurHash3.Hash32(bytes, seed: 0);
+		} finally {
+			if (rented is not null) pool.Return(rented);
+		}
+	}
+
+	private readonly Dictionary<uint, string> hashToKeyDict = new(); // stores Murmur32 hash to key mapping
 }

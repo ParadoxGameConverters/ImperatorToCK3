@@ -38,12 +38,12 @@
         <PackageReference Include="CWTools" Version="0.5.0-alpha" />
         <PackageReference Include="DotLiquid" Version="2.3.197" />
         <PackageReference Include="FSharp.Core" Version="10.0.103" /> <!-- Needed for CWTools -->
+        <PackageReference Include="MurmurHash.Net" Version="0.0.2" />
         <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.10.2" />
         <PackageReference Include="Meziantou.Analyzer" Version="2.0.302">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="MurmurHash.NETStandard" Version="1.0.0" />
         <PackageReference Include="PGCG.commonItems" Version="19.0.1" />
         <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.9" />
         <PackageReference Include="Polly" Version="8.6.5" />
