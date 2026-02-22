@@ -124,9 +124,5 @@
         <TrimmerRootAssembly Include="System.Management" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="ImperatorToCK3\CK3\" />
-    </ItemGroup>
-
 
 </Project>
