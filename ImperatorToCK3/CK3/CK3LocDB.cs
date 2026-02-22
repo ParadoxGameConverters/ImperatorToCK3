@@ -88,7 +88,7 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 			}
 
 			// Check for hash collision.
-			var hash = GetHashStrForKey(id);
+			var hash = GetHashForKey(id);
 			if (hashToKeyDict.TryGetValue(hash, out var existingKey)) {
 				Logger.Warn($"Hash collision detected for loc key: {id}. Existing key: {existingKey}");
 			} else {
@@ -157,10 +157,10 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 	}
 	
 	public bool KeyHasConflictingHash(string key) {
-		return hashToKeyDict.ContainsKey(GetHashStrForKey(key));
+		return hashToKeyDict.ContainsKey(GetHashForKey(key));
 	}
 
-    private static uint GetHashStrForKey(string key) {
+    private static uint GetHashForKey(string key) {
 		// Encode key into rented buffer to avoid allocating a dedicated byte[] for every key.
 		var enc = System.Text.Encoding.UTF8;
 		var pool = ArrayPool<byte>.Shared;
