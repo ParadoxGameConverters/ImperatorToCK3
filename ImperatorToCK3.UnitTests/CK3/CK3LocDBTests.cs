@@ -13,6 +13,7 @@ public class CK3LocDBTests {
 	[InlineData("BrewPositiveAdjectiveSpectacular", "duchy_theo_cath_andalusian")]
 	[InlineData("childhood.2200.desc", "b_dezful_adj")]
 	[InlineData("khabzism_devoteeplural", "caballero_flavor")]
+	[InlineData("building_nishapur_mines_02", "k_IRTOCK3_ATV_adj")]
 	public void HashCollisionsAreDetected(string key1, string key2) {
 		 var locDB = new TestCK3LocDB();
 		 locDB.AddLocForLanguage(key1, language: "english", string.Empty);
