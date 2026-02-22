@@ -103,8 +103,7 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 	}
 	
 	// TODO: add unit test for combining loc from all the sources into one locblock
-	
-	
+
 	public CK3LocBlock? GetLocBlockForKey(string key) {
 		if (TryGetValue(key, out var locBlock)) {
 			return locBlock;
