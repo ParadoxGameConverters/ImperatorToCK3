@@ -3,7 +3,7 @@ using commonItems.Collections;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Localization;
-using Murmur;
+using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.IO;
@@ -85,15 +85,15 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 			if (TryGetValue(id, out var locBlock)) {
 				return locBlock;
 			}
-			
+
 			// Check for hash collision.
-			var hashStr = GetHashStrForKey(id);
-			if (hashToKeyDict.TryGetValue(hashStr, out var existingKey)) {
+			var hash = GetHashStrForKey(id);
+			if (hashToKeyDict.TryGetValue(hash, out var existingKey)) {
 				Logger.Warn($"Hash collision detected for loc key: {id}. Existing key: {existingKey}");
 			} else {
-				hashToKeyDict[hashStr] = id;
+				hashToKeyDict[hash] = id;
 			}
-			
+
 			// Create new loc block.
 			locBlock = new CK3LocBlock(id, ConverterGlobals.PrimaryLanguage);
 			Add(locBlock);
@@ -160,7 +160,7 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 		return hashToKeyDict.ContainsKey(GetHashStrForKey(key));
 	}
 
-	private static string GetHashStrForKey(string key) {
+    private static uint GetHashStrForKey(string key) {
 		// Encode key into rented buffer to avoid allocating a dedicated byte[] for every key.
 		var enc = System.Text.Encoding.UTF8;
 		var pool = ArrayPool<byte>.Shared;
@@ -168,24 +168,12 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 		byte[]? rented = pool.Rent(maxBytes);
 		try {
 			int bytesWritten = enc.GetBytes(key, 0, key.Length, rented, 0);
-			// Use ComputeHash overload that accepts offset/count to avoid copying the buffer.
-			var hash = murmur3A.ComputeHash(rented, 0, bytesWritten);
-
-			// Create hex string directly without intermediate allocations.
-			return string.Create(hash.Length * 2, hash, (span, h) => {
-				const string hex = "0123456789ABCDEF";
-				for (int i = 0; i < h.Length; ++i) {
-					byte b = h[i];
-					span[2 * i] = hex[(b >> 4) & 0xF];
-					span[(2 * i) + 1] = hex[b & 0xF];
-				}
-			});
+			ReadOnlySpan<byte> bytes = rented.AsSpan(0, bytesWritten);
+			return MurmurHash.MurmurHash3.Hash32(ref bytes, seed: 0);
 		} finally {
 			if (rented is not null) pool.Return(rented);
 		}
 	}
 
-	private readonly Dictionary<string, string> hashToKeyDict = []; // stores MurmurHash3A hash to key mapping
-	
-	private static readonly Murmur32 murmur3A = MurmurHash.Create32();
+	private readonly Dictionary<uint, string> hashToKeyDict = new(); // stores Murmur32 hash to key mapping
 }
