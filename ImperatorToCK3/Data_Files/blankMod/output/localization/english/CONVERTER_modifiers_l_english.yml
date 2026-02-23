@@ -1,2 +1,6 @@
 ﻿l_english:
  IRToCK3_fuck_CK3_military_system_modifier: "Fuck CK3's military system"
+
+ rival_claiming_mandate_of_heaven: "[CHARACTER.GetShortUIName|U] and [TARGET_CHARACTER.GetShortUIName] became rivals competing to claim the Mandate of Heaven"
+ family_domicile_in_capital_bonus: "[house|E] [domicile|E] in [ROOT.Char.GetTopLiege.GetCapitalLocation.GetTitle.GetBaseNameNoTier]"
+ non_administrative_government_penalty: "Doesn't have a [government_bureaucratic_gov|E]"

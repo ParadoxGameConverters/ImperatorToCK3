@@ -60,6 +60,8 @@ internal sealed partial class Country : IIdentifiable<ulong> {
 	public IReadOnlySet<string> Variables { get; private set; } = ImmutableHashSet<string>.Empty;
 	private readonly HashSet<Province> ownedProvinces = [];
 	private readonly List<bool> inventionBooleans = [];
+	internal float TotalPowerBase { get; set; } = 0f;
+	internal float NonLoyalPowerBase { get; set; } = 0f;
 
 	public CK3.Titles.Title? CK3Title { get; set; }
 

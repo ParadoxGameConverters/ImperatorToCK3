@@ -74,6 +74,7 @@ internal partial class World {
 	public IReadOnlyList<Mod> UsableMods { get; private set; } = Array.Empty<Mod>();
 	
 	public bool InvictusDetected { get; private set; }
+	public bool Invictus1_7Detected { get; private set; } // https://steamcommunity.com/sharedfiles/filedetails/?id=3181950031
 	public bool TerraIndomitaDetected { get; private set; }
 
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
@@ -339,6 +340,7 @@ internal partial class World {
 
 		// Detect specific mods.
 		InvictusDetected = GlobalFlags.Contains("is_playing_invictus");
+		Invictus1_7Detected = UsableMods.Any(m => m.Name.StartsWith("Imperator: Invictus 1.7."));
 		TerraIndomitaDetected = Countries.Any(c => c.Variables.Contains("unification_points")) ||
 		                        UsableMods.Any(m => m.Name == "Antiquitas");
 

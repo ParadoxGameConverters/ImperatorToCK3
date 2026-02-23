@@ -1,0 +1,824 @@
+﻿# Last updated: CK3 1.18.2
+namespace = irtock3_ritsuryo_events
+
+# Event triggered when a Ritsuryo realm is being setup due to things like an emperor converting to ritsuryo, a ritsuryo ruler getting an empire title, etc.
+# This event is meant to inform the player about ceremonial liege titles, if one was created, some of the mechanics surrounding them, and any relevant warnings, like how empire titles with associated ceremonial liege titles should always be your primary title, otherwise the mechanics may break.
+irtock3_ritsuryo_events.1 = {
+	type = character_event
+
+	title = irtock3_ritsuryo_events.1.title
+
+	# The description should be made dynamic, where what exactly is shown depends on why this event was triggered in the first place. For example, if it was triggered because an existing emperor converted to ritsuryo for the first time, the event should mention a change in government, while if it was because an existing ritsuryo ruler gained an empire title, it should mention the new title instead. Relevant info on how this should be setup and scopes/flags to look out for are in 'ImperatorToCK3\Data_Files\blankMod\output\common\on_action\IRToCK3_on_actions.txt.liquid'
+	desc = {
+		# Intro
+		first_valid = {
+			# This should trigger if ultimately this ended up being because the ruler took the 'Form Japan' decision (which has the potential to both change government to Ritsuryo AND give them the Japan empire title if they didn't already have it)
+			triggered_desc = {
+				trigger = { has_character_flag = irtock3_took_form_japan_decision }
+				desc = irtock3_ritsuryo_events.1.desc_intro.form_japan_decision
+			}
+
+			# This should trigger if they changed government to Ritsuryo while already having an empire title
+			triggered_desc = {
+				trigger = { exists = scope:old_government }
+				desc = irtock3_ritsuryo_events.1.desc_intro.changed_government
+			}
+
+			# This should trigger if they were already Ritsuryo and ranked up to an empire title
+			triggered_desc = {
+				trigger = {
+					exists = scope:title
+					scope:title.tier < tier_empire
+				}
+				desc = irtock3_ritsuryo_events.1.desc_intro.ranked_up
+			}
+
+			# This should trigger if they were already Ritsuryo and ranked down to an empire title
+			triggered_desc = {
+				trigger = {
+					exists = scope:title
+					scope:title.tier > tier_empire
+				}
+				desc = irtock3_ritsuryo_events.1.desc_intro.ranked_down
+			}
+		}
+
+		# Explain whether a ceremonial liege title was created or already existed, and any relevant info about it (like if it had an existing holder outside your realm, etc.)
+		first_valid = {
+			# A Ceremonial Liege title already existed (for a different empire title than your primary title) and you had it
+			triggered_desc = {
+				trigger = {
+					exists = scope:ritsuryo_previous_empire_title
+					has_title = scope:ceremonial_liege_title
+				}
+				desc = irtock3_ritsuryo_events.1.desc_ceremonial_liege.had_title
+			}
+
+			# A Ceremonial Liege title already existed (for a different empire title than your primary title) and someone else in your realm had it
+			triggered_desc = {
+				trigger = {
+					exists = scope:ritsuryo_previous_empire_title
+					exists = scope:existing_ceremonial_liege
+					NOT = { exists = scope:ceremonial_liege_top_liege }
+				}
+				desc = irtock3_ritsuryo_events.1.desc_ceremonial_liege.in_your_realm
+			}
+
+			# A Ceremonial Liege title already existed (for a different empire title than your primary title) and someone else outside your realm had it and they are someone else's vassal
+			triggered_desc = {
+				trigger = {
+					exists = scope:ritsuryo_previous_empire_title
+					exists = scope:existing_ceremonial_liege
+					exists = scope:ceremonial_liege_top_liege
+					scope:existing_ceremonial_liege = { is_independent_ruler = no }
+				}
+				desc = irtock3_ritsuryo_events.1.desc_ceremonial_liege.outside_your_realm_vassal
+			}
+
+			# A Ceremonial Liege title already existed (for a different empire title than your primary title) and someone else outside your realm had it and they are independent
+			triggered_desc = {
+				trigger = {
+					exists = scope:ritsuryo_previous_empire_title
+					exists = scope:existing_ceremonial_liege
+					exists = scope:ceremonial_liege_top_liege
+					scope:existing_ceremonial_liege = { is_independent_ruler = yes }
+				}
+				desc = irtock3_ritsuryo_events.1.desc_ceremonial_liege.outside_your_realm_independent
+			}
+
+			# A Ceremonial Liege title already existed (for a different empire title than your primary title), no one had it, but it had an existing ceremonial house
+			triggered_desc = {
+				trigger = {
+					exists = scope:ritsuryo_previous_empire_title
+					exists = scope:existing_ceremonial_house
+					scope:existing_ceremonial_house = {
+						any_house_member = { is_alive = yes }
+					}
+				}
+				desc = irtock3_ritsuryo_events.1.desc_ceremonial_liege.no_holder_existing_house
+			}
+
+			# A Ceremonial Liege title already existed (for a different empire title than your primary title), no one had it, but it had an existing ceremonial house that is extinct, and either it was the only house in that dynasty, or every other house in the dynasty is also extinct
+			triggered_desc = {
+				trigger = {
+					exists = scope:ritsuryo_previous_empire_title
+					exists = scope:existing_ceremonial_house
+					NOT = {
+						scope:existing_ceremonial_house.house_dynasty = {
+							any_dynasty_member = { is_alive = yes }
+						}
+					}
+				}
+				desc = irtock3_ritsuryo_events.1.desc_ceremonial_liege.no_holder_existing_house_extinct_no_other_dynasty_houses
+			}
+
+			# A Ceremonial Liege title already existed (for a different empire title than your primary title), no one had it, but it had an existing ceremonial house which died out, but their dynasty has other houses that are still alive
+			triggered_desc = {
+				trigger = {
+					exists = scope:ritsuryo_previous_empire_title
+					exists = scope:existing_ceremonial_house
+					NOT = {
+						scope:existing_ceremonial_house = {
+							any_house_member = { is_alive = yes }
+						}
+					}
+					scope:existing_ceremonial_house.house_dynasty = {
+						any_dynasty_member = { is_alive = yes }
+					}
+				}
+				desc = irtock3_ritsuryo_events.1.desc_ceremonial_liege.no_holder_existing_house_extinct_other_alive_dynasty_houses
+			}
+
+			# A Ceremonial Liege title already existed (for a different empire title than your primary title), no one had it, it didn't have a dedicated ceremonial house, but does have a ceremonial dynasty listed that is alive
+			triggered_desc = {
+				trigger = {
+					exists = scope:ritsuryo_previous_empire_title
+					exists = scope:existing_ceremonial_dynasty
+					scope:existing_ceremonial_dynasty = {
+						any_dynasty_member = { is_alive = yes }
+					}
+				}
+				desc = irtock3_ritsuryo_events.1.desc_ceremonial_liege.no_holder_no_house_existing_dynasty
+			}
+
+			# A Ceremonial Liege title already existed (for a different empire title than your primary title), no one had it, it didn't have a dedicated ceremonial house, but does have a ceremonial dynasty listed that is extinct
+			triggered_desc = {
+				trigger = {
+					exists = scope:ritsuryo_previous_empire_title
+					exists = scope:existing_ceremonial_dynasty
+					NOT = {
+						scope:existing_ceremonial_dynasty = {
+							any_dynasty_member = { is_alive = yes }
+						}
+					}
+				}
+				desc = irtock3_ritsuryo_events.1.desc_ceremonial_liege.no_holder_no_house_existing_dynasty_extinct
+			}
+
+			# A Ceremonial Liege title already existed (for a different empire title than your primary title), no one had it, and it somehow didn't have an existing ceremonial house or dynasty
+			triggered_desc = {
+				trigger = {
+					exists = scope:ritsuryo_previous_empire_title
+					NOT = { exists = scope:existing_ceremonial_liege }
+					NOT = { exists = scope:existing_ceremonial_house }
+					NOT = { exists = scope:existing_ceremonial_dynasty }
+				}
+				desc = irtock3_ritsuryo_events.1.desc_ceremonial_liege.no_holder_no_house_no_dynasty
+			}
+
+			# A Ceremonial Liege title was created for your primary empire title
+			triggered_desc = {
+				trigger = {
+					NOT = { exists = scope:ritsuryo_previous_empire_title }
+				}
+				desc = irtock3_ritsuryo_events.1.desc_ceremonial_liege.title_created
+			}
+		}
+
+
+		# If your primary title was changed through the on_action, inform the player about it
+		triggered_desc = {
+			trigger = { exists = scope:ritsuryo_previous_empire_title }
+			desc = irtock3_ritsuryo_events.1.desc_warning.changed_primary_title
+		}
+
+		# If you have more than one empire title, inform the player about the issues that could cause
+		triggered_desc = {
+			trigger = {
+				any_held_title = {
+					title_tier = empire
+					count > 1
+				}
+			}
+			desc = irtock3_ritsuryo_events.1.desc_warning.multiple_empire_titles
+		}
+	}
+
+	override_background = { reference = throne_room }
+	theme = crown
+	right_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		# Don't want this event to trigger under certain circumstances, like the ritsuryo realms/Japan being set up at game start
+		NOT = { has_character_flag = dont_trigger_irtock3_ritsuryo_events_1 }
+	}
+
+	immediate = {
+		# Try to show the effects of the on_action in the 'Has Happened' section of the event options, so players can better see what happened
+		show_as_tooltip = {
+			# Determine whether a ceremonial liege title was created or already existed
+			## A ceremonial liege title already existed on a different empire title than your original primary title (so it became your new primary title)
+			if = {
+				limit = { exists = scope:ritsuryo_previous_empire_title }
+				# Show that their primary title was changed to the new empire title associated with a ceremonial liege title
+				set_primary_title_to = scope:realm_title
+
+				# Show what the realm's existing ceremonial liege title is
+				custom_tooltip = irtock3_ritsuryo_events.1.existing_ceremonial_title_tt
+
+				# Show who currently holds the ceremonial liege title, or if no one holds it, show either the existing house or dynasty associated with it
+				if = {
+					limit = {
+						exists = scope:existing_ceremonial_liege
+						NOT = { root = scope:existing_ceremonial_liege }
+					}
+					custom_tooltip = irtock3_ritsuryo_events.1.existing_ceremonial_liege_tt
+				}
+				else_if = {
+					limit = { exists = scope:existing_ceremonial_house }
+					custom_tooltip = irtock3_ritsuryo_events.1.existing_ceremonial_house_tt
+				}
+				else_if = {
+					limit = { exists = scope:existing_ceremonial_dynasty }
+					custom_tooltip = irtock3_ritsuryo_events.1.existing_ceremonial_dynasty_tt
+				}
+
+				# Explain how you either became the regent of the realm, or direct rule was established
+				if = {
+					limit = {
+						has_realm_law = japanese_regency_succession_law
+						has_title = scope:ceremonial_liege_title
+					}
+					add_realm_law_skip_effects = japanese_regency_succession_law
+					custom_tooltip = irtock3_ritsuryo_events.1.has_ceremonial_liege_no_direct_rule_tt
+				}
+				else_if = {
+					limit = { has_realm_law = japanese_regency_succession_law }
+					add_realm_law_skip_effects = japanese_regency_succession_law
+					custom_tooltip = irtock3_ritsuryo_events.1.became_realm_regent_tt
+				}
+				else_if = {
+					limit = { has_realm_law = single_heir_succession_law }
+					add_realm_law_skip_effects = single_heir_succession_law
+					custom_tooltip = irtock3_ritsuryo_events.1.direct_rule_established_tt
+				}
+
+			}
+			## Otherwise, a ceremonial liege title was created for your primary empire title
+			else = {
+				# Show that you got the new ceremonial liege title
+				get_title = scope:ceremonial_liege_title
+
+				# Explain how you are now in direct imperial rule, but that could change if a liberty faction presses their demands
+				add_realm_law_skip_effects = single_heir_succession_law
+				custom_tooltip = irtock3_ritsuryo_events.1.new_ceremonial_title_direct_rule_established_tt
+			}
+		}
+
+		# Try to determine which vassals would willingly destroy their non-county titles, and which would rebel
+		hidden_effect = {
+			# First, get a list of all vassals who hold a title higher than county
+			every_vassal_or_below = {
+				limit = {
+					highest_held_title_tier > tier_county
+					government_has_flag = government_is_japan_administrative
+				}
+				add_to_list = potential_rebels_list
+			}
+
+			# Then, try to figure out which of those vassals would be willing to destroy their non-county titles
+			every_in_list = {
+				list = potential_rebels_list
+				save_scope_as = temp_vassal_scope
+
+				# Vassal is guaranteed to willingly destroy their non-county titles
+				if = {
+					limit = {
+						OR = {
+							# Is in the same house as you
+							house = root.house
+							# Has high opinion of you
+							opinion = {
+								target = root
+								value >= 50
+							}
+							# Is in your dynasty and has a decent opinion of you
+							AND = {
+								dynasty = root.dynasty
+								opinion = {
+									target = root
+									value >= 35
+								}
+							}
+							# You have a hook on them
+							root = { has_hook = scope:temp_vassal_scope }
+							# Has one of the following positive relations with you
+							has_relation_friend = root
+							has_relation_best_friend = root
+							has_relation_lover = root
+							has_relation_soulmate = root
+							has_secret_relation_lover = root
+							# Is in the same confederation as you
+							trigger_if = {
+								limit = { exists = root.confederation }
+								is_member_of_confederation = root.confederation
+							}
+							# If they have certain traits, always comply
+							has_trait = loyal
+							# For simplicity, if they have the realm's ceremonial liege title, comply for the "good of the realm"
+							tgp_has_ceremonial_liege_title_trigger = yes
+						}
+					}
+					add_to_list = will_destroy_titles_list
+				}
+				# Vassal is guaranteed to rebel
+				else_if = {
+					limit = {
+						OR = {
+							# Has low opinion of you
+							opinion = {
+								target = root
+								value <= -30
+							}
+							# Has one of the following negative relations with you
+							has_relation_grudge = root
+							has_relation_rival = root
+							has_relation_nemesis = root
+							has_relation_bully = root
+							has_relation_victim = root
+							# If they have certain traits, always rebel
+							has_trait = disloyal
+						}
+					}
+					add_to_list = will_rebel_list
+				}
+				# Vassal could go either way
+				else = {
+					random_list = {
+						# Make vassal destroy their non-county titles
+						100 = {
+							# Modify chances based on opinion
+							opinion_modifier = {
+								who = scope:temp_vassal_scope
+								opinion_target = root
+								multiplier = 1
+							}
+							# If vassal is stronger, decrease chance of complying based off power difference
+							modifier = {
+								military_power > root.military_power
+								# Percent difference = ((vassal_military_power - liege_military_power) / ((vassal_military_power + liege_military_power) / 2)) * 100
+								subtract = {
+									value = 200
+									multiply = {
+										value = military_power
+										subtract = root.military_power
+									}
+									multiply = {
+										value = 1
+										divide = {
+											value = military_power
+											add = root.military_power
+										}
+									}
+								}
+							}
+							# If vassal has certain traits, lower chance of complying
+							modifier = {
+								has_trait = ambitious
+								subtract = 10
+							}
+							modifier = {
+								has_trait = arrogant
+								subtract = 5
+							}
+
+							add_to_list = will_destroy_titles_list
+						}
+						# Make vassal rebel
+						100 = {
+							# Modify chances based on opinion
+							opinion_modifier = {
+								who = scope:temp_vassal_scope
+								opinion_target = root
+								multiplier = -1
+							}
+							# If liege is stronger, decrease chance of rebelling based off power difference
+							modifier = {
+								root.military_power > military_power
+								# Percent difference = ((liege_military_power - vassal_military_power) / ((liege_military_power + vassal_military_power) / 2)) * 100
+								subtract = {
+									value = 200
+									multiply = {
+										value = root.military_power
+										subtract = military_power
+									}
+									multiply = {
+										value = 1
+										divide = {
+											value = root.military_power
+											add = military_power
+										}
+									}
+								}
+							}
+							# If vassal has certain traits, lower chance of rebelling
+							modifier = {
+								has_trait = craven
+								subtract = 10
+							}
+							modifier = {
+								has_trait = content
+								subtract = 10
+							}
+							modifier = {
+								has_trait = lazy
+								subtract = 5
+							}
+
+							add_to_list = will_rebel_list
+						}
+					}
+				}
+
+				clear_saved_scope = temp_vassal_scope
+			}
+
+			if = {
+				limit = {
+					any_in_list = { list = will_rebel_list }
+				}
+				# Calculate what the total military power of the rebels would be around, and what fraction of your total military power that would be
+				save_scope_value_as = {
+					name = military_power_fraction
+					value = {
+						value = military_power
+						divide = {
+							value = 0
+							every_in_list = {
+								list = will_rebel_list
+								add = military_power
+							}
+						}
+					}
+				}
+
+				# Save who would be the rebel leader
+				ordered_in_list = {
+					list = will_rebel_list
+					order_by = military_power
+					limit = { liege ?= root } # For simplicity, try to make sure the rebel leader is a direct vassal of the ruler
+					alternative_limit = { top_liege ?= root }
+					max = 1
+					save_scope_as = rebel_leader
+				}
+				scope:rebel_leader = { remove_from_list = will_rebel_list }
+			}
+		}
+	}
+
+	# Leave things as they are (basically, don't try to destroy non-county titles your vassals hold)
+	option = {
+		name = irtock3_ritsuryo_events.1.a
+
+		# A tooltip explaining how its better to have ritsuryo vassals only hold county titles to avoid issues
+		if = {
+			limit = {
+				any_in_list = { list = potential_rebels_list }
+			}
+			custom_tooltip = irtock3_ritsuryo_events.1.a.potential_vassal_issues_tt
+		}
+		
+		ai_will_select = {
+			base = 100
+
+			# Modify chances based off traits
+			if = {
+				limit = { has_trait = craven }
+				add = 10
+			}
+			if = {
+				limit = { has_trait = content }
+				add = 5
+			}
+			if = {
+				limit = { has_trait = lazy }
+				add = 5
+			}
+
+			# Modify chance based off relative military power of rebels
+			## If there will be rebels, modify based off their relative power
+			if = {
+				limit = { exists = scope:military_power_fraction }
+				multiply = { # If liege is weaker (military_power_fraction < 1), increases chance. Otherwise, decreases chance.
+					value = 1
+					divide = scope:military_power_fraction
+				}
+			}
+			## Otherwise, if there won't be any rebels but some vassals do have non-county titles, make sure they don't choose this option
+			else_if = {
+				limit = {
+					any_in_list = { list = potential_rebels_list }
+				}
+				multiply = 0
+			}
+		}
+	}
+
+	# Only available if you have vassals that hold non-county titles. Try to destroy them at the risk of rebellion.
+	option = {
+		name = irtock3_ritsuryo_events.1.b
+		trigger = {
+			any_in_list = { list = potential_rebels_list }
+		}
+
+		# A tooltip explaining how its better to have ritsuryo vassals only hold county titles to avoid issues
+		custom_tooltip = irtock3_ritsuryo_events.1.a.potential_vassal_issues_tt
+		
+		# Tooltip explaining some vassals will destroy their titles, others will rebel
+		custom_tooltip = {
+			text = irtock3_ritsuryo_events.1.b.destroy_noncounty_titles_tt
+
+			# Destroy non-county titles for those willing to comply
+			if = {
+				limit = {
+					any_in_list = { list = will_destroy_titles_list }
+				}
+
+				every_in_list = {
+					list = will_destroy_titles_list
+					save_scope_as = temp_vassal_scope
+
+					every_held_title = {
+						limit = {
+							tier > tier_county
+							is_noble_family_title = no # Don't destroy noble family titles
+							NOT = { has_variable = ceremonial_title } # Don't destroy any ceremonial liege titles
+						}
+						save_scope_as = temp_title_scope
+						scope:temp_vassal_scope = { destroy_title = scope:temp_title_scope }
+						clear_saved_scope = temp_title_scope
+					}
+
+					add_truce_both_ways = {
+						character = root
+						years = 3
+						name = TRUCE_COLLABORATION
+					}
+
+					clear_saved_scope = temp_vassal_scope
+				}
+			}
+
+			# Start the rebellion for those that refuse to comply
+			if = {
+				limit = { exists = scope:rebel_leader }
+
+				scope:rebel_leader = {
+					start_war = {
+						casus_belli = irtock3_ritsuryo_county_war
+						target = root
+					}
+
+					random_character_war = {
+						limit = { using_cb = irtock3_ritsuryo_county_war }
+						save_scope_as = ritsuryo_war
+					}
+				}
+
+				if = {
+					limit = {
+						any_in_list = { list = will_rebel_list }
+					}
+					every_in_list = {
+						list = will_rebel_list
+						scope:ritsuryo_war = { add_attacker = prev }
+					}
+				}
+			}
+		}
+		
+		ai_will_select = {
+			base = 100
+
+			# Modify chances based off traits
+			if = {
+				limit = { has_trait = ambitious }
+				add = 10
+			}
+			if = {
+				limit = { has_trait = arrogant }
+				add = 5
+			}
+
+			# Modify chance based off relative military power of rebels
+			## If there will be rebels, modify based off their relative power
+			if = {
+				limit = { exists = scope:military_power_fraction }
+				multiply = scope:military_power_fraction # If liege is stronger (military_power_fraction > 1), increases chance. Otherwise, decreases chance.
+			}
+			# Otherwise, there won't be any rebels, so greatly increase chances
+			else = { multiply = 1000 }
+			
+			# If already at war, lower chances
+			if = {
+				limit = { is_at_war = yes }
+				multiply = 0.5
+			}
+		}
+	}
+
+	after = {
+		# Make sure to remove this flag if they have it so that if this event SOMEHOW fires again for this character, it doesn't mess with the localization
+		if = {
+			limit = { has_character_flag = irtock3_took_form_japan_decision }
+			remove_character_flag = irtock3_took_form_japan_decision
+		}
+
+		# If you have multiple empire titles, trigger an event notifying you of the potential issues that could arise from that, and options to deal with it
+		if = {
+			limit = {
+				any_held_title = {
+					title_tier = empire
+					count > 1
+				}
+			}
+			custom_tooltip = {
+				text = irtock3_ritsuryo_events.1.multiple_empires_event_trigger_tt
+				trigger_event = irtock3_ritsuryo_events.2
+			}
+		}
+	}
+}
+
+# Event triggered to notify the player of potential issues that could arise from having multiple empire titles while being Ritsuryo/Soryo, and options to deal with it
+irtock3_ritsuryo_events.2 = {
+	type = character_event
+
+	title = irtock3_ritsuryo_events.2.title
+
+	desc = irtock3_ritsuryo_events.2.desc
+
+	override_background = { reference = throne_room }
+	theme = crown
+	right_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		NOT = { has_character_flag = dont_trigger_irtock3_ritsuryo_events_2 } # Make sure this event doesn't retrigger itself from title destruction possibly changing primary titles
+		highest_held_title_tier = tier_empire
+		any_held_title = {
+			title_tier = empire
+			count > 1
+		}
+		any_held_title = {
+			title_tier = empire
+			exists = var:administrative_ui_special_title
+		}
+	}
+
+	immediate = {
+		# Flag to make sure this event doesn't retrigger itself from the title destruction possibly changing primary titles
+		add_character_flag = dont_trigger_irtock3_ritsuryo_events_2
+
+		# If the 'realm_title' scope doesn't already exist (meaning this wasn't triggered from the 'irtock3_ritsuryo_events.1' event), need to save a relevant empire title as that scope
+		if = {
+			limit = {
+				NOT = { exists = scope:realm_title }
+			}
+
+			## First check if your primary title has a ceremonial liege title associated with it
+			if = {
+				limit = {
+					primary_title = { exists = var:administrative_ui_special_title }
+				}
+				primary_title = { save_scope_as = realm_title }
+			}
+			## Otherwise, choose one of your other empire titles that has a ceremonial liege title associated with it, prioritizing any empire title whose ceremonial liege happens to be in your realm
+			else = {
+				ordered_held_title = {
+					title_tier = empire
+					order_by = {
+						value = 1
+						# Increase priority if someone already holds the ceremonial liege title
+						if = {
+							limit = { exists = var:administrative_ui_special_title.holder }
+							add = 100
+
+							# Greatly increase priority if that holder is in your realm so this title should always be chosen
+							if = {
+								limit = { root.top_liege = var:administrative_ui_special_title.holder.top_liege }
+								add = 1000
+							}
+						}
+						# If no one holds the ceremonial liege title, increase priority if it has an existing ceremonial house
+						else_if = {
+							limit = { exists = var:administrative_ui_special_title.var:imperial_house }
+							add = 50
+
+							# If that house still has living members, increase priority more
+							if = {
+								limit = {
+									var:administrative_ui_special_title.var:imperial_house = {
+										any_house_member = { is_alive = yes }
+									}
+								}
+								add = 20
+							}
+						}
+						# If no one holds the ceremonial liege title, increase priority if it has an existing ceremonial dynasty
+						else_if = {
+							limit = { exists = var:administrative_ui_special_title.var:imperial_dynasty }
+							add = 30
+
+							# If that dynasty still has living members, increase priority more
+							if = {
+								limit = {
+									var:administrative_ui_special_title.var:imperial_dynasty = {
+										any_dynasty_member = { is_alive = yes }
+									}
+								}
+								add = 20
+							}
+						}
+						# If, somehow, a title was checked that doesn't have a ceremonial liege title associated with it, set priority to 0
+						if = {
+							limit = {
+								NOT = { exists = var:administrative_ui_special_title }
+							}
+							multiply = 0
+						}
+					}
+					limit = { exists = var:administrative_ui_special_title }
+					max = 1
+					save_scope_as = realm_title
+				}
+			}
+		}
+
+		# Make sure to save the ceremonial liege title associated with the 'realm_title' scope for use in the event description/localization
+		scope:realm_title.var:administrative_ui_special_title = { save_scope_as = ceremonial_liege_title }
+
+		# Now go through all your empire titles to get a list of all of the ones that have ceremonial liege titles associated with them
+		every_held_title = {
+			title_tier = empire
+			limit = { exists = var:administrative_ui_special_title }
+			add_to_list = empires_with_ceremonial_lieges
+		}
+	}
+
+	# Leave everything as is
+	option = {
+		name = irtock3_ritsuryo_events.2.a
+		custom_tooltip = irtock3_ritsuryo_events.2.a.leave_other_empires_tt
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	# Don't destroy any other title, but make the chosen title your primary title
+	option = {
+		name = irtock3_ritsuryo_events.2.b
+		trigger = { primary_title != scope:realm_title }
+		custom_tooltip = {
+			text = irtock3_ritsuryo_events.2.b.leave_other_empires_new_primary_tt
+			set_primary_title_to = scope:realm_title
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+
+	# Destroy every other empire title except for your primary one (or the one chosen as the 'realm_title' scope)
+	option = {
+		name = irtock3_ritsuryo_events.2.c
+		custom_tooltip = {
+			text = irtock3_ritsuryo_events.2.c.destroy_other_empires_tt
+
+			every_held_title = {
+				title_tier = empire
+				limit = { this != scope:realm_title }
+				root = { destroy_title = prev }
+			}
+		}
+
+		ai_chance = {
+			base = 100
+		}
+	}
+
+	after = {
+		# Show in the option's tooltips what your other empire titles are that have a ceremonial liege title associated with them
+		if = {
+			limit = {
+				any_in_list = { list = empires_with_ceremonial_lieges }
+			}
+			custom_tooltip = irtock3_ritsuryo_events.2.list_empires_with_ceremonial_lieges_beginning_tt
+			every_in_list = {
+				list = empires_with_ceremonial_lieges
+				save_scope_as = temp_empire_scope
+				var:administrative_ui_special_title = { save_scope_as = temp_ceremonial_liege_scope }
+				custom_tooltip = irtock3_ritsuryo_events.2.list_empires_with_ceremonial_lieges_tt
+			}
+		}
+
+		# Remove the flag added to prevent this event from retriggering itself
+		remove_character_flag = dont_trigger_irtock3_ritsuryo_events_2
+	}
+}

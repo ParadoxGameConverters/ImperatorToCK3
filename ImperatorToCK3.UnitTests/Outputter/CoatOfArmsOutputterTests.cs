@@ -79,13 +79,18 @@ public class CoatOfArmsOutputterTests {
 
 		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>(), new CoaMapper());
 
-		await using var file = File.OpenRead(outputPath);
-		var reader = new StreamReader(file);
+		var actualText = TextTestUtils.NormalizeNewlines(await File.ReadAllTextAsync(outputPath));
+		var expectedText = TextTestUtils.NormalizeNewlines(
+			"""
+			d_IRTOCK3_ADI={
+				pattern="pattern_solid.tga"
+				color1=red color2=green color3=blue
+			}
+			
+			"""
+		);
 
-		Assert.Equal("d_IRTOCK3_ADI={", await reader.ReadLineAsync());
-		Assert.Equal("\tpattern=\"pattern_solid.tga\"", await reader.ReadLineAsync());
-		Assert.Equal("\tcolor1=red color2=green color3=blue", await reader.ReadLineAsync());
-		Assert.Equal("}", await reader.ReadLineAsync());
+		Assert.Equal(expectedText, actualText);
 	}
 
 	[Fact]
@@ -126,9 +131,7 @@ public class CoatOfArmsOutputterTests {
 
 		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>(), new CoaMapper());
 
-		await using var file = File.OpenRead(outputPath);
-		var reader = new StreamReader(file);
-
-		Assert.True(reader.EndOfStream);
+		var actualText = await File.ReadAllTextAsync(outputPath);
+		Assert.True(string.IsNullOrWhiteSpace(actualText));
 	}
 }

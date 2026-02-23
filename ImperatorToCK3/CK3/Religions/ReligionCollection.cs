@@ -38,7 +38,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		parser.ParseGameFolder("common/religion/religions", ck3ModFS, "txt", recursive: true);
 	}
 
-	public void LoadConverterFaiths(string converterFaithsPath, ColorFactory colorFactory) {
+	public void LoadConverterFaiths(string converterFaithsPath, ColorFactory colorFactory, IDictionary<string, bool> ck3ModFlags) {
 		OrderedSet<Faith> loadedConverterFaiths = [];
 		
 		var parser = new Parser();
@@ -60,7 +60,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		parser.ParseFile(converterFaithsPath);
+		parser.ParseLiquidFile(converterFaithsPath, ck3ModFlags);
 		
 		// Validation: every faith should have a pilgrimage doctrine.
 		string? pilgrimageFallback = DoctrineCategories.TryGetValue("doctrine_pilgrimage", out var pilgrimageCategory)
@@ -106,6 +106,22 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 					converterFaith.DoctrineIds.Add(coronationFallback);
 				} else {
 					Logger.Warn($"Faith {converterFaith.Id} has no coronation doctrine!");
+				}
+			}
+		}
+		
+		// Validation: every faith should have a theism doctrine.
+		string? theismFallback = DoctrineCategories.TryGetValue("doctrine_theism", out var theismCategory)
+			? theismCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_polytheist")
+			: null;
+		foreach (var converterFaith in loadedConverterFaiths) {
+			var theismDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_theism");
+			if (theismDoctrine.Count == 0) {
+				if (theismFallback is not null) {
+					Logger.Warn($"Faith {converterFaith.Id} has no theism doctrine! Setting {theismFallback}");
+					converterFaith.DoctrineIds.Add(theismFallback);
+				} else {
+					Logger.Warn($"Faith {converterFaith.Id} has no theism doctrine!");
 				}
 			}
 		}

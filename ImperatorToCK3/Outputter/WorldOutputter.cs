@@ -28,6 +28,7 @@ internal static class WorldOutputter {
 		CreateFolders(outputPath);
 
 		Task.WaitAll(
+			GeographicalRegionOutputter.OutputRegions(outputPath, ck3World.CK3RegionMapper),
 			CharactersOutputter.OutputEverything(outputPath, ck3World.Characters, imperatorWorld.EndDate, config.CK3BookmarkDate, ck3World.ModFS),
 			DynastiesOutputter.OutputDynastiesAndHouses(outputPath, ck3World.Dynasties, ck3World.DynastyHouses),
 
@@ -183,6 +184,7 @@ internal static class WorldOutputter {
 		modFileBuilder.AppendLine("replace_path=\"history/struggles\"");
 		modFileBuilder.AppendLine("replace_path=\"history/titles\"");
 		modFileBuilder.AppendLine("replace_path=\"history/wars\"");
+		modFileBuilder.AppendLine("replace_path=\"map_data/geographical_regions\"");
 		var modText = modFileBuilder.ToString();
 
 		var modFilePath = Path.Combine("output", $"{outputName}.mod");

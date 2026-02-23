@@ -1,0 +1,31 @@
+﻿###################
+# DYNASTIC CYCLE  #
+###################
+{% if wtwsms %}
+# Dynastic Cycle shouldn't trigger when using a mod without East Asia
+
+{% else %}
+# Imperator starts on Oct 1, 304 BC
+# Warring States Period starts 475 BC
+
+-475.1.1 = {
+	effect = {
+		if = {
+			limit = { has_tgp_dlc_trigger = yes }
+			start_situation = {
+				type = dynastic_cycle
+				start_phase = situation_dynastic_cycle_phase_chaos
+			}
+
+			# Mention the Warring States Period (How China starts in Imperator)
+			situation:dynastic_cycle = {
+				record_situation_special_event = {
+					key = irtock3_cycle_history_key_warring_states_period
+					phase = situation_dynastic_cycle_phase_chaos
+				}
+			}
+		}		
+	}
+}
+
+{% endif %}

@@ -827,15 +827,16 @@ internal sealed class Character : IIdentifiable<string> {
 				sb.AppendLine($"\t\t\torigin=province:{ck3Location}");
 			}
 
+			string unitScopeId = $"ir_unit_{unit.Id}";
 			if (ck3Leader is not null) {
 				// Will have no effect if army is not actually spawned (see spawn_army explanation on CK3 wiki).
-				sb.AppendLine($"\t\t\tsave_temporary_scope_as={unit.Id}");
+				sb.AppendLine($"\t\t\tsave_temporary_scope_as={unitScopeId}");
 			}
 
 			sb.AppendLine("\t\t}");
 
 			if (ck3Leader is not null) {
-				sb.AppendLine($"\t\tif={{ limit={{ exists=scope:{unit.Id} }} scope:{unit.Id}={{ set_commander=character:{ck3Leader.Id} }} }}");
+				sb.AppendLine($"\t\tscope:{unitScopeId} ?= {{ assign_commander=character:{ck3Leader.Id} }}");
 			}
 		}
 

@@ -1,4 +1,4 @@
-﻿# ImperatorToCK3: Last updated CK3 patch 1.12.5
+﻿# ImperatorToCK3: Last updated CK3 patch 1.18.0.2
 # potentially useful resource: https://en.wiktionary.org/wiki/Category:English_prefixes
 l_english:
  numidian: "Numidian"
@@ -446,3 +446,15 @@ l_english:
  kizzuwatnan: "Kizzuwatnan"
  kizzuwatnan_collective_noun: "Kizzuwatnans"
  kizzuwatnan_prefix: "Kizzuwatno"
+
+ old_bashu: "Bashu"
+ old_bashu_collective_noun: "Bashu"
+ old_bashu_prefix: "Basho"
+
+ baiyue: "Baiyue"
+ baiyue_collective_noun: "Baiyue"
+ baiyue_prefix: "Baiyo"
+
+ dongyi: "Dongyi"
+ dongyi_collective_noun: "Dongyi"
+ dongyi_prefix: "Dongyo"
