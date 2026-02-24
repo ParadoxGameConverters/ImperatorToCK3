@@ -1,9 +1,21 @@
-﻿using ImperatorToCK3.UnitTests.TestHelpers;
+﻿using ImperatorToCK3.CK3;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3;
 
 public class CK3LocDBTests {
+	[Theory]
+	// https://en.wikipedia.org/wiki/MurmurHash
+	[InlineData("", 0)]
+	[InlineData("test", 0xba6bd213)]
+	[InlineData("Hello, world!", 0xc0363e43)]
+	[InlineData("The quick brown fox jumps over the lazy dog", 0x2e4ff723)]
+	public void MurmurHashIsCorrectlyCalculated(string key, uint expectedHash) {
+		var actualHash = CK3LocDB.GetHashForKey(key);
+		Assert.Equal(expectedHash, actualHash);
+	}
+
 	[Theory]
 	[InlineData("Mallobald", "laamp_base_contract_schemes.2541.e.tt.employer_has_trait.paranoid")]
 	[InlineData("dynn_Hkeng", "debug_min_popular_opinion_modifier")]

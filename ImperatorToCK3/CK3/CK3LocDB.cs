@@ -162,7 +162,7 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 		}
 	}
 
-    private static uint GetHashForKey(string key) {
+    internal static uint GetHashForKey(string key) {
 		// Encode key into rented buffer to avoid allocating a dedicated byte[] for every key.
 		var enc = System.Text.Encoding.UTF8;
 		var pool = ArrayPool<byte>.Shared;
