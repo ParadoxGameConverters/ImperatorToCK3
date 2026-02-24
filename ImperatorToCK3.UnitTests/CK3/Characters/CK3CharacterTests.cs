@@ -11,8 +11,6 @@ using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.CommonUtils.Map;
-using ImperatorToCK3.Imperator.Cultures;
-using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
@@ -223,7 +221,7 @@ public class CK3CharacterTests {
 		var traitMapper = new TraitMapperTests.TestTraitMapper(irToCK3TraitDict, definedCK3Traits);
 
 		var imperatorCharacter = new ImperatorToCK3.Imperator.Characters.Character(1) {
-			Traits = new List<string> { "strong", "humble", "craven" }
+			Traits = ["strong", "humble", "craven"]
 		};
 		var character = builder
 			.WithImperatorCharacter(imperatorCharacter)

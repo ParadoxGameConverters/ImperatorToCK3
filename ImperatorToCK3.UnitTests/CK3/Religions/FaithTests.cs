@@ -24,7 +24,7 @@ public class FaithTests {
 	
 	[Fact]
 	public void HolySiteIdsAreLoadedAndSerialized() {
-		var faithData = new FaithData {HolySiteIds = new List<string> {"rome", "constantinople", "antioch"}};
+		var faithData = new FaithData {HolySiteIds = ["rome", "constantinople", "antioch"]};
 		var faith = new Faith("chalcedonian", faithData, testReligion);
 
 		Assert.Collection(faith.HolySiteIds,
@@ -83,7 +83,7 @@ public class FaithTests {
 	[Fact]
 	public void HolySiteIdCanBeReplaced() {
 		var faithData = new FaithData {
-			HolySiteIds = new List<string> {"rome", "constantinople", "antioch"}
+			HolySiteIds = ["rome", "constantinople", "antioch"]
 		};
 		var faith = new Faith("orthodox", faithData, testReligion);
 		faith.HolySiteIds.Should().Equal("rome", "constantinople", "antioch");
@@ -97,7 +97,7 @@ public class FaithTests {
 		var output = new StringWriter();
 		Console.SetOut(output);
 
-		var faithData = new FaithData {HolySiteIds = new List<string> {"rome", "constantinople", "antioch"}};
+		var faithData = new FaithData {HolySiteIds = ["rome", "constantinople", "antioch"]};
 		var faith = new Faith("orthodox", faithData, testReligion);
 		faith.HolySiteIds.Should().Equal("rome", "constantinople", "antioch");
 
