@@ -39,7 +39,7 @@ internal static class DynastiesOutputter {
 	public static async Task OutputDynastiesAndHouses(string outputModPath, DynastyCollection dynasties, HouseCollection houses) {
 		await Task.WhenAll(
 			OutputDynasties(outputModPath, dynasties),
-			Task.Run(() => OutputHouses(outputModPath, houses))
+			OutputHouses(outputModPath, houses)
 		);
 
 		Logger.IncrementProgress();
