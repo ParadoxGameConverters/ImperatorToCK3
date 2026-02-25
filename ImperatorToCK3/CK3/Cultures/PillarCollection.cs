@@ -71,7 +71,6 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 			Logger.Warn($"Pillar {pillarId} has no type defined! Skipping.");
 			return;
 		}
-		
 
 		var pillar = new Pillar(pillarId, pillarData);
 		AddOrReplace(pillar);

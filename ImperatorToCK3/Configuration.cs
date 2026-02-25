@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Exceptions;
 using commonItems.Mods;
@@ -42,9 +42,6 @@ internal sealed class Configuration {
 
 	public Configuration() { }
 	public Configuration(ConverterVersion converterVersion) {
-		
-		
-		
 		Logger.Info("Reading configuration file...");
 		var parser = new Parser();
 		RegisterConfigurationKeys(parser);
