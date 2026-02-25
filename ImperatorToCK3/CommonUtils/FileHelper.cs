@@ -1,8 +1,9 @@
-﻿using commonItems.Exceptions;
+﻿
 
 namespace ImperatorToCK3.CommonUtils;
 
 using commonItems;
+using commonItems.Exceptions;
 using System;
 using Polly;
 using System.IO;
@@ -69,7 +70,48 @@ public static class FileHelper {
 			throw new UserErrorException($"Failed to delete \"{filePath}\". {CloseProgramsHint}");
 		}
 	}
-	
+
+	// Ensures that the given directory path exists. If a file exists with the
+	// same name as the desired directory it will be removed first. The method
+	// retries the creation when a sharing violation occurs, much like the
+	// other helpers in this class. This helps mitigate cases where a transient
+	// lock or a stray file prevents folder creation.
+	public static void EnsureDirectoryExists(string directoryPath) {
+		if (string.IsNullOrEmpty(directoryPath)) {
+			return;
+		}
+
+		// if the path already exists as a directory we're done
+		if (Directory.Exists(directoryPath)) {
+			return;
+		}
+
+		// if a file exists where we'd like a directory, bail out rather than
+		// attempting to delete it.
+		if (File.Exists(directoryPath)) {
+			throw new UserErrorException(
+				$"Cannot create directory \"{directoryPath}\" because a file with the same name already exists.");
+		}
+
+		const int maxAttempts = 10;
+		int currentAttempt = 0;
+		var policy = Policy
+			.Handle<IOException>(IsFilesSharingViolation)
+			.WaitAndRetry(maxAttempts,
+				sleepDurationProvider: _ => TimeSpan.FromSeconds(1),
+				onRetry: (_, _, _) => {
+				currentAttempt++;
+				Logger.Warn($"Attempt {currentAttempt} to create directory \"{directoryPath}\" failed.");
+			});
+
+		try {
+			policy.Execute(() => Directory.CreateDirectory(directoryPath));
+		} catch (IOException ex) when (IsFilesSharingViolation(ex)) {
+			Logger.Debug(ex.ToString());
+			throw new UserErrorException($"Failed to create directory \"{directoryPath}\". {CloseProgramsHint}");
+		}
+	}
+
 	public static void MoveWithRetries(string sourceFilePath, string destFilePath) {
 		const int maxAttempts = 10;
 		
