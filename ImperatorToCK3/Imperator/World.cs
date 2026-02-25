@@ -91,10 +91,10 @@ internal partial class World {
 
 		diplomacyDB = new();
 	}
-	
-	private static void OutputGuiContainer(ModFilesystem modFS, IEnumerable<string> tagsNeedingFlags, Configuration config) {
+
+	internal static void OutputGuiContainer(ModFilesystem modFS, IEnumerable<string> tagsNeedingFlags, Configuration config) {
 		Logger.Debug("Modifying gui for exporting CoAs...");
-		
+
 		const string relativeTopBarGuiPath = "gui/ingame_topbar.gui";
 		var topBarGuiPath = modFS.GetActualFileLocation(relativeTopBarGuiPath);
 		if (topBarGuiPath is null) {
@@ -102,6 +102,7 @@ internal partial class World {
 			return;
 		}
 
+		// build the GUI snippet we want to insert
 		var guiTextBuilder = new StringBuilder();
 		guiTextBuilder.AppendLine("\tstate = {");
 		guiTextBuilder.AppendLine("\t\tname = _show");
@@ -109,21 +110,32 @@ internal partial class World {
 		commandsString += ";dumpdatatypes"; // This will let us know when the commands finished executing.
 		guiTextBuilder.AppendLine($"\t\ton_start=\"[ExecuteConsoleCommandsForced('{commandsString}')]\"");
 		guiTextBuilder.AppendLine("\t}");
-		
+
 		List<string> lines = [.. File.ReadAllLines(topBarGuiPath)];
 		int index = lines.FindIndex(line => line.Contains("name = \"ingame_topbar\""));
 		if (index != -1) {
 			lines.Insert(index + 1, guiTextBuilder.ToString());
 		}
 
-		var topBarOutputPath = Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod", relativeTopBarGuiPath);
-		Logger.Debug($"Writing modified GUI to \"{topBarOutputPath}\"...");
-		var topBarOutputDir = Path.GetDirectoryName(topBarOutputPath);
-		if (topBarOutputDir is not null) {
-			Directory.CreateDirectory(topBarOutputDir);
+		// attempt to write the modified GUI
+		try {
+			var topBarOutputPath = Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod", relativeTopBarGuiPath);
+			Logger.Debug($"Writing modified GUI to \"{topBarOutputPath}\"...");
+			var topBarOutputDir = Path.GetDirectoryName(topBarOutputPath);
+			if (topBarOutputDir is not null) {
+				FileHelper.EnsureDirectoryExists(topBarOutputDir);
+			}
+
+			using var writer = FileHelper.OpenWriteWithRetries(topBarOutputPath, Encoding.UTF8);
+			foreach (var line in lines) {
+				writer.WriteLine(line);
+			}
+		} catch (Exception e) {
+			Logger.Warn($"Failed to output modified GUI: {e.Message}");
+			// bail out but don't crash the whole conversion
+			return;
 		}
-		File.WriteAllLines(topBarOutputPath, lines);
-		
+
 		// Create a .mod file for the temporary mod.
 		Logger.Debug("Creating temporary mod file...");
 		string modFileContents = 
