@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Mods;
+using DotLiquid;
 using ImperatorToCK3.CommonUtils;
 using System;
 using System.Collections.Generic;
@@ -41,11 +42,11 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 		parser.ParseGameFolder("common/culture/pillars", ck3ModFS, "txt", true);
 	}
 
-	public void LoadConverterPillars(string converterPillarsPath, OrderedDictionary<string, bool> ck3ModFlags) {
+	public void LoadConverterPillars(string converterPillarsPath, OrderedDictionary<string, bool> ck3ModFlags, Hash liquidVariables) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (reader, pillarId) => LoadPillar(pillarId, reader, ck3ModFlags));
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseFolderWithLiquidSupport(converterPillarsPath, "txt", true, ck3ModFlags, logFilePaths: true);
+		parser.ParseFolderWithLiquidSupport(converterPillarsPath, "txt", true, liquidVariables, logFilePaths: true);
 		
 		Logger.Debug($"Ignored mod flags when loading pillars: {ignoredModFlags}");
 	}

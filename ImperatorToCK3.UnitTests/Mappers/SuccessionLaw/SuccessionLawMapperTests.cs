@@ -1,4 +1,5 @@
 ﻿using commonItems;
+using DotLiquid;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,8 @@ namespace ImperatorToCK3.UnitTests.Mappers.SuccessionLaw;
 [Collection("Sequential")]
 [CollectionDefinition("Sequential", DisableParallelization = true)]
 public class SuccessionLawMapperTests {
-	private static readonly OrderedDictionary<string, bool> ck3ModFlags = [];
 	private static readonly string[] enabledCK3Dlcs = [];
+	private static readonly Hash liquidVariables = new();
 	
 	[Fact]
 	public void NonMatchGivesEmptySet() {
@@ -113,7 +114,7 @@ public class SuccessionLawMapperTests {
 
 	[Fact]
 	public void MappingsAreReadFromFile() {
-		var mapper = new SuccessionLawMapper("TestFiles/configurables/succession_law_map.liquid", ck3ModFlags);
+		var mapper = new SuccessionLawMapper("TestFiles/configurables/succession_law_map.liquid", liquidVariables);
 		Assert.Equal(
 			["ck3law1", "ck3law2"],
 			mapper.GetCK3LawsForImperatorLaws(impLaws: ["implaw1"], irGovernment: null, enabledCK3Dlcs)

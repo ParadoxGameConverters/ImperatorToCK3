@@ -3,6 +3,7 @@ using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using AwesomeAssertions;
+using DotLiquid;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
@@ -58,7 +59,7 @@ public class TitleTests {
 			"TestFiles/configurables/governorMappings.txt", 
 			"TestFiles/configurables/country_rank_map.txt");
 		private GovernmentMapper governmentMapper = new(ck3GovernmentIds: Array.Empty<string>());
-		private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.liquid", ck3ModFlags: []);
+		private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.liquid", liquidVariables: new());
 		private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
 		private readonly ReligionMapper religionMapper;
