@@ -8,6 +8,7 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
+using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
@@ -122,9 +123,9 @@ public class ProvincesTests {
 		Assert.NotNull(primarySourceProvince);
 		Assert.Equal((ulong)3, primarySourceProvince.Id); // most developed province in country 1
 		
-		// Scenario 2: Single developed province in country 2 outweighs sum of civilisation in country 1.
+		// Scenario 2: Single developed province in country 2 outweighs sum of civilization in country 1.
 		irProvince6.CivilizationValue = 100;
-		ck3Provinces = new ProvinceCollection { new(1) };
+		ck3Provinces = [new(1)];
 		ck3Provinces.ImportImperatorProvinces(irWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 		
 		targetProvince = ck3Provinces[1];
@@ -132,5 +133,66 @@ public class ProvincesTests {
 		primarySourceProvince = targetProvince.PrimaryImperatorProvince;
 		Assert.NotNull(primarySourceProvince);
 		Assert.Equal((ulong)6, primarySourceProvince.Id); // province of country 2
+	}
+
+	[Fact]
+	public void VariablesAreConvertedFromImperator() {
+		//var country1 = new Country(1);
+		var irProvsReader = new BufferedReader(
+			"""
+			= {
+				1={
+					{
+						flag="bool_negative
+						data={
+							type=boolean # false
+						}
+					}
+					{
+						flag="bool_positive"
+						data={
+							type=boolean
+							identity=1 # true
+						}
+					}
+					{
+						flag="number_positive"
+						data={
+							type=value
+							identity=1234000 # 12.34
+						}
+					}
+					{
+						flag="number_negative"
+						data={
+							type=value
+							identity=18446744073708317616 # -12.34
+						}
+					}
+				}
+			}
+			"""
+		);
+		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
+		provinces.LoadProvinces(irProvsReader, new StateCollection(), new CountryCollection(), new MapData(irModFS));
+		var conversionDate = new Date(476, 1, 1);
+		var config = new Configuration { CK3BookmarkDate = conversionDate };
+		var irWorld = new TestImperatorWorld(config);
+		
+		var provinceMapper = new ProvinceMapper();
+		const string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
+		provinceMapper.LoadMappings(provinceMappingsPath);
+		
+		var ck3Provinces = new ProvinceCollection { new(1) };
+		var ck3MapData = new MapData(ck3ModFs);
+		ck3MapData.ProvinceDefinitions.Add(new ProvinceDefinition(1));
+		ck3Provinces.ImportImperatorProvinces(irWorld, ck3MapData, new Title.LandedTitles(), new CultureMapper(new ImperatorRegionMapper(new AreaCollection(), new MapData(irModFS)), new CK3RegionMapper(), new CultureCollection(colorFactory, new PillarCollection(colorFactory, []), [])), new ReligionMapper(new ReligionCollection(new Title.LandedTitles()), new ImperatorRegionMapper(new AreaCollection(), new MapData(irModFS)), new CK3RegionMapper()), provinceMapper, new Date(867, 1, 1), new Configuration());
+		
+		var ck3Province = ck3Provinces[1];
+		Assert.Equal(4, ck3Province.Variables.Count);
+		Assert.Equal(false, ck3Province.Variables.GetValueById("bool_negative"));
+		Assert.Equal(true, ck3Province.Variables.GetValueById("bool_positive"));
+		Assert.Equal(12.34, ck3Province.Variables.GetValueById("number_positive"));
+		Assert.Equal(-12.34, ck3Province.Variables.GetValueById("number_negative"));
 	}
 }
