@@ -68,6 +68,7 @@ internal partial class World {
 	public CulturesDB CulturesDB { get; } = [];
 	public ReligionCollection Religions { get; private set; }
 	private GenesDB genesDB = new();
+	public TreasureManager TreasureManager { get; } = new();
 	public InventionsDB InventionsDB { get; } = new();
 	public ColorFactory ColorFactory { get; } = new();
 	
@@ -405,6 +406,11 @@ internal partial class World {
 		parser.RegisterKeyword("tutorial_disable", ParserHelpers.IgnoreItem);
 		var playerCountriesToLog = new OrderedSet<string>();
 		parser.RegisterKeyword("played_country", LoadPlayerCountries(playerCountriesToLog));
+		parser.RegisterKeyword("treasure_manager", reader => {
+			Logger.Info("Loading treasures...");
+			TreasureManager.LoadTreasures(reader);
+			Logger.Debug($"{TreasureManager.Count} treasures loaded.");
+		});
 		parser.IgnoreAndStoreUnregisteredItems(ignoredTokens);
 
 		parser.ParseStream(ProcessSave(config.SaveGamePath));

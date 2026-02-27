@@ -1,17 +1,22 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CK3.Armies;
+using ImperatorToCK3.CK3.Modifiers;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Armies;
+using ImperatorToCK3.Imperator.Provinces;
+using ImperatorToCK3.Imperator.Religions;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Mappers.Artifact;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
+using ImperatorToCK3.Mappers.Modifier;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
@@ -667,6 +672,193 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		}
 
 		Logger.IncrementProgress();
+	}
+
+	public void ImportArtifacts(
+		ProvinceCollection irProvinces,
+		ProvinceMapper provinceMapper,
+		Title.LandedTitles titles,
+		TreasureManager treasureManager,
+		ModifierMapper modifierMapper,
+		ModifierCollection ck3Modifiers,
+		LocDB irLocDB,
+		CK3LocDB ck3LocDB,
+		Date date
+	) {
+		Logger.Info("Importing Imperator artifacts...");
+		var ck3CharacterIdToTreasureIdsListDict = new Dictionary<string, IList<ulong>>();
+
+		foreach (var irProvince in irProvinces) {
+			var ck3Provinces = provinceMapper.GetCK3ProvinceNumbers(irProvince.Id);
+			if (ck3Provinces.Count == 0) {
+				continue;
+			}
+			var primaryCK3ProvinceId = ck3Provinces.First();
+			
+			string? ownerId = null;
+
+			var barony = titles.GetBaronyForProvince(primaryCK3ProvinceId);
+			if (barony is null) {
+				Logger.Warn($"Can't find barony for province {primaryCK3ProvinceId}!");
+				continue;
+			}
+			var baronyHolderId = barony.GetHolderId(date);
+			if (baronyHolderId != "0") {
+				ownerId = baronyHolderId;
+			} else {
+				var county = titles.GetCountyForProvince(primaryCK3ProvinceId);
+				if (county is null) {
+					Logger.Warn($"Can't find county for province {primaryCK3ProvinceId}!");
+					continue;
+				}
+				var countyHolderId = county.GetHolderId(date);
+				if (countyHolderId != "0") {
+					ownerId = countyHolderId;
+				}
+			}
+
+			if (ownerId is null) {
+				Logger.Warn($"Can't find owner for province {primaryCK3ProvinceId}!");
+				continue;
+			}
+
+			if (ck3CharacterIdToTreasureIdsListDict.TryGetValue(ownerId, out var artifactList)) {
+				artifactList.AddRange(irProvince.TreasureIds);
+			} else {
+				ck3CharacterIdToTreasureIdsListDict[ownerId] = irProvince.TreasureIds.ToList();
+			}
+		}
+		// TODO: also import artifacts not assigned to holy sites (search for treasures={ 225 226 } in save)
+		
+		// TODO: check if needed: Create visuals for artifacts.
+		/*var treasureIconNames = treasureManager
+			.Select(t => t.IconName)
+			.Distinct()
+			.ToList();
+		foreach (var iconName in treasureIconNames) {
+			throw new NotImplementedException();
+			// example:
+			//		icon: artefact_icons_unique_artifact_cheese
+			//		asset entity: ep1_western_pouch_basic_01_a_entity
+			//		mesh: ep1_western_pouch_basic_01_a_mesh
+		}*/
+		
+		var visualsMapper = new ArtifactMapper("configurables/artifact_map.txt");
+		
+		var charactersFromImperator = this.Where(c => c.FromImperator).ToList();
+		foreach (var character in charactersFromImperator) {
+			if (!ck3CharacterIdToTreasureIdsListDict.TryGetValue(character.Id, out var irArtifactIds)) {
+				continue;
+			}
+			
+			// TODO: try to use create_artifact_sculpture_babr_e_bayan_effect as base
+			foreach (var irArtifactId in irArtifactIds) {
+				var irArtifact = treasureManager[irArtifactId];
+				ImportArtifact(character, irArtifact, modifierMapper, ck3Modifiers, visualsMapper, irLocDB, ck3LocDB, date);
+			}
+
+			/*
+			 * # Create the artifact
+			create_artifact = {	
+				name = artifact_sculpture_armor_babr_name
+				description = artifact_sculpture_armor_babr
+				type = sculpture
+				template = babr_template
+				visuals = sculpture_babr_e_bayan
+				wealth = scope:wealth
+				quality = scope:quality
+				history = {
+					type = created_before_history
+				}
+				modifier = babr_e_bayan_modifier
+				save_scope_as = newly_created_artifact
+				decaying = yes
+			}
+
+			scope:newly_created_artifact = {
+				set_variable = { name = historical_unique_artifact value = yes }
+				set_variable = babr_e_bayan
+				save_scope_as = epic
+			}	
+			 */
+		}
+		
+		Logger.IncrementProgress();
+	}
+
+	private void ImportArtifact(Character character, Treasure irArtifact, ModifierMapper modifierMapper, ModifierCollection ck3Modifiers, ArtifactMapper artifactMapper, LocDB irLocDB, CK3LocDB ck3LocDB, Date date) {
+		var visualAndType = artifactMapper.GetVisualAndType(irArtifact.Key, irArtifact.IconName);
+		if (visualAndType is null) {
+			Logger.Warn($"Can't find a match for I:R artifact key {irArtifact.Key} and icon {irArtifact.IconName}!");
+			return;
+		}
+		var (ck3Visual, ck3Type) = visualAndType.Value;
+		
+		var ck3ArtifactName = $"IRToCK3_artifact_{irArtifact.Key}_{irArtifact.Id}";
+		var irNameLoc = irLocDB.GetLocBlockForKey(irArtifact.Key);
+		if (irNameLoc is null) {
+			Logger.Warn($"Can't find name loc for artifact {irArtifact.Key}!");
+		} else {
+			var artifactNameLocBlock = ck3LocDB.GetOrCreateLocBlock(ck3ArtifactName);
+			artifactNameLocBlock.CopyFrom(irNameLoc);
+		}
+
+		var ck3DescKey = $"{ck3ArtifactName}_desc";
+		var irDescLoc = irLocDB.GetLocBlockForKey(irArtifact.Key + "_desc");
+		if (irDescLoc is null) {
+			Logger.Warn($"Can't find description loc for artifact {irArtifact.Key}!");
+		} else {
+			var descLocBlock = ck3LocDB.GetOrCreateLocBlock(ck3DescKey);
+			descLocBlock.CopyFrom(irDescLoc);
+		}
+
+		var artifactScope = $"newly_created_artifact_{irArtifact.Id}";
+
+		var ck3ModifierEffects = new Dictionary<string, double>();
+		foreach (var (irEffect, irEffectValue) in irArtifact.StateModifiers) {
+			var match = modifierMapper.Match(irEffect, irEffectValue);
+			if (match is null) {
+				Logger.Warn($"Can't find CK3 modifier for Imperator modifier {irEffect}!");
+				continue;
+			}
+			ck3ModifierEffects[match.Value.Key] = match.Value.Value;
+		}
+		foreach (var (irEffect, irEffectValue) in irArtifact.CharacterModifiers) {
+			var match = modifierMapper.Match(irEffect, irEffectValue);
+			if (match is null) {
+				Logger.Warn($"Can't find CK3 modifier for Imperator modifier {irEffect}!");
+				continue;
+			}
+			ck3ModifierEffects[match.Value.Key] = match.Value.Value;
+		}
+		var ck3ModifierId = $"{ck3ArtifactName}_modifier";
+		ck3Modifiers.Add(new Modifier(ck3ModifierId, ck3ModifierEffects));
+		
+		string createArtifactEffect = $$"""
+			set_artifact_rarity_illustrious = yes
+			create_artifact = {	
+				name = {{ ck3ArtifactName }}
+				description = {{ ck3DescKey }}
+				type = {{ ck3Type }}
+				# template = babr_template # TODO: check if needed
+				visuals = {{ ck3Visual }}
+				wealth = scope:wealth
+				quality = scope:quality
+				history = {
+					type = created_before_history
+				}
+				modifier = {{ ck3ModifierId }}
+				save_scope_as = {{ artifactScope }}
+				decaying = yes
+			}
+			scope:{{ artifactScope }} = {
+				set_variable = {
+					name = historical_unique_artifact
+					value = yes
+				}
+			}
+		""";
+		character.History.AddFieldValue(date, "effects", "effect", createArtifactEffect);
 	}
 
 	public void GenerateSuccessorsForOldCharacters(Title.LandedTitles titles, CultureCollection cultures, Date irSaveDate, Date ck3BookmarkDate, ulong randomSeed) {

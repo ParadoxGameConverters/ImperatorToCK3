@@ -8,6 +8,7 @@ using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Legends;
+using ImperatorToCK3.CK3.Modifiers;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
@@ -19,7 +20,7 @@ using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.DeathReason;
 using ImperatorToCK3.Mappers.Government;
-using ImperatorToCK3.Mappers.HolySiteEffect;
+using ImperatorToCK3.Mappers.Modifier;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
@@ -50,6 +51,7 @@ internal sealed class World {
 	public CK3LocDB LocDB { get; } = [];
 	private ScriptValueCollection ScriptValues { get; } = new();
 	public NamedColorCollection NamedColors { get; } = new();
+	public ModifierCollection Modifiers { get; } = new();
 	public CharacterCollection Characters { get; } = new();
 	public DynastyCollection Dynasties { get; } = [];
 	public HouseCollection DynastyHouses { get; } = [];
@@ -372,16 +374,29 @@ internal sealed class World {
 		// Now that the title history is basically done, convert officials as council members and courtiers.
 		LandedTitles.ImportImperatorGovernmentOffices(impWorld.JobsDB.OfficeJobs, Religions, impWorld.EndDate);
 
+		var modifierMapper = new ModifierMapper("configurables/holy_site_effect_mappings.txt");
+
 		Parallel.Invoke(
 			() => ImportImperatorWars(impWorld, config.CK3BookmarkDate),
 
 			() => {
-				var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
-				Religions.DetermineHolySites(Provinces, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
-
+				Religions.DetermineHolySites(Provinces, impWorld.Religions, modifierMapper, config.CK3BookmarkDate);
+		
 				Religions.GenerateMissingReligiousHeads(LandedTitles, Characters, Provinces, Cultures, config.CK3BookmarkDate);
 				Logger.IncrementProgress();
 			},
+
+			() => Characters.ImportArtifacts(
+				impWorld.Provinces,
+				provinceMapper,
+				LandedTitles,
+				impWorld.TreasureManager,
+				modifierMapper,
+				Modifiers,
+				impWorld.LocDB,
+				LocDB,
+				CorrectedDate
+			),
 
 			() => {
 				LegendSeeds.LoadSeeds(ModFS);
