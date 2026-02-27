@@ -12,6 +12,8 @@ is_title_in_realm_trigger = {
 # scope = empire title being checked
 # $REGION$ = The geographical region being checked
 irtock3_can_empire_be_used_for_rome_region = {
+	# The title must be an empire
+	tier = tier_empire
 	# Can't have a holder, or the holder is in the same realm as the ROOT ruler (or is the ROOT ruler)
 	OR = {
 		NOT = { exists = holder }

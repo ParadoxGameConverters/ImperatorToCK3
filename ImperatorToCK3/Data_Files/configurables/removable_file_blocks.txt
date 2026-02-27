@@ -4075,6 +4075,11 @@
 				}
 			}
 	}
+
+	# This event is triggered twice in this file, so removed one instance of it being triggered
+	{
+		roman_restoration.0005		#New Roman Emperor gets Augustus trait. (old holder, if still alive, loses it)
+	}
 }
 
 "events/title_events.txt" = {

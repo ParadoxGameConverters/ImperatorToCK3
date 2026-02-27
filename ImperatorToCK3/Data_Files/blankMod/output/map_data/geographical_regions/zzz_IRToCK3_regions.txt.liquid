@@ -97,46 +97,6 @@ converter_AUH_out_of_scope_region_faith_check = {
 ###############################
 ### Regions to have always have
 ###############################
-# This is mainly to better split up e_byzantium for the split_byzantine_empire_effect scripted effect
-converter_custom_macedonia_region = {
-	regions = {
-		ghw_region_greece ghw_region_thessalonika
-	}
-	duchies = {
-		d_krete
-		
-		# Bulgaria
-		d_vidin d_turnovo d_dobrudja d_bulgaria d_philippopolis
-	}
-}
-
-# This is mainly to better split up e_byzantium for the split_byzantine_empire_effect scripted effect
-converter_custom_anatolia_region = {
-	regions = {
-		ghw_region_anatolia
-	}
-	duchies = {
-		d_aegean_islands
-	}
-}
-
-# This is mainly to better split up e_byzantium for the split_byzantine_empire_effect scripted effect
-converter_custom_africa_region = {
-	regions = {
-		world_africa_north_west
-	}
-	duchies = {
-		d_syrte d_tripolitania
-	}
-}
-
-# This is mainly to better split up e_byzantium for the split_byzantine_empire_effect scripted effect
-converter_custom_oriens_region = {
-	regions = {
-		world_middle_east_jerusalem world_middle_east_arabia
-	}
-}
-
 # The form Hindustan decision depends on titles that might not exist. This region is made to account for that.
 converter_custom_hindustan_region = {
 	duchies = {
@@ -173,5 +133,208 @@ irtock3_key_roman_locations = {
 	}
 	regions = {
 		irtock3_restore_roman_locations
+	}
+}
+
+############
+## Rome Empire Divisions
+############
+# These regions are to be used with split_byzantine_empire_effect to split the Rome/WRE/ERE empire titles across the entire map.
+
+irtock3_rome_empire_division_britannia = {
+	duchies = {
+		d_bedford d_canterbury d_somerset d_gloucester d_norfolk d_hereford d_york d_cornwall d_deheubarth d_lancaster d_powys d_gwynedd d_northumberland d_lothian d_galloway d_ulster d_the_isles d_albany d_western_isles d_moray d_connacht d_meath d_leinster d_munster d_northern_isles d_iceland
+	}
+}
+
+irtock3_rome_empire_division_galliarum = {
+	duchies = {
+		d_luxembourg d_upper_lorraine d_bar d_julich d_champagne d_brabant d_valois d_burgundy d_flanders d_upper_burgundy d_normandy d_transjurania d_orleans d_anjou d_berry d_savoie d_currezia d_dauphine d_bourbon d_brittany d_provence d_auvergne d_poitou d_languedoc d_toulouse d_aquitaine d_gascogne d_armagnac d_barcelona d_viscaya d_aragon d_navarra d_valencia d_cantabria d_asturias d_castilla d_leon d_toledo d_murcia d_galicia d_cordoba d_porto d_granada d_badajoz d_coimbra d_sevilla d_beja d_rif d_algarve d_fes d_mallorca
+	}
+}
+
+irtock3_rome_empire_division_germania = {
+	duchies = {
+		d_angria d_westfalen d_frisia d_utrecht d_holstein d_ostfalen d_gelre d_nordmark d_lower_lorraine d_hesse d_anhalt d_thuringia d_holland d_ostmark d_west_franconia d_east_franconia d_meissen d_lausitz d_nordgau d_bohemia d_alsace d_swabia d_bavaria d_augsburg d_salzburg d_osterreich d_moravia
+	}
+}
+
+irtock3_rome_empire_division_italiae = {
+	duchies = {
+		d_tyrol d_lombardia d_verona d_emilia d_venice d_friuli d_carinthia d_romagna d_piedmonte d_toscana d_genoa d_istria d_ancona d_pisa d_spoleto d_latium d_capua d_benevento d_apulia d_salerno d_calabria d_sicily d_corsica d_sardinia d_tlemcen d_tahert d_alger d_zab d_bejaia d_kroumerie d_kairouan d_tunis d_jerid d_gabes d_tripolitania d_syrte
+	}
+}
+
+irtock3_rome_empire_division_libya_interior = {
+	duchies = {
+		d_marrakesh d_tafilalt d_sous d_zammour d_touat d_taghaza d_tadmekka d_mzab d_timbuktu d_adrar d_ghat d_mema d_kawkaw d_kawar d_jenne d_tagant d_takrur d_upper_gurma d_fezzan d_tibesti d_yatenga d_wagadu d_kaniaga d_diafunu d_silla d_lower_gurma d_bobo d_manding d_bambuk d_djolof d_dendi d_air d_wuli d_futa_jalon d_kaabu d_loma d_kasa d_canarias
+	}
+}
+
+irtock3_rome_empire_division_libya_ulterior = {
+	duchies = {
+		d_kanem d_bornu d_wadai d_baguirmi d_kagha d_wandala d_kano d_kwararafa d_katsina d_salamat d_nupe d_igboland d_gobir d_kebbi d_west_darfur d_darfur d_borgu d_benin d_oyo d_ife d_mamprusi d_ibadan d_savalu d_dagomba d_eweland d_wagadugu d_brong d_lobi d_ashanti d_gyaman d_adiukru d_kong d_worodugu d_kru d_toro d_bassa d_wenyon d_kono d_sapi
+	}
+}
+
+irtock3_rome_empire_division_aethiopia = {
+	duchies = {
+		d_aksum d_baqlin d_gondar d_lasta d_dahlaks d_danakil d_makuria d_alwa d_bazin d_shamir d_naqis d_sennar d_gojjam d_showa d_mora d_zaila d_damot d_dawaro d_adal d_nobatia d_sharka d_kordofan d_kaffa d_shabelle d_bali d_sanaag d_west_ajuraan d_hafun d_mogadishu d_samalo d_pate d_bonde_la_ufa d_mombasa d_zanzibar
+	}
+}
+
+irtock3_rome_empire_division_orientis = {
+	duchies = {
+		d_thrace d_optimatoi d_philippopolis d_opsikion d_strymon d_dobrudja d_turnovo d_aegean_islands d_thracesia d_anatolia d_bucellaria d_ephese d_paphlagonia d_cappadocia d_cibyrrhaeot d_charsianon d_armeniac d_cilicia d_sebasteia d_chaldia d_mesopotamia d_edessa d_tao-klarjeti d_antioch d_abkhazia d_aleppo d_diyarmudar d_georgia d_homs d_lebanon d_palmyra d_damascus d_urdunn d_palestine d_oultrejourdain d_sinai d_cairo d_delta d_al-said d_alexandria d_al-wahat d_cyrenaica d_eastern_desert d_cyprus
+	}
+}
+
+irtock3_rome_empire_division_illyrici = {
+	duchies = {
+		d_steyermark d_gyor d_slavonia d_krain d_somogy d_lower_bosna d_croatia d_syrmia d_bosna d_macva d_usora d_dalmatia d_rashka d_vidin d_duklja d_bulgaria d_ragusa d_dyrrachion d_thessalonika d_epirus d_thessaly d_cephalonia d_athens d_achaia d_krete
+	}
+}
+
+irtock3_rome_empire_division_pannonia = {
+	duchies = {
+		d_transylvanian_alps d_muntenia d_oltenia d_transylvania d_moldova d_bugeac d_bukovina d_bihar d_temes d_transcarpathia d_visegrad d_bacs d_ungvar d_nyitra
+	}
+}
+
+irtock3_rome_empire_division_vistulia = {
+	duchies = {
+		d_pommerania d_wielkopolska d_pomerelia d_lower_silesia d_kuyavia d_prussia d_mazovia d_masuria d_lesser_poland d_upper_silesia d_samogitia d_volhynia d_cherven_cities d_lithuanians d_grodno d_pinsk d_halych d_courland d_turov
+	}
+}
+
+irtock3_rome_empire_division_fennia = {
+	duchies = {
+		d_latgalians d_livonia d_novgorod d_esthonia d_polotsk d_vepsia d_luki d_smolensk d_minsk d_opolye d_chudia d_vologda d_nizhny_novgorod d_karachev d_novosil d_biarmia d_ryazan d_ustyug
+	}
+}
+
+irtock3_rome_empire_division_scandia = {
+	duchies = {
+		d_svealand d_bergslagen d_ostergotland d_norrland d_finland d_smaland d_vastergotland d_dalir d_jamtland d_viken d_karelia d_savo d_pohjanmaa d_skane d_trandalog d_aarjetje d_vuovdisamieana d_halogaland d_duortnoseatnu d_giemajohka d_sjaelland d_agder d_vestlandi d_guoldat d_slesvig d_jylland d_gotland
+	}
+}
+
+irtock3_rome_empire_division_arabia = {
+	duchies = {
+		d_kufa d_basra d_jawf d_najd d_bahrain d_yamama d_medina d_amman d_al-hasa d_shammar d_mecca d_asir d_oman d_sanaa d_jawf-al-yamani d_taizz d_hadramawt d_mahra d_socotra
+	}
+}
+
+irtock3_rome_empire_division_persia = {
+	duchies = {
+		d_vaspurakan d_greater_armenia d_azerbaijan d_diyarbakr d_kurdistan d_diyarrabia d_hamadan d_shirvan d_daylam d_kermanshah d_samarra d_euphrates d_rayy d_isfahan d_khuzestan d_baghdad d_tabaristan d_nishapur d_wasit d_yazd d_gurgan d_fars d_kohestan d_kirman d_herat d_nasa d_sistan d_jabal_kufs d_merv d_hormuz d_makran d_ghur d_zabulistan d_balkh d_kabul
+	}
+}
+
+irtock3_rome_empire_division_sarmatia = {
+	duchies = {
+		d_kiev d_chernigov d_pereyaslavl d_yedisan d_kizilyedisan d_levedia d_red_levedia d_crimea d_tana d_don_valley d_azov d_khazaria d_alania d_itil d_ciscaucasia d_atyrau d_pecheneg d_manatau d_aqtobe d_mugodzhar_hills
+	}
+}
+
+irtock3_rome_empire_division_uralia_interior = {
+	duchies = {
+		d_volga_bulgaria d_kazan d_jalmat d_chuvashia d_mordvinia d_perm d_bugurslan d_saran d_udmurtia d_ural d_bashkiria d_uraltau d_tambov d_khopyor d_martyuba d_sakmara d_voronezh d_vogulia
+	}
+}
+
+irtock3_rome_empire_division_uralia_ulterior = {
+	duchies = {
+		d_ostyaki d_kurgan d_ishim d_pelym d_tobol-ishim d_kush-murun d_sibir d_konda d_kazym d_tara d_atbasar d_vasyugan_mire d_kazakh d_lanikaz d_baraba_steppe d_kulyndy_steppe d_aley d_ala_tau d_salair d_altaishan
+	}
+}
+
+irtock3_rome_empire_division_tartaria = {
+	duchies = {
+		d_zhetysu d_ili-alatau d_alakol d_tarbagatai d_betpa d_kentarlau d_jinghiz d_beshbalik d_karkaraly d_degelen d_gurbantunggut d_semey d_akaltay d_tokumbay d_altay d_qyzylsaryarka d_karabas d_kara_khoja d_saryarka d_karashar d_naiman_gobi d_kokturgay d_turgay d_loulan
+	}
+}
+
+irtock3_rome_empire_division_parthia = {
+	duchies = {
+		d_kashgar d_badakhshan d_pamir d_ferghana d_khuttal d_talas_alatau d_chah d_osrushana d_muyunkum d_soghd d_syr_darya d_khorezm d_aral_il d_aral_karakum d_uzboy d_jemba d_barsuki d_garabogazkol d_transcaspiana
+	}
+}
+
+irtock3_rome_empire_division_imoan_montem = {
+	duchies = {
+		d_khotan d_aksai_chin d_ladakh d_rutog d_baltiyul d_zanskar d_kinnaur d_ngari d_nagormo d_charkliq d_purang d_conyi d_amdo d_nyima d_sagya d_ngamring d_qumarleb d_aksay d_tuyuhun d_nagchu d_zadoi d_nangqen d_golog d_xigaze d_lhasa d_qamdo d_lhatok d_lingtsang d_xining d_malho d_yarlung d_nyingchi d_paro d_dege d_gainlho d_chakla d_gyalrong d_boyul d_monyul d_lhoyul d_batang d_litang d_bumthang d_dzayul
+	}
+}
+
+irtock3_rome_empire_division_india_intra_gangem = {
+	duchies = {
+		d_sauvira d_stravani d_bhakkar d_maru d_jangladesh d_gurjara_mandala d_anartta d_multan d_medapata d_saurashtra d_ajmer d_haritanaka d_dadhipadra d_gandhara d_lahore d_kuru d_mathura d_akara_dasarna d_kanyakubja d_dahala d_vodamayutja d_kurmanchal d_jejakabhukti d_kasmira d_saryupara d_kasi d_ratanpur d_jharkand d_khasa d_tirabhukti d_magadha d_nepal d_suhma d_limbuwan d_gauda d_nadia d_kamarupanagara d_vanga d_varendra d_sutiya d_para_lauhitya
+	}
+}
+
+irtock3_rome_empire_division_india_extra_gangem = {
+	duchies = {
+		d_MAL_langkasuka d_MAL_pahang d_tun_sun d_lop_buri d_sukhothai d_ramannadesa d_haripunjaya d_angkor_borey d_angkor d_mukdahan d_muang_sua d_sriksetra d_mongnai d_phonsavan d_pagan d_yongchang d_sipsongpanna d_baigaur d_vyadhapura d_ratanakiri d_tagaung d_arakan d_tengchong d_indrapura d_vijaya
+	}
+}
+
+irtock3_rome_empire_division_magna_taprobana = {
+	duchies = {
+		d_lata d_anupa d_nasikya d_devagiri d_rattapadi d_konkana d_vidharba d_warangal d_kalyani d_racakonda d_daksina_kosala d_vengi d_dandakaranya d_raichur_doab d_udayagiri d_nulambavadi d_chera_nadu d_tondai_nadu d_gangavadi d_kalinga d_pandya_nadu d_tosali d_chola_nadu d_sinhala d_dakhina_desa d_ruhunu
+	}
+}
+
+irtock3_rome_empire_division_insulae_remotae = {
+	duchies = {
+		d_JAV_mataram d_JAV_taruma d_IDO_bali d_SUM_palembang d_SUM_minangkabau d_SUM_jambi d_IDO_lesser_sunda d_SUM_riau d_SUM_aceh d_IDO_timor d_nias d_handumans d_PHI_tondo d_PHI_ilocana d_PHI_cagayan d_PHI_sandao d_PHI_visayas d_BOR_barune d_PHI_butuan d_PHI_maguindanao d_BOR_kutai d_BOR_santubong d_BOR_tanjungpura d_BOR_nan_sarunai d_liuqiu d_SuMa_luwu d_SuMa_konawe d_SuMa_tompotika d_SuMa_minahasa d_SuMa_maluku d_SuMa_halmahera d_papua
+	}
+}
+
+irtock3_rome_empire_division_insulae_solis = {
+	duchies = {
+		d_sahaliyan d_menas d_sum d_hitakami d_nushiro d_hokurikudo d_east_bando d_tosando d_west_bando d_tokaido d_east_sanindo d_kinai d_nankaido d_east_sanyodo d_west_sanindo d_west_sanyodo d_north_saikaido d_south_saikaido d_tamna d_ruucuu
+	}
+}
+
+irtock3_rome_empire_division_septentrionalis_deserti = {
+	duchies = {
+		d_orkhon d_ovorkhangai d_ogrash d_em_tataria d_gobi_ongi d_selenga_valley d_arkhangai d_khovsgol d_uda_valley d_ubsunur_hollow d_tannu_ola d_gobi_dadaels d_EM_onon d_dauria d_togina d_eastern_sayan d_zavkhan d_western_sayan d_gobi_altai d_em_wuguguo d_EM_yujuelu d_gobi_shatuoguo d_angara d_kargassia d_khovd d_tsagaanbaigal d_bargujin_tukum d_blue_khakassia d_lena d_katu_yaryk d_EM_wajiezi d_baigaluuls d_chuna_valley d_khakass_hollow d_shoria d_yenisei_kan
+	}
+}
+
+irtock3_rome_empire_division_serica_ultima = {
+	duchies = {
+		d_BAL_parhae d_BAL_cheolli d_BAL_moe_su d_BAL_dongpyeong d_BAL_southern_balhae d_BAL_yeojintang d_SW_sushenguo d_BAL_buyeo d_BAL_amnok_jangryeong d_BAL_anwon d_BAL_hoewon d_LIAO_shangjing d_SW_ruzheguo d_yukju d_SW_puyudao d_LIAO_dongjing d_liaoxi d_bukgye d_donggye d_gyoju d_eman_boli d_eman_sikhotebei d_SW_qingxingan d_SW_heicheziguo d_LIAO_linhuang d_gaeseong d_gwangju d_LIAO_zhongjing d_SW_lingxiguo d_haeju d_eman_amar d_eman_samagero d_SW_dashiweiguo d_gyeongju d_chungju d_eman_bureya d_eman_nivkhia d_jinju d_jeonju d_yanyun_yuyi d_naju
+	}
+}
+
+irtock3_rome_empire_division_serica_meridiana = {
+	duchies = {
+		d_lingnan d_huixun d_gaoliang d_rongguan d_jingjiang d_guiguan d_yongguan d_qiongguan d_hai_dong d_thang_long d_nghe_an d_lam_tay
+	}
+}
+
+irtock3_rome_empire_division_serica_occidens = {
+	duchies = {
+		d_xichuan d_qiongnan d_dongchuan d_wuxin d_lilang d_shimen d_baqu d_xingyuan d_luoshi d_qianzhong d_huichuan d_kuizhong d_jianchuan d_luodian d_tuodong d_dali d_zangke d_wuxi d_yinsheng d_tonghai d_xiyuan
+	}
+}
+
+irtock3_rome_empire_division_serica_orientalis = {
+	duchies = {
+		d_jiangdong d_huainan d_xuanshe d_huaixi d_zhexi d_zhedong d_dingjiang d_jiangxi d_eyue d_jianning d_zhaoxin d_weiwu d_hunan d_jingnan d_lingling d_pinghai d_xiangdeng
+	}
+}
+
+irtock3_rome_empire_division_serica_septentrionalis = {
+	duchies = {
+		d_dongji d_shanguo d_heyang d_zhenghua d_chenxu d_hezhong d_zelu d_biansong d_xingming d_yuncao d_hedong d_weibo d_xusi d_chengde d_yanhai d_yanmen d_cangjing d_yideng d_yingmo d_ziqing d_xinan d_yunshuo d_youzhou d_sanggan
+	}
+}
+
+irtock3_rome_empire_division_serica_deserti = {
+	duchies = {
+		d_yongxing d_fengxiang d_jinshang d_binning d_xingfeng d_jingyuan d_fufang d_qincheng d_shuofang d_xiasui d_hexi d_longyou d_xiutu d_langshan d_qilian d_tiande d_gansu d_juyan d_guasha
 	}
 }

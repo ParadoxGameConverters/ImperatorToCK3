@@ -81,3 +81,116 @@ irtock3_roman_events.1 = {
 		}
 	}
 }
+
+
+###########################
+## Praetorian Prefecture Name Events
+###########################
+# These events are specifically related to whether a title being used as a praetorian prefecture for Rome should have its name reset when someone who isn't associated with Rome gets it
+
+irtock3_roman_events.2 = {
+	type = character_event
+
+	title = irtock3_roman_events.2.title
+	desc = irtock3_roman_events.2.desc
+
+	theme = emperor
+	right_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		scope:title ?= {
+			has_variable = rome_praetorian_prefecture
+			trigger_if = {
+				limit = { has_variable = rome_praetorian_prefecture_house }
+				NOT = { root.house ?= var:rome_praetorian_prefecture_house }
+			}
+		}
+		top_liege = { is_roman_emperor_trigger = no } # A prefecture's name should potentially be reset if it is no longer under an active Rome title
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				scope:title = { has_variable = rome_praetorian_prefecture_house }
+			}
+			scope:title = { remove_variable = rome_praetorian_prefecture_house }
+		}
+	}
+
+	# If their culture is Roman, or directly descends from it, they will keep the Praetorian Prefecture name. But, if their culture isn't related to Roman at all, or is descended from it by quite a bit, they will reset it
+
+	# Reset Title Name
+	option = {
+		name = irtock3_roman_events.2.a
+
+		custom_tooltip = {
+			text = irtock3_roman_events.2.a.tooltip
+			
+			scope:title = {
+				remove_variable = rome_praetorian_prefecture
+				reset_title_name = yes
+			}
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				subtract = 0
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture = { this = culture:roman }
+					}
+				}
+			}
+		}
+	}
+
+	# Leave Title Name, don't show this event again unless someone from a different house gets it
+	option = {
+		name = irtock3_roman_events.2.b
+
+		custom_tooltip = {
+			text = irtock3_roman_events.2.b.tooltip
+			if = {
+				limit = { exists = house }
+				scope:title = {
+					set_variable = {
+						name = rome_praetorian_prefecture_house
+						value = root.house
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture = { this = culture:roman }
+					}
+				}
+			}
+		}
+	}
+
+	# Leave Title Name, never show for this title again
+	option = {
+		name = irtock3_roman_events.2.c
+
+		custom_tooltip = {
+			text = irtock3_roman_events.2.c.tooltip
+			scope:title = { remove_variable = rome_praetorian_prefecture }
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}

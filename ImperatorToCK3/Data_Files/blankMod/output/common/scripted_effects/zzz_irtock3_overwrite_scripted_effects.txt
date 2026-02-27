@@ -281,7 +281,7 @@ create_eastern_roman_empire_scripted_effect = {
 # In the base game, this scripted effect is used to split e_byzantium into different regional empire titles to be put under h_roman_empire. Need to generalize this effect so it can be used to split various Rome empire titles apart and put them under various hegemony titles
 split_byzantine_empire_effect = {
 	hidden_effect = {
-		# Add the Rome empire titles to a list, to make sure they all properly get split up, since none should have de jure land after this event is called
+		# Add the Rome empire titles to a list, to make sure they all properly get split up, since none should have de jure land after this effect is called
 		title:e_roman_empire = { add_to_list = rome_empire_titles }
 		title:e_byzantium = { add_to_list = rome_empire_titles }
 		title:e_western_roman_empire = { add_to_list = rome_empire_titles }
@@ -298,59 +298,172 @@ split_byzantine_empire_effect = {
 						holder ?= root
 					}
 				}
-				# Italy
+				# For regions where you don't want to use a base game title, for the "EMPIRE" put a title that isn't empire-tier (in this case, I am using 'd_rome'). If the given "EMPIRE" isn't an empire title, an empire title will always be created (or a previously created one will be be reused).
+
+				# Britannia
 				irtock3_split_rome_empire_region_effect = {
-					REGION = world_europe_south_italy
+					REGION = irtock3_rome_empire_division_britannia
+					EMPIRE = e_britannia
+				}
+				# Gallarium
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_galliarum
+					EMPIRE = d_rome
+				}
+				# Germania
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_germania
+					EMPIRE = e_germany
+				}
+				# Italiae
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_italiae
 					EMPIRE = e_italy
+				}
+				# Libya Interior
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_libya_interior
+					EMPIRE = d_rome
+				}
+				# Libya Ulterior
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_libya_ulterior
+					EMPIRE = d_rome
+				}
+				# Aethiopia
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_aethiopia
+					EMPIRE = d_rome
+				}
+				# Orientis
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_orientis
+					EMPIRE = e_oriens
 				}
 				# Illyria
 				irtock3_split_rome_empire_region_effect = {
-					REGION = custom_roman_illyricum
+					REGION = irtock3_rome_empire_division_illyrici
 					EMPIRE = e_illyria
 				}
-				# Macedonia/Greece
+				# Pannonia
 				irtock3_split_rome_empire_region_effect = {
-					REGION = converter_custom_macedonia_region
-					EMPIRE = e_macedonia
+					REGION = irtock3_rome_empire_division_pannonia
+					EMPIRE = e_carpathia
 				}
-				# Anatolia
+				# Vistulia
 				irtock3_split_rome_empire_region_effect = {
-					REGION = converter_custom_anatolia_region
-					EMPIRE = e_anatolia
+					REGION = irtock3_rome_empire_division_vistulia
+					EMPIRE = d_rome
 				}
-				# Oriens/Levant/Arabia
+				# Fennia
 				irtock3_split_rome_empire_region_effect = {
-					REGION = converter_custom_oriens_region
-					EMPIRE = e_oriens
+					REGION = irtock3_rome_empire_division_fennia
+					EMPIRE = d_rome
 				}
-				# Egypt/Nubia
+				# Scandia
 				irtock3_split_rome_empire_region_effect = {
-					REGION = ghw_region_egypt_et_al
-					EMPIRE = e_aegyptus
+					REGION = irtock3_rome_empire_division_scandia
+					EMPIRE = e_scandinavia
 				}
-				# Africa
+				# Arabia
 				irtock3_split_rome_empire_region_effect = {
-					REGION = converter_custom_africa_region
-					EMPIRE = e_africa
+					REGION = irtock3_rome_empire_division_arabia
+					EMPIRE = e_arabia
 				}
-
-
-				# DELETE THIS AFTER ENTIRE MAP IS SETUP
-				every_in_de_jure_hierarchy = {
-					limit = {
-						tier = tier_kingdom
-					}
-					if = {
-						limit = {
-							any_title_to_title_neighboring_and_across_water_empire = {
-								count >= 1
-							}
-						}
-						random_title_to_title_neighboring_and_across_water_empire = {
-							save_scope_as = new_empire_de_jure
-						}
-						set_de_jure_liege_title = scope:new_empire_de_jure
-					}
+				# Persia
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_persia
+					EMPIRE = e_persia
+				}
+				# Sarmatia
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_sarmatia
+					EMPIRE = e_caspian-pontic_steppe
+				}
+				# Uralia Interior
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_uralia_interior
+					EMPIRE = e_volga-ural
+				}
+				# Uralia Ulterior
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_uralia_ulterior
+					EMPIRE = e_siberia
+				}
+				# Tartaria
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_tartaria
+					EMPIRE = e_tartaria
+				}
+				# Parthia
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_parthia
+					EMPIRE = e_turan
+				}
+				# Imoan Montem
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_imoan_montem
+					EMPIRE = e_tibet
+				}
+				# India Intra Gangem
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_india_intra_gangem
+					EMPIRE = d_rome
+				}
+				# India Extra Gangem
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_india_extra_gangem
+					EMPIRE = d_rome
+				}
+				# Magna Taprobana
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_magna_taprobana
+					EMPIRE = d_rome
+				}
+				# Insulae Remotae
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_insulae_remotae
+					EMPIRE = e_nusantara
+				}
+				# Insulae Solis
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_insulae_solis
+					EMPIRE = e_japan
+				}
+				# Septentrionalis Deserti
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_septentrionalis_deserti
+					EMPIRE = e_mongolia
+				}
+				# Serica Ultima
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_serica_ultima
+					EMPIRE = d_rome
+				}
+				# Serica Meridiana
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_serica_meridiana
+					EMPIRE = e_lingnan
+				}
+				# Serica Occidens
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_serica_occidens
+					EMPIRE = e_liangyi
+				}
+				# Serica Orientalis
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_serica_orientalis
+					EMPIRE = e_jingyang
+				}
+				# Serica Septentrionalis
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_serica_septentrionalis
+					EMPIRE = e_zhongyuan
+				}
+				# Serica Deserti
+				irtock3_split_rome_empire_region_effect = {
+					REGION = irtock3_rome_empire_division_serica_deserti
+					EMPIRE = e_yongliang
 				}
 			}
 		}

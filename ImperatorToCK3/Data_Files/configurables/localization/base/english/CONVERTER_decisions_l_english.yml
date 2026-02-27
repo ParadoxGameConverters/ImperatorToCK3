@@ -49,7 +49,7 @@
  irtock3_restore_roman_locations: "Restore Rome Provinces"
  create_title_every_held_empire: "Every Empire title you [hold|E] or [completely_control|E]"
  irtock3_elevate_roman_empire_de_jure_changes: "Becomes [de_jure|E] [empires|E] of [GetTitleByKey('h_roman_empire').GetName]"
- irtock3_change_roman_empire_kingdoms_tt: "All [de_jure|E] [kingdoms|E] of [GetTitleByKey('e_roman_empire').GetName] will be put under a new [empire|E] [titles|E]"
+ irtock3_change_roman_empire_kingdoms_tt: "All [de_jure|E] [kingdoms|E] of [GetTitleByKey('e_roman_empire').GetName] will be put under new [empire|E] [titles|E]"
  irtock3_rome_empire_elevated_to_hegemony_tt: "[GetTitleByKey('e_roman_empire').GetName] is destroyed and replaced by [GetTitleByKey('h_roman_empire').GetName]"
 
 

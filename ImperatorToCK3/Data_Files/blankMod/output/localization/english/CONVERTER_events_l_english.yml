@@ -98,3 +98,13 @@
  irtock3_roman_events.1.tooltip.restore_roman_empire_decision: "@alert_icon! #alert_trial The decision [GetDecisionWithKey('restore_roman_empire_decision').GetName|V] can be taken to get back [GetTitleByKey('h_roman_empire').GetName|V] #!"
  irtock3_roman_events.1.a.roman: "We Must Endure!"
  irtock3_roman_events.1.a.other: "Good Riddance!"
+
+ # Events about whether a base game title being used as a praetorian prefecture for Rome should have its name reset when someone who isn't associated with Rome gets it
+ irtock3_roman_events.2.title: "Roman Land?"
+ irtock3_roman_events.2.desc: "Once one of Rome's beloved \"Praetorian Prefectures\", [title.GetNameNoTierNoTooltip] was administered just like any other of it's lands. However, that is no longer the case.\n\nI do not submit myself to some Roman emperor, so can I really consider this \"Roman\" land?"
+ irtock3_roman_events.2.a: "Rome rules here no longer!"
+ irtock3_roman_events.2.a.tooltip: "@alert_icon! #alert_trial [title.GetName|V] will have it's name reverted back to it's original name #!"
+ irtock3_roman_events.2.b: "A change in leadership means nothing..."
+ irtock3_roman_events.2.b.tooltip: "@alert_icon! #alert_trial [title.GetName|V] won't have it's name changed. This event won't appear again for this title, until someone from a different house gets it #!"
+ irtock3_roman_events.2.c: "This will forever be Roman land!"
+ irtock3_roman_events.2.c.tooltip: "@alert_icon! #alert_trial [title.GetName|V] won't have it's name changed. This event won't appear again for this title, unless a Roman ruler formally re-estabilishes [title.GetNameNoTier|V] as a praetorian prefecture again #!"
