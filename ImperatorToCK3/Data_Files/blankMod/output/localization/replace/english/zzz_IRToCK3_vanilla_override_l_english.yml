@@ -68,6 +68,11 @@
  e_roman_empire: "Roman Empire"
  h_roman_empire: "Roman Empire"
 
+ # Fixes naming of Persia
+ e_persia_article: "The "
+ e_persia: "Persian Empire"
+ e_persia_adj: "Persian"
+
  # Makes naming of Saxons/Old Saxons a little more immersive
  saxon: "Saxonian"
  saxon_collective_noun: "Saxonians"

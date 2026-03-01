@@ -131,7 +131,16 @@ irtock3_roman_events.2 = {
 			
 			scope:title = {
 				remove_variable = rome_praetorian_prefecture
-				reset_title_name = yes
+				# Because of how Persia's name is setup to change, need to include that as a special case here
+				if = {
+					limit = { this = title:e_persia }
+					root.house = { save_scope_as = new_persia_house }
+					set_title_name_dynamic = new_persia_empire_name
+					set_definitive_form = yes
+				}
+				else = {
+					reset_title_name = yes
+				}
 			}
 		}
 

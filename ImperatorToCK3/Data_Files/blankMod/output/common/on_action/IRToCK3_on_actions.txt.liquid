@@ -50,10 +50,21 @@ on_primary_title_change = {
 # root = the new holder
 # scope:title = the title that changes hands
 # scope:previous_holder = previous holder. Might be dead
+# scope:transfer_type = how title changed hands/was created/etc (a complete list of values this can be is in title_on_actions.txt)
 on_title_gain = {
 	on_actions = {
 		IRToCK3_ritsuryo_multiple_empires
 		IRToCK3_rome_praetorian_prefecture_name_reset
+		IRToCK3_change_persia_name
+	}
+}
+
+# root = the holder before destruction
+# scope:landed_title = the title that is being destroyed
+# Does *not* provide scope:transfer_type
+on_title_destroyed = {
+	on_actions = {
+		IRToCK3_reset_persia_name
 	}
 }
 
@@ -168,6 +179,16 @@ IRToCK3_game_start_onaction_effects = {
 		title:e_byzantium = { set_definitive_form = yes }
 		title:h_hellenistic_empire = { set_definitive_form = yes }
 
+		# Makes sure Persia is properly named at game start
+		title:e_persia = {
+			reset_title_name = yes
+			set_definitive_form = yes
+			if = {
+				limit = { exists = holder.house }
+				holder.house = { save_scope_as = new_persia_house }
+				set_title_name_dynamic = new_persia_empire_name
+			}
+		}
 
 		##################
 		### Neo-Minoan ###
@@ -951,6 +972,64 @@ IRToCK3_rome_praetorian_prefecture_name_reset = {
 		trigger_event = {
 			id = irtock3_roman_events.2
 			days = 3 # Delayed because if a player had the title and died, their heir would get the event and make a choice before the player actually takes control of that character
+		}
+	}
+}
+
+# This on_action makes sure the name of Persia changes properly whenever somone new gets it
+IRToCK3_change_persia_name = {
+	trigger = {
+		scope:title = title:e_persia
+		title:e_persia = {
+			NOR = {
+				has_variable = rome_praetorian_prefecture
+				custom_title_name = irtock3_rome_empire_division_persia # If Persia was made a praetorian prefecture, but became independent and its ruler chose to permanently keep its "Roman" name, it should still be using this loc key even if it doesn't have the above variable, so this shouldn't be changed
+			}
+		}
+	}
+	effect = {
+		# If the character is lowborn, it should revert back to "Persian Empire" instead of keeping whatever name it had before
+		if = {
+			limit = {
+				NOT = { exists = house }
+			}
+			title:e_persia = {
+				reset_title_name = yes
+				set_definitive_form = yes
+			}
+		}
+		# If your from the same house as the previous holder, no reason to change the title's name
+		else_if = {
+			limit = {
+				trigger_if = {
+					limit = { exists = scope:previous_holder.house }
+					NOT = { house = scope:previous_holder.house }
+				}
+			}
+			house = { save_scope_as = new_persia_house }
+			title:e_persia = {
+				set_title_name_dynamic = new_persia_empire_name
+				set_definitive_form = yes
+			}
+		}
+	}
+}
+
+# This on_action makes sure the name of Persia is properly reset back to "Persian Empire" when its destroyed
+IRToCK3_reset_persia_name = {
+	trigger = {
+		scope:landed_title = title:e_persia
+		title:e_persia = {
+			NOR = {
+				has_variable = rome_praetorian_prefecture
+				custom_title_name = irtock3_rome_empire_division_persia # If Persia was made a praetorian prefecture, but became independent and its ruler chose to permanently keep its "Roman" name, it should still be using this loc key even if it doesn't have the above variable, so this shouldn't be changed
+			}
+		}
+	}
+	effect = {
+		title:e_persia = {
+			reset_title_name = yes
+			set_definitive_form = yes
 		}
 	}
 }

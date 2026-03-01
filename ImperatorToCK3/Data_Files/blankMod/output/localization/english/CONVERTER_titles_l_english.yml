@@ -18,6 +18,10 @@
  e_greek_heritage_empire: "Greek Empire"
  e_greek_heritage_empire_adj: "Greek"
 
+ # Localization for Persia
+ new_persia_empire_name: "[new_persia_house.GetNameNoTooltip] $empire$"
+ new_persia_empire_name_adj: "[new_persia_house.GetNameNoTooltip]"
+
  # Rome Empire Division Titles:
  irtock3_rome_empire_division_britannia: "Britannia"
  irtock3_rome_empire_division_galliarum: "Galliarum"

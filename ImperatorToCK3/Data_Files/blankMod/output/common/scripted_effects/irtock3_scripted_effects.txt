@@ -2672,6 +2672,11 @@ irtock3_split_rome_empire_region_effect = {
 		title:$EMPIRE$ = {
 			save_scope_as = new_title
 			set_variable = rome_praetorian_prefecture # To indicate this empire title is being used as a praetorian prefecture for Rome for things like localization reset later
+			# Because of how Persia's name is setup to change, need to include that as a special case here
+			if = {
+				limit = { this = title:e_persia }
+				set_definitive_form = no
+			}
 		}
 	}
 	# If there is already an existing dynamic empire title that was created for this region, use that one before creating a new one
