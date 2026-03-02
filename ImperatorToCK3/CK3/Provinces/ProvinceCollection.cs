@@ -70,7 +70,6 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 			var provinceId = ulong.Parse(provinceIdString);
 			if (alreadyLoadedProvinces.Contains(provinceId)) {
 				provIdsWithMultipleHistories.Add(provinceId);
-				// Logger.Warn($"Province {provinceId} is defined multiple times in history/provinces! Ignoring duplicate definition.");
 				ParserHelpers.IgnoreItem(reader);
 				return;
 			}
