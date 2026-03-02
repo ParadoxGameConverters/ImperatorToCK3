@@ -38,7 +38,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		parser.ParseGameFolder("common/religion/religions", ck3ModFS, "txt", recursive: true);
 	}
 
-	public void LoadConverterFaiths(string converterFaithsPath, ColorFactory colorFactory) {
+	public void LoadConverterFaiths(string converterFaithsPath, ColorFactory colorFactory, IDictionary<string, bool> ck3ModFlags) {
 		OrderedSet<Faith> loadedConverterFaiths = [];
 		
 		var parser = new Parser();
@@ -60,7 +60,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		parser.ParseFile(converterFaithsPath);
+		parser.ParseLiquidFile(converterFaithsPath, ck3ModFlags);
 		
 		// Validation: every faith should have a pilgrimage doctrine.
 		string? pilgrimageFallback = DoctrineCategories.TryGetValue("doctrine_pilgrimage", out var pilgrimageCategory)

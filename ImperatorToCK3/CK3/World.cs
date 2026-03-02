@@ -188,7 +188,7 @@ internal sealed class World {
 				Logger.Info("Loaded CK3 religions.");
 				Logger.IncrementProgress();
 				Logger.Info("Loading converter faiths...");
-				Religions.LoadConverterFaiths("configurables/converter_faiths.txt", ck3ColorFactory);
+				Religions.LoadConverterFaiths("configurables/converter_faiths.liquid", ck3ColorFactory, ck3ModFlags);
 				Logger.Info("Loaded converter faiths.");
 				Logger.IncrementProgress();
 				Religions.RemoveChristianAndIslamicSyncretismFromAllFaiths();
@@ -201,7 +201,10 @@ internal sealed class World {
 
 			() => cultureMapper = new CultureMapper(imperatorRegionMapper, CK3RegionMapper, Cultures),
 
-			() => traitMapper = new("configurables/trait_map.txt", ModFS),
+			() => {
+				traitMapper = new("configurables/trait_map.txt", ModFS);
+				traitMapper.LogUnmappedImperatorTraits(impWorld.ModFS);
+			},
 
 			() => {
 				Logger.Info("Initializing DNA factory...");
