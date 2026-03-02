@@ -131,6 +131,7 @@ irtock3_roman_events.2 = {
 			
 			scope:title = {
 				remove_variable = rome_praetorian_prefecture
+				remove_variable = prefecture_region
 				# Because of how Persia's name is setup to change, need to include that as a special case here
 				if = {
 					limit = { this = title:e_persia }

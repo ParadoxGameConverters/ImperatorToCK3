@@ -2727,6 +2727,11 @@ irtock3_split_rome_empire_region_effect = {
 	}
 	scope:new_title = {
 		set_title_name = $REGION$ # To make sure even the base game titles are properly named
+		# Save what region this title is associated with
+		set_variable = {
+			name = prefecture_region
+			value = geographical_region:$REGION$
+		}
 		# If the empire title being used isn't the given EMPIRE title, make sure the given EMPIRE title isn't using the corresponding region name
 		if = {
 			limit = {
@@ -2735,6 +2740,19 @@ irtock3_split_rome_empire_region_effect = {
 			}
 			title:$EMPIRE$ = {
 				remove_variable = rome_praetorian_prefecture
+				remove_variable = prefecture_region
+				reset_title_name = yes
+			}
+		}
+	}
+	if = {
+		limit = { has_global_variable_list = rome_dynamic_empire_region_$REGION$ }
+		every_in_global_list = {
+			variable = rome_dynamic_empire_region_$REGION$
+			if = {
+				limit = { this != scope:new_title }
+				remove_variable = rome_praetorian_prefecture
+				remove_variable = prefecture_region
 				reset_title_name = yes
 			}
 		}
