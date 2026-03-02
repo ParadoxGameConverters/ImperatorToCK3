@@ -166,6 +166,26 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 			Interlocked.Increment(ref modifiedCK3ProvsCount);
 		});
 		Logger.Info($"{importedIRProvsCount} I:R provinces imported into {modifiedCK3ProvsCount} CK3 provinces.");
+
+		// Check if a specific set of CK3 provinces have both culture and religion set (they need them).
+		// TODO: remove this
+		List<ulong> provinceIdsToCheck = [ 9521, 9500, 9494, 9487, 9481, 9486, 11446 , 10868,
+		    11476, 10873 ];
+		Date bookmarkDate = config.CK3BookmarkDate;
+		foreach (var provinceId in provinceIdsToCheck) {
+			if (TryGetValue(provinceId, out var province)) {
+				bool hasCulture = province.GetCultureId(bookmarkDate) is not null;
+				bool hasReligion = province.GetFaithId(bookmarkDate) is not null;
+				if (!hasCulture) {
+					Logger.Error($"Province {provinceId} is missing culture!");
+				}
+				if (!hasReligion) {
+					Logger.Error($"Province {provinceId} is missing religion!");
+				}
+			} else {
+				Logger.Error($"Province {provinceId} not found for post-import check!");
+			}
+		}
 		
 		Logger.IncrementProgress();
 	}
