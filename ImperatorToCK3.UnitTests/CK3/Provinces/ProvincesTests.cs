@@ -62,6 +62,18 @@ public class ProvincesTests {
 				Assert.Equal((ulong)4165, prov.Id);
 				Assert.Equal("slovien", prov.GetCultureId(ck3BookmarkDate));
 				Assert.Equal("catholic", prov.GetFaithId(ck3BookmarkDate));
+			},
+			prov => {
+				Assert.Equal((ulong)5000, prov.Id);
+				
+				Assert.Equal("culture_b", prov.GetCultureId("1.1.1"));
+				Assert.Equal("faith_a", prov.GetFaithId("1.1.1"));
+				
+				Assert.Equal("culture_c", prov.GetCultureId("470.1.1"));
+				Assert.Equal("faith_a", prov.GetFaithId("470.1.1"));
+				
+				Assert.Equal("culture_d", prov.GetCultureId("840.1.1"));
+				Assert.Equal("faith_a", prov.GetFaithId("840.1.1"));
 			}
 		);
 	}
