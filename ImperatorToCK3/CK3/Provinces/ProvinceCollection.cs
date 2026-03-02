@@ -64,9 +64,15 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	private void LoadProvincesHistory(ModFilesystem ck3ModFs) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provinceIdString) => {
-			var provinceId = ulong.Parse(provinceIdString);
-			var newProvince = new Province(provinceId, reader);
-			dict[provinceId] = newProvince;
+			ulong provinceId = ulong.Parse(provinceIdString);
+
+			// If we already have history for the province, overwrite the old one with the new one.
+			if (TryGetValue(provinceId, out var existingProvince)) {
+				existingProvince.UpdateHistory(reader);
+				return;
+			}
+
+			dict[provinceId] = new Province(provinceId, reader);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 
@@ -166,8 +172,32 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 			Interlocked.Increment(ref modifiedCK3ProvsCount);
 		});
 		Logger.Info($"{importedIRProvsCount} I:R provinces imported into {modifiedCK3ProvsCount} CK3 provinces.");
-		
+
+		WarnAboutCountyCapitalProvincesWithNoCultureOrReligion(titles, config.CK3BookmarkDate);
+
 		Logger.IncrementProgress();
+	}
+
+	private void WarnAboutCountyCapitalProvincesWithNoCultureOrReligion(Title.LandedTitles titles, Date bookmarkDate) {
+		// Warn about county capital provinces with no culture or religion set.
+		var countyCapitalProvinceIds = titles.Counties.Select(c => c.CapitalBaronyProvinceId)
+			.Where(id => id.HasValue)
+			.Select(id => id!.Value);
+
+		foreach (var provId in countyCapitalProvinceIds) {
+			if (TryGetValue(provId, out var province)) {
+				bool hasCulture = province.GetCultureId(bookmarkDate) is not null;
+				bool hasFaith = province.GetFaithId(bookmarkDate) is not null;
+				if (!hasCulture) {
+					Logger.Warn($"Province {provId} is missing culture!");
+				}
+				if (!hasFaith) {
+					Logger.Warn($"Province {provId} is missing faith!");
+				}
+			} else {
+				Logger.Warn($"Province {provId} (county capital province) not found!");
+			}
+		}
 	}
 
 	public void LoadPrehistory() {
