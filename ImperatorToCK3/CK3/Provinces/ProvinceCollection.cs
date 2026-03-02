@@ -62,15 +62,32 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	}
 
 	private void LoadProvincesHistory(ModFilesystem ck3ModFs) {
+		HashSet<ulong> alreadyLoadedProvinces = [];
+		HashSet<ulong> provIdsWithMultipleHistories = [];
+
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provinceIdString) => {
 			var provinceId = ulong.Parse(provinceIdString);
+			if (alreadyLoadedProvinces.Contains(provinceId)) {
+				provIdsWithMultipleHistories.Add(provinceId);
+				// Logger.Warn($"Province {provinceId} is defined multiple times in history/provinces! Ignoring duplicate definition.");
+				ParserHelpers.IgnoreItem(reader);
+				return;
+			}
+
 			var newProvince = new Province(provinceId, reader);
 			dict[provinceId] = newProvince;
+			alreadyLoadedProvinces.Add(provinceId);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 
 		parser.ParseGameFolder("history/provinces", ck3ModFs, "txt", recursive: true);
+
+		if (provIdsWithMultipleHistories.Count != 0) {
+			Logger.Debug(
+				"The following provinces have multiple history/provinces entries: " +
+				$"{string.Join(", ", provIdsWithMultipleHistories)}. Only the first found entries were used.");
+		}
 	}
 
 	public void ImportVanillaProvinces(ModFilesystem ck3ModFs, ReligionCollection religions, CultureCollection cultures) {
@@ -167,27 +184,31 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		});
 		Logger.Info($"{importedIRProvsCount} I:R provinces imported into {modifiedCK3ProvsCount} CK3 provinces.");
 
-		// Check if a specific set of CK3 provinces have both culture and religion set (they need them).
-		// TODO: remove this
-		List<ulong> provinceIdsToCheck = [ 9521, 9500, 9494, 9487, 9481, 9486, 11446 , 10868,
-		    11476, 10873 ];
-		Date bookmarkDate = config.CK3BookmarkDate;
-		foreach (var provinceId in provinceIdsToCheck) {
-			if (TryGetValue(provinceId, out var province)) {
+		WarnAboutCountyCapitalProvincesWithNoCultureOrReligion(titles, config.CK3BookmarkDate);
+
+		Logger.IncrementProgress();
+	}
+
+	private void WarnAboutCountyCapitalProvincesWithNoCultureOrReligion(Title.LandedTitles titles, Date bookmarkDate) {
+		// Warn about county capital provinces with no culture or religion set.
+		var countyCapitalProvinceIds = titles.Counties.Select(c => c.CapitalBaronyProvinceId)
+			.Where(id => id.HasValue)
+			.Select(id => id!.Value);
+
+		foreach (var provId in countyCapitalProvinceIds) {
+			if (TryGetValue(provId, out var province)) {
 				bool hasCulture = province.GetCultureId(bookmarkDate) is not null;
-				bool hasReligion = province.GetFaithId(bookmarkDate) is not null;
+				bool hasFaith = province.GetFaithId(bookmarkDate) is not null;
 				if (!hasCulture) {
-					Logger.Error($"Province {provinceId} is missing culture!");
+					Logger.Warn($"Province {provId} is missing culture!");
 				}
-				if (!hasReligion) {
-					Logger.Error($"Province {provinceId} is missing religion!");
+				if (!hasFaith) {
+					Logger.Warn($"Province {provId} is missing faith!");
 				}
 			} else {
-				Logger.Error($"Province {provinceId} not found for post-import check!");
+				Logger.Warn($"Province {provId} (county capital province) not found!");
 			}
 		}
-		
-		Logger.IncrementProgress();
 	}
 
 	public void LoadPrehistory() {
