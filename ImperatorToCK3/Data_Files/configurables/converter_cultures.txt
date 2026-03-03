@@ -4163,7 +4163,7 @@ hatti = { #Pre-Hittite people of central Anatolia
 	unit_gfx = { mena_unit_gfx }
 }
 
-# No guarentee that the Visigoths will conquer Iberia, so changing Visigothic Codes to Equal Inheritance, since they seem to have at least practiced that
+# No guarantee that the Visigoths will conquer Iberia, so changing Visigothic Codes to Equal Inheritance, since they seem to have at least practiced that
 basque = {
 	INVALIDATED_BY = {
 		tfe = { basque } # TFE makes its own changes that should be kept

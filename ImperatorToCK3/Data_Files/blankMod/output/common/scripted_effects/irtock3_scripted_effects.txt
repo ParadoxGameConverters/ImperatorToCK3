@@ -2074,7 +2074,7 @@ irtock3_elevate_roman_duchy_effects = {
 				}
 			}
 
-			# Then, just set any remaining titular counties (noble familes, nomads, etc) that somehow got there to be de jure under whatever duchy c_roma has
+			# Then, just set any remaining titular counties (noble families, nomads, etc) that somehow got there to be de jure under whatever duchy c_roma has
 			title:d_rome = {
 				every_de_jure_county = {
 					limit = { is_titular = yes }
