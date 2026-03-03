@@ -52,7 +52,7 @@ public class RulerTermTests {
 		var impRulerTerm = ImperatorToCK3.Imperator.Countries.RulerTerm.Parse(reader);
 		Directory.CreateDirectory("configurables");
 		File.WriteAllText("configurables/government_map.txt", "link = {ir=dictatorship ck3=feudal_government }");
-		var govMapper = new GovernmentMapper(ck3GovernmentIds: new List<string> {"feudal_government"});
+		var govMapper = new GovernmentMapper(ck3GovernmentIds: ["feudal_government"]);
 		File.Delete("configurables/government_map.txt"); // cleanup
 		var landedTitles = new Title.LandedTitles();
 		var ck3Religions = new ReligionCollection(landedTitles);
@@ -99,7 +99,7 @@ public class RulerTermTests {
 		ck3Religions.LoadReligions(ck3ModFs, new ColorFactory());
 		Directory.CreateDirectory("configurables");
 		File.WriteAllText("configurables/government_map.txt", "link = {ir=dictatorship ck3=feudal_government }");
-		var govMapper = new GovernmentMapper(ck3GovernmentIds: new List<string> {"feudal_government"});
+		var govMapper = new GovernmentMapper(ck3GovernmentIds: ["feudal_government"]);
 		File.Delete("configurables/government_map.txt"); // cleanup
 		var ck3RegionMapper = new CK3RegionMapper();
 		var religionMapper = new ReligionMapper(
