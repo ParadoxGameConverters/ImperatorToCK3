@@ -50,9 +50,29 @@ on_primary_title_change = {
 # root = the new holder
 # scope:title = the title that changes hands
 # scope:previous_holder = previous holder. Might be dead
+# scope:transfer_type = how title changed hands/was created/etc (a complete list of values this can be is in title_on_actions.txt)
 on_title_gain = {
 	on_actions = {
 		IRToCK3_ritsuryo_multiple_empires
+		IRToCK3_rome_praetorian_prefecture_name_reset
+		IRToCK3_change_persia_name
+	}
+}
+
+# root = the holder before destruction
+# scope:landed_title = the title that is being destroyed
+# Does *not* provide scope:transfer_type
+on_title_destroyed = {
+	on_actions = {
+		IRToCK3_reset_persia_name
+	}
+}
+
+# Called every Jan 1st
+# Root does not exist
+yearly_global_pulse = {
+	on_actions = {
+		IRToCK3_roman_empire_decline_effect
 	}
 }
 
@@ -103,6 +123,48 @@ IRToCK3_game_start_onaction_effects = {
 			days = 1
 		}
 
+		## Depending on what tier Rome title exists at game start, certain variables should be set to indicate Rome has elevated to at least that rank
+		if = {
+			limit = { exists = title:k_rome.holder }
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:irtock3_roman_duchy_elevated
+			}
+		}
+		else_if = {
+			limit = { exists = title:e_roman_empire.holder }
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:irtock3_roman_duchy_elevated
+			}
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:irtock3_roman_kingdom_elevated
+			}
+		}
+		else_if = {
+			limit = {
+				OR = {
+					exists = title:h_roman_empire.holder
+					exists = title:h_western_roman_empire.holder
+					exists = title:h_eastern_roman_empire.holder
+					exists = title:e_western_roman_empire.holder
+					exists = title:e_byzantium.holder
+				}
+			}
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:irtock3_roman_duchy_elevated
+			}
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:irtock3_roman_kingdom_elevated
+			}
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:irtock3_elevate_roman_empire_decision
+			}
+		}
 
 
 		####################
@@ -117,6 +179,16 @@ IRToCK3_game_start_onaction_effects = {
 		title:e_byzantium = { set_definitive_form = yes }
 		title:h_hellenistic_empire = { set_definitive_form = yes }
 
+		# Makes sure Persia is properly named at game start
+		title:e_persia = {
+			reset_title_name = yes
+			set_definitive_form = yes
+			if = {
+				limit = { exists = holder.house }
+				holder.house = { save_scope_as = new_persia_house }
+				set_title_name_dynamic = new_persia_empire_name
+			}
+		}
 
 		##################
 		### Neo-Minoan ###
@@ -419,6 +491,70 @@ IRToCK3_game_start_onaction_effects = {
 			}
 		}
 		{% endif %}
+
+		#################
+		### Silk Road ###
+		#################
+		# Need to make sure the Silk Road Markets are buildable in their correct locations
+		if = {
+			limit = { has_tgp_dlc_trigger = yes }
+
+			# It is possible that some of the baronies get special buildings like holy site buildings, so need to make sure those are removed so the market buildings can properly be added
+
+			# Chang'an
+			title:b_zhouzhi.title_province ?= {
+				replace_building_effect = changan_market_01
+				remove_building = changan_market_01
+				add_special_building_slot = changan_market_01
+			}
+
+			# Lhasa
+			title:b_potala.title_province ?= {
+				replace_building_effect = lhasa_market_01
+				remove_building = lhasa_market_01
+				add_special_building_slot = lhasa_market_01
+			}
+
+			# Lahur
+			title:b_lahur.title_province ?= {
+				replace_building_effect = lahur_bazaar_01
+				remove_building = lahur_bazaar_01
+				add_special_building_slot = lahur_bazaar_01
+			}
+
+			# Dunhuang
+			title:b_dunhuang.title_province ?= {
+				replace_building_effect = dunhuang_market_01
+				remove_building = dunhuang_market_01
+				add_special_building_slot = dunhuang_market_01
+			}
+
+			# Khiva
+			title:b_khiva.title_province ?= {
+				replace_building_effect = khiva_bazaar_01
+				remove_building = khiva_bazaar_01
+				add_special_building_slot = khiva_bazaar_01
+			}
+
+			# Dvin
+			title:b_dvin.title_province ?= {
+				replace_building_effect = dvin_shuka_01
+				remove_building = dvin_shuka_01
+				add_special_building_slot = dvin_shuka_01
+			}
+		}
+
+		###########################
+		### Sinophilic Cultures ###
+		###########################
+		# In a converted save, there is no guarentee that most cultures were properly influenced enough to be considered "Sinophilic"
+		every_culture_global = {
+			limit = {
+				this != culture:dongyi
+				has_cultural_tradition = tradition_sinophilic
+			}
+			remove_culture_tradition = tradition_sinophilic
+		}
 	}
 }
 
@@ -613,6 +749,9 @@ IRToCK3_ritsuryo_empire_setup = {
 					}
 				}
 
+				# Set a variable on the character's Dynasty to indicate that they are considered "divine", so can't take the decision to declare their bloodline holy (just like the Yamato Dynasty in the base game)
+				scope:founder.dynasty = { set_variable = divine_ritsuryo_dynasty }
+
 				# GRANT CEREMONIAL TITLE
 				change_title_holder = {
 					holder = scope:founder
@@ -674,5 +813,223 @@ IRToCK3_ritsuryo_multiple_empires = {
 	effect = {
 		# Trigger event notifying ruler of them having multiple empire titles, the issues, and some solutions
 		trigger_event = irtock3_ritsuryo_events.2
+	}
+}
+
+# This on_action will trigger when the Roman Empire is split between h_western_roman_empire and h_eastern_roman_empire, one of them is destroyed, and the other has lost a decent amount of their land. It will downgrade them to empire titles, like the Byzantine Empire
+IRToCK3_roman_empire_decline_effect = {
+	trigger = {
+		# Someone needs to hold either the WRE or ERE, while no one else holds the other
+		OR = {
+			exists = title:h_western_roman_empire.holder
+			exists = title:h_eastern_roman_empire.holder
+		}
+		## Someone holds the WRE
+		trigger_if = {
+			limit = { exists = title:h_western_roman_empire.holder }
+
+			# Someone can't have the ERE
+			NOT = { exists = title:h_eastern_roman_empire.holder }
+
+			# The WRE doesn't control a lot of land
+			title:h_western_roman_empire.holder = { realm_size <= 120 }
+		}
+		## Someone holds the ERE
+		trigger_if = {
+			limit = { exists = title:h_eastern_roman_empire.holder }
+
+			# Someone can't have the WRE
+			NOT = { exists = title:h_western_roman_empire.holder }
+
+			# The ERE doesn't control a lot of land
+			title:h_eastern_roman_empire.holder = { realm_size <= 120 }
+		}
+	}
+	effect = {
+		# Save the scopes for whichever half of the Roman Empire remains
+		## WRE
+		if = {
+			limit = { exists = title:h_western_roman_empire.holder }
+			title:h_western_roman_empire = {
+				save_scope_as = roman_hegemony_title
+				holder = { save_scope_as = roman_emperor }
+				title:e_western_roman_empire = { save_scope_as = roman_empire_title }
+			}
+		}
+		## ERE
+		else_if = {
+			limit = { exists = title:h_eastern_roman_empire.holder }
+			title:h_eastern_roman_empire = {
+				save_scope_as = roman_hegemony_title
+				holder = { save_scope_as = roman_emperor }
+				title:e_byzantium = { save_scope_as = roman_empire_title }
+			}
+		}
+
+		# If any vassals have empire titles, destroy the empires and add them to a list for event localization later. If the empire title was de jure part of the ruler's hegemony title, drift its kingdoms to become part of the associated Rome empire title
+		scope:roman_emperor = {
+			every_vassal = {
+				limit = { highest_held_title_tier = tier_empire }
+				save_scope_as = empire_vassal
+				every_held_title = {
+					title_tier = empire
+					if = {
+						limit = { hegemony ?= scope:roman_hegemony_title }
+						every_in_de_jure_hierarchy = {
+							limit = { tier = tier_kingdom }
+							set_de_jure_liege_title = scope:roman_empire_title
+						}
+					}
+					scope:empire_vassal = { destroy_title = prev }
+				}
+				clear_saved_scope = empire_vassal
+				add_to_list = empire_tier_vassals
+			}
+		}
+
+		# De Jure Changes
+		## Transfer land from held empire titles, then destroy them
+		scope:roman_emperor = {
+			every_held_title = {
+				title_tier = empire
+				limit = { hegemony = scope:roman_hegemony_title }
+
+				every_in_de_jure_hierarchy = {
+					limit = { tier = tier_kingdom }
+					set_de_jure_liege_title = scope:roman_empire_title
+				}
+				scope:roman_emperor = { destroy_title = prev }
+			}
+		}
+
+		## Transfer every kingdom that you completely control that is de jure under your hegemony title
+		scope:roman_hegemony_title = {
+			every_in_de_jure_hierarchy = {
+				limit = { tier = tier_kingdom }
+
+				if = {
+					limit = {
+						any_de_jure_county = {
+							count = all
+							holder.top_liege = scope:roman_emperor
+						}
+					}
+					set_de_jure_liege_title = scope:roman_empire_title
+				}
+			}
+		}
+
+		# Give the ruler their corresponding Empire title
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:roman_empire_title = {
+			change_title_holder = {
+				holder = scope:roman_emperor
+				change = scope:change
+			}
+			set_de_jure_liege_title = scope:roman_hegemony_title
+		}
+		resolve_title_and_vassal_change = scope:change
+
+		# Destroy the hegemony title
+		scope:roman_emperor = {
+			destroy_title = scope:roman_hegemony_title
+			set_primary_title_to = scope:roman_empire_title
+		}
+
+		# Notification Events
+		scope:roman_emperor = { trigger_event = irtock3_roman_events.1 }
+		every_player = {
+			limit = {
+				this != scope:roman_emperor
+				in_diplomatic_range = scope:roman_emperor
+			}
+			trigger_event = irtock3_roman_events.1
+		}
+	}
+}
+
+# This on_action will be used to reset the name of the base game titles being used as Roman Praetorian Prefectures
+IRToCK3_rome_praetorian_prefecture_name_reset = {
+	trigger = {
+		save_temporary_scope_as = ruler_temp
+		scope:title ?= {
+			has_variable = rome_praetorian_prefecture
+			trigger_if = {
+				limit = {
+					has_variable = rome_praetorian_prefecture_house
+					exists = scope:ruler_temp.house
+				}
+				NOT = { scope:ruler_temp.house = var:rome_praetorian_prefecture_house }
+			}
+		}
+		top_liege = { is_roman_emperor_trigger = no } # A prefecture's name should potentially be reset if it is no longer under an active Rome title
+	}
+	effect = {
+		trigger_event = {
+			id = irtock3_roman_events.2
+			days = 3 # Delayed because if a player had the title and died, their heir would get the event and make a choice before the player actually takes control of that character
+		}
+	}
+}
+
+# This on_action makes sure the name of Persia changes properly whenever somone new gets it
+IRToCK3_change_persia_name = {
+	trigger = {
+		scope:title = title:e_persia
+		title:e_persia = {
+			NOR = {
+				has_variable = rome_praetorian_prefecture
+				custom_title_name = irtock3_rome_empire_division_persia # If Persia was made a praetorian prefecture, but became independent and its ruler chose to permanently keep its "Roman" name, it should still be using this loc key even if it doesn't have the above variable, so this shouldn't be changed
+			}
+		}
+	}
+	effect = {
+		# If the character is lowborn, it should revert back to "Persian Empire" instead of keeping whatever name it had before
+		if = {
+			limit = {
+				NOT = { exists = house }
+			}
+			title:e_persia = {
+				reset_title_name = yes
+				set_definitive_form = yes
+			}
+		}
+		# If your from the same house as the previous holder, no reason to change the title's name
+		else_if = {
+			limit = {
+				trigger_if = {
+					limit = { exists = scope:previous_holder.house }
+					NOT = { house = scope:previous_holder.house }
+				}
+			}
+			house = { save_scope_as = new_persia_house }
+			title:e_persia = {
+				set_title_name_dynamic = new_persia_empire_name
+				set_definitive_form = yes
+			}
+		}
+	}
+}
+
+# This on_action makes sure the name of Persia is properly reset back to "Persian Empire" when its destroyed
+IRToCK3_reset_persia_name = {
+	trigger = {
+		scope:landed_title = title:e_persia
+		title:e_persia = {
+			NOR = {
+				has_variable = rome_praetorian_prefecture
+				custom_title_name = irtock3_rome_empire_division_persia # If Persia was made a praetorian prefecture, but became independent and its ruler chose to permanently keep its "Roman" name, it should still be using this loc key even if it doesn't have the above variable, so this shouldn't be changed
+			}
+		}
+	}
+	effect = {
+		title:e_persia = {
+			reset_title_name = yes
+			set_definitive_form = yes
+		}
 	}
 }

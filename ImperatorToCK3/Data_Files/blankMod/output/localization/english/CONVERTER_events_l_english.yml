@@ -82,3 +82,29 @@
 # Setup for AI to name China from Imperator tag
  irtock3_imperator_china_name: "[irtock3_china_primary_name.GetNameNoTierNoTooltip]"
  irtock3_imperator_china_name_adj: "[irtock3_china_primary_name.GetAdjectiveNoTooltip]"
+
+# Roman Events
+ # Event explaining the hegemony WRE/ERE title being downgraded
+ irtock3_roman_events.1.title: "The Decline of the Roman Empire"
+ irtock3_roman_events.1.desc.roman_intro: "The Roman Empire - once the undisputed ruler of the Mediterranean, and the pinnacle of civilization - is now a shell of its former self, having lost most of the territory it once ruled over.\n\n"
+ irtock3_roman_events.1.desc.other_intro: "The Roman Empire - the self-proclaimed ruler of the Mediterranean - is now a shell of its former self, having lost most of the territory it once ruled over.\n\n"
+ irtock3_roman_events.1.desc.roman_emperor: "Despite being given the opportunity to rule over such a prestigious realm, the efforts of myself and my predecessors doesn't seem to have been enough to prevent our decline. Whether it be barbarians chipping away at our borders, or internal strife weakening us from within, it seems that our glory days are behind us.\n\nStill, I must do my best to hold onto what we have left and try to restore some of our former glory!"
+ irtock3_roman_events.1.desc.vassal: "Despite being given the opportunity to rule over such a prestigious realm, the efforts of [roman_emperor.GetNameNoTooltip] and [roman_emperor.GetHerHis] predecessors doesn't seem to have been enough to prevent our decline. Whether it be barbarians chipping away at our borders, or internal strife weakening us from within, it seems that our glory days are behind us.\n\nThere are many ambitious rulers, both within our borders, and outside it. Will someone seize this opportunity to try and return Rome to it's former glory, or will they try to extinguish this last remnant of the civilized world?"
+ irtock3_roman_events.1.desc.other: "Despite being given the opportunity to rule over the realm, the efforts of [roman_emperor.GetNameNoTooltip] and [roman_emperor.GetHerHis] predecessors doesn't seem to have been enough to prevent their decline. Whether it be outsiders chipping away at their borders, or internal strife weakening them from within, it seems that their glory days are behind them.\n\nThere are many ambitious rulers, both within their borders, and outside it. Perhaps someone will seize this opportunity to try and extinguish this last remnant of a fallen empire."
+ irtock3_roman_events.1.tooltip.hegemony_downgraded: "@warning_icon! #warning Due to loss of land, [roman_hegemony_title.GetName|V] was replaced by [roman_empire_title.GetName|V] #!"
+ irtock3_roman_events.1.tooltip.held_empires_consolidated: "Every [empire|E] title held by [roman_emperor.GetCharacterViewNameOrMeRegnal] and [roman_emperor.GetHerHisYour] [vassals|E], that was [de_jure|E] part of [roman_hegemony_title.GetName], had its [kingdoms|E] become part of [roman_empire_title.GetName], and was destroyed"
+ irtock3_roman_events.1.tooltip.controlled_kingdoms_consolidated: "Every [kingdom|E] title that was [de_jure|E] part of [roman_hegemony_title.GetName], and [completely_controlled|E] by [roman_emperor.GetCharacterViewNameOrMeRegnal], became part of [roman_empire_title.GetName]"
+ irtock3_roman_events.1.tooltip.empire_titles_destroyed: "@alert_icon! #alert_trial All [empire|E] titles you held were destroyed due to [roman_emperor.GetNameNoTooltip] decreasing in rank! #!"
+ irtock3_roman_events.1.tooltip.restore_roman_empire_decision: "@alert_icon! #alert_trial The decision [GetDecisionWithKey('restore_roman_empire_decision').GetName|V] can be taken to get back [GetTitleByKey('h_roman_empire').GetName|V] #!"
+ irtock3_roman_events.1.a.roman: "We Must Endure!"
+ irtock3_roman_events.1.a.other: "Good Riddance!"
+
+ # Events about whether a base game title being used as a praetorian prefecture for Rome should have its name reset when someone who isn't associated with Rome gets it
+ irtock3_roman_events.2.title: "Roman Land?"
+ irtock3_roman_events.2.desc: "Once one of Rome's beloved \"Praetorian Prefectures\", [title.GetNameNoTierNoTooltip] was administered just like any other of it's lands. However, that is no longer the case.\n\nI do not submit myself to some Roman emperor, so can I really consider this \"Roman\" land?"
+ irtock3_roman_events.2.a: "Rome rules here no longer!"
+ irtock3_roman_events.2.a.tooltip: "@alert_icon! #alert_trial [title.GetName|V] will have it's name reverted back to it's original name #!"
+ irtock3_roman_events.2.b: "A change in leadership means nothing..."
+ irtock3_roman_events.2.b.tooltip: "@alert_icon! #alert_trial [title.GetName|V] won't have it's name changed. This event won't appear again for this title, until someone from a different house gets it #!"
+ irtock3_roman_events.2.c: "This will forever be Roman land!"
+ irtock3_roman_events.2.c.tooltip: "@alert_icon! #alert_trial [title.GetName|V] won't have it's name changed. This event won't appear again for this title, unless a Roman ruler formally re-estabilishes [title.GetNameNoTier|V] as a praetorian prefecture again #!"

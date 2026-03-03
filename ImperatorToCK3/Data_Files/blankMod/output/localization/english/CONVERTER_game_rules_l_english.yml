@@ -50,7 +50,7 @@
  setting_irtock3_gamerule_mandala_rulers_sea_desc: "Only [feudal|E] [rulers|E] in South East Asia will become [mandala|E], as long as they meet the [mandala_conditions|E]."
 
  game_concept_mandala_conditions: "Mandala Conditions"
- game_concept_mandala_conditions_desc: "In order to become [mandala|E], a [ruler|E] must follow an [organized|E] [faith|E] with the $doctrine_polytheist_name$ [doctrine|E], and the [heritage|E] of their [culture|E] must be one of the following: \n$EFFECT_LIST_BULLET$$heritage_austronesian_name$ \n$EFFECT_LIST_BULLET$$heritage_tai_name$ \n$EFFECT_LIST_BULLET$$heritage_mon_khmer_name$ \n$EFFECT_LIST_BULLET$$heritage_viet_name$ \n$EFFECT_LIST_BULLET$$heritage_indo_aryan_name$ \n$EFFECT_LIST_BULLET$$heritage_burman_name$"
+ game_concept_mandala_conditions_desc: "In order to become [mandala|E], a [ruler|E] must follow an [organized|E] [faith|E] with the $doctrine_polytheist_name$ [doctrine|E], and the [heritage|E] of their [culture|E] must be one of the following: \n$EFFECT_LIST_BULLET$$heritage_austronesian_name$ \n$EFFECT_LIST_BULLET$$heritage_tai_name$ \n$EFFECT_LIST_BULLET$$heritage_mon_khmer_name$ \n$EFFECT_LIST_BULLET$$heritage_viet_name$ \n$EFFECT_LIST_BULLET$$heritage_indo_aryan_name$ \n$EFFECT_LIST_BULLET$$heritage_burman_name$ \n$EFFECT_LIST_BULLET$$heritage_dravidian_name$ \n$EFFECT_LIST_BULLET$$heritage_qiangic_name$"
 
  # Japanese Imperial Dynasty
  rule_irtock3_gamerule_ritsuryo_rulers: "IRToCK3 - Japan Setup (All Under Heaven)"

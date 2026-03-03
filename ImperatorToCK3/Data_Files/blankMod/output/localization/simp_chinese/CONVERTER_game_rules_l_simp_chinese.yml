@@ -48,4 +48,4 @@
  setting_irtock3_gamerule_mandala_rulers_sea_desc: "只有东南亚的 [feudal|E] [rulers|E] 才能成为 [mandala|E]，只要他们满足 [mandala_conditions|E]."
 
  game_concept_mandala_conditions: "曼陀罗条件"
- game_concept_mandala_conditions_desc: "为了成为[mandala|E], [ruler|E]必须遵循具有$doctrine_polytheist_name$ [doctrine|E]的[organized|E] [faith|E]，并且他们的[culture|E]必须具有以下[heritage|E]之一：$heritage_austronesian_name$、$heritage_tai_name$、$heritage_mon_khmer_name$、$heritage_viet_name$、$heritage_indo_aryan_name$或$heritage_burman_name$。"
+ game_concept_mandala_conditions_desc: "为了成为[mandala|E], [ruler|E]必须遵循具有$doctrine_polytheist_name$ [doctrine|E]的[organized|E] [faith|E]，并且他们的[culture|E]必须具有以下[heritage|E]之一： \n$EFFECT_LIST_BULLET$$heritage_austronesian_name$ \n$EFFECT_LIST_BULLET$$heritage_tai_name$ \n$EFFECT_LIST_BULLET$$heritage_mon_khmer_name$ \n$EFFECT_LIST_BULLET$$heritage_viet_name$ \n$EFFECT_LIST_BULLET$$heritage_indo_aryan_name$ \n$EFFECT_LIST_BULLET$$heritage_burman_name$ \n$EFFECT_LIST_BULLET$$heritage_dravidian_name$ \n$EFFECT_LIST_BULLET$$heritage_qiangic_name$"

@@ -1,0 +1,206 @@
+﻿# Last updated: CK3 1.18.3
+namespace = irtock3_roman_events
+
+###########################
+## WRE/ERE Downgrade Events
+###########################
+# These events are triggered when one of either the WRE or ERE (hegemony titles) is destroyed, and the other title loses a decent portion of its de jure territory. The half that remains gets downgraded to their corresponding empire-tier title.
+
+# SCOPES:
+## scope:roman_emperor - Whoever was holding the hegemony WRE/ERE title at the time it was downgraded
+## scope:roman_hegemony_title - The hegemony WRE/ERE title that is being downgraded [h_western_roman_empire OR h_eastern_roman_empire]
+## scope:roman_empire_title - The corresponding empire-tier WRE/ERE title that is being created [e_western_roman_empire OR e_byzantium]
+## list = empire_tier_vassals - OPTIONAL; If the roman_emperor had any empire-tier vassals before the downgrade, this is a list of them
+
+# This event is for explaining the downgrade of the hegemony WRE/ERE to empire titles
+irtock3_roman_events.1 = {
+	type = character_event
+
+	title = irtock3_roman_events.1.title
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { top_liege = scope:roman_emperor }
+				desc = irtock3_roman_events.1.desc.roman_intro
+			}
+			desc = irtock3_roman_events.1.desc.other_intro
+		}
+		first_valid = {
+			triggered_desc = {
+				trigger = { this = scope:roman_emperor }
+				desc = irtock3_roman_events.1.desc.roman_emperor
+			}
+			triggered_desc = {
+				trigger = {
+					this != scope:roman_emperor
+					top_liege = scope:roman_emperor
+				}
+				desc = irtock3_roman_events.1.desc.vassal
+			}
+			desc = irtock3_roman_events.1.desc.other
+		}
+	}
+
+	theme = emperor
+	right_portrait = {
+		character = scope:roman_emperor
+		animation = disapproval
+	}
+
+	immediate = {
+		# Explain that due to loss of territory, the hegemony title was downgraded to empire-tier
+		custom_tooltip = irtock3_roman_events.1.tooltip.hegemony_downgraded
+
+		# All held empires that were de jure part of the hegemony title were consolidated into the new empire title
+		custom_tooltip = irtock3_roman_events.1.tooltip.held_empires_consolidated
+
+		# All completely controlled kingdoms that were de jure part of the hegemony title were also consolidated into the new empire title
+		custom_tooltip = irtock3_roman_events.1.tooltip.controlled_kingdoms_consolidated
+
+		# If the character getting this event is in the 'empire_tier_vassals' list, mention that your empire titles were destroyed
+		if = {
+			limit = { is_in_list = empire_tier_vassals }
+			custom_tooltip = irtock3_roman_events.1.tooltip.empire_titles_destroyed
+		}
+
+		# Explain that the "Restore the Roman Empire" decision should be taken to get back the hegemony titles
+		custom_tooltip = irtock3_roman_events.1.tooltip.restore_roman_empire_decision
+	}
+
+	option = {
+		name = {
+			text = {
+				first_valid = {
+					triggered_desc = {
+						trigger = { top_liege = scope:roman_emperor }
+						desc = irtock3_roman_events.1.a.roman
+					}
+					desc = irtock3_roman_events.1.a.other
+				}
+			}
+		}
+	}
+}
+
+
+###########################
+## Praetorian Prefecture Name Events
+###########################
+# These events are specifically related to whether a title being used as a praetorian prefecture for Rome should have its name reset when someone who isn't associated with Rome gets it
+
+irtock3_roman_events.2 = {
+	type = character_event
+
+	title = irtock3_roman_events.2.title
+	desc = irtock3_roman_events.2.desc
+
+	theme = emperor
+	right_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		scope:title ?= {
+			has_variable = rome_praetorian_prefecture
+			trigger_if = {
+				limit = { has_variable = rome_praetorian_prefecture_house }
+				NOT = { root.house ?= var:rome_praetorian_prefecture_house }
+			}
+		}
+		top_liege = { is_roman_emperor_trigger = no } # A prefecture's name should potentially be reset if it is no longer under an active Rome title
+	}
+
+	immediate = {
+		if = {
+			limit = {
+				scope:title = { has_variable = rome_praetorian_prefecture_house }
+			}
+			scope:title = { remove_variable = rome_praetorian_prefecture_house }
+		}
+	}
+
+	# If their culture is Roman, or directly descends from it, they will keep the Praetorian Prefecture name. But, if their culture isn't related to Roman at all, or is descended from it by quite a bit, they will reset it
+
+	# Reset Title Name
+	option = {
+		name = irtock3_roman_events.2.a
+
+		custom_tooltip = {
+			text = irtock3_roman_events.2.a.tooltip
+			
+			scope:title = {
+				remove_variable = rome_praetorian_prefecture
+				remove_variable = prefecture_region
+				# Because of how Persia's name is setup to change, need to include that as a special case here
+				if = {
+					limit = { this = title:e_persia }
+					root.house = { save_scope_as = new_persia_house }
+					set_title_name_dynamic = new_persia_empire_name
+					set_definitive_form = yes
+				}
+				else = {
+					reset_title_name = yes
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 100
+			modifier = {
+				subtract = 0
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture = { this = culture:roman }
+					}
+				}
+			}
+		}
+	}
+
+	# Leave Title Name, don't show this event again unless someone from a different house gets it
+	option = {
+		name = irtock3_roman_events.2.b
+
+		custom_tooltip = {
+			text = irtock3_roman_events.2.b.tooltip
+			if = {
+				limit = { exists = house }
+				scope:title = {
+					set_variable = {
+						name = rome_praetorian_prefecture_house
+						value = root.house
+					}
+				}
+			}
+		}
+
+		ai_chance = {
+			base = 0
+			modifier = {
+				add = 100
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture = { this = culture:roman }
+					}
+				}
+			}
+		}
+	}
+
+	# Leave Title Name, never show for this title again
+	option = {
+		name = irtock3_roman_events.2.c
+
+		custom_tooltip = {
+			text = irtock3_roman_events.2.c.tooltip
+			scope:title = { remove_variable = rome_praetorian_prefecture }
+		}
+
+		ai_chance = {
+			base = 0
+		}
+	}
+}
