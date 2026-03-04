@@ -54,6 +54,7 @@
  # Prefecture formation decisions:
  irtock3_form_prefecture_of: "Form the Praetorian Prefecture of"
  irtock3_form_prefecture_britannia_title: "$irtock3_form_prefecture_of$ [GetGeographicalRegion('irtock3_rome_empire_division_britannia').GetName]"
+ irtock3_form_prefecture_britannia_desc: "Our empire is vast, and it is difficult to manage such a large realm from one central location. By delegating management over the whole region of [GetGeographicalRegion('irtock3_rome_empire_division_britannia').GetName] to a Praetorian Prefect, we can reduce the burden on the central administration and hopefully increase the efficiency of our rule!"
  irtock3_form_prefecture_galliarum_title: "$irtock3_form_prefecture_of$ [GetGeographicalRegion('irtock3_rome_empire_division_galliarum').GetName]"
  irtock3_form_prefecture_germania_title: "$irtock3_form_prefecture_of$ [GetGeographicalRegion('irtock3_rome_empire_division_germania').GetName]"
  irtock3_form_prefecture_italiae_title: "$irtock3_form_prefecture_of$ [GetGeographicalRegion('irtock3_rome_empire_division_italiae').GetName]"

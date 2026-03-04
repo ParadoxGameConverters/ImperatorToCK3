@@ -75,7 +75,7 @@ irtock3_form_prefecture_britannia = {
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
 	}
-	desc = irtock3_form_prefecture_britannia_desc # TODO: ADD LOC
+	desc = irtock3_form_prefecture_britannia_desc
 	decision_group_type = roman
 
     ai_check_interval_by_tier = {
