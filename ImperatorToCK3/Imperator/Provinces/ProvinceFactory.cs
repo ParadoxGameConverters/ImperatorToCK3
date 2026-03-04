@@ -37,7 +37,7 @@ internal partial class Province {
 			var holdingOwnerId = reader.GetULong();
 			// 4294967295 equals (2^32 − 1) and is the default value
 			// otherwise, the value is the ID of a character
-			if (holdingOwnerId != 4294967295) {
+			if (holdingOwnerId != 4_294_967_295) {
 				parsedProvince.HoldingOwnerId = holdingOwnerId;
 			}
 		});
@@ -45,7 +45,7 @@ internal partial class Province {
 			var holySiteId = reader.GetULong();
 			// 4294967295 equals (2^32 − 1) and is the default value
 			// otherwise, the value is the ID of a deity (see deities_database block in the save)
-			if (holySiteId != 4294967295) {
+			if (holySiteId != 4_294_967_295) {
 				parsedProvince.HolySiteId = holySiteId;
 			}
 		});

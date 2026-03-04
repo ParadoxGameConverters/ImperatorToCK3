@@ -342,7 +342,9 @@ internal sealed class World {
 		// Apply region-specific tweaks.
 		HandleIcelandAndFaroeIslands(impWorld, config);
 
+		// Apply religion-specific tweaks.
 		RemoveIslamFromMapIfNotInImperator(impWorld, config);
+		HandleChristianity(impWorld, config);
 
 		// Now that Islam has been handled, we can generate filler holders without the risk of making them Muslim.
 		GenerateFillerHoldersForUnownedLands(Cultures, config);
@@ -429,14 +431,36 @@ internal sealed class World {
 
 	private void RemoveIslamFromMapIfNotInImperator(Imperator.World irWorld, Configuration config) {
 		// Check if any muslim religion exists in Imperator. Otherwise, remove Islam from the entire CK3 map.
-		var possibleMuslimReligionNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "muslim", "islam", "sunni", "shiite" };
-		var muslimReligionExists = irWorld.Religions.Any(r => possibleMuslimReligionNames.Contains(r.Id));
+		var possibleMuslimReligionIds = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "muslim", "islam", "sunni", "shiite" };
+		var muslimReligionExists = irWorld.Religions.Any(r => possibleMuslimReligionIds.Contains(r.Id));
 		if (muslimReligionExists) {
 			Logger.Info("Found muslim religion in Imperator save, keeping Islam in CK3.");
 		} else {
 			RemoveIslam(config);
 		}
 		Logger.IncrementProgress();
+	}
+
+	private void HandleChristianity(Imperator.World irWorld, Configuration config) {
+		var ck3BookmarkDate = config.CK3BookmarkDate;
+		if (!Religions.TryGetValue("christianity_religion", out var christianity)) {
+			Logger.Debug("christianity_religion not found in religions.");
+			return;
+		}
+
+		bool irChristianityExists = irWorld.Religions.Any(r => r.Id.Equals("christianity", StringComparison.OrdinalIgnoreCase));
+		if (irChristianityExists) {
+			Date nestorianSchismDate = new(432, 10, 30); // should match @after_nestorian_schism value from religion_map.txt
+			Date chalcedonianSchismDate = new(451, 8, 25); // should match @after_chalcedon value from religion_map.txt
+			if (ck3BookmarkDate < chalcedonianSchismDate) {
+				ReplaceMiaphysiteChristianityWithNiceneChristianity(christianity, ck3BookmarkDate);
+			}
+			if (ck3BookmarkDate < nestorianSchismDate) {
+				ReplaceNestorianChristianityWithNiceneChristianity(christianity, ck3BookmarkDate);
+			}
+		} else {
+			RemoveChristianity(christianity, ck3BookmarkDate);
+		}
 	}
 
 	private void DetermineCK3BookmarkDate(Imperator.World irWorld, Configuration config) {
@@ -937,8 +961,8 @@ internal sealed class World {
 			}
 		}
 		
-		UseNeighborProvincesToRemoveIslam(muslimProvinces, date);
-		UseClosestProvincesToRemoveIslam(muslimProvinces, date);
+		UseNeighborProvincesToConvertProvincesOfReligion(muslimProvinces, date);
+		UseClosestProvincesToConvertProvincesOfReligion(muslimProvinces, date);
 		UseFallbackNonMuslimFaithToRemoveIslam(muslimProvinces, muslimFaiths);
 
 		// Log warning if there are still muslim provinces left.
@@ -963,18 +987,18 @@ internal sealed class World {
 		}
 	}
 
-	private void UseClosestProvincesToRemoveIslam(HashSet<Province> muslimProvinces, Date date) {
-		if (muslimProvinces.Count == 0) {
+	private void UseClosestProvincesToConvertProvincesOfReligion(HashSet<Province> provincesOfReligion, Date date) {
+		if (provincesOfReligion.Count == 0) {
 			return;
 		}
 
 		var provincesWithValidFaith = Provinces
-			.Except(muslimProvinces)
+			.Except(provincesOfReligion)
 			.Where(p => p.GetFaithId(date) is not null)
 			.ToFrozenSet();
-		foreach (var province in muslimProvinces) {
+		foreach (var province in provincesOfReligion) {
 			var closestValidProvince = provincesWithValidFaith
-				.Except(muslimProvinces)
+				.Except(provincesOfReligion)
 				.Select(p => new {
 					Province = p,
 					Distance = MapData.GetDistanceBetweenProvinces(province.Id, p.Id),
@@ -984,33 +1008,86 @@ internal sealed class World {
 			if (closestValidProvince is null) {
 				continue;
 			}
-				
+
 			var faithId = closestValidProvince.GetFaithId(date)!;
 			Logger.Debug($"Using faith \"{faithId}\" of closest province for province {province.Id}");
 			province.SetFaithIdAndOverrideExistingEntries(faithId);
-			muslimProvinces.Remove(province);
+			provincesOfReligion.Remove(province);
 		}
 	}
 
-	private void UseNeighborProvincesToRemoveIslam(HashSet<Province> muslimProvinces, Date date) {
-		foreach (var province in muslimProvinces) {
+	private void UseNeighborProvincesToConvertProvincesOfReligion(HashSet<Province> provincesOfReligion, Date date) {
+		foreach (var province in provincesOfReligion) {
 			var neighborIds = MapData.GetNeighborProvinceIds(province.Id);
 			if (neighborIds.Count == 0) {
 				continue;
 			}
 
 			var neighborFaithId = Provinces
-				.Except(muslimProvinces)
+				.Except(provincesOfReligion)
 				.Where(p => neighborIds.Contains(p.Id))
 				.Select(p => p.GetFaithId(date))
 				.FirstOrDefault(f => f is not null);
 			if (neighborFaithId is null) {
 				continue;
 			}
-			
+
 			Logger.Debug($"Using neighbor's faith \"{neighborFaithId}\" for province {province.Id}.");
 			province.SetFaithIdAndOverrideExistingEntries(neighborFaithId);
-			muslimProvinces.Remove(province);
+			provincesOfReligion.Remove(province);
+		}
+	}
+	private void RemoveChristianity(Religion christianity, Date ck3BookmarkDate) {
+		Logger.Info("Removing Christianity from the map...");
+
+		var christianFaiths = christianity.Faiths;
+		var christianProvinces = Provinces
+			.Where(p => p.GetFaithId(ck3BookmarkDate) is string faithId && christianFaiths.ContainsKey(faithId))
+			.ToHashSet();
+
+		UseNeighborProvincesToConvertProvincesOfReligion(christianProvinces, ck3BookmarkDate);
+		UseClosestProvincesToConvertProvincesOfReligion(christianProvinces, ck3BookmarkDate);
+
+		// Log warning if there are still Christian provinces left.
+		if (christianProvinces.Count > 0) {
+			Logger.Warn($"{christianProvinces.Count} Christian provinces left after removing Christianity: " +
+			            $"{string.Join(", ", christianProvinces.Select(p => p.Id))}");
+		}
+	}
+
+	private void ReplaceMiaphysiteChristianityWithNiceneChristianity(Religion christianity, Date ck3BookmarkDate) {
+		Logger.Info("Replacing Miaphysite Christianity with Nicene Christianity...");
+
+		HashSet<string> miaphysiteFaithIds = ["coptic", "armenian_apostolic"];
+		var miaphysiteProvinces = Provinces
+			.Where(p => p.GetFaithId(ck3BookmarkDate) is string faithId && miaphysiteFaithIds.Contains(faithId))
+			.ToArray();
+
+		string[] replacementFaithIds = ["nicene", "chalcedonian", "orthodox", "catholic"];
+		var bestReplacementFaithId = replacementFaithIds
+			.Select(id => christianity.Faiths.TryGetValue(id, out var faith) ? faith : null)
+			.FirstOrDefault(f => f is not null)?.Id ?? christianity.Faiths.First().Id;
+
+		foreach (var province in miaphysiteProvinces) {
+			province.SetFaithIdAndOverrideExistingEntries(bestReplacementFaithId);
+		}
+	}
+
+	private void ReplaceNestorianChristianityWithNiceneChristianity(Religion christianity, Date ck3BookmarkDate) {
+		Logger.Info("Replacing Nestorian Christianity with Nicene Christianity...");
+
+		HashSet<string> nestorianFaithIds = ["nestorian", "indian_catholic"]; // indian_catholic is from RoA
+		var nestorianProvinces = Provinces
+			.Where(p => p.GetFaithId(ck3BookmarkDate) is string faithId && nestorianFaithIds.Contains(faithId))
+			.ToArray();
+
+		string[] replacementFaithIds = ["nicene", "chalcedonian", "orthodox", "catholic"];
+		var bestReplacementFaithId = replacementFaithIds
+			.Select(id => christianity.Faiths.TryGetValue(id, out var faith) ? faith : null)
+			.FirstOrDefault(f => f is not null)?.Id ?? christianity.Faiths.First().Id;
+
+		foreach (var province in nestorianProvinces) {
+			province.SetFaithIdAndOverrideExistingEntries(bestReplacementFaithId);
 		}
 	}
 
