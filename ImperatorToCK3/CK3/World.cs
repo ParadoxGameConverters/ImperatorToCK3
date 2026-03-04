@@ -1025,6 +1025,7 @@ internal sealed class World {
 		foreach (var province in provincesOfReligion) {
 			var closestValidProvince = provincesWithValidFaith
 				.Except(provincesOfReligion)
+				.Where(p => !MapData.IsImpassable(p.Id))
 				.Select(p => new {
 					Province = p,
 					Distance = MapData.GetDistanceBetweenProvinces(province.Id, p.Id),
