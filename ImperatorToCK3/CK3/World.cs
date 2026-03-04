@@ -450,9 +450,13 @@ internal sealed class World {
 
 		bool irChristianityExists = irWorld.Religions.Any(r => r.Id.Equals("christianity", StringComparison.OrdinalIgnoreCase));
 		if (irChristianityExists) {
-			Date chalcedonianSchismDate= "451.8.25"; // should match @after_chalcedon value from religion_map.txt
+			Date nestorianSchismDate = new(432, 10, 30); // should match @after_nestorian_schism value from religion_map.txt
+			Date chalcedonianSchismDate = new(451, 8, 25); // should match @after_chalcedon value from religion_map.txt
 			if (ck3BookmarkDate < chalcedonianSchismDate) {
 				ReplaceMiaphysiteChristianityWithNiceneChristianity(christianity, ck3BookmarkDate);
+			}
+			if (ck3BookmarkDate < nestorianSchismDate) {
+				ReplaceNestorianChristianityWithNiceneChristianity(christianity, ck3BookmarkDate);
 			}
 		} else {
 			RemoveChristianity(christianity, ck3BookmarkDate);
@@ -1055,18 +1059,34 @@ internal sealed class World {
 		Logger.Info("Replacing Miaphysite Christianity with Nicene Christianity...");
 
 		HashSet<string> miaphysiteFaithIds = ["coptic", "armenian_apostolic"];
-
 		var miaphysiteProvinces = Provinces
 			.Where(p => p.GetFaithId(ck3BookmarkDate) is string faithId && miaphysiteFaithIds.Contains(faithId))
 			.ToArray();
 
 		string[] replacementFaithIds = ["nicene", "chalcedonian", "orthodox", "catholic"];
-		// Select first existing one from the array, or first faith from the religion if none of the specified faiths exist.
 		var bestReplacementFaithId = replacementFaithIds
 			.Select(id => christianity.Faiths.TryGetValue(id, out var faith) ? faith : null)
 			.FirstOrDefault(f => f is not null)?.Id ?? christianity.Faiths.First().Id;
 
 		foreach (var province in miaphysiteProvinces) {
+			province.SetFaithIdAndOverrideExistingEntries(bestReplacementFaithId);
+		}
+	}
+
+	private void ReplaceNestorianChristianityWithNiceneChristianity(Religion christianity, Date ck3BookmarkDate) {
+		Logger.Info("Replacing Nestorian Christianity with Nicene Christianity...");
+
+		HashSet<string> nestorianFaithIds = ["nestorian", "indian_catholic"]; // indian_catholic is from RoA
+		var nestorianProvinces = Provinces
+			.Where(p => p.GetFaithId(ck3BookmarkDate) is string faithId && nestorianFaithIds.Contains(faithId))
+			.ToArray();
+
+		string[] replacementFaithIds = ["nicene", "chalcedonian", "orthodox", "catholic"];
+		var bestReplacementFaithId = replacementFaithIds
+			.Select(id => christianity.Faiths.TryGetValue(id, out var faith) ? faith : null)
+			.FirstOrDefault(f => f is not null)?.Id ?? christianity.Faiths.First().Id;
+
+		foreach (var province in nestorianProvinces) {
 			province.SetFaithIdAndOverrideExistingEntries(bestReplacementFaithId);
 		}
 	}
