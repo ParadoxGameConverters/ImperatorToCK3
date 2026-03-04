@@ -17,9 +17,9 @@ namespace ImperatorToCK3.UnitTests.Imperator.States;
 public class StateTests {
 	private const string ImperatorRoot = "TestFiles/StateTests";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
-	private static readonly ProvinceCollection provinces = new();
-	private static readonly AreaCollection areas = new();
-	private static readonly CountryCollection countries = new() {new Country(69), new Country(70)};
+	private static readonly ProvinceCollection provinces = [];
+	private static readonly AreaCollection areas = [];
+	private static readonly CountryCollection countries = [new Country(69), new Country(70)];
 
 	public StateTests() {
 		areas.LoadAreas(irModFS, provinces);
