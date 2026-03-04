@@ -345,6 +345,7 @@ internal sealed class World {
 		// Apply religion-specific tweaks.
 		RemoveIslamFromMapIfNotInImperator(impWorld, config);
 		HandleChristianity(impWorld, config);
+		HandleManichaeism(impWorld, config);
 
 		// Now that Islam has been handled, we can generate filler holders without the risk of making them Muslim.
 		GenerateFillerHoldersForUnownedLands(Cultures, config);
@@ -460,6 +461,31 @@ internal sealed class World {
 			}
 		} else {
 			RemoveChristianity(christianity, ck3BookmarkDate);
+		}
+	}
+
+	private void HandleManichaeism(Imperator.World irWorld, Configuration config) {
+		// Check if the manichaeism_spreads variable from the Timeline Extension from Invictus is set.
+		bool irHasManichaeismSpreadVariable = irWorld.GlobalFlags.Any(f => f.Equals("manichaeism_spreads", StringComparison.OrdinalIgnoreCase));
+		if (irHasManichaeismSpreadVariable) {
+			Logger.Info("Found manichaeism_spreads variable set to yes in Imperator save, keeping Manichaeism in CK3.");
+			return;
+		}
+
+		Logger.Info("No indication of Manichaeism spreading in Imperator save, removing Manichaeism from CK3...");
+		HashSet<string> ck3ManicheanFaithIds = ["manichean", "mingism"];
+		var ck3BookmarkDate = config.CK3BookmarkDate;
+		var manichaeanProvinces = Provinces
+			.Where(p => p.GetFaithId(ck3BookmarkDate) is string faithId && ck3ManicheanFaithIds.Contains(faithId))
+			.ToHashSet();
+
+		UseNeighborProvincesToConvertProvincesOfReligion(manichaeanProvinces, ck3BookmarkDate);
+		UseClosestProvincesToConvertProvincesOfReligion(manichaeanProvinces, ck3BookmarkDate);
+
+		// Log warning if there are still Manichaean provinces left.
+		if (manichaeanProvinces.Count > 0) {
+			Logger.Warn($"{manichaeanProvinces.Count} Manichaean provinces left after removing Manichaeism: " +
+			            $"{string.Join(", ", manichaeanProvinces.Select(p => p.Id))}");
 		}
 	}
 
