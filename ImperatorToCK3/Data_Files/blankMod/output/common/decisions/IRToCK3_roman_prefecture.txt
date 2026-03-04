@@ -27,50 +27,6 @@
 @form_prefecture_decision_check_interval = 30
 
 
-scripted_trigger form_prefecture_is_shown_trigger = {
-    AND = {
-        OR = {
-            has_title = title:h_roman_empire
-            has_title = title:h_eastern_roman_empire
-            has_title = title:h_western_roman_empire
-        }
-
-        # Must hold at least one county in the $REGION$.
-        any_in_de_jure_hierarchy = {
-            tier = tier_county
-            title_province = { geographical_region = $REGION$ }
-        }
-
-        # The pre-defined prefecture title isn't used as a prefecture yet.
-        title:$EMPIRE$ = {
-            NOT = { has_variable = rome_praetorian_prefecture }
-        }
-        # There's no dynamic prefecture title for this region yet.
-        NOT = {
-            any_in_global_list = {
-				variable = rome_dynamic_empire_region_$REGION$
-				irtock3_can_empire_be_used_for_rome_region = {
-					REGION = $REGION$
-                    exists = yes
-				}
-			}
-        }
-    }
-}
-
-scripted_trigger form_prefecture_is_valid_trigger = {
-    completely_controls_region = $REGION$
-}
-
-scripted_trigger form_prefecture_is_valid_failures_only_trigger = {
-    is_landed = yes
-    is_capable_adult = yes
-    is_imprisoned = no
-    is_at_war = no
-    # No need to check if top liege, hegemony is the highest tier.
-}
-
-
 irtock3_form_prefecture_britannia = {
 	picture = {
 		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
@@ -88,16 +44,16 @@ irtock3_form_prefecture_britannia = {
 	}
 
     is_shown = {
-        form_prefecture_is_shown_trigger = {
+        irtock3_form_prefecture_is_shown_trigger = {
             REGION = irtock3_rome_empire_division_britannia
             EMPIRE = e_britannia
         }
 	}
     is_valid = {
-        form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_britannia }
+        irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_britannia }
     }
 	is_valid_showing_failures_only = {
-		form_prefecture_is_valid_failures_only_trigger = yes
+		irtock3_form_prefecture_is_valid_failures_only_trigger = yes
 	}
 
     effect = {

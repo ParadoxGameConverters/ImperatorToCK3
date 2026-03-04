@@ -28,3 +28,63 @@ irtock3_can_empire_be_used_for_rome_region = {
 		}
 	}
 }
+
+# This trigger is used for the Roman prefecture creation decisions.
+# scope = hegemony title being checked for if the decision should be shown
+# $REGION$ = The geographical region for which the prefecture would be created
+irtock3_form_prefecture_is_shown_trigger = {
+    OR = {
+        has_title = title:h_roman_empire
+        has_title = title:h_eastern_roman_empire
+        has_title = title:h_western_roman_empire
+    }
+
+    # Must hold at least one county in the $REGION$.
+    any_realm_county = {
+        title_province = { geographical_region = $REGION$ }
+    }
+
+    # Check if h_roman_empire, h_western_roman_empire, or h_eastern_roman_empire have an empire vassal with the prefecture_region variable for this region.
+    # We don't want the WRE to be able to establish the prefecture of Illyrici if it already exists under the ERE.
+    NOR = {
+        title:h_roman_empire = {
+            any_in_de_jure_hierarchy = {
+                tier = tier_empire
+                var:prefecture_region ?= geographical_region:$REGION$
+                NOT = { is_titular = yes }
+            }
+        }
+        title:h_western_roman_empire = {
+            any_in_de_jure_hierarchy = {
+                tier = tier_empire
+                var:prefecture_region ?= geographical_region:$REGION$
+                NOT = { is_titular = yes }
+            }
+        }
+        title:h_eastern_roman_empire = {
+            any_in_de_jure_hierarchy = {
+                tier = tier_empire
+                var:prefecture_region ?= geographical_region:$REGION$
+                NOT = { is_titular = yes }
+            }
+        }
+    }
+}
+
+# This trigger is used for the Roman prefecture creation decisions.
+# scope = hegemony title being checked for if the decision should be valid
+# $REGION$ = The geographical region for which the prefecture would be created
+irtock3_form_prefecture_is_valid_trigger = {
+    completely_controls_region = $REGION$
+}
+
+# This trigger is used for the Roman prefecture creation decisions.
+# scope = hegemony title being checked for if the decision should be valid
+# $REGION$ = The geographical region for which the prefecture would be created
+irtock3_form_prefecture_is_valid_failures_only_trigger = {
+    is_landed = yes
+    is_capable_adult = yes
+    is_imprisoned = no
+    is_at_war = no
+    # No need to check if top liege, hegemony is the highest tier.
+}
