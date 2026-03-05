@@ -1,4 +1,4 @@
-using commonItems;
+﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Localization;
@@ -1074,8 +1074,6 @@ internal sealed partial class Title {
 			Logger.Info("Setting de jure empires...");
 			var deJureKingdoms = GetDeJureKingdoms();
 			
-			// TODO: exclude hegemonies from this process?
-			
 			// Try to assign kingdoms to existing empires.
 			foreach (var kingdom in deJureKingdoms) {
 				// Don't change the de jure inside h_china, to avoid messing with the Dynastic Cycle and shit.
@@ -1111,7 +1109,75 @@ internal sealed partial class Title {
 
 				kingdom.DeJureLiege = this[empireId];
 			}
-
+			
+			// For kingdoms that are mostly within hegemonies, group them into groups of 5, and for each group create an empire from the highest development kingdom.
+			Dictionary<string, List<Title>> hegemonyToKingdomsDict = [];
+			foreach (var kingdom in deJureKingdoms) {
+				var hegemonyShares = new Dictionary<string, int>();
+				var kingdomProvincesCount = 0;
+				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
+					var countyProvincesCount = county.CountyProvinceIds.Count();
+					kingdomProvincesCount += countyProvincesCount;
+					
+					var hegemonyRealm = county.GetRealmOfRank(TitleRank.hegemony, ck3BookmarkDate);
+					if (hegemonyRealm is null) {
+						continue;
+					}
+					
+					hegemonyShares.TryGetValue(hegemonyRealm.Id, out var currentCount);
+					hegemonyShares[hegemonyRealm.Id] = currentCount + countyProvincesCount;
+				}
+				
+				if (hegemonyShares.Count == 0) {
+					continue;
+				}
+				
+				(string hegemonyId, int share) = hegemonyShares.MaxBy(pair => pair.Value);
+				// The hegemony must hold at least 50% of the kingdom.
+				if (share < (kingdomProvincesCount * 0.50)) {
+					continue;
+				}
+				
+				if (!hegemonyToKingdomsDict.TryGetValue(hegemonyId, out var kingdoms)) {
+					kingdoms = [];
+					hegemonyToKingdomsDict[hegemonyId] = kingdoms;
+				}
+				kingdoms.Add(kingdom);
+			}
+			// Using a clustering algorithm (where a kingdom's position is the average position of its counties' capitals), cluster kingdoms to make each cluster around 4-6 kingdoms.
+			// For each cluster, create an empire from the highest development kingdom in the cluster, and make it a de jure liege of the other kingdoms in the cluster.
+			foreach (var (hegemonyId, kingdoms) in hegemonyToKingdomsDict) {
+				var kingdomPositions = kingdoms.ToDictionary(
+					k => k.Id,
+					k => {
+						var countyCapitals = k.GetDeJureVassalsAndBelow("c").Values
+							.Select(c => c.CapitalCounty?.CapitalBaronyProvinceId)
+							.Where(id => id != null)
+							.Select(id => ck3MapData.ProvincePositions.TryGetValue(id!.Value, out var coords) ? coords : null)
+							.Where(coords => coords != null)
+							.ToArray();
+						if (countyCapitals.Length == 0) {
+							return (X: 0.0, Y: 0.0);
+						}
+						var avgX = countyCapitals.Average(coords => coords!.X);
+						var avgY = countyCapitals.Average(coords => coords!.Y);
+						return (X: avgX, Y: avgY);
+					}
+				);
+				var clusters = ClusterKingdoms(kingdomPositions, desiredClusterSize: 5);
+				foreach (var cluster in clusters) {
+					var clusterKingdoms = cluster.Select(kvp => kingdoms.First(k => k.Id == kvp.Key)).ToArray();
+					var highestDevKingdom = clusterKingdoms.MaxBy(k => k.GetDeJureVassalsAndBelow("c").Values.Sum(c => c.CountyProvinceIds.Count()));
+					var empire = CreateEmpireForCluster(highestDevKingdom, ck3Cultures, ck3LocDB);
+					foreach (var kingdom in clusterKingdoms) {
+						if (kingdom.Id == highestDevKingdom.Id) {
+							continue;
+						}
+						kingdom.DeJureLiege = empire;
+					}
+				}
+			}
+			
 			// For kingdoms that still have no de jure empire, create empires based on dominant culture of the realms
 			// holding land in that de jure kingdom.
 			var removableEmpireIds = new HashSet<string>();
