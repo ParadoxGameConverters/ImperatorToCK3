@@ -351,7 +351,7 @@ internal sealed class World {
 		GenerateFillerHoldersForUnownedLands(Cultures, config);
 		Logger.IncrementProgress();
 		if (!config.StaticDeJure) {
-			LandedTitles.SetDeJureKingdomsAndEmpires(config.CK3BookmarkDate, Cultures, Characters, MapData, LocDB);
+			LandedTitles.SetDeJureKingdomsAndAbove(config.CK3BookmarkDate, Cultures, Characters, MapData, LocDB);
 		}
 
 		Dynasties.SetCoasForRulingDynasties(LandedTitles, config.CK3BookmarkDate);

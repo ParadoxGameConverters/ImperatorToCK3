@@ -1070,10 +1070,40 @@ internal sealed partial class Title {
 			Logger.IncrementProgress();
 		}
 
-		private void SetDeJureEmpires(CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3LocDB ck3LocDB, Date ck3BookmarkDate) {
+		private void SetDeJureEmpiresAndHegemonies(CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3LocDB ck3LocDB, Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure empires...");
 			var deJureKingdoms = GetDeJureKingdoms();
 			
+			TryToAssignKingdomsToExistingEmpires(deJureKingdoms, ck3BookmarkDate);
+
+			SetDeJureEmpiresWithinHegemonies(deJureKingdoms, ck3MapData, ck3LocDB, ck3BookmarkDate);
+
+			// For kingdoms that still have no de jure empire, create empires based on dominant culture of the realms
+			// holding land in that de jure kingdom.
+			var removableEmpireIds = new HashSet<string>();
+			var kingdomToDominantHeritagesDict = new Dictionary<string, ImmutableArray<Pillar>>();
+			var heritageToEmpireDict = GetHeritageIdToExistingTitleDict();
+			CreateEmpiresBasedOnDominantHeritages(deJureKingdoms, ck3Cultures, ck3Characters, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
+			
+			Logger.Debug("Building kingdom adjacencies dict...");
+			// Create a cache of province IDs per kingdom.
+			var provincesPerKingdomDict = deJureKingdoms
+				.ToFrozenDictionary(
+					k => k.Id,
+					k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToFrozenSet()
+				);
+			var kingdomAdjacenciesByLand = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
+			var kingdomAdjacenciesByWaterBody = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
+			Parallel.ForEach(deJureKingdoms, kingdom => {
+				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdom.Id, provincesPerKingdomDict, kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody);
+			});
+
+			SplitDisconnectedEmpires(kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
+
+			SetEmpireCapitals(ck3BookmarkDate);
+		}
+
+		private void TryToAssignKingdomsToExistingEmpires(ImmutableArray<Title> deJureKingdoms, Date ck3BookmarkDate) {
 			// Try to assign kingdoms to existing empires.
 			foreach (var kingdom in deJureKingdoms) {
 				// Don't change the de jure inside h_china, to avoid messing with the Dynastic Cycle and shit.
@@ -1109,7 +1139,11 @@ internal sealed partial class Title {
 
 				kingdom.DeJureLiege = this[empireId];
 			}
-			
+		}
+
+		private void SetDeJureEmpiresWithinHegemonies(ImmutableArray<Title> deJureKingdoms, MapData ck3MapData,
+			CK3LocDB ck3LocDB, Date ck3BookmarkDate)
+		{
 			// For kingdoms that are mostly within hegemonies, group them by hegemony to prepare for clustering.
 			Dictionary<string, List<Title>> hegemonyToKingdomsDict = [];
 			foreach (var kingdom in deJureKingdoms) {
@@ -1153,7 +1187,7 @@ internal sealed partial class Title {
 						var countyCapitals = k.GetDeJureVassalsAndBelow("c").Values
 							.Select(c => c.CapitalCounty?.CapitalBaronyProvinceId)
 							.Where(id => id != null)
-							.Select(id => ck3MapData.ProvincePositions.TryGetValue(id!.Value, out var coords) ? coords : null)
+							.Select(id => ck3MapData.ProvincePositions.GetValueOrDefault(id!.Value))
 							.Where(coords => coords != null)
 							.ToArray();
 						if (countyCapitals.Length == 0) {
@@ -1171,7 +1205,12 @@ internal sealed partial class Title {
 					if (biggestKingdom is null) {
 						continue;
 					}
-					var empire = CreateEmpireForCluster(biggestKingdom, ck3Cultures, ck3LocDB);
+					var empire = CreateEmpireForCluster(biggestKingdom, ck3LocDB);
+					if (TryGetValue(hegemonyId, out var hegemony)) {
+						empire.DeJureLiege = hegemony;
+					} else {
+						Logger.Warn($"Could not set de jure hegemony for generated empire {empire.Id}: {hegemonyId} not found.");
+					}
 					foreach (var kingdom in clusterKingdoms) {
 						if (kingdom.Id == biggestKingdom.Id) {
 							continue;
@@ -1180,30 +1219,6 @@ internal sealed partial class Title {
 					}
 				}
 			}
-			
-			// For kingdoms that still have no de jure empire, create empires based on dominant culture of the realms
-			// holding land in that de jure kingdom.
-			var removableEmpireIds = new HashSet<string>();
-			var kingdomToDominantHeritagesDict = new Dictionary<string, ImmutableArray<Pillar>>();
-			var heritageToEmpireDict = GetHeritageIdToExistingTitleDict();
-			CreateEmpiresBasedOnDominantHeritages(deJureKingdoms, ck3Cultures, ck3Characters, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
-			
-			Logger.Debug("Building kingdom adjacencies dict...");
-			// Create a cache of province IDs per kingdom.
-			var provincesPerKingdomDict = deJureKingdoms
-				.ToFrozenDictionary(
-					k => k.Id,
-					k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToFrozenSet()
-				);
-			var kingdomAdjacenciesByLand = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
-			var kingdomAdjacenciesByWaterBody = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
-			Parallel.ForEach(deJureKingdoms, kingdom => {
-				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdom.Id, provincesPerKingdomDict, kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody);
-			});
-			
-			SplitDisconnectedEmpires(kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
-			
-			SetEmpireCapitals(ck3BookmarkDate);
 		}
 
 		private static List<Dictionary<string, (double X, double Y)>> ClusterKingdoms(
@@ -1245,7 +1260,7 @@ internal sealed partial class Title {
 					continue;
 				}
 				int leftovers = remainingKingdomCount - candidateSize;
-				if (leftovers == 0 || leftovers >= 4) {
+				if (leftovers is 0 or >= 4) {
 					return candidateSize;
 				}
 			}
@@ -1286,7 +1301,7 @@ internal sealed partial class Title {
 			}
 		}
 
-		private Title CreateEmpireForCluster(Title highestDevKingdom, CultureCollection ck3Cultures, CK3LocDB ck3LocDB) {
+		private Title CreateEmpireForCluster(Title highestDevKingdom, CK3LocDB ck3LocDB) {
 			string empireIdBase = $"e_IRTOCK3_cluster_from_{highestDevKingdom.Id}";
 			string empireId = empireIdBase;
 			for (int i = 1; ContainsKey(empireId); ++i) {
@@ -1294,7 +1309,7 @@ internal sealed partial class Title {
 			}
 
 			var empire = Add(empireId);
-			empire.Color1 = highestDevKingdom.Color1 ?? ck3Cultures.Select(c => c.Color).FirstOrDefault();
+			empire.Color1 = highestDevKingdom.Color1;
 			empire.CapitalCounty = highestDevKingdom.CapitalCounty ?? highestDevKingdom.GetDeJureVassalsAndBelow("c").Values.FirstOrDefault();
 			empire.HasDefiniteForm = false;
 
@@ -1661,10 +1676,6 @@ internal sealed partial class Title {
 			return mapData.AreProvinceGroupsConnectedByWaterBody(title1ProvinceIds, title2ProvinceIds);
 		}
 
-		private void SetDeJureHegemonies(Date ck3BookmarkDate) {
-			// TODO: De jure hegemonies are not implemented yet.
-		}
-
 		private void SetEmpireCapitals(Date ck3BookmarkDate) {
 			// Make sure every empire's capital is within the empire's de jure land.
 			Logger.Info("Setting empire capitals...");
@@ -1696,10 +1707,9 @@ internal sealed partial class Title {
 			}
 		}
 
-		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3LocDB ck3LocDB) {
+		public void SetDeJureKingdomsAndAbove(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3LocDB ck3LocDB) {
 			SetDeJureKingdoms(ck3LocDB, ck3BookmarkDate);
-			SetDeJureEmpires(ck3Cultures, ck3Characters, ck3MapData, ck3LocDB, ck3BookmarkDate);
-			SetDeJureHegemonies(ck3BookmarkDate);
+			SetDeJureEmpiresAndHegemonies(ck3Cultures, ck3Characters, ck3MapData, ck3LocDB, ck3BookmarkDate);
 		}
 
 		private HashSet<string> GetCountyHolderIds(Date date) {
