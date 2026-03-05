@@ -1466,7 +1466,7 @@ internal sealed partial class Title {
 			FrozenDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody,
 			HashSet<string> removableEmpireIds,
 			Dictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
-			Dictionary<string, Title> heritageToEmpireDict,
+			Dictionary<string, Title?> heritageToEmpireDict,
 			CK3LocDB ck3LocDB,
 			Date date
 		) {
@@ -1514,6 +1514,9 @@ internal sealed partial class Title {
 						if (!heritageToEmpireDict.TryGetValue(secondaryHeritage.Id, out var heritageEmpire)) {
 							continue;
 						}
+						if (heritageEmpire is null) {
+							continue;
+						}
 						if (!adjacentEmpiresByLand.Contains(heritageEmpire)) {
 							continue;
 						}
@@ -1532,6 +1535,9 @@ internal sealed partial class Title {
 						
 						foreach (var secondaryHeritage in dominantHeritages.Skip(1)) {
 							if (!heritageToEmpireDict.TryGetValue(secondaryHeritage.Id, out var heritageEmpire)) {
+								continue;
+							}
+							if (heritageEmpire is null) {
 								continue;
 							}
 							if (!adjacentEmpiresByWaterBody.Contains(heritageEmpire)) {
