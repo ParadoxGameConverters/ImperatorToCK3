@@ -1186,7 +1186,7 @@ internal sealed partial class Title {
 					k => k.Id,
 					k => {
 						var countyCapitals = k.GetDeJureVassalsAndBelow("c").Values
-							.Select(c => c.CapitalCounty?.CapitalBaronyProvinceId)
+							.Select(c => c.CapitalBaronyProvinceId)
 							.Where(id => id != null)
 							.Select(id => ck3MapData.ProvincePositions.GetValueOrDefault(id!.Value))
 							.Where(coords => coords != null)
@@ -1213,15 +1213,16 @@ internal sealed partial class Title {
 						Logger.Warn($"Could not set de jure hegemony for generated empire {empire.Id}: {hegemonyId} not found.");
 					}
 					foreach (var kingdom in clusterKingdoms) {
-						if (kingdom.Id == biggestKingdom.Id) {
-							continue;
-						}
 						kingdom.DeJureLiege = empire;
 					}
 				}
 			}
 		}
 
+		// The algorithm used for clustering is a simple greedy algorithm:
+		// 1. Pick the kingdom with the lowest Y coordinate (and then lowest X coordinate to break ties) as the seed of the cluster.
+		// 2. Add the nearest kingdom to the cluster until the cluster has the desired number of kingdoms.
+		// 3. Repeat until there are no more kingdoms left.
 		private static List<Dictionary<string, (double X, double Y)>> ClusterKingdoms(
 			IReadOnlyDictionary<string, (double X, double Y)> kingdomPositions,
 			int desiredClusterSize
