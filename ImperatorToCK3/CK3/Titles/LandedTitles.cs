@@ -1110,7 +1110,7 @@ internal sealed partial class Title {
 				kingdom.DeJureLiege = this[empireId];
 			}
 			
-			// For kingdoms that are mostly within hegemonies, group them into groups of 5, and for each group create an empire from the highest development kingdom.
+			// For kingdoms that are mostly within hegemonies, group them by hegemony to prepare for clustering.
 			Dictionary<string, List<Title>> hegemonyToKingdomsDict = [];
 			foreach (var kingdom in deJureKingdoms) {
 				var hegemonyShares = new Dictionary<string, int>();
@@ -1145,7 +1145,7 @@ internal sealed partial class Title {
 				kingdoms.Add(kingdom);
 			}
 			// Using a clustering algorithm (where a kingdom's position is the average position of its counties' capitals), cluster kingdoms to make each cluster around 4-6 kingdoms.
-			// For each cluster, create an empire from the highest development kingdom in the cluster, and make it a de jure liege of the other kingdoms in the cluster.
+			// For each cluster, create an empire from the biggest kingdom in the cluster, and make it a de jure liege of the other kingdoms in the cluster.
 			foreach (var (hegemonyId, kingdoms) in hegemonyToKingdomsDict) {
 				var kingdomPositions = kingdoms.ToDictionary(
 					k => k.Id,
@@ -1167,10 +1167,13 @@ internal sealed partial class Title {
 				var clusters = ClusterKingdoms(kingdomPositions, desiredClusterSize: 5);
 				foreach (var cluster in clusters) {
 					var clusterKingdoms = cluster.Select(kvp => kingdoms.First(k => k.Id == kvp.Key)).ToArray();
-					var highestDevKingdom = clusterKingdoms.MaxBy(k => k.GetDeJureVassalsAndBelow("c").Values.Sum(c => c.CountyProvinceIds.Count()));
-					var empire = CreateEmpireForCluster(highestDevKingdom, ck3Cultures, ck3LocDB);
+					var biggestKingdom = clusterKingdoms.MaxBy(k => k.GetDeJureVassalsAndBelow("c").Values.Sum(c => c.CountyProvinceIds.Count()));
+					if (biggestKingdom is null) {
+						continue;
+					}
+					var empire = CreateEmpireForCluster(biggestKingdom, ck3Cultures, ck3LocDB);
 					foreach (var kingdom in clusterKingdoms) {
-						if (kingdom.Id == highestDevKingdom.Id) {
+						if (kingdom.Id == biggestKingdom.Id) {
 							continue;
 						}
 						kingdom.DeJureLiege = empire;
@@ -1201,6 +1204,117 @@ internal sealed partial class Title {
 			SplitDisconnectedEmpires(kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
 			
 			SetEmpireCapitals(ck3BookmarkDate);
+		}
+
+		private static List<Dictionary<string, (double X, double Y)>> ClusterKingdoms(
+			IReadOnlyDictionary<string, (double X, double Y)> kingdomPositions,
+			int desiredClusterSize
+		) {
+			if (kingdomPositions.Count == 0) {
+				return [];
+			}
+			desiredClusterSize = Math.Clamp(desiredClusterSize, 4, 6);
+			var remainingKingdomIds = kingdomPositions.Keys.ToHashSet();
+			var clusters = new List<Dictionary<string, (double X, double Y)>>();
+			while (remainingKingdomIds.Count > 0) {
+				if (remainingKingdomIds.Count <= 6 || remainingKingdomIds.Count < desiredClusterSize + 3) {
+					clusters.Add(remainingKingdomIds.ToDictionary(id => id, id => kingdomPositions[id]));
+					break;
+				}
+				int targetClusterSize = GetTargetClusterSize(remainingKingdomIds.Count, desiredClusterSize);
+				var seedKingdomId = GetSeedKingdomId(remainingKingdomIds, kingdomPositions);
+				var clusterIds = new HashSet<string> { seedKingdomId };
+				while (clusterIds.Count < targetClusterSize) {
+					var candidates = remainingKingdomIds.Except(clusterIds).ToArray();
+					if (candidates.Length == 0) {
+						break;
+					}
+					clusterIds.Add(GetNearestKingdomId(candidates, clusterIds, kingdomPositions));
+				}
+				clusters.Add(clusterIds.ToDictionary(id => id, id => kingdomPositions[id]));
+				foreach (var id in clusterIds) {
+					remainingKingdomIds.Remove(id);
+				}
+			}
+			return clusters;
+		}
+
+		private static int GetTargetClusterSize(int remainingKingdomCount, int desiredClusterSize) {
+			foreach (var candidateSize in new[] { desiredClusterSize, desiredClusterSize - 1, desiredClusterSize + 1 }) {
+				if (candidateSize <= 0 || candidateSize > remainingKingdomCount) {
+					continue;
+				}
+				int leftovers = remainingKingdomCount - candidateSize;
+				if (leftovers == 0 || leftovers >= 4) {
+					return candidateSize;
+				}
+			}
+
+			return desiredClusterSize;
+		}
+
+		private static string GetSeedKingdomId(
+			IEnumerable<string> kingdomIds,
+			IReadOnlyDictionary<string, (double X, double Y)> kingdomPositions
+		) {
+			return kingdomIds
+				.OrderBy(id => kingdomPositions[id].Y)
+				.ThenBy(id => kingdomPositions[id].X)
+				.ThenBy(id => id, StringComparer.Ordinal)
+				.First();
+		}
+
+		private static string GetNearestKingdomId(
+			IEnumerable<string> candidateIds,
+			IReadOnlyCollection<string> clusterIds,
+			IReadOnlyDictionary<string, (double X, double Y)> kingdomPositions
+		) {
+			var centroid = (
+				X: clusterIds.Average(id => kingdomPositions[id].X),
+				Y: clusterIds.Average(id => kingdomPositions[id].Y)
+			);
+
+			return candidateIds
+				.OrderBy(id => DistanceSquared(kingdomPositions[id], centroid))
+				.ThenBy(id => id, StringComparer.Ordinal)
+				.First();
+
+			static double DistanceSquared((double X, double Y) p1, (double X, double Y) p2) {
+				var dx = p1.X - p2.X;
+				var dy = p1.Y - p2.Y;
+				return (dx * dx) + (dy * dy);
+			}
+		}
+
+		private Title CreateEmpireForCluster(Title highestDevKingdom, CultureCollection ck3Cultures, CK3LocDB ck3LocDB) {
+			string empireIdBase = $"e_IRTOCK3_cluster_from_{highestDevKingdom.Id}";
+			string empireId = empireIdBase;
+			for (int i = 1; ContainsKey(empireId); ++i) {
+				empireId = $"{empireIdBase}_{i}";
+			}
+
+			var empire = Add(empireId);
+			empire.Color1 = highestDevKingdom.Color1 ?? ck3Cultures.Select(c => c.Color).FirstOrDefault();
+			empire.CapitalCounty = highestDevKingdom.CapitalCounty ?? highestDevKingdom.GetDeJureVassalsAndBelow("c").Values.FirstOrDefault();
+			empire.HasDefiniteForm = false;
+
+			var empireNameLoc = ck3LocDB.GetOrCreateLocBlock(empire.Id);
+			empireNameLoc.ModifyForEveryLanguage(
+				(orig, language) => $"${highestDevKingdom.Id}$"
+			);
+
+			var empireAdjLoc = ck3LocDB.GetOrCreateLocBlock($"{empire.Id}_adj");
+			string kingdomAdjLocKey = highestDevKingdom.Id + "_adj";
+			empireAdjLoc.ModifyForEveryLanguage(
+				(orig, language) => {
+					if (ck3LocDB.HasKeyLocForLanguage(kingdomAdjLocKey, language)) {
+						return $"${kingdomAdjLocKey}$";
+					}
+					return $"${highestDevKingdom.Id}$";
+				}
+			);
+
+			return empire;
 		}
 
 		private void CreateEmpiresBasedOnDominantHeritages(
