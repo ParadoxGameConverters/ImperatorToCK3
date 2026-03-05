@@ -1101,6 +1101,7 @@ internal sealed partial class Title {
 			SplitDisconnectedEmpires(kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
 
 			SetEmpireCapitals(ck3BookmarkDate);
+			SetHegemonyCapitals(ck3BookmarkDate);
 		}
 
 		private void TryToAssignKingdomsToExistingEmpires(ImmutableArray<Title> deJureKingdoms, Date ck3BookmarkDate) {
@@ -1709,6 +1710,37 @@ internal sealed partial class Title {
 					.MaxBy(c => c.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate));
 				if (mostDevelopedCounty is not null) {
 					empire.CapitalCounty = mostDevelopedCounty;
+				}
+			}
+		}
+
+		private void SetHegemonyCapitals(Date ck3BookmarkDate) {
+			// Make sure every hegemony's capital is within the hegemony's de jure land.
+			Logger.Info("Setting hegemony capitals...");
+			foreach (var hegemony in this.Where(t => t.Rank == TitleRank.hegemony)) {
+				var deJureCounties = hegemony.GetDeJureVassalsAndBelow("c").Values;
+
+				// If the hegemony already has a set capital, and it's within the de jure land, keep it.
+				if (hegemony.CapitalCounty is not null && deJureCounties.Contains(hegemony.CapitalCounty)) {
+					continue;
+				}
+
+				// Try to use most developed county among the de jure empire capitals.
+				var deJureEmpires = hegemony.GetDeJureVassalsAndBelow("e").Values;
+				var mostDevelopedCounty = deJureEmpires
+					.Select(e => e.CapitalCounty)
+					.Where(c => c is not null)
+					.MaxBy(c => c!.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate));
+				if (mostDevelopedCounty is not null) {
+					hegemony.CapitalCounty = mostDevelopedCounty;
+					continue;
+				}
+
+				// Otherwise, use the most developed county among the de jure hegemony's counties.
+				mostDevelopedCounty = deJureCounties
+					.MaxBy(c => c.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate));
+				if (mostDevelopedCounty is not null) {
+					hegemony.CapitalCounty = mostDevelopedCounty;
 				}
 			}
 		}
