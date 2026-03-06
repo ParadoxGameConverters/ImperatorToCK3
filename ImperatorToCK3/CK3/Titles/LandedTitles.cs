@@ -1072,7 +1072,8 @@ internal sealed partial class Title {
 
 		private void SetDeJureEmpiresAndHegemonies(CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3RegionMapper ck3RegionMapper, CK3LocDB ck3LocDB, Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure empires...");
-			var deJureKingdomsOutsideChina = GetDeJureKingdoms()
+			var deJureKingdoms = GetDeJureKingdoms();
+			var deJureKingdomsOutsideChina = deJureKingdoms
 				.Where(k => !string.Equals(k.DeJureLiege?.DeJureLiege?.Id, "h_china", StringComparison.Ordinal))
 				.ToImmutableArray();
 			
@@ -1089,15 +1090,15 @@ internal sealed partial class Title {
 			
 			Logger.Debug("Building kingdom adjacencies dict...");
 			// Create a cache of province IDs per kingdom.
-			var provincesPerKingdomDict = deJureKingdomsOutsideChina
+			var provincesPerKingdomDict = deJureKingdoms
 				.ToFrozenDictionary(
 					k => k.Id,
 					k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToFrozenSet()
 				);
-			var kingdomAdjacenciesByLand = deJureKingdomsOutsideChina.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
-			var kingdomAdjacenciesByWaterBody = deJureKingdomsOutsideChina.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
-			Parallel.ForEach(deJureKingdomsOutsideChina, kingdom => {
-				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdomsOutsideChina, kingdom.Id, provincesPerKingdomDict, kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody);
+			var kingdomAdjacenciesByLand = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
+			var kingdomAdjacenciesByWaterBody = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
+			Parallel.ForEach(deJureKingdoms, kingdom => {
+				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdom.Id, provincesPerKingdomDict, kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody);
 			});
 
 			SplitDisconnectedEmpires(kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
@@ -1179,9 +1180,6 @@ internal sealed partial class Title {
 				}
 
 				if (!TryGetValue(hegemonyId, out var hegemony)) {
-					continue;
-				}
-				if (hegemony.GetGovernment(ck3BookmarkDate) == "celestial_government") {
 					continue;
 				}
 				
@@ -1615,7 +1613,9 @@ internal sealed partial class Title {
 				dictToReturn[empire] = kingdomGroups;
 			}
 
-			return dictToReturn;
+			// Exclude empires under h_china from this, we don't want to split them up.
+			return dictToReturn.Where(kvp => kvp.Key.DeJureLiege is null || kvp.Key.DeJureLiege.Id != "h_china")
+				.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 		}
 		
 		private static bool AreTitlesAdjacentByLand(FrozenSet<ulong> title1ProvinceIds, FrozenSet<ulong> title2ProvinceIds, MapData mapData) {
