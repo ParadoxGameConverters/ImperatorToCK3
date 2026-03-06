@@ -1070,13 +1070,13 @@ internal sealed partial class Title {
 			Logger.IncrementProgress();
 		}
 
-		private void SetDeJureEmpiresAndHegemonies(CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3LocDB ck3LocDB, Date ck3BookmarkDate) {
+		private void SetDeJureEmpiresAndHegemonies(CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3RegionMapper ck3RegionMapper, CK3LocDB ck3LocDB, Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure empires...");
 			var deJureKingdoms = GetDeJureKingdoms();
 			
 			TryToAssignKingdomsToExistingEmpires(deJureKingdoms, ck3BookmarkDate);
 
-			SetDeJureEmpiresWithinHegemonies(deJureKingdoms, ck3MapData, ck3LocDB, ck3BookmarkDate);
+			SetDeJureEmpiresWithinHegemonies(deJureKingdoms, ck3RegionMapper, ck3LocDB, ck3BookmarkDate);
 
 			// For kingdoms that still have no de jure empire, create empires based on dominant culture of the realms
 			// holding land in that de jure kingdom.
@@ -1142,10 +1142,18 @@ internal sealed partial class Title {
 			}
 		}
 
-		private void SetDeJureEmpiresWithinHegemonies(ImmutableArray<Title> deJureKingdoms, MapData ck3MapData,
+		private void SetDeJureEmpiresWithinHegemonies(ImmutableArray<Title> deJureKingdoms, CK3RegionMapper ck3RegionMapper,
 			CK3LocDB ck3LocDB, Date ck3BookmarkDate)
 		{
-			// For kingdoms that are mostly within hegemonies, group them by hegemony to prepare for clustering.
+			const string romeDivisionRegionPrefix = "irtock3_rome_empire_division_";
+			var romeDivisionRegionIds = ck3RegionMapper.Regions.Keys
+				.Where(regionId => regionId.StartsWith(romeDivisionRegionPrefix, StringComparison.Ordinal))
+				.ToImmutableArray();
+
+			if (romeDivisionRegionIds.Length == 0) {
+				return;
+			}
+
 			Dictionary<string, List<Title>> hegemonyToKingdomsDict = [];
 			foreach (var kingdom in deJureKingdoms) {
 				var hegemonyShares = new Dictionary<string, int>();
@@ -1172,6 +1180,13 @@ internal sealed partial class Title {
 				if (share < (kingdomProvincesCount * 0.50)) {
 					continue;
 				}
+
+				if (!TryGetValue(hegemonyId, out var hegemony)) {
+					continue;
+				}
+				if (hegemony.GetGovernment(ck3BookmarkDate) == "celestial_government") {
+					continue;
+				}
 				
 				if (!hegemonyToKingdomsDict.TryGetValue(hegemonyId, out var kingdoms)) {
 					kingdoms = [];
@@ -1179,189 +1194,88 @@ internal sealed partial class Title {
 				}
 				kingdoms.Add(kingdom);
 			}
-			// Using a clustering algorithm (where a kingdom's position is the average position of its counties' capitals), cluster kingdoms to make each cluster around 4-6 kingdoms.
-			// For each cluster, create an empire from the biggest kingdom in the cluster, and make it a de jure liege of the other kingdoms in the cluster.
-			foreach (var (hegemonyId, kingdoms) in hegemonyToKingdomsDict) {
-				var kingdomPositions = kingdoms.ToDictionary(
-					k => k.Id,
-					k => {
-						var countyCapitals = k.GetDeJureVassalsAndBelow("c").Values
-							.Select(c => c.CapitalBaronyProvinceId)
-							.Where(id => id != null)
-							.Select(id => ck3MapData.ProvincePositions.GetValueOrDefault(id!.Value))
-							.Where(coords => coords != null)
-							.ToArray();
-						if (countyCapitals.Length == 0) {
-							return (X: 0.0, Y: 0.0);
-						}
-						var avgX = countyCapitals.Average(coords => coords!.X);
-						var avgY = countyCapitals.Average(coords => coords!.Y);
-						return (X: avgX, Y: avgY);
-					}
-				);
-				var provincesPerKingdom = kingdoms
-					.ToDictionary(
-						k => k.Id,
-						k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToFrozenSet()
-					);
-				var kingdomAdjacenciesByLand = kingdoms
-					.ToDictionary(k => k.Id, _ => new HashSet<string>());
-				for (int i = 0; i < kingdoms.Count; ++i) {
-					for (int j = i + 1; j < kingdoms.Count; ++j) {
-						var kingdom1 = kingdoms[i];
-						var kingdom2 = kingdoms[j];
-						if (!AreTitlesAdjacentByLand(provincesPerKingdom[kingdom1.Id], provincesPerKingdom[kingdom2.Id], ck3MapData)) {
-							continue;
-						}
 
-						kingdomAdjacenciesByLand[kingdom1.Id].Add(kingdom2.Id);
-						kingdomAdjacenciesByLand[kingdom2.Id].Add(kingdom1.Id);
-					}
+			foreach (var (hegemonyId, kingdomsForHegemony) in hegemonyToKingdomsDict) {
+				if (!TryGetValue(hegemonyId, out var hegemony)) {
+					continue;
 				}
-				var clusters = ClusterKingdoms(kingdomPositions, kingdomAdjacenciesByLand, desiredClusterSize: 5);
-				foreach (var cluster in clusters) {
-					var clusterKingdoms = cluster.Select(kvp => kingdoms.First(k => k.Id == kvp.Key)).ToArray();
-					var biggestKingdom = clusterKingdoms.MaxBy(k => k.GetDeJureVassalsAndBelow("c").Values.Sum(c => c.CountyProvinceIds.Count()));
-					if (biggestKingdom is null) {
+
+				Dictionary<string, List<Title>> regionToKingdomsDict = [];
+				foreach (var kingdom in kingdomsForHegemony) {
+					var regionShares = new Dictionary<string, int>();
+					var kingdomProvincesCount = 0;
+
+					foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
+						foreach (var provinceId in county.CountyProvinceIds) {
+							++kingdomProvincesCount;
+							foreach (var divisionRegionId in romeDivisionRegionIds) {
+								if (!ck3RegionMapper.ProvinceIsInRegion(provinceId, divisionRegionId)) {
+									continue;
+								}
+
+								regionShares.TryGetValue(divisionRegionId, out var currentCount);
+								regionShares[divisionRegionId] = currentCount + 1;
+							}
+						}
+					}
+
+					if (regionShares.Count == 0) {
 						continue;
 					}
-					var empire = CreateEmpireForCluster(biggestKingdom, ck3LocDB);
-					if (TryGetValue(hegemonyId, out var hegemony)) {
-						empire.DeJureLiege = hegemony;
-					} else {
-						Logger.Warn($"Could not set de jure hegemony for generated empire {empire.Id}: {hegemonyId} not found.");
+
+					(string regionId, int share) = regionShares.MaxBy(pair => pair.Value);
+					if (share < (kingdomProvincesCount * 0.50)) {
+						continue;
 					}
-					foreach (var kingdom in clusterKingdoms) {
+
+					if (!regionToKingdomsDict.TryGetValue(regionId, out var kingdomsForRegion)) {
+						kingdomsForRegion = [];
+						regionToKingdomsDict[regionId] = kingdomsForRegion;
+					}
+					kingdomsForRegion.Add(kingdom);
+				}
+
+				foreach (var (regionId, kingdomsForRegion) in regionToKingdomsDict) {
+					var nameSourceKingdom = kingdomsForRegion
+						.OrderByDescending(k => k.GetDeJureVassalsAndBelow("c").Values.Sum(c => c.GetDevelopmentLevel(ck3BookmarkDate) ?? 0))
+						.ThenBy(k => k.Id, StringComparer.Ordinal)
+						.First();
+
+					var regionSuffix = regionId.StartsWith(romeDivisionRegionPrefix, StringComparison.Ordinal)
+						? regionId[romeDivisionRegionPrefix.Length..]
+						: regionId;
+					var baseEmpireId = $"e_IRTOCK3_hegemony_{hegemonyId}_{regionSuffix}";
+					var empireId = baseEmpireId;
+					var idCounter = 2;
+					while (TryGetValue(empireId, out _)) {
+						empireId = $"{baseEmpireId}_{idCounter}";
+						++idCounter;
+					}
+
+					var empire = Add(empireId);
+					empire.Color1 = nameSourceKingdom.Color1;
+					empire.CapitalCounty = nameSourceKingdom.CapitalCounty;
+					empire.DeJureLiege = hegemony;
+
+					var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(empire.Id);
+					nameLocBlock.ModifyForEveryLanguage((orig, language) => $"${nameSourceKingdom.Id}$");
+
+					var adjectiveLocBlock = ck3LocDB.GetOrCreateLocBlock($"{empire.Id}_adj");
+					var sourceAdjLocKey = $"{nameSourceKingdom.Id}_adj";
+					adjectiveLocBlock.ModifyForEveryLanguage((orig, language) => {
+						if (ck3LocDB.HasKeyLocForLanguage(sourceAdjLocKey, language)) {
+							return $"${sourceAdjLocKey}$";
+						}
+
+						Logger.Debug($"Using kingdom name as adjective for {empire.Id} in {language} because kingdom adjective is missing.");
+						return $"${nameSourceKingdom.Id}$";
+					});
+
+					foreach (var kingdom in kingdomsForRegion) {
 						kingdom.DeJureLiege = empire;
 					}
 				}
 			}
-		}
-
-		// The algorithm used for clustering is a simple greedy algorithm:
-		// 1. Pick the kingdom with the lowest Y coordinate (and then lowest X coordinate to break ties) as the seed of the cluster.
-		// 2. Prefer kingdoms neighboring the cluster by land, and add the nearest among them.
-		//    If no land-neighboring candidates exist, add the nearest kingdom overall.
-		// 3. Repeat until there are no more kingdoms left.
-		private static List<Dictionary<string, (double X, double Y)>> ClusterKingdoms(
-			IReadOnlyDictionary<string, (double X, double Y)> kingdomPositions,
-			IReadOnlyDictionary<string, HashSet<string>> kingdomAdjacenciesByLand,
-			int desiredClusterSize
-		) {
-			if (kingdomPositions.Count == 0) {
-				return [];
-			}
-			desiredClusterSize = Math.Clamp(desiredClusterSize, 4, 6);
-			var remainingKingdomIds = kingdomPositions.Keys.ToHashSet();
-			var clusters = new List<Dictionary<string, (double X, double Y)>>();
-			while (remainingKingdomIds.Count > 0) {
-				if (remainingKingdomIds.Count <= 6 || remainingKingdomIds.Count < desiredClusterSize + 3) {
-					clusters.Add(remainingKingdomIds.ToDictionary(id => id, id => kingdomPositions[id]));
-					break;
-				}
-				int targetClusterSize = GetTargetClusterSize(remainingKingdomIds.Count, desiredClusterSize);
-				var seedKingdomId = GetSeedKingdomId(remainingKingdomIds, kingdomPositions);
-				var clusterIds = new HashSet<string> { seedKingdomId };
-				while (clusterIds.Count < targetClusterSize) {
-					var candidates = remainingKingdomIds.Except(clusterIds).ToArray();
-					if (candidates.Length == 0) {
-						break;
-					}
-					clusterIds.Add(GetNearestKingdomId(candidates, clusterIds, kingdomPositions, kingdomAdjacenciesByLand));
-				}
-				clusters.Add(clusterIds.ToDictionary(id => id, id => kingdomPositions[id]));
-				foreach (var id in clusterIds) {
-					remainingKingdomIds.Remove(id);
-				}
-			}
-			return clusters;
-		}
-
-		private static int GetTargetClusterSize(int remainingKingdomCount, int desiredClusterSize) {
-			foreach (var candidateSize in new[] { desiredClusterSize, desiredClusterSize - 1, desiredClusterSize + 1 }) {
-				if (candidateSize <= 0 || candidateSize > remainingKingdomCount) {
-					continue;
-				}
-				int leftovers = remainingKingdomCount - candidateSize;
-				if (leftovers is 0 or >= 4) {
-					return candidateSize;
-				}
-			}
-
-			return desiredClusterSize;
-		}
-
-		private static string GetSeedKingdomId(
-			IEnumerable<string> kingdomIds,
-			IReadOnlyDictionary<string, (double X, double Y)> kingdomPositions
-		) {
-			return kingdomIds
-				.OrderBy(id => kingdomPositions[id].Y)
-				.ThenBy(id => kingdomPositions[id].X)
-				.ThenBy(id => id, StringComparer.Ordinal)
-				.First();
-		}
-
-		private static string GetNearestKingdomId(
-			IEnumerable<string> candidateIds,
-			IReadOnlyCollection<string> clusterIds,
-			IReadOnlyDictionary<string, (double X, double Y)> kingdomPositions,
-			IReadOnlyDictionary<string, HashSet<string>> kingdomAdjacenciesByLand
-		) {
-			var centroid = (
-				X: clusterIds.Average(id => kingdomPositions[id].X),
-				Y: clusterIds.Average(id => kingdomPositions[id].Y)
-			);
-
-			var landAdjacentCandidateIds = candidateIds
-				.Where(candidateId => clusterIds.Any(clusterId =>
-					kingdomAdjacenciesByLand.TryGetValue(clusterId, out var neighbors) && neighbors.Contains(candidateId)
-				))
-				.ToArray();
-
-			var candidatesToEvaluate = landAdjacentCandidateIds.Length > 0 ? landAdjacentCandidateIds : candidateIds;
-
-			return candidatesToEvaluate
-				.OrderBy(id => DistanceSquared(kingdomPositions[id], centroid))
-				.ThenBy(id => id, StringComparer.Ordinal)
-				.First();
-
-			static double DistanceSquared((double X, double Y) p1, (double X, double Y) p2) {
-				var dx = p1.X - p2.X;
-				var dy = p1.Y - p2.Y;
-				return (dx * dx) + (dy * dy);
-			}
-		}
-
-		private Title CreateEmpireForCluster(Title highestDevKingdom, CK3LocDB ck3LocDB) {
-			string empireIdBase = $"e_IRTOCK3_cluster_from_{highestDevKingdom.Id}";
-			string empireId = empireIdBase;
-			for (int i = 1; ContainsKey(empireId); ++i) {
-				empireId = $"{empireIdBase}_{i}";
-			}
-
-			var empire = Add(empireId);
-			empire.Color1 = highestDevKingdom.Color1;
-			empire.CapitalCounty = highestDevKingdom.CapitalCounty ?? highestDevKingdom.GetDeJureVassalsAndBelow("c").Values.FirstOrDefault();
-			empire.HasDefiniteForm = false;
-
-			var empireNameLoc = ck3LocDB.GetOrCreateLocBlock(empire.Id);
-			empireNameLoc.ModifyForEveryLanguage(
-				(orig, language) => $"${highestDevKingdom.Id}$"
-			);
-
-			var empireAdjLoc = ck3LocDB.GetOrCreateLocBlock($"{empire.Id}_adj");
-			string kingdomAdjLocKey = highestDevKingdom.Id + "_adj";
-			empireAdjLoc.ModifyForEveryLanguage(
-				(orig, language) => {
-					if (ck3LocDB.HasKeyLocForLanguage(kingdomAdjLocKey, language)) {
-						return $"${kingdomAdjLocKey}$";
-					}
-					return $"${highestDevKingdom.Id}$";
-				}
-			);
-
-			return empire;
 		}
 
 		private void CreateEmpiresBasedOnDominantHeritages(
@@ -1776,9 +1690,9 @@ internal sealed partial class Title {
 			}
 		}
 
-		public void SetDeJureKingdomsAndAbove(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3LocDB ck3LocDB) {
+		public void SetDeJureKingdomsAndAbove(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3RegionMapper ck3RegionMapper, CK3LocDB ck3LocDB) {
 			SetDeJureKingdoms(ck3LocDB, ck3BookmarkDate);
-			SetDeJureEmpiresAndHegemonies(ck3Cultures, ck3Characters, ck3MapData, ck3LocDB, ck3BookmarkDate);
+			SetDeJureEmpiresAndHegemonies(ck3Cultures, ck3Characters, ck3MapData, ck3RegionMapper, ck3LocDB, ck3BookmarkDate);
 		}
 
 		private HashSet<string> GetCountyHolderIds(Date date) {
