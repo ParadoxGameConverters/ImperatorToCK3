@@ -1072,30 +1072,32 @@ internal sealed partial class Title {
 
 		private void SetDeJureEmpiresAndHegemonies(CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3RegionMapper ck3RegionMapper, CK3LocDB ck3LocDB, Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure empires...");
-			var deJureKingdoms = GetDeJureKingdoms();
+			var deJureKingdomsOutsideChina = GetDeJureKingdoms()
+				.Where(k => !string.Equals(k.DeJureLiege?.DeJureLiege?.Id, "h_china", StringComparison.Ordinal))
+				.ToImmutableArray();
 			
-			TryToAssignKingdomsToExistingEmpires(deJureKingdoms, ck3BookmarkDate);
+			TryToAssignKingdomsToExistingEmpires(deJureKingdomsOutsideChina, ck3BookmarkDate);
 
-			SetDeJureEmpiresWithinHegemonies(deJureKingdoms, ck3RegionMapper, ck3LocDB, ck3BookmarkDate);
+			SetDeJureEmpiresWithinHegemonies(deJureKingdomsOutsideChina, ck3RegionMapper, ck3LocDB, ck3BookmarkDate);
 
 			// For kingdoms that still have no de jure empire, create empires based on dominant culture of the realms
 			// holding land in that de jure kingdom.
 			var removableEmpireIds = new HashSet<string>();
 			var kingdomToDominantHeritagesDict = new Dictionary<string, ImmutableArray<Pillar>>();
 			var heritageToEmpireDict = GetHeritageIdToExistingTitleDict();
-			CreateEmpiresBasedOnDominantHeritages(deJureKingdoms, ck3Cultures, ck3Characters, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
+			CreateEmpiresBasedOnDominantHeritages(deJureKingdomsOutsideChina, ck3Cultures, ck3Characters, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
 			
 			Logger.Debug("Building kingdom adjacencies dict...");
 			// Create a cache of province IDs per kingdom.
-			var provincesPerKingdomDict = deJureKingdoms
+			var provincesPerKingdomDict = deJureKingdomsOutsideChina
 				.ToFrozenDictionary(
 					k => k.Id,
 					k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToFrozenSet()
 				);
-			var kingdomAdjacenciesByLand = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
-			var kingdomAdjacenciesByWaterBody = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
-			Parallel.ForEach(deJureKingdoms, kingdom => {
-				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdom.Id, provincesPerKingdomDict, kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody);
+			var kingdomAdjacenciesByLand = deJureKingdomsOutsideChina.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
+			var kingdomAdjacenciesByWaterBody = deJureKingdomsOutsideChina.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
+			Parallel.ForEach(deJureKingdomsOutsideChina, kingdom => {
+				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdomsOutsideChina, kingdom.Id, provincesPerKingdomDict, kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody);
 			});
 
 			SplitDisconnectedEmpires(kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
@@ -1107,11 +1109,6 @@ internal sealed partial class Title {
 		private void TryToAssignKingdomsToExistingEmpires(ImmutableArray<Title> deJureKingdoms, Date ck3BookmarkDate) {
 			// Try to assign kingdoms to existing empires.
 			foreach (var kingdom in deJureKingdoms) {
-				// Don't change the de jure inside h_china, to avoid messing with the Dynastic Cycle and shit.
-				if (string.Equals(kingdom.DeJureLiege?.DeJureLiege?.Id, "h_china", StringComparison.Ordinal)) {
-					continue;
-				}
-
 				var empireShares = new Dictionary<string, int>();
 				var kingdomProvincesCount = 0;
 				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
