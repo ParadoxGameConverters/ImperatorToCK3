@@ -1199,7 +1199,26 @@ internal sealed partial class Title {
 						return (X: avgX, Y: avgY);
 					}
 				);
-				var clusters = ClusterKingdoms(kingdomPositions, desiredClusterSize: 5);
+				var provincesPerKingdom = kingdoms
+					.ToDictionary(
+						k => k.Id,
+						k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToFrozenSet()
+					);
+				var kingdomAdjacenciesByLand = kingdoms
+					.ToDictionary(k => k.Id, _ => new HashSet<string>());
+				for (int i = 0; i < kingdoms.Count; ++i) {
+					for (int j = i + 1; j < kingdoms.Count; ++j) {
+						var kingdom1 = kingdoms[i];
+						var kingdom2 = kingdoms[j];
+						if (!AreTitlesAdjacentByLand(provincesPerKingdom[kingdom1.Id], provincesPerKingdom[kingdom2.Id], ck3MapData)) {
+							continue;
+						}
+
+						kingdomAdjacenciesByLand[kingdom1.Id].Add(kingdom2.Id);
+						kingdomAdjacenciesByLand[kingdom2.Id].Add(kingdom1.Id);
+					}
+				}
+				var clusters = ClusterKingdoms(kingdomPositions, kingdomAdjacenciesByLand, desiredClusterSize: 5);
 				foreach (var cluster in clusters) {
 					var clusterKingdoms = cluster.Select(kvp => kingdoms.First(k => k.Id == kvp.Key)).ToArray();
 					var biggestKingdom = clusterKingdoms.MaxBy(k => k.GetDeJureVassalsAndBelow("c").Values.Sum(c => c.CountyProvinceIds.Count()));
@@ -1221,10 +1240,12 @@ internal sealed partial class Title {
 
 		// The algorithm used for clustering is a simple greedy algorithm:
 		// 1. Pick the kingdom with the lowest Y coordinate (and then lowest X coordinate to break ties) as the seed of the cluster.
-		// 2. Add the nearest kingdom to the cluster until the cluster has the desired number of kingdoms.
+		// 2. Prefer kingdoms neighboring the cluster by land, and add the nearest among them.
+		//    If no land-neighboring candidates exist, add the nearest kingdom overall.
 		// 3. Repeat until there are no more kingdoms left.
 		private static List<Dictionary<string, (double X, double Y)>> ClusterKingdoms(
 			IReadOnlyDictionary<string, (double X, double Y)> kingdomPositions,
+			IReadOnlyDictionary<string, HashSet<string>> kingdomAdjacenciesByLand,
 			int desiredClusterSize
 		) {
 			if (kingdomPositions.Count == 0) {
@@ -1246,7 +1267,7 @@ internal sealed partial class Title {
 					if (candidates.Length == 0) {
 						break;
 					}
-					clusterIds.Add(GetNearestKingdomId(candidates, clusterIds, kingdomPositions));
+					clusterIds.Add(GetNearestKingdomId(candidates, clusterIds, kingdomPositions, kingdomAdjacenciesByLand));
 				}
 				clusters.Add(clusterIds.ToDictionary(id => id, id => kingdomPositions[id]));
 				foreach (var id in clusterIds) {
@@ -1284,14 +1305,23 @@ internal sealed partial class Title {
 		private static string GetNearestKingdomId(
 			IEnumerable<string> candidateIds,
 			IReadOnlyCollection<string> clusterIds,
-			IReadOnlyDictionary<string, (double X, double Y)> kingdomPositions
+			IReadOnlyDictionary<string, (double X, double Y)> kingdomPositions,
+			IReadOnlyDictionary<string, HashSet<string>> kingdomAdjacenciesByLand
 		) {
 			var centroid = (
 				X: clusterIds.Average(id => kingdomPositions[id].X),
 				Y: clusterIds.Average(id => kingdomPositions[id].Y)
 			);
 
-			return candidateIds
+			var landAdjacentCandidateIds = candidateIds
+				.Where(candidateId => clusterIds.Any(clusterId =>
+					kingdomAdjacenciesByLand.TryGetValue(clusterId, out var neighbors) && neighbors.Contains(candidateId)
+				))
+				.ToArray();
+
+			var candidatesToEvaluate = landAdjacentCandidateIds.Length > 0 ? landAdjacentCandidateIds : candidateIds;
+
+			return candidatesToEvaluate
 				.OrderBy(id => DistanceSquared(kingdomPositions[id], centroid))
 				.ThenBy(id => id, StringComparer.Ordinal)
 				.First();
