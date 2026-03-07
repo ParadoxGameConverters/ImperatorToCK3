@@ -253,54 +253,55 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 				}
 
 				// Imperator saves don't seem to store marriage date
-				Date estimatedMarriageDate = GetEstimatedMarriageDate(ck3Character.ImperatorCharacter, impSpouseCharacter);
+				Date estimatedMarriageDate = GetEstimatedMarriageDate(ck3Character.ImperatorCharacter, impSpouseCharacter, conversionDate);
 
 				ck3Character.AddSpouse(estimatedMarriageDate, ck3SpouseCharacter);
 				++spouseCounter;
 			}
 		}
 		Logger.Info($"{spouseCounter} spouses linked in CK3.");
+	}
 
-		Date GetEstimatedMarriageDate(Imperator.Characters.Character imperatorCharacter, Imperator.Characters.Character imperatorSpouse) {
-			// Imperator saves don't seem to store marriage date.
+	private static Date GetEstimatedMarriageDate(Imperator.Characters.Character imperatorCharacter, Imperator.Characters.Character imperatorSpouse, Date conversionDate) {
+		// Imperator saves don't seem to store marriage date.
 
-			var marriageDeathDate = GetMarriageDeathDate(imperatorCharacter, imperatorSpouse);
-			var birthDateOfCommonChild = GetBirthDateOfFirstCommonChild(imperatorCharacter, imperatorSpouse);
-			if (birthDateOfCommonChild is not null) {
-				// We assume the child was conceived after marriage.
-				var estimatedConceptionDate = birthDateOfCommonChild.Value.ChangeByDays(-280);
-				if (marriageDeathDate is not null && marriageDeathDate < estimatedConceptionDate) {
-					estimatedConceptionDate = marriageDeathDate.Value.ChangeByDays(-1);
-				}
-				return estimatedConceptionDate;
+		var marriageDeathDate = GetMarriageDeathDate(imperatorCharacter, imperatorSpouse);
+		var birthDateOfCommonChild = GetBirthDateOfFirstCommonChild(imperatorCharacter, imperatorSpouse);
+		if (birthDateOfCommonChild is not null) {
+			// We assume the child was conceived after marriage.
+			var estimatedConceptionDate = birthDateOfCommonChild.Value.ChangeByDays(-280);
+			if (marriageDeathDate is not null && marriageDeathDate < estimatedConceptionDate) {
+				estimatedConceptionDate = marriageDeathDate.Value.ChangeByDays(-1);
 			}
-
-			if (marriageDeathDate is not null) {
-				return marriageDeathDate.Value.ChangeByDays(-1); // Death is not a good moment to marry.
-			}
-
-			return conversionDate;
-		}
-		Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
-			var childrenOfFather = father.Children.Values.ToFrozenSet();
-			var childrenOfMother = mother.Children.Values.ToFrozenSet();
-			var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child => child.BirthDate).ToArray();
-
-			Date? firstChildBirthDate = commonChildren.Length > 0 ? commonChildren.FirstOrDefault()?.BirthDate : null;
-			if (firstChildBirthDate is not null) {
-				return firstChildBirthDate;
-			}
-
-			var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u => u.BirthDate).ToArray();
-			return unborns.FirstOrDefault()?.BirthDate;
+			return estimatedConceptionDate;
 		}
 
-		Date? GetMarriageDeathDate(Imperator.Characters.Character husband, Imperator.Characters.Character wife) {
-			if (husband.DeathDate is not null && wife.DeathDate is not null) {
-				return husband.DeathDate < wife.DeathDate ? husband.DeathDate : wife.DeathDate;
-			}
-			return husband.DeathDate ?? wife.DeathDate;
+		if (marriageDeathDate is not null) {
+			return marriageDeathDate.Value.ChangeByDays(-1); // Death is not a good moment to marry.
 		}
+
+		return conversionDate;
+	}
+
+	private static Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
+		var childrenOfFather = father.Children.Values.ToFrozenSet();
+		var childrenOfMother = mother.Children.Values.ToFrozenSet();
+		var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child => child.BirthDate).ToArray();
+
+		Date? firstChildBirthDate = commonChildren.Length > 0 ? commonChildren.FirstOrDefault()?.BirthDate : null;
+		if (firstChildBirthDate is not null) {
+			return firstChildBirthDate;
+		}
+
+		var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u => u.BirthDate).ToArray();
+		return unborns.FirstOrDefault()?.BirthDate;
+	}
+
+	private static Date? GetMarriageDeathDate(Imperator.Characters.Character husband, Imperator.Characters.Character wife) {
+		if (husband.DeathDate is not null && wife.DeathDate is not null) {
+			return husband.DeathDate < wife.DeathDate ? husband.DeathDate : wife.DeathDate;
+		}
+		return husband.DeathDate ?? wife.DeathDate;
 	}
 
 	private void LinkPrisoners(Date date) {
