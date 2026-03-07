@@ -1,6 +1,7 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
+using commonItems.Exceptions;
 using commonItems.Linguistics;
 using commonItems.Localization;
 using commonItems.Serialization;
@@ -222,13 +223,13 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		FillHolderAndGovernmentHistory(country, characters, governmentMapper, irLocDB, ck3LocDB, religionMapper, cultureMapper, nicknameMapper, provinceMapper, config, conversionDate, enabledCK3Dlcs);
 
-		SetColorFromImperatorCountry();
+		SetColorFromImperatorCountry(country);
 		DetermineSuccessionLawsFromImperatorCountry(country, successionLawMapper, conversionDate, enabledCK3Dlcs);
-		DetermineCoAFromImperator(coaMapper, config);
+		DetermineCoAFromImperator(country, coaMapper, config);
 
 		// Determine other attributes:
-		SetCapitalFromImperatorCountry(provinceMapper);
-		SetNameLocalizationFromImperatorCountry(irLocDB, ck3LocDB, validatedName);
+		SetCapitalFromImperatorCountry(country, provinceMapper);
+		SetNameLocalizationFromImperatorCountry(country, irLocDB, ck3LocDB, validatedName);
 		TrySetAdjectiveLoc(irLocDB, imperatorCountries, ck3LocDB);
 
 		// If country is a subject, convert it to a vassal.
@@ -244,32 +245,29 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 	}
 
-	private void SetColorFromImperatorCountry() {
-		// Determine color.
-		var color1Opt = ImperatorCountry.Color1;
+	private void SetColorFromImperatorCountry(Country irCountry) {
+		var color1Opt = irCountry.Color1;
 		if (color1Opt is not null) {
 			Color1 = color1Opt;
 		}
 	}
 
-	private void DetermineCoAFromImperator(CoaMapper coaMapper, Configuration config) {
-		// Determine CoA.
+	private void DetermineCoAFromImperator(Country irCountry, CoaMapper coaMapper, Configuration config) {
 		if (IsCreatedFromImperator || !config.UseCK3Flags) {
 			bool warnIfMissing = !config.SkipDynamicCoAExtraction;
-			CoA = coaMapper.GetCoaForFlagName(ImperatorCountry.Flag, warnIfMissing);
+			CoA = coaMapper.GetCoaForFlagName(irCountry.Flag, warnIfMissing);
 		}
 	}
 
-	private void DetermineSuccessionLawsFromImperatorCountry(Country country, SuccessionLawMapper successionLawMapper, Date conversionDate, IReadOnlyCollection<string> enabledCK3Dlcs) {
-		// determine successions laws
+	private void DetermineSuccessionLawsFromImperatorCountry(Country irCountry, SuccessionLawMapper successionLawMapper, Date conversionDate, IReadOnlyCollection<string> enabledCK3Dlcs) {
 		History.AddFieldValue(conversionDate,
 			"succession_laws",
 			"succession_laws",
-			successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws(), country.Government, enabledCK3Dlcs)
+			successionLawMapper.GetCK3LawsForImperatorLaws(irCountry.GetLaws(), irCountry.Government, enabledCK3Dlcs)
 		);
 	}
 
-	private void SetNameLocalizationFromImperatorCountry(LocDB irLocDB, CK3LocDB ck3LocDB, LocBlock? validatedName) {
+	private void SetNameLocalizationFromImperatorCountry(Country irCountry, LocDB irLocDB, CK3LocDB ck3LocDB, LocBlock? validatedName) {
 		// determine country name localization
 		var nameSet = false;
 		if (validatedName is not null) {
@@ -278,7 +276,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			nameSet = true;
 		}
 		if (!nameSet) {
-			var irTagLoc = irLocDB.GetLocBlockForKey(ImperatorCountry.Tag);
+			var irTagLoc = irLocDB.GetLocBlockForKey(irCountry.Tag);
 			if (irTagLoc is not null) {
 				var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(Id);
 				nameLocBlock.CopyFrom(irTagLoc);
@@ -287,7 +285,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 		if (!nameSet) {
 			// use unlocalized name if not empty
-			var name = ImperatorCountry.Name;
+			var name = irCountry.Name;
 			if (!string.IsNullOrEmpty(name)) {
 				Logger.Warn($"Using unlocalized Imperator name {name} as name for {Id}!");
 				var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(Id);
@@ -297,14 +295,14 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 		// giving up
 		if (!nameSet) {
-			Logger.Warn($"{Id} needs help with localization! {ImperatorCountry.Name}?");
+			Logger.Warn($"{Id} needs help with localization! {irCountry.Name}?");
 		}
 	}
 
-	private void SetCapitalFromImperatorCountry(ProvinceMapper provinceMapper) {
+	private void SetCapitalFromImperatorCountry(Country irCountry, ProvinceMapper provinceMapper) {
 		// Set capital to Imperator tag's capital.
-		if (ImperatorCountry.CapitalProvinceId is not null) {
-			var srcCapital = ImperatorCountry.CapitalProvinceId.Value;
+		if (irCountry.CapitalProvinceId is not null) {
+			var srcCapital = irCountry.CapitalProvinceId.Value;
 			foreach (var ck3ProvId in provinceMapper.GetCK3ProvinceNumbers(srcCapital)) {
 				var foundCounty = parentCollection.GetCountyForProvince(ck3ProvId);
 				if (foundCounty is null) {
@@ -325,7 +323,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	/// <summary>
 	/// Fills title's history with Imperator and pre-Imperator rulers and sets appropriate government.
 	/// </summary>
-	private void FillHolderAndGovernmentHistory(Country imperatorCountry,
+	private void FillHolderAndGovernmentHistory(Country irCountry,
 		CharacterCollection characters,
 		GovernmentMapper governmentMapper,
 		LocDB irLocDB,
@@ -339,7 +337,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		IReadOnlyCollection<string> enabledCK3Dlcs) {
 		// ------------------ determine previous and current holders
 
-		foreach (var impRulerTerm in imperatorCountry.RulerTerms) {
+		foreach (var impRulerTerm in irCountry.RulerTerms) {
 			var rulerTerm = new RulerTerm(
 				this,
 				impRulerTerm,
@@ -374,9 +372,9 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 		}
 
-		if (imperatorCountry.Government is not null) {
+		if (irCountry.Government is not null) {
 			var lastCK3TermGov = GetGovernment(conversionDate);
-			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorCountry.Government, Rank, imperatorCountry.PrimaryCulture, enabledCK3Dlcs);
+			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(irCountry.Government, Rank, irCountry.PrimaryCulture, enabledCK3Dlcs);
 			if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
 				History.AddFieldValue(conversionDate, "government", "government", ck3CountryGov);
 			}
@@ -534,7 +532,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var governorshipStartDate = governorship.StartDate;
 
 		if (country.CK3Title is null) {
-			throw new ArgumentException($"{country.Tag} governorship of {governorship.Region.Id} could not be mapped to CK3 title: liege doesn't exist!");
+			throw new ConverterException($"{country.Tag} governorship of {governorship.Region.Id} could not be mapped to CK3 title: liege doesn't exist!");
 		}
 
 		ClearHolderSpecificHistory();
@@ -565,18 +563,34 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			currentCK3LiegeGov,
 			config.CK3BookmarkDate
 		);
+		SetColorFromImperatorGovernorship(governorship, country);
 
-		// Determine color.
-		var countryColor = country.Color1;
-		if (countryColor is not null) {
-			var regionColor = governorship.Region.Color;
-			if (regionColor is not null && !parentCollection.IsColorUsed(regionColor.Value)) {
-				Color1 = regionColor;
-			} else {
-				Color1 = parentCollection.GetDerivedColor(countryColor.Value);
+		DetermineSuccessionLawsFromImperatorGovernorship(governorshipStartDate, currentCK3LiegeGov);
+
+		// ------------------ determine CoA
+		CoA = null; // using game-randomized CoA
+
+		DetermineCapitalFromImperatorGovernorship(governorship, provinceMapper, imperatorRegionMapper, impGovernor);
+
+		TrySetNameFromGovernorship(governorship, imperatorRegionMapper, country, irProvinces, regionHasMultipleGovernorships, irLocDB, ck3LocDB);
+		TrySetAdjectiveFromGovernorship(governorship, country, irLocDB, ck3LocDB);
+	}
+
+	private void DetermineCapitalFromImperatorGovernorship(Governorship governorship, ProvinceMapper provinceMapper, ImperatorRegionMapper imperatorRegionMapper, Imperator.Characters.Character impGovernor) {
+		// ------------------ determine capital
+		var governorProvince = impGovernor.ProvinceId;
+		if (governorProvince.HasValue && imperatorRegionMapper.ProvinceIsInRegion(governorProvince.Value, governorship.Region.Id)) {
+			foreach (var ck3Prov in provinceMapper.GetCK3ProvinceNumbers(governorProvince.Value)) {
+				var foundCounty = parentCollection.GetCountyForProvince(ck3Prov);
+				if (foundCounty is not null) {
+					CapitalCounty = foundCounty;
+					break;
+				}
 			}
 		}
+	}
 
+	private void DetermineSuccessionLawsFromImperatorGovernorship(Date governorshipStartDate, string? currentCK3LiegeGov) {
 		// Determine successions laws.
 		// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
 		OrderedSet<string> successionLaws = [];
@@ -596,24 +610,19 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			"succession_laws",
 			successionLaws
 		);
+	}
 
-		// ------------------ determine CoA
-		CoA = null; // using game-randomized CoA
-
-		// ------------------ determine capital
-		var governorProvince = impGovernor.ProvinceId;
-		if (governorProvince.HasValue && imperatorRegionMapper.ProvinceIsInRegion(governorProvince.Value, governorship.Region.Id)) {
-			foreach (var ck3Prov in provinceMapper.GetCK3ProvinceNumbers(governorProvince.Value)) {
-				var foundCounty = parentCollection.GetCountyForProvince(ck3Prov);
-				if (foundCounty is not null) {
-					CapitalCounty = foundCounty;
-					break;
-				}
+	private void SetColorFromImperatorGovernorship(Governorship governorship, Country country) {
+		// Determine color.
+		var countryColor = country.Color1;
+		if (countryColor is not null) {
+			var regionColor = governorship.Region.Color;
+			if (regionColor is not null && !parentCollection.IsColorUsed(regionColor.Value)) {
+				Color1 = regionColor;
+			} else {
+				Color1 = parentCollection.GetDerivedColor(countryColor.Value);
 			}
 		}
-
-		TrySetNameFromGovernorship(governorship, imperatorRegionMapper, country, irProvinces, regionHasMultipleGovernorships, irLocDB, ck3LocDB);
-		TrySetAdjectiveFromGovernorship(governorship, country, irLocDB, ck3LocDB);
 	}
 
 	private void TrySetAdjectiveFromGovernorship(Governorship governorship, Country country, LocDB irLocDB, CK3LocDB ck3LocDB) {
