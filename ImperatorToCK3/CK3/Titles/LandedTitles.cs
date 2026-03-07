@@ -399,7 +399,7 @@ internal sealed partial class Title {
 			});
 
 			RemoveLiegeEntriesOfTheSameRankAsTheTitles();
-			RemoveIndalidLiegeEntriesFromTitles(ck3BookmarkDate);
+			RemoveInvalidLiegeEntriesFromTitles(ck3BookmarkDate);
 
 			// Remove undated succession_laws entries; the game doesn't seem to like them.
 			foreach (var title in this) {
@@ -493,13 +493,12 @@ internal sealed partial class Title {
 					value => value.ToString()?.RemQuotes() is string valStr && valStr != "0" && !validCharacterIds.Contains(valStr)
 				);
 
-				// Afterwards, remove empty date entries.
+				// Afterward, remove empty date entries.
 				holderField.DateToEntriesDict.RemoveWhere(kvp => kvp.Value.Count == 0);
 			});
 		}
 
-		private void RemoveIndalidLiegeEntriesFromTitles(Date ck3BookmarkDate)
-		{
+		private void RemoveInvalidLiegeEntriesFromTitles(Date ck3BookmarkDate) {
 			// Remove liege entries that are not valid (liege title is not held at the entry date).
 			foreach (var title in this) {
 				if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
@@ -513,7 +512,7 @@ internal sealed partial class Title {
 					
 					var lastEntry = entriesList[^1];
 					var liegeTitleId = lastEntry.Value.ToString()?.RemQuotes();
-					if (liegeTitleId is null || liegeTitleId == "0") {
+					if (liegeTitleId is null or "0") {
 						continue;
 					}
 
@@ -575,18 +574,19 @@ internal sealed partial class Title {
 			var subjects = realCountries.Except(independentCountries).ToImmutableList();
 			
 			counter = ImportIndependentCountries(imperatorCountries, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, governmentMapper, successionLawMapper, definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, countyLevelCountries, enabledCK3Dlcs, independentCountries, counter);
-			ImportSubjects(imperatorCountries, dependencies, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, governmentMapper, successionLawMapper, definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, countyLevelCountries, enabledCK3Dlcs, subjects, counter);
+			counter += ImportSubjects(imperatorCountries, dependencies, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, governmentMapper, successionLawMapper, definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, countyLevelCountries, enabledCK3Dlcs, subjects);
 			Logger.Info($"Imported {counter} countries from I:R.");
 		}
 
-		private void ImportSubjects(CountryCollection imperatorCountries, IReadOnlyCollection<Dependency> dependencies,
+		private int ImportSubjects(CountryCollection imperatorCountries, IReadOnlyCollection<Dependency> dependencies,
 			TagTitleMapper tagTitleMapper, LocDB irLocDB, CK3LocDB ck3LocDB, ProvinceMapper provinceMapper, CoaMapper coaMapper,
 			GovernmentMapper governmentMapper, SuccessionLawMapper successionLawMapper, DefiniteFormMapper definiteFormMapper,
 			ReligionMapper religionMapper, CultureMapper cultureMapper, NicknameMapper nicknameMapper,
 			CharacterCollection characters, Date conversionDate, Configuration config, List<KeyValuePair<Country, Dependency?>> countyLevelCountries,
-			IReadOnlyCollection<string> enabledCK3Dlcs, ImmutableList<Country> subjects, int counter)
+			IReadOnlyCollection<string> enabledCK3Dlcs, ImmutableList<Country> subjects)
 		{
-			foreach (var country in subjects) {
+			int counter = 0;
+			foreach (Country country in subjects) {
 				ImportImperatorCountry(
 					country,
 					dependency: dependencies.FirstOrDefault(d => d.SubjectId == country.Id),
@@ -610,6 +610,8 @@ internal sealed partial class Title {
 				);
 				++counter;
 			}
+			
+			return counter;
 		}
 
 		private int ImportIndependentCountries(CountryCollection imperatorCountries, TagTitleMapper tagTitleMapper,
@@ -1294,21 +1296,17 @@ internal sealed partial class Title {
 					hegemonyShares.TryGetValue(hegemonyRealm.Id, out var currentCount);
 					hegemonyShares[hegemonyRealm.Id] = currentCount + countyProvincesCount;
 				}
-				
+
 				if (hegemonyShares.Count == 0) {
 					continue;
 				}
-				
+
 				(string hegemonyId, int share) = hegemonyShares.MaxBy(pair => pair.Value);
 				// The hegemony must hold at least 50% of the kingdom.
 				if (share < (kingdomProvincesCount * 0.50)) {
 					continue;
 				}
 
-				if (!TryGetValue(hegemonyId, out var hegemony)) {
-					continue;
-				}
-				
 				if (!hegemonyToKingdomsDict.TryGetValue(hegemonyId, out var kingdoms)) {
 					kingdoms = [];
 					hegemonyToKingdomsDict[hegemonyId] = kingdoms;
