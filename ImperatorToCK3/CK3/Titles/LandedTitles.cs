@@ -373,52 +373,9 @@ internal sealed partial class Title {
 		public void CleanUpHistory(CharacterCollection characters, Date ck3BookmarkDate) {
 			Logger.Debug("Cleaning up title history...");
 			
-			// Remove invalid holder ID entries.
-			var validCharacterIds = characters.Select(c => c.Id).ToImmutableHashSet();
-			Parallel.ForEach(this, title => {
-				if (!title.History.Fields.TryGetValue("holder", out var holderField)) {
-					return;
-				}
+			RemoveInvalidHolderIdEntriesFromTitles(characters);
+			FixTitleHoldersBornAfterReceivingTitles(characters, ck3BookmarkDate);
 
-				holderField.RemoveAllEntries(
-					value => value.ToString()?.RemQuotes() is string valStr && valStr != "0" && !validCharacterIds.Contains(valStr)
-				);
-
-				// Afterwards, remove empty date entries.
-				holderField.DateToEntriesDict.RemoveWhere(kvp => kvp.Value.Count == 0);
-			});
-
-			// Fix holder being born after receiving the title, by moving the title grant to the birth date.
-			Parallel.ForEach(this, title => {
-				if (!title.History.Fields.TryGetValue("holder", out var holderField)) {
-					return;
-				}
-
-				foreach (var (date, entriesList) in holderField.DateToEntriesDict.ToArray()) {
-					if (date > ck3BookmarkDate) {
-						continue;
-					}
-
-					var lastEntry = entriesList[^1];
-					var holderId = lastEntry.Value.ToString()?.RemQuotes();
-					if (holderId is null || holderId == "0") {
-						continue;
-					}
-
-					if (!characters.TryGetValue(holderId, out var holder)) {
-						holderField.DateToEntriesDict.Remove(date);
-						continue;
-					}
-
-					var holderBirthDate = holder.BirthDate;
-					if (date <= holderBirthDate) {
-						// Move the title grant to the birth date.
-						holderField.DateToEntriesDict.Remove(date);
-						holderField.AddEntryToHistory(holderBirthDate, lastEntry.Key, lastEntry.Value);
-					}
-				}
-			});
-			
 			// For counties, remove holder = 0 entries that precede a holder = <char ID> entry
 			// that's before or at the bookmark date.
 			Parallel.ForEach(Counties, county => {
@@ -441,6 +398,21 @@ internal sealed partial class Title {
 				}
 			});
 
+			RemoveLiegeEntriesOfTheSameRankAsTheTitles();
+			RemoveIndalidLiegeEntriesFromTitles(ck3BookmarkDate);
+
+			// Remove undated succession_laws entries; the game doesn't seem to like them.
+			foreach (var title in this) {
+				if (!title.History.Fields.TryGetValue("succession_laws", out var successionLawsField)) {
+					continue;
+				}
+
+				successionLawsField.InitialEntries.RemoveAll(entry => true);
+			}
+		}
+
+		private void RemoveLiegeEntriesOfTheSameRankAsTheTitles()
+		{
 			// Remove liege entries of the same rank as the title they're in.
 			// For example, TFE had more or less this: d_kordofan = { liege = d_kordofan }
 			var validRankChars = new HashSet<char> { 'h', 'e', 'k', 'd', 'c', 'b'};
@@ -472,7 +444,62 @@ internal sealed partial class Title {
 					return false;
 				});
 			});
-			
+		}
+
+		private void FixTitleHoldersBornAfterReceivingTitles(CharacterCollection characters, Date ck3BookmarkDate)
+		{
+			// Fix holder being born after receiving the title, by moving the title grant to the birth date.
+			Parallel.ForEach(this, title => {
+				if (!title.History.Fields.TryGetValue("holder", out var holderField)) {
+					return;
+				}
+
+				foreach (var (date, entriesList) in holderField.DateToEntriesDict.ToArray()) {
+					if (date > ck3BookmarkDate) {
+						continue;
+					}
+
+					var lastEntry = entriesList[^1];
+					var holderId = lastEntry.Value.ToString()?.RemQuotes();
+					if (holderId is null || holderId == "0") {
+						continue;
+					}
+
+					if (!characters.TryGetValue(holderId, out var holder)) {
+						holderField.DateToEntriesDict.Remove(date);
+						continue;
+					}
+
+					var holderBirthDate = holder.BirthDate;
+					if (date <= holderBirthDate) {
+						// Move the title grant to the birth date.
+						holderField.DateToEntriesDict.Remove(date);
+						holderField.AddEntryToHistory(holderBirthDate, lastEntry.Key, lastEntry.Value);
+					}
+				}
+			});
+		}
+
+		private void RemoveInvalidHolderIdEntriesFromTitles(CharacterCollection characters)
+		{
+			// Remove invalid holder ID entries.
+			var validCharacterIds = characters.Select(c => c.Id).ToImmutableHashSet();
+			Parallel.ForEach(this, title => {
+				if (!title.History.Fields.TryGetValue("holder", out var holderField)) {
+					return;
+				}
+
+				holderField.RemoveAllEntries(
+					value => value.ToString()?.RemQuotes() is string valStr && valStr != "0" && !validCharacterIds.Contains(valStr)
+				);
+
+				// Afterwards, remove empty date entries.
+				holderField.DateToEntriesDict.RemoveWhere(kvp => kvp.Value.Count == 0);
+			});
+		}
+
+		private void RemoveIndalidLiegeEntriesFromTitles(Date ck3BookmarkDate)
+		{
 			// Remove liege entries that are not valid (liege title is not held at the entry date).
 			foreach (var title in this) {
 				if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
@@ -511,15 +538,6 @@ internal sealed partial class Title {
 						}
 					}
 				}
-			}
-
-			// Remove undated succession_laws entries; the game doesn't seem to like them.
-			foreach (var title in this) {
-				if (!title.History.Fields.TryGetValue("succession_laws", out var successionLawsField)) {
-					continue;
-				}
-
-				successionLawsField.InitialEntries.RemoveAll(entry => true);
 			}
 		}
 
