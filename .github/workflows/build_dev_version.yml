@@ -89,7 +89,7 @@ jobs:
     - name: Archive Publish folder (Windows)
       if: runner.os == 'Windows'
       run: |
-        $archive = "../ImperatorToCK3-${{ matrix.build }}-dev${{ matrix.archive_extension }}"
+        $archive = Join-Path $env:GITHUB_WORKSPACE "ImperatorToCK3-${{ matrix.build }}-dev${{ matrix.archive_extension }}"
         Write-Host "Creating $archive via Compress-Archive"
         # include all files/subdirs under Publish
         Compress-Archive -Path 'Publish\*' -DestinationPath $archive -Force
