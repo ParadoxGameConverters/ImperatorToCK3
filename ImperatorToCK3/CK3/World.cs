@@ -830,7 +830,7 @@ internal sealed class World {
 
 		switch (year) {
 			case <= 300:
-				UsePaganRulers();
+				UsePaganRulersForIcelandAndFaroeIslands(out faithCandidates, out cultureId, out namePool);
 				break;
 			case < 874:
 				faithCandidates = new OrderedSet<string> { "insular_celtic", "catholic", "orthodox", "chalcedonian", "nicene" };
@@ -875,7 +875,7 @@ internal sealed class World {
 				}
 				if (!provinceFound) {
 					// Give up and create a pagan ruler.
-					UsePaganRulers();
+					UsePaganRulersForIcelandAndFaroeIslands(out faithCandidates, out cultureId, out namePool);
 				} else {
 					Logger.Info("Giving Iceland and Faroe Islands to Papar...");
 					namePool = new Queue<string>(["Canann", "Petair", "Fergus"]);
@@ -901,14 +901,14 @@ internal sealed class World {
 		}
 
 		Logger.IncrementProgress();
+	}
 
-		void UsePaganRulers() {
-			Logger.Info("Giving Iceland and Faroe Islands to pagan Gaels...");
-			faithCandidates = new OrderedSet<string> { "gaelic_paganism", "celtic_pagan", "briton_paganism", "pagan" };
-			cultureId = "gaelic";
-			// ReSharper disable once StringLiteralTypo
-			namePool = new Queue<string>(["A_engus", "Domnall", "Rechtabra"]);
-		}
+	private void UsePaganRulersForIcelandAndFaroeIslands(out IEnumerable<string> faithCandidates, out string cultureId, out Queue<string> namePool) {
+		Logger.Info("Giving Iceland and Faroe Islands to pagan Gaels...");
+		faithCandidates = new OrderedSet<string> { "gaelic_paganism", "celtic_pagan", "briton_paganism", "pagan" };
+		cultureId = "gaelic";
+		// ReSharper disable once StringLiteralTypo
+		namePool = new Queue<string>(["A_engus", "Domnall", "Rechtabra"]);
 	}
 
 	private void GenerateHermitForTitle(Title title, Queue<string> namePool, Date bookmarkDate, string faithId, string cultureId, Configuration config) {

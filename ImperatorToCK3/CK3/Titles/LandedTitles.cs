@@ -108,17 +108,7 @@ internal sealed partial class Title {
 					continue;
 				}
 				// Try to use the first valid capital of a de jure vassal.
-				string? newCapitalId;
-				if (title.Rank >= TitleRank.kingdom) {
-					newCapitalId = title.DeJureVassals
-						.Select(v => v.CapitalCountyId)
-						.FirstOrDefault(vassalCapitalId => vassalCapitalId is not null && validTitleIds.Contains(vassalCapitalId));
-				} else {
-					newCapitalId = title.DeJureVassals
-						.Where(v => v.Rank == TitleRank.county)
-						.Select(c => c.Id)
-						.FirstOrDefault();
-				}
+				string? newCapitalId = TryToSetTitleCapitalFromFirstValidCapitalOfDeJureVassal(title, validTitleIds);
 
 				// If not found, for landless titles try using capital of de jure liege.
 				if (newCapitalId is null && title.Landless) {
@@ -132,6 +122,19 @@ internal sealed partial class Title {
 					title.CapitalCountyId = placeholderCountyId;
 				}
 			}
+		}
+
+		private static string? TryToSetTitleCapitalFromFirstValidCapitalOfDeJureVassal(Title title, FrozenSet<string> validTitleIds) {
+			if (title.Rank >= TitleRank.kingdom) {
+				return title.DeJureVassals
+					.Select(v => v.CapitalCountyId)
+					.FirstOrDefault(vassalCapitalId => vassalCapitalId is not null && validTitleIds.Contains(vassalCapitalId));
+			}
+
+			return title.DeJureVassals
+				.Where(v => v.Rank == TitleRank.county)
+				.Select(c => c.Id)
+				.FirstOrDefault();
 		}
 
 		public void LoadTitles(BufferedReader reader, ColorFactory colorFactory) {
