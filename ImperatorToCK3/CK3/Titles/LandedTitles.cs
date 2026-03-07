@@ -1219,9 +1219,6 @@ internal sealed partial class Title {
 					}
 
 					(string regionId, int share) = regionShares.MaxBy(pair => pair.Value);
-					if (share < (kingdomProvincesCount * 0.50)) {
-						continue;
-					}
 
 					if (!regionToKingdomsDict.TryGetValue(regionId, out var kingdomsForRegion)) {
 						kingdomsForRegion = [];
