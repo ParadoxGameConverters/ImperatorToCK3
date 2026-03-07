@@ -311,7 +311,7 @@ internal sealed class World {
 
 		// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 		// Some of it will be overwritten, but not all.
-		Provinces.ImportVanillaProvinces(ModFS, Religions, Cultures);
+		Provinces.ImportVanillaProvinces(ModFS, MapData.ProvinceDefinitions, Religions, Cultures);
 
 		// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 		Provinces.ImportImperatorProvinces(impWorld, MapData, LandedTitles, cultureMapper, religionMapper, provinceMapper, CorrectedDate, config);
