@@ -166,21 +166,20 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 		}
 	}
 	private void SetCultureFromImperator(CultureMapper cultureMapper) {
-		bool cultureSet = false;
 		if (PrimaryImperatorProvince is null) {
 			Logger.Warn($"CK3 Province {Id}: can't set culture from null Imperator province!");
 			return;
 		}
 
 		// Try to use culture of primary source province.
-		cultureSet = TryToUseCultureOfPrimaryImperatorProvince(cultureMapper, cultureSet);
+		bool cultureSet = TryToUseCultureOfPrimaryImperatorProvince(cultureMapper);
 		// Try to use culture of secondary source province.
 		if (!cultureSet) {
-			cultureSet = TryToUseCultureOfSecondaryImperatorProvince(cultureMapper, cultureSet);
+			cultureSet = TryToUseCultureOfSecondaryImperatorProvince(cultureMapper);
 		}
 		// As fallback, attempt to use primary cultures of source provinces' countries.
 		if (!cultureSet) {
-			cultureSet = TryToUsePrimaryCulturesOfSourceProvincesCountries(cultureMapper, cultureSet);
+			cultureSet = TryToUsePrimaryCulturesOfSourceProvincesCountries(cultureMapper);
 		}
 		if (!cultureSet) {
 			// Use default CK3 culture.
@@ -190,8 +189,8 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 		}
 	}
 
-	private bool TryToUsePrimaryCulturesOfSourceProvincesCountries(CultureMapper cultureMapper, bool cultureSet)
-	{
+	private bool TryToUsePrimaryCulturesOfSourceProvincesCountries(CultureMapper cultureMapper) {
+		bool cultureSet = false;
 		var sourceProvincesWithCountryCultures = ImperatorProvinces
 			.Select(p => new {
 				Province = p, CultureId = p.OwnerCountry?.PrimaryCulture
@@ -216,8 +215,8 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 		return cultureSet;
 	}
 
-	private bool TryToUseCultureOfSecondaryImperatorProvince(CultureMapper cultureMapper, bool cultureSet)
-	{
+	private bool TryToUseCultureOfSecondaryImperatorProvince(CultureMapper cultureMapper) {
+		bool cultureSet = false;
 		foreach (var secondarySource in SecondaryImperatorProvinces) {
 			var cultureMatch = cultureMapper.Match(
 				irCulture: secondarySource.Culture,
@@ -235,19 +234,22 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 		return cultureSet;
 	}
 
-	private bool TryToUseCultureOfPrimaryImperatorProvince(CultureMapper cultureMapper, bool cultureSet)
+	private bool TryToUseCultureOfPrimaryImperatorProvince(CultureMapper cultureMapper)
 	{
-		if (!string.IsNullOrEmpty(PrimaryImperatorProvince.Culture)) {
-			var cultureMatch = cultureMapper.Match(
-				irCulture: PrimaryImperatorProvince.Culture,
-				ck3ProvinceId: Id,
-				irProvinceId: PrimaryImperatorProvince.Id,
-				historicalTag: PrimaryImperatorProvince.OwnerCountry?.HistoricalTag
-			);
-			if (cultureMatch is not null) {
-				SetCultureId(cultureMatch, date: null);
-				cultureSet = true;
-			}
+		bool cultureSet = false;
+		if (string.IsNullOrEmpty(PrimaryImperatorProvince?.Culture)) {
+			return cultureSet;
+		}
+
+		var cultureMatch = cultureMapper.Match(
+			irCulture: PrimaryImperatorProvince.Culture,
+			ck3ProvinceId: Id,
+			irProvinceId: PrimaryImperatorProvince.Id,
+			historicalTag: PrimaryImperatorProvince.OwnerCountry?.HistoricalTag
+		);
+		if (cultureMatch is not null) {
+			SetCultureId(cultureMatch, date: null);
+			cultureSet = true;
 		}
 
 		return cultureSet;
