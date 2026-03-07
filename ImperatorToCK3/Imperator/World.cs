@@ -360,27 +360,16 @@ internal partial class World {
 	}
 
 	private void ParseSave(Configuration config, ConverterVersion converterVersion, out Thread? coaExtractionThread) {
-		var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
-		var parser = new Parser();
+		string imperatorRoot = Path.Combine(config.ImperatorPath, "game");
 
 		Thread? localCoaExtractThread = null;
 		
+		var parser = new Parser();
 		parser.RegisterRegex(SaveStartRegex(), _ => { });
 		parser.RegisterKeyword("version", reader => VerifySaveVersion(converterVersion, reader));
 		parser.RegisterKeyword("date", reader => LoadSaveDate(config, reader));
 		parser.RegisterKeyword("enabled_dlcs", LogEnabledDLCs);
-		parser.RegisterKeyword("enabled_mods", reader => {
-			Mods incomingMods = DetectUsedMods(reader);
-
-			// Let's locate, verify and potentially update those mods immediately.
-			ModLoader modLoader = new();
-			modLoader.LoadMods(config.ImperatorDocPath, incomingMods, config.IRVersion, throwForOutOfDateMods: false);
-			UsableMods = new Mods(modLoader.UsableMods);
-			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
-
-			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
-			LoadModFilesystemDependentData();
-		});
+		parser.RegisterKeyword("enabled_mods", LoadEnabledModsAndInitModFs(config, imperatorRoot));
 		parser.RegisterKeyword("variables", ReadVariablesFromSave);
 		parser.RegisterKeyword("family", LoadFamilies);
 		parser.RegisterKeyword("character", LoadCharacters);
@@ -417,6 +406,21 @@ internal partial class World {
 
 		// The CoA extraction may continue after ParseSave finishes executing.
 		coaExtractionThread = localCoaExtractThread;
+	}
+
+	private SimpleDel LoadEnabledModsAndInitModFs(Configuration config, string imperatorRoot) {
+		return reader => {
+			Mods incomingMods = DetectUsedMods(reader);
+
+			// Let's locate, verify and potentially update those mods immediately.
+			ModLoader modLoader = new();
+			modLoader.LoadMods(config.ImperatorDocPath, incomingMods, config.IRVersion, throwForOutOfDateMods: false);
+			UsableMods = new Mods(modLoader.UsableMods);
+			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
+
+			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
+			LoadModFilesystemDependentData();
+		};
 	}
 
 	private void RemoveEmptyCountries() {
