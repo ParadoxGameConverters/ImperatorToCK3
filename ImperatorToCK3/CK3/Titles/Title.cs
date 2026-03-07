@@ -1523,10 +1523,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 
 				var ck3Official = job.Character.CK3Character;
-				if (ck3Official is null) {
-					continue;
-				}
-				if (alreadyEmployedCharacters.Contains(ck3Official.Id)) {
+				if (ck3Official is null || alreadyEmployedCharacters.Contains(ck3Official.Id)) {
 					continue;
 				}
 
@@ -1541,59 +1538,12 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 
 				if (ck3Position == "councillor_court_chaplain") {
-					// Court chaplains need to have the same faith as the ruler.
-					var rulerFaithId = ck3Ruler.GetFaithId(irSaveDate);
-					if (rulerFaithId is null || rulerFaithId != ck3Official.GetFaithId(irSaveDate)) {
+					if (!CanAppointAsCourtChaplain(religionCollection, ck3Ruler, ck3Official, irSaveDate, heldTitlesCount)) {
 						continue;
-					}
-
-					// If the faith has Disallowed Clerical Marriage, don't allow married court chaplains.
-					var rulerFaith = religionCollection.GetFaith(rulerFaithId);
-					if (rulerFaith is null) {
-						continue;
-					}
-					if (rulerFaith.HasDoctrine("doctrine_clerical_marriage_disallowed")) {
-						if (ck3Official.GetSpouseIds(irSaveDate).Count > 0) {
-							continue;
-						}
-					}
-
-					// If the court faith has doctrine_theocracy_temporal (Theocratic Clerical Tradition), the court chaplain should
-					// be either theocratic or landless.
-					// For the purpose of the conversion, we simply require them to be landless.
-					if (rulerFaith.HasDoctrine("doctrine_theocracy_temporal")) {
-						if (heldTitlesCount > 0) {
-							continue;
-						}
-					}
-					
-					// Skip if the faith doesn't allow the character's gender to be clergy.
-					var clericalGenderDoctrines = rulerFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_clerical_gender");
-					if (clericalGenderDoctrines.Count != 0) {
-						if (clericalGenderDoctrines.Contains("doctrine_clerical_gender_female_only") && !ck3Official.Female) {
-							continue;
-						}
-						if (clericalGenderDoctrines.Contains("doctrine_clerical_gender_male_only") && ck3Official.Female) {
-							continue;
-						}
 					}
 				} else if (ck3Position == "councillor_steward" || ck3Position == "councillor_chancellor" || ck3Position == "councillor_marshal") {
-					// Unless they are rulers, stewards, chancellors and marshals need to have the dominant gender of the faith.
-					if (heldTitlesCount == 0) {
-						var courtFaith = ck3Ruler.GetFaithId(irSaveDate);
-						if (courtFaith is not null) {
-							var dominantGenderDoctrines = religionCollection.GetFaith(courtFaith)?
-								.GetDoctrineIdsForDoctrineCategoryId("doctrine_gender");
-							if (dominantGenderDoctrines is null) {
-								continue;
-							}
-							if (dominantGenderDoctrines.Contains("doctrine_gender_male_dominated") && ck3Official.Female) {
-								continue;
-							}
-							if (dominantGenderDoctrines.Contains("doctrine_gender_female_dominated") && !ck3Official.Female) {
-								continue;
-							}
-						}
+					if (!CanAppointAsStewardChancellorMarshal(religionCollection, ck3Ruler, ck3Official, irSaveDate, heldTitlesCount)) {
+						continue;
 					}
 				}
 
@@ -1610,6 +1560,69 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				break;
 			}
 		}
+	}
+
+	private static bool CanAppointAsCourtChaplain(ReligionCollection religionCollection, Character ck3Ruler, Character ck3Official, Date irSaveDate, int heldTitlesCount) {
+		// Court chaplains need to have the same faith as the ruler.
+		var rulerFaithId = ck3Ruler.GetFaithId(irSaveDate);
+		if (rulerFaithId is null || rulerFaithId != ck3Official.GetFaithId(irSaveDate)) {
+			return false;
+		}
+
+		// If the faith has Disallowed Clerical Marriage, don't allow married court chaplains.
+		var rulerFaith = religionCollection.GetFaith(rulerFaithId);
+		if (rulerFaith is null) {
+			return false;
+		}
+		if (rulerFaith.HasDoctrine("doctrine_clerical_marriage_disallowed")) {
+			if (ck3Official.GetSpouseIds(irSaveDate).Count > 0) {
+				return false;
+			}
+		}
+
+		// If the court faith has doctrine_theocracy_temporal (Theocratic Clerical Tradition), the court chaplain should
+		// be either theocratic or landless.
+		// For the purpose of the conversion, we simply require them to be landless.
+		if (rulerFaith.HasDoctrine("doctrine_theocracy_temporal")) {
+			if (heldTitlesCount > 0) {
+				return false;
+			}
+		}
+		
+		// Skip if the faith doesn't allow the character's gender to be clergy.
+		var clericalGenderDoctrines = rulerFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_clerical_gender");
+		if (clericalGenderDoctrines.Count != 0) {
+			if (clericalGenderDoctrines.Contains("doctrine_clerical_gender_female_only") && !ck3Official.Female) {
+				return false;
+			}
+			if (clericalGenderDoctrines.Contains("doctrine_clerical_gender_male_only") && ck3Official.Female) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private static bool CanAppointAsStewardChancellorMarshal(ReligionCollection religionCollection, Character ck3Ruler, Character ck3Official, Date irSaveDate, int heldTitlesCount) {
+		// Unless they are rulers, stewards, chancellors and marshals need to have the dominant gender of the faith.
+		if (heldTitlesCount == 0) {
+			var courtFaith = ck3Ruler.GetFaithId(irSaveDate);
+			if (courtFaith is not null) {
+				var dominantGenderDoctrines = religionCollection.GetFaith(courtFaith)?
+					.GetDoctrineIdsForDoctrineCategoryId("doctrine_gender");
+				if (dominantGenderDoctrines is null) {
+					return false;
+				}
+				if (dominantGenderDoctrines.Contains("doctrine_gender_male_dominated") && ck3Official.Female) {
+					return false;
+				}
+				if (dominantGenderDoctrines.Contains("doctrine_gender_female_dominated") && !ck3Official.Female) {
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
 	// used by county titles only
