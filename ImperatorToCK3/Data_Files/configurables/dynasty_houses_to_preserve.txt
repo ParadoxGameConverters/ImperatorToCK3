@@ -85,6 +85,34 @@ house_vignolles # referenced in common\scripted_effects\00_historical_characters
 house_corvey # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
 house_flor # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
 house_monmouth # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
+house_fujiwara_kyo_ke # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_nan_ke # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_shiki_ke # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_koichijo # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_manatsu # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_nakamikado # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_ononomiya # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_sesonji # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_takaie # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_yamakage # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_yoshikado # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_yoshiyo # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_hamuro # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_kajuji # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_kasannoin # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_kujo # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_matsudono # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_mikohida # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_oinomikado # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_rokujo # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_shijo # referenced in common\script_values\tgp_japan_values.txt
+house_taira_takamune # referenced in common\script_values\tgp_japan_values.txt
+house_minamoto_watanabe # referenced in common\script_values\tgp_japan_values.txt
+house_taira_satsuma # referenced in common\script_values\tgp_japan_values.txt
+house_fujiwara_ashikaga # referenced in common\script_values\tgp_japan_values.txt
+house_taira_kawagoe # referenced in common\script_values\tgp_japan_values.txt
+house_taira_oba # referenced in common\script_values\tgp_japan_values.txt
+house_minamoto_hitachi # referenced in common\script_values\tgp_japan_values.txt
 
 # TFE
 house_hashmid # referenced in events\islam_events.txt
