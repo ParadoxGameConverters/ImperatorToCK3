@@ -37,7 +37,10 @@ jobs:
         GITHUB_REF: ${{ github.ref }}
     - name: "Modify the branch name to be used in artifact name (Windows)"
       if: runner.os == 'Windows'
-      run: echo "BRANCH_NAME=${BRANCH_NAME.Replace('/', '-').Replace('\\', '-').Replace(':', '-').Replace('<', '-').Replace('>', '-').Replace('|', '-').Replace('*', '-').Replace('?', '-').Replace('\r', '-').Replace('\n', '-').Replace('/', '-').Replace('\\', '-') }" | Out-File -Append $env:GITHUB_ENV
+      run: |
+        # sanitize invalid filename characters by replacing them with hyphens
+        $sanitized = $env:BRANCH_NAME -replace '[\/\\:<>|*?\r\n]', '-'
+        echo "BRANCH_NAME=$sanitized" | Out-File -Append $env:GITHUB_ENV
     - name: "Modify the branch name to be used in artifact name (Unix)"
       if: runner.os != 'Windows'
       # Invalid characters include:  Double quote ", Colon :, Less than <, Greater than >, Vertical bar |, Asterisk *, Question mark ?, Carriage return \r, Line feed \n, Backslash \\, Forward slash /
