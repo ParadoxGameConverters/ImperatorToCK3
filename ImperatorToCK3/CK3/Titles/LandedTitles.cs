@@ -1152,6 +1152,94 @@ internal sealed partial class Title {
 				return;
 			}
 
+			Dictionary<string, List<Title>> hegemonyToKingdomsDict = BuildHegemonyToKingdomsDict(deJureKingdoms, ck3BookmarkDate);
+
+			foreach (var (hegemonyId, kingdomsForHegemony) in hegemonyToKingdomsDict) {
+				if (!TryGetValue(hegemonyId, out var hegemony)) {
+					continue;
+				}
+
+				Dictionary<string, List<Title>> regionToKingdomsDict = [];
+				foreach (var kingdom in kingdomsForHegemony) {
+					var regionShares = new Dictionary<string, int>();
+
+					foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
+						foreach (var provinceId in county.CountyProvinceIds) {
+							foreach (var divisionRegionId in romeDivisionRegionIds) {
+								if (!ck3RegionMapper.ProvinceIsInRegion(provinceId, divisionRegionId)) {
+									continue;
+								}
+
+								regionShares.TryGetValue(divisionRegionId, out var currentCount);
+								regionShares[divisionRegionId] = currentCount + 1;
+							}
+						}
+					}
+
+					if (regionShares.Count == 0) {
+						continue;
+					}
+
+					string regionId = regionShares.MaxBy(pair => pair.Value).Key;
+
+					if (!regionToKingdomsDict.TryGetValue(regionId, out var kingdomsForRegion)) {
+						kingdomsForRegion = [];
+						regionToKingdomsDict[regionId] = kingdomsForRegion;
+					}
+					kingdomsForRegion.Add(kingdom);
+				}
+
+				CreateEmpiresFromHegemonyRegions(hegemony, regionToKingdomsDict, romeDivisionRegionPrefix, ck3LocDB, ck3BookmarkDate);
+			}
+		}
+
+		private void CreateEmpiresFromHegemonyRegions(Title hegemony, Dictionary<string, List<Title>> regionToKingdomsDict,
+			string romeDivisionRegionPrefix, CK3LocDB ck3LocDB, Date ck3BookmarkDate) {
+			string hegemonyId = hegemony.Id;
+			foreach (var (regionId, kingdomsForRegion) in regionToKingdomsDict) {
+				var nameSourceKingdom = kingdomsForRegion
+					.OrderByDescending(k => k.GetDeJureVassalsAndBelow("c").Values.Sum(c => c.GetDevelopmentLevel(ck3BookmarkDate) ?? 0))
+					.ThenBy(k => k.Id, StringComparer.Ordinal)
+					.First();
+
+				var regionSuffix = regionId.StartsWith(romeDivisionRegionPrefix, StringComparison.Ordinal)
+					? regionId[romeDivisionRegionPrefix.Length..]
+					: regionId;
+				var baseEmpireId = $"e_IRTOCK3_hegemony_{hegemonyId}_{regionSuffix}";
+				var empireId = baseEmpireId;
+				var idCounter = 2;
+				while (TryGetValue(empireId, out _)) {
+					empireId = $"{baseEmpireId}_{idCounter}";
+					++idCounter;
+				}
+
+				var empire = Add(empireId);
+				empire.Color1 = nameSourceKingdom.Color1;
+				empire.CapitalCounty = nameSourceKingdom.CapitalCounty;
+				empire.DeJureLiege = hegemony;
+
+				var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(empire.Id);
+				nameLocBlock.ModifyForEveryLanguage((orig, language) => $"${nameSourceKingdom.Id}$");
+
+				var adjectiveLocBlock = ck3LocDB.GetOrCreateLocBlock($"{empire.Id}_adj");
+				var sourceAdjLocKey = $"{nameSourceKingdom.Id}_adj";
+				adjectiveLocBlock.ModifyForEveryLanguage((orig, language) => {
+					if (ck3LocDB.HasKeyLocForLanguage(sourceAdjLocKey, language)) {
+						return $"${sourceAdjLocKey}$";
+					}
+
+					Logger.Debug($"Using kingdom name as adjective for {empire.Id} in {language} because kingdom adjective is missing.");
+					return $"${nameSourceKingdom.Id}$";
+				});
+
+				foreach (var kingdom in kingdomsForRegion) {
+					kingdom.DeJureLiege = empire;
+				}
+			}
+		}
+
+		private Dictionary<string, List<Title>> BuildHegemonyToKingdomsDict(ImmutableArray<Title> deJureKingdoms, Date ck3BookmarkDate)
+		{
 			Dictionary<string, List<Title>> hegemonyToKingdomsDict = [];
 			foreach (var kingdom in deJureKingdoms) {
 				var hegemonyShares = new Dictionary<string, int>();
@@ -1190,84 +1278,7 @@ internal sealed partial class Title {
 				kingdoms.Add(kingdom);
 			}
 
-			foreach (var (hegemonyId, kingdomsForHegemony) in hegemonyToKingdomsDict) {
-				if (!TryGetValue(hegemonyId, out var hegemony)) {
-					continue;
-				}
-
-				Dictionary<string, List<Title>> regionToKingdomsDict = [];
-				foreach (var kingdom in kingdomsForHegemony) {
-					var regionShares = new Dictionary<string, int>();
-					var kingdomProvincesCount = 0;
-
-					foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
-						foreach (var provinceId in county.CountyProvinceIds) {
-							++kingdomProvincesCount;
-							foreach (var divisionRegionId in romeDivisionRegionIds) {
-								if (!ck3RegionMapper.ProvinceIsInRegion(provinceId, divisionRegionId)) {
-									continue;
-								}
-
-								regionShares.TryGetValue(divisionRegionId, out var currentCount);
-								regionShares[divisionRegionId] = currentCount + 1;
-							}
-						}
-					}
-
-					if (regionShares.Count == 0) {
-						continue;
-					}
-
-					string regionId = regionShares.MaxBy(pair => pair.Value).Key;
-
-					if (!regionToKingdomsDict.TryGetValue(regionId, out var kingdomsForRegion)) {
-						kingdomsForRegion = [];
-						regionToKingdomsDict[regionId] = kingdomsForRegion;
-					}
-					kingdomsForRegion.Add(kingdom);
-				}
-
-				foreach (var (regionId, kingdomsForRegion) in regionToKingdomsDict) {
-					var nameSourceKingdom = kingdomsForRegion
-						.OrderByDescending(k => k.GetDeJureVassalsAndBelow("c").Values.Sum(c => c.GetDevelopmentLevel(ck3BookmarkDate) ?? 0))
-						.ThenBy(k => k.Id, StringComparer.Ordinal)
-						.First();
-
-					var regionSuffix = regionId.StartsWith(romeDivisionRegionPrefix, StringComparison.Ordinal)
-						? regionId[romeDivisionRegionPrefix.Length..]
-						: regionId;
-					var baseEmpireId = $"e_IRTOCK3_hegemony_{hegemonyId}_{regionSuffix}";
-					var empireId = baseEmpireId;
-					var idCounter = 2;
-					while (TryGetValue(empireId, out _)) {
-						empireId = $"{baseEmpireId}_{idCounter}";
-						++idCounter;
-					}
-
-					var empire = Add(empireId);
-					empire.Color1 = nameSourceKingdom.Color1;
-					empire.CapitalCounty = nameSourceKingdom.CapitalCounty;
-					empire.DeJureLiege = hegemony;
-
-					var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(empire.Id);
-					nameLocBlock.ModifyForEveryLanguage((orig, language) => $"${nameSourceKingdom.Id}$");
-
-					var adjectiveLocBlock = ck3LocDB.GetOrCreateLocBlock($"{empire.Id}_adj");
-					var sourceAdjLocKey = $"{nameSourceKingdom.Id}_adj";
-					adjectiveLocBlock.ModifyForEveryLanguage((orig, language) => {
-						if (ck3LocDB.HasKeyLocForLanguage(sourceAdjLocKey, language)) {
-							return $"${sourceAdjLocKey}$";
-						}
-
-						Logger.Debug($"Using kingdom name as adjective for {empire.Id} in {language} because kingdom adjective is missing.");
-						return $"${nameSourceKingdom.Id}$";
-					});
-
-					foreach (var kingdom in kingdomsForRegion) {
-						kingdom.DeJureLiege = empire;
-					}
-				}
-			}
+			return hegemonyToKingdomsDict;
 		}
 
 		private void CreateEmpiresBasedOnDominantHeritages(
