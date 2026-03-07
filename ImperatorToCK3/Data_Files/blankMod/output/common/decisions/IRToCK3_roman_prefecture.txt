@@ -1,0 +1,89 @@
+# List of prefectures by tanner918:
+# Britannia: e_britannia
+# Germania: e_germany
+# Italiae: e_italy
+# Orientis: e_oriens
+# Illyrici: e_illyria
+# Pannonia: e_carpathia
+# Scandia: e_scandinavia
+# Arabia: e_arabia
+# Persia: e_persia
+# Sarmatia: e_caspian-pontic_steppe
+# Uralia Interior: e_volga-ural
+# Uralia Ulterior: e_siberia
+# Tartaria: e_tartaria
+# Parthia: e_parthia
+# Imoan Montem: e_tibet
+# Insulae Remotae: e_nusantara
+# Insulae Solis: e_japan
+# Septentrionalis Deserti: e_mongolia
+# Serica Meridiana: e_lingnan
+# Serica Occidens: e_liangyi
+# Serica Orientalis: e_jingyang
+# Serica Septentrionalis: e_zhongyuan
+# Serica Deserti: e_yongliang
+
+
+@form_prefecture_decision_check_interval = 30
+
+
+irtock3_form_prefecture_britannia = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_britannia_desc
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+    is_shown = {
+        irtock3_form_prefecture_is_shown_trigger = {
+            REGION = irtock3_rome_empire_division_britannia
+            EMPIRE = e_britannia
+        }
+	}
+    is_valid = {
+        irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_britannia }
+    }
+	is_valid_showing_failures_only = {
+		irtock3_form_prefecture_is_valid_failures_only_trigger = yes
+	}
+
+    effect = {
+        irtock3_split_rome_empire_region_effect = {
+            REGION = irtock3_rome_empire_division_britannia
+            EMPIRE = e_britannia
+        }
+    }
+}
+
+#irtock3_form_prefecture_germania = {} # TODO: FILL
+#irtock3_form_prefecture_italiae = {} # TODO: FILL
+#irtock3_form_prefecture_orientis = {} # TODO: FILL
+#irtock3_form_prefecture_illyrici = {} # TODO: FILL
+#irtock3_form_prefecture_pannonia = {} # TODO: FILL
+#irtock3_form_prefecture_scandia = {} # TODO: FILL
+#irtock3_form_prefecture_arabia = {} # TODO: FILL
+#irtock3_form_prefecture_persia = {} # TODO: FILL
+#irtock3_form_prefecture_sarmatia = {} # TODO: FILL
+#irtock3_form_prefecture_uralia_interior = {} # TODO: FILL
+#irtock3_form_prefecture_uralia_ulterior = {} # TODO: FILL
+#irtock3_form_prefecture_tartaria = {} # TODO: FILL
+#irtock3_form_prefecture_parthia = {} # TODO: FILL
+#irtock3_form_prefecture_imoan_montem = {} # TODO: FILL
+#irtock3_form_prefecture_insulae_remotae = {} # TODO: FILL
+#irtock3_form_prefecture_insulae_solis = {} # TODO: FILL
+#irtock3_form_prefecture_septentrionalis_deserti = {} # TODO: FILL
+#irtock3_form_prefecture_serica_meridiana = {} # TODO: FILL
+#irtock3_form_prefecture_serica_occidens = {} # TODO: FILL
+#irtock3_form_prefecture_serica_orientalis = {} # TODO: FILL
+#irtock3_form_prefecture_serica_septentrionalis = {} # TODO: FILL
+#irtock3_form_prefecture_serica_deserti = {} # TODO: FILL
+    
