@@ -699,9 +699,33 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		if (!nameSet) {
 			nameSet = TryToUseMostDevelopedOwnedTerritoryForGovernorshipName(region, regionHasMultipleGovernorships, country, irProvinces, irLocDB, ck3LocDB);
 		}
+		if (!nameSet) {
+			nameSet = TryToUseRegionNameWithCountryAdjectiveForGovernorshipName(governorship, country, regionHasMultipleGovernorships, ck3LocDB, regionLocBlock);
+		}
+		if (!nameSet) {
+			nameSet = TryToUseRegionNameForGovernorshipName(governorship, ck3LocDB, regionLocBlock);
+		}
+		if (!nameSet && Id.Contains("_IRTOCK3_")) {
+			Logger.Warn($"{Id} needs help with localization!");
+		}
+	}
+
+	private bool TryToUseRegionNameForGovernorshipName(Governorship governorship, CK3LocDB ck3LocDB, LocBlock? regionLocBlock) {
+		if (regionLocBlock is not null) {
+			Logger.Debug($"Naming {Id} after governorship: {governorship.Region.Id}...");
+			var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(Id);
+			nameLocBlock.CopyFrom(regionLocBlock);
+			return true;
+		}
+
+		return false;
+	}
+
+	private bool TryToUseRegionNameWithCountryAdjectiveForGovernorshipName(Governorship governorship, Country country, bool regionHasMultipleGovernorships, CK3LocDB ck3LocDB, LocBlock? regionLocBlock) {
 		// Try to use "<country adjective> <region name>" as governorship name if region has multiple governorships.
 		// Example: Mauretania -> Roman Mauretania
-		if (!nameSet && regionHasMultipleGovernorships && regionLocBlock is not null) {
+
+		if (regionHasMultipleGovernorships && regionLocBlock is not null) {
 			var ck3Country = country.CK3Title;
 			if (ck3Country is not null && ck3LocDB.TryGetValue($"{ck3Country.Id}_adj", out var countryAdjectiveLocBlock)) {
 				Logger.Debug($"Naming {Id} after governorship with country adjective: {country.Tag} {governorship.Region.Id}...");
@@ -710,18 +734,11 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
 					(orig, adj, _) => $"{adj} {orig}"
 				);
-				nameSet = true;
+				return true;
 			}
 		}
-		if (!nameSet && regionLocBlock is not null) {
-			Logger.Debug($"Naming {Id} after governorship: {governorship.Region.Id}...");
-			var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(Id);
-			nameLocBlock.CopyFrom(regionLocBlock);
-			nameSet = true;
-		}
-		if (!nameSet && Id.Contains("_IRTOCK3_")) {
-			Logger.Warn($"{Id} needs help with localization!");
-		}
+
+		return false;
 	}
 
 	private bool TryToUseMostDevelopedOwnedTerritoryForGovernorshipName(ImperatorRegion? region,
