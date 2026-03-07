@@ -99,11 +99,12 @@ internal sealed partial class Title {
 			// Cleanup for titles having invalid capital counties.
 			var validTitleIds = this.Select(t => t.Id).ToFrozenSet();
 			var placeholderCountyId = validTitleIds.Order().First(t => t.StartsWith("c_"));
-			foreach (var title in this.Where(t => t.Rank > TitleRank.county)) {
-				if (title.CapitalCountyId is null && !title.Landless) {
-					// For landed titles, the game will generate capitals.
-					continue;
-				}
+
+			// Only check titles that actually may need fixing.
+			// For landed titles, the game will generate capitals, so they can be skipped.
+			var titlesToCheck = this.Where(t => t.Rank > TitleRank.county && (t.CapitalCountyId is not null || t.Landless));
+
+			foreach (var title in titlesToCheck) {
 				if (title.CapitalCountyId is not null && validTitleIds.Contains(title.CapitalCountyId)) {
 					continue;
 				}
