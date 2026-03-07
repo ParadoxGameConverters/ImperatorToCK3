@@ -8,8 +8,8 @@ using ZLinq;
 
 namespace ImperatorToCK3.Mappers.Region;
 
-internal sealed class CK3Region {
-	public string Name { get; }
+internal sealed class CK3Region(string name) {
+	public string Name { get; } = name;
 	private readonly HashSet<string> parsedRegionIds = [];
 	public Dictionary<string, CK3Region> Regions { get; } = [];
 	private readonly HashSet<string> parsedDuchyIds = [];
@@ -19,8 +19,6 @@ internal sealed class CK3Region {
 	public Dictionary<string, Title> Counties { get; } = [];
 	public SortedSet<ulong> Provinces { get; } = [];
 	private readonly List<KeyValuePair<string, StringOfItem>> attributes = [];
-
-	public CK3Region(string name) => Name = name;
 
 	public void LinkRegions(Dictionary<string, CK3Region> regions, Dictionary<string, Title> kingdoms, Dictionary<string, Title> duchies, Dictionary<string, Title> counties) {
 		// regions

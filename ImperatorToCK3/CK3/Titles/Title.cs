@@ -222,45 +222,54 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		FillHolderAndGovernmentHistory(country, characters, governmentMapper, irLocDB, ck3LocDB, religionMapper, cultureMapper, nicknameMapper, provinceMapper, config, conversionDate, enabledCK3Dlcs);
 
+		SetColorFromImperatorCountry();
+		DetermineSuccessionLawsFromImperatorCountry(country, successionLawMapper, conversionDate, enabledCK3Dlcs);
+		DetermineCoAFromImperator(coaMapper, config);
+
+		// Determine other attributes:
+		SetCapitalFromImperatorCountry(provinceMapper);
+		SetNameLocalizationFromImperatorCountry(irLocDB, ck3LocDB, validatedName);
+		TrySetAdjectiveLoc(irLocDB, imperatorCountries, ck3LocDB);
+
+		// If country is a subject, convert it to a vassal.
+		if (dependency is not null) {
+			var overLordTitle = imperatorCountries[dependency.OverlordId].CK3Title;
+			if (overLordTitle is null) {
+				Logger.Warn($"Can't find CK3 title for country {dependency.OverlordId}, overlord of {country.Id}.");
+			}
+			if (!config.StaticDeJure) {
+				DeJureLiege = overLordTitle;
+			}
+			SetDeFactoLiege(overLordTitle, dependency.StartDate);
+		}
+	}
+
+	private void SetColorFromImperatorCountry() {
 		// Determine color.
 		var color1Opt = ImperatorCountry.Color1;
 		if (color1Opt is not null) {
 			Color1 = color1Opt;
 		}
+	}
 
+	private void DetermineCoAFromImperator(CoaMapper coaMapper, Configuration config) {
+		// Determine CoA.
+		if (IsCreatedFromImperator || !config.UseCK3Flags) {
+			bool warnIfMissing = !config.SkipDynamicCoAExtraction;
+			CoA = coaMapper.GetCoaForFlagName(ImperatorCountry.Flag, warnIfMissing);
+		}
+	}
+
+	private void DetermineSuccessionLawsFromImperatorCountry(Country country, SuccessionLawMapper successionLawMapper, Date conversionDate, IReadOnlyCollection<string> enabledCK3Dlcs) {
 		// determine successions laws
 		History.AddFieldValue(conversionDate,
 			"succession_laws",
 			"succession_laws",
 			successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws(), country.Government, enabledCK3Dlcs)
 		);
+	}
 
-		// Determine CoA.
-		if (IsCreatedFromImperator || !config.UseCK3Flags) {
-			bool warnIfMissing = !config.SkipDynamicCoAExtraction;
-			CoA = coaMapper.GetCoaForFlagName(ImperatorCountry.Flag, warnIfMissing);
-		}
-
-		// Determine other attributes:
-		// Set capital to Imperator tag's capital.
-		if (ImperatorCountry.CapitalProvinceId is not null) {
-			var srcCapital = ImperatorCountry.CapitalProvinceId.Value;
-			foreach (var ck3ProvId in provinceMapper.GetCK3ProvinceNumbers(srcCapital)) {
-				var foundCounty = parentCollection.GetCountyForProvince(ck3ProvId);
-				if (foundCounty is null) {
-					continue;
-				}
-
-				// If the title is a de jure duchy, potential capital must be within it.
-				if (Rank == TitleRank.duchy && DeJureVassals.Count > 0 && foundCounty.DeJureLiege?.Id != Id) {
-					continue;
-				}
-
-				CapitalCounty = foundCounty;
-				break;
-			}
-		}
-
+	private void SetNameLocalizationFromImperatorCountry(LocDB irLocDB, CK3LocDB ck3LocDB, LocBlock? validatedName) {
 		// determine country name localization
 		var nameSet = false;
 		if (validatedName is not null) {
@@ -290,20 +299,26 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		if (!nameSet) {
 			Logger.Warn($"{Id} needs help with localization! {ImperatorCountry.Name}?");
 		}
+	}
 
-		// determine adjective localization
-		TrySetAdjectiveLoc(irLocDB, imperatorCountries, ck3LocDB);
+	private void SetCapitalFromImperatorCountry(ProvinceMapper provinceMapper) {
+		// Set capital to Imperator tag's capital.
+		if (ImperatorCountry.CapitalProvinceId is not null) {
+			var srcCapital = ImperatorCountry.CapitalProvinceId.Value;
+			foreach (var ck3ProvId in provinceMapper.GetCK3ProvinceNumbers(srcCapital)) {
+				var foundCounty = parentCollection.GetCountyForProvince(ck3ProvId);
+				if (foundCounty is null) {
+					continue;
+				}
 
-		// If country is a subject, convert it to a vassal.
-		if (dependency is not null) {
-			var overLordTitle = imperatorCountries[dependency.OverlordId].CK3Title;
-			if (overLordTitle is null) {
-				Logger.Warn($"Can't find CK3 title for country {dependency.OverlordId}, overlord of {country.Id}.");
+				// If the title is a de jure duchy, potential capital must be within it.
+				if (Rank == TitleRank.duchy && DeJureVassals.Count > 0 && foundCounty.DeJureLiege?.Id != Id) {
+					continue;
+				}
+
+				CapitalCounty = foundCounty;
+				break;
 			}
-			if (!config.StaticDeJure) {
-				DeJureLiege = overLordTitle;
-			}
-			SetDeFactoLiege(overLordTitle, dependency.StartDate);
 		}
 	}
 
