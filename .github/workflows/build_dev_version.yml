@@ -107,3 +107,4 @@ jobs:
         name: 'ImperatorToCK3-${{ matrix.build }}-dev-${{ env.BRANCH_NAME }}'
         path: 'ImperatorToCK3-${{ matrix.build }}-dev${{ matrix.archive_extension }}'
         retention-days: 20
+        if-no-files-found: error
