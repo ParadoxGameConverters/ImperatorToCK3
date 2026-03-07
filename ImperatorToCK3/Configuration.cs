@@ -2,6 +2,7 @@
 using commonItems.Collections;
 using commonItems.Exceptions;
 using commonItems.Mods;
+using ImperatorToCK3.CommonUtils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -65,10 +66,10 @@ internal sealed class Configuration {
 			SaveGamePath = reader.GetString();
 			Logger.Info($"Save game set to: {SaveGamePath}");
 		});
-		parser.RegisterKeyword("ImperatorDirectory", reader => ImperatorPath = reader.GetString());
-		parser.RegisterKeyword("ImperatorDocDirectory", reader => ImperatorDocPath = reader.GetString());
-		parser.RegisterKeyword("CK3directory", reader => CK3Path = reader.GetString());
-		parser.RegisterKeyword("targetGameModPath", reader => CK3ModsPath = reader.GetString());
+		parser.RegisterKeyword("ImperatorDirectory", reader => ImperatorPath = PathHelper.RemoveTrailingSeparators(reader.GetString()));
+		parser.RegisterKeyword("ImperatorDocDirectory", reader => ImperatorDocPath = PathHelper.RemoveTrailingSeparators(reader.GetString()));
+		parser.RegisterKeyword("CK3directory", reader => CK3Path = PathHelper.RemoveTrailingSeparators(reader.GetString()));
+		parser.RegisterKeyword("targetGameModPath", reader => CK3ModsPath = PathHelper.RemoveTrailingSeparators(reader.GetString()));
 		parser.RegisterKeyword("selectedMods", reader => {
 			SelectedCK3Mods.Clear();
 			SelectedCK3Mods.UnionWith(reader.GetStrings());
@@ -295,7 +296,8 @@ internal sealed class Configuration {
 	private void VerifyImperatorVersion(ConverterVersion converterVersion) {
 		var path = Path.Combine(ImperatorPath, "launcher/launcher-settings.json");
 		IRVersion = GameVersion.ExtractVersionFromLauncher(path) ??
-		                   throw new ConverterException("Imperator version could not be determined.");
+		            GetImperatorVersionFromSullaBranchFile() ??
+		            throw new ConverterException("Imperator version could not be determined.");
 
 		Logger.Info($"Imperator version: {IRVersion.ToShortString()}");
 
@@ -307,6 +309,21 @@ internal sealed class Configuration {
 			Logger.Error($"Imperator version is v{IRVersion.ToShortString()}, converter requires maximum v{converterVersion.MaxSource.ToShortString()}!");
 			throw new UserErrorException("Converter vs Imperator installation mismatch!");
 		}
+	}
+
+	private GameVersion? GetImperatorVersionFromSullaBranchFile() {
+		const string sullaBranchFileName = "sulla_branch.txt";
+		var path = Path.Combine(ImperatorPath, sullaBranchFileName);
+
+		if (!File.Exists(path)) {
+			Logger.Warn($"{sullaBranchFileName} not found");
+			return null;
+		}
+
+		// The file contains the game version in the following format: release/X.Y.Z.
+		var versionStr = File.ReadAllText(path).Trim().Replace("release/", "");
+		var version = new GameVersion(versionStr);
+		return version;
 	}
 
 	private void VerifyCK3Version(ConverterVersion converterVersion) {
@@ -328,10 +345,11 @@ internal sealed class Configuration {
 	}
 
 	private GameVersion? GetCK3VersionFromTitusBranchFile() {
-		var path = Path.Combine(CK3Path, "titus_branch.txt");
+		const string titusBranchFileName = "titus_branch.txt";
+		var path = Path.Combine(CK3Path, titusBranchFileName);
 
 		if (!File.Exists(path)) {
-			Logger.Warn("titus_branch.txt not found");
+			Logger.Warn($"{titusBranchFileName} not found");
 			return null;
 		}
 
