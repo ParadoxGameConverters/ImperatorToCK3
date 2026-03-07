@@ -1,6 +1,7 @@
 using commonItems;
 using ImageMagick;
 using ImperatorToCK3.CK3;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.CommonUtils.Map;
@@ -131,6 +132,11 @@ internal static class BookmarkOutputter {
 
 		sb.AppendLine("\t}");
 
+		await OutputBookmarkPortrait(config, holder);
+	}
+
+	private static async Task OutputBookmarkPortrait(Configuration config, Character holder)
+	{
 		var agesex = holder.GetAgeSex(config.CK3BookmarkDate);
 		
 		StringBuilder portraitBuilder = new();
@@ -147,7 +153,7 @@ internal static class BookmarkOutputter {
 		var outPortraitPath = Path.Combine("output", config.OutputModName, $"common/bookmark_portraits/bm_converted_{holder.Id}.txt");
 		await File.WriteAllTextAsync(outPortraitPath, portraitBuilder.ToString());
 	}
-	
+
 	// Not sure what is the purpose of these values, but all vanilla bookmark portraits have entity entries.
 	private static readonly Dictionary<string, string> agesexToEntityDict = new() {
 		{"male", "3942081117 3942081117"},
