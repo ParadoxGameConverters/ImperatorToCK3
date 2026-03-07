@@ -1148,47 +1148,14 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[commonItems.Serialization.NonSerialized] public bool IsCreatedFromImperator { get; private set; } = false;
 
 	private void RegisterKeys(Parser parser, ColorFactory colorFactory) {
-		parser.RegisterRegex(Regexes.TitleId, (reader, titleNameStr) => {
-			// Pull the titles beneath this one and add them to the lot.
-			// A title can be defined in multiple files, in that case merge the definitions.
-			if (parentCollection.TryGetValue(titleNameStr, out var childTitle)) {
-				childTitle.LoadTitles(reader, colorFactory);
-			} else {
-				childTitle = parentCollection.Add(titleNameStr);
-				childTitle.LoadTitles(reader, colorFactory);
-			}
-
-			if (childTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBaronyId)) {
-				// title is a barony, and no other barony has been found in this scope yet
-				CapitalBaronyId = childTitle.Id;
-			}
-			
-			childTitle.DeJureLiege = this;
-		});
+		parser.RegisterRegex(Regexes.TitleId, LoadTitlesUnderTitle(colorFactory));
 		parser.RegisterKeyword("definite_form", reader => HasDefiniteForm = reader.GetBool());
 		parser.RegisterKeyword("ruler_uses_title_name", reader => RulerUsesTitleName = reader.GetBool());
 		parser.RegisterKeyword("landless", reader => Landless = reader.GetBool());
 		parser.RegisterKeyword("require_landless", reader => RequireLandless = reader.GetBool());
-		parser.RegisterKeyword("color", reader => {
-			try {
-				Color1 = colorFactory.GetColor(reader);
-			} catch (ArgumentException e) {
-				Logger.Warn($"{e.Message} - defaulting to black");
-				Color1 = new Color(0, 0, 0);
-			}
-		});
+		parser.RegisterKeyword("color", LoadTitleColor(colorFactory));
 		parser.RegisterKeyword("capital", reader => CapitalCountyId = reader.GetString());
-		parser.RegisterKeyword("ai_primary_priority", reader => {
-			var stringOfItem = reader.GetStringOfItem();
-			
-			// Drop ai_primary_priority blocks that contain references to specific dynasties or characters.
-			var str = stringOfItem.ToString();
-			if (str.Contains("dynasty:") || str.Contains("character:")) {
-				return;
-			}
-			
-			AIPrimaryPriority = stringOfItem;
-		});
+		parser.RegisterKeyword("ai_primary_priority", LoadAiPrimaryPriority());
 		parser.RegisterKeyword("ignore_titularity_for_title_weighting", reader => IgnoreTitularityForTitleWeighting = reader.GetBool());
 		parser.RegisterKeyword("can_create", reader => CanCreate = reader.GetStringOfItem());
 		parser.RegisterKeyword("can_create_on_partition", reader => CanCreateOnPartition = reader.GetStringOfItem());
@@ -1219,6 +1186,53 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			ParserHelpers.IgnoreItem(reader);
 		});
 	}
+
+	private Del LoadTitlesUnderTitle(ColorFactory colorFactory)
+	{
+		return (reader, titleNameStr) => {
+			// Pull the titles beneath this one and add them to the lot.
+			// A title can be defined in multiple files, in that case merge the definitions.
+			if (parentCollection.TryGetValue(titleNameStr, out var childTitle)) {
+				childTitle.LoadTitles(reader, colorFactory);
+			} else {
+				childTitle = parentCollection.Add(titleNameStr);
+				childTitle.LoadTitles(reader, colorFactory);
+			}
+
+			if (childTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBaronyId)) {
+				// title is a barony, and no other barony has been found in this scope yet
+				CapitalBaronyId = childTitle.Id;
+			}
+			
+			childTitle.DeJureLiege = this;
+		};
+	}
+
+	private SimpleDel LoadAiPrimaryPriority() {
+		return reader => {
+			var stringOfItem = reader.GetStringOfItem();
+			
+			// Drop ai_primary_priority blocks that contain references to specific dynasties or characters.
+			var str = stringOfItem.ToString();
+			if (str.Contains("dynasty:") || str.Contains("character:")) {
+				return;
+			}
+			
+			AIPrimaryPriority = stringOfItem;
+		};
+	}
+
+	private SimpleDel LoadTitleColor(ColorFactory colorFactory) {
+		return reader => {
+			try {
+				Color1 = colorFactory.GetColor(reader);
+			} catch (ArgumentException e) {
+				Logger.Warn($"{e.Message} - defaulting to black");
+				Color1 = new Color(0, 0, 0);
+			}
+		};
+	}
+
 	private void TrySetCapitalBarony() {
 		if (Rank != TitleRank.county) {
 			return;
