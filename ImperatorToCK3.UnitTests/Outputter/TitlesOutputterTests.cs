@@ -40,15 +40,15 @@ public class TitlesOutputterTests {
 		await TitlesOutputter.OutputTitles(outputModPath, titles);
 
 		Assert.True(File.Exists(kingdomHistoryPath));
-		var kingdomHistoryText = await File.ReadAllTextAsync(kingdomHistoryPath);
+		var kingdomHistoryText = await File.ReadAllTextAsync(kingdomHistoryPath, TestContext.Current.CancellationToken);
 		Assert.Equal("k_kingdom={\n\t20.1.1 = { liege = 0 }\n}\n", TextTestUtils.NormalizeNewlines(kingdomHistoryText));
 
 		Assert.True(File.Exists(otherTitlesHistoryPath));
-		var otherTitlesHistoryText = await File.ReadAllTextAsync(otherTitlesHistoryPath);
+		var otherTitlesHistoryText = await File.ReadAllTextAsync(otherTitlesHistoryPath, TestContext.Current.CancellationToken);
 		Assert.Equal("k_special_title={\n\t20.1.1 = { holder = bob_42 }\n}\n", TextTestUtils.NormalizeNewlines(otherTitlesHistoryText));
 
 		Assert.True(File.Exists(landedTitlesPath));
-		var landedTitlesText = await File.ReadAllTextAsync(landedTitlesPath);
+		var landedTitlesText = await File.ReadAllTextAsync(landedTitlesPath, TestContext.Current.CancellationToken);
 		var expectedLandedTitles = TextTestUtils.NormalizeNewlines("""
 		k_kingdom = {
 			d_duchy = {
@@ -94,7 +94,7 @@ public class TitlesOutputterTests {
 		await TitlesOutputter.OutputTitles(outputModPath, titles);
 
 		Assert.True(File.Exists(landedTitlesPath));
-		var landedTitlesText = await File.ReadAllTextAsync(landedTitlesPath);
+		var landedTitlesText = await File.ReadAllTextAsync(landedTitlesPath, TestContext.Current.CancellationToken);
 		var expectedVariables = TextTestUtils.NormalizeNewlines("""
 		@default_ai_priority=20
 		@default_ai_aggressiveness=40

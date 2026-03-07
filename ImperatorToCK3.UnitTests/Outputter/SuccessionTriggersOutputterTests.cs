@@ -36,7 +36,7 @@ public class SuccessionTriggersOutputterTests {
 
 		await SuccessionTriggersOutputter.OutputSuccessionTriggers(outputModPath, titles, date);
 
-		var actualText = TextTestUtils.NormalizeNewlines(await File.ReadAllTextAsync(outputFilePath));
+		var actualText = TextTestUtils.NormalizeNewlines(await File.ReadAllTextAsync(outputFilePath, TestContext.Current.CancellationToken));
 		var expectedText = TextTestUtils.NormalizeNewlines(
 			"""
 			historical_succession_access_single_heir_succession_law_trigger={

@@ -62,7 +62,7 @@ public class DynastiesOutputterTests {
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 		await DynastiesOutputter.OutputDynasties(outputModPath, dynasties);
 
-		var actualText = TextTestUtils.NormalizeNewlines(await File.ReadAllTextAsync(outputPath));
+		var actualText = TextTestUtils.NormalizeNewlines(await File.ReadAllTextAsync(outputPath, TestContext.Current.CancellationToken));
 		var expectedText = TextTestUtils.NormalizeNewlines(
 			"""
 			dynn_irtock3_1={

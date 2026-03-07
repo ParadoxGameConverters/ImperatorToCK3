@@ -79,7 +79,7 @@ public class CoatOfArmsOutputterTests {
 
 		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>(), new CoaMapper());
 
-		var actualText = TextTestUtils.NormalizeNewlines(await File.ReadAllTextAsync(outputPath));
+		var actualText = TextTestUtils.NormalizeNewlines(await File.ReadAllTextAsync(outputPath, TestContext.Current.CancellationToken));
 		var expectedText = TextTestUtils.NormalizeNewlines(
 			"""
 			d_IRTOCK3_ADI={
@@ -131,7 +131,7 @@ public class CoatOfArmsOutputterTests {
 
 		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>(), new CoaMapper());
 
-		var actualText = await File.ReadAllTextAsync(outputPath);
+		var actualText = await File.ReadAllTextAsync(outputPath, TestContext.Current.CancellationToken);
 		Assert.True(string.IsNullOrWhiteSpace(actualText));
 	}
 }
