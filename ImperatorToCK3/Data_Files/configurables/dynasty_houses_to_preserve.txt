@@ -113,6 +113,32 @@ house_fujiwara_ashikaga # referenced in common\script_values\tgp_japan_values.tx
 house_taira_kawagoe # referenced in common\script_values\tgp_japan_values.txt
 house_taira_oba # referenced in common\script_values\tgp_japan_values.txt
 house_minamoto_hitachi # referenced in common\script_values\tgp_japan_values.txt
+house_tachibana_tokai # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_nakatomi_onakatomi # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_fujiwara_uona # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_taira_echigo # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_minamoto_oshu_ishikawa # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_taira_shibuya # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_fujiwara_hizume # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_omiwa_usuki # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_minamoto_kawachi # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_minamoto_mino # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_minamoto_settsu # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_minamoto_shinano # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_minamoto_yamato # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_taira_boso # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_taira_chichibu # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_taira_hitachi # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_taira_miura # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_taira_iwaki # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_minamoto_ishikawa # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_minamoto_kai # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_minamoto_kiso # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_minamoto_kozuke # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_minamoto_toki # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_minamoto_yamamoto # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_taira_chiba # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_taira_kazusa # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
 
 # TFE
 house_hashmid # referenced in events\islam_events.txt

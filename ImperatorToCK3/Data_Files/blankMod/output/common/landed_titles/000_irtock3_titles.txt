@@ -1,4 +1,6 @@
-﻿############################
+﻿@correct_culture_primary_score = 100
+
+############################
 ### Head of Faith Titles ###
 ############################
 d_cult_of_humban = { # from the Bronze Age Reborn mod
