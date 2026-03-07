@@ -86,7 +86,15 @@ jobs:
       # Make sure it builds self-contained, because for the dev build we're not building the InnoSetup installer.
       run: |
         dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release --output:"../Publish/ImperatorToCK3" -p:SelfContained=true
-    - name: Archive Publish folder
+    - name: Archive Publish folder (Windows)
+      if: runner.os == 'Windows'
+      run: |
+        $archive = "../ImperatorToCK3-${{ matrix.build }}-dev${{ matrix.archive_extension }}"
+        Write-Host "Creating $archive via Compress-Archive"
+        # include all files/subdirs under Publish
+        Compress-Archive -Path 'Publish\*' -DestinationPath $archive -Force
+    - name: Archive Publish folder (Unix)
+      if: runner.os != 'Windows'
       uses: thedoctor0/zip-release@master
       with:
         type: ${{ matrix.archive_type }}
