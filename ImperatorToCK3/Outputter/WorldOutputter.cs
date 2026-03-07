@@ -91,7 +91,7 @@ internal static class WorldOutputter {
 		);
 	}
 
-	public static void CopyBlankModFilesToOutput(string outputPath, OrderedDictionary<string, bool> ck3ModFlags) {
+	public static void CopyBlankModFilesToOutput(string outputPath, Hash liquidVariables) {
 		Logger.Info("Copying blankMod files to output...");
 		
 		var folderPath = Path.Combine("blankMod", "output");
@@ -102,11 +102,6 @@ internal static class WorldOutputter {
 			folderPath,
 			outputPath
 		);
-		
-		// Use the CK3 mod flags in the DotLiquid template context.
-		// Hash expects the dictionary values to be of type object, so we need to cast the bools to objects.
-		var convertedModFlags = ck3ModFlags.ToDictionary(kv => kv.Key, kv => (object)kv.Value);
-		var context = Hash.FromDictionary(convertedModFlags);
 
 		// In the output path, find .liquid files, parse them with DotLiquid and write them back without the .liquid extension.
 		// For example, this will convert file.txt.liquid to file.txt and loc.yml.liquid to loc.yml.
@@ -114,7 +109,7 @@ internal static class WorldOutputter {
 		foreach (var liquidFilePath in liquidFiles) {
 			var liquidText = File.ReadAllText(liquidFilePath);
 			var template = Template.Parse(liquidText);
-			var result = template.Render(context);
+			var result = template.Render(liquidVariables);
 			var renderedFilePath = liquidFilePath[..^7];
 			// Write the rendered file and delete the .liquid file. Use UTF8-BOM encoding.
 			File.WriteAllText(renderedFilePath, result, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));

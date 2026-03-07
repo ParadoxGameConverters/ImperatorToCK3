@@ -1,7 +1,8 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Exceptions;
 using commonItems.Mods;
+using DotLiquid;
 using ImperatorToCK3.CommonUtils;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ internal sealed class Configuration {
 	public Configuration(ConverterVersion converterVersion) {
 		Logger.Info("Reading configuration file...");
 		var parser = new Parser();
-		RegisterKeys(parser);
+		RegisterConfigurationKeys(parser);
 		const string configurationPath = "configuration.txt";
 		if (!File.Exists(configurationPath)) {
 			throw new ConverterException($"{configurationPath} not found! Run ConverterFrontend to generate it.");
@@ -61,7 +62,16 @@ internal sealed class Configuration {
 		Logger.IncrementProgress();
 	}
 
-	private void RegisterKeys(Parser parser) {
+	private void ReadFronterOptions() {
+		// fronter-options.txt is one directory above configuration.txt.
+		const string fronterOptionsPath = "../fronter-options.txt";
+		if (!File.Exists(fronterOptionsPath)) {
+			Logger.Warn($"{fronterOptionsPath} not found! Skipping fronter options loading.");
+			return;
+		}
+	}
+
+	private void RegisterConfigurationKeys(Parser parser) {
 		parser.RegisterKeyword("SaveGame", reader => {
 			SaveGamePath = reader.GetString();
 			Logger.Info($"Save game set to: {SaveGamePath}");
@@ -402,8 +412,23 @@ internal sealed class Configuration {
 		}
 	}
 
+	/// <summary>
+	/// Returns a collection of liquid template variables including CK3 mod flags and converter options.
+	/// </summary>
+	public Hash GetLiquidVariables() {
+		var variables = new OrderedDictionary<string, object>();
+		foreach (var modFlag in GetCK3ModFlags()) {
+			variables[modFlag.Key] = modFlag.Value;
+		}
+		foreach (var option in GetConverterOptions()) {
+			variables[option.Key] = option.Value;
+		}
+
+		return Hash.FromDictionary(variables);
+	}
+
 	/// <summary>Returns a collection of CK3 mod flags with values based on the enabled mods. "vanilla" flag is set to true if no other flags are set.</summary>
-	public OrderedDictionary<string, bool> GetCK3ModFlags() {
+	internal OrderedDictionary<string, bool> GetCK3ModFlags() {
 		var flags = new OrderedDictionary<string, bool> {
 			["tfe"] = FallenEagleEnabled,
 			["wtwsms"] = WhenTheWorldStoppedMakingSenseEnabled,
@@ -414,8 +439,44 @@ internal sealed class Configuration {
 		flags["vanilla"] = !flags.Any(f => f.Value);
 		return flags;
 	}
-	
-	public IEnumerable<string> GetActiveCK3ModFlags() {
+
+	internal IEnumerable<string> GetActiveCK3ModFlags() {
 		return GetCK3ModFlags().Where(f => f.Value).Select(f => f.Key);
+	}
+
+	/// <summary>Returns a collection of converter frontend options with their selected choice values in the format "optionName:choiceValue".</summary>
+	private OrderedDictionary<string, bool> GetConverterOptions() { // TODO: rework this to return the original values from configuration.txt instead of converting them to bool
+		var options = new OrderedDictionary<string, bool> {
+			// Boolean options - choice 0 is false, choice 1 is true
+			["HeresiesInHistoricalAreas:0"] = !HeresiesInHistoricalAreas,
+			["HeresiesInHistoricalAreas:1"] = HeresiesInHistoricalAreas,
+			
+			// StaticDeJure - choice 1 is dynamic (false), choice 2 is static (true)
+			["StaticDeJure:1"] = !StaticDeJure,
+			["StaticDeJure:2"] = StaticDeJure,
+			
+			// FillerDukes - choice 0 is count (false), choice 1 is duke (true)
+			["FillerDukes:0"] = !FillerDukes,
+			["FillerDukes:1"] = FillerDukes,
+			
+			// UseCK3Flags - choice 0 is false, choice 1 is true
+			["UseCK3Flags:0"] = !UseCK3Flags,
+			["UseCK3Flags:1"] = UseCK3Flags,
+			
+			// LegionConversion - enum values
+			["LegionConversion:No"] = LegionConversion == LegionConversion.No,
+			["LegionConversion:SpecialTroops"] = LegionConversion == LegionConversion.SpecialTroops,
+			["LegionConversion:MenAtArms"] = LegionConversion == LegionConversion.MenAtArms,
+			
+			// SkipDynamicCoAExtraction - choice 0 is false, choice 1 is true
+			["SkipDynamicCoAExtraction:0"] = !SkipDynamicCoAExtraction,
+			["SkipDynamicCoAExtraction:1"] = SkipDynamicCoAExtraction,
+			
+			// SkipHoldingOwnersImport - choice 0 is false, choice 1 is true
+			["SkipHoldingOwnersImport:0"] = !SkipHoldingOwnersImport,
+			["SkipHoldingOwnersImport:1"] = SkipHoldingOwnersImport,
+		};
+		
+		return options;
 	}
 }

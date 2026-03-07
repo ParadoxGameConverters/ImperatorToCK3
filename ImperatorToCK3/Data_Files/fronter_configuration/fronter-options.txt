@@ -1,3 +1,16 @@
+# Options from this file can be used in the converter's Liquid file templates,
+# with the following format:
+# {% if <OPTION NAME> == <CHOSEN VALUE> %}
+# For example:
+# {% if HeresiesInHistoricalAreas == '2' %}
+# or
+# {% if ImperatorCivilizationWorth < 0.5 %}
+#
+# radioSelector and textSelector options are treated as string even if their values are numeric.
+# dateSelector options are treated as strings in the format "year.month.day". But for Liquid we use change that to YYYY-MM-DD string for lexicographic comparisons to work. # TODO: handle in backend config class
+# integerSelector options are treated as integers. # TODO: handle this in frontend
+# floatSelector options are treated as floats. # TODO: handle this in frontend
+
 option = {
 	name = HeresiesInHistoricalAreas
 	displayName = HERESIES_IN_HISTORICAL_AREAS

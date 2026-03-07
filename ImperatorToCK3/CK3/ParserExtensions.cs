@@ -89,19 +89,17 @@ public static class ParserExtensions {
 		});
 	}
 	
-	public static void ParseLiquidFile(this Parser parser, string filePath, IDictionary<string, bool> ck3ModFlags) {
+	public static void ParseLiquidFile(this Parser parser, string filePath, Hash liquidVariables) {
 		// The file used the Liquid templating language, so convert it to text before parsing.
-		var convertedModFlags = ck3ModFlags.AsValueEnumerable().ToDictionary(kv => kv.Key, kv => (object)kv.Value);
-		var context = Hash.FromDictionary(convertedModFlags);
-		
 		var liquidText = File.ReadAllText(filePath);
+
 		var template = Template.Parse(liquidText);
-		var result = template.Render(context);
-		
+		var result = template.Render(liquidVariables);
+
 		parser.ParseStream(new BufferedReader(result));
 	}
 
-	public static void ParseFolderWithLiquidSupport(this Parser parser, string path, string extensions, bool recursive, IDictionary<string, bool> ck3ModFlags, bool logFilePaths = false) {
+	public static void ParseFolderWithLiquidSupport(this Parser parser, string path, string extensions, bool recursive, Hash liquidVariables, bool logFilePaths = false) {
 		var searchPattern = recursive ? "*" : "*.*";
 		var searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 		var files = Directory.GetFiles(path, searchPattern, searchOption).AsValueEnumerable().ToList();
@@ -115,7 +113,7 @@ public static class ParserExtensions {
 			}
 
 			if (string.Equals(CommonFunctions.GetExtension(file), "liquid", StringComparison.OrdinalIgnoreCase)) {
-				parser.ParseLiquidFile(file, ck3ModFlags);
+				parser.ParseLiquidFile(file, liquidVariables);
 			} else {
 				parser.ParseFile(file);
 			}
