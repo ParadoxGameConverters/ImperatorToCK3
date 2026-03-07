@@ -1578,11 +1578,17 @@ irtock3_split_roman_empire_effect = {
 	else_if = { # IRToCK3: The base game has this as an if statement, which will cause any "new_holder" assignment made in the above block to get overwritten. This should fix that issue.
 		# This checks if there is a valid powerful family house head
 		limit = {
+			government_allows = noble_families
 			any_powerful_family = {
-				count >= 1
 				this != root.house
-				exists = house_head
-				is_imprisoned = no
+				house_head ?= {
+					is_landed = yes
+					OR = {
+						liege ?= root
+						employer ?= root
+					}
+					is_imprisoned = no
+				}
 			}
 		}
 
@@ -1591,6 +1597,8 @@ irtock3_split_roman_empire_effect = {
 				this != root.house
 				house_head ?= {
 					is_landed = yes
+					liege = root
+					is_imprisoned = no
 					trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
 						limit = { exists = scope:new_WRE_ruler }
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
@@ -1601,76 +1609,29 @@ irtock3_split_roman_empire_effect = {
 						}
 					}
 				}
-				is_imprisoned = no
 			}
 			alternative_limit = { # If the above limit finds no one, this alternative limit checks if there is a valid unlanded house head, to prevent border gore
 				this != root.house
-				house_head ?= { is_landed = no }
-				is_imprisoned = no
+				house_head ?= {
+					is_landed = no
+					OR = {
+						liege ?= root
+						employer ?= root
+					}
+					is_imprisoned = no
+				}
 			}
 			order_by = house_power_score
 			max = 1
 			house_head = { save_scope_as = new_holder }
 		}
 	}
+	## Then check if there is a valid vassal in the region
 	else_if = {
-		# IRToCK3: This just makes sure there is a valid powerful vassal in the relevant region, to prevent someone nowhere near the area from becoming the Emperor, prioritizing those with the same government
-		limit = {
-			any_powerful_vassal = {
-				count >= 1
-				is_landed = yes
-				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
-					limit = { exists = scope:new_WRE_ruler }
-					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
-				}
-				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
-					NOT = { 
-						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
-					}
-				}
-				is_imprisoned = no
-			}
-		}
-
-		ordered_powerful_vassal = {
-			limit = {
-				is_landed = yes
-				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
-					limit = { exists = scope:new_WRE_ruler }
-					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
-				}
-				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
-					NOT = { 
-						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
-					}
-				}
-				has_same_government = root
-				is_imprisoned = no
-			}
-			alternative_limit = {
-				is_landed = yes
-				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
-					limit = { exists = scope:new_WRE_ruler }
-					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
-				}
-				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
-					NOT = { 
-						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
-					}
-				}
-				is_imprisoned = no
-			}
-			order_by = max_military_strength
-			max = 1
-			save_scope_as = new_holder
-		}
-	}
-	else_if = {
-		# IRToCK3: Added this check on the off chance none of the powerful vassals are in the region, so it checks if ANY vassal is in the region, prioritizing those with the same government
 		limit = {
 			any_vassal = {
-				count >= 1
 				is_landed = yes
+				is_imprisoned = no
 				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
 					limit = { exists = scope:new_WRE_ruler }
 					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
@@ -1680,13 +1641,33 @@ irtock3_split_roman_empire_effect = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
-				is_imprisoned = no
+				# The empire shouldn't be given to someone whose government is too different from their liege's
+				trigger_if = {
+					limit = {
+						root = { government_has_flag = government_is_tribal }
+					}
+					government_has_flag = government_is_tribal
+				}
+				trigger_else_if = {
+					limit = {
+						root = { government_has_flag = government_is_nomadic }
+					}
+					government_has_flag = government_is_nomadic
+				}
+				trigger_else = {
+					NOR = {
+						government_has_flag = government_is_tribal
+						government_has_flag = government_is_nomadic
+					}
+				}
 			}
 		}
 
 		ordered_vassal = {
+			# Prioritize powerful vassals with same government
 			limit = {
 				is_landed = yes
+				is_imprisoned = no
 				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
 					limit = { exists = scope:new_WRE_ruler }
 					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
@@ -1697,10 +1678,12 @@ irtock3_split_roman_empire_effect = {
 					}
 				}
 				has_same_government = root
-				is_imprisoned = no
+				is_powerful_vassal = yes
 			}
+			# Then any landed vassal with the same government
 			alternative_limit = {
 				is_landed = yes
+				is_imprisoned = no
 				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
 					limit = { exists = scope:new_WRE_ruler }
 					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
@@ -1710,7 +1693,74 @@ irtock3_split_roman_empire_effect = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
+				has_same_government = root
+			}
+			# Then any powerful vassal in same "government group"
+			alternative_limit = {
+				is_landed = yes
 				is_imprisoned = no
+				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+					limit = { exists = scope:new_WRE_ruler }
+					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+					NOT = { 
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+				# The empire shouldn't be given to someone whose government is too different from their liege's
+				trigger_if = {
+					limit = {
+						root = { government_has_flag = government_is_tribal }
+					}
+					government_has_flag = government_is_tribal
+				}
+				trigger_else_if = {
+					limit = {
+						root = { government_has_flag = government_is_nomadic }
+					}
+					government_has_flag = government_is_nomadic
+				}
+				trigger_else = {
+					NOR = {
+						government_has_flag = government_is_tribal
+						government_has_flag = government_is_nomadic
+					}
+				}
+				is_powerful_vassal = yes
+			}
+			# Then any vassal in same "government group"
+			alternative_limit = {
+				is_landed = yes
+				is_imprisoned = no
+				trigger_if = { # If current Emperor is going to get the WRE, this new holder needs to be in the ERE region
+					limit = { exists = scope:new_WRE_ruler }
+					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
+					NOT = { 
+						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+				# The empire shouldn't be given to someone whose government is too different from their liege's
+				trigger_if = {
+					limit = {
+						root = { government_has_flag = government_is_tribal }
+					}
+					government_has_flag = government_is_tribal
+				}
+				trigger_else_if = {
+					limit = {
+						root = { government_has_flag = government_is_nomadic }
+					}
+					government_has_flag = government_is_nomadic
+				}
+				trigger_else = {
+					NOR = {
+						government_has_flag = government_is_tribal
+						government_has_flag = government_is_nomadic
+					}
+				}
 			}
 			order_by = max_military_strength
 			max = 1
@@ -2658,115 +2708,591 @@ irtock3_elevate_roman_empire_effects = {
 # This effect is being called from within the scope of whatever Rome empire title is being split apart (e_byzantium, e_roman_empire, e_western_roman_empire) 
 # INPUTS:
 ## $REGION$ - The geographical region being checked
-## $EMPIRE$ - The empire title kingdoms in this region should be de jure under after the split (When referencing this script, this input should NOT have "title:" added. For example, for Italia, use "EMPIRE = e_italy")
 irtock3_split_rome_empire_region_effect = {
-	# The EMPIRE title being used needs to meet certain conditions to actually get used, to ensure its not being stolen from another ruler, and that it actually makes sense for it to be used (i.e. it's somehow not on the other side of the map)
+	# This effect shouldn't even do anything unless you control a kingdom that can actually be de jure drifted in the region in the first place
 	if = {
 		limit = {
-			title:$EMPIRE$ ?= {
-				irtock3_can_empire_be_used_for_rome_region = {
-					REGION = $REGION$
+			any_in_de_jure_hierarchy = {
+				# THESE CONDITIONS SHOULD MATCH THE CONDITIONS IN THE 'every_in_de_jure_hierarchy' BLOCK BELOW
+				tier = tier_kingdom
+				any_de_jure_county = {
+					percent >= 0.50
+					title_province = { geographical_region = $REGION$ }
 				}
 			}
 		}
-		title:$EMPIRE$ = {
-			save_scope_as = new_title
-			set_variable = rome_praetorian_prefecture # To indicate this empire title is being used as a praetorian prefecture for Rome for things like localization reset later
-			# Because of how Persia's name is setup to change, need to include that as a special case here
-			if = {
-				limit = { this = title:e_persia }
-				set_definitive_form = no
-			}
-		}
-	}
-	# If there is already an existing dynamic empire title that was created for this region, use that one before creating a new one
-	else_if = {
-		limit = {
-			any_in_global_list = {
+
+		# If there are already existing titles that should be used for this region, use one of those before creating a new one
+		if = {
+			limit = { has_global_variable_list = rome_dynamic_empire_region_$REGION$ }
+			random_in_global_list = {
 				variable = rome_dynamic_empire_region_$REGION$
-				irtock3_can_empire_be_used_for_rome_region = {
-					REGION = $REGION$
+				limit = {
+					has_variable = base_game_prefecture_title # Prioritize using base game titles over dynamic titles
+					irtock3_can_empire_be_used_for_rome_region = { REGION = $REGION$ }
 				}
+				alternative_limit = {
+					irtock3_can_empire_be_used_for_rome_region = { REGION = $REGION$ }
+				}
+				save_scope_as = new_title
 			}
 		}
-		random_in_global_list = {
-			variable = rome_dynamic_empire_region_$REGION$
-			limit = {
-				irtock3_can_empire_be_used_for_rome_region = {
-					REGION = $REGION$
-				}
-			}
-			save_scope_as = new_title
-		}
-	}
-	# If EMPIRE doesn't meet the conditions and there isn't an existing dynamic title, create a new one
-	else = {
-		# Get the most developed county in the region to use as the capital
-		ordered_county_in_region = {
-			region = $REGION$
-			limit = { duchy.title_capital_county ?= this } # Prefer that the chosen county be the capital of its duchy
-			alternative_limit = { always = yes } # If, somehow, no county meets the above condition, just pick the most developed county in the region
-			order_by = development_level
-			max = 1
-			save_scope_as = old_title # For localization
-		}
-		create_dynamic_title = {
-			tier = empire
-			name = $REGION$
-		}
-		scope:new_title = {
-			set_color_from_title = scope:old_title
-			set_coa = scope:old_title
-			set_capital_county = scope:old_title
-		}
-		add_to_global_variable_list = {
-			name = rome_dynamic_empire_region_$REGION$
-			target = scope:new_title
-		}
-		clear_saved_scope = old_title
-	}
-	scope:new_title = {
-		set_title_name = $REGION$ # To make sure even the base game titles are properly named
-		# Save what region this title is associated with
-		set_variable = {
-			name = prefecture_region
-			value = geographical_region:$REGION$
-		}
-		# If the empire title being used isn't the given EMPIRE title, make sure the given EMPIRE title isn't using the corresponding region name
+
+		# If a title wasn't chosen above, create a new one
 		if = {
 			limit = {
-				this != title:$EMPIRE$
-				title:$EMPIRE$ = { has_variable = rome_praetorian_prefecture }
+				NOT = { exists = scope:new_title }
 			}
-			title:$EMPIRE$ = {
-				remove_variable = rome_praetorian_prefecture
-				remove_variable = prefecture_region
-				reset_title_name = yes
+			# Get the most developed county in the region to use as the capital
+			ordered_county_in_region = {
+				region = $REGION$
+				limit = {
+					duchy.title_capital_county ?= this # Prefer that the chosen county be the capital of its duchy
+					# Need to make sure the county is actually in a Roman realm
+					holder ?= {
+						OR = {
+							this = root
+							any_liege_or_above = { this = root }
+						}
+					}
+				} 
+				alternative_limit = {
+					# Need to make sure the county is actually in a Roman realm
+					holder ?= {
+						OR = {
+							this = root
+							any_liege_or_above = { this = root }
+						}
+					}
+				}
+				order_by = development_level
+				max = 1
+				save_scope_as = old_title # For localization
 			}
+			create_dynamic_title = {
+				tier = empire
+				name = $REGION$
+			}
+			scope:new_title = {
+				set_color_from_title = scope:old_title
+				set_coa = scope:old_title
+				set_capital_county = scope:old_title
+				set_can_be_named_after_dynasty = no
+				set_can_use_nomadic_naming = no
+			}
+			add_to_global_variable_list = {
+				name = rome_dynamic_empire_region_$REGION$
+				target = scope:new_title
+			}
+			clear_saved_scope = old_title
 		}
-	}
-	if = {
-		limit = { has_global_variable_list = rome_dynamic_empire_region_$REGION$ }
-		every_in_global_list = {
-			variable = rome_dynamic_empire_region_$REGION$
+
+		scope:new_title = {
+			set_title_name = $REGION$ # To make sure even the base game titles are properly named
+
+			# Save what region this title is associated with
+			set_variable = {
+				name = prefecture_region
+				value = geographical_region:$REGION$
+			}
+
+			# If the title being used is a base game title, need to possibly change names and set variables accordingly
 			if = {
-				limit = { this != scope:new_title }
-				remove_variable = rome_praetorian_prefecture
-				remove_variable = prefecture_region
-				reset_title_name = yes
+				limit = { has_variable = base_game_prefecture_title }
+				set_variable = rome_praetorian_prefecture # To indicate this empire title is being used as a praetorian prefecture for Rome for things like localization reset later
+				# Because of how Persia's name is setup to change, need to include that as a special case here
+				if = {
+					limit = { this = title:e_persia }
+					set_definitive_form = no
+				}
 			}
 		}
-	}
-	every_in_de_jure_hierarchy = {
-		limit = {
-			tier = tier_kingdom
-			any_de_jure_county = {
-				percent >= 0.50
-				title_province = { geographical_region = $REGION$ }
+
+		# Make sure to remove variables from other titles used for this region
+		if = {
+			limit = { has_global_variable_list = rome_dynamic_empire_region_$REGION$ }
+			every_in_global_list = {
+				variable = rome_dynamic_empire_region_$REGION$
+				if = {
+					limit = { this != scope:new_title }
+					remove_variable = rome_praetorian_prefecture
+					remove_variable = prefecture_region
+					reset_title_name = yes
+				}
 			}
 		}
-		set_de_jure_liege_title = scope:new_title
+
+		every_in_de_jure_hierarchy = {
+			limit = {
+				# THESE CONDITIONS SHOULD MATCH THE CONDITIONS IN THE 'any_in_de_jure_hierarchy' BLOCK ABOVE
+				tier = tier_kingdom
+				any_de_jure_county = {
+					percent >= 0.50
+					title_province = { geographical_region = $REGION$ }
+				}
+			}
+			set_de_jure_liege_title = scope:new_title
+		}
 		scope:new_title = { set_de_jure_liege_title = title:h_roman_empire }
+		clear_saved_scope = new_title
 	}
-	clear_saved_scope = new_title
+}
+
+
+# This scripted_effect will add a specific title to the global variable list for a Roman praetorian prefecture, so 'irtock3_split_rome_empire_region_effect' knows it can use that title whenever it sets up a praetorian prefecture for that region.
+# INPUTS:
+## $REGION$ - The geographical region being checked
+## $EMPIRE$ - The empire title being added to the list (When referencing this script, this input should NOT have "title:" added. For example, for Italia, use "EMPIRE = e_italy")
+irtock3_gamestart_add_title_to_prefecture_region_effect = {
+	# Adding a check that the title being added exists and is an empire title, to make sure only valid titles are actually added
+	if = {
+		limit = {
+			title:$EMPIRE$ ?= { tier = tier_empire }
+		}
+		title:$EMPIRE$ = { set_variable = base_game_prefecture_title } # This indicates that this title in the list is a base game title, not one that was dynamically created
+		add_to_global_variable_list = {
+			name = rome_dynamic_empire_region_$REGION$
+			target = title:$EMPIRE$
+		}
+	}
+}
+
+
+# This effect is used for the Roman prefecture creation decisions.
+# scope for this effect is the character who took the decision to create the prefecture, meaning they have either h_roman_empire, h_western_roman_empire, or h_eastern_roman_empire
+# INPUTS:
+## $REGION$ - The geographical region being checked 
+irtock3_form_roman_prefecture_effect = {
+	geographical_region:$REGION$ = { save_scope_as = region_scope }
+	custom_tooltip = {
+		text = irtock3_roman_prefecture_creation_effect_tt
+
+		# If there are already existing titles that should be used for this region, use one of those before creating a new one
+		if = {
+			limit = { has_global_variable_list = rome_dynamic_empire_region_$REGION$ }
+			random_in_global_list = {
+				variable = rome_dynamic_empire_region_$REGION$
+				limit = {
+					has_variable = base_game_prefecture_title # Prioritize using base game titles over dynamic titles
+					irtock3_can_empire_be_used_for_rome_region = { REGION = $REGION$ }
+				}
+				alternative_limit = {
+					irtock3_can_empire_be_used_for_rome_region = { REGION = $REGION$ }
+				}
+				save_scope_as = new_title
+			}
+		}
+
+		# If a title wasn't chosen above, create a new one
+		if = {
+			limit = {
+				NOT = { exists = scope:new_title }
+			}
+			# Get the most developed county in the region to use as the capital
+			ordered_county_in_region = {
+				region = $REGION$
+				limit = {
+					duchy.title_capital_county ?= this # Prefer that the chosen county be the capital of its duchy
+					# Need to make sure the county is actually in a Roman realm
+					holder ?= {
+						OR = {
+							this = root
+							any_liege_or_above = { this = root }
+						}
+					}
+				} 
+				alternative_limit = {
+					# Need to make sure the county is actually in a Roman realm
+					holder ?= {
+						OR = {
+							this = root
+							any_liege_or_above = { this = root }
+						}
+					}
+				}
+				order_by = development_level
+				max = 1
+				save_scope_as = old_title # For localization
+			}
+			create_dynamic_title = {
+				tier = empire
+				name = $REGION$
+			}
+			scope:new_title = {
+				set_color_from_title = scope:old_title
+				set_coa = scope:old_title
+				set_capital_county = scope:old_title
+				set_can_be_named_after_dynasty = no
+				set_can_use_nomadic_naming = no
+			}
+			add_to_global_variable_list = {
+				name = rome_dynamic_empire_region_$REGION$
+				target = scope:new_title
+			}
+			clear_saved_scope = old_title
+		}
+
+		scope:new_title = {
+			set_title_name = $REGION$ # To make sure even the base game titles are properly named
+
+			# Save what region this title is associated with
+			set_variable = {
+				name = prefecture_region
+				value = geographical_region:$REGION$
+			}
+
+			# If the title being used is a base game title, need to possibly change names and set variables accordingly
+			if = {
+				limit = { has_variable = base_game_prefecture_title }
+				set_variable = rome_praetorian_prefecture # To indicate this empire title is being used as a praetorian prefecture for Rome for things like localization reset later
+				# Because of how Persia's name is setup to change, need to include that as a special case here
+				if = {
+					limit = { this = title:e_persia }
+					set_definitive_form = no
+				}
+			}
+		}
+
+		# Make sure to remove variables from other titles used for this region
+		if = {
+			limit = { has_global_variable_list = rome_dynamic_empire_region_$REGION$ }
+			every_in_global_list = {
+				variable = rome_dynamic_empire_region_$REGION$
+				if = {
+					limit = { this != scope:new_title }
+					remove_variable = rome_praetorian_prefecture
+					remove_variable = prefecture_region
+					reset_title_name = yes
+				}
+			}
+		}
+
+		# Give the new prefecture title it's de jure land
+		every_county_in_region = {
+			region = $REGION$
+			limit = {
+				# Needs a kingdom to drift
+				kingdom ?= {
+					# No need to check kingdoms already under the new prefecture
+					trigger_if = {
+						limit = { exists = empire }
+						NOT = { empire = scope:new_title }
+					}
+					# Needs to have at least 50% of its de jure counties in the REGION
+					any_de_jure_county = {
+						percent >= 0.50
+						title_province = { geographical_region = $REGION$ }
+					}
+					# Need to be in a Roman realm
+					any_de_jure_county = {
+						percent >= 0.50
+						holder.top_liege ?= root
+					}
+				}
+			}
+			kingdom = { add_to_list = additional_de_jure_kingdoms }
+		}
+		every_in_list = {
+			list = additional_de_jure_kingdoms
+			set_de_jure_liege_title = scope:new_title
+		}
+		scope:new_title = { set_de_jure_liege_title = root.primary_title }
+
+		# Figure out who should hold the new prefecture title
+		## First check if there is a valid powerful family house head in the REGION
+		if = {
+			limit = {
+				government_allows = noble_families
+				any_powerful_family = {
+					this != root.house
+					house_head ?= {
+						is_landed = yes
+						liege = root
+						is_imprisoned = no
+						capital_county.title_province ?= { geographical_region = $REGION$ }
+						any_held_title = {
+							# Shouldn't choose someone who already holds a prefecture title for another region
+							trigger_if = {
+								limit = { has_variable = prefecture_region }
+								var:prefecture_region = geographical_region:$REGION$
+							}
+						}
+					}
+				}
+			}
+
+			ordered_powerful_family = {
+				limit = {
+					this != root.house
+					house_head ?= {
+						is_landed = yes
+						liege = root
+						is_imprisoned = no
+						capital_county.title_province ?= { geographical_region = $REGION$ }
+						any_held_title = {
+							# Shouldn't choose someone who already holds a prefecture title for another region
+							trigger_if = {
+								limit = { has_variable = prefecture_region }
+								var:prefecture_region = geographical_region:$REGION$
+							}
+						}
+					}
+				}
+				order_by = house_power_score
+				max = 1
+				house_head = { save_scope_as = new_holder }
+			}
+		}
+		## Then check if there is a valid vassal in the REGION
+		else_if = {
+			limit = {
+				any_vassal = {
+					is_landed = yes
+					is_imprisoned = no
+					# Need to make sure they are actually in the REGION
+					capital_county.title_province ?= { geographical_region = $REGION$ }
+					# Shouldn't choose someone who already holds a prefecture title for another region
+					any_held_title = {
+						trigger_if = {
+							limit = { has_variable = prefecture_region }
+							var:prefecture_region = geographical_region:$REGION$
+						}
+					}
+					# The empire shouldn't be given to someone whose government is too different from their liege's
+					trigger_if = {
+						limit = {
+							root = { government_has_flag = government_is_tribal }
+						}
+						government_has_flag = government_is_tribal
+					}
+					trigger_else_if = {
+						limit = {
+							root = { government_has_flag = government_is_nomadic }
+						}
+						government_has_flag = government_is_nomadic
+					}
+					trigger_else = {
+						NOR = {
+							government_has_flag = government_is_tribal
+							government_has_flag = government_is_nomadic
+						}
+					}
+				}
+			}
+
+			ordered_vassal = {
+				# Prioritize powerful vassals with same government
+				limit = {
+					is_landed = yes
+					is_imprisoned = no
+					# Need to make sure they are actually in the REGION
+					capital_county.title_province ?= { geographical_region = $REGION$ }
+					# Shouldn't choose someone who already holds a prefecture title for another region
+					any_held_title = {
+						trigger_if = {
+							limit = { has_variable = prefecture_region }
+							var:prefecture_region = geographical_region:$REGION$
+						}
+					}
+					has_same_government = root
+					is_powerful_vassal = yes
+				}
+				# Then any landed vassal with the same government
+				alternative_limit = {
+					is_landed = yes
+					is_imprisoned = no
+					# Need to make sure they are actually in the REGION
+					capital_county.title_province ?= { geographical_region = $REGION$ }
+					# Shouldn't choose someone who already holds a prefecture title for another region
+					any_held_title = {
+						trigger_if = {
+							limit = { has_variable = prefecture_region }
+							var:prefecture_region = geographical_region:$REGION$
+						}
+					}
+					has_same_government = root
+				}
+				# Then any powerful vassal in same "government group"
+				alternative_limit = {
+					is_landed = yes
+					is_imprisoned = no
+					# Need to make sure they are actually in the REGION
+					capital_county.title_province ?= { geographical_region = $REGION$ }
+					# Shouldn't choose someone who already holds a prefecture title for another region
+					any_held_title = {
+						trigger_if = {
+							limit = { has_variable = prefecture_region }
+							var:prefecture_region = geographical_region:$REGION$
+						}
+					}
+					# The empire shouldn't be given to someone whose government is too different from their liege's
+					trigger_if = {
+						limit = {
+							root = { government_has_flag = government_is_tribal }
+						}
+						government_has_flag = government_is_tribal
+					}
+					trigger_else_if = {
+						limit = {
+							root = { government_has_flag = government_is_nomadic }
+						}
+						government_has_flag = government_is_nomadic
+					}
+					trigger_else = {
+						NOR = {
+							government_has_flag = government_is_tribal
+							government_has_flag = government_is_nomadic
+						}
+					}
+					is_powerful_vassal = yes
+				}
+				# Then any vassal in same "government group"
+				alternative_limit = {
+					is_landed = yes
+					is_imprisoned = no
+					# Need to make sure they are actually in the REGION
+					capital_county.title_province ?= { geographical_region = $REGION$ }
+					# Shouldn't choose someone who already holds a prefecture title for another region
+					any_held_title = {
+						trigger_if = {
+							limit = { has_variable = prefecture_region }
+							var:prefecture_region = geographical_region:$REGION$
+						}
+					}
+					# The empire shouldn't be given to someone whose government is too different from their liege's
+					trigger_if = {
+						limit = {
+							root = { government_has_flag = government_is_tribal }
+						}
+						government_has_flag = government_is_tribal
+					}
+					trigger_else_if = {
+						limit = {
+							root = { government_has_flag = government_is_nomadic }
+						}
+						government_has_flag = government_is_nomadic
+					}
+					trigger_else = {
+						NOR = {
+							government_has_flag = government_is_tribal
+							government_has_flag = government_is_nomadic
+						}
+					}
+				}
+				order_by = max_military_strength
+				max = 1
+				save_scope_as = new_holder
+			}
+		}
+		## Then check for valid courtiers
+		else = {
+			random_courtier = {
+				limit = { is_imprisoned = no }
+				weight = {
+					base = sum_of_all_skills_value
+					modifier = {
+						exists = house
+						add = 5
+					}
+					modifier = {
+						faith = root.faith
+						add = 10
+					}
+					modifier = {
+						culture = root.culture
+						add = 5
+					}
+				}
+				save_scope_as = new_holder
+			}
+		}
+
+		# Give new holder the title, and make all vassals in the REGION be their vassals
+		if = {
+			limit = { exists = scope:new_holder }
+
+			# If they aren't landed, give them a county from the region, prioritizing the prefecture's capital county
+			scope:new_holder = {
+				if = {
+					limit = { is_landed = no }
+
+					scope:new_title = {
+						ordered_de_jure_county = {
+							limit = {
+								scope:new_title.title_capital_county ?= this
+								holder.top_liege = root
+							}
+							alternative_limit = {
+								holder.top_liege = root
+							}
+							order_by = development_level
+							max = 1
+							save_scope_as = new_capital_county
+						}
+					}
+					create_title_and_vassal_change = {
+						type = granted
+						save_scope_as = change
+						add_claim_on_loss = yes
+					}
+					scope:new_capital_county = {
+						change_title_holder_include_vassals = {
+							holder = scope:new_holder
+							change = scope:change
+						}
+					}
+					resolve_title_and_vassal_change = scope:change
+
+					if = {
+						limit = {
+							NOT = { liege = root }
+						}
+						create_title_and_vassal_change = {
+							type = granted
+							save_scope_as = change
+							add_claim_on_loss = yes
+						}
+						change_liege = {
+							liege = root
+							change = scope:change
+						}
+						resolve_title_and_vassal_change = scope:change
+					}
+				}
+			}
+
+			create_title_and_vassal_change = {
+				type = created
+				save_scope_as = change
+				add_claim_on_loss = yes
+			}
+			scope:new_title = {
+				change_title_holder_include_vassals = {
+					holder = scope:new_holder
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+
+			create_title_and_vassal_change = {
+				type = granted
+				save_scope_as = change
+				add_claim_on_loss = yes
+			}
+			every_vassal = {
+				limit = {
+					this != scope:new_holder
+					any_sub_realm_county = {
+						percent >= 0.70
+						title_province = { geographical_region = $REGION$ }
+					}
+				}
+				change_liege = {
+					liege = scope:new_holder
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+		}
+	}
 }
