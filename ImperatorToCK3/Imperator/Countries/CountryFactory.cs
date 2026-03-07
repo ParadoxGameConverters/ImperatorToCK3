@@ -54,24 +54,7 @@ internal sealed partial class Country {
 		parser.RegisterKeyword("government_key", reader => SetGovernmentType(reader, parsedCountry));
 		parser.RegisterKeyword("family", reader => parsedCountry.parsedFamilyIds.Add(reader.GetULong()));
 		parser.RegisterKeyword("minor_family", reader => parsedCountry.parsedFamilyIds.Add(reader.GetULong()));
-		parser.RegisterKeyword("variables", reader => {
-			var variables = new HashSet<string>();
-			var variablesParser = new Parser();
-			variablesParser.RegisterKeyword("data", dataReader => {
-				var blobParser = new Parser();
-				blobParser.RegisterKeyword("flag", blobReader => variables.Add(string.Intern(blobReader.GetString())));
-				blobParser.IgnoreUnregisteredItems();
-				
-				foreach (var blob in new BlobList(dataReader).Blobs) {
-					var blobReader = new BufferedReader(blob);
-					blobParser.ParseStream(blobReader);
-				}
-			});
-			variablesParser.RegisterKeyword("list", ParserHelpers.IgnoreItem);
-			variablesParser.IgnoreAndLogUnregisteredItems();
-			variablesParser.ParseStream(reader);
-			parsedCountry.Variables = variables.ToImmutableHashSet();
-		});
+		parser.RegisterKeyword("variables", LoadCountryVariables(parsedCountry));
 		parser.RegisterKeyword("monarch", reader => parsedCountry.monarchId = reader.GetULong());
 		parser.RegisterKeyword("active_inventions", reader => {
 			parsedCountry.inventionBooleans.AddRange(reader.GetInts().Select(i => i != 0));
@@ -94,6 +77,28 @@ internal sealed partial class Country {
 			IgnoredTokens.Add(token);
 			ParserHelpers.IgnoreItem(reader);
 		});
+	}
+
+	private static SimpleDel LoadCountryVariables(Country parsedCountry)
+	{
+		return reader => {
+			var variables = new HashSet<string>();
+			var variablesParser = new Parser();
+			variablesParser.RegisterKeyword("data", dataReader => {
+				var blobParser = new Parser();
+				blobParser.RegisterKeyword("flag", blobReader => variables.Add(string.Intern(blobReader.GetString())));
+				blobParser.IgnoreUnregisteredItems();
+				
+				foreach (var blob in new BlobList(dataReader).Blobs) {
+					var blobReader = new BufferedReader(blob);
+					blobParser.ParseStream(blobReader);
+				}
+			});
+			variablesParser.RegisterKeyword("list", ParserHelpers.IgnoreItem);
+			variablesParser.IgnoreAndLogUnregisteredItems();
+			variablesParser.ParseStream(reader);
+			parsedCountry.Variables = variables.ToImmutableHashSet();
+		};
 	}
 
 	private static void SetGovernmentType(BufferedReader reader, Country parsedCountry) {
