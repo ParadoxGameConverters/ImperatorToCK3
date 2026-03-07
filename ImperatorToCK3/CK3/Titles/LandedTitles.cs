@@ -574,30 +574,18 @@ internal sealed partial class Title {
 			var independentCountries = realCountries.Where(c => dependencies.All(d => d.SubjectId != c.Id)).ToImmutableList();
 			var subjects = realCountries.Except(independentCountries).ToImmutableList();
 			
-			foreach (var country in independentCountries) {
-				ImportImperatorCountry(
-					country,
-					dependency: null,
-					imperatorCountries,
-					tagTitleMapper,
-					irLocDB,
-					ck3LocDB,
-					provinceMapper,
-					coaMapper,
-					governmentMapper,
-					successionLawMapper,
-					definiteFormMapper,
-					religionMapper,
-					cultureMapper,
-					nicknameMapper,
-					characters,
-					conversionDate,
-					config,
-					countyLevelCountries,
-					enabledCK3Dlcs
-				);
-				++counter;
-			}
+			counter = ImportIndependentCountries(imperatorCountries, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, governmentMapper, successionLawMapper, definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, countyLevelCountries, enabledCK3Dlcs, independentCountries, counter);
+			ImportSubjects(imperatorCountries, dependencies, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, governmentMapper, successionLawMapper, definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, countyLevelCountries, enabledCK3Dlcs, subjects, counter);
+			Logger.Info($"Imported {counter} countries from I:R.");
+		}
+
+		private void ImportSubjects(CountryCollection imperatorCountries, IReadOnlyCollection<Dependency> dependencies,
+			TagTitleMapper tagTitleMapper, LocDB irLocDB, CK3LocDB ck3LocDB, ProvinceMapper provinceMapper, CoaMapper coaMapper,
+			GovernmentMapper governmentMapper, SuccessionLawMapper successionLawMapper, DefiniteFormMapper definiteFormMapper,
+			ReligionMapper religionMapper, CultureMapper cultureMapper, NicknameMapper nicknameMapper,
+			CharacterCollection characters, Date conversionDate, Configuration config, List<KeyValuePair<Country, Dependency?>> countyLevelCountries,
+			IReadOnlyCollection<string> enabledCK3Dlcs, ImmutableList<Country> subjects, int counter)
+		{
 			foreach (var country in subjects) {
 				ImportImperatorCountry(
 					country,
@@ -622,7 +610,41 @@ internal sealed partial class Title {
 				);
 				++counter;
 			}
-			Logger.Info($"Imported {counter} countries from I:R.");
+		}
+
+		private int ImportIndependentCountries(CountryCollection imperatorCountries, TagTitleMapper tagTitleMapper,
+			LocDB irLocDB, CK3LocDB ck3LocDB, ProvinceMapper provinceMapper, CoaMapper coaMapper,
+			GovernmentMapper governmentMapper, SuccessionLawMapper successionLawMapper, DefiniteFormMapper definiteFormMapper,
+			ReligionMapper religionMapper, CultureMapper cultureMapper, NicknameMapper nicknameMapper,
+			CharacterCollection characters, Date conversionDate, Configuration config, List<KeyValuePair<Country, Dependency?>> countyLevelCountries,
+			IReadOnlyCollection<string> enabledCK3Dlcs, ImmutableList<Country> independentCountries, int counter)
+		{
+			foreach (var country in independentCountries) {
+				ImportImperatorCountry(
+					country,
+					dependency: null,
+					imperatorCountries,
+					tagTitleMapper,
+					irLocDB,
+					ck3LocDB,
+					provinceMapper,
+					coaMapper,
+					governmentMapper,
+					successionLawMapper,
+					definiteFormMapper,
+					religionMapper,
+					cultureMapper,
+					nicknameMapper,
+					characters,
+					conversionDate,
+					config,
+					countyLevelCountries,
+					enabledCK3Dlcs
+				);
+				++counter;
+			}
+
+			return counter;
 		}
 
 		private void ImportImperatorCountry(
