@@ -1444,11 +1444,11 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	private void AppointCourtierPositionsFromImperator(Dictionary<string, string[]> courtPositionToSourcesDict,
 		List<OfficeJob> convertibleJobs,
-		HashSet<string> alreadyEmployedCharacters, 
+		HashSet<string> alreadyEmployedCharacters,
 		Character ck3Ruler,
 		Date irSaveDate) {
 		Dictionary<string, int> heldTitlesPerCharacterCache = [];
-		
+
 		foreach (var (ck3Position, sources) in courtPositionToSourcesDict) {
 			// The order of I:R source position types is important - the first filled one found will be used.
 			foreach (var sourceOfficeType in sources) {
@@ -1458,10 +1458,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 
 				var ck3Official = job.Character.CK3Character;
-				if (ck3Official is null) {
-					continue;
-				}
-				if (alreadyEmployedCharacters.Contains(ck3Official.Id)) {
+				if (ck3Official is null || alreadyEmployedCharacters.Contains(ck3Official.Id)) {
 					continue;
 				}
 
@@ -1511,7 +1508,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	private void AppointCouncilMembersFromImperator(ReligionCollection religionCollection,
 		Dictionary<string, string[]> councilPositionToSourcesDict,
-		List<OfficeJob> convertibleJobs, 
+		List<OfficeJob> convertibleJobs,
 		HashSet<string> alreadyEmployedCharacters,
 		Character ck3Ruler,
 		Date irSaveDate) {
