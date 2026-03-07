@@ -1,6 +1,8 @@
 ﻿# This file is to overwrite title definitions for vanilla or mod titles, since the converter can't manually edit them at the moment
 # Don't include any de jure vassal titles in these definitions
 
+@correct_culture_primary_score = 100
+
 ###########################
 ### Roman Empire Titles ###
 ###########################
