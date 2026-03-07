@@ -11,7 +11,6 @@ using System.Linq;
 
 namespace ImperatorToCK3;
 
-internal enum LegionConversion { No, SpecialTroops, MenAtArms }
 internal sealed class Configuration {
 	public string SaveGamePath { get; set; } = "";
 	public string ImperatorPath { get; set; } = "";

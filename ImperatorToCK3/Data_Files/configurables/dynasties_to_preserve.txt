@@ -7,6 +7,48 @@ jamshid
 613 # Seljuk, referenced in events\yearly_events\yearly_events_persia.txt
 25061 # Karling, referenced in common/achievements/standard_achievements.txt
 105800 # in achievements
+japanese_yamato
+japanese_taira_kanmu # Referenced with Imperial Branch/Honsei stuff for Japan, like events\dlc\tgp\tgp_japan_decision_events.txt
+japanese_minamoto_seiwa # Referenced with Imperial Branch/Honsei stuff for Japan, like events\dlc\tgp\tgp_japan_decision_events.txt
+japanese_koremune # Referenced in common\script_values\tgp_japan_values.txt
+japanese_minamoto_uda # Referenced in common\script_values\tgp_japan_values.txt
+japanese_abiru # Referenced in common\script_values\tgp_japan_values.txt
+japanese_kikuchi # Referenced in common\script_values\tgp_japan_values.txt
+japanese_kimotsuki # Referenced in common\script_values\tgp_japan_values.txt
+japanese_omiwa # Referenced in common\script_values\tgp_japan_values.txt
+japanese_ito # Referenced in common\script_values\tgp_japan_values.txt
+japanese_osada # Referenced in common\script_values\tgp_japan_values.txt
+japanese_saeki_sanyo # Referenced in common\script_values\tgp_japan_values.txt
+japanese_senoo # Referenced in common\script_values\tgp_japan_values.txt
+japanese_taguchi # Referenced in common\script_values\tgp_japan_values.txt
+japanese_yuasa # Referenced in common\script_values\tgp_japan_values.txt
+japanese_tomo # Referenced in common\script_values\tgp_japan_values.txt
+japanese_minamoto_montoku # Referenced in common\script_values\tgp_japan_values.txt
+japanese_kiyohara # Referenced in common\script_values\tgp_japan_values.txt
+japanese_tachibana # Referenced in common\script_values\tgp_japan_values.txt
+japanese_kimiko # Referenced in common\script_values\tgp_japan_values.txt
+japanese_fujiwara_oshu # Referenced in common\script_values\tgp_japan_values.txt
+japanese_kono # Referenced in common\script_values\tgp_japan_values.txt
+japanese_kusakabe # Referenced in common\script_values\tgp_japan_values.txt
+japanese_okawa # Referenced in common\script_values\tgp_japan_values.txt
+japanese_ouchi # Referenced in common\script_values\tgp_japan_values.txt
+japanese_sato # Referenced in common\script_values\tgp_japan_values.txt
+japanese_tagawa # Referenced in common\script_values\tgp_japan_values.txt
+japanese_abe # Referenced in common\script_values\tgp_japan_values.txt
+japanese_ono # Referenced in common\script_values\tgp_japan_values.txt
+japanese_yoshimine # Referenced in common\script_values\tgp_japan_values.txt
+japanese_sugawara # Referenced in common\script_values\tgp_japan_values.txt
+japanese_minamoto_murakami # Referenced in common\script_values\tgp_japan_values.txt
+japanese_minamoto_ninmyo # Referenced by missing-item error in 10_dlc_tgp_house_bloc_scripted_effects.txt
+japanese_ariwara # Referenced by missing-item error in 10_dlc_tgp_house_bloc_scripted_effects.txt
+japanese_harusumi # Referenced by missing-item error in 10_dlc_tgp_house_bloc_scripted_effects.txt
+japanese_ki # Referenced by missing-item error in 10_dlc_tgp_house_bloc_scripted_effects.txt
+japanese_kudara # Referenced by missing-item error in 10_dlc_tgp_house_bloc_scripted_effects.txt
+japanese_oe # Referenced by missing-item error in 10_dlc_tgp_house_bloc_scripted_effects.txt
+japanese_shimada # Referenced by missing-item error in 10_dlc_tgp_house_bloc_scripted_effects.txt
+japanese_minamoto_daigo # Referenced by missing-item error in 10_dlc_tgp_house_bloc_scripted_effects.txt
+japanese_minamoto_sanjo # Referenced by missing-item error in 10_dlc_tgp_house_bloc_scripted_effects.txt
+japanese_takashina # Referenced by missing-item error in 10_dlc_tgp_house_bloc_scripted_effects.txt
 
 # TFE
 900021 # referenced in common\scripted_guis\sevenhouses.txt

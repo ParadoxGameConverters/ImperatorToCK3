@@ -166,71 +166,95 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 		}
 	}
 	private void SetCultureFromImperator(CultureMapper cultureMapper) {
-		var cultureSet = false;
 		if (PrimaryImperatorProvince is null) {
 			Logger.Warn($"CK3 Province {Id}: can't set culture from null Imperator province!");
 			return;
 		}
 
 		// Try to use culture of primary source province.
-		if (!string.IsNullOrEmpty(PrimaryImperatorProvince.Culture)) {
-			var cultureMatch = cultureMapper.Match(
-				irCulture: PrimaryImperatorProvince.Culture,
-				ck3ProvinceId: Id,
-				irProvinceId: PrimaryImperatorProvince.Id,
-				historicalTag: PrimaryImperatorProvince.OwnerCountry?.HistoricalTag
-			);
-			if (cultureMatch is not null) {
-				SetCultureId(cultureMatch, date: null);
-				cultureSet = true;
-			}
-		}
+		bool cultureSet = TryToUseCultureOfPrimaryImperatorProvince(cultureMapper);
 		// Try to use culture of secondary source province.
 		if (!cultureSet) {
-			foreach (var secondarySource in SecondaryImperatorProvinces) {
-				var cultureMatch = cultureMapper.Match(
-					irCulture: secondarySource.Culture,
-					ck3ProvinceId: Id,
-					irProvinceId: secondarySource.Id,
-					historicalTag: secondarySource.OwnerCountry?.HistoricalTag ?? string.Empty
-				);
-				if (cultureMatch is not null) {
-					SetCultureId(cultureMatch, date: null);
-					cultureSet = true;
-					break;
-				}
-			}
+			cultureSet = TryToUseCultureOfSecondaryImperatorProvince(cultureMapper);
 		}
 		// As fallback, attempt to use primary cultures of source provinces' countries.
+		if (!cultureSet) {
+			cultureSet = TryToUsePrimaryCulturesOfSourceProvincesCountries(cultureMapper);
+		}
+		if (!cultureSet) {
+			// Use default CK3 culture.
+			Logger.Warn($"Couldn't determine culture for province {Id} with primary source culture " +
+			            $"{PrimaryImperatorProvince.Culture} and source provinces" +
+			            $"[{string.Join(", ", ImperatorProvinces.Select(p => p.Id))}], using vanilla culture!");
+		}
+	}
+
+	private bool TryToUsePrimaryCulturesOfSourceProvincesCountries(CultureMapper cultureMapper) {
+		bool cultureSet = false;
 		var sourceProvincesWithCountryCultures = ImperatorProvinces
 			.Select(p => new {
 				Province = p, CultureId = p.OwnerCountry?.PrimaryCulture
 			})
 			.Where(obj => obj.CultureId is not null)
 			.DistinctBy(obj=>obj.CultureId);
-		if (!cultureSet) {
-			foreach (var obj in sourceProvincesWithCountryCultures) {
-				var cultureMatch = cultureMapper.Match(
-					irCulture: obj.CultureId!,
-					ck3ProvinceId: Id,
-					irProvinceId: obj.Province.Id,
-					historicalTag: obj.Province.OwnerCountry?.HistoricalTag ?? string.Empty
-				);
-				if (cultureMatch is not null) {
-					Logger.Warn($"Using country culture for province {Id}");
-					SetCultureId(cultureMatch, date: null);
-					cultureSet = true;
-					break;
-				}
+		foreach (var obj in sourceProvincesWithCountryCultures) {
+			var cultureMatch = cultureMapper.Match(
+				irCulture: obj.CultureId!,
+				ck3ProvinceId: Id,
+				irProvinceId: obj.Province.Id,
+				historicalTag: obj.Province.OwnerCountry?.HistoricalTag ?? string.Empty
+			);
+			if (cultureMatch is not null) {
+				Logger.Warn($"Using country culture for province {Id}");
+				SetCultureId(cultureMatch, date: null);
+				cultureSet = true;
+				break;
 			}
 		}
-		if (!cultureSet) {
-			//Use default CK3 culture.
-			Logger.Warn($"Couldn't determine culture for province {Id} with primary source culture " +
-			            $"{PrimaryImperatorProvince.Culture} and source provinces" +
-			            $"[{string.Join(", ", ImperatorProvinces.Select(p => p.Id))}], using vanilla culture!");
-		}
+
+		return cultureSet;
 	}
+
+	private bool TryToUseCultureOfSecondaryImperatorProvince(CultureMapper cultureMapper) {
+		bool cultureSet = false;
+		foreach (var secondarySource in SecondaryImperatorProvinces) {
+			var cultureMatch = cultureMapper.Match(
+				irCulture: secondarySource.Culture,
+				ck3ProvinceId: Id,
+				irProvinceId: secondarySource.Id,
+				historicalTag: secondarySource.OwnerCountry?.HistoricalTag ?? string.Empty
+			);
+			if (cultureMatch is not null) {
+				SetCultureId(cultureMatch, date: null);
+				cultureSet = true;
+				break;
+			}
+		}
+
+		return cultureSet;
+	}
+
+	private bool TryToUseCultureOfPrimaryImperatorProvince(CultureMapper cultureMapper)
+	{
+		bool cultureSet = false;
+		if (string.IsNullOrEmpty(PrimaryImperatorProvince?.Culture)) {
+			return cultureSet;
+		}
+
+		var cultureMatch = cultureMapper.Match(
+			irCulture: PrimaryImperatorProvince.Culture,
+			ck3ProvinceId: Id,
+			irProvinceId: PrimaryImperatorProvince.Id,
+			historicalTag: PrimaryImperatorProvince.OwnerCountry?.HistoricalTag
+		);
+		if (cultureMatch is not null) {
+			SetCultureId(cultureMatch, date: null);
+			cultureSet = true;
+		}
+
+		return cultureSet;
+	}
+
 	private void SetHoldingFromImperator(Title.LandedTitles landedTitles) {
 		if (PrimaryImperatorProvince is null) {
 			Logger.Warn($"CK3 Province {Id}: can't set holding from null Imperator province!");

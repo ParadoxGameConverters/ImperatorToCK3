@@ -74,6 +74,7 @@ internal partial class World {
 	public IReadOnlyList<Mod> UsableMods { get; private set; } = Array.Empty<Mod>();
 	
 	public bool InvictusDetected { get; private set; }
+	public bool Invictus1_7Detected { get; private set; } // https://steamcommunity.com/sharedfiles/filedetails/?id=3181950031
 	public bool TerraIndomitaDetected { get; private set; }
 
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
@@ -351,6 +352,7 @@ internal partial class World {
 
 		// Detect specific mods.
 		InvictusDetected = GlobalFlags.Contains("is_playing_invictus");
+		Invictus1_7Detected = UsableMods.Any(m => m.Name.StartsWith("Imperator: Invictus 1.7."));
 		TerraIndomitaDetected = Countries.Any(c => c.Variables.Contains("unification_points")) ||
 		                        UsableMods.Any(m => m.Name == "Antiquitas");
 
@@ -358,27 +360,16 @@ internal partial class World {
 	}
 
 	private void ParseSave(Configuration config, ConverterVersion converterVersion, out Thread? coaExtractionThread) {
-		var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
-		var parser = new Parser();
+		string imperatorRoot = Path.Combine(config.ImperatorPath, "game");
 
 		Thread? localCoaExtractThread = null;
 		
+		var parser = new Parser();
 		parser.RegisterRegex(SaveStartRegex(), _ => { });
 		parser.RegisterKeyword("version", reader => VerifySaveVersion(converterVersion, reader));
 		parser.RegisterKeyword("date", reader => LoadSaveDate(config, reader));
 		parser.RegisterKeyword("enabled_dlcs", LogEnabledDLCs);
-		parser.RegisterKeyword("enabled_mods", reader => {
-			Mods incomingMods = DetectUsedMods(reader);
-
-			// Let's locate, verify and potentially update those mods immediately.
-			ModLoader modLoader = new();
-			modLoader.LoadMods(config.ImperatorDocPath, incomingMods, config.IRVersion, throwForOutOfDateMods: false);
-			UsableMods = new Mods(modLoader.UsableMods);
-			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
-
-			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
-			LoadModFilesystemDependentData();
-		});
+		parser.RegisterKeyword("enabled_mods", LoadEnabledModsAndInitModFs(config, imperatorRoot));
 		parser.RegisterKeyword("variables", ReadVariablesFromSave);
 		parser.RegisterKeyword("family", LoadFamilies);
 		parser.RegisterKeyword("character", LoadCharacters);
@@ -415,6 +406,21 @@ internal partial class World {
 
 		// The CoA extraction may continue after ParseSave finishes executing.
 		coaExtractionThread = localCoaExtractThread;
+	}
+
+	private SimpleDel LoadEnabledModsAndInitModFs(Configuration config, string imperatorRoot) {
+		return reader => {
+			Mods incomingMods = DetectUsedMods(reader);
+
+			// Let's locate, verify and potentially update those mods immediately.
+			ModLoader modLoader = new();
+			modLoader.LoadMods(config.ImperatorDocPath, incomingMods, config.IRVersion, throwForOutOfDateMods: false);
+			UsableMods = new Mods(modLoader.UsableMods);
+			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
+
+			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
+			LoadModFilesystemDependentData();
+		};
 	}
 
 	private void RemoveEmptyCountries() {
@@ -801,18 +807,18 @@ internal partial class World {
 		} while (ch != '\n' && ch != '\r');
 
 		var length = saveStream.Length;
-		if (length < 65536) {
+		if (length < 65_536) {
 			throw new InvalidDataException("Save game seems a bit too small.");
 		}
 
 		saveStream.Position = 0;
-		var bigBuf = new byte[65536];
+		var bigBuf = new byte[65_536];
 		var bytesReadCount = saveStream.Read(bigBuf);
-		if (bytesReadCount < 65536) {
+		if (bytesReadCount < 65_536) {
 			throw new InvalidDataException($"Read only {bytesReadCount}bytes.");
 		}
 		saveType = SaveType.Plaintext;
-		for (var i = 0; i < 65533; ++i) {
+		for (var i = 0; i < 65_533; ++i) {
 			if (BitConverter.ToUInt32(bigBuf, i) == 0x04034B50 && BitConverter.ToUInt16(bigBuf, i - 2) == 4) {
 				saveType = SaveType.CompressedEncoded;
 			}

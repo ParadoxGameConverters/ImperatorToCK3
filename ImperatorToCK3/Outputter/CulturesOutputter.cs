@@ -76,22 +76,11 @@ internal static class CulturesOutputter {
 		OrderedSet<string> languageBranchParameters = [];
 		OrderedSet<string> languageGroupParameters = [];
 		
-		// Read converter-added heritage families and groups from the configurable.
-		var heritageParamsFileParser = new Parser();
-		heritageParamsFileParser.RegisterKeyword("heritage_families", reader => ReadParamsIntoSet(reader, heritageFamilyParameters, ck3ModFlags));
-		heritageParamsFileParser.RegisterKeyword("heritage_groups", reader => ReadParamsIntoSet(reader, heritageGroupParameters, ck3ModFlags));
-		heritageParamsFileParser.ParseFile("configurables/ccu_heritage_parameters.txt");
-		
-		// Read converter-added language families, branches and groups from the configurable.
-		var languageParamsFileParser = new Parser();
-		languageParamsFileParser.RegisterKeyword("language_families", reader => ReadParamsIntoSet(reader, languageFamilyParameters, ck3ModFlags));
-		languageParamsFileParser.RegisterKeyword("language_branches", reader => ReadParamsIntoSet(reader, languageBranchParameters, ck3ModFlags));
-		languageParamsFileParser.RegisterKeyword("language_groups", reader => ReadParamsIntoSet(reader, languageGroupParameters, ck3ModFlags));
-		languageParamsFileParser.ParseFile("configurables/ccu_language_parameters.txt");
-		
+		ReadConverterHeritageFamiliesAndGroups(ck3ModFlags, heritageFamilyParameters, heritageGroupParameters);
+		ReadConverterLanguageFamiliesAndBranchesAndGroups(ck3ModFlags, languageFamilyParameters, languageBranchParameters, languageGroupParameters);
+
 		// Modify the common\scripted_effects\ccu_scripted_effects.txt file.
 		const string relativePath = "common/scripted_effects/ccu_scripted_effects.txt";
-		// Modify the common\scripted_effects\ccu_scripted_effects.txt file.
 		var scriptedEffectsPath = ck3ModFS.GetActualFileLocation(relativePath);
 		if (scriptedEffectsPath is null) {
 			Logger.Warn("Could not find ccu_scripted_effects.txt in the CK3 mod. Aborting the outputting of CCU parameters.");
@@ -117,6 +106,16 @@ internal static class CulturesOutputter {
 		}
 		OutputLanguageGroupParameters(ck3ModFlags, nodes, languageGroupParameters, scriptedEffectsPath, fileName, fileText);
 
+		WriteModifiedCCUFile(outputModPath, rootNode, relativePath);
+
+		// For WtWSMS, add the heritage and language parameters to common/scripted_guis/ccu_error_suppression.txt.
+		// This is what WtWSMS does for the parameters it adds.
+		if (ck3ModFlags["wtwsms"]) {
+			OutputCCUErrorSuppression(outputModPath, ck3ModFS, heritageFamilyParameters, heritageGroupParameters, languageFamilyParameters, languageBranchParameters, languageGroupParameters);
+		}
+	}
+
+	private static void WriteModifiedCCUFile(string outputModPath, Node rootNode, string relativePath) {
 		// Output the modified file.
 		var toOutput = rootNode.AllChildren
 			.Select(c => {
@@ -136,12 +135,27 @@ internal static class CulturesOutputter {
 		var outputFilePath = Path.Join(outputModPath, relativePath);
 		// Output the file with UTF8-BOM encoding.
 		File.WriteAllText(outputFilePath, CKPrinter.printTopLevelKeyValueList(fsharpList), Encoding.UTF8);
-		
-		// For WtWSMS, add the heritage and language parameters to common/scripted_guis/ccu_error_suppression.txt.
-		// This is what WtWSMS does for the parameters it adds.
-		if (ck3ModFlags["wtwsms"]) {
-			OutputCCUErrorSuppression(outputModPath, ck3ModFS, heritageFamilyParameters, heritageGroupParameters, languageFamilyParameters, languageBranchParameters, languageGroupParameters);
-		}
+	}
+
+	private static void ReadConverterLanguageFamiliesAndBranchesAndGroups(OrderedDictionary<string, bool> ck3ModFlags,
+		OrderedSet<string> languageFamilyParameters, OrderedSet<string> languageBranchParameters, OrderedSet<string> languageGroupParameters)
+	{
+		// Read converter-added language families, branches and groups from the configurable.
+		var languageParamsFileParser = new Parser();
+		languageParamsFileParser.RegisterKeyword("language_families", reader => ReadParamsIntoSet(reader, languageFamilyParameters, ck3ModFlags));
+		languageParamsFileParser.RegisterKeyword("language_branches", reader => ReadParamsIntoSet(reader, languageBranchParameters, ck3ModFlags));
+		languageParamsFileParser.RegisterKeyword("language_groups", reader => ReadParamsIntoSet(reader, languageGroupParameters, ck3ModFlags));
+		languageParamsFileParser.ParseFile("configurables/ccu_language_parameters.txt");
+	}
+
+	private static void ReadConverterHeritageFamiliesAndGroups(OrderedDictionary<string, bool> ck3ModFlags,
+		OrderedSet<string> heritageFamilyParameters, OrderedSet<string> heritageGroupParameters)
+	{
+		// Read converter-added heritage families and groups from the configurable.
+		var heritageParamsFileParser = new Parser();
+		heritageParamsFileParser.RegisterKeyword("heritage_families", reader => ReadParamsIntoSet(reader, heritageFamilyParameters, ck3ModFlags));
+		heritageParamsFileParser.RegisterKeyword("heritage_groups", reader => ReadParamsIntoSet(reader, heritageGroupParameters, ck3ModFlags));
+		heritageParamsFileParser.ParseFile("configurables/ccu_heritage_parameters.txt");
 	}
 
 	private static void OutputLanguageBranchParameters(Node[] nodes, OrderedSet<string> languageBranchParameters,

@@ -22,6 +22,7 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -252,54 +253,55 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 				}
 
 				// Imperator saves don't seem to store marriage date
-				Date estimatedMarriageDate = GetEstimatedMarriageDate(ck3Character.ImperatorCharacter, impSpouseCharacter);
+				Date estimatedMarriageDate = GetEstimatedMarriageDate(ck3Character.ImperatorCharacter, impSpouseCharacter, conversionDate);
 
 				ck3Character.AddSpouse(estimatedMarriageDate, ck3SpouseCharacter);
 				++spouseCounter;
 			}
 		}
 		Logger.Info($"{spouseCounter} spouses linked in CK3.");
+	}
 
-		Date GetEstimatedMarriageDate(Imperator.Characters.Character imperatorCharacter, Imperator.Characters.Character imperatorSpouse) {
-			// Imperator saves don't seem to store marriage date.
+	private static Date GetEstimatedMarriageDate(Imperator.Characters.Character imperatorCharacter, Imperator.Characters.Character imperatorSpouse, Date conversionDate) {
+		// Imperator saves don't seem to store marriage date.
 
-			var marriageDeathDate = GetMarriageDeathDate(imperatorCharacter, imperatorSpouse);
-			var birthDateOfCommonChild = GetBirthDateOfFirstCommonChild(imperatorCharacter, imperatorSpouse);
-			if (birthDateOfCommonChild is not null) {
-				// We assume the child was conceived after marriage.
-				var estimatedConceptionDate = birthDateOfCommonChild.Value.ChangeByDays(-280);
-				if (marriageDeathDate is not null && marriageDeathDate < estimatedConceptionDate) {
-					estimatedConceptionDate = marriageDeathDate.Value.ChangeByDays(-1);
-				}
-				return estimatedConceptionDate;
+		var marriageDeathDate = GetMarriageDeathDate(imperatorCharacter, imperatorSpouse);
+		var birthDateOfCommonChild = GetBirthDateOfFirstCommonChild(imperatorCharacter, imperatorSpouse);
+		if (birthDateOfCommonChild is not null) {
+			// We assume the child was conceived after marriage.
+			var estimatedConceptionDate = birthDateOfCommonChild.Value.ChangeByDays(-280);
+			if (marriageDeathDate is not null && marriageDeathDate < estimatedConceptionDate) {
+				estimatedConceptionDate = marriageDeathDate.Value.ChangeByDays(-1);
 			}
-
-			if (marriageDeathDate is not null) {
-				return marriageDeathDate.Value.ChangeByDays(-1); // Death is not a good moment to marry.
-			}
-
-			return conversionDate;
-		}
-		Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
-			var childrenOfFather = father.Children.Values.ToFrozenSet();
-			var childrenOfMother = mother.Children.Values.ToFrozenSet();
-			var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child => child.BirthDate).ToArray();
-
-			Date? firstChildBirthDate = commonChildren.Length > 0 ? commonChildren.FirstOrDefault()?.BirthDate : null;
-			if (firstChildBirthDate is not null) {
-				return firstChildBirthDate;
-			}
-
-			var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u => u.BirthDate).ToArray();
-			return unborns.FirstOrDefault()?.BirthDate;
+			return estimatedConceptionDate;
 		}
 
-		Date? GetMarriageDeathDate(Imperator.Characters.Character husband, Imperator.Characters.Character wife) {
-			if (husband.DeathDate is not null && wife.DeathDate is not null) {
-				return husband.DeathDate < wife.DeathDate ? husband.DeathDate : wife.DeathDate;
-			}
-			return husband.DeathDate ?? wife.DeathDate;
+		if (marriageDeathDate is not null) {
+			return marriageDeathDate.Value.ChangeByDays(-1); // Death is not a good moment to marry.
 		}
+
+		return conversionDate;
+	}
+
+	private static Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
+		var childrenOfFather = father.Children.Values.ToFrozenSet();
+		var childrenOfMother = mother.Children.Values.ToFrozenSet();
+		var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child => child.BirthDate).ToArray();
+
+		Date? firstChildBirthDate = commonChildren.Length > 0 ? commonChildren.FirstOrDefault()?.BirthDate : null;
+		if (firstChildBirthDate is not null) {
+			return firstChildBirthDate;
+		}
+
+		var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u => u.BirthDate).ToArray();
+		return unborns.FirstOrDefault()?.BirthDate;
+	}
+
+	private static Date? GetMarriageDeathDate(Imperator.Characters.Character husband, Imperator.Characters.Character wife) {
+		if (husband.DeathDate is not null && wife.DeathDate is not null) {
+			return husband.DeathDate < wife.DeathDate ? husband.DeathDate : wife.DeathDate;
+		}
+		return husband.DeathDate ?? wife.DeathDate;
 	}
 
 	private void LinkPrisoners(Date date) {
@@ -877,6 +879,52 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 				return !validDynastyIds.Contains(dynastyId);
 			});
+		}
+	}
+
+	internal void CalculateChineseDynasticCycleVariables(Title.LandedTitles titles, Date irEndDate, Date ck3BookmarkDate) {
+		var celestialGovTitles = titles
+			.Where(t => t.ImperatorCountry is not null &&
+			            string.Equals(t.ImperatorCountry.Government, "chinese_empire", StringComparison.Ordinal) &&
+			            t.GetDeFactoLiege(ck3BookmarkDate) is null);
+		foreach (var title in celestialGovTitles) {
+			// Get current holder (can be Imperator character or a generated successor).
+			var holderId = title.GetHolderId(ck3BookmarkDate);
+			if (holderId.Equals("0", StringComparison.Ordinal) || !TryGetValue(holderId, out var holder)) {
+				continue;
+			}
+
+			// Calculate "years_with_government" value (estimated years the country had chinese_empire government).
+			double yearsWithChineseGov = 0;
+			Date dateOfFirstChineseGovTerm = irEndDate;
+			foreach (var term in Enumerable.Reverse(title.ImperatorCountry!.RulerTerms)) {
+				if (string.Equals(term.Government, "chinese_empire", StringComparison.Ordinal)) {
+					dateOfFirstChineseGovTerm = term.StartDate;
+				} else {
+					// Calculate additional years as half of the years between the
+					// start of the last non-Chinese gov term and the first Chinese gob term.
+					yearsWithChineseGov += dateOfFirstChineseGovTerm.DiffInYears(term.StartDate) / 2;
+					break;
+				}
+			}
+			yearsWithChineseGov += ck3BookmarkDate.DiffInYears(dateOfFirstChineseGovTerm);
+
+			// Calculate "imperator_unrest" based on values from the save.
+			double unrest;
+			if (title.ImperatorCountry.TotalPowerBase > 0) {
+				unrest = title.ImperatorCountry.NonLoyalPowerBase / title.ImperatorCountry.TotalPowerBase;
+			} else {
+				unrest = 0;
+			}
+
+			// Add the variables to character's history.
+			string effectStr = $$"""
+             {
+             set_variable = { name = years_with_government value = {{yearsWithChineseGov.ToString("0.#####", CultureInfo.InvariantCulture)}} }
+             set_variable = { name = imperator_unrest value = {{unrest.ToString("0.#####", CultureInfo.InvariantCulture)}} }
+             }
+             """;
+			holder.History.AddFieldValue(ck3BookmarkDate, "effects", "effect", new StringOfItem(effectStr));
 		}
 	}
 }

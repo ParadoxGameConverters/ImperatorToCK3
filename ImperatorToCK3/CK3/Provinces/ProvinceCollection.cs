@@ -1,6 +1,5 @@
 ﻿using commonItems;
 using commonItems.Collections;
-using commonItems.Exceptions;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
@@ -9,7 +8,6 @@ using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Religion;
-using Microsoft.VisualBasic.FileIO;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,60 +22,45 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		LoadProvincesHistory(ck3ModFs);
 	}
 
-	private void LoadProvinceDefinitions(ModFilesystem ck3ModFs) { // TODO: get rid of this (duplicates functionality of ProvinceDefinitions class)
-		Logger.Info("Loading CK3 province definitions...");
+	private void LoadProvinceDefinitions(ProvinceDefinitions provinceDefinitions) {
+		Logger.Info("Loading CK3 province definitions from map data...");
 
-		var filePath = ck3ModFs.GetActualFileLocation("map_data/definition.csv");
-		if (filePath is null) {
-			throw new ConverterException("Province definitions file not found!");
-		}
-		
 		int count = 0;
-		using (var parser = new TextFieldParser(filePath)) {
-			parser.TextFieldType = FieldType.Delimited;
-			parser.SetDelimiters(";");
-			parser.CommentTokens = ["#"];
-			parser.TrimWhiteSpace = true;
-			
-			while (!parser.EndOfData) {
-				string[]? fields = parser.ReadFields();
-				if (fields is null) {
-					continue;
-				}
-
-				if (fields.Length < 1) {
-					continue;
-				}
-				
-				var id = ulong.Parse(fields[0]);
-				if (id == 0) {
-					continue;
-				}
-
-				AddOrReplace(new Province(id));
-				++count;
+		foreach (var provinceDefinition in provinceDefinitions) {
+			if (provinceDefinition.Id == 0) {
+				continue;
 			}
+
+			AddOrReplace(new Province(provinceDefinition.Id));
+			++count;
 		}
+
 		Logger.Debug($"Loaded {count} province definitions.");
 	}
 
 	private void LoadProvincesHistory(ModFilesystem ck3ModFs) {
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provinceIdString) => {
-			var provinceId = ulong.Parse(provinceIdString);
-			var newProvince = new Province(provinceId, reader);
-			dict[provinceId] = newProvince;
+			ulong provinceId = ulong.Parse(provinceIdString);
+
+			// If we already have history for the province, overwrite the old one with the new one.
+			if (TryGetValue(provinceId, out var existingProvince)) {
+				existingProvince.UpdateHistory(reader);
+				return;
+			}
+
+			dict[provinceId] = new Province(provinceId, reader);
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 
 		parser.ParseGameFolder("history/provinces", ck3ModFs, "txt", recursive: true);
 	}
 
-	public void ImportVanillaProvinces(ModFilesystem ck3ModFs, ReligionCollection religions, CultureCollection cultures) {
+	public void ImportVanillaProvinces(ModFilesystem ck3ModFs, ProvinceDefinitions provinceDefinitions, ReligionCollection religions, CultureCollection cultures) {
 		var existingProvinceDefinitionsCount = Count;
 		Logger.Info("Importing vanilla provinces...");
 
-		LoadProvinceDefinitions(ck3ModFs);
+		LoadProvinceDefinitions(provinceDefinitions);
 		Logger.IncrementProgress();
 
 		// Load history/provinces.
@@ -166,8 +149,32 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 			Interlocked.Increment(ref modifiedCK3ProvsCount);
 		});
 		Logger.Info($"{importedIRProvsCount} I:R provinces imported into {modifiedCK3ProvsCount} CK3 provinces.");
-		
+
+		WarnAboutCountyCapitalProvincesWithNoCultureOrReligion(titles, config.CK3BookmarkDate);
+
 		Logger.IncrementProgress();
+	}
+
+	private void WarnAboutCountyCapitalProvincesWithNoCultureOrReligion(Title.LandedTitles titles, Date bookmarkDate) {
+		// Warn about county capital provinces with no culture or religion set.
+		var countyCapitalProvinceIds = titles.Counties.Select(c => c.CapitalBaronyProvinceId)
+			.Where(id => id.HasValue)
+			.Select(id => id!.Value);
+
+		foreach (var provId in countyCapitalProvinceIds) {
+			if (TryGetValue(provId, out var province)) {
+				bool hasCulture = province.GetCultureId(bookmarkDate) is not null;
+				bool hasFaith = province.GetFaithId(bookmarkDate) is not null;
+				if (!hasCulture) {
+					Logger.Warn($"Province {provId} is missing culture!");
+				}
+				if (!hasFaith) {
+					Logger.Warn($"Province {provId} is missing faith!");
+				}
+			} else {
+				Logger.Warn($"Province {provId} (county capital province) not found!");
+			}
+		}
 	}
 
 	public void LoadPrehistory() {

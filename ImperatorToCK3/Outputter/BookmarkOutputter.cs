@@ -1,6 +1,7 @@
 using commonItems;
 using ImageMagick;
 using ImperatorToCK3.CK3;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.CommonUtils.Map;
@@ -94,6 +95,10 @@ internal static class BookmarkOutputter {
 				}
 			}
 		}
+		var subheadingLoc = ck3LocDB.GetOrCreateLocBlock($"bm_converted_{holder.Id}_subheading");
+		foreach (var language in ConverterGlobals.SupportedLanguages) {
+			subheadingLoc[language] = "$BOOKMARK_SUBHEADING_DEFAULT$";
+		}
 		var holderDescLoc = ck3LocDB.GetOrCreateLocBlock($"bm_converted_{holder.Id}_desc");
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
 			holderDescLoc[language] = string.Empty;
@@ -127,6 +132,11 @@ internal static class BookmarkOutputter {
 
 		sb.AppendLine("\t}");
 
+		await OutputBookmarkPortrait(config, holder);
+	}
+
+	private static async Task OutputBookmarkPortrait(Configuration config, Character holder)
+	{
 		var agesex = holder.GetAgeSex(config.CK3BookmarkDate);
 		
 		StringBuilder portraitBuilder = new();
@@ -143,7 +153,7 @@ internal static class BookmarkOutputter {
 		var outPortraitPath = Path.Combine("output", config.OutputModName, $"common/bookmark_portraits/bm_converted_{holder.Id}.txt");
 		await File.WriteAllTextAsync(outPortraitPath, portraitBuilder.ToString());
 	}
-	
+
 	// Not sure what is the purpose of these values, but all vanilla bookmark portraits have entity entries.
 	private static readonly Dictionary<string, string> agesexToEntityDict = new() {
 		{"male", "3942081117 3942081117"},
@@ -186,11 +196,11 @@ internal static class BookmarkOutputter {
 		var ck3ModFS = ck3World.ModFS;
 		var provincesMapPath = ck3ModFS.GetActualFileLocation("map_data/provinces.png");
 		if (provincesMapPath is null) {
-			throw new FileNotFoundException($"{nameof(provincesMapPath)} not found!");
+			throw new FileNotFoundException("provinces.png not found!");
 		}
-		var flatmapPath = ck3ModFS.GetActualFileLocation("gfx/map/terrain/flatmap.dds");
+		var flatmapPath = ck3ModFS.GetActualFileLocation("gfx/map/terrain/flat_maps/flatmap.dds");
 		if (flatmapPath is null) {
-			throw new FileNotFoundException($"{nameof(flatmapPath)} not found!");
+			throw new FileNotFoundException("flatmap.dds not found!");
 		}
 		const string tmpFlatmapPath = "temp/flatmap.png";
 

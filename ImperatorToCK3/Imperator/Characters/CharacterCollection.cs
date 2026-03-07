@@ -109,9 +109,7 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 			.Cast<ulong>();
 		var allGovernorIds = governorships.Select(g => g.CharacterId);
 		var landedCharacterIds = allRulerIds.Concat(allGovernorIds).ToFrozenSet();
-		charactersToCheck = charactersToCheck
-			.Where(character => !landedCharacterIds.Contains(character.Id))
-			.ToArray();
+		charactersToCheck = [.. charactersToCheck.Where(character => !landedCharacterIds.Contains(character.Id))];
 
 		// Members of rulers' families should be kept, unless dead and childless.
 		var familyIdsOfLandedCharacters = this

@@ -1,6 +1,7 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
+using commonItems.Exceptions;
 using commonItems.Linguistics;
 using commonItems.Localization;
 using commonItems.Serialization;
@@ -222,76 +223,13 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 		FillHolderAndGovernmentHistory(country, characters, governmentMapper, irLocDB, ck3LocDB, religionMapper, cultureMapper, nicknameMapper, provinceMapper, config, conversionDate, enabledCK3Dlcs);
 
-		// Determine color.
-		var color1Opt = ImperatorCountry.Color1;
-		if (color1Opt is not null) {
-			Color1 = color1Opt;
-		}
-
-		// determine successions laws
-		History.AddFieldValue(conversionDate,
-			"succession_laws",
-			"succession_laws",
-			successionLawMapper.GetCK3LawsForImperatorLaws(ImperatorCountry.GetLaws(), country.Government, enabledCK3Dlcs)
-		);
-
-		// Determine CoA.
-		if (IsCreatedFromImperator || !config.UseCK3Flags) {
-			bool warnIfMissing = !config.SkipDynamicCoAExtraction;
-			CoA = coaMapper.GetCoaForFlagName(ImperatorCountry.Flag, warnIfMissing);
-		}
+		SetColorFromImperatorCountry(country);
+		DetermineSuccessionLawsFromImperatorCountry(country, successionLawMapper, conversionDate, enabledCK3Dlcs);
+		DetermineCoAFromImperator(country, coaMapper, config);
 
 		// Determine other attributes:
-		// Set capital to Imperator tag's capital.
-		if (ImperatorCountry.CapitalProvinceId is not null) {
-			var srcCapital = ImperatorCountry.CapitalProvinceId.Value;
-			foreach (var ck3ProvId in provinceMapper.GetCK3ProvinceNumbers(srcCapital)) {
-				var foundCounty = parentCollection.GetCountyForProvince(ck3ProvId);
-				if (foundCounty is null) {
-					continue;
-				}
-
-				// If the title is a de jure duchy, potential capital must be within it.
-				if (Rank == TitleRank.duchy && DeJureVassals.Count > 0 && foundCounty.DeJureLiege?.Id != Id) {
-					continue;
-				}
-
-				CapitalCounty = foundCounty;
-				break;
-			}
-		}
-
-		// determine country name localization
-		var nameSet = false;
-		if (validatedName is not null) {
-			var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(Id);
-			nameLocBlock.CopyFrom(validatedName);
-			nameSet = true;
-		}
-		if (!nameSet) {
-			var irTagLoc = irLocDB.GetLocBlockForKey(ImperatorCountry.Tag);
-			if (irTagLoc is not null) {
-				var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(Id);
-				nameLocBlock.CopyFrom(irTagLoc);
-				nameSet = true;
-			}
-		}
-		if (!nameSet) {
-			// use unlocalized name if not empty
-			var name = ImperatorCountry.Name;
-			if (!string.IsNullOrEmpty(name)) {
-				Logger.Warn($"Using unlocalized Imperator name {name} as name for {Id}!");
-				var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(Id);
-				nameLocBlock[ConverterGlobals.PrimaryLanguage] = name;
-				nameSet = true;
-			}
-		}
-		// giving up
-		if (!nameSet) {
-			Logger.Warn($"{Id} needs help with localization! {ImperatorCountry.Name}?");
-		}
-
-		// determine adjective localization
+		SetCapitalFromImperatorCountry(country, provinceMapper);
+		SetNameLocalizationFromImperatorCountry(country, irLocDB, ck3LocDB, validatedName);
 		TrySetAdjectiveLoc(irLocDB, imperatorCountries, ck3LocDB);
 
 		// If country is a subject, convert it to a vassal.
@@ -307,10 +245,85 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 	}
 
+	private void SetColorFromImperatorCountry(Country irCountry) {
+		var color1Opt = irCountry.Color1;
+		if (color1Opt is not null) {
+			Color1 = color1Opt;
+		}
+	}
+
+	private void DetermineCoAFromImperator(Country irCountry, CoaMapper coaMapper, Configuration config) {
+		if (IsCreatedFromImperator || !config.UseCK3Flags) {
+			bool warnIfMissing = !config.SkipDynamicCoAExtraction;
+			CoA = coaMapper.GetCoaForFlagName(irCountry.Flag, warnIfMissing);
+		}
+	}
+
+	private void DetermineSuccessionLawsFromImperatorCountry(Country irCountry, SuccessionLawMapper successionLawMapper, Date conversionDate, IReadOnlyCollection<string> enabledCK3Dlcs) {
+		History.AddFieldValue(conversionDate,
+			"succession_laws",
+			"succession_laws",
+			successionLawMapper.GetCK3LawsForImperatorLaws(irCountry.GetLaws(), irCountry.Government, enabledCK3Dlcs)
+		);
+	}
+
+	private void SetNameLocalizationFromImperatorCountry(Country irCountry, LocDB irLocDB, CK3LocDB ck3LocDB, LocBlock? validatedName) {
+		// determine country name localization
+		var nameSet = false;
+		if (validatedName is not null) {
+			var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(Id);
+			nameLocBlock.CopyFrom(validatedName);
+			nameSet = true;
+		}
+		if (!nameSet) {
+			var irTagLoc = irLocDB.GetLocBlockForKey(irCountry.Tag);
+			if (irTagLoc is not null) {
+				var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(Id);
+				nameLocBlock.CopyFrom(irTagLoc);
+				nameSet = true;
+			}
+		}
+		if (!nameSet) {
+			// use unlocalized name if not empty
+			var name = irCountry.Name;
+			if (!string.IsNullOrEmpty(name)) {
+				Logger.Warn($"Using unlocalized Imperator name {name} as name for {Id}!");
+				var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(Id);
+				nameLocBlock[ConverterGlobals.PrimaryLanguage] = name;
+				nameSet = true;
+			}
+		}
+		// giving up
+		if (!nameSet) {
+			Logger.Warn($"{Id} needs help with localization! {irCountry.Name}?");
+		}
+	}
+
+	private void SetCapitalFromImperatorCountry(Country irCountry, ProvinceMapper provinceMapper) {
+		// Set capital to Imperator tag's capital.
+		if (irCountry.CapitalProvinceId is not null) {
+			var srcCapital = irCountry.CapitalProvinceId.Value;
+			foreach (var ck3ProvId in provinceMapper.GetCK3ProvinceNumbers(srcCapital)) {
+				var foundCounty = parentCollection.GetCountyForProvince(ck3ProvId);
+				if (foundCounty is null) {
+					continue;
+				}
+
+				// If the title is a de jure duchy, potential capital must be within it.
+				if (Rank == TitleRank.duchy && DeJureVassals.Count > 0 && foundCounty.DeJureLiege?.Id != Id) {
+					continue;
+				}
+
+				CapitalCounty = foundCounty;
+				break;
+			}
+		}
+	}
+
 	/// <summary>
 	/// Fills title's history with Imperator and pre-Imperator rulers and sets appropriate government.
 	/// </summary>
-	private void FillHolderAndGovernmentHistory(Country imperatorCountry,
+	private void FillHolderAndGovernmentHistory(Country irCountry,
 		CharacterCollection characters,
 		GovernmentMapper governmentMapper,
 		LocDB irLocDB,
@@ -324,7 +337,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		IReadOnlyCollection<string> enabledCK3Dlcs) {
 		// ------------------ determine previous and current holders
 
-		foreach (var impRulerTerm in imperatorCountry.RulerTerms) {
+		foreach (var impRulerTerm in irCountry.RulerTerms) {
 			var rulerTerm = new RulerTerm(
 				this,
 				impRulerTerm,
@@ -359,21 +372,26 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			}
 		}
 
-		if (imperatorCountry.Government is not null) {
+		if (irCountry.Government is not null) {
 			var lastCK3TermGov = GetGovernment(conversionDate);
-			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(imperatorCountry.Government, Rank, imperatorCountry.PrimaryCulture, enabledCK3Dlcs);
+			var ck3CountryGov = governmentMapper.GetCK3GovernmentForImperatorGovernment(irCountry.Government, Rank, irCountry.PrimaryCulture, enabledCK3Dlcs);
 			if (lastCK3TermGov != ck3CountryGov && ck3CountryGov is not null) {
 				History.AddFieldValue(conversionDate, "government", "government", ck3CountryGov);
 			}
-			
-			// If the government is administrative, add a history effect for setting the state faith.
-			string? effectiveGov = ck3CountryGov ?? lastCK3TermGov;
-			var holderId = GetHolderId(conversionDate);
-			if (effectiveGov == "administrative_government" && characters.TryGetValue(holderId, out var holder)) {
-				var holderFaithId = holder.GetFaithId(conversionDate);
-				if (holderFaithId is not null) {
-					History.AddFieldValue(conversionDate, "effects", "effect",
-						$$"""
+
+			AddStateFaithHistoryEffectIfAdministrative(characters, conversionDate, lastCK3TermGov, ck3CountryGov);
+		}
+	}
+
+	private void AddStateFaithHistoryEffectIfAdministrative(CharacterCollection characters, Date conversionDate, string? lastCK3TermGov, string? ck3CountryGov) {
+		// If the government is administrative, add a history effect for setting the state faith.
+		string? effectiveGov = ck3CountryGov ?? lastCK3TermGov;
+		var holderId = GetHolderId(conversionDate);
+		if (effectiveGov == "administrative_government" && characters.TryGetValue(holderId, out var holder)) {
+			var holderFaithId = holder.GetFaithId(conversionDate);
+			if (holderFaithId is not null) {
+				History.AddFieldValue(conversionDate, "effects", "effect",
+					$$"""
 							{
 								if = {
 									limit = {
@@ -384,7 +402,6 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 								}
 							}
 						""");
-				}
 			}
 		}
 	}
@@ -482,7 +499,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			var overlord = imperatorCountries[dependency.OverlordId];
 			titleId = tagTitleMapper.GetTitleForSubject(irCountry, validatedEnglishName ?? string.Empty, overlord, ck3LocDB);
 		} else if (validatedEnglishName is not null) {
-			titleId = tagTitleMapper.GetTitleForTag(irCountry, validatedEnglishName, maxTitleRank: TitleRank.empire, ck3LocDB);
+			titleId = tagTitleMapper.GetTitleForTag(irCountry, validatedEnglishName, maxTitleRank: TitleRank.hegemony, ck3LocDB);
 		} else {
 			titleId = tagTitleMapper.GetTitleForTag(irCountry, ck3LocDB);
 		}
@@ -515,7 +532,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		var governorshipStartDate = governorship.StartDate;
 
 		if (country.CK3Title is null) {
-			throw new ArgumentException($"{country.Tag} governorship of {governorship.Region.Id} could not be mapped to CK3 title: liege doesn't exist!");
+			throw new ConverterException($"{country.Tag} governorship of {governorship.Region.Id} could not be mapped to CK3 title: liege doesn't exist!");
 		}
 
 		ClearHolderSpecificHistory();
@@ -546,35 +563,20 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			currentCK3LiegeGov,
 			config.CK3BookmarkDate
 		);
+		SetColorFromImperatorGovernorship(governorship, country);
 
-		// Determine color.
-		var countryColor = country.Color1;
-		if (countryColor is not null) {
-			var regionColor = governorship.Region.Color;
-			if (regionColor is not null && !parentCollection.IsColorUsed(regionColor.Value)) {
-				Color1 = regionColor;
-			} else {
-				Color1 = parentCollection.GetDerivedColor(countryColor.Value);
-			}
-		}
-
-		// Determine successions laws.
-		// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
-		OrderedSet<string> successionLaws = [];
-		if (currentCK3LiegeGov is not null && currentCK3LiegeGov == "administrative_government") {
-			successionLaws.Add("appointment_succession_law");
-		} else {
-			successionLaws.Add("high_partition_succession_law");
-		}
-		History.AddFieldValue(governorshipStartDate,
-			"succession_laws",
-			"succession_laws",
-			successionLaws
-		);
+		DetermineSuccessionLawsFromImperatorGovernorship(governorshipStartDate, currentCK3LiegeGov);
 
 		// ------------------ determine CoA
 		CoA = null; // using game-randomized CoA
 
+		DetermineCapitalFromImperatorGovernorship(governorship, provinceMapper, imperatorRegionMapper, impGovernor);
+
+		TrySetNameFromGovernorship(governorship, imperatorRegionMapper, country, irProvinces, regionHasMultipleGovernorships, irLocDB, ck3LocDB);
+		TrySetAdjectiveFromGovernorship(governorship, country, irLocDB, ck3LocDB);
+	}
+
+	private void DetermineCapitalFromImperatorGovernorship(Governorship governorship, ProvinceMapper provinceMapper, ImperatorRegionMapper imperatorRegionMapper, Imperator.Characters.Character impGovernor) {
 		// ------------------ determine capital
 		var governorProvince = impGovernor.ProvinceId;
 		if (governorProvince.HasValue && imperatorRegionMapper.ProvinceIsInRegion(governorProvince.Value, governorship.Region.Id)) {
@@ -586,9 +588,41 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 			}
 		}
+	}
 
-		TrySetNameFromGovernorship(governorship, imperatorRegionMapper, country, irProvinces, regionHasMultipleGovernorships, irLocDB, ck3LocDB);
-		TrySetAdjectiveFromGovernorship(governorship, country, irLocDB, ck3LocDB);
+	private void DetermineSuccessionLawsFromImperatorGovernorship(Date governorshipStartDate, string? currentCK3LiegeGov) {
+		// Determine successions laws.
+		// https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/90#issuecomment-817178552
+		OrderedSet<string> successionLaws = [];
+		if (currentCK3LiegeGov is not null && currentCK3LiegeGov == "administrative_government") {
+			successionLaws.Add("appointment_succession_law");
+		} else if (currentCK3LiegeGov is not null && currentCK3LiegeGov == "celestial_government") {
+			successionLaws.Add("celestial_appointment_succession_law");
+		} else if (currentCK3LiegeGov is not null && currentCK3LiegeGov == "japan_administrative_government") {
+			successionLaws.Add("japanese_appointment_succession_law");
+		} else if (currentCK3LiegeGov is not null && currentCK3LiegeGov == "meritocratic_government") {
+			successionLaws.Add("meritocratic_appointment_succession_law");
+		} else {
+			successionLaws.Add("high_partition_succession_law");
+		}
+		History.AddFieldValue(governorshipStartDate,
+			"succession_laws",
+			"succession_laws",
+			successionLaws
+		);
+	}
+
+	private void SetColorFromImperatorGovernorship(Governorship governorship, Country country) {
+		// Determine color.
+		var countryColor = country.Color1;
+		if (countryColor is not null) {
+			var regionColor = governorship.Region.Color;
+			if (regionColor is not null && !parentCollection.IsColorUsed(regionColor.Value)) {
+				Color1 = regionColor;
+			} else {
+				Color1 = parentCollection.GetDerivedColor(countryColor.Value);
+			}
+		}
 	}
 
 	private void TrySetAdjectiveFromGovernorship(Governorship governorship, Country country, LocDB irLocDB, CK3LocDB ck3LocDB) {
@@ -689,9 +723,33 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		if (!nameSet) {
 			nameSet = TryToUseMostDevelopedOwnedTerritoryForGovernorshipName(region, regionHasMultipleGovernorships, country, irProvinces, irLocDB, ck3LocDB);
 		}
+		if (!nameSet) {
+			nameSet = TryToUseRegionNameWithCountryAdjectiveForGovernorshipName(governorship, country, regionHasMultipleGovernorships, ck3LocDB, regionLocBlock);
+		}
+		if (!nameSet) {
+			nameSet = TryToUseRegionNameForGovernorshipName(governorship, ck3LocDB, regionLocBlock);
+		}
+		if (!nameSet && Id.Contains("_IRTOCK3_")) {
+			Logger.Warn($"{Id} needs help with localization!");
+		}
+	}
+
+	private bool TryToUseRegionNameForGovernorshipName(Governorship governorship, CK3LocDB ck3LocDB, LocBlock? regionLocBlock) {
+		if (regionLocBlock is not null) {
+			Logger.Debug($"Naming {Id} after governorship: {governorship.Region.Id}...");
+			var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(Id);
+			nameLocBlock.CopyFrom(regionLocBlock);
+			return true;
+		}
+
+		return false;
+	}
+
+	private bool TryToUseRegionNameWithCountryAdjectiveForGovernorshipName(Governorship governorship, Country country, bool regionHasMultipleGovernorships, CK3LocDB ck3LocDB, LocBlock? regionLocBlock) {
 		// Try to use "<country adjective> <region name>" as governorship name if region has multiple governorships.
 		// Example: Mauretania -> Roman Mauretania
-		if (!nameSet && regionHasMultipleGovernorships && regionLocBlock is not null) {
+
+		if (regionHasMultipleGovernorships && regionLocBlock is not null) {
 			var ck3Country = country.CK3Title;
 			if (ck3Country is not null && ck3LocDB.TryGetValue($"{ck3Country.Id}_adj", out var countryAdjectiveLocBlock)) {
 				Logger.Debug($"Naming {Id} after governorship with country adjective: {country.Tag} {governorship.Region.Id}...");
@@ -700,18 +758,11 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				nameLocBlock.ModifyForEveryLanguage(countryAdjectiveLocBlock,
 					(orig, adj, _) => $"{adj} {orig}"
 				);
-				nameSet = true;
+				return true;
 			}
 		}
-		if (!nameSet && regionLocBlock is not null) {
-			Logger.Debug($"Naming {Id} after governorship: {governorship.Region.Id}...");
-			var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(Id);
-			nameLocBlock.CopyFrom(regionLocBlock);
-			nameSet = true;
-		}
-		if (!nameSet && Id.Contains("_IRTOCK3_")) {
-			Logger.Warn($"{Id} needs help with localization!");
-		}
+
+		return false;
 	}
 
 	private bool TryToUseMostDevelopedOwnedTerritoryForGovernorshipName(ImperatorRegion? region,
@@ -1004,7 +1055,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	private readonly TitleCollection deJureVassals = [];
 	[SerializeOnlyValue] public IReadOnlyTitleCollection DeJureVassals => deJureVassals; // DIRECT de jure vassals
 	public Dictionary<string, Title> GetDeJureVassalsAndBelow() {
-		return GetDeJureVassalsAndBelow("bcdke");
+		return GetDeJureVassalsAndBelow("bcdkeh");
 	}
 	public Dictionary<string, Title> GetDeJureVassalsAndBelow(string rankFilter) {
 		var rankFilterAsArray = rankFilter.ToCharArray();
@@ -1031,7 +1082,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			.ToDictionary(t => t.Id, t => t);
 	}
 	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date) {
-		return GetDeFactoVassalsAndBelow(date, "bcdke");
+		return GetDeFactoVassalsAndBelow(date, "bcdkeh");
 	}
 	public Dictionary<string, Title> GetDeFactoVassalsAndBelow(Date date, string rankFilter) {
 		var rankFilterAsArray = rankFilter.ToCharArray();
@@ -1079,6 +1130,15 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("male_names")] public List<string>? MaleNames { get; private set; }
 	// <culture, loc key>
 	[SerializedName("cultural_names")] public Dictionary<string, string>? CulturalNames { get; private set; }
+	[SerializedName("allow_domicile")] public bool? AllowDomicile { get; set; }
+	[SerializedName("enable_regnal_numbers")] public bool? EnableRegnalNumbers { get; set; }
+	[SerializedName("figurehead")] public bool? Figurehead { get; set; }
+	[SerializedName("holding_regnal_male_names")] public StringOfItem? HoldingRegnalMaleNames { get; private set; }
+	[SerializedName("holding_regnal_female_names")] public StringOfItem? HoldingRegnalFemaleNames { get; private set; }
+	[SerializedName("posthumous_regnal_male_names")] public StringOfItem? PosthumousRegnalMaleNames { get; private set; }
+	[SerializedName("posthumous_regnal_female_names")] public StringOfItem? PosthumousRegnalFemaleNames { get; private set; }
+	[SerializedName("personal_relation_entry")] public StringOfItem? PersonalRelationEntry { get; private set; }
+	[SerializedName("personal_relation_vassal")] public StringOfItem? PersonalRelationVassal { get; private set; }
 
 	public int? GetOwnOrInheritedDevelopmentLevel(Date date) {
 		// Latest date (<= date) takes precedence.
@@ -1133,47 +1193,14 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[commonItems.Serialization.NonSerialized] public bool IsCreatedFromImperator { get; private set; } = false;
 
 	private void RegisterKeys(Parser parser, ColorFactory colorFactory) {
-		parser.RegisterRegex(Regexes.TitleId, (reader, titleNameStr) => {
-			// Pull the titles beneath this one and add them to the lot.
-			// A title can be defined in multiple files, in that case merge the definitions.
-			if (parentCollection.TryGetValue(titleNameStr, out var childTitle)) {
-				childTitle.LoadTitles(reader, colorFactory);
-			} else {
-				childTitle = parentCollection.Add(titleNameStr);
-				childTitle.LoadTitles(reader, colorFactory);
-			}
-
-			if (childTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBaronyId)) {
-				// title is a barony, and no other barony has been found in this scope yet
-				CapitalBaronyId = childTitle.Id;
-			}
-			
-			childTitle.DeJureLiege = this;
-		});
+		parser.RegisterRegex(Regexes.TitleId, LoadTitlesUnderTitle(colorFactory));
 		parser.RegisterKeyword("definite_form", reader => HasDefiniteForm = reader.GetBool());
 		parser.RegisterKeyword("ruler_uses_title_name", reader => RulerUsesTitleName = reader.GetBool());
 		parser.RegisterKeyword("landless", reader => Landless = reader.GetBool());
 		parser.RegisterKeyword("require_landless", reader => RequireLandless = reader.GetBool());
-		parser.RegisterKeyword("color", reader => {
-			try {
-				Color1 = colorFactory.GetColor(reader);
-			} catch (ArgumentException e) {
-				Logger.Warn($"{e.Message} - defaulting to black");
-				Color1 = new Color(0, 0, 0);
-			}
-		});
+		parser.RegisterKeyword("color", LoadTitleColor(colorFactory));
 		parser.RegisterKeyword("capital", reader => CapitalCountyId = reader.GetString());
-		parser.RegisterKeyword("ai_primary_priority", reader => {
-			var stringOfItem = reader.GetStringOfItem();
-			
-			// Drop ai_primary_priority blocks that contain references to specific dynasties or characters.
-			var str = stringOfItem.ToString();
-			if (str.Contains("dynasty:") || str.Contains("character:")) {
-				return;
-			}
-			
-			AIPrimaryPriority = stringOfItem;
-		});
+		parser.RegisterKeyword("ai_primary_priority", LoadAiPrimaryPriority());
 		parser.RegisterKeyword("ignore_titularity_for_title_weighting", reader => IgnoreTitularityForTitleWeighting = reader.GetBool());
 		parser.RegisterKeyword("can_create", reader => CanCreate = reader.GetStringOfItem());
 		parser.RegisterKeyword("can_create_on_partition", reader => CanCreateOnPartition = reader.GetStringOfItem());
@@ -1189,12 +1216,68 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterKeyword("can_use_nomadic_naming", reader => CanUseNomadicNaming = reader.GetBool());
 		parser.RegisterKeyword("male_names", reader => MaleNames = reader.GetStrings());
 		parser.RegisterKeyword("cultural_names", reader => CulturalNames = reader.GetAssignmentsAsDict());
+		parser.RegisterKeyword("allow_domicile", reader => AllowDomicile = reader.GetBool());
+		parser.RegisterKeyword("enable_regnal_numbers", reader => EnableRegnalNumbers = reader.GetBool());
+		parser.RegisterKeyword("figurehead", reader => Figurehead = reader.GetBool());
+		parser.RegisterKeyword("holding_regnal_male_names", reader => HoldingRegnalMaleNames = reader.GetStringOfItem());
+		parser.RegisterKeyword("holding_regnal_female_names", reader => HoldingRegnalFemaleNames = reader.GetStringOfItem());
+		parser.RegisterKeyword("posthumous_regnal_male_names", reader => PosthumousRegnalMaleNames = reader.GetStringOfItem());
+		parser.RegisterKeyword("posthumous_regnal_female_names", reader => PosthumousRegnalFemaleNames = reader.GetStringOfItem());
+		parser.RegisterKeyword("personal_relation_entry", reader => PersonalRelationEntry = reader.GetStringOfItem());
+		parser.RegisterKeyword("personal_relation_vassal", reader => PersonalRelationVassal = reader.GetStringOfItem());
 
 		parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 			IgnoredTokens.Add(token);
 			ParserHelpers.IgnoreItem(reader);
 		});
 	}
+
+	private Del LoadTitlesUnderTitle(ColorFactory colorFactory)
+	{
+		return (reader, titleNameStr) => {
+			// Pull the titles beneath this one and add them to the lot.
+			// A title can be defined in multiple files, in that case merge the definitions.
+			if (parentCollection.TryGetValue(titleNameStr, out var childTitle)) {
+				childTitle.LoadTitles(reader, colorFactory);
+			} else {
+				childTitle = parentCollection.Add(titleNameStr);
+				childTitle.LoadTitles(reader, colorFactory);
+			}
+
+			if (childTitle.Rank == TitleRank.barony && string.IsNullOrEmpty(CapitalBaronyId)) {
+				// title is a barony, and no other barony has been found in this scope yet
+				CapitalBaronyId = childTitle.Id;
+			}
+			
+			childTitle.DeJureLiege = this;
+		};
+	}
+
+	private SimpleDel LoadAiPrimaryPriority() {
+		return reader => {
+			var stringOfItem = reader.GetStringOfItem();
+			
+			// Drop ai_primary_priority blocks that contain references to specific dynasties or characters.
+			var str = stringOfItem.ToString();
+			if (str.Contains("dynasty:") || str.Contains("character:")) {
+				return;
+			}
+			
+			AIPrimaryPriority = stringOfItem;
+		};
+	}
+
+	private SimpleDel LoadTitleColor(ColorFactory colorFactory) {
+		return reader => {
+			try {
+				Color1 = colorFactory.GetColor(reader);
+			} catch (ArgumentException e) {
+				Logger.Warn($"{e.Message} - defaulting to black");
+				Color1 = new Color(0, 0, 0);
+			}
+		};
+	}
+
 	private void TrySetCapitalBarony() {
 		if (Rank != TitleRank.county) {
 			return;
@@ -1354,17 +1437,18 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			'd' => TitleRank.duchy,
 			'k' => TitleRank.kingdom,
 			'e' => TitleRank.empire,
+			'h' => TitleRank.hegemony,
 			_ => throw new FormatException($"Title {titleId}: unknown rank!")
 		};
 	}
 
 	private void AppointCourtierPositionsFromImperator(Dictionary<string, string[]> courtPositionToSourcesDict,
 		List<OfficeJob> convertibleJobs,
-		HashSet<string> alreadyEmployedCharacters, 
+		HashSet<string> alreadyEmployedCharacters,
 		Character ck3Ruler,
 		Date irSaveDate) {
 		Dictionary<string, int> heldTitlesPerCharacterCache = [];
-		
+
 		foreach (var (ck3Position, sources) in courtPositionToSourcesDict) {
 			// The order of I:R source position types is important - the first filled one found will be used.
 			foreach (var sourceOfficeType in sources) {
@@ -1374,10 +1458,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 
 				var ck3Official = job.Character.CK3Character;
-				if (ck3Official is null) {
-					continue;
-				}
-				if (alreadyEmployedCharacters.Contains(ck3Official.Id)) {
+				if (ck3Official is null || alreadyEmployedCharacters.Contains(ck3Official.Id)) {
 					continue;
 				}
 
@@ -1427,7 +1508,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 
 	private void AppointCouncilMembersFromImperator(ReligionCollection religionCollection,
 		Dictionary<string, string[]> councilPositionToSourcesDict,
-		List<OfficeJob> convertibleJobs, 
+		List<OfficeJob> convertibleJobs,
 		HashSet<string> alreadyEmployedCharacters,
 		Character ck3Ruler,
 		Date irSaveDate) {
@@ -1442,10 +1523,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 
 				var ck3Official = job.Character.CK3Character;
-				if (ck3Official is null) {
-					continue;
-				}
-				if (alreadyEmployedCharacters.Contains(ck3Official.Id)) {
+				if (ck3Official is null || alreadyEmployedCharacters.Contains(ck3Official.Id)) {
 					continue;
 				}
 
@@ -1460,59 +1538,12 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				}
 
 				if (ck3Position == "councillor_court_chaplain") {
-					// Court chaplains need to have the same faith as the ruler.
-					var rulerFaithId = ck3Ruler.GetFaithId(irSaveDate);
-					if (rulerFaithId is null || rulerFaithId != ck3Official.GetFaithId(irSaveDate)) {
+					if (!CanAppointAsCourtChaplain(religionCollection, ck3Ruler, ck3Official, irSaveDate, heldTitlesCount)) {
 						continue;
-					}
-
-					// If the faith has Disallowed Clerical Marriage, don't allow married court chaplains.
-					var rulerFaith = religionCollection.GetFaith(rulerFaithId);
-					if (rulerFaith is null) {
-						continue;
-					}
-					if (rulerFaith.HasDoctrine("doctrine_clerical_marriage_disallowed")) {
-						if (ck3Official.GetSpouseIds(irSaveDate).Count > 0) {
-							continue;
-						}
-					}
-
-					// If the court faith has doctrine_theocracy_temporal (Theocratic Clerical Tradition), the court chaplain should
-					// be either theocratic or landless.
-					// For the purpose of the conversion, we simply require them to be landless.
-					if (rulerFaith.HasDoctrine("doctrine_theocracy_temporal")) {
-						if (heldTitlesCount > 0) {
-							continue;
-						}
-					}
-					
-					// Skip if the faith doesn't allow the character's gender to be clergy.
-					var clericalGenderDoctrines = rulerFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_clerical_gender");
-					if (clericalGenderDoctrines.Count != 0) {
-						if (clericalGenderDoctrines.Contains("doctrine_clerical_gender_female_only") && !ck3Official.Female) {
-							continue;
-						}
-						if (clericalGenderDoctrines.Contains("doctrine_clerical_gender_male_only") && ck3Official.Female) {
-							continue;
-						}
 					}
 				} else if (ck3Position == "councillor_steward" || ck3Position == "councillor_chancellor" || ck3Position == "councillor_marshal") {
-					// Unless they are rulers, stewards, chancellors and marshals need to have the dominant gender of the faith.
-					if (heldTitlesCount == 0) {
-						var courtFaith = ck3Ruler.GetFaithId(irSaveDate);
-						if (courtFaith is not null) {
-							var dominantGenderDoctrines = religionCollection.GetFaith(courtFaith)?
-								.GetDoctrineIdsForDoctrineCategoryId("doctrine_gender");
-							if (dominantGenderDoctrines is null) {
-								continue;
-							}
-							if (dominantGenderDoctrines.Contains("doctrine_gender_male_dominated") && ck3Official.Female) {
-								continue;
-							}
-							if (dominantGenderDoctrines.Contains("doctrine_gender_female_dominated") && !ck3Official.Female) {
-								continue;
-							}
-						}
+					if (!CanAppointAsStewardChancellorMarshal(religionCollection, ck3Ruler, ck3Official, irSaveDate, heldTitlesCount)) {
+						continue;
 					}
 				}
 
@@ -1529,6 +1560,69 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				break;
 			}
 		}
+	}
+
+	private static bool CanAppointAsCourtChaplain(ReligionCollection religionCollection, Character ck3Ruler, Character ck3Official, Date irSaveDate, int heldTitlesCount) {
+		// Court chaplains need to have the same faith as the ruler.
+		var rulerFaithId = ck3Ruler.GetFaithId(irSaveDate);
+		if (rulerFaithId is null || rulerFaithId != ck3Official.GetFaithId(irSaveDate)) {
+			return false;
+		}
+
+		// If the faith has Disallowed Clerical Marriage, don't allow married court chaplains.
+		var rulerFaith = religionCollection.GetFaith(rulerFaithId);
+		if (rulerFaith is null) {
+			return false;
+		}
+		if (rulerFaith.HasDoctrine("doctrine_clerical_marriage_disallowed")) {
+			if (ck3Official.GetSpouseIds(irSaveDate).Count > 0) {
+				return false;
+			}
+		}
+
+		// If the court faith has doctrine_theocracy_temporal (Theocratic Clerical Tradition), the court chaplain should
+		// be either theocratic or landless.
+		// For the purpose of the conversion, we simply require them to be landless.
+		if (rulerFaith.HasDoctrine("doctrine_theocracy_temporal")) {
+			if (heldTitlesCount > 0) {
+				return false;
+			}
+		}
+		
+		// Skip if the faith doesn't allow the character's gender to be clergy.
+		var clericalGenderDoctrines = rulerFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_clerical_gender");
+		if (clericalGenderDoctrines.Count != 0) {
+			if (clericalGenderDoctrines.Contains("doctrine_clerical_gender_female_only") && !ck3Official.Female) {
+				return false;
+			}
+			if (clericalGenderDoctrines.Contains("doctrine_clerical_gender_male_only") && ck3Official.Female) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private static bool CanAppointAsStewardChancellorMarshal(ReligionCollection religionCollection, Character ck3Ruler, Character ck3Official, Date irSaveDate, int heldTitlesCount) {
+		// Unless they are rulers, stewards, chancellors and marshals need to have the dominant gender of the faith.
+		if (heldTitlesCount == 0) {
+			var courtFaith = ck3Ruler.GetFaithId(irSaveDate);
+			if (courtFaith is not null) {
+				var dominantGenderDoctrines = religionCollection.GetFaith(courtFaith)?
+					.GetDoctrineIdsForDoctrineCategoryId("doctrine_gender");
+				if (dominantGenderDoctrines is null) {
+					return false;
+				}
+				if (dominantGenderDoctrines.Contains("doctrine_gender_male_dominated") && ck3Official.Female) {
+					return false;
+				}
+				if (dominantGenderDoctrines.Contains("doctrine_gender_female_dominated") && !ck3Official.Female) {
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
 	// used by county titles only

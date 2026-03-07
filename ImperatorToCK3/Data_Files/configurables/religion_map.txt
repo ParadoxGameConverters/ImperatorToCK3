@@ -26,6 +26,9 @@
 # link = { ck3=belgae @germ_religions irProvince=1 }
 # link = { ck3=delgae @germ_religions irProvince=2 }
 
+## Mainland China Imperator Regions
+@china_regions = "irRegion = xu_region irRegion = yang_region irRegion = yi_region irRegion = yong_region irRegion = you_region irRegion = yu_region irRegion = shuofang_region irRegion = qing_region irRegion = nanzhong_region irRegion = liang_region irRegion = jing_region irRegion = jiao_region irRegion = ji_region irRegion = bing_region"
+
 ## Pagan
 # TFE
 link = { ck3 = guanche_pagan ir = berber_religion ck3Province = 8713 ck3Province = 8714 ck3Province = 8715 ck3Province = 8716 ck3Province = 849 }
@@ -169,6 +172,7 @@ link = { # quote from Izn who added the religion to Invictus: "voxite closest to
 # Simple Timeline Extender mod
 link = { ck3 = mandeaism ir = manichaeism irRegion = palestine_region } # TFE
 link = { ck3 = priscillianism ir = manichaeism heresiesInHistoricalAreas=yes irRegion = lusitania_region irRegion = gallaecia_region irRegion = baetica_region irRegion = tarraconensis_region irRegion = contestania_region irRegion = aquitaine_region }
+link = { ck3 = mingism ir = manichaeism @china_regions }
 link = { ck3 = manichean ir = manichaeism }
 
 #Buddhism
@@ -278,7 +282,8 @@ link = { ck3 = finnish_pagan ir = uralic_pantheon ir = ukonusko } # ukonusko com
 # Burmic (from Invictus)
 link = { ck3 = khasi_animism ir = burmese_religion ck3Culture = khasi } # Rajas faith
 link = { ck3 = wa_animism ir = burmese_religion ck3Culture = wa } # Rajas faith
-link = { ck3=burmic ir=burmese_religion }
+link = { ck3 = bilikuism ir = burmese_religion ck3Culture = nakkavaram } # Base Game; Native faith of Andaman/Nicobar Islands
+link = { ck3 = burmic ir = burmese_religion }
 
 # Hurrian
 link = { ck3=hurrian ir=hurrian_pantheon ir=hurrian_religion } # added by Invictus and Bronze Age
@@ -286,65 +291,85 @@ link = { ck3=hurrian ir=hurrian_pantheon ir=hurrian_religion } # added by Invict
 # Elamite
 link = { ck3 = elamite_faith ir = elamite_pantheon }
 
-### Terra-Indomita to RoA
+### Terra-Indomita
 ## Ruism
-link = { ck3 = jingxue ir = confucian } # Mapping to Jingxue since it seems to have a higher emphasis on classical teachings. Lixue seems to have been created during the Song dynasty, well after Imperator Rome, and Hanru was during the Han Dynasty, which is a specific state that doesn't actually exist in Imperator Rome (Not to be confused with the Han tag, they are different)
+link = { ck3 = jingxue ir = confucian } # Mapping to Jingxue since it seems to have a higher emphasis on classical teachings. Lixue/Daoxue seems to have been created during the Song dynasty, well after Imperator Rome
 
 ## Shenic
-link = { ck3 = shendao ir = chinese_religions } # Shenic seems like it is supposed to represent traditional chinese religions/beliefs
-link = { ck3 = pagan ir = chinese_religions } # Fallback for Invictus since they added it until All Under Heaven gets released (hopefully adding a good mapping). Might need to create a custom converter faith later if nothing good comes.
+link = { ck3 = shendao ir = chinese_religions } # ROA
+link = { ck3 = shenic ir = chinese_religions }
 
 ## Taoism
-link = { ck3 = zhengyi ir = taoism }
+link = { ck3 = zhengyi ir = taoism } # This seems to be the most relevant form of Taoism at the time, so for now will just map to this, could change later.
 
 ## Hanitu
-link = { ck3 = formosa_animism ir = taiwan_religion }
+link = { ck3 = formosa_animism ir = taiwan_religion } # ROA
+link = { ck3 = hanitu ir = taiwan_religion } # AEP
+link = { ck3 = hantuism ir = taiwan_religion } # Base Game
 
 ## Fuchite
-link = { ck3 = ainu_paganism ir = ainu_religion }
+link = { ck3 = ainu_paganism ir = ainu_religion } # ROA
+link = { ck3 = kamuyism ir = ainu_religion } # AEP
+link = { ck3 = kamuyism_pagan ir = ainu_religion } # Base Game
 
 ## Yzic
-link = { ck3 = yzng ir = nivkh_religion }
+link = { ck3 = yzng ir = nivkh_religion } # ROA
+link = { ck3 = kivungism ir = nivkh_religion } # AEP
+link = { ck3 = shamanism ir = nivkh_religion } # Base Game
 
 ## Unaric
-link = { ck3 = ryukyu_animism ir = okinawa_religion }
+link = { ck3 = ryukyu_animism ir = okinawa_religion } # ROA
+link = { ck3 = utaki ir = okinawa_religion } # Base Game/AEP
 
 ## Anito
-link = { ck3 = kabunian ir = pinoy_religion ck3Culture = idaya ck3Culture = ilokano } # Filipino faith of these cultures
-link = { ck3 = malyari ir = pinoy_religion ck3Culture = tagalog ck3Culture = palawan } # Filipino faith of these cultures
-link = { ck3 = dayaw ir = pinoy_religion ck3Culture = bisaya } # Filipino faith of these cultures
-link = { ck3 = tulumanon ir = pinoy_religion } # Filipino faith of cultures/places out of Terra-Indomita scope, so just going to use that as fallback
+link = { ck3 = kabunian ir = pinoy_religion ck3Culture = idaya ck3Culture = ilokano } # ROA; Filipino faith of these cultures
+link = { ck3 = malyari ir = pinoy_religion ck3Culture = tagalog ck3Culture = palawan } # ROA; Filipino faith of these cultures
+link = { ck3 = dayaw ir = pinoy_religion ck3Culture = bisaya } # ROA; Filipino faith of these cultures
+link = { ck3 = tulumanon ir = pinoy_religion } # ROA; Filipino faith of cultures/places out of Terra-Indomita scope, so just going to use that as fallback
+link = { ck3 = anito ir = pinoy_religion } # AEP
+link = { ck3 = dayawism ir = pinoy_religion } # Base Game
 
 ## Muisic
-link = { ck3 = muism ir = yi_religions }
+link = { ck3 = muism ir = yi_religions } # ROA
+link = { ck3 = musok ir = yi_religions } # AEP
+link = { ck3 = mu ir = yi_religions } # Base Game
 
 ## Baiyue
-link = { ck3 = hmongism ir = baiyue_religions ck3Culture = hmong ck3Culture = sheren ck3Culture = yao } # In Imperator, cultures that map to these cultures follow Baiyue
-link = { ck3 = shendao ir = baiyue_religions } # Not sure how realistic this is. In Imperator, Baiyue is followed by the Yue and Miao culture groups. The Miao cultures map to hmongism above. The Yue cultures map to Wu, Min, and Yue in CK3, which all largely practice Wuism (shendao)
+link = { ck3 = hmongism ir = baiyue_religions ck3Culture = hmong ck3Culture = sheren ck3Culture = yao } # ROA
+link = { ck3 = dab_qhuas ir = baiyue_religions ck3Culture = hmong ck3Culture = sheren ck3Culture = yao } # Base Game
+link = { ck3 = baiyue_faith ir = baiyue_religions }
 
 ## Mohist
-link = { ck3 = quanzhen ir = mohism } # Wikipedia says it was a major rival to confucianism, and that it eventually got integrated into sects of Taoism, and ChatGPT says this is the better mapping
+link = { ck3 = mohism ir = mohism } 
 
 ## Kodo
 link = { ck3 = shinto ir = wa_religions }
+# Base game also includes shugendo, which focuses a little more on mountain worship
 
 ## Shamanism
-link = { ck3 = bugaism ir = tunguistic_religion ck3Culture = evenk } # Faith of Evenk in CK3
-link = { ck3 = abkaism ir = tunguistic_religion } # Faith of other Tungusic peoples, so will be fallback
+link = { ck3 = bugaism ir = tunguistic_religion ck3Culture = evenk } # ROA; Faith of Evenk in CK3
+link = { ck3 = abkaism ir = tunguistic_religion } # ROA; Faith of other Tungusic peoples, so will be fallback
+link = { ck3 = endurism  ir = tunguistic_religion } # AEP
+link = { ck3 = shamanism  ir = tunguistic_religion } # Base Game
 
-## Phiism (Religion of the Tai peoples of Indochina)
-link = { ck3 = ban_phi ir = satsana_phi_religion } # Fallback, RICE & Rajas faith
+## Phiism
+link = { ck3 = ban_phi ir = satsana_phi_religion } # ROA/AEP
+link = { ck3 = satsana_phi ir = satsana_phi_religion } # Base Game
 
 ## Yungism
-link = { ck3 = kuy_animism ir = funan_religion } # Fallback, Rajas faith
+link = { ck3 = kuy_animism ir = funan_religion } # ROA/AEP
+link = { ck3 = burmic ir = funan_religion } # Base Game; Description mentions it's similarity to Natic, so mapping to that *for now*, until a custom faith is made
 
 ## Dukunic
-link = { ck3 = nias_animism ir = austronesian_religion ck3Culture = nias }
-link = { ck3 = kadai ir = austronesian_religion ck3Culture = aslian } # No info, but Aslian peoples follow this in Rajas
-link = { ck3 = umboh ir = austronesian_religion ck3Culture = seletar ck3Culture = moklen } # Moklen and Seletar peoples follow it in Rajas
-link = { ck3 = mentawai_animism ir = austronesian_religion ck3Culture = mentawai }
-link = { ck3 = batak_animism ir = austronesian_religion ck3Culture = batak }
-link = { ck3 = malayic ir = austronesian_religion }
+link = { ck3 = nias_animism ir = austronesian_religion ck3Culture = nias } # ROA
+link = { ck3 = kadai ir = austronesian_religion ck3Culture = aslian } # ROA; No info, but Aslian peoples follow this in Rajas
+link = { ck3 = umboh ir = austronesian_religion ck3Culture = seletar ck3Culture = moklen } # AEP/ROA; Moklen and Seletar peoples follow it in Rajas
+link = { ck3 = mentawai_animism ir = austronesian_religion ck3Culture = mentawai } # ROA
+link = { ck3 = batak_animism ir = austronesian_religion ck3Culture = batak } # ROA
+link = { ck3 = batak ir = austronesian_religion ck3Culture = batak } # AEP
+link = { ck3 = bilikuism ir = austronesian_religion ck3Culture = nakkavaram } # Base Game; Native faith of Andaman/Nicobar Islands
+link = { ck3 = malayic ir = austronesian_religion } # AEP/ROA
+link = { ck3 = hantuism ir = austronesian_religion } # Base Game seems to be using this as a "fallback" for all over the islands, so using this for now
 
 ## Mastoic
 link = { ck3 = nuristani_pagan ir = masto_pantheon } # Areas match, and descriptions in both games say they likely predate Vedic beliefs
@@ -353,78 +378,13 @@ link = { ck3 = nuristani_pagan ir = masto_pantheon } # Areas match, and descript
 link = { ck3 = shrautism ir = charvaka } # There doesn't seem to be a perfect fit for this, but according to ChatGPT, Shrautism is the best fit
 
 ## Moism
-link = { ck3 = bimoism ir = tai_religion ck3Culture = yi ck3Culture = caijia }
-link = { ck3 = benzhu ir = tai_religion ck3Culture = bai ck3Culture = lisu }
-link = { ck3 = moism ir = tai_religion }
+link = { ck3 = benzhu ir = tai_religion ck3Culture = bai ck3Culture = lisu } # ROA
+link = { ck3 = bimoism ir = tai_religion ck3Culture = yi ck3Culture = caijia ck3Culture = bai } # ROA
+link = { ck3 = moism ir = tai_religion } # Base Game/ROA
+link = { ck3 = ban_phi ir = tai_religion } # AEP uses this in place of Moism
 
 # East Asian religions
-## For Asia Expansion Project mod
-link = { ck3 = lixue ir = confucian }
-link = { ck3 = lixue ir = chinese_religions } # The TI desc of the religion mentions Kong Fuzi (Confucius).
-link = { ck3 = zhengyi ir = taoism }
-link = { ck3 = hanitu ir = taiwan_religion }
-link = { ck3 = kamuyism ir = ainu_religion } # https://www.tota.world/article/853/. From AEP's loc: "According to Ainu tradition, the world is divided into two realms: Kamuy-Moshir, the dwelling place of spirits and deities, and Ainu-Moshir, the physical world inhabited primarily by humans[...]"
-link = { ck3 = kivungism ir = nivkh_religion } # AEP characters with gilyak and mishihase cultures (heritage_nivkh) follow this faith.
-link = { ck3 = utaki ir = okinawa_religion } # Utaki is the AEP faith for Ryukyu Islands
-link = { ck3 = anito ir = pinoy_religion }
-link = { ck3 = musok ir = yi_religions } # Muism
-link = { ck3 = pagan ir = baiyue_religions } # Found no match, TODO: add a Baiyue faith to CK3.
-link = {
-	ck3 = lixue # According to ChatGPT: "Mohism shares Confucianism's focus on social structure and ethics, but it diverges in its approach to love and the rigidity of social roles. Taoism, on the other hand, is more metaphysical and detached from the ethical and societal concerns of both Mohism and Confucianism. Therefore, Mohism is closer to Confucianism in its social and ethical concerns, even though it is distinct from both schools."	
-	ir = mohism # TODO: add Mohism to CK3.
-}
-link = {
-	ck3 = shinto # https://forum.paradoxplaza.com/forum/threads/mod-terra-indomita.1537409/page-2: "Kodo is effectively Proto-Shinto beliefs"
-	ir = wa_religions
-}
-link = {
-	ck3 = endurism # From TI's desc for Shamanism: "The shamans of the Enduri spirits most venerated Abka Enduri, the Sky Mother who created all of being."
-	ir = tunguistic_religion # Shamanism
-}
-link = {
-	ck3 = ban_phi # Tai religion faith, localized as "Satsana Phi" in AEP, https://en.wikipedia.org/wiki/Tai_folk_religion
-	ir = tai_religion
-	ir = satsana_phi_religion
-}
-link = {
-	ck3 = burmic # Natic/Natkokwe
-	ir = funan_religion # Yungism, according to the TI descriptions it's related to the Natic faith
-}
-link = {
-	# Regional austronesian_religion mapping for the island of Sumatra.
-	ck3 = malayic
-	ir = austronesian_religion
-	ck3Region = d_aceh
-	ck3Region = d_perlak
-	ck3Region = d_panai
-	ck3Region = d_jambi
-	ck3Region = d_palembang
-	ck3Region = d_lampung
-	ck3Region = d_batak
-	ck3Region = d_kampar
-	ck3Region = d_minangkabau
-	ck3Region = d_musi
-	ck3Region = d_bengkulu
-}
-link = {
-	# Regional austronesian_religion mapping for the Riau Islands.
-	ck3 = umboh
-	ir = austronesian_religion
-	ck3Region = d_riau_islands
-	ck3Region = d_natuna
-}
-link = {
-	# Regional austronesian_religion mapping for the Nias and Mentawai Islands.
-	ck3 = batak
-	ir = austronesian_religion
-	ck3Region = d_nias
-	ck3Region = d_mentawai
-}
-link = {
-	# Fallback austronesian_religion mapping as a mapping for continental Southeast Asia.
-	ck3 = kadai
-	ir = austronesian_religion
-}
+
 link = {
 	ck3 = shaivism # https://en.wikipedia.org/wiki/Khas_people: "The Khas people also had their own sect of Shaivism known as Masto religion where 12 Masto gods were worshipped."
 	ir = masto_pantheon
