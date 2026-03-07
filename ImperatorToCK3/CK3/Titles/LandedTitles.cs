@@ -1911,13 +1911,15 @@ internal sealed partial class Title {
 			return this.Where(t => t.ImperatorCountry is not null);
 		}
 
-		public IReadOnlyCollection<Title> GetDeJureDuchies() => this
-			.Where(t => t is {Rank: TitleRank.duchy, DeJureVassals.Count: > 0})
-			.ToImmutableArray();
+		public IReadOnlyCollection<Title> GetDeJureDuchies() => [
+			..this
+				.Where(t => t is {Rank: TitleRank.duchy, DeJureVassals.Count: > 0}),
+		];
 		
-		public ImmutableArray<Title> GetDeJureKingdoms() => this
-			.Where(t => t is {Rank: TitleRank.kingdom, DeJureVassals.Count: > 0})
-			.ToImmutableArray();
+		public ImmutableArray<Title> GetDeJureKingdoms() => [
+			..this
+				.Where(t => t is {Rank: TitleRank.kingdom, DeJureVassals.Count: > 0}),
+		];
 		
 		private FrozenSet<Color> UsedColors => this
 			.Select(t => t.Color1)
@@ -1943,7 +1945,7 @@ internal sealed partial class Title {
 		}
 
 		private readonly HistoryFactory titleHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
-			.WithSimpleField("holder", new OrderedSet<string> { "holder", "holder_ignore_head_of_faith_requirement" }, initialValue: null)
+			.WithSimpleField("holder", ["holder", "holder_ignore_head_of_faith_requirement"], initialValue: null)
 			.WithSimpleField("government", "government", initialValue: null)
 			.WithSimpleField("liege", "liege", initialValue: null)
 			.WithSimpleField("development_level", "change_development_level", initialValue: null)
