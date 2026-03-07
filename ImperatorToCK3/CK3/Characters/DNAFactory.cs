@@ -460,13 +460,7 @@ internal sealed class DNAFactory {
 				break;
 			case "eyepatch_1":
 			case "eyepatch_2":
-				var eyePatchTemplate = ck3GenesDB.SpecialAccessoryGenes["special_headgear_spectacles"]
-					.GeneTemplates["eye_patch"];
-				if (eyePatchTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? eyePatchWeightBlock)) {
-					var eyePatchObjectName = eyePatchWeightBlock.GetMatchingObject(1) ?? eyePatchWeightBlock.ObjectNames.Last();
-					accessoryDNAValues["special_headgear_spectacles"] = new(eyePatchTemplate.Id, eyePatchObjectName, eyePatchWeightBlock);
-				}
-
+				AddEyePatchAccessory(irCharacter, accessoryDNAValues, ck3GenesDB);
 				break;
 			case "blindfold_1":
 				if (!ck3GenesDB.SpecialAccessoryGenes.TryGetValue(blindfoldGeneId, out var blindfoldGene)) {
@@ -485,21 +479,10 @@ internal sealed class DNAFactory {
 
 				break;
 			case "blind_eyes":
-				var blindEyesTemplateFromGeneTemplate = ck3GenesDB.AccessoryGenes["eye_accessory"]
-					.GeneTemplates["blind_eyes"];
-				if (blindEyesTemplateFromGeneTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? blindEyesWeightBlock)) {
-					var blindEyesObjectName = blindEyesWeightBlock.GetMatchingObject(1) ?? blindEyesWeightBlock.ObjectNames.Last();
-					accessoryDNAValues["eye_accessory"] = new(blindEyesTemplateFromGeneTemplate.Id, blindEyesObjectName, blindEyesWeightBlock);
-				}
-
+				AddBlindEyesAccessory(irCharacter, accessoryDNAValues, ck3GenesDB);
 				break;
 			case "red_eyes":
-				var magickRed = new MagickColor("#ff0000");
-				var redEyeCoordinates = GetCoordinatesOfClosestCK3Color(magickRed, ck3EyeColorToPaletteCoordinatesDict);
-				colorDNAValues["eye_color"] = colorDNAValues["eye_color"] with {
-					X = (byte)(redEyeCoordinates.X/2),
-					Y = (byte)(redEyeCoordinates.Y/2)
-				};
+				SetRedEyes(colorDNAValues, ck3EyeColorToPaletteCoordinatesDict);
 				break;
 			default:
 				Logger.Warn($"Unhandled eye accessory gene template name: {irEyeAccessoryGeneTemplateName}");
@@ -527,6 +510,35 @@ internal sealed class DNAFactory {
 				var eyePatchObjectName = eyePatchWeighBlock.GetMatchingObject(1) ?? eyePatchWeighBlock.ObjectNames.Last();
 				accessoryDNAValues["special_headgear_spectacles"] = new(eyePatchTemplateFromTrait.Id, eyePatchObjectName, eyePatchWeighBlock);
 			}
+		}
+	}
+
+	private static void SetRedEyes(Dictionary<string, DNAColorGeneValue> colorDNAValues, ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3EyeColorToPaletteCoordinatesDict)
+	{
+		var magickRed = new MagickColor("#ff0000");
+		var redEyeCoordinates = GetCoordinatesOfClosestCK3Color(magickRed, ck3EyeColorToPaletteCoordinatesDict);
+		colorDNAValues["eye_color"] = colorDNAValues["eye_color"] with {
+			X = (byte)(redEyeCoordinates.X/2),
+			Y = (byte)(redEyeCoordinates.Y/2)
+		};
+	}
+
+	private static void AddBlindEyesAccessory(Imperator.Characters.Character irCharacter, Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues, GenesDB ck3GenesDB)
+	{
+		var blindEyesTemplateFromGeneTemplate = ck3GenesDB.AccessoryGenes["eye_accessory"]
+			.GeneTemplates["blind_eyes"];
+		if (blindEyesTemplateFromGeneTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? blindEyesWeightBlock)) {
+			var blindEyesObjectName = blindEyesWeightBlock.GetMatchingObject(1) ?? blindEyesWeightBlock.ObjectNames.Last();
+			accessoryDNAValues["eye_accessory"] = new(blindEyesTemplateFromGeneTemplate.Id, blindEyesObjectName, blindEyesWeightBlock);
+		}
+	}
+
+	private static void AddEyePatchAccessory(Imperator.Characters.Character irCharacter, Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues, GenesDB ck3GenesDB) {
+		var eyePatchTemplate = ck3GenesDB.SpecialAccessoryGenes["special_headgear_spectacles"]
+			.GeneTemplates["eye_patch"];
+		if (eyePatchTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? eyePatchWeightBlock)) {
+			var eyePatchObjectName = eyePatchWeightBlock.GetMatchingObject(1) ?? eyePatchWeightBlock.ObjectNames.Last();
+			accessoryDNAValues["special_headgear_spectacles"] = new(eyePatchTemplate.Id, eyePatchObjectName, eyePatchWeightBlock);
 		}
 	}
 
