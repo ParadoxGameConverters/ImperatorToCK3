@@ -283,7 +283,7 @@ internal sealed class World {
 
 		GovernmentMapper governmentMapper = InitializeGovernmentMapper();
 
-		// Before we can import Imperator countries and governorships, the I:R CoA extraction thread needs to finish.
+		// Before we can import Imperator countries and governorships, the CoA extraction thread needs to finish.
 		irCoaExtractThread?.Join();
 
 		SuccessionLawMapper successionLawMapper = new("configurables/succession_law_map.liquid", ck3ModFlags);
@@ -362,7 +362,7 @@ internal sealed class World {
 		// But that'd be wasteful, because some of them are purged. So, we do it now.
 		Characters.ConvertImperatorCharacterDNA(dnaFactory);
 
-		// If there's a gap between the I:R save date and the CK3 bookmark date,
+		// If there's a gap between the Imperator save date and the CK3 bookmark date,
 		// generate successors for old I:R characters instead of making them live for centuries.
 		if (config.CK3BookmarkDate.DiffInYears(impWorld.EndDate) > 1) {
 			Characters.GenerateSuccessorsForOldCharacters(LandedTitles, Cultures, impWorld.EndDate, config.CK3BookmarkDate, impWorld.RandomSeed);

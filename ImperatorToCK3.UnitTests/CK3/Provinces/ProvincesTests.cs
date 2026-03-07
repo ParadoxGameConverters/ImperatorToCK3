@@ -33,14 +33,14 @@ public class ProvincesTests {
 
 	[Fact]
 	public void ProvincesDefaultToEmpty() {
-		var provinces = new ImperatorToCK3.CK3.Provinces.ProvinceCollection();
+		var provinces = new ProvinceCollection();
 
 		Assert.Empty(provinces);
 	}
 
 	[Fact]
 	public void ProvincesAreProperlyLoadedFromFilesystem() {
-		var provinces = new ImperatorToCK3.CK3.Provinces.ProvinceCollection(ck3ModFs);
+		var provinces = new ProvinceCollection(ck3ModFs);
 
 		Assert.Collection(provinces.OrderBy(p => p.Id),
 			prov => {
@@ -91,9 +91,9 @@ public class ProvincesTests {
 			""");
 		titles.LoadTitles(titlesReader, colorFactory);
 		
-		// Scenario 1: Sum of civilisation in country 1 outweighs single more civilized province in country 2.
+		// Scenario 1: Sum of civilization in country 1 outweighs single more civilized province in country 2.
 		var irWorld = new TestImperatorWorld(config);
-		// Country 1 (civilisation 9 in total)
+		// Country 1 (civilization 9 in total)
 		var country1 = new Country(1);
 		var irProvince1 = new ImperatorToCK3.Imperator.Provinces.Province(1) { CivilizationValue = 1, OwnerCountry = country1};
 		irWorld.Provinces.Add(irProvince1);
@@ -105,7 +105,7 @@ public class ProvincesTests {
 		irWorld.Provinces.Add(irProvince4);
 		var irProvince5 = new ImperatorToCK3.Imperator.Provinces.Province(5) { CivilizationValue = 1, OwnerCountry = country1 };
 		irWorld.Provinces.Add(irProvince5);
-		// Country 2 (civilisation 5 in total)
+		// Country 2 (civilization 5 in total)
 		var country2 = new Country(2);
 		var irProvince6 = new ImperatorToCK3.Imperator.Provinces.Province(6) { CivilizationValue = 5, OwnerCountry = country2 };
 		irWorld.Provinces.Add(irProvince6);
@@ -134,9 +134,9 @@ public class ProvincesTests {
 		Assert.NotNull(primarySourceProvince);
 		Assert.Equal((ulong)3, primarySourceProvince.Id); // most developed province in country 1
 		
-		// Scenario 2: Single developed province in country 2 outweighs sum of civilisation in country 1.
+		// Scenario 2: Single developed province in country 2 outweighs sum of civilization in country 1.
 		irProvince6.CivilizationValue = 100;
-		ck3Provinces = new ProvinceCollection { new(1) };
+		ck3Provinces = [new Province(1)];
 		ck3Provinces.ImportImperatorProvinces(irWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 		
 		targetProvince = ck3Provinces[1];
