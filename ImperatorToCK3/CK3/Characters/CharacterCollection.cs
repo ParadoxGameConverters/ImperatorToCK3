@@ -39,7 +39,6 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		NicknameMapper nicknameMapper,
 		ProvinceMapper provinceMapper,
 		DeathReasonMapper deathReasonMapper,
-		DNAFactory dnaFactory,
 		CK3LocDB ck3LocDB,
 		Date conversionDate,
 		Configuration config
