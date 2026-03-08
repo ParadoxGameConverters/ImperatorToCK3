@@ -485,7 +485,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		parser.ParseFile(configurablePath);
 	}
 
-	public void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
+	internal void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
 		Logger.Info("Purging unneeded characters...");
 
 		// Characters from I:R should be kept (the unimportant ones have already been purged during I:R processing).
@@ -514,42 +514,16 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			.Where(id => id is not null)
 			.ToFrozenSet();
 
-		var i = 0;
+		int i = 0;
 		var charactersToRemove = new List<Character>();
 		var parentIdsCache = new HashSet<string>();
 		do {
 			Logger.Debug($"Beginning iteration {i} of characters purge...");
-			charactersToRemove.Clear();
-			parentIdsCache.Clear();
 			++i;
 
-			// Build cache of all parent IDs.
-			foreach (var character in this) {
-				var motherId = character.MotherId;
-				if (motherId is not null) {
-					parentIdsCache.Add(motherId);
-				}
+			BuildCacheOfParentIds(parentIdsCache);
 
-				var fatherId = character.FatherId;
-				if (fatherId is not null) {
-					parentIdsCache.Add(fatherId);
-				}
-			}
-
-			// See who can be removed.
-			foreach (var character in charactersToCheck) {
-				// Does the character belong to a dynasty that holds or held titles?
-				if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
-					// Is the character dead and childless? Purge.
-					if (!parentIdsCache.Contains(character.Id)) {
-						charactersToRemove.Add(character);
-					}
-
-					continue;
-				}
-
-				charactersToRemove.Add(character);
-			}
+			DetermineCharactersToPurge(charactersToRemove, charactersToCheck, dynastyIdsOfLandedCharacters, parentIdsCache, ck3BookmarkDate);
 
 			BulkRemove(charactersToRemove.ConvertAll(c => c.Id));
 
@@ -562,6 +536,43 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		houses.PurgeUnneededHouses(this, ck3BookmarkDate);
 		dynasties.PurgeUnneededDynasties(this, houses, ck3BookmarkDate);
 		dynasties.FlattenDynastiesWithNoFounders(this, houses, ck3BookmarkDate);
+	}
+
+	private static void DetermineCharactersToPurge(List<Character> charactersToRemove, IEnumerable<Character> charactersToCheck,
+		FrozenSet<string?> dynastyIdsOfLandedCharacters, HashSet<string> parentIdsCache, Date ck3BookmarkDate)
+	{
+		// See who can be removed.
+		charactersToRemove.Clear();
+		foreach (var character in charactersToCheck) {
+			// Does the character belong to a dynasty that holds or held titles?
+			if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
+				// Is the character dead and childless? Purge.
+				if (!parentIdsCache.Contains(character.Id)) {
+					charactersToRemove.Add(character);
+				}
+
+				continue;
+			}
+
+			charactersToRemove.Add(character);
+		}
+	}
+
+	private void BuildCacheOfParentIds(HashSet<string> parentIdsCache)
+	{
+		// Build cache of all parent IDs.
+		parentIdsCache.Clear();
+		foreach (var character in this) {
+			var motherId = character.MotherId;
+			if (motherId is not null) {
+				parentIdsCache.Add(motherId);
+			}
+
+			var fatherId = character.FatherId;
+			if (fatherId is not null) {
+				parentIdsCache.Add(fatherId);
+			}
+		}
 	}
 
 	public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {
