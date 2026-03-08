@@ -99,8 +99,7 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 		Logger.Info("Purging unneeded Imperator characters...");
 
 		// Alive characters should be kept.
-		var charactersToCheck = this
-			.Where(character => character.IsDead);
+		Character[] charactersToCheck = [.. this.Where(character => character.IsDead)];
 
 		// All landed characters should be kept.
 		var allRulerIds = countries
@@ -126,21 +125,9 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 		do {
 			Logger.Debug($"Beginning iteration {i} of characters purge...");
 			charactersToRemove.Clear();
-			parentIdsCache.Clear();
 			++i;
 
-			// Build cache of all parent IDs.
-			foreach (var character in this) {
-				ulong? motherId = character.Mother?.Id;
-				if (motherId is not null) {
-					parentIdsCache.Add(motherId.Value);
-				}
-
-				ulong? fatherId = character.Father?.Id;
-				if (fatherId is not null) {
-					parentIdsCache.Add(fatherId.Value);
-				}
-			}
+			FillCacheOfAllParentIds(parentIdsCache);
 
 			// See who can be removed.
 			foreach (var character in charactersToCheck) {
@@ -160,14 +147,29 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 			BulkRemove(charactersToRemove.ConvertAll(c => c.Id));
 
 			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded Imperator characters in iteration {i}.");
-			charactersToCheck = charactersToCheck.Except(charactersToRemove).ToArray();
+			charactersToCheck = [.. charactersToCheck.Except(charactersToRemove)];
 		} while (charactersToRemove.Count > 0);
 		
 		// At this point we may have families with no characters left.
 		// Let's purge them.
 		families.PurgeUnneededFamilies(this);
 	}
-	
+
+	private void FillCacheOfAllParentIds(HashSet<ulong> parentIdsCache) {
+		parentIdsCache.Clear();
+		foreach (var character in this) {
+			ulong? motherId = character.Mother?.Id;
+			if (motherId is not null) {
+				parentIdsCache.Add(motherId.Value);
+			}
+
+			ulong? fatherId = character.Father?.Id;
+			if (fatherId is not null) {
+				parentIdsCache.Add(fatherId.Value);
+			}
+		}
+	}
+
 	private void BulkRemove(List<ulong> ids) {
 		// Remove parent/child/spouse references to the characters to be removed.
 		foreach (var character in this) {
