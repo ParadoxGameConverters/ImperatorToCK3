@@ -74,7 +74,7 @@ internal sealed class World {
 	/// </summary>
 	public Date CorrectedDate { get; private set; } = new Date(2, 1, 1); // overwritten by DetermineCK3BookmarkDate
 
-	public World(Imperator.World impWorld, Configuration config, Thread? irCoaExtractThread) {
+	internal World(Imperator.World impWorld, Configuration config, Thread? irCoaExtractThread) {
 		Logger.Info("*** Hello CK3, let's get painting. ***");
 
 		warMapper.DetectUnmappedWarGoals(impWorld.ModFS);
