@@ -47,6 +47,18 @@ public class AccessoryGeneMapperTests {
 	}
 
 	[Fact]
+	public void GetTemplateFromTemplateReturnsFirstValidMappedCk3Template() {
+		var mapper = new AccessoryGeneMapper(MappingsFilePath);
+
+		var mappedTemplate = mapper.GetTemplateFromTemplate(
+			"clothes",
+			"greek_clothes",
+			["greek_clothes"] // non_existent_greek_clothes not valid
+		);
+		Assert.Equal("greek_clothes", mappedTemplate);
+	}
+
+	[Fact]
 	public void GetTemplateFromTemplateReturnsNullWhenMappedTemplateIsNotValidForCK3() {
 		var mapper = new AccessoryGeneMapper(MappingsFilePath);
 

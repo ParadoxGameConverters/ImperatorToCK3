@@ -13,6 +13,9 @@ template_to_template = {
 		roman_clothes = byzantine_high_nobility_clothes
 		germanic_clothes = western_royalty_clothes
 		no_clothes = no_clothes
+
+		greek_clothes = non_existent_greek_clothes
+		greek_clothes = greek_clothes
 	}
 	hairstyles = {
 		default_hairstyles = no_hairstyles
