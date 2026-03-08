@@ -21,6 +21,7 @@ internal sealed class DNAFactory {
 	private readonly ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3HairColorToPaletteCoordinatesDict = new();
 	private readonly ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3SkinColorToPaletteCoordinatesDict = new();
 	private readonly ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3EyeColorToPaletteCoordinatesDict = new();
+	private readonly Dictionary<string, string[]> validCK3TemplateIdsByGeneId = [];
 
 	private readonly GenesDB ck3GenesDB;
 	private readonly AccessoryGeneMapper accessoryGeneMapper = new("configurables/accessory_genes_map.txt");
@@ -64,9 +65,20 @@ internal sealed class DNAFactory {
 
 		Logger.Debug("Initializing genes database...");
 		ck3GenesDB = new GenesDB(ck3ModFS);
+		CacheValidCK3TemplateIdsByGene();
 
 		Logger.Debug("Building color conversion caches...");
 		BuildColorConversionCaches(ck3HairPalettePixels, ck3SkinPalettePixels, ck3EyePalettePixels);
+	}
+
+	private void CacheValidCK3TemplateIdsByGene() {
+		foreach (var gene in ck3GenesDB.AccessoryGenes) {
+			validCK3TemplateIdsByGeneId[gene.Id] = [.. gene.GeneTemplates.Select(template => template.Id)];
+		}
+
+		foreach (var gene in ck3GenesDB.SpecialAccessoryGenes) {
+			validCK3TemplateIdsByGeneId[gene.Id] = [.. gene.GeneTemplates.Select(template => template.Id)];
+		}
 	}
 
 	internal DNA GenerateDNA(Imperator.Characters.Character irCharacter, PortraitData irPortraitData) {
@@ -382,9 +394,7 @@ internal sealed class DNAFactory {
 			return null;
 		}
 
-		var validCK3TemplateIds = ck3Gene.GeneTemplates
-			.Select(template => template.Id)
-			.ToArray();
+		string[] validCK3TemplateIds = validCK3TemplateIdsByGeneId[ck3Gene.Id];
 
 		var ck3GeneTemplateName = accessoryGeneMapper.GetTemplateFromTemplate(imperatorGeneName, geneInfo.GeneTemplate, validCK3TemplateIds);
 		if (ck3GeneTemplateName is null) {
