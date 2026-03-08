@@ -1480,6 +1480,67 @@ internal sealed partial class Title {
 			if (disconnectedEmpiresDict.Count == 0) {
 				return;
 			}
+			TransferStrandedKingdomsToNeighboringEmpires(kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody, kingdomToDominantHeritagesDict, heritageToEmpireDict, disconnectedEmpiresDict);
+
+			disconnectedEmpiresDict = GetDictOfDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds);
+			if (disconnectedEmpiresDict.Count == 0) {
+				return;
+			}
+			CreateNewEmpiresForDisconnectedKingdomGroups(disconnectedEmpiresDict, ck3LocDB, date);
+
+			disconnectedEmpiresDict = GetDictOfDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds);
+			if (disconnectedEmpiresDict.Count > 0) {
+				Logger.Warn("Failed to split some disconnected empires: " + string.Join(", ", disconnectedEmpiresDict.Keys.Select(e => e.Id)));
+			}
+		}
+
+		private void CreateNewEmpiresForDisconnectedKingdomGroups(
+			Dictionary<Title, List<HashSet<Title>>> disconnectedEmpiresDict, CK3LocDB ck3LocDB, Date date) {
+			Logger.Debug("\tCreating new empires for disconnected groups...");
+			foreach (var (empire, groups) in disconnectedEmpiresDict) {
+				// Keep the largest group as is, and create new empires based on most developed counties for the rest.
+				var largestGroup = groups.MaxBy(g => g.Count);
+				foreach (var group in groups) {
+					if (group == largestGroup) {
+						continue;
+					}
+					
+					var mostDevelopedCounty = group
+						.SelectMany(k => k.GetDeJureVassalsAndBelow("c").Values)
+						.MaxBy(c => c.GetOwnOrInheritedDevelopmentLevel(date));
+					if (mostDevelopedCounty is null) {
+						continue;
+					}
+					
+					string newEmpireId = $"e_IRTOCK3_from_{mostDevelopedCounty.Id}";
+					var newEmpire = Add(newEmpireId);
+					newEmpire.Color1 = mostDevelopedCounty.Color1;
+					newEmpire.CapitalCounty = mostDevelopedCounty;
+					newEmpire.HasDefiniteForm = false;
+					
+					var empireNameLoc = ck3LocDB.GetOrCreateLocBlock(newEmpireId);
+					empireNameLoc.ModifyForEveryLanguage(
+						(orig, language) => $"${mostDevelopedCounty.Id}$"
+					);
+					
+					var empireAdjLoc = ck3LocDB.GetOrCreateLocBlock(newEmpireId + "_adj");
+					empireAdjLoc.ModifyForEveryLanguage(
+						(orig, language) => $"${mostDevelopedCounty.Id}_adj$"
+					);
+
+					foreach (var kingdom in group) {
+						kingdom.DeJureLiege = newEmpire;
+					}
+					
+					Logger.Debug($"\t\tCreated new empire {newEmpire.Id} for group {string.Join(',', group.Select(k => k.Id))}.");
+				}
+			}
+		}
+
+		private void TransferStrandedKingdomsToNeighboringEmpires(FrozenDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByLand,
+			FrozenDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody, Dictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
+			Dictionary<string, Title?> heritageToEmpireDict, Dictionary<Title, List<HashSet<Title>>> disconnectedEmpiresDict)
+		{
 			Logger.Debug("\tTransferring stranded kingdoms to neighboring empires...");
 			foreach (var (empire, kingdomGroups) in disconnectedEmpiresDict) {
 				var dissolvableGroups = kingdomGroups.Where(g => g.Count == 1).ToArray();
@@ -1543,55 +1604,6 @@ internal sealed partial class Title {
 						kingdom.DeJureLiege = validNeighbor;
 					}
 				}
-			}
-			
-			disconnectedEmpiresDict = GetDictOfDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds);
-			if (disconnectedEmpiresDict.Count == 0) {
-				return;
-			}
-			Logger.Debug("\tCreating new empires for disconnected groups...");
-			foreach (var (empire, groups) in disconnectedEmpiresDict) {
-				// Keep the largest group as is, and create new empires based on most developed counties for the rest.
-				var largestGroup = groups.MaxBy(g => g.Count);
-				foreach (var group in groups) {
-					if (group == largestGroup) {
-						continue;
-					}
-					
-					var mostDevelopedCounty = group
-						.SelectMany(k => k.GetDeJureVassalsAndBelow("c").Values)
-						.MaxBy(c => c.GetOwnOrInheritedDevelopmentLevel(date));
-					if (mostDevelopedCounty is null) {
-						continue;
-					}
-					
-					string newEmpireId = $"e_IRTOCK3_from_{mostDevelopedCounty.Id}";
-					var newEmpire = Add(newEmpireId);
-					newEmpire.Color1 = mostDevelopedCounty.Color1;
-					newEmpire.CapitalCounty = mostDevelopedCounty;
-					newEmpire.HasDefiniteForm = false;
-					
-					var empireNameLoc = ck3LocDB.GetOrCreateLocBlock(newEmpireId);
-					empireNameLoc.ModifyForEveryLanguage(
-						(orig, language) => $"${mostDevelopedCounty.Id}$"
-					);
-					
-					var empireAdjLoc = ck3LocDB.GetOrCreateLocBlock(newEmpireId + "_adj");
-					empireAdjLoc.ModifyForEveryLanguage(
-						(orig, language) => $"${mostDevelopedCounty.Id}_adj$"
-					);
-
-					foreach (var kingdom in group) {
-						kingdom.DeJureLiege = newEmpire;
-					}
-					
-					Logger.Debug($"\t\tCreated new empire {newEmpire.Id} for group {string.Join(',', group.Select(k => k.Id))}.");
-				}
-			}
-			
-			disconnectedEmpiresDict = GetDictOfDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds);
-			if (disconnectedEmpiresDict.Count > 0) {
-				Logger.Warn("Failed to split some disconnected empires: " + string.Join(", ", disconnectedEmpiresDict.Keys.Select(e => e.Id)));
 			}
 		}
 
