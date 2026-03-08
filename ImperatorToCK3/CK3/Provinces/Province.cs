@@ -9,19 +9,21 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
+using ImperatorProvince = ImperatorToCK3.Imperator.Provinces.Province;
+
 namespace ImperatorToCK3.CK3.Provinces;
 
 internal sealed partial class Province : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public ulong? BaseProvinceId { get; private set; }
 
-	public Imperator.Provinces.Province? PrimaryImperatorProvince { get; set; } = null;
-	private readonly OrderedSet<Imperator.Provinces.Province> secondaryImperatorProvinces = new();
-	public IImmutableSet<Imperator.Provinces.Province> SecondaryImperatorProvinces => secondaryImperatorProvinces
+	public ImperatorProvince? PrimaryImperatorProvince { get; set; } = null;
+	private readonly OrderedSet<ImperatorProvince> secondaryImperatorProvinces = new();
+	public IImmutableSet<ImperatorProvince> SecondaryImperatorProvinces => secondaryImperatorProvinces
 		.ToImmutableHashSet();
-	public IImmutableSet<Imperator.Provinces.Province> ImperatorProvinces {
+	public IImmutableSet<ImperatorProvince> ImperatorProvinces {
 		get {
-			IEnumerable<Imperator.Provinces.Province> toReturn = secondaryImperatorProvinces;
+			IEnumerable<ImperatorProvince> toReturn = secondaryImperatorProvinces;
 			if (PrimaryImperatorProvince is not null) {
 				toReturn = toReturn.Append(PrimaryImperatorProvince);
 			}
@@ -60,8 +62,8 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 	}
 
 	public void InitializeFromImperator(
-		Imperator.Provinces.Province primarySourceProvince,
-		ICollection<Imperator.Provinces.Province> secondarySourceProvinces,
+		ImperatorProvince primarySourceProvince,
+		ICollection<ImperatorProvince> secondarySourceProvinces,
 		Title.LandedTitles landedTitles,
 		CultureMapper cultureMapper,
 		ReligionMapper religionMapper,
@@ -95,45 +97,16 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 
 	private void SetReligionFromImperator(ReligionMapper religionMapper, Date conversionDate, Configuration config) {
 		var cultureId = GetCultureId(conversionDate);
-		
+
 		var religionSet = false;
 		if (PrimaryImperatorProvince is null) {
 			Logger.Warn($"CK3 Province {Id}: can't set religion from null Imperator province!");
 			return;
 		}
 
-		// Try to use religion of primary source province.
-		if (!string.IsNullOrEmpty(PrimaryImperatorProvince.ReligionId)) {
-			var religionMatch = religionMapper.Match(
-				irReligionId: PrimaryImperatorProvince.ReligionId,
-				ck3CultureId: cultureId,
-				ck3ProvinceId: Id,
-				irProvinceId: PrimaryImperatorProvince.Id,
-				irHistoricalTag: PrimaryImperatorProvince.OwnerCountry?.HistoricalTag,
-				config: config
-			);
-			if (religionMatch is not null) {
-				SetFaithId(religionMatch, date: null);
-				religionSet = true;
-			}
-		}
-		// Try to use religion of secondary source province.
+		religionSet = TrySetReligionFromPrimarySource(PrimaryImperatorProvince, religionMapper, config, cultureId);
 		if (!religionSet) {
-			foreach (var secondarySource in SecondaryImperatorProvinces) {
-				var religionMatch = religionMapper.Match(
-					irReligionId: secondarySource.ReligionId,
-					ck3CultureId: cultureId,
-					ck3ProvinceId: Id,
-					irProvinceId: secondarySource.Id,
-					irHistoricalTag: PrimaryImperatorProvince.OwnerCountry?.HistoricalTag,
-					config: config
-				);
-				if (religionMatch is not null) {
-					SetFaithId(religionMatch, date: null);
-					religionSet = true;
-					break;
-				}
-			}
+			religionSet = TrySetReligionFromSecondarySources(PrimaryImperatorProvince, secondaryImperatorProvinces, religionMapper, config, cultureId);
 		}
 		// As fallback, attempt to use religions of source provinces' countries.
 		var sourceProvincesWithCountryReligion = ImperatorProvinces
@@ -165,6 +138,46 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 				"using vanilla religion!");
 		}
 	}
+
+	private bool TrySetReligionFromPrimarySource(ImperatorProvince irProvince, ReligionMapper religionMapper, Configuration config, string? cultureId) {
+		// Try to use religion of primary source province.
+		if (!string.IsNullOrEmpty(irProvince.ReligionId)) {
+			var religionMatch = religionMapper.Match(
+				irReligionId: irProvince.ReligionId,
+				ck3CultureId: cultureId,
+				ck3ProvinceId: Id,
+				irProvinceId: irProvince.Id,
+				irHistoricalTag: irProvince.OwnerCountry?.HistoricalTag,
+				config: config
+			);
+			if (religionMatch is not null) {
+				SetFaithId(religionMatch, date: null);
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private bool TrySetReligionFromSecondarySources(ImperatorProvince primarySource, OrderedSet<ImperatorProvince> secondarySources, ReligionMapper religionMapper, Configuration config, string? cultureId) {
+		// Try to use religion of secondary source province.
+		foreach (var secondarySource in secondarySources) {
+			var religionMatch = religionMapper.Match(
+				irReligionId: secondarySource.ReligionId,
+				ck3CultureId: cultureId,
+				ck3ProvinceId: Id,
+				irProvinceId: secondarySource.Id,
+				irHistoricalTag: primarySource.OwnerCountry?.HistoricalTag,
+				config: config
+			);
+			if (religionMatch is not null) {
+				SetFaithId(religionMatch, date: null);
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private void SetCultureFromImperator(CultureMapper cultureMapper) {
 		if (PrimaryImperatorProvince is null) {
 			Logger.Warn($"CK3 Province {Id}: can't set culture from null Imperator province!");
