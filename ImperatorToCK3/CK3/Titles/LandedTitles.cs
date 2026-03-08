@@ -208,7 +208,7 @@ internal sealed partial class Title {
 
 		public Title Add(string id) {
 			if (string.IsNullOrEmpty(id)) {
-				throw new ArgumentException("Not inserting a Title with empty id!");
+				throw new ArgumentException("Not inserting a Title with empty id!", nameof(id));
 			}
 
 			var newTitle = new Title(this, id);
@@ -1543,7 +1543,7 @@ internal sealed partial class Title {
 						kingdom.DeJureLiege = validNeighbor;
 					}
 				}
-			}	
+			}
 			
 			disconnectedEmpiresDict = GetDictOfDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds);
 			if (disconnectedEmpiresDict.Count == 0) {
@@ -1597,7 +1597,7 @@ internal sealed partial class Title {
 
 		private Dictionary<Title, List<HashSet<Title>>> GetDictOfDisconnectedEmpires(
 			Dictionary<string, HashSet<string>> kingdomAdjacencies,
-			IReadOnlySet<string> removableEmpireIds
+			HashSet<string> removableEmpireIds
 		) {
 			var dictToReturn = new Dictionary<Title, List<HashSet<Title>>>();
 			
@@ -1621,38 +1621,7 @@ internal sealed partial class Title {
 					continue;
 				}
 
-				// Group the kingdoms into contiguous groups.
-				var kingdomGroups = new List<HashSet<Title>>();
-				foreach (var kingdom in deJureKingdoms) {
-					var added = false;
-					List<HashSet<Title>> connectedGroups = [];
-
-					foreach (var group in kingdomGroups) {
-						if (group.Any(k => kingdomAdjacencies.TryGetValue(k.Id, out var adjacencies) && adjacencies.Contains(kingdom.Id))) {
-							group.Add(kingdom);
-							connectedGroups.Add(group);
-
-							added = true;
-						}
-					}
-
-					// If the kingdom is adjacent to multiple groups, merge them.
-					if (connectedGroups.Count > 1) {
-						var mergedGroup = new HashSet<Title>();
-						foreach (var group in connectedGroups) {
-							mergedGroup.UnionWith(group);
-							kingdomGroups.Remove(group);
-						}
-
-						mergedGroup.Add(kingdom);
-						kingdomGroups.Add(mergedGroup);
-					}
-
-					if (!added) {
-						kingdomGroups.Add([kingdom]);
-					}
-				}
-
+				List<HashSet<Title>> kingdomGroups = GroupKingdomsIntoContiguousGroups(kingdomAdjacencies, deJureKingdoms);
 				if (kingdomGroups.Count <= 1) {
 					continue;
 				}
@@ -1665,7 +1634,43 @@ internal sealed partial class Title {
 			return dictToReturn.Where(kvp => kvp.Key.DeJureLiege is null || kvp.Key.DeJureLiege.Id != "h_china")
 				.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 		}
-		
+
+		private static List<HashSet<Title>> GroupKingdomsIntoContiguousGroups(Dictionary<string, HashSet<string>> kingdomAdjacencies, IEnumerable<Title> deJureKingdoms) {
+			// Group the kingdoms into contiguous groups.
+			var kingdomGroups = new List<HashSet<Title>>();
+			foreach (var kingdom in deJureKingdoms) {
+				var added = false;
+				List<HashSet<Title>> connectedGroups = [];
+
+				foreach (var group in kingdomGroups) {
+					if (group.Any(k => kingdomAdjacencies.TryGetValue(k.Id, out var adjacencies) && adjacencies.Contains(kingdom.Id))) {
+						group.Add(kingdom);
+						connectedGroups.Add(group);
+
+						added = true;
+					}
+				}
+
+				// If the kingdom is adjacent to multiple groups, merge them.
+				if (connectedGroups.Count > 1) {
+					var mergedGroup = new HashSet<Title>();
+					foreach (var group in connectedGroups) {
+						mergedGroup.UnionWith(group);
+						kingdomGroups.Remove(group);
+					}
+
+					mergedGroup.Add(kingdom);
+					kingdomGroups.Add(mergedGroup);
+				}
+
+				if (!added) {
+					kingdomGroups.Add([kingdom]);
+				}
+			}
+
+			return kingdomGroups;
+		}
+
 		private static bool AreTitlesAdjacentByLand(FrozenSet<ulong> title1ProvinceIds, FrozenSet<ulong> title2ProvinceIds, MapData mapData) {
 			return mapData.AreProvinceGroupsAdjacentByLand(title1ProvinceIds, title2ProvinceIds);
 		}

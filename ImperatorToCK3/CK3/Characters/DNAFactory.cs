@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
-namespace ImperatorToCK3.CK3.Characters; 
+namespace ImperatorToCK3.CK3.Characters;
 
 internal sealed class DNAFactory {
 	private readonly IPixelCollection<ushort> irHairPalettePixels;
@@ -21,14 +21,14 @@ internal sealed class DNAFactory {
 	private readonly ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3HairColorToPaletteCoordinatesDict = new();
 	private readonly ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3SkinColorToPaletteCoordinatesDict = new();
 	private readonly ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3EyeColorToPaletteCoordinatesDict = new();
-	
+
 	private readonly GenesDB ck3GenesDB;
 	private readonly AccessoryGeneMapper accessoryGeneMapper = new("configurables/accessory_genes_map.txt");
 	private readonly MorphGeneTemplateMapper morphGeneTemplateMapper = new("configurables/morph_gene_templates_map.txt");
 
-	public DNAFactory(ModFilesystem irModFS, ModFilesystem ck3ModFS) {
+	internal DNAFactory(ModFilesystem irModFS, ModFilesystem ck3ModFS) {
 		Logger.Debug("Reading color palettes...");
-		
+
 		var ck3HairPalettePath = ck3ModFS.GetActualFileLocation("gfx/portraits/hair_palette.dds") ??
 		                         throw new ConverterException("Could not find CK3 hair palette!");
 		var ck3HairPalettePixels = new MagickImage(ck3HairPalettePath).GetPixels();
@@ -61,14 +61,14 @@ internal sealed class DNAFactory {
 		} else {
 			irEyePalettePixels = new MagickImage(irEyePalettePath).GetPixels();
 		}
-		
+
 		Logger.Debug("Initializing genes database...");
 		ck3GenesDB = new GenesDB(ck3ModFS);
-		
+
 		Logger.Debug("Building color conversion caches...");
 		BuildColorConversionCaches(ck3HairPalettePixels, ck3SkinPalettePixels, ck3EyePalettePixels);
 	}
-	
+
 	internal DNA GenerateDNA(Imperator.Characters.Character irCharacter, PortraitData irPortraitData) {
 		var id = $"dna_{irCharacter.Id}";
 
@@ -325,8 +325,10 @@ internal sealed class DNAFactory {
 		}
 	}
 
+	/// <summary>
 	/// Returns CK3 gene value string after object-to-object matching
 	/// (for example I:R male_beard_1 to CK3 male_beard_western_03).
+	/// </summary>
 	private DNAAccessoryGeneValue? MatchAccessoryGeneValueByObject(
 		Imperator.Characters.Character irCharacter,
 		PortraitData irPortraitData,
@@ -336,13 +338,13 @@ internal sealed class DNAFactory {
 		if (!irPortraitData.AccessoryGenesDict.TryGetValue(irGeneName, out var geneInfo)) {
 			return null;
 		}
-		
+
 		var convertedSetEntry = accessoryGeneMapper.GetObjectFromObject(irGeneName, geneInfo.ObjectName);
 		if (convertedSetEntry is null) {
 			Logger.Warn($"No object mappings found for {geneInfo.ObjectName} in gene {irGeneName}!");
 			return null;
 		}
-		
+
 		// Prefer using the smallest template that contains the object.
 		var ck3GeneTemplate = ck3Gene.GeneTemplates
 			.OrderBy(t => t.ObjectCountForAgeSex(irCharacter.AgeSex))
@@ -365,9 +367,11 @@ internal sealed class DNAFactory {
 
 		return new DNAAccessoryGeneValue(ck3GeneTemplate.Id, convertedSetEntry, ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex], ck3GeneTemplateRecessive.Id, convertedSetEntryRecessive, ck3GeneTemplateRecessive.AgeSexWeightBlocks[irCharacter.AgeSex]);
 	}
-	
+
+	/// <summary>
 	/// Returns CK3 gene value string after template-to-template matching
 	/// (for example I:R roman_clothes to CK3 byzantine_low_nobility_clothes).
+	/// </summary>
 	private DNAAccessoryGeneValue? MatchAccessoryGeneValueByTemplate(
 		Imperator.Characters.Character irCharacter,
 		PortraitData irPortraitData,
@@ -377,7 +381,7 @@ internal sealed class DNAFactory {
 		if (!irPortraitData.AccessoryGenesDict.TryGetValue(imperatorGeneName, out var geneInfo)) {
 			return null;
 		}
-		
+
 		var validCK3TemplateIds = ck3Gene.GeneTemplates
 			.Select(template => template.Id)
 			.ToArray();
@@ -400,15 +404,15 @@ internal sealed class DNAFactory {
 			ck3GeneTemplateNameRecessive = ck3GeneTemplateName;
 		}
 		double percentage = (irCharacter.Id % 100) / 100.0;
-		
+
 		var ck3GeneTemplate = ck3Gene.GeneTemplates.First(t => t.Id == ck3GeneTemplateName);
 		var ck3WeightBlock = ck3GeneTemplate.AgeSexWeightBlocks[irCharacter.AgeSex];
 		var ck3ObjectName = ck3WeightBlock.GetMatchingObject(percentage) ?? ck3WeightBlock.ObjectNames.First();
-		
+
 		var ck3GeneTemplateRecessive = ck3Gene.GeneTemplates.First(t => t.Id == ck3GeneTemplateNameRecessive);
 		var ck3WeightBlockRecessive = ck3GeneTemplateRecessive.AgeSexWeightBlocks[irCharacter.AgeSex];
 		var ck3ObjectNameRecessive = ck3WeightBlockRecessive.GetMatchingObject(percentage) ?? ck3WeightBlockRecessive.ObjectNames.First();
-		
+
 		return new DNAAccessoryGeneValue(ck3GeneTemplateName, ck3ObjectName, ck3WeightBlock, ck3GeneTemplateNameRecessive, ck3ObjectNameRecessive, ck3WeightBlockRecessive);
 	}
 
@@ -450,7 +454,7 @@ internal sealed class DNAFactory {
 		Logger.Warn($"Cannot get color from palette {irPalettePixels}!");
 		return new DNA.PaletteCoordinates();
 	}
-	
+
 	private static DNA.PaletteCoordinates GetCoordinatesOfClosestCK3Color(
 		IMagickColor<ushort> irColor,
 		ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3ColorToCoordinatesDict

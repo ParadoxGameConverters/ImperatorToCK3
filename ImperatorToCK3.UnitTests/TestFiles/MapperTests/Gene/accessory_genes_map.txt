@@ -1,0 +1,20 @@
+object_to_object = {
+	hairstyles = {
+		male_hair_roman_1 = male_hair_western_01
+		empty = bald
+	}
+	beards = {
+		male_beard_1 = male_beard_western_03
+	}
+}
+
+template_to_template = {
+	clothes = {
+		roman_clothes = byzantine_high_nobility_clothes
+		germanic_clothes = western_royalty_clothes
+		no_clothes = no_clothes
+	}
+	hairstyles = {
+		default_hairstyles = no_hairstyles
+	}
+}
