@@ -1200,7 +1200,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterKeyword("require_landless", reader => RequireLandless = reader.GetBool());
 		parser.RegisterKeyword("color", LoadTitleColor(colorFactory));
 		parser.RegisterKeyword("capital", reader => CapitalCountyId = reader.GetString());
-		parser.RegisterKeyword("ai_primary_priority", LoadAiPrimaryPriority());
+		parser.RegisterKeyword("ai_primary_priority", LoadAiPrimaryPriority);
 		parser.RegisterKeyword("ignore_titularity_for_title_weighting", reader => IgnoreTitularityForTitleWeighting = reader.GetBool());
 		parser.RegisterKeyword("can_create", reader => CanCreate = reader.GetStringOfItem());
 		parser.RegisterKeyword("can_create_on_partition", reader => CanCreateOnPartition = reader.GetStringOfItem());
@@ -1253,18 +1253,16 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		};
 	}
 
-	private SimpleDel LoadAiPrimaryPriority() {
-		return reader => {
-			var stringOfItem = reader.GetStringOfItem();
-			
-			// Drop ai_primary_priority blocks that contain references to specific dynasties or characters.
-			var str = stringOfItem.ToString();
-			if (str.Contains("dynasty:") || str.Contains("character:")) {
-				return;
-			}
-			
-			AIPrimaryPriority = stringOfItem;
-		};
+	private void LoadAiPrimaryPriority(BufferedReader reader) {
+		var stringOfItem = reader.GetStringOfItem();
+
+		// Drop ai_primary_priority blocks that contain references to specific dynasties or characters.
+		var str = stringOfItem.ToString();
+		if (str.Contains("dynasty:") || str.Contains("character:")) {
+			return;
+		}
+
+		AIPrimaryPriority = stringOfItem;
 	}
 
 	private SimpleDel LoadTitleColor(ColorFactory colorFactory) {
