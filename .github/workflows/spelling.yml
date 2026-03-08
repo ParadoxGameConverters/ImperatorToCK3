@@ -13,4 +13,4 @@ jobs:
           locale: "US"
           reporter: github-pr-review
           level: warning
-          ignore: councillor,favour
+          ignore: councillor,favour,flavour
