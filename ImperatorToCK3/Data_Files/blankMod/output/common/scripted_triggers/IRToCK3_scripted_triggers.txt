@@ -22,9 +22,62 @@ irtock3_can_empire_be_used_for_rome_region = {
 	# Title must be titular, or have most of its de jure counties already in the REGION
 	OR = {
 		is_titular = yes
-		any_de_jure_county = {
-			percent >= 0.75
-			title_province = { geographical_region = $REGION$ }
-		}
+        AND = {
+            any_de_jure_county = {
+                percent >= 0.75
+                title_province = { geographical_region = $REGION$ }
+            }
+            any_de_jure_county = {
+                percent >= 0.8
+                holder.top_liege ?= root.top_liege
+            }
+        }
 	}
+}
+
+# This trigger is used for the Roman prefecture creation decisions.
+# $REGION$ = The geographical region for which the prefecture would be created
+irtock3_form_prefecture_is_shown_trigger = {
+    OR = {
+        has_title = title:h_roman_empire
+        has_title = title:h_eastern_roman_empire
+        has_title = title:h_western_roman_empire
+    }
+
+    # Must hold at least one county in the $REGION$.
+    any_realm_county = {
+        title_province = { geographical_region = $REGION$ }
+    }
+
+    # Check if h_roman_empire, h_western_roman_empire, or h_eastern_roman_empire have an empire vassal with the prefecture_region variable for this region.
+    # i.e. We don't want the WRE to be able to establish the prefecture of Illyrici if it already exists under the ERE.
+    NOR = {
+        title:h_roman_empire = {
+            any_in_de_jure_hierarchy = {
+                tier = tier_empire
+                var:prefecture_region ?= geographical_region:$REGION$
+                NOT = { is_titular = yes }
+            }
+        }
+        title:h_western_roman_empire = {
+            any_in_de_jure_hierarchy = {
+                tier = tier_empire
+                var:prefecture_region ?= geographical_region:$REGION$
+                NOT = { is_titular = yes }
+            }
+        }
+        title:h_eastern_roman_empire = {
+            any_in_de_jure_hierarchy = {
+                tier = tier_empire
+                var:prefecture_region ?= geographical_region:$REGION$
+                NOT = { is_titular = yes }
+            }
+        }
+    }
+}
+
+# This trigger is used for the Roman prefecture creation decisions.
+# $REGION$ = The geographical region for which the prefecture would be created
+irtock3_form_prefecture_is_valid_trigger = {
+    completely_controls_region = $REGION$
 }

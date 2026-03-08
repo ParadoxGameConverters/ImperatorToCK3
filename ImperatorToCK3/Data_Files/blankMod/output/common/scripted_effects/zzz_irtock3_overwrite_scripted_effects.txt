@@ -298,172 +298,124 @@ split_byzantine_empire_effect = {
 						holder ?= root
 					}
 				}
-				# For regions where you don't want to use a base game title, for the "EMPIRE" put a title that isn't empire-tier (in this case, I am using 'd_rome'). If the given "EMPIRE" isn't an empire title, an empire title will always be created (or a previously created one will be be reused).
 
 				# Britannia
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_britannia
-					EMPIRE = e_britannia
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_britannia }
 				# Gallarium
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_galliarum
-					EMPIRE = d_rome
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_galliarum }
 				# Germania
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_germania
-					EMPIRE = e_germany
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_germania }
 				# Italiae
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_italiae
-					EMPIRE = e_italy
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_italiae }
 				# Libya Interior
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_libya_interior
-					EMPIRE = d_rome
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_libya_interior }
 				# Libya Ulterior
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_libya_ulterior
-					EMPIRE = d_rome
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_libya_ulterior }
 				# Aethiopia
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_aethiopia
-					EMPIRE = d_rome
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_aethiopia }
 				# Orientis
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_orientis
-					EMPIRE = e_oriens
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_orientis }
 				# Illyria
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_illyrici
-					EMPIRE = e_illyria
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_illyrici }
 				# Pannonia
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_pannonia
-					EMPIRE = e_carpathia
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_pannonia }
 				# Vistulia
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_vistulia
-					EMPIRE = d_rome
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_vistulia }
 				# Fennia
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_fennia
-					EMPIRE = d_rome
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_fennia }
 				# Scandia
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_scandia
-					EMPIRE = e_scandinavia
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_scandia }
 				# Arabia
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_arabia
-					EMPIRE = e_arabia
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_arabia }
 				# Persia
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_persia
-					EMPIRE = e_persia
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_persia }
 				# Sarmatia
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_sarmatia
-					EMPIRE = e_caspian-pontic_steppe
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_sarmatia }
 				# Uralia Interior
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_uralia_interior
-					EMPIRE = e_volga-ural
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_uralia_interior }
 				# Uralia Ulterior
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_uralia_ulterior
-					EMPIRE = e_siberia
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_uralia_ulterior }
 				# Tartaria
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_tartaria
-					EMPIRE = e_tartaria
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_tartaria }
 				# Parthia
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_parthia
-					EMPIRE = e_turan
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_parthia }
 				# Imoan Montem
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_imoan_montem
-					EMPIRE = e_tibet
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_imoan_montem }
 				# India Intra Gangem
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_india_intra_gangem
-					EMPIRE = d_rome
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_india_intra_gangem }
 				# India Extra Gangem
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_india_extra_gangem
-					EMPIRE = d_rome
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_india_extra_gangem }
 				# Magna Taprobana
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_magna_taprobana
-					EMPIRE = d_rome
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_magna_taprobana }
 				# Insulae Remotae
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_insulae_remotae
-					EMPIRE = e_nusantara
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_insulae_remotae }
 				# Insulae Solis
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_insulae_solis
-					EMPIRE = e_japan
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_insulae_solis }
 				# Septentrionalis Deserti
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_septentrionalis_deserti
-					EMPIRE = e_mongolia
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_septentrionalis_deserti }
 				# Serica Ultima
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_serica_ultima
-					EMPIRE = d_rome
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_ultima }
 				# Serica Meridiana
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_serica_meridiana
-					EMPIRE = e_lingnan
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_meridiana }
 				# Serica Occidens
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_serica_occidens
-					EMPIRE = e_liangyi
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_occidens }
 				# Serica Orientalis
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_serica_orientalis
-					EMPIRE = e_jingyang
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_orientalis }
 				# Serica Septentrionalis
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_serica_septentrionalis
-					EMPIRE = e_zhongyuan
-				}
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_septentrionalis }
 				# Serica Deserti
-				irtock3_split_rome_empire_region_effect = {
-					REGION = irtock3_rome_empire_division_serica_deserti
-					EMPIRE = e_yongliang
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_deserti }
+
+				# Leftover titles
+				## If a kingdom title under these empires is somehow split enough across multiple regions, it might not get put under one of the above prefectures, so need to check those
+				every_in_de_jure_hierarchy = {
+					limit = {
+						tier = tier_kingdom
+						is_titular = no
+					}
+					title_capital_county = { save_scope_as = county_temp }
+					save_scope_as = temp_kingdom
+					ordered_empire = {
+						# Prioritize praetorian prefectures whose region overlaps with what the kingdom's land controls
+						limit = {
+							hegemony ?= {
+								OR = {
+									this = title:h_roman_empire
+									this = title:h_western_roman_empire
+									this = title:h_eastern_roman_empire
+								}
+							}
+							save_temporary_scope_as = empire_temp
+							has_variable = prefecture_region
+							scope:temp_kingdom = {
+								any_de_jure_county = {
+									title_province = { geographical_region = scope:empire_temp.var:prefecture_region }
+								}
+							}
+						}
+						# If the kingdom doesn't overlap with any of the current prefectures, give it to the closest empire under a roman hegemony
+						alternative_limit = {
+							hegemony ?= {
+								OR = {
+									this = title:h_roman_empire
+									this = title:h_western_roman_empire
+									this = title:h_eastern_roman_empire
+								}
+							}
+						}
+						# If, somehow, none of the Roman hegemonies have any empires, just choose the closest empire
+						alternative_limit = { always = yes }
+						order_by = {
+							value = "title_capital_county.squared_distance(scope:county_temp)"
+							multiply = -1
+						}
+						max = 1
+						save_scope_as = new_empire
+					}
+					set_de_jure_liege_title = scope:new_empire
+					clear_saved_scope = new_empire
+					clear_saved_scope = temp_kingdom
+					clear_saved_scope = county_temp
 				}
 			}
 		}
