@@ -2,6 +2,9 @@ name: Build
 
 on:
   pull_request:
+    # Avoid running this job if the upload_dev_build_artifact job is going to run,
+    # since it will build the same code and we don't want to waste resources building twice.
+    types: [reopened]
   merge_group:
 
 concurrency:
@@ -10,9 +13,6 @@ concurrency:
 
 jobs:
   build:
-    # Avoid running this job if the upload_dev_build_artifact job is going to run,
-    # since it will build the same code and we don't want to waste resources building twice.
-    if: ${{ github.event_name != 'pull_request' || (github.event.action != 'opened' && github.event.action != 'synchronize') }}
     strategy:
       matrix:
         os: [[self-hosted, windows], [self-hosted, linux], macos-14]
