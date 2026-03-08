@@ -3442,3 +3442,147 @@ irtock3_set_government_from_ruler = {
 		}
 	}
 }
+
+
+# This scripted_effect is to be used at game start if any of the hegemony Rome titles have land, to make sure their de jure empires are properly setup as praetorian prefectures
+# INPUTS:
+## $REGION$ - The region being checked (It will be setup so that the 'irtock3_rome_empire_division_' part of the region name is removed)
+irtock3_setup_roman_prefectures_game_start = {
+	# Get a list of every relevant empire title in the region
+	## Because of how the Imperator regions overlap with the converter's CK3 prefecture regions, it is quite possible for the converter's dynamic hegemony empires to not cover enough of their respective regions to use that as a condition
+	if = {
+		limit = {
+			title:h_roman_empire = { is_titular = no }
+		}
+		if = {
+			limit = { exists = title:e_IRTOCK3_hegemony_h_roman_empire_$REGION$ }
+			title:e_IRTOCK3_hegemony_h_roman_empire_$REGION$ = { add_to_list = region_empires }
+		}
+	}
+	if = {
+		limit = {
+			title:h_western_roman_empire = { is_titular = no }
+		}
+		if = {
+			limit = { exists = title:e_IRTOCK3_hegemony_h_western_roman_empire_$REGION$ }
+			title:e_IRTOCK3_hegemony_h_western_roman_empire_$REGION$ = { add_to_list = region_empires }
+		}
+	}
+	if = {
+		limit = {
+			title:h_eastern_roman_empire = { is_titular = no }
+		}
+		if = {
+			limit = { exists = title:e_IRTOCK3_hegemony_h_eastern_roman_empire_$REGION$ }
+			title:e_IRTOCK3_hegemony_h_eastern_roman_empire_$REGION$ = { add_to_list = region_empires }
+		}
+	}
+
+	# Of the empires in the list, choose the one with the most land in the region
+	if = {
+		limit = {
+			any_in_list = { list = region_empires }
+		}
+
+		ordered_in_list = {
+			list = region_empires
+			order_by = {
+				value = 0
+				every_de_jure_county = {
+					if = {
+						limit = {
+							title_province = { geographical_region = irtock3_rome_empire_division_$REGION$ }
+						}
+						add = 1
+					}
+				}
+			}
+			max = 1
+			save_scope_as = prefecture_empire
+		}
+	}
+
+	# Setup that empire as the praetorian prefecture for the region
+	if = {
+		limit = { exists = scope:prefecture_empire }
+
+		# Check if there happens to be a base game title that could be used instead
+		if = {
+			limit = {
+				has_global_variable_list = rome_dynamic_empire_region_irtock3_rome_empire_division_$REGION$
+				any_in_global_list = {
+					variable = rome_dynamic_empire_region_irtock3_rome_empire_division_$REGION$
+					has_variable = base_game_prefecture_title
+					this != scope:prefecture_empire
+					is_titular = yes
+				}
+			}
+
+			random_in_global_list = {
+				variable = rome_dynamic_empire_region_irtock3_rome_empire_division_$REGION$
+				limit = {
+					has_variable = base_game_prefecture_title
+					this != scope:prefecture_empire
+					is_titular = yes
+				}
+				save_scope_as = new_empire_title
+			}
+
+			scope:prefecture_empire = {
+				every_in_de_jure_hierarchy = {
+					limit = { tier = tier_kingdom }
+					set_de_jure_liege_title = scope:new_empire_title
+				}
+			}
+			
+			if = {
+				limit = { exists = scope:prefecture_empire.holder }
+				scope:prefecture_empire.holder = {
+					get_title = scope:new_empire_title
+					destroy_title = scope:prefecture_empire
+					set_primary_title_to = scope:new_empire_title
+				}
+			}
+			
+			scope:new_empire_title = {
+				set_de_jure_liege_title = scope:prefecture_empire.hegemony
+				save_scope_as = prefecture_empire
+			}
+			clear_saved_scope = new_empire_title
+		}
+
+		# Give the empire title it's variables
+		scope:prefecture_empire = {
+			set_title_name = irtock3_rome_empire_division_$REGION$
+
+			# Save what region this title is associated with
+			set_variable = {
+				name = prefecture_region
+				value = geographical_region:irtock3_rome_empire_division_$REGION$
+			}
+
+			# If the title being used is a base game title, need to possibly change names and set variables accordingly
+			if = {
+				limit = { has_variable = base_game_prefecture_title }
+				set_variable = rome_praetorian_prefecture # To indicate this empire title is being used as a praetorian prefecture for Rome for things like localization reset later
+				# Because of how Persia's name is setup to change, need to include that as a special case here
+				if = {
+					limit = { this = title:e_persia }
+					set_definitive_form = no
+				}
+			}
+		}
+	}
+
+	# Clean up
+	if = {
+		limit = {
+			any_in_list = { list = region_empires }
+		}
+		every_in_list = {
+			list = region_empires
+			remove_from_list = region_empires
+		}
+	}
+	clear_saved_scope = prefecture_empire
+}

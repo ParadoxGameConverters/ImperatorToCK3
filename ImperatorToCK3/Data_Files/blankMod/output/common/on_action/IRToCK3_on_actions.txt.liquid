@@ -166,6 +166,9 @@ IRToCK3_game_start_onaction_effects = {
 			}
 		}
 
+		####################################
+		### Roman Praetorian Prefectures ###
+		####################################
 		## Base game titles that are going to be used as potential Roman Praetorian Prefecture titles need to be added to their relevant global variable lists
 		# Britannia
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
@@ -283,6 +286,83 @@ IRToCK3_game_start_onaction_effects = {
 			EMPIRE = e_yongliang
 		}
 
+		## If a hegemony Rome title exists at game start, need to make sure it's de jure empires are properly setup as Praetorian Prefectures
+		if = {
+			limit = {
+				OR = {
+					title:h_roman_empire = { is_titular = no }
+					title:h_western_roman_empire = { is_titular = no }
+					title:h_eastern_roman_empire = { is_titular = no }
+				}
+			}
+
+			# Britannia
+			irtock3_setup_roman_prefectures_game_start = { REGION = britannia }
+			# Gallarium
+			irtock3_setup_roman_prefectures_game_start = { REGION = galliarum }
+			# Germania
+			irtock3_setup_roman_prefectures_game_start = { REGION = germania }
+			# Italiae
+			irtock3_setup_roman_prefectures_game_start = { REGION = italiae }
+			# Libya Interior
+			irtock3_setup_roman_prefectures_game_start = { REGION = libya_interior }
+			# Libya Ulterior
+			irtock3_setup_roman_prefectures_game_start = { REGION = libya_ulterior }
+			# Aethiopia
+			irtock3_setup_roman_prefectures_game_start = { REGION = aethiopia }
+			# Orientis
+			irtock3_setup_roman_prefectures_game_start = { REGION = orientis }
+			# Illyria
+			irtock3_setup_roman_prefectures_game_start = { REGION = illyrici }
+			# Pannonia
+			irtock3_setup_roman_prefectures_game_start = { REGION = pannonia }
+			# Vistulia
+			irtock3_setup_roman_prefectures_game_start = { REGION = vistulia }
+			# Fennia
+			irtock3_setup_roman_prefectures_game_start = { REGION = fennia }
+			# Scandia
+			irtock3_setup_roman_prefectures_game_start = { REGION = scandia }
+			# Arabia
+			irtock3_setup_roman_prefectures_game_start = { REGION = arabia }
+			# Persia
+			irtock3_setup_roman_prefectures_game_start = { REGION = persia }
+			# Sarmatia
+			irtock3_setup_roman_prefectures_game_start = { REGION = sarmatia }
+			# Uralia Interior
+			irtock3_setup_roman_prefectures_game_start = { REGION = uralia_interior }
+			# Uralia Ulterior
+			irtock3_setup_roman_prefectures_game_start = { REGION = uralia_ulterior }
+			# Tartaria
+			irtock3_setup_roman_prefectures_game_start = { REGION = tartaria }
+			# Parthia
+			irtock3_setup_roman_prefectures_game_start = { REGION = parthia }
+			# Imoan Montem
+			irtock3_setup_roman_prefectures_game_start = { REGION = imoan_montem }
+			# India Intra Gangem
+			irtock3_setup_roman_prefectures_game_start = { REGION = india_intra_gangem }
+			# India Extra Gangem
+			irtock3_setup_roman_prefectures_game_start = { REGION = india_extra_gangem }
+			# Magna Taprobana
+			irtock3_setup_roman_prefectures_game_start = { REGION = magna_taprobana }
+			# Insulae Remotae
+			irtock3_setup_roman_prefectures_game_start = { REGION = insulae_remotae }
+			# Insulae Solis
+			irtock3_setup_roman_prefectures_game_start = { REGION = insulae_solis }
+			# Septentrionalis Deserti
+			irtock3_setup_roman_prefectures_game_start = { REGION = septentrionalis_deserti }
+			# Serica Ultima
+			irtock3_setup_roman_prefectures_game_start = { REGION = serica_ultima }
+			# Serica Meridiana
+			irtock3_setup_roman_prefectures_game_start = { REGION = serica_meridiana }
+			# Serica Occidens
+			irtock3_setup_roman_prefectures_game_start = { REGION = serica_occidens }
+			# Serica Orientalis
+			irtock3_setup_roman_prefectures_game_start = { REGION = serica_orientalis }
+			# Serica Septentrionalis
+			irtock3_setup_roman_prefectures_game_start = { REGION = serica_septentrionalis }
+			# Serica Deserti
+			irtock3_setup_roman_prefectures_game_start = { REGION = serica_deserti }
+		}
 
 		####################
 		### Title Naming ###
