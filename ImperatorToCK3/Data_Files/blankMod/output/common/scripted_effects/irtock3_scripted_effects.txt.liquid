@@ -3456,7 +3456,14 @@ irtock3_setup_roman_prefectures_game_start = {
 		}
 		if = {
 			limit = { exists = title:e_IRTOCK3_hegemony_h_roman_empire_$REGION$ }
-			title:e_IRTOCK3_hegemony_h_roman_empire_$REGION$ = { add_to_list = region_empires }
+			title:e_IRTOCK3_hegemony_h_roman_empire_$REGION$ = {
+				add_to_list = region_empires
+				# Make sure the empire title is added to the global list of potential titles for the region
+				add_to_global_variable_list = {
+					name = rome_dynamic_empire_region_irtock3_rome_empire_division_$REGION$
+					target = this
+				}
+			}
 		}
 	}
 	if = {
@@ -3465,7 +3472,14 @@ irtock3_setup_roman_prefectures_game_start = {
 		}
 		if = {
 			limit = { exists = title:e_IRTOCK3_hegemony_h_western_roman_empire_$REGION$ }
-			title:e_IRTOCK3_hegemony_h_western_roman_empire_$REGION$ = { add_to_list = region_empires }
+			title:e_IRTOCK3_hegemony_h_western_roman_empire_$REGION$ = {
+				add_to_list = region_empires
+				# Make sure the empire title is added to the global list of potential titles for the region
+				add_to_global_variable_list = {
+					name = rome_dynamic_empire_region_irtock3_rome_empire_division_$REGION$
+					target = this
+				}
+			}
 		}
 	}
 	if = {
@@ -3474,7 +3488,14 @@ irtock3_setup_roman_prefectures_game_start = {
 		}
 		if = {
 			limit = { exists = title:e_IRTOCK3_hegemony_h_eastern_roman_empire_$REGION$ }
-			title:e_IRTOCK3_hegemony_h_eastern_roman_empire_$REGION$ = { add_to_list = region_empires }
+			title:e_IRTOCK3_hegemony_h_eastern_roman_empire_$REGION$ = {
+				add_to_list = region_empires
+				# Make sure the empire title is added to the global list of potential titles for the region
+				add_to_global_variable_list = {
+					name = rome_dynamic_empire_region_irtock3_rome_empire_division_$REGION$
+					target = this
+				}
+			}
 		}
 	}
 
