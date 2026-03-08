@@ -3239,6 +3239,7 @@ irtock3_form_roman_prefecture_effect = {
 						change_title_holder_include_vassals = {
 							holder = scope:new_holder
 							change = scope:change
+							government_base = root
 						}
 					}
 					resolve_title_and_vassal_change = scope:change
@@ -3257,6 +3258,13 @@ irtock3_form_roman_prefecture_effect = {
 							change = scope:change
 						}
 						resolve_title_and_vassal_change = scope:change
+					}
+
+					if = {
+						limit = {
+							NOT = { has_same_government = root }
+						}
+						irtock3_set_government_from_ruler = { RULER = root }
 					}
 				}
 			}
@@ -3293,6 +3301,144 @@ irtock3_form_roman_prefecture_effect = {
 				}
 			}
 			resolve_title_and_vassal_change = scope:change
+		}
+	}
+
+	if = {
+		limit = {
+			NOT = { exists = scope:new_holder }
+		}
+		custom_tooltip = irtock3_form_roman_prefecture_no_holder_tt
+	}
+}
+
+
+# This scripted_effect is used to set a character's government to be the same as another character's government
+# NOTE: This effect has to be hard-coded to check every government type individually since there is no way to do this otherwise. Relevant mods that add their own governments should have their governments added through a .liquid condition check.
+# scope for this effect is the character whose government is being changed
+# INPUTS:
+## $RULER$ - The character whose government is being taken
+irtock3_set_government_from_ruler = {
+	save_scope_as = new_government_character
+	$RULER$ = { save_scope_as = reference_government_character }
+
+	scope:reference_government_character = {
+		switch = {
+			trigger = has_government
+			feudal_government = {
+				scope:new_government_character = { change_government = feudal_government }
+			}
+			republic_government = {
+				scope:new_government_character = { change_government = republic_government }
+			}
+			theocracy_government = {
+				scope:new_government_character = { change_government = theocracy_government }
+			}
+			clan_government = {
+				scope:new_government_character = { change_government = clan_government }
+			}
+			tribal_government = {
+				scope:new_government_character = { change_government = tribal_government }
+			}
+			wanua_government = {
+				scope:new_government_character = { change_government = wanua_government }
+			}
+			administrative_government = {
+				scope:new_government_character = { change_government = administrative_government }
+			}
+			nomad_government = {
+				scope:new_government_character = { change_government = nomad_government }
+			}
+			herder_government = {
+				scope:new_government_character = { change_government = herder_government }
+			}
+			celestial_government = {
+				scope:new_government_character = { change_government = celestial_government }
+			}
+			mandala_government = {
+				scope:new_government_character = { change_government = mandala_government }
+			}
+			steppe_admin_government = {
+				scope:new_government_character = { change_government = steppe_admin_government }
+			}
+			meritocratic_government = {
+				scope:new_government_character = { change_government = meritocratic_government }
+			}
+			japan_feudal_government = {
+				scope:new_government_character = { change_government = japan_feudal_government }
+			}
+			japan_administrative_government = {
+				scope:new_government_character = { change_government = japan_administrative_government }
+			}
+			{% if tfe %}
+			imperial_government = {
+				scope:new_government_character = { change_government = imperial_government }
+			}
+			autocratic_government = {
+				scope:new_government_character = { change_government = autocratic_government }
+			}
+			autocratic_government_ep3 = {
+				scope:new_government_character = { change_government = autocratic_government_ep3 }
+			}
+			legion_government = {
+				scope:new_government_character = { change_government = legion_government }
+			}
+			roman_government = {
+				scope:new_government_character = { change_government = roman_government }
+			}
+			imperial_cult_government = {
+				scope:new_government_character = { change_government = imperial_cult_government }
+			}
+			city_state_government = {
+				scope:new_government_character = { change_government = city_state_government }
+			}
+			trade_city_state_government = {
+				scope:new_government_character = { change_government = trade_city_state_government }
+			}
+			eranshar_government = {
+				scope:new_government_character = { change_government = eranshar_government }
+			}
+			caliphate_government = {
+				scope:new_government_character = { change_government = caliphate_government }
+			}
+			muslim_government = {
+				scope:new_government_character = { change_government = muslim_government }
+			}
+			gupta_government = {
+				scope:new_government_character = { change_government = gupta_government }
+			}
+			gana_sangha_government = {
+				scope:new_government_character = { change_government = gana_sangha_government }
+			}
+			{% endif %}
+			{% if roa %}
+			anarchist_government = {
+				scope:new_government_character = { change_government = anarchist_government }
+			}
+			chinese_government = {
+				scope:new_government_character = { change_government = chinese_government }
+			}
+			{% endif %}
+			{% if wtwsms %}
+			prefeudal_government = {
+				scope:new_government_character = { change_government = prefeudal_government }
+			}
+			rajamandala_government = {
+				scope:new_government_character = { change_government = rajamandala_government }
+			}
+			iranian_dynastic_government = {
+				scope:new_government_character = { change_government = iranian_dynastic_government }
+			}
+			roman_dynastic_government = {
+				scope:new_government_character = { change_government = roman_dynastic_government }
+			}
+			subroman_dynastic_government = {
+				scope:new_government_character = { change_government = subroman_dynastic_government }
+			}
+			high_tribal_government = {
+				scope:new_government_character = { change_government = high_tribal_government }
+			}
+			{% endif %}
 		}
 	}
 }
