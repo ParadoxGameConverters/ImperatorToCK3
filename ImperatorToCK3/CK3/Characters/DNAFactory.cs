@@ -73,144 +73,30 @@ internal sealed class DNAFactory {
 		var id = $"dna_{irCharacter.Id}";
 
 		var colorDNAValues = new Dictionary<string, DNAColorGeneValue>();
-		var morphDNAValues = new Dictionary<string, DNAGeneValue>();
+		ConvertColorGenes(irPortraitData, colorDNAValues);
 
-		// Convert colors. Palettes are 512x512, but we need a 0-255 value, so we divide the coordinates by 2.
-		var hairCoordinates = GetPaletteCoordinates(
-			irPortraitData.HairColorPaletteCoordinates, irHairPalettePixels, ck3HairColorToPaletteCoordinatesDict
-		);
-		var hairCoordinates2 = GetPaletteCoordinates(
-			irPortraitData.HairColor2PaletteCoordinates, irHairPalettePixels, ck3HairColorToPaletteCoordinatesDict
-		);
-		colorDNAValues.Add("hair_color", new DNAColorGeneValue {
-			X = (byte)(hairCoordinates.X/2),
-			Y = (byte)(hairCoordinates.Y/2),
-			XRecessive = (byte)(hairCoordinates2.X/2),
-			YRecessive = (byte)(hairCoordinates2.Y/2)
-		});
-
-		var skinCoordinates = GetPaletteCoordinates(
-			irPortraitData.SkinColorPaletteCoordinates, irSkinPalettePixels, ck3SkinColorToPaletteCoordinatesDict
-		);
-		var skinCoordinates2 = GetPaletteCoordinates(
-			irPortraitData.SkinColor2PaletteCoordinates, irSkinPalettePixels, ck3SkinColorToPaletteCoordinatesDict
-		);
-		colorDNAValues.Add("skin_color", new DNAColorGeneValue {
-			X = (byte)(skinCoordinates.X/2),
-			Y = (byte)(skinCoordinates.Y/2),
-			XRecessive = (byte)(skinCoordinates2.X/2),
-			YRecessive = (byte)(skinCoordinates2.Y/2)
-		});
-
-		var eyeCoordinates = GetPaletteCoordinates(
-			irPortraitData.EyeColorPaletteCoordinates, irEyePalettePixels, ck3EyeColorToPaletteCoordinatesDict
-		);
-		var eyeCoordinates2 = GetPaletteCoordinates(
-			irPortraitData.EyeColor2PaletteCoordinates, irEyePalettePixels, ck3EyeColorToPaletteCoordinatesDict
-		);
-		colorDNAValues.Add("eye_color", new DNAColorGeneValue {
-			X = (byte)(eyeCoordinates.X/2),
-			Y = (byte)(eyeCoordinates.Y/2),
-			XRecessive = (byte)(eyeCoordinates2.X/2),
-			YRecessive = (byte)(eyeCoordinates2.Y/2)
-		});
-		
 		// Convert some accessory genes.
 		var accessoryDNAValues = new Dictionary<string, DNAAccessoryGeneValue>();
-		
-		if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("beards", out var beardGene)) {
-			var beardGeneValue = MatchAccessoryGeneValueByObject(
-				irCharacter,
-				irPortraitData,
-				"beards",
-				beardGene
-			);
-			if (beardGeneValue is not null) {
-				accessoryDNAValues.Add("beards", beardGeneValue.Value);
-			}
-		} else {
-			Logger.Warn("beards not found in CK3 special accessory genes!");
-		}
-
-		if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("hairstyles", out var hairstylesGene)) {
-			var hairstylesGeneValue = MatchAccessoryGeneValueByObject(
-				irCharacter,
-				irPortraitData,
-				"hairstyles",
-				hairstylesGene
-			);
-			if (hairstylesGeneValue is not null) {
-				accessoryDNAValues.Add("hairstyles", hairstylesGeneValue.Value);
-			}
-		} else {
-			Logger.Warn("hairstyles not found in CK3 special accessory genes!");
-		}
-		
-		if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("clothes", out var ck3ClothesGene)) {
-			var clothesGeneValue = MatchAccessoryGeneValueByTemplate(irCharacter, irPortraitData, "clothes", ck3ClothesGene);
-			if (clothesGeneValue is not null) {
-				accessoryDNAValues.Add(ck3ClothesGene.Id, clothesGeneValue.Value);
-			}
-		} else {
-			Logger.Warn("clothes not found in CK3 special accessory genes!");
-		}
-
+		ConvertBeard(irCharacter, irPortraitData, accessoryDNAValues);
+		ConvertHairstyle(irCharacter, irPortraitData, accessoryDNAValues);
+		ConvertClothes(irCharacter, irPortraitData, accessoryDNAValues);
 		ConvertEyeAccessories(irCharacter, irPortraitData, colorDNAValues, accessoryDNAValues, ck3GenesDB, ck3EyeColorToPaletteCoordinatesDict);
 
-		var irMorphGenesWithDirectEquivalents = new[] {
-			"gene_head_height", "gene_head_width", "gene_head_profile",
-			"gene_head_top_height", "gene_head_top_width",
-			"gene_forehead_height", "gene_forehead_width", "gene_forehead_angle", "gene_forehead_roundness",
-			"gene_forehead_brow_height",
-			"gene_neck_length", "gene_neck_width", 
-			"gene_chin_forward", "gene_chin_height", "gene_chin_width",
-			"gene_eye_distance", "gene_eye_height", "gene_eye_angle", "gene_eye_depth", "gene_eye_shut",
-			"gene_mouth_width", "gene_mouth_forward", "gene_mouth_height",
-			"gene_mouth_corner_height", "gene_mouth_corner_depth",
-			"gene_mouth_lower_lip_size", "gene_mouth_upper_lip_size",
-			"gene_jaw_forward", "gene_jaw_angle", "gene_jaw_height", "gene_jaw_width",
-			"gene_bs_jaw_def",
-			"complexion"
-		};
+		var morphDNAValues = new Dictionary<string, DNAGeneValue>();
+		ConvertMorphGenesWithDirectEquivalents(irPortraitData, morphDNAValues);
 
-		foreach (var geneName in irMorphGenesWithDirectEquivalents) {
-			var irGeneData = irPortraitData.MorphGenesDict[geneName];
-			var ck3Gene = ck3GenesDB.MorphGenes.First(g => g.Id == geneName);
-
-			var ck3TemplateName = morphGeneTemplateMapper.GetCK3Template(geneName, irGeneData.TemplateName);
-			if (ck3Gene.GeneTemplates.All(t => t.Id != ck3TemplateName)) {
-				Logger.Warn($"Could not find template {ck3TemplateName} for gene {geneName} in CK3!");
-				continue;
-			}
-
-			var ck3GeneTemplateRecessiveName = morphGeneTemplateMapper.GetCK3Template(geneName, irGeneData.TemplateRecessiveName);
-			if (ck3Gene.GeneTemplates.All(t => t.Id != ck3GeneTemplateRecessiveName)) {
-				Logger.Warn($"Could not find template {ck3GeneTemplateRecessiveName} for gene {geneName} in CK3!");
-				continue;
-			}
-
-			morphDNAValues.Add(geneName, new DNAGeneValue {
-				TemplateName = ck3TemplateName!,
-				IntSliderValue = irGeneData.Value,
-				TemplateRecessiveName = ck3GeneTemplateRecessiveName!,
-				IntSliderValueRecessive = irGeneData.ValueRecessive
-			});
-		}
-		
 		morphDNAValues.Add("gene_age", GetAgeGeneValue(irCharacter));
 
 		ConvertBaldness(irCharacter, morphDNAValues, accessoryDNAValues);
-		
-		// Use normal teeth for everyone. I:R doesn't have characters with no teeth.
-		var teethGeneTemplate = ck3GenesDB.AccessoryGenes["teeth_accessory"].GeneTemplates["normal_teeth"];
-		if (teethGeneTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? teethWeightBlock)) {
-			accessoryDNAValues["teeth_accessory"] = new DNAAccessoryGeneValue(
-				teethGeneTemplate.Id,
-				teethWeightBlock.GetMatchingObject(0.5) ?? teethWeightBlock.ObjectNames.First(),
-				teethWeightBlock
-			);
-		}
 
+		SetNormalTeeth(irCharacter, accessoryDNAValues);
+
+		UseMiddleValuesForRemainingGenes(irCharacter, accessoryDNAValues, morphDNAValues);
+
+		return new DNA(id, colorDNAValues, morphDNAValues, accessoryDNAValues);
+	}
+
+	private void UseMiddleValuesForRemainingGenes(Imperator.Characters.Character irCharacter, Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues, Dictionary<string, DNAGeneValue> morphDNAValues) {
 		// Use middle values for the rest of the genes.
 		var missingMorphGenes = ck3GenesDB.MorphGenes
 			.Where(g => !morphDNAValues.ContainsKey(g.Id));
@@ -249,8 +135,145 @@ internal sealed class DNAFactory {
 				}
 			}
 		}
+	}
 
-		return new DNA(id, colorDNAValues, morphDNAValues, accessoryDNAValues);
+	private void ConvertColorGenes(PortraitData irPortraitData, Dictionary<string, DNAColorGeneValue> colorDNAValues) {
+		// Convert colors. Palettes are 512x512, but we need a 0-255 value, so we divide the coordinates by 2.
+		var hairCoordinates = GetPaletteCoordinates(
+			irPortraitData.HairColorPaletteCoordinates, irHairPalettePixels, ck3HairColorToPaletteCoordinatesDict
+		);
+		var hairCoordinates2 = GetPaletteCoordinates(
+			irPortraitData.HairColor2PaletteCoordinates, irHairPalettePixels, ck3HairColorToPaletteCoordinatesDict
+		);
+		colorDNAValues.Add("hair_color", new DNAColorGeneValue {
+			X = (byte)(hairCoordinates.X / 2),
+			Y = (byte)(hairCoordinates.Y / 2),
+			XRecessive = (byte)(hairCoordinates2.X / 2),
+			YRecessive = (byte)(hairCoordinates2.Y / 2)
+		});
+
+		var skinCoordinates = GetPaletteCoordinates(
+			irPortraitData.SkinColorPaletteCoordinates, irSkinPalettePixels, ck3SkinColorToPaletteCoordinatesDict
+		);
+		var skinCoordinates2 = GetPaletteCoordinates(
+			irPortraitData.SkinColor2PaletteCoordinates, irSkinPalettePixels, ck3SkinColorToPaletteCoordinatesDict
+		);
+		colorDNAValues.Add("skin_color", new DNAColorGeneValue {
+			X = (byte)(skinCoordinates.X / 2),
+			Y = (byte)(skinCoordinates.Y / 2),
+			XRecessive = (byte)(skinCoordinates2.X / 2),
+			YRecessive = (byte)(skinCoordinates2.Y / 2)
+		});
+
+		var eyeCoordinates = GetPaletteCoordinates(
+			irPortraitData.EyeColorPaletteCoordinates, irEyePalettePixels, ck3EyeColorToPaletteCoordinatesDict
+		);
+		var eyeCoordinates2 = GetPaletteCoordinates(
+			irPortraitData.EyeColor2PaletteCoordinates, irEyePalettePixels, ck3EyeColorToPaletteCoordinatesDict
+		);
+		colorDNAValues.Add("eye_color", new DNAColorGeneValue {
+			X = (byte)(eyeCoordinates.X / 2),
+			Y = (byte)(eyeCoordinates.Y / 2),
+			XRecessive = (byte)(eyeCoordinates2.X / 2),
+			YRecessive = (byte)(eyeCoordinates2.Y / 2)
+		});
+	}
+
+	private void SetNormalTeeth(Imperator.Characters.Character irCharacter, Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues) {
+		// Use normal teeth for everyone. I:R doesn't have characters with no teeth.
+		var teethGeneTemplate = ck3GenesDB.AccessoryGenes["teeth_accessory"].GeneTemplates["normal_teeth"];
+		if (teethGeneTemplate.AgeSexWeightBlocks.TryGetValue(irCharacter.AgeSex, out WeightBlock? teethWeightBlock)) {
+			accessoryDNAValues["teeth_accessory"] = new DNAAccessoryGeneValue(
+				teethGeneTemplate.Id,
+				teethWeightBlock.GetMatchingObject(0.5) ?? teethWeightBlock.ObjectNames.First(),
+				teethWeightBlock
+			);
+		}
+	}
+
+	private void ConvertMorphGenesWithDirectEquivalents(PortraitData irPortraitData, Dictionary<string, DNAGeneValue> morphDNAValues) {
+		var irMorphGenesWithDirectEquivalents = new[] {
+			"gene_head_height", "gene_head_width", "gene_head_profile",
+			"gene_head_top_height", "gene_head_top_width",
+			"gene_forehead_height", "gene_forehead_width", "gene_forehead_angle", "gene_forehead_roundness",
+			"gene_forehead_brow_height",
+			"gene_neck_length", "gene_neck_width",
+			"gene_chin_forward", "gene_chin_height", "gene_chin_width",
+			"gene_eye_distance", "gene_eye_height", "gene_eye_angle", "gene_eye_depth", "gene_eye_shut",
+			"gene_mouth_width", "gene_mouth_forward", "gene_mouth_height",
+			"gene_mouth_corner_height", "gene_mouth_corner_depth",
+			"gene_mouth_lower_lip_size", "gene_mouth_upper_lip_size",
+			"gene_jaw_forward", "gene_jaw_angle", "gene_jaw_height", "gene_jaw_width",
+			"gene_bs_jaw_def",
+			"complexion"
+		};
+
+		foreach (var geneName in irMorphGenesWithDirectEquivalents) {
+			var irGeneData = irPortraitData.MorphGenesDict[geneName];
+			var ck3Gene = ck3GenesDB.MorphGenes.First(g => g.Id == geneName);
+
+			var ck3TemplateName = morphGeneTemplateMapper.GetCK3Template(geneName, irGeneData.TemplateName);
+			if (ck3Gene.GeneTemplates.All(t => t.Id != ck3TemplateName)) {
+				Logger.Warn($"Could not find template {ck3TemplateName} for gene {geneName} in CK3!");
+				continue;
+			}
+
+			var ck3GeneTemplateRecessiveName = morphGeneTemplateMapper.GetCK3Template(geneName, irGeneData.TemplateRecessiveName);
+			if (ck3Gene.GeneTemplates.All(t => t.Id != ck3GeneTemplateRecessiveName)) {
+				Logger.Warn($"Could not find template {ck3GeneTemplateRecessiveName} for gene {geneName} in CK3!");
+				continue;
+			}
+
+			morphDNAValues.Add(geneName, new DNAGeneValue {
+				TemplateName = ck3TemplateName!,
+				IntSliderValue = irGeneData.Value,
+				TemplateRecessiveName = ck3GeneTemplateRecessiveName!,
+				IntSliderValueRecessive = irGeneData.ValueRecessive
+			});
+		}
+	}
+
+	private void ConvertClothes(Imperator.Characters.Character irCharacter, PortraitData irPortraitData, Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues) {
+		if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("clothes", out var ck3ClothesGene)) {
+			var clothesGeneValue = MatchAccessoryGeneValueByTemplate(irCharacter, irPortraitData, "clothes", ck3ClothesGene);
+			if (clothesGeneValue is not null) {
+				accessoryDNAValues.Add(ck3ClothesGene.Id, clothesGeneValue.Value);
+			}
+		} else {
+			Logger.Warn("clothes not found in CK3 special accessory genes!");
+		}
+	}
+
+	private void ConvertBeard(Imperator.Characters.Character irCharacter, PortraitData irPortraitData, Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues) {
+		if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("beards", out var beardGene)) {
+			var beardGeneValue = MatchAccessoryGeneValueByObject(
+				irCharacter,
+				irPortraitData,
+				"beards",
+				beardGene
+			);
+			if (beardGeneValue is not null) {
+				accessoryDNAValues.Add("beards", beardGeneValue.Value);
+			}
+		} else {
+			Logger.Warn("beards not found in CK3 special accessory genes!");
+		}
+	}
+
+	private void ConvertHairstyle(Imperator.Characters.Character irCharacter, PortraitData irPortraitData, Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues) {
+		if (ck3GenesDB.SpecialAccessoryGenes.TryGetValue("hairstyles", out var hairstylesGene)) {
+			var hairstylesGeneValue = MatchAccessoryGeneValueByObject(
+				irCharacter,
+				irPortraitData,
+				"hairstyles",
+				hairstylesGene
+			);
+			if (hairstylesGeneValue is not null) {
+				accessoryDNAValues.Add("hairstyles", hairstylesGeneValue.Value);
+			}
+		} else {
+			Logger.Warn("hairstyles not found in CK3 special accessory genes!");
+		}
 	}
 
 	private void ConvertBaldness(Imperator.Characters.Character irCharacter, Dictionary<string, DNAGeneValue> morphDNAValues, Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues) {
