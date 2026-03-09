@@ -110,13 +110,7 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 		Character[] charactersToCheck = [.. this.Where(character => character.IsDead && !landedCharacterIds.Contains(character.Id))];
 
 		// Members of rulers' families should be kept, unless dead and childless.
-		var familyIdsOfLandedCharacters = this
-			.Where(character => landedCharacterIds.Contains(character.Id))
-			.Select(character => character.Family?.Id)
-			.Distinct()
-			.Where(id => id is not null)
-			.Cast<ulong>()
-			.ToFrozenSet();
+		FrozenSet<ulong> familyIdsOfLandedCharacters = GetFamilyIdsOfLandedCharacters(landedCharacterIds);
 
 		var i = 0;
 		var charactersToRemove = new List<Character>();
@@ -157,6 +151,18 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 		// At this point we may have families with no characters left.
 		// Let's purge them.
 		families.PurgeUnneededFamilies(this);
+	}
+
+	private FrozenSet<ulong> GetFamilyIdsOfLandedCharacters(FrozenSet<ulong> landedCharacterIds)
+	{
+		var familyIdsOfLandedCharacters = this
+			.Where(character => landedCharacterIds.Contains(character.Id))
+			.Select(character => character.Family?.Id)
+			.Distinct()
+			.Where(id => id is not null)
+			.Cast<ulong>()
+			.ToFrozenSet();
+		return familyIdsOfLandedCharacters;
 	}
 
 	private void FillCacheOfAllParentIds(HashSet<ulong> parentIdsCache) {
