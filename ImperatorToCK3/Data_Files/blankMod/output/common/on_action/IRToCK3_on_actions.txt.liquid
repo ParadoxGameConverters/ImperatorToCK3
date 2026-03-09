@@ -364,6 +364,29 @@ IRToCK3_game_start_onaction_effects = {
 			irtock3_setup_roman_prefectures_game_start = { REGION = serica_deserti }
 		}
 
+		## If anyone holds the Rome hegemony titles at game start, they should have the Augustus trait and naming flag
+		if = {
+			limit = { exists = title:h_roman_empire.holder }
+			title:h_roman_empire.holder = {
+				add_trait = augustus
+				set_variable = uses_custom_caesar_flavourization
+			}
+		}
+		if = {
+			limit = { exists = title:h_western_roman_empire.holder }
+			title:h_western_roman_empire.holder = {
+				add_trait = augustus
+				set_variable = uses_custom_caesar_flavourization
+			}
+		}
+		if = {
+			limit = { exists = title:h_eastern_roman_empire.holder }
+			title:h_eastern_roman_empire.holder = {
+				add_trait = augustus
+				set_variable = uses_custom_caesar_flavourization
+			}
+		}
+
 		####################
 		### Title Naming ###
 		####################
