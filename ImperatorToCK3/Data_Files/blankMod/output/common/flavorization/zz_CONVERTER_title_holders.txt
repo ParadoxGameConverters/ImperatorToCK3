@@ -163,6 +163,129 @@ king_female_venetic_culture = {
 	}
 }
 
+## Roman
+# Titles
+irtock3_empire_roman_vassal_title_flavor = {
+	type = title
+	tier = empire
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+irtock3_kingdom_roman_vassal_title_flavor = {
+	type = title
+	tier = kingdom
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+irtock3_duchy_roman_vassal_title_flavor = {
+	type = title
+	tier = duchy
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+# Characters
+irtock3_emperor_roman_vassal_male_character_flavor = {
+	type = character
+	gender = male
+	special = holder
+	tier = empire
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+irtock3_emperor_roman_vassal_female_character_flavor = {
+	type = character
+	gender = female
+	special = holder
+	tier = empire
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+irtock3_king_roman_vassal_male_character_flavor = {
+	type = character
+	gender = male
+	special = holder
+	tier = kingdom
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+irtock3_king_roman_vassal_female_character_flavor = {
+	type = character
+	gender = female
+	special = holder
+	tier = kingdom
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+irtock3_duke_roman_vassal_male_character_flavor = {
+	type = character
+	gender = male
+	special = holder
+	tier = duchy
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+irtock3_duke_roman_vassal_female_character_flavor = {
+	type = character
+	gender = female
+	special = holder
+	tier = duchy
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
 
 
 ## Base Game Overwrite
