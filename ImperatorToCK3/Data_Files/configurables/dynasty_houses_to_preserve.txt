@@ -139,6 +139,20 @@ house_minamoto_toki # referenced in common\script_values\tgp_japan_values.txt an
 house_minamoto_yamamoto # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
 house_taira_chiba # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
 house_taira_kazusa # referenced in common\script_values\tgp_japan_values.txt and common\scripted_effects\10_dlc_tgp_house_bloc_scripted_effects.txt
+house_hchar_jeong # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
+house_hchar_yi # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
+house_penh # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
+house_hchar_yue # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
+house_hchar_wen # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
+house_hchar_fan # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
+house_hchar_li # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
+house_hchar_qiu # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
+house_hchar_chu # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
+house_hchar_nguyen # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
+house_hchar_pham # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
+house_hchar_sakata # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
+house_hchar_takezaki # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
+house_hchar_mibu # referenced in common\scripted_effects\00_historical_characters_scripted_effects.txt
 
 # TFE
 house_hashmid # referenced in events\islam_events.txt

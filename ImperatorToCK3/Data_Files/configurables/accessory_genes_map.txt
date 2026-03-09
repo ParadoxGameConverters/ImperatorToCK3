@@ -136,6 +136,7 @@ template_to_template = {
 	clothes = {
 		most_clothes = byzantine_high_nobility_clothes
 		roman_clothes = ep3_byzantine_era1_imperial_clothes
+		greek_clothes = ep3_byzantine_era1_imperial_clothes
 		carthaginian_clothes = mena_high_nobility_clothes
 		persian_clothes = mena_high_nobility_clothes
 		germanic_clothes = western_royalty_clothes
