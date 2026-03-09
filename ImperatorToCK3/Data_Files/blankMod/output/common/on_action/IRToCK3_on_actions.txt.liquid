@@ -752,6 +752,56 @@ IRToCK3_game_start_onaction_effects = {
 			}
 			remove_culture_tradition = tradition_sinophilic
 		}
+
+		###########################
+		### China De Jure Setup ###
+		###########################
+		# For now, making it so that any de jure hegemony that borders h_china has it's land given to China, since they would prioritize becoming Emperor of China anyway
+		if = {
+			limit = {
+				NOT = { global_var:irtock3_enabled ?= flag:wtwsms }
+			}
+
+			# Get a list of every Chinese-ruled hegemony
+			every_hegemony = {
+				limit = {
+					this != title:h_china
+					is_titular = no
+					holder.culture ?= { has_cultural_pillar = heritage_chinese }
+				}
+				add_to_list = chinese_hegemonies
+			}
+
+			if = {
+				limit = {
+					any_in_list = { list = chinese_hegemonies }
+				}
+
+				# Add all the de jure land of the Chinese hegemonies that are connected to h_china to be under h_china
+				while = {
+					limit = {
+						any_in_list = {
+							list = chinese_hegemonies
+							any_title_to_title_neighboring_and_across_water_empire = { hegemony ?= title:h_china }
+						}
+					}
+
+					every_in_list = {
+						list = chinese_hegemonies
+						limit = {
+							any_title_to_title_neighboring_and_across_water_empire = { hegemony ?= title:h_china }
+						}
+
+						every_in_de_jure_hierarchy = {
+							limit = { tier = tier_empire }
+							set_de_jure_liege_title = title:h_china
+						}
+
+						remove_from_list = chinese_hegemonies
+					}
+				}
+			}
+		}
 	}
 }
 
