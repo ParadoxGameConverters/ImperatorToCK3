@@ -360,7 +360,7 @@ irtock3_ritsuryo_events.1 = {
 							modifier = {
 								military_power > root.military_power
 								# Percent difference = ((vassal_military_power - liege_military_power) / ((vassal_military_power + liege_military_power) / 2)) * 100
-								subtract = {
+								add = {
 									value = 200
 									multiply = {
 										value = military_power
@@ -373,16 +373,17 @@ irtock3_ritsuryo_events.1 = {
 											add = root.military_power
 										}
 									}
+									multiply = -1
 								}
 							}
 							# If vassal has certain traits, lower chance of complying
 							modifier = {
 								has_trait = ambitious
-								subtract = 10
+								add = -10
 							}
 							modifier = {
 								has_trait = arrogant
-								subtract = 5
+								add = -5
 							}
 
 							add_to_list = will_destroy_titles_list
@@ -399,7 +400,7 @@ irtock3_ritsuryo_events.1 = {
 							modifier = {
 								root.military_power > military_power
 								# Percent difference = ((liege_military_power - vassal_military_power) / ((liege_military_power + vassal_military_power) / 2)) * 100
-								subtract = {
+								add = {
 									value = 200
 									multiply = {
 										value = root.military_power
@@ -412,20 +413,21 @@ irtock3_ritsuryo_events.1 = {
 											add = military_power
 										}
 									}
+									multiply = -1
 								}
 							}
 							# If vassal has certain traits, lower chance of rebelling
 							modifier = {
 								has_trait = craven
-								subtract = 10
+								add = -10
 							}
 							modifier = {
 								has_trait = content
-								subtract = 10
+								add = -10
 							}
 							modifier = {
 								has_trait = lazy
-								subtract = 5
+								add = -5
 							}
 
 							add_to_list = will_rebel_list
@@ -482,7 +484,7 @@ irtock3_ritsuryo_events.1 = {
 		}
 		
 		ai_will_select = {
-			base = 100
+			value = 100
 
 			# Modify chances based off traits
 			if = {
@@ -591,7 +593,7 @@ irtock3_ritsuryo_events.1 = {
 		}
 		
 		ai_will_select = {
-			base = 100
+			value = 100
 
 			# Modify chances based off traits
 			if = {
