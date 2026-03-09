@@ -845,11 +845,13 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			currentCharacterBirthDate = successorBirthDate;
 			++successorCount;
 		}
-			
+
 		// After the loop, currentCharacter should represent the successor at bookmark date.
-		// Set his DNA to avoid weird looking character on the bookmark screen in CK3.
-		currentCharacter.DNA = oldCharacter.DNA;
-			
+		// If oldCharacter was a player character and agesex matches, set the currentCharacter DNA to avoid weird looking character on the bookmark screen.
+		if (heldTitles.Any(t => t.PlayerCountry) && currentCharacter.GetAgeSex(ck3BookmarkDate) == oldCharacter.GetAgeSex(ck3BookmarkDate)) {
+			currentCharacter.DNA = oldCharacter.DNA;
+		}
+
 		TransferCharacterGoldToTheirLivingSuccessor(oldCharacter, currentCharacter);
 	}
 
