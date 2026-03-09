@@ -19900,3 +19900,10 @@ tgp_setup_historical_house_relation_effect = {
 		}
 	}
 }
+
+
+"common/script_values/01_starting_values.txt" = {
+	{
+			this != character:han_30000 # Not for tutorial character
+	}
+}

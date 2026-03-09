@@ -55,14 +55,14 @@ after_bookmark_date = {
     34005
     33911
 
-	# Characters referenced in events\dlc\ep3\ep3_story_cycle_violet_poet_events.txt
+	# Characters referenced in events\dlc\ep3\ep3_story_cycle_violet_poet_events.txt:
 	andalusian_0003
 	andalusian_0004
 
-	# Characters referenced in common/scripted_effects/07_dlc_ep3_scripted_effects.txt
+	# Characters referenced in common/scripted_effects/07_dlc_ep3_scripted_effects.txt:
 	90028
 
-	# Characters referenced in events\dlc\ep3\ep3_laamp_events.txt
+	# Characters referenced in events\dlc\ep3\ep3_laamp_events.txt:
 	122
 	102531
 	364
@@ -71,17 +71,34 @@ after_bookmark_date = {
 	172
 	161266
 
-	# Characters referenced in tests\dynasty_links_tests.txt
+	# Characters referenced in tests\dynasty_links_tests.txt:
 	120
 
-	# Characters referenced in gfx\portraits\portrait_modifiers\06_clothes_special.txt
+	# Characters referenced in gfx\portraits\portrait_modifiers\06_clothes_special.txt:
 	223523
 	
-	# Characters referenced in common\on_action\war_on_actions.txt
+	# Characters referenced in common\on_action\war_on_actions.txt:
 	mpo_mongol_1
 
-	# Characters referenced in events\dlc\tgp\tgp_genpei_character_events.txt
+	# Characters referenced in events\dlc\tgp\tgp_genpei_character_events.txt:
+	japanese_minamoto_seiwa_9
 	japanese_minamoto_seiwa_10
+	japanese_minamoto_seiwa_59
+	japanese_minamoto_seiwa_139
+	japanese_minamoto_seiwa_205
+	japanese_minamoto_seiwa_207
+	japanese_fujiwara_460
+	japanese_fujiwara_461
+	japanese_fujiwara_497
+	japanese_fujiwara_511
+	japanese_taira_kanmu_34
+	japanese_taira_kanmu_68
+	japanese_yamato_51
+	japanese_yamato_54
+
+	# Characters referenced in common\scripted_character_templates\00_mongol_templates.txt:
+	dynamic_mongol_1
+	dynamic_mongol_2
 	
 	# Easter egg characters:
 	easteregg_veronica_pazos
