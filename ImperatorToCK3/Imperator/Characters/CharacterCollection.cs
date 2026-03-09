@@ -98,9 +98,6 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 	public void PurgeUnneededCharacters(CountryCollection countries, List<Governorship> governorships, FamilyCollection families) {
 		Logger.Info("Purging unneeded Imperator characters...");
 
-		// Alive characters should be kept.
-		Character[] charactersToCheck = [.. this.Where(character => character.IsDead)];
-
 		// All landed characters should be kept.
 		var allRulerIds = countries
 			.SelectMany(country => country.RulerTerms.Select(term => term.CharacterId))
@@ -108,7 +105,9 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 			.Cast<ulong>();
 		var allGovernorIds = governorships.Select(g => g.CharacterId);
 		var landedCharacterIds = allRulerIds.Concat(allGovernorIds).ToFrozenSet();
-		charactersToCheck = [.. charactersToCheck.Where(character => !landedCharacterIds.Contains(character.Id))];
+
+		// Alive and landed characters should be kept.
+		Character[] charactersToCheck = [.. this.Where(character => character.IsDead && !landedCharacterIds.Contains(character.Id))];
 
 		// Members of rulers' families should be kept, unless dead and childless.
 		var familyIdsOfLandedCharacters = this
@@ -147,7 +146,12 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 			BulkRemove(charactersToRemove.ConvertAll(c => c.Id));
 
 			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded Imperator characters in iteration {i}.");
-			charactersToCheck = [.. charactersToCheck.Except(charactersToRemove)];
+			if (charactersToRemove.Count > 0) {
+				var removedIds = charactersToRemove
+					.Select(character => character.Id)
+					.ToFrozenSet();
+				charactersToCheck = [.. charactersToCheck.Where(character => !removedIds.Contains(character.Id))];
+			}
 		} while (charactersToRemove.Count > 0);
 		
 		// At this point we may have families with no characters left.
@@ -171,16 +175,18 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 	}
 
 	private void BulkRemove(List<ulong> ids) {
+		var idsToRemove = ids.ToFrozenSet();
+
 		// Remove parent/child/spouse references to the characters to be removed.
 		foreach (var character in this) {
-			if (character.Mother is not null && ids.Contains(character.Mother.Id)) {
+			if (character.Mother is not null && idsToRemove.Contains(character.Mother.Id)) {
 				character.Mother = null;
 			}
-			if (character.Father is not null && ids.Contains(character.Father.Id)) {
+			if (character.Father is not null && idsToRemove.Contains(character.Father.Id)) {
 				character.Father = null;
 			}
-			character.Children.RemoveWhere(child => ids.Contains(child.Key));
-			character.Spouses.RemoveWhere(spouse => ids.Contains(spouse.Key));
+			character.Children.RemoveWhere(child => idsToRemove.Contains(child.Key));
+			character.Spouses.RemoveWhere(spouse => idsToRemove.Contains(spouse.Key));
 		}
 		
 		foreach (var id in ids) {

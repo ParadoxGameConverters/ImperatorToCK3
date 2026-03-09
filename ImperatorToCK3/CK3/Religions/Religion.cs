@@ -45,14 +45,23 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 		
 		// Fix a religion having more doctrines in the same category than allowed.
 		foreach (var category in religions.DoctrineCategories) {
-			var doctrinesInCategory = DoctrineIds.Where(d => category.DoctrineIds.Contains(d)).ToArray();
-			if (doctrinesInCategory.Length > category.NumberOfPicks) {
+			var categoryDoctrineSet = category.DoctrineIds.ToHashSet(StringComparer.Ordinal);
+			var doctrinesInCategory = new List<string>();
+			foreach (var doctrineId in DoctrineIds) {
+				if (categoryDoctrineSet.Contains(doctrineId)) {
+					doctrinesInCategory.Add(doctrineId);
+				}
+			}
+
+			if (doctrinesInCategory.Count > category.NumberOfPicks) {
 				Logger.Warn($"Religion {Id} has too many doctrines in category {category.Id}: " +
 				            $"{string.Join(", ", doctrinesInCategory)}. Keeping the last {category.NumberOfPicks} of them.");
 				
 				DoctrineIds.ExceptWith(doctrinesInCategory);
-				foreach (var doctrine in Enumerable.Reverse(doctrinesInCategory).Take(category.NumberOfPicks)) {
-					DoctrineIds.Add(doctrine);
+				int kept = 0;
+				for (int i = doctrinesInCategory.Count - 1; i >= 0 && kept < category.NumberOfPicks; --i) {
+					DoctrineIds.Add(doctrinesInCategory[i]);
+					++kept;
 				}
 			}
 		}

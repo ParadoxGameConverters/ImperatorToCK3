@@ -1886,7 +1886,9 @@ internal sealed partial class Title {
 
 				while (excessDevSum > 0 && leastDevCounties.Count > 0) {
 					var devPerCounty = excessDevSum / leastDevCounties.Count;
-					foreach (var county in leastDevCounties.ToArray()) {
+					int i = 0;
+					while (i < leastDevCounties.Count) {
+						var county = leastDevCounties[i];
 						var currentDev = county.GetOwnOrInheritedDevelopmentLevel(date) ?? 0;
 						var devToAdd = Math.Max(devPerCounty, 100 - currentDev);
 						var newDevValue = currentDev + devToAdd;
@@ -1894,7 +1896,9 @@ internal sealed partial class Title {
 						county.SetDevelopmentLevel(newDevValue, date);
 						excessDevSum -= devToAdd;
 						if (newDevValue >= 100) {
-							leastDevCounties.Remove(county);
+							leastDevCounties.RemoveAt(i);
+						} else {
+							++i;
 						}
 					}
 				}

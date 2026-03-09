@@ -30,8 +30,15 @@ internal interface IHistoryField : IIdentifiable<string> {
 	}
 
 	internal void RemoveHistoryPastDate(Date date) {
-		foreach (var item in DateToEntriesDict.AsValueEnumerable().Where(kv => kv.Key > date).ToArray()) {
-			DateToEntriesDict.Remove(item.Key);
+		var keysToRemove = new List<Date>();
+		foreach (var key in DateToEntriesDict.Keys) {
+			if (key > date) {
+				keysToRemove.Add(key);
+			}
+		}
+
+		foreach (var key in keysToRemove) {
+			DateToEntriesDict.Remove(key);
 		}
 	}
 	internal void AddEntryToHistory(Date? date, string keyword, object value);

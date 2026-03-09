@@ -138,9 +138,16 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 				return;
 			}
 
-			var secondarySourceProvinces = irWorld.Provinces
-				.Where(p => sourceProvinceIds.Contains(p.Id) && p.Id != primarySource.Id)
-				.ToOrderedSet();
+			OrderedSet<Imperator.Provinces.Province> secondarySourceProvinces = [];
+			foreach (var sourceProvinceId in sourceProvinceIds) {
+				if (sourceProvinceId == primarySource.Id) {
+					continue;
+				}
+
+				if (irWorld.Provinces.TryGetValue(sourceProvinceId, out var sourceProvince)) {
+					secondarySourceProvinces.Add(sourceProvince);
+				}
+			}
 			// And finally, initialize it.
 			province.InitializeFromImperator(primarySource, secondarySourceProvinces, titles, cultureMapper,
 				religionMapper, conversionDate, config);

@@ -978,12 +978,15 @@ internal sealed class World {
 			new("world_middle_east", "arabic_pagan"),
 		}.Where(kvp => Religions.GetFaith(kvp.Value) is not null);
 
-		foreach (var (regionId, faithId) in regionToNewFaithMap) {
-			var regionProvinces = muslimProvinces
-				.Where(p => CK3RegionMapper.ProvinceIsInRegion(p.Id, regionId));
-			foreach (var province in regionProvinces) {
+		foreach (var province in muslimProvinces.ToArray()) {
+			foreach (var (regionId, faithId) in regionToNewFaithMap) {
+				if (!CK3RegionMapper.ProvinceIsInRegion(province.Id, regionId)) {
+					continue;
+				}
+
 				province.SetFaithIdAndOverrideExistingEntries(faithId);
 				muslimProvinces.Remove(province);
+				break;
 			}
 		}
 		
@@ -1019,19 +1022,20 @@ internal sealed class World {
 		}
 
 		var provincesWithValidFaith = Provinces
-			.Except(provincesOfReligion)
-			.Where(p => p.GetFaithId(date) is not null)
-			.ToFrozenSet();
-		foreach (var province in provincesOfReligion) {
-			var closestValidProvince = provincesWithValidFaith
-				.Except(provincesOfReligion)
-				.Where(p => !MapData.IsImpassable(p.Id))
-				.Select(p => new {
-					Province = p,
-					Distance = MapData.GetDistanceBetweenProvinces(province.Id, p.Id),
-				})
-				.Where(x => x.Distance > 0)
-				.MinBy(x => x.Distance)?.Province;
+			.Where(p => !provincesOfReligion.Contains(p) && p.GetFaithId(date) is not null && !MapData.IsImpassable(p.Id))
+			.ToArray();
+		foreach (var province in provincesOfReligion.ToArray()) {
+			Province? closestValidProvince = null;
+			double shortestDistance = double.MaxValue;
+			foreach (var candidateProvince in provincesWithValidFaith) {
+				var distance = MapData.GetDistanceBetweenProvinces(province.Id, candidateProvince.Id);
+				if (distance == 0 || distance >= shortestDistance) {
+					continue;
+				}
+
+				shortestDistance = distance;
+				closestValidProvince = candidateProvince;
+			}
 			if (closestValidProvince is null) {
 				continue;
 			}
@@ -1044,17 +1048,27 @@ internal sealed class World {
 	}
 
 	private void UseNeighborProvincesToConvertProvincesOfReligion(HashSet<Province> provincesOfReligion, Date date) {
-		foreach (var province in provincesOfReligion) {
+		foreach (var province in provincesOfReligion.ToArray()) {
 			var neighborIds = MapData.GetNeighborProvinceIds(province.Id);
 			if (neighborIds.Count == 0) {
 				continue;
 			}
 
-			var neighborFaithId = Provinces
-				.Except(provincesOfReligion)
-				.Where(p => neighborIds.Contains(p.Id))
-				.Select(p => p.GetFaithId(date))
-				.FirstOrDefault(f => f is not null);
+			string? neighborFaithId = null;
+			foreach (var neighborId in neighborIds) {
+				if (!Provinces.TryGetValue(neighborId, out var neighborProvince)) {
+					continue;
+				}
+
+				if (provincesOfReligion.Contains(neighborProvince)) {
+					continue;
+				}
+
+				neighborFaithId = neighborProvince.GetFaithId(date);
+				if (neighborFaithId is not null) {
+					break;
+				}
+			}
 			if (neighborFaithId is null) {
 				continue;
 			}

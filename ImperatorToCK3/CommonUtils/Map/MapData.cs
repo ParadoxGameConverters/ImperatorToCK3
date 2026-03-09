@@ -347,8 +347,10 @@ internal sealed class MapData {
 				}
 			}
 		} else {
-			foreach (var p in ProvinceDefinitions.Where(p => provIds.Contains(p.Id))) {
-				p.AddSpecialCategory(category);
+			foreach (var provId in provIds) {
+				if (ProvinceDefinitions.TryGetValue(provId, out var province)) {
+					province.AddSpecialCategory(category);
+				}
 			}
 		}
 	}
