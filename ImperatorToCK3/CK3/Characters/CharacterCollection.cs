@@ -571,7 +571,10 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 			DetermineCharactersToPurge(charactersToRemove, charactersToCheck, dynastyIdsOfLandedCharacters, parentIdsCache, ck3BookmarkDate);
 
-			var removedCharacterIds = charactersToRemove.ConvertAll(c => c.Id);
+			var removedCharacterIds = new List<string>(charactersToRemove.Count);
+			foreach (var characterToRemove in charactersToRemove) {
+				removedCharacterIds.Add(characterToRemove.Id);
+			}
 			BulkRemove(removedCharacterIds);
 
 			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded characters in iteration {i}.");
@@ -628,7 +631,11 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	public void RemoveEmployerIdFromLandedCharacters(Title.LandedTitles titles, Date conversionDate) {
 		Logger.Info("Removing employer id from landed characters...");
 		var landedCharacterIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(conversionDate);
-		foreach (var character in this.Where(character => landedCharacterIds.Contains(character.Id))) {
+		foreach (var character in this) {
+			if (!landedCharacterIds.Contains(character.Id)) {
+				continue;
+			}
+
 			character.History.Fields["employer"].RemoveAllEntries();
 		}
 

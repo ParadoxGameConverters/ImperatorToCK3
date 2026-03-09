@@ -135,17 +135,12 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 	}
 
 	public List<string> GetLocLinesToOutputForLanguage(string language) {
-		var locLinesToOutput = new List<string>();
+		var locLinesToOutput = new List<string>(Count);
 
 		foreach (var locBlock in this) {
 			if (locBlock.GetLocTypeForLanguage(language) is null or CK3LocType.CK3ModFS) {
 				// If there's no loc for the language, the returned loc type is null.
 				// CK3ModFS locs are already present in the CK3/mod/blankMod files, we don't need to output them.
-				continue;
-			}
-			
-			var loc = locBlock[language];
-			if (loc is null) {
 				continue;
 			}
 			
