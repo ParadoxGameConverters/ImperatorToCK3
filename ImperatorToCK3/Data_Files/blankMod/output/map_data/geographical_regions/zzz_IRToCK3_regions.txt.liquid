@@ -26,6 +26,9 @@ converter_roa_out_of_scope_region = {
 
 
 {% if vanilla or roa or aep or tfe %}
+###############
+## Out of scope Indonesia
+###############
 # Out-of-scope region for Terra-Indomita that should be made Hantuist
 converter_AUH_out_of_scope_region_hantuist = {
 	counties = {
@@ -90,6 +93,115 @@ converter_AUH_out_of_scope_region_faith_check = {
 	}
 	regions = {
 		world_asia_malaysia omnod_dalai_khanate_de_jure_region
+	}
+}
+
+###############
+## China Empire Regions
+###############
+# These regions are to be used wherever the base game empire titles under h_china are referenced, so that if the de jure empires change, the effects that depend on them will still work
+irtock3_de_jure_region_e_zhongyuan = {
+	duchies = {
+		# k_henan
+		d_dongji d_biansong d_shanguo d_zhenghua d_chenxu
+
+		# k_qingxu
+		d_ziqing d_yanhai d_xusi d_yuncao
+
+		# k_hebei
+		d_weibo d_xingming d_chengde d_cangjing d_heyang
+
+		# k_hedong
+		d_hedong d_yanmen d_hezhong d_zelu
+
+		# k_youji
+		d_youzhou d_yideng d_yingmo
+
+		# k_daibei
+		d_yunshuo d_sanggan d_xinan
+	}
+}
+
+irtock3_de_jure_region_e_yongliang = {
+	duchies = {
+		# k_guannei
+		d_yongxing d_fengxiang d_jinshang d_binning d_fufang d_jingyuan d_qincheng d_xingfeng
+
+		# k_hexi
+		d_hexi d_longyou d_qilian d_gansu d_guasha
+
+		# k_xia
+		d_shuofang d_xiasui d_tiande d_langshan d_xiutu d_juyan
+	}
+}
+
+irtock3_de_jure_region_e_jingyang = {
+	duchies = {
+		# k_jiangdong
+		d_jiangdong d_xuanshe
+
+		# k_liangzhe
+		d_zhexi d_zhedong
+
+		# k_fujian
+		d_weiwu d_pinghai d_jianning
+
+		# k_huainan
+		d_huainan d_huaixi
+
+		# k_jiangxi
+		d_jiangxi d_dingjiang d_zhaoxin
+
+		# k_shannan
+		d_xiangdeng d_jingnan d_eyue
+
+		# k_hunan
+		d_hunan d_lingling
+	}
+}
+
+irtock3_de_jure_region_e_liangyi = {
+	duchies = {
+		# k_xichuan
+		d_xichuan d_qiongnan
+		
+		# k_xingyuan
+		d_xingyuan d_lilang d_baqu
+		
+		# k_dongchuan
+		d_dongchuan d_wuxin
+		
+		# k_kuizhou
+		d_kuizhong d_qianzhong d_wuxi
+		
+		# k_qianzhong
+		d_luodian d_luoshi d_shimen d_zangke d_xiyuan
+		
+		# k_dali
+		d_dali d_jianchuan d_huichuan d_yinsheng d_tuodong d_tonghai
+	}
+}
+
+irtock3_de_jure_region_e_lingnan = {
+	duchies = {
+		# k_lingnan
+		d_lingnan d_huixun d_gaoliang d_qiongguan
+		
+		# k_lingxi
+		d_guiguan d_jingjiang d_rongguan d_yongguan
+		
+		# k_viet
+		d_hai_dong d_nghe_an d_lam_tay d_thang_long
+	}
+}
+
+irtock3_de_jure_region_h_china = {
+	regions = {
+		irtock3_de_jure_region_e_zhongyuan
+		irtock3_de_jure_region_e_yongliang
+		irtock3_de_jure_region_e_jingyang
+		irtock3_de_jure_region_e_liangyi
+		irtock3_de_jure_region_e_lingnan
 	}
 }
 {% endif %}

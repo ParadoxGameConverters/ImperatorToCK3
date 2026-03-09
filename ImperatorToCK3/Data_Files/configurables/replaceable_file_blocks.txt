@@ -7927,3 +7927,135 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		}
 	}
 }
+
+
+"common/casus_belli_types/09_mpo_wars.txt" = {
+	#################
+	## mpo_nomad_invasion_cb
+	#################
+
+	# ai_score block
+	replace = {
+		before = {
+							OR = {
+								title:k_anatolia ?= this
+								title:k_pontus ?= this
+								title:k_delhi ?= this
+								title:k_bulgaria ?= this
+								empire = {
+									OR = {
+										title:e_persia ?= this
+										title:e_turan ?= this
+										title:e_yongliang ?= this
+										title:e_zhongyuan ?= this
+										title:e_carpathia ?= this
+										title:e_great_yuan ?= this
+										title:e_chagatai ?= this
+										title:e_ilkhanate ?= this
+										title:e_golden_horde ?= this
+									}
+								}
+							}
+		}
+
+		after = {
+							OR = {
+								title:k_anatolia ?= this
+								title:k_pontus ?= this
+								title:k_delhi ?= this
+								title:k_bulgaria ?= this
+								empire = {
+									OR = {
+										title:e_persia ?= this
+										title:e_turan ?= this
+										title:e_carpathia ?= this
+										title:e_great_yuan ?= this
+										title:e_chagatai ?= this
+										title:e_ilkhanate ?= this
+										title:e_golden_horde ?= this
+									}
+								}
+								# IRToCK3: The base makes the AI more likely to target titles under the zhongyuan/yongliang empires. But, this breaks if those titles change, so using geographical_regions instead
+								any_de_jure_county = {
+									percent >= 0.33
+									title_province = {
+										OR = {
+											geographical_region = irtock3_de_jure_region_e_zhongyuan
+											geographical_region = irtock3_de_jure_region_e_yongliang
+										}
+									}
+								}
+							}
+		}
+	}
+}
+
+
+"common/casus_belli_types/10_tgp_china_wars.txt" = {
+	#################
+	## chinese_consolidation_cb
+	#################
+
+	# allowed_against_character block
+	replace = {
+		before = {
+					empire ?= {
+						OR = {
+							this = title:e_zhongyuan
+							this = title:e_jingyang
+							this = title:e_liangyi
+							this = title:e_yongliang
+							this = title:e_lingnan
+						}
+					}
+		}
+
+		after = {
+					empire ?= {
+						# IRToCK3: The base game specifically checks if the target's primary title is in some way under one of China's base game empire titles, but since those empire titles can potentially change during the game, using regions instead
+						any_de_jure_county = {
+							percent >= 0.5
+							title_province = { geographical_region = irtock3_de_jure_region_h_china }
+						}
+					}
+		}
+	}
+}
+
+
+"common/scripted_effects/09_mpo_greatest_of_khans_effects.txt" = {
+	#################
+	## gok_world_conquest_generic_rewards_effect
+	#################
+	replace = {
+		before = {
+				NAND = {
+					exists = hegemony
+					OR = {
+						this = title:e_zhongyuan
+						this = title:e_yongliang
+						this = title:e_jingyang
+						this = title:e_liangyi
+						this = title:e_lingnan
+					}
+				}
+		}
+
+		after = {
+				NAND = {
+					exists = hegemony
+					# IRToCK3: The base game makes sure the specific Chinese empire titles aren't drifted into the GoK hegemony. Since those can change during a game, changed to use regions instead
+					any_de_jure_county = {
+						percent >= 0.5
+						title_province = { geographical_region = irtock3_de_jure_region_h_china }
+					}
+				}
+		}
+	}
+}
+
+
+
+
+
+
