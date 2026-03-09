@@ -404,9 +404,11 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			.Where(c => c.TraditionIds.Contains("tradition_caste_system"))
 			.Select(c => c.Id)
 			.ToFrozenSet();
-		var learningEducationTraits = new[]{"education_learning_1", "education_learning_2", "education_learning_3", "education_learning_4"};
+		var learningEducationTraits = new HashSet<string>(StringComparer.Ordinal) {
+			"education_learning_1", "education_learning_2", "education_learning_3", "education_learning_4"
+		};
 
-		foreach (var character in this.OrderBy(c => c.BirthDate)) {
+		foreach (var character in GetCharactersOrderedByBirthDateIfNeeded(this)) {
 			if (character.ImperatorCharacter is null) {
 				continue;
 			}
@@ -435,15 +437,57 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			}
 
 			// Try to set caste based on character's traits.
-			var traitIds = character.BaseTraits.ToFrozenSet();
-			character.AddBaseTrait(traitIds.Intersect(learningEducationTraits).Any() ? "brahmin" : "kshatriya");
+			character.AddBaseTrait(HasAnyTrait(character.BaseTraits, learningEducationTraits) ? "brahmin" : "kshatriya");
 		}
 		return;
 
 		static string? GetCasteTraitFromParent(Character parentCharacter) {
-			var casteTraits = new[]{"brahmin", "kshatriya", "vaishya", "shudra"};
-			var parentTraitIds = parentCharacter.BaseTraits.ToFrozenSet();
-			return casteTraits.Intersect(parentTraitIds).FirstOrDefault();
+			foreach (var trait in parentCharacter.BaseTraits) {
+				switch (trait) {
+					case "brahmin":
+					case "kshatriya":
+					case "vaishya":
+					case "shudra":
+						return trait;
+				}
+			}
+
+			return null;
+		}
+
+		static bool HasAnyTrait(IEnumerable<string> traits, HashSet<string> relevantTraits) {
+			foreach (var trait in traits) {
+				if (relevantTraits.Contains(trait)) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		static IEnumerable<Character> GetCharactersOrderedByBirthDateIfNeeded(IEnumerable<Character> characters) {
+			using var enumerator = characters.GetEnumerator();
+			if (!enumerator.MoveNext()) {
+				return Array.Empty<Character>();
+			}
+
+			var orderedCharacters = new List<Character> { enumerator.Current };
+			var previousBirthDate = enumerator.Current.BirthDate;
+			var needsSorting = false;
+			while (enumerator.MoveNext()) {
+				var currentCharacter = enumerator.Current;
+				if (currentCharacter.BirthDate < previousBirthDate) {
+					needsSorting = true;
+				}
+				orderedCharacters.Add(currentCharacter);
+				previousBirthDate = currentCharacter.BirthDate;
+			}
+
+			if (needsSorting) {
+				orderedCharacters.Sort((left, right) => left.BirthDate.CompareTo(right.BirthDate));
+			}
+
+			return orderedCharacters;
 		}
 	}
 
@@ -490,22 +534,24 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 		// Characters from CK3 that hold titles at the bookmark date should be kept.
 		var currentTitleHolderIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(ck3BookmarkDate);
-		var landedCharacters = this
-			.Where(character => currentTitleHolderIds.Contains(character.Id))
-			.ToArray();
-		var landedCharacterIds = landedCharacters
-			.Select(character => character.Id)
-			.ToFrozenSet();
+		var landedCharacters = new List<Character>();
+		var charactersToCheckList = new List<Character>();
+		foreach (var character in this) {
+			if (currentTitleHolderIds.Contains(character.Id)) {
+				landedCharacters.Add(character);
+				continue;
+			}
+
+			if (character.FromImperator || character.Id.StartsWith("animation_test_", StringComparison.Ordinal) || character.IsNonRemovable) {
+				continue;
+			}
+
+			charactersToCheckList.Add(character);
+		}
 
 		// Characters from I:R should be kept (the unimportant ones have already been purged during I:R processing).
 		// Also keep landed, animation test, and script-protected characters.
-		var charactersToCheck = this
-			.Where(character =>
-				!character.FromImperator &&
-				!landedCharacterIds.Contains(character.Id) &&
-				!character.Id.StartsWith("animation_test_", StringComparison.Ordinal) &&
-				!character.IsNonRemovable)
-			.ToArray();
+		var charactersToCheck = charactersToCheckList.ToArray();
 
 		// Members of landed dynasties will be preserved, unless dead and childless.
 		var dynastyIdsOfLandedCharacters = landedCharacters
@@ -607,6 +653,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 		var bookmarkDate = config.CK3BookmarkDate;
 		var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
+		var uniqueVassalCharacterIds = new HashSet<string>();
 		foreach (var ck3Country in ck3CountriesFromImperator) {
 			var rulerId = ck3Country.GetHolderId(bookmarkDate);
 			if (rulerId == "0") {
@@ -616,25 +663,31 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 			var imperatorGold = ck3Country.ImperatorCountry!.Currencies.Gold * config.ImperatorCurrencyRate;
 
-			var vassalCharacterIds = ck3Country.GetDeFactoVassals(bookmarkDate).Values
-				.Where(vassalTitle => !vassalTitle.Landless)
-				.Select(vassalTitle => vassalTitle.GetHolderId(bookmarkDate))
-				.ToFrozenSet();
+			uniqueVassalCharacterIds.Clear();
+			foreach (var vassalTitle in ck3Country.GetDeFactoVassals(bookmarkDate).Values) {
+				if (!vassalTitle.Landless) {
+					uniqueVassalCharacterIds.Add(vassalTitle.GetHolderId(bookmarkDate));
+				}
+			}
 
-			var vassalCharacters = new HashSet<Character>();
-			foreach (var vassalCharacterId in vassalCharacterIds) {
-				if (TryGetValue(vassalCharacterId, out var vassalCharacter)) {
-					vassalCharacters.Add(vassalCharacter);
+			var validVassalCount = 0;
+			foreach (var vassalCharacterId in uniqueVassalCharacterIds) {
+				if (ContainsKey(vassalCharacterId)) {
+					++validVassalCount;
 				} else {
 					Logger.Warn($"Character {vassalCharacterId} not found!");
 				}
 			}
 
 			// Ruler should also get a share, he has double weight, so we add 2 to the count.
-			var mouthsToFeedCount = vassalCharacters.Count + 2;
+			var mouthsToFeedCount = validVassalCount + 2;
 
 			var goldPerVassal = imperatorGold / mouthsToFeedCount;
-			foreach (var vassalCharacter in vassalCharacters) {
+			foreach (var vassalCharacterId in uniqueVassalCharacterIds) {
+				if (!TryGetValue(vassalCharacterId, out var vassalCharacter)) {
+					continue;
+				}
+
 				AddGoldToCharacter(vassalCharacter, goldPerVassal);
 				imperatorGold -= goldPerVassal;
 			}
@@ -688,19 +741,25 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 	internal void GenerateSuccessorsForOldCharacters(Title.LandedTitles titles, CultureCollection cultures, Date irSaveDate, Date ck3BookmarkDate, ulong randomSeed) {
 		Logger.Info("Generating successors for old characters...");
-		
-		var oldCharacters = this
-			.Where(c => c.BirthDate < ck3BookmarkDate && c.DeathDate is null && ck3BookmarkDate.DiffInYears(c.BirthDate) > 60).ToArray();
 
 		var titleHolderIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(ck3BookmarkDate);
-		
-		var oldTitleHolders = oldCharacters
-			.Where(c => titleHolderIds.Contains(c.Id))
-			.ToArray();
+		var oldTitleHolders = new List<Character>();
+		var oldCharactersWithoutTitles = new List<Character>();
+		foreach (var character in this) {
+			if (character.BirthDate >= ck3BookmarkDate || character.DeathDate is not null || ck3BookmarkDate.DiffInYears(character.BirthDate) <= 60) {
+				continue;
+			}
+
+			if (titleHolderIds.Contains(character.Id)) {
+				oldTitleHolders.Add(character);
+			} else {
+				oldCharactersWithoutTitles.Add(character);
+			}
+		}
 		
 		// For characters that don't hold any titles, just set up a death date.
 		var randomForCharactersWithoutTitles = new Random((int)randomSeed);
-		foreach (var oldCharacter in oldCharacters.Except(oldTitleHolders)) {
+		foreach (var oldCharacter in oldCharactersWithoutTitles) {
 			// Roll a dice to determine how much longer the character will live.
 			var monthsToLive = randomForCharactersWithoutTitles.Next(1, 30 * 12); // Can live up to 30 years more.
 			
@@ -748,18 +807,12 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		Date currentCharacterBirthDate = currentCharacter.BirthDate;
 		while (ck3BookmarkDate.DiffInYears(currentCharacterBirthDate) >= 90) {
 			// If the character has living male children, the oldest one will be the successor.
-			var successorAndBirthDate = currentCharacter.Children
-				.Where(c => c is {Female: false, DeathDate: null})
-				.Select(c => new { Character = c, c.BirthDate })
-				.OrderBy(x => x.BirthDate)
-				.FirstOrDefault();
+			var successor = GetOldestLivingMaleChild(currentCharacter.Children);
 				
-			Character successor;
 			Date currentCharacterDeathDate;
 			Date successorBirthDate;
-			if (successorAndBirthDate is not null) {
-				successor = successorAndBirthDate.Character;
-				successorBirthDate = successorAndBirthDate.BirthDate;
+			if (successor is not null) {
+				successorBirthDate = successor.BirthDate;
 					
 				currentCharacterDeathDate = DetermineCharacterDeathDate(currentCharacterBirthDate, successorBirthDate, irSaveDate, ck3BookmarkDate, random);
 			} else {
@@ -791,6 +844,21 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		currentCharacter.DNA = oldCharacter.DNA;
 			
 		TransferCharacterGoldToTheirLivingSuccessor(oldCharacter, currentCharacter);
+	}
+
+	private static Character? GetOldestLivingMaleChild(IEnumerable<Character> children) {
+		Character? oldestLivingMaleChild = null;
+		foreach (var child in children) {
+			if (child is {Female: true} || child.DeathDate is not null) {
+				continue;
+			}
+
+			if (oldestLivingMaleChild is null || child.BirthDate < oldestLivingMaleChild.BirthDate) {
+				oldestLivingMaleChild = child;
+			}
+		}
+
+		return oldestLivingMaleChild;
 	}
 
 	private static Date MakeOldCharacterLiveUntilTheirHeirIsAtLeast16YearsOld(Date currentCharacterBirthDate,

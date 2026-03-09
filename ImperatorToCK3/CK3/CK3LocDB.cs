@@ -50,14 +50,13 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 		}
 		
 		string baseLocDir = Path.Combine(optionalLocDir, "base");
-		var optionalLocFilePaths = Directory.GetFiles(baseLocDir, "*.yml", SearchOption.AllDirectories);
+		var optionalLocFilePaths = new List<string>(Directory.GetFiles(baseLocDir, "*.yml", SearchOption.AllDirectories));
 		foreach (var modFlag in activeModFlags) {
 			string modLocDir = Path.Combine(optionalLocDir, modFlag);
 			if (!Directory.Exists(modLocDir)) {
 				continue;
 			}
-			optionalLocFilePaths = optionalLocFilePaths.AsValueEnumerable()
-				.Concat(Directory.GetFiles(modLocDir, "*.yml", SearchOption.AllDirectories)).ToArray();
+			optionalLocFilePaths.AddRange(Directory.GetFiles(modLocDir, "*.yml", SearchOption.AllDirectories));
 		}
 		
 		var optionalConverterLocDB = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
