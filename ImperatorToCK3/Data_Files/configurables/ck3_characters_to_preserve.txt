@@ -79,6 +79,9 @@ after_bookmark_date = {
 	
 	# Characters referenced in common\on_action\war_on_actions.txt
 	mpo_mongol_1
+
+	# Characters referenced in events\dlc\tgp\tgp_genpei_character_events.txt
+	japanese_minamoto_seiwa_10
 	
 	# Easter egg characters:
 	easteregg_veronica_pazos
