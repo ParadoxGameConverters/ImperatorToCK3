@@ -1561,10 +1561,7 @@ internal sealed partial class Title {
 					// Try to find valid neighbor by land first, to reduce the number of exclaves.
 					Title? validNeighbor = null;
 					foreach (var secondaryHeritage in dominantHeritages.Skip(1)) {
-						if (!heritageToEmpireDict.TryGetValue(secondaryHeritage.Id, out var heritageEmpire)) {
-							continue;
-						}
-						if (heritageEmpire is null) {
+						if (!heritageToEmpireDict.TryGetValue(secondaryHeritage.Id, out var heritageEmpire) || heritageEmpire is null) {
 							continue;
 						}
 						if (!adjacentEmpiresByLand.Contains(heritageEmpire)) {
@@ -1584,10 +1581,7 @@ internal sealed partial class Title {
 							.ToFrozenSet();
 						
 						foreach (var secondaryHeritage in dominantHeritages.Skip(1)) {
-							if (!heritageToEmpireDict.TryGetValue(secondaryHeritage.Id, out var heritageEmpire)) {
-								continue;
-							}
-							if (heritageEmpire is null) {
+							if (!heritageToEmpireDict.TryGetValue(secondaryHeritage.Id, out var heritageEmpire) || heritageEmpire is null) {
 								continue;
 							}
 							if (!adjacentEmpiresByWaterBody.Contains(heritageEmpire)) {
