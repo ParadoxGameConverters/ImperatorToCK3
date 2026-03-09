@@ -7927,3 +7927,17 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		}
 	}
 }
+
+
+"common/defines/00_defines.txt" = {
+	# add IRToCK3's eremitic_government to the GOVERNMENT_TYPES define
+	replace = {
+		before = {
+		"steppe_admin_government"
+		} # end of before
+		after = {
+		"steppe_admin_government"
+		"eremitic_government"
+		} # end of after
+	}
+}
