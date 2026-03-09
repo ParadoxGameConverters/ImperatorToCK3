@@ -99,6 +99,12 @@ after_bookmark_date = {
 	# Characters referenced in common\scripted_character_templates\00_mongol_templates.txt:
 	dynamic_mongol_1
 	dynamic_mongol_2
+
+	# Characters referenced in events\dlc\mpo\mpo_jamukha_flavor_events.txt:
+	303211
+
+	# Characters referenced in events\dlc\mpo\mpo_story_cycle_temujin_flavor_events.txt:
+	303116
 	
 	# Easter egg characters:
 	easteregg_veronica_pazos
