@@ -525,13 +525,12 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 			DetermineCharactersToPurge(charactersToRemove, charactersToCheck, dynastyIdsOfLandedCharacters, parentIdsCache, ck3BookmarkDate);
 
-			BulkRemove(charactersToRemove.ConvertAll(c => c.Id));
+			var removedCharacterIds = charactersToRemove.ConvertAll(c => c.Id);
+			BulkRemove(removedCharacterIds);
 
 			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded characters in iteration {i}.");
 			if (charactersToRemove.Count > 0) {
-				var removedIds = charactersToRemove
-					.Select(character => character.Id)
-					.ToFrozenSet();
+				var removedIds = removedCharacterIds.ToFrozenSet();
 				charactersToCheck = [.. charactersToCheck.Where(character => !removedIds.Contains(character.Id))];
 			}
 		} while (charactersToRemove.Count > 0);
@@ -920,10 +919,13 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	public void RemoveInvalidDynastiesFromHistory(DynastyCollection dynasties) {
 		Logger.Info("Removing invalid dynasties from CK3 character history...");
 
-		var ck3Characters = this.Where(c => !c.FromImperator).ToArray();
 		var validDynastyIds = dynasties.Select(d => d.Id).ToFrozenSet();
 
-		foreach (var character in ck3Characters) {
+		foreach (var character in this) {
+			if (character.FromImperator) {
+				continue;
+			}
+
 			if (!character.History.Fields.TryGetValue("dynasty", out var dynastyField)) {
 				continue;
 			}

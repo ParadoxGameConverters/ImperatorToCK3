@@ -8,6 +8,7 @@ using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils.Map;
+using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Geography;
@@ -210,6 +211,31 @@ public class CharacterCollectionTests {
 			.Should()
 			.ContainEquivalentOf(new Pregnancy("imperator1", "imperator3", new Date(900, 10, 1, AUC: true), isBastard: true));
 		ck3Characters["imperator4"].Pregnancies.Should().BeEmpty();
+	}
+
+	[Fact]
+	public void RemoveInvalidDynastiesFromHistory_FiltersCorrectly() {
+		var cc = new CharacterCollection();
+		var date = new Date(1, 1, 1, AUC: true);
+		var char1 = new Character("c1", "one", date, cc) { FromImperator = false };
+		char1.History.Fields["dynasty"].InitialEntries.Add(new KeyValuePair<string, object>("dynasty", "valid"));
+		char1.History.Fields["dynasty"].InitialEntries.Add(new KeyValuePair<string, object>("dynasty", ""));
+		char1.History.Fields["dynasty"].InitialEntries.Add(new KeyValuePair<string, object>("dynasty", "invalid"));
+		cc.AddOrReplace(char1);
+
+		var char2 = new Character("c2", "two", date, cc) { FromImperator = true };
+		char2.History.Fields["dynasty"].InitialEntries.Add(new KeyValuePair<string, object>("dynasty", "valid"));
+		cc.AddOrReplace(char2);
+
+		var dyns = new DynastyCollection();
+		dyns.AddOrReplace(new Dynasty("valid", new BufferedReader("")));
+
+		cc.RemoveInvalidDynastiesFromHistory(dyns);
+
+		var entries = char1.History.Fields["dynasty"].InitialEntries.Select(kvp => kvp.Value.ToString()).ToList();
+		entries.Should().Equal(new[] { "valid" });
+		var entries2 = char2.History.Fields["dynasty"].InitialEntries.Select(kvp => kvp.Value.ToString()).ToList();
+		entries2.Should().Equal(new[] { "valid" });
 	}
 
 	[Fact]
