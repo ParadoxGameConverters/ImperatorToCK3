@@ -12,7 +12,7 @@ internal interface IHistoryField : IIdentifiable<string> {
 	internal SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; }
 
 	internal object? GetValue(Date? date);
-	internal KeyValuePair<Date?, object?> GetLastEntryWithDate(Date? date) { // TODO: add tests for this
+	internal KeyValuePair<Date?, object?> GetLastEntryWithDate(Date? date) {
 		if (date is not null) {
 			var pairsWithEarlierOrSameDate = DateToEntriesDict.TakeWhile(d => d.Key <= date);
 
@@ -30,8 +30,15 @@ internal interface IHistoryField : IIdentifiable<string> {
 	}
 
 	internal void RemoveHistoryPastDate(Date date) {
-		foreach (var item in DateToEntriesDict.AsValueEnumerable().Where(kv => kv.Key > date).ToArray()) {
-			DateToEntriesDict.Remove(item.Key);
+		var keysToRemove = new List<Date>();
+		foreach (var key in DateToEntriesDict.Keys) {
+			if (key > date) {
+				keysToRemove.Add(key);
+			}
+		}
+
+		foreach (var key in keysToRemove) {
+			DateToEntriesDict.Remove(key);
 		}
 	}
 	internal void AddEntryToHistory(Date? date, string keyword, object value);

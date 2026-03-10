@@ -89,9 +89,7 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 							anotherFamilyMembers = cachedMembers;
 						}
 						else {
-							anotherFamilyMembers = characters
-								.Where(c => anotherFamilyMemberIds.Contains(c.Id))
-								.ToArray();
+							anotherFamilyMembers = [.. characters.Where(c => anotherFamilyMemberIds.Contains(c.Id))];
 							familyIdToCharactersCache[anotherFamily.Id] = anotherFamilyMembers;
 						}
 

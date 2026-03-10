@@ -27,17 +27,8 @@ internal sealed partial class CharacterCollection {
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("history/characters", ck3ModFS, "txt", recursive: true, logFilePaths: true);
-		
-		// Make all animation_test_ characters die on 2.1.1.
-		foreach (var character in loadedCharacters) {
-			if (!character.Id.StartsWith("animation_test_")) {
-				continue;
-			}
-			
-			var deathField = character.History.Fields["death"];
-			deathField.RemoveAllEntries();
-			deathField.AddEntryToHistory(new Date(2, 1, 1), "death", value: true);
-		}
+
+		KillOffAnimationTestCharactersIn2AD(loadedCharacters);
 
 		string[] irrelevantEffects = ["set_relation_rival", "set_relation_potential_rival", "set_relation_nemesis",
 			"set_relation_lover", "set_relation_soulmate",
@@ -57,61 +48,106 @@ internal sealed partial class CharacterCollection {
 			.Select(c => c.Id).Except(femaleCharacterIds).ToFrozenSet();
 		
 		foreach (var character in loadedCharacters) {
-			// Clear some fields we don't need.
-			foreach (var fieldName in fieldsToClear) {
-				character.History.Fields[fieldName].RemoveAllEntries();
-			}
+			ClearUnneededHistoryFields(fieldsToClear, character);
 
-			// Remove post-bookmark history except for births and deaths.
-			foreach (var field in character.History.Fields) {
-				if (field.Id == "birth" || field.Id == "death") {
-					continue;
-				}
-				field.RemoveHistoryPastDate(bookmarkDate);
-			}
+			RemovePostBookmarkHistoryExceptForBirthAndDeathDates(bookmarkDate, character);
 
-			// Replace birth entries like "birth = "1081.1.1"" with "birth = yes".
 			var birthDate = character.BirthDate;
-			var birthField = character.History.Fields["birth"];
-			birthField.RemoveAllEntries();
-			birthField.AddEntryToHistory(birthDate, "birth", value: true);
-
-			// Replace complex death entries like "death = { death_reason = death_murder_known killer = 9051 }"
-			// with "death = yes".
-			Date? deathDate = character.DeathDate;
-			if (deathDate is not null) {
-				var deathField = character.History.Fields["death"];
-				deathField.RemoveAllEntries();
-				deathField.AddEntryToHistory(deathDate, "death", value: true);
-			}
-
+			SimplifyBirthEntryInHistory(character, birthDate);
+			SimplifyDeathEntryInHistory(character);
 			RemoveInvalidMotherAndFatherEntries(character, femaleCharacterIds, maleCharacterIds);
+			RemoveDatedNameChangesFromCharacterHistory(character, birthDate);
+			RemoveRelationEffectsFromCharacterHistory(character, irrelevantEffects);
+			FixCharactersBeingSetAsTheirOwnParents(character);
 
-			// Remove dated name changes like 64.10.13 = { name = "Linus" }
-			var nameField = character.History.Fields["name"];
-			nameField.RemoveHistoryPastDate(birthDate);
-
-			// Remove effects that set relations. They don't matter a lot in our alternate timeline.
-			character.History.Fields["effects"].RemoveAllEntries(
-				entry => irrelevantEffects.AsValueEnumerable()
-					.Any(effect => entry.ToString()?.Contains(effect) ?? false));
-			
-			// Fix characters being set as their own fathers/mothers.
-			if (character.FatherId == character.Id) {
-				Logger.Warn($"Character {character.Id} is set as their own father! Fixing.");
-				character.Father = null;
-			}
-			if (character.MotherId == character.Id) {
-				Logger.Warn($"Character {character.Id} is set as their own mother! Fixing.");
-				character.Mother = null;
-			}
-			
 			character.InitSpousesCache();
 			character.InitConcubinesCache();
 			character.UpdateChildrenCacheOfParents();
 		}
-		
+
 		Logger.Info("Loaded CK3 characters.");
+	}
+
+	private static void ClearUnneededHistoryFields(string[] fieldsToClear, Character character)
+	{
+		// Clear some fields we don't need.
+		foreach (var fieldName in fieldsToClear) {
+			character.History.Fields[fieldName].RemoveAllEntries();
+		}
+	}
+
+	private static void KillOffAnimationTestCharactersIn2AD(ConcurrentList<Character> loadedCharacters)
+	{
+		// Make all animation_test_ characters die on 2.1.1.
+		foreach (var character in loadedCharacters) {
+			if (!character.Id.StartsWith("animation_test_")) {
+				continue;
+			}
+			
+			var deathField = character.History.Fields["death"];
+			deathField.RemoveAllEntries();
+			deathField.AddEntryToHistory(new Date(2, 1, 1), "death", value: true);
+		}
+	}
+
+	private static void SimplifyBirthEntryInHistory(Character character, Date birthDate)
+	{
+		// Replace birth entries like "birth = "1081.1.1"" with "birth = yes".
+		var birthField = character.History.Fields["birth"];
+		birthField.RemoveAllEntries();
+		birthField.AddEntryToHistory(birthDate, "birth", value: true);
+	}
+
+	private static void RemovePostBookmarkHistoryExceptForBirthAndDeathDates(Date bookmarkDate, Character character)
+	{
+		// Remove post-bookmark history except for births and deaths.
+		foreach (var field in character.History.Fields) {
+			if (field.Id == "birth" || field.Id == "death") {
+				continue;
+			}
+			field.RemoveHistoryPastDate(bookmarkDate);
+		}
+	}
+
+	private static void RemoveRelationEffectsFromCharacterHistory(Character character, string[] irrelevantEffects)
+	{
+		// Remove effects that set relations. They don't matter a lot in our alternate timeline.
+		character.History.Fields["effects"].RemoveAllEntries(
+			entry => irrelevantEffects.AsValueEnumerable()
+				.Any(effect => entry.ToString()?.Contains(effect) ?? false));
+	}
+
+	private static void FixCharactersBeingSetAsTheirOwnParents(Character character)
+	{
+		// Fix characters being set as their own fathers/mothers.
+		if (character.FatherId == character.Id) {
+			Logger.Warn($"Character {character.Id} is set as their own father! Fixing.");
+			character.Father = null;
+		}
+
+		if (character.MotherId == character.Id) {
+			Logger.Warn($"Character {character.Id} is set as their own mother! Fixing.");
+			character.Mother = null;
+		}
+	}
+
+	private static void RemoveDatedNameChangesFromCharacterHistory(Character character, Date birthDate)
+	{
+		// Remove dated name changes like 64.10.13 = { name = "Linus" }
+		var nameField = character.History.Fields["name"];
+		nameField.RemoveHistoryPastDate(birthDate);
+	}
+
+	private static void SimplifyDeathEntryInHistory(Character character)
+	{
+		// Replace complex death entries like "death = { death_reason = death_murder_known killer = 9051 }"
+		// with "death = yes".
+		Date? deathDate = character.DeathDate;
+		if (deathDate is not null) {
+			var deathField = character.History.Fields["death"];
+			deathField.RemoveAllEntries();
+			deathField.AddEntryToHistory(deathDate, "death", value: true);
+		}
 	}
 
 	private static void RemoveInvalidMotherAndFatherEntries(Character character, FrozenSet<string> femaleCharacterIds, FrozenSet<string> maleCharacterIds) {

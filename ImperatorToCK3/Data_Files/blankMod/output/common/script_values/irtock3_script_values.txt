@@ -1,0 +1,34 @@
+﻿# Script value to use alongside the 'irtock3_control_de_jure_percentage_trigger' tooltip. This value helps make sure the required percentage of counties is shown in the tooltip.
+# Required Inputs:
+## scope:required_county_percentage = A scope value (so you need to use 'save_temporary_scope_value_as') that contains the required percentage value AS A DECIMAL (0-1)
+irtock3_control_de_jure_percentage_required_value = {
+	value = scope:required_county_percentage
+	multiply = 100
+}
+
+# Script value to use alongside the 'irtock3_control_de_jure_percentage_trigger' tooltip. This value helps show the percentage of counties currently controlled in the tooltip.
+# Required Inputs:
+## scope:target_title = The title you want to check de jure control for
+irtock3_control_de_jure_percentage_current_value = {
+	value = 0
+
+	# This value will always display 0% for titular titles, as they have no de jure counties.
+	if = {
+		limit = {
+			scope:target_title = { is_titular = no }
+		}
+		every_sub_realm_county = {
+			limit = {
+				any_this_title_or_de_jure_above = { this = scope:target_title }
+			}
+			add = 1
+		}
+		divide = {
+			value = 0
+			scope:target_title = {
+				every_de_jure_county = { add = 1 }
+			}
+		}
+		multiply = 100
+	}
+}
