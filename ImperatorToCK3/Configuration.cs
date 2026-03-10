@@ -453,8 +453,8 @@ internal sealed class Configuration {
 	/// </summary>
 	private OrderedDictionary<string, object> GetConverterOptions() {
 		var options = new OrderedDictionary<string, object> {
-			// HeresiesInHistoricalAreas - choice 0 is false, choice 1 is true
-			["HeresiesInHistoricalAreas"] = HeresiesInHistoricalAreas ? "1" : "0",
+			// HeresiesInHistoricalAreas - choice 1 is true, choice 2 is false.
+			["HeresiesInHistoricalAreas"] = HeresiesInHistoricalAreas ? "1" : "2",
 
 			// StaticDeJure - choice 1 is dynamic (false), choice 2 is static (true)
 			["StaticDeJure"] = StaticDeJure ? "2" : "1",
