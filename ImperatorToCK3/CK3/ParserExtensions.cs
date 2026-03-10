@@ -3,6 +3,7 @@ using commonItems.Collections;
 using DotLiquid;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using ZLinq;
 
@@ -94,7 +95,7 @@ public static class ParserExtensions {
 		var liquidText = File.ReadAllText(filePath);
 
 		var template = Template.Parse(liquidText);
-		var result = template.Render(liquidVariables);
+		var result = template.Render(liquidVariables, CultureInfo.InvariantCulture);
 
 		parser.ParseStream(new BufferedReader(result));
 	}

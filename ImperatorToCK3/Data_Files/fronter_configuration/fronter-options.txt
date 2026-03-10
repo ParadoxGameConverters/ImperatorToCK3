@@ -14,7 +14,8 @@
 # They can also be used to embed the chosen value in the output, using the following format:
 # {{ <OPTION NAME> }}
 # For example:
-# set_variable = { name = irtock3_output_name value = "{{ output_name }}" }
+# set_variable = { name = irtock3_civ_worth value = {{ ImperatorCivilizationWorth }} }
+# set_variable = { name = irtock3_hist_heresies value = "{{ HeresiesInHistoricalAreas }}" }
 
 # When adding a new option, to enable using it in the converter's Liquid files, make the following changes in Configuration.cs:
 # 1. Add a new member to the Configuration class.

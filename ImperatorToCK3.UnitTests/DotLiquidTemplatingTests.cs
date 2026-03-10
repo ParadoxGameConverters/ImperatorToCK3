@@ -1,6 +1,7 @@
 using commonItems;
 using DotLiquid;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Xunit;
 
@@ -37,7 +38,7 @@ public class DotLiquidTemplatingTests {
 
 		// Check if constructing context from an anonymous object works.
 		var context = Hash.FromAnonymousObject(new {wtwsms, tfe, vanilla});
-		var result = template.Render(context);
+		var result = template.Render(context, CultureInfo.InvariantCulture);
 
 		int? value1 = null;
 		int? value2 = null;
@@ -52,7 +53,7 @@ public class DotLiquidTemplatingTests {
 		// Check if constructing context from a dictionary works.
 		// The dictionary needs to be converted to a dictionary of objects first.
 		context = Hash.FromDictionary(ck3ModFlags.ToDictionary(pair => pair.Key, pair => (object)pair.Value));
-		result = template.Render(context);
+		result = template.Render(context, CultureInfo.InvariantCulture);
 		
 		value1 = null;
 		value2 = null;
@@ -65,19 +66,23 @@ public class DotLiquidTemplatingTests {
 	[Fact]
 	public void ConverterOptionsCanBeUsedInLiquidTemplates() {
 		var config = new Configuration {
+			HeresiesInHistoricalAreas = false,
 			FillerDukes = true,
 			StaticDeJure = false,
 			LegionConversion = LegionConversion.MenAtArms,
 			ImperatorCurrencyRate = 0.67f,
-			CK3BookmarkDate = new Date(867, 1, 1)
+			ImperatorCivilizationWorth = 0.34f,
+			CK3BookmarkDate = new Date(867, 1, 1),
 		};
 
 		var liquidFlags = config.GetLiquidVariables();
 		
+		Assert.Equal("2", liquidFlags["HeresiesInHistoricalAreas"]);
 		Assert.Equal("1", liquidFlags["FillerDukes"]);
 		Assert.Equal("1", liquidFlags["StaticDeJure"]);
 		Assert.Equal("2", liquidFlags["LegionConversion"]);
-		Assert.Equal(0.67, (float)liquidFlags["ImperatorCurrencyRate"], precision: 2);
+		Assert.Equal(0.67f, (float)liquidFlags["ImperatorCurrencyRate"], precision: 2);
+		Assert.Equal(0.34d, (double)liquidFlags["ImperatorCivilizationWorth"], precision: 2);
 		Assert.Equal("0867-01-01", liquidFlags["bookmark_date"]);
 		
 		Template template = Template.Parse(
@@ -117,16 +122,22 @@ public class DotLiquidTemplatingTests {
 				{% else %}
 					bookmark_century = unexpected
 				{% endif %}
+
+				# test for embedding the value directly in the output
+				set_civ_worth = {{ ImperatorCivilizationWorth }} }
+				set_hist_heresies_str = "{{ HeresiesInHistoricalAreas }}"
 			""");
 		
 		Hash context = config.GetLiquidVariables();
-		string result = template.Render(context);
+		string result = template.Render(context, CultureInfo.InvariantCulture);
 		
 		string? fillerRank = null;
 		string? deJure = null;
 		string? legions = null;
 		string? currencyRate = null;
 		string? bookmarkCentury = null;
+		double? civWorth = null;
+		string? historicalHeresiesStr = null;
 		
 		var parser = new Parser();
 		parser.RegisterKeyword("filler_rank", reader => fillerRank = reader.GetString());
@@ -134,6 +145,8 @@ public class DotLiquidTemplatingTests {
 		parser.RegisterKeyword("legions", reader => legions = reader.GetString());
 		parser.RegisterKeyword("currency_rate", reader => currencyRate = reader.GetString());
 		parser.RegisterKeyword("bookmark_century", reader => bookmarkCentury = reader.GetString());
+		parser.RegisterKeyword("set_civ_worth", reader => civWorth = reader.GetDouble());
+		parser.RegisterKeyword("set_hist_heresies_str", reader => historicalHeresiesStr = reader.GetString());
 		parser.ParseStream(new BufferedReader(result));
 		
 		Assert.Equal("duke", fillerRank);
@@ -141,5 +154,7 @@ public class DotLiquidTemplatingTests {
 		Assert.Equal("maa", legions);
 		Assert.Equal("high", currencyRate);
 		Assert.Equal("ninth", bookmarkCentury);
+		Assert.Equal(0.34d, civWorth.Value!, precision: 2);
+		Assert.Equal("2", historicalHeresiesStr);
 	}
 }

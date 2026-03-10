@@ -8,6 +8,7 @@ using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Legends;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -110,7 +111,7 @@ internal static class WorldOutputter {
 		foreach (var liquidFilePath in liquidFiles) {
 			var liquidText = File.ReadAllText(liquidFilePath);
 			var template = Template.Parse(liquidText);
-			var result = template.Render(liquidVariables);
+			var result = template.Render(liquidVariables, CultureInfo.InvariantCulture);
 			var renderedFilePath = liquidFilePath[..^7];
 			// Write the rendered file and delete the .liquid file. Use UTF8-BOM encoding.
 			File.WriteAllText(renderedFilePath, result, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
