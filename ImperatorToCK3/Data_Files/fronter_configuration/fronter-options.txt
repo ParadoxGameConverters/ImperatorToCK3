@@ -10,6 +10,12 @@
 # or 
 # {% if bookmark_date > '0950-01-01' %}  (needs to be in YYYY-MM-DD format for lexicographic comparisons to work)
 
+# When adding a new option, to enable using it in the converter's Liquid files, make the following changes in Configuration.cs:
+# 1. Add a new member to the Configuration class.
+# 2. Add the option to the parser in the RegisterConfigurationKeys method.
+# 3. Add it to the GetConverterOptions() method in Configuration.cs, with the appropriate value based on the user's choice.
+
+
 option = {
 	name = HeresiesInHistoricalAreas
 	displayName = HERESIES_IN_HISTORICAL_AREAS
