@@ -402,17 +402,21 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		var provinceFaithIds = provinces
 			.Select(p => p.GetFaithId(date)).ToImmutableHashSet();
 
-		var aliveFaithsWithSpiritualHeadDoctrine = Faiths
-			.Where(f => aliveCharacterFaithIds.Contains(f.Id) || provinceFaithIds.Contains(f.Id))
-			.Where(f => f.GetDoctrineIdsForDoctrineCategoryId("doctrine_head_of_faith").Contains("doctrine_spiritual_head"))
-			.ToImmutableList();
+		var aliveFaithsWithSpiritualHeadDoctrine = new List<Faith>();
+		foreach (var faith in Faiths) {
+			if (!(aliveCharacterFaithIds.Contains(faith.Id) || provinceFaithIds.Contains(faith.Id))) {
+				continue;
+			}
+			if (!faith.GetDoctrineIdsForDoctrineCategoryId("doctrine_head_of_faith").Contains("doctrine_spiritual_head")) {
+				continue;
+			}
+			aliveFaithsWithSpiritualHeadDoctrine.Add(faith);
+		}
 		
 		// Don't generate religious heads for Christianity before it was founded.
 		Date startOfChristianityInCK3 = "30.1.1"; // Based on first holder in k_papal_state history.
 		if (date < startOfChristianityInCK3) {
-			aliveFaithsWithSpiritualHeadDoctrine = aliveFaithsWithSpiritualHeadDoctrine
-				.Where(f => f.Religion.Id != "christianity_religion")
-				.ToImmutableList();
+			aliveFaithsWithSpiritualHeadDoctrine.RemoveAll(f => f.Religion.Id == "christianity_religion");
 		}
 
 		foreach (var faith in aliveFaithsWithSpiritualHeadDoctrine) {

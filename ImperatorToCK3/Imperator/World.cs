@@ -58,7 +58,7 @@ internal partial class World {
 	public ImperatorRegionMapper ImperatorRegionMapper { get; private set; }
 	public StateCollection States { get; } = [];
 
-	private DiplomacyDB diplomacyDB;
+	private readonly DiplomacyDB diplomacyDB = new();
 	public IReadOnlyCollection<War> Wars => diplomacyDB.Wars;
 	public IReadOnlyCollection<Dependency> Dependencies => diplomacyDB.Dependencies;
 	public IReadOnlyCollection<List<ulong>> DefensiveLeagues => diplomacyDB.DefensiveLeagues;
@@ -89,8 +89,6 @@ internal partial class World {
 		
 		Religions = new ReligionCollection(new ScriptValueCollection());
 		ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
-
-		diplomacyDB = new();
 	}
 
 	internal static void OutputGuiContainer(ModFilesystem modFS, IEnumerable<string> tagsNeedingFlags, Configuration config) {
@@ -487,7 +485,7 @@ internal partial class World {
 
 	private void LoadDiplomacy(BufferedReader reader) {
 		Logger.Info("Loading diplomacy...");
-		diplomacyDB = new DiplomacyDB(reader);
+		diplomacyDB.LoadDiplomacy(reader);
 		Logger.IncrementProgress();
 	}
 

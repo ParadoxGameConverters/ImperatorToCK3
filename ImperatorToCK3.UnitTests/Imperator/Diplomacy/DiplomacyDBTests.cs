@@ -1,4 +1,5 @@
 using commonItems;
+using ImperatorToCK3.Imperator.Diplomacy;
 using System;
 using System.IO;
 using Xunit;
@@ -19,7 +20,8 @@ public class DiplomacyDBTests {
 				2 = { previous=no defender=1 }
 			}
 		""");
-		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
 
 		Assert.Empty(diplomacy.Wars);
 		var logStr = output.ToString();
@@ -37,7 +39,8 @@ public class DiplomacyDBTests {
                 1 = { previous=no attacker=1 }
             }
         """);
-		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
 
 		Assert.Empty(diplomacy.Wars);
 		var logStr = output.ToString();
@@ -54,7 +57,8 @@ public class DiplomacyDBTests {
 				1 = { previous=no attacker=1 defender=2 }
 			}
 		""");
-		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
 
 		Assert.Empty(diplomacy.Wars);
 		var logStr = output.ToString();
@@ -64,7 +68,8 @@ public class DiplomacyDBTests {
 	[Fact]
 	public void PreviousWarsAreSkipped() {
 		var reader = new BufferedReader("database = { 1 = { previous=yes } }");
-		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
 
 		Assert.Empty(diplomacy.Wars);
 	}
@@ -78,7 +83,8 @@ public class DiplomacyDBTests {
         		}
         	}
         """);
-		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
 		
 		Assert.Single(diplomacy.Wars);
 		Assert.Equal(new Date("1.1.1", AUC: true), diplomacy.Wars[0].StartDate);
@@ -91,7 +97,8 @@ public class DiplomacyDBTests {
 	[Fact]
 	public void DependencyCanBeLoaded() {
 		var reader = new BufferedReader("dependency = { first=1 second=2 start_date=1.1.1 subject_type=tributary }");
-		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
 		
 		Assert.Single(diplomacy.Dependencies);
 		Assert.Equal((ulong)1, diplomacy.Dependencies[0].OverlordId);
@@ -109,7 +116,8 @@ public class DiplomacyDBTests {
 				member=552
 			}
 			""");
-		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
 
 		Assert.Single(diplomacy.DefensiveLeagues);
 		Assert.Equal(2, diplomacy.DefensiveLeagues[0].Count);

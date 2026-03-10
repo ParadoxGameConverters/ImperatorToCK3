@@ -293,15 +293,20 @@ internal static class BookmarkOutputter {
 		var provinceIdsToColor = new HashSet<ulong>(heldProvinceIds);
 		var impassableIds = GetColorableImpassablesExceptMapEdgeProvinces(mapData);
 		foreach (ulong impassableId in impassableIds) {
-			var nonImpassableNeighborProvIds = mapData.GetNeighborProvinceIds(impassableId)
-				.Except(impassableIds)
-				.ToFrozenSet();
-			if (nonImpassableNeighborProvIds.Count == 0) {
-				continue;
+			var totalNonImpassableNeighbors = 0;
+			var heldNonImpassableNeighbors = 0;
+			foreach (var neighborProvinceId in mapData.GetNeighborProvinceIds(impassableId)) {
+				if (impassableIds.Contains(neighborProvinceId)) {
+					continue;
+				}
+
+				++totalNonImpassableNeighbors;
+				if (heldProvinceIds.Contains(neighborProvinceId)) {
+					++heldNonImpassableNeighbors;
+				}
 			}
 
-			var heldNonImpassableNeighborProvIds = nonImpassableNeighborProvIds.Intersect(heldProvinceIds);
-			if ((double)heldNonImpassableNeighborProvIds.Count() / nonImpassableNeighborProvIds.Count > 0.5) {
+			if (totalNonImpassableNeighbors > 0 && heldNonImpassableNeighbors * 2 > totalNonImpassableNeighbors) {
 				// Realm controls more than half of non-impassable neighbors of the impassable.
 				provinceIdsToColor.Add(impassableId);
 			}
