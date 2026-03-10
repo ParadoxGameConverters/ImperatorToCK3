@@ -358,10 +358,17 @@ public class TagTitleMapperTests {
 			tag11.RegisterProvince(new(i));
 		}
 		Assert.Equal('d', mapper.GetTitleForTag(tag11, "Test Dukedom", maxTitleRank: TitleRank.empire, ck3LocDB)![0]);
+		
+		var tag12 = Country.Parse(new BufferedReader("tag=TEST_TAG12"), 12);
+		for (ulong i = 1; i < 800; ++i) {
+			// makes the country a great power, with enough territories to convert to a hegemony
+			tag12.RegisterProvince(new(i));
+		}
+		Assert.Equal('h', mapper.GetTitleForTag(tag12, "Test Hegemony", maxTitleRank: TitleRank.hegemony, ck3LocDB)![0]);	
 	}
 
 	[Fact]
-	public void GetTitleForTagPreventsLocKeyHaskConflict() {
+	public void GetTitleForTagPreventsLocKeyHashConflict() {
 		// k_IRTOCK3_ATV_adj and building_nishapur_mines_02 have a conflicting Murmur3A hash.
 		var ck3LocDB = new TestCK3LocDB();
 		ck3LocDB.AddLocForLanguage("building_nishapur_mines_02", "english", "Nishapur Mines");

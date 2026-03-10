@@ -10,7 +10,7 @@ GitHub project: https://github.com/ParadoxGameConverters/ImperatorToCK3
 REQUIREMENTS
 ----
 Imperator: Rome - version 2.0
-Crusader Kings III - version 1.17
+Crusader Kings III - version 1.18
 
 -----
 INSTRUCTIONS
@@ -52,5 +52,6 @@ Nezaros, author of the Rajas of Asia mod for CK3 (https://steamcommunity.com/sha
 tanner918 - Data files and compatching for new CK3 and mod versions
 ciurlys - Definition of mithra_religion, the Iranian cult of Mithra
 Astures - Help with debugging The Fallen Eagle crashes
+hunter00001 - Baiyue and Mohism faith icons
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -

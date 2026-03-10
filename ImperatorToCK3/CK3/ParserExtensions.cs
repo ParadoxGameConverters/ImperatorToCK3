@@ -102,17 +102,24 @@ public static class ParserExtensions {
 	public static void ParseFolderWithLiquidSupport(this Parser parser, string path, string extensions, bool recursive, Hash liquidVariables, bool logFilePaths = false) {
 		var searchPattern = recursive ? "*" : "*.*";
 		var searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-		var files = Directory.GetFiles(path, searchPattern, searchOption).AsValueEnumerable().ToList();
+		var files = Directory.GetFiles(path, searchPattern, searchOption);
 
-		var validExtensions = extensions.Split(';');
-		files.RemoveWhere(f => !validExtensions.AsValueEnumerable().Contains(CommonFunctions.GetExtension(f)));
+		var validExtensions = new HashSet<string>(
+			extensions.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries),
+			StringComparer.OrdinalIgnoreCase
+		);
 
 		foreach (var file in files) {
+			var extension = CommonFunctions.GetExtension(file);
+			if (!validExtensions.Contains(extension)) {
+				continue;
+			}
+
 			if (logFilePaths) {
 				Logger.Debug($"Parsing file: {file}");
 			}
 
-			if (string.Equals(CommonFunctions.GetExtension(file), "liquid", StringComparison.OrdinalIgnoreCase)) {
+			if (string.Equals(extension, "liquid", StringComparison.OrdinalIgnoreCase)) {
 				parser.ParseLiquidFile(file, liquidVariables);
 			} else {
 				parser.ParseFile(file);

@@ -2978,3 +2978,153 @@ language_kordofanian = {
 	
 	color = { 96 55 48 }
 }
+
+language_bashu = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+		tfe = { language_bashu }
+		wtwsms = { language_bashu }
+		roa = { language_bashu }
+		vanilla = { language_bashu }
+	}
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_bashu
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_bashu }
+			multiply = 10
+		}
+	}
+
+	color = { 107 153 126 }
+}
+
+language_tujian = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+		tfe = { language_tujian }
+		wtwsms = { language_tujian }
+		roa = { language_tujian }
+		vanilla = { language_tujian }
+	}
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_tujian
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_tujian }
+			multiply = 10
+		}
+	}
+
+	color = { 141 186 119 }
+}
+
+language_bai = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+		tfe = { language_bai }
+		wtwsms = { language_bai }
+		roa = { language_bai }
+		vanilla = { language_bai }
+	}
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_bai
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_bai }
+			multiply = 10
+		}
+	}
+
+	color = { 0.9 0.4 0.1 }
+}
+
+language_baiyue = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+		tfe = { language_baiyue }
+		wtwsms = { language_baiyue }
+		roa = { language_baiyue }
+		vanilla = { language_baiyue }
+	}
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_baiyue
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_baiyue }
+			multiply = 10
+		}
+	}
+
+	color = { 13 59 128 }
+}
+
+language_dongyi = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+		tfe = { language_dongyi }
+		wtwsms = { language_dongyi }
+		roa = { language_dongyi }
+		vanilla = { language_dongyi }
+	}
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_dongyi
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_dongyi }
+			multiply = 10
+		}
+	}
+
+	color = { 193 230 46 }
+}
+
+language_yi = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+		tfe = { language_yi }
+		wtwsms = { language_yi }
+		roa = { language_yi }
+		vanilla = { language_yi }
+	}
+
+	type = language
+	is_shown = {
+		language_is_shown_trigger = {
+			LANGUAGE = language_yi
+		}
+	}
+	ai_will_do = {
+		value = 10
+		if = {
+			limit = { has_cultural_pillar = language_yi }
+			multiply = 10
+		}
+	}
+
+	color = { 0.9 0.9 0.9 }
+}

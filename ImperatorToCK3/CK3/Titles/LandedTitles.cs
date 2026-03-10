@@ -86,6 +86,10 @@ internal sealed partial class Title {
 					continue;
 				}
 
+				if (county.NobleFamily == true) {
+					continue;
+				}
+
 				Logger.Debug($"Removing capital entry from county {county.Id}.");
 				county.CapitalCountyId = null;
 			}
@@ -95,26 +99,17 @@ internal sealed partial class Title {
 			// Cleanup for titles having invalid capital counties.
 			var validTitleIds = this.Select(t => t.Id).ToFrozenSet();
 			var placeholderCountyId = validTitleIds.Order().First(t => t.StartsWith("c_"));
-			foreach (var title in this.Where(t => t.Rank > TitleRank.county)) {
-				if (title.CapitalCountyId is null && !title.Landless) {
-					// For landed titles, the game will generate capitals.
-					continue;
-				}
+
+			// Only check titles that actually may need fixing.
+			// For landed titles, the game will generate capitals, so they can be skipped.
+			var titlesToCheck = this.Where(t => t.Rank > TitleRank.county && (t.CapitalCountyId is not null || t.Landless));
+
+			foreach (var title in titlesToCheck) {
 				if (title.CapitalCountyId is not null && validTitleIds.Contains(title.CapitalCountyId)) {
 					continue;
 				}
 				// Try to use the first valid capital of a de jure vassal.
-				string? newCapitalId;
-				if (title.Rank >= TitleRank.kingdom) {
-					newCapitalId = title.DeJureVassals
-						.Select(v => v.CapitalCountyId)
-						.FirstOrDefault(vassalCapitalId => vassalCapitalId is not null && validTitleIds.Contains(vassalCapitalId));
-				} else {
-					newCapitalId = title.DeJureVassals
-						.Where(v => v.Rank == TitleRank.county)
-						.Select(c => c.Id)
-						.FirstOrDefault();
-				}
+				string? newCapitalId = TryToSetTitleCapitalFromFirstValidCapitalOfDeJureVassal(title, validTitleIds);
 
 				// If not found, for landless titles try using capital of de jure liege.
 				if (newCapitalId is null && title.Landless) {
@@ -128,6 +123,19 @@ internal sealed partial class Title {
 					title.CapitalCountyId = placeholderCountyId;
 				}
 			}
+		}
+
+		private static string? TryToSetTitleCapitalFromFirstValidCapitalOfDeJureVassal(Title title, FrozenSet<string> validTitleIds) {
+			if (title.Rank >= TitleRank.kingdom) {
+				return title.DeJureVassals
+					.Select(v => v.CapitalCountyId)
+					.FirstOrDefault(vassalCapitalId => vassalCapitalId is not null && validTitleIds.Contains(vassalCapitalId));
+			}
+
+			return title.DeJureVassals
+				.Where(v => v.Rank == TitleRank.county)
+				.Select(c => c.Id)
+				.FirstOrDefault();
 		}
 
 		public void LoadTitles(BufferedReader reader, ColorFactory colorFactory) {
@@ -200,7 +208,7 @@ internal sealed partial class Title {
 
 		public Title Add(string id) {
 			if (string.IsNullOrEmpty(id)) {
-				throw new ArgumentException("Not inserting a Title with empty id!");
+				throw new ArgumentException("Not inserting a Title with empty id!", nameof(id));
 			}
 
 			var newTitle = new Title(this, id);
@@ -369,21 +377,81 @@ internal sealed partial class Title {
 		public void CleanUpHistory(CharacterCollection characters, Date ck3BookmarkDate) {
 			Logger.Debug("Cleaning up title history...");
 			
-			// Remove invalid holder ID entries.
-			var validCharacterIds = characters.Select(c => c.Id).ToImmutableHashSet();
+			RemoveInvalidHolderIdEntriesFromTitles(characters);
+			FixTitleHoldersBornAfterReceivingTitles(characters, ck3BookmarkDate);
+
+			// For counties, remove holder = 0 entries that precede a holder = <char ID> entry
+			// that's before or at the bookmark date.
+			Parallel.ForEach(Counties, county => {
+				if (!county.History.Fields.TryGetValue("holder", out var holderField)) {
+					return;
+				}
+				
+				var holderIdAtBookmark = county.GetHolderId(ck3BookmarkDate);
+				if (holderIdAtBookmark == "0") {
+					return;
+				}
+				
+				// If we have a holder at the bookmark date, remove all holder = 0 entries that precede it.
+				var entryDatesToRemove = holderField.DateToEntriesDict
+					.Where(pair => pair.Key < ck3BookmarkDate && pair.Value.Exists(v => v.Value.ToString() == "0"))
+					.Select(pair => pair.Key)
+					.ToArray();
+				foreach (var date in entryDatesToRemove) {
+					holderField.DateToEntriesDict.Remove(date);
+				}
+			});
+
+			RemoveLiegeEntriesOfTheSameRankAsTheTitles();
+			RemoveInvalidLiegeEntriesFromTitles(ck3BookmarkDate);
+
+			// Remove undated succession_laws entries; the game doesn't seem to like them.
+			foreach (var title in this) {
+				if (!title.History.Fields.TryGetValue("succession_laws", out var successionLawsField)) {
+					continue;
+				}
+
+				successionLawsField.InitialEntries.RemoveAll(entry => true);
+			}
+		}
+
+		private void RemoveLiegeEntriesOfTheSameRankAsTheTitles()
+		{
+			// Remove liege entries of the same rank as the title they're in.
+			// For example, TFE had more or less this: d_kordofan = { liege = d_kordofan }
+			var validRankChars = new HashSet<char> { 'h', 'e', 'k', 'd', 'c', 'b'};
 			Parallel.ForEach(this, title => {
-				if (!title.History.Fields.TryGetValue("holder", out var holderField)) {
+				if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
 					return;
 				}
 
-				holderField.RemoveAllEntries(
-					value => value.ToString()?.RemQuotes() is string valStr && valStr != "0" && !validCharacterIds.Contains(valStr)
-				);
+				var titleRank = title.Rank;
 
-				// Afterwards, remove empty date entries.
-				holderField.DateToEntriesDict.RemoveWhere(kvp => kvp.Value.Count == 0);
+				liegeField.RemoveAllEntries(value => {
+					string? valueStr = value.ToString()?.RemQuotes();
+					if (valueStr is null || valueStr == "0") {
+						return false;
+					}
+
+					char rankChar = valueStr[0];
+					if (!validRankChars.Contains(rankChar)) {
+						Logger.Warn($"Removing invalid rank liege entry from {title.Id}: {valueStr}");
+						return true;
+					}
+					
+					var liegeRank = TitleRankUtils.CharToTitleRank(rankChar);
+					if (liegeRank <= titleRank) {
+						Logger.Warn($"Removing invalid rank liege entry from {title.Id}: {valueStr}");
+						return true;
+					}
+
+					return false;
+				});
 			});
+		}
 
+		private void FixTitleHoldersBornAfterReceivingTitles(CharacterCollection characters, Date ck3BookmarkDate)
+		{
 			// Fix holder being born after receiving the title, by moving the title grant to the birth date.
 			Parallel.ForEach(this, title => {
 				if (!title.History.Fields.TryGetValue("holder", out var holderField)) {
@@ -414,61 +482,27 @@ internal sealed partial class Title {
 					}
 				}
 			});
-			
-			// For counties, remove holder = 0 entries that precede a holder = <char ID> entry
-			// that's before or at the bookmark date.
-			Parallel.ForEach(Counties, county => {
-				if (!county.History.Fields.TryGetValue("holder", out var holderField)) {
-					return;
-				}
-				
-				var holderIdAtBookmark = county.GetHolderId(ck3BookmarkDate);
-				if (holderIdAtBookmark == "0") {
-					return;
-				}
-				
-				// If we have a holder at the bookmark date, remove all holder = 0 entries that precede it.
-				var entryDatesToRemove = holderField.DateToEntriesDict
-					.Where(pair => pair.Key < ck3BookmarkDate && pair.Value.Exists(v => v.Value.ToString() == "0"))
-					.Select(pair => pair.Key)
-					.ToArray();
-				foreach (var date in entryDatesToRemove) {
-					holderField.DateToEntriesDict.Remove(date);
-				}
-			});
+		}
 
-			// Remove liege entries of the same rank as the title they're in.
-			// For example, TFE had more or less this: d_kordofan = { liege = d_kordofan }
-			var validRankChars = new HashSet<char> { 'e', 'k', 'd', 'c', 'b'};
+		private void RemoveInvalidHolderIdEntriesFromTitles(CharacterCollection characters)
+		{
+			// Remove invalid holder ID entries.
+			var validCharacterIds = characters.Select(c => c.Id).ToImmutableHashSet();
 			Parallel.ForEach(this, title => {
-				if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
+				if (!title.History.Fields.TryGetValue("holder", out var holderField)) {
 					return;
 				}
 
-				var titleRank = title.Rank;
+				holderField.RemoveAllEntries(
+					value => value.ToString()?.RemQuotes() is string valStr && valStr != "0" && !validCharacterIds.Contains(valStr)
+				);
 
-				liegeField.RemoveAllEntries(value => {
-					string? valueStr = value.ToString()?.RemQuotes();
-					if (valueStr is null || valueStr == "0") {
-						return false;
-					}
-
-					char rankChar = valueStr[0];
-					if (!validRankChars.Contains(rankChar)) {
-						Logger.Warn($"Removing invalid rank liege entry from {title.Id}: {valueStr}");
-						return true;
-					}
-					
-					var liegeRank = TitleRankUtils.CharToTitleRank(rankChar);
-					if (liegeRank <= titleRank) {
-						Logger.Warn($"Removing invalid rank liege entry from {title.Id}: {valueStr}");
-						return true;
-					}
-
-					return false;
-				});
+				// Afterward, remove empty date entries.
+				holderField.DateToEntriesDict.RemoveWhere(kvp => kvp.Value.Count == 0);
 			});
-			
+		}
+
+		private void RemoveInvalidLiegeEntriesFromTitles(Date ck3BookmarkDate) {
 			// Remove liege entries that are not valid (liege title is not held at the entry date).
 			foreach (var title in this) {
 				if (!title.History.Fields.TryGetValue("liege", out var liegeField)) {
@@ -482,7 +516,7 @@ internal sealed partial class Title {
 					
 					var lastEntry = entriesList[^1];
 					var liegeTitleId = lastEntry.Value.ToString()?.RemQuotes();
-					if (liegeTitleId is null || liegeTitleId == "0") {
+					if (liegeTitleId is null or "0") {
 						continue;
 					}
 
@@ -507,15 +541,6 @@ internal sealed partial class Title {
 						}
 					}
 				}
-			}
-
-			// Remove undated succession_laws entries; the game doesn't seem to like them.
-			foreach (var title in this) {
-				if (!title.History.Fields.TryGetValue("succession_laws", out var successionLawsField)) {
-					continue;
-				}
-
-				successionLawsField.InitialEntries.RemoveAll(entry => true);
 			}
 		}
 
@@ -552,6 +577,54 @@ internal sealed partial class Title {
 			var independentCountries = realCountries.Where(c => dependencies.All(d => d.SubjectId != c.Id)).ToImmutableList();
 			var subjects = realCountries.Except(independentCountries).ToImmutableList();
 			
+			counter = ImportIndependentCountries(imperatorCountries, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, governmentMapper, successionLawMapper, definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, countyLevelCountries, enabledCK3Dlcs, independentCountries, counter);
+			counter += ImportSubjects(imperatorCountries, dependencies, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, governmentMapper, successionLawMapper, definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, countyLevelCountries, enabledCK3Dlcs, subjects);
+			Logger.Info($"Imported {counter} countries from I:R.");
+		}
+
+		private int ImportSubjects(CountryCollection imperatorCountries, IReadOnlyCollection<Dependency> dependencies,
+			TagTitleMapper tagTitleMapper, LocDB irLocDB, CK3LocDB ck3LocDB, ProvinceMapper provinceMapper, CoaMapper coaMapper,
+			GovernmentMapper governmentMapper, SuccessionLawMapper successionLawMapper, DefiniteFormMapper definiteFormMapper,
+			ReligionMapper religionMapper, CultureMapper cultureMapper, NicknameMapper nicknameMapper,
+			CharacterCollection characters, Date conversionDate, Configuration config, List<KeyValuePair<Country, Dependency?>> countyLevelCountries,
+			IReadOnlyCollection<string> enabledCK3Dlcs, ImmutableList<Country> subjects)
+		{
+			int counter = 0;
+			foreach (Country country in subjects) {
+				ImportImperatorCountry(
+					country,
+					dependency: dependencies.FirstOrDefault(d => d.SubjectId == country.Id),
+					imperatorCountries,
+					tagTitleMapper,
+					irLocDB,
+					ck3LocDB,
+					provinceMapper,
+					coaMapper,
+					governmentMapper,
+					successionLawMapper,
+					definiteFormMapper,
+					religionMapper,
+					cultureMapper,
+					nicknameMapper,
+					characters,
+					conversionDate,
+					config,
+					countyLevelCountries,
+					enabledCK3Dlcs
+				);
+				++counter;
+			}
+			
+			return counter;
+		}
+
+		private int ImportIndependentCountries(CountryCollection imperatorCountries, TagTitleMapper tagTitleMapper,
+			LocDB irLocDB, CK3LocDB ck3LocDB, ProvinceMapper provinceMapper, CoaMapper coaMapper,
+			GovernmentMapper governmentMapper, SuccessionLawMapper successionLawMapper, DefiniteFormMapper definiteFormMapper,
+			ReligionMapper religionMapper, CultureMapper cultureMapper, NicknameMapper nicknameMapper,
+			CharacterCollection characters, Date conversionDate, Configuration config, List<KeyValuePair<Country, Dependency?>> countyLevelCountries,
+			IReadOnlyCollection<string> enabledCK3Dlcs, ImmutableList<Country> independentCountries, int counter)
+		{
 			foreach (var country in independentCountries) {
 				ImportImperatorCountry(
 					country,
@@ -576,31 +649,8 @@ internal sealed partial class Title {
 				);
 				++counter;
 			}
-			foreach (var country in subjects) {
-				ImportImperatorCountry(
-					country,
-					dependency: dependencies.FirstOrDefault(d => d.SubjectId == country.Id),
-					imperatorCountries,
-					tagTitleMapper,
-					irLocDB,
-					ck3LocDB,
-					provinceMapper,
-					coaMapper,
-					governmentMapper,
-					successionLawMapper,
-					definiteFormMapper,
-					religionMapper,
-					cultureMapper,
-					nicknameMapper,
-					characters,
-					conversionDate,
-					config,
-					countyLevelCountries,
-					enabledCK3Dlcs
-				);
-				++counter;
-			}
-			Logger.Info($"Imported {counter} countries from I:R.");
+
+			return counter;
 		}
 
 		private void ImportImperatorCountry(
@@ -712,7 +762,6 @@ internal sealed partial class Title {
 					provinceMapper,
 					definiteFormMapper,
 					imperatorRegionMapper,
-					coaMapper,
 					countyLevelGovernorships,
 					config
 				);
@@ -734,7 +783,6 @@ internal sealed partial class Title {
 			ProvinceMapper provinceMapper,
 			DefiniteFormMapper definiteFormMapper,
 			ImperatorRegionMapper imperatorRegionMapper,
-			CoaMapper coaMapper,
 			List<Governorship> countyLevelGovernorships,
 			Configuration config
 		) {
@@ -814,7 +862,6 @@ internal sealed partial class Title {
 				.ToArray();
 			
 			var nonCapitalBaronies = eligibleBaronies.Except(countyCapitalBaronies).OrderBy(b => b.Id).ToArray();
-			
 
 			// In CK3, a county holder shouldn't own baronies in counties that are not their own.
 			// This dictionary tracks what counties are held by what characters.
@@ -996,11 +1043,16 @@ internal sealed partial class Title {
 			var duchiesWithDeJureVassals = duchies.Where(d => d.DeJureVassals.Count > 0).ToFrozenSet();
 
 			foreach (var duchy in duchiesWithDeJureVassals) {
+				// Don't change the de jure inside h_china, to avoid messing with the Dynastic Cycle and shit.
+				if (string.Equals(duchy.DeJureLiege?.DeJureLiege?.DeJureLiege?.Id, "h_china", StringComparison.Ordinal)) {
+					continue;
+				}
+
 				// If capital county belongs to an empire and contains the empire's capital,
 				// create a kingdom from the duchy and make the empire a de jure liege of the kingdom.
 				var capitalEmpireRealm = duchy.CapitalCounty?.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
 				var duchyCounties = duchy.GetDeJureVassalsAndBelow("c").Values;
-				if (capitalEmpireRealm is not null && duchyCounties.Any(c => c.Id == capitalEmpireRealm.CapitalCountyId)) {
+				if (capitalEmpireRealm is not null && duchyCounties.Any(c => c.Id.Equals(capitalEmpireRealm.CapitalCountyId, StringComparison.Ordinal))) {
 					var kingdom = Add("k_IRTOCK3_kingdom_from_" + duchy.Id);
 					kingdom.Color1 = duchy.Color1;
 					kingdom.CapitalCounty = duchy.CapitalCounty;
@@ -1062,10 +1114,44 @@ internal sealed partial class Title {
 			Logger.IncrementProgress();
 		}
 
-		private void SetDeJureEmpires(CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3LocDB ck3LocDB, Date ck3BookmarkDate) {
+		private void SetDeJureEmpiresAndHegemonies(CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3RegionMapper ck3RegionMapper, CK3LocDB ck3LocDB, Date ck3BookmarkDate) {
 			Logger.Info("Setting de jure empires...");
 			var deJureKingdoms = GetDeJureKingdoms();
+			var deJureKingdomsOutsideChina = deJureKingdoms
+				.Where(k => !string.Equals(k.DeJureLiege?.DeJureLiege?.Id, "h_china", StringComparison.Ordinal))
+				.ToImmutableArray();
 			
+			TryToAssignKingdomsToExistingEmpires(deJureKingdomsOutsideChina, ck3BookmarkDate);
+
+			SetDeJureEmpiresWithinHegemonies(deJureKingdomsOutsideChina, ck3RegionMapper, ck3LocDB, ck3BookmarkDate);
+
+			// For kingdoms that still have no de jure empire, create empires based on dominant culture of the realms
+			// holding land in that de jure kingdom.
+			var removableEmpireIds = new HashSet<string>();
+			var kingdomToDominantHeritagesDict = new Dictionary<string, ImmutableArray<Pillar>>();
+			var heritageToEmpireDict = GetHeritageIdToExistingTitleDict();
+			CreateEmpiresBasedOnDominantHeritages(deJureKingdomsOutsideChina, ck3Cultures, ck3Characters, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
+			
+			Logger.Debug("Building kingdom adjacencies dict...");
+			// Create a cache of province IDs per kingdom.
+			var provincesPerKingdomDict = deJureKingdoms
+				.ToFrozenDictionary(
+					k => k.Id,
+					k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToFrozenSet()
+				);
+			var kingdomAdjacenciesByLand = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
+			var kingdomAdjacenciesByWaterBody = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
+			Parallel.ForEach(deJureKingdoms, kingdom => {
+				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdom.Id, provincesPerKingdomDict, kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody);
+			});
+
+			SplitDisconnectedEmpires(kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
+
+			SetEmpireCapitals(ck3BookmarkDate);
+			SetHegemonyCapitals(ck3BookmarkDate);
+		}
+
+		private void TryToAssignKingdomsToExistingEmpires(ImmutableArray<Title> deJureKingdoms, Date ck3BookmarkDate) {
 			// Try to assign kingdoms to existing empires.
 			foreach (var kingdom in deJureKingdoms) {
 				var empireShares = new Dictionary<string, int>();
@@ -1096,30 +1182,143 @@ internal sealed partial class Title {
 
 				kingdom.DeJureLiege = this[empireId];
 			}
+		}
 
-			// For kingdoms that still have no de jure empire, create empires based on dominant culture of the realms
-			// holding land in that de jure kingdom.
-			var removableEmpireIds = new HashSet<string>();
-			var kingdomToDominantHeritagesDict = new Dictionary<string, ImmutableArray<Pillar>>();
-			var heritageToEmpireDict = GetHeritageIdToExistingTitleDict();
-			CreateEmpiresBasedOnDominantHeritages(deJureKingdoms, ck3Cultures, ck3Characters, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
-			
-			Logger.Debug("Building kingdom adjacencies dict...");
-			// Create a cache of province IDs per kingdom.
-			var provincesPerKingdomDict = deJureKingdoms
-				.ToFrozenDictionary(
-					k => k.Id,
-					k => k.GetDeJureVassalsAndBelow("c").Values.SelectMany(c => c.CountyProvinceIds).ToFrozenSet()
-				);
-			var kingdomAdjacenciesByLand = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
-			var kingdomAdjacenciesByWaterBody = deJureKingdoms.ToFrozenDictionary(k => k.Id, _ => new ConcurrentHashSet<string>());
-			Parallel.ForEach(deJureKingdoms, kingdom => {
-				FindKingdomsAdjacentToKingdom(ck3MapData, deJureKingdoms, kingdom.Id, provincesPerKingdomDict, kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody);
-			});
-			
-			SplitDisconnectedEmpires(kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
-			
-			SetEmpireCapitals(ck3BookmarkDate);
+		private void SetDeJureEmpiresWithinHegemonies(ImmutableArray<Title> deJureKingdoms, CK3RegionMapper ck3RegionMapper,
+			CK3LocDB ck3LocDB, Date ck3BookmarkDate)
+		{
+			const string romeDivisionRegionPrefix = "irtock3_rome_empire_division_";
+			var romeDivisionRegionIds = ck3RegionMapper.Regions.Keys
+				.Where(regionId => regionId.StartsWith(romeDivisionRegionPrefix, StringComparison.Ordinal))
+				.ToImmutableArray();
+
+			if (romeDivisionRegionIds.Length == 0) {
+				return;
+			}
+
+			Dictionary<string, List<Title>> hegemonyToKingdomsDict = BuildHegemonyToKingdomsDict(deJureKingdoms, ck3BookmarkDate);
+
+			foreach (var (hegemonyId, kingdomsForHegemony) in hegemonyToKingdomsDict) {
+				if (!TryGetValue(hegemonyId, out var hegemony)) {
+					continue;
+				}
+
+				Dictionary<string, List<Title>> regionToKingdomsDict = [];
+				foreach (var kingdom in kingdomsForHegemony) {
+					var regionShares = new Dictionary<string, int>();
+
+					foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
+						foreach (var provinceId in county.CountyProvinceIds) {
+							foreach (var divisionRegionId in romeDivisionRegionIds) {
+								if (!ck3RegionMapper.ProvinceIsInRegion(provinceId, divisionRegionId)) {
+									continue;
+								}
+
+								regionShares.TryGetValue(divisionRegionId, out var currentCount);
+								regionShares[divisionRegionId] = currentCount + 1;
+							}
+						}
+					}
+
+					if (regionShares.Count == 0) {
+						continue;
+					}
+
+					string regionId = regionShares.MaxBy(pair => pair.Value).Key;
+
+					if (!regionToKingdomsDict.TryGetValue(regionId, out var kingdomsForRegion)) {
+						kingdomsForRegion = [];
+						regionToKingdomsDict[regionId] = kingdomsForRegion;
+					}
+					kingdomsForRegion.Add(kingdom);
+				}
+
+				CreateEmpiresFromHegemonyRegions(hegemony, regionToKingdomsDict, romeDivisionRegionPrefix, ck3LocDB, ck3BookmarkDate);
+			}
+		}
+
+		private void CreateEmpiresFromHegemonyRegions(Title hegemony, Dictionary<string, List<Title>> regionToKingdomsDict,
+			string romeDivisionRegionPrefix, CK3LocDB ck3LocDB, Date ck3BookmarkDate) {
+			string hegemonyId = hegemony.Id;
+			foreach (var (regionId, kingdomsForRegion) in regionToKingdomsDict) {
+				var nameSourceKingdom = kingdomsForRegion
+					.OrderByDescending(k => k.GetDeJureVassalsAndBelow("c").Values.Sum(c => c.GetDevelopmentLevel(ck3BookmarkDate) ?? 0))
+					.ThenBy(k => k.Id, StringComparer.Ordinal)
+					.First();
+
+				var regionSuffix = regionId.StartsWith(romeDivisionRegionPrefix, StringComparison.Ordinal)
+					? regionId[romeDivisionRegionPrefix.Length..]
+					: regionId;
+				var baseEmpireId = $"e_IRTOCK3_hegemony_{hegemonyId}_{regionSuffix}";
+				var empireId = baseEmpireId;
+				var idCounter = 2;
+				while (TryGetValue(empireId, out _)) {
+					empireId = $"{baseEmpireId}_{idCounter}";
+					++idCounter;
+				}
+
+				var empire = Add(empireId);
+				empire.Color1 = nameSourceKingdom.Color1;
+				empire.CapitalCounty = nameSourceKingdom.CapitalCounty;
+				empire.DeJureLiege = hegemony;
+
+				var nameLocBlock = ck3LocDB.GetOrCreateLocBlock(empire.Id);
+				nameLocBlock.ModifyForEveryLanguage((orig, language) => $"${nameSourceKingdom.Id}$");
+
+				var adjectiveLocBlock = ck3LocDB.GetOrCreateLocBlock($"{empire.Id}_adj");
+				var sourceAdjLocKey = $"{nameSourceKingdom.Id}_adj";
+				adjectiveLocBlock.ModifyForEveryLanguage((orig, language) => {
+					if (ck3LocDB.HasKeyLocForLanguage(sourceAdjLocKey, language)) {
+						return $"${sourceAdjLocKey}$";
+					}
+
+					Logger.Debug($"Using kingdom name as adjective for {empire.Id} in {language} because kingdom adjective is missing.");
+					return $"${nameSourceKingdom.Id}$";
+				});
+
+				foreach (var kingdom in kingdomsForRegion) {
+					kingdom.DeJureLiege = empire;
+				}
+			}
+		}
+
+		private Dictionary<string, List<Title>> BuildHegemonyToKingdomsDict(ImmutableArray<Title> deJureKingdoms, Date ck3BookmarkDate)
+		{
+			Dictionary<string, List<Title>> hegemonyToKingdomsDict = [];
+			foreach (var kingdom in deJureKingdoms) {
+				var hegemonyShares = new Dictionary<string, int>();
+				var kingdomProvincesCount = 0;
+				foreach (var county in kingdom.GetDeJureVassalsAndBelow("c").Values) {
+					var countyProvincesCount = county.CountyProvinceIds.Count();
+					kingdomProvincesCount += countyProvincesCount;
+					
+					var hegemonyRealm = county.GetRealmOfRank(TitleRank.hegemony, ck3BookmarkDate);
+					if (hegemonyRealm is null) {
+						continue;
+					}
+					
+					hegemonyShares.TryGetValue(hegemonyRealm.Id, out var currentCount);
+					hegemonyShares[hegemonyRealm.Id] = currentCount + countyProvincesCount;
+				}
+
+				if (hegemonyShares.Count == 0) {
+					continue;
+				}
+
+				(string hegemonyId, int share) = hegemonyShares.MaxBy(pair => pair.Value);
+				// The hegemony must hold at least 50% of the kingdom.
+				if (share < (kingdomProvincesCount * 0.50)) {
+					continue;
+				}
+
+				if (!hegemonyToKingdomsDict.TryGetValue(hegemonyId, out var kingdoms)) {
+					kingdoms = [];
+					hegemonyToKingdomsDict[hegemonyId] = kingdoms;
+				}
+				kingdoms.Add(kingdom);
+			}
+
+			return hegemonyToKingdomsDict;
 		}
 
 		private void CreateEmpiresBasedOnDominantHeritages(
@@ -1128,7 +1327,7 @@ internal sealed partial class Title {
 			CharacterCollection ck3Characters,
 			HashSet<string> removableEmpireIds,
 			Dictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
-			Dictionary<string, Title> heritageToEmpireDict,
+			Dictionary<string, Title?> heritageToEmpireDict,
 			CK3LocDB ck3LocDB,
 			Date ck3BookmarkDate
 		) {
@@ -1163,12 +1362,16 @@ internal sealed partial class Title {
 				var dominantHeritage = dominantHeritages[0];
 
 				if (heritageToEmpireDict.TryGetValue(dominantHeritage.Id, out var empire)) {
+					if (empire is null) {
+						// The heritage is not supposed to have an empire.
+						continue;
+					}
 					kingdom.DeJureLiege = empire;
 				} else {
 					// Create new de jure empire based on heritage.
 					var heritageEmpire = CreateEmpireForHeritage(dominantHeritage, ck3Cultures, ck3LocDB);
 					removableEmpireIds.Add(heritageEmpire.Id);
-					
+
 					kingdom.DeJureLiege = heritageEmpire;
 					heritageToEmpireDict[dominantHeritage.Id] = heritageEmpire;
 				}
@@ -1201,14 +1404,22 @@ internal sealed partial class Title {
 			}
 		}
 
-		private Dictionary<string, Title> GetHeritageIdToExistingTitleDict() {
-			var heritageToEmpireDict = new Dictionary<string, Title>();
+		private Dictionary<string, Title?> GetHeritageIdToExistingTitleDict() {
+			var heritageToEmpireDict = new Dictionary<string, Title?>();
 
 			var reader = new BufferedReader(File.ReadAllText("configurables/heritage_empires_map.txt"));
 			foreach (var (heritageId, empireId) in reader.GetAssignments()) {
 				if (heritageToEmpireDict.ContainsKey(heritageId)) {
 					continue;
 				}
+
+				if (empireId == "none") {
+					// This means the heritage shouldn't have an empire created for it.
+					heritageToEmpireDict[heritageId] = null;
+					Logger.Debug($"Mapped heritage {heritageId} to no empire.");
+					continue;
+				}
+				
 				if (!TryGetValue(empireId, out var empire)) {
 					continue;
 				}
@@ -1244,7 +1455,7 @@ internal sealed partial class Title {
 			FrozenDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody,
 			HashSet<string> removableEmpireIds,
 			Dictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
-			Dictionary<string, Title> heritageToEmpireDict,
+			Dictionary<string, Title?> heritageToEmpireDict,
 			CK3LocDB ck3LocDB,
 			Date date
 		) {
@@ -1269,69 +1480,22 @@ internal sealed partial class Title {
 			if (disconnectedEmpiresDict.Count == 0) {
 				return;
 			}
-			Logger.Debug("\tTransferring stranded kingdoms to neighboring empires...");
-			foreach (var (empire, kingdomGroups) in disconnectedEmpiresDict) {
-				var dissolvableGroups = kingdomGroups.Where(g => g.Count == 1).ToArray();
-				foreach (var group in dissolvableGroups) {
-					var kingdom = group.First();
-					if (!kingdomToDominantHeritagesDict.TryGetValue(kingdom.Id, out var dominantHeritages)) {
-						continue;
-					}
-					if (dominantHeritages.Length < 2) {
-						continue;
-					}
-					
-					var adjacentEmpiresByLand = kingdomAdjacenciesByLand[kingdom.Id].Select(k => this[k].DeJureLiege)
-						.Where(e => e is not null)
-						.Select(e => e!)
-						.ToFrozenSet();
-					
-					// Try to find valid neighbor by land first, to reduce the number of exclaves.
-					Title? validNeighbor = null;
-					foreach (var secondaryHeritage in dominantHeritages.Skip(1)) {
-						if (!heritageToEmpireDict.TryGetValue(secondaryHeritage.Id, out var heritageEmpire)) {
-							continue;
-						}
-						if (!adjacentEmpiresByLand.Contains(heritageEmpire)) {
-							continue;
-						}
+			TransferStrandedKingdomsToNeighboringEmpires(kingdomAdjacenciesByLand, kingdomAdjacenciesByWaterBody, kingdomToDominantHeritagesDict, heritageToEmpireDict, disconnectedEmpiresDict);
 
-						validNeighbor = heritageEmpire;
-						Logger.Debug($"\t\tTransferring kingdom {kingdom.Id} from empire {empire.Id} to empire {validNeighbor.Id} neighboring by land.");
-						break;
-					}
-					
-					// If no valid neighbor by land, try to find valid neighbor by water.
-					if (validNeighbor is null) {
-						var adjacentEmpiresByWaterBody = kingdomAdjacenciesByWaterBody[kingdom.Id].Select(k => this[k].DeJureLiege)
-							.Where(e => e is not null)
-							.Select(e => e!)
-							.ToFrozenSet();
-						
-						foreach (var secondaryHeritage in dominantHeritages.Skip(1)) {
-							if (!heritageToEmpireDict.TryGetValue(secondaryHeritage.Id, out var heritageEmpire)) {
-								continue;
-							}
-							if (!adjacentEmpiresByWaterBody.Contains(heritageEmpire)) {
-								continue;
-							}
-
-							validNeighbor = heritageEmpire;
-							Logger.Debug($"\t\tTransferring kingdom {kingdom.Id} from empire {empire.Id} to empire {validNeighbor.Id} neighboring by water body.");
-							break;
-						}
-					}
-
-					if (validNeighbor is not null) {
-						kingdom.DeJureLiege = validNeighbor;
-					}
-				}
-			}	
-			
 			disconnectedEmpiresDict = GetDictOfDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds);
 			if (disconnectedEmpiresDict.Count == 0) {
 				return;
 			}
+			CreateNewEmpiresForDisconnectedKingdomGroups(disconnectedEmpiresDict, ck3LocDB, date);
+
+			disconnectedEmpiresDict = GetDictOfDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds);
+			if (disconnectedEmpiresDict.Count > 0) {
+				Logger.Warn("Failed to split some disconnected empires: " + string.Join(", ", disconnectedEmpiresDict.Keys.Select(e => e.Id)));
+			}
+		}
+
+		private void CreateNewEmpiresForDisconnectedKingdomGroups(
+			Dictionary<Title, List<HashSet<Title>>> disconnectedEmpiresDict, CK3LocDB ck3LocDB, Date date) {
 			Logger.Debug("\tCreating new empires for disconnected groups...");
 			foreach (var (empire, groups) in disconnectedEmpiresDict) {
 				// Keep the largest group as is, and create new empires based on most developed counties for the rest.
@@ -1371,16 +1535,75 @@ internal sealed partial class Title {
 					Logger.Debug($"\t\tCreated new empire {newEmpire.Id} for group {string.Join(',', group.Select(k => k.Id))}.");
 				}
 			}
-			
-			disconnectedEmpiresDict = GetDictOfDisconnectedEmpires(kingdomAdjacencies, removableEmpireIds);
-			if (disconnectedEmpiresDict.Count > 0) {
-				Logger.Warn("Failed to split some disconnected empires: " + string.Join(", ", disconnectedEmpiresDict.Keys.Select(e => e.Id)));
+		}
+
+		private void TransferStrandedKingdomsToNeighboringEmpires(FrozenDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByLand,
+			FrozenDictionary<string, ConcurrentHashSet<string>> kingdomAdjacenciesByWaterBody, Dictionary<string, ImmutableArray<Pillar>> kingdomToDominantHeritagesDict,
+			Dictionary<string, Title?> heritageToEmpireDict, Dictionary<Title, List<HashSet<Title>>> disconnectedEmpiresDict)
+		{
+			Logger.Debug("\tTransferring stranded kingdoms to neighboring empires...");
+			foreach (var (empire, kingdomGroups) in disconnectedEmpiresDict) {
+				var dissolvableGroups = kingdomGroups.Where(g => g.Count == 1).ToArray();
+				foreach (var group in dissolvableGroups) {
+					var kingdom = group.First();
+					if (!kingdomToDominantHeritagesDict.TryGetValue(kingdom.Id, out var dominantHeritages)) {
+						continue;
+					}
+					if (dominantHeritages.Length < 2) {
+						continue;
+					}
+					
+					var adjacentEmpiresByLand = kingdomAdjacenciesByLand[kingdom.Id].Select(k => this[k].DeJureLiege)
+						.Where(e => e is not null)
+						.Select(e => e!)
+						.ToFrozenSet();
+					
+					// Try to find valid neighbor by land first, to reduce the number of exclaves.
+					Title? validNeighbor = null;
+					foreach (var secondaryHeritage in dominantHeritages.Skip(1)) {
+						if (!heritageToEmpireDict.TryGetValue(secondaryHeritage.Id, out var heritageEmpire) || heritageEmpire is null) {
+							continue;
+						}
+						if (!adjacentEmpiresByLand.Contains(heritageEmpire)) {
+							continue;
+						}
+
+						validNeighbor = heritageEmpire;
+						Logger.Debug($"\t\tTransferring kingdom {kingdom.Id} from empire {empire.Id} to empire {validNeighbor.Id} neighboring by land.");
+						break;
+					}
+					
+					// If no valid neighbor by land, try to find valid neighbor by water.
+					if (validNeighbor is null) {
+						var adjacentEmpiresByWaterBody = kingdomAdjacenciesByWaterBody[kingdom.Id].Select(k => this[k].DeJureLiege)
+							.Where(e => e is not null)
+							.Select(e => e!)
+							.ToFrozenSet();
+						
+						foreach (var secondaryHeritage in dominantHeritages.Skip(1)) {
+							if (!heritageToEmpireDict.TryGetValue(secondaryHeritage.Id, out var heritageEmpire) || heritageEmpire is null) {
+								continue;
+							}
+							if (!adjacentEmpiresByWaterBody.Contains(heritageEmpire)) {
+								continue;
+							}
+
+							validNeighbor = heritageEmpire;
+							Logger.Debug($"\t\tTransferring kingdom {kingdom.Id} from empire {empire.Id} to empire {validNeighbor.Id} neighboring by water body.");
+							break;
+						}
+					}
+
+					if (validNeighbor is not null) {
+						kingdom.DeJureLiege = validNeighbor;
+					}
+				}
 			}
 		}
 
 		private Dictionary<Title, List<HashSet<Title>>> GetDictOfDisconnectedEmpires(
 			Dictionary<string, HashSet<string>> kingdomAdjacencies,
-			IReadOnlySet<string> removableEmpireIds
+			HashSet<string> removableEmpireIds
 		) {
 			var dictToReturn = new Dictionary<Title, List<HashSet<Title>>>();
 			
@@ -1404,38 +1627,7 @@ internal sealed partial class Title {
 					continue;
 				}
 
-				// Group the kingdoms into contiguous groups.
-				var kingdomGroups = new List<HashSet<Title>>();
-				foreach (var kingdom in deJureKingdoms) {
-					var added = false;
-					List<HashSet<Title>> connectedGroups = [];
-
-					foreach (var group in kingdomGroups) {
-						if (group.Any(k => kingdomAdjacencies.TryGetValue(k.Id, out var adjacencies) && adjacencies.Contains(kingdom.Id))) {
-							group.Add(kingdom);
-							connectedGroups.Add(group);
-
-							added = true;
-						}
-					}
-
-					// If the kingdom is adjacent to multiple groups, merge them.
-					if (connectedGroups.Count > 1) {
-						var mergedGroup = new HashSet<Title>();
-						foreach (var group in connectedGroups) {
-							mergedGroup.UnionWith(group);
-							kingdomGroups.Remove(group);
-						}
-
-						mergedGroup.Add(kingdom);
-						kingdomGroups.Add(mergedGroup);
-					}
-
-					if (!added) {
-						kingdomGroups.Add([kingdom]);
-					}
-				}
-
+				List<HashSet<Title>> kingdomGroups = GroupKingdomsIntoContiguousGroups(kingdomAdjacencies, deJureKingdoms);
 				if (kingdomGroups.Count <= 1) {
 					continue;
 				}
@@ -1444,12 +1636,47 @@ internal sealed partial class Title {
 				dictToReturn[empire] = kingdomGroups;
 			}
 
-			return dictToReturn;
+			// Exclude empires under h_china from this, we don't want to split them up.
+			return dictToReturn.Where(kvp => kvp.Key.DeJureLiege is null || kvp.Key.DeJureLiege.Id != "h_china")
+				.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 		}
 
-		private static bool AreTitlesAdjacent(FrozenSet<ulong> title1ProvinceIds, FrozenSet<ulong> title2ProvinceIds, MapData mapData) {
-			return mapData.AreProvinceGroupsAdjacent(title1ProvinceIds, title2ProvinceIds);
+		private static List<HashSet<Title>> GroupKingdomsIntoContiguousGroups(Dictionary<string, HashSet<string>> kingdomAdjacencies, IEnumerable<Title> deJureKingdoms) {
+			// Group the kingdoms into contiguous groups.
+			var kingdomGroups = new List<HashSet<Title>>();
+			foreach (var kingdom in deJureKingdoms) {
+				var added = false;
+				List<HashSet<Title>> connectedGroups = [];
+
+				foreach (var group in kingdomGroups) {
+					if (group.Any(k => kingdomAdjacencies.TryGetValue(k.Id, out var adjacencies) && adjacencies.Contains(kingdom.Id))) {
+						group.Add(kingdom);
+						connectedGroups.Add(group);
+
+						added = true;
+					}
+				}
+
+				// If the kingdom is adjacent to multiple groups, merge them.
+				if (connectedGroups.Count > 1) {
+					var mergedGroup = new HashSet<Title>();
+					foreach (var group in connectedGroups) {
+						mergedGroup.UnionWith(group);
+						kingdomGroups.Remove(group);
+					}
+
+					mergedGroup.Add(kingdom);
+					kingdomGroups.Add(mergedGroup);
+				}
+
+				if (!added) {
+					kingdomGroups.Add([kingdom]);
+				}
+			}
+
+			return kingdomGroups;
 		}
+
 		private static bool AreTitlesAdjacentByLand(FrozenSet<ulong> title1ProvinceIds, FrozenSet<ulong> title2ProvinceIds, MapData mapData) {
 			return mapData.AreProvinceGroupsAdjacentByLand(title1ProvinceIds, title2ProvinceIds);
 		}
@@ -1488,9 +1715,40 @@ internal sealed partial class Title {
 			}
 		}
 
-		public void SetDeJureKingdomsAndEmpires(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3LocDB ck3LocDB) {
+		private void SetHegemonyCapitals(Date ck3BookmarkDate) {
+			// Make sure every hegemony's capital is within the hegemony's de jure land.
+			Logger.Info("Setting hegemony capitals...");
+			foreach (var hegemony in this.Where(t => t.Rank == TitleRank.hegemony)) {
+				var deJureCounties = hegemony.GetDeJureVassalsAndBelow("c").Values;
+
+				// If the hegemony already has a set capital, and it's within the de jure land, keep it.
+				if (hegemony.CapitalCounty is not null && deJureCounties.Contains(hegemony.CapitalCounty)) {
+					continue;
+				}
+
+				// Try to use most developed county among the de jure empire capitals.
+				var deJureEmpires = hegemony.GetDeJureVassalsAndBelow("e").Values;
+				var mostDevelopedCounty = deJureEmpires
+					.Select(e => e.CapitalCounty)
+					.Where(c => c is not null)
+					.MaxBy(c => c!.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate));
+				if (mostDevelopedCounty is not null) {
+					hegemony.CapitalCounty = mostDevelopedCounty;
+					continue;
+				}
+
+				// Otherwise, use the most developed county among the de jure hegemony's counties.
+				mostDevelopedCounty = deJureCounties
+					.MaxBy(c => c.GetOwnOrInheritedDevelopmentLevel(ck3BookmarkDate));
+				if (mostDevelopedCounty is not null) {
+					hegemony.CapitalCounty = mostDevelopedCounty;
+				}
+			}
+		}
+
+		public void SetDeJureKingdomsAndAbove(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3RegionMapper ck3RegionMapper, CK3LocDB ck3LocDB) {
 			SetDeJureKingdoms(ck3LocDB, ck3BookmarkDate);
-			SetDeJureEmpires(ck3Cultures, ck3Characters, ck3MapData, ck3LocDB, ck3BookmarkDate);
+			SetDeJureEmpiresAndHegemonies(ck3Cultures, ck3Characters, ck3MapData, ck3RegionMapper, ck3LocDB, ck3BookmarkDate);
 		}
 
 		private HashSet<string> GetCountyHolderIds(Date date) {
@@ -1506,6 +1764,28 @@ internal sealed partial class Title {
 		}
 
 		public void ImportDevelopmentFromImperator(ProvinceCollection ck3Provinces, Date date, double irCivilizationWorth) {
+			Logger.Info("Importing development from Imperator...");
+
+			var counties = this.Where(t => t.Rank == TitleRank.county).ToArray();
+			var irProvsPerCounty = GetIRProvsPerCounty(ck3Provinces, counties);
+
+			foreach (var county in counties) {
+				if (IsCountyOutsideImperatorMap(county, irProvsPerCounty)) {
+					// Don't change development for counties outside of Imperator map.
+					continue;
+				}
+
+				double dev = CalculateCountyDevelopment(county);
+
+				county.History.Fields.Remove("development_level");
+				county.History.AddFieldValue(date, "development_level", "change_development_level", (int)dev);
+			}
+
+			DistributeExcessDevelopment(date);
+
+			Logger.IncrementProgress();
+			return;
+
 			static bool IsCountyOutsideImperatorMap(Title county, IReadOnlyDictionary<string, int> irProvsPerCounty) {
 				return irProvsPerCounty[county.Id] == 0;
 			}
@@ -1536,50 +1816,28 @@ internal sealed partial class Title {
 				dev *= irCivilizationWorth;
 				return dev;
 			}
+		}
 
-			Logger.Info("Importing development from Imperator...");
-
-			var counties = this.Where(t => t.Rank == TitleRank.county).ToArray();
-			var irProvsPerCounty = GetIRProvsPerCounty(ck3Provinces, counties);
-
+		private static Dictionary<string, int> GetIRProvsPerCounty(ProvinceCollection ck3Provinces, IEnumerable<Title> counties) {
+			Dictionary<string, int> irProvsPerCounty = [];
 			foreach (var county in counties) {
-				if (IsCountyOutsideImperatorMap(county, irProvsPerCounty)) {
-					// Don't change development for counties outside of Imperator map.
-					continue;
-				}
-
-				double dev = CalculateCountyDevelopment(county);
-
-				county.History.Fields.Remove("development_level");
-				county.History.AddFieldValue(date, "development_level", "change_development_level", (int)dev);
-			}
-			
-			DistributeExcessDevelopment(date);
-
-			Logger.IncrementProgress();
-			return;
-
-			static Dictionary<string, int> GetIRProvsPerCounty(ProvinceCollection ck3Provinces, IEnumerable<Title> counties) {
-				Dictionary<string, int> irProvsPerCounty = [];
-				foreach (var county in counties) {
-					HashSet<ulong> imperatorProvs = [];
-					foreach (ulong ck3ProvId in county.CountyProvinceIds) {
-						if (!ck3Provinces.TryGetValue(ck3ProvId, out var ck3Province)) {
-							Logger.Warn($"CK3 province {ck3ProvId} not found!");
-							continue;
-						}
-
-						var sourceProvinces = ck3Province.ImperatorProvinces;
-						foreach (var irProvince in sourceProvinces) {
-							imperatorProvs.Add(irProvince.Id);
-						}
+				HashSet<ulong> imperatorProvs = [];
+				foreach (ulong ck3ProvId in county.CountyProvinceIds) {
+					if (!ck3Provinces.TryGetValue(ck3ProvId, out var ck3Province)) {
+						Logger.Warn($"CK3 province {ck3ProvId} not found!");
+						continue;
 					}
 
-					irProvsPerCounty[county.Id] = imperatorProvs.Count;
+					var sourceProvinces = ck3Province.ImperatorProvinces;
+					foreach (var irProvince in sourceProvinces) {
+						imperatorProvs.Add(irProvince.Id);
+					}
 				}
 
-				return irProvsPerCounty;
+				irProvsPerCounty[county.Id] = imperatorProvs.Count;
 			}
+
+			return irProvsPerCounty;
 		}
 
 		private void DistributeExcessDevelopment(Date date) {
@@ -1622,7 +1880,9 @@ internal sealed partial class Title {
 
 				while (excessDevSum > 0 && leastDevCounties.Count > 0) {
 					var devPerCounty = excessDevSum / leastDevCounties.Count;
-					foreach (var county in leastDevCounties.ToArray()) {
+					int i = 0;
+					while (i < leastDevCounties.Count) {
+						var county = leastDevCounties[i];
 						var currentDev = county.GetOwnOrInheritedDevelopmentLevel(date) ?? 0;
 						var devToAdd = Math.Max(devPerCounty, 100 - currentDev);
 						var newDevValue = currentDev + devToAdd;
@@ -1630,7 +1890,9 @@ internal sealed partial class Title {
 						county.SetDevelopmentLevel(newDevValue, date);
 						excessDevSum -= devToAdd;
 						if (newDevValue >= 100) {
-							leastDevCounties.Remove(county);
+							leastDevCounties.RemoveAt(i);
+						} else {
+							++i;
 						}
 					}
 				}
@@ -1706,13 +1968,15 @@ internal sealed partial class Title {
 			return this.Where(t => t.ImperatorCountry is not null);
 		}
 
-		public IReadOnlyCollection<Title> GetDeJureDuchies() => this
-			.Where(t => t is {Rank: TitleRank.duchy, DeJureVassals.Count: > 0})
-			.ToImmutableArray();
+		public IReadOnlyCollection<Title> GetDeJureDuchies() => [
+			..this
+				.Where(t => t is {Rank: TitleRank.duchy, DeJureVassals.Count: > 0}),
+		];
 		
-		public ImmutableArray<Title> GetDeJureKingdoms() => this
-			.Where(t => t is {Rank: TitleRank.kingdom, DeJureVassals.Count: > 0})
-			.ToImmutableArray();
+		public ImmutableArray<Title> GetDeJureKingdoms() => [
+			..this
+				.Where(t => t is {Rank: TitleRank.kingdom, DeJureVassals.Count: > 0}),
+		];
 		
 		private FrozenSet<Color> UsedColors => this
 			.Select(t => t.Color1)
@@ -1738,7 +2002,7 @@ internal sealed partial class Title {
 		}
 
 		private readonly HistoryFactory titleHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
-			.WithSimpleField("holder", new OrderedSet<string> { "holder", "holder_ignore_head_of_faith_requirement" }, initialValue: null)
+			.WithSimpleField("holder", ["holder", "holder_ignore_head_of_faith_requirement"], initialValue: null)
 			.WithSimpleField("government", "government", initialValue: null)
 			.WithSimpleField("liege", "liege", initialValue: null)
 			.WithSimpleField("development_level", "change_development_level", initialValue: null)

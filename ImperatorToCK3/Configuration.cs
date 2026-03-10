@@ -12,7 +12,6 @@ using System.Linq;
 
 namespace ImperatorToCK3;
 
-internal enum LegionConversion { No, SpecialTroops, MenAtArms }
 internal sealed class Configuration {
 	public string SaveGamePath { get; set; } = "";
 	public string ImperatorPath { get; set; } = "";
@@ -89,42 +88,10 @@ internal sealed class Configuration {
 			OutputModName = reader.GetString();
 			Logger.Info($"Output name set to: {OutputModName}");
 		});
-		parser.RegisterKeyword("HeresiesInHistoricalAreas", reader => {
-			var valueString = reader.GetString();
-			try {
-				HeresiesInHistoricalAreas = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
-				Logger.Info($"{nameof(HeresiesInHistoricalAreas)} set to: {HeresiesInHistoricalAreas}");
-			} catch (Exception e) {
-				Logger.Error($"Undefined error, {nameof(HeresiesInHistoricalAreas)} value was: {valueString}; Error message: {e}");
-			}
-		});
-		parser.RegisterKeyword("StaticDeJure", reader => {
-			var valueString = reader.GetString();
-			try {
-				StaticDeJure = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 2;
-				Logger.Info($"{nameof(StaticDeJure)} set to: {StaticDeJure}");
-			} catch (Exception e) {
-				Logger.Error($"Undefined error, {nameof(StaticDeJure)} value was: {valueString}; Error message: {e}");
-			}
-		});
-		parser.RegisterKeyword("FillerDukes", reader => {
-			var valueString = reader.GetString();
-			try {
-				FillerDukes = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
-				Logger.Info($"{nameof(FillerDukes)} set to: {FillerDukes}");
-			} catch (Exception e) {
-				Logger.Error($"Undefined error, {nameof(FillerDukes)} value was: {valueString}; Error message: {e}");
-			}
-		});
-		parser.RegisterKeyword("UseCK3Flags", reader => {
-			var valueString = reader.GetString();
-			try {
-				UseCK3Flags = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
-				Logger.Info($"{nameof(UseCK3Flags)} set to: {UseCK3Flags}");
-			} catch (Exception e) {
-				Logger.Error($"Undefined error, {nameof(UseCK3Flags)} value was: {valueString}; Error message: {e}");
-			}
-		});
+		parser.RegisterKeyword("HeresiesInHistoricalAreas", SetHeresiesInHistoricalAreas);
+		parser.RegisterKeyword("StaticDeJure", SetStaticDeJure);
+		parser.RegisterKeyword("FillerDukes", SetFillerDukes);
+		parser.RegisterKeyword("UseCK3Flags", SetUseCK3Flags);
 		parser.RegisterKeyword("ImperatorCurrencyRate", reader => {
 			ImperatorCurrencyRate = reader.GetFloat();
 			Logger.Info($"{nameof(ImperatorCurrencyRate)} set to: {ImperatorCurrencyRate}");
@@ -133,32 +100,8 @@ internal sealed class Configuration {
 			ImperatorCivilizationWorth = reader.GetDouble();
 			Logger.Info($"{nameof(ImperatorCivilizationWorth)} set to: {ImperatorCivilizationWorth}");
 		});
-		parser.RegisterKeyword("LegionConversion", reader => {
-			var valueString = reader.GetString();
-			var success = Enum.TryParse(valueString, out LegionConversion selection);
-			if (success) {
-				LegionConversion = selection;
-				Logger.Info($"{nameof(LegionConversion)} set to {LegionConversion}.");
-			} else {
-				Logger.Warn($"Failed to parse {valueString} as value for {nameof(LegionConversion)}.");
-			}
-		});
-		parser.RegisterKeyword("bookmark_date", reader => {
-			var dateStr = reader.GetString();
-			if (string.IsNullOrEmpty(dateStr)) {
-				return;
-			}
-
-			Logger.Info($"Entered CK3 bookmark date: {dateStr}");
-			CK3BookmarkDate = new Date(dateStr);
-			var earliestAllowedDate = new Date(2,1,1);
-			if (CK3BookmarkDate < earliestAllowedDate) {
-				Logger.Warn($"CK3 bookmark date cannot be earlier than {earliestAllowedDate} AD (Y.M.D format), you should fix your configuration. Setting to earliest allowed date...");
-				CK3BookmarkDate = earliestAllowedDate;
-				Logger.Info($"Changed CK3 bookmark date to {earliestAllowedDate}");
-			}
-			Logger.Info($"CK3 bookmark date set to: {CK3BookmarkDate}");
-		});
+		parser.RegisterKeyword("LegionConversion", SetLegionConversion);
+		parser.RegisterKeyword("bookmark_date", SetBookmarkDate);
 		parser.RegisterKeyword("SkipDynamicCoAExtraction", reader => {
 			var valueString = reader.GetString();
 			try {
@@ -178,6 +121,74 @@ internal sealed class Configuration {
 			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+	}
+
+	private void SetFillerDukes(BufferedReader reader) {
+		var valueString = reader.GetString();
+		try {
+			FillerDukes = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+			Logger.Info($"{nameof(FillerDukes)} set to: {FillerDukes}");
+		} catch (Exception e) {
+			Logger.Error($"Undefined error, {nameof(FillerDukes)} value was: {valueString}; Error message: {e}");
+		}
+	}
+
+	private void SetStaticDeJure(BufferedReader reader) {
+		var valueString = reader.GetString();
+		try {
+			StaticDeJure = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 2;
+			Logger.Info($"{nameof(StaticDeJure)} set to: {StaticDeJure}");
+		} catch (Exception e) {
+			Logger.Error($"Undefined error, {nameof(StaticDeJure)} value was: {valueString}; Error message: {e}");
+		}
+	}
+
+	private void SetHeresiesInHistoricalAreas(BufferedReader reader) {
+		var valueString = reader.GetString();
+		try {
+			HeresiesInHistoricalAreas = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+			Logger.Info($"{nameof(HeresiesInHistoricalAreas)} set to: {HeresiesInHistoricalAreas}");
+		} catch (Exception e) {
+			Logger.Error($"Undefined error, {nameof(HeresiesInHistoricalAreas)} value was: {valueString}; Error message: {e}");
+		}
+	}
+
+	private void SetUseCK3Flags(BufferedReader reader) {
+		var valueString = reader.GetString();
+		try {
+			UseCK3Flags = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+			Logger.Info($"{nameof(UseCK3Flags)} set to: {UseCK3Flags}");
+		} catch (Exception e) {
+			Logger.Error($"Undefined error, {nameof(UseCK3Flags)} value was: {valueString}; Error message: {e}");
+		}
+	}
+
+	private void SetLegionConversion(BufferedReader reader) {
+		var valueString = reader.GetString();
+		var success = Enum.TryParse(valueString, out LegionConversion selection);
+		if (success) {
+			LegionConversion = selection;
+			Logger.Info($"{nameof(LegionConversion)} set to {LegionConversion}.");
+		} else {
+			Logger.Warn($"Failed to parse {valueString} as value for {nameof(LegionConversion)}.");
+		}
+	}
+
+	private void SetBookmarkDate(BufferedReader reader) {
+		var dateStr = reader.GetString();
+		if (string.IsNullOrEmpty(dateStr)) {
+			return;
+		}
+
+		Logger.Info($"Entered CK3 bookmark date: {dateStr}");
+		CK3BookmarkDate = new Date(dateStr);
+		var earliestAllowedDate = new Date(2,1,1);
+		if (CK3BookmarkDate < earliestAllowedDate) {
+			Logger.Warn($"CK3 bookmark date cannot be earlier than {earliestAllowedDate} AD (Y.M.D format), you should fix your configuration. Setting to earliest allowed date...");
+			CK3BookmarkDate = earliestAllowedDate;
+			Logger.Info($"Changed CK3 bookmark date to {earliestAllowedDate}");
+		}
+		Logger.Info($"CK3 bookmark date set to: {CK3BookmarkDate}");
 	}
 
 	private void VerifyImperatorPath() {
