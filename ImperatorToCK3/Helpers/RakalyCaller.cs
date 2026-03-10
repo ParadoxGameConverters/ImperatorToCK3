@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 namespace ImperatorToCK3.Helpers;
 
 public static class RakalyCaller {
-	private const string RakalyVersion = "0.8.13";
+	private const string RakalyVersion = "0.8.14";
 	private static readonly string RelativeRakalyPath;
 
 	static RakalyCaller() {
