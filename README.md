@@ -47,3 +47,4 @@ For more exotic setups, try following the steps from `.github/workflows/build_de
 - tanner918 - Data files and compatching for new CK3 and mod versions
 - ciurlys - Definition of mithra_religion, the Iranian cult of Mithra
 - Astures - Help with debugging The Fallen Eagle crashes
+- hunter00001 - Baiyue and Mohism faith icons
