@@ -79,8 +79,7 @@ public class DotLiquidTemplatingTests {
 		Assert.Equal(0.67, (float)liquidFlags["ImperatorCurrencyRate"], precision: 2);
 		Assert.Equal("0867-01-01", liquidFlags["bookmark_date"]);
 		
-		// Test that these options work in liquid templates using square bracket notation
-		var template = Template.Parse(
+		Template template = Template.Parse(
 			"""
 				{% if FillerDukes == '1' %}
 					filler_rank = duke
