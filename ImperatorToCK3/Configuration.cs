@@ -61,15 +61,6 @@ internal sealed class Configuration {
 		Logger.IncrementProgress();
 	}
 
-	private void ReadFronterOptions() {
-		// fronter-options.txt is one directory above configuration.txt.
-		const string fronterOptionsPath = "../fronter-options.txt";
-		if (!File.Exists(fronterOptionsPath)) {
-			Logger.Warn($"{fronterOptionsPath} not found! Skipping fronter options loading.");
-			return;
-		}
-	}
-
 	private void RegisterConfigurationKeys(Parser parser) {
 		parser.RegisterKeyword("SaveGame", reader => {
 			SaveGamePath = reader.GetString();
