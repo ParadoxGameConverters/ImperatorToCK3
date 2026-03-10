@@ -1,5 +1,6 @@
-# Options from this file can be used in the converter's Liquid file templates,
-# with the following format:
+# Options from this file can be used in the converter's Liquid file templates.
+
+# They can be used in conditions, using the following format:
 # {% if <OPTION NAME> == <CHOSEN VALUE> %}
 # For example:
 # {% if HeresiesInHistoricalAreas == '2' %}
@@ -9,6 +10,11 @@
 # {% if ImperatorCivilizationWorth < 0.5 %}
 # or 
 # {% if bookmark_date > '0950-01-01' %}  (needs to be in YYYY-MM-DD format for lexicographic comparisons to work)
+
+# They can also be used to embed the chosen value in the output, using the following format:
+# {{ <OPTION NAME> }}
+# For example:
+# set_variable = { name = irtock3_output_name value = "{{ output_name }}" }
 
 # When adding a new option, to enable using it in the converter's Liquid files, make the following changes in Configuration.cs:
 # 1. Add a new member to the Configuration class.
