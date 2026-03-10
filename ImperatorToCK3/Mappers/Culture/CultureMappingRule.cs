@@ -28,10 +28,8 @@ internal sealed class CultureMappingRule {
 			return null;
 		}
 
-		if (irHistoricalTags.Count > 0) {
-			if (string.IsNullOrEmpty(historicalTag) || !irHistoricalTags.Contains(historicalTag)) {
-				return null;
-			}
+		if (irHistoricalTags.Count > 0 && (string.IsNullOrEmpty(historicalTag) || !irHistoricalTags.Contains(historicalTag))) {
+			return null;
 		}
 
 		// simple culture-culture match

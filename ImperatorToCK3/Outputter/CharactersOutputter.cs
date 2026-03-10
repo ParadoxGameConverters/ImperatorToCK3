@@ -31,7 +31,7 @@ internal static class CharactersOutputter {
 		var charactersWithDNA = characters.AsValueEnumerable()
 			.Where(c => c.DNA is not null)
 			.ToImmutableList();
-		await OutputPortraitModifiers(outputPath, charactersWithDNA, conversionDate, ck3ModFS);
+		await OutputPortraitModifiers(outputPath, charactersWithDNA, ck3BookmarkDate, ck3ModFS);
 		
 		var charactersFromIR = characters.AsValueEnumerable().Where(c => c.FromImperator)
 			.OrderBy(c => c.Id).ToImmutableList();
@@ -121,7 +121,7 @@ internal static class CharactersOutputter {
 		return accessoryIDs.ToFrozenSet();
 	}
 
-	private static async Task OutputPortraitModifiers(string outputPath, IReadOnlyCollection<Character> charactersWithDNA, Date conversionDate, ModFilesystem ck3ModFS) {
+	private static async Task OutputPortraitModifiers(string outputPath, IReadOnlyCollection<Character> charactersWithDNA, Date ck3BookmarkDate, ModFilesystem ck3ModFS) {
 		Logger.Debug("Outputting portrait modifiers...");
 		// Enforce hairstyles and beards (otherwise CK3 they will only be used on bookmark screen).
 		// https://ck3.paradoxwikis.com/Characters_modding#Changing_appearance_through_scripts
@@ -131,11 +131,11 @@ internal static class CharactersOutputter {
 		var portraitModifiersOutputPath = Path.Combine(outputPath, "gfx/portraits/portrait_modifiers/IRToCK3_portrait_modifiers.txt");
 		await using var output = FileHelper.OpenWriteWithRetries(portraitModifiersOutputPath, Encoding.UTF8);
 
-		await OutputPortraitModifiersForGene("hairstyles", validAccessoryIDs, charactersWithDNA, output, conversionDate);
+		await OutputPortraitModifiersForGene("hairstyles", validAccessoryIDs, charactersWithDNA, output, ck3BookmarkDate);
 		var malesWithBeards = charactersWithDNA.AsValueEnumerable()
 			.Where(c => !c.Female && c.DNA!.AccessoryDNAValues.ContainsKey("beards"))
 			.ToImmutableList();
-		await OutputPortraitModifiersForGene("beards", validAccessoryIDs, malesWithBeards, output, conversionDate);
+		await OutputPortraitModifiersForGene("beards", validAccessoryIDs, malesWithBeards, output, ck3BookmarkDate);
 	}
 
 	private static async Task OutputPortraitModifiersForGene(
@@ -143,7 +143,7 @@ internal static class CharactersOutputter {
 		FrozenSet<string> validAccessoryIDs,
 		IReadOnlyCollection<Character> charactersWithDNA,
 		TextWriter output,
-		Date conversionDate
+		Date ck3BookmarkDate
 	) {
 		var sb = new StringBuilder();
 
@@ -152,6 +152,7 @@ internal static class CharactersOutputter {
 			.GroupBy(c => new {
 				c.DNA!.AccessoryDNAValues[geneName].TemplateName,
 				c.DNA!.AccessoryDNAValues[geneName].ObjectName,
+				AgeSex = c.GetAgeSex(ck3BookmarkDate),
 			});
 		sb.AppendLine($"IRToCK3_{geneName}_overrides = {{");
 		sb.AppendLine("\tusage = game");
@@ -159,26 +160,32 @@ internal static class CharactersOutputter {
 		foreach (var grouping in charactersByGeneValue) {
 			var templateName = grouping.Key.TemplateName;
 			var accessoryName = grouping.Key.ObjectName;
+			string ageSex = grouping.Key.AgeSex;
 
-			var characterFlagName = $"portrait_modifier_{templateName}_obj_{accessoryName}";
+			var characterFlagName = $"irtock3_pm_{templateName}_obj_{accessoryName}_{ageSex}";
 			var characterEffectStr = $"{{ add_character_flag = {characterFlagName} add_character_flag = has_scripted_appearance }}";
 
 			foreach (Character character in grouping) {
-				Date effectDate = character.DeathDate ?? conversionDate;
+				Date effectDate = character.DeathDate ?? ck3BookmarkDate;
 				character.History.AddFieldValue(effectDate, "effects", "effect", characterEffectStr);
 			}
 			
-			sb.AppendLine($"\t{templateName}_obj_{accessoryName} = {{");
+			sb.AppendLine($"\t{templateName}_obj_{accessoryName}_{ageSex} = {{");
 			sb.AppendLine("\t\tdna_modifiers = {");
 			sb.AppendLine("\t\t\taccessory = {");
 			sb.AppendLine("\t\t\t\tmode = add");
 			sb.AppendLine($"\t\t\t\tgene = {geneName}");
 			sb.AppendLine($"\t\t\t\ttemplate = {templateName}");
 			
-			string accessoryOrValueString = validAccessoryIDs.Contains(accessoryName)
-				? $"accessory = {accessoryName}"
-				: $"value = {grouping.AsValueEnumerable().First().DNA!.AccessoryDNAValues[geneName].SliderValueBetween0And1:0.####}";
-			sb.AppendLine($"\t\t\t\t{accessoryOrValueString}");
+			if (validAccessoryIDs.Contains(accessoryName)) {
+				// From CK3 docs in game\gfx\portraits\portrait_modifiers\example.txt:
+				// #accessory = male_headgear_sunglasses #As an alternative to value or range we can point directly at a specific accessory, using the name from the accessory script file
+				// #type = female # Specific accessory requires portrait type in order to calculate weights properly
+				sb.AppendLine($"\t\t\t\taccessory = {accessoryName}");
+				sb.AppendLine($"\t\t\t\ttype = {ageSex}");
+			} else {
+				sb.AppendLine($"\t\t\t\tvalue = {grouping.AsValueEnumerable().First().DNA!.AccessoryDNAValues[geneName].SliderValueBetween0And1:0.####}");
+			}
 			sb.AppendLine("\t\t\t}");
 			sb.AppendLine("\t\t}");
 			

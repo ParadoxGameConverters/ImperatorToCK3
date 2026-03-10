@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using ZLinq;
@@ -19,19 +20,18 @@ internal sealed class HouseCollection : ConcurrentIdObjectCollection<string, Hou
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/dynasty_houses", ck3ModFS, "txt", recursive: true);
-	}
-
-	public void PurgeUnneededHouses(CharacterCollection ck3Characters, Date date) {
-		Logger.Info("Purging unneeded dynasty houses...");
 		
-		// Load IDs of houses that should always be kept.
-		var houseIdsToPreserve = new HashSet<string>();
+		// Also load IDs of houses that should always be kept.
 		var nonRemovableIdsParser = new Parser();
 		nonRemovableIdsParser.RegisterRegex(CommonRegexes.String, (_, id) => {
-			houseIdsToPreserve.Add(id);
+			houseIdsConfiguredToBeKept.Add(id);
 		});
 		nonRemovableIdsParser.IgnoreAndLogUnregisteredItems();
 		nonRemovableIdsParser.ParseFile("configurables/dynasty_houses_to_preserve.txt");
+	}
+
+	internal void PurgeUnneededHouses(CharacterCollection ck3Characters, Date date) {
+		Logger.Info("Purging unneeded dynasty houses...");
 
 		FrozenSet<string> houseIdsToKeep = ck3Characters.AsValueEnumerable()
 			.Select(c => c.GetDynastyHouseId(date))
@@ -45,7 +45,7 @@ internal sealed class HouseCollection : ConcurrentIdObjectCollection<string, Hou
 			if (houseIdsToKeep.Contains(house.Id)) {
 				continue;
 			}
-			if (houseIdsToPreserve.Contains(house.Id)) {
+			if (houseIdsConfiguredToBeKept.Contains(house.Id)) {
 				continue;
 			}
 
@@ -54,4 +54,12 @@ internal sealed class HouseCollection : ConcurrentIdObjectCollection<string, Hou
 		}
 		Logger.Info($"Purged {removedCount} unneeded dynasty houses.");
 	}
+
+	internal void RemoveUnlessConfiguredToPreserve(string houseId) {
+		if (!houseIdsConfiguredToBeKept.Contains(houseId)) {
+			Remove(houseId);
+		}
+	}
+
+	readonly HashSet<string> houseIdsConfiguredToBeKept = [];
 }

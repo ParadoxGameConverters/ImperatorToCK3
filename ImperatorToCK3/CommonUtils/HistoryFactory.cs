@@ -55,10 +55,29 @@ internal sealed class HistoryFactory {
 
 	private Parser GetParser(History history) {
 		var parser = new Parser();
-		foreach (var def in this.simpleFieldDefs) {
+		RegisterSimpleFieldKeywordsInParser(parser, history);
+		RegisterLiteralFieldKeywordsInParser(parser, history);
+		RegisterDiffFieldKeywordsInParser(parser, history);
+		parser.RegisterRegex(CommonRegexes.Date, (dateBlockReader, dateString) => {
+			var date = new Date(dateString);
+
+			var dateBlockParser = new Parser();
+			foreach (var field in history.Fields) {
+				field.RegisterKeywords(dateBlockParser, date);
+			}
+			dateBlockParser.IgnoreAndStoreUnregisteredItems(history.IgnoredKeywords);
+			dateBlockParser.ParseStream(dateBlockReader);
+		});
+		parser.IgnoreAndStoreUnregisteredItems(history.IgnoredKeywords);
+
+		return parser;
+	}
+
+	private void RegisterSimpleFieldKeywordsInParser(Parser parser, History history) {
+		foreach (var def in simpleFieldDefs) {
 			foreach (var setter in def.Setters) {
 				parser.RegisterKeyword(setter, reader => {
-					// If the value is set outside of dated blocks, override the initial value.
+					// If the value is set outside dated blocks, override the initial value.
 					var itemStr = reader.GetStringOfItem().ToString();
 					// If itemStr is the question sign from the "?=" operator, get another string.
 					if (itemStr == "?") {
@@ -72,10 +91,13 @@ internal sealed class HistoryFactory {
 				});
 			}
 		}
-		foreach (var def in this.literalFieldDefs) {
+	}
+
+	private void RegisterLiteralFieldKeywordsInParser(Parser parser, History history) {
+		foreach (var def in literalFieldDefs) {
 			foreach (var setter in def.Setters) {
 				parser.RegisterKeyword(setter, reader => {
-					// If the value is set outside of dated blocks, override the initial value.
+					// If the value is set outside dated blocks, override the initial value.
 					var itemStr = reader.GetStringOfItem();
 					// If itemStr is the question sign from the "?=" operator, get another string.
 					if (itemStr.ToString() == "?") {
@@ -88,7 +110,10 @@ internal sealed class HistoryFactory {
 				});
 			}
 		}
-		foreach (var def in this.diffFieldDefs) {
+	}
+
+	private void RegisterDiffFieldKeywordsInParser(Parser parser, History history) {
+		foreach (var def in diffFieldDefs) {
 			foreach (var inserterKeyword in def.Inserters) {
 				parser.RegisterKeyword(inserterKeyword, reader => {
 					var valueStr = reader.GetString();
@@ -115,19 +140,6 @@ internal sealed class HistoryFactory {
 				});
 			}
 		}
-		parser.RegisterRegex(CommonRegexes.Date, (dateBlockReader, dateString) => {
-			var date = new Date(dateString);
-
-			var dateBlockParser = new Parser();
-			foreach (var field in history.Fields) {
-				field.RegisterKeywords(dateBlockParser, date);
-			}
-			dateBlockParser.IgnoreAndStoreUnregisteredItems(history.IgnoredKeywords);
-			dateBlockParser.ParseStream(dateBlockReader);
-		});
-		parser.IgnoreAndStoreUnregisteredItems(history.IgnoredKeywords);
-
-		return parser;
 	}
 
 	private void InitializeHistory(History history) {

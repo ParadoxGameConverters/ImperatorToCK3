@@ -186,7 +186,7 @@ internal sealed class DynastyCollection : ConcurrentIdObjectCollection<string, D
 			
 			// Remove all the cadet houses.
 			foreach (var houseId in dynastyHouseIds) {
-				houses.Remove(houseId);
+				houses.RemoveUnlessConfiguredToPreserve(houseId);
 			}
 			
 			++count;

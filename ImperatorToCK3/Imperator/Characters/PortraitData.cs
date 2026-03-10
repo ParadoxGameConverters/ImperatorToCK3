@@ -22,67 +22,18 @@ internal sealed class PortraitData {
 
 	public PortraitData(string dnaString, GenesDB genesDB, string ageSexString = "male") {
 		var decodedDnaStr = Convert.FromBase64String(dnaString);
-		const int hairColorPaletteXIndex = 0;
-		const int skinColorPaletteXIndex = 4;
-		const int eyeColorPaletteXIndex = 8;
+		SetHairColorPaletteCoordinates(decodedDnaStr);
+		SetSkinColorPaletteCoordinates(decodedDnaStr);
+		SetEyeColorPaletteCoordinates(decodedDnaStr);
 
-		// hair
-		HairColorPaletteCoordinates.X = decodedDnaStr[hairColorPaletteXIndex] * 2;
-		HairColorPaletteCoordinates.Y = decodedDnaStr[hairColorPaletteXIndex + 1] * 2;
-		HairColor2PaletteCoordinates.X = decodedDnaStr[hairColorPaletteXIndex + 2] * 2;
-		HairColor2PaletteCoordinates.Y = decodedDnaStr[hairColorPaletteXIndex + 3] * 2;
-		// skin
-		SkinColorPaletteCoordinates.X = decodedDnaStr[skinColorPaletteXIndex] * 2;
-		SkinColorPaletteCoordinates.Y = decodedDnaStr[skinColorPaletteXIndex + 1] * 2;
-		SkinColor2PaletteCoordinates.X = decodedDnaStr[skinColorPaletteXIndex + 2] * 2;
-		SkinColor2PaletteCoordinates.Y = decodedDnaStr[skinColorPaletteXIndex + 3] * 2;
-		// eyes
-		EyeColorPaletteCoordinates.X = decodedDnaStr[eyeColorPaletteXIndex] * 2;
-		EyeColorPaletteCoordinates.Y = decodedDnaStr[eyeColorPaletteXIndex + 1] * 2;
-		EyeColor2PaletteCoordinates.X = decodedDnaStr[eyeColorPaletteXIndex + 2] * 2;
-		EyeColor2PaletteCoordinates.Y = decodedDnaStr[eyeColorPaletteXIndex + 3] * 2;
-		
-		// morph genes
-		var morphGenesToLoad = genesDB.MorphGenes.AsValueEnumerable()
-			.Where(g => !morphGenesToIgnore.Contains(g.Id));
-		foreach (var gene in morphGenesToLoad) {
-			var geneIndex = gene.Index;
-			if (geneIndex is null) {
-				continue;
-			}
-			
-			var geneTemplateByteIndex = geneIndex.Value * 4;
-			if (decodedDnaStr.Length <= geneTemplateByteIndex + 3) {
-				Logger.Warn($"DNA string is too short for gene {gene.Id}!");
-				continue;
-			}
-			var geneTemplateIndex = (uint)decodedDnaStr[geneTemplateByteIndex];
-			var geneTemplateRecessiveIndex = (uint)decodedDnaStr[geneTemplateByteIndex + 2];
-			var geneTemplateName = gene.GetGeneTemplateByIndex(geneTemplateIndex)?.Id;
-			if (geneTemplateName is null) {
-				continue;
-			}
-			var geneTemplateRecessiveName = gene.GetGeneTemplateByIndex(geneTemplateRecessiveIndex)?.Id;
-			if (geneTemplateRecessiveName is null) {
-				continue;
-			}
-			
-			var geneTemplateValueByteIndex = geneTemplateByteIndex + 1;
-			var geneTemplateValueRecessiveByteIndex = geneTemplateByteIndex + 3;
-			// Get gene value (0-255).
-			var geneValue = decodedDnaStr[geneTemplateValueByteIndex];
-			var geneValueRecessive = decodedDnaStr[geneTemplateValueRecessiveByteIndex];
-			MorphGenesDict.Add(gene.Id, new MorphGeneData {
-				TemplateName = geneTemplateName,
-				Value = geneValue,
-				TemplateRecessiveName = geneTemplateRecessiveName,
-				ValueRecessive = geneValueRecessive
-			});
-		}
-		
+		ProcessMorphGeneData(genesDB, decodedDnaStr);
+
+		ProcessAccessoryGeneData(genesDB, ageSexString, decodedDnaStr);
+	}
+
+	private void ProcessAccessoryGeneData(GenesDB genesDB, string ageSexString, byte[] decodedDnaStr) {
 		// accessory genes
-		var accessoryGenes = genesDB.AccessoryGenes;
-		foreach (var gene in accessoryGenes) {
+		foreach (var gene in genesDB.AccessoryGenes) {
 			var geneIndex = gene.Index;
 			if (geneIndex is null) {
 				continue;
@@ -123,5 +74,72 @@ internal sealed class PortraitData {
 				Logger.Warn($"{ageSexString} gene template object name for {geneTemplateName} for {gene.Id} could not be extracted from DNA!");
 			}
 		}
+	}
+
+	private void ProcessMorphGeneData(GenesDB genesDB, byte[] decodedDnaStr) {
+		// morph genes
+		var morphGenesToLoad = genesDB.MorphGenes.AsValueEnumerable()
+			.Where(g => !morphGenesToIgnore.Contains(g.Id));
+		foreach (var gene in morphGenesToLoad) {
+			var geneIndex = gene.Index;
+			if (geneIndex is null) {
+				continue;
+			}
+
+			var geneTemplateByteIndex = geneIndex.Value * 4;
+			if (decodedDnaStr.Length <= geneTemplateByteIndex + 3) {
+				Logger.Warn($"DNA string is too short for gene {gene.Id}!");
+				continue;
+			}
+			var geneTemplateIndex = (uint)decodedDnaStr[geneTemplateByteIndex];
+			var geneTemplateRecessiveIndex = (uint)decodedDnaStr[geneTemplateByteIndex + 2];
+			var geneTemplateName = gene.GetGeneTemplateByIndex(geneTemplateIndex)?.Id;
+			if (geneTemplateName is null) {
+				continue;
+			}
+			var geneTemplateRecessiveName = gene.GetGeneTemplateByIndex(geneTemplateRecessiveIndex)?.Id;
+			if (geneTemplateRecessiveName is null) {
+				continue;
+			}
+
+			var geneTemplateValueByteIndex = geneTemplateByteIndex + 1;
+			var geneTemplateValueRecessiveByteIndex = geneTemplateByteIndex + 3;
+			// Get gene value (0-255).
+			var geneValue = decodedDnaStr[geneTemplateValueByteIndex];
+			var geneValueRecessive = decodedDnaStr[geneTemplateValueRecessiveByteIndex];
+			MorphGenesDict.Add(gene.Id, new MorphGeneData {
+				TemplateName = geneTemplateName,
+				Value = geneValue,
+				TemplateRecessiveName = geneTemplateRecessiveName,
+				ValueRecessive = geneValueRecessive
+			});
+		}
+	}
+
+	private void SetEyeColorPaletteCoordinates(byte[] decodedDnaStr) {
+		const int eyeColorPaletteXIndex = 8;
+
+		EyeColorPaletteCoordinates.X = decodedDnaStr[eyeColorPaletteXIndex] * 2;
+		EyeColorPaletteCoordinates.Y = decodedDnaStr[eyeColorPaletteXIndex + 1] * 2;
+		EyeColor2PaletteCoordinates.X = decodedDnaStr[eyeColorPaletteXIndex + 2] * 2;
+		EyeColor2PaletteCoordinates.Y = decodedDnaStr[eyeColorPaletteXIndex + 3] * 2;
+	}
+
+	private void SetSkinColorPaletteCoordinates(byte[] decodedDnaStr) {
+		const int skinColorPaletteXIndex = 4;
+
+		SkinColorPaletteCoordinates.X = decodedDnaStr[skinColorPaletteXIndex] * 2;
+		SkinColorPaletteCoordinates.Y = decodedDnaStr[skinColorPaletteXIndex + 1] * 2;
+		SkinColor2PaletteCoordinates.X = decodedDnaStr[skinColorPaletteXIndex + 2] * 2;
+		SkinColor2PaletteCoordinates.Y = decodedDnaStr[skinColorPaletteXIndex + 3] * 2;
+	}
+
+	private void SetHairColorPaletteCoordinates(byte[] decodedDnaStr) {
+		const int hairColorPaletteXIndex = 0;
+
+		HairColorPaletteCoordinates.X = decodedDnaStr[hairColorPaletteXIndex] * 2;
+		HairColorPaletteCoordinates.Y = decodedDnaStr[hairColorPaletteXIndex + 1] * 2;
+		HairColor2PaletteCoordinates.X = decodedDnaStr[hairColorPaletteXIndex + 2] * 2;
+		HairColor2PaletteCoordinates.Y = decodedDnaStr[hairColorPaletteXIndex + 3] * 2;
 	}
 }

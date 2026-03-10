@@ -683,3 +683,54 @@ heritage_occitan = {
 		}
 	}
 }
+
+heritage_loloish = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+    	tfe = { heritage_loloish }
+		wtwsms = { heritage_loloish }
+		roa = { heritage_loloish }
+    	vanilla = { heritage_loloish }
+    }
+	
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_loloish
+		}
+	}
+	audio_parameter = sea
+}
+
+heritage_baiyue = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+    	tfe = { heritage_baiyue }
+		wtwsms = { heritage_baiyue }
+		roa = { heritage_baiyue }
+    	vanilla = { heritage_baiyue }
+    }
+	
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_baiyue
+		}
+	}
+	audio_parameter = sea
+}
+
+heritage_dongyi = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+    	tfe = { heritage_dongyi }
+		wtwsms = { heritage_dongyi }
+		roa = { heritage_dongyi }
+    	vanilla = { heritage_dongyi }
+    }
+	
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_dongyi
+		}
+	}
+	audio_parameter = sea
+}
