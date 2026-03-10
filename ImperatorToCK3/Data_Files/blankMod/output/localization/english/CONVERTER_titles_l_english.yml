@@ -56,3 +56,7 @@
  irtock3_rome_empire_division_serica_orientalis: "Serica Orientalis"
  irtock3_rome_empire_division_serica_septentrionalis: "Serica Septentrionalis"
  irtock3_rome_empire_division_serica_deserti: "Serica Deserti"
+
+ # Overwriting Britannia's name here so that if a tag converts from Imperator as it, the tag's name will properly be used instead
+ # Overwriting Britannia's name so it doesn't conflict with the Roman Praetorian Prefecture of Britannia
+ e_britannia: "Albion"

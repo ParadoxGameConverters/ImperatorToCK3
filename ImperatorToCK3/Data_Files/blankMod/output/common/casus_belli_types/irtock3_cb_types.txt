@@ -303,6 +303,9 @@ irtock3_ritsuryo_county_war = {
 	}
 
 	on_invalidated_desc = msg_invalidate_war_title
+	on_white_peace_desc = {
+		desc = WHITE_PEACE_DISABLED
+	}
 
 	on_primary_attacker_death = inherit
 	on_primary_defender_death = inherit
