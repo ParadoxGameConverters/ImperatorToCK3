@@ -4,7 +4,6 @@ using commonItems.Mods;
 using AwesomeAssertions;
 using DotLiquid;
 using ImperatorToCK3.CK3.Provinces;
-using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Mappers.HolySiteEffect;
@@ -12,7 +11,6 @@ using System;
 using System.Linq;
 using Xunit;
 using ReligionCollection = ImperatorToCK3.CK3.Religions.ReligionCollection;
-using System.Collections.Generic;
 
 namespace ImperatorToCK3.UnitTests.CK3.Religions;
 
