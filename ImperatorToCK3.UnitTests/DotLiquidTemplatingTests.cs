@@ -6,6 +6,7 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests;
 
+[Collection("Sequential")]
 public class DotLiquidTemplatingTests {
 	[Theory]
 	[InlineData(true, false, false, 0, 0)]
