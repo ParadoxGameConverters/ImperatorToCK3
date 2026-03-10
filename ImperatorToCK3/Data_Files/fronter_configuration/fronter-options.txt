@@ -3,9 +3,9 @@
 # They can be used in conditions, using the following format:
 # {% if <OPTION NAME> == <CHOSEN VALUE> %}
 # For example:
-# {% if HeresiesInHistoricalAreas == '2' %}
+# {% if HeresiesInHistoricalAreas == 'yes' %}
 # or
-# {% if LegionConversion == '0' %}
+# {% if LegionConversion == 'men_at_arms' %}
 # or
 # {% if ImperatorCivilizationWorth < 0.5 %}
 # or 
@@ -29,13 +29,13 @@ option = {
 	tooltip = HERESIES_IN_HISTORICAL_AREAS_TIP
 	radioSelector = {
 		radioOption = {
-			name = 1
-			displayName = HERESIES_IN_HISTORICAL_AREAS_1
+			name = yes
+			displayName = HERESIES_IN_HISTORICAL_AREAS_YES
 			default = false
 		}
 		radioOption = {
-			name = 2
-			displayName = HERESIES_IN_HISTORICAL_AREAS_2
+			name = no
+			displayName = HERESIES_IN_HISTORICAL_AREAS_NO
 			default = true
 		}
 	}
@@ -47,15 +47,15 @@ option = {
 	tooltip = STATIC_DEJURE_TIP
 	radioSelector = {
 		radioOption = {
-			name = 1
-			displayName = STATIC_DEJURE_1
-			tooltip = STATIC_DEJURE_1_TIP
+			name = dynamic
+			displayName = STATIC_DEJURE_DYNAMIC
+			tooltip = STATIC_DEJURE_DYNAMIC_TIP
 			default = true
 		}
 		radioOption = {
-			name = 2
-			displayName = STATIC_DEJURE_2
-			tooltip = STATIC_DEJURE_2_TIP
+			name = static
+			displayName = STATIC_DEJURE_STATIC
+			tooltip = STATIC_DEJURE_STATIC_TIP
 			default = false
 		}
 	}
@@ -67,15 +67,15 @@ option = {
 	tooltip = FILLER_DUKES_TIP
 	radioSelector = {
 		radioOption = {
-			name = 0
-			displayName = FILLER_DUKES_0
-			tooltip = FILLER_DUKES_0_TIP
+			name = count
+			displayName = FILLER_DUKES_COUNT
+			tooltip = FILLER_DUKES_COUNT_TIP
 			default = false
 		}
 		radioOption = {
-			name = 1
-			displayName = FILLER_DUKES_1
-			tooltip = FILLER_DUKES_1_TIP
+			name = duke
+			displayName = FILLER_DUKES_DUKE
+			tooltip = FILLER_DUKES_DUKE_TIP
 			default = true
 		}
 	}
@@ -87,15 +87,15 @@ option = {
 	tooltip = USE_CK3_FLAGS_TIP
 	radioSelector = {
 		radioOption = {
-			name = 0
-			displayName = USE_CK3_FLAGS_0
-			tooltip = USE_CK3_FLAGS_0_TIP
+			name = no
+			displayName = USE_CK3_FLAGS_NO
+			tooltip = USE_CK3_FLAGS_NO_TIP
 			default = false
 		}
 		radioOption = {
-			name = 1
-			displayName = USE_CK3_FLAGS_1
-			tooltip = USE_CK3_FLAGS_1_TIP
+			name = yes
+			displayName = USE_CK3_FLAGS_YES
+			tooltip = USE_CK3_FLAGS_YES_TIP
 			default = true
 		}
 	}
@@ -129,16 +129,16 @@ option = {
 	tooltip = LEGION_CONVERSION_TIP
 	radioSelector = {
 		radioOption = {
-			name = 0
+			name = no
 			displayName = LEGION_CONVERSION_NO
 			default = true
 		}
 		radioOption = {
-			name = 1
+			name = special_troops
 			displayName = LEGION_CONVERSION_SPECIAL
 		}
 		radioOption = {
-			name = 2
+			name = men_at_arms
 			displayName = LEGION_CONVERSION_MAA
 		}
 	}
@@ -150,15 +150,15 @@ option = {
 	tooltip = SKIP_DYNAMIC_COA_EXTRACTION_TIP
 	radioSelector = {
 		radioOption = {
-			name = 0
-			displayName = SKIP_DYNAMIC_COA_EXTRACTION_0
-			tooltip = SKIP_DYNAMIC_COA_EXTRACTION_0_TIP
+			name = no
+			displayName = SKIP_DYNAMIC_COA_EXTRACTION_NO
+			tooltip = SKIP_DYNAMIC_COA_EXTRACTION_NO_TIP
 			default = true
 		}
 		radioOption = {
-			name = 1
-			displayName = SKIP_DYNAMIC_COA_EXTRACTION_1
-			tooltip = SKIP_DYNAMIC_COA_EXTRACTION_1_TIP
+			name = yes
+			displayName = SKIP_DYNAMIC_COA_EXTRACTION_YES
+			tooltip = SKIP_DYNAMIC_COA_EXTRACTION_YES_TIP
 			default = false
 		}
 	}
@@ -170,15 +170,15 @@ option = {
 	tooltip = SKIP_HOLDING_OWNERS_IMPORT_TIP
 	radioSelector = {
 		radioOption = {
-			name = 1
-			displayName = SKIP_HOLDING_OWNERS_IMPORT_1
-			tooltip = SKIP_HOLDING_OWNERS_IMPORT_1_TIP
+			name = yes
+			displayName = SKIP_HOLDING_OWNERS_IMPORT_YES
+			tooltip = SKIP_HOLDING_OWNERS_IMPORT_YES_TIP
 			default = true
 		}
 		radioOption = {
-			name = 0
-			displayName = SKIP_HOLDING_OWNERS_IMPORT_0
-			tooltip = SKIP_HOLDING_OWNERS_IMPORT_0_TIP
+			name = no
+			displayName = SKIP_HOLDING_OWNERS_IMPORT_NO
+			tooltip = SKIP_HOLDING_OWNERS_IMPORT_NO_TIP
 			default = false
 		}
 	}

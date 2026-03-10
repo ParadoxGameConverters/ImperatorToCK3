@@ -96,7 +96,7 @@ internal sealed class Configuration {
 		parser.RegisterKeyword("SkipDynamicCoAExtraction", reader => {
 			var valueString = reader.GetString();
 			try {
-				SkipDynamicCoAExtraction = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+				SkipDynamicCoAExtraction = valueString.Equals("yes", StringComparison.OrdinalIgnoreCase);
 				Logger.Info($"{nameof(SkipDynamicCoAExtraction)} set to: {SkipDynamicCoAExtraction}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(SkipDynamicCoAExtraction)} value was: {valueString}; Error message: {e}");
@@ -105,7 +105,7 @@ internal sealed class Configuration {
 		parser.RegisterKeyword("SkipHoldingOwnersImport", reader => {
 			var valueString = reader.GetString();
 			try {
-				SkipHoldingOwnersImport = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+				SkipHoldingOwnersImport = valueString.Equals("yes", StringComparison.OrdinalIgnoreCase);
 				Logger.Info($"{nameof(SkipHoldingOwnersImport)} set to: {SkipHoldingOwnersImport}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(SkipHoldingOwnersImport)} value was: {valueString}; Error message: {e}");
@@ -117,7 +117,7 @@ internal sealed class Configuration {
 	private void SetFillerDukes(BufferedReader reader) {
 		var valueString = reader.GetString();
 		try {
-			FillerDukes = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+			FillerDukes = valueString.Equals("duke", StringComparison.OrdinalIgnoreCase);
 			Logger.Info($"{nameof(FillerDukes)} set to: {FillerDukes}");
 		} catch (Exception e) {
 			Logger.Error($"Undefined error, {nameof(FillerDukes)} value was: {valueString}; Error message: {e}");
@@ -127,7 +127,7 @@ internal sealed class Configuration {
 	private void SetStaticDeJure(BufferedReader reader) {
 		var valueString = reader.GetString();
 		try {
-			StaticDeJure = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 2;
+			StaticDeJure = valueString.Equals("static", StringComparison.OrdinalIgnoreCase);
 			Logger.Info($"{nameof(StaticDeJure)} set to: {StaticDeJure}");
 		} catch (Exception e) {
 			Logger.Error($"Undefined error, {nameof(StaticDeJure)} value was: {valueString}; Error message: {e}");
@@ -137,7 +137,7 @@ internal sealed class Configuration {
 	private void SetHeresiesInHistoricalAreas(BufferedReader reader) {
 		var valueString = reader.GetString();
 		try {
-			HeresiesInHistoricalAreas = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+			HeresiesInHistoricalAreas = valueString.Equals("yes", StringComparison.OrdinalIgnoreCase);
 			Logger.Info($"{nameof(HeresiesInHistoricalAreas)} set to: {HeresiesInHistoricalAreas}");
 		} catch (Exception e) {
 			Logger.Error($"Undefined error, {nameof(HeresiesInHistoricalAreas)} value was: {valueString}; Error message: {e}");
@@ -147,7 +147,7 @@ internal sealed class Configuration {
 	private void SetUseCK3Flags(BufferedReader reader) {
 		var valueString = reader.GetString();
 		try {
-			UseCK3Flags = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+			UseCK3Flags = valueString.Equals("yes", StringComparison.OrdinalIgnoreCase);
 			Logger.Info($"{nameof(UseCK3Flags)} set to: {UseCK3Flags}");
 		} catch (Exception e) {
 			Logger.Error($"Undefined error, {nameof(UseCK3Flags)} value was: {valueString}; Error message: {e}");
@@ -156,10 +156,12 @@ internal sealed class Configuration {
 
 	private void SetLegionConversion(BufferedReader reader) {
 		var valueString = reader.GetString();
-		var success = Enum.TryParse(valueString, out LegionConversion selection);
-		if (success) {
-			LegionConversion = selection;
-			Logger.Info($"{nameof(LegionConversion)} set to {LegionConversion}.");
+		if (valueString.Equals("no", StringComparison.OrdinalIgnoreCase)) {
+			LegionConversion = LegionConversion.No;
+		} else if (valueString.Equals("special_troops", StringComparison.OrdinalIgnoreCase)) {
+			LegionConversion = LegionConversion.SpecialTroops;
+		} else if (valueString.Equals("men_at_arms", StringComparison.OrdinalIgnoreCase)) {
+			LegionConversion = LegionConversion.MenAtArms;
 		} else {
 			Logger.Warn($"Failed to parse {valueString} as value for {nameof(LegionConversion)}.");
 		}
@@ -452,27 +454,19 @@ internal sealed class Configuration {
 	/// {% if HeresiesInHistoricalAreas == "1" %} or {% if LegionConversion == "MenAtArms" %}.
 	/// </summary>
 	private OrderedDictionary<string, object> GetConverterOptions() {
-		var options = new OrderedDictionary<string, object> {
-			// HeresiesInHistoricalAreas - choice 1 is true, choice 2 is false.
-			["HeresiesInHistoricalAreas"] = HeresiesInHistoricalAreas ? "1" : "2",
-
-			// StaticDeJure - choice 1 is dynamic (false), choice 2 is static (true)
-			["StaticDeJure"] = StaticDeJure ? "2" : "1",
-
-			// FillerDukes - choice 0 is count (false), choice 1 is duke (true)
-			["FillerDukes"] = FillerDukes ? "1" : "0",
-
-			// UseCK3Flags - choice 0 is false, choice 1 is true
-			["UseCK3Flags"] = UseCK3Flags ? "1" : "0",
-
-			// LegionConversion - output the string with the number corresponding to the selected enum value, for example '2' for MenAtArms.
-			["LegionConversion"] = ((int)LegionConversion).ToString(),
-
-			// SkipDynamicCoAExtraction - choice 0 is false, choice 1 is true
-			["SkipDynamicCoAExtraction"] = SkipDynamicCoAExtraction ? "1" : "0",
-
-			// SkipHoldingOwnersImport - choice 0 is false, choice 1 is true
-			["SkipHoldingOwnersImport"] = SkipHoldingOwnersImport ? "1" : "0",
+		return new OrderedDictionary<string, object> {
+			["HeresiesInHistoricalAreas"] = HeresiesInHistoricalAreas ? "yes" : "no",
+			["StaticDeJure"] = StaticDeJure ? "static" : "dynamic",
+			["FillerDukes"] = FillerDukes ? "duke" : "count",
+			["UseCK3Flags"] = UseCK3Flags ? "yes" : "no",
+			["LegionConversion"] = LegionConversion switch {
+				LegionConversion.No => "no",
+				LegionConversion.SpecialTroops => "special_troops",
+				LegionConversion.MenAtArms => "men_at_arms",
+				_ => "no",
+			},
+			["SkipDynamicCoAExtraction"] = SkipDynamicCoAExtraction ? "yes" : "no",
+			["SkipHoldingOwnersImport"] = SkipHoldingOwnersImport ? "yes" : "no",
 
 			// Output number input options as numbers, so they can be used in numeric comparisons in Liquid,
 			// e.g. {% if ImperatorCurrencyRate > 0.5 %}.
@@ -483,7 +477,5 @@ internal sealed class Configuration {
 			// e.g. {% if bookmark_date > "0769-01-01" %}.
 			["bookmark_date"] = $"{CK3BookmarkDate.Year:0000}-{CK3BookmarkDate.Month:00}-{CK3BookmarkDate.Day:00}",
 		};
-
-		return options;
 	}
 }

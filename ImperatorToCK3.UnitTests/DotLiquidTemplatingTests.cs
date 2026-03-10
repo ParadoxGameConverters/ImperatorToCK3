@@ -77,33 +77,33 @@ public class DotLiquidTemplatingTests {
 
 		var liquidFlags = config.GetLiquidVariables();
 		
-		Assert.Equal("2", liquidFlags["HeresiesInHistoricalAreas"]);
-		Assert.Equal("1", liquidFlags["FillerDukes"]);
-		Assert.Equal("1", liquidFlags["StaticDeJure"]);
-		Assert.Equal("2", liquidFlags["LegionConversion"]);
+		Assert.Equal("no", liquidFlags["HeresiesInHistoricalAreas"]);
+		Assert.Equal("duke", liquidFlags["FillerDukes"]);
+		Assert.Equal("dynamic", liquidFlags["StaticDeJure"]);
+		Assert.Equal("men_at_arms", liquidFlags["LegionConversion"]);
 		Assert.Equal(0.67f, (float)liquidFlags["ImperatorCurrencyRate"], precision: 2);
 		Assert.Equal(0.34d, (double)liquidFlags["ImperatorCivilizationWorth"], precision: 2);
 		Assert.Equal("0867-01-01", liquidFlags["bookmark_date"]);
 		
 		Template template = Template.Parse(
 			"""
-				{% if FillerDukes == '1' %}
+				{% if FillerDukes == 'duke' %}
 					filler_rank = duke
-				{% elsif FillerDukes == '0' %}
+				{% elsif FillerDukes == 'count' %}
 					filler_rank = count
 				{% endif %}
 				
-				{% if StaticDeJure == '1' %}
+				{% if StaticDeJure == 'dynamic' %}
 					de_jure = dynamic
-				{% elsif StaticDeJure == '2' %}
+				{% elsif StaticDeJure == 'static' %}
 					de_jure = static
 				{% endif %}
 				
-				{% if LegionConversion == '2' %}
+				{% if LegionConversion == 'men_at_arms' %}
 					legions = maa
-				{% elsif LegionConversion == '1' %}
+				{% elsif LegionConversion == 'special_troops' %}
 					legions = special
-				{% elsif LegionConversion == '0' %}
+				{% elsif LegionConversion == 'no' %}
 					legions = none
 				{% endif %}
 				
@@ -154,7 +154,8 @@ public class DotLiquidTemplatingTests {
 		Assert.Equal("maa", legions);
 		Assert.Equal("high", currencyRate);
 		Assert.Equal("ninth", bookmarkCentury);
-		Assert.Equal(0.34d, civWorth.Value!, precision: 2);
-		Assert.Equal("2", historicalHeresiesStr);
+		Assert.NotNull(civWorth);
+		Assert.Equal(0.34d, civWorth.Value, precision: 2);
+		Assert.Equal("no", historicalHeresiesStr);
 	}
 }
