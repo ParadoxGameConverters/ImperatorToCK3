@@ -42,18 +42,23 @@ if ($saveFiles.Count -eq 0) {
 }
 
 $originalConfig = Get-Content -LiteralPath $configPath -Raw
+if ([string]::IsNullOrWhiteSpace($originalConfig)) {
+	throw "Configuration file is empty: $configPath"
+}
 if ($originalConfig -notmatch '(?m)^\s*SaveGame\s*=') {
 	throw "SaveGame entry not found in $configPath"
 }
 
 $results = [System.Collections.Generic.List[object]]::new()
 $runStart = Get-Date
+$shouldRestoreConfig = $true
 
 Write-Host "Testing $($saveFiles.Count) save file(s)." -ForegroundColor Cyan
 
 try {
 	foreach ($saveFile in $saveFiles) {
 		$start = Get-Date
+		$relativeSavePath = [System.IO.Path]::GetRelativePath($savesRoot, $saveFile.FullName)
 		$savePath = $saveFile.FullName -replace '\\', '/'
 		$updatedConfig = [regex]::Replace(
 			$originalConfig,
@@ -63,7 +68,7 @@ try {
 		)
 		Set-Content -LiteralPath $configPath -Value $updatedConfig -Encoding UTF8
 
-		Write-Host ("[{0}] Running converter for: {1}" -f (Get-Date -Format 'HH:mm:ss'), $saveFile.FullName)
+		Write-Host ("[{0}] Running converter for: {1}" -f (Get-Date -Format 'HH:mm:ss'), $relativeSavePath)
 
 		$stdoutPath = [System.IO.Path]::GetTempFileName()
 		$stderrPath = [System.IO.Path]::GetTempFileName()
@@ -113,7 +118,8 @@ try {
 
 		$duration = [Math]::Round(((Get-Date) - $start).TotalSeconds, 2)
 		$result = [PSCustomObject]@{
-			SaveFile = $saveFile.FullName
+			SaveFile = $relativeSavePath
+			SaveFileFullPath = $saveFile.FullName
 			Passed = $passed
 			ExitCode = $exitCode
 			ThrewException = $threwException
@@ -132,7 +138,9 @@ try {
 	}
 }
 finally {
-	Set-Content -LiteralPath $configPath -Value $originalConfig -Encoding UTF8
+	if ($shouldRestoreConfig -and $null -ne $originalConfig) {
+		Set-Content -LiteralPath $configPath -Value $originalConfig -Encoding UTF8
+	}
 }
 
 $totalDuration = [Math]::Round(((Get-Date) - $runStart).TotalSeconds, 2)
