@@ -273,10 +273,10 @@ internal sealed class Configuration {
 			                             "It should contain one of the following files: " +
 			                             $"{string.Join(", ", filesInDocFolder)}");
 		}
-		
+
 		Logger.Debug($"I:R documents path {ImperatorDocPath} is valid.");
 	}
-	
+
 	private void VerifyCK3ModsPath() {
 		if (!Directory.Exists(CK3ModsPath)) {
 			throw new UserErrorException($"{CK3ModsPath} does not exist!");
@@ -386,19 +386,19 @@ internal sealed class Configuration {
 			FallenEagleEnabled = true;
 			Logger.Info($"TFE detected: {tfeMod.Name}");
 		}
-		
+
 		var wtwsmsMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("When the World Stopped Making Sense", StringComparison.Ordinal));
 		if (wtwsmsMod is not null) {
 			WhenTheWorldStoppedMakingSenseEnabled = true;
 			Logger.Info($"WtWSMS detected: {wtwsmsMod.Name}");
 		}
-		
+
 		var roaMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Rajas of Asia", StringComparison.Ordinal));
 		if (roaMod is not null) {
 			RajasOfAsiaEnabled = true;
 			Logger.Info($"RoA detected: {roaMod.Name}");
 		}
-		
+
 		var aepMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Asia Expansion Project", StringComparison.Ordinal));
 		if (aepMod is not null) {
 			AsiaExpansionProjectEnabled = true;
@@ -455,39 +455,44 @@ internal sealed class Configuration {
 		return GetCK3ModFlags().Where(f => f.Value).Select(f => f.Key);
 	}
 
-	/// <summary>Returns a collection of converter frontend options with their selected choice values in the format "optionName:choiceValue".</summary>
-	private OrderedDictionary<string, bool> GetConverterOptions() { // TODO: rework this to return the original values from configuration.txt instead of converting them to bool
-		var options = new OrderedDictionary<string, bool> {
-			// Boolean options - choice 0 is false, choice 1 is true
-			["HeresiesInHistoricalAreas:0"] = !HeresiesInHistoricalAreas,
-			["HeresiesInHistoricalAreas:1"] = HeresiesInHistoricalAreas,
-			
+	/// <summary>
+	/// Returns a collection of converter frontend options with their selected choice values.
+	/// They can be used in Liquid if statements like this:
+	/// {% if HeresiesInHistoricalAreas == "1" %} or {% if LegionConversion == "MenAtArms" %}.
+	/// </summary>
+	private OrderedDictionary<string, object> GetConverterOptions() {
+		var options = new OrderedDictionary<string, object> {
+			// HeresiesInHistoricalAreas - choice 0 is false, choice 1 is true
+			["HeresiesInHistoricalAreas"] = HeresiesInHistoricalAreas ? "1" : "0",
+
 			// StaticDeJure - choice 1 is dynamic (false), choice 2 is static (true)
-			["StaticDeJure:1"] = !StaticDeJure,
-			["StaticDeJure:2"] = StaticDeJure,
-			
+			["StaticDeJure"] = StaticDeJure ? "2" : "1",
+
 			// FillerDukes - choice 0 is count (false), choice 1 is duke (true)
-			["FillerDukes:0"] = !FillerDukes,
-			["FillerDukes:1"] = FillerDukes,
-			
+			["FillerDukes"] = FillerDukes ? "1" : "0",
+
 			// UseCK3Flags - choice 0 is false, choice 1 is true
-			["UseCK3Flags:0"] = !UseCK3Flags,
-			["UseCK3Flags:1"] = UseCK3Flags,
-			
-			// LegionConversion - enum values
-			["LegionConversion:No"] = LegionConversion == LegionConversion.No,
-			["LegionConversion:SpecialTroops"] = LegionConversion == LegionConversion.SpecialTroops,
-			["LegionConversion:MenAtArms"] = LegionConversion == LegionConversion.MenAtArms,
-			
+			["UseCK3Flags"] = UseCK3Flags ? "1" : "0",
+
+			// LegionConversion - output the string with the number corresponding to the selected enum value, for example '2' for MenAtArms.
+			["LegionConversion"] = ((int)LegionConversion).ToString(),
+
 			// SkipDynamicCoAExtraction - choice 0 is false, choice 1 is true
-			["SkipDynamicCoAExtraction:0"] = !SkipDynamicCoAExtraction,
-			["SkipDynamicCoAExtraction:1"] = SkipDynamicCoAExtraction,
-			
+			["SkipDynamicCoAExtraction"] = SkipDynamicCoAExtraction ? "1" : "0",
+
 			// SkipHoldingOwnersImport - choice 0 is false, choice 1 is true
-			["SkipHoldingOwnersImport:0"] = !SkipHoldingOwnersImport,
-			["SkipHoldingOwnersImport:1"] = SkipHoldingOwnersImport,
+			["SkipHoldingOwnersImport"] = SkipHoldingOwnersImport ? "1" : "0",
+
+			// Output number input options as numbers, so they can be used in numeric comparisons in Liquid,
+			// e.g. {% if ImperatorCurrencyRate > 0.5 %}.
+			["ImperatorCurrencyRate"] = ImperatorCurrencyRate,
+			["ImperatorCivilizationWorth"] = ImperatorCivilizationWorth,
+
+			// Output dates always in the format YYYY-MM-DD, so they can be used in lexicographical comparisons in Liquid,
+			// e.g. {% if bookmark_date > "0769-01-01" %}.
+			["bookmark_date"] = $"{CK3BookmarkDate.Year:0000}-{CK3BookmarkDate.Month:00}-{CK3BookmarkDate.Day:00}",
 		};
-		
+
 		return options;
 	}
 }

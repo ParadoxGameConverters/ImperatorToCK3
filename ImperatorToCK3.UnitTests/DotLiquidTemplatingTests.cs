@@ -67,14 +67,18 @@ public class DotLiquidTemplatingTests {
 		var config = new Configuration {
 			FillerDukes = true,
 			StaticDeJure = false,
-			LegionConversion = LegionConversion.MenAtArms
+			LegionConversion = LegionConversion.MenAtArms,
+			ImperatorCurrencyRate = 0.67f,
+			CK3BookmarkDate = new Date(867, 1, 1)
 		};
 
 		var liquidFlags = config.GetLiquidVariables();
 		
 		Assert.Equal("1", liquidFlags["FillerDukes"]);
 		Assert.Equal("1", liquidFlags["StaticDeJure"]);
-		Assert.Equal("MenAtArms", liquidFlags["LegionConversion"]);
+		Assert.Equal("2", liquidFlags["LegionConversion"]);
+		Assert.Equal(0.67, (float)liquidFlags["ImperatorCurrencyRate"], precision: 2);
+		Assert.Equal("0867-01-01", liquidFlags["bookmark_date"]);
 		
 		// Test that these options work in liquid templates using square bracket notation
 		var template = Template.Parse(
@@ -91,45 +95,52 @@ public class DotLiquidTemplatingTests {
 					de_jure = static
 				{% endif %}
 				
-				{% if LegionConversion == 'MenAtArms' %}
+				{% if LegionConversion == '2' %}
 					legions = maa
-				{% elsif LegionConversion == 'SpecialTroops' %}
+				{% elsif LegionConversion == '1' %}
 					legions = special
-				{% elsif LegionConversion == 'No' %}
+				{% elsif LegionConversion == '0' %}
 					legions = none
+				{% endif %}
+				
+				{% if ImperatorCurrencyRate > 0.5 %}
+					currency_rate = high
+				{% else %}
+					currency_rate = low
+				{% endif %}
+				
+				{% if bookmark_date < '1001-01-01' and bookmark_date >= '0901-01-01' %}
+					bookmark_century = tenth
+				{% elsif bookmark_date < '0901-01-01' and bookmark_date >= '0801-01-01' %}
+					bookmark_century = ninth
+				{% elsif bookmark_date < '0801-01-01' and bookmark_date >= '0701-01-01' %}
+					bookmark_century = eighth
+				{% else %}
+					bookmark_century = unexpected
 				{% endif %}
 			""");
 		
-		var convertedFlags = liquidFlags.ToDictionary(kv => kv.Key, kv => (object)kv.Value);
-		var context = Hash.FromDictionary(convertedFlags);
-		var result = template.Render(context);
+		Hash context = config.GetLiquidVariables();
+		string result = template.Render(context);
 		
 		string? fillerRank = null;
 		string? deJure = null;
 		string? legions = null;
+		string? currencyRate = null;
+		string? bookmarkCentury = null;
+		
 		var parser = new Parser();
 		parser.RegisterKeyword("filler_rank", reader => fillerRank = reader.GetString());
 		parser.RegisterKeyword("de_jure", reader => deJure = reader.GetString());
 		parser.RegisterKeyword("legions", reader => legions = reader.GetString());
+		parser.RegisterKeyword("currency_rate", reader => currencyRate = reader.GetString());
+		parser.RegisterKeyword("bookmark_century", reader => bookmarkCentury = reader.GetString());
 		parser.ParseStream(new BufferedReader(result));
 		
 		Assert.Equal("duke", fillerRank);
 		Assert.Equal("dynamic", deJure);
 		Assert.Equal("maa", legions);
-	}
-
-	[Fact]
-	public void ConverterOptionsWithDifferentValues() {
-		var config = new Configuration {
-			FillerDukes = false,
-			StaticDeJure = true,
-			LegionConversion = LegionConversion.No
-		};
-
-		var liquidFlags = config.GetLiquidVariables();
-		
-		Assert.Equal("0", liquidFlags["FillerDukes"]);
-		Assert.Equal("1", liquidFlags["StaticDeJure"]);
-		Assert.Equal("No", liquidFlags["LegionConversion"]);
+		Assert.Equal("high", currencyRate);
+		Assert.Equal("ninth", bookmarkCentury);
 	}
 }
