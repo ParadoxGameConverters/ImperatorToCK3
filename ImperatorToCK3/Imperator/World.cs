@@ -350,11 +350,9 @@ internal partial class World {
 		Characters.PurgeUnneededCharacters(Countries, JobsDB.Governorships, Families);
 
 		// Detect specific mods.
-		InvictusDetected = GlobalFlags.Contains("is_playing_invictus") || ActiveImperatorModFlags.Contains("invictus") || ActiveImperatorModFlags.Contains("invictus_1_7");
-		Invictus1_7Detected = UsableMods.Any(m => m.Name.StartsWith("Imperator: Invictus 1.7.")) || ActiveImperatorModFlags.Contains("invictus_1_7");
-		TerraIndomitaDetected = Countries.Any(c => c.Variables.Contains("unification_points")) ||
-		                        UsableMods.Any(m => m.Name == "Antiquitas") ||
-		                        ActiveImperatorModFlags.Contains("terra_indomita");
+		InvictusDetected = ActiveImperatorModFlags.Contains("invictus") || ActiveImperatorModFlags.Contains("invictus_1_7");
+		Invictus1_7Detected = ActiveImperatorModFlags.Contains("invictus_1_7");
+		TerraIndomitaDetected = ActiveImperatorModFlags.Contains("terra_indomita");
 
 		Logger.Info("*** Good-bye Imperator, rest in peace. ***");
 	}
