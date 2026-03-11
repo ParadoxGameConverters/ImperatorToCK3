@@ -41,12 +41,8 @@
 	<ItemGroup>
 		<TestFiles Include="TestFiles/**/*.*" />
 	</ItemGroup>
-	<ItemGroup>
-		<Configurables Include="../ImperatorToCK3/Data_Files/configurables/**/*.*" />
-	</ItemGroup>
 	<Target Name="CopyCustomContent" AfterTargets="Build">
 		<Copy SourceFiles="@(RakalyBinaryFiles)" DestinationFolder="$(OutDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(TestFiles)" DestinationFolder="$(OutDir)\TestFiles\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
-		<Copy SourceFiles="@(Configurables)" DestinationFolder="$(OutDir)\configurables\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
 	</Target>
 </Project>
