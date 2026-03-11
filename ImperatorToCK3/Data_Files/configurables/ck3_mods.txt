@@ -12,15 +12,15 @@ tfe = {
 
 wtwsms = {
 	name_regex = { "^When the World Stopped Making Sense" }
-	id = { "ugc_2216670956.mod" }
+	id = { "ugc_2858562094.mod" }
 }
 
 roa = {
 	name_regex = { "^Rajas of Asia" }
-	id = { "ugc_2649504953.mod" }
+	id = { "ugc_2509174436.mod" }
 }
 
 aep = {
 	name_regex = { "^Asia Expansion Project" }
-	id = { "ugc_2585840163.mod" }
+	id = { "ugc_2970440958.mod" }
 }
