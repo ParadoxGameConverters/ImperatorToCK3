@@ -11,7 +11,7 @@ invictus = {
 }
 
 invictus_1_7 = {
-	name_regex = { "^Imperator: Invictus 1\\.7\\." }
+	name_regex = { "^Imperator: Invictus 1\.7\." }
 	id = { "ugc_3181950031.mod" }
 }
 

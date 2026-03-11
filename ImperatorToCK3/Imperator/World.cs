@@ -72,11 +72,6 @@ internal partial class World {
 	public ColorFactory ColorFactory { get; } = new();
 	
 	public IReadOnlyList<Mod> UsableMods { get; private set; } = Array.Empty<Mod>();
-	public IReadOnlySet<string> ActiveImperatorModFlags { get; private set; } = ImmutableHashSet<string>.Empty;
-
-	public bool InvictusDetected { get; private set; }
-	public bool Invictus1_7Detected { get; private set; } // https://steamcommunity.com/sharedfiles/filedetails/?id=3181950031
-	public bool TerraIndomitaDetected { get; private set; }
 
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 	private SaveType saveType = SaveType.Invalid;
@@ -349,10 +344,13 @@ internal partial class World {
 
 		Characters.PurgeUnneededCharacters(Countries, JobsDB.Governorships, Families);
 
-		// Detect specific mods.
-		InvictusDetected = ActiveImperatorModFlags.Contains("invictus") || ActiveImperatorModFlags.Contains("invictus_1_7");
-		Invictus1_7Detected = ActiveImperatorModFlags.Contains("invictus_1_7");
-		TerraIndomitaDetected = ActiveImperatorModFlags.Contains("terra_indomita");
+		// Apply fallback Imperator mod detection from save data that can't be expressed in the configurable.
+		if (GlobalFlags.Contains("is_playing_invictus")) {
+			config.AddImperatorModFlag("invictus");
+		}
+		if (Countries.Any(c => c.Variables.Contains("unification_points"))) {
+			config.AddImperatorModFlag("terra_indomita");
+		}
 
 		Logger.Info("*** Good-bye Imperator, rest in peace. ***");
 	}
@@ -417,27 +415,11 @@ internal partial class World {
 			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
 
 			// Detect specific Imperator mods from the configurable now that UsableMods are available.
-			ActiveImperatorModFlags = DetectSpecificImperatorMods(UsableMods);
+			config.DetectSpecificImperatorMods(UsableMods);
 
 			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
 			LoadModFilesystemDependentData();
 		};
-	}
-
-	private static IReadOnlySet<string> DetectSpecificImperatorMods(IReadOnlyList<Mod> usableMods) {
-		var definitions = ModDefinitionsReader.LoadFromFile("configurables/imperator_mods.txt");
-		var activeFlags = new HashSet<string>();
-
-		foreach (var definition in definitions) {
-			var matchingMod = usableMods.FirstOrDefault(m => definition.IsMatch(m));
-			if (matchingMod is null) {
-				continue;
-			}
-			activeFlags.Add(definition.Flag);
-			Logger.Info($"Imperator mod flag \"{definition.Flag}\" detected: {matchingMod.Name}");
-		}
-
-		return activeFlags;
 	}
 
 	private void RemoveEmptyCountries() {

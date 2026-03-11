@@ -43,6 +43,13 @@ internal sealed class Configuration {
 
 	public bool OutputCCUParameters => WhenTheWorldStoppedMakingSenseEnabled || FallenEagleEnabled || RajasOfAsiaEnabled;
 
+	private readonly HashSet<string> activeImperatorModFlags = [];
+	private IReadOnlyList<ModDefinition> imperatorModDefinitions = [];
+
+	public bool InvictusDetected => activeImperatorModFlags.Contains("invictus") || activeImperatorModFlags.Contains("invictus_1_7");
+	public bool Invictus1_7Detected => activeImperatorModFlags.Contains("invictus_1_7");
+	public bool TerraIndomitaDetected => activeImperatorModFlags.Contains("terra_indomita");
+
 	public Configuration() { }
 	public Configuration(ConverterVersion converterVersion) {
 		Logger.Info("Reading configuration file...");
@@ -407,13 +414,35 @@ internal sealed class Configuration {
 		}
 	}
 
+	public void DetectSpecificImperatorMods(IReadOnlyList<Mod> usableMods) {
+		imperatorModDefinitions = ModDefinitionsReader.LoadFromFile("configurables/imperator_mods.txt");
+
+		foreach (var definition in imperatorModDefinitions) {
+			var matchingMod = usableMods.FirstOrDefault(m => definition.IsMatch(m));
+			if (matchingMod is null) {
+				continue;
+			}
+			activeImperatorModFlags.Add(definition.Flag);
+			Logger.Info($"Imperator mod flag \"{definition.Flag}\" detected: {matchingMod.Name}");
+		}
+	}
+
+	/// <summary>Activates an Imperator mod flag. Used to add flags detected via save data (e.g., global flags, country variables).</summary>
+	public void AddImperatorModFlag(string flag) {
+		activeImperatorModFlags.Add(flag);
+		Logger.Info($"Imperator mod flag \"{flag}\" activated via save data.");
+	}
+
 	/// <summary>
-	/// Returns a collection of liquid template variables including CK3 mod flags and converter options.
+	/// Returns a collection of liquid template variables including CK3 mod flags, Imperator mod flags, and converter options.
 	/// </summary>
 	public Hash GetLiquidVariables() {
 		var variables = new OrderedDictionary<string, object>();
 		foreach (var modFlag in GetCK3ModFlags()) {
 			variables[modFlag.Key] = modFlag.Value;
+		}
+		foreach (var modFlag in GetImperatorModFlags()) {
+			variables[$"ir_{modFlag.Key}"] = modFlag.Value;
 		}
 		foreach (var option in GetConverterOptions()) {
 			variables[option.Key] = option.Value;
@@ -438,6 +467,18 @@ internal sealed class Configuration {
 
 	internal IEnumerable<string> GetActiveCK3ModFlags() {
 		return GetCK3ModFlags().Where(f => f.Value).Select(f => f.Key);
+	}
+
+	/// <summary>
+	/// Returns a collection of Imperator mod flags with values based on detected mods.
+	/// <para>Note: <see cref="DetectSpecificImperatorMods"/> must be called before this method to get meaningful flag values.</para>
+	/// </summary>
+	internal OrderedDictionary<string, bool> GetImperatorModFlags() {
+		var flags = new OrderedDictionary<string, bool>();
+		foreach (var definition in imperatorModDefinitions) {
+			flags[definition.Flag] = activeImperatorModFlags.Contains(definition.Flag);
+		}
+		return flags;
 	}
 
 	/// <summary>

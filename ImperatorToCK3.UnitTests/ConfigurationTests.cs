@@ -133,6 +133,53 @@ public class ConfigurationTests {
 	}
 
 	[Fact]
+	public void DetectSpecificImperatorModsSetsActiveFlagsFromConfigurable() {
+		var invictusMod = new Mod("Imperator: Invictus 2.0", "", dependencies: []);
+
+		var config = new Configuration();
+		config.DetectSpecificImperatorMods([invictusMod]);
+
+		Assert.True(config.InvictusDetected);
+		Assert.False(config.Invictus1_7Detected);
+		Assert.False(config.TerraIndomitaDetected);
+	}
+
+	[Fact]
+	public void DetectSpecificImperatorModsDetectsInvictus1_7() {
+		var invictus17Mod = new Mod("Imperator: Invictus 1.7.3", "", dependencies: []);
+
+		var config = new Configuration();
+		config.DetectSpecificImperatorMods([invictus17Mod]);
+
+		Assert.True(config.InvictusDetected);
+		Assert.True(config.Invictus1_7Detected);
+	}
+
+	[Fact]
+	public void AddImperatorModFlagActivatesFlagForSaveDataFallback() {
+		var config = new Configuration();
+		config.DetectSpecificImperatorMods([]);
+
+		Assert.False(config.InvictusDetected);
+		config.AddImperatorModFlag("invictus");
+		Assert.True(config.InvictusDetected);
+	}
+
+	[Fact]
+	public void GetLiquidVariablesIncludesImperatorModFlags() {
+		var invictusMod = new Mod("Imperator: Invictus 2.0", "", dependencies: []);
+
+		var config = new Configuration();
+		config.DetectSpecificImperatorMods([invictusMod]);
+
+		var variables = config.GetLiquidVariables();
+
+		// Imperator flags are prefixed with "ir_".
+		Assert.True((bool)variables["ir_invictus"]);
+		Assert.False((bool)variables["ir_invictus_1_7"]);
+	}
+
+	[Fact]
 	public void VerifyCK3ModsPathThrowsWhenNotPointingToStandardModsDirectory() {
 		var tempRoot = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
 		Directory.CreateDirectory(tempRoot);
