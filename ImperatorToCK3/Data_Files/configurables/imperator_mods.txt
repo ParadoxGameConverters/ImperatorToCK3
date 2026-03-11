@@ -7,7 +7,7 @@
 
 invictus = {
 	name_regex = { "^Imperator: Invictus" }
-	id = { "ugc_2592362009.mod" }
+	id = { "ugc_2532715348.mod" }
 }
 
 invictus_1_7 = {
@@ -16,5 +16,6 @@ invictus_1_7 = {
 }
 
 terra_indomita = {
-	name_regex = { "^Antiquitas$" }
+	name_regex = { "^Terra-Indomita" "^Antiquitas$" }
+	id = { "ugc_2856497654.mod" "ugc_2992438857.mod" }
 }
