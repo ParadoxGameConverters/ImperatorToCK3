@@ -82,6 +82,9 @@ internal sealed class World {
 		DetermineCK3Dlcs(config);
 		LoadAndDetectCK3Mods(config);
 
+		// Now that the CK3 mods are detected, we can build a collection of variables for Liquid files.
+		var liquidVariables = config.GetLiquidVariables();
+
 		// Initialize fields that depend on other fields.
 		Religions = new ReligionCollection(LandedTitles);
 
@@ -92,7 +95,7 @@ internal sealed class World {
 		WorldOutputter.ClearOutputModFolder(outputModPath);
 		WorldOutputter.CreateModFolder(outputModPath);
 		// This will also convert all Liquid templates into simple text files.
-		WorldOutputter.CopyBlankModFilesToOutput(outputModPath, config.GetCK3ModFlags());
+		WorldOutputter.CopyBlankModFilesToOutput(outputModPath, liquidVariables);
 
 		// Include a fake mod pointing to blankMod in the output folder.
 		LoadedMods.Add(new Mod("blankMod", outputModPath));
@@ -125,8 +128,8 @@ internal sealed class World {
 			}
 		);
 
-		System.Collections.Generic.OrderedDictionary<string, bool> ck3ModFlags = config.GetCK3ModFlags();
-
+		var ck3ModFlags = config.GetCK3ModFlags();
+		
 		Parallel.Invoke(
 			() => provinceMapper.DetectInvalidMappings(impWorld.MapData, MapData), // depends on ProvinceMapper and MapData
 			() => { // depends on ck3ColorFactory and CulturalPillars
@@ -135,7 +138,7 @@ internal sealed class World {
 				CulturalPillars = new(ck3ColorFactory, ck3ModFlags);
 				CulturalPillars.LoadPillars(ModFS, ck3ModFlags);
 				Logger.Info("Loading converter cultural pillars...");
-				CulturalPillars.LoadConverterPillars("configurables/cultural_pillars", ck3ModFlags);
+				CulturalPillars.LoadConverterPillars("configurables/cultural_pillars", ck3ModFlags, liquidVariables);
 				Cultures = new CultureCollection(ck3ColorFactory, CulturalPillars, ck3ModFlags);
 				Cultures.LoadNameLists(ModFS);
 				Cultures.LoadInnovationIds(ModFS);
@@ -188,7 +191,7 @@ internal sealed class World {
 				Logger.Info("Loaded CK3 religions.");
 				Logger.IncrementProgress();
 				Logger.Info("Loading converter faiths...");
-				Religions.LoadConverterFaiths("configurables/converter_faiths.liquid", ck3ColorFactory, ck3ModFlags);
+				Religions.LoadConverterFaiths("configurables/converter_faiths.liquid", ck3ColorFactory, liquidVariables);
 				Logger.Info("Loaded converter faiths.");
 				Logger.IncrementProgress();
 				Religions.RemoveChristianAndIslamicSyncretismFromAllFaiths();
@@ -221,7 +224,7 @@ internal sealed class World {
 		var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, CK3RegionMapper);
 
 		Parallel.Invoke(
-			() => Cultures.ImportTechnology(impWorld.Countries, cultureMapper, provinceMapper, impWorld.InventionsDB, impWorld.LocDB, ck3ModFlags),
+			() => Cultures.ImportTechnology(impWorld.Countries, cultureMapper, provinceMapper, impWorld.InventionsDB, impWorld.LocDB, liquidVariables),
 
 			() => { // depends on religionMapper
 					// Check if all I:R religions have a base mapping.
@@ -286,7 +289,7 @@ internal sealed class World {
 		// Before we can import Imperator countries and governorships, the CoA extraction thread needs to finish.
 		irCoaExtractThread?.Join();
 
-		SuccessionLawMapper successionLawMapper = new("configurables/succession_law_map.liquid", ck3ModFlags);
+		SuccessionLawMapper successionLawMapper = new("configurables/succession_law_map.liquid", liquidVariables);
 		List<KeyValuePair<Country, Dependency?>> countyLevelCountries = [];
 		LandedTitles.ImportImperatorCountries(
 			impWorld.Countries,

@@ -14,3 +14,14 @@ jobs:
           reporter: github-pr-review
           level: warning
           ignore: councillor,favour,flavour,favourable,prioritised
+          exclude: |
+            **/*_l_french.yml
+            **/*_l_italian.yml
+            **/*_l_russian.yml
+            **/*_l_simp_chinese.yml
+            **/*_l_spanish.yml
+            **/*_l_polish.yml
+            **/*_l_korean.yml
+            **/*_l_german.yml
+            
+

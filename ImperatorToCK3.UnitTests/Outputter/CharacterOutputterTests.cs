@@ -2,7 +2,6 @@
 using AwesomeAssertions;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.Outputter;
-using System.IO;
 using System.Text;
 using Xunit;
 

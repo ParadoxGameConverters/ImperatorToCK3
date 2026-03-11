@@ -1,7 +1,8 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Exceptions;
 using commonItems.Mods;
+using DotLiquid;
 using ImperatorToCK3.CommonUtils;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ internal sealed class Configuration {
 	public Configuration(ConverterVersion converterVersion) {
 		Logger.Info("Reading configuration file...");
 		var parser = new Parser();
-		RegisterKeys(parser);
+		RegisterConfigurationKeys(parser);
 		const string configurationPath = "configuration.txt";
 		if (!File.Exists(configurationPath)) {
 			throw new ConverterException($"{configurationPath} not found! Run ConverterFrontend to generate it.");
@@ -60,7 +61,7 @@ internal sealed class Configuration {
 		Logger.IncrementProgress();
 	}
 
-	private void RegisterKeys(Parser parser) {
+	private void RegisterConfigurationKeys(Parser parser) {
 		parser.RegisterKeyword("SaveGame", reader => {
 			SaveGamePath = reader.GetString();
 			Logger.Info($"Save game set to: {SaveGamePath}");
@@ -95,7 +96,7 @@ internal sealed class Configuration {
 		parser.RegisterKeyword("SkipDynamicCoAExtraction", reader => {
 			var valueString = reader.GetString();
 			try {
-				SkipDynamicCoAExtraction = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+				SkipDynamicCoAExtraction = valueString.Equals("yes", StringComparison.OrdinalIgnoreCase);
 				Logger.Info($"{nameof(SkipDynamicCoAExtraction)} set to: {SkipDynamicCoAExtraction}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(SkipDynamicCoAExtraction)} value was: {valueString}; Error message: {e}");
@@ -104,7 +105,7 @@ internal sealed class Configuration {
 		parser.RegisterKeyword("SkipHoldingOwnersImport", reader => {
 			var valueString = reader.GetString();
 			try {
-				SkipHoldingOwnersImport = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+				SkipHoldingOwnersImport = valueString.Equals("yes", StringComparison.OrdinalIgnoreCase);
 				Logger.Info($"{nameof(SkipHoldingOwnersImport)} set to: {SkipHoldingOwnersImport}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(SkipHoldingOwnersImport)} value was: {valueString}; Error message: {e}");
@@ -116,7 +117,7 @@ internal sealed class Configuration {
 	private void SetFillerDukes(BufferedReader reader) {
 		var valueString = reader.GetString();
 		try {
-			FillerDukes = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+			FillerDukes = valueString.Equals("duke", StringComparison.OrdinalIgnoreCase);
 			Logger.Info($"{nameof(FillerDukes)} set to: {FillerDukes}");
 		} catch (Exception e) {
 			Logger.Error($"Undefined error, {nameof(FillerDukes)} value was: {valueString}; Error message: {e}");
@@ -126,7 +127,7 @@ internal sealed class Configuration {
 	private void SetStaticDeJure(BufferedReader reader) {
 		var valueString = reader.GetString();
 		try {
-			StaticDeJure = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 2;
+			StaticDeJure = valueString.Equals("static", StringComparison.OrdinalIgnoreCase);
 			Logger.Info($"{nameof(StaticDeJure)} set to: {StaticDeJure}");
 		} catch (Exception e) {
 			Logger.Error($"Undefined error, {nameof(StaticDeJure)} value was: {valueString}; Error message: {e}");
@@ -136,7 +137,7 @@ internal sealed class Configuration {
 	private void SetHeresiesInHistoricalAreas(BufferedReader reader) {
 		var valueString = reader.GetString();
 		try {
-			HeresiesInHistoricalAreas = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+			HeresiesInHistoricalAreas = valueString.Equals("yes", StringComparison.OrdinalIgnoreCase);
 			Logger.Info($"{nameof(HeresiesInHistoricalAreas)} set to: {HeresiesInHistoricalAreas}");
 		} catch (Exception e) {
 			Logger.Error($"Undefined error, {nameof(HeresiesInHistoricalAreas)} value was: {valueString}; Error message: {e}");
@@ -146,7 +147,7 @@ internal sealed class Configuration {
 	private void SetUseCK3Flags(BufferedReader reader) {
 		var valueString = reader.GetString();
 		try {
-			UseCK3Flags = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+			UseCK3Flags = valueString.Equals("yes", StringComparison.OrdinalIgnoreCase);
 			Logger.Info($"{nameof(UseCK3Flags)} set to: {UseCK3Flags}");
 		} catch (Exception e) {
 			Logger.Error($"Undefined error, {nameof(UseCK3Flags)} value was: {valueString}; Error message: {e}");
@@ -155,10 +156,12 @@ internal sealed class Configuration {
 
 	private void SetLegionConversion(BufferedReader reader) {
 		var valueString = reader.GetString();
-		var success = Enum.TryParse(valueString, out LegionConversion selection);
-		if (success) {
-			LegionConversion = selection;
-			Logger.Info($"{nameof(LegionConversion)} set to {LegionConversion}.");
+		if (valueString.Equals("no", StringComparison.OrdinalIgnoreCase)) {
+			LegionConversion = LegionConversion.No;
+		} else if (valueString.Equals("special_troops", StringComparison.OrdinalIgnoreCase)) {
+			LegionConversion = LegionConversion.SpecialTroops;
+		} else if (valueString.Equals("men_at_arms", StringComparison.OrdinalIgnoreCase)) {
+			LegionConversion = LegionConversion.MenAtArms;
 		} else {
 			Logger.Warn($"Failed to parse {valueString} as value for {nameof(LegionConversion)}.");
 		}
@@ -263,10 +266,10 @@ internal sealed class Configuration {
 			                             "It should contain one of the following files: " +
 			                             $"{string.Join(", ", filesInDocFolder)}");
 		}
-		
+
 		Logger.Debug($"I:R documents path {ImperatorDocPath} is valid.");
 	}
-	
+
 	private void VerifyCK3ModsPath() {
 		if (!Directory.Exists(CK3ModsPath)) {
 			throw new UserErrorException($"{CK3ModsPath} does not exist!");
@@ -376,19 +379,19 @@ internal sealed class Configuration {
 			FallenEagleEnabled = true;
 			Logger.Info($"TFE detected: {tfeMod.Name}");
 		}
-		
+
 		var wtwsmsMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("When the World Stopped Making Sense", StringComparison.Ordinal));
 		if (wtwsmsMod is not null) {
 			WhenTheWorldStoppedMakingSenseEnabled = true;
 			Logger.Info($"WtWSMS detected: {wtwsmsMod.Name}");
 		}
-		
+
 		var roaMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Rajas of Asia", StringComparison.Ordinal));
 		if (roaMod is not null) {
 			RajasOfAsiaEnabled = true;
 			Logger.Info($"RoA detected: {roaMod.Name}");
 		}
-		
+
 		var aepMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Asia Expansion Project", StringComparison.Ordinal));
 		if (aepMod is not null) {
 			AsiaExpansionProjectEnabled = true;
@@ -413,8 +416,23 @@ internal sealed class Configuration {
 		}
 	}
 
+	/// <summary>
+	/// Returns a collection of liquid template variables including CK3 mod flags and converter options.
+	/// </summary>
+	public Hash GetLiquidVariables() {
+		var variables = new OrderedDictionary<string, object>();
+		foreach (var modFlag in GetCK3ModFlags()) {
+			variables[modFlag.Key] = modFlag.Value;
+		}
+		foreach (var option in GetConverterOptions()) {
+			variables[option.Key] = option.Value;
+		}
+
+		return Hash.FromDictionary(variables);
+	}
+
 	/// <summary>Returns a collection of CK3 mod flags with values based on the enabled mods. "vanilla" flag is set to true if no other flags are set.</summary>
-	public OrderedDictionary<string, bool> GetCK3ModFlags() {
+	internal OrderedDictionary<string, bool> GetCK3ModFlags() {
 		var flags = new OrderedDictionary<string, bool> {
 			["tfe"] = FallenEagleEnabled,
 			["wtwsms"] = WhenTheWorldStoppedMakingSenseEnabled,
@@ -425,8 +443,39 @@ internal sealed class Configuration {
 		flags["vanilla"] = !flags.Any(f => f.Value);
 		return flags;
 	}
-	
-	public IEnumerable<string> GetActiveCK3ModFlags() {
+
+	internal IEnumerable<string> GetActiveCK3ModFlags() {
 		return GetCK3ModFlags().Where(f => f.Value).Select(f => f.Key);
+	}
+
+	/// <summary>
+	/// Returns a collection of converter frontend options with their selected choice values.
+	/// They can be used in Liquid if statements like this:
+	/// {% if HeresiesInHistoricalAreas == "1" %} or {% if LegionConversion == "MenAtArms" %}.
+	/// </summary>
+	private OrderedDictionary<string, object> GetConverterOptions() {
+		return new OrderedDictionary<string, object> {
+			["HeresiesInHistoricalAreas"] = HeresiesInHistoricalAreas ? "yes" : "no",
+			["StaticDeJure"] = StaticDeJure ? "static" : "dynamic",
+			["FillerDukes"] = FillerDukes ? "duke" : "count",
+			["UseCK3Flags"] = UseCK3Flags ? "yes" : "no",
+			["LegionConversion"] = LegionConversion switch {
+				LegionConversion.No => "no",
+				LegionConversion.SpecialTroops => "special_troops",
+				LegionConversion.MenAtArms => "men_at_arms",
+				_ => "no",
+			},
+			["SkipDynamicCoAExtraction"] = SkipDynamicCoAExtraction ? "yes" : "no",
+			["SkipHoldingOwnersImport"] = SkipHoldingOwnersImport ? "yes" : "no",
+
+			// Output number input options as numbers, so they can be used in numeric comparisons in Liquid,
+			// e.g. {% if ImperatorCurrencyRate > 0.5 %}.
+			["ImperatorCurrencyRate"] = ImperatorCurrencyRate,
+			["ImperatorCivilizationWorth"] = ImperatorCivilizationWorth,
+
+			// Output dates always in the format YYYY-MM-DD, so they can be used in lexicographical comparisons in Liquid,
+			// e.g. {% if bookmark_date > "0769-01-01" %}.
+			["bookmark_date"] = $"{CK3BookmarkDate.Year:0000}-{CK3BookmarkDate.Month:00}-{CK3BookmarkDate.Day:00}",
+		};
 	}
 }

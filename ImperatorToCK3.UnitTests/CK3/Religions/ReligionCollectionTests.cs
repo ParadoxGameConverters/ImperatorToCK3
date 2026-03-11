@@ -2,8 +2,8 @@ using commonItems;
 using commonItems.Colors;
 using commonItems.Mods;
 using AwesomeAssertions;
+using DotLiquid;
 using ImperatorToCK3.CK3.Provinces;
-using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Mappers.HolySiteEffect;
@@ -11,7 +11,6 @@ using System;
 using System.Linq;
 using Xunit;
 using ReligionCollection = ImperatorToCK3.CK3.Religions.ReligionCollection;
-using System.Collections.Generic;
 
 namespace ImperatorToCK3.UnitTests.CK3.Religions;
 
@@ -176,7 +175,7 @@ public class ReligionCollectionTests {
 		religions.LoadReligions(ck3ModFS, colorFactory);
 		Assert.Contains(religions.Faiths, f => f.Id == "religion_a_faith");
 		
-		religions.LoadConverterFaiths("TestFiles/configurables/optional_faiths.liquid", colorFactory, ck3ModFlags: new Dictionary<string, bool>());
+		religions.LoadConverterFaiths("TestFiles/configurables/optional_faiths.liquid", colorFactory, liquidVariables: new Hash());
 		// Optional berber_pagan is invalidated by religion_a_faith, so it should not be loaded.
 		Assert.DoesNotContain(religions.Faiths, r => r.Id == "berber_pagan");
 	}
@@ -186,7 +185,7 @@ public class ReligionCollectionTests {
 		var religions = new ReligionCollection(new Title.LandedTitles());
 		Assert.DoesNotContain(religions.Faiths, r => r.Id == "religion_a_faith");
 		
-		religions.LoadConverterFaiths("TestFiles/configurables/optional_faiths.liquid", colorFactory, ck3ModFlags: new Dictionary<string, bool>());
+		religions.LoadConverterFaiths("TestFiles/configurables/optional_faiths.liquid", colorFactory, liquidVariables: new Hash());
 		Assert.Contains(religions.Faiths, r => r.Id == "berber_pagan");
 	}
 }

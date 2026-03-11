@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Mods;
+using DotLiquid;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Titles;
@@ -38,7 +39,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		parser.ParseGameFolder("common/religion/religions", ck3ModFS, "txt", recursive: true);
 	}
 
-	public void LoadConverterFaiths(string converterFaithsPath, ColorFactory colorFactory, IDictionary<string, bool> ck3ModFlags) {
+	public void LoadConverterFaiths(string converterFaithsPath, ColorFactory colorFactory, Hash liquidVariables) {
 		OrderedSet<Faith> loadedConverterFaiths = [];
 		
 		var parser = new Parser();
@@ -60,7 +61,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		parser.ParseLiquidFile(converterFaithsPath, ck3ModFlags);
+		parser.ParseLiquidFile(converterFaithsPath, liquidVariables);
 		
 		// Validation: every faith should have a pilgrimage doctrine.
 		ValidatePilgrimageDoctrine(loadedConverterFaiths);
