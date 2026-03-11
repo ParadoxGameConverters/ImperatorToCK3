@@ -28,7 +28,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.MTP" Version="8.0.1-preview.6.geda5c7979e" />
+    
   </ItemGroup>
 
   <ItemGroup>
