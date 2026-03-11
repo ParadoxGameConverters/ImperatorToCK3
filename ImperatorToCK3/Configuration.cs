@@ -388,7 +388,7 @@ internal sealed class Configuration {
 		ck3ModDefinitions = ModDefinitionsReader.LoadFromFile("configurables/ck3_mods.txt");
 
 		foreach (var definition in ck3ModDefinitions) {
-			var matchingMod = loadedMods.FirstOrDefault(m => definition.IsMatch(m));
+			var matchingMod = loadedMods.FirstOrDefault(definition.IsMatch);
 			if (matchingMod is null) {
 				continue;
 			}
@@ -418,7 +418,7 @@ internal sealed class Configuration {
 		imperatorModDefinitions = ModDefinitionsReader.LoadFromFile("configurables/imperator_mods.txt");
 
 		foreach (var definition in imperatorModDefinitions) {
-			var matchingMod = usableMods.FirstOrDefault(m => definition.IsMatch(m));
+			var matchingMod = usableMods.FirstOrDefault(definition.IsMatch);
 			if (matchingMod is null) {
 				continue;
 			}
