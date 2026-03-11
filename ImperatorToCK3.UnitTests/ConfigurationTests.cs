@@ -174,9 +174,8 @@ public class ConfigurationTests {
 
 		var variables = config.GetLiquidVariables();
 
-		// Imperator flags are prefixed with "ir_".
-		Assert.True((bool)variables["ir_invictus"]);
-		Assert.False((bool)variables["ir_invictus_1_7"]);
+		Assert.True((bool)variables["invictus"]);
+		Assert.False((bool)variables["invictus_1_7"]);
 	}
 
 	[Fact]

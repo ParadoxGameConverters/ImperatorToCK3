@@ -442,7 +442,7 @@ internal sealed class Configuration {
 			variables[modFlag.Key] = modFlag.Value;
 		}
 		foreach (var modFlag in GetImperatorModFlags()) {
-			variables[$"ir_{modFlag.Key}"] = modFlag.Value;
+			variables[modFlag.Key] = modFlag.Value;
 		}
 		foreach (var option in GetConverterOptions()) {
 			variables[option.Key] = option.Value;
