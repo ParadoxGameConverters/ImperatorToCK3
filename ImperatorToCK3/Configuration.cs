@@ -452,7 +452,7 @@ internal sealed class Configuration {
 	}
 
 	/// <summary>
-	/// Returns a collection of CK3 mod flags with values based on the enabled mods. "vanilla" flag is set to true if no other flags are set.
+	/// Returns a collection of CK3 mod flags with values based on the enabled mods. "vanilla_ck3" flag is set to true if no other flags are set.
 	/// <para>Note: <see cref="DetectSpecificCK3Mods"/> must be called before this method to get meaningful flag values.</para>
 	/// </summary>
 	internal OrderedDictionary<string, bool> GetCK3ModFlags() {
@@ -461,7 +461,7 @@ internal sealed class Configuration {
 			flags[definition.Flag] = activeCK3ModFlags.Contains(definition.Flag);
 		}
 
-		flags["vanilla"] = !flags.Any(f => f.Value);
+		flags["vanilla_ck3"] = !flags.Any(f => f.Value);
 		return flags;
 	}
 
@@ -478,6 +478,8 @@ internal sealed class Configuration {
 		foreach (var definition in imperatorModDefinitions) {
 			flags[definition.Flag] = activeImperatorModFlags.Contains(definition.Flag);
 		}
+
+		flags["vanilla_ir"] = !flags.Any(f => f.Value);
 		return flags;
 	}
 

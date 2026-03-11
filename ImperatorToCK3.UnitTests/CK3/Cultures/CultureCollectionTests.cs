@@ -17,7 +17,7 @@ public class CultureCollectionTests {
 	private static readonly PillarCollection pillars;
 	private static readonly ColorFactory colorFactory = new();
 	private static readonly OrderedDictionary<string, bool> ck3ModFlags = new() {
-		{"tfe", false}, {"wtwsms", false}, {"roa", false}, {"vanilla", true}
+		{"tfe", false}, {"wtwsms", false}, {"roa", false}, {"vanilla_ck3", true}
 	};
 
 	static CultureCollectionTests() {

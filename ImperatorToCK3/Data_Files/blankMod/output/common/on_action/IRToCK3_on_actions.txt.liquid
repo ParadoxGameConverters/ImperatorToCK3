@@ -108,7 +108,7 @@ IRToCK3_game_start_onaction_effects = {
 		# flag:roa (Rajas of Asia)
 		# flag:wtwsms (When the World Stopped Making Sense)
 		# flag:aep (Asia Expansion Project)
-		# flag:vanilla (a fallback if none of the above mods were used)
+		# flag:vanilla_ck3 (a fallback if none of the above mods were used)
 		{% if tfe %}
 		set_global_variable = {
 			name = irtock3_enabled
@@ -132,7 +132,7 @@ IRToCK3_game_start_onaction_effects = {
 		{% else %}
 		set_global_variable = {
 			name = irtock3_enabled
-			value = flag:vanilla
+			value = flag:vanilla_ck3
 		}
 		{% endif %}
 
@@ -519,7 +519,7 @@ IRToCK3_game_start_onaction_effects = {
 			}
 		}
 
-		{% if vanilla or aep or roa or tfe %}
+		{% if vanilla_ck3 or aep or roa or tfe %}
 		#################
 		### Indonesia ###
 		#################

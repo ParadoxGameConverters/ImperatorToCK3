@@ -6,7 +6,7 @@
 heritage_nuragic = {
     REPLACED_BY = {
     	tfe = { heritage_nuragic }
-    	vanilla = { heritage_nuragic }
+    	vanilla_ck3 = { heritage_nuragic }
     }
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
@@ -34,7 +34,7 @@ heritage_anatolian = {
     REPLACED_BY = {
 		tfe = { heritage_anatolian }
 		wtwsms = { heritage_anatolian }
-		vanilla = { heritage_anatolian }
+		vanilla_ck3 = { heritage_anatolian }
 	}
 	MOD_DEPENDENT = {
 		IF roa = {
@@ -61,7 +61,7 @@ heritage_anatolian = {
 # TFE added their own version of this heritage, but left out the heritage family parameter, so adding it here to get rid of converter error until TFE fixes it.
 heritage_gaulish = {
     REPLACED_BY = {
-		vanilla = { heritage_gaulish }
+		vanilla_ck3 = { heritage_gaulish }
 	}
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
@@ -88,7 +88,7 @@ heritage_gaulish = {
 heritage_iberian_celtic = { # https://en.wikipedia.org/wiki/List_of_ancient_Celtic_peoples_and_tribes#Hispano-Celts_/_Celts_of_Hispania
     REPLACED_BY = {
 		tfe = { heritage_celtiberian }
-		vanilla = { heritage_iberian_celtic }
+		vanilla_ck3 = { heritage_iberian_celtic }
 	}
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
@@ -110,7 +110,7 @@ heritage_iberian_celtic = { # https://en.wikipedia.org/wiki/List_of_ancient_Celt
 heritage_punic = {
     REPLACED_BY = {
 		tfe = { heritage_punic }
-		vanilla = { heritage_punic }
+		vanilla_ck3 = { heritage_punic }
 	}
 	MOD_DEPENDENT = {
 		IF @[roa|tfe] = {
@@ -138,7 +138,7 @@ heritage_romano_british = {
     REPLACED_BY = {
 		tfe = { heritage_romano_british }
 		wtwsms = { heritage_romano_british }
-		vanilla = { heritage_romano_british }
+		vanilla_ck3 = { heritage_romano_british }
 	}
 	MOD_DEPENDENT = {
 		IF roa = {
@@ -165,7 +165,7 @@ heritage_romano_british = {
 heritage_romano_germanic = {
     REPLACED_BY = {
 		tfe = { heritage_romano_germanic }
-		vanilla = { heritage_romano_germanic }
+		vanilla_ck3 = { heritage_romano_germanic }
 	}
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
@@ -194,7 +194,7 @@ heritage_east_germanic = {
 		tfe = { heritage_east_germanic }
 		wtwsms = { heritage_east_germanic }
 		roa = { heritage_east_germanic }
-		vanilla = { heritage_east_germanic }
+		vanilla_ck3 = { heritage_east_germanic }
 	}
 	type = heritage
 	is_shown = {
@@ -208,7 +208,7 @@ heritage_east_germanic = {
 heritage_thracian = {
     REPLACED_BY = {
 		tfe = { heritage_daco_thracian }
-		vanilla = { heritage_thracian }
+		vanilla_ck3 = { heritage_thracian }
 	}
 	MOD_DEPENDENT = {
 		IF wtwsms = {
@@ -235,7 +235,7 @@ heritage_thracian = {
 heritage_tyrrhenian = {
     REPLACED_BY = {
 		tfe = { heritage_tyrrhenian }
-		vanilla = { heritage_tyrrhenian }
+		vanilla_ck3 = { heritage_tyrrhenian }
 	}
 	MOD_DEPENDENT = {
 		IF roa = {
@@ -268,7 +268,7 @@ heritage_tai = {
     REPLACED_BY = {
 		tfe = { heritage_tai }
 		roa = { heritage_tai }
-		vanilla = { heritage_tai }
+		vanilla_ck3 = { heritage_tai }
 	}
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -296,7 +296,7 @@ heritage_palaungic = {
     REPLACED_BY = {
 		tfe = { heritage_palaungic }
 		roa = { heritage_palaungic }
-		vanilla = { heritage_palaungic }
+		vanilla_ck3 = { heritage_palaungic }
 	}
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -349,7 +349,7 @@ heritage_italic = {
 	REPLACED_BY = {
 		tfe = { heritage_italic }
 		wtwsms = { heritage_italian }
-		vanilla = { heritage_italic }
+		vanilla_ck3 = { heritage_italic }
 	}
 	MOD_DEPENDENT = {
 		IF roa = {
@@ -376,7 +376,7 @@ heritage_italic = {
 heritage_frankish = { # To replace assigned Latin heritage group/family in TFE/RoA
     REPLACED_BY = {
 		wtwsms = { heritage_frankish }
-		vanilla = { heritage_frankish }
+		vanilla_ck3 = { heritage_frankish }
 	}
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -403,7 +403,7 @@ heritage_frankish = { # To replace assigned Latin heritage group/family in TFE/R
 heritage_venetic = {
     REPLACED_BY = {
 		tfe = { heritage_venetic }
-		vanilla = { heritage_venetic }
+		vanilla_ck3 = { heritage_venetic }
     }
 
 	type = heritage
@@ -439,7 +439,7 @@ heritage_iberian = {
     REPLACED_BY = {
 		tfe = { heritage_iberian }
 		wtwsms = { heritage_iberian }
-		vanilla = { heritage_iberian }
+		vanilla_ck3 = { heritage_iberian }
 	}
 	type = heritage
 	is_shown = {
@@ -463,7 +463,7 @@ heritage_byzantine = {
     REPLACED_BY = {
 		tfe = { heritage_byzantine }
 		wtwsms = { heritage_byzantine }
-		vanilla = { heritage_byzantine }
+		vanilla_ck3 = { heritage_byzantine }
 	}
 	type = heritage
 	is_shown = {
@@ -488,7 +488,7 @@ heritage_magyar = {
     REPLACED_BY = {
 		tfe = { heritage_magyar }
 		wtwsms = { heritage_magyar }
-		vanilla = { heritage_magyar }
+		vanilla_ck3 = { heritage_magyar }
 	}
 	type = heritage
 	is_shown = {
@@ -513,7 +513,7 @@ heritage_south_slavic = {
     REPLACED_BY = {
 		tfe = { heritage_south_slavic }
 		wtwsms = { heritage_south_slavic }
-		vanilla = { heritage_south_slavic }
+		vanilla_ck3 = { heritage_south_slavic }
 	}
 	type = heritage
 	is_shown = {
@@ -538,7 +538,7 @@ heritage_vlach = {
     REPLACED_BY = {
 		tfe = { heritage_vlach }
 		wtwsms = { heritage_vlach }
-		vanilla = { heritage_vlach }
+		vanilla_ck3 = { heritage_vlach }
 	}
 	type = heritage
 	is_shown = {
@@ -562,7 +562,7 @@ heritage_caucasian = {
     REPLACED_BY = {
 		tfe = { heritage_caucasian }
 		wtwsms = { heritage_caucasian }
-		vanilla = { heritage_caucasian }
+		vanilla_ck3 = { heritage_caucasian }
 	}
 	type = heritage
 	is_shown = {
@@ -589,7 +589,7 @@ heritage_hunnic = {
     REPLACED_BY = {
 		roa = { heritage_hunnic }
 		wtwsms = { heritage_hunnic }
-		vanilla = { heritage_hunnic }
+		vanilla_ck3 = { heritage_hunnic }
 	}
 	type = heritage
 	is_shown = {
@@ -614,7 +614,7 @@ heritage_gallo_rhaetian_latin = {
     REPLACED_BY = {
 		roa = { heritage_latin }
 		wtwsms = { heritage_latin }
-		vanilla = { heritage_latin }
+		vanilla_ck3 = { heritage_latin }
 	}
 	type = heritage
 	is_shown = {
@@ -639,7 +639,7 @@ heritage_british_latin = {
     REPLACED_BY = {
 		roa = { heritage_latin }
 		wtwsms = { heritage_latin }
-		vanilla = { heritage_latin }
+		vanilla_ck3 = { heritage_latin }
 	}
 	type = heritage
 	is_shown = {
@@ -664,7 +664,7 @@ heritage_occitan = {
     REPLACED_BY = {
 		roa = { heritage_latin }
 		wtwsms = { heritage_latin }
-		vanilla = { heritage_latin }
+		vanilla_ck3 = { heritage_latin }
 	}
 	type = heritage
 	is_shown = {
@@ -689,7 +689,7 @@ heritage_loloish = { # Will worry about CCU parameters once relevant mods are up
     	tfe = { heritage_loloish }
 		wtwsms = { heritage_loloish }
 		roa = { heritage_loloish }
-    	vanilla = { heritage_loloish }
+    	vanilla_ck3 = { heritage_loloish }
     }
 	
 	type = heritage
@@ -706,7 +706,7 @@ heritage_baiyue = { # Will worry about CCU parameters once relevant mods are upd
     	tfe = { heritage_baiyue }
 		wtwsms = { heritage_baiyue }
 		roa = { heritage_baiyue }
-    	vanilla = { heritage_baiyue }
+    	vanilla_ck3 = { heritage_baiyue }
     }
 	
 	type = heritage
@@ -723,7 +723,7 @@ heritage_dongyi = { # Will worry about CCU parameters once relevant mods are upd
     	tfe = { heritage_dongyi }
 		wtwsms = { heritage_dongyi }
 		roa = { heritage_dongyi }
-    	vanilla = { heritage_dongyi }
+    	vanilla_ck3 = { heritage_dongyi }
     }
 	
 	type = heritage

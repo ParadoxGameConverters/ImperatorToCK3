@@ -129,7 +129,7 @@ public class ConfigurationTests {
 		Assert.True(flags.ContainsKey("roa"));
 		Assert.True(flags.ContainsKey("aep"));
 		// Vanilla should be true when no mods are active.
-		Assert.True(flags["vanilla"]);
+		Assert.True(flags["vanilla_ck3"]);
 	}
 
 	[Fact]
