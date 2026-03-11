@@ -1,0 +1,20 @@
+# Imperator: Rome mod detection definitions.
+# The converter checks the mods used in the save game against these definitions to determine which mod flags to activate.
+# Supported fields:
+#   name_regex = { "regex1" "regex2" ... }  - Activates the flag if any usable mod's name matches any regex.
+#   id = { mod_file_name.mod ... }          - Activates the flag if any usable mod's path ends with any of the given IDs.
+# If any field matches, the flag is activated.
+
+invictus = {
+	name_regex = { "^Imperator: Invictus" }
+	id = { "ugc_2592362009.mod" }
+}
+
+invictus_1_7 = {
+	name_regex = { "^Imperator: Invictus 1\\.7\\." }
+	id = { "ugc_3181950031.mod" }
+}
+
+terra_indomita = {
+	name_regex = { "^Antiquitas$" }
+}

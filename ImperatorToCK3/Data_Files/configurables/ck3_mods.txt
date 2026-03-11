@@ -1,0 +1,26 @@
+# CK3 mod detection definitions.
+# The converter checks the selected CK3 mods against these definitions to determine which mod flags to activate.
+# Supported fields:
+#   name_regex = { "regex1" "regex2" ... }  - Activates the flag if any loaded mod's name matches any regex.
+#   id = { mod_file_name.mod ... }          - Activates the flag if any loaded mod's path ends with any of the given IDs.
+# If any field matches, the flag is activated.
+
+tfe = {
+	name_regex = { "^The Fallen Eagle" }
+	id = { "ugc_2243307127.mod" }
+}
+
+wtwsms = {
+	name_regex = { "^When the World Stopped Making Sense" }
+	id = { "ugc_2216670956.mod" }
+}
+
+roa = {
+	name_regex = { "^Rajas of Asia" }
+	id = { "ugc_2649504953.mod" }
+}
+
+aep = {
+	name_regex = { "^Asia Expansion Project" }
+	id = { "ugc_2585840163.mod" }
+}

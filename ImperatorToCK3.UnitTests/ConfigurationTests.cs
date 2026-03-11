@@ -92,6 +92,47 @@ public class ConfigurationTests {
 	}
 
 	[Fact]
+	public void DetectSpecificCK3ModsSetsActiveFlagsFromConfigurable() {
+		var tfeMod = new Mod("The Fallen Eagle v2.0", "", dependencies: []);
+
+		var config = new Configuration();
+		config.DetectSpecificCK3Mods([tfeMod]);
+
+		Assert.True(config.FallenEagleEnabled);
+		Assert.False(config.WhenTheWorldStoppedMakingSenseEnabled);
+		Assert.False(config.RajasOfAsiaEnabled);
+		Assert.False(config.AsiaExpansionProjectEnabled);
+	}
+
+	[Fact]
+	public void DetectSpecificCK3ModsDetectsModById() {
+		// Simulate a mod with a Steam workshop ID path but an unknown name.
+		var tfeModByPath = new Mod("", "mod/ugc_2243307127.mod", dependencies: []);
+
+		var config = new Configuration();
+		config.DetectSpecificCK3Mods([tfeModByPath]);
+
+		Assert.True(config.FallenEagleEnabled);
+	}
+
+	[Fact]
+	public void GetCK3ModFlagsReturnsDynamicFlagsFromConfigurable() {
+		var config = new Configuration();
+		config.DetectSpecificCK3Mods([]);
+
+		var flags = config.GetCK3ModFlags();
+
+		// All flags from ck3_mods.txt should be present and false.
+		Assert.True(flags.ContainsKey("tfe"));
+		Assert.False(flags["tfe"]);
+		Assert.True(flags.ContainsKey("wtwsms"));
+		Assert.True(flags.ContainsKey("roa"));
+		Assert.True(flags.ContainsKey("aep"));
+		// Vanilla should be true when no mods are active.
+		Assert.True(flags["vanilla"]);
+	}
+
+	[Fact]
 	public void VerifyCK3ModsPathThrowsWhenNotPointingToStandardModsDirectory() {
 		var tempRoot = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
 		Directory.CreateDirectory(tempRoot);
