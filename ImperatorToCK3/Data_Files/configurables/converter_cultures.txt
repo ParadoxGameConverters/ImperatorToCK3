@@ -48,43 +48,20 @@ gelonian = {
 		4 = arab 
 	}
 
-	MOD_DEPENDENT = {
-		IF tfe = {
-			# Fixes "Gfx culture steppe_coa_gfx in moksha doesn't match existing sequence in gelonian"
-			coa_gfx = { steppe_coa_gfx volga_finnic_group_coa_gfx }
-		}
-		ELSE = {
-			coa_gfx = { steppe_coa_gfx }
-		}
-	}
+	coa_gfx = { steppe_coa_gfx volga_finnic_group_coa_gfx }
 
 	building_gfx = {
 		steppe_building_gfx	
 	}
-	MOD_DEPENDENT = {
-		IF tfe = {
-			# Fixes "Gfx culture mongol_clothing_gfx in saragur doesn't match existing sequence in gelonian"
-			clothing_gfx = { mongol_clothing_gfx }
-		}
-		ELSE = {
-			clothing_gfx = {
-				mongol_clothing_gfx
-				byzantine_clothing_gfx
-			}
-		}
+
+	clothing_gfx = {
+		mongol_clothing_gfx
+		# byzantine_clothing_gfx # enabling this causes errors like "Gfx culture mongol_clothing_gfx in qin doesn't match existing sequence in gelonian"
 	}
 
-	MOD_DEPENDENT = {
-		IF tfe = {
-			# Fixes "Gfx culture mongol_unit_gfx in saragur doesn't match existing sequence in gelonian"
-			unit_gfx = { mongol_unit_gfx }
-		}
-		ELSE = {
-			unit_gfx = { 
-				mongol_unit_gfx 
-				eastern_unit_gfx
-			}
-		}
+	unit_gfx = { 
+		mongol_unit_gfx 
+		# eastern_unit_gfx # enabling this causes errors like "Gfx culture mongol_unit_gfx in qin doesn't match existing sequence in gelonian"
 	}
 }
 
