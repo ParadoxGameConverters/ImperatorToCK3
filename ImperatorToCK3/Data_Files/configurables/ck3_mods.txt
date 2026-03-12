@@ -24,3 +24,8 @@ aep = {
 	name_regex = { "^Asia Expansion Project" }
 	id = { "ugc_2970440958.mod" }
 }
+
+bap = {
+	name_regex = { "^Africa Plus" }
+	id = { "ugc_2552371897.mod" "ugc_3401420817.mod" }
+}
