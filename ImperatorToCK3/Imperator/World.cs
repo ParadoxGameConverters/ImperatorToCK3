@@ -345,9 +345,10 @@ internal partial class World {
 		Characters.PurgeUnneededCharacters(Countries, JobsDB.Governorships, Families);
 
 		// Apply fallback I:R mod detection from save data that can't be expressed in the imperator_mods.txt configurable.
-		if (Countries.Any(c => c.Variables.Contains("unification_points"))) {
+		// Only apply if the mod hasn't already been detected via the configurable, to avoid redundant work.
+		if (!config.TerraIndomitaDetected && Countries.Any(c => c.Variables.Contains("unification_points"))) {
 			config.AddImperatorModFlag("terra_indomita");
-		} else if (GlobalFlags.Contains("is_playing_invictus")) {
+		} else if (!config.InvictusDetected && GlobalFlags.Contains("is_playing_invictus")) {
 			config.AddImperatorModFlag("invictus");
 		}
 
