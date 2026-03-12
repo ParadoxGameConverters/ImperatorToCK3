@@ -1772,7 +1772,10 @@ irtock3_split_roman_empire_effect = {
 		random_courtier = {
 			limit = { is_imprisoned = no }
 			weight = {
-				base = sum_of_all_skills_value
+				base = 0
+				modifier = {
+					add = sum_of_all_skills_value
+				}
 				modifier = {
 					exists = house
 					add = 5
@@ -3189,7 +3192,10 @@ irtock3_form_roman_prefecture_effect = {
 			random_courtier = {
 				limit = { is_imprisoned = no }
 				weight = {
-					base = sum_of_all_skills_value
+					base = 0
+					modifier = {
+						add = sum_of_all_skills_value
+					}
 					modifier = {
 						exists = house
 						add = 5
