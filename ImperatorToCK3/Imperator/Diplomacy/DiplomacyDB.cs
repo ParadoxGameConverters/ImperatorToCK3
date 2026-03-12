@@ -14,10 +14,8 @@ internal sealed class DiplomacyDB {
 	
 	private readonly List<List<ulong>> defensiveLeagues = []; // stored as lists of member IDs
 	public IReadOnlyList<List<ulong>> DefensiveLeagues => defensiveLeagues;
-	
-	public DiplomacyDB() {}
-	
-	public DiplomacyDB(BufferedReader diplomacyReader) {
+
+	public void LoadDiplomacy(BufferedReader diplomacyReader) {
 		var parser = new Parser();
 		parser.RegisterKeyword("database", databaseReader => {
 			var databaseParser = new Parser();

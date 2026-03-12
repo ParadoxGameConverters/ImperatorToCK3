@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
+using DotLiquid;
 using Fernandezja.ColorHashSharp;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
@@ -76,7 +77,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		var cultureIdsPerModFlagParser = new Parser();
 
 		if (ck3ModFlags.Count == 0) {
-			cultureIdsPerModFlagParser.RegisterKeyword("vanilla", modCultureIdsReader => {
+			cultureIdsPerModFlagParser.RegisterKeyword("vanilla_ck3", modCultureIdsReader => {
 				cultureData.InvalidatingCultureIds = modCultureIdsReader.GetStrings();
 			});
 		} else {
@@ -221,11 +222,11 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		return cultureMapper.Match(irCulture, ck3ProvinceId, irProvinceId, country.HistoricalTag);
 	}
 
-	public void ImportTechnology(CountryCollection countries, CultureMapper cultureMapper, ProvinceMapper provinceMapper, InventionsDB inventionsDB, LocDB irLocDB, OrderedDictionary<string, bool> ck3ModFlags) { // TODO: add tests for this
+	public void ImportTechnology(CountryCollection countries, CultureMapper cultureMapper, ProvinceMapper provinceMapper, InventionsDB inventionsDB, LocDB irLocDB, Hash liquidVariables) { // TODO: add tests for this
 		Logger.Info("Converting Imperator inventions to CK3 innovations...");
 
 		var innovationMapper = new InnovationMapper();
-		innovationMapper.LoadLinksAndBonuses("configurables/inventions_to_innovations_map.liquid", ck3ModFlags);
+		innovationMapper.LoadLinksAndBonuses("configurables/inventions_to_innovations_map.liquid", liquidVariables);
 		innovationMapper.LogUnmappedInventions(inventionsDB, irLocDB);
 		innovationMapper.RemoveMappingsWithInvalidInnovations(InnovationIds);
 

@@ -1,13 +1,14 @@
 using commonItems;
 using commonItems.Collections;
+using commonItems.Exceptions;
 using commonItems.Mods;
 using commonItems.Serialization;
 using DotLiquid;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Legends;
 using ImperatorToCK3.CommonUtils;
-using ImperatorToCK3.Exceptions;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -28,6 +29,7 @@ internal static class WorldOutputter {
 		CreateFolders(outputPath);
 
 		Task.WaitAll(
+			GeographicalRegionOutputter.OutputRegions(outputPath, ck3World.CK3RegionMapper),
 			CharactersOutputter.OutputEverything(outputPath, ck3World.Characters, imperatorWorld.EndDate, config.CK3BookmarkDate, ck3World.ModFS),
 			DynastiesOutputter.OutputDynastiesAndHouses(outputPath, ck3World.Dynasties, ck3World.DynastyHouses),
 
@@ -91,7 +93,7 @@ internal static class WorldOutputter {
 		);
 	}
 
-	public static void CopyBlankModFilesToOutput(string outputPath, OrderedDictionary<string, bool> ck3ModFlags) {
+	public static void CopyBlankModFilesToOutput(string outputPath, Hash liquidVariables) {
 		Logger.Info("Copying blankMod files to output...");
 		
 		var folderPath = Path.Combine("blankMod", "output");
@@ -102,11 +104,6 @@ internal static class WorldOutputter {
 			folderPath,
 			outputPath
 		);
-		
-		// Use the CK3 mod flags in the DotLiquid template context.
-		// Hash expects the dictionary values to be of type object, so we need to cast the bools to objects.
-		var convertedModFlags = ck3ModFlags.ToDictionary(kv => kv.Key, kv => (object)kv.Value);
-		var context = Hash.FromDictionary(convertedModFlags);
 
 		// In the output path, find .liquid files, parse them with DotLiquid and write them back without the .liquid extension.
 		// For example, this will convert file.txt.liquid to file.txt and loc.yml.liquid to loc.yml.
@@ -114,7 +111,7 @@ internal static class WorldOutputter {
 		foreach (var liquidFilePath in liquidFiles) {
 			var liquidText = File.ReadAllText(liquidFilePath);
 			var template = Template.Parse(liquidText);
-			var result = template.Render(context);
+			var result = template.Render(liquidVariables, CultureInfo.InvariantCulture);
 			var renderedFilePath = liquidFilePath[..^7];
 			// Write the rendered file and delete the .liquid file. Use UTF8-BOM encoding.
 			File.WriteAllText(renderedFilePath, result, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
@@ -183,6 +180,7 @@ internal static class WorldOutputter {
 		modFileBuilder.AppendLine("replace_path=\"history/struggles\"");
 		modFileBuilder.AppendLine("replace_path=\"history/titles\"");
 		modFileBuilder.AppendLine("replace_path=\"history/wars\"");
+		modFileBuilder.AppendLine("replace_path=\"map_data/geographical_regions\"");
 		var modText = modFileBuilder.ToString();
 
 		var modFilePath = Path.Combine("output", $"{outputName}.mod");
@@ -198,13 +196,37 @@ internal static class WorldOutputter {
 	private static void CreateFolders(string outputPath) {
 		Logger.Info("Creating folders...");
 
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "titles"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "characters"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "cultures"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "provinces"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "province_mapping"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "struggles"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "wars"));
+		CreateHistoryFolders(outputPath);
+		CreateCommonFolders(outputPath);
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "events"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gui"));
+		CreateLocalizationFolders(outputPath);
+		CreateGfxFolders(outputPath);
+
+		Logger.IncrementProgress();
+	}
+
+	private static void CreateGfxFolders(string outputPath)
+	{
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "colored_emblems"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "patterns"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "textured_emblems"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "interface", "bookmarks"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "portraits", "portrait_modifiers"));
+	}
+
+	private static void CreateLocalizationFolders(string outputPath)
+	{
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace"));
+		foreach (var language in ConverterGlobals.SupportedLanguages) {
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", language));
+			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", language));
+		}
+	}
+
+	private static void CreateCommonFolders(string outputPath)
+	{
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks", "bookmarks"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmarks", "groups"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "bookmark_portraits"));
@@ -226,21 +248,17 @@ internal static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_effects"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_guis"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_triggers"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "events"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gui"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace"));
-		foreach (var language in ConverterGlobals.SupportedLanguages) {
-			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", language));
-			SystemUtils.TryCreateFolder(Path.Combine(outputPath, "localization", "replace", language));
-		}
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "colored_emblems"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "patterns"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "coat_of_arms", "textured_emblems"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "interface", "bookmarks"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "gfx", "portraits", "portrait_modifiers"));
+	}
 
-		Logger.IncrementProgress();
+	private static void CreateHistoryFolders(string outputPath)
+	{
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "titles"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "characters"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "cultures"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "provinces"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "province_mapping"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "struggles"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "history", "wars"));
 	}
 
 	private static void OutputPlaysetInfo(World ck3World, string outputModName) {

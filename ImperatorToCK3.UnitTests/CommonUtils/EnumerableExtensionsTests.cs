@@ -1,6 +1,5 @@
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CommonUtils;

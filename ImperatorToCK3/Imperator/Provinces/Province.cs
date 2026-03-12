@@ -8,7 +8,6 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Provinces;
 
-public enum ProvinceRank { settlement, city, city_metropolis }
 internal sealed partial class Province : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public string Name { get; set; } = "";
@@ -24,7 +23,7 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 	public ulong? HolySiteId { get; set; } = null;
 	public ulong? HoldingOwnerId { get; set; } = null;
 	public uint BuildingCount { get; set; } = 0;
-	public double CivilizationValue { get; set; } = 0;
+	public float CivilizationValue { get; set; } = 0;
 
 	public Province(ulong id) {
 		Id = id;

@@ -32,7 +32,7 @@ internal sealed class Culture : IIdentifiable<string>, IPDXSerializable {
 	public Culture(string id, CultureData cultureData) {
 		Id = id;
 
-		Color = cultureData.Color!;
+		Color = cultureData.Color!.Value;
 		ParentCultureIds = cultureData.ParentCultureIds;
 		Heritage = cultureData.Heritage!;
 		Language = cultureData.Language!;

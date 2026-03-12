@@ -1,14 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace ImperatorToCK3.CK3.Characters;
 
 internal sealed class DNA {
-	internal sealed class PaletteCoordinates {
+	[StructLayout(LayoutKind.Auto)]
+	internal readonly struct PaletteCoordinates {
 		// hair, skin and eye color palettes are 256x256
-		public int X { get; init; } = 128;
-		public int Y { get; init; } = 128;
+		public ushort X { get; init; } = 128;
+		public ushort Y { get; init; } = 128;
+
+		internal PaletteCoordinates(ushort x, ushort y) {
+			X = x;
+			Y = y;
+		}
 	}
 
 	public string Id { get; }

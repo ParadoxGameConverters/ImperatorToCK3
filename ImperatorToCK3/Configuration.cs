@@ -1,7 +1,9 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
+using commonItems.Exceptions;
 using commonItems.Mods;
-using ImperatorToCK3.Exceptions;
+using DotLiquid;
+using ImperatorToCK3.CommonUtils;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -10,7 +12,6 @@ using System.Linq;
 
 namespace ImperatorToCK3;
 
-internal enum LegionConversion { No, SpecialTroops, MenAtArms }
 internal sealed class Configuration {
 	public string SaveGamePath { get; set; } = "";
 	public string ImperatorPath { get; set; } = "";
@@ -23,25 +24,38 @@ internal sealed class Configuration {
 	public bool StaticDeJure { get; set; } = false;
 	public bool FillerDukes { get; set; } = true;
 	public bool UseCK3Flags { get; set; } = true;
-	public double ImperatorCurrencyRate { get; set; } = 1.0d;
+	public float ImperatorCurrencyRate { get; set; } = 1.0f;
 	public double ImperatorCivilizationWorth { get; set; } = 0.4;
 	public LegionConversion LegionConversion { get; set; } = LegionConversion.MenAtArms;
 	public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
 	public bool SkipDynamicCoAExtraction { get; set; } = false;
 	public bool SkipHoldingOwnersImport { get; set; } = true;
-	public bool FallenEagleEnabled { get; private set; }
-	public bool WhenTheWorldStoppedMakingSenseEnabled { get; private set; }
-	public bool RajasOfAsiaEnabled { get; private set; }
-	public bool AsiaExpansionProjectEnabled { get; private set; }
-	public bool AfricaPlusEnabled { get; private set; }
+	public GameVersion IRVersion { get; private set; } = new();
+	public GameVersion CK3Version { get; private set; } = new();
+
+	private readonly HashSet<string> activeCK3ModFlags = [];
+	private IReadOnlyList<ModDefinition> ck3ModDefinitions = [];
+
+	public bool FallenEagleEnabled => activeCK3ModFlags.Contains("tfe");
+	public bool WhenTheWorldStoppedMakingSenseEnabled => activeCK3ModFlags.Contains("wtwsms");
+	public bool RajasOfAsiaEnabled => activeCK3ModFlags.Contains("roa");
+	public bool AsiaExpansionProjectEnabled => activeCK3ModFlags.Contains("aep");
+	public bool AfricaPlusEnabled => activeCK3ModFlags.Contains("bap");
 
 	public bool OutputCCUParameters => WhenTheWorldStoppedMakingSenseEnabled || FallenEagleEnabled || RajasOfAsiaEnabled;
+
+	private readonly HashSet<string> activeImperatorModFlags = [];
+	private IReadOnlyList<ModDefinition> imperatorModDefinitions = [];
+
+	public bool InvictusDetected => activeImperatorModFlags.Contains("invictus") || activeImperatorModFlags.Contains("invictus_1_7");
+	public bool Invictus1_7Detected => activeImperatorModFlags.Contains("invictus_1_7");
+	public bool TerraIndomitaDetected => activeImperatorModFlags.Contains("terra_indomita");
 
 	public Configuration() { }
 	public Configuration(ConverterVersion converterVersion) {
 		Logger.Info("Reading configuration file...");
 		var parser = new Parser();
-		RegisterKeys(parser);
+		RegisterConfigurationKeys(parser);
 		const string configurationPath = "configuration.txt";
 		if (!File.Exists(configurationPath)) {
 			throw new ConverterException($"{configurationPath} not found! Run ConverterFrontend to generate it.");
@@ -59,16 +73,17 @@ internal sealed class Configuration {
 		Logger.IncrementProgress();
 	}
 
-	private void RegisterKeys(Parser parser) {
+	private void RegisterConfigurationKeys(Parser parser) {
 		parser.RegisterKeyword("SaveGame", reader => {
 			SaveGamePath = reader.GetString();
 			Logger.Info($"Save game set to: {SaveGamePath}");
 		});
-		parser.RegisterKeyword("ImperatorDirectory", reader => ImperatorPath = reader.GetString());
-		parser.RegisterKeyword("ImperatorDocDirectory", reader => ImperatorDocPath = reader.GetString());
-		parser.RegisterKeyword("CK3directory", reader => CK3Path = reader.GetString());
-		parser.RegisterKeyword("targetGameModPath", reader => CK3ModsPath = reader.GetString());
+		parser.RegisterKeyword("ImperatorDirectory", reader => ImperatorPath = PathHelper.RemoveTrailingSeparators(reader.GetString()));
+		parser.RegisterKeyword("ImperatorDocDirectory", reader => ImperatorDocPath = PathHelper.RemoveTrailingSeparators(reader.GetString()));
+		parser.RegisterKeyword("CK3directory", reader => CK3Path = PathHelper.RemoveTrailingSeparators(reader.GetString()));
+		parser.RegisterKeyword("targetGameModPath", reader => CK3ModsPath = PathHelper.RemoveTrailingSeparators(reader.GetString()));
 		parser.RegisterKeyword("selectedMods", reader => {
+			SelectedCK3Mods.Clear();
 			SelectedCK3Mods.UnionWith(reader.GetStrings());
 			Logger.Info($"{SelectedCK3Mods.Count} mods selected by configuration.");
 		});
@@ -76,80 +91,24 @@ internal sealed class Configuration {
 			OutputModName = reader.GetString();
 			Logger.Info($"Output name set to: {OutputModName}");
 		});
-		parser.RegisterKeyword("HeresiesInHistoricalAreas", reader => {
-			var valueString = reader.GetString();
-			try {
-				HeresiesInHistoricalAreas = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
-				Logger.Info($"{nameof(HeresiesInHistoricalAreas)} set to: {HeresiesInHistoricalAreas}");
-			} catch (Exception e) {
-				Logger.Error($"Undefined error, {nameof(HeresiesInHistoricalAreas)} value was: {valueString}; Error message: {e}");
-			}
-		});
-		parser.RegisterKeyword("StaticDeJure", reader => {
-			var valueString = reader.GetString();
-			try {
-				StaticDeJure = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 2;
-				Logger.Info($"{nameof(StaticDeJure)} set to: {StaticDeJure}");
-			} catch (Exception e) {
-				Logger.Error($"Undefined error, {nameof(StaticDeJure)} value was: {valueString}; Error message: {e}");
-			}
-		});
-		parser.RegisterKeyword("FillerDukes", reader => {
-			var valueString = reader.GetString();
-			try {
-				FillerDukes = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
-				Logger.Info($"{nameof(FillerDukes)} set to: {FillerDukes}");
-			} catch (Exception e) {
-				Logger.Error($"Undefined error, {nameof(FillerDukes)} value was: {valueString}; Error message: {e}");
-			}
-		});
-		parser.RegisterKeyword("UseCK3Flags", reader => {
-			var valueString = reader.GetString();
-			try {
-				UseCK3Flags = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
-				Logger.Info($"{nameof(UseCK3Flags)} set to: {UseCK3Flags}");
-			} catch (Exception e) {
-				Logger.Error($"Undefined error, {nameof(UseCK3Flags)} value was: {valueString}; Error message: {e}");
-			}
-		});
+		parser.RegisterKeyword("HeresiesInHistoricalAreas", SetHeresiesInHistoricalAreas);
+		parser.RegisterKeyword("StaticDeJure", SetStaticDeJure);
+		parser.RegisterKeyword("FillerDukes", SetFillerDukes);
+		parser.RegisterKeyword("UseCK3Flags", SetUseCK3Flags);
 		parser.RegisterKeyword("ImperatorCurrencyRate", reader => {
-			ImperatorCurrencyRate = reader.GetDouble();
+			ImperatorCurrencyRate = reader.GetFloat();
 			Logger.Info($"{nameof(ImperatorCurrencyRate)} set to: {ImperatorCurrencyRate}");
 		});
 		parser.RegisterKeyword("ImperatorCivilizationWorth", reader => {
 			ImperatorCivilizationWorth = reader.GetDouble();
 			Logger.Info($"{nameof(ImperatorCivilizationWorth)} set to: {ImperatorCivilizationWorth}");
 		});
-		parser.RegisterKeyword("LegionConversion", reader => {
-			var valueString = reader.GetString();
-			var success = Enum.TryParse(valueString, out LegionConversion selection);
-			if (success) {
-				LegionConversion = selection;
-				Logger.Info($"{nameof(LegionConversion)} set to {LegionConversion}.");
-			} else {
-				Logger.Warn($"Failed to parse {valueString} as value for {nameof(LegionConversion)}.");
-			}
-		});
-		parser.RegisterKeyword("bookmark_date", reader => {
-			var dateStr = reader.GetString();
-			if (string.IsNullOrEmpty(dateStr)) {
-				return;
-			}
-
-			Logger.Info($"Entered CK3 bookmark date: {dateStr}");
-			CK3BookmarkDate = new Date(dateStr);
-			var earliestAllowedDate = new Date(2,1,1);
-			if (CK3BookmarkDate < earliestAllowedDate) {
-				Logger.Warn($"CK3 bookmark date cannot be earlier than {earliestAllowedDate} AD (Y.M.D format), you should fix your configuration. Setting to earliest allowed date...");
-				CK3BookmarkDate = earliestAllowedDate;
-				Logger.Info($"Changed CK3 bookmark date to {earliestAllowedDate}");
-			}
-			Logger.Info($"CK3 bookmark date set to: {CK3BookmarkDate}");
-		});
+		parser.RegisterKeyword("LegionConversion", SetLegionConversion);
+		parser.RegisterKeyword("bookmark_date", SetBookmarkDate);
 		parser.RegisterKeyword("SkipDynamicCoAExtraction", reader => {
 			var valueString = reader.GetString();
 			try {
-				SkipDynamicCoAExtraction = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+				SkipDynamicCoAExtraction = valueString.Equals("yes", StringComparison.OrdinalIgnoreCase);
 				Logger.Info($"{nameof(SkipDynamicCoAExtraction)} set to: {SkipDynamicCoAExtraction}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(SkipDynamicCoAExtraction)} value was: {valueString}; Error message: {e}");
@@ -158,13 +117,83 @@ internal sealed class Configuration {
 		parser.RegisterKeyword("SkipHoldingOwnersImport", reader => {
 			var valueString = reader.GetString();
 			try {
-				SkipHoldingOwnersImport = Convert.ToInt32(valueString, CultureInfo.InvariantCulture) == 1;
+				SkipHoldingOwnersImport = valueString.Equals("yes", StringComparison.OrdinalIgnoreCase);
 				Logger.Info($"{nameof(SkipHoldingOwnersImport)} set to: {SkipHoldingOwnersImport}");
 			} catch (Exception e) {
 				Logger.Error($"Undefined error, {nameof(SkipHoldingOwnersImport)} value was: {valueString}; Error message: {e}");
 			}
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+	}
+
+	private void SetFillerDukes(BufferedReader reader) {
+		var valueString = reader.GetString();
+		try {
+			FillerDukes = valueString.Equals("duke", StringComparison.OrdinalIgnoreCase);
+			Logger.Info($"{nameof(FillerDukes)} set to: {FillerDukes}");
+		} catch (Exception e) {
+			Logger.Error($"Undefined error, {nameof(FillerDukes)} value was: {valueString}; Error message: {e}");
+		}
+	}
+
+	private void SetStaticDeJure(BufferedReader reader) {
+		var valueString = reader.GetString();
+		try {
+			StaticDeJure = valueString.Equals("static", StringComparison.OrdinalIgnoreCase);
+			Logger.Info($"{nameof(StaticDeJure)} set to: {StaticDeJure}");
+		} catch (Exception e) {
+			Logger.Error($"Undefined error, {nameof(StaticDeJure)} value was: {valueString}; Error message: {e}");
+		}
+	}
+
+	private void SetHeresiesInHistoricalAreas(BufferedReader reader) {
+		var valueString = reader.GetString();
+		try {
+			HeresiesInHistoricalAreas = valueString.Equals("yes", StringComparison.OrdinalIgnoreCase);
+			Logger.Info($"{nameof(HeresiesInHistoricalAreas)} set to: {HeresiesInHistoricalAreas}");
+		} catch (Exception e) {
+			Logger.Error($"Undefined error, {nameof(HeresiesInHistoricalAreas)} value was: {valueString}; Error message: {e}");
+		}
+	}
+
+	private void SetUseCK3Flags(BufferedReader reader) {
+		var valueString = reader.GetString();
+		try {
+			UseCK3Flags = valueString.Equals("yes", StringComparison.OrdinalIgnoreCase);
+			Logger.Info($"{nameof(UseCK3Flags)} set to: {UseCK3Flags}");
+		} catch (Exception e) {
+			Logger.Error($"Undefined error, {nameof(UseCK3Flags)} value was: {valueString}; Error message: {e}");
+		}
+	}
+
+	private void SetLegionConversion(BufferedReader reader) {
+		var valueString = reader.GetString();
+		if (valueString.Equals("no", StringComparison.OrdinalIgnoreCase)) {
+			LegionConversion = LegionConversion.No;
+		} else if (valueString.Equals("special_troops", StringComparison.OrdinalIgnoreCase)) {
+			LegionConversion = LegionConversion.SpecialTroops;
+		} else if (valueString.Equals("men_at_arms", StringComparison.OrdinalIgnoreCase)) {
+			LegionConversion = LegionConversion.MenAtArms;
+		} else {
+			Logger.Warn($"Failed to parse {valueString} as value for {nameof(LegionConversion)}.");
+		}
+	}
+
+	private void SetBookmarkDate(BufferedReader reader) {
+		var dateStr = reader.GetString();
+		if (string.IsNullOrEmpty(dateStr)) {
+			return;
+		}
+
+		Logger.Info($"Entered CK3 bookmark date: {dateStr}");
+		CK3BookmarkDate = new Date(dateStr);
+		var earliestAllowedDate = new Date(2,1,1);
+		if (CK3BookmarkDate < earliestAllowedDate) {
+			Logger.Warn($"CK3 bookmark date cannot be earlier than {earliestAllowedDate} AD (Y.M.D format), you should fix your configuration. Setting to earliest allowed date...");
+			CK3BookmarkDate = earliestAllowedDate;
+			Logger.Info($"Changed CK3 bookmark date to {earliestAllowedDate}");
+		}
+		Logger.Info($"CK3 bookmark date set to: {CK3BookmarkDate}");
 	}
 
 	private void VerifyImperatorPath() {
@@ -249,10 +278,10 @@ internal sealed class Configuration {
 			                             "It should contain one of the following files: " +
 			                             $"{string.Join(", ", filesInDocFolder)}");
 		}
-		
+
 		Logger.Debug($"I:R documents path {ImperatorDocPath} is valid.");
 	}
-	
+
 	private void VerifyCK3ModsPath() {
 		if (!Directory.Exists(CK3ModsPath)) {
 			throw new UserErrorException($"{CK3ModsPath} does not exist!");
@@ -292,67 +321,80 @@ internal sealed class Configuration {
 
 	private void VerifyImperatorVersion(ConverterVersion converterVersion) {
 		var path = Path.Combine(ImperatorPath, "launcher/launcher-settings.json");
-		var irVersion = GameVersion.ExtractVersionFromLauncher(path);
-		if (irVersion is null) {
-			Logger.Error("Imperator version could not be determined, proceeding blind!");
-			return;
-		}
+		IRVersion = GameVersion.ExtractVersionFromLauncher(path) ??
+		            GetImperatorVersionFromSullaBranchFile() ??
+		            throw new ConverterException("Imperator version could not be determined.");
 
-		Logger.Info($"Imperator version: {irVersion.ToShortString()}");
+		Logger.Info($"Imperator version: {IRVersion.ToShortString()}");
 
-		if (converterVersion.MinSource > irVersion) {
-			Logger.Error($"Imperator version is v{irVersion.ToShortString()}, converter requires minimum v{converterVersion.MinSource.ToShortString()}!");
+		if (converterVersion.MinSource > IRVersion) {
+			Logger.Error($"Imperator version is v{IRVersion.ToShortString()}, converter requires minimum v{converterVersion.MinSource.ToShortString()}!");
 			throw new UserErrorException("Converter vs Imperator installation mismatch!");
 		}
-		if (!converterVersion.MaxSource.IsLargerishThan(irVersion)) {
-			Logger.Error($"Imperator version is v{irVersion.ToShortString()}, converter requires maximum v{converterVersion.MaxSource.ToShortString()}!");
+		if (!converterVersion.MaxSource.IsLargerishThan(IRVersion)) {
+			Logger.Error($"Imperator version is v{IRVersion.ToShortString()}, converter requires maximum v{converterVersion.MaxSource.ToShortString()}!");
 			throw new UserErrorException("Converter vs Imperator installation mismatch!");
 		}
+	}
+
+	private GameVersion? GetImperatorVersionFromSullaBranchFile() {
+		const string sullaBranchFileName = "sulla_branch.txt";
+		var path = Path.Combine(ImperatorPath, sullaBranchFileName);
+
+		if (!File.Exists(path)) {
+			Logger.Warn($"{sullaBranchFileName} not found");
+			return null;
+		}
+
+		// The file contains the game version in the following format: release/X.Y.Z.
+		var versionStr = File.ReadAllText(path).Trim().Replace("release/", "");
+		var version = new GameVersion(versionStr);
+		return version;
 	}
 
 	private void VerifyCK3Version(ConverterVersion converterVersion) {
 		var path = Path.Combine(CK3Path, "launcher/launcher-settings.json");
-		var ck3Version = GameVersion.ExtractVersionFromLauncher(path);
-		if (ck3Version is null) {
-			Logger.Error("CK3 version could not be determined, proceeding blind!");
-			return;
-		}
+		CK3Version = GameVersion.ExtractVersionFromLauncher(path) ??
+		             GetCK3VersionFromTitusBranchFile() ??
+		             throw new ConverterException("CK3 version could not be determined.");
 
-		Logger.Info($"CK3 version: {ck3Version.ToShortString()}");
+		Logger.Info($"CK3 version: {CK3Version.ToShortString()}");
 
-		if (converterVersion.MinTarget > ck3Version) {
-			Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires minimum v{converterVersion.MinTarget.ToShortString()}!");
+		if (converterVersion.MinTarget > CK3Version) {
+			Logger.Error($"CK3 version is v{CK3Version.ToShortString()}, converter requires minimum v{converterVersion.MinTarget.ToShortString()}!");
 			throw new UserErrorException("Converter vs CK3 installation mismatch!");
 		}
-		if (!converterVersion.MaxTarget.IsLargerishThan(ck3Version)) {
-			Logger.Error($"CK3 version is v{ck3Version.ToShortString()}, converter requires maximum v{converterVersion.MaxTarget.ToShortString()}!");
+		if (!converterVersion.MaxTarget.IsLargerishThan(CK3Version)) {
+			Logger.Error($"CK3 version is v{CK3Version.ToShortString()}, converter requires maximum v{converterVersion.MaxTarget.ToShortString()}!");
 			throw new UserErrorException("Converter vs CK3 installation mismatch!");
 		}
 	}
 
+	private GameVersion? GetCK3VersionFromTitusBranchFile() {
+		const string titusBranchFileName = "titus_branch.txt";
+		var path = Path.Combine(CK3Path, titusBranchFileName);
+
+		if (!File.Exists(path)) {
+			Logger.Warn($"{titusBranchFileName} not found");
+			return null;
+		}
+
+		// The file contains the game version in the following format: release/X.Y.Z.
+		var versionStr = File.ReadAllText(path).Trim().Replace("release/", "");
+		var version = new GameVersion(versionStr);
+		return version;
+	}
+
 	public void DetectSpecificCK3Mods(ICollection<Mod> loadedMods) {
-		var tfeMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("The Fallen Eagle", StringComparison.Ordinal));
-		if (tfeMod is not null) {
-			FallenEagleEnabled = true;
-			Logger.Info($"TFE detected: {tfeMod.Name}");
-		}
-		
-		var wtwsmsMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("When the World Stopped Making Sense", StringComparison.Ordinal));
-		if (wtwsmsMod is not null) {
-			WhenTheWorldStoppedMakingSenseEnabled = true;
-			Logger.Info($"WtWSMS detected: {wtwsmsMod.Name}");
-		}
-		
-		var roaMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Rajas of Asia", StringComparison.Ordinal));
-		if (roaMod is not null) {
-			RajasOfAsiaEnabled = true;
-			Logger.Info($"RoA detected: {roaMod.Name}");
-		}
-		
-		var aepMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Asia Expansion Project", StringComparison.Ordinal));
-		if (aepMod is not null) {
-			AsiaExpansionProjectEnabled = true;
-			Logger.Info($"AEP detected: {aepMod.Name}");
+		ck3ModDefinitions = ModDefinitionsReader.LoadFromFile("configurables/ck3_mods.txt");
+
+		foreach (var definition in ck3ModDefinitions) {
+			var matchingMod = loadedMods.FirstOrDefault(definition.IsMatch);
+			if (matchingMod is null) {
+				continue;
+			}
+			activeCK3ModFlags.Add(definition.Flag);
+			Logger.Info($"CK3 mod flag \"{definition.Flag}\" detected: {matchingMod.Name}");
 		}
 		
 		var apMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Africa Plus", StringComparison.Ordinal));
@@ -379,21 +421,103 @@ internal sealed class Configuration {
 		}
 	}
 
-	/// <summary>Returns a collection of CK3 mod flags with values based on the enabled mods. "vanilla" flag is set to true if no other flags are set.</summary>
-	public OrderedDictionary<string, bool> GetCK3ModFlags() {
-		var flags = new OrderedDictionary<string, bool> {
-			["tfe"] = FallenEagleEnabled,
-			["wtwsms"] = WhenTheWorldStoppedMakingSenseEnabled,
-			["roa"] = RajasOfAsiaEnabled,
-			["aep"] = AsiaExpansionProjectEnabled,
-			["bap"] = AfricaPlusEnabled,
-		};
+	public void DetectSpecificImperatorMods(IReadOnlyList<Mod> usableMods) {
+		imperatorModDefinitions = ModDefinitionsReader.LoadFromFile("configurables/imperator_mods.txt");
 
-		flags["vanilla"] = !flags.Any(f => f.Value);
+		foreach (var definition in imperatorModDefinitions) {
+			var matchingMod = usableMods.FirstOrDefault(definition.IsMatch);
+			if (matchingMod is null) {
+				continue;
+			}
+			activeImperatorModFlags.Add(definition.Flag);
+			Logger.Info($"Imperator mod flag \"{definition.Flag}\" detected: {matchingMod.Name}");
+		}
+	}
+
+	/// <summary>Activates an Imperator mod flag. Used to add flags detected via save data (e.g., global flags, country variables).</summary>
+	public void AddImperatorModFlag(string flag) {
+		activeImperatorModFlags.Add(flag);
+		Logger.Info($"Imperator mod flag \"{flag}\" activated via save data.");
+	}
+
+	/// <summary>
+	/// Returns a collection of liquid template variables including CK3 mod flags, Imperator mod flags, and converter options.
+	/// </summary>
+	public Hash GetLiquidVariables() {
+		var variables = new OrderedDictionary<string, object>();
+		foreach (var modFlag in GetCK3ModFlags()) {
+			variables[modFlag.Key] = modFlag.Value;
+		}
+		foreach (var modFlag in GetImperatorModFlags()) {
+			variables[modFlag.Key] = modFlag.Value;
+		}
+		foreach (var option in GetConverterOptions()) {
+			variables[option.Key] = option.Value;
+		}
+
+		return Hash.FromDictionary(variables);
+	}
+
+	/// <summary>
+	/// Returns a collection of CK3 mod flags with values based on the enabled mods. "vanilla_ck3" flag is set to true if no other flags are set.
+	/// <para>Note: <see cref="DetectSpecificCK3Mods"/> must be called before this method to get meaningful flag values.</para>
+	/// </summary>
+	internal OrderedDictionary<string, bool> GetCK3ModFlags() {
+		var flags = new OrderedDictionary<string, bool>();
+		foreach (var definition in ck3ModDefinitions) {
+			flags[definition.Flag] = activeCK3ModFlags.Contains(definition.Flag);
+		}
+
+		flags["vanilla_ck3"] = !flags.Any(f => f.Value);
 		return flags;
 	}
-	
-	public IEnumerable<string> GetActiveCK3ModFlags() {
+
+	internal IEnumerable<string> GetActiveCK3ModFlags() {
 		return GetCK3ModFlags().Where(f => f.Value).Select(f => f.Key);
+	}
+
+	/// <summary>
+	/// Returns a collection of Imperator mod flags with values based on detected mods.
+	/// <para>Note: <see cref="DetectSpecificImperatorMods"/> must be called before this method to get meaningful flag values.</para>
+	/// </summary>
+	internal OrderedDictionary<string, bool> GetImperatorModFlags() {
+		var flags = new OrderedDictionary<string, bool>();
+		foreach (var definition in imperatorModDefinitions) {
+			flags[definition.Flag] = activeImperatorModFlags.Contains(definition.Flag);
+		}
+
+		flags["vanilla_ir"] = !flags.Any(f => f.Value);
+		return flags;
+	}
+
+	/// <summary>
+	/// Returns a collection of converter frontend options with their selected choice values.
+	/// They can be used in Liquid if statements like this:
+	/// {% if HeresiesInHistoricalAreas == "1" %} or {% if LegionConversion == "MenAtArms" %}.
+	/// </summary>
+	private OrderedDictionary<string, object> GetConverterOptions() {
+		return new OrderedDictionary<string, object> {
+			["HeresiesInHistoricalAreas"] = HeresiesInHistoricalAreas ? "yes" : "no",
+			["StaticDeJure"] = StaticDeJure ? "static" : "dynamic",
+			["FillerDukes"] = FillerDukes ? "duke" : "count",
+			["UseCK3Flags"] = UseCK3Flags ? "yes" : "no",
+			["LegionConversion"] = LegionConversion switch {
+				LegionConversion.No => "no",
+				LegionConversion.SpecialTroops => "special_troops",
+				LegionConversion.MenAtArms => "men_at_arms",
+				_ => "no",
+			},
+			["SkipDynamicCoAExtraction"] = SkipDynamicCoAExtraction ? "yes" : "no",
+			["SkipHoldingOwnersImport"] = SkipHoldingOwnersImport ? "yes" : "no",
+
+			// Output number input options as numbers, so they can be used in numeric comparisons in Liquid,
+			// e.g. {% if ImperatorCurrencyRate > 0.5 %}.
+			["ImperatorCurrencyRate"] = ImperatorCurrencyRate,
+			["ImperatorCivilizationWorth"] = ImperatorCivilizationWorth,
+
+			// Output dates always in the format YYYY-MM-DD, so they can be used in lexicographical comparisons in Liquid,
+			// e.g. {% if bookmark_date > "0769-01-01" %}.
+			["bookmark_date"] = $"{CK3BookmarkDate.Year:0000}-{CK3BookmarkDate.Month:00}-{CK3BookmarkDate.Day:00}",
+		};
 	}
 }

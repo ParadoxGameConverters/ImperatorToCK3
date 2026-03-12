@@ -135,8 +135,8 @@ template_to_template = {
 	
 	clothes = {
 		most_clothes = byzantine_high_nobility_clothes
-		roman_clothes = byzantine_high_nobility_clothes
-		greek_clothes = byzantine_high_nobility_clothes
+		roman_clothes = ep3_byzantine_era1_imperial_clothes
+		greek_clothes = ep3_byzantine_era1_imperial_clothes
 		carthaginian_clothes = mena_high_nobility_clothes
 		persian_clothes = mena_high_nobility_clothes
 		germanic_clothes = western_royalty_clothes
@@ -152,8 +152,8 @@ template_to_template = {
 		tibetan_clothes = indian_high_nobility_clothes
 		no_clothes = no_clothes
 		
-		roman_soldier_clothes_template = byzantine_war_nobility_clothes
-		greek_soldier_clothes_template = byzantine_war_nobility_clothes
+		roman_soldier_clothes_template = ep3_byzantine_era1_war_nobility_clothes
+		greek_soldier_clothes_template = ep3_byzantine_era1_war_nobility_clothes
 		carthaginian_soldier_clothes_template = mena_war_nobility_clothes
 		celtic_soldier_clothes_template = western_war_nobility_clothes
 		persian_soldier_clothes_template = mena_war_nobility_clothes
@@ -167,11 +167,10 @@ template_to_template = {
 		ethiopian_soldier_clothes_template = sub_saharan_war_nobility_clothes
 		bactrian_soldier_clothes_template = steppe_war_nobility_clothes
 		
-		# TODO: use this if possible, otherwise default to the fallback: chinese_clothes = chinese_high_nobility_clothes
-		chinese_clothes = steppe_high_nobility_clothes
-		# TODO: use this if possible, otherwise default to the fallback: japanese_clothes = japanese_royal_clothes # from RoA
-		japanese_clothes = steppe_high_nobility_clothes
+		chinese_clothes = chinese_high_nobility_clothes
+		chinese_clothes = tgp_chinese_royalty_clothes
+
+		japanese_clothes = japanese_royal_clothes # from RoA
+		japanese_clothes = tgp_japanese_royalty_clothes
 	}
 }
-
-

@@ -11,8 +11,8 @@ internal sealed class Family : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public string Key { get; private set; } = "";
 	public string Culture { get; private set; } = "";
-	public double Prestige { get; private set; } = 0;
-	public double PrestigeRatio { get; private set; } = 0;
+	public float Prestige { get; private set; } = 0;
+	public float PrestigeRatio { get; private set; } = 0;
 	public OrderedSet<ulong> MemberIds { get; } = new();
 	public bool Minor { get; private set; } = false;
 
@@ -50,10 +50,10 @@ internal sealed class Family : IIdentifiable<ulong> {
 				family.Key = reader.GetString()
 			);
 			parser.RegisterKeyword("prestige", reader =>
-				family.Prestige = reader.GetDouble()
+				family.Prestige = reader.GetFloat()
 			);
 			parser.RegisterKeyword("prestige_ratio", reader =>
-				family.PrestigeRatio = reader.GetDouble()
+				family.PrestigeRatio = reader.GetFloat()
 			);
 			parser.RegisterKeyword("culture", reader =>
 				family.Culture = string.Intern(reader.GetString())

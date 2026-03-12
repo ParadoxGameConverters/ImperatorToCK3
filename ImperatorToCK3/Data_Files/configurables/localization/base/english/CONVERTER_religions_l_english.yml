@@ -358,6 +358,7 @@
  mithraic_mysteries_adherent_plural: "Followers of Mithra"
  eleusinian_mysteries: "Eleusinian Mysteries"
  eleusinian_mysteries_adj: "Eleusinian"
+ eleusinian_mysteries_desc: "The Eleusinian Mysteries were initiation ceremonies held every year for the cult of Demeter and Persephone based at Eleusis in ancient Greece. They are the 'most famous of the secret religious rites of ancient Greece'. The mysteries represented the myth of the abduction of Persephone from her mother Demeter by Hades, the god of the underworld. The rites symbolized the cycle of life and death, as well as the promise of rebirth and eternal life."
  eleusinian_mysteries_adherent: "Eleusinian"
  eleusinian_mysteries_adherent_plural: "Eleusinian Brethren"
  atenist_pagan: "Atenism"
@@ -497,3 +498,54 @@
  illyrian_pagan_water_god_name_possessive: "Bindus'"
  illyrian_pagan_devil_name: "Velnias"
  illyrian_pagan_devil_name_poessessive: "Velnias'"
+
+ #---------------------------------------------------
+ # CHINESE
+ #---------------------------------------------------
+ chinese_religion: "Shenic"
+ chinese_religion_adj: "Shenic"
+ chinese_religion_adherent: "Shenist"
+ chinese_religion_adherent_plural: "Shenists"
+ chinese_religion_desc: "The Shenic faith embodies the worship of gods, spirits, and ancestors that guide the living. Through ritual, incense, and reverence for Heaven and Earth, followers maintain harmony with the divine forces that shape all things."
+
+ shenic: "Shenic"
+ shenic_adj: "Shenic"
+ shenic_desc: "$chinese_religion_desc$"
+ shenic_adherent: "Shenist"
+ shenic_adherent_plural: "Shenists"
+ shenic_old: "Old Shenic"
+ shenic_old_adj: "Old Shenic"
+ shenic_old_adherent: "Old Shenist"
+ shenic_old_adherent_plural: "Old Shenists"
+
+ #---------------------------------------------------
+ # MOHISM
+ #---------------------------------------------------
+ mohism: "Mohism"
+ mohism_adj: "Mohist"
+ mohism_desc: "Mohism focuses on the teachings of Mozi. Of these, the most prominent is that of altruism, and universal concern and caring for everyone, whether they be family or a stranger."
+ mohism_adherent: "Mohist"
+ mohism_adherent_plural: "Mohists"
+ mohism_old: "Old Mohism"
+ mohism_old_adj: "Old Mohist"
+ mohism_old_adherent: "Old Mohist"
+ mohism_old_adherent_plural: "Old Mohists"
+
+ #---------------------------------------------------
+ # BAIYUE
+ #---------------------------------------------------
+ baiyue_religion: "Baiyue"
+ baiyue_religion_adj: "Baiyue"
+ baiyue_religion_adherent: "Baiyue"
+ baiyue_religion_adherent_plural: "Baiyue"
+ baiyue_religion_desc: "The Baiyue worship the spirits of nature and their ancestors, calling upon mountain, river, and sky to bless their harvests and guide their kin."
+
+ baiyue_faith: "Baiyue"
+ baiyue_faith_adj: "Baiyue"
+ baiyue_faith_desc: "$baiyue_religion_desc$"
+ baiyue_faith_adherent: "Baiyue"
+ baiyue_faith_adherent_plural: "Baiyue"
+ baiyue_faith_old: "Old Baiyue"
+ baiyue_faith_old_adj: "Old Baiyue"
+ baiyue_faith_old_adherent: "Old Baiyue"
+ baiyue_faith_old_adherent_plural: "Old Baiyue"

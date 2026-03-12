@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,14 +36,23 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		
 		// Fix a faith having more doctrines in the same category than allowed.
 		foreach (var category in religion.ReligionCollection.DoctrineCategories) {
-			var doctrinesInCategory = DoctrineIds.Where(d => category.DoctrineIds.Contains(d)).ToArray();
-			if (doctrinesInCategory.Length > category.NumberOfPicks) {
+			var categoryDoctrineSet = category.DoctrineIds.ToHashSet(StringComparer.Ordinal);
+			var doctrinesInCategory = new List<string>();
+			foreach (var doctrineId in DoctrineIds) {
+				if (categoryDoctrineSet.Contains(doctrineId)) {
+					doctrinesInCategory.Add(doctrineId);
+				}
+			}
+
+			if (doctrinesInCategory.Count > category.NumberOfPicks) {
 				Logger.Warn($"Faith {Id} has too many doctrines in category {category.Id}: " +
 				            $"{string.Join(", ", doctrinesInCategory)}. Keeping the last {category.NumberOfPicks} of them.");
 				
 				DoctrineIds.ExceptWith(doctrinesInCategory);
-				foreach (var doctrine in doctrinesInCategory.Reverse().Take(category.NumberOfPicks)) {
-					DoctrineIds.Add(doctrine);
+				int kept = 0;
+				for (int i = doctrinesInCategory.Count - 1; i >= 0 && kept < category.NumberOfPicks; --i) {
+					DoctrineIds.Add(doctrinesInCategory[i]);
+					++kept;
 				}
 			}
 		}
@@ -73,7 +83,7 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		}
 
 		if (Color is not null) {
-			sb.Append(contentIndent).AppendLine($"color={Color.OutputRgb()}");
+			sb.Append(contentIndent).AppendLine($"color={Color.Value.OutputRgb()}");
 		}
 		if (ReligiousHeadTitleId is not null) {
 			sb.Append(contentIndent).AppendLine($"religious_head={ReligiousHeadTitleId}");

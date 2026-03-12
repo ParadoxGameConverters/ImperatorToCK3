@@ -58,7 +58,7 @@ public class TitleTests {
 			"TestFiles/configurables/governorMappings.txt", 
 			"TestFiles/configurables/country_rank_map.txt");
 		private GovernmentMapper governmentMapper = new(ck3GovernmentIds: Array.Empty<string>());
-		private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.liquid", ck3ModFlags: []);
+		private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.liquid", liquidVariables: new());
 		private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
 		private readonly ReligionMapper religionMapper;
@@ -168,7 +168,7 @@ public class TitleTests {
 		Assert.True(title.HasDefiniteForm);
 		Assert.True(title.Landless);
 		Assert.NotNull(title.Color1);
-		Assert.Equal("rgb { 23 23 23 }", title.Color1.OutputRgb());
+		Assert.Equal("rgb { 23 23 23 }", title.Color1.Value.OutputRgb());
 		Assert.Equal((ulong)345, title.ProvinceId);
 
 		Assert.NotNull(title.CapitalCounty);

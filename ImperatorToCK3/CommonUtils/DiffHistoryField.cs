@@ -67,12 +67,10 @@ internal sealed class DiffHistoryField : IHistoryField {
 			if (date is null) {
 				InitialEntries.Add(newEntry);
 			} else {
-				if (DateToEntriesDict.TryGetValue(date, out var entriesList)) {
+				if (DateToEntriesDict.TryGetValue(date.Value, out var entriesList)) {
 					entriesList.Add(newEntry);
 				} else {
-					DateToEntriesDict.Add(date, new List<KeyValuePair<string, object>> {
-						newEntry
-					});
+					DateToEntriesDict.Add(date.Value, [newEntry]);
 				}
 			}
 		} else {

@@ -1,6 +1,6 @@
 using System;
 
-namespace ImperatorToCK3.CK3.Characters; 
+namespace ImperatorToCK3.CK3.Characters;
 
 public readonly struct DNAGeneValue : IEquatable<DNAGeneValue> {
 	public required string TemplateName { get; init; }

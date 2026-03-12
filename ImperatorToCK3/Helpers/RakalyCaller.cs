@@ -1,6 +1,6 @@
 ﻿using commonItems;
+using commonItems.Exceptions;
 using ImperatorToCK3.CommonUtils;
-using ImperatorToCK3.Exceptions;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 namespace ImperatorToCK3.Helpers;
 
 public static class RakalyCaller {
-	private const string RakalyVersion = "0.7.0";
+	private const string RakalyVersion = "0.8.14";
 	private static readonly string RelativeRakalyPath;
 
 	static RakalyCaller() {
@@ -154,15 +154,14 @@ public static class RakalyCaller {
 	private static void Exec(string cmd) {
 		var escapedArgs = cmd.Replace("\"", "\\\"");
 
-		using var process = new Process {
-			StartInfo = new ProcessStartInfo {
-				RedirectStandardOutput = true,
-				UseShellExecute = false,
-				CreateNoWindow = true,
-				WindowStyle = ProcessWindowStyle.Hidden,
-				FileName = "/bin/bash",
-				Arguments = $"-c \"{escapedArgs}\"",
-			},
+		using var process = new Process();
+		process.StartInfo = new ProcessStartInfo {
+			RedirectStandardOutput = true,
+			UseShellExecute = false,
+			CreateNoWindow = true,
+			WindowStyle = ProcessWindowStyle.Hidden,
+			FileName = "/bin/bash",
+			Arguments = $"-c \"{escapedArgs}\"",
 		};
 
 		process.Start();

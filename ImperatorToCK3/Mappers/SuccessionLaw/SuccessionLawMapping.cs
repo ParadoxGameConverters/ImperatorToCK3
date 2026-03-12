@@ -19,7 +19,6 @@ internal sealed class SuccessionLawMapping {
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseStream(mappingReader);
 		
-		
 		if (CK3SuccessionLaws.Count == 0) {
 			Logger.Warn("SuccessionLawMapper: link with no CK3 successions laws");
 		}

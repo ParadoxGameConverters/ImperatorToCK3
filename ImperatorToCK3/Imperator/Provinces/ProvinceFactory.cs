@@ -27,9 +27,9 @@ internal partial class Province {
 			parsedProvince.parsedPopIds.Add(reader.GetULong())
 		);
 		provinceParser.RegisterKeyword("civilization_value", reader =>
-			parsedProvince.CivilizationValue = reader.GetDouble()
+			parsedProvince.CivilizationValue = reader.GetFloat()
 		);
-		provinceParser.RegisterKeyword("province_rank", SetParsedProvinceRank());
+		provinceParser.RegisterKeyword("province_rank", SetParsedProvinceRank);
 		provinceParser.RegisterKeyword("fort", reader =>
 			parsedProvince.Fort = reader.GetBool()
 		);
@@ -37,7 +37,7 @@ internal partial class Province {
 			var holdingOwnerId = reader.GetULong();
 			// 4294967295 equals (2^32 − 1) and is the default value
 			// otherwise, the value is the ID of a character
-			if (holdingOwnerId != 4294967295) {
+			if (holdingOwnerId != 4_294_967_295) {
 				parsedProvince.HoldingOwnerId = holdingOwnerId;
 			}
 		});
@@ -45,7 +45,7 @@ internal partial class Province {
 			var holySiteId = reader.GetULong();
 			// 4294967295 equals (2^32 − 1) and is the default value
 			// otherwise, the value is the ID of a deity (see deities_database block in the save)
-			if (holySiteId != 4294967295) {
+			if (holySiteId != 4_294_967_295) {
 				parsedProvince.HolySiteId = holySiteId;
 			}
 		});
@@ -56,24 +56,22 @@ internal partial class Province {
 		provinceParser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
 	}
 
-	private static SimpleDel SetParsedProvinceRank() {
-		return reader => {
-			var provinceRankStr = reader.GetString();
-			switch (provinceRankStr) {
-				case "settlement":
-					parsedProvince.ProvinceRank = ProvinceRank.settlement;
-					break;
-				case "city":
-					parsedProvince.ProvinceRank = ProvinceRank.city;
-					break;
-				case "city_metropolis":
-					parsedProvince.ProvinceRank = ProvinceRank.city_metropolis;
-					break;
-				default:
-					Logger.Warn($"Unknown province rank for province {parsedProvince.Id}: {provinceRankStr}");
-					break;
-			}
-		};
+	private static void SetParsedProvinceRank(BufferedReader reader) {
+		var provinceRankStr = reader.GetString();
+		switch (provinceRankStr) {
+			case "settlement":
+				parsedProvince.ProvinceRank = ProvinceRank.settlement;
+				break;
+			case "city":
+				parsedProvince.ProvinceRank = ProvinceRank.city;
+				break;
+			case "city_metropolis":
+				parsedProvince.ProvinceRank = ProvinceRank.city_metropolis;
+				break;
+			default:
+				Logger.Warn($"Unknown province rank for province {parsedProvince.Id}: {provinceRankStr}");
+				break;
+		}
 	}
 
 	public static Province Parse(BufferedReader reader, ulong provinceId, StateCollection states, CountryCollection countries) {

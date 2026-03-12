@@ -14,9 +14,9 @@ namespace ImperatorToCK3.CommonUtils.Map;
 
 internal sealed class MapData {
 	[StructLayout(LayoutKind.Auto)]
-	private struct Point(int x, int y) : IEquatable<Point> {
-		public int X { get; set; } = x;
-		public int Y { get; set; } = y;
+	private readonly struct Point(int x, int y) : IEquatable<Point> {
+		public int X { get; } = x;
+		public int Y { get; } = y;
 
 		public readonly bool Equals(Point other) {
 			return X == other.X && Y == other.Y;
@@ -121,48 +121,77 @@ internal sealed class MapData {
 	private void GroupStaticWaterProvinces() {
 		Logger.Debug("Grouping static water provinces into water bodies...");
 
-		var staticWaterProvinces = ProvinceDefinitions
+		// We want connected components of the static-water-only adjacency graph.
+		// Use the lowest province ID in each component as the water body ID.
+		var staticWaterProvinceIds = ProvinceDefinitions
 			.Where(p => p.IsStaticWater)
 			.Select(p => p.Id)
-			.ToFrozenSet();
+			.ToArray();
+		if (staticWaterProvinceIds.Length == 0) {
+			return;
+		}
 
-		var provinceGroups = new List<HashSet<ulong>>();
-		foreach (var provinceId in staticWaterProvinces) {
-			var added = false;
-			List<HashSet<ulong>> connectedGroups = [];
+		var idToIndex = new Dictionary<ulong, int>(staticWaterProvinceIds.Length);
+		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
+			idToIndex[staticWaterProvinceIds[i]] = i;
+		}
 
-			foreach (var group in provinceGroups) {
-				if (group.Any(p => NeighborsDict.TryGetValue(p, out var neighborIds) && neighborIds.Contains(provinceId))) {
-					group.Add(provinceId);
-					connectedGroups.Add(group);
+		var parent = new int[staticWaterProvinceIds.Length];
+		var size = new int[staticWaterProvinceIds.Length];
+		for (int i = 0; i < parent.Length; ++i) {
+			parent[i] = i;
+			size[i] = 1;
+		}
 
-					added = true;
-				}
+		int Find(int x) {
+			while (parent[x] != x) {
+				parent[x] = parent[parent[x]];
+				x = parent[x];
 			}
+			return x;
+		}
 
-			// If the province belongs to multiple groups, merge them.
-			if (connectedGroups.Count > 1) {
-				var mergedGroup = new HashSet<ulong>();
-				foreach (var group in connectedGroups) {
-					mergedGroup.UnionWith(group);
-					provinceGroups.Remove(group);
-				}
-				mergedGroup.Add(provinceId);
-				provinceGroups.Add(mergedGroup);
+		void Union(int a, int b) {
+			a = Find(a);
+			b = Find(b);
+			if (a == b) {
+				return;
 			}
+			if (size[a] < size[b]) {
+				(a, b) = (b, a);
+			}
+			parent[b] = a;
+			size[a] += size[b];
+		}
 
-			if (!added) {
-				provinceGroups.Add([provinceId]);
+		// Union static water provinces connected by neighbor relations.
+		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
+			var provinceId = staticWaterProvinceIds[i];
+			if (!NeighborsDict.TryGetValue(provinceId, out var neighbors)) {
+				continue;
+			}
+			foreach (var neighborId in neighbors) {
+				if (idToIndex.TryGetValue(neighborId, out int neighborIndex)) {
+					Union(i, neighborIndex);
+				}
 			}
 		}
 
-		// Create a dictionary for quick lookup of water body by province.
-		// Use the lowest province ID in each group as the water body ID.
-		foreach (var group in provinceGroups) {
-			var waterBodyId = group.Min();
-			foreach (var provinceId in group) {
-				waterBodiesDict[provinceId] = waterBodyId;
+		// Determine the minimum province ID for each component root.
+		var minIdByRoot = new ulong[staticWaterProvinceIds.Length];
+		Array.Fill(minIdByRoot, ulong.MaxValue);
+		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
+			int root = Find(i);
+			var provId = staticWaterProvinceIds[i];
+			if (provId < minIdByRoot[root]) {
+				minIdByRoot[root] = provId;
 			}
+		}
+
+		waterBodiesDict.Clear();
+		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
+			int root = Find(i);
+			waterBodiesDict[staticWaterProvinceIds[i]] = minIdByRoot[root];
 		}
 	}
 
@@ -197,13 +226,50 @@ internal sealed class MapData {
 		return NeighborsDict.TryGetValue(provinceId, out var neighbors) ? neighbors : [];
 	}
 
-	public bool IsColorableImpassable(ulong provinceId) => ProvinceDefinitions.TryGetValue(provinceId, out var province) && province.IsColorableImpassable;
+	public bool IsColorableImpassable(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsColorableImpassable;
+		}
 
-	public bool IsImpassable(ulong provinceId) => ProvinceDefinitions.TryGetValue(provinceId, out var province) && province.IsImpassable;
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
 
-	private bool IsStaticWater(ulong provinceId) => ProvinceDefinitions[provinceId].IsStaticWater;
-	private bool IsRiver(ulong provinceId) => ProvinceDefinitions[provinceId].IsRiver;
-	internal bool IsLand(ulong provinceId) => ProvinceDefinitions[provinceId].IsLand;
+	public bool IsImpassable(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsImpassable;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
+
+	private bool IsStaticWater(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsStaticWater;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
+
+	private bool IsRiver(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsRiver;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
+
+	internal bool IsLand(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsLand;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
 
 	public FrozenSet<ulong> ColorableImpassableProvinceIds => ProvinceDefinitions
 		.Where(p => p.IsColorableImpassable).Select(p => p.Id)
@@ -300,8 +366,10 @@ internal sealed class MapData {
 				}
 			}
 		} else {
-			foreach (var p in ProvinceDefinitions.Where(p => provIds.Contains(p.Id))) {
-				p.AddSpecialCategory(category);
+			foreach (var provId in provIds) {
+				if (ProvinceDefinitions.TryGetValue(provId, out var province)) {
+					province.AddSpecialCategory(category);
+				}
 			}
 		}
 	}
@@ -311,35 +379,39 @@ internal sealed class MapData {
 	}
 
 	private static Rgb24 GetAboveColor(Point position, Image<Rgb24> provincesMap) {
-		if (position.Y > 0) {
-			--position.Y;
+		int y = position.Y;
+		if (y > 0) {
+			--y;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(position.X, y), provincesMap);
 	}
 
 	private static Rgb24 GetBelowColor(Point position, int height, Image<Rgb24> provincesMap) {
-		if (position.Y < height - 1) {
-			++position.Y;
+		int y = position.Y;
+		if (y < height - 1) {
+			++y;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(position.X, y), provincesMap);
 	}
 
 	private static Rgb24 GetLeftColor(Point position, Image<Rgb24> provincesMap) {
-		if (position.X > 0) {
-			--position.X;
+		int x = position.X;
+		if (x > 0) {
+			--x;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(x, position.Y), provincesMap);
 	}
 
 	private static Rgb24 GetRightColor(Point position, int width, Image<Rgb24> provincesMap) {
-		if (position.X < width - 1) {
-			++position.X;
+		int x = position.X;
+		if (x < width - 1) {
+			++x;
 		}
 
-		return GetPixelColor(position, provincesMap);
+		return GetPixelColor(new(x, position.Y), provincesMap);
 	}
 
 	private static Rgb24 GetPixelColor(Point position, Image<Rgb24> provincesMap) {

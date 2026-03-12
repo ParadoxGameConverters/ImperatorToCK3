@@ -1,0 +1,20 @@
+l_russian:
+ IMPDISPLAYNAME: "Imperator: Rome в Crusader Kings III"
+ IMPGAME: "Imperator: Rome"
+ IMPFOLDER: "Каталог установки Imperator: Rome"
+ IMPFOLDERTIP: "Путь к каталогу установки Imperator: Rome на вашем компьютере"
+ IMPMOD: "Каталог модов Imperator: Rome"
+ IMPMODTIP: "Путь к каталогу, где Imperator: Rome хранит моды"
+ IMPDOC: "Каталог документов Imperator: Rome"
+ IMPDOCTIP: "Путь к каталогу, где Imperator: Rome хранит временные файлы"
+
+ CK3GAME: "Crusader Kings III"
+ CK3FOLDER: "Каталог установки Crusader Kings III"
+ CK3FOLDERTIP: "Путь к каталогу установки Crusader Kings III на вашем компьютере"
+ CK3MOD: "Каталог модов Crusader Kings III"
+ CK3MODTIP: "Путь к каталогу, где Crusader Kings III хранит моды"
+
+ IMPFILE: "Путь к исполняемому файлу конвертера"
+ IMPFILETIP: "Путь к ImperatorToCK3Converter.exe"
+ IMPSAVE: "Путь к сохранению Imperator: Rome"
+ IMPSAVETIP: "Путь к вашему сохранению Imperator: Rome"

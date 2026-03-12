@@ -34,6 +34,6 @@ internal sealed class Unborn {
 			return null;
 		}
 
-		return new Unborn((ulong)motherId, (ulong)fatherId, birthDate, isBastard);
+		return new Unborn((ulong)motherId, (ulong)fatherId, birthDate.Value, isBastard);
 	}
 }

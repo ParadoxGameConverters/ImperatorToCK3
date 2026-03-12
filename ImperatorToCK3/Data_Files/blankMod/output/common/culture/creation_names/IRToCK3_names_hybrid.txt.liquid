@@ -523,3 +523,267 @@ egyptian = { # Arabic + Kemetic (Old Egyptian)
 	}
 	hybrid = yes
 }
+
+Armenos = { # Armenian + Cretan/Neo-Minoan
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:armenian }
+				scope:other_culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+			}
+			AND = {
+				scope:culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+				scope:other_culture = { this = culture:armenian }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+Caldenos = { # Babylonian + Cretan/Neo-Minoan
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:babylonian }
+				scope:other_culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+			}
+			AND = {
+				scope:culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+				scope:other_culture = { this = culture:babylonian }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+Ponticor = { # bosporan Greek + Cretan/Neo-Minoan
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:hellenic_greek }
+				scope:other_culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+			}
+			AND = {
+				scope:culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+				scope:other_culture = { this = culture:hellenic_greek }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+Galites = { # Gelonian + Cretan/Neo-Minoan
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:gelonian }
+				scope:other_culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+			}
+			AND = {
+				scope:culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+				scope:other_culture = { this = culture:gelonian }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+Geranes = { # Gerrhan + Cretan/Neo-Minoan
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:adnanite }
+				scope:other_culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+			}
+			AND = {
+				scope:culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+				scope:other_culture = { this = culture:adnanite }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+Medeanos = { # Median + Cretan/Neo-Minoan
+    trigger = {
+        OR = {
+            AND = {
+{% if tfe %}
+                scope:culture = { this = culture:median }
+{% else %}
+                scope:culture = { this = culture:kurdish }
+{% endif %}
+                scope:other_culture = {
+                    OR = {
+                        this = culture:neo_minoan
+                        this = culture:cretan
+                    }
+                }
+            }
+            AND = {
+                scope:culture = {
+                    OR = {
+                        this = culture:neo_minoan
+                        this = culture:cretan
+                    }
+                }
+{% if tfe %}
+                scope:other_culture = { this = culture:median }
+{% else %}
+                scope:other_culture = { this = culture:kurdish }
+{% endif %}
+            }
+        }
+        any_sub_realm_county = {
+            OR = {
+                culture = scope:culture
+                culture = scope:other_culture
+            }
+        }
+    }
+    hybrid = yes
+}
+
+Doriades = { # Macedonian + Cretan/Neo-Minoan
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:macedonian }
+				scope:other_culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+			}
+			AND = {
+				scope:culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+				scope:other_culture = { this = culture:macedonian }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
+
+Kemnis = { # Memphite Egyptian + Cretan/Neo-Minoan
+	trigger = {
+		OR = {
+			AND = {
+				scope:culture = { this = culture:ancient_egyptian }
+				scope:other_culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+			}
+			AND = {
+				scope:culture = {
+					OR = {
+						this = culture:neo_minoan
+						this = culture:cretan
+					}
+				}
+				scope:other_culture = { this = culture:ancient_egyptian }
+			}
+		}
+		any_sub_realm_county = {
+			OR = {
+				culture = scope:culture
+				culture = scope:other_culture
+			}
+		}
+	}
+	hybrid = yes
+}
