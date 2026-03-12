@@ -130,7 +130,7 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 		var pillarIdsPerModFlagParser = new Parser();
 		
 		if (ck3ModFlags.Count == 0) {
-			pillarIdsPerModFlagParser.RegisterKeyword("vanilla", modPillarIdsReader => {
+			pillarIdsPerModFlagParser.RegisterKeyword("vanilla_ck3", modPillarIdsReader => {
 				pillarData.InvalidatingPillarIds = modPillarIdsReader.GetStrings();
 			});
 		} else {

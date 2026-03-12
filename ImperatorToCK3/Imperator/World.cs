@@ -72,10 +72,6 @@ internal partial class World {
 	public ColorFactory ColorFactory { get; } = new();
 	
 	public IReadOnlyList<Mod> UsableMods { get; private set; } = Array.Empty<Mod>();
-	
-	public bool InvictusDetected { get; private set; }
-	public bool Invictus1_7Detected { get; private set; } // https://steamcommunity.com/sharedfiles/filedetails/?id=3181950031
-	public bool TerraIndomitaDetected { get; private set; }
 
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 	private SaveType saveType = SaveType.Invalid;
@@ -348,11 +344,13 @@ internal partial class World {
 
 		Characters.PurgeUnneededCharacters(Countries, JobsDB.Governorships, Families);
 
-		// Detect specific mods.
-		InvictusDetected = GlobalFlags.Contains("is_playing_invictus");
-		Invictus1_7Detected = UsableMods.Any(m => m.Name.StartsWith("Imperator: Invictus 1.7."));
-		TerraIndomitaDetected = Countries.Any(c => c.Variables.Contains("unification_points")) ||
-		                        UsableMods.Any(m => m.Name == "Antiquitas");
+		// Apply fallback I:R mod detection from save data that can't be expressed in the imperator_mods.txt configurable.
+		// Only apply if the mod hasn't already been detected via the configurable, to avoid redundant work.
+		if (!config.TerraIndomitaDetected && Countries.Any(c => c.Variables.Contains("unification_points"))) {
+			config.AddImperatorModFlag("terra_indomita");
+		} else if (!config.InvictusDetected && GlobalFlags.Contains("is_playing_invictus")) {
+			config.AddImperatorModFlag("invictus");
+		}
 
 		Logger.Info("*** Good-bye Imperator, rest in peace. ***");
 	}
@@ -415,6 +413,9 @@ internal partial class World {
 			modLoader.LoadMods(config.ImperatorDocPath, incomingMods, config.IRVersion, throwForOutOfDateMods: false);
 			UsableMods = new Mods(modLoader.UsableMods);
 			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
+
+			// Detect specific Imperator mods from the configurable now that UsableMods are available.
+			config.DetectSpecificImperatorMods(UsableMods);
 
 			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
 			LoadModFilesystemDependentData();

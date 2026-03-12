@@ -14,9 +14,9 @@ public class DotLiquidTemplatingTests {
 	[InlineData(false, true, false, 1, 1)]
 	[InlineData(false, false, true, 2, 0)]
 	[InlineData(true, true, false, 0, 1)]
-	public void LiquidTemplateWorksCorrectly(bool wtwsms, bool tfe, bool vanilla, int expectedValue1,
+	public void LiquidTemplateWorksCorrectly(bool wtwsms, bool tfe, bool vanillaCk3, int expectedValue1,
 		int expectedValue2) {
-		var ck3ModFlags = new Dictionary<string, bool> {["wtwsms"] = wtwsms, ["tfe"] = tfe, ["vanilla"] = vanilla,};
+		var ck3ModFlags = new Dictionary<string, bool> {["wtwsms"] = wtwsms, ["tfe"] = tfe, ["vanilla_ck3"] = vanillaCk3,};
 
 		var template = Template.Parse(
 			"""
@@ -28,7 +28,7 @@ public class DotLiquidTemplatingTests {
 					value1 = 2
 				{% endif %}
 				
-				{% if wtwsms or vanilla or tfe %}
+				{% if wtwsms or vanilla_ck3 or tfe %}
 					value2 = 0
 				{% endif %}
 				{% if tfe %}
@@ -37,7 +37,7 @@ public class DotLiquidTemplatingTests {
 			""");
 
 		// Check if constructing context from an anonymous object works.
-		var context = Hash.FromAnonymousObject(new {wtwsms, tfe, vanilla});
+		var context = Hash.FromAnonymousObject(new {wtwsms, tfe, vanilla_ck3 = vanillaCk3});
 		var result = template.Render(context, CultureInfo.InvariantCulture);
 
 		int? value1 = null;

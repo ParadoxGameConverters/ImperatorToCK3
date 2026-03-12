@@ -10,7 +10,7 @@ language_gothic = { # https://en.wikipedia.org/wiki/East_Germanic_languages
 		tfe = { language_gothic }
 		wtwsms = { language_gothic }
 		roa = { language_gothic }
-		vanilla = { language_gothic }
+		vanilla_ck3 = { language_gothic }
 	}
 
 	type = language
@@ -33,7 +33,7 @@ language_gothic = { # https://en.wikipedia.org/wiki/East_Germanic_languages
 language_nuragic = {
     REPLACED_BY = {
 		tfe = { language_nuragic }
-		vanilla = { language_nuragic }
+		vanilla_ck3 = { language_nuragic }
 	}
 	
 	MOD_DEPENDENT = {
@@ -108,7 +108,7 @@ language_nuragic = {
 language_luwian = {
     REPLACED_BY = {
 		tfe = { language_luwian }
-		vanilla = { language_luwian }
+		vanilla_ck3 = { language_luwian }
 	}
 	
 	MOD_DEPENDENT = {
@@ -162,7 +162,7 @@ language_luwian = {
 language_lydian = {
     REPLACED_BY = {
 		tfe = { language_lydian }
-		vanilla = { language_lydian }
+		vanilla_ck3 = { language_lydian }
 	}
 	
 	MOD_DEPENDENT = {
@@ -216,7 +216,7 @@ language_lydian = {
 language_hittite = {
     REPLACED_BY = {
 		tfe = { language_hittite }
-		vanilla = { language_hittite }
+		vanilla_ck3 = { language_hittite }
 	}
 	
 	MOD_DEPENDENT = {
@@ -291,7 +291,7 @@ language_hittite = {
 language_phrygian = {
     REPLACED_BY = {
 		tfe = { language_phrygian }
-		vanilla = { language_phrygian }
+		vanilla_ck3 = { language_phrygian }
 	}
 	
 	MOD_DEPENDENT = {
@@ -347,7 +347,7 @@ language_kemetic = {
 		tfe = { language_kemetic }
 		wtwsms = { language_kemetic }
 		roa = { language_egyptian }
-		vanilla = { language_egyptian }
+		vanilla_ck3 = { language_egyptian }
 	}
     
 	type = language
@@ -370,7 +370,7 @@ language_kemetic = {
 language_babylonian = {
     REPLACED_BY = {
 		tfe = { language_babylonian }
-		vanilla = { language_babylonian }
+		vanilla_ck3 = { language_babylonian }
 	}
 	
 	MOD_DEPENDENT = {
@@ -445,7 +445,7 @@ language_babylonian = {
 language_eblaite = {
     REPLACED_BY = {
 		tfe = { language_eblaite }
-		vanilla = { language_eblaite }
+		vanilla_ck3 = { language_eblaite }
 	}
 	
 	MOD_DEPENDENT = {
@@ -521,7 +521,7 @@ language_gaulish = {
     REPLACED_BY = {
 		tfe = { language_gaulish }
 		wtwsms = { language_gaulish }
-		vanilla = { language_gaulish }
+		vanilla_ck3 = { language_gaulish }
 	}
     
 	MOD_DEPENDENT = {
@@ -603,7 +603,7 @@ language_gaulish = {
 # 		tfe = { language_hebrew }
 # 		wtwsms = { language_israelite }
 # 		roa = { language_israelite }
-# 		vanilla = { language_israelite }
+# 		vanilla_ck3 = { language_israelite }
 # 	}
     
 # 	type = language
@@ -626,7 +626,7 @@ language_gaulish = {
 language_oscan = {
     REPLACED_BY = {
 		tfe = { language_oscan }
-		vanilla = { language_oscan }
+		vanilla_ck3 = { language_oscan }
 	}
 	
 	MOD_DEPENDENT = {
@@ -707,7 +707,7 @@ language_oscan = {
 language_samnite = {
     REPLACED_BY = {
 		tfe = { language_samnite }
-		vanilla = { language_samnite }
+		vanilla_ck3 = { language_samnite }
 	}
 	
 	MOD_DEPENDENT = {
@@ -788,7 +788,7 @@ language_samnite = {
 language_ligustic = {
     REPLACED_BY = {
 		tfe = { language_ligustic }
-		vanilla = { language_ligustic }
+		vanilla_ck3 = { language_ligustic }
 	}
 
 	MOD_DEPENDENT = {
@@ -869,7 +869,7 @@ language_ligustic = {
 language_messapic = {
     REPLACED_BY = {
 		tfe = { language_messapic }
-		vanilla = { language_messapic }
+		vanilla_ck3 = { language_messapic }
 	}
 	
 	MOD_DEPENDENT = {
@@ -945,7 +945,7 @@ language_messapic = {
 language_sardonian = {
     REPLACED_BY = {
 		tfe = { language_sardonian }
-		vanilla = { language_sardonian }
+		vanilla_ck3 = { language_sardonian }
 	}
 	
 	MOD_DEPENDENT = {
@@ -1021,7 +1021,7 @@ language_sardonian = {
 language_siculian = {
     REPLACED_BY = {
 		tfe = { language_siculian }
-		vanilla = { language_siculian }
+		vanilla_ck3 = { language_siculian }
 	}
 	
 	MOD_DEPENDENT = {
@@ -1099,7 +1099,7 @@ language_hunnic = {
 		tfe = { language_hunnic }
 		wtwsms = { language_hunnic }
 		roa = { language_hunnic }
-		vanilla = { language_hunnic }
+		vanilla_ck3 = { language_hunnic }
 	}
 
 	MOD_DEPENDENT = {
@@ -1157,7 +1157,7 @@ language_punic = {
 			language_phoenician # TFE uses language_phoenician for the punic culture.
 		}
 		wtwsms = { language_punic }
-		vanilla = { language_punic }
+		vanilla_ck3 = { language_punic }
 	}
     
 	MOD_DEPENDENT = {
@@ -1210,7 +1210,7 @@ language_punic = {
 language_breathanach = { # language for Romano-Celtic hybrids in the British Isles
     REPLACED_BY = {
 		tfe = { language_breathanach }
-		vanilla = { language_breathanach }
+		vanilla_ck3 = { language_breathanach }
 	}
 	
 	MOD_DEPENDENT = {
@@ -1323,7 +1323,7 @@ language_breathanach = { # language for Romano-Celtic hybrids in the British Isl
 language_laessin = {
     REPLACED_BY = {
 		tfe = { language_laessin }
-		vanilla = { language_laessin }
+		vanilla_ck3 = { language_laessin }
 	}
 	
 	MOD_DEPENDENT = {
@@ -1437,7 +1437,7 @@ language_thracian = {
     REPLACED_BY = {
 		tfe = { language_thracian }
 		wtwsms = { language_thracian }
-		vanilla = { language_thracian }
+		vanilla_ck3 = { language_thracian }
 	}
     
 	MOD_DEPENDENT = {
@@ -1497,7 +1497,7 @@ language_dacian = {
     REPLACED_BY = {
 		tfe = { language_dacian }
 		wtwsms = { language_dacian }
-		vanilla = { language_dacian }
+		vanilla_ck3 = { language_dacian }
 	}
     
 	MOD_DEPENDENT = {
@@ -1556,7 +1556,7 @@ language_dacian = {
 language_etruscan = {
     REPLACED_BY = {
 		tfe = { language_etruscan }
-		vanilla = { language_etruscan }
+		vanilla_ck3 = { language_etruscan }
 	}
 	
 	MOD_DEPENDENT = {
@@ -1612,7 +1612,7 @@ language_elamite = {
 		tfe = { language_elamite }
 		roa = { language_elamite }
 		wtwsms = { language_elamite }
-		vanilla = { language_elamite }
+		vanilla_ck3 = { language_elamite }
 	}
 	
 	type = language
@@ -1637,7 +1637,7 @@ language_tai = {
     REPLACED_BY = {
 		tfe = { language_tai }
 		roa = { language_tai }
-		vanilla = { language_tai }
+		vanilla_ck3 = { language_tai }
 	}
 	
 	MOD_DEPENDENT = {
@@ -1715,7 +1715,7 @@ language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/shared
     REPLACED_BY = {
 		tfe = { language_palaungic }
 		roa = { language_palaungic }
-		vanilla = { language_palaungic }
+		vanilla_ck3 = { language_palaungic }
 	}
 	
 	MOD_DEPENDENT = {
@@ -2525,7 +2525,7 @@ language_hatti = { # Pre-Hittite language of central Anatolia
 language_venetic = {
     REPLACED_BY = {
 		tfe = { language_venetic }
-		vanilla = { language_venetic }
+		vanilla_ck3 = { language_venetic }
 	}
 
 	type = language
@@ -2602,7 +2602,7 @@ language_anatolian = {
 		tfe = { language_anatolian }
 		wtwsms = { language_anatolian }
 		roa = { language_anatolian }
-		vanilla = { language_anatolian }
+		vanilla_ck3 = { language_anatolian }
 	}
 	
 	MOD_DEPENDENT = {
@@ -2679,7 +2679,7 @@ language_illyrian = {
 		tfe = { language_illyrian }
 		wtwsms = { language_illyrian }
 		roa = { language_illyrian }
-		vanilla = { language_illyrian }
+		vanilla_ck3 = { language_illyrian }
 	}
 	
 	MOD_DEPENDENT = {
@@ -2756,7 +2756,7 @@ language_sabaki = {
     REPLACED_BY = {
 		wtwsms = { language_sabaki }
 		roa = { language_sabaki }
-		vanilla = { language_sabaki }
+		vanilla_ck3 = { language_sabaki }
 	}
 	type = language
 	is_shown = {
@@ -2813,7 +2813,7 @@ language_north_dravidian = {
     REPLACED_BY = {
 		wtwsms = { language_north_dravidian }
 		roa = { language_north_dravidian }
-		vanilla = { language_north_dravidian }
+		vanilla_ck3 = { language_north_dravidian }
 	}
 	type = language
 	is_shown = {
@@ -2870,7 +2870,7 @@ language_burusho = {
     REPLACED_BY = {
 		wtwsms = { language_burusho }
 		roa = { language_burusho }
-		vanilla = { language_burusho }
+		vanilla_ck3 = { language_burusho }
 	}
 	type = language
 	is_shown = {
@@ -2927,7 +2927,7 @@ language_kordofanian = {
     REPLACED_BY = {
 		wtwsms = { language_kordofanian }
 		roa = { language_kordofanian }
-		vanilla = { language_kordofanian }
+		vanilla_ck3 = { language_kordofanian }
 	}
 	type = language
 	is_shown = {
@@ -2984,7 +2984,7 @@ language_bashu = { # Will worry about CCU parameters once relevant mods are upda
 		tfe = { language_bashu }
 		wtwsms = { language_bashu }
 		roa = { language_bashu }
-		vanilla = { language_bashu }
+		vanilla_ck3 = { language_bashu }
 	}
 
 	type = language
@@ -3009,7 +3009,7 @@ language_tujian = { # Will worry about CCU parameters once relevant mods are upd
 		tfe = { language_tujian }
 		wtwsms = { language_tujian }
 		roa = { language_tujian }
-		vanilla = { language_tujian }
+		vanilla_ck3 = { language_tujian }
 	}
 
 	type = language
@@ -3034,7 +3034,7 @@ language_bai = { # Will worry about CCU parameters once relevant mods are update
 		tfe = { language_bai }
 		wtwsms = { language_bai }
 		roa = { language_bai }
-		vanilla = { language_bai }
+		vanilla_ck3 = { language_bai }
 	}
 
 	type = language
@@ -3059,7 +3059,7 @@ language_baiyue = { # Will worry about CCU parameters once relevant mods are upd
 		tfe = { language_baiyue }
 		wtwsms = { language_baiyue }
 		roa = { language_baiyue }
-		vanilla = { language_baiyue }
+		vanilla_ck3 = { language_baiyue }
 	}
 
 	type = language
@@ -3084,7 +3084,7 @@ language_dongyi = { # Will worry about CCU parameters once relevant mods are upd
 		tfe = { language_dongyi }
 		wtwsms = { language_dongyi }
 		roa = { language_dongyi }
-		vanilla = { language_dongyi }
+		vanilla_ck3 = { language_dongyi }
 	}
 
 	type = language
@@ -3109,7 +3109,7 @@ language_yi = { # Will worry about CCU parameters once relevant mods are updated
 		tfe = { language_yi }
 		wtwsms = { language_yi }
 		roa = { language_yi }
-		vanilla = { language_yi }
+		vanilla_ck3 = { language_yi }
 	}
 
 	type = language

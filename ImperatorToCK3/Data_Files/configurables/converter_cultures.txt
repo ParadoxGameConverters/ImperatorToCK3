@@ -7,7 +7,7 @@
 # invalidate it to the culture's definition:
 # INVALIDATED_BY = {
 # 	tfe = { gaul }
-# 	vanilla = { gallic }
+# 	vanilla_ck3 = { gallic }
 # }
 
 gelonian = {
@@ -232,7 +232,7 @@ neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture sho
 
 cretan = {
     INVALIDATED_BY = {
-		vanilla = { cretan }  # In vanilla the cretan culture is a divergence from Greek, done through a decision 
+		vanilla_ck3 = { cretan }  # In vanilla CK3 the cretan culture is a divergence from Greek, done through a decision 
 	}
 
 	color = { 0.67 0.8 0.8 }
@@ -422,7 +422,7 @@ pelasgian = { # The ancient pre-Greek people of mainland Greece from the Bronze 
 khasi = {
     INVALIDATED_BY = {
 		tfe = { khasi }
-		vanilla = { khasi }
+		vanilla_ck3 = { khasi }
 	}
 
 	color = { 106 91 140 }
@@ -484,7 +484,7 @@ non_indo_european_iberian = {
 nuragic = {
     INVALIDATED_BY = {
 		tfe = { nuragic }
-		vanilla = { nuragic }
+		vanilla_ck3 = { nuragic }
 	}
     
 	color = hsv { 0.2 0.25 0.5 }
@@ -524,7 +524,7 @@ nuragic = {
 luwian = { # https://en.wikipedia.org/wiki/Luwians
     INVALIDATED_BY = {
 		tfe = { luwian }
-		vanilla = { luwian }
+		vanilla_ck3 = { luwian }
 	}
     
 	color = hsv { 0.32 0.45 0.9 }
@@ -572,7 +572,7 @@ luwian = { # https://en.wikipedia.org/wiki/Luwians
 cilician = { # https://en.wikipedia.org/wiki/History_of_Cilicia
     INVALIDATED_BY = {
 		tfe = { cilician }
-		vanilla = { cilician }
+		vanilla_ck3 = { cilician }
 	}
     
 	color = { 0.61 0.82 0.72 }
@@ -620,7 +620,7 @@ cilician = { # https://en.wikipedia.org/wiki/History_of_Cilicia
 lydian = {
     INVALIDATED_BY = {
 		tfe = { lydian }
-		vanilla = { lydian }
+		vanilla_ck3 = { lydian }
 	}
 
 	color = rgb { 149 101 186 }
@@ -668,7 +668,7 @@ lydian = {
 hittite = {
     INVALIDATED_BY = {
 		tfe = { hittite }
-		vanilla = { hittite }
+		vanilla_ck3 = { hittite }
 	}
 
 	color = hsv { 0.42 0.45 0.3 }
@@ -799,7 +799,7 @@ trojan = {  # Override of vanilla culture
 phrygian = {
     INVALIDATED_BY = {
 		tfe = { phrygian }
-		vanilla = { phrygian }
+		vanilla_ck3 = { phrygian }
 	}
     
 	color = rgb { 246 223 15 }
@@ -838,7 +838,7 @@ phrygian = {
 nabatean = { # https://en.wikipedia.org/wiki/Nabataeans
     INVALIDATED_BY = {
 		tfe = { nabatean }
-		vanilla = { nabatean }
+		vanilla_ck3 = { nabatean }
 	}
     
 	color = rgb { 14  20  31 }
@@ -875,7 +875,7 @@ nabatean = { # https://en.wikipedia.org/wiki/Nabataeans
 adnanite = { # https://en.wikipedia.org/wiki/Adnanites
     INVALIDATED_BY = {
 		tfe = { adnanite }
-		vanilla = { adnanite }
+		vanilla_ck3 = { adnanite }
 	}
 
 	color = { 0.1 0.5 0.1 }
@@ -910,7 +910,7 @@ adnanite = { # https://en.wikipedia.org/wiki/Adnanites
 qahtanite = { # https://en.wikipedia.org/wiki/Qahtanite
     INVALIDATED_BY = {
 		tfe = { qahtanite }
-		vanilla = { qahtanite }
+		vanilla_ck3 = { qahtanite }
 	}
 
 	color = { 0.2 0.4 0.2 }
@@ -986,7 +986,7 @@ egyptian = {  # override of vanilla culture
 dalmatian = {
     INVALIDATED_BY = {
 		tfe = { dalmatian illyrian } # TFE illyrian represents the same thing.
-		vanilla = { dalmatian }
+		vanilla_ck3 = { dalmatian }
 	}
     
 	color = rgb { 246 223 15 }
@@ -1021,7 +1021,7 @@ dalmatian = {
 messapic = {
     INVALIDATED_BY = {
 		tfe = { messapic }
-		vanilla = { messapic }
+		vanilla_ck3 = { messapic }
 	}
     
 	heritage = heritage_albanian
@@ -1057,7 +1057,7 @@ ancient_egyptian = {  # fallback in case some mod removes vanilla ancient_egypti
 		tfe = { ancient_egyptian }
 		wtwsms = { ancient_egyptian }
 		roa = { ancient_egyptian }
-		vanilla = { ancient_egyptian kemetic }
+		vanilla_ck3 = { ancient_egyptian kemetic }
 	}
     
 	color = hsv { 0.15  1  0.7 }
@@ -1170,7 +1170,7 @@ niwt_ipt = {  # Egyptian Carthage from BA to I:R
 numidian = {
     INVALIDATED_BY = {
 		tfe = { numidian }
-		vanilla = { numidian }
+		vanilla_ck3 = { numidian }
 	}
     
 	color = hsv { 0.05  0.5  0.4 }
@@ -1212,7 +1212,7 @@ numidian = {
 brythonic = {
     INVALIDATED_BY = {
 		tfe = { brythonic }
-		vanilla = { brythonic }
+		vanilla_ck3 = { brythonic }
 	}
     
 	color = hsv { 0.57 0.7 0.4 }
@@ -1251,7 +1251,7 @@ arakanese = {  # https://en.wikipedia.org/wiki/Rakhine_people
 	
     INVALIDATED_BY = {
 		tfe = { arakanese }
-		vanilla = { arakanese }
+		vanilla_ck3 = { arakanese }
 	}
     
 	color = arakanese
@@ -1288,7 +1288,7 @@ hellenic_greek = { # Now used to represent non-Romanized Greeks
 		tfe = { hellenic_greek }
 		roa = { hellenic_greek }
 		wtwsms = { hellenic_greek }
-		vanilla = { hellenic_greek }
+		vanilla_ck3 = { hellenic_greek }
 	}
     
 	color = { 0.58 0.74 0.95 }
@@ -1442,7 +1442,7 @@ macedonian = {
 hellenistic = {
     INVALIDATED_BY = {
 		tfe = { hellenistic }
-		vanilla = { hellenistic }
+		vanilla_ck3 = { hellenistic }
 	}
     
 	color = hsv { 0.65 0.7 0.8 }
@@ -1499,7 +1499,7 @@ indogreek = {
     INVALIDATED_BY = {
     	roa = { indo_greek }
 		tfe = { indogreek }
-		vanilla = { indogreek }
+		vanilla_ck3 = { indogreek }
 	}
     
 	color = hsv { 0.12 0.7 0.7 }
@@ -1542,7 +1542,7 @@ indogreek = {
 italiote = {
     INVALIDATED_BY = {
 		tfe = { italiote }
-		vanilla = { italiote }
+		vanilla_ck3 = { italiote }
 	}
     
 	parents = { hellenic_greek }
@@ -1583,7 +1583,7 @@ syro_hellenic = {
 		tfe = { syro_hellenic syrian }
 		roa = { syro_hellenic }
 		wtwsms = { syro_hellenic }
-		vanilla = { syro_hellenic }
+		vanilla_ck3 = { syro_hellenic }
 	}
     
 	parents = { macedonian assyrian }
@@ -1633,7 +1633,7 @@ syro_hellenic = {
 pemis = {
     INVALIDATED_BY = {
 		tfe = { pemis }
-		vanilla = { pemis }
+		vanilla_ck3 = { pemis }
 	}
     
 	color = { 89 73 47 }
@@ -1672,7 +1672,7 @@ pemis = {
 aramaic = {
     INVALIDATED_BY = {
 		tfe = { aramaic }
-		vanilla = { aramaic }
+		vanilla_ck3 = { aramaic }
 	}
     
 	color = { 0.05 1.0 0.5 }
@@ -1711,7 +1711,7 @@ aramaic = {
 babylonian = {
     INVALIDATED_BY = {
 		tfe = { babylonian }
-		vanilla = { babylonian }
+		vanilla_ck3 = { babylonian }
 	}
     
 	color = hsv { 0.7 0.15 0.77 }
@@ -1826,7 +1826,7 @@ eblaite = { #Ancient Bronze Age people of modern-day Syria, either East Semetic 
 bazramani = {
     INVALIDATED_BY = {
 		tfe = { bazramani }
-		vanilla = { bazramani }
+		vanilla_ck3 = { bazramani }
 	}
     
 	color = { 0.4 0.6 0.0 }
@@ -1864,7 +1864,7 @@ bazramani = {
 judajca = {
     INVALIDATED_BY = {
 		tfe = { judajca }
-		vanilla = { judajca }
+		vanilla_ck3 = { judajca }
 	}
     
 	color = { 0.0 0.3 0.6 }
@@ -1902,7 +1902,7 @@ judajca = {
 vandilian = { # https://en.wikipedia.org/wiki/East_Germanic_peoples
     INVALIDATED_BY = {
 		tfe = { vandilian }
-		vanilla = { vandilian }
+		vanilla_ck3 = { vandilian }
 	}
     
 	color = rgb { 215 246 166 }
@@ -1934,7 +1934,7 @@ vandilian = { # https://en.wikipedia.org/wiki/East_Germanic_peoples
 gothic = { # https://en.wikipedia.org/wiki/Goths
     INVALIDATED_BY = {
 		tfe = { gothic }
-		vanilla = { }
+		vanilla_ck3 = { }
 	}
     
 	color = irtock3_gothic
@@ -2006,7 +2006,7 @@ visigothic = { # override of vanilla culture
 ostrogothic = { # https://en.wikipedia.org/wiki/Ostrogoths
     INVALIDATED_BY = {
 		tfe = { ostrogothic }
-		vanilla = { ostrogothic }
+		vanilla_ck3 = { ostrogothic }
 	}
     
 	color = rgb { 114 162 166 }
@@ -2041,7 +2041,7 @@ ostrogothic = { # https://en.wikipedia.org/wiki/Ostrogoths
 gepid = { # https://en.wikipedia.org/wiki/Gepids
     INVALIDATED_BY = {
 		tfe = { gepid }
-		vanilla = { gepid }
+		vanilla_ck3 = { gepid }
 	}
     
 	color = rgb { 91 66 30 }
@@ -2074,7 +2074,7 @@ gepid = { # https://en.wikipedia.org/wiki/Gepids
 vandal = { # https://en.wikipedia.org/wiki/Vandals
     INVALIDATED_BY = {
 		tfe = { vandal }
-		vanilla = { vandal }
+		vanilla_ck3 = { vandal }
 	}
     
 	heritage = heritage_east_germanic
@@ -2110,7 +2110,7 @@ vandal = { # https://en.wikipedia.org/wiki/Vandals
 urslavic = {
     INVALIDATED_BY = {
 		tfe = { urslavic }
-		vanilla = { urslavic }
+		vanilla_ck3 = { urslavic }
 	}
     
 	color = { 0.2 0.1 0.4 }
@@ -2144,7 +2144,7 @@ urslavic = {
 celtic_pannonian = {
     INVALIDATED_BY = {
 		tfe = { celtic_pannonian }
-		vanilla = { celtic_pannonian }
+		vanilla_ck3 = { celtic_pannonian }
 	}
     
 	color = hsv { 0.25 0.85 0.25 }
@@ -2181,7 +2181,7 @@ celtic_pannonian = {
 celtiberian = {
     INVALIDATED_BY = {
 		tfe = { celtiberian }
-		vanilla = { celtiberian }
+		vanilla_ck3 = { celtiberian }
 	}
     
 	color = hsv { 0.2 0.8 0.6 }
@@ -2218,7 +2218,7 @@ celtiberian = {
 belgae = {
     INVALIDATED_BY = {
 		tfe = { belgae }
-		vanilla = { belgae }
+		vanilla_ck3 = { belgae }
 	}
     
 	color = hsv { 0.45 0.8 0.45 }
@@ -2257,7 +2257,7 @@ belgae = {
 gallic = {
     INVALIDATED_BY = {
 		tfe = { gallic gaul }
-		vanilla = { gallic gaul }
+		vanilla_ck3 = { gallic gaul }
 	}
     
 	color = hsv { 0.3 0.7 0.4 }
@@ -2294,7 +2294,7 @@ gallic = {
 lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
     INVALIDATED_BY = {
 		tfe = { lusoiberian }
-		vanilla = { lusoiberian }
+		vanilla_ck3 = { lusoiberian }
 	}
     
 	color = hsv { 0.6 0.8 0.2 }
@@ -2333,7 +2333,7 @@ lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
 galatian = {
     INVALIDATED_BY = {
 		tfe = { galatian }
-		vanilla = { galatian }
+		vanilla_ck3 = { galatian }
 	}
     
 	color = rgb { 159 255 135 }
@@ -2375,7 +2375,7 @@ galatian = {
 neo_mitanni = { # IRToCK3: a culture for Invictus revival meme Neo-Mitanni culture
     INVALIDATED_BY = {
 		tfe = { neo_mitanni }
-		vanilla = { neo_mitanni }
+		vanilla_ck3 = { neo_mitanni }
 	}
     
 	# Everything apart from color copied from vanilla CK3 Sindhi culture,
@@ -2409,7 +2409,7 @@ neo_mitanni = { # IRToCK3: a culture for Invictus revival meme Neo-Mitanni cultu
 bactrian = {
     INVALIDATED_BY = {
 		tfe = { bactrian }
-		vanilla = { bactrian }
+		vanilla_ck3 = { bactrian }
 	}
     
 	color = hsv { 0.03 0.7 0.7 }
@@ -2472,7 +2472,7 @@ bactrian = {
 scythian = {
     INVALIDATED_BY = {
 		tfe = { scythian }
-		vanilla = { scythian }
+		vanilla_ck3 = { scythian }
 	}
     
 	color = hsv { 0.2 0.5 0.8 }
@@ -2511,7 +2511,7 @@ scythian = {
 sarmatian = {
     INVALIDATED_BY = {
 		tfe = { sarmatian }
-		vanilla = { sarmatian }
+		vanilla_ck3 = { sarmatian }
 	}
     
 	color = rgb { 222 124 28 }
@@ -2551,7 +2551,7 @@ sarmatian = {
 parthian = {
     INVALIDATED_BY = {
 		tfe = { parthian }
-		vanilla = { parthian }
+		vanilla_ck3 = { parthian }
 	}
     
 	color = hsv { 0.52 0.77 0.72 }
@@ -2601,7 +2601,7 @@ elamite = { # https://en.wikipedia.org/wiki/Elam
     INVALIDATED_BY = {
 		tfe = { elamite }
 		wtwsms = { elamite }
-		vanilla = { elamite }
+		vanilla_ck3 = { elamite }
 	}
     
 	color = elamite
@@ -2676,7 +2676,7 @@ alan = { # override of vanilla culture
 hebrew = { # https://en.wikipedia.org/wiki/Hebrews
     INVALIDATED_BY = {
 		tfe = { hebrew }
-		vanilla = { hebrew }
+		vanilla_ck3 = { hebrew }
 	}
     
 	color = rgb { 99 193 217 }
@@ -2711,7 +2711,7 @@ hebrew = { # https://en.wikipedia.org/wiki/Hebrews
 shuadit = { # https://en.wikipedia.org/wiki/Shuadit
     INVALIDATED_BY = {
 		tfe = { shuadit }
-		vanilla = { shuadit }
+		vanilla_ck3 = { shuadit }
 	}
     
 	color = { 0.2 0.2 0.7 }
@@ -2748,7 +2748,7 @@ shuadit = { # https://en.wikipedia.org/wiki/Shuadit
 zarphatic = { # https://en.wikipedia.org/wiki/Zarphatic_language
     INVALIDATED_BY = {
 		tfe = { zarphatic }
-		vanilla = { zarphatic }
+		vanilla_ck3 = { zarphatic }
 	}
     
 	color = { 0.7 0.2 0.2 }
@@ -2786,7 +2786,7 @@ zarphatic = { # https://en.wikipedia.org/wiki/Zarphatic_language
 oscan = { # This culture is now meant to represent the ancient Umbrii peoples, but keeping the oscan ID for compatibility with CK3-EU4 converter
     INVALIDATED_BY = {
 		tfe = { oscan }
-		vanilla = { oscan }
+		vanilla_ck3 = { oscan }
 	}
     
 	color = { 117 131 50 }
@@ -2832,7 +2832,7 @@ oscan = { # This culture is now meant to represent the ancient Umbrii peoples, b
 samnite = {
     INVALIDATED_BY = {
 		tfe = { samnite }
-		vanilla = { samnite }
+		vanilla_ck3 = { samnite }
 	}
     
 	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
@@ -2878,7 +2878,7 @@ samnite = {
 venetic = { # https://en.wikipedia.org/wiki/Adriatic_Veneti
     INVALIDATED_BY = {
 		tfe = { venetic }
-		vanilla = { venetic }
+		vanilla_ck3 = { venetic }
 	}
     
 	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
@@ -2929,7 +2929,7 @@ venetic = { # https://en.wikipedia.org/wiki/Adriatic_Veneti
 ligustic = {
     INVALIDATED_BY = {
 		tfe = { ligustic }
-		vanilla = { ligustic }
+		vanilla_ck3 = { ligustic }
 	}
     
 	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
@@ -2975,7 +2975,7 @@ ligustic = {
 sardonian = {
     INVALIDATED_BY = {
 		tfe = { sardonian }
-		vanilla = { sardonian }
+		vanilla_ck3 = { sardonian }
 	}
     
 	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
@@ -3021,7 +3021,7 @@ sardonian = {
 siculian = {
     INVALIDATED_BY = {
 		tfe = { siculian }
-		vanilla = { siculian }
+		vanilla_ck3 = { siculian }
 	}
     
 	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
@@ -3128,7 +3128,7 @@ roman = {
 hunnic = { # Should now replace base game Hunnic
 	INVALIDATED_BY = {
 		tfe = { hunnic hun }
-		vanilla = { hun }
+		vanilla_ck3 = { hun }
 	}
     
 	color = { 254 204 50 }
@@ -3169,7 +3169,7 @@ hunnic = { # Should now replace base game Hunnic
 varangian = {
     INVALIDATED_BY = {
 		tfe = { varangian }
-		vanilla = { varangian }
+		vanilla_ck3 = { varangian }
 	}
     
 	color = { 0.3 0.55 0.8 }
@@ -3206,7 +3206,7 @@ varangian = {
 mikligardrish = {
     INVALIDATED_BY = {
 		tfe = { mikligardrish }
-		vanilla = { mikligardrish }
+		vanilla_ck3 = { mikligardrish }
 	}
     
 	heritage = heritage_north_germanic
@@ -3244,7 +3244,7 @@ palaungic = {  # from AsiaExtended mod https://steamcommunity.com/sharedfiles/fi
     INVALIDATED_BY = {
     	roa = { palaung } 
 		tfe = { palaungic }
-		vanilla = { palaungic }
+		vanilla_ck3 = { palaungic }
 	}
     
 	# https://en.wikipedia.org/wiki/Palaung_people
@@ -3279,7 +3279,7 @@ palaungic = {  # from AsiaExtended mod https://steamcommunity.com/sharedfiles/fi
 carthaginian = {
     INVALIDATED_BY = {
 		tfe = { carthaginian punic }
-		vanilla = { carthaginian punic }
+		vanilla_ck3 = { carthaginian punic }
 	}
     
 	color = rgb { 74 174 85 }
@@ -3315,7 +3315,7 @@ carthaginian = {
 phoenician = {
     INVALIDATED_BY = {
 		tfe = { phoenician }
-		vanilla = { phoenician }
+		vanilla_ck3 = { phoenician }
 	}
     
 	color = hsv { 0.75 0.9 0.73	}
@@ -3349,7 +3349,7 @@ phoenician = {
 alasiyan = { #Ancient pre-Cypriot people of Cyprus
     INVALIDATED_BY = {
 		tfe = { alasiyan }
-		vanilla = { alasiyan }
+		vanilla_ck3 = { alasiyan }
 	}
     
 	color = rgb { 201 110 0	}
@@ -3383,7 +3383,7 @@ alasiyan = { #Ancient pre-Cypriot people of Cyprus
 ugaritic = {
     INVALIDATED_BY = {
 		tfe = { ugaritic }
-		vanilla = { ugaritic }
+		vanilla_ck3 = { ugaritic }
 	}
     
 	color = rgb { 130 143 120 }
@@ -3419,7 +3419,7 @@ ugaritic = {
 breathanach = {
     INVALIDATED_BY = {
 		tfe = { breathanach }
-		vanilla = { breathanach }
+		vanilla_ck3 = { breathanach }
 	}
     
 	color = rgb { 127 143 104 }
@@ -3464,7 +3464,7 @@ breathanach = {
 transadrianic = {
     INVALIDATED_BY = {
 		tfe = { transadrianic }
-		vanilla = { transadrianic }
+		vanilla_ck3 = { transadrianic }
 	}
     
 	color = rgb { 127 143 104 }
@@ -3509,7 +3509,7 @@ transadrianic = {
 brythenig = {
     INVALIDATED_BY = {
 		tfe = { brythenig }
-		vanilla = { brythenig }
+		vanilla_ck3 = { brythenig }
 	}
     
 	color = rgb { 127 143 104 }
@@ -3554,7 +3554,7 @@ brythenig = {
 laessin = {
     INVALIDATED_BY = {
 		tfe = { laessin }
-		vanilla = { laessin }
+		vanilla_ck3 = { laessin }
 	}
     
 	color = rgb { 166 160 148 }
@@ -3599,7 +3599,7 @@ laessin = {
 wenedyk = {
     INVALIDATED_BY = {
 		tfe = { wenedyk }
-		vanilla = { wenedyk }
+		vanilla_ck3 = { wenedyk }
 	}
     
 	color = rgb { 179 101 78 }
@@ -3644,7 +3644,7 @@ wenedyk = {
 shan = {  # https://en.wikipedia.org/wiki/Shan_people
     INVALIDATED_BY = {
 		tfe = { shan }
-		vanilla = { shan }
+		vanilla_ck3 = { shan }
 	}
     
 	color = shan
@@ -3682,7 +3682,7 @@ thracian = {
     INVALIDATED_BY = {
 		tfe = { thracian }
 		wtwsms = { thracian }
-		vanilla = { thracian }
+		vanilla_ck3 = { thracian }
 	}
     
 	color = rgb { 5 162 25 }
@@ -3717,7 +3717,7 @@ dacian = {
     INVALIDATED_BY = {
 		tfe = { dacian }
 		wtwsms = { dacian }
-		vanilla = { dacian }
+		vanilla_ck3 = { dacian }
 	}
     
 	color = hsv { 0.0 0.5 1.0 }
@@ -3751,7 +3751,7 @@ dacian = {
 getian = {
     INVALIDATED_BY = {
 		tfe = { getian }
-		vanilla = { getian }
+		vanilla_ck3 = { getian }
 	}
     
 	color = rgb { 112 190 71 }
@@ -3787,7 +3787,7 @@ getian = {
 etruscan = {
     INVALIDATED_BY = {
 		tfe = { etruscan }
-		vanilla = { etruscan }
+		vanilla_ck3 = { etruscan }
 	}
     
 	color = rgb { 48 30 180 }
@@ -3828,7 +3828,7 @@ etruscan = {
 rhaetian = {
     INVALIDATED_BY = {
 		tfe = { rhaetian }
-		vanilla = { rhaetian }
+		vanilla_ck3 = { rhaetian }
 	}
     
 	color = rgb { 175 178 102 }
@@ -3870,7 +3870,7 @@ rhaetian = {
 lemnian = {
     INVALIDATED_BY = {
 		tfe = { lemnian }
-		vanilla = { lemnian }
+		vanilla_ck3 = { lemnian }
 	}
     
 	color = rgb { 148 26 254 }
@@ -3913,7 +3913,7 @@ lemnian = {
 angle = { # https://en.wikipedia.org/wiki/Angles
     INVALIDATED_BY = {
 		tfe = { angle }
-		vanilla = { angle }
+		vanilla_ck3 = { angle }
 	}
     
 	color = rgb { 142 66 30 }
@@ -3954,7 +3954,7 @@ angle = { # https://en.wikipedia.org/wiki/Angles
 iweric = {
     INVALIDATED_BY = {
 		tfe = { iweric }
-		vanilla = { iweric }
+		vanilla_ck3 = { iweric }
 	}
     
 	parents = { old_saxon irish }
@@ -4205,7 +4205,7 @@ anatolian = {
 		tfe = { anatolian }
 		wtwsms = { anatolian }
 		roa = { anatolian }
-		vanilla = { anatolian }
+		vanilla_ck3 = { anatolian }
 	}
 
 	color = rgb { 85 148 124 }
@@ -4260,7 +4260,7 @@ old_bashu = {
 		tfe = { old_bashu }
 		wtwsms = { old_bashu }
 		roa = { old_bashu }
-		vanilla = { old_bashu }
+		vanilla_ck3 = { old_bashu }
 	}
 
 	color = { 107 153 126 }
@@ -4412,7 +4412,7 @@ baiyue = {
 		tfe = { baiyue }
 		wtwsms = { baiyue }
 		roa = { baiyue }
-		vanilla = { baiyue }
+		vanilla_ck3 = { baiyue }
 	}
 
 	color = { 13 59 128 }
@@ -4494,7 +4494,7 @@ dongyi = {
 		tfe = { dongyi }
 		wtwsms = { dongyi }
 		roa = { dongyi }
-		vanilla = { dongyi }
+		vanilla_ck3 = { dongyi }
 	}
 
 	color = { 193 230 46 }

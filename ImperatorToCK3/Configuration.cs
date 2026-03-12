@@ -32,12 +32,23 @@ internal sealed class Configuration {
 	public bool SkipHoldingOwnersImport { get; set; } = true;
 	public GameVersion IRVersion { get; private set; } = new();
 	public GameVersion CK3Version { get; private set; } = new();
-	public bool FallenEagleEnabled { get; private set; }
-	public bool WhenTheWorldStoppedMakingSenseEnabled { get; private set; }
-	public bool RajasOfAsiaEnabled { get; private set; }
-	public bool AsiaExpansionProjectEnabled { get; private set; }
+
+	private readonly HashSet<string> activeCK3ModFlags = [];
+	private IReadOnlyList<ModDefinition> ck3ModDefinitions = [];
+
+	public bool FallenEagleEnabled => activeCK3ModFlags.Contains("tfe");
+	public bool WhenTheWorldStoppedMakingSenseEnabled => activeCK3ModFlags.Contains("wtwsms");
+	public bool RajasOfAsiaEnabled => activeCK3ModFlags.Contains("roa");
+	public bool AsiaExpansionProjectEnabled => activeCK3ModFlags.Contains("aep");
 
 	public bool OutputCCUParameters => WhenTheWorldStoppedMakingSenseEnabled || FallenEagleEnabled || RajasOfAsiaEnabled;
+
+	private readonly HashSet<string> activeImperatorModFlags = [];
+	private IReadOnlyList<ModDefinition> imperatorModDefinitions = [];
+
+	public bool InvictusDetected => activeImperatorModFlags.Contains("invictus") || activeImperatorModFlags.Contains("invictus_1_7");
+	public bool Invictus1_7Detected => activeImperatorModFlags.Contains("invictus_1_7");
+	public bool TerraIndomitaDetected => activeImperatorModFlags.Contains("terra_indomita");
 
 	public Configuration() { }
 	public Configuration(ConverterVersion converterVersion) {
@@ -374,28 +385,15 @@ internal sealed class Configuration {
 	}
 
 	public void DetectSpecificCK3Mods(ICollection<Mod> loadedMods) {
-		var tfeMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("The Fallen Eagle", StringComparison.Ordinal));
-		if (tfeMod is not null) {
-			FallenEagleEnabled = true;
-			Logger.Info($"TFE detected: {tfeMod.Name}");
-		}
+		ck3ModDefinitions = ModDefinitionsReader.LoadFromFile("configurables/ck3_mods.txt");
 
-		var wtwsmsMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("When the World Stopped Making Sense", StringComparison.Ordinal));
-		if (wtwsmsMod is not null) {
-			WhenTheWorldStoppedMakingSenseEnabled = true;
-			Logger.Info($"WtWSMS detected: {wtwsmsMod.Name}");
-		}
-
-		var roaMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Rajas of Asia", StringComparison.Ordinal));
-		if (roaMod is not null) {
-			RajasOfAsiaEnabled = true;
-			Logger.Info($"RoA detected: {roaMod.Name}");
-		}
-
-		var aepMod = loadedMods.FirstOrDefault(m => m.Name.StartsWith("Asia Expansion Project", StringComparison.Ordinal));
-		if (aepMod is not null) {
-			AsiaExpansionProjectEnabled = true;
-			Logger.Info($"AEP detected: {aepMod.Name}");
+		foreach (var definition in ck3ModDefinitions) {
+			var matchingMod = loadedMods.FirstOrDefault(definition.IsMatch);
+			if (matchingMod is null) {
+				continue;
+			}
+			activeCK3ModFlags.Add(definition.Flag);
+			Logger.Info($"CK3 mod flag \"{definition.Flag}\" detected: {matchingMod.Name}");
 		}
 
 		ThrowUserErrorExceptionForUnsupportedModCombinations();
@@ -416,12 +414,34 @@ internal sealed class Configuration {
 		}
 	}
 
+	public void DetectSpecificImperatorMods(IReadOnlyList<Mod> usableMods) {
+		imperatorModDefinitions = ModDefinitionsReader.LoadFromFile("configurables/imperator_mods.txt");
+
+		foreach (var definition in imperatorModDefinitions) {
+			var matchingMod = usableMods.FirstOrDefault(definition.IsMatch);
+			if (matchingMod is null) {
+				continue;
+			}
+			activeImperatorModFlags.Add(definition.Flag);
+			Logger.Info($"Imperator mod flag \"{definition.Flag}\" detected: {matchingMod.Name}");
+		}
+	}
+
+	/// <summary>Activates an Imperator mod flag. Used to add flags detected via save data (e.g., global flags, country variables).</summary>
+	public void AddImperatorModFlag(string flag) {
+		activeImperatorModFlags.Add(flag);
+		Logger.Info($"Imperator mod flag \"{flag}\" activated via save data.");
+	}
+
 	/// <summary>
-	/// Returns a collection of liquid template variables including CK3 mod flags and converter options.
+	/// Returns a collection of liquid template variables including CK3 mod flags, Imperator mod flags, and converter options.
 	/// </summary>
 	public Hash GetLiquidVariables() {
 		var variables = new OrderedDictionary<string, object>();
 		foreach (var modFlag in GetCK3ModFlags()) {
+			variables[modFlag.Key] = modFlag.Value;
+		}
+		foreach (var modFlag in GetImperatorModFlags()) {
 			variables[modFlag.Key] = modFlag.Value;
 		}
 		foreach (var option in GetConverterOptions()) {
@@ -431,21 +451,36 @@ internal sealed class Configuration {
 		return Hash.FromDictionary(variables);
 	}
 
-	/// <summary>Returns a collection of CK3 mod flags with values based on the enabled mods. "vanilla" flag is set to true if no other flags are set.</summary>
+	/// <summary>
+	/// Returns a collection of CK3 mod flags with values based on the enabled mods. "vanilla_ck3" flag is set to true if no other flags are set.
+	/// <para>Note: <see cref="DetectSpecificCK3Mods"/> must be called before this method to get meaningful flag values.</para>
+	/// </summary>
 	internal OrderedDictionary<string, bool> GetCK3ModFlags() {
-		var flags = new OrderedDictionary<string, bool> {
-			["tfe"] = FallenEagleEnabled,
-			["wtwsms"] = WhenTheWorldStoppedMakingSenseEnabled,
-			["roa"] = RajasOfAsiaEnabled,
-			["aep"] = AsiaExpansionProjectEnabled,
-		};
+		var flags = new OrderedDictionary<string, bool>();
+		foreach (var definition in ck3ModDefinitions) {
+			flags[definition.Flag] = activeCK3ModFlags.Contains(definition.Flag);
+		}
 
-		flags["vanilla"] = !flags.Any(f => f.Value);
+		flags["vanilla_ck3"] = !flags.Any(f => f.Value);
 		return flags;
 	}
 
 	internal IEnumerable<string> GetActiveCK3ModFlags() {
 		return GetCK3ModFlags().Where(f => f.Value).Select(f => f.Key);
+	}
+
+	/// <summary>
+	/// Returns a collection of Imperator mod flags with values based on detected mods.
+	/// <para>Note: <see cref="DetectSpecificImperatorMods"/> must be called before this method to get meaningful flag values.</para>
+	/// </summary>
+	internal OrderedDictionary<string, bool> GetImperatorModFlags() {
+		var flags = new OrderedDictionary<string, bool>();
+		foreach (var definition in imperatorModDefinitions) {
+			flags[definition.Flag] = activeImperatorModFlags.Contains(definition.Flag);
+		}
+
+		flags["vanilla_ir"] = !flags.Any(f => f.Value);
+		return flags;
 	}
 
 	/// <summary>

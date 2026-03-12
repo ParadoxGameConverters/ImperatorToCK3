@@ -77,7 +77,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		var cultureIdsPerModFlagParser = new Parser();
 
 		if (ck3ModFlags.Count == 0) {
-			cultureIdsPerModFlagParser.RegisterKeyword("vanilla", modCultureIdsReader => {
+			cultureIdsPerModFlagParser.RegisterKeyword("vanilla_ck3", modCultureIdsReader => {
 				cultureData.InvalidatingCultureIds = modCultureIdsReader.GetStrings();
 			});
 		} else {
