@@ -11055,7 +11055,100 @@ restore_holy_roman_empire_decision = {
 		}
 	}
 }
+	} # end of block
+
+	{
+#Reform Carolingian Empire
+### Restore Carolingian Borders ###
+reform_carolingian_empire_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/decision_dynasty_house.dds"
 	}
+	desc = reform_carolingian_empire_decision_desc
+	selection_tooltip = reform_carolingian_empire_decision_tooltip
+	decision_group_type = major
+
+	ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 120
+		empire = 120
+		hegemony = 0
+	}
+
+	is_shown = {
+		faith.religion = faith:catholic.religion #Christian
+		is_ruler = yes
+		is_playable_character = yes
+		NOT = {  #Can only do it once.
+			is_target_in_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_reformed_carolingian_empire
+			}
+		}
+		top_liege = this
+		culture = { has_cultural_pillar = heritage_frankish }
+		capital_province = { geographical_region = world_europe_west }
+		NOT = { has_title = title:e_hre } #HRE title holders can't Restore Carolingian Borders as the decision requires the HRE to serve as an "antagonist"
+	}
+
+	is_valid = {
+		prestige_level >= high_prestige_level
+		has_title = title:e_france
+		#All of starting e_france
+		completely_controls_region = custom_carolingian_francia
+		#Frisia
+		completely_controls_region = custom_frisia
+		#Lotharingia
+		completely_controls_region = custom_lotharingia
+		#Bavaria
+		completely_controls_region = custom_bavaria
+		#Germany
+		completely_controls_region = custom_carolingian_germany
+		#Aragon (except Mallorca) & Navarra
+		completely_controls_region = custom_carolingian_iberia
+		#Northern Italy (except Venice, Sardinia, and Rome)
+		completely_controls_region = custom_northern_italy
+	}
+
+	is_valid_showing_failures_only = {
+		is_capable_adult = yes
+		is_imprisoned = no
+		top_liege = this
+		is_at_war = no
+	}
+
+	effect = {
+		gain_heroic_legend_seed_tooltip_effect = yes
+		custom_tooltip = reform_carolingian_empire_decision_effect_tooltip
+		show_as_tooltip = {
+			form_carolingian_empire_scripted_effect = yes
+		}
+		trigger_event = {
+			id = middle_europe_decisions.0005
+		}
+		hidden_effect = {
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:flag_reformed_carolingian_empire
+			}
+			set_global_variable = {
+				name = flag_reformed_carolingian_empire
+				value = root
+			}
+		}
+	}
+	
+	ai_potential = {
+		always = yes
+	}
+
+	ai_will_do = {
+		base = 100
+	}
+}
+	} # end of block
 }
 
 "common/legends/chronicles/00_chronicles.txt" = {
