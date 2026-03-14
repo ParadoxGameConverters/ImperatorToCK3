@@ -564,19 +564,74 @@ irtock3_setup_governments = {
 		if = { # Nomads should start with just a nomad holding in their counties
 			limit = { has_government = nomad_government }
 
-			every_sub_realm_county = {
-				every_county_province = {
-					if = { # Capital Barony
-						limit = {
-							is_county_capital = yes
-							NOT = { has_holding_type = nomad_holding }
-						}
-						set_holding_type = nomad_holding
+			# If you don't have Khans of the Steppe, they should be made tribal
+			if = {
+				limit = { has_mpo_dlc_trigger = no }
+
+				save_scope_as = nomad_temp
+				every_held_title = {
+					title_tier = county
+					if = {
+						limit = { is_nomad_title = yes }
+						scope:nomad_temp = { destroy_title = prev }
 					}
-					else = { # Non-Capital Barony
-						if = {
-							limit = { has_holding = yes }
-							remove_holding = yes
+					else_if = {
+						limit = {
+							title_province = {
+								NOT = { has_holding_type = tribal_holding }
+							}
+						}
+						title_province = { set_holding_type = tribal_holding }
+					}
+				}
+				change_government = tribal_government
+
+				every_vassal_or_below = {
+					if = {
+						limit = {
+							OR = {
+								has_government = nomad_government
+								has_government = herder_government
+							}
+						}
+
+						save_scope_as = nomad_temp
+						every_held_title = {
+							title_tier = county
+							if = {
+								limit = { is_nomad_title = yes }
+								scope:nomad_temp = { destroy_title = prev }
+							}
+							else_if = {
+								limit = {
+									title_province = {
+										NOT = { has_holding_type = tribal_holding }
+									}
+								}
+								title_province = { set_holding_type = tribal_holding }
+							}
+						}
+						change_government = tribal_government
+					}
+				}
+
+				clear_saved_scope = nomad_temp
+			}
+			else = {
+				every_sub_realm_county = {
+					every_county_province = {
+						if = { # Capital Barony
+							limit = {
+								is_county_capital = yes
+								NOT = { has_holding_type = nomad_holding }
+							}
+							set_holding_type = nomad_holding
+						}
+						else = { # Non-Capital Barony
+							if = {
+								limit = { has_holding = yes }
+								remove_holding = yes
+							}
 						}
 					}
 				}
@@ -585,19 +640,74 @@ irtock3_setup_governments = {
 		else_if = { # Herders should start with just a herder holding in their counties
 			limit = { has_government = herder_government }
 
-			every_sub_realm_county = {
-				every_county_province = {
-					if = { # Capital Barony
-						limit = {
-							is_county_capital = yes
-							NOT = { has_holding_type = herder_holding }
-						}
-						set_holding_type = herder_holding
+			# If you don't have Khans of the Steppe, they should be made tribal
+			if = {
+				limit = { has_mpo_dlc_trigger = no }
+
+				save_scope_as = nomad_temp
+				every_held_title = {
+					title_tier = county
+					if = {
+						limit = { is_nomad_title = yes }
+						scope:nomad_temp = { destroy_title = prev }
 					}
-					else = { # Non-Capital Barony
-						if = {
-							limit = { has_holding = yes }
-							remove_holding = yes
+					else_if = {
+						limit = {
+							title_province = {
+								NOT = { has_holding_type = tribal_holding }
+							}
+						}
+						title_province = { set_holding_type = tribal_holding }
+					}
+				}
+				change_government = tribal_government
+
+				every_vassal_or_below = {
+					if = {
+						limit = {
+							OR = {
+								has_government = nomad_government
+								has_government = herder_government
+							}
+						}
+
+						save_scope_as = nomad_temp
+						every_held_title = {
+							title_tier = county
+							if = {
+								limit = { is_nomad_title = yes }
+								scope:nomad_temp = { destroy_title = prev }
+							}
+							else_if = {
+								limit = {
+									title_province = {
+										NOT = { has_holding_type = tribal_holding }
+									}
+								}
+								title_province = { set_holding_type = tribal_holding }
+							}
+						}
+						change_government = tribal_government
+					}
+				}
+
+				clear_saved_scope = nomad_temp
+			}
+			else = {
+				every_sub_realm_county = {
+					every_county_province = {
+						if = { # Capital Barony
+							limit = {
+								is_county_capital = yes
+								NOT = { has_holding_type = herder_holding }
+							}
+							set_holding_type = herder_holding
+						}
+						else = { # Non-Capital Barony
+							if = {
+								limit = { has_holding = yes }
+								remove_holding = yes
+							}
 						}
 					}
 				}

@@ -1354,6 +1354,11 @@ internal sealed class World {
 			{"dlc020.dlc", "khans_of_the_steppe"},
 			{"dlc021.dlc", "coronations"},
 			{"dlc022.dlc", "all_under_heaven"},
+			{"dlc023.dlc", "high_medieval_warfare_attire"},
+			{"dlc024.dlc", "holy_buildings"},
+			{"dlc025.dlc", "north_pacific_attire"},
+			{"dlc026.dlc", "east_asian_wonders"},
+			{"dlc027.dlc", "celestial_court_attire"},
 		};
 		
 		var dlcFiles = Directory.GetFiles(dlcFolderPath, "*.dlc", SearchOption.AllDirectories);
