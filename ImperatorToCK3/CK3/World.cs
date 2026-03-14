@@ -351,7 +351,7 @@ internal sealed class World {
 		HandleManichaeism(impWorld, config);
 
 		// Now that Islam has been handled, we can generate filler holders without the risk of making them Muslim.
-		GenerateFillerHoldersForUnownedLands(Cultures, config);
+		GenerateFillerHoldersForUnownedLands(impWorld.MapData, Cultures, config);
 		Logger.IncrementProgress();
 		if (!config.StaticDeJure) {
 			LandedTitles.SetDeJureKingdomsAndAbove(config.CK3BookmarkDate, Cultures, Characters, MapData, CK3RegionMapper, LocDB);
@@ -629,6 +629,24 @@ internal sealed class World {
 
 			var ck3CapitalBaronyProvince = Provinces[capitalBaronyProvinceId];
 			var irProvince = ck3CapitalBaronyProvince.PrimaryImperatorProvince;
+			if (irProvince is null) {
+				// Try to use first valid primary province from other baronies.
+				foreach (var barony in county.DeJureVassals) {
+					var baronyCk3ProvinceId = barony.ProvinceId;
+					if (baronyCk3ProvinceId is null) {
+						continue;
+					}
+					var primarySourceProvForBarony = Provinces[baronyCk3ProvinceId.Value].PrimaryImperatorProvince;
+					if (primarySourceProvForBarony is null) {
+						continue;
+					}
+
+					irProvince = primarySourceProvForBarony;
+					Logger.Debug($"Using province {baronyCk3ProvinceId.Value} of barony {barony.Id} instead of" +
+					             $"capital barony province {capitalBaronyProvinceId} for history of county {county.Id}!");
+					break;
+				}
+			}
 			if (irProvince is null) { // probably outside of Imperator map
 				continue;
 			}
@@ -1135,7 +1153,7 @@ internal sealed class World {
 		}
 	}
 
-	private void GenerateFillerHoldersForUnownedLands(CultureCollection cultures, Configuration config) {
+	private void GenerateFillerHoldersForUnownedLands(MapData irMapData, CultureCollection cultures, Configuration config) {
 		Logger.Info("Generating filler holders for unowned lands...");
 		var date = config.CK3BookmarkDate;
 		List<Title> unheldCounties = [];
@@ -1144,6 +1162,18 @@ internal sealed class World {
 				continue;
 			}
 			
+			// If the county's provinces are only mapped to I:R wastelands,
+			// generate a filler holder even if a valid vanilla holder exists.
+			// This fixes stuff like a vanilla Tang China in one county.
+			var irProvinceIds = county.CountyProvinceIds
+				.SelectMany(id => provinceMapper.GetImperatorProvinceNumbers(id)).ToArray();
+
+			if (irProvinceIds.Length > 0 && irProvinceIds.All(irMapData.IsWasteland)) {
+				Logger.Debug($"Adding {county.Id} to unheld counties because all its provinces are mapped to I:R wastelands.");
+				unheldCounties.Add(county);
+				continue;
+			}
+
 			var holderId = county.GetHolderId(date);
 			if (holderId == "0") {
 				unheldCounties.Add(county);
