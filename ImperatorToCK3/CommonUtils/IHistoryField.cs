@@ -2,8 +2,6 @@
 using commonItems.Collections;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using ZLinq;
 
 namespace ImperatorToCK3.CommonUtils;
 
@@ -14,18 +12,24 @@ internal interface IHistoryField : IIdentifiable<string> {
 	internal object? GetValue(Date? date);
 	internal KeyValuePair<Date?, object?> GetLastEntryWithDate(Date? date) {
 		if (date is not null) {
-			var pairsWithEarlierOrSameDate = DateToEntriesDict.TakeWhile(d => d.Key <= date);
-
-			foreach (var (d, entries) in pairsWithEarlierOrSameDate.Reverse()) {
-				foreach (var entry in Enumerable.Reverse(entries)) {
-					return new(d, entry.Value);
+			Date? lastDate = null;
+			List<KeyValuePair<string, object>>? latestEntries = null;
+			foreach (var datedEntries in DateToEntriesDict) {
+				if (datedEntries.Key > date.Value) {
+					break;
 				}
+
+				lastDate = datedEntries.Key;
+				latestEntries = datedEntries.Value;
+			}
+
+			if (latestEntries is { Count: > 0 }) {
+				return new(lastDate, latestEntries[^1].Value);
 			}
 		}
 
-		var lastInitialEntry = InitialEntries.LastOrNull();
-		return lastInitialEntry is not null
-			? new(key: null, lastInitialEntry.Value)
+		return InitialEntries.Count > 0
+			? new(key: null, InitialEntries[^1])
 			: new KeyValuePair<Date?, object?>(key: null, value: null);
 	}
 
