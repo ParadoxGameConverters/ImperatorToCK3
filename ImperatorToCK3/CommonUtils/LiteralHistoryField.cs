@@ -33,16 +33,21 @@ internal sealed class LiteralHistoryField : IHistoryField {
 
 	private KeyValuePair<string, object>? GetLastEntry(Date? date) {
 		if (date is not null) {
-			var pairsWithEarlierOrSameDate = DateToEntriesDict.TakeWhile(d => d.Key <= date);
-
-			foreach (var (_, entries) in pairsWithEarlierOrSameDate.Reverse()) {
-				foreach (var entry in Enumerable.Reverse(entries)) {
-					return entry;
+			List<KeyValuePair<string, object>>? latestEntries = null;
+			foreach (var datedEntries in DateToEntriesDict) {
+				if (datedEntries.Key > date.Value) {
+					break;
 				}
+
+				latestEntries = datedEntries.Value;
+			}
+
+			if (latestEntries is { Count: > 0 }) {
+				return latestEntries[^1];
 			}
 		}
 
-		return InitialEntries.LastOrDefault();
+		return InitialEntries.Count > 0 ? InitialEntries[^1] : null;
 	}
 	public object? GetValue(Date? date) {
 		return GetLastEntry(date)?.Value;
