@@ -112,7 +112,7 @@ internal sealed class Character : IIdentifiable<ulong> {
 	public static ConcurrentIgnoredKeywordsSet IgnoredTokens { get; } = [];
 
 	private static void RegisterCharacterKeywords(Parser parser, Character character) {
-		parser.RegisterKeyword("first_name_loc", SetCharacterName(character));
+		parser.RegisterKeyword("first_name_loc", r => SetCharacterName(character, r));
 		parser.RegisterKeyword("family_name", reader => character.FamilyName = reader.GetString());
 		parser.RegisterKeyword("country", reader => character.parsedCountryId = reader.GetULong());
 		parser.RegisterKeyword("home_country", reader => character.parsedHomeCountryId = reader.GetULong());
@@ -126,11 +126,11 @@ internal sealed class Character : IIdentifiable<ulong> {
 		parser.RegisterKeyword("female", reader => character.Female = reader.GetBool());
 		parser.RegisterKeyword("children", reader => character.parsedChildrenIds = [.. reader.GetULongs()]);
 		parser.RegisterKeyword("spouse", reader => character.parsedSpouseIds = [.. reader.GetULongs()]);
-		parser.RegisterKeyword("friends", SetFriendIds(character));
-		parser.RegisterKeyword("rivals", SetRivalIds(character));
+		parser.RegisterKeyword("friends", r => SetFriendIds(character, r));
+		parser.RegisterKeyword("rivals", r => SetRivalIds(character, r));
 		parser.RegisterKeyword("age", reader => character.Age = (uint)reader.GetInt());
-		parser.RegisterKeyword("birth_date", SetBirthDate(character));
-		parser.RegisterKeyword("death_date", SetDeathDate(character));
+		parser.RegisterKeyword("birth_date", r => SetBirthDate(character, r));
+		parser.RegisterKeyword("death_date", r => SetDeathDate(character, r));
 		parser.RegisterKeyword("death", reader => character.DeathReason = string.Intern(reader.GetString()));
 		parser.RegisterKeyword("attributes", reader => character.Attributes = CharacterAttributes.Parse(reader));
 		parser.RegisterKeyword("nickname", reader => character.Nickname = string.Intern(reader.GetString()));
@@ -138,22 +138,20 @@ internal sealed class Character : IIdentifiable<ulong> {
 		parser.RegisterKeyword("mother", reader => character.parsedMotherId = reader.GetULong());
 		parser.RegisterKeyword("father", reader => character.parsedFatherId = reader.GetULong());
 		parser.RegisterKeyword("wealth", reader => character.Wealth = reader.GetFloat());
-		parser.RegisterKeyword("unborn", SetUnborns(character));
+		parser.RegisterKeyword("unborn", r => SetUnborns(character, r));
 		parser.RegisterKeyword("prisoner_home", reader => character.parsedPrisonerHomeId = reader.GetULong());
-		parser.RegisterKeyword("variables", SetVariables(character));
+		parser.RegisterKeyword("variables", r => SetVariables(character, r));
 		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
 	}
 
-	private static SimpleDel SetVariables(Character character)
-	{
-		return reader => {
-			var variables = new HashSet<string>();
+	private static void SetVariables(Character character, BufferedReader reader) {
+		var variables = new HashSet<string>();
 			var variablesParser = new Parser();
 			variablesParser.RegisterKeyword("data", dataReader => {
 				var blobParser = new Parser();
 				blobParser.RegisterKeyword("flag", blobReader => variables.Add(string.Intern(blobReader.GetString())));
 				blobParser.IgnoreUnregisteredItems();
-				
+
 				foreach (var blob in new BlobList(dataReader).Blobs) {
 					blobParser.ParseStream(new BufferedReader(blob));
 				}
@@ -162,62 +160,43 @@ internal sealed class Character : IIdentifiable<ulong> {
 			variablesParser.IgnoreAndLogUnregisteredItems();
 			variablesParser.ParseStream(reader);
 			character.Variables = variables.ToImmutableHashSet();
-		};
 	}
 
-	private static SimpleDel SetCharacterName(Character character)
-	{
-		return reader => {
-			var characterName = new CharacterName(reader);
-			character.Name = characterName.Name;
-			character.CustomName = characterName.CustomName;
-		};
+	private static void SetCharacterName(Character character, BufferedReader reader) {
+		var characterName = new CharacterName(reader);
+		character.Name = characterName.Name;
+		character.CustomName = characterName.CustomName;
 	}
 
-	private static SimpleDel SetDeathDate(Character character)
-	{
-		return reader => {
-			character.DeathDate = new Date(reader.GetString(), AUC: true); // converted to AD
-		};
+	private static void SetDeathDate(Character character, BufferedReader reader) {
+		character.DeathDate = new Date(reader.GetString(), AUC: true); // converted to AD
 	}
 
-	private static SimpleDel SetBirthDate(Character character)
-	{
-		return reader => {
-			character.BirthDate = new Date(reader.GetString(), AUC: true); // converted to AD
-		};
+	private static void SetBirthDate(Character character, BufferedReader reader) {
+		character.BirthDate = new Date(reader.GetString(), AUC: true); // converted to AD
 	}
 
-	private static SimpleDel SetFriendIds(Character character)
-	{
-		return reader => {
-			character.FriendIds.Clear();
-			character.FriendIds.AddRange(reader.GetULongs());
-		};
+	private static void SetFriendIds(Character character, BufferedReader reader) {
+		character.FriendIds.Clear();
+		character.FriendIds.AddRange(reader.GetULongs());
 	}
 
-	private static SimpleDel SetRivalIds(Character character)
-	{
-		return reader => {
-			character.RivalIds.Clear();
-			character.RivalIds.AddRange(reader.GetULongs());
-		};
+	private static void SetRivalIds(Character character, BufferedReader reader) {
+		character.RivalIds.Clear();
+		character.RivalIds.AddRange(reader.GetULongs());
 	}
 
-	private static SimpleDel SetUnborns(Character character)
-	{
-		return reader => {
-			var unborns = new List<Unborn>();
-			foreach (var blob in new BlobList(reader).Blobs) {
-				var blobReader = new BufferedReader(blob);
-				var unborn = Unborn.Parse(blobReader);
-				if (unborn is null) {
-					continue;
-				}
-				unborns.Add(unborn);
+	private static void SetUnborns(Character character, BufferedReader reader) {
+		var unborns = new List<Unborn>();
+		foreach (var blob in new BlobList(reader).Blobs) {
+			var blobReader = new BufferedReader(blob);
+			var unborn = Unborn.Parse(blobReader);
+			if (unborn is null) {
+				continue;
 			}
-			character.Unborns = [.. unborns];
-		};
+			unborns.Add(unborn);
+		}
+		character.Unborns = [.. unborns];
 	}
 
 	public static Character Parse(BufferedReader reader, string idString, GenesDB? genesDB) {
