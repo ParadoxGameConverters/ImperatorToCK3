@@ -172,5 +172,8 @@ template_to_template = {
 
 		japanese_clothes = japanese_royal_clothes # from RoA
 		japanese_clothes = tgp_japanese_royalty_clothes
+
+		# korean_clothes come from the "Korean Flavor Pack for Terra-Indomita" mod: https://steamcommunity.com/sharedfiles/filedetails/?id=3029655484
+		korean_clothes = tgp_korean_era1_nobility_clothes
 	}
 }
