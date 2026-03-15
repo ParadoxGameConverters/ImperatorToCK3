@@ -12,6 +12,7 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Religions;
 
+[Collection("Sequential")] // Tests in this class manipulate global log output, so they must run sequentially to avoid interference.
 public class ReligionTests {
 	[Fact]
 	public void FaithsAreLoadedAndSerialized() {

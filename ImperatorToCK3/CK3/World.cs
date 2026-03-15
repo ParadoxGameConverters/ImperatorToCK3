@@ -351,7 +351,7 @@ internal sealed class World {
 		HandleManichaeism(impWorld, config);
 
 		// Now that Islam has been handled, we can generate filler holders without the risk of making them Muslim.
-		GenerateFillerHoldersForUnownedLands(Cultures, config);
+		GenerateFillerHoldersForUnownedLands(impWorld.Provinces, Cultures, config);
 		Logger.IncrementProgress();
 		if (!config.StaticDeJure) {
 			LandedTitles.SetDeJureKingdomsAndAbove(config.CK3BookmarkDate, Cultures, Characters, MapData, CK3RegionMapper, LocDB);
@@ -615,20 +615,71 @@ internal sealed class World {
 				Logger.Warn($"County {county} has no capital barony province!");
 				continue;
 			}
-			ulong capitalBaronyProvinceId = (ulong)county.CapitalBaronyProvinceId;
-			if (capitalBaronyProvinceId == 0) {
+			ulong capitalBaronyProvId = (ulong)county.CapitalBaronyProvinceId;
+			if (capitalBaronyProvId == 0) {
 				// title's capital province has an invalid ID (0 is not a valid province in CK3)
 				Logger.Warn($"County {county} has invalid capital barony province!");
 				continue;
 			}
 
-			if (!Provinces.ContainsKey(capitalBaronyProvinceId)) {
-				Logger.Warn($"Capital barony province not found: {capitalBaronyProvinceId}");
+			if (!Provinces.ContainsKey(capitalBaronyProvId)) {
+				Logger.Warn($"Capital barony province not found: {capitalBaronyProvId}");
 				continue;
 			}
 
-			var ck3CapitalBaronyProvince = Provinces[capitalBaronyProvinceId];
+			var ck3CapitalBaronyProvince = Provinces[capitalBaronyProvId];
 			var irProvince = ck3CapitalBaronyProvince.PrimaryImperatorProvince;
+			// If the county capital's primary I:R province has no owner,
+			// try to use other source provinces.
+			// If this fails, try using source provinces of other baronies.
+			if (irProvince?.OwnerCountry is null) {
+				foreach (var secondarySourceProv in ck3CapitalBaronyProvince.SecondaryImperatorProvinces) {
+					if (secondarySourceProv.OwnerCountry is null) {
+						continue;
+					}
+
+					irProvince = secondarySourceProv;
+					Logger.Debug($"Using secondary source province {secondarySourceProv.Id} of capital barony" +
+					             $"province {capitalBaronyProvId} for history of county {county.Id}!");
+				}
+			}
+			if (irProvince?.OwnerCountry is null) {
+				foreach (var barony in county.DeJureVassals) {
+					var baronyCk3ProvId = barony.ProvinceId;
+					if (baronyCk3ProvId is null) {
+						continue;
+					}
+					var primarySourceProvForBarony = Provinces[baronyCk3ProvId.Value].PrimaryImperatorProvince;
+					if (primarySourceProvForBarony?.OwnerCountry is null) {
+						continue;
+					}
+
+					irProvince = primarySourceProvForBarony;
+					Logger.Debug($"Using province {baronyCk3ProvId.Value} of barony {barony.Id} instead of" +
+					             $"capital barony province {capitalBaronyProvId} for history of county {county.Id}!");
+					break;
+				}
+			}
+			if (irProvince?.OwnerCountry is null) {
+				foreach (var barony in county.DeJureVassals) {
+					var baronyCk3ProvId = barony.ProvinceId;
+					if (baronyCk3ProvId is null) {
+						continue;
+					}
+
+					var secondaryProvWithOwner = Provinces[baronyCk3ProvId.Value].SecondaryImperatorProvinces
+						.FirstOrDefault(p => p.OwnerCountry is not null);
+					if (secondaryProvWithOwner is null) {
+						continue;
+					}
+
+					irProvince = secondaryProvWithOwner;
+					Logger.Debug($"Using province {baronyCk3ProvId.Value} of barony {barony.Id} instead of" +
+					             $"capital barony province {capitalBaronyProvId} for history of county {county.Id}!");
+					break;
+				}
+			}
+
 			if (irProvince is null) { // probably outside of Imperator map
 				continue;
 			}
@@ -1135,7 +1186,7 @@ internal sealed class World {
 		}
 	}
 
-	private void GenerateFillerHoldersForUnownedLands(CultureCollection cultures, Configuration config) {
+	private void GenerateFillerHoldersForUnownedLands(Imperator.Provinces.ProvinceCollection irProvinces, CultureCollection cultures, Configuration config) {
 		Logger.Info("Generating filler holders for unowned lands...");
 		var date = config.CK3BookmarkDate;
 		List<Title> unheldCounties = [];
@@ -1143,7 +1194,18 @@ internal sealed class World {
 			if (county.NobleFamily == true) {
 				continue;
 			}
-			
+
+			// If the county's provinces are have no owners in Imperator,
+			// // generate a filler holder even if a valid vanilla holder exists.
+			// This fixes stuff like a vanilla Tang China in one county.
+			var irProvIds = county.CountyProvinceIds
+				.SelectMany(id => provinceMapper.GetImperatorProvinceNumbers(id)).ToArray();
+			if (irProvIds.Length > 0 && irProvIds.All(p => irProvinces[p].OwnerCountry is null)) {
+				Logger.Debug($"Adding {county.Id} to unheld counties because all its provinces are mapped to I:R wastelands.");
+				unheldCounties.Add(county);
+				continue;
+			}
+
 			var holderId = county.GetHolderId(date);
 			if (holderId == "0") {
 				unheldCounties.Add(county);
@@ -1324,6 +1386,11 @@ internal sealed class World {
 			{"dlc020.dlc", "khans_of_the_steppe"},
 			{"dlc021.dlc", "coronations"},
 			{"dlc022.dlc", "all_under_heaven"},
+			{"dlc023.dlc", "high_medieval_warfare_attire"},
+			{"dlc024.dlc", "holy_buildings"},
+			{"dlc025.dlc", "north_pacific_attire"},
+			{"dlc026.dlc", "east_asian_wonders"},
+			{"dlc027.dlc", "celestial_court_attire"},
 		};
 		
 		var dlcFiles = Directory.GetFiles(dlcFolderPath, "*.dlc", SearchOption.AllDirectories);

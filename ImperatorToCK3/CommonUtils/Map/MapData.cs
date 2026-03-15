@@ -244,6 +244,15 @@ internal sealed class MapData {
 		return false;
 	}
 
+	// public bool IsWasteland(ulong provinceId) { // uncomment if needed
+	// 	if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+	// 		return province.IsWasteland;
+	// 	}
+	//
+	// 	Logger.Warn($"Province {provinceId} has no definition!");
+	// 	return false;
+	// }
+
 	private bool IsStaticWater(ulong provinceId) {
 		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
 			return province.IsStaticWater;

@@ -105,6 +105,9 @@ after_bookmark_date = {
 
 	# Characters referenced in events\dlc\mpo\mpo_story_cycle_temujin_flavor_events.txt:
 	303116
+
+	# Characters referenced in common\scripted_effects\01_exp1_historical_artifacts_creation_effect.txt
+	viet_ly_10
 	
 	# Easter egg characters:
 	easteregg_veronica_pazos

@@ -1,4 +1,4 @@
-@form_prefecture_decision_check_interval = 30
+﻿@form_prefecture_decision_check_interval = 30
 
 # irtock3_rome_empire_division_britannia: "Britannia"
 irtock3_form_prefecture_britannia_decision = {
