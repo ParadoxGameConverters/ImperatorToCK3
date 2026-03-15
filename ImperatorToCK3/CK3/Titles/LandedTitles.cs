@@ -1751,9 +1751,15 @@ internal sealed partial class Title {
 			SetDeJureEmpiresAndHegemonies(ck3Cultures, ck3Characters, ck3MapData, ck3RegionMapper, ck3LocDB, ck3BookmarkDate);
 		}
 
+		/// <summary>
+		/// Returns a set of character IDs of all county holders in the given date.
+		/// Noble family county-rank titles are excluded because they aren't "real" counties (with provinces).
+		/// </summary>
+		/// <param name="date">Date in history for which we're getting the county holders</param>
+		/// <returns></returns>
 		private HashSet<string> GetCountyHolderIds(Date date) {
 			var countyHoldersCache = new HashSet<string>();
-			foreach (var county in this.Where(t => t.Rank == TitleRank.county)) {
+			foreach (var county in this.Where(t => t.Rank == TitleRank.county && t.NobleFamily != true)) {
 				var holderId = county.GetHolderId(date);
 				if (holderId != "0") {
 					countyHoldersCache.Add(holderId);
