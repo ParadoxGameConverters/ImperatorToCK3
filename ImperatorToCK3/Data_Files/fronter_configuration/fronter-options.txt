@@ -21,6 +21,7 @@
 # 1. Add a new member to the Configuration class.
 # 2. Add the option to the parser in the RegisterConfigurationKeys method.
 # 3. Add it to the GetConverterOptions() method in Configuration.cs, with the appropriate value based on the user's choice.
+# 4. If the option being added has more than two selectable values (in a similar manner to LegionConversion or ImperatorNomads), create an enumeration variable definition in EnumVariableDefinitions.cs
 
 
 option = {
@@ -180,6 +181,40 @@ option = {
 			displayName = SKIP_HOLDING_OWNERS_IMPORT_NO
 			tooltip = SKIP_HOLDING_OWNERS_IMPORT_NO_TIP
 			default = false
+		}
+	}
+}
+
+option = {
+	name = ImperatorNomads
+	displayName = IMPERATOR_NOMADS
+	tooltip = IMPERATOR_NOMADS_TIP
+	radioSelector = {
+		radioOption = {
+			name = only_steppe
+			displayName = IMPERATOR_NOMADS_ONLY_STEPPE
+			tooltip = IMPERATOR_NOMADS_ONLY_STEPPE_TIP
+			default = true
+		}
+		radioOption = {
+			name = leave_outside_convert_steppe_tribes
+			displayName = IMPERATOR_NOMADS_LEAVE_OUTSIDE_CONVERT_STEPPE_TRIBES
+			tooltip = IMPERATOR_NOMADS_LEAVE_OUTSIDE_CONVERT_STEPPE_TRIBES_TIP
+		}
+		radioOption = {
+			name = none_outside_convert_steppe_tribes
+			displayName = IMPERATOR_NOMADS_NONE_OUTSIDE_CONVERT_STEPPE_TRIBES
+			tooltip = IMPERATOR_NOMADS_NONE_OUTSIDE_CONVERT_STEPPE_TRIBES_TIP
+		}
+		radioOption = {
+			name = no_nomads
+			displayName = IMPERATOR_NOMADS_NO_NOMADS
+			tooltip = IMPERATOR_NOMADS_NO_NOMADS_TIP
+		}
+		radioOption = {
+			name = no_changes
+			displayName = IMPERATOR_NOMADS_NO_CHANGES
+			tooltip = IMPERATOR_NOMADS_NO_CHANGES_TIP
 		}
 	}
 }

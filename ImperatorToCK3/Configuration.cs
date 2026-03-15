@@ -30,6 +30,7 @@ internal sealed class Configuration {
 	public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
 	public bool SkipDynamicCoAExtraction { get; set; } = false;
 	public bool SkipHoldingOwnersImport { get; set; } = true;
+	public ImperatorNomads ImperatorNomads { get; set; } = ImperatorNomads.OnlySteppe;
 	public GameVersion IRVersion { get; private set; } = new();
 	public GameVersion CK3Version { get; private set; } = new();
 
@@ -122,6 +123,7 @@ internal sealed class Configuration {
 				Logger.Error($"Undefined error, {nameof(SkipHoldingOwnersImport)} value was: {valueString}; Error message: {e}");
 			}
 		});
+		parser.RegisterKeyword("ImperatorNomads", SetImperatorNomads);
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
 
@@ -175,6 +177,23 @@ internal sealed class Configuration {
 			LegionConversion = LegionConversion.MenAtArms;
 		} else {
 			Logger.Warn($"Failed to parse {valueString} as value for {nameof(LegionConversion)}.");
+		}
+	}
+
+	private void SetImperatorNomads(BufferedReader reader) {
+		var valueString = reader.GetString();
+		if (valueString.Equals("only_steppe", StringComparison.OrdinalIgnoreCase)) {
+			ImperatorNomads = ImperatorNomads.OnlySteppe;
+		} else if (valueString.Equals("leave_outside_convert_steppe_tribes", StringComparison.OrdinalIgnoreCase)) {
+			ImperatorNomads = ImperatorNomads.LeaveOutsideConvertSteppeTribes;
+		} else if (valueString.Equals("none_outside_convert_steppe_tribes", StringComparison.OrdinalIgnoreCase)) {
+			ImperatorNomads = ImperatorNomads.NoneOutsideConvertSteppeTribes;
+		} else if (valueString.Equals("no_nomads", StringComparison.OrdinalIgnoreCase)) {
+			ImperatorNomads = ImperatorNomads.NoNomads;
+		} else if (valueString.Equals("no_changes", StringComparison.OrdinalIgnoreCase)) {
+			ImperatorNomads = ImperatorNomads.NoChanges;
+		} else {
+			Logger.Warn($"Failed to parse {valueString} as value for {nameof(ImperatorNomads)}.");
 		}
 	}
 
@@ -502,6 +521,14 @@ internal sealed class Configuration {
 			},
 			["SkipDynamicCoAExtraction"] = SkipDynamicCoAExtraction ? "yes" : "no",
 			["SkipHoldingOwnersImport"] = SkipHoldingOwnersImport ? "yes" : "no",
+			["ImperatorNomads"] = ImperatorNomads switch {
+				ImperatorNomads.OnlySteppe => "only_steppe",
+				ImperatorNomads.LeaveOutsideConvertSteppeTribes => "leave_outside_convert_steppe_tribes",
+				ImperatorNomads.NoneOutsideConvertSteppeTribes => "none_outside_convert_steppe_tribes",
+				ImperatorNomads.NoNomads => "no_nomads",
+				ImperatorNomads.NoChanges => "no_changes",
+				_ => "only_steppe",
+			},
 
 			// Output number input options as numbers, so they can be used in numeric comparisons in Liquid,
 			// e.g. {% if ImperatorCurrencyRate > 0.5 %}.
