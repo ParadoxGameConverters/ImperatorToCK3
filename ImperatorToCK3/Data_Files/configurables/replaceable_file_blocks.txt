@@ -8239,3 +8239,55 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		} # end of after
 	} # end of replace
 }
+
+
+"common/customizable_localization/99_fr_custom_loc.txt" = {
+	# Add IRToCK3's new pagan religions to triggers
+	replace = {
+		before = {
+				AND = { # duke_theocracy_male_paganism_religion (Archiprêtre), duke_theocracy_female_paganism_religion (Archiprêtresse)
+					highest_held_title_tier = tier_duchy
+					has_government = theocracy_government
+					OR = {
+						religion = religion:paganism_religion
+						religion = religion:taoism_religion
+						religion = religion:bon_religion
+						religion = religion:germanic_religion
+						religion = religion:tengrism_religion
+						religion = religion:west_african_religion
+						religion = religion:west_african_bori_religion
+						religion = religion:west_african_roog_religion
+						religion = religion:zunism_religion
+					}
+				}
+		} # end of before
+		after = {
+				AND = { # duke_theocracy_male_paganism_religion (Archiprêtre), duke_theocracy_female_paganism_religion (Archiprêtresse)
+					highest_held_title_tier = tier_duchy
+					has_government = theocracy_government
+					OR = {
+						religion = religion:paganism_religion
+						religion = religion:taoism_religion
+						religion = religion:bon_religion
+						religion = religion:germanic_religion
+						religion = religion:tengrism_religion
+						religion = religion:west_african_religion
+						religion = religion:west_african_bori_religion
+						religion = religion:west_african_roog_religion
+						religion = religion:zunism_religion
+						religion = religion:anatolian_religion
+						religion = religion:arabic_religion
+						religion = religion:armenian_religion
+						religion = religion:north_african_religion
+						religion = religion:caucasian_religion
+						religion = religion:canaanite_religion
+						religion = religion:celtic_religion
+						religion = religion:paleo_balkan_religion
+						religion = religion:iberic_religion
+						religion = religion:mesopotamian_religion
+						religion = religion:scythian_religion
+					}
+				}
+		} # end of after
+	} # end of replace
+}
