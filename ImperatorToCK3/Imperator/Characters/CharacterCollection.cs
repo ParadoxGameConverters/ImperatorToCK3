@@ -141,10 +141,18 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 
 			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded Imperator characters in iteration {i}.");
 			if (charactersToRemove.Count > 0) {
-				var removedIds = charactersToRemove
-					.Select(character => character.Id)
-					.ToFrozenSet();
-				charactersToCheck = [.. charactersToCheck.Where(character => !removedIds.Contains(character.Id))];
+				var removedIds = new HashSet<ulong>();
+				foreach (var character in charactersToRemove) {
+					removedIds.Add(character.Id);
+				}
+
+				var filteredCharactersToCheck = new List<Character>(charactersToCheck.Length - removedIds.Count);
+				foreach (var character in charactersToCheck) {
+					if (!removedIds.Contains(character.Id)) {
+						filteredCharactersToCheck.Add(character);
+					}
+				}
+				charactersToCheck = [.. filteredCharactersToCheck];
 			}
 		} while (charactersToRemove.Count > 0);
 		

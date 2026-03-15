@@ -5,6 +5,7 @@ using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Culture;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -147,35 +148,56 @@ internal sealed class DynastyCollection : ConcurrentIdObjectCollection<string, D
 		Logger.Info("Flattening dynasties with no founders...");
 		int count = 0;
 		
-		var charactersWithDynastyIds = characters
-			.Select(c => (c, c.GetDynastyId(date)))
-			.Where(c => c.Item2 is not null)
-			.Select(c => (c.c, c.Item2!))
-			.ToArray();
-		var charactersWithHouseIds = characters
-			.Select(c => (c, c.GetDynastyHouseId(date)))
-			.Where(c => c.Item2 is not null)
-			.Select(c => (c.c, c.Item2!))
-			.ToArray();
+		var dynastiesWithMainBranchMembers = new HashSet<string>(StringComparer.Ordinal);
+		var charactersByHouseId = new Dictionary<string, List<Character>>(StringComparer.Ordinal);
+		foreach (var character in characters) {
+			var dynastyId = character.GetDynastyId(date);
+			if (dynastyId is not null) {
+				dynastiesWithMainBranchMembers.Add(dynastyId);
+			}
+
+			var houseId = character.GetDynastyHouseId(date);
+			if (houseId is null) {
+				continue;
+			}
+
+			if (!charactersByHouseId.TryGetValue(houseId, out var houseMembers)) {
+				houseMembers = [];
+				charactersByHouseId[houseId] = houseMembers;
+			}
+			houseMembers.Add(character);
+		}
+
+		var houseIdsByDynasty = new Dictionary<string, List<string>>(StringComparer.Ordinal);
+		foreach (var house in houses) {
+			if (house.DynastyId is not string dynastyId) {
+				continue;
+			}
+
+			if (!houseIdsByDynasty.TryGetValue(dynastyId, out var dynastyHouseIds)) {
+				dynastyHouseIds = [];
+				houseIdsByDynasty[dynastyId] = dynastyHouseIds;
+			}
+			dynastyHouseIds.Add(house.Id);
+		}
 		
 		foreach (var dynasty in this) {
-			var mainBranchMembers = charactersWithDynastyIds
-				.Where(c => c.Item2 == dynasty.Id)
-				.ToArray();
-			if (mainBranchMembers.Length > 0) {
+			if (dynastiesWithMainBranchMembers.Contains(dynasty.Id)) {
 				continue;
 			}
 			
-			var dynastyHouseIds = houses
-				.Where(h => h.DynastyId == dynasty.Id)
-				.Select(h => h.Id)
-				.ToArray();
-			var cadetHouseMembers = charactersWithHouseIds
-				.Where(c => dynastyHouseIds.Contains(c.Item2))
-				.Select(c => c.c)
-				.ToArray();
-			
-			if (cadetHouseMembers.Length == 0) {
+			if (!houseIdsByDynasty.TryGetValue(dynasty.Id, out var dynastyHouseIds)) {
+				continue;
+			}
+
+			var cadetHouseMembers = new List<Character>();
+			foreach (var houseId in dynastyHouseIds) {
+				if (charactersByHouseId.TryGetValue(houseId, out var members)) {
+					cadetHouseMembers.AddRange(members);
+				}
+			}
+
+			if (cadetHouseMembers.Count == 0) {
 				continue;
 			}
 			
