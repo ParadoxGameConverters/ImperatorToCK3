@@ -538,19 +538,26 @@ internal sealed class Character : IIdentifiable<string> {
 			}
 		} else {
 			var nameLoc = irCharacter.Name;
-			if (nameOverrides.TryGetValue(nameLoc, out var overrideName)) {
-				nameLoc = overrideName;
+			bool hasOverride = nameOverrides.TryGetValue(nameLoc, out var overrideName);
+			if (hasOverride) {
+				nameLoc = overrideName!;
 			}
 			var name = nameLoc.Replace(' ', '_');
-			SetName(name, null);
 			if (!string.IsNullOrEmpty(name)) {
-				var ck3NameLocBlock = ck3LocDB.GetOrCreateLocBlock(name);
 				var matchedLocBlock = irLocDB.GetLocBlockForKey(name);
-				if (matchedLocBlock is not null) {
-					ck3NameLocBlock.CopyFrom(matchedLocBlock);
-				} else {  // fallback: use unlocalized name as displayed name
-					unlocalizedImperatorNames.Add(name);
-					ck3NameLocBlock[ConverterGlobals.PrimaryLanguage] = nameLoc;
+				if (matchedLocBlock is not null || hasOverride) {
+					SetName(name, null);
+					var ck3NameLocBlock = ck3LocDB.GetOrCreateLocBlock(name);
+					if (matchedLocBlock is not null) {
+						ck3NameLocBlock.CopyFrom(matchedLocBlock);
+					} else {
+						ck3NameLocBlock[ConverterGlobals.PrimaryLanguage] = nameLoc;
+					}
+				} else {
+					var generatedKey = $"irtock3_char_{irCharacter.Id}";
+					SetName(generatedKey, null);
+					var ck3NameLocBlock = ck3LocDB.GetOrCreateLocBlock(generatedKey);
+					ck3NameLocBlock[ConverterGlobals.PrimaryLanguage] = nameLoc.Replace("\\\"", "\"");
 				}
 			}
 		}
