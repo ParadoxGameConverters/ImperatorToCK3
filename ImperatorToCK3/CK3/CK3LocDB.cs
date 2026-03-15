@@ -134,7 +134,7 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 		return null;
 	}
 
-	public List<string> GetLocLinesToOutputForLanguage(string language) {
+	internal List<string> GetLocLinesToOutputForLanguage(string language) {
 		var locLinesToOutput = new List<string>(Count);
 
 		foreach (var locBlock in this) {
