@@ -8202,3 +8202,40 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		} # end of after
 	} # end of replace
 }
+
+
+"common/customizable_localization/00_regional_custom_localization.txt" = {
+	# Add Hellenic and Celtic pagan curses
+	replace = {
+		before = {
+	text = {
+		trigger = { faith.religion = religion:christianity_religion }
+		localization_key = curse_by_gods_nails
+	}
+		} # end of before
+		after = {
+	text = {
+		trigger = { faith.religion = religion:christianity_religion }
+		localization_key = curse_by_gods_nails
+	}
+	# Hellenic Pagan
+	text = {
+		trigger = { faith.religion = religion:hellenism_religion }
+		localization_key = by_jove #Heh
+	}
+	text = {
+		trigger = { faith.religion = religion:hellenism_religion }
+		localization_key = mediusfidius # Historically used
+	}
+	text = {
+		trigger = { faith.religion = religion:hellenism_religion }
+		localization_key = mehercle
+	}
+	# Celtic Pagan
+	text = {
+		trigger = { faith.religion = religion:celtic_religion }
+		localization_key = by_toutatis # Asterix
+	}
+		} # end of after
+	} # end of replace
+}
