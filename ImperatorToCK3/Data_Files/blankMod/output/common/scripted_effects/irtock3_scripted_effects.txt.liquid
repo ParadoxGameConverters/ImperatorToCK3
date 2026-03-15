@@ -1042,13 +1042,39 @@ irtock3_setup_governments = {
 					list = dynastic_cycle_rulers
 					count = 1
 					has_government = celestial_government
+					is_landed = yes
+					NOR = {
+						has_title = title:e_minister_chancellor
+						has_title = title:e_minister_censor
+						has_title = title:e_minister_grand_marshal
+						has_title = title:e_minister_of_personnel
+						has_title = title:e_minister_of_revenue
+						has_title = title:e_minister_of_rites
+						has_title = title:e_minister_of_war
+						has_title = title:e_minister_of_justice
+						has_title = title:e_minister_of_works
+					}
 				}
 			}
 
 			# Save ruler that has Celestial Government
 			random_in_list = {
 				list = dynastic_cycle_rulers
-				limit = { has_government = celestial_government }
+				limit = {
+					has_government = celestial_government
+					is_landed = yes
+					NOR = {
+						has_title = title:e_minister_chancellor
+						has_title = title:e_minister_censor
+						has_title = title:e_minister_grand_marshal
+						has_title = title:e_minister_of_personnel
+						has_title = title:e_minister_of_revenue
+						has_title = title:e_minister_of_rites
+						has_title = title:e_minister_of_war
+						has_title = title:e_minister_of_justice
+						has_title = title:e_minister_of_works
+					}
+				}
 				save_scope_as = chinese_emperor
 			}
 
@@ -1178,6 +1204,18 @@ irtock3_setup_governments = {
 				any_in_list = {
 					list = dynastic_cycle_rulers
 					count >= 1
+					is_landed = yes
+					NOR = {
+						has_title = title:e_minister_chancellor
+						has_title = title:e_minister_censor
+						has_title = title:e_minister_grand_marshal
+						has_title = title:e_minister_of_personnel
+						has_title = title:e_minister_of_revenue
+						has_title = title:e_minister_of_rites
+						has_title = title:e_minister_of_war
+						has_title = title:e_minister_of_justice
+						has_title = title:e_minister_of_works
+					}
 				}
 			}
 
@@ -1188,12 +1226,38 @@ irtock3_setup_governments = {
 						list = dynastic_cycle_rulers
 						count > 1
 						has_government = celestial_government
+						is_landed = yes
+						NOR = {
+							has_title = title:e_minister_chancellor
+							has_title = title:e_minister_censor
+							has_title = title:e_minister_grand_marshal
+							has_title = title:e_minister_of_personnel
+							has_title = title:e_minister_of_revenue
+							has_title = title:e_minister_of_rites
+							has_title = title:e_minister_of_war
+							has_title = title:e_minister_of_justice
+							has_title = title:e_minister_of_works
+						}
 					}
 				}
 
 				every_in_list = {
 					list = dynastic_cycle_rulers
-					limit = { has_government = celestial_government }
+					limit = {
+						has_government = celestial_government
+						is_landed = yes
+						NOR = {
+							has_title = title:e_minister_chancellor
+							has_title = title:e_minister_censor
+							has_title = title:e_minister_grand_marshal
+							has_title = title:e_minister_of_personnel
+							has_title = title:e_minister_of_revenue
+							has_title = title:e_minister_of_rites
+							has_title = title:e_minister_of_war
+							has_title = title:e_minister_of_justice
+							has_title = title:e_minister_of_works
+						}
+					}
 
 					save_scope_as = first
 
@@ -1324,6 +1388,240 @@ irtock3_setup_governments = {
 			every_player = {
 				limit = { tgp_does_this_player_care_about_the_dynastic_cycle = yes }
 				trigger_event = tgp_dynastic_cycle.0051
+			}
+		}
+
+		# Handle Chinese Ministry titles
+		## If anyone holds any of China's ministry titles, make sure they are your vassal and have their corresponding court position
+		if = {
+			limit = { exists = title:h_china.holder }
+			if = {
+				limit = { exists = title:e_minister_chancellor.holder }
+				title:e_minister_chancellor.holder = {
+					create_title_and_vassal_change = {
+						type = swear_fealty
+						save_scope_as = change
+					}
+					change_liege = {
+						liege = title:h_china.holder
+						change = scope:change
+					}
+					resolve_title_and_vassal_change = scope:change
+					title:h_china.holder = {
+						assign_councillor_type = {
+							type = councillor_chancellor
+							remove_existing_councillor = yes
+							target = prev
+						}
+					}
+				}
+			}
+			if = {
+				limit = { exists = title:e_minister_censor.holder }
+				title:e_minister_censor.holder = {
+					create_title_and_vassal_change = {
+						type = swear_fealty
+						save_scope_as = change
+					}
+					change_liege = {
+						liege = title:h_china.holder
+						change = scope:change
+					}
+					resolve_title_and_vassal_change = scope:change
+					title:h_china.holder = {
+						assign_councillor_type = {
+							type = councillor_spymaster
+							remove_existing_councillor = yes
+							target = prev
+						}
+					}
+				}
+			}
+			if = {
+				limit = { exists = title:e_minister_grand_marshal.holder }
+				title:e_minister_grand_marshal.holder = {
+					create_title_and_vassal_change = {
+						type = swear_fealty
+						save_scope_as = change
+					}
+					change_liege = {
+						liege = title:h_china.holder
+						change = scope:change
+					}
+					resolve_title_and_vassal_change = scope:change
+					title:h_china.holder = {
+						assign_councillor_type = {
+							type = minister_grand_marshal
+							remove_existing_councillor = yes
+							target = prev
+						}
+					}
+				}
+			}
+			if = {
+				limit = { exists = title:e_minister_of_personnel.holder }
+				title:e_minister_of_personnel.holder = {
+					create_title_and_vassal_change = {
+						type = swear_fealty
+						save_scope_as = change
+					}
+					change_liege = {
+						liege = title:h_china.holder
+						change = scope:change
+					}
+					resolve_title_and_vassal_change = scope:change
+					title:h_china.holder = {
+						assign_councillor_type = {
+							type = minister_personnel
+							remove_existing_councillor = yes
+							target = prev
+						}
+					}
+				}
+			}
+			if = {
+				limit = { exists = title:e_minister_of_revenue.holder }
+				title:e_minister_of_revenue.holder = {
+					create_title_and_vassal_change = {
+						type = swear_fealty
+						save_scope_as = change
+					}
+					change_liege = {
+						liege = title:h_china.holder
+						change = scope:change
+					}
+					resolve_title_and_vassal_change = scope:change
+					title:h_china.holder = {
+						assign_councillor_type = {
+							type = councillor_steward
+							remove_existing_councillor = yes
+							target = prev
+						}
+					}
+				}
+			}
+			if = {
+				limit = { exists = title:e_minister_of_rites.holder }
+				title:e_minister_of_rites.holder = {
+					create_title_and_vassal_change = {
+						type = swear_fealty
+						save_scope_as = change
+					}
+					change_liege = {
+						liege = title:h_china.holder
+						change = scope:change
+					}
+					resolve_title_and_vassal_change = scope:change
+					title:h_china.holder = {
+						assign_councillor_type = {
+							type = councillor_court_chaplain
+							remove_existing_councillor = yes
+							target = prev
+						}
+					}
+				}
+			}
+			if = {
+				limit = { exists = title:e_minister_of_war.holder }
+				title:e_minister_of_war.holder = {
+					create_title_and_vassal_change = {
+						type = swear_fealty
+						save_scope_as = change
+					}
+					change_liege = {
+						liege = title:h_china.holder
+						change = scope:change
+					}
+					resolve_title_and_vassal_change = scope:change
+					title:h_china.holder = {
+						assign_councillor_type = {
+							type = councillor_marshal
+							remove_existing_councillor = yes
+							target = prev
+						}
+					}
+				}
+			}
+			if = {
+				limit = { exists = title:e_minister_of_justice.holder }
+				title:e_minister_of_justice.holder = {
+					create_title_and_vassal_change = {
+						type = swear_fealty
+						save_scope_as = change
+					}
+					change_liege = {
+						liege = title:h_china.holder
+						change = scope:change
+					}
+					resolve_title_and_vassal_change = scope:change
+					title:h_china.holder = {
+						assign_councillor_type = {
+							type = minister_justice
+							remove_existing_councillor = yes
+							target = prev
+						}
+					}
+				}
+			}
+			if = {
+				limit = { exists = title:e_minister_of_works.holder }
+				title:e_minister_of_works.holder = {
+					create_title_and_vassal_change = {
+						type = swear_fealty
+						save_scope_as = change
+					}
+					change_liege = {
+						liege = title:h_china.holder
+						change = scope:change
+					}
+					resolve_title_and_vassal_change = scope:change
+					title:h_china.holder = {
+						assign_councillor_type = {
+							type = minister_works
+							remove_existing_councillor = yes
+							target = prev
+						}
+					}
+				}
+			}
+		}
+		## Otherwise, if anyone holds any of China's ministry titles, destroy them
+		else = {
+			if = {
+				limit = { exists = title:e_minister_chancellor.holder }
+				title:e_minister_chancellor.holder = { destroy_title = title:e_minister_chancellor }
+			}
+			if = {
+				limit = { exists = title:e_minister_censor.holder }
+				title:e_minister_censor.holder = { destroy_title = title:e_minister_censor }
+			}
+			if = {
+				limit = { exists = title:e_minister_grand_marshal.holder }
+				title:e_minister_grand_marshal.holder = { destroy_title = title:e_minister_grand_marshal }
+			}
+			if = {
+				limit = { exists = title:e_minister_of_personnel.holder }
+				title:e_minister_of_personnel.holder = { destroy_title = title:e_minister_of_personnel }
+			}
+			if = {
+				limit = { exists = title:e_minister_of_revenue.holder }
+				title:e_minister_of_revenue.holder = { destroy_title = title:e_minister_of_revenue }
+			}
+			if = {
+				limit = { exists = title:e_minister_of_rites.holder }
+				title:e_minister_of_rites.holder = { destroy_title = title:e_minister_of_rites }
+			}
+			if = {
+				limit = { exists = title:e_minister_of_war.holder }
+				title:e_minister_of_war.holder = { destroy_title = title:e_minister_of_war }
+			}
+			if = {
+				limit = { exists = title:e_minister_of_justice.holder }
+				title:e_minister_of_justice.holder = { destroy_title = title:e_minister_of_justice }
+			}
+			if = {
+				limit = { exists = title:e_minister_of_works.holder }
+				title:e_minister_of_works.holder = { destroy_title = title:e_minister_of_works }
 			}
 		}
 	}
