@@ -56,22 +56,28 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 	public void MergeDividedFamilies(CharacterCollection characters) {
 		Logger.Info("Merging divided families...");
 		
-		Dictionary<ulong, Character[]> familyIdToCharactersCache = new();
+		Dictionary<ulong, Character[]> familyIdToCharactersCache = [];
+
+		// Pre-compute the set of keys that have duplicate families.
+		// Each iteration only re-groups families with those keys, skipping the rest.
+		var duplicateKeys = this.GroupBy(f => f.Key)
+			.Where(g => g.Skip(1).Any())
+			.Select(g => g.Key)
+			.ToHashSet();
 
 		var iteration = 0;
-		bool anotherIterationNeeded = true;
+		bool anotherIterationNeeded = duplicateKeys.Count > 0;
 		while (anotherIterationNeeded) {
-			var familiesPerKey = this.GroupBy(f => f.Key).ToArray();
+			var familiesPerKey = this
+				.Where(f => duplicateKeys.Contains(f.Key))
+				.GroupBy(f => f.Key)
+				.Where(g => g.Skip(1).Any())
+				.ToArray();
 			anotherIterationNeeded = false;
 			++iteration;
 			Logger.Debug($"Family merging iteration {iteration}");
 
 			foreach (var grouping in familiesPerKey) {
-				if (!grouping.Skip(1).Any()) {
-					// There is only one family in this group, so no merging is needed.
-					continue;
-				}
-
 				var removedFamilies = new HashSet<Family>();
 				foreach (var family in grouping) {
 					if (removedFamilies.Contains(family)) {
@@ -116,21 +122,22 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 
 	public void PurgeUnneededFamilies(CharacterCollection characters) {
 		// Drop families with no members.
-		var familiesIdToKeep = characters
-			.Select(c => c.Family?.Id)
-			.Where(id => id is not null)
-			.Cast<ulong>()
-			.ToHashSet();
-		int removedCount = 0;
-		foreach (var family in this.ToArray()) {
-			if (familiesIdToKeep.Contains(family.Id)) {
-				continue;
+		var familiesIdToKeep = new HashSet<ulong>();
+		foreach (var character in characters) {
+			if (character.Family?.Id is ulong familyId) {
+				familiesIdToKeep.Add(familyId);
 			}
-
-			Remove(family.Id);
-			++removedCount;
 		}
-		
-		Logger.Info($"Purged {removedCount} unneeded Imperator families.");
+
+		// Collect IDs to remove, then remove – avoids snapshotting the entire collection.
+		var idsToRemove = this
+			.Where(f => !familiesIdToKeep.Contains(f.Id))
+			.Select(f => f.Id)
+			.ToList();
+		foreach (var id in idsToRemove) {
+			Remove(id);
+		}
+
+		Logger.Info($"Purged {idsToRemove.Count} unneeded Imperator families.");
 	}
 }

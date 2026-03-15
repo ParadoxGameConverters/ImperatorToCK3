@@ -155,14 +155,13 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 
 	private FrozenSet<ulong> GetFamilyIdsOfLandedCharacters(FrozenSet<ulong> landedCharacterIds)
 	{
-		var familyIdsOfLandedCharacters = this
-			.Where(character => landedCharacterIds.Contains(character.Id))
-			.Select(character => character.Family?.Id)
-			.Distinct()
-			.Where(id => id is not null)
-			.Cast<ulong>()
-			.ToFrozenSet();
-		return familyIdsOfLandedCharacters;
+		var result = new HashSet<ulong>();
+		foreach (var character in this) {
+			if (landedCharacterIds.Contains(character.Id) && character.Family?.Id is ulong familyId) {
+				result.Add(familyId);
+			}
+		}
+		return result.ToFrozenSet();
 	}
 
 	private void FillCacheOfAllParentIds(HashSet<ulong> parentIdsCache) {
