@@ -98,7 +98,7 @@ internal sealed class TagTitleMapper {
 		}
 
 		// Attempt a title match
-		foreach (var mapping in titleMappings) {
+		foreach (var mapping in titleMappings.ToArray()) {
 			var match = mapping.GovernorshipMatch(rank, titles, governorship, provMapper, irProvinces);
 			if (match is null) {
 				continue;
@@ -107,6 +107,15 @@ internal sealed class TagTitleMapper {
 			if (usedTitles.Contains(match)) {
 				continue;
 			}
+
+			// Currently we don't want to modify the de jure structure of h_china.
+			// So, if the given title ID belongs to h_china de jure hierarchy, we skip it and remove the mapping.
+			if (titles.TryGetValue(match, out var ck3Title) && ck3Title.GetDeJureLiegeOfRank(TitleRank.hegemony)?.Id == "h_china") {
+				Logger.Debug($"Governorship title {match} belongs to h_china de jure hierarchy! Skipping mapping for governorship in region {governorship.Region.Id} of country {country.Tag}.");
+				titleMappings.Remove(mapping);
+				continue;
+			}
+
 			RegisterGovernorship(governorship.Region.Id, country.Tag, match);
 			return match;
 		}
