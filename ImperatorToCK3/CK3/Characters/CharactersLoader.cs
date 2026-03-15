@@ -1,7 +1,10 @@
 ﻿using commonItems;
 using commonItems.Mods;
 using Open.Collections.Synchronized;
+using System;
 using System.Collections.Frozen;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using ZLinq;
 
 namespace ImperatorToCK3.CK3.Characters;
@@ -42,12 +45,19 @@ internal sealed partial class CharacterCollection {
 			"claims",
 		];
 
-		var femaleCharacterIds = loadedCharacters.AsValueEnumerable()
-			.Where(c => c.Female).Select(c => c.Id).ToFrozenSet();
-		var maleCharacterIds = loadedCharacters.AsValueEnumerable()
-			.Select(c => c.Id).Except(femaleCharacterIds).ToFrozenSet();
-		
+		var femaleIds = new List<string>();
+		var maleIds = new List<string>();
 		foreach (var character in loadedCharacters) {
+			if (character.Female) {
+				femaleIds.Add(character.Id);
+			} else {
+				maleIds.Add(character.Id);
+			}
+		}
+		var femaleCharacterIds = femaleIds.ToFrozenSet();
+		var maleCharacterIds = maleIds.ToFrozenSet();
+		
+		Parallel.ForEach(loadedCharacters, character => {
 			ClearUnneededHistoryFields(fieldsToClear, character);
 
 			RemovePostBookmarkHistoryExceptForBirthAndDeathDates(bookmarkDate, character);
@@ -63,7 +73,7 @@ internal sealed partial class CharacterCollection {
 			character.InitSpousesCache();
 			character.InitConcubinesCache();
 			character.UpdateChildrenCacheOfParents();
-		}
+		});
 
 		Logger.Info("Loaded CK3 characters.");
 	}
@@ -113,8 +123,19 @@ internal sealed partial class CharacterCollection {
 	{
 		// Remove effects that set relations. They don't matter a lot in our alternate timeline.
 		character.History.Fields["effects"].RemoveAllEntries(
-			entry => irrelevantEffects.AsValueEnumerable()
-				.Any(effect => entry.ToString()?.Contains(effect) ?? false));
+			entry => {
+				var str = entry.ToString();
+				if (str is null) {
+					return false;
+				}
+				var span = str.AsSpan();
+				foreach (var effect in irrelevantEffects) {
+					if (span.Contains(effect.AsSpan(), StringComparison.Ordinal)) {
+						return true;
+					}
+				}
+				return false;
+			});
 	}
 
 	private static void FixCharactersBeingSetAsTheirOwnParents(Character character)
