@@ -284,17 +284,35 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	}
 
 	private static Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
-		var childrenOfFather = father.Children.Values.ToFrozenSet();
-		var childrenOfMother = mother.Children.Values.ToFrozenSet();
-		var commonChildren = childrenOfFather.Intersect(childrenOfMother).OrderBy(child => child.BirthDate).ToArray();
+		var fatherChildren = father.Children.Values;
+		var motherChildren = mother.Children.Values;
+		var largerCollection = fatherChildren.Count >= motherChildren.Count ? fatherChildren : motherChildren;
+		var smallerCollection = fatherChildren.Count < motherChildren.Count ? fatherChildren : motherChildren;
+		var childSet = new HashSet<Imperator.Characters.Character>(largerCollection);
 
-		Date? firstChildBirthDate = commonChildren.Length > 0 ? commonChildren.FirstOrDefault()?.BirthDate : null;
+		Date? firstChildBirthDate = null;
+		foreach (var child in smallerCollection) {
+			if (!childSet.Contains(child)) {
+				continue;
+			}
+			if (firstChildBirthDate is null || child.BirthDate < firstChildBirthDate) {
+				firstChildBirthDate = child.BirthDate;
+			}
+		}
 		if (firstChildBirthDate is not null) {
 			return firstChildBirthDate;
 		}
 
-		var unborns = mother.Unborns.Where(u => u.FatherId == father.Id).OrderBy(u => u.BirthDate).ToArray();
-		return unborns.FirstOrDefault()?.BirthDate;
+		foreach (var unborn in mother.Unborns) {
+			if (unborn.FatherId != father.Id) {
+				continue;
+			}
+			if (firstChildBirthDate is null || unborn.BirthDate < firstChildBirthDate) {
+				firstChildBirthDate = unborn.BirthDate;
+			}
+		}
+
+		return firstChildBirthDate;
 	}
 
 	private static Date? GetMarriageDeathDate(Imperator.Characters.Character husband, Imperator.Characters.Character wife) {
@@ -366,8 +384,12 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	}
 	private void ImportPregnancies(Imperator.Characters.CharacterCollection imperatorCharacters, Date conversionDate) {
 		Logger.Info("Importing pregnancies...");
-		foreach (var female in this.Where(c => c.Female)) {
-			var imperatorFemale = female.ImperatorCharacter;
+		foreach (var character in this) {
+			if (!character.Female) {
+				continue;
+			}
+
+			var imperatorFemale = character.ImperatorCharacter;
 			if (imperatorFemale is null) {
 				continue;
 			}
@@ -392,7 +414,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 					continue;
 				}
 
-				female.Pregnancies.Add(new(ck3Father.Id, female.Id, unborn.BirthDate, unborn.IsBastard));
+				character.Pregnancies.Add(new(ck3Father.Id, character.Id, unborn.BirthDate, unborn.IsBastard));
 			}
 		}
 
@@ -660,7 +682,8 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 		var bookmarkDate = config.CK3BookmarkDate;
 		var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
-		var uniqueVassalCharacterIds = new HashSet<string>();
+		var validVassalCharacterIds = new HashSet<string>(StringComparer.Ordinal);
+		var invalidVassalCharacterIds = new HashSet<string>(StringComparer.Ordinal);
 		foreach (var ck3Country in ck3CountriesFromImperator) {
 			var rulerId = ck3Country.GetHolderId(bookmarkDate);
 			if (rulerId == "0") {
@@ -670,32 +693,32 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 			var imperatorGold = ck3Country.ImperatorCountry!.Currencies.Gold * config.ImperatorCurrencyRate;
 
-			uniqueVassalCharacterIds.Clear();
+			validVassalCharacterIds.Clear();
+			invalidVassalCharacterIds.Clear();
 			foreach (var vassalTitle in ck3Country.GetDeFactoVassals(bookmarkDate).Values) {
-				if (!vassalTitle.Landless) {
-					uniqueVassalCharacterIds.Add(vassalTitle.GetHolderId(bookmarkDate));
+				if (vassalTitle.Landless) {
+					continue;
 				}
-			}
 
-			var validVassalCount = 0;
-			foreach (var vassalCharacterId in uniqueVassalCharacterIds) {
-				if (ContainsKey(vassalCharacterId)) {
-					++validVassalCount;
+				var vassalCharacterId = vassalTitle.GetHolderId(bookmarkDate);
+				if (validVassalCharacterIds.Contains(vassalCharacterId) || invalidVassalCharacterIds.Contains(vassalCharacterId)) {
+					continue;
+				}
+
+				if (TryGetValue(vassalCharacterId, out _)) {
+					validVassalCharacterIds.Add(vassalCharacterId);
 				} else {
+					invalidVassalCharacterIds.Add(vassalCharacterId);
 					Logger.Warn($"Character {vassalCharacterId} not found!");
 				}
 			}
 
 			// Ruler should also get a share, he has double weight, so we add 2 to the count.
-			var mouthsToFeedCount = validVassalCount + 2;
+			var mouthsToFeedCount = validVassalCharacterIds.Count + 2;
 
 			var goldPerVassal = imperatorGold / mouthsToFeedCount;
-			foreach (var vassalCharacterId in uniqueVassalCharacterIds) {
-				if (!TryGetValue(vassalCharacterId, out var vassalCharacter)) {
-					continue;
-				}
-
-				AddGoldToCharacter(vassalCharacter, goldPerVassal);
+			foreach (var vassalCharacterId in validVassalCharacterIds) {
+				AddGoldToCharacter(this[vassalCharacterId], goldPerVassal);
 				imperatorGold -= goldPerVassal;
 			}
 
@@ -782,21 +805,35 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			oldCharacter.DeathDate = irSaveDate.ChangeByMonths(monthsToLive);
 		}
 		
-		ConcurrentDictionary<string, Title[]> titlesByHolderId = new(titles
-			.Select(t => new {Title = t, HolderId = t.GetHolderId(ck3BookmarkDate)})
-			.Where(t => t.HolderId != "0")
-			.GroupBy(t => t.HolderId)
-			.ToDictionary(g => g.Key, g => g.Select(t => t.Title).ToArray()));
+		var heldTitlesByHolderIdLists = new Dictionary<string, List<Title>>(StringComparer.Ordinal);
+		foreach (var title in titles) {
+			var holderId = title.GetHolderId(ck3BookmarkDate);
+			if (holderId == "0") {
+				continue;
+			}
 
-		ConcurrentDictionary<string, string[]> cultureIdToMaleNames = new(cultures
-			.ToDictionary(c => c.Id, c => c.MaleNames.ToArray()));
+			if (!heldTitlesByHolderIdLists.TryGetValue(holderId, out var heldTitles)) {
+				heldTitles = [];
+				heldTitlesByHolderIdLists[holderId] = heldTitles;
+			}
+			heldTitles.Add(title);
+		}
+		var titlesByHolderId = new Dictionary<string, Title[]>(heldTitlesByHolderIdLists.Count, StringComparer.Ordinal);
+		foreach (var (holderId, heldTitles) in heldTitlesByHolderIdLists) {
+			titlesByHolderId[holderId] = [.. heldTitles];
+		}
+
+		var cultureIdToMaleNames = new Dictionary<string, string[]>(cultures.Count, StringComparer.Ordinal);
+		foreach (var culture in cultures) {
+			cultureIdToMaleNames[culture.Id] = [.. culture.MaleNames];
+		}
 
 		// For title holders, generate successors and add them to title history.
 		Parallel.ForEach(oldTitleHolders, oldCharacter => GenerateSuccessorsForCharacter(oldCharacter, titlesByHolderId, cultureIdToMaleNames, irSaveDate, ck3BookmarkDate, randomSeed));
 	}
 
-	private void GenerateSuccessorsForCharacter(Character oldCharacter, ConcurrentDictionary<string, Title[]> titlesByHolderId,
-		ConcurrentDictionary<string, string[]> cultureIdToMaleNames, Date irSaveDate, Date ck3BookmarkDate, ulong randomSeed)
+	private void GenerateSuccessorsForCharacter(Character oldCharacter, IReadOnlyDictionary<string, Title[]> titlesByHolderId,
+		IReadOnlyDictionary<string, string[]> cultureIdToMaleNames, Date irSaveDate, Date ck3BookmarkDate, ulong randomSeed)
 	{
 		// Get all titles held by the character.
 		var heldTitles = titlesByHolderId[oldCharacter.Id];
@@ -940,7 +977,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	}
 
 	private static string[] DetermineMaleNamesForSuccessorsOfCharacter(Character oldCharacter, string? cultureId,
-		ConcurrentDictionary<string, string[]> cultureIdToMaleNames, Date ck3BookmarkDate)
+		IReadOnlyDictionary<string, string[]> cultureIdToMaleNames, Date ck3BookmarkDate)
 	{
 		string[] maleNames;
 		if (cultureId is not null) {

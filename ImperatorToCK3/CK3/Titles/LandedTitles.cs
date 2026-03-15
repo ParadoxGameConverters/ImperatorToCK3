@@ -1642,36 +1642,40 @@ internal sealed partial class Title {
 		}
 
 		private static List<HashSet<Title>> GroupKingdomsIntoContiguousGroups(Dictionary<string, HashSet<string>> kingdomAdjacencies, IEnumerable<Title> deJureKingdoms) {
-			// Group the kingdoms into contiguous groups.
+			var orderedKingdoms = deJureKingdoms as IReadOnlyList<Title> ?? [.. deJureKingdoms];
+			var kingdomsById = orderedKingdoms.ToDictionary(k => k.Id, StringComparer.Ordinal);
+			var remainingKingdomIds = new HashSet<string>(kingdomsById.Keys, StringComparer.Ordinal);
 			var kingdomGroups = new List<HashSet<Title>>();
-			foreach (var kingdom in deJureKingdoms) {
-				var added = false;
-				List<HashSet<Title>> connectedGroups = [];
+			var queue = new Queue<string>();
 
-				foreach (var group in kingdomGroups) {
-					if (group.Any(k => kingdomAdjacencies.TryGetValue(k.Id, out var adjacencies) && adjacencies.Contains(kingdom.Id))) {
-						group.Add(kingdom);
-						connectedGroups.Add(group);
+			foreach (var kingdom in orderedKingdoms) {
+				if (!remainingKingdomIds.Remove(kingdom.Id)) {
+					continue;
+				}
 
-						added = true;
+				var group = new HashSet<Title> { kingdom };
+				queue.Enqueue(kingdom.Id);
+
+				while (queue.Count > 0) {
+					var currentKingdomId = queue.Dequeue();
+					if (!kingdomAdjacencies.TryGetValue(currentKingdomId, out var adjacentKingdomIds)) {
+						continue;
+					}
+
+					foreach (var adjacentKingdomId in adjacentKingdomIds) {
+						if (!remainingKingdomIds.Remove(adjacentKingdomId)) {
+							continue;
+						}
+						if (!kingdomsById.TryGetValue(adjacentKingdomId, out var adjacentKingdom)) {
+							continue;
+						}
+
+						group.Add(adjacentKingdom);
+						queue.Enqueue(adjacentKingdomId);
 					}
 				}
 
-				// If the kingdom is adjacent to multiple groups, merge them.
-				if (connectedGroups.Count > 1) {
-					var mergedGroup = new HashSet<Title>();
-					foreach (var group in connectedGroups) {
-						mergedGroup.UnionWith(group);
-						kingdomGroups.Remove(group);
-					}
-
-					mergedGroup.Add(kingdom);
-					kingdomGroups.Add(mergedGroup);
-				}
-
-				if (!added) {
-					kingdomGroups.Add([kingdom]);
-				}
+				kingdomGroups.Add(group);
 			}
 
 			return kingdomGroups;
