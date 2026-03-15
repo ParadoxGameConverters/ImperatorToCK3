@@ -7672,10 +7672,8 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		after = {
 		OR = {
 			# IRToCK3: Since heritage_byzantine is now used as a general Hellenic heritage, changing this to be based off the 'greek'/Romaioi culture
-			culture = culture:greek
-			culture = {
-				any_parent_culture_or_above = { this = culture:greek }
-			}
+			this = culture:greek
+			any_parent_culture_or_above = { this = culture:greek }
 			scope:character = {
 				has_title = title:e_byzantium
 			}
@@ -7699,10 +7697,8 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		after = {
 		# IRToCK3: Since heritage_byzantine is now used as a general Hellenic heritage, changing this to be based off the 'greek'/Romaioi culture
 		OR = {
-			culture = culture:greek
-			culture = {
-				any_parent_culture_or_above = { this = culture:greek }
-			}
+			this = culture:greek
+			any_parent_culture_or_above = { this = culture:greek }
 		}
 		scope:character = {
 			has_title = title:e_byzantium
