@@ -6,16 +6,19 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ImperatorToCK3.Imperator.Countries;
 
 internal sealed partial class Country {
-	private const string monarchyLawRegexStr = "succession_law|monarchy_military_reforms|monarchy_maritime_laws|monarchy_economic_law|monarchy_citizen_law" +
-	                                           "|monarchy_religious_laws|monarchy_legitimacy_laws|monarchy_contract_law|monarchy_divinity_statutes|jewish_monarchy_divinity_statutes|monarchy_subject_laws";
-	private const string republicLawRegexStr = "republic_military_recruitment_laws_rom|republic_election_reforms_rom|corruption_laws_rom|republican_mediterranean_laws_rom|republican_religious_laws_rom|republic_integration_laws_rom|republic_citizen_laws_rom|republican_land_reforms_rom" +
-	                                           "|republic_military_recruitment_laws|republic_election_reforms|corruption_laws|republican_mediterranean_laws|republican_religious_laws|republic_integration_laws|republic_citizen_laws|republican_land_reforms";
-	private const string tribalLawRegexStr = "tribal_religious_law|tribal_currency_laws|tribal_centralization_law|tribal_authority_laws|tribal_autonomy_laws|tribal_domestic_laws" +
-	                                         "|tribal_decentralized_laws|tribal_centralized_laws|tribal_super_decentralized_laws|tribal_super_centralized_laws";
+	[GeneratedRegex("succession_law|monarchy_military_reforms|monarchy_maritime_laws|monarchy_economic_law|monarchy_citizen_law|monarchy_religious_laws|monarchy_legitimacy_laws|monarchy_contract_law|monarchy_divinity_statutes|jewish_monarchy_divinity_statutes|monarchy_subject_laws")]
+	private static partial Regex MonarchyLawRegex();
+
+	[GeneratedRegex("republic_military_recruitment_laws_rom|republic_election_reforms_rom|corruption_laws_rom|republican_mediterranean_laws_rom|republican_religious_laws_rom|republic_integration_laws_rom|republic_citizen_laws_rom|republican_land_reforms_rom|republic_military_recruitment_laws|republic_election_reforms|corruption_laws|republican_mediterranean_laws|republican_religious_laws|republic_integration_laws|republic_citizen_laws|republican_land_reforms")]
+	private static partial Regex RepublicLawRegex();
+
+	[GeneratedRegex("tribal_religious_law|tribal_currency_laws|tribal_centralization_law|tribal_authority_laws|tribal_autonomy_laws|tribal_domestic_laws|tribal_decentralized_laws|tribal_centralized_laws|tribal_super_decentralized_laws|tribal_super_centralized_laws")]
+	private static partial Regex TribalLawRegex();
 
 	private static readonly SortedSet<string> monarchyGovernments = new();
 	private static readonly SortedSet<string> republicGovernments = new();
@@ -61,11 +64,11 @@ internal sealed partial class Country {
 		});
 		parser.RegisterKeyword("mark_invention", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("ruler_term", reader => parsedCountry.RulerTerms.Add(RulerTerm.Parse(reader)));
-		parser.RegisterRegex(monarchyLawRegexStr, reader =>
+		parser.RegisterRegex(MonarchyLawRegex(), reader =>
 			parsedCountry.monarchyLaws.Add(string.Intern(reader.GetString())));
-		parser.RegisterRegex(republicLawRegexStr, reader =>
+		parser.RegisterRegex(RepublicLawRegex(), reader =>
 			parsedCountry.republicLaws.Add(string.Intern(reader.GetString())));
-		parser.RegisterRegex(tribalLawRegexStr, reader =>
+		parser.RegisterRegex(TribalLawRegex(), reader =>
 			parsedCountry.tribalLaws.Add(string.Intern(reader.GetString())));
 		parser.RegisterKeyword("total_power_base", reader => parsedCountry.TotalPowerBase = reader.GetFloat());
 		parser.RegisterKeyword("non_loyal_power_base", reader => parsedCountry.NonLoyalPowerBase = reader.GetFloat());
