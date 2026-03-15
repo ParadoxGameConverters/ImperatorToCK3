@@ -340,42 +340,43 @@ internal sealed class Character : IIdentifiable<ulong> {
 	/// <param name="irMapData">Imperator map data.</param>
 	/// <returns></returns>
 	public ulong? GetSourceLandProvince(MapData irMapData) {
-		HashSet<ulong> rejectedProvinceIds = [];
-		
+		// Track at most 3 rejected candidates without heap allocation.
+		ulong? rejected1 = null;
+		ulong? rejected2 = null;
+
 		if (ProvinceId.HasValue) {
 			if (!irMapData.ProvinceDefinitions.TryGetValue(ProvinceId.Value, out var provinceDef)) {
 				Logger.Warn($"Potential source province {ProvinceId.Value} for character {Id} has no definition!");
 			} else if (provinceDef.IsLand) {
 				return ProvinceId;
 			}
-			rejectedProvinceIds.Add(ProvinceId.Value);
+			rejected1 = ProvinceId.Value;
 		}
 
 		var homeCountryCapital = HomeCountry?.CapitalProvinceId;
-		if (homeCountryCapital.HasValue && !rejectedProvinceIds.Contains(homeCountryCapital.Value)) {
+		if (homeCountryCapital.HasValue && homeCountryCapital != rejected1) {
 			if (!irMapData.ProvinceDefinitions.TryGetValue(homeCountryCapital.Value, out var homeCountryCapitalDef)) {
 				Logger.Warn($"Potential source province {homeCountryCapital.Value} for character {Id} has no definition!");
 			} else if (homeCountryCapitalDef.IsLand) {
 				return homeCountryCapital;
 			}
-			rejectedProvinceIds.Add(homeCountryCapital.Value);
+			rejected2 = homeCountryCapital.Value;
 		}
-		
+
 		var countryCapital = Country?.CapitalProvinceId;
-		if (countryCapital.HasValue && !rejectedProvinceIds.Contains(countryCapital.Value)) {
+		if (countryCapital.HasValue && countryCapital != rejected1 && countryCapital != rejected2) {
 			if (!irMapData.ProvinceDefinitions.TryGetValue(countryCapital.Value, out var countryCapitalDef)) {
 				Logger.Warn($"Potential source province {countryCapital.Value} for character {Id} has no definition!");
 			} else if (countryCapitalDef.IsLand) {
 				return countryCapital;
 			}
-			rejectedProvinceIds.Add(countryCapital.Value);
 		}
-		
+
 		var fatherProvince = Father?.GetSourceLandProvince(irMapData);
 		if (fatherProvince.HasValue) {
 			return fatherProvince;
 		}
-		
+
 		var motherProvince = Mother?.GetSourceLandProvince(irMapData);
 		return motherProvince;
 	}

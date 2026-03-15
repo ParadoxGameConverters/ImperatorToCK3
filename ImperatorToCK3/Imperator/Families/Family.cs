@@ -3,7 +3,7 @@ using commonItems.Collections;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Cultures;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Families;
 
@@ -27,9 +27,17 @@ internal sealed class Family : IIdentifiable<ulong> {
 		MemberIds.Add(newMember.Id);
 	}
 	public void RemoveUnlinkedMembers(CharacterCollection characters) {
-		var toRemove = MemberIds.Where(memberId => !characters.ContainsKey(memberId)).ToArray();
-		foreach (var idToRemove in toRemove) {
-			MemberIds.Remove(idToRemove);
+		List<ulong>? toRemove = null;
+		foreach (var memberId in MemberIds) {
+			if (!characters.ContainsKey(memberId)) {
+				(toRemove ??= []).Add(memberId);
+			}
+		}
+		if (toRemove is null) {
+			return;
+		}
+		foreach (var id in toRemove) {
+			MemberIds.Remove(id);
 		}
 	}
 	
