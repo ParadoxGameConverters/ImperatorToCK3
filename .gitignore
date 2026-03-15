@@ -49,3 +49,4 @@ previous-problem-count.txt
 # Benchmark stuff
 /ImperatorToCK3.Benchmarks/
 /BenchmarkDotNet.Artifacts/
+/BenchmarkSuite1/
