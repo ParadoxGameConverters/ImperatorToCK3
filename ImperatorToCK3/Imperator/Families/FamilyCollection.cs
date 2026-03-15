@@ -60,31 +60,52 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 
 		// Pre-compute the set of keys that have duplicate families.
 		// Each iteration only re-groups families with those keys, skipping the rest.
-		var duplicateKeys = this.GroupBy(f => f.Key)
-			.Where(g => g.Skip(1).Any())
-			.Select(g => g.Key)
-			.ToHashSet();
+		var keyCounts = new Dictionary<string, int>();
+		foreach (var family in this) {
+			if (keyCounts.TryGetValue(family.Key, out var count)) {
+				keyCounts[family.Key] = count + 1;
+			} else {
+				keyCounts[family.Key] = 1;
+			}
+		}
+		var duplicateKeys = new HashSet<string>();
+		foreach (var (key, count) in keyCounts) {
+			if (count > 1) {
+				duplicateKeys.Add(key);
+			}
+		}
 
 		var iteration = 0;
 		bool anotherIterationNeeded = duplicateKeys.Count > 0;
 		while (anotherIterationNeeded) {
-			var familiesPerKey = this
-				.Where(f => duplicateKeys.Contains(f.Key))
-				.GroupBy(f => f.Key)
-				.Where(g => g.Skip(1).Any())
-				.ToArray();
+			var familiesPerKey = new Dictionary<string, List<Family>>();
+			foreach (var family in this) {
+				if (!duplicateKeys.Contains(family.Key)) {
+					continue;
+				}
+
+				if (!familiesPerKey.TryGetValue(family.Key, out var groupedFamilies)) {
+					groupedFamilies = [];
+					familiesPerKey[family.Key] = groupedFamilies;
+				}
+				groupedFamilies.Add(family);
+			}
 			anotherIterationNeeded = false;
 			++iteration;
 			Logger.Debug($"Family merging iteration {iteration}");
 
-			foreach (var grouping in familiesPerKey) {
+			foreach (var (groupingKey, groupingFamilies) in familiesPerKey) {
+				if (groupingFamilies.Count <= 1) {
+					continue;
+				}
+
 				var removedFamilies = new HashSet<Family>();
-				foreach (var family in grouping) {
+				foreach (var family in groupingFamilies) {
 					if (removedFamilies.Contains(family)) {
 						continue;
 					}
 					var familyMemberIds = family.MemberIds;
-					foreach (var anotherFamily in grouping) {
+					foreach (var anotherFamily in groupingFamilies) {
 						if (family.Equals(anotherFamily)) {
 							continue;
 						}
@@ -107,7 +128,7 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 							continue;
 						}
 
-						Logger.Debug($"Reuniting family {grouping.Key}: {anotherFamily.Id} into {family.Id}");
+						Logger.Debug($"Reuniting family {groupingKey}: {anotherFamily.Id} into {family.Id}");
 						ReuniteFamily(family, anotherFamily, anotherFamilyMembers);
 						removedFamilies.Add(anotherFamily);
 

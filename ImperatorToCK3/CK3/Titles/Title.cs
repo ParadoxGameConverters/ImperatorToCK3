@@ -1407,14 +1407,25 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 
 		// case: title is independent
-		var higherTitlesOfHolder = parentCollection.Where(t => t.GetHolderId(ck3BookmarkDate) == holderId && t.Rank > Rank)
-			.OrderByDescending(t => t.Rank)
-			.ToImmutableList();
-		var highestTitleRank = higherTitlesOfHolder.FirstOrDefault(defaultValue: null)?.Rank;
+		var higherTitlesOfHolder = new List<Title>();
+		TitleRank? highestTitleRank = null;
+		foreach (var title in parentCollection) {
+			if (title.GetHolderId(ck3BookmarkDate) != holderId || title.Rank <= Rank) {
+				continue;
+			}
+			higherTitlesOfHolder.Add(title);
+			if (highestTitleRank is null || title.Rank > highestTitleRank) {
+				highestTitleRank = title.Rank;
+			}
+		}
 		if (highestTitleRank is null) {
 			return null;
 		}
-		foreach (var title in higherTitlesOfHolder.Where(t => t.Rank == highestTitleRank)) {
+		foreach (var title in higherTitlesOfHolder) {
+			if (title.Rank != highestTitleRank) {
+				continue;
+			}
+
 			if (title.Rank == realmRank) {
 				return title;
 			}

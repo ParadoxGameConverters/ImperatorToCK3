@@ -576,11 +576,13 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		var charactersToCheck = charactersToCheckList.ToArray();
 
 		// Members of landed dynasties will be preserved, unless dead and childless.
-		var dynastyIdsOfLandedCharacters = landedCharacters
-			.Select(character => character.GetDynastyId(ck3BookmarkDate))
-			.Distinct()
-			.Where(id => id is not null)
-			.ToFrozenSet();
+		var dynastyIdsOfLandedCharacters = new HashSet<string>(StringComparer.Ordinal);
+		foreach (var landedCharacter in landedCharacters) {
+			var dynastyId = landedCharacter.GetDynastyId(ck3BookmarkDate);
+			if (dynastyId is not null) {
+				dynastyIdsOfLandedCharacters.Add(dynastyId);
+			}
+		}
 
 		int i = 0;
 		var charactersToRemove = new List<Character>();
@@ -601,8 +603,14 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded characters in iteration {i}.");
 			if (charactersToRemove.Count > 0) {
-				var removedIds = removedCharacterIds.ToFrozenSet();
-				charactersToCheck = [.. charactersToCheck.Where(character => !removedIds.Contains(character.Id))];
+				var removedIds = new HashSet<string>(removedCharacterIds, StringComparer.Ordinal);
+				var filteredCharacters = new List<Character>(charactersToCheck.Length - removedIds.Count);
+				foreach (var character in charactersToCheck) {
+					if (!removedIds.Contains(character.Id)) {
+						filteredCharacters.Add(character);
+					}
+				}
+				charactersToCheck = [.. filteredCharacters];
 			}
 		} while (charactersToRemove.Count > 0);
 
@@ -614,13 +622,14 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	}
 
 	private static void DetermineCharactersToPurge(List<Character> charactersToRemove, IEnumerable<Character> charactersToCheck,
-		FrozenSet<string?> dynastyIdsOfLandedCharacters, HashSet<string> parentIdsCache, Date ck3BookmarkDate)
+		HashSet<string> dynastyIdsOfLandedCharacters, HashSet<string> parentIdsCache, Date ck3BookmarkDate)
 	{
 		// See who can be removed.
 		charactersToRemove.Clear();
 		foreach (var character in charactersToCheck) {
 			// Does the character belong to a dynasty that holds or held titles?
-			if (dynastyIdsOfLandedCharacters.Contains(character.GetDynastyId(ck3BookmarkDate))) {
+			var dynastyId = character.GetDynastyId(ck3BookmarkDate);
+			if (dynastyId is not null && dynastyIdsOfLandedCharacters.Contains(dynastyId)) {
 				// Is the character dead and childless? Purge.
 				if (!parentIdsCache.Contains(character.Id)) {
 					charactersToRemove.Add(character);
