@@ -340,7 +340,6 @@ internal sealed class World {
 		ImportImperatorHoldingsIfNotDisabledByConfiguration(impWorld, config);
 
 		LandedTitles.ImportDevelopmentFromImperator(Provinces, CorrectedDate, config.ImperatorCivilizationWorth);
-		LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 
 		// Apply region-specific tweaks.
 		HandleIcelandAndFaroeIslands(impWorld, config);
@@ -352,6 +351,8 @@ internal sealed class World {
 
 		// Now that Islam has been handled, we can generate filler holders without the risk of making them Muslim.
 		GenerateFillerHoldersForUnownedLands(impWorld.Provinces, Cultures, config);
+		// The filler holders have overwritten some counties, so now we can remove holders from titles that have become landless.
+		LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 		Logger.IncrementProgress();
 		if (!config.StaticDeJure) {
 			LandedTitles.SetDeJureKingdomsAndAbove(config.CK3BookmarkDate, Cultures, Characters, MapData, CK3RegionMapper, LocDB);
@@ -1349,10 +1350,12 @@ internal sealed class World {
 
 				duchy.SetHolder(holder, date);
 				duchy.SetGovernment(government, date);
+				duchy.SetDeFactoLiege(newLiege: null, date);
 				duchyIdToHolderDict[duchy.Id] = holder;
 			} else {
 				county.SetGovernment(government, date);
 			}
+			county.SetDeFactoLiege(newLiege: null, date);
 		}
 	}
 

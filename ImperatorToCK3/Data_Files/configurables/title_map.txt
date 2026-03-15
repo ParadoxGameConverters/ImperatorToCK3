@@ -102,8 +102,6 @@ link = { ir = BMY ck3 = k_blemmyia rank = k }
 link = { ir = HVT ck3 = k_switzerland rank = k }
 
 #Illyria and Dacia
-
-link = { ir = OTN ck3 = k_moravia rank = k }
 link = { ir = TYR ck3 = k_moldavia rank = k }
 link = { ir = NRC ck3 = k_austria rank = k }
 
