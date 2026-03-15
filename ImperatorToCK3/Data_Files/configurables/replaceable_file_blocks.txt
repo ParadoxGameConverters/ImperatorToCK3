@@ -8071,3 +8071,134 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		} # end of after
 	}
 }
+
+
+"common/customizable_localization/00_divinity_custom_loc.txt" = {
+	# Add IRToCK3's new religions to councillor_court_chaplain custom loc
+	replace = {
+		before = {
+	# Shinto
+	text = {
+		trigger = {
+			religion = religion:shintoism_religion
+		}
+		localization_key = councillor_court_chaplain_shintoism_religion
+	}
+		} # end of before
+		after = {
+	# Shinto
+	text = {
+		trigger = {
+			religion = religion:shintoism_religion
+		}
+		localization_key = councillor_court_chaplain_shintoism_religion
+	}
+
+	# ImperatorToCK3: Kemetic - Prophet
+	text = {
+		trigger = {
+			liege.highest_held_title_tier >= tier_kingdom
+			faith.religion = faith:egyptian_pagan.religion
+			is_female = no
+		}
+		localization_key = kmt_prophet
+	}
+	text = {
+		trigger = {
+			liege.highest_held_title_tier >= tier_kingdom
+			faith.religion = faith:egyptian_pagan.religion
+			is_female = yes
+		}
+		localization_key = kmt_prophetess
+	}
+	# ImperatorToCK3: The Archigallus
+	text = {
+		trigger = {
+			liege.highest_held_title_tier >= tier_kingdom
+			faith.religion = faith:anatolian_pagan.religion
+			is_female = no
+		}
+		localization_key = cyb_archigallus
+	}
+	# ImperatorToCK3: Celtic paganism
+	text = {
+		trigger = {
+			faith.religion = faith:celtic_pagan.religion
+			is_female = no
+		}
+		localization_key = cel_druid
+	}
+	text = {
+		trigger = {
+			faith.religion = faith:celtic_pagan.religion
+			is_female = yes
+		}
+		localization_key = cel_druidess
+	}
+		} # end of after
+	} # end of replace
+
+	# Add IRToCK3's new religions to councillor_court_chaplain_x_possesive loc
+	replace = {
+		before = {
+	# Shinto
+	text = {
+		trigger = {
+			religion = religion:shintoism_religion
+		}
+		localization_key = councillor_court_chaplain_shintoism_religion_possessive
+	}
+		} # end of before
+		after = {
+	# Shinto
+	text = {
+		trigger = {
+			religion = religion:shintoism_religion
+		}
+		localization_key = councillor_court_chaplain_shintoism_religion_possessive
+	}
+
+	# ImperatorToCK3: Kemetic - Prophet
+	text = {
+		trigger = {
+			liege.highest_held_title_tier >= tier_kingdom
+			faith.religion = faith:egyptian_pagan.religion
+			is_female = no
+		}
+		localization_key = kmt_prophet_possessive
+	}
+	text = {
+		trigger = {
+			liege.highest_held_title_tier >= tier_kingdom
+			faith.religion = faith:egyptian_pagan.religion
+			is_female = yes
+		}
+		localization_key = kmt_prophetess_possessive
+	}
+	# ImperatorToCK3: The Archigallus
+	text = {
+		trigger = {
+			liege.highest_held_title_tier >= tier_kingdom
+			faith.religion = faith:anatolian_pagan.religion
+			is_female = no
+		}
+		localization_key = cyb_archigallus_possessive
+	}
+	# ImperatorToCK3: Celtic paganism
+	text = {
+		trigger = {
+			faith.religion = faith:celtic_pagan.religion
+			is_female = no
+		}
+		localization_key = cel_druid_possessive
+	}
+	text = {
+		trigger = {
+			faith.religion = faith:celtic_pagan.religion
+			is_female = yes
+		}
+		localization_key = cel_druidess_possessive
+	}
+		} # end of after
+	} # end of replace
+}
