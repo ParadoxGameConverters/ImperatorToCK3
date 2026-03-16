@@ -795,25 +795,13 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 				oldCharactersWithoutTitles.Add(character);
 			}
 		}
-		
+
 		// For characters that don't hold any titles, just set up a death date.
 		var randomForCharactersWithoutTitles = new Random((int)randomSeed);
 		foreach (var oldCharacter in oldCharactersWithoutTitles) {
-			// Roll a dice to determine how much longer the character will live.
-			var monthsToLive = randomForCharactersWithoutTitles.Next(1, 30 * 12); // Can live up to 30 years more.
-			
-			// If the character is female and pregnant, make sure she doesn't die before the pregnancy ends.
-			if (oldCharacter is {Female: true, ImperatorCharacter: not null}) {
-				var lastPregnancy = oldCharacter.Pregnancies.OrderBy(p => p.BirthDate).LastOrDefault();
-				if (lastPregnancy is not null) {
-					oldCharacter.DeathDate = lastPregnancy.BirthDate.ChangeByMonths(monthsToLive);
-					continue;
-				}
-			}
-
-			oldCharacter.DeathDate = irSaveDate.ChangeByMonths(monthsToLive);
+			SetUpDeathDateForCharacterWithoutTitles(oldCharacter, irSaveDate, randomForCharactersWithoutTitles);
 		}
-		
+
 		var heldTitlesByHolderIdLists = new Dictionary<string, List<Title>>(StringComparer.Ordinal);
 		foreach (var title in titles) {
 			var holderId = title.GetHolderId(ck3BookmarkDate);
@@ -839,6 +827,22 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 		// For title holders, generate successors and add them to title history.
 		Parallel.ForEach(oldTitleHolders, oldCharacter => GenerateSuccessorsForCharacter(oldCharacter, titlesByHolderId, cultureIdToMaleNames, irSaveDate, ck3BookmarkDate, randomSeed));
+	}
+
+	private void SetUpDeathDateForCharacterWithoutTitles(Character oldCharacter, Date irSaveDate, Random random) {
+		// Roll a dice to determine how much longer the character will live.
+		var monthsToLive = random.Next(1, 30 * 12); // Can live up to 30 years more.
+
+		// If the character is female and pregnant, make sure she doesn't die before the pregnancy ends.
+		if (oldCharacter is {Female: true, ImperatorCharacter: not null}) {
+			var lastPregnancy = oldCharacter.Pregnancies.OrderBy(p => p.BirthDate).LastOrDefault();
+			if (lastPregnancy is not null) {
+				oldCharacter.DeathDate = lastPregnancy.BirthDate.ChangeByMonths(monthsToLive);
+				return;
+			}
+		}
+
+		oldCharacter.DeathDate = irSaveDate.ChangeByMonths(monthsToLive);
 	}
 
 	private void GenerateSuccessorsForCharacter(Character oldCharacter, IReadOnlyDictionary<string, Title[]> titlesByHolderId,
