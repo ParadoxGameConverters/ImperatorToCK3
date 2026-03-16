@@ -1,6 +1,5 @@
 using commonItems;
 using System.Collections.Generic;
-using System.Linq;
 using Assignment = System.Collections.Generic.KeyValuePair<string, string>;
 
 namespace ImperatorToCK3.Mappers.Gene;
@@ -23,10 +22,14 @@ internal sealed class MorphGeneTemplateMapper {
 			return null;
 		}
 
-		var ck3TemplateName = templateMappingsForGene
-			.Where(mapping => mapping.Key == irTemplateName)
-			.Select(mapping => mapping.Value)
-			.FirstOrDefault();
+		string? ck3TemplateName = null;
+		for (int i = 0; i < templateMappingsForGene.Count; ++i) {
+			var mapping = templateMappingsForGene[i];
+			if (mapping.Key == irTemplateName) {
+				ck3TemplateName = mapping.Value;
+				break;
+			}
+		}
 		if (ck3TemplateName is null) {
 			Logger.Warn($"I:R template {irTemplateName} not found in morph gene template mappings!");
 		}
