@@ -202,7 +202,6 @@ internal static class BookmarkOutputter {
 		if (flatmapPath is null) {
 			throw new FileNotFoundException("flatmap.dds not found!");
 		}
-		const string tmpFlatmapPath = "temp/flatmap.png";
 
 		SixLabors.ImageSharp.Configuration.Default.ImageFormatsManager.SetEncoder(PngFormat.Instance, new PngEncoder {
 			TransparentColorMode = PngTransparentColorMode.Clear,
@@ -218,21 +217,21 @@ internal static class BookmarkOutputter {
 		using (var flatmapMagickImage = new MagickImage(flatmapPath)) {
 			flatmapMagickImage.Scale(2160, 1080);
 			flatmapMagickImage.Crop(1920, 1080);
-			await flatmapMagickImage.WriteAsync(tmpFlatmapPath);
+			byte[] flatmapPngBytes = flatmapMagickImage.ToByteArray(MagickFormat.Png);
+			await using var flatmapStream = new MemoryStream(flatmapPngBytes);
+			using var bookmarkMapImage = await Image.LoadAsync(flatmapStream);
+
+			var mapData = ck3World.MapData;
+			var provDefs = mapData.ProvinceDefinitions;
+
+			foreach (var playerTitle in playerTitles) {
+				await DrawPlayerTitleOnMap(config, ck3World, playerTitle, mapData, provincesImage, provDefs, bookmarkMapImage);
+			}
+
+			var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.png");
+			await bookmarkMapImage.SaveAsPngAsync(outputPath);
+			await ResaveImageAsDDS(outputPath);
 		}
-
-		using var bookmarkMapImage = await Image.LoadAsync(tmpFlatmapPath);
-
-		var mapData = ck3World.MapData;
-		var provDefs = mapData.ProvinceDefinitions;
-
-		foreach (var playerTitle in playerTitles) {
-			await DrawPlayerTitleOnMap(config, ck3World, playerTitle, mapData, provincesImage, provDefs, bookmarkMapImage);
-		}
-
-		var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.png");
-		await bookmarkMapImage.SaveAsPngAsync(outputPath);
-		await ResaveImageAsDDS(outputPath);
 	}
 
 	private static async Task DrawPlayerTitleOnMap(
@@ -244,8 +243,6 @@ internal static class BookmarkOutputter {
 		ProvinceDefinitions provDefs, 
 		Image bookmarkMapImage
 	) {
-		Rgba32 black = Color.Black;
-		
 		var colorOnMap = playerTitle.Color1 ?? new commonItems.Colors.Color(0, 0, 0);
 		var rgba32ColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
 		HashSet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(config.CK3BookmarkDate);
@@ -256,19 +253,16 @@ internal static class BookmarkOutputter {
 		Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle}...");
 
 		using var realmHighlightImage = provincesImage.CloneAs<Rgba32>();
-		IEnumerable<Rgb24> provinceColors = provincesToColor.Select(provId => provDefs.ProvinceToColorDict[provId]);
-		foreach (var provinceColor in provinceColors) {
-			// Make pixels of the province black.
+		var provinceColorSet = new HashSet<Rgba32>(provincesToColor.Count);
+		foreach (var provinceId in provincesToColor) {
+			if (!provDefs.ProvinceToColorDict.TryGetValue(provinceId, out Rgb24 provinceColor)) {
+				continue;
+			}
 			var rgbaProvinceColor = new Rgba32();
 			provinceColor.ToRgba32(ref rgbaProvinceColor);
-			ReplaceColorOnImage(realmHighlightImage, rgbaProvinceColor, black);
+			provinceColorSet.Add(rgbaProvinceColor);
 		}
-
-		// Make all non-black pixels transparent.
-		InverseTransparent(realmHighlightImage, black);
-
-		// Replace black with title color.
-		ReplaceColorOnImage(realmHighlightImage, black, rgba32ColorOnMap);
+		ApplyRealmColorMaskInSinglePass(realmHighlightImage, provinceColorSet, rgba32ColorOnMap);
 
 		// Create realm highlight file.
 		var holder = ck3World.Characters[playerTitle.GetHolderId(config.CK3BookmarkDate)];
@@ -283,6 +277,18 @@ internal static class BookmarkOutputter {
 		// Add the image on top of blank map image.
 		// Make the realm on map semi-transparent.
 		bookmarkMapImage.Mutate(x => x.DrawImage(realmHighlightImage, 0.5f));
+	}
+
+	private static void ApplyRealmColorMaskInSinglePass(Image<Rgba32> image, HashSet<Rgba32> provinceColorSet, Rgba32 realmColor) {
+		Rgba32 transparent = Color.Transparent;
+		image.ProcessPixelRows(accessor => {
+			for (int y = 0; y < image.Height; ++y) {
+				var row = accessor.GetRowSpan(y);
+				for (int x = 0; x < row.Length; ++x) {
+					row[x] = provinceColorSet.Contains(row[x]) ? realmColor : transparent;
+				}
+			}
+		});
 	}
 
 	private static FrozenSet<ulong> GetColorableImpassablesExceptMapEdgeProvinces(MapData mapData) {
@@ -313,32 +319,6 @@ internal static class BookmarkOutputter {
 		}
 
 		return provinceIdsToColor;
-	}
-
-	private static void ReplaceColorOnImage(Image<Rgba32> image, Rgba32 sourceColor, Rgba32 targetColor) {
-		image.ProcessPixelRows(accessor => {
-			for (int y = 0; y < image.Height; ++y) {
-				foreach (ref Rgba32 pixel in accessor.GetRowSpan(y)) {
-					if (pixel.Equals(sourceColor)) {
-						pixel = targetColor;
-					}
-				}
-			}
-		});
-	}
-
-	private static void InverseTransparent(Image<Rgba32> image, Rgba32 color) {
-		Rgba32 transparent = Color.Transparent;
-		image.ProcessPixelRows(accessor => {
-			for (int y = 0; y < image.Height; ++y) {
-				foreach (ref Rgba32 pixel in accessor.GetRowSpan(y)) {
-					if (pixel.Equals(color)) {
-						continue;
-					}
-					pixel = transparent;
-				}
-			}
-		});
 	}
 
 	private static async Task ResaveImageAsDDS(string imagePath) {
