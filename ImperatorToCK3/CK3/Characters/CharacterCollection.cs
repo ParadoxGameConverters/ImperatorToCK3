@@ -799,7 +799,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		// For characters that don't hold any titles, just set up a death date.
 		var randomForCharactersWithoutTitles = new Random((int)randomSeed);
 		foreach (var oldCharacter in oldCharactersWithoutTitles) {
-			SetUpDeathDateForCharacterWithoutTitles(oldCharacter, irSaveDate, ck3BookmarkDate, randomForCharactersWithoutTitles);
+			SetUpDeathDateForCharacterWithoutTitles(oldCharacter, irSaveDate, randomForCharactersWithoutTitles);
 		}
 
 		var heldTitlesByHolderIdLists = new Dictionary<string, List<Title>>(StringComparer.Ordinal);
@@ -829,7 +829,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		Parallel.ForEach(oldTitleHolders, oldCharacter => GenerateSuccessorsForCharacter(oldCharacter, titlesByHolderId, cultureIdToMaleNames, irSaveDate, ck3BookmarkDate, randomSeed));
 	}
 
-	private void SetUpDeathDateForCharacterWithoutTitles(Character oldCharacter, Date irSaveDate, Date ck3BookmarkDate, Random random) {
+	private void SetUpDeathDateForCharacterWithoutTitles(Character oldCharacter, Date irSaveDate, Random random) {
 		// Roll a dice to determine how much longer the character will live.
 		var monthsToLive = random.Next(1, 30 * 12); // Can live up to 30 years more.
 
