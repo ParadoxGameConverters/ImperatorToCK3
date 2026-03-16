@@ -35,6 +35,10 @@ heritage_west_slavic = e_west_slavia
 heritage_west_slavic = e_slavia
 heritage_east_slavic = e_slavia
 heritage_south_slavic = e_slavia
+heritage_albanian = e_illyria
+heritage_anatolian = e_anatolia
+heritage_byzantine = e_greek_heritage_empire # Custom Empire title to make sure this heritage empire has a different name than h_hellenistic_empire
+heritage_hellenistic = e_greek_heritage_empire # TFE uses its own hellenistic heritage
 
 # Terra-Indomita to Rajas of Asia
 heritage_korean = e_haedong
@@ -46,3 +50,10 @@ heritage_micronesian = e_micronesia # Out of scope, but should make sure that th
 heritage_burmese = e_burma
 heritage_sayan_altaic = e_sayan
 heritage_tatar = e_mongolia # Rajas of Asia moves quite a few Mongolic cultures to this new heritage, including Mongol itself, so I think this makes sense ~~tanner918
+
+# Terra-Indomita to vanilla CK3
+heritage_chinese = none # China is a hegemony level title (h_china), so we can't use it. Setting to none will prevent a new empire from being created.
+heritage_austronesian = e_nusantara
+heritage_buyeo = e_goryeo
+heritage_korean = e_goryeo
+heritage_japonic = e_japan

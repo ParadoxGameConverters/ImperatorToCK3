@@ -1,3 +1,4 @@
+using commonItems;
 using commonItems.Exceptions;
 using commonItems.Mods;
 using System;
@@ -8,6 +9,60 @@ using Xunit;
 namespace ImperatorToCK3.UnitTests;
 
 public class ConfigurationTests {
+	[Fact]
+	public void TrailingSlashesAreTrimmedFromProvidedPaths() {
+		const string configurationPath = "configuration.txt";
+		var tempRoot = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+		var imperatorPath = Path.Combine(tempRoot, "imperator");
+		var imperatorDocPath = Path.Combine(tempRoot, "imperator_docs");
+		var ck3Path = Path.Combine(tempRoot, "ck3");
+		var ck3ModsPath = Path.Combine(tempRoot, "Paradox Interactive", "Crusader Kings III", "mod");
+
+		Directory.CreateDirectory(Path.Combine(imperatorPath, "binaries"));
+		Directory.CreateDirectory(Path.Combine(imperatorPath, "launcher"));
+		Directory.CreateDirectory(Path.Combine(imperatorDocPath, "mod"));
+		Directory.CreateDirectory(Path.Combine(ck3Path, "binaries"));
+		Directory.CreateDirectory(Path.Combine(ck3Path, "launcher"));
+		Directory.CreateDirectory(ck3ModsPath);
+
+		var imperatorExeName = OperatingSystem.IsWindows() ? "imperator.exe" : "imperator";
+		var ck3ExeName = OperatingSystem.IsWindows() ? "ck3.exe" : "ck3";
+		File.WriteAllText(Path.Combine(imperatorPath, "binaries", imperatorExeName), "");
+		File.WriteAllText(Path.Combine(ck3Path, "binaries", ck3ExeName), "");
+		File.WriteAllText(Path.Combine(imperatorPath, "launcher", "launcher-settings.json"), "{\"version\":\"2.0.4\"}");
+		File.WriteAllText(Path.Combine(ck3Path, "launcher", "launcher-settings.json"), "{\"version\":\"1.15.0\"}");
+
+		var imperatorPathForConfig = imperatorPath.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+		var imperatorDocPathForConfig = imperatorDocPath.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+		var ck3PathForConfig = ck3Path.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+		var ck3ModsPathForConfig = ck3ModsPath.Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+		var imperatorPathWithTrailingSlash = imperatorPathForConfig + Path.AltDirectorySeparatorChar;
+		var imperatorDocPathWithTrailingSlash = imperatorDocPathForConfig + Path.AltDirectorySeparatorChar;
+		var ck3PathWithTrailingSlash = ck3PathForConfig + Path.AltDirectorySeparatorChar;
+		var ck3ModsPathWithTrailingSlash = ck3ModsPathForConfig + Path.AltDirectorySeparatorChar;
+		
+		try {
+			string content =
+				$"ImperatorDirectory = \"{imperatorPathWithTrailingSlash}\"{Environment.NewLine}" +
+				$"ImperatorDocDirectory = \"{imperatorDocPathWithTrailingSlash}\"{Environment.NewLine}" +
+				$"CK3directory = \"{ck3PathWithTrailingSlash}\"{Environment.NewLine}" +
+				$"targetGameModPath = \"{ck3ModsPathWithTrailingSlash}\"{Environment.NewLine}";
+
+			File.WriteAllText(configurationPath, content);
+			var config = new Configuration(new ConverterVersion());
+
+			Assert.Equal(imperatorPathForConfig, config.ImperatorPath);
+			Assert.Equal(imperatorDocPathForConfig, config.ImperatorDocPath);
+			Assert.Equal(ck3PathForConfig, config.CK3Path);
+			Assert.Equal(ck3ModsPathForConfig, config.CK3ModsPath);
+		}
+		finally {
+			File.Delete(configurationPath);
+			Directory.Delete(tempRoot, recursive: true);
+		}
+	}
+
 	[Fact]
 	public void DetectSpecificCK3ModsThrowsExceptionForUnsupportedModCombinations() {
 		const string tfeName = "The Fallen Eagle";
@@ -34,6 +89,93 @@ public class ConfigurationTests {
 		ex = Assert.Throws<UserErrorException>(() => new Configuration().DetectSpecificCK3Mods([tfeMod, aepMod]));
 		Assert.Equal("The converter doesn't support combining The Fallen Eagle with Asia Expansion Project!",
 			ex.Message);
+	}
+
+	[Fact]
+	public void DetectSpecificCK3ModsSetsActiveFlagsFromConfigurable() {
+		var tfeMod = new Mod("The Fallen Eagle v2.0", "", dependencies: []);
+
+		var config = new Configuration();
+		config.DetectSpecificCK3Mods([tfeMod]);
+
+		Assert.True(config.FallenEagleEnabled);
+		Assert.False(config.WhenTheWorldStoppedMakingSenseEnabled);
+		Assert.False(config.RajasOfAsiaEnabled);
+		Assert.False(config.AsiaExpansionProjectEnabled);
+	}
+
+	[Fact]
+	public void DetectSpecificCK3ModsDetectsModById() {
+		// Simulate a mod with a Steam workshop ID path but an unknown name.
+		var tfeModByPath = new Mod("", "mod/ugc_2243307127.mod", dependencies: []);
+
+		var config = new Configuration();
+		config.DetectSpecificCK3Mods([tfeModByPath]);
+
+		Assert.True(config.FallenEagleEnabled);
+	}
+
+	[Fact]
+	public void GetCK3ModFlagsReturnsDynamicFlagsFromConfigurable() {
+		var config = new Configuration();
+		config.DetectSpecificCK3Mods([]);
+
+		var flags = config.GetCK3ModFlags();
+
+		// All flags from ck3_mods.txt should be present and false.
+		Assert.True(flags.ContainsKey("tfe"));
+		Assert.False(flags["tfe"]);
+		Assert.True(flags.ContainsKey("wtwsms"));
+		Assert.True(flags.ContainsKey("roa"));
+		Assert.True(flags.ContainsKey("aep"));
+		// Vanilla should be true when no mods are active.
+		Assert.True(flags["vanilla_ck3"]);
+	}
+
+	[Fact]
+	public void DetectSpecificImperatorModsSetsActiveFlagsFromConfigurable() {
+		var invictusMod = new Mod("Imperator: Invictus 2.0", "", dependencies: []);
+
+		var config = new Configuration();
+		config.DetectSpecificImperatorMods([invictusMod]);
+
+		Assert.True(config.InvictusDetected);
+		Assert.False(config.Invictus1_7Detected);
+		Assert.False(config.TerraIndomitaDetected);
+	}
+
+	[Fact]
+	public void DetectSpecificImperatorModsDetectsInvictus1_7() {
+		var invictus17Mod = new Mod("Imperator: Invictus 1.7.3", "", dependencies: []);
+
+		var config = new Configuration();
+		config.DetectSpecificImperatorMods([invictus17Mod]);
+
+		Assert.True(config.InvictusDetected);
+		Assert.True(config.Invictus1_7Detected);
+	}
+
+	[Fact]
+	public void AddImperatorModFlagActivatesFlagForSaveDataFallback() {
+		var config = new Configuration();
+		config.DetectSpecificImperatorMods([]);
+
+		Assert.False(config.InvictusDetected);
+		config.AddImperatorModFlag("invictus");
+		Assert.True(config.InvictusDetected);
+	}
+
+	[Fact]
+	public void GetLiquidVariablesIncludesImperatorModFlags() {
+		var invictusMod = new Mod("Imperator: Invictus 2.0", "", dependencies: []);
+
+		var config = new Configuration();
+		config.DetectSpecificImperatorMods([invictusMod]);
+
+		var variables = config.GetLiquidVariables();
+
+		Assert.True((bool)variables["invictus"]);
+		Assert.False((bool)variables["invictus_1_7"]);
 	}
 
 	[Fact]

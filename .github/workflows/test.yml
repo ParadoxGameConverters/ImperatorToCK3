@@ -12,7 +12,7 @@ jobs:
   test_and_check_coverage:
     runs-on: [self-hosted, linux]
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
         submodules: recursive
@@ -24,14 +24,12 @@ jobs:
       working-directory: ImperatorToCK3.UnitTests
       shell: pwsh
       run: |
-       $env:CoverletOutput='./TestResults/coverage.info'
-       $env:CoverletOutputFormat='lcov'
-       dotnet test /p:CollectCoverage=true
+       dotnet test --coverlet --coverlet-output-format lcov 
     - name: "Publish coverage report to coveralls.io"
       uses: coverallsapp/github-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ImperatorToCK3.UnitTests/TestResults/coverage.info
+        path-to-lcov: ImperatorToCK3.UnitTests/bin/Debug/net10.0/TestResults/coverage.info
         format: lcov
         debug: true
 
@@ -41,7 +39,7 @@ jobs:
         os: [[self-hosted, windows], macos-14]
     runs-on: ${{ matrix.os }}
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         fetch-depth: 0
         submodules: recursive

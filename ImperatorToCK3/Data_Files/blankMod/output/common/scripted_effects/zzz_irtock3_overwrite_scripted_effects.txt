@@ -1,0 +1,423 @@
+﻿## Needed to overwrite this scripted_effect because of how much it is going to be changed.
+# Relevant info:
+# scope:new_ERE_ruler - References the character that took the decision to split the Empire, if they are getting the ERE
+# scope:new_WRE_ruler - References the character that took the decision to split the Empire, if they are getting the WRE
+# scope:new_holder - References the other character that is getting the other half of the Empire
+create_eastern_roman_empire_scripted_effect = {
+	## Handle the new liege
+	scope:new_holder = {
+		add_trait = augustus
+
+		# Ensure they get the relevant Rome/Byzantion county
+		create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		if = {
+			limit = {
+				exists = scope:new_WRE_ruler
+				scope:new_holder != title:c_byzantion.holder
+			}
+			title:c_byzantion = {
+				change_title_holder = {
+					holder = scope:new_holder
+					change = scope:change
+				}
+			}
+		}
+		else_if = {
+			limit = {
+				exists = scope:new_ERE_ruler
+				scope:new_holder != title:c_roma.holder
+			}
+			title:c_roma = {
+				change_title_holder = {
+					holder = scope:new_holder
+					change = scope:change
+				}
+			}
+		}
+
+		# They get every held county from current root in the relevant region
+		root = { 
+			every_held_title = {
+				limit = {
+					tier = tier_county
+					is_landless_type_title = no
+					trigger_if = {
+						limit = { exists = scope:new_WRE_ruler }
+						title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+					trigger_else = {
+						NOT = {
+							title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+						}
+					}
+				}
+				change_title_holder = {
+					holder = scope:new_holder
+					change = scope:change
+				}
+			}
+		}
+		resolve_title_and_vassal_change = scope:change # Resolve the 'granted' title change
+
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+
+		# Give them the relevant ERE/WRE titles
+		if = {
+			limit = { exists = scope:new_WRE_ruler }
+			title:h_eastern_roman_empire = {
+				change_title_holder = {
+					holder = scope:new_holder
+					change = scope:change
+				}
+			}
+			title:h_western_roman_empire = {
+				change_title_holder = {
+					holder = scope:new_WRE_ruler
+					change = scope:change
+				}
+			}
+		}
+		else = {
+			title:h_western_roman_empire = {
+				change_title_holder = {
+					holder = scope:new_holder
+					change = scope:change
+				}
+			}
+			title:h_eastern_roman_empire = {
+				change_title_holder = {
+					holder = scope:new_ERE_ruler
+					change = scope:change
+				}
+			}
+		}
+
+		resolve_title_and_vassal_change = scope:change # Resolve first 'created' title change
+
+		# Setup their primary title and capital
+		if = {
+			limit = { exists = scope:new_WRE_ruler }
+			set_primary_title_to = title:h_eastern_roman_empire
+			set_realm_capital = title:c_byzantion
+			root = { set_primary_title_to = title:h_western_roman_empire }
+		}
+		else = {
+			set_primary_title_to = title:h_western_roman_empire
+			set_realm_capital = title:c_roma
+			root = { set_primary_title_to = title:h_eastern_roman_empire }
+		}
+	}
+	
+	## Transfer over relevant vassals to new liege
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	# Then all the direct vassals who should move over
+	every_vassal = {
+		limit = {
+			highest_held_title_tier >= tier_county
+			trigger_if = {
+				limit = { exists = scope:new_WRE_ruler }
+				capital_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+			}
+			trigger_else = {
+				NOT = {
+					capital_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+			}
+		}
+		change_liege = {
+			liege = scope:new_holder
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change # Resolve second 'created' title (vassal) change
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	# Then vassals who are not directly in line
+	every_vassal_or_below = {
+		limit = {
+			highest_held_title_tier >= tier_county
+			trigger_if = {
+				limit = { exists = scope:new_WRE_ruler }
+				capital_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+			}
+			trigger_else = {
+				NOT = {
+					capital_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+			}
+		}
+		change_liege = {
+			liege = scope:new_holder
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change # Resolve third 'created' title (vassal) change
+
+	## De Jure Setup
+	# Change the de_jure for empires that are de jure part of the Roman Empire, but who has mostly broken free
+	every_empire = {
+		limit = {
+			hegemony ?= title:h_roman_empire
+			any_de_jure_county = {
+				percent >= 0.51
+				title_province = {
+					geographical_region = custom_ep3_restore_rome_eastern_empire
+				}
+			}
+		}
+		set_de_jure_liege_title = title:h_eastern_roman_empire
+	}
+
+	create_title_and_vassal_change = {
+		type = granted
+		save_scope_as = change
+		add_claim_on_loss = no
+	}
+	# Then every title that aren't county title held by root, but they have a majority of the titles under their rule
+	every_held_title = {
+		limit = {
+			NOR = { 
+				tier = tier_county 
+				tier = tier_hegemony
+				this = root.primary_title
+			}
+			is_landless_type_title = no
+			any_de_jure_county = {
+				percent >= 0.51
+				trigger_if = {
+					limit = { exists = scope:new_WRE_ruler }
+					title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+				}
+				trigger_else = {
+					NOT = {
+						title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
+					}
+				}
+			}
+		}
+		change_title_holder = {
+			holder = scope:new_holder
+			change = scope:change
+		}
+	}
+	resolve_title_and_vassal_change = scope:change # Resolve second 'granted' title change
+	
+	every_empire = {
+		limit = {
+			OR = {
+				any_de_jure_county = {
+					percent >= 0.75
+					holder = {
+						OR = {
+							this = title:h_eastern_roman_empire.holder
+							any_liege_or_above = { this = title:h_eastern_roman_empire.holder }
+						}
+					}
+				}
+				AND = {
+					de_jure_liege = title:h_eastern_roman_empire
+					any_de_jure_county = {
+						percent >= 0.51
+						holder = {
+							OR = {
+								this = title:h_eastern_roman_empire.holder
+								any_liege_or_above = { this = title:h_eastern_roman_empire.holder }
+							}
+						}
+					}
+				}
+			}
+		}
+		set_de_jure_liege_title = title:h_eastern_roman_empire
+	}
+
+	# Set remaining empires to be under WRE
+	title:h_roman_empire = {
+		every_in_de_jure_hierarchy = {
+			limit = { tier = tier_empire }
+			set_de_jure_liege_title = title:h_western_roman_empire
+		}
+	}
+
+	destroy_title = title:h_roman_empire
+
+	## Handle Domiciles/Governments
+	# Move their domiciles, if necessary
+	if = { 
+		limit = {
+			exists = domicile
+			NOT = { domicile.domicile_location.county.holder.top_liege = this }
+		}
+		domicile = { move_domicile = root.capital_province }
+	}
+
+	scope:new_holder = {
+		if = { 
+			limit = {
+				exists = domicile
+				NOT = { domicile.domicile_location.county.holder.top_liege = this }
+			}
+			domicile = { move_domicile = root.capital_province }
+		}
+	}
+}
+
+
+# In the base game, this scripted effect is used to split e_byzantium into different regional empire titles to be put under h_roman_empire. Need to generalize this effect so it can be used to split various Rome empire titles apart and put them under various hegemony titles
+split_byzantine_empire_effect = {
+	hidden_effect = {
+		# Add the Rome empire titles to a list, to make sure they all properly get split up, since none should have de jure land after this effect is called
+		title:e_roman_empire = { add_to_list = rome_empire_titles }
+		title:e_byzantium = { add_to_list = rome_empire_titles }
+		title:e_western_roman_empire = { add_to_list = rome_empire_titles }
+
+		# The base game goes through every held title in e_byzantium for specific kingdom titles. But, in a converted save, that should probably be avoided since titles can potentially end up anywhere
+
+		# Go through every de jure kingdom in the Rome empire titles
+		every_in_list = {
+			list = rome_empire_titles
+			if = { 
+				limit = {
+					OR = {
+						NOT = { exists = holder }
+						holder ?= root
+					}
+				}
+
+				# Britannia
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_britannia }
+				# Gallarium
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_galliarum }
+				# Germania
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_germania }
+				# Italiae
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_italiae }
+				# Libya Interior
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_libya_interior }
+				# Libya Ulterior
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_libya_ulterior }
+				# Aethiopia
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_aethiopia }
+				# Orientis
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_orientis }
+				# Illyria
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_illyrici }
+				# Pannonia
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_pannonia }
+				# Vistulia
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_vistulia }
+				# Fennia
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_fennia }
+				# Scandia
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_scandia }
+				# Arabia
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_arabia }
+				# Persia
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_persia }
+				# Sarmatia
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_sarmatia }
+				# Uralia Interior
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_uralia_interior }
+				# Uralia Ulterior
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_uralia_ulterior }
+				# Tartaria
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_tartaria }
+				# Parthia
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_parthia }
+				# Imoan Montem
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_imoan_montem }
+				# India Intra Gangem
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_india_intra_gangem }
+				# India Extra Gangem
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_india_extra_gangem }
+				# Magna Taprobana
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_magna_taprobana }
+				# Insulae Remotae
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_insulae_remotae }
+				# Insulae Solis
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_insulae_solis }
+				# Septentrionalis Deserti
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_septentrionalis_deserti }
+				# Serica Ultima
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_ultima }
+				# Serica Meridiana
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_meridiana }
+				# Serica Occidens
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_occidens }
+				# Serica Orientalis
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_orientalis }
+				# Serica Septentrionalis
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_septentrionalis }
+				# Serica Deserti
+				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_deserti }
+
+				# Leftover titles
+				## If a kingdom title under these empires is somehow split enough across multiple regions, it might not get put under one of the above prefectures, so need to check those
+				every_in_de_jure_hierarchy = {
+					limit = {
+						tier = tier_kingdom
+						is_titular = no
+					}
+					title_capital_county = { save_scope_as = county_temp }
+					save_scope_as = temp_kingdom
+					ordered_empire = {
+						# Prioritize praetorian prefectures whose region overlaps with what the kingdom's land controls
+						limit = {
+							hegemony ?= {
+								OR = {
+									this = title:h_roman_empire
+									this = title:h_western_roman_empire
+									this = title:h_eastern_roman_empire
+								}
+							}
+							save_temporary_scope_as = empire_temp
+							has_variable = prefecture_region
+							scope:temp_kingdom = {
+								any_de_jure_county = {
+									title_province = { geographical_region = scope:empire_temp.var:prefecture_region }
+								}
+							}
+						}
+						# If the kingdom doesn't overlap with any of the current prefectures, give it to the closest empire under a roman hegemony
+						alternative_limit = {
+							hegemony ?= {
+								OR = {
+									this = title:h_roman_empire
+									this = title:h_western_roman_empire
+									this = title:h_eastern_roman_empire
+								}
+							}
+						}
+						# If, somehow, none of the Roman hegemonies have any empires, just choose the closest empire
+						alternative_limit = { always = yes }
+						order_by = {
+							value = "title_capital_county.squared_distance(scope:county_temp)"
+							multiply = -1
+						}
+						max = 1
+						save_scope_as = new_empire
+					}
+					set_de_jure_liege_title = scope:new_empire
+					clear_saved_scope = new_empire
+					clear_saved_scope = temp_kingdom
+					clear_saved_scope = county_temp
+				}
+			}
+		}
+	}
+}

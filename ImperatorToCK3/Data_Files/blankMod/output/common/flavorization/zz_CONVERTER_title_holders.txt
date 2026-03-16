@@ -1,0 +1,328 @@
+﻿# Last updated: CK3 patch 1.18.1.1
+emperor_feudal_male_ancient_egyptian = { # Pharaoh
+    type = character
+	gender = male
+	special = holder
+	tier = empire
+	priority = 301
+	governments = { feudal_government }
+	faiths = { egyptian_pagan atenist_pagan }
+	
+	flavourization_rules = {
+		top_liege = yes
+	}
+}
+
+emperor_feudal_female_ancient_egyptian = { # Pharaohess
+    type = character
+	gender = female
+	special = holder
+	tier = empire
+	priority = 301
+	governments = { feudal_government }
+	faiths = { egyptian_pagan atenist_pagan }
+	
+	flavourization_rules = {
+		top_liege = yes
+	}
+}
+
+duke_republic_male_carthaginian = { # Suffet
+    type = character
+	gender = male
+	special = holder
+	governments = { republic_government }
+	# tier = any
+	priority = 301
+	heritages = { heritage_punic }
+	
+	flavourization_rules = {
+		top_liege = yes
+	}
+}
+
+king_feudal_male_elamite = { # Sunkir
+    type = character
+	gender = male
+	special = holder
+	tier = kingdom
+	priority = 301
+	governments = { feudal_government }
+	name_lists = { name_list_elamite }
+	
+	flavourization_rules = {
+		top_liege = yes
+	}
+}
+
+emperor_feudal_male_elamite = { # Rishar Sunkir
+    type = character
+	gender = male
+	special = holder
+	tier = empire
+	priority = 301
+	governments = { feudal_government }
+	name_lists = { name_list_elamite }
+	
+	flavourization_rules = {
+		top_liege = yes
+	}
+}
+
+count_eremitic_male = {
+	type = character
+	gender = male
+	special = holder
+	tier = county
+	priority = 46
+	governments = { eremitic_government }
+}
+
+count_eremitic_female = {
+	type = character
+	gender = female
+	special = holder
+	tier = county
+	priority = 46
+	governments = { eremitic_government }
+}
+
+county_eremitic = {
+	type = title
+	tier = county
+	priority = 46
+	governments = { eremitic_government }
+}
+
+duke_eremitic_male = {
+	type = character
+	gender = male
+	special = holder
+	tier = duchy
+	priority = 46
+	governments = { eremitic_government }
+}
+
+duke_eremitic_female = {
+	type = character
+	gender = female
+	special = holder
+	tier = duchy
+	priority = 46
+	governments = { eremitic_government }
+}
+
+duchy_eremitic = {
+	type = title
+	tier = duchy
+	priority = 46
+	governments = { eremitic_government }
+}
+
+duke_venetic_culture = {
+	type = character
+	gender = male
+	special = holder
+	tier = duchy
+	priority = 27
+	name_lists = { name_list_venetic }
+}
+
+duke_female_venetic_culture = {
+	type = character
+	gender = female
+	special = holder
+	tier = duchy
+	priority = 27
+	name_lists = { name_list_venetic  }
+}
+
+king_venetic_culture = {
+	type = character
+	gender = male
+	special = holder
+	tier = kingdom
+	priority = 27
+	name_lists = { name_list_venetic  }
+
+	flavourization_rules = {
+		top_liege = no
+	}
+}
+
+king_female_venetic_culture = {
+	type = character
+	gender = female
+	special = holder
+	tier = kingdom
+	priority = 27
+	name_lists = { name_list_venetic }
+
+	flavourization_rules = {
+		top_liege = no
+	}
+}
+
+## Roman
+# Titles
+irtock3_empire_roman_vassal_title_flavor = {
+	type = title
+	tier = empire
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+irtock3_kingdom_roman_vassal_title_flavor = {
+	type = title
+	tier = kingdom
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+irtock3_duchy_roman_vassal_title_flavor = {
+	type = title
+	tier = duchy
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+# Characters
+irtock3_emperor_roman_vassal_male_character_flavor = {
+	type = character
+	gender = male
+	special = holder
+	tier = empire
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+irtock3_emperor_roman_vassal_female_character_flavor = {
+	type = character
+	gender = female
+	special = holder
+	tier = empire
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+irtock3_king_roman_vassal_male_character_flavor = {
+	type = character
+	gender = male
+	special = holder
+	tier = kingdom
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+irtock3_king_roman_vassal_female_character_flavor = {
+	type = character
+	gender = female
+	special = holder
+	tier = kingdom
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+irtock3_duke_roman_vassal_male_character_flavor = {
+	type = character
+	gender = male
+	special = holder
+	tier = duchy
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+irtock3_duke_roman_vassal_female_character_flavor = {
+	type = character
+	gender = female
+	special = holder
+	tier = duchy
+	priority = 3000
+	de_jure_liege = { h_roman_empire h_western_roman_empire h_eastern_roman_empire }
+	flag = use_roman_vassal_naming_flag
+	flavourization_rules = {
+		top_liege = no
+		only_vassals = yes
+	}
+}
+
+
+
+## Base Game Overwrite
+hegemon_administrative_male_roman = {
+	type = character
+	gender = male
+	special = holder
+	tier = hegemony
+	priority = 282
+	governments = { administrative_government }
+	#name_lists = { name_list_roman }
+	titles = { h_roman_empire h_eastern_roman_empire h_western_roman_empire } # IRToCK3: Added WRE
+}
+
+hegemon_administrative_female_roman = {
+	type = character
+	gender = female
+	special = holder
+	tier = hegemony
+	priority = 282
+	governments = { administrative_government }
+	#name_lists = { name_list_roman }
+	titles = { h_roman_empire h_eastern_roman_empire h_western_roman_empire } # IRToCK3: Added WRE
+}
+
+custom_imperator_caesar_augustus = {
+	type = character
+	gender = male
+	special = holder
+	tier = hegemony
+	priority = 500
+	governments = { administrative_government }
+	religions = { hellenism_religion }
+	titles = { h_roman_empire h_eastern_roman_empire h_western_roman_empire } # IRToCK3: Added WRE
+	flag = uses_custom_caesar_flavourization
+
+	flavourization_rules = {
+		spouse_takes_title = no
+	}
+}

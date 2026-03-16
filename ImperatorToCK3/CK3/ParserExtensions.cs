@@ -3,6 +3,7 @@ using commonItems.Collections;
 using DotLiquid;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using ZLinq;
 
@@ -89,33 +90,38 @@ public static class ParserExtensions {
 		});
 	}
 	
-	public static void ParseLiquidFile(this Parser parser, string filePath, IDictionary<string, bool> ck3ModFlags) {
+	public static void ParseLiquidFile(this Parser parser, string filePath, Hash liquidVariables) {
 		// The file used the Liquid templating language, so convert it to text before parsing.
-		var convertedModFlags = ck3ModFlags.AsValueEnumerable().ToDictionary(kv => kv.Key, kv => (object)kv.Value);
-		var context = Hash.FromDictionary(convertedModFlags);
-		
 		var liquidText = File.ReadAllText(filePath);
+
 		var template = Template.Parse(liquidText);
-		var result = template.Render(context);
-		
+		var result = template.Render(liquidVariables, CultureInfo.InvariantCulture);
+
 		parser.ParseStream(new BufferedReader(result));
 	}
 
-	public static void ParseFolderWithLiquidSupport(this Parser parser, string path, string extensions, bool recursive, IDictionary<string, bool> ck3ModFlags, bool logFilePaths = false) {
+	public static void ParseFolderWithLiquidSupport(this Parser parser, string path, string extensions, bool recursive, Hash liquidVariables, bool logFilePaths = false) {
 		var searchPattern = recursive ? "*" : "*.*";
 		var searchOption = recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-		var files = Directory.GetFiles(path, searchPattern, searchOption).AsValueEnumerable().ToList();
+		var files = Directory.GetFiles(path, searchPattern, searchOption);
 
-		var validExtensions = extensions.Split(';');
-		files.RemoveWhere(f => !validExtensions.AsValueEnumerable().Contains(CommonFunctions.GetExtension(f)));
+		var validExtensions = new HashSet<string>(
+			extensions.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries),
+			StringComparer.OrdinalIgnoreCase
+		);
 
 		foreach (var file in files) {
+			var extension = CommonFunctions.GetExtension(file);
+			if (!validExtensions.Contains(extension)) {
+				continue;
+			}
+
 			if (logFilePaths) {
 				Logger.Debug($"Parsing file: {file}");
 			}
 
-			if (string.Equals(CommonFunctions.GetExtension(file), "liquid", StringComparison.OrdinalIgnoreCase)) {
-				parser.ParseLiquidFile(file, ck3ModFlags);
+			if (string.Equals(extension, "liquid", StringComparison.OrdinalIgnoreCase)) {
+				parser.ParseLiquidFile(file, liquidVariables);
 			} else {
 				parser.ParseFile(file);
 			}

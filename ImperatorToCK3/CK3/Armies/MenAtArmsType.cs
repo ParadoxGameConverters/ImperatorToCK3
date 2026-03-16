@@ -19,7 +19,7 @@ internal sealed partial class MenAtArmsType : IIdentifiable<string>, IPDXSeriali
 	[SerializedName("high_maintenance_cost")] public MenAtArmsCost? HighMaintenanceCost { get; set; }
 	[SerializedName("provision_cost")] public double? ProvisionCost { get; set; }
 
-	[SerializeOnlyValue] private Dictionary<string, StringOfItem> Attributes { get; } = new();
+	[SerializeOnlyValue] private Dictionary<string, StringOfItem> Attributes { get; } = [];
 	[NonSerialized] public bool ToBeOutputted { get; } = false;
 
 	public MenAtArmsType(string id, BufferedReader typeReader, ScriptValueCollection scriptValues) {
@@ -32,9 +32,7 @@ internal sealed partial class MenAtArmsType : IIdentifiable<string>, IPDXSeriali
 		parser.RegisterKeyword("low_maintenance_cost", costReader => LowMaintenanceCost = new MenAtArmsCost(costReader, scriptValues));
 		parser.RegisterKeyword("high_maintenance_cost", costReader => HighMaintenanceCost = new MenAtArmsCost(costReader, scriptValues));
 		parser.RegisterKeyword("provision_cost", costReader => ProvisionCost = costReader.GetDouble());
-		parser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
-			Attributes[keyword] = reader.GetStringOfItem();
-		});
+		parser.RegisterRegex(CommonRegexes.String, (r, keyword) => Attributes[keyword] = r.GetStringOfItem());
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(typeReader);
 	}
@@ -63,11 +61,8 @@ internal sealed partial class MenAtArmsType : IIdentifiable<string>, IPDXSeriali
 			ProvisionCost = baseType.ProvisionCost * stackRatio;
 		}
 
-		Attributes = new Dictionary<string, StringOfItem>(baseType.Attributes);
-		if (!baseType.Attributes.ContainsKey("icon")) {
-			Attributes["icon"] = new StringOfItem(baseType.Id);
-		}
-
-		Attributes["ai_quality"] = new StringOfItem("{ value=1 }");
+		Attributes = new Dictionary<string, StringOfItem>(baseType.Attributes) {
+			["ai_quality"] = new StringOfItem("{ value=1 }"),
+		};
 	}
 }

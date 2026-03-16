@@ -62,7 +62,7 @@ internal sealed class TagTitleMapper {
 		return generatedTitleId;
 	}
 	public string? GetTitleForTag(Country country, CK3LocDB ck3LocDB) {
-		return GetTitleForTag(country, localizedTitleName: string.Empty, maxTitleRank: TitleRank.empire, ck3LocDB);
+		return GetTitleForTag(country, localizedTitleName: string.Empty, maxTitleRank: TitleRank.hegemony, ck3LocDB);
 	}
 
 	public string? GetTitleForSubject(Country subject, string localizedTitleName, Country overlord, CK3LocDB ck3LocDB) {
@@ -98,7 +98,8 @@ internal sealed class TagTitleMapper {
 		}
 
 		// Attempt a title match
-		foreach (var mapping in titleMappings) {
+		for (int i = 0; i < titleMappings.Count; ++i) {
+			var mapping = titleMappings[i];
 			var match = mapping.GovernorshipMatch(rank, titles, governorship, provMapper, irProvinces);
 			if (match is null) {
 				continue;
@@ -107,6 +108,17 @@ internal sealed class TagTitleMapper {
 			if (usedTitles.Contains(match)) {
 				continue;
 			}
+
+			// Currently we don't want to modify the de jure structure of h_china.
+			// So, if the given title ID belongs to h_china de jure hierarchy, we skip it and remove the mapping.
+			if (titles.TryGetValue(match, out var ck3Title) && ck3Title.GetDeJureLiegeOfRank(TitleRank.hegemony)?.Id == "h_china") {
+				Logger.Debug($"Governorship title {match} belongs to h_china de jure hierarchy! Skipping mapping for governorship in region {governorship.Region.Id} of country {country.Tag}.");
+				titleMappings.RemoveAt(i);
+				// move back one index so we don't skip the element that shifted into this slot
+				--i;
+				continue;
+			}
+
 			RegisterGovernorship(governorship.Region.Id, country.Tag, match);
 			return match;
 		}
@@ -178,6 +190,7 @@ internal sealed class TagTitleMapper {
 	private void LoadRankMappings(string rankMappingsPath) {
 		Logger.Info("Parsing country rank mappings...");
 		var parser = new Parser();
+		parser.RegisterKeyword("hegemony_keywords", reader => hegemonyKeywords.AddRange(reader.GetStrings()));
 		parser.RegisterKeyword("empire_keywords", reader => empireKeywords.AddRange(reader.GetStrings()));
 		parser.RegisterKeyword("kingdom_keywords", reader => kingdomKeywords.AddRange(reader.GetStrings()));
 		parser.RegisterKeyword("duchy_keywords", reader => duchyKeywords.AddRange(reader.GetStrings()));
@@ -192,6 +205,9 @@ internal sealed class TagTitleMapper {
 		// Split the name into words.
 		var words = localizedTitleName.Split(' ');
 
+		if (hegemonyKeywords.Any(kw => words.Contains(kw, StringComparer.OrdinalIgnoreCase))) {
+			return TitleRank.hegemony;
+		}
 		if (empireKeywords.Any(kw => words.Contains(kw, StringComparer.OrdinalIgnoreCase))) {
 			return TitleRank.empire;
 		}
@@ -226,6 +242,7 @@ internal sealed class TagTitleMapper {
 		var ck3LiegeRank = Title.GetRankForId(ck3LiegeTitleId);
 
 		return ck3LiegeRank switch {
+			TitleRank.hegemony => TitleRank.kingdom,
 			TitleRank.empire => TitleRank.kingdom,
 			TitleRank.kingdom => TitleRank.duchy,
 			TitleRank.duchy => TitleRank.county,
@@ -271,11 +288,12 @@ internal sealed class TagTitleMapper {
 
 	private static string GetTitlePrefixForRank(TitleRank titleRank) {
 		return titleRank switch {
-			TitleRank.empire => "e_",
-			TitleRank.kingdom => "k_",
-			TitleRank.duchy => "d_",
-			TitleRank.county => "c_",
 			TitleRank.barony => "b_",
+			TitleRank.county => "c_",
+			TitleRank.duchy => "d_",
+			TitleRank.kingdom => "k_",
+			TitleRank.empire => "e_",
+			TitleRank.hegemony => "h_",
 			_ => throw new ArgumentOutOfRangeException(nameof(titleRank))
 		};
 	}
@@ -283,8 +301,9 @@ internal sealed class TagTitleMapper {
 	private readonly List<TitleMapping> titleMappings = new();
 	private readonly Dictionary<ulong, string> registeredCountryTitles = new(); // We store already mapped countries here.
 	private readonly Dictionary<string, string> registeredGovernorshipTitles = new(); // We store already mapped governorships here.
-	private readonly SortedSet<string> usedTitles = new();
+	private readonly HashSet<string> usedTitles = new(StringComparer.Ordinal);
 
+	private readonly HashSet<string> hegemonyKeywords = [];
 	private readonly HashSet<string> empireKeywords = ["empire"];
 	private readonly HashSet<string> kingdomKeywords = ["kingdom"];
 	private readonly HashSet<string> duchyKeywords = ["duchy"];

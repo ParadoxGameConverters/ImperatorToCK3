@@ -1,15 +1,10 @@
 ﻿using AwesomeAssertions;
 using commonItems;
-using commonItems.Localization;
-using ImperatorToCK3.CK3.Dynasties;
-using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
-using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Jobs;
-using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.Collections.Generic;
 using System.IO;

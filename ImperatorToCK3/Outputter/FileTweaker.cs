@@ -19,40 +19,24 @@ internal static class FileTweaker {
 	public static async Task ModifyAndRemovePartsOfFiles(ModFilesystem ck3ModFS, string outputModPath, Configuration config) {
 		// Load removable blocks from configurables.
 		Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile = [];
-		
-		if (config.FallenEagleEnabled) {
-			Logger.Info("Reading unneeded parts of Fallen Eagle files...");
-			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_tfe.txt", warnIfNotFound: true);
-			
-			Logger.Info("Reading parts of Fallen Eagle files to modify...");
-			ReadPartsOfFileToReplace(partsToModifyPerFile, "configurables/replaceable_file_blocks_tfe.txt", warnIfNotFound: true);
+
+		// Dynamically load file blocks for each active CK3 mod flag.
+		foreach (var flag in config.GetActiveCK3ModFlags()) {
+			var removablePath = $"configurables/removable_file_blocks_{flag}.txt";
+			var replaceablePath = $"configurables/replaceable_file_blocks_{flag}.txt";
+
+			if (File.Exists(removablePath)) {
+				Logger.Info($"Reading unneeded parts of {flag} files...");
+				ReadPartsOfFileToRemove(partsToModifyPerFile, removablePath, warnIfNotFound: true);
+			}
+
+			if (File.Exists(replaceablePath)) {
+				Logger.Info($"Reading parts of {flag} files to modify...");
+				ReadPartsOfFileToReplace(partsToModifyPerFile, replaceablePath, warnIfNotFound: true);
+			}
 		}
 
-		if (config.RajasOfAsiaEnabled) {
-			Logger.Info("Reading unneeded parts of Rajas of Asia files...");
-			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_roa.txt", warnIfNotFound: true);
-			
-			Logger.Info("Reading parts of Rajas of Asia files to modify...");
-			ReadPartsOfFileToReplace(partsToModifyPerFile, "configurables/replaceable_file_blocks_roa.txt", warnIfNotFound: true);
-		}
-
-		if (config.AsiaExpansionProjectEnabled) {
-			Logger.Info("Reading unneeded parts of Rajas of Asia files...");
-			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_aep.txt", warnIfNotFound: true);
-			
-			Logger.Info("Reading parts of Asia Expansion Project files to modify...");
-			ReadPartsOfFileToReplace(partsToModifyPerFile, "configurables/replaceable_file_blocks_aep.txt", warnIfNotFound: true);
-		}
-
-		if (config.WhenTheWorldStoppedMakingSenseEnabled) {
-			Logger.Info("Reading unneeded parts of When the World Stopped Making Sense files...");
-			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_wtwsms.txt", warnIfNotFound: true);
-
-			Logger.Info("Reading parts of When the World Stopped Making Sense files to modify...");
-			ReadPartsOfFileToReplace(partsToModifyPerFile, "configurables/replaceable_file_blocks_wtwsms.txt", warnIfNotFound: true);
-		}
-
-		bool isVanilla = config.GetCK3ModFlags()["vanilla"];
+		bool isVanilla = config.GetCK3ModFlags()["vanilla_ck3"];
 		Logger.Info("Reading unneeded parts of vanilla files...");
 		ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks.txt", warnIfNotFound: isVanilla);
 		Logger.Info("Reading parts of vanilla files to modify...");
@@ -144,7 +128,6 @@ internal static class FileTweaker {
 		parserForFile.ParseStream(reader);
 	}
 
-	
 	private static async Task ModifyPartsOfFiles(Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, ModFilesystem ck3ModFS, string outputModPath) {
 		// Log count of blocks to remove for each file.
 		foreach (var (relativePath, partsToRemove) in partsToModifyPerFile) {
@@ -167,15 +150,8 @@ internal static class FileTweaker {
 			var fileContent = await File.ReadAllTextAsync(inputPath);
 
 			foreach (var (blockBefore, blockAfter, warnIfNotFound) in partsToRemove) {
-				// If the file uses other line endings than CRLF, we need to modify the search string.
-				string searchString;
-				if (lineEndings == LineEnding.LF) {
-					searchString = blockBefore.Replace("\r\n", "\n");
-				} else if (lineEndings == LineEnding.CR) {
-					searchString = blockBefore.Replace("\r\n", "\r");
-				} else {
-					searchString = blockBefore;
-				}
+				string searchString = NormalizeToLineEnding(blockBefore, lineEndings);
+				string replacementString = NormalizeToLineEnding(blockAfter, lineEndings);
 				
 				if (!fileContent.Contains(searchString)) {
 					if (warnIfNotFound) {
@@ -185,7 +161,7 @@ internal static class FileTweaker {
 					continue;
 				}
 				
-				fileContent = fileContent.Replace(searchString, blockAfter);
+				fileContent = fileContent.Replace(searchString, replacementString);
 			}
 
 			string outputPath = $"{outputModPath}/{relativePath}";
@@ -200,6 +176,16 @@ internal static class FileTweaker {
 		}
 	}
 
+	private static string NormalizeToLineEnding(string text, LineEnding targetLineEnding) {
+		// Normalize any combination of CRLF/CR/LF to LF first.
+		var normalized = text.Replace("\r\n", "\n").Replace("\r", "\n");
+		return targetLineEnding switch {
+			LineEnding.CRLF => normalized.Replace("\n", "\r\n"),
+			LineEnding.CR => normalized.Replace("\n", "\r"),
+			_ => normalized,
+		};
+	}
+
 	private static LineEnding GetLineEndingsInFile(string filePath) {
 		using StreamReader sr = new StreamReader(filePath);
 		bool returnSeen = false;
@@ -208,17 +194,14 @@ internal static class FileTweaker {
 			if (c == '\n') {
 				return returnSeen ? LineEnding.CRLF : LineEnding.LF;
 			}
-			else if (returnSeen) {
+
+			if (returnSeen) {
 				return LineEnding.CR;
 			}
 
 			returnSeen = c == '\r';
 		}
 
-		if (returnSeen) {
-			return LineEnding.CR;
-		} else {
-			return LineEnding.LF;
-		}
+		return returnSeen ? LineEnding.CR : LineEnding.LF;
 	}
 }

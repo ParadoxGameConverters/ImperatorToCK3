@@ -24,7 +24,7 @@ public class FaithTests {
 	
 	[Fact]
 	public void HolySiteIdsAreLoadedAndSerialized() {
-		var faithData = new FaithData {HolySiteIds = new List<string> {"rome", "constantinople", "antioch"}};
+		var faithData = new FaithData {HolySiteIds = ["rome", "constantinople", "antioch"]};
 		var faith = new Faith("chalcedonian", faithData, testReligion);
 
 		Assert.Collection(faith.HolySiteIds,
@@ -83,7 +83,7 @@ public class FaithTests {
 	[Fact]
 	public void HolySiteIdCanBeReplaced() {
 		var faithData = new FaithData {
-			HolySiteIds = new List<string> {"rome", "constantinople", "antioch"}
+			HolySiteIds = ["rome", "constantinople", "antioch"]
 		};
 		var faith = new Faith("orthodox", faithData, testReligion);
 		faith.HolySiteIds.Should().Equal("rome", "constantinople", "antioch");
@@ -97,7 +97,7 @@ public class FaithTests {
 		var output = new StringWriter();
 		Console.SetOut(output);
 
-		var faithData = new FaithData {HolySiteIds = new List<string> {"rome", "constantinople", "antioch"}};
+		var faithData = new FaithData {HolySiteIds = ["rome", "constantinople", "antioch"]};
 		var faith = new Faith("orthodox", faithData, testReligion);
 		faith.HolySiteIds.Should().Equal("rome", "constantinople", "antioch");
 
@@ -162,9 +162,9 @@ public class FaithTests {
 		var faith = new Faith("too_many_doctrines", faithData, testReligion);
 
 		// Should keep only the last 2 among these and drop the first.
-		Assert.Contains("doc_a2", faith.DoctrineIds);
-		Assert.Contains("doc_a3", faith.DoctrineIds);
-		Assert.DoesNotContain("doc_a1", faith.DoctrineIds);
+		Assert.Contains("doc_a2", faith.DoctrineIds as IReadOnlyCollection<string>);
+		Assert.Contains("doc_a3", faith.DoctrineIds as IReadOnlyCollection<string>);
+		Assert.DoesNotContain("doc_a1", faith.DoctrineIds as IReadOnlyCollection<string>);
 
 		// Warning is logged.
 		output.ToString().Should().Contain("Faith too_many_doctrines has too many doctrines in category catA");

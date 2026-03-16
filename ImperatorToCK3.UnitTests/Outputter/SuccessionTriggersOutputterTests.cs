@@ -1,7 +1,7 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Outputter;
-using System.Collections.Generic;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System.IO;
 using System.Threading.Tasks;
 using Xunit;
@@ -23,31 +23,36 @@ public class SuccessionTriggersOutputterTests {
 		var titles = new Title.LandedTitles();
 
 		var kingdomPrimogeniture = titles.Add("k_kingdom1");
-		kingdomPrimogeniture.History.AddFieldValue(date,"succession_laws", "succession_laws", new List<string> { "single_heir_succession_law" });
+		kingdomPrimogeniture.History.AddFieldValue(date,"succession_laws", "succession_laws", new string[] { "single_heir_succession_law" });
 
 		var kingdomSeniority = titles.Add("k_kingdom2");
-		kingdomSeniority.History.AddFieldValue(date,"succession_laws", "succession_laws", new List<string> { "single_heir_dynasty_house" });
+		kingdomSeniority.History.AddFieldValue(date,"succession_laws", "succession_laws", new string[] { "single_heir_dynasty_house" });
 
 		var vassal = titles.Add("d_vassal");
-		vassal.History.AddFieldValue(date,"succession_laws", "succession_laws", new List<string> { "single_heir_succession_law" });
+		vassal.History.AddFieldValue(date,"succession_laws", "succession_laws", new string[] { "single_heir_succession_law" });
 		vassal.SetDeFactoLiege(kingdomPrimogeniture, date); // has de facto liege, will not be added to the trigger
 
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputFilePath));
 
 		await SuccessionTriggersOutputter.OutputSuccessionTriggers(outputModPath, titles, date);
 
-		await using var file = File.OpenRead(outputFilePath);
-		var reader = new StreamReader(file);
-		Assert.Equal("historical_succession_access_single_heir_succession_law_trigger={", await reader.ReadLineAsync());
-		Assert.Equal("\tOR={", await reader.ReadLineAsync());
-		Assert.Equal("\t\thas_title=title:k_kingdom1", await reader.ReadLineAsync());
-		Assert.Equal("\t}", await reader.ReadLineAsync());
-		Assert.Equal("}", await reader.ReadLineAsync());
-		Assert.Equal("historical_succession_access_single_heir_dynasty_house_trigger={", await reader.ReadLineAsync());
-		Assert.Equal("\tOR={", await reader.ReadLineAsync());
-		Assert.Equal("\t\thas_title=title:k_kingdom2", await reader.ReadLineAsync());
-		Assert.Equal("\t}", await reader.ReadLineAsync());
-		Assert.Equal("}", await reader.ReadLineAsync());
-		Assert.True(reader.EndOfStream);
+		var actualText = TextTestUtils.NormalizeNewlines(await File.ReadAllTextAsync(outputFilePath, TestContext.Current.CancellationToken));
+		var expectedText = TextTestUtils.NormalizeNewlines(
+			"""
+			historical_succession_access_single_heir_succession_law_trigger={
+				OR={
+					has_title=title:k_kingdom1
+				}
+			}
+			historical_succession_access_single_heir_dynasty_house_trigger={
+				OR={
+					has_title=title:k_kingdom2
+				}
+			}
+			
+			"""
+		);
+
+		Assert.Equal(expectedText, actualText);
 	}
 }

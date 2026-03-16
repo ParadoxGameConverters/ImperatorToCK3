@@ -1,0 +1,2344 @@
+﻿@form_prefecture_decision_check_interval = 30
+
+# irtock3_rome_empire_division_britannia: "Britannia"
+irtock3_form_prefecture_britannia_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_britannia }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_britannia }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_britannia }
+	}
+}
+
+# irtock3_rome_empire_division_galliarum: "Galliarum"
+irtock3_form_prefecture_galliarum_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_galliarum }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_galliarum }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_galliarum }
+	}
+}
+
+# irtock3_rome_empire_division_germania: "Germania"
+irtock3_form_prefecture_germania_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_germania }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_germania }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_germania }
+	}
+}
+
+# irtock3_rome_empire_division_italiae: "Italiae"
+irtock3_form_prefecture_italiae_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_italiae }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_italiae }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_italiae }
+	}
+}
+
+# irtock3_rome_empire_division_libya_interior: "Libya Interior"
+irtock3_form_prefecture_libya_interior_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_libya_interior }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_libya_interior }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_libya_interior }
+	}
+}
+
+# irtock3_rome_empire_division_libya_ulterior: "Libya Ulterior"
+irtock3_form_prefecture_libya_ulterior_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_libya_ulterior }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_libya_ulterior }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_libya_ulterior }
+	}
+}
+
+# irtock3_rome_empire_division_aethiopia: "Aethiopia"
+irtock3_form_prefecture_aethiopia_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_aethiopia }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_aethiopia }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_aethiopia }
+	}
+}
+
+# irtock3_rome_empire_division_orientis: "Orientis"
+irtock3_form_prefecture_orientis_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_orientis }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_orientis }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_orientis }
+	}
+}
+
+# irtock3_rome_empire_division_illyrici: "Illyrici"
+irtock3_form_prefecture_illyrici_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_illyrici }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_illyrici }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_illyrici }
+	}
+}
+
+# irtock3_rome_empire_division_pannonia: "Pannonia"
+irtock3_form_prefecture_pannonia_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_pannonia }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_pannonia }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_pannonia }
+	}
+}
+
+# irtock3_rome_empire_division_vistulia: "Vistulia"
+irtock3_form_prefecture_vistulia_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_vistulia }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_vistulia }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_vistulia }
+	}
+}
+
+# irtock3_rome_empire_division_fennia: "Fennia"
+irtock3_form_prefecture_fennia_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_fennia }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_fennia }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_fennia }
+	}
+}
+
+# irtock3_rome_empire_division_scandia: "Scandia"
+irtock3_form_prefecture_scandia_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_scandia }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_scandia }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_scandia }
+	}
+}
+
+# irtock3_rome_empire_division_arabia: "Arabia"
+irtock3_form_prefecture_arabia_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_arabia }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_arabia }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_arabia }
+	}
+}
+
+# irtock3_rome_empire_division_persia: "Persia"
+irtock3_form_prefecture_persia_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_persia }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_persia }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_persia }
+	}
+}
+
+# irtock3_rome_empire_division_sarmatia: "Sarmatia"
+irtock3_form_prefecture_sarmatia_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_sarmatia }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_sarmatia }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_sarmatia }
+	}
+}
+
+# irtock3_rome_empire_division_uralia_interior: "Uralia Interior"
+irtock3_form_prefecture_uralia_interior_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_uralia_interior }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_uralia_interior }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_uralia_interior }
+	}
+}
+
+# irtock3_rome_empire_division_uralia_ulterior: "Uralia Ulterior"
+irtock3_form_prefecture_uralia_ulterior_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_uralia_ulterior }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_uralia_ulterior }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_uralia_ulterior }
+	}
+}
+
+# irtock3_rome_empire_division_tartaria: "Tartaria"
+irtock3_form_prefecture_tartaria_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_tartaria }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_tartaria }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_tartaria }
+	}
+}
+
+# irtock3_rome_empire_division_parthia: "Parthia"
+irtock3_form_prefecture_parthia_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_parthia }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_parthia }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_parthia }
+	}
+}
+
+# irtock3_rome_empire_division_imoan_montem: "Imoan Montem"
+irtock3_form_prefecture_imoan_montem_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_imoan_montem }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_imoan_montem }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_imoan_montem }
+	}
+}
+
+# irtock3_rome_empire_division_india_intra_gangem: "India Intra Gangem"
+irtock3_form_prefecture_india_intra_gangem_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_india_intra_gangem }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_india_intra_gangem }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_india_intra_gangem }
+	}
+}
+
+# irtock3_rome_empire_division_india_extra_gangem: "India Extra Gangem"
+irtock3_form_prefecture_india_extra_gangem_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_india_extra_gangem }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_india_extra_gangem }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_india_extra_gangem }
+	}
+}
+
+# irtock3_rome_empire_division_magna_taprobana: "Magna Taprobana"
+irtock3_form_prefecture_magna_taprobana_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_magna_taprobana }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_magna_taprobana }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_magna_taprobana }
+	}
+}
+
+# irtock3_rome_empire_division_insulae_remotae: "Insulae Remotae"
+irtock3_form_prefecture_insulae_remotae_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_insulae_remotae }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_insulae_remotae }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_insulae_remotae }
+	}
+}
+
+# irtock3_rome_empire_division_insulae_solis: "Insulae Solis"
+irtock3_form_prefecture_insulae_solis_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_insulae_solis }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_insulae_solis }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_insulae_solis }
+	}
+}
+
+# irtock3_rome_empire_division_septentrionalis_deserti: "Septentrionalis Deserti"
+irtock3_form_prefecture_septentrionalis_deserti_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_septentrionalis_deserti }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_septentrionalis_deserti }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_septentrionalis_deserti }
+	}
+}
+
+# irtock3_rome_empire_division_serica_ultima: "Serica Ultima"
+irtock3_form_prefecture_serica_ultima_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_serica_ultima }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_serica_ultima }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_serica_ultima }
+	}
+}
+
+# irtock3_rome_empire_division_serica_meridiana: "Serica Meridiana"
+irtock3_form_prefecture_serica_meridiana_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_serica_meridiana }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_serica_meridiana }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_serica_meridiana }
+	}
+}
+
+# irtock3_rome_empire_division_serica_occidens: "Serica Occidens"
+irtock3_form_prefecture_serica_occidens_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_serica_occidens }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_serica_occidens }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_serica_occidens }
+	}
+}
+
+# irtock3_rome_empire_division_serica_orientalis: "Serica Orientalis"
+irtock3_form_prefecture_serica_orientalis_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_serica_orientalis }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_serica_orientalis }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_serica_orientalis }
+	}
+}
+
+# irtock3_rome_empire_division_serica_septentrionalis: "Serica Septentrionalis"
+irtock3_form_prefecture_serica_septentrionalis_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_serica_septentrionalis }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_serica_septentrionalis }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_serica_septentrionalis }
+	}
+}
+
+# irtock3_rome_empire_division_serica_deserti: "Serica Deserti"
+irtock3_form_prefecture_serica_deserti_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
+
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_serica_deserti }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_serica_deserti }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_serica_deserti }
+	}
+}

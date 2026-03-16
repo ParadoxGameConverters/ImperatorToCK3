@@ -10,7 +10,7 @@ GitHub project: https://github.com/ParadoxGameConverters/ImperatorToCK3
 REQUIREMENTS
 ----
 Imperator: Rome - version 2.0
-Crusader Kings III - version 1.17
+Crusader Kings III - version 1.18
 
 -----
 INSTRUCTIONS
@@ -49,8 +49,9 @@ The Bronze Age: Maryannu mod team (https://steamcommunity.com/sharedfiles/filede
 Bronze Age Reborn mod team (https://steamcommunity.com/sharedfiles/filedetails/?id=3232096613) and Svanley - Hattian religion, Elamite religion
 កាបូន26 - Help with mapping Terra Indomita cultures to Asia Expansion Project
 Nezaros, author of the Rajas of Asia mod for CK3 (https://steamcommunity.com/sharedfiles/filedetails/?id=2509174436) - Permission to use the Samre culture from their mod
-tanner918 - Data files, mostly for the Terra Indomita -> Rajas of Asia conversion
+tanner918 - Data files and compatching for new CK3 and mod versions
 ciurlys - Definition of mithra_religion, the Iranian cult of Mithra
 Astures - Help with debugging The Fallen Eagle crashes
+hunter00001 - Baiyue and Mohism faith icons
 
  - AND ALL THE OTHERS WHO GAVE THEIR INPUT ON THE FORUM AND DISCORD -

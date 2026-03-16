@@ -28,10 +28,8 @@ internal sealed class CultureMappingRule {
 			return null;
 		}
 
-		if (irHistoricalTags.Count > 0) {
-			if (string.IsNullOrEmpty(historicalTag) || !irHistoricalTags.Contains(historicalTag)) {
-				return null;
-			}
+		if (irHistoricalTags.Count > 0 && (string.IsNullOrEmpty(historicalTag) || !irHistoricalTags.Contains(historicalTag))) {
+			return null;
 		}
 
 		// simple culture-culture match
@@ -82,6 +80,7 @@ internal sealed class CultureMappingRule {
 	}
 	
 	public string CK3CultureId { get; private set; } = string.Empty;
+	public IReadOnlySet<string> IrCultures => cultures;
 
 	private readonly SortedSet<string> cultures = new();
 	private readonly SortedSet<string> irHistoricalTags = new();
