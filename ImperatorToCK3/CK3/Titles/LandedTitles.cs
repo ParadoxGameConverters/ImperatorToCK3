@@ -40,8 +40,12 @@ internal sealed partial class Title {
 	// Since titles are nested according to hierarchy we do this recursively.
 	internal sealed class LandedTitles : TitleCollection {
 		public Dictionary<string, object> Variables { get; } = [];
-	
+
 		public IEnumerable<Title> Counties => this.Where(t => t.Rank == TitleRank.county);
+		public FrozenSet<ulong> CapitalBaronyProvinceIds => field ??= this
+			.Where(t => t.CapitalBaronyProvinceId.HasValue)
+			.Select(t => t.CapitalBaronyProvinceId!.Value)
+			.ToFrozenSet();
 
 		public void LoadTitles(ModFilesystem ck3ModFS, CK3LocDB ck3LocDB, ColorFactory colorFactory) {
 			Logger.Info("Loading landed titles...");

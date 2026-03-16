@@ -114,6 +114,7 @@
 
     <ItemGroup>
         <InternalsVisibleTo Include="ImperatorToCK3.UnitTests" />
+        <InternalsVisibleTo Include="ImperatorToCK3.Benchmarks" />
     </ItemGroup>
 
     <ItemGroup>
