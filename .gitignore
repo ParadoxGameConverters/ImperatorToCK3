@@ -47,6 +47,5 @@ validate-with-ck3-tiger_wtwsms.ps1
 previous-problem-count.txt
 
 # Benchmark stuff
-/ImperatorToCK3.Benchmarks/
 /BenchmarkDotNet.Artifacts/
 /BenchmarkSuite1/

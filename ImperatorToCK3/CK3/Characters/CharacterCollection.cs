@@ -284,23 +284,23 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	}
 
 	private static Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
-		var fatherChildren = father.Children.Values;
-		var motherChildren = mother.Children.Values;
-		var largerCollection = fatherChildren.Count >= motherChildren.Count ? fatherChildren : motherChildren;
-		var smallerCollection = fatherChildren.Count < motherChildren.Count ? fatherChildren : motherChildren;
-		var childSet = new HashSet<Imperator.Characters.Character>(largerCollection);
-
 		Date? firstChildBirthDate = null;
-		foreach (var child in smallerCollection) {
-			if (!childSet.Contains(child)) {
-				continue;
+
+		if (father.Children.Count > 0 && mother.Children.Count > 0) {
+			var smallerCollection = father.Children.Count <= mother.Children.Count ? father.Children : mother.Children;
+			var largerCollection = father.Children.Count > mother.Children.Count ? father.Children : mother.Children;
+
+			foreach (var (childId, child) in smallerCollection) {
+				if (!largerCollection.ContainsKey(childId)) {
+					continue;
+				}
+				if (firstChildBirthDate is null || child.BirthDate < firstChildBirthDate) {
+					firstChildBirthDate = child.BirthDate;
+				}
 			}
-			if (firstChildBirthDate is null || child.BirthDate < firstChildBirthDate) {
-				firstChildBirthDate = child.BirthDate;
+			if (firstChildBirthDate is not null) {
+				return firstChildBirthDate;
 			}
-		}
-		if (firstChildBirthDate is not null) {
-			return firstChildBirthDate;
 		}
 
 		foreach (var unborn in mother.Unborns) {
