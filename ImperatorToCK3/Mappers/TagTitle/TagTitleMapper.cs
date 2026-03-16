@@ -98,7 +98,8 @@ internal sealed class TagTitleMapper {
 		}
 
 		// Attempt a title match
-		foreach (var mapping in titleMappings) {
+		for (int i = 0; i < titleMappings.Count; ++i) {
+			var mapping = titleMappings[i];
 			var match = mapping.GovernorshipMatch(rank, titles, governorship, provMapper, irProvinces);
 			if (match is null) {
 				continue;
@@ -107,6 +108,17 @@ internal sealed class TagTitleMapper {
 			if (usedTitles.Contains(match)) {
 				continue;
 			}
+
+			// Currently we don't want to modify the de jure structure of h_china.
+			// So, if the given title ID belongs to h_china de jure hierarchy, we skip it and remove the mapping.
+			if (titles.TryGetValue(match, out var ck3Title) && ck3Title.GetDeJureLiegeOfRank(TitleRank.hegemony)?.Id == "h_china") {
+				Logger.Debug($"Governorship title {match} belongs to h_china de jure hierarchy! Skipping mapping for governorship in region {governorship.Region.Id} of country {country.Tag}.");
+				titleMappings.RemoveAt(i);
+				// move back one index so we don't skip the element that shifted into this slot
+				--i;
+				continue;
+			}
+
 			RegisterGovernorship(governorship.Region.Id, country.Tag, match);
 			return match;
 		}
@@ -289,7 +301,7 @@ internal sealed class TagTitleMapper {
 	private readonly List<TitleMapping> titleMappings = new();
 	private readonly Dictionary<ulong, string> registeredCountryTitles = new(); // We store already mapped countries here.
 	private readonly Dictionary<string, string> registeredGovernorshipTitles = new(); // We store already mapped governorships here.
-	private readonly SortedSet<string> usedTitles = new();
+	private readonly HashSet<string> usedTitles = new(StringComparer.Ordinal);
 
 	private readonly HashSet<string> hegemonyKeywords = [];
 	private readonly HashSet<string> empireKeywords = ["empire"];

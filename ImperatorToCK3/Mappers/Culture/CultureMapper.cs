@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.Mappers.Region;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,6 +19,7 @@ internal sealed class CultureMapper {
 		Logger.Info($"Loaded {cultureMappingRules.Count} cultural links.");
 		
 		RemoveInvalidRules(cultures);
+		BuildLookup();
 
 		Logger.IncrementProgress();
 	}
@@ -30,6 +32,7 @@ internal sealed class CultureMapper {
 		parser.ParseStream(reader);
 		
 		RemoveInvalidRules(cultures);
+		BuildLookup();
 	}
 
 	private void RegisterKeys(Parser parser) {
@@ -44,14 +47,35 @@ internal sealed class CultureMapper {
 			Logger.Debug($"{removedCount} culture mapping rules removed due to specified CK3 cultures not existing.");
 		}
 	}
-	
+
+	private void BuildLookup() {
+		cultureRuleLookup.Clear();
+		foreach (var rule in cultureMappingRules) {
+			foreach (var irCulture in rule.IrCultures) {
+				if (!cultureRuleLookup.TryGetValue(irCulture, out var list)) {
+					list = new List<CultureMappingRule>();
+					cultureRuleLookup[irCulture] = list;
+				}
+				list.Add(rule);
+			}
+		}
+	}
+
 	public string? Match(
 		string irCulture,
 		ulong? ck3ProvinceId,
 		ulong? irProvinceId,
 		string? historicalTag
 	) {
-		foreach (var cultureMappingRule in cultureMappingRules) {
+		if (string.IsNullOrEmpty(irCulture)) {
+			return null;
+		}
+
+		if (!cultureRuleLookup.TryGetValue(irCulture, out var rules)) {
+			return null;
+		}
+
+		foreach (var cultureMappingRule in rules) {
 			var possibleMatch = cultureMappingRule.Match(irCulture, ck3ProvinceId, irProvinceId, historicalTag, irRegionMapper, ck3RegionMapper);
 			if (possibleMatch is not null) {
 				return possibleMatch;
@@ -61,6 +85,7 @@ internal sealed class CultureMapper {
 	}
 
 	private readonly List<CultureMappingRule> cultureMappingRules = new();
+	private readonly Dictionary<string, List<CultureMappingRule>> cultureRuleLookup = new(StringComparer.Ordinal);
 	private readonly ImperatorRegionMapper irRegionMapper;
 	private readonly CK3RegionMapper ck3RegionMapper;
 }

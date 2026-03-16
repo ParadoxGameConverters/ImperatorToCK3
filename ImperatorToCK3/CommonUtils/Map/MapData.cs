@@ -473,31 +473,39 @@ internal sealed class MapData {
 
 	// Function for checking if two land provinces are connected to the same water body.
 	public bool AreProvinceGroupsConnectedByWaterBody(FrozenSet<ulong> group1, FrozenSet<ulong> group2) {
-		var group1WaterNeighbors = new HashSet<ulong>();
+		var group1WaterBodies = new HashSet<ulong>();
 		foreach (var provId in group1) {
 			if (!NeighborsDict.TryGetValue(provId, out var neighbors)) {
 				continue;
 			}
-			foreach (ulong neighbor in neighbors.Where(IsStaticWater)) {
-				group1WaterNeighbors.Add(neighbor);
+			foreach (var neighbor in neighbors) {
+				if (!IsStaticWater(neighbor)) {
+					continue;
+				}
+				if (waterBodiesDict.TryGetValue(neighbor, out var waterBodyId)) {
+					group1WaterBodies.Add(waterBodyId);
+				}
 			}
 		}
-		if (group1WaterNeighbors.Count == 0) {
+		if (group1WaterBodies.Count == 0) {
 			return false;
 		}
 
-		var group2WaterNeighbors = group2
-			.SelectMany(provId => NeighborsDict.TryGetValue(provId, out var neighbors) ? neighbors : [])
-			.Where(IsStaticWater)
-			.ToFrozenSet();
-		if (group2WaterNeighbors.Count == 0) {
-			return false;
+		foreach (var provId in group2) {
+			if (!NeighborsDict.TryGetValue(provId, out var neighbors)) {
+				continue;
+			}
+			foreach (var neighbor in neighbors) {
+				if (!IsStaticWater(neighbor)) {
+					continue;
+				}
+				if (waterBodiesDict.TryGetValue(neighbor, out var waterBodyId) && group1WaterBodies.Contains(waterBodyId)) {
+					return true;
+				}
+			}
 		}
 
-		var group1WaterBodies = group1WaterNeighbors.Select(id => waterBodiesDict[id]).ToFrozenSet();
-
-		return group2WaterNeighbors
-			.Any(group2ProvId => group1WaterBodies.Contains(waterBodiesDict[group2ProvId]));
+		return false;
 	}
 
 	private void LoadAdjacencies(string adjacenciesFilename, ModFilesystem modFS) {

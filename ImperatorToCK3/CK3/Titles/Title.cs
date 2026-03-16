@@ -1438,6 +1438,17 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		return null;
 	}
 
+	internal Title? GetDeJureLiegeOfRank(TitleRank rank) {
+		// For rank equal to the title's rank, return the title itself.
+		if (Rank == rank) {
+			return this;
+		}
+		if (DeJureLiege is null) {
+			return null;
+		}
+		return DeJureLiege.GetDeJureLiegeOfRank(rank);
+	}
+
 	public static TitleRank GetRankForId(string titleId) {
 		var firstChar = titleId[0];
 		return firstChar switch {

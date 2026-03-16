@@ -1201,7 +1201,7 @@ internal sealed class World {
 			// This fixes stuff like a vanilla Tang China in one county.
 			var irProvIds = county.CountyProvinceIds
 				.SelectMany(id => provinceMapper.GetImperatorProvinceNumbers(id)).ToArray();
-			if (irProvIds.Length > 0 && irProvIds.All(p => irProvinces[p].OwnerCountry is null)) {
+			if (irProvIds.Length > 0 && irProvIds.All(p => !irProvinces.TryGetValue(p, out var irProv) || irProv.OwnerCountry is null)) {
 				Logger.Debug($"Adding {county.Id} to unheld counties because all its provinces are mapped to I:R wastelands.");
 				unheldCounties.Add(county);
 				continue;

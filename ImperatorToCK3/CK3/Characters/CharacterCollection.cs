@@ -284,23 +284,23 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	}
 
 	private static Date? GetBirthDateOfFirstCommonChild(Imperator.Characters.Character father, Imperator.Characters.Character mother) {
-		var fatherChildren = father.Children.Values;
-		var motherChildren = mother.Children.Values;
-		var largerCollection = fatherChildren.Count >= motherChildren.Count ? fatherChildren : motherChildren;
-		var smallerCollection = fatherChildren.Count < motherChildren.Count ? fatherChildren : motherChildren;
-		var childSet = new HashSet<Imperator.Characters.Character>(largerCollection);
-
 		Date? firstChildBirthDate = null;
-		foreach (var child in smallerCollection) {
-			if (!childSet.Contains(child)) {
-				continue;
+
+		if (father.Children.Count > 0 && mother.Children.Count > 0) {
+			var smallerCollection = father.Children.Count <= mother.Children.Count ? father.Children : mother.Children;
+			var largerCollection = father.Children.Count > mother.Children.Count ? father.Children : mother.Children;
+
+			foreach (var (childId, child) in smallerCollection) {
+				if (!largerCollection.ContainsKey(childId)) {
+					continue;
+				}
+				if (firstChildBirthDate is null || child.BirthDate < firstChildBirthDate) {
+					firstChildBirthDate = child.BirthDate;
+				}
 			}
-			if (firstChildBirthDate is null || child.BirthDate < firstChildBirthDate) {
-				firstChildBirthDate = child.BirthDate;
+			if (firstChildBirthDate is not null) {
+				return firstChildBirthDate;
 			}
-		}
-		if (firstChildBirthDate is not null) {
-			return firstChildBirthDate;
 		}
 
 		foreach (var unborn in mother.Unborns) {
@@ -783,7 +783,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 		var titleHolderIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(ck3BookmarkDate);
 		var oldTitleHolders = new List<Character>();
-		var oldCharactersWithoutTitles = new List<Character>();
+		var randomForCharactersWithoutTitles = new Random((int)randomSeed);
 		foreach (var character in this) {
 			if (character.BirthDate >= ck3BookmarkDate || character.DeathDate is not null || ck3BookmarkDate.DiffInYears(character.BirthDate) <= 60) {
 				continue;
@@ -792,44 +792,27 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			if (titleHolderIds.Contains(character.Id)) {
 				oldTitleHolders.Add(character);
 			} else {
-				oldCharactersWithoutTitles.Add(character);
+				// For characters that don't hold any titles, just set up a death date.
+				SetUpDeathDateForCharacterWithoutTitles(character, irSaveDate, randomForCharactersWithoutTitles);
 			}
 		}
-		
-		// For characters that don't hold any titles, just set up a death date.
-		var randomForCharactersWithoutTitles = new Random((int)randomSeed);
-		foreach (var oldCharacter in oldCharactersWithoutTitles) {
-			// Roll a dice to determine how much longer the character will live.
-			var monthsToLive = randomForCharactersWithoutTitles.Next(1, 30 * 12); // Can live up to 30 years more.
-			
-			// If the character is female and pregnant, make sure she doesn't die before the pregnancy ends.
-			if (oldCharacter is {Female: true, ImperatorCharacter: not null}) {
-				var lastPregnancy = oldCharacter.Pregnancies.OrderBy(p => p.BirthDate).LastOrDefault();
-				if (lastPregnancy is not null) {
-					oldCharacter.DeathDate = lastPregnancy.BirthDate.ChangeByMonths(monthsToLive);
-					continue;
-				}
-			}
 
-			oldCharacter.DeathDate = irSaveDate.ChangeByMonths(monthsToLive);
+		if (oldTitleHolders.Count == 0) {
+			return;
 		}
-		
-		var heldTitlesByHolderIdLists = new Dictionary<string, List<Title>>(StringComparer.Ordinal);
+
+		var titlesByHolderId = new Dictionary<string, List<Title>>(StringComparer.Ordinal);
 		foreach (var title in titles) {
 			var holderId = title.GetHolderId(ck3BookmarkDate);
 			if (holderId == "0") {
 				continue;
 			}
 
-			if (!heldTitlesByHolderIdLists.TryGetValue(holderId, out var heldTitles)) {
+			if (!titlesByHolderId.TryGetValue(holderId, out var heldTitles)) {
 				heldTitles = [];
-				heldTitlesByHolderIdLists[holderId] = heldTitles;
+				titlesByHolderId[holderId] = heldTitles;
 			}
 			heldTitles.Add(title);
-		}
-		var titlesByHolderId = new Dictionary<string, Title[]>(heldTitlesByHolderIdLists.Count, StringComparer.Ordinal);
-		foreach (var (holderId, heldTitles) in heldTitlesByHolderIdLists) {
-			titlesByHolderId[holderId] = [.. heldTitles];
 		}
 
 		var cultureIdToMaleNames = new Dictionary<string, string[]>(cultures.Count, StringComparer.Ordinal);
@@ -841,8 +824,29 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		Parallel.ForEach(oldTitleHolders, oldCharacter => GenerateSuccessorsForCharacter(oldCharacter, titlesByHolderId, cultureIdToMaleNames, irSaveDate, ck3BookmarkDate, randomSeed));
 	}
 
-	private void GenerateSuccessorsForCharacter(Character oldCharacter, IReadOnlyDictionary<string, Title[]> titlesByHolderId,
-		IReadOnlyDictionary<string, string[]> cultureIdToMaleNames, Date irSaveDate, Date ck3BookmarkDate, ulong randomSeed)
+	private static void SetUpDeathDateForCharacterWithoutTitles(Character oldCharacter, Date irSaveDate, Random random) {
+		// Roll a dice to determine how much longer the character will live.
+		var monthsToLive = random.Next(1, 30 * 12); // Can live up to 30 years more.
+
+		// If the character is female and pregnant, make sure she doesn't die before the pregnancy ends.
+		if (oldCharacter is {Female: true, ImperatorCharacter: not null}) {
+			Pregnancy? lastPregnancy = null;
+			foreach (var pregnancy in oldCharacter.Pregnancies) {
+				if (lastPregnancy is null || pregnancy.BirthDate > lastPregnancy.BirthDate) {
+					lastPregnancy = pregnancy;
+				}
+			}
+			if (lastPregnancy is not null) {
+				oldCharacter.DeathDate = lastPregnancy.BirthDate.ChangeByMonths(monthsToLive);
+				return;
+			}
+		}
+
+		oldCharacter.DeathDate = irSaveDate.ChangeByMonths(monthsToLive);
+	}
+
+	private void GenerateSuccessorsForCharacter(Character oldCharacter, Dictionary<string, List<Title>> titlesByHolderId,
+		Dictionary<string, string[]> cultureIdToMaleNames, Date irSaveDate, Date ck3BookmarkDate, ulong randomSeed)
 	{
 		// Get all titles held by the character.
 		var heldTitles = titlesByHolderId[oldCharacter.Id];

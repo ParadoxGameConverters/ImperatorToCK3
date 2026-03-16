@@ -19,6 +19,7 @@ namespace ImperatorToCK3.CK3.Religions;
 
 internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdObjectCollection<string, Religion> {
 	private readonly Dictionary<string, OrderedSet<string>> replaceableHolySitesByFaith = [];
+	private Dictionary<string, Faith>? faithCache;
 	public IReadOnlyDictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith => replaceableHolySitesByFaith;
 	public IdObjectCollection<string, HolySite> HolySites { get; } = [];
 	public IdObjectCollection<string, DoctrineCategory> DoctrineCategories { get; } = [];
@@ -30,6 +31,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	}
 
 	public void LoadReligions(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
+		faithCache = null;
 		var parser = new Parser();
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 			var religion = new Religion(religionId, religionReader, this, colorFactory);
@@ -40,6 +42,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	}
 
 	public void LoadConverterFaiths(string converterFaithsPath, ColorFactory colorFactory, Hash liquidVariables) {
+		faithCache = null;
 		OrderedSet<Faith> loadedConverterFaiths = [];
 		
 		var parser = new Parser();
@@ -228,13 +231,16 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	}
 
 	public Faith? GetFaith(string id) {
-		foreach (Religion religion in this) {
-			if (religion.Faiths.TryGetValue(id, out var faith)) {
-				return faith;
+		if (faithCache is null) {
+			faithCache = [];
+			foreach (var religion in this) {
+				foreach (var faith in religion.Faiths) {
+					faithCache[faith.Id] = faith;
+				}
 			}
 		}
 
-		return null;
+		return faithCache.TryGetValue(id, out var result) ? result : null;
 	}
 
 	private Title? GetHolySiteBarony(HolySite holySite) {
