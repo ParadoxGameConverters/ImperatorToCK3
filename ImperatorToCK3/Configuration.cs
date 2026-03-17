@@ -461,7 +461,8 @@ internal sealed class Configuration {
 			flags[definition.Flag] = activeCK3ModFlags.Contains(definition.Flag);
 		}
 
-		flags["vanilla_ck3"] = !flags.Any(f => f.Value);
+		// If no CK3 mod flags are set, treat it as vanilla CK3.
+		flags["vanilla_ck3"] = activeCK3ModFlags.Count == 0;
 		return flags;
 	}
 
@@ -479,7 +480,8 @@ internal sealed class Configuration {
 			flags[definition.Flag] = activeImperatorModFlags.Contains(definition.Flag);
 		}
 
-		flags["vanilla_ir"] = !flags.Any(f => f.Value);
+		// If no Imperator mod flags are set, treat it as vanilla Imperator.
+		flags["vanilla_ir"] = activeImperatorModFlags.Count == 0;
 		return flags;
 	}
 

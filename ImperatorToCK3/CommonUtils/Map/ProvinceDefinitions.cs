@@ -9,12 +9,12 @@ using System.IO;
 namespace ImperatorToCK3.CommonUtils.Map;
 
 internal sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDefinition> {
-	public Dictionary<Rgb24, ulong> ColorToProvinceDict { get; } = [];
-	public Dictionary<ulong, Rgb24> ProvinceToColorDict { get; } = [];
+	internal Dictionary<Rgb24, ulong> ColorToProvinceDict { get; } = [];
+	internal Dictionary<ulong, Rgb24> ProvinceToColorDict { get; } = [];
 
-	public void LoadDefinitions(string definitionsFilename, ModFilesystem modFS) {
+	internal void LoadDefinitions(string definitionsFilename, ModFilesystem modFS) {
 		var relativePath = Path.Combine("map_data", definitionsFilename);
-		var definitionsFilePath = modFS.GetActualFileLocation(relativePath);
+		string? definitionsFilePath = modFS.GetActualFileLocation(relativePath);
 		if (definitionsFilePath is null) {
 			Logger.Warn($"Province definitions file {definitionsFilename} not found!");
 			return;
@@ -36,14 +36,46 @@ internal sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDe
 			}
 
 			try {
-				var columns = line.Split(';');
+				var span = line.AsSpan();
+				int pos = 0;
 
-				var id = ulong.Parse(columns[0]);
+				// id
+				var idEnd = span.IndexOf(';');
+				if (idEnd < 0) throw new FormatException("Missing separators");
+				var idSpan = span[pos..idEnd];
+				pos = idEnd + 1;
+				if (!ulong.TryParse(idSpan, out var id)) {
+					throw new FormatException($"Invalid id: {idSpan}");
+				}
 				AddOrReplace(new ProvinceDefinition(id));
 
-				var r = byte.Parse(columns[1]);
-				var g = byte.Parse(columns[2]);
-				var b = byte.Parse(columns[3]);
+				// r
+				var rEnd = span[pos..].IndexOf(';');
+				if (rEnd < 0) throw new FormatException("Missing separators");
+				var rSpan = span[pos..(pos + rEnd)];
+				pos += rEnd + 1;
+				if (!byte.TryParse(rSpan, out var r)) {
+					throw new FormatException($"Invalid r: {rSpan}");
+				}
+
+				// g
+				var gEnd = span[pos..].IndexOf(';');
+				if (gEnd < 0) throw new FormatException("Missing separators");
+				var gSpan = span[pos..(pos + gEnd)];
+				pos += gEnd + 1;
+				if (!byte.TryParse(gSpan, out var g)) {
+					throw new FormatException($"Invalid g: {gSpan}");
+				}
+
+				// b
+				var bEnd = span[pos..].IndexOf(';');
+				if (bEnd < 0) throw new FormatException("Missing separators");
+				var bSpan = span[pos..(pos + bEnd)];
+				pos += bEnd + 1;
+				if (!byte.TryParse(bSpan, out var b)) {
+					throw new FormatException($"Invalid b: {bSpan}");
+				}
+
 				var color = new Rgb24(r, g, b);
 				ProvinceToColorDict.Add(id, color);
 				ColorToProvinceDict[color] = id;

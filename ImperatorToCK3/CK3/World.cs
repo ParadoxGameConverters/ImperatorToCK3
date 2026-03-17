@@ -753,10 +753,9 @@ internal sealed class World {
 		}
 
 		var parentRegionName = imperatorRegionMapper.GetParentRegionName(irProvince.Id);
-		var matchingGovernorships = governorshipsSet
-			.Where(g => g.Country.Id == irCountry.Id && g.Region.Id == parentRegionName)
-			.ToArray();
-		if (matchingGovernorships.Length == 0) {
+		var governorship = governorshipsSet
+			.FirstOrDefault(g => g.Country.Id == irCountry.Id && g.Region.Id == parentRegionName);
+		if (governorship is null) {
 			// We have no matching governorship.
 			return false;
 		}
@@ -766,7 +765,6 @@ internal sealed class World {
 		}
 
 		// give county to governor
-		var governorship = matchingGovernorships[0];
 		var ck3GovernorshipId = tagTitleMapper.GetTitleForGovernorship(governorship, LandedTitles, irProvinces, Provinces, imperatorRegionMapper, provinceMapper);
 		if (ck3GovernorshipId is null) {
 			Logger.Warn($"{nameof(ck3GovernorshipId)} is null for {ck3Country} {governorship.Region.Id}!");
@@ -825,11 +823,12 @@ internal sealed class World {
 		Country irCountry,
 		List<KeyValuePair<Country, Dependency?>> countyLevelCountries,
 		CountryCollection irCountries) {
-		var matchingCountyLevelRulers = countyLevelCountries.Where(c => c.Key.Id == irCountry.Id).ToArray();
-		if (matchingCountyLevelRulers.Length == 0) {
+		var matchingCountyLevelRuler = countyLevelCountries
+			.FirstOrDefault(c => c.Key.Id == irCountry.Id);
+		if (matchingCountyLevelRuler.Key is null) {
 			return false;
 		}
-		var dependency = matchingCountyLevelRulers[0].Value;
+		var dependency = matchingCountyLevelRuler.Value;
 
 		// Give county to ruler.
 		var ck3Ruler = irCountry.Monarch?.CK3Character;
