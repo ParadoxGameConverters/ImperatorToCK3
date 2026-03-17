@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Localization;
@@ -1612,7 +1612,7 @@ internal sealed partial class Title {
 			var dictToReturn = new Dictionary<Title, List<HashSet<Title>>>();
 			
 			foreach (var empire in this.Where(t => t.Rank == TitleRank.empire)) {
-				IEnumerable<Title> deJureKingdoms = empire.GetDeJureVassalsAndBelow("k").Values;
+				Title[] deJureKingdoms = [.. empire.GetDeJureVassalsAndBelow("k").Values];
 
 				// Unassign de jure kingdoms that have no de jure land themselves.
 				var deJureKingdomsWithoutLand =
@@ -1623,7 +1623,7 @@ internal sealed partial class Title {
 
 				deJureKingdoms = deJureKingdoms.Except(deJureKingdomsWithoutLand).ToArray();
 
-				if (!deJureKingdoms.Any()) {
+				if (deJureKingdoms.Length == 0) {
 					if (removableEmpireIds.Contains(empire.Id)) {
 						Remove(empire.Id);
 					}
@@ -1645,8 +1645,8 @@ internal sealed partial class Title {
 				.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 		}
 
-		private static List<HashSet<Title>> GroupKingdomsIntoContiguousGroups(Dictionary<string, HashSet<string>> kingdomAdjacencies, IEnumerable<Title> deJureKingdoms) {
-			var orderedKingdoms = deJureKingdoms as IReadOnlyList<Title> ?? [.. deJureKingdoms];
+		private static List<HashSet<Title>> GroupKingdomsIntoContiguousGroups(Dictionary<string, HashSet<string>> kingdomAdjacencies, Title[] deJureKingdoms) {
+			var orderedKingdoms = deJureKingdoms;
 			var kingdomsById = orderedKingdoms.ToDictionary(k => k.Id, StringComparer.Ordinal);
 			var remainingKingdomIds = new HashSet<string>(kingdomsById.Keys, StringComparer.Ordinal);
 			var kingdomGroups = new List<HashSet<Title>>();
@@ -1832,7 +1832,7 @@ internal sealed partial class Title {
 			}
 		}
 
-		private static Dictionary<string, int> GetIRProvsPerCounty(ProvinceCollection ck3Provinces, IEnumerable<Title> counties) {
+		private static Dictionary<string, int> GetIRProvsPerCounty(ProvinceCollection ck3Provinces, Title[] counties) {
 			Dictionary<string, int> irProvsPerCounty = [];
 			foreach (var county in counties) {
 				HashSet<ulong> imperatorProvs = [];
@@ -1919,7 +1919,7 @@ internal sealed partial class Title {
 		/// https://ck3.paradoxwikis.com/Council
 		/// https://ck3.paradoxwikis.com/Court#Court_positions
 		/// </summary>
-		public void ImportImperatorGovernmentOffices(ICollection<OfficeJob> irOfficeJobs, ReligionCollection religionCollection, Date irSaveDate) {
+		public void ImportImperatorGovernmentOffices(List<OfficeJob> irOfficeJobs, ReligionCollection religionCollection, Date irSaveDate) {
 			Logger.Info("Converting government offices...");
 			var titlesFromImperator = GetCountriesImportedFromImperator();
 			

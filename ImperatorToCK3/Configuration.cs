@@ -35,7 +35,7 @@ internal sealed class Configuration {
 	public GameVersion CK3Version { get; private set; } = new();
 
 	private readonly HashSet<string> activeCK3ModFlags = [];
-	private IReadOnlyList<ModDefinition> ck3ModDefinitions = [];
+	private List<ModDefinition> ck3ModDefinitions = [];
 
 	public bool FallenEagleEnabled => activeCK3ModFlags.Contains("tfe");
 	public bool WhenTheWorldStoppedMakingSenseEnabled => activeCK3ModFlags.Contains("wtwsms");
@@ -45,7 +45,7 @@ internal sealed class Configuration {
 	public bool OutputCCUParameters => WhenTheWorldStoppedMakingSenseEnabled || FallenEagleEnabled || RajasOfAsiaEnabled;
 
 	private readonly HashSet<string> activeImperatorModFlags = [];
-	private IReadOnlyList<ModDefinition> imperatorModDefinitions = [];
+	private List<ModDefinition> imperatorModDefinitions = [];
 
 	public bool InvictusDetected => activeImperatorModFlags.Contains("invictus") || activeImperatorModFlags.Contains("invictus_1_7");
 	public bool Invictus1_7Detected => activeImperatorModFlags.Contains("invictus_1_7");
@@ -403,7 +403,7 @@ internal sealed class Configuration {
 		return version;
 	}
 
-	public void DetectSpecificCK3Mods(ICollection<Mod> loadedMods) {
+	public void DetectSpecificCK3Mods(OrderedSet<Mod> loadedMods) {
 		ck3ModDefinitions = ModDefinitionsReader.LoadFromFile("configurables/ck3_mods.txt");
 
 		foreach (var definition in ck3ModDefinitions) {
@@ -480,7 +480,8 @@ internal sealed class Configuration {
 			flags[definition.Flag] = activeCK3ModFlags.Contains(definition.Flag);
 		}
 
-		flags["vanilla_ck3"] = !flags.Any(f => f.Value);
+		// If no CK3 mod flags are set, treat it as vanilla CK3.
+		flags["vanilla_ck3"] = activeCK3ModFlags.Count == 0;
 		return flags;
 	}
 
@@ -498,7 +499,8 @@ internal sealed class Configuration {
 			flags[definition.Flag] = activeImperatorModFlags.Contains(definition.Flag);
 		}
 
-		flags["vanilla_ir"] = !flags.Any(f => f.Value);
+		// If no Imperator mod flags are set, treat it as vanilla Imperator.
+		flags["vanilla_ir"] = activeImperatorModFlags.Count == 0;
 		return flags;
 	}
 

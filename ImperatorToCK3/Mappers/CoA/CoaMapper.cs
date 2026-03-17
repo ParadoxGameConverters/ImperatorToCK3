@@ -50,7 +50,7 @@ internal sealed class CoaMapper {
 	/// <summary>
 	/// For a given collection of flag names, returns ones that don't have a defined CoA.
 	/// </summary>
-	public FrozenSet<string> GetAllMissingFlagKeys(IEnumerable<string> flagKeys) {
+	public FrozenSet<string> GetAllMissingFlagKeys(string[] flagKeys) {
 		var existingFlagKeys = coasMap.Keys.ToFrozenSet();
 		return flagKeys.Where(flagKey => !existingFlagKeys.Contains(flagKey)).ToFrozenSet();
 	}

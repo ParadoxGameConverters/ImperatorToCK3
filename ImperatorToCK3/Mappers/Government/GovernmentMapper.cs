@@ -10,7 +10,7 @@ internal sealed class GovernmentMapper {
 	private readonly List<GovernmentMapping> mappings = [];
 	private readonly Dictionary<string, List<GovernmentMapping>> mappingLookup = new(StringComparer.Ordinal);
 
-	public GovernmentMapper(ICollection<string> ck3GovernmentIds) {
+	public GovernmentMapper(string[] ck3GovernmentIds) {
 		Logger.Info("Parsing government mappings...");
 
 		var parser = new Parser();
@@ -33,9 +33,10 @@ internal sealed class GovernmentMapper {
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 	}
-	private void RemoveInvalidLinks(ICollection<string> ck3GovernmentIds) {
+	private void RemoveInvalidLinks(string[] ck3GovernmentIds) {
+		HashSet<string> ck3GovernmentIdsSet = [.. ck3GovernmentIds];
 		var toRemove = mappings
-			.Where(mapping => !ck3GovernmentIds.Contains(mapping.CK3GovernmentId))
+			.Where(mapping => !ck3GovernmentIdsSet.Contains(mapping.CK3GovernmentId))
 			.ToArray();
 		foreach (var mapping in toRemove) {
 			mappings.Remove(mapping);
