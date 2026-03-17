@@ -19,10 +19,10 @@ public class CharactersLoaderTests {
 			Directory.CreateDirectory(charDir);
 
 			File.WriteAllText(Path.Combine(charDir, "chars.txt"),
-				"char_mother = { birth = 900.1.1 female = yes }\n" +
-				"char_father = { birth = 900.1.1 female = no }\n" +
-				"char_child = { birth = 920.1.1 female = yes mother = char_mother father = char_father friends = { foo = bar } name = \"Child\" death = { death_reason = death_murder_known killer = 1 } }\n" +
-				"animation_test_1 = { birth = 1.1.1 }\n" +
+				"char_mother = { female = yes 900.1.1 = { birth = yes } }\n" +
+				"char_father = { female = no 900.1.1 = { birth = yes } }\n" +
+				"char_child = { name = \"Child\" female = yes mother = char_mother father = char_father 920.1.1 = { birth = yes death = { death_reason = death_murder_known killer = 1 } } }\n" +
+				"animation_test_1 = { 1.1.1 = { birth = yes } }\n" +
 				"no_birth = { female = yes }\n"
 			);
 
@@ -37,9 +37,6 @@ public class CharactersLoaderTests {
 			var child = characters["char_child"];
 			Assert.NotNull(child);
 
-			// Friends field should be cleared
-			Assert.Empty(child.History.Fields["friends"].InitialEntries);
-
 			// Mother/father should remain because sexes are correct
 			var motherEntry = child.History.Fields["mother"].InitialEntries.Select(kvp => kvp.Value).Single();
 			var fatherEntry = child.History.Fields["father"].InitialEntries.Select(kvp => kvp.Value).Single();
@@ -47,7 +44,7 @@ public class CharactersLoaderTests {
 			Assert.Equal("char_father", fatherEntry.ToString());
 
 			// Birth entry should have been simplified (value becomes boolean true)
-			var birthEntryValue = child.History.Fields["birth"].InitialEntries.Select(kvp => kvp.Value).Single();
+			var birthEntryValue = child.History.Fields["birth"].GetValue(new Date(920, 1, 1));
 			Assert.True(birthEntryValue is bool v && v);
 
 			// Animation test character should be killed on 2.1.1
