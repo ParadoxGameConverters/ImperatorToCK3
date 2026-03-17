@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Localization;
@@ -1623,7 +1623,7 @@ internal sealed partial class Title {
 
 				deJureKingdoms = deJureKingdoms.Except(deJureKingdomsWithoutLand).ToArray();
 
-				if (!deJureKingdoms.Any()) {
+				if (deJureKingdoms.Length == 0) {
 					if (removableEmpireIds.Contains(empire.Id)) {
 						Remove(empire.Id);
 					}
