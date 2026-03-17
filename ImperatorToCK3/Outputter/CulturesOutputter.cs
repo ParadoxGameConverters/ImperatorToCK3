@@ -76,22 +76,11 @@ internal static class CulturesOutputter {
 		OrderedSet<string> languageBranchParameters = [];
 		OrderedSet<string> languageGroupParameters = [];
 		
-		// Read converter-added heritage families and groups from the configurable.
-		var heritageParamsFileParser = new Parser();
-		heritageParamsFileParser.RegisterKeyword("heritage_families", reader => ReadParamsIntoSet(reader, heritageFamilyParameters, ck3ModFlags));
-		heritageParamsFileParser.RegisterKeyword("heritage_groups", reader => ReadParamsIntoSet(reader, heritageGroupParameters, ck3ModFlags));
-		heritageParamsFileParser.ParseFile("configurables/ccu_heritage_parameters.txt");
-		
-		// Read converter-added language families, branches and groups from the configurable.
-		var languageParamsFileParser = new Parser();
-		languageParamsFileParser.RegisterKeyword("language_families", reader => ReadParamsIntoSet(reader, languageFamilyParameters, ck3ModFlags));
-		languageParamsFileParser.RegisterKeyword("language_branches", reader => ReadParamsIntoSet(reader, languageBranchParameters, ck3ModFlags));
-		languageParamsFileParser.RegisterKeyword("language_groups", reader => ReadParamsIntoSet(reader, languageGroupParameters, ck3ModFlags));
-		languageParamsFileParser.ParseFile("configurables/ccu_language_parameters.txt");
-		
+		ReadConverterHeritageFamiliesAndGroups(ck3ModFlags, heritageFamilyParameters, heritageGroupParameters);
+		ReadConverterLanguageFamiliesAndBranchesAndGroups(ck3ModFlags, languageFamilyParameters, languageBranchParameters, languageGroupParameters);
+
 		// Modify the common\scripted_effects\ccu_scripted_effects.txt file.
 		const string relativePath = "common/scripted_effects/ccu_scripted_effects.txt";
-		// Modify the common\scripted_effects\ccu_scripted_effects.txt file.
 		var scriptedEffectsPath = ck3ModFS.GetActualFileLocation(relativePath);
 		if (scriptedEffectsPath is null) {
 			Logger.Warn("Could not find ccu_scripted_effects.txt in the CK3 mod. Aborting the outputting of CCU parameters.");
@@ -117,6 +106,16 @@ internal static class CulturesOutputter {
 		}
 		OutputLanguageGroupParameters(ck3ModFlags, nodes, languageGroupParameters, scriptedEffectsPath, fileName, fileText);
 
+		WriteModifiedCCUFile(outputModPath, rootNode, relativePath);
+
+		// For WtWSMS, add the heritage and language parameters to common/scripted_guis/ccu_error_suppression.txt.
+		// This is what WtWSMS does for the parameters it adds.
+		if (ck3ModFlags["wtwsms"]) {
+			OutputCCUErrorSuppression(outputModPath, ck3ModFS, heritageFamilyParameters, heritageGroupParameters, languageFamilyParameters, languageBranchParameters, languageGroupParameters);
+		}
+	}
+
+	private static void WriteModifiedCCUFile(string outputModPath, Node rootNode, string relativePath) {
 		// Output the modified file.
 		var toOutput = rootNode.AllChildren
 			.Select(c => {
@@ -136,12 +135,27 @@ internal static class CulturesOutputter {
 		var outputFilePath = Path.Join(outputModPath, relativePath);
 		// Output the file with UTF8-BOM encoding.
 		File.WriteAllText(outputFilePath, CKPrinter.printTopLevelKeyValueList(fsharpList), Encoding.UTF8);
-		
-		// For WtWSMS, add the heritage and language parameters to common/scripted_guis/ccu_error_suppression.txt.
-		// This is what WtWSMS does for the parameters it adds.
-		if (ck3ModFlags["wtwsms"]) {
-			OutputCCUErrorSuppression(outputModPath, ck3ModFS, heritageFamilyParameters, heritageGroupParameters, languageFamilyParameters, languageBranchParameters, languageGroupParameters);
-		}
+	}
+
+	private static void ReadConverterLanguageFamiliesAndBranchesAndGroups(OrderedDictionary<string, bool> ck3ModFlags,
+		OrderedSet<string> languageFamilyParameters, OrderedSet<string> languageBranchParameters, OrderedSet<string> languageGroupParameters)
+	{
+		// Read converter-added language families, branches and groups from the configurable.
+		var languageParamsFileParser = new Parser();
+		languageParamsFileParser.RegisterKeyword("language_families", reader => ReadParamsIntoSet(reader, languageFamilyParameters, ck3ModFlags));
+		languageParamsFileParser.RegisterKeyword("language_branches", reader => ReadParamsIntoSet(reader, languageBranchParameters, ck3ModFlags));
+		languageParamsFileParser.RegisterKeyword("language_groups", reader => ReadParamsIntoSet(reader, languageGroupParameters, ck3ModFlags));
+		languageParamsFileParser.ParseFile("configurables/ccu_language_parameters.txt");
+	}
+
+	private static void ReadConverterHeritageFamiliesAndGroups(OrderedDictionary<string, bool> ck3ModFlags,
+		OrderedSet<string> heritageFamilyParameters, OrderedSet<string> heritageGroupParameters)
+	{
+		// Read converter-added heritage families and groups from the configurable.
+		var heritageParamsFileParser = new Parser();
+		heritageParamsFileParser.RegisterKeyword("heritage_families", reader => ReadParamsIntoSet(reader, heritageFamilyParameters, ck3ModFlags));
+		heritageParamsFileParser.RegisterKeyword("heritage_groups", reader => ReadParamsIntoSet(reader, heritageGroupParameters, ck3ModFlags));
+		heritageParamsFileParser.ParseFile("configurables/ccu_heritage_parameters.txt");
 	}
 
 	private static void OutputLanguageBranchParameters(Node[] nodes, OrderedSet<string> languageBranchParameters,
@@ -404,7 +418,7 @@ internal static class CulturesOutputter {
 		var errorSuppressionPath = ck3ModFS.GetActualFileLocation(errorSuppressionRelativePath);
 		if (errorSuppressionPath is null) {
 			Logger.Warn("Could not find ccu_error_suppression.txt in the CK3 mod. " +
-			            "Some harmless errors related to converter-added language parameters may appear in error.log.");
+						"Some harmless errors related to converter-added language parameters may appear in error.log.");
 			return;
 		}
 		Logger.Debug($"Found ccu_error_suppression.txt at {errorSuppressionPath}");
@@ -417,63 +431,34 @@ internal static class CulturesOutputter {
 		bool foundLanguageFamily = false;
 		bool foundLanguageBranch = false;
 		bool foundLanguageGroup = false;
-		var errorSuppressionContent = File.ReadAllText(errorSuppressionPath);
-		var contentLines = errorSuppressionContent.Split('\n');
 		var newContent = new StringBuilder();
-		foreach (var line in contentLines) {
+		foreach (var line in File.ReadAllText(errorSuppressionPath).Split('\n')) {
 			newContent.AppendLine(line.TrimEnd());
 			if (line.Contains("if = { limit = { var:temp = flag:heritage_family_")) {
 				foundHeritageFamily = true;
-				foreach (var param in heritageFamilyParameters) {
-					newContent.AppendLine(
-						$$"""
-						  		if = { limit = { var:temp = flag:{{param}} set_variable = { name = temp value = flag:{{param}} } }
-						  """);
-				}
+				AddHeritageFamilyParamsToErrorSuppression(heritageFamilyParameters, newContent);
 			} else if (line.Contains("if = { limit = { var:temp = flag:heritage_group_")) {
 				foundHeritageGroup = true;
-				foreach (var param in heritageGroupParameters) {
-					newContent.AppendLine(
-						$$"""
-						  		if = { limit = { var:temp = flag:{{param}} set_variable = { name = temp value = flag:{{param}} } }
-						  """);
-				}
+				AddHeritageGroupParamsToErrorSuppression(heritageGroupParameters, newContent);
 			} else if (line.Contains("if = { limit = { var:temp = flag:language_family_")) {
 				foundLanguageFamily = true;
-				foreach (var familyParameter in languageFamilyParameters) {
-					newContent.AppendLine(
-						$$"""
-						  		if = {
-						  			limit = { var:temp = flag:{{familyParameter}} }
-						  			set_variable = { name = temp value = flag:{{familyParameter}} }
-						  		}
-						  """);
-				}
+				AddLanguageFamilyParamsToErrorSuppression(languageFamilyParameters, newContent);
 			} else if (line.Contains("if = { limit = { var:temp = flag:language_branch_")) {
 				foundLanguageBranch = true;
-				foreach (var branchParameter in languageBranchParameters) {
-					newContent.AppendLine(
-						$$"""
-						  		if = {
-						  			limit = { var:temp = flag:{{branchParameter}} }
-						  			set_variable = { name = temp value = flag:{{branchParameter}} }
-						  		}
-						  """);
-				}
+				AddLanguageBranchParamsToErrorSuppression(languageBranchParameters, newContent);
 			} else if (line.Contains("if = { limit = { var:temp = flag:language_group_")) {
 				foundLanguageGroup = true;
-				foreach (var groupParameter in languageGroupParameters) {
-					newContent.AppendLine(
-						$$"""
-						  		if = {
-						  			limit = { var:temp = flag:{{groupParameter}} }
-						  			set_variable = { name = temp value = flag:{{groupParameter}} }
-						  		}
-						  """);
-				}
+				AddLanguageGroupParamsToErrorSuppression(languageGroupParameters, newContent);
 			}
 		}
 
+		LogParameterAdditionWarnings(foundHeritageFamily, foundHeritageGroup, foundLanguageFamily, foundLanguageBranch, foundLanguageGroup);
+
+		string outputFilePath = Path.Join(outputModPath, errorSuppressionRelativePath);
+		File.WriteAllText(outputFilePath, newContent.ToString(), Encoding.UTF8);
+	}
+
+	private static void LogParameterAdditionWarnings(bool foundHeritageFamily, bool foundHeritageGroup, bool foundLanguageFamily, bool foundLanguageBranch, bool foundLanguageGroup) {
 		if (!foundHeritageFamily) {
 			Logger.Warn("Could not find the line to add heritage family parameters to in ccu_error_suppression.txt.");
 		}
@@ -489,8 +474,59 @@ internal static class CulturesOutputter {
 		if (!foundLanguageGroup) {
 			Logger.Warn("Could not find the line to add language group parameters to in ccu_error_suppression.txt.");
 		}
+	}
 
-		string outputFilePath = Path.Join(outputModPath, errorSuppressionRelativePath);
-		File.WriteAllText(outputFilePath, newContent.ToString(), Encoding.UTF8);
+	private static void AddLanguageGroupParamsToErrorSuppression(OrderedSet<string> languageGroupParameters, StringBuilder newContent) {
+		foreach (var groupParameter in languageGroupParameters) {
+			newContent.AppendLine(
+				$$"""
+							if = {
+								limit = { var:temp = flag:{{groupParameter}} }
+								set_variable = { name = temp value = flag:{{groupParameter}} }
+							}
+						""");
+		}
+	}
+
+	private static void AddLanguageBranchParamsToErrorSuppression(OrderedSet<string> languageBranchParameters, StringBuilder newContent) {
+		foreach (var branchParameter in languageBranchParameters) {
+			newContent.AppendLine(
+				$$"""
+						  		if = {
+						  			limit = { var:temp = flag:{{branchParameter}} }
+						  			set_variable = { name = temp value = flag:{{branchParameter}} }
+						  		}
+						  """);
+		}
+	}
+
+	private static void AddLanguageFamilyParamsToErrorSuppression(OrderedSet<string> languageFamilyParameters, StringBuilder newContent) {
+		foreach (var familyParameter in languageFamilyParameters) {
+			newContent.AppendLine(
+				$$"""
+						  		if = {
+						  			limit = { var:temp = flag:{{familyParameter}} }
+						  			set_variable = { name = temp value = flag:{{familyParameter}} }
+						  		}
+						  """);
+		}
+	}
+
+	private static void AddHeritageGroupParamsToErrorSuppression(OrderedSet<string> heritageGroupParameters, StringBuilder newContent) {
+		foreach (var param in heritageGroupParameters) {
+			newContent.AppendLine(
+				$$"""
+						  		if = { limit = { var:temp = flag:{{param}} set_variable = { name = temp value = flag:{{param}} } }
+						  """);
+		}
+	}
+
+	private static void AddHeritageFamilyParamsToErrorSuppression(OrderedSet<string> heritageFamilyParameters, StringBuilder newContent) {
+		foreach (var param in heritageFamilyParameters) {
+			newContent.AppendLine(
+				$$"""
+						  		if = { limit = { var:temp = flag:{{param}} set_variable = { name = temp value = flag:{{param}} } }
+						  """);
+		}
 	}
 }

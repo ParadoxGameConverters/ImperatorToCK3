@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Xunit;
@@ -160,8 +161,8 @@ public class FamilyCollectionTests {
 		// Should have merged into 1 family
 		Assert.Single(families);
 		var mergedFamily = families.First();
-		Assert.Contains(1UL, mergedFamily.MemberIds);
-		Assert.Contains(2UL, mergedFamily.MemberIds);
+		Assert.Contains(1UL, mergedFamily.MemberIds as IReadOnlySet<ulong>);
+		Assert.Contains(2UL, mergedFamily.MemberIds as IReadOnlySet<ulong>);
 	}
 
 	[Fact]
@@ -206,8 +207,8 @@ public class FamilyCollectionTests {
 		// Should have merged into 1 family
 		Assert.Single(families);
 		var mergedFamily = families.First();
-		Assert.Contains(1UL, mergedFamily.MemberIds);
-		Assert.Contains(2UL, mergedFamily.MemberIds);
+		Assert.Contains(1UL, mergedFamily.MemberIds as IReadOnlySet<ulong>);
+		Assert.Contains(2UL, mergedFamily.MemberIds as IReadOnlySet<ulong>);
 	}
 
 	[Fact]
@@ -246,8 +247,8 @@ public class FamilyCollectionTests {
 		// Should have merged all into 1 family
 		Assert.Single(families);
 		var mergedFamily = families.First();
-		Assert.Contains(1UL, mergedFamily.MemberIds);
-		Assert.Contains(2UL, mergedFamily.MemberIds);
-		Assert.Contains(3UL, mergedFamily.MemberIds);
+		Assert.Contains(1UL, mergedFamily.MemberIds as IReadOnlySet<ulong>);
+		Assert.Contains(2UL, mergedFamily.MemberIds as IReadOnlySet<ulong>);
+		Assert.Contains(3UL, mergedFamily.MemberIds as IReadOnlySet<ulong>);
 	}
 }

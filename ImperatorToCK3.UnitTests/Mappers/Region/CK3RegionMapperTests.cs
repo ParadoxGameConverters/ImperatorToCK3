@@ -30,6 +30,9 @@ public class CK3RegionMapperTests {
 		Assert.Null(mapper.GetParentCountyName(1));
 		Assert.Null(mapper.GetParentDuchyName(1));
 	}
+
+	// TODO: also consider geographical_regions from blankMod (zzz_IRToCK3_regions.txt.liquid)
+	
 	[Fact]
 	public void LoadingBrokenRegionWillThrowException() {
 		var mapper = new CK3RegionMapper();

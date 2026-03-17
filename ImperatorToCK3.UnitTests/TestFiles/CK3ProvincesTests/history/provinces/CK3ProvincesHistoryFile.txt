@@ -59,3 +59,17 @@
 		special_building = kutna_hora_mines_01
 	}
 }
+
+
+# Two entries for province 5000, the later one should overwrite the earlier one.
+5000 =  {
+	culture = culture_a
+	religion = faith_a
+
+	831.1.1 = { culture = culture_d }
+}
+5000 =  {
+	culture = culture_b
+
+	470.1.1 = { culture = culture_c }
+}

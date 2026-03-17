@@ -1,14 +1,16 @@
 using commonItems;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils;
 
 internal static class BufferedReaderExtensions {
 	internal static Dictionary<string, string> GetAssignmentsAsDict(this BufferedReader reader) {
-		return reader.GetAssignments()
-			.GroupBy(a => a.Key)
-			.ToDictionary(g => g.Key, g => g.Last().Value);
+		var assignmentsDict = new Dictionary<string, string>();
+		foreach (var assignment in reader.GetAssignments()) {
+			assignmentsDict[assignment.Key] = assignment.Value;
+		}
+
+		return assignmentsDict;
 	}
 
 	internal static List<string> GetAndInternStrings(this BufferedReader reader) {

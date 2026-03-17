@@ -975,7 +975,7 @@ BP_set_minorities_universal = {
 		#Symmachus suggested, no chars/dynasty associated in database:
 		# Theagenes
 		
-		#Build list of familes that should _not_ be given land; namely the Romano-Gallic Families
+		#Build list of families that should _not_ be given land; namely the Romano-Gallic Families
 		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:roman_dynn_ferreolus }
 		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:1042298 }
 		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:1042301 }

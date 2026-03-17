@@ -383,19 +383,37 @@ public class CK3CharacterTests {
 			Name = "alexandros"
 		};
 
-		var locDB = new LocDB("english");
-		var nameLocBlock = locDB.AddLocBlock("alexandros");
+		var irLocDB = new LocDB("english");
+		var nameLocBlock = irLocDB.AddLocBlock("alexandros");
 		nameLocBlock["english"] = "Alexandros";
 
 		var ck3LocDB = new TestCK3LocDB();
 
 		var character = builder
 			.WithImperatorCharacter(imperatorCharacter)
-			.WithIRLocDB(locDB)
+			.WithIRLocDB(irLocDB)
 			.WithCK3LocDB(ck3LocDB)
 			.Build();
 		Assert.Equal("alexandros", character.GetName(ConversionDate));
 		Assert.Equal("Alexandros", ck3LocDB.GetLocBlockForKey("alexandros")!["english"]);
+		
+		// Also check if names with escaped quotes are converted correctly.
+		const string irCharacter2Input = """
+	       first_name_loc={
+	        name="Predrag \"Peja\" Stojaković"
+	       }
+	       """;
+		imperatorCharacter = ImperatorToCK3.Imperator.Characters.Character.Parse(new BufferedReader(irCharacter2Input), "2", new GenesDB());
+		character = builder
+			.WithImperatorCharacter(imperatorCharacter)
+			.WithIRLocDB(irLocDB)
+			.WithCK3LocDB(ck3LocDB)
+			.Build();
+		string? irCharacter2NameLocKey = character.GetName(ConversionDate);
+		Assert.NotNull(irCharacter2NameLocKey);
+		Assert.Equal("irtock3_char_2", irCharacter2NameLocKey);
+		Assert.Equal("Predrag \"Peja\" Stojaković", ck3LocDB.GetLocBlockForKey(irCharacter2NameLocKey)!["english"]);
+		Assert.Equal($" {irCharacter2NameLocKey}: \"Predrag \\\"Peja\\\" Stojaković\"", ck3LocDB.GetYmlLocLineForLanguage(irCharacter2NameLocKey, "english"));
 	}
 	
 	[Fact]

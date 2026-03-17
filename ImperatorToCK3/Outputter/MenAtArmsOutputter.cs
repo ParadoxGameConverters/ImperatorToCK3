@@ -13,7 +13,7 @@ using System.Text;
 namespace ImperatorToCK3.Outputter;
 
 internal static class MenAtArmsOutputter {
-	private static void OutputHiddenEvent(string outputModName, IEnumerable<Character> charactersWithMaa) {
+	private static void OutputHiddenEvent(string outputModName, Character[] charactersWithMaa) {
 		var sb = new StringBuilder();
 		
 		sb.AppendLine("namespace = irtock3_hidden_events");

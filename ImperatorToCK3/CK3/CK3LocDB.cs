@@ -50,14 +50,13 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 		}
 		
 		string baseLocDir = Path.Combine(optionalLocDir, "base");
-		var optionalLocFilePaths = Directory.GetFiles(baseLocDir, "*.yml", SearchOption.AllDirectories);
+		var optionalLocFilePaths = new List<string>(Directory.GetFiles(baseLocDir, "*.yml", SearchOption.AllDirectories));
 		foreach (var modFlag in activeModFlags) {
 			string modLocDir = Path.Combine(optionalLocDir, modFlag);
 			if (!Directory.Exists(modLocDir)) {
 				continue;
 			}
-			optionalLocFilePaths = optionalLocFilePaths.AsValueEnumerable()
-				.Concat(Directory.GetFiles(modLocDir, "*.yml", SearchOption.AllDirectories)).ToArray();
+			optionalLocFilePaths.AddRange(Directory.GetFiles(modLocDir, "*.yml", SearchOption.AllDirectories));
 		}
 		
 		var optionalConverterLocDB = new LocDB(ConverterGlobals.PrimaryLanguage, ConverterGlobals.SecondaryLanguages);
@@ -135,18 +134,13 @@ internal class CK3LocDB : ConcurrentIdObjectCollection<string, CK3LocBlock> {
 		return null;
 	}
 
-	public List<string> GetLocLinesToOutputForLanguage(string language) {
-		var locLinesToOutput = new List<string>();
+	internal List<string> GetLocLinesToOutputForLanguage(string language) {
+		var locLinesToOutput = new List<string>(Count);
 
 		foreach (var locBlock in this) {
 			if (locBlock.GetLocTypeForLanguage(language) is null or CK3LocType.CK3ModFS) {
 				// If there's no loc for the language, the returned loc type is null.
 				// CK3ModFS locs are already present in the CK3/mod/blankMod files, we don't need to output them.
-				continue;
-			}
-			
-			var loc = locBlock[language];
-			if (loc is null) {
 				continue;
 			}
 			

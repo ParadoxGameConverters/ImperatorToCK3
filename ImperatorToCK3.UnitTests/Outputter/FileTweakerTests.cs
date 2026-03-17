@@ -84,7 +84,7 @@ public class FileTweakerTests {
 
 			var outputFilePath = Path.Combine(outputRoot, "common", "test.txt");
 			Assert.True(File.Exists(outputFilePath));
-			var output = await File.ReadAllTextAsync(outputFilePath);
+			var output = await File.ReadAllTextAsync(outputFilePath, TestContext.Current.CancellationToken);
 			Assert.Equal("AA\nREPLACED\n", output);
 		} finally {
 			TryDeleteDir(tempDir);
@@ -120,7 +120,7 @@ public class FileTweakerTests {
 
 			var outputFilePath = Path.Combine(outputRoot, "common", "remove_crlf_from_lf.txt");
 			Assert.True(File.Exists(outputFilePath));
-			var output = await File.ReadAllTextAsync(outputFilePath);
+			var output = await File.ReadAllTextAsync(outputFilePath, TestContext.Current.CancellationToken);
 			Assert.Equal("AA\nDD\n", output);
 		} finally {
 			TryDeleteDir(tempDir);
@@ -156,7 +156,7 @@ public class FileTweakerTests {
 
 			var outputFilePath = Path.Combine(outputRoot, "common", "remove_lf_from_crlf.txt");
 			Assert.True(File.Exists(outputFilePath));
-			var output = await File.ReadAllTextAsync(outputFilePath);
+			var output = await File.ReadAllTextAsync(outputFilePath, TestContext.Current.CancellationToken);
 			Assert.Equal("AA\r\nDD\r\n", output);
 		} finally {
 			TryDeleteDir(tempDir);

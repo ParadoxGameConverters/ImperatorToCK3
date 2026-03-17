@@ -28,7 +28,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.MTP" Version="8.0.1-preview.6.geda5c7979e" />
+    <PackageReference Include="coverlet.MTP" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -41,8 +41,13 @@
 	<ItemGroup>
 		<TestFiles Include="TestFiles/**/*.*" />
 	</ItemGroup>
+	<ItemGroup>
+		<ConfigurableFiles Include="..\ImperatorToCK3/Data_Files/configurables/imperator_mods.txt" />
+		<ConfigurableFiles Include="..\ImperatorToCK3/Data_Files/configurables/ck3_mods.txt" />
+	</ItemGroup>
 	<Target Name="CopyCustomContent" AfterTargets="Build">
 		<Copy SourceFiles="@(RakalyBinaryFiles)" DestinationFolder="$(OutDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(TestFiles)" DestinationFolder="$(OutDir)\TestFiles\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+		<Copy SourceFiles="@(ConfigurableFiles)" DestinationFolder="$(OutDir)\configurables\%(RecursiveDir)" SkipUnchangedFiles="true" />
 	</Target>
 </Project>

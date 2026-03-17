@@ -1,4 +1,5 @@
 using commonItems;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.UnitType;
@@ -30,7 +31,7 @@ internal sealed class UnitTypeMapper {
 		return unitTypeMap.GetValueOrDefault(imperatorUnitType, defaultValue: null);
 	}
 
-	public Dictionary<string, int> GetMenPerCK3UnitType(IDictionary<string, int> menPerImperatorUnitType) {
+	public Dictionary<string, int> GetMenPerCK3UnitType(FrozenDictionary<string, int> menPerImperatorUnitType) {
 		var toReturn = new Dictionary<string, int>();
 
 		foreach (var (imperatorType, imperatorMen) in menPerImperatorUnitType) {

@@ -44,7 +44,7 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 		}
 	}
 
-	private void ReuniteFamily(Family family, Family familyToBeMerged, IEnumerable<Character> charactersToReassign) {
+	private void ReuniteFamily(Family family, Family familyToBeMerged, Character[] charactersToReassign) {
 		family.MemberIds.UnionWith(familyToBeMerged.MemberIds);
 		foreach (var character in charactersToReassign) {
 			character.Family = family;
@@ -56,29 +56,56 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 	public void MergeDividedFamilies(CharacterCollection characters) {
 		Logger.Info("Merging divided families...");
 		
-		Dictionary<ulong, Character[]> familyIdToCharactersCache = new();
+		Dictionary<ulong, Character[]> familyIdToCharactersCache = [];
+
+		// Pre-compute the set of keys that have duplicate families.
+		// Each iteration only re-groups families with those keys, skipping the rest.
+		var keyCounts = new Dictionary<string, int>();
+		foreach (var family in this) {
+			if (keyCounts.TryGetValue(family.Key, out var count)) {
+				keyCounts[family.Key] = count + 1;
+			} else {
+				keyCounts[family.Key] = 1;
+			}
+		}
+		var duplicateKeys = new HashSet<string>();
+		foreach (var (key, count) in keyCounts) {
+			if (count > 1) {
+				duplicateKeys.Add(key);
+			}
+		}
 
 		var iteration = 0;
-		bool anotherIterationNeeded = true;
+		bool anotherIterationNeeded = duplicateKeys.Count > 0;
 		while (anotherIterationNeeded) {
-			var familiesPerKey = this.GroupBy(f => f.Key).ToArray();
+			var familiesPerKey = new Dictionary<string, List<Family>>();
+			foreach (var family in this) {
+				if (!duplicateKeys.Contains(family.Key)) {
+					continue;
+				}
+
+				if (!familiesPerKey.TryGetValue(family.Key, out var groupedFamilies)) {
+					groupedFamilies = [];
+					familiesPerKey[family.Key] = groupedFamilies;
+				}
+				groupedFamilies.Add(family);
+			}
 			anotherIterationNeeded = false;
 			++iteration;
 			Logger.Debug($"Family merging iteration {iteration}");
 
-			foreach (var grouping in familiesPerKey) {
-				if (!grouping.Skip(1).Any()) {
-					// There is only one family in this group, so no merging is needed.
+			foreach (var (groupingKey, groupingFamilies) in familiesPerKey) {
+				if (groupingFamilies.Count <= 1) {
 					continue;
 				}
 
 				var removedFamilies = new HashSet<Family>();
-				foreach (var family in grouping) {
+				foreach (var family in groupingFamilies) {
 					if (removedFamilies.Contains(family)) {
 						continue;
 					}
 					var familyMemberIds = family.MemberIds;
-					foreach (var anotherFamily in grouping) {
+					foreach (var anotherFamily in groupingFamilies) {
 						if (family.Equals(anotherFamily)) {
 							continue;
 						}
@@ -89,9 +116,7 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 							anotherFamilyMembers = cachedMembers;
 						}
 						else {
-							anotherFamilyMembers = characters
-								.Where(c => anotherFamilyMemberIds.Contains(c.Id))
-								.ToArray();
+							anotherFamilyMembers = [.. characters.Where(c => anotherFamilyMemberIds.Contains(c.Id))];
 							familyIdToCharactersCache[anotherFamily.Id] = anotherFamilyMembers;
 						}
 
@@ -103,7 +128,7 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 							continue;
 						}
 
-						Logger.Debug($"Reuniting family {grouping.Key}: {anotherFamily.Id} into {family.Id}");
+						Logger.Debug($"Reuniting family {groupingKey}: {anotherFamily.Id} into {family.Id}");
 						ReuniteFamily(family, anotherFamily, anotherFamilyMembers);
 						removedFamilies.Add(anotherFamily);
 
@@ -118,21 +143,22 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 
 	public void PurgeUnneededFamilies(CharacterCollection characters) {
 		// Drop families with no members.
-		var familiesIdToKeep = characters
-			.Select(c => c.Family?.Id)
-			.Where(id => id is not null)
-			.Cast<ulong>()
-			.ToHashSet();
-		int removedCount = 0;
-		foreach (var family in this.ToArray()) {
-			if (familiesIdToKeep.Contains(family.Id)) {
-				continue;
+		var familiesIdToKeep = new HashSet<ulong>();
+		foreach (var character in characters) {
+			if (character.Family?.Id is ulong familyId) {
+				familiesIdToKeep.Add(familyId);
 			}
-
-			Remove(family.Id);
-			++removedCount;
 		}
-		
-		Logger.Info($"Purged {removedCount} unneeded Imperator families.");
+
+		// Collect IDs to remove, then remove – avoids snapshotting the entire collection.
+		var idsToRemove = this
+			.Where(f => !familiesIdToKeep.Contains(f.Id))
+			.Select(f => f.Id)
+			.ToList();
+		foreach (var id in idsToRemove) {
+			Remove(id);
+		}
+
+		Logger.Info($"Purged {idsToRemove.Count} unneeded Imperator families.");
 	}
 }

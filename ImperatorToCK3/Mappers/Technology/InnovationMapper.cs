@@ -1,8 +1,10 @@
 using commonItems;
 using commonItems.Localization;
+using DotLiquid;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.Imperator.Inventions;
 using System.Collections.Generic;
+using System.Collections.Frozen;
 using ZLinq;
 
 namespace ImperatorToCK3.Mappers.Technology;
@@ -11,17 +13,17 @@ internal sealed class InnovationMapper {
 	private readonly List<InnovationLink> innovationLinks = [];
 	private readonly List<InnovationBonus> innovationBonuses = [];
 
-	public void LoadLinksAndBonuses(string configurablePath, OrderedDictionary<string, bool> ck3ModFlags) {
+	public void LoadLinksAndBonuses(string configurablePath, Hash liquidVariables) {
 		var parser = new Parser();
 		parser.RegisterKeyword("link", reader => innovationLinks.Add(new InnovationLink(reader)));
 		parser.RegisterKeyword("bonus", reader => innovationBonuses.Add(new InnovationBonus(reader)));
 		parser.IgnoreAndLogUnregisteredItems();
 		
 		// The file uses the Liquid templating language.
-		parser.ParseLiquidFile(configurablePath, ck3ModFlags);
+		parser.ParseLiquidFile(configurablePath, liquidVariables);
 	}
 
-	public List<string> GetInnovations(IEnumerable<string> irInventions) {
+	public List<string> GetInnovations(FrozenSet<string> irInventions) {
 		var ck3Innovations = new List<string>();
 		foreach (var irInvention in irInventions) {
 			foreach (var link in innovationLinks) {
@@ -34,7 +36,7 @@ internal sealed class InnovationMapper {
 		return ck3Innovations;
 	}
 
-	public Dictionary<string, ushort> GetInnovationProgresses(ICollection<string> irInventions) {
+	public Dictionary<string, ushort> GetInnovationProgresses(FrozenSet<string> irInventions) {
 		Dictionary<string, ushort> progressesToReturn = [];
 		foreach (var bonus in innovationBonuses) {
 			var innovationProgress = bonus.GetProgress(irInventions);
@@ -57,7 +59,7 @@ internal sealed class InnovationMapper {
 	public void LogUnmappedInventions(InventionsDB inventionsDB, LocDB irLocDB) {
 		// Log Imperator inventions for which neither link nor bonus for CK3 innovations exists.
 		var unmappedInventions = inventionsDB.InventionIds.AsValueEnumerable()
-			.Where(invention => !innovationLinks.Exists(link => link.Match(invention) is not null) && !innovationBonuses.Exists(bonus => bonus.GetProgress([invention]) is not null))
+			.Where(invention => !innovationLinks.Exists(link => link.Match(invention) is not null) && !innovationBonuses.Exists(bonus => bonus.GetProgress(new[] { invention }.ToFrozenSet()) is not null))
 			.ToArray();
 
 		var inventionsWithLoc = unmappedInventions.AsValueEnumerable()
