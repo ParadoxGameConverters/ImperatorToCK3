@@ -9,27 +9,12 @@ using System.IO;
 namespace ImperatorToCK3.CommonUtils.Map;
 
 internal sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDefinition> {
-	public Dictionary<Rgb24, ulong> ColorToProvinceDict { get; } = [];
-	public Dictionary<ulong, Rgb24> ProvinceToColorDict { get; } = [];
+	internal Dictionary<Rgb24, ulong> ColorToProvinceDict { get; } = [];
+	internal Dictionary<ulong, Rgb24> ProvinceToColorDict { get; } = [];
 
-	public void LoadDefinitions(string definitionsFilename, ModFilesystem modFS) {
+	internal void LoadDefinitions(string definitionsFilename, ModFilesystem modFS) {
 		var relativePath = Path.Combine("map_data", definitionsFilename);
-		var definitionsFilePath = modFS.GetActualFileLocation(relativePath);
-		if (definitionsFilePath is null) {
-			Logger.Warn($"Province definitions file {definitionsFilename} not found!");
-			return;
-		}
-		LoadDefinitionsOptimized(definitionsFilePath, null);
-	}
-
-	public void LoadDefinitionsOptimized(string definitionsFilename, ModFilesystem? modFS = null) {
-		string? definitionsFilePath;
-		if (modFS is null) {
-			definitionsFilePath = definitionsFilename;
-		} else {
-			var relativePath = Path.Combine("map_data", definitionsFilename);
-			definitionsFilePath = modFS.GetActualFileLocation(relativePath);
-		}
+		string? definitionsFilePath = modFS.GetActualFileLocation(relativePath);
 		if (definitionsFilePath is null) {
 			Logger.Warn($"Province definitions file {definitionsFilename} not found!");
 			return;
@@ -60,7 +45,7 @@ internal sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDe
 				var idSpan = span[pos..idEnd];
 				pos = idEnd + 1;
 				if (!ulong.TryParse(idSpan, out var id)) {
-					throw new FormatException($"Invalid id: {idSpan.ToString()}");
+					throw new FormatException($"Invalid id: {idSpan}");
 				}
 				AddOrReplace(new ProvinceDefinition(id));
 
@@ -70,7 +55,7 @@ internal sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDe
 				var rSpan = span[pos..(pos + rEnd)];
 				pos += rEnd + 1;
 				if (!byte.TryParse(rSpan, out var r)) {
-					throw new FormatException($"Invalid r: {rSpan.ToString()}");
+					throw new FormatException($"Invalid r: {rSpan}");
 				}
 
 				// g
@@ -79,7 +64,7 @@ internal sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDe
 				var gSpan = span[pos..(pos + gEnd)];
 				pos += gEnd + 1;
 				if (!byte.TryParse(gSpan, out var g)) {
-					throw new FormatException($"Invalid g: {gSpan.ToString()}");
+					throw new FormatException($"Invalid g: {gSpan}");
 				}
 
 				// b
@@ -88,7 +73,7 @@ internal sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDe
 				var bSpan = span[pos..(pos + bEnd)];
 				pos += bEnd + 1;
 				if (!byte.TryParse(bSpan, out var b)) {
-					throw new FormatException($"Invalid b: {bSpan.ToString()}");
+					throw new FormatException($"Invalid b: {bSpan}");
 				}
 
 				var color = new Rgb24(r, g, b);
