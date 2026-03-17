@@ -1,4 +1,5 @@
 using commonItems;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,7 +24,7 @@ internal sealed class InnovationBonus {
 		}
 	}
 
-	public KeyValuePair<string, ushort>? GetProgress(IEnumerable<string> activeInventions) {
+	public KeyValuePair<string, ushort>? GetProgress(FrozenSet<string> activeInventions) {
 		if (CK3InnovationId is null) {
 			return null;
 		}

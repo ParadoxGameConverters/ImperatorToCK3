@@ -34,7 +34,7 @@ internal sealed class Configuration {
 	public GameVersion CK3Version { get; private set; } = new();
 
 	private readonly HashSet<string> activeCK3ModFlags = [];
-	private IReadOnlyList<ModDefinition> ck3ModDefinitions = [];
+	private List<ModDefinition> ck3ModDefinitions = [];
 
 	public bool FallenEagleEnabled => activeCK3ModFlags.Contains("tfe");
 	public bool WhenTheWorldStoppedMakingSenseEnabled => activeCK3ModFlags.Contains("wtwsms");
@@ -44,7 +44,7 @@ internal sealed class Configuration {
 	public bool OutputCCUParameters => WhenTheWorldStoppedMakingSenseEnabled || FallenEagleEnabled || RajasOfAsiaEnabled;
 
 	private readonly HashSet<string> activeImperatorModFlags = [];
-	private IReadOnlyList<ModDefinition> imperatorModDefinitions = [];
+	private List<ModDefinition> imperatorModDefinitions = [];
 
 	public bool InvictusDetected => activeImperatorModFlags.Contains("invictus") || activeImperatorModFlags.Contains("invictus_1_7");
 	public bool Invictus1_7Detected => activeImperatorModFlags.Contains("invictus_1_7");
@@ -384,7 +384,7 @@ internal sealed class Configuration {
 		return version;
 	}
 
-	public void DetectSpecificCK3Mods(ICollection<Mod> loadedMods) {
+	public void DetectSpecificCK3Mods(OrderedSet<Mod> loadedMods) {
 		ck3ModDefinitions = ModDefinitionsReader.LoadFromFile("configurables/ck3_mods.txt");
 
 		foreach (var definition in ck3ModDefinitions) {

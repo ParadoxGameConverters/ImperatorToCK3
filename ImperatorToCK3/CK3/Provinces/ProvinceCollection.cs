@@ -206,7 +206,7 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	}
 
 	private static Imperator.Provinces.Province? DeterminePrimarySourceProvince(
-		IEnumerable<ulong> irProvinceIds,
+		List<ulong> irProvinceIds,
 		Imperator.World irWorld
 	) {
 		var irProvinces = new OrderedSet<Imperator.Provinces.Province>();

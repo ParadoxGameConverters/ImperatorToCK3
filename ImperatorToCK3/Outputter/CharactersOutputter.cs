@@ -5,6 +5,7 @@ using ImperatorToCK3.CommonUtils;
 using Open.Collections;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -82,7 +83,7 @@ internal static class CharactersOutputter {
 		}
 	}
 
-	private static async Task OutputCharactersDNA(string outputPath, IEnumerable<Character> charactersWithDNA) {
+	private static async Task OutputCharactersDNA(string outputPath, ImmutableList<Character> charactersWithDNA) {
 		Logger.Info("Outputting DNA...");
 
 		// Dump all into one file.

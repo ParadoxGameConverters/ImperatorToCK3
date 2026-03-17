@@ -4,6 +4,7 @@ using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Jobs;
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,8 +39,9 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 			channelWriter.Complete();
 		});
 		
-		var consumerTasks = new List<Task>();
-		for (var i = 0; i < 10; ++i) {
+		int consumerCount = Math.Max(2, Environment.ProcessorCount);
+		var consumerTasks = new List<Task>(consumerCount);
+		for (var i = 0; i < consumerCount; ++i) {
 			consumerTasks.Add(Task.Run(async () => {
 				await foreach (var (charIdStr, characterStringOfItem) in channelReader.ReadAllAsync()) {
 					var newCharacter = Character.Parse(new(characterStringOfItem.ToString()), charIdStr, GenesDB);

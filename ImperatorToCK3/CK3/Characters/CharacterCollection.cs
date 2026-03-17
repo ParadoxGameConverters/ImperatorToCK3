@@ -145,7 +145,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		BulkRemove([key]);
 	}
 
-	private void BulkRemove(ICollection<string> keys) {
+	private void BulkRemove(List<string> keys) {
 		foreach (var key in keys) {
 			var characterToRemove = this[key];
 
@@ -164,7 +164,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		RemoveCharacterReferencesFromHistory(keys);
 	}
 
-	private void RemoveCharacterReferencesFromHistory(ICollection<string> idsToRemove) {
+	private void RemoveCharacterReferencesFromHistory(List<string> idsToRemove) {
 		var idsCapturingGroup = "(" + string.Join('|', idsToRemove) + ")";
 
 		// Effects like "break_alliance = character:ID" entries should be removed.
@@ -477,7 +477,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			return null;
 		}
 
-		static bool HasAnyTrait(IEnumerable<string> traits, HashSet<string> relevantTraits) {
+		static bool HasAnyTrait(List<string> traits, HashSet<string> relevantTraits) {
 			foreach (var trait in traits) {
 				if (relevantTraits.Contains(trait)) {
 					return true;
@@ -487,10 +487,10 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			return false;
 		}
 
-		static IEnumerable<Character> GetCharactersOrderedByBirthDateIfNeeded(IEnumerable<Character> characters) {
+		static List<Character> GetCharactersOrderedByBirthDateIfNeeded(CharacterCollection characters) {
 			using var enumerator = characters.GetEnumerator();
 			if (!enumerator.MoveNext()) {
-				return Array.Empty<Character>();
+				return [];
 			}
 
 			var orderedCharacters = new List<Character> { enumerator.Current };
@@ -621,7 +621,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		dynasties.FlattenDynastiesWithNoFounders(this, houses, ck3BookmarkDate);
 	}
 
-	private static void DetermineCharactersToPurge(List<Character> charactersToRemove, IEnumerable<Character> charactersToCheck,
+	private static void DetermineCharactersToPurge(List<Character> charactersToRemove, Character[] charactersToCheck,
 		HashSet<string> dynastyIdsOfLandedCharacters, HashSet<string> parentIdsCache, Date ck3BookmarkDate)
 	{
 		// See who can be removed.
@@ -905,7 +905,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		TransferCharacterGoldToTheirLivingSuccessor(oldCharacter, currentCharacter);
 	}
 
-	private static Character? GetOldestLivingMaleChild(IEnumerable<Character> children) {
+	private static Character? GetOldestLivingMaleChild(IReadOnlyCollection<Character> children) {
 		Character? oldestLivingMaleChild = null;
 		foreach (var child in children) {
 			if (child is {Female: true} || child.DeathDate is not null) {
