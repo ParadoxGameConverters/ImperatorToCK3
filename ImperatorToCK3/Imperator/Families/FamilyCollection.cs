@@ -44,7 +44,7 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 		}
 	}
 
-	private void ReuniteFamily(Family family, Family familyToBeMerged, IEnumerable<Character> charactersToReassign) {
+	private void ReuniteFamily(Family family, Family familyToBeMerged, Character[] charactersToReassign) {
 		family.MemberIds.UnionWith(familyToBeMerged.MemberIds);
 		foreach (var character in charactersToReassign) {
 			character.Family = family;

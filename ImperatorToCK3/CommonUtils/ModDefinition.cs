@@ -10,10 +10,10 @@ namespace ImperatorToCK3.CommonUtils;
 /// <summary>Represents a mod detection definition loaded from a configurable file.</summary>
 internal sealed class ModDefinition {
 	public string Flag { get; }
-	private readonly IReadOnlyList<Regex> nameRegexes;
-	private readonly IReadOnlyList<string> ids;
+	private readonly List<Regex> nameRegexes;
+	private readonly List<string> ids;
 
-	public ModDefinition(string flag, IReadOnlyList<Regex> nameRegexes, IReadOnlyList<string> ids) {
+	public ModDefinition(string flag, List<Regex> nameRegexes, List<string> ids) {
 		Flag = flag;
 		this.nameRegexes = nameRegexes;
 		this.ids = ids;
@@ -38,7 +38,7 @@ internal static class ModDefinitionsReader {
 	/// }
 	/// </code>
 	/// </summary>
-	public static IReadOnlyList<ModDefinition> LoadFromFile(string filePath) {
+	public static List<ModDefinition> LoadFromFile(string filePath) {
 		if (!File.Exists(filePath)) {
 			Logger.Warn($"Mod definitions file not found: {filePath}");
 			return [];

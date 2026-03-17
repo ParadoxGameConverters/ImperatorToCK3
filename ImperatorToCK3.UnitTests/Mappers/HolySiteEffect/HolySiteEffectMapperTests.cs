@@ -13,10 +13,10 @@ public class HolySiteEffectMapperTests {
 	}
 
 	public static IEnumerable<object?[]> TestData =>
-		new List<object?[]> {
-			new object?[] { "wrong_effect", 1, null },
-			new object?[] { "effect_to_multiply", 2, new KeyValuePair<string, double>("doubled_effect", 4) },
-			new object?[] { "effect_to_divide", 4, new KeyValuePair<string, double>("divided_effect", 2) },
-			new object?[] { "effect_to_nullify", 1, new KeyValuePair<string, double>("nullified_effect", 0)}
-		};
+		[
+			["wrong_effect", 1, null],
+			["effect_to_multiply", 2, new KeyValuePair<string, double>("doubled_effect", 4)],
+			["effect_to_divide", 4, new KeyValuePair<string, double>("divided_effect", 2)],
+			["effect_to_nullify", 1, new KeyValuePair<string, double>("nullified_effect", 0)]
+		];
 }

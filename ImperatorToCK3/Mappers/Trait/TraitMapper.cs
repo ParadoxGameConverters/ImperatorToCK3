@@ -70,7 +70,7 @@ internal class TraitMapper {
 	public string? GetCK3TraitForImperatorTrait(string impTrait) {
 		return ImperatorToCK3TraitMap.TryGetValue(impTrait, out var ck3Trait) ? ck3Trait : null;
 	}
-	public HashSet<string> GetCK3TraitsForImperatorTraits(IEnumerable<string> irTraits) {
+	public HashSet<string> GetCK3TraitsForImperatorTraits(List<string> irTraits) {
 		HashSet<string> ck3TraitsToReturn = [];
 		foreach (var irTrait in irTraits) {
 			var ck3Trait = GetCK3TraitForImperatorTrait(irTrait);

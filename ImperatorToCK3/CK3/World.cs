@@ -429,7 +429,7 @@ internal sealed class World {
 		governmentsParser.ParseGameFolder("common/governments", ModFS, "txt", recursive: false, logFilePaths: true);
 		Logger.IncrementProgress();
 
-		GovernmentMapper governmentMapper = new(ck3GovernmentIds);
+		GovernmentMapper governmentMapper = new([.. ck3GovernmentIds]);
 		Logger.IncrementProgress();
 		return governmentMapper;
 	}
