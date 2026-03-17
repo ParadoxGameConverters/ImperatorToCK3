@@ -23,7 +23,7 @@ public class LegendSeedCollectionTests {
 			collection.LoadSeeds(modFs);
 
 			var serialized = collection.Serialize(string.Empty, withBraces: true);
-			var seedIds = serialized.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
+			var seedIds = serialized.Split(['\n', '\r'], StringSplitOptions.RemoveEmptyEntries)
 					.Select(line => line.Split('=', 2)[0].Trim());
 
 			Assert.Contains("seed_a", seedIds);
@@ -33,7 +33,9 @@ public class LegendSeedCollectionTests {
 		} finally {
 			try {
 				Directory.Delete(testRoot, recursive: true);
-			} catch { }
+			} catch {
+				// Failure to delete the temp directory can be ignored.
+			}
 		}
 	}
 
@@ -59,7 +61,9 @@ public class LegendSeedCollectionTests {
 		} finally {
 			try {
 				Directory.Delete(testRoot, recursive: true);
-			} catch { }
+			} catch {
+				// Failure to delete the temp directory can be ignored.
+			}
 		}
 	}
 }

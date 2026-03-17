@@ -51,7 +51,9 @@ public class CharactersLoaderTests {
 			var animationChar = characters["animation_test_1"];
 			Assert.Equal(new Date(2, 1, 1), animationChar.DeathDate);
 		} finally {
-			try { Directory.Delete(tempRoot, recursive: true); } catch { }
+			try { Directory.Delete(tempRoot, recursive: true); } catch {
+				// Failure to delete the temp directory can be ignored.
+			}
 		}
 	}
 }
