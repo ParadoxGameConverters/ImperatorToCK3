@@ -147,7 +147,6 @@ internal sealed class Character : IIdentifiable<ulong> {
 			variablesParser.RegisterKeyword("data", dataReader => {
 				foreach (var blob in new BlobList(dataReader).Blobs) {
 					ParseCharacterVariable(blob, character.Variables);
-					
 				}
 			});
 			variablesParser.RegisterKeyword("list", ParserHelpers.IgnoreItem);
