@@ -3,7 +3,6 @@ using commonItems.Collections;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using System;
-using System.Collections.Frozen;
 using System.Collections.Generic;
 using ZLinq;
 
@@ -33,12 +32,12 @@ internal sealed class HouseCollection : ConcurrentIdObjectCollection<string, Hou
 	internal void PurgeUnneededHouses(CharacterCollection ck3Characters, Date date) {
 		Logger.Info("Purging unneeded dynasty houses...");
 
-		FrozenSet<string> houseIdsToKeep = ck3Characters.AsValueEnumerable()
-			.Select(c => c.GetDynastyHouseId(date))
-			.Where(id => id is not null)
-			.Distinct()
-			.Cast<string>()
-			.ToFrozenSet();
+		HashSet<string> houseIdsToKeep = new(StringComparer.Ordinal);
+		foreach (var character in ck3Characters) {
+			if (character.GetDynastyHouseId(date) is string houseId) {
+				houseIdsToKeep.Add(houseId);
+			}
+		}
 
 		int removedCount = 0;
 		foreach (var house in this.AsValueEnumerable().ToArray()) {

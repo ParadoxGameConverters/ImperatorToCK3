@@ -18,21 +18,41 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 	}
 
 	public Pillar? GetHeritageForId(string heritageId) {
-		var heritages = this.AsValueEnumerable().Where(p => p.Type == "heritage").ToFrozenSet();
-		if (mergedPillarsDict.TryGetValue(heritageId, out var mergedHeritageId)) {
-			return heritages.AsValueEnumerable().FirstOrDefault(p => p.Id == mergedHeritageId);
+		var idToLookup = mergedPillarsDict.TryGetValue(heritageId, out var mergedHeritageId)
+			? mergedHeritageId
+			: heritageId;
+		if (heritagesById.TryGetValue(idToLookup, out var heritage)) {
+			return heritage;
 		}
-		
-		return heritages.AsValueEnumerable().FirstOrDefault(p => p.Id == heritageId);
+
+		foreach (var pillar in this) {
+			if (pillar.Type != "heritage" || pillar.Id != idToLookup) {
+				continue;
+			}
+			heritagesById[idToLookup] = pillar;
+			return pillar;
+		}
+
+		return null;
 	}
 	
 	public Pillar? GetLanguageForId(string languageId) {
-		var languages = this.AsValueEnumerable().Where(p => p.Type == "language").ToFrozenSet();
-		if (mergedPillarsDict.TryGetValue(languageId, out var mergedLanguageId)) {
-			return languages.AsValueEnumerable().FirstOrDefault(p => p.Id == mergedLanguageId);
+		var idToLookup = mergedPillarsDict.TryGetValue(languageId, out var mergedLanguageId)
+			? mergedLanguageId
+			: languageId;
+		if (languagesById.TryGetValue(idToLookup, out var language)) {
+			return language;
 		}
-		
-		return languages.AsValueEnumerable().FirstOrDefault(p => p.Id == languageId);
+
+		foreach (var pillar in this) {
+			if (pillar.Type != "language" || pillar.Id != idToLookup) {
+				continue;
+			}
+			languagesById[idToLookup] = pillar;
+			return pillar;
+		}
+
+		return null;
 	}
 
 	public void LoadPillars(ModFilesystem ck3ModFS, OrderedDictionary<string, bool> ck3ModFlags) {
@@ -73,6 +93,13 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 		}
 		var pillar = new Pillar(pillarId, pillarData);
 		AddOrReplace(pillar);
+		if (pillar.Type == "heritage") {
+			heritagesById[pillarId] = pillar;
+			languagesById.Remove(pillarId);
+		} else if (pillar.Type == "language") {
+			languagesById[pillarId] = pillar;
+			heritagesById.Remove(pillarId);
+		}
 		
 		// Perform some non-breaking validation.
 		if (pillar.Type == "heritage") {
@@ -148,6 +175,8 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 	
 	private PillarData pillarData = new();
 	private readonly Parser pillarDataParser = new();
+	private readonly Dictionary<string, Pillar> heritagesById = new(StringComparer.Ordinal);
+	private readonly Dictionary<string, Pillar> languagesById = new(StringComparer.Ordinal);
 	
 	private readonly IgnoredKeywordsSet ignoredModFlags = [];
 }
