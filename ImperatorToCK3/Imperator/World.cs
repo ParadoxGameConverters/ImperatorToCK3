@@ -360,7 +360,7 @@ internal partial class World {
 
 		Thread? localCoaExtractThread = null;
 		
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterRegex(SaveStartRegex(), _ => { });
 		parser.RegisterKeyword("version", reader => VerifySaveVersion(converterVersion, reader));
 		parser.RegisterKeyword("date", reader => LoadSaveDate(config, reader));
@@ -501,7 +501,7 @@ internal partial class World {
 
 	private void LoadArmies(BufferedReader reader) {
 		Logger.Info("Loading armies...");
-		var armiesParser = new Parser();
+		var armiesParser = new Parser(implicitVariableHandling: false);
 		armiesParser.RegisterKeyword("subunit_database", subunitsReader => Units.LoadSubunits(subunitsReader));
 		armiesParser.RegisterKeyword("units_database", unitsReader => Units.LoadUnits(unitsReader, LocDB, Defines));
 
@@ -510,7 +510,7 @@ internal partial class World {
 
 	private SimpleDel LoadPlayerCountries(OrderedSet<string> playerCountriesToLog) {
 		return reader => {
-			var playedCountryBlocParser = new Parser();
+			var playedCountryBlocParser = new Parser(implicitVariableHandling: false);
 			playedCountryBlocParser.RegisterKeyword("country", countryReader => {
 				var countryId = countryReader.GetULong();
 				var country = Countries[countryId];
@@ -533,7 +533,7 @@ internal partial class World {
 
 	private void LoadStates(BufferedReader reader) {
 		Logger.Info("Loading states...");
-		var statesBlocParser = new Parser();
+		var statesBlocParser = new Parser(implicitVariableHandling: false);
 		statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader, Areas, Countries));
 		statesBlocParser.IgnoreAndLogUnregisteredItems();
 		statesBlocParser.ParseStream(reader);
@@ -573,9 +573,9 @@ internal partial class World {
 		Logger.Info("Reading global variables...");
 
 		var variables = new HashSet<string>();
-		var variablesParser = new Parser();
+		var variablesParser = new Parser(implicitVariableHandling: false);
 		variablesParser.RegisterKeyword("data", dataReader => {
-			var blobParser = new Parser();
+			var blobParser = new Parser(implicitVariableHandling: false);
 			blobParser.RegisterKeyword("flag", blobReader => variables.Add(blobReader.GetString()));
 			blobParser.IgnoreUnregisteredItems();
 			foreach (var blob in new BlobList(dataReader).Blobs) {
@@ -652,7 +652,7 @@ internal partial class World {
 
 		const string noCountryIdWarning = "Pre-Imperator ruler term has no country ID!";
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("ruler", reader => {
 			var rulerTerm = new RulerTerm(reader, Countries);
 			if (rulerTerm.PreImperatorRuler is null) {

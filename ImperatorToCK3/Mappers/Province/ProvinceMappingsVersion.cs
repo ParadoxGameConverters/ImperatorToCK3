@@ -12,7 +12,7 @@ internal sealed class ProvinceMappingsVersion {
 		var referencedCK3Provs = new HashSet<ulong>();
 		var ck3ProvsReferencedMoreThanOnce = new HashSet<ulong>();
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("link", linkReader => {
 			var mapping = ProvinceMapping.Parse(linkReader);
 			if (mapping.CK3Provinces.Count == 0 && mapping.ImperatorProvinces.Count == 0) {

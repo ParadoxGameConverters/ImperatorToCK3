@@ -46,12 +46,12 @@ internal static class ModDefinitionsReader {
 
 		var definitions = new List<ModDefinition>();
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterRegex(CommonRegexes.String, (reader, flag) => {
 			var nameRegexes = new List<Regex>();
 			var ids = new List<string>();
 
-			var modParser = new Parser();
+			var modParser = new Parser(implicitVariableHandling: false);
 			modParser.RegisterKeyword("name_regex", regexReader => {
 				foreach (var pattern in regexReader.GetStrings()) {
 					// Use a timeout to protect against ReDoS attacks from malicious configurable content.

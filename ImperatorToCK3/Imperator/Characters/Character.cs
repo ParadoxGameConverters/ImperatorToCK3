@@ -200,7 +200,7 @@ internal sealed class Character : IIdentifiable<ulong> {
 	}
 
 	public static Character Parse(BufferedReader reader, string idString, GenesDB? genesDB) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		var parsedCharacter = new Character(ulong.Parse(idString));
 		RegisterCharacterKeywords(parser, parsedCharacter);
 

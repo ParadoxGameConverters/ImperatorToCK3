@@ -13,7 +13,7 @@ internal sealed class GovernmentMapper {
 	public GovernmentMapper(string[] ck3GovernmentIds) {
 		Logger.Info("Parsing government mappings...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseFile("configurables/government_map.txt");
 

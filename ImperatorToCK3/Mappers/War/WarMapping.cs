@@ -19,5 +19,5 @@ internal sealed class WarMapping {
 	}
 
 	private static WarMapping mappingToReturn = new();
-	private static readonly Parser parser = new();
+	private static readonly Parser parser = new(implicitVariableHandling: true);
 }

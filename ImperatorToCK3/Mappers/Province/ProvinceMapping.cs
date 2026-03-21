@@ -7,7 +7,7 @@ internal sealed class ProvinceMapping {
 	public List<ulong> CK3Provinces { get; } = [];
 	public List<ulong> ImperatorProvinces { get; } = [];
 
-	private static readonly Parser parser = new();
+	private static readonly Parser parser = new(implicitVariableHandling: false);
 	private static ProvinceMapping tempMapping = new();
 	static ProvinceMapping() {
 		parser.RegisterKeyword("ck3", reader => tempMapping.CK3Provinces.Add(reader.GetULong()));

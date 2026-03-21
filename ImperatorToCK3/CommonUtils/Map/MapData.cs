@@ -77,7 +77,7 @@ internal sealed class MapData {
 	private void ParseDefaultMap(ModFilesystem modFS) {
 		Logger.Info("Loading default map data...");
 		const string defaultMapPath = "map_data/default.map";
-		var defaultMapParser = new Parser();
+		var defaultMapParser = new Parser(implicitVariableHandling: true);
 		defaultMapParser.RegisterKeyword("definitions", reader => {
 			string definitionsFilename = reader.GetString();
 
@@ -287,9 +287,9 @@ internal sealed class MapData {
 
 	private void DetermineProvincePositions(ModFilesystem modFS) {
 		const string provincePositionsPath = "gfx/map/map_object_data/building_locators.txt";
-		var fileParser = new Parser();
+		var fileParser = new Parser(implicitVariableHandling: true);
 		fileParser.RegisterKeyword("game_object_locator", reader => {
-			var listParser = new Parser();
+			var listParser = new Parser(implicitVariableHandling: true);
 			listParser.RegisterKeyword("instances", instancesReader => {
 				foreach (var blob in new BlobList(instancesReader).Blobs) {
 					var blobReader = new BufferedReader(blob);

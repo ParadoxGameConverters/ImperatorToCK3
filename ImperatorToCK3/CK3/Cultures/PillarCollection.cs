@@ -56,14 +56,14 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 	}
 
 	public void LoadPillars(ModFilesystem ck3ModFS, OrderedDictionary<string, bool> ck3ModFlags) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, pillarId) => LoadPillar(pillarId, reader, ck3ModFlags));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/culture/pillars", ck3ModFS, "txt", true);
 	}
 
 	public void LoadConverterPillars(string converterPillarsPath, OrderedDictionary<string, bool> ck3ModFlags, Hash liquidVariables) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, pillarId) => LoadPillar(pillarId, reader, ck3ModFlags));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseFolderWithLiquidSupport(converterPillarsPath, "txt", true, liquidVariables, logFilePaths: true);
@@ -154,7 +154,7 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 	}
 	
 	private void LoadInvalidatingPillarIds(OrderedDictionary<string, bool> ck3ModFlags, BufferedReader reader) {
-		var pillarIdsPerModFlagParser = new Parser();
+		var pillarIdsPerModFlagParser = new Parser(implicitVariableHandling: true);
 		
 		if (ck3ModFlags.Count == 0) {
 			pillarIdsPerModFlagParser.RegisterKeyword("vanilla_ck3", modPillarIdsReader => {
@@ -174,7 +174,7 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 	}
 	
 	private PillarData pillarData = new();
-	private readonly Parser pillarDataParser = new();
+	private readonly Parser pillarDataParser = new(implicitVariableHandling: true);
 	private readonly Dictionary<string, Pillar> heritagesById = new(StringComparer.Ordinal);
 	private readonly Dictionary<string, Pillar> languagesById = new(StringComparer.Ordinal);
 	

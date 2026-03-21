@@ -10,7 +10,7 @@ internal sealed class LegendSeedCollection : ConcurrentIdObjectCollection<string
 	public void LoadSeeds(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading legend seeds...");
 		
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, seedId) => {
 			AddOrReplace(new LegendSeed(seedId, reader));
 		});

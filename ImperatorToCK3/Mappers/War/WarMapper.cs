@@ -10,7 +10,7 @@ internal sealed class WarMapper {
 	public WarMapper(string filePath) {
 		Logger.Info("Parsing wargoal mappings...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("link", reader => {
 			var mapping = WarMapping.Parse(reader);
 			if (mapping.CK3CasusBelli is null) {
@@ -39,7 +39,7 @@ internal sealed class WarMapper {
 	public void DetectUnmappedWarGoals(ModFilesystem irModFS) {
 		Logger.Info("Detecting unmapped war goals...");
 
-		var warGoalsParser = new Parser();
+		var warGoalsParser = new Parser(implicitVariableHandling: true);
 		warGoalsParser.RegisterRegex(CommonRegexes.String, (reader, warGoal) => {
 			if (!impToCK3WarGoalDict.ContainsKey(warGoal)) {
 				Logger.Warn($"No mapping for war goal {warGoal} found in war goal mappings!");

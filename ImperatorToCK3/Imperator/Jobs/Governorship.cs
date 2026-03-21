@@ -19,7 +19,7 @@ internal sealed class Governorship {
 		ulong? countryId = null;
 		string? regionId = null;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("who", reader => countryId = reader.GetULong());
 		parser.RegisterKeyword("character", reader => CharacterId = reader.GetULong());
 		parser.RegisterKeyword("start_date", reader => StartDate = new Date(reader.GetString(), AUC: true));
