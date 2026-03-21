@@ -10,7 +10,7 @@ internal sealed class CoaMapper {
 	public CoaMapper() { }
 	public CoaMapper(ModFilesystem modFS) {
 		Logger.Info("Parsing CoAs...");
-		var parser = new Parser(implicitVariableHandling: true);
+		var parser = new Parser(implicitVariableHandling: false);
 		RegisterKeys(parser);
 		const string coasPath = "common/coat_of_arms/coat_of_arms";
 		parser.ParseGameFolder(coasPath, modFS, "txt", recursive: true);

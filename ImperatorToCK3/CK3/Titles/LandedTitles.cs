@@ -51,7 +51,7 @@ internal sealed partial class Title {
 		public void LoadTitles(ModFilesystem ck3ModFS, CK3LocDB ck3LocDB, ColorFactory colorFactory) {
 			Logger.Info("Loading landed titles...");
 
-			var parser = new Parser(implicitVariableHandling: true);
+			var parser = new Parser(implicitVariableHandling: false);
 			RegisterKeys(parser, colorFactory);
 			parser.ParseGameFolder("common/landed_titles", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 			LogIgnoredTokens();
