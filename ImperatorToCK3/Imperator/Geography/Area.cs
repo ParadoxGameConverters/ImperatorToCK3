@@ -15,7 +15,7 @@ internal sealed class Area : IIdentifiable<string> {
 		Id = id;
 		this.provinceCollection = provinceCollection;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("provinces", reader => {
 			var provinceIds = reader.GetULongs();
 			ProvinceIds.UnionWith(provinceIds);

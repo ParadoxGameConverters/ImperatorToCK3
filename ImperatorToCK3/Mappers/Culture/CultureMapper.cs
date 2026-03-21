@@ -13,7 +13,7 @@ internal sealed class CultureMapper {
 		this.ck3RegionMapper = ck3RegionMapper;
 
 		Logger.Info("Parsing culture mappings...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseFile("configurables/culture_map.txt");
 		Logger.Info($"Loaded {cultureMappingRules.Count} cultural links.");
@@ -27,7 +27,7 @@ internal sealed class CultureMapper {
 		this.irRegionMapper = irRegionMapper;
 		this.ck3RegionMapper = ck3RegionMapper;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 		

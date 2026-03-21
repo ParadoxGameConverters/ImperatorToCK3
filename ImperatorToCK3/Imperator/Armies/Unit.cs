@@ -23,7 +23,7 @@ internal sealed class Unit : IIdentifiable<ulong> {
 	public Unit(ulong id, BufferedReader legionReader, UnitCollection unitCollection, LocDB irLocDB, ImperatorDefines defines) {
 		Id = id;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("unit_name", reader => LocalizedName = GetLocalizedName(reader, irLocDB));
 		parser.RegisterKeyword("is_army", reader => IsArmy = reader.GetBool());
 		parser.RegisterKeyword("country", reader => CountryId = reader.GetULong());
@@ -48,7 +48,7 @@ internal sealed class Unit : IIdentifiable<ulong> {
 		LocBlock? baseNameLocBlock = null;
 
 		// parse name block
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("name", reader => name = reader.GetString());
 		parser.RegisterKeyword("ordinal", reader => ordinal = reader.GetInt());
 		parser.RegisterKeyword("family", reader => family = reader.GetString());

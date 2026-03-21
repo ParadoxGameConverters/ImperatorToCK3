@@ -11,9 +11,9 @@ internal sealed class CultureGroup : IdObjectCollection<string, Culture>, IIdent
 	public CultureGroup(string id, BufferedReader groupReader) {
 		Id = id;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("culture", culturesReader => {
-			var culturesParser = new Parser();
+			var culturesParser = new Parser(implicitVariableHandling: true);
 			culturesParser.RegisterRegex(CommonRegexes.String, (cultureReader, cultureId) => {
 				AddOrReplace(new Culture(cultureId, cultureReader));
 			});

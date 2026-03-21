@@ -51,7 +51,7 @@ internal sealed partial class Title {
 		public void LoadTitles(ModFilesystem ck3ModFS, CK3LocDB ck3LocDB, ColorFactory colorFactory) {
 			Logger.Info("Loading landed titles...");
 
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: true);
 			RegisterKeys(parser, colorFactory);
 			parser.ParseGameFolder("common/landed_titles", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 			LogIgnoredTokens();
@@ -144,7 +144,7 @@ internal sealed partial class Title {
 		}
 
 		public void LoadTitles(BufferedReader reader, ColorFactory colorFactory) {
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: true);
 			RegisterKeys(parser, colorFactory);
 			parser.ParseStream(reader);
 
@@ -153,7 +153,7 @@ internal sealed partial class Title {
 		public void LoadStaticTitles(ColorFactory colorFactory) {
 			Logger.Info("Loading static landed titles...");
 
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: true);
 			RegisterKeys(parser, colorFactory);
 
 			parser.ParseFile("configurables/static_landed_titles.txt");
@@ -2053,7 +2053,7 @@ internal sealed partial class Title {
 
 			int loadedHistoriesCount = 0;
 
-			var titlesHistoryParser = new Parser();
+			var titlesHistoryParser = new Parser(implicitVariableHandling: true);
 			titlesHistoryParser.RegisterRegex(Regexes.TitleId, (reader, titleName) => {
 				var historyItem = reader.GetStringOfItem().ToString();
 				if (!historyItem.Contains('{')) {
@@ -2096,7 +2096,7 @@ internal sealed partial class Title {
 			const string filePath = "configurables/cultural_title_names.txt";
 			Logger.Info($"Loading cultural title names from \"{filePath}\"...");
 
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: true);
 			parser.RegisterRegex(CommonRegexes.String, (reader, titleId) => {
 				var nameListToLocKeyDict = reader.GetAssignmentsAsDict();
 

@@ -25,7 +25,7 @@ internal sealed partial class War {
 			warToReturn.DefenderCountryIds.Add(reader.GetULong());
 		});
 		parser.RegisterRegex(wargoalTypeRegex, reader => {
-			var wargoalParser = new Parser();
+			var wargoalParser = new Parser(implicitVariableHandling: false);
 			wargoalParser.RegisterKeyword("type", typeReader =>
 				warToReturn.WarGoal = typeReader.GetString()
 			);
@@ -46,7 +46,7 @@ internal sealed partial class War {
 
 	private static readonly Regex wargoalTypeRegex = WargoalTypeRegex();
 
-	private static readonly Parser parser = new();
+	private static readonly Parser parser = new(implicitVariableHandling: false);
 	private static War warToReturn = new();
 	public static IgnoredKeywordsSet IgnoredTokens { get; } = [];
 

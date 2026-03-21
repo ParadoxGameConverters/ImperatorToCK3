@@ -13,7 +13,7 @@ internal sealed class AreaCollection : IdObjectCollection<string, Area> {
 		const string areasFilePath = "map_data/areas.txt";
 		Logger.Debug($"Imperator areas file location: {imperatorModFS.GetActualFileLocation(areasFilePath)}");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterRegex(CommonRegexes.String, (reader, areaName) => AddOrReplace(new(areaName, reader, provinceCollection)));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFile(areasFilePath, imperatorModFS);

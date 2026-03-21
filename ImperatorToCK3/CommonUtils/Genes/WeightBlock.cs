@@ -13,7 +13,7 @@ internal sealed class WeightBlock {
 
 	public WeightBlock() { }
 	public WeightBlock(BufferedReader reader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}

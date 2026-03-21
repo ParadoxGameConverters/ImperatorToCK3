@@ -44,7 +44,7 @@ public static class ParserExtensions {
 				blocReader.Variables[modFlagName] = value;
 			}
 			
-			var modDependentParser = new Parser();
+			var modDependentParser = new Parser(implicitVariableHandling: true);
 			modDependentParser.RegisterKeyword("IF", reader => {
 				bool conditionValue = GetConditionValue(reader, ck3ModFlags);
 				if (!conditionValue) {

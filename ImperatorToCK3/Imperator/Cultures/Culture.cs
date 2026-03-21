@@ -11,7 +11,7 @@ internal sealed class Culture : IIdentifiable<string> {
 	public Culture(string id, BufferedReader reader) {
 		Id = id;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("family", familyNamesReader => {
 			var names = familyNamesReader.GetStrings();
 			foreach (var nameEntry in names) {

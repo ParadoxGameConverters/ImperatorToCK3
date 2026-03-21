@@ -22,7 +22,7 @@ internal sealed class ReligionMapping {
 
 	private bool? heresiesInHistoricalAreas;
 
-	private static readonly Parser parser = new();
+	private static readonly Parser parser = new(implicitVariableHandling: true);
 	private static ReligionMapping mappingToReturn = new();
 	static ReligionMapping() {
 		parser.RegisterKeyword("ck3", reader => mappingToReturn.CK3FaithId = reader.GetString());

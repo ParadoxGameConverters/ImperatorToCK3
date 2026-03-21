@@ -132,7 +132,7 @@ internal sealed class Character : IIdentifiable<string> {
 				return null;
 			}
 
-			var deathObjParser = new Parser();
+			var deathObjParser = new Parser(implicitVariableHandling: true);
 			string? deathReason = null;
 			deathObjParser.RegisterKeyword("death_reason", reader => {
 				deathReason = reader.GetString();

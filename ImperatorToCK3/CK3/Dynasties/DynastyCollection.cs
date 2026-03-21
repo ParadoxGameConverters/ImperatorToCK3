@@ -36,7 +36,7 @@ internal sealed class DynastyCollection : ConcurrentIdObjectCollection<string, D
 	public void LoadCK3Dynasties(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading dynasties from CK3...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, dynastyId) => {
 			var dynasty = new Dynasty(dynastyId, reader);
 			AddOrReplace(dynasty);
@@ -103,7 +103,7 @@ internal sealed class DynastyCollection : ConcurrentIdObjectCollection<string, D
 		HashSet<string> dynastiesToKeep = [];
 		
 		// Load from configurable first.
-		var nonRemovableIdsParser = new Parser();
+		var nonRemovableIdsParser = new Parser(implicitVariableHandling: false);
 		nonRemovableIdsParser.RegisterRegex(CommonRegexes.String, (_, id) => {
 			dynastiesToKeep.Add(id);
 		});

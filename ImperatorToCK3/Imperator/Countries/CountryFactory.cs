@@ -82,13 +82,12 @@ internal sealed partial class Country {
 		});
 	}
 
-	private static SimpleDel LoadCountryVariables(Country parsedCountry)
-	{
+	private static SimpleDel LoadCountryVariables(Country parsedCountry) {
 		return reader => {
 			var variables = new HashSet<string>();
-			var variablesParser = new Parser();
+			var variablesParser = new Parser(implicitVariableHandling: false);
 			variablesParser.RegisterKeyword("data", dataReader => {
-				var blobParser = new Parser();
+				var blobParser = new Parser(implicitVariableHandling: false);
 				blobParser.RegisterKeyword("flag", blobReader => variables.Add(string.Intern(blobReader.GetString())));
 				blobParser.IgnoreUnregisteredItems();
 				
@@ -145,7 +144,7 @@ internal sealed partial class Country {
 	public static Country Parse(BufferedReader reader, ulong countryId) {
 		var newCountry = new Country(countryId);
 		
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		RegisterCountryKeywords(parser, newCountry);
 		parser.ParseStream(reader);
 		
@@ -156,11 +155,11 @@ internal sealed partial class Country {
 		Logger.Info("Loading Imperator governments...");
 		string governmentType = "monarchy";
 
-		var governmentParser = new Parser();
+		var governmentParser = new Parser(implicitVariableHandling: true);
 		governmentParser.RegisterKeyword("type", reader => governmentType = reader.GetString());
 		governmentParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 
-		var fileParser = new Parser();
+		var fileParser = new Parser(implicitVariableHandling: true);
 		fileParser.RegisterRegex(CommonRegexes.String, (reader, govName) => {
 			governmentType = "monarchy"; // default, overridden by parsed type
 			governmentParser.ParseStream(reader);

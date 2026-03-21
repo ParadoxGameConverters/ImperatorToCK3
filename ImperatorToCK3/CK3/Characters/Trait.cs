@@ -11,7 +11,7 @@ internal sealed class Trait : IIdentifiable<string> {
 		Id = id;
 	}
 	public Trait(string id, BufferedReader traitReader) : this(id) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("opposites", reader => Opposites = [.. reader.GetStrings()]);
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 		parser.ParseStream(traitReader);

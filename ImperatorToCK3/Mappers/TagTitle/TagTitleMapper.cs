@@ -18,7 +18,7 @@ internal sealed class TagTitleMapper {
 	public TagTitleMapper() { }
 	public TagTitleMapper(string tagTitleMappingsPath, string governorshipTitleMappingsPath, string rankMappingsPath) {
 		Logger.Info("Parsing title mappings...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseFile(tagTitleMappingsPath);
 		parser.ParseFile(governorshipTitleMappingsPath);
@@ -189,7 +189,7 @@ internal sealed class TagTitleMapper {
 
 	private void LoadRankMappings(string rankMappingsPath) {
 		Logger.Info("Parsing country rank mappings...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("hegemony_keywords", reader => hegemonyKeywords.AddRange(reader.GetStrings()));
 		parser.RegisterKeyword("empire_keywords", reader => empireKeywords.AddRange(reader.GetStrings()));
 		parser.RegisterKeyword("kingdom_keywords", reader => kingdomKeywords.AddRange(reader.GetStrings()));

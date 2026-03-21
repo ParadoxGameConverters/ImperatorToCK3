@@ -10,7 +10,7 @@ internal sealed class InnovationBonus {
 	public string? CK3InnovationId { get; private set; }
 
 	public InnovationBonus(BufferedReader bonusReader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("ir", reader => imperatorInventions.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3", reader => CK3InnovationId = reader.GetString());
 		parser.IgnoreAndLogUnregisteredItems();

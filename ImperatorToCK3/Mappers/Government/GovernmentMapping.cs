@@ -14,7 +14,7 @@ internal sealed class GovernmentMapping {
 	public HashSet<string> RequiredCK3Dlcs { get; } = [];
 
 	public GovernmentMapping(BufferedReader mappingReader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("ck3", reader => CK3GovernmentId = reader.GetString());
 		parser.RegisterKeyword("ir", reader => ImperatorGovernmentIds.Add(reader.GetString()));
 		parser.RegisterKeyword("irCulture", reader => ImperatorCultureIds.Add(reader.GetString()));

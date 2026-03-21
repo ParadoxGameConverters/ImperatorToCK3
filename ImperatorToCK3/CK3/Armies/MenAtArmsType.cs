@@ -25,7 +25,7 @@ internal sealed partial class MenAtArmsType : IIdentifiable<string>, IPDXSeriali
 	public MenAtArmsType(string id, BufferedReader typeReader, ScriptValueCollection scriptValues) {
 		Id = id;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("stack", reader => Stack = reader.GetInt());
 		parser.RegisterKeyword("can_recruit", reader => CanRecruit = reader.GetStringOfItem());
 		parser.RegisterKeyword("buy_cost", costReader => BuyCost = new MenAtArmsCost(costReader, scriptValues));

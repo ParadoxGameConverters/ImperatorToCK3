@@ -8,7 +8,7 @@ namespace ImperatorToCK3.Imperator.Pops;
 
 internal sealed class PopCollection : ConcurrentIdObjectCollection<ulong, Pop> {
 	public void LoadPopsFromBloc(BufferedReader blocReader) {
-		var blocParser = new Parser();
+		var blocParser = new Parser(implicitVariableHandling: false);
 		blocParser.RegisterKeyword("population", LoadPops);
 		blocParser.IgnoreAndLogUnregisteredItems();
 		blocParser.ParseStream(blocReader);
@@ -22,7 +22,7 @@ internal sealed class PopCollection : ConcurrentIdObjectCollection<ulong, Pop> {
 		var channelReader = channel.Reader;
 		
 		var producerTask = Task.Run(() => {
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: false);
 			parser.RegisterRegex(CommonRegexes.Integer, (popReader, thePopId) => {
 				var popStr = popReader.GetStringOfItem().ToString();
 				if (!popStr.Contains('{')) {

@@ -18,7 +18,7 @@ internal sealed partial class House : IPDXSerializable, IIdentifiable<string> {
 	public House(string id, BufferedReader houseReader) {
 		Id = id;
 		
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("prefix", reader => Prefix = reader.GetString());
 		parser.RegisterKeyword("name", reader => Name = reader.GetString());
 		parser.RegisterKeyword("dynasty", reader => DynastyId = reader.GetString());
