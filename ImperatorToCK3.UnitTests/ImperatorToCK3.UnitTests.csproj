@@ -24,7 +24,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="xunit.v3.mtp-v2" Version="3.2.2" />
-    <PackageReference Include="coverlet.collector" Version="8.0.0">
+    <PackageReference Include="coverlet.collector" Version="8.0.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
