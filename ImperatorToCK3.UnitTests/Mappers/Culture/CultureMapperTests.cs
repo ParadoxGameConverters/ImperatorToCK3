@@ -145,13 +145,13 @@ public class CultureMapperTests {
 			"@germ_cultures = \"ir=sennonian ir=bellovacian ir=veliocassian ir=morinian\" \r\n" +
 			"link = { ck3=low_germ @germ_cultures irProvince=1}\r\n" +
 			"link = { ck3=high_germ @germ_cultures irProvince=2}\r\n" +
-			"link = { ck3=default_germ @germ_cultures }"
+			"link = { ck3=culture @germ_cultures }"
 		);
 		var cultureMapper = new CultureMapper(reader, irRegionMapper, new CK3RegionMapper(), cultures);
 
 		Assert.Null(cultureMapper.Match("missing_culture", null, irProvinceId: 1, null));
 		Assert.Equal("low_germ", cultureMapper.Match("bellovacian", null, irProvinceId: 1, null));
 		Assert.Equal("high_germ", cultureMapper.Match("bellovacian", null, irProvinceId: 2, null));
-		Assert.Equal("default_germ", cultureMapper.Match("bellovacian", null, irProvinceId: 3, null));
+		Assert.Equal("culture", cultureMapper.Match("bellovacian", null, irProvinceId: 3, null));
 	}
 }
