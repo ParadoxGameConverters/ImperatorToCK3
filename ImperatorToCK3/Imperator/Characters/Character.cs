@@ -142,23 +142,25 @@ internal sealed class Character : IIdentifiable<ulong> {
 		parser.RegisterKeyword("wealth", reader => character.Wealth = reader.GetFloat());
 		parser.RegisterKeyword("unborn", r => SetUnborns(character, r));
 		parser.RegisterKeyword("prisoner_home", reader => character.parsedPrisonerHomeId = reader.GetULong());
-		parser.RegisterKeyword("variables", reader => {
-			var variablesParser = new Parser();
-			variablesParser.RegisterKeyword("data", dataReader => {
-				foreach (var blob in new BlobList(dataReader).Blobs) {
-					ParseCharacterVariable(blob, character.Variables);
-				}
-			});
-			variablesParser.RegisterKeyword("list", ParserHelpers.IgnoreItem);
-			variablesParser.IgnoreAndLogUnregisteredItems();
-			variablesParser.ParseStream(reader);
-			if (character.Variables.ContainsKey("bald")) { // TODO: check if antigonus is converted bald
-				character.IsBald = true;
-				// Remove the "bald" flag to save memory.
-				character.Variables.Remove("bald");
+		parser.RegisterKeyword("variables", r => SetVariables(character, r));
+		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
+	}
+
+	private static void SetVariables(Character character, BufferedReader reader) {
+		var variablesParser = new Parser();
+		variablesParser.RegisterKeyword("data", dataReader => {
+			foreach (var blob in new BlobList(dataReader).Blobs) {
+				ParseCharacterVariable(blob, character.Variables);
 			}
 		});
-		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
+		variablesParser.RegisterKeyword("list", ParserHelpers.IgnoreItem);
+		variablesParser.IgnoreAndLogUnregisteredItems();
+		variablesParser.ParseStream(reader);
+		if (character.Variables.ContainsKey("bald")) { // TODO: check if antigonus is converted bald
+			character.IsBald = true;
+			// Remove the "bald" flag to save memory.
+			character.Variables.Remove("bald");
+		}
 	}
 
 	private static void ParseCharacterVariable(string blob, IdObjectCollection<string, Variable> variables) {

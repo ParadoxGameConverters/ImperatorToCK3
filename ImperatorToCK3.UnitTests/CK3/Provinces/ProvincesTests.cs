@@ -8,7 +8,6 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
-using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
@@ -117,7 +116,7 @@ public class ProvincesTests {
 
 		var ck3Provinces = new ProvinceCollection { new(1) };
 		var ck3RegionMapper = new CK3RegionMapper();
-		AreaCollection areas = new();
+		AreaCollection areas = [];
 		areas.LoadAreas(irModFS, irWorld.Provinces);
 		var irRegionMapper = new ImperatorRegionMapper(areas, new MapData(irModFS));
 		irRegionMapper.LoadRegions(irModFS, colorFactory);
@@ -186,7 +185,7 @@ public class ProvincesTests {
 			"""
 		);
 		var provinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
-		provinces.LoadProvinces(irProvsReader, new StateCollection(), new CountryCollection(), new MapData(irModFS));
+		provinces.LoadProvinces(irProvsReader, states: [], countries: [], new MapData(irModFS));
 		var conversionDate = new Date(476, 1, 1);
 		var config = new Configuration { CK3BookmarkDate = conversionDate };
 		var irWorld = new TestImperatorWorld(config);
@@ -198,7 +197,7 @@ public class ProvincesTests {
 		var ck3Provinces = new ProvinceCollection { new(1) };
 		var ck3MapData = new MapData(ck3ModFs);
 		ck3MapData.ProvinceDefinitions.Add(new ProvinceDefinition(1));
-		ck3Provinces.ImportImperatorProvinces(irWorld, ck3MapData, new Title.LandedTitles(), new CultureMapper(new ImperatorRegionMapper(new AreaCollection(), new MapData(irModFS)), new CK3RegionMapper(), new CultureCollection(colorFactory, new PillarCollection(colorFactory, []), [])), new ReligionMapper(new ReligionCollection(new Title.LandedTitles()), new ImperatorRegionMapper(new AreaCollection(), new MapData(irModFS)), new CK3RegionMapper()), provinceMapper, new Date(867, 1, 1), new Configuration());
+		ck3Provinces.ImportImperatorProvinces(irWorld, ck3MapData, titles: [], new CultureMapper(new ImperatorRegionMapper(new AreaCollection(), new MapData(irModFS)), new CK3RegionMapper(), new CultureCollection(colorFactory, new PillarCollection(colorFactory, []), [])), new ReligionMapper(new ReligionCollection(new Title.LandedTitles()), new ImperatorRegionMapper(new AreaCollection(), new MapData(irModFS)), new CK3RegionMapper()), provinceMapper, new Date(867, 1, 1), new Configuration());
 		
 		var ck3Province = ck3Provinces[1];
 		Assert.Equal(4, ck3Province.Variables.Count);
