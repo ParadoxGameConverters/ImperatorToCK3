@@ -556,6 +556,7 @@ set_historical_dynasty_renown = {
 "common/on_action/BP_game_starts/BP_global_gamestart.txt" = {
 	# Anachronistic
 	{
+	effect = {
 		#Capital changes for specific time periods
 		title:k_ostrogoths.holder = {
 			if = {
@@ -590,7 +591,7 @@ set_historical_dynasty_renown = {
 				set_realm_capital = title:c_udabhanda
 			}
 		}
-		title:d_caucasian_albania.holder = {
+		title:k_caucasian_albania.holder = {
 			if = {
 				limit = { current_date < 500.1.1 }
 				set_realm_capital = title:c_shaki
@@ -941,7 +942,7 @@ BP_set_minorities_universal = {
 	{
 		#Senatorial Families (West)
 		dynasty:1042312 = { make_west_senate_family_effect = yes } #Anicii Gens
-		#dynasty:1042303 = { make_west_senate_family_effect = yes } #Decii Gens
+		dynasty:1022222 = { make_west_senate_family_effect = yes } #Decii Gens
 		dynasty:1042302 = { make_west_senate_family_effect = yes } #Symmachi Gens
 		dynasty:1042324 = { make_west_senate_family_effect = yes } #Rufii Gens
 		dynasty:1042365 = { make_west_senate_family_effect = yes } #Rufinii Gens
@@ -951,11 +952,11 @@ BP_set_minorities_universal = {
 		#dynasty:roman_dynasty_vibius = { make_west_senate_family_effect = yes } #Vibii Gens
 		dynasty:romano_gallic_dynasty_pontius = { make_west_senate_family_effect = yes } #Pontii Gens
 		dynasty:romano_gallic_dynasty_decimius = { make_west_senate_family_effect = yes } #Decimii Gens
+		dynasty:105861 = { make_west_senate_family_effect = yes } #Turcii Gens
+		dynasty:1042320 = { make_west_senate_family_effect = yes } #Egnatii Gens
 		#Imperial Gens
 		dynasty:1022195 = { make_west_senate_family_effect = yes } #Constantini Gens
 		dynasty:1042315 = { make_west_senate_family_effect = yes } #Theodesii Gens
-		#Symmachus suggested, no chars/dynasty associated in database:
-		# Egnatii, Turcii, Marii Venantii, Turranii, Synesii
 		
 		#Romano-Gallic Dynasties
 		dynasty:roman_dynn_ferreolus = { make_west_senate_family_effect = yes } #Ferreoli Gens
@@ -965,6 +966,7 @@ BP_set_minorities_universal = {
 		
 		#Senatorial Families (East)
 		dynasty:1042535 = { make_east_senate_family_effect = yes } #Areobindus Gens
+		dynasty:13100023 = { make_east_senate_family_effect = yes } #Pomponii Gens
 		#Imperial Gens
 		dynasty:1022189 = { make_east_senate_family_effect = yes } #Venerius Gens
 		dynasty:1022188 = { make_east_senate_family_effect = yes } #Leonid Gens
@@ -972,10 +974,7 @@ BP_set_minorities_universal = {
 		#dynasty:1042365 = { make_east_senate_family_effect = yes } #Family of Gennadius Avienus (ca. 450) #Should be Constantinople Senate at later bookmarks
 		dynasty:104246209 = { make_east_senate_family_effect = yes } #Family of F. Taurus Celemntinus Armonius Clementinus
 		
-		#Symmachus suggested, no chars/dynasty associated in database:
-		# Theagenes
-		
-		#Build list of families that should _not_ be given land; namely the Romano-Gallic Families
+		#Build list of familes that should _not_ be given land; namely the Romano-Gallic Families
 		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:roman_dynn_ferreolus }
 		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:1042298 }
 		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:1042301 }

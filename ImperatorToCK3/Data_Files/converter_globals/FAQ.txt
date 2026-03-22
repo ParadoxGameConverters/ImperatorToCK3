@@ -40,6 +40,8 @@ A: The converter supports the following combinations:
 - Terra Indomita -> Rajas of Asia
 - Terra Indomita -> Asia Expansion Project
 - Terra Indomita -> vanilla CK3
+- Invictus (latest version) -> The Fallen Eagle
+- Invictus (latest version) -> When the World Stopped Making Sense
 - Invictus (latest version) -> vanilla CK3
 - Invictus 1.7 -> vanilla CK3
 - vanilla Imperator -> vanilla CK3
