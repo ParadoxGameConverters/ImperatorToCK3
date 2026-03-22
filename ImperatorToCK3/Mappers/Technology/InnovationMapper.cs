@@ -14,7 +14,7 @@ internal sealed class InnovationMapper {
 	private readonly List<InnovationBonus> innovationBonuses = [];
 
 	public void LoadLinksAndBonuses(string configurablePath, Hash liquidVariables) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("link", reader => innovationLinks.Add(new InnovationLink(reader)));
 		parser.RegisterKeyword("bonus", reader => innovationBonuses.Add(new InnovationBonus(reader)));
 		parser.IgnoreAndLogUnregisteredItems();

@@ -32,7 +32,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	public void LoadReligions(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
 		faithCache = null;
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 			var religion = new Religion(religionId, religionReader, this, colorFactory);
 			AddOrReplace(religion);
@@ -45,7 +45,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		faithCache = null;
 		OrderedSet<Faith> loadedConverterFaiths = [];
 		
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 			var optReligion = new Religion(religionId, religionReader, this, colorFactory);
 			
@@ -177,7 +177,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	public void LoadHolySites(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading CK3 holy sites...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterHolySitesKeywords(parser, areSitesFromConverter: false);
 
 		parser.ParseGameFolder("common/religion/holy_sites", ck3ModFS, "txt", recursive: true);
@@ -185,7 +185,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	public void LoadConverterHolySites(string converterHolySitesPath) {
 		Logger.Info("Loading converter holy sites...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterHolySitesKeywords(parser, areSitesFromConverter: true);
 
 		parser.ParseFile(converterHolySitesPath);
@@ -196,7 +196,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 		var missingFaithIds = new OrderedSet<string>();
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, faithId) => {
 			var faith = GetFaith(faithId);
 			var value = reader.GetStringOfItem();
@@ -223,7 +223,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	}
 
 	public void LoadDoctrines(ModFilesystem ck3ModFS) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, categoryId) =>
 			DoctrineCategories.AddOrReplace(new DoctrineCategory(categoryId, reader)));
 		parser.IgnoreAndLogUnregisteredItems();

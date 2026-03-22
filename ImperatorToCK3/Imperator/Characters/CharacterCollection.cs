@@ -15,7 +15,7 @@ namespace ImperatorToCK3.Imperator.Characters;
 
 internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, Character> {
 	public void LoadCharactersFromBloc(BufferedReader reader) {
-		var blocParser = new Parser();
+		var blocParser = new Parser(implicitVariableHandling: false);
 		blocParser.RegisterKeyword("character_database", LoadCharacters);
 		blocParser.IgnoreAndLogUnregisteredItems();
 		blocParser.ParseStream(reader);
@@ -28,7 +28,7 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 		var channelReader = channel.Reader;
 		
 		var producerTask = Task.Run(() => {
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: false);
 			parser.RegisterRegex(CommonRegexes.Integer, (reader, charIdStr) => {
 				if (!channelWriter.TryWrite(new(charIdStr, reader.GetStringOfItem()))) {
 					Logger.Warn($"Failed to enqueue character {charIdStr} for processing.");

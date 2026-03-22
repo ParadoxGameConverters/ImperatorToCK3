@@ -11,7 +11,7 @@ internal sealed class CharacterAttributes {
 	public static CharacterAttributes Parse(BufferedReader reader) {
 		var attributes = new CharacterAttributes();
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("martial", r => attributes.Martial = r.GetInt());
 		parser.RegisterKeyword("finesse", r => attributes.Finesse = r.GetInt());
 		parser.RegisterKeyword("charisma", r => attributes.Charisma = r.GetInt());

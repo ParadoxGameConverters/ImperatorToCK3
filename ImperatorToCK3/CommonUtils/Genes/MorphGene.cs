@@ -12,7 +12,7 @@ internal sealed class MorphGene : Gene, IIdentifiable<string> {
 	public MorphGene(string id, BufferedReader geneReader) {
 		Id = id;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("index", reader => Index = (uint)reader.GetInt());
 		parser.RegisterKeyword("ugliness_feature_categories", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("can_have_portrait_extremity_shift", ParserHelpers.IgnoreItem);

@@ -9,6 +9,7 @@ irtock3_confederation_setup_effect = {
 			any_in_list = {
 				list = irtock3_confederation_members
 				count > 1
+				#tiger-ignore(text="unknown token `CL_has_appropriate_title_tier`")
 				CL_has_appropriate_title_tier = yes
 			}
 		}
@@ -17,9 +18,12 @@ irtock3_confederation_setup_effect = {
 		every_in_list = {
 			limit = {
 				OR = {
+					#tiger-ignore(text="unknown token `CL_has_appropriate_title_tier`")
 					CL_has_appropriate_title_tier = no
 					AND = {
+						#tiger-ignore(text="unknown token `CL_uses_confederations`")
 						CL_uses_confederations = no
+						#tiger-ignore(text="unknown token `CL_uses_leagues`")
 						CL_uses_leagues = no
 					}
 				}
@@ -41,6 +45,7 @@ irtock3_confederation_setup_effect = {
 			list = irtock3_confederation_members
 
 			if = {
+				#tiger-ignore(text="unknown token `CL_uses_confederations`")
 				limit = { CL_uses_confederations = yes }
 				change_global_variable = {
 					name = confed_num
@@ -48,6 +53,7 @@ irtock3_confederation_setup_effect = {
 				}
 			}
 			else_if = {
+				#tiger-ignore(text="unknown token `CL_uses_leagues`")
 				limit = { CL_uses_leagues = yes }
 				change_global_variable = {
 					name = league_num
@@ -70,6 +76,7 @@ irtock3_confederation_setup_effect = {
 
 				# Get first member, for the 'actor' scope
 				ordered_in_list = {
+					#tiger-ignore(text="unknown token `CL_uses_leagues`")
 					limit = { CL_uses_leagues = yes }
 					alternative_limit = { always = yes } # Incase somehow this was chosen and no one is actually capable of using leagues, need to make sure someone is chosen
 					list = irtock3_confederation_members
@@ -81,6 +88,7 @@ irtock3_confederation_setup_effect = {
 				# Get second member, for the 'recipient' scope
 				ordered_in_list = {
 					limit = {
+						#tiger-ignore(text="unknown token `CL_uses_leagues`")
 						CL_uses_leagues = yes
 						this != scope:actor
 					}
@@ -96,6 +104,7 @@ irtock3_confederation_setup_effect = {
 
 				# For now, removing any members who can't join leagues because of government type
 				every_in_list = {
+					#tiger-ignore(text="unknown token `CL_uses_leagues`")
 					limit = { CL_uses_leagues = no }
 					list = irtock3_confederation_members
 					remove_from_list = irtock3_confederation_members
@@ -110,6 +119,7 @@ irtock3_confederation_setup_effect = {
 			else = { # Otherwise, they will be put into a confederation
 				# Get first member, for the 'actor' scope
 				ordered_in_list = {
+					#tiger-ignore(text="unknown token `CL_uses_confederations`")
 					limit = { CL_uses_confederations = yes }
 					alternative_limit = { always = yes } # Incase somehow this was chosen an no one is actually capable of using confederations, need to make sure someone is chosen
 					list = irtock3_confederation_members
@@ -121,6 +131,7 @@ irtock3_confederation_setup_effect = {
 				# Get second member, for the 'recipient' scope
 				ordered_in_list = {
 					limit = {
+						#tiger-ignore(text="unknown token `CL_uses_confederations`")
 						CL_uses_confederations = yes
 						this != scope:actor
 					}
@@ -136,6 +147,7 @@ irtock3_confederation_setup_effect = {
 
 				# For now, removing any members who can't join confederations because of government type
 				every_in_list = {
+					#tiger-ignore(text="unknown token `CL_uses_confederations`")
 					limit = { CL_uses_confederations = no }
 					list = irtock3_confederation_members
 					remove_from_list = irtock3_confederation_members

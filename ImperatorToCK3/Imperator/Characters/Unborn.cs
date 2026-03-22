@@ -22,7 +22,7 @@ internal sealed class Unborn {
 		Date? birthDate = null;
 		bool isBastard = false;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("mother", reader => motherId = reader.GetULong());
 		parser.RegisterKeyword("father", reader => fatherId = reader.GetULong());
 		parser.RegisterKeyword("date", reader => birthDate = new Date(reader.GetString(), AUC: true));

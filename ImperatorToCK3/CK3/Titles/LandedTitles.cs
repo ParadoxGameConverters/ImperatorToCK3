@@ -46,11 +46,12 @@ internal sealed partial class Title {
 			.Where(t => t.CapitalBaronyProvinceId.HasValue)
 			.Select(t => t.CapitalBaronyProvinceId!.Value)
 			.ToFrozenSet();
+		private Dictionary<ulong, Title>? countyByProvinceId;
 
 		public void LoadTitles(ModFilesystem ck3ModFS, CK3LocDB ck3LocDB, ColorFactory colorFactory) {
 			Logger.Info("Loading landed titles...");
 
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: false);
 			RegisterKeys(parser, colorFactory);
 			parser.ParseGameFolder("common/landed_titles", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 			LogIgnoredTokens();
@@ -143,7 +144,7 @@ internal sealed partial class Title {
 		}
 
 		public void LoadTitles(BufferedReader reader, ColorFactory colorFactory) {
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: true);
 			RegisterKeys(parser, colorFactory);
 			parser.ParseStream(reader);
 
@@ -152,7 +153,7 @@ internal sealed partial class Title {
 		public void LoadStaticTitles(ColorFactory colorFactory) {
 			Logger.Info("Loading static landed titles...");
 
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: true);
 			RegisterKeys(parser, colorFactory);
 
 			parser.ParseFile("configurables/static_landed_titles.txt");
@@ -356,12 +357,36 @@ internal sealed partial class Title {
 		}
 
 		public Title? GetCountyForProvince(ulong provinceId) {
-			foreach (var county in this.Where(title => title.Rank == TitleRank.county)) {
-				if (county.CountyProvinceIds.Contains(provinceId)) {
-					return county;
+			if (countyByProvinceId is null) {
+				countyByProvinceId = BuildCountyByProvinceLookup();
+			}
+
+			if (countyByProvinceId.TryGetValue(provinceId, out var county) && county.CountyProvinceIds.Contains(provinceId)) {
+				return county;
+			}
+
+			foreach (var title in this) {
+				if (title.Rank != TitleRank.county || !title.CountyProvinceIds.Contains(provinceId)) {
+					continue;
+				}
+				countyByProvinceId[provinceId] = title;
+				return title;
+			}
+
+			return null;
+		}
+
+		private Dictionary<ulong, Title> BuildCountyByProvinceLookup() {
+			var lookup = new Dictionary<ulong, Title>();
+			foreach (var title in this) {
+				if (title.Rank != TitleRank.county) {
+					continue;
+				}
+				foreach (var provinceId in title.CountyProvinceIds) {
+					lookup[provinceId] = title;
 				}
 			}
-			return null;
+			return lookup;
 		}
 
 		public Title? GetBaronyForProvince(ulong provinceId) {
@@ -2028,7 +2053,7 @@ internal sealed partial class Title {
 
 			int loadedHistoriesCount = 0;
 
-			var titlesHistoryParser = new Parser();
+			var titlesHistoryParser = new Parser(implicitVariableHandling: true);
 			titlesHistoryParser.RegisterRegex(Regexes.TitleId, (reader, titleName) => {
 				var historyItem = reader.GetStringOfItem().ToString();
 				if (!historyItem.Contains('{')) {
@@ -2071,7 +2096,7 @@ internal sealed partial class Title {
 			const string filePath = "configurables/cultural_title_names.txt";
 			Logger.Info($"Loading cultural title names from \"{filePath}\"...");
 
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: true);
 			parser.RegisterRegex(CommonRegexes.String, (reader, titleId) => {
 				var nameListToLocKeyDict = reader.GetAssignmentsAsDict();
 

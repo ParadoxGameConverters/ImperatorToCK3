@@ -54,14 +54,14 @@ internal sealed class HistoryFactory {
 	}
 
 	private Parser GetParser(History history) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterSimpleFieldKeywordsInParser(parser, history);
 		RegisterLiteralFieldKeywordsInParser(parser, history);
 		RegisterDiffFieldKeywordsInParser(parser, history);
 		parser.RegisterRegex(CommonRegexes.Date, (dateBlockReader, dateString) => {
 			var date = new Date(dateString);
 
-			var dateBlockParser = new Parser();
+			var dateBlockParser = new Parser(implicitVariableHandling: true);
 			foreach (var field in history.Fields) {
 				field.RegisterKeywords(dateBlockParser, date);
 			}

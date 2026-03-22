@@ -141,7 +141,7 @@ internal static class CulturesOutputter {
 		OrderedSet<string> languageFamilyParameters, OrderedSet<string> languageBranchParameters, OrderedSet<string> languageGroupParameters)
 	{
 		// Read converter-added language families, branches and groups from the configurable.
-		var languageParamsFileParser = new Parser();
+		var languageParamsFileParser = new Parser(implicitVariableHandling: true);
 		languageParamsFileParser.RegisterKeyword("language_families", reader => ReadParamsIntoSet(reader, languageFamilyParameters, ck3ModFlags));
 		languageParamsFileParser.RegisterKeyword("language_branches", reader => ReadParamsIntoSet(reader, languageBranchParameters, ck3ModFlags));
 		languageParamsFileParser.RegisterKeyword("language_groups", reader => ReadParamsIntoSet(reader, languageGroupParameters, ck3ModFlags));
@@ -152,7 +152,7 @@ internal static class CulturesOutputter {
 		OrderedSet<string> heritageFamilyParameters, OrderedSet<string> heritageGroupParameters)
 	{
 		// Read converter-added heritage families and groups from the configurable.
-		var heritageParamsFileParser = new Parser();
+		var heritageParamsFileParser = new Parser(implicitVariableHandling: true);
 		heritageParamsFileParser.RegisterKeyword("heritage_families", reader => ReadParamsIntoSet(reader, heritageFamilyParameters, ck3ModFlags));
 		heritageParamsFileParser.RegisterKeyword("heritage_groups", reader => ReadParamsIntoSet(reader, heritageGroupParameters, ck3ModFlags));
 		heritageParamsFileParser.ParseFile("configurables/ccu_heritage_parameters.txt");
@@ -371,7 +371,7 @@ internal static class CulturesOutputter {
 	}
 
 	private static void ReadParamsIntoSet(BufferedReader reader, OrderedSet<string> paramsSet, OrderedDictionary<string, bool> ck3ModFlags) {
-		var paramsParser = new Parser();
+		var paramsParser = new Parser(implicitVariableHandling: true);
 		paramsParser.RegisterModDependentBloc(ck3ModFlags);
 		paramsParser.RegisterRegex(CommonRegexes.Catchall, (_, parameter) => {
 			paramsSet.Add(parameter);

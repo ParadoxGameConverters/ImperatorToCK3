@@ -111,7 +111,7 @@ internal static class CharactersOutputter {
 		
 		var accessoryIDs = new ConcurrentHashSet<string>();
 
-		var accessoryFilesParser = new Parser();
+		var accessoryFilesParser = new Parser(implicitVariableHandling: true);
 		accessoryFilesParser.RegisterRegex(CommonRegexes.String, (reader, accessoryId) => {
 			accessoryIDs.Add(accessoryId);
 			ParserHelpers.IgnoreItem(reader);

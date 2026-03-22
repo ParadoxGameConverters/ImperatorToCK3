@@ -8,12 +8,12 @@ internal sealed class UnitTypeMapper {
 	private readonly Dictionary<string, string?> unitTypeMap = []; // imperator -> ck3
 
 	public UnitTypeMapper(string mappingsFilePath) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("link", mappingReader => {
 			var impList = new List<string>();
 			string? ck3Type = null;
 
-			var mappingParser = new Parser();
+			var mappingParser = new Parser(implicitVariableHandling: true);
 			mappingParser.RegisterKeyword("ir", reader=>impList.Add(reader.GetString()));
 			mappingParser.RegisterKeyword("ck3", reader=>ck3Type=reader.GetString());
 			mappingParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);

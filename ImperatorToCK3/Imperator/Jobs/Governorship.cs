@@ -6,7 +6,6 @@ using ImperatorToCK3.Mappers.Region;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Jobs;
 
@@ -20,7 +19,7 @@ internal sealed class Governorship {
 		ulong? countryId = null;
 		string? regionId = null;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("who", reader => countryId = reader.GetULong());
 		parser.RegisterKeyword("character", reader => CharacterId = reader.GetULong());
 		parser.RegisterKeyword("start_date", reader => StartDate = new Date(reader.GetString(), AUC: true));
@@ -46,15 +45,27 @@ internal sealed class Governorship {
 	}
 
 	public ImmutableArray<Province> GetIRProvinces(ProvinceCollection irProvinces) {
-		return irProvinces
-			.Where(p => p.OwnerCountry == Country && Region.ContainsProvince(p.Id))
-			.ToImmutableArray();
+		var provinces = ImmutableArray.CreateBuilder<Province>();
+		foreach (var province in irProvinces) {
+			if (province.OwnerCountry != Country || !Region.ContainsProvince(province.Id)) {
+				continue;
+			}
+			provinces.Add(province);
+		}
+		return provinces.ToImmutable();
 	}
 
 	public ImmutableArray<ulong> GetCK3ProvinceIds(ProvinceCollection irProvinces, ProvinceMapper provMapper) {
-		return GetIRProvinces(irProvinces)
-			.Select(p => p.Id)
-			.SelectMany(provMapper.GetCK3ProvinceNumbers)
-			.ToImmutableArray();
+		var ck3ProvinceIds = ImmutableArray.CreateBuilder<ulong>();
+		foreach (var irProvince in irProvinces) {
+			if (irProvince.OwnerCountry != Country || !Region.ContainsProvince(irProvince.Id)) {
+				continue;
+			}
+
+			foreach (var ck3ProvinceId in provMapper.GetCK3ProvinceNumbers(irProvince.Id)) {
+				ck3ProvinceIds.Add(ck3ProvinceId);
+			}
+		}
+		return ck3ProvinceIds.ToImmutable();
 	}
 }

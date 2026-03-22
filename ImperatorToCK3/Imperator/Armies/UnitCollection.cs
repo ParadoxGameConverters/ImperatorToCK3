@@ -10,7 +10,7 @@ internal sealed class UnitCollection : IdObjectCollection<ulong, Unit> {
 
 	public void LoadSubunits(BufferedReader subunitsReader) {
 		Logger.Info("Loading subunits...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, idStr) => {
 			var itemStr = reader.GetStringOfItem().ToString();
 			if (itemStr == "none") {
@@ -31,7 +31,7 @@ internal sealed class UnitCollection : IdObjectCollection<ulong, Unit> {
 	public void LoadUnits(BufferedReader unitsReader, LocDB irLocDB, ImperatorDefines defines) {
 		Logger.Info("Loading units...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, idStr) => {
 			var itemStr = reader.GetStringOfItem().ToString();
 			if (itemStr == "none") {

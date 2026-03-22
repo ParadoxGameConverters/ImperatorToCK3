@@ -19,7 +19,7 @@ internal sealed class CK3RegionMapper {
 		Logger.IncrementProgress();
 	}
 	public void LoadRegions(ModFilesystem ck3ModFS, Title.LandedTitles landedTitles) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterRegionKeys(parser);
 
 		var regionsFolderPath = Path.Combine("map_data", "geographical_regions");

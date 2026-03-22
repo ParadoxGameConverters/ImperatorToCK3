@@ -57,7 +57,7 @@ internal sealed class Configuration {
 	public Configuration() { }
 	public Configuration(ConverterVersion converterVersion) {
 		Logger.Info("Reading configuration file...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		RegisterConfigurationKeys(parser);
 		const string configurationPath = "configuration.txt";
 		if (!File.Exists(configurationPath)) {

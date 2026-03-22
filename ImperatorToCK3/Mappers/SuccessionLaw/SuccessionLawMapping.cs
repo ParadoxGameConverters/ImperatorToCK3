@@ -11,7 +11,7 @@ internal sealed class SuccessionLawMapping {
 	private HashSet<string> RequiredCK3Dlcs { get; } = [];
 	
 	public SuccessionLawMapping(BufferedReader mappingReader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("ir", reader => ImperatorLaw = reader.GetString());
 		parser.RegisterKeyword("ck3", reader => CK3SuccessionLaws.Add(reader.GetString()));
 		parser.RegisterKeyword("ir_government", reader => ImperatorGovernments.Add(reader.GetString()));

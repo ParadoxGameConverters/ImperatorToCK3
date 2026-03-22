@@ -74,7 +74,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 	}
 
 	private void LoadInvalidatingCultureIds(OrderedDictionary<string, bool> ck3ModFlags, BufferedReader reader) {
-		var cultureIdsPerModFlagParser = new Parser();
+		var cultureIdsPerModFlagParser = new Parser(implicitVariableHandling: true);
 
 		if (ck3ModFlags.Count == 0) {
 			cultureIdsPerModFlagParser.RegisterKeyword("vanilla_ck3", modCultureIdsReader => {
@@ -98,7 +98,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		
 		OrderedDictionary<string, CultureData> culturesData = []; // Preserves order of insertion.
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => culturesData[cultureId] = LoadCultureData(reader));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/culture/cultures", ck3ModFS, "txt", recursive: true, logFilePaths: true);
@@ -114,7 +114,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		
 		OrderedDictionary<string, CultureData> culturesData = []; // Preserves order of insertion.
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, cultureId) => culturesData[cultureId] = LoadCultureData(reader));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseFile(converterCulturesPath);
@@ -183,7 +183,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 	public void LoadNameLists(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading name lists...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, nameListId) => {
 			NameListCollection.AddOrReplace(new NameList(nameListId, reader));
 		});
@@ -194,7 +194,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 	public void LoadInnovationIds(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading CK3 innovation IDs...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, innovationId) => {
 			InnovationIds.Add(innovationId);
 			ParserHelpers.IgnoreItem(reader);
@@ -295,6 +295,6 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 	protected readonly HashSet<string> InnovationIds = [];
 
 	private CultureData cultureData = new();
-	private readonly Parser cultureDataParser = new();
+	private readonly Parser cultureDataParser = new(implicitVariableHandling: true);
 	private readonly IgnoredKeywordsSet ignoredModFlags = [];
 }
