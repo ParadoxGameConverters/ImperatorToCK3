@@ -329,43 +329,6 @@ irtock3_setup_governments = {
 			capital_county.title_province = { set_holding_type = castle_holding } # Sometimes rulers can't change government if their capital doesn't have the right holding type
 			change_government = japan_feudal_government
 		}
-		##########################
-		### Setup Wanua Rulers ###
-		##########################
-		# Converter can't use geographical location as conditions for government mappings, and a lot of the region is out-of-scope, so handling Wanua needs to be handled through CK3 script
-		else_if = {
-			limit = {
-				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
-				NOT = { global_var:irtock3_enabled = flag:wtwsms } # Shouldn't even check this block if using a mod that doesn't even include the region
-				OR = { # Monarchies/Republics shouldn't become Wanua
-					has_government = tribal_government
-					has_government = nomad_government # Imperator migratory tribes might convert as this
-					capital_province = { geographical_region = converter_AUH_out_of_scope_indonesia } # Some out-of-scope counties are castles, this should make sure EVERY out-of-scope ruler is properly affected
-				}
-				OR = { # Need to actually be in the relevant region
-					# Either have capital and at least half of realm in region
-					AND = {
-						capital_province = { geographical_region = seasonal_region_maritime_southeast_asia }
-						any_sub_realm_county = {
-							percent >= 0.5
-							title_province = { geographical_region = seasonal_region_maritime_southeast_asia }
-						}
-					}
-					# OR, don't have capital in region, but have 80% of realm in region
-					AND = {
-						NOT = {
-							capital_province = { geographical_region = seasonal_region_maritime_southeast_asia }
-						}
-						any_sub_realm_county = {
-							percent >= 0.8
-							title_province = { geographical_region = seasonal_region_maritime_southeast_asia }
-						}
-					}
-				}
-			}
-			capital_county.title_province = { set_holding_type = tribal_holding } # Sometimes rulers can't change government if their capital doesn't have the right holding type
-			change_government = wanua_government
-		}
 		############################
 		### Setup Mandala Rulers ###
 		############################
@@ -416,6 +379,43 @@ irtock3_setup_governments = {
 			change_government = mandala_government
 		}
 		{% endif %}
+		##########################
+		### Setup Wanua Rulers ###
+		##########################
+		# Converter can't use geographical location as conditions for government mappings, and a lot of the region is out-of-scope, so handling Wanua needs to be handled through CK3 script
+		else_if = {
+			limit = {
+				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
+				NOT = { global_var:irtock3_enabled = flag:wtwsms } # Shouldn't even check this block if using a mod that doesn't even include the region
+				OR = { # Monarchies/Republics shouldn't become Wanua
+					has_government = tribal_government
+					has_government = nomad_government # Imperator migratory tribes might convert as this
+					capital_province = { geographical_region = converter_AUH_out_of_scope_indonesia } # Some out-of-scope counties are castles, this should make sure EVERY out-of-scope ruler is properly affected
+				}
+				OR = { # Need to actually be in the relevant region
+					# Either have capital and at least half of realm in region
+					AND = {
+						capital_province = { geographical_region = seasonal_region_maritime_southeast_asia }
+						any_sub_realm_county = {
+							percent >= 0.5
+							title_province = { geographical_region = seasonal_region_maritime_southeast_asia }
+						}
+					}
+					# OR, don't have capital in region, but have 80% of realm in region
+					AND = {
+						NOT = {
+							capital_province = { geographical_region = seasonal_region_maritime_southeast_asia }
+						}
+						any_sub_realm_county = {
+							percent >= 0.8
+							title_province = { geographical_region = seasonal_region_maritime_southeast_asia }
+						}
+					}
+				}
+			}
+			capital_county.title_province = { set_holding_type = tribal_holding } # Sometimes rulers can't change government if their capital doesn't have the right holding type
+			change_government = wanua_government
+		}
 		###########################
 		### Setup Filler Rulers ###
 		###########################

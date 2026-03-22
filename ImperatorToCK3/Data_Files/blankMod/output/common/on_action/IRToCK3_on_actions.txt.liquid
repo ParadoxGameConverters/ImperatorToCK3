@@ -581,7 +581,15 @@ IRToCK3_game_start_onaction_effects = {
 
 					holder ?= {
 						if = {
-							limit = { has_variable = irtock3_uncolonized_filler } # Just to double check that the rulers being affected aren't rulers converted from Imperator
+							limit = { # Just to double check that the rulers being affected aren't rulers converted from Imperator
+								OR = {
+									has_variable = irtock3_uncolonized_filler
+									any_sub_realm_county = {
+										count = all
+										title_province = { geographical_region = converter_AUH_out_of_scope_region_hantuist }
+									}
+								}
+							}
 
 							if = {
 								limit = { faith.religion = scope:remove_religion }
@@ -627,7 +635,15 @@ IRToCK3_game_start_onaction_effects = {
 
 					holder ?= {
 						if = {
-							limit = { has_variable = irtock3_uncolonized_filler } # Just to double check that the rulers being affected aren't rulers converted from Imperator
+							limit = { # Just to double check that the rulers being affected aren't rulers converted from Imperator
+								OR = {
+									has_variable = irtock3_uncolonized_filler
+									any_sub_realm_county = {
+										count = all
+										title_province = { geographical_region = converter_AUH_out_of_scope_region_tolotang }
+									}
+								}
+							}
 
 							if = {
 								limit = { faith.religion = scope:remove_religion }
@@ -673,7 +689,15 @@ IRToCK3_game_start_onaction_effects = {
 
 					holder ?= {
 						if = {
-							limit = { has_variable = irtock3_uncolonized_filler } # Just to double check that the rulers being affected aren't rulers converted from Imperator
+							limit = { # Just to double check that the rulers being affected aren't rulers converted from Imperator
+								OR = {
+									has_variable = irtock3_uncolonized_filler
+									any_sub_realm_county = {
+										count = all
+										title_province = { geographical_region = converter_AUH_out_of_scope_region_aluk }
+									}
+								}
+							}
 
 							if = {
 								limit = { faith.religion = scope:remove_religion }
@@ -719,7 +743,15 @@ IRToCK3_game_start_onaction_effects = {
 
 					holder ?= {
 						if = {
-							limit = { has_variable = irtock3_uncolonized_filler } # Just to double check that the rulers being affected aren't rulers converted from Imperator
+							limit = { # Just to double check that the rulers being affected aren't rulers converted from Imperator
+								OR = {
+									has_variable = irtock3_uncolonized_filler
+									any_sub_realm_county = {
+										count = all
+										title_province = { geographical_region = converter_AUH_out_of_scope_region_kaharingan }
+									}
+								}
+							}
 
 							if = {
 								limit = { faith.religion = scope:remove_religion }
