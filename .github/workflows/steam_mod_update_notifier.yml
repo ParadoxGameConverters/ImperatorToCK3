@@ -21,7 +21,7 @@ jobs:
       - name: Check Steam Workshop mods and notify
         shell: bash
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
           GITHUB_API: https://api.github.com
           STEAM_PUBLISHED_FILE_DETAILS_API: https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/
           STEAM_CHANGE_HISTORY_API: https://api.steampowered.com/IPublishedFileService/GetChangeHistory/v1/
