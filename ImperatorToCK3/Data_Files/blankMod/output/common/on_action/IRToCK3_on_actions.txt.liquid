@@ -460,12 +460,17 @@ IRToCK3_game_start_onaction_effects = {
 
 		# Makes sure Persia is properly named at game start
 		title:e_persia = {
-			reset_title_name = yes
-			set_definitive_form = yes
 			if = {
-				limit = { exists = holder.house }
-				holder.house = { save_scope_as = new_persia_house }
-				set_title_name_dynamic = new_persia_empire_name
+				limit = {
+					NOT = { custom_title_name = irtock3_rome_empire_division_persia }
+				}
+				reset_title_name = yes
+				set_definitive_form = yes
+				if = {
+					limit = { exists = holder.house }
+					holder.house = { save_scope_as = new_persia_house }
+					set_title_name_dynamic = new_persia_empire_name
+				}
 			}
 		}
 
