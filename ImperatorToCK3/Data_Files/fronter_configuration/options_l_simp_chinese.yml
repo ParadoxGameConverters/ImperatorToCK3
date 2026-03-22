@@ -53,7 +53,7 @@ l_simp_chinese:
  IMPERATOR_NOMADS_NO_CHANGES_TIP: "在“游牧”属性方面，《Imperator》标签未作任何修改，完全沿用转换器输出的结果。"
 
  MANDALA_RULERS: "曼陀罗尺"
- MANDALA_RULERS_TIP: "（需启用“天下大同”模组方可生效）对于那些符合原版游戏“曼荼罗条件”的统治者，是否应在游戏开局时为其赋予“曼荼罗政体”？\n\n注：原版游戏设定的“曼荼罗条件”要求统治者信仰多神教，且拥有以下文化传承之一：\n- 南岛\n- 泰\n- 孟-高棉\n- 越\n- 印欧雅利安\n- 达罗毗荼\n- 缅\n- 羌"
+ MANDALA_RULERS_TIP: "（需启用“天下大同”模组方可生效）对于那些符合原版游戏“曼荼罗条件”的统治者，是否应在游戏开局时为其赋予“曼荼罗政体”？\n\n注：基础游戏设定的“曼荼罗”条件要求统治者拥有“有组织的泛神论”信仰，且具备以下文化传承之一：\n- 南岛\n- 泰\n- 孟-高棉\n- 越\n- 印欧雅利安\n- 达罗毗荼\n- 缅\n- 羌"
  MANDALA_RULERS_SEA_FEUDAL: "东南亚 - 封建"
  MANDALA_RULERS_SEA_FEUDAL_TIP: "在东南亚地区符合曼荼罗条件的封建统治者。"
  MANDALA_RULERS_SEA_NONTRIBAL: "东南亚 - 非部落"

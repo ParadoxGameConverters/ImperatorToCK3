@@ -90,7 +90,7 @@ l_italian:
  IMPERATOR_NOMADS_NO_CHANGES_TIP: "I tag di Imperator non vengono modificati in alcun modo per quanto riguarda lo status nomade, utilizzando quanto prodotto dal convertitore."
 
  MANDALA_RULERS: "Righelli per Mandala"
- MANDALA_RULERS_TIP: "(Richiede che All Under Heaven sia attivo per avere effetto) A quali sovrani, che soddisfano le Condizioni del Mandala del gioco base, dovrebbe essere assegnato il governo Mandala all'inizio della partita?\n\nNOTA: Le Condizioni del Mandala stabilite dal gioco base richiedono che il sovrano professi una fede politeista e possieda una delle seguenti eredità culturali:\n- Austronesiana\n- Tai\n- Mon-Khmer\n- Viet\n- Indo-ariana\n- Dravidica\n- Birmana\n- Qiangica"
+ MANDALA_RULERS_TIP: "(Richiede che All Under Heaven sia attivo per avere effetto) A quali sovrani, che soddisfano le Condizioni del Mandala del gioco base, dovrebbe essere assegnato il governo Mandala all'inizio della partita?\n\nNOTA: Le Condizioni del Mandala stabilite dal gioco base richiedono che il sovrano possieda una fede politeista organizzata e una delle seguenti eredità culturali:\n- Austronesiana\n- Tai\n- Mon-Khmer\n- Viet\n- Indo-ariana\n- Dravidica\n- Birmana\n- Qiangica"
  MANDALA_RULERS_SEA_FEUDAL: "SEA - Feudali"
  MANDALA_RULERS_SEA_FEUDAL_TIP: "Sovrani feudali che soddisfano le Condizioni del Mandala nel Sud-est asiatico." 
  MANDALA_RULERS_SEA_NONTRIBAL: "SEA - Non tribali"

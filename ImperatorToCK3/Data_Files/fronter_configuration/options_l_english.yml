@@ -97,7 +97,7 @@ l_english:
  IMPERATOR_NOMADS_NO_CHANGES_TIP: "Imperator tags are not modified in any way in terms of being Nomadic, using whatever the converter outputs."
 
  MANDALA_RULERS: "Mandala Rulers"
- MANDALA_RULERS_TIP: "(Requires All Under Heaven to have an effect) Where should rulers, who meet the base game's Mandala Conditions, be given the Mandala government at game start?\n\nNOTE: The Mandala Conditions set by the base game require the ruler to have a Polytheistic faith, and one of the following cultural heritages:\n- Austronesian\n- Tai\n- Mon-Khmer\n- Viet\n- Indo-Aryan\n- Dravidian\n- Burman\n- Qiangic"
+ MANDALA_RULERS_TIP: "(Requires All Under Heaven to have an effect) Where should rulers, who meet the base game's Mandala Conditions, be given the Mandala government at game start?\n\nNOTE: The Mandala Conditions set by the base game require the ruler to have an Organized Polytheistic faith, and one of the following cultural heritages:\n- Austronesian\n- Tai\n- Mon-Khmer\n- Viet\n- Indo-Aryan\n- Dravidian\n- Burman\n- Qiangic"
  MANDALA_RULERS_SEA_FEUDAL: "SEA - Feudal"
  MANDALA_RULERS_SEA_FEUDAL_TIP: "Feudal rulers who meet the Mandala Conditions in Southeast Asia."
  MANDALA_RULERS_SEA_NONTRIBAL: "SEA - Nontribal"

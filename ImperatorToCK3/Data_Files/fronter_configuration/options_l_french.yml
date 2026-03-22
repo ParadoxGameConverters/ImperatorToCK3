@@ -90,7 +90,7 @@ l_french:
  IMPERATOR_NOMADS_NO_CHANGES_TIP: "Les tags Imperator ne sont en aucun cas modifiés quant à leur statut nomade, le convertisseur utilisant les données telles qu'elles sont générées."
 
  MANDALA_RULERS: "Souverains du Mandala"
- MANDALA_RULERS_TIP: "(Nécessite l'extension *All Under Heaven* pour être effectif) Quels souverains, remplissant les conditions du Mandala du jeu de base, doivent-ils se voir attribuer le régime politique du Mandala au début de la partie ?\n\nNOTE : Les conditions du Mandala définies par le jeu de base exigent que le souverain professe une foi polythéiste et possède l'un des héritages culturels suivants :\n- Austronésien\n- Tai\n- Mon-Khmer\n- Viet\n- Indo-aryen\n- Dravidien\n- Birman\n- Qiangique"
+ MANDALA_RULERS_TIP: "(Nécessite l'extension *All Under Heaven* pour être effectif) Quels souverains, remplissant les conditions du Mandala du jeu de base, doivent-ils se voir attribuer le régime politique du Mandala au début de la partie ?\n\nNOTE: Les conditions du Mandala, établies par le jeu de base, exigent que le souverain possède une foi polythéiste organisée, ainsi que l'un des héritages culturels suivants:\n- Austronésien\n- Tai\n- Mon-Khmer\n- Viet\n- Indo-aryen\n- Dravidien\n- Birman\n- Qiangique"
  MANDALA_RULERS_SEA_FEUDAL: "SEA – Féodaux"
  MANDALA_RULERS_SEA_FEUDAL_TIP: "Les souverains féodaux qui remplissent les conditions du Mandala en Asie du Sud-Est."
  MANDALA_RULERS_SEA_NONTRIBAL: "SEA – Non-tribaux"

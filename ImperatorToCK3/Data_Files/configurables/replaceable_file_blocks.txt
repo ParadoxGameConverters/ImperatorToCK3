@@ -168,44 +168,6 @@
 				}
 		}
 	}
-
-	# Allows government setup based around game rules to be properly handled
-	replace = {
-		before = {
-		# To prevent the Season Changes event from triggering on game start
-		situation:the_great_steppe ?= {
-			every_participant_group = {
-				every_situation_group_participant = {
-					set_variable = {
-						name = steppe_game_start_var
-						years = 1
-					}
-				}
-			}
-		}
-
-		# Extra Nomad Regions
-		}
-
-		after = {
-		# IRToCK3: Need to make sure that government setup based around game rules is properly handled
-		irtock3_setup_governments = yes
-		
-		# To prevent the Season Changes event from triggering on game start
-		situation:the_great_steppe ?= {
-			every_participant_group = {
-				every_situation_group_participant = {
-					set_variable = {
-						name = steppe_game_start_var
-						years = 1
-					}
-				}
-			}
-		}
-
-		# Extra Nomad Regions
-		}
-	}
 }
 
 
@@ -3442,6 +3404,9 @@ tgp_is_ceremonial_regent_trigger = {
 
 
 "events/dlc/tgp/tgp_dynastic_cycle_events.txt" = {
+	####################
+	## tgp_dynastic_cycle.0051
+	####################	
 	# Need to modify the initial notification event for the Dynastic Cycle so that it can actually be triggered for everyone who is relevant at the beginning of the game so everyone knows what Era its starting in.
 	replace = {
 		before = {
@@ -3466,43 +3431,142 @@ tgp_is_ceremonial_regent_trigger = {
 		}
 	}
 
-	# Modifying the event that sets China's Dynastic Name so that the AI always chooses the name they used in Imperator
+	####################
+	## tgp_dynastic_cycle.9001
+	####################
+	# Modifying the event so that Imperator tag names can be chosen when they make sense, and so the AI will always choose their Imperator tag name if they start the game with h_china
+
+	# widget block
 	replace = {
 		before = {
-		if = {
-			limit = {
-				is_ai = yes
-				NOT = { is_title_localization_key_used = dynn_title_yuan }
-				highest_held_title_tier >= tier_empire
-				culture = {
-					has_cultural_pillar = heritage_mongolic
+				default = {
+					localization_key = capital_kingdom_name
+					trigger = { exists = scope:kingdom_name }
 				}
-			}
-			primary_title = {
-				set_title_name_dynamic = dynn_title_yuan
-			}
-		}
 		}
 
 		after = {
-		if = { # IRToCK3: Added this section so that the AI always sets China's name to be the same as what it was in Imperator
-			limit = { has_variable = irtock3_china_primary_name }
-			var:irtock3_china_primary_name = { save_scope_as = irtock3_china_primary_name }
-			primary_title = { set_title_name_dynamic = irtock3_imperator_china_name }
+				default = {
+					localization_key = capital_kingdom_name
+					trigger = { exists = scope:kingdom_name }
+				}
+				### IRToCK3: Name name entries from Imperator Tags
+				default = {
+					localization_key = dynn_title_yan
+					trigger = { is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_yan } }
+				}
+				default = {
+					localization_key = dynn_title_qin
+					trigger = { is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_qin } }
+				}
+				default = {
+					localization_key = dynn_title_teng
+					trigger = { is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_teng } }
+				}
+				default = {
+					localization_key = dynn_title_wey
+					trigger = { is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_wey } }
+				}
+				default = {
+					localization_key = dynn_title_bi
+					trigger = { is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_bi } }
+				}
 		}
-		else_if = {
-			limit = {
-				is_ai = yes
-				NOT = { is_title_localization_key_used = dynn_title_yuan }
-				highest_held_title_tier >= tier_empire
-				culture = {
-					has_cultural_pillar = heritage_mongolic
+	}
+
+	# immediate block
+	replace = {
+		before = {
+			if = {
+				limit = {
+					NOT = { exists = root.var:new_realm_title_name }
+				}
+				root = {
+					set_variable = {
+						name = new_realm_title_name
+						value = flag:capital_duchy_name
+					}
 				}
 			}
-			primary_title = {
-				set_title_name_dynamic = dynn_title_yuan
+		}
+
+		after = {
+			if = { # IRToCK3: Added this section so that the AI always sets China's name to be the same as what it was in Imperator, if it's available
+				limit = { has_variable = imperator_tag }
+				irtock3_assign_china_imperator_name_effect = yes
+			}
+			if = {
+				limit = {
+					NOT = { exists = root.var:new_realm_title_name }
+				}
+				root = {
+					set_variable = {
+						name = new_realm_title_name
+						value = flag:capital_duchy_name
+					}
+				}
 			}
 		}
+	}
+
+	####################
+	## tgp_dynastic_cycle.9002
+	####################
+	# As far as I can tell, the main Terra-Indomita tags that have known/assumed Wuxing Element colors are the Qin and Zhou, so the AI will be more likely to choose their associated color if they had those tags in Imperator
+
+	# Red block
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				has_global_variable = old_dynastic_color_is_green
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				has_global_variable = old_dynastic_color_is_green
+			}
+			# IRToCK3: It seems like the Zhou were more associated with the color Red, so the AI will be more likely to choose this if they had those tags in Imperator
+			modifier = {
+				add = 1000
+				trigger_if = {
+					limit = { has_variable = imperator_tag }
+					OR = {
+						var:imperator_tag = flag:ZHO
+						var:imperator_tag = flag:WZO
+						var:imperator_tag = flag:EZO
+					}
+				}
+				trigger_else = { always = no }
+			}
+		}
+	}
+
+	# Black block
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				has_global_variable = old_dynastic_color_is_white
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				has_global_variable = old_dynastic_color_is_white
+			}
+			# IRToCK3: It seems like the Qin were more associated with the color Black, so the AI will be more likely to choose this if they had that tag in Imperator
+			modifier = {
+				add = 1000
+				trigger_if = {
+					limit = { has_variable = imperator_tag }
+					var:imperator_tag = flag:QIN
+				}
+				trigger_else = { always = no }
+			}
 		}
 	}
 }
@@ -8051,8 +8115,475 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 }
 
 
+"common/situation/situations/tgp_dynastic_cycle.txt" = {
+	# Don't want the initial Dynastic Cycle event triggering before the starting phase is officially determined
+
+	# hegemon_ruler on_join block
+	replace = {
+		before = {
+				if = {
+					limit = {
+						is_ai = no
+						NOT = { has_variable = claimed_the_mandate_of_heaven }
+					}
+					trigger_event = tgp_dynastic_cycle.0051
+				}
+		}
+
+		after = {
+				if = {
+					limit = {
+						is_ai = no
+						NOT = { has_variable = claimed_the_mandate_of_heaven }
+						current_date_is_start_date_trigger = no # IRToCK3: This event triggering at the beginning of the game is handled elsewhere
+					}
+					trigger_event = tgp_dynastic_cycle.0051
+				}
+		}
+	}
+
+	# other_rulers on_join block
+	replace = {
+		before = {
+				if = {
+					limit = { is_ai = no }
+					trigger_event = tgp_dynastic_cycle.0051
+				}
+		}
+
+		after = {
+				if = {
+					limit = {
+						is_ai = no
+						current_date_is_start_date_trigger = no # IRToCK3: This event triggering at the beginning of the game is handled elsewhere
+					}
+					trigger_event = tgp_dynastic_cycle.0051
+				}
+		}
+	}
+}
 
 
+"common/scripted_effects/10_dlc_tgp_dynastic_cycle_scripted_effects.txt" = {
+	#################
+	## tgp_assign_china_realm_name_options_effect
+	#################
+	# Need to modify this so that if the character choosing a name has their Imperator tag saved, that name is given priority
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_ba_region
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_ba_region
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:BAA
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_chu_region
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_chu_region
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:CHU
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_han_region
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_han_region
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:HAN
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_jin_region
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_jin_region
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:JIN
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_lu_region
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_lu_region
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:LUU
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_min_region
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_min_region
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:MNY
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_qi_region
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_qi_region
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:QII
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_song_region
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_song_region
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:SNG
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_wei_region
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_wei_region
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:WEI
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_yue_region
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_yue_region
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:YUE
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_zhao_region
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_zhao_region
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:ZHA
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_zhou_region
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				capital_province ?= {
+					geographical_region = tgp_zhou_region
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				OR = {
+					var:imperator_tag ?= flag:ZHO
+					var:imperator_tag ?= flag:WZO
+					var:imperator_tag ?= flag:EZO
+				}
+			}
+		}
+	}
+
+	replace = {
+		before = {
+		0 = { # Yuan
+			modifier = {
+				add = 1000
+				culture = {
+					has_cultural_pillar = heritage_mongolic
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_title_localization_key_used = dynn_title_yuan
+					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_yuan }
+				}
+			}
+			add_to_variable_list = { name = realm_title_names target = flag:dynn_title_yuan }
+		}
+		}
+
+		after = {
+		0 = { # Yuan
+			modifier = {
+				add = 1000
+				culture = {
+					has_cultural_pillar = heritage_mongolic
+				}
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_title_localization_key_used = dynn_title_yuan
+					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_yuan }
+				}
+			}
+			add_to_variable_list = { name = realm_title_names target = flag:dynn_title_yuan }
+		}
+		# IRToCK3: Added the below sections so Imperator tag names could be chosen, when applicable
+		0 = { # Yan
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:YAN
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_title_localization_key_used = dynn_title_yan
+					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_yan }
+				}
+			}
+			add_to_variable_list = { name = realm_title_names target = flag:dynn_title_yan }
+		}
+		0 = { # Qin
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:QIN
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_title_localization_key_used = dynn_title_qin
+					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_qin }
+				}
+			}
+			add_to_variable_list = { name = realm_title_names target = flag:dynn_title_qin }
+		}
+		0 = { # Teng
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:TNG
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_title_localization_key_used = dynn_title_teng
+					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_teng }
+				}
+			}
+			add_to_variable_list = { name = realm_title_names target = flag:dynn_title_teng }
+		}
+		0 = { # Wey (Weii)
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:WII
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_title_localization_key_used = dynn_title_wey
+					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_wey }
+				}
+			}
+			add_to_variable_list = { name = realm_title_names target = flag:dynn_title_wey }
+		}
+		0 = { # Bi
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:BII
+			}
+			modifier = {
+				factor = 0
+				OR = {
+					is_title_localization_key_used = dynn_title_bi
+					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_bi }
+				}
+			}
+			add_to_variable_list = { name = realm_title_names target = flag:dynn_title_bi }
+		}
+		}
+	}
+}
 
 
 "common/defines/00_defines.txt" = {
