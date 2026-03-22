@@ -95,7 +95,7 @@ internal sealed class CK3Region(string name) {
 		return Provinces.Contains(provinceId);
 	}
 
-	private static readonly Parser parser = new();
+	private static readonly Parser parser = new(implicitVariableHandling: true);
 	private static CK3Region regionToReturn = new(string.Empty);
 	static CK3Region() {
 		parser.RegisterKeyword("regions", reader => {

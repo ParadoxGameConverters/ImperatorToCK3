@@ -116,5 +116,5 @@ internal partial class Province {
 	private static ulong? parsedStateId = null;
 	private static ulong? parsedOwnerId = null;
 
-	private static readonly Parser provinceParser = new();
+	private static readonly Parser provinceParser = new(implicitVariableHandling: false);
 }

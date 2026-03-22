@@ -27,7 +27,7 @@ internal sealed class StateCollection : IdObjectCollection<ulong, State> {
 		});
 		stateDataParser.IgnoreAndStoreUnregisteredItems(IgnoredStateKeywords);
 		
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, stateIdStr) => {
 			var strOfItem = reader.GetStringOfItem();
 			if (!strOfItem.IsArrayOrObject()) {
@@ -52,7 +52,7 @@ internal sealed class StateCollection : IdObjectCollection<ulong, State> {
 	}
 
 	private StateData stateData = new();
-	private readonly Parser stateDataParser = new();
+	private readonly Parser stateDataParser = new(implicitVariableHandling: false);
 
 	public static IgnoredKeywordsSet IgnoredStateKeywords { get; } = new();
 }

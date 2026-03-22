@@ -11,7 +11,7 @@ namespace ImperatorToCK3.Imperator.Provinces;
 
 internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	public void LoadProvinces(BufferedReader provincesReader, StateCollection states, CountryCollection countries, MapData irMapData) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
 			var newProvince = Province.Parse(reader, ulong.Parse(provIdStr), states, countries);
 			Add(newProvince);

@@ -1,11 +1,9 @@
 using commonItems;
-using commonItems.Collections;
 using DotLiquid;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using ZLinq;
 
 namespace ImperatorToCK3.CK3;
 
@@ -44,7 +42,7 @@ public static class ParserExtensions {
 				blocReader.Variables[modFlagName] = value;
 			}
 			
-			var modDependentParser = new Parser();
+			var modDependentParser = new Parser(implicitVariableHandling: true);
 			modDependentParser.RegisterKeyword("IF", reader => {
 				bool conditionValue = GetConditionValue(reader, ck3ModFlags);
 				if (!conditionValue) {

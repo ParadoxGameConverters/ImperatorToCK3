@@ -77,7 +77,7 @@ internal sealed class TitleMapping {
 
 	private TitleRank CK3TitleRank => Title.GetRankForId(ck3TitleId);
 
-	private static readonly Parser parser = new();
+	private static readonly Parser parser = new(implicitVariableHandling: true);
 	private static TitleMapping mappingToReturn = new();
 	static TitleMapping() {
 		parser.RegisterKeyword("ck3", reader => mappingToReturn.ck3TitleId = reader.GetString());

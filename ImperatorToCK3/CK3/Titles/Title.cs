@@ -828,7 +828,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	public void LoadTitles(BufferedReader reader, ColorFactory colorFactory) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser, colorFactory);
 		parser.ParseStream(reader);
 

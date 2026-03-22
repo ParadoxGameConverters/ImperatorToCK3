@@ -12,7 +12,7 @@ internal sealed class HouseCollection : ConcurrentIdObjectCollection<string, Hou
 	public void LoadCK3Houses(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading dynasty houses from CK3...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, houseId) => {
 			var house = new House(houseId, reader);
 			AddOrReplace(house);
@@ -21,7 +21,7 @@ internal sealed class HouseCollection : ConcurrentIdObjectCollection<string, Hou
 		parser.ParseGameFolder("common/dynasty_houses", ck3ModFS, "txt", recursive: true);
 		
 		// Also load IDs of houses that should always be kept.
-		var nonRemovableIdsParser = new Parser();
+		var nonRemovableIdsParser = new Parser(implicitVariableHandling: false);
 		nonRemovableIdsParser.RegisterRegex(CommonRegexes.String, (_, id) => {
 			houseIdsConfiguredToBeKept.Add(id);
 		});

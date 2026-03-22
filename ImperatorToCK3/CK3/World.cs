@@ -418,7 +418,7 @@ internal sealed class World {
 		// Load existing CK3 government IDs.
 		Logger.Info("Loading CK3 government IDs...");
 		var ck3GovernmentIds = new HashSet<string>();
-		var governmentsParser = new Parser();
+		var governmentsParser = new Parser(implicitVariableHandling: true);
 		governmentsParser.RegisterRegex(CommonRegexes.String, (reader, governmentId) => {
 			ck3GovernmentIds.Add(governmentId);
 			ParserHelpers.IgnoreItem(reader);
@@ -578,7 +578,7 @@ internal sealed class World {
 		Logger.Info("Loading men-at-arms types...");
 
 		const string maaPath = "common/men_at_arms_types";
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, typeId) => {
 			MenAtArmsTypes.AddOrReplace(new MenAtArmsType(typeId, reader, scriptValues));
 		});

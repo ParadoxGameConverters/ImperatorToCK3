@@ -15,7 +15,7 @@ internal sealed class OfficeJob {
 		ulong? characterId = null;
 		string? officeType = null;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("who", r => countryId = r.GetULong());
 		parser.RegisterKeyword("character", r => characterId = r.GetULong());
 		parser.RegisterKeyword("start_date", r => StartDate = new Date(r.GetString(), AUC: true));

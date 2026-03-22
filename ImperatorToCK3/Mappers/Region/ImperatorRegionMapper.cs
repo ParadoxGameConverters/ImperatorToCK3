@@ -16,7 +16,7 @@ internal sealed class ImperatorRegionMapper(AreaCollection areaCollection, MapDa
 		const string regionsFilePath = "map_data/regions.txt";
 		Logger.Debug($"Imperator regions file location: {imperatorModFS.GetActualFileLocation(regionsFilePath)}");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterRegionKeys(parser, colorFactory);
 		parser.ParseGameFile(regionsFilePath, imperatorModFS);
 

@@ -8,7 +8,7 @@ namespace ImperatorToCK3.Imperator.Families;
 
 internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 	public void LoadFamiliesFromBloc(BufferedReader reader) {
-		var blocParser = new Parser();
+		var blocParser = new Parser(implicitVariableHandling: false);
 		blocParser.RegisterKeyword("families", LoadFamilies);
 		blocParser.IgnoreAndLogUnregisteredItems();
 		blocParser.ParseStream(reader);
@@ -16,7 +16,7 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 		Logger.Debug($"Ignored family tokens: {Family.IgnoredTokens}");
 	}
 	public void LoadFamilies(BufferedReader reader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}

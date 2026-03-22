@@ -105,6 +105,6 @@ internal sealed class CultureMappingRule {
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 	}
-	private static readonly Parser parser = new();
+	private static readonly Parser parser = new(implicitVariableHandling: false);
 	private static CultureMappingRule mappingToReturn = new();
 }

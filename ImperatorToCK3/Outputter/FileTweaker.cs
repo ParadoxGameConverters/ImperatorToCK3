@@ -46,7 +46,7 @@ internal static class FileTweaker {
 	}
 
 	private static void ReadPartsOfFileToRemove(Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, string configurablePath, bool warnIfNotFound) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, fileName) => {
 			ReadBlocksToRemoveForFile(fileName, reader, partsToModifyPerFile, warnIfNotFound);
 		});
@@ -76,7 +76,7 @@ internal static class FileTweaker {
 	}
 	
 	private static void ReadPartsOfFileToReplace(Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, string configurablePath, bool warnIfNotFound) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, fileName) => {
 			ReadBlocksToReplaceForFile(fileName, reader, partsToModifyPerFile, warnIfNotFound);
 		});
@@ -93,9 +93,9 @@ internal static class FileTweaker {
 		string? before = null;
 		string? after = null;
 		
-		var parserForFile = new Parser();
+		var parserForFile = new Parser(implicitVariableHandling: true);
 		parserForFile.RegisterKeyword("replace", replaceBlockReader => {
-			var replaceBlockParser = new Parser();
+			var replaceBlockParser = new Parser(implicitVariableHandling: true);
 			replaceBlockParser.RegisterKeyword("before", beforeReader => {
 				// Remove opening and closing braces.
 				before = beforeReader.GetStringOfItem().ToString().Trim()[1..^1].Trim();
