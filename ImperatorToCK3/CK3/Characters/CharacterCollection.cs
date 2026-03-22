@@ -1109,6 +1109,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
              {
              set_variable = { name = years_with_government value = {{yearsWithChineseGov.ToString("0.#####", CultureInfo.InvariantCulture)}} }
              set_variable = { name = imperator_unrest value = {{unrest.ToString("0.#####", CultureInfo.InvariantCulture)}} }
+             set_variable = { name = imperator_tag value = flag:{{title.ImperatorCountry?.Tag.ToString()}} }
              }
              """;
 			holder.History.AddFieldValue(ck3BookmarkDate, "effects", "effect", new StringOfItem(effectStr));

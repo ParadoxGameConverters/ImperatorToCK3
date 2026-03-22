@@ -11,16 +11,27 @@
 # or 
 # {% if bookmark_date > '0950-01-01' %}  (needs to be in YYYY-MM-DD format for lexicographic comparisons to work)
 
+# The Liquid condition checks can also be nested, such as:
+# {% if RitsuryoRulers == 'japanese_japan' %}
+#	some code (A)
+# 	{% if FillerGovernments == 'no_changes' %}
+# 		some code (B)
+# 	{% endif %}
+# {% endif %}
+# In this case, the code (A) will be added to the file if RitsuryoRulers == 'japanese_japan', and the code (B) will only be added to the file if both FillerGovernments == 'no_changes' AND RitsuryoRulers == 'japanese_japan'
+
 # They can also be used to embed the chosen value in the output, using the following format:
 # {{ <OPTION NAME> }}
 # For example:
 # set_variable = { name = irtock3_civ_worth value = {{ ImperatorCivilizationWorth }} }
 # set_variable = { name = irtock3_hist_heresies value = "{{ HeresiesInHistoricalAreas }}" }
+# To embed a date value from the converter to check directly in the game's script, such as the bookmark date, it needs to be in this format: {{ bookmark_date | date: 'yyyy.MM.dd' }}
 
 # When adding a new option, to enable using it in the converter's Liquid files, make the following changes in Configuration.cs:
 # 1. Add a new member to the Configuration class.
 # 2. Add the option to the parser in the RegisterConfigurationKeys method.
 # 3. Add it to the GetConverterOptions() method in Configuration.cs, with the appropriate value based on the user's choice.
+# 4. If the option being added has more than two selectable values (in a similar manner to LegionConversion or ImperatorNomads), create an enumeration variable definition in EnumVariableDefinitions.cs
 
 
 option = {
@@ -180,6 +191,142 @@ option = {
 			displayName = SKIP_HOLDING_OWNERS_IMPORT_NO
 			tooltip = SKIP_HOLDING_OWNERS_IMPORT_NO_TIP
 			default = false
+		}
+	}
+}
+
+option = {
+	name = FillerGovernments
+	displayName = FILLER_GOVERNMENTS
+	tooltip = FILLER_GOVERNMENTS_TIP
+	radioSelector = {
+		radioOption = {
+			name = steppe_nomads_all
+			displayName = FILLER_GOVERNMENTS_STEPPE_NOMADS_ALL
+			tooltip = FILLER_GOVERNMENTS_STEPPE_NOMADS_ALL_TIP
+			default = true
+		}
+		radioOption = {
+			name = steppe_nomads_heritage
+			displayName = FILLER_GOVERNMENTS_STEPPE_NOMADS_HERITAGE
+			tooltip = FILLER_GOVERNMENTS_STEPPE_NOMADS_HERITAGE_TIP
+		}
+		radioOption = {
+			name = steppe_nomads_herdhead
+			displayName = FILLER_GOVERNMENTS_STEPPE_NOMADS_HERDHEAD
+			tooltip = FILLER_GOVERNMENTS_STEPPE_NOMADS_HERDHEAD_TIP
+		}
+		radioOption = {
+			name = all_nomads
+			displayName = FILLER_GOVERNMENTS_ALL_NOMADS
+			tooltip = FILLER_GOVERNMENTS_ALL_NOMADS_TIP
+		}
+		radioOption = {
+			name = no_changes
+			displayName = FILLER_GOVERNMENTS_NO_CHANGES
+			tooltip = FILLER_GOVERNMENTS_NO_CHANGES_TIP
+		}
+	}
+}
+
+option = {
+	name = ImperatorNomads
+	displayName = IMPERATOR_NOMADS
+	tooltip = IMPERATOR_NOMADS_TIP
+	radioSelector = {
+		radioOption = {
+			name = only_steppe
+			displayName = IMPERATOR_NOMADS_ONLY_STEPPE
+			tooltip = IMPERATOR_NOMADS_ONLY_STEPPE_TIP
+			default = true
+		}
+		radioOption = {
+			name = leave_outside_convert_steppe_tribes
+			displayName = IMPERATOR_NOMADS_LEAVE_OUTSIDE_CONVERT_STEPPE_TRIBES
+			tooltip = IMPERATOR_NOMADS_LEAVE_OUTSIDE_CONVERT_STEPPE_TRIBES_TIP
+		}
+		radioOption = {
+			name = none_outside_convert_steppe_tribes
+			displayName = IMPERATOR_NOMADS_NONE_OUTSIDE_CONVERT_STEPPE_TRIBES
+			tooltip = IMPERATOR_NOMADS_NONE_OUTSIDE_CONVERT_STEPPE_TRIBES_TIP
+		}
+		radioOption = {
+			name = no_nomads
+			displayName = IMPERATOR_NOMADS_NO_NOMADS
+			tooltip = IMPERATOR_NOMADS_NO_NOMADS_TIP
+		}
+		radioOption = {
+			name = no_changes
+			displayName = IMPERATOR_NOMADS_NO_CHANGES
+			tooltip = IMPERATOR_NOMADS_NO_CHANGES_TIP
+		}
+	}
+}
+
+option = {
+	name = MandalaRulers
+	displayName = MANDALA_RULERS
+	tooltip = MANDALA_RULERS_TIP
+	radioSelector = {
+		radioOption = {
+			name = sea_feudal
+			displayName = MANDALA_RULERS_SEA_FEUDAL
+			tooltip = MANDALA_RULERS_SEA_FEUDAL_TIP
+			default = true
+		}
+		radioOption = {
+			name = sea_nontribal
+			displayName = MANDALA_RULERS_SEA_NONTRIBAL
+			tooltip = MANDALA_RULERS_SEA_NONTRIBAL_TIP
+		}
+		radioOption = {
+			name = sea_all
+			displayName = MANDALA_RULERS_SEA_ALL
+			tooltip = MANDALA_RULERS_SEA_ALL_TIP
+		}
+		radioOption = {
+			name = everywhere_feudal
+			displayName = MANDALA_RULERS_EVERYWHERE_FEUDAL
+			tooltip = MANDALA_RULERS_EVERYWHERE_FEUDAL_TIP
+		}
+		radioOption = {
+			name = everywhere_nontribal
+			displayName = MANDALA_RULERS_EVERYWHERE_NONTRIBAL
+			tooltip = MANDALA_RULERS_EVERYWHERE_NONTRIBAL_TIP
+		}
+		radioOption = {
+			name = everywhere_all
+			displayName = MANDALA_RULERS_EVERYWHERE_ALL
+			tooltip = MANDALA_RULERS_EVERYWHERE_ALL_TIP
+		}
+		radioOption = {
+			name = none
+			displayName = MANDALA_RULERS_NONE
+			tooltip = MANDALA_RULERS_NONE_TIP
+		}
+	}
+}
+
+option = {
+	name = RitsuryoRulers
+	displayName = RITSURYO_RULERS
+	tooltip = RITSURYO_RULERS_TIP
+	radioSelector = {
+		radioOption = {
+			name = japanese_japan
+			displayName = RITSURYO_RULERS_JAPANESE_JAPAN
+			tooltip = RITSURYO_RULERS_JAPANESE_JAPAN_TIP
+			default = true
+		}
+		radioOption = {
+			name = any_japan
+			displayName = RITSURYO_RULERS_ANY_JAPAN
+			tooltip = RITSURYO_RULERS_ANY_JAPAN_TIP
+		}
+		radioOption = {
+			name = none
+			displayName = RITSURYO_RULERS_NONE
+			tooltip = RITSURYO_RULERS_NONE_TIP
 		}
 	}
 }
