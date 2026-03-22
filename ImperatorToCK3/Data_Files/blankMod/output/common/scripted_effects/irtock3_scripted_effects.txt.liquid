@@ -1031,6 +1031,38 @@ irtock3_setup_governments = {
 			}
 			create_noble_family_effect = { GOVERNMENT_GIVER = this }
 		}
+
+		## Need to make sure that domiciles properly start in the relevant locations
+		if = {
+			limit = { exists = domicile }
+			save_scope_as = ruler_scope
+			if = {
+				limit = { top_liege != this }
+				top_liege = { save_scope_as = top_liege_scope }
+			}
+
+			# If you are landed Soryo, needs to be in your capital county
+			if = {
+				limit = {
+					government_has_flag = government_is_japan_feudal
+					is_landed = yes
+				}
+				domicile = { move_domicile = scope:ruler_scope.capital_county.title_province }
+			}
+			# If you are either unlanded Soryo, or not Soryo at all, and are a vassal, needs to be in your liege's capital county
+			else_if = {
+				limit = { exists = scope:top_liege_scope }
+				domicile = { move_domicile = scope:top_liege_scope.capital_county.title_province }
+			}
+			# Otherwise, just move to your capital county
+			else_if = {
+				limit = { exists = capital_county }
+				domicile = { move_domicile = scope:ruler_scope.capital_county.title_province }
+			}
+
+			clear_saved_scope = ruler_scope
+			clear_saved_scope = top_liege_scope
+		}
 	}
 
 	######################
