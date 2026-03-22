@@ -24,7 +24,6 @@ jobs:
           GH_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
           GITHUB_API: https://api.github.com
           STEAM_PUBLISHED_FILE_DETAILS_API: https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/
-          STEAM_CHANGE_HISTORY_API: https://api.steampowered.com/IPublishedFileService/GetChangeHistory/v1/
         run: |
           set -euo pipefail
 
@@ -99,6 +98,13 @@ jobs:
             rm -f "$tmp_body" "$tmp_status"
           }
 
+          scrape_changelog_notes() {
+            local workshop_id="$1"
+            local previous_ts="$2"
+
+            python3 "${GITHUB_WORKSPACE}/.github/scripts/steam_changelog_scraper.py" "$workshop_id" "$previous_ts"
+          }
+
           echo "Fetching published file details from Steam..."
           steam_args=(--data "itemcount=${#MOD_IDS[@]}")
           for i in "${!MOD_IDS[@]}"; do
@@ -139,9 +145,6 @@ jobs:
               had_error=1
               continue
             fi
-
-            current_date="$(date -u -d "@${current_ts}" +"%Y-%m-%d")"
-            echo "[$mod_name] Current Steam time_updated=${current_ts} (${current_date})"
 
             readarray -t variable_result < <(github_api GET "/repos/${REPO}/actions/variables/${variable_name}")
             variable_status="${variable_result[0]}"
@@ -189,30 +192,10 @@ jobs:
 
             echo "[$mod_name] New update detected (stored=${previous_ts}, current=${current_ts})."
 
-            release_notes=""
-            change_history_response="$(curl -sS "${STEAM_CHANGE_HISTORY_API}?publishedfileid=${id}&count=20")" || true
-            if [[ -n "$change_history_response" ]]; then
-              release_notes="$(
-                printf '%s\n' "$change_history_response" | jq -r --argjson target "$current_ts" '
-                  .response.changes // []
-                  | map(select((.timestamp | tonumber) == $target and ((.change_description // "") | length > 0)))
-                  | (.[0].change_description // empty)
-                ' 2>/dev/null || true
-              )"
-
-              if [[ -z "$release_notes" ]]; then
-                release_notes="$(
-                  printf '%s\n' "$change_history_response" | jq -r '
-                    .response.changes // []
-                    | map(select((.change_description // "") | length > 0))
-                    | (.[0].change_description // empty)
-                  ' 2>/dev/null || true
-                )"
-              fi
-            fi
+            release_notes="$(scrape_changelog_notes "$id" "$previous_ts")"
 
             if [[ -z "$release_notes" ]]; then
-              release_notes="Release notes could not be retrieved from Steam changelog endpoint for this update."
+              release_notes="Release notes could not be retrieved from Steam changelog page for this update."
             fi
 
             marker="<!-- steam-mod-update:${id}:${current_ts} -->"
