@@ -556,7 +556,6 @@ set_historical_dynasty_renown = {
 "common/on_action/BP_game_starts/BP_global_gamestart.txt" = {
 	# Anachronistic
 	{
-	effect = {
 		#Capital changes for specific time periods
 		title:k_ostrogoths.holder = {
 			if = {
