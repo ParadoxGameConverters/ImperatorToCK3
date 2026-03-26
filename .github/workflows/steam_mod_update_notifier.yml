@@ -18,6 +18,9 @@ jobs:
   check-steam-mod-updates:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Check Steam Workshop mods and notify
         shell: bash
         env:
