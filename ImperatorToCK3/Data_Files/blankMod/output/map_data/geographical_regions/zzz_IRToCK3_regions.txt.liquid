@@ -262,7 +262,13 @@ irtock3_rome_empire_division_britannia = {
 irtock3_rome_empire_division_galliarum = {
 	duchies = {
 		d_luxembourg d_upper_lorraine d_bar d_julich d_champagne d_brabant d_valois d_burgundy d_flanders d_upper_burgundy d_normandy d_transjurania d_orleans d_anjou d_berry d_savoie d_currezia d_dauphine d_bourbon d_brittany d_provence d_auvergne d_poitou d_languedoc d_toulouse d_aquitaine d_gascogne d_armagnac d_barcelona d_viscaya d_aragon d_navarra d_valencia d_cantabria d_asturias d_castilla d_leon d_toledo d_murcia d_galicia d_cordoba d_porto d_granada d_badajoz d_coimbra d_sevilla d_beja d_rif d_algarve d_fes d_mallorca
+{% if wtwsms %}
+		d_tingitana
+{% endif %}
 	}
+{% if wtwsms %}
+	kingdoms = { k_gallaecia k_lusitania k_baetica k_cartaginensis k_lugdunensis k_belgica k_germania_inferior }
+{% endif %}
 }
 
 irtock3_rome_empire_division_germania = {
@@ -291,20 +297,32 @@ irtock3_rome_empire_division_libya_ulterior = {
 
 irtock3_rome_empire_division_aethiopia = {
 	duchies = {
-		d_aksum d_baqlin d_gondar d_lasta d_dahlaks d_danakil d_makuria d_alwa d_bazin d_shamir d_naqis d_sennar d_gojjam d_showa d_mora d_zaila d_damot d_dawaro d_adal d_nobatia d_sharka d_kordofan d_kaffa d_shabelle d_bali d_sanaag d_west_ajuraan d_hafun d_mogadishu d_samalo d_pate d_bonde_la_ufa d_mombasa d_zanzibar
+		d_aksum d_baqlin d_gondar d_lasta d_dahlaks d_danakil d_makuria d_alwa d_bazin d_shamir d_naqis d_sennar d_gojjam d_showa d_mora d_zaila d_damot d_dawaro d_adal d_nobatia d_sharka d_kordofan d_kaffa d_shabelle d_bali d_sanaag d_west_ajuraan d_hafun d_mogadishu d_samalo d_mombasa
+{% unless wtwsms %}
+		d_pate d_bonde_la_ufa d_zanzibar
+{% endunless %}
 	}
 }
 
 irtock3_rome_empire_division_orientis = {
 	duchies = {
 		d_thrace d_optimatoi d_philippopolis d_opsikion d_strymon d_dobrudja d_turnovo d_aegean_islands d_thracesia d_anatolia d_bucellaria d_ephese d_paphlagonia d_cappadocia d_cibyrrhaeot d_charsianon d_armeniac d_cilicia d_sebasteia d_chaldia d_mesopotamia d_edessa d_tao-klarjeti d_antioch d_abkhazia d_aleppo d_diyarmudar d_georgia d_homs d_lebanon d_palmyra d_damascus d_urdunn d_palestine d_oultrejourdain d_sinai d_cairo d_delta d_al-said d_alexandria d_al-wahat d_cyrenaica d_eastern_desert d_cyprus
+{% if wtwsms %}
+		d_armenia_prima d_armenia_secunda
+{% endif %}
 	}
+{% if wtwsms %}
+	kingdoms = { k_thrace k_byzantium }
+{% endif %}
 }
 
 irtock3_rome_empire_division_illyrici = {
 	duchies = {
 		d_steyermark d_gyor d_slavonia d_krain d_somogy d_lower_bosna d_croatia d_syrmia d_bosna d_macva d_usora d_dalmatia d_rashka d_vidin d_duklja d_bulgaria d_ragusa d_dyrrachion d_thessalonika d_epirus d_thessaly d_cephalonia d_athens d_achaia d_krete
 	}
+{% if wtwsms %}
+	kingdoms = { k_moesia_superior k_pannonia }
+{% endif %}
 }
 
 irtock3_rome_empire_division_pannonia = {
@@ -345,7 +363,10 @@ irtock3_rome_empire_division_persia = {
 
 irtock3_rome_empire_division_sarmatia = {
 	duchies = {
-		d_kiev d_chernigov d_pereyaslavl d_yedisan d_kizilyedisan d_levedia d_red_levedia d_crimea d_tana d_don_valley d_azov d_khazaria d_alania d_itil d_ciscaucasia d_atyrau d_pecheneg d_manatau d_aqtobe d_mugodzhar_hills
+		d_kiev d_chernigov d_pereyaslavl d_yedisan d_kizilyedisan d_levedia d_red_levedia d_crimea d_tana d_don_valley d_azov d_khazaria d_alania d_itil d_ciscaucasia d_atyrau d_pecheneg d_aqtobe d_mugodzhar_hills
+{% unless wtwsms %}
+		d_manatau
+{% endunless %}
 	}
 }
 
@@ -357,19 +378,28 @@ irtock3_rome_empire_division_uralia_interior = {
 
 irtock3_rome_empire_division_uralia_ulterior = {
 	duchies = {
-		d_ostyaki d_kurgan d_ishim d_pelym d_tobol-ishim d_kush-murun d_sibir d_konda d_kazym d_tara d_atbasar d_vasyugan_mire d_kazakh d_lanikaz d_baraba_steppe d_kulyndy_steppe d_aley d_ala_tau d_salair d_altaishan
+		d_ostyaki d_kurgan d_ishim d_pelym d_kush-murun d_sibir d_konda d_kazym d_tara d_vasyugan_mire d_kazakh d_lanikaz d_baraba_steppe d_kulyndy_steppe d_ala_tau d_salair
+{% unless wtwsms %}
+		d_tobol-ishim d_atbasar d_aley d_altaishan
+{% endunless %}
 	}
 }
 
 irtock3_rome_empire_division_tartaria = {
 	duchies = {
-		d_zhetysu d_ili-alatau d_alakol d_tarbagatai d_betpa d_kentarlau d_jinghiz d_beshbalik d_karkaraly d_degelen d_gurbantunggut d_semey d_akaltay d_tokumbay d_altay d_qyzylsaryarka d_karabas d_kara_khoja d_saryarka d_karashar d_naiman_gobi d_kokturgay d_turgay d_loulan
+		d_zhetysu d_ili-alatau d_alakol d_tarbagatai d_betpa d_kentarlau d_karkaraly d_gurbantunggut d_semey d_altay d_karabas d_kara_khoja d_saryarka d_karashar d_naiman_gobi d_turgay
+{% unless wtwsms %}
+		d_jinghiz d_beshbalik d_degelen d_akaltay d_tokumbay d_qyzylsaryarka d_kokturgay d_loulan
+{% endunless %}
 	}
 }
 
 irtock3_rome_empire_division_parthia = {
 	duchies = {
-		d_kashgar d_badakhshan d_pamir d_ferghana d_khuttal d_talas_alatau d_chah d_osrushana d_muyunkum d_soghd d_syr_darya d_khorezm d_aral_il d_aral_karakum d_uzboy d_jemba d_barsuki d_garabogazkol d_transcaspiana
+		d_kashgar d_badakhshan d_pamir d_ferghana d_khuttal d_chah d_osrushana d_muyunkum d_soghd d_syr_darya d_khorezm d_aral_il d_uzboy d_jemba d_barsuki d_transcaspiana
+{% unless wtwsms %}
+		d_talas_alatau d_aral_karakum d_garabogazkol
+{% endunless %}
 	}
 }
 
@@ -387,7 +417,10 @@ irtock3_rome_empire_division_india_intra_gangem = {
 
 irtock3_rome_empire_division_india_extra_gangem = {
 	duchies = {
-		d_MAL_langkasuka d_MAL_pahang d_tun_sun d_lop_buri d_sukhothai d_ramannadesa d_haripunjaya d_angkor_borey d_angkor d_mukdahan d_muang_sua d_sriksetra d_mongnai d_phonsavan d_pagan d_yongchang d_sipsongpanna d_baigaur d_vyadhapura d_ratanakiri d_tagaung d_arakan d_tengchong d_indrapura d_vijaya
+		d_sriksetra d_ramannadesa d_arakan d_tagaung d_pagan
+{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
+		d_MAL_langkasuka d_MAL_pahang d_tun_sun d_lop_buri d_sukhothai d_haripunjaya d_angkor_borey d_angkor d_mukdahan d_muang_sua d_mongnai d_phonsavan d_yongchang d_sipsongpanna d_baigaur d_vyadhapura d_ratanakiri d_tengchong d_indrapura d_vijaya
+{% endunless %}
 	}
 }
 
@@ -413,7 +446,10 @@ irtock3_rome_empire_division_insulae_solis = {
 
 irtock3_rome_empire_division_septentrionalis_deserti = {
 	duchies = {
-		d_orkhon d_ovorkhangai d_ogrash d_em_tataria d_gobi_ongi d_selenga_valley d_arkhangai d_khovsgol d_uda_valley d_ubsunur_hollow d_tannu_ola d_gobi_dadaels d_EM_onon d_dauria d_togina d_eastern_sayan d_zavkhan d_western_sayan d_gobi_altai d_em_wuguguo d_EM_yujuelu d_gobi_shatuoguo d_angara d_kargassia d_khovd d_tsagaanbaigal d_bargujin_tukum d_blue_khakassia d_lena d_katu_yaryk d_EM_wajiezi d_baigaluuls d_chuna_valley d_khakass_hollow d_shoria d_yenisei_kan
+		d_ovorkhangai d_ogrash d_selenga_valley d_arkhangai d_khovsgol d_uda_valley d_ubsunur_hollow d_tannu_ola d_dauria d_togina d_eastern_sayan d_western_sayan d_gobi_altai d_angara d_kargassia d_khovd d_tsagaanbaigal d_bargujin_tukum d_lena d_baigaluuls d_chuna_valley d_khakass_hollow d_shoria d_yenisei_kan
+{% unless wtwsms %}
+		d_orkhon d_em_tataria d_gobi_ongi d_gobi_dadaels d_EM_onon d_zavkhan d_em_wuguguo d_EM_yujuelu d_gobi_shatuoguo d_blue_khakassia d_katu_yaryk d_EM_wajiezi
+{% endunless %}
 	}
 }
 
