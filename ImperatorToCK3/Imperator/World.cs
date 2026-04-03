@@ -87,14 +87,14 @@ internal partial class World {
 		ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
 	}
 
-	internal static void OutputGuiContainer(ModFilesystem modFS, IEnumerable<string> tagsNeedingFlags, Configuration config) {
+	internal static bool OutputGuiContainer(ModFilesystem modFS, IEnumerable<string> tagsNeedingFlags, Configuration config) {
 		Logger.Debug("Modifying gui for exporting CoAs...");
 
 		const string relativeTopBarGuiPath = "gui/ingame_topbar.gui";
 		var topBarGuiPath = modFS.GetActualFileLocation(relativeTopBarGuiPath);
 		if (topBarGuiPath is null) {
 			Logger.Warn($"{relativeTopBarGuiPath} not found, can't write CoA export commands!");
-			return;
+			return false;
 		}
 
 		// build the GUI snippet we want to insert
@@ -128,7 +128,7 @@ internal partial class World {
 		} catch (Exception e) {
 			Logger.Warn($"Failed to output modified GUI: {e.Message}");
 			// bail out but don't crash the whole conversion
-			return;
+			return false;
 		}
 
 		// Create a .mod file for the temporary mod.
@@ -138,17 +138,40 @@ internal partial class World {
 			name = "IRToCK3 CoA export mod"
 			path = "mod/coa_export_mod"
 			""";
-		File.WriteAllText(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod/descriptor.mod"), modFileContents);
+		if (!TryWriteTextFile(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod/descriptor.mod"), modFileContents)) {
+			return false;
+		}
 
 		var absoluteModPath = Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod").Replace('\\', '/');
 		modFileContents = modFileContents.Replace("path = \"mod/coa_export_mod\"", $"path = \"{absoluteModPath}\"");
-		File.WriteAllText(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod.mod"), modFileContents);
+		return TryWriteTextFile(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod.mod"), modFileContents);
 	}
 	
-	private void OutputContinueGameJson(Configuration config) {
+	private static bool TryWriteTextFile(string filePath, string contents) {
+		try {
+			var directoryPath = Path.GetDirectoryName(filePath);
+			if (directoryPath is not null) {
+				FileHelper.EnsureDirectoryExists(directoryPath);
+			}
+
+			if (File.Exists(filePath)) {
+				File.SetAttributes(filePath, FileAttributes.Normal);
+			}
+
+			using var writer = FileHelper.OpenWriteWithRetries(filePath, Encoding.UTF8);
+			writer.Write(contents);
+			return true;
+		} catch (Exception e) when (e is UnauthorizedAccessException or IOException or UserErrorException) {
+			Logger.Warn($"Failed to write \"{filePath}\": {e.Message}");
+			Logger.Debug(e.ToString());
+			return false;
+		}
+	}
+	
+	private bool OutputContinueGameJson(Configuration config) {
 		// Set the current save to be used when launching the game with the continuelastsave option.
 		Logger.Debug("Modifying continue_game.json...");
-		File.WriteAllText(Path.Join(config.ImperatorDocPath, "continue_game.json"),
+		return TryWriteTextFile(Path.Join(config.ImperatorDocPath, "continue_game.json"),
 			contents: $$"""
             {
                 "title": "{{Path.GetFileNameWithoutExtension(config.SaveGamePath)}}",
@@ -158,7 +181,7 @@ internal partial class World {
             """);
 	}
 
-	private void OutputDlcLoadJson(Configuration config) {
+	private bool OutputDlcLoadJson(Configuration config) {
 		Logger.Debug("Outputting dlc_load.json...");
 		var dlcLoadBuilder = new StringBuilder();
 		dlcLoadBuilder.AppendLine("{");
@@ -169,19 +192,21 @@ internal partial class World {
 		dlcLoadBuilder.AppendLine("],");
 		dlcLoadBuilder.AppendLine(@"""disabled_dlcs"":[]");
 		dlcLoadBuilder.AppendLine("}");
-		File.WriteAllText(Path.Join(config.ImperatorDocPath, "dlc_load.json"), dlcLoadBuilder.ToString());
+		return TryWriteTextFile(Path.Join(config.ImperatorDocPath, "dlc_load.json"), dlcLoadBuilder.ToString());
 	}
 
-	private void LaunchImperatorToExportCountryFlags(Configuration config) {
+	private bool LaunchImperatorToExportCountryFlags(Configuration config) {
 		Logger.Info("Retrieving random CoAs from Imperator...");
-		OutputContinueGameJson(config);
-		OutputDlcLoadJson(config);
+		if (!OutputContinueGameJson(config) || !OutputDlcLoadJson(config)) {
+			Logger.Warn("Skipping Imperator launch because the launcher files couldn't be written.");
+			return false;
+		}
 
 		string imperatorBinaryName = OperatingSystem.IsWindows() ? "imperator.exe" : "imperator";
 		var imperatorBinaryPath = Path.Combine(config.ImperatorPath, "binaries", imperatorBinaryName);
 		if (!File.Exists(imperatorBinaryPath)) {
 			Logger.Warn("Imperator binary not found! Aborting the random CoA extraction!");
-			return;
+			return false;
 		}
 
 		string dataTypesLogPath = Path.Combine(config.ImperatorDocPath, "logs/data_types.log");
@@ -202,7 +227,7 @@ internal partial class World {
 		var imperatorProcess = Process.Start(processStartInfo);
 		if (imperatorProcess is null) {
 			Logger.Warn("Failed to start Imperator process! Aborting!");
-			return;
+			return false;
 		}
 
 		imperatorProcess.Exited += HandleImperatorProcessExit(config, imperatorProcess);
@@ -220,6 +245,8 @@ internal partial class World {
 			Logger.Debug("Killing Imperator process...");
 			imperatorProcess.Kill();
 		}
+
+		return true;
 	}
 
 	private void WaitForImperatorDataTypesLog(Process imperatorProcess, string dataTypesLogPath) {
@@ -279,25 +306,36 @@ internal partial class World {
 	}
 
 	private void ExtractDynamicCoatsOfArms(Configuration config) {
-		var countryFlags = Countries.Select(country => country.Flag).ToArray();
-		var missingFlags = CoaMapper.GetAllMissingFlagKeys(countryFlags);
-		if (missingFlags.Count == 0) {
-			return;
-		}
+		try {
+			var countryFlags = Countries.Select(country => country.Flag).ToArray();
+			var missingFlags = CoaMapper.GetAllMissingFlagKeys(countryFlags);
+			if (missingFlags.Count == 0) {
+				return;
+			}
 
-		Logger.Debug("Missing country flag definitions: " + string.Join(", ", missingFlags));
+			Logger.Debug("Missing country flag definitions: " + string.Join(", ", missingFlags));
 
-		var tagsWithMissingFlags = Countries
-			.Where(country => missingFlags.Contains(country.Flag))
-			.Select(country => country.Tag);
+			var tagsWithMissingFlags = Countries
+				.Where(country => missingFlags.Contains(country.Flag))
+				.Select(country => country.Tag);
 
-		OutputGuiContainer(ModFS, tagsWithMissingFlags, config);
-		LaunchImperatorToExportCountryFlags(config);
-		ReadCoatsOfArmsFromGameLog(config.ImperatorDocPath);
+			if (!OutputGuiContainer(ModFS, tagsWithMissingFlags, config)) {
+				Logger.Warn("Skipping Imperator launch because the temporary CoA export mod couldn't be prepared.");
+				return;
+			}
 
-		var missingFlagsAfterExtraction = CoaMapper.GetAllMissingFlagKeys(countryFlags);
-		if (missingFlagsAfterExtraction.Count > 0) {
-			Logger.Warn("Failed to export the following country flags: " + string.Join(", ", missingFlagsAfterExtraction));
+			if (!LaunchImperatorToExportCountryFlags(config)) {
+				return;
+			}
+			ReadCoatsOfArmsFromGameLog(config.ImperatorDocPath);
+
+			var missingFlagsAfterExtraction = CoaMapper.GetAllMissingFlagKeys(countryFlags);
+			if (missingFlagsAfterExtraction.Count > 0) {
+				Logger.Warn("Failed to export the following country flags: " + string.Join(", ", missingFlagsAfterExtraction));
+			}
+		} catch (Exception e) {
+			Logger.Warn($"Failed to extract dynamic coats of arms: {e.Message}");
+			Logger.Debug(e.ToString());
 		}
 	}
 
