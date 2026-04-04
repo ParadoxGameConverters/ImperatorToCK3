@@ -13,5 +13,4 @@ Write them yourself, in English, even if you think your English
 is bad. Trust us, we prefer your writing to the LLM's voice.
 
 Note: Exceptions may apply for individual ParadoxGameConverters 
-projects at discretion of team leaders - consult with them first. 
-This project is not one of them.
+projects at discretion of team leaders - consult with them first.
