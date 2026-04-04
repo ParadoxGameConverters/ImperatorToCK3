@@ -44,6 +44,17 @@ internal sealed class Governorship {
 		}
 	}
 
+	public int GetIRProvinceCount(ProvinceCollection irProvinces) {
+		int provinceCount = 0;
+		foreach (var province in irProvinces) {
+			if (province.OwnerCountry == Country && Region.ContainsProvince(province.Id)) {
+				provinceCount++;
+			}
+		}
+
+		return provinceCount;
+	}
+
 	public ImmutableArray<Province> GetIRProvinces(ProvinceCollection irProvinces) {
 		var provinces = ImmutableArray.CreateBuilder<Province>();
 		foreach (var province in irProvinces) {

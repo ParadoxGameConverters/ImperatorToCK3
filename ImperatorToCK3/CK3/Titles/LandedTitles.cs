@@ -265,7 +265,7 @@ internal sealed partial class Title {
 			return newTitle;
 		}
 
-		internal Title Add(
+		private Title Add(
 			string id,
 			Governorship governorship,
 			Country country,
@@ -778,6 +778,11 @@ internal sealed partial class Title {
 			// add new ones from Imperator governorships.
 			var counter = 0;
 			foreach (var governorship in governorships) {
+				// Don't import if the governorship has no I:R provinces.
+				if (governorship.GetIRProvinceCount(irWorld.Provinces) == 0) {
+					continue;
+				}
+
 				ImportImperatorGovernorship(
 					governorship,
 					this,
@@ -819,7 +824,8 @@ internal sealed partial class Title {
 
 			var id = DetermineId(governorship, titles, irProvinces, ck3Provinces, imperatorRegionMapper, tagTitleMapper, provinceMapper);
 			if (id is null) {
-				Logger.Warn($"Cannot convert {governorship.Region.Id} of country {country.Id}");
+				Logger.Warn($"Cannot convert {governorship.Region.Id} of country {country.Id}. " +
+				            $"I:R provinces: {string.Join(", ", governorship.GetIRProvinces(irProvinces).Select(p => p.Id))}");
 				return;
 			}
 
