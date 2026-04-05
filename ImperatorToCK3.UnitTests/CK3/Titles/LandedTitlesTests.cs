@@ -235,15 +235,24 @@ public class LandedTitlesTests {
 		var config = new Configuration { ImperatorPath = "TestFiles/LandedTitlesTests/Imperator" };
 		var imperatorWorld = new TestImperatorWorld(config);
 
-		imperatorWorld.Provinces.Add(new Province(1));
-		imperatorWorld.Provinces.Add(new Province(2));
-		imperatorWorld.Provinces.Add(new Province(3));
+		var irProv1 = new Province(1);
+		var irProv2 = new Province(2);
+		var irProv3 = new Province(3);
+		imperatorWorld.Provinces.Add(irProv1);
+		imperatorWorld.Provinces.Add(irProv2);
+		imperatorWorld.Provinces.Add(irProv3);
 
 		var governor = new ImperatorToCK3.Imperator.Characters.Character(25212);
 		imperatorWorld.Characters.Add(governor);
 
 		var countryReader = new BufferedReader("tag=PRY capital=1");
 		var country = Country.Parse(countryReader, 589);
+		irProv1.OwnerCountry = country;
+		irProv2.OwnerCountry = country;
+		irProv3.OwnerCountry = country;
+		country.RegisterProvince(irProv1);
+		country.RegisterProvince(irProv2);
+		country.RegisterProvince(irProv3);
 		imperatorWorld.Countries.Add(country);
 
 		imperatorWorld.Areas.LoadAreas(imperatorWorld.ModFS, imperatorWorld.Provinces);
@@ -251,6 +260,8 @@ public class LandedTitlesTests {
 		irRegionMapper.LoadRegions(imperatorWorld.ModFS, new ColorFactory());
 		Assert.True(irRegionMapper.RegionNameIsValid("galatia_area"));
 		Assert.True(irRegionMapper.RegionNameIsValid("galatia_region"));
+		Assert.True(irRegionMapper.ProvinceIsInRegion(2, "galatia_region"));
+		Assert.True(irRegionMapper.ProvinceIsInRegion(3, "galatia_region"));
 		var ck3RegionMapper = new CK3RegionMapper();
 
 		var reader = new BufferedReader(
@@ -335,14 +346,14 @@ public class LandedTitlesTests {
 			title => Assert.Equal("d_IRTOCK3_PRY", title.Id)
 		);
 
-		var provinces = new ProvinceCollection(ck3ModFS);
+		var ck3Provinces = new ProvinceCollection(ck3ModFS);
 		var ck3MapData = new MapData(ck3ModFS);
 		ck3MapData.ProvinceDefinitions.Add(new(1));
 		ck3MapData.ProvinceDefinitions.Add(new(2));
 		ck3MapData.ProvinceDefinitions.Add(new(3));
-		provinces.ImportImperatorProvinces(imperatorWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
+		ck3Provinces.ImportImperatorProvinces(imperatorWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 		// Country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level.
-		titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, irLocDB, ck3LocDB, config, provinceMapper, definiteFormMapper, irRegionMapper, coaMapper, countyLevelGovernorships);
+		titles.ImportImperatorGovernorships(imperatorWorld, ck3Provinces, tagTitleMapper, irLocDB, ck3LocDB, config, provinceMapper, definiteFormMapper, irRegionMapper, coaMapper, countyLevelGovernorships);
 
 		Assert.Collection(titles,
 			title => Assert.Equal("c_county1", title.Id),
