@@ -1704,6 +1704,8 @@ irtock3_form_prefecture_magna_taprobana_decision = {
 	}
 }
 
+
+{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 # irtock3_rome_empire_division_insulae_remotae: "Insulae Remotae"
 irtock3_form_prefecture_insulae_remotae_decision = {
 	picture = {
@@ -1845,6 +1847,7 @@ irtock3_form_prefecture_insulae_solis_decision = {
 		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_insulae_solis }
 	}
 }
+{% endunless %}
 
 # irtock3_rome_empire_division_septentrionalis_deserti: "Septentrionalis Deserti"
 irtock3_form_prefecture_septentrionalis_deserti_decision = {
@@ -1917,6 +1920,7 @@ irtock3_form_prefecture_septentrionalis_deserti_decision = {
 	}
 }
 
+{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 # irtock3_rome_empire_division_serica_ultima: "Serica Ultima"
 irtock3_form_prefecture_serica_ultima_decision = {
 	picture = {
@@ -2342,3 +2346,4 @@ irtock3_form_prefecture_serica_deserti_decision = {
 		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_serica_deserti }
 	}
 }
+{% endunless %}

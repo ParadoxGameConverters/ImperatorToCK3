@@ -551,7 +551,7 @@ internal sealed class World {
 	private void LoadCorrectProvinceMappingsFile(Imperator.World irWorld, Configuration config) {
 		// Terra Indomita mappings should be used if either TI or Antiquitas is detected.
 		bool irHasTI = config.TerraIndomitaDetected;
-		
+
 		bool ck3HasRajasOfAsia = config.RajasOfAsiaEnabled;
 		bool ck3HasAEP = config.AsiaExpansionProjectEnabled;
 
@@ -562,6 +562,8 @@ internal sealed class World {
 			mappingsToUse = "terra_indomita_to_aep";
 		} else if (irHasTI) {
 			mappingsToUse = "terra_indomita_to_vanilla_ck3";
+		} else if (config.WhenTheWorldStoppedMakingSenseEnabled) {
+			mappingsToUse = "invictus_to_wtwsms";
 		} else if (config is {InvictusDetected: true, Invictus1_7Detected: true}) {
 			mappingsToUse = "invictus_1_7_to_vanilla_ck3";
 		} else if (config.InvictusDetected) {

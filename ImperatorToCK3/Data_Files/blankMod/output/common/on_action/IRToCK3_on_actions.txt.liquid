@@ -265,6 +265,7 @@ IRToCK3_game_start_onaction_effects = {
 			REGION = irtock3_rome_empire_division_imoan_montem
 			EMPIRE = e_tibet
 		}
+{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 		# Insulae Remotae
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_insulae_remotae
@@ -275,11 +276,13 @@ IRToCK3_game_start_onaction_effects = {
 			REGION = irtock3_rome_empire_division_insulae_solis
 			EMPIRE = e_japan
 		}
+{% endunless %}
 		# Septentrionalis Deserti
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_septentrionalis_deserti
 			EMPIRE = e_mongolia
 		}
+{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.		
 		# Serica Meridiana
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_serica_meridiana
@@ -305,6 +308,7 @@ IRToCK3_game_start_onaction_effects = {
 			REGION = irtock3_rome_empire_division_serica_deserti
 			EMPIRE = e_yongliang
 		}
+{% endunless %}
 
 		## If a hegemony Rome title exists at game start, need to make sure it's de jure empires are properly setup as Praetorian Prefectures
 		if = {
@@ -364,12 +368,15 @@ IRToCK3_game_start_onaction_effects = {
 			irtock3_setup_roman_prefectures_game_start = { REGION = india_extra_gangem }
 			# Magna Taprobana
 			irtock3_setup_roman_prefectures_game_start = { REGION = magna_taprobana }
+{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 			# Insulae Remotae
 			irtock3_setup_roman_prefectures_game_start = { REGION = insulae_remotae }
 			# Insulae Solis
 			irtock3_setup_roman_prefectures_game_start = { REGION = insulae_solis }
+{% endunless %}
 			# Septentrionalis Deserti
 			irtock3_setup_roman_prefectures_game_start = { REGION = septentrionalis_deserti }
+{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 			# Serica Ultima
 			irtock3_setup_roman_prefectures_game_start = { REGION = serica_ultima }
 			# Serica Meridiana
@@ -383,6 +390,7 @@ IRToCK3_game_start_onaction_effects = {
 			# Serica Deserti
 			irtock3_setup_roman_prefectures_game_start = { REGION = serica_deserti }
 		}
+{% endunless %}
 
 		## If anyone holds the Rome hegemony titles at game start, they should have the Augustus trait and naming flag, and their vassals should get flags so their titles are properly named as well
 		if = {
