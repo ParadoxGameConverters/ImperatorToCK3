@@ -45,7 +45,7 @@ heritage_anatolian = {
 		} ELSE_IF tfe = {
 			parameters = {
 				heritage_group_balko_anatolian = yes
-				heritage_family_mediterranean = yes 
+				heritage_family_mediterranean = yes
 			}
 		}
 	}
@@ -72,7 +72,7 @@ heritage_gaulish = {
 		} ELSE_IF tfe = {
 			parameters = {
 				heritage_group_latin = yes
-				heritage_family_mediterranean = yes 
+				heritage_family_mediterranean = yes
 			}
 		}
 	}
@@ -121,7 +121,7 @@ heritage_punic = {
 		} ELSE_IF wtwsms = {
 			parameters = {
 				heritage_group_west_asian = yes
-				heritage_family_west_asian = yes 
+				heritage_family_west_asian = yes
 			}
 		}
 	}
@@ -246,12 +246,12 @@ heritage_tyrrhenian = {
 		} ELSE_IF tfe = {
 			parameters = {
 				heritage_group_latin = yes
-				heritage_family_mediterranean = yes 
+				heritage_family_mediterranean = yes
 			}
 		} ELSE_IF wtwsms = {
 			parameters = {
 				heritage_group_romance = yes
-				heritage_family_european = yes 
+				heritage_family_european = yes
 			}
 		}
 	}
@@ -274,12 +274,12 @@ heritage_tai = {
 		IF tfe = {
 			parameters = {
 				heritage_group_burmese = yes
-				heritage_family_south_asian = yes 
+				heritage_family_south_asian = yes
 			}
 		} ELSE_IF wtwsms = {
 			parameters = {
 				heritage_group_greater_indian = yes
-				heritage_family_south_asian = yes 
+				heritage_family_south_asian = yes
 			}
 		}
 	}
@@ -302,12 +302,12 @@ heritage_palaungic = {
 		IF tfe = {
 			parameters = {
 				heritage_group_burmese = yes
-				heritage_family_south_asian = yes 
+				heritage_family_south_asian = yes
 			}
 		} ELSE_IF wtwsms = {
 			parameters = {
 				heritage_group_greater_indian = yes
-				heritage_family_south_asian = yes 
+				heritage_family_south_asian = yes
 			}
 		}
 	}
@@ -330,9 +330,9 @@ heritage_mon_khmer = { # from Rajas of Asia
 
 	MOD_DEPENDENT = {
 		IF tfe = {
-			parameters = { 
+			parameters = {
 				heritage_group_austroasiatic = yes
-				heritage_family_east_asian = yes 
+				heritage_family_east_asian = yes
 			}
 		}
 	}
@@ -360,7 +360,7 @@ heritage_italic = {
 		} ELSE_IF tfe = {
 			parameters = {
 				heritage_group_latin = yes
-				heritage_family_mediterranean = yes 
+				heritage_family_mediterranean = yes
 			}
 		}
 	}
@@ -416,7 +416,7 @@ heritage_venetic = {
 		} ELSE_IF tfe = {
 			parameters = {
 				heritage_group_latin = yes
-				heritage_family_mediterranean = yes 
+				heritage_family_mediterranean = yes
 			}
 		} ELSE_IF wtwsms = {
 			parameters = {
@@ -598,12 +598,12 @@ heritage_hunnic = {
 		}
 	}
 	audio_parameter = european
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			parameters = {
 				heritage_group_turkic = yes
-				heritage_family_steppe = yes 
+				heritage_family_steppe = yes
 			}
 		}
 	}
@@ -628,7 +628,7 @@ heritage_gallo_rhaetian_latin = {
 		IF tfe = {
 			parameters = {
 				heritage_group_latin = yes
-				heritage_family_mediterranean = yes 
+				heritage_family_mediterranean = yes
 			}
 		}
 	}
@@ -648,12 +648,12 @@ heritage_british_latin = {
 		}
 	}
 	audio_parameter = european
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			parameters = {
 				heritage_group_latin = yes
-				heritage_family_mediterranean = yes 
+				heritage_family_mediterranean = yes
 			}
 		}
 	}
@@ -673,12 +673,12 @@ heritage_occitan = {
 		}
 	}
 	audio_parameter = european
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			parameters = {
 				heritage_group_latin = yes
-				heritage_family_mediterranean = yes 
+				heritage_family_mediterranean = yes
 			}
 		}
 	}
@@ -691,7 +691,7 @@ heritage_loloish = { # Will worry about CCU parameters once relevant mods are up
 		roa = { heritage_loloish }
     	vanilla_ck3 = { heritage_loloish }
     }
-	
+
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -708,7 +708,7 @@ heritage_baiyue = { # Will worry about CCU parameters once relevant mods are upd
 		roa = { heritage_baiyue }
     	vanilla_ck3 = { heritage_baiyue }
     }
-	
+
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -725,7 +725,7 @@ heritage_dongyi = { # Will worry about CCU parameters once relevant mods are upd
 		roa = { heritage_dongyi }
     	vanilla_ck3 = { heritage_dongyi }
     }
-	
+
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
