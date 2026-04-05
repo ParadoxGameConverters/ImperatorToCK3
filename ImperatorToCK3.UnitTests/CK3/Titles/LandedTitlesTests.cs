@@ -611,6 +611,68 @@ public class LandedTitlesTests {
 	}
 
 	[Fact]
+	public void KingdomUsesNextDominantHeritageWhenMostDominantOneCannotProvideEmpire() {
+		var date = new Date(867, 1, 1);
+		var titles = new Title.LandedTitles();
+		titles.LoadTitles(new BufferedReader(
+			"e_mongolia = { }\n" +
+			"k_test = {\n" +
+			"\td_test = {\n" +
+			"\t\tc_county1 = { b_barony1 = { province = 1 } }\n" +
+			"\t\tc_county2 = { b_barony2 = { province = 2 } }\n" +
+			"\t\tc_county3 = { b_barony3 = { province = 3 } }\n" +
+			"\t}\n" +
+			"}\n" +
+			"k_xia = {\n" +
+			"\td_xia = {\n" +
+			"\t\tc_xia_county = { b_xia_barony = { province = 4 } }\n" +
+			"\t}\n" +
+			"}\n"
+		), colorFactory);
+
+		var cultureCollection = new TestCK3CultureCollection();
+		cultureCollection.GenerateTestCulture("han", "heritage_chinese");
+		cultureCollection.GenerateTestCulture("mongol", "heritage_mongolic");
+
+		var characters = new CharacterCollection();
+		var hanHolder1 = new Character("1", "Han Holder 1", new Date(800, 1, 1), characters);
+		hanHolder1.SetCultureId("han", null);
+		characters.Add(hanHolder1);
+
+		var hanHolder2 = new Character("2", "Han Holder 2", new Date(801, 1, 1), characters);
+		hanHolder2.SetCultureId("han", null);
+		characters.Add(hanHolder2);
+
+		var mongolHolder = new Character("3", "Mongol Holder", new Date(802, 1, 1), characters);
+		mongolHolder.SetCultureId("mongol", null);
+		characters.Add(mongolHolder);
+
+		titles["c_county1"].SetHolder(hanHolder1, date);
+		titles["c_county2"].SetHolder(hanHolder2, date);
+		titles["c_county3"].SetHolder(mongolHolder, date);
+		titles["c_xia_county"].SetHolder(mongolHolder, date);
+
+		var heritageMapPath = Path.Combine("configurables", "heritage_empires_map.txt");
+		var originalHeritageMap = File.Exists(heritageMapPath) ? File.ReadAllText(heritageMapPath) : null;
+		Directory.CreateDirectory("configurables");
+		File.WriteAllText(heritageMapPath,
+			"heritage_chinese = none\n" +
+			"heritage_mongolic = e_mongolia\n");
+
+		try {
+			titles.SetDeJureKingdomsAndAbove(date, cultureCollection, characters, new MapData(ck3ModFS), new CK3RegionMapper(), new TestCK3LocDB());
+
+			Assert.Equal("e_mongolia", titles["k_test"].DeJureLiege?.Id);
+		} finally {
+			if (originalHeritageMap is null) {
+				File.Delete(heritageMapPath);
+			} else {
+				File.WriteAllText(heritageMapPath, originalHeritageMap);
+			}
+		}
+	}
+
+	[Fact]
 	public void RemoveBreaksAllLinks() {
 		var landedTitles = new Title.LandedTitles();
 		var empire = landedTitles.Add("e_empire");
