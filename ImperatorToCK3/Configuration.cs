@@ -30,6 +30,10 @@ internal sealed class Configuration {
 	public Date CK3BookmarkDate { get; set; } = new(0, 1, 1);
 	public bool SkipDynamicCoAExtraction { get; set; } = false;
 	public bool SkipHoldingOwnersImport { get; set; } = true;
+	public ImperatorNomads ImperatorNomads { get; set; } = ImperatorNomads.OnlySteppe;
+	public FillerGovernments FillerGovernments { get; set; } = FillerGovernments.SteppeNomadsAll;
+	public MandalaRulers MandalaRulers { get; set; } = MandalaRulers.SeaFeudal;
+	public RitsuryoRulers RitsuryoRulers { get; set; } = RitsuryoRulers.JapaneseJapan;
 	public GameVersion IRVersion { get; private set; } = new();
 	public GameVersion CK3Version { get; private set; } = new();
 
@@ -122,6 +126,10 @@ internal sealed class Configuration {
 				Logger.Error($"Undefined error, {nameof(SkipHoldingOwnersImport)} value was: {valueString}; Error message: {e}");
 			}
 		});
+		parser.RegisterKeyword("ImperatorNomads", SetImperatorNomads);
+		parser.RegisterKeyword("FillerGovernments", SetFillerGovernments);
+		parser.RegisterKeyword("MandalaRulers", SetMandalaRulers);
+		parser.RegisterKeyword("RitsuryoRulers", SetRitsuryoRulers);
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 	}
 
@@ -175,6 +183,74 @@ internal sealed class Configuration {
 			LegionConversion = LegionConversion.MenAtArms;
 		} else {
 			Logger.Warn($"Failed to parse {valueString} as value for {nameof(LegionConversion)}.");
+		}
+	}
+
+	private void SetImperatorNomads(BufferedReader reader) {
+		var valueString = reader.GetString();
+		if (valueString.Equals("only_steppe", StringComparison.OrdinalIgnoreCase)) {
+			ImperatorNomads = ImperatorNomads.OnlySteppe;
+		} else if (valueString.Equals("leave_outside_convert_steppe_tribes", StringComparison.OrdinalIgnoreCase)) {
+			ImperatorNomads = ImperatorNomads.LeaveOutsideConvertSteppeTribes;
+		} else if (valueString.Equals("none_outside_convert_steppe_tribes", StringComparison.OrdinalIgnoreCase)) {
+			ImperatorNomads = ImperatorNomads.NoneOutsideConvertSteppeTribes;
+		} else if (valueString.Equals("no_nomads", StringComparison.OrdinalIgnoreCase)) {
+			ImperatorNomads = ImperatorNomads.NoNomads;
+		} else if (valueString.Equals("no_changes", StringComparison.OrdinalIgnoreCase)) {
+			ImperatorNomads = ImperatorNomads.NoChanges;
+		} else {
+			Logger.Warn($"Failed to parse {valueString} as value for {nameof(ImperatorNomads)}.");
+		}
+	}
+
+	private void SetFillerGovernments(BufferedReader reader) {
+		var valueString = reader.GetString();
+		if (valueString.Equals("steppe_nomads_all", StringComparison.OrdinalIgnoreCase)) {
+			FillerGovernments = FillerGovernments.SteppeNomadsAll;
+		} else if (valueString.Equals("steppe_nomads_heritage", StringComparison.OrdinalIgnoreCase)) {
+			FillerGovernments = FillerGovernments.SteppeNomadsHeritage;
+		} else if (valueString.Equals("steppe_nomads_herdhead", StringComparison.OrdinalIgnoreCase)) {
+			FillerGovernments = FillerGovernments.SteppeNomadsHerdHead;
+		} else if (valueString.Equals("all_nomads", StringComparison.OrdinalIgnoreCase)) {
+			FillerGovernments = FillerGovernments.AllNomads;
+		} else if (valueString.Equals("no_changes", StringComparison.OrdinalIgnoreCase)) {
+			FillerGovernments = FillerGovernments.NoChanges;
+		} else {
+			Logger.Warn($"Failed to parse {valueString} as value for {nameof(FillerGovernments)}.");
+		}
+	}
+
+	private void SetMandalaRulers(BufferedReader reader) {
+		var valueString = reader.GetString();
+		if (valueString.Equals("sea_feudal", StringComparison.OrdinalIgnoreCase)) {
+			MandalaRulers = MandalaRulers.SeaFeudal;
+		} else if (valueString.Equals("sea_nontribal", StringComparison.OrdinalIgnoreCase)) {
+			MandalaRulers = MandalaRulers.SeaNontribal;
+		} else if (valueString.Equals("sea_all", StringComparison.OrdinalIgnoreCase)) {
+			MandalaRulers = MandalaRulers.SeaAll;
+		} else if (valueString.Equals("everywhere_feudal", StringComparison.OrdinalIgnoreCase)) {
+			MandalaRulers = MandalaRulers.EverywhereFeudal;
+		} else if (valueString.Equals("everywhere_nontribal", StringComparison.OrdinalIgnoreCase)) {
+			MandalaRulers = MandalaRulers.EverywhereNontribal;
+		} else if (valueString.Equals("everywhere_all", StringComparison.OrdinalIgnoreCase)) {
+			MandalaRulers = MandalaRulers.EverywhereAll;
+		} else if (valueString.Equals("none", StringComparison.OrdinalIgnoreCase)) {
+			MandalaRulers = MandalaRulers.None;
+		} else {
+			Logger.Warn($"Failed to parse {valueString} as value for {nameof(MandalaRulers)}.");
+		}
+	}
+
+	private void SetRitsuryoRulers(BufferedReader reader) {
+		var valueString = reader.GetString();
+		if (valueString.Equals("japanese_japan", StringComparison.OrdinalIgnoreCase)) {
+			RitsuryoRulers = RitsuryoRulers.JapaneseJapan;
+		} else if (valueString.Equals("any_japan", StringComparison.OrdinalIgnoreCase)) {
+			RitsuryoRulers = RitsuryoRulers.AnyJapan;
+		} else if (valueString.Equals("none", StringComparison.OrdinalIgnoreCase)) {
+			RitsuryoRulers = RitsuryoRulers.None;
+		} else {
+			Logger.Warn($"Failed to parse {valueString} as value for {nameof(RitsuryoRulers)}.");
 		}
 	}
 
@@ -504,6 +580,38 @@ internal sealed class Configuration {
 			},
 			["SkipDynamicCoAExtraction"] = SkipDynamicCoAExtraction ? "yes" : "no",
 			["SkipHoldingOwnersImport"] = SkipHoldingOwnersImport ? "yes" : "no",
+			["ImperatorNomads"] = ImperatorNomads switch {
+				ImperatorNomads.OnlySteppe => "only_steppe",
+				ImperatorNomads.LeaveOutsideConvertSteppeTribes => "leave_outside_convert_steppe_tribes",
+				ImperatorNomads.NoneOutsideConvertSteppeTribes => "none_outside_convert_steppe_tribes",
+				ImperatorNomads.NoNomads => "no_nomads",
+				ImperatorNomads.NoChanges => "no_changes",
+				_ => "only_steppe",
+			},
+			["FillerGovernments"] = FillerGovernments switch {
+				FillerGovernments.SteppeNomadsAll => "steppe_nomads_all",
+				FillerGovernments.SteppeNomadsHeritage => "steppe_nomads_heritage",
+				FillerGovernments.SteppeNomadsHerdHead => "steppe_nomads_herdhead",
+				FillerGovernments.AllNomads => "all_nomads",
+				FillerGovernments.NoChanges => "no_changes",
+				_ => "steppe_nomads_all",
+			},
+			["MandalaRulers"] = MandalaRulers switch {
+				MandalaRulers.SeaFeudal => "sea_feudal",
+				MandalaRulers.SeaNontribal => "sea_nontribal",
+				MandalaRulers.SeaAll => "sea_all",
+				MandalaRulers.EverywhereFeudal => "everywhere_feudal",
+				MandalaRulers.EverywhereNontribal => "everywhere_nontribal",
+				MandalaRulers.EverywhereAll => "everywhere_all",
+				MandalaRulers.None => "none",
+				_ => "sea_feudal",
+			},
+			["RitsuryoRulers"] = RitsuryoRulers switch {
+				RitsuryoRulers.JapaneseJapan => "japanese_japan",
+				RitsuryoRulers.AnyJapan => "any_japan",
+				RitsuryoRulers.None => "none",
+				_ => "japanese_japan",
+			},
 
 			// Output number input options as numbers, so they can be used in numeric comparisons in Liquid,
 			// e.g. {% if ImperatorCurrencyRate > 0.5 %}.
@@ -512,6 +620,7 @@ internal sealed class Configuration {
 
 			// Output dates always in the format YYYY-MM-DD, so they can be used in lexicographical comparisons in Liquid,
 			// e.g. {% if bookmark_date > "0769-01-01" %}.
+			// A date value input into the converter can also be embedded directly into the game's script in this format: {{ bookmark_date | date: 'yyyy.MM.dd' }}
 			["bookmark_date"] = $"{CK3BookmarkDate.Year:0000}-{CK3BookmarkDate.Month:00}-{CK3BookmarkDate.Day:00}",
 		};
 	}

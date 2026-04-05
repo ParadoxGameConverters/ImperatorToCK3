@@ -3,14 +3,48 @@
  welcome_ok: "OK"
  welcome_back: "Back"
 
- welcome_title: "IMP-CK3 Welcome"
- welcome_desc: "Thank you for using the Imperator to CK3 converter. If you haven't done so already, make sure you look through your game rules.\n\nThe converter currently includes game rules for:\n $EFFECT_LIST_BULLET$Deciding which Imperator tags can be [nomadic|E]\n $EFFECT_LIST_BULLET$Deciding how the [filler_rulers|E] should have their [government|E] decided\n $EFFECT_LIST_BULLET$Deciding where the [mandala|E] [government|E] should be set up\n $EFFECT_LIST_BULLET$Deciding if any [ritsuryo|E] [empire|E] should get [GetTitleByKey('e_japan').GetName] at game start"
- welcome_mods: "IMP-CK3 Intended Mods"
+ welcome_title: "IMP-CK3: Welcome"
+ welcome_desc_intro: "Thank you for using the Imperator to CK3 converter. As a reminder, you chose the following options when converting:\n"
+ frontend_options_historical_heresies_yes: "- Heresies in Historical Areas = Yes\n"
+ frontend_options_historical_heresies_no: "- Heresies in Historical Areas = No\n"
+ frontend_options_static_dejure_static: "- Static/Dynamic De Jure Setup = Static\n"
+ frontend_options_static_dejure_dynamic: "- Static/Dynamic De Jure Setup = Dynamic\n"
+ frontend_options_filler_dukes_count: "- Filler Rulers' Tier = Counts\n"
+ frontend_options_filler_dukes_duke: "- Filler Rulers' Tier = Dukes\n"
+ frontend_options_use_ck3_flags_yes: "- Use CK3 Flags = Yes\n"
+ frontend_options_use_ck3_flags_no: "- Use CK3 Flags = No\n"
+ frontend_options_legion_conversion_no: "- Legion Conversion = Don't\n"
+ frontend_options_legion_conversion_special_troops: "- Legion Conversion = As Special Troops\n"
+ frontend_options_legion_conversion_men_at_arms: "- Legion Conversion = As Men-at-Arms\n"
+ frontend_options_import_holding_owners_yes: "- Skip Importing Holding Owners = Yes\n"
+ frontend_options_import_holding_owners_no: "- Skip Importing Holding Owners = No\n"
+ frontend_options_filler_ruler_governments_steppe_nomads_all: "- Filler Rulers' Governments = Steppe Nomads (All)\n"
+ frontend_options_filler_ruler_governments_steppe_nomads_heritage: "- Filler Rulers' Governments = Steppe Nomads (Heritage)\n"
+ frontend_options_filler_ruler_governments_steppe_nomads_herdhead: "- Filler Rulers' Governments = Steppe Nomads (Herd Culture Head)\n"
+ frontend_options_filler_ruler_governments_all_nomads: "- Filler Rulers' Governments = All Nomads\n"
+ frontend_options_filler_ruler_governments_no_changes: "- Filler Rulers' Governments = No Changes\n"
+ frontend_options_imperator_nomads_only_steppe: "- Nomads from Imperator = Only in Steppe\n"
+ frontend_options_imperator_nomads_leave_outside_convert_steppe_tribes: "- Nomads from Imperator = Leave Outside, Convert Steppe Tribes\n"
+ frontend_options_imperator_nomads_none_outside_convert_steppe_tribes: "- Nomads from Imperator = None Outside, Convert Steppe Tribes\n"
+ frontend_options_imperator_nomads_no_nomads: "- Nomads from Imperator = No Nomads\n"
+ frontend_options_imperator_nomads_no_changes: "- Nomads from Imperator = No Changes\n"
+ frontend_options_mandala_rulers_sea_feudal: "- Mandala Rulers = Southeast Asia, Only Feudal\n"
+ frontend_options_mandala_rulers_sea_nontribal: "- Mandala Rulers = Southeast Asia, All Nontribal/nomadic\n"
+ frontend_options_mandala_rulers_sea_all: "- Mandala Rulers = Southeast Asia, All Governments\n"
+ frontend_options_mandala_rulers_everywhere_feudal: "- Mandala Rulers = Everywhere, Only Feudal\n"
+ frontend_options_mandala_rulers_everywhere_nontribal: "- Mandala Rulers = Everywhere, All Nontribal/nomadic\n"
+ frontend_options_mandala_rulers_everywhere_all: "- Mandala Rulers = Everywhere, All Governments\n"
+ frontend_options_mandala_rulers_none: "- Mandala Rulers = None\n"
+ frontend_options_ritsuryo_rulers_japanese_japan: "- Ritsuryo Rulers = Japonic Heritage\n"
+ frontend_options_ritsuryo_rulers_any_japan: "- Ritsuryo Rulers = Any Heritage\n"
+ frontend_options_ritsuryo_rulers_none: "- Ritsuryo Rulers = None\n"
+
+
+ welcome_mods: "IMP-CK3 Relevant Mods"
  
- welcome_mods_title: "IMP-CK3 Mods"
- welcome_mods_desc: "Here are some mods made with the intent to work alongside the Imperator-CK3 converter.\n\nEach option shows the name and author of the mod to make it easier to find in the workshop. Hover over each option to get a brief description of the mod. Click any of the mod options to exit this event.\n\nIf a mod shows this in the description:\n\t$welcome_mods_must_choose_in_converter$\nThat means that in order to use the mod with a converted save, it must have been chosen as a CK3 mod you were playing with when converting the Imperator save in order for it to work. But, if you see this:\n\t$welcome_mods_recommend_choose_in_converter$\nThat means it is recommended that the mod was chosen in the converter when converting the save, likely because it adds stuff like cultures/faiths that could be used when converting the save or because it is to ensure that the mod is loaded at game start, but it isn't required.\nIf the mod doesn't show either, then it doesn't need to be chosen when converting the save game, it could be added manually to the playlist after conversion."
- welcome_mods_must_choose_in_converter: "@warning_icon! #warning THIS MOD MUST BE CHOSEN WHEN RUNNING CONVERTER TO WORK#!"
- welcome_mods_recommend_choose_in_converter: "@warning_icon! #alert_trial IT IS RECOMMENDED THIS MOD BE CHOSEN WHEN RUNNING CONVERTER#!"
+ welcome_mods_title: "IMP-CK3: Relevant Mods"
+ welcome_mods_desc: "Here are some relevant mods that work alongside the Imperator-CK3 converter.\n\nEach option shows the name and author of the mod to make it easier to find in the workshop. Hover over each option to get a brief description of the mod. Click any of the mod options to exit this event.\n\nIf a mod shows this in the description:\n\t$welcome_mods_must_choose_in_converter$\nThat means that in order to use the mod with a converted save as it is intended, it must already have been in the chosen CK3 mod playlist when converting the Imperator save in order for it to work."
+ welcome_mods_must_choose_in_converter: "@warning_icon! #warning THIS MOD MUST BE IN THE CHOSEN PLAYLIST WHEN RUNNING CONVERTER TO WORK AS INTENDED#!"
  welcome_mods_confed_leagues: "'Confederations & Leagues' by tanner918"
  welcome_mods_confed_leagues_desc: "This mod expands the confederation system. Using this mod will allow:\n$EFFECT_LIST_BULLET$Non-Tribal/Nomadic realms to form Defensive Leagues\n$EFFECT_LIST_BULLET$Faith-based Confederations/Leagues, instead of just Culture-based like in base game\n$EFFECT_LIST_BULLET$Some historical Confederation/League names to appear, with some creating new cultures when elevating the confederation/league\n$EFFECT_LIST_BULLET$Allows Imperator Defensive Leagues to be fully converted over upon game start, instead of just the ones containing Tribes/Nomads"
 
@@ -78,10 +112,6 @@
  ### For the After block to properly list all of the other empire titles that have ceremonial liege titles associated with them
  irtock3_ritsuryo_events.2.list_empires_with_ceremonial_lieges_beginning_tt: "@alert_icon! #alert_trial These Empires you hold have Ceremonial Liege Titles: #!"
  irtock3_ritsuryo_events.2.list_empires_with_ceremonial_lieges_tt: "[temp_empire_scope.GetName] (Ceremonial Liege: [temp_ceremonial_liege_scope.GetName])"
-
-# Setup for AI to name China from Imperator tag
- irtock3_imperator_china_name: "[irtock3_china_primary_name.GetNameNoTierNoTooltip]"
- irtock3_imperator_china_name_adj: "[irtock3_china_primary_name.GetAdjectiveNoTooltip]"
 
 # Roman Events
  # Event explaining the hegemony WRE/ERE title being downgraded

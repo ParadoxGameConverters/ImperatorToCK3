@@ -460,12 +460,17 @@ IRToCK3_game_start_onaction_effects = {
 
 		# Makes sure Persia is properly named at game start
 		title:e_persia = {
-			reset_title_name = yes
-			set_definitive_form = yes
 			if = {
-				limit = { exists = holder.house }
-				holder.house = { save_scope_as = new_persia_house }
-				set_title_name_dynamic = new_persia_empire_name
+				limit = {
+					NOT = { custom_title_name = irtock3_rome_empire_division_persia }
+				}
+				reset_title_name = yes
+				set_definitive_form = yes
+				if = {
+					limit = { exists = holder.house }
+					holder.house = { save_scope_as = new_persia_house }
+					set_title_name_dynamic = new_persia_empire_name
+				}
 			}
 		}
 
@@ -519,7 +524,7 @@ IRToCK3_game_start_onaction_effects = {
 			}
 		}
 
-		{% if vanilla_ck3 or aep or roa or tfe %}
+		{% unless wtwsms %}
 		#################
 		### Indonesia ###
 		#################
@@ -576,7 +581,15 @@ IRToCK3_game_start_onaction_effects = {
 
 					holder ?= {
 						if = {
-							limit = { has_variable = irtock3_uncolonized_filler } # Just to double check that the rulers being affected aren't rulers converted from Imperator
+							limit = { # Just to double check that the rulers being affected aren't rulers converted from Imperator
+								OR = {
+									has_variable = irtock3_uncolonized_filler
+									any_sub_realm_county = {
+										count = all
+										title_province = { geographical_region = converter_AUH_out_of_scope_region_hantuist }
+									}
+								}
+							}
 
 							if = {
 								limit = { faith.religion = scope:remove_religion }
@@ -622,7 +635,15 @@ IRToCK3_game_start_onaction_effects = {
 
 					holder ?= {
 						if = {
-							limit = { has_variable = irtock3_uncolonized_filler } # Just to double check that the rulers being affected aren't rulers converted from Imperator
+							limit = { # Just to double check that the rulers being affected aren't rulers converted from Imperator
+								OR = {
+									has_variable = irtock3_uncolonized_filler
+									any_sub_realm_county = {
+										count = all
+										title_province = { geographical_region = converter_AUH_out_of_scope_region_tolotang }
+									}
+								}
+							}
 
 							if = {
 								limit = { faith.religion = scope:remove_religion }
@@ -668,7 +689,15 @@ IRToCK3_game_start_onaction_effects = {
 
 					holder ?= {
 						if = {
-							limit = { has_variable = irtock3_uncolonized_filler } # Just to double check that the rulers being affected aren't rulers converted from Imperator
+							limit = { # Just to double check that the rulers being affected aren't rulers converted from Imperator
+								OR = {
+									has_variable = irtock3_uncolonized_filler
+									any_sub_realm_county = {
+										count = all
+										title_province = { geographical_region = converter_AUH_out_of_scope_region_aluk }
+									}
+								}
+							}
 
 							if = {
 								limit = { faith.religion = scope:remove_religion }
@@ -714,7 +743,15 @@ IRToCK3_game_start_onaction_effects = {
 
 					holder ?= {
 						if = {
-							limit = { has_variable = irtock3_uncolonized_filler } # Just to double check that the rulers being affected aren't rulers converted from Imperator
+							limit = { # Just to double check that the rulers being affected aren't rulers converted from Imperator
+								OR = {
+									has_variable = irtock3_uncolonized_filler
+									any_sub_realm_county = {
+										count = all
+										title_province = { geographical_region = converter_AUH_out_of_scope_region_kaharingan }
+									}
+								}
+							}
 
 							if = {
 								limit = { faith.religion = scope:remove_religion }
@@ -769,7 +806,7 @@ IRToCK3_game_start_onaction_effects = {
 				}
 			}
 		}
-		{% endif %}
+		{% endunless %}
 
 		#################
 		### Silk Road ###
@@ -884,12 +921,62 @@ IRToCK3_game_start_onaction_effects = {
 				}
 			}
 		}
+
+		
+		# Government Setup
+		irtock3_setup_governments = yes
 	}
 }
 
 IRToCK3_game_start_after_lobby_onaction_effects = {
 	effect = {
 		every_player = { trigger_event = welcome.1 } # This event so far just notifies the players of the game rules added by the converter, and any relevant mods to use
+
+		##########################
+		## Dynastic Cycle Setup ##
+		##########################
+		# Check if h_china still needs to be properly named
+		if = {
+			limit = {
+				exists = title:h_china.holder
+				title:h_china = { has_custom_title_name = no }
+			}
+			title:h_china.holder = { trigger_event = tgp_dynastic_cycle.9000 }
+		}
+		# Make sure they properly have an Imperial Seal artifact
+		else_if = {
+			limit = {
+				exists = title:h_china.holder
+				title:h_china.holder = {
+					NOT = {
+						any_character_artifact = { artifact_type = seal_of_investiture_court }
+					}
+				}
+			}
+			title:h_china.holder = {
+				create_artifact_dynastic_imperial_seal_effect = {
+					OWNER = title:h_china.holder
+					SMITH = title:h_china.holder
+				}
+			}
+		}
+
+		# Check if one of the Stable Phases needs to be chosen
+		if = {
+			limit = {
+				exists = title:h_china.holder
+				has_global_variable = choose_dynastic_cycle_stable_era
+			}
+			remove_global_variable = choose_dynastic_cycle_stable_era
+			title:h_china.holder = { trigger_event = welcome.0071 }
+		}
+		# Otherwise, trigger initial event about Dynastic Cycle for any relevant players
+		else = {
+			every_player = {
+				limit = { tgp_does_this_player_care_about_the_dynastic_cycle = yes }
+				trigger_event = tgp_dynastic_cycle.0051
+			}
+		}
 	}
 }
 

@@ -25,7 +25,7 @@ converter_roa_out_of_scope_region = {
 {% endif %}
 
 
-{% if vanilla_ck3 or roa or aep or tfe %}
+{% unless wtwsms %}
 ###############
 ## Out of scope Indonesia
 ###############
@@ -33,11 +33,11 @@ converter_roa_out_of_scope_region = {
 converter_AUH_out_of_scope_region_hantuist = {
 	counties = {
 		c_SUM_jambi c_SUM_karang_brahi c_SUM_riak_nan_berbedur c_SUM_bengkulu c_riau
-		c_SUM_lingga # This county being in this region could change depending on how the province_mappings change, so this could be removed
 	}
 	duchies = {
 		d_SUM_palembang d_JAV_taruma d_JAV_mataram d_IDO_bali d_IDO_lesser_sunda d_IDO_timor
 	}
+	provinces = { 11278 11279 }
 }
 
 # Out-of-scope region for Terra-Indomita that should be made Tolotang
@@ -204,7 +204,7 @@ irtock3_de_jure_region_h_china = {
 		irtock3_de_jure_region_e_lingnan
 	}
 }
-{% endif %}
+{% endunless %}
 
 ###############################
 ### Regions to have always have
