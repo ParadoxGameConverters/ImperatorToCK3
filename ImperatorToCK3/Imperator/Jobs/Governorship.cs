@@ -48,7 +48,7 @@ internal sealed class Governorship {
 		int provinceCount = 0;
 		foreach (var province in irProvinces) {
 			if (province.OwnerCountry == Country && Region.ContainsProvince(province.Id)) {
-				provinceCount++;
+				++provinceCount;
 			}
 		}
 
