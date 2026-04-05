@@ -1394,21 +1394,23 @@ internal sealed partial class Title {
 				}
 				kingdomToDominantHeritagesDict[kingdom.Id] = dominantHeritages;
 
-				var dominantHeritage = dominantHeritages[0];
-
-				if (heritageToEmpireDict.TryGetValue(dominantHeritage.Id, out var empire)) {
-					if (empire is null) {
-						// The heritage is not supposed to have an empire.
-						continue;
+				foreach (var dominantHeritage in dominantHeritages) {
+					if (heritageToEmpireDict.TryGetValue(dominantHeritage.Id, out var empire)) {
+						if (empire is null) {
+							// The heritage is not supposed to have an empire, try the next dominant heritage.
+							continue;
+						}
+						kingdom.DeJureLiege = empire;
+						break;
 					}
-					kingdom.DeJureLiege = empire;
-				} else {
-					// Create new de jure empire based on heritage.
+
+					// Create new de jure empire based on the first usable heritage.
 					var heritageEmpire = CreateEmpireForHeritage(dominantHeritage, ck3Cultures, ck3LocDB);
 					removableEmpireIds.Add(heritageEmpire.Id);
 
 					kingdom.DeJureLiege = heritageEmpire;
 					heritageToEmpireDict[dominantHeritage.Id] = heritageEmpire;
+					break;
 				}
 			}
 		}
