@@ -14,16 +14,16 @@ jobs:
       matrix:
         build:
         - win-x64
-        - linux-x64
+        #- linux-x64
         include:
         - build: win-x64
           os: [self-hosted, windows]
           archive_type: zip
           archive_extension: .zip
-        - build: linux-x64
-          os: ubuntu-latest
-          archive_type: tar
-          archive_extension: .tgz
+        #- build: linux-x64
+        #  os: ubuntu-latest
+        #  archive_type: tar
+        #  archive_extension: .tgz
     steps:
     - name: Get branch name (Windows)
       if: runner.os == 'Windows'

@@ -13,10 +13,8 @@ internal sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDe
 	internal Dictionary<ulong, Rgb24> ProvinceToColorDict { get; } = [];
 
 	internal void LoadDefinitions(string definitionsFilename, ModFilesystem modFS) {
-		var relativePath = Path.Combine("map_data", definitionsFilename);
-		string? definitionsFilePath = modFS.GetActualFileLocation(relativePath);
+		string? definitionsFilePath = GetDefinitionsFilePath(definitionsFilename, modFS);
 		if (definitionsFilePath is null) {
-			Logger.Warn($"Province definitions file {definitionsFilename} not found!");
 			return;
 		}
 
@@ -30,58 +28,73 @@ internal sealed class ProvinceDefinitions : IdObjectCollection<ulong, ProvinceDe
 			if (line is null) {
 				continue;
 			}
+
 			line = line.TrimStart();
-			if (line.Length < 4 || line[0] == '#') {
+			if (ShouldSkipLine(line)) {
 				continue;
 			}
 
 			try {
-				var span = line.AsSpan();
-				int pos = 0;
-
-				// id
-				var idEnd = span.IndexOf(';');
-				if (idEnd < 0) throw new FormatException("Missing separators");
-				var idSpan = span[pos..idEnd];
-				pos = idEnd + 1;
-				if (!ulong.TryParse(idSpan, out var id)) {
-					throw new FormatException($"Invalid id: {idSpan}");
-				}
-				AddOrReplace(new ProvinceDefinition(id));
-
-				// r
-				var rEnd = span[pos..].IndexOf(';');
-				if (rEnd < 0) throw new FormatException("Missing separators");
-				var rSpan = span[pos..(pos + rEnd)];
-				pos += rEnd + 1;
-				if (!byte.TryParse(rSpan, out var r)) {
-					throw new FormatException($"Invalid r: {rSpan}");
-				}
-
-				// g
-				var gEnd = span[pos..].IndexOf(';');
-				if (gEnd < 0) throw new FormatException("Missing separators");
-				var gSpan = span[pos..(pos + gEnd)];
-				pos += gEnd + 1;
-				if (!byte.TryParse(gSpan, out var g)) {
-					throw new FormatException($"Invalid g: {gSpan}");
-				}
-
-				// b
-				var bEnd = span[pos..].IndexOf(';');
-				if (bEnd < 0) throw new FormatException("Missing separators");
-				var bSpan = span[pos..(pos + bEnd)];
-				pos += bEnd + 1;
-				if (!byte.TryParse(bSpan, out var b)) {
-					throw new FormatException($"Invalid b: {bSpan}");
-				}
-
-				var color = new Rgb24(r, g, b);
-				ProvinceToColorDict.Add(id, color);
-				ColorToProvinceDict[color] = id;
+				ParseDefinitionLine(line);
 			} catch (Exception e) {
 				throw new FormatException($"Line: |{line}| is unparseable! Breaking. ({e})");
 			}
 		}
+	}
+
+	private static string? GetDefinitionsFilePath(string definitionsFilename, ModFilesystem modFS) {
+		var relativePath = Path.Combine("map_data", definitionsFilename);
+		string? definitionsFilePath = modFS.GetActualFileLocation(relativePath);
+		if (definitionsFilePath is null) {
+			Logger.Warn($"Province definitions file {definitionsFilename} not found!");
+		}
+		return definitionsFilePath;
+	}
+
+	private static bool ShouldSkipLine(string line) {
+		return line.Length < 4 || line[0] == '#';
+	}
+
+	private void ParseDefinitionLine(string line) {
+		var span = line.AsSpan();
+		int pos = 0;
+
+		var id = ParseProvinceId(span, ref pos);
+		AddOrReplace(new ProvinceDefinition(id));
+
+		var color = new Rgb24(
+			ParseColorComponent(span, ref pos, "r"),
+			ParseColorComponent(span, ref pos, "g"),
+			ParseColorComponent(span, ref pos, "b")
+		);
+		ProvinceToColorDict.Add(id, color);
+		ColorToProvinceDict[color] = id;
+	}
+
+	private static ulong ParseProvinceId(ReadOnlySpan<char> span, ref int pos) {
+		var idSpan = ReadNextField(span, ref pos);
+		if (ulong.TryParse(idSpan, out var id)) {
+			return id;
+		}
+		throw new FormatException($"Invalid id: {idSpan}");
+	}
+
+	private static byte ParseColorComponent(ReadOnlySpan<char> span, ref int pos, string componentName) {
+		var componentSpan = ReadNextField(span, ref pos);
+		if (byte.TryParse(componentSpan, out var component)) {
+			return component;
+		}
+		throw new FormatException($"Invalid {componentName}: {componentSpan}");
+	}
+
+	private static ReadOnlySpan<char> ReadNextField(ReadOnlySpan<char> span, ref int pos) {
+		var fieldEnd = span[pos..].IndexOf(';');
+		if (fieldEnd < 0) {
+			throw new FormatException("Missing separators");
+		}
+
+		var fieldSpan = span[pos..(pos + fieldEnd)];
+		pos += fieldEnd + 1;
+		return fieldSpan;
 	}
 }
