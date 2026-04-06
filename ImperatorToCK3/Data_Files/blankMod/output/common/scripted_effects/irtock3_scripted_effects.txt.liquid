@@ -371,7 +371,7 @@ irtock3_setup_governments = {
 				{% else %}
 				# You chose to allow Mandala everywhere
 				{% endif %}
-				
+
 				## Government
 				{% if MandalaRulers == 'sea_feudal' or MandalaRulers == 'everywhere_feudal' %}
 				# You chose to limit converting to Mandala to Feudal only
@@ -1875,7 +1875,7 @@ irtock3_setup_governments = {
 						}
 					}
 				}
-				
+
 				scope:chinese_emperor = {
 					every_held_title = {
 						title_tier = hegemony
@@ -2437,7 +2437,7 @@ irtock3_setup_governments = {
 						}
 
 						primary_title = { save_scope_as = old_prim_title }
-						
+
 						title:e_japan = {
 							change_title_holder = {
 								holder = scope:japanese_imperial_dynasty_ruler
@@ -2445,7 +2445,7 @@ irtock3_setup_governments = {
 							}
 							copy_title_history = scope:old_prim_title
 						}
-						
+
 						# De Jure drift kingdoms to be under e_japan, so it should hopefully start with some land, if it doesn't already
 						every_realm_de_jure_kingdom = {
 							limit = {
@@ -2690,7 +2690,7 @@ irtock3_setup_governments = {
 		}
 	}
 
-	
+
 	## Finally, recalculate the culture heads
 	recalculate_cultural_heads_of_type = herd
 	recalculate_cultural_heads_of_type = domain
@@ -2752,7 +2752,7 @@ irtock3_split_roman_empire_effect = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 					trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
-						NOT = { 
+						NOT = {
 							capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 						}
 					}
@@ -2785,7 +2785,7 @@ irtock3_split_roman_empire_effect = {
 					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 				}
 				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
-					NOT = { 
+					NOT = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
@@ -2821,7 +2821,7 @@ irtock3_split_roman_empire_effect = {
 					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 				}
 				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
-					NOT = { 
+					NOT = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
@@ -2837,7 +2837,7 @@ irtock3_split_roman_empire_effect = {
 					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 				}
 				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
-					NOT = { 
+					NOT = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
@@ -2852,7 +2852,7 @@ irtock3_split_roman_empire_effect = {
 					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 				}
 				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
-					NOT = { 
+					NOT = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
@@ -2886,7 +2886,7 @@ irtock3_split_roman_empire_effect = {
 					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 				}
 				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
-					NOT = { 
+					NOT = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
@@ -2963,8 +2963,8 @@ irtock3_split_roman_empire_effect = {
 
 	if = {
 		limit = {
-			any_owned_story = { 
-				type = ep3_story_cycle_restoring_rome 
+			any_owned_story = {
+				type = ep3_story_cycle_restoring_rome
 				has_variable = roman_empire_hard_mode
 			}
 		}
@@ -3138,7 +3138,7 @@ irtock3_create_ritsuryo_ruling_regent_title_effect = {
 		top_liege.primary_title.var:administrative_ui_special_title = {
 			add_title_law = single_heir_succession_law # Monarchy inherited separately
 			save_scope_as = monarch_title
-		} 
+		}
 		add_realm_law_skip_effects = japanese_regency_succession_law # Regency inherited separately
 
 		hidden_effect = {
@@ -3210,7 +3210,7 @@ irtock3_elevate_roman_duchy_effects = {
 
 		custom_tooltip = {
 			text = irtock3_change_roman_duchy_counties_tt
-			
+
 			# Make sure that all counties are given back to their original duchies
 			while = {
 				limit = {
@@ -3356,7 +3356,7 @@ irtock3_elevate_roman_duchy_effects = {
 			limit = { exists = scope:old_empire }
 			scope:new_title = { set_de_jure_liege_title = scope:old_empire }
 		}
-		
+
 		# Drift every held duchy to be under k_rome
 		every_held_title = {
 			title_tier = duchy
@@ -3416,10 +3416,10 @@ irtock3_elevate_roman_duchy_effects = {
 		}
 
 		set_primary_title_to = scope:new_title
-		
+
 		# Event Notifications
 		trigger_event = major_decisions.1101 # TO DO: MAKE A CUSTOM EVENT?
-		
+
 		every_player = {
 			if = {
 				limit = {
@@ -3452,9 +3452,9 @@ irtock3_elevate_roman_duchy_effects = {
 							tier = tier_duchy
 							is_in_list = duchy_for_notification
 						}
-						add_to_list = notification_titles	
+						add_to_list = notification_titles
 					}
-				}			
+				}
 				if = {
 					limit = {
 						any_in_list = {
@@ -3643,7 +3643,7 @@ irtock3_elevate_roman_kingdom_effects = {
 				}
 			}
 		}
-		
+
 		set_primary_title_to = scope:new_title
 
 		# Event Notifications
@@ -3696,7 +3696,7 @@ irtock3_elevate_roman_kingdom_effects = {
 				}
 			}
 		}
-	}	
+	}
 }
 
 
@@ -3798,7 +3798,7 @@ irtock3_elevate_roman_empire_effects = {
 				}
 			}
 		}
-		
+
 		set_primary_title_to = scope:new_title
 
 		# Event Notifications (SHOULD CREATE CUSTOM EVENTS FOR THIS)
@@ -3851,12 +3851,12 @@ irtock3_elevate_roman_empire_effects = {
 				}
 			}
 		}
-	}	
+	}
 }
 
 
 # This scripted_effect is to be used with the overwritten 'split_byzantine_empire_effect' so that it can be changed a lot easier, without having to worry about titles, regions, etc. being correct in multiple places
-# This effect is being called from within the scope of whatever Rome empire title is being split apart (e_byzantium, e_roman_empire, e_western_roman_empire) 
+# This effect is being called from within the scope of whatever Rome empire title is being split apart (e_byzantium, e_roman_empire, e_western_roman_empire)
 # INPUTS:
 ## $REGION$ - The geographical region being checked
 irtock3_split_rome_empire_region_effect = {
@@ -3906,7 +3906,7 @@ irtock3_split_rome_empire_region_effect = {
 							any_liege_or_above = { this = root }
 						}
 					}
-				} 
+				}
 				alternative_limit = {
 					# Need to make sure the county is actually in a Roman realm
 					holder ?= {
@@ -4012,7 +4012,7 @@ irtock3_gamestart_add_title_to_prefecture_region_effect = {
 # This effect is used for the Roman prefecture creation decisions.
 # scope for this effect is the character who took the decision to create the prefecture, meaning they have either h_roman_empire, h_western_roman_empire, or h_eastern_roman_empire
 # INPUTS:
-## $REGION$ - The geographical region being checked 
+## $REGION$ - The geographical region being checked
 irtock3_form_roman_prefecture_effect = {
 	geographical_region:$REGION$ = { save_scope_as = region_scope }
 	custom_tooltip = {
@@ -4051,7 +4051,7 @@ irtock3_form_roman_prefecture_effect = {
 							any_liege_or_above = { this = root }
 						}
 					}
-				} 
+				}
 				alternative_limit = {
 					# Need to make sure the county is actually in a Roman realm
 					holder ?= {
@@ -4709,7 +4709,7 @@ irtock3_setup_roman_prefectures_game_start = {
 					set_de_jure_liege_title = scope:new_empire_title
 				}
 			}
-			
+
 			if = {
 				limit = { exists = scope:prefecture_empire.holder }
 				scope:prefecture_empire.holder = {
@@ -4718,7 +4718,7 @@ irtock3_setup_roman_prefectures_game_start = {
 					set_primary_title_to = scope:new_empire_title
 				}
 			}
-			
+
 			scope:new_empire_title = {
 				set_de_jure_liege_title = scope:prefecture_empire.hegemony
 				save_scope_as = prefecture_empire

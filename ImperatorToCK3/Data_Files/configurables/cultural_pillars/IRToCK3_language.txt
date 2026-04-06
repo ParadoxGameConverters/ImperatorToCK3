@@ -35,7 +35,7 @@ language_nuragic = {
 		tfe = { language_nuragic }
 		vanilla_ck3 = { language_nuragic }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
@@ -49,14 +49,14 @@ language_nuragic = {
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_nuragic
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -110,7 +110,7 @@ language_luwian = {
 		tfe = { language_luwian }
 		vanilla_ck3 = { language_luwian }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
@@ -126,7 +126,7 @@ language_luwian = {
 		LANGUAGE = language_luwian
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -144,7 +144,7 @@ language_luwian = {
 					multiply = same_language_family_choice_factor
 				}
 			}
-		} 
+		}
 		ELSE = {
 			ai_will_do = {
 				value = 10
@@ -164,7 +164,7 @@ language_lydian = {
 		tfe = { language_lydian }
 		vanilla_ck3 = { language_lydian }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
@@ -173,14 +173,14 @@ language_lydian = {
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 		LANGUAGE = language_lydian
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -218,7 +218,7 @@ language_hittite = {
 		tfe = { language_hittite }
 		vanilla_ck3 = { language_hittite }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
@@ -232,14 +232,14 @@ language_hittite = {
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 		LANGUAGE = language_hittite
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -293,7 +293,7 @@ language_phrygian = {
 		tfe = { language_phrygian }
 		vanilla_ck3 = { language_phrygian }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
@@ -302,14 +302,14 @@ language_phrygian = {
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_phrygian
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -349,7 +349,7 @@ language_kemetic = {
 		roa = { language_egyptian }
 		vanilla_ck3 = { language_egyptian }
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -372,7 +372,7 @@ language_babylonian = {
 		tfe = { language_babylonian }
 		vanilla_ck3 = { language_babylonian }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
@@ -386,14 +386,14 @@ language_babylonian = {
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_babylonian
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -447,7 +447,7 @@ language_eblaite = {
 		tfe = { language_eblaite }
 		vanilla_ck3 = { language_eblaite }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
@@ -461,14 +461,14 @@ language_eblaite = {
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_eblaite
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -523,7 +523,7 @@ language_gaulish = {
 		wtwsms = { language_gaulish }
 		vanilla_ck3 = { language_gaulish }
 	}
-    
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			parameters = {
@@ -605,7 +605,7 @@ language_gaulish = {
 # 		roa = { language_israelite }
 # 		vanilla_ck3 = { language_israelite }
 # 	}
-    
+
 # 	type = language
 # 	is_shown = {
 # 		language_is_shown_trigger = {
@@ -628,7 +628,7 @@ language_oscan = {
 		tfe = { language_oscan }
 		vanilla_ck3 = { language_oscan }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
@@ -643,14 +643,14 @@ language_oscan = {
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_oscan
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -700,7 +700,7 @@ language_oscan = {
 			}
 		}
 	}
-	
+
 	color = { 117 131 50 }
 }
 
@@ -709,7 +709,7 @@ language_samnite = {
 		tfe = { language_samnite }
 		vanilla_ck3 = { language_samnite }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
@@ -724,14 +724,14 @@ language_samnite = {
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_samnite
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -805,7 +805,7 @@ language_ligustic = {
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -871,7 +871,7 @@ language_messapic = {
 		tfe = { language_messapic }
 		vanilla_ck3 = { language_messapic }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
@@ -885,14 +885,14 @@ language_messapic = {
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_messapic
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -938,7 +938,7 @@ language_messapic = {
 			}
 		}
 	}
-	
+
 	color = { 5 52 113 }
 }
 
@@ -947,7 +947,7 @@ language_sardonian = {
 		tfe = { language_sardonian }
 		vanilla_ck3 = { language_sardonian }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
@@ -961,14 +961,14 @@ language_sardonian = {
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_sardonian
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -1023,7 +1023,7 @@ language_siculian = {
 		tfe = { language_siculian }
 		vanilla_ck3 = { language_siculian }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
@@ -1037,14 +1037,14 @@ language_siculian = {
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_siculian
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -1106,11 +1106,11 @@ language_hunnic = {
 		IF tfe = {
 			parameters = { # copied from language_oghur
 				language_group_oghur = yes
-				language_family_turkic = yes 		
+				language_family_turkic = yes
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
@@ -1159,7 +1159,7 @@ language_punic = {
 		wtwsms = { language_punic }
 		vanilla_ck3 = { language_punic }
 	}
-    
+
 	MOD_DEPENDENT = {
 		IF roa = {
 			parameters = {
@@ -1212,7 +1212,7 @@ language_breathanach = { # language for Romano-Celtic hybrids in the British Isl
 		tfe = { language_breathanach }
 		vanilla_ck3 = { language_breathanach }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			parameters = {
@@ -1234,14 +1234,14 @@ language_breathanach = { # language for Romano-Celtic hybrids in the British Isl
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_breathanach
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			ai_will_do = {
@@ -1325,7 +1325,7 @@ language_laessin = {
 		tfe = { language_laessin }
 		vanilla_ck3 = { language_laessin }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			parameters = {
@@ -1347,14 +1347,14 @@ language_laessin = {
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_laessin
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			ai_will_do = {
@@ -1439,13 +1439,13 @@ language_thracian = {
 		wtwsms = { language_thracian }
 		vanilla_ck3 = { language_thracian }
 	}
-    
+
 	MOD_DEPENDENT = {
 		IF roa = {
 			parameters = {
 				language_group_daco_thracian = yes
 				language_branch_balkan = yes
-				language_family_indo_european = yes 		
+				language_family_indo_european = yes
 			}
 		}
 	}
@@ -1499,13 +1499,13 @@ language_dacian = {
 		wtwsms = { language_dacian }
 		vanilla_ck3 = { language_dacian }
 	}
-    
+
 	MOD_DEPENDENT = {
 		IF roa = {
 			parameters = {
 				language_group_daco_thracian = yes
 				language_branch_balkan = yes
-				language_family_indo_european = yes 		
+				language_family_indo_european = yes
 			}
 		}
 	}
@@ -1516,7 +1516,7 @@ language_dacian = {
 			LANGUAGE = language_dacian
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF roa = {
 			ai_will_do = {
@@ -1558,23 +1558,23 @@ language_etruscan = {
 		tfe = { language_etruscan }
 		vanilla_ck3 = { language_etruscan }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
 				language_branch_etruscan = yes
-				language_family_tyrsenian = yes 		
+				language_family_tyrsenian = yes
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_etruscan
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -1614,14 +1614,14 @@ language_elamite = {
 		wtwsms = { language_elamite }
 		vanilla_ck3 = { language_elamite }
 	}
-	
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_elamite
 		}
 	}
-	
+
 	ai_will_do = {
 		value = 10
 		if = {
@@ -1639,7 +1639,7 @@ language_tai = {
 		roa = { language_tai }
 		vanilla_ck3 = { language_tai }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			parameters = {
@@ -1650,18 +1650,18 @@ language_tai = {
 		ELSE_IF wtwsms = {
 			parameters = {
 				language_branch_tai = yes
-				language_family_kra_dai = yes 		
+				language_family_kra_dai = yes
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_tai
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			ai_will_do = {
@@ -1717,12 +1717,12 @@ language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/shared
 		roa = { language_palaungic }
 		vanilla_ck3 = { language_palaungic }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			parameters = {
 				language_group_mon_khmer = yes
-				language_family_austroasiatic = yes 		
+				language_family_austroasiatic = yes
 			}
 		}
 		ELSE_IF wtwsms = {
@@ -1732,15 +1732,15 @@ language_palaungic = { # from AsiaExtended mod https://steamcommunity.com/shared
 			}
 		}
 	}
-	
-    
+
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_palaungic
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			ai_will_do = {
@@ -1864,7 +1864,7 @@ language_chong = {
 }
 
 language_alasiyan = {
-    
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			parameters = {
@@ -1935,7 +1935,7 @@ language_alasiyan = {
 }
 
 language_ugaritic = {
-    
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			parameters = {
@@ -2534,7 +2534,7 @@ language_venetic = {
 			LANGUAGE = language_venetic
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
@@ -2548,7 +2548,7 @@ language_venetic = {
 			}
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -2604,7 +2604,7 @@ language_anatolian = {
 		roa = { language_anatolian }
 		vanilla_ck3 = { language_anatolian }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
@@ -2618,14 +2618,14 @@ language_anatolian = {
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_anatolian
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -2681,7 +2681,7 @@ language_illyrian = {
 		roa = { language_illyrian }
 		vanilla_ck3 = { language_illyrian }
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			parameters = {
@@ -2695,14 +2695,14 @@ language_illyrian = {
 			}
 		}
 	}
-    
+
 	type = language
 	is_shown = {
 		language_is_shown_trigger = {
 			LANGUAGE = language_illyrian
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF @[roa|wtwsms] = {
 			ai_will_do = {
@@ -2764,7 +2764,7 @@ language_sabaki = {
 			LANGUAGE = language_sabaki
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			parameters = {
@@ -2773,7 +2773,7 @@ language_sabaki = {
 			}
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			ai_will_do = {
@@ -2803,8 +2803,8 @@ language_sabaki = {
 		}
 	}
 
-	
-	
+
+
 	color = hsv{ 0.6 0.5 0.7 }
 }
 
@@ -2821,7 +2821,7 @@ language_north_dravidian = {
 			LANGUAGE = language_north_dravidian
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			parameters = {
@@ -2830,7 +2830,7 @@ language_north_dravidian = {
 			}
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			ai_will_do = {
@@ -2860,8 +2860,8 @@ language_north_dravidian = {
 		}
 	}
 
-	
-	
+
+
 	color = brahui
 }
 
@@ -2878,7 +2878,7 @@ language_burusho = {
 			LANGUAGE = language_burusho
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			parameters = {
@@ -2887,7 +2887,7 @@ language_burusho = {
 			}
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			ai_will_do = {
@@ -2917,8 +2917,8 @@ language_burusho = {
 		}
 	}
 
-	
-	
+
+
 	color = { 0.39 0.19 0.09 }
 }
 
@@ -2935,7 +2935,7 @@ language_kordofanian = {
 			LANGUAGE = language_kordofanian
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			parameters = {
@@ -2944,7 +2944,7 @@ language_kordofanian = {
 			}
 		}
 	}
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			ai_will_do = {
@@ -2974,8 +2974,8 @@ language_kordofanian = {
 		}
 	}
 
-	
-	
+
+
 	color = { 96 55 48 }
 }
 
