@@ -40,7 +40,7 @@ create_eastern_roman_empire_scripted_effect = {
 		}
 
 		# They get every held county from current root in the relevant region
-		root = { 
+		root = {
 			every_held_title = {
 				limit = {
 					tier = tier_county
@@ -115,7 +115,7 @@ create_eastern_roman_empire_scripted_effect = {
 			root = { set_primary_title_to = title:h_eastern_roman_empire }
 		}
 	}
-	
+
 	## Transfer over relevant vassals to new liege
 	create_title_and_vassal_change = {
 		type = created
@@ -191,8 +191,8 @@ create_eastern_roman_empire_scripted_effect = {
 	# Then every title that aren't county title held by root, but they have a majority of the titles under their rule
 	every_held_title = {
 		limit = {
-			NOR = { 
-				tier = tier_county 
+			NOR = {
+				tier = tier_county
 				tier = tier_hegemony
 				this = root.primary_title
 			}
@@ -216,7 +216,7 @@ create_eastern_roman_empire_scripted_effect = {
 		}
 	}
 	resolve_title_and_vassal_change = scope:change # Resolve second 'granted' title change
-	
+
 	every_empire = {
 		limit = {
 			OR = {
@@ -258,7 +258,7 @@ create_eastern_roman_empire_scripted_effect = {
 
 	## Handle Domiciles/Governments
 	# Move their domiciles, if necessary
-	if = { 
+	if = {
 		limit = {
 			exists = domicile
 			NOT = { domicile.domicile_location.county.holder.top_liege = this }
@@ -267,7 +267,7 @@ create_eastern_roman_empire_scripted_effect = {
 	}
 
 	scope:new_holder = {
-		if = { 
+		if = {
 			limit = {
 				exists = domicile
 				NOT = { domicile.domicile_location.county.holder.top_liege = this }
@@ -291,7 +291,7 @@ split_byzantine_empire_effect = {
 		# Go through every de jure kingdom in the Rome empire titles
 		every_in_list = {
 			list = rome_empire_titles
-			if = { 
+			if = {
 				limit = {
 					OR = {
 						NOT = { exists = holder }

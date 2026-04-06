@@ -8,7 +8,7 @@
 # {% if LegionConversion == 'men_at_arms' %}
 # or
 # {% if ImperatorCivilizationWorth < 0.5 %}
-# or 
+# or
 # {% if bookmark_date > '0950-01-01' %}  (needs to be in YYYY-MM-DD format for lexicographic comparisons to work)
 
 # The Liquid condition checks can also be nested, such as:

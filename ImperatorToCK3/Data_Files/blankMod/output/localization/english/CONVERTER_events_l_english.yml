@@ -41,7 +41,7 @@
 
 
  welcome_mods: "IMP-CK3 Relevant Mods"
- 
+
  welcome_mods_title: "IMP-CK3: Relevant Mods"
  welcome_mods_desc: "Here are some relevant mods that work alongside the Imperator-CK3 converter.\n\nEach option shows the name and author of the mod to make it easier to find in the workshop. Hover over each option to get a brief description of the mod. Click any of the mod options to exit this event.\n\nIf a mod shows this in the description:\n\t$welcome_mods_must_choose_in_converter$\nThat means that in order to use the mod with a converted save as it is intended, it must already have been in the chosen CK3 mod playlist when converting the Imperator save in order for it to work."
  welcome_mods_must_choose_in_converter: "@warning_icon! #warning THIS MOD MUST BE IN THE CHOSEN PLAYLIST WHEN RUNNING CONVERTER TO WORK AS INTENDED#!"
@@ -137,4 +137,4 @@
  irtock3_roman_events.2.b: "A change in leadership means nothing..."
  irtock3_roman_events.2.b.tooltip: "@alert_icon! #alert_trial [title.GetName|V] won't have it's name changed. This event won't appear again for this title, until someone from a different house gets it #!"
  irtock3_roman_events.2.c: "This will forever be Roman land!"
- irtock3_roman_events.2.c.tooltip: "@alert_icon! #alert_trial [title.GetName|V] won't have it's name changed. This event won't appear again for this title, unless a Roman ruler formally re-estabilishes [title.GetNameNoTier|V] as a praetorian prefecture again #!"
+ irtock3_roman_events.2.c.tooltip: "@alert_icon! #alert_trial [title.GetName|V] won't have it's name changed. This event won't appear again for this title, unless a Roman ruler formally re-establishes [title.GetNameNoTier|V] as a praetorian prefecture again #!"
