@@ -1,4 +1,4 @@
-# This file should contain a simple whitespace-separated list of 
+# This file should contain a simple whitespace-separated list of
 # of CK3 dynasty house IDs to preserve from purging.
 # Comments are allowed, and start with a '#' character.
 
