@@ -347,12 +347,15 @@ split_byzantine_empire_effect = {
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_india_extra_gangem }
 				# Magna Taprobana
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_magna_taprobana }
+{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 				# Insulae Remotae
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_insulae_remotae }
 				# Insulae Solis
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_insulae_solis }
+{% endunless %}
 				# Septentrionalis Deserti
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_septentrionalis_deserti }
+{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 				# Serica Ultima
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_ultima }
 				# Serica Meridiana
@@ -365,6 +368,7 @@ split_byzantine_empire_effect = {
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_septentrionalis }
 				# Serica Deserti
 				irtock3_split_rome_empire_region_effect = { REGION = irtock3_rome_empire_division_serica_deserti }
+{% endunless %}
 
 				# Leftover titles
 				## If a kingdom title under these empires is somehow split enough across multiple regions, it might not get put under one of the above prefectures, so need to check those
