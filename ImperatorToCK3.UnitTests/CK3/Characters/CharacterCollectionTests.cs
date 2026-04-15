@@ -507,9 +507,9 @@ public class CharacterCollectionTests {
 		var targetType = target.GetType();
 		var property = targetType.GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 		Assert.NotNull(property);
-		var setter = property!.GetSetMethod(nonPublic: true);
+		var setter = property.GetSetMethod(nonPublic: true);
 		Assert.NotNull(setter);
-		setter!.Invoke(target, new[] { value });
+		setter.Invoke(target, [value]);
 	}
 
 	private static ImperatorRulerTerm CreateRulerTerm(Date startDate, string governmentId) {
