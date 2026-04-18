@@ -117,20 +117,22 @@ internal sealed class Configuration {
 				Logger.Error($"Undefined error, {nameof(SkipDynamicCoAExtraction)} value was: {valueString}; Error message: {e}");
 			}
 		});
-		parser.RegisterKeyword("SkipHoldingOwnersImport", reader => {
-			var valueString = reader.GetString();
-			try {
-				SkipHoldingOwnersImport = valueString.Equals("yes", StringComparison.OrdinalIgnoreCase);
-				Logger.Info($"{nameof(SkipHoldingOwnersImport)} set to: {SkipHoldingOwnersImport}");
-			} catch (Exception e) {
-				Logger.Error($"Undefined error, {nameof(SkipHoldingOwnersImport)} value was: {valueString}; Error message: {e}");
-			}
-		});
+		parser.RegisterKeyword("SkipHoldingOwnersImport", SetSkipHoldingOwnersImport);
 		parser.RegisterKeyword("ImperatorNomads", SetImperatorNomads);
 		parser.RegisterKeyword("FillerGovernments", SetFillerGovernments);
 		parser.RegisterKeyword("MandalaRulers", SetMandalaRulers);
 		parser.RegisterKeyword("RitsuryoRulers", SetRitsuryoRulers);
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
+	}
+
+	private void SetSkipHoldingOwnersImport(BufferedReader reader) {
+		var valueString = reader.GetString();
+		try {
+			SkipHoldingOwnersImport = valueString.Equals("yes", StringComparison.OrdinalIgnoreCase);
+			Logger.Info($"{nameof(SkipHoldingOwnersImport)} set to: {SkipHoldingOwnersImport}");
+		} catch (Exception e) {
+			Logger.Error($"Undefined error, {nameof(SkipHoldingOwnersImport)} value was: {valueString}; Error message: {e}");
+		}
 	}
 
 	private void SetFillerDukes(BufferedReader reader) {
