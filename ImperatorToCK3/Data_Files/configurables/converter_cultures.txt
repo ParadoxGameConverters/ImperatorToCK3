@@ -45,13 +45,13 @@ gelonian = {
 
 	ethnicities = {
 		6 = mediterranean
-		4 = arab 
+		4 = arab
 	}
 
 	coa_gfx = { steppe_coa_gfx volga_finnic_group_coa_gfx }
 
 	building_gfx = {
-		steppe_building_gfx	
+		steppe_building_gfx
 	}
 
 	clothing_gfx = {
@@ -59,8 +59,8 @@ gelonian = {
 		# byzantine_clothing_gfx # enabling this causes errors like "Gfx culture mongol_clothing_gfx in qin doesn't match existing sequence in gelonian"
 	}
 
-	unit_gfx = { 
-		mongol_unit_gfx 
+	unit_gfx = {
+		mongol_unit_gfx
 		# eastern_unit_gfx # enabling this causes errors like "Gfx culture mongol_unit_gfx in qin doesn't match existing sequence in gelonian"
 	}
 }
@@ -145,7 +145,7 @@ qin = {
 
 neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture should only be be able to trigger in the converter if the holder of the culture has a kingdom or empire tier title. Otherwise, cretan should take place over it
 	color = { 0.5 0.8 0.8 }
-	
+
 	MOD_DEPENDENT = {
 		IF tfe = {
 			# TFE uses heritage_hellenistic instead of heritage_ancient_greek.
@@ -159,7 +159,7 @@ neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture sho
 		IF tfe = {
 			# TFE uses language_greek instead of language_ancient_greek.
 			language = language_greek
-		} 
+		}
 		ELSE_IF wtwsms = {
 			# WtWSMS doesn't use language_ancient_greek.
 			language = language_greek
@@ -168,7 +168,7 @@ neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture sho
 			language = language_ancient_greek
 		}
 	}
-	
+
 	ethos = ethos_bureaucratic
 	head_determination = head_determination_domain
 	house_coa_frame = house_frame_02
@@ -184,7 +184,7 @@ neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture sho
 		tradition_seafaring
 		tradition_artisans # Would become known for different goods due to control of surrounding territories of middle east and asia outside of greece
 	}
-	
+
 	dlc_tradition = {
 		trait = tradition_fp3_beacon_of_learning # One of the first cultures to be well known for philosophy, math, etc.
 		requires_dlc_flag = legacy_of_persia
@@ -209,7 +209,7 @@ neo_minoan = { # Other names can be neo_mycanaean or posiedian. This culture sho
 
 cretan = {
     INVALIDATED_BY = {
-		vanilla_ck3 = { cretan }  # In vanilla CK3 the cretan culture is a divergence from Greek, done through a decision 
+		vanilla_ck3 = { cretan }  # In vanilla CK3 the cretan culture is a divergence from Greek, done through a decision
 	}
 
 	color = { 0.67 0.8 0.8 }
@@ -265,7 +265,7 @@ cretan = {
 
 minoan = { # The ancient Minoan culture from the Bronze Age
 	color = hsv { 0.15 0.15 0.05 }
-	
+
 	# TFE uses its own hellenistic heritage in place of the byzantine heritage
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -310,7 +310,7 @@ minoan = { # The ancient Minoan culture from the Bronze Age
 
 cycladic = { # The ancient Pre-Greek culture of the Cyclades from the Bronze Age, dominated the Aegean before the Minoans
 	color = rgb { 102 102 102 }
-	
+
 	# TFE uses its own hellenistic heritage in place of the byzantine heritage
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -356,7 +356,7 @@ cycladic = { # The ancient Pre-Greek culture of the Cyclades from the Bronze Age
 
 pelasgian = { # The ancient pre-Greek people of mainland Greece from the Bronze Age
 	color = hsv { 0.1 0.7 0.8 }
-	
+
 	# TFE uses its own hellenistic heritage in place of the byzantine heritage
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -463,7 +463,7 @@ nuragic = {
 		tfe = { nuragic }
 		vanilla_ck3 = { nuragic }
 	}
-    
+
 	color = hsv { 0.2 0.25 0.5 }
 
 	heritage = heritage_nuragic
@@ -503,7 +503,7 @@ luwian = { # https://en.wikipedia.org/wiki/Luwians
 		tfe = { luwian }
 		vanilla_ck3 = { luwian }
 	}
-    
+
 	color = hsv { 0.32 0.45 0.9 }
 
 	heritage = heritage_anatolian
@@ -551,7 +551,7 @@ cilician = { # https://en.wikipedia.org/wiki/History_of_Cilicia
 		tfe = { cilician }
 		vanilla_ck3 = { cilician }
 	}
-    
+
 	color = { 0.61 0.82 0.72 }
 
 	heritage = heritage_anatolian
@@ -760,14 +760,14 @@ trojan = {  # Override of vanilla culture
 		tradition_astute_diplomats
 		tradition_maritime_mercantilism
 	}
-	
+
 	name_list = name_list_luwian
-	
+
 	coa_gfx = { byzantine_group_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
-	
+
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
@@ -778,7 +778,7 @@ phrygian = {
 		tfe = { phrygian }
 		vanilla_ck3 = { phrygian }
 	}
-    
+
 	color = rgb { 246 223 15 }
 
 	heritage = heritage_anatolian
@@ -817,7 +817,7 @@ nabatean = { # https://en.wikipedia.org/wiki/Nabataeans
 		tfe = { nabatean }
 		vanilla_ck3 = { nabatean }
 	}
-    
+
 	color = rgb { 14  20  31 }
 
 	ethos = ethos_stoic # "Described as fiercely independent by contemporary Greco-Roman accounts"
@@ -965,7 +965,7 @@ dalmatian = {
 		tfe = { dalmatian illyrian } # TFE illyrian represents the same thing.
 		vanilla_ck3 = { dalmatian }
 	}
-    
+
 	color = rgb { 246 223 15 }
 
 	heritage = heritage_albanian
@@ -1000,7 +1000,7 @@ messapic = {
 		tfe = { messapic }
 		vanilla_ck3 = { messapic }
 	}
-    
+
 	heritage = heritage_albanian
 	language = language_messapic
 	martial_custom = martial_custom_male_only
@@ -1036,7 +1036,7 @@ ancient_egyptian = {  # fallback in case some mod removes vanilla ancient_egypti
 		roa = { ancient_egyptian }
 		vanilla_ck3 = { ancient_egyptian kemetic }
 	}
-    
+
 	color = hsv { 0.15  1  0.7 }
 
 	name_list = name_list_ancient_egyptian
@@ -1067,7 +1067,7 @@ ancient_egyptian = {  # fallback in case some mod removes vanilla ancient_egypti
 }
 
 per_sheklesh = {  # Egyptian Italy from BA to I:R
-    
+
 	color = rgb { 153 163 0 }
 	parents = { ancient_egyptian }
 	created = 2.1.1
@@ -1106,7 +1106,7 @@ per_sheklesh = {  # Egyptian Italy from BA to I:R
 }
 
 niwt_ipt = {  # Egyptian Carthage from BA to I:R
-    
+
 	color = rgb { 199 176 102 }
 	parents = { ancient_egyptian }
 	created = 2.1.1
@@ -1149,7 +1149,7 @@ numidian = {
 		tfe = { numidian }
 		vanilla_ck3 = { numidian }
 	}
-    
+
 	color = hsv { 0.05  0.5  0.4 }
 
 	name_list = name_list_numidian
@@ -1191,7 +1191,7 @@ brythonic = {
 		tfe = { brythonic }
 		vanilla_ck3 = { brythonic }
 	}
-    
+
 	color = hsv { 0.57 0.7 0.4 }
 
 	heritage=heritage_brythonic
@@ -1207,7 +1207,7 @@ brythonic = {
 		tradition_horse_breeder
 	}
 	martial_custom = martial_custom_equal
-	
+
 	coa_gfx = { breton_coa_gfx western_coa_gfx }
 	building_gfx = { western_building_gfx }
 	clothing_gfx = { western_clothing_gfx }
@@ -1225,12 +1225,12 @@ brythonic = {
 
 arakanese = {  # https://en.wikipedia.org/wiki/Rakhine_people
 	# based on Burmese
-	
+
     INVALIDATED_BY = {
 		tfe = { arakanese }
 		vanilla_ck3 = { arakanese }
 	}
-    
+
 	color = arakanese
 
 	ethos = ethos_spiritual
@@ -1267,7 +1267,7 @@ hellenic_greek = { # Now used to represent non-Romanized Greeks
 		wtwsms = { hellenic_greek }
 		vanilla_ck3 = { hellenic_greek }
 	}
-    
+
 	color = { 0.58 0.74 0.95 }
 
 	ethos = ethos_bureaucratic
@@ -1290,15 +1290,15 @@ hellenic_greek = { # Now used to represent non-Romanized Greeks
 		tradition_legalistic
 		tradition_astute_diplomats
 	}
-	
+
 	name_list = name_list_ancient_greek
 	name_list = name_list_trojan # seems wrong but is localized as "Ancient Greek"
-	
+
 	coa_gfx = { byzantine_group_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
-	
+
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
@@ -1314,7 +1314,7 @@ greek = { # Overwriting the vanilla greek definition to make it better represent
 	created = 2.1.1
 
 	color = greek
-	
+
 	ethos = ethos_bureaucratic
 	head_determination = head_determination_domain
 	# TFE uses its own hellenistic heritage in place of the byzantine heritage
@@ -1330,7 +1330,7 @@ greek = { # Overwriting the vanilla greek definition to make it better represent
 	house_coa_frame = house_frame_02
 	house_coa_mask_offset = { 0.0 0.055 }
 	house_coa_mask_scale = { 0.9 0.9 }
-	
+
 	dlc_tradition = {
 		trait = tradition_ep3_imperial_tagmata
 		requires_dlc_flag = roads_to_power
@@ -1356,14 +1356,14 @@ greek = { # Overwriting the vanilla greek definition to make it better represent
 		requires_dlc_flag = roads_to_power
 		fallback = tradition_religious_patronage
 	}
-	
+
 	name_list = name_list_greek
-	
+
 	coa_gfx = { byzantine_group_coa_gfx }
 	building_gfx = { byzantine_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
-	
+
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
@@ -1374,7 +1374,7 @@ macedonian = {
     INVALIDATED_BY = {
 		tfe = { macedonian }
 	}
-    
+
 	color = { 0.7 0.6 0.95 }
 
 	ethos = ethos_bellicose
@@ -1403,14 +1403,14 @@ macedonian = {
 		tradition_legalistic
 		tradition_astute_diplomats
 	}
-	
+
 	name_list = name_list_trojan # seems wrong but is localized as "Ancient Greek"
-	
+
 	coa_gfx = { byzantine_group_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
-	
+
 	ethnicities = {
 		10 = mediterranean_byzantine
 	}
@@ -1421,7 +1421,7 @@ hellenistic = {
 		tfe = { hellenistic }
 		vanilla_ck3 = { hellenistic }
 	}
-    
+
 	color = hsv { 0.65 0.7 0.8 }
 
 	# TFE uses its own hellenistic heritage in place of the byzantine heritage
@@ -1478,7 +1478,7 @@ indogreek = {
 		tfe = { indogreek }
 		vanilla_ck3 = { indogreek }
 	}
-    
+
 	color = hsv { 0.12 0.7 0.7 }
 	# TFE uses its own hellenistic heritage in place of the byzantine heritage
 	MOD_DEPENDENT = {
@@ -1521,7 +1521,7 @@ italiote = {
 		tfe = { italiote }
 		vanilla_ck3 = { italiote }
 	}
-    
+
 	parents = { hellenic_greek }
 	created = 2.1.1
 	# TFE uses its own hellenistic heritage in place of the byzantine heritage
@@ -1562,7 +1562,7 @@ syro_hellenic = {
 		wtwsms = { syro_hellenic }
 		vanilla_ck3 = { syro_hellenic }
 	}
-    
+
 	parents = { macedonian assyrian }
 	created = 2.1.1
 	# TFE uses its own hellenistic heritage in place of the byzantine heritage
@@ -1612,7 +1612,7 @@ pemis = {
 		tfe = { pemis }
 		vanilla_ck3 = { pemis }
 	}
-    
+
 	color = { 89 73 47 }
 	parents = { german czech }
 	created = 20.1.1
@@ -1651,7 +1651,7 @@ aramaic = {
 		tfe = { aramaic }
 		vanilla_ck3 = { aramaic }
 	}
-    
+
 	color = { 0.05 1.0 0.5 }
 
 	heritage = heritage_syriac
@@ -1690,7 +1690,7 @@ babylonian = {
 		tfe = { babylonian }
 		vanilla_ck3 = { babylonian }
 	}
-    
+
 	color = hsv { 0.7 0.15 0.77 }
 
 	heritage = heritage_syriac
@@ -1732,8 +1732,8 @@ babylonian = {
 	unit_gfx = { mena_unit_gfx }
 }
 
-sumerian = { 
-    
+sumerian = {
+
 	color = rgb { 45 13 0 }
 
 	heritage = heritage_syriac
@@ -1743,7 +1743,7 @@ sumerian = {
 	house_coa_frame = house_frame_15
 	house_coa_mask_offset = { 0.0 -0.03 }
 	house_coa_mask_scale = { 0.95 0.95 }
-	traditions = { 
+	traditions = {
 		tradition_parochialism
 		tradition_eye_for_an_eye
 		tradition_storytellers
@@ -1767,7 +1767,7 @@ sumerian = {
 }
 
 eblaite = { #Ancient Bronze Age people of modern-day Syria, either East Semetic or an early off-shoot half-way between East and West Semetic families
-    
+
 	color = rgb { 12 77 199 }
 
 	heritage = heritage_syriac
@@ -1805,7 +1805,7 @@ bazramani = {
 		tfe = { bazramani }
 		vanilla_ck3 = { bazramani }
 	}
-    
+
 	color = { 0.4 0.6 0.0 }
 
 	parents = { roman persian }
@@ -1843,7 +1843,7 @@ judajca = {
 		tfe = { judajca }
 		vanilla_ck3 = { judajca }
 	}
-    
+
 	color = { 0.0 0.3 0.6 }
 
 	parents = { roman hebrew }
@@ -1881,7 +1881,7 @@ vandilian = { # https://en.wikipedia.org/wiki/East_Germanic_peoples
 		tfe = { vandilian }
 		vanilla_ck3 = { vandilian }
 	}
-    
+
 	color = rgb { 215 246 166 }
 	heritage = heritage_east_germanic
 	language = language_gothic
@@ -1913,7 +1913,7 @@ gothic = { # https://en.wikipedia.org/wiki/Goths
 		tfe = { gothic }
 		vanilla_ck3 = { }
 	}
-    
+
 	color = irtock3_gothic
 	heritage = heritage_east_germanic
 	language = language_gothic
@@ -1985,7 +1985,7 @@ ostrogothic = { # https://en.wikipedia.org/wiki/Ostrogoths
 		tfe = { ostrogothic }
 		vanilla_ck3 = { ostrogothic }
 	}
-    
+
 	color = rgb { 114 162 166 }
 	parents = { gothic }
 	created = 20.1.1
@@ -2020,7 +2020,7 @@ gepid = { # https://en.wikipedia.org/wiki/Gepids
 		tfe = { gepid }
 		vanilla_ck3 = { gepid }
 	}
-    
+
 	color = rgb { 91 66 30 }
 	heritage = heritage_east_germanic
 	language = language_gothic
@@ -2053,7 +2053,7 @@ vandal = { # https://en.wikipedia.org/wiki/Vandals
 		tfe = { vandal }
 		vanilla_ck3 = { vandal }
 	}
-    
+
 	heritage = heritage_east_germanic
 	language = language_gothic
 	head_determination = head_determination_domain
@@ -2089,7 +2089,7 @@ urslavic = {
 		tfe = { urslavic }
 		vanilla_ck3 = { urslavic }
 	}
-    
+
 	color = { 0.2 0.1 0.4 }
 	heritage = heritage_east_slavic
 	language = language_east_slavic
@@ -2123,7 +2123,7 @@ celtic_pannonian = {
 		tfe = { celtic_pannonian }
 		vanilla_ck3 = { celtic_pannonian }
 	}
-    
+
 	color = hsv { 0.25 0.85 0.25 }
 
 	heritage = heritage_gaulish
@@ -2160,7 +2160,7 @@ celtiberian = {
 		tfe = { celtiberian }
 		vanilla_ck3 = { celtiberian }
 	}
-    
+
 	color = hsv { 0.2 0.8 0.6 }
 
 	heritage = heritage_iberian_celtic
@@ -2197,7 +2197,7 @@ belgae = {
 		tfe = { belgae }
 		vanilla_ck3 = { belgae }
 	}
-    
+
 	color = hsv { 0.45 0.8 0.45 }
 	parents = { german gallic }
 	created = 2.1.1
@@ -2236,7 +2236,7 @@ gallic = {
 		tfe = { gallic gaul }
 		vanilla_ck3 = { gallic gaul }
 	}
-    
+
 	color = hsv { 0.3 0.7 0.4 }
 
 	heritage = heritage_gaulish
@@ -2273,7 +2273,7 @@ lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
 		tfe = { lusoiberian }
 		vanilla_ck3 = { lusoiberian }
 	}
-    
+
 	color = hsv { 0.6 0.8 0.2 }
 	parents = { celtiberian non_indo_european_iberian }
 	created = 2.1.1
@@ -2312,7 +2312,7 @@ galatian = {
 		tfe = { galatian }
 		vanilla_ck3 = { galatian }
 	}
-    
+
 	color = rgb { 159 255 135 }
 
 	parents = { gallic }
@@ -2354,7 +2354,7 @@ neo_mitanni = { # IRToCK3: a culture for Invictus revival meme Neo-Mitanni cultu
 		tfe = { neo_mitanni }
 		vanilla_ck3 = { neo_mitanni }
 	}
-    
+
 	# Everything apart from color copied from vanilla CK3 Sindhi culture,
 	# which is probably the westernmost Indo-Aryan culture in the game.
 	color = { 0.22 0.15 0.05 }
@@ -2388,7 +2388,7 @@ bactrian = {
 		tfe = { bactrian }
 		vanilla_ck3 = { bactrian }
 	}
-    
+
 	color = hsv { 0.03 0.7 0.7 }
 
 	name_list = name_list_bactrian
@@ -2451,7 +2451,7 @@ scythian = {
 		tfe = { scythian }
 		vanilla_ck3 = { scythian }
 	}
-    
+
 	color = hsv { 0.2 0.5 0.8 }
 
 	name_list = name_list_scythian
@@ -2490,7 +2490,7 @@ sarmatian = {
 		tfe = { sarmatian }
 		vanilla_ck3 = { sarmatian }
 	}
-    
+
 	color = rgb { 222 124 28 }
 
 	name_list = name_list_sarmatian
@@ -2530,7 +2530,7 @@ parthian = {
 		tfe = { parthian }
 		vanilla_ck3 = { parthian }
 	}
-    
+
 	color = hsv { 0.52 0.77 0.72 }
 
 	name_list = name_list_parthian
@@ -2580,7 +2580,7 @@ elamite = { # https://en.wikipedia.org/wiki/Elam
 		wtwsms = { elamite }
 		vanilla_ck3 = { elamite }
 	}
-    
+
 	color = elamite
 
 	ethos = ethos_stoic
@@ -2620,7 +2620,7 @@ alan = { # override of vanilla culture
 	# created = 100.1.1 # IRToCK3: disabled the creation date
 
 	# history_loc_override = scythian_heritage_loc # IRToCK3: disabled the creation date
-	
+
 	ethos = ethos_communal
 	heritage = heritage_iranian
 	language = language_scythian
@@ -2635,14 +2635,14 @@ alan = { # override of vanilla culture
 		tradition_steppe_tolerance
 		tradition_wedding_ceremonies
 	}
-	
+
 	name_list = name_list_alan
-	
+
 	coa_gfx = { oghuz_coa_gfx turkic_group_coa_gfx steppe_coa_gfx }
 	building_gfx = { mediterranean_building_gfx }
 	clothing_gfx = { iranian_clothing_gfx mena_clothing_gfx }
 	unit_gfx = { iranian_unit_gfx }
-	
+
 	ethnicities = {
 		4 = mediterranean_byzantine
 		7 = mediterranean
@@ -2655,7 +2655,7 @@ hebrew = { # https://en.wikipedia.org/wiki/Hebrews
 		tfe = { hebrew }
 		vanilla_ck3 = { hebrew }
 	}
-    
+
 	color = rgb { 99 193 217 }
 
 	name_list = name_list_hebrew
@@ -2690,7 +2690,7 @@ shuadit = { # https://en.wikipedia.org/wiki/Shuadit
 		tfe = { shuadit }
 		vanilla_ck3 = { shuadit }
 	}
-    
+
 	color = { 0.2 0.2 0.7 }
 	parents = { hebrew occitan }
 	created = 20.1.1
@@ -2727,7 +2727,7 @@ zarphatic = { # https://en.wikipedia.org/wiki/Zarphatic_language
 		tfe = { zarphatic }
 		vanilla_ck3 = { zarphatic }
 	}
-    
+
 	color = { 0.7 0.2 0.2 }
 	parents = { hebrew french }
 	created = 20.1.1
@@ -2765,7 +2765,7 @@ oscan = { # This culture is now meant to represent the ancient Umbrii peoples, b
 		tfe = { oscan }
 		vanilla_ck3 = { oscan }
 	}
-    
+
 	color = { 117 131 50 }
 	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
 		IF @[tfe|roa] = {
@@ -2802,7 +2802,7 @@ oscan = { # This culture is now meant to represent the ancient Umbrii peoples, b
 	}
 	traditions = {
 		tradition_only_the_strong
-		tradition_hill_dwellers # They were centered around a very hilly/mountainous area 
+		tradition_hill_dwellers # They were centered around a very hilly/mountainous area
 	}
 }
 
@@ -2811,7 +2811,7 @@ samnite = {
 		tfe = { samnite }
 		vanilla_ck3 = { samnite }
 	}
-    
+
 	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
 		IF @[tfe|roa] = {
 			heritage = heritage_italic
@@ -2857,7 +2857,7 @@ venetic = { # https://en.wikipedia.org/wiki/Adriatic_Veneti
 		tfe = { venetic }
 		vanilla_ck3 = { venetic }
 	}
-    
+
 	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
 		IF @[tfe|roa|wtwsms] = {
 			heritage = heritage_venetic
@@ -2908,7 +2908,7 @@ ligustic = {
 		tfe = { ligustic }
 		vanilla_ck3 = { ligustic }
 	}
-    
+
 	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
 		IF @[tfe|roa] = {
 			heritage = heritage_italic
@@ -2954,7 +2954,7 @@ sardonian = {
 		tfe = { sardonian }
 		vanilla_ck3 = { sardonian }
 	}
-    
+
 	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
 		IF @[tfe|roa] = {
 			heritage = heritage_italic
@@ -3000,7 +3000,7 @@ siculian = {
 		tfe = { siculian }
 		vanilla_ck3 = { siculian }
 	}
-    
+
 	MOD_DEPENDENT = { # WtWSMS has its own heritage_italian, but for the other mods that use CCU, give this culture its own heritage
 		IF @[tfe|roa] = {
 			heritage = heritage_italic
@@ -3047,9 +3047,9 @@ roman = {
 		tfe = { roman } # Don't overwrite the TFE Roman culture.
 		wtwsms = { roman }  # Don't overwrite the WtWSMS Roman culture.
 	}
-	
+
 	color = { 0.8 0.1 0.1 }
-	
+
 	ethos = ethos_bellicose
 	heritage = heritage_latin
 	language = language_latin
@@ -3081,7 +3081,7 @@ roman = {
 		requires_dlc_flag = roads_to_power
 		fallback = tradition_legalistic
 	}
-	
+
 	name_list = name_list_roman
 
 	MOD_DEPENDENT = {
@@ -3092,10 +3092,10 @@ roman = {
 			coa_gfx = { latin_group_coa_gfx western_coa_gfx }
 		}
 	}
-	building_gfx = { mediterranean_building_gfx } 
-	clothing_gfx = { byzantine_clothing_gfx } 
-	clothing_gfx = { western_clothing_gfx } 
-	unit_gfx = { eastern_unit_gfx } 		
+	building_gfx = { mediterranean_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }
+	clothing_gfx = { western_clothing_gfx }
+	unit_gfx = { eastern_unit_gfx }
 
 	ethnicities = {
 		10 = mediterranean
@@ -3107,7 +3107,7 @@ hunnic = { # Should now replace base game Hunnic
 		tfe = { hunnic hun }
 		vanilla_ck3 = { hun }
 	}
-    
+
 	color = { 254 204 50 }
 
 	heritage = heritage_hunnic
@@ -3148,7 +3148,7 @@ varangian = {
 		tfe = { varangian }
 		vanilla_ck3 = { varangian }
 	}
-    
+
 	color = { 0.3 0.55 0.8 }
 
 	parents = { norse }
@@ -3185,7 +3185,7 @@ mikligardrish = {
 		tfe = { mikligardrish }
 		vanilla_ck3 = { mikligardrish }
 	}
-    
+
 	heritage = heritage_north_germanic
 	language = language_norse
 	parents = { norse hellenic_greek }
@@ -3219,11 +3219,11 @@ mikligardrish = {
 
 palaungic = {  # from AsiaExtended mod https://steamcommunity.com/sharedfiles/filedetails/?id=2706635752 as of 2022-12-29
     INVALIDATED_BY = {
-    	roa = { palaung } 
+    	roa = { palaung }
 		tfe = { palaungic }
 		vanilla_ck3 = { palaungic }
 	}
-    
+
 	# https://en.wikipedia.org/wiki/Palaung_people
 	color = rgb { 217 189 104 }
 
@@ -3258,7 +3258,7 @@ carthaginian = {
 		tfe = { carthaginian punic }
 		vanilla_ck3 = { carthaginian punic }
 	}
-    
+
 	color = rgb { 74 174 85 }
 	parents = { phoenician }
 	created = 2.1.1
@@ -3294,7 +3294,7 @@ phoenician = {
 		tfe = { phoenician }
 		vanilla_ck3 = { phoenician }
 	}
-    
+
 	color = hsv { 0.75 0.9 0.73	}
 
 	heritage = heritage_punic
@@ -3328,7 +3328,7 @@ alasiyan = { #Ancient pre-Cypriot people of Cyprus
 		tfe = { alasiyan }
 		vanilla_ck3 = { alasiyan }
 	}
-    
+
 	color = rgb { 201 110 0	}
 
 	heritage = heritage_punic
@@ -3362,7 +3362,7 @@ ugaritic = {
 		tfe = { ugaritic }
 		vanilla_ck3 = { ugaritic }
 	}
-    
+
 	color = rgb { 130 143 120 }
 
 	heritage = heritage_punic
@@ -3398,7 +3398,7 @@ breathanach = {
 		tfe = { breathanach }
 		vanilla_ck3 = { breathanach }
 	}
-    
+
 	color = rgb { 127 143 104 }
 	parents = { roman irish }
 	created = 20.1.1
@@ -3443,7 +3443,7 @@ transadrianic = {
 		tfe = { transadrianic }
 		vanilla_ck3 = { transadrianic }
 	}
-    
+
 	color = rgb { 127 143 104 }
 	parents = { roman pictish }
 	created = 20.1.1
@@ -3488,7 +3488,7 @@ brythenig = {
 		tfe = { brythenig }
 		vanilla_ck3 = { brythenig }
 	}
-    
+
 	color = rgb { 127 143 104 }
 	parents = { roman brythonic }
 	created = 20.1.1
@@ -3533,7 +3533,7 @@ laessin = {
 		tfe = { laessin }
 		vanilla_ck3 = { laessin }
 	}
-    
+
 	color = rgb { 166 160 148 }
 	parents = { roman german }
 	created = 20.1.1
@@ -3578,7 +3578,7 @@ wenedyk = {
 		tfe = { wenedyk }
 		vanilla_ck3 = { wenedyk }
 	}
-    
+
 	color = rgb { 179 101 78 }
 	parents = { roman urslavic }
 	created = 20.1.1
@@ -3623,7 +3623,7 @@ shan = {  # https://en.wikipedia.org/wiki/Shan_people
 		tfe = { shan }
 		vanilla_ck3 = { shan }
 	}
-    
+
 	color = shan
 
 	ethos = ethos_courtly  # from Tai culture in AsiaExtended mod
@@ -3661,7 +3661,7 @@ thracian = {
 		wtwsms = { thracian }
 		vanilla_ck3 = { thracian }
 	}
-    
+
 	color = rgb { 5 162 25 }
 
 	heritage = heritage_thracian
@@ -3696,7 +3696,7 @@ dacian = {
 		wtwsms = { dacian }
 		vanilla_ck3 = { dacian }
 	}
-    
+
 	color = hsv { 0.0 0.5 1.0 }
 
 	heritage = heritage_thracian
@@ -3730,7 +3730,7 @@ getian = {
 		tfe = { getian }
 		vanilla_ck3 = { getian }
 	}
-    
+
 	color = rgb { 112 190 71 }
 	parents = { thracian }
 	created = 2.1.1
@@ -3766,7 +3766,7 @@ etruscan = {
 		tfe = { etruscan }
 		vanilla_ck3 = { etruscan }
 	}
-    
+
 	color = rgb { 48 30 180 }
 
 	heritage = heritage_tyrrhenian
@@ -3807,7 +3807,7 @@ rhaetian = {
 		tfe = { rhaetian }
 		vanilla_ck3 = { rhaetian }
 	}
-    
+
 	color = rgb { 175 178 102 }
 	# Hybrid with Latin: Rhaeto-Romansch
 
@@ -3849,7 +3849,7 @@ lemnian = {
 		tfe = { lemnian }
 		vanilla_ck3 = { lemnian }
 	}
-    
+
 	color = rgb { 148 26 254 }
 	parents = { etruscan hellenic_greek }
 	created = 20.1.1
@@ -3892,7 +3892,7 @@ angle = { # https://en.wikipedia.org/wiki/Angles
 		tfe = { angle }
 		vanilla_ck3 = { angle }
 	}
-    
+
 	color = rgb { 142 66 30 }
 
 	ethos = ethos_bellicose
@@ -3933,7 +3933,7 @@ iweric = {
 		tfe = { iweric }
 		vanilla_ck3 = { iweric }
 	}
-    
+
 	parents = { old_saxon irish }
 	created = 20.1.1
 	heritage = heritage_west_germanic
@@ -4036,8 +4036,8 @@ chong = {  # integrated from Rajas of Asia
 	}
 }
 
-hurrian_culture = { 
-    
+hurrian_culture = {
+
 	color = rgb { 89 92 209 }
 
 	heritage = heritage_syriac
@@ -4047,7 +4047,7 @@ hurrian_culture = {
 	house_coa_frame = house_frame_15
 	house_coa_mask_offset = { 0.0 -0.03 }
 	house_coa_mask_scale = { 0.95 0.95 }
-	traditions = { 
+	traditions = {
 		tradition_storytellers
 		tradition_metal_craftsmanship
 	}
@@ -4076,7 +4076,7 @@ hurrian_culture = {
 }
 
 gutian = { #Ancient barbarians of unknown origin who conquered Mesopotamia after the fall of Akkad, reviled by their subjects
-    
+
 	color = hsv { 0.97 0.93 0.55 }
 
 	heritage = heritage_syriac
@@ -4086,7 +4086,7 @@ gutian = { #Ancient barbarians of unknown origin who conquered Mesopotamia after
 	house_coa_frame = house_frame_15
 	house_coa_mask_offset = { 0.0 -0.03 }
 	house_coa_mask_scale = { 0.95 0.95 }
-	traditions = { 
+	traditions = {
 		tradition_quarrelsome
 		tradition_hill_dwellers
 		tradition_warrior_culture
@@ -4109,7 +4109,7 @@ gutian = { #Ancient barbarians of unknown origin who conquered Mesopotamia after
 }
 
 hatti = { #Pre-Hittite people of central Anatolia
-    
+
 	color = rgb { 200 200 200 }
 
 	heritage = heritage_anatolian
@@ -4119,7 +4119,7 @@ hatti = { #Pre-Hittite people of central Anatolia
 	house_coa_frame = house_frame_02
 	house_coa_mask_offset = { 0.0 0.055 }
 	house_coa_mask_scale = { 0.9 0.9 }
-	traditions = { 
+	traditions = {
 		tradition_artisans
 		tradition_storytellers
 		tradition_city_keepers
@@ -4147,7 +4147,7 @@ basque = {
 		wtwsms = { basque } # WtWSMS makes its own changes that should be kept
 	}
 	color = basque
-	
+
 	ethos = ethos_egalitarian
 	heritage = heritage_iberian
 	language = language_basque
@@ -4163,14 +4163,14 @@ basque = {
 		trait = tradition_fp2_ritualised_friendship
 		requires_dlc_flag = the_fate_of_iberia
 	}
-	
+
 	name_list = name_list_basque
-	
+
 	coa_gfx = { iberian_group_coa_gfx western_coa_gfx }
 	building_gfx = { iberian_building_gfx }
 	clothing_gfx = { iberian_christian_clothing_gfx western_clothing_gfx }
 	unit_gfx = { iberian_christian_unit_gfx }
-	
+
 	ethnicities = {
 		10 = mediterranean
 	}
@@ -4251,7 +4251,7 @@ old_bashu = {
 
 	traditions = {
 		tradition_culinary_art
-		tradition_metal_craftsmanship 
+		tradition_metal_craftsmanship
 		tradition_music_theory
 		tradition_swords_for_hire
 	}
@@ -4304,7 +4304,7 @@ old_bashu = {
 			clothing_gfx = { chinese_clothing_gfx }
 			unit_gfx = { chinese_unit_gfx }
 		}
-	} 
+	}
 }
 
 # Base game has them as Tai, but it seems that's not the best match, so setting them to Lolo to match Bashu, since they are theoretically related
@@ -4350,7 +4350,7 @@ bai = {
 		wtwsms = { bai }
 		roa = { bai }
 	}
-	
+
 	color = { 0.9 0.4 0.1 }
 
 	name_order_convention = dynasty_always_first
@@ -4365,7 +4365,7 @@ bai = {
 		tradition_xenophilic
 		tradition_ruling_caste
 	}
-	
+
 	dlc_tradition = {
 		trait = tradition_tgp_hydraulic_builders
 		requires_dlc_flag = all_under_heaven
@@ -4396,7 +4396,7 @@ baiyue = {
 
 	heritage = heritage_baiyue
 	language = language_baiyue
-	
+
 	ethos = ethos_communal
 	head_determination = head_determination_domain
 	martial_custom = martial_custom_equal
@@ -4413,7 +4413,7 @@ baiyue = {
 		fallback = tradition_agrarian
 	}
 
-	# Adding both Vietic and Chinese names to represent the somewhat mixed influence, but 
+	# Adding both Vietic and Chinese names to represent the somewhat mixed influence, but
 	name_list = name_list_vietnamese
 	name_list = name_list_han
 
@@ -4541,7 +4541,7 @@ dongyi = {
 			clothing_gfx = { chinese_clothing_gfx }
 			unit_gfx = { chinese_unit_gfx }
 		}
-	} 
+	}
 }
 
 # Base game has them as Chinese, but Lolo would be a better fit

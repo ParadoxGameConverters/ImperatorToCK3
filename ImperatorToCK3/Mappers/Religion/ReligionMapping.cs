@@ -6,6 +6,7 @@ namespace ImperatorToCK3.Mappers.Religion;
 
 internal sealed class ReligionMapping {
 	private readonly SortedSet<string> irReligionIds = [];
+	public IReadOnlySet<string> IrReligionIds => irReligionIds;
 	public string? CK3FaithId { get; private set; }
 	private readonly SortedSet<string> ck3CultureIds = [];
 
@@ -21,7 +22,7 @@ internal sealed class ReligionMapping {
 
 	private bool? heresiesInHistoricalAreas;
 
-	private static readonly Parser parser = new();
+	private static readonly Parser parser = new(implicitVariableHandling: false);
 	private static ReligionMapping mappingToReturn = new();
 	static ReligionMapping() {
 		parser.RegisterKeyword("ck3", reader => mappingToReturn.CK3FaithId = reader.GetString());

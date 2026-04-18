@@ -39,12 +39,12 @@
         <PackageReference Include="DotLiquid" Version="2.3.197" />
         <PackageReference Include="FSharp.Core" Version="11.0.100" /> <!-- Needed for CWTools -->
         <PackageReference Include="MurmurHash.Net" Version="0.0.2" />
-        <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.10.4" />
-        <PackageReference Include="Meziantou.Analyzer" Version="3.0.23">
+        <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.12.0" />
+        <PackageReference Include="Meziantou.Analyzer" Version="3.0.49">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="PGCG.commonItems" Version="21.0.2" />
+        <PackageReference Include="PGCG.commonItems" Version="22.0.0" />
         <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.9" />
         <PackageReference Include="Polly" Version="8.6.6" />
         <PackageReference Include="Roslynator.Analyzers" Version="4.15.0">
@@ -52,7 +52,7 @@
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
-        <PackageReference Include="ZLinq" Version="1.5.5" />
+        <PackageReference Include="ZLinq" Version="1.5.6" />
     </ItemGroup>
 
     <ItemGroup>
@@ -114,6 +114,7 @@
 
     <ItemGroup>
         <InternalsVisibleTo Include="ImperatorToCK3.UnitTests" />
+        <InternalsVisibleTo Include="ImperatorToCK3.Benchmarks" />
     </ItemGroup>
 
     <ItemGroup>

@@ -4,6 +4,7 @@ using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Jobs;
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace ImperatorToCK3.Imperator.Characters;
 
 internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, Character> {
 	public void LoadCharactersFromBloc(BufferedReader reader) {
-		var blocParser = new Parser();
+		var blocParser = new Parser(implicitVariableHandling: false);
 		blocParser.RegisterKeyword("character_database", LoadCharacters);
 		blocParser.IgnoreAndLogUnregisteredItems();
 		blocParser.ParseStream(reader);
@@ -27,7 +28,7 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 		var channelReader = channel.Reader;
 		
 		var producerTask = Task.Run(() => {
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: false);
 			parser.RegisterRegex(CommonRegexes.Integer, (reader, charIdStr) => {
 				if (!channelWriter.TryWrite(new(charIdStr, reader.GetStringOfItem()))) {
 					Logger.Warn($"Failed to enqueue character {charIdStr} for processing.");
@@ -38,8 +39,9 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 			channelWriter.Complete();
 		});
 		
-		var consumerTasks = new List<Task>();
-		for (var i = 0; i < 10; ++i) {
+		int consumerCount = Math.Max(2, Environment.ProcessorCount);
+		var consumerTasks = new List<Task>(consumerCount);
+		for (var i = 0; i < consumerCount; ++i) {
 			consumerTasks.Add(Task.Run(async () => {
 				await foreach (var (charIdStr, characterStringOfItem) in channelReader.ReadAllAsync()) {
 					var newCharacter = Character.Parse(new(characterStringOfItem.ToString()), charIdStr, GenesDB);

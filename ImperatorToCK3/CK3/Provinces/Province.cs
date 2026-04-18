@@ -18,18 +18,13 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 	public ulong? BaseProvinceId { get; private set; }
 
 	public ImperatorProvince? PrimaryImperatorProvince { get; set; } = null;
-	private readonly OrderedSet<ImperatorProvince> secondaryImperatorProvinces = new();
-	public IImmutableSet<ImperatorProvince> SecondaryImperatorProvinces => secondaryImperatorProvinces
-		.ToImmutableHashSet();
-	public IImmutableSet<ImperatorProvince> ImperatorProvinces {
-		get {
-			IEnumerable<ImperatorProvince> toReturn = secondaryImperatorProvinces;
-			if (PrimaryImperatorProvince is not null) {
-				toReturn = toReturn.Append(PrimaryImperatorProvince);
-			}
+	private readonly OrderedSet<ImperatorProvince> secondaryImperatorProvinces = [];
+	public IReadOnlySet<ImperatorProvince> SecondaryImperatorProvinces => secondaryImperatorProvinces;
 
-			return toReturn.ToImmutableHashSet();
-		}
+	public ImmutableHashSet<ImperatorProvince> ImperatorProvinces {
+		get => field ??= (PrimaryImperatorProvince is null
+			? [.. secondaryImperatorProvinces]
+			: [PrimaryImperatorProvince, .. secondaryImperatorProvinces]);
 	}
 
 	public Province(ulong id) {
@@ -63,7 +58,7 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 
 	public void InitializeFromImperator(
 		ImperatorProvince primarySourceProvince,
-		ICollection<ImperatorProvince> secondarySourceProvinces,
+		OrderedSet<ImperatorProvince> secondarySourceProvinces,
 		Title.LandedTitles landedTitles,
 		CultureMapper cultureMapper,
 		ReligionMapper religionMapper,
@@ -330,9 +325,6 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 	}
 
 	public bool IsCountyCapital(Title.LandedTitles landedTitles) {
-		var capitalProvIds = landedTitles
-			.Where(t => t.CapitalBaronyProvinceId is not null)
-			.Select(t => (ulong)t.CapitalBaronyProvinceId!);
-		return capitalProvIds.Contains(Id);
+		return landedTitles.CapitalBaronyProvinceIds.Contains(Id);
 	}
 }

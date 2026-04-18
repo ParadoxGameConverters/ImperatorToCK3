@@ -61,7 +61,7 @@ internal sealed partial class Dynasty : IPDXSerializable, IIdentifiable<string> 
 		Id = dynastyId;
 		FromImperator = false;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("prefix", reader => Prefix = reader.GetString());
 		parser.RegisterKeyword("name", reader => Name = reader.GetString());
 		parser.RegisterKeyword("culture", reader => CultureId = string.Intern(reader.GetString()));

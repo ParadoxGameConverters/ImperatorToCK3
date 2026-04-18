@@ -23,16 +23,16 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 	
 		InitFaithDataParser();
 
-		var religionParser = new Parser();
+		var religionParser = new Parser(implicitVariableHandling: true);
 		religionParser.RegisterKeyword("doctrine", reader => DoctrineIds.Add(reader.GetString()));
 		religionParser.RegisterKeyword("faiths", faithsReader => {
-			var faithsParser = new Parser();
+			var faithsParser = new Parser(implicitVariableHandling: true);
 			faithsParser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => LoadFaith(faithId, faithReader));
 			faithsParser.IgnoreAndLogUnregisteredItems();
 			faithsParser.ParseStream(faithsReader);
 		});
 		religionParser.RegisterKeyword("localization", reader => {
-			var localizationParser = new Parser();
+			var localizationParser = new Parser(implicitVariableHandling: true);
 			localizationParser.RegisterRegex(CommonRegexes.Catchall, (locReader, locKey) => {
 				localization[locKey] = locReader.GetStringOfItem();
 			});
@@ -109,7 +109,7 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 		faithDataParser.RegisterKeyword("holy_site", reader => faithData.HolySiteIds.Add(reader.GetString()));
 		faithDataParser.RegisterKeyword("doctrine", reader => faithData.DoctrineIds.Add(reader.GetString()));
 		faithDataParser.RegisterKeyword("localization", reader => {
-			var localizationParser = new Parser();
+			var localizationParser = new Parser(implicitVariableHandling: true);
 			localizationParser.RegisterRegex(CommonRegexes.Catchall, (locReader, locKey) => {
 				faithData.Localization[locKey] = locReader.GetStringOfItem();
 			});
@@ -160,5 +160,5 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 
 	private readonly ColorFactory colorFactory;
 	private FaithData faithData = new();
-	private readonly Parser faithDataParser = new();
+	private readonly Parser faithDataParser = new(implicitVariableHandling: true);
 }

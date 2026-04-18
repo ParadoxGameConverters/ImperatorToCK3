@@ -5,7 +5,23 @@ namespace = welcome
 welcome.1 = {
 	type = character_event
 	title = welcome_title
-	desc = welcome_desc
+	desc = {
+		desc = welcome_desc_intro
+		desc = frontend_options_historical_heresies_{{ HeresiesInHistoricalAreas }}
+		desc = frontend_options_static_dejure_{{ StaticDeJure }}
+		desc = frontend_options_filler_dukes_{{ FillerDukes }}
+		desc = frontend_options_use_ck3_flags_{{ UseCK3Flags }}
+		desc = "- Imperator Currency Conversion Rate = {{ ImperatorCurrencyRate }}"
+		desc = line_break
+		desc = "- Imperator Civilization Conversion Rate = {{ ImperatorCivilizationWorth }}"
+		desc = line_break
+		desc = frontend_options_legion_conversion_{{ LegionConversion }}
+		desc = frontend_options_import_holding_owners_{{ SkipHoldingOwnersImport }}
+		desc = frontend_options_filler_ruler_governments_{{ FillerGovernments }}
+		desc = frontend_options_imperator_nomads_{{ ImperatorNomads }}
+		desc = frontend_options_mandala_rulers_{{ MandalaRulers }}
+		desc = frontend_options_ritsuryo_rulers_{{ RitsuryoRulers }}
+	}
 	override_background = { reference = relaxing_room }
 	theme = crown
 	right_portrait = {
@@ -45,7 +61,7 @@ welcome.2 = {
 
 	option = { # Confederations & Leagues
 		name = welcome_mods_confed_leagues
-		custom_tooltip = welcome_mods_recommend_choose_in_converter
+		custom_tooltip = welcome_mods_must_choose_in_converter
 		custom_tooltip = welcome_mods_confed_leagues_desc
 	}
 

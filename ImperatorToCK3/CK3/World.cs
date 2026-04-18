@@ -421,7 +421,7 @@ internal sealed class World {
 		// Load existing CK3 government IDs.
 		Logger.Info("Loading CK3 government IDs...");
 		var ck3GovernmentIds = new HashSet<string>();
-		var governmentsParser = new Parser();
+		var governmentsParser = new Parser(implicitVariableHandling: true);
 		governmentsParser.RegisterRegex(CommonRegexes.String, (reader, governmentId) => {
 			ck3GovernmentIds.Add(governmentId);
 			ParserHelpers.IgnoreItem(reader);
@@ -429,7 +429,7 @@ internal sealed class World {
 		governmentsParser.ParseGameFolder("common/governments", ModFS, "txt", recursive: false, logFilePaths: true);
 		Logger.IncrementProgress();
 
-		GovernmentMapper governmentMapper = new(ck3GovernmentIds);
+		GovernmentMapper governmentMapper = new([.. ck3GovernmentIds]);
 		Logger.IncrementProgress();
 		return governmentMapper;
 	}
@@ -581,7 +581,7 @@ internal sealed class World {
 		Logger.Info("Loading men-at-arms types...");
 
 		const string maaPath = "common/men_at_arms_types";
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, typeId) => {
 			MenAtArmsTypes.AddOrReplace(new MenAtArmsType(typeId, reader, scriptValues));
 		});
@@ -753,10 +753,9 @@ internal sealed class World {
 		}
 
 		var parentRegionName = imperatorRegionMapper.GetParentRegionName(irProvince.Id);
-		var matchingGovernorships = governorshipsSet
-			.Where(g => g.Country.Id == irCountry.Id && g.Region.Id == parentRegionName)
-			.ToArray();
-		if (matchingGovernorships.Length == 0) {
+		var governorship = governorshipsSet
+			.FirstOrDefault(g => g.Country.Id == irCountry.Id && g.Region.Id == parentRegionName);
+		if (governorship is null) {
 			// We have no matching governorship.
 			return false;
 		}
@@ -766,7 +765,6 @@ internal sealed class World {
 		}
 
 		// give county to governor
-		var governorship = matchingGovernorships[0];
 		var ck3GovernorshipId = tagTitleMapper.GetTitleForGovernorship(governorship, LandedTitles, irProvinces, Provinces, imperatorRegionMapper, provinceMapper);
 		if (ck3GovernorshipId is null) {
 			Logger.Warn($"{nameof(ck3GovernorshipId)} is null for {ck3Country} {governorship.Region.Id}!");
@@ -825,11 +823,12 @@ internal sealed class World {
 		Country irCountry,
 		List<KeyValuePair<Country, Dependency?>> countyLevelCountries,
 		CountryCollection irCountries) {
-		var matchingCountyLevelRulers = countyLevelCountries.Where(c => c.Key.Id == irCountry.Id).ToArray();
-		if (matchingCountyLevelRulers.Length == 0) {
+		var matchingCountyLevelRuler = countyLevelCountries
+			.FirstOrDefault(c => c.Key.Id == irCountry.Id);
+		if (matchingCountyLevelRuler.Key is null) {
 			return false;
 		}
-		var dependency = matchingCountyLevelRulers[0].Value;
+		var dependency = matchingCountyLevelRuler.Value;
 
 		// Give county to ruler.
 		var ck3Ruler = irCountry.Monarch?.CK3Character;
@@ -1201,7 +1200,7 @@ internal sealed class World {
 			// This fixes stuff like a vanilla Tang China in one county.
 			var irProvIds = county.CountyProvinceIds
 				.SelectMany(id => provinceMapper.GetImperatorProvinceNumbers(id)).ToArray();
-			if (irProvIds.Length > 0 && irProvIds.All(p => irProvinces[p].OwnerCountry is null)) {
+			if (irProvIds.Length > 0 && irProvIds.All(p => !irProvinces.TryGetValue(p, out var irProv) || irProv.OwnerCountry is null)) {
 				Logger.Debug($"Adding {county.Id} to unheld counties because all its provinces are mapped to I:R wastelands.");
 				unheldCounties.Add(county);
 				continue;

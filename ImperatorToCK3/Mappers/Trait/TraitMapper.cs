@@ -16,12 +16,12 @@ internal class TraitMapper {
 
 	public TraitMapper() { }
 	public TraitMapper(string mappingsPath, ModFilesystem ck3ModFS) {
-		var traitsParser = new Parser();
+		var traitsParser = new Parser(implicitVariableHandling: true);
 		traitsParser.RegisterRegex(CommonRegexes.String, (reader, traitId) => CK3Traits.AddOrReplace(new(traitId, reader)));
 		traitsParser.ParseGameFolder("common/traits", ck3ModFS, "txt", recursive: true);
 
 		Logger.Info("Parsing trait mappings...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseFile(mappingsPath);
 		Logger.Info($"Loaded {ImperatorToCK3TraitMap.Count} trait links.");
@@ -52,7 +52,7 @@ internal class TraitMapper {
 		Logger.Info("Detecting unmapped traits...");
 
 		var unmappedTraits = new ConcurrentSet<string>();
-		var traitsParser = new Parser();
+		var traitsParser = new Parser(implicitVariableHandling: true);
 		traitsParser.RegisterRegex(CommonRegexes.String, (reader, traitId) => {
 			if (!ImperatorToCK3TraitMap.ContainsKey(traitId) && !droppedImperatorTraits.Contains(traitId)) {
 				unmappedTraits.Add(traitId);
@@ -70,7 +70,7 @@ internal class TraitMapper {
 	public string? GetCK3TraitForImperatorTrait(string impTrait) {
 		return ImperatorToCK3TraitMap.TryGetValue(impTrait, out var ck3Trait) ? ck3Trait : null;
 	}
-	public HashSet<string> GetCK3TraitsForImperatorTraits(IEnumerable<string> irTraits) {
+	public HashSet<string> GetCK3TraitsForImperatorTraits(List<string> irTraits) {
 		HashSet<string> ck3TraitsToReturn = [];
 		foreach (var irTrait in irTraits) {
 			var ck3Trait = GetCK3TraitForImperatorTrait(irTrait);

@@ -11,7 +11,7 @@ internal sealed class MorphGeneTemplate : IIdentifiable<string> {
 	public MorphGeneTemplate(string id, BufferedReader templateReader) {
 		Id = id;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("index", reader => Index = (uint)reader.GetInt());
 		parser.RegisterKeyword("visible", reader => Visible = reader.GetBool());
 		parser.IgnoreUnregisteredItems();

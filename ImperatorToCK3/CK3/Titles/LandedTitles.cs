@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Localization;
@@ -40,13 +40,18 @@ internal sealed partial class Title {
 	// Since titles are nested according to hierarchy we do this recursively.
 	internal sealed class LandedTitles : TitleCollection {
 		public Dictionary<string, object> Variables { get; } = [];
-	
+
 		public IEnumerable<Title> Counties => this.Where(t => t.Rank == TitleRank.county);
+		public FrozenSet<ulong> CapitalBaronyProvinceIds => field ??= this
+			.Where(t => t.CapitalBaronyProvinceId.HasValue)
+			.Select(t => t.CapitalBaronyProvinceId!.Value)
+			.ToFrozenSet();
+		private Dictionary<ulong, Title>? countyByProvinceId;
 
 		public void LoadTitles(ModFilesystem ck3ModFS, CK3LocDB ck3LocDB, ColorFactory colorFactory) {
 			Logger.Info("Loading landed titles...");
 
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: false);
 			RegisterKeys(parser, colorFactory);
 			parser.ParseGameFolder("common/landed_titles", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 			LogIgnoredTokens();
@@ -139,7 +144,7 @@ internal sealed partial class Title {
 		}
 
 		public void LoadTitles(BufferedReader reader, ColorFactory colorFactory) {
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: true);
 			RegisterKeys(parser, colorFactory);
 			parser.ParseStream(reader);
 
@@ -148,7 +153,7 @@ internal sealed partial class Title {
 		public void LoadStaticTitles(ColorFactory colorFactory) {
 			Logger.Info("Loading static landed titles...");
 
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: true);
 			RegisterKeys(parser, colorFactory);
 
 			parser.ParseFile("configurables/static_landed_titles.txt");
@@ -352,12 +357,36 @@ internal sealed partial class Title {
 		}
 
 		public Title? GetCountyForProvince(ulong provinceId) {
-			foreach (var county in this.Where(title => title.Rank == TitleRank.county)) {
-				if (county.CountyProvinceIds.Contains(provinceId)) {
-					return county;
+			if (countyByProvinceId is null) {
+				countyByProvinceId = BuildCountyByProvinceLookup();
+			}
+
+			if (countyByProvinceId.TryGetValue(provinceId, out var county) && county.CountyProvinceIds.Contains(provinceId)) {
+				return county;
+			}
+
+			foreach (var title in this) {
+				if (title.Rank != TitleRank.county || !title.CountyProvinceIds.Contains(provinceId)) {
+					continue;
+				}
+				countyByProvinceId[provinceId] = title;
+				return title;
+			}
+
+			return null;
+		}
+
+		private Dictionary<ulong, Title> BuildCountyByProvinceLookup() {
+			var lookup = new Dictionary<ulong, Title>();
+			foreach (var title in this) {
+				if (title.Rank != TitleRank.county) {
+					continue;
+				}
+				foreach (var provinceId in title.CountyProvinceIds) {
+					lookup[provinceId] = title;
 				}
 			}
-			return null;
+			return lookup;
 		}
 
 		public Title? GetBaronyForProvince(ulong provinceId) {
@@ -1608,7 +1637,7 @@ internal sealed partial class Title {
 			var dictToReturn = new Dictionary<Title, List<HashSet<Title>>>();
 			
 			foreach (var empire in this.Where(t => t.Rank == TitleRank.empire)) {
-				IEnumerable<Title> deJureKingdoms = empire.GetDeJureVassalsAndBelow("k").Values;
+				Title[] deJureKingdoms = [.. empire.GetDeJureVassalsAndBelow("k").Values];
 
 				// Unassign de jure kingdoms that have no de jure land themselves.
 				var deJureKingdomsWithoutLand =
@@ -1619,7 +1648,7 @@ internal sealed partial class Title {
 
 				deJureKingdoms = deJureKingdoms.Except(deJureKingdomsWithoutLand).ToArray();
 
-				if (!deJureKingdoms.Any()) {
+				if (deJureKingdoms.Length == 0) {
 					if (removableEmpireIds.Contains(empire.Id)) {
 						Remove(empire.Id);
 					}
@@ -1641,8 +1670,8 @@ internal sealed partial class Title {
 				.ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
 		}
 
-		private static List<HashSet<Title>> GroupKingdomsIntoContiguousGroups(Dictionary<string, HashSet<string>> kingdomAdjacencies, IEnumerable<Title> deJureKingdoms) {
-			var orderedKingdoms = deJureKingdoms as IReadOnlyList<Title> ?? [.. deJureKingdoms];
+		private static List<HashSet<Title>> GroupKingdomsIntoContiguousGroups(Dictionary<string, HashSet<string>> kingdomAdjacencies, Title[] deJureKingdoms) {
+			var orderedKingdoms = deJureKingdoms;
 			var kingdomsById = orderedKingdoms.ToDictionary(k => k.Id, StringComparer.Ordinal);
 			var remainingKingdomIds = new HashSet<string>(kingdomsById.Keys, StringComparer.Ordinal);
 			var kingdomGroups = new List<HashSet<Title>>();
@@ -1828,7 +1857,7 @@ internal sealed partial class Title {
 			}
 		}
 
-		private static Dictionary<string, int> GetIRProvsPerCounty(ProvinceCollection ck3Provinces, IEnumerable<Title> counties) {
+		private static Dictionary<string, int> GetIRProvsPerCounty(ProvinceCollection ck3Provinces, Title[] counties) {
 			Dictionary<string, int> irProvsPerCounty = [];
 			foreach (var county in counties) {
 				HashSet<ulong> imperatorProvs = [];
@@ -1915,7 +1944,7 @@ internal sealed partial class Title {
 		/// https://ck3.paradoxwikis.com/Council
 		/// https://ck3.paradoxwikis.com/Court#Court_positions
 		/// </summary>
-		public void ImportImperatorGovernmentOffices(ICollection<OfficeJob> irOfficeJobs, ReligionCollection religionCollection, Date irSaveDate) {
+		public void ImportImperatorGovernmentOffices(List<OfficeJob> irOfficeJobs, ReligionCollection religionCollection, Date irSaveDate) {
 			Logger.Info("Converting government offices...");
 			var titlesFromImperator = GetCountriesImportedFromImperator();
 			
@@ -2024,7 +2053,7 @@ internal sealed partial class Title {
 
 			int loadedHistoriesCount = 0;
 
-			var titlesHistoryParser = new Parser();
+			var titlesHistoryParser = new Parser(implicitVariableHandling: true);
 			titlesHistoryParser.RegisterRegex(Regexes.TitleId, (reader, titleName) => {
 				var historyItem = reader.GetStringOfItem().ToString();
 				if (!historyItem.Contains('{')) {
@@ -2067,7 +2096,7 @@ internal sealed partial class Title {
 			const string filePath = "configurables/cultural_title_names.txt";
 			Logger.Info($"Loading cultural title names from \"{filePath}\"...");
 
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: true);
 			parser.RegisterRegex(CommonRegexes.String, (reader, titleId) => {
 				var nameListToLocKeyDict = reader.GetAssignmentsAsDict();
 

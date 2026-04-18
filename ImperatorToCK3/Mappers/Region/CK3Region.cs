@@ -1,10 +1,8 @@
 ﻿using commonItems;
 using commonItems.Serialization;
 using ImperatorToCK3.CK3.Titles;
-using System;
 using System.Collections.Generic;
 using System.Text;
-using ZLinq;
 
 namespace ImperatorToCK3.Mappers.Region;
 
@@ -77,19 +75,27 @@ internal sealed class CK3Region(string name) {
 		Counties[theCounty.Id] = theCounty;
 	}
 	public bool ContainsProvince(ulong provinceId) {
-		if (Regions.Values.AsValueEnumerable().Any(region => region.ContainsProvince(provinceId))) {
-			return true;
+		foreach (var region in Regions.Values) {
+			if (region.ContainsProvince(provinceId)) {
+				return true;
+			}
 		}
-		if (Duchies.Values.AsValueEnumerable().Any(duchy => duchy.DuchyContainsProvince(provinceId))) {
-			return true;
+		foreach (var duchy in Duchies.Values) {
+			if (duchy.DuchyContainsProvince(provinceId)) {
+				return true;
+			}
 		}
-		if (Counties.Values.AsValueEnumerable().Any(county => county.CountyProvinceIds.AsValueEnumerable().Contains(provinceId))) {
-			return true;
+		foreach (var county in Counties.Values) {
+			foreach (var countyProvinceId in county.CountyProvinceIds) {
+				if (countyProvinceId == provinceId) {
+					return true;
+				}
+			}
 		}
 		return Provinces.Contains(provinceId);
 	}
 
-	private static readonly Parser parser = new();
+	private static readonly Parser parser = new(implicitVariableHandling: true);
 	private static CK3Region regionToReturn = new(string.Empty);
 	static CK3Region() {
 		parser.RegisterKeyword("regions", reader => {

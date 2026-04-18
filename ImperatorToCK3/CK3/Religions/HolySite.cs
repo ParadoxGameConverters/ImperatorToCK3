@@ -26,7 +26,7 @@ internal sealed partial class HolySite : IIdentifiable<string>, IPDXSerializable
 		string? parsedCountyId = null;
 		string? parsedBaronyId = null;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("county_choices", reader => {
 			foreach (var countyId in reader.GetStrings()) {
 				if (!landedTitles.ContainsKey(countyId)) {

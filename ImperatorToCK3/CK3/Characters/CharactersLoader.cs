@@ -15,7 +15,7 @@ internal sealed partial class CharacterCollection {
 
 		var loadedCharacters = new ConcurrentList<Character>();
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, characterId) => {
 			var character = new Character(characterId, reader, this);
 

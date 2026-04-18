@@ -1,0 +1,252 @@
+name: Steam Mod Update Notifier
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: steam-mod-update-notifier
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  actions: write
+  issues: write
+
+jobs:
+  check-steam-mod-updates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Steam Workshop mods and notify
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.API_TOKEN_GITHUB }}
+          GITHUB_API: https://api.github.com
+          STEAM_PUBLISHED_FILE_DETAILS_API: https://api.steampowered.com/ISteamRemoteStorage/GetPublishedFileDetails/v1/
+        run: |
+          set -euo pipefail
+
+          if ! command -v jq >/dev/null 2>&1; then
+            echo "jq is required on the self-hosted runner." >&2
+            exit 1
+          fi
+
+          REPO="${GITHUB_REPOSITORY}"
+
+          # Ordered list of tracked mods.
+          MOD_IDS=(
+            "2243307127"
+            "2858562094"
+            "2509174436"
+            "2970440958"
+            "3496956814"
+            "2532715348"
+            "2856497654"
+            "2992438857"
+          )
+
+          declare -A MOD_NAMES=(
+            ["2243307127"]="TFE"
+            ["2858562094"]="WtWSMS"
+            ["2509174436"]="RoA"
+            ["2970440958"]="AEP"
+            ["3496956814"]="Confederations & Leagues"
+            ["2532715348"]="Invictus"
+            ["2856497654"]="Terra Indomita"
+            ["2992438857"]="Antiquitas"
+          )
+
+          urlencode() {
+            jq -rn --arg v "$1" '$v|@uri'
+          }
+
+          github_api() {
+            local method="$1"
+            local path="$2"
+            local body="${3:-}"
+            local tmp_body
+            local tmp_status
+            tmp_body="$(mktemp)"
+            tmp_status="$(mktemp)"
+
+            if [[ -n "$body" ]]; then
+              curl -sS \
+                -X "$method" \
+                -H "Authorization: Bearer ${GH_TOKEN}" \
+                -H "Accept: application/vnd.github+json" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                -H "Content-Type: application/json" \
+                -d "$body" \
+                -o "$tmp_body" \
+                -w "%{http_code}" \
+                "${GITHUB_API}${path}" >"$tmp_status"
+            else
+              curl -sS \
+                -X "$method" \
+                -H "Authorization: Bearer ${GH_TOKEN}" \
+                -H "Accept: application/vnd.github+json" \
+                -H "X-GitHub-Api-Version: 2022-11-28" \
+                -o "$tmp_body" \
+                -w "%{http_code}" \
+                "${GITHUB_API}${path}" >"$tmp_status"
+            fi
+
+            cat "$tmp_status"
+            echo
+            cat "$tmp_body"
+            rm -f "$tmp_body" "$tmp_status"
+          }
+
+          scrape_changelog_notes() {
+            local workshop_id="$1"
+            local previous_ts="$2"
+
+            python3 "${GITHUB_WORKSPACE}/.github/scripts/steam_changelog_scraper.py" "$workshop_id" "$previous_ts"
+          }
+
+          echo "Fetching published file details from Steam..."
+          steam_args=(--data "itemcount=${#MOD_IDS[@]}")
+          for i in "${!MOD_IDS[@]}"; do
+            steam_args+=(--data-urlencode "publishedfileids[$i]=${MOD_IDS[$i]}")
+          done
+
+          steam_response="$(curl -sS -X POST "${STEAM_PUBLISHED_FILE_DETAILS_API}" "${steam_args[@]}")"
+
+          mapfile -t steam_rows < <(
+            echo "$steam_response" | jq -r '.response.publishedfiledetails[]? | [.publishedfileid, .time_updated, (.title // "")] | @tsv'
+          )
+
+          if [[ "${#steam_rows[@]}" -eq 0 ]]; then
+            echo "No Steam Workshop details were returned." >&2
+            exit 1
+          fi
+
+          declare -A STEAM_TIME_UPDATED
+          declare -A STEAM_TITLES
+          for row in "${steam_rows[@]}"; do
+            id="$(echo "$row" | cut -f1)"
+            ts="$(echo "$row" | cut -f2)"
+            title="$(echo "$row" | cut -f3-)"
+            STEAM_TIME_UPDATED["$id"]="$ts"
+            STEAM_TITLES["$id"]="$title"
+          done
+
+          had_error=0
+
+          for id in "${MOD_IDS[@]}"; do
+            mod_name="${MOD_NAMES[$id]}"
+            workshop_url="https://steamcommunity.com/sharedfiles/filedetails/?id=${id}"
+            variable_name="STEAM_MOD_${id}_TIME_UPDATED"
+            current_ts="${STEAM_TIME_UPDATED[$id]:-}"
+
+            if [[ -z "$current_ts" || ! "$current_ts" =~ ^[0-9]+$ ]]; then
+              echo "[$mod_name] Missing or invalid current timestamp from Steam for id ${id}."
+              had_error=1
+              continue
+            fi
+
+            readarray -t variable_result < <(github_api GET "/repos/${REPO}/actions/variables/${variable_name}")
+            variable_status="${variable_result[0]}"
+            variable_body="${variable_result[@]:1}"
+
+            if [[ "$variable_status" == "404" ]]; then
+              create_payload="$(jq -nc --arg name "$variable_name" --arg value "$current_ts" '{name: $name, value: $value}')"
+              readarray -t create_result < <(github_api POST "/repos/${REPO}/actions/variables" "$create_payload")
+              create_status="${create_result[0]}"
+
+              if [[ "$create_status" == "201" ]]; then
+                echo "[$mod_name] Repository variable ${variable_name} initialized to ${current_ts}."
+              else
+                echo "[$mod_name] Failed to create repository variable ${variable_name}. HTTP ${create_status}."
+                had_error=1
+              fi
+              continue
+            fi
+
+            if [[ "$variable_status" != "200" ]]; then
+              echo "[$mod_name] Failed to read repository variable ${variable_name}. HTTP ${variable_status}."
+              had_error=1
+              continue
+            fi
+
+            previous_ts="$(printf '%s\n' "$variable_body" | jq -r '.value // empty')"
+            if [[ -z "$previous_ts" || ! "$previous_ts" =~ ^[0-9]+$ ]]; then
+              echo "[$mod_name] Repository variable ${variable_name} has invalid value '${previous_ts}'. Reinitializing."
+              update_payload="$(jq -nc --arg name "$variable_name" --arg value "$current_ts" '{name: $name, value: $value}')"
+              readarray -t reset_result < <(github_api PATCH "/repos/${REPO}/actions/variables/${variable_name}" "$update_payload")
+              reset_status="${reset_result[0]}"
+              if [[ "$reset_status" == "204" ]]; then
+                echo "[$mod_name] Repository variable ${variable_name} reset to ${current_ts}."
+              else
+                echo "[$mod_name] Failed to reset repository variable ${variable_name}. HTTP ${reset_status}."
+                had_error=1
+              fi
+              continue
+            fi
+
+            if (( current_ts <= previous_ts )); then
+              echo "[$mod_name] No new update detected (stored=${previous_ts}, current=${current_ts})."
+              continue
+            fi
+
+            echo "[$mod_name] New update detected (stored=${previous_ts}, current=${current_ts})."
+
+            release_notes="$(scrape_changelog_notes "$id" "$previous_ts")"
+
+            if [[ -z "$release_notes" ]]; then
+              release_notes="Release notes could not be retrieved from Steam changelog page for this update."
+            fi
+
+            marker="<!-- steam-mod-update:${id}:${current_ts} -->"
+            marker_query="$(urlencode "$marker")"
+            search_path="/search/issues?q=repo:${REPO}+type:issue+in:body+${marker_query}&per_page=1"
+            readarray -t search_result < <(github_api GET "$search_path")
+            search_status="${search_result[0]}"
+            search_body="${search_result[@]:1}"
+
+            if [[ "$search_status" != "200" ]]; then
+              echo "[$mod_name] Failed to search for existing notification issue. HTTP ${search_status}."
+              had_error=1
+              continue
+            fi
+
+            existing_count="$(printf '%s\n' "$search_body" | jq -r '.total_count // 0')"
+            if [[ "$existing_count" =~ ^[0-9]+$ ]] && (( existing_count > 0 )); then
+              echo "[$mod_name] Notification already exists for this update; skipping issue creation."
+            else
+              issue_title="${mod_name} has been updated on ${current_date}"
+              printf -v issue_body '%s\n\nSteam Workshop mod **%s** was updated.\n\n- Mod ID: %s\n- Update date (UTC): %s\n- Workshop page: %s\n\n## Release Notes\n\n%s\n' \
+                "$marker" "$mod_name" "$id" "$current_date" "$workshop_url" "$release_notes"
+
+              issue_payload="$(jq -nc --arg title "$issue_title" --arg body "$issue_body" '{title: $title, body: $body}')"
+              readarray -t issue_result < <(github_api POST "/repos/${REPO}/issues" "$issue_payload")
+              issue_status="${issue_result[0]}"
+
+              if [[ "$issue_status" == "201" ]]; then
+                echo "[$mod_name] Created notification issue: ${issue_title}"
+              else
+                echo "[$mod_name] Failed to create notification issue. HTTP ${issue_status}."
+                had_error=1
+                continue
+              fi
+            fi
+
+            update_payload="$(jq -nc --arg name "$variable_name" --arg value "$current_ts" '{name: $name, value: $value}')"
+            readarray -t update_result < <(github_api PATCH "/repos/${REPO}/actions/variables/${variable_name}" "$update_payload")
+            update_status="${update_result[0]}"
+
+            if [[ "$update_status" == "204" ]]; then
+              echo "[$mod_name] Updated repository variable ${variable_name} to ${current_ts}."
+            else
+              echo "[$mod_name] Failed to update repository variable ${variable_name}. HTTP ${update_status}."
+              had_error=1
+            fi
+          done
+
+          if (( had_error != 0 )); then
+            echo "One or more mods could not be processed completely."
+            exit 1
+          fi
+
+          echo "Steam mod update check finished successfully."

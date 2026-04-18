@@ -14,7 +14,7 @@ internal sealed class ReligionCollection : IdObjectCollection<string, Religion> 
 
 	public ReligionCollection(ScriptValueCollection scriptValues) {
 		OrderedDictionary<string, double> parsedReligionModifiers;
-		var religionParser = new Parser();
+		var religionParser = new Parser(implicitVariableHandling: true);
 		religionParser.RegisterKeyword("modifier", reader => {
 			var modifiersAssignments = reader.GetAssignments();
 			parsedReligionModifiers = new(modifiersAssignments
@@ -24,7 +24,7 @@ internal sealed class ReligionCollection : IdObjectCollection<string, Religion> 
 		});
 		religionParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 
-		religionsParser = new Parser();
+		religionsParser = new Parser(implicitVariableHandling: true);
 		religionsParser.RegisterRegex(CommonRegexes.String, (reader, religionId) => {
 			parsedReligionModifiers = new();
 
@@ -33,7 +33,7 @@ internal sealed class ReligionCollection : IdObjectCollection<string, Religion> 
 		});
 		religionsParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
-		deitiesParser = new Parser();
+		deitiesParser = new Parser(implicitVariableHandling: true);
 		deitiesParser.RegisterRegex(CommonRegexes.String, (deityReader, deityId) => {
 			var deity = new Deity(deityId, deityReader, scriptValues);
 			Deities.AddOrReplace(deity);
@@ -57,9 +57,9 @@ internal sealed class ReligionCollection : IdObjectCollection<string, Religion> 
 	public void LoadHolySiteDatabase(BufferedReader deityManagerReader) {
 		Logger.Info("Loading Imperator holy site database...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("deities_database", databaseReader => {
-			var databaseParser = new Parser();
+			var databaseParser = new Parser(implicitVariableHandling: false);
 			databaseParser.RegisterRegex(CommonRegexes.Integer, (reader, holySiteIdStr) => {
 				var holySiteId = ulong.Parse(holySiteIdStr);
 				var assignmentsDict = reader.GetAssignmentsAsDict();

@@ -8,7 +8,7 @@ internal sealed class NicknameMapping {
 	public string? CK3Nickname { get; private set; }
 
 	public NicknameMapping(BufferedReader mappingReader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("ck3", reader => CK3Nickname = reader.GetString());
 		parser.RegisterKeyword("ir", reader => ImperatorNicknames.Add(reader.GetString()));
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);

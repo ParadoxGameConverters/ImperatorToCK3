@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Xunit;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.UnitTests.CK3.Religions;
 
@@ -72,10 +73,10 @@ public class ReligionTests {
 
 		// Assert: Should keep only the last 2 doctrines (doctrine_head_3 and doctrine_head_4)
 		Assert.Equal(2, religion.DoctrineIds.Count);
-		Assert.Contains("doctrine_head_3", religion.DoctrineIds);
-		Assert.Contains("doctrine_head_4", religion.DoctrineIds);
-		Assert.DoesNotContain("doctrine_head_1", religion.DoctrineIds);
-		Assert.DoesNotContain("doctrine_head_2", religion.DoctrineIds);
+		Assert.Contains("doctrine_head_3", religion.DoctrineIds as IReadOnlyCollection<string>);
+		Assert.Contains("doctrine_head_4", religion.DoctrineIds as IReadOnlyCollection<string>);
+		Assert.DoesNotContain("doctrine_head_1", religion.DoctrineIds as IReadOnlyCollection<string>);
+		Assert.DoesNotContain("doctrine_head_2", religion.DoctrineIds as IReadOnlyCollection<string>);
 	}
 
 	[Fact]

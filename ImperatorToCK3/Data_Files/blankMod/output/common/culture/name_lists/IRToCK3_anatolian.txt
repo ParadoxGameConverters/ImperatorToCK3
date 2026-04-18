@@ -198,7 +198,7 @@ name_list_anatolian = {
 
 	female_names = {
 		Nysa Aryenis Ada Glaphyra Pythodorida Etazeta Drypetina Orsabaris Hypsicratea Boa Amasia
-	} 
+	}
 
 	# Patronymics (Apparently comes from Hittite/Luwian words for "descendant". Best I could find without being really repetitive)
 	patronym_prefix_male = prefix_hams

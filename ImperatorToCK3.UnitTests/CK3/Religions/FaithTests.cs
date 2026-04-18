@@ -162,9 +162,9 @@ public class FaithTests {
 		var faith = new Faith("too_many_doctrines", faithData, testReligion);
 
 		// Should keep only the last 2 among these and drop the first.
-		Assert.Contains("doc_a2", faith.DoctrineIds);
-		Assert.Contains("doc_a3", faith.DoctrineIds);
-		Assert.DoesNotContain("doc_a1", faith.DoctrineIds);
+		Assert.Contains("doc_a2", faith.DoctrineIds as IReadOnlyCollection<string>);
+		Assert.Contains("doc_a3", faith.DoctrineIds as IReadOnlyCollection<string>);
+		Assert.DoesNotContain("doc_a1", faith.DoctrineIds as IReadOnlyCollection<string>);
 
 		// Warning is logged.
 		output.ToString().Should().Contain("Faith too_many_doctrines has too many doctrines in category catA");

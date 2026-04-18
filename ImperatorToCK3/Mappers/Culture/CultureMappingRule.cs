@@ -80,6 +80,7 @@ internal sealed class CultureMappingRule {
 	}
 	
 	public string CK3CultureId { get; private set; } = string.Empty;
+	public IReadOnlySet<string> IrCultures => cultures;
 
 	private readonly SortedSet<string> cultures = new();
 	private readonly SortedSet<string> irHistoricalTags = new();
@@ -104,6 +105,6 @@ internal sealed class CultureMappingRule {
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 	}
-	private static readonly Parser parser = new();
+	private static readonly Parser parser = new(implicitVariableHandling: false);
 	private static CultureMappingRule mappingToReturn = new();
 }

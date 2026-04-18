@@ -1,5 +1,6 @@
 ﻿using commonItems;
 using commonItems.Colors;
+using commonItems.Collections;
 using commonItems.Mods;
 using AwesomeAssertions;
 using ImperatorToCK3.CK3.Provinces;
@@ -100,7 +101,7 @@ public class ProvinceTests {
 			ck3Provinces.Add(ck3Province);
 			ck3Province.InitializeFromImperator(
 				irProvince,
-				ImmutableHashSet<ImperatorToCK3.Imperator.Provinces.Province>.Empty,
+				new OrderedSet<ImperatorToCK3.Imperator.Provinces.Province>(),
 				landedTitles,
 				cultureMapper,
 				religionMapper,
