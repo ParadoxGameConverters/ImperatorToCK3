@@ -199,6 +199,45 @@ public class CharacterTests {
 	}
 
 	[Fact]
+	public void NegativeAgeIsClampedAndInvalidBirthDateKeepsDefault() {
+		var reader = new BufferedReader("""
+			23={
+				first_name_loc={
+					name="Lagos"
+				}
+				country=272
+				home_country=272
+				province=5544
+				age=-17819
+				birth_date=-1518605856
+				attributes={
+					martial=7
+					finesse=8
+					charisma=2
+					zeal=4
+				}
+				family=6
+				dna="Wc1ZzbN0s3TDhcOFApACkAJvAm8CfwJ/AncCdwJ0AnQCdgJ2AoACgAKMAowCmAKYAnECcQJ3AncCfgJ+ApcClwJ3AncClQKVAm4CbgJzAnMCkQKRA6sDqwJtAm0CeQJ5AokCiQJ/An8CgwKDAmsCawJ6AnoBUgFSAnUCdQKSApICagJqAoUChQKEAoQCkwKTA5kDmQKDAoMCcwJzAmsCawJtAm0EzQTNAn8CfwOjA6MCaAJoApMCkwKAAoABWwFbApgCmAKRApECZwJnAo8CjwKQApAChwKHAoQChAJpAmkCiAKIAo4CjgI7AjsBPAE8AOEA4QBwAHABcwFzACMAIwFbAVsAvAC8AQgBCAFDAUMBBgEGAUQBRAB/AH8AoQChAK8ArwBLAEsAHAAcAMEAwQDLAMsBVgFWATIBMgB/AH8AswCzADoAOgEqASoBfQF9AKwArAFPAU8C6wLrA3MDcwC0ALQBQAFAAIUAhQNYA1gH7wfvAH8AfwSNBI0FcQVxAOsA6wViBWICYwJjAioCKgAAAAAAAAAAAAAAAA=="
+				traits={
+					"lagids" "prominent"
+				}
+				children={
+					42 47
+				}
+				culture="macedonian"
+				ethnicity="greek"
+				religion="roman_pantheon"
+				death_date=433.6.7
+			}
+			""");
+
+		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "23", genesDB);
+
+		character.Age.Should().Be(0);
+		character.BirthDate.Should().Be(new Date("1.1.1"));
+	}
+
+	[Fact]
 	public void CultureCanBeInheritedFromFamily() {
 		var familyReader = new BufferedReader(
 			"= { culture = paradoxian }"
