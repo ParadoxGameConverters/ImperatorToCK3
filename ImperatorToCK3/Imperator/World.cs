@@ -171,7 +171,19 @@ internal partial class World {
 	private bool OutputContinueGameJson(Configuration config) {
 		// Set the current save to be used when launching the game with the continuelastsave option.
 		Logger.Debug("Modifying continue_game.json...");
-		return TryWriteTextFile(Path.Join(config.ImperatorDocPath, "continue_game.json"),
+		var continueGamePath = Path.Join(config.ImperatorDocPath, "continue_game.json");
+		
+		// Backup the original file if it exists
+		if (File.Exists(continueGamePath)) {
+			try {
+				FileHelper.MoveWithRetries(continueGamePath, continueGamePath + ".backup");
+			} catch (Exception ex) {
+				Logger.Debug($"Failed to backup continue_game.json: {ex.Message}");
+				return false;
+			}
+		}
+		
+		return TryWriteTextFile(continueGamePath,
 			contents: $$"""
             {
                 "title": "{{Path.GetFileNameWithoutExtension(config.SaveGamePath)}}",
@@ -183,6 +195,18 @@ internal partial class World {
 
 	private bool OutputDlcLoadJson(Configuration config) {
 		Logger.Debug("Outputting dlc_load.json...");
+		var dlcLoadPath = Path.Join(config.ImperatorDocPath, "dlc_load.json");
+		
+		// Backup the original file if it exists
+		if (File.Exists(dlcLoadPath)) {
+			try {
+				FileHelper.MoveWithRetries(dlcLoadPath, dlcLoadPath + ".backup");
+			} catch (Exception ex) {
+				Logger.Debug($"Failed to backup dlc_load.json: {ex.Message}");
+				return false;
+			}
+		}
+		
 		var dlcLoadBuilder = new StringBuilder();
 		dlcLoadBuilder.AppendLine("{");
 		dlcLoadBuilder.Append(@"""enabled_mods"": [");
@@ -192,7 +216,7 @@ internal partial class World {
 		dlcLoadBuilder.AppendLine("],");
 		dlcLoadBuilder.AppendLine(@"""disabled_dlcs"":[]");
 		dlcLoadBuilder.AppendLine("}");
-		return TryWriteTextFile(Path.Join(config.ImperatorDocPath, "dlc_load.json"), dlcLoadBuilder.ToString());
+		return TryWriteTextFile(dlcLoadPath, dlcLoadBuilder.ToString());
 	}
 
 	private bool LaunchImperatorToExportCountryFlags(Configuration config) {
@@ -336,6 +360,36 @@ internal partial class World {
 		} catch (Exception e) {
 			Logger.Warn($"Failed to extract dynamic coats of arms: {e.Message}");
 			Logger.Debug(e.ToString());
+		} finally {
+			// Always restore the original configuration files, regardless of extraction success or failure
+			var continueGamePath = Path.Join(config.ImperatorDocPath, "continue_game.json");
+			var dlcLoadPath = Path.Join(config.ImperatorDocPath, "dlc_load.json");
+			var continueGameBackupPath = continueGamePath + ".backup";
+			var dlcLoadBackupPath = dlcLoadPath + ".backup";
+
+			// Restore continue_game.json
+			if (File.Exists(continueGameBackupPath)) {
+				try {
+					if (File.Exists(continueGamePath)) {
+						File.Delete(continueGamePath);
+					}
+					FileHelper.MoveWithRetries(continueGameBackupPath, continueGamePath);
+				} catch (Exception ex) {
+					Logger.Warn($"Failed to restore continue_game.json: {ex.Message}");
+				}
+			}
+
+			// Restore dlc_load.json
+			if (File.Exists(dlcLoadBackupPath)) {
+				try {
+					if (File.Exists(dlcLoadPath)) {
+						File.Delete(dlcLoadPath);
+					}
+					FileHelper.MoveWithRetries(dlcLoadBackupPath, dlcLoadPath);
+				} catch (Exception ex) {
+					Logger.Warn($"Failed to restore dlc_load.json: {ex.Message}");
+				}
+			}
 		}
 	}
 
