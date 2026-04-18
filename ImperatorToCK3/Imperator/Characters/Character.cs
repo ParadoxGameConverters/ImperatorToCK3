@@ -170,16 +170,16 @@ internal sealed class Character : IIdentifiable<ulong> {
 	}
 
 	private static void SetDeathDate(Character character, BufferedReader reader) {
-		var dateStr = reader.GetString();
-		try {
-			character.DeathDate = new Date(dateStr, AUC: true); // converted to AD
-		} catch (ArgumentOutOfRangeException e) {
-			Logger.Warn($"Failed to parse death date \"{dateStr}\" for character {character.Id}: {e.Message}");
-		}
+		character.DeathDate = new Date(reader.GetString(), AUC: true); // converted to AD
 	}
 
 	private static void SetBirthDate(Character character, BufferedReader reader) {
-		character.BirthDate = new Date(reader.GetString(), AUC: true); // converted to AD
+		var dateStr = reader.GetString();
+		try {
+			character.BirthDate = new Date(dateStr, AUC: true); // converted to AD
+		} catch (ArgumentOutOfRangeException e) {
+			Logger.Warn($"Failed to parse birth date \"{dateStr}\" for character {character.Id}: {e.Message}");
+		}
 	}
 
 	private static void SetFriendIds(Character character, BufferedReader reader) {
