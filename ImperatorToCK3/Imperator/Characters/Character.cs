@@ -130,7 +130,7 @@ internal sealed class Character : IIdentifiable<ulong> {
 		parser.RegisterKeyword("spouse", reader => character.parsedSpouseIds = [.. reader.GetULongs()]);
 		parser.RegisterKeyword("friends", r => SetFriendIds(character, r));
 		parser.RegisterKeyword("rivals", r => SetRivalIds(character, r));
-		parser.RegisterKeyword("age", reader => character.Age = (uint)reader.GetInt());
+		parser.RegisterKeyword("age", reader => character.Age = (uint)Math.Max(0, reader.GetInt()));
 		parser.RegisterKeyword("birth_date", r => SetBirthDate(character, r));
 		parser.RegisterKeyword("death_date", r => SetDeathDate(character, r));
 		parser.RegisterKeyword("death", reader => character.DeathReason = string.Intern(reader.GetString()));
@@ -229,7 +229,12 @@ internal sealed class Character : IIdentifiable<ulong> {
 	}
 
 	private static void SetBirthDate(Character character, BufferedReader reader) {
-		character.BirthDate = new Date(reader.GetString(), AUC: true); // converted to AD
+		var dateStr = reader.GetString();
+		try {
+			character.BirthDate = new Date(dateStr, AUC: true); // converted to AD
+		} catch (ArgumentOutOfRangeException e) {
+			Logger.Warn($"Failed to parse birth date \"{dateStr}\" for character {character.Id}: {e.Message}");
+		}
 	}
 
 	private static void SetFriendIds(Character character, BufferedReader reader) {

@@ -23,5 +23,6 @@ jobs:
             **/*_l_polish.yml
             **/*_l_korean.yml
             **/*_l_german.yml
+            ImperatorToCK3/Data_Files/configurables/province_mappings/invictus_to_wtwsms.txt
             
 

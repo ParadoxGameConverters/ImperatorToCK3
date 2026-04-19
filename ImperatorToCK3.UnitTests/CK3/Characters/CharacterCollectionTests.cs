@@ -270,6 +270,14 @@ public class CharacterCollectionTests {
 			ruler_term={ character=1000 start_date=440.10.1 }
 		");
 		var country = Country.Parse(countryReader, 589);
+		
+		imperatorWorld.Provinces[1].OwnerCountry = country;
+		imperatorWorld.Provinces[2].OwnerCountry = country;
+		imperatorWorld.Provinces[3].OwnerCountry = country;
+		imperatorWorld.Provinces[4].OwnerCountry = country;
+		imperatorWorld.Provinces[5].OwnerCountry = country;
+		imperatorWorld.Provinces[6].OwnerCountry = country;
+		
 		Assert.Equal(200, country.Currencies.Gold);
 		imperatorWorld.Countries.Add(country);
 		imperatorWorld.Characters.LinkCountries(imperatorWorld.Countries);
@@ -494,9 +502,9 @@ public class CharacterCollectionTests {
 		var targetType = target.GetType();
 		var property = targetType.GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 		Assert.NotNull(property);
-		var setter = property!.GetSetMethod(nonPublic: true);
+		var setter = property.GetSetMethod(nonPublic: true);
 		Assert.NotNull(setter);
-		setter!.Invoke(target, new[] { value });
+		setter.Invoke(target, [value]);
 	}
 
 	private static ImperatorRulerTerm CreateRulerTerm(Date startDate, string governmentId) {

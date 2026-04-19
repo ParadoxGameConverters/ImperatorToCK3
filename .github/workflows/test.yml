@@ -14,7 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v6
       with:
-        fetch-depth: 0
         submodules: recursive
     - name: "Setup Dotnet for use with actions"
       uses: actions/setup-dotnet@v5
@@ -24,12 +23,25 @@ jobs:
       working-directory: ImperatorToCK3.UnitTests
       shell: pwsh
       run: |
-       dotnet test --coverlet --coverlet-output-format lcov 
+       dotnet test --coverlet --coverlet-output-format lcov --coverlet-file-prefix irtock3
+    - name: "Locate coverage report"
+      id: coverage_report
+      shell: pwsh
+      run: |
+        $coverageFile = Get-ChildItem "ImperatorToCK3.UnitTests/bin/Debug/net10.0/TestResults/irtock3.coverage*.info" |
+          Sort-Object LastWriteTime -Descending |
+          Select-Object -First 1 -ExpandProperty FullName
+
+        if (-not $coverageFile) {
+          throw "Coverage report not found."
+        }
+
+        "path=$coverageFile" >> $env:GITHUB_OUTPUT
     - name: "Publish coverage report to coveralls.io"
       uses: coverallsapp/github-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ImperatorToCK3.UnitTests/bin/Debug/net10.0/TestResults/coverage.info
+        path-to-lcov: ${{ steps.coverage_report.outputs.path }}
         format: lcov
         debug: true
 
@@ -41,7 +53,6 @@ jobs:
     steps:
     - uses: actions/checkout@v6
       with:
-        fetch-depth: 0
         submodules: recursive
     - name: "Setup Dotnet for use with actions"
       # don't run on self-hosted Windows
