@@ -101,12 +101,7 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 		Logger.Info("Purging unneeded Imperator characters...");
 
 		// All landed characters should be kept.
-		var allRulerIds = countries
-			.SelectMany(country => country.RulerTerms.Select(term => term.CharacterId))
-			.Where(id => id is not null)
-			.Cast<ulong>();
-		var allGovernorIds = governorships.Select(g => g.CharacterId);
-		var landedCharacterIds = allRulerIds.Concat(allGovernorIds).ToFrozenSet();
+		FrozenSet<ulong> landedCharacterIds = GetLandedCharacterIds(countries, governorships);
 
 		// Alive and landed characters should be kept.
 		Character[] charactersToCheck = [.. this.Where(character => character.IsDead && !landedCharacterIds.Contains(character.Id))];
@@ -157,10 +152,18 @@ internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, 
 				charactersToCheck = [.. filteredCharactersToCheck];
 			}
 		} while (charactersToRemove.Count > 0);
-		
-		// At this point we may have families with no characters left.
-		// Let's purge them.
+
+		// At this point we may have families with no characters left. Purge them.
 		families.PurgeUnneededFamilies(this);
+	}
+
+	private static FrozenSet<ulong> GetLandedCharacterIds(CountryCollection countries, List<Governorship> governorships) {
+		var allRulerIds = countries
+			.SelectMany(country => country.RulerTerms.Select(term => term.CharacterId))
+			.Where(id => id is not null)
+			.Cast<ulong>();
+		var allGovernorIds = governorships.Select(g => g.CharacterId);
+		return allRulerIds.Concat(allGovernorIds).ToFrozenSet();
 	}
 
 	private FrozenSet<ulong> GetFamilyIdsOfLandedCharacters(FrozenSet<ulong> landedCharacterIds)
