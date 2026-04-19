@@ -32,17 +32,11 @@
 	replace = {
 		before = {
 		title:b_salamanca.title_province = { add_special_building_slot = generic_university }
-		}
+		} # end of before
 
 		after = {
-		title:b_salamanca.title_province = {
-			if = {
-				limit = {
-					has_special_building_slot = no
-				}
-				add_special_building_slot = generic_university
-			}
-		}
+		title:b_salamanca.title_province = { if = { limit = { has_special_building_slot = no } add_special_building_slot = generic_university }
+		} # end of after
 		}
 	}
 
