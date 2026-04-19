@@ -1383,7 +1383,7 @@ internal sealed partial class Title {
 					.Where(x => x.Culture is not null)
 					.Select(x => new { x.County, x.Culture!.Heritage })
 					.GroupBy(x => x.Heritage)
-					.OrderByDescending(g => g.Count())
+					.OrderByDescending(g => g.Sum(x => x.County.CountyProvinceIds.Count()))
 					.Select(g => g.Key)
 					.ToImmutableArray();
 				if (dominantHeritages.Length == 0) {
