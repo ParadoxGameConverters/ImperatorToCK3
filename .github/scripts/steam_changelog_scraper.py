@@ -74,34 +74,38 @@ def html_to_text(fragment):
     return text.strip()
 
 
-def parse_timestamp(date_text, raw_html, raw_search_start):
-    raw_index = raw_html.find(date_text, raw_search_start)
-    if raw_index != -1:
-        snippet = raw_html[max(0, raw_index - 600):raw_index + 600]
-        attr_match = re.search(r'data-(?:timestamp|rtime(?:_updated)?|time_updated)="(\d+)"', snippet)
-        if attr_match:
-            return int(attr_match.group(1)), raw_index + len(date_text)
+def extract_entries_from_page(raw_html, previous_ts):
+    entries = []
+    sections = re.split(
+        r'<div class="detailBox workshopAnnouncement noFooter changeLogCtn">',
+        raw_html,
+        flags=re.IGNORECASE,
+    )
 
-    # Handle date format without year (e.g., "21 Mar @ 1:19pm")
-    # Add current year; if parsing fails in the future, adjust to previous year
-    from datetime import datetime as dt_module
-    current_year = dt_module.now(timezone.utc).year
-    try:
-        parsed = datetime.strptime(f"{date_text} {current_year}", "%d %b @ %I:%M%p %Y")
-    except ValueError:
-        # If current year doesn't work, try previous year
-        try:
-            parsed = datetime.strptime(f"{date_text} {current_year - 1}", "%d %b @ %I:%M%p %Y")
-        except ValueError:
-            # Fallback: try the old format just in case
-            try:
-                parsed = datetime.strptime(date_text, "%d %b, %Y @ %I:%M%p")
-            except ValueError:
-                # If all else fails, return a safe fallback
-                parsed = datetime.now(timezone.utc)
-    
-    parsed = parsed.replace(tzinfo=timezone.utc)
-    return int(parsed.timestamp()), raw_index + len(date_text) if raw_index != -1 else raw_search_start
+    for section in sections[1:]:
+        timestamp_match = re.search(r'<p id="(?P<timestamp>\d+)">', section, flags=re.IGNORECASE)
+        if not timestamp_match:
+            continue
+
+        entry_ts = int(timestamp_match.group("timestamp"))
+        if entry_ts <= previous_ts:
+            break
+
+        body_match = re.search(
+            r'<p id="\d+">(?P<body>.*?)</p>',
+            section,
+            flags=re.IGNORECASE | re.DOTALL,
+        )
+        body_html = body_match.group("body") if body_match else ""
+        body = html_to_text(body_html)
+
+        if not body:
+            body = "No changelog details were provided for this update."
+
+        entry_date = datetime.fromtimestamp(entry_ts, tz=timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+        entries.append(f"### {entry_date}\n\n{body}")
+
+    return entries
 
 
 def main():
@@ -121,44 +125,18 @@ def main():
         "Accept-Language": "en-US,en;q=0.9",
     }
 
-    header_re = re.compile(
-        r"Update:\s+(?P<date>\d{1,2}\s+[A-Za-z]{3}\s+@\s+\d{1,2}:\d{2}[ap]m)\s+by\s+(?P<author>.*?)(?:\n|$)"
-    )
-
     entries = []
     page_number = 1
 
     try:
         while page_number <= 50:
             raw_html = fetch_page(base_url, headers, page_number)
-            page_text = html_to_text(raw_html)
-            matches = list(header_re.finditer(page_text))
+            page_entries = extract_entries_from_page(raw_html, previous_ts)
 
-            if not matches:
+            if not page_entries:
                 break
 
-            raw_search_start = 0
-            for index, match in enumerate(matches):
-                next_start = matches[index + 1].start() if index + 1 < len(matches) else len(page_text)
-                body = page_text[match.end():next_start].strip()
-
-                footer_split = re.split(
-                    r"\n(?:Showing\s+\d+-\d+\s+of\s+\d+\s+entries|Additional Links)\b",
-                    body,
-                    maxsplit=1,
-                )
-                body = footer_split[0].strip()
-
-                entry_ts, raw_search_start = parse_timestamp(match.group("date"), raw_html, raw_search_start)
-                if entry_ts <= previous_ts:
-                    raise StopIteration
-
-                if not body:
-                    body = "No changelog details were provided for this update."
-
-                entry_date = datetime.fromtimestamp(entry_ts, tz=timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
-                entries.append(f"### {entry_date}\n\n{body}")
-
+            entries.extend(page_entries)
             page_number += 1
     except StopIteration:
         pass
