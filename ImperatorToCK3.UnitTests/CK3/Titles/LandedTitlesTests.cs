@@ -235,15 +235,24 @@ public class LandedTitlesTests {
 		var config = new Configuration { ImperatorPath = "TestFiles/LandedTitlesTests/Imperator" };
 		var imperatorWorld = new TestImperatorWorld(config);
 
-		imperatorWorld.Provinces.Add(new Province(1));
-		imperatorWorld.Provinces.Add(new Province(2));
-		imperatorWorld.Provinces.Add(new Province(3));
+		var irProv1 = new Province(1);
+		var irProv2 = new Province(2);
+		var irProv3 = new Province(3);
+		imperatorWorld.Provinces.Add(irProv1);
+		imperatorWorld.Provinces.Add(irProv2);
+		imperatorWorld.Provinces.Add(irProv3);
 
 		var governor = new ImperatorToCK3.Imperator.Characters.Character(25212);
 		imperatorWorld.Characters.Add(governor);
 
 		var countryReader = new BufferedReader("tag=PRY capital=1");
 		var country = Country.Parse(countryReader, 589);
+		irProv1.OwnerCountry = country;
+		irProv2.OwnerCountry = country;
+		irProv3.OwnerCountry = country;
+		country.RegisterProvince(irProv1);
+		country.RegisterProvince(irProv2);
+		country.RegisterProvince(irProv3);
 		imperatorWorld.Countries.Add(country);
 
 		imperatorWorld.Areas.LoadAreas(imperatorWorld.ModFS, imperatorWorld.Provinces);
@@ -251,6 +260,8 @@ public class LandedTitlesTests {
 		irRegionMapper.LoadRegions(imperatorWorld.ModFS, new ColorFactory());
 		Assert.True(irRegionMapper.RegionNameIsValid("galatia_area"));
 		Assert.True(irRegionMapper.RegionNameIsValid("galatia_region"));
+		Assert.True(irRegionMapper.ProvinceIsInRegion(2, "galatia_region"));
+		Assert.True(irRegionMapper.ProvinceIsInRegion(3, "galatia_region"));
 		var ck3RegionMapper = new CK3RegionMapper();
 
 		var reader = new BufferedReader(
@@ -335,14 +346,14 @@ public class LandedTitlesTests {
 			title => Assert.Equal("d_IRTOCK3_PRY", title.Id)
 		);
 
-		var provinces = new ProvinceCollection(ck3ModFS);
+		var ck3Provinces = new ProvinceCollection(ck3ModFS);
 		var ck3MapData = new MapData(ck3ModFS);
 		ck3MapData.ProvinceDefinitions.Add(new(1));
 		ck3MapData.ProvinceDefinitions.Add(new(2));
 		ck3MapData.ProvinceDefinitions.Add(new(3));
-		provinces.ImportImperatorProvinces(imperatorWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
+		ck3Provinces.ImportImperatorProvinces(imperatorWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 		// Country 589 is imported as duchy-level title, so its governorship of galatia_region will be county level.
-		titles.ImportImperatorGovernorships(imperatorWorld, provinces, tagTitleMapper, irLocDB, ck3LocDB, config, provinceMapper, definiteFormMapper, irRegionMapper, coaMapper, countyLevelGovernorships);
+		titles.ImportImperatorGovernorships(imperatorWorld, ck3Provinces, tagTitleMapper, irLocDB, ck3LocDB, config, provinceMapper, definiteFormMapper, irRegionMapper, coaMapper, countyLevelGovernorships);
 
 		Assert.Collection(titles,
 			title => Assert.Equal("c_county1", title.Id),
@@ -608,6 +619,68 @@ public class LandedTitlesTests {
 		var mongoliaKingdom = titles["k_mongolia"];
 		Assert.Equal(new Color(20, 65, 25), mongoliaKingdom.Color1);
 		Assert.Equal("c_karakorum", mongoliaKingdom.CapitalCountyId);
+	}
+
+	[Fact]
+	public void KingdomUsesNextDominantHeritageWhenMostDominantOneCannotProvideEmpire() {
+		var date = new Date(867, 1, 1);
+		var titles = new Title.LandedTitles();
+		titles.LoadTitles(new BufferedReader(
+			"e_mongolia = { }\n" +
+			"k_test = {\n" +
+			"\td_test = {\n" +
+			"\t\tc_county1 = { b_barony1 = { province = 1 } }\n" +
+			"\t\tc_county2 = { b_barony2 = { province = 2 } }\n" +
+			"\t\tc_county3 = { b_barony3 = { province = 3 } }\n" +
+			"\t}\n" +
+			"}\n" +
+			"k_xia = {\n" +
+			"\td_xia = {\n" +
+			"\t\tc_xia_county = { b_xia_barony = { province = 4 } }\n" +
+			"\t}\n" +
+			"}\n"
+		), colorFactory);
+
+		var cultureCollection = new TestCK3CultureCollection();
+		cultureCollection.GenerateTestCulture("han", "heritage_chinese");
+		cultureCollection.GenerateTestCulture("mongol", "heritage_mongolic");
+
+		var characters = new CharacterCollection();
+		var hanHolder1 = new Character("1", "Han Holder 1", new Date(800, 1, 1), characters);
+		hanHolder1.SetCultureId("han", null);
+		characters.Add(hanHolder1);
+
+		var hanHolder2 = new Character("2", "Han Holder 2", new Date(801, 1, 1), characters);
+		hanHolder2.SetCultureId("han", null);
+		characters.Add(hanHolder2);
+
+		var mongolHolder = new Character("3", "Mongol Holder", new Date(802, 1, 1), characters);
+		mongolHolder.SetCultureId("mongol", null);
+		characters.Add(mongolHolder);
+
+		titles["c_county1"].SetHolder(hanHolder1, date);
+		titles["c_county2"].SetHolder(hanHolder2, date);
+		titles["c_county3"].SetHolder(mongolHolder, date);
+		titles["c_xia_county"].SetHolder(mongolHolder, date);
+
+		var heritageMapPath = Path.Combine("configurables", "heritage_empires_map.txt");
+		var originalHeritageMap = File.Exists(heritageMapPath) ? File.ReadAllText(heritageMapPath) : null;
+		Directory.CreateDirectory("configurables");
+		File.WriteAllText(heritageMapPath,
+			"heritage_chinese = none\n" +
+			"heritage_mongolic = e_mongolia\n");
+
+		try {
+			titles.SetDeJureKingdomsAndAbove(date, cultureCollection, characters, new MapData(ck3ModFS), new CK3RegionMapper(), new TestCK3LocDB());
+
+			Assert.Equal("e_mongolia", titles["k_test"].DeJureLiege?.Id);
+		} finally {
+			if (originalHeritageMap is null) {
+				File.Delete(heritageMapPath);
+			} else {
+				File.WriteAllText(heritageMapPath, originalHeritageMap);
+			}
+		}
 	}
 
 	[Fact]

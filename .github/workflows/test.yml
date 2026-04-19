@@ -14,7 +14,6 @@ jobs:
     steps:
     - uses: actions/checkout@v6
       with:
-        fetch-depth: 0
         submodules: recursive
     - name: "Setup Dotnet for use with actions"
       uses: actions/setup-dotnet@v5
@@ -54,7 +53,6 @@ jobs:
     steps:
     - uses: actions/checkout@v6
       with:
-        fetch-depth: 0
         submodules: recursive
     - name: "Setup Dotnet for use with actions"
       # don't run on self-hosted Windows
