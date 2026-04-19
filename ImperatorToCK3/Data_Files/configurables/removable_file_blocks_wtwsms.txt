@@ -792,6 +792,34 @@ BP_set_minorities_universal = {
 			}
 			add_small_faith_to_county_effect = { FAITH = faith:rabbinism }
 		}
+		#Romaniote Jews
+		every_county = {
+			limit = {
+				OR = {
+					#Greece
+					this = title:c_byzantion
+					this = title:c_euboea #Chalkis; oldes presence in Europe (possibly)
+					this = title:c_attica
+					this = title:c_thessalonika
+					#Asia Minor
+					this = title:c_pacatiana #Jewish presence since Seleucid time, likely contributed to Hypsisterians
+					this = title:c_aeolis
+					this = title:c_ionia
+					this = title:c_cilicia #Tarsus
+					#Oriens & Egypt (sans Hebrew territories)
+					this.duchy = title:d_cyprus #Long term Jewish presence in Cyprus, although significantly reduced after the AD 116 revolt and poorly attested AD II-IV century [1]
+					this = title:c_antiocheia
+					#Italy and Africa; most Jews here were Greek speaking
+					this = title:c_roma
+					this = title:c_reggio_calabria #Mentioned in an edit by Honorius in 398
+					this = title:c_apulia #Jewish Catacombs in Venusia (Encylopedia Britannica)
+					this = title:c_benevento #Vth Century (Jewish Virtual Library)
+					#North Africa
+					this = title:c_tunis #Carthage
+				}
+			}
+			add_small_culture_to_county_effect = { CULTURE = culture:romaniote }
+		}
 		every_county = {
 			limit = {
 				OR = {
