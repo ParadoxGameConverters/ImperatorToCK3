@@ -37,7 +37,6 @@
 		after = {
 		title:b_salamanca.title_province = { if = { limit = { has_special_building_slot = no } add_special_building_slot = generic_university }
 		} # end of after
-		}
 	}
 
 	# Base game sets "landlocked nomad cultures" based off their specific culture setup, but that could change based off what happens in Imperator, so it needs to be modified to account for this
