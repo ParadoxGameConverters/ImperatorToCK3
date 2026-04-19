@@ -194,6 +194,7 @@ jobs:
             fi
 
             echo "[$mod_name] New update detected (stored=${previous_ts}, current=${current_ts})."
+            current_date="$(date -u -d "@${current_ts}" '+%Y-%m-%d %H:%M UTC')"
 
             release_notes="$(scrape_changelog_notes "$id" "$previous_ts")"
 
