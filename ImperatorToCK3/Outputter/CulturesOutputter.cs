@@ -516,7 +516,7 @@ internal static class CulturesOutputter {
 		foreach (var param in heritageGroupParameters) {
 			newContent.AppendLine(
 				$$"""
-						  		if = { limit = { var:temp = flag:{{param}} set_variable = { name = temp value = flag:{{param}} } }
+						  		if = { limit = { var:temp = flag:{{param}} } set_variable = { name = temp value = flag:{{param}} } }
 						  """);
 		}
 	}
@@ -525,7 +525,7 @@ internal static class CulturesOutputter {
 		foreach (var param in heritageFamilyParameters) {
 			newContent.AppendLine(
 				$$"""
-						  		if = { limit = { var:temp = flag:{{param}} set_variable = { name = temp value = flag:{{param}} } }
+						  		if = { limit = { var:temp = flag:{{param}} } set_variable = { name = temp value = flag:{{param}} } }
 						  """);
 		}
 	}
