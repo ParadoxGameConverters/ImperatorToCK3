@@ -1262,7 +1262,7 @@
 	replace = {
 		before = {
 		prestige_level >= max_prestige_level
-
+		restore_roman_empire_decision_religion_culture_trigger = yes
 		completely_controls = title:d_latium
 		completely_controls = title:d_venice
 		completely_controls = title:d_romagna
@@ -1282,6 +1282,7 @@
 
 		after = {
 		prestige_level >= max_prestige_level
+		restore_roman_empire_decision_religion_culture_trigger = yes
 
 		# IRToCK3: Doesn't make sense for one half of the split Roman Empire to reform Rome if the other remains independent, so you either need to hold both titles or be the only one holding either the ERE or WRE titles
 		# IRToCK3: TO DO - Once the effects/decisions are in place to allow e_byzantium and e_western_roman_empire to be formed naturally after the other half of the Empire falls, rework this to account for those changes
@@ -2854,18 +2855,16 @@
 		before = {
 			has_government = celestial_government
 			has_title = title:h_china
-			culture = culture:han
 			culture = {
-				any_parent_culture_or_above = { this = culture:han }
+				culture_is_or_has_ancestor_trigger = { CULTURE = culture:han }
 			}
 		}
 
 		after = {
 			has_government = celestial_government
 			has_title = title:h_china
-			culture = culture:han
 			culture = {
-				any_parent_culture_or_above = { this = culture:han }
+				culture_is_or_has_ancestor_trigger = { CULTURE = culture:han }
 			}
 			culture = { has_cultural_pillar = heritage_chinese } # IRToCK3: Made it so simply having Chinese Heritage allows it, to account for Chinese culture split
 		}
@@ -2963,7 +2962,10 @@ tgp_is_ceremonial_regent_trigger = {
 					# When conquering China - Change to conquest phase
 					if = {
 						limit = {
-							root.dynasty != scope:previous_holder.dynasty
+							OR = {
+								root.dynasty != scope:previous_holder.dynasty
+								is_lowborn = yes # in the rare instance that a lowborn theocrat reunites China
+							}
 						}
 						if = {
 							limit = {
@@ -2995,7 +2997,10 @@ tgp_is_ceremonial_regent_trigger = {
 					if = {
 						limit = {
 							current_date_is_start_date_trigger = no # IRToCK3: We check this to avoid potentially triggering this immediately on game start
-							root.dynasty != scope:previous_holder.dynasty
+							OR = {
+								root.dynasty != scope:previous_holder.dynasty
+								is_lowborn = yes # in the rare instance that a lowborn theocrat reunites China
+							}
 						}
 						if = {
 							limit = {
@@ -5728,16 +5733,21 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 	# trigger block
 	replace = {
 		before = {
-		location = root.capital_province 
+		location = root.capital_province
 		has_title = title:e_japan
+		NOT = { has_title = title:k_chrysanthemum_throne }
 		government_has_flag = government_is_japan_administrative
 		}
 
 		after = {
-		location = root.capital_province 
+		location = root.capital_province
 		government_has_flag = government_is_japan_administrative
 		# IRToCK3: The base game just checks that you have e_japan, and kind of just assumes that there is a tenno and he is your vassal. Changed to make sure you are actually a ceremonial regent, so it should work for any ritsuryo/soryo realm
 		tgp_is_ceremonial_regent_trigger = yes
+		# IRToCK3: The base game just prevents this from triggering if you have k_chrysanthemum_throne, generalized to better work with any realm/ceremonial liege title
+		NOT = {
+			any_held_title = { has_variable = ceremonial_title }
+		}
 		}
 	}
 
@@ -5745,14 +5755,14 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 	replace = {
 		before = {
 		title:k_chrysanthemum_throne.holder ?= {
-			save_scope_as = emperor 
+			save_scope_as = emperor
 		}
 		}
 
 		after = {
 		# IRToCK3: Generalized so it should work for any ritsuryo/soryo realm
 		primary_title.var:administrative_ui_special_title.holder ?= {
-			save_scope_as = emperor 
+			save_scope_as = emperor
 		}
 		}
 	}
@@ -6550,22 +6560,6 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 
 
 "events/dlc/tgp/tgp_japan_yearly_events_ariana.txt" = {
-	#########################
-	## tgp_japan_yearly_events.1140
-	#########################
-	# Need to generalize the event to better work with any realm, not just Japan
-
-	# trigger block
-	replace = {
-		before = {
-		title:e_japan.holder != root
-		}
-
-		after = {
-		location.county.holder.top_liege != root # IRToCK3: Base game just makes sure the root character isn't the holder of e_japan, likely implying a Soryo ruler wouldn't try stopping the Tenno/Kampaku/Shogun/etc. As such, just generalized so that the character can't be the local ruler's top liege, which should give the same effect
-		}
-	}
-
 	#########################
 	## tgp_japan_yearly_events.1150
 	#########################
@@ -7695,13 +7689,13 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 "common/scripted_character_templates/04_ep2_accolade_character_templates.txt" = {
 	replace = {
 		before = {
-				root = {
+				scope:new_owner = {
 					has_title = title:e_byzantium
 				}
 		}
 
 		after = {
-				root = {
+				scope:new_owner = {
 					# IRToCK3: Instead of just checking e_byzantium, made it so the varangian trait can be given in any realm where the Varangian Guard was founded
 					primary_title = { has_variable = founded_varangian_guard }
 				}
@@ -7861,21 +7855,31 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 	replace = {
 		before = {
 							OR = {
-								title:k_anatolia ?= this
-								title:k_pontus ?= this
-								title:k_delhi ?= this
-								title:k_bulgaria ?= this
+								this = title:k_anatolia
+								this = title:k_pontus
+								this = title:k_delhi
+								this = title:k_bulgaria
+								this = title:k_syria
+								this = title:k_nikaea
+								this = title:k_georgia
+								this = title:k_armenia
+								this = title:k_galicia-volhynia
+								this = title:k_goguryeo
+								this = title:k_ruthenia
 								empire = {
 									OR = {
-										title:e_persia ?= this
-										title:e_turan ?= this
-										title:e_yongliang ?= this
-										title:e_zhongyuan ?= this
-										title:e_carpathia ?= this
-										title:e_great_yuan ?= this
-										title:e_chagatai ?= this
-										title:e_ilkhanate ?= this
-										title:e_golden_horde ?= this
+										this = title:e_persia
+										this = title:e_turan
+										this = title:e_yongliang
+										this = title:e_zhongyuan
+										this = title:e_carpathia
+										this = title:e_great_yuan
+										this = title:e_chagatai
+										this = title:e_ilkhanate
+										this = title:e_golden_horde
+										this = title:e_tartaria
+										this = title:e_andong
+										this = title:e_caspian-pontic_steppe
 									}
 								}
 							}
@@ -7883,22 +7887,32 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 
 		after = {
 							OR = {
-								title:k_anatolia ?= this
-								title:k_pontus ?= this
-								title:k_delhi ?= this
-								title:k_bulgaria ?= this
+								this = title:k_anatolia
+								this = title:k_pontus
+								this = title:k_delhi
+								this = title:k_bulgaria
+								this = title:k_syria
+								this = title:k_nikaea
+								this = title:k_georgia
+								this = title:k_armenia
+								this = title:k_galicia-volhynia
+								this = title:k_goguryeo
+								this = title:k_ruthenia
 								empire = {
 									OR = {
-										title:e_persia ?= this
-										title:e_turan ?= this
-										title:e_carpathia ?= this
-										title:e_great_yuan ?= this
-										title:e_chagatai ?= this
-										title:e_ilkhanate ?= this
-										title:e_golden_horde ?= this
+										this = title:e_persia
+										this = title:e_turan
+										this = title:e_carpathia
+										this = title:e_great_yuan
+										this = title:e_chagatai
+										this = title:e_ilkhanate
+										this = title:e_golden_horde
+										this = title:e_tartaria
+										this = title:e_andong
+										this = title:e_caspian-pontic_steppe
 									}
 								}
-								# IRToCK3: The base makes the AI more likely to target titles under the zhongyuan/yongliang empires. But, this breaks if those titles change, so using geographical_regions instead
+								# IRToCK3: The base game makes the AI more likely to target titles under the zhongyuan/yongliang empires. But, this breaks if those titles change, so using geographical_regions instead
 								any_de_jure_county = {
 									percent >= 0.33
 									title_province = {
@@ -7909,38 +7923,6 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 									}
 								}
 							}
-		}
-	}
-}
-
-
-"common/casus_belli_types/10_tgp_china_wars.txt" = {
-	#################
-	## chinese_consolidation_cb
-	#################
-
-	# allowed_against_character block
-	replace = {
-		before = {
-					empire ?= {
-						OR = {
-							this = title:e_zhongyuan
-							this = title:e_jingyang
-							this = title:e_liangyi
-							this = title:e_yongliang
-							this = title:e_lingnan
-						}
-					}
-		}
-
-		after = {
-					empire ?= {
-						# IRToCK3: The base game specifically checks if the target's primary title is in some way under one of China's base game empire titles, but since those empire titles can potentially change during the game, using regions instead
-						any_de_jure_county = {
-							percent >= 0.5
-							title_province = { geographical_region = irtock3_de_jure_region_h_china }
-						}
-					}
 		}
 	}
 }
