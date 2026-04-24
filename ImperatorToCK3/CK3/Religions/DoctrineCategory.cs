@@ -17,12 +17,9 @@ internal sealed class DoctrineCategory : IIdentifiable<string> {
 		Id = id;
 		
 		var parser = new Parser(implicitVariableHandling: true);
-		parser.RegisterKeyword("group", reader => GroupId = reader.GetString());
+		parser.RegisterKeyword("category", reader => GroupId = reader.GetString());
 		parser.RegisterKeyword("number_of_picks", reader => NumberOfPicks = reader.GetInt());
-		parser.RegisterRegex(CommonRegexes.String, (reader, doctrineId) => {
-			doctrineIds.Add(doctrineId);
-			ParserHelpers.IgnoreItem(reader);
-		});
+    	parser.RegisterKeyword("doctrine_types", reader => doctrineIds.UnionWith(reader.GetStrings()));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(categoryReader);
 	}

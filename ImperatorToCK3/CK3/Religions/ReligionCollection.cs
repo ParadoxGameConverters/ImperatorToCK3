@@ -38,7 +38,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 			AddOrReplace(religion);
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		parser.ParseGameFolder("common/religion/religions", ck3ModFS, "txt", recursive: true);
+		parser.ParseGameFolder("common/religion/religion_types", ck3ModFS, "txt", recursive: true);
 	}
 
 	public void LoadConverterFaiths(string converterFaithsPath, ColorFactory colorFactory, Hash liquidVariables) {
@@ -180,7 +180,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		var parser = new Parser(implicitVariableHandling: true);
 		RegisterHolySitesKeywords(parser, areSitesFromConverter: false);
 
-		parser.ParseGameFolder("common/religion/holy_sites", ck3ModFS, "txt", recursive: true);
+		parser.ParseGameFolder("common/religion/holy_site_types", ck3ModFS, "txt", recursive: true);
 	}
 	public void LoadConverterHolySites(string converterHolySitesPath) {
 		Logger.Info("Loading converter holy sites...");
@@ -227,7 +227,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		parser.RegisterRegex(CommonRegexes.String, (reader, categoryId) =>
 			DoctrineCategories.AddOrReplace(new DoctrineCategory(categoryId, reader)));
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFolder("common/religion/doctrines", ck3ModFS, "txt", recursive: true);
+		parser.ParseGameFolder("common/religion/doctrine_group_types", ck3ModFS, "txt", recursive: true);
 	}
 
 	public Faith? GetFaith(string id) {
