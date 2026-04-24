@@ -136,13 +136,6 @@ IRToCK3_game_start_onaction_effects = {
 		}
 		{% endif %}
 
-		## Some things are setup to not trigger at the game's start date, which isn't setup by the converter. This variable will be used to handle that instead, as it will disappear after a single day, indicating you are no longer on the start date.
-		set_global_variable = {
-			name = irtock3_date_is_start_date
-			value = yes
-			days = 1
-		}
-
 		## Depending on what tier Rome title exists at game start, certain variables should be set to indicate Rome has elevated to at least that rank
 		if = {
 			limit = { exists = title:k_rome.holder }

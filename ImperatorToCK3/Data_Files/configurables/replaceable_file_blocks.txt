@@ -35,7 +35,7 @@
 		} # end of before
 
 		after = {
-		title:b_salamanca.title_province = { if = { limit = { has_special_building_slot = no } add_special_building_slot = generic_university }
+		title:b_salamanca.title_province = { if = { limit = { has_special_building_slot = no } add_special_building_slot = generic_university } }
 		} # end of after
 	}
 
@@ -3089,82 +3089,6 @@ tgp_is_ceremonial_regent_trigger = {
 		}
 	}
 
-	# This causes an issue where if a character gets a title with the 'ceremonial_title', they can forcefully have their government changed, even when it shouldn't, so need to change this
-	replace = {
-		before = {
-			if = {
-				limit = { exists = scope:title.var:ceremonial_title }
-				add_character_flag = ceremonial_liege_flag
-				if = {
-					limit = { has_trait = devoted }
-					remove_trait = devoted
-				}
-				destroy_laamp_effect = { ADVENTURER = this }
-			}
-		}
-
-		after = {
-			if = {
-				limit = { exists = scope:title.var:ceremonial_title }
-				add_character_flag = ceremonial_liege_flag
-				if = {
-					limit = { has_trait = devoted }
-					remove_trait = devoted
-				}
-				if = {
-					limit = {
-						any_held_title = { has_variable = adventurer_creation_reason } # IRTOCK3: Added this condition because this seems like it should only really trigger if the character was an Adventurer, as it causes issues with Ritsuryo rulers getting the Ceremonial Monarch title
-					}
-					destroy_laamp_effect = { ADVENTURER = this }
-				}
-			}
-		}
-	}
-	replace = {
-		before = {
-			# IMPERIAL INHERITANCE
-			else_if = {
-				limit = {
-					exists = scope:title.var:ceremonial_title
-				}
-				add_character_flag = ceremonial_liege_flag
-				if = {
-					limit = { has_trait = devoted }
-					remove_trait = devoted
-				}
-				destroy_laamp_effect = { ADVENTURER = this }
-				trigger_event = {
-					id = tgp_japan_general.9100
-					days = 1
-				}
-			}
-		}
-
-		after = {
-			# IMPERIAL INHERITANCE
-			else_if = {
-				limit = {
-					exists = scope:title.var:ceremonial_title
-				}
-				add_character_flag = ceremonial_liege_flag
-				if = {
-					limit = { has_trait = devoted }
-					remove_trait = devoted
-				}
-				if = {
-					limit = {
-						any_held_title = { has_variable = adventurer_creation_reason } # IRTOCK3: Added this condition because this seems like it should only really trigger if the character was an Adventurer, as it causes issues with Ritsuryo rulers getting the Ceremonial Monarch title
-					}
-					destroy_laamp_effect = { ADVENTURER = this }
-				}
-				trigger_event = {
-					id = tgp_japan_general.9100
-					days = 1
-				}
-			}
-		}
-	}
-
 	# This section is responsible for things like setting up variables/flags/laws when inheriting Japan. Changed so that it can properly apply to any Ritsuryo/Soryo Empire realm
 	replace = {
 		before = {
@@ -3337,62 +3261,6 @@ tgp_is_ceremonial_regent_trigger = {
 						}
 		}
 	}
-
-	# Admin Imperial Succession event checks specific base game start dates, had to change to work with any start date
-	replace = {
-		before = {
-					trigger_if = {
-						limit = {
-							game_start_date = 867.1.1
-						}
-						current_date >= 867.1.4
-					}
-					trigger_if = {
-						limit = {
-							game_start_date = 1066.9.15
-						}
-						current_date >= 1066.9.18
-					}
-					trigger_if = {
-						limit = {
-							game_start_date = 1178.10.1
-						}
-						current_date >= 1178.10.4
-					}
-		}
-
-		after = {
-					# IRToCK3: Base game just checks it's specific start dates, which won't work for a converted save, so had to change to be based off a global variable
-					NOT = { has_global_variable = irtock3_date_is_start_date }
-		}
-	}
-}
-
-
-"common/scripted_triggers/00_scripted_triggers.txt" = {
-	# Some content depends on not triggering at game start, but the check for that only checks the base game start dates, so modifying it to use a temporary global variable instead
-	replace = {
-		before = {
-	OR = {
-		AND = {
-			game_start_date = 867.1.1
-			current_date = 867.1.1
-		}
-		AND = {
-			game_start_date = 1066.09.15
-			current_date = 1066.09.15
-		}
-		AND = {
-			game_start_date = 1178.10.1
-			current_date = 1178.10.1
-		}
-	}
-		}
-
-		after = {
-	has_global_variable = irtock3_date_is_start_date # IRToCK3: Using this temporary global variable instead so it should work for any start date
-		}
-	}
 }
 
 
@@ -3417,7 +3285,7 @@ tgp_is_ceremonial_regent_trigger = {
 			tgp_is_hegemon_or_below_in_dynastic_cycle_trigger = yes
 			# IRToCK3: Adding an alternative condition so that this event can trigger for everyone that is relevant at the beginning of the game
 			AND = {
-				has_global_variable = irtock3_date_is_start_date
+				current_date_is_start_date_trigger = yes
 				tgp_does_this_player_care_about_the_dynastic_cycle = yes
 			}
 		}
@@ -3512,18 +3380,19 @@ tgp_is_ceremonial_regent_trigger = {
 		before = {
 			modifier = {
 				add = 100
-				has_global_variable = old_dynastic_color_is_green
+				dynasty.var:wuking_element ?= flag:fire
 			}
 		}
 
 		after = {
 			modifier = {
 				add = 100
-				has_global_variable = old_dynastic_color_is_green
+				dynasty.var:wuking_element ?= flag:fire
 			}
 			# IRToCK3: It seems like the Zhou were more associated with the color Red, so the AI will be more likely to choose this if they had those tags in Imperator
 			modifier = {
 				add = 1000
+				NOT = { exists = dynasty.var:wuking_element }
 				trigger_if = {
 					limit = { has_variable = imperator_tag }
 					OR = {
@@ -3542,18 +3411,19 @@ tgp_is_ceremonial_regent_trigger = {
 		before = {
 			modifier = {
 				add = 100
-				has_global_variable = old_dynastic_color_is_white
+				dynasty.var:wuking_element ?= flag:water
 			}
 		}
 
 		after = {
 			modifier = {
 				add = 100
-				has_global_variable = old_dynastic_color_is_white
+				dynasty.var:wuking_element ?= flag:water
 			}
 			# IRToCK3: It seems like the Qin were more associated with the color Black, so the AI will be more likely to choose this if they had that tag in Imperator
 			modifier = {
 				add = 1000
+				NOT = { exists = dynasty.var:wuking_element }
 				trigger_if = {
 					limit = { has_variable = imperator_tag }
 					var:imperator_tag = flag:QIN
@@ -8166,8 +8036,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		before = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_ba_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_ba_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_ba_region }
 				}
 			}
 		}
@@ -8175,8 +8046,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		after = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_ba_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_ba_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_ba_region }
 				}
 			}
 			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
@@ -8191,8 +8063,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		before = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_chu_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_bi_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_bi_region }
 				}
 			}
 		}
@@ -8200,8 +8073,58 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		after = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_chu_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_bi_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_bi_region }
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:BII
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				OR = {
+					capital_province ?= { geographical_region = tgp_chu_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_chu_region }
+				}
+			}
+			modifier = {
+				add = -100
+				OR = {
+					capital_province ?= { geographical_region = tgp_xiang_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_xiang_region }
+				}
+				NOR = {
+					is_title_localization_key_used = dynn_title_xiang
+					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_xiang }
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				OR = {
+					capital_province ?= { geographical_region = tgp_chu_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_chu_region }
+				}
+			}
+			modifier = {
+				add = -100
+				OR = {
+					capital_province ?= { geographical_region = tgp_xiang_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_xiang_region }
+				}
+				NOR = {
+					is_title_localization_key_used = dynn_title_xiang
+					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_xiang }
 				}
 			}
 			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
@@ -8216,8 +8139,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		before = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_han_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_han_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_han_region }
 				}
 			}
 		}
@@ -8225,8 +8149,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		after = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_han_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_han_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_han_region }
 				}
 			}
 			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
@@ -8241,8 +8166,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		before = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_jin_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_jin_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_jin_region }
 				}
 			}
 		}
@@ -8250,8 +8176,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		after = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_jin_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_jin_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_jin_region }
 				}
 			}
 			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
@@ -8266,8 +8193,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		before = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_lu_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_lu_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_lu_region }
 				}
 			}
 		}
@@ -8275,8 +8203,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		after = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_lu_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_lu_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_lu_region }
 				}
 			}
 			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
@@ -8291,8 +8220,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		before = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_min_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_min_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_min_region }
 				}
 			}
 		}
@@ -8300,8 +8230,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		after = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_min_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_min_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_min_region }
 				}
 			}
 			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
@@ -8316,8 +8247,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		before = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_qi_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_qi_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_qi_region }
 				}
 			}
 		}
@@ -8325,8 +8257,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		after = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_qi_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_qi_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_qi_region }
 				}
 			}
 			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
@@ -8341,8 +8274,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		before = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_song_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_qin_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_qin_region }
 				}
 			}
 		}
@@ -8350,8 +8284,36 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		after = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_song_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_qin_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_qin_region }
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:QIN
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				OR = {
+					capital_province ?= { geographical_region = tgp_song_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_song_region }
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				OR = {
+					capital_province ?= { geographical_region = tgp_song_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_song_region }
 				}
 			}
 			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
@@ -8366,8 +8328,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		before = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_wei_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_teng_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_teng_region }
 				}
 			}
 		}
@@ -8375,8 +8338,36 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		after = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_wei_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_teng_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_teng_region }
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:TNG
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				OR = {
+					capital_province ?= { geographical_region = tgp_wei_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_wei_region }
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				OR = {
+					capital_province ?= { geographical_region = tgp_wei_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_wei_region }
 				}
 			}
 			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
@@ -8391,8 +8382,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		before = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_yue_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_wey_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_wey_region }
 				}
 			}
 		}
@@ -8400,9 +8392,66 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		after = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_yue_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_wey_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_wey_region }
 				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:WII
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				OR = {
+					capital_province ?= { geographical_region = tgp_yan_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_yan_region }
+				}
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				OR = {
+					capital_province ?= { geographical_region = tgp_yan_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_yan_region }
+				}
+			}
+			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
+			modifier = {
+				add = 1000
+				var:imperator_tag ?= flag:YAN
+			}
+		}
+	}
+
+	replace = {
+		before = {
+			modifier = {
+				add = 100
+				OR = {
+					capital_province ?= { geographical_region = tgp_yue_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_yue_region }
+				}
+				highest_held_title_tier >= tier_kingdom
+			}
+		}
+
+		after = {
+			modifier = {
+				add = 100
+				OR = {
+					capital_province ?= { geographical_region = tgp_yue_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_yue_region }
+				}
+				highest_held_title_tier >= tier_kingdom
 			}
 			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
 			modifier = {
@@ -8416,8 +8465,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		before = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_zhao_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_zhao_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_zhao_region }
 				}
 			}
 		}
@@ -8425,8 +8475,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		after = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_zhao_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_zhao_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_zhao_region }
 				}
 			}
 			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
@@ -8441,8 +8492,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		before = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_zhou_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_zhou_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_zhou_region }
 				}
 			}
 		}
@@ -8450,8 +8502,9 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 		after = {
 			modifier = {
 				add = 100
-				capital_province ?= {
-					geographical_region = tgp_zhou_region
+				OR = {
+					capital_province ?= { geographical_region = tgp_zhou_region }
+					scope:title.capital_county.title_province ?= { geographical_region = tgp_zhou_region }
 				}
 			}
 			# IRToCK3: Added so this name is given priority if it matches your Imperator Tag
@@ -8463,117 +8516,6 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 					var:imperator_tag ?= flag:EZO
 				}
 			}
-		}
-	}
-
-	replace = {
-		before = {
-		0 = { # Yuan
-			modifier = {
-				add = 1000
-				culture = {
-					has_cultural_pillar = heritage_mongolic
-				}
-			}
-			modifier = {
-				factor = 0
-				OR = {
-					is_title_localization_key_used = dynn_title_yuan
-					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_yuan }
-				}
-			}
-			add_to_variable_list = { name = realm_title_names target = flag:dynn_title_yuan }
-		}
-		}
-
-		after = {
-		0 = { # Yuan
-			modifier = {
-				add = 1000
-				culture = {
-					has_cultural_pillar = heritage_mongolic
-				}
-			}
-			modifier = {
-				factor = 0
-				OR = {
-					is_title_localization_key_used = dynn_title_yuan
-					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_yuan }
-				}
-			}
-			add_to_variable_list = { name = realm_title_names target = flag:dynn_title_yuan }
-		}
-		# IRToCK3: Added the below sections so Imperator tag names could be chosen, when applicable
-		0 = { # Yan
-			modifier = {
-				add = 1000
-				var:imperator_tag ?= flag:YAN
-			}
-			modifier = {
-				factor = 0
-				OR = {
-					is_title_localization_key_used = dynn_title_yan
-					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_yan }
-				}
-			}
-			add_to_variable_list = { name = realm_title_names target = flag:dynn_title_yan }
-		}
-		0 = { # Qin
-			modifier = {
-				add = 1000
-				var:imperator_tag ?= flag:QIN
-			}
-			modifier = {
-				factor = 0
-				OR = {
-					is_title_localization_key_used = dynn_title_qin
-					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_qin }
-				}
-			}
-			add_to_variable_list = { name = realm_title_names target = flag:dynn_title_qin }
-		}
-		0 = { # Teng
-			modifier = {
-				add = 1000
-				var:imperator_tag ?= flag:TNG
-			}
-			modifier = {
-				factor = 0
-				OR = {
-					is_title_localization_key_used = dynn_title_teng
-					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_teng }
-				}
-			}
-			add_to_variable_list = { name = realm_title_names target = flag:dynn_title_teng }
-		}
-		0 = { # Wey (Weii)
-			modifier = {
-				add = 1000
-				var:imperator_tag ?= flag:WII
-			}
-			modifier = {
-				factor = 0
-				OR = {
-					is_title_localization_key_used = dynn_title_wey
-					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_wey }
-				}
-			}
-			add_to_variable_list = { name = realm_title_names target = flag:dynn_title_wey }
-		}
-		0 = { # Bi
-			modifier = {
-				add = 1000
-				var:imperator_tag ?= flag:BII
-			}
-			modifier = {
-				factor = 0
-				OR = {
-					is_title_localization_key_used = dynn_title_bi
-					is_target_in_variable_list = { name = realm_title_names target = flag:dynn_title_bi }
-				}
-			}
-			add_to_variable_list = { name = realm_title_names target = flag:dynn_title_bi }
-		}
 		}
 	}
 }
