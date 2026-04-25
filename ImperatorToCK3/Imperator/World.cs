@@ -27,6 +27,8 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -154,11 +156,15 @@ internal partial class World {
 				FileHelper.EnsureDirectoryExists(directoryPath);
 			}
 
-			if (File.Exists(filePath)) {
-				File.SetAttributes(filePath, FileAttributes.Normal);
+			if (Directory.Exists(filePath)) {
+				// A directory node exists at the target path — writing is impossible.
+				Logger.Warn($"Failed to write \"{filePath}\": the path refers to a directory, not a file.");
+				return false;
 			}
 
-			using var writer = FileHelper.OpenWriteWithRetries(filePath, Encoding.UTF8);
+			FileHelper.EnsureFileIsWritable(filePath);
+
+			using var writer = FileHelper.OpenWriteWithRetries(filePath, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
 			writer.Write(contents);
 			return true;
 		} catch (Exception e) when (e is UnauthorizedAccessException or IOException or UserErrorException) {
@@ -172,23 +178,29 @@ internal partial class World {
 		// Set the current save to be used when launching the game with the continuelastsave option.
 		Logger.Debug("Modifying continue_game.json...");
 		var continueGamePath = Path.Join(config.ImperatorDocPath, "continue_game.json");
-		
+		var continueGameBackupPath = continueGamePath + ".backup";
+
 		// Backup the original file if it exists
 		if (File.Exists(continueGamePath)) {
 			try {
-				FileHelper.MoveWithRetries(continueGamePath, continueGamePath + ".backup");
+				if (File.Exists(continueGameBackupPath)) {
+					FileHelper.EnsureFileIsWritable(continueGameBackupPath);
+					FileHelper.DeleteWithRetries(continueGameBackupPath);
+				}
+				FileHelper.EnsureFileIsWritable(continueGamePath);
+				FileHelper.MoveWithRetries(continueGamePath, continueGameBackupPath);
 			} catch (Exception ex) {
 				Logger.Debug($"Failed to backup continue_game.json: {ex.Message}");
 				return false;
 			}
 		}
-		
+
 		return TryWriteTextFile(continueGamePath,
 			contents: $$"""
             {
-                "title": "{{Path.GetFileNameWithoutExtension(config.SaveGamePath)}}",
-                "desc": "Playing as {{metaPlayerName}} - {{EndDate}} AD",
-                "date": "{{DateTime.Now:yyyy-MM-dd HH:mm:ss}}"
+            	"title":	"{{Path.GetFileNameWithoutExtension(config.SaveGamePath)}}",
+            	"desc":	"Playing as {{metaPlayerName}} - {{EndDate}} AD",
+            	"date":	"{{DateTime.Now:yyyy-MM-dd HH:mm:ss}}"
             }
             """);
 	}
@@ -196,11 +208,17 @@ internal partial class World {
 	private bool OutputDlcLoadJson(Configuration config) {
 		Logger.Debug("Outputting dlc_load.json...");
 		var dlcLoadPath = Path.Join(config.ImperatorDocPath, "dlc_load.json");
+		var dlcLoadBackupPath = dlcLoadPath + ".backup";
 		
 		// Backup the original file if it exists
 		if (File.Exists(dlcLoadPath)) {
 			try {
-				FileHelper.MoveWithRetries(dlcLoadPath, dlcLoadPath + ".backup");
+				if (File.Exists(dlcLoadBackupPath)) {
+					FileHelper.EnsureFileIsWritable(dlcLoadBackupPath);
+					FileHelper.DeleteWithRetries(dlcLoadBackupPath);
+				}
+				FileHelper.EnsureFileIsWritable(dlcLoadPath);
+				FileHelper.MoveWithRetries(dlcLoadPath, dlcLoadBackupPath);
 			} catch (Exception ex) {
 				Logger.Debug($"Failed to backup dlc_load.json: {ex.Message}");
 				return false;
@@ -208,14 +226,14 @@ internal partial class World {
 		}
 		
 		var dlcLoadBuilder = new StringBuilder();
-		dlcLoadBuilder.AppendLine("{");
-		dlcLoadBuilder.Append(@"""enabled_mods"": [");
-		dlcLoadBuilder.AppendJoin(", ", incomingModPaths.Select(modPath => $"\"{modPath}\""));
-		dlcLoadBuilder.AppendLine(",");
-		dlcLoadBuilder.AppendLine("\"mod/coa_export_mod.mod\"");
-		dlcLoadBuilder.AppendLine("],");
-		dlcLoadBuilder.AppendLine(@"""disabled_dlcs"":[]");
-		dlcLoadBuilder.AppendLine("}");
+		dlcLoadBuilder.Append('{');
+		dlcLoadBuilder.Append(@"""enabled_mods"":[");
+		dlcLoadBuilder.AppendJoin(",", incomingModPaths.Select(modPath => $"\"{modPath}\""));
+		dlcLoadBuilder.Append(',');
+		dlcLoadBuilder.Append("\"mod/coa_export_mod.mod\"");
+		dlcLoadBuilder.Append("],");
+		dlcLoadBuilder.Append(@"""disabled_dlcs"":[]");
+		dlcLoadBuilder.Append('}');
 		return TryWriteTextFile(dlcLoadPath, dlcLoadBuilder.ToString());
 	}
 
@@ -278,7 +296,7 @@ internal partial class World {
 		var stopwatch = new Stopwatch();
 		stopwatch.Start();
 		while (!imperatorProcess.HasExited && !File.Exists(dataTypesLogPath)) {
-			if (stopwatch.Elapsed > TimeSpan.FromMinutes(5)) {
+			if (stopwatch.Elapsed > TimeSpan.FromMinutes(10)) {
 				Logger.Warn("Imperator process took too long to execute console commands! Aborting!");
 				imperatorProcess.Kill();
 				break;
@@ -297,7 +315,7 @@ internal partial class World {
 			Logger.Debug($"Imperator process exited with code {imperatorProcess.ExitCode}. Removing temporary mod files...");
 			try {
 				FileHelper.DeleteWithRetries(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod.mod"));
-				Directory.Delete(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod"), recursive: true);
+				FileHelper.DeleteDirectoryWithRetries(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod"));
 			} catch (Exception e) {
 				Logger.Warn($"Failed to remove temporary mod files: {e.Message}");
 			}
@@ -330,6 +348,10 @@ internal partial class World {
 	}
 
 	private void ExtractDynamicCoatsOfArms(Configuration config) {
+		if (Process.GetProcessesByName("imperator").Length != 0) {
+			throw new UserErrorException("Imperator: Rome is running! Please close the game before running the converter with dynamic CoA extraction enabled.");
+		}
+
 		try {
 			var countryFlags = Countries.Select(country => country.Flag).ToArray();
 			var missingFlags = CoaMapper.GetAllMissingFlagKeys(countryFlags);
@@ -375,6 +397,9 @@ internal partial class World {
 					}
 					FileHelper.MoveWithRetries(continueGameBackupPath, continueGamePath);
 				} catch (Exception ex) {
+					if (IsFileInUseException(ex)) {
+						LogFileInUseDiagnosticsForRestore(continueGamePath, continueGameBackupPath);
+					}
 					Logger.Warn($"Failed to restore continue_game.json: {ex.Message}");
 				}
 			}
@@ -929,6 +954,206 @@ internal partial class World {
 		Helpers.RakalyCaller.MeltSave(saveGamePath);
 		return new BufferedReader(File.Open("temp/melted_save.rome", FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
 	}
+
+	private static bool IsFileInUseException(Exception exception) {
+		const int sharingViolationHResult = unchecked((int)0x80070020);
+		const int lockViolationHResult = unchecked((int)0x80070021);
+
+		for (Exception? current = exception; current is not null; current = current.InnerException) {
+			if (current is IOException ioEx && (ioEx.HResult == sharingViolationHResult || ioEx.HResult == lockViolationHResult)) {
+				return true;
+			}
+
+			if (current.HResult == sharingViolationHResult || current.HResult == lockViolationHResult) {
+				return true;
+			}
+
+			if (current.Message.Contains("using the file", StringComparison.OrdinalIgnoreCase)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private static void LogFileInUseDiagnosticsForRestore(string continueGamePath, string continueGameBackupPath) {
+		if (!OperatingSystem.IsWindows()) {
+			Logger.Warn("continue_game.json restore failed because a file appears to be in use by another process.");
+			return;
+		}
+
+		var targetPaths = new[] {continueGamePath, continueGameBackupPath};
+		var anyLockInfoLogged = false;
+		foreach (var path in targetPaths.Distinct(StringComparer.OrdinalIgnoreCase)) {
+			if (!File.Exists(path)) {
+				continue;
+			}
+
+			var lockInfos = GetLockingProcessInfos(path);
+			if (lockInfos.Count == 0) {
+				continue;
+			}
+
+			anyLockInfoLogged = true;
+			foreach (var lockInfo in lockInfos) {
+				var executablePathText = lockInfo.ExecutablePath ?? "<unknown>";
+				Logger.Warn($"File in use: \"{path}\" locked by process \"{lockInfo.ProcessName}\" (PID {lockInfo.ProcessId}), executable \"{lockInfo.ExecutableName}\", full path \"{executablePathText}\".");
+			}
+		}
+
+		if (!anyLockInfoLogged) {
+			Logger.Warn($"continue_game.json restore failed because a file appears to be in use by another process, but locking process details could not be determined for \"{continueGamePath}\" or \"{continueGameBackupPath}\".");
+		}
+	}
+
+	private static IReadOnlyList<LockingProcessInfo> GetLockingProcessInfos(string filePath) {
+		if (!OperatingSystem.IsWindows()) {
+			return [];
+		}
+
+		const int errorSuccess = 0;
+		const int errorMoreData = 234;
+
+		var sessionKey = Guid.NewGuid().ToString();
+		var startResult = RmStartSession(out uint sessionHandle, 0, sessionKey);
+		if (startResult != errorSuccess) {
+			Logger.Debug($"Failed to start Restart Manager session for \"{filePath}\". Error code: {startResult}.");
+			return [];
+		}
+
+		try {
+			var registerResult = RmRegisterResources(sessionHandle, 1, [filePath], 0, null, 0, null);
+			if (registerResult != errorSuccess) {
+				Logger.Debug($"Failed to register resource \"{filePath}\" in Restart Manager. Error code: {registerResult}.");
+				return [];
+			}
+
+			uint processInfoNeeded = 0;
+			uint processInfoCount = 0;
+			uint rebootReasons = 0;
+			var listResult = RmGetList(sessionHandle, out processInfoNeeded, ref processInfoCount, null, ref rebootReasons);
+			if (listResult == errorSuccess) {
+				return [];
+			}
+			if (listResult != errorMoreData) {
+				Logger.Debug($"Failed to get Restart Manager list for \"{filePath}\". Error code: {listResult}.");
+				return [];
+			}
+
+			var rmProcesses = new RM_PROCESS_INFO[processInfoNeeded];
+			processInfoCount = processInfoNeeded;
+			listResult = RmGetList(sessionHandle, out processInfoNeeded, ref processInfoCount, rmProcesses, ref rebootReasons);
+			if (listResult != errorSuccess) {
+				Logger.Debug($"Failed to get Restart Manager process info for \"{filePath}\". Error code: {listResult}.");
+				return [];
+			}
+
+			var lockInfos = new List<LockingProcessInfo>((int)processInfoCount);
+			for (var i = 0; i < processInfoCount; ++i) {
+				lockInfos.Add(ToLockingProcessInfo(rmProcesses[i]));
+			}
+
+			return lockInfos;
+		} catch (Exception ex) {
+			Logger.Debug($"Failed to resolve locking processes for \"{filePath}\": {ex.Message}");
+			Logger.Debug(ex.ToString());
+			return [];
+		} finally {
+			var endResult = RmEndSession(sessionHandle);
+			if (endResult != errorSuccess) {
+				Logger.Debug($"Failed to end Restart Manager session for \"{filePath}\". Error code: {endResult}.");
+			}
+		}
+	}
+
+	private static LockingProcessInfo ToLockingProcessInfo(RM_PROCESS_INFO rmProcessInfo) {
+		string processName = string.IsNullOrWhiteSpace(rmProcessInfo.strAppName) ? "<unknown>" : rmProcessInfo.strAppName;
+		string executableName = processName;
+		string? executablePath = null;
+
+		try {
+			using var process = Process.GetProcessById(rmProcessInfo.Process.dwProcessId);
+			if (!string.IsNullOrWhiteSpace(process.ProcessName)) {
+				processName = process.ProcessName;
+			}
+
+			executablePath = process.MainModule?.FileName;
+			if (!string.IsNullOrWhiteSpace(executablePath)) {
+				executableName = Path.GetFileName(executablePath);
+			}
+		} catch {
+			// Best effort only: process may exit or deny inspection before we query it.
+		}
+
+		if (string.IsNullOrWhiteSpace(executableName)) {
+			executableName = "<unknown>";
+		}
+
+		return new LockingProcessInfo(rmProcessInfo.Process.dwProcessId, processName, executableName, executablePath);
+	}
+
+	private readonly record struct LockingProcessInfo(int ProcessId, string ProcessName, string ExecutableName, string? ExecutablePath);
+
+	private const int CchRmMaxAppName = 255;
+	private const int CchRmMaxSvcName = 63;
+
+	[StructLayout(LayoutKind.Sequential)]
+	private struct RM_UNIQUE_PROCESS {
+		public int dwProcessId;
+		public FILETIME ProcessStartTime;
+	}
+
+	private enum RM_APP_TYPE {
+		RmUnknownApp = 0,
+		RmMainWindow = 1,
+		RmOtherWindow = 2,
+		RmService = 3,
+		RmExplorer = 4,
+		RmConsole = 5,
+		RmCritical = 1000
+	}
+
+	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+	private struct RM_PROCESS_INFO {
+		public RM_UNIQUE_PROCESS Process;
+
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = CchRmMaxAppName + 1)]
+		public string strAppName;
+
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = CchRmMaxSvcName + 1)]
+		public string strServiceShortName;
+
+		public RM_APP_TYPE ApplicationType;
+		public uint AppStatus;
+		public uint TSSessionId;
+
+		[MarshalAs(UnmanagedType.Bool)]
+		public bool bRestartable;
+	}
+
+	[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
+	private static extern int RmStartSession(out uint pSessionHandle, int dwSessionFlags, string strSessionKey);
+
+	[DllImport("rstrtmgr.dll")]
+	private static extern int RmEndSession(uint pSessionHandle);
+
+	[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
+	private static extern int RmRegisterResources(
+		uint pSessionHandle,
+		uint nFiles,
+		string[] rgsFileNames,
+		uint nApplications,
+		[In] RM_UNIQUE_PROCESS[]? rgApplications,
+		uint nServices,
+		string[]? rgsServiceNames);
+
+	[DllImport("rstrtmgr.dll")]
+	private static extern int RmGetList(
+		uint dwSessionHandle,
+		out uint pnProcInfoNeeded,
+		ref uint pnProcInfo,
+		[In, Out] RM_PROCESS_INFO[]? rgAffectedApps,
+		ref uint lpdwRebootReasons);
 
 	private readonly IgnoredKeywordsSet ignoredTokens = [];
 
