@@ -2822,7 +2822,7 @@
 		}
 	} # end of replace
 
-	# Check if k_khorasan holder exists.
+	# Check if k_khorasan holder exists before giving them an artifact.
 	replace = {
 		before = {
 			title:k_khorasan.holder = {
@@ -2855,6 +2855,24 @@
 					modifier = artifact_attraction_opinion_2_modifier
 					modifier = artifact_court_grandeur_baseline_add_3_modifier
 					history = { type = created_before_history }
+				}
+			}
+		} # end of after
+	} # end of replace
+
+	# Check if k_transoxiana holder exists before giving them an Oxus Bracelet.
+	replace = {
+		before = {
+			title:k_transoxiana.holder = {
+				create_artifact_oxus_bracelet_effect = { 
+					OWNER = this
+				}
+			}
+		} # end of before
+		after = {
+			title:k_transoxiana.holder ?= {
+				create_artifact_oxus_bracelet_effect = { 
+					OWNER = this
 				}
 			}
 		} # end of after
