@@ -2756,7 +2756,7 @@
 			}
 		}
 		}
-	}
+	} # end of replace
 
 	# This doesn't check if h_china.holder exists, so need to change that
 	replace = {
@@ -2788,7 +2788,7 @@
 			}
 		}
 		}
-	}
+	} # end of replace
 
 	# Changing seeding of Visigothic Votive Crowns so that they are only given to relevant rulers if Visigothic is actually in the region
 	replace = {
@@ -2820,7 +2820,45 @@
 				holder = { add_to_list = potential_votive_crown_holders_list }
 			}
 		}
-	}
+	} # end of replace
+
+	# Check if k_khorasan holder exists.
+	replace = {
+		before = {
+			title:k_khorasan.holder = {
+				create_artifact = {
+					name = fp3_incense_burner_sculpture
+					description = fp3_incense_burner_sculpture_desc
+					visuals = fp3_incense_burner_sculpture
+					type = sculpture
+					wealth = 80
+					quality = 80
+					modifier = artifact_negate_health_penalty_add_2_modifier
+					modifier = artifact_stress_gain_3_modifier
+					modifier = artifact_attraction_opinion_2_modifier
+					modifier = artifact_court_grandeur_baseline_add_3_modifier
+					history = { type = created_before_history }
+				}
+			}
+		} # end of before
+		after = {
+			title:k_khorasan.holder ?= {
+				create_artifact = {
+					name = fp3_incense_burner_sculpture
+					description = fp3_incense_burner_sculpture_desc
+					visuals = fp3_incense_burner_sculpture
+					type = sculpture
+					wealth = 80
+					quality = 80
+					modifier = artifact_negate_health_penalty_add_2_modifier
+					modifier = artifact_stress_gain_3_modifier
+					modifier = artifact_attraction_opinion_2_modifier
+					modifier = artifact_court_grandeur_baseline_add_3_modifier
+					history = { type = created_before_history }
+				}
+			}
+		} # end of after
+	} # end of replace
 }
 
 
