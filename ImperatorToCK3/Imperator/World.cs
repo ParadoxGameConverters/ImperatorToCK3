@@ -172,17 +172,22 @@ internal partial class World {
 		// Set the current save to be used when launching the game with the continuelastsave option.
 		Logger.Debug("Modifying continue_game.json...");
 		var continueGamePath = Path.Join(config.ImperatorDocPath, "continue_game.json");
-		
+		var continueGameBackupPath = continueGamePath + ".backup";
+
 		// Backup the original file if it exists
 		if (File.Exists(continueGamePath)) {
 			try {
-				FileHelper.MoveWithRetries(continueGamePath, continueGamePath + ".backup");
+				if (File.Exists(continueGameBackupPath)) {
+					File.SetAttributes(continueGameBackupPath, FileAttributes.Normal);
+					FileHelper.DeleteWithRetries(continueGameBackupPath);
+				}
+				FileHelper.MoveWithRetries(continueGamePath, continueGameBackupPath);
 			} catch (Exception ex) {
 				Logger.Debug($"Failed to backup continue_game.json: {ex.Message}");
 				return false;
 			}
 		}
-		
+
 		return TryWriteTextFile(continueGamePath,
 			contents: $$"""
             {
@@ -196,11 +201,16 @@ internal partial class World {
 	private bool OutputDlcLoadJson(Configuration config) {
 		Logger.Debug("Outputting dlc_load.json...");
 		var dlcLoadPath = Path.Join(config.ImperatorDocPath, "dlc_load.json");
+		var dlcLoadBackupPath = dlcLoadPath + ".backup";
 		
 		// Backup the original file if it exists
 		if (File.Exists(dlcLoadPath)) {
 			try {
-				FileHelper.MoveWithRetries(dlcLoadPath, dlcLoadPath + ".backup");
+				if (File.Exists(dlcLoadBackupPath)) {
+					File.SetAttributes(dlcLoadBackupPath, FileAttributes.Normal);
+					FileHelper.DeleteWithRetries(dlcLoadBackupPath);
+				}
+				FileHelper.MoveWithRetries(dlcLoadPath, dlcLoadBackupPath);
 			} catch (Exception ex) {
 				Logger.Debug($"Failed to backup dlc_load.json: {ex.Message}");
 				return false;
