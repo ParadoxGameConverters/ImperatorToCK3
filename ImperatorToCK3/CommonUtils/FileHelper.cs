@@ -181,4 +181,28 @@ public static class FileHelper {
 			throw new UserErrorException($"Failed to move \"{sourceFilePath}\" to \"{destFilePath}\". {CloseProgramsHint}");
 		}
 	}
+
+	/// <summary>
+	/// Makes an existing regular file writable by the current user.
+	/// On Windows this clears the read-only attribute flag; on macOS and Linux
+	/// it adds the user-write bit directly via the POSIX file mode so that
+	/// the change takes effect even when the Win32-style attribute mapping
+	/// does not round-trip correctly on the host OS.
+	/// Does nothing when the file does not exist or when the path refers to a
+	/// directory rather than a regular file.
+	/// </summary>
+	public static void EnsureFileIsWritable(string filePath) {
+		if (!File.Exists(filePath)) {
+			return;
+		}
+
+		if (OperatingSystem.IsWindows()) {
+			File.SetAttributes(filePath, FileAttributes.Normal);
+		} else {
+			var mode = File.GetUnixFileMode(filePath);
+			if (!mode.HasFlag(UnixFileMode.UserWrite)) {
+				File.SetUnixFileMode(filePath, mode | UnixFileMode.UserWrite);
+			}
+		}
+	}
 }

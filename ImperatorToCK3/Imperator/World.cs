@@ -156,9 +156,13 @@ internal partial class World {
 				FileHelper.EnsureDirectoryExists(directoryPath);
 			}
 
-			if (File.Exists(filePath)) {
-				File.SetAttributes(filePath, FileAttributes.Normal);
+			if (Directory.Exists(filePath)) {
+				// A directory node exists at the target path — writing is impossible.
+				Logger.Warn($"Failed to write \"{filePath}\": the path refers to a directory, not a file.");
+				return false;
 			}
+
+			FileHelper.EnsureFileIsWritable(filePath);
 
 			using var writer = FileHelper.OpenWriteWithRetries(filePath, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
 			writer.Write(contents);
@@ -180,9 +184,10 @@ internal partial class World {
 		if (File.Exists(continueGamePath)) {
 			try {
 				if (File.Exists(continueGameBackupPath)) {
-					File.SetAttributes(continueGameBackupPath, FileAttributes.Normal);
+					FileHelper.EnsureFileIsWritable(continueGameBackupPath);
 					FileHelper.DeleteWithRetries(continueGameBackupPath);
 				}
+				FileHelper.EnsureFileIsWritable(continueGamePath);
 				FileHelper.MoveWithRetries(continueGamePath, continueGameBackupPath);
 			} catch (Exception ex) {
 				Logger.Debug($"Failed to backup continue_game.json: {ex.Message}");
@@ -209,9 +214,10 @@ internal partial class World {
 		if (File.Exists(dlcLoadPath)) {
 			try {
 				if (File.Exists(dlcLoadBackupPath)) {
-					File.SetAttributes(dlcLoadBackupPath, FileAttributes.Normal);
+					FileHelper.EnsureFileIsWritable(dlcLoadBackupPath);
 					FileHelper.DeleteWithRetries(dlcLoadBackupPath);
 				}
+				FileHelper.EnsureFileIsWritable(dlcLoadPath);
 				FileHelper.MoveWithRetries(dlcLoadPath, dlcLoadBackupPath);
 			} catch (Exception ex) {
 				Logger.Debug($"Failed to backup dlc_load.json: {ex.Message}");
@@ -290,7 +296,7 @@ internal partial class World {
 		var stopwatch = new Stopwatch();
 		stopwatch.Start();
 		while (!imperatorProcess.HasExited && !File.Exists(dataTypesLogPath)) {
-			if (stopwatch.Elapsed > TimeSpan.FromMinutes(5)) {
+			if (stopwatch.Elapsed > TimeSpan.FromMinutes(10)) {
 				Logger.Warn("Imperator process took too long to execute console commands! Aborting!");
 				imperatorProcess.Kill();
 				break;
