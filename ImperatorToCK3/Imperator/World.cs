@@ -160,7 +160,7 @@ internal partial class World {
 				File.SetAttributes(filePath, FileAttributes.Normal);
 			}
 
-			using var writer = FileHelper.OpenWriteWithRetries(filePath, Encoding.UTF8);
+			using var writer = FileHelper.OpenWriteWithRetries(filePath, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
 			writer.Write(contents);
 			return true;
 		} catch (Exception e) when (e is UnauthorizedAccessException or IOException or UserErrorException) {
@@ -193,9 +193,9 @@ internal partial class World {
 		return TryWriteTextFile(continueGamePath,
 			contents: $$"""
             {
-                "title": "{{Path.GetFileNameWithoutExtension(config.SaveGamePath)}}",
-                "desc": "Playing as {{metaPlayerName}} - {{EndDate}} AD",
-                "date": "{{DateTime.Now:yyyy-MM-dd HH:mm:ss}}"
+            	"title":	"{{Path.GetFileNameWithoutExtension(config.SaveGamePath)}}",
+            	"desc":	"Playing as {{metaPlayerName}} - {{EndDate}} AD",
+            	"date":	"{{DateTime.Now:yyyy-MM-dd HH:mm:ss}}"
             }
             """);
 	}
@@ -220,14 +220,14 @@ internal partial class World {
 		}
 		
 		var dlcLoadBuilder = new StringBuilder();
-		dlcLoadBuilder.AppendLine("{");
-		dlcLoadBuilder.Append(@"""enabled_mods"": [");
-		dlcLoadBuilder.AppendJoin(", ", incomingModPaths.Select(modPath => $"\"{modPath}\""));
-		dlcLoadBuilder.AppendLine(",");
-		dlcLoadBuilder.AppendLine("\"mod/coa_export_mod.mod\"");
-		dlcLoadBuilder.AppendLine("],");
-		dlcLoadBuilder.AppendLine(@"""disabled_dlcs"":[]");
-		dlcLoadBuilder.AppendLine("}");
+		dlcLoadBuilder.Append('{');
+		dlcLoadBuilder.Append(@"""enabled_mods"":[");
+		dlcLoadBuilder.AppendJoin(",", incomingModPaths.Select(modPath => $"\"{modPath}\""));
+		dlcLoadBuilder.Append(',');
+		dlcLoadBuilder.Append("\"mod/coa_export_mod.mod\"");
+		dlcLoadBuilder.Append("],");
+		dlcLoadBuilder.Append(@"""disabled_dlcs"":[]");
+		dlcLoadBuilder.Append('}');
 		return TryWriteTextFile(dlcLoadPath, dlcLoadBuilder.ToString());
 	}
 
@@ -342,6 +342,10 @@ internal partial class World {
 	}
 
 	private void ExtractDynamicCoatsOfArms(Configuration config) {
+		if (Process.GetProcessesByName("imperator").Length != 0) {
+			throw new UserErrorException("Imperator: Rome is running! Please close the game before running the converter with dynamic CoA extraction enabled.");
+		}
+
 		try {
 			var countryFlags = Countries.Select(country => country.Flag).ToArray();
 			var missingFlags = CoaMapper.GetAllMissingFlagKeys(countryFlags);
