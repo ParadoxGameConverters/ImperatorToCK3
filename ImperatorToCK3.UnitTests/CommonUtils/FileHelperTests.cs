@@ -76,5 +76,22 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 			Assert.False(Directory.Exists(expectedGuiDir));
 			Assert.True(File.Exists(collisionFile));
 		}
+
+		[Fact]
+		public void DeleteDirectoryWithRetries_deletesDirectoryWithReadOnlyContents() {
+			var targetDir = Path.Combine(tempRoot, "readOnlyDir", "nested");
+			Directory.CreateDirectory(targetDir);
+
+			var rootDir = Path.GetDirectoryName(targetDir)!;
+			var filePath = Path.Combine(targetDir, "topbar.gui");
+			File.WriteAllText(filePath, "foo");
+			File.SetAttributes(filePath, FileAttributes.ReadOnly);
+			File.SetAttributes(targetDir, FileAttributes.ReadOnly);
+			File.SetAttributes(rootDir, FileAttributes.ReadOnly);
+
+			FileHelper.DeleteDirectoryWithRetries(rootDir);
+
+			Assert.False(Directory.Exists(rootDir));
+		}
 	}
 }
