@@ -110,7 +110,7 @@ heritage_iberian_celtic = { # https://en.wikipedia.org/wiki/List_of_ancient_Celt
 heritage_punic = {
     REPLACED_BY = {
 		tfe = { heritage_punic }
-		vanilla_ck3 = { heritage_punic }
+		vanilla_ck3 = { heritage_punic heritage_phoenician }
 	}
 	MOD_DEPENDENT = {
 		IF @[roa|tfe] = {
@@ -733,4 +733,21 @@ heritage_dongyi = { # Will worry about CCU parameters once relevant mods are upd
 		}
 	}
 	audio_parameter = sea
+}
+
+heritage_alasiyan = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+    	tfe = { heritage_alasiyan }
+		wtwsms = { heritage_alasiyan }
+		roa = { heritage_alasiyan }
+    	vanilla_ck3 = { heritage_alasiyan }
+    }
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_alasiyan
+		}
+	}
+	audio_parameter = mena
 }

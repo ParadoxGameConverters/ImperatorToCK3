@@ -44,7 +44,7 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 		religionParser.ParseStream(religionReader);
 		
 		// Fix a religion having more doctrines in the same category than allowed.
-		foreach (var category in religions.DoctrineCategories) {
+		foreach (var category in religions.DoctrineGroups) {
 			var categoryDoctrineSet = category.DoctrineIds.ToHashSet(StringComparer.Ordinal);
 			var doctrinesInCategory = new List<string>();
 			foreach (var doctrineId in DoctrineIds) {

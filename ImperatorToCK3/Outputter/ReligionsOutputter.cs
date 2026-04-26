@@ -28,7 +28,7 @@ internal static class ReligionsOutputter {
 			sb.AppendLine($"{site.Id}={PDXSerializer.Serialize(site)}");
 		}
 
-		var outputPath = Path.Combine(outputModPath, "common/religion/holy_sites/all_holy_sites.txt");
+		var outputPath = Path.Combine(outputModPath, "common/religion/holy_site_types/all_holy_sites.txt");
 		await using var output = FileHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 		sb.Clear();
@@ -66,7 +66,7 @@ internal static class ReligionsOutputter {
 			sb.AppendLine($"{religion.Id}={PDXSerializer.Serialize(religion)}");
 		}
 
-		var outputPath = Path.Combine(outputModPath, "common/religion/religions/IRtoCK3_all_religions.txt");
+		var outputPath = Path.Combine(outputModPath, "common/religion/religion_types/IRtoCK3_all_religions.txt");
 		await using var output = FileHelper.OpenWriteWithRetries(outputPath, Encoding.UTF8);
 		await output.WriteAsync(sb.ToString());
 	}

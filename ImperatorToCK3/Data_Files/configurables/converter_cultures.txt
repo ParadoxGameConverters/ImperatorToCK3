@@ -3254,39 +3254,43 @@ palaungic = {  # from AsiaExtended mod https://steamcommunity.com/sharedfiles/fi
 }
 
 carthaginian = {
+	# Should overwrite the base game's Carthaginian culture to properly reference Phoenician as it's parent culture
     INVALIDATED_BY = {
 		tfe = { carthaginian punic }
-		vanilla_ck3 = { carthaginian punic }
+		vanilla_ck3 = { punic }
 	}
 
-	color = rgb { 74 174 85 }
+	color = { 0.7 0.6 0.95 }
 	parents = { phoenician }
 	created = 2.1.1
 
-	heritage = heritage_punic
-	language = language_punic
+	ethos = ethos_bellicose
+	heritage = heritage_phoenician
+	language = language_carthaginian
 	martial_custom = martial_custom_male_only
 	head_determination = head_determination_domain
+	traditions = {
+		tradition_maritime_mercantilism
+		tradition_swords_for_hire
+		tradition_eye_for_an_eye
+		tradition_seafaring
+		tradition_ce1_ritual_washing
+	}
+
+	name_list = name_list_carthaginian
+	name_list = name_list_punic
+
+	coa_gfx = { arabic_group_coa_gfx }
+	building_gfx = { arabic_group_building_gfx mena_building_gfx }
+	clothing_gfx = { byzantine_clothing_gfx }  
+	unit_gfx = { mena_unit_gfx } 	
 	house_coa_frame = house_frame_15
 	house_coa_mask_offset = { 0.0 -0.03 }
 	house_coa_mask_scale = { 0.95 0.95 }
-	traditions = {
-		tradition_warriors_by_merit
-		tradition_seafaring
-	}
-
-	name_list = name_list_punic
-
-	ethos = ethos_stoic
 
 	ethnicities = {
 		10 = arab
 	}
-
-	coa_gfx = { arabic_group_coa_gfx }
-	building_gfx = { berber_group_building_gfx mena_building_gfx }
-	clothing_gfx = { dde_abbasid_clothing_gfx mena_clothing_gfx }
-	unit_gfx = { mena_unit_gfx }
 }
 
 phoenician = {
@@ -3297,8 +3301,8 @@ phoenician = {
 
 	color = hsv { 0.75 0.9 0.73	}
 
-	heritage = heritage_punic
-	language = language_punic
+	heritage = heritage_phoenician
+	language = language_punic # Localized as Phoenician in-game
 	martial_custom = martial_custom_male_only
 	head_determination = head_determination_domain
 	house_coa_frame = house_frame_15
@@ -3331,7 +3335,7 @@ alasiyan = { #Ancient pre-Cypriot people of Cyprus
 
 	color = rgb { 201 110 0	}
 
-	heritage = heritage_punic
+	heritage = heritage_alasiyan
 	language = language_alasiyan
 	martial_custom = martial_custom_male_only
 	head_determination = head_determination_domain
@@ -3365,7 +3369,7 @@ ugaritic = {
 
 	color = rgb { 130 143 120 }
 
-	heritage = heritage_punic
+	heritage = heritage_phoenician # This should probably get it's own heritage when used with mods that have CCU
 	language = language_ugaritic
 	martial_custom = martial_custom_male_only
 	head_determination = head_determination_domain
