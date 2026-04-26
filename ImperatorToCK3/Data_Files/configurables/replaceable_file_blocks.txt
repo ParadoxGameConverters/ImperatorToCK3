@@ -2296,6 +2296,252 @@
 	}
 		} # end of after
 	}
+
+	##################
+	## restore_carthage_scripted_effect
+	##################
+	# k_tripolitania setup
+	replace = {
+		before = {
+		title:k_tripolitania = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+			set_de_jure_liege_title = title:e_carthage
+		}
+		 # Tripolitania Duchies
+		title:d_tripolitania = {
+			set_de_jure_liege_title = title:k_tripolitania
+		}
+		title:d_syrte = {
+			set_de_jure_liege_title = title:k_tripolitania
+		}
+		}
+
+		after = {
+		# IRToCK3: k_tripolitania should only be used when it makes sense. Otherwise, a dynamic title should probably be used
+		if = {
+			limit = {
+				title:k_tripolitania = {
+					# Shouldn't take it from someone else
+					OR = {
+						NOT = { exists = holder }
+						holder ?= root
+					}
+					# Should either have no de jure land, or already cover at least half of the custom region
+					OR = {
+						is_titular = yes
+						any_county_in_region = {
+							region = custom_tripolitania
+							percent >= 0.5
+							kingdom ?= title:k_tripolitania
+						}
+					}
+				}
+			}
+			title:k_tripolitania = { save_scope_as = tripolitania_title }
+		}
+		else = {
+			create_dynamic_title = {
+				tier = kingdom
+				name = k_tripolitania
+			}
+			scope:new_title = {
+				save_scope_as = tripolitania_title
+				set_coa = k_tripolitania
+			}
+			clear_saved_scope = new_title
+		}
+		scope:tripolitania_title = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+			set_de_jure_liege_title = title:e_carthage
+			set_capital_county = title:c_tripolitana
+		}
+		 # Tripolitania Duchies
+		title:d_tripolitania = {
+			set_de_jure_liege_title = scope:tripolitania_title
+		}
+		title:d_syrte = {
+			set_de_jure_liege_title = scope:tripolitania_title
+		}
+		}
+	}
+
+	# k_mauretania setup
+	replace = {
+		before = {
+		title:k_mauretania = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+			set_de_jure_liege_title = title:e_carthage
+		}
+		 # Mauretania Duchies
+		title:d_bejaia = {
+			set_de_jure_liege_title = title:k_mauretania
+		}
+		title:d_zab = {
+			set_de_jure_liege_title = title:k_mauretania
+		}
+		title:d_tlemcen = {
+			set_de_jure_liege_title = title:k_mauretania
+		}
+		title:d_rif = {
+			set_de_jure_liege_title = title:k_mauretania
+		}
+		title:d_alger = {
+			set_de_jure_liege_title = title:k_mauretania
+		}
+		}
+
+		after = {
+		# IRToCK3: k_mauretania should only be used when it makes sense. Otherwise, a dynamic title should probably be used
+		if = {
+			limit = {
+				title:k_mauretania = {
+					# Shouldn't take it from someone else
+					OR = {
+						NOT = { exists = holder }
+						holder ?= root
+					}
+					# Should either have no de jure land, or already cover at least half of the custom region
+					OR = {
+						is_titular = yes
+						any_county_in_region = {
+							region = custom_mauretania
+							percent >= 0.5
+							kingdom ?= title:k_mauretania
+						}
+					}
+				}
+			}
+			title:k_mauretania = { save_scope_as = mauretania_title }
+		}
+		else = {
+			create_dynamic_title = {
+				tier = kingdom
+				name = k_mauretania
+			}
+			scope:new_title = {
+				save_scope_as = mauretania_title
+				set_coa = k_mauretania
+			}
+			clear_saved_scope = new_title
+		}
+		scope:mauretania_title = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+			set_de_jure_liege_title = title:e_carthage
+			set_capital_county = title:c_algier
+		}
+		 # Mauretania Duchies
+		title:d_bejaia = {
+			set_de_jure_liege_title = scope:mauretania_title
+		}
+		title:d_zab = {
+			set_de_jure_liege_title = scope:mauretania_title
+		}
+		title:d_tlemcen = {
+			set_de_jure_liege_title = scope:mauretania_title
+		}
+		title:d_rif = {
+			set_de_jure_liege_title = scope:mauretania_title
+		}
+		title:d_alger = {
+			set_de_jure_liege_title = scope:mauretania_title
+		}
+		}
+	}
+
+	# k_carthago_nova setup
+	replace = {
+		before = {
+		title:k_carthago_nova = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+			set_de_jure_liege_title = title:e_carthage
+		}
+		 # Carthago Nova Duchies
+		title:d_sevilla = {
+			set_de_jure_liege_title = title:k_carthago_nova
+		}
+		title:d_granada = {
+			set_de_jure_liege_title = title:k_carthago_nova
+		}
+		title:d_murcia = {
+			set_de_jure_liege_title = title:k_carthago_nova
+		}
+		title:d_valencia = {
+			set_de_jure_liege_title = title:k_carthago_nova
+		}
+		}
+
+		after = {
+		# IRToCK3: k_carthago_nova should only be used when it makes sense. Otherwise, a dynamic title should probably be used
+		if = {
+			limit = {
+				title:k_carthago_nova = {
+					# Shouldn't take it from someone else
+					OR = {
+						NOT = { exists = holder }
+						holder ?= root
+					}
+					# Should either have no de jure land, or already cover at least half of the custom region
+					OR = {
+						is_titular = yes
+						any_county_in_region = {
+							region = custom_carthago_nova
+							percent >= 0.5
+							kingdom ?= title:k_carthago_nova
+						}
+					}
+				}
+			}
+			title:k_carthago_nova = { save_scope_as = carthago_nova_title }
+		}
+		else = {
+			create_dynamic_title = {
+				tier = kingdom
+				name = k_carthago_nova
+			}
+			scope:new_title = {
+				save_scope_as = carthago_nova_title
+				set_coa = k_carthago_nova
+			}
+			clear_saved_scope = new_title
+		}
+		scope:carthago_nova_title = {
+			change_title_holder = {
+				holder = root
+				change = scope:title_change
+			}
+			set_de_jure_liege_title = title:e_carthage
+			set_capital_county = title:c_murcia
+		}
+		 # Carthago Nova Duchies
+		title:d_sevilla = {
+			set_de_jure_liege_title = scope:carthago_nova_title
+		}
+		title:d_granada = {
+			set_de_jure_liege_title = scope:carthago_nova_title
+		}
+		title:d_murcia = {
+			set_de_jure_liege_title = scope:carthago_nova_title
+		}
+		title:d_valencia = {
+			set_de_jure_liege_title = scope:carthago_nova_title
+		}
+		}
+	}
 } # End of 00_decisions_effects.txt
 
 
@@ -4260,6 +4506,120 @@ tgp_is_ceremonial_regent_trigger = {
 			else = {
 				create_custom_empire_effect = yes
 			}
+		}
+	}
+
+	#########################
+	## restore_carthage_decision
+	#########################
+	# Modifying so it can't be taken when Carthage already exists (unless k_carthage is upgrading to e_carthage), and only by cultures where it really makes sense
+
+	replace = {
+		before = {
+	desc = restore_carthage_decision_desc
+	selection_tooltip = restore_carthage_decision_tooltip
+		}
+
+		after = {
+	# IRToCK3: Made name change depending on whether you are restoring Carthage, or elevating it from k_carthage
+	title = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						has_title = title:k_carthage
+						title:k_carthage = { is_titular = no }
+					}
+				}
+				desc = irtock3_elevate_carthage_decision_title
+			}
+			desc = restore_carthage_decision
+		}
+	}
+
+	# IRToCK3: Made desc change depending on whether you are restoring Carthage, or elevating it from k_carthage
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						has_title = title:k_carthage
+						title:k_carthage = { is_titular = no }
+					}
+				}
+				desc = irtock3_elevate_carthage_decision_desc
+			}
+			desc = restore_carthage_decision_desc
+		}
+	}
+
+	# IRToCK3: Made selection_tooltip change depending on whether you are restoring Carthage, or elevating it from k_carthage
+	selection_tooltip = {
+		first_valid = {
+			triggered_desc = {
+				trigger = {
+					OR = {
+						has_title = title:k_carthage
+						title:k_carthage = { is_titular = no }
+					}
+				}
+				desc = irtock3_elevate_carthage_decision_tooltip
+			}
+			desc = restore_carthage_decision_tooltip
+		}
+	}
+		}
+	}
+
+	# is_shown block
+	replace = {
+		before = {
+		OR = {
+			culture = { has_cultural_pillar = heritage_syriac }
+			culture = culture:levantine		
+		}
+		}
+
+		after = {
+		# IRToCK3: Base game only allows Mashriqi or Syriac Heritage. Changed to only allow Phoenician heritage, or for you to have k_carthage
+		OR = {
+			culture = { has_cultural_pillar = heritage_phoenician }
+			has_title = title:k_carthage
+		}
+
+		# IRToCK3: Don't allow this decision if e_carthage already has land/exists from conversion
+		title:e_carthage = {
+			is_titular = yes
+			NOT = { exists = holder }
+		}
+		}
+	}
+
+	# is_valid block
+	replace = {
+		before = {
+		completely_controls_region = custom_carthage
+		completely_controls_region = custom_tripolitania
+		completely_controls_region = custom_mauretania
+		completely_controls_region = custom_carthago_nova
+		}
+
+		after = {
+		completely_controls_region = custom_carthage
+		completely_controls_region = custom_tripolitania
+		completely_controls_region = custom_mauretania
+		completely_controls_region = custom_carthago_nova
+
+		# IRToCK3: Made it so that if someone has k_carthage, or it has de jure land, the decision requires you to have k_carthage
+		trigger_if = {
+			limit = {
+				OR = {
+					exists = title:k_carthage.holder
+					title:k_carthage = { is_titular = no }
+				}
+			}
+			has_title = title:k_carthage
+		}
 		}
 	}
 }
@@ -8784,4 +9144,47 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 				}
 		} # end of after
 	} # end of replace
+}
+
+
+"events/decisions_events/major_decisions_events.txt" = {
+	#################
+	## major_decisions.3300
+	#################
+	##Restore Carthage 
+
+	replace = {
+		before = {
+	desc = major_decisions.3300.desc
+		}
+
+		after = {
+	# IRToCK3: Changed event's desc so that it's different depending on whether you are restoring Carthage, or elevating k_carthage
+	desc = {
+		first_valid = {
+			triggered_desc = {
+				trigger = { has_title = title:k_carthage }
+				desc = major_decisions.3300.desc_elevating_carthage
+			}
+			desc = major_decisions.3300.desc
+		}
+	}
+		}
+	}
+
+	# Option a block (Adopt Carthaginian Culture
+	replace = {
+		before = {
+		name = major_decisions.3300.a
+		}
+
+		after = {
+		name = major_decisions.3300.a
+
+		# IRToCK3: Made it so this option can only be chosen if you don't already have Carthaginian Culture
+		trigger = {
+			NOT = { culture = culture:carthaginian }
+		}
+		}
+	}
 }
