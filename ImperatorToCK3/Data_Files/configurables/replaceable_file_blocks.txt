@@ -6005,6 +6005,31 @@ japan_imperial_expansion_cb_allowed_for_character_trigger = {
 	#########################
 	## acclamation_succession_law
 	#########################
+	# can_title_have block
+	## The base game makes it so that only e_byzantium is allowed to have this law as a title law. Changed to allow any Rome title, since the government is more focused on them
+	replace = {
+		before = {
+		can_title_have = {
+			this = title:e_byzantium
+		}
+		}
+
+		after = {
+		can_title_have = {
+			# IRToCK3: Base game just references e_byzantium, extended to all relevant Rome titles
+			OR = {
+				this = title:e_byzantium
+				this = title:e_western_roman_empire
+				this = title:e_roman_empire
+				this = title:k_rome
+				this = title:h_roman_empire
+				this = title:h_western_roman_empire
+				this = title:h_eastern_roman_empire
+			}
+		}
+		}
+	}
+
 	# should_start_with block
 	replace = {
 		before = {
