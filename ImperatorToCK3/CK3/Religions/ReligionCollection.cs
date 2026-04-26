@@ -22,7 +22,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	private Dictionary<string, Faith>? faithCache;
 	public IReadOnlyDictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith => replaceableHolySitesByFaith;
 	public IdObjectCollection<string, HolySite> HolySites { get; } = [];
-	public IdObjectCollection<string, DoctrineCategory> DoctrineCategories { get; } = [];
+	public IdObjectCollection<string, DoctrineGroup> DoctrineGroups { get; } = [];
 
 	public IEnumerable<Faith> Faiths {
 		get {
@@ -81,11 +81,11 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	private void ValidateTheismDoctrine(OrderedSet<Faith> loadedConverterFaiths)
 	{
-		string? theismFallback = DoctrineCategories.TryGetValue("doctrine_theism", out var theismCategory)
+		string? theismFallback = DoctrineGroups.TryGetValue("doctrine_theism", out var theismCategory)
 			? theismCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_polytheist")
 			: null;
 		foreach (var converterFaith in loadedConverterFaiths) {
-			var theismDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_theism");
+			var theismDoctrine = converterFaith.GetDoctrineIdsForDoctrineGroupId("doctrine_theism");
 			if (theismDoctrine.Count == 0) {
 				if (theismFallback is not null) {
 					Logger.Warn($"Faith {converterFaith.Id} has no theism doctrine! Setting {theismFallback}");
@@ -99,11 +99,11 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	private void ValidateCoronationDoctrine(OrderedSet<Faith> loadedConverterFaiths)
 	{
-		string? coronationFallback = DoctrineCategories.TryGetValue("doctrine_coronation", out var coronationCategory)
+		string? coronationFallback = DoctrineGroups.TryGetValue("doctrine_coronation", out var coronationCategory)
 			? coronationCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_no_anointment")
 			: null;
 		foreach (var converterFaith in loadedConverterFaiths) {
-			var coronationDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_coronation");
+			var coronationDoctrine = converterFaith.GetDoctrineIdsForDoctrineGroupId("doctrine_coronation");
 			if (coronationDoctrine.Count == 0) {
 				if (coronationFallback is not null) {
 					Logger.Warn($"Faith {converterFaith.Id} has no coronation doctrine! Setting {coronationFallback}");
@@ -117,11 +117,11 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	private void ValidateFuneralDoctrine(OrderedSet<Faith> loadedConverterFaiths)
 	{
-		string? funeralFallback = DoctrineCategories.TryGetValue("doctrine_funeral", out var funeralCategory)
+		string? funeralFallback = DoctrineGroups.TryGetValue("doctrine_funeral", out var funeralCategory)
 			? funeralCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_funeral_stoic")
 			: null;
 		foreach (var converterFaith in loadedConverterFaiths) {
-			var funeralDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_funeral");
+			var funeralDoctrine = converterFaith.GetDoctrineIdsForDoctrineGroupId("doctrine_funeral");
 			if (funeralDoctrine.Count == 0) {
 				if (funeralFallback is not null) {
 					Logger.Warn($"Faith {converterFaith.Id} has no funeral doctrine! Setting {funeralFallback}");
@@ -135,11 +135,11 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	private void ValidatePilgrimageDoctrine(OrderedSet<Faith> loadedConverterFaiths)
 	{
-		string? pilgrimageFallback = DoctrineCategories.TryGetValue("doctrine_pilgrimage", out var pilgrimageCategory)
+		string? pilgrimageFallback = DoctrineGroups.TryGetValue("doctrine_pilgrimage", out var pilgrimageCategory)
 			? pilgrimageCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_pilgrimage_encouraged")
 			: null;
 		foreach (var converterFaith in loadedConverterFaiths) {
-			var pilgrimageDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_pilgrimage");
+			var pilgrimageDoctrine = converterFaith.GetDoctrineIdsForDoctrineGroupId("doctrine_pilgrimage");
 			if (pilgrimageDoctrine.Count == 0) {
 				if (pilgrimageFallback is not null) {
 					Logger.Warn($"Faith {converterFaith.Id} has no pilgrimage doctrine! Setting {pilgrimageFallback}");
@@ -224,8 +224,8 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	public void LoadDoctrines(ModFilesystem ck3ModFS) {
 		var parser = new Parser(implicitVariableHandling: true);
-		parser.RegisterRegex(CommonRegexes.String, (reader, categoryId) => // TODO: rename categoryId to groupId
-			DoctrineCategories.AddOrReplace(new DoctrineCategory(categoryId, reader))); // TODO: rename DoctrineCategories to DoctrineGroups
+		parser.RegisterRegex(CommonRegexes.String, (reader, groupId) =>
+			DoctrineGroups.AddOrReplace(new DoctrineGroup(groupId, reader)));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/religion/doctrine_group_types", ck3ModFS, "txt", recursive: true);
 	}
@@ -392,7 +392,9 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		return provincesByFaith;
 	}
 
+	/// <summary>
 	/// Generates religious heads for all alive faiths that have Spiritual Head doctrine and don't have a religious head.
+	/// </summary>
 	public void GenerateMissingReligiousHeads(
 		Title.LandedTitles titles,
 		CharacterCollection characters,
@@ -414,7 +416,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 			if (!(aliveCharacterFaithIds.Contains(faith.Id) || provinceFaithIds.Contains(faith.Id))) {
 				continue;
 			}
-			if (!faith.GetDoctrineIdsForDoctrineCategoryId("doctrine_head_of_faith").Contains("doctrine_spiritual_head")) {
+			if (!faith.GetDoctrineIdsForDoctrineGroupId("doctrine_head_of_faith").Contains("doctrine_spiritual_head")) {
 				continue;
 			}
 			aliveFaithsWithSpiritualHeadDoctrine.Add(faith);

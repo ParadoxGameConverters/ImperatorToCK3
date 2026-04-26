@@ -1610,7 +1610,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 		
 		// Skip if the faith doesn't allow the character's gender to be clergy.
-		var clericalGenderDoctrines = rulerFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_clerical_gender");
+		var clericalGenderDoctrines = rulerFaith.GetDoctrineIdsForDoctrineGroupId("doctrine_clerical_gender");
 		if (clericalGenderDoctrines.Count != 0) {
 			if (clericalGenderDoctrines.Contains("doctrine_clerical_gender_female_only") && !ck3Official.Female) {
 				return false;
@@ -1629,7 +1629,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			var courtFaith = ck3Ruler.GetFaithId(irSaveDate);
 			if (courtFaith is not null) {
 				var dominantGenderDoctrines = religionCollection.GetFaith(courtFaith)?
-					.GetDoctrineIdsForDoctrineCategoryId("doctrine_gender");
+					.GetDoctrineIdsForDoctrineGroupId("doctrine_gender");
 				if (dominantGenderDoctrines is null) {
 					return false;
 				}

@@ -57,7 +57,7 @@ public class ReligionTests {
 			"doctrine_types = { doctrine_head_1 doctrine_head_2 doctrine_head_3 doctrine_head_4 }"
 		);
 		var religions = new ReligionCollection(new Title.LandedTitles());
-		religions.DoctrineCategories.AddOrReplace(new DoctrineCategory("head_category", categoryReader));
+		religions.DoctrineGroups.AddOrReplace(new DoctrineGroup("head_category", categoryReader));
 
 		// Act: Create a religion with 4 doctrines from the same category (exceeds limit)
 		var reader = new BufferedReader(@"{
