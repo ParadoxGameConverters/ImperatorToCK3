@@ -15,7 +15,7 @@ link = { ir = death_old_ailment ck3 = death_ill }
 link = { ir = death_flogging ck3 = death_punishment }
 link = { ir = death_lunacy ck3 = death_lunatic }
 link = { ir = death_other_lunacy ck3 = death_accident }
-link = { ir = death_heart_attack ck3 = death_attacked }
+link = { ir = death_heart_attack ck3 = death_heart_attack }
 link = { ir = death_stress ck3 = death_stress }
 link = { ir = death_overwork ck3 = death_horse_riding_accident }
 link = { ir = death_overexertion ck3 = death_feast_accident }

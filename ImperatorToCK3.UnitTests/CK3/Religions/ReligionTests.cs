@@ -54,13 +54,10 @@ public class ReligionTests {
 		// Arrange: Create a doctrine category with only 2 picks allowed
 		var categoryReader = new BufferedReader(
 			"number_of_picks = 2\n" +
-			"doctrine_head_1 = {}\n" +
-			"doctrine_head_2 = {}\n" +
-			"doctrine_head_3 = {}\n" +
-			"doctrine_head_4 = {}\n"
+			"doctrine_types = { doctrine_head_1 doctrine_head_2 doctrine_head_3 doctrine_head_4 }"
 		);
 		var religions = new ReligionCollection(new Title.LandedTitles());
-		religions.DoctrineCategories.AddOrReplace(new DoctrineCategory("head_category", categoryReader));
+		religions.DoctrineGroups.AddOrReplace(new DoctrineGroup("head_category", categoryReader));
 
 		// Act: Create a religion with 4 doctrines from the same category (exceeds limit)
 		var reader = new BufferedReader(@"{
