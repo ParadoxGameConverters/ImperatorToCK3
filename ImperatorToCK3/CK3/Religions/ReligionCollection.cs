@@ -224,8 +224,8 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	public void LoadDoctrines(ModFilesystem ck3ModFS) {
 		var parser = new Parser(implicitVariableHandling: true);
-		parser.RegisterRegex(CommonRegexes.String, (reader, categoryId) =>
-			DoctrineCategories.AddOrReplace(new DoctrineCategory(categoryId, reader)));
+		parser.RegisterRegex(CommonRegexes.String, (reader, categoryId) => // TODO: rename categoryId to groupId
+			DoctrineCategories.AddOrReplace(new DoctrineCategory(categoryId, reader))); // TODO: rename DoctrineCategories to DoctrineGroups
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseGameFolder("common/religion/doctrine_group_types", ck3ModFS, "txt", recursive: true);
 	}

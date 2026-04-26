@@ -14,10 +14,10 @@ public class DoctrineCategoryTests {
 	}
 
 	[Fact]
-	public void Constructor_ParsesGroupId() {
-		var reader = new BufferedReader("group = test_group");
+	public void Constructor_ParsesCategoryId() {
+		var reader = new BufferedReader("category = test_category");
 		var category = new DoctrineCategory("cat", reader);
-		Assert.Equal("test_group", category.GroupId);
+		Assert.Equal("test_category", category.GroupId);
 	}
 
 	[Fact]
@@ -36,7 +36,7 @@ public class DoctrineCategoryTests {
 
 	[Fact]
 	public void Constructor_ParsesDoctrineIds() {
-		var reader = new BufferedReader("doctrine1={} doctrine2={} doctrine3={}");
+		var reader = new BufferedReader("doctrine_types = { doctrine1 doctrine2 doctrine3 }");
 		var category = new DoctrineCategory("cat", reader);
 		Assert.Equal(["doctrine1", "doctrine2", "doctrine3"], category.DoctrineIds);
 	}

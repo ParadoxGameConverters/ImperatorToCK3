@@ -145,9 +145,7 @@ public class FaithTests {
 		// Arrange doctrine category with 2 picks allowed and 3 possible doctrines.
 		var categoryReader = new BufferedReader(
 			"number_of_picks = 2\n" +
-			"doc_a1 = {}\n" +
-			"doc_a2 = {}\n" +
-			"doc_a3 = {}\n"
+			"doctrine_types = { doc_a1 doc_a2 doc_a3 }"
 		);
 		testReligion.ReligionCollection.DoctrineCategories.AddOrReplace(new DoctrineCategory("catA", categoryReader));
 
@@ -174,8 +172,7 @@ public class FaithTests {
 	public void GetDoctrineIdsForDoctrineCategory_PrefersFaithOverReligion() {
 		// Arrange category with two doctrines.
 		var categoryReader = new BufferedReader(
-			"doc_b1 = {}\n" +
-			"doc_b2 = {}\n"
+			"doctrine_types = { doc_b1 doc_b2 }"
 		);
 		testReligion.ReligionCollection.DoctrineCategories.AddOrReplace(new DoctrineCategory("catB", categoryReader));
 
@@ -195,8 +192,7 @@ public class FaithTests {
 	public void GetDoctrineIdsForDoctrineCategory_FallsBackToReligion() {
 		// Arrange category with two doctrines.
 		var categoryReader = new BufferedReader(
-			"doc_b1 = {}\n" +
-			"doc_b2 = {}\n"
+			"doctrine_types = { doc_b1 doc_b2 }"
 		);
 		testReligion.ReligionCollection.DoctrineCategories.AddOrReplace(new DoctrineCategory("catB_fallback", categoryReader));
 
@@ -225,8 +221,7 @@ public class FaithTests {
 	[Fact]
 	public void HasDoctrine_TrueWhenFaithHasDoctrine() {
 		var categoryReader = new BufferedReader(
-			"doc_c1 = {}\n" +
-			"doc_c2 = {}\n"
+			"doctrine_types = { doc_c1 doc_c2 }"
 		);
 		testReligion.ReligionCollection.DoctrineCategories.AddOrReplace(new DoctrineCategory("catC", categoryReader));
 
@@ -241,8 +236,7 @@ public class FaithTests {
 	[Fact]
 	public void HasDoctrine_FallsBackToReligionWhenFaithHasNoneInCategory() {
 		var categoryReader = new BufferedReader(
-			"doc_c1 = {}\n" +
-			"doc_c2 = {}\n"
+			"doctrine_types = { doc_c1 doc_c2 }"
 		);
 		testReligion.ReligionCollection.DoctrineCategories.AddOrReplace(new DoctrineCategory("catC_fallback", categoryReader));
 

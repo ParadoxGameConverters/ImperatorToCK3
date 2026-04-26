@@ -7,7 +7,7 @@ namespace ImperatorToCK3.CK3.Religions;
 
 internal sealed class DoctrineCategory : IIdentifiable<string> {
 	public string Id { get; }
-	public string? GroupId { get; private set; }
+	public string? GroupId { get; private set; } // TODO: rename this field to CategoryId
 	public int NumberOfPicks { get; private set; } = 1;
 	
 	private readonly OrderedSet<string> doctrineIds = [];
