@@ -148,7 +148,7 @@
 			}
 			# save Wallada's scope
 			save_scope_as = wallada
-			random_artifact = {
+			random_character_artifact = {
 				limit = {
 					has_artifact_modifier = double_moon_modifier
 				}
@@ -1304,7 +1304,13 @@
 			}
 			## Dai Viet, Long Trat Vuong & To Hien Thanh
 			character:viet_ly_2 = {
-				set_diarch = character:viet_to_1
+				try_start_diarchy = regency
+				if = {
+					limit = {
+						has_active_diarchy = yes
+					}
+					set_diarch = character:viet_to_1
+				}
 				#designate_diarch = character:viet_to_1
 			}
 			# Plus remove all the generated opinions.
@@ -1399,8 +1405,13 @@
 			limit = { has_tgp_dlc_trigger = yes }
 			### DYNASTIES
 			tgp_dynasty_house_name_setup_effect = yes
-			### BLOCS
-			tgp_setup_historical_house_bloc_effect = yes
+			### BLOCS — AuH defers to after noble_family_title_realm_setup (see TGP SETUP); else house heads lack NF titles and create_confederation asserts.
+			if = {
+				limit = {
+					NOT = { has_dlc_feature = all_under_heaven }
+				}
+				tgp_setup_historical_house_bloc_effect = yes
+			}
 		}
 	}
 
@@ -2416,6 +2427,7 @@
 						has_government = landless_adventurer_government
 					}
 					add_realm_law_skip_effects = camp_purpose_scholars
+					add_realm_law_skip_effects = equal_law
 					trigger_event = ep3_story_cycle_violet_poet.0001
 				}
 			}
@@ -3674,6 +3686,38 @@
 		}
 	}
 
+	# Government setup surrounding Japan already handled by converter's government setup effect
+	{
+			# History defaults e_japan to feudal + single heir so partial DLC / no AuH bookmarks load cleanly.
+			# Restore Ritsuryō Kampaku when All Under Heaven is active (must run before noble-family / bureaucracy setup).
+			if = {
+				limit = { has_dlc_feature = all_under_heaven }
+				title:e_japan.holder ?= {
+					# can_get_government for japan_administrative checks top_liege for japanese government OR this flag; independent Kampaku is neither until flagged.
+					if = {
+						limit = {
+							NOT = { government_has_flag = government_is_japan_administrative }
+							OR = {
+								has_government = feudal_government
+								has_government = japan_feudal_government
+							}
+						}
+						add_character_flag = tgp_japan_restore_japanese_government_flag
+						change_government = japan_administrative_government
+						remove_character_flag = tgp_japan_restore_japanese_government_flag
+					}
+					# Separate if (not else_if): first block can flip government same pass; law must still run for that case and for history Ritsuryō holders missing the law.
+					if = {
+						limit = {
+							government_has_flag = government_is_japan_administrative
+							NOT = { has_realm_law = japanese_regency_succession_law }
+						}
+						add_realm_law_skip_effects = japanese_regency_succession_law
+					}
+				}
+			}
+	}
+
 	{
 			### DYNASTY TRACKING SETUP
 			japan_dynasty_tracker_setup_effect = yes
@@ -3698,6 +3742,16 @@
 					}
 					domicile ?= { move_domicile = title:e_japan.holder.capital_province }
 				}
+			}
+	}
+
+	{
+			if = {
+				limit = {
+					has_dlc_feature = all_under_heaven
+					exists = title:e_japan.holder
+				}
+				tgp_setup_historical_house_bloc_effect = yes
 			}
 	}
 
@@ -3751,11 +3805,11 @@
 					add_great_building = mandala_capital_01
 				}
 				else_if = {
-					limit = { game_start_date >= 1066.1.1 }
-					add_great_building = mandala_capital_02
+					limit = { game_start_date > 1066.09.15 }
+					add_great_building = mandala_capital_03
 				}
 				else = {
-					add_great_building = mandala_capital_03
+					add_great_building = mandala_capital_02
 				}
 				add_to_global_variable_list = { # Add to list so it can be found by the PoI
 					name = mandala_poi_list
@@ -4410,8 +4464,26 @@ bookmark_867_northmen_aellas_capture_war_imprisonment_effect = {
 			limit = {
 				has_fp2_dlc_trigger = yes
 				current_date >= 997.1.1
+				current_date <= 1178.1.1
 			}
 			title:c_toledo.holder = {
+				create_artifact_various_aquamanile_santiago = { OWNER = this }
+				# The bells have been morphed once.
+				scope:newly_created_artifact = {
+					set_variable = {
+						name = artefact_santiago_bells
+						value = 1
+					}
+				}
+			}
+		}
+		if = {
+			# If we're after Almanzor's raid, then the bells go to c_toledo's holder.
+			limit = {
+				has_fp2_dlc_trigger = yes
+				current_date >= 1178.1.1
+			}
+			title:c_cordoba.holder = {
 				create_artifact_various_aquamanile_santiago = { OWNER = this }
 				# The bells have been morphed once.
 				scope:newly_created_artifact = {
@@ -10294,7 +10366,7 @@ game_rule.1143 = {
 				mode = add
 				gene = cloaks
 				template = fp4_cloak_western
-				accessory = m_cloaks_sec_fp4_western_era3_nob_02
+				accessory = m_cloaks_sec_fp4_western_era3_nob_02_a
 			}
 			accessory = {
 				mode = add
@@ -11867,7 +11939,7 @@ fp1_scandinavian_adventurers.0021 = {
 
 "common/on_action/yearly_groups_on_actions.txt" = {
 	{
-		160 = fp2_yearly.1004   # The Hawk of Quarysh 
+		160 = fp2_yearly.1004   # The Hawk of Quraysh 
 	}
 	{
 		250 = fp3_yearly.8020 # The Lady of the Land
@@ -11877,7 +11949,7 @@ fp1_scandinavian_adventurers.0021 = {
 "events/dlc/fp2/fp2_yearly_events.txt" = {
 	{
 ###################################
-# The Hawk of Quarysh
+# The Hawk of Quraysh
 # By Daniel Moore
 ###################################
 fp2_yearly.1004 = {
@@ -11942,7 +12014,7 @@ fp2_yearly.1004 = {
 	option = { #How he inspired soldiers
 		name = fp2_yearly.1004.a
 			add_character_modifier = {
-				modifier = fp2_hawk_of_quarysh_martial_modifier
+				modifier = fp2_hawk_of_quraysh_martial_modifier
 				years = 10
 			}
 
@@ -11958,7 +12030,7 @@ fp2_yearly.1004 = {
 	option = { #How diplomatic he was
 		name = fp2_yearly.1004.b
 			add_character_modifier = {
-				modifier = fp2_hawk_of_quarysh_diplomacy_modifier
+				modifier = fp2_hawk_of_quraysh_diplomacy_modifier
 				years = 10
 			}
 
@@ -14249,7 +14321,7 @@ hasan_sabbah.1040 = {
 		}
 	}
 
-	# Make them angy
+	# Make them angry
 	option = {
 		name = hasan_sabbah.1040.a
 		duel = {
@@ -14423,7 +14495,33 @@ hasan_sabbah.1050 = {
 	{
 story_hasan = {
 	# by James Beaumont
-	
+	visible = yes
+	icon = {
+		trigger = {
+			always = yes
+		}
+		reference = "gfx/interface/icons/regimenttypes/mubarizun.dds"
+	}
+	visualization = {
+		decisions = {
+			hasan_evangelize_the_faith
+			hasan_agitate_the_populace
+			hasan_ignite_the_flames
+			hasan_found_the_assassins
+			hasan_expand_the_assassins
+			zealous_missionary_prep_decision
+		}
+		basic_counter = {
+			variable_name = "radical_points"
+			min = 0
+			max = 15
+			label = "PROGRESS_TOWARDS_ASSASSIN_PATH"
+		}
+		character = {
+			variable_name = "ultimate_foe"
+			label = "ULTIMATE_FOE"
+		}
+	}
 	on_setup = {
 		
 	}
@@ -14600,24 +14698,24 @@ scripted_trigger cid_0001_hate_trigger = {
 scripted_effect create_el_cid_story = {
 	create_story = {
 		type = story_el_cid
-		save_scope_as = new_story
+		save_scope_as = story
 	}
 	random_owned_story = {
 		type = story_el_cid
 		save_scope_as = story_el_cid
+		set_variable = {
+			name = cid_enemy
+			value = flag:$ENEMY$
+		}
+		set_variable = {
+			name = cid_liege
+			value = scope:liege
+		}
+		set_variable = {
+			name = cid_loyalty_counter
+			value = 0
+		}
 		story_owner = {
-			set_variable = {
-				name = cid_enemy
-				value = flag:$ENEMY$
-			}
-			set_variable = {
-				name = cid_liege
-				value = scope:liege
-			}
-			set_variable = {
-				name = cid_loyalty_counter
-				value = 0
-			}
 			set_variable = ongoing_cid_story_cycle
 		}
 	}
@@ -14632,19 +14730,19 @@ cid.0001 = {
 		first_valid = {
 			triggered_desc = {
 				trigger = {
-					var:cid_enemy = flag:alfonso
+					scope:story.var:cid_enemy = flag:alfonso
 				}
 				desc = cid.0001.desc.alfonso
 			}
 			triggered_desc = {
 				trigger = {
-					var:cid_enemy = flag:garcia
+					scope:story.var:cid_enemy = flag:garcia
 				}
 				desc = cid.0001.desc.garcia_ordonez
 			}
 			triggered_desc = {
 				trigger = {
-					var:cid_enemy = flag:liege
+					scope:story.var:cid_enemy = flag:liege
 				}
 				desc = cid.0001.desc.liege_hate
 			}
@@ -14822,9 +14920,11 @@ cid.0001 = {
 		flavor = cid.0001.a.flavor
 		custom_tooltip = story_el_cid_tt
 		custom_tooltip = cid_loyalty_counter_positive
-		change_variable = {
-			name = cid_loyalty_counter
-			add = 1
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = 1
+			}
 		}
 		ai_chance = {
 			base = 1000 # Historically determined
@@ -14837,9 +14937,11 @@ cid.0001 = {
 		flavor = cid.0001.b.flavor
 		custom_tooltip = story_el_cid_tt
 		custom_tooltip = cid_loyalty_counter_negative
-		change_variable = {
-			name = cid_loyalty_counter
-			add = -1
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = -1
+			}
 		}
 		ai_chance = {
 			base = 0 # Historically determined
@@ -14912,11 +15014,14 @@ cid.1000 = {
 	trigger = {
 		has_government = landless_adventurer_government
 		NOT = { has_variable = had_cid_1000 }
+		is_location_valid_for_travel_event_on_land = yes
 	}
 
 	immediate = {
 		set_variable = had_cid_1000
-		var:cid_liege = { save_scope_as = liege }
+		scope:story = {
+			var:cid_liege = { save_scope_as = liege }
+		}
 		if = {
 			limit = {
 				any_pool_character = {
@@ -14947,9 +15052,11 @@ cid.1000 = {
 		domicile = {
 			change_provisions = medium_provisions_loss
 		}
-		change_variable = {
-			name = cid_loyalty_counter
-			add = 1
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = 1
+			}
 		}
 		ai_chance = {
 			base = 1000 # Historically determined
@@ -14968,9 +15075,11 @@ cid.1000 = {
 		domicile = {
 			change_provisions = minor_provisions_gain
 		}
-		change_variable = {
-			name = cid_loyalty_counter
-			add = -1
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = -1
+			}
 		}
 		ai_chance = {
 			base = 0 # Historically determined
@@ -15029,7 +15138,9 @@ cid.1010 = {
 
 	immediate = {
 		set_variable = had_cid_1010
-		var:cid_liege = { save_scope_as = liege }
+		scope:story = {
+			var:cid_liege = { save_scope_as = liege }
+		}
 		random_courtier = {
 			limit = { cid_1010_courtier_trigger = yes }
 			weight = {
@@ -15158,10 +15269,12 @@ cid.1010 = {
 			}
 		}
 		add_gold = medium_gold_value
-		change_variable = {
-			name = cid_loyalty_counter
-			add = -1
-		}		
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = -1
+			}		
+		}
 		ai_chance = {
 			base = 1000 # Historically determined
 		}
@@ -15198,9 +15311,11 @@ cid.1010 = {
 				}
 			}
 		}
-		change_variable = {
-			name = cid_loyalty_counter
-			add = 2
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = 2
+			}
 		}
 		ai_chance = {
 			base = 0 # Historically determined
@@ -15259,7 +15374,9 @@ cid.1020 = {
 
 	immediate = {
 		set_variable = had_cid_1020
-		var:cid_liege = { save_scope_as = liege }
+		scope:story = {
+			var:cid_liege = { save_scope_as = liege }
+		}
 		random_courtier = {
 			limit = { is_spouse_of = root }
 			weight = {
@@ -15350,10 +15467,11 @@ cid.1020 = {
 			limit = { exists = scope:child_2 }
 			location.county.holder = { add_courtier = scope:child_2 }
 		}
-		
-		change_variable = {
-			name = cid_loyalty_counter
-			add = 1
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = 1
+			}
 		}
 		ai_chance = {
 			base = 1000 # Historically determined
@@ -15380,9 +15498,11 @@ cid.1020 = {
 			modifier = cid_family_good_modifier
 			years = 10
 		}
-		change_variable = {
-			name = cid_loyalty_counter
-			add = -2
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = -2
+			}
 		}
 		ai_chance = {
 			base = 0 # Historically determined
@@ -15417,7 +15537,9 @@ cid.1030 = {
 
 	immediate = {
 		set_variable = had_cid_1030
-		var:cid_liege = { save_scope_as = liege }
+		scope:story = {
+			var:cid_liege = { save_scope_as = liege }
+		}
 		if = {
 			limit = {
 				any_character_artifact = {
@@ -15425,6 +15547,7 @@ cid.1030 = {
 						rarity = illustrious
 						rarity = famed 
 					}
+					artifact_can_be_gift_to_trigger = { RECIPIENT = scope:liege }
 				}
 			}
 			random_character_artifact = {
@@ -15434,6 +15557,7 @@ cid.1030 = {
 						rarity = illustrious
 						rarity = famed 
 					}
+					artifact_can_be_gift_to_trigger = { RECIPIENT = scope:liege }
 				}
 				weight = {
 					modifier = {
@@ -15461,9 +15585,11 @@ cid.1030 = {
 		add_internal_flag = special
 		custom_tooltip = cid_loyalty_counter_positive
 		scope:artifact = { set_owner = scope:liege }
-		change_variable = {
-			name = cid_loyalty_counter
-			add = 1
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = 1
+			}
 		}
 		ai_chance = {
 			base = 1000 # Historically determined
@@ -15478,9 +15604,11 @@ cid.1030 = {
 			target = scope:liege
 			gold = medium_gold_value
 		}
-		change_variable = {
-			name = cid_loyalty_counter
-			add = 1
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = 1
+			}
 		}
 		ai_chance = {
 			base = 1000 # Historically determined
@@ -15491,11 +15619,12 @@ cid.1030 = {
 	option = {
 		name = cid.1030.c
 		custom_tooltip = cid_loyalty_counter_negative
-		
-		change_variable = {
-			name = cid_loyalty_counter
-			add = -1
-		}
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = -1
+			}
+		}		
 		ai_chance = {
 			base = 0
 		}
@@ -15524,7 +15653,9 @@ cid.1040 = {
 
 	immediate = {
 		set_variable = had_cid_1040
-		var:cid_liege = { save_scope_as = liege }
+		scope:story = {
+			var:cid_liege = { save_scope_as = liege }
+		}
 	}
 
 	# You do it in your own camp, dayum
@@ -15538,9 +15669,11 @@ cid.1040 = {
 		
 		custom_tooltip = cid_loyalty_counter_very_positive
 		
-		change_variable = {
-			name = cid_loyalty_counter
-			add = 2
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = 2
+			}
 		}
 		ai_chance = {
 			base = 1000 # Historically determined
@@ -15634,7 +15767,9 @@ cid.2000 = {
 
 	immediate = {
 		set_variable = had_cid_2000
-		var:cid_liege = { save_scope_as = liege }
+		scope:story = {
+			var:cid_liege = { save_scope_as = liege }
+		}
 		# Create the artifact
 		if = { # Court Artifact
 			limit = { has_royal_court = yes }
@@ -15778,7 +15913,9 @@ cid.2001 = {
 
 	immediate = {
 		set_variable = had_cid_2001
-		var:cid_liege = { save_scope_as = liege }
+		scope:story = {
+			var:cid_liege = { save_scope_as = liege }
+		}
 		# Create the artifact
 		if = { # Court Artifact
 			limit = { has_royal_court = yes }
@@ -15934,13 +16071,15 @@ cid.2010 = {
 		any_courtier = {
 			cid_2010_possible_child_trigger = yes
 		}
-		var:cid_loyalty_counter >= 2
+		scope:story.var:cid_loyalty_counter >= 2
 		NOT = { has_variable = had_cid_2010 }
 	}
 
 	immediate = {
 		set_variable = had_cid_2010
-		var:cid_liege = { save_scope_as = liege }
+		scope:story = {
+			var:cid_liege = { save_scope_as = liege }
+		}
 		if = {
 			limit = {
 				scope:liege = {
@@ -16142,7 +16281,7 @@ cid.2020 = {
 
 	trigger = {
 		#triggered through the story cycle
-		var:cid_liege.primary_title = {
+		scope:story.var:cid_liege.primary_title = {
 			any_de_jure_county = {
 				holder = root.var:cid_liege
 				NOR = {
@@ -16165,7 +16304,7 @@ cid.2020 = {
 			}
 		}
 		set_variable = had_cid_2020
-		var:cid_liege = {
+		scope:story.var:cid_liege = {
 			save_scope_as = liege
 			save_scope_as = defender
 		}
@@ -16293,7 +16432,7 @@ cid.4000 = {
 
 	immediate = {
 		set_variable = had_cid_4000
-		var:cid_liege = { save_scope_as = sender }
+		scope:story.var:cid_liege = { save_scope_as = sender }
 	}
 
 	# Bleh
@@ -16346,12 +16485,12 @@ cid.4010 = {
 
 	trigger = {
 		#triggered through the story cycle <= -5 loyalty
-		var:cid_liege.primary_title = {
+		scope:story.var:cid_liege.primary_title = {
 			any_de_jure_county = {
-				holder = root.var:cid_liege
+				holder = scope:story.var:cid_liege
 				NOR = {
-					root.var:cid_liege.capital_county ?= this
-					root.var:cid_liege.primary_title ?= this
+					scope:story.var:cid_liege.capital_county ?= this
+					scope:story.var:cid_liege.primary_title ?= this
 				}
 			}
 		}
@@ -16360,7 +16499,7 @@ cid.4010 = {
 
 	immediate = {
 		set_variable = had_cid_4010
-		var:cid_liege = {
+		scope:story.var:cid_liege = {
 			save_scope_as = liege
 			save_scope_as = defender
 		}
@@ -16499,6 +16638,10 @@ cid.5000 = {
 	
 	immediate = {
 		location.county.holder.top_liege = { save_scope_as = sender }
+		random_owned_story = {
+			type = story_el_cid
+			save_scope_as = el_cid_story
+		}
 	}
 
 	# Oops
@@ -16911,6 +17054,35 @@ disable_interaction_for_hasan_trigger = {
 ##################################################
 
 story_el_cid = {
+	visible = yes
+
+	icon = {
+		reference = "gfx/interface/icons/artifact/artefact_icons_unique_artifact_excalibur.dds"
+	}
+
+	background = {
+		reference = "gfx/interface/illustrations/event_scenes/fp2_courtyard.dds"
+	}
+
+	visualization = {
+		character = {
+			variable_name = "cid_liege"
+			label = "CID_LIEGE"
+		}
+		custom_string_key = "EL_CID_CUSTOM_STRING_KEY"
+		traits = {
+			campeador
+		}
+		tug_of_war_counter = {
+			label = "cid_loyalty_counter_label"
+			variable_name = "cid_loyalty_counter"
+			tooltip = EL_LOYALTY_COUNTER_TOOLTIP
+			min_label = CID_LOYALTY_MIN_LABEL
+			max_label = CID_LOYALTY_MAX_LABEL
+			min = -5
+			max = 5
+		}
+	}
 	
 	on_setup = {
 		story_owner = {
@@ -16922,10 +17094,10 @@ story_el_cid = {
 		debug_log = "El Cid's story ended on:"
 		debug_log_date = yes
 		#We clean up all variables
+		remove_variable = cid_liege
+		remove_variable = cid_enemy
+		remove_variable = cid_loyalty_counter
 		story_owner = {
-			remove_variable = cid_enemy
-			remove_variable = cid_liege
-			remove_variable = cid_loyalty_counter
 			remove_variable = ongoing_cid_story_cycle
 			remove_variable = cid_title_to_give
 			#And you can never have this again
@@ -16944,14 +17116,24 @@ story_el_cid = {
 		first_valid = {
 			triggered_effect = { #If your liege dies
 				trigger = {
-					story_owner.var:cid_liege = {
+					story_owner = {
 						OR = {
-							NOT = { exists = this }
-							is_alive = no
+							any_owned_story = {
+								has_variable = cid_liege
+								var:cid_liege = {
+									is_alive = no
+								}
+							}
+							NOT = { 
+								any_owned_story = {
+									has_variable = cid_liege
+								}
+							}
 						}
 					}
 				}
 				effect = {
+					save_scope_as = story
 					story_owner = {
 						trigger_event = cid.5000
 					}
@@ -16972,9 +17154,10 @@ story_el_cid = {
 					}
 				}
 				effect = {
+					save_scope_as = story
+					var:cid_liege = { save_scope_as = liege }
+					var:cid_enemy = { save_scope_as = enemy }
 					story_owner = {
-						var:cid_liege = { save_scope_as = liege }
-						var:cid_enemy = { save_scope_as = enemy }
 						trigger_event = { on_action = el_cid_landless_on_action }
 					}
 				}
@@ -16984,9 +17167,10 @@ story_el_cid = {
 					always = yes
 				}
 				effect = {
+					save_scope_as = story
+					var:cid_liege = { save_scope_as = liege }
+					var:cid_enemy = { save_scope_as = enemy }
 					story_owner = {
-						var:cid_liege = { save_scope_as = liege }
-						var:cid_enemy = { save_scope_as = enemy }
 						trigger_event = { on_action = el_cid_landless_or_landed_on_action }
 					}
 				}
@@ -17001,8 +17185,8 @@ story_el_cid = {
 		first_valid = { #Your liege takes you back
 			triggered_effect = {
 				trigger = {
+					var:cid_loyalty_counter >= 5
 					story_owner = {
-						var:cid_loyalty_counter >= 5
 						has_government = landless_adventurer_government
 					}
 				}
@@ -17014,12 +17198,13 @@ story_el_cid = {
 			}
 			triggered_effect = { #Your liege hates you
 				trigger = {
+					var:cid_loyalty_counter <= -5
 					story_owner = {
-						var:cid_loyalty_counter <= -5
 						has_government = landless_adventurer_government
 					}
 				}
 				effect = {
+					save_scope_as = story
 					story_owner = {
 						trigger_event = cid.4010
 					}
@@ -17027,9 +17212,9 @@ story_el_cid = {
 			}
 			triggered_effect = { #Neutral ending
 				trigger = {
+					var:cid_loyalty_counter > -5
+					var:cid_loyalty_counter < 5
 					story_owner = {
-						var:cid_loyalty_counter > -5
-						var:cid_loyalty_counter < 5
 						has_variable = had_cid_1000
 						has_variable = had_cid_1030
 						has_variable = had_cid_1040
@@ -17065,6 +17250,7 @@ story_el_cid = {
 					}
 				}
 				effect = {
+					save_scope_as = story
 					story_owner = {
 						trigger_event = cid.4000
 					}
@@ -18490,7 +18676,6 @@ mpo_1066_tributary_setup_effect = {
 			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
 		}
 	}
-	
 
 	#### k_zhetysu
 	character:144107 = {
@@ -18498,16 +18683,23 @@ mpo_1066_tributary_setup_effect = {
 		character:fictional_karluks_12 = {
 			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
 		}
-		character:fictional_karluks_13 = {
-			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
-		}
-		character:3022 = {
+		character:fictional_karluks_15 = {
 			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
 		}
 		character:302790 = {
 			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
 		}
 		character:188843 = {
+			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
+		}
+		character:3022 = {
+			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
+		}
+	}
+
+	character:fictional_karluks_15 = {
+		save_scope_as = suzerain
+		character:fictional_karluks_5 = {
 			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
 		}
 	}
@@ -18518,15 +18710,10 @@ mpo_1066_tributary_setup_effect = {
 			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
 		}
 	}
+
 	character:3022 = {
 		save_scope_as = suzerain
-		character:fictional_karluks_5 = {
-			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
-		}
 		character:fictional_karluks_11 = {
-			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
-		}
-		character:fictional_karluks_15 = {
 			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
 		}
 	}
@@ -18868,6 +19055,19 @@ mpo_1178_tributary_setup_effect = {
 	#### e_kara_khitai
 	character:188912 = {
 		save_scope_as = suzerain
+		character:144122 = { # Khan Ibrahim III Karakhanid of Syr Darya
+			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
+		}
+		character:302983 = { # Idiqut Bilga Kutan of Qocho
+			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
+		}
+		character:188855 = { # Khan Muhammad Karakhanid of Khotan
+			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
+		}
+		character:karakhanid_4 = { # Prince Muhammad II Karakhanid of Ferghana
+			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
+		}
+		# Herders
 		character:fictional_karluks_7 = {
 			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
 		}
@@ -18880,23 +19080,10 @@ mpo_1178_tributary_setup_effect = {
 		character:fictional_kimeks_48 = {
 			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
 		}
-		character:144122 = {
+		character:fictional_kimeks_52 = {
 			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
 		}
-		character:karakhanid_1 = {
-			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
-		}
-	}
-
-	character:144122 = {
-		save_scope_as = suzerain
 		character:fictional_kipchaks_22 = {
-			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
-		}
-		character:fictional_karluks_9 = {
-			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
-		}
-		character:karakhanid_3 = {
 			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
 		}
 	}
@@ -18911,6 +19098,9 @@ mpo_1178_tributary_setup_effect = {
 			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
 		}
 		character:fictional_naimans_8 = {
+			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
+		}
+		character:fictional_naimans_9 = {
 			break_subject_contract_and_establish_tributary_effect = { SUZERAIN = scope:suzerain TRIBUTARY = this }
 		}
 	}
@@ -19500,6 +19690,7 @@ base_1178_tributary_setup_effect = {
 	# Removing this scripted_effect since its no longer used, and to prevent errors in log
 	{
 tgp_dynasty_house_name_setup_effect = {
+	### JAPAN
 	# Fujiwara
 	dynasty:japanese_fujiwara.dynasty_founder.house ?= { set_house_name = "dynn_Fujiwara_Hok_ke" }
 	dynasty:japanese_fujiwara_oshu.dynasty_founder.house ?= { set_house_name = "dynn_Fujiwara_O_shU_" }
@@ -19523,6 +19714,167 @@ tgp_dynasty_house_name_setup_effect = {
 	dynasty:japanese_taira_koko.dynasty_founder.house ?= { set_house_name = "dynn_Taira_KO_kO_" }
 	dynasty:japanese_taira_montoku.dynasty_founder.house ?= { set_house_name = "dynn_Taira_Montoku" }
 	dynasty:japanese_taira_ninmyo.dynasty_founder.house ?= { set_house_name = "dynn_Taira_NinmyO_" }
+	### KOREA
+	# Baek
+	dynasty:balhae_baek.dynasty_founder.house ?= { set_house_name = "dynn_Baek_Balhae" }
+	dynasty:korean_baek_daeheung.dynasty_founder.house ?= { set_house_name = "dynn_Baek_Daeheung" }
+	dynasty:korean_baek_jiksan.dynasty_founder.house ?= { set_house_name = "dynn_Baek_Jiksan" }
+	# Bak
+	dynasty:korean_bak_jukbang.dynasty_founder.house ?= { set_house_name = "dynn_Bak_Jukbang" }
+	dynasty:korean_bak_juksan.dynasty_founder.house ?= { set_house_name = "dynn_Bak_Juksan" }
+	dynasty:korean_bak_milyang.dynasty_founder.house ?= { set_house_name = "dynn_Bak_Milyang" }
+	dynasty:korean_bak_pyeongjangsa.dynasty_founder.house ?= { set_house_name = "dynn_Bak_Pyeongjangsa" }
+	dynasty:korean_bak_pyeongsan.dynasty_founder.house ?= { set_house_name = "dynn_Bak_Pyeongsan" }
+	dynasty:korean_bak_silla.dynasty_founder.house ?= { set_house_name = "dynn_Bak_Gyeongju" }
+	dynasty:korean_bak_seungju.dynasty_founder.house ?= { set_house_name = "dynn_Bak_Seungju" }
+	dynasty:korean_bak_ulleong.dynasty_founder.house ?= { set_house_name = "dynn_Bak_Ulleong" }
+	# Bok
+	dynasty:korean_bok_myeoncheon.dynasty_founder.house ?= { set_house_name = "dynn_Bok_Myeoncheon" }
+	# Chae
+	dynasty:korean_chae_eumseong.dynasty_founder.house ?= { set_house_name = "dynn_Chae_Eumseong" }
+	dynasty:korean_chae_pyeonggang.dynasty_founder.house ?= { set_house_name = "dynn_Chae_Pyeonggang" }
+	# Cheok
+	dynasty:korean_cheok_goksan.dynasty_founder.house ?= { set_house_name = "dynn_Cheok_Goksan" }
+	# Choe
+	dynasty:korean_choe_chungju.dynasty_founder.house ?= { set_house_name = "dynn_Choe_Chungju" }
+	dynasty:korean_choe_dongju.dynasty_founder.house ?= { set_house_name = "dynn_Choe_Dongju" }
+	dynasty:korean_choe_gyeongju.dynasty_founder.house ?= { set_house_name = "dynn_Choe_Gyeongju" }
+	dynasty:korean_choe_haeju.dynasty_founder.house ?= { set_house_name = "dynn_Choe_Haeju" }
+	dynasty:korean_choe_jiksan.dynasty_founder.house ?= { set_house_name = "dynn_Choe_Jiksan" }
+	dynasty:korean_choe_suwon.dynasty_founder.house ?= { set_house_name = "dynn_Choe_Suwon" }
+	dynasty:korean_choe_ubong.dynasty_founder.house ?= { set_house_name = "dynn_Choe_Ubong" }
+	# Dae
+	dynasty:balhae_dae.dynasty_founder.house ?= { set_house_name = "dynn_Dae_Balhae" }
+	# Dongseong
+	dynasty:balhae_dongseong.dynasty_founder.house ?= { set_house_name = "dynn_Dong_seong_Balhae" }
+	# Du
+	dynasty:korean_du_dureung.dynasty_founder.house ?= { set_house_name = "dynn_Du_Dureung" }
+	dynasty:korean_du_pyeongju.dynasty_founder.house ?= { set_house_name = "dynn_Du_Pyeongju" }
+	# Gang
+	dynasty:korean_gang_geumcheon.dynasty_founder.house ?= { set_house_name = "dynn_Gang_Geumcheon" }
+	dynasty:korean_gang_jinju.dynasty_founder.house ?= { set_house_name = "dynn_Gang_Jinju" }
+	dynasty:korean_gang_sincheon.dynasty_founder.house ?= { set_house_name = "dynn_Gang_Sincheon" }
+	# Geum
+	dynasty:korean_geom_bonghwa.dynasty_founder.house ?= { set_house_name = "dynn_Geom_Bonghwa" }
+	dynasty:korean_geom_nakrang.dynasty_founder.house ?= { set_house_name = "dynn_Geom_Nakrang" }
+	# Gi
+	dynasty:korean_gi_jikju.dynasty_founder.house ?= { set_house_name = "dynn_Gi_Jikju" }
+	# Gim
+	dynasty:korean_gim_ansan.dynasty_founder.house ?= { set_house_name = "dynn_Gim_Ansan" }
+	dynasty:korean_gim_dangak.dynasty_founder.house ?= { set_house_name = "dynn_Gim_Dangak" }
+	dynasty:korean_gim_eonyang.dynasty_founder.house ?= { set_house_name = "dynn_Gim_Eonyang" }
+	dynasty:korean_gim_gangneung.dynasty_founder.house ?= { set_house_name = "dynn_Gim_Gangneung" }
+	dynasty:korean_gim_gimhae.dynasty_founder.house ?= { set_house_name = "dynn_Gim_Gimhae" }
+	dynasty:korean_gim_gwangsan.dynasty_founder.house ?= { set_house_name = "dynn_Gim_Gwangsan" }
+	dynasty:korean_gim_pungsang.dynasty_founder.house ?= { set_house_name = "dynn_Gim_Pungsang" }
+	dynasty:korean_gim_silla.dynasty_founder.house ?= { set_house_name = "dynn_Gim_Silla" }
+	dynasty:korean_gim_suncheon.dynasty_founder.house ?= { set_house_name = "dynn_Gim_Suncheon" }
+	dynasty:korean_gim_yeonan.dynasty_founder.house ?= { set_house_name = "dynn_Gim_Yeonan" }
+	dynasty:korean_gim_yeongdong.dynasty_founder.house ?= { set_house_name = "dynn_Gim_Yeongdong" }
+	dynasty:korean_gim_yeonggwang.dynasty_founder.house ?= { set_house_name = "dynn_Gim_Yeonggwang" }
+	dynasty:korean_gim_ulleong.dynasty_founder.house ?= { set_house_name = "dynn_Gim_Ulleong" }
+	# Go
+	dynasty:balhae_go.dynasty_founder.house ?= { set_house_name = "dynn_Go_Balhae" }
+	dynasty:korean_go_goguryeo.dynasty_founder.house ?= { set_house_name = "dynn_Go_Goguryeo" }
+	dynasty:korean_go_jeju.dynasty_founder.house ?= { set_house_name = "dynn_Go_Jeju" }
+	# Gwak
+	dynasty:korean_gwak_cheongju.dynasty_founder.house ?= { set_house_name = "dynn_Gwak_Cheongju" }
+	# Gwon
+	dynasty:korean_gwon_andong.dynasty_founder.house ?= { set_house_name = "dynn_Gwon_Andong" }
+	# Gyeon
+	dynasty:korean_gyeon_gaeunhyeon.dynasty_founder.house ?= { set_house_name = "dynn_Gyeon_Gaeunhyeon" }
+	# Gyeong
+	dynasty:korean_gyeong_cheongju.dynasty_founder.house ?= { set_house_name = "dynn_Gyeong_Cheongju" }
+	# Han
+	dynasty:korean_han.dynasty_founder.house ?= { set_house_name = "dynn_Han_Gaeseong" }
+	dynasty:korean_han_daeheung.dynasty_founder.house ?= { set_house_name = "dynn_Han_Daeheung" }
+	dynasty:korean_han_2.dynasty_founder.house ?= { set_house_name = "dynn_Han_Giju" }
+	# Heo
+	dynasty:korean_heo_gongam.dynasty_founder.house ?= { set_house_name = "dynn_Heo_Gongam" }
+	# Hong
+	dynasty:korean_hong_namyang.dynasty_founder.house ?= { set_house_name = "dynn_Hong_Namyang" }
+	# Hwangbo
+	dynasty:korean_hwangbo.dynasty_founder.house ?= { set_house_name = "dynn_Hwangbo_Hwangju" }
+	# I
+	dynasty:korean_i_cheongju.dynasty_founder.house ?= { set_house_name = "dynn_I_Cheongju" }
+	dynasty:korean_i_gyeongwon.dynasty_founder.house ?= { set_house_name = "dynn_I_Gyeongwon" }
+	dynasty:korean_i_jeongseon.dynasty_founder.house ?= { set_house_name = "dynn_I_Jeongseon" }
+	dynasty:korean_i_jeonju.dynasty_founder.house ?= { set_house_name = "dynn_I_Jeonju" }
+	dynasty:korean_i_gwangjeong.dynasty_founder.house ?= { set_house_name = "dynn_I_Gwangjeong" }
+	dynasty:korean_i_gwangsan.dynasty_founder.house ?= { set_house_name = "dynn_I_Gwangsan" }
+	dynasty:korean_i_soeong.dynasty_founder.house ?= { set_house_name = "dynn_I_Soeong" }
+	dynasty:korean_i_suju.dynasty_founder.house ?= { set_house_name = "dynn_I_Suju" }
+	# Im
+	dynasty:korean_im_jangheung.dynasty_founder.house ?= { set_house_name = "dynn_Im_Jangheung" }
+	# Jang
+	dynasty:korean_jang_andong.dynasty_founder.house ?= { set_house_name = "dynn_Jang_Andong" }
+	# Jeong
+	dynasty:korean_jeong_cheongju.dynasty_founder.house ?= { set_house_name = "dynn_Jeong_Cheongju" }
+	dynasty:korean_jeong_dongnae.dynasty_founder.house ?= { set_house_name = "dynn_Jeong_Dongrae" }
+	dynasty:korean_jeong_haeju.dynasty_founder.house ?= { set_house_name = "dynn_Jeong_Haeju" }
+	# Jo
+	dynasty:korean_jo_hanyang.dynasty_founder.house ?= { set_house_name = "dynn_Jo_Hanyang" }
+	dynasty:korean_jo_wonju.dynasty_founder.house ?= { set_house_name = "dynn_Jo_Wonju" }
+	# Min
+	dynasty:korean_min_hwangryeo.dynasty_founder.house ?= { set_house_name = "dynn_Min_Hwangryeo" }
+	# Mok
+	dynasty:balhae_mok.dynasty_founder.house ?= { set_house_name = "dynn_Mok_Balhae" }
+	# Mun
+	dynasty:balhae_mun.dynasty_founder.house ?= { set_house_name = "dynn_Mun_Balhae" }
+	dynasty:korean_mun_gangneung.dynasty_founder.house ?= { set_house_name = "dynn_Mun_Gangneung" }
+	dynasty:korean_mun_nampyeong.dynasty_founder.house ?= { set_house_name = "dynn_Mun_Nampyeong" }
+	# Myeong
+	dynasty:korean_myeong.dynasty_founder.house ?= { set_house_name = "dynn_Myeong_Gangseo" }
+	# Nan
+	dynasty:balhae_nan.dynasty_founder.house ?= { set_house_name = "dynn_Nan_Balhae" }
+	# O
+	dynasty:balhae_o.dynasty_founder.house ?= { set_house_name = "dynn_O_Balhae" }
+	dynasty:korean_o_gochang.dynasty_founder.house ?= { set_house_name = "dynn_O_Gochang" }
+	dynasty:korean_o_naju.dynasty_founder.house ?= { set_house_name = "dynn_O_Naju" }
+	# Pyeong
+	dynasty:korean_pyeong_chungju.dynasty_founder.house ?= { set_house_name = "dynn_Pyeong_Chungju" }
+	# Ryu
+	dynasty:korean_ryu_jeongju.dynasty_founder.house ?= { set_house_name = "dynn_Ryu_Jeongju" }
+	dynasty:korean_ryu_yeomju.dynasty_founder.house ?= { set_house_name = "dynn_Ryu_Yeomju" }
+	# Seo
+	dynasty:korean_seo_icheon.dynasty_founder.house ?= { set_house_name = "dynn_Seo_Icheon" }
+	# Seop
+	dynasty:balhae_seop.dynasty_founder.house ?= { set_house_name = "dynn_Seop_Balhae" }
+	# Sin
+	dynasty:korean_sin_pyeongsan.dynasty_founder.house ?= { set_house_name = "dynn_Sin_Pyeongsan" }
+	# Song
+	dynasty:korean_song.dynasty_founder.house ?= { set_house_name = "dynn_Song_Ulju" }
+	# Tak
+	dynasty:korean_tak.dynasty_founder.house ?= { set_house_name = "dynn_Tak_Gwangsan" }
+	# Wang
+	dynasty:korean_wang.dynasty_founder.house ?= { set_house_name = "dynn_Wang_Goryeo" }
+	dynasty:korean_wang_haeju.dynasty_founder.house ?= { set_house_name = "dynn_Wang_Haeju" }
+	dynasty:korean_wang_gangneung.dynasty_founder.house ?= { set_house_name = "dynn_Wang_Gangneung" }
+	dynasty:korean_wang_goryeo.dynasty_founder.house ?= { set_house_name = "dynn_Wang_Goryeo" }
+	dynasty:korean_wang_seohae.dynasty_founder.house ?= { set_house_name = "dynn_Wang_Seohae" }
+	# Wi
+	dynasty:balhae_wi.dynasty_founder.house ?= { set_house_name = "dynn_Wi_Balhae" }
+	# Wu
+	dynasty:korean_wu_mokcheon.dynasty_founder.house ?= { set_house_name = "dynn_U_Mokcheon" }
+	# Yang
+	dynasty:balhae_yang.dynasty_founder.house ?= { set_house_name = "dynn_Yang_Balhae" }
+	dynasty:korean_yang_anak.dynasty_founder.house ?= { set_house_name = "dynn_Yang_Anak" }
+	dynasty:korean_yang_wonju.dynasty_founder.house ?= { set_house_name = "dynn_Yang_Wonju" }
+	# Ye
+	dynasty:balhae_ye.dynasty_founder.house ?= { set_house_name = "dynn_Ye_Balhae" }
+	# Yeol
+	dynasty:balhae_yeol.dynasty_founder.house ?= { set_house_name = "dynn_Yeol_Balhae" }
+	# Yeom
+	dynasty:korean_yeom_paju.dynasty_founder.house ?= { set_house_name = "dynn_Yeom_Paju" }
+	# Yeon
+	dynasty:balhae_yeon.dynasty_founder.house ?= { set_house_name = "dynn_Yeon_Balhae" }
+	dynasty:korean_yeon_goguryeo.dynasty_founder.house ?= { set_house_name = "dynn_Yeon_Goguryeo" }
+	# Yu
+	dynasty:korean_yu.dynasty_founder.house ?= { set_house_name = "dynn_Yu_Goryeo" }
+	dynasty:korean_yu_chungju.dynasty_founder.house ?= { set_house_name = "dynn_Yu_Chungju" }
+	dynasty:korean_yu_pyeongsan.dynasty_founder.house ?= { set_house_name = "dynn_Yu_Pyeongsan" }
+	# Yun
+	dynasty:korean_yun_papyeong.dynasty_founder.house ?= { set_house_name = "dynn_Yun_Papyeong" }
 }
 	}
 

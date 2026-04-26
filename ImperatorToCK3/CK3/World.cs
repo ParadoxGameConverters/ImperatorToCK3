@@ -1392,6 +1392,8 @@ internal sealed class World {
 			{"dlc025.dlc", "north_pacific_attire"},
 			{"dlc026.dlc", "east_asian_wonders"},
 			{"dlc027.dlc", "celestial_court_attire"},
+			{"dlc028.dlc", "symbols_of_authority"},
+			{"dlc029.dlc", "songs_of_the_realm"},
 		};
 		
 		var dlcFiles = Directory.GetFiles(dlcFolderPath, "*.dlc", SearchOption.AllDirectories);

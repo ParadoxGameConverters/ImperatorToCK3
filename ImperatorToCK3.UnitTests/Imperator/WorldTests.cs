@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator;
 using ImperatorToCK3.UnitTests.TestHelpers;
 using Xunit;
@@ -39,13 +40,14 @@ public sealed class WorldTests : IDisposable {
 	public void OutputContinueGameJson_canOverwriteReadOnlyFile() {
 		var continueGamePath = Path.Combine(config.ImperatorDocPath, "continue_game.json");
 		File.WriteAllText(continueGamePath, "old content");
-		File.SetAttributes(continueGamePath, FileAttributes.ReadOnly);
+		SetFileReadOnly(continueGamePath);
 
 		var result = (bool)InvokeWorldMethod("OutputContinueGameJson", config)!;
 
 		Assert.True(result);
-		Assert.Contains("\"title\": \"test-save\"", File.ReadAllText(continueGamePath), StringComparison.Ordinal);
-		Assert.False(File.GetAttributes(continueGamePath).HasFlag(FileAttributes.ReadOnly));
+		Assert.Contains("\"title\":\t\"test-save\"", File.ReadAllText(continueGamePath), StringComparison.Ordinal);
+		// New file must be writable on all platforms.
+		Assert.True(IsFileWritable(continueGamePath));
 	}
 
 	[Fact]
@@ -124,5 +126,32 @@ public sealed class WorldTests : IDisposable {
 		var method = typeof(World).GetMethod(methodName, BindingFlags.Instance | BindingFlags.NonPublic);
 		Assert.NotNull(method);
 		return method!.Invoke(world, args);
+	}
+
+	/// <summary>
+	/// Marks a file read-only using the appropriate mechanism for the current OS.
+	/// On Windows this sets <see cref="FileAttributes.ReadOnly"/>; on macOS/Linux
+	/// it removes the user-write bit via <see cref="UnixFileMode"/>.
+	/// </summary>
+	private static void SetFileReadOnly(string filePath) {
+		if (OperatingSystem.IsWindows()) {
+			File.SetAttributes(filePath, FileAttributes.ReadOnly);
+		} else {
+			var mode = File.GetUnixFileMode(filePath);
+			File.SetUnixFileMode(filePath, mode & ~UnixFileMode.UserWrite);
+		}
+	}
+
+	/// <summary>
+	/// Returns <see langword="true"/> when the current user can write to the file.
+	/// Uses <see cref="FileHelper.EnsureFileIsWritable"/> indirectly by checking
+	/// whether the write bit is present rather than relying on
+	/// <see cref="FileAttributes.ReadOnly"/> which has platform-dependent semantics.
+	/// </summary>
+	private static bool IsFileWritable(string filePath) {
+		if (OperatingSystem.IsWindows()) {
+			return !File.GetAttributes(filePath).HasFlag(FileAttributes.ReadOnly);
+		}
+		return File.GetUnixFileMode(filePath).HasFlag(UnixFileMode.UserWrite);
 	}
 }
