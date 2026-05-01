@@ -769,7 +769,7 @@ internal sealed class Character : IIdentifiable<string> {
 	}
 
 	internal void ImportUnitsAsMenAtArms(
-		Unit[] countryUnits,
+		IEnumerable<Unit> countryUnits,
 		Date date,
 		UnitTypeMapper unitTypeMapper,
 		IdObjectCollection<string, MenAtArmsType> menAtArmsTypes,
@@ -806,7 +806,7 @@ internal sealed class Character : IIdentifiable<string> {
 		History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
 	}
 	internal void ImportUnitsAsSpecialTroops(
-		Unit[] countryUnits,
+		IEnumerable<Unit> countryUnits,
 		Imperator.Characters.CharacterCollection irCharacters,
 		CountryCollection irCountries,
 		Date date,
