@@ -600,18 +600,44 @@ internal sealed partial class Title {
 			int counter = 0;
 			
 			// We don't need pirates, barbarians etc.
-			var realCountries = imperatorCountries.Where(c => c.CountryType == CountryType.real).ToImmutableList();
+			var realCountries = imperatorCountries.Where(c => c.CountryType == CountryType.real);
+			var dependenciesBySubjectId = GetFirstDependenciesBySubjectId(dependencies);
 			
 			// Import independent countries first, then subjects.
-			var independentCountries = realCountries.Where(c => dependencies.All(d => d.SubjectId != c.Id)).ToImmutableList();
-			var subjects = realCountries.Except(independentCountries).ToImmutableList();
+			var (independentCountries, subjects) = SplitRealCountriesBySubjectDependencies(realCountries, dependenciesBySubjectId);
 			
 			counter = ImportIndependentCountries(imperatorCountries, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, governmentMapper, successionLawMapper, definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, countyLevelCountries, enabledCK3Dlcs, independentCountries, counter);
-			counter += ImportSubjects(imperatorCountries, dependencies, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, governmentMapper, successionLawMapper, definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, countyLevelCountries, enabledCK3Dlcs, subjects);
+			counter += ImportSubjects(imperatorCountries, dependenciesBySubjectId, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, governmentMapper, successionLawMapper, definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, countyLevelCountries, enabledCK3Dlcs, subjects);
 			Logger.Info($"Imported {counter} countries from I:R.");
 		}
 
-		private int ImportSubjects(CountryCollection imperatorCountries, IReadOnlyCollection<Dependency> dependencies,
+		internal static Dictionary<ulong, Dependency> GetFirstDependenciesBySubjectId(IReadOnlyCollection<Dependency> dependencies) {
+			var dependenciesBySubjectId = new Dictionary<ulong, Dependency>(dependencies.Count);
+			foreach (var dependency in dependencies) {
+				dependenciesBySubjectId.TryAdd(dependency.SubjectId, dependency);
+			}
+
+			return dependenciesBySubjectId;
+		}
+
+		internal static (ImmutableList<Country> IndependentCountries, ImmutableList<Country> Subjects) SplitRealCountriesBySubjectDependencies(
+			IEnumerable<Country> realCountries,
+			IReadOnlyDictionary<ulong, Dependency> dependenciesBySubjectId
+		) {
+			var independentCountries = ImmutableList.CreateBuilder<Country>();
+			var subjects = ImmutableList.CreateBuilder<Country>();
+			foreach (var country in realCountries) {
+				if (dependenciesBySubjectId.ContainsKey(country.Id)) {
+					subjects.Add(country);
+				} else {
+					independentCountries.Add(country);
+				}
+			}
+
+			return (independentCountries.ToImmutable(), subjects.ToImmutable());
+		}
+
+		private int ImportSubjects(CountryCollection imperatorCountries, IReadOnlyDictionary<ulong, Dependency> dependenciesBySubjectId,
 			TagTitleMapper tagTitleMapper, LocDB irLocDB, CK3LocDB ck3LocDB, ProvinceMapper provinceMapper, CoaMapper coaMapper,
 			GovernmentMapper governmentMapper, SuccessionLawMapper successionLawMapper, DefiniteFormMapper definiteFormMapper,
 			ReligionMapper religionMapper, CultureMapper cultureMapper, NicknameMapper nicknameMapper,
@@ -620,9 +646,10 @@ internal sealed partial class Title {
 		{
 			int counter = 0;
 			foreach (Country country in subjects) {
+				dependenciesBySubjectId.TryGetValue(country.Id, out var dependency);
 				ImportImperatorCountry(
 					country,
-					dependency: dependencies.FirstOrDefault(d => d.SubjectId == country.Id),
+					dependency,
 					imperatorCountries,
 					tagTitleMapper,
 					irLocDB,

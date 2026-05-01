@@ -30,6 +30,7 @@ using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Xunit;
 using ProvinceCollection = ImperatorToCK3.CK3.Provinces.ProvinceCollection;
 
@@ -736,6 +737,29 @@ public class LandedTitlesTests {
 		empire.GetDeFactoVassals(date).Keys.Should().BeEquivalentTo([duchy.Id]); // The duchy should now be a direct vassal of the empire.
 		// Check if I:R country - CK3 title link is broken.
 		Assert.Null(country.CK3Title);
+	}
+
+	[Fact]
+	public void SubjectDependencyIndexKeepsFirstMatchAndSplitsCountriesCorrectly() {
+		var dependencies = new List<Dependency> {
+			new(overlordId: 10, subjectId: 2, startDate: new Date(1, 1, 1), subjectType: "tributary"),
+			new(overlordId: 11, subjectId: 2, startDate: new Date(2, 1, 1), subjectType: "vassal"),
+			new(overlordId: 12, subjectId: 4, startDate: new Date(3, 1, 1), subjectType: "client_state")
+		};
+		var countries = new[] {
+			new Country(1),
+			new Country(2),
+			new Country(3),
+			new Country(4)
+		};
+
+		var dependenciesBySubjectId = Title.LandedTitles.GetFirstDependenciesBySubjectId(dependencies);
+		var (independentCountries, subjects) = Title.LandedTitles.SplitRealCountriesBySubjectDependencies(countries, dependenciesBySubjectId);
+
+		dependenciesBySubjectId.Should().HaveCount(2);
+		dependenciesBySubjectId[2].OverlordId.Should().Be(10UL);
+		independentCountries.Select(c => c.Id).Should().Equal([1UL, 3UL]);
+		subjects.Select(c => c.Id).Should().Equal([2UL, 4UL]);
 	}
 }
 

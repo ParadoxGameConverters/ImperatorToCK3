@@ -607,7 +607,8 @@ internal sealed class World {
 
 	private void OverwriteCountiesHistory(CountryCollection irCountries, List<Governorship> governorships, List<KeyValuePair<Country, Dependency?>> countyLevelCountries, List<Governorship> countyLevelGovernorships, Imperator.Characters.CharacterCollection impCharacters, Imperator.Provinces.ProvinceCollection irProvinces, Date conversionDate) {
 		Logger.Info("Overwriting counties' history...");
-		FrozenSet<Governorship> governorshipsSet = governorships.ToFrozenSet();
+		var countyLevelCountriesByCountryId = GetFirstValuesByKey(countyLevelCountries, entry => entry.Key.Id);
+		var governorshipsByCountryAndRegion = GetFirstValuesByKey(governorships, governorship => (governorship.Country.Id, governorship.Region.Id));
 		FrozenSet<Governorship> countyLevelGovernorshipsSet = countyLevelGovernorships.ToFrozenSet();
 
 		foreach (var county in LandedTitles.Counties) {
@@ -687,13 +688,28 @@ internal sealed class World {
 				continue;
 			}
 
-			OverwriteCountyHistory(county, irProvince, irCountries, countyLevelCountries, governorshipsSet, countyLevelGovernorshipsSet, impCharacters, irProvinces, conversionDate);
+			OverwriteCountyHistory(county, irProvince, irCountries, countyLevelCountriesByCountryId, governorshipsByCountryAndRegion, countyLevelGovernorshipsSet, impCharacters, irProvinces, conversionDate);
 		}
 		Logger.IncrementProgress();
 	}
 
+	internal static Dictionary<TKey, TValue> GetFirstValuesByKey<TValue, TKey>(
+		IEnumerable<TValue> values,
+		Func<TValue, TKey> keySelector,
+		IEqualityComparer<TKey>? comparer = null
+	) where TKey : notnull {
+		var indexedValues = comparer is null ? new Dictionary<TKey, TValue>() : new Dictionary<TKey, TValue>(comparer);
+		foreach (var value in values) {
+			indexedValues.TryAdd(keySelector(value), value);
+		}
+
+		return indexedValues;
+	}
+
 	private void OverwriteCountyHistory(Title county, Imperator.Provinces.Province irProvince, CountryCollection irCountries,
-		List<KeyValuePair<Country, Dependency?>> countyLevelCountries, FrozenSet<Governorship> governorshipsSet, FrozenSet<Governorship> countyLevelGovernorshipsSet,
+		IReadOnlyDictionary<ulong, KeyValuePair<Country, Dependency?>> countyLevelCountriesByCountryId,
+		IReadOnlyDictionary<(ulong CountryId, string RegionId), Governorship> governorshipsByCountryAndRegion,
+		FrozenSet<Governorship> countyLevelGovernorshipsSet,
 		Imperator.Characters.CharacterCollection irCharacters, Imperator.Provinces.ProvinceCollection irProvinces, Date conversionDate) {
 		var irCountry = irProvince.OwnerCountry;
 
@@ -702,9 +718,9 @@ internal sealed class World {
 			county.SetDeFactoLiege(null, conversionDate);
 			RevokeBaroniesFromCountyGivenToImperatorCharacter(county);
 		} else {
-			bool given = TryGiveCountyToCountyLevelRuler(county, irCountry, countyLevelCountries, irCountries);
+			bool given = TryGiveCountyToCountyLevelRuler(county, irCountry, countyLevelCountriesByCountryId, irCountries);
 			if (!given) {
-				given = TryGiveCountyToGovernor(county, irProvince, irCountry, governorshipsSet, irProvinces, countyLevelGovernorshipsSet, irCharacters);
+				given = TryGiveCountyToGovernor(county, irProvince, irCountry, governorshipsByCountryAndRegion, irProvinces, countyLevelGovernorshipsSet, irCharacters);
 			}
 			if (!given) {
 				given = TryGiveCountyToMonarch(county, irCountry);
@@ -744,7 +760,7 @@ internal sealed class World {
 	private bool TryGiveCountyToGovernor(Title county,
 		Imperator.Provinces.Province irProvince,
 		Country irCountry,
-		FrozenSet<Governorship> governorshipsSet,
+		IReadOnlyDictionary<(ulong CountryId, string RegionId), Governorship> governorshipsByCountryAndRegion,
 		Imperator.Provinces.ProvinceCollection irProvinces,
 		FrozenSet<Governorship> countyLevelGovernorshipsSet,
 		Imperator.Characters.CharacterCollection irCharacters) {
@@ -755,9 +771,7 @@ internal sealed class World {
 		}
 
 		var parentRegionName = imperatorRegionMapper.GetParentRegionName(irProvince.Id);
-		var governorship = governorshipsSet
-			.FirstOrDefault(g => g.Country.Id == irCountry.Id && g.Region.Id == parentRegionName);
-		if (governorship is null) {
+		if (parentRegionName is null || !governorshipsByCountryAndRegion.TryGetValue((irCountry.Id, parentRegionName), out var governorship)) {
 			// We have no matching governorship.
 			return false;
 		}
@@ -823,11 +837,9 @@ internal sealed class World {
 
 	private bool TryGiveCountyToCountyLevelRuler(Title county,
 		Country irCountry,
-		List<KeyValuePair<Country, Dependency?>> countyLevelCountries,
+		IReadOnlyDictionary<ulong, KeyValuePair<Country, Dependency?>> countyLevelCountriesByCountryId,
 		CountryCollection irCountries) {
-		var matchingCountyLevelRuler = countyLevelCountries
-			.FirstOrDefault(c => c.Key.Id == irCountry.Id);
-		if (matchingCountyLevelRuler.Key is null) {
+		if (!countyLevelCountriesByCountryId.TryGetValue(irCountry.Id, out var matchingCountyLevelRuler)) {
 			return false;
 		}
 		var dependency = matchingCountyLevelRuler.Value;

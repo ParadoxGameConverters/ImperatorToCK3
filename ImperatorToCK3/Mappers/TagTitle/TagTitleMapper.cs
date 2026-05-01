@@ -129,6 +129,37 @@ internal sealed class TagTitleMapper {
 		return generatedTitle;
 	}
 
+	internal static Dictionary<string, List<Title>> BuildCountyByRegionIndex(
+		Title.LandedTitles titles, ProvinceCollection ck3Provinces, ImperatorRegionMapper imperatorRegionMapper) {
+		var index = new Dictionary<string, List<Title>>();
+		foreach (var county in titles.Where(t => t.Rank == TitleRank.county)) {
+			if (!county.CapitalBaronyProvinceId.HasValue) {
+				continue;
+			}
+			var capitalBaronyProvinceId = county.CapitalBaronyProvinceId.Value;
+			if (capitalBaronyProvinceId == 0) {
+				continue;
+			}
+			if (!ck3Provinces.TryGetValue(capitalBaronyProvinceId, out var ck3Prov)) {
+				Logger.Warn($"Capital barony province not found: {capitalBaronyProvinceId}");
+				continue;
+			}
+			var irProvince = ck3Prov.PrimaryImperatorProvince;
+			if (irProvince is null) { // probably outside of Imperator map
+				continue;
+			}
+			var regionId = imperatorRegionMapper.GetParentRegionName(irProvince.Id);
+			if (regionId is null) {
+				continue;
+			}
+			if (!index.TryGetValue(regionId, out var list)) {
+				list = [];
+				index[regionId] = list;
+			}
+			list.Add(county);
+		}
+		return index;
+	}
 	private string? GetCountyForGovernorship(Governorship governorship, Country country, Title.LandedTitles titles, ProvinceCollection ck3Provinces, ImperatorRegionMapper imperatorRegionMapper) {
 		var ck3Country = country.CK3Title;
 		if (ck3Country is null) {
@@ -143,35 +174,15 @@ internal sealed class TagTitleMapper {
 
 		var countryCapitalDuchy = ck3CapitalCounty.DeJureLiege;
 
-		foreach (var county in titles.Where(t => t.Rank == TitleRank.county)) {
-			if (!county.CapitalBaronyProvinceId.HasValue) {
-				// Title has no capital barony province.
-				continue;
-			}
-			ulong capitalBaronyProvinceId = county.CapitalBaronyProvinceId.Value;
-			if (capitalBaronyProvinceId == 0) {
-				// Title's capital province has an invalid ID (0 is not a valid province in CK3)
-				continue;
-			}
+		_countyByRegion ??= BuildCountyByRegionIndex(titles, ck3Provinces, imperatorRegionMapper);
+		if (!_countyByRegion.TryGetValue(governorship.Region.Id, out var countiesInRegion)) {
+			return null;
+		}
 
-			if (!ck3Provinces.ContainsKey(capitalBaronyProvinceId)) {
-				Logger.Warn($"Capital barony province not found: {capitalBaronyProvinceId}");
-				continue;
-			}
-
-			var ck3CapitalBaronyProvince = ck3Provinces[capitalBaronyProvinceId];
-			var irProvince = ck3CapitalBaronyProvince.PrimaryImperatorProvince;
-			if (irProvince is null) { // probably outside of Imperator map
-				continue;
-			}
-
+		foreach (var county in countiesInRegion) {
 			// if title belongs to country ruler's capital's de jure duchy, it needs to be directly held by the ruler
 			var deJureDuchyOfCounty = county.DeJureLiege;
 			if (countryCapitalDuchy is not null && deJureDuchyOfCounty is not null && countryCapitalDuchy.Id == deJureDuchyOfCounty.Id) {
-				continue;
-			}
-
-			if (governorship.Region.Id != imperatorRegionMapper.GetParentRegionName(irProvince.Id)) {
 				continue;
 			}
 
@@ -302,6 +313,7 @@ internal sealed class TagTitleMapper {
 	private readonly Dictionary<ulong, string> registeredCountryTitles = new(); // We store already mapped countries here.
 	private readonly Dictionary<string, string> registeredGovernorshipTitles = new(); // We store already mapped governorships here.
 	private readonly HashSet<string> usedTitles = new(StringComparer.Ordinal);
+	private Dictionary<string, List<Title>>? _countyByRegion;
 
 	private readonly HashSet<string> hegemonyKeywords = [];
 	private readonly HashSet<string> empireKeywords = ["empire"];
