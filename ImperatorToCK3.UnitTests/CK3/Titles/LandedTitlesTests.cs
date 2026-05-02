@@ -672,7 +672,9 @@ public class LandedTitlesTests {
 			"heritage_mongolic = e_mongolia\n");
 
 		try {
-			titles.SetDeJureKingdomsAndAbove(date, cultureCollection, characters, new MapData(ck3ModFS), new CK3RegionMapper(), new TestCK3LocDB());
+			var provinceMapper = new ProvinceMapper();
+			provinceMapper.LoadMappings(provinceMappingsPath);
+			titles.SetDeJureKingdomsAndAbove(date, cultureCollection, characters, new MapData(ck3ModFS), new CK3RegionMapper(), new TestCK3LocDB(), provinceMapper);
 
 			Assert.Equal("e_mongolia", titles["k_test"].DeJureLiege?.Id);
 		} finally {
@@ -682,6 +684,92 @@ public class LandedTitlesTests {
 				File.WriteAllText(heritageMapPath, originalHeritageMap);
 			}
 		}
+	}
+
+	[Fact]
+	public void KingdomMostlyOutsideImperatorMapKeepsExistingDeJureSetup() {
+		var date = new Date(867, 1, 1);
+		var titles = new Title.LandedTitles();
+		titles.LoadTitles(new BufferedReader(
+			"h_old = { e_old = { k_protected = { d_protected = { capital = c_protected1 c_protected1 = { b_protected1 = { province = 1 } } c_protected2 = { b_protected2 = { province = 100 } } c_protected3 = { b_protected3 = { province = 101 } } } } } }\n" +
+			"h_new = { e_new = { k_new = { } } }\n"
+		), colorFactory);
+
+		var characters = new CharacterCollection();
+		var holder = new Character("1", "Holder", new Date(800, 1, 1), characters);
+		characters.Add(holder);
+
+		foreach (var countyId in new[] { "c_protected1", "c_protected2", "c_protected3" }) {
+			titles[countyId].SetHolder(holder, date);
+			titles[countyId].SetDeFactoLiege(titles["k_new"], date);
+		}
+		titles["k_new"].SetDeFactoLiege(titles["e_new"], date);
+		titles["e_new"].SetDeFactoLiege(titles["h_new"], date);
+
+		var provinceMapper = new ProvinceMapper();
+		provinceMapper.LoadMappings(provinceMappingsPath);
+
+		titles.SetDeJureKingdomsAndAbove(date, new TestCK3CultureCollection(), characters, new MapData(ck3ModFS), new CK3RegionMapper(), new TestCK3LocDB(), provinceMapper);
+
+		Assert.Equal("k_protected", titles["d_protected"].DeJureLiege?.Id);
+		Assert.Equal("e_old", titles["k_protected"].DeJureLiege?.Id);
+		Assert.Equal("h_old", titles["k_protected"].GetDeJureLiegeOfRank(TitleRank.hegemony)?.Id);
+	}
+
+	[Fact]
+	public void KingdomAtFiftyPercentOutsideImperatorMapStillUsesDynamicDeJureSetup() {
+		var date = new Date(867, 1, 1);
+		var titles = new Title.LandedTitles();
+		titles.LoadTitles(new BufferedReader(
+			"e_old = { k_test = { d_test = { capital = c_test1 c_test1 = { b_test1 = { province = 1 } } c_test2 = { b_test2 = { province = 100 } } } } }\n" +
+			"e_new = { k_target = { } }\n"
+		), colorFactory);
+
+		var characters = new CharacterCollection();
+		var holder = new Character("1", "Holder", new Date(800, 1, 1), characters);
+		characters.Add(holder);
+
+		foreach (var countyId in new[] { "c_test1", "c_test2" }) {
+			titles[countyId].SetHolder(holder, date);
+			titles[countyId].SetDeFactoLiege(titles["k_target"], date);
+		}
+		titles["k_target"].SetDeFactoLiege(titles["e_new"], date);
+
+		var provinceMapper = new ProvinceMapper();
+		provinceMapper.LoadMappings(provinceMappingsPath);
+
+		titles.SetDeJureKingdomsAndAbove(date, new TestCK3CultureCollection(), characters, new MapData(ck3ModFS), new CK3RegionMapper(), new TestCK3LocDB(), provinceMapper);
+
+		Assert.Equal("k_target", titles["d_test"].DeJureLiege?.Id);
+	}
+
+	[Fact]
+	public void ProtectedKingdomIsNotExcludedFromDisconnectedEmpireSplitting() {
+		var date = new Date(867, 1, 1);
+		var titles = new Title.LandedTitles();
+		titles.LoadTitles(new BufferedReader(
+			"e_old = { " +
+			"k_mutable = { d_mutable = { capital = c_mutable c_mutable = { b_mutable = { province = 4 } } } } " +
+			"k_protected = { d_protected = { capital = c_protected1 c_protected1 = { b_protected1 = { province = 1 } } c_protected2 = { b_protected2 = { province = 100 } } c_protected3 = { b_protected3 = { province = 101 } } } } " +
+			"}\n"
+		), colorFactory);
+
+		var characters = new CharacterCollection();
+		var holder = new Character("1", "Holder", new Date(800, 1, 1), characters);
+		characters.Add(holder);
+
+		foreach (var countyId in new[] { "c_mutable", "c_protected1", "c_protected2", "c_protected3" }) {
+			titles[countyId].SetHolder(holder, date);
+			titles[countyId].SetDeFactoLiege(titles["e_old"], date);
+		}
+
+		var provinceMapper = new ProvinceMapper();
+		provinceMapper.LoadMappings(provinceMappingsPath);
+
+		titles.SetDeJureKingdomsAndAbove(date, new TestCK3CultureCollection(), characters, new MapData(ck3ModFS), new CK3RegionMapper(), new TestCK3LocDB(), provinceMapper);
+
+		Assert.Equal("e_IRTOCK3_from_c_protected1", titles["k_protected"].DeJureLiege?.Id);
+		Assert.True(titles.ContainsKey("e_IRTOCK3_from_c_protected1"));
 	}
 
 	[Fact]

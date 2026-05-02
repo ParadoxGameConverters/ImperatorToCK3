@@ -355,7 +355,7 @@ internal sealed class World {
 		LandedTitles.RemoveInvalidLandlessTitles(config.CK3BookmarkDate);
 		Logger.IncrementProgress();
 		if (!config.StaticDeJure) {
-			LandedTitles.SetDeJureKingdomsAndAbove(config.CK3BookmarkDate, Cultures, Characters, MapData, CK3RegionMapper, LocDB);
+			LandedTitles.SetDeJureKingdomsAndAbove(config.CK3BookmarkDate, Cultures, Characters, MapData, CK3RegionMapper, LocDB, provinceMapper);
 		}
 
 		Dynasties.SetCoasForRulingDynasties(LandedTitles, config.CK3BookmarkDate);
