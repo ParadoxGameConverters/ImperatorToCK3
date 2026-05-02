@@ -535,30 +535,35 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	private List<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, Dictionary<string, HashSet<Province>> provincesByFaith) {
 		// Collect all Imperator territories that are mapped to this faith.
-		HashSet<Province> faithTerritories;
-		if (provincesByFaith.TryGetValue(faith.Id, out var set)) {
-			faithTerritories = set;
-		} else {
-			faithTerritories = [];
+		if (!provincesByFaith.TryGetValue(faith.Id, out var faithTerritories)) {
+			return [];
 		}
 
-		// Split the territories into 2 sets: territories that have a holy site and territories that do not.
-		// Order both sets in descending order by population.
-		var provincesWithHolySite = faithTerritories
-			.Where(p => p.ImperatorProvinces.Any(irProv => irProv.IsHolySite))
-			.OrderByDescending(p => p.PrimaryImperatorProvince!.GetPopCount())
-			.ToArray();
-		var provincesWithoutHolySite = faithTerritories.Except(provincesWithHolySite)
-			.OrderByDescending(p => p.PrimaryImperatorProvince!.GetPopCount())
-			.ToArray();
+		// Single-pass partition: split territories into holy-site and non-holy-site lists.
+		List<Province> withHolySite = [];
+		Province? bestWithout = null;
+		int bestWithoutPop = -1;
+		foreach (var p in faithTerritories) {
+			if (p.ImperatorProvinces.Any(irProv => irProv.IsHolySite)) {
+				withHolySite.Add(p);
+			} else {
+				var pop = p.PrimaryImperatorProvince!.GetPopCount();
+				if (pop > bestWithoutPop) {
+					bestWithoutPop = pop;
+					bestWithout = p;
+				}
+			}
+		}
 
-		// Take the top 4 territories with a holy site.
-		var selectedDynamicSites = provincesWithHolySite.Take(4).ToList();
+		// Take the top 4 territories with a holy site (sort only the holy-site subset).
+		var selectedDynamicSites = withHolySite
+			.OrderByDescending(p => p.PrimaryImperatorProvince!.GetPopCount())
+			.Take(4)
+			.ToList();
 
 		// Take the most populated territory without a holy site.
-		var mostPopulatedProvinceWithoutHolySite = provincesWithoutHolySite.FirstOrDefault(defaultValue: null);
-		if (mostPopulatedProvinceWithoutHolySite is not null) {
-			selectedDynamicSites.Add(mostPopulatedProvinceWithoutHolySite);
+		if (bestWithout is not null) {
+			selectedDynamicSites.Add(bestWithout);
 		}
 
 		return selectedDynamicSites

@@ -4,7 +4,6 @@ using commonItems.Localization;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Frozen;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Armies;
 
@@ -37,7 +36,7 @@ internal sealed class Unit : IIdentifiable<ulong> {
 		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
 		parser.ParseStream(legionReader);
 
-		MenPerUnitType = GetMenPerUnitType(unitCollection, defines);
+		MenPerUnitType = CalculateMenPerUnitType(CohortIds, unitCollection.Subunits, defines.CohortSize);
 	}
 
 	private static LocBlock? GetLocalizedName(BufferedReader unitNameReader, LocDB irLocDB) {
@@ -84,12 +83,35 @@ internal sealed class Unit : IIdentifiable<ulong> {
 		return nameLocBlock;
 	}
 
-	private FrozenDictionary<string, int> GetMenPerUnitType(UnitCollection unitCollection, ImperatorDefines defines) {
-		var cohortSize = defines.CohortSize;
+	internal static FrozenDictionary<string, int> CalculateMenPerUnitType(IReadOnlyCollection<ulong> cohortIds, IdObjectCollection<ulong, Subunit> subunits, int cohortSize) {
+		if (cohortIds.Count == 0) {
+			return FrozenDictionary<string, int>.Empty;
+		}
 
-		return unitCollection.Subunits.Where(s => CohortIds.Contains(s.Id))
-			.GroupBy(s=>s.Type)
-			.ToFrozenDictionary(g => g.Key, g => (int)g.Sum(s => cohortSize * s.Strength));
+		var menPerUnitType = new Dictionary<string, float>();
+		foreach (var cohortId in cohortIds) {
+			if (!subunits.TryGetValue(cohortId, out var subunit)) {
+				continue;
+			}
+
+			var menInCohort = cohortSize * subunit.Strength;
+			if (menPerUnitType.TryGetValue(subunit.Type, out var currentMen)) {
+				menPerUnitType[subunit.Type] = currentMen + menInCohort;
+			} else {
+				menPerUnitType[subunit.Type] = menInCohort;
+			}
+		}
+
+		if (menPerUnitType.Count == 0) {
+			return FrozenDictionary<string, int>.Empty;
+		}
+
+		var frozenReadyDict = new Dictionary<string, int>(menPerUnitType.Count);
+		foreach (var (unitType, men) in menPerUnitType) {
+			frozenReadyDict[unitType] = (int)men;
+		}
+
+		return frozenReadyDict.ToFrozenDictionary();
 	}
 
 	public static IgnoredKeywordsSet IgnoredTokens { get; } = [];

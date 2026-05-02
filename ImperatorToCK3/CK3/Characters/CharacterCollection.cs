@@ -752,6 +752,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		Logger.Info("Importing Imperator armies...");
 
 		var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
+		var legionsByCountry = GetLegionsByCountry(imperatorUnits);
 		foreach (var ck3Country in ck3CountriesFromImperator) {
 			var rulerId = ck3Country.GetHolderId(date);
 			if (rulerId == "0") {
@@ -760,8 +761,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			}
 
 			var imperatorCountry = ck3Country.ImperatorCountry!;
-			var countryLegions = imperatorUnits.Where(u => u.CountryId == imperatorCountry.Id && u.IsArmy && u.IsLegion).ToArray();
-			if (countryLegions.Length == 0) {
+			if (!legionsByCountry.TryGetValue(imperatorCountry.Id, out var countryLegions)) {
 				continue;
 			}
 
@@ -775,6 +775,23 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		}
 
 		Logger.IncrementProgress();
+	}
+
+	internal static Dictionary<ulong, List<Unit>> GetLegionsByCountry(UnitCollection imperatorUnits) {
+		var legionsByCountry = new Dictionary<ulong, List<Unit>>();
+		foreach (var unit in imperatorUnits) {
+			if (!unit.IsArmy || !unit.IsLegion) {
+				continue;
+			}
+
+			if (!legionsByCountry.TryGetValue(unit.CountryId, out var countryLegions)) {
+				countryLegions = [];
+				legionsByCountry[unit.CountryId] = countryLegions;
+			}
+			countryLegions.Add(unit);
+		}
+
+		return legionsByCountry;
 	}
 
 	internal void GenerateSuccessorsForOldCharacters(Title.LandedTitles titles, CultureCollection cultures, Date irSaveDate, Date ck3BookmarkDate, ulong randomSeed) {

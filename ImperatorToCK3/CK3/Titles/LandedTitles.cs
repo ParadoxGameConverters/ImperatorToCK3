@@ -600,18 +600,44 @@ internal sealed partial class Title {
 			int counter = 0;
 			
 			// We don't need pirates, barbarians etc.
-			var realCountries = imperatorCountries.Where(c => c.CountryType == CountryType.real).ToImmutableList();
+			var realCountries = imperatorCountries.Where(c => c.CountryType == CountryType.real);
+			var dependenciesBySubjectId = GetFirstDependenciesBySubjectId(dependencies);
 			
 			// Import independent countries first, then subjects.
-			var independentCountries = realCountries.Where(c => dependencies.All(d => d.SubjectId != c.Id)).ToImmutableList();
-			var subjects = realCountries.Except(independentCountries).ToImmutableList();
+			var (independentCountries, subjects) = SplitRealCountriesBySubjectDependencies(realCountries, dependenciesBySubjectId);
 			
 			counter = ImportIndependentCountries(imperatorCountries, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, governmentMapper, successionLawMapper, definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, countyLevelCountries, enabledCK3Dlcs, independentCountries, counter);
-			counter += ImportSubjects(imperatorCountries, dependencies, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, governmentMapper, successionLawMapper, definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, countyLevelCountries, enabledCK3Dlcs, subjects);
+			counter += ImportSubjects(imperatorCountries, dependenciesBySubjectId, tagTitleMapper, irLocDB, ck3LocDB, provinceMapper, coaMapper, governmentMapper, successionLawMapper, definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, characters, conversionDate, config, countyLevelCountries, enabledCK3Dlcs, subjects);
 			Logger.Info($"Imported {counter} countries from I:R.");
 		}
 
-		private int ImportSubjects(CountryCollection imperatorCountries, IReadOnlyCollection<Dependency> dependencies,
+		internal static Dictionary<ulong, Dependency> GetFirstDependenciesBySubjectId(IReadOnlyCollection<Dependency> dependencies) {
+			var dependenciesBySubjectId = new Dictionary<ulong, Dependency>(dependencies.Count);
+			foreach (var dependency in dependencies) {
+				dependenciesBySubjectId.TryAdd(dependency.SubjectId, dependency);
+			}
+
+			return dependenciesBySubjectId;
+		}
+
+		internal static (ImmutableList<Country> IndependentCountries, ImmutableList<Country> Subjects) SplitRealCountriesBySubjectDependencies(
+			IEnumerable<Country> realCountries,
+			IReadOnlyDictionary<ulong, Dependency> dependenciesBySubjectId
+		) {
+			var independentCountries = ImmutableList.CreateBuilder<Country>();
+			var subjects = ImmutableList.CreateBuilder<Country>();
+			foreach (var country in realCountries) {
+				if (dependenciesBySubjectId.ContainsKey(country.Id)) {
+					subjects.Add(country);
+				} else {
+					independentCountries.Add(country);
+				}
+			}
+
+			return (independentCountries.ToImmutable(), subjects.ToImmutable());
+		}
+
+		private int ImportSubjects(CountryCollection imperatorCountries, IReadOnlyDictionary<ulong, Dependency> dependenciesBySubjectId,
 			TagTitleMapper tagTitleMapper, LocDB irLocDB, CK3LocDB ck3LocDB, ProvinceMapper provinceMapper, CoaMapper coaMapper,
 			GovernmentMapper governmentMapper, SuccessionLawMapper successionLawMapper, DefiniteFormMapper definiteFormMapper,
 			ReligionMapper religionMapper, CultureMapper cultureMapper, NicknameMapper nicknameMapper,
@@ -620,9 +646,10 @@ internal sealed partial class Title {
 		{
 			int counter = 0;
 			foreach (Country country in subjects) {
+				dependenciesBySubjectId.TryGetValue(country.Id, out var dependency);
 				ImportImperatorCountry(
 					country,
-					dependency: dependencies.FirstOrDefault(d => d.SubjectId == country.Id),
+					dependency,
 					imperatorCountries,
 					tagTitleMapper,
 					irLocDB,
@@ -1071,15 +1098,54 @@ internal sealed partial class Title {
 			Logger.IncrementProgress();
 		}
 
-		private void SetDeJureKingdoms(CK3LocDB ck3LocDB, Date ck3BookmarkDate) {
+		private static FrozenSet<string> GetKingdomIdsWithMajorityOutsideImperatorMap(IEnumerable<Title> deJureKingdoms, ProvinceMapper provinceMapper) {
+			var protectedKingdomIds = new HashSet<string>();
+			foreach (var kingdom in deJureKingdoms) {
+				var kingdomProvinceIds = kingdom.GetDeJureVassalsAndBelow("c").Values
+					.SelectMany(c => c.CountyProvinceIds)
+					.ToFrozenSet();
+				if (kingdomProvinceIds.Count == 0) {
+					continue;
+				}
+
+				var provincesOutsideImperatorMap = kingdomProvinceIds.Count(provinceId => provinceMapper.GetImperatorProvinceNumbers(provinceId).Count == 0);
+				if (provincesOutsideImperatorMap * 2 <= kingdomProvinceIds.Count) {
+					continue;
+				}
+
+				protectedKingdomIds.Add(kingdom.Id);
+				Logger.Debug($"Preserving de jure setup for kingdom {kingdom.Id}: {provincesOutsideImperatorMap}/{kingdomProvinceIds.Count} provinces are outside the Imperator map.");
+			}
+
+			return protectedKingdomIds.ToFrozenSet();
+		}
+
+		private static bool IsInChinaDeJureHierarchy(Title title) {
+			return string.Equals(title.GetDeJureLiegeOfRank(TitleRank.hegemony)?.Id, "h_china", StringComparison.Ordinal);
+		}
+
+		private static bool KingdomShouldKeepExistingDeJureSetup(Title kingdom, FrozenSet<string> protectedKingdomIds) {
+			// Don't change the de jure inside h_china, to avoid messing with the Dynastic Cycle and shit.
+			return IsInChinaDeJureHierarchy(kingdom) || protectedKingdomIds.Contains(kingdom.Id);
+		}
+
+		private static bool DuchyShouldKeepExistingDeJureSetup(Title duchy, FrozenSet<string> protectedKingdomIds) {
+			if (IsInChinaDeJureHierarchy(duchy)) {
+				return true;
+			}
+
+			var currentKingdom = duchy.GetDeJureLiegeOfRank(TitleRank.kingdom);
+			return currentKingdom is not null && protectedKingdomIds.Contains(currentKingdom.Id);
+		}
+
+		private void SetDeJureKingdoms(CK3LocDB ck3LocDB, Date ck3BookmarkDate, FrozenSet<string> protectedKingdomIds) {
 			Logger.Info("Setting de jure kingdoms...");
 
 			var duchies = this.Where(t => t.Rank == TitleRank.duchy).ToFrozenSet();
 			var duchiesWithDeJureVassals = duchies.Where(d => d.DeJureVassals.Count > 0).ToFrozenSet();
 
 			foreach (var duchy in duchiesWithDeJureVassals) {
-				// Don't change the de jure inside h_china, to avoid messing with the Dynastic Cycle and shit.
-				if (string.Equals(duchy.DeJureLiege?.DeJureLiege?.DeJureLiege?.Id, "h_china", StringComparison.Ordinal)) {
+				if (DuchyShouldKeepExistingDeJureSetup(duchy, protectedKingdomIds)) {
 					continue;
 				}
 
@@ -1149,23 +1215,23 @@ internal sealed partial class Title {
 			Logger.IncrementProgress();
 		}
 
-		private void SetDeJureEmpiresAndHegemonies(CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3RegionMapper ck3RegionMapper, CK3LocDB ck3LocDB, Date ck3BookmarkDate) {
+		private void SetDeJureEmpiresAndHegemonies(CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3RegionMapper ck3RegionMapper, CK3LocDB ck3LocDB, Date ck3BookmarkDate, FrozenSet<string> protectedKingdomIds) {
 			Logger.Info("Setting de jure empires...");
 			var deJureKingdoms = GetDeJureKingdoms();
-			var deJureKingdomsOutsideChina = deJureKingdoms
-				.Where(k => !string.Equals(k.DeJureLiege?.DeJureLiege?.Id, "h_china", StringComparison.Ordinal))
+			var mutableDeJureKingdoms = deJureKingdoms
+				.Where(k => !KingdomShouldKeepExistingDeJureSetup(k, protectedKingdomIds))
 				.ToImmutableArray();
 			
-			TryToAssignKingdomsToExistingEmpires(deJureKingdomsOutsideChina, ck3BookmarkDate);
+			TryToAssignKingdomsToExistingEmpires(mutableDeJureKingdoms, ck3BookmarkDate);
 
-			SetDeJureEmpiresWithinHegemonies(deJureKingdomsOutsideChina, ck3RegionMapper, ck3LocDB, ck3BookmarkDate);
+			SetDeJureEmpiresWithinHegemonies(mutableDeJureKingdoms, ck3RegionMapper, ck3LocDB, ck3BookmarkDate);
 
 			// For kingdoms that still have no de jure empire, create empires based on dominant culture of the realms
 			// holding land in that de jure kingdom.
 			var removableEmpireIds = new HashSet<string>();
 			var kingdomToDominantHeritagesDict = new Dictionary<string, ImmutableArray<Pillar>>();
 			var heritageToEmpireDict = GetHeritageIdToExistingTitleDict();
-			CreateEmpiresBasedOnDominantHeritages(deJureKingdomsOutsideChina, ck3Cultures, ck3Characters, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
+			CreateEmpiresBasedOnDominantHeritages(mutableDeJureKingdoms, ck3Cultures, ck3Characters, removableEmpireIds, kingdomToDominantHeritagesDict, heritageToEmpireDict, ck3LocDB, ck3BookmarkDate);
 			
 			Logger.Debug("Building kingdom adjacencies dict...");
 			// Create a cache of province IDs per kingdom.
@@ -1787,9 +1853,10 @@ internal sealed partial class Title {
 			}
 		}
 
-		public void SetDeJureKingdomsAndAbove(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3RegionMapper ck3RegionMapper, CK3LocDB ck3LocDB) {
-			SetDeJureKingdoms(ck3LocDB, ck3BookmarkDate);
-			SetDeJureEmpiresAndHegemonies(ck3Cultures, ck3Characters, ck3MapData, ck3RegionMapper, ck3LocDB, ck3BookmarkDate);
+		public void SetDeJureKingdomsAndAbove(Date ck3BookmarkDate, CultureCollection ck3Cultures, CharacterCollection ck3Characters, MapData ck3MapData, CK3RegionMapper ck3RegionMapper, CK3LocDB ck3LocDB, ProvinceMapper provinceMapper) {
+			var protectedKingdomIds = GetKingdomIdsWithMajorityOutsideImperatorMap(GetDeJureKingdoms(), provinceMapper);
+			SetDeJureKingdoms(ck3LocDB, ck3BookmarkDate, protectedKingdomIds);
+			SetDeJureEmpiresAndHegemonies(ck3Cultures, ck3Characters, ck3MapData, ck3RegionMapper, ck3LocDB, ck3BookmarkDate, protectedKingdomIds);
 		}
 
 		/// <summary>
