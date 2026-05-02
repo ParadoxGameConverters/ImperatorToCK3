@@ -1139,6 +1139,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("posthumous_regnal_female_names")] public StringOfItem? PosthumousRegnalFemaleNames { get; private set; }
 	[SerializedName("personal_relation_entry")] public StringOfItem? PersonalRelationEntry { get; private set; }
 	[SerializedName("personal_relation_vassal")] public StringOfItem? PersonalRelationVassal { get; private set; }
+	[SerializedName("disable_regnal_numbers")] public bool? DisableRegnalNumbers { get; set; }
 
 	public int? GetOwnOrInheritedDevelopmentLevel(Date date) {
 		// Latest date (<= date) takes precedence.
@@ -1225,6 +1226,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterKeyword("posthumous_regnal_female_names", reader => PosthumousRegnalFemaleNames = reader.GetStringOfItem());
 		parser.RegisterKeyword("personal_relation_entry", reader => PersonalRelationEntry = reader.GetStringOfItem());
 		parser.RegisterKeyword("personal_relation_vassal", reader => PersonalRelationVassal = reader.GetStringOfItem());
+		parser.RegisterKeyword("disable_regnal_numbers", reader => DisableRegnalNumbers = reader.GetBool());
 
 		parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 			IgnoredTokens.Add(token);
