@@ -70,6 +70,23 @@ public class LandedTitlesTests {
 		cultures = new CultureCollection(colorFactory, pillars, ck3ModFlags);
 	}
 
+	private static void WithTemporaryHeritageEmpireMap(Action action, string fileContents = "") {
+		const string heritageMapPath = "configurables/heritage_empires_map.txt";
+		var originalHeritageMap = File.Exists(heritageMapPath) ? File.ReadAllText(heritageMapPath) : null;
+		Directory.CreateDirectory("configurables");
+		File.WriteAllText(heritageMapPath, fileContents);
+
+		try {
+			action();
+		} finally {
+			if (originalHeritageMap is null) {
+				File.Delete(heritageMapPath);
+			} else {
+				File.WriteAllText(heritageMapPath, originalHeritageMap);
+			}
+		}
+	}
+
 	[Fact]
 	public void TitlesDefaultToEmpty() {
 		var reader = new BufferedReader(string.Empty);
@@ -664,7 +681,7 @@ public class LandedTitlesTests {
 		titles["c_county3"].SetHolder(mongolHolder, date);
 		titles["c_xia_county"].SetHolder(mongolHolder, date);
 
-		var heritageMapPath = Path.Combine("configurables", "heritage_empires_map.txt");
+		string heritageMapPath = "configurables/heritage_empires_map.txt";
 		var originalHeritageMap = File.Exists(heritageMapPath) ? File.ReadAllText(heritageMapPath) : null;
 		Directory.CreateDirectory("configurables");
 		File.WriteAllText(heritageMapPath,
@@ -709,7 +726,9 @@ public class LandedTitlesTests {
 		var provinceMapper = new ProvinceMapper();
 		provinceMapper.LoadMappings(provinceMappingsPath);
 
-		titles.SetDeJureKingdomsAndAbove(date, new TestCK3CultureCollection(), characters, new MapData(ck3ModFS), new CK3RegionMapper(), new TestCK3LocDB(), provinceMapper);
+		WithTemporaryHeritageEmpireMap(() =>
+			titles.SetDeJureKingdomsAndAbove(date, new TestCK3CultureCollection(), characters, new MapData(ck3ModFS), new CK3RegionMapper(), new TestCK3LocDB(), provinceMapper)
+		);
 
 		Assert.Equal("k_protected", titles["d_protected"].DeJureLiege?.Id);
 		Assert.Equal("e_old", titles["k_protected"].DeJureLiege?.Id);
@@ -738,7 +757,9 @@ public class LandedTitlesTests {
 		var provinceMapper = new ProvinceMapper();
 		provinceMapper.LoadMappings(provinceMappingsPath);
 
-		titles.SetDeJureKingdomsAndAbove(date, new TestCK3CultureCollection(), characters, new MapData(ck3ModFS), new CK3RegionMapper(), new TestCK3LocDB(), provinceMapper);
+		WithTemporaryHeritageEmpireMap(() =>
+			titles.SetDeJureKingdomsAndAbove(date, new TestCK3CultureCollection(), characters, new MapData(ck3ModFS), new CK3RegionMapper(), new TestCK3LocDB(), provinceMapper)
+		);
 
 		Assert.Equal("k_target", titles["d_test"].DeJureLiege?.Id);
 	}
@@ -766,7 +787,9 @@ public class LandedTitlesTests {
 		var provinceMapper = new ProvinceMapper();
 		provinceMapper.LoadMappings(provinceMappingsPath);
 
-		titles.SetDeJureKingdomsAndAbove(date, new TestCK3CultureCollection(), characters, new MapData(ck3ModFS), new CK3RegionMapper(), new TestCK3LocDB(), provinceMapper);
+		WithTemporaryHeritageEmpireMap(() =>
+			titles.SetDeJureKingdomsAndAbove(date, new TestCK3CultureCollection(), characters, new MapData(ck3ModFS), new CK3RegionMapper(), new TestCK3LocDB(), provinceMapper)
+		);
 
 		Assert.Equal("e_IRTOCK3_from_c_protected1", titles["k_protected"].DeJureLiege?.Id);
 		Assert.True(titles.ContainsKey("e_IRTOCK3_from_c_protected1"));
