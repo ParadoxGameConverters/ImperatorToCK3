@@ -1489,8 +1489,15 @@ indogreek = {
 		}
 	}
 	language = language_greek
-	parents = { hellenic_greek bactrian }
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parents = { hellenic_greek gandhari }
+		} ELSE = {
+			parents = { hellenic_greek punjabi }
+		}
+	}
 	created = 2.1.1
+	history_loc_override = indogreek_history_loc
 	ethos = ethos_bureaucratic
 	head_determination = head_determination_domain
 

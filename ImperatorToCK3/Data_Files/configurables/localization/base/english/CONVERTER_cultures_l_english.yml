@@ -108,6 +108,7 @@ l_english:
  indogreek: "Indo-Greek"
  indogreek_collective_noun: "Indo-Greeks"
  indogreek_prefix: "Indo-Greco" # prefix for Greek is Greco
+ indogreek_history_loc: "Formed from Greco-Bactrians adopting Indo-Aryan customs"
 
  lusoiberian: "Lusitanian"
  lusoiberian_collective_noun: "Lusitanians"
