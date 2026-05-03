@@ -742,7 +742,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		UnitCollection imperatorUnits,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
 		CountryCollection irCountries,
-		Date date,
+		Date bookmarkDate,
 		UnitTypeMapper unitTypeMapper,
 		IdObjectCollection<string, MenAtArmsType> menAtArmsTypes,
 		ProvinceMapper provinceMapper,
@@ -754,7 +754,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
 		var legionsByCountry = GetLegionsByCountry(imperatorUnits);
 		foreach (var ck3Country in ck3CountriesFromImperator) {
-			var rulerId = ck3Country.GetHolderId(date);
+			var rulerId = ck3Country.GetHolderId(bookmarkDate);
 			if (rulerId == "0") {
 				Logger.Debug($"Can't add armies to {ck3Country} because it has no holder.");
 				continue;
@@ -768,9 +768,9 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			var ruler = this[rulerId];
 
 			if (config.LegionConversion == LegionConversion.MenAtArms) {
-				ruler.ImportUnitsAsMenAtArms(countryLegions, date, unitTypeMapper, menAtArmsTypes, ck3LocDB);
+				ruler.ImportUnitsAsMenAtArms(countryLegions, bookmarkDate, unitTypeMapper, menAtArmsTypes, ck3LocDB);
 			} else if (config.LegionConversion == LegionConversion.SpecialTroops) {
-				ruler.ImportUnitsAsSpecialTroops(countryLegions, imperatorCharacters, irCountries, date, unitTypeMapper, provinceMapper, ck3LocDB);
+				ruler.ImportUnitsAsSpecialTroops(countryLegions, imperatorCharacters, irCountries, bookmarkDate, unitTypeMapper, provinceMapper, ck3LocDB);
 			}
 		}
 

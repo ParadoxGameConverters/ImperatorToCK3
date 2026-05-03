@@ -108,8 +108,9 @@ public sealed class WorldTests : IDisposable {
 		File.Move(dlcLoadPath, dlcLoadPath + ".backup", overwrite: true);
 		File.WriteAllText(dlcLoadPath, "modified dlc_load");
 		
-		// Call ExtractDynamicCoatsOfArms which should restore files in finally block
-		InvokeWorldMethod("ExtractDynamicCoatsOfArms", config);
+		// Call ExtractDynamicCoatsOfArms which should restore files in finally block.
+		// Swallow any exception (e.g. Imperator running) — the finally block is what matters here.
+		Record.Exception(() => InvokeWorldMethod("ExtractDynamicCoatsOfArms", config));
 		
 		// Verify backups are restored
 		Assert.True(File.Exists(continueGamePath));
@@ -153,5 +154,101 @@ public sealed class WorldTests : IDisposable {
 			return !File.GetAttributes(filePath).HasFlag(FileAttributes.ReadOnly);
 		}
 		return File.GetUnixFileMode(filePath).HasFlag(UnixFileMode.UserWrite);
+	}
+
+	[Fact]
+	public void OutputContinueGameJson_usesStagedSaveNameWhenStagedPathIsSet() {
+		// Arrange: set the private _stagedMeltedSavePath field via reflection.
+		var stagedSaveDir = Path.Combine(tempRoot, "ImperatorDocuments", "save games");
+		Directory.CreateDirectory(stagedSaveDir);
+		var stagedSavePath = Path.Combine(stagedSaveDir, "melted_save_abc123.rome");
+		File.WriteAllText(stagedSavePath, string.Empty);
+
+		typeof(World)
+			.GetField("_stagedMeltedSavePath", BindingFlags.Instance | BindingFlags.NonPublic)!
+			.SetValue(world, stagedSavePath);
+
+		// Act
+		var result = (bool)InvokeWorldMethod("OutputContinueGameJson", config)!;
+
+		// Assert: title must be based on the staged save, not the original save game path.
+		Assert.True(result);
+		var continueGamePath = Path.Combine(config.ImperatorDocPath, "continue_game.json");
+		Assert.Contains("\"title\":\t\"melted_save_abc123\"", File.ReadAllText(continueGamePath), StringComparison.Ordinal);
+	}
+
+	[Fact]
+	public void StageCoaMeltedSave_copiesFileToSavesDir() {
+		// Arrange: create a fake melted save in the temp working directory.
+		const string meltedSavePath = "temp/melted_save.rome";
+		Directory.CreateDirectory("temp");
+		File.WriteAllText(meltedSavePath, "melted content");
+		try {
+			// Act
+			var stagedPath = (string?)typeof(World)
+				.GetMethod("StageCoaMeltedSave", BindingFlags.Static | BindingFlags.NonPublic)!
+				.Invoke(null, [config]);
+
+			// Assert
+			Assert.NotNull(stagedPath);
+			Assert.True(File.Exists(stagedPath));
+			Assert.Equal("melted content", File.ReadAllText(stagedPath));
+			Assert.StartsWith(Path.Combine(config.ImperatorDocPath, "save games"), stagedPath, StringComparison.Ordinal);
+		} finally {
+			if (File.Exists(meltedSavePath)) {
+				File.Delete(meltedSavePath);
+			}
+		}
+	}
+
+	[Fact]
+	public void StageCoaMeltedSave_appendsUniqueSuffixWhenFileAlreadyExists() {
+		// Arrange: place a collision file at the default destination.
+		const string meltedSavePath = "temp/melted_save.rome";
+		Directory.CreateDirectory("temp");
+		File.WriteAllText(meltedSavePath, "melted content");
+		var savesDir = Path.Combine(config.ImperatorDocPath, "save games");
+		Directory.CreateDirectory(savesDir);
+		File.WriteAllText(Path.Combine(savesDir, "melted_save.rome"), "existing");
+		try {
+			// Act
+			var stagedPath = (string?)typeof(World)
+				.GetMethod("StageCoaMeltedSave", BindingFlags.Static | BindingFlags.NonPublic)!
+				.Invoke(null, [config]);
+
+			// Assert: a unique file is created, the original is untouched.
+			Assert.NotNull(stagedPath);
+			Assert.NotEqual(Path.Combine(savesDir, "melted_save.rome"), stagedPath);
+			Assert.True(File.Exists(stagedPath));
+			Assert.Equal("existing", File.ReadAllText(Path.Combine(savesDir, "melted_save.rome")));
+		} finally {
+			if (File.Exists(meltedSavePath)) {
+				File.Delete(meltedSavePath);
+			}
+		}
+	}
+
+	[Fact]
+	public void ExtractDynamicCoatsOfArms_removesStagedSaveAfterCompletion() {
+		// Arrange: create a fake staged save and point the instance field at it.
+		var savesDir = Path.Combine(config.ImperatorDocPath, "save games");
+		Directory.CreateDirectory(savesDir);
+		var stagedSavePath = Path.Combine(savesDir, "melted_save_test.rome");
+		File.WriteAllText(stagedSavePath, string.Empty);
+
+		typeof(World)
+			.GetField("_stagedMeltedSavePath", BindingFlags.Instance | BindingFlags.NonPublic)!
+			.SetValue(world, stagedSavePath);
+
+		// Act: run extraction (may fail early for various reasons, but finally must always run).
+		// The exception is swallowed here because we only care about cleanup.
+		Record.Exception(() => InvokeWorldMethod("ExtractDynamicCoatsOfArms", config));
+
+		// Assert: staged file is deleted and field is reset.
+		Assert.False(File.Exists(stagedSavePath));
+		var fieldValue = typeof(World)
+			.GetField("_stagedMeltedSavePath", BindingFlags.Instance | BindingFlags.NonPublic)!
+			.GetValue(world);
+		Assert.Null(fieldValue);
 	}
 }

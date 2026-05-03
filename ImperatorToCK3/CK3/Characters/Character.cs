@@ -770,7 +770,7 @@ internal sealed class Character : IIdentifiable<string> {
 
 	internal void ImportUnitsAsMenAtArms(
 		IEnumerable<Unit> countryUnits,
-		Date date,
+		Date bookmarkDate,
 		UnitTypeMapper unitTypeMapper,
 		IdObjectCollection<string, MenAtArmsType> menAtArmsTypes,
 		CK3LocDB ck3LocDB
@@ -792,7 +792,7 @@ internal sealed class Character : IIdentifiable<string> {
 
 		foreach (var (typeId, men) in menPerUnitType) {
 			var baseType = menAtArmsTypes[typeId];
-			var dedicatedType = new MenAtArmsType(baseType, this, men/8, date);
+			var dedicatedType = new MenAtArmsType(baseType, this, men/8, bookmarkDate);
 			menAtArmsTypes.Add(dedicatedType);
 			MenAtArmsStacksPerType[dedicatedType.Id] = 1;
 
@@ -803,13 +803,13 @@ internal sealed class Character : IIdentifiable<string> {
 		var sb = new StringBuilder();
 		sb.AppendLine("{ add_character_modifier=IRToCK3_fuck_CK3_military_system_modifier }");
 
-		History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
+		History.AddFieldValue(bookmarkDate, "effects", "effect", new StringOfItem(sb.ToString()));
 	}
 	internal void ImportUnitsAsSpecialTroops(
 		IEnumerable<Unit> countryUnits,
 		Imperator.Characters.CharacterCollection irCharacters,
 		CountryCollection irCountries,
-		Date date,
+		Date bookmarkDate,
 		UnitTypeMapper unitTypeMapper,
 		ProvinceMapper provinceMapper,
 		CK3LocDB ck3LocDB
@@ -845,7 +845,7 @@ internal sealed class Character : IIdentifiable<string> {
 			}
 
 			foreach (var (type, men) in menPerUnitType) {
-				sb.AppendLine($"\t\t\tmen_at_arms={{type={type} men={men}}}");
+				sb.AppendLine($"\t\t\tmen_at_arms={{ type={type} men={men} }}");
 			}
 
 			var ck3Location = provinceMapper.GetCK3ProvinceNumbers(unit.Location).AsValueEnumerable()
@@ -865,12 +865,19 @@ internal sealed class Character : IIdentifiable<string> {
 			sb.AppendLine("\t\t}");
 
 			if (ck3Leader is not null) {
-				sb.AppendLine($"\t\tscope:{unitScopeId} ?= {{ assign_commander=character:{ck3Leader.Id} }}");
+				sb.AppendLine($$"""
+	                        scope:{{unitScopeId}} ?= {
+	                            if = {
+	                                limit = { character:{{ck3Leader.Id}} = { is_alive = yes } }
+	                                assign_commander=character:{{ck3Leader.Id}}
+	                            }    
+	                        }
+	                """);
 			}
 		}
 
 		sb.AppendLine("\t}");
-		History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
+		History.AddFieldValue(bookmarkDate, "effects", "effect", new StringOfItem(sb.ToString()));
 	}
 
 	private readonly CharacterCollection characters;
