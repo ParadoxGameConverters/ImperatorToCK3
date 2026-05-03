@@ -34,7 +34,11 @@ duke_republic_male_carthaginian = { # Suffet
 	governments = { republic_government }
 	# tier = any
 	priority = 301
+{% if tfe %}
 	heritages = { heritage_punic }
+{% else %}
+	heritages = { heritage_phoenician }
+{% endif %}
 	
 	flavourization_rules = {
 		top_liege = yes
