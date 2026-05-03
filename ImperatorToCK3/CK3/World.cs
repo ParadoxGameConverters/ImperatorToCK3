@@ -374,7 +374,7 @@ internal sealed class World {
 
 		// Gold needs to be distributed after characters' successors are generated.
 		Characters.DistributeCountriesGold(LandedTitles, config);
-		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, impWorld.Countries, CorrectedDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, LocDB, config);
+		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, impWorld.Countries, config.CK3BookmarkDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, LocDB, config);
 
 		// For titles linked to I:R countries with chinese_empire government, ensure the character variables
 		// needed for Dynastic Cycle script are calculated and stores as character variables.
