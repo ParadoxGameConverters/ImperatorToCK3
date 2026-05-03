@@ -264,16 +264,20 @@ public static class RakalyCaller {
 	}
 
 	private static FileStream OpenReadableFileWithRetries(string filePath, int maxAttempts = 10, int delayMilliseconds = 100) {
-		for (int attempt = 1; ; attempt++) {
+		const string couldNotOpenFileMessage = "Could not open the melted save file after Rakaly finished processing it.";
+
+		for (int attempt = 1; attempt <= maxAttempts; attempt++) {
 			try {
 				return File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
 			} catch (Exception ex) when (FileHelper.IsFileInUseException(ex) && attempt < maxAttempts) {
 				Thread.Sleep(delayMilliseconds);
 			} catch (Exception ex) when (FileHelper.IsFileInUseException(ex)) {
 				Logger.Debug($"Failed to open melted save \"{filePath}\": {ex.Message}");
-				throw new UserErrorException("Could not open the melted save file after Rakaly finished processing it.");
+				throw new UserErrorException(couldNotOpenFileMessage);
 			}
 		}
+
+		throw new UserErrorException(couldNotOpenFileMessage);
 	}
 
 	// https://stackoverflow.com/a/47918132/10249243
