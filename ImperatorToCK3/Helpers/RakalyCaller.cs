@@ -267,34 +267,13 @@ public static class RakalyCaller {
 		for (int attempt = 1; ; attempt++) {
 			try {
 				return File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-			} catch (Exception ex) when (IsFileInUseException(ex) && attempt < maxAttempts) {
+			} catch (Exception ex) when (FileHelper.IsFileInUseException(ex) && attempt < maxAttempts) {
 				Thread.Sleep(delayMilliseconds);
-			} catch (Exception ex) when (IsFileInUseException(ex)) {
+			} catch (Exception ex) when (FileHelper.IsFileInUseException(ex)) {
 				Logger.Debug($"Failed to open melted save \"{filePath}\": {ex.Message}");
 				throw new UserErrorException("Could not open the melted save file after Rakaly finished processing it.");
 			}
 		}
-	}
-
-	private static bool IsFileInUseException(Exception exception) {
-		const int sharingViolationHResult = unchecked((int)0x80070020);
-		const int lockViolationHResult = unchecked((int)0x80070021);
-
-		for (Exception? current = exception; current is not null; current = current.InnerException) {
-			if (current is IOException ioEx && (ioEx.HResult == sharingViolationHResult || ioEx.HResult == lockViolationHResult)) {
-				return true;
-			}
-
-			if (current.HResult == sharingViolationHResult || current.HResult == lockViolationHResult) {
-				return true;
-			}
-
-			if (current.Message.Contains("using the file", StringComparison.OrdinalIgnoreCase)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	// https://stackoverflow.com/a/47918132/10249243

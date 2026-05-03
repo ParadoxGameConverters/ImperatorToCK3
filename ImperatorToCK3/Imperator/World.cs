@@ -431,7 +431,7 @@ internal partial class World {
 					}
 					FileHelper.MoveWithRetries(continueGameBackupPath, continueGamePath);
 				} catch (Exception ex) {
-					if (IsFileInUseException(ex)) {
+					if (FileHelper.IsFileInUseException(ex)) {
 						LogFileInUseDiagnosticsForRestore(continueGamePath, continueGameBackupPath);
 					}
 					Logger.Warn($"Failed to restore continue_game.json: {ex.Message}");
@@ -1000,27 +1000,6 @@ internal partial class World {
 	private static BufferedReader ProcessCompressedEncodedSave(string saveGamePath) {
 		Helpers.RakalyCaller.MeltSave(saveGamePath);
 		return new BufferedReader(File.Open("temp/melted_save.rome", FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
-	}
-
-	private static bool IsFileInUseException(Exception exception) {
-		const int sharingViolationHResult = unchecked((int)0x80070020);
-		const int lockViolationHResult = unchecked((int)0x80070021);
-
-		for (Exception? current = exception; current is not null; current = current.InnerException) {
-			if (current is IOException ioEx && (ioEx.HResult == sharingViolationHResult || ioEx.HResult == lockViolationHResult)) {
-				return true;
-			}
-
-			if (current.HResult == sharingViolationHResult || current.HResult == lockViolationHResult) {
-				return true;
-			}
-
-			if (current.Message.Contains("using the file", StringComparison.OrdinalIgnoreCase)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	private static void LogFileInUseDiagnosticsForRestore(string continueGamePath, string continueGameBackupPath) {
