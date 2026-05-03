@@ -12,10 +12,38 @@ using System.Text;
 
 public static class FileHelper {
 	private const string CloseProgramsHint = "You should close all programs that may be using the file.";
+	private static readonly string[] fileInUseMessageFragments = [
+		"using the file",
+		"used by another process",
+		"resource temporarily unavailable"
+	];
 
 	private static bool IsFilesSharingViolation(Exception ex) {
 		const int sharingViolationHResult = unchecked((int)0x80070020);
 		return ex.HResult == sharingViolationHResult;
+	}
+
+	public static bool IsFileInUseException(Exception exception) {
+		const int sharingViolationHResult = unchecked((int)0x80070020);
+		const int lockViolationHResult = unchecked((int)0x80070021);
+
+		for (Exception? current = exception; current is not null; current = current.InnerException) {
+			if (current is IOException ioEx && (ioEx.HResult == sharingViolationHResult || ioEx.HResult == lockViolationHResult)) {
+				return true;
+			}
+
+			if (current.HResult == sharingViolationHResult || current.HResult == lockViolationHResult) {
+				return true;
+			}
+
+			foreach (var fragment in fileInUseMessageFragments) {
+				if (current.Message.Contains(fragment, StringComparison.OrdinalIgnoreCase)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	public static StreamWriter OpenWriteWithRetries(string filePath) => OpenWriteWithRetries(filePath, Encoding.UTF8);
