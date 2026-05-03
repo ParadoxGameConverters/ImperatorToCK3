@@ -6,6 +6,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
 
 namespace ImperatorToCK3.Helpers;
 
@@ -148,6 +150,151 @@ public static class RakalyCaller {
 			FileHelper.DeleteWithRetries(destFileName);
 		}
 		FileHelper.MoveWithRetries(meltedSavePath, destFileName);
+		NormalizeMeltedSaveForNonIronman(destFileName);
+		using var _ = OpenReadableFileWithRetries(destFileName);
+	}
+
+	private static void NormalizeMeltedSaveForNonIronman(string meltedSavePath) {
+		string tempOutputPath = meltedSavePath + ".tmp";
+		if (File.Exists(tempOutputPath)) {
+			FileHelper.DeleteWithRetries(tempOutputPath);
+		}
+
+		try {
+			using var inputStream = OpenReadableFileWithRetries(meltedSavePath);
+			using var reader = new StreamReader(inputStream, Encoding.UTF8, detectEncodingFromByteOrderMarks: true);
+			reader.Peek();
+			Encoding outputEncoding = GetOutputEncoding(reader.CurrentEncoding);
+
+			using var writer = FileHelper.OpenWriteWithRetries(tempOutputPath, outputEncoding);
+			int processedLines = 0;
+			while (processedLines < 200) {
+				var line = ReadLinePreservingEnding(reader);
+				if (line is null) {
+					break;
+				}
+
+				processedLines++;
+				if (TryGetNormalizedIronmanLine(line.Value.content, out var replacementLine)) {
+					if (replacementLine is not null) {
+						writer.Write(replacementLine);
+						writer.Write(line.Value.lineEnding);
+					}
+					continue;
+				}
+
+				writer.Write(line.Value.content);
+				writer.Write(line.Value.lineEnding);
+			}
+
+			CopyRemainingText(reader, writer);
+		} catch {
+			if (File.Exists(tempOutputPath)) {
+				FileHelper.DeleteWithRetries(tempOutputPath);
+			}
+			throw;
+		}
+
+		FileHelper.DeleteWithRetries(meltedSavePath);
+		FileHelper.MoveWithRetries(tempOutputPath, meltedSavePath);
+	}
+
+	private static Encoding GetOutputEncoding(Encoding inputEncoding) {
+		return inputEncoding.CodePage == Encoding.UTF8.CodePage
+			? new UTF8Encoding(encoderShouldEmitUTF8Identifier: false)
+			: inputEncoding;
+	}
+
+	private static bool TryGetNormalizedIronmanLine(string lineContent, out string? replacementLine) {
+		replacementLine = lineContent switch {
+			"ironman=yes" => null,
+			"iron=yes" => null,
+			"\tironman=yes" => null,
+			"\tironman_cloud=yes" => "\tironman_cloud=no",
+			_ => null
+		};
+
+		if (replacementLine is not null || lineContent is "ironman=yes" or "iron=yes" or "\tironman=yes") {
+			return true;
+		}
+
+		if (lineContent.StartsWith("\tironman_save_name=\"", StringComparison.Ordinal) && lineContent.EndsWith('"')) {
+			replacementLine = "\tironman_save_name=\"\"";
+			return true;
+		}
+
+		return false;
+	}
+
+	private static (string content, string lineEnding)? ReadLinePreservingEnding(StreamReader reader) {
+		if (reader.EndOfStream) {
+			return null;
+		}
+
+		var contentBuilder = new StringBuilder();
+		while (true) {
+			int nextChar = reader.Read();
+			if (nextChar == -1) {
+				return (contentBuilder.ToString(), string.Empty);
+			}
+
+			char currentChar = (char)nextChar;
+			if (currentChar == '\r') {
+				if (reader.Peek() == '\n') {
+					reader.Read();
+					return (contentBuilder.ToString(), "\r\n");
+				}
+				return (contentBuilder.ToString(), "\r");
+			}
+
+			if (currentChar == '\n') {
+				return (contentBuilder.ToString(), "\n");
+			}
+
+			contentBuilder.Append(currentChar);
+		}
+	}
+
+	private static void CopyRemainingText(StreamReader reader, TextWriter writer) {
+		char[] buffer = new char[4096];
+		int charsRead;
+		while ((charsRead = reader.Read(buffer, 0, buffer.Length)) > 0) {
+			writer.Write(buffer, 0, charsRead);
+		}
+	}
+
+	private static FileStream OpenReadableFileWithRetries(string filePath, int maxAttempts = 10, int delayMilliseconds = 100) {
+		for (int attempt = 1; ; attempt++) {
+			try {
+				return File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+			} catch (Exception ex) when (IsFileInUseException(ex) && attempt < maxAttempts) {
+				Thread.Sleep(delayMilliseconds);
+			} catch (Exception ex) when (IsFileInUseException(ex)) {
+				Logger.Debug($"Failed to open melted save \"{filePath}\": {ex.Message}");
+				throw new UserErrorException("Could not open the melted save file after Rakaly finished processing it.");
+			}
+		}
+	}
+
+	private static bool IsFileInUseException(Exception exception) {
+		const int sharingViolationHResult = unchecked((int)0x80070020);
+		const int lockViolationHResult = unchecked((int)0x80070021);
+
+		for (Exception? current = exception; current is not null; current = current.InnerException) {
+			if (current is IOException ioEx && (ioEx.HResult == sharingViolationHResult || ioEx.HResult == lockViolationHResult)) {
+				return true;
+			}
+
+			if (current.HResult == sharingViolationHResult || current.HResult == lockViolationHResult) {
+				return true;
+			}
+
+			if (current.Message.Contains("using the file", StringComparison.OrdinalIgnoreCase)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	// https://stackoverflow.com/a/47918132/10249243

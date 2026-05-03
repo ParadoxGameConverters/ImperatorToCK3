@@ -149,6 +149,34 @@ internal partial class World {
 		return TryWriteTextFile(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod.mod"), modFileContents);
 	}
 	
+	/// <summary>
+	/// Path where the melted save was staged in the Imperator save games directory for CoA extraction.
+	/// Null when not currently staging.
+	/// </summary>
+	private string? _stagedMeltedSavePath;
+
+	/// <summary>
+	/// Copies <c>temp/melted_save.rome</c> into the Imperator save games directory so that
+	/// Imperator can open it via <c>-continuelastsave</c>. Returns the destination path,
+	/// or <c>null</c> if the melted save does not exist.
+	/// </summary>
+	private static string? StageCoaMeltedSave(Configuration config) {
+		const string meltedSavePath = "temp/melted_save.rome";
+		if (!File.Exists(meltedSavePath)) {
+			return null;
+		}
+
+		var savesDir = Path.Combine(config.ImperatorDocPath, "save games");
+		Directory.CreateDirectory(savesDir);
+
+		var destPath = Path.Combine(savesDir, "melted_save.rome");
+		if (File.Exists(destPath)) {
+			destPath = Path.Combine(savesDir, $"melted_save_{Guid.NewGuid():N}.rome");
+		}
+		File.Copy(meltedSavePath, destPath);
+		return destPath;
+	}
+
 	private static bool TryWriteTextFile(string filePath, string contents) {
 		try {
 			var directoryPath = Path.GetDirectoryName(filePath);
@@ -195,10 +223,13 @@ internal partial class World {
 			}
 		}
 
+		// Use the staged melted save name when available so that Imperator opens the
+		// already-melted file rather than the original (possibly ironman) save.
+		var titleSavePath = _stagedMeltedSavePath ?? config.SaveGamePath;
 		return TryWriteTextFile(continueGamePath,
 			contents: $$"""
             {
-            	"title":	"{{Path.GetFileNameWithoutExtension(config.SaveGamePath)}}",
+            	"title":	"{{Path.GetFileNameWithoutExtension(titleSavePath)}}",
             	"desc":	"Playing as {{metaPlayerName}} - {{EndDate}} AD",
             	"date":	"{{DateTime.Now:yyyy-MM-dd HH:mm:ss}}"
             }
@@ -224,7 +255,7 @@ internal partial class World {
 				return false;
 			}
 		}
-		
+
 		var dlcLoadBuilder = new StringBuilder();
 		dlcLoadBuilder.Append('{');
 		dlcLoadBuilder.Append(@"""enabled_mods"":[");
@@ -239,6 +270,7 @@ internal partial class World {
 
 	private bool LaunchImperatorToExportCountryFlags(Configuration config) {
 		Logger.Info("Retrieving random CoAs from Imperator...");
+		_stagedMeltedSavePath = StageCoaMeltedSave(config);
 		if (!OutputContinueGameJson(config) || !OutputDlcLoadJson(config)) {
 			Logger.Warn("Skipping Imperator launch because the launcher files couldn't be written.");
 			return false;
@@ -348,11 +380,11 @@ internal partial class World {
 	}
 
 	private void ExtractDynamicCoatsOfArms(Configuration config) {
-		if (Process.GetProcessesByName("imperator").Length != 0) {
-			throw new UserErrorException("Imperator: Rome is running! Please close the game before running the converter with dynamic CoA extraction enabled.");
-		}
-
 		try {
+			if (Process.GetProcessesByName("imperator").Length != 0) {
+				throw new UserErrorException("Imperator: Rome is running! Please close the game before running the converter with dynamic CoA extraction enabled.");
+			}
+
 			var countryFlags = Countries.Select(country => country.Flag).ToArray();
 			var missingFlags = CoaMapper.GetAllMissingFlagKeys(countryFlags);
 			if (missingFlags.Count == 0) {
@@ -379,6 +411,8 @@ internal partial class World {
 			if (missingFlagsAfterExtraction.Count > 0) {
 				Logger.Warn("Failed to export the following country flags: " + string.Join(", ", missingFlagsAfterExtraction));
 			}
+		} catch (UserErrorException) {
+			throw; // propagate user-facing errors without swallowing them
 		} catch (Exception e) {
 			Logger.Warn($"Failed to extract dynamic coats of arms: {e.Message}");
 			Logger.Debug(e.ToString());
@@ -413,6 +447,19 @@ internal partial class World {
 					FileHelper.MoveWithRetries(dlcLoadBackupPath, dlcLoadPath);
 				} catch (Exception ex) {
 					Logger.Warn($"Failed to restore dlc_load.json: {ex.Message}");
+				}
+			}
+
+			// Remove the staged melted save (if any) that was placed in the Imperator save games folder.
+			if (_stagedMeltedSavePath is not null) {
+				try {
+					if (File.Exists(_stagedMeltedSavePath)) {
+						FileHelper.DeleteWithRetries(_stagedMeltedSavePath);
+					}
+				} catch (Exception ex) {
+					Logger.Warn($"Failed to remove staged melted save: {ex.Message}");
+				} finally {
+					_stagedMeltedSavePath = null;
 				}
 			}
 		}
