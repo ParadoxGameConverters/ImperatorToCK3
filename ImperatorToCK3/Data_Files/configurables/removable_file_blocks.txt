@@ -1405,13 +1405,8 @@
 			limit = { has_tgp_dlc_trigger = yes }
 			### DYNASTIES
 			tgp_dynasty_house_name_setup_effect = yes
-			### BLOCS — AuH defers to after noble_family_title_realm_setup (see TGP SETUP); else house heads lack NF titles and create_confederation asserts.
-			if = {
-				limit = {
-					NOT = { has_dlc_feature = all_under_heaven }
-				}
-				tgp_setup_historical_house_bloc_effect = yes
-			}
+			### BLOCS
+			tgp_setup_historical_house_bloc_effect = yes
 		}
 	}
 
@@ -3686,38 +3681,6 @@
 		}
 	}
 
-	# Government setup surrounding Japan already handled by converter's government setup effect
-	{
-			# History defaults e_japan to feudal + single heir so partial DLC / no AuH bookmarks load cleanly.
-			# Restore Ritsuryō Kampaku when All Under Heaven is active (must run before noble-family / bureaucracy setup).
-			if = {
-				limit = { has_dlc_feature = all_under_heaven }
-				title:e_japan.holder ?= {
-					# can_get_government for japan_administrative checks top_liege for japanese government OR this flag; independent Kampaku is neither until flagged.
-					if = {
-						limit = {
-							NOT = { government_has_flag = government_is_japan_administrative }
-							OR = {
-								has_government = feudal_government
-								has_government = japan_feudal_government
-							}
-						}
-						add_character_flag = tgp_japan_restore_japanese_government_flag
-						change_government = japan_administrative_government
-						remove_character_flag = tgp_japan_restore_japanese_government_flag
-					}
-					# Separate if (not else_if): first block can flip government same pass; law must still run for that case and for history Ritsuryō holders missing the law.
-					if = {
-						limit = {
-							government_has_flag = government_is_japan_administrative
-							NOT = { has_realm_law = japanese_regency_succession_law }
-						}
-						add_realm_law_skip_effects = japanese_regency_succession_law
-					}
-				}
-			}
-	}
-
 	{
 			### DYNASTY TRACKING SETUP
 			japan_dynasty_tracker_setup_effect = yes
@@ -3742,16 +3705,6 @@
 					}
 					domicile ?= { move_domicile = title:e_japan.holder.capital_province }
 				}
-			}
-	}
-
-	{
-			if = {
-				limit = {
-					has_dlc_feature = all_under_heaven
-					exists = title:e_japan.holder
-				}
-				tgp_setup_historical_house_bloc_effect = yes
 			}
 	}
 
@@ -15684,9 +15637,11 @@ cid.1040 = {
 	option = {
 		name = cid.1040.b
 		custom_tooltip = cid_loyalty_counter_positive
-		change_variable = {
-			name = cid_loyalty_counter
-			add = 1
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = 1
+			}
 		}
 		ai_chance = {
 			base = 1000 # Historically determined
@@ -15701,9 +15656,11 @@ cid.1040 = {
 			modifier = cid_own_prayer
 			years = 15
 		}
-		change_variable = {
-			name = cid_loyalty_counter
-			add = -1
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = -1
+			}
 		}
 		ai_chance = {
 			base = 0
@@ -15811,9 +15768,11 @@ cid.2000 = {
 		flavor = cid.2000.a.flavor
 		custom_tooltip = cid_loyalty_counter_negative
 		custom_tooltip = cid.2001.a.tt
-		change_variable = {
-			name = cid_loyalty_counter
-			add = -1
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = -1
+			}
 		}
 		add_gold = medium_gold_value
 		
@@ -15847,9 +15806,11 @@ cid.2000 = {
 		name = cid.2000.b
 		flavor = cid.2000.b.flavor
 		custom_tooltip = cid_loyalty_counter_positive
-		change_variable = {
-			name = cid_loyalty_counter
-			add = 1
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = 1
+			}
 		}
 		scope:liege = {
 			add_treasury_or_gold = medium_treasury_or_gold_value
@@ -15959,9 +15920,11 @@ cid.2001 = {
 		flavor = cid.2001.a.flavor
 		custom_tooltip = cid_loyalty_counter_negative
 		custom_tooltip = cid.2001.a.tt
-		change_variable = {
-			name = cid_loyalty_counter
-			add = -1
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = -1
+			}
 		}
 		add_gold = medium_gold_value
 		
@@ -15993,9 +15956,11 @@ cid.2001 = {
 	option = {
 		name = cid.2001.b
 		custom_tooltip = cid_loyalty_counter_positive
-		change_variable = {
-			name = cid_loyalty_counter
-			add = 1
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = 1
+			}
 		}
 		scope:liege = {
 			add_treasury_or_gold = medium_treasury_or_gold_value
@@ -16226,9 +16191,11 @@ cid.2010 = {
 		flavor = cid.2010.a.flavor
 		custom_tooltip = cid_loyalty_counter_very_positive
 		scope:child = { create_betrothal = scope:proposed_spouse }
-		change_variable = {
-			name = cid_loyalty_counter
-			add = 2
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = 2
+			}
 		}
 		ai_chance = {
 			base = 1000 # Historically determined
@@ -16243,9 +16210,11 @@ cid.2010 = {
 			modifier = cid_refused_betrothal
 			years = 10
 		}
-		change_variable = {
-			name = cid_loyalty_counter
-			add = -2
+		scope:story = {
+			change_variable = {
+				name = cid_loyalty_counter
+				add = -2
+			}
 		}
 		ai_chance = {
 			base = 0 # Historically determined
@@ -16283,10 +16252,10 @@ cid.2020 = {
 		#triggered through the story cycle
 		scope:story.var:cid_liege.primary_title = {
 			any_de_jure_county = {
-				holder = root.var:cid_liege
+				holder = scope:story.var:cid_liege
 				NOR = {
-					root.var:cid_liege.capital_county ?= this
-					root.var:cid_liege.primary_title ?= this
+					scope:story.var:cid_liege.capital_county ?= this
+					scope:story.var:cid_liege.primary_title ?= this
 				}
 			}
 		}
@@ -16334,7 +16303,7 @@ cid.2020 = {
 		cid_2020_loyal_effect = yes
 		# Resolve title, liege, government changes
 		ep3_become_landed_save_liege_effect = {
-			TITLE_GIVER = root.var:cid_liege
+			TITLE_GIVER = scope:liege
 			ALWAYS_INDEPENDENT = no
 			TITLE_LIST = granted_title
 		}
@@ -17191,6 +17160,7 @@ story_el_cid = {
 					}
 				}
 				effect = {
+					save_scope_as = story
 					story_owner = {
 						trigger_event = cid.2020
 					}
