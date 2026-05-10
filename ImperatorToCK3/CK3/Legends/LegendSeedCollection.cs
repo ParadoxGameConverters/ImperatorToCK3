@@ -15,7 +15,7 @@ internal sealed class LegendSeedCollection : ConcurrentIdObjectCollection<string
 			AddOrReplace(new LegendSeed(seedId, reader));
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFolder("common/legends/legend_seeds", ck3ModFS, "txt", true, false, true);
+		parser.ParseGameFolder("common/legends/legend_seeds", ck3ModFS, "txt", true, false);
 	}
 
 	public void RemoveAnachronisticSeeds(string configurableFilePath) {
