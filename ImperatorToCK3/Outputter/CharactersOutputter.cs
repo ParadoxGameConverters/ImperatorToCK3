@@ -117,7 +117,7 @@ internal static class CharactersOutputter {
 			ParserHelpers.IgnoreItem(reader);
 		});
 		accessoryFilesParser.IgnoreAndLogUnregisteredItems();
-		accessoryFilesParser.ParseGameFolder("gfx/portraits/accessories", ck3ModFS, "txt", recursive: true, logFilePaths: false, parallel: true);
+		accessoryFilesParser.ParseGameFolder("gfx/portraits/accessories", ck3ModFS, "txt", recursive: true, logFilePaths: false);
 
 		return accessoryIDs.ToFrozenSet();
 	}
