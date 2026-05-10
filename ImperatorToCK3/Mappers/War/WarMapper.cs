@@ -47,6 +47,6 @@ internal sealed class WarMapper {
 			ParserHelpers.IgnoreItem(reader);
 		});
 		warGoalsParser.IgnoreAndLogUnregisteredItems();
-		warGoalsParser.ParseGameFolder("common/wargoals", irModFS, "txt", recursive: true, parallel: true);
+		warGoalsParser.ParseGameFolder("common/wargoals", irModFS, "txt", recursive: true);
 	}
 }

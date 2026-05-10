@@ -60,8 +60,7 @@ internal class TraitMapper {
 			ParserHelpers.IgnoreItem(reader);
 		});
 		traitsParser.IgnoreAndLogUnregisteredItems();
-		// We can parse in parallel because we don't care about the trait definitions here, just their IDs.
-		traitsParser.ParseGameFolder("common/traits", irModFS, "txt", recursive: true, parallel: true);
+		traitsParser.ParseGameFolder("common/traits", irModFS, "txt", recursive: true);
 
 		if (unmappedTraits.Count > 0) {
 			Logger.Debug($"No mapping for I:R traits found in trait mappings: {string.Join(", ", unmappedTraits.Order())}");
