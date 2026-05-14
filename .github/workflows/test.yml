@@ -2,6 +2,10 @@ name: "Test"
 
 on:
   pull_request:
+    paths-ignore:
+    - '**/*.md'
+    - 'CODEOWNERS'
+    - 'LICENSE'
   merge_group:
 
 concurrency:
@@ -11,6 +15,8 @@ concurrency:
 jobs:
   test_and_check_coverage:
     runs-on: [self-hosted, linux]
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
     - uses: actions/checkout@v6
       with:
@@ -19,6 +25,13 @@ jobs:
       uses: actions/setup-dotnet@v5
       with:
         global-json-file: global.json
+    - name: "Cache NuGet packages"
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.NUGET_PACKAGES }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
     - name: "Test"
       working-directory: ImperatorToCK3.UnitTests
       shell: pwsh
@@ -50,6 +63,8 @@ jobs:
       matrix:
         os: [[self-hosted, windows], macos-14]
     runs-on: ${{ matrix.os }}
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
     - uses: actions/checkout@v6
       with:
@@ -60,6 +75,13 @@ jobs:
       uses: actions/setup-dotnet@v5
       with:
         global-json-file: global.json
+    - name: "Cache NuGet packages"
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.NUGET_PACKAGES }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
     - name: "Test"
       working-directory: ImperatorToCK3.UnitTests
       run: |

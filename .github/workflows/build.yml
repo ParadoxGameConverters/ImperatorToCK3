@@ -5,6 +5,10 @@ on:
     # Avoid running this job if the upload_dev_build_artifact job is going to run,
     # since it will build the same code and we don't want to waste resources building twice.
     types: [reopened]
+    paths-ignore:
+    - '**/*.md'
+    - 'CODEOWNERS'
+    - 'LICENSE'
   merge_group:
 
 concurrency:
@@ -18,6 +22,8 @@ jobs:
         os: [[self-hosted, windows], [self-hosted, linux], macos-14]
       fail-fast: false
     runs-on: ${{ matrix.os }}
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
     - uses: actions/checkout@v6
       with:
@@ -31,6 +37,13 @@ jobs:
       uses: actions/setup-dotnet@v5
       with:
         global-json-file: global.json
+    - name: "Cache NuGet packages"
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.NUGET_PACKAGES }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
     - name: "Build converter backend"
       working-directory: ImperatorToCK3
       run: |

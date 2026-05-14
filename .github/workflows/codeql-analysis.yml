@@ -13,6 +13,8 @@ jobs:
   analyze:
     name: Analyze
     runs-on: [self-hosted, linux]
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
 
     strategy:
       fail-fast: false
@@ -49,6 +51,13 @@ jobs:
       uses: actions/setup-dotnet@v5
       with:
         global-json-file: global.json
+    - name: "Cache NuGet packages"
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.NUGET_PACKAGES }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
     - name: "Build backend"
       working-directory: ImperatorToCK3
       run: |
