@@ -4,12 +4,18 @@ on:
     branches:
       - '**'
     types: [opened, synchronize]
+    paths-ignore:
+      - '**/*.md'
+      - 'CODEOWNERS'
+      - 'LICENSE'
 
 jobs:
   upload_dev_build_artifact:
     name: Upload development build
     runs-on: ${{ matrix.os }}
     environment: "Build Environment"
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     strategy:
       matrix:
         build:
@@ -62,6 +68,13 @@ jobs:
       with:
         #global-json-file: Fronter.NET/global.json
         global-json-file: global.json
+    - name: "Cache NuGet packages"
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.NUGET_PACKAGES }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
     - name: "Replace frontend background image"
       run: |
         rm Fronter.NET/Fronter.NET/Assets/Images/background.png
