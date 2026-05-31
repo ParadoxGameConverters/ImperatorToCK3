@@ -32,30 +32,8 @@ internal sealed partial class CharacterCollection {
 		parser.ParseGameFolder("history/characters", ck3ModFS, "txt", recursive: true, logFilePaths: true);
 
 		KillOffAnimationTestCharactersIn2AD(loadedCharacters);
-
-		string[] irrelevantEffects = ["set_relation_rival", "set_relation_potential_rival", "set_relation_nemesis",
-			"set_relation_lover", "set_relation_soulmate",
-			"set_relation_friend", "set_relation_potential_friend", "set_relation_best_friend",
-			"set_relation_ward", "set_relation_mentor",
-			"add_opinion", "make_concubine",
-		];
-		string[] fieldsToClear = [
-			"friends", "best_friends", "lovers", "rivals", "nemesis",
-			"primary_title", "dna", "spawn_army", "add_character_modifier", "languages",
-			"claims",
-		];
-
-		var femaleIds = new List<string>();
-		var maleIds = new List<string>();
-		foreach (var character in loadedCharacters) {
-			if (character.Female) {
-				femaleIds.Add(character.Id);
-			} else {
-				maleIds.Add(character.Id);
-			}
-		}
-		var femaleCharacterIds = femaleIds.ToFrozenSet();
-		var maleCharacterIds = maleIds.ToFrozenSet();
+		var (irrelevantEffects, fieldsToClear) = GetCharacterCleanupConfiguration();
+		var (femaleCharacterIds, maleCharacterIds) = ClassifyCharacterGenders(loadedCharacters);
 		
 		Parallel.ForEach(loadedCharacters, character => {
 			ClearUnneededHistoryFields(fieldsToClear, character);
@@ -76,6 +54,34 @@ internal sealed partial class CharacterCollection {
 		});
 
 		Logger.Info("Loaded CK3 characters.");
+	}
+
+	private static (string[] irrelevantEffects, string[] fieldsToClear) GetCharacterCleanupConfiguration() {
+		string[] irrelevantEffects = ["set_relation_rival", "set_relation_potential_rival", "set_relation_nemesis",
+			"set_relation_lover", "set_relation_soulmate",
+			"set_relation_friend", "set_relation_potential_friend", "set_relation_best_friend",
+			"set_relation_ward", "set_relation_mentor",
+			"add_opinion", "make_concubine",
+		];
+		string[] fieldsToClear = [
+			"friends", "best_friends", "lovers", "rivals", "nemesis",
+			"primary_title", "dna", "spawn_army", "add_character_modifier", "languages",
+			"claims",
+		];
+		return (irrelevantEffects, fieldsToClear);
+	}
+
+	private static (FrozenSet<string> femaleCharacterIds, FrozenSet<string> maleCharacterIds) ClassifyCharacterGenders(ConcurrentList<Character> loadedCharacters) {
+		var femaleIds = new List<string>();
+		var maleIds = new List<string>();
+		foreach (var character in loadedCharacters) {
+			if (character.Female) {
+				femaleIds.Add(character.Id);
+			} else {
+				maleIds.Add(character.Id);
+			}
+		}
+		return (femaleIds.ToFrozenSet(), maleIds.ToFrozenSet());
 	}
 
 	private static void ClearUnneededHistoryFields(string[] fieldsToClear, Character character)

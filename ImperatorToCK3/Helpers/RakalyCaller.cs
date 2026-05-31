@@ -106,36 +106,44 @@ public static class RakalyCaller {
 
 		int returnCode = process.ExitCode;
 		if (returnCode != 0 && returnCode != 1) {
-			Logger.Debug($"Save path: {savePath}");
-			if (File.Exists(savePath)) {
-				Logger.Debug($"Save file size: {new FileInfo(savePath).Length} bytes");
-			}
-
-			Logger.Debug($"Rakaly exit code: {returnCode}");
-			string stdErrText = process.StandardError.ReadToEnd();
-			Logger.Debug($"Rakaly standard error: {stdErrText}");
-
-			string exceptionMessage = "Rakaly melter failed to melt the save.";
-			if (stdErrText.Contains("(os error 112)")) {
-				throw new UserErrorException($"{exceptionMessage} There is not enough space on the disk.");
-			}
-
-			if (stdErrText.Contains("Failed to create melted file")) {
-				// Try to copy the file to the converter's temp folder before melting.
-				const string fallbackSavePath = "temp/save_to_be_melted.rome";
-				if (savePath != fallbackSavePath) {
-					File.Copy(savePath, fallbackSavePath, overwrite: true);
-					MeltSave(fallbackSavePath);
-					return;
-				}
-			}
-
-			if (stdErrText.Contains("memory allocation of")) {
-				exceptionMessage += " One possible reason is that you don't have enough RAM.";
-			}
-			throw new FormatException(exceptionMessage);
+			HandleMeltSaveFailure(savePath, returnCode, process.StandardError.ReadToEnd());
+			return;
 		}
 
+		FinalizeMeltedSave(savePath);
+	}
+
+	private static void HandleMeltSaveFailure(string savePath, int returnCode, string stdErrText) {
+		Logger.Debug($"Save path: {savePath}");
+		if (File.Exists(savePath)) {
+			Logger.Debug($"Save file size: {new FileInfo(savePath).Length} bytes");
+		}
+
+		Logger.Debug($"Rakaly exit code: {returnCode}");
+		Logger.Debug($"Rakaly standard error: {stdErrText}");
+
+		string exceptionMessage = "Rakaly melter failed to melt the save.";
+		if (stdErrText.Contains("(os error 112)")) {
+			throw new UserErrorException($"{exceptionMessage} There is not enough space on the disk.");
+		}
+
+		if (stdErrText.Contains("Failed to create melted file")) {
+			// Try to copy the file to the converter's temp folder before melting.
+			const string fallbackSavePath = "temp/save_to_be_melted.rome";
+			if (savePath != fallbackSavePath) {
+				File.Copy(savePath, fallbackSavePath, overwrite: true);
+				MeltSave(fallbackSavePath);
+				return;
+			}
+		}
+
+		if (stdErrText.Contains("memory allocation of")) {
+			exceptionMessage += " One possible reason is that you don't have enough RAM.";
+		}
+		throw new FormatException(exceptionMessage);
+	}
+
+	private static void FinalizeMeltedSave(string savePath) {
 		string savePathWithoutExtension = CommonFunctions.TrimExtension(savePath);
 		string meltedSavePath;
 		// If savePathWithoutExtension ends with a slash, it means the basename is empty.
@@ -144,11 +152,13 @@ public static class RakalyCaller {
 		} else {
 			meltedSavePath = savePathWithoutExtension + "_melted.rome";
 		}
+
 		const string destFileName = "temp/melted_save.rome";
 		// First, delete target file if exists, as File.Move() does not support overwrite.
 		if (File.Exists(destFileName)) {
 			FileHelper.DeleteWithRetries(destFileName);
 		}
+
 		FileHelper.MoveWithRetries(meltedSavePath, destFileName);
 		NormalizeMeltedSaveForNonIronman(destFileName);
 		using var _ = OpenReadableFileWithRetries(destFileName);

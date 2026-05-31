@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using ImperatorToCK3.Imperator.Characters;
 using System;
@@ -48,6 +48,20 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 	public void MergeDividedFamilies(CharacterCollection characters) {
 		Logger.Info("Merging divided families...");
 
+		var familiesPerKey = GetFamiliesPerDuplicateKey();
+		if (familiesPerKey.Count == 0) {
+			Logger.IncrementProgress();
+			return;
+		}
+
+		var (familyIdsEligibleForMerging, memberIdToFamily, disjointSet) = BuildFamilyMergeState(familiesPerKey);
+		UnionEligibleFamilies(characters, familyIdsEligibleForMerging, memberIdToFamily, disjointSet);
+		MergeEligibleFamilies(familiesPerKey, characters, disjointSet);
+
+		Logger.IncrementProgress();
+	}
+
+	private Dictionary<string, List<Family>> GetFamiliesPerDuplicateKey() {
 		var keyCounts = new Dictionary<string, int>();
 		foreach (var family in this) {
 			if (string.IsNullOrEmpty(family.Key)) {
@@ -60,13 +74,7 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 			}
 		}
 
-		var duplicateKeys = new HashSet<string>();
-		foreach (var (key, count) in keyCounts) {
-			if (count > 1) {
-				duplicateKeys.Add(key);
-			}
-		}
-
+		var duplicateKeys = new HashSet<string>(keyCounts.Where(pair => pair.Value > 1).Select(pair => pair.Key));
 		var familiesPerKey = new Dictionary<string, List<Family>>();
 		foreach (var family in this) {
 			if (!duplicateKeys.Contains(family.Key)) {
@@ -79,11 +87,11 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 			}
 			groupedFamilies.Add(family);
 		}
-		if (familiesPerKey.Count == 0) {
-			Logger.IncrementProgress();
-			return;
-		}
 
+		return familiesPerKey;
+	}
+
+	private static (HashSet<ulong> familyIdsEligibleForMerging, Dictionary<ulong, Family> memberIdToFamily, Dictionary<ulong, ulong> disjointSet) BuildFamilyMergeState(Dictionary<string, List<Family>> familiesPerKey) {
 		var familyIdsEligibleForMerging = new HashSet<ulong>();
 		var memberIdToFamily = new Dictionary<ulong, Family>();
 		foreach (var groupedFamilies in familiesPerKey.Values) {
@@ -100,6 +108,10 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 			disjointSet[familyId] = familyId;
 		}
 
+		return (familyIdsEligibleForMerging, memberIdToFamily, disjointSet);
+	}
+
+	private static void UnionEligibleFamilies(CharacterCollection characters, HashSet<ulong> familyIdsEligibleForMerging, Dictionary<ulong, Family> memberIdToFamily, Dictionary<ulong, ulong> disjointSet) {
 		foreach (var character in characters) {
 			if (!memberIdToFamily.TryGetValue(character.Id, out var characterFamily) || !familyIdsEligibleForMerging.Contains(characterFamily.Id)) {
 				continue;
@@ -108,7 +120,9 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 			TryUnionFamilies(characterFamily, character.Father, memberIdToFamily, disjointSet);
 			TryUnionFamilies(characterFamily, character.Mother, memberIdToFamily, disjointSet);
 		}
+	}
 
+	private void MergeEligibleFamilies(Dictionary<string, List<Family>> familiesPerKey, CharacterCollection characters, Dictionary<ulong, ulong> disjointSet) {
 		foreach (var (groupingKey, groupingFamilies) in familiesPerKey) {
 			var survivingFamiliesByRootId = new Dictionary<ulong, Family>();
 			var mergedFamiliesCount = 0;
@@ -136,8 +150,6 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 				Logger.Debug($"Reunited {mergedFamiliesCount} divided families for key {groupingKey}.");
 			}
 		}
-
-		Logger.IncrementProgress();
 	}
 
 	private static void TryUnionFamilies(Family family, Character? parentCharacter, Dictionary<ulong, Family> memberIdToFamily, Dictionary<ulong, ulong> disjointSet) {
