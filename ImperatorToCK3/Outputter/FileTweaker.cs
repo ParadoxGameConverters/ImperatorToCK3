@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 namespace ImperatorToCK3.Outputter;
 
 internal static class FileTweaker {
-
 	internal enum LineEnding {
 		CRLF,
 		LF,
