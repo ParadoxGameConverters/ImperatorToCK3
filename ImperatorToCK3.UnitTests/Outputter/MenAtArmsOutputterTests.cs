@@ -36,7 +36,7 @@ public class MenAtArmsOutputterTests {
 			Assert.DoesNotContain("\nbase_type=", $"\n{generatedTypesText}");
 
 			var guiText = await ReadText(Path.Combine(outputRoot, "gui", "hud_top.gui"));
-			Assert.Contains("name=\"IRToCK3_maa_toogle\"", guiText);
+			Assert.Contains("name=\"IRToCK3_maa_toggle\"", guiText);
 			Assert.Equal(3, CountOccurrences(guiText, "ExecuteConsoleCommand(Concatenate('add_maa "));
 			Assert.Contains("add_maa IRToCK3_maa_1_base_type", guiText);
 			Assert.Contains("add_maa IRToCK3_maa_3_base_type", guiText);
