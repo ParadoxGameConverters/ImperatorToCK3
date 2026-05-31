@@ -422,13 +422,8 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	}
 
 	private void SetCharacterCastes(CultureCollection cultures, Date ck3BookmarkDate) {
-		var casteSystemCultureIds = cultures
-			.Where(c => c.TraditionIds.Contains("tradition_caste_system"))
-			.Select(c => c.Id)
-			.ToFrozenSet();
-		var learningEducationTraits = new HashSet<string>(StringComparer.Ordinal) {
-			"education_learning_1", "education_learning_2", "education_learning_3", "education_learning_4"
-		};
+		var casteSystemCultureIds = GetCasteSystemCultureIds(cultures);
+		var learningEducationTraits = GetLearningEducationTraits();
 
 		foreach (var character in GetCharactersOrderedByBirthDateIfNeeded(this)) {
 			if (character.ImperatorCharacter is null) {
@@ -440,77 +435,85 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 				continue;
 			}
 
-			// The caste is hereditary.
-			var father = character.Father;
-			if (father is not null) {
-				var foundTrait = GetCasteTraitFromParent(father);
-				if (foundTrait is not null) {
-					character.AddBaseTrait(foundTrait);
-					continue;
-				}
-			}
-			var mother = character.Mother;
-			if (mother is not null) {
-				var foundTrait = GetCasteTraitFromParent(mother);
-				if (foundTrait is not null) {
-					character.AddBaseTrait(foundTrait);
-					continue;
-				}
+			var inheritedCaste = GetInheritedCasteTrait(character);
+			if (inheritedCaste is not null) {
+				character.AddBaseTrait(inheritedCaste);
+				continue;
 			}
 
-			// Try to set caste based on character's traits.
 			character.AddBaseTrait(HasAnyTrait(character.BaseTraits, learningEducationTraits) ? "brahmin" : "kshatriya");
 		}
-		return;
+	}
 
-		static string? GetCasteTraitFromParent(Character parentCharacter) {
-			foreach (var trait in parentCharacter.BaseTraits) {
-				switch (trait) {
-					case "brahmin":
-					case "kshatriya":
-					case "vaishya":
-					case "shudra":
-						return trait;
-				}
-			}
+	private static FrozenSet<string> GetCasteSystemCultureIds(CultureCollection cultures) {
+		return cultures
+			.Where(c => c.TraditionIds.Contains("tradition_caste_system"))
+			.Select(c => c.Id)
+			.ToFrozenSet();
+	}
 
-			return null;
+	private static HashSet<string> GetLearningEducationTraits() {
+		return [
+			"education_learning_1", "education_learning_2", "education_learning_3", "education_learning_4"
+		];
+	}
+
+	private static string? GetInheritedCasteTrait(Character character) {
+		var fatherTrait = character.Father is not null ? GetCasteTraitFromParent(character.Father) : null;
+		if (fatherTrait is not null) {
+			return fatherTrait;
 		}
 
-		static bool HasAnyTrait(List<string> traits, HashSet<string> relevantTraits) {
-			foreach (var trait in traits) {
-				if (relevantTraits.Contains(trait)) {
-					return true;
-				}
-			}
+		return character.Mother is not null ? GetCasteTraitFromParent(character.Mother) : null;
+	}
 
-			return false;
+	private static string? GetCasteTraitFromParent(Character parentCharacter) {
+		foreach (var trait in parentCharacter.BaseTraits) {
+			switch (trait) {
+				case "brahmin":
+				case "kshatriya":
+				case "vaishya":
+				case "shudra":
+					return trait;
+			}
 		}
 
-		static List<Character> GetCharactersOrderedByBirthDateIfNeeded(CharacterCollection characters) {
-			using var enumerator = characters.GetEnumerator();
-			if (!enumerator.MoveNext()) {
-				return [];
-			}
+		return null;
+	}
 
-			var orderedCharacters = new List<Character> { enumerator.Current };
-			var previousBirthDate = enumerator.Current.BirthDate;
-			var needsSorting = false;
-			while (enumerator.MoveNext()) {
-				var currentCharacter = enumerator.Current;
-				if (currentCharacter.BirthDate < previousBirthDate) {
-					needsSorting = true;
-				}
-				orderedCharacters.Add(currentCharacter);
-				previousBirthDate = currentCharacter.BirthDate;
+	private static bool HasAnyTrait(List<string> traits, HashSet<string> relevantTraits) {
+		foreach (var trait in traits) {
+			if (relevantTraits.Contains(trait)) {
+				return true;
 			}
-
-			if (needsSorting) {
-				orderedCharacters.Sort((left, right) => left.BirthDate.CompareTo(right.BirthDate));
-			}
-
-			return orderedCharacters;
 		}
+
+		return false;
+	}
+
+	private static List<Character> GetCharactersOrderedByBirthDateIfNeeded(CharacterCollection characters) {
+		using var enumerator = characters.GetEnumerator();
+		if (!enumerator.MoveNext()) {
+			return [];
+		}
+
+		var orderedCharacters = new List<Character> { enumerator.Current };
+		var previousBirthDate = enumerator.Current.BirthDate;
+		var needsSorting = false;
+		while (enumerator.MoveNext()) {
+			var currentCharacter = enumerator.Current;
+			if (currentCharacter.BirthDate < previousBirthDate) {
+				needsSorting = true;
+			}
+			orderedCharacters.Add(currentCharacter);
+			previousBirthDate = currentCharacter.BirthDate;
+		}
+
+		if (needsSorting) {
+			orderedCharacters.Sort((left, right) => left.BirthDate.CompareTo(right.BirthDate));
+		}
+
+		return orderedCharacters;
 	}
 
 	public void LoadCharacterIDsToPreserve(Date ck3BookmarkDate) {
@@ -554,35 +557,8 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	internal void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
 		Logger.Info("Purging unneeded characters...");
 
-		// Characters from CK3 that hold titles at the bookmark date should be kept.
-		var currentTitleHolderIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(ck3BookmarkDate);
-		var landedCharacters = new List<Character>();
-		var charactersToCheckList = new List<Character>();
-		foreach (var character in this) {
-			if (currentTitleHolderIds.Contains(character.Id)) {
-				landedCharacters.Add(character);
-				continue;
-			}
-
-			if (character.FromImperator || character.Id.StartsWith("animation_test_", StringComparison.Ordinal) || character.IsNonRemovable) {
-				continue;
-			}
-
-			charactersToCheckList.Add(character);
-		}
-
-		// Characters from I:R should be kept (the unimportant ones have already been purged during I:R processing).
-		// Also keep landed, animation test, and script-protected characters.
-		var charactersToCheck = charactersToCheckList.ToArray();
-
-		// Members of landed dynasties will be preserved, unless dead and childless.
-		var dynastyIdsOfLandedCharacters = new HashSet<string>(StringComparer.Ordinal);
-		foreach (var landedCharacter in landedCharacters) {
-			var dynastyId = landedCharacter.GetDynastyId(ck3BookmarkDate);
-			if (dynastyId is not null) {
-				dynastyIdsOfLandedCharacters.Add(dynastyId);
-			}
-		}
+		var (landedCharacters, charactersToCheck) = ClassifyCharactersForPurge(titles, ck3BookmarkDate);
+		var dynastyIdsOfLandedCharacters = GetDynastyIdsOfLandedCharacters(landedCharacters, ck3BookmarkDate);
 
 		int i = 0;
 		var charactersToRemove = new List<Character>();
@@ -614,8 +590,41 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			}
 		} while (charactersToRemove.Count > 0);
 
-		// At this point we probably have many dynasties with no characters left.
-		// Let's purge them.
+		PurgeEmptyDynastyContainers(dynasties, houses, ck3BookmarkDate);
+	}
+
+	private (List<Character> landedCharacters, Character[] charactersToCheck) ClassifyCharactersForPurge(Title.LandedTitles titles, Date ck3BookmarkDate) {
+		var currentTitleHolderIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(ck3BookmarkDate);
+		var landedCharacters = new List<Character>();
+		var charactersToCheck = new List<Character>();
+		foreach (var character in this) {
+			if (currentTitleHolderIds.Contains(character.Id)) {
+				landedCharacters.Add(character);
+				continue;
+			}
+
+			if (character.FromImperator || character.Id.StartsWith("animation_test_", StringComparison.Ordinal) || character.IsNonRemovable) {
+				continue;
+			}
+
+			charactersToCheck.Add(character);
+		}
+
+		return (landedCharacters, [.. charactersToCheck]);
+	}
+
+	private static HashSet<string> GetDynastyIdsOfLandedCharacters(IEnumerable<Character> landedCharacters, Date ck3BookmarkDate) {
+		var dynastyIds = new HashSet<string>(StringComparer.Ordinal);
+		foreach (var landedCharacter in landedCharacters) {
+			var dynastyId = landedCharacter.GetDynastyId(ck3BookmarkDate);
+			if (dynastyId is not null) {
+				dynastyIds.Add(dynastyId);
+			}
+		}
+		return dynastyIds;
+	}
+
+	private void PurgeEmptyDynastyContainers(DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
 		houses.PurgeUnneededHouses(this, ck3BookmarkDate);
 		dynasties.PurgeUnneededDynasties(this, houses, ck3BookmarkDate);
 		dynasties.FlattenDynastiesWithNoFounders(this, houses, ck3BookmarkDate);

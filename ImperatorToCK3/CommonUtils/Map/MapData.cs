@@ -119,51 +119,56 @@ internal sealed class MapData {
 
 	private void GroupStaticWaterProvinces() {
 		Logger.Debug("Grouping static water provinces into water bodies...");
-
-		// We want connected components of the static-water-only adjacency graph.
-		// Use the lowest province ID in each component as the water body ID.
-		var staticWaterProvinceIds = ProvinceDefinitions
-			.Where(p => p.IsStaticWater)
-			.Select(p => p.Id)
-			.ToArray();
+		var staticWaterProvinceIds = GetStaticWaterProvinceIds();
 		if (staticWaterProvinceIds.Length == 0) {
 			return;
 		}
 
+		waterBodiesDict.Clear();
+		foreach (var (provinceId, waterBodyId) in BuildWaterBodiesDict(staticWaterProvinceIds)) {
+			waterBodiesDict[provinceId] = waterBodyId;
+		}
+	}
+
+	private ulong[] GetStaticWaterProvinceIds() {
+		return ProvinceDefinitions
+			.Where(p => p.IsStaticWater)
+			.Select(p => p.Id)
+			.ToArray();
+	}
+
+	private Dictionary<ulong, ulong> BuildWaterBodiesDict(ulong[] staticWaterProvinceIds) {
+		var idToIndex = BuildStaticWaterProvinceIndex(staticWaterProvinceIds);
+		var (parent, size) = InitializeDisjointSet(staticWaterProvinceIds.Length);
+		UnionAdjacentStaticWaterProvinces(staticWaterProvinceIds, idToIndex, parent, size);
+		var minIdByRoot = GetMinimumProvinceIdsByRoot(staticWaterProvinceIds, parent);
+		var waterBodies = new Dictionary<ulong, ulong>(staticWaterProvinceIds.Length);
+		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
+			int root = FindRoot(i, parent);
+			waterBodies[staticWaterProvinceIds[i]] = minIdByRoot[root];
+		}
+		return waterBodies;
+	}
+
+	private static Dictionary<ulong, int> BuildStaticWaterProvinceIndex(ulong[] staticWaterProvinceIds) {
 		var idToIndex = new Dictionary<ulong, int>(staticWaterProvinceIds.Length);
 		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
 			idToIndex[staticWaterProvinceIds[i]] = i;
 		}
+		return idToIndex;
+	}
 
-		var parent = new int[staticWaterProvinceIds.Length];
-		var size = new int[staticWaterProvinceIds.Length];
-		for (int i = 0; i < parent.Length; ++i) {
+	private static (int[] parent, int[] size) InitializeDisjointSet(int count) {
+		var parent = new int[count];
+		var size = new int[count];
+		for (int i = 0; i < count; ++i) {
 			parent[i] = i;
 			size[i] = 1;
 		}
+		return (parent, size);
+	}
 
-		int Find(int x) {
-			while (parent[x] != x) {
-				parent[x] = parent[parent[x]];
-				x = parent[x];
-			}
-			return x;
-		}
-
-		void Union(int a, int b) {
-			a = Find(a);
-			b = Find(b);
-			if (a == b) {
-				return;
-			}
-			if (size[a] < size[b]) {
-				(a, b) = (b, a);
-			}
-			parent[b] = a;
-			size[a] += size[b];
-		}
-
-		// Union static water provinces connected by neighbor relations.
+	private void UnionAdjacentStaticWaterProvinces(ulong[] staticWaterProvinceIds, Dictionary<ulong, int> idToIndex, int[] parent, int[] size) {
 		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
 			var provinceId = staticWaterProvinceIds[i];
 			if (!NeighborsDict.TryGetValue(provinceId, out var neighbors)) {
@@ -171,27 +176,44 @@ internal sealed class MapData {
 			}
 			foreach (var neighborId in neighbors) {
 				if (idToIndex.TryGetValue(neighborId, out int neighborIndex)) {
-					Union(i, neighborIndex);
+					UnionRoots(i, neighborIndex, parent, size);
 				}
 			}
 		}
+	}
 
-		// Determine the minimum province ID for each component root.
+	private static ulong[] GetMinimumProvinceIdsByRoot(ulong[] staticWaterProvinceIds, int[] parent) {
 		var minIdByRoot = new ulong[staticWaterProvinceIds.Length];
 		Array.Fill(minIdByRoot, ulong.MaxValue);
 		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
-			int root = Find(i);
-			var provId = staticWaterProvinceIds[i];
-			if (provId < minIdByRoot[root]) {
-				minIdByRoot[root] = provId;
+			int root = FindRoot(i, parent);
+			var provinceId = staticWaterProvinceIds[i];
+			if (provinceId < minIdByRoot[root]) {
+				minIdByRoot[root] = provinceId;
 			}
 		}
+		return minIdByRoot;
+	}
 
-		waterBodiesDict.Clear();
-		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
-			int root = Find(i);
-			waterBodiesDict[staticWaterProvinceIds[i]] = minIdByRoot[root];
+	private static int FindRoot(int provinceIndex, int[] parent) {
+		while (parent[provinceIndex] != provinceIndex) {
+			parent[provinceIndex] = parent[parent[provinceIndex]];
+			provinceIndex = parent[provinceIndex];
 		}
+		return provinceIndex;
+	}
+
+	private static void UnionRoots(int leftIndex, int rightIndex, int[] parent, int[] size) {
+		leftIndex = FindRoot(leftIndex, parent);
+		rightIndex = FindRoot(rightIndex, parent);
+		if (leftIndex == rightIndex) {
+			return;
+		}
+		if (size[leftIndex] < size[rightIndex]) {
+			(leftIndex, rightIndex) = (rightIndex, leftIndex);
+		}
+		parent[rightIndex] = leftIndex;
+		size[leftIndex] += size[rightIndex];
 	}
 
 	private string? GetProvincesMapPath(ModFilesystem modFS) {

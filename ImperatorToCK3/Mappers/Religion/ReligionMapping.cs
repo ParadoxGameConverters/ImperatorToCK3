@@ -58,38 +58,8 @@ internal sealed class ReligionMapping {
 		Configuration config,
 		ImperatorRegionMapper imperatorRegionMapper,
 		CK3RegionMapper ck3RegionMapper) {
-		// We need at least a viable Imperator religion.
-		if (string.IsNullOrEmpty(irReligion)) {
+		if (!BasicCriteriaMatch(irReligion, irHistoricalTag, config) || !CultureMatches(ck3CultureId)) {
 			return null;
-		}
-
-		if (!irReligionIds.Contains(irReligion)) {
-			return null;
-		}
-		
-		if (dateGreaterOrEqual is not null && config.CK3BookmarkDate < dateGreaterOrEqual) {
-			return null;
-		}
-
-		if (heresiesInHistoricalAreas is not null &&
-		    config.HeresiesInHistoricalAreas != heresiesInHistoricalAreas.Value) {
-			return null;
-		}
-
-		if (irHistoricalTags.Count > 0) {
-			if (string.IsNullOrEmpty(irHistoricalTag) || !irHistoricalTags.Contains(irHistoricalTag)) {
-				return null;
-			}
-		}
-
-		// If a mapping expects one of a given set of CK3 cultures, the provided one must match them.
-		if (ck3CultureIds.Count > 0) {
-			if (string.IsNullOrEmpty(ck3CultureId)) {
-				return null;
-			}
-			if (!ck3CultureIds.Contains(ck3CultureId)) {
-				return null;
-			}
 		}
 
 		// Simple religion-religion match.
@@ -101,41 +71,86 @@ internal sealed class ReligionMapping {
 			return null;
 		}
 
-		// This is a CK3 provinces check.
-		if (ck3ProvinceId is not null) {
-			if (ck3Provinces.Contains(ck3ProvinceId.Value)) {
-				return CK3FaithId;
-			}
-			// This is a CK3 regions check, it checks if provided ck3Province is within the mapping's ck3Regions.
-			foreach (var region in ck3Regions) {
-				if (!ck3RegionMapper.RegionNameIsValid(region)) {
-					Logger.Warn($"Checking for religion {irReligion} inside invalid CK3 region: {region}! Fix the mapping rules!");
-					// We could say this was a match, and thus pretend this region entry doesn't exist, but it's better
-					// for the converter to explode across the logs with invalid names. So, continue.
-					continue;
-				}
-				if (ck3RegionMapper.ProvinceIsInRegion(ck3ProvinceId.Value, region)) {
-					return CK3FaithId;
-				}
-			}
+		if (Ck3ProvinceOrRegionMatches(irReligion, ck3ProvinceId, ck3RegionMapper)) {
+			return CK3FaithId;
 		}
 
-		// This is an Imperator provinces check.
-		if (irProvinceId is not null) {
-			if (irProvinceIds.Contains(irProvinceId.Value)) {
-				return CK3FaithId;
-			}
-			// This is an Imperator regions check, it checks if provided irProvinceId is within the mapping's imperatorRegions.
-			foreach (var region in imperatorRegions) {
-				if (!imperatorRegionMapper.RegionNameIsValid(region)) {
-					continue;
-				}
-				if (imperatorRegionMapper.ProvinceIsInRegion(irProvinceId.Value, region)) {
-					return CK3FaithId;
-				}
-			}
+		if (ImperatorProvinceOrRegionMatches(irProvinceId, imperatorRegionMapper)) {
+			return CK3FaithId;
 		}
 		
 		return null;
+	}
+
+	private bool BasicCriteriaMatch(string irReligion, string? irHistoricalTag, Configuration config) {
+		if (string.IsNullOrEmpty(irReligion) || !irReligionIds.Contains(irReligion)) {
+			return false;
+		}
+
+		if (dateGreaterOrEqual is not null && config.CK3BookmarkDate < dateGreaterOrEqual) {
+			return false;
+		}
+
+		if (heresiesInHistoricalAreas is not null &&
+		    config.HeresiesInHistoricalAreas != heresiesInHistoricalAreas.Value) {
+			return false;
+		}
+
+		if (irHistoricalTags.Count > 0 && (string.IsNullOrEmpty(irHistoricalTag) || !irHistoricalTags.Contains(irHistoricalTag))) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private bool CultureMatches(string? ck3CultureId) {
+		if (ck3CultureIds.Count == 0) {
+			return true;
+		}
+
+		return !string.IsNullOrEmpty(ck3CultureId) && ck3CultureIds.Contains(ck3CultureId);
+	}
+
+	private bool Ck3ProvinceOrRegionMatches(string irReligion, ulong? ck3ProvinceId, CK3RegionMapper ck3RegionMapper) {
+		if (ck3ProvinceId is null) {
+			return false;
+		}
+
+		if (ck3Provinces.Contains(ck3ProvinceId.Value)) {
+			return true;
+		}
+
+		foreach (var region in ck3Regions) {
+			if (!ck3RegionMapper.RegionNameIsValid(region)) {
+				Logger.Warn($"Checking for religion {irReligion} inside invalid CK3 region: {region}! Fix the mapping rules!");
+				continue;
+			}
+			if (ck3RegionMapper.ProvinceIsInRegion(ck3ProvinceId.Value, region)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private bool ImperatorProvinceOrRegionMatches(ulong? irProvinceId, ImperatorRegionMapper imperatorRegionMapper) {
+		if (irProvinceId is null) {
+			return false;
+		}
+
+		if (irProvinceIds.Contains(irProvinceId.Value)) {
+			return true;
+		}
+
+		foreach (var region in imperatorRegions) {
+			if (!imperatorRegionMapper.RegionNameIsValid(region)) {
+				continue;
+			}
+			if (imperatorRegionMapper.ProvinceIsInRegion(irProvinceId.Value, region)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
