@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-internal enum LineEnding {
-	CRLF,
-	LF,
-	CR
-}
-
 internal static class FileTweaker {
+	internal enum LineEnding {
+		CRLF,
+		LF,
+		CR
+	}
+
 	public static async Task ModifyAndRemovePartsOfFiles(ModFilesystem ck3ModFS, string outputModPath, Configuration config) {
 		// Load removable blocks from configurables.
 		Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile = [];
