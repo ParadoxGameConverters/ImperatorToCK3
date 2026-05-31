@@ -3,7 +3,6 @@ using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Exceptions;
 using commonItems.Mods;
-using DotLiquid;
 using ImperatorToCK3.CK3.Armies;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
@@ -78,79 +77,62 @@ internal sealed class World {
 	internal World(Imperator.World impWorld, Configuration config, Thread? irCoaExtractThread) {
 		Logger.Info("*** Hello CK3, let's get painting. ***");
 
-		// Initialize fields that depend on other fields.
-		Religions = new ReligionCollection(LandedTitles);
-		var liquidVariables = InitializeWorldBootstrap(impWorld, config);
-		var (modFS, ck3ColorFactory) = SetupOutputAndBaseData(impWorld, config, liquidVariables);
-		ModFS = modFS;
-		var ck3RegionMapper = LoadCulturesAndTitles(impWorld, config, liquidVariables, ck3ColorFactory);
-		CK3RegionMapper = ck3RegionMapper;
-		var irRegionMapper = impWorld.ImperatorRegionMapper;
-		imperatorRegionMapper = irRegionMapper;
-		var (cultureMapper, traitMapper, dnaFactory) = InitializeReligionsCharactersAndMappers(impWorld, config, liquidVariables, ck3ColorFactory, ck3RegionMapper, irRegionMapper);
-		var religionMapper = new ReligionMapper(Religions, irRegionMapper, ck3RegionMapper);
-		ValidateMappingsAndTraits(impWorld, config, liquidVariables, cultureMapper, religionMapper, traitMapper);
-		ImportCharactersAndPreserveIds(impWorld, religionMapper, cultureMapper, traitMapper, dnaFactory, config);
-		var governmentMapper = LoadDynastiesAndGovernments(impWorld, cultureMapper);
-		var (countyLevelCountries, countyLevelGovernorships) = ImportCountriesAndProvinces(impWorld, config, liquidVariables, irCoaExtractThread, cultureMapper, religionMapper, governmentMapper, irRegionMapper);
-		ApplyProvinceAndReligionTweaks(impWorld, config, countyLevelCountries, countyLevelGovernorships);
-		FinalizeWorldState(impWorld, config, dnaFactory);
-	}
-
-	private Hash InitializeWorldBootstrap(Imperator.World impWorld, Configuration config) {
 		warMapper.DetectUnmappedWarGoals(impWorld.ModFS);
+
 		DetermineCK3Dlcs(config);
 		LoadAndDetectCK3Mods(config);
+
 		// Now that the CK3 mods are detected, we can build a collection of variables for Liquid files.
 		var liquidVariables = config.GetLiquidVariables();
-		DetermineCK3BookmarkDate(impWorld, config);
-		return liquidVariables;
-	}
 
-	private (ModFilesystem modFS, ColorFactory ck3ColorFactory) SetupOutputAndBaseData(Imperator.World impWorld, Configuration config, Hash liquidVariables) {
+		// Initialize fields that depend on other fields.
+		Religions = new ReligionCollection(LandedTitles);
+
+		DetermineCK3BookmarkDate(impWorld, config);
+
 		// Recreate output mod folder.
 		string outputModPath = Path.Join("output", config.OutputModName);
 		WorldOutputter.ClearOutputModFolder(outputModPath);
 		WorldOutputter.CreateModFolder(outputModPath);
 		// This will also convert all Liquid templates into simple text files.
 		WorldOutputter.CopyBlankModFilesToOutput(outputModPath, liquidVariables);
+
 		// Include a fake mod pointing to blankMod in the output folder.
 		LoadedMods.Add(new Mod("blankMod", outputModPath));
-		var modFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), LoadedMods);
+		ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), LoadedMods);
 
 		var ck3Defines = new Defines();
-		ck3Defines.LoadDefines(modFS);
+		ck3Defines.LoadDefines(ModFS);
+
 		ColorFactory ck3ColorFactory = new();
 		// Now that we have the mod filesystem, we can initialize the localization database.
 		Parallel.Invoke(
-			() => LoadCorrectProvinceMappingsFile(impWorld, config),
+			() => LoadCorrectProvinceMappingsFile(impWorld, config), // Depends on loaded mods.
 			() => {
-				LocDB.LoadLocFromModFS(modFS, config.GetActiveCK3ModFlags());
+				LocDB.LoadLocFromModFS(ModFS, config.GetActiveCK3ModFlags());
 				Logger.IncrementProgress();
 			},
-			() => ScriptValues.LoadScriptValues(modFS, ck3Defines),
+			() => ScriptValues.LoadScriptValues(ModFS, ck3Defines),
 			() => {
-				NamedColors.LoadNamedColors("common/named_colors", modFS);
+				NamedColors.LoadNamedColors("common/named_colors", ModFS);
 				ck3ColorFactory.AddNamedColorDict(NamedColors);
 			},
 			() => {
 				Logger.Info("Loading map data...");
-				MapData = new MapData(modFS);
+				MapData = new MapData(ModFS);
 			},
-			() => CK3CoaMapper = new(modFS),
+			() => CK3CoaMapper = new(ModFS),
 			() => {
 				// Modify some CK3 and mod files and put them in the output before we start outputting anything.
-				FileTweaker.ModifyAndRemovePartsOfFiles(modFS, outputModPath, config).Wait();
+				FileTweaker.ModifyAndRemovePartsOfFiles(ModFS, outputModPath, config).Wait();
 			}
 		);
-		return (modFS, ck3ColorFactory);
-	}
 
-	private CK3RegionMapper LoadCulturesAndTitles(Imperator.World impWorld, Configuration config, Hash liquidVariables, ColorFactory ck3ColorFactory) {
 		var ck3ModFlags = config.GetCK3ModFlags();
+		
 		Parallel.Invoke(
-			() => provinceMapper.DetectInvalidMappings(impWorld.MapData, MapData),
-			() => {
+			() => provinceMapper.DetectInvalidMappings(impWorld.MapData, MapData), // depends on ProvinceMapper and MapData
+			() => { // depends on ck3ColorFactory and CulturalPillars
 				// Load CK3 cultures from CK3 mod filesystem.
 				Logger.Info("Loading cultural pillars...");
 				CulturalPillars = new(ck3ColorFactory, ck3ModFlags);
@@ -165,164 +147,208 @@ internal sealed class World {
 				Cultures.WarnAboutCircularParents();
 				Logger.IncrementProgress();
 			},
-			() => LoadMenAtArmsTypes(ModFS, ScriptValues),
-			() => LoadTitles(config, ck3ColorFactory)
+			() => LoadMenAtArmsTypes(ModFS, ScriptValues), // depends on ScriptValues
+			() => { // depends on LocDB and CK3CoaMapper
+					// Load vanilla CK3 landed titles and their history
+				LandedTitles.LoadTitles(ModFS, LocDB, ck3ColorFactory);
+
+				if (config.StaticDeJure) {
+					Logger.Info("Setting static de jure kingdoms and empires...");
+
+					Title.LandedTitles overrideTitles = [];
+					overrideTitles.LoadStaticTitles(ck3ColorFactory);
+					LandedTitles.CarveTitles(overrideTitles);
+
+					Logger.IncrementProgress();
+				}
+
+				LandedTitles.SetCoatsOfArms(CK3CoaMapper);
+
+				LandedTitles.LoadHistory(config, ModFS);
+				LandedTitles.LoadCulturalNamesFromConfigurables();
+			}
 		);
+
 		// Load regions.
-		return new CK3RegionMapper(ModFS, LandedTitles);
-	}
+		CK3RegionMapper = new CK3RegionMapper(ModFS, LandedTitles);
+		imperatorRegionMapper = impWorld.ImperatorRegionMapper;
 
-	private void LoadTitles(Configuration config, ColorFactory ck3ColorFactory) {
-		// Load vanilla CK3 landed titles and their history
-		LandedTitles.LoadTitles(ModFS, LocDB, ck3ColorFactory);
-		if (config.StaticDeJure) {
-			Logger.Info("Setting static de jure kingdoms and empires...");
-			Title.LandedTitles overrideTitles = [];
-			overrideTitles.LoadStaticTitles(ck3ColorFactory);
-			LandedTitles.CarveTitles(overrideTitles);
-			Logger.IncrementProgress();
-		}
-		LandedTitles.SetCoatsOfArms(CK3CoaMapper);
-		LandedTitles.LoadHistory(config, ModFS);
-		LandedTitles.LoadCulturalNamesFromConfigurables();
-	}
-
-	private (CultureMapper cultureMapper, TraitMapper traitMapper, DNAFactory dnaFactory) InitializeReligionsCharactersAndMappers(Imperator.World impWorld, Configuration config, Hash liquidVariables, ColorFactory ck3ColorFactory, CK3RegionMapper ck3RegionMapper, ImperatorRegionMapper irRegionMapper) {
 		CultureMapper cultureMapper = null!;
 		TraitMapper traitMapper = null!;
 		DNAFactory dnaFactory = null!;
 		Parallel.Invoke(
-			() => LoadReligions(liquidVariables, ck3ColorFactory),
-			() => cultureMapper = new CultureMapper(irRegionMapper, ck3RegionMapper, Cultures),
+			() => { // depends on ck3ColorFactory and landed titles being loaded 
+					// Load CK3 religions from game and blankMod.
+					// Holy sites need to be loaded after landed titles.
+				Religions.LoadDoctrines(ModFS);
+				Logger.Info("Loaded CK3 doctrines.");
+				Religions.LoadConverterHolySites("configurables/converter_holy_sites.txt");
+				Logger.Info("Loaded converter holy sites.");
+				Religions.LoadHolySites(ModFS);
+				Logger.Info("Loaded CK3 holy sites.");
+				Logger.Info("Loading religions from CK3 game and mods...");
+				Religions.LoadReligions(ModFS, ck3ColorFactory);
+				Logger.Info("Loaded CK3 religions.");
+				Logger.IncrementProgress();
+				Logger.Info("Loading converter faiths...");
+				Religions.LoadConverterFaiths("configurables/converter_faiths.liquid", ck3ColorFactory, liquidVariables);
+				Logger.Info("Loaded converter faiths.");
+				Logger.IncrementProgress();
+				Religions.RemoveChristianAndIslamicSyncretismFromAllFaiths();
+				// Now that all the faiths are loaded, remove liege entries from the history of religious head titles.
+				LandedTitles.RemoveLiegeEntriesFromReligiousHeadHistory(Religions);
+
+				Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
+				Logger.Info("Loaded replaceable holy sites.");
+			},
+
+			() => cultureMapper = new CultureMapper(imperatorRegionMapper, CK3RegionMapper, Cultures),
+
 			() => {
 				traitMapper = new("configurables/trait_map.txt", ModFS);
 				traitMapper.LogUnmappedImperatorTraits(impWorld.ModFS);
 			},
+
 			() => {
 				Logger.Info("Initializing DNA factory...");
 				dnaFactory = new(impWorld.ModFS, ModFS);
 				Logger.IncrementProgress();
 			},
+
 			() => {
 				Characters.LoadCK3Characters(ModFS, config.CK3BookmarkDate);
 				Logger.IncrementProgress();
 			}
 		);
-		return (cultureMapper, traitMapper, dnaFactory);
-	}
 
-	private void LoadReligions(Hash liquidVariables, ColorFactory ck3ColorFactory) {
-		// Load CK3 religions from game and blankMod.
-		// Holy sites need to be loaded after landed titles.
-		Religions.LoadDoctrines(ModFS);
-		Logger.Info("Loaded CK3 doctrines.");
-		Religions.LoadConverterHolySites("configurables/converter_holy_sites.txt");
-		Logger.Info("Loaded converter holy sites.");
-		Religions.LoadHolySites(ModFS);
-		Logger.Info("Loaded CK3 holy sites.");
-		Logger.Info("Loading religions from CK3 game and mods...");
-		Religions.LoadReligions(ModFS, ck3ColorFactory);
-		Logger.Info("Loaded CK3 religions.");
-		Logger.IncrementProgress();
-		Logger.Info("Loading converter faiths...");
-		Religions.LoadConverterFaiths("configurables/converter_faiths.liquid", ck3ColorFactory, liquidVariables);
-		Logger.Info("Loaded converter faiths.");
-		Logger.IncrementProgress();
-		Religions.RemoveChristianAndIslamicSyncretismFromAllFaiths();
-		// Now that all the faiths are loaded, remove liege entries from the history of religious head titles.
-		LandedTitles.RemoveLiegeEntriesFromReligiousHeadHistory(Religions);
-		Religions.LoadReplaceableHolySites("configurables/replaceable_holy_sites.txt");
-		Logger.Info("Loaded replaceable holy sites.");
-	}
+		var religionMapper = new ReligionMapper(Religions, imperatorRegionMapper, CK3RegionMapper);
 
-	private void ValidateMappingsAndTraits(Imperator.World impWorld, Configuration config, Hash liquidVariables, CultureMapper cultureMapper, ReligionMapper religionMapper, TraitMapper traitMapper) {
 		Parallel.Invoke(
 			() => Cultures.ImportTechnology(impWorld.Countries, cultureMapper, provinceMapper, impWorld.InventionsDB, impWorld.LocDB, liquidVariables),
-			() => LogMissingImperatorReligionMappings(impWorld, config, religionMapper),
-			() => LogMissingImperatorCultureMappings(impWorld, cultureMapper),
-			() => Characters.RemoveUndefinedTraits(traitMapper)
+
+			() => { // depends on religionMapper
+					// Check if all I:R religions have a base mapping.
+				foreach (var irReligionId in impWorld.Religions.Select(r => r.Id)) {
+					var baseMapping = religionMapper.Match(irReligionId, null, null, null, null, config);
+					if (baseMapping is null) {
+						string religionStr = "ID: " + irReligionId;
+						var localizedName = impWorld.LocDB.GetLocBlockForKey(irReligionId)?["english"];
+						if (localizedName is not null) {
+							religionStr += $", name: {localizedName}";
+						}
+						Logger.Warn($"No base mapping found for I:R religion {religionStr}!");
+					}
+				}
+			},
+			() => { // depends on cultureMapper
+					// Check if all I:R cultures have a base mapping.
+				var irCultureIds = impWorld.CulturesDB.SelectMany(g => g.Select(c => c.Id));
+				foreach (var irCultureId in irCultureIds) {
+					var baseMapping = cultureMapper.Match(irCultureId, null, null, null);
+					if (baseMapping is null) {
+						string cultureStr = "ID: " + irCultureId;
+						var localizedName = impWorld.LocDB.GetLocBlockForKey(irCultureId)?["english"];
+						if (localizedName is not null) {
+							cultureStr += $", name: {localizedName}";
+						}
+						Logger.Warn($"No base mapping found for I:R culture {cultureStr}!");
+					}
+				}
+			},
+			() => { // depends on TraitMapper and CK3 characters being loaded
+				Characters.RemoveUndefinedTraits(traitMapper);
+			}
 		);
-	}
 
-	private static void LogMissingImperatorReligionMappings(Imperator.World impWorld, Configuration config, ReligionMapper religionMapper) {
-		// Check if all I:R religions have a base mapping.
-		foreach (var irReligionId in impWorld.Religions.Select(r => r.Id)) {
-			var baseMapping = religionMapper.Match(irReligionId, null, null, null, null, config);
-			if (baseMapping is not null) {
-				continue;
-			}
-
-			string religionStr = "ID: " + irReligionId;
-			var localizedName = impWorld.LocDB.GetLocBlockForKey(irReligionId)?["english"];
-			if (localizedName is not null) {
-				religionStr += $", name: {localizedName}";
-			}
-			Logger.Warn($"No base mapping found for I:R religion {religionStr}!");
-		}
-	}
-
-	private static void LogMissingImperatorCultureMappings(Imperator.World impWorld, CultureMapper cultureMapper) {
-		// Check if all I:R cultures have a base mapping.
-		var irCultureIds = impWorld.CulturesDB.SelectMany(g => g.Select(c => c.Id));
-		foreach (var irCultureId in irCultureIds) {
-			var baseMapping = cultureMapper.Match(irCultureId, null, null, null);
-			if (baseMapping is not null) {
-				continue;
-			}
-
-			string cultureStr = "ID: " + irCultureId;
-			var localizedName = impWorld.LocDB.GetLocBlockForKey(irCultureId)?["english"];
-			if (localizedName is not null) {
-				cultureStr += $", name: {localizedName}";
-			}
-			Logger.Warn($"No base mapping found for I:R culture {cultureStr}!");
-		}
-	}
-
-	private void ImportCharactersAndPreserveIds(Imperator.World impWorld, ReligionMapper religionMapper, CultureMapper cultureMapper, TraitMapper traitMapper, DNAFactory dnaFactory, Configuration config) {
-		Characters.ImportImperatorCharacters(impWorld, religionMapper, cultureMapper, Cultures, traitMapper, nicknameMapper, provinceMapper, deathReasonMapper, dnaFactory, LocDB, impWorld.EndDate, config);
+		Characters.ImportImperatorCharacters(
+			impWorld,
+			religionMapper,
+			cultureMapper,
+			Cultures,
+			traitMapper,
+			nicknameMapper,
+			provinceMapper,
+			deathReasonMapper,
+			dnaFactory,
+			LocDB,
+			impWorld.EndDate,
+			config
+		);
 		// Now that we have loaded all characters, we can mark some of them as non-removable.
 		Characters.LoadCharacterIDsToPreserve(config.CK3BookmarkDate);
 		ClearFeaturedCharactersDescriptions(config.CK3BookmarkDate);
-	}
 
-	private GovernmentMapper LoadDynastiesAndGovernments(Imperator.World impWorld, CultureMapper cultureMapper) {
 		Dynasties.LoadCK3Dynasties(ModFS);
 		// Now that we have loaded all dynasties from CK3, we can remove invalid dynasty IDs from character history.
 		Characters.RemoveInvalidDynastiesFromHistory(Dynasties);
 		Dynasties.ImportImperatorFamilies(impWorld, cultureMapper, impWorld.LocDB, LocDB, CorrectedDate);
 		DynastyHouses.LoadCK3Houses(ModFS);
-		return InitializeGovernmentMapper();
-	}
 
-	private (List<KeyValuePair<Country, Dependency?>> countyLevelCountries, List<Governorship> countyLevelGovernorships) ImportCountriesAndProvinces(Imperator.World impWorld, Configuration config, Hash liquidVariables, Thread? irCoaExtractThread, CultureMapper cultureMapper, ReligionMapper religionMapper, GovernmentMapper governmentMapper, ImperatorRegionMapper irRegionMapper) {
+		GovernmentMapper governmentMapper = InitializeGovernmentMapper();
+
 		// Before we can import Imperator countries and governorships, the CoA extraction thread needs to finish.
 		irCoaExtractThread?.Join();
+
 		SuccessionLawMapper successionLawMapper = new("configurables/succession_law_map.liquid", liquidVariables);
 		List<KeyValuePair<Country, Dependency?>> countyLevelCountries = [];
-		LandedTitles.ImportImperatorCountries(impWorld.Countries, impWorld.Dependencies, tagTitleMapper, impWorld.LocDB, LocDB, provinceMapper, impWorld.CoaMapper, governmentMapper, successionLawMapper, definiteFormMapper, religionMapper, cultureMapper, nicknameMapper, Characters, CorrectedDate, config, countyLevelCountries, enabledDlcFlags);
+		LandedTitles.ImportImperatorCountries(
+			impWorld.Countries,
+			impWorld.Dependencies,
+			tagTitleMapper,
+			impWorld.LocDB,
+			LocDB,
+			provinceMapper,
+			impWorld.CoaMapper,
+			governmentMapper,
+			successionLawMapper,
+			definiteFormMapper,
+			religionMapper,
+			cultureMapper,
+			nicknameMapper,
+			Characters,
+			CorrectedDate,
+			config,
+			countyLevelCountries,
+			enabledDlcFlags
+		);
+
 		// Now we can deal with provinces since we know to whom to assign them. We first import vanilla province data.
 		// Some of it will be overwritten, but not all.
 		Provinces.ImportVanillaProvinces(ModFS, MapData.ProvinceDefinitions, Religions, Cultures);
+
 		// Next we import Imperator provinces and translate them ontop a significant part of all imported provinces.
 		Provinces.ImportImperatorProvinces(impWorld, MapData, LandedTitles, cultureMapper, religionMapper, provinceMapper, CorrectedDate, config);
 		Provinces.LoadPrehistory();
-		var countyLevelGovernorships = new List<Governorship>();
-		LandedTitles.ImportImperatorGovernorships(impWorld, Provinces, tagTitleMapper, impWorld.LocDB, LocDB, config, provinceMapper, definiteFormMapper, irRegionMapper, impWorld.CoaMapper, countyLevelGovernorships);
-		return (countyLevelCountries, countyLevelGovernorships);
-	}
 
-	private void ApplyProvinceAndReligionTweaks(Imperator.World impWorld, Configuration config, List<KeyValuePair<Country, Dependency?>> countyLevelCountries, List<Governorship> countyLevelGovernorships) {
+		var countyLevelGovernorships = new List<Governorship>();
+		LandedTitles.ImportImperatorGovernorships(
+			impWorld,
+			Provinces,
+			tagTitleMapper,
+			impWorld.LocDB,
+			LocDB,
+			config,
+			provinceMapper,
+			definiteFormMapper,
+			imperatorRegionMapper,
+			impWorld.CoaMapper,
+			countyLevelGovernorships
+		);
+
 		// Give counties to rulers and governors.
 		OverwriteCountiesHistory(impWorld.Countries, impWorld.JobsDB.Governorships, countyLevelCountries, countyLevelGovernorships, impWorld.Characters, impWorld.Provinces, CorrectedDate);
 		ImportImperatorHoldingsIfNotDisabledByConfiguration(impWorld, config);
+
 		LandedTitles.ImportDevelopmentFromImperator(Provinces, CorrectedDate, config.ImperatorCivilizationWorth);
+
 		// Apply region-specific tweaks.
 		HandleIcelandAndFaroeIslands(impWorld, config);
+
 		// Apply religion-specific tweaks.
 		RemoveIslamFromMapIfNotInImperator(impWorld, config);
 		HandleChristianity(impWorld, config);
 		HandleManichaeism(impWorld, config);
+
 		// Now that Islam has been handled, we can generate filler holders without the risk of making them Muslim.
 		GenerateFillerHoldersForUnownedLands(impWorld.Provinces, Cultures, config);
 		// The filler holders have overwritten some counties, so now we can remove holders from titles that have become landless.
@@ -331,43 +357,54 @@ internal sealed class World {
 		if (!config.StaticDeJure) {
 			LandedTitles.SetDeJureKingdomsAndAbove(config.CK3BookmarkDate, Cultures, Characters, MapData, CK3RegionMapper, LocDB, provinceMapper);
 		}
-	}
 
-	private void FinalizeWorldState(Imperator.World impWorld, Configuration config, DNAFactory dnaFactory) {
 		Dynasties.SetCoasForRulingDynasties(LandedTitles, config.CK3BookmarkDate);
+
 		Characters.RemoveEmployerIdFromLandedCharacters(LandedTitles, CorrectedDate);
 		Characters.PurgeUnneededCharacters(LandedTitles, Dynasties, DynastyHouses, config.CK3BookmarkDate);
 		// We could convert Imperator character DNA while importing the characters.
 		// But that'd be wasteful, because some of them are purged. So, we do it now.
 		Characters.ConvertImperatorCharacterDNA(dnaFactory);
+
 		// If there's a gap between the Imperator save date and the CK3 bookmark date,
 		// generate successors for old I:R characters instead of making them live for centuries.
 		if (config.CK3BookmarkDate.DiffInYears(impWorld.EndDate) > 1) {
 			Characters.GenerateSuccessorsForOldCharacters(LandedTitles, Cultures, impWorld.EndDate, config.CK3BookmarkDate, impWorld.RandomSeed);
 		}
+
 		// Gold needs to be distributed after characters' successors are generated.
 		Characters.DistributeCountriesGold(LandedTitles, config);
 		Characters.ImportLegions(LandedTitles, impWorld.Units, impWorld.Characters, impWorld.Countries, config.CK3BookmarkDate, unitTypeMapper, MenAtArmsTypes, provinceMapper, LocDB, config);
+
 		// For titles linked to I:R countries with chinese_empire government, ensure the character variables
 		// needed for Dynastic Cycle script are calculated and stores as character variables.
 		Characters.CalculateChineseDynasticCycleVariables(LandedTitles, impWorld.EndDate, config.CK3BookmarkDate);
+		
 		// After the purging of unneeded characters, we should clean up the title history.
 		LandedTitles.CleanUpHistory(Characters, config.CK3BookmarkDate);
+
 		// Now that the title history is basically done, convert officials as council members and courtiers.
 		LandedTitles.ImportImperatorGovernmentOffices(impWorld.JobsDB.OfficeJobs, Religions, impWorld.EndDate);
+
 		Parallel.Invoke(
 			() => ImportImperatorWars(impWorld, config.CK3BookmarkDate),
+
 			() => {
 				var holySiteEffectMapper = new HolySiteEffectMapper("configurables/holy_site_effect_mappings.txt");
 				Religions.DetermineHolySites(Provinces, impWorld.Religions, holySiteEffectMapper, config.CK3BookmarkDate);
+
 				Religions.GenerateMissingReligiousHeads(LandedTitles, Characters, Provinces, Cultures, config.CK3BookmarkDate);
 				Logger.IncrementProgress();
 			},
+
 			() => {
 				LegendSeeds.LoadSeeds(ModFS);
 				LegendSeeds.RemoveAnachronisticSeeds("configurables/legend_seeds_to_remove.txt");
 			},
-			() => Diplomacy.ImportImperatorLeagues(impWorld.DefensiveLeagues, impWorld.Countries)
+
+			() => {
+				Diplomacy.ImportImperatorLeagues(impWorld.DefensiveLeagues, impWorld.Countries);
+			}
 		);
 	}
 
@@ -595,7 +632,57 @@ internal sealed class World {
 			}
 
 			var ck3CapitalBaronyProvince = Provinces[capitalBaronyProvId];
-			var irProvince = FindImperatorOwnerProvinceForCounty(county, capitalBaronyProvId, ck3CapitalBaronyProvince);
+			var irProvince = ck3CapitalBaronyProvince.PrimaryImperatorProvince;
+			// If the county capital's primary I:R province has no owner,
+			// try to use other source provinces.
+			// If this fails, try using source provinces of other baronies.
+			if (irProvince?.OwnerCountry is null) {
+				foreach (var secondarySourceProv in ck3CapitalBaronyProvince.SecondaryImperatorProvinces) {
+					if (secondarySourceProv.OwnerCountry is null) {
+						continue;
+					}
+
+					irProvince = secondarySourceProv;
+					Logger.Debug($"Using secondary source province {secondarySourceProv.Id} of capital barony" +
+					             $"province {capitalBaronyProvId} for history of county {county.Id}!");
+				}
+			}
+			if (irProvince?.OwnerCountry is null) {
+				foreach (var barony in county.DeJureVassals) {
+					var baronyCk3ProvId = barony.ProvinceId;
+					if (baronyCk3ProvId is null) {
+						continue;
+					}
+					var primarySourceProvForBarony = Provinces[baronyCk3ProvId.Value].PrimaryImperatorProvince;
+					if (primarySourceProvForBarony?.OwnerCountry is null) {
+						continue;
+					}
+
+					irProvince = primarySourceProvForBarony;
+					Logger.Debug($"Using province {baronyCk3ProvId.Value} of barony {barony.Id} instead of" +
+					             $"capital barony province {capitalBaronyProvId} for history of county {county.Id}!");
+					break;
+				}
+			}
+			if (irProvince?.OwnerCountry is null) {
+				foreach (var barony in county.DeJureVassals) {
+					var baronyCk3ProvId = barony.ProvinceId;
+					if (baronyCk3ProvId is null) {
+						continue;
+					}
+
+					var secondaryProvWithOwner = Provinces[baronyCk3ProvId.Value].SecondaryImperatorProvinces
+						.FirstOrDefault(p => p.OwnerCountry is not null);
+					if (secondaryProvWithOwner is null) {
+						continue;
+					}
+
+					irProvince = secondaryProvWithOwner;
+					Logger.Debug($"Using province {baronyCk3ProvId.Value} of barony {barony.Id} instead of" +
+					             $"capital barony province {capitalBaronyProvId} for history of county {county.Id}!");
+					break;
+				}
+			}
 
 			if (irProvince is null) { // probably outside of Imperator map
 				continue;
@@ -604,60 +691,6 @@ internal sealed class World {
 			OverwriteCountyHistory(county, irProvince, irCountries, countyLevelCountriesByCountryId, governorshipsByCountryAndRegion, countyLevelGovernorshipsSet, impCharacters, irProvinces, conversionDate);
 		}
 		Logger.IncrementProgress();
-	}
-
-	private Imperator.Provinces.Province? FindImperatorOwnerProvinceForCounty(Title county, ulong capitalBaronyProvId, Province ck3CapitalBaronyProvince) {
-		var irProvince = ck3CapitalBaronyProvince.PrimaryImperatorProvince;
-		// If the county capital's primary I:R province has no owner,
-		// try to use other source provinces.
-		// If this fails, try using source provinces of other baronies.
-		if (irProvince?.OwnerCountry is not null) {
-			return irProvince;
-		}
-
-		var ownedSecondarySourceProvince = ck3CapitalBaronyProvince.SecondaryImperatorProvinces.FirstOrDefault(p => p.OwnerCountry is not null);
-		if (ownedSecondarySourceProvince is not null) {
-			Logger.Debug($"Using secondary source province {ownedSecondarySourceProvince.Id} of capital barony" +
-			             $"province {capitalBaronyProvId} for history of county {county.Id}!");
-			return ownedSecondarySourceProvince;
-		}
-
-		var ownedPrimaryProvinceFromBarony = FindOwnerProvinceFromCountyBaronies(county, useSecondarySources: false);
-		if (ownedPrimaryProvinceFromBarony is not null) {
-			var (province, ck3ProvinceId, baronyId) = ownedPrimaryProvinceFromBarony.Value;
-			Logger.Debug($"Using province {ck3ProvinceId} of barony {baronyId} instead of" +
-			             $"capital barony province {capitalBaronyProvId} for history of county {county.Id}!");
-			return province;
-		}
-
-		var ownedSecondaryProvinceFromBarony = FindOwnerProvinceFromCountyBaronies(county, useSecondarySources: true);
-		if (ownedSecondaryProvinceFromBarony is not null) {
-			var (province, ck3ProvinceId, baronyId) = ownedSecondaryProvinceFromBarony.Value;
-			Logger.Debug($"Using province {ck3ProvinceId} of barony {baronyId} instead of" +
-			             $"capital barony province {capitalBaronyProvId} for history of county {county.Id}!");
-			return province;
-		}
-		return null;
-	}
-
-	private (Imperator.Provinces.Province province, ulong ck3ProvinceId, string baronyId)? FindOwnerProvinceFromCountyBaronies(Title county, bool useSecondarySources) {
-		foreach (var barony in county.DeJureVassals) {
-			var baronyCk3ProvId = barony.ProvinceId;
-			if (baronyCk3ProvId is null) {
-				continue;
-			}
-
-			var province = useSecondarySources
-				? Provinces[baronyCk3ProvId.Value].SecondaryImperatorProvinces.FirstOrDefault(p => p.OwnerCountry is not null)
-				: Provinces[baronyCk3ProvId.Value].PrimaryImperatorProvince;
-			if (province?.OwnerCountry is null) {
-				continue;
-			}
-
-			return (province, baronyCk3ProvId.Value, barony.Id);
-		}
-
-		return null;
 	}
 
 	internal static Dictionary<TKey, TValue> GetFirstValuesByKey<TValue, TKey>(
@@ -845,9 +878,83 @@ internal sealed class World {
 		var year = bookmarkDate.Year;
 
 		var faiths = Religions.Faiths.ToArray();
+		
+		OrderedSet<string> titleIdsToHandle;
+		if (config.FallenEagleEnabled) {
+			// Iceland doesn't exist on TFE map.
+			titleIdsToHandle = ["c_faereyar"];
+		} else if (config.TerraIndomitaDetected) {
+			// The Faroe Islands are on the map in TI, so it should be handled normally instead of being given an Eremitic holder.
+			titleIdsToHandle = ["d_iceland"];
+		} else {
+			titleIdsToHandle = ["d_iceland", "c_faereyar"];
+		}
 
-		var titleIdsToHandle = GetIcelandAndFaroeTitleIdsToHandle(config);
-		var (generateHermits, faithCandidates, cultureId, namePool) = DetermineIcelandAndFaroeRulerSetup(year, bookmarkDate);
+		bool generateHermits = true;
+		IEnumerable<string> faithCandidates = new OrderedSet<string>();
+		Queue<string> namePool = new();
+		const string defaultCultureId = "irish";
+		string cultureId = defaultCultureId;
+
+		switch (year) {
+			case <= 300:
+				UsePaganRulersForIcelandAndFaroeIslands(out faithCandidates, out cultureId, out namePool);
+				break;
+			case < 874:
+				faithCandidates = new OrderedSet<string> { "insular_celtic", "catholic", "orthodox", "chalcedonian", "nicene" };
+				var christianFaiths = Religions.TryGetValue("christianity_religion", out var christianityReligion) ? christianityReligion.Faiths : [];
+
+				// If there is at least one Irish Christian county, give it to the Irish Papar.
+				// If there is at least one Christian county of another Gaelic culture, give it to a character of this Gaelic culture.
+				var cultureCandidates = new[] { "irish", "gaelic" };
+				bool provinceFound = false;
+				foreach (var potentialCultureId in cultureCandidates) {
+					var cultureProvinces = Provinces.Where(p =>
+						p.GetCultureId(bookmarkDate) == potentialCultureId);
+					foreach (var cultureProvince in cultureProvinces) {
+						var faithId = cultureProvince.GetFaithId(bookmarkDate);
+						if (faithId is null || !christianFaiths.ContainsKey(faithId)) {
+							continue;
+						}
+						provinceFound = true;
+						cultureId = potentialCultureId;
+						faithCandidates = faithCandidates.Prepend(faithId);
+						break;
+					}
+					if (provinceFound) {
+						break;
+					}
+				}
+				if (!provinceFound) {
+					// If all the Gaels are pagan but at least one province in Ireland or Scotland is Christian,
+					// give the handled titles to a generated ruler of the same culture as that Christian province.
+					var potentialSourceProvinces = Provinces.Where(p =>
+						CK3RegionMapper.ProvinceIsInRegion(p.Id, "custom_ireland") || CK3RegionMapper.ProvinceIsInRegion(p.Id, "custom_scotland"));
+					foreach (var potentialSourceProvince in potentialSourceProvinces) {
+						var faithId = potentialSourceProvince.GetFaithId(bookmarkDate);
+						if (faithId is null || !christianFaiths.ContainsKey(faithId)) {
+							continue;
+						}
+						provinceFound = true;
+						cultureId = potentialSourceProvince.GetCultureId(bookmarkDate) ?? defaultCultureId;
+						faithCandidates = faithCandidates.Prepend(faithId);
+						break;
+					}
+				}
+				if (!provinceFound) {
+					// Give up and create a pagan ruler.
+					UsePaganRulersForIcelandAndFaroeIslands(out faithCandidates, out cultureId, out namePool);
+				} else {
+					Logger.Info("Giving Iceland and Faroe Islands to Papar...");
+					namePool = new Queue<string>(["Canann", "Petair", "Fergus"]);
+				}
+				break;
+			default:
+				Logger.Info("Keeping Iceland and Faroe Islands as is in history...");
+				// Let CK3 use rulers from its history.
+				generateHermits = false;
+				break;
+		}
 
 		if (generateHermits) {
 			var faithId = faithCandidates.First(c => faiths.Any(f => f.Id == c));
@@ -862,71 +969,6 @@ internal sealed class World {
 		}
 
 		Logger.IncrementProgress();
-	}
-
-	private static OrderedSet<string> GetIcelandAndFaroeTitleIdsToHandle(Configuration config) {
-		if (config.FallenEagleEnabled) {
-			// Iceland doesn't exist on TFE map.
-			return ["c_faereyar"];
-		}
-		if (config.TerraIndomitaDetected) {
-			// The Faroe Islands are on the map in TI, so it should be handled normally instead of being given an Eremitic holder.
-			return ["d_iceland"];
-		}
-		return ["d_iceland", "c_faereyar"];
-	}
-
-	private (bool generateHermits, IEnumerable<string> faithCandidates, string cultureId, Queue<string> namePool) DetermineIcelandAndFaroeRulerSetup(int year, Date bookmarkDate) {
-		switch (year) {
-			case <= 300:
-				UsePaganRulersForIcelandAndFaroeIslands(out var paganFaithCandidates, out var paganCultureId, out var paganNamePool);
-				return (true, paganFaithCandidates, paganCultureId, paganNamePool);
-			case < 874:
-				return DeterminePaparRulerSetup(bookmarkDate);
-			default:
-				// Let CK3 use rulers from its history.
-				Logger.Info("Keeping Iceland and Faroe Islands as is in history...");
-				return (false, [], "irish", new Queue<string>());
-		}
-	}
-
-	private (bool generateHermits, IEnumerable<string> faithCandidates, string cultureId, Queue<string> namePool) DeterminePaparRulerSetup(Date bookmarkDate) {
-		IEnumerable<string> faithCandidates = new OrderedSet<string> { "insular_celtic", "catholic", "orthodox", "chalcedonian", "nicene" };
-		var christianFaiths = Religions.TryGetValue("christianity_religion", out var christianityReligion) ? christianityReligion.Faiths : [];
-		const string defaultCultureId = "irish";
-		var sourceProvince = FindPaparSourceProvince(bookmarkDate, christianFaiths);
-		if (sourceProvince is null) {
-			// Give up and create a pagan ruler.
-			UsePaganRulersForIcelandAndFaroeIslands(out var paganFaithCandidates, out var paganCultureId, out var paganNamePool);
-			return (true, paganFaithCandidates, paganCultureId, paganNamePool);
-		}
-
-		var sourceFaithId = sourceProvince.GetFaithId(bookmarkDate)!;
-		faithCandidates = faithCandidates.Prepend(sourceFaithId);
-		Logger.Info("Giving Iceland and Faroe Islands to Papar...");
-		return (true, faithCandidates, sourceProvince.GetCultureId(bookmarkDate) ?? defaultCultureId, new Queue<string>(["Canann", "Petair", "Fergus"]));
-	}
-
-	private Province? FindPaparSourceProvince(Date bookmarkDate, IdObjectCollection<string, Faith> christianFaiths) {
-		// If there is at least one Irish Christian county, give it to the Irish Papar.
-		// If there is at least one Christian county of another Gaelic culture, give it to a character of this Gaelic culture.
-		foreach (var potentialCultureId in new[] { "irish", "gaelic" }) {
-			var sourceProvince = Provinces.FirstOrDefault(p => p.GetCultureId(bookmarkDate) == potentialCultureId && ProvinceHasChristianFaith(p, bookmarkDate, christianFaiths));
-			if (sourceProvince is not null) {
-				return sourceProvince;
-			}
-		}
-
-		// If all the Gaels are pagan but at least one province in Ireland or Scotland is Christian,
-		// give the handled titles to a generated ruler of the same culture as that Christian province.
-		return Provinces.FirstOrDefault(p =>
-			(CK3RegionMapper.ProvinceIsInRegion(p.Id, "custom_ireland") || CK3RegionMapper.ProvinceIsInRegion(p.Id, "custom_scotland")) &&
-			ProvinceHasChristianFaith(p, bookmarkDate, christianFaiths));
-	}
-
-	private static bool ProvinceHasChristianFaith(Province province, Date bookmarkDate, IdObjectCollection<string, Faith> christianFaiths) {
-		var faithId = province.GetFaithId(bookmarkDate);
-		return faithId is not null && christianFaiths.ContainsKey(faithId);
 	}
 
 	private void UsePaganRulersForIcelandAndFaroeIslands(out IEnumerable<string> faithCandidates, out string cultureId, out Queue<string> namePool) {
@@ -1161,25 +1203,6 @@ internal sealed class World {
 	private void GenerateFillerHoldersForUnownedLands(Imperator.Provinces.ProvinceCollection irProvinces, CultureCollection cultures, Configuration config) {
 		Logger.Info("Generating filler holders for unowned lands...");
 		var date = config.CK3BookmarkDate;
-		var unheldCounties = GetUnheldCounties(irProvinces, date);
-
-		var duchyIdToHolderDict = new Dictionary<string, Character>();
-
-		foreach (var county in unheldCounties) {
-			if (TryReuseExistingFillerDuke(county, config, duchyIdToHolderDict, date)) {
-				continue;
-			}
-
-			var candidateProvinces = GetCandidateProvincesForFillerHolder(county);
-			var pseudoRandomSeed = GetFillerHolderSeed(county, candidateProvinces);
-			var culture = DetermineFillerHolderCulture(county, candidateProvinces, cultures, date);
-			var faithId = DetermineFillerHolderFaith(county, candidateProvinces, date);
-			var holder = CreateFillerHolder(county, culture, faithId, date, pseudoRandomSeed);
-			AssignFillerHolder(county, holder, config.FillerDukes, duchyIdToHolderDict, date);
-		}
-	}
-
-	private List<Title> GetUnheldCounties(Imperator.Provinces.ProvinceCollection irProvinces, Date date) {
 		List<Title> unheldCounties = [];
 		foreach (var county in LandedTitles.Counties) {
 			if (county.NobleFamily == true) {
@@ -1189,7 +1212,8 @@ internal sealed class World {
 			// If the county's provinces are have no owners in Imperator,
 			// // generate a filler holder even if a valid vanilla holder exists.
 			// This fixes stuff like a vanilla Tang China in one county.
-			var irProvIds = county.CountyProvinceIds.SelectMany(id => provinceMapper.GetImperatorProvinceNumbers(id)).ToArray();
+			var irProvIds = county.CountyProvinceIds
+				.SelectMany(id => provinceMapper.GetImperatorProvinceNumbers(id)).ToArray();
 			if (irProvIds.Length > 0 && irProvIds.All(p => !irProvinces.TryGetValue(p, out var irProv) || irProv.OwnerCountry is null)) {
 				Logger.Debug($"Adding {county.Id} to unheld counties because all its provinces are mapped to I:R wastelands.");
 				unheldCounties.Add(county);
@@ -1199,159 +1223,153 @@ internal sealed class World {
 			var holderId = county.GetHolderId(date);
 			if (holderId == "0") {
 				unheldCounties.Add(county);
-			} else if (Characters.TryGetValue(holderId, out var holder) && holder.DeathDate is not null && holder.DeathDate <= date) {
-				Logger.Debug($"Adding {county.Id} to unheld counties because holder {holderId} is dead.");
-				unheldCounties.Add(county);
+			} else if (Characters.TryGetValue(holderId, out var holder)) {
+				if (holder.DeathDate is not null && holder.DeathDate <= date) {
+					Logger.Debug($"Adding {county.Id} to unheld counties because holder {holderId} is dead.");
+					unheldCounties.Add(county);
+				}
 			}
 		}
-		return unheldCounties;
-	}
 
-	private bool TryReuseExistingFillerDuke(Title county, Configuration config, Dictionary<string, Character> duchyIdToHolderDict, Date date) {
-		if (!config.FillerDukes) {
-			return false;
-		}
+		var duchyIdToHolderDict = new Dictionary<string, Character>();
 
-		var duchy = county.DeJureLiege;
-		if (duchy is null || duchy.Rank != TitleRank.duchy || !duchyIdToHolderDict.TryGetValue(duchy.Id, out var duchyHolder)) {
-			return false;
-		}
-
-		county.SetHolder(duchyHolder, date);
-		return true;
-	}
-
-	private OrderedSet<Province> GetCandidateProvincesForFillerHolder(Title county) {
-		var candidateProvinces = new OrderedSet<Province>();
-		if (county.CapitalBaronyProvinceId is not null && Provinces.TryGetValue(county.CapitalBaronyProvinceId.Value, out var capitalProvince)) {
-			// Give priority to capital province.
-			candidateProvinces.Add(capitalProvince);
-		}
-
-		var allCountyProvinces = county.CountyProvinceIds
-			.Select(id => Provinces.TryGetValue(id, out var province) ? province : null)
-			.Where(p => p is not null)
-			.Select(p => p!);
-		candidateProvinces.UnionWith(allCountyProvinces);
-		return candidateProvinces;
-	}
-
-	private static int GetFillerHolderSeed(Title county, OrderedSet<Province> candidateProvinces) {
-		if (candidateProvinces.Count != 0) {
-			return (int)candidateProvinces.First().Id;
-		}
-
-		// Use county ID for seed if no province is available.
-		return county.Id.Aggregate(0, (current, c) => current + c);
-	}
-
-	private Culture DetermineFillerHolderCulture(Title county, OrderedSet<Province> candidateProvinces, CultureCollection cultures, Date date) {
-		// Determine culture of the holder.
-		var culture = candidateProvinces.Select(p => p.GetCulture(date, cultures)).FirstOrDefault(c => c is not null);
-		if (culture is not null) {
-			return culture;
-		}
-
-		Logger.Debug($"Trying to use de jure duchy for culture of holder for {county.Id}...");
-		var deJureDuchy = county.DeJureLiege;
-		if (deJureDuchy is not null) {
-			culture = Provinces.Where(p => deJureDuchy.DuchyContainsProvince(p.Id)).Select(p => p.GetCulture(date, cultures)).FirstOrDefault(c => c is not null);
-		}
-		if (culture is null && deJureDuchy?.DeJureLiege is not null) {
-			Logger.Debug($"Trying to use de jure kingdom for culture of holder for {county.Id}...");
-			var deJureKingdom = deJureDuchy.DeJureLiege;
-			culture = Provinces.Where(p => deJureKingdom.KingdomContainsProvince(p.Id)).Select(p => p.GetCulture(date, cultures)).FirstOrDefault(c => c is not null);
-		}
-		if (culture is not null) {
-			return culture;
-		}
-
-		Logger.Warn($"Found no fitting culture for generated holder of {county.Id}, using first culture from database!");
-		return cultures.First();
-	}
-
-	private string DetermineFillerHolderFaith(Title county, OrderedSet<Province> candidateProvinces, Date date) {
-		// Determine faith of the holder.
-		var faithId = candidateProvinces.Select(p => p.GetFaithId(date)).FirstOrDefault(f => f is not null);
-		if (faithId is not null) {
-			return faithId;
-		}
-
-		Logger.Debug($"Trying to use de jure duchy for faith of holder for {county.Id}...");
-		var deJureDuchy = county.DeJureLiege;
-		if (deJureDuchy is not null) {
-			faithId = Provinces.Where(p => deJureDuchy.DuchyContainsProvince(p.Id)).Select(p => p.GetFaithId(date)).FirstOrDefault(f => f is not null);
-		}
-		if (faithId is null && deJureDuchy?.DeJureLiege is not null) {
-			Logger.Debug($"Trying to use de jure kingdom for faith of holder for {county.Id}...");
-			var deJureKingdom = deJureDuchy.DeJureLiege;
-			faithId = Provinces.Where(p => deJureKingdom.KingdomContainsProvince(p.Id)).Select(p => p.GetFaithId(date)).FirstOrDefault(f => f is not null);
-		}
-		if (faithId is not null) {
-			return faithId;
-		}
-
-		Logger.Warn($"Found no fitting faith for generated holder of {county.Id}, using first faith from database!");
-		return Religions.Faiths.First().Id;
-	}
-
-	private Character CreateFillerHolder(Title county, Culture culture, string faithId, Date date, int pseudoRandomSeed) {
-		var (female, name) = GetFillerHolderName(culture, pseudoRandomSeed);
-		int age = 18 + (pseudoRandomSeed % 60);
-		var holder = new Character($"IRToCK3_{county.Id}_holder", name, date, Characters) {
-			FromImperator = true,
-			Female = female,
-			BirthDate = date.ChangeByYears(-age)
-		};
-		holder.SetFaithId(faithId, null);
-		holder.SetCultureId(culture.Id, null);
-		holder.History.AddFieldValue(holder.BirthDate, "effects", "effect", "{ set_variable = irtock3_uncolonized_filler }");
-		Characters.AddOrReplace(holder);
-		return holder;
-	}
-
-	private static (bool female, string name) GetFillerHolderName(Culture culture, int pseudoRandomSeed) {
-		var maleNames = culture.MaleNames.ToImmutableList();
-		if (maleNames.Count > 0) {
-			return (false, maleNames[pseudoRandomSeed % maleNames.Count]);
-		}
-
-		var femaleNames = culture.FemaleNames.ToImmutableList();
-		return (true, femaleNames[pseudoRandomSeed % femaleNames.Count]);
-	}
-
-	private void AssignFillerHolder(Title county, Character holder, bool fillerDukesEnabled, Dictionary<string, Character> duchyIdToHolderDict, Date date) {
-		var government = GetGeneratedHolderGovernment(county, date);
-		county.SetHolder(holder, date);
-		if (fillerDukesEnabled) {
-			var duchy = county.DeJureLiege;
-			if (duchy is null || duchy.Rank != TitleRank.duchy) {
-				return;
+		foreach (var county in unheldCounties) {
+			if (config.FillerDukes) {
+				var duchy = county.DeJureLiege;
+				if (duchy is not null && duchy.Rank == TitleRank.duchy) {
+					if (duchyIdToHolderDict.TryGetValue(duchy.Id, out var duchyHolder)) {
+						county.SetHolder(duchyHolder, date);
+						continue;
+					}
+				}
 			}
 
-			duchy.SetHolder(holder, date);
-			duchy.SetGovernment(government, date);
-			duchy.SetDeFactoLiege(newLiege: null, date);
-			duchyIdToHolderDict[duchy.Id] = holder;
-		} else {
-			county.SetGovernment(government, date);
+			var candidateProvinces = new OrderedSet<Province>();
+			if (county.CapitalBaronyProvinceId is not null) {
+				// Give priority to capital province.
+				if (Provinces.TryGetValue(county.CapitalBaronyProvinceId.Value, out var capitalProvince)) {
+					candidateProvinces.Add(capitalProvince);
+				}
+			}
+
+			var allCountyProvinces = county.CountyProvinceIds
+				.Select(id => Provinces.TryGetValue(id, out var province) ? province : null)
+				.Where(p => p is not null)
+				.Select(p => p!);
+			candidateProvinces.UnionWith(allCountyProvinces);
+
+			int pseudoRandomSeed;
+			if (candidateProvinces.Count != 0) {
+				pseudoRandomSeed = (int)candidateProvinces.First().Id;
+			} else {
+				// Use county ID for seed if no province is available.
+				pseudoRandomSeed = county.Id.Aggregate(0, (current, c) => current + c);
+			}
+			
+			// Determine culture of the holder.
+			var culture = candidateProvinces
+				.Select(p => p.GetCulture(date, cultures))
+				.FirstOrDefault(c => c is not null);
+			if (culture is null) {
+				Logger.Debug($"Trying to use de jure duchy for culture of holder for {county.Id}...");
+				var deJureDuchy = county.DeJureLiege;
+				if (deJureDuchy is not null) {
+					culture = Provinces
+						.Where(p => deJureDuchy.DuchyContainsProvince(p.Id))
+						.Select(p => p.GetCulture(date, cultures))
+						.FirstOrDefault(c => c is not null);
+				}
+				if (culture is null && deJureDuchy?.DeJureLiege is not null) {
+					Logger.Debug($"Trying to use de jure kingdom for culture of holder for {county.Id}...");
+					var deJureKingdom = deJureDuchy.DeJureLiege;
+					culture = Provinces
+						.Where(p => deJureKingdom.KingdomContainsProvince(p.Id))
+						.Select(p => p.GetCulture(date, cultures))
+						.FirstOrDefault(c => c is not null);
+				}
+				if (culture is null) {
+					Logger.Warn($"Found no fitting culture for generated holder of {county.Id}, " +
+					            "using first culture from database!");
+					culture = cultures.First();
+				}
+			}
+			
+			// Determine faith of the holder.
+			var faithId = candidateProvinces
+				.Select(p => p.GetFaithId(date))
+				.FirstOrDefault(f => f is not null);
+			if (faithId is null) {
+				Logger.Debug($"Trying to use de jure duchy for faith of holder for {county.Id}...");
+				var deJureDuchy = county.DeJureLiege;
+				if (deJureDuchy is not null) {
+					faithId = Provinces
+						.Where(p => deJureDuchy.DuchyContainsProvince(p.Id))
+						.Select(p => p.GetFaithId(date))
+						.FirstOrDefault(f => f is not null);
+				}
+				if (faithId is null && deJureDuchy?.DeJureLiege is not null) {
+					Logger.Debug($"Trying to use de jure kingdom for faith of holder for {county.Id}...");
+					var deJureKingdom = deJureDuchy.DeJureLiege;
+					faithId = Provinces
+						.Where(p => deJureKingdom.KingdomContainsProvince(p.Id))
+						.Select(p => p.GetFaithId(date))
+						.FirstOrDefault(f => f is not null);
+				}
+				if (faithId is null) {
+					Logger.Warn($"Found no fitting faith for generated holder of {county.Id}, " +
+					            "using first faith from database!");
+					faithId = Religions.Faiths.First().Id;
+				}
+			}
+
+			bool female = false;
+			string name;
+			var maleNames = culture.MaleNames.ToImmutableList();
+			if (maleNames.Count > 0) {
+				name = maleNames[pseudoRandomSeed % maleNames.Count];
+			} else { // Generate a female if no male name is available.
+				female = true;
+				var femaleNames = culture.FemaleNames.ToImmutableList();
+				name = femaleNames[pseudoRandomSeed % femaleNames.Count];
+			}
+			int age = 18 + (pseudoRandomSeed % 60);
+			var holder = new Character($"IRToCK3_{county.Id}_holder", name, date, Characters) {
+				FromImperator = true,
+				Female = female,
+				BirthDate = date.ChangeByYears(-age)
+			};
+			holder.SetFaithId(faithId, null);
+			holder.SetCultureId(culture.Id, null);
+			holder.History.AddFieldValue(holder.BirthDate, "effects", "effect", "{ set_variable = irtock3_uncolonized_filler }");
+			Characters.AddOrReplace(holder);
+
+			var countyHoldingTypes = county.CountyProvinceIds
+				.Select(id => Provinces.TryGetValue(id, out var province) ? province : null)
+				.Where(p => p is not null)
+				.Select(p => p!.GetHoldingType(date))
+				.Where(t => t is not null)
+				.Select(t => t!)
+				.ToFrozenSet();
+			string government = countyHoldingTypes.Contains("castle_holding")
+				? "feudal_government"
+				: "tribal_government";
+
+			county.SetHolder(holder, date);
+			if (config.FillerDukes) {
+				var duchy = county.DeJureLiege;
+				if (duchy is null || duchy.Rank != TitleRank.duchy) {
+					continue;
+				}
+
+				duchy.SetHolder(holder, date);
+				duchy.SetGovernment(government, date);
+				duchy.SetDeFactoLiege(newLiege: null, date);
+				duchyIdToHolderDict[duchy.Id] = holder;
+			} else {
+				county.SetGovernment(government, date);
+			}
+			county.SetDeFactoLiege(newLiege: null, date);
 		}
-		county.SetDeFactoLiege(newLiege: null, date);
-	}
-
-	private FrozenSet<string> GetGeneratedHolderGovernmentTypes(Title county, Date date) {
-		return county.CountyProvinceIds
-			.Select(id => Provinces.TryGetValue(id, out var province) ? province : null)
-			.Where(p => p is not null)
-			.Select(p => p!.GetHoldingType(date))
-			.Where(t => t is not null)
-			.Select(t => t!)
-			.ToFrozenSet();
-	}
-
-	private string GetGeneratedHolderGovernment(Title county, Date date) {
-		var countyHoldingTypes = GetGeneratedHolderGovernmentTypes(county, date);
-		return countyHoldingTypes.Contains("castle_holding") ? "feudal_government" : "tribal_government";
 	}
 
 	private void DetermineCK3Dlcs(Configuration config) {
