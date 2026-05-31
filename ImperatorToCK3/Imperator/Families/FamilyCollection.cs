@@ -1,4 +1,4 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using ImperatorToCK3.Imperator.Characters;
 using System;
@@ -53,7 +53,6 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 			Logger.IncrementProgress();
 			return;
 		}
-
 
 		var (familyIdsEligibleForMerging, memberIdToFamily, disjointSet) = BuildFamilyMergeState(familiesPerKey);
 		UnionEligibleFamilies(characters, familyIdsEligibleForMerging, memberIdToFamily, disjointSet);
