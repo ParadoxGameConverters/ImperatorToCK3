@@ -128,6 +128,7 @@ public static class RakalyCaller {
 		}
 
 		if (stdErrText.Contains("Failed to create melted file")) {
+			// Try to copy the file to the converter's temp folder before melting.
 			const string fallbackSavePath = "temp/save_to_be_melted.rome";
 			if (savePath != fallbackSavePath) {
 				File.Copy(savePath, fallbackSavePath, overwrite: true);
@@ -145,6 +146,7 @@ public static class RakalyCaller {
 	private static void FinalizeMeltedSave(string savePath) {
 		string savePathWithoutExtension = CommonFunctions.TrimExtension(savePath);
 		string meltedSavePath;
+		// If savePathWithoutExtension ends with a slash, it means the basename is empty.
 		if (savePathWithoutExtension.EndsWith('/') || savePathWithoutExtension.EndsWith('\\')) {
 			meltedSavePath = savePathWithoutExtension + "melted.rome";
 		} else {
@@ -152,6 +154,7 @@ public static class RakalyCaller {
 		}
 
 		const string destFileName = "temp/melted_save.rome";
+		// First, delete target file if exists, as File.Move() does not support overwrite.
 		if (File.Exists(destFileName)) {
 			FileHelper.DeleteWithRetries(destFileName);
 		}

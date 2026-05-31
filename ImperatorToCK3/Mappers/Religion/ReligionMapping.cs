@@ -58,6 +58,7 @@ internal sealed class ReligionMapping {
 		Configuration config,
 		ImperatorRegionMapper imperatorRegionMapper,
 		CK3RegionMapper ck3RegionMapper) {
+		// We need at least a viable Imperator religion.
 		if (!BasicCriteriaMatch(irReligion, irHistoricalTag, config) || !CultureMatches(ck3CultureId)) {
 			return null;
 		}
@@ -104,6 +105,7 @@ internal sealed class ReligionMapping {
 	}
 
 	private bool CultureMatches(string? ck3CultureId) {
+		// If a mapping expects one of a given set of CK3 cultures, the provided one must match them.
 		if (ck3CultureIds.Count == 0) {
 			return true;
 		}
@@ -116,13 +118,17 @@ internal sealed class ReligionMapping {
 			return false;
 		}
 
+		// This is a CK3 provinces check.
 		if (ck3Provinces.Contains(ck3ProvinceId.Value)) {
 			return true;
 		}
 
+		// This is a CK3 regions check, it checks if provided ck3Province is within the mapping's ck3Regions.
 		foreach (var region in ck3Regions) {
 			if (!ck3RegionMapper.RegionNameIsValid(region)) {
 				Logger.Warn($"Checking for religion {irReligion} inside invalid CK3 region: {region}! Fix the mapping rules!");
+				// We could say this was a match, and thus pretend this region entry doesn't exist, but it's better
+				// for the converter to explode across the logs with invalid names. So, continue.
 				continue;
 			}
 			if (ck3RegionMapper.ProvinceIsInRegion(ck3ProvinceId.Value, region)) {
@@ -138,10 +144,12 @@ internal sealed class ReligionMapping {
 			return false;
 		}
 
+		// This is an Imperator provinces check.
 		if (irProvinceIds.Contains(irProvinceId.Value)) {
 			return true;
 		}
 
+		// This is an Imperator regions check, it checks if provided irProvinceId is within the mapping's imperatorRegions.
 		foreach (var region in imperatorRegions) {
 			if (!imperatorRegionMapper.RegionNameIsValid(region)) {
 				continue;

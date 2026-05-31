@@ -925,11 +925,17 @@ internal sealed partial class Title {
 
 			var nonCapitalBaronies = eligibleBaronies.Except(countyCapitalBaronies).OrderBy(b => b.Id).ToArray();
 
+			// In CK3, a county holder shouldn't own baronies in counties that are not their own.
+			// This dictionary tracks what counties are held by what characters.
 			Dictionary<string, HashSet<string>> countiesPerCharacter = []; // characterId -> countyIds
 
+			// Evaluate all capital baronies first (we want to distribute counties first, then baronies).
 			counter += ProcessCountyCapitalBaronies(countyCapitalBaronies, ck3Provinces, irCharacters, conversionDate, dukeAndAboveIds, countiesPerCharacter);
 
+			// In CK3, a baron that doesn't own counties can only hold a single barony.
+			// This dictionary IDs of such barons that already hold a barony.
 			HashSet<string> baronyHolderIds = [];
+			// After all possible county capital baronies are distributed, distribute the rest of the eligible baronies.
 			counter += ProcessNonCapitalBaronies(nonCapitalBaronies, ck3Provinces, irCharacters, conversionDate, dukeAndAboveIds, countiesPerCharacter, baronyHolderIds);
 			Logger.Info($"Imported {counter} holdings from I:R.");
 			Logger.IncrementProgress();
@@ -939,6 +945,7 @@ internal sealed partial class Title {
 			var importedCount = 0;
 			foreach (var barony in countyCapitalBaronies) {
 				var ck3Province = GetBaronyProvince(barony, ck3Provinces);
+				// Skip none holdings and temple holdings.
 				if (ck3Province is null || ck3Province.GetHoldingType(conversionDate) is "church_holding" or "none") {
 					continue;
 				}
@@ -954,6 +961,7 @@ internal sealed partial class Title {
 					continue;
 				}
 
+				// Barony is a county capital, so set the county holder to the holding owner.
 				county.SetHolder(ck3Owner, conversionDate);
 				county.SetDeFactoLiege(GetDeFactoLiegeForCountyCapital(barony, ck3Owner, conversionDate), conversionDate);
 				if (!countiesPerCharacter.TryGetValue(ck3Owner.Id, out var countyIds)) {
@@ -969,6 +977,7 @@ internal sealed partial class Title {
 			var importedCount = 0;
 			foreach (var barony in nonCapitalBaronies) {
 				var ck3Province = GetBaronyProvince(barony, ck3Provinces);
+				// Skip none holdings and temple holdings.
 				if (ck3Province is null || ck3Province.GetHoldingType(conversionDate) is "church_holding" or "none") {
 					continue;
 				}
@@ -983,11 +992,13 @@ internal sealed partial class Title {
 					Logger.Warn($"Barony {barony.Id} has no de jure county!");
 					continue;
 				}
+				// A non-capital barony cannot be held by a character that owns a county but not the county the barony is in.
 				if (countiesPerCharacter.TryGetValue(ck3Owner.Id, out var countyIds) && !countyIds.Contains(county.Id)) {
 					continue;
 				}
 
 				barony.SetHolder(ck3Owner, conversionDate);
+				// No need to set de facto liege for baronies, they are tied to counties.
 				baronyHolderIds.Add(ck3Owner.Id);
 				++importedCount;
 			}
@@ -1131,6 +1142,8 @@ internal sealed partial class Title {
 					continue;
 				}
 
+				// If capital county belongs to an empire and contains the empire's capital,
+				// create a kingdom from the duchy and make the empire a de jure liege of the kingdom.
 				var capitalEmpireRealm = duchy.CapitalCounty?.GetRealmOfRank(TitleRank.empire, ck3BookmarkDate);
 				var duchyCounties = duchy.GetDeJureVassalsAndBelow("c").Values;
 				if (capitalEmpireRealm is not null && duchyCounties.Any(c => c.Id.Equals(capitalEmpireRealm.CapitalCountyId, StringComparison.Ordinal))) {
@@ -1138,12 +1151,14 @@ internal sealed partial class Title {
 					continue;
 				}
 				
+				// If capital county belongs to a kingdom, make the kingdom a de jure liege of the duchy.
 				var capitalKingdomRealm = duchy.CapitalCounty?.GetRealmOfRank(TitleRank.kingdom, ck3BookmarkDate);
 				if (capitalKingdomRealm is not null) {
 					duchy.DeJureLiege = capitalKingdomRealm;
 					continue;
 				}
 
+				// Otherwise, use the kingdom that owns the biggest percentage of the duchy.
 				var kingdomByLargestLandShare = GetKingdomByLargestLandShare(duchyCounties, ck3BookmarkDate);
 				if (kingdomByLargestLandShare is not null) {
 					duchy.DeJureLiege = kingdomByLargestLandShare;

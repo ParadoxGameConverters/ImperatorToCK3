@@ -836,6 +836,7 @@ internal sealed class Character : IIdentifiable<string> {
 			return irLeader;
 		}
 
+		// Use country ruler.
 		return irCountries[unit.CountryId].Monarch;
 	}
 
@@ -866,6 +867,7 @@ internal sealed class Character : IIdentifiable<string> {
 
 		string unitScopeId = $"ir_unit_{unit.Id}";
 		if (ck3Leader is not null) {
+			// Will have no effect if army is not actually spawned (see spawn_army explanation on CK3 wiki).
 			sb.AppendLine($"\t\t\tsave_temporary_scope_as={unitScopeId}");
 		}
 

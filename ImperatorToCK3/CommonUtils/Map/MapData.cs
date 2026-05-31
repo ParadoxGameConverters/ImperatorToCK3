@@ -119,6 +119,8 @@ internal sealed class MapData {
 
 	private void GroupStaticWaterProvinces() {
 		Logger.Debug("Grouping static water provinces into water bodies...");
+		// We want connected components of the static-water-only adjacency graph.
+		// Use the lowest province ID in each component as the water body ID.
 		var staticWaterProvinceIds = GetStaticWaterProvinceIds();
 		if (staticWaterProvinceIds.Length == 0) {
 			return;
@@ -169,6 +171,7 @@ internal sealed class MapData {
 	}
 
 	private void UnionAdjacentStaticWaterProvinces(ulong[] staticWaterProvinceIds, Dictionary<ulong, int> idToIndex, int[] parent, int[] size) {
+		// Union static water provinces connected by neighbor relations.
 		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
 			var provinceId = staticWaterProvinceIds[i];
 			if (!NeighborsDict.TryGetValue(provinceId, out var neighbors)) {
@@ -183,6 +186,7 @@ internal sealed class MapData {
 	}
 
 	private static ulong[] GetMinimumProvinceIdsByRoot(ulong[] staticWaterProvinceIds, int[] parent) {
+		// Determine the minimum province ID for each component root.
 		var minIdByRoot = new ulong[staticWaterProvinceIds.Length];
 		Array.Fill(minIdByRoot, ulong.MaxValue);
 		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {

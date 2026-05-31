@@ -417,6 +417,7 @@ internal partial class World {
 			Logger.Warn($"Failed to extract dynamic coats of arms: {e.Message}");
 			Logger.Debug(e.ToString());
 		} finally {
+			// Always restore the original configuration files, regardless of extraction success or failure
 			RestoreImperatorConfigurationFiles(config);
 		}
 	}
@@ -424,8 +425,11 @@ internal partial class World {
 	private void RestoreImperatorConfigurationFiles(Configuration config) {
 		var continueGamePath = Path.Join(config.ImperatorDocPath, "continue_game.json");
 		var dlcLoadPath = Path.Join(config.ImperatorDocPath, "dlc_load.json");
+		// Restore continue_game.json
 		RestoreBackupFile(continueGamePath, continueGamePath + ".backup", "continue_game.json", logFileInUseDiagnostics: true);
+		// Restore dlc_load.json
 		RestoreBackupFile(dlcLoadPath, dlcLoadPath + ".backup", "dlc_load.json", logFileInUseDiagnostics: false);
+		// Remove the staged melted save (if any) that was placed in the Imperator save games folder.
 		CleanupStagedMeltedSave();
 	}
 

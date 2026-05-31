@@ -435,12 +435,14 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 				continue;
 			}
 
+			// The caste is hereditary.
 			var inheritedCaste = GetInheritedCasteTrait(character);
 			if (inheritedCaste is not null) {
 				character.AddBaseTrait(inheritedCaste);
 				continue;
 			}
 
+			// Try to set caste based on character's traits.
 			character.AddBaseTrait(HasAnyTrait(character.BaseTraits, learningEducationTraits) ? "brahmin" : "kshatriya");
 		}
 	}
@@ -557,7 +559,11 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	internal void PurgeUnneededCharacters(Title.LandedTitles titles, DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
 		Logger.Info("Purging unneeded characters...");
 
+		// Characters from CK3 that hold titles at the bookmark date should be kept.
+		// Characters from I:R should be kept (the unimportant ones have already been purged during I:R processing).
+		// Also keep landed, animation test, and script-protected characters.
 		var (landedCharacters, charactersToCheck) = ClassifyCharactersForPurge(titles, ck3BookmarkDate);
+		// Members of landed dynasties will be preserved, unless dead and childless.
 		var dynastyIdsOfLandedCharacters = GetDynastyIdsOfLandedCharacters(landedCharacters, ck3BookmarkDate);
 
 		int i = 0;
@@ -590,6 +596,8 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			}
 		} while (charactersToRemove.Count > 0);
 
+		// At this point we probably have many dynasties with no characters left.
+		// Let's purge them.
 		PurgeEmptyDynastyContainers(dynasties, houses, ck3BookmarkDate);
 	}
 
