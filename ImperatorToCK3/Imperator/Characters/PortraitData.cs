@@ -31,7 +31,7 @@ internal sealed class PortraitData {
 		try {
 			decodedDnaStr = Convert.FromBase64String(dnaString);
 		} catch (FormatException) {
-			Logger.Error($"Invalid DNA base64 string for portrait: '{dnaString}'. Attempting to sanitize and recover...");
+			Logger.Warn($"Invalid DNA base64 string for portrait: '{dnaString}'. Attempting to sanitize and recover...");
 
 			// Try to recover from common issues: whitespace, URL-safe base64, missing padding,
 			// or stray characters. If recovery fails, skip portrait parsing instead of crashing.
