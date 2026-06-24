@@ -26,7 +26,7 @@ jobs:
       with:
         global-json-file: global.json
     - name: "Cache NuGet packages"
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: ${{ env.NUGET_PACKAGES }}
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
@@ -76,7 +76,7 @@ jobs:
       with:
         global-json-file: global.json
     - name: "Cache NuGet packages"
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: ${{ env.NUGET_PACKAGES }}
         key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
