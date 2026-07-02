@@ -379,8 +379,30 @@ internal partial class World {
 		Logger.Info("Finished reading CoAs from I:R game.log.");
 	}
 
+	private static bool PathContainsCyrillicCharacters(string? path) {
+		if (string.IsNullOrEmpty(path)) {
+			return false;
+		}
+
+		foreach (var character in path) {
+			if ((character >= '\u0400' && character <= '\u04FF') ||
+			    (character >= '\u0500' && character <= '\u052F') ||
+			    (character >= '\u2DE0' && character <= '\u2DFF') ||
+			    (character >= '\uA640' && character <= '\uA69F')) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	private void ExtractDynamicCoatsOfArms(Configuration config) {
 		try {
+			if (PathContainsCyrillicCharacters(config.ImperatorDocPath)) {
+				Logger.Warn("Skipping dynamic CoA extraction because it won't work due to the I:R documents path containing Cyrillic characters.");
+				return;
+			}
+
 			if (Process.GetProcessesByName("imperator").Length != 0) {
 				throw new UserErrorException("Imperator: Rome is running! Please close the game before running the converter with dynamic CoA extraction enabled.");
 			}
