@@ -64,7 +64,7 @@ jobs:
     - name: "Setup Dotnet for use with actions"
       # don't run on self-hosted Windows
       if: ${{ !contains(toJSON(matrix.os), 'windows') || !contains(toJSON(matrix.os), 'self-hosted') }}
-      uses: actions/setup-dotnet@v5
+      uses: actions/setup-dotnet@v6
       with:
         #global-json-file: Fronter.NET/global.json
         global-json-file: global.json
@@ -90,7 +90,7 @@ jobs:
         BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
         BACKBLAZE_BUCKET_ID: ${{ secrets.BACKBLAZE_BUCKET_ID }}
     # - name: Setup Dotnet for use with actions
-    #   uses: actions/setup-dotnet@v5
+    #   uses: actions/setup-dotnet@v6
     #   with:
     #     global-json-file: global.json
     - name: "Build backend"
