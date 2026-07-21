@@ -79,7 +79,7 @@ jobs:
           ${{ runner.os }}-nuget-
     - name: "Setup Python for updater cache"
       if: matrix.build != 'win-x64'
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@v7
       with:
         python-version: '3.12'
         cache: 'pip'
