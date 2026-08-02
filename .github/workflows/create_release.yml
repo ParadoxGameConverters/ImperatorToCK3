@@ -67,7 +67,7 @@ jobs:
         cd ImperatorToCK3/Data_Files/configurables
         printf "\nversion = ${{ needs.create_release.outputs.tag }}" >> version.txt
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v5
+      uses: actions/setup-dotnet@v6
       with:
         global-json-file: Fronter.NET/global.json
     - name: "Cache NuGet packages"
@@ -79,7 +79,7 @@ jobs:
           ${{ runner.os }}-nuget-
     - name: "Setup Python for updater cache"
       if: matrix.build != 'win-x64'
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@v7
       with:
         python-version: '3.12'
         cache: 'pip'
@@ -100,7 +100,7 @@ jobs:
         BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
         BACKBLAZE_BUCKET_ID: ${{ secrets.BACKBLAZE_BUCKET_ID }}
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v5
+      uses: actions/setup-dotnet@v6
       with:
         global-json-file: global.json
     - name: "Build backend"
@@ -210,7 +210,7 @@ jobs:
     - name: "Upload installer for Windows"
       id: upload-installer
       if: matrix.build == 'win-x64'
-      uses: alexellis/upload-assets@0.4.1
+      uses: alexellis/upload-assets@0.5.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -226,7 +226,7 @@ jobs:
     - name: "Upload release zip"
       id: upload-release-zip
       if: matrix.build != 'win-x64'
-      uses: alexellis/upload-assets@0.4.1
+      uses: alexellis/upload-assets@0.5.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
