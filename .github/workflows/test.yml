@@ -27,20 +27,38 @@ jobs:
       with:
         global-json-file: global.json
 
-    - name: "Detect dotnet on self-hosted Linux"
-      if: ${{ runner.environment == 'self-hosted' && runner.os == 'Linux' }}
+    - name: "Locate self-hosted dotnet"
+      if: ${{ runner.environment != 'github-hosted' && runner.os == 'Linux' }}
       shell: bash
       run: |
-        DOTNET_PATH="$(command -v dotnet || true)"
-        if [ -z "$DOTNET_PATH" ]; then
-          echo "dotnet was not found on PATH" >&2
-          exit 1
+        set -euo pipefail
+
+        if command -v dotnet >/dev/null 2>&1; then
+          echo "dotnet is already available on PATH"
+          exit 0
         fi
 
-        DOTNET_ROOT="$(dirname "$(dirname "$(readlink -f "$DOTNET_PATH")")")"
-        echo "Using dotnet from $DOTNET_PATH"
-        echo "DOTNET_ROOT=$DOTNET_ROOT" >> "$GITHUB_ENV"
-        echo "$DOTNET_ROOT" >> "$GITHUB_PATH"
+        for candidate in \
+          "$HOME/.dotnet" \
+          "/home/runner/.dotnet" \
+          "/home/runner2/.dotnet" \
+          "/usr/share/dotnet" \
+          "/usr/local/share/dotnet" \
+          "/opt/dotnet"; do
+          if [ -x "$candidate/dotnet" ]; then
+            echo "Found dotnet at $candidate"
+            export DOTNET_ROOT="$candidate"
+            export PATH="$candidate:$PATH"
+            echo "DOTNET_ROOT=$candidate" >> "$GITHUB_ENV"
+            echo "$candidate" >> "$GITHUB_PATH"
+            break
+          fi
+        done
+
+        if ! command -v dotnet >/dev/null 2>&1; then
+          echo "dotnet was not found in the expected installation locations." >&2
+          exit 1
+        fi
     - name: "Cache NuGet packages"
       uses: actions/cache@v6
       with:
@@ -91,20 +109,38 @@ jobs:
       with:
         global-json-file: global.json
 
-    - name: "Detect dotnet on self-hosted Linux"
-      if: ${{ runner.environment == 'self-hosted' && runner.os == 'Linux' }}
+    - name: "Locate self-hosted dotnet"
+      if: ${{ runner.environment != 'github-hosted' && runner.os == 'Linux' }}
       shell: bash
       run: |
-        DOTNET_PATH="$(command -v dotnet || true)"
-        if [ -z "$DOTNET_PATH" ]; then
-          echo "dotnet was not found on PATH" >&2
-          exit 1
+        set -euo pipefail
+
+        if command -v dotnet >/dev/null 2>&1; then
+          echo "dotnet is already available on PATH"
+          exit 0
         fi
 
-        DOTNET_ROOT="$(dirname "$(dirname "$(readlink -f "$DOTNET_PATH")")")"
-        echo "Using dotnet from $DOTNET_PATH"
-        echo "DOTNET_ROOT=$DOTNET_ROOT" >> "$GITHUB_ENV"
-        echo "$DOTNET_ROOT" >> "$GITHUB_PATH"
+        for candidate in \
+          "$HOME/.dotnet" \
+          "/home/runner/.dotnet" \
+          "/home/runner2/.dotnet" \
+          "/usr/share/dotnet" \
+          "/usr/local/share/dotnet" \
+          "/opt/dotnet"; do
+          if [ -x "$candidate/dotnet" ]; then
+            echo "Found dotnet at $candidate"
+            export DOTNET_ROOT="$candidate"
+            export PATH="$candidate:$PATH"
+            echo "DOTNET_ROOT=$candidate" >> "$GITHUB_ENV"
+            echo "$candidate" >> "$GITHUB_PATH"
+            break
+          fi
+        done
+
+        if ! command -v dotnet >/dev/null 2>&1; then
+          echo "dotnet was not found in the expected installation locations." >&2
+          exit 1
+        fi
     - name: "Cache NuGet packages"
       uses: actions/cache@v6
       with:
