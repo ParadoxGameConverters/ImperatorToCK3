@@ -210,7 +210,7 @@ jobs:
     - name: "Upload installer for Windows"
       id: upload-installer
       if: matrix.build == 'win-x64'
-      uses: alexellis/upload-assets@0.4.1
+      uses: alexellis/upload-assets@0.5.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -226,7 +226,7 @@ jobs:
     - name: "Upload release zip"
       id: upload-release-zip
       if: matrix.build != 'win-x64'
-      uses: alexellis/upload-assets@0.4.1
+      uses: alexellis/upload-assets@0.5.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
