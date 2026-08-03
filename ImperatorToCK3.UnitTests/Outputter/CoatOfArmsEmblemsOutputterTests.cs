@@ -58,12 +58,12 @@ public class CoatOfArmsEmblemsOutputterTests {
 			CreateEmblemDirectories(modRoot);
 			CreateEmblemDirectories(outputModPath);
 
-			var invalidColoredInputPath = Path.Combine(modRoot, "gfx", "coat_of_arms", "colored_emblems", "broken.png");
+			var invalidColoredInputPath = Path.Combine(modRoot, "gfx/coat_of_arms/colored_emblems/broken.png");
 			await File.WriteAllBytesAsync(invalidColoredInputPath, [1, 2, 3, 4, 5], TestContext.Current.CancellationToken);
 
 			await CoatOfArmsEmblemsOutputter.CopyEmblems(outputModPath, new ModFilesystem(modRoot, Array.Empty<Mod>()));
 
-			Assert.False(File.Exists(Path.Combine(outputModPath, "gfx", "coat_of_arms", "colored_emblems", "broken.png")));
+			Assert.False(File.Exists(Path.Combine(outputModPath, "gfx/coat_of_arms/colored_emblems/broken.png")));
 		} finally {
 			TryDeleteDir(tempRoot);
 		}
@@ -75,12 +75,12 @@ public class CoatOfArmsEmblemsOutputterTests {
 	}
 
 	private static void CreateEmblemDirectories(string rootPath) {
-		Directory.CreateDirectory(Path.Combine(rootPath, "gfx", "coat_of_arms", "colored_emblems"));
-		Directory.CreateDirectory(Path.Combine(rootPath, "gfx", "coat_of_arms", "textured_emblems"));
+		Directory.CreateDirectory(Path.Combine(rootPath, "gfx/coat_of_arms/colored_emblems"));
+		Directory.CreateDirectory(Path.Combine(rootPath, "gfx/coat_of_arms/textured_emblems"));
 	}
 
 	private static string CreateTempDir() {
-		var dir = Path.Combine(Path.GetTempPath(), "ImperatorToCK3_UnitTests", "CoatOfArmsEmblemsOutputter", Guid.NewGuid().ToString("N"));
+		var dir = Path.Combine(Path.GetTempPath(), "ImperatorToCK3_UnitTests/CoatOfArmsEmblemsOutputter", Guid.NewGuid().ToString("N"));
 		Directory.CreateDirectory(dir);
 		return dir;
 	}
