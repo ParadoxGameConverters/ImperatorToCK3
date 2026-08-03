@@ -10,6 +10,7 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Outputter;
 
+[Collection("Sequential")]
 public class GeographicalRegionOutputterTests {
 	[Fact]
 	public async Task RegionsAreOutputtedToCanonicalFile() {
@@ -17,7 +18,7 @@ public class GeographicalRegionOutputterTests {
 		try {
 			var ck3Root = CreateCk3RegionFiles(tempRoot);
 			var outputModPath = Path.Combine(tempRoot, "outputMod");
-			Directory.CreateDirectory(Path.Combine(outputModPath, "map_data", "geographical_regions"));
+			Directory.CreateDirectory(Path.Combine(outputModPath, "map_data/geographical_regions"));
 
 			var regionMapper = LoadRegionMapper(ck3Root);
 
