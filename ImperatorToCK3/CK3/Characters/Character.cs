@@ -581,8 +581,21 @@ internal sealed class Character : IIdentifiable<string> {
 		return History.GetFieldValue("faith", date)?.ToString();
 	}
 
-	public OrderedSet<object> GetSpouseIds(Date date) {
-		return History.GetFieldValueAsCollection("spouses", date) ?? new OrderedSet<object>();
+	public OrderedSet<string> GetSpouseIds(Date date) {
+		var idsAsObjects = History.GetFieldValueAsCollection("spouses", date);
+		if (idsAsObjects is null) {
+			return [];
+		}
+
+		var ids = new OrderedSet<string>();
+		foreach (var idObj in idsAsObjects) {
+			var idStr = idObj.ToString();
+			if (!string.IsNullOrEmpty(idStr)) {
+				ids.Add(idStr);
+			}
+		}
+
+		return ids;
 	}
 	public void AddSpouse(Date date, Character spouse) {
 		History.AddFieldValue(date, "spouses", "add_spouse", spouse.Id);
