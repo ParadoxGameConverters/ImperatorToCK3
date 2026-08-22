@@ -66,7 +66,7 @@ internal static class MenAtArmsOutputter {
 		var sb = new StringBuilder();
 		sb.AppendLine(guiText.TrimEnd().TrimEnd('}'));
 		sb.AppendLine("\tcontainer={");
-		sb.AppendLine("\t\tname=\"IRToCK3_maa_toogle\"");
+		sb.AppendLine("\t\tname=\"IRToCK3_maa_toggle\"");
 		sb.AppendLine("\t\tdatacontext=\"[GetScriptedGui('IRToCK3_create_maa')]\"");
 		sb.AppendLine("\t\tvisible=\"[ScriptedGui.IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).End )]\"");
 

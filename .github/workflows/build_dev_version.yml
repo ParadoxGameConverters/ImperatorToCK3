@@ -4,12 +4,18 @@ on:
     branches:
       - '**'
     types: [opened, synchronize]
+    paths-ignore:
+      - '**/*.md'
+      - 'CODEOWNERS'
+      - 'LICENSE'
 
 jobs:
   upload_dev_build_artifact:
     name: Upload development build
     runs-on: ${{ matrix.os }}
     environment: "Build Environment"
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     strategy:
       matrix:
         build:
@@ -52,16 +58,23 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         expire-in: 0
         onlyPrefix: 'ImperatorToCK3-${{ matrix.build }}-dev-${{ env.BRANCH_NAME }}'
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
         submodules: recursive
     - name: "Setup Dotnet for use with actions"
       # don't run on self-hosted Windows
       if: ${{ !contains(toJSON(matrix.os), 'windows') || !contains(toJSON(matrix.os), 'self-hosted') }}
-      uses: actions/setup-dotnet@v5
+      uses: actions/setup-dotnet@v6
       with:
         #global-json-file: Fronter.NET/global.json
         global-json-file: global.json
+    - name: "Cache NuGet packages"
+      uses: actions/cache@v6
+      with:
+        path: ${{ env.NUGET_PACKAGES }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
     - name: "Replace frontend background image"
       run: |
         rm Fronter.NET/Fronter.NET/Assets/Images/background.png
@@ -77,7 +90,7 @@ jobs:
         BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
         BACKBLAZE_BUCKET_ID: ${{ secrets.BACKBLAZE_BUCKET_ID }}
     # - name: Setup Dotnet for use with actions
-    #   uses: actions/setup-dotnet@v5
+    #   uses: actions/setup-dotnet@v6
     #   with:
     #     global-json-file: global.json
     - name: "Build backend"

@@ -818,54 +818,63 @@ internal sealed class Character : IIdentifiable<string> {
 		sb.AppendLine("{");
 
 		foreach (var unit in countryUnits) {
-			var menPerUnitType = unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType);
-
-			if (unit.LeaderId is null || !irCharacters.TryGetValue(unit.LeaderId.Value, out var irLeader)) {
-				// Use country ruler.
-				irLeader = irCountries[unit.CountryId].Monarch;
-			}
-
+			var irLeader = ResolveSpecialTroopLeader(unit, irCharacters, irCountries);
 			if (irLeader is null) {
 				Logger.Warn($"Unit {unit.Id} has no leader and country {unit.CountryId} has no ruler! Skipping special troop spawn.");
 				continue;
 			}
 
-			var ck3Leader = irLeader.CK3Character;
+			AppendSpecialTroopSpawnScript(sb, unit, irLeader.CK3Character, unitTypeMapper, provinceMapper, ck3LocDB);
+		}
 
-			sb.AppendLine("\t\tspawn_army={");
+		sb.AppendLine("\t}");
+		History.AddFieldValue(bookmarkDate, "effects", "effect", new StringOfItem(sb.ToString()));
+	}
 
-			sb.AppendLine("\t\t\tuses_supply=yes");
-			sb.AppendLine("\t\t\tinheritable=yes");
+	private static Imperator.Characters.Character? ResolveSpecialTroopLeader(Unit unit, Imperator.Characters.CharacterCollection irCharacters, CountryCollection irCountries) {
+		if (unit.LeaderId is not null && irCharacters.TryGetValue(unit.LeaderId.Value, out var irLeader)) {
+			return irLeader;
+		}
 
-			if (unit.LocalizedName is not null) {
-				var locKey = unit.LocalizedName.Id;
-				sb.AppendLine($"\t\t\tname={locKey}");
-				var unitLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
-				unitLocBlock.CopyFrom(unit.LocalizedName);
-			}
+		// Use country ruler.
+		return irCountries[unit.CountryId].Monarch;
+	}
 
-			foreach (var (type, men) in menPerUnitType) {
-				sb.AppendLine($"\t\t\tmen_at_arms={{ type={type} men={men} }}");
-			}
+	private static void AppendSpecialTroopSpawnScript(StringBuilder sb, Unit unit, Character? ck3Leader, UnitTypeMapper unitTypeMapper, ProvinceMapper provinceMapper, CK3LocDB ck3LocDB) {
+		var menPerUnitType = unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType);
+		sb.AppendLine("\t\tspawn_army={");
+		sb.AppendLine("\t\t\tuses_supply=yes");
+		sb.AppendLine("\t\t\tinheritable=yes");
 
-			var ck3Location = provinceMapper.GetCK3ProvinceNumbers(unit.Location).AsValueEnumerable()
-				.Cast<ulong?>()
-				.FirstOrDefault(defaultValue: null);
-			if (ck3Location is not null) {
-				sb.AppendLine($"\t\t\tlocation=province:{ck3Location}");
-				sb.AppendLine($"\t\t\torigin=province:{ck3Location}");
-			}
+		if (unit.LocalizedName is not null) {
+			var locKey = unit.LocalizedName.Id;
+			sb.AppendLine($"\t\t\tname={locKey}");
+			var unitLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
+			unitLocBlock.CopyFrom(unit.LocalizedName);
+		}
 
-			string unitScopeId = $"ir_unit_{unit.Id}";
-			if (ck3Leader is not null) {
-				// Will have no effect if army is not actually spawned (see spawn_army explanation on CK3 wiki).
-				sb.AppendLine($"\t\t\tsave_temporary_scope_as={unitScopeId}");
-			}
+		foreach (var (type, men) in menPerUnitType) {
+			sb.AppendLine($"\t\t\tmen_at_arms={{ type={type} men={men} }}");
+		}
 
-			sb.AppendLine("\t\t}");
+		var ck3Location = provinceMapper.GetCK3ProvinceNumbers(unit.Location).AsValueEnumerable()
+			.Cast<ulong?>()
+			.FirstOrDefault(defaultValue: null);
+		if (ck3Location is not null) {
+			sb.AppendLine($"\t\t\tlocation=province:{ck3Location}");
+			sb.AppendLine($"\t\t\torigin=province:{ck3Location}");
+		}
 
-			if (ck3Leader is not null) {
-				sb.AppendLine($$"""
+		string unitScopeId = $"ir_unit_{unit.Id}";
+		if (ck3Leader is not null) {
+			// Will have no effect if army is not actually spawned (see spawn_army explanation on CK3 wiki).
+			sb.AppendLine($"\t\t\tsave_temporary_scope_as={unitScopeId}");
+		}
+
+		sb.AppendLine("\t\t}");
+
+		if (ck3Leader is not null) {
+			sb.AppendLine($$"""
 	                        scope:{{unitScopeId}} ?= {
 	                            if = {
 	                                limit = { character:{{ck3Leader.Id}} = { is_alive = yes } }
@@ -873,11 +882,7 @@ internal sealed class Character : IIdentifiable<string> {
 	                            }    
 	                        }
 	                """);
-			}
 		}
-
-		sb.AppendLine("\t}");
-		History.AddFieldValue(bookmarkDate, "effects", "effect", new StringOfItem(sb.ToString()));
 	}
 
 	private readonly CharacterCollection characters;

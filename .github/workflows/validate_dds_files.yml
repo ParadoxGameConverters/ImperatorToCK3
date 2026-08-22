@@ -2,6 +2,11 @@ name: "Validate DDS files"
 
 on:
   pull_request:
+    paths:
+    - '.github/workflows/validate_dds_files.yml'
+    - 'ImperatorToCK3/Data_Files/blankMod/output/gfx/interface/icons/faith/**'
+    - '.github/workflows/requirements-validate-dds.txt'
+    - 'tools/validate_dds_files.py'
   merge_group:
 
 concurrency:
@@ -12,16 +17,20 @@ jobs:
   validate-dds-files:
     runs-on: macos-15
     steps:
-    - uses: actions/checkout@v6
-    - uses: mfinelli/setup-imagemagick@v7
+    - uses: actions/checkout@v7
+    - uses: mfinelli/setup-imagemagick@v8
       with:
         install-libfuse2: true
     - name: "Install Wand library"
+      env:
+        MAGICK_HOME: /opt/homebrew
       run: |
         python3 -m venv venv
         source venv/bin/activate
-        python3 -m pip install Wand
+        python3 -m pip install -r .github/workflows/requirements-validate-dds.txt
     - name: "Validate faith icons"
       run: |
         source venv/bin/activate
         python3 ./tools/validate_dds_files.py
+      env:
+        MAGICK_HOME: /opt/homebrew

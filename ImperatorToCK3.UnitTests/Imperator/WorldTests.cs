@@ -37,6 +37,15 @@ public sealed class WorldTests : IDisposable {
 	}
 
 	[Fact]
+	public void PathContainsCyrillicCharacters_detectsCyrillicCharactersInPath() {
+		var method = typeof(World).GetMethod("PathContainsCyrillicCharacters", BindingFlags.Static | BindingFlags.NonPublic);
+		Assert.NotNull(method);
+
+		Assert.True((bool)method!.Invoke(null, new object?[] { @"C:\Папка\ImperatorDocuments" })!);
+		Assert.False((bool)method.Invoke(null, new object?[] { @"C:\ImperatorDocuments" })!);
+	}
+
+	[Fact]
 	public void OutputContinueGameJson_canOverwriteReadOnlyFile() {
 		var continueGamePath = Path.Combine(config.ImperatorDocPath, "continue_game.json");
 		File.WriteAllText(continueGamePath, "old content");

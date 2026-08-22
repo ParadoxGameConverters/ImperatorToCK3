@@ -3,6 +3,7 @@ using ImperatorToCK3.CommonUtils.Genes;
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Linq;
 using ZLinq;
 
 namespace ImperatorToCK3.Imperator.Characters; 
@@ -21,7 +22,36 @@ internal sealed class PortraitData {
 	private static readonly FrozenSet<string> morphGenesToIgnore = ["expression"];
 
 	public PortraitData(string dnaString, GenesDB genesDB, string ageSexString = "male") {
-		var decodedDnaStr = Convert.FromBase64String(dnaString);
+		if (string.IsNullOrWhiteSpace(dnaString)) {
+			Logger.Warn("DNA string is empty; skipping portrait parsing.");
+			return;
+		}
+
+		byte[] decodedDnaStr;
+		try {
+			decodedDnaStr = Convert.FromBase64String(dnaString);
+		} catch (FormatException) {
+			Logger.Warn($"Invalid DNA base64 string for portrait: '{dnaString}'. Attempting to sanitize and recover...");
+
+			// Try to recover from common issues: whitespace, URL-safe base64, missing padding,
+			// or stray characters. If recovery fails, skip portrait parsing instead of crashing.
+			var sanitized = new string([.. dnaString.Where(c => !char.IsWhiteSpace(c))]);
+			sanitized = sanitized.Trim('"');
+			sanitized = sanitized.Replace('-', '+').Replace('_', '/');
+
+			// Add padding to make length a multiple of 4 if needed.
+			var mod = sanitized.Length % 4;
+			if (mod == 2) sanitized += "==";
+			else if (mod == 3) sanitized += "=";
+
+			try {
+				decodedDnaStr = Convert.FromBase64String(sanitized);
+			} catch (FormatException) {
+				Logger.Warn($"Invalid DNA base64 string for portrait; skipping decoding. Raw: '{dnaString}'");
+				return;
+			}
+		}
+
 		SetHairColorPaletteCoordinates(decodedDnaStr);
 		SetSkinColorPaletteCoordinates(decodedDnaStr);
 		SetEyeColorPaletteCoordinates(decodedDnaStr);

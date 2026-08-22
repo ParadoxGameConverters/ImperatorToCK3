@@ -379,8 +379,30 @@ internal partial class World {
 		Logger.Info("Finished reading CoAs from I:R game.log.");
 	}
 
+	private static bool PathContainsCyrillicCharacters(string? path) {
+		if (string.IsNullOrEmpty(path)) {
+			return false;
+		}
+
+		foreach (var character in path) {
+			if ((character >= '\u0400' && character <= '\u04FF') ||
+			    (character >= '\u0500' && character <= '\u052F') ||
+			    (character >= '\u2DE0' && character <= '\u2DFF') ||
+			    (character >= '\uA640' && character <= '\uA69F')) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	private void ExtractDynamicCoatsOfArms(Configuration config) {
 		try {
+			if (PathContainsCyrillicCharacters(config.ImperatorDocPath)) {
+				Logger.Warn("Skipping dynamic CoA extraction because it won't work due to the I:R documents path containing Cyrillic characters.");
+				return;
+			}
+
 			if (Process.GetProcessesByName("imperator").Length != 0) {
 				throw new UserErrorException("Imperator: Rome is running! Please close the game before running the converter with dynamic CoA extraction enabled.");
 			}
@@ -418,50 +440,52 @@ internal partial class World {
 			Logger.Debug(e.ToString());
 		} finally {
 			// Always restore the original configuration files, regardless of extraction success or failure
-			var continueGamePath = Path.Join(config.ImperatorDocPath, "continue_game.json");
-			var dlcLoadPath = Path.Join(config.ImperatorDocPath, "dlc_load.json");
-			var continueGameBackupPath = continueGamePath + ".backup";
-			var dlcLoadBackupPath = dlcLoadPath + ".backup";
+			RestoreImperatorConfigurationFiles(config);
+		}
+	}
 
-			// Restore continue_game.json
-			if (File.Exists(continueGameBackupPath)) {
-				try {
-					if (File.Exists(continueGamePath)) {
-						File.Delete(continueGamePath);
-					}
-					FileHelper.MoveWithRetries(continueGameBackupPath, continueGamePath);
-				} catch (Exception ex) {
-					if (FileHelper.IsFileInUseException(ex)) {
-						LogFileInUseDiagnosticsForRestore(continueGamePath, continueGameBackupPath);
-					}
-					Logger.Warn($"Failed to restore continue_game.json: {ex.Message}");
-				}
-			}
+	private void RestoreImperatorConfigurationFiles(Configuration config) {
+		var continueGamePath = Path.Join(config.ImperatorDocPath, "continue_game.json");
+		var dlcLoadPath = Path.Join(config.ImperatorDocPath, "dlc_load.json");
+		// Restore continue_game.json
+		RestoreBackupFile(continueGamePath, continueGamePath + ".backup", "continue_game.json", logFileInUseDiagnostics: true);
+		// Restore dlc_load.json
+		RestoreBackupFile(dlcLoadPath, dlcLoadPath + ".backup", "dlc_load.json", logFileInUseDiagnostics: false);
+		// Remove the staged melted save (if any) that was placed in the Imperator save games folder.
+		CleanupStagedMeltedSave();
+	}
 
-			// Restore dlc_load.json
-			if (File.Exists(dlcLoadBackupPath)) {
-				try {
-					if (File.Exists(dlcLoadPath)) {
-						File.Delete(dlcLoadPath);
-					}
-					FileHelper.MoveWithRetries(dlcLoadBackupPath, dlcLoadPath);
-				} catch (Exception ex) {
-					Logger.Warn($"Failed to restore dlc_load.json: {ex.Message}");
-				}
-			}
+	private void RestoreBackupFile(string targetPath, string backupPath, string fileName, bool logFileInUseDiagnostics) {
+		if (!File.Exists(backupPath)) {
+			return;
+		}
 
-			// Remove the staged melted save (if any) that was placed in the Imperator save games folder.
-			if (_stagedMeltedSavePath is not null) {
-				try {
-					if (File.Exists(_stagedMeltedSavePath)) {
-						FileHelper.DeleteWithRetries(_stagedMeltedSavePath);
-					}
-				} catch (Exception ex) {
-					Logger.Warn($"Failed to remove staged melted save: {ex.Message}");
-				} finally {
-					_stagedMeltedSavePath = null;
-				}
+		try {
+			if (File.Exists(targetPath)) {
+				File.Delete(targetPath);
 			}
+			FileHelper.MoveWithRetries(backupPath, targetPath);
+		} catch (Exception ex) {
+			if (logFileInUseDiagnostics && FileHelper.IsFileInUseException(ex)) {
+				LogFileInUseDiagnosticsForRestore(targetPath, backupPath);
+			}
+			Logger.Warn($"Failed to restore {fileName}: {ex.Message}");
+		}
+	}
+
+	private void CleanupStagedMeltedSave() {
+		if (_stagedMeltedSavePath is null) {
+			return;
+		}
+
+		try {
+			if (File.Exists(_stagedMeltedSavePath)) {
+				FileHelper.DeleteWithRetries(_stagedMeltedSavePath);
+			}
+		} catch (Exception ex) {
+			Logger.Warn($"Failed to remove staged melted save: {ex.Message}");
+		} finally {
+			_stagedMeltedSavePath = null;
 		}
 	}
 

@@ -11,6 +11,8 @@ concurrency:
 jobs:
   run_test_conversions:
     runs-on: [self-hosted, windows]
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     strategy:
       fail-fast: false
       matrix:
@@ -22,7 +24,7 @@ jobs:
           # - https://www.dropbox.com/scl/fi/xya8828ceb4h3ls3dixjc/Grande-Campagne.rome?rlkey=bjihvjtdnwtzlju95o7ekkpbm&st=txoi1lk2&dl=1  # Grande Campagne.rome, uploaded 2024-09-11
           - https://www.dropbox.com/scl/fi/q22wnjljvcjev6yem0kp2/Roman-Empire-Convert-Save-2.rome?rlkey=15vxn4wvrzn1fde14qn6zqvfu&st=59s2cgj7&dl=1  # Roman Empire Convert Save 2.rome, uploaded 2024-09-23
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
         submodules: recursive
     - name: "Check if docs folders exist"
@@ -34,6 +36,13 @@ jobs:
     #   uses: actions/setup-dotnet@v4
     #   with:
     #     global-json-file: global.json
+    - name: "Cache NuGet packages"
+      uses: actions/cache@v6
+      with:
+        path: ${{ env.NUGET_PACKAGES }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
     - name: "Build converter backend"
       working-directory: ImperatorToCK3
       run: |
