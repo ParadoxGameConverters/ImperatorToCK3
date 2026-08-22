@@ -58,4 +58,32 @@ public class EnumerableExtensionsTests {
             }
         }
     }
+
+    [Fact]
+    public void LastOrNull_KeyValuePairs_ReturnsLastPair_WhenSourceNotEmpty() {
+        // Arrange
+        IEnumerable<KeyValuePair<string, int>> pairs = new[] {
+            new KeyValuePair<string, int>("a", 1),
+            new KeyValuePair<string, int>("b", 2),
+            new KeyValuePair<string, int>("c", 3)
+        };
+
+        // Act
+        KeyValuePair<string, int>? result = pairs.LastOrNull();
+
+        // Assert
+        Assert.Equal(new KeyValuePair<string, int>("c", 3), result);
+    }
+
+    [Fact]
+    public void LastOrNull_KeyValuePairs_ReturnsNull_WhenSourceEmpty() {
+        // Arrange
+        IEnumerable<KeyValuePair<string, int>> pairs = System.Array.Empty<KeyValuePair<string, int>>();
+
+        // Act
+        KeyValuePair<string, int>? result = pairs.LastOrNull();
+
+        // Assert
+        Assert.Null(result);
+    }
 }
