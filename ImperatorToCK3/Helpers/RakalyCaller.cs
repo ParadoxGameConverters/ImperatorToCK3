@@ -251,7 +251,7 @@ public static class RakalyCaller {
 			char currentChar = (char)nextChar;
 			if (currentChar == '\r') {
 				if (reader.Peek() == '\n') {
-					reader.Read();
+					_ = reader.Read();
 					return (contentBuilder.ToString(), "\r\n");
 				}
 				return (contentBuilder.ToString(), "\r");
