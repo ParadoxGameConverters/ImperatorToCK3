@@ -114,14 +114,17 @@ public class DynastiesOutputterTests {
 		var houses = new HouseCollection();
 		houses.Add(new House("house_quintus", new BufferedReader("name = House Quintus dynasty = dynn_irtock3_5")));
 
+		var dynastiesOutputPath = Path.Combine(outputModPath, "common", "dynasties", "irtock3_all_dynasties.txt");
+		var housesOutputPath = Path.Combine(outputModPath, "common", "dynasty_houses", "irtock3_all_houses.txt");
+		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(dynastiesOutputPath));
+		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(housesOutputPath));
+
 		await DynastiesOutputter.OutputDynastiesAndHouses(outputModPath, dynasties, houses);
 
-		var dynastiesText = await File.ReadAllTextAsync(
-			Path.Combine(outputModPath, "common/dynasties/irtock3_all_dynasties.txt"), TestContext.Current.CancellationToken);
+		var dynastiesText = await File.ReadAllTextAsync(dynastiesOutputPath, TestContext.Current.CancellationToken);
 		Assert.Contains("dynn_irtock3_5=", dynastiesText, StringComparison.Ordinal);
 
-		var housesText = await File.ReadAllTextAsync(
-			Path.Combine(outputModPath, "common/dynasty_houses/irtock3_all_houses.txt"), TestContext.Current.CancellationToken);
+		var housesText = await File.ReadAllTextAsync(housesOutputPath, TestContext.Current.CancellationToken);
 		Assert.Contains("house_quintus=", housesText, StringComparison.Ordinal);
 	}
 }
