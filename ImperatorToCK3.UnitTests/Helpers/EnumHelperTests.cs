@@ -26,4 +26,10 @@ public class EnumHelperTests {
 		Assert.Equal(10, EnumHelper.Min(10, 20));
 		Assert.Equal(-5, EnumHelper.Min(-5, 0));
 	}
+
+	[Fact]
+	public void Min_ReturnsRightValueWhenFirstIsGreater() {
+		Assert.Equal(10, EnumHelper.Min(20, 10));
+		Assert.Equal(TestEnum.First, EnumHelper.Min(TestEnum.Second, TestEnum.First));
+	}
 }

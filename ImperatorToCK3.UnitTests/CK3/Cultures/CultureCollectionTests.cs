@@ -133,4 +133,22 @@ public class CultureCollectionTests {
 		
 		Assert.DoesNotContain("[ERROR]", outputString);
 	}
+
+	[Fact]
+	public void WarnAboutCircularParentsLogsWarningWhenParentCultureIsNotFound() {
+		var cultures = new TestCK3CultureCollection();
+		// "french" has "roman" as its parent, but "roman" is not in the collection.
+		cultures.GenerateTestCulture("french", "heritage_latin");
+		cultures["french"].ParentCultureIds.Add("roman");
+
+		var output = new StringWriter();
+		Console.SetOut(output);
+		cultures.WarnAboutCircularParents();
+		var outputString = output.ToString();
+
+		Assert.Contains("[WARN] Parent culture roman not found for culture french!", outputString);
+
+		// The missing parent doesn't make the culture its own ancestor, so no error is logged.
+		Assert.DoesNotContain("[ERROR]", outputString);
+	}
 }

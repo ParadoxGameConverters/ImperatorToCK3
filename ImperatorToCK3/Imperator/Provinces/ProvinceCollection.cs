@@ -57,7 +57,7 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		}
 	}
 	
-	private Country? GetCountryForColorableImpassable(ulong provinceId, MapData irMapData) {
+	internal Country? GetCountryForColorableImpassable(ulong provinceId, MapData irMapData) {
 		var neighborProvIds = irMapData.GetNeighborProvinceIds(provinceId);
 		int neighborsCount = neighborProvIds.Count;
 
