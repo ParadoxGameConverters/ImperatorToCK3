@@ -102,7 +102,6 @@ public class CharacterCollectionTests {
 			new NicknameMapper(),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
-			new DNAFactory(irModFS, ck3ModFS),
 			new TestCK3LocDB(),
 			endDate,
 			configuration);
@@ -147,7 +146,6 @@ public class CharacterCollectionTests {
 			new NicknameMapper(),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
-			new DNAFactory(irModFS, ck3ModFS),
 			new TestCK3LocDB(),
 			endDate,
 			configuration);
@@ -199,7 +197,6 @@ public class CharacterCollectionTests {
 			new NicknameMapper(),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
-			new DNAFactory(irModFS, ck3ModFS),
 			new TestCK3LocDB(),
 			conversionDate,
 			configuration);
@@ -352,7 +349,6 @@ public class CharacterCollectionTests {
 			nicknameMapper,
 			provinceMapper,
 			deathReasonMapper,
-			new DNAFactory(irModFS, ck3ModFS),
 			ck3LocDB,
 			conversionDate,
 			config);
@@ -442,7 +438,6 @@ public class CharacterCollectionTests {
 			new NicknameMapper(),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
-			new DNAFactory(irModFS, ck3ModFS),
 			new TestCK3LocDB(),
 			new Date(1000, 1, 1, AUC: true),
 			config);
