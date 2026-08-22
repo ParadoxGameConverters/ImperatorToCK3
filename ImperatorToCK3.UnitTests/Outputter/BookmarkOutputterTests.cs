@@ -161,7 +161,7 @@ public class BookmarkOutputterTests {
 	}
 
 	[Fact]
-	public void WritePositionComputesScaledMeanPosition() {
+	public void GetClampedMeanPositionComputesScaledMeanPosition() {
 		var landedTitles = new Title.LandedTitles();
 		landedTitles.LoadTitles(new BufferedReader("""
 			c_rome = {
@@ -182,14 +182,103 @@ public class BookmarkOutputterTests {
 		var positions = new Dictionary<ulong, ProvincePosition> {
 			[1024] = ProvincePosition.Parse(new BufferedReader("id=1024 position={ 2048.0 0.0 2048.0 }"))
 		};
-		var sb = new StringBuilder();
-		BookmarkOutputter.WritePosition(sb, cRome, config, positions);
-		Assert.Contains("position = { 540 540 }", sb.ToString(), StringComparison.Ordinal);
+		Assert.Equal((540, 540), BookmarkOutputter.GetClampedMeanPosition(cRome, config, positions));
 
 		positions[4096] = ProvincePosition.Parse(new BufferedReader("id=4096 position={ 4096.0 0.0 4096.0 }"));
-		sb.Clear();
-		BookmarkOutputter.WritePosition(sb, cRome, config, positions);
-		Assert.Contains("position = { 810 270 }", sb.ToString(), StringComparison.Ordinal);
+		Assert.Equal((810, 270), BookmarkOutputter.GetClampedMeanPosition(cRome, config, positions));
+	}
+
+	[Fact]
+	public void GetClampedMeanPositionClampsPositionToScreenMargins() {
+		var landedTitles = new Title.LandedTitles();
+		landedTitles.LoadTitles(new BufferedReader("""
+			c_east = {
+				b_east = { province = 111 }
+			}
+			c_west = {
+				b_west = { province = 222 }
+			}
+			c_north = {
+				b_north = { province = 333 }
+			}
+			c_south = {
+				b_south = { province = 444 }
+			}
+			"""), new ColorFactory());
+
+		var characters = new CharacterCollection();
+		var config = new Configuration { CK3BookmarkDate = ConversionDate };
+		foreach (var titleId in new[] { "c_east", "c_west", "c_north", "c_south" }) {
+			var holder = new Character($"char_{titleId}", titleId, new Date(800, 1, 1), characters);
+			characters.AddOrReplace(holder);
+			landedTitles[titleId].SetHolder(holder, ConversionDate);
+		}
+
+		// Province positions are in the 8192x4096 map space.
+		var positions = new Dictionary<ulong, ProvincePosition> {
+			[111] = ProvincePosition.Parse(new BufferedReader("id=111 position={ 8192.0 0.0 2048.0 }")),
+			[222] = ProvincePosition.Parse(new BufferedReader("id=222 position={ 0.0 0.0 2048.0 }")),
+			[333] = ProvincePosition.Parse(new BufferedReader("id=333 position={ 2048.0 0.0 4096.0 }")),
+			[444] = ProvincePosition.Parse(new BufferedReader("id=444 position={ 2048.0 0.0 0.0 }"))
+		};
+
+		var expectedPositions = new Dictionary<string, (int X, int Y)> {
+			["c_east"] = (1770, 540),
+			["c_west"] = (150, 540),
+			["c_north"] = (540, 150),
+			["c_south"] = (540, 930)
+		};
+		foreach (var (titleId, expectedPosition) in expectedPositions) {
+			Assert.Equal(expectedPosition, BookmarkOutputter.GetClampedMeanPosition(landedTitles[titleId], config, positions));
+		}
+	}
+
+	[Fact]
+	public void GetCharacterPositionsSeparatesOverlappingCharacters() {
+		var landedTitles = new Title.LandedTitles();
+		landedTitles.LoadTitles(new BufferedReader("""
+			c_a = {
+				b_a = { province = 555 }
+			}
+			c_b = {
+				b_b = { province = 666 }
+			}
+			c_c = {
+				b_c = { province = 777 }
+			}
+			"""), new ColorFactory());
+
+		var characters = new CharacterCollection();
+		var config = new Configuration { CK3BookmarkDate = ConversionDate };
+		foreach (var titleId in new[] { "c_a", "c_b", "c_c" }) {
+			var holder = new Character($"char_{titleId}", titleId, new Date(800, 1, 1), characters);
+			characters.AddOrReplace(holder);
+			landedTitles[titleId].SetHolder(holder, ConversionDate);
+		}
+
+		// All three realms share the same location.
+		var positions = new Dictionary<ulong, ProvincePosition> {
+			[555] = ProvincePosition.Parse(new BufferedReader("id=555 position={ 2048.0 0.0 2048.0 }")),
+			[666] = ProvincePosition.Parse(new BufferedReader("id=666 position={ 2048.0 0.0 2048.0 }")),
+			[777] = ProvincePosition.Parse(new BufferedReader("id=777 position={ 2048.0 0.0 2048.0 }"))
+		};
+
+		var playerTitles = new List<Title> { landedTitles["c_a"], landedTitles["c_b"], landedTitles["c_c"] };
+		var result = BookmarkOutputter.GetCharacterPositions(playerTitles, config, positions);
+
+		Assert.Equal(3, result.Count);
+		foreach (var (x, y) in result) {
+			Assert.InRange(x, 150, 1770);
+			Assert.InRange(y, 150, 930);
+		}
+		for (var i = 0; i < result.Count; ++i) {
+			for (var j = i + 1; j < result.Count; ++j) {
+				var dx = result[i].X - result[j].X;
+				var dy = result[i].Y - result[j].Y;
+				var distance = Math.Sqrt((dx * dx) + (dy * dy));
+				Assert.True(distance >= 400, $"Characters {i} and {j} are too close together.");
+			}
+		}
 	}
 
 	[Fact]
@@ -276,12 +365,8 @@ public class BookmarkOutputterTests {
 
 			var ck3LocDB = new TestCK3LocDB();
 
-			var positions = new Dictionary<ulong, ProvincePosition> {
-				[1024] = ProvincePosition.Parse(new BufferedReader("id=1024 position={ 2048.0 0.0 2048.0 }"))
-			};
-
 			var sb = new StringBuilder();
-			await BookmarkOutputter.AddTitleToBookmarkScreen(cRome, sb, holder.Id, characters, ck3LocDB, positions, config);
+			await BookmarkOutputter.AddTitleToBookmarkScreen(cRome, sb, holder.Id, characters, ck3LocDB, (540, 540), config);
 
 			var text = sb.ToString();
 			Assert.Contains("\tcharacter = {", text, StringComparison.Ordinal);
@@ -320,12 +405,8 @@ public class BookmarkOutputterTests {
 			var cRome = CreateRomeCounty(holder);
 			var ck3LocDB = new TestCK3LocDB(); // no loc for the character's name key
 
-			var positions = new Dictionary<ulong, ProvincePosition> {
-				[1024] = ProvincePosition.Parse(new BufferedReader("id=1024 position={ 2048.0 0.0 2048.0 }"))
-			};
-
 			var sb = new StringBuilder();
-			await BookmarkOutputter.AddTitleToBookmarkScreen(cRome, sb, holder.Id, characters, ck3LocDB, positions, config);
+			await BookmarkOutputter.AddTitleToBookmarkScreen(cRome, sb, holder.Id, characters, ck3LocDB, (540, 540), config);
 
 			var text = sb.ToString();
 			Assert.DoesNotContain("dynasty =", text, StringComparison.Ordinal);
@@ -356,12 +437,8 @@ public class BookmarkOutputterTests {
 			var cRome = CreateRomeCounty(holder);
 			var ck3LocDB = new TestCK3LocDB();
 
-			var positions = new Dictionary<ulong, ProvincePosition> {
-				[1024] = ProvincePosition.Parse(new BufferedReader("id=1024 position={ 2048.0 0.0 2048.0 }"))
-			};
-
 			var sb = new StringBuilder();
-			await BookmarkOutputter.AddTitleToBookmarkScreen(cRome, sb, holder.Id, characters, ck3LocDB, positions, config);
+			await BookmarkOutputter.AddTitleToBookmarkScreen(cRome, sb, holder.Id, characters, ck3LocDB, (540, 540), config);
 
 			Assert.True(ck3LocDB.TryGetValue($"bm_converted_{holder.Id}", out var nameLoc));
 			Assert.True(string.IsNullOrEmpty(nameLoc["english"]));

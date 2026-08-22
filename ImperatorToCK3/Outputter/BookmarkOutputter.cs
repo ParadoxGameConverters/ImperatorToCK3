@@ -21,6 +21,13 @@ using Color = SixLabors.ImageSharp.Color;
 namespace ImperatorToCK3.Outputter;
 
 internal static class BookmarkOutputter {
+	private const int ScreenWidth = 1920;
+	private const int ScreenHeight = 1080;
+	private const int PositionMargin = 150;
+	private const double MapToScreenScale = (double)1080 / 4096;
+	private const double MinCharacterSpacing = 400;
+	private const int MaxSeparationIterations = 100;
+
 	public static async Task OutputBookmark(World world, Configuration config, CK3LocDB ck3LocDB) {
 		Logger.Info("Creating bookmark...");
 
@@ -38,9 +45,11 @@ internal static class BookmarkOutputter {
 		sb.AppendLine("\tweight = { value = 100 }");
 
 		var playerTitles = GetPlayerTitlesForBookmarkScreen(world.LandedTitles, config);
-		foreach (var title in playerTitles) {
+		var characterPositions = GetCharacterPositions(playerTitles, config, provincePositions);
+		for (var index = 0; index < playerTitles.Count; ++index) {
+			var title = playerTitles[index];
 			var holderId = title.GetHolderId(config.CK3BookmarkDate);
-			await AddTitleToBookmarkScreen(title, sb, holderId, world.Characters, ck3LocDB, provincePositions, config);
+			await AddTitleToBookmarkScreen(title, sb, holderId, world.Characters, ck3LocDB, characterPositions[index], config);
 		}
 
 		sb.AppendLine("}");
@@ -85,7 +94,7 @@ internal static class BookmarkOutputter {
 		string holderId,
 		CharacterCollection characters,
 		CK3LocDB ck3LocDB,
-		IReadOnlyDictionary<ulong, ProvincePosition> provincePositions,
+		(int X, int Y) position,
 		Configuration config
 	) {
 		var holder = characters[holderId];
@@ -135,7 +144,7 @@ internal static class BookmarkOutputter {
 			sb.AppendLine($"\t\treligion={faithId}");
 		}
 		sb.AppendLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
-		WritePosition(sb, title, config, provincePositions);
+		sb.AppendLine($"\t\tposition = {{ {position.X} {position.Y} }}");
 		sb.AppendLine("\t\tanimation = personality_rational");
 
 		sb.AppendLine("\t}");
@@ -177,7 +186,7 @@ internal static class BookmarkOutputter {
 		await output.WriteLineAsync($"bm_converted = {{ default_start_date = {config.CK3BookmarkDate} }}");
 	}
 
-	internal static void WritePosition(StringBuilder sb, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
+	internal static (int X, int Y) GetClampedMeanPosition(Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
 		int count = 0;
 		double sumX = 0;
 		double sumY = 0;
@@ -193,10 +202,58 @@ internal static class BookmarkOutputter {
 
 		double meanX = Math.Round(sumX / count);
 		double meanY = Math.Round(sumY / count);
-		const double scale = (double)1080 / 4096;
-		int finalX = (int)(scale * meanX);
-		int finalY = 1080 - (int)(scale * meanY);
-		sb.AppendLine($"\t\tposition = {{ {finalX} {finalY} }}");
+		int finalX = Math.Clamp((int)(MapToScreenScale * meanX), PositionMargin, ScreenWidth - PositionMargin);
+		int finalY = Math.Clamp(ScreenHeight - (int)(MapToScreenScale * meanY), PositionMargin, ScreenHeight - PositionMargin);
+		return (finalX, finalY);
+	}
+
+	internal static List<(int X, int Y)> GetCharacterPositions(List<Title> playerTitles, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
+		var positions = new List<(double X, double Y)>(playerTitles.Count);
+		foreach (var title in playerTitles) {
+			positions.Add(GetClampedMeanPosition(title, config, provincePositions));
+		}
+
+		SeparatePositions(positions);
+
+		var finalPositions = new List<(int X, int Y)>(positions.Count);
+		foreach (var (x, y) in positions) {
+			finalPositions.Add(((int)Math.Round(x), (int)Math.Round(y)));
+		}
+		return finalPositions;
+	}
+
+	internal static void SeparatePositions(List<(double X, double Y)> positions) {
+		for (var iteration = 0; iteration < MaxSeparationIterations; ++iteration) {
+			var anyMoved = false;
+			for (var i = 0; i < positions.Count; ++i) {
+				for (var j = i + 1; j < positions.Count; ++j) {
+					var dx = positions[j].X - positions[i].X;
+					var dy = positions[j].Y - positions[i].Y;
+					var distance = Math.Sqrt((dx * dx) + (dy * dy));
+					if (distance >= MinCharacterSpacing) {
+						continue;
+					}
+
+					var shift = (MinCharacterSpacing - distance) / 2;
+					var unitX = distance > 0 ? dx / distance : 1;
+					var unitY = distance > 0 ? dy / distance : 0;
+					positions[i] = (positions[i].X - (unitX * shift), positions[i].Y - (unitY * shift));
+					positions[j] = (positions[j].X + (unitX * shift), positions[j].Y + (unitY * shift));
+					positions[i] = ClampToScreen(positions[i]);
+					positions[j] = ClampToScreen(positions[j]);
+					anyMoved = true;
+				}
+			}
+			if (!anyMoved) {
+				return;
+			}
+		}
+	}
+
+	private static (double X, double Y) ClampToScreen((double X, double Y) position) {
+		var x = Math.Clamp(position.X, PositionMargin, ScreenWidth - PositionMargin);
+		var y = Math.Clamp(position.Y, PositionMargin, ScreenHeight - PositionMargin);
+		return (x, y);
 	}
 
 	private static async Task DrawBookmarkMap(Configuration config, List<Title> playerTitles, World ck3World) {
