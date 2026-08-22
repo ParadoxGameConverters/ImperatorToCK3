@@ -12,7 +12,7 @@ internal sealed class InventionsDB {
 	public IReadOnlyCollection<string> InventionIds => inventionIds;
 	
 	public void LoadInventions(ModFilesystem irModFS) {
-		var inventionsParser = new Parser();
+		var inventionsParser = new Parser(implicitVariableHandling: true);
 		inventionsParser.RegisterKeyword("technology", ParserHelpers.IgnoreItem);
 		inventionsParser.RegisterKeyword("color", ParserHelpers.IgnoreItem);
 		inventionsParser.RegisterRegex(CommonRegexes.String, (reader, inventionId) => {
@@ -21,7 +21,7 @@ internal sealed class InventionsDB {
 		});
 		inventionsParser.IgnoreAndLogUnregisteredItems();
 		
-		var inventionGroupsParser = new Parser();
+		var inventionGroupsParser = new Parser(implicitVariableHandling: true);
 		inventionGroupsParser.RegisterRegex(CommonRegexes.String, reader => inventionsParser.ParseStream(reader));
 		inventionGroupsParser.IgnoreAndLogUnregisteredItems();
 		

@@ -229,7 +229,7 @@ link = { ck3 = military_engineer ir = original_thinker }
 link = { ck3 = organizer ir = disciplined }
 link = { ck3 = conqueror ir = conqueror }
 link = { ck3 = conqueror ir = victorious } # successful war leader
-link = { 
+link = {
     ck3 = education_martial_4 # Brilliant Strategist
     ir = invictus # "seemingly unstoppable"
 }

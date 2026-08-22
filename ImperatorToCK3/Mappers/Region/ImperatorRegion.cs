@@ -15,7 +15,7 @@ internal sealed class ImperatorRegion : IIdentifiable<string> {
 
 	public ImperatorRegion(string id, BufferedReader reader, IdObjectCollection<string, Area> areas, ColorFactory colorFactory) {
 		Id = id;
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser, colorFactory);
 		parser.ParseStream(reader);
 

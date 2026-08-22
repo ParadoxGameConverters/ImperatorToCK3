@@ -55,4 +55,23 @@ public class UnitTests {
 
 		Assert.Equal(750, unit.MenPerUnitType["archers"]); // 250 + 500
 	}
+
+	[Fact]
+	public void MissingCohortsAreIgnoredAndTypesAreGroupedCorrectly() {
+		var subunitsReader = new BufferedReader(@"
+			1 = { strength = 0.5 type=""archers"" }
+			2 = { strength = 1 type=""heavy_infantry"" }
+			3 = { strength = 0.25 type=""archers"" }
+		");
+
+		var unitCollection = new UnitCollection();
+		unitCollection.LoadSubunits(subunitsReader);
+
+		var unitReader = new BufferedReader("cohort=1 cohort=2 cohort=3 cohort=999");
+		var unit = new Unit(1, unitReader, unitCollection, new LocDB("english"), new ImperatorDefines());
+
+		Assert.Equal(375, unit.MenPerUnitType["archers"]);
+		Assert.Equal(500, unit.MenPerUnitType["heavy_infantry"]);
+		Assert.Equal(2, unit.MenPerUnitType.Count);
+	}
 }

@@ -15,7 +15,7 @@ internal sealed class ProvinceMapper {
 		Logger.Info("Loading province mappings...");
 
 		ProvinceMappingsVersion? version = null;
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		// The converter only expects one version in a file.
 		parser.RegisterRegex(CommonRegexes.String, reader => version = new ProvinceMappingsVersion(reader));
 		parser.IgnoreUnregisteredItems();

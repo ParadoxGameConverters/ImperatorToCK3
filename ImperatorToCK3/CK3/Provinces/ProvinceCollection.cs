@@ -39,7 +39,7 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	}
 
 	private void LoadProvincesHistory(ModFilesystem ck3ModFs) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provinceIdString) => {
 			ulong provinceId = ulong.Parse(provinceIdString);
 
@@ -188,7 +188,7 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		Logger.Info("Loading provinces prehistory...");
 
 		const string prehistoryPath = "configurables/provinces_prehistory.txt";
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
 			var provId = ulong.Parse(provIdStr);
 			
@@ -206,7 +206,7 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	}
 
 	private static Imperator.Provinces.Province? DeterminePrimarySourceProvince(
-		IEnumerable<ulong> irProvinceIds,
+		List<ulong> irProvinceIds,
 		Imperator.World irWorld
 	) {
 		var irProvinces = new OrderedSet<Imperator.Provinces.Province>();

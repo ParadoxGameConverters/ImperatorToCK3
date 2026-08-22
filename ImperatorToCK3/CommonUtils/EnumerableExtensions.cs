@@ -5,25 +5,27 @@ using System.Linq;
 namespace ImperatorToCK3.CommonUtils;
 
 public static class EnumerableExtensions {
-	public static T? LastOrNull<T>(this IEnumerable<T> source, Func<T,bool> predicate) where T : struct {
-		var enumerable = source as T[] ?? [.. source];
+	public static T? LastOrNull<T>(this IEnumerable<T> source, Func<T, bool> predicate) where T : struct {
+		ArgumentNullException.ThrowIfNull(source);
+		ArgumentNullException.ThrowIfNull(predicate);
 
-		if (enumerable.Length == 0) {
-			return null;
-		}
-
-		foreach (var element in Enumerable.Reverse(enumerable)) {
+		T? last = null;
+		foreach (var element in source) {
 			if (predicate(element)) {
-				return element;
+				last = element;
 			}
 		}
-
-		return null;
+		return last;
 	}
+
 	public static KeyValuePair<TKey, TValue>? LastOrNull<TKey, TValue>(
 		this IEnumerable<KeyValuePair<TKey, TValue>> source) {
-		var keyValuePairs = source as KeyValuePair<TKey, TValue>[] ?? source.ToArray();
-		return keyValuePairs.Length != 0
-			? keyValuePairs[^1] : null;
+		ArgumentNullException.ThrowIfNull(source);
+
+		KeyValuePair<TKey, TValue>? last = null;
+		foreach (var kvp in source) {
+			last = kvp;
+		}
+		return last;
 	}
 }

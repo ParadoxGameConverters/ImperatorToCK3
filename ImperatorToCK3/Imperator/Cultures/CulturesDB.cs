@@ -8,7 +8,7 @@ internal sealed class CulturesDB : IdObjectCollection<string, CultureGroup> {
 	public void Load(ModFilesystem irModFS) {
 		Logger.Info("Loading cultures database...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (groupReader, groupId) => {
 			AddOrReplace(new CultureGroup(groupId, groupReader));
 		});

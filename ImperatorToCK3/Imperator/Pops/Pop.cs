@@ -15,7 +15,7 @@ internal sealed class Pop : IIdentifiable<ulong> {
 	public static Pop Parse(string idString, BufferedReader reader) {
 		var newPop = new Pop(ulong.Parse(idString));
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("type", r => newPop.Type = string.Intern(r.GetString()));
 		parser.RegisterKeyword("culture", r => newPop.Culture = string.Intern(r.GetString()));
 		parser.RegisterKeyword("religion", r => newPop.Religion = string.Intern(r.GetString()));

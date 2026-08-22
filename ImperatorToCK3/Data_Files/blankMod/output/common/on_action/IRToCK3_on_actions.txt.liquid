@@ -136,13 +136,6 @@ IRToCK3_game_start_onaction_effects = {
 		}
 		{% endif %}
 
-		## Some things are setup to not trigger at the game's start date, which isn't setup by the converter. This variable will be used to handle that instead, as it will disappear after a single day, indicating you are no longer on the start date.
-		set_global_variable = {
-			name = irtock3_date_is_start_date
-			value = yes
-			days = 1
-		}
-
 		## Depending on what tier Rome title exists at game start, certain variables should be set to indicate Rome has elevated to at least that rank
 		if = {
 			limit = { exists = title:k_rome.holder }
@@ -265,6 +258,7 @@ IRToCK3_game_start_onaction_effects = {
 			REGION = irtock3_rome_empire_division_imoan_montem
 			EMPIRE = e_tibet
 		}
+{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 		# Insulae Remotae
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_insulae_remotae
@@ -275,11 +269,13 @@ IRToCK3_game_start_onaction_effects = {
 			REGION = irtock3_rome_empire_division_insulae_solis
 			EMPIRE = e_japan
 		}
+{% endunless %}
 		# Septentrionalis Deserti
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_septentrionalis_deserti
 			EMPIRE = e_mongolia
 		}
+{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.		
 		# Serica Meridiana
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_serica_meridiana
@@ -305,6 +301,7 @@ IRToCK3_game_start_onaction_effects = {
 			REGION = irtock3_rome_empire_division_serica_deserti
 			EMPIRE = e_yongliang
 		}
+{% endunless %}
 
 		## If a hegemony Rome title exists at game start, need to make sure it's de jure empires are properly setup as Praetorian Prefectures
 		if = {
@@ -364,12 +361,15 @@ IRToCK3_game_start_onaction_effects = {
 			irtock3_setup_roman_prefectures_game_start = { REGION = india_extra_gangem }
 			# Magna Taprobana
 			irtock3_setup_roman_prefectures_game_start = { REGION = magna_taprobana }
+{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 			# Insulae Remotae
 			irtock3_setup_roman_prefectures_game_start = { REGION = insulae_remotae }
 			# Insulae Solis
 			irtock3_setup_roman_prefectures_game_start = { REGION = insulae_solis }
+{% endunless %}
 			# Septentrionalis Deserti
 			irtock3_setup_roman_prefectures_game_start = { REGION = septentrionalis_deserti }
+{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 			# Serica Ultima
 			irtock3_setup_roman_prefectures_game_start = { REGION = serica_ultima }
 			# Serica Meridiana
@@ -382,6 +382,7 @@ IRToCK3_game_start_onaction_effects = {
 			irtock3_setup_roman_prefectures_game_start = { REGION = serica_septentrionalis }
 			# Serica Deserti
 			irtock3_setup_roman_prefectures_game_start = { REGION = serica_deserti }
+{% endunless %}
 		}
 
 		## If anyone holds the Rome hegemony titles at game start, they should have the Augustus trait and naming flag, and their vassals should get flags so their titles are properly named as well
@@ -460,12 +461,17 @@ IRToCK3_game_start_onaction_effects = {
 
 		# Makes sure Persia is properly named at game start
 		title:e_persia = {
-			reset_title_name = yes
-			set_definitive_form = yes
 			if = {
-				limit = { exists = holder.house }
-				holder.house = { save_scope_as = new_persia_house }
-				set_title_name_dynamic = new_persia_empire_name
+				limit = {
+					NOT = { custom_title_name = irtock3_rome_empire_division_persia }
+				}
+				reset_title_name = yes
+				set_definitive_form = yes
+				if = {
+					limit = { exists = holder.house }
+					holder.house = { save_scope_as = new_persia_house }
+					set_title_name_dynamic = new_persia_empire_name
+				}
 			}
 		}
 
@@ -519,7 +525,7 @@ IRToCK3_game_start_onaction_effects = {
 			}
 		}
 
-		{% if vanilla_ck3 or aep or roa or tfe %}
+		{% unless wtwsms %}
 		#################
 		### Indonesia ###
 		#################
@@ -576,7 +582,15 @@ IRToCK3_game_start_onaction_effects = {
 
 					holder ?= {
 						if = {
-							limit = { has_variable = irtock3_uncolonized_filler } # Just to double check that the rulers being affected aren't rulers converted from Imperator
+							limit = { # Just to double check that the rulers being affected aren't rulers converted from Imperator
+								OR = {
+									has_variable = irtock3_uncolonized_filler
+									any_sub_realm_county = {
+										count = all
+										title_province = { geographical_region = converter_AUH_out_of_scope_region_hantuist }
+									}
+								}
+							}
 
 							if = {
 								limit = { faith.religion = scope:remove_religion }
@@ -622,7 +636,15 @@ IRToCK3_game_start_onaction_effects = {
 
 					holder ?= {
 						if = {
-							limit = { has_variable = irtock3_uncolonized_filler } # Just to double check that the rulers being affected aren't rulers converted from Imperator
+							limit = { # Just to double check that the rulers being affected aren't rulers converted from Imperator
+								OR = {
+									has_variable = irtock3_uncolonized_filler
+									any_sub_realm_county = {
+										count = all
+										title_province = { geographical_region = converter_AUH_out_of_scope_region_tolotang }
+									}
+								}
+							}
 
 							if = {
 								limit = { faith.religion = scope:remove_religion }
@@ -668,7 +690,15 @@ IRToCK3_game_start_onaction_effects = {
 
 					holder ?= {
 						if = {
-							limit = { has_variable = irtock3_uncolonized_filler } # Just to double check that the rulers being affected aren't rulers converted from Imperator
+							limit = { # Just to double check that the rulers being affected aren't rulers converted from Imperator
+								OR = {
+									has_variable = irtock3_uncolonized_filler
+									any_sub_realm_county = {
+										count = all
+										title_province = { geographical_region = converter_AUH_out_of_scope_region_aluk }
+									}
+								}
+							}
 
 							if = {
 								limit = { faith.religion = scope:remove_religion }
@@ -714,7 +744,15 @@ IRToCK3_game_start_onaction_effects = {
 
 					holder ?= {
 						if = {
-							limit = { has_variable = irtock3_uncolonized_filler } # Just to double check that the rulers being affected aren't rulers converted from Imperator
+							limit = { # Just to double check that the rulers being affected aren't rulers converted from Imperator
+								OR = {
+									has_variable = irtock3_uncolonized_filler
+									any_sub_realm_county = {
+										count = all
+										title_province = { geographical_region = converter_AUH_out_of_scope_region_kaharingan }
+									}
+								}
+							}
 
 							if = {
 								limit = { faith.religion = scope:remove_religion }
@@ -769,7 +807,7 @@ IRToCK3_game_start_onaction_effects = {
 				}
 			}
 		}
-		{% endif %}
+		{% endunless %}
 
 		#################
 		### Silk Road ###
@@ -802,7 +840,7 @@ IRToCK3_game_start_onaction_effects = {
 			}
 
 			# Dunhuang
-			title:b_dunhuang.title_province ?= {
+			title:b_dunhuang_2.title_province ?= {
 				replace_building_effect = dunhuang_market_01
 				remove_building = dunhuang_market_01
 				add_special_building_slot = dunhuang_market_01
@@ -884,12 +922,62 @@ IRToCK3_game_start_onaction_effects = {
 				}
 			}
 		}
+
+		
+		# Government Setup
+		irtock3_setup_governments = yes
 	}
 }
 
 IRToCK3_game_start_after_lobby_onaction_effects = {
 	effect = {
 		every_player = { trigger_event = welcome.1 } # This event so far just notifies the players of the game rules added by the converter, and any relevant mods to use
+
+		##########################
+		## Dynastic Cycle Setup ##
+		##########################
+		# Check if h_china still needs to be properly named
+		if = {
+			limit = {
+				exists = title:h_china.holder
+				title:h_china = { has_custom_title_name = no }
+			}
+			title:h_china.holder = { trigger_event = tgp_dynastic_cycle.9000 }
+		}
+		# Make sure they properly have an Imperial Seal artifact
+		else_if = {
+			limit = {
+				exists = title:h_china.holder
+				title:h_china.holder = {
+					NOT = {
+						any_character_artifact = { artifact_type = seal_of_investiture_court }
+					}
+				}
+			}
+			title:h_china.holder = {
+				create_artifact_dynastic_imperial_seal_effect = {
+					OWNER = title:h_china.holder
+					SMITH = title:h_china.holder
+				}
+			}
+		}
+
+		# Check if one of the Stable Phases needs to be chosen
+		if = {
+			limit = {
+				exists = title:h_china.holder
+				has_global_variable = choose_dynastic_cycle_stable_era
+			}
+			remove_global_variable = choose_dynastic_cycle_stable_era
+			title:h_china.holder = { trigger_event = welcome.0071 }
+		}
+		# Otherwise, trigger initial event about Dynastic Cycle for any relevant players
+		else = {
+			every_player = {
+				limit = { tgp_does_this_player_care_about_the_dynastic_cycle = yes }
+				trigger_event = tgp_dynastic_cycle.0051
+			}
+		}
 	}
 }
 

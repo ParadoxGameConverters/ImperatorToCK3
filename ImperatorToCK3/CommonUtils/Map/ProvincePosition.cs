@@ -23,5 +23,5 @@ internal sealed class ProvincePosition {
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 	}
 	private static ProvincePosition positionToReturn = new();
-	private static readonly Parser parser = new();
+	private static readonly Parser parser = new(implicitVariableHandling: true);
 }

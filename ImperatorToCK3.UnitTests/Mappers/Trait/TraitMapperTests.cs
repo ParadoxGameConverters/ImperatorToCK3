@@ -119,7 +119,7 @@ public class TraitMapperTests {
 		var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
 		var mapper = new TraitMapper("TestFiles/MapperTests/TraitMapper/trait_map_undefined_ck3_trait.txt", ck3ModFS);
 
-		var ck3Traits = mapper.GetCK3TraitsForImperatorTraits(new[] { "impTrait" });
+		var ck3Traits = mapper.GetCK3TraitsForImperatorTraits(["impTrait"]);
 		ck3Traits.Should().Contain("undefined");
 	}
 

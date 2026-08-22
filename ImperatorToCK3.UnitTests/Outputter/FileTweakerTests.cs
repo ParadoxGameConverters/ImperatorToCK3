@@ -19,7 +19,7 @@ public class FileTweakerTests {
 			File.WriteAllBytes(filePath, "a\r\nb\r\n"u8.ToArray());
 
 			var lineEnding = InvokeGetLineEndingsInFile(filePath);
-			Assert.Equal(LineEnding.CRLF, lineEnding);
+			Assert.Equal(FileTweaker.LineEnding.CRLF, lineEnding);
 		} finally {
 			TryDeleteDir(tempDir);
 		}
@@ -33,7 +33,7 @@ public class FileTweakerTests {
 			File.WriteAllBytes(filePath, "a\nb\n"u8.ToArray());
 
 			var lineEnding = InvokeGetLineEndingsInFile(filePath);
-			Assert.Equal(LineEnding.LF, lineEnding);
+			Assert.Equal(FileTweaker.LineEnding.LF, lineEnding);
 		} finally {
 			TryDeleteDir(tempDir);
 		}
@@ -47,7 +47,7 @@ public class FileTweakerTests {
 			File.WriteAllBytes(filePath, "a\rb\r"u8.ToArray());
 
 			var lineEnding = InvokeGetLineEndingsInFile(filePath);
-			Assert.Equal(LineEnding.CR, lineEnding);
+			Assert.Equal(FileTweaker.LineEnding.CR, lineEnding);
 		} finally {
 			TryDeleteDir(tempDir);
 		}
@@ -163,7 +163,7 @@ public class FileTweakerTests {
 		}
 	}
 
-	private static LineEnding InvokeGetLineEndingsInFile(string filePath) {
+	private static FileTweaker.LineEnding InvokeGetLineEndingsInFile(string filePath) {
 		var method = typeof(FileTweaker).GetMethod(
 			"GetLineEndingsInFile",
 			BindingFlags.NonPublic | BindingFlags.Static
@@ -172,7 +172,7 @@ public class FileTweakerTests {
 
 		var result = method.Invoke(null, [filePath]);
 		Assert.NotNull(result);
-		return (LineEnding)result!;
+		return (FileTweaker.LineEnding)result!;
 	}
 
 	private static async Task InvokeModifyPartsOfFiles(

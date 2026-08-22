@@ -77,7 +77,7 @@ internal sealed partial class Province {
 				return ImmutableList<string>.Empty;
 		}
 	}
-	public void SetBuildings(IEnumerable<string> buildings, Date? date) {
+	public void SetBuildings(List<string> buildings, Date? date) {
 		History.AddFieldValue(date, "buildings", "buildings", buildings.ToImmutableList());
 	}
 

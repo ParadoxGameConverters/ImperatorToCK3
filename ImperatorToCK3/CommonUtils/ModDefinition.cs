@@ -10,10 +10,10 @@ namespace ImperatorToCK3.CommonUtils;
 /// <summary>Represents a mod detection definition loaded from a configurable file.</summary>
 internal sealed class ModDefinition {
 	public string Flag { get; }
-	private readonly IReadOnlyList<Regex> nameRegexes;
-	private readonly IReadOnlyList<string> ids;
+	private readonly List<Regex> nameRegexes;
+	private readonly List<string> ids;
 
-	public ModDefinition(string flag, IReadOnlyList<Regex> nameRegexes, IReadOnlyList<string> ids) {
+	public ModDefinition(string flag, List<Regex> nameRegexes, List<string> ids) {
 		Flag = flag;
 		this.nameRegexes = nameRegexes;
 		this.ids = ids;
@@ -38,7 +38,7 @@ internal static class ModDefinitionsReader {
 	/// }
 	/// </code>
 	/// </summary>
-	public static IReadOnlyList<ModDefinition> LoadFromFile(string filePath) {
+	public static List<ModDefinition> LoadFromFile(string filePath) {
 		if (!File.Exists(filePath)) {
 			Logger.Warn($"Mod definitions file not found: {filePath}");
 			return [];
@@ -46,12 +46,12 @@ internal static class ModDefinitionsReader {
 
 		var definitions = new List<ModDefinition>();
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterRegex(CommonRegexes.String, (reader, flag) => {
 			var nameRegexes = new List<Regex>();
 			var ids = new List<string>();
 
-			var modParser = new Parser();
+			var modParser = new Parser(implicitVariableHandling: false);
 			modParser.RegisterKeyword("name_regex", regexReader => {
 				foreach (var pattern in regexReader.GetStrings()) {
 					// Use a timeout to protect against ReDoS attacks from malicious configurable content.

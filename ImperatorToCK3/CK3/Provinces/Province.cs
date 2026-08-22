@@ -58,7 +58,7 @@ internal sealed partial class Province : IIdentifiable<ulong> {
 
 	public void InitializeFromImperator(
 		ImperatorProvince primarySourceProvince,
-		ICollection<ImperatorProvince> secondarySourceProvinces,
+		OrderedSet<ImperatorProvince> secondarySourceProvinces,
 		Title.LandedTitles landedTitles,
 		CultureMapper cultureMapper,
 		ReligionMapper religionMapper,

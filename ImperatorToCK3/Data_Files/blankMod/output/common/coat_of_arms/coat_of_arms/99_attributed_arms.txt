@@ -428,3 +428,45 @@ h_hellenistic_empire = {
 		instance = { scale = { 0.6 0.6 }  }
 	}
 }
+
+e_IRTOCK3_heritage_heritage_gaulish = {
+    pattern = "pattern_solid.dds"
+    color1 = green
+    color2 = yellow
+    colored_emblem = {
+        color1 = yellow
+        color2 = yellow
+        color3 = yellow
+        texture = "ce_triskel_02.dds"
+        instance = {
+            scale = { 0.645000 0.645000 }
+            depth = 1.010000
+        }
+    }
+
+    colored_emblem = {
+        color1 = white
+        texture = "ce_circle.dds"
+        instance = {
+            depth = 3.010000
+        }
+    }
+
+    colored_emblem = {
+        color1 = yellow_light
+        color2 = yellow
+        texture = "ce_frame_circle_borre_single_knots.dds"
+        instance = {
+            scale = { 0.900000 0.900000 }
+            depth = 2.010000
+        }
+    }
+
+    colored_emblem = {
+        color1 = yellow_light
+        texture = "ce_triskel_02.dds"
+        instance = {
+            scale = { 0.685000 0.685000 }
+        }
+    }
+}

@@ -2,232 +2,165 @@
 # Inputs:
 # list = irtock3_confederation_members - A list containing all of the members of the specific Imperator Defensive League
 irtock3_confederation_setup_effect = {
-	if = { # Check if the Confederations & Leagues mod is loaded, allowing more than Nomads/Tribes into confederations
-		limit = { has_global_variable = confed_league_enabled }
-
-		if = {
-			limit = { # Need to make sure that there are enough members in the Imperator Defensive League of appropriate rank
-				any_in_list = {
-					list = irtock3_confederation_members
-					count > 1
-					CL_has_appropriate_title_tier = yes
-				}
-			}
-
-			# Remove rulers who can't be in a confederation/league because of title rank or government, so they aren't added later or considered for anything else later on
-			every_in_list = {
-				limit = {
-					OR = {
-						CL_has_appropriate_title_tier = no
-						AND = {
-							CL_uses_confederations = no
-							CL_uses_leagues = no
-						}
-					}
-				}
+	{% if confed_league %}
+	## Confederations & Leagues mod is loaded, allowing more than Nomads/Tribes into confederations
+	if = {
+		limit = { # Need to make sure that there are enough members in the Imperator Defensive League of appropriate rank
+			any_in_list = {
 				list = irtock3_confederation_members
-				remove_from_list = irtock3_confederation_members
+				count > 1
+				#tiger-ignore(text="unknown token `CL_has_appropriate_title_tier`")
+				CL_has_appropriate_title_tier = yes
 			}
-
-			## Need to determine whether this specific Imperator Defensive League will convert to a Confederation or a League, so check the government of every member, and count how many should be in confederations and how many should be in leagues
-			set_global_variable = {
-				name = confed_num
-				value = 0
-			}
-			set_global_variable = {
-				name = league_num
-				value = 0
-			}
-			every_in_list = {
-				list = irtock3_confederation_members
-
-				if = {
-					limit = { CL_uses_confederations = yes }
-					change_global_variable = {
-						name = confed_num
-						add = 1
-					}
-				}
-				else_if = {
-					limit = { CL_uses_leagues = yes }
-					change_global_variable = {
-						name = league_num
-						add = 1
-					}
-				}
-			}
-
-			# If there ends up not being enough members to form either a confederation or a defensive league, nothing should happen
-			if = {
-				limit = {
-					OR = {
-						global_var:league_num >= 2
-						global_var:confed_num >= 2
-					}
-				}
-				# Now need to get relevant rulers to be used to determine the name of the confederation/league. For now, will just take the two with the largest military strength
-				if = {
-					limit = { global_var:league_num >= global_var:confed_num } # This should imply they should be in a Defensive League
-
-					# Get first member, for the 'actor' scope
-					ordered_in_list = {
-						limit = { CL_uses_leagues = yes }
-						alternative_limit = { always = yes } # Incase somehow this was chosen and no one is actually capable of using leagues, need to make sure someone is chosen
-						list = irtock3_confederation_members
-						order_by = max_military_strength
-						max = 1
-						save_scope_as = actor
-						save_scope_as = confederation_offerer
-					}
-					# Get second member, for the 'recipient' scope
-					ordered_in_list = {
-						limit = {
-							CL_uses_leagues = yes
-							this != scope:actor
-						}
-						alternative_limit = { # Incase somehow this was chosen and no one is actually capable of using leagues, need to make sure someone is chosen
-							this != scope:actor
-						}
-						list = irtock3_confederation_members
-						order_by = max_military_strength
-						max = 1
-						save_scope_as = recipient
-						save_scope_as = confederation_accepter
-					}
-
-					# For now, removing any members who can't join leagues because of government type
-					every_in_list = {
-						limit = { CL_uses_leagues = no }
-						list = irtock3_confederation_members
-						remove_from_list = irtock3_confederation_members
-					}
-
-					# Save a scope value indicating this is going to be a defensive league
-					save_scope_value_as = {
-						name = new_CL_type
-						value = flag:defensive_league
-					}
-				}
-				else = { # Otherwise, they will be put into a confederation
-					# Get first member, for the 'actor' scope
-					ordered_in_list = {
-						limit = { CL_uses_confederations = yes }
-						alternative_limit = { always = yes } # Incase somehow this was chosen an no one is actually capable of using confederations, need to make sure someone is chosen
-						list = irtock3_confederation_members
-						order_by = max_military_strength
-						max = 1
-						save_scope_as = actor
-						save_scope_as = confederation_offerer
-					}
-					# Get second member, for the 'recipient' scope
-					ordered_in_list = {
-						limit = {
-							CL_uses_confederations = yes
-							this != scope:actor
-						}
-						alternative_limit = { # Incase somehow this was chosen an no one is actually capable of using confederations, need to make sure someone is chosen
-							this != scope:actor
-						}
-						list = irtock3_confederation_members
-						order_by = max_military_strength
-						max = 1
-						save_scope_as = recipient
-						save_scope_as = confederation_accepter
-					}
-
-					# For now, removing any members who can't join confederations because of government type
-					every_in_list = {
-						limit = { CL_uses_confederations = no }
-						list = irtock3_confederation_members
-						remove_from_list = irtock3_confederation_members
-					}
-
-					# Save a scope value indicating this is going to be a confederation
-					save_scope_value_as = {
-						name = new_CL_type
-						value = flag:confederation
-					}
-				}
-
-				# Trigger the event that will create the confederation/league and have both scope:actor and scope:recipient added to it
-				scope:actor = {
-					#Event distributor event
-					trigger_event = mpo_interactions_events.0001
-				}
-
-				# Add other Defensive League members
-				every_in_list = {
-					limit = { is_confederation_member = no }
-					list = irtock3_confederation_members
-					save_scope_as = new_member
-					scope:actor.confederation = { add_confederation_member = scope:new_member }
-					clear_saved_scope = new_member
-				}
-			}
-
-			# Cleanup so it doesn't cause any issues when converting multiple Defensive Leagues from Imperator
-			remove_global_variable = league_num
-			remove_global_variable = confed_num
-			clear_saved_scope = actor
-			clear_saved_scope = confederation_offerer
-			clear_saved_scope = recipient
-			clear_saved_scope = confederation_accepter
-			clear_saved_scope = new_confederation
-			clear_saved_scope = new_CL_type
 		}
-	}
-	# Otherwise, assume just using base game confederations, meaning only Nomads/Tribes should be allowed in
-	else = {
-		if = {
-			limit = { # Need to make sure that there are enough members in the Imperator Defensive League of appropriate rank and government for base game confederations
-				any_in_list = {
-					list = irtock3_confederation_members
-					count > 1
+
+		# Remove rulers who can't be in a confederation/league because of title rank or government, so they aren't added later or considered for anything else later on
+		every_in_list = {
+			limit = {
+				OR = {
+					#tiger-ignore(text="unknown token `CL_has_appropriate_title_tier`")
+					CL_has_appropriate_title_tier = no
 					AND = {
-						highest_held_title_tier < tier_kingdom
-						OR = {
-							has_government = nomad_government
-							has_government = tribal_government
-						}
+						#tiger-ignore(text="unknown token `CL_uses_confederations`")
+						CL_uses_confederations = no
+						#tiger-ignore(text="unknown token `CL_uses_leagues`")
+						CL_uses_leagues = no
 					}
 				}
 			}
+			list = irtock3_confederation_members
+			remove_from_list = irtock3_confederation_members
+		}
 
-			# Remove rulers who can't be in a confederation because of title rank or government, so they aren't added later on
-			every_in_list = {
-				limit = {
-					OR = {
-						highest_held_title_tier >= tier_kingdom
-						NOR = {
-							has_government = nomad_government
-							has_government = tribal_government
-						}
-					}
+		## Need to determine whether this specific Imperator Defensive League will convert to a Confederation or a League, so check the government of every member, and count how many should be in confederations and how many should be in leagues
+		set_global_variable = {
+			name = confed_num
+			value = 0
+		}
+		set_global_variable = {
+			name = league_num
+			value = 0
+		}
+		every_in_list = {
+			list = irtock3_confederation_members
+
+			if = {
+				#tiger-ignore(text="unknown token `CL_uses_confederations`")
+				limit = { CL_uses_confederations = yes }
+				change_global_variable = {
+					name = confed_num
+					add = 1
 				}
-				list = irtock3_confederation_members
-				remove_from_list = irtock3_confederation_members
+			}
+			else_if = {
+				#tiger-ignore(text="unknown token `CL_uses_leagues`")
+				limit = { CL_uses_leagues = yes }
+				change_global_variable = {
+					name = league_num
+					add = 1
+				}
+			}
+		}
+
+		# If there ends up not being enough members to form either a confederation or a defensive league, nothing should happen
+		if = {
+			limit = {
+				OR = {
+					global_var:league_num >= 2
+					global_var:confed_num >= 2
+				}
+			}
+			# Now need to get relevant rulers to be used to determine the name of the confederation/league. For now, will just take the two with the largest military strength
+			if = {
+				limit = { global_var:league_num >= global_var:confed_num } # This should imply they should be in a Defensive League
+
+				# Get first member, for the 'actor' scope
+				ordered_in_list = {
+					#tiger-ignore(text="unknown token `CL_uses_leagues`")
+					limit = { CL_uses_leagues = yes }
+					alternative_limit = { always = yes } # Incase somehow this was chosen and no one is actually capable of using leagues, need to make sure someone is chosen
+					list = irtock3_confederation_members
+					order_by = max_military_strength
+					max = 1
+					save_scope_as = actor
+					save_scope_as = confederation_offerer
+				}
+				# Get second member, for the 'recipient' scope
+				ordered_in_list = {
+					limit = {
+						#tiger-ignore(text="unknown token `CL_uses_leagues`")
+						CL_uses_leagues = yes
+						this != scope:actor
+					}
+					alternative_limit = { # Incase somehow this was chosen and no one is actually capable of using leagues, need to make sure someone is chosen
+						this != scope:actor
+					}
+					list = irtock3_confederation_members
+					order_by = max_military_strength
+					max = 1
+					save_scope_as = recipient
+					save_scope_as = confederation_accepter
+				}
+
+				# For now, removing any members who can't join leagues because of government type
+				every_in_list = {
+					#tiger-ignore(text="unknown token `CL_uses_leagues`")
+					limit = { CL_uses_leagues = no }
+					list = irtock3_confederation_members
+					remove_from_list = irtock3_confederation_members
+				}
+
+				# Save a scope value indicating this is going to be a defensive league
+				save_scope_value_as = {
+					name = new_CL_type
+					value = flag:defensive_league
+				}
+			}
+			else = { # Otherwise, they will be put into a confederation
+				# Get first member, for the 'actor' scope
+				ordered_in_list = {
+					#tiger-ignore(text="unknown token `CL_uses_confederations`")
+					limit = { CL_uses_confederations = yes }
+					alternative_limit = { always = yes } # Incase somehow this was chosen an no one is actually capable of using confederations, need to make sure someone is chosen
+					list = irtock3_confederation_members
+					order_by = max_military_strength
+					max = 1
+					save_scope_as = actor
+					save_scope_as = confederation_offerer
+				}
+				# Get second member, for the 'recipient' scope
+				ordered_in_list = {
+					limit = {
+						#tiger-ignore(text="unknown token `CL_uses_confederations`")
+						CL_uses_confederations = yes
+						this != scope:actor
+					}
+					alternative_limit = { # Incase somehow this was chosen an no one is actually capable of using confederations, need to make sure someone is chosen
+						this != scope:actor
+					}
+					list = irtock3_confederation_members
+					order_by = max_military_strength
+					max = 1
+					save_scope_as = recipient
+					save_scope_as = confederation_accepter
+				}
+
+				# For now, removing any members who can't join confederations because of government type
+				every_in_list = {
+					#tiger-ignore(text="unknown token `CL_uses_confederations`")
+					limit = { CL_uses_confederations = no }
+					list = irtock3_confederation_members
+					remove_from_list = irtock3_confederation_members
+				}
+
+				# Save a scope value indicating this is going to be a confederation
+				save_scope_value_as = {
+					name = new_CL_type
+					value = flag:confederation
+				}
 			}
 
-			## Now need to get relevant rulers to be used to determine the name of the confederation. For now, will just take the two with the largest military strength
-			# Get first member, for the 'actor' scope
-			ordered_in_list = {
-				list = irtock3_confederation_members
-				order_by = max_military_strength
-				max = 1
-				save_scope_as = actor
-				save_scope_as = confederation_offerer
-			}
-			# Get second member, for the 'recipient' scope
-			ordered_in_list = {
-				limit = { this != scope:actor }
-				list = irtock3_confederation_members
-				order_by = max_military_strength
-				max = 1
-				save_scope_as = recipient
-				save_scope_as = confederation_accepter
-			}
-
-			# Trigger the event that will create the confederation and have both scope:actor and scope:recipient added to it
+			# Trigger the event that will create the confederation/league and have both scope:actor and scope:recipient added to it
 			scope:actor = {
 				#Event distributor event
 				trigger_event = mpo_interactions_events.0001
@@ -241,15 +174,92 @@ irtock3_confederation_setup_effect = {
 				scope:actor.confederation = { add_confederation_member = scope:new_member }
 				clear_saved_scope = new_member
 			}
-
-			# Cleanup so it doesn't cause any issues when converting multiple Defensive Leagues from Imperator
-			clear_saved_scope = actor
-			clear_saved_scope = confederation_offerer
-			clear_saved_scope = recipient
-			clear_saved_scope = confederation_accepter
-			clear_saved_scope = new_confederation
 		}
+
+		# Cleanup so it doesn't cause any issues when converting multiple Defensive Leagues from Imperator
+		remove_global_variable = league_num
+		remove_global_variable = confed_num
+		clear_saved_scope = actor
+		clear_saved_scope = confederation_offerer
+		clear_saved_scope = recipient
+		clear_saved_scope = confederation_accepter
+		clear_saved_scope = new_confederation
+		clear_saved_scope = new_CL_type
 	}
+	{% else %}
+	## Using base game Confederations, allowing only Nomads/Tribes in
+	if = {
+		limit = { # Need to make sure that there are enough members in the Imperator Defensive League of appropriate rank and government for base game confederations
+			any_in_list = {
+				list = irtock3_confederation_members
+				count > 1
+				AND = {
+					highest_held_title_tier < tier_kingdom
+					OR = {
+						has_government = nomad_government
+						has_government = tribal_government
+					}
+				}
+			}
+		}
+
+		# Remove rulers who can't be in a confederation because of title rank or government, so they aren't added later on
+		every_in_list = {
+			limit = {
+				OR = {
+					highest_held_title_tier >= tier_kingdom
+					NOR = {
+						has_government = nomad_government
+						has_government = tribal_government
+					}
+				}
+			}
+			list = irtock3_confederation_members
+			remove_from_list = irtock3_confederation_members
+		}
+
+		## Now need to get relevant rulers to be used to determine the name of the confederation. For now, will just take the two with the largest military strength
+		# Get first member, for the 'actor' scope
+		ordered_in_list = {
+			list = irtock3_confederation_members
+			order_by = max_military_strength
+			max = 1
+			save_scope_as = actor
+			save_scope_as = confederation_offerer
+		}
+		# Get second member, for the 'recipient' scope
+		ordered_in_list = {
+			limit = { this != scope:actor }
+			list = irtock3_confederation_members
+			order_by = max_military_strength
+			max = 1
+			save_scope_as = recipient
+			save_scope_as = confederation_accepter
+		}
+
+		# Trigger the event that will create the confederation and have both scope:actor and scope:recipient added to it
+		scope:actor = {
+			#Event distributor event
+			trigger_event = mpo_interactions_events.0001
+		}
+
+		# Add other Defensive League members
+		every_in_list = {
+			limit = { is_confederation_member = no }
+			list = irtock3_confederation_members
+			save_scope_as = new_member
+			scope:actor.confederation = { add_confederation_member = scope:new_member }
+			clear_saved_scope = new_member
+		}
+
+		# Cleanup so it doesn't cause any issues when converting multiple Defensive Leagues from Imperator
+		clear_saved_scope = actor
+		clear_saved_scope = confederation_offerer
+		clear_saved_scope = recipient
+		clear_saved_scope = confederation_accepter
+		clear_saved_scope = new_confederation
+	}
+	{% endif %}
 
 	# Empty the list of members so there are no conflicts when converting multiple Imperator Defensive Leagues
 	every_in_list = {
@@ -272,6 +282,7 @@ irtock3_setup_governments = {
 		# Need to know exactly what rulers might get involved in the Dynastic Cycle
 		if = {
 			limit = {
+				NOT = { global_var:irtock3_enabled = flag:wtwsms } # Only relevant if not using a mod that excludes East Asia
 				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
 				exists = situation:dynastic_cycle
 				top_liege = this # Needs to be independent
@@ -327,8 +338,59 @@ irtock3_setup_governments = {
 			# If a Feudal vassal exists under a Japanese-government liege (or above), they should change to be Soryo, since that is the Japanese equivalent government
 			# This is likely only ever going to happen for rulers who are given land because they had holdings in Imperator (the converter gives them that holding in CK3 and makes them a Feudal vassal)
 			# Noble family titles are created later in script
+			capital_county.title_province = { set_holding_type = castle_holding } # Sometimes rulers can't change government if their capital doesn't have the right holding type
 			change_government = japan_feudal_government
 		}
+		############################
+		### Setup Mandala Rulers ###
+		############################
+		# Converter can't get perfect mappings for Mandala given its dependence on specific culture/faith conditions, so setting them up here instead
+		{% if MandalaRulers == 'none' %}
+		## You chose to not allow rulers to convert to Mandala at game start
+		{% else %}
+		else_if = {
+			limit = {
+				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
+				has_mandala_culture_trigger = yes # Need relevant culture
+				has_mandala_faith_trigger = yes # Need relevant faith
+				is_landed = yes
+
+				# Depending on chosen options when converting, location/government conditions will vary
+				## Location
+				{% if MandalaRulers == 'sea_feudal' or MandalaRulers == 'sea_nontribal' or MandalaRulers == 'sea_all' %}
+				# You chose to limit Mandala to Southeast Asia
+				any_sub_realm_county = {
+					percent >= 0.5
+					title_province = {
+						OR = {
+							geographical_region = world_burma
+							geographical_region = world_asia_southeast
+						}
+					}
+				}
+				{% else %}
+				# You chose to allow Mandala everywhere
+				{% endif %}
+
+				## Government
+				{% if MandalaRulers == 'sea_feudal' or MandalaRulers == 'everywhere_feudal' %}
+				# You chose to limit converting to Mandala to Feudal only
+				has_government = feudal_government
+				{% elsif MandalaRulers == 'sea_nontribal' or MandalaRulers == 'everywhere_nontribal' %}
+				# You chose to limit converting to Mandala to any non-Tribal/Wanua/Nomadic government
+				NOR = {
+					government_has_flag = government_is_tribal
+					government_has_flag = government_is_nomadic
+					government_has_flag = government_is_herder
+				}
+				{% else %}
+				# You chose to allow converting any government to Mandala
+				{% endif %}
+			}
+			capital_county.title_province = { set_holding_type = temple_citadel_holding } # Sometimes rulers can't change government if their capital doesn't have the right holding type
+			change_government = mandala_government
+		}
+		{% endif %}
 		##########################
 		### Setup Wanua Rulers ###
 		##########################
@@ -363,199 +425,157 @@ irtock3_setup_governments = {
 					}
 				}
 			}
+			capital_county.title_province = { set_holding_type = tribal_holding } # Sometimes rulers can't change government if their capital doesn't have the right holding type
 			change_government = wanua_government
-		}
-		############################
-		### Setup Mandala Rulers ###
-		############################
-		# Converter can't get perfect mappings for Mandala given its dependence on specific culture/faith conditions, so setting them up here instead
-		else_if = {
-			limit = {
-				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
-				has_government = feudal_government
-				has_mandala_culture_trigger = yes # Need relevant culture
-				has_mandala_faith_trigger = yes # Need relevant faith
-				# Depending on game rules, setting Mandala might be limited to only SEA
-				trigger_if = {
-					limit = { has_game_rule = irtock3_gamerule_mandala_rulers_sea }
-					any_sub_realm_county = {
-						percent >= 0.5
-						title_province = {
-							OR = {
-								geographical_region = world_burma
-								geographical_region = world_asia_southeast
-							}
-						}
-					}
-				}
-			}
-			change_government = mandala_government
 		}
 		###########################
 		### Setup Filler Rulers ###
 		###########################
-		# Game rule deciding how to handle the filler rulers (If you don't have Khans of the Steppe, this basically does nothing, as if you chose irtock3_gamerule_filler_rulers_leave_alone, since you can't have Nomads anyway)
+		# How to handle the filler rulers who weren't already modified by any of the above sections (Since this only affects making them Nomads as of now, this doesn't really do anything unless you have Khans of the Steppe)
+		{% if FillerGovernments == 'no_changes' %}
+		## You chose to not modify the filler rulers at game start
+		{% else %}
 		else_if = {
 			limit = {
 				has_mpo_dlc_trigger = yes # Need Khans of the Steppe to get anything from this game rule for now
 				has_variable = irtock3_uncolonized_filler # Need to make sure this only affects filler rulers
 			}
 
-			switch = {
-				trigger = has_game_rule
-				irtock3_gamerule_filler_rulers_leave_alone = { } # This game rule changes nothing, will typically result in Tribal filler rulers
-				irtock3_gamerule_filler_rulers_all_nomads = { # This game rule makes all filler rulers Nomadic
-					if = {
-						limit = {
-							NOT = { has_government = nomad_government }
-						}
-						change_government = nomad_government # Make them Nomadic
+			# Depending on what option you chose when converting, the conditions for which filler rulers become Nomadic will change
+			if = {
+				limit = {
+					{% if FillerGovernments == 'steppe_nomads_all' %}
+					## You chose to make ALL filler rulers in the Steppe Nomadic
+					# It seems like a character can't technically "join" a situation until after the "after lobby" stuff finishes, so checking the counties' situations instead
+					any_sub_realm_county = {
+						percent >= 0.5
+						any_county_situation = { this = situation:the_great_steppe }
 					}
+
+					{% elsif FillerGovernments == 'steppe_nomads_heritage' %}
+					## You chose to make filler rulers in the Steppe Nomadic if they have certain heritages
+					# It seems like a character can't technically "join" a situation until after the "after lobby" stuff finishes, so checking the counties' situations instead
+					any_sub_realm_county = {
+						percent >= 0.5
+						any_county_situation = { this = situation:the_great_steppe }
+					}
+					culture = { # Make sure they have a relevant heritage
+						OR = {
+							has_cultural_pillar = heritage_mongolic
+							has_cultural_pillar = heritage_turkic
+							has_cultural_pillar = heritage_iranian
+							has_cultural_pillar = heritage_magyar
+							has_cultural_pillar = heritage_ugro_permian
+						}
+					}
+
+					{% elsif FillerGovernments == 'steppe_nomads_herdhead' %}
+					## You chose to make filler rulers in the Steppe Nomadic if their culture head is determined by herd
+					# It seems like a character can't technically "join" a situation until after the "after lobby" stuff finishes, so checking the counties' situations instead
+					any_sub_realm_county = {
+						percent >= 0.5
+						any_county_situation = { this = situation:the_great_steppe }
+					}
+					culture = { has_cultural_pillar = head_determination_herd } # Make sure their culture head is determined by herd
+
+					{% else %}
+					## You chose to make ALL filler rulers Nomadic
+					always = yes
+					{% endif %}
 				}
-				irtock3_gamerule_filler_rulers_steppe_nomads_all = { # This game rule makes all filler rulers in the Great Steppe Nomadic
-					if = {
-						limit = {
-							# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
-							any_sub_realm_county = {
-								percent >= 0.5
-								any_county_situation = { this = situation:the_great_steppe }
-							}
-							NOT = { has_government = nomad_government }
-						}
-						change_government = nomad_government # Make them Nomadic
-					}
-					else_if = {
-						limit = {
-							NOT = { has_government = tribal_government }
-						}
-						change_government = tribal_government # Make them Tribal
-					}
+				capital_county.title_province = { set_holding_type = nomad_holding } # Sometimes rulers can't change government if their capital doesn't have the right holding type
+				change_government = nomad_government # Make them Nomadic
+			}
+			else_if = {
+				limit = {
+					NOT = { has_government = tribal_government }
 				}
-				irtock3_gamerule_filler_rulers_steppe_nomads_heritage = { # This game rule makes filler rulers in the Great Steppe Nomadic based off their heritage
-					if = {
-						limit = {
-							# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
-							any_sub_realm_county = {
-								percent >= 0.5
-								any_county_situation = { this = situation:the_great_steppe }
-							}
-							NOT = { has_government = nomad_government }
-							culture = { # Make sure they have a relevant heritage
-								OR = {
-									has_cultural_pillar = heritage_mongolic
-									has_cultural_pillar = heritage_turkic
-									has_cultural_pillar = heritage_iranian
-									has_cultural_pillar = heritage_magyar
-									has_cultural_pillar = heritage_ugro_permian
-								}
-							}
-						}
-						change_government = nomad_government # Make them Nomadic
-					}
-					else_if = {
-						limit = {
-							NOT = { has_government = tribal_government }
-						}
-						change_government = tribal_government # Make them Tribal
-					}
-				}
-				irtock3_gamerule_filler_rulers_steppe_nomads_herdhead = { # This game rule makes filler rulers in the Great Steppe Nomadic based off how their cultural head is determined
-					if = {
-						limit = {
-							# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
-							any_sub_realm_county = {
-								percent >= 0.5
-								any_county_situation = { this = situation:the_great_steppe }
-							}
-							NOT = { has_government = nomad_government }
-							culture = { has_cultural_pillar = head_determination_herd } # Make sure their culture head is determined by herd
-						}
-						change_government = nomad_government # Make them Nomadic
-					}
-					else_if = {
-						limit = {
-							NOT = { has_government = tribal_government }
-						}
-						change_government = tribal_government # Make them Tribal
-					}
-				}
+				capital_county.title_province = { set_holding_type = tribal_holding } # Sometimes rulers can't change government if their capital doesn't have the right holding type
+				change_government = tribal_government # Make them Tribal
 			}
 		}
+		{% endif %}
 		##############################
 		### Setup Imperator Rulers ###
 		##############################
-		## Game rule deciding whether to allow Imperator tags converted to Nomadic to remain Nomadic (If you don't have Khans of the Steppe, this basically does nothing, as if you chose irtock3_gamerule_nomads_leave_everything, since you can't have Nomads anyway)
+		# Whether to allow Imperator tags converted to Nomadic to remain Nomadic (If you don't have Khans of the Steppe, this does nothing)
+		{% if ImperatorNomads == 'no_changes' %}
+		## You chose to not modify the Imperator Nomads in any way at game start
+		{% else %}
 		else_if = {
 			limit = {
 				has_mpo_dlc_trigger = yes # Need Khans of the Steppe to get anything from this game rule for now
 				NOT = { has_variable = irtock3_uncolonized_filler } # Need to make sure this only affects rulers converted from Imperator
 			}
-			
-			switch = {
-				trigger = has_game_rule
-				irtock3_gamerule_nomads_leave_everything = { } # This game rule changes nothing
-				irtock3_gamerule_nomads_only_steppe = { # This game rule makes sure only Imperator tags in the steppe remain Nomadic
-					if = {
-						limit = {
-							has_government = nomad_government
-							NOT = { # Need to make sure they aren't involved in the Great Steppe situation
-								# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
-								any_sub_realm_county = {
-									percent >= 0.5
-									any_county_situation = { this = situation:the_great_steppe }
-								}
-							}
+			# Depending on what option you chose when converting, the conditions for which rulers can be Nomadic will change
+			{% if ImperatorNomads == 'only_steppe' %}
+			## You chose to only allow Imperator Nomads in the Steppe
+			if = {
+				limit = {
+					has_government = nomad_government
+					NOT = { # Need to make sure they aren't involved in the Great Steppe situation
+						# It seems like a character can't technically "join" a situation until after the "after lobby" stuff finishes, so checking the counties' situations instead
+						any_sub_realm_county = {
+							percent >= 0.5
+							any_county_situation = { this = situation:the_great_steppe }
 						}
-						change_government = tribal_government # Make them tribal
 					}
 				}
-				irtock3_gamerule_nomads_no_nomads = { # This game rule makes all Imperator tags that were converted to Nomadic become Tribal
-					if = {
-						limit = { has_government = nomad_government }
-						change_government = tribal_government # Make them tribal
-					}
-				}
-				irtock3_gamerule_nomads_leave_outside_force_steppe_tribes = { # This game rule allows all Imperator tags to remain Nomadic, and also makes any tribal tags in the Steppe Nomadic
-					if = {
-						limit = {
-							has_government = tribal_government
-							# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
-							any_sub_realm_county = {
-								percent >= 0.5
-								any_county_situation = { this = situation:the_great_steppe }
-							}
-						}
-						change_government = nomad_government # Make them nomadic
-					}
-				}
-				irtock3_gamerule_nomads_none_outside_force_steppe_tribes = { # This game rule makes all Imperator tags that were converted to Nomadic that are outside the Steppe Tribal, and also makes any tribal tags in the Steppe Nomadic
-					if = {
-						limit = {
-							has_government = tribal_government
-							# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
-							any_sub_realm_county = {
-								percent >= 0.5
-								any_county_situation = { this = situation:the_great_steppe }
-							}
-						}
-						change_government = nomad_government # Make them nomadic
-					}
-					else_if = {
-						limit = {
-							has_government = nomad_government
-							NOT = { # Need to make sure they aren't involved in the Great Steppe situation
-								# A character can't technically join a situation until after "after lobby" stuff finishes, so you need to check the counties' situations
-								any_sub_realm_county = {
-									percent >= 0.5
-									any_county_situation = { this = situation:the_great_steppe }
-								}
-							}
-						}
-						change_government = tribal_government # Make them tribal
-					}
-				}
+				capital_county.title_province = { set_holding_type = tribal_holding } # Sometimes rulers can't change government if their capital doesn't have the right holding type
+				change_government = tribal_government # Make them tribal
 			}
+			{% elsif ImperatorNomads == 'leave_outside_convert_steppe_tribes' %}
+			## You chose to allow Imperator Nomads outside the Steppe to remain Nomadic, and convert all Imperator Tribals in the Steppe to be Nomadic
+			if = {
+				limit = {
+					has_government = tribal_government
+					# It seems like a character can't technically "join" a situation until after the "after lobby" stuff finishes, so checking the counties' situations instead
+					any_sub_realm_county = {
+						percent >= 0.5
+						any_county_situation = { this = situation:the_great_steppe }
+					}
+				}
+				capital_county.title_province = { set_holding_type = nomad_holding } # Sometimes rulers can't change government if their capital doesn't have the right holding type
+				change_government = nomad_government # Make them nomadic
+			}
+			{% elsif ImperatorNomads == 'none_outside_convert_steppe_tribes' %}
+			## You chose to not allow Imperator Nomads outside the Steppe to be Nomadic, and to convert all Imperator Tribals in the Steppe to be Nomadic
+			if = {
+				limit = {
+					has_government = tribal_government
+					# It seems like a character can't technically "join" a situation until after the "after lobby" stuff finishes, so checking the counties' situations instead
+					any_sub_realm_county = {
+						percent >= 0.5
+						any_county_situation = { this = situation:the_great_steppe }
+					}
+				}
+				capital_county.title_province = { set_holding_type = nomad_holding } # Sometimes rulers can't change government if their capital doesn't have the right holding type
+				change_government = nomad_government # Make them nomadic
+			}
+			else_if = {
+				limit = {
+					has_government = nomad_government
+					NOT = { # Need to make sure they aren't involved in the Great Steppe situation
+						# It seems like a character can't technically "join" a situation until after the "after lobby" stuff finishes, so checking the counties' situations instead
+						any_sub_realm_county = {
+							percent >= 0.5
+							any_county_situation = { this = situation:the_great_steppe }
+						}
+					}
+				}
+				capital_county.title_province = { set_holding_type = tribal_holding } # Sometimes rulers can't change government if their capital doesn't have the right holding type
+				change_government = tribal_government # Make them tribal
+			}
+			{% else %}
+			## You chose to not allow any Imperator tags to be Nomads
+			if = {
+				limit = { has_government = nomad_government }
+				capital_county.title_province = { set_holding_type = tribal_holding } # Sometimes rulers can't change government if their capital doesn't have the right holding type
+				change_government = tribal_government # Make them tribal
+			}
+			{% endif %}
 		}
+		{% endif %}
 
 		###############
 		### Cleanup ###
@@ -576,12 +596,16 @@ irtock3_setup_governments = {
 						scope:nomad_temp = { destroy_title = prev }
 					}
 					else_if = {
-						limit = {
-							title_province = {
-								NOT = { has_holding_type = tribal_holding }
+						limit = { is_titular = no }
+						every_county_province = {
+							limit = {
+								OR = {
+									has_holding_type = nomad_holding
+									has_holding_type = herder_holding
+								}
 							}
+							set_holding_type = tribal_holding
 						}
-						title_province = { set_holding_type = tribal_holding }
 					}
 				}
 				change_government = tribal_government
@@ -603,12 +627,16 @@ irtock3_setup_governments = {
 								scope:nomad_temp = { destroy_title = prev }
 							}
 							else_if = {
-								limit = {
-									title_province = {
-										NOT = { has_holding_type = tribal_holding }
+								limit = { is_titular = no }
+								every_county_province = {
+									limit = {
+										OR = {
+											has_holding_type = nomad_holding
+											has_holding_type = herder_holding
+										}
 									}
+									set_holding_type = tribal_holding
 								}
-								title_province = { set_holding_type = tribal_holding }
 							}
 						}
 						change_government = tribal_government
@@ -618,20 +646,19 @@ irtock3_setup_governments = {
 				clear_saved_scope = nomad_temp
 			}
 			else = {
-				every_sub_realm_county = {
+				every_held_title = {
+					limit = {
+						tier = tier_county
+						is_titular = no
+					}
 					every_county_province = {
 						if = { # Capital Barony
-							limit = {
-								is_county_capital = yes
-								NOT = { has_holding_type = nomad_holding }
-							}
+							limit = { is_county_capital = yes }
 							set_holding_type = nomad_holding
 						}
-						else = { # Non-Capital Barony
-							if = {
-								limit = { has_holding = yes }
-								remove_holding = yes
-							}
+						else_if = { # Non-Capital Barony
+							limit = { has_holding = yes }
+							remove_holding = yes
 						}
 					}
 				}
@@ -652,12 +679,16 @@ irtock3_setup_governments = {
 						scope:nomad_temp = { destroy_title = prev }
 					}
 					else_if = {
-						limit = {
-							title_province = {
-								NOT = { has_holding_type = tribal_holding }
+						limit = { is_titular = no }
+						every_county_province = {
+							limit = {
+								OR = {
+									has_holding_type = nomad_holding
+									has_holding_type = herder_holding
+								}
 							}
+							set_holding_type = tribal_holding
 						}
-						title_province = { set_holding_type = tribal_holding }
 					}
 				}
 				change_government = tribal_government
@@ -679,12 +710,16 @@ irtock3_setup_governments = {
 								scope:nomad_temp = { destroy_title = prev }
 							}
 							else_if = {
-								limit = {
-									title_province = {
-										NOT = { has_holding_type = tribal_holding }
+								limit = { is_titular = no }
+								every_county_province = {
+									limit = {
+										OR = {
+											has_holding_type = nomad_holding
+											has_holding_type = herder_holding
+										}
 									}
+									set_holding_type = tribal_holding
 								}
-								title_province = { set_holding_type = tribal_holding }
 							}
 						}
 						change_government = tribal_government
@@ -694,20 +729,19 @@ irtock3_setup_governments = {
 				clear_saved_scope = nomad_temp
 			}
 			else = {
-				every_sub_realm_county = {
+				every_held_title = {
+					limit = {
+						tier = tier_county
+						is_titular = no
+					}
 					every_county_province = {
 						if = { # Capital Barony
-							limit = {
-								is_county_capital = yes
-								NOT = { has_holding_type = herder_holding }
-							}
+							limit = { is_county_capital = yes }
 							set_holding_type = herder_holding
 						}
-						else = { # Non-Capital Barony
-							if = {
-								limit = { has_holding = yes }
-								remove_holding = yes
-							}
+						else_if = { # Non-Capital Barony
+							limit = { has_holding = yes }
+							remove_holding = yes
 						}
 					}
 				}
@@ -722,21 +756,24 @@ irtock3_setup_governments = {
 			}
 
 			every_held_title = {
-				title_tier = county
-				if = {
-					limit = {
-						title_province = {
-							NOT = { has_holding_type = tribal_holding }
-						}
-					}
-					title_province = { set_holding_type = tribal_holding }
+				limit = {
+					tier = tier_county
+					is_titular = no
+				}
+				every_county_province = {
+					limit = { has_holding = yes }
+					set_holding_type = tribal_holding
 				}
 			}
 		}
 		else_if = { # Mandala rulers need a Temple Citadel and Mandala Succession
 			limit = { has_government = mandala_government }
 
-			every_sub_realm_county = {
+			every_held_title = {
+				limit = {
+					tier = tier_county
+					is_titular = no
+				}
 				title_province = {
 					if = {
 						limit = {
@@ -951,7 +988,7 @@ irtock3_setup_governments = {
 						every_de_jure_county = { add = 1 }
 					}
 				}
-				position = 1 # Makes sure that the duchy with highest percentage owned is being saved
+				max = 1 # Makes sure that the duchy with highest percentage owned is being saved
 				save_scope_as = new_duchy_title
 			}
 
@@ -1006,6 +1043,38 @@ irtock3_setup_governments = {
 			}
 			create_noble_family_effect = { GOVERNMENT_GIVER = this }
 		}
+
+		## Need to make sure that domiciles properly start in the relevant locations
+		if = {
+			limit = { exists = domicile }
+			save_scope_as = ruler_scope
+			if = {
+				limit = { top_liege != this }
+				top_liege = { save_scope_as = top_liege_scope }
+			}
+
+			# If you are landed Soryo, needs to be in your capital county
+			if = {
+				limit = {
+					government_has_flag = government_is_japan_feudal
+					is_landed = yes
+				}
+				domicile = { move_domicile = scope:ruler_scope.capital_county.title_province }
+			}
+			# If you are either unlanded Soryo, or not Soryo at all, and are a vassal, needs to be in your liege's capital county
+			else_if = {
+				limit = { exists = scope:top_liege_scope }
+				domicile = { move_domicile = scope:top_liege_scope.capital_county.title_province }
+			}
+			# Otherwise, just move to your capital county
+			else_if = {
+				limit = { exists = capital_county }
+				domicile = { move_domicile = scope:ruler_scope.capital_county.title_province }
+			}
+
+			clear_saved_scope = ruler_scope
+			clear_saved_scope = top_liege_scope
+		}
 	}
 
 	######################
@@ -1034,8 +1103,705 @@ irtock3_setup_governments = {
 			situation:dynastic_cycle.situation_sub_region:core = { add_dejure_title_to_sub_region = title:h_china }
 		}
 
-		# Check if one person in list has Celestial Government
+		# Check if someone already has h_china (will likely only happen when converting from Invictus, and choosing a start date near CK3's start dates)
 		if = {
+			limit = { exists = title:h_china.holder }
+			{% if terra_indomita %}
+			# When converting from Terra-Indomita, if someone already has h_china - which shouldn't be possible since it isn't mapped to - it will be destroyed and the Dynastic Cycle will remain in Division/Chaos phase
+			title:h_china.holder = { destroy_title = title:h_china }
+
+			# The base game has Chinese states continue using Celestial during the Division Era, so convert the other relevant rulers to Celestial
+			if = {
+				limit = { has_tgp_dlc_trigger = yes }
+				every_in_list = {
+					list = dynastic_cycle_rulers
+					limit = {
+						NOT = { has_government = celestial_government }
+					}
+					save_scope_as = liege
+
+					# First, make sure to convert all same government vassals
+					every_vassal_or_below = {
+						limit = {
+							highest_held_title_tier >= tier_county
+							has_same_government = scope:liege
+						}
+
+						# Checks if they have a domicile/noble family title that matches Celestial
+						tgp_domicile_conversion_when_changing_government_type = {
+							NEW_DOMICILE_TYPE = east_asian_estate
+							NEW_GOVERNMENT_TYPE = celestial_government
+						}
+						change_government = celestial_government
+
+						# Sets up a noble family title, if they don't have one
+						if = {
+							limit = {
+								exists = house
+								NOT = { house = scope:liege.house } # If they are the same house as the top liege, the top liege should get the title
+								house.house_head = this
+								NOT = {
+									house = {
+										any_house_member = {
+											any_held_title = { is_noble_family_title = yes }
+										}
+									}
+								}
+								OR = {
+									highest_held_title_tier >= main_administrative_tier
+									AND = {
+										government_has_flag = government_has_county_tier_noble_families
+										highest_held_title_tier >= tier_county
+									}
+								}
+							}
+							create_noble_family_effect = { GOVERNMENT_GIVER = this }
+						}
+
+						if = {
+							limit = {
+								NOT = { has_realm_law = celestial_appointment_succession_law }
+							}
+							add_realm_law_skip_effects = celestial_appointment_succession_law
+						}
+					}
+
+					# Checks if they have a domicile/noble family title that matches Celestial
+					tgp_domicile_conversion_when_changing_government_type = {
+						NEW_DOMICILE_TYPE = east_asian_estate
+						NEW_GOVERNMENT_TYPE = celestial_government
+					}
+					change_government = celestial_government
+
+					# Sets up a noble family title, if they don't have one
+					if = {
+						limit = {
+							primary_title.tier >= min_appointment_tier
+							NOT = {
+								any_held_title = { is_noble_family_title = yes }
+							}
+						}
+
+						if = {
+							limit = {
+								NOT = { house.house_head = this }
+							}
+							house = { set_house_head = scope:liege }
+						}
+
+						create_noble_family_effect = { GOVERNMENT_GIVER = this }
+					}
+
+					if = {
+						limit = {
+							NOT = { has_realm_law = single_heir_succession_law }
+						}
+						add_realm_law_skip_effects = single_heir_succession_law
+					}
+
+					# Give Noble Family titles to relevant courtiers
+					every_courtier = {
+						if = {
+							limit = {
+								exists = house
+								house.house_head = this
+								NOT = {
+									house = {
+										any_house_member = {
+											any_held_title = { is_noble_family_title = yes }
+										}
+									}
+								}
+							}
+							create_noble_family_effect = { GOVERNMENT_GIVER = this }
+						}
+					}
+				}
+			}
+			{% else %}
+			# When converting from Invictus or vanilla Imperator, how East Asia is setup will depend on the chosen game start date, so if there is someone that ends up starting with h_china, the Dynastic Cycle should be setup accordingly
+			# Until pre-867 history files are properly setup, China and the Dynastic Cycle will be setup here in a manner like this (using the base game's Dynastic Cycle history setup as a reference):
+			## Jan 01, 0002 - Feb 28, 0184: Advancement, Han Dynasty
+			## Mar 01, 0184 - Dec 10, 0220: Tension, Han Dynasty
+			## Dec 11, 0220 - Apr 30, 0280: Division (Three Kingdoms)
+			## May 01, 0280 - May 15, 0290: Advancement, Jin Dynasty
+			## May 16, 0290 - Dec 31, 0303: Tension, Jin Dynasty
+			## Jan 01, 0304 - Dec 31, 0419: Division (Sixteen Kingdoms)
+			## Jan 01, 0420 - Mar 03, 0581: Division (Sixteen Kingdoms/Northern and Southern Dynasties)
+			## Mar 04, 0581 - Dec 31, 0613: Expansion, Sui Dynasty
+			## Jan 01, 0614 - Jun 17, 0618: Tension, Sui Dynasty
+			## Jun 18, 0618 - Dec 15, 0755: Expansion, Tang Dynasty
+			## Dec 16, 0755 - May 11, 0907: Tension, Tang Dynasty
+			## May 12, 0907 - Feb 03, 0960: Division (Five Dynasties and Ten Kingdoms)
+			## Feb 04, 0960 - Jan 08, 1127: Advancement, Song Dynasty
+			## Jan 09, 1127 - Mar 18, 1279: Tension, Song Dynasty (The base game only includes history for the Cycle up to Jan 9, 1127. Mar 18, 1279 chosen since it's just before Yuan beat Song in Battle of Yamen)
+			## Mar 19, 1279 - Dec 31, 1350: Conquest, Yuan Dynasty (Battle of Yamen to start of Red Turban Rebellion)
+			## Jan 01, 1351 - Jan 22, 1368: Tension, Yuan Dynasty (Red Turban Rebellion)
+			## Jan 23, 1368 - Jan 01, 1444: Advancement, Ming Dynasty (When Ming was established to the latest a converted save can start at)
+			## These are mainly references for Dynasty names, and probably what Phase to start in, but until the history files are properly setup, they likely won't be followed exactly
+			{% if bookmark_date <= '0184-02-28' %}
+			# Advancement, Han Dynasty
+			title:h_china = {
+				set_title_name = dynn_title_han
+				set_title_color = { 100 10 10 }
+				set_global_variable = {
+					name = old_dynastic_color_is_red
+					value = 0
+				}
+			}
+
+			situation:dynastic_cycle ?= {
+				situation_top_sub_region = {
+					change_phase = { phase = situation_dynastic_cycle_phase_stability_advancement }
+				}
+			}
+			{% elsif bookmark_date >= '0184-03-01' and bookmark_date <= '0220-12-10' %}
+			# Tension, Han Dynasty
+			title:h_china = {
+				set_title_name = dynn_title_han
+				set_title_color = { 100 10 10 }
+				set_global_variable = {
+					name = old_dynastic_color_is_red
+					value = 0
+				}
+			}
+
+			situation:dynastic_cycle ?= {
+				situation_top_sub_region = {
+					change_phase = { phase = situation_dynastic_cycle_phase_instability }
+				}
+			}
+			{% elsif bookmark_date >= '0220-12-11' and bookmark_date <= '0280-04-30' %}
+			# Division Era
+			title:h_china.holder = { destroy_title = title:h_china }
+
+			# The base game has Chinese states continue using Celestial during the Division Era, so convert the other relevant rulers to Celestial
+			if = {
+				limit = { has_tgp_dlc_trigger = yes }
+				every_in_list = {
+					list = dynastic_cycle_rulers
+					limit = {
+						NOT = { has_government = celestial_government }
+					}
+					save_scope_as = liege
+
+					# First, make sure to convert all same government vassals
+					every_vassal_or_below = {
+						limit = {
+							highest_held_title_tier >= tier_county
+							has_same_government = scope:liege
+						}
+
+						# Checks if they have a domicile/noble family title that matches Celestial
+						tgp_domicile_conversion_when_changing_government_type = {
+							NEW_DOMICILE_TYPE = east_asian_estate
+							NEW_GOVERNMENT_TYPE = celestial_government
+						}
+						change_government = celestial_government
+
+						# Sets up a noble family title, if they don't have one
+						if = {
+							limit = {
+								exists = house
+								NOT = { house = scope:liege.house } # If they are the same house as the top liege, the top liege should get the title
+								house.house_head = this
+								NOT = {
+									house = {
+										any_house_member = {
+											any_held_title = { is_noble_family_title = yes }
+										}
+									}
+								}
+								OR = {
+									highest_held_title_tier >= main_administrative_tier
+									AND = {
+										government_has_flag = government_has_county_tier_noble_families
+										highest_held_title_tier >= tier_county
+									}
+								}
+							}
+							create_noble_family_effect = { GOVERNMENT_GIVER = this }
+						}
+
+						if = {
+							limit = {
+								NOT = { has_realm_law = celestial_appointment_succession_law }
+							}
+							add_realm_law_skip_effects = celestial_appointment_succession_law
+						}
+					}
+
+					# Checks if they have a domicile/noble family title that matches Celestial
+					tgp_domicile_conversion_when_changing_government_type = {
+						NEW_DOMICILE_TYPE = east_asian_estate
+						NEW_GOVERNMENT_TYPE = celestial_government
+					}
+					change_government = celestial_government
+
+					# Sets up a noble family title, if they don't have one
+					if = {
+						limit = {
+							primary_title.tier >= min_appointment_tier
+							NOT = {
+								any_held_title = { is_noble_family_title = yes }
+							}
+						}
+
+						if = {
+							limit = {
+								NOT = { house.house_head = this }
+							}
+							house = { set_house_head = scope:liege }
+						}
+
+						create_noble_family_effect = { GOVERNMENT_GIVER = this }
+					}
+
+					if = {
+						limit = {
+							NOT = { has_realm_law = single_heir_succession_law }
+						}
+						add_realm_law_skip_effects = single_heir_succession_law
+					}
+
+					# Give Noble Family titles to relevant courtiers
+					every_courtier = {
+						if = {
+							limit = {
+								exists = house
+								house.house_head = this
+								NOT = {
+									house = {
+										any_house_member = {
+											any_held_title = { is_noble_family_title = yes }
+										}
+									}
+								}
+							}
+							create_noble_family_effect = { GOVERNMENT_GIVER = this }
+						}
+					}
+				}
+			}
+			{% elsif bookmark_date >= '0280-05-01' and bookmark_date <= '0290-05-15' %}
+			# Advancement, Jin Dynasty
+			title:h_china = {
+				set_title_name = dynn_title_jin
+				set_title_color = { 250 180 0 }
+				set_global_variable = {
+					name = old_dynastic_color_is_white
+					value = 0
+				}
+			}
+
+			situation:dynastic_cycle ?= {
+				situation_top_sub_region = {
+					change_phase = { phase = situation_dynastic_cycle_phase_stability_advancement }
+				}
+			}
+			{% elsif bookmark_date >= '0290-05-16' and bookmark_date <= '0303-12-31' %}
+			# Tension, Jin Dynasty
+			title:h_china = {
+				set_title_name = dynn_title_jin
+				set_title_color = { 250 180 0 }
+				set_global_variable = {
+					name = old_dynastic_color_is_white
+					value = 0
+				}
+			}
+
+			situation:dynastic_cycle ?= {
+				situation_top_sub_region = {
+					change_phase = { phase = situation_dynastic_cycle_phase_instability }
+				}
+			}
+			{% elsif bookmark_date >= '0304-01-01' and bookmark_date <= '0581-03-03' %}
+			# Division
+			title:h_china.holder = { destroy_title = title:h_china }
+
+			# The base game has Chinese states continue using Celestial during the Division Era, so convert the other relevant rulers to Celestial
+			if = {
+				limit = { has_tgp_dlc_trigger = yes }
+				every_in_list = {
+					list = dynastic_cycle_rulers
+					limit = {
+						NOT = { has_government = celestial_government }
+					}
+					save_scope_as = liege
+
+					# First, make sure to convert all same government vassals
+					every_vassal_or_below = {
+						limit = {
+							highest_held_title_tier >= tier_county
+							has_same_government = scope:liege
+						}
+
+						# Checks if they have a domicile/noble family title that matches Celestial
+						tgp_domicile_conversion_when_changing_government_type = {
+							NEW_DOMICILE_TYPE = east_asian_estate
+							NEW_GOVERNMENT_TYPE = celestial_government
+						}
+						change_government = celestial_government
+
+						# Sets up a noble family title, if they don't have one
+						if = {
+							limit = {
+								exists = house
+								NOT = { house = scope:liege.house } # If they are the same house as the top liege, the top liege should get the title
+								house.house_head = this
+								NOT = {
+									house = {
+										any_house_member = {
+											any_held_title = { is_noble_family_title = yes }
+										}
+									}
+								}
+								OR = {
+									highest_held_title_tier >= main_administrative_tier
+									AND = {
+										government_has_flag = government_has_county_tier_noble_families
+										highest_held_title_tier >= tier_county
+									}
+								}
+							}
+							create_noble_family_effect = { GOVERNMENT_GIVER = this }
+						}
+
+						if = {
+							limit = {
+								NOT = { has_realm_law = celestial_appointment_succession_law }
+							}
+							add_realm_law_skip_effects = celestial_appointment_succession_law
+						}
+					}
+
+					# Checks if they have a domicile/noble family title that matches Celestial
+					tgp_domicile_conversion_when_changing_government_type = {
+						NEW_DOMICILE_TYPE = east_asian_estate
+						NEW_GOVERNMENT_TYPE = celestial_government
+					}
+					change_government = celestial_government
+
+					# Sets up a noble family title, if they don't have one
+					if = {
+						limit = {
+							primary_title.tier >= min_appointment_tier
+							NOT = {
+								any_held_title = { is_noble_family_title = yes }
+							}
+						}
+
+						if = {
+							limit = {
+								NOT = { house.house_head = this }
+							}
+							house = { set_house_head = scope:liege }
+						}
+
+						create_noble_family_effect = { GOVERNMENT_GIVER = this }
+					}
+
+					if = {
+						limit = {
+							NOT = { has_realm_law = single_heir_succession_law }
+						}
+						add_realm_law_skip_effects = single_heir_succession_law
+					}
+
+					# Give Noble Family titles to relevant courtiers
+					every_courtier = {
+						if = {
+							limit = {
+								exists = house
+								house.house_head = this
+								NOT = {
+									house = {
+										any_house_member = {
+											any_held_title = { is_noble_family_title = yes }
+										}
+									}
+								}
+							}
+							create_noble_family_effect = { GOVERNMENT_GIVER = this }
+						}
+					}
+				}
+			}
+			{% elsif bookmark_date >= '0581-03-04' and bookmark_date <= '0613-12-31' %}
+			# Expansion, Sui Dynasty
+			title:h_china = {
+				set_title_name = dynn_title_sui
+				set_title_color = { 250 180 0 }
+				set_global_variable = {
+					name = old_dynastic_color_is_black
+					value = 0
+				}
+			}
+
+			situation:dynastic_cycle ?= {
+				situation_top_sub_region = {
+					change_phase = { phase = situation_dynastic_cycle_phase_stability_expansion }
+				}
+			}
+			{% elsif bookmark_date >= '0614-01-01' and bookmark_date <= '0618-06-17' %}
+			# Tension, Sui Dynasty
+			title:h_china = {
+				set_title_name = dynn_title_sui
+				set_title_color = { 250 180 0 }
+				set_global_variable = {
+					name = old_dynastic_color_is_black
+					value = 0
+				}
+			}
+
+			situation:dynastic_cycle ?= {
+				situation_top_sub_region = {
+					change_phase = { phase = situation_dynastic_cycle_phase_instability }
+				}
+			}
+			{% elsif bookmark_date >= '0618-06-18' and bookmark_date <= '0755-12-15' %}
+			# Expansion, Tang Dynasty
+			title:h_china = {
+				set_title_name = dynn_title_tang
+				set_title_color = { 250 180 0 }
+				set_global_variable = {
+					name = old_dynastic_color_is_yellow
+					value = 0
+				}
+			}
+
+			situation:dynastic_cycle ?= {
+				situation_top_sub_region = {
+					change_phase = { phase = situation_dynastic_cycle_phase_stability_expansion }
+				}
+			}
+			{% elsif bookmark_date >= '0755-12-16' and bookmark_date <= '0907-05-11' %}
+			# Tension, Tang Dynasty
+			title:h_china = {
+				set_title_name = dynn_title_tang
+				set_title_color = { 250 180 0 }
+				set_global_variable = {
+					name = old_dynastic_color_is_yellow
+					value = 0
+				}
+			}
+
+			situation:dynastic_cycle ?= {
+				situation_top_sub_region = {
+					change_phase = { phase = situation_dynastic_cycle_phase_instability }
+				}
+			}
+			{% elsif bookmark_date >= '0907-05-12' and bookmark_date <= '0960-02-03' %}
+			# Division
+			title:h_china.holder = { destroy_title = title:h_china }
+
+			# The base game has Chinese states continue using Celestial during the Division Era, so convert the other relevant rulers to Celestial
+			if = {
+				limit = { has_tgp_dlc_trigger = yes }
+				every_in_list = {
+					list = dynastic_cycle_rulers
+					limit = {
+						NOT = { has_government = celestial_government }
+					}
+					save_scope_as = liege
+
+					# First, make sure to convert all same government vassals
+					every_vassal_or_below = {
+						limit = {
+							highest_held_title_tier >= tier_county
+							has_same_government = scope:liege
+						}
+
+						# Checks if they have a domicile/noble family title that matches Celestial
+						tgp_domicile_conversion_when_changing_government_type = {
+							NEW_DOMICILE_TYPE = east_asian_estate
+							NEW_GOVERNMENT_TYPE = celestial_government
+						}
+						change_government = celestial_government
+
+						# Sets up a noble family title, if they don't have one
+						if = {
+							limit = {
+								exists = house
+								NOT = { house = scope:liege.house } # If they are the same house as the top liege, the top liege should get the title
+								house.house_head = this
+								NOT = {
+									house = {
+										any_house_member = {
+											any_held_title = { is_noble_family_title = yes }
+										}
+									}
+								}
+								OR = {
+									highest_held_title_tier >= main_administrative_tier
+									AND = {
+										government_has_flag = government_has_county_tier_noble_families
+										highest_held_title_tier >= tier_county
+									}
+								}
+							}
+							create_noble_family_effect = { GOVERNMENT_GIVER = this }
+						}
+
+						if = {
+							limit = {
+								NOT = { has_realm_law = celestial_appointment_succession_law }
+							}
+							add_realm_law_skip_effects = celestial_appointment_succession_law
+						}
+					}
+
+					# Checks if they have a domicile/noble family title that matches Celestial
+					tgp_domicile_conversion_when_changing_government_type = {
+						NEW_DOMICILE_TYPE = east_asian_estate
+						NEW_GOVERNMENT_TYPE = celestial_government
+					}
+					change_government = celestial_government
+
+					# Sets up a noble family title, if they don't have one
+					if = {
+						limit = {
+							primary_title.tier >= min_appointment_tier
+							NOT = {
+								any_held_title = { is_noble_family_title = yes }
+							}
+						}
+
+						if = {
+							limit = {
+								NOT = { house.house_head = this }
+							}
+							house = { set_house_head = scope:liege }
+						}
+
+						create_noble_family_effect = { GOVERNMENT_GIVER = this }
+					}
+
+					if = {
+						limit = {
+							NOT = { has_realm_law = single_heir_succession_law }
+						}
+						add_realm_law_skip_effects = single_heir_succession_law
+					}
+
+					# Give Noble Family titles to relevant courtiers
+					every_courtier = {
+						if = {
+							limit = {
+								exists = house
+								house.house_head = this
+								NOT = {
+									house = {
+										any_house_member = {
+											any_held_title = { is_noble_family_title = yes }
+										}
+									}
+								}
+							}
+							create_noble_family_effect = { GOVERNMENT_GIVER = this }
+						}
+					}
+				}
+			}
+			{% elsif bookmark_date >= '0960-02-04' and bookmark_date <= '1127-01-08' %}
+			# Advancement, Song Dynasty
+			title:h_china = {
+				set_title_name = dynn_title_song
+				set_title_color = { 100 10 10 }
+				set_global_variable = {
+					name = old_dynastic_color_is_red
+					value = 0
+				}
+			}
+
+			situation:dynastic_cycle ?= {
+				situation_top_sub_region = {
+					change_phase = { phase = situation_dynastic_cycle_phase_stability_advancement }
+				}
+			}
+			{% elsif bookmark_date >= '1127-01-09' and bookmark_date <= '1279-03-18' %}
+			# Tension, Song Dynasty
+			title:h_china = {
+				set_title_name = dynn_title_song
+				set_title_color = { 100 10 10 }
+				set_global_variable = {
+					name = old_dynastic_color_is_red
+					value = 0
+				}
+			}
+
+			situation:dynastic_cycle ?= {
+				situation_top_sub_region = {
+					change_phase = { phase = situation_dynastic_cycle_phase_instability }
+				}
+			}
+			{% elsif bookmark_date >= '1279-03-19' and bookmark_date <= '1350-12-31' %}
+			# Conquest, Yuan Dynasty
+			# Only allow "Yuan" if it actually makes sense
+			if = {
+				limit = {
+					culture:mongol ?= { has_same_culture_heritage = title:h_china.holder.culture } # Some mods change Mongolic cultures around, so just checking if you have the same heritage as Mongol
+				}
+				title:h_china = {
+					set_title_name = dynn_title_yuan
+					set_title_color = { 180 200 200 }
+					set_global_variable = {
+						name = old_dynastic_color_is_white
+						value = 0
+					}
+				}
+			}
+			# If the name "Yuan" isn't valid, they will choose a name/color at beginning of game
+
+			situation:dynastic_cycle ?= {
+				situation_top_sub_region = {
+					change_phase = { phase = situation_dynastic_cycle_phase_instability_conquest }
+				}
+			}
+			{% elsif bookmark_date >= '1351-01-01' and bookmark_date <= '1368-01-22' %}
+			# Tension, Yuan Dynasty
+			# Only allow "Yuan" if it actually makes sense
+			if = {
+				limit = {
+					culture:mongol ?= { has_same_culture_heritage = title:h_china.holder.culture } # Some mods change Mongolic cultures around, so just checking if you have the same heritage as Mongol
+				}
+				title:h_china = {
+					set_title_name = dynn_title_yuan
+					set_title_color = { 180 200 200 }
+					set_global_variable = {
+						name = old_dynastic_color_is_white
+						value = 0
+					}
+				}
+			}
+			# If the name "Yuan" isn't valid, they will choose a name/color at beginning of game
+
+			situation:dynastic_cycle ?= {
+				situation_top_sub_region = {
+					change_phase = { phase = situation_dynastic_cycle_phase_instability }
+				}
+			}
+			{% else %}
+			# Advancement, Ming Dynasty
+			title:h_china = {
+				set_title_name = dynn_title_ming
+				set_title_color = { 250 180 0 }
+				set_global_variable = {
+					name = old_dynastic_color_is_yellow
+					value = 0
+				}
+			}
+
+			situation:dynastic_cycle ?= {
+				situation_top_sub_region = {
+					change_phase = { phase = situation_dynastic_cycle_phase_stability_advancement }
+				}
+			}
+			{% endif %}
+			{% endif %}
+		}
+		# Check if only one person in list has Celestial Government
+		else_if = {
 			limit = {
 				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
 				any_in_list = {
@@ -1078,20 +1844,6 @@ irtock3_setup_governments = {
 				save_scope_as = chinese_emperor
 			}
 
-			# If the Emperor is an AI ruler, save their current primary title so that it can be referenced later when choosing the Dynastic Name for China (Human Emperors can choose whatever name they want, so they can set it to be the same as what it was in Imperator, if they want)
-			if = {
-				limit = {
-					scope:chinese_emperor = { is_ai = yes }
-				}
-				scope:chinese_emperor = {
-					primary_title = { save_scope_as = old_primary_title }
-					set_variable = {
-						name = irtock3_china_primary_name
-						value = scope:old_primary_title
-					}
-				}
-			}
-
 			# Grant the Hegemon title
 			create_title_and_vassal_change = {
 				type = created
@@ -1123,7 +1875,7 @@ irtock3_setup_governments = {
 						}
 					}
 				}
-				
+
 				scope:chinese_emperor = {
 					every_held_title = {
 						title_tier = hegemony
@@ -1134,12 +1886,6 @@ irtock3_setup_governments = {
 							set_de_jure_liege_title = title:h_china
 						}
 						scope:chinese_emperor = { destroy_title = scope:old_hegemony }
-					}
-
-					# The base game doesn't seem to trigger the event to choose your Dynasty Name and Color if you get h_china while already holding a hegemony title, so need to manually trigger that here
-					trigger_event = {
-						id = tgp_dynastic_cycle.9000
-						days = 1 # so the player gets to choose first
 					}
 				}
 			}
@@ -1162,12 +1908,6 @@ irtock3_setup_governments = {
 						change_phase = { phase = situation_dynastic_cycle_phase_instability_conquest }
 					}
 				}
-
-				# Trigger event for players to introduce the situation
-				every_player = {
-					limit = { tgp_does_this_player_care_about_the_dynastic_cycle = yes }
-					trigger_event = tgp_dynastic_cycle.0051
-				}
 			}
 			# Regardless of Heritage, if they had relatively high unrest in Imperator, start in Instability Era
 			else_if = {
@@ -1183,19 +1923,9 @@ irtock3_setup_governments = {
 						change_phase = { phase = situation_dynastic_cycle_phase_instability }
 					}
 				}
-
-				# Trigger event for players to introduce the situation
-				every_player = {
-					limit = { tgp_does_this_player_care_about_the_dynastic_cycle = yes }
-					trigger_event = tgp_dynastic_cycle.0051
-				}
 			}
 			# If they don't meet either of the above circumstances, then let them start in a Stable Era
-			else = {
-				scope:chinese_emperor = {
-					trigger_event = welcome.0071
-				}
-			}
+			else = { set_global_variable = choose_dynastic_cycle_stable_era }
 		}
 		# This means there are either multiple rulers with Celestial Government ("competing Emperors"), OR no rulers with Celestial. Both start in Division Era.
 		else_if = {
@@ -1266,6 +1996,18 @@ irtock3_setup_governments = {
 						limit = {
 							has_government = celestial_government
 							NOT = { has_relation_rival = scope:first }
+							is_landed = yes
+							NOR = {
+								has_title = title:e_minister_chancellor
+								has_title = title:e_minister_censor
+								has_title = title:e_minister_grand_marshal
+								has_title = title:e_minister_of_personnel
+								has_title = title:e_minister_of_revenue
+								has_title = title:e_minister_of_rites
+								has_title = title:e_minister_of_war
+								has_title = title:e_minister_of_justice
+								has_title = title:e_minister_of_works
+							}
 						}
 
 						set_relation_rival = {
@@ -1382,12 +2124,6 @@ irtock3_setup_governments = {
 						create_noble_family_effect = { GOVERNMENT_GIVER = this }
 					}
 				}
-			}
-
-			# Cycle already starts in Division Era, but give the event that indicates the Era
-			every_player = {
-				limit = { tgp_does_this_player_care_about_the_dynastic_cycle = yes }
-				trigger_event = tgp_dynastic_cycle.0051
 			}
 		}
 
@@ -1635,10 +2371,12 @@ irtock3_setup_governments = {
 			any_in_list = { list = ritsuryo_rulers }
 		}
 
-		# Depending on game rule, choose someone to start with Japan, if no one already does
+		# Depending on frontend options, choose someone to start with Japan, if no one already does
+		{% if RitsuryoRulers == 'none' %}
+		## You chose to not give out Japan at game start (someone may still start with it if they happened to map to it though)
+		{% else %}
 		if = {
 			limit = {
-				NOT = { has_game_rule = irtock3_gamerule_ritsuryo_rulers_none }
 				NOT = { exists = title:e_japan.holder }
 			}
 
@@ -1656,11 +2394,12 @@ irtock3_setup_governments = {
 				}
 				limit = {
 					capital_county.title_province = { geographical_region = world_asia_japan }
-					# If the "Japonic Heritage" only game rule was chosen, the ruler NEEDS to have that heritage
-					trigger_if = {
-						limit = { has_game_rule = irtock3_gamerule_ritsuryo_rulers_japan }
-						culture = { has_cultural_pillar = heritage_japonic }
-					}
+					{% if RitsuryoRulers == 'japanese_japan' %}
+					# You chose to limit giving Japan to only those with Japonic Heritage
+					culture = { has_cultural_pillar = heritage_japonic }
+					{% else %}
+					# You chose to allow Japan to be given to any heritage character
+					{% endif %}
 				}
 				max = 1
 				save_scope_as = japanese_imperial_dynasty_ruler
@@ -1698,7 +2437,7 @@ irtock3_setup_governments = {
 						}
 
 						primary_title = { save_scope_as = old_prim_title }
-						
+
 						title:e_japan = {
 							change_title_holder = {
 								holder = scope:japanese_imperial_dynasty_ruler
@@ -1706,7 +2445,7 @@ irtock3_setup_governments = {
 							}
 							copy_title_history = scope:old_prim_title
 						}
-						
+
 						# De Jure drift kingdoms to be under e_japan, so it should hopefully start with some land, if it doesn't already
 						every_realm_de_jure_kingdom = {
 							limit = {
@@ -1814,6 +2553,7 @@ irtock3_setup_governments = {
 				clear_saved_scope = old_prim_title
 			}
 		}
+		{% endif %}
 
 		# If there are any rulers left in the list, make sure their realm is properly set up
 		if = {
@@ -1950,7 +2690,7 @@ irtock3_setup_governments = {
 		}
 	}
 
-	
+
 	## Finally, recalculate the culture heads
 	recalculate_cultural_heads_of_type = herd
 	recalculate_cultural_heads_of_type = domain
@@ -2012,7 +2752,7 @@ irtock3_split_roman_empire_effect = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 					trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
-						NOT = { 
+						NOT = {
 							capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 						}
 					}
@@ -2045,7 +2785,7 @@ irtock3_split_roman_empire_effect = {
 					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 				}
 				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
-					NOT = { 
+					NOT = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
@@ -2081,7 +2821,7 @@ irtock3_split_roman_empire_effect = {
 					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 				}
 				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
-					NOT = { 
+					NOT = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
@@ -2097,7 +2837,7 @@ irtock3_split_roman_empire_effect = {
 					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 				}
 				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
-					NOT = { 
+					NOT = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
@@ -2112,7 +2852,7 @@ irtock3_split_roman_empire_effect = {
 					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 				}
 				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
-					NOT = { 
+					NOT = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
@@ -2146,7 +2886,7 @@ irtock3_split_roman_empire_effect = {
 					capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 				}
 				trigger_else = { # If current Emperor is going to get the ERE, this new holder can't be in the ERE region
-					NOT = { 
+					NOT = {
 						capital_county.title_province = { geographical_region = custom_ep3_restore_rome_eastern_empire }
 					}
 				}
@@ -2223,8 +2963,8 @@ irtock3_split_roman_empire_effect = {
 
 	if = {
 		limit = {
-			any_owned_story = { 
-				type = ep3_story_cycle_restoring_rome 
+			any_owned_story = {
+				type = ep3_story_cycle_restoring_rome
 				has_variable = roman_empire_hard_mode
 			}
 		}
@@ -2398,7 +3138,7 @@ irtock3_create_ritsuryo_ruling_regent_title_effect = {
 		top_liege.primary_title.var:administrative_ui_special_title = {
 			add_title_law = single_heir_succession_law # Monarchy inherited separately
 			save_scope_as = monarch_title
-		} 
+		}
 		add_realm_law_skip_effects = japanese_regency_succession_law # Regency inherited separately
 
 		hidden_effect = {
@@ -2470,7 +3210,7 @@ irtock3_elevate_roman_duchy_effects = {
 
 		custom_tooltip = {
 			text = irtock3_change_roman_duchy_counties_tt
-			
+
 			# Make sure that all counties are given back to their original duchies
 			while = {
 				limit = {
@@ -2616,7 +3356,7 @@ irtock3_elevate_roman_duchy_effects = {
 			limit = { exists = scope:old_empire }
 			scope:new_title = { set_de_jure_liege_title = scope:old_empire }
 		}
-		
+
 		# Drift every held duchy to be under k_rome
 		every_held_title = {
 			title_tier = duchy
@@ -2676,10 +3416,10 @@ irtock3_elevate_roman_duchy_effects = {
 		}
 
 		set_primary_title_to = scope:new_title
-		
+
 		# Event Notifications
 		trigger_event = major_decisions.1101 # TO DO: MAKE A CUSTOM EVENT?
-		
+
 		every_player = {
 			if = {
 				limit = {
@@ -2712,9 +3452,9 @@ irtock3_elevate_roman_duchy_effects = {
 							tier = tier_duchy
 							is_in_list = duchy_for_notification
 						}
-						add_to_list = notification_titles	
+						add_to_list = notification_titles
 					}
-				}			
+				}
 				if = {
 					limit = {
 						any_in_list = {
@@ -2903,7 +3643,7 @@ irtock3_elevate_roman_kingdom_effects = {
 				}
 			}
 		}
-		
+
 		set_primary_title_to = scope:new_title
 
 		# Event Notifications
@@ -2956,7 +3696,7 @@ irtock3_elevate_roman_kingdom_effects = {
 				}
 			}
 		}
-	}	
+	}
 }
 
 
@@ -3058,7 +3798,7 @@ irtock3_elevate_roman_empire_effects = {
 				}
 			}
 		}
-		
+
 		set_primary_title_to = scope:new_title
 
 		# Event Notifications (SHOULD CREATE CUSTOM EVENTS FOR THIS)
@@ -3111,12 +3851,12 @@ irtock3_elevate_roman_empire_effects = {
 				}
 			}
 		}
-	}	
+	}
 }
 
 
 # This scripted_effect is to be used with the overwritten 'split_byzantine_empire_effect' so that it can be changed a lot easier, without having to worry about titles, regions, etc. being correct in multiple places
-# This effect is being called from within the scope of whatever Rome empire title is being split apart (e_byzantium, e_roman_empire, e_western_roman_empire) 
+# This effect is being called from within the scope of whatever Rome empire title is being split apart (e_byzantium, e_roman_empire, e_western_roman_empire)
 # INPUTS:
 ## $REGION$ - The geographical region being checked
 irtock3_split_rome_empire_region_effect = {
@@ -3166,7 +3906,7 @@ irtock3_split_rome_empire_region_effect = {
 							any_liege_or_above = { this = root }
 						}
 					}
-				} 
+				}
 				alternative_limit = {
 					# Need to make sure the county is actually in a Roman realm
 					holder ?= {
@@ -3272,7 +4012,7 @@ irtock3_gamestart_add_title_to_prefecture_region_effect = {
 # This effect is used for the Roman prefecture creation decisions.
 # scope for this effect is the character who took the decision to create the prefecture, meaning they have either h_roman_empire, h_western_roman_empire, or h_eastern_roman_empire
 # INPUTS:
-## $REGION$ - The geographical region being checked 
+## $REGION$ - The geographical region being checked
 irtock3_form_roman_prefecture_effect = {
 	geographical_region:$REGION$ = { save_scope_as = region_scope }
 	custom_tooltip = {
@@ -3311,7 +4051,7 @@ irtock3_form_roman_prefecture_effect = {
 							any_liege_or_above = { this = root }
 						}
 					}
-				} 
+				}
 				alternative_limit = {
 					# Need to make sure the county is actually in a Roman realm
 					holder ?= {
@@ -3969,7 +4709,7 @@ irtock3_setup_roman_prefectures_game_start = {
 					set_de_jure_liege_title = scope:new_empire_title
 				}
 			}
-			
+
 			if = {
 				limit = { exists = scope:prefecture_empire.holder }
 				scope:prefecture_empire.holder = {
@@ -3978,7 +4718,7 @@ irtock3_setup_roman_prefectures_game_start = {
 					set_primary_title_to = scope:new_empire_title
 				}
 			}
-			
+
 			scope:new_empire_title = {
 				set_de_jure_liege_title = scope:prefecture_empire.hegemony
 				save_scope_as = prefecture_empire
@@ -4020,4 +4760,135 @@ irtock3_setup_roman_prefectures_game_start = {
 		}
 	}
 	clear_saved_scope = prefecture_empire
+}
+
+
+# This scripted_effect is used alongside the event that allows you to choose what to name China, so that the AI should always choose the name that matches their Imperator tag name, if it's available
+# scope for this effect is the character choosing a Dynastic name for China or their kingdom/empire title
+irtock3_assign_china_imperator_name_effect = {
+	if = { # Song
+		limit = { var:imperator_tag = flag:SNG }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_song
+		}
+	}
+	else_if = { # Jin
+		limit = { var:imperator_tag = flag:JIN }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_jin
+		}
+	}
+	else_if = { # Han
+		limit = { var:imperator_tag = flag:HAN }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_han
+		}
+	}
+	else_if = { # Zhou
+		limit = {
+			OR = {
+				var:imperator_tag = flag:ZHO
+				var:imperator_tag = flag:WZO
+				var:imperator_tag = flag:EZO
+			}
+		}
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_zhou
+		}
+	}
+	else_if = { # Yue
+		limit = { var:imperator_tag = flag:YUE }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_yue
+		}
+	}
+	else_if = { # Yan
+		limit = { var:imperator_tag = flag:YAN }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_yan
+		}
+	}
+	else_if = { # Wei
+		limit = { var:imperator_tag = flag:WEI }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_wei
+		}
+	}
+	else_if = { # Qin
+		limit = { var:imperator_tag = flag:QIN }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_qin
+		}
+	}
+	else_if = { # Qi
+		limit = { var:imperator_tag = flag:QII }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_qi
+		}
+	}
+	else_if = { # Min
+		limit = { var:imperator_tag = flag:MNY }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_min
+		}
+	}
+	else_if = { # Chu
+		limit = { var:imperator_tag = flag:CHU }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_chu
+		}
+	}
+	else_if = { # Ba
+		limit = { var:imperator_tag = flag:BAA }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_ba
+		}
+	}
+	else_if = { # Lu
+		limit = { var:imperator_tag = flag:LUU }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_lu
+		}
+	}
+	else_if = { # Zhao
+		limit = { var:imperator_tag = flag:ZHA }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_zhao
+		}
+	}
+	else_if = { # Teng
+		limit = { var:imperator_tag = flag:TNG }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_teng
+		}
+	}
+	else_if = { # Wey (Weii)
+		limit = { var:imperator_tag = flag:WII }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_wey
+		}
+	}
+	else_if = { # Bi
+		limit = { var:imperator_tag = flag:BII }
+		set_variable = {
+			name = new_realm_title_name
+			value = flag:dynn_title_bi
+		}
+	}
 }

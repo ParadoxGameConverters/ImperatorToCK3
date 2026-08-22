@@ -35,7 +35,7 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		}
 		
 		// Fix a faith having more doctrines in the same category than allowed.
-		foreach (var category in religion.ReligionCollection.DoctrineCategories) {
+		foreach (var category in religion.ReligionCollection.DoctrineGroups) {
 			var categoryDoctrineSet = category.DoctrineIds.ToHashSet(StringComparer.Ordinal);
 			var doctrinesInCategory = new List<string>();
 			foreach (var doctrineId in DoctrineIds) {
@@ -110,17 +110,17 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		return sb.ToString();
 	}
 
-	public OrderedSet<string> GetDoctrineIdsForDoctrineCategoryId(string doctrineCategoryId) {
-		if (!Religion.ReligionCollection.DoctrineCategories.TryGetValue(doctrineCategoryId, out var category)) {
-			Logger.Warn($"Doctrine category {doctrineCategoryId} not found.");
-			return [];
+	public OrderedSet<string> GetDoctrineIdsForDoctrineGroupId(string doctrineGroupId) {
+		if (Religion.ReligionCollection.DoctrineGroups.TryGetValue(doctrineGroupId, out var group)) {
+			return GetDoctrineIdsForDoctrineGroup(group);
 		}
-		
-		return GetDoctrineIdsForDoctrineCategory(category);
+
+		Logger.Warn($"Doctrine group {doctrineGroupId} not found.");
+		return [];
 	}
 
-	private OrderedSet<string> GetDoctrineIdsForDoctrineCategory(DoctrineCategory category) {
-		var potentialDoctrineIds = category.DoctrineIds;
+	private OrderedSet<string> GetDoctrineIdsForDoctrineGroup(DoctrineGroup group) {
+		var potentialDoctrineIds = group.DoctrineIds;
 
 		// Look in faith first. If not found, look in religion.
 		var matchingInFaith = DoctrineIds.Intersect(potentialDoctrineIds).ToOrderedSet();
@@ -130,14 +130,10 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 
 		return Religion.DoctrineIds.Intersect(potentialDoctrineIds).ToOrderedSet();
 	}
-	
+
 	public bool HasDoctrine(string doctrineId) {
-		var category = Religion.ReligionCollection.DoctrineCategories
-			.FirstOrDefault(category => category.DoctrineIds.Contains(doctrineId));
-		if (category is null) {
-			return false;
-		}
-		
-		return GetDoctrineIdsForDoctrineCategory(category).Contains(doctrineId);
+		var group = Religion.ReligionCollection.DoctrineGroups
+			.FirstOrDefault(group => group.DoctrineIds.Contains(doctrineId));
+		return group is not null && GetDoctrineIdsForDoctrineGroup(group).Contains(doctrineId);
 	}
 }

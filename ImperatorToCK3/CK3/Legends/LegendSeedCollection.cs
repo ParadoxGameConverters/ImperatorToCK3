@@ -10,12 +10,12 @@ internal sealed class LegendSeedCollection : ConcurrentIdObjectCollection<string
 	public void LoadSeeds(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading legend seeds...");
 		
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, seedId) => {
 			AddOrReplace(new LegendSeed(seedId, reader));
 		});
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFolder("common/legends/legend_seeds", ck3ModFS, "txt", true, false, true);
+		parser.ParseGameFolder("common/legends/legend_seeds", ck3ModFS, "txt", true, false);
 	}
 
 	public void RemoveAnachronisticSeeds(string configurableFilePath) {

@@ -340,7 +340,7 @@ link = { ck3 = dab_qhuas ir = baiyue_religions ck3Culture = hmong ck3Culture = s
 link = { ck3 = baiyue_faith ir = baiyue_religions }
 
 ## Mohist
-link = { ck3 = mohism ir = mohism } 
+link = { ck3 = mohism ir = mohism }
 
 ## Kodo
 link = { ck3 = shinto ir = wa_religions }

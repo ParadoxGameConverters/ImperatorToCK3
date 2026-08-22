@@ -172,8 +172,8 @@ internal static class WorldOutputter {
 		modFileBuilder.AppendLine("replace_path=\"common/dynasty_houses\"");
 		modFileBuilder.AppendLine("replace_path=\"common/landed_titles\"");
 		modFileBuilder.AppendLine("replace_path=\"common/legends/legend_seeds\"");
-		modFileBuilder.AppendLine("replace_path=\"common/religion/religions\"");
-		modFileBuilder.AppendLine("replace_path=\"common/religion/holy_sites\"");
+		modFileBuilder.AppendLine("replace_path=\"common/religion/religion_types\"");
+		modFileBuilder.AppendLine("replace_path=\"common/religion/holy_site_types\"");
 		modFileBuilder.AppendLine("replace_path=\"history/characters\"");
 		modFileBuilder.AppendLine("replace_path=\"history/province_mapping\"");
 		modFileBuilder.AppendLine("replace_path=\"history/provinces\"");
@@ -243,8 +243,8 @@ internal static class WorldOutputter {
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "men_at_arms_types"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "named_colors"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "on_action"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "holy_sites"));
-		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "religions"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "holy_site_types"));
+		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "religion", "religion_types"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_effects"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_guis"));
 		SystemUtils.TryCreateFolder(Path.Combine(outputPath, "common", "scripted_triggers"));

@@ -8,7 +8,7 @@ internal sealed class MorphGeneTemplateMapper {
 	private readonly Dictionary<string, List<Assignment>> templateMappings = []; // <geneName, <irTemplate, ck3Template>>
 	
 	public MorphGeneTemplateMapper(string mappingsFilePath) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, geneName) => {
 			templateMappings[geneName] = reader.GetAssignments();
 		});

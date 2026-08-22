@@ -76,5 +76,83 @@ namespace ImperatorToCK3.UnitTests.CommonUtils {
 			Assert.False(Directory.Exists(expectedGuiDir));
 			Assert.True(File.Exists(collisionFile));
 		}
+
+		[Fact]
+		public void DeleteDirectoryWithRetries_deletesDirectoryWithReadOnlyContents() {
+			var targetDir = Path.Combine(tempRoot, "readOnlyDir", "nested");
+			Directory.CreateDirectory(targetDir);
+
+			var rootDir = Path.GetDirectoryName(targetDir)!;
+			var filePath = Path.Combine(targetDir, "topbar.gui");
+			File.WriteAllText(filePath, "foo");
+			File.SetAttributes(filePath, FileAttributes.ReadOnly);
+			File.SetAttributes(targetDir, FileAttributes.ReadOnly);
+			File.SetAttributes(rootDir, FileAttributes.ReadOnly);
+
+			FileHelper.DeleteDirectoryWithRetries(rootDir);
+
+			Assert.False(Directory.Exists(rootDir));
+		}
+
+		[Fact]
+		public void EnsureFileIsWritable_noopsWhenFileDoesNotExist() {
+			var missing = Path.Combine(tempRoot, "nonexistent.txt");
+
+			var exception = Record.Exception(() => FileHelper.EnsureFileIsWritable(missing));
+
+			Assert.Null(exception);
+		}
+
+		[Fact]
+		public void EnsureFileIsWritable_noopsWhenPathIsDirectory() {
+			var dir = Path.Combine(tempRoot, "someDir");
+			Directory.CreateDirectory(dir);
+
+			var exception = Record.Exception(() => FileHelper.EnsureFileIsWritable(dir));
+
+			Assert.Null(exception);
+		}
+
+		[Fact]
+		public void EnsureFileIsWritable_makesReadOnlyFileWritable() {
+			var filePath = Path.Combine(tempRoot, "readonly.txt");
+			File.WriteAllText(filePath, "content");
+			SetReadOnly(filePath);
+			Assert.False(IsWritable(filePath));
+
+			FileHelper.EnsureFileIsWritable(filePath);
+
+			Assert.True(IsWritable(filePath));
+			// Must not corrupt content.
+			Assert.Equal("content", File.ReadAllText(filePath));
+		}
+
+		[Fact]
+		public void EnsureFileIsWritable_isIdempotentOnAlreadyWritableFile() {
+			var filePath = Path.Combine(tempRoot, "writable.txt");
+			File.WriteAllText(filePath, "data");
+			Assert.True(IsWritable(filePath));
+
+			var exception = Record.Exception(() => FileHelper.EnsureFileIsWritable(filePath));
+
+			Assert.Null(exception);
+			Assert.True(IsWritable(filePath));
+		}
+
+		private static void SetReadOnly(string filePath) {
+			if (OperatingSystem.IsWindows()) {
+				File.SetAttributes(filePath, FileAttributes.ReadOnly);
+			} else {
+				var mode = File.GetUnixFileMode(filePath);
+				File.SetUnixFileMode(filePath, mode & ~UnixFileMode.UserWrite);
+			}
+		}
+
+		private static bool IsWritable(string filePath) {
+			if (OperatingSystem.IsWindows()) {
+				return !File.GetAttributes(filePath).HasFlag(FileAttributes.ReadOnly);
+			}
+			return File.GetUnixFileMode(filePath).HasFlag(UnixFileMode.UserWrite);
+		}
 	}
 }

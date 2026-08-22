@@ -7,14 +7,43 @@ using commonItems.Exceptions;
 using System;
 using Polly;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 public static class FileHelper {
 	private const string CloseProgramsHint = "You should close all programs that may be using the file.";
+	private static readonly string[] fileInUseMessageFragments = [
+		"using the file",
+		"used by another process",
+		"resource temporarily unavailable"
+	];
 
 	private static bool IsFilesSharingViolation(Exception ex) {
 		const int sharingViolationHResult = unchecked((int)0x80070020);
 		return ex.HResult == sharingViolationHResult;
+	}
+
+	public static bool IsFileInUseException(Exception exception) {
+		const int sharingViolationHResult = unchecked((int)0x80070020);
+		const int lockViolationHResult = unchecked((int)0x80070021);
+
+		for (Exception? current = exception; current is not null; current = current.InnerException) {
+			if (current is IOException ioEx && (ioEx.HResult == sharingViolationHResult || ioEx.HResult == lockViolationHResult)) {
+				return true;
+			}
+
+			if (current.HResult == sharingViolationHResult || current.HResult == lockViolationHResult) {
+				return true;
+			}
+
+			foreach (var fragment in fileInUseMessageFragments) {
+				if (current.Message.Contains(fragment, StringComparison.OrdinalIgnoreCase)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	public static StreamWriter OpenWriteWithRetries(string filePath) => OpenWriteWithRetries(filePath, Encoding.UTF8);
@@ -68,6 +97,52 @@ public static class FileHelper {
 		} catch (IOException ex) when (IsFilesSharingViolation(ex)) {
 			Logger.Debug(ex.ToString());
 			throw new UserErrorException($"Failed to delete \"{filePath}\". {CloseProgramsHint}");
+		}
+	}
+
+	public static void DeleteDirectoryWithRetries(string directoryPath) {
+		if (string.IsNullOrEmpty(directoryPath) || !Directory.Exists(directoryPath)) {
+			return;
+		}
+
+		const int maxAttempts = 10;
+		int currentAttempt = 0;
+
+		var policy = Policy
+			.Handle<IOException>(IsFilesSharingViolation)
+			.Or<UnauthorizedAccessException>()
+			.WaitAndRetry(maxAttempts,
+				sleepDurationProvider: _ => TimeSpan.FromSeconds(1),
+				onRetry: (_, _, _) => {
+					currentAttempt++;
+					Logger.Warn($"Attempt {currentAttempt} to delete directory \"{directoryPath}\" failed.");
+					Logger.Warn(CloseProgramsHint);
+				});
+
+		try {
+			policy.Execute(() => {
+				ResetAttributesRecursively(directoryPath);
+				Directory.Delete(directoryPath, recursive: true);
+			});
+		} catch (IOException ex) when (IsFilesSharingViolation(ex)) {
+			Logger.Debug(ex.ToString());
+			throw new UserErrorException($"Failed to delete directory \"{directoryPath}\". {CloseProgramsHint}");
+		} catch (UnauthorizedAccessException ex) {
+			Logger.Debug(ex.ToString());
+			throw new UserErrorException($"Failed to delete directory \"{directoryPath}\": {ex.Message}");
+		}
+	}
+
+	private static void ResetAttributesRecursively(string directoryPath) {
+		File.SetAttributes(directoryPath, FileAttributes.Normal);
+
+		foreach (var filePath in Directory.EnumerateFiles(directoryPath, "*", SearchOption.AllDirectories)) {
+			File.SetAttributes(filePath, FileAttributes.Normal);
+		}
+
+		foreach (var subdirectoryPath in Directory.EnumerateDirectories(directoryPath, "*", SearchOption.AllDirectories)
+			.OrderByDescending(path => path.Length)) {
+			File.SetAttributes(subdirectoryPath, FileAttributes.Normal);
 		}
 	}
 
@@ -132,6 +207,30 @@ public static class FileHelper {
 		} catch (IOException ex) when (IsFilesSharingViolation(ex)) {
 			Logger.Debug(ex.ToString());
 			throw new UserErrorException($"Failed to move \"{sourceFilePath}\" to \"{destFilePath}\". {CloseProgramsHint}");
+		}
+	}
+
+	/// <summary>
+	/// Makes an existing regular file writable by the current user.
+	/// On Windows this clears the read-only attribute flag; on macOS and Linux
+	/// it adds the user-write bit directly via the POSIX file mode so that
+	/// the change takes effect even when the Win32-style attribute mapping
+	/// does not round-trip correctly on the host OS.
+	/// Does nothing when the file does not exist or when the path refers to a
+	/// directory rather than a regular file.
+	/// </summary>
+	public static void EnsureFileIsWritable(string filePath) {
+		if (!File.Exists(filePath)) {
+			return;
+		}
+
+		if (OperatingSystem.IsWindows()) {
+			File.SetAttributes(filePath, FileAttributes.Normal);
+		} else {
+			var mode = File.GetUnixFileMode(filePath);
+			if (!mode.HasFlag(UnixFileMode.UserWrite)) {
+				File.SetUnixFileMode(filePath, mode | UnixFileMode.UserWrite);
+			}
 		}
 	}
 }

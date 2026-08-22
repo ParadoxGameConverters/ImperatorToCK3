@@ -10,7 +10,7 @@ internal sealed class CoaMapper {
 	public CoaMapper() { }
 	public CoaMapper(ModFilesystem modFS) {
 		Logger.Info("Parsing CoAs...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		RegisterKeys(parser);
 		const string coasPath = "common/coat_of_arms/coat_of_arms";
 		parser.ParseGameFolder(coasPath, modFS, "txt", recursive: true);
@@ -29,7 +29,7 @@ internal sealed class CoaMapper {
 	}
 
 	public void ParseCoAs(IEnumerable<string> coaDefinitionStrings) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		foreach (var coaDefinitionString in coaDefinitionStrings) {
 			parser.ParseStream(new BufferedReader(coaDefinitionString));
@@ -50,7 +50,7 @@ internal sealed class CoaMapper {
 	/// <summary>
 	/// For a given collection of flag names, returns ones that don't have a defined CoA.
 	/// </summary>
-	public FrozenSet<string> GetAllMissingFlagKeys(IEnumerable<string> flagKeys) {
+	public FrozenSet<string> GetAllMissingFlagKeys(string[] flagKeys) {
 		var existingFlagKeys = coasMap.Keys.ToFrozenSet();
 		return flagKeys.Where(flagKey => !existingFlagKeys.Contains(flagKey)).ToFrozenSet();
 	}

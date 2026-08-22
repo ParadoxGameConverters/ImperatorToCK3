@@ -10,7 +10,7 @@ namespace ImperatorToCK3.Imperator.Countries;
 
 internal sealed class CountryCollection : ConcurrentIdObjectCollection<ulong, Country> {
 	public void LoadCountriesFromBloc(BufferedReader reader) {
-		var blocParser = new Parser();
+		var blocParser = new Parser(implicitVariableHandling: false);
 		blocParser.RegisterKeyword("country_database", LoadCountries);
 		blocParser.IgnoreAndLogUnregisteredItems();
 		blocParser.ParseStream(reader);
@@ -27,7 +27,7 @@ internal sealed class CountryCollection : ConcurrentIdObjectCollection<ulong, Co
 		var channelReader = channel.Reader;
 
 		var producerTask = Task.Run(() => {
-			var parser = new Parser();
+			var parser = new Parser(implicitVariableHandling: false);
 			parser.RegisterRegex(CommonRegexes.Integer, (countryReader, countryIdStr) => {
 				var countryData = countryReader.GetStringOfItem();
 				

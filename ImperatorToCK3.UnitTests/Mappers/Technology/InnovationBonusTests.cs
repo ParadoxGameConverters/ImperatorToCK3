@@ -1,6 +1,7 @@
 using commonItems;
 using ImperatorToCK3.Mappers.Technology;
 using System;
+using System.Collections.Frozen;
 using System.IO;
 using Xunit;
 
@@ -37,8 +38,8 @@ public class InnovationBonusTests {
 		var reader = new BufferedReader("ir = ir_invention\nck3 = ck3_innovation");
 		var bonus = new InnovationBonus(reader);
 		
-		Assert.Null(bonus.GetProgress(Array.Empty<string>()));
-		Assert.Null(bonus.GetProgress(["ir_other_invention"]));
+		Assert.Null(bonus.GetProgress(Array.Empty<string>().ToFrozenSet()));
+		Assert.Null(bonus.GetProgress(new[] { "ir_other_invention" }.ToFrozenSet()));
 	}
 
 	[Fact]
@@ -47,9 +48,9 @@ public class InnovationBonusTests {
 		var bonus = new InnovationBonus(reader);
 
 		Assert.Equal("ck3_innovation", bonus.CK3InnovationId);
-		Assert.Equal(new("ck3_innovation", 25), bonus.GetProgress(["inv1"])!.Value);
-		Assert.Equal(new("ck3_innovation", 50), bonus.GetProgress(["inv1", "inv2"])!.Value);
-		Assert.Equal(new("ck3_innovation", 75), bonus.GetProgress(["inv1", "inv2", "inv3"])!.Value);
-		Assert.Equal(new("ck3_innovation", 100), bonus.GetProgress(["inv1", "inv2", "inv3", "inv4"])!.Value);
+		Assert.Equal(new("ck3_innovation", 25), bonus.GetProgress(new[] { "inv1" }.ToFrozenSet())!.Value);
+		Assert.Equal(new("ck3_innovation", 50), bonus.GetProgress(new[] { "inv1", "inv2" }.ToFrozenSet())!.Value);
+		Assert.Equal(new("ck3_innovation", 75), bonus.GetProgress(new[] { "inv1", "inv2", "inv3" }.ToFrozenSet())!.Value);
+		Assert.Equal(new("ck3_innovation", 100), bonus.GetProgress(new[] { "inv1", "inv2", "inv3", "inv4" }.ToFrozenSet())!.Value);
 	}
 }

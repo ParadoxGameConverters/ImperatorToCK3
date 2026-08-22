@@ -51,7 +51,7 @@ internal sealed class Family : IIdentifiable<ulong> {
 
 	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 	private static class FamilyFactory {
-		private static readonly Parser parser = new();
+		private static readonly Parser parser = new(implicitVariableHandling: false);
 		private static Family family = new(0);
 		static FamilyFactory() {
 			parser.RegisterKeyword("key", reader =>

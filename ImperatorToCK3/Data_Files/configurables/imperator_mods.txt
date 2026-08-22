@@ -16,7 +16,7 @@ invictus_1_7 = {
 }
 
 terra_indomita = {
-	# The Antiquitas mod is based on Terra Indomita's map, and currently we don't need to distinguish between them. 
+	# The Antiquitas mod is based on Terra Indomita's map, and currently we don't need to distinguish between them.
 	name_regex = { "^Terra-Indomita" "^Antiquitas$" }
 	id = { "ugc_2856497654.mod" "ugc_2992438857.mod" }
 }

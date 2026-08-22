@@ -145,7 +145,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		BulkRemove([key]);
 	}
 
-	private void BulkRemove(ICollection<string> keys) {
+	private void BulkRemove(List<string> keys) {
 		foreach (var key in keys) {
 			var characterToRemove = this[key];
 
@@ -164,7 +164,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		RemoveCharacterReferencesFromHistory(keys);
 	}
 
-	private void RemoveCharacterReferencesFromHistory(ICollection<string> idsToRemove) {
+	private void RemoveCharacterReferencesFromHistory(List<string> idsToRemove) {
 		var idsCapturingGroup = "(" + string.Join('|', idsToRemove) + ")";
 
 		// Effects like "break_alliance = character:ID" entries should be removed.
@@ -422,13 +422,8 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 	}
 
 	private void SetCharacterCastes(CultureCollection cultures, Date ck3BookmarkDate) {
-		var casteSystemCultureIds = cultures
-			.Where(c => c.TraditionIds.Contains("tradition_caste_system"))
-			.Select(c => c.Id)
-			.ToFrozenSet();
-		var learningEducationTraits = new HashSet<string>(StringComparer.Ordinal) {
-			"education_learning_1", "education_learning_2", "education_learning_3", "education_learning_4"
-		};
+		var casteSystemCultureIds = GetCasteSystemCultureIds(cultures);
+		var learningEducationTraits = GetLearningEducationTraits();
 
 		foreach (var character in GetCharactersOrderedByBirthDateIfNeeded(this)) {
 			if (character.ImperatorCharacter is null) {
@@ -441,83 +436,93 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 			}
 
 			// The caste is hereditary.
-			var father = character.Father;
-			if (father is not null) {
-				var foundTrait = GetCasteTraitFromParent(father);
-				if (foundTrait is not null) {
-					character.AddBaseTrait(foundTrait);
-					continue;
-				}
-			}
-			var mother = character.Mother;
-			if (mother is not null) {
-				var foundTrait = GetCasteTraitFromParent(mother);
-				if (foundTrait is not null) {
-					character.AddBaseTrait(foundTrait);
-					continue;
-				}
+			var inheritedCaste = GetInheritedCasteTrait(character);
+			if (inheritedCaste is not null) {
+				character.AddBaseTrait(inheritedCaste);
+				continue;
 			}
 
 			// Try to set caste based on character's traits.
 			character.AddBaseTrait(HasAnyTrait(character.BaseTraits, learningEducationTraits) ? "brahmin" : "kshatriya");
 		}
-		return;
+	}
 
-		static string? GetCasteTraitFromParent(Character parentCharacter) {
-			foreach (var trait in parentCharacter.BaseTraits) {
-				switch (trait) {
-					case "brahmin":
-					case "kshatriya":
-					case "vaishya":
-					case "shudra":
-						return trait;
-				}
-			}
+	private static FrozenSet<string> GetCasteSystemCultureIds(CultureCollection cultures) {
+		return cultures
+			.Where(c => c.TraditionIds.Contains("tradition_caste_system"))
+			.Select(c => c.Id)
+			.ToFrozenSet();
+	}
 
-			return null;
+	private static HashSet<string> GetLearningEducationTraits() {
+		return [
+			"education_learning_1", "education_learning_2", "education_learning_3", "education_learning_4"
+		];
+	}
+
+	private static string? GetInheritedCasteTrait(Character character) {
+		var fatherTrait = character.Father is not null ? GetCasteTraitFromParent(character.Father) : null;
+		if (fatherTrait is not null) {
+			return fatherTrait;
 		}
 
-		static bool HasAnyTrait(IEnumerable<string> traits, HashSet<string> relevantTraits) {
-			foreach (var trait in traits) {
-				if (relevantTraits.Contains(trait)) {
-					return true;
-				}
-			}
+		return character.Mother is not null ? GetCasteTraitFromParent(character.Mother) : null;
+	}
 
-			return false;
+	private static string? GetCasteTraitFromParent(Character parentCharacter) {
+		foreach (var trait in parentCharacter.BaseTraits) {
+			switch (trait) {
+				case "brahmin":
+				case "kshatriya":
+				case "vaishya":
+				case "shudra":
+					return trait;
+			}
 		}
 
-		static IEnumerable<Character> GetCharactersOrderedByBirthDateIfNeeded(IEnumerable<Character> characters) {
-			using var enumerator = characters.GetEnumerator();
-			if (!enumerator.MoveNext()) {
-				return Array.Empty<Character>();
-			}
+		return null;
+	}
 
-			var orderedCharacters = new List<Character> { enumerator.Current };
-			var previousBirthDate = enumerator.Current.BirthDate;
-			var needsSorting = false;
-			while (enumerator.MoveNext()) {
-				var currentCharacter = enumerator.Current;
-				if (currentCharacter.BirthDate < previousBirthDate) {
-					needsSorting = true;
-				}
-				orderedCharacters.Add(currentCharacter);
-				previousBirthDate = currentCharacter.BirthDate;
+	private static bool HasAnyTrait(List<string> traits, HashSet<string> relevantTraits) {
+		foreach (var trait in traits) {
+			if (relevantTraits.Contains(trait)) {
+				return true;
 			}
-
-			if (needsSorting) {
-				orderedCharacters.Sort((left, right) => left.BirthDate.CompareTo(right.BirthDate));
-			}
-
-			return orderedCharacters;
 		}
+
+		return false;
+	}
+
+	private static List<Character> GetCharactersOrderedByBirthDateIfNeeded(CharacterCollection characters) {
+		using var enumerator = characters.GetEnumerator();
+		if (!enumerator.MoveNext()) {
+			return [];
+		}
+
+		var orderedCharacters = new List<Character> { enumerator.Current };
+		var previousBirthDate = enumerator.Current.BirthDate;
+		var needsSorting = false;
+		while (enumerator.MoveNext()) {
+			var currentCharacter = enumerator.Current;
+			if (currentCharacter.BirthDate < previousBirthDate) {
+				needsSorting = true;
+			}
+			orderedCharacters.Add(currentCharacter);
+			previousBirthDate = currentCharacter.BirthDate;
+		}
+
+		if (needsSorting) {
+			orderedCharacters.Sort((left, right) => left.BirthDate.CompareTo(right.BirthDate));
+		}
+
+		return orderedCharacters;
 	}
 
 	public void LoadCharacterIDsToPreserve(Date ck3BookmarkDate) {
 		Logger.Debug("Loading IDs of CK3 characters to preserve...");
 
 		const string configurablePath = "configurables/ck3_characters_to_preserve.txt";
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("keep_as_is", reader => {
 			var ids = reader.GetStrings();
 			foreach (var id in ids) {
@@ -555,34 +560,11 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		Logger.Info("Purging unneeded characters...");
 
 		// Characters from CK3 that hold titles at the bookmark date should be kept.
-		var currentTitleHolderIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(ck3BookmarkDate);
-		var landedCharacters = new List<Character>();
-		var charactersToCheckList = new List<Character>();
-		foreach (var character in this) {
-			if (currentTitleHolderIds.Contains(character.Id)) {
-				landedCharacters.Add(character);
-				continue;
-			}
-
-			if (character.FromImperator || character.Id.StartsWith("animation_test_", StringComparison.Ordinal) || character.IsNonRemovable) {
-				continue;
-			}
-
-			charactersToCheckList.Add(character);
-		}
-
 		// Characters from I:R should be kept (the unimportant ones have already been purged during I:R processing).
 		// Also keep landed, animation test, and script-protected characters.
-		var charactersToCheck = charactersToCheckList.ToArray();
-
+		var (landedCharacters, charactersToCheck) = ClassifyCharactersForPurge(titles, ck3BookmarkDate);
 		// Members of landed dynasties will be preserved, unless dead and childless.
-		var dynastyIdsOfLandedCharacters = new HashSet<string>(StringComparer.Ordinal);
-		foreach (var landedCharacter in landedCharacters) {
-			var dynastyId = landedCharacter.GetDynastyId(ck3BookmarkDate);
-			if (dynastyId is not null) {
-				dynastyIdsOfLandedCharacters.Add(dynastyId);
-			}
-		}
+		var dynastyIdsOfLandedCharacters = GetDynastyIdsOfLandedCharacters(landedCharacters, ck3BookmarkDate);
 
 		int i = 0;
 		var charactersToRemove = new List<Character>();
@@ -616,12 +598,47 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 
 		// At this point we probably have many dynasties with no characters left.
 		// Let's purge them.
+		PurgeEmptyDynastyContainers(dynasties, houses, ck3BookmarkDate);
+	}
+
+	private (List<Character> landedCharacters, Character[] charactersToCheck) ClassifyCharactersForPurge(Title.LandedTitles titles, Date ck3BookmarkDate) {
+		var currentTitleHolderIds = titles.GetHolderIdsForAllTitlesExceptNobleFamilyTitles(ck3BookmarkDate);
+		var landedCharacters = new List<Character>();
+		var charactersToCheck = new List<Character>();
+		foreach (var character in this) {
+			if (currentTitleHolderIds.Contains(character.Id)) {
+				landedCharacters.Add(character);
+				continue;
+			}
+
+			if (character.FromImperator || character.Id.StartsWith("animation_test_", StringComparison.Ordinal) || character.IsNonRemovable) {
+				continue;
+			}
+
+			charactersToCheck.Add(character);
+		}
+
+		return (landedCharacters, [.. charactersToCheck]);
+	}
+
+	private static HashSet<string> GetDynastyIdsOfLandedCharacters(IEnumerable<Character> landedCharacters, Date ck3BookmarkDate) {
+		var dynastyIds = new HashSet<string>(StringComparer.Ordinal);
+		foreach (var landedCharacter in landedCharacters) {
+			var dynastyId = landedCharacter.GetDynastyId(ck3BookmarkDate);
+			if (dynastyId is not null) {
+				dynastyIds.Add(dynastyId);
+			}
+		}
+		return dynastyIds;
+	}
+
+	private void PurgeEmptyDynastyContainers(DynastyCollection dynasties, HouseCollection houses, Date ck3BookmarkDate) {
 		houses.PurgeUnneededHouses(this, ck3BookmarkDate);
 		dynasties.PurgeUnneededDynasties(this, houses, ck3BookmarkDate);
 		dynasties.FlattenDynastiesWithNoFounders(this, houses, ck3BookmarkDate);
 	}
 
-	private static void DetermineCharactersToPurge(List<Character> charactersToRemove, IEnumerable<Character> charactersToCheck,
+	private static void DetermineCharactersToPurge(List<Character> charactersToRemove, Character[] charactersToCheck,
 		HashSet<string> dynastyIdsOfLandedCharacters, HashSet<string> parentIdsCache, Date ck3BookmarkDate)
 	{
 		// See who can be removed.
@@ -743,7 +760,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		UnitCollection imperatorUnits,
 		Imperator.Characters.CharacterCollection imperatorCharacters,
 		CountryCollection irCountries,
-		Date date,
+		Date bookmarkDate,
 		UnitTypeMapper unitTypeMapper,
 		IdObjectCollection<string, MenAtArmsType> menAtArmsTypes,
 		ProvinceMapper provinceMapper,
@@ -753,29 +770,46 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		Logger.Info("Importing Imperator armies...");
 
 		var ck3CountriesFromImperator = titles.GetCountriesImportedFromImperator();
+		var legionsByCountry = GetLegionsByCountry(imperatorUnits);
 		foreach (var ck3Country in ck3CountriesFromImperator) {
-			var rulerId = ck3Country.GetHolderId(date);
+			var rulerId = ck3Country.GetHolderId(bookmarkDate);
 			if (rulerId == "0") {
 				Logger.Debug($"Can't add armies to {ck3Country} because it has no holder.");
 				continue;
 			}
 
 			var imperatorCountry = ck3Country.ImperatorCountry!;
-			var countryLegions = imperatorUnits.Where(u => u.CountryId == imperatorCountry.Id && u.IsArmy && u.IsLegion).ToArray();
-			if (countryLegions.Length == 0) {
+			if (!legionsByCountry.TryGetValue(imperatorCountry.Id, out var countryLegions)) {
 				continue;
 			}
 
 			var ruler = this[rulerId];
 
 			if (config.LegionConversion == LegionConversion.MenAtArms) {
-				ruler.ImportUnitsAsMenAtArms(countryLegions, date, unitTypeMapper, menAtArmsTypes, ck3LocDB);
+				ruler.ImportUnitsAsMenAtArms(countryLegions, bookmarkDate, unitTypeMapper, menAtArmsTypes, ck3LocDB);
 			} else if (config.LegionConversion == LegionConversion.SpecialTroops) {
-				ruler.ImportUnitsAsSpecialTroops(countryLegions, imperatorCharacters, irCountries, date, unitTypeMapper, provinceMapper, ck3LocDB);
+				ruler.ImportUnitsAsSpecialTroops(countryLegions, imperatorCharacters, irCountries, bookmarkDate, unitTypeMapper, provinceMapper, ck3LocDB);
 			}
 		}
 
 		Logger.IncrementProgress();
+	}
+
+	internal static Dictionary<ulong, List<Unit>> GetLegionsByCountry(UnitCollection imperatorUnits) {
+		var legionsByCountry = new Dictionary<ulong, List<Unit>>();
+		foreach (var unit in imperatorUnits) {
+			if (!unit.IsArmy || !unit.IsLegion) {
+				continue;
+			}
+
+			if (!legionsByCountry.TryGetValue(unit.CountryId, out var countryLegions)) {
+				countryLegions = [];
+				legionsByCountry[unit.CountryId] = countryLegions;
+			}
+			countryLegions.Add(unit);
+		}
+
+		return legionsByCountry;
 	}
 
 	internal void GenerateSuccessorsForOldCharacters(Title.LandedTitles titles, CultureCollection cultures, Date irSaveDate, Date ck3BookmarkDate, ulong randomSeed) {
@@ -905,7 +939,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		TransferCharacterGoldToTheirLivingSuccessor(oldCharacter, currentCharacter);
 	}
 
-	private static Character? GetOldestLivingMaleChild(IEnumerable<Character> children) {
+	private static Character? GetOldestLivingMaleChild(IReadOnlyCollection<Character> children) {
 		Character? oldestLivingMaleChild = null;
 		foreach (var child in children) {
 			if (child is {Female: true} || child.DeathDate is not null) {
@@ -1109,6 +1143,7 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
              {
              set_variable = { name = years_with_government value = {{yearsWithChineseGov.ToString("0.#####", CultureInfo.InvariantCulture)}} }
              set_variable = { name = imperator_unrest value = {{unrest.ToString("0.#####", CultureInfo.InvariantCulture)}} }
+             set_variable = { name = imperator_tag value = flag:{{title.ImperatorCountry?.Tag.ToString()}} }
              }
              """;
 			holder.History.AddFieldValue(ck3BookmarkDate, "effects", "effect", new StringOfItem(effectStr));

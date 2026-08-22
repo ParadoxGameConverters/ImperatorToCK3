@@ -15,9 +15,9 @@ internal sealed partial class NameList : IIdentifiable<string> {
 	public NameList(string id, BufferedReader nameListReader) {
 		Id = id;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(MaleNamesRegex(), maleNamesReader => {
-			var maleNamesBlockParser = new Parser();
+			var maleNamesBlockParser = new Parser(implicitVariableHandling: true);
 			maleNamesBlockParser.RegisterRegex(CommonRegexes.Integer, (weightedBlockReader, _) => {
 				maleNames.UnionWith(weightedBlockReader.GetStrings());
 			});
@@ -31,7 +31,7 @@ internal sealed partial class NameList : IIdentifiable<string> {
 			maleNamesBlockParser.ParseStream(maleNamesReader);
 		});
 		parser.RegisterRegex(FemaleNamesRegex(), reader => {
-			var femaleNamesBlockParser = new Parser();
+			var femaleNamesBlockParser = new Parser(implicitVariableHandling: true);
 			femaleNamesBlockParser.RegisterRegex(CommonRegexes.Integer, (weightedBlockReader, _) => {
 				femaleNames.UnionWith(weightedBlockReader.GetStrings());
 			});

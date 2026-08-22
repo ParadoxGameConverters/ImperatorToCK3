@@ -828,7 +828,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	public void LoadTitles(BufferedReader reader, ColorFactory colorFactory) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser, colorFactory);
 		parser.ParseStream(reader);
 
@@ -1139,6 +1139,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	[SerializedName("posthumous_regnal_female_names")] public StringOfItem? PosthumousRegnalFemaleNames { get; private set; }
 	[SerializedName("personal_relation_entry")] public StringOfItem? PersonalRelationEntry { get; private set; }
 	[SerializedName("personal_relation_vassal")] public StringOfItem? PersonalRelationVassal { get; private set; }
+	[SerializedName("disable_regnal_numbers")] public bool? DisableRegnalNumbers { get; set; }
 
 	public int? GetOwnOrInheritedDevelopmentLevel(Date date) {
 		// Latest date (<= date) takes precedence.
@@ -1225,6 +1226,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		parser.RegisterKeyword("posthumous_regnal_female_names", reader => PosthumousRegnalFemaleNames = reader.GetStringOfItem());
 		parser.RegisterKeyword("personal_relation_entry", reader => PersonalRelationEntry = reader.GetStringOfItem());
 		parser.RegisterKeyword("personal_relation_vassal", reader => PersonalRelationVassal = reader.GetStringOfItem());
+		parser.RegisterKeyword("disable_regnal_numbers", reader => DisableRegnalNumbers = reader.GetBool());
 
 		parser.RegisterRegex(CommonRegexes.Catchall, (reader, token) => {
 			IgnoredTokens.Add(token);
@@ -1610,7 +1612,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 		}
 		
 		// Skip if the faith doesn't allow the character's gender to be clergy.
-		var clericalGenderDoctrines = rulerFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_clerical_gender");
+		var clericalGenderDoctrines = rulerFaith.GetDoctrineIdsForDoctrineGroupId("doctrine_clerical_gender");
 		if (clericalGenderDoctrines.Count != 0) {
 			if (clericalGenderDoctrines.Contains("doctrine_clerical_gender_female_only") && !ck3Official.Female) {
 				return false;
@@ -1629,7 +1631,7 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 			var courtFaith = ck3Ruler.GetFaithId(irSaveDate);
 			if (courtFaith is not null) {
 				var dominantGenderDoctrines = religionCollection.GetFaith(courtFaith)?
-					.GetDoctrineIdsForDoctrineCategoryId("doctrine_gender");
+					.GetDoctrineIdsForDoctrineGroupId("doctrine_gender");
 				if (dominantGenderDoctrines is null) {
 					return false;
 				}

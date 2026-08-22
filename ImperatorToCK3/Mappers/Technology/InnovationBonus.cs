@@ -1,4 +1,5 @@
 using commonItems;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,7 +10,7 @@ internal sealed class InnovationBonus {
 	public string? CK3InnovationId { get; private set; }
 
 	public InnovationBonus(BufferedReader bonusReader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("ir", reader => imperatorInventions.Add(reader.GetString()));
 		parser.RegisterKeyword("ck3", reader => CK3InnovationId = reader.GetString());
 		parser.IgnoreAndLogUnregisteredItems();
@@ -23,7 +24,7 @@ internal sealed class InnovationBonus {
 		}
 	}
 
-	public KeyValuePair<string, ushort>? GetProgress(IEnumerable<string> activeInventions) {
+	public KeyValuePair<string, ushort>? GetProgress(FrozenSet<string> activeInventions) {
 		if (CK3InnovationId is null) {
 			return null;
 		}

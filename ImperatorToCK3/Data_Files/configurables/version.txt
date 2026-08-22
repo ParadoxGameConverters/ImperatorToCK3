@@ -1,9 +1,9 @@
 # Version info
 
-name = "Lucius Verus"
+name = "Commodus"
 source = "Imperator"
 minSource = "2.0"
 maxSource = "2.0"
 target = "CK3"
-minTarget = "1.18"
-maxTarget = "1.18"
+minTarget = "1.19"
+maxTarget = "1.19"

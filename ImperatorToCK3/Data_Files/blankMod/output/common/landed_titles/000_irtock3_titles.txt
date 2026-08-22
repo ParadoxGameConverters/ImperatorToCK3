@@ -88,7 +88,7 @@ e_western_roman_empire = {
 				NOT = {
 					any_held_title = {
 						this = title:e_latin_empire
-					} 
+					}
 				}
 			}
 		}

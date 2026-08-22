@@ -333,7 +333,7 @@ link = { ck3 = gaelic @ir_gaelic_cultures }
 link = { ck3=gaelic @ir_irish_cultures }
 
 ## Gallic
-@ir_gallic_cultures = "ir=volcae ir=salluvian ir=arverni ir=aulercian ir=pictonian ir=lemovician ir=santonian ir=carnuti ir=haedui ir=biturigan ir=lepontic ir=vindelician ir=helvetian ir=allobrogian ir=teurian ir=aremorican" 
+@ir_gallic_cultures = "ir=volcae ir=salluvian ir=arverni ir=aulercian ir=pictonian ir=lemovician ir=santonian ir=carnuti ir=haedui ir=biturigan ir=lepontic ir=vindelician ir=helvetian ir=allobrogian ir=teurian ir=aremorican"
 link = { ck3 = gaul @ir_gallic_cultures } # TFE
 link = { ck3 = gallic @ir_gallic_cultures }
 
@@ -376,7 +376,7 @@ link = { ck3 = finnish @ir_all_germanic_cultures ck3Province = 454 ck3Province =
 # East Germanic mappings
 # Tag culture first so they don't get overwritten
 link = { ck3 = burgundian @ir_vandilian_cultures historicalTag=BUR } # TFE
-link = { ck3 = scirian @ir_vandilian_cultures historicalTag=SCI } # TFE 
+link = { ck3 = scirian @ir_vandilian_cultures historicalTag=SCI } # TFE
 link = { ck3 = varinian @ir_vandilian_cultures @ir_irminonic_cultures historicalTag=VRI } # TFE - Central Germanic in Imperator yet East Germanic in CK3, so use both
 link = { ck3 = rugian @ir_vandilian_cultures historicalTag=RGG } # TFE
 link = { ck3 = herulian @ir_vandilian_cultures historicalTag=HRE } # TFE
@@ -531,12 +531,12 @@ link = { ck3 = norman ir = norman } # https://steamcommunity.com/sharedfiles/fil
 link = { ck3 = roman @ir_latin_cultures @roman_tags }
 
 # TFE -splitting according to regions
-link = { ck3 = hiberno_roman @ir_latin_cultures @culture_splitting_region_A } 
+link = { ck3 = hiberno_roman @ir_latin_cultures @culture_splitting_region_A }
 link = { ck3 = caledo_roman @ir_latin_cultures @culture_splitting_region_B } # hiberno and caledo roman have been commented out
 link = { ck3 = britano_roman @ir_latin_cultures @culture_splitting_region_C @culture_splitting_region_B @culture_splitting_region_A }
 link = { ck3 = rhaetio_roman @ir_latin_cultures irRegion = rhaetia_region }
-link = { ck3 = illyro_roman @ir_latin_cultures @culture_splitting_region_J1 } 
-link = { ck3 = dacio_roman @ir_latin_cultures @culture_splitting_region_J2 } 
+link = { ck3 = illyro_roman @ir_latin_cultures @culture_splitting_region_J1 }
+link = { ck3 = dacio_roman @ir_latin_cultures @culture_splitting_region_J2 }
 link = { ck3 = thracio_roman @ir_latin_cultures @culture_splitting_region_K1 }
 link = { ck3 = gallo_roman @ir_latin_cultures
     @culture_splitting_region_E
@@ -656,8 +656,8 @@ link = { ck3 = afghan ir = afghan } # https://steamcommunity.com/sharedfiles/fil
 link = { ck3 = radhi ir = vanga }
 link = { ck3 = varendri ir = pandra }
 link = { ck3 = kashika ir = kasi ir = atavi }
-link = { ck3 = magadhi ir = magadhi } 
-link = { ck3 = maithili ir = vrji } 
+link = { ck3 = magadhi ir = magadhi }
+link = { ck3 = maithili ir = vrji }
 # Vanilla CK3
 link = { ck3 = oriya ir = kalingan }
 link = { ck3 = assamese ir = kamarupi }
@@ -705,13 +705,13 @@ link = {
 	ir = sindi
 	ir = siraci
 	# Invictus mod
-	# quote from shocky27, Invictus dev: 
+	# quote from shocky27, Invictus dev:
 	# 	thyssagetae alani jurcan are a northern sarmatian branch and the rest of the sarmatians (siracarns iazyges roxolani etc) were a first wave in the south pushing the original scythians further west and subsuming them
-	# 	meanwhile the sakas in the east (massagetae, dahae tribes, and the further flung sakas of the tarim basin and eastern steppe) migrated and pushed sarmatians like the alans further west, especially once the xiongnu came from the east (turks and others) and pushed everyone west 
+	# 	meanwhile the sakas in the east (massagetae, dahae tribes, and the further flung sakas of the tarim basin and eastern steppe) migrated and pushed sarmatians like the alans further west, especially once the xiongnu came from the east (turks and others) and pushed everyone west
 	ir = jurcan
 }
 # Invictus mod
-link = { ck3=gelonian ir=gelonian } 
+link = { ck3=gelonian ir=gelonian }
 link = { ck3=scythian ir=khotanese ir=cimmerian }
 # Simple Timeline Extender mod
 link = { ck3 = hunnic ir = hunnic }
@@ -801,13 +801,13 @@ link = { ck3 = karelian @ir_finnic_cultures ck3Region = d_karelia } # A just in 
 # Androphagians are in the finnic group in both Invictus and TI, just Invictus didn't have any other finnic representatives before so it wasn't enough to justify their own group. Dnieper dvina culture was most likely a finnic speaking culture with Slavo-baltic speakers in the southern areas of the culture
 # Depending on how your groups are mapped out, if you have a finnic group, they should be placed there
 link = { # Rajas
-	ck3=livonian 
+	ck3=livonian
 	ir=androphagian
 	ir=fennic
 	ck3Region = d_livonia
 }
-link = { 
-	ck3=estonian 
+link = {
+	ck3=estonian
 	ir=androphagian
 	ir=fennic
 	ck3Region = dlc_fp1_region_non_scandinavian_southern_baltic
@@ -877,12 +877,12 @@ link = { ck3 = solqumyt ir = itkul } # Not sure what sort of cultures would best
 link = { ck3 = kott ir = bolsherechye } # Not sure what sort of cultures would best map, I figured given its location and Uralic culture group, maybe Samoyedic cultures, might change if a better choice is determined
 link = { ck3=urslavic ir=slavian } # Both represent early Slavic cultures
 link = { ck3=georgian ir=sasperires } # Sasperires were an ancient tribe in the region of modern Georgia
-link = { ck3=udmurt ir=argippaei } # Argippaei were described by Herodotus as living north of Scythia, possibly related to Sarmatians or Alans (But the converter already has quite a few cultures mapped to those, and doing research/asking chatgpt doesn't give a single answer as they may not have been an atual culture, just a mis-identified one. So for now, will map it to something different for more variety. ChatGPT recommneded cultures like Komi, but since another culture is mapped to that, for now I will just map it to Udmurt ~~tanner918)
+link = { ck3=udmurt ir=argippaei } # Argippaei were described by Herodotus as living north of Scythia, possibly related to Sarmatians or Alans (But the converter already has quite a few cultures mapped to those, and doing research/asking ChatGPT doesn't give a single answer as they may not have been an actual culture, just a mis-identified one. So for now, will map it to something different for more variety. ChatGPT recommended cultures like Komi, but since another culture is mapped to that, for now I will just map it to Udmurt ~~tanner918)
 link = { ck3=samoyed ir=arimphaei } # Arimphaei were described as living in the far north, possibly related to Finno-Ugric peoples
 link = { ck3=kurykan ir=jiankun } # Both cultures seem to have same/similar language and culture group/background
 link = { ck3=khanty ir=sargat } # Wikipedia says they could have been a mix of Ugrian and Siberian peoples, and some early Iranian/Indo-Iranian peoples. Since it is in the Uralic culture group, mapping to Khanty for now
 link = { ck3 = tocharian ir = jushi } # ChatGPT and Wikipedia state they most likely spoke a Sakan or Tocharian language, and that they eventually got pushed out by incoming invading Turkic peoples. So for now, will map to Tocharian ~~tanner918
-link = { ck3 = komi ir = permic } 
+link = { ck3 = komi ir = permic }
 
 
 
@@ -1090,7 +1090,7 @@ link = { ck3 = qiang ir = qiang ir = gyalrong ir = di_qiang ir = ruoqiang ir = k
 
 
 ## Di Culture Group [Terra-Indomita]
-#- Arzhan 
+#- Arzhan
 #- Baidi
 #- Chanlan
 #- Chidi

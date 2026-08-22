@@ -10,18 +10,18 @@ internal sealed class AccessoryGeneMapper {
 	private Dictionary<string, List<Assignment>> TemplateToTemplateMappings { get; } = [];
 
 	public AccessoryGeneMapper(string mappingsFilePath) {
-		var objectToObjectMappingsParser = new Parser();
+		var objectToObjectMappingsParser = new Parser(implicitVariableHandling: true);
 		objectToObjectMappingsParser.RegisterRegex(CommonRegexes.String, (reader, geneName) => {
 			ObjectToObjectMappings[geneName] = reader.GetAssignments();
 		});
 		objectToObjectMappingsParser.IgnoreAndLogUnregisteredItems();
 
-		var templateToTemplateMappingsParser = new Parser();
+		var templateToTemplateMappingsParser = new Parser(implicitVariableHandling: true);
 		templateToTemplateMappingsParser.RegisterRegex(CommonRegexes.String, (reader, geneName) => {
 			TemplateToTemplateMappings[geneName] = reader.GetAssignments();
 		});
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("object_to_object", objectToObjectMappingsParser.ParseStream);
 		parser.RegisterKeyword("template_to_template", templateToTemplateMappingsParser.ParseStream);
 		parser.IgnoreAndLogUnregisteredItems();

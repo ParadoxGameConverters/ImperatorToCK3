@@ -36,7 +36,7 @@ internal sealed class DynastyCollection : ConcurrentIdObjectCollection<string, D
 	public void LoadCK3Dynasties(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading dynasties from CK3...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, dynastyId) => {
 			var dynasty = new Dynasty(dynastyId, reader);
 			AddOrReplace(dynasty);
@@ -103,7 +103,7 @@ internal sealed class DynastyCollection : ConcurrentIdObjectCollection<string, D
 		HashSet<string> dynastiesToKeep = [];
 		
 		// Load from configurable first.
-		var nonRemovableIdsParser = new Parser();
+		var nonRemovableIdsParser = new Parser(implicitVariableHandling: false);
 		nonRemovableIdsParser.RegisterRegex(CommonRegexes.String, (_, id) => {
 			dynastiesToKeep.Add(id);
 		});
@@ -147,7 +147,7 @@ internal sealed class DynastyCollection : ConcurrentIdObjectCollection<string, D
 	public void FlattenDynastiesWithNoFounders(CharacterCollection characters, HouseCollection houses, Date date) {
 		Logger.Info("Flattening dynasties with no founders...");
 		int count = 0;
-		
+
 		var dynastiesWithMainBranchMembers = new HashSet<string>(StringComparer.Ordinal);
 		var charactersByHouseId = new Dictionary<string, List<Character>>(StringComparer.Ordinal);
 		foreach (var character in characters) {
@@ -168,24 +168,13 @@ internal sealed class DynastyCollection : ConcurrentIdObjectCollection<string, D
 			houseMembers.Add(character);
 		}
 
-		var houseIdsByDynasty = new Dictionary<string, List<string>>(StringComparer.Ordinal);
-		foreach (var house in houses) {
-			if (house.DynastyId is not string dynastyId) {
-				continue;
-			}
+		Dictionary<string, List<string>> houseIdsByDynasty = GetHouseIdsByDynasty(houses);
 
-			if (!houseIdsByDynasty.TryGetValue(dynastyId, out var dynastyHouseIds)) {
-				dynastyHouseIds = [];
-				houseIdsByDynasty[dynastyId] = dynastyHouseIds;
-			}
-			dynastyHouseIds.Add(house.Id);
-		}
-		
 		foreach (var dynasty in this) {
 			if (dynastiesWithMainBranchMembers.Contains(dynasty.Id)) {
 				continue;
 			}
-			
+
 			if (!houseIdsByDynasty.TryGetValue(dynasty.Id, out var dynastyHouseIds)) {
 				continue;
 			}
@@ -200,20 +189,37 @@ internal sealed class DynastyCollection : ConcurrentIdObjectCollection<string, D
 			if (cadetHouseMembers.Count == 0) {
 				continue;
 			}
-			
+
 			foreach (var character in cadetHouseMembers) {
 				character.ClearDynastyHouse();
 				character.SetDynastyId(dynasty.Id, null);
 			}
-			
+
 			// Remove all the cadet houses.
 			foreach (var houseId in dynastyHouseIds) {
 				houses.RemoveUnlessConfiguredToPreserve(houseId);
 			}
-			
+
 			++count;
 		}
-		
+
 		Logger.Info($"Flattened {count} dynasties with no founders.");
+	}
+
+	private static Dictionary<string, List<string>> GetHouseIdsByDynasty(HouseCollection houses) {
+		var houseIdsByDynasty = new Dictionary<string, List<string>>(StringComparer.Ordinal);
+		foreach (var house in houses) {
+			if (house.DynastyId is not string dynastyId) {
+				continue;
+			}
+
+			if (!houseIdsByDynasty.TryGetValue(dynastyId, out var dynastyHouseIds)) {
+				dynastyHouseIds = [];
+				houseIdsByDynasty[dynastyId] = dynastyHouseIds;
+			}
+			dynastyHouseIds.Add(house.Id);
+		}
+
+		return houseIdsByDynasty;
 	}
 }

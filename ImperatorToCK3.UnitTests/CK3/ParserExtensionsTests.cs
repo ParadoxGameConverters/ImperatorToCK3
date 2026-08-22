@@ -15,7 +15,7 @@ public class ParserExtensionsTests {
 	[InlineData(true, true, false, 0, 1)]
 	public void CorrectModDependentBranchesAreUsed(bool wtwsms, bool tfe, bool vanillaCk3, int expectedValue1,
 		int expectedValue2) {
-		var ck3ModFlags = new Dictionary<string, bool> {["wtwsms"] = wtwsms, ["tfe"] = tfe, ["vanilla_ck3"] = vanillaCk3,};
+		var ck3ModFlags = new OrderedDictionary<string, bool> {["wtwsms"] = wtwsms, ["tfe"] = tfe, ["vanilla_ck3"] = vanillaCk3,};
 
 		var blocReader = new BufferedReader(
 			"""
@@ -63,7 +63,7 @@ public class ParserExtensionsTests {
 			""");
 
 		int? value = null;
-		Dictionary<string, bool> modFlags = new();
+		OrderedDictionary<string, bool> modFlags = [];
 
 		var parser1 = new Parser();
 		parser1.RegisterModDependentBloc(modFlags);
@@ -86,7 +86,7 @@ public class ParserExtensionsTests {
 			""");
 
 		int? value = null;
-		Dictionary<string, bool> modFlags = new();
+		OrderedDictionary<string, bool> modFlags = new();
 
 		var parser1 = new Parser();
 		parser1.RegisterModDependentBloc(modFlags);
@@ -97,7 +97,7 @@ public class ParserExtensionsTests {
 
 	[Fact]
 	public void ElseIfAfterElseIsIgnored() {
-		Dictionary<string, bool> ck3ModFlags = new() {{"wtwsms", false}, {"tfe", true}, {"vanilla_ck3", false},};
+		OrderedDictionary<string, bool> ck3ModFlags = new() {{"wtwsms", false}, {"tfe", true}, {"vanilla_ck3", false},};
 
 		var blocReader = new BufferedReader(
 			"""
@@ -123,7 +123,7 @@ public class ParserExtensionsTests {
 
 	[Fact]
 	public void ElseAfterElseIsIgnored() {
-		Dictionary<string, bool> ck3ModFlags = new() {{"wtwsms", false}, {"tfe", true}, {"vanilla_ck3", false},};
+		OrderedDictionary<string, bool> ck3ModFlags = new() {{"wtwsms", false}, {"tfe", true}, {"vanilla_ck3", false},};
 
 		var blocReader = new BufferedReader(
 			"""
@@ -149,7 +149,7 @@ public class ParserExtensionsTests {
 
 	[Fact]
 	public void ElseIfWithoutPrecedingIfIsIgnored() {
-		Dictionary<string, bool> ck3ModFlags = new() {{"wtwsms", false}, {"tfe", true}, {"vanilla_ck3", false},};
+		OrderedDictionary<string, bool> ck3ModFlags = new() {{"wtwsms", false}, {"tfe", true}, {"vanilla_ck3", false},};
 
 		var blocReader = new BufferedReader(
 			"""
@@ -171,7 +171,7 @@ public class ParserExtensionsTests {
 
 	[Fact]
 	public void ElseWithoutPrecedingIfIsIgnored() {
-		Dictionary<string, bool> ck3ModFlags = new() {{"wtwsms", false}, {"tfe", true}, {"vanilla_ck3", false},};
+		OrderedDictionary<string, bool> ck3ModFlags = new() {{"wtwsms", false}, {"tfe", true}, {"vanilla_ck3", false},};
 
 		var blocReader = new BufferedReader(
 			"""

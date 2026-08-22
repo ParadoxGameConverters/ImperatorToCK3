@@ -12,7 +12,7 @@ internal sealed class AccessoryGeneTemplate : IIdentifiable<string> {
 	public AccessoryGeneTemplate(string id, BufferedReader reader) {
 		Id = id;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}

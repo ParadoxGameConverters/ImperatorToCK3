@@ -55,10 +55,12 @@ public static class Program {
 				if (ex.StackTrace is not null) {
 					Logger.Debug(ex.StackTrace);
 				}
+				// Ensure the process exits with a non-zero code. Should be 1 for user errors and -1 for other exceptions.
+				Environment.Exit(ex is UserErrorException ? 1 : -1);
 			} else {
 				Logger.Log(Level.Fatal, "An unhandled exception occurred, but it could not be identified.");
+				Environment.Exit(-1);
 			}
-			Environment.Exit(-1); // Ensure the process exits with a non-zero code.
 		};
 		TaskScheduler.UnobservedTaskException += (sender, eventArgs) => {
 			Exception ex = eventArgs.Exception;
@@ -71,7 +73,8 @@ public static class Program {
 			if (ex.StackTrace is not null) {
 				Logger.Debug(ex.StackTrace);
 			}
-			Environment.Exit(-1); // Ensure the process exits with a non-zero code.
+			// Ensure the process exits with a non-zero code. Should be 1 for user errors and -1 for other exceptions.
+			Environment.Exit(ex is UserErrorException ? 1 : -1);
 		};
 	}
 

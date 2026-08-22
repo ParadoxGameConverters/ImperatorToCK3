@@ -95,8 +95,13 @@ link = { ir = LSI ck3 = k_portugal rank = k }
 #African
 link = { ir = EGY ck3 = k_egypt rank = k }
 link = { ir = MAU ck3 = e_maghreb rank = e }
+link = { ir = MAU ck3 = k_mauretania rank = k }
 link = { ir = AXM ck3 = e_abyssinia rank = e }
 link = { ir = BMY ck3 = k_blemmyia rank = k }
+link = { ir = CAR ck3 = e_carthage rank = e }
+link = { ir = CAR ck3 = k_carthage rank = k }
+link = { ir_name_key = CARTHAGO_NOVA_NAME ck3 = k_carthago_nova }
+link = { ir = TRP ck3 = k_tripolitania rank = k }
 
 #Gaul
 link = { ir = HVT ck3 = k_switzerland rank = k }

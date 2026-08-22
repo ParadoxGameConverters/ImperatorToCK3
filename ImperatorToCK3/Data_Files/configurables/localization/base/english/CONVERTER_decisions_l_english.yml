@@ -128,3 +128,11 @@
  irtock3_vassals_convert_to_ritsuryo: "All your [vassals|E] will convert to [ritsuryo|E]"
  irtock3_house_head_bloc_cohesion_hard_tt: "You must be the leader of a [bloc|E] that has at least #V 75#! [cohesion|E]"
  irtock3_move_shogunate_court_decision_tt: "@warning_icon! #warning This decision can't be taken again for [prim_realm_title.GetName] for#! #V 25 years #!\n@alert_icon! #alert_trial When this decision is available again, it will still require controlling the original capital #! #weak ([realm_capital_county.GetName]) #!"
+
+## Misc Decisions
+ # Restore Carthage Decision
+ ## The decision was changed so that if you have k_carthage, to decision is about elevating it to e_carthage, instead of "restoring" it
+ irtock3_elevate_carthage_decision_title: "Declare Carthage an Empire"
+ irtock3_elevate_carthage_decision_desc: "We have expanded far from our home in [GetTitleByKey('b_tunis').GetName], now able to rival even the strongest powers of the Mediterranean Sea! With such a vast and prosperous empire, it is only proper that everyone recognizes our glory!"
+ irtock3_elevate_carthage_decision_tooltip: "Form the Carthaginian Empire"
+ major_decisions.3300.desc_elevating_carthage: "From the salted earth a new empire arises to show its full glory. Before long, the merchant ships will fill the harbors with riches and the dominion of the Mediterranean Sea will be ours.\n\nI shall lead us to a new age and cement our legacy, so the world will know the true power of Carthage!\n\nMuch work is yet to be done, but for now I stand #EMP victorious! #!"

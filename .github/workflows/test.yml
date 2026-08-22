@@ -2,6 +2,10 @@ name: "Test"
 
 on:
   pull_request:
+    paths-ignore:
+    - '**/*.md'
+    - 'CODEOWNERS'
+    - 'LICENSE'
   merge_group:
 
 concurrency:
@@ -11,25 +15,80 @@ concurrency:
 jobs:
   test_and_check_coverage:
     runs-on: [self-hosted, linux]
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
-        fetch-depth: 0
         submodules: recursive
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v5
+      if: ${{ runner.environment == 'github-hosted' }}
+      uses: actions/setup-dotnet@v6
       with:
         global-json-file: global.json
+
+    - name: "Locate self-hosted dotnet"
+      if: ${{ runner.environment != 'github-hosted' && runner.os == 'Linux' }}
+      shell: bash
+      run: |
+        set -euo pipefail
+
+        if command -v dotnet >/dev/null 2>&1; then
+          echo "dotnet is already available on PATH"
+          exit 0
+        fi
+
+        for candidate in \
+          "$HOME/.dotnet" \
+          "/home/runner/.dotnet" \
+          "/home/runner2/.dotnet" \
+          "/usr/share/dotnet" \
+          "/usr/local/share/dotnet" \
+          "/opt/dotnet"; do
+          if [ -x "$candidate/dotnet" ]; then
+            echo "Found dotnet at $candidate"
+            export DOTNET_ROOT="$candidate"
+            export PATH="$candidate:$PATH"
+            echo "DOTNET_ROOT=$candidate" >> "$GITHUB_ENV"
+            echo "$candidate" >> "$GITHUB_PATH"
+            break
+          fi
+        done
+
+        if ! command -v dotnet >/dev/null 2>&1; then
+          echo "dotnet was not found in the expected installation locations." >&2
+          exit 1
+        fi
+    - name: "Cache NuGet packages"
+      uses: actions/cache@v6
+      with:
+        path: ${{ env.NUGET_PACKAGES }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
     - name: "Test"
       working-directory: ImperatorToCK3.UnitTests
       shell: pwsh
       run: |
-       dotnet test --coverlet --coverlet-output-format lcov 
+       dotnet test --coverlet --coverlet-output-format lcov --coverlet-file-prefix irtock3
+    - name: "Locate coverage report"
+      id: coverage_report
+      shell: pwsh
+      run: |
+        $coverageFile = Get-ChildItem "ImperatorToCK3.UnitTests/TestResults/irtock3.coverage*.info" |
+          Sort-Object LastWriteTime -Descending |
+          Select-Object -First 1 -ExpandProperty FullName
+
+        if (-not $coverageFile) {
+          throw "Coverage report not found."
+        }
+
+        "path=$coverageFile" >> $env:GITHUB_OUTPUT
     - name: "Publish coverage report to coveralls.io"
       uses: coverallsapp/github-action@v2
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        path-to-lcov: ImperatorToCK3.UnitTests/bin/Debug/net10.0/TestResults/coverage.info
+        path-to-lcov: ${{ steps.coverage_report.outputs.path }}
         format: lcov
         debug: true
 
@@ -38,17 +97,57 @@ jobs:
       matrix:
         os: [[self-hosted, windows], macos-14]
     runs-on: ${{ matrix.os }}
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
-        fetch-depth: 0
         submodules: recursive
     - name: "Setup Dotnet for use with actions"
-      # don't run on self-hosted Windows
-      if: ${{ !contains(toJSON(matrix.os), 'windows') || !contains(toJSON(matrix.os), 'self-hosted') }}
-      uses: actions/setup-dotnet@v5
+      if: ${{ runner.environment == 'github-hosted' }}
+      uses: actions/setup-dotnet@v6
       with:
         global-json-file: global.json
+
+    - name: "Locate self-hosted dotnet"
+      if: ${{ runner.environment != 'github-hosted' && runner.os == 'Linux' }}
+      shell: bash
+      run: |
+        set -euo pipefail
+
+        if command -v dotnet >/dev/null 2>&1; then
+          echo "dotnet is already available on PATH"
+          exit 0
+        fi
+
+        for candidate in \
+          "$HOME/.dotnet" \
+          "/home/runner/.dotnet" \
+          "/home/runner2/.dotnet" \
+          "/usr/share/dotnet" \
+          "/usr/local/share/dotnet" \
+          "/opt/dotnet"; do
+          if [ -x "$candidate/dotnet" ]; then
+            echo "Found dotnet at $candidate"
+            export DOTNET_ROOT="$candidate"
+            export PATH="$candidate:$PATH"
+            echo "DOTNET_ROOT=$candidate" >> "$GITHUB_ENV"
+            echo "$candidate" >> "$GITHUB_PATH"
+            break
+          fi
+        done
+
+        if ! command -v dotnet >/dev/null 2>&1; then
+          echo "dotnet was not found in the expected installation locations." >&2
+          exit 1
+        fi
+    - name: "Cache NuGet packages"
+      uses: actions/cache@v6
+      with:
+        path: ${{ env.NUGET_PACKAGES }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
     - name: "Test"
       working-directory: ImperatorToCK3.UnitTests
       run: |

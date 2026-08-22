@@ -24,7 +24,7 @@ namespace ImperatorToCK3.CK3.Provinces;
 /// </summary>
 internal sealed class ProvinceMappings : Dictionary<ulong, ulong> {
 	public ProvinceMappings(ModFilesystem ck3ModFS) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseGameFolder("history/province_mapping", ck3ModFS, "txt", recursive: true);
 	}

@@ -77,7 +77,7 @@ public class CoatOfArmsOutputterTests {
 			enabledCK3Dlcs: []
 		);
 
-		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>(), new CoaMapper());
+		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new DynastyCollection(), new CoaMapper());
 
 		var actualText = TextTestUtils.NormalizeNewlines(await File.ReadAllTextAsync(outputPath, TestContext.Current.CancellationToken));
 		var expectedText = TextTestUtils.NormalizeNewlines(
@@ -129,7 +129,7 @@ public class CoatOfArmsOutputterTests {
 			enabledCK3Dlcs: []
 		);
 
-		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>(), new CoaMapper());
+		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new DynastyCollection(), new CoaMapper());
 
 		var actualText = await File.ReadAllTextAsync(outputPath, TestContext.Current.CancellationToken);
 		Assert.True(string.IsNullOrWhiteSpace(actualText));

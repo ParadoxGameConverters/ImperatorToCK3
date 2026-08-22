@@ -7,7 +7,7 @@ internal sealed class CharacterName {
 	public string? CustomName { get; private set; } // localized
 
 	public CharacterName(BufferedReader reader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}

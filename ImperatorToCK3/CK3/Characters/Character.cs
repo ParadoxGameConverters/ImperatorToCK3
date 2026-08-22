@@ -132,7 +132,7 @@ internal sealed class Character : IIdentifiable<string> {
 				return null;
 			}
 
-			var deathObjParser = new Parser();
+			var deathObjParser = new Parser(implicitVariableHandling: true);
 			string? deathReason = null;
 			deathObjParser.RegisterKeyword("death_reason", reader => {
 				deathReason = reader.GetString();
@@ -770,7 +770,7 @@ internal sealed class Character : IIdentifiable<string> {
 
 	internal void ImportUnitsAsMenAtArms(
 		IEnumerable<Unit> countryUnits,
-		Date date,
+		Date bookmarkDate,
 		UnitTypeMapper unitTypeMapper,
 		IdObjectCollection<string, MenAtArmsType> menAtArmsTypes,
 		CK3LocDB ck3LocDB
@@ -792,7 +792,7 @@ internal sealed class Character : IIdentifiable<string> {
 
 		foreach (var (typeId, men) in menPerUnitType) {
 			var baseType = menAtArmsTypes[typeId];
-			var dedicatedType = new MenAtArmsType(baseType, this, men/8, date);
+			var dedicatedType = new MenAtArmsType(baseType, this, men/8, bookmarkDate);
 			menAtArmsTypes.Add(dedicatedType);
 			MenAtArmsStacksPerType[dedicatedType.Id] = 1;
 
@@ -803,13 +803,13 @@ internal sealed class Character : IIdentifiable<string> {
 		var sb = new StringBuilder();
 		sb.AppendLine("{ add_character_modifier=IRToCK3_fuck_CK3_military_system_modifier }");
 
-		History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
+		History.AddFieldValue(bookmarkDate, "effects", "effect", new StringOfItem(sb.ToString()));
 	}
 	internal void ImportUnitsAsSpecialTroops(
 		IEnumerable<Unit> countryUnits,
 		Imperator.Characters.CharacterCollection irCharacters,
 		CountryCollection irCountries,
-		Date date,
+		Date bookmarkDate,
 		UnitTypeMapper unitTypeMapper,
 		ProvinceMapper provinceMapper,
 		CK3LocDB ck3LocDB
@@ -818,59 +818,71 @@ internal sealed class Character : IIdentifiable<string> {
 		sb.AppendLine("{");
 
 		foreach (var unit in countryUnits) {
-			var menPerUnitType = unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType);
-
-			if (unit.LeaderId is null || !irCharacters.TryGetValue(unit.LeaderId.Value, out var irLeader)) {
-				// Use country ruler.
-				irLeader = irCountries[unit.CountryId].Monarch;
-			}
-
+			var irLeader = ResolveSpecialTroopLeader(unit, irCharacters, irCountries);
 			if (irLeader is null) {
 				Logger.Warn($"Unit {unit.Id} has no leader and country {unit.CountryId} has no ruler! Skipping special troop spawn.");
 				continue;
 			}
 
-			var ck3Leader = irLeader.CK3Character;
-
-			sb.AppendLine("\t\tspawn_army={");
-
-			sb.AppendLine("\t\t\tuses_supply=yes");
-			sb.AppendLine("\t\t\tinheritable=yes");
-
-			if (unit.LocalizedName is not null) {
-				var locKey = unit.LocalizedName.Id;
-				sb.AppendLine($"\t\t\tname={locKey}");
-				var unitLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
-				unitLocBlock.CopyFrom(unit.LocalizedName);
-			}
-
-			foreach (var (type, men) in menPerUnitType) {
-				sb.AppendLine($"\t\t\tmen_at_arms={{type={type} men={men}}}");
-			}
-
-			var ck3Location = provinceMapper.GetCK3ProvinceNumbers(unit.Location).AsValueEnumerable()
-				.Cast<ulong?>()
-				.FirstOrDefault(defaultValue: null);
-			if (ck3Location is not null) {
-				sb.AppendLine($"\t\t\tlocation=province:{ck3Location}");
-				sb.AppendLine($"\t\t\torigin=province:{ck3Location}");
-			}
-
-			string unitScopeId = $"ir_unit_{unit.Id}";
-			if (ck3Leader is not null) {
-				// Will have no effect if army is not actually spawned (see spawn_army explanation on CK3 wiki).
-				sb.AppendLine($"\t\t\tsave_temporary_scope_as={unitScopeId}");
-			}
-
-			sb.AppendLine("\t\t}");
-
-			if (ck3Leader is not null) {
-				sb.AppendLine($"\t\tscope:{unitScopeId} ?= {{ assign_commander=character:{ck3Leader.Id} }}");
-			}
+			AppendSpecialTroopSpawnScript(sb, unit, irLeader.CK3Character, unitTypeMapper, provinceMapper, ck3LocDB);
 		}
 
 		sb.AppendLine("\t}");
-		History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
+		History.AddFieldValue(bookmarkDate, "effects", "effect", new StringOfItem(sb.ToString()));
+	}
+
+	private static Imperator.Characters.Character? ResolveSpecialTroopLeader(Unit unit, Imperator.Characters.CharacterCollection irCharacters, CountryCollection irCountries) {
+		if (unit.LeaderId is not null && irCharacters.TryGetValue(unit.LeaderId.Value, out var irLeader)) {
+			return irLeader;
+		}
+
+		// Use country ruler.
+		return irCountries[unit.CountryId].Monarch;
+	}
+
+	private static void AppendSpecialTroopSpawnScript(StringBuilder sb, Unit unit, Character? ck3Leader, UnitTypeMapper unitTypeMapper, ProvinceMapper provinceMapper, CK3LocDB ck3LocDB) {
+		var menPerUnitType = unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType);
+		sb.AppendLine("\t\tspawn_army={");
+		sb.AppendLine("\t\t\tuses_supply=yes");
+		sb.AppendLine("\t\t\tinheritable=yes");
+
+		if (unit.LocalizedName is not null) {
+			var locKey = unit.LocalizedName.Id;
+			sb.AppendLine($"\t\t\tname={locKey}");
+			var unitLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
+			unitLocBlock.CopyFrom(unit.LocalizedName);
+		}
+
+		foreach (var (type, men) in menPerUnitType) {
+			sb.AppendLine($"\t\t\tmen_at_arms={{ type={type} men={men} }}");
+		}
+
+		var ck3Location = provinceMapper.GetCK3ProvinceNumbers(unit.Location).AsValueEnumerable()
+			.Cast<ulong?>()
+			.FirstOrDefault(defaultValue: null);
+		if (ck3Location is not null) {
+			sb.AppendLine($"\t\t\tlocation=province:{ck3Location}");
+			sb.AppendLine($"\t\t\torigin=province:{ck3Location}");
+		}
+
+		string unitScopeId = $"ir_unit_{unit.Id}";
+		if (ck3Leader is not null) {
+			// Will have no effect if army is not actually spawned (see spawn_army explanation on CK3 wiki).
+			sb.AppendLine($"\t\t\tsave_temporary_scope_as={unitScopeId}");
+		}
+
+		sb.AppendLine("\t\t}");
+
+		if (ck3Leader is not null) {
+			sb.AppendLine($$"""
+	                        scope:{{unitScopeId}} ?= {
+	                            if = {
+	                                limit = { character:{{ck3Leader.Id}} = { is_alive = yes } }
+	                                assign_commander=character:{{ck3Leader.Id}}
+	                            }    
+	                        }
+	                """);
+		}
 	}
 
 	private readonly CharacterCollection characters;

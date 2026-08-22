@@ -22,7 +22,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	private Dictionary<string, Faith>? faithCache;
 	public IReadOnlyDictionary<string, OrderedSet<string>> ReplaceableHolySitesByFaith => replaceableHolySitesByFaith;
 	public IdObjectCollection<string, HolySite> HolySites { get; } = [];
-	public IdObjectCollection<string, DoctrineCategory> DoctrineCategories { get; } = [];
+	public IdObjectCollection<string, DoctrineGroup> DoctrineGroups { get; } = [];
 
 	public IEnumerable<Faith> Faiths {
 		get {
@@ -32,20 +32,20 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	public void LoadReligions(ModFilesystem ck3ModFS, ColorFactory colorFactory) {
 		faithCache = null;
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 			var religion = new Religion(religionId, religionReader, this, colorFactory);
 			AddOrReplace(religion);
 		});
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
-		parser.ParseGameFolder("common/religion/religions", ck3ModFS, "txt", recursive: true);
+		parser.ParseGameFolder("common/religion/religion_types", ck3ModFS, "txt", recursive: true);
 	}
 
 	public void LoadConverterFaiths(string converterFaithsPath, ColorFactory colorFactory, Hash liquidVariables) {
 		faithCache = null;
 		OrderedSet<Faith> loadedConverterFaiths = [];
 		
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (religionReader, religionId) => {
 			var optReligion = new Religion(religionId, religionReader, this, colorFactory);
 			
@@ -81,11 +81,11 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	private void ValidateTheismDoctrine(OrderedSet<Faith> loadedConverterFaiths)
 	{
-		string? theismFallback = DoctrineCategories.TryGetValue("doctrine_theism", out var theismCategory)
+		string? theismFallback = DoctrineGroups.TryGetValue("doctrine_theism", out var theismCategory)
 			? theismCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_polytheist")
 			: null;
 		foreach (var converterFaith in loadedConverterFaiths) {
-			var theismDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_theism");
+			var theismDoctrine = converterFaith.GetDoctrineIdsForDoctrineGroupId("doctrine_theism");
 			if (theismDoctrine.Count == 0) {
 				if (theismFallback is not null) {
 					Logger.Warn($"Faith {converterFaith.Id} has no theism doctrine! Setting {theismFallback}");
@@ -99,11 +99,11 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	private void ValidateCoronationDoctrine(OrderedSet<Faith> loadedConverterFaiths)
 	{
-		string? coronationFallback = DoctrineCategories.TryGetValue("doctrine_coronation", out var coronationCategory)
+		string? coronationFallback = DoctrineGroups.TryGetValue("doctrine_coronation", out var coronationCategory)
 			? coronationCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_no_anointment")
 			: null;
 		foreach (var converterFaith in loadedConverterFaiths) {
-			var coronationDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_coronation");
+			var coronationDoctrine = converterFaith.GetDoctrineIdsForDoctrineGroupId("doctrine_coronation");
 			if (coronationDoctrine.Count == 0) {
 				if (coronationFallback is not null) {
 					Logger.Warn($"Faith {converterFaith.Id} has no coronation doctrine! Setting {coronationFallback}");
@@ -117,11 +117,11 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	private void ValidateFuneralDoctrine(OrderedSet<Faith> loadedConverterFaiths)
 	{
-		string? funeralFallback = DoctrineCategories.TryGetValue("doctrine_funeral", out var funeralCategory)
+		string? funeralFallback = DoctrineGroups.TryGetValue("doctrine_funeral", out var funeralCategory)
 			? funeralCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_funeral_stoic")
 			: null;
 		foreach (var converterFaith in loadedConverterFaiths) {
-			var funeralDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_funeral");
+			var funeralDoctrine = converterFaith.GetDoctrineIdsForDoctrineGroupId("doctrine_funeral");
 			if (funeralDoctrine.Count == 0) {
 				if (funeralFallback is not null) {
 					Logger.Warn($"Faith {converterFaith.Id} has no funeral doctrine! Setting {funeralFallback}");
@@ -135,11 +135,11 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	private void ValidatePilgrimageDoctrine(OrderedSet<Faith> loadedConverterFaiths)
 	{
-		string? pilgrimageFallback = DoctrineCategories.TryGetValue("doctrine_pilgrimage", out var pilgrimageCategory)
+		string? pilgrimageFallback = DoctrineGroups.TryGetValue("doctrine_pilgrimage", out var pilgrimageCategory)
 			? pilgrimageCategory.DoctrineIds.FirstOrDefault(d => d == "doctrine_pilgrimage_encouraged")
 			: null;
 		foreach (var converterFaith in loadedConverterFaiths) {
-			var pilgrimageDoctrine = converterFaith.GetDoctrineIdsForDoctrineCategoryId("doctrine_pilgrimage");
+			var pilgrimageDoctrine = converterFaith.GetDoctrineIdsForDoctrineGroupId("doctrine_pilgrimage");
 			if (pilgrimageDoctrine.Count == 0) {
 				if (pilgrimageFallback is not null) {
 					Logger.Warn($"Faith {converterFaith.Id} has no pilgrimage doctrine! Setting {pilgrimageFallback}");
@@ -177,15 +177,15 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	public void LoadHolySites(ModFilesystem ck3ModFS) {
 		Logger.Info("Loading CK3 holy sites...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterHolySitesKeywords(parser, areSitesFromConverter: false);
 
-		parser.ParseGameFolder("common/religion/holy_sites", ck3ModFS, "txt", recursive: true);
+		parser.ParseGameFolder("common/religion/holy_site_types", ck3ModFS, "txt", recursive: true);
 	}
 	public void LoadConverterHolySites(string converterHolySitesPath) {
 		Logger.Info("Loading converter holy sites...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterHolySitesKeywords(parser, areSitesFromConverter: true);
 
 		parser.ParseFile(converterHolySitesPath);
@@ -196,7 +196,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 		var missingFaithIds = new OrderedSet<string>();
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, faithId) => {
 			var faith = GetFaith(faithId);
 			var value = reader.GetStringOfItem();
@@ -223,11 +223,11 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 	}
 
 	public void LoadDoctrines(ModFilesystem ck3ModFS) {
-		var parser = new Parser();
-		parser.RegisterRegex(CommonRegexes.String, (reader, categoryId) =>
-			DoctrineCategories.AddOrReplace(new DoctrineCategory(categoryId, reader)));
+		var parser = new Parser(implicitVariableHandling: true);
+		parser.RegisterRegex(CommonRegexes.String, (reader, groupId) =>
+			DoctrineGroups.AddOrReplace(new DoctrineGroup(groupId, reader)));
 		parser.IgnoreAndLogUnregisteredItems();
-		parser.ParseGameFolder("common/religion/doctrines", ck3ModFS, "txt", recursive: true);
+		parser.ParseGameFolder("common/religion/doctrine_group_types", ck3ModFS, "txt", recursive: true);
 	}
 
 	public Faith? GetFaith(string id) {
@@ -392,7 +392,9 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 		return provincesByFaith;
 	}
 
+	/// <summary>
 	/// Generates religious heads for all alive faiths that have Spiritual Head doctrine and don't have a religious head.
+	/// </summary>
 	public void GenerateMissingReligiousHeads(
 		Title.LandedTitles titles,
 		CharacterCollection characters,
@@ -414,7 +416,7 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 			if (!(aliveCharacterFaithIds.Contains(faith.Id) || provinceFaithIds.Contains(faith.Id))) {
 				continue;
 			}
-			if (!faith.GetDoctrineIdsForDoctrineCategoryId("doctrine_head_of_faith").Contains("doctrine_spiritual_head")) {
+			if (!faith.GetDoctrineIdsForDoctrineGroupId("doctrine_head_of_faith").Contains("doctrine_spiritual_head")) {
 				continue;
 			}
 			aliveFaithsWithSpiritualHeadDoctrine.Add(faith);
@@ -533,30 +535,35 @@ internal sealed class ReligionCollection(Title.LandedTitles landedTitles) : IdOb
 
 	private List<Title> GetDynamicHolySiteBaroniesForFaith(Faith faith, Dictionary<string, HashSet<Province>> provincesByFaith) {
 		// Collect all Imperator territories that are mapped to this faith.
-		HashSet<Province> faithTerritories;
-		if (provincesByFaith.TryGetValue(faith.Id, out var set)) {
-			faithTerritories = set;
-		} else {
-			faithTerritories = [];
+		if (!provincesByFaith.TryGetValue(faith.Id, out var faithTerritories)) {
+			return [];
 		}
 
-		// Split the territories into 2 sets: territories that have a holy site and territories that do not.
-		// Order both sets in descending order by population.
-		var provincesWithHolySite = faithTerritories
-			.Where(p => p.ImperatorProvinces.Any(irProv => irProv.IsHolySite))
-			.OrderByDescending(p => p.PrimaryImperatorProvince!.GetPopCount())
-			.ToArray();
-		var provincesWithoutHolySite = faithTerritories.Except(provincesWithHolySite)
-			.OrderByDescending(p => p.PrimaryImperatorProvince!.GetPopCount())
-			.ToArray();
+		// Single-pass partition: split territories into holy-site and non-holy-site lists.
+		List<Province> withHolySite = [];
+		Province? bestWithout = null;
+		int bestWithoutPop = -1;
+		foreach (var p in faithTerritories) {
+			if (p.ImperatorProvinces.Any(irProv => irProv.IsHolySite)) {
+				withHolySite.Add(p);
+			} else {
+				var pop = p.PrimaryImperatorProvince!.GetPopCount();
+				if (pop > bestWithoutPop) {
+					bestWithoutPop = pop;
+					bestWithout = p;
+				}
+			}
+		}
 
-		// Take the top 4 territories with a holy site.
-		var selectedDynamicSites = provincesWithHolySite.Take(4).ToList();
+		// Take the top 4 territories with a holy site (sort only the holy-site subset).
+		var selectedDynamicSites = withHolySite
+			.OrderByDescending(p => p.PrimaryImperatorProvince!.GetPopCount())
+			.Take(4)
+			.ToList();
 
 		// Take the most populated territory without a holy site.
-		var mostPopulatedProvinceWithoutHolySite = provincesWithoutHolySite.FirstOrDefault(defaultValue: null);
-		if (mostPopulatedProvinceWithoutHolySite is not null) {
-			selectedDynamicSites.Add(mostPopulatedProvinceWithoutHolySite);
+		if (bestWithout is not null) {
+			selectedDynamicSites.Add(bestWithout);
 		}
 
 		return selectedDynamicSites

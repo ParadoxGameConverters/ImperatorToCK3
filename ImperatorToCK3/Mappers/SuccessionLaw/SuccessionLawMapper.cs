@@ -12,7 +12,7 @@ internal sealed class SuccessionLawMapper {
 	public SuccessionLawMapper() { }
 	public SuccessionLawMapper(string filePath, Hash liquidVariables) {
 		Logger.Info("Parsing succession law mappings...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseLiquidFile(filePath, liquidVariables);
 		Logger.Info($"Loaded {mappings.Count} succession law links.");
@@ -20,7 +20,7 @@ internal sealed class SuccessionLawMapper {
 		Logger.IncrementProgress();
 	}
 	public SuccessionLawMapper(BufferedReader reader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}

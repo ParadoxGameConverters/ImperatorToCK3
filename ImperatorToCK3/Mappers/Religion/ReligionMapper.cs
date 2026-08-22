@@ -15,7 +15,7 @@ internal sealed class ReligionMapper {
 
 		Logger.Info("Parsing religion mappings...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		var mappingsPath = Path.Combine("configurables", "religion_map.txt");
 		parser.ParseFile(mappingsPath);
@@ -31,7 +31,7 @@ internal sealed class ReligionMapper {
 		this.imperatorRegionMapper = imperatorRegionMapper;
 		this.ck3RegionMapper = ck3RegionMapper;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 

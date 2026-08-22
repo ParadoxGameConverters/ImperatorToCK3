@@ -62,19 +62,19 @@ public class CharacterTests {
 			"\tprisoner_home=68" +
 			"}"
 		);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
+		var character = Character.Parse(reader, "42", genesDB);
 		var spouse1Reader = new BufferedReader(string.Empty);
 		var spouse2Reader = new BufferedReader(string.Empty);
-		character.Spouses = new Dictionary<ulong, ImperatorToCK3.Imperator.Characters.Character> {
-			{ 3, ImperatorToCK3.Imperator.Characters.Character.Parse(spouse1Reader, "3", genesDB) },
-			{ 4, ImperatorToCK3.Imperator.Characters.Character.Parse(spouse2Reader, "4", genesDB) }
+		character.Spouses = new Dictionary<ulong, Character> {
+			{ 3, Character.Parse(spouse1Reader, "3", genesDB) },
+			{ 4, Character.Parse(spouse2Reader, "4", genesDB) }
 		};
 
 		Assert.Equal((ulong)42, character.Id);
 
 		Assert.Null(character.Country); // we have a country id, but no linked country yet
 		var countriesReader = new BufferedReader("={ 69={} 68={} }");
-		var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+		var countries = new CountryCollection();
 		countries.LoadCountries(countriesReader);
 		character.LinkCountry(countries);
 		Assert.NotNull(character.Country);
@@ -113,10 +113,10 @@ public class CharacterTests {
 		);
 
 		Assert.Empty(character.Children); // children not linked yet
-		var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection();
+		var characters = new CharacterCollection();
 		characters.Add(character);
-		var child1 = ImperatorToCK3.Imperator.Characters.Character.Parse(new BufferedReader("={ mother=42 }"), "69", null);
-		var child2 = ImperatorToCK3.Imperator.Characters.Character.Parse(new BufferedReader("={ mother=42 }"), "420", null);
+		var child1 = Character.Parse(new BufferedReader("={ mother=42 }"), "69", null);
+		var child2 = Character.Parse(new BufferedReader("={ mother=42 }"), "420", null);
 		characters.Add(child1);
 		characters.Add(child2);
 		child1.LinkMother(characters);
@@ -133,8 +133,8 @@ public class CharacterTests {
 
 		Assert.Null(character.Mother); // mother not linked yet
 		Assert.Null(character.Father); // father not linked yet
-		var mother = new ImperatorToCK3.Imperator.Characters.Character(123);
-		var father = new ImperatorToCK3.Imperator.Characters.Character(124);
+		var mother = new Character(123);
+		var father = new Character(124);
 		characters.Add(mother);
 		characters.Add(father);
 		character.LinkMother(characters);
@@ -171,7 +171,7 @@ public class CharacterTests {
 	[Fact]
 	public void FieldsDefaultToCorrectValues() {
 		var reader = new BufferedReader(string.Empty);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
+		var character = Character.Parse(reader, "42", genesDB);
 		Assert.Null(character.Country);
 		Assert.Equal(string.Empty, character.Culture);
 		Assert.Equal(string.Empty, character.Religion);
@@ -199,6 +199,45 @@ public class CharacterTests {
 	}
 
 	[Fact]
+	public void NegativeAgeIsClampedAndInvalidBirthDateKeepsDefault() {
+		var reader = new BufferedReader("""
+			23={
+				first_name_loc={
+					name="Lagos"
+				}
+				country=272
+				home_country=272
+				province=5544
+				age=-17819
+				birth_date=-1518605856
+				attributes={
+					martial=7
+					finesse=8
+					charisma=2
+					zeal=4
+				}
+				family=6
+				dna="Wc1ZzbN0s3TDhcOFApACkAJvAm8CfwJ/AncCdwJ0AnQCdgJ2AoACgAKMAowCmAKYAnECcQJ3AncCfgJ+ApcClwJ3AncClQKVAm4CbgJzAnMCkQKRA6sDqwJtAm0CeQJ5AokCiQJ/An8CgwKDAmsCawJ6AnoBUgFSAnUCdQKSApICagJqAoUChQKEAoQCkwKTA5kDmQKDAoMCcwJzAmsCawJtAm0EzQTNAn8CfwOjA6MCaAJoApMCkwKAAoABWwFbApgCmAKRApECZwJnAo8CjwKQApAChwKHAoQChAJpAmkCiAKIAo4CjgI7AjsBPAE8AOEA4QBwAHABcwFzACMAIwFbAVsAvAC8AQgBCAFDAUMBBgEGAUQBRAB/AH8AoQChAK8ArwBLAEsAHAAcAMEAwQDLAMsBVgFWATIBMgB/AH8AswCzADoAOgEqASoBfQF9AKwArAFPAU8C6wLrA3MDcwC0ALQBQAFAAIUAhQNYA1gH7wfvAH8AfwSNBI0FcQVxAOsA6wViBWICYwJjAioCKgAAAAAAAAAAAAAAAA=="
+				traits={
+					"lagids" "prominent"
+				}
+				children={
+					42 47
+				}
+				culture="macedonian"
+				ethnicity="greek"
+				religion="roman_pantheon"
+				death_date=433.6.7
+			}
+			""");
+
+		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "23", genesDB);
+
+		character.Age.Should().Be(0);
+		character.BirthDate.Should().Be(new Date("1.1.1"));
+	}
+
+	[Fact]
 	public void CultureCanBeInheritedFromFamily() {
 		var familyReader = new BufferedReader(
 			"= { culture = paradoxian }"
@@ -206,8 +245,8 @@ public class CharacterTests {
 		var characterReader = new BufferedReader(
 			"= { family = 42 }"
 		);
-		var family = ImperatorToCK3.Imperator.Families.Family.Parse(familyReader, 42);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(characterReader, "69", genesDB);
+		var family = Family.Parse(familyReader, 42);
+		var character = Character.Parse(characterReader, "69", genesDB);
 		character.Family = family;
 		Assert.Equal("paradoxian", character.Culture);
 	}
@@ -218,7 +257,7 @@ public class CharacterTests {
 			// ReSharper disable once StringLiteralTypo
 			"={dna=\"\"}"
 		);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
+		var character = Character.Parse(reader, "42", genesDB);
 		Assert.Null(character.PortraitData);
 	}
 	[Fact]
@@ -227,7 +266,7 @@ public class CharacterTests {
 			// ReSharper disable once StringLiteralTypo
 			"={dna=\"AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\"}"
 		);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
+		var character = Character.Parse(reader, "42", genesDB);
 
 		Assert.Equal(0, character.PortraitData!.HairColorPaletteCoordinates.X);
 		Assert.Equal(0, character.PortraitData.HairColorPaletteCoordinates.Y);
@@ -261,10 +300,10 @@ public class CharacterTests {
 			"\tage=8\n" +
 			"}"
 		);
-		var character1 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader1, "42", genesDB);
-		var character2 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader2, "43", genesDB);
-		var character3 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader3, "44", genesDB);
-		var character4 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader4, "45", genesDB);
+		var character1 = Character.Parse(reader1, "42", genesDB);
+		var character2 = Character.Parse(reader2, "43", genesDB);
+		var character3 = Character.Parse(reader3, "44", genesDB);
+		var character4 = Character.Parse(reader4, "45", genesDB);
 		Assert.Equal("female", character1.AgeSex);
 		Assert.Equal("male", character2.AgeSex);
 		Assert.Equal("girl", character3.AgeSex);
@@ -276,7 +315,7 @@ public class CharacterTests {
 		var reader = new BufferedReader(
 			"= { birth_date = 0.1.1 }"
 		);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
+		var character = Character.Parse(reader, "42", genesDB);
 
 		Assert.Equal("-754.1.1", character.BirthDate.ToString());
 	}
@@ -286,7 +325,7 @@ public class CharacterTests {
 		var reader = new BufferedReader(
 			"= { birth_date = 753.1.1 }"
 		);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
+		var character = Character.Parse(reader, "42", genesDB);
 
 		Assert.Equal("-1.1.1", character.BirthDate.ToString());
 	}
@@ -296,28 +335,31 @@ public class CharacterTests {
 		var reader = new BufferedReader(
 			"= { birth_date = 754.1.1 }"
 		);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
+		var character = Character.Parse(reader, "42", genesDB);
 
 		Assert.Equal("1.1.1", character.BirthDate.ToString());
 	}
 
 	[Fact]
 	public void IgnoredTokensAreSaved() {
+		// Ensure that other tests don't interfere with this one by resetting the ignored tokens before we start.
+		Character.IgnoredTokens.Clear();
+
 		var reader1 = new BufferedReader("= { culture=paradoxian ignoredKeyword1=something ignoredKeyword2={} }");
 		var reader2 = new BufferedReader("= { ignoredKeyword1=stuff ignoredKeyword3=stuff }");
-		_ = ImperatorToCK3.Imperator.Characters.Character.Parse(reader1, "1", null);
-		_ = ImperatorToCK3.Imperator.Characters.Character.Parse(reader2, "2", null);
+		_ = Character.Parse(reader1, "1", null);
+		_ = Character.Parse(reader2, "2", null);
 
 		var expectedIgnoredTokens = new HashSet<string> {
 			"ignoredKeyword1", "ignoredKeyword2", "ignoredKeyword3"
 		};
-		Assert.True(ImperatorToCK3.Imperator.Characters.Character.IgnoredTokens.SetEquals(expectedIgnoredTokens));
+		Assert.True(Character.IgnoredTokens.SetEquals(expectedIgnoredTokens));
 	}
 
 	[Fact]
 	public void CountryIsNotLinkedWithoutParsedId() {
-		var character = new ImperatorToCK3.Imperator.Characters.Character(1);
-		var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+		var character = new Character(1);
+		var countries = new CountryCollection();
 		character.LinkCountry(countries);
 		character.LinkHomeCountry(countries);
 		character.LinkPrisonerHome(countries);
@@ -331,8 +373,8 @@ public class CharacterTests {
 		Console.SetOut(output);
 
 		var characterReader = new BufferedReader("= { country=69 }");
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(characterReader, "1", null);
-		var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+		var character = Character.Parse(characterReader, "1", null);
+		var countries = new CountryCollection();
 		character.LinkCountry(countries);
 
 		Assert.Contains("[WARN] Country with ID 69 has no definition!", output.ToString());
@@ -344,8 +386,8 @@ public class CharacterTests {
 		Console.SetOut(output);
 
 		var characterReader = new BufferedReader("= { home_country=69 }");
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(characterReader, "1", null);
-		var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+		var character = Character.Parse(characterReader, "1", null);
+		var countries = new CountryCollection();
 		character.LinkHomeCountry(countries);
 
 		Assert.Contains("[WARN] Country with ID 69 has no definition!", output.ToString());
@@ -357,8 +399,8 @@ public class CharacterTests {
 		Console.SetOut(output);
 
 		var characterReader = new BufferedReader("= { prisoner_home=69 }");
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(characterReader, "1", null);
-		var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+		var character = Character.Parse(characterReader, "1", null);
+		var countries = new CountryCollection();
 		character.LinkPrisonerHome(countries);
 
 		Assert.Contains("[WARN] Country with ID 69 has no definition!", output.ToString());
