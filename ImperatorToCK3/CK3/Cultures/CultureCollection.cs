@@ -222,7 +222,7 @@ internal class CultureCollection : IdObjectCollection<string, Culture> {
 		return cultureMapper.Match(irCulture, ck3ProvinceId, irProvinceId, country.HistoricalTag);
 	}
 
-	public void ImportTechnology(CountryCollection countries, CultureMapper cultureMapper, ProvinceMapper provinceMapper, InventionsDB inventionsDB, LocDB irLocDB, Hash liquidVariables) { // TODO: add tests for this
+	public void ImportTechnology(CountryCollection countries, CultureMapper cultureMapper, ProvinceMapper provinceMapper, InventionsDB inventionsDB, LocDB irLocDB, Hash liquidVariables) {
 		Logger.Info("Converting Imperator inventions to CK3 innovations...");
 
 		var innovationMapper = new InnovationMapper();
