@@ -457,7 +457,7 @@ public class BookmarkOutputterTests {
 
 			var provDefs = new ProvinceDefinitions();
 			foreach (var (id, r, g, b) in new[] {
-					((ulong)LandRedId, (byte)255, (byte)0, (byte)0),
+					(LandRedId, (byte)255, (byte)0, (byte)0),
 					(LandGreenId, (byte)0, (byte)255, (byte)0),
 					(EdgeImpassableId, (byte)10, (byte)0, (byte)0),
 					(MidImpassableId, (byte)11, (byte)0, (byte)0),
