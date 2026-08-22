@@ -37,21 +37,10 @@ internal static class BookmarkOutputter {
 		sb.AppendLine("\trecommended = yes");
 		sb.AppendLine("\tweight = { value = 100 }");
 
-		var playerTitles = new List<Title>(world.LandedTitles.Where(title => title.PlayerCountry));
-		foreach (var title in playerTitles.ToArray()) {
-			if (title.GetGovernment(config.CK3BookmarkDate) == "republic_government") {
-				// Republics are not playable in vanilla CK3.
-				continue;
-			}
-
+		var playerTitles = GetPlayerTitlesForBookmarkScreen(world.LandedTitles, config);
+		foreach (var title in playerTitles) {
 			var holderId = title.GetHolderId(config.CK3BookmarkDate);
-			if (holderId == "0") {
-				Logger.Warn($"Cannot add player title {title} to bookmark screen: holder is 0!");
-				playerTitles.Remove(title);
-				continue;
-			}
-
-			await AddTitleToBookmarkScreen(title, sb, holderId, world, ck3LocDB, provincePositions, config);
+			await AddTitleToBookmarkScreen(title, sb, holderId, world.Characters, ck3LocDB, provincePositions, config);
 		}
 
 		sb.AppendLine("}");
@@ -71,16 +60,35 @@ internal static class BookmarkOutputter {
 		Logger.IncrementProgress();
 	}
 
-	private static async Task AddTitleToBookmarkScreen(
+	internal static List<Title> GetPlayerTitlesForBookmarkScreen(Title.LandedTitles landedTitles, Configuration config) {
+		var playerTitles = new List<Title>(landedTitles.Where(title => title.PlayerCountry));
+		foreach (var title in playerTitles.ToArray()) {
+			if (title.GetGovernment(config.CK3BookmarkDate) == "republic_government") {
+				// Republics are not playable in vanilla CK3.
+				playerTitles.Remove(title);
+				continue;
+			}
+
+			var holderId = title.GetHolderId(config.CK3BookmarkDate);
+			if (holderId == "0") {
+				Logger.Warn($"Cannot add player title {title} to bookmark screen: holder is 0!");
+				playerTitles.Remove(title);
+			}
+		}
+
+		return playerTitles;
+	}
+
+	internal static async Task AddTitleToBookmarkScreen(
 		Title title,
 		StringBuilder sb,
 		string holderId,
-		World world,
+		CharacterCollection characters,
 		CK3LocDB ck3LocDB,
 		IReadOnlyDictionary<ulong, ProvincePosition> provincePositions,
 		Configuration config
 	) {
-		var holder = world.Characters[holderId];
+		var holder = characters[holderId];
 
 		// Add character localization for bookmark screen.
 		var holderLoc = ck3LocDB.GetOrCreateLocBlock($"bm_converted_{holder.Id}");
@@ -135,7 +143,7 @@ internal static class BookmarkOutputter {
 		await OutputBookmarkPortrait(config, holder);
 	}
 
-	private static async Task OutputBookmarkPortrait(Configuration config, Character holder)
+	internal static async Task OutputBookmarkPortrait(Configuration config, Character holder)
 	{
 		var agesex = holder.GetAgeSex(config.CK3BookmarkDate);
 		
@@ -162,14 +170,14 @@ internal static class BookmarkOutputter {
 		{"girl", "616600735 616600735"},
 	};
 	
-	private static async Task OutputBookmarkGroup(Configuration config) {
+	internal static async Task OutputBookmarkGroup(Configuration config) {
 		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/groups/00_bookmark_groups.txt");
 		await using var output = FileHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 
 		await output.WriteLineAsync($"bm_converted = {{ default_start_date = {config.CK3BookmarkDate} }}");
 	}
 
-	private static void WritePosition(StringBuilder sb, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
+	internal static void WritePosition(StringBuilder sb, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
 		int count = 0;
 		double sumX = 0;
 		double sumY = 0;
@@ -225,7 +233,7 @@ internal static class BookmarkOutputter {
 			var provDefs = mapData.ProvinceDefinitions;
 
 			foreach (var playerTitle in playerTitles) {
-				await DrawPlayerTitleOnMap(config, ck3World, playerTitle, mapData, provincesImage, provDefs, bookmarkMapImage);
+				await DrawPlayerTitleOnMap(config, ck3World.Characters, playerTitle, mapData, provincesImage, provDefs, bookmarkMapImage);
 			}
 
 			var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.png");
@@ -234,13 +242,13 @@ internal static class BookmarkOutputter {
 		}
 	}
 
-	private static async Task DrawPlayerTitleOnMap(
-		Configuration config, 
-		World ck3World, 
-		Title playerTitle, 
+	internal static async Task DrawPlayerTitleOnMap(
+		Configuration config,
+		CharacterCollection characters,
+		Title playerTitle,
 		MapData mapData,
-		Image provincesImage, 
-		ProvinceDefinitions provDefs, 
+		Image provincesImage,
+		ProvinceDefinitions provDefs,
 		Image bookmarkMapImage
 	) {
 		var colorOnMap = playerTitle.Color1 ?? new commonItems.Colors.Color(0, 0, 0);
@@ -265,7 +273,7 @@ internal static class BookmarkOutputter {
 		ApplyRealmColorMaskInSinglePass(realmHighlightImage, provinceColorSet, rgba32ColorOnMap);
 
 		// Create realm highlight file.
-		var holder = ck3World.Characters[playerTitle.GetHolderId(config.CK3BookmarkDate)];
+		var holder = characters[playerTitle.GetHolderId(config.CK3BookmarkDate)];
 		var highlightPath = Path.Combine(
 			"output",
 			config.OutputModName,
@@ -279,7 +287,7 @@ internal static class BookmarkOutputter {
 		bookmarkMapImage.Mutate(x => x.DrawImage(realmHighlightImage, 0.5f));
 	}
 
-	private static void ApplyRealmColorMaskInSinglePass(Image<Rgba32> image, HashSet<Rgba32> provinceColorSet, Rgba32 realmColor) {
+	internal static void ApplyRealmColorMaskInSinglePass(Image<Rgba32> image, HashSet<Rgba32> provinceColorSet, Rgba32 realmColor) {
 		Rgba32 transparent = Color.Transparent;
 		image.ProcessPixelRows(accessor => {
 			for (int y = 0; y < image.Height; ++y) {
@@ -295,7 +303,7 @@ internal static class BookmarkOutputter {
 		return mapData.ColorableImpassableProvinceIds.Except(mapData.MapEdgeProvinceIds).ToFrozenSet();
 	}
 
-	private static HashSet<ulong> GetImpassableProvincesToColor(MapData mapData, HashSet<ulong> heldProvinceIds) {
+	internal static HashSet<ulong> GetImpassableProvincesToColor(MapData mapData, HashSet<ulong> heldProvinceIds) {
 		var provinceIdsToColor = new HashSet<ulong>(heldProvinceIds);
 		var impassableIds = GetColorableImpassablesExceptMapEdgeProvinces(mapData);
 		foreach (ulong impassableId in impassableIds) {
