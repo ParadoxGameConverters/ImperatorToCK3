@@ -27,6 +27,7 @@ A: The converter officially supports these Imperator mods:
 - TE : Crisis of the third century (https://steamcommunity.com/sharedfiles/filedetails/?id=2858320715)
 - TE : Crisis of the third century BetterBlobs Submod (https://steamcommunity.com/sharedfiles/filedetails/?id=3262072699)
 - Antiquitas (https://steamcommunity.com/sharedfiles/filedetails/?id=2992438857)
+- Reanimāta (https://steamcommunity.com/workshop/filedetails/?id=3200234580)
 The converter also supports these CK3 mods:
 - The Fallen Eagle (https://steamcommunity.com/sharedfiles/filedetails/?id=2243307127)
 - When the World Stopped Making Sense (https://steamcommunity.com/sharedfiles/filedetails/?id=2858562094)

@@ -315,7 +315,7 @@ link = { ck3 = thracian ir = triballoi ir = moesi ir = odrysi ir = paeonian }
 
 ## East Levantine
 # TFE
-link = { ck3 = aramean ir = aramaic }
+link = { ck3 = aramean ir = aramaic ir = palmyrian } # palmyrian comes from the Reanimāta mod (an Aramaic subculture).
 # Vanilla CK3
 link = { ck3 = assyrian ir = assyrian }
 link = { ck3 = hebrew ir = aramaic historicalTag=JUD } # Historical assimilation
@@ -457,7 +457,8 @@ link = { ck3 = german @ir_all_germanic_cultures }
 ## Hellenic
 @ir_cretan_cultures = "ir=cretan ir=eteocretan" # eteocretan comes from the Antiquitas mod
 @ir_antiquitas_greek_cultures="ir=doric ir=north_western_doric ir=attican ir=western_ionic ir=eastern_ionic ir=elean ir=kerkyran" # # Antiquitas (https://steamcommunity.com/sharedfiles/filedetails/?id=2992438857)
-@ir_greek_cultures = "ir=greek ir=athenian ir=peloponnesian ir=massalian ir=cyrenaican ir=bosporan ir=thessalian ir=cypriot ir=bithynian ir=ionian ir=troan ir=aeolian ir=greco_pontic ir=aegean ir=aetolian ir=euboean ir=boeotian ir=epirote ir=arcadian ir=argolian ir=parthinian ir=achaean ir=enetoian ir=pamphylian ir=ciliciote @ir_antiquitas_greek_cultures"
+@ir_reanimata_greek_cultures = "ir=rhodian ir=cariotic" # rhodian and cariotic come from the Reanimāta mod.
+@ir_greek_cultures = "ir=greek ir=athenian ir=peloponnesian ir=massalian ir=cyrenaican ir=bosporan ir=thessalian ir=cypriot ir=bithynian ir=ionian ir=troan ir=aeolian ir=greco_pontic ir=aegean ir=aetolian ir=euboean ir=boeotian ir=epirote ir=arcadian ir=argolian ir=parthinian ir=achaean ir=enetoian ir=pamphylian ir=ciliciote @ir_antiquitas_greek_cultures @ir_reanimata_greek_cultures"
 
 # The Glory of Rome
 link = { ck3 = greek @ir_greek_cultures @roman_tags } # Modified cultures so base game greek represents the Romanized-Greeks
@@ -470,7 +471,7 @@ link = { ck3 = aegyptian ir=macedonian ir=hellenistic ir=syracusan ir=thracian @
 link = { ck3 = syrian ir = syriote }
 # Vanilla CK3
 link = { ck3=cretan @ir_cretan_cultures }
-link = { ck3=italiote ir=syracusan ir=italiotian }
+link = { ck3=italiote ir=syracusan ir=italiotian ir=western_greek } # western_greek comes from the Reanimāta mod.
 link = { ck3=hellenic_greek @ir_greek_cultures } # Modified cultures so this now represents non-Romanized greeks
 link = { ck3=syro_hellenic ir=macedonian irRegion = syria_region irRegion = assyria_region irRegion = mesopotamia_region }
 link = { ck3=syro_hellenic ir=syriote } # syriote comes from Invictus, it's "a blending of Phoenician and Hellenistic traditions". Mapping to syro_hellenic to make it more in-line with TFE mappings, and cause it seems to match. -tanner918
@@ -526,7 +527,8 @@ link = { ck3 = norman ir = norman } # https://steamcommunity.com/sharedfiles/fil
 @sicilian_cultures = "ir = siculian ir = elymian ir = sicanian" # Elymian and Sicanian are Terra-Indomita cultures that go along with vanilla siculian culture
 @picenian_cultures = "ir = south_picena ir = north_picena" # Terra-Indomita cultures, easier to group together since they should be mapped together
 @ir_antiquitas_italic_cultures = "ir = latins ir = volsci ir = capuan"
-@ir_latin_cultures = "ir = roman ir = osco_umbrian ir = umbrian ir = samnite ir = ligurian ir = lucanian ir = bruttian ir = sardonian @sicilian_cultures @picenian_cultures @ir_antiquitas_italic_cultures"
+@ir_reanimata_italic_cultures = "ir = faliscan ir = marsian" # faliscan and marsian come from the Reanimāta mod.
+@ir_latin_cultures = "ir = roman ir = osco_umbrian ir = umbrian ir = samnite ir = ligurian ir = lucanian ir = bruttian ir = sardonian @sicilian_cultures @picenian_cultures @ir_antiquitas_italic_cultures @ir_reanimata_italic_cultures"
 # The Glory of Rome
 link = { ck3 = roman @ir_latin_cultures @roman_tags }
 
