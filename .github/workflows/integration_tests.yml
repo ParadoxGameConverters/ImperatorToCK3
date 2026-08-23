@@ -187,29 +187,50 @@ jobs:
       fail-fast: false
       matrix:
         save: [Dumnoniens, RomanEmpireConvertSave2] # keep in sync with the save names in run_test_conversions
+    env:
+      CWTOOLS_CLI_VERSION: 0.6.0-alpha
     steps:
-    - uses: actions/checkout@v7 # required by cwtools-action
+    - uses: actions/checkout@v7 # provides the validation script and global.json
+    - name: "Setup Dotnet for CWTools script"
+      uses: actions/setup-dotnet@v6
+      with:
+        global-json-file: global.json
     - name: "Download generated mod"
       uses: actions/download-artifact@v8
       with:
         name: 'generated-mod-${{ matrix.save }}'
         path: generated_mod
-    - name: "Display structure of downloaded files"
+    - name: "Install CWTools CLI"
       run: |
-        ls generated_mod
-        ls generated_mod/test_save | head -30
+        dotnet tool install --global CWTools.CLI --version $CWTOOLS_CLI_VERSION
+        toolStore="$HOME/.dotnet/tools/.store/cwtools.cli/$CWTOOLS_CLI_VERSION/cwtools.cli/$CWTOOLS_CLI_VERSION"
+        toolDir=$(find "$toolStore" -type d -name any | head -1)
+        echo "Using CWTools assemblies from $toolDir"
+        mkdir -p .github/scripts/cwtools_tools
+        cp "$toolDir"/*.dll .github/scripts/cwtools_tools/
+        # CWTools references an old FSharp.Data whose type provider needs this designer assembly,
+        # which the tool package does not bundle.
+        curl -sSL -o fsharpdata.zip "https://www.nuget.org/api/v2/package/FSharp.Data/3.1.1"
+        unzip -p fsharpdata.zip typeproviders/fsharp41/netstandard2.0/FSharp.Data.DesignTime.dll > .github/scripts/cwtools_tools/FSharp.Data.DesignTime.dll
+        rm fsharpdata.zip
+    - name: "Download CWTools CK3 rules and metadata cache"
+      run: |
+        git clone --depth 1 https://github.com/cwtools/cwtools-ck3-config.git
+        wget -q -O ck3.cwv.bz2 "https://raw.githubusercontent.com/cwtools/cwtools-cache-files/ck3/ck3.cwv.bz2"
     - name: "Validate generated mod with CWTools"
-      uses: cwtools/cwtools-action@v1.1.0
-      with:
-        game: ck3
-        modPath: "generated_mod/test_save"
-        changedFilesOnly: "0" # there is no PR to diff against on release runs
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required, secret is automatically set by github
+      # The generated mod embeds copies of vanilla folders and the cwtools ck3 rules/metadata
+      # cache lag behind the current game version, so most findings are false positives from
+      # vanilla content. Report them without failing; add --strict once the report is clean.
+      run: |
+        dotnet fsi .github/scripts/cwtools_validate_mod.fsx \
+          generated_mod/test_save \
+          cwtools-ck3-config \
+          ck3.cwv.bz2 \
+          cwtools_output.json
     - name: "Upload artifact"
       if: always() # so even if the check fails, the log is uploaded
       uses: actions/upload-artifact@v7
       with:
         name: 'cwtools_output-${{ matrix.save }}'
-        path: output.json
+        path: cwtools_output.json
 
