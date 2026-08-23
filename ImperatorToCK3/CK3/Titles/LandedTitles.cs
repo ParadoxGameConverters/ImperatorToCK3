@@ -2022,25 +2022,26 @@ internal sealed partial class Title {
 		/// https://imperator.paradoxwikis.com/Position
 		/// https://ck3.paradoxwikis.com/Council
 		/// https://ck3.paradoxwikis.com/Court#Court_positions
+		/// Also handles the extra offices added by mods, e.g., Reanimāta (which includes the Bigger Government mod).
 		/// </summary>
 		public void ImportImperatorGovernmentOffices(List<OfficeJob> irOfficeJobs, ReligionCollection religionCollection, Date irSaveDate) {
 			Logger.Info("Converting government offices...");
 			var titlesFromImperator = GetCountriesImportedFromImperator();
 			
 			var councilPositionToSourcesDict = new Dictionary<string, string[]> {
-				["councillor_court_chaplain"] = ["office_augur", "office_pontifex", "office_high_priest_monarchy", "office_high_priest", "office_wise_person"],
-				["councillor_chancellor"] = ["office_censor", "office_foreign_minister", "office_arbitrator", "office_elder"],
-				["councillor_steward"] = ["office_praetor", "office_magistrate", "office_steward", "office_tribune_of_the_treasury"],
-				["councillor_marshal"] = ["office_tribune_of_the_soldiers", "office_marshal", "office_master_of_the_guard", "office_warchief", "office_bodyguard"],
+				["councillor_court_chaplain"] = ["office_augur", "office_pontifex", "office_high_priest_monarchy", "office_high_priest", "office_wise_person", "office_sacrificer"],
+				["councillor_chancellor"] = ["office_censor", "office_foreign_minister", "office_arbitrator", "office_elder", "office_prime_minister", "office_proconsul"],
+				["councillor_steward"] = ["office_praetor", "office_magistrate", "office_steward", "office_steward_republic", "office_tribune_of_the_treasury"],
+				["councillor_marshal"] = ["office_tribune_of_the_soldiers", "office_marshal", "office_master_of_the_guard", "office_warchief", "office_bodyguard", "office_quartermaster", "office_grandadmiral", "office_grandadmiral_republic"],
 				["councillor_spymaster"] = [], // No equivalents found in Imperator.
 			};
-			
+
 			// Court positions.
 			var courtPositionToSourcesDict = new Dictionary<string, string[]> {
 				["bodyguard_court_position"] = ["office_master_of_the_guard", "office_bodyguard"],
 				["court_physician_court_position"] = ["office_physician", "office_republic_physician", "office_apothecary"],
 				["court_tutor_court_position"] = ["office_royal_tutor"],
-				["chronicler_court_position"] = ["office_philosopher"], // From I:R wiki: "supervises libraries and the gathering and protection of knowledge"
+				["chronicler_court_position"] = ["office_philosopher", "office_lector"], // From I:R wiki: philosopher "supervises libraries and the gathering and protection of knowledge"
 				["cave_hermit_court_position"] = ["office_wise_person"]
 			};
 
