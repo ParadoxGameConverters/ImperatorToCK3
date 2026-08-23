@@ -243,12 +243,38 @@ public class FamilyCollectionTests {
 		characters.TryAdd(child);
 		
 		families.MergeDividedFamilies(characters);
-		
+
 		// Should have merged all into 1 family
 		Assert.Single(families);
 		var mergedFamily = families.First();
 		Assert.Contains(1UL, mergedFamily.MemberIds as IReadOnlySet<ulong>);
 		Assert.Contains(2UL, mergedFamily.MemberIds as IReadOnlySet<ulong>);
 		Assert.Contains(3UL, mergedFamily.MemberIds as IReadOnlySet<ulong>);
+	}
+
+	[Fact]
+	public void RemoveUnlinkedMembersRemovesUnlinkedMembersFromAllFamilies() {
+		var families = new ImperatorToCK3.Imperator.Families.FamilyCollection();
+		var family1 = ImperatorToCK3.Imperator.Families.Family.Parse(
+			new BufferedReader("= { member = { 1 2 3 } }"), 1);
+		// This family has no linked members at all.
+		var family2 = ImperatorToCK3.Imperator.Families.Family.Parse(
+			new BufferedReader("= { member = { 4 } }"), 2);
+		families.TryAdd(family1);
+		families.TryAdd(family2);
+
+		var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection {
+			new ImperatorToCK3.Imperator.Characters.Character(1),
+			new ImperatorToCK3.Imperator.Characters.Character(3)
+		};
+
+		families.RemoveUnlinkedMembers(characters);
+
+		IEnumerable<ulong> family1MemberIds = family1.MemberIds;
+		Assert.Equal(2, family1.MemberIds.Count);
+		Assert.Contains((ulong)1, family1MemberIds);
+		Assert.Contains((ulong)3, family1MemberIds);
+		Assert.DoesNotContain((ulong)2, family1MemberIds);
+		Assert.Empty(family2.MemberIds);
 	}
 }
