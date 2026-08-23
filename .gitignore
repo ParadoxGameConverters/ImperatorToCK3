@@ -52,3 +52,4 @@ previous-problem-count.txt
 
 # Local agent instructions
 /AGENTS.md
+*.pyc
