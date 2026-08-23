@@ -269,7 +269,7 @@ internal static class BookmarkOutputter {
 		}
 
 		SixLabors.ImageSharp.Configuration.Default.ImageFormatsManager.SetEncoder(PngFormat.Instance, new PngEncoder {
-			TransparentColorMode = PngTransparentColorMode.Clear,
+			TransparentColorMode = SixLabors.ImageSharp.Formats.TransparentColorMode.Clear,
 			ColorType = PngColorType.RgbWithAlpha
 		});
 		using var provincesImage = await Image.LoadAsync(provincesMapPath);
@@ -323,8 +323,7 @@ internal static class BookmarkOutputter {
 			if (!provDefs.ProvinceToColorDict.TryGetValue(provinceId, out Rgb24 provinceColor)) {
 				continue;
 			}
-			var rgbaProvinceColor = new Rgba32();
-			provinceColor.ToRgba32(ref rgbaProvinceColor);
+			var rgbaProvinceColor = provinceColor.ToRgba32();
 			provinceColorSet.Add(rgbaProvinceColor);
 		}
 		ApplyRealmColorMaskInSinglePass(realmHighlightImage, provinceColorSet, rgba32ColorOnMap);
@@ -345,7 +344,7 @@ internal static class BookmarkOutputter {
 	}
 
 	internal static void ApplyRealmColorMaskInSinglePass(Image<Rgba32> image, HashSet<Rgba32> provinceColorSet, Rgba32 realmColor) {
-		Rgba32 transparent = Color.Transparent;
+		Rgba32 transparent = Color.Transparent.ToPixel<Rgba32>();
 		image.ProcessPixelRows(accessor => {
 			for (int y = 0; y < image.Height; ++y) {
 				var row = accessor.GetRowSpan(y);
