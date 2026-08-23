@@ -8,14 +8,14 @@ using System.IO;
 
 namespace ImperatorToCK3.Mappers.Religion;
 
-public class ReligionMapper {
+internal sealed class ReligionMapper {
 	public ReligionMapper(ReligionCollection ck3Religions, ImperatorRegionMapper imperatorRegionMapper, CK3RegionMapper ck3RegionMapper) {
 		this.imperatorRegionMapper = imperatorRegionMapper;
 		this.ck3RegionMapper = ck3RegionMapper;
 
 		Logger.Info("Parsing religion mappings...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		var mappingsPath = Path.Combine("configurables", "religion_map.txt");
 		parser.ParseFile(mappingsPath);
@@ -23,6 +23,7 @@ public class ReligionMapper {
 		Logger.Info($"Loaded {religionMappings.Count} religious links.");
 
 		RemoveMappingsWithNonexistentCK3Faiths(ck3Religions);
+		BuildLookup();
 
 		Logger.IncrementProgress();
 	}
@@ -30,19 +31,41 @@ public class ReligionMapper {
 		this.imperatorRegionMapper = imperatorRegionMapper;
 		this.ck3RegionMapper = ck3RegionMapper;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 
 		RemoveMappingsWithNonexistentCK3Faiths(ck3Religions);
+		BuildLookup();
 	}
 
 	private void RemoveMappingsWithNonexistentCK3Faiths(ReligionCollection ck3Religions) {
 		religionMappings.RemoveWhere(m=>m.CK3FaithId is not null && ck3Religions.GetFaith(m.CK3FaithId) is null);
 	}
 
+	private void BuildLookup() {
+		religionLookup.Clear();
+		foreach (var mapping in religionMappings) {
+			foreach (var irReligionId in mapping.IrReligionIds) {
+				if (!religionLookup.TryGetValue(irReligionId, out var list)) {
+					list = new List<ReligionMapping>();
+					religionLookup[irReligionId] = list;
+				}
+				list.Add(mapping);
+			}
+		}
+	}
+
 	public string? Match(string irReligionId, string? ck3CultureId, ulong? ck3ProvinceId, ulong? irProvinceId, string? irHistoricalTag, Configuration config) {
-		foreach (var religionMapping in religionMappings) {
+		if (string.IsNullOrEmpty(irReligionId)) {
+			return null;
+		}
+
+		if (!religionLookup.TryGetValue(irReligionId, out var candidates)) {
+			return null;
+		}
+
+		foreach (var religionMapping in candidates) {
 			var possibleMatch = religionMapping.Match(irReligionId, ck3CultureId, ck3ProvinceId, irProvinceId, irHistoricalTag, config, imperatorRegionMapper, ck3RegionMapper);
 			if (possibleMatch is not null) {
 				return possibleMatch;
@@ -58,6 +81,7 @@ public class ReligionMapper {
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 	private readonly List<ReligionMapping> religionMappings = new();
+	private readonly Dictionary<string, List<ReligionMapping>> religionLookup = new(StringComparer.Ordinal);
 	private readonly ImperatorRegionMapper imperatorRegionMapper;
 	private readonly CK3RegionMapper ck3RegionMapper;
 }

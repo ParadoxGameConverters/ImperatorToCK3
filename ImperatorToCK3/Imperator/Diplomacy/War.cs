@@ -1,14 +1,15 @@
 ﻿using commonItems;
 using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace ImperatorToCK3.Imperator.Diplomacy;
 
-public class War {
+internal sealed partial class War {
 	public Date StartDate { get; private set; } = new(1, 1, 1);
 	public bool Previous { get; private set; }
-	public List<ulong> AttackerCountryIds { get; } = new();
-	public List<ulong> DefenderCountryIds { get; } = new();
+	public List<ulong> AttackerCountryIds { get; } = [];
+	public List<ulong> DefenderCountryIds { get; } = [];
 	public string? WarGoal { get; private set; }
 	public ulong? TargetedStateId { get; private set; }
 
@@ -23,8 +24,8 @@ public class War {
 		parser.RegisterKeyword("defender", reader => {
 			warToReturn.DefenderCountryIds.Add(reader.GetULong());
 		});
-		parser.RegisterRegex(WargoalTypeRegex, reader => {
-			var wargoalParser = new Parser();
+		parser.RegisterRegex(wargoalTypeRegex, reader => {
+			var wargoalParser = new Parser(implicitVariableHandling: false);
 			wargoalParser.RegisterKeyword("type", typeReader =>
 				warToReturn.WarGoal = typeReader.GetString()
 			);
@@ -43,10 +44,14 @@ public class War {
 		return warToReturn;
 	}
 
-	// Wargoal types seem to be hardcoded, they don't need to be loaded from game files.
-	private const string WargoalTypeRegex = "take_province|naval_superiority|superiority|enforce_military_access|independence";
+	private static readonly Regex wargoalTypeRegex = WargoalTypeRegex();
 
-	private static readonly Parser parser = new();
+	private static readonly Parser parser = new(implicitVariableHandling: false);
 	private static War warToReturn = new();
-	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
+	public static IgnoredKeywordsSet IgnoredTokens { get; } = [];
+
+	// Wargoal types seem to be hardcoded, they don't need to be loaded from game files.
+	private const string WargoalTypeRegexStr = "take_province|naval_superiority|superiority|enforce_military_access|independence";
+	[GeneratedRegex(WargoalTypeRegexStr, RegexOptions.Compiled)]
+	private static partial Regex WargoalTypeRegex();
 }

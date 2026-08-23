@@ -1,0 +1,753 @@
+﻿# Add mod-specific stuff inside MOD_DEPENDENT = { IF @[wtwsms] = {} } blocks.
+# WtWSMS uses (broadest->specific): heritage_family (multiple allowed) -> heritage_group (multiple allowed); optionally also allows heritage_kulturbund (multiple allowed)
+# ROA uses (broadest->specific): heritage_family (multiple allowed) -> heritage_group (multiple allowed); optionally also allows heritage_kulturbund
+# TFE uses (broadest->specific): heritage_family -> heritage_group
+
+heritage_nuragic = {
+    REPLACED_BY = {
+    	tfe = { heritage_nuragic }
+    	vanilla_ck3 = { heritage_nuragic }
+    }
+	MOD_DEPENDENT = {
+		IF @[roa|wtwsms] = {
+			parameters = {
+				heritage_group_nuragic = yes
+				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_nuragic = yes
+				heritage_family_mediterranean = yes
+			}
+		}
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_nuragic
+		}
+	}
+	audio_parameter = european
+}
+
+heritage_anatolian = {
+    REPLACED_BY = {
+		tfe = { heritage_anatolian }
+		wtwsms = { heritage_anatolian }
+		vanilla_ck3 = { heritage_anatolian }
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_anatolian = yes
+				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_balko_anatolian = yes
+				heritage_family_mediterranean = yes
+			}
+		}
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_anatolian
+		}
+	}
+	audio_parameter = european
+}
+
+# TFE added their own version of this heritage, but left out the heritage family parameter, so adding it here to get rid of converter error until TFE fixes it.
+heritage_gaulish = {
+    REPLACED_BY = {
+		vanilla_ck3 = { heritage_gaulish }
+	}
+	MOD_DEPENDENT = {
+		IF @[roa|wtwsms] = {
+			parameters = {
+				heritage_group_celtic = yes
+				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes
+			}
+		}
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_gaulish
+		}
+	}
+	audio_parameter = european
+}
+
+heritage_iberian_celtic = { # https://en.wikipedia.org/wiki/List_of_ancient_Celtic_peoples_and_tribes#Hispano-Celts_/_Celts_of_Hispania
+    REPLACED_BY = {
+		tfe = { heritage_celtiberian }
+		vanilla_ck3 = { heritage_iberian_celtic }
+	}
+	MOD_DEPENDENT = {
+		IF @[roa|wtwsms] = {
+			parameters = {
+				heritage_group_celtic = yes
+				heritage_family_european = yes
+			}
+		}
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_iberian_celtic
+		}
+	}
+	audio_parameter = european
+}
+
+heritage_punic = {
+    REPLACED_BY = {
+		tfe = { heritage_punic }
+		vanilla_ck3 = { heritage_punic heritage_phoenician }
+	}
+	MOD_DEPENDENT = {
+		IF @[roa|tfe] = {
+			parameters = {
+				heritage_group_levantine = yes
+				heritage_family_middle_eastern = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				heritage_group_west_asian = yes
+				heritage_family_west_asian = yes
+			}
+		}
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_punic
+		}
+	}
+	audio_parameter = mena
+}
+
+heritage_romano_british = {
+    REPLACED_BY = {
+		tfe = { heritage_romano_british }
+		wtwsms = { heritage_romano_british }
+		vanilla_ck3 = { heritage_romano_british }
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_celtic = yes # Romano-British, historically, were likely native Britons who began adopting Roman culture
+				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_celtic = yes # Romano-British, historically, were likely native Britons who began adopting Roman culture
+				heritage_family_northern = yes
+			}
+		}
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_romano_british
+		}
+	}
+	audio_parameter = european
+}
+
+heritage_romano_germanic = {
+    REPLACED_BY = {
+		tfe = { heritage_romano_germanic }
+		vanilla_ck3 = { heritage_romano_germanic }
+	}
+	MOD_DEPENDENT = {
+		IF @[roa|wtwsms] = {
+			parameters = {
+				heritage_group_germanic = yes # Historically, the Romano-Germanic peoples would have been Germanic peoples who began adopting Roman culture.
+				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_germanic = yes # Historically, the Romano-Germanic peoples would have been Germanic peoples who began adopting Roman culture.
+				heritage_family_northern = yes
+			}
+		}
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_romano_germanic
+		}
+	}
+	audio_parameter = european
+}
+
+heritage_east_germanic = {
+    REPLACED_BY = {
+		tfe = { heritage_east_germanic }
+		wtwsms = { heritage_east_germanic }
+		roa = { heritage_east_germanic }
+		vanilla_ck3 = { heritage_east_germanic }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_east_germanic
+		}
+	}
+	audio_parameter = european
+}
+
+heritage_thracian = {
+    REPLACED_BY = {
+		tfe = { heritage_daco_thracian }
+		vanilla_ck3 = { heritage_thracian }
+	}
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				heritage_group_balko_anatolian = yes
+				heritage_family_european = yes
+			}
+		} ELSE_IF roa = {
+			parameters = {
+				heritage_group_balkan = yes
+				heritage_family_european = yes
+			}
+		}
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_thracian
+		}
+	}
+	audio_parameter = european
+}
+
+heritage_tyrrhenian = {
+    REPLACED_BY = {
+		tfe = { heritage_tyrrhenian }
+		vanilla_ck3 = { heritage_tyrrhenian }
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				heritage_group_romance = yes
+				heritage_family_european = yes
+			}
+		}
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_tyrrhenian
+		}
+	}
+	audio_parameter = european
+}
+
+heritage_tai = {
+    REPLACED_BY = {
+		tfe = { heritage_tai }
+		roa = { heritage_tai }
+		vanilla_ck3 = { heritage_tai }
+	}
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_burmese = yes
+				heritage_family_south_asian = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				heritage_group_greater_indian = yes
+				heritage_family_south_asian = yes
+			}
+		}
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_tai
+		}
+	}
+	audio_parameter = european
+}
+
+heritage_palaungic = {
+    REPLACED_BY = {
+		tfe = { heritage_palaungic }
+		roa = { heritage_palaungic }
+		vanilla_ck3 = { heritage_palaungic }
+	}
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_burmese = yes
+				heritage_family_south_asian = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				heritage_group_greater_indian = yes
+				heritage_family_south_asian = yes
+			}
+		}
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_palaungic
+		}
+	}
+	audio_parameter = european
+}
+
+heritage_mon_khmer = { # from Rajas of Asia
+	REPLACED_BY = {
+		roa = { heritage_mon_khmer }
+		aep = { heritage_khmer }
+		wtwsms = { heritage_burman } # In WtWSMS, heritage_burman is localized as "Southeast Asian"
+	}
+	type = heritage
+
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_austroasiatic = yes
+				heritage_family_east_asian = yes
+			}
+		}
+	}
+
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_mon_khmer
+		}
+	}
+	audio_parameter = european
+}
+
+heritage_italic = {
+	REPLACED_BY = {
+		tfe = { heritage_italic }
+		wtwsms = { heritage_italian }
+		vanilla_ck3 = { heritage_italic }
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes
+			}
+		}
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_italic
+		}
+	}
+	audio_parameter = european
+}
+
+heritage_frankish = { # To replace assigned Latin heritage group/family in TFE/RoA
+    REPLACED_BY = {
+		wtwsms = { heritage_frankish }
+		vanilla_ck3 = { heritage_frankish }
+	}
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_germanic = yes
+				heritage_family_northern = yes
+			}
+		} ELSE_IF roa = {
+			parameters = {
+				heritage_group_germanic = yes
+				heritage_family_european = yes
+			}
+		}
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_frankish
+		}
+	}
+	audio_parameter = european
+}
+
+heritage_venetic = {
+    REPLACED_BY = {
+		tfe = { heritage_venetic }
+		vanilla_ck3 = { heritage_venetic }
+    }
+
+	type = heritage
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_european = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes
+			}
+		} ELSE_IF wtwsms = {
+			parameters = {
+				heritage_group_romance = yes
+				heritage_family_european = yes
+			}
+		}
+	}
+
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_venetic
+		}
+	}
+	audio_parameter = european
+}
+
+# To remove them from being in the "Romance" group in RoA
+heritage_iberian = {
+    REPLACED_BY = {
+		tfe = { heritage_iberian }
+		wtwsms = { heritage_iberian }
+		vanilla_ck3 = { heritage_iberian }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_iberian
+		}
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_iberian = yes
+				heritage_family_european = yes
+			}
+		}
+	}
+	audio_parameter = european
+}
+
+# To remove heritage_group_byzantine from it in RoA, since the Byzantines aren't guarenteed to exist, and they already have a proper heritage group
+heritage_byzantine = {
+    REPLACED_BY = {
+		tfe = { heritage_byzantine }
+		wtwsms = { heritage_byzantine }
+		vanilla_ck3 = { heritage_byzantine }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_byzantine
+		}
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_balkan = yes
+				heritage_family_west_asian = yes
+				heritage_family_european = yes
+			}
+		}
+	}
+	audio_parameter = european
+}
+
+# To rework CCU parameters, since they are based mainly around the Magyars/Hungarians being already near Europe
+heritage_magyar = {
+    REPLACED_BY = {
+		tfe = { heritage_magyar }
+		wtwsms = { heritage_magyar }
+		vanilla_ck3 = { heritage_magyar }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_magyar
+		}
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_steppe = yes
+				heritage_group_ugro_permian = yes
+				heritage_family_eurasian = yes
+			}
+		}
+	}
+	audio_parameter = european
+}
+
+# To remove heritage_group_byzantine from it in RoA, since the Byzantines aren't guarenteed to exist, and they already have a proper heritage group
+heritage_south_slavic = {
+    REPLACED_BY = {
+		tfe = { heritage_south_slavic }
+		wtwsms = { heritage_south_slavic }
+		vanilla_ck3 = { heritage_south_slavic }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_south_slavic
+		}
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_central_european = yes
+				heritage_group_balkan = yes
+				heritage_family_european = yes
+			}
+		}
+	}
+	audio_parameter = european
+}
+
+# To remove heritage_group_byzantine and heritage_group_latin from it in RoA, since the Byzantines aren't guarenteed to exist, they are not ethnically "Latin/Italic", and they already have a proper heritage group
+heritage_vlach = {
+    REPLACED_BY = {
+		tfe = { heritage_vlach }
+		wtwsms = { heritage_vlach }
+		vanilla_ck3 = { heritage_vlach }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_vlach
+		}
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_balkan = yes
+				heritage_family_european = yes
+			}
+		}
+	}
+	audio_parameter = european
+}
+
+# To remove heritage_group_byzantine from it in RoA, since the Byzantines aren't guarenteed to exist, and they already have a proper heritage group
+heritage_caucasian = {
+    REPLACED_BY = {
+		tfe = { heritage_caucasian }
+		wtwsms = { heritage_caucasian }
+		vanilla_ck3 = { heritage_caucasian }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_caucasian
+		}
+	}
+	MOD_DEPENDENT = {
+		IF roa = {
+			parameters = {
+				heritage_group_iranian = yes
+				heritage_group_levantine = yes
+				heritage_family_caucasian = yes
+				heritage_family_west_asian = yes
+				heritage_family_eurasian = yes
+			}
+		}
+	}
+	audio_parameter = european
+}
+
+# TFE doesn't give group/family parameters for this heritage, despite using it in code, so set this up to replace TFE's definition with one that mimics the Turkic heritage, which their base game Hun culture uses. Just adding this to get rid of converter error until TFE handles it.
+heritage_hunnic = {
+    REPLACED_BY = {
+		roa = { heritage_hunnic }
+		wtwsms = { heritage_hunnic }
+		vanilla_ck3 = { heritage_hunnic }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_hunnic
+		}
+	}
+	audio_parameter = european
+
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_turkic = yes
+				heritage_family_steppe = yes
+			}
+		}
+	}
+}
+
+# TFE added this heritage but forgot to give it a family parameter, so adding it here to get rid of converter error. Replacing with heritage_latin when not using TFE to prevent a random unused heritage from being loaded.
+heritage_gallo_rhaetian_latin = {
+    REPLACED_BY = {
+		roa = { heritage_latin }
+		wtwsms = { heritage_latin }
+		vanilla_ck3 = { heritage_latin }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_gallo_rhaetian_latin
+		}
+	}
+	audio_parameter = european
+
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes
+			}
+		}
+	}
+}
+
+# TFE added this heritage but forgot to give it a family parameter, so adding it here to get rid of converter error. Replacing with heritage_latin when not using TFE to prevent a random unused heritage from being loaded.
+heritage_british_latin = {
+    REPLACED_BY = {
+		roa = { heritage_latin }
+		wtwsms = { heritage_latin }
+		vanilla_ck3 = { heritage_latin }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_british_latin
+		}
+	}
+	audio_parameter = european
+
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes
+			}
+		}
+	}
+}
+
+# TFE added this heritage but forgot to give it a family parameter, so adding it here to get rid of converter error. Replacing with heritage_latin when not using TFE to prevent a random unused heritage from being loaded.
+heritage_occitan = {
+    REPLACED_BY = {
+		roa = { heritage_latin }
+		wtwsms = { heritage_latin }
+		vanilla_ck3 = { heritage_latin }
+	}
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_occitan
+		}
+	}
+	audio_parameter = european
+
+	MOD_DEPENDENT = {
+		IF tfe = {
+			parameters = {
+				heritage_group_latin = yes
+				heritage_family_mediterranean = yes
+			}
+		}
+	}
+}
+
+heritage_loloish = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+    	tfe = { heritage_loloish }
+		wtwsms = { heritage_loloish }
+		roa = { heritage_loloish }
+    	vanilla_ck3 = { heritage_loloish }
+    }
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_loloish
+		}
+	}
+	audio_parameter = sea
+}
+
+heritage_baiyue = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+    	tfe = { heritage_baiyue }
+		wtwsms = { heritage_baiyue }
+		roa = { heritage_baiyue }
+    	vanilla_ck3 = { heritage_baiyue }
+    }
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_baiyue
+		}
+	}
+	audio_parameter = sea
+}
+
+heritage_dongyi = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+    	tfe = { heritage_dongyi }
+		wtwsms = { heritage_dongyi }
+		roa = { heritage_dongyi }
+    	vanilla_ck3 = { heritage_dongyi }
+    }
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_dongyi
+		}
+	}
+	audio_parameter = sea
+}
+
+heritage_alasiyan = { # Will worry about CCU parameters once relevant mods are updated
+    REPLACED_BY = {
+    	tfe = { heritage_alasiyan }
+		wtwsms = { heritage_alasiyan }
+		roa = { heritage_alasiyan }
+    	vanilla_ck3 = { heritage_alasiyan }
+    }
+
+	type = heritage
+	is_shown = {
+		heritage_is_shown_trigger = {
+			HERITAGE = heritage_alasiyan
+		}
+	}
+	audio_parameter = mena
+}

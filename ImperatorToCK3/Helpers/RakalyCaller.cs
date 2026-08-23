@@ -1,25 +1,45 @@
 ﻿using commonItems;
+using commonItems.Exceptions;
+using ImperatorToCK3.CommonUtils;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading;
 
 namespace ImperatorToCK3.Helpers;
 
 public static class RakalyCaller {
-	private const string RakalyVersion = "0.4.16";
-	private static readonly string RakalyExecutablePath;
+	private const string RakalyVersion = "0.8.14";
+	private static readonly string RelativeRakalyPath;
 
 	static RakalyCaller() {
+		string archString = GetArchString();
+
 		string currentDir = Directory.GetCurrentDirectory();
-		RakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-pc-windows-msvc/rakaly.exe";
-		if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX)) {
-			RakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-apple-darwin/rakaly";
-			Exec($"chmod +x {currentDir}/{RakalyExecutablePath}");
-		} else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux)) {
-			RakalyExecutablePath = $"Resources/rakaly/rakaly-{RakalyVersion}-x86_64-unknown-linux-musl/rakaly";
-			Exec($"chmod +x {currentDir}/{RakalyExecutablePath}");
+		RelativeRakalyPath = $"Resources/rakaly/rakaly-{RakalyVersion}-{archString}-pc-windows-msvc/rakaly.exe";
+		if (OperatingSystem.IsMacOS()) {
+			RelativeRakalyPath = $"Resources/rakaly/rakaly-{RakalyVersion}-{archString}-apple-darwin/rakaly";
+		} else if (OperatingSystem.IsLinux()) {
+			RelativeRakalyPath = $"Resources/rakaly/rakaly-{RakalyVersion}-{archString}-unknown-linux-musl/rakaly";
 		}
+
+		if (OperatingSystem.IsLinux() || OperatingSystem.IsMacOS()) {
+			// Make sure the file is executable.
+			var rakalyPath = Path.Combine(currentDir, RelativeRakalyPath).AddQuotes();
+			Exec($"chmod +x {rakalyPath}");
+		}
+	}
+
+	private static string GetArchString() {
+		Architecture architecture = RuntimeInformation.OSArchitecture;
+		return architecture switch {
+			Architecture.X64 => "x86_64",
+			Architecture.Arm64 => "aarch64",
+			_ => throw new NotSupportedException($"Unsupported architecture: {architecture}")
+		};
 	}
 
 	public static string GetJson(string filePath) {
@@ -28,7 +48,7 @@ public static class RakalyCaller {
 
 		using Process process = new();
 		process.StartInfo.UseShellExecute = false;
-		process.StartInfo.FileName = RakalyExecutablePath;
+		process.StartInfo.FileName = RelativeRakalyPath;
 		process.StartInfo.Arguments = arguments;
 		process.StartInfo.CreateNoWindow = true;
 		process.StartInfo.RedirectStandardOutput = true;
@@ -43,46 +63,253 @@ public static class RakalyCaller {
 		return plainText;
 	}
 
+	private static bool IsFileFlaggedAsInfected(Win32Exception ex) {
+		// https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/18d8fbe8-a967-4f1c-ae50-99ca8e491d2d
+		return ex.NativeErrorCode == 0x000000E1; // ERROR_VIRUS_INFECTED
+	}
+
+	private static bool IsFileNotFound(Win32Exception ex) {
+		// https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-erref/18d8fbe8-a967-4f1c-ae50-99ca8e491d2d
+		return ex.NativeErrorCode == 0x00000002; // ERROR_FILE_NOT_FOUND
+	}
+
+	private static void LogWin32ExceptionDetails(Win32Exception ex) {
+		Logger.Debug("Message: " + ex.Message);
+		Logger.Debug("HResult: " + ex.HResult);
+		Logger.Debug("NativeErrorCode: " + ex.NativeErrorCode);
+	}
+
 	public static void MeltSave(string savePath) {
 		string arguments = $"melt --unknown-key stringify \"{savePath}\"";
 
 		using Process process = new();
 		process.StartInfo.UseShellExecute = false;
-		process.StartInfo.FileName = RakalyExecutablePath;
+		process.StartInfo.FileName = RelativeRakalyPath;
 		process.StartInfo.Arguments = arguments;
 		process.StartInfo.CreateNoWindow = true;
-		process.Start();
-		process.WaitForExit();
-		var returnCode = process.ExitCode;
-		if (returnCode != 0 && returnCode != 1) {
-			throw new FormatException($"Rakaly melter failed to melt {savePath} with exit code {returnCode}");
+		process.StartInfo.RedirectStandardError = true;
+
+		try {
+			process.Start();
+			process.WaitForExit();
+		}
+		catch (Win32Exception e) when (IsFileFlaggedAsInfected(e)) {
+			LogWin32ExceptionDetails(e);
+			string absoluteRakalyPath = Path.Combine(Directory.GetCurrentDirectory(), RelativeRakalyPath);
+			throw new UserErrorException("Failed to run Rakaly because the antivirus blocked it.\n" +
+			                             $"Add an exclusion for \"{absoluteRakalyPath}\" to the antivirus and try again.");
+		} catch (Win32Exception e) when (IsFileNotFound(e)) {
+			LogWin32ExceptionDetails(e);
+			throw new UserErrorException("Failed to run Rakaly, it was probably removed by an antivirus.\n" +
+			                             "Resave the save in Imperator debug mode and try again.");
 		}
 
-		var meltedSaveName = $"{CommonFunctions.TrimExtension(savePath)}_melted.rome";
-		const string destFileName = "temp/melted_save.rome";
-		// first, delete target file if exists, as File.Move() does not support overwrite
-		if (File.Exists(destFileName)) {
-			File.Delete(destFileName);
+		int returnCode = process.ExitCode;
+		if (returnCode != 0 && returnCode != 1) {
+			HandleMeltSaveFailure(savePath, returnCode, process.StandardError.ReadToEnd());
+			return;
 		}
-		File.Move(meltedSaveName, destFileName);
+
+		FinalizeMeltedSave(savePath);
+	}
+
+	private static void HandleMeltSaveFailure(string savePath, int returnCode, string stdErrText) {
+		Logger.Debug($"Save path: {savePath}");
+		if (File.Exists(savePath)) {
+			Logger.Debug($"Save file size: {new FileInfo(savePath).Length} bytes");
+		}
+
+		Logger.Debug($"Rakaly exit code: {returnCode}");
+		Logger.Debug($"Rakaly standard error: {stdErrText}");
+
+		string exceptionMessage = "Rakaly melter failed to melt the save.";
+		if (stdErrText.Contains("(os error 112)")) {
+			throw new UserErrorException($"{exceptionMessage} There is not enough space on the disk.");
+		}
+
+		if (stdErrText.Contains("Failed to create melted file")) {
+			// Try to copy the file to the converter's temp folder before melting.
+			const string fallbackSavePath = "temp/save_to_be_melted.rome";
+			if (savePath != fallbackSavePath) {
+				File.Copy(savePath, fallbackSavePath, overwrite: true);
+				MeltSave(fallbackSavePath);
+				return;
+			}
+		}
+
+		if (stdErrText.Contains("memory allocation of")) {
+			exceptionMessage += " One possible reason is that you don't have enough RAM.";
+		}
+		throw new FormatException(exceptionMessage);
+	}
+
+	private static void FinalizeMeltedSave(string savePath) {
+		string savePathWithoutExtension = CommonFunctions.TrimExtension(savePath);
+		string meltedSavePath;
+		// If savePathWithoutExtension ends with a slash, it means the basename is empty.
+		if (savePathWithoutExtension.EndsWith('/') || savePathWithoutExtension.EndsWith('\\')) {
+			meltedSavePath = savePathWithoutExtension + "melted.rome";
+		} else {
+			meltedSavePath = savePathWithoutExtension + "_melted.rome";
+		}
+
+		const string destFileName = "temp/melted_save.rome";
+		// First, delete target file if exists, as File.Move() does not support overwrite.
+		if (File.Exists(destFileName)) {
+			FileHelper.DeleteWithRetries(destFileName);
+		}
+
+		FileHelper.MoveWithRetries(meltedSavePath, destFileName);
+		NormalizeMeltedSaveForNonIronman(destFileName);
+		using var _ = OpenReadableFileWithRetries(destFileName);
+	}
+
+	private static void NormalizeMeltedSaveForNonIronman(string meltedSavePath) {
+		string tempOutputPath = meltedSavePath + ".tmp";
+		if (File.Exists(tempOutputPath)) {
+			FileHelper.DeleteWithRetries(tempOutputPath);
+		}
+
+		try {
+			using var inputStream = OpenReadableFileWithRetries(meltedSavePath);
+			using var reader = new StreamReader(inputStream, Encoding.UTF8, detectEncodingFromByteOrderMarks: true);
+			reader.Peek();
+			Encoding outputEncoding = GetOutputEncoding(reader.CurrentEncoding);
+
+			using var writer = FileHelper.OpenWriteWithRetries(tempOutputPath, outputEncoding);
+			int processedLines = 0;
+			while (processedLines < 200) {
+				var line = ReadLinePreservingEnding(reader);
+				if (line is null) {
+					break;
+				}
+
+				processedLines++;
+				if (TryGetNormalizedIronmanLine(line.Value.content, out var replacementLine)) {
+					if (replacementLine is not null) {
+						writer.Write(replacementLine);
+						writer.Write(line.Value.lineEnding);
+					}
+					continue;
+				}
+
+				writer.Write(line.Value.content);
+				writer.Write(line.Value.lineEnding);
+			}
+
+			CopyRemainingText(reader, writer);
+		} catch {
+			if (File.Exists(tempOutputPath)) {
+				FileHelper.DeleteWithRetries(tempOutputPath);
+			}
+			throw;
+		}
+
+		FileHelper.DeleteWithRetries(meltedSavePath);
+		FileHelper.MoveWithRetries(tempOutputPath, meltedSavePath);
+	}
+
+	private static Encoding GetOutputEncoding(Encoding inputEncoding) {
+		return inputEncoding.CodePage == Encoding.UTF8.CodePage
+			? new UTF8Encoding(encoderShouldEmitUTF8Identifier: false)
+			: inputEncoding;
+	}
+
+	private static bool TryGetNormalizedIronmanLine(string lineContent, out string? replacementLine) {
+		replacementLine = lineContent switch {
+			"ironman=yes" => null,
+			"iron=yes" => null,
+			"\tironman=yes" => null,
+			"\tironman_cloud=yes" => "\tironman_cloud=no",
+			_ => null
+		};
+
+		if (replacementLine is not null || lineContent is "ironman=yes" or "iron=yes" or "\tironman=yes") {
+			return true;
+		}
+
+		if (lineContent.StartsWith("\tironman_save_name=\"", StringComparison.Ordinal) && lineContent.EndsWith('"')) {
+			replacementLine = "\tironman_save_name=\"\"";
+			return true;
+		}
+
+		return false;
+	}
+
+	private static (string content, string lineEnding)? ReadLinePreservingEnding(StreamReader reader) {
+		if (reader.EndOfStream) {
+			return null;
+		}
+
+		var contentBuilder = new StringBuilder();
+		while (true) {
+			int nextChar = reader.Read();
+			if (nextChar == -1) {
+				return (contentBuilder.ToString(), string.Empty);
+			}
+
+			char currentChar = (char)nextChar;
+			if (currentChar == '\r') {
+				if (reader.Peek() == '\n') {
+					_ = reader.Read();
+					return (contentBuilder.ToString(), "\r\n");
+				}
+				return (contentBuilder.ToString(), "\r");
+			}
+
+			if (currentChar == '\n') {
+				return (contentBuilder.ToString(), "\n");
+			}
+
+			contentBuilder.Append(currentChar);
+		}
+	}
+
+	private static void CopyRemainingText(StreamReader reader, TextWriter writer) {
+		char[] buffer = new char[4096];
+		int charsRead;
+		while ((charsRead = reader.Read(buffer, 0, buffer.Length)) > 0) {
+			writer.Write(buffer, 0, charsRead);
+		}
+	}
+
+	private static FileStream OpenReadableFileWithRetries(string filePath, int maxAttempts = 10, int delayMilliseconds = 100) {
+		const string couldNotOpenFileMessage = "Could not open the melted save file after Rakaly finished processing it.";
+
+		for (int attempt = 1; attempt <= maxAttempts; attempt++) {
+			try {
+				return File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+			} catch (Exception ex) when (FileHelper.IsFileInUseException(ex) && attempt < maxAttempts) {
+				Thread.Sleep(delayMilliseconds);
+			} catch (Exception ex) when (FileHelper.IsFileInUseException(ex)) {
+				Logger.Debug($"Failed to open melted save \"{filePath}\": {ex.Message}");
+				throw new UserErrorException(couldNotOpenFileMessage);
+			}
+		}
+
+		throw new UserErrorException(couldNotOpenFileMessage);
 	}
 
 	// https://stackoverflow.com/a/47918132/10249243
 	private static void Exec(string cmd) {
 		var escapedArgs = cmd.Replace("\"", "\\\"");
 
-		using var process = new Process {
-			StartInfo = new ProcessStartInfo {
-				RedirectStandardOutput = true,
-				UseShellExecute = false,
-				CreateNoWindow = true,
-				WindowStyle = ProcessWindowStyle.Hidden,
-				FileName = "/bin/bash",
-				Arguments = $"-c \"{escapedArgs}\""
-			}
+		using var process = new Process();
+		process.StartInfo = new ProcessStartInfo {
+			RedirectStandardOutput = true,
+			UseShellExecute = false,
+			CreateNoWindow = true,
+			WindowStyle = ProcessWindowStyle.Hidden,
+			FileName = "/bin/bash",
+			Arguments = $"-c \"{escapedArgs}\"",
 		};
 
 		process.Start();
 		process.WaitForExit();
+
+		var stdOut = process.StandardOutput.ReadToEnd().Trim();
+		if (!string.IsNullOrEmpty(stdOut)) {
+			Logger.Debug("Exec output: " + stdOut);
+		}
 	}
 }

@@ -4,6 +4,8 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Province;
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class ProvinceMappingsVersionTests {
 	[Fact]
 	public void MappingsDefaultToEmpty() {

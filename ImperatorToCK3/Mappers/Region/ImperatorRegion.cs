@@ -2,22 +2,23 @@
 using commonItems.Collections;
 using commonItems.Colors;
 using ImperatorToCK3.Imperator.Geography;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+using ZLinq;
 
 namespace ImperatorToCK3.Mappers.Region;
 
-public class ImperatorRegion : IIdentifiable<string> {
-	public IdObjectCollection<string, Area> Areas { get; } = new();
+internal sealed class ImperatorRegion : IIdentifiable<string> {
+	public IdObjectCollection<string, Area> Areas { get; } = [];
 	public string Id { get; }
 	public Color? Color { get; private set; }
 
 	public ImperatorRegion(string id, BufferedReader reader, IdObjectCollection<string, Area> areas, ColorFactory colorFactory) {
 		Id = id;
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser, colorFactory);
 		parser.ParseStream(reader);
-		
+
 		LinkAreas(areas);
 	}
 
@@ -37,12 +38,18 @@ public class ImperatorRegion : IIdentifiable<string> {
 				parsedAreas.Add(name);
 			}
 		});
-		parser.RegisterKeyword("color", reader => Color = colorFactory.GetColor(reader));
+		parser.RegisterKeyword("color", reader => {
+			try {
+				Color = colorFactory.GetColor(reader);
+			} catch (Exception e) {
+				Logger.Warn($"Region {Id} has invalid color! {e.Message}");
+			}
+		});
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 
 	public bool ContainsProvince(ulong province) {
-		return Areas.Any(area => area.ContainsProvince(province));
+		return Areas.AsValueEnumerable().Any(area => area.ContainsProvince(province));
 	}
 
 	private readonly HashSet<string> parsedAreas = new();

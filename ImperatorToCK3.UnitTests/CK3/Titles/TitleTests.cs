@@ -2,10 +2,11 @@
 using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
-using FluentAssertions;
+using AwesomeAssertions;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
@@ -23,6 +24,7 @@ using System.Linq;
 using Xunit;
 using CharacterCollection = ImperatorToCK3.CK3.Characters.CharacterCollection;
 using ImperatorToCK3.Mappers.Region;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.IO;
 
@@ -33,11 +35,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Titles;
 public class TitleTests {
 	private const string ImperatorRoot = "TestFiles/LandedTitlesTests/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(irModFS);
 	private static readonly AreaCollection areas = new() {
 		new Area("galatia_area", new BufferedReader(), new ProvinceCollection()),
 		new Area("paphlagonia_area", new BufferedReader(), new ProvinceCollection())
 	};
-	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas, irMapData);
 	
 	static TitleTests() {
 		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
@@ -50,13 +53,16 @@ public class TitleTests {
 		private readonly Title.LandedTitles landedTitles = new();
 		private ProvinceMapper provinceMapper = new();
 		private CoaMapper coaMapper = new(irModFS);
-		private TagTitleMapper tagTitleMapper = new("TestFiles/configurables/title_map.txt", "TestFiles/configurables/governorMappings.txt");
-		private GovernmentMapper governmentMapper = new();
-		private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.txt");
+		private TagTitleMapper tagTitleMapper = new(
+			"TestFiles/configurables/title_map.txt", 
+			"TestFiles/configurables/governorMappings.txt", 
+			"TestFiles/configurables/country_rank_map.txt");
+		private GovernmentMapper governmentMapper = new(ck3GovernmentIds: Array.Empty<string>());
+		private SuccessionLawMapper successionLawMapper = new("TestFiles/configurables/succession_law_map.liquid", liquidVariables: new());
 		private DefiniteFormMapper definiteFormMapper = new("TestFiles/configurables/definite_form_names.txt");
 
 		private readonly ReligionMapper religionMapper;
-		private readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(new PillarCollection()));
+		private readonly CultureMapper cultureMapper = new(irRegionMapper, new CK3RegionMapper(), new CultureCollection(new ColorFactory(), new PillarCollection(new ColorFactory(), []), []));
 		private readonly NicknameMapper nicknameMapper = new("TestFiles/configurables/nickname_map.txt");
 		private readonly Date ck3BookmarkDate = new(867, 1, 1);
 		private readonly CharacterCollection characters = new();
@@ -69,8 +75,10 @@ public class TitleTests {
 		public Title BuildFromTag() {
 			return landedTitles.Add(
 				country,
+				dependency: null,
 				imperatorCountries,
 				locDB,
+				new TestCK3LocDB(),
 				provinceMapper,
 				coaMapper,
 				tagTitleMapper,
@@ -82,7 +90,8 @@ public class TitleTests {
 				nicknameMapper,
 				characters,
 				ck3BookmarkDate,
-				config
+				config,
+				enabledCK3Dlcs: []
 			);
 		}
 		public TitleBuilder WithCountry(Country country) {
@@ -124,19 +133,20 @@ public class TitleTests {
 	}
 
 	private readonly TitleBuilder builder = new();
+	private static readonly ColorFactory colorFactory = new();
 
 	[Fact]
 	public void TitlePrimitivesDefaultToBlank() {
 		var reader = new BufferedReader(string.Empty);
 		var landedTitles = new Title.LandedTitles();
 		var title = landedTitles.Add("k_testtitle");
-		title.LoadTitles(reader);
+		title.LoadTitles(reader, colorFactory);
 
 		Assert.False(title.HasDefiniteForm);
 		Assert.False(title.Landless);
 		Assert.Null(title.Color1);
 		Assert.Null(title.CapitalCounty);
-		Assert.Null(title.Province);
+		Assert.Null(title.ProvinceId);
 		Assert.False(title.PlayerCountry);
 	}
 
@@ -153,31 +163,16 @@ public class TitleTests {
 
 		var titles = new Title.LandedTitles();
 		var title = titles.Add("k_testtitle");
-		title.LoadTitles(reader);
+		title.LoadTitles(reader, colorFactory);
 
 		Assert.True(title.HasDefiniteForm);
 		Assert.True(title.Landless);
 		Assert.NotNull(title.Color1);
-		Assert.Equal("rgb { 23 23 23 }", title.Color1.OutputRgb());
-		Assert.Equal((ulong)345, title.Province);
+		Assert.Equal("rgb { 23 23 23 }", title.Color1.Value.OutputRgb());
+		Assert.Equal((ulong)345, title.ProvinceId);
 
 		Assert.NotNull(title.CapitalCounty);
 		Assert.Equal("c_roma", title.CapitalCountyId);
-	}
-
-	[Fact]
-	public void LocalizationCanBeSet() {
-		var titles = new Title.LandedTitles();
-		var title = titles.Add("k_testtitle");
-		var nameLoc = title.Localizations.AddLocBlock(title.Id);
-		nameLoc["english"] = "engloc";
-		nameLoc["french"] = "frloc";
-		nameLoc["german"] = "germloc";
-		nameLoc["russian"] = "rusloc";
-		nameLoc["simp_chinese"] = "simploc";
-		nameLoc["spanish"] = "spaloc";
-
-		Assert.Equal("engloc", title.Localizations.GetLocBlockForKey(title.Id)!["english"]);
 	}
 
 	[Fact]
@@ -203,7 +198,7 @@ public class TitleTests {
 		var titles = new Title.LandedTitles();
 		var title = titles.Add("k_testtitle");
 
-		Assert.Null(title.CapitalBaronyProvince);
+		Assert.Null(title.CapitalBaronyProvinceId);
 	}
 
 	[Fact]
@@ -224,11 +219,30 @@ public class TitleTests {
 	public void DevelopmentLevelCanBeInherited() {
 		var date = new Date(867, 1, 1);
 		var titles = new Title.LandedTitles();
-		var vassal = titles.Add("c_vassal");
-		vassal.DeJureLiege = titles.Add("d_liege");
-		vassal.DeJureLiege.SetDevelopmentLevel(8, date);
-
-		Assert.Equal(8, vassal.GetOwnOrInheritedDevelopmentLevel(date));
+		var county = titles.Add("c_county");
+		var duchy = titles.Add("d_duchy");
+		county.DeJureLiege = duchy;
+		var kingdom = titles.Add("k_kingdom");
+		duchy.DeJureLiege = kingdom;
+		var empire = titles.Add("e_empire");
+		kingdom.DeJureLiege = empire;
+		
+		empire.SetDevelopmentLevel(10, date);
+		Assert.Equal(10, county.GetOwnOrInheritedDevelopmentLevel(date));
+		
+		kingdom.SetDevelopmentLevel(8, date);
+		Assert.Equal(8, county.GetOwnOrInheritedDevelopmentLevel(date));
+		
+		duchy.SetDevelopmentLevel(6, date);
+		Assert.Equal(6, county.GetOwnOrInheritedDevelopmentLevel(date));
+		
+		county.SetDevelopmentLevel(4, date);
+		Assert.Equal(4, county.GetOwnOrInheritedDevelopmentLevel(date));
+		
+		// Development level set for de jure liege at a later date overrides the county's previously set level.
+		Date laterDate = date.ChangeByYears(1);
+		empire.SetDevelopmentLevel(12, laterDate);
+		Assert.Equal(12, county.GetOwnOrInheritedDevelopmentLevel(laterDate));
 	}
 
 	[Fact]
@@ -398,7 +412,7 @@ public class TitleTests {
 		var titles = new Title.LandedTitles();
 		var countyReader = new BufferedReader("b_barony = { province=1}");
 		var county = titles.Add("c_county");
-		county.LoadTitles(countyReader);
+		county.LoadTitles(countyReader, colorFactory);
 		Assert.False(county.DuchyContainsProvince(1));
 	}
 	[Fact]
@@ -406,7 +420,7 @@ public class TitleTests {
 		var titles = new Title.LandedTitles();
 		var countyReader = new BufferedReader("b_barony = { province=1}");
 		var county = titles.Add("c_county");
-		county.LoadTitles(countyReader);
+		county.LoadTitles(countyReader, colorFactory);
 		var duchy = titles.Add("d_duchy");
 		county.DeJureLiege = duchy;
 		Assert.True(duchy.DuchyContainsProvince(1));
@@ -416,7 +430,7 @@ public class TitleTests {
 		var titles = new Title.LandedTitles();
 		var countyReader = new BufferedReader("b_barony = { province=1}");
 		var county = titles.Add("c_county");
-		county.LoadTitles(countyReader);
+		county.LoadTitles(countyReader, colorFactory);
 		var duchy = titles.Add("d_duchy");
 		county.DeJureLiege = duchy;
 		Assert.False(duchy.DuchyContainsProvince(2)); // wrong id
@@ -427,7 +441,7 @@ public class TitleTests {
 		var titles = new Title.LandedTitles();
 		var countyReader = new BufferedReader("b_barony = { province=1}");
 		var county = titles.Add("c_county");
-		county.LoadTitles(countyReader);
+		county.LoadTitles(countyReader, colorFactory);
 		Assert.False(county.KingdomContainsProvince(1));
 	}
 	[Fact]
@@ -435,7 +449,7 @@ public class TitleTests {
 		var titles = new Title.LandedTitles();
 		var countyReader = new BufferedReader("b_barony = { province=1}");
 		var county = titles.Add("c_county");
-		county.LoadTitles(countyReader);
+		county.LoadTitles(countyReader, colorFactory);
 		var duchy = titles.Add("d_duchy");
 		county.DeJureLiege = duchy;
 		var kingdom = titles.Add("k_kingdom");
@@ -447,7 +461,7 @@ public class TitleTests {
 		var titles = new Title.LandedTitles();
 		var countyReader = new BufferedReader("b_barony = { province=1}");
 		var county = titles.Add("c_county");
-		county.LoadTitles(countyReader);
+		county.LoadTitles(countyReader, colorFactory);
 		var duchy = titles.Add("d_duchy");
 		county.DeJureLiege = duchy;
 		var kingdom = titles.Add("k_kingdom");

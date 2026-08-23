@@ -2,9 +2,9 @@ using commonItems;
 
 namespace ImperatorToCK3.Imperator.Characters;
 
-public class Unborn {
-	public ulong MotherId { get; private set; }
-	public ulong FatherId { get; private set; }
+internal sealed class Unborn {
+	public ulong MotherId { get; }
+	public ulong FatherId { get; }
 	public Date BirthDate { get; }
 	public Date EstimatedConceptionDate => BirthDate.ChangeByDays(-280);
 	public bool IsBastard { get; set; } = false;
@@ -22,7 +22,7 @@ public class Unborn {
 		Date? birthDate = null;
 		bool isBastard = false;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("mother", reader => motherId = reader.GetULong());
 		parser.RegisterKeyword("father", reader => fatherId = reader.GetULong());
 		parser.RegisterKeyword("date", reader => birthDate = new Date(reader.GetString(), AUC: true));
@@ -34,6 +34,6 @@ public class Unborn {
 			return null;
 		}
 
-		return new Unborn((ulong)motherId, (ulong)fatherId, birthDate, isBastard);
+		return new Unborn((ulong)motherId, (ulong)fatherId, birthDate.Value, isBastard);
 	}
 }

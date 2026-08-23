@@ -1,27 +1,55 @@
 using commonItems;
-using commonItems.Collections;
 using commonItems.Colors;
+using DotLiquid;
 using ImperatorToCK3.CK3.Cultures;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.UnitTests.TestHelpers; 
 
-public class TestCK3CultureCollection() : CultureCollection(TestCulturalPillars) {
-	private static readonly PillarCollection TestCulturalPillars = new();
+internal class TestCK3CultureCollection : CultureCollection {
+	private readonly OrderedDictionary<string, bool> ck3ModFlags = [];
+	private static readonly ColorFactory colorFactory = new();
+	private static readonly Hash liquidVariables = new();
 	
-	static TestCK3CultureCollection() {
-		TestCulturalPillars.Add(new Pillar("test_heritage", new BufferedReader("type = heritage")));
+	internal TestCK3CultureCollection() : base(colorFactory, new PillarCollection(colorFactory, []), []) {
 	}
 
-	public void GenerateTestCulture(string id) {
+	internal TestCK3CultureCollection(OrderedDictionary<string, bool> ck3ModFlags) : base(colorFactory, new PillarCollection(colorFactory, ck3ModFlags), ck3ModFlags) {
+		this.ck3ModFlags = ck3ModFlags;
+	}
+
+	public void LoadConverterPillars(string filePath) {
+		PillarCollection.LoadConverterPillars(filePath, ck3ModFlags, liquidVariables);
+	}
+
+	public void AddNameList(NameList nameList) {
+		NameListCollection.Add(nameList);
+	}
+
+	public void AddPillar(Pillar pillar) {
+		PillarCollection.Add(pillar);
+	}
+
+	public void AddInnovationId(string innovationId) {
+		InnovationIds.Add(innovationId);
+	}
+
+	public void GenerateTestCulture(string id, string heritageId = "test_heritage") {
 		const string nameListId = "name_list_test";
 		var nameList = new NameList(nameListId, new BufferedReader());
-		var culture = new Culture(
-			id,
-			new BufferedReader($"heritage=test_heritage name_list={nameListId}"),
-			TestCulturalPillars,
-			new IdObjectCollection<string, NameList> {nameList},
-			new ColorFactory()
-		);
+
+		var heritage = PillarCollection.GetHeritageForId(heritageId);
+		if (heritage is null) {
+			heritage = new Pillar(heritageId, new PillarData { Type = "heritage" });
+			PillarCollection.Add(heritage);
+		}
+		
+		var cultureData = new CultureData {
+			Heritage = heritage,
+			NameLists = {nameList},
+			Color = new Color(100, 150, 200)
+		};
+		var culture = new Culture(id, cultureData);
 		Add(culture);
 	}
 }

@@ -1,0 +1,39 @@
+# This file contains blocks from the WtWSMS files that can be replaced with new ones.
+# The structure is as follows:
+
+# <file name> = {
+# 	replace = {
+# 		before = {
+# 			some original code			
+# 		}
+# 		after = {
+# 			some modified code			
+# 		}
+# 	}
+#
+# 	replace = {
+# 		before = {
+# 			some original code 2		
+# 		}
+# 		after = {
+# 			some modified code 2		
+# 		}
+# 	}
+# }
+
+# INDENTATION IS IMPORTANT INSIDE the before BLOCK!
+# ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL FILE.
+# OTHERWISE THE BLOCKS WON'T BE MODIFIED!
+
+"common/defines/00_defines_BP_overwrite.txt" = {
+    # Add the converter's eremitic_government to the government types.
+    replace = {
+        before = {
+		"rajamandala_government" #REMOVE ME!!!!
+        } # end of before
+        after = {
+        "rajamandala_government", #REMOVE ME!!!!
+        "eremitic_government"
+        } # end of after
+    }
+}

@@ -2,10 +2,12 @@
 using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
-using ImperatorToCK3.CK3.Characters;
+using commonItems.Serialization;
+using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Geography;
@@ -20,6 +22,7 @@ using ImperatorToCK3.UnitTests.TestHelpers;
 using Xunit;
 using Character = ImperatorToCK3.CK3.Characters.Character;
 using System;
+using System.Collections.Frozen;
 using CharacterCollection = ImperatorToCK3.Imperator.Characters.CharacterCollection;
 
 // ReSharper disable StringLiteralTypo
@@ -32,15 +35,17 @@ public class DynastyTests {
 	private static readonly Date BookmarkDate = new(867, 1, 1);
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem IRModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(IRModFS);
 	private static readonly ImperatorRegionMapper IRRegionMapper;
 	private static readonly CultureMapper CultureMapper;
-	private static readonly TestCK3CultureCollection Cultures = new();
+	private static readonly TestCK3CultureCollection Cultures = [];
+	private static readonly FrozenDictionary<string, string> characterNameOverrides = FrozenDictionary<string, string>.Empty;
 	
 	static DynastyTests() {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
 		AreaCollection areas = new();
 		areas.LoadAreas(IRModFS, irProvinces);
-		IRRegionMapper = new ImperatorRegionMapper(areas);
+		IRRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		IRRegionMapper.LoadRegions(IRModFS, new ColorFactory());
 		
 		Cultures.GenerateTestCulture("latin");
@@ -61,7 +66,7 @@ public class DynastyTests {
 		private static readonly ModFilesystem ck3ModFS = new(CK3Root, Array.Empty<Mod>());
 
 		private ImperatorToCK3.Imperator.Characters.Character imperatorCharacter = new(0);
-		private ImperatorToCK3.CK3.Characters.CharacterCollection characters = new();
+		private readonly ImperatorToCK3.CK3.Characters.CharacterCollection characters = [];
 		private ReligionMapper religionMapper = new(new ReligionCollection(new Title.LandedTitles()), IRRegionMapper, new CK3RegionMapper());
 		private CultureMapper cultureMapper = new(IRRegionMapper, new CK3RegionMapper(), Cultures);
 		private TraitMapper traitMapper = new("TestFiles/configurables/trait_map.txt", ck3ModFS);
@@ -79,11 +84,14 @@ public class DynastyTests {
 				traitMapper,
 				nicknameMapper,
 				locDB,
+				new CK3LocDB(ck3ModFS, config.GetActiveCK3ModFlags()),
+				irMapData,
 				provinceMapper,
 				deathReasonMapper,
-				new DNAFactory(IRModFS, ck3ModFS),
 				new Date(867, 1, 1),
-				config
+				config,
+				nameOverrides: characterNameOverrides,
+				unlocalizedImperatorNames: []
 			);
 			return character;
 		}
@@ -135,8 +143,8 @@ public class DynastyTests {
 		var reader = new BufferedReader(string.Empty);
 		var family = Family.Parse(reader, 45);
 
-		var locMapper = new LocDB("english");
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper, locMapper, BookmarkDate);
+		var irLocDB = new LocDB("english");
+		var dynasty = new Dynasty(family, characters, [], CultureMapper, irLocDB, new TestCK3LocDB(), BookmarkDate);
 
 		Assert.Equal("dynn_irtock3_45", dynasty.Id);
 		Assert.Equal("dynn_irtock3_45", dynasty.Name);
@@ -148,12 +156,14 @@ public class DynastyTests {
 		var reader = new BufferedReader("key = cornelii");
 		var family = Family.Parse(reader, 45);
 
-		var locDB = new LocDB("english");
-		var dynLoc = locDB.AddLocBlock("cornelii");
+		var irLocDB = new LocDB("english");
+		var dynLoc = irLocDB.AddLocBlock("cornelii");
 		dynLoc["english"] = "Cornelii";
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper, locDB, BookmarkDate);
+		
+		var ck3LocDB = new TestCK3LocDB();
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper, irLocDB, ck3LocDB, BookmarkDate);
 
-		Assert.Equal("Cornelii", dynasty.LocalizedName!["english"]);
+		Assert.Equal("Cornelii", ck3LocDB.GetLocBlockForKey(dynasty.Id)!["english"]);
 	}
 
 	[Fact]
@@ -162,10 +172,11 @@ public class DynastyTests {
 		var reader = new BufferedReader("key = cornelii");
 		var family = Family.Parse(reader, 45);
 
-		var locDB = new LocDB("english");
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper, locDB, BookmarkDate);
+		var irLocDB = new LocDB("english");
+		var ck3LocDB = new TestCK3LocDB();
+		var dynasty = new Dynasty(family, characters, [], CultureMapper, irLocDB, ck3LocDB, BookmarkDate);
 
-		Assert.Equal("cornelii", dynasty.LocalizedName!["english"]);
+		Assert.Equal("cornelii", ck3LocDB.GetLocBlockForKey(dynasty.Id)!["english"]);
 	}
 	[Fact]
 	public void CultureIsBasedOnFirstImperatorMember() {
@@ -196,21 +207,46 @@ public class DynastyTests {
 			new CK3RegionMapper(),
 			Cultures
 		);
-		var locDB = new LocDB("english");
-		var ck3Member1 = new CK3CharacterBuilder()
+		var irLocDB = new LocDB("english");
+		new CK3CharacterBuilder()
 			.WithCultureMapper(cultureMapper)
 			.WithImperatorCharacter(member1)
 			.Build();
-		var ck3Member2 = new CK3CharacterBuilder()
+		new CK3CharacterBuilder()
 			.WithCultureMapper(cultureMapper)
 			.WithImperatorCharacter(member2)
 			.Build();
-		var ck3Member3 = new CK3CharacterBuilder()
+		new CK3CharacterBuilder()
 			.WithCultureMapper(cultureMapper)
 			.WithImperatorCharacter(member3)
 			.Build();
-		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, locDB, BookmarkDate);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper, irLocDB, new TestCK3LocDB(), BookmarkDate);
 
 		Assert.Equal("latin", dynasty.CultureId);
+	}
+
+	[Fact]
+	public void UnlocalizedNameIsCorrectlySerialized() {
+		// A dynasty can have a raw unlocalized name. If such name contains whitespace, it must be enclosed in quotes.
+		var reader = new BufferedReader(
+			"""
+			 = {
+				name = "ve Iberia"
+				culture = georgian
+			}
+			""");
+		var dynasty = new Dynasty("georgian_dynn_Iberia", reader);
+		Assert.Equal("georgian_dynn_Iberia", dynasty.Id);
+		Assert.Equal("ve Iberia", dynasty.Name);
+		Assert.Equal("georgian", dynasty.CultureId);
+
+		var serialized = PDXSerializer.Serialize(dynasty);
+		
+		Assert.Equal("""
+		             {
+		             	name = "ve Iberia"
+		             	culture = georgian
+		             }
+		             """, serialized);
 	}
 }

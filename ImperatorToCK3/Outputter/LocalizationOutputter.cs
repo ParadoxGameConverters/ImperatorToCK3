@@ -1,71 +1,87 @@
 ﻿using commonItems;
-using commonItems.Mods;
 using ImperatorToCK3.CK3;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace ImperatorToCK3.Outputter;
-public static class LocalizationOutputter {
-	public static void OutputLocalization(ModFilesystem irModFS, string outputName, World ck3World) {
-		var outputPath = Path.Combine("output", outputName);
-		var baseLocDir = Path.Join(outputPath, "localization");
+internal static class LocalizationOutputter {
+	public static void OutputLocalization(string outputModPath, World ck3World) {
+		Logger.Info("Writing Localization...");
+		var baseLocDir = Path.Join(outputModPath, "localization");
 		var baseReplaceLocDir = Path.Join(baseLocDir, "replace");
 
-		// copy character/family names localization
-		foreach (var languageName in ConverterGlobals.SupportedLanguages) {
-			var locFileLocation = irModFS.GetActualFileLocation($"localization/{languageName}/character_names_l_{languageName}.yml");
-			if (locFileLocation is not null) {
-				SystemUtils.TryCopyFile(locFileLocation,
-					Path.Combine(outputPath, $"localization/replace/{languageName}/IMPERATOR_character_names_l_{languageName}.yml")
-				);
-			}
-		}
-
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
+			var sb = new StringBuilder();
+			var locLinesForLanguage = ck3World.LocDB.GetLocLinesToOutputForLanguage(language);
+			if (locLinesForLanguage.Count == 0) {
+				return;
+			}
+
+			sb.AppendLine($"l_{language}:");
+			foreach (var line in locLinesForLanguage) {
+				sb.AppendLine(line);
+			}
+
 			var locFilePath = Path.Join(baseReplaceLocDir, language, $"converter_l_{language}.yml");
-			using var locFileStream = File.OpenWrite(locFilePath);
-			using var locWriter = new StreamWriter(locFileStream, encoding: System.Text.Encoding.UTF8);
+			using var locWriter = FileHelper.OpenWriteWithRetries(locFilePath, encoding: Encoding.UTF8);
+			locWriter.WriteLine(sb.ToString());
+			sb.Clear();
+		}
+	
+		OutputFallbackLocForMissingSecondaryLanguageLoc(baseLocDir, ck3World.LocDB);
+		
+		Logger.IncrementProgress();
+	}
 
-			locWriter.WriteLine($"l_{language}:");
+	private static void OutputFallbackLocForMissingSecondaryLanguageLoc(string baseLocDir, CK3LocDB ck3LocDB) {
+		Logger.Debug("Outputting fallback loc for missing secondary language loc...");
+		var languageToLocLinesDict = GetFallbackLocLinesByLanguage(ck3LocDB);
+		
+		var sb = new StringBuilder();
+		foreach (var language in ConverterGlobals.SecondaryLanguages) {
+			var linesToOutput = languageToLocLinesDict[language];
+			if (linesToOutput.Count == 0) {
+				continue;
+			}
+			
+			Logger.Debug($"Outputting {linesToOutput.Count} fallback loc lines for {language}...");
 
-			// title localization
-			foreach (var title in ck3World.LandedTitles) {
-				foreach (var locBlock in title.Localizations) {
-					locWriter.WriteLine(locBlock.GetYmlLocLineForLanguage(language));
-				}
+			sb.AppendLine($"l_{language}:");
+			foreach (var line in linesToOutput) {
+				sb.AppendLine(line);
+			}
+			
+			var locFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_fallback_loc_l_{language}.yml");
+			using var locWriter = FileHelper.OpenWriteWithRetries(locFilePath, Encoding.UTF8);
+			locWriter.Write(sb.ToString());
+			sb.Clear();
+		}
+	}
+
+	internal static Dictionary<string, List<string>> GetFallbackLocLinesByLanguage(CK3LocDB ck3LocDB) {
+		var languageToLocLinesDict = new Dictionary<string, List<string>>();
+		foreach (var language in ConverterGlobals.SecondaryLanguages) {
+			languageToLocLinesDict[language] = [];
+		}
+
+		foreach (var locBlock in ck3LocDB) {
+			if (!locBlock.HasLocForLanguage(ConverterGlobals.PrimaryLanguage)) {
+				continue;
 			}
 
-			// character name localization
-			var uniqueKeys = new HashSet<string>();
-			foreach (var character in ck3World.Characters) {
-				foreach (var (key, locBlock) in character.Localizations) {
-					if (uniqueKeys.Contains(key)) {
-						continue;
-					}
-
-					locWriter.WriteLine(locBlock.GetYmlLocLineForLanguage(language));
-					uniqueKeys.Add(key);
+			string? primaryLocLine = null;
+			foreach (var secondaryLanguage in ConverterGlobals.SecondaryLanguages) {
+				if (locBlock.HasLocForLanguage(secondaryLanguage)) {
+					continue;
 				}
+
+				primaryLocLine ??= locBlock.GetYmlLocLineForLanguage(ConverterGlobals.PrimaryLanguage);
+				languageToLocLinesDict[secondaryLanguage].Add(primaryLocLine);
 			}
 		}
 
-		// dynasty localization
-		foreach (var language in ConverterGlobals.SupportedLanguages) {
-			var dynastyLocFilePath = Path.Combine(baseLocDir, $"{language}/irtock3_dynasty_l_{language}.yml");
-			using var dynastyLocStream = File.OpenWrite(dynastyLocFilePath);
-			using var dynastyLocWriter = new StreamWriter(dynastyLocStream, System.Text.Encoding.UTF8);
-
-			dynastyLocWriter.WriteLine($"l_{language}:");
-
-			foreach (var dynasty in ck3World.Dynasties) {
-				var localizedName = dynasty.LocalizedName;
-				if (localizedName is not null) {
-					dynastyLocWriter.WriteLine(localizedName.GetYmlLocLineForLanguage(language));
-				} else {
-					Logger.Warn($"Dynasty {dynasty.Id} has no localizations!");
-					dynastyLocWriter.WriteLine($" {dynasty.Name}: \"{dynasty.Name}\"");
-				}
-			}
-		}
+		return languageToLocLinesDict;
 	}
 }

@@ -1,4 +1,5 @@
 using ImperatorToCK3.Mappers.UnitType;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using Xunit;
 
@@ -24,7 +25,7 @@ public class UnitTypeMapperTests {
 		var imperatorMenPerType = new Dictionary<string, int> {
 			{"clibanarii", 1200}, {"cataphracts", 450}, // both mapped to cavalry
 			{"archers", 200} // mapped to bowmen
-		};
+		}.ToFrozenDictionary();
 		var ck3MenPerType = mapper.GetMenPerCK3UnitType(imperatorMenPerType);
 		Assert.Collection(ck3MenPerType,
 			kvp => {

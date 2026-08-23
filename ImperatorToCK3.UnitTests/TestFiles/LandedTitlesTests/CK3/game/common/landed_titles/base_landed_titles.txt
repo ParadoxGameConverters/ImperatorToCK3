@@ -1,0 +1,9 @@
+e_mongolia = {
+	color = { 90 90 240 }
+
+	k_mongolia = {
+		color = { 20 65 25 }
+	}
+
+	k_angara = {}
+}

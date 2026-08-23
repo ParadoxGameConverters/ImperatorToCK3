@@ -5,14 +5,14 @@ using commonItems.SourceGenerators;
 namespace ImperatorToCK3.CK3.Armies;
 
 [SerializationByProperties]
-public partial class MenAtArmsCost : IPDXSerializable {
+internal sealed partial class MenAtArmsCost : IPDXSerializable {
 	[SerializedName("gold")] public double? Gold { get; set; }
 	[SerializedName("piety")] public double? Piety { get; set; }
 	[SerializedName("prestige")] public double? Prestige { get; set; }
 
 	public MenAtArmsCost() { }
 	public MenAtArmsCost(BufferedReader costReader, ScriptValueCollection scriptValues) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("gold", reader => Gold = reader.GetDouble(scriptValues));
 		parser.RegisterKeyword("piety", reader => Piety = reader.GetDouble(scriptValues));
 		parser.RegisterKeyword("prestige", reader => Prestige = reader.GetDouble(scriptValues));

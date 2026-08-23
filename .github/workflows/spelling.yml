@@ -3,9 +3,9 @@ on: [pull_request]
 jobs:
   misspell:
     name: Check spelling
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v7
       - name: Check spelling
         uses: reviewdog/action-misspell@v1
         with:
@@ -13,3 +13,16 @@ jobs:
           locale: "US"
           reporter: github-pr-review
           level: warning
+          ignore: councillor,favour,flavour,favourable,prioritised
+          exclude: |
+            **/*_l_french.yml
+            **/*_l_italian.yml
+            **/*_l_russian.yml
+            **/*_l_simp_chinese.yml
+            **/*_l_spanish.yml
+            **/*_l_polish.yml
+            **/*_l_korean.yml
+            **/*_l_german.yml
+            ImperatorToCK3/Data_Files/configurables/province_mappings/invictus_to_wtwsms.txt
+            
+

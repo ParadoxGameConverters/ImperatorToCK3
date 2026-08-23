@@ -2,12 +2,13 @@ using commonItems;
 using commonItems.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ImperatorToCK3.CommonUtils;
 
-public class LiteralHistoryField : IHistoryField {
+internal sealed class LiteralHistoryField : IHistoryField {
 	public string Id { get; }
-	public List<KeyValuePair<string, object>> InitialEntries { get; } = new(); // every entry is a <setter, value> pair
+	public List<KeyValuePair<string, object>> InitialEntries { get; } = []; // every entry is a <setter, value> pair
 
 	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; } = new();
 
@@ -30,18 +31,25 @@ public class LiteralHistoryField : IHistoryField {
 		}
 	}
 
-	private KeyValuePair<string, object>? GetLastEntry(Date date) {
-		var pairsWithEarlierOrSameDate = DateToEntriesDict.TakeWhile(d => d.Key <= date);
+	private KeyValuePair<string, object>? GetLastEntry(Date? date) {
+		if (date is not null) {
+			List<KeyValuePair<string, object>>? latestEntries = null;
+			foreach (var datedEntries in DateToEntriesDict) {
+				if (datedEntries.Key > date.Value) {
+					break;
+				}
 
-		foreach (var (_, entries) in pairsWithEarlierOrSameDate.Reverse()) {
-			foreach (var entry in Enumerable.Reverse(entries)) {
-				return entry;
+				latestEntries = datedEntries.Value;
+			}
+
+			if (latestEntries is { Count: > 0 }) {
+				return latestEntries[^1];
 			}
 		}
 
-		return InitialEntries.LastOrDefault();
+		return InitialEntries.Count > 0 ? InitialEntries[^1] : null;
 	}
-	public object? GetValue(Date date) {
+	public object? GetValue(Date? date) {
 		return GetLastEntry(date)?.Value;
 	}
 
@@ -53,13 +61,31 @@ public class LiteralHistoryField : IHistoryField {
 		if (date is null) {
 			InitialEntries.Add(new KeyValuePair<string, object>(setter, value));
 		} else {
-			if (DateToEntriesDict.TryGetValue(date, out var entriesList)) {
+			if (DateToEntriesDict.TryGetValue(date.Value, out var entriesList)) {
 				entriesList.Add(new KeyValuePair<string, object>(setter, value));
 			}
 			else {
-				DateToEntriesDict[date] = new List<KeyValuePair<string, object>> {
-					new(setter, value)
-				};
+				DateToEntriesDict[date.Value] = [new(setter, value)];
+			}
+		}
+	}
+
+	public int EntriesCount => InitialEntries.Count + DateToEntriesDict.Sum(pair => pair.Value.Count);
+
+	public void RegexReplaceAllEntries(Regex regex, string replacement) {
+		for (var i = 0; i < InitialEntries.Count; ++i) {
+			var entry = InitialEntries[i];
+			if (entry.Value is string str) {
+				InitialEntries[i] = new(entry.Key, regex.Replace(str, replacement));
+			}
+		}
+
+		foreach (var (_, entries) in DateToEntriesDict) {
+			for (var i = 0; i < entries.Count; ++i) {
+				var entry = entries[i];
+				if (entry.Value is string str) {
+					entries[i] = new(entry.Key, regex.Replace(str, string.Empty));
+				}
 			}
 		}
 	}
@@ -67,7 +93,11 @@ public class LiteralHistoryField : IHistoryField {
 	public void RegisterKeywords(Parser parser, Date date) {
 		foreach (var setter in setterKeywords) {
 			parser.RegisterKeyword(setter, reader => {
-				var itemStr = reader.GetStringOfItem().ToString();
+				var itemStr = reader.GetStringOfItem();
+				// If itemStr is the question sign from the "?=" operator, get another string.
+				if (itemStr.ToString() == "?") {
+					itemStr = reader.GetStringOfItem();
+				}
 				AddEntryToHistory(date, setter, itemStr);
 			});
 		}

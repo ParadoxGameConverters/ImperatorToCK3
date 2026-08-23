@@ -4,15 +4,15 @@ using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
 
-public class AccessoryGene : Gene, IIdentifiable<string> {
+internal sealed class AccessoryGene : Gene, IIdentifiable<string> {
 	public string Id { get; }
 	public uint? Index { get; private set; }
-	public IdObjectCollection<string, AccessoryGeneTemplate> GeneTemplates { get; } = new();
+	public IdObjectCollection<string, AccessoryGeneTemplate> GeneTemplates { get; } = [];
 
 	public AccessoryGene(string id, BufferedReader reader) {
 		Id = id;
-		
-		var parser = new Parser();
+
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}

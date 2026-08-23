@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Serialization;
+using AwesomeAssertions;
 using ImperatorToCK3.CommonUtils;
 using System;
 using System.Collections.Generic;
@@ -122,6 +123,35 @@ public class HistoryTests {
 	}
 
 	[Fact]
+	public void NegativeDatesAreSupported() {
+		var reader = new BufferedReader(
+			@"= {		#Sarkel
+					culture = mykenian
+					-750.1.2 = {
+						culture = macedonian
+					}
+					-100.1.2 = {
+						culture = greek
+					}
+					50.3.4 = {
+						culture = roman
+					}
+				}");
+
+		var provHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
+			.WithSimpleField("culture", "culture", null)
+			.Build();
+		
+		var provHistory = provHistoryFactory.GetHistory(reader);
+		
+		Assert.Equal("mykenian", provHistory.GetFieldValue("culture", new Date(-800, 1, 1))!.ToString());
+		Assert.Equal("macedonian", provHistory.GetFieldValue("culture", new Date(-750, 1, 2))!.ToString());
+		Assert.Equal("macedonian", provHistory.GetFieldValue("culture", new Date(-600, 1, 2))!.ToString());
+		Assert.Equal("greek", provHistory.GetFieldValue("culture", new Date(-100, 1, 2))!.ToString());
+		Assert.Equal("roman", provHistory.GetFieldValue("culture", new Date(50, 3, 4))!.ToString());
+	}
+
+	[Fact]
 	public void HistoryCanBeReadFromMultipleItems() {
 		var reader1 = new BufferedReader(
 		@"= {		#Sarkel
@@ -202,6 +232,39 @@ public class HistoryTests {
 	}
 
 	[Fact]
+	public void ConditionalOperatorIsSupported() {
+		var reader = new BufferedReader(
+			@"= {
+					domicile ?= { move_domicile = root.top_liege.capital_province }
+					culture ?= roman
+					insert ?= item1
+					750.1.2 = {
+						domicile ?= { move_domicile = root.capital_province }
+						culture ?= greek
+						remove ?= item1
+						insert ?= item2
+					}
+				}"
+		);
+
+		var provHistoryFactory = new HistoryFactory.HistoryFactoryBuilder()
+			.WithLiteralField("domicile", "domicile")
+			.WithSimpleField("culture", "culture", null)
+			.WithDiffField("diff_field", "insert", "remove")
+			.Build();
+
+		var provHistory = provHistoryFactory.GetHistory(reader);
+
+		Assert.Equal("{ move_domicile = root.top_liege.capital_province }", provHistory.GetFieldValue("domicile", new Date(1, 1, 1))?.ToString());
+		Assert.Equal("roman", provHistory.GetFieldValue("culture", new Date(1, 1, 1))!.ToString());
+		provHistory.GetFieldValueAsCollection("diff_field", new Date(1, 1, 1)).Should().BeEquivalentTo(["item1"]);
+		
+		Assert.Equal("{ move_domicile = root.capital_province }", provHistory.GetFieldValue("domicile", new Date(750, 1, 2))?.ToString());
+		Assert.Equal("greek", provHistory.GetFieldValue("culture", new Date(750, 1, 2))!.ToString());
+		provHistory.GetFieldValueAsCollection("diff_field", new Date(750, 1, 2)).Should().BeEquivalentTo(["item2"]);
+	}
+
+	[Fact]
 	public void HistoryCanBeSerialized() {
 		var fields = new IdObjectCollection<string, IHistoryField> {
 			new SimpleHistoryField("holder", setterKeywords: new OrderedSet<string> {"holder"}, null), // simple field with null initial value
@@ -223,11 +286,11 @@ public class HistoryTests {
 
 		// Date blocks are ordered by date.
 		var expectedStr =
-			"culture=greek" + Environment.NewLine +
-			"buildings={ baths }" + Environment.NewLine +
-			"2.1.1={ buildings={ aqueduct baths } }" + Environment.NewLine +
-			"5.1.1={ holder=nero }" + Environment.NewLine +
-			"540.1.1={ holder=justinian culture=roman }" + Environment.NewLine;
+			"culture = greek" + Environment.NewLine +
+			"buildings = { baths }" + Environment.NewLine +
+			"2.1.1 = { buildings = { aqueduct baths } }" + Environment.NewLine +
+			"5.1.1 = { holder = nero }" + Environment.NewLine +
+			"540.1.1 = { holder = justinian culture = roman }" + Environment.NewLine;
 		Assert.Equal(expectedStr, PDXSerializer.Serialize(history));
 	}
 
@@ -240,8 +303,8 @@ public class HistoryTests {
 		history.Fields["development_level"].AddEntryToHistory(new Date(5, 1, 1), "change_development_level", 20);
 
 		var expectedStr =
-			"change_development_level=10" + Environment.NewLine +
-			"5.1.1={ change_development_level=20 }" + Environment.NewLine;
+			"change_development_level = 10" + Environment.NewLine +
+			"5.1.1 = { change_development_level = 20 }" + Environment.NewLine;
 		Assert.Equal(expectedStr, PDXSerializer.Serialize(history));
 	}
 
@@ -255,7 +318,7 @@ public class HistoryTests {
 		var history = new History(fields);
 		history.Fields["buildings"].AddEntryToHistory( new Date(5, 1, 1), "buildings", new List<object> { "baths" });
 
-		var expectedStr = "5.1.1={ buildings={ baths } }" + Environment.NewLine;
+		var expectedStr = "5.1.1 = { buildings = { baths } }" + Environment.NewLine;
 		Assert.Equal(expectedStr, PDXSerializer.Serialize(history));
 	}
 

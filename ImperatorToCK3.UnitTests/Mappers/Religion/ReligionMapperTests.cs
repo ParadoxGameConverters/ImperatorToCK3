@@ -5,6 +5,7 @@ using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Mappers.Religion;
 using Xunit;
 using System;
@@ -16,8 +17,9 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion;
 public class ReligionMapperTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(irModFS);
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas, irMapData);
 
 	private const string CK3Root = "TestFiles/CK3/game";
 	private readonly ModFilesystem ck3ModFs = new(CK3Root, Array.Empty<Mod>());

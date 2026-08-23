@@ -3,24 +3,54 @@ using commonItems.Collections;
 using ImperatorToCK3.CommonUtils.Genes;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
+using ImperatorToCK3.Imperator.Jobs;
+using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Channels;
+using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Imperator.Characters;
 
-public class CharacterCollection : IdObjectCollection<ulong, Character> {
+internal sealed class CharacterCollection : ConcurrentIdObjectCollection<ulong, Character> {
 	public void LoadCharactersFromBloc(BufferedReader reader) {
-		var blocParser = new Parser();
+		var blocParser = new Parser(implicitVariableHandling: false);
 		blocParser.RegisterKeyword("character_database", LoadCharacters);
 		blocParser.IgnoreAndLogUnregisteredItems();
-
 		blocParser.ParseStream(reader);
-		Logger.Debug($"Ignored Character tokens: {Character.IgnoredTokens}");
 	}
-	public void LoadCharacters(BufferedReader reader) {
-		var parser = new Parser();
-		RegisterKeys(parser);
-		parser.ParseStream(reader);
+	
+	public void LoadCharacters(BufferedReader charactersReader) {
+		// Load characters in a producer-consumer pattern.
+		var channel = Channel.CreateUnbounded<KeyValuePair<string, StringOfItem>>();
+		var channelWriter = channel.Writer;
+		var channelReader = channel.Reader;
+		
+		var producerTask = Task.Run(() => {
+			var parser = new Parser(implicitVariableHandling: false);
+			parser.RegisterRegex(CommonRegexes.Integer, (reader, charIdStr) => {
+				if (!channelWriter.TryWrite(new(charIdStr, reader.GetStringOfItem()))) {
+					Logger.Warn($"Failed to enqueue character {charIdStr} for processing.");
+				}
+			});
+			parser.IgnoreAndLogUnregisteredItems();
+			parser.ParseStream(charactersReader);
+			channelWriter.Complete();
+		});
+		
+		int consumerCount = Math.Max(2, Environment.ProcessorCount);
+		var consumerTasks = new List<Task>(consumerCount);
+		for (var i = 0; i < consumerCount; ++i) {
+			consumerTasks.Add(Task.Run(async () => {
+				await foreach (var (charIdStr, characterStringOfItem) in channelReader.ReadAllAsync()) {
+					var newCharacter = Character.Parse(new(characterStringOfItem.ToString()), charIdStr, GenesDB);
+					AddOrReplace(newCharacter);
+				}
+			}));
+		}
+		
+		Task.WaitAll(producerTask, Task.WhenAll(consumerTasks));
 
 		Logger.Info("Linking Characters with Spouses...");
 		LinkSpouses();
@@ -67,12 +97,119 @@ public class CharacterCollection : IdObjectCollection<ulong, Character> {
 		Logger.Info($"{counter} prisoner homes linked to characters.");
 	}
 
-	private void RegisterKeys(Parser parser) {
-		parser.RegisterRegex(CommonRegexes.Integer, (reader, charIdStr) => {
-			var newCharacter = Character.Parse(reader, charIdStr, GenesDB);
-			AddOrReplace(newCharacter);
-		});
-		parser.IgnoreAndLogUnregisteredItems();
+	public void PurgeUnneededCharacters(CountryCollection countries, List<Governorship> governorships, FamilyCollection families) {
+		Logger.Info("Purging unneeded Imperator characters...");
+
+		// All landed characters should be kept.
+		FrozenSet<ulong> landedCharacterIds = GetLandedCharacterIds(countries, governorships);
+
+		// Alive and landed characters should be kept.
+		Character[] charactersToCheck = [.. this.Where(character => character.IsDead && !landedCharacterIds.Contains(character.Id))];
+
+		// Members of rulers' families should be kept, unless dead and childless.
+		FrozenSet<ulong> familyIdsOfLandedCharacters = GetFamilyIdsOfLandedCharacters(landedCharacterIds);
+
+		var i = 0;
+		var charactersToRemove = new List<Character>();
+		var parentIdsCache = new HashSet<ulong>();
+		do {
+			Logger.Debug($"Beginning iteration {i} of characters purge...");
+			charactersToRemove.Clear();
+			++i;
+
+			FillCacheOfAllParentIds(parentIdsCache);
+
+			// See who can be removed.
+			foreach (var character in charactersToCheck) {
+				// Does the character belong to a landed family?
+				if (character.Family?.Id is ulong familyId && familyIdsOfLandedCharacters.Contains(familyId)) {
+					// Is the dead character childless? Purge.
+					if (!parentIdsCache.Contains(character.Id)) {
+						charactersToRemove.Add(character);
+					}
+
+					continue;
+				}
+
+				charactersToRemove.Add(character);
+			}
+
+			BulkRemove(charactersToRemove.ConvertAll(c => c.Id));
+
+			Logger.Debug($"\tPurged {charactersToRemove.Count} unneeded Imperator characters in iteration {i}.");
+			if (charactersToRemove.Count > 0) {
+				var removedIds = new HashSet<ulong>();
+				foreach (var character in charactersToRemove) {
+					removedIds.Add(character.Id);
+				}
+
+				var filteredCharactersToCheck = new List<Character>(charactersToCheck.Length - removedIds.Count);
+				foreach (var character in charactersToCheck) {
+					if (!removedIds.Contains(character.Id)) {
+						filteredCharactersToCheck.Add(character);
+					}
+				}
+				charactersToCheck = [.. filteredCharactersToCheck];
+			}
+		} while (charactersToRemove.Count > 0);
+
+		// At this point we may have families with no characters left. Purge them.
+		families.PurgeUnneededFamilies(this);
+	}
+
+	private static FrozenSet<ulong> GetLandedCharacterIds(CountryCollection countries, List<Governorship> governorships) {
+		var allRulerIds = countries
+			.SelectMany(country => country.RulerTerms.Select(term => term.CharacterId))
+			.Where(id => id is not null)
+			.Cast<ulong>();
+		var allGovernorIds = governorships.Select(g => g.CharacterId);
+		return allRulerIds.Concat(allGovernorIds).ToFrozenSet();
+	}
+
+	private FrozenSet<ulong> GetFamilyIdsOfLandedCharacters(FrozenSet<ulong> landedCharacterIds)
+	{
+		var result = new HashSet<ulong>();
+		foreach (var character in this) {
+			if (landedCharacterIds.Contains(character.Id) && character.Family?.Id is ulong familyId) {
+				result.Add(familyId);
+			}
+		}
+		return result.ToFrozenSet();
+	}
+
+	private void FillCacheOfAllParentIds(HashSet<ulong> parentIdsCache) {
+		parentIdsCache.Clear();
+		foreach (var character in this) {
+			ulong? motherId = character.Mother?.Id;
+			if (motherId is not null) {
+				parentIdsCache.Add(motherId.Value);
+			}
+
+			ulong? fatherId = character.Father?.Id;
+			if (fatherId is not null) {
+				parentIdsCache.Add(fatherId.Value);
+			}
+		}
+	}
+
+	private void BulkRemove(List<ulong> ids) {
+		var idsToRemove = ids.ToFrozenSet();
+
+		// Remove parent/child/spouse references to the characters to be removed.
+		foreach (var character in this) {
+			if (character.Mother is not null && idsToRemove.Contains(character.Mother.Id)) {
+				character.Mother = null;
+			}
+			if (character.Father is not null && idsToRemove.Contains(character.Father.Id)) {
+				character.Father = null;
+			}
+			character.Children.RemoveWhere(child => idsToRemove.Contains(child.Key));
+			character.Spouses.RemoveWhere(spouse => idsToRemove.Contains(spouse.Key));
+		}
+		
+		foreach (var id in ids) {
+			Remove(id);
+		}
 	}
 
 	public GenesDB? GenesDB { get; set; }

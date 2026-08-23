@@ -2,35 +2,31 @@
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Mods;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Geography;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Region;
 
-public class ImperatorRegionMapper {
-	public IdObjectCollection<string, ImperatorRegion> Regions { get; } = new();
-	private readonly AreaCollection areas;
-
-	public ImperatorRegionMapper(AreaCollection areaCollection) {
-		areas = areaCollection;
-	}
+internal sealed class ImperatorRegionMapper(AreaCollection areaCollection, MapData irMapData) {
+	public IdObjectCollection<string, ImperatorRegion> Regions { get; } = [];
 
 	public void LoadRegions(ModFilesystem imperatorModFS, ColorFactory colorFactory) {
 		Logger.Info("Initializing Imperator geography...");
 
 		const string regionsFilePath = "map_data/regions.txt";
 		Logger.Debug($"Imperator regions file location: {imperatorModFS.GetActualFileLocation(regionsFilePath)}");
-		
-		var parser = new Parser();
+
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterRegionKeys(parser, colorFactory);
 		parser.ParseGameFile(regionsFilePath, imperatorModFS);
 
 		Logger.IncrementProgress();
 	}
-	
+
 	private void RegisterRegionKeys(Parser parser, ColorFactory colorFactory) {
-		parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => {
-			Regions.AddOrReplace(new ImperatorRegion(regionName, reader, areas, colorFactory));
-		});
+		parser.RegisterRegex(CommonRegexes.String, (reader, regionName) =>
+			Regions.AddOrReplace(new ImperatorRegion(regionName, reader, areaCollection, colorFactory)));
 		parser.IgnoreAndLogUnregisteredItems();
 	}
 
@@ -39,23 +35,37 @@ public class ImperatorRegionMapper {
 			return region.ContainsProvince(provinceId);
 		}
 		// "Regions" are such a fluid term.
-		return areas.TryGetValue(regionName, out var area) && area.ContainsProvince(provinceId);
+		return areaCollection.TryGetValue(regionName, out var area) && area.ContainsProvince(provinceId);
 	}
 	public bool RegionNameIsValid(string regionName) {
 		// Who knows what the mapper needs. All kinds of stuff.
-		return Regions.ContainsKey(regionName) || areas.ContainsKey(regionName);
+		return Regions.ContainsKey(regionName) || areaCollection.ContainsKey(regionName);
 	}
 	public string? GetParentRegionName(ulong provinceId) {
-		foreach (var region in Regions) {
-			if (region.ContainsProvince(provinceId)) {
-				return region.Id;
-			}
+		_provinceToRegionIndex ??= BuildProvinceToRegionIndex();
+		if (_provinceToRegionIndex.TryGetValue(provinceId, out var regionId)) {
+			return regionId;
 		}
-		Logger.Warn($"I:R province ID {provinceId} has no parent region name!");
+
+		if (!irMapData.IsImpassable(provinceId)) {
+			Logger.Warn($"I:R province ID {provinceId} has no parent region name!");
+		}
 		return null;
 	}
+	private Dictionary<ulong, string> BuildProvinceToRegionIndex() {
+		var index = new Dictionary<ulong, string>();
+		foreach (var region in Regions) {
+			foreach (var area in region.Areas) {
+				foreach (var provinceId in area.ProvinceIds) {
+					index.TryAdd(provinceId, region.Id);
+				}
+			}
+		}
+		return index;
+	}
+	private Dictionary<ulong, string>? _provinceToRegionIndex;
 	public string? GetParentAreaName(ulong provinceId) {
-		foreach (var area in areas) {
+		foreach (var area in areaCollection) {
 			if (area.ContainsProvince(provinceId)) {
 				return area.Id;
 			}

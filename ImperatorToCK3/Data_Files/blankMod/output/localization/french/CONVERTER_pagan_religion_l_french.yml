@@ -302,7 +302,7 @@ l_french:
  raise_irminsul_decision_desc: "[ROOT.Var('ancestor_to_bury').Char.Custom2('MyCharacterIntroduction', ROOT.Char)|U] n'est plus. J'élèverai un Irminsul pour honorer sa vie et pour rendre gloire à tous ceux qui portent le nom de [ROOT.Var('ancestor_to_bury').Char.GetDynasty.GetName]. Comme Widukind avant le sien, les générations futures parleront à jamais de [ROOT.Var('ancestor_to_bury').Char.GetFullNameNicknamedNoTooltip]!"
  raise_irminsul_decision_tooltip: "Élevez un Irminsul pour honorer votre [ROOT.Char.Custom2('RelationToMeShort', ROOT.Var('ancestor_to_bury').Char)]"
  raise_irminsul_decision_confirm: "$raise_irminsul_decision$"
- raise_irminsul_vassals: "Chaque Vassal de votre [foi|E]"
+ raise_irminsul_vassals: "Chaque Vassal de votre [faith|E]"
  county_raised_irminsul_modifier: "Irminsul"
  germanic_pagan: "Fyrnsidu"
  germanic_pagan_adj: "Fyrnsidu"

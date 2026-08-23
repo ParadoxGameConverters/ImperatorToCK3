@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Nickname;
 
-public class NicknameMapper {
+internal sealed class NicknameMapper {
 	private readonly Dictionary<string, string> impToCK3NicknameMap = new();
 
 	public NicknameMapper() { }
 	public NicknameMapper(string filePath) {
 		Logger.Info("Parsing nickname mappings...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseFile(filePath);
 		Logger.Info($"Loaded {impToCK3NicknameMap.Count} nickname links.");
@@ -17,7 +17,7 @@ public class NicknameMapper {
 		Logger.IncrementProgress();
 	}
 	public NicknameMapper(BufferedReader reader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}
@@ -38,6 +38,6 @@ public class NicknameMapper {
 		if (impNickname is null) {
 			return null;
 		}
-		return impToCK3NicknameMap.TryGetValue(impNickname, out var ck3Nickname) ? ck3Nickname : null;
+		return impToCK3NicknameMap.GetValueOrDefault(impNickname);
 	}
 }

@@ -1,7 +1,8 @@
 using commonItems;
 using commonItems.Colors;
 using commonItems.Mods;
-using FluentAssertions;
+using AwesomeAssertions;
+using DotLiquid;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Pops;
@@ -20,11 +21,12 @@ public class ReligionCollectionTests {
 	private readonly ModFilesystem ck3ModFS = new(CK3Root, Array.Empty<Mod>());
 	private const string TestReligionsDirectory = "TestFiles/CK3/game/common/religion/religions";
 	private const string TestReplaceableHolySitesFile = "TestFiles/configurables/replaceable_holy_sites.txt";
+	private static readonly ColorFactory colorFactory = new();
 
 	[Fact]
 	public void ReligionsAreLoaded() {
 		var religions = new ReligionCollection(new Title.LandedTitles());
-		religions.LoadReligions(ck3ModFS, new ColorFactory());
+		religions.LoadReligions(ck3ModFS, colorFactory);
 
 		var religionIds = religions.Select(r => r.Id);
 		religionIds.Should().Contain(new[] { "religion_a", "religion_b", "religion_c" });
@@ -33,7 +35,7 @@ public class ReligionCollectionTests {
 	[Fact]
 	public void ReplaceableHolySitesCanBeLoaded() {
 		var religions = new ReligionCollection(new Title.LandedTitles());
-		religions.LoadReligions(ck3ModFS, new ColorFactory());
+		religions.LoadReligions(ck3ModFS, colorFactory);
 		religions.LoadReplaceableHolySites(TestReplaceableHolySitesFile);
 
 		religions.ReplaceableHolySitesByFaith["religion_a_faith"]
@@ -141,11 +143,11 @@ public class ReligionCollectionTests {
 			"c_site_county3={ b_site_barony3={province=10} } " +
 			"c_site_county4={ b_site_barony4={province=11} } " +
 			"c_site_county5={ b_site_barony5={province=12} }");
-		titles.LoadTitles(titlesReader);
+		titles.LoadTitles(titlesReader, colorFactory);
 
 		var religions = new ReligionCollection(titles);
 		religions.LoadHolySites(ck3ModFS);
-		religions.LoadReligions(ck3ModFS, new ColorFactory());
+		religions.LoadReligions(ck3ModFS, colorFactory);
 		religions.LoadReplaceableHolySites("TestFiles/configurables/replaceable_holy_sites.txt");
 
 		var faith = religions.GetFaith("ck3Faith");
@@ -165,5 +167,25 @@ public class ReligionCollectionTests {
 			"IRtoCK3_b_barony1_ck3Faith", // holy site, 1 pop
 			"IRtoCK3_b_barony6_ck3Faith" // 6 pops - most populous province without an Imperator holy site
 		);
+	}
+
+	[Fact]
+	public void OptionalFaithIsNotLoadedIfInvalidatedByExistingFaiths() {
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		religions.LoadReligions(ck3ModFS, colorFactory);
+		Assert.Contains(religions.Faiths, f => f.Id == "religion_a_faith");
+		
+		religions.LoadConverterFaiths("TestFiles/configurables/optional_faiths.liquid", colorFactory, liquidVariables: new Hash());
+		// Optional berber_pagan is invalidated by religion_a_faith, so it should not be loaded.
+		Assert.DoesNotContain(religions.Faiths, r => r.Id == "berber_pagan");
+	}
+
+	[Fact]
+	public void OptionalFaithCanBeLoaded() {
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		Assert.DoesNotContain(religions.Faiths, r => r.Id == "religion_a_faith");
+		
+		religions.LoadConverterFaiths("TestFiles/configurables/optional_faiths.liquid", colorFactory, liquidVariables: new Hash());
+		Assert.Contains(religions.Faiths, r => r.Id == "berber_pagan");
 	}
 }

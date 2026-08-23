@@ -5,12 +5,12 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Armies;
 
-public class UnitCollection : IdObjectCollection<ulong, Unit> {
+internal sealed class UnitCollection : IdObjectCollection<ulong, Unit> {
 	public IdObjectCollection<ulong, Subunit> Subunits { get; } = new();
 
 	public void LoadSubunits(BufferedReader subunitsReader) {
 		Logger.Info("Loading subunits...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, idStr) => {
 			var itemStr = reader.GetStringOfItem().ToString();
 			if (itemStr == "none") {
@@ -28,10 +28,10 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 		}
 		Logger.IncrementProgress();
 	}
-	public void LoadUnits(BufferedReader unitsReader, LocDB locDB, Defines defines) {
+	public void LoadUnits(BufferedReader unitsReader, LocDB irLocDB, ImperatorDefines defines) {
 		Logger.Info("Loading units...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, idStr) => {
 			var itemStr = reader.GetStringOfItem().ToString();
 			if (itemStr == "none") {
@@ -39,7 +39,7 @@ public class UnitCollection : IdObjectCollection<ulong, Unit> {
 			}
 
 			var id = ulong.Parse(idStr);
-			AddOrReplace(new Unit(id, new BufferedReader(itemStr), this, locDB, defines));
+			AddOrReplace(new Unit(id, new BufferedReader(itemStr), this, irLocDB, defines));
 		});
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(unitsReader);

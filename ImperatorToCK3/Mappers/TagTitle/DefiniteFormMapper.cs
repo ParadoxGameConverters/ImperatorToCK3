@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.TagTitle;
 
-public class DefiniteFormMapper {
+internal sealed class DefiniteFormMapper {
 	public DefiniteFormMapper() { }
 	public DefiniteFormMapper(string configurablePath) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("names", reader => impCountryNamesWithDefiniteForm = new HashSet<string>(reader.GetStrings()));
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseFile(configurablePath);

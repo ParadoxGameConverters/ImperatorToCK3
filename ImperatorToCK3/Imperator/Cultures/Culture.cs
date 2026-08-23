@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Cultures;
 
-public class Culture : IIdentifiable<string> {
+internal sealed class Culture : IIdentifiable<string> {
 	public string Id { get; }
 	private readonly Dictionary<string, string> familyNamesDict = new(); // <key, male form>
 
 	public Culture(string id, BufferedReader reader) {
 		Id = id;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("family", familyNamesReader => {
 			var names = familyNamesReader.GetStrings();
 			foreach (var nameEntry in names) {
@@ -37,6 +37,6 @@ public class Culture : IIdentifiable<string> {
 	}
 
 	public string? GetMaleFamilyNameForm(string familyKey) {
-		return familyNamesDict.TryGetValue(familyKey, out var maleForm) ? maleForm : null;
+		return familyNamesDict.GetValueOrDefault(familyKey);
 	}
 }

@@ -2,27 +2,55 @@
 using commonItems.Collections;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils;
 
-public interface IHistoryField : IIdentifiable<string> {
-	public List<KeyValuePair<string, object>> InitialEntries { get; }
-	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; }
+internal interface IHistoryField : IIdentifiable<string> {
+	internal List<KeyValuePair<string, object>> InitialEntries { get; }
+	internal SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; }
 
-	public object? GetValue(Date date);
+	internal object? GetValue(Date? date);
+	internal KeyValuePair<Date?, object?> GetLastEntryWithDate(Date? date) {
+		if (date is not null) {
+			Date? lastDate = null;
+			List<KeyValuePair<string, object>>? latestEntries = null;
+			foreach (var datedEntries in DateToEntriesDict) {
+				if (datedEntries.Key > date.Value) {
+					break;
+				}
 
-	public void RemoveHistoryPastDate(Date date) {
-		foreach (var item in DateToEntriesDict.Where(kv => kv.Key > date).ToList()) {
-			DateToEntriesDict.Remove(item.Key);
+				lastDate = datedEntries.Key;
+				latestEntries = datedEntries.Value;
+			}
+
+			if (latestEntries is { Count: > 0 }) {
+				return new(lastDate, latestEntries[^1].Value);
+			}
+		}
+
+		return InitialEntries.Count > 0
+			? new(key: null, InitialEntries[^1])
+			: new KeyValuePair<Date?, object?>(key: null, value: null);
+	}
+
+	internal void RemoveHistoryPastDate(Date date) {
+		var keysToRemove = new List<Date>();
+		foreach (var key in DateToEntriesDict.Keys) {
+			if (key > date) {
+				keysToRemove.Add(key);
+			}
+		}
+
+		foreach (var key in keysToRemove) {
+			DateToEntriesDict.Remove(key);
 		}
 	}
-	public void AddEntryToHistory(Date? date, string keyword, object value);
+	internal void AddEntryToHistory(Date? date, string keyword, object value);
 
 	/// <summary>
 	/// Removes all entries
 	/// </summary>
-	public void RemoveAllEntries() {
+	internal void RemoveAllEntries() {
 		RemoveAllEntries(_ => true);
 	}
 
@@ -30,16 +58,19 @@ public interface IHistoryField : IIdentifiable<string> {
 	/// Removes all entries with values matching the predicate
 	/// </summary>
 	/// <param name="predicate"></param>
-	public void RemoveAllEntries(Func<object, bool> predicate) {
-		InitialEntries.RemoveAll(kvp => predicate(kvp.Value));
+	internal int RemoveAllEntries(Func<object, bool> predicate) {
+		int removed = 0;
+		removed += InitialEntries.RemoveAll(kvp => predicate(kvp.Value));
 		foreach (var datedEntriesBlock in DateToEntriesDict) {
-			datedEntriesBlock.Value.RemoveAll(kvp => predicate(kvp.Value));
+			removed += datedEntriesBlock.Value.RemoveAll(kvp => predicate(kvp.Value));
 		}
+
+		return removed;
 	}
 
-	public void RegisterKeywords(Parser parser, Date date);
+	internal void RegisterKeywords(Parser parser, Date date);
 
-	public IEnumerable<KeyValuePair<string, object>> InitialEntriesForSerialization => InitialEntries;
+	internal IEnumerable<KeyValuePair<string, object>> InitialEntriesForSerialization => InitialEntries;
 
-	public IHistoryField Clone();
+	internal IHistoryField Clone();
 }

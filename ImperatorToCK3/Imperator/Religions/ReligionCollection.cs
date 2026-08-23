@@ -1,38 +1,39 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
+using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Religions;
 
-public class ReligionCollection : IdObjectCollection<string, Religion> {
-	public IdObjectCollection<string, Deity> Deities { get; } = new();
+internal sealed class ReligionCollection : IdObjectCollection<string, Religion> {
+	public IdObjectCollection<string, Deity> Deities { get; } = [];
 
-	private readonly Dictionary<ulong, string> holySiteIdToDeityIdDict = new();
+	private readonly Dictionary<ulong, string> holySiteIdToDeityIdDict = [];
 
 	public ReligionCollection(ScriptValueCollection scriptValues) {
-		IDictionary<string, double> parsedReligionModifiers;
-		var religionParser = new Parser();
+		OrderedDictionary<string, double> parsedReligionModifiers;
+		var religionParser = new Parser(implicitVariableHandling: true);
 		religionParser.RegisterKeyword("modifier", reader => {
 			var modifiersAssignments = reader.GetAssignments();
-			parsedReligionModifiers = modifiersAssignments
+			parsedReligionModifiers = new(modifiersAssignments
 				.ToDictionary(kvp => kvp.Key, kvp => scriptValues.GetValueForString(kvp.Value))
 				.Where(kvp=>kvp.Value is not null)
-				.ToDictionary(kvp => kvp.Key, kvp=>(double)kvp.Value!);
+				.ToDictionary(kvp => kvp.Key, kvp=>(double)kvp.Value!));
 		});
 		religionParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreItem);
 
-		religionsParser = new Parser();
+		religionsParser = new Parser(implicitVariableHandling: true);
 		religionsParser.RegisterRegex(CommonRegexes.String, (reader, religionId) => {
-			parsedReligionModifiers = new Dictionary<string, double>();
+			parsedReligionModifiers = new();
 
 			religionParser.ParseStream(reader);
 			AddOrReplace(new Religion(religionId, parsedReligionModifiers));
 		});
 		religionsParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
-		deitiesParser = new Parser();
+		deitiesParser = new Parser(implicitVariableHandling: true);
 		deitiesParser.RegisterRegex(CommonRegexes.String, (deityReader, deityId) => {
 			var deity = new Deity(deityId, deityReader, scriptValues);
 			Deities.AddOrReplace(deity);
@@ -41,14 +42,14 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 
 	public void LoadReligions(ModFilesystem imperatorModFS) {
 		Logger.Info("Loading Imperator religions...");
-		religionsParser.ParseGameFolder("common/religions", imperatorModFS, "txt", true);
+		religionsParser.ParseGameFolder("common/religions", imperatorModFS, "txt", recursive: true);
 
 		Logger.IncrementProgress();
 	}
 
 	public void LoadDeities(ModFilesystem imperatorModFS) {
 		Logger.Info("Loading Imperator deities...");
-		deitiesParser.ParseGameFolder("common/deities", imperatorModFS, "txt", true);
+		deitiesParser.ParseGameFolder("common/deities", imperatorModFS, "txt", recursive: true);
 
 		Logger.IncrementProgress();
 	}
@@ -56,12 +57,13 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	public void LoadHolySiteDatabase(BufferedReader deityManagerReader) {
 		Logger.Info("Loading Imperator holy site database...");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("deities_database", databaseReader => {
-			var databaseParser = new Parser();
+			var databaseParser = new Parser(implicitVariableHandling: false);
 			databaseParser.RegisterRegex(CommonRegexes.Integer, (reader, holySiteIdStr) => {
 				var holySiteId = ulong.Parse(holySiteIdStr);
-				if (reader.GetAssignments().TryGetValue("deity", out var deityIdWithQuotes)) {
+				var assignmentsDict = reader.GetAssignmentsAsDict();
+				if (assignmentsDict.TryGetValue("deity", out var deityIdWithQuotes)) {
 					holySiteIdToDeityIdDict[holySiteId] = deityIdWithQuotes.RemQuotes();
 				} else {
 					Logger.Warn($"Holy site {holySiteId} has no deity!");
@@ -78,7 +80,7 @@ public class ReligionCollection : IdObjectCollection<string, Religion> {
 	}
 
 	private string? GetDeityIdForHolySiteId(ulong holySiteId) {
-		return holySiteIdToDeityIdDict.TryGetValue(holySiteId, out var deityId) ? deityId : null;
+		return holySiteIdToDeityIdDict.GetValueOrDefault(holySiteId);
 	}
 	public Deity? GetDeityForHolySiteId(ulong holySiteId) {
 		var deityId = GetDeityIdForHolySiteId(holySiteId);

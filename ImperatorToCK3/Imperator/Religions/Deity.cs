@@ -5,14 +5,14 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Religions;
 
-public class Deity : IIdentifiable<string> {
+internal sealed class Deity : IIdentifiable<string> {
 	public string Id { get; }
-	public Dictionary<string, double> PassiveModifiers { get; } = new();
+	public OrderedDictionary<string, double> PassiveModifiers { get; } = [];
 
 	public Deity(string id, BufferedReader deityReader, ScriptValueCollection scriptValues) {
 		Id = id;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("passive_modifier", reader => {
 			var modifierValuePairs = reader.GetAssignments()
 				.ToDictionary(kvp => kvp.Key, kvp => scriptValues.GetValueForString(kvp.Value));

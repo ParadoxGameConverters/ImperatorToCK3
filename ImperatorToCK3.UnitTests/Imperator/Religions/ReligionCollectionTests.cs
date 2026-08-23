@@ -1,6 +1,6 @@
 using commonItems;
 using commonItems.Mods;
-using FluentAssertions;
+using AwesomeAssertions;
 using ImperatorToCK3.Imperator.Religions;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ public class ReligionCollectionTests {
 	[Fact]
 	public void ReligionsAreLoadedFromGameAndMods() {
 		var scriptValues = new ScriptValueCollection();
-		scriptValues.LoadScriptValues(imperatorModFS);
+		scriptValues.LoadScriptValues(imperatorModFS, new Defines());
 
 		var religions = new ReligionCollection(scriptValues);
 		religions.LoadReligions(imperatorModFS);
@@ -47,7 +47,7 @@ public class ReligionCollectionTests {
 	[Fact]
 	public void DeitiesAreLoadedFromGameAndMods() {
 		var scriptValues = new ScriptValueCollection();
-		scriptValues.LoadScriptValues(imperatorModFS);
+		scriptValues.LoadScriptValues(imperatorModFS, new Defines());
 
 		var religions = new ReligionCollection(scriptValues);
 		religions.LoadDeities(imperatorModFS);
@@ -70,7 +70,7 @@ public class ReligionCollectionTests {
 	[Fact]
 	public void GetDeityForHolySiteIdReturnsCorrectDeityOrNullWhenIdIsNotFoundOrWhenDeityIsNotFound() {
 		var scriptValues = new ScriptValueCollection();
-		scriptValues.LoadScriptValues(imperatorModFS);
+		scriptValues.LoadScriptValues(imperatorModFS, new Defines());
 
 		var religions = new ReligionCollection(scriptValues);
 		religions.LoadDeities(imperatorModFS);

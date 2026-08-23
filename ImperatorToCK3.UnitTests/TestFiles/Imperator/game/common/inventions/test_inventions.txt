@@ -1,0 +1,9 @@
+invention_group = {
+	technology = test_technology
+	color = { 1 2 3 }
+	inv_garrison_1 = { garrison = 0.05 }
+	inv_siege_1 = { siege_speed = 0.05 }
+	inv_siege_2 = { siege_speed = 0.10 }
+	inv_tax_1 = { tax = 0.05 }
+	inv_tax_2 = { tax = 0.10 }
+}

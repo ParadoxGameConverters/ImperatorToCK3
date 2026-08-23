@@ -1,14 +1,16 @@
 using commonItems;
 using commonItems.Colors;
-using commonItems.Localization;
 using commonItems.Mods;
-using FluentAssertions;
+using AwesomeAssertions;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
+using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.Imperator.Countries;
+using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Jobs;
 using ImperatorToCK3.Imperator.States;
@@ -23,10 +25,16 @@ using ImperatorToCK3.Mappers.Religion;
 using ImperatorToCK3.Mappers.SuccessionLaw;
 using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.Mappers.Trait;
+using ImperatorToCK3.UnitTests.TestHelpers;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 using System;
+using System.IO;
+using System.Globalization;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using ImperatorRulerTerm = ImperatorToCK3.Imperator.Countries.RulerTerm;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters;
 
@@ -35,10 +43,12 @@ namespace ImperatorToCK3.UnitTests.CK3.Characters;
 public class CharacterCollectionTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(irModFS);
 	private static readonly ImperatorRegionMapper irRegionMapper;
 	private readonly string provinceMappingsPath = "TestFiles/LandedTitlesTests/province_mappings.txt";
 	private readonly ModFilesystem ck3ModFS = new("TestFiles/LandedTitlesTests/CK3/game", new List<Mod>());
 	private static readonly CultureCollection cultures;
+	private static readonly ColorFactory colorFactory = new();
 
 	static CharacterCollectionTests() {
 		var states = new StateCollection();
@@ -49,21 +59,23 @@ public class CharacterCollectionTests {
 				"1={} 2={} 3={} 4={} 5={} 6={} 7={} 8={} 9={} 69={}"
 			),
 			states,
-			countries
+			countries,
+			irMapData
 		);
 		AreaCollection areas = new();
 		areas.LoadAreas(irModFS, irProvinces);
-		irRegionMapper = new ImperatorRegionMapper(areas);
-		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
-		
-		cultures = new CultureCollection(new PillarCollection());
+		irRegionMapper = new ImperatorRegionMapper(areas, irMapData);
+		irRegionMapper.LoadRegions(irModFS, colorFactory);
+
+		var ck3ModFlags = new System.Collections.Generic.OrderedDictionary<string, bool>();
+		cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory, ck3ModFlags), ck3ModFlags);
 	}
 
 	[Fact]
 	public void MarriageDateCanBeEstimatedFromChild() {
 		var endDate = new Date(1100, 1, 1, AUC: true);
 		var configuration = new Configuration { CK3BookmarkDate = endDate };
-		var imperatorWorld = new ImperatorToCK3.Imperator.World(configuration);
+		var imperatorWorld = new TestImperatorWorld(configuration);
 
 		var male = new ImperatorToCK3.Imperator.Characters.Character(1);
 		var female = new ImperatorToCK3.Imperator.Characters.Character(2);
@@ -85,16 +97,17 @@ public class CharacterCollectionTests {
 			imperatorWorld,
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
 			new CultureMapper(irRegionMapper, ck3RegionMapper, cultures),
+			cultures,
 			new TraitMapper(),
 			new NicknameMapper(),
-			new LocDB("english"),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
+			new TestCK3LocDB(),
 			endDate,
 			configuration);
 
-		Assert.Collection(ck3Characters,
+		Assert.Collection(ck3Characters.OrderBy(c => c.Id),
 			ck3Male => {
 				var marriageDate = ck3Male.History.Fields["spouses"].DateToEntriesDict.FirstOrDefault().Key;
 				Assert.Equal(new Date(899, 3, 27, AUC: true), marriageDate);
@@ -111,7 +124,7 @@ public class CharacterCollectionTests {
 	public void MarriageDateCanBeEstimatedFromUnbornChild() {
 		var endDate = new Date(1100, 1, 1, AUC: true);
 		var configuration = new Configuration { CK3BookmarkDate = endDate };
-		var imperatorWorld = new ImperatorToCK3.Imperator.World(configuration);
+		var imperatorWorld = new TestImperatorWorld(configuration);
 
 		var male = new ImperatorToCK3.Imperator.Characters.Character(1);
 		var femaleReader = new BufferedReader("unborn={ { mother=2 father=1 date=900.1.1 } }");
@@ -129,16 +142,17 @@ public class CharacterCollectionTests {
 			imperatorWorld,
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
 			new CultureMapper(irRegionMapper, ck3RegionMapper, cultures),
+			cultures,
 			new TraitMapper(),
 			new NicknameMapper(),
-			new LocDB("english"),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
+			new TestCK3LocDB(),
 			endDate,
 			configuration);
 
-		Assert.Collection(ck3Characters,
+		Assert.Collection(ck3Characters.OrderBy(c => c.Id),
 			ck3Male => {
 				Assert.Equal(new Date(899, 3, 27, AUC: true),
 					ck3Male.History.Fields["spouses"].DateToEntriesDict.FirstOrDefault().Key);
@@ -151,7 +165,7 @@ public class CharacterCollectionTests {
 	public void OnlyEarlyPregnanciesAreImportedFromImperator() {
 		var conversionDate = new Date(900, 2, 1, AUC: true);
 		var configuration = new Configuration { CK3BookmarkDate = conversionDate };
-		var imperatorWorld = new ImperatorToCK3.Imperator.World(configuration);
+		var imperatorWorld = new TestImperatorWorld(configuration);
 
 		var male = new ImperatorToCK3.Imperator.Characters.Character(1);
 
@@ -180,12 +194,13 @@ public class CharacterCollectionTests {
 			imperatorWorld,
 			new ReligionMapper(ck3Religions, irRegionMapper, ck3RegionMapper),
 			new CultureMapper(irRegionMapper, ck3RegionMapper, cultures),
+			cultures,
 			new TraitMapper(),
 			new NicknameMapper(),
-			new LocDB("english"),
 			new ProvinceMapper(),
 			new DeathReasonMapper(),
 			new DNAFactory(irModFS, ck3ModFS),
+			new TestCK3LocDB(),
 			conversionDate,
 			configuration);
 
@@ -199,15 +214,40 @@ public class CharacterCollectionTests {
 	}
 
 	[Fact]
+	public void RemoveInvalidDynastiesFromHistory_FiltersCorrectly() {
+		var cc = new CharacterCollection();
+		var date = new Date(1, 1, 1, AUC: true);
+		var char1 = new Character("c1", "one", date, cc) { FromImperator = false };
+		char1.History.Fields["dynasty"].InitialEntries.Add(new KeyValuePair<string, object>("dynasty", "valid"));
+		char1.History.Fields["dynasty"].InitialEntries.Add(new KeyValuePair<string, object>("dynasty", ""));
+		char1.History.Fields["dynasty"].InitialEntries.Add(new KeyValuePair<string, object>("dynasty", "invalid"));
+		cc.AddOrReplace(char1);
+
+		var char2 = new Character("c2", "two", date, cc) { FromImperator = true };
+		char2.History.Fields["dynasty"].InitialEntries.Add(new KeyValuePair<string, object>("dynasty", "valid"));
+		cc.AddOrReplace(char2);
+
+		var dyns = new DynastyCollection();
+		dyns.AddOrReplace(new Dynasty("valid", new BufferedReader("")));
+
+		cc.RemoveInvalidDynastiesFromHistory(dyns);
+
+		var entries = char1.History.Fields["dynasty"].InitialEntries.Select(kvp => kvp.Value.ToString()).ToList();
+		entries.Should().Equal(new[] { "valid" });
+		var entries2 = char2.History.Fields["dynasty"].InitialEntries.Select(kvp => kvp.Value.ToString()).ToList();
+		entries2.Should().Equal(new[] { "valid" });
+	}
+
+	[Fact]
 	public void ImperatorCountriesGoldCanBeDistributedAmongRulerAndVassals() {
 		var conversionDate = new Date(470, 2, 1, AUC: true);
 		var config = new Configuration {
 			ImperatorPath = "TestFiles/LandedTitlesTests/Imperator",
 			CK3BookmarkDate = conversionDate,
-			ImperatorCurrencyRate = 0.5 // 1 Imperator gold is worth 0.5 CK3 gold
+			ImperatorCurrencyRate = 0.5f // 1 Imperator gold is worth 0.5 CK3 gold
 		};
 
-		var imperatorWorld = new ImperatorToCK3.Imperator.World(config);
+		var imperatorWorld = new TestImperatorWorld(config);
 
 		imperatorWorld.Provinces.Add(new ImperatorToCK3.Imperator.Provinces.Province(1));
 		// provinces for governorship 1
@@ -233,6 +273,14 @@ public class CharacterCollectionTests {
 			ruler_term={ character=1000 start_date=440.10.1 }
 		");
 		var country = Country.Parse(countryReader, 589);
+		
+		imperatorWorld.Provinces[1].OwnerCountry = country;
+		imperatorWorld.Provinces[2].OwnerCountry = country;
+		imperatorWorld.Provinces[3].OwnerCountry = country;
+		imperatorWorld.Provinces[4].OwnerCountry = country;
+		imperatorWorld.Provinces[5].OwnerCountry = country;
+		imperatorWorld.Provinces[6].OwnerCountry = country;
+		
 		Assert.Equal(200, country.Currencies.Gold);
 		imperatorWorld.Countries.Add(country);
 		imperatorWorld.Characters.LinkCountries(imperatorWorld.Countries);
@@ -241,7 +289,7 @@ public class CharacterCollectionTests {
 		Assert.True(imperatorWorld.Areas.ContainsKey("galatia_area"));
 		Assert.True(imperatorWorld.Areas.ContainsKey("paphlagonia_area"));
 		
-		imperatorWorld.ImperatorRegionMapper.LoadRegions(imperatorWorld.ModFS, new ColorFactory());
+		imperatorWorld.ImperatorRegionMapper.LoadRegions(imperatorWorld.ModFS, colorFactory);
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("galatia_area"));
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("paphlagonia_area"));
 		Assert.True(imperatorWorld.ImperatorRegionMapper.RegionNameIsValid("galatia_region"));
@@ -263,8 +311,8 @@ public class CharacterCollectionTests {
 		);
 		var governorship1 = new Governorship(governorshipReader1, imperatorWorld.Countries, imperatorWorld.ImperatorRegionMapper);
 		var governorship2 = new Governorship(governorshipReader2, imperatorWorld.Countries, imperatorWorld.ImperatorRegionMapper);
-		imperatorWorld.Jobs.Governorships.Add(governorship1);
-		imperatorWorld.Jobs.Governorships.Add(governorship2);
+		imperatorWorld.JobsDB.Governorships.Add(governorship1);
+		imperatorWorld.JobsDB.Governorships.Add(governorship2);
 
 		var titles = new Title.LandedTitles();
 		titles.LoadTitles(new BufferedReader(@"
@@ -273,15 +321,14 @@ public class CharacterCollectionTests {
 			c_county3 = { b_barony3={province=3} }
 			c_county4 = { b_barony4={province=4} }
 			c_county5 = { b_barony5={province=5} }
-			c_county6 = { b_barony6={province=6} }")
+			c_county6 = { b_barony6={province=6} }"), colorFactory
 		);
 
 		var tagTitleMapper = new TagTitleMapper();
 		var provinceMapper = new ProvinceMapper();
-		provinceMapper.LoadMappings(provinceMappingsPath, "test_version");
-
-		var locDB = new LocDB("english");
-		var countryLocBlock = locDB.AddLocBlock("PRY");
+		provinceMapper.LoadMappings(provinceMappingsPath);
+		
+		var countryLocBlock = imperatorWorld.LocDB.AddLocBlock("PRY");
 		countryLocBlock["english"] = "Phrygian Empire"; // this ensures that the CK3 title will be an empire
 
 		var religionCollection = new ReligionCollection(titles);
@@ -292,6 +339,7 @@ public class CharacterCollectionTests {
 		var traitMapper = new TraitMapper();
 		var nicknameMapper = new NicknameMapper();
 		var deathReasonMapper = new DeathReasonMapper();
+		var ck3LocDB = new TestCK3LocDB();
 
 		// Import Imperator ruler and governors.
 		var characters = new CharacterCollection();
@@ -299,23 +347,28 @@ public class CharacterCollectionTests {
 			imperatorWorld,
 			religionMapper,
 			cultureMapper,
+			cultures,
 			traitMapper,
 			nicknameMapper,
-			locDB,
 			provinceMapper,
 			deathReasonMapper,
 			new DNAFactory(irModFS, ck3ModFS),
+			ck3LocDB,
 			conversionDate,
 			config);
 
 		// Import country 589.
+		var governmentMapper = new GovernmentMapper(ck3GovernmentIds: Array.Empty<string>());
+		var enabledCK3Dlcs = Array.Empty<string>();
 		titles.ImportImperatorCountries(
 			imperatorWorld.Countries,
+			Array.Empty<Dependency>(),
 			tagTitleMapper,
-			locDB,
+			imperatorWorld.LocDB,
+			ck3LocDB,
 			provinceMapper,
 			coaMapper,
-			new GovernmentMapper(),
+			governmentMapper,
 			new SuccessionLawMapper(),
 			definiteFormMapper,
 			religionMapper,
@@ -323,22 +376,26 @@ public class CharacterCollectionTests {
 			nicknameMapper,
 			characters,
 			conversionDate,
-			config);
+			config,
+			new List<KeyValuePair<Country, Dependency?>>(),
+			enabledCK3Dlcs: enabledCK3Dlcs);
 
 		var provinces = new ProvinceCollection(ck3ModFS);
-		provinces.ImportImperatorProvinces(imperatorWorld, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
+		var ck3MapData = new MapData(ck3ModFS);
+		provinces.ImportImperatorProvinces(imperatorWorld, ck3MapData, titles, cultureMapper, religionMapper, provinceMapper, conversionDate, config);
 
 		titles.ImportImperatorGovernorships(
 			imperatorWorld,
 			provinces,
 			tagTitleMapper,
-			locDB,
+			imperatorWorld.LocDB,
+			ck3LocDB,
 			config,
 			provinceMapper,
 			definiteFormMapper,
 			imperatorWorld.ImperatorRegionMapper,
 			coaMapper,
-			countryLevelGovernorships: new List<Governorship>());
+			countyLevelGovernorships: []);
 
 		var ck3Country = titles["e_IRTOCK3_PRY"];
 		Assert.Equal("imperator1000", ck3Country.GetHolderId(conversionDate));
@@ -347,7 +404,7 @@ public class CharacterCollectionTests {
 		// Due to 0.5 currency rate, from Imperator country's 200 gold we have 100 CK3 gold.
 		// Gold is divided among ruler and vassals, with ruler having weight of 2.
 		// So from 100 gold, ruler gets 50 and both governor-vassals get 25 each.
-		Assert.Collection(characters,
+		Assert.Collection(characters.OrderBy(c => c.Id),
 			ck3Monarch => {
 				Assert.Equal("imperator1000", ck3Monarch.Id);
 				Assert.Equal(50, ck3Monarch.Gold);
@@ -360,5 +417,231 @@ public class CharacterCollectionTests {
 				Assert.Equal("imperator1002", ck3Vassal2.Id);
 				Assert.Equal(25, ck3Vassal2.Gold);
 			});
+	}
+
+	[Fact]
+	public void ImperatorCharacterNamesCanBeOverriddenByConfigurable() {
+		Date ck3BookmarkDate = new(867, 1, 1);
+		var configuration = new Configuration { CK3BookmarkDate = ck3BookmarkDate };
+		var imperatorWorld = new TestImperatorWorld(configuration);
+
+		imperatorWorld.Characters.Add(new(0) {Name = "Mallobald"});
+		
+		Directory.CreateDirectory("configurables");
+		const string overridesFilePath = "configurables/character_name_overrides.txt";
+		File.WriteAllText(overridesFilePath, "Mallobald = Mallobald_collision_fix # avoids hash collision in CK3");
+
+		var ck3Characters = new CharacterCollection();
+		var config = new Configuration { CK3BookmarkDate = ck3BookmarkDate };
+		ck3Characters.ImportImperatorCharacters(
+			imperatorWorld,
+			new ReligionMapper(new ReligionCollection(new Title.LandedTitles()), irRegionMapper, new CK3RegionMapper()),
+			new CultureMapper(irRegionMapper, new CK3RegionMapper(), cultures),
+			cultures,
+			new TraitMapper(),
+			new NicknameMapper(),
+			new ProvinceMapper(),
+			new DeathReasonMapper(),
+			new DNAFactory(irModFS, ck3ModFS),
+			new TestCK3LocDB(),
+			new Date(1000, 1, 1, AUC: true),
+			config);
+		
+		var ck3Character = ck3Characters["imperator0"];
+		Assert.Equal("Mallobald_collision_fix", ck3Character.GetName(ck3BookmarkDate));
+		
+		// Clean up.
+		File.Delete(overridesFilePath);
+	}
+
+	[Fact]
+	public void ChineseDynasticCycleVariablesAreCorrectlyCalculatedForChineseEmpireCountryRulers() {
+		Date ck3BookmarkDate = new(810, 1, 1);
+		Date irEndDate = new(780, 1, 1);
+
+		var characters = new CharacterCollection();
+		var holder = new Character("imperator_han_emperor", "Han Emperor", new Date(760, 1, 1), characters) {
+			FromImperator = true
+		};
+		characters.Add(holder);
+
+		var landedTitles = new Title.LandedTitles();
+		var celestialEmpire = landedTitles.Add("e_chinese_empire");
+		celestialEmpire.SetHolder(holder, ck3BookmarkDate);
+
+		var imperatorCountry = new Country(1) { Tag = "HAN" };
+		SetPrivateProperty(imperatorCountry, nameof(Country.Government), "chinese_empire");
+		imperatorCountry.TotalPowerBase = 60f;
+		imperatorCountry.NonLoyalPowerBase = 15f;
+
+		var precedingNonChineseStartDate = new Date(700, 3, 1);
+		var earliestChineseStartDate = new Date(720, 6, 1);
+		var laterChineseStartDate = new Date(760, 2, 1);
+
+		imperatorCountry.RulerTerms.Add(CreateRulerTerm(precedingNonChineseStartDate, "tribal"));
+		imperatorCountry.RulerTerms.Add(CreateRulerTerm(earliestChineseStartDate, "chinese_empire"));
+		imperatorCountry.RulerTerms.Add(CreateRulerTerm(laterChineseStartDate, "chinese_empire"));
+
+		imperatorCountry.CK3Title = celestialEmpire;
+		SetPrivateProperty(celestialEmpire, nameof(Title.ImperatorCountry), imperatorCountry);
+
+		characters.CalculateChineseDynasticCycleVariables(landedTitles, irEndDate, ck3BookmarkDate);
+
+		var effectsField = holder.History.Fields["effects"];
+		var effectEntry = Assert.Single(effectsField.DateToEntriesDict);
+		Assert.Equal(ck3BookmarkDate, effectEntry.Key);
+		var effectString = Assert.IsType<StringOfItem>(Assert.Single(effectEntry.Value).Value).ToString();
+
+		var expectedYearsWithGovernment = ck3BookmarkDate.DiffInYears(earliestChineseStartDate) + (earliestChineseStartDate.DiffInYears(precedingNonChineseStartDate) / 2);
+		var expectedUnrest = imperatorCountry.NonLoyalPowerBase / imperatorCountry.TotalPowerBase;
+		var effectLines = effectString.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+		var yearsLine = Assert.Single(effectLines, line => line.Contains("years_with_government", StringComparison.Ordinal));
+		var yearsValue = ExtractVariableValue(yearsLine);
+		Assert.Equal(expectedYearsWithGovernment, yearsValue, precision: 5);
+		var unrestLine = Assert.Single(effectLines, line => line.Contains("imperator_unrest", StringComparison.Ordinal));
+		var unrestValue = ExtractVariableValue(unrestLine);
+		Assert.Equal(expectedUnrest, unrestValue, precision: 5);
+	}
+
+	[Fact]
+	public void SuccessorMaleNamesFallBackToFatherCultureWhenOwnCultureHasNoMaleNames() {
+		Date ck3BookmarkDate = new(867, 1, 1);
+		Date irSaveDate = new(740, 1, 1);
+
+		var characters = new CharacterCollection();
+		var father = new Character("father1", "Father", new Date(670, 1, 1), characters);
+		var oldCharacter = new Character("old1", "Oldman", new Date(700, 1, 1), characters);
+		characters.Add(father);
+		characters.Add(oldCharacter);
+		oldCharacter.Father = father;
+
+		father.SetCultureId("father_culture", null);
+		oldCharacter.SetCultureId("own_culture", null);
+
+		var cultures = CreateCultureCollectionWithMaleNames(
+			("own_culture", []),
+			("father_culture", ["Aldric"])
+		);
+
+		var landedTitles = new Title.LandedTitles();
+		var kingdom = landedTitles.Add("k_test");
+		kingdom.SetHolder(oldCharacter, ck3BookmarkDate);
+
+		characters.GenerateSuccessorsForOldCharacters(landedTitles, cultures, irSaveDate, ck3BookmarkDate, randomSeed: 42);
+
+		var successors = characters.Where(c => c.Id.StartsWith("irtock3_old1_successor_", StringComparison.Ordinal)).ToList();
+		Assert.NotEmpty(successors);
+		foreach (var successor in successors) {
+			Assert.Equal("Aldric", successor.GetName(ck3BookmarkDate));
+		}
+	}
+
+	[Fact]
+	public void SuccessorMaleNamesFallBackToSpouseCultureWhenParentsHaveNoUsableCulture() {
+		Date ck3BookmarkDate = new(867, 1, 1);
+		Date irSaveDate = new(740, 1, 1);
+
+		var characters = new CharacterCollection();
+		var oldCharacter = new Character("old2", "Oldman", new Date(700, 1, 1), characters);
+		var spouse = new Character("spouse1", "Spouse", new Date(705, 1, 1), characters) { Female = true };
+		characters.Add(oldCharacter);
+		characters.Add(spouse);
+
+		oldCharacter.SetCultureId("own_culture", null);
+		spouse.SetCultureId("spouse_culture", null);
+		oldCharacter.AddSpouse(new Date(725, 1, 1), spouse);
+
+		var cultures = CreateCultureCollectionWithMaleNames(
+			("own_culture", []),
+			("spouse_culture", ["Bardas"])
+		);
+
+		var landedTitles = new Title.LandedTitles();
+		var kingdom = landedTitles.Add("k_test");
+		kingdom.SetHolder(oldCharacter, ck3BookmarkDate);
+
+		characters.GenerateSuccessorsForOldCharacters(landedTitles, cultures, irSaveDate, ck3BookmarkDate, randomSeed: 42);
+
+		var successors = characters.Where(c => c.Id.StartsWith("irtock3_old2_successor_", StringComparison.Ordinal)).ToList();
+		Assert.NotEmpty(successors);
+		foreach (var successor in successors) {
+			Assert.Equal("Bardas", successor.GetName(ck3BookmarkDate));
+		}
+	}
+
+	[Fact]
+	public void SuccessorMaleNamesUseOwnCultureNamesWithoutFallingBack() {
+		Date ck3BookmarkDate = new(867, 1, 1);
+		Date irSaveDate = new(740, 1, 1);
+
+		var characters = new CharacterCollection();
+		var father = new Character("father3", "Father", new Date(670, 1, 1), characters);
+		var oldCharacter = new Character("old3", "Oldman", new Date(700, 1, 1), characters);
+		characters.Add(father);
+		characters.Add(oldCharacter);
+		oldCharacter.Father = father;
+
+		father.SetCultureId("father_culture", null);
+		oldCharacter.SetCultureId("own_culture", null);
+
+		var cultures = CreateCultureCollectionWithMaleNames(
+			("own_culture", ["Rurik"]),
+			("father_culture", ["Aldric"])
+		);
+
+		var landedTitles = new Title.LandedTitles();
+		var kingdom = landedTitles.Add("k_test");
+		kingdom.SetHolder(oldCharacter, ck3BookmarkDate);
+
+		characters.GenerateSuccessorsForOldCharacters(landedTitles, cultures, irSaveDate, ck3BookmarkDate, randomSeed: 42);
+
+		var successors = characters.Where(c => c.Id.StartsWith("irtock3_old3_successor_", StringComparison.Ordinal)).ToList();
+		Assert.NotEmpty(successors);
+		foreach (var successor in successors) {
+			Assert.Equal("Rurik", successor.GetName(ck3BookmarkDate));
+		}
+	}
+
+	private static CultureCollection CreateCultureCollectionWithMaleNames(params (string CultureId, string[] MaleNames)[] definitions) {
+		var ck3ModFlags = new System.Collections.Generic.OrderedDictionary<string, bool>();
+		var pillarCollection = new PillarCollection(colorFactory, ck3ModFlags);
+		var heritage = new Pillar("heritage_test", new PillarData { Type = "heritage" });
+		pillarCollection.AddOrReplace(heritage);
+
+		var collection = new CultureCollection(colorFactory, pillarCollection, ck3ModFlags);
+		foreach (var (cultureId, maleNames) in definitions) {
+			var nameListContent = maleNames.Length > 0 ? $"male_names = {{ {string.Join(' ', maleNames)} }}" : string.Empty;
+			var nameList = new NameList($"{cultureId}_namelist", new BufferedReader(nameListContent));
+			var cultureData = new CultureData {
+				Color = new Color(1, 2, 3),
+				Heritage = heritage,
+				NameLists = { nameList }
+			};
+			collection.AddOrReplace(new Culture(cultureId, cultureData));
+		}
+
+		return collection;
+	}
+
+	private static void SetPrivateProperty(object target, string propertyName, object? value) {
+		var targetType = target.GetType();
+		var property = targetType.GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+		Assert.NotNull(property);
+		var setter = property.GetSetMethod(nonPublic: true);
+		Assert.NotNull(setter);
+		setter.Invoke(target, [value]);
+	}
+
+	private static ImperatorRulerTerm CreateRulerTerm(Date startDate, string governmentId) {
+		var term = new ImperatorRulerTerm();
+		SetPrivateProperty(term, nameof(ImperatorRulerTerm.StartDate), startDate);
+		SetPrivateProperty(term, nameof(ImperatorRulerTerm.Government), governmentId);
+		return term;
+	}
+
+	private static double ExtractVariableValue(string line) {
+		var match = Regex.Match(line, "value\\s*=\\s*(?<value>[-+]?[0-9]*\\.?[0-9]+)");
+		Assert.True(match.Success, $"Could not parse value from line '{line}'.");
+		return double.Parse(match.Groups["value"].Value, CultureInfo.InvariantCulture);
 	}
 }

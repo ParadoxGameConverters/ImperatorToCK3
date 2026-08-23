@@ -1,7 +1,7 @@
-﻿name: "Integration tests"
+name: "Integration tests"
 
 on:
-  pull_request: # TODO: remove it after getting CWTools step to work
+  workflow_dispatch: # so the workflow can be tested manually
   release:
     types: [published]
 
@@ -12,85 +12,204 @@ concurrency:
 jobs:
   run_test_conversions:
     runs-on: [self-hosted, windows]
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     strategy:
       fail-fast: false
       matrix:
-        save_url:
+        save:
           # 2.0 vanilla
-          # - https://mega.nz/file/TR13kB7D#QWT2yFzoS3rSIu9-EkUEdcc-X8jJnhZdXbJvw9jC-dg  # Benchmark.rome
+          - name: Dumnoniens
+            url: https://www.dropbox.com/scl/fi/jvb6s0zm02r3v30w09mzs/453.12.28-Dumnoniens.rome?rlkey=98y1jcscjy76mhva3m5qtyvid&st=khop16qy&dl=1  # 453.12.28 - Dumnoniens.rome
           # 2.0 with mods
-          # - https://mega.nz/file/id90lRYD#4OBL6N6_87-Nu28wNssm-O-3jmxli0iFzOtI7XVdN1E  # Mega_Campaign.rome
-          # - https://mega.nz/file/zQ0wDKya#eiFQCiJ2sjTaolAJGnfQ0_0OS2Q1kf48dIGDlrEoJ9I  # Erreinu Atlantikoa Debug Over NameFix.rome
-          - https://mega.nz/file/yd1nAZpB#6pXqexexEAXgE04Kll1XYwz_IhRPr42juVIJQ4uKXM8 # The New Rome.rome
+          # - name: IndianEmpire2
+          #   url: https://www.dropbox.com/scl/fi/whvbcjeojipt2ysqbwcp2/848.7.14-Indian-Empire-2.rome?rlkey=xqm0a0t24rbf8vkuepwrbezqt&st=gq3avjck&dl=1  # 848.7.14 - Indian Empire - 2.rome, uploaded 2024-06-30
+          # - name: GrandeCampagne
+          #   url: https://www.dropbox.com/scl/fi/xya8828ceb4h3ls3dixjc/Grande-Campagne.rome?rlkey=bjihvjtdnwtzlju95o7ekkpbm&st=txoi1lk2&dl=1  # Grande Campagne.rome, uploaded 2024-09-11
+          - name: RomanEmpireConvertSave2
+            url: https://www.dropbox.com/scl/fi/q22wnjljvcjev6yem0kp2/Roman-Empire-Convert-Save-2.rome?rlkey=15vxn4wvrzn1fde14qn6zqvfu&st=59s2cgj7&dl=1  # Roman Empire Convert Save 2.rome, uploaded 2024-09-23
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          submodules: recursive
-      - name: "Check if docs folders exist"
-        run: |
-          ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator"
-          ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator\mod"
-          ls "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"
-      - name: "Setup Dotnet for use with actions"
-        uses: actions/setup-dotnet@v3
-        with:
-          global-json-file: global.json
-      - name: "Build converter backend"
-        working-directory: ImperatorToCK3
-        run: |
-          dotnet build -c:Debug
-      - name: "Download I:R save from MEGA"
-        run: |
-          & "C:/Program Files/megatools/megatools.exe" dl --path "save.rome" ${{ matrix.save_url }}
-      - name: "Create configuration.txt"
-        working-directory: Debug/ImperatorToCK3
-        run: |
-          echo 'ImperatorDirectory = "C:\Program Files (x86)\Steam\steamapps\common\ImperatorRome"' > configuration.txt
-          echo 'ImperatorDocDirectory = "C:\Users\Administrator\Documents\Paradox Interactive\Imperator"' >> configuration.txt
-          echo 'CK3directory = "C:\Program Files (x86)\Steam\steamapps\common\Crusader Kings III"' >> configuration.txt
-          echo 'targetGameModPath = "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"' >> configuration.txt
-          echo 'SaveGame = "../../save.rome"' >> configuration.txt
-          cat configuration.txt
-      - name: "Run conversion"
-        working-directory: Debug/ImperatorToCK3
-        run: |
-          dotnet ImperatorToCK3Converter.dll
-      - name: "Upload artifact with generated mod"
-        if: ${{ matrix.save_url }} == "https://mega.nz/file/yd1nAZpB#6pXqexexEAXgE04Kll1XYwz_IhRPr42juVIJQ4uKXM8"
-        uses: actions/upload-artifact@v3
-        with:
-          name: generated-mod-artifact
-          path: Debug/ImperatorToCK3/output/
-      - name: "Cleanup"
-        if: always()
-        run: |
-          Get-ChildItem -Path $Env:GITHUB_WORKSPACE -Recurse -Force | Remove-Item -force -recurse
+    - uses: actions/checkout@v7
+      with:
+        submodules: recursive
+    - name: "Check if docs folders exist"
+      run: |
+        ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator"
+        ls "C:\Users\Administrator\Documents\Paradox Interactive\Imperator\mod"
+        ls "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"
+    # - name: "Setup Dotnet for use with actions"
+    #   uses: actions/setup-dotnet@v4
+    #   with:
+    #     global-json-file: global.json
+    - name: "Cache NuGet packages"
+      uses: actions/cache@v6
+      with:
+        path: ${{ env.NUGET_PACKAGES }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+    - name: "Build converter backend"
+      working-directory: ImperatorToCK3
+      run: |
+        dotnet build -c:Release
+    - name: "Download I:R save from Dropbox"
+      run: |
+        Invoke-WebRequest -Uri "${{ matrix.save.url }}" -OutFile "save.rome"
+    - name: "Create configuration.txt"
+      working-directory: Release/ImperatorToCK3
+      run: |
+        echo 'ImperatorDirectory = "C:\Program Files (x86)\Steam\steamapps\common\ImperatorRome"' > configuration.txt
+        echo 'ImperatorDocDirectory = "C:\Users\Administrator\Documents\Paradox Interactive\Imperator"' >> configuration.txt
+        echo 'CK3directory = "C:\Program Files (x86)\Steam\steamapps\common\Crusader Kings III"' >> configuration.txt
+        echo 'targetGameModPath = "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"' >> configuration.txt
+        echo 'SaveGame = "../../save.rome"' >> configuration.txt
+        echo 'SkipDynamicCoAExtraction = yes' >> configuration.txt
+        echo 'output_name = "test_save"' >> configuration.txt
+        cat configuration.txt
+    - name: "Run conversion"
+      working-directory: Release/ImperatorToCK3
+      run: |
+        dotnet ImperatorToCK3Converter.dll
+
+    - name: "Checkout CK3 Validator"
+      uses: actions/checkout@v7
+      with:
+        repository: LT-Rascek/CK3_Validator
+        path: ck3-validator
+
+    - name: "Setup Python"
+      uses: actions/setup-python@v7
+      with:
+        python-version: "3.12"
+
+    - name: "Validate generated mod with CK3 Validator"
+      run: |
+        # Checks encoding and localization file naming of the generated mod.
+        # The wrapper adapts the upstream POSIX-only scripts to Windows paths.
+        python tools/ck3_validator/run_ck3_validator.py "$env:GITHUB_WORKSPACE\Release\ImperatorToCK3\output\test_save" "$env:GITHUB_WORKSPACE\ck3-validator"
+
+    - name: "Download and unzip ck3-tiger"
+      run: |
+        Invoke-WebRequest -Uri "https://github.com/amtep/tiger/releases/download/v1.18.0/ck3-tiger-windows-v1.18.0.zip" -OutFile "ck3-tiger.zip"
+        Expand-Archive -Path "ck3-tiger.zip" -DestinationPath "ck3-tiger"
+        Remove-Item -Path "ck3-tiger.zip"
+
+    - name: "Validate generated mod with ck3-tiger"
+      run: |
+        # Run ck3-tiger validation on the generated mod
+        $modPath = "$env:GITHUB_WORKSPACE\Release\ImperatorToCK3\output\test_save"
+        $tigerPath = "$env:GITHUB_WORKSPACE\ck3-tiger\ck3-tiger.exe"
+        $tigerConfigPath = "$env:GITHUB_WORKSPACE\.github\workflows\ck3-tiger.conf"
+        
+        # Run tiger and capture output
+        cmd /c "`"$tigerPath`" --no-color --consolidate --config `"$tigerConfigPath`" `"$modPath`" > result.txt 2> result-error.txt"
+
+        # Display any errors from stderr
+        if (Test-Path "result-error.txt") {
+          $errorContent = Get-Content "result-error.txt" -Raw
+          if ($errorContent) {
+            Write-Host $errorContent
+          }
+        }
+        
+        # Count base errors (initialization failures)
+        $baseErrors = 0
+        if (Test-Path "result-error.txt") {
+          $baseErrors = (Select-String -Path "result-error.txt" -Pattern "Error" -AllMatches).Matches.Count
+        }
+        
+        # Check if validator failed to initialize
+        if ($baseErrors -gt 0) {
+          Write-Host ""
+          Write-Host "The validator could not be initialized!" -ForegroundColor Red -BackgroundColor Black
+          exit 1
+        }
+        
+        # Process results if file exists and has content
+        if ((Test-Path "result.txt") -and (Get-Item "result.txt").Length -gt 0) {
+          # Display full results
+          Get-Content "result.txt"
+          
+          # Count different types of issues
+          $warnings = (Select-String -Path "result.txt" -Pattern "warning\(" -AllMatches).Matches.Count
+          $errors = (Select-String -Path "result.txt" -Pattern "error\(" -AllMatches).Matches.Count
+          $fatal = (Select-String -Path "result.txt" -Pattern "fatal\(" -AllMatches).Matches.Count
+          
+          # Check if validation failed
+          if ($warnings -gt 0 -or $errors -gt 0 -or $fatal -gt 0) {
+            Write-Host ""
+            Write-Host "There are warnings or errors. The validation failed!" -ForegroundColor Red -BackgroundColor Black
+            exit 1
+          }
+        } else {
+          Write-Host ""
+          Write-Host "Successfully validated!" -ForegroundColor Green -BackgroundColor Black
+        }
+
+    - name: "Upload artifact with generated mod"
+      uses: actions/upload-artifact@v7
+      with:
+        name: 'generated-mod-${{ matrix.save.name }}'
+        path: Release/ImperatorToCK3/output/
+        retention-days: 20
+        if-no-files-found: error
+
+    - name: "Cleanup"
+      if: always()
+      run: |
+        function Remove-ItemWithRetry {
+            param (
+                [string]$Path,
+                [int]$Retries = 5,
+                [int]$Delay = 2000
+            )
+            for ($i = 0; $i -lt $Retries; $i++) {
+                try {
+                    Remove-Item -Path $Path -Force -Recurse
+                    Write-Host "Successfully deleted $Path"
+                    return
+                } catch {
+                    Write-Host "Attempt $($i+1) failed: $_"
+                    Start-Sleep -Milliseconds $Delay
+                }
+            }
+            throw "Failed to delete $Path after $Retries attempts"
+        }
+
+        Get-ChildItem -Path $Env:GITHUB_WORKSPACE -Recurse -Force | ForEach-Object {
+            Remove-ItemWithRetry -Path $_.FullName
+        }
 
   validate_generated_mod:
     needs: run_test_conversions
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        save: [Dumnoniens, RomanEmpireConvertSave2] # keep in sync with the save names in run_test_conversions
     steps:
-      - name: "Download generated mod"
-        uses: actions/download-artifact@v3
-        with:
-          name: generated-mod-artifact
-      - name: "Display structure of downloaded files"
-        run: ls -R
-      - name: "Validate generated mod with ck3-tiger"
-        run: |
-          sudo wget -c https://github.com/amtep/ck3-tiger/releases/download/v0.6.1/ck3-tiger-linux-v0.6.1.tar.gz && tar -xzf ck3-tiger-linux-v0.6.1.tar.gz
-          ./ck3-tiger-linux-v0.6.1/ck3-tiger --ck3 "C:/Program Files (x86)/Steam/steamapps/common/Crusader Kings III" generated-mod-artifact/test.mod
-      - name: "Validate generated mod with CWTools"
-        uses: cwtools/cwtools-action@v1.1.0
-        with:
-          game: ck3
-          changedFilesOnly: "0"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required, secret is automatically set by github
-      - name: "Upload artifact"
-        if: always() # so even if the check fails, the log is uploaded
-        uses: actions/upload-artifact@v3
-        with:
-          name: cwtools_output
-          path: output.json
+    - uses: actions/checkout@v7 # required by cwtools-action
+    - name: "Download generated mod"
+      uses: actions/download-artifact@v8
+      with:
+        name: 'generated-mod-${{ matrix.save }}'
+        path: generated_mod
+    - name: "Display structure of downloaded files"
+      run: |
+        ls generated_mod
+        ls generated_mod/test_save | head -30
+    - name: "Validate generated mod with CWTools"
+      uses: cwtools/cwtools-action@v1.1.0
+      with:
+        game: ck3
+        modPath: "generated_mod/test_save"
+        changedFilesOnly: "0" # there is no PR to diff against on release runs
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required, secret is automatically set by github
+    - name: "Upload artifact"
+      if: always() # so even if the check fails, the log is uploaded
+      uses: actions/upload-artifact@v7
+      with:
+        name: 'cwtools_output-${{ matrix.save }}'
+        path: output.json
+

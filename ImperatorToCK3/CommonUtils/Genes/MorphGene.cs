@@ -4,24 +4,24 @@ using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils.Genes; 
 
-public class MorphGene : Gene, IIdentifiable<string> {
+internal sealed class MorphGene : Gene, IIdentifiable<string> {
 	public string Id { get; }
 	public uint? Index { get; private set; }
-	public IdObjectCollection<string, MorphGeneTemplate> GeneTemplates { get; } = new();
+	public IdObjectCollection<string, MorphGeneTemplate> GeneTemplates { get; } = [];
 
 	public MorphGene(string id, BufferedReader geneReader) {
 		Id = id;
-		
-		var parser = new Parser();
+
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("index", reader => Index = (uint)reader.GetInt());
 		parser.RegisterKeyword("ugliness_feature_categories", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("can_have_portrait_extremity_shift", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("visible", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("group", ParserHelpers.IgnoreItem);
 		parser.RegisterKeyword("inheritable", ParserHelpers.IgnoreItem);
-		parser.RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) => {
-			GeneTemplates.AddOrReplace(new MorphGeneTemplate(geneTemplateName, reader));
-		});
+		parser.RegisterRegex(CommonRegexes.String, (reader, geneTemplateName) =>
+			GeneTemplates.AddOrReplace(new MorphGeneTemplate(geneTemplateName, reader))
+		);
 		parser.ParseStream(geneReader);
 	}
 	public MorphGeneTemplate? GetGeneTemplateByIndex(uint indexInDna) {

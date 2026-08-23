@@ -1,7 +1,6 @@
 using commonItems;
 using ImperatorToCK3.CommonUtils.Genes;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Xunit;
 
@@ -110,9 +109,7 @@ public class WeightBlockTests {
 	}
 
 	[Fact]
-	public void GetMatchingPercentageThrowsOnWrongEntryName() {
-		var weightBlock = new WeightBlock();
-		var e = Assert.Throws<KeyNotFoundException>(() => weightBlock.GetMatchingPercentage("ENTRY"));
-		Assert.Contains("Set entry ENTRY not found!", e.ToString());
+	public void GetMatchingPercentageReturnsNullWrongEntryName() {
+		Assert.Null(new WeightBlock().GetMatchingPercentage("ENTRY"));
 	}
 }

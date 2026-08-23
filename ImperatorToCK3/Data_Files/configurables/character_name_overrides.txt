@@ -1,0 +1,1 @@
+Mallobald = Mallobald_collision_fix # In CK3 there's a hash collision between the keys "Mallobald" and "laamp_base_contract_schemes.2541.e.tt.employer_has_trait.paranoid", so the key "Mallobald" has been changed to "Mallobald_collision_fix".

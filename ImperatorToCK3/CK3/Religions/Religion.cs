@@ -2,44 +2,127 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Serialization;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ImperatorToCK3.CK3.Religions;
 
-public class Religion : IIdentifiable<string>, IPDXSerializable {
+internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 	public string Id { get; }
-	public OrderedSet<string> DoctrineIds { get; } = new();
+	public OrderedSet<string> DoctrineIds { get; } = [];
 
 	public ReligionCollection ReligionCollection { get; }
+	private readonly OrderedDictionary<string, StringOfItem> localization = [];
 
 	public Religion(string id, BufferedReader religionReader, ReligionCollection religions, ColorFactory colorFactory) {
 		Id = id;
 		ReligionCollection = religions;
+		this.colorFactory = colorFactory;
+	
+		InitFaithDataParser();
 
-		var religionParser = new Parser();
+		var religionParser = new Parser(implicitVariableHandling: true);
 		religionParser.RegisterKeyword("doctrine", reader => DoctrineIds.Add(reader.GetString()));
 		religionParser.RegisterKeyword("faiths", faithsReader => {
-			var faithsParser = new Parser();
-			faithsParser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => {
-				// The faith might have already been added to another religion.
-				foreach (var otherReligion in ReligionCollection) {
-					otherReligion.Faiths.Remove(faithId);
-				}
-
-				Faiths.AddOrReplace(new Faith(faithId, faithReader, this, colorFactory));
-			});
+			var faithsParser = new Parser(implicitVariableHandling: true);
+			faithsParser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => LoadFaith(faithId, faithReader));
 			faithsParser.IgnoreAndLogUnregisteredItems();
 			faithsParser.ParseStream(faithsReader);
+		});
+		religionParser.RegisterKeyword("localization", reader => {
+			var localizationParser = new Parser(implicitVariableHandling: true);
+			localizationParser.RegisterRegex(CommonRegexes.Catchall, (locReader, locKey) => {
+				localization[locKey] = locReader.GetStringOfItem();
+			});
+			localizationParser.ParseStream(reader);
 		});
 		religionParser.RegisterRegex(CommonRegexes.Catchall, (reader, keyword) => {
 			attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
 		});
 		religionParser.ParseStream(religionReader);
+		
+		// Fix a religion having more doctrines in the same category than allowed.
+		foreach (var category in religions.DoctrineGroups) {
+			var categoryDoctrineSet = category.DoctrineIds.ToHashSet(StringComparer.Ordinal);
+			var doctrinesInCategory = new List<string>();
+			foreach (var doctrineId in DoctrineIds) {
+				if (categoryDoctrineSet.Contains(doctrineId)) {
+					doctrinesInCategory.Add(doctrineId);
+				}
+			}
+
+			if (doctrinesInCategory.Count > category.NumberOfPicks) {
+				Logger.Warn($"Religion {Id} has too many doctrines in category {category.Id}: " +
+				            $"{string.Join(", ", doctrinesInCategory)}. Keeping the last {category.NumberOfPicks} of them.");
+				
+				DoctrineIds.ExceptWith(doctrinesInCategory);
+				int kept = 0;
+				for (int i = doctrinesInCategory.Count - 1; i >= 0 && kept < category.NumberOfPicks; --i) {
+					DoctrineIds.Add(doctrinesInCategory[i]);
+					++kept;
+				}
+			}
+		}
+	}
+	private void LoadFaith(string faithId, BufferedReader faithReader) {
+		faithData = new FaithData();
+		
+		faithDataParser.ParseStream(faithReader);
+		if (faithData.InvalidatingFaithIds.Count != 0) { // Faith is an optional faith.
+			foreach (var existingFaith in ReligionCollection.Faiths) {
+				if (!faithData.InvalidatingFaithIds.Contains(existingFaith.Id)) {
+					continue;
+				}
+				Logger.Debug($"Faith {faithId} is invalidated by existing {existingFaith.Id}.");
+				return;
+			}
+			Logger.Debug($"Loading optional faith {faithId}...");
+		}
+				
+		// The faith might have already been added to another religion.
+		foreach (var otherReligion in ReligionCollection) {
+			otherReligion.Faiths.Remove(faithId);
+		}
+		
+		Faiths.AddOrReplace(new Faith(faithId, faithData, this));
 	}
 
-	public IdObjectCollection<string, Faith> Faiths { get; } = new();
-	private readonly List<KeyValuePair<string, StringOfItem>> attributes = new();
+	private void InitFaithDataParser() {
+		faithDataParser.RegisterKeyword("INVALIDATED_BY", reader => {
+			faithData.InvalidatingFaithIds = reader.GetStrings();
+		});
+		faithDataParser.RegisterKeyword("color", reader => {
+			try {
+				faithData.Color = colorFactory.GetColor(reader);
+			} catch (Exception e) {
+				Logger.Warn($"Found invalid color in faith {faithData} in religion {Id}! {e.Message}");
+			}
+		});
+		faithDataParser.RegisterKeyword("religious_head", reader => {
+			var titleId = reader.GetString();
+			if (titleId != "none") {
+				faithData.ReligiousHeadTitleId = titleId;
+			}
+		});
+		faithDataParser.RegisterKeyword("holy_site", reader => faithData.HolySiteIds.Add(reader.GetString()));
+		faithDataParser.RegisterKeyword("doctrine", reader => faithData.DoctrineIds.Add(reader.GetString()));
+		faithDataParser.RegisterKeyword("localization", reader => {
+			var localizationParser = new Parser(implicitVariableHandling: true);
+			localizationParser.RegisterRegex(CommonRegexes.Catchall, (locReader, locKey) => {
+				faithData.Localization[locKey] = locReader.GetStringOfItem();
+			});
+			localizationParser.ParseStream(reader);
+		});
+		faithDataParser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
+			faithData.Attributes.Add(new KeyValuePair<string, StringOfItem>(keyword, reader.GetStringOfItem()));
+		});
+		faithDataParser.IgnoreAndLogUnregisteredItems();
+	}
+
+	public IdObjectCollection<string, Faith> Faiths { get; } = [];
+	private readonly List<KeyValuePair<string, StringOfItem>> attributes = [];
 
 	public string Serialize(string indent, bool withBraces) {
 		var contentIndent = indent;
@@ -51,10 +134,17 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 		if (withBraces) {
 			sb.AppendLine("{");
 		}
-		
+
 		foreach (var doctrineId in DoctrineIds) {
 			sb.Append(contentIndent).AppendLine($"doctrine={doctrineId}");
 		}
+
+		sb.Append(contentIndent).AppendLine("localization={");
+		foreach (var (key, value) in localization) {
+			sb.Append(contentIndent).Append('\t').AppendLine($"{key}={value}");
+		}
+		sb.Append(contentIndent).AppendLine("}");
+
 		sb.AppendLine(PDXSerializer.Serialize(attributes, indent: contentIndent+'\t', withBraces: false));
 
 		sb.Append(contentIndent).AppendLine("faiths={");
@@ -67,4 +157,8 @@ public class Religion : IIdentifiable<string>, IPDXSerializable {
 
 		return sb.ToString();
 	}
+
+	private readonly ColorFactory colorFactory;
+	private FaithData faithData = new();
+	private readonly Parser faithDataParser = new(implicitVariableHandling: true);
 }

@@ -1,22 +1,23 @@
 ﻿using commonItems;
 using commonItems.Collections;
+using commonItems.Exceptions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
-using ImperatorToCK3.Exceptions;
 using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.Province;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace ImperatorToCK3.CK3.Wars;
 
-public class War {
+internal sealed class War {
 	public Date StartDate { get; } = "2.1.1";
 	public Date EndDate { get; }
-	public OrderedSet<string> TargetedTitles { get; } = new();
+	public OrderedSet<string> TargetedTitles { get; } = [];
 	public string? CasusBelli { get; }
-	public List<string> Attackers { get; } = new();
-	public List<string> Defenders { get; } = new();
+	public List<string> Attackers { get; } = [];
+	public List<string> Defenders { get; } = [];
 	public string Claimant { get; }
 
 	public War(Imperator.Diplomacy.War irWar, Mappers.War.WarMapper warMapper, ProvinceMapper provinceMapper, Imperator.Countries.CountryCollection impCountries, StateCollection irStates, ProvinceCollection ck3Provinces, Title.LandedTitles titles, Date ck3BookmarkDate) {
@@ -37,7 +38,7 @@ public class War {
 			}
 		}
 
-		if (!Attackers.Any()) {
+		if (Attackers.Count == 0) {
 			throw new ConverterException("War has no valid attackers!");
 		}
 		Claimant = Attackers[0];
@@ -53,7 +54,7 @@ public class War {
 				.Where(t => t is not null)
 				.Cast<Title>()
 				.Select(t => t.Id)
-				.ToHashSet();
+				.ToFrozenSet();
 			TargetedTitles.UnionWith(targetedCountyIds);
 		}
 
@@ -69,7 +70,7 @@ public class War {
 				continue;
 			}
 
-			if (Defenders.Count == 0 && !TargetedTitles.Any()) {
+			if (Defenders.Count == 0 && TargetedTitles.Count == 0) {
 				// We're adding the first defender and we have no targeted title so far.
 				// In this case, try to use the defender's capital as targeted title.
 				// This is merely a fallback.

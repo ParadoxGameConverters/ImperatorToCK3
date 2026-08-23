@@ -2,7 +2,7 @@
 
 # Structure:
 # link = { ir = [something] ck3 = [some other thing] }
-# Multiple imp are supported, but one ck3 only
+# Multiple ir are supported, but one ck3 only
 
 
 link = { ir = NICKNAME_MAXIMUS ir = NICKNAME_THE_VICTORIOUS ck3 = nick_the_victorious }

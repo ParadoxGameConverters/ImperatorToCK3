@@ -9,6 +9,10 @@
             "labels": ["fix"]
         },
         {
+            "title": "## 🧹 Maintenance",
+            "labels": ["maintenance", "chore", "refactor"]
+        },
+        {
             "title": "## 🧪 Tests",
             "labels": ["test"]
         },

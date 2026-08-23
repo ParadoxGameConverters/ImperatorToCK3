@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.DeathReason;
 
-public class DeathReasonMapper {
+internal sealed class DeathReasonMapper {
 	public DeathReasonMapper() {
 		Logger.Info("Parsing death reason mappings...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseFile("configurables/deathMappings.txt");
 		Logger.Info($"Loaded {irToCK3ReasonMap.Count} death reason links.");
@@ -14,12 +14,12 @@ public class DeathReasonMapper {
 		Logger.IncrementProgress();
 	}
 	public DeathReasonMapper(BufferedReader reader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}
 	public string? GetCK3ReasonForImperatorReason(string irReason) {
-		return irToCK3ReasonMap.TryGetValue(irReason, out var value) ? value : null;
+		return irToCK3ReasonMap.GetValueOrDefault(irReason);
 	}
 
 	private void RegisterKeys(Parser parser) {

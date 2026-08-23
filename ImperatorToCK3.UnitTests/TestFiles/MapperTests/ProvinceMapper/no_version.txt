@@ -1,0 +1,1 @@
+# This file intentionally contains no mappings version, so loading it should throw.

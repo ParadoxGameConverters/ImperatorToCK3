@@ -1,0 +1,649 @@
+﻿using commonItems;
+using commonItems.Mods;
+using Microsoft.VisualBasic.FileIO;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using System;
+using System.Collections.Frozen;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices;
+
+namespace ImperatorToCK3.CommonUtils.Map;
+
+internal sealed class MapData {
+	[StructLayout(LayoutKind.Auto)]
+	private readonly struct Point(int x, int y) : IEquatable<Point> {
+		public int X { get; } = x;
+		public int Y { get; } = y;
+
+		public readonly bool Equals(Point other) {
+			return X == other.X && Y == other.Y;
+		}
+
+		public override readonly bool Equals(object? obj) {
+			return obj is Point point && Equals(point);
+		}
+
+		public override readonly int GetHashCode() {
+			return HashCode.Combine(X, Y);
+		}
+	}
+
+	private Dictionary<ulong, HashSet<ulong>> NeighborsDict { get; } = [];
+	private readonly Dictionary<ulong, ProvincePosition> provincePositions = [];
+	public IReadOnlyDictionary<ulong, ProvincePosition> ProvincePositions => provincePositions;
+	public ProvinceDefinitions ProvinceDefinitions { get; } = [];
+
+	private readonly Dictionary<ulong, HashSet<ulong>> provinceAdjacencies = [];
+	private readonly Dictionary<ulong, ulong> waterBodiesDict = []; // <province ID, water body ID>
+
+	private readonly string[] nonColorableImpassableProvinceTypes = ["wasteland"];
+	private readonly string[] colorableImpassableProvinceTypes = ["impassable_mountains", "impassable_terrain"];
+	private readonly string[] uninhabitableProvinceTypes = ["uninhabitable"];
+	private readonly string[] staticWaterProvinceTypes = ["sea_zones", "lakes", "LAKES", "impassable_seas"];
+	private readonly string[] riverProvinceTypes = ["river_provinces"];
+
+	private readonly HashSet<ulong> mapEdgeProvinces = [];
+
+	private string provincesMapFilename = "provinces.png";
+	private string adjacenciesFilename = "adjacencies.csv";
+
+	public MapData(ModFilesystem modFS) {
+		ParseDefaultMap(modFS);
+
+		Logger.Info("Loading province positions...");
+		DetermineProvincePositions(modFS);
+		Logger.IncrementProgress();
+
+		Logger.Info("Loading province adjacencies...");
+		LoadAdjacencies(adjacenciesFilename, modFS);
+
+		DetermineMapEdgeProvinces(modFS);
+
+		Logger.Info("Determining province neighbors...");
+		var provincesMapPath = GetProvincesMapPath(modFS);
+		if (provincesMapPath is not null) {
+			using Image<Rgb24> provincesMap = Image.Load<Rgb24>(provincesMapPath);
+			DetermineNeighbors(provincesMap, ProvinceDefinitions);
+		}
+
+		GroupStaticWaterProvinces();
+
+		Logger.IncrementProgress();
+	}
+
+	private void ParseDefaultMap(ModFilesystem modFS) {
+		Logger.Info("Loading default map data...");
+		const string defaultMapPath = "map_data/default.map";
+		var defaultMapParser = new Parser(implicitVariableHandling: true);
+		defaultMapParser.RegisterKeyword("definitions", reader => {
+			string definitionsFilename = reader.GetString();
+
+			Logger.Info("Loading province definitions...");
+			ProvinceDefinitions.LoadDefinitions(definitionsFilename, modFS);
+			Logger.IncrementProgress();
+		});
+		defaultMapParser.RegisterKeyword("provinces", reader => provincesMapFilename = reader.GetString());
+		defaultMapParser.RegisterKeyword("rivers", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("topology", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("terrain", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("adjacencies", reader => adjacenciesFilename = reader.GetString());
+		defaultMapParser.RegisterKeyword("island_region", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("seasons", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("positions", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("ports", ParserHelpers.IgnoreItem);
+		defaultMapParser.RegisterKeyword("climate", ParserHelpers.IgnoreItem);
+
+		Dictionary<IEnumerable<string>, SpecialProvinceCategory> provinceTypeToCategoryDict = new() {
+			{nonColorableImpassableProvinceTypes, SpecialProvinceCategory.NonColorableImpassable},
+			{colorableImpassableProvinceTypes, SpecialProvinceCategory.ColorableImpassable},
+			{uninhabitableProvinceTypes, SpecialProvinceCategory.Uninhabitable},
+			{staticWaterProvinceTypes, SpecialProvinceCategory.StaticWater},
+			{riverProvinceTypes, SpecialProvinceCategory.River},
+		};
+		foreach (var (provTypes, category) in provinceTypeToCategoryDict) {
+			foreach (var provType in provTypes) {
+				defaultMapParser.RegisterKeyword(provType, reader => {
+					Parser.GetNextTokenWithoutMatching(reader); // equals sign
+					AddProvincesToCategory(category, reader);
+				});
+			}
+		}
+
+		defaultMapParser.IgnoreAndLogUnregisteredItems();
+		defaultMapParser.ParseGameFile(defaultMapPath, modFS);
+		Logger.IncrementProgress();
+	}
+
+	private void GroupStaticWaterProvinces() {
+		Logger.Debug("Grouping static water provinces into water bodies...");
+		// We want connected components of the static-water-only adjacency graph.
+		// Use the lowest province ID in each component as the water body ID.
+		var staticWaterProvinceIds = GetStaticWaterProvinceIds();
+		if (staticWaterProvinceIds.Length == 0) {
+			return;
+		}
+
+		waterBodiesDict.Clear();
+		foreach (var (provinceId, waterBodyId) in BuildWaterBodiesDict(staticWaterProvinceIds)) {
+			waterBodiesDict[provinceId] = waterBodyId;
+		}
+	}
+
+	private ulong[] GetStaticWaterProvinceIds() {
+		return ProvinceDefinitions
+			.Where(p => p.IsStaticWater)
+			.Select(p => p.Id)
+			.ToArray();
+	}
+
+	private Dictionary<ulong, ulong> BuildWaterBodiesDict(ulong[] staticWaterProvinceIds) {
+		var idToIndex = BuildStaticWaterProvinceIndex(staticWaterProvinceIds);
+		var (parent, size) = InitializeDisjointSet(staticWaterProvinceIds.Length);
+		UnionAdjacentStaticWaterProvinces(staticWaterProvinceIds, idToIndex, parent, size);
+		var minIdByRoot = GetMinimumProvinceIdsByRoot(staticWaterProvinceIds, parent);
+		var waterBodies = new Dictionary<ulong, ulong>(staticWaterProvinceIds.Length);
+		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
+			int root = FindRoot(i, parent);
+			waterBodies[staticWaterProvinceIds[i]] = minIdByRoot[root];
+		}
+		return waterBodies;
+	}
+
+	private static Dictionary<ulong, int> BuildStaticWaterProvinceIndex(ulong[] staticWaterProvinceIds) {
+		var idToIndex = new Dictionary<ulong, int>(staticWaterProvinceIds.Length);
+		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
+			idToIndex[staticWaterProvinceIds[i]] = i;
+		}
+		return idToIndex;
+	}
+
+	private static (int[] parent, int[] size) InitializeDisjointSet(int count) {
+		var parent = new int[count];
+		var size = new int[count];
+		for (int i = 0; i < count; ++i) {
+			parent[i] = i;
+			size[i] = 1;
+		}
+		return (parent, size);
+	}
+
+	private void UnionAdjacentStaticWaterProvinces(ulong[] staticWaterProvinceIds, Dictionary<ulong, int> idToIndex, int[] parent, int[] size) {
+		// Union static water provinces connected by neighbor relations.
+		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
+			var provinceId = staticWaterProvinceIds[i];
+			if (!NeighborsDict.TryGetValue(provinceId, out var neighbors)) {
+				continue;
+			}
+			foreach (var neighborId in neighbors) {
+				if (idToIndex.TryGetValue(neighborId, out int neighborIndex)) {
+					UnionRoots(i, neighborIndex, parent, size);
+				}
+			}
+		}
+	}
+
+	private static ulong[] GetMinimumProvinceIdsByRoot(ulong[] staticWaterProvinceIds, int[] parent) {
+		// Determine the minimum province ID for each component root.
+		var minIdByRoot = new ulong[staticWaterProvinceIds.Length];
+		Array.Fill(minIdByRoot, ulong.MaxValue);
+		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
+			int root = FindRoot(i, parent);
+			var provinceId = staticWaterProvinceIds[i];
+			if (provinceId < minIdByRoot[root]) {
+				minIdByRoot[root] = provinceId;
+			}
+		}
+		return minIdByRoot;
+	}
+
+	private static int FindRoot(int provinceIndex, int[] parent) {
+		while (parent[provinceIndex] != provinceIndex) {
+			parent[provinceIndex] = parent[parent[provinceIndex]];
+			provinceIndex = parent[provinceIndex];
+		}
+		return provinceIndex;
+	}
+
+	private static void UnionRoots(int leftIndex, int rightIndex, int[] parent, int[] size) {
+		leftIndex = FindRoot(leftIndex, parent);
+		rightIndex = FindRoot(rightIndex, parent);
+		if (leftIndex == rightIndex) {
+			return;
+		}
+		if (size[leftIndex] < size[rightIndex]) {
+			(leftIndex, rightIndex) = (rightIndex, leftIndex);
+		}
+		parent[rightIndex] = leftIndex;
+		size[leftIndex] += size[rightIndex];
+	}
+
+	private string? GetProvincesMapPath(ModFilesystem modFS) {
+		var relativeMapPath = Path.Join("map_data", provincesMapFilename);
+		var provincesMapPath = modFS.GetActualFileLocation(relativeMapPath);
+		if (provincesMapPath is not null) {
+			return provincesMapPath;
+		}
+
+		Logger.Warn($"{nameof(provincesMapPath)} not found!");
+		return null;
+	}
+
+	public double GetDistanceBetweenProvinces(ulong province1, ulong province2) {
+		if (!ProvincePositions.TryGetValue(province1, out var province1Position)) {
+			Logger.Warn($"Province {province1} has no position defined!");
+			return 0;
+		}
+
+		if (!ProvincePositions.TryGetValue(province2, out var province2Position)) {
+			Logger.Warn($"Province {province2} has no position defined!");
+			return 0;
+		}
+
+		var xDiff = province1Position.X - province2Position.X;
+		var yDiff = province1Position.Y - province2Position.Y;
+		return Math.Sqrt((xDiff * xDiff) + (yDiff * yDiff));
+	}
+
+	public IReadOnlySet<ulong> GetNeighborProvinceIds(ulong provinceId) {
+		return NeighborsDict.TryGetValue(provinceId, out var neighbors) ? neighbors : [];
+	}
+
+	public bool IsColorableImpassable(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsColorableImpassable;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
+
+	public bool IsImpassable(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsImpassable;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
+
+	// public bool IsWasteland(ulong provinceId) { // uncomment if needed
+	// 	if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+	// 		return province.IsWasteland;
+	// 	}
+	//
+	// 	Logger.Warn($"Province {provinceId} has no definition!");
+	// 	return false;
+	// }
+
+	private bool IsStaticWater(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsStaticWater;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
+
+	private bool IsRiver(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsRiver;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
+
+	internal bool IsLand(ulong provinceId) {
+		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+			return province.IsLand;
+		}
+
+		Logger.Warn($"Province {provinceId} has no definition!");
+		return false;
+	}
+
+	public FrozenSet<ulong> ColorableImpassableProvinceIds => ProvinceDefinitions
+		.Where(p => p.IsColorableImpassable).Select(p => p.Id)
+		.ToFrozenSet();
+
+	public IReadOnlySet<ulong> MapEdgeProvinceIds => mapEdgeProvinces;
+
+	private void DetermineProvincePositions(ModFilesystem modFS) {
+		const string provincePositionsPath = "gfx/map/map_object_data/building_locators.txt";
+		var fileParser = new Parser(implicitVariableHandling: true);
+		fileParser.RegisterKeyword("game_object_locator", reader => {
+			var listParser = new Parser(implicitVariableHandling: true);
+			listParser.RegisterKeyword("instances", instancesReader => {
+				foreach (var blob in new BlobList(instancesReader).Blobs) {
+					var blobReader = new BufferedReader(blob);
+					var instance = ProvincePosition.Parse(blobReader);
+					provincePositions[instance.Id] = instance;
+				}
+			});
+			listParser.IgnoreUnregisteredItems();
+			listParser.ParseStream(reader);
+		});
+		fileParser.IgnoreUnregisteredItems();
+		fileParser.ParseGameFile(provincePositionsPath, modFS);
+	}
+
+	private void DetermineNeighbors(Image<Rgb24> provincesMap, ProvinceDefinitions provinceDefinitions) {
+		var height = provincesMap.Height;
+		var width = provincesMap.Width;
+		for (var y = 0; y < height; ++y) {
+			for (var x = 0; x < width; ++x) {
+				var position = new Point(x, y);
+
+				var centerColor = GetCenterColor(position, provincesMap);
+				var aboveColor = GetAboveColor(position, provincesMap);
+				var belowColor = GetBelowColor(position, height, provincesMap);
+				var leftColor = GetLeftColor(position, provincesMap);
+				var rightColor = GetRightColor(position, width, provincesMap);
+
+				if (!centerColor.Equals(aboveColor)) {
+					HandleNeighbor(centerColor, aboveColor, provinceDefinitions);
+				}
+
+				if (!centerColor.Equals(rightColor)) {
+					HandleNeighbor(centerColor, rightColor, provinceDefinitions);
+				}
+
+				if (!centerColor.Equals(belowColor)) {
+					HandleNeighbor(centerColor, belowColor, provinceDefinitions);
+				}
+
+				if (!centerColor.Equals(leftColor)) {
+					HandleNeighbor(centerColor, leftColor, provinceDefinitions);
+				}
+			}
+		}
+	}
+
+	private void AddProvincesToCategory(SpecialProvinceCategory category, BufferedReader provincesGroupReader) {
+		var typeOfGroup = Parser.GetNextTokenWithoutMatching(provincesGroupReader);
+		var provIds = provincesGroupReader.GetULongs();
+
+		if (typeOfGroup == "RANGE") {
+			if (provIds.Count is < 1 or > 2) {
+				Logger.Warn($"A range of provinces should have 1 or 2 elements, got: {string.Join(", ", provIds)}");
+			}
+			if (provIds.Count == 0) {
+				return;
+			}
+
+			var beginning = provIds[0];
+			var end = provIds[^1];
+			for (var id = beginning; id <= end; ++id) {
+				if (ProvinceDefinitions.TryGetValue(id, out var province)) {
+					province.AddSpecialCategory(category);
+				}
+			}
+		} else {
+			foreach (var provId in provIds) {
+				if (ProvinceDefinitions.TryGetValue(provId, out var province)) {
+					province.AddSpecialCategory(category);
+				}
+			}
+		}
+	}
+
+	private static Rgb24 GetCenterColor(Point position, Image<Rgb24> provincesMap) {
+		return GetPixelColor(position, provincesMap);
+	}
+
+	private static Rgb24 GetAboveColor(Point position, Image<Rgb24> provincesMap) {
+		int y = position.Y;
+		if (y > 0) {
+			--y;
+		}
+
+		return GetPixelColor(new(position.X, y), provincesMap);
+	}
+
+	private static Rgb24 GetBelowColor(Point position, int height, Image<Rgb24> provincesMap) {
+		int y = position.Y;
+		if (y < height - 1) {
+			++y;
+		}
+
+		return GetPixelColor(new(position.X, y), provincesMap);
+	}
+
+	private static Rgb24 GetLeftColor(Point position, Image<Rgb24> provincesMap) {
+		int x = position.X;
+		if (x > 0) {
+			--x;
+		}
+
+		return GetPixelColor(new(x, position.Y), provincesMap);
+	}
+
+	private static Rgb24 GetRightColor(Point position, int width, Image<Rgb24> provincesMap) {
+		int x = position.X;
+		if (x < width - 1) {
+			++x;
+		}
+
+		return GetPixelColor(new(x, position.Y), provincesMap);
+	}
+
+	private static Rgb24 GetPixelColor(Point position, Image<Rgb24> provincesMap) {
+		return provincesMap[position.X, position.Y];
+	}
+
+	private void HandleNeighbor(
+		Rgb24 centerColor,
+		Rgb24 otherColor,
+		ProvinceDefinitions provinceDefinitions
+	) {
+		if (!provinceDefinitions.ColorToProvinceDict.TryGetValue(centerColor, out ulong centerProvince)) {
+			Logger.Warn($"Province not found for color {centerColor}!");
+			return;
+		}
+
+		if (!provinceDefinitions.ColorToProvinceDict.TryGetValue(otherColor, out ulong otherProvince)) {
+			Logger.Warn($"Province not found for color {otherColor}!");
+			return;
+		}
+
+		AddNeighbor(centerProvince, otherProvince);
+	}
+
+	private void AddNeighbor(ulong mainProvince, ulong neighborProvince) {
+		if (NeighborsDict.TryGetValue(mainProvince, out var neighbors)) {
+			neighbors.Add(neighborProvince);
+		} else {
+			NeighborsDict[mainProvince] = [neighborProvince];
+		}
+	}
+
+	/// Function for checking if two provinces are directly neighboring or border the same static water body.
+	public bool AreProvinceGroupsAdjacent(FrozenSet<ulong> group1, FrozenSet<ulong> group2) {
+		return AreProvinceGroupsAdjacentByLand(group1, group2) || AreProvinceGroupsConnectedByWaterBody(group1, group2);
+	}
+
+	public bool AreProvinceGroupsAdjacentByLand(FrozenSet<ulong> group1, FrozenSet<ulong> group2) {
+		var group1Neighbors = new HashSet<ulong>();
+		foreach (var province in group1) {
+			if (NeighborsDict.TryGetValue(province, out var neighbors)) {
+				group1Neighbors.UnionWith(neighbors);
+			}
+		}
+		if (group1Neighbors.Overlaps(group2)) {
+			return true;
+		}
+
+		var group1Adjacencies = new HashSet<ulong>();
+		foreach (var province in group1) {
+			if (provinceAdjacencies.TryGetValue(province, out var adjacencies)) {
+				group1Adjacencies.UnionWith(adjacencies);
+			}
+		}
+		if (group1Adjacencies.Overlaps(group2)) {
+			return true;
+		}
+
+		var group2RiverProvinceNeighbors = group2
+			.SelectMany(provId => NeighborsDict.TryGetValue(provId, out var neighbors) ? neighbors : [])
+			.Where(IsRiver)
+			.ToFrozenSet();
+		if (group1Neighbors.Overlaps(group2RiverProvinceNeighbors)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	// Function for checking if two land provinces are connected to the same water body.
+	public bool AreProvinceGroupsConnectedByWaterBody(FrozenSet<ulong> group1, FrozenSet<ulong> group2) {
+		var group1WaterBodies = new HashSet<ulong>();
+		foreach (var provId in group1) {
+			if (!NeighborsDict.TryGetValue(provId, out var neighbors)) {
+				continue;
+			}
+			foreach (var neighbor in neighbors) {
+				if (!IsStaticWater(neighbor)) {
+					continue;
+				}
+				if (waterBodiesDict.TryGetValue(neighbor, out var waterBodyId)) {
+					group1WaterBodies.Add(waterBodyId);
+				}
+			}
+		}
+		if (group1WaterBodies.Count == 0) {
+			return false;
+		}
+
+		foreach (var provId in group2) {
+			if (!NeighborsDict.TryGetValue(provId, out var neighbors)) {
+				continue;
+			}
+			foreach (var neighbor in neighbors) {
+				if (!IsStaticWater(neighbor)) {
+					continue;
+				}
+				if (waterBodiesDict.TryGetValue(neighbor, out var waterBodyId) && group1WaterBodies.Contains(waterBodyId)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	private void LoadAdjacencies(string adjacenciesFilename, ModFilesystem modFS) {
+		var adjacenciesPath = modFS.GetActualFileLocation(Path.Join("map_data", adjacenciesFilename));
+		if (adjacenciesPath is null) {
+			Logger.Warn($"Adjacencies file {adjacenciesFilename} not found!");
+			return;
+		}
+		Logger.Debug($"Loading adjacencies from \"{adjacenciesPath}\"...");
+
+		int count = 0;
+		using (var parser = new TextFieldParser(adjacenciesPath)) {
+			parser.TextFieldType = FieldType.Delimited;
+			parser.SetDelimiters(";");
+			parser.CommentTokens = ["#"];
+			parser.TrimWhiteSpace = true;
+
+			// Skip the header row.
+			parser.ReadFields();
+
+			while (!parser.EndOfData) {
+				string[]? fields = parser.ReadFields();
+				if (fields is null) {
+					continue;
+				}
+
+				if (fields.Length < 2) {
+					continue;
+				}
+
+				var fromStr = fields[0];
+				if (fromStr == "-1") {
+					continue;
+				}
+
+				var toStr = fields[1];
+				if (toStr == "-1") {
+					continue;
+				}
+
+				if (!ulong.TryParse(fromStr, out var from) || !ulong.TryParse(toStr, out var to)) {
+					continue;
+				}
+
+				AddAdjacency(from, to);
+				++count;
+			}
+		}
+		Logger.Debug($"Loaded {count} province adjacencies.");
+	}
+
+	private void AddAdjacency(ulong province1, ulong province2) {
+		if (!provinceAdjacencies.TryGetValue(province1, out var adjacencies)) {
+			adjacencies = [];
+			provinceAdjacencies[province1] = adjacencies;
+		}
+		adjacencies.Add(province2);
+
+		// Since adjacency is bidirectional, add the reverse adjacency as well
+		if (!provinceAdjacencies.TryGetValue(province2, out adjacencies)) {
+			adjacencies = [];
+			provinceAdjacencies[province2] = adjacencies;
+		}
+		adjacencies.Add(province1);
+	}
+
+	private void DetermineMapEdgeProvinces(ModFilesystem modFS) {
+		Logger.Debug("Determining map edge provinces...");
+
+		var mapPath = GetProvincesMapPath(modFS);
+		if (mapPath is null) {
+			return;
+		}
+
+		using var mapPng = Image.Load<Rgb24>(mapPath);
+		var height = mapPng.Height;
+		var width = mapPng.Width;
+
+		for (var y = 0; y < height; ++y) {
+			// Get left edge color.
+			var color = GetPixelColor(new Point(0, y), mapPng);
+			if (ProvinceDefinitions.ColorToProvinceDict.TryGetValue(color, out var provinceId)) {
+				mapEdgeProvinces.Add(provinceId);
+			} else {
+				Logger.Warn($"Province not found for color {color}!");
+			}
+
+			// Get right edge color.
+			color = GetPixelColor(new Point(width - 1, y), mapPng);
+			if (ProvinceDefinitions.ColorToProvinceDict.TryGetValue(color, out provinceId)) {
+				mapEdgeProvinces.Add(provinceId);
+			} else {
+				Logger.Warn($"Province not found for color {color}!");
+			}
+		}
+
+		for (var x = 0; x < width; ++x) {
+			// Get top edge color.
+			var color = GetPixelColor(new Point(x, 0), mapPng);
+			if (ProvinceDefinitions.ColorToProvinceDict.TryGetValue(color, out var provinceId)) {
+				mapEdgeProvinces.Add(provinceId);
+			} else {
+				Logger.Warn($"Province not found for color {color}!");
+			}
+
+			// Get bottom edge color.
+			color = GetPixelColor(new Point(x, height - 1), mapPng);
+			if (ProvinceDefinitions.ColorToProvinceDict.TryGetValue(color, out provinceId)) {
+				mapEdgeProvinces.Add(provinceId);
+			} else {
+				Logger.Warn($"Province not found for color {color}!");
+			}
+		}
+	}
+}

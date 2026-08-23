@@ -5,7 +5,9 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Coa;
 
-public class CoaMapperTests {
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
+public sealed class CoaMapperTests {
 	private const string ImperatorRoot = "TestFiles/MapperTests/CoaMapper/Imperator/game";
 	private static readonly ModFilesystem imperatorModFs = new(ImperatorRoot, Array.Empty<Mod>());
 
@@ -51,7 +53,7 @@ public class CoaMapperTests {
 		                    "\t\tcolor1 =\"bone_white\"\n" +
 		                    "\t\tcolor2 =\"offwhite\"\n" +
 		                    "\t\tinstance ={\n" +
-		                    "\t\t\tscale ={-0.9 0.9 }\"\n" +
+		                    "\t\t\tscale ={-0.9 0.9 }\n" +
 		                    "\t\t}\n" +
 		                    "\t}\n" +
 		                    "\tcolored_emblem ={\n" +
@@ -81,16 +83,62 @@ public class CoaMapperTests {
 	            }
             }";
 		Assert.Equal(coa1.Split('\n').Length,
-			coaMapper.GetCoaForFlagName("e_IRTOCK3_ADI")!.Split('\n').Length);
+			coaMapper.GetCoaForFlagName("e_IRTOCK3_ADI", warnIfMissing: false)!.Split('\n').Length);
 		Assert.Equal(coa2.Split('\n').Length,
-			coaMapper.GetCoaForFlagName("e_IRTOCK3_AMK")!.Split('\n').Length);
+			coaMapper.GetCoaForFlagName("e_IRTOCK3_AMK", warnIfMissing: false)!.Split('\n').Length);
 		Assert.Equal(coa3.Split('\n').Length,
-			coaMapper.GetCoaForFlagName("e_IRTOCK3_ANG")!.Split('\n').Length);
+			coaMapper.GetCoaForFlagName("e_IRTOCK3_ANG", warnIfMissing: false)!.Split('\n').Length);
 	}
 
 	[Fact]
 	public void GetCoaForFlagNameReturnsNullOnNonMatch() {
 		var coaMapper = new CoaMapper(imperatorModFs);
-		Assert.Null(coaMapper.GetCoaForFlagName("e_IRTOCK3_WRONG"));
+		Assert.Null(coaMapper.GetCoaForFlagName("e_IRTOCK3_WRONG", warnIfMissing: false));
+	}
+
+	[Fact]
+	public void ParseCoAsParsesTemplatesAndCoas() {
+		var coaMapper = new CoaMapper();
+
+		coaMapper.ParseCoAs([
+			"""
+			template = {
+				some_template = {
+					pattern = "pattern_solid.tga"
+				}
+			}
+			""",
+			"""
+			e_IRTOCK3_TEST = {
+				pattern = "pattern_solid.tga"
+				color1 = red
+			}
+			"""
+		]);
+
+		// The template should be ignored, while the CoA should be parsed.
+		Assert.Null(coaMapper.GetCoaForFlagName("some_template", warnIfMissing: false));
+
+		var coa = coaMapper.GetCoaForFlagName("e_IRTOCK3_TEST", warnIfMissing: false);
+		Assert.NotNull(coa);
+		Assert.Contains("pattern_solid.tga", coa);
+
+		// Variables are handled implicitly by the parser, so none should be stored for output.
+		Assert.Empty(coaMapper.VariablesToOutput);
+	}
+
+	[Fact]
+	public void ParseCoAsSupportsMultipleDefinitionsInOneString() {
+		var coaMapper = new CoaMapper();
+
+		coaMapper.ParseCoAs([
+			"""
+			e_IRTOCK3_FIRST = { pattern = "first.tga" }
+			e_IRTOCK3_SECOND = { pattern = "second.tga" }
+			"""
+		]);
+
+		Assert.Contains("first.tga", coaMapper.GetCoaForFlagName("e_IRTOCK3_FIRST", warnIfMissing: false));
+		Assert.Contains("second.tga", coaMapper.GetCoaForFlagName("e_IRTOCK3_SECOND", warnIfMissing: false));
 	}
 }

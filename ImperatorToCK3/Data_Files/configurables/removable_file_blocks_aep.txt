@@ -1,0 +1,105 @@
+# This file contains blocks from the Asia Expansion Project files that can be removed.
+# The structure is as follows:
+
+# <file name> = {
+# 	{
+#          # comments are supported inside
+#          some = code
+#   }
+# 	{
+#          some code
+# 	                some code with other indent
+#   }
+# }
+
+# INDENTATION IS IMPORTANT!
+# ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL FILE.
+# OTHERWISE THE BLOCK WON'T BE REMOVED!
+
+
+"common/scripted_character_templates/AEP_pool_repopulate_local_flavor.txt" = {
+	# Prevent random Muslim characters being generated.
+	{
+		else_if = {
+			limit = {
+				OR = {
+					culture = culture:butr
+					culture = culture:zaghawa
+				}
+			}
+			random_list = {
+				10 = {
+					set_character_faith = faith:ibadi
+				}
+				10 = {
+					set_character_faith = faith:sufri
+				}
+			}
+		}
+	}
+	{
+		else_if = {
+			limit = {
+				OR = {
+					culture = culture:bolghar
+					culture = culture:somali
+				}
+			}
+			set_character_faith = faith:ashari
+			if = {
+				limit = {
+					root.capital_county.faith = {
+						religion_tag = islam_religion
+					}
+				}
+				set_character_faith = root.capital_county.faith
+			}
+		}
+	}
+
+	# Prevent random Christian characters being generated.
+	{
+				2 = {
+					trigger = {
+						root.capital_province.faith = {
+							religion_tag = christianity_religion
+						}
+						root.capital_province = {
+							geographical_region = world_europe_west_iberia
+						}
+					}
+					set_character_faith = faith:conversos
+				}
+	}
+	{
+		else_if = {
+			limit = {
+				culture = culture:greek
+			}
+			random_list = {
+				10 = {
+					set_character_faith = faith:iconoclast
+				}
+				10 = {
+					set_character_faith = faith:paulician
+				}
+				10 = {
+					set_character_faith = faith:bogomilist
+				}
+			}
+		}
+	}
+	{
+				5 = {
+					set_character_faith = faith:nestorian
+				}
+	}
+	{
+		else_if = {
+			limit = {
+				culture = culture:assyrian
+			}
+			set_character_faith = faith:nestorian
+		}
+	}
+}

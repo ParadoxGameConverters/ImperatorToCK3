@@ -1,13 +1,14 @@
 using commonItems;
 using System.Collections.Generic;
+using Assignment = System.Collections.Generic.KeyValuePair<string, string>;
 
-namespace ImperatorToCK3.Mappers.Gene; 
+namespace ImperatorToCK3.Mappers.Gene;
 
-public class MorphGeneTemplateMapper {
-	private readonly Dictionary<string, IDictionary<string, string>> templateMappings = new(); // <geneName, <irTemplate, ck3Template>>
+internal sealed class MorphGeneTemplateMapper {
+	private readonly Dictionary<string, List<Assignment>> templateMappings = []; // <geneName, <irTemplate, ck3Template>>
 	
 	public MorphGeneTemplateMapper(string mappingsFilePath) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, geneName) => {
 			templateMappings[geneName] = reader.GetAssignments();
 		});
@@ -21,11 +22,17 @@ public class MorphGeneTemplateMapper {
 			return null;
 		}
 
-		if (templateMappingsForGene.TryGetValue(irTemplateName, out var ck3TemplateName)) {
-			return ck3TemplateName;
+		string? ck3TemplateName = null;
+		for (int i = 0; i < templateMappingsForGene.Count; ++i) {
+			var mapping = templateMappingsForGene[i];
+			if (mapping.Key == irTemplateName) {
+				ck3TemplateName = mapping.Value;
+				break;
+			}
 		}
-
-		Logger.Warn($"I:R template {irTemplateName} not found in morph gene template mappings!");
-		return null;
+		if (ck3TemplateName is null) {
+			Logger.Warn($"I:R template {irTemplateName} not found in morph gene template mappings!");
+		}
+		return ck3TemplateName;
 	}
 }

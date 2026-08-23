@@ -36,12 +36,14 @@ public class CountryTests {
 		Assert.False(country.PlayerCountry);
 		Assert.Null(country.Government);
 		Assert.Equal(GovernmentType.monarchy, country.GovernmentType);
+		Assert.Equal(CountryType.real, country.CountryType);
 	}
 	[Fact]
 	public void FieldsCanBeSet() {
 		var reader = new BufferedReader(
 			"= {\n" +
 			"\ttag=\"WTF\"" +
+			"\tcountry_type = pirates" +
 			"\thistorical=\"WTF\"" +
 			"\tcountry_name = {\n" +
 			"\t\tname=\"WTF\"\n" +
@@ -81,6 +83,7 @@ public class CountryTests {
 		Assert.Equal(new Color(7, 8, 9), country.Color3);
 		Assert.Equal("dictatorship", country.Government);
 		Assert.Equal(GovernmentType.monarchy, country.GovernmentType);
+		Assert.Equal(CountryType.pirates, country.CountryType);
 
 		var countries = new CountryCollection { country };
 
@@ -201,6 +204,46 @@ public class CountryTests {
 		Assert.Collection(country.GetLaws(),
 			item => Assert.Equal("lawA", item),
 			item => Assert.Equal("lawD", item)
+		);
+	}
+
+	[Fact]
+	public void LawsAreReturnedForRepublicAndTribalCountries() {
+		var config = new Configuration {
+			ImperatorPath = "TestFiles/Imperator"
+		};
+		var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
+		var mods = new List<Mod> {
+			new("cool_mod", Path.Combine(Directory.GetCurrentDirectory(), "TestFiles/documents/Imperator/mod/cool_mod"))
+		};
+		var imperatorModFS = new ModFilesystem(imperatorRoot, mods);
+
+		Country.LoadGovernments(imperatorModFS);
+
+		var republicReader = new BufferedReader(
+			"= {\n" +
+			"\tgovernment_key = aristocratic_republic\n" +
+			"\tsuccession_law = lawA\n" + // won't be returned, law is for monarchies
+			"\trepublican_mediterranean_laws = lawC\n" +
+			"}"
+		);
+		var republic = Country.Parse(republicReader, 1);
+		Assert.Equal(GovernmentType.republic, republic.GovernmentType);
+		Assert.Collection(republic.GetLaws(),
+			item => Assert.Equal("lawC", item)
+		);
+
+		var tribalReader = new BufferedReader(
+			"= {\n" +
+			"\tgovernment_key = tribal_federation\n" +
+			"\tmonarchy_legitimacy_laws = lawD\n" + // won't be returned, law is for monarchies
+			"\ttribal_authority_laws = lawB\n" +
+			"}"
+		);
+		var tribal = Country.Parse(tribalReader, 2);
+		Assert.Equal(GovernmentType.tribal, tribal.GovernmentType);
+		Assert.Collection(tribal.GetLaws(),
+			item => Assert.Equal("lawB", item)
 		);
 	}
 

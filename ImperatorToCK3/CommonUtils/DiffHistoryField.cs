@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.CommonUtils;
 
-internal class DiffHistoryField : IHistoryField {
+internal sealed class DiffHistoryField : IHistoryField {
 	public string Id { get; }
-	public List<KeyValuePair<string, object>> InitialEntries { get; } = new();
+	public List<KeyValuePair<string, object>> InitialEntries { get; } = [];
 
 	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; } = new();
 
@@ -38,10 +38,14 @@ internal class DiffHistoryField : IHistoryField {
 		}
 	}
 
-	public object? GetValue(Date date) {
+	public object? GetValue(Date? date) {
 		var toReturn = new OrderedSet<object>();
 		foreach (var (keyword, value) in InitialEntries) {
 			AddOrRemoveToValueSet(toReturn, keyword, value);
+		}
+
+		if (date is null) {
+			return toReturn;
 		}
 
 		foreach (var (entriesDate, entries) in DateToEntriesDict) {
@@ -63,12 +67,10 @@ internal class DiffHistoryField : IHistoryField {
 			if (date is null) {
 				InitialEntries.Add(newEntry);
 			} else {
-				if (DateToEntriesDict.TryGetValue(date, out var entriesList)) {
+				if (DateToEntriesDict.TryGetValue(date.Value, out var entriesList)) {
 					entriesList.Add(newEntry);
 				} else {
-					DateToEntriesDict.Add(date, new List<KeyValuePair<string, object>> {
-						newEntry
-					});
+					DateToEntriesDict.Add(date.Value, [newEntry]);
 				}
 			}
 		} else {
@@ -79,13 +81,23 @@ internal class DiffHistoryField : IHistoryField {
 	public void RegisterKeywords(Parser parser, Date date) {
 		foreach (var keyword in insertKeywords) {
 			parser.RegisterKeyword(keyword, reader => {
-				var value = HistoryFactory.GetValue(reader.GetString());
+				var valueStr = reader.GetString();
+				// If valueStr is the question sign from the "?=" operator, get another string.
+				if (valueStr == "?") {
+					valueStr = reader.GetString();
+				}
+				var value = HistoryFactory.GetValue(valueStr);
 				AddEntryToHistory(date, keyword, value);
 			});
 		}
 		foreach (var keyword in removeKeywords) {
 			parser.RegisterKeyword(keyword, reader => {
-				var value = HistoryFactory.GetValue(reader.GetString());
+				var valueStr = reader.GetString();
+				// If valueStr is the question sign from the "?=" operator, get another string.
+				if (valueStr == "?") {
+					valueStr = reader.GetString();
+				}
+				var value = HistoryFactory.GetValue(valueStr);
 				AddEntryToHistory(date, keyword, value);
 			});
 		}

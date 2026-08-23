@@ -29,7 +29,7 @@ public class SubunitTests {
 		Assert.Equal((ulong)420, subunit.Id);
 		Assert.Equal("regular", subunit.Category);
 		Assert.Equal("archers", subunit.Type);
-		Assert.Equal(0.0375, subunit.Strength);
+		Assert.Equal(0.0375f, subunit.Strength);
 		Assert.Equal((ulong)2, subunit.CountryId);
 	}
 }

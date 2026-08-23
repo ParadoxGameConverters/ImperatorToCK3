@@ -4,9 +4,9 @@
 # [normal adjective]: something-ск, without dots or endings
 
  # version 0.1
- old_egyptian: "Египетяне"
- old_egyptian_collective_noun: "Египетск"
- old_egyptian_prefix: "Египто"
+ ancient_egyptian: "Египетяне"
+ ancient_egyptian_collective_noun: "Египетск"
+ ancient_egyptian_prefix: "Египто"
 
  numidian: "Нумидийцы"
  numidian_collective_noun: "Нумидийск"
@@ -84,9 +84,9 @@
  vandal_collective_noun: "Вандальск"
  vandal_prefix: "Вандало"
 
- iberian: "Иберы"
- iberian_collective_noun: "Иберск"
- iberian_prefix: "Иберо"
+ non_indo_european_iberian: "Иберы"
+ non_indo_european_iberian_collective_noun: "Иберск"
+ non_indo_european_iberian_prefix: "Иберо"
 
  nuragic: "Нураги"
  nuragic_collective_noun: "Нурагическ"
@@ -332,8 +332,8 @@
  romano_british_group_collective_noun: "Романобританск"
  romano_german_group: "Романогерманск"
  romano_german_group_collective_noun: "Романогерманск"
- aboriginal_group: "Туземск"
- aboriginal_group_collective_noun: "Туземск"
+ nuragic_group: "нурагический"
+ nuragic_group_collective_noun: "нурагики"
  tyrrhenian: "Тиррены"
  tyrrhenian_collective_noun: "Тирренск"
  tyrrhenian_prefix: "Тирренo"
@@ -353,9 +353,9 @@
  galatian: "Галаты"
  galatian_collective_noun: "Галатск"
  galatian_prefix: "Галатo"
- hunnic: "Гунны"
- hunnic_collective_noun: "Гуннск"
- hunnic_prefix: "Гуннo"
+ #hunnic: "Гунны"
+ #hunnic_collective_noun: "Гуннск"
+ #hunnic_prefix: "Гуннo"
  urslavic: "Эсты"
  urslavic_collective_noun: "Эстийск"
  urslavic_prefix: "Эсто"
@@ -402,3 +402,7 @@
  vandilian: "Норманны"
  vandilian_collective_noun: "Норманнск"
  vandilian_prefix: "Норманно"
+
+ chong: "Самрэ"
+ chong_collective_noun: "Самрэск"
+ chong_prefix: "Самрэ"

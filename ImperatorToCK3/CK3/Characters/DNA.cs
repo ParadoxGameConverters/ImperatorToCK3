@@ -1,54 +1,59 @@
 ﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace ImperatorToCK3.CK3.Characters;
 
-public class DNA {
-	public class PaletteCoordinates {
+internal sealed class DNA {
+	[StructLayout(LayoutKind.Auto)]
+	internal readonly struct PaletteCoordinates {
 		// hair, skin and eye color palettes are 256x256
-		public int X { get; init; } = 128;
-		public int Y { get; init; } = 128;
+		public ushort X { get; init; } = 128;
+		public ushort Y { get; init; } = 128;
+
+		internal PaletteCoordinates(ushort x, ushort y) {
+			X = x;
+			Y = y;
+		}
 	}
 
 	public string Id { get; }
-	
+
 	private readonly Dictionary<string, DNAColorGeneValue> colorDNAValues;
 	private readonly Dictionary<string, DNAGeneValue> morphDNAValues;
-	private readonly Dictionary<string, DNAGeneValue> accessoryDNAValues;
-	public IReadOnlyDictionary<string, DNAGeneValue> AccessoryDNAValues => accessoryDNAValues;
+	private readonly Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues;
+	public IReadOnlyDictionary<string, DNAAccessoryGeneValue> AccessoryDNAValues => accessoryDNAValues;
 
 	public IEnumerable<string> DNALines {
 		get {
-			var colorLines = colorDNAValues
-				.Select(kvp => $"{kvp.Key}={{ {kvp.Value} }}");
-			var morphGeneLines = morphDNAValues
-				.Select(kvp => $"{kvp.Key}={{ {kvp.Value} }}");
-			var accessoryGeneLines = accessoryDNAValues
-				.Select(kvp => $"{kvp.Key}={{ {kvp.Value} }}");
-			return colorLines.Concat(morphGeneLines).Concat(accessoryGeneLines);
+			foreach (var kvp in colorDNAValues) yield return $"{kvp.Key}={{ {kvp.Value} }}";
+			foreach (var kvp in morphDNAValues) yield return $"{kvp.Key}={{ {kvp.Value} }}";
+			foreach (var kvp in accessoryDNAValues) yield return $"{kvp.Key}={{ {kvp.Value} }}";
 		}
 	}
 
 	public DNA(
 		string id,
-		IDictionary<string, DNAColorGeneValue> colorDNAValues,
-		IDictionary<string, DNAGeneValue> morphDNAValues,
-		IDictionary<string, DNAGeneValue> accessoryDNAValues
+		Dictionary<string, DNAColorGeneValue> colorDNAValues,
+		Dictionary<string, DNAGeneValue> morphDNAValues,
+		Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues
 	) {
 		Id = id;
-		this.colorDNAValues = new Dictionary<string, DNAColorGeneValue>(colorDNAValues);
-		this.morphDNAValues = new Dictionary<string, DNAGeneValue>(morphDNAValues);
-		this.accessoryDNAValues = new Dictionary<string, DNAGeneValue>(accessoryDNAValues);
+		this.colorDNAValues = new(colorDNAValues);
+		this.morphDNAValues = new(morphDNAValues);
+		this.accessoryDNAValues = new(accessoryDNAValues);
 	}
 
-	public void OutputGenes(StreamWriter output) {
-		output.WriteLine("\t\tgenes={");
+	public void WriteGenes(StringBuilder sb) {
+		sb.AppendLine("\t\tgenes={");
 
-		foreach (var dnaLine in DNALines) {
-			output.WriteLine($"\t\t\t{dnaLine}");
-		}
+		foreach (var kvp in colorDNAValues)
+			sb.Append("\t\t\t").Append(kvp.Key).Append("={ ").Append(kvp.Value).AppendLine(" }");
+		foreach (var kvp in morphDNAValues)
+			sb.Append("\t\t\t").Append(kvp.Key).Append("={ ").Append(kvp.Value).AppendLine(" }");
+		foreach (var kvp in accessoryDNAValues)
+			sb.Append("\t\t\t").Append(kvp.Key).Append("={ ").Append(kvp.Value).AppendLine(" }");
 
-		output.WriteLine("\t\t}");
+		sb.AppendLine("\t\t}");
 	}
 }

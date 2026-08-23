@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Provinces;
 
-public partial class Province {
+internal partial class Province {
 	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 	static Province() {
 		provinceParser.RegisterKeyword("province_name", reader =>
@@ -18,34 +18,18 @@ public partial class Province {
 			parsedProvince.Controller = reader.GetULong()
 		);
 		provinceParser.RegisterKeyword("culture", reader =>
-			parsedProvince.Culture = reader.GetString()
+			parsedProvince.Culture = string.Intern(reader.GetString())
 		);
 		provinceParser.RegisterKeyword("religion", reader =>
-			parsedProvince.ReligionId = reader.GetString()
+			parsedProvince.ReligionId = string.Intern(reader.GetString())
 		);
 		provinceParser.RegisterKeyword("pop", reader =>
 			parsedProvince.parsedPopIds.Add(reader.GetULong())
 		);
 		provinceParser.RegisterKeyword("civilization_value", reader =>
-			parsedProvince.CivilizationValue = reader.GetDouble()
+			parsedProvince.CivilizationValue = reader.GetFloat()
 		);
-		provinceParser.RegisterKeyword("province_rank", reader => {
-			var provinceRankStr = reader.GetString();
-			switch (provinceRankStr) {
-				case "settlement":
-					parsedProvince.ProvinceRank = ProvinceRank.settlement;
-					break;
-				case "city":
-					parsedProvince.ProvinceRank = ProvinceRank.city;
-					break;
-				case "city_metropolis":
-					parsedProvince.ProvinceRank = ProvinceRank.city_metropolis;
-					break;
-				default:
-					Logger.Warn($"Unknown province rank for province {parsedProvince.Id}: {provinceRankStr}");
-					break;
-			}
-		});
+		provinceParser.RegisterKeyword("province_rank", SetParsedProvinceRank);
 		provinceParser.RegisterKeyword("fort", reader =>
 			parsedProvince.Fort = reader.GetBool()
 		);
@@ -53,7 +37,7 @@ public partial class Province {
 			var holdingOwnerId = reader.GetULong();
 			// 4294967295 equals (2^32 − 1) and is the default value
 			// otherwise, the value is the ID of a character
-			if (holdingOwnerId != 4294967295) {
+			if (holdingOwnerId != 4_294_967_295) {
 				parsedProvince.HoldingOwnerId = holdingOwnerId;
 			}
 		});
@@ -61,7 +45,7 @@ public partial class Province {
 			var holySiteId = reader.GetULong();
 			// 4294967295 equals (2^32 − 1) and is the default value
 			// otherwise, the value is the ID of a deity (see deities_database block in the save)
-			if (holySiteId != 4294967295) {
+			if (holySiteId != 4_294_967_295) {
 				parsedProvince.HolySiteId = holySiteId;
 			}
 		});
@@ -71,6 +55,25 @@ public partial class Province {
 		});
 		provinceParser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
 	}
+
+	private static void SetParsedProvinceRank(BufferedReader reader) {
+		var provinceRankStr = reader.GetString();
+		switch (provinceRankStr) {
+			case "settlement":
+				parsedProvince.ProvinceRank = ProvinceRank.settlement;
+				break;
+			case "city":
+				parsedProvince.ProvinceRank = ProvinceRank.city;
+				break;
+			case "city_metropolis":
+				parsedProvince.ProvinceRank = ProvinceRank.city_metropolis;
+				break;
+			default:
+				Logger.Warn($"Unknown province rank for province {parsedProvince.Id}: {provinceRankStr}");
+				break;
+		}
+	}
+
 	public static Province Parse(BufferedReader reader, ulong provinceId, StateCollection states, CountryCollection countries) {
 		parsedStateId = null;
 		parsedOwnerId = null;
@@ -79,7 +82,11 @@ public partial class Province {
 		provinceParser.ParseStream(reader);
 
 		if (parsedStateId is not null) {
-			parsedProvince.State = states[parsedStateId.Value];
+			if (!states.TryGetValue(parsedStateId.Value, out var state)) {
+				Logger.Warn($"Province {parsedProvince.Id} has state ID {parsedStateId}, but no such state has been loaded!");
+			} else {
+				parsedProvince.State = state;
+			}
 		}
 
 		parsedProvince.TryLinkOwnerCountry(parsedOwnerId, countries);
@@ -105,5 +112,5 @@ public partial class Province {
 	private static ulong? parsedStateId = null;
 	private static ulong? parsedOwnerId = null;
 
-	private static readonly Parser provinceParser = new();
+	private static readonly Parser provinceParser = new(implicitVariableHandling: false);
 }

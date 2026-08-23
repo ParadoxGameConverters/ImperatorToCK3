@@ -1,8 +1,11 @@
 ﻿using commonItems;
 using commonItems.Colors;
+using commonItems.Mods;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Jobs;
+using ImperatorToCK3.Imperator.Provinces;
 using ImperatorToCK3.Mappers.Region;
 using System;
 using Xunit;
@@ -18,7 +21,10 @@ public class GovernorshipTests {
 		countryCollection.Add(new Country(589));
 		
 		var areas = new AreaCollection();
-		irRegionMapper = new ImperatorRegionMapper(areas);
+		const string imperatorRoot = "TestFiles/Imperator/root";
+		ModFilesystem irModFS = new(imperatorRoot, Array.Empty<Mod>());
+		var irMapData = new MapData(irModFS);
+		irRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		
 		var region = new ImperatorRegion("galatia_region", new BufferedReader(string.Empty), Areas, new ColorFactory());
 		irRegionMapper.Regions.Add(region);
@@ -57,5 +63,29 @@ public class GovernorshipTests {
 			"start_date=450.10.1\n"
 		);
 		Assert.Throws<FormatException>(() => new Governorship(reader, countryCollection, irRegionMapper));
+	}
+
+	[Fact]
+	public void ProvinceCountTracksOwnerChangesWithinRegion() {
+		var provinces = new ProvinceCollection {
+			new Province(1),
+			new Province(2),
+			new Province(3)
+		};
+		var areas = new AreaCollection {
+			new Area("test_area", new BufferedReader("provinces={ 1 2 }"), provinces)
+		};
+		var region = new ImperatorRegion("test_region", new BufferedReader("areas={ test_area }"), areas, new ColorFactory());
+		var country = new Country(1);
+		var governorship = new Governorship(country, characterId: 2, startDate: new Date(1, 1, 1), region);
+
+		Assert.Equal(0, governorship.GetIRProvinceCount(provinces));
+
+		provinces[1].OwnerCountry = country;
+		Assert.Equal(1, governorship.GetIRProvinceCount(provinces));
+
+		provinces[2].OwnerCountry = country;
+		provinces[3].OwnerCountry = country;
+		Assert.Equal(2, governorship.GetIRProvinceCount(provinces));
 	}
 }

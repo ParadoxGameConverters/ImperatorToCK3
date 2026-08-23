@@ -1,0 +1,4 @@
+test_version = {
+	link = { imp = 2 ck3 = 2 }
+	link = { imp = 3 ck3 = 3 }
+}

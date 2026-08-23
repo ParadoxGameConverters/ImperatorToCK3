@@ -1,11 +1,12 @@
 ﻿using commonItems;
 using commonItems.Colors;
+using commonItems.Collections;
 using commonItems.Mods;
-using FluentAssertions;
-using ImperatorToCK3.CK3.Cultures;
+using AwesomeAssertions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.States;
@@ -26,6 +27,7 @@ namespace ImperatorToCK3.UnitTests.CK3.Provinces;
 public class ProvinceTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/game";
 	private static readonly ModFilesystem IRModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(IRModFS);
 	private static readonly ImperatorRegionMapper IRRegionMapper;
 	private readonly Date ck3BookmarkDate = "476.1.1";
 	private readonly StateCollection states = new();
@@ -36,7 +38,7 @@ public class ProvinceTests {
 		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection {new(1), new(2), new(3)};
 		AreaCollection areas = new();
 		areas.LoadAreas(IRModFS, irProvinces);
-		IRRegionMapper = new ImperatorRegionMapper(areas);
+		IRRegionMapper = new ImperatorRegionMapper(areas, irMapData);
 		IRRegionMapper.LoadRegions(IRModFS, new ColorFactory());
 		
 		Countries.LoadCountries(new BufferedReader("1={}"));
@@ -99,7 +101,7 @@ public class ProvinceTests {
 			ck3Provinces.Add(ck3Province);
 			ck3Province.InitializeFromImperator(
 				irProvince,
-				ImmutableHashSet<ImperatorToCK3.Imperator.Provinces.Province>.Empty,
+				new OrderedSet<ImperatorToCK3.Imperator.Provinces.Province>(),
 				landedTitles,
 				cultureMapper,
 				religionMapper,
@@ -168,14 +170,16 @@ public class ProvinceTests {
 			" = { province_rank=city_metropolis holy_site=69 fort=yes }",
 			" = { province_rank=city_metropolis fort=yes }",
 			" = { province_rank=city_metropolis }",
+			" = { province_rank=settlement fort=yes}",
 			" = { province_rank=settlement }",
 		});
 		ck3Provinces = GetCK3ProvincesForIRGovernment(irProvinces, "tribal_federation");
 		holdingTypes = ck3Provinces.Select(p => p.GetHoldingType(ck3BookmarkDate));
 		holdingTypes.Should().Equal(
 			"church_holding",
-			"castle_holding",
+			"city_holding", // For non-capital baronies of tribal realms, forts are not converted to castles.
 			"city_holding",
+			"none", // For non-capital baronies of tribal realms, forts are not converted to castles.
 			"none"
 		);
 	}

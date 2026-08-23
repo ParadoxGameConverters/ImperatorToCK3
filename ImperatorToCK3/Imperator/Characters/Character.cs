@@ -4,14 +4,15 @@ using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.CommonUtils.Genes;
+using ImperatorToCK3.CommonUtils.Map;
 using Open.Collections;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
 
-namespace ImperatorToCK3.Imperator.Characters; 
+namespace ImperatorToCK3.Imperator.Characters;
 
-public class Character : IIdentifiable<ulong> {
+internal sealed class Character : IIdentifiable<ulong> {
 	public Character(ulong id) {
 		Id = id;
 	}
@@ -38,7 +39,7 @@ public class Character : IIdentifiable<ulong> {
 		set => culture = value;
 	}
 	public string Religion { get; set; } = string.Empty;
-	public double? Health { get; private set; }
+	public float? Health { get; private set; }
 	public string Name { get; set; } = string.Empty;
 	public string? CustomName { get; set; }
 
@@ -59,21 +60,23 @@ public class Character : IIdentifiable<ulong> {
 	}
 
 	public string? Nickname { get; set; }
-	public ulong ProvinceId { get; private set; } = 0;
+	public ulong? ProvinceId { get; private set; }
 	public Date BirthDate { get; private set; } = new(1, 1, 1);
 	public Date? DeathDate { get; set; }
 	public bool IsDead => DeathDate is not null;
 	public string? DeathReason { get; set; }
-	private HashSet<ulong> parsedSpouseIds = new();
-	public Dictionary<ulong, Character> Spouses { get; set; } = new();
-	public OrderedSet<ulong> FriendIds { get; } = new();
-	public OrderedSet<ulong> RivalIds { get; } = new();
-	private HashSet<ulong> parsedChildrenIds = new();
-	public Dictionary<ulong, Character> Children { get; set; } = new();
+	private HashSet<ulong> parsedSpouseIds = [];
+	public Dictionary<ulong, Character> Spouses { get; set; } = [];
+	public OrderedSet<ulong> FriendIds { get; } = [];
+	public OrderedSet<ulong> RivalIds { get; } = [];
+	private HashSet<ulong> parsedChildrenIds = [];
+	public Dictionary<ulong, Character> Children { get; set; } = [];
 	private ulong? parsedMotherId;
 	public Character? Mother { get; set; }
 	private ulong? parsedFatherId;
 	public Character? Father { get; set; }
+
+	public string? FamilyName { get; private set; } // For characters from minor families, this contains their actual family name.
 	private ulong? parsedFamilyId;
 	private Family? family;
 	public Family? Family {
@@ -85,11 +88,12 @@ public class Character : IIdentifiable<ulong> {
 			family = value;
 		}
 	}
-	public List<string> Traits { get; set; } = new();
+
+	public List<string> Traits { get; set; } = [];
 	public CharacterAttributes Attributes { get; private set; } = new();
 	public IReadOnlySet<string> Variables { get; private set; } = ImmutableHashSet<string>.Empty;
 	public bool IsBald => Variables.Contains("bald");
-	public uint Age { get; private set; } = new();
+	public uint Age { get; private set; } = 0;
 	public string? DNA { get; private set; }
 	public PortraitData? PortraitData { get; private set; }
 	public string AgeSex {
@@ -101,95 +105,115 @@ public class Character : IIdentifiable<ulong> {
 		}
 	}
 	public bool Female { get; set; } = false;
-	public double Wealth { get; set; } = 0;
-	public ImmutableList<Unborn> Unborns { get; private set; } = ImmutableList<Unborn>.Empty;
+	public float? Fertility { get; private set; }
+	public float Wealth { get; set; } = 0;
+	public ImmutableList<Unborn> Unborns { get; private set; } = [];
 
 	public CK3.Characters.Character? CK3Character { get; set; }
+	public static ConcurrentIgnoredKeywordsSet IgnoredTokens { get; } = [];
 
-	private static readonly Parser parser = new();
-	private static Character parsedCharacter = new(0);
-	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
-	static Character() {
-		parser.RegisterKeyword("first_name_loc", reader => {
-			var characterName = new CharacterName(reader);
-			parsedCharacter.Name = characterName.Name;
-			parsedCharacter.CustomName = characterName.CustomName;
-		});
-		parser.RegisterKeyword("country", reader => parsedCharacter.parsedCountryId = reader.GetULong());
-		parser.RegisterKeyword("home_country", reader => parsedCharacter.parsedHomeCountryId = reader.GetULong());
-		parser.RegisterKeyword("province", reader => parsedCharacter.ProvinceId = reader.GetULong());
-		parser.RegisterKeyword("culture", reader => parsedCharacter.culture = reader.GetString());
-		parser.RegisterKeyword("religion", reader => parsedCharacter.Religion = reader.GetString());
-		parser.RegisterKeyword("health", reader => parsedCharacter.Health = reader.GetDouble());
-		parser.RegisterKeyword("family", reader => parsedCharacter.parsedFamilyId = reader.GetULong());
-		parser.RegisterKeyword("traits", reader => parsedCharacter.Traits = reader.GetStrings());
-		parser.RegisterKeyword("female", reader => parsedCharacter.Female = reader.GetBool());
-		parser.RegisterKeyword("children", reader => parsedCharacter.parsedChildrenIds = reader.GetULongs().ToHashSet());
-		parser.RegisterKeyword("spouse", reader => parsedCharacter.parsedSpouseIds = reader.GetULongs().ToHashSet());
-		parser.RegisterKeyword("friends", reader => {
-			parsedCharacter.FriendIds.Clear();
-			parsedCharacter.FriendIds.AddRange(reader.GetULongs());
-		});
-		parser.RegisterKeyword("rivals", reader => {
-			parsedCharacter.RivalIds.Clear();
-			parsedCharacter.RivalIds.AddRange(reader.GetULongs());
-		});
-		parser.RegisterKeyword("age", reader => parsedCharacter.Age = (uint)reader.GetInt());
-		parser.RegisterKeyword("birth_date", reader => {
-			var dateStr = reader.GetString();
-			parsedCharacter.BirthDate = new Date(dateStr, true); // converted to AD
-		});
-		parser.RegisterKeyword("death_date", reader => {
-			var dateStr = reader.GetString();
-			parsedCharacter.DeathDate = new Date(dateStr, true); // converted to AD
-		});
-		parser.RegisterKeyword("death", reader => parsedCharacter.DeathReason = reader.GetString());
-		parser.RegisterKeyword("attributes", reader => parsedCharacter.Attributes = CharacterAttributes.Parse(reader));
-		parser.RegisterKeyword("nickname", reader => parsedCharacter.Nickname = reader.GetString());
-		parser.RegisterKeyword("dna", reader => parsedCharacter.DNA = reader.GetString());
-		parser.RegisterKeyword("mother", reader => parsedCharacter.parsedMotherId = reader.GetULong());
-		parser.RegisterKeyword("father", reader => parsedCharacter.parsedFatherId = reader.GetULong());
-		parser.RegisterKeyword("wealth", reader => parsedCharacter.Wealth = reader.GetDouble());
-		parser.RegisterKeyword("unborn", reader => {
-			var unborns = new List<Unborn>();
-			foreach (var blob in new BlobList(reader).Blobs) {
-				var blobReader = new BufferedReader(blob);
-				var unborn = Unborn.Parse(blobReader);
-				if (unborn is null) {
-					continue;
-				}
-				unborns.Add(unborn);
-			}
-			parsedCharacter.Unborns = unborns.ToImmutableList();
-		});
-		parser.RegisterKeyword("prisoner_home", reader => parsedCharacter.parsedPrisonerHomeId = reader.GetULong());
-		parser.RegisterKeyword("variables", reader => {
-			var variables = new HashSet<string>();
+	private static void RegisterCharacterKeywords(Parser parser, Character character) {
+		parser.RegisterKeyword("first_name_loc", r => SetCharacterName(character, r));
+		parser.RegisterKeyword("family_name", reader => character.FamilyName = reader.GetString());
+		parser.RegisterKeyword("country", reader => character.parsedCountryId = reader.GetULong());
+		parser.RegisterKeyword("home_country", reader => character.parsedHomeCountryId = reader.GetULong());
+		parser.RegisterKeyword("province", reader => character.ProvinceId = reader.GetULong());
+		parser.RegisterKeyword("culture", reader => character.culture = string.Intern(reader.GetString()));
+		parser.RegisterKeyword("religion", reader => character.Religion = string.Intern(reader.GetString()));
+		parser.RegisterKeyword("fertility", reader => character.Fertility = reader.GetFloat());
+		parser.RegisterKeyword("health", reader => character.Health = reader.GetFloat());
+		parser.RegisterKeyword("family", reader => character.parsedFamilyId = reader.GetULong());
+		parser.RegisterKeyword("traits", reader => character.Traits = reader.GetAndInternStrings());
+		parser.RegisterKeyword("female", reader => character.Female = reader.GetBool());
+		parser.RegisterKeyword("children", reader => character.parsedChildrenIds = [.. reader.GetULongs()]);
+		parser.RegisterKeyword("spouse", reader => character.parsedSpouseIds = [.. reader.GetULongs()]);
+		parser.RegisterKeyword("friends", r => SetFriendIds(character, r));
+		parser.RegisterKeyword("rivals", r => SetRivalIds(character, r));
+		parser.RegisterKeyword("age", reader => character.Age = (uint)Math.Max(0, reader.GetInt()));
+		parser.RegisterKeyword("birth_date", r => SetBirthDate(character, r));
+		parser.RegisterKeyword("death_date", r => SetDeathDate(character, r));
+		parser.RegisterKeyword("death", reader => character.DeathReason = string.Intern(reader.GetString()));
+		parser.RegisterKeyword("attributes", reader => character.Attributes = CharacterAttributes.Parse(reader));
+		parser.RegisterKeyword("nickname", reader => character.Nickname = string.Intern(reader.GetString()));
+		parser.RegisterKeyword("dna", reader => character.DNA = reader.GetString());
+		parser.RegisterKeyword("mother", reader => character.parsedMotherId = reader.GetULong());
+		parser.RegisterKeyword("father", reader => character.parsedFatherId = reader.GetULong());
+		parser.RegisterKeyword("wealth", reader => character.Wealth = reader.GetFloat());
+		parser.RegisterKeyword("unborn", r => SetUnborns(character, r));
+		parser.RegisterKeyword("prisoner_home", reader => character.parsedPrisonerHomeId = reader.GetULong());
+		parser.RegisterKeyword("variables", r => SetVariables(character, r));
+		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
+	}
+
+	private static void SetVariables(Character character, BufferedReader reader) {
+		var variables = new HashSet<string>();
 			var variablesParser = new Parser();
 			variablesParser.RegisterKeyword("data", dataReader => {
 				var blobParser = new Parser();
-				blobParser.RegisterKeyword("flag", blobReader => variables.Add(blobReader.GetString()));
+				blobParser.RegisterKeyword("flag", blobReader => variables.Add(string.Intern(blobReader.GetString())));
 				blobParser.IgnoreUnregisteredItems();
-				
+
 				foreach (var blob in new BlobList(dataReader).Blobs) {
-					var blobReader = new BufferedReader(blob);
-					blobParser.ParseStream(blobReader);
+					blobParser.ParseStream(new BufferedReader(blob));
 				}
 			});
 			variablesParser.RegisterKeyword("list", ParserHelpers.IgnoreItem);
 			variablesParser.IgnoreAndLogUnregisteredItems();
 			variablesParser.ParseStream(reader);
-			parsedCharacter.Variables = variables.ToImmutableHashSet();
-		});
-		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
+			character.Variables = variables.ToImmutableHashSet();
 	}
+
+	private static void SetCharacterName(Character character, BufferedReader reader) {
+		var characterName = new CharacterName(reader);
+		character.Name = characterName.Name;
+		character.CustomName = characterName.CustomName;
+	}
+
+	private static void SetDeathDate(Character character, BufferedReader reader) {
+		character.DeathDate = new Date(reader.GetString(), AUC: true); // converted to AD
+	}
+
+	private static void SetBirthDate(Character character, BufferedReader reader) {
+		var dateStr = reader.GetString();
+		try {
+			character.BirthDate = new Date(dateStr, AUC: true); // converted to AD
+		} catch (ArgumentOutOfRangeException e) {
+			Logger.Warn($"Failed to parse birth date \"{dateStr}\" for character {character.Id}: {e.Message}");
+		}
+	}
+
+	private static void SetFriendIds(Character character, BufferedReader reader) {
+		character.FriendIds.Clear();
+		character.FriendIds.AddRange(reader.GetULongs());
+	}
+
+	private static void SetRivalIds(Character character, BufferedReader reader) {
+		character.RivalIds.Clear();
+		character.RivalIds.AddRange(reader.GetULongs());
+	}
+
+	private static void SetUnborns(Character character, BufferedReader reader) {
+		var unborns = new List<Unborn>();
+		foreach (var blob in new BlobList(reader).Blobs) {
+			var blobReader = new BufferedReader(blob);
+			var unborn = Unborn.Parse(blobReader);
+			if (unborn is null) {
+				continue;
+			}
+			unborns.Add(unborn);
+		}
+		character.Unborns = [.. unborns];
+	}
+
 	public static Character Parse(BufferedReader reader, string idString, GenesDB? genesDB) {
-		parsedCharacter = new Character(ulong.Parse(idString));
+		var parser = new Parser(implicitVariableHandling: false);
+		var parsedCharacter = new Character(ulong.Parse(idString));
+		RegisterCharacterKeywords(parser, parsedCharacter);
 
 		parser.ParseStream(reader);
 		if (genesDB is null) {
 			Logger.Warn($"GenesDB is null when parsing character {idString}!");
-		} else if (parsedCharacter.DNA?.Length == 552) {
+		} else if (parsedCharacter.DNA?.Length > 0) {
 			parsedCharacter.PortraitData = new PortraitData(parsedCharacter.DNA, genesDB, parsedCharacter.AgeSex);
 		}
 
@@ -291,5 +315,54 @@ public class Character : IIdentifiable<ulong> {
 		}
 		Logger.Warn($"Father ID: {fatherId} has no definition!");
 		return false;
+	}
+
+	/// <summary>
+	/// Returns a land province that can be considered a "source" of this character.
+	/// For instance, when a character is at sea, this method tries to use the country's capital,
+	/// or even the location of the character's parents.
+	/// </summary>
+	/// <param name="irMapData">Imperator map data.</param>
+	/// <returns></returns>
+	public ulong? GetSourceLandProvince(MapData irMapData) {
+		// Track at most 3 rejected candidates without heap allocation.
+		ulong? rejected1 = null;
+		ulong? rejected2 = null;
+
+		if (ProvinceId.HasValue) {
+			if (!irMapData.ProvinceDefinitions.TryGetValue(ProvinceId.Value, out var provinceDef)) {
+				Logger.Warn($"Potential source province {ProvinceId.Value} for character {Id} has no definition!");
+			} else if (provinceDef.IsLand) {
+				return ProvinceId;
+			}
+			rejected1 = ProvinceId.Value;
+		}
+
+		var homeCountryCapital = HomeCountry?.CapitalProvinceId;
+		if (homeCountryCapital.HasValue && homeCountryCapital != rejected1) {
+			if (!irMapData.ProvinceDefinitions.TryGetValue(homeCountryCapital.Value, out var homeCountryCapitalDef)) {
+				Logger.Warn($"Potential source province {homeCountryCapital.Value} for character {Id} has no definition!");
+			} else if (homeCountryCapitalDef.IsLand) {
+				return homeCountryCapital;
+			}
+			rejected2 = homeCountryCapital.Value;
+		}
+
+		var countryCapital = Country?.CapitalProvinceId;
+		if (countryCapital.HasValue && countryCapital != rejected1 && countryCapital != rejected2) {
+			if (!irMapData.ProvinceDefinitions.TryGetValue(countryCapital.Value, out var countryCapitalDef)) {
+				Logger.Warn($"Potential source province {countryCapital.Value} for character {Id} has no definition!");
+			} else if (countryCapitalDef.IsLand) {
+				return countryCapital;
+			}
+		}
+
+		var fatherProvince = Father?.GetSourceLandProvince(irMapData);
+		if (fatherProvince.HasValue) {
+			return fatherProvince;
+		}
+
+		var motherProvince = Mother?.GetSourceLandProvince(irMapData);
+		return motherProvince;
 	}
 }
