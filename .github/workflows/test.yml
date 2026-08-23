@@ -75,7 +75,7 @@ jobs:
       id: coverage_report
       shell: pwsh
       run: |
-        $coverageFile = Get-ChildItem "ImperatorToCK3.UnitTests/bin/Debug/net10.0/TestResults/irtock3.coverage*.info" |
+        $coverageFile = Get-ChildItem "ImperatorToCK3.UnitTests/TestResults/irtock3.coverage*.info" |
           Sort-Object LastWriteTime -Descending |
           Select-Object -First 1 -ExpandProperty FullName
 
