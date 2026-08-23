@@ -49,3 +49,7 @@ previous-problem-count.txt
 # Benchmark stuff
 /BenchmarkDotNet.Artifacts/
 /BenchmarkSuite1/
+
+# Local agent instructions
+/AGENTS.md
+*.pyc

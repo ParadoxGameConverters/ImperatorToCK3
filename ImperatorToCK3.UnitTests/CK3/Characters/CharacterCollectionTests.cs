@@ -498,6 +498,126 @@ public class CharacterCollectionTests {
 		Assert.Equal(expectedUnrest, unrestValue, precision: 5);
 	}
 
+	[Fact]
+	public void SuccessorMaleNamesFallBackToFatherCultureWhenOwnCultureHasNoMaleNames() {
+		Date ck3BookmarkDate = new(867, 1, 1);
+		Date irSaveDate = new(740, 1, 1);
+
+		var characters = new CharacterCollection();
+		var father = new Character("father1", "Father", new Date(670, 1, 1), characters);
+		var oldCharacter = new Character("old1", "Oldman", new Date(700, 1, 1), characters);
+		characters.Add(father);
+		characters.Add(oldCharacter);
+		oldCharacter.Father = father;
+
+		father.SetCultureId("father_culture", null);
+		oldCharacter.SetCultureId("own_culture", null);
+
+		var cultures = CreateCultureCollectionWithMaleNames(
+			("own_culture", []),
+			("father_culture", ["Aldric"])
+		);
+
+		var landedTitles = new Title.LandedTitles();
+		var kingdom = landedTitles.Add("k_test");
+		kingdom.SetHolder(oldCharacter, ck3BookmarkDate);
+
+		characters.GenerateSuccessorsForOldCharacters(landedTitles, cultures, irSaveDate, ck3BookmarkDate, randomSeed: 42);
+
+		var successors = characters.Where(c => c.Id.StartsWith("irtock3_old1_successor_", StringComparison.Ordinal)).ToList();
+		Assert.NotEmpty(successors);
+		foreach (var successor in successors) {
+			Assert.Equal("Aldric", successor.GetName(ck3BookmarkDate));
+		}
+	}
+
+	[Fact]
+	public void SuccessorMaleNamesFallBackToSpouseCultureWhenParentsHaveNoUsableCulture() {
+		Date ck3BookmarkDate = new(867, 1, 1);
+		Date irSaveDate = new(740, 1, 1);
+
+		var characters = new CharacterCollection();
+		var oldCharacter = new Character("old2", "Oldman", new Date(700, 1, 1), characters);
+		var spouse = new Character("spouse1", "Spouse", new Date(705, 1, 1), characters) { Female = true };
+		characters.Add(oldCharacter);
+		characters.Add(spouse);
+
+		oldCharacter.SetCultureId("own_culture", null);
+		spouse.SetCultureId("spouse_culture", null);
+		oldCharacter.AddSpouse(new Date(725, 1, 1), spouse);
+
+		var cultures = CreateCultureCollectionWithMaleNames(
+			("own_culture", []),
+			("spouse_culture", ["Bardas"])
+		);
+
+		var landedTitles = new Title.LandedTitles();
+		var kingdom = landedTitles.Add("k_test");
+		kingdom.SetHolder(oldCharacter, ck3BookmarkDate);
+
+		characters.GenerateSuccessorsForOldCharacters(landedTitles, cultures, irSaveDate, ck3BookmarkDate, randomSeed: 42);
+
+		var successors = characters.Where(c => c.Id.StartsWith("irtock3_old2_successor_", StringComparison.Ordinal)).ToList();
+		Assert.NotEmpty(successors);
+		foreach (var successor in successors) {
+			Assert.Equal("Bardas", successor.GetName(ck3BookmarkDate));
+		}
+	}
+
+	[Fact]
+	public void SuccessorMaleNamesUseOwnCultureNamesWithoutFallingBack() {
+		Date ck3BookmarkDate = new(867, 1, 1);
+		Date irSaveDate = new(740, 1, 1);
+
+		var characters = new CharacterCollection();
+		var father = new Character("father3", "Father", new Date(670, 1, 1), characters);
+		var oldCharacter = new Character("old3", "Oldman", new Date(700, 1, 1), characters);
+		characters.Add(father);
+		characters.Add(oldCharacter);
+		oldCharacter.Father = father;
+
+		father.SetCultureId("father_culture", null);
+		oldCharacter.SetCultureId("own_culture", null);
+
+		var cultures = CreateCultureCollectionWithMaleNames(
+			("own_culture", ["Rurik"]),
+			("father_culture", ["Aldric"])
+		);
+
+		var landedTitles = new Title.LandedTitles();
+		var kingdom = landedTitles.Add("k_test");
+		kingdom.SetHolder(oldCharacter, ck3BookmarkDate);
+
+		characters.GenerateSuccessorsForOldCharacters(landedTitles, cultures, irSaveDate, ck3BookmarkDate, randomSeed: 42);
+
+		var successors = characters.Where(c => c.Id.StartsWith("irtock3_old3_successor_", StringComparison.Ordinal)).ToList();
+		Assert.NotEmpty(successors);
+		foreach (var successor in successors) {
+			Assert.Equal("Rurik", successor.GetName(ck3BookmarkDate));
+		}
+	}
+
+	private static CultureCollection CreateCultureCollectionWithMaleNames(params (string CultureId, string[] MaleNames)[] definitions) {
+		var ck3ModFlags = new System.Collections.Generic.OrderedDictionary<string, bool>();
+		var pillarCollection = new PillarCollection(colorFactory, ck3ModFlags);
+		var heritage = new Pillar("heritage_test", new PillarData { Type = "heritage" });
+		pillarCollection.AddOrReplace(heritage);
+
+		var collection = new CultureCollection(colorFactory, pillarCollection, ck3ModFlags);
+		foreach (var (cultureId, maleNames) in definitions) {
+			var nameListContent = maleNames.Length > 0 ? $"male_names = {{ {string.Join(' ', maleNames)} }}" : string.Empty;
+			var nameList = new NameList($"{cultureId}_namelist", new BufferedReader(nameListContent));
+			var cultureData = new CultureData {
+				Color = new Color(1, 2, 3),
+				Heritage = heritage,
+				NameLists = { nameList }
+			};
+			collection.AddOrReplace(new Culture(cultureId, cultureData));
+		}
+
+		return collection;
+	}
+
 	private static void SetPrivateProperty(object target, string propertyName, object? value) {
 		var targetType = target.GetType();
 		var property = targetType.GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);

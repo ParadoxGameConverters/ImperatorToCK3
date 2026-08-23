@@ -1022,19 +1022,37 @@ internal sealed partial class CharacterCollection : ConcurrentIdObjectCollection
 		return successor;
 	}
 
-	private static string[] DetermineMaleNamesForSuccessorsOfCharacter(Character oldCharacter, string? cultureId,
-		IReadOnlyDictionary<string, string[]> cultureIdToMaleNames, Date ck3BookmarkDate)
+	private string[] DetermineMaleNamesForSuccessorsOfCharacter(Character oldCharacter, string? cultureId,
+		Dictionary<string, string[]> cultureIdToMaleNames, Date ck3BookmarkDate)
 	{
-		string[] maleNames;
-		if (cultureId is not null) {
-			maleNames = cultureIdToMaleNames[cultureId];
-		} else {
-			Logger.Debug($"Failed to find male names for successors of {oldCharacter.Id}.");
-			if (oldCharacter.Female) {
-				maleNames = [oldCharacter.Father?.GetName(ck3BookmarkDate) ?? "Alexander"];
-			} else {
-				maleNames = [oldCharacter.GetName(ck3BookmarkDate) ?? "Alexander"];
+		if (cultureId is not null && cultureIdToMaleNames.TryGetValue(cultureId, out var names) && names.Length > 0) {
+			return names;
+		}
+
+		// Fallback: try to use the culture of oldCharacter's parents or spouse if different.
+		var parentAndSpouseCharacters = new List<Character?> { oldCharacter.Father, oldCharacter.Mother, oldCharacter.GetSpouseIds(ck3BookmarkDate).Select(sId => this[sId]).FirstOrDefault() };
+		foreach (var parentOrSpouse in parentAndSpouseCharacters) {
+			if (parentOrSpouse is null) {
+				continue;
 			}
+
+			var parentOrSpouseCultureId = parentOrSpouse.GetCultureId(ck3BookmarkDate);
+			if (parentOrSpouseCultureId is null || parentOrSpouseCultureId == cultureId) {
+				continue;
+			}
+
+			if (cultureIdToMaleNames.TryGetValue(parentOrSpouseCultureId, out var parentOrSpouseCultureNames)) {
+				return parentOrSpouseCultureNames;
+			}
+		}
+
+		// Final fallback: use the character's own name, if female, the father's name.
+		Logger.Debug($"Failed to find male names for successors of {oldCharacter.Id}.");
+		string[] maleNames;
+		if (oldCharacter.Female) {
+			maleNames = [oldCharacter.Father?.GetName(ck3BookmarkDate) ?? "Alexander"];
+		} else {
+			maleNames = [oldCharacter.GetName(ck3BookmarkDate) ?? "Alexander"];
 		}
 
 		return maleNames;

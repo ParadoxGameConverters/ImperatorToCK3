@@ -58,7 +58,7 @@ internal sealed partial class MenAtArmsType : IIdentifiable<string>, IPDXSeriali
 			HighMaintenanceCost = baseType.HighMaintenanceCost * stackRatio;
 		}
 		if (baseType.ProvisionCost is not null) {
-			ProvisionCost = baseType.ProvisionCost * stackRatio;
+			ProvisionCost = baseType.ProvisionCost.Value * stackRatio;
 		}
 
 		Attributes = new Dictionary<string, StringOfItem>(baseType.Attributes) {

@@ -36,12 +36,14 @@ public class CountryTests {
 		Assert.False(country.PlayerCountry);
 		Assert.Null(country.Government);
 		Assert.Equal(GovernmentType.monarchy, country.GovernmentType);
+		Assert.Equal(CountryType.real, country.CountryType);
 	}
 	[Fact]
 	public void FieldsCanBeSet() {
 		var reader = new BufferedReader(
 			"= {\n" +
 			"\ttag=\"WTF\"" +
+			"\tcountry_type = pirates" +
 			"\thistorical=\"WTF\"" +
 			"\tcountry_name = {\n" +
 			"\t\tname=\"WTF\"\n" +
@@ -81,6 +83,7 @@ public class CountryTests {
 		Assert.Equal(new Color(7, 8, 9), country.Color3);
 		Assert.Equal("dictatorship", country.Government);
 		Assert.Equal(GovernmentType.monarchy, country.GovernmentType);
+		Assert.Equal(CountryType.pirates, country.CountryType);
 
 		var countries = new CountryCollection { country };
 

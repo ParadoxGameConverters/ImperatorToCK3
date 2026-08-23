@@ -1,5 +1,6 @@
 ﻿using AwesomeAssertions;
 using commonItems;
+using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Families;
 using System;
 using System.Collections.Generic;
@@ -71,5 +72,50 @@ public class FamilyTests {
 			"ignoredKeyword1", "ignoredKeyword2", "ignoredKeyword3"
 		};
 		Family.IgnoredTokens.Should().BeEquivalentTo(expectedIgnoredTokens);
+	}
+
+	[Fact]
+	public void UnlinkedMembersAreRemoved() {
+		var family = Family.Parse(new BufferedReader("= { member = { 1 2 3 } }"), 42);
+		var characters = new CharacterCollection {
+			new Character(1),
+			new Character(3)
+		};
+
+		family.RemoveUnlinkedMembers(characters);
+
+		IEnumerable<ulong> memberIds = family.MemberIds;
+		Assert.Equal(2, family.MemberIds.Count);
+		Assert.Contains((ulong)1, memberIds);
+		Assert.Contains((ulong)3, memberIds);
+		Assert.DoesNotContain((ulong)2, memberIds);
+	}
+
+	[Fact]
+	public void LinkedMembersAreKept() {
+		var family = Family.Parse(new BufferedReader("= { member = { 1 2 3 } }"), 42);
+		var characters = new CharacterCollection {
+			new Character(1),
+			new Character(2),
+			new Character(3)
+		};
+
+		family.RemoveUnlinkedMembers(characters);
+
+		IEnumerable<ulong> memberIds = family.MemberIds;
+		Assert.Equal(3, family.MemberIds.Count);
+		Assert.Contains((ulong)1, memberIds);
+		Assert.Contains((ulong)2, memberIds);
+		Assert.Contains((ulong)3, memberIds);
+	}
+
+	[Fact]
+	public void AllMembersAreRemovedWhenNoneAreLinked() {
+		var family = Family.Parse(new BufferedReader("= { member = { 1 2 } }"), 42);
+		var characters = new CharacterCollection();
+
+		family.RemoveUnlinkedMembers(characters);
+
+		Assert.Empty(family.MemberIds);
 	}
 }
