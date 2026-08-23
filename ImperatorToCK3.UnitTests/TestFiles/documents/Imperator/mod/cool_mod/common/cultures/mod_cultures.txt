@@ -1,0 +1,9 @@
+mod_culture_group = {
+	culture = {
+		mod_culture = {
+			family = {
+				ModFamily
+			}
+		}
+	}
+}

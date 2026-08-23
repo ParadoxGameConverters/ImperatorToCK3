@@ -9,7 +9,7 @@ internal sealed class NicknameMapper {
 	public NicknameMapper() { }
 	public NicknameMapper(string filePath) {
 		Logger.Info("Parsing nickname mappings...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseFile(filePath);
 		Logger.Info($"Loaded {impToCK3NicknameMap.Count} nickname links.");
@@ -17,7 +17,7 @@ internal sealed class NicknameMapper {
 		Logger.IncrementProgress();
 	}
 	public NicknameMapper(BufferedReader reader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}

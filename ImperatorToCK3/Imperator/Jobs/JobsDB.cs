@@ -15,7 +15,7 @@ internal sealed class JobsDB {
 	public JobsDB() { }
 	public JobsDB(BufferedReader jobsReader, CharacterCollection characters, CountryCollection countries, ImperatorRegionMapper irRegionMapper) {
 		var ignoredTokens = new IgnoredKeywordsSet();
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("province_job", reader => {
 			try {
 				Governorships.Add(new Governorship(reader, countries, irRegionMapper));

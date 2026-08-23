@@ -1,0 +1,9 @@
+definitions = "definition.csv"
+provinces = "provinces.png"
+adjacencies = "adjacencies.csv"
+
+#####################
+# IMPASSABLE TERRAIN
+#####################
+# Can be colored by whoever owns the most of the province's neighbours.
+impassable_terrain = LIST { 4 }

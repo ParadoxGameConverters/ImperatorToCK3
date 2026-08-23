@@ -1,19 +1,17 @@
 ﻿using AwesomeAssertions;
 using commonItems;
-using commonItems.Localization;
-using ImperatorToCK3.CK3.Dynasties;
-using ImperatorToCK3.CK3.Titles;
+using commonItems.Mods;
 using ImperatorToCK3.CommonUtils.Genes;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Countries;
-using ImperatorToCK3.Imperator.Cultures;
 using ImperatorToCK3.Imperator.Families;
 using ImperatorToCK3.Imperator.Jobs;
-using ImperatorToCK3.UnitTests.TestHelpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 using RulerTerm = ImperatorToCK3.Imperator.Countries.RulerTerm;
 
@@ -67,19 +65,19 @@ public class CharacterTests {
 			"\tprisoner_home=68" +
 			"}"
 		);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
+		var character = Character.Parse(reader, "42", genesDB);
 		var spouse1Reader = new BufferedReader(string.Empty);
 		var spouse2Reader = new BufferedReader(string.Empty);
-		character.Spouses = new Dictionary<ulong, ImperatorToCK3.Imperator.Characters.Character> {
-			{ 3, ImperatorToCK3.Imperator.Characters.Character.Parse(spouse1Reader, "3", genesDB) },
-			{ 4, ImperatorToCK3.Imperator.Characters.Character.Parse(spouse2Reader, "4", genesDB) }
+		character.Spouses = new Dictionary<ulong, Character> {
+			{ 3, Character.Parse(spouse1Reader, "3", genesDB) },
+			{ 4, Character.Parse(spouse2Reader, "4", genesDB) }
 		};
 
 		Assert.Equal((ulong)42, character.Id);
 
 		Assert.Null(character.Country); // we have a country id, but no linked country yet
 		var countriesReader = new BufferedReader("={ 69={} 68={} }");
-		var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+		var countries = new CountryCollection();
 		countries.LoadCountries(countriesReader);
 		character.LinkCountry(countries);
 		Assert.NotNull(character.Country);
@@ -118,10 +116,10 @@ public class CharacterTests {
 		);
 
 		Assert.Empty(character.Children); // children not linked yet
-		var characters = new ImperatorToCK3.Imperator.Characters.CharacterCollection();
+		var characters = new CharacterCollection();
 		characters.Add(character);
-		var child1 = ImperatorToCK3.Imperator.Characters.Character.Parse(new BufferedReader("={ mother=42 }"), "69", null);
-		var child2 = ImperatorToCK3.Imperator.Characters.Character.Parse(new BufferedReader("={ mother=42 }"), "420", null);
+		var child1 = Character.Parse(new BufferedReader("={ mother=42 }"), "69", null);
+		var child2 = Character.Parse(new BufferedReader("={ mother=42 }"), "420", null);
 		characters.Add(child1);
 		characters.Add(child2);
 		child1.LinkMother(characters);
@@ -138,8 +136,8 @@ public class CharacterTests {
 
 		Assert.Null(character.Mother); // mother not linked yet
 		Assert.Null(character.Father); // father not linked yet
-		var mother = new ImperatorToCK3.Imperator.Characters.Character(123);
-		var father = new ImperatorToCK3.Imperator.Characters.Character(124);
+		var mother = new Character(123);
+		var father = new Character(124);
 		characters.Add(mother);
 		characters.Add(father);
 		character.LinkMother(characters);
@@ -176,7 +174,7 @@ public class CharacterTests {
 	[Fact]
 	public void FieldsDefaultToCorrectValues() {
 		var reader = new BufferedReader(string.Empty);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
+		var character = Character.Parse(reader, "42", genesDB);
 		Assert.Null(character.Country);
 		Assert.Equal(string.Empty, character.Culture);
 		Assert.Equal(string.Empty, character.Religion);
@@ -204,6 +202,45 @@ public class CharacterTests {
 	}
 
 	[Fact]
+	public void NegativeAgeIsClampedAndInvalidBirthDateKeepsDefault() {
+		var reader = new BufferedReader("""
+			23={
+				first_name_loc={
+					name="Lagos"
+				}
+				country=272
+				home_country=272
+				province=5544
+				age=-17819
+				birth_date=-1518605856
+				attributes={
+					martial=7
+					finesse=8
+					charisma=2
+					zeal=4
+				}
+				family=6
+				dna="Wc1ZzbN0s3TDhcOFApACkAJvAm8CfwJ/AncCdwJ0AnQCdgJ2AoACgAKMAowCmAKYAnECcQJ3AncCfgJ+ApcClwJ3AncClQKVAm4CbgJzAnMCkQKRA6sDqwJtAm0CeQJ5AokCiQJ/An8CgwKDAmsCawJ6AnoBUgFSAnUCdQKSApICagJqAoUChQKEAoQCkwKTA5kDmQKDAoMCcwJzAmsCawJtAm0EzQTNAn8CfwOjA6MCaAJoApMCkwKAAoABWwFbApgCmAKRApECZwJnAo8CjwKQApAChwKHAoQChAJpAmkCiAKIAo4CjgI7AjsBPAE8AOEA4QBwAHABcwFzACMAIwFbAVsAvAC8AQgBCAFDAUMBBgEGAUQBRAB/AH8AoQChAK8ArwBLAEsAHAAcAMEAwQDLAMsBVgFWATIBMgB/AH8AswCzADoAOgEqASoBfQF9AKwArAFPAU8C6wLrA3MDcwC0ALQBQAFAAIUAhQNYA1gH7wfvAH8AfwSNBI0FcQVxAOsA6wViBWICYwJjAioCKgAAAAAAAAAAAAAAAA=="
+				traits={
+					"lagids" "prominent"
+				}
+				children={
+					42 47
+				}
+				culture="macedonian"
+				ethnicity="greek"
+				religion="roman_pantheon"
+				death_date=433.6.7
+			}
+			""");
+
+		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "23", genesDB);
+
+		character.Age.Should().Be(0);
+		character.BirthDate.Should().Be(new Date("1.1.1"));
+	}
+
+	[Fact]
 	public void CultureCanBeInheritedFromFamily() {
 		var familyReader = new BufferedReader(
 			"= { culture = paradoxian }"
@@ -211,8 +248,8 @@ public class CharacterTests {
 		var characterReader = new BufferedReader(
 			"= { family = 42 }"
 		);
-		var family = ImperatorToCK3.Imperator.Families.Family.Parse(familyReader, 42);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(characterReader, "69", genesDB);
+		var family = Family.Parse(familyReader, 42);
+		var character = Character.Parse(characterReader, "69", genesDB);
 		character.Family = family;
 		Assert.Equal("paradoxian", character.Culture);
 	}
@@ -223,7 +260,7 @@ public class CharacterTests {
 			// ReSharper disable once StringLiteralTypo
 			"={dna=\"\"}"
 		);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
+		var character = Character.Parse(reader, "42", genesDB);
 		Assert.Null(character.PortraitData);
 	}
 	[Fact]
@@ -232,7 +269,7 @@ public class CharacterTests {
 			// ReSharper disable once StringLiteralTypo
 			"={dna=\"AAAAAAAAAAAAAAAAAH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AfwB/AH8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==\"}"
 		);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
+		var character = Character.Parse(reader, "42", genesDB);
 
 		Assert.Equal(0, character.PortraitData!.HairColorPaletteCoordinates.X);
 		Assert.Equal(0, character.PortraitData.HairColorPaletteCoordinates.Y);
@@ -266,10 +303,10 @@ public class CharacterTests {
 			"\tage=8\n" +
 			"}"
 		);
-		var character1 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader1, "42", genesDB);
-		var character2 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader2, "43", genesDB);
-		var character3 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader3, "44", genesDB);
-		var character4 = ImperatorToCK3.Imperator.Characters.Character.Parse(reader4, "45", genesDB);
+		var character1 = Character.Parse(reader1, "42", genesDB);
+		var character2 = Character.Parse(reader2, "43", genesDB);
+		var character3 = Character.Parse(reader3, "44", genesDB);
+		var character4 = Character.Parse(reader4, "45", genesDB);
 		Assert.Equal("female", character1.AgeSex);
 		Assert.Equal("male", character2.AgeSex);
 		Assert.Equal("girl", character3.AgeSex);
@@ -281,7 +318,7 @@ public class CharacterTests {
 		var reader = new BufferedReader(
 			"= { birth_date = 0.1.1 }"
 		);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
+		var character = Character.Parse(reader, "42", genesDB);
 
 		Assert.Equal("-754.1.1", character.BirthDate.ToString());
 	}
@@ -291,7 +328,7 @@ public class CharacterTests {
 		var reader = new BufferedReader(
 			"= { birth_date = 753.1.1 }"
 		);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
+		var character = Character.Parse(reader, "42", genesDB);
 
 		Assert.Equal("-1.1.1", character.BirthDate.ToString());
 	}
@@ -301,28 +338,31 @@ public class CharacterTests {
 		var reader = new BufferedReader(
 			"= { birth_date = 754.1.1 }"
 		);
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(reader, "42", genesDB);
+		var character = Character.Parse(reader, "42", genesDB);
 
 		Assert.Equal("1.1.1", character.BirthDate.ToString());
 	}
 
 	[Fact]
 	public void IgnoredTokensAreSaved() {
+		// Ensure that other tests don't interfere with this one by resetting the ignored tokens before we start.
+		Character.IgnoredTokens.Clear();
+
 		var reader1 = new BufferedReader("= { culture=paradoxian ignoredKeyword1=something ignoredKeyword2={} }");
 		var reader2 = new BufferedReader("= { ignoredKeyword1=stuff ignoredKeyword3=stuff }");
-		_ = ImperatorToCK3.Imperator.Characters.Character.Parse(reader1, "1", null);
-		_ = ImperatorToCK3.Imperator.Characters.Character.Parse(reader2, "2", null);
+		_ = Character.Parse(reader1, "1", null);
+		_ = Character.Parse(reader2, "2", null);
 
 		var expectedIgnoredTokens = new HashSet<string> {
 			"ignoredKeyword1", "ignoredKeyword2", "ignoredKeyword3"
 		};
-		Assert.True(ImperatorToCK3.Imperator.Characters.Character.IgnoredTokens.SetEquals(expectedIgnoredTokens));
+		Assert.True(Character.IgnoredTokens.SetEquals(expectedIgnoredTokens));
 	}
 
 	[Fact]
 	public void CountryIsNotLinkedWithoutParsedId() {
-		var character = new ImperatorToCK3.Imperator.Characters.Character(1);
-		var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+		var character = new Character(1);
+		var countries = new CountryCollection();
 		character.LinkCountry(countries);
 		character.LinkHomeCountry(countries);
 		character.LinkPrisonerHome(countries);
@@ -336,8 +376,8 @@ public class CharacterTests {
 		Console.SetOut(output);
 
 		var characterReader = new BufferedReader("= { country=69 }");
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(characterReader, "1", null);
-		var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+		var character = Character.Parse(characterReader, "1", null);
+		var countries = new CountryCollection();
 		character.LinkCountry(countries);
 
 		Assert.Contains("[WARN] Country with ID 69 has no definition!", output.ToString());
@@ -349,8 +389,8 @@ public class CharacterTests {
 		Console.SetOut(output);
 
 		var characterReader = new BufferedReader("= { home_country=69 }");
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(characterReader, "1", null);
-		var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+		var character = Character.Parse(characterReader, "1", null);
+		var countries = new CountryCollection();
 		character.LinkHomeCountry(countries);
 
 		Assert.Contains("[WARN] Country with ID 69 has no definition!", output.ToString());
@@ -362,8 +402,8 @@ public class CharacterTests {
 		Console.SetOut(output);
 
 		var characterReader = new BufferedReader("= { prisoner_home=69 }");
-		var character = ImperatorToCK3.Imperator.Characters.Character.Parse(characterReader, "1", null);
-		var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+		var character = Character.Parse(characterReader, "1", null);
+		var countries = new CountryCollection();
 		character.LinkPrisonerHome(countries);
 
 		Assert.Contains("[WARN] Country with ID 69 has no definition!", output.ToString());
@@ -425,5 +465,372 @@ public class CharacterTests {
 			fatherOfLandedCharacter,
 			landedCharacter,
 		]);
+	}
+
+	[Fact]
+	public void LinkFamilyReturnsFalseWhenNoFamilyWasParsed() {
+		var character = new Character(1);
+		var families = new FamilyCollection();
+
+		Assert.False(character.LinkFamily(families));
+		Assert.Null(character.Family);
+	}
+
+	[Fact]
+	public void LinkFamilyAddsMissingFamilyDefinitionToSetAndReturnsFalse() {
+		var characterReader = new BufferedReader("= { family = 42 }");
+		var character = Character.Parse(characterReader, "1", null);
+
+		var families = new FamilyCollection(); // no family with ID 42
+		var missingDefinitions = new SortedSet<ulong>();
+
+		Assert.False(character.LinkFamily(families, missingDefinitions));
+		Assert.Null(character.Family);
+		Assert.Contains((ulong)42, missingDefinitions);
+	}
+
+	[Fact]
+	public void SettingNullFamilyLogsWarning() {
+		var output = new StringWriter();
+		Console.SetOut(output);
+
+		var character = new Character(7);
+		character.Family = null;
+
+		Assert.Contains("[WARN] Setting null family to character 7!", output.ToString());
+	}
+
+	[Fact]
+	public void VariablesAreParsedFromDataBlobs() {
+		var reader = new BufferedReader("""
+			= {
+				variables={
+					data={
+						{ flag=bald }
+						{ flag=some_other_flag }
+					}
+				}
+			}
+			""");
+		var character = Character.Parse(reader, "1", null);
+
+		Assert.Contains("bald", character.Variables);
+		Assert.Contains("some_other_flag", character.Variables);
+		Assert.True(character.IsBald);
+	}
+
+	[Fact]
+	public void VariablesListKeywordIsIgnored() {
+		Character.IgnoredTokens.Clear();
+
+		var reader = new BufferedReader("""
+			= {
+				variables={
+					list={ 1 2 3 }
+					data={
+						{ flag=flag_a }
+					}
+				}
+			}
+			""");
+		var character = Character.Parse(reader, "1", null);
+
+		Assert.Contains("flag_a", character.Variables);
+	}
+
+	[Fact]
+	public void FriendIdsAndRivalIdsAreParsed() {
+		var reader = new BufferedReader("""
+			= {
+				friends={ 5 6 }
+				rivals={ 7 }
+			}
+			""");
+		var character = Character.Parse(reader, "1", null);
+
+		character.FriendIds.Should().Equal([5, 6]);
+		character.RivalIds.Should().Equal([7]);
+	}
+
+	[Fact]
+	public void InvalidUnbornsWithoutRequiredFieldsAreSkipped() {
+		var reader = new BufferedReader("""
+			= {
+				unborn={
+					{ mother=1 father=2 }
+					{ mother=3 father=4 date=500.1.1 }
+					{ mother=5 date=500.2.2 }
+				}
+			}
+			""");
+		var character = Character.Parse(reader, "1", null);
+
+		Assert.Single(character.Unborns);
+		Assert.Equal((ulong)3, character.Unborns[0].MotherId);
+		Assert.Equal((ulong)4, character.Unborns[0].FatherId);
+	}
+
+	[Fact]
+	public void LinkMotherReturnsFalseWhenMotherHasNoDefinition() {
+		var output = new StringWriter();
+		Console.SetOut(output);
+
+		var characterReader = new BufferedReader("= { mother=999 }");
+		var character = Character.Parse(characterReader, "1", null);
+		var characters = new CharacterCollection();
+		characters.Add(character);
+
+		Assert.False(character.LinkMother(characters));
+		Assert.Null(character.Mother);
+		Assert.Contains("[WARN] Mother ID: 999 has no definition!", output.ToString());
+	}
+
+	[Fact]
+	public void LinkFatherReturnsFalseWhenFatherHasNoDefinition() {
+		var output = new StringWriter();
+		Console.SetOut(output);
+
+		var characterReader = new BufferedReader("= { father=999 }");
+		var character = Character.Parse(characterReader, "1", null);
+		var characters = new CharacterCollection();
+		characters.Add(character);
+
+		Assert.False(character.LinkFather(characters));
+		Assert.Null(character.Father);
+		Assert.Contains("[WARN] Father ID: 999 has no definition!", output.ToString());
+	}
+
+	[Fact]
+	public void OneSidedFatherLinkIsLogged() {
+		var output = new StringWriter();
+		Console.SetOut(output);
+
+		// Father does not list the child in his children block.
+		var childReader = new BufferedReader("= { father=10 }");
+		var child = Character.Parse(childReader, "1", null);
+		var fatherReader = new BufferedReader("= { }");
+		var father = Character.Parse(fatherReader, "10", null);
+
+		var characters = new CharacterCollection { child, father };
+
+		Assert.True(child.LinkFather(characters));
+		Assert.Same(father, child.Father);
+		Assert.Contains($"[WARN] Only one-sided link found between character 1 and father 10!", output.ToString());
+	}
+
+	[Fact]
+	public void OneSidedMotherLinkIsLogged() {
+		var output = new StringWriter();
+		Console.SetOut(output);
+
+		// Mother does not list the child in her children block.
+		var childReader = new BufferedReader("= { mother=20 }");
+		var child = Character.Parse(childReader, "1", null);
+		var motherReader = new BufferedReader("= { }");
+		var mother = Character.Parse(motherReader, "20", null);
+
+		var characters = new CharacterCollection { child, mother };
+
+		Assert.True(child.LinkMother(characters));
+		Assert.Same(mother, child.Mother);
+		Assert.Contains("[WARN] Only one-sided link found between character 1 and mother 20!", output.ToString());
+	}
+
+	private static async Task<MapData> CreateMapDataAsync(string tempDir) {
+		var mapDataDir = Path.Combine(tempDir, "map_data");
+		Directory.CreateDirectory(mapDataDir);
+
+		await File.WriteAllTextAsync(Path.Combine(mapDataDir, "default.map"),
+			$$"""
+			definitions="definition.csv"
+			provinces="provinces.png"
+			sea_zones={ {{SeaProvinceId}} }
+			""", TestContext.Current.CancellationToken);
+
+		await File.WriteAllTextAsync(Path.Combine(mapDataDir, "definition.csv"),
+			string.Join('\n',
+				"#province;red;green;blue;name;x",
+				$"{LandProvinceId};255;0;0;land_one;x",
+				$"{LandProvince2Id};0;255;0;land_two;x",
+				$"{SeaProvinceId};0;0;255;sea;x"
+			), TestContext.Current.CancellationToken);
+
+		return new MapData(new ModFilesystem(tempDir, Array.Empty<Mod>()));
+	}
+
+	private const ulong LandProvinceId = 1;
+	private const ulong LandProvince2Id = 2;
+	private const ulong SeaProvinceId = 3;
+
+	[Fact]
+	public async Task GetSourceLandProvinceReturnsOwnLandProvince() {
+		var tempDir = Path.Combine(Path.GetTempPath(), "ImperatorToCK3_UnitTests", "IRCharacterSrcProv", Guid.NewGuid().ToString("N"));
+		Directory.CreateDirectory(tempDir);
+		try {
+			var mapData = await CreateMapDataAsync(tempDir);
+
+			var characterReader = new BufferedReader($"= {{ province={LandProvinceId} }}");
+			var character = Character.Parse(characterReader, "1", null);
+
+			Assert.Equal(LandProvinceId, character.GetSourceLandProvince(mapData));
+		} finally {
+			TryDeleteDir(tempDir);
+		}
+	}
+
+	[Fact]
+	public async Task GetSourceLandProvinceFallsBackToHomeCountryCapitalWhenProvinceIsNotLand() {
+		var tempDir = Path.Combine(Path.GetTempPath(), "ImperatorToCK3_UnitTests", "IRCharacterSrcProv", Guid.NewGuid().ToString("N"));
+		Directory.CreateDirectory(tempDir);
+		try {
+			var mapData = await CreateMapDataAsync(tempDir);
+
+			var homeCountry = Country.Parse(new BufferedReader($"capital={LandProvince2Id}"), 1);
+			var characterReader = new BufferedReader($"= {{ province={SeaProvinceId} }}");
+			var character = Character.Parse(characterReader, "1", null);
+			character.HomeCountry = homeCountry;
+
+			Assert.Equal(LandProvince2Id, character.GetSourceLandProvince(mapData));
+		} finally {
+			TryDeleteDir(tempDir);
+		}
+	}
+
+	[Fact]
+	public async Task GetSourceLandProvinceWarnsAboutUndefinedProvinceAndUsesCountryCapital() {
+		var tempDir = Path.Combine(Path.GetTempPath(), "ImperatorToCK3_UnitTests", "IRCharacterSrcProv", Guid.NewGuid().ToString("N"));
+		Directory.CreateDirectory(tempDir);
+		try {
+			var mapData = await CreateMapDataAsync(tempDir);
+
+			// Province 99 has no definition: rejected, then country's land capital is used.
+			var country = Country.Parse(new BufferedReader($"capital={LandProvinceId}"), 1);
+			var characterReader = new BufferedReader("= { province=99 }");
+			var character = Character.Parse(characterReader, "1", null);
+			character.Country = country;
+
+			Assert.Equal(LandProvinceId, character.GetSourceLandProvince(mapData));
+		} finally {
+			TryDeleteDir(tempDir);
+		}
+	}
+
+	[Fact]
+	public async Task GetSourceLandProvinceSkipsRejectedCandidatesAndUsesParents() {
+		var tempDir = Path.Combine(Path.GetTempPath(), "ImperatorToCK3_UnitTests", "IRCharacterSrcProv", Guid.NewGuid().ToString("N"));
+		Directory.CreateDirectory(tempDir);
+		try {
+			var mapData = await CreateMapDataAsync(tempDir);
+
+			// Own province is sea (rejected), home country capital is undefined (rejected),
+			// country capital is undefined too (rejected), so the mother's land province is used.
+			var homeCountryUndefinedCapital = Country.Parse(new BufferedReader("capital=97"), 1);
+			var undefinedCapitalCountry = Country.Parse(new BufferedReader("capital=98"), 2);
+
+			var motherReader = new BufferedReader($"= {{ province={LandProvince2Id} }}");
+			var mother = Character.Parse(motherReader, "20", null);
+
+			var characterReader = new BufferedReader($"= {{ province={SeaProvinceId} mother=20 }}");
+			var character = Character.Parse(characterReader, "1", null);
+			character.HomeCountry = homeCountryUndefinedCapital;
+			character.Country = undefinedCapitalCountry;
+
+			var characters = new CharacterCollection { character, mother };
+			character.LinkMother(characters);
+
+			Assert.Equal(LandProvince2Id, character.GetSourceLandProvince(mapData));
+		} finally {
+			TryDeleteDir(tempDir);
+		}
+	}
+
+	[Fact]
+	public async Task GetSourceLandProvinceSkipsHomeCountryCapitalEqualToOwnProvince() {
+		var tempDir = Path.Combine(Path.GetTempPath(), "ImperatorToCK3_UnitTests", "IRCharacterSrcProv", Guid.NewGuid().ToString("N"));
+		Directory.CreateDirectory(tempDir);
+		try {
+			var mapData = await CreateMapDataAsync(tempDir);
+
+			// Own province and home country capital are the same sea province (rejected),
+			// so the country's land capital is used instead.
+			var seaCountry = Country.Parse(new BufferedReader($"capital={SeaProvinceId}"), 1);
+			var landCountry = Country.Parse(new BufferedReader($"capital={LandProvinceId}"), 2);
+
+			var characterReader = new BufferedReader($"= {{ province={SeaProvinceId} }}");
+			var character = Character.Parse(characterReader, "1", null);
+			character.HomeCountry = seaCountry;
+			character.Country = landCountry;
+
+			Assert.Equal(LandProvinceId, character.GetSourceLandProvince(mapData));
+		} finally {
+			TryDeleteDir(tempDir);
+		}
+	}
+
+	[Fact]
+	public void TwoSidedFatherLinkDoesNotLogWarning() {
+		var output = new StringWriter();
+		Console.SetOut(output);
+
+		var childReader = new BufferedReader("= { father=10 }");
+		var child = Character.Parse(childReader, "1", null);
+		var fatherReader = new BufferedReader("= { children={ 1 } }");
+		var father = Character.Parse(fatherReader, "10", null);
+
+		var characters = new CharacterCollection { child, father };
+
+		Assert.True(child.LinkFather(characters));
+		Assert.Same(father, child.Father);
+		Assert.DoesNotContain("Only one-sided link found between character 1 and father 10!", output.ToString());
+	}
+
+	[Fact]
+	public async Task GetSourceLandProvinceUsesFatherBeforeMother() {
+		var tempDir = Path.Combine(Path.GetTempPath(), "ImperatorToCK3_UnitTests", "IRCharacterSrcProv", Guid.NewGuid().ToString("N"));
+		Directory.CreateDirectory(tempDir);
+		try {
+			var mapData = await CreateMapDataAsync(tempDir);
+
+			var fatherReader = new BufferedReader($"= {{ province={LandProvinceId} }}");
+			var father = Character.Parse(fatherReader, "10", null);
+			var motherReader = new BufferedReader($"= {{ province={LandProvince2Id} }}");
+			var mother = Character.Parse(motherReader, "20", null);
+
+			var characterReader = new BufferedReader("= { father=10 mother=20 }");
+			var character = Character.Parse(characterReader, "1", null);
+
+			var characters = new CharacterCollection { character, father, mother };
+			character.LinkFather(characters);
+			character.LinkMother(characters);
+
+			Assert.Equal(LandProvinceId, character.GetSourceLandProvince(mapData));
+		} finally {
+			TryDeleteDir(tempDir);
+		}
+	}
+
+	[Fact]
+	public async Task GetSourceLandProvinceReturnsNullWhenNothingIsUsable() {
+		var tempDir = Path.Combine(Path.GetTempPath(), "ImperatorToCK3_UnitTests", "IRCharacterSrcProv", Guid.NewGuid().ToString("N"));
+		Directory.CreateDirectory(tempDir);
+		try {
+			var mapData = await CreateMapDataAsync(tempDir);
+
+			var character = Character.Parse(new BufferedReader("= { }"), "1", null);
+
+			Assert.Null(character.GetSourceLandProvince(mapData));
+		} finally {
+			TryDeleteDir(tempDir);
+		}
+	}
+
+	private static void TryDeleteDir(string dir) {
+		try {
+			if (Directory.Exists(dir)) {
+				Directory.Delete(dir, recursive: true);
+			}
+		} catch {
+			// Best-effort cleanup only.
+		}
 	}
 }

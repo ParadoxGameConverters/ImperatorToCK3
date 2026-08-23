@@ -21,6 +21,8 @@ using System.Collections.Generic;
 using System.Text;
 using ZLinq;
 
+using ImperatorCharacter = ImperatorToCK3.Imperator.Characters.Character;
+
 namespace ImperatorToCK3.CK3.Characters;
 
 internal sealed class Character : IIdentifiable<string> {
@@ -130,7 +132,7 @@ internal sealed class Character : IIdentifiable<string> {
 				return null;
 			}
 
-			var deathObjParser = new Parser();
+			var deathObjParser = new Parser(implicitVariableHandling: true);
 			string? deathReason = null;
 			deathObjParser.RegisterKeyword("death_reason", reader => {
 				deathReason = reader.GetString();
@@ -162,7 +164,7 @@ internal sealed class Character : IIdentifiable<string> {
 
 	internal DNA? DNA { get; set; }
 
-	public Imperator.Characters.Character? ImperatorCharacter { get; set; }
+	public ImperatorCharacter? ImperatorCharacter { get; set; }
 
 	private static readonly HistoryFactory historyFactory = new HistoryFactory.HistoryFactoryBuilder()
 		.WithSimpleField("name", "name", null)
@@ -364,7 +366,7 @@ internal sealed class Character : IIdentifiable<string> {
 	}
 
 	internal Character(
-		Imperator.Characters.Character impCharacter,
+		ImperatorCharacter impCharacter,
 		CharacterCollection characters,
 		ReligionMapper religionMapper,
 		CultureMapper cultureMapper,
@@ -381,47 +383,20 @@ internal sealed class Character : IIdentifiable<string> {
 		ConcurrentHashSet<string> unlocalizedImperatorNames
 	) {
 		this.characters = characters;
-			
+
 		ImperatorCharacter = impCharacter;
 		ImperatorCharacter.CK3Character = this;
 		Id = "imperator" + ImperatorCharacter.Id;
 		FromImperator = true;
 
-		if (!string.IsNullOrEmpty(ImperatorCharacter.CustomName)) {
-			var loc = ImperatorCharacter.CustomName;
-			var locKey = CommonFunctions.NormalizeUTF8Path(loc.FoldToASCII().Replace(' ', '_'));
-			var name = $"IRTOCK3_CUSTOM_NAME_{locKey}";
-			SetName(name, null);
-			
-			var ck3NameLocBlock = ck3LocDB.GetOrCreateLocBlock(name);
-			foreach (var language in ConverterGlobals.SupportedLanguages) {
-				ck3NameLocBlock[language] = loc;
-			}
-		} else {
-			var nameLoc = ImperatorCharacter.Name;
-			if (nameOverrides.TryGetValue(nameLoc, out var overrideName)) {
-				nameLoc = overrideName;
-			}
-			var name = nameLoc.Replace(' ', '_');
-			SetName(name, null);
-			if (!string.IsNullOrEmpty(name)) {
-				var ck3NameLocBlock = ck3LocDB.GetOrCreateLocBlock(name);
-				var matchedLocBlock = irLocDB.GetLocBlockForKey(name);
-				if (matchedLocBlock is not null) {
-					ck3NameLocBlock.CopyFrom(matchedLocBlock);
-				} else {  // fallback: use unlocalized name as displayed name
-					unlocalizedImperatorNames.Add(name);
-					ck3NameLocBlock[ConverterGlobals.PrimaryLanguage] = nameLoc;
-				}
-			}
-		}
+		SetCharacterNameFromImperator(ImperatorCharacter, irLocDB, ck3LocDB, nameOverrides, unlocalizedImperatorNames);
 
 		Female = ImperatorCharacter.Female;
 
 		// Determine valid (not dropped in province mappings) "source I:R province" and "source CK3 province"
 		// to be used by religion mapper. Don't give up without a fight.
 		ulong? irProvinceId = ImperatorCharacter.GetSourceLandProvince(irMapData);
-		
+
 		var irProvIdForProvMapper = irProvinceId;
 		if (IsImperatorProvIdInvalidForCharacterSource(irProvIdForProvMapper, provinceMapper) && ImperatorCharacter.Father is not null) {
 			irProvIdForProvMapper = ImperatorCharacter.Father.ProvinceId;
@@ -437,51 +412,11 @@ internal sealed class Character : IIdentifiable<string> {
 		var ck3ProvinceNumbers = irProvIdForProvMapper.HasValue ? provinceMapper.GetCK3ProvinceNumbers(irProvIdForProvMapper.Value) : [];
 		ulong? ck3ProvinceId = ck3ProvinceNumbers.Count > 0 ? ck3ProvinceNumbers[0] : null;
 
-		var cultureMatch = cultureMapper.Match(
-			ImperatorCharacter.Culture,
-			ck3ProvinceId,
-			irProvinceId,
-			ImperatorCharacter.Country?.HistoricalTag
-		);
-		if (cultureMatch is null) {
-			Logger.Warn($"Could not determine CK3 culture for Imperator character {ImperatorCharacter.Id}" +
-			            $" with culture {ImperatorCharacter.Culture}!");
-		} else {
-			SetCultureId(cultureMatch, null);
-		}
-
-		var faithMatch = religionMapper.Match(
-			ImperatorCharacter.Religion,
-			GetCultureId(dateOnConversion),
-			ck3ProvinceId, 
-			irProvinceId,
-			ImperatorCharacter.HomeCountry?.HistoricalTag,
-			config
-		);
-		if (faithMatch is not null) {
-			SetFaithId(faithMatch, null);
-		}
-
-		// Determine character attributes.
-		History.AddFieldValue(null, "diplomacy", "diplomacy", ImperatorCharacter.Attributes.Charisma);
-		History.AddFieldValue(null, "martial", "martial", ImperatorCharacter.Attributes.Martial);
-		History.AddFieldValue(null, "stewardship", "stewardship", ImperatorCharacter.Attributes.Finesse);
-		var intrigue = (ImperatorCharacter.Attributes.Finesse + ImperatorCharacter.Attributes.Charisma) / 2;
-		History.AddFieldValue(null, "intrigue", "intrigue", intrigue);
-		History.AddFieldValue(null, "learning", "learning", ImperatorCharacter.Attributes.Zeal);
-
-		if (impCharacter.Fertility.HasValue) {
-			History.AddFieldValue(null, "fertility", "fertility", impCharacter.Fertility.Value);
-		}
-
-		if (impCharacter.Health is not null) {
-			// In I:R, health is a value between 0 and 100, with 100 being the best.
-			// In CK3, 0 means near death, ≥ 7 means excellent health.
-			// https://imperator.paradoxwikis.com/Characters#Secondary
-			// https://ck3.paradoxwikis.com/Attributes#Health
-			var ck3Health = impCharacter.Health.Value / 10;
-			History.AddFieldValue(null, "health", "health", ck3Health);
-		}
+		DetermineCultureFromImperator(ImperatorCharacter, cultureMapper, irProvinceId, ck3ProvinceId);
+		DetermineFaithFromImperator(ImperatorCharacter, religionMapper, dateOnConversion, config, irProvinceId, ck3ProvinceId);
+		DetermineAttributesFromImperator(ImperatorCharacter);
+		DetermineFertilityFromImperator(ImperatorCharacter);
+		DetermineHealthFromImperator(ImperatorCharacter);
 
 		foreach (var traitId in traitMapper.GetCK3TraitsForImperatorTraits(ImperatorCharacter.Traits)) {
 			AddBaseTrait(traitId);
@@ -504,32 +439,126 @@ internal sealed class Character : IIdentifiable<string> {
 			Gold = ImperatorCharacter.Wealth * config.ImperatorCurrencyRate;
 		}
 
+		SetJailorFromImperator(ImperatorCharacter, dateOnConversion);
+		SetEmployerFromImperator(ImperatorCharacter, dateOnConversion);
+	}
+
+	private void DetermineCultureFromImperator(ImperatorCharacter irCharacter, CultureMapper cultureMapper, ulong? irProvinceId, ulong? ck3ProvinceId) {
+		var cultureMatch = cultureMapper.Match(
+			irCharacter.Culture,
+			ck3ProvinceId,
+			irProvinceId,
+			irCharacter.Country?.HistoricalTag
+		);
+		if (cultureMatch is null) {
+			Logger.Warn($"Could not determine CK3 culture for Imperator character {irCharacter.Id}" +
+						$" with culture {irCharacter.Culture}!");
+		} else {
+			SetCultureId(cultureMatch, null);
+		}
+	}
+
+	private void SetEmployerFromImperator(ImperatorCharacter irCharacter, Date dateOnConversion) {
+		var prisonerHome = irCharacter.PrisonerHome;
+		var homeCountry = irCharacter.HomeCountry;
+		if (prisonerHome?.CK3Title is not null) { // is imprisoned
+			SetEmployerId(prisonerHome.CK3Title.GetHolderId(dateOnConversion), null);
+		} else if (homeCountry?.CK3Title is not null) {
+			SetEmployerId(homeCountry.CK3Title.GetHolderId(dateOnConversion), null);
+		}
+	}
+
+	private void SetJailorFromImperator(ImperatorCharacter irCharacter, Date dateOnConversion) {
 		// If character is imprisoned, set jailor.
-		SetJailor();
-		SetEmployerFromImperator();
-
-		void SetJailor() {
-			if (ImperatorCharacter.PrisonerHome is null) {
-				return;
-			}
-
-			var prisonCountry = ImperatorCharacter.Country;
-			if (prisonCountry is null) {
-				Logger.Warn($"Imperator character {ImperatorCharacter.Id} is imprisoned but has no country!");
-			} else if (prisonCountry.CK3Title is null) {
-				Logger.Debug($"Imperator character {ImperatorCharacter.Id}'s prison country does not exist in CK3!");
-			} else {
-				jailorId = prisonCountry.CK3Title.GetHolderId(dateOnConversion);
-			}
+		if (irCharacter.PrisonerHome is null) {
+			return;
 		}
 
-		void SetEmployerFromImperator() {
-			var prisonerHome = ImperatorCharacter.PrisonerHome;
-			var homeCountry = ImperatorCharacter.HomeCountry;
-			if (prisonerHome?.CK3Title is not null) { // is imprisoned
-				SetEmployerId(prisonerHome.CK3Title.GetHolderId(dateOnConversion), null);
-			} else if (homeCountry?.CK3Title is not null) {
-				SetEmployerId(homeCountry.CK3Title.GetHolderId(dateOnConversion), null);
+		var prisonCountry = irCharacter.Country;
+		if (prisonCountry is null) {
+			Logger.Warn($"Imperator character {irCharacter.Id} is imprisoned but has no country!");
+		} else if (prisonCountry.CK3Title is null) {
+			Logger.Debug($"Imperator character {irCharacter.Id}'s prison country does not exist in CK3!");
+		} else {
+			jailorId = prisonCountry.CK3Title.GetHolderId(dateOnConversion);
+		}
+	}
+
+	private void DetermineHealthFromImperator(ImperatorCharacter irCharacter) {
+		if (irCharacter.Health is not null) {
+			// In I:R, health is a value between 0 and 100, with 100 being the best.
+			// In CK3, 0 means near death, ≥ 7 means excellent health.
+			// https://imperator.paradoxwikis.com/Characters#Secondary
+			// https://ck3.paradoxwikis.com/Attributes#Health
+			var ck3Health = irCharacter.Health.Value / 10;
+			History.AddFieldValue(null, "health", "health", ck3Health);
+		}
+	}
+
+	private void DetermineFertilityFromImperator(ImperatorCharacter irCharacter) {
+		if (irCharacter.Fertility.HasValue) {
+			History.AddFieldValue(null, "fertility", "fertility", irCharacter.Fertility.Value);
+		}
+	}
+
+	private void DetermineFaithFromImperator(ImperatorCharacter irCharacter, ReligionMapper religionMapper, Date dateOnConversion, Configuration config, ulong? irProvinceId, ulong? ck3ProvinceId) {
+		var faithMatch = religionMapper.Match(
+			irCharacter.Religion,
+			GetCultureId(dateOnConversion),
+			ck3ProvinceId,
+			irProvinceId,
+			irCharacter.HomeCountry?.HistoricalTag,
+			config
+		);
+		if (faithMatch is not null) {
+			SetFaithId(faithMatch, null);
+		}
+	}
+
+	private void DetermineAttributesFromImperator(ImperatorCharacter irCharacter) {
+		// Determine character attributes.
+		History.AddFieldValue(null, "diplomacy", "diplomacy", irCharacter.Attributes.Charisma);
+		History.AddFieldValue(null, "martial", "martial", irCharacter.Attributes.Martial);
+		History.AddFieldValue(null, "stewardship", "stewardship", irCharacter.Attributes.Finesse);
+		var intrigue = (irCharacter.Attributes.Finesse + irCharacter.Attributes.Charisma) / 2;
+		History.AddFieldValue(null, "intrigue", "intrigue", intrigue);
+		History.AddFieldValue(null, "learning", "learning", irCharacter.Attributes.Zeal);
+	}
+
+	private void SetCharacterNameFromImperator(ImperatorCharacter irCharacter, LocDB irLocDB, CK3LocDB ck3LocDB, FrozenDictionary<string, string> nameOverrides, ConcurrentHashSet<string> unlocalizedImperatorNames) {
+		if (!string.IsNullOrEmpty(irCharacter.CustomName)) {
+			var loc = irCharacter.CustomName;
+			var locKey = CommonFunctions.NormalizeUTF8Path(loc.FoldToASCII().Replace(' ', '_'));
+			var name = $"IRTOCK3_CUSTOM_NAME_{locKey}";
+			SetName(name, null);
+
+			var ck3NameLocBlock = ck3LocDB.GetOrCreateLocBlock(name);
+			foreach (var language in ConverterGlobals.SupportedLanguages) {
+				ck3NameLocBlock[language] = loc;
+			}
+		} else {
+			var nameLoc = irCharacter.Name;
+			bool hasOverride = nameOverrides.TryGetValue(nameLoc, out var overrideName);
+			if (hasOverride) {
+				nameLoc = overrideName!;
+			}
+			var name = nameLoc.Replace(' ', '_');
+			if (!string.IsNullOrEmpty(name)) {
+				var matchedLocBlock = irLocDB.GetLocBlockForKey(name);
+				if (matchedLocBlock is not null || hasOverride) {
+					SetName(name, null);
+					var ck3NameLocBlock = ck3LocDB.GetOrCreateLocBlock(name);
+					if (matchedLocBlock is not null) {
+						ck3NameLocBlock.CopyFrom(matchedLocBlock);
+					} else {
+						ck3NameLocBlock[ConverterGlobals.PrimaryLanguage] = nameLoc;
+					}
+				} else {
+					var generatedKey = $"irtock3_char_{irCharacter.Id}";
+					SetName(generatedKey, null);
+					var ck3NameLocBlock = ck3LocDB.GetOrCreateLocBlock(generatedKey);
+					ck3NameLocBlock[ConverterGlobals.PrimaryLanguage] = nameLoc.Replace("\\\"", "\"");
+				}
 			}
 		}
 	}
@@ -552,8 +581,21 @@ internal sealed class Character : IIdentifiable<string> {
 		return History.GetFieldValue("faith", date)?.ToString();
 	}
 
-	public OrderedSet<object> GetSpouseIds(Date date) {
-		return History.GetFieldValueAsCollection("spouses", date) ?? new OrderedSet<object>();
+	public OrderedSet<string> GetSpouseIds(Date date) {
+		var idsAsObjects = History.GetFieldValueAsCollection("spouses", date);
+		if (idsAsObjects is null) {
+			return [];
+		}
+
+		var ids = new OrderedSet<string>();
+		foreach (var idObj in idsAsObjects) {
+			var idStr = idObj.ToString();
+			if (!string.IsNullOrEmpty(idStr)) {
+				ids.Add(idStr);
+			}
+		}
+
+		return ids;
 	}
 	public void AddSpouse(Date date, Character spouse) {
 		History.AddFieldValue(date, "spouses", "add_spouse", spouse.Id);
@@ -741,7 +783,7 @@ internal sealed class Character : IIdentifiable<string> {
 
 	internal void ImportUnitsAsMenAtArms(
 		IEnumerable<Unit> countryUnits,
-		Date date,
+		Date bookmarkDate,
 		UnitTypeMapper unitTypeMapper,
 		IdObjectCollection<string, MenAtArmsType> menAtArmsTypes,
 		CK3LocDB ck3LocDB
@@ -763,7 +805,7 @@ internal sealed class Character : IIdentifiable<string> {
 
 		foreach (var (typeId, men) in menPerUnitType) {
 			var baseType = menAtArmsTypes[typeId];
-			var dedicatedType = new MenAtArmsType(baseType, this, men/8, date);
+			var dedicatedType = new MenAtArmsType(baseType, this, men/8, bookmarkDate);
 			menAtArmsTypes.Add(dedicatedType);
 			MenAtArmsStacksPerType[dedicatedType.Id] = 1;
 
@@ -774,13 +816,13 @@ internal sealed class Character : IIdentifiable<string> {
 		var sb = new StringBuilder();
 		sb.AppendLine("{ add_character_modifier=IRToCK3_fuck_CK3_military_system_modifier }");
 
-		History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
+		History.AddFieldValue(bookmarkDate, "effects", "effect", new StringOfItem(sb.ToString()));
 	}
 	internal void ImportUnitsAsSpecialTroops(
 		IEnumerable<Unit> countryUnits,
 		Imperator.Characters.CharacterCollection irCharacters,
 		CountryCollection irCountries,
-		Date date,
+		Date bookmarkDate,
 		UnitTypeMapper unitTypeMapper,
 		ProvinceMapper provinceMapper,
 		CK3LocDB ck3LocDB
@@ -789,58 +831,71 @@ internal sealed class Character : IIdentifiable<string> {
 		sb.AppendLine("{");
 
 		foreach (var unit in countryUnits) {
-			var menPerUnitType = unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType);
-
-			if (unit.LeaderId is null || !irCharacters.TryGetValue(unit.LeaderId.Value, out var irLeader)) {
-				// Use country ruler.
-				irLeader = irCountries[unit.CountryId].Monarch;
-			}
-
+			var irLeader = ResolveSpecialTroopLeader(unit, irCharacters, irCountries);
 			if (irLeader is null) {
 				Logger.Warn($"Unit {unit.Id} has no leader and country {unit.CountryId} has no ruler! Skipping special troop spawn.");
 				continue;
 			}
 
-			var ck3Leader = irLeader.CK3Character;
-
-			sb.AppendLine("\t\tspawn_army={");
-
-			sb.AppendLine("\t\t\tuses_supply=yes");
-			sb.AppendLine("\t\t\tinheritable=yes");
-
-			if (unit.LocalizedName is not null) {
-				var locKey = unit.LocalizedName.Id;
-				sb.AppendLine($"\t\t\tname={locKey}");
-				var unitLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
-				unitLocBlock.CopyFrom(unit.LocalizedName);
-			}
-
-			foreach (var (type, men) in menPerUnitType) {
-				sb.AppendLine($"\t\t\tmen_at_arms={{type={type} men={men}}}");
-			}
-
-			var ck3Location = provinceMapper.GetCK3ProvinceNumbers(unit.Location).AsValueEnumerable()
-				.Cast<ulong?>()
-				.FirstOrDefault(defaultValue: null);
-			if (ck3Location is not null) {
-				sb.AppendLine($"\t\t\tlocation=province:{ck3Location}");
-				sb.AppendLine($"\t\t\torigin=province:{ck3Location}");
-			}
-
-			if (ck3Leader is not null) {
-				// Will have no effect if army is not actually spawned (see spawn_army explanation on CK3 wiki).
-				sb.AppendLine($"\t\t\tsave_temporary_scope_as={unit.Id}");
-			}
-
-			sb.AppendLine("\t\t}");
-
-			if (ck3Leader is not null) {
-				sb.AppendLine($"\t\tif={{ limit={{ exists=scope:{unit.Id} }} scope:{unit.Id}={{ set_commander=character:{ck3Leader.Id} }} }}");
-			}
+			AppendSpecialTroopSpawnScript(sb, unit, irLeader.CK3Character, unitTypeMapper, provinceMapper, ck3LocDB);
 		}
 
 		sb.AppendLine("\t}");
-		History.AddFieldValue(date, "effects", "effect", new StringOfItem(sb.ToString()));
+		History.AddFieldValue(bookmarkDate, "effects", "effect", new StringOfItem(sb.ToString()));
+	}
+
+	private static Imperator.Characters.Character? ResolveSpecialTroopLeader(Unit unit, Imperator.Characters.CharacterCollection irCharacters, CountryCollection irCountries) {
+		if (unit.LeaderId is not null && irCharacters.TryGetValue(unit.LeaderId.Value, out var irLeader)) {
+			return irLeader;
+		}
+
+		// Use country ruler.
+		return irCountries[unit.CountryId].Monarch;
+	}
+
+	private static void AppendSpecialTroopSpawnScript(StringBuilder sb, Unit unit, Character? ck3Leader, UnitTypeMapper unitTypeMapper, ProvinceMapper provinceMapper, CK3LocDB ck3LocDB) {
+		var menPerUnitType = unitTypeMapper.GetMenPerCK3UnitType(unit.MenPerUnitType);
+		sb.AppendLine("\t\tspawn_army={");
+		sb.AppendLine("\t\t\tuses_supply=yes");
+		sb.AppendLine("\t\t\tinheritable=yes");
+
+		if (unit.LocalizedName is not null) {
+			var locKey = unit.LocalizedName.Id;
+			sb.AppendLine($"\t\t\tname={locKey}");
+			var unitLocBlock = ck3LocDB.GetOrCreateLocBlock(locKey);
+			unitLocBlock.CopyFrom(unit.LocalizedName);
+		}
+
+		foreach (var (type, men) in menPerUnitType) {
+			sb.AppendLine($"\t\t\tmen_at_arms={{ type={type} men={men} }}");
+		}
+
+		var ck3Location = provinceMapper.GetCK3ProvinceNumbers(unit.Location).AsValueEnumerable()
+			.Cast<ulong?>()
+			.FirstOrDefault(defaultValue: null);
+		if (ck3Location is not null) {
+			sb.AppendLine($"\t\t\tlocation=province:{ck3Location}");
+			sb.AppendLine($"\t\t\torigin=province:{ck3Location}");
+		}
+
+		string unitScopeId = $"ir_unit_{unit.Id}";
+		if (ck3Leader is not null) {
+			// Will have no effect if army is not actually spawned (see spawn_army explanation on CK3 wiki).
+			sb.AppendLine($"\t\t\tsave_temporary_scope_as={unitScopeId}");
+		}
+
+		sb.AppendLine("\t\t}");
+
+		if (ck3Leader is not null) {
+			sb.AppendLine($$"""
+	                        scope:{{unitScopeId}} ?= {
+	                            if = {
+	                                limit = { character:{{ck3Leader.Id}} = { is_alive = yes } }
+	                                assign_commander=character:{{ck3Leader.Id}}
+	                            }    
+	                        }
+	                """);
+		}
 	}
 
 	private readonly CharacterCollection characters;

@@ -23,7 +23,7 @@ public class NamedColorOutputterTests {
 
 		Directory.CreateDirectory("output/colors_test/common/named_colors");
 		await NamedColorsOutputter.OutputNamedColors("output/colors_test", imperatorColors, ck3Colors);
-		var output = await File.ReadAllTextAsync("output/colors_test/common/named_colors/IRtoCK3_colors_from_Imperator.txt");
+		var output = await File.ReadAllTextAsync("output/colors_test/common/named_colors/IRtoCK3_colors_from_Imperator.txt", TestContext.Current.CancellationToken);
 		Assert.DoesNotContain("a=", output);
 		Assert.DoesNotContain("b=", output);
 		Assert.DoesNotContain("c=rgb {3 3 3}", output);

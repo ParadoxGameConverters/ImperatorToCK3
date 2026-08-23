@@ -6,7 +6,7 @@ namespace ImperatorToCK3.Mappers.DeathReason;
 internal sealed class DeathReasonMapper {
 	public DeathReasonMapper() {
 		Logger.Info("Parsing death reason mappings...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseFile("configurables/deathMappings.txt");
 		Logger.Info($"Loaded {irToCK3ReasonMap.Count} death reason links.");
@@ -14,7 +14,7 @@ internal sealed class DeathReasonMapper {
 		Logger.IncrementProgress();
 	}
 	public DeathReasonMapper(BufferedReader reader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}

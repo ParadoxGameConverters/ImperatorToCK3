@@ -1,6 +1,7 @@
 name: "Integration tests"
 
 on:
+  workflow_dispatch: # so the workflow can be tested manually
   release:
     types: [published]
 
@@ -11,20 +12,25 @@ concurrency:
 jobs:
   run_test_conversions:
     runs-on: [self-hosted, windows]
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     strategy:
       fail-fast: false
       matrix:
-        save_url:
+        save:
           # 2.0 vanilla
-          - https://www.dropbox.com/scl/fi/jvb6s0zm02r3v30w09mzs/453.12.28-Dumnoniens.rome?rlkey=98y1jcscjy76mhva3m5qtyvid&st=khop16qy&dl=1  # 453.12.28 - Dumnoniens.rome
+          - name: Dumnoniens
+            url: https://www.dropbox.com/scl/fi/jvb6s0zm02r3v30w09mzs/453.12.28-Dumnoniens.rome?rlkey=98y1jcscjy76mhva3m5qtyvid&st=khop16qy&dl=1  # 453.12.28 - Dumnoniens.rome
           # 2.0 with mods
-          # - https://www.dropbox.com/scl/fi/whvbcjeojipt2ysqbwcp2/848.7.14-Indian-Empire-2.rome?rlkey=xqm0a0t24rbf8vkuepwrbezqt&st=gq3avjck&dl=1  # 848.7.14 - Indian Empire - 2.rome, uploaded 2024-06-30
-          # - https://www.dropbox.com/scl/fi/xya8828ceb4h3ls3dixjc/Grande-Campagne.rome?rlkey=bjihvjtdnwtzlju95o7ekkpbm&st=txoi1lk2&dl=1  # Grande Campagne.rome, uploaded 2024-09-11
-          - https://www.dropbox.com/scl/fi/q22wnjljvcjev6yem0kp2/Roman-Empire-Convert-Save-2.rome?rlkey=15vxn4wvrzn1fde14qn6zqvfu&st=59s2cgj7&dl=1  # Roman Empire Convert Save 2.rome, uploaded 2024-09-23
+          # - name: IndianEmpire2
+          #   url: https://www.dropbox.com/scl/fi/whvbcjeojipt2ysqbwcp2/848.7.14-Indian-Empire-2.rome?rlkey=xqm0a0t24rbf8vkuepwrbezqt&st=gq3avjck&dl=1  # 848.7.14 - Indian Empire - 2.rome, uploaded 2024-06-30
+          # - name: GrandeCampagne
+          #   url: https://www.dropbox.com/scl/fi/xya8828ceb4h3ls3dixjc/Grande-Campagne.rome?rlkey=bjihvjtdnwtzlju95o7ekkpbm&st=txoi1lk2&dl=1  # Grande Campagne.rome, uploaded 2024-09-11
+          - name: RomanEmpireConvertSave2
+            url: https://www.dropbox.com/scl/fi/q22wnjljvcjev6yem0kp2/Roman-Empire-Convert-Save-2.rome?rlkey=15vxn4wvrzn1fde14qn6zqvfu&st=59s2cgj7&dl=1  # Roman Empire Convert Save 2.rome, uploaded 2024-09-23
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
-        fetch-depth: 0
         submodules: recursive
     - name: "Check if docs folders exist"
       run: |
@@ -35,13 +41,20 @@ jobs:
     #   uses: actions/setup-dotnet@v4
     #   with:
     #     global-json-file: global.json
+    - name: "Cache NuGet packages"
+      uses: actions/cache@v6
+      with:
+        path: ${{ env.NUGET_PACKAGES }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
     - name: "Build converter backend"
       working-directory: ImperatorToCK3
       run: |
         dotnet build -c:Release
     - name: "Download I:R save from Dropbox"
       run: |
-        Invoke-WebRequest -Uri "${{ matrix.save_url }}" -OutFile "save.rome"
+        Invoke-WebRequest -Uri "${{ matrix.save.url }}" -OutFile "save.rome"
     - name: "Create configuration.txt"
       working-directory: Release/ImperatorToCK3
       run: |
@@ -50,7 +63,7 @@ jobs:
         echo 'CK3directory = "C:\Program Files (x86)\Steam\steamapps\common\Crusader Kings III"' >> configuration.txt
         echo 'targetGameModPath = "C:\Users\Administrator\Documents\Paradox Interactive\Crusader Kings III\mod"' >> configuration.txt
         echo 'SaveGame = "../../save.rome"' >> configuration.txt
-        echo 'SkipDynamicCoAExtraction = 1' >> configuration.txt
+        echo 'SkipDynamicCoAExtraction = yes' >> configuration.txt
         echo 'output_name = "test_save"' >> configuration.txt
         cat configuration.txt
     - name: "Run conversion"
@@ -58,9 +71,26 @@ jobs:
       run: |
         dotnet ImperatorToCK3Converter.dll
 
+    - name: "Checkout CK3 Validator"
+      uses: actions/checkout@v7
+      with:
+        repository: LT-Rascek/CK3_Validator
+        path: ck3-validator
+
+    - name: "Setup Python"
+      uses: actions/setup-python@v7
+      with:
+        python-version: "3.12"
+
+    - name: "Validate generated mod with CK3 Validator"
+      run: |
+        # Checks encoding and localization file naming of the generated mod.
+        # The wrapper adapts the upstream POSIX-only scripts to Windows paths.
+        python tools/ck3_validator/run_ck3_validator.py "$env:GITHUB_WORKSPACE\Release\ImperatorToCK3\output\test_save" "$env:GITHUB_WORKSPACE\ck3-validator"
+
     - name: "Download and unzip ck3-tiger"
       run: |
-        Invoke-WebRequest -Uri "https://github.com/amtep/tiger/releases/download/v1.12.0/ck3-tiger-windows-v1.12.0.zip" -OutFile "ck3-tiger.zip"
+        Invoke-WebRequest -Uri "https://github.com/amtep/tiger/releases/download/v1.18.0/ck3-tiger-windows-v1.18.0.zip" -OutFile "ck3-tiger.zip"
         Expand-Archive -Path "ck3-tiger.zip" -DestinationPath "ck3-tiger"
         Remove-Item -Path "ck3-tiger.zip"
 
@@ -116,6 +146,14 @@ jobs:
           Write-Host "Successfully validated!" -ForegroundColor Green -BackgroundColor Black
         }
 
+    - name: "Upload artifact with generated mod"
+      uses: actions/upload-artifact@v7
+      with:
+        name: 'generated-mod-${{ matrix.save.name }}'
+        path: Release/ImperatorToCK3/output/
+        retention-days: 20
+        if-no-files-found: error
+
     - name: "Cleanup"
       if: always()
       run: |
@@ -141,4 +179,58 @@ jobs:
         Get-ChildItem -Path $Env:GITHUB_WORKSPACE -Recurse -Force | ForEach-Object {
             Remove-ItemWithRetry -Path $_.FullName
         }
+
+  validate_generated_mod:
+    needs: run_test_conversions
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        save: [Dumnoniens, RomanEmpireConvertSave2] # keep in sync with the save names in run_test_conversions
+    env:
+      CWTOOLS_CLI_VERSION: 0.6.0-alpha
+    steps:
+    - uses: actions/checkout@v7 # provides the validation script and global.json
+    - name: "Setup Dotnet for CWTools script"
+      uses: actions/setup-dotnet@v6
+      with:
+        global-json-file: global.json
+    - name: "Download generated mod"
+      uses: actions/download-artifact@v8
+      with:
+        name: 'generated-mod-${{ matrix.save }}'
+        path: generated_mod
+    - name: "Install CWTools CLI"
+      run: |
+        dotnet tool install --global CWTools.CLI --version $CWTOOLS_CLI_VERSION
+        toolStore="$HOME/.dotnet/tools/.store/cwtools.cli/$CWTOOLS_CLI_VERSION/cwtools.cli/$CWTOOLS_CLI_VERSION"
+        toolDir=$(find "$toolStore" -type d -name any | head -1)
+        echo "Using CWTools assemblies from $toolDir"
+        mkdir -p .github/scripts/cwtools_tools
+        cp "$toolDir"/*.dll .github/scripts/cwtools_tools/
+        # CWTools references an old FSharp.Data whose type provider needs this designer assembly,
+        # which the tool package does not bundle.
+        curl -sSL -o fsharpdata.zip "https://www.nuget.org/api/v2/package/FSharp.Data/3.1.1"
+        unzip -p fsharpdata.zip typeproviders/fsharp41/netstandard2.0/FSharp.Data.DesignTime.dll > .github/scripts/cwtools_tools/FSharp.Data.DesignTime.dll
+        rm fsharpdata.zip
+    - name: "Download CWTools CK3 rules and metadata cache"
+      run: |
+        git clone --depth 1 https://github.com/cwtools/cwtools-ck3-config.git
+        wget -q -O ck3.cwv.bz2 "https://raw.githubusercontent.com/cwtools/cwtools-cache-files/ck3/ck3.cwv.bz2"
+    - name: "Validate generated mod with CWTools"
+      # The generated mod embeds copies of vanilla folders and the cwtools ck3 rules/metadata
+      # cache lag behind the current game version, so most findings are false positives from
+      # vanilla content. Report them without failing; add --strict once the report is clean.
+      run: |
+        dotnet fsi .github/scripts/cwtools_validate_mod.fsx \
+          generated_mod/test_save \
+          cwtools-ck3-config \
+          ck3.cwv.bz2 \
+          cwtools_output.json
+    - name: "Upload artifact"
+      if: always() # so even if the check fails, the log is uploaded
+      uses: actions/upload-artifact@v7
+      with:
+        name: 'cwtools_output-${{ matrix.save }}'
+        path: cwtools_output.json
 

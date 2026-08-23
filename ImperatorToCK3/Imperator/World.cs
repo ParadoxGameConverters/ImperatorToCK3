@@ -27,6 +27,8 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -38,7 +40,7 @@ namespace ImperatorToCK3.Imperator;
 
 internal partial class World {
 	public Date EndDate { get; private set; } = new Date("727.2.17", AUC: true);
-	private readonly IList<string> incomingModPaths = []; // List of all mods used in the save.
+	private readonly List<string> incomingModPaths = []; // List of all mods used in the save.
 	public ModFilesystem ModFS { get; private set; }
 	private readonly SortedSet<string> dlcs = [];
 	public IReadOnlySet<string> GlobalFlags { get; private set; } = ImmutableHashSet<string>.Empty;
@@ -58,7 +60,7 @@ internal partial class World {
 	public ImperatorRegionMapper ImperatorRegionMapper { get; private set; }
 	public StateCollection States { get; } = [];
 
-	private DiplomacyDB diplomacyDB;
+	private readonly DiplomacyDB diplomacyDB = new();
 	public IReadOnlyCollection<War> Wars => diplomacyDB.Wars;
 	public IReadOnlyCollection<Dependency> Dependencies => diplomacyDB.Dependencies;
 	public IReadOnlyCollection<List<ulong>> DefensiveLeagues => diplomacyDB.DefensiveLeagues;
@@ -73,9 +75,6 @@ internal partial class World {
 	public ColorFactory ColorFactory { get; } = new();
 	
 	public IReadOnlyList<Mod> UsableMods { get; private set; } = Array.Empty<Mod>();
-	
-	public bool InvictusDetected { get; private set; }
-	public bool TerraIndomitaDetected { get; private set; }
 
 	private enum SaveType { Invalid, Plaintext, CompressedEncoded }
 	private SaveType saveType = SaveType.Invalid;
@@ -89,20 +88,19 @@ internal partial class World {
 		
 		Religions = new ReligionCollection(new ScriptValueCollection());
 		ImperatorRegionMapper = new ImperatorRegionMapper(Areas, MapData);
-
-		diplomacyDB = new();
 	}
-	
-	private static void OutputGuiContainer(ModFilesystem modFS, IEnumerable<string> tagsNeedingFlags, Configuration config) {
+
+	internal static bool OutputGuiContainer(ModFilesystem modFS, IEnumerable<string> tagsNeedingFlags, Configuration config) {
 		Logger.Debug("Modifying gui for exporting CoAs...");
-		
+
 		const string relativeTopBarGuiPath = "gui/ingame_topbar.gui";
 		var topBarGuiPath = modFS.GetActualFileLocation(relativeTopBarGuiPath);
 		if (topBarGuiPath is null) {
 			Logger.Warn($"{relativeTopBarGuiPath} not found, can't write CoA export commands!");
-			return;
+			return false;
 		}
 
+		// build the GUI snippet we want to insert
 		var guiTextBuilder = new StringBuilder();
 		guiTextBuilder.AppendLine("\tstate = {");
 		guiTextBuilder.AppendLine("\t\tname = _show");
@@ -110,21 +108,32 @@ internal partial class World {
 		commandsString += ";dumpdatatypes"; // This will let us know when the commands finished executing.
 		guiTextBuilder.AppendLine($"\t\ton_start=\"[ExecuteConsoleCommandsForced('{commandsString}')]\"");
 		guiTextBuilder.AppendLine("\t}");
-		
+
 		List<string> lines = [.. File.ReadAllLines(topBarGuiPath)];
 		int index = lines.FindIndex(line => line.Contains("name = \"ingame_topbar\""));
 		if (index != -1) {
 			lines.Insert(index + 1, guiTextBuilder.ToString());
 		}
 
-		var topBarOutputPath = Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod", relativeTopBarGuiPath);
-		Logger.Debug($"Writing modified GUI to \"{topBarOutputPath}\"...");
-		var topBarOutputDir = Path.GetDirectoryName(topBarOutputPath);
-		if (topBarOutputDir is not null) {
-			Directory.CreateDirectory(topBarOutputDir);
+		// attempt to write the modified GUI
+		try {
+			var topBarOutputPath = Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod", relativeTopBarGuiPath);
+			Logger.Debug($"Writing modified GUI to \"{topBarOutputPath}\"...");
+			var topBarOutputDir = Path.GetDirectoryName(topBarOutputPath);
+			if (topBarOutputDir is not null) {
+				FileHelper.EnsureDirectoryExists(topBarOutputDir);
+			}
+
+			using var writer = FileHelper.OpenWriteWithRetries(topBarOutputPath, Encoding.UTF8);
+			foreach (var line in lines) {
+				writer.WriteLine(line);
+			}
+		} catch (Exception e) {
+			Logger.Warn($"Failed to output modified GUI: {e.Message}");
+			// bail out but don't crash the whole conversion
+			return false;
 		}
-		File.WriteAllLines(topBarOutputPath, lines);
-		
+
 		// Create a .mod file for the temporary mod.
 		Logger.Debug("Creating temporary mod file...");
 		string modFileContents = 
@@ -132,50 +141,147 @@ internal partial class World {
 			name = "IRToCK3 CoA export mod"
 			path = "mod/coa_export_mod"
 			""";
-		File.WriteAllText(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod/descriptor.mod"), modFileContents);
+		if (!TryWriteTextFile(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod/descriptor.mod"), modFileContents)) {
+			return false;
+		}
 
 		var absoluteModPath = Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod").Replace('\\', '/');
 		modFileContents = modFileContents.Replace("path = \"mod/coa_export_mod\"", $"path = \"{absoluteModPath}\"");
-		File.WriteAllText(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod.mod"), modFileContents);
+		return TryWriteTextFile(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod.mod"), modFileContents);
 	}
 	
-	private void OutputContinueGameJson(Configuration config) {
+	/// <summary>
+	/// Path where the melted save was staged in the Imperator save games directory for CoA extraction.
+	/// Null when not currently staging.
+	/// </summary>
+	private string? _stagedMeltedSavePath;
+
+	/// <summary>
+	/// Copies <c>temp/melted_save.rome</c> into the Imperator save games directory so that
+	/// Imperator can open it via <c>-continuelastsave</c>. Returns the destination path,
+	/// or <c>null</c> if the melted save does not exist.
+	/// </summary>
+	private static string? StageCoaMeltedSave(Configuration config) {
+		const string meltedSavePath = "temp/melted_save.rome";
+		if (!File.Exists(meltedSavePath)) {
+			return null;
+		}
+
+		var savesDir = Path.Combine(config.ImperatorDocPath, "save games");
+		Directory.CreateDirectory(savesDir);
+
+		var destPath = Path.Combine(savesDir, "melted_save.rome");
+		if (File.Exists(destPath)) {
+			destPath = Path.Combine(savesDir, $"melted_save_{Guid.NewGuid():N}.rome");
+		}
+		File.Copy(meltedSavePath, destPath);
+		return destPath;
+	}
+
+	private static bool TryWriteTextFile(string filePath, string contents) {
+		try {
+			var directoryPath = Path.GetDirectoryName(filePath);
+			if (directoryPath is not null) {
+				FileHelper.EnsureDirectoryExists(directoryPath);
+			}
+
+			if (Directory.Exists(filePath)) {
+				// A directory node exists at the target path — writing is impossible.
+				Logger.Warn($"Failed to write \"{filePath}\": the path refers to a directory, not a file.");
+				return false;
+			}
+
+			FileHelper.EnsureFileIsWritable(filePath);
+
+			using var writer = FileHelper.OpenWriteWithRetries(filePath, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+			writer.Write(contents);
+			return true;
+		} catch (Exception e) when (e is UnauthorizedAccessException or IOException or UserErrorException) {
+			Logger.Warn($"Failed to write \"{filePath}\": {e.Message}");
+			Logger.Debug(e.ToString());
+			return false;
+		}
+	}
+	
+	private bool OutputContinueGameJson(Configuration config) {
 		// Set the current save to be used when launching the game with the continuelastsave option.
 		Logger.Debug("Modifying continue_game.json...");
-		File.WriteAllText(Path.Join(config.ImperatorDocPath, "continue_game.json"),
+		var continueGamePath = Path.Join(config.ImperatorDocPath, "continue_game.json");
+		var continueGameBackupPath = continueGamePath + ".backup";
+
+		// Backup the original file if it exists
+		if (File.Exists(continueGamePath)) {
+			try {
+				if (File.Exists(continueGameBackupPath)) {
+					FileHelper.EnsureFileIsWritable(continueGameBackupPath);
+					FileHelper.DeleteWithRetries(continueGameBackupPath);
+				}
+				FileHelper.EnsureFileIsWritable(continueGamePath);
+				FileHelper.MoveWithRetries(continueGamePath, continueGameBackupPath);
+			} catch (Exception ex) {
+				Logger.Debug($"Failed to backup continue_game.json: {ex.Message}");
+				return false;
+			}
+		}
+
+		// Use the staged melted save name when available so that Imperator opens the
+		// already-melted file rather than the original (possibly ironman) save.
+		var titleSavePath = _stagedMeltedSavePath ?? config.SaveGamePath;
+		return TryWriteTextFile(continueGamePath,
 			contents: $$"""
             {
-                "title": "{{Path.GetFileNameWithoutExtension(config.SaveGamePath)}}",
-                "desc": "Playing as {{metaPlayerName}} - {{EndDate}} AD",
-                "date": "{{DateTime.Now:yyyy-MM-dd HH:mm:ss}}"
+            	"title":	"{{Path.GetFileNameWithoutExtension(titleSavePath)}}",
+            	"desc":	"Playing as {{metaPlayerName}} - {{EndDate}} AD",
+            	"date":	"{{DateTime.Now:yyyy-MM-dd HH:mm:ss}}"
             }
             """);
 	}
 
-	private void OutputDlcLoadJson(Configuration config) {
+	private bool OutputDlcLoadJson(Configuration config) {
 		Logger.Debug("Outputting dlc_load.json...");
+		var dlcLoadPath = Path.Join(config.ImperatorDocPath, "dlc_load.json");
+		var dlcLoadBackupPath = dlcLoadPath + ".backup";
+		
+		// Backup the original file if it exists
+		if (File.Exists(dlcLoadPath)) {
+			try {
+				if (File.Exists(dlcLoadBackupPath)) {
+					FileHelper.EnsureFileIsWritable(dlcLoadBackupPath);
+					FileHelper.DeleteWithRetries(dlcLoadBackupPath);
+				}
+				FileHelper.EnsureFileIsWritable(dlcLoadPath);
+				FileHelper.MoveWithRetries(dlcLoadPath, dlcLoadBackupPath);
+			} catch (Exception ex) {
+				Logger.Debug($"Failed to backup dlc_load.json: {ex.Message}");
+				return false;
+			}
+		}
+
 		var dlcLoadBuilder = new StringBuilder();
-		dlcLoadBuilder.AppendLine("{");
-		dlcLoadBuilder.Append(@"""enabled_mods"": [");
-		dlcLoadBuilder.AppendJoin(", ", incomingModPaths.Select(modPath => $"\"{modPath}\""));
-		dlcLoadBuilder.AppendLine(",");
-		dlcLoadBuilder.AppendLine("\"mod/coa_export_mod.mod\"");
-		dlcLoadBuilder.AppendLine("],");
-		dlcLoadBuilder.AppendLine(@"""disabled_dlcs"":[]");
-		dlcLoadBuilder.AppendLine("}");
-		File.WriteAllText(Path.Join(config.ImperatorDocPath, "dlc_load.json"), dlcLoadBuilder.ToString());
+		dlcLoadBuilder.Append('{');
+		dlcLoadBuilder.Append(@"""enabled_mods"":[");
+		dlcLoadBuilder.AppendJoin(",", incomingModPaths.Select(modPath => $"\"{modPath}\""));
+		dlcLoadBuilder.Append(',');
+		dlcLoadBuilder.Append("\"mod/coa_export_mod.mod\"");
+		dlcLoadBuilder.Append("],");
+		dlcLoadBuilder.Append(@"""disabled_dlcs"":[]");
+		dlcLoadBuilder.Append('}');
+		return TryWriteTextFile(dlcLoadPath, dlcLoadBuilder.ToString());
 	}
 
-	private void LaunchImperatorToExportCountryFlags(Configuration config) {
+	private bool LaunchImperatorToExportCountryFlags(Configuration config) {
 		Logger.Info("Retrieving random CoAs from Imperator...");
-		OutputContinueGameJson(config);
-		OutputDlcLoadJson(config);
+		_stagedMeltedSavePath = StageCoaMeltedSave(config);
+		if (!OutputContinueGameJson(config) || !OutputDlcLoadJson(config)) {
+			Logger.Warn("Skipping Imperator launch because the launcher files couldn't be written.");
+			return false;
+		}
 
 		string imperatorBinaryName = OperatingSystem.IsWindows() ? "imperator.exe" : "imperator";
 		var imperatorBinaryPath = Path.Combine(config.ImperatorPath, "binaries", imperatorBinaryName);
 		if (!File.Exists(imperatorBinaryPath)) {
 			Logger.Warn("Imperator binary not found! Aborting the random CoA extraction!");
-			return;
+			return false;
 		}
 
 		string dataTypesLogPath = Path.Combine(config.ImperatorDocPath, "logs/data_types.log");
@@ -196,7 +302,7 @@ internal partial class World {
 		var imperatorProcess = Process.Start(processStartInfo);
 		if (imperatorProcess is null) {
 			Logger.Warn("Failed to start Imperator process! Aborting!");
-			return;
+			return false;
 		}
 
 		imperatorProcess.Exited += HandleImperatorProcessExit(config, imperatorProcess);
@@ -214,6 +320,8 @@ internal partial class World {
 			Logger.Debug("Killing Imperator process...");
 			imperatorProcess.Kill();
 		}
+
+		return true;
 	}
 
 	private void WaitForImperatorDataTypesLog(Process imperatorProcess, string dataTypesLogPath) {
@@ -221,7 +329,7 @@ internal partial class World {
 		var stopwatch = new Stopwatch();
 		stopwatch.Start();
 		while (!imperatorProcess.HasExited && !File.Exists(dataTypesLogPath)) {
-			if (stopwatch.Elapsed > TimeSpan.FromMinutes(5)) {
+			if (stopwatch.Elapsed > TimeSpan.FromMinutes(10)) {
 				Logger.Warn("Imperator process took too long to execute console commands! Aborting!");
 				imperatorProcess.Kill();
 				break;
@@ -240,7 +348,7 @@ internal partial class World {
 			Logger.Debug($"Imperator process exited with code {imperatorProcess.ExitCode}. Removing temporary mod files...");
 			try {
 				FileHelper.DeleteWithRetries(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod.mod"));
-				Directory.Delete(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod"), recursive: true);
+				FileHelper.DeleteDirectoryWithRetries(Path.Combine(config.ImperatorDocPath, "mod/coa_export_mod"));
 			} catch (Exception e) {
 				Logger.Warn($"Failed to remove temporary mod files: {e.Message}");
 			}
@@ -272,26 +380,113 @@ internal partial class World {
 		Logger.Info("Finished reading CoAs from I:R game.log.");
 	}
 
+	private static bool PathContainsCyrillicCharacters(string? path) {
+		if (string.IsNullOrEmpty(path)) {
+			return false;
+		}
+
+		foreach (var character in path) {
+			if ((character >= '\u0400' && character <= '\u04FF') ||
+			    (character >= '\u0500' && character <= '\u052F') ||
+			    (character >= '\u2DE0' && character <= '\u2DFF') ||
+			    (character >= '\uA640' && character <= '\uA69F')) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	private void ExtractDynamicCoatsOfArms(Configuration config) {
-		var countryFlags = Countries.Select(country => country.Flag).ToArray();
-		var missingFlags = CoaMapper.GetAllMissingFlagKeys(countryFlags);
-		if (missingFlags.Count == 0) {
+		try {
+			if (PathContainsCyrillicCharacters(config.ImperatorDocPath)) {
+				Logger.Warn("Skipping dynamic CoA extraction because it won't work due to the I:R documents path containing Cyrillic characters.");
+				return;
+			}
+
+			if (Process.GetProcessesByName("imperator").Length != 0) {
+				throw new UserErrorException("Imperator: Rome is running! Please close the game before running the converter with dynamic CoA extraction enabled.");
+			}
+
+			var countryFlags = Countries.Select(country => country.Flag).ToArray();
+			var missingFlags = CoaMapper.GetAllMissingFlagKeys(countryFlags);
+			if (missingFlags.Count == 0) {
+				return;
+			}
+
+			Logger.Debug("Missing country flag definitions: " + string.Join(", ", missingFlags));
+
+			var tagsWithMissingFlags = Countries
+				.Where(country => missingFlags.Contains(country.Flag))
+				.Select(country => country.Tag);
+
+			if (!OutputGuiContainer(ModFS, tagsWithMissingFlags, config)) {
+				Logger.Warn("Skipping Imperator launch because the temporary CoA export mod couldn't be prepared.");
+				return;
+			}
+
+			if (!LaunchImperatorToExportCountryFlags(config)) {
+				return;
+			}
+			ReadCoatsOfArmsFromGameLog(config.ImperatorDocPath);
+
+			var missingFlagsAfterExtraction = CoaMapper.GetAllMissingFlagKeys(countryFlags);
+			if (missingFlagsAfterExtraction.Count > 0) {
+				Logger.Warn("Failed to export the following country flags: " + string.Join(", ", missingFlagsAfterExtraction));
+			}
+		} catch (UserErrorException) {
+			throw; // propagate user-facing errors without swallowing them
+		} catch (Exception e) {
+			Logger.Warn($"Failed to extract dynamic coats of arms: {e.Message}");
+			Logger.Debug(e.ToString());
+		} finally {
+			// Always restore the original configuration files, regardless of extraction success or failure
+			RestoreImperatorConfigurationFiles(config);
+		}
+	}
+
+	private void RestoreImperatorConfigurationFiles(Configuration config) {
+		var continueGamePath = Path.Join(config.ImperatorDocPath, "continue_game.json");
+		var dlcLoadPath = Path.Join(config.ImperatorDocPath, "dlc_load.json");
+		// Restore continue_game.json
+		RestoreBackupFile(continueGamePath, continueGamePath + ".backup", "continue_game.json", logFileInUseDiagnostics: true);
+		// Restore dlc_load.json
+		RestoreBackupFile(dlcLoadPath, dlcLoadPath + ".backup", "dlc_load.json", logFileInUseDiagnostics: false);
+		// Remove the staged melted save (if any) that was placed in the Imperator save games folder.
+		CleanupStagedMeltedSave();
+	}
+
+	private void RestoreBackupFile(string targetPath, string backupPath, string fileName, bool logFileInUseDiagnostics) {
+		if (!File.Exists(backupPath)) {
 			return;
 		}
 
-		Logger.Debug("Missing country flag definitions: " + string.Join(", ", missingFlags));
+		try {
+			if (File.Exists(targetPath)) {
+				File.Delete(targetPath);
+			}
+			FileHelper.MoveWithRetries(backupPath, targetPath);
+		} catch (Exception ex) {
+			if (logFileInUseDiagnostics && FileHelper.IsFileInUseException(ex)) {
+				LogFileInUseDiagnosticsForRestore(targetPath, backupPath);
+			}
+			Logger.Warn($"Failed to restore {fileName}: {ex.Message}");
+		}
+	}
 
-		var tagsWithMissingFlags = Countries
-			.Where(country => missingFlags.Contains(country.Flag))
-			.Select(country => country.Tag);
+	private void CleanupStagedMeltedSave() {
+		if (_stagedMeltedSavePath is null) {
+			return;
+		}
 
-		OutputGuiContainer(ModFS, tagsWithMissingFlags, config);
-		LaunchImperatorToExportCountryFlags(config);
-		ReadCoatsOfArmsFromGameLog(config.ImperatorDocPath);
-
-		var missingFlagsAfterExtraction = CoaMapper.GetAllMissingFlagKeys(countryFlags);
-		if (missingFlagsAfterExtraction.Count > 0) {
-			Logger.Warn("Failed to export the following country flags: " + string.Join(", ", missingFlagsAfterExtraction));
+		try {
+			if (File.Exists(_stagedMeltedSavePath)) {
+				FileHelper.DeleteWithRetries(_stagedMeltedSavePath);
+			}
+		} catch (Exception ex) {
+			Logger.Warn($"Failed to remove staged melted save: {ex.Message}");
+		} finally {
+			_stagedMeltedSavePath = null;
 		}
 	}
 
@@ -338,36 +533,28 @@ internal partial class World {
 
 		Characters.PurgeUnneededCharacters(Countries, JobsDB.Governorships, Families);
 
-		// Detect specific mods.
-		InvictusDetected = GlobalFlags.Contains("is_playing_invictus");
-		TerraIndomitaDetected = Countries.Any(c => c.Variables.Contains("unification_points")) ||
-		                        UsableMods.Any(m => m.Name == "Antiquitas");
+		// Apply fallback I:R mod detection from save data that can't be expressed in the imperator_mods.txt configurable.
+		// Only apply if the mod hasn't already been detected via the configurable, to avoid redundant work.
+		if (!config.TerraIndomitaDetected && Countries.Any(c => c.Variables.Contains("unification_points"))) {
+			config.AddImperatorModFlag("terra_indomita");
+		} else if (!config.InvictusDetected && GlobalFlags.Contains("is_playing_invictus")) {
+			config.AddImperatorModFlag("invictus");
+		}
 
 		Logger.Info("*** Good-bye Imperator, rest in peace. ***");
 	}
 
 	private void ParseSave(Configuration config, ConverterVersion converterVersion, out Thread? coaExtractionThread) {
-		var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
-		var parser = new Parser();
+		string imperatorRoot = Path.Combine(config.ImperatorPath, "game");
 
 		Thread? localCoaExtractThread = null;
 		
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterRegex(SaveStartRegex(), _ => { });
 		parser.RegisterKeyword("version", reader => VerifySaveVersion(converterVersion, reader));
 		parser.RegisterKeyword("date", reader => LoadSaveDate(config, reader));
 		parser.RegisterKeyword("enabled_dlcs", LogEnabledDLCs);
-		parser.RegisterKeyword("enabled_mods", reader => {
-			Mods incomingMods = DetectUsedMods(reader);
-
-			// Let's locate, verify and potentially update those mods immediately.
-			ModLoader modLoader = new();
-			modLoader.LoadMods(config.ImperatorDocPath, incomingMods, config.IRVersion, throwForOutOfDateMods: false);
-			UsableMods = new Mods(modLoader.UsableMods);
-			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
-
-			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
-			LoadModFilesystemDependentData();
-		});
+		parser.RegisterKeyword("enabled_mods", LoadEnabledModsAndInitModFs(config, imperatorRoot));
 		parser.RegisterKeyword("variables", ReadVariablesFromSave);
 		parser.RegisterKeyword("family", LoadFamilies);
 		parser.RegisterKeyword("character", LoadCharacters);
@@ -409,6 +596,24 @@ internal partial class World {
 
 		// The CoA extraction may continue after ParseSave finishes executing.
 		coaExtractionThread = localCoaExtractThread;
+	}
+
+	private SimpleDel LoadEnabledModsAndInitModFs(Configuration config, string imperatorRoot) {
+		return reader => {
+			Mods incomingMods = DetectUsedMods(reader);
+
+			// Let's locate, verify and potentially update those mods immediately.
+			ModLoader modLoader = new();
+			modLoader.LoadMods(config.ImperatorDocPath, incomingMods, config.IRVersion, throwForOutOfDateMods: false);
+			UsableMods = new Mods(modLoader.UsableMods);
+			ModFS = new ModFilesystem(imperatorRoot, modLoader.UsableMods);
+
+			// Detect specific Imperator mods from the configurable now that UsableMods are available.
+			config.DetectSpecificImperatorMods(UsableMods);
+
+			// Now that we have the list of mods used, we can load data from Imperator mod filesystem
+			LoadModFilesystemDependentData();
+		};
 	}
 
 	private void RemoveEmptyCountries() {
@@ -475,7 +680,7 @@ internal partial class World {
 
 	private void LoadDiplomacy(BufferedReader reader) {
 		Logger.Info("Loading diplomacy...");
-		diplomacyDB = new DiplomacyDB(reader);
+		diplomacyDB.LoadDiplomacy(reader);
 		Logger.IncrementProgress();
 	}
 
@@ -490,7 +695,7 @@ internal partial class World {
 
 	private void LoadArmies(BufferedReader reader) {
 		Logger.Info("Loading armies...");
-		var armiesParser = new Parser();
+		var armiesParser = new Parser(implicitVariableHandling: false);
 		armiesParser.RegisterKeyword("subunit_database", subunitsReader => Units.LoadSubunits(subunitsReader));
 		armiesParser.RegisterKeyword("units_database", unitsReader => Units.LoadUnits(unitsReader, LocDB, Defines));
 
@@ -499,7 +704,7 @@ internal partial class World {
 
 	private SimpleDel LoadPlayerCountries(OrderedSet<string> playerCountriesToLog) {
 		return reader => {
-			var playedCountryBlocParser = new Parser();
+			var playedCountryBlocParser = new Parser(implicitVariableHandling: false);
 			playedCountryBlocParser.RegisterKeyword("country", countryReader => {
 				var countryId = countryReader.GetULong();
 				var country = Countries[countryId];
@@ -522,7 +727,7 @@ internal partial class World {
 
 	private void LoadStates(BufferedReader reader) {
 		Logger.Info("Loading states...");
-		var statesBlocParser = new Parser();
+		var statesBlocParser = new Parser(implicitVariableHandling: false);
 		statesBlocParser.RegisterKeyword("state_database", statesReader => States.LoadStates(statesReader, Areas, Countries));
 		statesBlocParser.IgnoreAndLogUnregisteredItems();
 		statesBlocParser.ParseStream(reader);
@@ -562,9 +767,9 @@ internal partial class World {
 		Logger.Info("Reading global variables...");
 
 		var variables = new HashSet<string>();
-		var variablesParser = new Parser();
+		var variablesParser = new Parser(implicitVariableHandling: false);
 		variablesParser.RegisterKeyword("data", dataReader => {
-			var blobParser = new Parser();
+			var blobParser = new Parser(implicitVariableHandling: false);
 			blobParser.RegisterKeyword("flag", blobReader => variables.Add(blobReader.GetString()));
 			blobParser.IgnoreUnregisteredItems();
 			foreach (var blob in new BlobList(dataReader).Blobs) {
@@ -641,7 +846,7 @@ internal partial class World {
 
 		const string noCountryIdWarning = "Pre-Imperator ruler term has no country ID!";
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("ruler", reader => {
 			var rulerTerm = new RulerTerm(reader, Countries);
 			if (rulerTerm.PreImperatorRuler is null) {
@@ -795,18 +1000,18 @@ internal partial class World {
 		} while (ch != '\n' && ch != '\r');
 
 		var length = saveStream.Length;
-		if (length < 65536) {
+		if (length < 65_536) {
 			throw new InvalidDataException("Save game seems a bit too small.");
 		}
 
 		saveStream.Position = 0;
-		var bigBuf = new byte[65536];
+		var bigBuf = new byte[65_536];
 		var bytesReadCount = saveStream.Read(bigBuf);
-		if (bytesReadCount < 65536) {
+		if (bytesReadCount < 65_536) {
 			throw new InvalidDataException($"Read only {bytesReadCount}bytes.");
 		}
 		saveType = SaveType.Plaintext;
-		for (var i = 0; i < 65533; ++i) {
+		for (var i = 0; i < 65_533; ++i) {
 			if (BitConverter.ToUInt32(bigBuf, i) == 0x04034B50 && BitConverter.ToUInt16(bigBuf, i - 2) == 4) {
 				saveType = SaveType.CompressedEncoded;
 			}
@@ -826,6 +1031,185 @@ internal partial class World {
 		Helpers.RakalyCaller.MeltSave(saveGamePath);
 		return new BufferedReader(File.Open("temp/melted_save.rome", FileMode.Open, FileAccess.Read, FileShare.ReadWrite));
 	}
+
+	private static void LogFileInUseDiagnosticsForRestore(string continueGamePath, string continueGameBackupPath) {
+		if (!OperatingSystem.IsWindows()) {
+			Logger.Warn("continue_game.json restore failed because a file appears to be in use by another process.");
+			return;
+		}
+
+		var targetPaths = new[] {continueGamePath, continueGameBackupPath};
+		var anyLockInfoLogged = false;
+		foreach (var path in targetPaths.Distinct(StringComparer.OrdinalIgnoreCase)) {
+			if (!File.Exists(path)) {
+				continue;
+			}
+
+			var lockInfos = GetLockingProcessInfos(path);
+			if (lockInfos.Count == 0) {
+				continue;
+			}
+
+			anyLockInfoLogged = true;
+			foreach (var lockInfo in lockInfos) {
+				var executablePathText = lockInfo.ExecutablePath ?? "<unknown>";
+				Logger.Warn($"File in use: \"{path}\" locked by process \"{lockInfo.ProcessName}\" (PID {lockInfo.ProcessId}), executable \"{lockInfo.ExecutableName}\", full path \"{executablePathText}\".");
+			}
+		}
+
+		if (!anyLockInfoLogged) {
+			Logger.Warn($"continue_game.json restore failed because a file appears to be in use by another process, but locking process details could not be determined for \"{continueGamePath}\" or \"{continueGameBackupPath}\".");
+		}
+	}
+
+	private static IReadOnlyList<LockingProcessInfo> GetLockingProcessInfos(string filePath) {
+		if (!OperatingSystem.IsWindows()) {
+			return [];
+		}
+
+		const int errorSuccess = 0;
+		const int errorMoreData = 234;
+
+		var sessionKey = Guid.NewGuid().ToString();
+		var startResult = RmStartSession(out uint sessionHandle, 0, sessionKey);
+		if (startResult != errorSuccess) {
+			Logger.Debug($"Failed to start Restart Manager session for \"{filePath}\". Error code: {startResult}.");
+			return [];
+		}
+
+		try {
+			var registerResult = RmRegisterResources(sessionHandle, 1, [filePath], 0, null, 0, null);
+			if (registerResult != errorSuccess) {
+				Logger.Debug($"Failed to register resource \"{filePath}\" in Restart Manager. Error code: {registerResult}.");
+				return [];
+			}
+
+			uint processInfoNeeded = 0;
+			uint processInfoCount = 0;
+			uint rebootReasons = 0;
+			var listResult = RmGetList(sessionHandle, out processInfoNeeded, ref processInfoCount, null, ref rebootReasons);
+			if (listResult == errorSuccess) {
+				return [];
+			}
+			if (listResult != errorMoreData) {
+				Logger.Debug($"Failed to get Restart Manager list for \"{filePath}\". Error code: {listResult}.");
+				return [];
+			}
+
+			var rmProcesses = new RM_PROCESS_INFO[processInfoNeeded];
+			processInfoCount = processInfoNeeded;
+			listResult = RmGetList(sessionHandle, out processInfoNeeded, ref processInfoCount, rmProcesses, ref rebootReasons);
+			if (listResult != errorSuccess) {
+				Logger.Debug($"Failed to get Restart Manager process info for \"{filePath}\". Error code: {listResult}.");
+				return [];
+			}
+
+			var lockInfos = new List<LockingProcessInfo>((int)processInfoCount);
+			for (var i = 0; i < processInfoCount; ++i) {
+				lockInfos.Add(ToLockingProcessInfo(rmProcesses[i]));
+			}
+
+			return lockInfos;
+		} catch (Exception ex) {
+			Logger.Debug($"Failed to resolve locking processes for \"{filePath}\": {ex.Message}");
+			Logger.Debug(ex.ToString());
+			return [];
+		} finally {
+			var endResult = RmEndSession(sessionHandle);
+			if (endResult != errorSuccess) {
+				Logger.Debug($"Failed to end Restart Manager session for \"{filePath}\". Error code: {endResult}.");
+			}
+		}
+	}
+
+	private static LockingProcessInfo ToLockingProcessInfo(RM_PROCESS_INFO rmProcessInfo) {
+		string processName = string.IsNullOrWhiteSpace(rmProcessInfo.strAppName) ? "<unknown>" : rmProcessInfo.strAppName;
+		string executableName = processName;
+		string? executablePath = null;
+
+		try {
+			using var process = Process.GetProcessById(rmProcessInfo.Process.dwProcessId);
+			if (!string.IsNullOrWhiteSpace(process.ProcessName)) {
+				processName = process.ProcessName;
+			}
+
+			executablePath = process.MainModule?.FileName;
+			if (!string.IsNullOrWhiteSpace(executablePath)) {
+				executableName = Path.GetFileName(executablePath);
+			}
+		} catch {
+			// Best effort only: process may exit or deny inspection before we query it.
+		}
+
+		if (string.IsNullOrWhiteSpace(executableName)) {
+			executableName = "<unknown>";
+		}
+
+		return new LockingProcessInfo(rmProcessInfo.Process.dwProcessId, processName, executableName, executablePath);
+	}
+
+	private readonly record struct LockingProcessInfo(int ProcessId, string ProcessName, string ExecutableName, string? ExecutablePath);
+
+	private const int CchRmMaxAppName = 255;
+	private const int CchRmMaxSvcName = 63;
+
+	[StructLayout(LayoutKind.Sequential)]
+	private struct RM_UNIQUE_PROCESS {
+		public int dwProcessId;
+		public FILETIME ProcessStartTime;
+	}
+
+	private enum RM_APP_TYPE {
+		RmUnknownApp = 0,
+		RmMainWindow = 1,
+		RmOtherWindow = 2,
+		RmService = 3,
+		RmExplorer = 4,
+		RmConsole = 5,
+		RmCritical = 1000
+	}
+
+	[StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+	private struct RM_PROCESS_INFO {
+		public RM_UNIQUE_PROCESS Process;
+
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = CchRmMaxAppName + 1)]
+		public string strAppName;
+
+		[MarshalAs(UnmanagedType.ByValTStr, SizeConst = CchRmMaxSvcName + 1)]
+		public string strServiceShortName;
+
+		public RM_APP_TYPE ApplicationType;
+		public uint AppStatus;
+		public uint TSSessionId;
+
+		[MarshalAs(UnmanagedType.Bool)]
+		public bool bRestartable;
+	}
+
+	[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
+	private static extern int RmStartSession(out uint pSessionHandle, int dwSessionFlags, string strSessionKey);
+
+	[DllImport("rstrtmgr.dll")]
+	private static extern int RmEndSession(uint pSessionHandle);
+
+	[DllImport("rstrtmgr.dll", CharSet = CharSet.Unicode)]
+	private static extern int RmRegisterResources(
+		uint pSessionHandle,
+		uint nFiles,
+		string[] rgsFileNames,
+		uint nApplications,
+		[In] RM_UNIQUE_PROCESS[]? rgApplications,
+		uint nServices,
+		string[]? rgsServiceNames);
+
+	[DllImport("rstrtmgr.dll")]
+	private static extern int RmGetList(
+		uint dwSessionHandle,
+		out uint pnProcInfoNeeded,
+		ref uint pnProcInfo,
+		[In, Out] RM_PROCESS_INFO[]? rgAffectedApps,
+		ref uint lpdwRebootReasons);
 
 	private readonly IgnoredKeywordsSet ignoredTokens = [];
 

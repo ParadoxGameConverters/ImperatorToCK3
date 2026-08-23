@@ -1,4 +1,5 @@
 using commonItems;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.UnitType;
@@ -7,12 +8,12 @@ internal sealed class UnitTypeMapper {
 	private readonly Dictionary<string, string?> unitTypeMap = []; // imperator -> ck3
 
 	public UnitTypeMapper(string mappingsFilePath) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("link", mappingReader => {
 			var impList = new List<string>();
 			string? ck3Type = null;
 
-			var mappingParser = new Parser();
+			var mappingParser = new Parser(implicitVariableHandling: true);
 			mappingParser.RegisterKeyword("ir", reader=>impList.Add(reader.GetString()));
 			mappingParser.RegisterKeyword("ck3", reader=>ck3Type=reader.GetString());
 			mappingParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
@@ -30,7 +31,7 @@ internal sealed class UnitTypeMapper {
 		return unitTypeMap.GetValueOrDefault(imperatorUnitType, defaultValue: null);
 	}
 
-	public Dictionary<string, int> GetMenPerCK3UnitType(IDictionary<string, int> menPerImperatorUnitType) {
+	public Dictionary<string, int> GetMenPerCK3UnitType(FrozenDictionary<string, int> menPerImperatorUnitType) {
 		var toReturn = new Dictionary<string, int>();
 
 		foreach (var (imperatorType, imperatorMen) in menPerImperatorUnitType) {

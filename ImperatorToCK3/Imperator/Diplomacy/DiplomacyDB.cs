@@ -14,13 +14,11 @@ internal sealed class DiplomacyDB {
 	
 	private readonly List<List<ulong>> defensiveLeagues = []; // stored as lists of member IDs
 	public IReadOnlyList<List<ulong>> DefensiveLeagues => defensiveLeagues;
-	
-	public DiplomacyDB() {}
-	
-	public DiplomacyDB(BufferedReader diplomacyReader) {
-		var parser = new Parser();
+
+	public void LoadDiplomacy(BufferedReader diplomacyReader) {
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("database", databaseReader => {
-			var databaseParser = new Parser();
+			var databaseParser = new Parser(implicitVariableHandling: false);
 			databaseParser.RegisterRegex(CommonRegexes.Integer, LoadWar);
 			databaseParser.IgnoreAndStoreUnregisteredItems(ignoredDatabaseTokens);
 
@@ -74,7 +72,7 @@ internal sealed class DiplomacyDB {
 		Date startDate = new("1.1.1", AUC: true);
 		string subjectType = string.Empty;
 		
-		var dependencyParser = new Parser();
+		var dependencyParser = new Parser(implicitVariableHandling: false);
 		dependencyParser.RegisterKeyword("first", reader => overlordId = reader.GetULong());
 		dependencyParser.RegisterKeyword("second", reader => subjectId = reader.GetULong());
 		dependencyParser.RegisterKeyword("start_date", reader => {
@@ -91,7 +89,7 @@ internal sealed class DiplomacyDB {
 	private void LoadDefensiveLeague(BufferedReader leagueReader) {
 		List<ulong> memberIds = [];
 
-		var leagueParser = new Parser();
+		var leagueParser = new Parser(implicitVariableHandling: false);
 		leagueParser.RegisterKeyword("member", r => memberIds.Add(r.GetULong()));
 		leagueParser.IgnoreAndLogUnregisteredItems();
 		leagueParser.ParseStream(leagueReader);

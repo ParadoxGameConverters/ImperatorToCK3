@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ImperatorToCK3.Outputter;
 
 internal static class WarsOutputter {
-	public static async Task OutputWars(string outputModPath, IEnumerable<War> wars) {
+	public static async Task OutputWars(string outputModPath, List<War> wars) {
 		Logger.Info("Writing wars...");
 
 		// Dump all into one file.

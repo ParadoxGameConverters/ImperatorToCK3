@@ -1,5 +1,6 @@
 using commonItems;
 using commonItems.Collections;
+using DotLiquid;
 using ImperatorToCK3.CK3;
 using System.Collections.Generic;
 
@@ -9,17 +10,17 @@ internal sealed class SuccessionLawMapper {
 	private readonly List<SuccessionLawMapping> mappings = [];
 
 	public SuccessionLawMapper() { }
-	public SuccessionLawMapper(string filePath, OrderedDictionary<string, bool> ck3ModFlags) {
+	public SuccessionLawMapper(string filePath, Hash liquidVariables) {
 		Logger.Info("Parsing succession law mappings...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
-		parser.ParseLiquidFile(filePath, ck3ModFlags);
+		parser.ParseLiquidFile(filePath, liquidVariables);
 		Logger.Info($"Loaded {mappings.Count} succession law links.");
 
 		Logger.IncrementProgress();
 	}
 	public SuccessionLawMapper(BufferedReader reader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}

@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using Xunit;
+using CK3Province = ImperatorToCK3.CK3.Provinces.Province;
 
 namespace ImperatorToCK3.UnitTests.Mappers.TagTitle;
 
@@ -358,10 +359,60 @@ public class TagTitleMapperTests {
 			tag11.RegisterProvince(new(i));
 		}
 		Assert.Equal('d', mapper.GetTitleForTag(tag11, "Test Dukedom", maxTitleRank: TitleRank.empire, ck3LocDB)![0]);
+		
+		var tag12 = Country.Parse(new BufferedReader("tag=TEST_TAG12"), 12);
+		for (ulong i = 1; i < 800; ++i) {
+			// makes the country a great power, with enough territories to convert to a hegemony
+			tag12.RegisterProvince(new(i));
+		}
+		Assert.Equal('h', mapper.GetTitleForTag(tag12, "Test Hegemony", maxTitleRank: TitleRank.hegemony, ck3LocDB)![0]);	
 	}
 
 	[Fact]
-	public void GetTitleForTagPreventsLocKeyHaskConflict() {
+	public void BuildCountyByRegionIndexGroupsCountiesByRegion() {
+		// Set up titles: two counties in region_a, one in region_b.
+		var titles = new Title.LandedTitles();
+		titles.LoadTitles(new BufferedReader(
+			"c_county1 = { b_barony1 = { province = 101 } }\n" +
+			"c_county2 = { b_barony2 = { province = 102 } }\n" +
+			"c_county_b = { b_barony3 = { province = 201 } }"),
+			ColorFactory);
+
+		// Set up CK3 provinces mapped to IR provinces.
+		var irProv11 = new ImperatorToCK3.Imperator.Provinces.Province(11);
+		var irProv12 = new ImperatorToCK3.Imperator.Provinces.Province(12);
+		var irProv21 = new ImperatorToCK3.Imperator.Provinces.Province(21);
+		var ck3Provinces = new ProvinceCollection();
+		var ck3Prov101 = new CK3Province(101) { PrimaryImperatorProvince = irProv11 };
+		var ck3Prov102 = new CK3Province(102) { PrimaryImperatorProvince = irProv12 };
+		var ck3Prov201 = new CK3Province(201) { PrimaryImperatorProvince = irProv21 };
+		ck3Provinces.Add(ck3Prov101);
+		ck3Provinces.Add(ck3Prov102);
+		ck3Provinces.Add(ck3Prov201);
+
+		// Set up IR region mapper: region_a has IR provinces 11 and 12; region_b has 21.
+		var irProvinces = new ImperatorToCK3.Imperator.Provinces.ProvinceCollection();
+		var testAreas = new AreaCollection();
+		testAreas.Add(new Area("area_a", new BufferedReader("provinces = { 11 12 }"), irProvinces));
+		testAreas.Add(new Area("area_b", new BufferedReader("provinces = { 21 }"), irProvinces));
+		var testRegionMapper = new ImperatorRegionMapper(testAreas, irMapData);
+		testRegionMapper.Regions.Add(new ImperatorRegion("region_a", new BufferedReader("areas = { area_a }"), testAreas, ColorFactory));
+		testRegionMapper.Regions.Add(new ImperatorRegion("region_b", new BufferedReader("areas = { area_b }"), testAreas, ColorFactory));
+
+		var index = TagTitleMapper.BuildCountyByRegionIndex(titles, ck3Provinces, testRegionMapper);
+
+		Assert.Equal(2, index.Count);
+		Assert.True(index.ContainsKey("region_a"));
+		Assert.True(index.ContainsKey("region_b"));
+		Assert.Equal(2, index["region_a"].Count); // c_county1 and c_county2
+		Assert.Single(index["region_b"]);
+		Assert.Contains(index["region_a"], t => t.Id == "c_county1");
+		Assert.Contains(index["region_a"], t => t.Id == "c_county2");
+		Assert.Equal("c_county_b", index["region_b"][0].Id);
+	}
+
+	[Fact]
+	public void GetTitleForTagPreventsLocKeyHashConflict() {
 		// k_IRTOCK3_ATV_adj and building_nishapur_mines_02 have a conflicting Murmur3A hash.
 		var ck3LocDB = new TestCK3LocDB();
 		ck3LocDB.AddLocForLanguage("building_nishapur_mines_02", "english", "Nishapur Mines");

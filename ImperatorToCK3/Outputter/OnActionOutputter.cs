@@ -40,9 +40,21 @@ internal static class OnActionOutputter {
         }
 
 		if (config.FallenEagleEnabled) {
-			// As of the "Last of the Romans" update, TFE only disables Nicene for start dates >= 476.9.4.
-			// But for the converter it's important that Nicene is disabled for all start dates >= 451.8.25.
-			sb.AppendLine("""
+			AddFallenEagleSpecificEffects(sb);
+		}
+
+		sb.AppendLine("\t}");
+		sb.AppendLine("}");
+
+		var filePath = $"output/{config.OutputModName}/common/on_action/IRToCK3_game_start.txt";
+		await using var writer = new StreamWriter(filePath, append: false, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
+		await writer.WriteAsync(sb.ToString());
+	}
+
+	private static void AddFallenEagleSpecificEffects(StringBuilder sb) {
+		// As of the "Last of the Romans" update, TFE only disables Nicene for start dates >= 476.9.4.
+		// But for the converter it's important that Nicene is disabled for all start dates >= 451.8.25.
+		sb.AppendLine("""
 			                            	# IRToCK3: disable Nicene after the Council of Chalcedon.
 			                            	if = {
 			                            		limit = {
@@ -68,22 +80,14 @@ internal static class OnActionOutputter {
 			                            		}
 			                            	}
 			                            """);
-			// Disable the anachronistic Seven Houses mechanic for Persia,
-			// by making the sevenhouses_enabled scripted trigger evaluate to false.
-			sb.AppendLine("""
+		// Disable the anachronistic Seven Houses mechanic for Persia,
+		// by making the sevenhouses_enabled scripted trigger evaluate to false.
+		sb.AppendLine("""
 			                            	# IRToCK3: disable the Seven Houses mechanic for Persia.
 			                            	set_global_variable = {
 			                            		name = sevenhouses_dead
 			                            		value = yes
 			                            	}
 			                            """);
-		}
-
-		sb.AppendLine("\t}");
-		sb.AppendLine("}");
-
-		var filePath = $"output/{config.OutputModName}/common/on_action/IRToCK3_game_start.txt";
-		await using var writer = new StreamWriter(filePath, append: false, new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
-		await writer.WriteAsync(sb.ToString());
 	}
 }

@@ -23,16 +23,16 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 	
 		InitFaithDataParser();
 
-		var religionParser = new Parser();
+		var religionParser = new Parser(implicitVariableHandling: true);
 		religionParser.RegisterKeyword("doctrine", reader => DoctrineIds.Add(reader.GetString()));
 		religionParser.RegisterKeyword("faiths", faithsReader => {
-			var faithsParser = new Parser();
+			var faithsParser = new Parser(implicitVariableHandling: true);
 			faithsParser.RegisterRegex(CommonRegexes.String, (faithReader, faithId) => LoadFaith(faithId, faithReader));
 			faithsParser.IgnoreAndLogUnregisteredItems();
 			faithsParser.ParseStream(faithsReader);
 		});
 		religionParser.RegisterKeyword("localization", reader => {
-			var localizationParser = new Parser();
+			var localizationParser = new Parser(implicitVariableHandling: true);
 			localizationParser.RegisterRegex(CommonRegexes.Catchall, (locReader, locKey) => {
 				localization[locKey] = locReader.GetStringOfItem();
 			});
@@ -44,15 +44,24 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 		religionParser.ParseStream(religionReader);
 		
 		// Fix a religion having more doctrines in the same category than allowed.
-		foreach (var category in religions.DoctrineCategories) {
-			var doctrinesInCategory = DoctrineIds.Where(d => category.DoctrineIds.Contains(d)).ToArray();
-			if (doctrinesInCategory.Length > category.NumberOfPicks) {
+		foreach (var category in religions.DoctrineGroups) {
+			var categoryDoctrineSet = category.DoctrineIds.ToHashSet(StringComparer.Ordinal);
+			var doctrinesInCategory = new List<string>();
+			foreach (var doctrineId in DoctrineIds) {
+				if (categoryDoctrineSet.Contains(doctrineId)) {
+					doctrinesInCategory.Add(doctrineId);
+				}
+			}
+
+			if (doctrinesInCategory.Count > category.NumberOfPicks) {
 				Logger.Warn($"Religion {Id} has too many doctrines in category {category.Id}: " +
 				            $"{string.Join(", ", doctrinesInCategory)}. Keeping the last {category.NumberOfPicks} of them.");
 				
 				DoctrineIds.ExceptWith(doctrinesInCategory);
-				foreach (var doctrine in Enumerable.Reverse(doctrinesInCategory).Take(category.NumberOfPicks)) {
-					DoctrineIds.Add(doctrine);
+				int kept = 0;
+				for (int i = doctrinesInCategory.Count - 1; i >= 0 && kept < category.NumberOfPicks; --i) {
+					DoctrineIds.Add(doctrinesInCategory[i]);
+					++kept;
 				}
 			}
 		}
@@ -100,7 +109,7 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 		faithDataParser.RegisterKeyword("holy_site", reader => faithData.HolySiteIds.Add(reader.GetString()));
 		faithDataParser.RegisterKeyword("doctrine", reader => faithData.DoctrineIds.Add(reader.GetString()));
 		faithDataParser.RegisterKeyword("localization", reader => {
-			var localizationParser = new Parser();
+			var localizationParser = new Parser(implicitVariableHandling: true);
 			localizationParser.RegisterRegex(CommonRegexes.Catchall, (locReader, locKey) => {
 				faithData.Localization[locKey] = locReader.GetStringOfItem();
 			});
@@ -151,5 +160,5 @@ internal sealed class Religion : IIdentifiable<string>, IPDXSerializable {
 
 	private readonly ColorFactory colorFactory;
 	private FaithData faithData = new();
-	private readonly Parser faithDataParser = new();
+	private readonly Parser faithDataParser = new(implicitVariableHandling: true);
 }

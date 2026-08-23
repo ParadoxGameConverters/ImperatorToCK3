@@ -11,7 +11,7 @@ namespace ImperatorToCK3.Imperator.Provinces;
 
 internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 	public void LoadProvinces(BufferedReader provincesReader, StateCollection states, CountryCollection countries, MapData irMapData) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, provIdStr) => {
 			var newProvince = Province.Parse(reader, ulong.Parse(provIdStr), states, countries);
 			Add(newProvince);
@@ -57,21 +57,33 @@ internal sealed class ProvinceCollection : IdObjectCollection<ulong, Province> {
 		}
 	}
 	
-	private Country? GetCountryForColorableImpassable(ulong provinceId, MapData irMapData) {
+	internal Country? GetCountryForColorableImpassable(ulong provinceId, MapData irMapData) {
 		var neighborProvIds = irMapData.GetNeighborProvinceIds(provinceId);
 		int neighborsCount = neighborProvIds.Count;
 
-		// Group the neighboring provinces by their owner. The one with most owned neighbors may be the owner of the impassable.
-		var ownerCandidate = neighborProvIds
-			.Select(provId => TryGetValue(provId, out var prov) ? prov.OwnerCountry : null)
-			.Where(country => country is not null)
-			.GroupBy(country => country)
-			.OrderByDescending(group => group.Count())
-			.FirstOrDefault();
+		// Count neighboring owners and track the strongest candidate.
+		Dictionary<Country, int> ownerCounts = [];
+		Country? ownerCandidate = null;
+		int ownerCandidateCount = 0;
+		foreach (var neighborProvId in neighborProvIds) {
+			if (!TryGetValue(neighborProvId, out var neighborProvince) || neighborProvince.OwnerCountry is null) {
+				continue;
+			}
+
+			if (!ownerCounts.TryAdd(neighborProvince.OwnerCountry, 1)) {
+				ownerCounts[neighborProvince.OwnerCountry]++;
+			}
+
+			var count = ownerCounts[neighborProvince.OwnerCountry];
+			if (count > ownerCandidateCount) {
+				ownerCandidate = neighborProvince.OwnerCountry;
+				ownerCandidateCount = count;
+			}
+		}
 
 		// If any country controls at least half of the neighboring provinces, the impassable should be colored.
-		if (ownerCandidate is not null && ownerCandidate.Count() >= (float)neighborsCount / 2) {
-			return ownerCandidate.Key;
+		if (ownerCandidate is not null && ownerCandidateCount >= (float)neighborsCount / 2) {
+			return ownerCandidate;
 		}
 		return null;
 	}

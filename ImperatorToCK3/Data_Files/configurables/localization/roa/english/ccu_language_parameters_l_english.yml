@@ -3,7 +3,7 @@
  culture_parameter_language_group_continental_celtic: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Continental Celtic [language_group|E]"
  culture_parameter_language_group_sabellic: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Sabellic [language_group|E]"
  culture_parameter_language_group_celto_italic: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Celto-Italic [language_group|E]"
- culture_parameter_language_group_daco_thracian: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Daco-Thracian [language_group|E]" 
+ culture_parameter_language_group_daco_thracian: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Daco-Thracian [language_group|E]"
 
  # Language families
  culture_parameter_language_family_paleo_sardinian: "#P +[EmptyScope.ScriptValue('same_language_family_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Paleo-Sardinian [language_family|E]"

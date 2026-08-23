@@ -77,15 +77,20 @@ public class CoatOfArmsOutputterTests {
 			enabledCK3Dlcs: []
 		);
 
-		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>(), new CoaMapper());
+		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new DynastyCollection(), new CoaMapper());
 
-		await using var file = File.OpenRead(outputPath);
-		var reader = new StreamReader(file);
+		var actualText = TextTestUtils.NormalizeNewlines(await File.ReadAllTextAsync(outputPath, TestContext.Current.CancellationToken));
+		var expectedText = TextTestUtils.NormalizeNewlines(
+			"""
+			d_IRTOCK3_ADI={
+				pattern="pattern_solid.tga"
+				color1=red color2=green color3=blue
+			}
+			
+			"""
+		);
 
-		Assert.Equal("d_IRTOCK3_ADI={", await reader.ReadLineAsync());
-		Assert.Equal("\tpattern=\"pattern_solid.tga\"", await reader.ReadLineAsync());
-		Assert.Equal("\tcolor1=red color2=green color3=blue", await reader.ReadLineAsync());
-		Assert.Equal("}", await reader.ReadLineAsync());
+		Assert.Equal(expectedText, actualText);
 	}
 
 	[Fact]
@@ -124,11 +129,111 @@ public class CoatOfArmsOutputterTests {
 			enabledCK3Dlcs: []
 		);
 
-		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new List<Dynasty>(), new CoaMapper());
+		await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, new DynastyCollection(), new CoaMapper());
 
-		await using var file = File.OpenRead(outputPath);
-		var reader = new StreamReader(file);
+		var actualText = await File.ReadAllTextAsync(outputPath, TestContext.Current.CancellationToken);
+		Assert.True(string.IsNullOrWhiteSpace(actualText));
+	}
 
-		Assert.True(reader.EndOfStream);
+	[Fact]
+	public async Task CoasMatchingVanillaMapperAreSkipped_VariablesAndDynastyCoasAreOutputted() {
+		var tempDir = CreateTempDir();
+		try {
+			var titles = new Title.LandedTitles();
+
+			// The mapper used for setting title CoAs and the one passed to the outputter differ only for k_changed.
+			const string sameCoaDefinition = @"k_same = { pattern=""pattern_solid.tga"" color1=red color2=green color3=blue }";
+			var vanillaCoasDir = Path.Combine(tempDir, "vanilla", "common", "coat_of_arms", "coat_of_arms");
+			Directory.CreateDirectory(vanillaCoasDir);
+			await File.WriteAllTextAsync(Path.Combine(vanillaCoasDir, "coas.txt"),
+				string.Join('\n',
+					"@smCross = 0.22",
+					sameCoaDefinition,
+					@"k_changed = { pattern=""pattern_solid.tga"" color1=red color2=green color3=blue }"
+				), TestContext.Current.CancellationToken);
+
+			var expectedCoasDir = Path.Combine(tempDir, "expected", "common", "coat_of_arms", "coat_of_arms");
+			Directory.CreateDirectory(expectedCoasDir);
+			await File.WriteAllTextAsync(Path.Combine(expectedCoasDir, "coas.txt"),
+				string.Join('\n',
+					"@smCross = 0.22",
+					sameCoaDefinition,
+					@"k_changed = { pattern=""pattern_argent.tga"" color1=red color2=green color3=blue }"
+				), TestContext.Current.CancellationToken);
+
+			var settingMapper = new CoaMapper(new ModFilesystem(Path.Combine(tempDir, "vanilla"), Array.Empty<Mod>()));
+			var outputMapper = new CoaMapper(new ModFilesystem(Path.Combine(tempDir, "expected"), Array.Empty<Mod>()));
+
+			titles.Add("k_same");
+			titles.Add("k_changed");
+			titles.SetCoatsOfArms(settingMapper);
+
+			var dynasties = new DynastyCollection();
+			var dynastyWithCoa = new Dynasty("dynn_coatest", new BufferedReader("name = Coatest")) {
+				CoA = new StringOfItem("@dynasty_coa_gfx")
+			};
+			var dynastyWithoutCoa = new Dynasty("dynn_plain", new BufferedReader("name = Plain"));
+			dynasties.Add(dynastyWithCoa);
+			dynasties.Add(dynastyWithoutCoa);
+
+			const string outputModPath = "output/outputMod";
+			var outputPath = Path.Combine(outputModPath, "common/coat_of_arms/coat_of_arms/zzz_IRToCK3_coas.txt");
+			SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
+
+			await CoatOfArmsOutputter.OutputCoas(outputModPath, titles, dynasties, outputMapper);
+
+			var actualText = TextTestUtils.NormalizeNewlines(await File.ReadAllTextAsync(outputPath, TestContext.Current.CancellationToken));
+			// k_same's CoA equals the one in the passed mapper, so it is skipped.
+			Assert.DoesNotContain("k_same=", actualText, StringComparison.Ordinal);
+			Assert.Contains("k_changed=", actualText, StringComparison.Ordinal);
+			Assert.Contains("@smCross=0.22", actualText, StringComparison.Ordinal);
+			Assert.Contains("dynn_coatest=", actualText, StringComparison.Ordinal);
+			Assert.DoesNotContain("dynn_plain=", actualText, StringComparison.Ordinal);
+		} finally {
+			TryDeleteDir(tempDir);
+		}
+	}
+
+	[Fact]
+	public void CopyCoaPatternsCopiesPatternFilesRecursively() {
+		var tempDir = CreateTempDir();
+		try {
+			var irRoot = Path.Combine(tempDir, "ir_root");
+			var patternsSource = Path.Combine(irRoot, "gfx", "coat_of_arms", "patterns", "subfolder");
+			Directory.CreateDirectory(patternsSource);
+			var sourceFilePath = Path.Combine(patternsSource, "..", "pattern_a.dds");
+			File.WriteAllText(sourceFilePath, "patternA");
+			File.WriteAllText(Path.Combine(patternsSource, "pattern_b.dds"), "patternB");
+
+			const string outputModPath = "output/outputMod";
+			var destPatternsRoot = Path.Combine(outputModPath, "gfx", "coat_of_arms", "patterns");
+			SystemUtils.TryCreateFolder(destPatternsRoot);
+			// File.Copy does not create destination directories.
+			SystemUtils.TryCreateFolder(Path.Combine(destPatternsRoot, "subfolder"));
+
+			var sourceModFS = new ModFilesystem(irRoot, Array.Empty<Mod>());
+			CoatOfArmsOutputter.CopyCoaPatterns(sourceModFS, outputModPath);
+
+			Assert.True(File.Exists(Path.Combine(destPatternsRoot, "pattern_a.dds")));
+			Assert.True(File.Exists(Path.Combine(destPatternsRoot, "subfolder", "pattern_b.dds")));
+		} finally {
+			TryDeleteDir(tempDir);
+		}
+	}
+
+	private static string CreateTempDir() {
+		var dir = Path.Combine(Path.GetTempPath(), "ImperatorToCK3_UnitTests", "CoatOfArmsOutputter", Guid.NewGuid().ToString("N"));
+		Directory.CreateDirectory(dir);
+		return dir;
+	}
+
+	private static void TryDeleteDir(string dir) {
+		try {
+			if (Directory.Exists(dir)) {
+				Directory.Delete(dir, recursive: true);
+			}
+		} catch {
+			// Best-effort cleanup only.
+		}
 	}
 }

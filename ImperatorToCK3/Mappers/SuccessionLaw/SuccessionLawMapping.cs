@@ -11,14 +11,13 @@ internal sealed class SuccessionLawMapping {
 	private HashSet<string> RequiredCK3Dlcs { get; } = [];
 	
 	public SuccessionLawMapping(BufferedReader mappingReader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("ir", reader => ImperatorLaw = reader.GetString());
 		parser.RegisterKeyword("ck3", reader => CK3SuccessionLaws.Add(reader.GetString()));
 		parser.RegisterKeyword("ir_government", reader => ImperatorGovernments.Add(reader.GetString()));
 		parser.RegisterKeyword("has_ck3_dlc", reader => RequiredCK3Dlcs.Add(reader.GetString()));
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 		parser.ParseStream(mappingReader);
-		
 		
 		if (CK3SuccessionLaws.Count == 0) {
 			Logger.Warn("SuccessionLawMapper: link with no CK3 successions laws");

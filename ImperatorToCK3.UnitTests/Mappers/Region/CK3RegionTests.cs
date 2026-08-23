@@ -2,6 +2,7 @@
 using commonItems.Colors;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Mappers.Region;
+using System.Linq;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Region;
@@ -9,12 +10,43 @@ namespace ImperatorToCK3.UnitTests.Mappers.Region;
 public class CK3RegionTests {
 	private static readonly ColorFactory colorFactory = new();
 	[Fact]
-	public void BlankRegionLoadsWithNoRegionsAndNoDuchies() {
+	public void BlankRegionLoadsWithNoRegionsNoDuchiesAndNoProvinces() {
 		var reader = new BufferedReader(string.Empty);
 		var region = CK3Region.Parse("region1", reader);
 
 		Assert.Empty(region.Regions);
 		Assert.Empty(region.Duchies);
+		Assert.Empty(region.Provinces);
+	}
+	
+	[Fact]
+	public void KingdomCanBeLoaded() {
+		var reader = new BufferedReader("kingdoms = { k_kingdom }");
+		var region = CK3Region.Parse("region1", reader);
+		Assert.Empty(region.Duchies); // not linked yet
+		
+		var titles = new Title.LandedTitles();
+		var titlesReader = new BufferedReader(
+			"""
+			{
+				k_kingdom = {
+					d_duchy = { c_county = { b_barony = { province = 42 } } }
+					d_duchy2 = { c_county2 = { b_barony2 = { province = 43 } }
+				}
+			}
+			""");
+		titles.LoadTitles(titlesReader, colorFactory);
+		
+		region.LinkRegions(
+			regions: new(),
+			kingdoms: titles.Where(t => t.Rank == TitleRank.kingdom).ToDictionary(t => t.Id, t => t),
+			duchies: titles.Where(t => t.Rank == TitleRank.duchy).ToDictionary(t => t.Id, t => t),
+			counties: titles.Where(t => t.Rank == TitleRank.county).ToDictionary(t => t.Id, t => t)
+		);
+		Assert.Collection(region.Duchies,
+			item => Assert.Equal("d_duchy", item.Key),
+			item => Assert.Equal("d_duchy2", item.Key)
+		);
 	}
 
 	[Fact]
@@ -42,6 +74,36 @@ public class CK3RegionTests {
 		);
 	}
 
+	[Fact]
+	public void MultipleKingdomsCanBeLoaded() {
+		var reader = new BufferedReader("kingdoms = { k_rome k_greece k_egypt }");
+		var region = CK3Region.Parse("region1", reader);
+		Assert.Empty(region.Duchies); // not linked yet
+		
+		var titles = new Title.LandedTitles();
+		var titlesReader = new BufferedReader(
+			"""
+			{
+				k_rome = { d_duchy_rome = { c_county_rome = { b_barony_rome = { province = 41 } } } }
+				k_greece = { d_duchy_greece = { c_county_greece = { b_barony_greece = { province = 42 } } } }
+				k_egypt = { d_duchy_egypt = { c_county_egypt = { b_barony_egypt = { province = 43 } } } }
+			}
+			""");
+		titles.LoadTitles(titlesReader, colorFactory);
+		
+		region.LinkRegions(
+			regions: new(),
+			kingdoms: titles.Where(t => t.Rank == TitleRank.kingdom).ToDictionary(t => t.Id, t => t),
+			duchies: titles.Where(t => t.Rank == TitleRank.duchy).ToDictionary(t => t.Id, t => t),
+			counties: titles.Where(t => t.Rank == TitleRank.county).ToDictionary(t => t.Id, t => t)
+		);
+		Assert.Collection(region.Duchies,
+			item => Assert.Equal("d_duchy_rome", item.Key),
+			item => Assert.Equal("d_duchy_greece", item.Key),
+			item => Assert.Equal("d_duchy_egypt", item.Key)
+		);
+	}
+	
 	[Fact]
 	public void MultipleDuchiesCanBeLoaded() {
 		var reader = new BufferedReader("duchies = { d_ivrea d_athens d_oppo }");

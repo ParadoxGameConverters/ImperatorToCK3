@@ -1,7 +1,9 @@
 using System;
+using System.Runtime.InteropServices;
 
 namespace ImperatorToCK3.CK3.Characters;
 
+[StructLayout(LayoutKind.Auto)]
 public readonly struct DNAColorGeneValue : IEquatable<DNAColorGeneValue> {
 	public required byte X { get; init; }
 	public required byte Y { get; init; }

@@ -127,7 +127,8 @@ internal class CK3LocBlock : IIdentifiable<string> { // TODO: add ILocBlock inte
 	}
 
 	public string GetYmlLocLineForLanguage(string language) {
-		return $" {Id}: \"{this[language]}\"";
+		var value = this[language]?.Replace("\"", "\\\"") ?? string.Empty;
+		return $" {Id}: \"{value}\"";
 	}
 	
 	public CK3LocType? GetLocTypeForLanguage(string language) {

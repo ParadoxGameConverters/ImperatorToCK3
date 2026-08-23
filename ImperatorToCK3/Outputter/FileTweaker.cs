@@ -9,50 +9,34 @@ using System.Threading.Tasks;
 
 namespace ImperatorToCK3.Outputter;
 
-internal enum LineEnding {
-	CRLF,
-	LF,
-	CR
-}
-
 internal static class FileTweaker {
+	internal enum LineEnding {
+		CRLF,
+		LF,
+		CR
+	}
+
 	public static async Task ModifyAndRemovePartsOfFiles(ModFilesystem ck3ModFS, string outputModPath, Configuration config) {
 		// Load removable blocks from configurables.
 		Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile = [];
-		
-		if (config.FallenEagleEnabled) {
-			Logger.Info("Reading unneeded parts of Fallen Eagle files...");
-			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_tfe.txt", warnIfNotFound: true);
-			
-			Logger.Info("Reading parts of Fallen Eagle files to modify...");
-			ReadPartsOfFileToReplace(partsToModifyPerFile, "configurables/replaceable_file_blocks_tfe.txt", warnIfNotFound: true);
+
+		// Dynamically load file blocks for each active CK3 mod flag.
+		foreach (var flag in config.GetActiveCK3ModFlags()) {
+			var removablePath = $"configurables/removable_file_blocks_{flag}.txt";
+			var replaceablePath = $"configurables/replaceable_file_blocks_{flag}.txt";
+
+			if (File.Exists(removablePath)) {
+				Logger.Info($"Reading unneeded parts of {flag} files...");
+				ReadPartsOfFileToRemove(partsToModifyPerFile, removablePath, warnIfNotFound: true);
+			}
+
+			if (File.Exists(replaceablePath)) {
+				Logger.Info($"Reading parts of {flag} files to modify...");
+				ReadPartsOfFileToReplace(partsToModifyPerFile, replaceablePath, warnIfNotFound: true);
+			}
 		}
 
-		if (config.RajasOfAsiaEnabled) {
-			Logger.Info("Reading unneeded parts of Rajas of Asia files...");
-			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_roa.txt", warnIfNotFound: true);
-			
-			Logger.Info("Reading parts of Rajas of Asia files to modify...");
-			ReadPartsOfFileToReplace(partsToModifyPerFile, "configurables/replaceable_file_blocks_roa.txt", warnIfNotFound: true);
-		}
-
-		if (config.AsiaExpansionProjectEnabled) {
-			Logger.Info("Reading unneeded parts of Rajas of Asia files...");
-			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_aep.txt", warnIfNotFound: true);
-			
-			Logger.Info("Reading parts of Asia Expansion Project files to modify...");
-			ReadPartsOfFileToReplace(partsToModifyPerFile, "configurables/replaceable_file_blocks_aep.txt", warnIfNotFound: true);
-		}
-
-		if (config.WhenTheWorldStoppedMakingSenseEnabled) {
-			Logger.Info("Reading unneeded parts of When the World Stopped Making Sense files...");
-			ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks_wtwsms.txt", warnIfNotFound: true);
-
-			Logger.Info("Reading parts of When the World Stopped Making Sense files to modify...");
-			ReadPartsOfFileToReplace(partsToModifyPerFile, "configurables/replaceable_file_blocks_wtwsms.txt", warnIfNotFound: true);
-		}
-
-		bool isVanilla = config.GetCK3ModFlags()["vanilla"];
+		bool isVanilla = config.GetCK3ModFlags()["vanilla_ck3"];
 		Logger.Info("Reading unneeded parts of vanilla files...");
 		ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks.txt", warnIfNotFound: isVanilla);
 		Logger.Info("Reading parts of vanilla files to modify...");
@@ -62,7 +46,7 @@ internal static class FileTweaker {
 	}
 
 	private static void ReadPartsOfFileToRemove(Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, string configurablePath, bool warnIfNotFound) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, fileName) => {
 			ReadBlocksToRemoveForFile(fileName, reader, partsToModifyPerFile, warnIfNotFound);
 		});
@@ -92,7 +76,7 @@ internal static class FileTweaker {
 	}
 	
 	private static void ReadPartsOfFileToReplace(Dictionary<string, OrderedSet<PartOfFileToModify>> partsToModifyPerFile, string configurablePath, bool warnIfNotFound) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(CommonRegexes.String, (reader, fileName) => {
 			ReadBlocksToReplaceForFile(fileName, reader, partsToModifyPerFile, warnIfNotFound);
 		});
@@ -109,9 +93,9 @@ internal static class FileTweaker {
 		string? before = null;
 		string? after = null;
 		
-		var parserForFile = new Parser();
+		var parserForFile = new Parser(implicitVariableHandling: true);
 		parserForFile.RegisterKeyword("replace", replaceBlockReader => {
-			var replaceBlockParser = new Parser();
+			var replaceBlockParser = new Parser(implicitVariableHandling: true);
 			replaceBlockParser.RegisterKeyword("before", beforeReader => {
 				// Remove opening and closing braces.
 				before = beforeReader.GetStringOfItem().ToString().Trim()[1..^1].Trim();

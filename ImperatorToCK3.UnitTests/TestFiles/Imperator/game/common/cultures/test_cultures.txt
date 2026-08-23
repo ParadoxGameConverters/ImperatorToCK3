@@ -1,0 +1,43 @@
+roman_culture_group = {
+	family = {
+		Julius
+		Claudius.Claudia.Claudii.Claudian
+	}
+	culture = {
+		roman = {
+			family = {
+				Iulii
+			}
+		}
+		etruscan = {
+			family = {
+				Tarchna.Tarchna.Tarchnas.Tarchnan
+			}
+		}
+	}
+}
+
+greek_culture_group = {
+	culture = {
+		greek = {
+			family = {
+				Alexandros.Alexandra.Alexandridai.Alexandrian
+			}
+		}
+		macedonian = { }
+	}
+}
+
+# Defined twice on purpose: the second definition should replace the first one.
+duplicate_id_group = {
+	culture = {
+		old_culture_a = { }
+		old_culture_b = { }
+	}
+}
+
+duplicate_id_group = {
+	culture = {
+		new_culture = { }
+	}
+}

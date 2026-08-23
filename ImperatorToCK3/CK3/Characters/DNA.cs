@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -19,7 +18,7 @@ internal sealed class DNA {
 	}
 
 	public string Id { get; }
-	
+
 	private readonly Dictionary<string, DNAColorGeneValue> colorDNAValues;
 	private readonly Dictionary<string, DNAGeneValue> morphDNAValues;
 	private readonly Dictionary<string, DNAAccessoryGeneValue> accessoryDNAValues;
@@ -27,13 +26,9 @@ internal sealed class DNA {
 
 	public IEnumerable<string> DNALines {
 		get {
-			var colorLines = colorDNAValues
-				.Select(kvp => $"{kvp.Key}={{ {kvp.Value} }}");
-			var morphGeneLines = morphDNAValues
-				.Select(kvp => $"{kvp.Key}={{ {kvp.Value} }}");
-			var accessoryGeneLines = accessoryDNAValues
-				.Select(kvp => $"{kvp.Key}={{ {kvp.Value} }}");
-			return colorLines.Concat(morphGeneLines).Concat(accessoryGeneLines);
+			foreach (var kvp in colorDNAValues) yield return $"{kvp.Key}={{ {kvp.Value} }}";
+			foreach (var kvp in morphDNAValues) yield return $"{kvp.Key}={{ {kvp.Value} }}";
+			foreach (var kvp in accessoryDNAValues) yield return $"{kvp.Key}={{ {kvp.Value} }}";
 		}
 	}
 
@@ -52,9 +47,12 @@ internal sealed class DNA {
 	public void WriteGenes(StringBuilder sb) {
 		sb.AppendLine("\t\tgenes={");
 
-		foreach (var dnaLine in DNALines) {
-			sb.AppendLine($"\t\t\t{dnaLine}");
-		}
+		foreach (var kvp in colorDNAValues)
+			sb.Append("\t\t\t").Append(kvp.Key).Append("={ ").Append(kvp.Value).AppendLine(" }");
+		foreach (var kvp in morphDNAValues)
+			sb.Append("\t\t\t").Append(kvp.Key).Append("={ ").Append(kvp.Value).AppendLine(" }");
+		foreach (var kvp in accessoryDNAValues)
+			sb.Append("\t\t\t").Append(kvp.Key).Append("={ ").Append(kvp.Value).AppendLine(" }");
 
 		sb.AppendLine("\t\t}");
 	}

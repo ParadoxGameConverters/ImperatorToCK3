@@ -1,6 +1,7 @@
-﻿using commonItems;
+using commonItems;
 using commonItems.Collections;
 using ImperatorToCK3.Imperator.Characters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,7 +9,7 @@ namespace ImperatorToCK3.Imperator.Families;
 
 internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 	public void LoadFamiliesFromBloc(BufferedReader reader) {
-		var blocParser = new Parser();
+		var blocParser = new Parser(implicitVariableHandling: false);
 		blocParser.RegisterKeyword("families", LoadFamilies);
 		blocParser.IgnoreAndLogUnregisteredItems();
 		blocParser.ParseStream(reader);
@@ -16,7 +17,7 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 		Logger.Debug($"Ignored family tokens: {Family.IgnoredTokens}");
 	}
 	public void LoadFamilies(BufferedReader reader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}
@@ -44,95 +45,163 @@ internal sealed class FamilyCollection : IdObjectCollection<ulong, Family> {
 		}
 	}
 
-	private void ReuniteFamily(Family family, Family familyToBeMerged, IEnumerable<Character> charactersToReassign) {
-		family.MemberIds.UnionWith(familyToBeMerged.MemberIds);
-		foreach (var character in charactersToReassign) {
-			character.Family = family;
-		}
-
-		Remove(familyToBeMerged.Id);
-	}
-
 	public void MergeDividedFamilies(CharacterCollection characters) {
 		Logger.Info("Merging divided families...");
-		
-		Dictionary<ulong, Character[]> familyIdToCharactersCache = new();
 
-		var iteration = 0;
-		bool anotherIterationNeeded = true;
-		while (anotherIterationNeeded) {
-			var familiesPerKey = this.GroupBy(f => f.Key).ToArray();
-			anotherIterationNeeded = false;
-			++iteration;
-			Logger.Debug($"Family merging iteration {iteration}");
-
-			foreach (var grouping in familiesPerKey) {
-				if (!grouping.Skip(1).Any()) {
-					// There is only one family in this group, so no merging is needed.
-					continue;
-				}
-
-				var removedFamilies = new HashSet<Family>();
-				foreach (var family in grouping) {
-					if (removedFamilies.Contains(family)) {
-						continue;
-					}
-					var familyMemberIds = family.MemberIds;
-					foreach (var anotherFamily in grouping) {
-						if (family.Equals(anotherFamily)) {
-							continue;
-						}
-
-						var anotherFamilyMemberIds = anotherFamily.MemberIds;
-						Character[] anotherFamilyMembers;
-						if (familyIdToCharactersCache.TryGetValue(anotherFamily.Id, out var cachedMembers)) {
-							anotherFamilyMembers = cachedMembers;
-						}
-						else {
-							anotherFamilyMembers = characters
-								.Where(c => anotherFamilyMemberIds.Contains(c.Id))
-								.ToArray();
-							familyIdToCharactersCache[anotherFamily.Id] = anotherFamilyMembers;
-						}
-
-						// Check if any parent of characters from "anotherFamily" belongs to "family".
-						if (!anotherFamilyMembers.Any(c =>
-							    (c.Father is Character father && familyMemberIds.Contains(father.Id)) ||
-							    (c.Mother is Character mother && familyMemberIds.Contains(mother.Id))
-						    )) {
-							continue;
-						}
-
-						Logger.Debug($"Reuniting family {grouping.Key}: {anotherFamily.Id} into {family.Id}");
-						ReuniteFamily(family, anotherFamily, anotherFamilyMembers);
-						removedFamilies.Add(anotherFamily);
-
-						anotherIterationNeeded = true;
-					}
-				}
-			}
+		var familiesPerKey = GetFamiliesPerDuplicateKey();
+		if (familiesPerKey.Count == 0) {
+			Logger.IncrementProgress();
+			return;
 		}
+
+		var (familyIdsEligibleForMerging, memberIdToFamily, disjointSet) = BuildFamilyMergeState(familiesPerKey);
+		UnionEligibleFamilies(characters, familyIdsEligibleForMerging, memberIdToFamily, disjointSet);
+		MergeEligibleFamilies(familiesPerKey, characters, disjointSet);
 
 		Logger.IncrementProgress();
 	}
 
-	public void PurgeUnneededFamilies(CharacterCollection characters) {
-		// Drop families with no members.
-		var familiesIdToKeep = characters
-			.Select(c => c.Family?.Id)
-			.Where(id => id is not null)
-			.Cast<ulong>()
-			.ToHashSet();
-		int removedCount = 0;
-		foreach (var family in this.ToArray()) {
-			if (familiesIdToKeep.Contains(family.Id)) {
+	private Dictionary<string, List<Family>> GetFamiliesPerDuplicateKey() {
+		var keyCounts = new Dictionary<string, int>();
+		foreach (var family in this) {
+			if (string.IsNullOrEmpty(family.Key)) {
+				continue;
+			}
+			if (keyCounts.TryGetValue(family.Key, out var count)) {
+				keyCounts[family.Key] = count + 1;
+			} else {
+				keyCounts[family.Key] = 1;
+			}
+		}
+
+		var duplicateKeys = new HashSet<string>(keyCounts.Where(pair => pair.Value > 1).Select(pair => pair.Key));
+		var familiesPerKey = new Dictionary<string, List<Family>>();
+		foreach (var family in this) {
+			if (!duplicateKeys.Contains(family.Key)) {
 				continue;
 			}
 
-			Remove(family.Id);
-			++removedCount;
+			if (!familiesPerKey.TryGetValue(family.Key, out var groupedFamilies)) {
+				groupedFamilies = [];
+				familiesPerKey[family.Key] = groupedFamilies;
+			}
+			groupedFamilies.Add(family);
 		}
-		
-		Logger.Info($"Purged {removedCount} unneeded Imperator families.");
+
+		return familiesPerKey;
+	}
+
+	private static (HashSet<ulong> familyIdsEligibleForMerging, Dictionary<ulong, Family> memberIdToFamily, Dictionary<ulong, ulong> disjointSet) BuildFamilyMergeState(Dictionary<string, List<Family>> familiesPerKey) {
+		var familyIdsEligibleForMerging = new HashSet<ulong>();
+		var memberIdToFamily = new Dictionary<ulong, Family>();
+		foreach (var groupedFamilies in familiesPerKey.Values) {
+			foreach (var family in groupedFamilies) {
+				familyIdsEligibleForMerging.Add(family.Id);
+				foreach (var memberId in family.MemberIds) {
+					memberIdToFamily[memberId] = family;
+				}
+			}
+		}
+
+		var disjointSet = new Dictionary<ulong, ulong>();
+		foreach (var familyId in familyIdsEligibleForMerging) {
+			disjointSet[familyId] = familyId;
+		}
+
+		return (familyIdsEligibleForMerging, memberIdToFamily, disjointSet);
+	}
+
+	private static void UnionEligibleFamilies(CharacterCollection characters, HashSet<ulong> familyIdsEligibleForMerging, Dictionary<ulong, Family> memberIdToFamily, Dictionary<ulong, ulong> disjointSet) {
+		foreach (var character in characters) {
+			if (!memberIdToFamily.TryGetValue(character.Id, out var characterFamily) || !familyIdsEligibleForMerging.Contains(characterFamily.Id)) {
+				continue;
+			}
+
+			TryUnionFamilies(characterFamily, character.Father, memberIdToFamily, disjointSet);
+			TryUnionFamilies(characterFamily, character.Mother, memberIdToFamily, disjointSet);
+		}
+	}
+
+	private void MergeEligibleFamilies(Dictionary<string, List<Family>> familiesPerKey, CharacterCollection characters, Dictionary<ulong, ulong> disjointSet) {
+		foreach (var (groupingKey, groupingFamilies) in familiesPerKey) {
+			var survivingFamiliesByRootId = new Dictionary<ulong, Family>();
+			var mergedFamiliesCount = 0;
+			foreach (var family in groupingFamilies) {
+				var rootId = FindRootFamilyId(family.Id, disjointSet);
+				if (!survivingFamiliesByRootId.TryGetValue(rootId, out var survivingFamily)) {
+					survivingFamiliesByRootId[rootId] = family;
+					continue;
+				}
+				if (ReferenceEquals(survivingFamily, family)) {
+					continue;
+				}
+
+				survivingFamily.MemberIds.UnionWith(family.MemberIds);
+				foreach (var memberId in family.MemberIds) {
+					if (characters.TryGetValue(memberId, out var familyMember)) {
+						familyMember.Family = survivingFamily;
+					}
+				}
+				Remove(family.Id);
+				++mergedFamiliesCount;
+			}
+
+			if (mergedFamiliesCount > 0) {
+				Logger.Debug($"Reunited {mergedFamiliesCount} divided families for key {groupingKey}.");
+			}
+		}
+	}
+
+	private static void TryUnionFamilies(Family family, Character? parentCharacter, Dictionary<ulong, Family> memberIdToFamily, Dictionary<ulong, ulong> disjointSet) {
+		if (parentCharacter is null || !memberIdToFamily.TryGetValue(parentCharacter.Id, out var parentFamily) || family.Id == parentFamily.Id || family.Key != parentFamily.Key) {
+			return;
+		}
+		if (!disjointSet.ContainsKey(parentFamily.Id)) {
+			return;
+		}
+
+		var familyRootId = FindRootFamilyId(family.Id, disjointSet);
+		var parentRootId = FindRootFamilyId(parentFamily.Id, disjointSet);
+		if (familyRootId == parentRootId) {
+			return;
+		}
+
+		disjointSet[parentRootId] = familyRootId;
+	}
+
+	private static ulong FindRootFamilyId(ulong familyId, Dictionary<ulong, ulong> disjointSet) {
+		var rootId = familyId;
+		while (disjointSet[rootId] != rootId) {
+			rootId = disjointSet[rootId];
+		}
+
+		while (disjointSet[familyId] != familyId) {
+			var parentId = disjointSet[familyId];
+			disjointSet[familyId] = rootId;
+			familyId = parentId;
+		}
+
+		return rootId;
+	}
+
+	public void PurgeUnneededFamilies(CharacterCollection characters) {
+		// Drop families with no members.
+		var familiesIdToKeep = new HashSet<ulong>();
+		foreach (var character in characters) {
+			if (character.Family?.Id is ulong familyId) {
+				familiesIdToKeep.Add(familyId);
+			}
+		}
+
+		// Collect IDs to remove, then remove – avoids snapshotting the entire collection.
+		var idsToRemove = this
+			.Where(f => !familiesIdToKeep.Contains(f.Id))
+			.Select(f => f.Id)
+			.ToList();
+		foreach (var id in idsToRemove) {
+			Remove(id);
+		}
+
+		Logger.Info($"Purged {idsToRemove.Count} unneeded Imperator families.");
 	}
 }

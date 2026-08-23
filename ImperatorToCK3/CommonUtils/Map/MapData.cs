@@ -77,7 +77,7 @@ internal sealed class MapData {
 	private void ParseDefaultMap(ModFilesystem modFS) {
 		Logger.Info("Loading default map data...");
 		const string defaultMapPath = "map_data/default.map";
-		var defaultMapParser = new Parser();
+		var defaultMapParser = new Parser(implicitVariableHandling: true);
 		defaultMapParser.RegisterKeyword("definitions", reader => {
 			string definitionsFilename = reader.GetString();
 
@@ -119,50 +119,105 @@ internal sealed class MapData {
 
 	private void GroupStaticWaterProvinces() {
 		Logger.Debug("Grouping static water provinces into water bodies...");
+		// We want connected components of the static-water-only adjacency graph.
+		// Use the lowest province ID in each component as the water body ID.
+		var staticWaterProvinceIds = GetStaticWaterProvinceIds();
+		if (staticWaterProvinceIds.Length == 0) {
+			return;
+		}
 
-		var staticWaterProvinces = ProvinceDefinitions
+		waterBodiesDict.Clear();
+		foreach (var (provinceId, waterBodyId) in BuildWaterBodiesDict(staticWaterProvinceIds)) {
+			waterBodiesDict[provinceId] = waterBodyId;
+		}
+	}
+
+	private ulong[] GetStaticWaterProvinceIds() {
+		return ProvinceDefinitions
 			.Where(p => p.IsStaticWater)
 			.Select(p => p.Id)
-			.ToFrozenSet();
+			.ToArray();
+	}
 
-		var provinceGroups = new List<HashSet<ulong>>();
-		foreach (var provinceId in staticWaterProvinces) {
-			var added = false;
-			List<HashSet<ulong>> connectedGroups = [];
+	private Dictionary<ulong, ulong> BuildWaterBodiesDict(ulong[] staticWaterProvinceIds) {
+		var idToIndex = BuildStaticWaterProvinceIndex(staticWaterProvinceIds);
+		var (parent, size) = InitializeDisjointSet(staticWaterProvinceIds.Length);
+		UnionAdjacentStaticWaterProvinces(staticWaterProvinceIds, idToIndex, parent, size);
+		var minIdByRoot = GetMinimumProvinceIdsByRoot(staticWaterProvinceIds, parent);
+		var waterBodies = new Dictionary<ulong, ulong>(staticWaterProvinceIds.Length);
+		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
+			int root = FindRoot(i, parent);
+			waterBodies[staticWaterProvinceIds[i]] = minIdByRoot[root];
+		}
+		return waterBodies;
+	}
 
-			foreach (var group in provinceGroups) {
-				if (group.Any(p => NeighborsDict.TryGetValue(p, out var neighborIds) && neighborIds.Contains(provinceId))) {
-					group.Add(provinceId);
-					connectedGroups.Add(group);
+	private static Dictionary<ulong, int> BuildStaticWaterProvinceIndex(ulong[] staticWaterProvinceIds) {
+		var idToIndex = new Dictionary<ulong, int>(staticWaterProvinceIds.Length);
+		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
+			idToIndex[staticWaterProvinceIds[i]] = i;
+		}
+		return idToIndex;
+	}
 
-					added = true;
+	private static (int[] parent, int[] size) InitializeDisjointSet(int count) {
+		var parent = new int[count];
+		var size = new int[count];
+		for (int i = 0; i < count; ++i) {
+			parent[i] = i;
+			size[i] = 1;
+		}
+		return (parent, size);
+	}
+
+	private void UnionAdjacentStaticWaterProvinces(ulong[] staticWaterProvinceIds, Dictionary<ulong, int> idToIndex, int[] parent, int[] size) {
+		// Union static water provinces connected by neighbor relations.
+		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
+			var provinceId = staticWaterProvinceIds[i];
+			if (!NeighborsDict.TryGetValue(provinceId, out var neighbors)) {
+				continue;
+			}
+			foreach (var neighborId in neighbors) {
+				if (idToIndex.TryGetValue(neighborId, out int neighborIndex)) {
+					UnionRoots(i, neighborIndex, parent, size);
 				}
 			}
+		}
+	}
 
-			// If the province belongs to multiple groups, merge them.
-			if (connectedGroups.Count > 1) {
-				var mergedGroup = new HashSet<ulong>();
-				foreach (var group in connectedGroups) {
-					mergedGroup.UnionWith(group);
-					provinceGroups.Remove(group);
-				}
-				mergedGroup.Add(provinceId);
-				provinceGroups.Add(mergedGroup);
-			}
-
-			if (!added) {
-				provinceGroups.Add([provinceId]);
+	private static ulong[] GetMinimumProvinceIdsByRoot(ulong[] staticWaterProvinceIds, int[] parent) {
+		// Determine the minimum province ID for each component root.
+		var minIdByRoot = new ulong[staticWaterProvinceIds.Length];
+		Array.Fill(minIdByRoot, ulong.MaxValue);
+		for (int i = 0; i < staticWaterProvinceIds.Length; ++i) {
+			int root = FindRoot(i, parent);
+			var provinceId = staticWaterProvinceIds[i];
+			if (provinceId < minIdByRoot[root]) {
+				minIdByRoot[root] = provinceId;
 			}
 		}
+		return minIdByRoot;
+	}
 
-		// Create a dictionary for quick lookup of water body by province.
-		// Use the lowest province ID in each group as the water body ID.
-		foreach (var group in provinceGroups) {
-			var waterBodyId = group.Min();
-			foreach (var provinceId in group) {
-				waterBodiesDict[provinceId] = waterBodyId;
-			}
+	private static int FindRoot(int provinceIndex, int[] parent) {
+		while (parent[provinceIndex] != provinceIndex) {
+			parent[provinceIndex] = parent[parent[provinceIndex]];
+			provinceIndex = parent[provinceIndex];
 		}
+		return provinceIndex;
+	}
+
+	private static void UnionRoots(int leftIndex, int rightIndex, int[] parent, int[] size) {
+		leftIndex = FindRoot(leftIndex, parent);
+		rightIndex = FindRoot(rightIndex, parent);
+		if (leftIndex == rightIndex) {
+			return;
+		}
+		if (size[leftIndex] < size[rightIndex]) {
+			(leftIndex, rightIndex) = (rightIndex, leftIndex);
+		}
+		parent[rightIndex] = leftIndex;
+		size[leftIndex] += size[rightIndex];
 	}
 
 	private string? GetProvincesMapPath(ModFilesystem modFS) {
@@ -214,6 +269,15 @@ internal sealed class MapData {
 		return false;
 	}
 
+	// public bool IsWasteland(ulong provinceId) { // uncomment if needed
+	// 	if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
+	// 		return province.IsWasteland;
+	// 	}
+	//
+	// 	Logger.Warn($"Province {provinceId} has no definition!");
+	// 	return false;
+	// }
+
 	private bool IsStaticWater(ulong provinceId) {
 		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
 			return province.IsStaticWater;
@@ -249,9 +313,9 @@ internal sealed class MapData {
 
 	private void DetermineProvincePositions(ModFilesystem modFS) {
 		const string provincePositionsPath = "gfx/map/map_object_data/building_locators.txt";
-		var fileParser = new Parser();
+		var fileParser = new Parser(implicitVariableHandling: true);
 		fileParser.RegisterKeyword("game_object_locator", reader => {
-			var listParser = new Parser();
+			var listParser = new Parser(implicitVariableHandling: true);
 			listParser.RegisterKeyword("instances", instancesReader => {
 				foreach (var blob in new BlobList(instancesReader).Blobs) {
 					var blobReader = new BufferedReader(blob);
@@ -318,8 +382,10 @@ internal sealed class MapData {
 				}
 			}
 		} else {
-			foreach (var p in ProvinceDefinitions.Where(p => provIds.Contains(p.Id))) {
-				p.AddSpecialCategory(category);
+			foreach (var provId in provIds) {
+				if (ProvinceDefinitions.TryGetValue(provId, out var province)) {
+					province.AddSpecialCategory(category);
+				}
 			}
 		}
 	}
@@ -433,31 +499,39 @@ internal sealed class MapData {
 
 	// Function for checking if two land provinces are connected to the same water body.
 	public bool AreProvinceGroupsConnectedByWaterBody(FrozenSet<ulong> group1, FrozenSet<ulong> group2) {
-		var group1WaterNeighbors = new HashSet<ulong>();
+		var group1WaterBodies = new HashSet<ulong>();
 		foreach (var provId in group1) {
 			if (!NeighborsDict.TryGetValue(provId, out var neighbors)) {
 				continue;
 			}
-			foreach (ulong neighbor in neighbors.Where(IsStaticWater)) {
-				group1WaterNeighbors.Add(neighbor);
+			foreach (var neighbor in neighbors) {
+				if (!IsStaticWater(neighbor)) {
+					continue;
+				}
+				if (waterBodiesDict.TryGetValue(neighbor, out var waterBodyId)) {
+					group1WaterBodies.Add(waterBodyId);
+				}
 			}
 		}
-		if (group1WaterNeighbors.Count == 0) {
+		if (group1WaterBodies.Count == 0) {
 			return false;
 		}
 
-		var group2WaterNeighbors = group2
-			.SelectMany(provId => NeighborsDict.TryGetValue(provId, out var neighbors) ? neighbors : [])
-			.Where(IsStaticWater)
-			.ToFrozenSet();
-		if (group2WaterNeighbors.Count == 0) {
-			return false;
+		foreach (var provId in group2) {
+			if (!NeighborsDict.TryGetValue(provId, out var neighbors)) {
+				continue;
+			}
+			foreach (var neighbor in neighbors) {
+				if (!IsStaticWater(neighbor)) {
+					continue;
+				}
+				if (waterBodiesDict.TryGetValue(neighbor, out var waterBodyId) && group1WaterBodies.Contains(waterBodyId)) {
+					return true;
+				}
+			}
 		}
 
-		var group1WaterBodies = group1WaterNeighbors.Select(id => waterBodiesDict[id]).ToFrozenSet();
-
-		return group2WaterNeighbors
-			.Any(group2ProvId => group1WaterBodies.Contains(waterBodiesDict[group2ProvId]));
+		return false;
 	}
 
 	private void LoadAdjacencies(string adjacenciesFilename, ModFilesystem modFS) {

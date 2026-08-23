@@ -32,7 +32,7 @@ public class DynastiesOutputterTests {
 		const string imperatorRoot = "TestFiles/Imperator/root";
 		ModFilesystem irModFS = new(imperatorRoot, Array.Empty<Mod>());
 		var irMapData = new MapData(irModFS);
-		AreaCollection areas = new();
+		AreaCollection areas = [];
 		ImperatorRegionMapper irRegionMapper = new(areas, irMapData);
 		irRegionMapper.LoadRegions(irModFS, new ColorFactory());
 		var colorFactory = new ColorFactory();
@@ -62,18 +62,69 @@ public class DynastiesOutputterTests {
 		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
 		await DynastiesOutputter.OutputDynasties(outputModPath, dynasties);
 
-		await using var file = File.OpenRead(outputPath);
-		var reader = new StreamReader(file);
+		var actualText = TextTestUtils.NormalizeNewlines(await File.ReadAllTextAsync(outputPath, TestContext.Current.CancellationToken));
+		var expectedText = TextTestUtils.NormalizeNewlines(
+			"""
+			dynn_irtock3_1={
+				name = dynn_irtock3_1
+			}
+			dynn_irtock3_2={
+				name = dynn_irtock3_2
+				culture = roman
+			}
+			
+			"""
+		);
 
-		Assert.Equal("dynn_irtock3_1={", await reader.ReadLineAsync());
-		Assert.Equal("\tname = dynn_irtock3_1", await reader.ReadLineAsync());
-		Assert.Equal("}", await reader.ReadLineAsync());
+		Assert.Equal(expectedText, actualText);
+	}
 
-		Assert.Equal("dynn_irtock3_2={", await reader.ReadLineAsync());
-		Assert.Equal("\tname = dynn_irtock3_2", await reader.ReadLineAsync());
-		Assert.Equal("\tculture = roman", await reader.ReadLineAsync());
-		Assert.Equal("}", await reader.ReadLineAsync());
-		Assert.True(string.IsNullOrWhiteSpace(await reader.ReadLineAsync()));
-		Assert.True(reader.EndOfStream);
+	[Fact]
+	public async Task HousesAreOutputtedSortedById() {
+		const string outputModPath = "output/outputMod";
+		var houses = new HouseCollection();
+		houses.Add(new House("house_beta", new BufferedReader("name = Beta dynasty = dynn_irtock3_1")));
+		houses.Add(new House("house_alpha", new BufferedReader("name = Alpha dynasty = dynn_irtock3_2 motto = \"Semper Fidelis\"")));
+
+		var outputPath = Path.Combine(outputModPath, "common/dynasty_houses/irtock3_all_houses.txt");
+		if (File.Exists(outputPath)) {
+			// clean up from previous runs.
+			File.Delete(outputPath);
+		}
+		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(outputPath));
+		await DynastiesOutputter.OutputHouses(outputModPath, houses);
+
+		var actualText = TextTestUtils.NormalizeNewlines(await File.ReadAllTextAsync(outputPath, TestContext.Current.CancellationToken));
+		var indexAlpha = actualText.IndexOf("house_alpha=", StringComparison.Ordinal);
+		var indexBeta = actualText.IndexOf("house_beta=", StringComparison.Ordinal);
+		Assert.True(indexAlpha >= 0);
+		Assert.True(indexBeta >= 0);
+		Assert.True(indexAlpha < indexBeta, "Houses should be output sorted by id.");
+		Assert.Contains("name = Alpha", actualText, StringComparison.Ordinal);
+		Assert.Contains("dynasty = dynn_irtock3_2", actualText, StringComparison.Ordinal);
+	}
+
+	[Fact]
+	public async Task OutputDynastiesAndHousesWritesBothFiles() {
+		const string outputModPath = "output/outputMod";
+
+		var dynasties = new DynastyCollection();
+		dynasties.Add(new Dynasty("dynn_irtock3_5", new BufferedReader("name = Quintus")));
+
+		var houses = new HouseCollection();
+		houses.Add(new House("house_quintus", new BufferedReader("name = House Quintus dynasty = dynn_irtock3_5")));
+
+		var dynastiesOutputPath = Path.Combine(outputModPath, "common", "dynasties", "irtock3_all_dynasties.txt");
+		var housesOutputPath = Path.Combine(outputModPath, "common", "dynasty_houses", "irtock3_all_houses.txt");
+		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(dynastiesOutputPath));
+		SystemUtils.TryCreateFolder(CommonFunctions.GetPath(housesOutputPath));
+
+		await DynastiesOutputter.OutputDynastiesAndHouses(outputModPath, dynasties, houses);
+
+		var dynastiesText = await File.ReadAllTextAsync(dynastiesOutputPath, TestContext.Current.CancellationToken);
+		Assert.Contains("dynn_irtock3_5=", dynastiesText, StringComparison.Ordinal);
+
+		var housesText = await File.ReadAllTextAsync(housesOutputPath, TestContext.Current.CancellationToken);
+		Assert.Contains("house_quintus=", housesText, StringComparison.Ordinal);
 	}
 }

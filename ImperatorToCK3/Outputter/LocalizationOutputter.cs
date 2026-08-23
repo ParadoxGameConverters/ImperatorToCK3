@@ -4,7 +4,6 @@ using ImperatorToCK3.CommonUtils;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using ZLinq;
 
 namespace ImperatorToCK3.Outputter;
 internal static class LocalizationOutputter {
@@ -38,28 +37,7 @@ internal static class LocalizationOutputter {
 
 	private static void OutputFallbackLocForMissingSecondaryLanguageLoc(string baseLocDir, CK3LocDB ck3LocDB) {
 		Logger.Debug("Outputting fallback loc for missing secondary language loc...");
-		
-		var languageToLocLinesDict = new Dictionary<string, List<string>>();
-		foreach (var language in ConverterGlobals.SecondaryLanguages) {
-			languageToLocLinesDict[language] = [];
-		}
-
-		var allLocKeys = ck3LocDB.AsValueEnumerable().Select(locBlock => locBlock.Id).Distinct().ToArray();
-		
-		foreach (var locKey in allLocKeys) {
-			if (!ck3LocDB.HasKeyLocForLanguage(locKey, ConverterGlobals.PrimaryLanguage)) {
-				continue;
-			}
-
-			foreach (var secondaryLanguage in ConverterGlobals.SecondaryLanguages) {
-				if (ck3LocDB.HasKeyLocForLanguage(locKey, secondaryLanguage)) {
-					continue;
-				}
-
-				var locLine = ck3LocDB.GetYmlLocLineForLanguage(locKey, ConverterGlobals.PrimaryLanguage);
-				languageToLocLinesDict[secondaryLanguage].Add(locLine!);
-			}
-		}
+		var languageToLocLinesDict = GetFallbackLocLinesByLanguage(ck3LocDB);
 		
 		var sb = new StringBuilder();
 		foreach (var language in ConverterGlobals.SecondaryLanguages) {
@@ -80,5 +58,30 @@ internal static class LocalizationOutputter {
 			locWriter.Write(sb.ToString());
 			sb.Clear();
 		}
+	}
+
+	internal static Dictionary<string, List<string>> GetFallbackLocLinesByLanguage(CK3LocDB ck3LocDB) {
+		var languageToLocLinesDict = new Dictionary<string, List<string>>();
+		foreach (var language in ConverterGlobals.SecondaryLanguages) {
+			languageToLocLinesDict[language] = [];
+		}
+
+		foreach (var locBlock in ck3LocDB) {
+			if (!locBlock.HasLocForLanguage(ConverterGlobals.PrimaryLanguage)) {
+				continue;
+			}
+
+			string? primaryLocLine = null;
+			foreach (var secondaryLanguage in ConverterGlobals.SecondaryLanguages) {
+				if (locBlock.HasLocForLanguage(secondaryLanguage)) {
+					continue;
+				}
+
+				primaryLocLine ??= locBlock.GetYmlLocLineForLanguage(ConverterGlobals.PrimaryLanguage);
+				languageToLocLinesDict[secondaryLanguage].Add(primaryLocLine);
+			}
+		}
+
+		return languageToLocLinesDict;
 	}
 }

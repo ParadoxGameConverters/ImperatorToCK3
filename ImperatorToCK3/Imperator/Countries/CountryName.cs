@@ -185,7 +185,7 @@ internal sealed class CountryName {
 		string? parsedAdjective = null;
 		CountryName? parsedBaseName = null;
 		
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("name", r => parsedName = r.GetString());
 		parser.RegisterKeyword("adjective", r => parsedAdjective = r.GetString());
 		parser.RegisterKeyword("base", r => {

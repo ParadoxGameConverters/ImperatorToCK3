@@ -4,6 +4,7 @@ using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Geography;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.Region;
 
@@ -16,7 +17,7 @@ internal sealed class ImperatorRegionMapper(AreaCollection areaCollection, MapDa
 		const string regionsFilePath = "map_data/regions.txt";
 		Logger.Debug($"Imperator regions file location: {imperatorModFS.GetActualFileLocation(regionsFilePath)}");
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterRegionKeys(parser, colorFactory);
 		parser.ParseGameFile(regionsFilePath, imperatorModFS);
 
@@ -41,10 +42,9 @@ internal sealed class ImperatorRegionMapper(AreaCollection areaCollection, MapDa
 		return Regions.ContainsKey(regionName) || areaCollection.ContainsKey(regionName);
 	}
 	public string? GetParentRegionName(ulong provinceId) {
-		foreach (var region in Regions) {
-			if (region.ContainsProvince(provinceId)) {
-				return region.Id;
-			}
+		_provinceToRegionIndex ??= BuildProvinceToRegionIndex();
+		if (_provinceToRegionIndex.TryGetValue(provinceId, out var regionId)) {
+			return regionId;
 		}
 
 		if (!irMapData.IsImpassable(provinceId)) {
@@ -52,6 +52,18 @@ internal sealed class ImperatorRegionMapper(AreaCollection areaCollection, MapDa
 		}
 		return null;
 	}
+	private Dictionary<ulong, string> BuildProvinceToRegionIndex() {
+		var index = new Dictionary<ulong, string>();
+		foreach (var region in Regions) {
+			foreach (var area in region.Areas) {
+				foreach (var provinceId in area.ProvinceIds) {
+					index.TryAdd(provinceId, region.Id);
+				}
+			}
+		}
+		return index;
+	}
+	private Dictionary<ulong, string>? _provinceToRegionIndex;
 	public string? GetParentAreaName(ulong provinceId) {
 		foreach (var area in areaCollection) {
 			if (area.ContainsProvince(provinceId)) {

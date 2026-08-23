@@ -2,6 +2,7 @@ using commonItems;
 using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,15 +35,24 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		}
 		
 		// Fix a faith having more doctrines in the same category than allowed.
-		foreach (var category in religion.ReligionCollection.DoctrineCategories) {
-			var doctrinesInCategory = DoctrineIds.Where(d => category.DoctrineIds.Contains(d)).ToArray();
-			if (doctrinesInCategory.Length > category.NumberOfPicks) {
+		foreach (var category in religion.ReligionCollection.DoctrineGroups) {
+			var categoryDoctrineSet = category.DoctrineIds.ToHashSet(StringComparer.Ordinal);
+			var doctrinesInCategory = new List<string>();
+			foreach (var doctrineId in DoctrineIds) {
+				if (categoryDoctrineSet.Contains(doctrineId)) {
+					doctrinesInCategory.Add(doctrineId);
+				}
+			}
+
+			if (doctrinesInCategory.Count > category.NumberOfPicks) {
 				Logger.Warn($"Faith {Id} has too many doctrines in category {category.Id}: " +
 				            $"{string.Join(", ", doctrinesInCategory)}. Keeping the last {category.NumberOfPicks} of them.");
 				
 				DoctrineIds.ExceptWith(doctrinesInCategory);
-				foreach (var doctrine in doctrinesInCategory.Reverse().Take(category.NumberOfPicks)) {
-					DoctrineIds.Add(doctrine);
+				int kept = 0;
+				for (int i = doctrinesInCategory.Count - 1; i >= 0 && kept < category.NumberOfPicks; --i) {
+					DoctrineIds.Add(doctrinesInCategory[i]);
+					++kept;
 				}
 			}
 		}
@@ -100,17 +110,17 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 		return sb.ToString();
 	}
 
-	public OrderedSet<string> GetDoctrineIdsForDoctrineCategoryId(string doctrineCategoryId) {
-		if (!Religion.ReligionCollection.DoctrineCategories.TryGetValue(doctrineCategoryId, out var category)) {
-			Logger.Warn($"Doctrine category {doctrineCategoryId} not found.");
-			return [];
+	public OrderedSet<string> GetDoctrineIdsForDoctrineGroupId(string doctrineGroupId) {
+		if (Religion.ReligionCollection.DoctrineGroups.TryGetValue(doctrineGroupId, out var group)) {
+			return GetDoctrineIdsForDoctrineGroup(group);
 		}
-		
-		return GetDoctrineIdsForDoctrineCategory(category);
+
+		Logger.Warn($"Doctrine group {doctrineGroupId} not found.");
+		return [];
 	}
 
-	private OrderedSet<string> GetDoctrineIdsForDoctrineCategory(DoctrineCategory category) {
-		var potentialDoctrineIds = category.DoctrineIds;
+	private OrderedSet<string> GetDoctrineIdsForDoctrineGroup(DoctrineGroup group) {
+		var potentialDoctrineIds = group.DoctrineIds;
 
 		// Look in faith first. If not found, look in religion.
 		var matchingInFaith = DoctrineIds.Intersect(potentialDoctrineIds).ToOrderedSet();
@@ -120,14 +130,10 @@ internal sealed class Faith : IIdentifiable<string>, IPDXSerializable {
 
 		return Religion.DoctrineIds.Intersect(potentialDoctrineIds).ToOrderedSet();
 	}
-	
+
 	public bool HasDoctrine(string doctrineId) {
-		var category = Religion.ReligionCollection.DoctrineCategories
-			.FirstOrDefault(category => category.DoctrineIds.Contains(doctrineId));
-		if (category is null) {
-			return false;
-		}
-		
-		return GetDoctrineIdsForDoctrineCategory(category).Contains(doctrineId);
+		var group = Religion.ReligionCollection.DoctrineGroups
+			.FirstOrDefault(group => group.DoctrineIds.Contains(doctrineId));
+		return group is not null && GetDoctrineIdsForDoctrineGroup(group).Contains(doctrineId);
 	}
 }

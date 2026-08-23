@@ -1,6 +1,7 @@
 using commonItems;
 using ImageMagick;
 using ImperatorToCK3.CK3;
+using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.CommonUtils.Map;
@@ -20,6 +21,13 @@ using Color = SixLabors.ImageSharp.Color;
 namespace ImperatorToCK3.Outputter;
 
 internal static class BookmarkOutputter {
+	private const int ScreenWidth = 1920;
+	private const int ScreenHeight = 1080;
+	private const int PositionMargin = 150;
+	private const double MapToScreenScale = (double)1080 / 4096;
+	private const double MinCharacterSpacing = 400;
+	private const int MaxSeparationIterations = 100;
+
 	public static async Task OutputBookmark(World world, Configuration config, CK3LocDB ck3LocDB) {
 		Logger.Info("Creating bookmark...");
 
@@ -36,21 +44,12 @@ internal static class BookmarkOutputter {
 		sb.AppendLine("\trecommended = yes");
 		sb.AppendLine("\tweight = { value = 100 }");
 
-		var playerTitles = new List<Title>(world.LandedTitles.Where(title => title.PlayerCountry));
-		foreach (var title in playerTitles.ToArray()) {
-			if (title.GetGovernment(config.CK3BookmarkDate) == "republic_government") {
-				// Republics are not playable in vanilla CK3.
-				continue;
-			}
-
+		var playerTitles = GetPlayerTitlesForBookmarkScreen(world.LandedTitles, config);
+		var characterPositions = GetCharacterPositions(playerTitles, config, provincePositions);
+		for (var index = 0; index < playerTitles.Count; ++index) {
+			var title = playerTitles[index];
 			var holderId = title.GetHolderId(config.CK3BookmarkDate);
-			if (holderId == "0") {
-				Logger.Warn($"Cannot add player title {title} to bookmark screen: holder is 0!");
-				playerTitles.Remove(title);
-				continue;
-			}
-
-			await AddTitleToBookmarkScreen(title, sb, holderId, world, ck3LocDB, provincePositions, config);
+			await AddTitleToBookmarkScreen(title, sb, holderId, world.Characters, ck3LocDB, characterPositions[index], config);
 		}
 
 		sb.AppendLine("}");
@@ -70,16 +69,35 @@ internal static class BookmarkOutputter {
 		Logger.IncrementProgress();
 	}
 
-	private static async Task AddTitleToBookmarkScreen(
+	internal static List<Title> GetPlayerTitlesForBookmarkScreen(Title.LandedTitles landedTitles, Configuration config) {
+		var playerTitles = new List<Title>(landedTitles.Where(title => title.PlayerCountry));
+		foreach (var title in playerTitles.ToArray()) {
+			if (title.GetGovernment(config.CK3BookmarkDate) == "republic_government") {
+				// Republics are not playable in vanilla CK3.
+				playerTitles.Remove(title);
+				continue;
+			}
+
+			var holderId = title.GetHolderId(config.CK3BookmarkDate);
+			if (holderId == "0") {
+				Logger.Warn($"Cannot add player title {title} to bookmark screen: holder is 0!");
+				playerTitles.Remove(title);
+			}
+		}
+
+		return playerTitles;
+	}
+
+	internal static async Task AddTitleToBookmarkScreen(
 		Title title,
 		StringBuilder sb,
 		string holderId,
-		World world,
+		CharacterCollection characters,
 		CK3LocDB ck3LocDB,
-		IReadOnlyDictionary<ulong, ProvincePosition> provincePositions,
+		(int X, int Y) position,
 		Configuration config
 	) {
-		var holder = world.Characters[holderId];
+		var holder = characters[holderId];
 
 		// Add character localization for bookmark screen.
 		var holderLoc = ck3LocDB.GetOrCreateLocBlock($"bm_converted_{holder.Id}");
@@ -93,6 +111,10 @@ internal static class BookmarkOutputter {
 					holderLoc[language] = holderNameKey;
 				}
 			}
+		}
+		var subheadingLoc = ck3LocDB.GetOrCreateLocBlock($"bm_converted_{holder.Id}_subheading");
+		foreach (var language in ConverterGlobals.SupportedLanguages) {
+			subheadingLoc[language] = "$BOOKMARK_SUBHEADING_DEFAULT$";
 		}
 		var holderDescLoc = ck3LocDB.GetOrCreateLocBlock($"bm_converted_{holder.Id}_desc");
 		foreach (var language in ConverterGlobals.SupportedLanguages) {
@@ -122,11 +144,16 @@ internal static class BookmarkOutputter {
 			sb.AppendLine($"\t\treligion={faithId}");
 		}
 		sb.AppendLine("\t\tdifficulty = \"BOOKMARK_CHARACTER_DIFFICULTY_EASY\"");
-		WritePosition(sb, title, config, provincePositions);
+		sb.AppendLine($"\t\tposition = {{ {position.X} {position.Y} }}");
 		sb.AppendLine("\t\tanimation = personality_rational");
 
 		sb.AppendLine("\t}");
 
+		await OutputBookmarkPortrait(config, holder);
+	}
+
+	internal static async Task OutputBookmarkPortrait(Configuration config, Character holder)
+	{
 		var agesex = holder.GetAgeSex(config.CK3BookmarkDate);
 		
 		StringBuilder portraitBuilder = new();
@@ -143,7 +170,7 @@ internal static class BookmarkOutputter {
 		var outPortraitPath = Path.Combine("output", config.OutputModName, $"common/bookmark_portraits/bm_converted_{holder.Id}.txt");
 		await File.WriteAllTextAsync(outPortraitPath, portraitBuilder.ToString());
 	}
-	
+
 	// Not sure what is the purpose of these values, but all vanilla bookmark portraits have entity entries.
 	private static readonly Dictionary<string, string> agesexToEntityDict = new() {
 		{"male", "3942081117 3942081117"},
@@ -152,14 +179,14 @@ internal static class BookmarkOutputter {
 		{"girl", "616600735 616600735"},
 	};
 	
-	private static async Task OutputBookmarkGroup(Configuration config) {
+	internal static async Task OutputBookmarkGroup(Configuration config) {
 		var path = Path.Combine("output", config.OutputModName, "common/bookmarks/groups/00_bookmark_groups.txt");
 		await using var output = FileHelper.OpenWriteWithRetries(path, Encoding.UTF8);
 
 		await output.WriteLineAsync($"bm_converted = {{ default_start_date = {config.CK3BookmarkDate} }}");
 	}
 
-	private static void WritePosition(StringBuilder sb, Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
+	internal static (int X, int Y) GetClampedMeanPosition(Title title, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
 		int count = 0;
 		double sumX = 0;
 		double sumY = 0;
@@ -175,10 +202,58 @@ internal static class BookmarkOutputter {
 
 		double meanX = Math.Round(sumX / count);
 		double meanY = Math.Round(sumY / count);
-		const double scale = (double)1080 / 4096;
-		int finalX = (int)(scale * meanX);
-		int finalY = 1080 - (int)(scale * meanY);
-		sb.AppendLine($"\t\tposition = {{ {finalX} {finalY} }}");
+		int finalX = Math.Clamp((int)(MapToScreenScale * meanX), PositionMargin, ScreenWidth - PositionMargin);
+		int finalY = Math.Clamp(ScreenHeight - (int)(MapToScreenScale * meanY), PositionMargin, ScreenHeight - PositionMargin);
+		return (finalX, finalY);
+	}
+
+	internal static List<(int X, int Y)> GetCharacterPositions(List<Title> playerTitles, Configuration config, IReadOnlyDictionary<ulong, ProvincePosition> provincePositions) {
+		var positions = new List<(double X, double Y)>(playerTitles.Count);
+		foreach (var title in playerTitles) {
+			positions.Add(GetClampedMeanPosition(title, config, provincePositions));
+		}
+
+		SeparatePositions(positions);
+
+		var finalPositions = new List<(int X, int Y)>(positions.Count);
+		foreach (var (x, y) in positions) {
+			finalPositions.Add(((int)Math.Round(x), (int)Math.Round(y)));
+		}
+		return finalPositions;
+	}
+
+	internal static void SeparatePositions(List<(double X, double Y)> positions) {
+		for (var iteration = 0; iteration < MaxSeparationIterations; ++iteration) {
+			var anyMoved = false;
+			for (var i = 0; i < positions.Count; ++i) {
+				for (var j = i + 1; j < positions.Count; ++j) {
+					var dx = positions[j].X - positions[i].X;
+					var dy = positions[j].Y - positions[i].Y;
+					var distance = Math.Sqrt((dx * dx) + (dy * dy));
+					if (distance >= MinCharacterSpacing) {
+						continue;
+					}
+
+					var shift = (MinCharacterSpacing - distance) / 2;
+					var unitX = distance > 0 ? dx / distance : 1;
+					var unitY = distance > 0 ? dy / distance : 0;
+					positions[i] = (positions[i].X - (unitX * shift), positions[i].Y - (unitY * shift));
+					positions[j] = (positions[j].X + (unitX * shift), positions[j].Y + (unitY * shift));
+					positions[i] = ClampToScreen(positions[i]);
+					positions[j] = ClampToScreen(positions[j]);
+					anyMoved = true;
+				}
+			}
+			if (!anyMoved) {
+				return;
+			}
+		}
+	}
+
+	private static (double X, double Y) ClampToScreen((double X, double Y) position) {
+		var x = Math.Clamp(position.X, PositionMargin, ScreenWidth - PositionMargin);
+		var y = Math.Clamp(position.Y, PositionMargin, ScreenHeight - PositionMargin);
+		return (x, y);
 	}
 
 	private static async Task DrawBookmarkMap(Configuration config, List<Title> playerTitles, World ck3World) {
@@ -186,16 +261,15 @@ internal static class BookmarkOutputter {
 		var ck3ModFS = ck3World.ModFS;
 		var provincesMapPath = ck3ModFS.GetActualFileLocation("map_data/provinces.png");
 		if (provincesMapPath is null) {
-			throw new FileNotFoundException($"{nameof(provincesMapPath)} not found!");
+			throw new FileNotFoundException("provinces.png not found!");
 		}
-		var flatmapPath = ck3ModFS.GetActualFileLocation("gfx/map/terrain/flatmap.dds");
+		var flatmapPath = ck3ModFS.GetActualFileLocation("gfx/map/terrain/flat_maps/flatmap.dds");
 		if (flatmapPath is null) {
-			throw new FileNotFoundException($"{nameof(flatmapPath)} not found!");
+			throw new FileNotFoundException("flatmap.dds not found!");
 		}
-		const string tmpFlatmapPath = "temp/flatmap.png";
 
 		SixLabors.ImageSharp.Configuration.Default.ImageFormatsManager.SetEncoder(PngFormat.Instance, new PngEncoder {
-			TransparentColorMode = PngTransparentColorMode.Clear,
+			TransparentColorMode = SixLabors.ImageSharp.Formats.TransparentColorMode.Clear,
 			ColorType = PngColorType.RgbWithAlpha
 		});
 		using var provincesImage = await Image.LoadAsync(provincesMapPath);
@@ -208,34 +282,32 @@ internal static class BookmarkOutputter {
 		using (var flatmapMagickImage = new MagickImage(flatmapPath)) {
 			flatmapMagickImage.Scale(2160, 1080);
 			flatmapMagickImage.Crop(1920, 1080);
-			await flatmapMagickImage.WriteAsync(tmpFlatmapPath);
+			byte[] flatmapPngBytes = flatmapMagickImage.ToByteArray(MagickFormat.Png);
+			await using var flatmapStream = new MemoryStream(flatmapPngBytes);
+			using var bookmarkMapImage = await Image.LoadAsync(flatmapStream);
+
+			var mapData = ck3World.MapData;
+			var provDefs = mapData.ProvinceDefinitions;
+
+			foreach (var playerTitle in playerTitles) {
+				await DrawPlayerTitleOnMap(config, ck3World.Characters, playerTitle, mapData, provincesImage, provDefs, bookmarkMapImage);
+			}
+
+			var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.png");
+			await bookmarkMapImage.SaveAsPngAsync(outputPath);
+			await ResaveImageAsDDS(outputPath);
 		}
-
-		using var bookmarkMapImage = await Image.LoadAsync(tmpFlatmapPath);
-
-		var mapData = ck3World.MapData;
-		var provDefs = mapData.ProvinceDefinitions;
-
-		foreach (var playerTitle in playerTitles) {
-			await DrawPlayerTitleOnMap(config, ck3World, playerTitle, mapData, provincesImage, provDefs, bookmarkMapImage);
-		}
-
-		var outputPath = Path.Combine("output", config.OutputModName, "gfx/interface/bookmarks/bm_converted.png");
-		await bookmarkMapImage.SaveAsPngAsync(outputPath);
-		await ResaveImageAsDDS(outputPath);
 	}
 
-	private static async Task DrawPlayerTitleOnMap(
-		Configuration config, 
-		World ck3World, 
-		Title playerTitle, 
+	internal static async Task DrawPlayerTitleOnMap(
+		Configuration config,
+		CharacterCollection characters,
+		Title playerTitle,
 		MapData mapData,
-		Image provincesImage, 
-		ProvinceDefinitions provDefs, 
+		Image provincesImage,
+		ProvinceDefinitions provDefs,
 		Image bookmarkMapImage
 	) {
-		Rgba32 black = Color.Black;
-		
 		var colorOnMap = playerTitle.Color1 ?? new commonItems.Colors.Color(0, 0, 0);
 		var rgba32ColorOnMap = new Rgba32((byte)colorOnMap.R, (byte)colorOnMap.G, (byte)colorOnMap.B);
 		HashSet<ulong> heldProvinces = playerTitle.GetProvincesInCountry(config.CK3BookmarkDate);
@@ -246,22 +318,18 @@ internal static class BookmarkOutputter {
 		Logger.Debug($"Coloring {diff} impassable provinces with color of {playerTitle}...");
 
 		using var realmHighlightImage = provincesImage.CloneAs<Rgba32>();
-		IEnumerable<Rgb24> provinceColors = provincesToColor.Select(provId => provDefs.ProvinceToColorDict[provId]);
-		foreach (var provinceColor in provinceColors) {
-			// Make pixels of the province black.
-			var rgbaProvinceColor = new Rgba32();
-			provinceColor.ToRgba32(ref rgbaProvinceColor);
-			ReplaceColorOnImage(realmHighlightImage, rgbaProvinceColor, black);
+		var provinceColorSet = new HashSet<Rgba32>(provincesToColor.Count);
+		foreach (var provinceId in provincesToColor) {
+			if (!provDefs.ProvinceToColorDict.TryGetValue(provinceId, out Rgb24 provinceColor)) {
+				continue;
+			}
+			var rgbaProvinceColor = provinceColor.ToRgba32();
+			provinceColorSet.Add(rgbaProvinceColor);
 		}
-
-		// Make all non-black pixels transparent.
-		InverseTransparent(realmHighlightImage, black);
-
-		// Replace black with title color.
-		ReplaceColorOnImage(realmHighlightImage, black, rgba32ColorOnMap);
+		ApplyRealmColorMaskInSinglePass(realmHighlightImage, provinceColorSet, rgba32ColorOnMap);
 
 		// Create realm highlight file.
-		var holder = ck3World.Characters[playerTitle.GetHolderId(config.CK3BookmarkDate)];
+		var holder = characters[playerTitle.GetHolderId(config.CK3BookmarkDate)];
 		var highlightPath = Path.Combine(
 			"output",
 			config.OutputModName,
@@ -275,55 +343,46 @@ internal static class BookmarkOutputter {
 		bookmarkMapImage.Mutate(x => x.DrawImage(realmHighlightImage, 0.5f));
 	}
 
+	internal static void ApplyRealmColorMaskInSinglePass(Image<Rgba32> image, HashSet<Rgba32> provinceColorSet, Rgba32 realmColor) {
+		Rgba32 transparent = Color.Transparent.ToPixel<Rgba32>();
+		image.ProcessPixelRows(accessor => {
+			for (int y = 0; y < image.Height; ++y) {
+				var row = accessor.GetRowSpan(y);
+				for (int x = 0; x < row.Length; ++x) {
+					row[x] = provinceColorSet.Contains(row[x]) ? realmColor : transparent;
+				}
+			}
+		});
+	}
+
 	private static FrozenSet<ulong> GetColorableImpassablesExceptMapEdgeProvinces(MapData mapData) {
 		return mapData.ColorableImpassableProvinceIds.Except(mapData.MapEdgeProvinceIds).ToFrozenSet();
 	}
 
-	private static HashSet<ulong> GetImpassableProvincesToColor(MapData mapData, HashSet<ulong> heldProvinceIds) {
+	internal static HashSet<ulong> GetImpassableProvincesToColor(MapData mapData, HashSet<ulong> heldProvinceIds) {
 		var provinceIdsToColor = new HashSet<ulong>(heldProvinceIds);
 		var impassableIds = GetColorableImpassablesExceptMapEdgeProvinces(mapData);
 		foreach (ulong impassableId in impassableIds) {
-			var nonImpassableNeighborProvIds = mapData.GetNeighborProvinceIds(impassableId)
-				.Except(impassableIds)
-				.ToFrozenSet();
-			if (nonImpassableNeighborProvIds.Count == 0) {
-				continue;
+			var totalNonImpassableNeighbors = 0;
+			var heldNonImpassableNeighbors = 0;
+			foreach (var neighborProvinceId in mapData.GetNeighborProvinceIds(impassableId)) {
+				if (impassableIds.Contains(neighborProvinceId)) {
+					continue;
+				}
+
+				++totalNonImpassableNeighbors;
+				if (heldProvinceIds.Contains(neighborProvinceId)) {
+					++heldNonImpassableNeighbors;
+				}
 			}
 
-			var heldNonImpassableNeighborProvIds = nonImpassableNeighborProvIds.Intersect(heldProvinceIds);
-			if ((double)heldNonImpassableNeighborProvIds.Count() / nonImpassableNeighborProvIds.Count > 0.5) {
+			if (totalNonImpassableNeighbors > 0 && heldNonImpassableNeighbors * 2 > totalNonImpassableNeighbors) {
 				// Realm controls more than half of non-impassable neighbors of the impassable.
 				provinceIdsToColor.Add(impassableId);
 			}
 		}
 
 		return provinceIdsToColor;
-	}
-
-	private static void ReplaceColorOnImage(Image<Rgba32> image, Rgba32 sourceColor, Rgba32 targetColor) {
-		image.ProcessPixelRows(accessor => {
-			for (int y = 0; y < image.Height; ++y) {
-				foreach (ref Rgba32 pixel in accessor.GetRowSpan(y)) {
-					if (pixel.Equals(sourceColor)) {
-						pixel = targetColor;
-					}
-				}
-			}
-		});
-	}
-
-	private static void InverseTransparent(Image<Rgba32> image, Rgba32 color) {
-		Rgba32 transparent = Color.Transparent;
-		image.ProcessPixelRows(accessor => {
-			for (int y = 0; y < image.Height; ++y) {
-				foreach (ref Rgba32 pixel in accessor.GetRowSpan(y)) {
-					if (pixel.Equals(color)) {
-						continue;
-					}
-					pixel = transparent;
-				}
-			}
-		});
 	}
 
 	private static async Task ResaveImageAsDDS(string imagePath) {

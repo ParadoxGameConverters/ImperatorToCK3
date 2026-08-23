@@ -23,7 +23,7 @@ internal sealed class RulerTerm {
 	public static RulerTerm Parse(BufferedReader reader) {
 		var newTerm = new RulerTerm();
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("character", r => newTerm.CharacterId = r.GetULong());
 		parser.RegisterKeyword("start_date", r => {
 			var dateString = r.GetString();
@@ -44,7 +44,7 @@ internal sealed class RulerTerm {
 	public RulerTerm() { }
 	public RulerTerm(BufferedReader prehistoryRulerReader, CountryCollection countries) {
 		PreImperatorRuler = new PreImperatorRulerInfo();
-		var prehistoryParser = new Parser();
+		var prehistoryParser = new Parser(implicitVariableHandling: true);
 
 		prehistoryParser.RegisterKeyword("name", reader => PreImperatorRuler.Name = reader.GetString());
 		prehistoryParser.RegisterKeyword("birth_date", reader => {

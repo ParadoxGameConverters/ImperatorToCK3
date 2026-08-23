@@ -13,7 +13,7 @@ internal sealed class Subunit : IIdentifiable<ulong> {
 	public Subunit(ulong id, BufferedReader subunitReader) {
 		Id = id;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("category", reader => Category = string.Intern(reader.GetString()));
 		parser.RegisterKeyword("type", reader => Type = string.Intern(reader.GetString()));
 		parser.RegisterKeyword("country", reader => CountryId = reader.GetULong());

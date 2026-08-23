@@ -8,7 +8,7 @@ namespace ImperatorToCK3.Mappers.TagTitle;
 
 internal sealed class RankMapping {
 	public RankMapping(BufferedReader mappingReader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("ir", reader => irRank = reader.GetString());
 		parser.RegisterKeyword("required_territories", reader => requiredTerritories = reader.GetInt());
 		parser.RegisterKeyword("ir_government_type", reader => {

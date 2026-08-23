@@ -17,3 +17,19 @@
  duke_eremitic_male: "Hermit"
  duke_eremitic_female: "Hermitess"
  duchy_eremitic: "Hermitage"
+
+ # Rome
+ ## Titles
+ irtock3_empire_roman_vassal_title_flavor: "Prefecture"
+ irtock3_kingdom_roman_vassal_title_flavor: "Diocese"
+ irtock3_duchy_roman_vassal_title_flavor: "Province"
+
+ ## Characters
+ irtock3_emperor_roman_vassal_male_character_flavor: "Prefect"
+ irtock3_emperor_roman_vassal_female_character_flavor: "Prefect" # Not sure if a better choice would be 'Prefectissa' or 'Prefecta'
+ irtock3_king_roman_vassal_male_character_flavor: "Vicar"
+ irtock3_king_roman_vassal_female_character_flavor: "Vicarissa" # Not sure if a better choice would be 'Vicaria'
+ irtock3_duke_roman_vassal_male_character_flavor: "Governor"
+ irtock3_duke_roman_vassal_female_character_flavor: "Governess"
+
+

@@ -13,7 +13,7 @@ public class GovernmentMapperTests {
 	public void NonMatchGivesNull() {
 		Directory.CreateDirectory("configurables");
 		File.WriteAllText("configurables/government_map.txt", "link = { ck3 = ck3Government ir = irGovernment }");
-		var mapper = new GovernmentMapper(ck3GovernmentIds: new List<string> { "ck3Government" });
+		var mapper = new GovernmentMapper(ck3GovernmentIds: ["ck3Government"]);
 		File.Delete("configurables/government_map.txt"); // cleanup
 		
 		var ck3Gov = mapper.GetCK3GovernmentForImperatorGovernment("nonMatchingGovernment", rank: null, irCultureId: null, []);
@@ -23,7 +23,7 @@ public class GovernmentMapperTests {
 	public void CK3GovernmentCanBeFound() {
 		Directory.CreateDirectory("configurables");
 		File.WriteAllText("configurables/government_map.txt", "link = { ck3 = ck3Government ir = irGovernment }");
-		var mapper = new GovernmentMapper(ck3GovernmentIds: new List<string> { "ck3Government" });
+		var mapper = new GovernmentMapper(ck3GovernmentIds: ["ck3Government"]);
 		File.Delete("configurables/government_map.txt"); // cleanup
 		
 		var ck3Gov = mapper.GetCK3GovernmentForImperatorGovernment("irGovernment", rank: null, irCultureId: null, []);
@@ -33,7 +33,7 @@ public class GovernmentMapperTests {
 	public void MultipleImperatorGovernmentsCanBeInARule() {
 		Directory.CreateDirectory("configurables");
 		File.WriteAllText("configurables/government_map.txt", "link = { ck3 = ck3Government ir = irGovernment ir = irGovernment2 }");
-		var mapper = new GovernmentMapper(ck3GovernmentIds: new List<string> { "ck3Government" });
+		var mapper = new GovernmentMapper(ck3GovernmentIds: ["ck3Government"]);
 		File.Delete("configurables/government_map.txt"); // cleanup
 		
 		var ck3Gov1 = mapper.GetCK3GovernmentForImperatorGovernment("irGovernment", rank: null, irCultureId: null, []);
@@ -48,7 +48,7 @@ public class GovernmentMapperTests {
 			"link = { ck3 = ck3Government ir = irGovernment }\n" +
 			"link = { ck3 = ck3Government2 ir = irGovernment2 }"
 		);
-		var mapper = new GovernmentMapper(ck3GovernmentIds: new List<string> { "ck3Government", "ck3Government2" });
+		var mapper = new GovernmentMapper(ck3GovernmentIds: ["ck3Government", "ck3Government2"]);
 		File.Delete("configurables/government_map.txt"); // cleanup
 		
 		var ck3Gov = mapper.GetCK3GovernmentForImperatorGovernment("irGovernment2", rank: null, irCultureId: null, []);
@@ -63,7 +63,7 @@ public class GovernmentMapperTests {
 			"link = { ck3 = govB ir = irGovernment irCulture = greek }\n" +
 			"link = { ck3 = govC ir = irGovernment }"
 		);
-		var mapper = new GovernmentMapper(ck3GovernmentIds: new List<string> { "govA", "govB", "govC" });
+		var mapper = new GovernmentMapper(ck3GovernmentIds: ["govA", "govB", "govC"]);
 		File.Delete("configurables/government_map.txt"); // cleanup
 		
 		Assert.Equal("govA", mapper.GetCK3GovernmentForImperatorGovernment("irGovernment", rank: null, "roman", []));

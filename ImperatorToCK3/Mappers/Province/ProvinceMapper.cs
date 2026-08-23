@@ -7,6 +7,7 @@ using System.Linq;
 namespace ImperatorToCK3.Mappers.Province;
 
 internal sealed class ProvinceMapper {
+	private static readonly List<ulong> EmptyProvinceList = [];
 	private readonly Dictionary<ulong, List<ulong>> imperatorToCK3ProvinceMap = [];
 	private readonly Dictionary<ulong, List<ulong>> ck3ToImperatorProvinceMap = [];
 
@@ -14,7 +15,7 @@ internal sealed class ProvinceMapper {
 		Logger.Info("Loading province mappings...");
 
 		ProvinceMappingsVersion? version = null;
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		// The converter only expects one version in a file.
 		parser.RegisterRegex(CommonRegexes.String, reader => version = new ProvinceMappingsVersion(reader));
 		parser.IgnoreUnregisteredItems();
@@ -61,14 +62,14 @@ internal sealed class ProvinceMapper {
 		if (ck3ToImperatorProvinceMap.TryGetValue(ck3ProvinceNumber, out var impProvs)) {
 			return impProvs;
 		}
-		return [];
+		return EmptyProvinceList;
 	}
 
 	public List<ulong> GetCK3ProvinceNumbers(ulong impProvinceNumber) {
 		if (imperatorToCK3ProvinceMap.TryGetValue(impProvinceNumber, out var ck3Provs)) {
 			return ck3Provs;
 		}
-		return [];
+		return EmptyProvinceList;
 	}
 
 	public void DetectInvalidMappings(MapData irMapData, MapData ck3MapData) {

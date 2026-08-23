@@ -12,7 +12,7 @@ internal sealed partial class MenAtArmsCost : IPDXSerializable {
 
 	public MenAtArmsCost() { }
 	public MenAtArmsCost(BufferedReader costReader, ScriptValueCollection scriptValues) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("gold", reader => Gold = reader.GetDouble(scriptValues));
 		parser.RegisterKeyword("piety", reader => Piety = reader.GetDouble(scriptValues));
 		parser.RegisterKeyword("prestige", reader => Prestige = reader.GetDouble(scriptValues));

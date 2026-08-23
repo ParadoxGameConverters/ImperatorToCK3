@@ -8,6 +8,7 @@ using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Provinces;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils.Map;
+using ImperatorToCK3.CK3.Dynasties;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Diplomacy;
 using ImperatorToCK3.Imperator.Geography;
@@ -30,6 +31,10 @@ using System.Linq;
 using Xunit;
 using System;
 using System.IO;
+using System.Globalization;
+using System.Reflection;
+using System.Text.RegularExpressions;
+using ImperatorRulerTerm = ImperatorToCK3.Imperator.Countries.RulerTerm;
 
 namespace ImperatorToCK3.UnitTests.CK3.Characters;
 
@@ -209,6 +214,31 @@ public class CharacterCollectionTests {
 	}
 
 	[Fact]
+	public void RemoveInvalidDynastiesFromHistory_FiltersCorrectly() {
+		var cc = new CharacterCollection();
+		var date = new Date(1, 1, 1, AUC: true);
+		var char1 = new Character("c1", "one", date, cc) { FromImperator = false };
+		char1.History.Fields["dynasty"].InitialEntries.Add(new KeyValuePair<string, object>("dynasty", "valid"));
+		char1.History.Fields["dynasty"].InitialEntries.Add(new KeyValuePair<string, object>("dynasty", ""));
+		char1.History.Fields["dynasty"].InitialEntries.Add(new KeyValuePair<string, object>("dynasty", "invalid"));
+		cc.AddOrReplace(char1);
+
+		var char2 = new Character("c2", "two", date, cc) { FromImperator = true };
+		char2.History.Fields["dynasty"].InitialEntries.Add(new KeyValuePair<string, object>("dynasty", "valid"));
+		cc.AddOrReplace(char2);
+
+		var dyns = new DynastyCollection();
+		dyns.AddOrReplace(new Dynasty("valid", new BufferedReader("")));
+
+		cc.RemoveInvalidDynastiesFromHistory(dyns);
+
+		var entries = char1.History.Fields["dynasty"].InitialEntries.Select(kvp => kvp.Value.ToString()).ToList();
+		entries.Should().Equal(new[] { "valid" });
+		var entries2 = char2.History.Fields["dynasty"].InitialEntries.Select(kvp => kvp.Value.ToString()).ToList();
+		entries2.Should().Equal(new[] { "valid" });
+	}
+
+	[Fact]
 	public void ImperatorCountriesGoldCanBeDistributedAmongRulerAndVassals() {
 		var conversionDate = new Date(470, 2, 1, AUC: true);
 		var config = new Configuration {
@@ -243,6 +273,14 @@ public class CharacterCollectionTests {
 			ruler_term={ character=1000 start_date=440.10.1 }
 		");
 		var country = Country.Parse(countryReader, 589);
+		
+		imperatorWorld.Provinces[1].OwnerCountry = country;
+		imperatorWorld.Provinces[2].OwnerCountry = country;
+		imperatorWorld.Provinces[3].OwnerCountry = country;
+		imperatorWorld.Provinces[4].OwnerCountry = country;
+		imperatorWorld.Provinces[5].OwnerCountry = country;
+		imperatorWorld.Provinces[6].OwnerCountry = country;
+		
 		Assert.Equal(200, country.Currencies.Gold);
 		imperatorWorld.Countries.Add(country);
 		imperatorWorld.Characters.LinkCountries(imperatorWorld.Countries);
@@ -414,5 +452,196 @@ public class CharacterCollectionTests {
 		
 		// Clean up.
 		File.Delete(overridesFilePath);
+	}
+
+	[Fact]
+	public void ChineseDynasticCycleVariablesAreCorrectlyCalculatedForChineseEmpireCountryRulers() {
+		Date ck3BookmarkDate = new(810, 1, 1);
+		Date irEndDate = new(780, 1, 1);
+
+		var characters = new CharacterCollection();
+		var holder = new Character("imperator_han_emperor", "Han Emperor", new Date(760, 1, 1), characters) {
+			FromImperator = true
+		};
+		characters.Add(holder);
+
+		var landedTitles = new Title.LandedTitles();
+		var celestialEmpire = landedTitles.Add("e_chinese_empire");
+		celestialEmpire.SetHolder(holder, ck3BookmarkDate);
+
+		var imperatorCountry = new Country(1) { Tag = "HAN" };
+		SetPrivateProperty(imperatorCountry, nameof(Country.Government), "chinese_empire");
+		imperatorCountry.TotalPowerBase = 60f;
+		imperatorCountry.NonLoyalPowerBase = 15f;
+
+		var precedingNonChineseStartDate = new Date(700, 3, 1);
+		var earliestChineseStartDate = new Date(720, 6, 1);
+		var laterChineseStartDate = new Date(760, 2, 1);
+
+		imperatorCountry.RulerTerms.Add(CreateRulerTerm(precedingNonChineseStartDate, "tribal"));
+		imperatorCountry.RulerTerms.Add(CreateRulerTerm(earliestChineseStartDate, "chinese_empire"));
+		imperatorCountry.RulerTerms.Add(CreateRulerTerm(laterChineseStartDate, "chinese_empire"));
+
+		imperatorCountry.CK3Title = celestialEmpire;
+		SetPrivateProperty(celestialEmpire, nameof(Title.ImperatorCountry), imperatorCountry);
+
+		characters.CalculateChineseDynasticCycleVariables(landedTitles, irEndDate, ck3BookmarkDate);
+
+		var effectsField = holder.History.Fields["effects"];
+		var effectEntry = Assert.Single(effectsField.DateToEntriesDict);
+		Assert.Equal(ck3BookmarkDate, effectEntry.Key);
+		var effectString = Assert.IsType<StringOfItem>(Assert.Single(effectEntry.Value).Value).ToString();
+
+		var expectedYearsWithGovernment = ck3BookmarkDate.DiffInYears(earliestChineseStartDate) + (earliestChineseStartDate.DiffInYears(precedingNonChineseStartDate) / 2);
+		var expectedUnrest = imperatorCountry.NonLoyalPowerBase / imperatorCountry.TotalPowerBase;
+		var effectLines = effectString.Split(new[] { "\r\n", "\n" }, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+		var yearsLine = Assert.Single(effectLines, line => line.Contains("years_with_government", StringComparison.Ordinal));
+		var yearsValue = ExtractVariableValue(yearsLine);
+		Assert.Equal(expectedYearsWithGovernment, yearsValue, precision: 5);
+		var unrestLine = Assert.Single(effectLines, line => line.Contains("imperator_unrest", StringComparison.Ordinal));
+		var unrestValue = ExtractVariableValue(unrestLine);
+		Assert.Equal(expectedUnrest, unrestValue, precision: 5);
+	}
+
+	[Fact]
+	public void SuccessorMaleNamesFallBackToFatherCultureWhenOwnCultureHasNoMaleNames() {
+		Date ck3BookmarkDate = new(867, 1, 1);
+		Date irSaveDate = new(740, 1, 1);
+
+		var characters = new CharacterCollection();
+		var father = new Character("father1", "Father", new Date(670, 1, 1), characters);
+		var oldCharacter = new Character("old1", "Oldman", new Date(700, 1, 1), characters);
+		characters.Add(father);
+		characters.Add(oldCharacter);
+		oldCharacter.Father = father;
+
+		father.SetCultureId("father_culture", null);
+		oldCharacter.SetCultureId("own_culture", null);
+
+		var cultures = CreateCultureCollectionWithMaleNames(
+			("own_culture", []),
+			("father_culture", ["Aldric"])
+		);
+
+		var landedTitles = new Title.LandedTitles();
+		var kingdom = landedTitles.Add("k_test");
+		kingdom.SetHolder(oldCharacter, ck3BookmarkDate);
+
+		characters.GenerateSuccessorsForOldCharacters(landedTitles, cultures, irSaveDate, ck3BookmarkDate, randomSeed: 42);
+
+		var successors = characters.Where(c => c.Id.StartsWith("irtock3_old1_successor_", StringComparison.Ordinal)).ToList();
+		Assert.NotEmpty(successors);
+		foreach (var successor in successors) {
+			Assert.Equal("Aldric", successor.GetName(ck3BookmarkDate));
+		}
+	}
+
+	[Fact]
+	public void SuccessorMaleNamesFallBackToSpouseCultureWhenParentsHaveNoUsableCulture() {
+		Date ck3BookmarkDate = new(867, 1, 1);
+		Date irSaveDate = new(740, 1, 1);
+
+		var characters = new CharacterCollection();
+		var oldCharacter = new Character("old2", "Oldman", new Date(700, 1, 1), characters);
+		var spouse = new Character("spouse1", "Spouse", new Date(705, 1, 1), characters) { Female = true };
+		characters.Add(oldCharacter);
+		characters.Add(spouse);
+
+		oldCharacter.SetCultureId("own_culture", null);
+		spouse.SetCultureId("spouse_culture", null);
+		oldCharacter.AddSpouse(new Date(725, 1, 1), spouse);
+
+		var cultures = CreateCultureCollectionWithMaleNames(
+			("own_culture", []),
+			("spouse_culture", ["Bardas"])
+		);
+
+		var landedTitles = new Title.LandedTitles();
+		var kingdom = landedTitles.Add("k_test");
+		kingdom.SetHolder(oldCharacter, ck3BookmarkDate);
+
+		characters.GenerateSuccessorsForOldCharacters(landedTitles, cultures, irSaveDate, ck3BookmarkDate, randomSeed: 42);
+
+		var successors = characters.Where(c => c.Id.StartsWith("irtock3_old2_successor_", StringComparison.Ordinal)).ToList();
+		Assert.NotEmpty(successors);
+		foreach (var successor in successors) {
+			Assert.Equal("Bardas", successor.GetName(ck3BookmarkDate));
+		}
+	}
+
+	[Fact]
+	public void SuccessorMaleNamesUseOwnCultureNamesWithoutFallingBack() {
+		Date ck3BookmarkDate = new(867, 1, 1);
+		Date irSaveDate = new(740, 1, 1);
+
+		var characters = new CharacterCollection();
+		var father = new Character("father3", "Father", new Date(670, 1, 1), characters);
+		var oldCharacter = new Character("old3", "Oldman", new Date(700, 1, 1), characters);
+		characters.Add(father);
+		characters.Add(oldCharacter);
+		oldCharacter.Father = father;
+
+		father.SetCultureId("father_culture", null);
+		oldCharacter.SetCultureId("own_culture", null);
+
+		var cultures = CreateCultureCollectionWithMaleNames(
+			("own_culture", ["Rurik"]),
+			("father_culture", ["Aldric"])
+		);
+
+		var landedTitles = new Title.LandedTitles();
+		var kingdom = landedTitles.Add("k_test");
+		kingdom.SetHolder(oldCharacter, ck3BookmarkDate);
+
+		characters.GenerateSuccessorsForOldCharacters(landedTitles, cultures, irSaveDate, ck3BookmarkDate, randomSeed: 42);
+
+		var successors = characters.Where(c => c.Id.StartsWith("irtock3_old3_successor_", StringComparison.Ordinal)).ToList();
+		Assert.NotEmpty(successors);
+		foreach (var successor in successors) {
+			Assert.Equal("Rurik", successor.GetName(ck3BookmarkDate));
+		}
+	}
+
+	private static CultureCollection CreateCultureCollectionWithMaleNames(params (string CultureId, string[] MaleNames)[] definitions) {
+		var ck3ModFlags = new System.Collections.Generic.OrderedDictionary<string, bool>();
+		var pillarCollection = new PillarCollection(colorFactory, ck3ModFlags);
+		var heritage = new Pillar("heritage_test", new PillarData { Type = "heritage" });
+		pillarCollection.AddOrReplace(heritage);
+
+		var collection = new CultureCollection(colorFactory, pillarCollection, ck3ModFlags);
+		foreach (var (cultureId, maleNames) in definitions) {
+			var nameListContent = maleNames.Length > 0 ? $"male_names = {{ {string.Join(' ', maleNames)} }}" : string.Empty;
+			var nameList = new NameList($"{cultureId}_namelist", new BufferedReader(nameListContent));
+			var cultureData = new CultureData {
+				Color = new Color(1, 2, 3),
+				Heritage = heritage,
+				NameLists = { nameList }
+			};
+			collection.AddOrReplace(new Culture(cultureId, cultureData));
+		}
+
+		return collection;
+	}
+
+	private static void SetPrivateProperty(object target, string propertyName, object? value) {
+		var targetType = target.GetType();
+		var property = targetType.GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+		Assert.NotNull(property);
+		var setter = property.GetSetMethod(nonPublic: true);
+		Assert.NotNull(setter);
+		setter.Invoke(target, [value]);
+	}
+
+	private static ImperatorRulerTerm CreateRulerTerm(Date startDate, string governmentId) {
+		var term = new ImperatorRulerTerm();
+		SetPrivateProperty(term, nameof(ImperatorRulerTerm.StartDate), startDate);
+		SetPrivateProperty(term, nameof(ImperatorRulerTerm.Government), governmentId);
+		return term;
+	}
+
+	private static double ExtractVariableValue(string line) {
+		var match = Regex.Match(line, "value\\s*=\\s*(?<value>[-+]?[0-9]*\\.?[0-9]+)");
+		Assert.True(match.Success, $"Could not parse value from line '{line}'.");
+		return double.Parse(match.Groups["value"].Value, CultureInfo.InvariantCulture);
 	}
 }

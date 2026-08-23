@@ -1,0 +1,17 @@
+test_version = {
+	# One-sided links are skipped.
+	link = { ck3 = 18 }
+	link = { imp = 19 }
+
+	# Zero province IDs are filtered out.
+	link = { imp = 0 ck3 = 4 }
+	link = { imp = 5 ck3 = 0 }
+
+	# One-to-one and one-sided-many combos produce no warning.
+	link = { imp = 6 ck3 = 7 }
+	link = { imp = 8 ck3 = 9 ck3 = 10 }
+	link = { imp = 11 imp = 12 ck3 = 13 }
+
+	# Many-to-many combo produces a warning.
+	link = { imp = 14 imp = 15 ck3 = 16 ck3 = 17 }
+}

@@ -1,4 +1,5 @@
 using commonItems;
+using ImperatorToCK3.Imperator.Diplomacy;
 using System;
 using System.IO;
 using Xunit;
@@ -19,7 +20,8 @@ public class DiplomacyDBTests {
 				2 = { previous=no defender=1 }
 			}
 		""");
-		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
 
 		Assert.Empty(diplomacy.Wars);
 		var logStr = output.ToString();
@@ -37,7 +39,8 @@ public class DiplomacyDBTests {
                 1 = { previous=no attacker=1 }
             }
         """);
-		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
 
 		Assert.Empty(diplomacy.Wars);
 		var logStr = output.ToString();
@@ -54,7 +57,8 @@ public class DiplomacyDBTests {
 				1 = { previous=no attacker=1 defender=2 }
 			}
 		""");
-		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
 
 		Assert.Empty(diplomacy.Wars);
 		var logStr = output.ToString();
@@ -64,7 +68,8 @@ public class DiplomacyDBTests {
 	[Fact]
 	public void PreviousWarsAreSkipped() {
 		var reader = new BufferedReader("database = { 1 = { previous=yes } }");
-		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
 
 		Assert.Empty(diplomacy.Wars);
 	}
@@ -78,7 +83,8 @@ public class DiplomacyDBTests {
         		}
         	}
         """);
-		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
 		
 		Assert.Single(diplomacy.Wars);
 		Assert.Equal(new Date("1.1.1", AUC: true), diplomacy.Wars[0].StartDate);
@@ -91,7 +97,8 @@ public class DiplomacyDBTests {
 	[Fact]
 	public void DependencyCanBeLoaded() {
 		var reader = new BufferedReader("dependency = { first=1 second=2 start_date=1.1.1 subject_type=tributary }");
-		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
 		
 		Assert.Single(diplomacy.Dependencies);
 		Assert.Equal((ulong)1, diplomacy.Dependencies[0].OverlordId);
@@ -109,11 +116,78 @@ public class DiplomacyDBTests {
 				member=552
 			}
 			""");
-		var diplomacy = new ImperatorToCK3.Imperator.Diplomacy.DiplomacyDB(reader);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
 
 		Assert.Single(diplomacy.DefensiveLeagues);
 		Assert.Equal(2, diplomacy.DefensiveLeagues[0].Count);
 		Assert.Equal((ulong)7, diplomacy.DefensiveLeagues[0][0]);
 		Assert.Equal((ulong)552, diplomacy.DefensiveLeagues[0][1]);
+	}
+
+	[Fact]
+	public void IgnoredDiplomacyDatabaseTokensAreLogged() {
+		var output = new StringWriter();
+		Console.SetOut(output);
+
+		var reader = new BufferedReader(
+			"database = { useless_database_token = 42 }"
+		);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
+
+		Assert.Contains("[DEBUG] Ignored Diplomacy database tokens: useless_database_token", output.ToString());
+	}
+
+	[Fact]
+	public void IgnoredWarTokensAreLogged() {
+		var output = new StringWriter();
+		Console.SetOut(output);
+
+		War.IgnoredTokens.Clear();
+		var reader = new BufferedReader("""
+			database = {
+				1 = { attacker=1 defender=2 useless_war_token=42 }
+			}
+			"""
+		);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
+
+		Assert.Contains("[DEBUG] Ignored War tokens: useless_war_token", output.ToString());
+	}
+
+	[Fact]
+	public void IgnoredDiplomacyTokensAreLogged() {
+		var output = new StringWriter();
+		Console.SetOut(output);
+
+		var reader = new BufferedReader(
+			"useless_diplomacy_token = {}"
+		);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
+
+		Assert.Contains("[DEBUG] Ignored Diplomacy tokens: useless_diplomacy_token", output.ToString());
+	}
+
+	[Fact]
+	public void SmallDefensiveLeaguesAreSkipped() {
+		var output = new StringWriter();
+		Console.SetOut(output);
+
+		var reader = new BufferedReader(
+			"""
+			defensive_league = { }
+			defensive_league = { member=7 }
+			"""
+		);
+		var diplomacy = new DiplomacyDB();
+		diplomacy.LoadDiplomacy(reader);
+
+		Assert.Empty(diplomacy.DefensiveLeagues);
+		var logStr = output.ToString();
+		Assert.Contains("[DEBUG] Skipping defensive league with 0 members:", logStr);
+		Assert.Contains("[DEBUG] Skipping defensive league with 1 members: 7", logStr);
 	}
 }
