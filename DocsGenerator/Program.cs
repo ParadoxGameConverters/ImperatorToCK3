@@ -4,19 +4,15 @@ using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using DocsGenerator;
-using ImperatorToCK3.CK3.Cultures;
+using System.Collections.Generic;
 using Parser = CommandLine.Parser;
-
-string gameRoot;
-string modPath;
 
 Parser.Default.ParseArguments<Options>(args)
 	.WithParsed(o => {
-		gameRoot = o.GameRoot;
-		modPath = o.ModPath;
+		var gameRoot = o.GameRoot;
+		var modPath = o.ModPath;
 		bool cultureColorUnderName = o.CultureColorUnderName;
-		
-		
+
 		if (!Directory.Exists(gameRoot)) {
 			Logger.Error($"\"{gameRoot}\" is not a directory.");
 			return;
@@ -36,11 +32,21 @@ Parser.Default.ParseArguments<Options>(args)
 		namedColors.LoadNamedColors("common/named_colors", modFS);
 		var colorFactory = new ColorFactory();
 		colorFactory.AddNamedColorDict(namedColors);
-		
+
 		var locDB = new LocDB("english");
 		locDB.ScrapeLocalizations(modFS);
-		
-		CulturesDocGenerator.GenerateCulturesTable(modPath, colorFactory, locDB, cultureColorUnderName);
-		
+
+		// The analyzed mod is treated as a standalone mod for vanilla CK3.
+		var ck3ModFlags = new OrderedDictionary<string, bool> {
+			["tfe"] = false,
+			["wtwsms"] = false,
+			["roa"] = false,
+			["aep"] = false,
+			["confed_league"] = false,
+			["vanilla_ck3"] = true,
+		};
+
+		CulturesDocGenerator.GenerateCulturesTable(modFS, colorFactory, locDB, ck3ModFlags, cultureColorUnderName);
+
 		Logger.Info("Finished generating mod docs.");
 	});

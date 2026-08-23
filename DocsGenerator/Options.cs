@@ -1,6 +1,6 @@
 using CommandLine;
 
-namespace DocsGenerator; 
+namespace DocsGenerator;
 
 public class Options {
 	[Option('r', "gameRoot", Required = true,

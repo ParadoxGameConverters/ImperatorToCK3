@@ -1,26 +1,24 @@
 using commonItems;
-using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Cultures;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace DocsGenerator;
 
 public static class CulturesDocGenerator {
-	private static IEnumerable<Culture> LoadCultures(string modPath, ColorFactory colorFactory) {
-		// Create ModFilesystem, but with just the mod we're analyzing.
-		// For that reason, treat the mod as base game.
-		var modFS = new ModFilesystem(modPath, Array.Empty<Mod>());
-		
+	private static IEnumerable<Culture> LoadCultures(ModFilesystem ck3ModFS, ColorFactory colorFactory, OrderedDictionary<string, bool> ck3ModFlags) {
 		Logger.Info("Loading cultural pillars...");
-		var pillars = new PillarCollection();
-		pillars.LoadPillars(modFS);
-		
+		var pillars = new PillarCollection(colorFactory, ck3ModFlags);
+		pillars.LoadPillars(ck3ModFS, ck3ModFlags);
+
 		Logger.Info("Loading cultures...");
-		var cultures = new CultureCollection(pillars);
-		cultures.LoadNameLists(modFS);
-		cultures.LoadCultures(modFS, colorFactory);
+		var cultures = new CultureCollection(colorFactory, pillars, ck3ModFlags);
+		cultures.LoadNameLists(ck3ModFS);
+		cultures.LoadCultures(ck3ModFS);
 
 		return cultures;
 	}
@@ -33,11 +31,11 @@ public static class CulturesDocGenerator {
 		}
 
 		var englishLoc = locBlock["english"];
-		if (englishLoc is null) {
+		if (string.IsNullOrEmpty(englishLoc)) {
 			Logger.Warn($"No English localization found for \"{locKey}\"");
 			return locKey;
 		}
-		
+
 		// Check for nested loc.
 		var dollarPos = englishLoc.IndexOf('$');
 		if (dollarPos != -1) {
@@ -52,11 +50,19 @@ public static class CulturesDocGenerator {
 	}
 
 	private static string GetCultureColorForCell(Culture culture) {
-		return "#" + culture.Color.OutputHex()
-			.Replace("hex", string.Empty)
-			.Replace("{", string.Empty)
-			.Replace("}", string.Empty)
-			.Trim();
+		var color = culture.Color;
+		return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+	}
+
+	private static string? GetLastAttributeId(Culture culture, string attributeKey) {
+		string? attributeId = null;
+		foreach (var pair in culture.Attributes) {
+			if (pair.Key != attributeKey) {
+				continue;
+			}
+			attributeId = pair.Value.ToString().RemQuotes();
+		}
+		return attributeId;
 	}
 
 	private static void OutputCulturesTable(IEnumerable<Culture> cultures, LocDB locDB, bool cultureColorUnderName) {
@@ -72,7 +78,7 @@ public static class CulturesDocGenerator {
 			font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;text-align:left;vertical-align:center;}
 		.color-cell {
 			min-width: 20px;
-			text-shadow: 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black; 
+			text-shadow: 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black, 0 0 1px black;
 			color: white;
 			font-weight: bold;
 		}
@@ -104,22 +110,28 @@ public static class CulturesDocGenerator {
 				output.WriteLine($"\t\t\t\t\t<td>{GetLocForKey(locDB, culture.Id)}</td>");
 			}
 			output.WriteLine($"\t\t\t\t\t<td>{GetLocForKey(locDB, $"{culture.Heritage.Id}_name")}</td>");
-			output.WriteLine($"\t\t\t\t\t<td>{GetLocForKey(locDB, $"{culture.EthosId}_name")}</td>");
-			output.WriteLine($"\t\t\t\t\t<td>{string.Join("<br>", culture.Traditions.Select(t=>GetLocForKey(locDB, $"{t}_name")))}</td>");
-			output.WriteLine($"\t\t\t\t\t<td>{GetLocForKey(locDB, $"{culture.LanguageId}_name")}</td>");
-			output.WriteLine($"\t\t\t\t\t<td>{GetLocForKey(locDB, $"{culture.MartialCustomId}_name")}</td>");
+
+			var ethosId = GetLastAttributeId(culture, "ethos");
+			output.WriteLine($"\t\t\t\t\t<td>{(ethosId is null ? string.Empty : GetLocForKey(locDB, $"{ethosId}_name"))}</td>");
+
+			output.WriteLine($"\t\t\t\t\t<td>{string.Join("<br>", culture.TraditionIds.Select(t => GetLocForKey(locDB, $"{t}_name")))}</td>");
+
+			output.WriteLine($"\t\t\t\t\t<td>{GetLocForKey(locDB, $"{culture.Language.Id}_name")}</td>");
+
+			var martialCustomId = GetLastAttributeId(culture, "martial_custom");
+			output.WriteLine($"\t\t\t\t\t<td>{(martialCustomId is null ? string.Empty : GetLocForKey(locDB, $"{martialCustomId}_name"))}</td>");
 			output.WriteLine("\t\t\t\t</tr>");
 		}
 		output.WriteLine("\t\t\t</tbody>");
 		output.WriteLine("\t\t</table>");
 		output.WriteLine("\t</body>");
 		output.WriteLine("</html>");
-		
-		File.WriteAllText ("generated_docs/cultures_table.html", output.ToString());
+
+		File.WriteAllText("generated_docs/cultures_table.html", output.ToString());
 	}
-	
-    public static void GenerateCulturesTable(string modPath, ColorFactory colorFactory, LocDB locDB, bool cultureColorUnderName) {
-	    var cultures = LoadCultures(modPath, colorFactory);
-	    OutputCulturesTable(cultures, locDB, cultureColorUnderName);
-    }
+
+	public static void GenerateCulturesTable(ModFilesystem ck3ModFS, ColorFactory colorFactory, LocDB locDB, OrderedDictionary<string, bool> ck3ModFlags, bool cultureColorUnderName) {
+		var cultures = LoadCultures(ck3ModFS, colorFactory, ck3ModFlags);
+		OutputCulturesTable(cultures, locDB, cultureColorUnderName);
+	}
 }
