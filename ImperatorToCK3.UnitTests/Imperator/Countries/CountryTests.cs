@@ -208,6 +208,46 @@ public class CountryTests {
 	}
 
 	[Fact]
+	public void LawsAreReturnedForRepublicAndTribalCountries() {
+		var config = new Configuration {
+			ImperatorPath = "TestFiles/Imperator"
+		};
+		var imperatorRoot = Path.Combine(config.ImperatorPath, "game");
+		var mods = new List<Mod> {
+			new("cool_mod", Path.Combine(Directory.GetCurrentDirectory(), "TestFiles/documents/Imperator/mod/cool_mod"))
+		};
+		var imperatorModFS = new ModFilesystem(imperatorRoot, mods);
+
+		Country.LoadGovernments(imperatorModFS);
+
+		var republicReader = new BufferedReader(
+			"= {\n" +
+			"\tgovernment_key = aristocratic_republic\n" +
+			"\tsuccession_law = lawA\n" + // won't be returned, law is for monarchies
+			"\trepublican_mediterranean_laws = lawC\n" +
+			"}"
+		);
+		var republic = Country.Parse(republicReader, 1);
+		Assert.Equal(GovernmentType.republic, republic.GovernmentType);
+		Assert.Collection(republic.GetLaws(),
+			item => Assert.Equal("lawC", item)
+		);
+
+		var tribalReader = new BufferedReader(
+			"= {\n" +
+			"\tgovernment_key = tribal_federation\n" +
+			"\tmonarchy_legitimacy_laws = lawD\n" + // won't be returned, law is for monarchies
+			"\ttribal_authority_laws = lawB\n" +
+			"}"
+		);
+		var tribal = Country.Parse(tribalReader, 2);
+		Assert.Equal(GovernmentType.tribal, tribal.GovernmentType);
+		Assert.Collection(tribal.GetLaws(),
+			item => Assert.Equal("lawB", item)
+		);
+	}
+
+	[Fact]
 	public void WrongTypeLawsAreNotSet() {
 		var reader = new BufferedReader(
 			"= {\n" +
