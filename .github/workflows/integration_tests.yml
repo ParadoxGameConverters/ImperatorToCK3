@@ -66,6 +66,23 @@ jobs:
       run: |
         dotnet ImperatorToCK3Converter.dll
 
+    - name: "Checkout CK3 Validator"
+      uses: actions/checkout@v7
+      with:
+        repository: LT-Rascek/CK3_Validator
+        path: ck3-validator
+
+    - name: "Setup Python"
+      uses: actions/setup-python@v7
+      with:
+        python-version: "3.12"
+
+    - name: "Validate generated mod with CK3 Validator"
+      run: |
+        # Checks encoding and localization file naming of the generated mod.
+        # The wrapper adapts the upstream POSIX-only scripts to Windows paths.
+        python tools/ck3_validator/run_ck3_validator.py "$env:GITHUB_WORKSPACE\Release\ImperatorToCK3\output\test_save" "$env:GITHUB_WORKSPACE\ck3-validator"
+
     - name: "Download and unzip ck3-tiger"
       run: |
         Invoke-WebRequest -Uri "https://github.com/amtep/tiger/releases/download/v1.18.0/ck3-tiger-windows-v1.18.0.zip" -OutFile "ck3-tiger.zip"
