@@ -1,100 +1,130 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net7.0</TargetFramework>
-	<Nullable>enable</Nullable>
-	<RuntimeIdentifiers>win-x64;linux-x64;osx-x64</RuntimeIdentifiers>
-	<ApplicationIcon>thumbnail.ico</ApplicationIcon>
-	<LangVersion>11</LangVersion>
-  </PropertyGroup>
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <RuntimeIdentifiers>win-x64;linux-x64;osx-arm64</RuntimeIdentifiers>
+        <ApplicationIcon>thumbnail.ico</ApplicationIcon>
+        <LangVersion>latest</LangVersion>
+        <CETCompat>false</CETCompat> <!-- see https://github.com/ParadoxGameConverters/ImperatorToCK3/issues/2638 -->
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>..\Release\ImperatorToCK3\</OutputPath>
-  </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <ApplicationManifest>app.manifest</ApplicationManifest>
+    </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\Debug\ImperatorToCK3\</OutputPath>
-    <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>..\Release\ImperatorToCK3\</OutputPath>
+        <NoWarn>1701;1702;MA0001;MA0002;MA0004;MA0006;MA0009;MA0011;MA0074;MA0075;MA0076</NoWarn>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <AssemblyName>ImperatorToCK3Converter</AssemblyName>
-    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>..\Debug\ImperatorToCK3\</OutputPath>
+        <CheckForOverflowUnderflow>true</CheckForOverflowUnderflow>
+        <NoWarn>1701;1702;MA0001;MA0002;MA0004;MA0006;MA0009;MA0011;MA0074;MA0075;MA0076</NoWarn>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CsvHelper" Version="30.0.1" />
-    <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="13.0.1" />
-    <PackageReference Include="PGCG.commonItems" Version="7.8.11" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
-  </ItemGroup>
+    <PropertyGroup>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AssemblyName>ImperatorToCK3Converter</AssemblyName>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Update="Data_Files\configurables\definite_form_names.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Data_Files\converter_globals\after_converting.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Data_Files\converter_globals\FAQ.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Data_Files\converter_globals\license.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Data_Files\converter_globals\ReadMe.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="log4net.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
-	<ItemGroup>
-		<FronterConfigurationFiles Include="Data_Files/fronter_configuration/**/*.*" />
-	</ItemGroup>
-	<ItemGroup>
-		<Configurables Include="Data_Files/configurables/**/*.*" />
-	</ItemGroup>
-	<ItemGroup>
-		<RakalyBinaries Include="Resources/rakaly/**/*.*" />
-	</ItemGroup>
-	<ItemGroup>
-		<ConverterGlobals Include="Data_Files/converter_globals/**/*.*" />
-	</ItemGroup>
-	<ItemGroup>
-    <BlankMod Include="Data_Files/blankMod/**/*.*" />
-  </ItemGroup>
-	<ItemGroup>
-    <RiseOfIslam Include="../RiseOfIslam/**/*.*" />
-  </ItemGroup>
-
-	<Target Name="CopyCustomContent" AfterTargets="Build">
-		<Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(OutDir)/../Configuration" SkipUnchangedFiles="true" />
-		<Copy SourceFiles="@(Configurables)" DestinationFolder="$(OutDir)/configurables" SkipUnchangedFiles="true" />
-		<Copy SourceFiles="@(RakalyBinaries)" DestinationFolder="$(OutDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" />
-		<Copy SourceFiles="@(ConverterGlobals)" DestinationFolder="$(OutDir)/.." SkipUnchangedFiles="true" />
-	  <Copy SourceFiles="@(BlankMod)" DestinationFolder="$(OutDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
-	  <Copy SourceFiles="@(RiseOfIslam)" DestinationFolder="$(OutDir)\blankMod\optionalFiles\RiseOfIslam\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
-	</Target>
-
-	<Target Name="CopyCustomContentOnPublish" AfterTargets="Publish">
-		<Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(PublishDir)/../Configuration" SkipUnchangedFiles="true" />
-		<Copy SourceFiles="@(Configurables)" DestinationFolder="$(PublishDir)/configurables" SkipUnchangedFiles="true" />
-		<Copy SourceFiles="@(RakalyBinaries)" DestinationFolder="$(PublishDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" />
-		<Copy SourceFiles="@(ConverterGlobals)" DestinationFolder="$(PublishDir)/.." SkipUnchangedFiles="true" />
-		<Copy SourceFiles="@(BlankMod)" DestinationFolder="$(PublishDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
-	  <Copy SourceFiles="@(RiseOfIslam)" DestinationFolder="$(PublishDir)\blankMod\optionalFiles\RiseOfIslam\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
-	</Target>
-
-  <Target Name="Date" BeforeTargets="CoreCompile">
-    <WriteLinesToFile File="$(IntermediateOutputPath)gen.cs" Lines="static partial class Builtin { public static long CompileTime = $([System.DateTime]::UtcNow.Ticks) %3B }" Overwrite="true" />
     <ItemGroup>
-      <Compile Include="$(IntermediateOutputPath)gen.cs" />
+        <PackageReference Include="ColorHashSharp" Version="1.1.0" />
+        <PackageReference Include="ConcurrentSet" Version="1.0.0" />
+        <PackageReference Include="CWTools" Version="0.5.0-alpha" />
+        <PackageReference Include="DotLiquid" Version="2.3.197" />
+        <PackageReference Include="FSharp.Core" Version="11.0.100" /> <!-- Needed for CWTools -->
+        <PackageReference Include="MurmurHash.Net" Version="0.0.2" />
+        <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.16.0" />
+        <PackageReference Include="Meziantou.Analyzer" Version="3.0.176">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Open.Collections" Version="4.2.0" />
+        <PackageReference Include="PGCG.commonItems" Version="23.1.2" />
+        <PackageReference Include="PGCG.commonItems.SourceGenerators" Version="1.0.9" />
+        <PackageReference Include="Polly" Version="8.7.0" />
+        <PackageReference Include="Roslynator.Analyzers" Version="4.16.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+        <PackageReference Include="ZLinq" Version="1.5.6" />
     </ItemGroup>
-  </Target>
+
+    <ItemGroup>
+        <None Update="Data_Files\converter_globals\after_converting.txt">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+        <None Update="Data_Files\converter_globals\FAQ.txt">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+        <None Update="Data_Files\converter_globals\license.txt">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+        <None Update="Data_Files\converter_globals\ReadMe.txt">
+            <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <FronterConfigurationFiles Include="Data_Files/fronter_configuration/**/*.*" />
+    </ItemGroup>
+    <ItemGroup>
+        <Configurables Include="Data_Files/configurables/**/*.*" />
+    </ItemGroup>
+    <ItemGroup>
+        <RakalyWindowsBinaries Include="Resources/rakaly/*-pc-windows-msvc/*.*" />
+        <RakalyLinuxBinaries Include="Resources/rakaly/*-unknown-linux-musl/*.*" />
+        <RakalyMacBinaries Include="Resources/rakaly/*-apple-darwin/*.*" />
+    </ItemGroup>
+    <ItemGroup>
+        <ConverterGlobals Include="Data_Files/converter_globals/**/*.*" />
+    </ItemGroup>
+    <ItemGroup>
+        <BlankMod Include="Data_Files/blankMod/**/*.*" />
+    </ItemGroup>
+
+    <Target Name="CopyCustomContent" AfterTargets="Build">
+        <Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(OutDir)/../Configuration" SkipUnchangedFiles="true" />
+        <Copy SourceFiles="@(Configurables)" DestinationFolder="$(OutDir)\configurables\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+        <Copy SourceFiles="@(ConverterGlobals)" DestinationFolder="$(OutDir)/.." SkipUnchangedFiles="true" />
+        <Copy SourceFiles="@(BlankMod)" DestinationFolder="$(OutDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+
+        <!-- Only copy Rakaly binaries appropriate for the platform we're building for. -->
+        <Copy SourceFiles="@(RakalyWindowsBinaries)" DestinationFolder="$(OutDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
+        <Copy SourceFiles="@(RakalyLinuxBinaries)" DestinationFolder="$(OutDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" Condition="$([MSBuild]::IsOSPlatform('Linux'))" />
+        <Copy SourceFiles="@(RakalyMacBinaries)" DestinationFolder="$(OutDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" Condition="$([MSBuild]::IsOSPlatform('OSX'))" />
+    </Target>
+
+    <Target Name="CopyCustomContentOnPublish" AfterTargets="Publish">
+        <Copy SourceFiles="@(FronterConfigurationFiles)" DestinationFolder="$(PublishDir)/../Configuration" SkipUnchangedFiles="true" />
+        <Copy SourceFiles="@(Configurables)" DestinationFolder="$(PublishDir)\configurables\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+        <Copy SourceFiles="@(ConverterGlobals)" DestinationFolder="$(PublishDir)/.." SkipUnchangedFiles="true" />
+        <Copy SourceFiles="@(BlankMod)" DestinationFolder="$(PublishDir)\blankMod\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+
+        <!-- Only copy Rakaly binaries appropriate for the platform we're building for. -->
+        <Copy SourceFiles="@(RakalyWindowsBinaries)" DestinationFolder="$(PublishDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" Condition="$([MSBuild]::IsOSPlatform('Windows'))" />
+        <Copy SourceFiles="@(RakalyLinuxBinaries)" DestinationFolder="$(PublishDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" Condition="$([MSBuild]::IsOSPlatform('Linux'))" />
+        <Copy SourceFiles="@(RakalyMacBinaries)" DestinationFolder="$(PublishDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" Condition="$([MSBuild]::IsOSPlatform('OSX'))" />
+    </Target>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="ImperatorToCK3.UnitTests" />
+        <InternalsVisibleTo Include="ImperatorToCK3.Benchmarks" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- root descriptors for trimming -->
+        <TrimmerRootAssembly Include="log4net" />
+        <TrimmerRootAssembly Include="commonItems" />
+        <TrimmerRootAssembly Include="System.Configuration.ConfigurationManager" />
+        <TrimmerRootAssembly Include="System.Management" />
+    </ItemGroup>
+
 
 </Project>

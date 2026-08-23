@@ -3,23 +3,23 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.DeathReason;
 
-public class DeathReasonMapper {
+internal sealed class DeathReasonMapper {
 	public DeathReasonMapper() {
 		Logger.Info("Parsing death reason mappings...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseFile("configurables/deathMappings.txt");
-		Logger.Info($"Loaded {impToCK3ReasonMap.Count} death reason links.");
+		Logger.Info($"Loaded {irToCK3ReasonMap.Count} death reason links.");
 
 		Logger.IncrementProgress();
 	}
 	public DeathReasonMapper(BufferedReader reader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}
-	public string? GetCK3ReasonForImperatorReason(string impReason) {
-		return impToCK3ReasonMap.TryGetValue(impReason, out var value) ? value : null;
+	public string? GetCK3ReasonForImperatorReason(string irReason) {
+		return irToCK3ReasonMap.GetValueOrDefault(irReason);
 	}
 
 	private void RegisterKeys(Parser parser) {
@@ -29,10 +29,10 @@ public class DeathReasonMapper {
 				return;
 			}
 
-			foreach (var impReason in mapping.ImpReasons) {
-				impToCK3ReasonMap.Add(impReason, mapping.Ck3Reason);
+			foreach (var impReason in mapping.ImperatorReasons) {
+				irToCK3ReasonMap.Add(impReason, mapping.Ck3Reason);
 			}
 		});
 	}
-	private readonly Dictionary<string, string> impToCK3ReasonMap = new();
+	private readonly Dictionary<string, string> irToCK3ReasonMap = new();
 }

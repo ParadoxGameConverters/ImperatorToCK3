@@ -9,25 +9,22 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 
+using ImperatorProvince = ImperatorToCK3.Imperator.Provinces.Province;
+
 namespace ImperatorToCK3.CK3.Provinces;
 
-public partial class Province : IIdentifiable<ulong> {
+internal sealed partial class Province : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public ulong? BaseProvinceId { get; private set; }
 
-	public Imperator.Provinces.Province? PrimaryImperatorProvince { get; set; } = null;
-	private readonly OrderedSet<Imperator.Provinces.Province> secondaryImperatorProvinces = new();
-	public IImmutableSet<Imperator.Provinces.Province> SecondaryImperatorProvinces => secondaryImperatorProvinces
-		.ToImmutableHashSet();
-	public IImmutableSet<Imperator.Provinces.Province> ImperatorProvinces {
-		get {
-			IEnumerable<Imperator.Provinces.Province> toReturn = secondaryImperatorProvinces;
-			if (PrimaryImperatorProvince is not null) {
-				toReturn = toReturn.Append(PrimaryImperatorProvince);
-			}
+	public ImperatorProvince? PrimaryImperatorProvince { get; set; } = null;
+	private readonly OrderedSet<ImperatorProvince> secondaryImperatorProvinces = [];
+	public IReadOnlySet<ImperatorProvince> SecondaryImperatorProvinces => secondaryImperatorProvinces;
 
-			return toReturn.ToImmutableHashSet();
-		}
+	public ImmutableHashSet<ImperatorProvince> ImperatorProvinces {
+		get => field ??= (PrimaryImperatorProvince is null
+			? [.. secondaryImperatorProvinces]
+			: [PrimaryImperatorProvince, .. secondaryImperatorProvinces]);
 	}
 
 	public Province(ulong id) {
@@ -38,7 +35,7 @@ public partial class Province : IIdentifiable<ulong> {
 		History = historyFactory.GetHistory(reader);
 	}
 	public void CopyEntriesFromProvince(Province sourceProvince) {
-		// culture, faith and terrain can be copied from source province
+		// Culture, faith and terrain can be copied from source province.
 		BaseProvinceId = sourceProvince.Id;
 
 		var srcProvinceHistoryFields = sourceProvince.History.Fields;
@@ -46,7 +43,7 @@ public partial class Province : IIdentifiable<ulong> {
 		var fieldsToCopy = new[] {"culture", "faith", "terrain"};
 		foreach (var fieldName in fieldsToCopy) {
 			if (History.Fields.TryGetValue(fieldName, out var field)) {
-				if (field.DateToEntriesDict.Any()) {
+				if (field.DateToEntriesDict.Count != 0) {
 					continue;
 				}
 
@@ -60,11 +57,12 @@ public partial class Province : IIdentifiable<ulong> {
 	}
 
 	public void InitializeFromImperator(
-		Imperator.Provinces.Province primarySourceProvince,
-		ICollection<Imperator.Provinces.Province> secondarySourceProvinces,
+		ImperatorProvince primarySourceProvince,
+		OrderedSet<ImperatorProvince> secondarySourceProvinces,
 		Title.LandedTitles landedTitles,
 		CultureMapper cultureMapper,
 		ReligionMapper religionMapper,
+		Date conversionDate,
 		Configuration config
 	) {
 		secondaryImperatorProvinces.Clear();
@@ -76,13 +74,13 @@ public partial class Province : IIdentifiable<ulong> {
 			field.RemoveAllEntries();
 		}
 
-		History.RemoveHistoryPastDate(config.CK3BookmarkDate);
+		History.RemoveHistoryPastDate(conversionDate);
 
 		// Religion first
-		SetReligionFromImperator(religionMapper, config);
+		SetReligionFromImperator(religionMapper, conversionDate, config);
 
 		// Then culture
-		SetCultureFromImperator(cultureMapper, config);
+		SetCultureFromImperator(cultureMapper);
 
 		// Holding type
 		SetHoldingFromImperator(landedTitles);
@@ -92,43 +90,18 @@ public partial class Province : IIdentifiable<ulong> {
 		historyFactory.UpdateHistory(History, reader);
 	}
 
-	private void SetReligionFromImperator(ReligionMapper religionMapper, Configuration config) {
+	private void SetReligionFromImperator(ReligionMapper religionMapper, Date conversionDate, Configuration config) {
+		var cultureId = GetCultureId(conversionDate);
+
 		var religionSet = false;
 		if (PrimaryImperatorProvince is null) {
 			Logger.Warn($"CK3 Province {Id}: can't set religion from null Imperator province!");
 			return;
 		}
 
-		// Try to use religion of primary source province.
-		if (!string.IsNullOrEmpty(PrimaryImperatorProvince.ReligionId)) {
-			var religionMatch = religionMapper.Match(
-				irReligion: PrimaryImperatorProvince.ReligionId,
-				ck3ProvinceId: Id,
-				irProvinceId: PrimaryImperatorProvince.Id,
-				irHistoricalTag: PrimaryImperatorProvince.OwnerCountry?.HistoricalTag,
-				config: config
-			);
-			if (religionMatch is not null) {
-				SetFaithId(religionMatch, date: null);
-				religionSet = true;
-			}
-		}
-		// Try to use religion of secondary source province.
+		religionSet = TrySetReligionFromPrimarySource(PrimaryImperatorProvince, religionMapper, config, cultureId);
 		if (!religionSet) {
-			foreach (var secondarySource in SecondaryImperatorProvinces) {
-				var religionMatch = religionMapper.Match(
-					irReligion: secondarySource.ReligionId,
-					ck3ProvinceId: Id,
-					irProvinceId: secondarySource.Id,
-					irHistoricalTag: PrimaryImperatorProvince.OwnerCountry?.HistoricalTag,
-					config: config
-				);
-				if (religionMatch is not null) {
-					SetFaithId(religionMatch, date: null);
-					religionSet = true;
-					break;
-				}
-			}
+			religionSet = TrySetReligionFromSecondarySources(PrimaryImperatorProvince, secondaryImperatorProvinces, religionMapper, config, cultureId);
 		}
 		// As fallback, attempt to use religions of source provinces' countries.
 		var sourceProvincesWithCountryReligion = ImperatorProvinces
@@ -136,7 +109,8 @@ public partial class Province : IIdentifiable<ulong> {
 		if (!religionSet) {
 			foreach (var sourceProvince in sourceProvincesWithCountryReligion) {
 				var religionMatch = religionMapper.Match(
-					irReligion: sourceProvince.OwnerCountry!.Religion!,
+					irReligionId: sourceProvince.OwnerCountry!.Religion!,
+					ck3CultureId: cultureId,
 					ck3ProvinceId: Id,
 					irProvinceId: sourceProvince.Id,
 					irHistoricalTag: PrimaryImperatorProvince.OwnerCountry?.HistoricalTag,
@@ -152,80 +126,143 @@ public partial class Province : IIdentifiable<ulong> {
 		}
 		if (!religionSet) {
 			// Use default CK3 religion.
-			Logger.Warn($"Couldn't determine faith for province {Id} with source provinces " +
-			            $"[{string.Join(", ", ImperatorProvinces.Select(p => p.Id))}], using vanilla religion!");
+			Logger.Warn(
+				$"Couldn't determine faith for province {Id} with " +
+				$"primary source religion {PrimaryImperatorProvince.ReligionId} " +
+				$"and source provinces [{string.Join(", ", ImperatorProvinces.Select(p => p.Id))}], " +
+				"using vanilla religion!");
 		}
 	}
-	private void SetCultureFromImperator(CultureMapper cultureMapper, Configuration config) {
-		var bookmarkDate = config.CK3BookmarkDate;
-		var faithId = GetFaithId(bookmarkDate) ?? string.Empty;
-		var cultureSet = false;
+
+	private bool TrySetReligionFromPrimarySource(ImperatorProvince irProvince, ReligionMapper religionMapper, Configuration config, string? cultureId) {
+		// Try to use religion of primary source province.
+		if (!string.IsNullOrEmpty(irProvince.ReligionId)) {
+			var religionMatch = religionMapper.Match(
+				irReligionId: irProvince.ReligionId,
+				ck3CultureId: cultureId,
+				ck3ProvinceId: Id,
+				irProvinceId: irProvince.Id,
+				irHistoricalTag: irProvince.OwnerCountry?.HistoricalTag,
+				config: config
+			);
+			if (religionMatch is not null) {
+				SetFaithId(religionMatch, date: null);
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	private bool TrySetReligionFromSecondarySources(ImperatorProvince primarySource, OrderedSet<ImperatorProvince> secondarySources, ReligionMapper religionMapper, Configuration config, string? cultureId) {
+		// Try to use religion of secondary source province.
+		foreach (var secondarySource in secondarySources) {
+			var religionMatch = religionMapper.Match(
+				irReligionId: secondarySource.ReligionId,
+				ck3CultureId: cultureId,
+				ck3ProvinceId: Id,
+				irProvinceId: secondarySource.Id,
+				irHistoricalTag: primarySource.OwnerCountry?.HistoricalTag,
+				config: config
+			);
+			if (religionMatch is not null) {
+				SetFaithId(religionMatch, date: null);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void SetCultureFromImperator(CultureMapper cultureMapper) {
 		if (PrimaryImperatorProvince is null) {
 			Logger.Warn($"CK3 Province {Id}: can't set culture from null Imperator province!");
 			return;
 		}
 
 		// Try to use culture of primary source province.
-		if (!string.IsNullOrEmpty(PrimaryImperatorProvince.Culture)) {
-			var cultureMatch = cultureMapper.Match(
-				irCulture: PrimaryImperatorProvince.Culture,
-				ck3Religion: faithId,
-				ck3ProvinceId: Id,
-				irProvinceId: PrimaryImperatorProvince.Id,
-				historicalTag: PrimaryImperatorProvince.OwnerCountry?.HistoricalTag ?? string.Empty
-			);
-			if (cultureMatch is not null) {
-				SetCultureId(cultureMatch, date: null);
-				cultureSet = true;
-			}
-		}
+		bool cultureSet = TryToUseCultureOfPrimaryImperatorProvince(cultureMapper);
 		// Try to use culture of secondary source province.
 		if (!cultureSet) {
-			foreach (var secondarySource in SecondaryImperatorProvinces) {
-				var cultureMatch = cultureMapper.Match(
-					irCulture: secondarySource.Culture,
-					ck3Religion: faithId,
-					ck3ProvinceId: Id,
-					irProvinceId: secondarySource.Id,
-					historicalTag: secondarySource.OwnerCountry?.HistoricalTag ?? string.Empty
-				);
-				if (cultureMatch is not null) {
-					SetCultureId(cultureMatch, date: null);
-					cultureSet = true;
-					break;
-				}
-			}
+			cultureSet = TryToUseCultureOfSecondaryImperatorProvince(cultureMapper);
 		}
 		// As fallback, attempt to use primary cultures of source provinces' countries.
+		if (!cultureSet) {
+			cultureSet = TryToUsePrimaryCulturesOfSourceProvincesCountries(cultureMapper);
+		}
+		if (!cultureSet) {
+			// Use default CK3 culture.
+			Logger.Warn($"Couldn't determine culture for province {Id} with primary source culture " +
+			            $"{PrimaryImperatorProvince.Culture} and source provinces" +
+			            $"[{string.Join(", ", ImperatorProvinces.Select(p => p.Id))}], using vanilla culture!");
+		}
+	}
+
+	private bool TryToUsePrimaryCulturesOfSourceProvincesCountries(CultureMapper cultureMapper) {
+		bool cultureSet = false;
 		var sourceProvincesWithCountryCultures = ImperatorProvinces
 			.Select(p => new {
 				Province = p, CultureId = p.OwnerCountry?.PrimaryCulture
 			})
 			.Where(obj => obj.CultureId is not null)
 			.DistinctBy(obj=>obj.CultureId);
-		if (!cultureSet) {
-			foreach (var obj in sourceProvincesWithCountryCultures) {
-				var cultureMatch = cultureMapper.Match(
-					irCulture: obj.CultureId!,
-					ck3Religion: faithId,
-					ck3ProvinceId: Id,
-					irProvinceId: obj.Province.Id,
-					historicalTag: obj.Province.OwnerCountry?.HistoricalTag ?? string.Empty
-				);
-				if (cultureMatch is not null) {
-					Logger.Warn($"Using country culture for province {Id}");
-					SetCultureId(cultureMatch, date: null);
-					cultureSet = true;
-					break;
-				}
+		foreach (var obj in sourceProvincesWithCountryCultures) {
+			var cultureMatch = cultureMapper.Match(
+				irCulture: obj.CultureId!,
+				ck3ProvinceId: Id,
+				irProvinceId: obj.Province.Id,
+				historicalTag: obj.Province.OwnerCountry?.HistoricalTag ?? string.Empty
+			);
+			if (cultureMatch is not null) {
+				Logger.Warn($"Using country culture for province {Id}");
+				SetCultureId(cultureMatch, date: null);
+				cultureSet = true;
+				break;
 			}
 		}
-		if (!cultureSet) {
-			//Use default CK3 culture.
-			Logger.Warn($"Couldn't determine culture for province {Id} with source provinces " +
-			            $"[{string.Join(", ", ImperatorProvinces.Select(p => p.Id))}], using vanilla culture!");
-		}
+
+		return cultureSet;
 	}
+
+	private bool TryToUseCultureOfSecondaryImperatorProvince(CultureMapper cultureMapper) {
+		bool cultureSet = false;
+		foreach (var secondarySource in SecondaryImperatorProvinces) {
+			var cultureMatch = cultureMapper.Match(
+				irCulture: secondarySource.Culture,
+				ck3ProvinceId: Id,
+				irProvinceId: secondarySource.Id,
+				historicalTag: secondarySource.OwnerCountry?.HistoricalTag ?? string.Empty
+			);
+			if (cultureMatch is not null) {
+				SetCultureId(cultureMatch, date: null);
+				cultureSet = true;
+				break;
+			}
+		}
+
+		return cultureSet;
+	}
+
+	private bool TryToUseCultureOfPrimaryImperatorProvince(CultureMapper cultureMapper)
+	{
+		bool cultureSet = false;
+		if (string.IsNullOrEmpty(PrimaryImperatorProvince?.Culture)) {
+			return cultureSet;
+		}
+
+		var cultureMatch = cultureMapper.Match(
+			irCulture: PrimaryImperatorProvince.Culture,
+			ck3ProvinceId: Id,
+			irProvinceId: PrimaryImperatorProvince.Id,
+			historicalTag: PrimaryImperatorProvince.OwnerCountry?.HistoricalTag
+		);
+		if (cultureMatch is not null) {
+			SetCultureId(cultureMatch, date: null);
+			cultureSet = true;
+		}
+
+		return cultureSet;
+	}
+
 	private void SetHoldingFromImperator(Title.LandedTitles landedTitles) {
 		if (PrimaryImperatorProvince is null) {
 			Logger.Warn($"CK3 Province {Id}: can't set holding from null Imperator province!");
@@ -253,7 +290,7 @@ public partial class Province : IIdentifiable<ulong> {
 			} => "church_holding",
 			{
 				IsCountyCapital: false,
-				GovernmentType: GovernmentType.monarchy or GovernmentType.tribal,
+				GovernmentType: GovernmentType.monarchy,
 				Fort: true
 			} => "castle_holding",
 			{
@@ -288,9 +325,6 @@ public partial class Province : IIdentifiable<ulong> {
 	}
 
 	public bool IsCountyCapital(Title.LandedTitles landedTitles) {
-		var capitalProvIds = landedTitles
-			.Where(t => t.CapitalBaronyProvince is not null)
-			.Select(t => (ulong)t.CapitalBaronyProvince!);
-		return capitalProvIds.Contains(Id);
+		return landedTitles.CapitalBaronyProvinceIds.Contains(Id);
 	}
 }

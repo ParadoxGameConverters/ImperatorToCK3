@@ -1,60 +1,82 @@
 ﻿using commonItems;
+using ImperatorToCK3.CK3.Cultures;
 using ImperatorToCK3.Mappers.Region;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ImperatorToCK3.Mappers.Culture;
 
-public class CultureMapper {
-	public CultureMapper(ImperatorRegionMapper imperatorRegionMapper, CK3RegionMapper ck3RegionMapper) {
-		this.imperatorRegionMapper = imperatorRegionMapper;
+internal sealed class CultureMapper {
+	public CultureMapper(ImperatorRegionMapper irRegionMapper, CK3RegionMapper ck3RegionMapper, CultureCollection cultures) {
+		this.irRegionMapper = irRegionMapper;
 		this.ck3RegionMapper = ck3RegionMapper;
 
 		Logger.Info("Parsing culture mappings...");
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseFile("configurables/culture_map.txt");
 		Logger.Info($"Loaded {cultureMappingRules.Count} cultural links.");
+		
+		RemoveInvalidRules(cultures);
+		BuildLookup();
 
 		Logger.IncrementProgress();
 	}
-	public CultureMapper(BufferedReader reader, ImperatorRegionMapper imperatorRegionMapper, CK3RegionMapper ck3RegionMapper) {
-		this.imperatorRegionMapper = imperatorRegionMapper;
+	public CultureMapper(BufferedReader reader, ImperatorRegionMapper irRegionMapper, CK3RegionMapper ck3RegionMapper, CultureCollection cultures) {
+		this.irRegionMapper = irRegionMapper;
 		this.ck3RegionMapper = ck3RegionMapper;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
+		
+		RemoveInvalidRules(cultures);
+		BuildLookup();
 	}
 
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterKeyword("link", reader => cultureMappingRules.Add(CultureMappingRule.Parse(reader)));
 		parser.IgnoreAndLogUnregisteredItems();
 	}
-	public string? Match(
-		string irCulture,
-		string ck3Religion,
-		ulong ck3ProvinceId,
-		ulong irProvinceId,
-		string historicalTag
-	) {
-		foreach (var cultureMappingRule in cultureMappingRules) {
-			var possibleMatch = cultureMappingRule.Match(irCulture, ck3Religion, ck3ProvinceId, irProvinceId, historicalTag, imperatorRegionMapper, ck3RegionMapper);
-			if (possibleMatch is not null) {
-				return possibleMatch;
-			}
+	private void RemoveInvalidRules(CultureCollection cultures) {
+		var validCultureIds = cultures.Select(c => c.Id);
+		var removedCount = cultureMappingRules.RemoveAll(rule => !validCultureIds.Contains(rule.CK3CultureId));
+		
+		if (removedCount > 0) {
+			Logger.Debug($"{removedCount} culture mapping rules removed due to specified CK3 cultures not existing.");
 		}
-		return null;
 	}
 
-	public string? NonReligiousMatch(
+	private void BuildLookup() {
+		cultureRuleLookup.Clear();
+		foreach (var rule in cultureMappingRules) {
+			foreach (var irCulture in rule.IrCultures) {
+				if (!cultureRuleLookup.TryGetValue(irCulture, out var list)) {
+					list = new List<CultureMappingRule>();
+					cultureRuleLookup[irCulture] = list;
+				}
+				list.Add(rule);
+			}
+		}
+	}
+
+	public string? Match(
 		string irCulture,
-		string ck3Religion,
-		ulong ck3ProvinceId,
-		ulong irProvinceId,
-		string historicalTag
+		ulong? ck3ProvinceId,
+		ulong? irProvinceId,
+		string? historicalTag
 	) {
-		foreach (var cultureMappingRule in cultureMappingRules) {
-			var possibleMatch = cultureMappingRule.NonReligiousMatch(irCulture, ck3Religion, ck3ProvinceId, irProvinceId, historicalTag, imperatorRegionMapper, ck3RegionMapper);
+		if (string.IsNullOrEmpty(irCulture)) {
+			return null;
+		}
+
+		if (!cultureRuleLookup.TryGetValue(irCulture, out var rules)) {
+			return null;
+		}
+
+		foreach (var cultureMappingRule in rules) {
+			var possibleMatch = cultureMappingRule.Match(irCulture, ck3ProvinceId, irProvinceId, historicalTag, irRegionMapper, ck3RegionMapper);
 			if (possibleMatch is not null) {
 				return possibleMatch;
 			}
@@ -63,6 +85,7 @@ public class CultureMapper {
 	}
 
 	private readonly List<CultureMappingRule> cultureMappingRules = new();
-	private readonly ImperatorRegionMapper imperatorRegionMapper;
+	private readonly Dictionary<string, List<CultureMappingRule>> cultureRuleLookup = new(StringComparer.Ordinal);
+	private readonly ImperatorRegionMapper irRegionMapper;
 	private readonly CK3RegionMapper ck3RegionMapper;
 }

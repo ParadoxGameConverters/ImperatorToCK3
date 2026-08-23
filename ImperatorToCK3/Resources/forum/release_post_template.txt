@@ -1,0 +1,16 @@
+[CENTER][ATTACH type="full" alt="1746694710355.png"]1292768[/ATTACH]
+
+[B][SIZE=18px]NEW MAJOR VERSION NOW RELEASED![/SIZE]
+([URL='https://github.com/ParadoxGameConverters/ImperatorToCK3/releases/download/<RELEASE VERSION>/ImperatorToCK3-win-x64-setup.exe']DIRECT WINDOWS DOWNLOAD[/URL])[/B][/CENTER]
+
+[B][SIZE=18px]ImperatorToCK3 <RELEASE VERSION> "<RELEASE NAME>"[/SIZE][/B]
+[SIZE=15px][B]Compatible with Imperator: Rome 2.0 and Crusader Kings III <CK3 VERSION>.[/B][/SIZE]
+
+[QUOTE]
+[SIZE=15px][B]Notable changes[/B][/SIZE]
+[LIST]
+[*]Example entry 1 
+[*]Example entry 2
+[*]Example entry 3
+[/LIST]
+[/QUOTE]

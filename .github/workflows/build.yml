@@ -2,6 +2,14 @@ name: Build
 
 on:
   pull_request:
+    # Avoid running this job if the upload_dev_build_artifact job is going to run,
+    # since it will build the same code and we don't want to waste resources building twice.
+    types: [reopened]
+    paths-ignore:
+    - '**/*.md'
+    - 'CODEOWNERS'
+    - 'LICENSE'
+  merge_group:
 
 concurrency:
   group: ci-build-${{ github.ref }}-1
@@ -11,16 +19,63 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [[self-hosted, windows], [self-hosted, linux], macos-latest]
+        os: [[self-hosted, windows], [self-hosted, linux], macos-14]
+      fail-fast: false
     runs-on: ${{ matrix.os }}
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
       with:
         submodules: recursive
+    - name: "List installed dotnet SDKs"
+      if: matrix.os == 'Windows'
+      run: dotnet --list-sdks
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v3
+      if: ${{ runner.environment == 'github-hosted' }}
+      uses: actions/setup-dotnet@v6
       with:
         global-json-file: global.json
+
+    - name: "Locate self-hosted dotnet"
+      if: ${{ runner.environment != 'github-hosted' && runner.os == 'Linux' }}
+      shell: bash
+      run: |
+        set -euo pipefail
+
+        if command -v dotnet >/dev/null 2>&1; then
+          echo "dotnet is already available on PATH"
+          exit 0
+        fi
+
+        for candidate in \
+          "$HOME/.dotnet" \
+          "/home/runner/.dotnet" \
+          "/home/runner2/.dotnet" \
+          "/usr/share/dotnet" \
+          "/usr/local/share/dotnet" \
+          "/opt/dotnet"; do
+          if [ -x "$candidate/dotnet" ]; then
+            echo "Found dotnet at $candidate"
+            export DOTNET_ROOT="$candidate"
+            export PATH="$candidate:$PATH"
+            echo "DOTNET_ROOT=$candidate" >> "$GITHUB_ENV"
+            echo "$candidate" >> "$GITHUB_PATH"
+            break
+          fi
+        done
+
+        if ! command -v dotnet >/dev/null 2>&1; then
+          echo "dotnet was not found in the expected installation locations." >&2
+          exit 1
+        fi
+    - name: "Cache NuGet packages"
+      uses: actions/cache@v6
+      with:
+        path: ${{ env.NUGET_PACKAGES }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
     - name: "Build converter backend"
       working-directory: ImperatorToCK3
       run: |

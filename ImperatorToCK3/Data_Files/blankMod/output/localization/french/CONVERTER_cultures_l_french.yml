@@ -1,8 +1,8 @@
 ﻿l_french:
  # version 0.1
- old_egyptian: "vieux-égyptienne"
- old_egyptian_collective_noun: "Fellahims"
- old_egyptian_prefix: "égypto"
+ ancient_egyptian: "vieux-égyptienne"
+ ancient_egyptian_collective_noun: "Fellahims"
+ ancient_egyptian_prefix: "égypto"
 
  numidian: "numide"
  numidian_collective_noun: "Numides"
@@ -80,9 +80,9 @@
  vandal_collective_noun: "Vandales"
  vandal_prefix: "vandalo"
 
- iberian: "ibèrique"
- iberian_collective_noun: "Ibères"
- iberian_prefix: "ibéro"
+ non_indo_european_iberian: "ibèrique"
+ non_indo_european_iberian_collective_noun: "Ibères"
+ non_indo_european_iberian_prefix: "ibéro"
 
  nuragic: "nuragique"
  nuragic_collective_noun: "Nuragiques"
@@ -328,8 +328,8 @@
  romano_british_group_collective_noun: "Romano-Britanniques"
  romano_german_group: "romano-allemande"
  romano_german_group_collective_noun: "Romano-Allemands"
- aboriginal_group: "aborigène"
- aboriginal_group_collective_noun: "Aborigènes"
+ nuragic_group: "nuragique"
+ nuragic_group_collective_noun: "nuragiques"
  tyrrhenian: "tyrrhénienne"
  tyrrhenian_collective_noun: "Tyrrhéniens"
  rhaetian: "rhétique"
@@ -348,9 +348,9 @@
  galatian: "galatienne"
  galatian_collective_noun: "Galates"
  galatian_prefix: "galato"
- hunnic: "hunnique"
- hunnic_collective_noun: "Huns"
- hunnic_prefix: "hunno"
+ #hunnic: "hunnique"
+ #hunnic_collective_noun: "Huns"
+ #hunnic_prefix: "hunno"
  urslavic: "slave"
  urslavic_collective_noun: "Slaves"
  urslavic_prefix: "slavo"
@@ -397,3 +397,6 @@
  vandilian: "vandilienne"
  vandilian_collective_noun: "Vandiliens"
  vandilian_prefix: "vandilo"
+
+ chong: "samrée"
+ chong_collective_noun: "Samre"

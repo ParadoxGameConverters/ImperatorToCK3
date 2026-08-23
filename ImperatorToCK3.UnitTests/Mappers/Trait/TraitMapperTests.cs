@@ -1,6 +1,6 @@
 ﻿using commonItems.Collections;
 using commonItems.Mods;
-using FluentAssertions;
+using AwesomeAssertions;
 using ImperatorToCK3.Mappers.Trait;
 using System;
 using System.Collections.Generic;
@@ -9,10 +9,12 @@ using Xunit;
 
 namespace ImperatorToCK3.UnitTests.Mappers.Trait;
 
+[Collection("Sequential")]
+[CollectionDefinition("Sequential", DisableParallelization = true)]
 public class TraitMapperTests {
-	public class TestTraitMapper : TraitMapper {
-		public TestTraitMapper(Dictionary<string, string> impToCK3TraitMap, IdObjectCollection<string, ImperatorToCK3.CK3.Characters.Trait> ck3Traits) {
-			ImpToCK3TraitMap = impToCK3TraitMap;
+	internal class TestTraitMapper : TraitMapper {
+		internal TestTraitMapper(Dictionary<string, string> irToCK3TraitMap, IdObjectCollection<string, ImperatorToCK3.CK3.Characters.Trait> ck3Traits) {
+			ImperatorToCK3TraitMap = irToCK3TraitMap;
 			CK3Traits = ck3Traits;
 		}
 	}
@@ -117,7 +119,27 @@ public class TraitMapperTests {
 		var ck3ModFS = new ModFilesystem(Path.Combine(config.CK3Path, "game"), new List<Mod>());
 		var mapper = new TraitMapper("TestFiles/MapperTests/TraitMapper/trait_map_undefined_ck3_trait.txt", ck3ModFS);
 
-		var ck3Traits = mapper.GetCK3TraitsForImperatorTraits(new[] { "impTrait" });
+		var ck3Traits = mapper.GetCK3TraitsForImperatorTraits(["impTrait"]);
 		ck3Traits.Should().Contain("undefined");
+	}
+
+	[Fact]
+	public void UnmappedImperatorTraitsAreLoggedUnlessExplicitlyDropped() {
+		const string tempTestFile = "TestFiles/configurables/temp_trait_map_unmapped_logging.txt";
+		File.WriteAllText(tempTestFile,
+			"link = { ck3 = ck3Trait ir = mapped_trait }" +
+			"link = { ir = dropped_trait }"
+		);
+		var ck3ModFS = new ModFilesystem("TestFiles/CK3/game", new List<Mod>());
+		var mapper = new TraitMapper(tempTestFile, ck3ModFS);
+
+		var irModFS = new ModFilesystem("TestFiles/Imperator/game", new List<Mod>());
+		using var output = new StringWriter();
+		Console.SetOut(output);
+
+		mapper.LogUnmappedImperatorTraits(irModFS);
+
+		var outputString = output.ToString();
+		Assert.Contains($"No mapping for I:R traits found in trait mappings: unmapped_trait{Environment.NewLine}", outputString);
 	}
 }

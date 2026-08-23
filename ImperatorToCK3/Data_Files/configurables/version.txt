@@ -1,9 +1,9 @@
 # Version info
 
-name = "Otho"
+name = "Commodus"
 source = "Imperator"
 minSource = "2.0"
 maxSource = "2.0"
 target = "CK3"
-minTarget = "1.8"
-maxTarget = "1.8"
+minTarget = "1.19"
+maxTarget = "1.19"

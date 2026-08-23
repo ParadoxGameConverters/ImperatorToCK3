@@ -1,0 +1,3 @@
+definitions = definition.csv
+uninhabitable = LIST { 1}
+sea_zones = LIST { 2 }

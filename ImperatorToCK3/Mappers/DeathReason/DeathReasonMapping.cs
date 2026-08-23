@@ -3,16 +3,16 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.DeathReason;
 
-public class DeathReasonMapping {
-	public SortedSet<string> ImpReasons { get; } = new();
-	public string? Ck3Reason { get; set; }
+internal sealed class DeathReasonMapping {
+	public SortedSet<string> ImperatorReasons { get; } = new();
+	public string? Ck3Reason { get; private set; }
 
-	public DeathReasonMapping(BufferedReader reader) {
-		var parser = new Parser();
+	public DeathReasonMapping(BufferedReader mappingReader) {
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("ck3", reader => Ck3Reason = reader.GetString());
-		parser.RegisterKeyword("imp", reader => ImpReasons.Add(reader.GetString()));
+		parser.RegisterKeyword("ir", reader => ImperatorReasons.Add(reader.GetString()));
 		parser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 
-		parser.ParseStream(reader);
+		parser.ParseStream(mappingReader);
 	}
 }

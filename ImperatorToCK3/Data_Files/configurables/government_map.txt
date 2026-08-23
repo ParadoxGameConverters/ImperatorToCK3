@@ -4,35 +4,140 @@
 
 # Usage:
 # link = {
-#	ck3 = <CK3 government>
-#	ir = <Imperator government>
-#	irCulture = <Imperator culture> (optional)
+#	ck3 = CK3 government ID
+#	ir = Imperator government ID
+#	irCulture = Imperator culture ID (optional)
+#	has_ck3_dlc = CK3 DLC ID (optional; relevant IDs: roads_to_power, khans_of_the_steppe, all_under_heaven)
+#	ck3_title_rank = CK3 title rank tag is converted to (optional; allows b,c,d,k,e,h)
 #}
-# multiple entries allowed for: ir, irCulture
+# multiple entries allowed for: ir, irCulture, has_ck3_dlc
 # multiple entries not allowed for: ck3
 
-link = { ck3 = republic_government
-	ir = aristocratic_republic
-	ir = oligarchic_republic
-	ir = democratic_republic
-	ir = plutocratic_republic
-	ir = athenian_republic
+# NOTE: Titles created from Imperator governorships do NOT use these mappings! They use the same government as their imported country.
+# NOTE: ck3_title_rank allows all possible rankings in one entry. So for example, ck3_title_rank = ke will work for kingdoms and empires
+
+
+
+## AUH Mandala Government (Being handled by game_start script)
+## AUH Wanua Government (Being handled by game_start script)
+## AUH Meritocratic Khanate Government (Not being mapped since realistic conditions can't be determined)
+
+
+## AUH Celestial Government
+# Even Celestial Counts can be independent, so no need for title ranks. Want it to have priority over any other option for Chinese states.
+link = {
+	ck3 = celestial_government
+	ir = chinese_empire # Terra-Indomita Governments
+	has_ck3_dlc = all_under_heaven # Needs to have relevant DLC
 }
-link = { ck3 = theocracy_government
-	ir = theocratic_republic
+
+
+## AUH Meritocratic Government
+# For now, just making Chinese rulers who aren't the Emperor of China Meritocratic, since that seems to be how the base game would handle them
+link = {
+	ck3 = meritocratic_government
+	ir = dictatorship ir = despotic_monarchy ir = aristocratic_monarchy ir = stratocratic_monarchy ir = theocratic_monarchy ir = plutocratic_monarchy ir = imperium ir = imperial_cult
+	irCulture = chu irCulture = duhu irCulture = huaxia irCulture = ji irCulture = jin irCulture = qilu irCulture = qin irCulture = xu irCulture = yaan irCulture = yan irCulture = zhongyuan
+	has_ck3_dlc = all_under_heaven # Needs to have relevant DLC
+	ck3_title_rank = keh # Limiting to Kingdoms, Empires, Hegemonies
 }
-link = { ck3 = feudal_government
-	ir = dictatorship
-	ir = despotic_monarchy
-	ir = aristocratic_monarchy
-	ir = stratocratic_monarchy
-	ir = theocratic_monarchy
-	ir = plutocratic_monarchy
-	ir = imperium
-	ir = imperial_cult
+link = {
+	ck3 = meritocratic_government
+	ir = enfeoffment_zhourites ir = chinese_duhufu # Terra-Indomita Governments
+	has_ck3_dlc = all_under_heaven # Needs to have relevant DLC
+	ck3_title_rank = keh # Limiting to Kingdoms, Empires, Hegemonies
 }
-link = { ck3 = tribal_government
+
+
+## AUH Japanese Governments
+# Ritsuryo (japan_administrative_government); Even Ritsuryo Counts can be independent, so no need for title ranks. Want it to have priority over any other option for Japanese states.
+link = {
+	ck3 = japan_administrative_government
+	ir = yamato_empire # Terra-Indomita Governments
+	has_ck3_dlc = all_under_heaven # Needs to have relevant DLC
+}
+# Soryo (japan_feudal_government)
+link = {
+	ck3 = japan_feudal_government
+	ir = dictatorship ir = despotic_monarchy ir = aristocratic_monarchy ir = stratocratic_monarchy ir = theocratic_monarchy ir = plutocratic_monarchy ir = imperium ir = imperial_cult
+	irCulture = wa irCulture = kumaso irCulture = aduma irCulture = nansei irCulture = jomon_yayoi
+	#irCulture = ainu irCulture = dewa irCulture = sunazawa irCulture = mitinooku irCulture = duuchuu irCulture = yaeyama irCulture = emishi irCulture = jeulmeun # Alt History: These are the Jomon/Emishi cultures; Uncomment this line to make them to map to Soryo as well
+	has_ck3_dlc = all_under_heaven # Needs to have relevant DLC
+}
+
+
+## Administrative
+# Base Game Admin should take precedence over TFE's imperial_government.
+link = {
+	ck3 = administrative_government
+	ir = imperium ir = imperial_cult
+	ir = spartan_imperium ir = spartan_imperial_cult ir = judean_empire ir = indian_empire # Invictus Governments
+	ir = chinese_empire ir = yamato_empire # Terra-Indomita Governments
+	ck3_title_rank = keh # Limiting to Kingdoms, Empires, Hegemonies
+	has_ck3_dlc = roads_to_power # Needs to have relevant DLC
+}
+link = { # TFE
+	ck3 = imperial_government
+	ir = imperium ir = imperial_cult
+	ir = spartan_imperium ir = spartan_imperial_cult ir = judean_empire ir = indian_empire # Invictus Governments
+	ir = chinese_empire ir = yamato_empire # Terra-Indomita Governments
+	ck3_title_rank = keh # Limiting to Kingdoms, Empires, Hegemonies
+}
+
+
+## RoA Chinese Government
+# ROA has China use Administrative, but if the player doesn't have Roads to Power, they default to this government instead, so I wanted this to be after all of the other, better options
+link = {
+	ck3 = chinese_government
+	ir = dictatorship ir = despotic_monarchy ir = aristocratic_monarchy ir = stratocratic_monarchy ir = theocratic_monarchy ir = plutocratic_monarchy ir = imperium ir = imperial_cult
+	irCulture = chu irCulture = duhu irCulture = huaxia irCulture = ji irCulture = jin irCulture = qilu irCulture = qin irCulture = xu irCulture = yaan irCulture = yan irCulture = zhongyuan
+}
+link = {
+	ck3 = chinese_government
+	ir = chinese_empire ir = enfeoffment_zhourites ir = chinese_duhufu # Terra-Indomita Governments
+}
+
+
+## Nomadic
+link = {
+	ck3 = nomad_government
 	ir = tribal_chiefdom
-	ir = tribal_kingdom
-	ir = tribal_federation
+	ir = steppe_horde # Invictus Governments
+	ir = steppe_empire # Terra-Indomita Governments
+	has_ck3_dlc = khans_of_the_steppe # Needs to have relevant DLC
+}
+
+
+## TFE
+#link = { # TFE, TODO: see what needs to be done in order to make the ruler with this government a head of faith, for example in Hellenic paganism
+#	ck3 = imperial_cult_government
+#	ir = imperial_cult
+#	ir = spartan_imperial_cult
+#}
+link = { ck3 = city_state_government ir = athenian_republic ir = aristocratic_republic ir = plutocratic_republic }
+link = { ck3 = legion_government ir = stratocratic_monarchy }
+
+
+## Vanilla CK3 Fallbacks
+link = {
+	ck3 = republic_government
+	ir = aristocratic_republic ir = oligarchic_republic ir = democratic_republic ir = plutocratic_republic ir = athenian_republic
+	ir = punic_republic # Invictus Governments
+}
+
+link = { ck3 = theocracy_government ir = theocratic_republic }
+
+link = {
+	ck3 = feudal_government
+	ir = dictatorship ir = despotic_monarchy ir = aristocratic_monarchy ir = stratocratic_monarchy ir = theocratic_monarchy ir = plutocratic_monarchy
+	ir = imperium ir = imperial_cult # When the user doesn't have the Roads to Power DLC.
+	ir = samaritan_judgedom ir = rhodian_dictatorship ir = spartan_monarchy ir = spartan_imperium ir = spartan_imperial_cult ir = judean_empire ir = indian_empire # Invictus Governments (samaritan_judgedom/rhodian_dictatorship don't actually get used, but mapping just in case)
+	ir = chinese_empire ir = enfeoffment_zhourites ir = chinese_duhufu ir = yamato_empire ir = pirate_kingdom # Terra-Indomita Governments
+}
+
+link = {
+	ck3 = tribal_government
+	ir = tribal_chiefdom ir = tribal_kingdom ir = tribal_federation
+	ir = steppe_horde # Invictus Governments
+	ir = steppe_empire # Terra-Indomita Governments
 }

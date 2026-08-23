@@ -1,13 +1,15 @@
 using System;
+using System.Runtime.InteropServices;
 
-namespace ImperatorToCK3.CK3.Characters; 
+namespace ImperatorToCK3.CK3.Characters;
 
+[StructLayout(LayoutKind.Auto)]
 public readonly struct DNAColorGeneValue : IEquatable<DNAColorGeneValue> {
 	public required byte X { get; init; }
 	public required byte Y { get; init; }
 	public required byte XRecessive { get; init; }
 	public required byte YRecessive { get; init; }
-	
+
 	public override string ToString() {
 		return $"{X} {Y} {XRecessive} {YRecessive}";
 	}

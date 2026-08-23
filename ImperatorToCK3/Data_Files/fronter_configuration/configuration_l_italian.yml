@@ -1,0 +1,20 @@
+l_italian:
+ IMPDISPLAYNAME: "Imperator: Rome To Crusader Kings III"
+ IMPGAME: "Imperator: Rome"
+ IMPFOLDER: "Cartella di Installazione di Imperator: Rome"
+ IMPFOLDERTIP: "Il percorso sul tuo computer dove è installato Imperator: Rome"
+ IMPMOD: "Cartella delle Mod di Imperator: Rome"
+ IMPMODTIP: "Il percorso sul tuo computer dove Imperator: Rome memorizza le mod"
+ IMPDOC: "Cartella dei Documenti di Imperator: Rome"
+ IMPDOCTIP: "Il percorso sul tuo computer dove Imperator: Rome mantiene i file temporanei"
+
+ CK3GAME: "Crusader Kings III"
+ CK3FOLDER: "Cartella di Installazione di Crusader Kings III"
+ CK3FOLDERTIP: "Il percorso sul tuo computer dove è installato Crusader Kings III"
+ CK3MOD: "Cartella delle Mod di Crusader Kings III"
+ CK3MODTIP: "Il percorso sul tuo computer dove Crusader Kings III memorizza le mod"
+
+ IMPFILE: "Percorso dell'eseguibile del convertitore"
+ IMPFILETIP: "Percorso a ImperatorToCK3Converter.exe"
+ IMPSAVE: "Percorso del salvataggio di Imperator: Rome"
+ IMPSAVETIP: "Percorso del tuo salvataggio da Imperator: Rome"

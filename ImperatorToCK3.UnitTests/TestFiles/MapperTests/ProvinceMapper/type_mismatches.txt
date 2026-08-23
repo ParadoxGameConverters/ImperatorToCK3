@@ -1,0 +1,5 @@
+test_version = {
+	link = { imp = 1 ck3 = 2 } # land to water
+	link = { imp = 2 ck3 = 1 } # water to land
+	link = { imp = 3 ck3 = 3 } # land to land, OK
+}

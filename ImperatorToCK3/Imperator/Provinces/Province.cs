@@ -8,8 +8,7 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Provinces;
 
-public enum ProvinceRank { settlement, city, city_metropolis }
-public partial class Province : IIdentifiable<ulong> {
+internal sealed partial class Province : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public string Name { get; set; } = "";
 	public string Culture { get; set; } = "";
@@ -17,14 +16,14 @@ public partial class Province : IIdentifiable<ulong> {
 	public State? State { get; private set; } = null;
 	public Country? OwnerCountry { get; set; }
 	public ulong Controller { get; set; } = 0;
-	public Dictionary<ulong, Pop> Pops { get; set; } = new();
+	public Dictionary<ulong, Pop> Pops { get; } = [];
 	public ProvinceRank ProvinceRank { get; set; } = ProvinceRank.settlement;
 	public bool Fort { get; set; } = false;
 	public bool IsHolySite => HolySiteId is not null;
 	public ulong? HolySiteId { get; set; } = null;
 	public ulong? HoldingOwnerId { get; set; } = null;
 	public uint BuildingCount { get; set; } = 0;
-	public double CivilizationValue { get; set; } = 0;
+	public float CivilizationValue { get; set; } = 0;
 
 	public Province(ulong id) {
 		Id = id;
@@ -43,10 +42,10 @@ public partial class Province : IIdentifiable<ulong> {
 	}
 
 	// Returns a count of linked pops
-	public int LinkPops(PopCollection pops) {
+	public int LinkPops(PopCollection popCollection) {
 		int counter = 0;
 		foreach (var popId in parsedPopIds) {
-			if (pops.TryGetValue(popId, out var popToLink)) {
+			if (popCollection.TryGetValue(popId, out var popToLink)) {
 				Pops.Add(popId, popToLink);
 				++counter;
 			} else {

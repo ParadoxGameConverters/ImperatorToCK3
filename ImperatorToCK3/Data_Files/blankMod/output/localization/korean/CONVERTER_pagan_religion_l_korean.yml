@@ -74,11 +74,11 @@
  #---------------------------------------------------
  # BERBER
  #---------------------------------------------------
- berber_religion: "베르베르 이교도"
- berber_religion_adj: "베르베르 이교도"
- berber_religion_adherent: "베르베르 헤더"
- berber_religion_adherent_plural: "베르베르 히스"
- berber_religion_desc: "고대 문화와 종교는 전통적인 이집트 신앙, 별 숭배, 조상 숭배의 용광로였습니다. 아프리카 풍경에는 ​​여전히 많은 거석 (신을 기리기 위해 세워진 석조 구조물)이 흩어져 있습니다."
+ # berber_religion: "베르베르 이교도"
+ # berber_religion_adj: "베르베르 이교도"
+ # berber_religion_adherent: "베르베르 헤더"
+ # berber_religion_adherent_plural: "베르베르 히스"
+ # berber_religion_desc: "고대 문화와 종교는 전통적인 이집트 신앙, 별 숭배, 조상 숭배의 용광로였습니다. 아프리카 풍경에는 ​​여전히 많은 거석 (신을 기리기 위해 세워진 석조 구조물)이 흩어져 있습니다."
 
  berber_pagan: "거석"
  berber_pagan_adj: "거석"
@@ -299,7 +299,7 @@
  raise_irminsul_decision_desc: "[ROOT.Var('ancestor_to_bury').Char.Custom2('MyCharacterIntroduction', ROOT.Char)|U]은 더 이상 없습니다. 나는 그의 삶을 기리고 [ROOT.Var('ancestor_to_bury').Char.GetDynasty.GetName]이라는 이름을 가진 모든 사람들에게 영광을 돌리기 위해 이르민술을 키울 것입니다. 그의 이전 비두킨트처럼, 미래 세대는 영원히 [ROOT.Var('ancestor_to_bury').Char.GetFullNameNicknamedNoTooltip]에 대해 말할 것입니다!"
  raise_irminsul_decision_tooltip: "이르민술을 키워  [ROOT.Char.Custom2('RelationToMeShort', ROOT.Var('ancestor_to_bury').Char)] 기리세요"
  raise_irminsul_decision_confirm: "$raise_irminsul_decision$"
- raise_irminsul_vassals: "당신의 [신앙|E]의 모든 바살"
+ raise_irminsul_vassals: "당신의 [faith|E]의 모든 바살"
  county_raised_irminsul_modifier: "이르민술"
  germanic_pagan: "빌은시두"
  germanic_pagan_adj: "빌은시두"

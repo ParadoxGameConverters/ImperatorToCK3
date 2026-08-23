@@ -5,21 +5,31 @@ using System.Linq;
 
 namespace ImperatorToCK3.CommonUtils.Genes;
 
-public class WeightBlock {
+internal sealed class WeightBlock {
 	public uint SumOfAbsoluteWeights { get; private set; } = 0;
-	private readonly List<KeyValuePair<string, uint>> objectsList = new();
+	private readonly List<KeyValuePair<string, uint>> objectsList = [];
+	
+	public int ObjectCount => objectsList.Count;
 
 	public WeightBlock() { }
 	public WeightBlock(BufferedReader reader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}
 	private void RegisterKeys(Parser parser) {
 		parser.RegisterRegex(CommonRegexes.Integer, (reader, absoluteWeightStr) => {
-			var newObjectName = reader.GetString();
+			var objectIdStrOfItem = reader.GetStringOfItem();
+			string objectId;
+			if (objectIdStrOfItem.IsArrayOrObject()) {
+				// For example: "2 = { m_clothes_sec_ccp4_khanty_com_01 m_clothes_sec_ccp4_khanty_com_01_hood }"
+				// In such cases, just pick the first entry as the object ID.
+				objectId = new BufferedReader(objectIdStrOfItem.ToString()).GetStrings()[0];
+			} else {
+				objectId = objectIdStrOfItem.ToString();
+			}
 			if (uint.TryParse(absoluteWeightStr, out var weight)) {
-				AddObject(newObjectName, weight);
+				AddObject(objectId, weight);
 			} else {
 				Logger.Error($"Could not parse absolute weight: {absoluteWeightStr}");
 			}
@@ -34,7 +44,7 @@ public class WeightBlock {
 		}
 		return 0;
 	}
-	public double GetMatchingPercentage(string objectName) {
+	public double? GetMatchingPercentage(string objectName) {
 		uint sumOfPrecedingAbsoluteWeights = 0;
 		foreach (var (key, value) in objectsList) {
 			if (key == objectName) {
@@ -42,7 +52,15 @@ public class WeightBlock {
 			}
 			sumOfPrecedingAbsoluteWeights += value;
 		}
-		throw new KeyNotFoundException($"Set entry {objectName} not found!");
+		return null;
+	}
+
+	public byte? GetSliderValueForObject(string objectName) {
+		double? percentage = GetMatchingPercentage(objectName);
+		if (percentage is null) {
+			return null;
+		}
+		return (byte)Math.Ceiling(percentage.Value * 255);
 	}
 	public string? GetMatchingObject(double percentAsDecimal) { // argument must be in range <0; 1>
 		if (percentAsDecimal < 0 || percentAsDecimal > 1) {
@@ -63,6 +81,8 @@ public class WeightBlock {
 		SumOfAbsoluteWeights += absoluteWeight;
 	}
 	public bool ContainsObject(string objectName) {
-		return objectsList.Any(entry => entry.Key == objectName);
+		return objectsList.Exists(entry => entry.Key == objectName);
 	}
+
+	public IEnumerable<string> ObjectNames => objectsList.Select(entry => entry.Key);
 }

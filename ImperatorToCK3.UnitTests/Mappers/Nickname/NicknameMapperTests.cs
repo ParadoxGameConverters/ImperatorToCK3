@@ -7,7 +7,7 @@ namespace ImperatorToCK3.UnitTests.Mappers.Nickname;
 public class NicknameMapperTests {
 	[Fact]
 	public void NonMatchGivesNull() {
-		var reader = new BufferedReader("link = { ck3 = ck3Nickname imp = impNickname }");
+		var reader = new BufferedReader("link = { ck3 = ck3Nickname ir = impNickname }");
 		var mapper = new NicknameMapper(reader);
 
 		var ck3Nickname = mapper.GetCK3NicknameForImperatorNickname("nonMatchingNickname");
@@ -15,7 +15,7 @@ public class NicknameMapperTests {
 	}
 	[Fact]
 	public void NullInNullOut() {
-		var reader = new BufferedReader("link = { ck3 = ck3Nickname imp = impNickname }");
+		var reader = new BufferedReader("link = { ck3 = ck3Nickname ir = impNickname }");
 		var mapper = new NicknameMapper(reader);
 
 		var match = mapper.GetCK3NicknameForImperatorNickname(null);
@@ -24,7 +24,7 @@ public class NicknameMapperTests {
 
 	[Fact]
 	public void Ck3NicknameCanBeFound() {
-		var reader = new BufferedReader("link = { ck3 = ck3Nickname imp = impNickname }");
+		var reader = new BufferedReader("link = { ck3 = ck3Nickname ir = impNickname }");
 		var mapper = new NicknameMapper(reader);
 
 		var ck3Nickname = mapper.GetCK3NicknameForImperatorNickname("impNickname");
@@ -33,7 +33,7 @@ public class NicknameMapperTests {
 
 	[Fact]
 	public void MultipleImpNicknamesCanBeInARule() {
-		var reader = new BufferedReader("link = { ck3 = ck3Nickname imp = impNickname imp = impNickname2 }");
+		var reader = new BufferedReader("link = { ck3 = ck3Nickname ir = impNickname ir = impNickname2 }");
 		var mapper = new NicknameMapper(reader);
 
 		var ck3Nickname = mapper.GetCK3NicknameForImperatorNickname("impNickname2");
@@ -43,8 +43,8 @@ public class NicknameMapperTests {
 	[Fact]
 	public void CorrectRuleMatches() {
 		var reader = new BufferedReader(
-			"link = { ck3 = ck3Nickname imp = impNickname }" +
-			"link = { ck3 = ck3Nickname2 imp = impNickname2 }"
+			"link = { ck3 = ck3Nickname ir = impNickname }" +
+			"link = { ck3 = ck3Nickname2 ir = impNickname2 }"
 		);
 		var mapper = new NicknameMapper(reader);
 
@@ -64,7 +64,7 @@ public class NicknameMapperTests {
 	[Fact]
 	public void MappingsWithNoCK3NicknameAreIgnored() {
 		var reader = new BufferedReader(
-			"link = { imp = impNickname }"
+			"link = { ir = impNickname }"
 		);
 		var mapper = new NicknameMapper(reader);
 

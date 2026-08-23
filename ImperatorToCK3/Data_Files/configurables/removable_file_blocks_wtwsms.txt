@@ -1,0 +1,1054 @@
+# This file contains blocks from the WtWSMS files that can be removed.
+# The structure is as follows:
+
+# <file name> = {
+# 	{
+#          # comments are supported inside
+#          some = code
+#   }
+# 	{
+#          some code
+# 	                some code with other indent
+#   }
+# }
+
+# INDENTATION IS IMPORTANT!
+# ASIDE FROM THE CURLY BRACKETS SURROUNDING THE BLOCK, IT MUST MATCH THE ORIGINAL FILE.
+# OTHERWISE THE BLOCK WON'T BE REMOVED!
+
+
+"common/on_action/BP_game_starts/476/BP_476_start_feb.txt" = {
+	# Anachronistic
+	{
+BP_character_events_476 = {
+	effect = {
+		#Persian Emperors start with negative prestige because of Wuzurgan, so flip it
+		character:180624 = {
+			add_prestige = {
+				value = character:180624.prestige
+				multiply = 1.5
+			}
+		}
+		
+		#Odoacer should be his house head; being the younger sibling and landless blocks that
+		character:55 = {
+			this.house = { set_house_head = prev }
+		}
+		
+		#Fire specific date events for characters
+		character:93 = { #Genseric of the Vandals
+			save_scope_as = geneseric
+			#Vandals have lots of Roman slaves at start
+			trigger_event = { id = bp_historical_flavor.0001 days = 1 }
+		}
+		
+		#Gylericus should be bishop of Salona
+		character:175110 = {
+			if = {
+				limit = { NOT = { is_employer_of = character:74419 } }
+				character:74419 = { set_employer = character:175110 }
+			}
+			assign_councillor_type = {
+				type = councillor_court_chaplain
+				target = character:74419
+				remove_existing_councillor = yes
+			}
+		}
+		
+		#Diarchies
+		
+		#David of Rheged has Saint Patrick as a Regent; we can't make him a court chaplain anymore, so this is the second-best thing
+		character:8 = { designate_diarch = character:109758 }
+		#Ensure Orestes is Regent for Romulus and make it rather entrenched
+		character:96054 = { designate_diarch = character:96055 }
+		remove_generated_diarch_consequences_effect = {
+			NEW_DIARCH = character:96055
+			LIEGE = character:96054
+		}
+		
+		#Entrench Diarchies and adjust senate approval
+		trigger_event = { id = BP_maintenance_events.0002 }
+	}
+}
+	} # end of block
+	{
+		BP_character_events_476
+	} # end of block
+
+	# Anachronistic
+	{
+		#k_armenia
+		title:d_gugark = { set_de_jure_liege_title = title:k_armenia }
+		title:d_tayk = { set_de_jure_liege_title = title:k_armenia }
+		#e_persia
+		title:d_gortyene = { set_de_jure_liege_title = title:k_asoristan }
+		title:d_kwrtstan = { set_de_jure_liege_title = title:k_persia }
+		title:d_exilarch = { set_de_jure_liege_title = title:k_asoristan }
+		#Put specific kingdoms within specific empires where it makes sense
+		title:k_rheged = { set_de_jure_liege_title = title:e_britannia }
+		#Persia
+		title:k_mazandaran = { set_de_jure_liege_title = title:e_persia }
+		#Religious titles
+		create_title_and_vassal_change = {
+			type = swear_fealty
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		title:d_manichean.holder = {
+			change_liege = {
+				liege = title:e_persia.holder
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+	} # end of block
+
+	# Anachronistic
+	{
+#Warfare
+BP_create_theodoric_armies_476 = {
+	effect = {
+		character:63 = {
+			create_theodoric_army_effect = { LOCATION = 3682 }
+		}
+	}
+}
+	} # end of block
+	{
+		BP_create_theodoric_armies_476
+	} # end of block
+
+	# Anachronistic
+	{
+		#Vache voluntarily abidcated with Persian pressure, so prevent any claims from him
+		character:159589 = { every_claim = { prev = { remove_claim = prev } } }
+		#Emnetzur and Ultzindur shouldn't get any claims to Hunnic titles
+		character:HunnicEmnetzur = { every_claim = { prev = { remove_claim = prev } } }
+		character:HunnicUltzindur = { every_claim = { prev = { remove_claim = prev } } }
+		#Odoacer only gets a claim to Skiria
+		character:55 = {
+			every_claim = {
+				limit = { NOT = { this = title:k_skiria } }
+				prev = { remove_claim = prev }
+			}
+		}
+		#Hunulf gets no claims
+		character:41720 = { every_claim = { prev = { remove_claim = prev } } }
+		#Armatus gets no claims
+		character:1100013 = { every_claim = { prev = { remove_claim = prev } } }
+		#Remove the ability of the Iazyges to start claim Gepidia
+		character:60 = { every_claim = { prev = { remove_claim = prev } } }
+		#Burgundia and Visigothica should not get claims on Prince-Bishoprics
+		title:k_visigoths.holder = {
+			every_claim = {
+				limit = { this.holder = { government_has_flag = government_is_theocracy } }
+				prev = { remove_claim = prev }
+			}
+		}
+		title:k_burgundians.holder = {
+			every_claim = {
+				limit = { this.holder = { government_has_flag = government_is_theocracy } }
+				prev = { remove_claim = prev }
+			}
+		}
+	} # end of block
+}
+
+
+"common/on_action/BP_game_starts/476/BP_476_start_oct.txt" = {
+	{
+BP_character_events_476_oct = {
+	effect = {
+		#Persian Emperors start with negative prestige because of Wuzurgan, so flip it
+		character:180624 = {
+			add_prestige = {
+				value = character:180624.prestige
+				multiply = 1.5
+			}
+		}
+		
+		#Fire specific date events for characters
+		character:93 = { #Genseric of the Vandals
+			save_scope_as = geneseric
+			#Vandals have lots of Roman slaves at start
+			trigger_event = { id = bp_historical_flavor.0001 days = 1 }
+		}
+		
+		#Odoacer gets some peace treaties
+		character:55 = {
+			#Visigoths
+			add_truce_both_ways = { character = character:30 years = 10 name = odoacer_peace_visigoths }
+			add_truce_both_ways = { character = character:190066 years = 10 name = odoacer_peace_visigoths }
+			#Vandals
+			add_truce_both_ways = { character = character:93 years = 10 name = odoacer_peace_vandals }
+			add_truce_both_ways = { character = character:92 years = 10 name = odoacer_peace_vandals }
+			#WRE
+			add_truce_both_ways = { character = character:175110 years = 10 name = odoacer_peace_wre }
+		}
+		
+		#Gylericus should be bishop of Salona
+		character:175110 = {
+			if = {
+				limit = { NOT = { is_employer_of = character:74419 } }
+				character:74419 = { set_employer = character:175110 }
+			}
+			assign_councillor_type = {
+				type = councillor_court_chaplain
+				target = character:74419
+				remove_existing_councillor = yes
+			}
+		}
+		
+		#Nepos should have his capital in Splatum
+		character:175110 = { set_realm_capital = title:c_cetina }
+		
+		#Diarchies
+		
+		#David of Rheged has Saint Patrick as a Regent; we can't make him a court chaplain anymore, so this is the second-best thing
+		character:8 = { designate_diarch = character:109758 }
+		
+		#Entrench Diarchies and adjust senate approval
+		trigger_event = { id = BP_maintenance_events.0002 }
+	}
+}
+	} # end of block
+	{
+		BP_character_events_476_oct
+	} # end of block
+
+	# Anachronistic
+	{
+BP_setup_vassal_contracts_476_oct = {
+	effect = {
+		every_ruler = {
+			if = { #k_mazandaran always has great rights
+				limit = { primary_title = title:k_mazandaran }
+				vassal_contract_set_obligation_level = {
+					type = religious_rights
+					level = 1
+				}
+				vassal_contract_set_obligation_level = {
+					type = title_revocation_rights
+					level = 1
+				}
+				vassal_contract_set_obligation_level = {
+					type = war_declaration_rights
+					level = 1
+				}
+				vassal_contract_set_obligation_level = {
+					type = prefeudal_government_obligation
+					level = 0
+				}
+			}
+			if = { #d_sophanene, d_sophene have some nice rights
+				limit = {
+					OR = {
+						primary_title = title:d_sophene
+						primary_title = title:d_sophanene
+					}
+				}
+				vassal_contract_set_obligation_level = {
+					type = religious_rights
+					level = 1
+				}
+				vassal_contract_set_obligation_level = {
+					type = title_revocation_rights
+					level = 1
+				}
+			}
+			if = { #the Arashukni have some nice rights
+				limit = { primary_title = title:c_theodosiopolis }
+				vassal_contract_set_obligation_level = {
+					type = title_revocation_rights
+					level = 1
+				}
+			}
+			if = { #Vassals of the Gupta Empire are militarily oriented
+				limit = {
+					liege.primary_title = title:e_rajastan
+					primary_title.tier >= tier_duchy
+					NOT = { this.primary_title = title:e_rajastan } #Excluded the holder of rajasthan (not a vassal)
+					government_has_flag = government_uses_rajamandala_authority
+				}
+				debug_log_scopes = no
+				vassal_contract_set_obligation_level = {
+					type = rajamandala_government_taxes
+					level = 1
+				}
+				vassal_contract_set_obligation_level = {
+					type = rajamandala_government_levies
+					level = 3
+				}
+			}
+			if = { #Non-Zoros have religious freedom in Asoristan
+				limit = {
+					this.top_liege.primary_title ?= title:e_persia
+					NOT = { this.religion = this.liege.religion }
+					OR = {
+						this.capital_county.kingdom = title:k_asoristan
+						this.capital_county.kingdom = title:k_armenia #Armenians are protected
+						this.primary_title = title:d_exilarch #Jews are protected
+						this.primary_title = title:d_tayk
+						this.primary_title = title:d_gardman
+					}
+					can_have_religious_rights_trigger = yes
+				}
+				vassal_contract_set_obligation_level = {
+					type = religious_rights
+					level = 1
+				}
+			}
+			if = {
+				limit = { this.primary_title = title:d_gugark }
+				vassal_contract_set_obligation_level = {
+					type = religious_rights
+					level = 1
+				}
+			}
+		}
+	}
+}
+	} # end of block
+	{
+		BP_setup_vassal_contracts_476_oct
+	} # end of block
+
+	# Anachronistic
+	{
+		#k_armenia
+		title:d_gugark = { set_de_jure_liege_title = title:k_armenia }
+		title:d_tayk = { set_de_jure_liege_title = title:k_armenia }
+		#e_persia
+		title:d_gortyene = { set_de_jure_liege_title = title:k_asoristan }
+		title:d_kwrtstan = { set_de_jure_liege_title = title:k_persia }
+		title:d_exilarch = { set_de_jure_liege_title = title:k_asoristan }
+		#Put specific kingdoms within specific empires where it makes sense
+		title:k_rheged = { set_de_jure_liege_title = title:e_britannia }
+		#Persia
+		title:k_mazandaran = { set_de_jure_liege_title = title:e_persia }
+		#Religious titles
+		create_title_and_vassal_change = {
+			type = swear_fealty
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		title:d_manichean.holder = {
+			change_liege = {
+				liege = title:e_persia.holder
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+	} # end of block
+	
+	# Anachronistic
+	{
+		#Vache voluntarily abidcated with Persian pressure, so prevent any claims from him
+		character:159589 = { every_claim = { prev = { remove_claim = prev } } }
+		#Emnetzur and Ultzindur shouldn't get any claims to Hunnic titles
+		character:HunnicEmnetzur = { every_claim = { prev = { remove_claim = prev } } }
+		character:HunnicUltzindur = { every_claim = { prev = { remove_claim = prev } } }
+		#Odoacer only gets a claim to Skiria
+		character:55 = {
+			every_claim = {
+				limit = { NOT = { this = title:k_skiria } }
+				prev = { remove_claim = prev }
+			}
+		}
+		#Hunulf gets no claims
+		character:41720 = { every_claim = { prev = { remove_claim = prev } } }
+		#Armatus gets no claims
+		character:1100013 = { every_claim = { prev = { remove_claim = prev } } }
+		#Remove the ability of the Iazyges to start claim Gepidia
+		character:60 = { every_claim = { prev = { remove_claim = prev } } }
+		#Burgundia and Visigothica should not get claims on Prince-Bishoprics
+		title:k_visigoths.holder = {
+			every_claim = {
+				limit = { this.holder = { government_has_flag = government_is_theocracy } }
+				prev = { remove_claim = prev }
+			}
+		}
+		title:k_burgundians.holder = {
+			every_claim = {
+				limit = { this.holder = { government_has_flag = government_is_theocracy } }
+				prev = { remove_claim = prev }
+			}
+		}
+		#Remove Romulus' claims
+		character:96054 = { every_claim = { prev = { remove_claim = prev } } }
+	} # end of block
+
+	# Anachronistic
+	{
+		#k_armenia
+		title:d_gugark = { set_de_jure_liege_title = title:k_armenia }
+		title:d_tayk = { set_de_jure_liege_title = title:k_armenia }
+		#e_persia
+		title:d_gortyene = { set_de_jure_liege_title = title:k_asoristan }
+		title:d_kwrtstan = { set_de_jure_liege_title = title:k_persia }
+		title:d_exilarch = { set_de_jure_liege_title = title:k_asoristan }
+		#Put specific kingdoms within specific empires where it makes sense
+		title:k_rheged = { set_de_jure_liege_title = title:e_britannia }
+		#Persia
+		title:k_mazandaran = { set_de_jure_liege_title = title:e_persia }
+		#Religious titles
+		create_title_and_vassal_change = {
+			type = swear_fealty
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		title:d_manichean.holder = {
+			change_liege = {
+				liege = title:e_persia.holder
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+	} # end of block
+
+	# Anachronistic
+	{
+		#Vache voluntarily abidcated with Persian pressure, so prevent any claims from him
+		character:159589 = { every_claim = { prev = { remove_claim = prev } } }
+		#Emnetzur and Ultzindur shouldn't get any claims to Hunnic titles
+		character:HunnicEmnetzur = { every_claim = { prev = { remove_claim = prev } } }
+		character:HunnicUltzindur = { every_claim = { prev = { remove_claim = prev } } }
+		#Odoacer only gets a claim to Skiria
+		character:55 = {
+			every_claim = {
+				limit = { NOT = { this = title:k_skiria } }
+				prev = { remove_claim = prev }
+			}
+		}
+		#Hunulf gets no claims
+		character:41720 = { every_claim = { prev = { remove_claim = prev } } }
+		#Armatus gets no claims
+		character:1100013 = { every_claim = { prev = { remove_claim = prev } } }
+		#Remove the ability of the Iazyges to start claim Gepidia
+		character:60 = { every_claim = { prev = { remove_claim = prev } } }
+		#Burgundia and Visigothica should not get claims on Prince-Bishoprics
+		title:k_visigoths.holder = {
+			every_claim = {
+				limit = { this.holder = { government_has_flag = government_is_theocracy } }
+				prev = { remove_claim = prev }
+			}
+		}
+		title:k_burgundians.holder = {
+			every_claim = {
+				limit = { this.holder = { government_has_flag = government_is_theocracy } }
+				prev = { remove_claim = prev }
+			}
+		}
+		#Remove Romulus' claims
+		character:96054 = { every_claim = { prev = { remove_claim = prev } } }
+	} # end of block
+}
+
+
+"common/on_action/000_BP_game_start.txt" = {
+	# Anachronistic
+	{
+create_BP_artifacts = {
+	effect = {
+		if = {
+			limit = { has_dlc_feature = royal_court }
+			#Tooth of the Buddha
+			title:k_lanka.holder = {
+				save_scope_as = the_holder
+				create_artifact = {
+					name = tooth_of_the_buddha
+					description = tooth_of_the_buddha_desc
+					history = { type = created_before_history }
+					type = pedestal
+					template = buddhism_artifact_template
+					quality = 999
+					decaying = no
+					modifier = tooth_of_the_buddha_modifier
+					visuals = bone
+					save_scope_as = tooth_of_the_buddha_scope
+				}
+				scope:tooth_of_the_buddha_scope = {
+					set_variable = { # required to track usability for template
+						name = saint_bone_faith
+						value = scope:the_holder.faith
+					}
+				}
+			}
+			title:e_byzantium.holder = {
+				create_artifact = {
+					name = nail_of_the_true_cross
+					description = nail_of_the_true_cross_desc
+					history = { type = created_before_history }
+					type = pedestal
+					template = christian_relic_template
+					quality = 999
+					decaying = no
+					modifier = nail_of_the_true_cross_modifier
+					visuals = reliquary
+				}
+			}
+			title:e_persia.holder = {
+				create_artifact = {
+					name = branch_of_the_keshmar_cypress
+					description = branch_of_the_keshmar_cypress_desc
+					history = { type = created_before_history }
+					type = pedestal
+					template = zoroastrian_relic_template
+					quality = 999
+					decaying = no
+					modifier = branch_of_the_keshmar_cypress_modifier
+					visuals = flowers
+				}
+			}
+		}
+	}
+}
+	} # end of block
+
+	{
+create_BP_artifacts
+	} # end of block
+
+	# Anachronistic
+	{
+		#Handle edge cases:
+		character:109769 ?= { set_character_faith_history = faith:nicene } #Make Erikos the Massalian Nicene
+		title:d_raetia_curiensis.holder ?= { set_character_faith_history = faith:nicene }
+	} # end of block
+
+
+	# Anachronistic
+	{
+## Family Stuff
+set_historical_dynasty_renown = {
+	effect = {
+		#Iranian Houses
+		dynasty:10424228 = { add_dynasty_prestige_level = 2 } #Ispahbudhan of Tabaristan and Gurgan
+		dynasty:10424226 = { add_dynasty_prestige_level = 2 } #Waraz of East Khoristan
+			#house_karen_pahlav #Karen (fine as is)
+		dynasty:1029027 = { add_dynasty_prestige_level = 2 } #Mihran of Ray
+		dynasty:10424229 = { add_dynasty_prestige_level = 2 } #Spandiyadh of Ray
+		dynasty:10424230 = { add_dynasty_prestige_level = 2 } #Zik of Adurbadagan
+		dynasty:1042143 = { add_dynasty_prestige_level = 2 } #Suren of Sakastan
+		dynasty:1029100 = { add_dynasty_prestige_level = 1 } #Sassanids
+		#Dead Dynasties; Re-evaluate all of these as dynasty tree is filled out for increased accuracy
+		dynasty:israelite_dynn_herodian = { add_dynasty_prestige_level = 1 }
+		dynasty:iranian_dynn_achaemenid = { add_dynasty_prestige_level = 4 }
+		dynasty:bactrian_dynn_orontid = { add_dynasty_prestige_level = 4 }
+		dynasty:104246212 = { add_dynasty_prestige_level = 3 } #Seleucid
+		dynasty:macedonian_dynn_Argead = { add_dynasty_prestige_level = 10 } #Alexander the Great
+		dynasty:macedonian_dynasty_ptolemaid = { add_dynasty_prestige_level = 10 } #Ptolemids
+	}
+}
+	} # end of block
+	{
+		#Family Stuff
+		set_historical_dynasty_renown
+	} # end of block
+
+	# Anachronistic
+	{
+		character:175110 = { add_character_flag = do_not_generate_starting_family } #No kids for Nepos
+	} # end of block
+}
+
+
+"common/on_action/BP_game_starts/BP_global_gamestart.txt" = {
+	# Anachronistic
+	{
+		#Capital changes for specific time periods
+		title:k_ostrogoths.holder = {
+			if = {
+				limit = { current_date < 488.1.1 }
+				set_realm_capital = title:c_turnovo
+			}
+		}
+		title:k_visigoths.holder = {
+			if = { #Franks force the capital south
+			limit = {
+					AND = {
+						current_date > 507.1.1
+						current_date < 542.1.1
+					}
+				}
+				set_realm_capital = title:c_barcelona
+			}
+			else_if = { #Final move to Toledo
+				limit = { current_date >= 542.1.1 }
+				set_realm_capital = title:c_toledo
+			}
+		}
+		title:k_yarlung.holder = {
+			if = {
+				limit = { current_date < 637.1.1 }
+				set_realm_capital = title:c_zetang
+			}
+		}
+		title:k_kidarite.holder = {
+			if = { #Kidarite Rump Kingdom in Gandhara
+				limit = { current_date >= 467.1.1 }
+				set_realm_capital = title:c_udabhanda
+			}
+		}
+		title:k_caucasian_albania.holder = {
+			if = {
+				limit = { current_date < 500.1.1 }
+				set_realm_capital = title:c_shaki
+			}
+		}
+		title:e_hunnic_empire.holder = {
+			if = {
+				limit = { current_date > 469.1.1 }
+				set_realm_capital = title:c_odessa
+			}
+		}
+	} # end of block
+}
+
+
+"common/scripted_character_templates/00_pool_repopulation_character_templates_BP_overwrite.txt" = {
+	# Prevent random Christian characters being generated.
+	{
+				5 = {
+					set_character_faith = faith:nestorian
+				}
+	}
+	{
+		else_if = {
+			limit = {
+				culture = culture:assyrian
+			}
+			set_character_faith = faith:nestorian
+		}
+	}
+}
+
+
+"common/on_action/BP_game_starts/476/BP_476_minorities.txt" = {
+	# Anachronistic
+	{
+		#Roman Empire
+		BP_minorities_476_northwest_africa
+		BP_minorities_476_oriens_cilicia
+		BP_minorities_476_caucuses
+		BP_minorities_476_anatolia
+		BP_minorities_476_european_byzantium
+		BP_minorities_476_egypt
+		BP_minorities_476_britannia
+		BP_minorities_476_gaul
+		BP_minorities_476_italy
+		BP_minorities_476_illyria
+		BP_minorities_476_hispania
+		
+		#Persia
+		BP_minorities_476_asoritsan_khuzestan
+		BP_minorities_476_iran
+		BP_minorities_476_bactria
+		
+		#Elsewhere
+		BP_minorities_476_taurica
+		BP_minorities_476_east_africa
+		BP_minorities_476_tartaria
+	}
+}
+
+
+"common/on_action/sea_bp_minority_game_start.txt" = {
+	# Anachronistic
+	{
+#AKA, Minorities that are true for all bookmarks
+BP_set_minorities_universal = {
+	effect = {
+		###### From Rajas of Asia vvvv
+		
+		### Konchinim Malabarism
+		every_county = {
+			limit = {
+				OR = {
+					this = title:c_kerala
+					this = title:c_venadu
+					this = title:c_alupa
+				}
+			}
+			add_small_culture_and_faith_to_county_effect = {
+				FAITH = faith:malabarism
+				CULTURE = culture:kochinim
+			}
+		}
+		#Indian Nestorians
+		every_county = {
+			limit = {
+				OR = {
+					this = title:c_kanara
+					this = title:c_panaji
+				}
+			}
+			add_small_faith_to_county_effect = { FAITH = faith:nestorian }
+		}
+		# Manicheans in Hexi Corridor
+		every_county = {
+			limit = {
+				OR = {
+					this = title:c_shazhou
+					this = title:c_liangzhou
+				}
+			}
+			add_small_faith_to_county_effect = { FAITH = faith:manichean }
+		}
+		# Rabiinism in Hexi Corridor
+		every_county = {
+			limit = {
+				OR = {
+					this = title:c_shazhou
+					this = title:c_liangzhou
+				}
+			}
+			add_small_faith_to_county_effect = { FAITH = faith:rabbinism }
+		}
+		# Parsees
+		title:c_daman = {
+			add_small_culture_and_faith_to_county_effect = {
+				FAITH = faith:mazdayasna
+				CULTURE = culture:persian
+			}
+		}
+		
+		###### From WtWSMS vvvv
+		
+		## Christianity
+		### Nicene
+		every_county = { #The Pentarchy
+			limit = {
+				OR = {
+					this = title:c_alexandria
+					this = title:c_roma
+					this = title:c_antiocheia
+					this = title:c_jerusalem
+					this = title:c_byzantion
+				}
+			}
+			add_large_faith_to_county_effect = { FAITH = faith:nicene }
+		}
+		## Jews
+		### Juhuro Tzadikites (Mountain Jews)
+		every_county = {
+			limit = {
+				OR = {
+					this = title:c_sarir
+					this = title:c_derbent
+					this = title:c_shirvan
+					this = title:c_maskut
+				}
+			}
+			add_small_culture_and_faith_to_county_effect = {
+				CULTURE = culture:juhuro
+				FAITH = faith:tzadikite
+			}
+		}
+		### Rabbinism
+		every_county = {
+			limit = {
+				OR = {
+					#Georgian Jews
+					this = title:c_kakheti
+					this = title:c_tbilisi
+					this = title:c_kartli
+					#Armenian Jews
+					this = title:c_ayrarat
+					#Greece
+					this = title:c_byzantion
+					this = title:c_euboea #Chalkis; oldes presence in Europe (possibly)
+					this = title:c_attica
+					this = title:c_thessalonika
+					#Asia Minor
+					this = title:c_pacatiana #Jewish presence since Seleucid time, likely contributed to Hypsisterians
+					this = title:c_aeolis
+					this = title:c_ionia
+					this = title:c_cilicia #Tarsus
+					#Oriens & Egypt (sans Hebrew territories)
+					this.duchy = title:d_cyprus #Long term Jewish presence in Cyprus, although significantly reduced after the AD 116 revolt and poorly attested AD II-IV century [1]
+					this = title:c_antiocheia
+					this = title:c_alexandria
+					#Western Roman Empire
+					this = title:c_roma
+					this = title:c_reggio_calabria #Mentioned in an edit by Honorius in 398
+					this = title:c_apulia #Jewish Catacombs in Venusia (Encylopedia Britannica)
+					this = title:c_benevento #Vth Century (Jewish Virtual Library)
+					#North Africa
+					this = title:c_tunis #Carthage
+					#Asoristan & it's Talmudic Academies
+					this = title:c_baghdad #Mahuz Academies
+					this = title:c_kufa #Sura Academy
+					this = title:c_anbar #Pumbedita & Pum-Nahara & Firuz Shapur Academies
+					this = title:c_karbala #Nehardea Academy
+					#Not *necessarily* large populations of Jews, but it's where we've parked the Exilarch
+					this = title:c_hulwan
+					this = title:c_kirkuk
+					#Persia
+					this = title:c_isfahan
+					#Central Asia
+					this = title:c_guzgan #Yahudan seems to be a reference to Jews
+				}
+			}
+			add_small_faith_to_county_effect = { FAITH = faith:rabbinism }
+		}
+		#Romaniote Jews
+		every_county = {
+			limit = {
+				OR = {
+					#Greece
+					this = title:c_byzantion
+					this = title:c_euboea #Chalkis; oldes presence in Europe (possibly)
+					this = title:c_attica
+					this = title:c_thessalonika
+					#Asia Minor
+					this = title:c_pacatiana #Jewish presence since Seleucid time, likely contributed to Hypsisterians
+					this = title:c_aeolis
+					this = title:c_ionia
+					this = title:c_cilicia #Tarsus
+					#Oriens & Egypt (sans Hebrew territories)
+					this.duchy = title:d_cyprus #Long term Jewish presence in Cyprus, although significantly reduced after the AD 116 revolt and poorly attested AD II-IV century [1]
+					this = title:c_antiocheia
+					#Italy and Africa; most Jews here were Greek speaking
+					this = title:c_roma
+					this = title:c_reggio_calabria #Mentioned in an edit by Honorius in 398
+					this = title:c_apulia #Jewish Catacombs in Venusia (Encylopedia Britannica)
+					this = title:c_benevento #Vth Century (Jewish Virtual Library)
+					#North Africa
+					this = title:c_tunis #Carthage
+				}
+			}
+			add_small_culture_to_county_effect = { CULTURE = culture:romaniote }
+		}
+		every_county = {
+			limit = {
+				OR = {
+					this = title:c_baghdad #Mahuz Academies
+					this = title:c_kufa #Sura Academy
+					this = title:c_anbar #Pumbedita & Pum-Nahara & Firuz Shapur Academies
+					this = title:c_karbala #Nehardea Academy
+					#Not *necessarily* large populations of Jews, but it's where we've parked the Exilarch
+					this = title:c_hulwan
+					this = title:c_kirkuk
+				}
+			}
+			add_small_culture_to_county_effect = { CULTURE = culture:bavlim }
+		}
+		
+		# Dharmics
+		## Buddhists
+		### Dharmagutakans
+		title:c_merv = { add_large_faith_to_county_effect = { FAITH = faith:dharmaguptaka } } #Major Buddhist center Pre-Islam
+		# Caucasian Avars
+		every_county = {
+			limit = {
+				OR = {
+					this = title:c_sarir
+					this = title:c_samander
+				}
+			}
+			add_small_culture_and_faith_to_county_effect = {
+				FAITH = faith:georgian_pagan
+				CULTURE = culture:awaral
+			}
+		}
+		#Nakh
+		every_county = {
+			limit = {
+				OR = {
+					this = title:c_cabardinia
+					this = title:c_sarir
+				}
+			}
+			add_small_culture_and_faith_to_county_effect = {
+				FAITH = faith:georgian_pagan
+				CULTURE = culture:nakh
+			}
+		}
+		#Adyghes (Circassians)
+		every_county = {
+			limit = {
+				OR = {
+					this = title:c_cabardinia
+					this = title:c_abkhazia
+				}
+			}
+			add_small_culture_and_faith_to_county_effect = {
+				FAITH = faith:georgian_pagan
+				CULTURE = culture:adyghes
+			}
+		}
+		#Abaza
+		every_county = {
+			limit = { this = title:c_zichia }
+			add_small_culture_and_faith_to_county_effect = {
+				FAITH = faith:georgian_pagan
+				CULTURE = culture:abaza
+			}
+		}
+		#Latins
+		## Coriscans
+		every_county = {
+			limit = {
+				OR = {
+					this = title:c_gallura
+					this = title:c_logudoro
+				}
+			}
+			add_large_culture_to_county_effect = { CULTURE = culture:corsican }
+		}
+		# Mazdans
+		## Zoroastrians
+		###Arewordiks
+		every_county = {
+			limit = {
+				OR = {
+					#These are the long term holdouts separated from Armenia proper
+					this = title:c_amida
+					this = title:c_samosata
+					this = title:c_tall_basma
+				}
+			}
+			add_small_culture_and_faith_to_county_effect = {
+				CULTURE = culture:armenian
+				FAITH = faith:urartuism
+			}
+		}
+		### Bodoland
+		every_county = {
+			limit = {
+				OR = {
+					this = title:c_kamatapur
+					this = title:c_kamarupanagara
+					this = title:c_haruppeswara
+					this = title:c_goalpara
+				}
+			}
+			add_large_culture_and_faith_to_county_effect = {
+				FAITH = faith:bathouism
+				CULTURE = culture:kachari
+			}
+		}
+		#Shamsīyah: Long-lasting Pagan Community
+		every_county = {
+			limit = {
+				OR = {
+					#Shamsīyah
+					this = title:c_harran
+					this = title:c_amida
+					this = title:c_raqqa
+					this = title:c_khabur
+					this = title:c_sinjar
+					this = title:c_upper_khabur
+					this = title:c_nasibin
+				}
+			}
+			add_small_faith_to_county_effect = { FAITH = faith:shamsi_pagan }
+		}
+		
+		# Other Specific Counties
+		#========================
+		title:c_baghdad = { add_small_culture_to_county_effect = { CULTURE = culture:assyrian } }
+		#Long Attested Non-Berber language presence by al-Bakri
+		title:c_syrte = { add_small_culture_to_county_effect = { CULTURE = culture:romano_punic } }
+		#Svan-Abkhaz border
+		title:c_odishi = { add_small_culture_to_county_effect = { CULTURE = culture:svan } }
+		#And India's religious diversity
+		add_dharmic_faith_minorities_to_region = { REGION = world_india }
+	}
+}
+	} # end of block
+	{
+		BP_set_minorities_universal
+	} # end of block
+}
+
+
+"common/on_action/BP_senate_on_actions.txt" = {
+	# References historical dynasties that don't make sense for a converted game.
+	{
+		#Senatorial Families (West)
+		dynasty:1042312 = { make_west_senate_family_effect = yes } #Anicii Gens
+		dynasty:1022222 = { make_west_senate_family_effect = yes } #Decii Gens
+		dynasty:1042302 = { make_west_senate_family_effect = yes } #Symmachi Gens
+		dynasty:1042324 = { make_west_senate_family_effect = yes } #Rufii Gens
+		dynasty:1042365 = { make_west_senate_family_effect = yes } #Rufinii Gens
+		dynasty:1042300 = { make_west_senate_family_effect = yes } #Acilii Gens
+		dynasty:romano_gallic_dynasty_vettius = { make_west_senate_family_effect = yes } #Vettii Gens
+		dynasty:romano_african_dynasty_vettius = { make_west_senate_family_effect = yes } #Vettii Gens
+		#dynasty:roman_dynasty_vibius = { make_west_senate_family_effect = yes } #Vibii Gens
+		dynasty:romano_gallic_dynasty_pontius = { make_west_senate_family_effect = yes } #Pontii Gens
+		dynasty:romano_gallic_dynasty_decimius = { make_west_senate_family_effect = yes } #Decimii Gens
+		dynasty:105861 = { make_west_senate_family_effect = yes } #Turcii Gens
+		dynasty:1042320 = { make_west_senate_family_effect = yes } #Egnatii Gens
+		#Imperial Gens
+		dynasty:1022195 = { make_west_senate_family_effect = yes } #Constantini Gens
+		dynasty:1042315 = { make_west_senate_family_effect = yes } #Theodesii Gens
+		
+		#Romano-Gallic Dynasties
+		dynasty:roman_dynn_ferreolus = { make_west_senate_family_effect = yes } #Ferreoli Gens
+		dynasty:1042298 = { make_west_senate_family_effect = yes } #Avitus Gens
+		dynasty:1042301 = { make_west_senate_family_effect = yes } #Apollinarii Gens
+		dynasty:104246202 = { make_west_senate_family_effect = yes } #Ennodii Gens
+		
+		#Senatorial Families (East)
+		dynasty:1042535 = { make_east_senate_family_effect = yes } #Areobindus Gens
+		dynasty:13100023 = { make_east_senate_family_effect = yes } #Pomponii Gens
+		#Imperial Gens
+		dynasty:1022189 = { make_east_senate_family_effect = yes } #Venerius Gens
+		dynasty:1022188 = { make_east_senate_family_effect = yes } #Leonid Gens
+		#### Taken from Eastern Roman Consuls
+		#dynasty:1042365 = { make_east_senate_family_effect = yes } #Family of Gennadius Avienus (ca. 450) #Should be Constantinople Senate at later bookmarks
+		dynasty:104246209 = { make_east_senate_family_effect = yes } #Family of F. Taurus Celemntinus Armonius Clementinus
+		
+		#Build list of familes that should _not_ be given land; namely the Romano-Gallic Families
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:roman_dynn_ferreolus }
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:1042298 }
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:1042301 }
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:104246202 }
+	}
+}
+
+"common/customizable_localization/BP_special_character_descriptions.txt" = {
+	{
+	#476 Characters
+	text = {
+		trigger = { #Julius Nepos 476 description
+			this = character:175110
+			current_date < 476.9.4
+		}
+		localization_key = BP_julius_nepos_description_476
+	}
+	text = {
+		trigger = { #Basilikos 476 description
+			this = character:145226
+			current_date < 476.8.15
+		}
+		localization_key = BP_basilikos_476_description
+	}
+	#Easter Eggs
+	text = { #Onkokwo
+		trigger = { this = character:IgboIgbo000 }
+		localization_key = BP_onkokwo
+	}
+	} # end of block
+
+	{
+			NOR = {
+				this = character:IgboIgbo000
+				this = character:175110
+				this = character:145226
+			}
+	} # end of block
+}
+
+
+"common/decisions/BP_claim_kingdom_decisions.txt" = {
+	# Anachronistic
+	{
+		modifier = { #AI Hazkert will not do this
+			add = -10000
+			root = character:159590
+		}
+	} # end of block
+}

@@ -1,0 +1,4 @@
+﻿l_english:
+ name_list_empty: "$RETINUE_POSITION_EMPTY$"
+ dynn_Lowborn: "$game_concept_commoner$"
+ No_Name: "$SORT_NAME$"

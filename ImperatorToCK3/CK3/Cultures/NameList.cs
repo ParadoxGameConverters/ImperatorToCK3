@@ -1,46 +1,45 @@
 using commonItems;
 using commonItems.Collections;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Text.RegularExpressions;
 
-namespace ImperatorToCK3.CK3.Cultures; 
+namespace ImperatorToCK3.CK3.Cultures;
 
-public partial class NameList : IIdentifiable<string> {
+internal sealed partial class NameList : IIdentifiable<string> {
 	public string Id { get; }
-	private readonly OrderedSet<string> maleNames = new();
-	private readonly OrderedSet<string> femaleNames = new();
-	public IReadOnlyCollection<string> MaleNames => maleNames.ToImmutableList();
-	public IReadOnlyCollection<string> FemaleNames => femaleNames.ToImmutableList();
+	private readonly OrderedSet<string> maleNames = [];
+	private readonly OrderedSet<string> femaleNames = [];
+	public IReadOnlyCollection<string> MaleNames => maleNames;
+	public IReadOnlyCollection<string> FemaleNames => femaleNames;
 
 	public NameList(string id, BufferedReader nameListReader) {
 		Id = id;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterRegex(MaleNamesRegex(), maleNamesReader => {
-			var maleNamesBlockParser = new Parser();
+			var maleNamesBlockParser = new Parser(implicitVariableHandling: true);
 			maleNamesBlockParser.RegisterRegex(CommonRegexes.Integer, (weightedBlockReader, _) => {
 				maleNames.UnionWith(weightedBlockReader.GetStrings());
 			});
 			maleNamesBlockParser.RegisterRegex(CommonRegexes.String, (_, nameStr) => {
 				maleNames.Add(nameStr);
 			});
-			maleNamesBlockParser.RegisterRegex(CommonRegexes.QuotedString, (_, nameStr) => {
-				maleNames.Add(nameStr);
+			maleNamesBlockParser.RegisterRegex(CommonRegexes.QuotedString, (_, quotedNameStr) => {
+				maleNames.Add(quotedNameStr.RemQuotes());
 			});
 			maleNamesBlockParser.IgnoreAndLogUnregisteredItems();
 			maleNamesBlockParser.ParseStream(maleNamesReader);
 		});
 		parser.RegisterRegex(FemaleNamesRegex(), reader => {
-			var femaleNamesBlockParser = new Parser();
+			var femaleNamesBlockParser = new Parser(implicitVariableHandling: true);
 			femaleNamesBlockParser.RegisterRegex(CommonRegexes.Integer, (weightedBlockReader, _) => {
 				femaleNames.UnionWith(weightedBlockReader.GetStrings());
 			});
 			femaleNamesBlockParser.RegisterRegex(CommonRegexes.String, (_, nameStr) => {
 				femaleNames.Add(nameStr);
 			});
-			femaleNamesBlockParser.RegisterRegex(CommonRegexes.QuotedString, (_, nameStr) => {
-				femaleNames.Add(nameStr);
+			femaleNamesBlockParser.RegisterRegex(CommonRegexes.QuotedString, (_, quotedNameStr) => {
+				femaleNames.Add(quotedNameStr.RemQuotes());
 			});
 			femaleNamesBlockParser.IgnoreAndLogUnregisteredItems();
 			femaleNamesBlockParser.ParseStream(reader);

@@ -9,15 +9,15 @@ jobs:
     outputs:
       tag: ${{ steps.previoustag.outputs.tag }}
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
       with:
         fetch-depth: 0
     - name: "Get previous tag"
       id: previoustag
-      uses: "WyriHaximus/github-action-get-previous-tag@v1"
+      uses: "WyriHaximus/github-action-get-previous-tag@v2"
     - name: "Build changelog"
       id: build_changelog
-      uses: mikepenz/release-changelog-builder-action@v3
+      uses: mikepenz/release-changelog-builder-action@v6
       with:
         configuration: ".github/config/changelog-config.json"
       env:
@@ -33,31 +33,31 @@ jobs:
   add_release_archive:
     needs: create_release
     runs-on: ${{ matrix.os }}
+    environment: "Build Environment"
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
     strategy:
       fail-fast: false
       matrix:
         build:
         - win-x64
         - linux-x64
-        - osx-x64
+        - osx-arm64
         include:
         - build: win-x64
           os: windows-latest
-          archive_type: zip
-          archive_extension: .zip
-          asset_content_type: application/zip
         - build: linux-x64
-          os: ubuntu-22.04
+          os: ubuntu-latest
           archive_type: tar
           archive_extension: .tgz
           asset_content_type: application/gzip
-        - build: osx-x64
-          os: macos-latest
+        - build: osx-arm64
+          os: macos-14
           archive_type: tar
           archive_extension: .tgz
           asset_content_type: application/gzip
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
       with:
         fetch-depth: 0
         submodules: recursive
@@ -67,36 +67,166 @@ jobs:
         cd ImperatorToCK3/Data_Files/configurables
         printf "\nversion = ${{ needs.create_release.outputs.tag }}" >> version.txt
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v6
       with:
         global-json-file: Fronter.NET/global.json
+    - name: "Cache NuGet packages"
+      uses: actions/cache@v6
+      with:
+        path: ${{ env.NUGET_PACKAGES }}
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj', '**/*.props', '**/*.targets', '**/global.json', '**/NuGet.Config', '**/nuget.config') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+    - name: "Setup Python for updater cache"
+      if: matrix.build != 'win-x64'
+      uses: actions/setup-python@v7
+      with:
+        python-version: '3.12'
+        cache: 'pip'
+        cache-dependency-path: 'Fronter.NET/Updater/pyproject.toml'
+    - name: "Replace frontend background image"
+      run: |
+        rm Fronter.NET/Fronter.NET/Assets/Images/background.png
+        cp ImperatorToCK3/Resources/images/SteamMainImage.png Fronter.NET/Fronter.NET/Assets/Images/background.png
     - name: "Build frontend"
       uses: ./Fronter.NET/.github/actions/build_frontend
       with:
         fronter_dir: 'Fronter.NET'
         release_dir: 'Publish'
+        self_contained: ${{ matrix.build != 'win-x64' }} # InnoSetup takes care of installing the .NET runtime on Windows.
+        build_updater: ${{ matrix.build != 'win-x64' }} # Windows release uses InnoSetup instead.
+      env:
+        BACKBLAZE_KEY_ID: ${{ secrets.BACKBLAZE_KEY_ID }}
+        BACKBLAZE_APPLICATION_KEY: ${{ secrets.BACKBLAZE_APPLICATION_KEY }}
+        BACKBLAZE_BUCKET_ID: ${{ secrets.BACKBLAZE_BUCKET_ID }}
     - name: "Setup Dotnet for use with actions"
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v6
       with:
         global-json-file: global.json
     - name: "Build backend"
       working-directory: ImperatorToCK3
+      shell: bash
       run: |
         dotnet publish -p:PublishProfile=${{ matrix.build }} -c:Release --output:"../Publish/ImperatorToCK3"
     - name: "Save commit ID"
       shell: bash
       run: |
         git rev-parse HEAD > Publish/commit_id.txt
+    - name: "Make rakaly binary executable"
+      if: matrix.build != 'win-x64'
+      shell: bash
+      run: |
+        chmod +x Publish/ImperatorToCK3/Resources/rakaly/rakaly-*/rakaly
+    - name: "Create macOS .app bundle"
+      if: matrix.build == 'osx-arm64'
+      shell: bash
+      env:
+        VERSION: ${{ needs.create_release.outputs.tag }}
+      run: |
+        set -euo pipefail
+
+        APP_NAME="ImperatorToCK3"
+        APP_DIR="Publish/${APP_NAME}.app"
+        CONTENTS_DIR="${APP_DIR}/Contents"
+        MACOS_DIR="${CONTENTS_DIR}/MacOS"
+
+        mkdir -p "${MACOS_DIR}"
+
+        cat > "${CONTENTS_DIR}/Info.plist" <<PLIST
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+          <dict>
+            <key>CFBundleDevelopmentRegion</key>
+            <string>en</string>
+            <key>CFBundleDisplayName</key>
+            <string>${APP_NAME}</string>
+            <key>CFBundleExecutable</key>
+            <string>ConverterFrontend</string>
+            <key>CFBundleIdentifier</key>
+            <string>com.paradoxgameconverters.imperator-to-ck3</string>
+            <key>CFBundleInfoDictionaryVersion</key>
+            <string>6.0</string>
+            <key>CFBundleName</key>
+            <string>${APP_NAME}</string>
+            <key>CFBundlePackageType</key>
+            <string>APPL</string>
+            <key>CFBundleShortVersionString</key>
+            <string>${VERSION}</string>
+            <key>CFBundleVersion</key>
+            <string>${VERSION}</string>
+          </dict>
+        </plist>
+        PLIST
+
+        # Move everything we published into the app bundle so the frontend can
+        # find the backend and assets relative to AppContext.BaseDirectory.
+        shopt -s dotglob nullglob
+        for item in Publish/*; do
+          if [ "${item}" = "${APP_DIR}" ]; then
+            continue
+          fi
+          mv "${item}" "${MACOS_DIR}/"
+        done
+
+        chmod +x "${MACOS_DIR}/ConverterFrontend"
+
+        echo "Signing executables inside .app (ad-hoc)..."
+        codesign --force -s - "${MACOS_DIR}/ConverterFrontend"
+        codesign --force -s - "${MACOS_DIR}/ImperatorToCK3/ImperatorToCK3Converter"
+
+        shopt -s nullglob
+        rakaly_bins=("${MACOS_DIR}/ImperatorToCK3/Resources/rakaly/rakaly-"*"/rakaly")
+        if [ ${#rakaly_bins[@]} -eq 0 ]; then
+          echo "Rakaly binary not found in app bundle" >&2
+          exit 1
+        fi
+        for rakaly_bin in "${rakaly_bins[@]}"; do
+          echo "Signing ${rakaly_bin}"
+          codesign --force -s - "${rakaly_bin}"
+          echo "Verifying ${rakaly_bin}"
+          codesign --verify --verbose=4 "${rakaly_bin}"
+          codesign -dv --verbose=4 "${rakaly_bin}"
+        done
+
+        echo "Signing .app bundle (ad-hoc)..."
+        codesign --force -s - "${APP_DIR}"
+        echo "Verifying signature..."
+        codesign --verify --verbose=4 "${APP_DIR}"
+        codesign -dv --verbose=4 "${APP_DIR}"
+    - name: "Install sed and Inno Setup for Windows"
+      if: matrix.build == 'win-x64'
+      run: |
+        choco install sed --version=4.9
+        choco install innosetup
+    - name: "Build installer for Windows"
+      if: matrix.build == 'win-x64'
+      run: |
+        iscc --version
+        cp Fronter.NET/Fronter.NET/Assets/converter.ico Publish/Assets/
+        sed -i '5i\\#define MyAppVersion "${{ needs.create_release.outputs.tag }}"' ImperatorToCK3.iss
+        cat ImperatorToCK3.iss
+        iscc ImperatorToCK3.iss
+    - name: "Upload installer for Windows"
+      id: upload-installer
+      if: matrix.build == 'win-x64'
+      uses: alexellis/upload-assets@0.5.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        asset_paths: '["./Output/ImperatorToCK3-${{ matrix.build }}-setup.exe"]'
     - name: "Archive Publish folder"
+      if: matrix.build != 'win-x64'
       uses: thedoctor0/zip-release@master
       with:
         type: '${{ matrix.archive_type }}'
         directory: 'Publish'
         path: '.'
         filename: '../ImperatorToCK3-${{ matrix.build }}${{ matrix.archive_extension }}'
-    - name: "Upload release asset"
-      id: upload-release-asset
-      uses: alexellis/upload-assets@0.4.0
+    - name: "Upload release zip"
+      id: upload-release-zip
+      if: matrix.build != 'win-x64'
+      uses: alexellis/upload-assets@0.5.0
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:

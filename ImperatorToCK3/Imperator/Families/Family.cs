@@ -3,16 +3,16 @@ using commonItems.Collections;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Characters;
 using ImperatorToCK3.Imperator.Cultures;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Families;
 
-public class Family : IIdentifiable<ulong> {
+internal sealed class Family : IIdentifiable<ulong> {
 	public ulong Id { get; } = 0;
 	public string Key { get; private set; } = "";
 	public string Culture { get; private set; } = "";
-	public double Prestige { get; private set; } = 0;
-	public double PrestigeRatio { get; private set; } = 0;
+	public float Prestige { get; private set; } = 0;
+	public float PrestigeRatio { get; private set; } = 0;
 	public OrderedSet<ulong> MemberIds { get; } = new();
 	public bool Minor { get; private set; } = false;
 
@@ -27,32 +27,44 @@ public class Family : IIdentifiable<ulong> {
 		MemberIds.Add(newMember.Id);
 	}
 	public void RemoveUnlinkedMembers(CharacterCollection characters) {
-		var toRemove = MemberIds.Where(memberId => !characters.ContainsKey(memberId)).ToList();
-		foreach (var idToRemove in toRemove) {
-			MemberIds.Remove(idToRemove);
+		List<ulong>? toRemove = null;
+		foreach (var memberId in MemberIds) {
+			if (!characters.ContainsKey(memberId)) {
+				(toRemove ??= []).Add(memberId);
+			}
 		}
+		if (toRemove is null) {
+			return;
+		}
+		foreach (var id in toRemove) {
+			MemberIds.Remove(id);
+		}
+	}
+	
+	public static string GetMaleForm(string familyNameKey, CulturesDB culturesDB) {
+		return culturesDB.GetMaleFamilyNameForm(familyNameKey) ?? familyNameKey;
 	}
 
 	public string GetMaleForm(CulturesDB culturesDB) {
-		return culturesDB.GetMaleFamilyNameForm(Key) ?? Key;
+		return GetMaleForm(Key, culturesDB);
 	}
 
 	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
 	private static class FamilyFactory {
-		private static readonly Parser parser = new();
+		private static readonly Parser parser = new(implicitVariableHandling: false);
 		private static Family family = new(0);
 		static FamilyFactory() {
 			parser.RegisterKeyword("key", reader =>
 				family.Key = reader.GetString()
 			);
 			parser.RegisterKeyword("prestige", reader =>
-				family.Prestige = reader.GetDouble()
+				family.Prestige = reader.GetFloat()
 			);
 			parser.RegisterKeyword("prestige_ratio", reader =>
-				family.PrestigeRatio = reader.GetDouble()
+				family.PrestigeRatio = reader.GetFloat()
 			);
 			parser.RegisterKeyword("culture", reader =>
-				family.Culture = reader.GetString()
+				family.Culture = string.Intern(reader.GetString())
 			);
 			parser.RegisterKeyword("minor_family", reader =>
 				family.Minor = reader.GetBool()

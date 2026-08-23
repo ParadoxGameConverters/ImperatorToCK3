@@ -1,0 +1,180 @@
+﻿# Last updated: CK3 1.18
+namespace = welcome
+
+# Initial Welcome Event
+welcome.1 = {
+	type = character_event
+	title = welcome_title
+	desc = {
+		desc = welcome_desc_intro
+		desc = frontend_options_historical_heresies_{{ HeresiesInHistoricalAreas }}
+		desc = frontend_options_static_dejure_{{ StaticDeJure }}
+		desc = frontend_options_filler_dukes_{{ FillerDukes }}
+		desc = frontend_options_use_ck3_flags_{{ UseCK3Flags }}
+		desc = "- Imperator Currency Conversion Rate = {{ ImperatorCurrencyRate }}"
+		desc = line_break
+		desc = "- Imperator Civilization Conversion Rate = {{ ImperatorCivilizationWorth }}"
+		desc = line_break
+		desc = frontend_options_legion_conversion_{{ LegionConversion }}
+		desc = frontend_options_import_holding_owners_{{ SkipHoldingOwnersImport }}
+		desc = frontend_options_filler_ruler_governments_{{ FillerGovernments }}
+		desc = frontend_options_imperator_nomads_{{ ImperatorNomads }}
+		desc = frontend_options_mandala_rulers_{{ MandalaRulers }}
+		desc = frontend_options_ritsuryo_rulers_{{ RitsuryoRulers }}
+	}
+	override_background = { reference = relaxing_room }
+	theme = crown
+	right_portrait = {
+		character = root
+		animation = happiness
+	}
+
+	trigger = {
+		is_ai = no
+	}
+
+	option = {
+		name = welcome_ok
+	}
+
+	option = { # Look at what mods are recommend/available
+		name = welcome_mods
+		trigger_event = welcome.2
+	}
+}
+
+# List some recommended mods that might go well with converter
+welcome.2 = {
+	type = character_event
+	title = welcome_mods_title
+	desc = welcome_mods_desc
+	override_background = { reference = relaxing_room }
+	theme = crown
+	right_portrait = {
+		character = root
+		animation = thinking
+	}
+
+	trigger = {
+		is_ai = no
+	}
+
+	option = { # Confederations & Leagues
+		name = welcome_mods_confed_leagues
+		custom_tooltip = welcome_mods_must_choose_in_converter
+		custom_tooltip = welcome_mods_confed_leagues_desc
+	}
+
+	option = { # Go back to main welcome screen
+		name = welcome_back
+		trigger_event = welcome.1
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+# Event to choose which Stable Era the Dynastic Cycle should start in (copied from tgp_dynastic_cycle.0071, cause modifying those events kind of messed up triggering events at beginning of the Cycle)
+welcome.0071 = {
+	type = character_event
+	window = fullscreen_event
+	title = tgp_dynastic_cycle.0071.t
+	desc = tgp_dynastic_cycle.0071.desc
+	theme = dynastic_cycle
+	override_background = { reference = tgp_fullscreen_dynastic_cycle_stability }
+
+	cooldown = { days = 1 }
+
+	trigger = { }
+
+	immediate = {
+		play_music_cue = mx_cue_tgp_dynastic_cycle_end
+	}
+
+	option = {
+		name = tgp_dynastic_cycle.0071.a
+		if = {
+			limit = {
+				situation:dynastic_cycle = {
+					NOT = { situation_current_phase = situation_dynastic_cycle_phase_stability_advancement }
+				}
+			}
+			situation:dynastic_cycle = {
+				situation_top_sub_region = {
+					change_phase = { phase = situation_dynastic_cycle_phase_stability_advancement }
+				}
+			}
+			custom_tooltip = dynastic_cycle_entered_stability_advancement_tt
+		}
+		else = {
+			custom_tooltip = dynastic_cycle_entered_stability_advancement_past_tt
+		}
+		clicksound = "event:/DLC/EP4/MX/CueTracks/mx_mtgp_dynastic_cycle_start"
+		ai_chance = {
+			base = 0
+			# no need to add any other modifiers here
+			# if you want more add them to hegemon_favored_stability_phase_value instead
+			modifier = {
+				hegemon_favored_stability_phase_value >= 0
+				add = 1
+			}
+			#in case the catalysts pushed to expansion, pick advancement only if you really wanted it
+			modifier = {
+				hegemon_favored_stability_phase_value >= 199
+				situation:dynastic_cycle = { situation_current_phase = situation_dynastic_cycle_phase_stability_expansion }
+				add = 1
+			}
+		}
+	}
+
+	option = {
+		name = tgp_dynastic_cycle.0071.b
+		if = {
+			limit = {
+				situation:dynastic_cycle = {
+					NOT = { situation_current_phase = situation_dynastic_cycle_phase_stability_expansion }
+				}
+			}
+			situation:dynastic_cycle = {
+				situation_top_sub_region = {
+					change_phase = { phase = situation_dynastic_cycle_phase_stability_expansion }
+				}
+			}
+			custom_tooltip = dynastic_cycle_entered_stability_expansion_tt
+		}
+		else = {
+			custom_tooltip = dynastic_cycle_entered_stability_expansion_past_tt
+		}
+		clicksound = "event:/DLC/EP4/MX/CueTracks/mx_mtgp_dynastic_cycle_start"
+		ai_chance = {
+			base = 0
+			# no need to add any other modifiers here
+			# if you want more add them to hegemon_favored_stability_phase_value instead
+			modifier = {
+				hegemon_favored_stability_phase_value < 0
+				add = 1
+			}
+			#in case the catalysts pushed to advancement, pick expansion only if you really wanted it
+			modifier = {
+				hegemon_favored_stability_phase_value < -199
+				situation:dynastic_cycle = { situation_current_phase = situation_dynastic_cycle_phase_stability_advancement }
+				add = 1
+			}
+		}
+	}
+
+	after = {
+		every_player = {
+			limit = { tgp_does_this_player_care_about_the_dynastic_cycle = yes } # Needs to be checked before the situation ends due to race condition issues
+			trigger_event = tgp_dynastic_cycle.0051
+		}
+	}
+}

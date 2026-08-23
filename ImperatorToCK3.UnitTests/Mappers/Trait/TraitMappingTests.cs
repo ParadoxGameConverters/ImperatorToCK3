@@ -9,14 +9,14 @@ public class TraitMappingTests {
 	public void FieldsDefaultToEmptyAndNull() {
 		var reader = new BufferedReader("={}");
 		var mapping = new TraitMapping(reader);
-		Assert.Empty(mapping.ImpTraits);
+		Assert.Empty(mapping.ImperatorTraits);
 		Assert.Null(mapping.CK3Trait);
 	}
 	[Fact]
 	public void FieldsCanBeSet() {
-		var reader = new BufferedReader("= { ck3 = ck3Trait imp = trait1 imp = trait2 }");
+		var reader = new BufferedReader("= { ck3=ck3Trait ir=trait1 ir=trait2 }");
 		var mapping = new TraitMapping(reader);
-		Assert.Collection(mapping.ImpTraits,
+		Assert.Collection(mapping.ImperatorTraits,
 			item => Assert.Equal("trait1", item),
 			item => Assert.Equal("trait2", item)
 		);

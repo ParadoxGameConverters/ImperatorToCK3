@@ -1,112 +1,207 @@
 ﻿using commonItems;
+using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
+using ImperatorToCK3.CommonUtils;
+using Open.Collections;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ZLinq;
 
 namespace ImperatorToCK3.Outputter;
 
-public static class CharactersOutputter {
-	public static void OutputCharacters(string outputModName, CharacterCollection characters, Date conversionDate) {
-		var charactersFromIR = characters.Where(c => c.FromImperator).ToImmutableList();
-		var charactersFromCK3 = characters.Except(charactersFromIR).ToImmutableList();
+internal static class CharactersOutputter {
+	public static async Task OutputEverything(string outputPath, CharacterCollection characters, Date conversionDate, Date ck3BookmarkDate, ModFilesystem ck3ModFS) {
+		await Task.WhenAll(
+			OutputCharacters(outputPath, characters, conversionDate, ck3BookmarkDate, ck3ModFS),
+			BlankOutHistoricalPortraitModifiers(ck3ModFS, outputPath)
+		);
 		
-		var pathForCharactersFromIR = $"output/{outputModName}/history/characters/IRToCK3_fromImperator.txt";
-		using var stream = File.OpenWrite(pathForCharactersFromIR);
-		using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
-		foreach (var character in charactersFromIR) {
-			CharacterOutputter.OutputCharacter(output, character, conversionDate);
-		}
+		Logger.IncrementProgress();
+	}
+	
+	public static async Task OutputCharacters(string outputPath, CharacterCollection characters, Date conversionDate, Date ck3BookmarkDate, ModFilesystem ck3ModFS) {
+		Logger.Info("Writing Characters...");
 
-		var pathForCharactersFromCK3 = $"output/{outputModName}/history/characters/IRToCK3_fromCK3.txt";
-		using var stream2 = File.OpenWrite(pathForCharactersFromCK3);
-		using var output2 = new StreamWriter(stream2, System.Text.Encoding.UTF8);
-		foreach (var character in charactersFromCK3) {
-			CharacterOutputter.OutputCharacter(output2, character, conversionDate);
-		}
-		
-		var charactersWithDNA = characters
+		// Portrait modifiers need to be outputted before characters themselves,
+		// because while outputting the portrait modifiers we're adding character flags to character history.
+		var charactersWithDNA = characters.AsValueEnumerable()
 			.Where(c => c.DNA is not null)
 			.ToImmutableList();
-		OutputCharactersDNA(outputModName, charactersWithDNA);
-		OutputPortraitModifiers(outputModName, charactersWithDNA);
+		await OutputPortraitModifiers(outputPath, charactersWithDNA, ck3BookmarkDate, ck3ModFS);
+		
+		var charactersFromIR = characters.AsValueEnumerable().Where(c => c.FromImperator)
+			.OrderBy(c => c.Id).ToImmutableList();
+		var charactersFromCK3 = characters.AsValueEnumerable().Except(charactersFromIR)
+			.OrderBy(c => c.Id).ToImmutableList();
+		
+		var sb = new StringBuilder();
+		const string irCharactersFileName = "IRToCK3_fromImperator.txt";
+		var pathForCharactersFromIR = $"{outputPath}/history/characters/{irCharactersFileName}";
+		await using var charactersFromIROutput = FileHelper.OpenWriteWithRetries(pathForCharactersFromIR);
+		foreach (var character in charactersFromIR) {
+			CharacterOutputter.WriteCharacter(sb, character, conversionDate, ck3BookmarkDate);
+			await charactersFromIROutput.WriteAsync(sb.ToString());
+			sb.Clear();
+		}
+
+		const string ck3CharactersFileName = "IRToCK3_fromCK3.txt";
+		var pathForCharactersFromCK3 = $"{outputPath}/history/characters/{ck3CharactersFileName}";
+		await using var charactersFromCK3Output = FileHelper.OpenWriteWithRetries(pathForCharactersFromCK3, Encoding.UTF8);
+		foreach (var character in charactersFromCK3) {
+			CharacterOutputter.WriteCharacter(sb, character, conversionDate, ck3BookmarkDate);
+			await charactersFromCK3Output.WriteAsync(sb.ToString());
+			sb.Clear();
+		}
+
+		// There may have been other character history files due to being in the removable_file_blocks*.txt files.
+		// Their contents are already in the characters' history fields, outputted above, so we can remove the extra files.
+		HashSet<string> filesToKeep = [irCharactersFileName, ck3CharactersFileName];
+		var characterHistoryFiles = Directory.GetFiles(Path.Combine(outputPath, "history/characters"), "*.txt");
+		foreach (var file in characterHistoryFiles) {
+			if (!filesToKeep.Contains(Path.GetFileName(file))) {
+				File.Delete(file);
+			}
+		}
+
+		await OutputCharactersDNA(outputPath, charactersWithDNA);
 	}
 
-	private static void OutputCharactersDNA(string outputModName, IReadOnlyCollection<Character> charactersWithDNA) {
-		Logger.Info("Outputting DNA...");
-		// Dump all into one file.
-		var path = Path.Combine("output", outputModName, "common/dna_data/IRToCK3_dna_data.txt");
-		using var stream = File.OpenWrite(path);
-		using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
-		foreach (var character in charactersWithDNA) {
-			var dna = character.DNA!;
-			output.WriteLine($"{dna.Id}={{");
-			output.WriteLine("\tportrait_info={");
+	public static async Task BlankOutHistoricalPortraitModifiers(ModFilesystem ck3ModFS, string outputPath) {
+		Logger.Info("Blanking out historical portrait modifiers...");
 
-			dna.OutputGenes(output);
+		const string modifiersFilePath = "gfx/portraits/portrait_modifiers/02_all_historical_characters.txt";
 
-			output.WriteLine("\t}");
-			output.WriteLine("\tenabled=yes");
-			output.WriteLine("}");
+		if (ck3ModFS.GetActualFileLocation(modifiersFilePath) is not null) {
+			string dummyPath = Path.Combine(outputPath, modifiersFilePath);
+			await using var output = FileHelper.OpenWriteWithRetries(dummyPath, Encoding.UTF8);
+			await output.WriteLineAsync("# Dummy file to blank out historical portrait modifiers from CK3.");
 		}
 	}
 
-	private static void OutputPortraitModifiers(string outputModName, IReadOnlyCollection<Character> charactersWithDNA) {
+	private static async Task OutputCharactersDNA(string outputPath, ImmutableList<Character> charactersWithDNA) {
+		Logger.Info("Outputting DNA...");
+
+		// Dump all into one file.
+		var path = Path.Combine(outputPath, "common/dna_data/IRToCK3_dna_data.txt");
+		await using var output = FileHelper.OpenWriteWithRetries(path, Encoding.UTF8);
+
+		var sb = new StringBuilder();
+		foreach (var dna in charactersWithDNA.Select(c => c.DNA!).Distinct()) {
+			sb.AppendLine($"{dna.Id}={{");
+			sb.AppendLine("\tportrait_info={");
+
+			dna.WriteGenes(sb);
+
+			sb.AppendLine("\t}");
+			sb.AppendLine("\tenabled=yes");
+			sb.AppendLine("}");
+
+			await output.WriteAsync(sb.ToString());
+			sb.Clear();
+		}
+	}
+	
+	private static FrozenSet<string> GetValidAccessoryIDs(ModFilesystem ck3ModFS) {
+		Logger.Debug("Getting valid CK3 accessory IDs...");
+		
+		var accessoryIDs = new ConcurrentHashSet<string>();
+
+		var accessoryFilesParser = new Parser(implicitVariableHandling: true);
+		accessoryFilesParser.RegisterRegex(CommonRegexes.String, (reader, accessoryId) => {
+			accessoryIDs.Add(accessoryId);
+			ParserHelpers.IgnoreItem(reader);
+		});
+		accessoryFilesParser.IgnoreAndLogUnregisteredItems();
+		accessoryFilesParser.ParseGameFolder("gfx/portraits/accessories", ck3ModFS, "txt", recursive: true, logFilePaths: false);
+
+		return accessoryIDs.ToFrozenSet();
+	}
+
+	private static async Task OutputPortraitModifiers(string outputPath, IReadOnlyCollection<Character> charactersWithDNA, Date ck3BookmarkDate, ModFilesystem ck3ModFS) {
 		Logger.Debug("Outputting portrait modifiers...");
 		// Enforce hairstyles and beards (otherwise CK3 they will only be used on bookmark screen).
 		// https://ck3.paradoxwikis.com/Characters_modding#Changing_appearance_through_scripts
-		var portraitModifiersOutputPath = Path.Combine("output", outputModName, "gfx/portraits/portrait_modifiers/IRToCK3_portrait_modifiers.txt");
-		using var stream = File.OpenWrite(portraitModifiersOutputPath);
-		using var output = new StreamWriter(stream, System.Text.Encoding.UTF8);
+		
+		var validAccessoryIDs = GetValidAccessoryIDs(ck3ModFS);
+		
+		var portraitModifiersOutputPath = Path.Combine(outputPath, "gfx/portraits/portrait_modifiers/IRToCK3_portrait_modifiers.txt");
+		await using var output = FileHelper.OpenWriteWithRetries(portraitModifiersOutputPath, Encoding.UTF8);
 
-		OutputPortraitModifiersForGene("hairstyles", charactersWithDNA, output);
-		var malesWithBeards = charactersWithDNA
+		await OutputPortraitModifiersForGene("hairstyles", validAccessoryIDs, charactersWithDNA, output, ck3BookmarkDate);
+		var malesWithBeards = charactersWithDNA.AsValueEnumerable()
 			.Where(c => !c.Female && c.DNA!.AccessoryDNAValues.ContainsKey("beards"))
 			.ToImmutableList();
-		OutputPortraitModifiersForGene("beards", malesWithBeards, output);
+		await OutputPortraitModifiersForGene("beards", validAccessoryIDs, malesWithBeards, output, ck3BookmarkDate);
 	}
 
-	private static void OutputPortraitModifiersForGene(
+	private static async Task OutputPortraitModifiersForGene(
 		string geneName,
+		FrozenSet<string> validAccessoryIDs,
 		IReadOnlyCollection<Character> charactersWithDNA,
-		TextWriter output
+		TextWriter output,
+		Date ck3BookmarkDate
 	) {
-		var charactersByGeneValue = charactersWithDNA
+		var sb = new StringBuilder();
+
+		var charactersByGeneValue = charactersWithDNA.AsValueEnumerable()
+			.Where(c => c.DNA!.AccessoryDNAValues.ContainsKey(geneName))
 			.GroupBy(c => new {
 				c.DNA!.AccessoryDNAValues[geneName].TemplateName,
-				c.DNA!.AccessoryDNAValues[geneName].IntSliderValue
+				c.DNA!.AccessoryDNAValues[geneName].ObjectName,
+				AgeSex = c.GetAgeSex(ck3BookmarkDate),
 			});
-		output.WriteLine($"IRToCK3_{geneName}_overrides = {{");
-		output.WriteLine("\tusage = game");
-		output.WriteLine("\tselection_behavior = max");
+		sb.AppendLine($"IRToCK3_{geneName}_overrides = {{");
+		sb.AppendLine("\tusage = game");
+		sb.AppendLine("\tselection_behavior = max");
 		foreach (var grouping in charactersByGeneValue) {
 			var templateName = grouping.Key.TemplateName;
-			var intSliderValue = grouping.Key.IntSliderValue;
-			
-			output.WriteLine($"\t{templateName}_{intSliderValue} = {{");
-			output.WriteLine("\t\tdna_modifiers = {");
-			output.WriteLine("\t\t\taccessory = {");
-			output.WriteLine("\t\t\t\tmode = add");
-			output.WriteLine($"\t\t\t\tgene = {geneName}");
-			output.WriteLine($"\t\t\t\ttemplate = {templateName}");
-			output.WriteLine($"\t\t\t\tvalue = {(intSliderValue / 255.0):0.###}");
-			output.WriteLine("\t\t\t}");
-			output.WriteLine("\t\t}");
-			
-			output.WriteLine("\t\tweight = {");
-			output.WriteLine("\t\t\tbase = 0");
-			foreach (var character in grouping) {
-				output.WriteLine("\t\t\tmodifier = {");
-				output.WriteLine("\t\t\t\tadd = 999");
-				output.WriteLine("\t\t\t\texists = this");
-				output.WriteLine($"\t\t\t\texists = character:{character.Id}");
-				output.WriteLine($"\t\t\t\tthis = character:{character.Id}");
-				output.WriteLine("\t\t\t}");
+			var accessoryName = grouping.Key.ObjectName;
+			string ageSex = grouping.Key.AgeSex;
+
+			var characterFlagName = $"irtock3_pm_{templateName}_obj_{accessoryName}_{ageSex}";
+			var characterEffectStr = $"{{ add_character_flag = {characterFlagName} add_character_flag = has_scripted_appearance }}";
+
+			foreach (Character character in grouping) {
+				Date effectDate = character.DeathDate ?? ck3BookmarkDate;
+				character.History.AddFieldValue(effectDate, "effects", "effect", characterEffectStr);
 			}
-			output.WriteLine("\t\t}");
-			output.WriteLine("\t}");
+			
+			sb.AppendLine($"\t{templateName}_obj_{accessoryName}_{ageSex} = {{");
+			sb.AppendLine("\t\tdna_modifiers = {");
+			sb.AppendLine("\t\t\taccessory = {");
+			sb.AppendLine("\t\t\t\tmode = add");
+			sb.AppendLine($"\t\t\t\tgene = {geneName}");
+			sb.AppendLine($"\t\t\t\ttemplate = {templateName}");
+			
+			if (validAccessoryIDs.Contains(accessoryName)) {
+				// From CK3 docs in game\gfx\portraits\portrait_modifiers\example.txt:
+				// #accessory = male_headgear_sunglasses #As an alternative to value or range we can point directly at a specific accessory, using the name from the accessory script file
+				// #type = female # Specific accessory requires portrait type in order to calculate weights properly
+				sb.AppendLine($"\t\t\t\taccessory = {accessoryName}");
+				sb.AppendLine($"\t\t\t\ttype = {ageSex}");
+			} else {
+				sb.AppendLine($"\t\t\t\tvalue = {grouping.AsValueEnumerable().First().DNA!.AccessoryDNAValues[geneName].SliderValueBetween0And1:0.####}");
+			}
+			sb.AppendLine("\t\t\t}");
+			sb.AppendLine("\t\t}");
+			
+			sb.AppendLine("\t\tweight = {");
+			sb.AppendLine("\t\t\tbase = 0");
+			sb.AppendLine("\t\t\tmodifier = {");
+			sb.AppendLine("\t\t\t\tadd = 999");
+			sb.AppendLine($"\t\t\t\thas_character_flag = {characterFlagName}");
+			sb.AppendLine("\t\t\t}");
+			
+			sb.AppendLine("\t\t}");
+			sb.AppendLine("\t}");
 		}
-		output.WriteLine("}");
+		sb.AppendLine("}");
+		
+		await output.WriteAsync(sb.ToString());
 	}
 }

@@ -16,8 +16,7 @@
 
  tenet_ritual_writing_name:0 "Ritual Writing"
  tenet_ritual_writing_desc:0 "This faith believes that messages to the gods must be immortalized through inscriptions, and that the priests must help the devoted to learn how to inscribe these messages."
- tenet_ritual_writing_active:0"The faithful may occasionally make written offerings to the gods, giving bonuses."
+ tenet_ritual_writing_active:0 "The faithful may occasionally make written offerings to the gods, giving bonuses."
  tenet_venetic_deities_name:0 "Deivobos"
  tenet_venetic_deities_desc:0 "Localities, following this faith, tend to favor local patron gods, building local centers of worship for their respective patron. However, they are rare to shun gods of other regions, and regularly make pilgrimages to temples of the other Deivobos as well."
- tenet_venetic_deities_active:0"Adherents may select personal deities."
-
+ tenet_venetic_deities_active:0 "Adherents may select personal deities."

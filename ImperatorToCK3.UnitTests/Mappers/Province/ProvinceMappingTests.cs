@@ -24,7 +24,7 @@ public class ProvinceMappingTests {
 	}
 
 	[Fact]
-	public void ImpProvinceCanBeAdded() {
+	public void ImperatorProvinceCanBeAdded() {
 		var reader = new BufferedReader("= { imp = 2 imp = 1 }");
 		var mapping = ProvinceMapping.Parse(reader);
 

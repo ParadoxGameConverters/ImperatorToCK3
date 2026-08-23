@@ -1,0 +1,23 @@
+#max_provinces = 1466
+definitions = "definition.csv"
+provinces = "provinces.png"
+#positions = "positions.txt"
+rivers = "rivers.png"
+#terrain_definition = "terrain.txt"
+topology = "heightmap.heightmap"
+#tree_definition = "trees.bmp"
+continent = "continent.txt"
+adjacencies = "adjacencies.csv"
+#climate = "climate.txt"
+island_region = "island_region.txt"
+geographical_region = "geographical_region.txt"
+seasons = "seasons.txt"
+
+#############
+# SEA ZONES
+#############
+# European Seas
+sea_zones = RANGE { 945 954 }
+
+#Black, Azov, Caspian & Aral Seas
+sea_zones = RANGE { 8667 8672 }

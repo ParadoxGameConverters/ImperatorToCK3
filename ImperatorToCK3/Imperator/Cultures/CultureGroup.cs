@@ -4,16 +4,16 @@ using System.Collections.Generic;
 
 namespace ImperatorToCK3.Imperator.Cultures;
 
-public class CultureGroup : IdObjectCollection<string, Culture>, IIdentifiable<string> {
+internal sealed class CultureGroup : IdObjectCollection<string, Culture>, IIdentifiable<string> {
 	public string Id { get; }
 	private readonly Dictionary<string, string> familyNamesDict = new(); // <key, male form>
 
 	public CultureGroup(string id, BufferedReader groupReader) {
 		Id = id;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("culture", culturesReader => {
-			var culturesParser = new Parser();
+			var culturesParser = new Parser(implicitVariableHandling: true);
 			culturesParser.RegisterRegex(CommonRegexes.String, (cultureReader, cultureId) => {
 				AddOrReplace(new Culture(cultureId, cultureReader));
 			});

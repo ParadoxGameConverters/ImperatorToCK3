@@ -1,1 +1,1 @@
-link = { ck3 = ck3Trait imp = impTrait imp = impTrait2 }
+link = { ck3 = ck3Trait ir = impTrait ir = impTrait2 }

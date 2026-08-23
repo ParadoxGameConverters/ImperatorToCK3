@@ -13,20 +13,43 @@
 
 # OpenCppCoverageStuff
 *.log
-ImperatorToCK3/.opencppcov/
-ImperatorToCK3Tests/.opencppcov/
+/ImperatorToCK3/.opencppcov/
+/ImperatorToCK3Tests/.opencppcov/
 
 # Output folders
-Release/
-ReleaseIntermediate/
-Release-Linux/
-Debug/
-DebugIntermediate/
-ImperatorToCK3.UnitTests/obj/
-ImperatorToCK3/obj/
-DocsGenerator/obj/
-Publish/
+/Release/
+/ReleaseIntermediate/
+/Release-Linux/
+/Debug/
+/DebugIntermediate/
+/ImperatorToCK3.UnitTests/bin/
+/ImperatorToCK3.UnitTests/obj/
+/ImperatorToCK3/obj/
+/Publish/
+/Output/
+/TestResults/
 
+DocsGenerator/bin/
+DocsGenerator/obj/
 
 log.txt
 *.user
+.vscode/settings.json
+
+# Imperator: Rome saves for testing
+/Saves/
+
+# Files related to local ck3-tiger validation
+validate-with-ck3-tiger.ps1
+result-error.txt
+result.txt
+validate-with-ck3-tiger_wtwsms.ps1
+previous-problem-count.txt
+
+# Benchmark stuff
+/BenchmarkDotNet.Artifacts/
+/BenchmarkSuite1/
+
+# Local agent instructions
+/AGENTS.md
+*.pyc

@@ -1,0 +1,21 @@
+﻿#################
+# The Silk Road #
+#################
+{% if wtwsms %}
+# The Silk Road shouldn't trigger when using a mod without East Asia
+
+{% else %}
+# The base game sets the start date as Jan 1, 552, since that's apparently when Silkworms were smuggled into Byzantium
+
+1.1.1 = {
+	effect = {
+		if = {
+			limit = { has_tgp_dlc_trigger = yes }
+			start_situation = {
+				type = silk_road_situation
+			}
+		}		
+	}
+}
+
+{% endif %}

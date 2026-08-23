@@ -1,142 +1,39 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
 
     <IsPackable>false</IsPackable>
 
     <Nullable>enable</Nullable>
-
     <LangVersion>preview</LangVersion>
+    
+    <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+
+    <!-- The new xUnit.net v3/Microsoft Testing Platform model requires test
+         projects to be executable rather than libraries. -->
+    <OutputType>Exe</OutputType>
+    <!-- enable the Microsoft Testing Platform runner -->
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="coverlet.msbuild" Version="3.2.0">
+    <PackageReference Include="AwesomeAssertions" Version="9.6.0" />
+    <PackageReference Include="coverlet.msbuild" Version="10.0.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="FluentAssertions" Version="6.10.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
-    <PackageReference Include="xunit" Version="2.4.2" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+    <PackageReference Include="xunit.v3.mtp-v2" Version="4.0.0" />
+    <PackageReference Include="coverlet.collector" Version="10.0.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="3.2.0">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
+    <PackageReference Include="coverlet.MTP" Version="10.0.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\ImperatorToCK3\ImperatorToCK3.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Update="TestFiles\CK3ProvincesHistoryFile.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\CK3_province_mappings.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\CoatsOfArms.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\configurables\definite_form_names.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\configurables\governorMappings.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\configurables\nickname_map.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\configurables\succession_law_map.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\configurables\title_map.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\configurables\trait_map.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\configurables\wargoal_mappings.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\mod\brokenmod.mod">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\mod\missingmod.mod">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\mod\packedmod.mod">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\mod\packedmod.zip">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\mod\themod.mod">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\mod\themod\README.md">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\CK3RegionMapperTests\CorrectParentLocationsReported.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\CK3RegionMapperTests\empty.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\CK3RegionMapperTests\LoadingBrokenCountyWillThrowException.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\CK3RegionMapperTests\LoadingBrokenDuchyWillThrowException.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\CK3RegionMapperTests\LoadingBrokenRegionWillThrowException.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\CK3RegionMapperTests\LocationNameValidationWorks.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\CK3RegionMapperTests\LocationServicesCorrectlyFail.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\CK3RegionMapperTests\LocationServicesFailForNonsense.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\CK3RegionMapperTests\LocationServicesSucceedsForCountyField.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\CK3RegionMapperTests\LocationServicesSucceedsForProvinceField.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\CK3RegionMapperTests\LocationServicesWork.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\CK3RegionMapperTests\WrongParentLocationsReturnNull.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\CultureMappingTests\empty.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\CultureMappingTests\MatchOnRegion.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\CultureMappingTests\MatchOnRegionFailsForWrongRegion.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\island_regions.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\regions\regions.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="TestFiles\title_history\TitlesHistory.txt">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-
 
 	<ItemGroup>
 		<RakalyBinaryFiles Include="../ImperatorToCK3/Resources/rakaly/**/*.*" />
@@ -144,8 +41,13 @@
 	<ItemGroup>
 		<TestFiles Include="TestFiles/**/*.*" />
 	</ItemGroup>
+	<ItemGroup>
+		<ConfigurableFiles Include="..\ImperatorToCK3/Data_Files/configurables/imperator_mods.txt" />
+		<ConfigurableFiles Include="..\ImperatorToCK3/Data_Files/configurables/ck3_mods.txt" />
+	</ItemGroup>
 	<Target Name="CopyCustomContent" AfterTargets="Build">
 		<Copy SourceFiles="@(RakalyBinaryFiles)" DestinationFolder="$(OutDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" />
 		<Copy SourceFiles="@(TestFiles)" DestinationFolder="$(OutDir)\TestFiles\%(RecursiveDir)" SkipUnchangedFiles="true" OverwriteReadOnlyFiles="true" Retries="3" RetryDelayMilliseconds="300" />
+		<Copy SourceFiles="@(ConfigurableFiles)" DestinationFolder="$(OutDir)\configurables\%(RecursiveDir)" SkipUnchangedFiles="true" />
 	</Target>
 </Project>

@@ -7,21 +7,21 @@ namespace ImperatorToCK3.UnitTests.Mappers.DeathReason;
 public class DeathReasonMapperTests {
 	[Fact]
 	public void NonMatchGivesEmptyOptional() {
-		var reader = new BufferedReader("link = { ck3 = ck3Reason imp = impReason }");
+		var reader = new BufferedReader("link = { ck3=ck3Reason ir=impReason }");
 		var mapper = new DeathReasonMapper(reader);
 		var ck3Reason = mapper.GetCK3ReasonForImperatorReason("nonMatchingReason");
 		Assert.Null(ck3Reason);
 	}
 	[Fact]
 	public void Ck3ReasonCanBeFound() {
-		var reader = new BufferedReader("link = { ck3 = ck3Reason imp = impReason }");
+		var reader = new BufferedReader("link = { ck3=ck3Reason ir=impReason }");
 		var mapper = new DeathReasonMapper(reader);
 		var ck3Reason = mapper.GetCK3ReasonForImperatorReason("impReason");
 		Assert.Equal("ck3Reason", ck3Reason);
 	}
 	[Fact]
 	public void MultipleImpReasonsCanBeInARule() {
-		var reader = new BufferedReader("link = { ck3 = ck3Reason imp = impReason imp = impReason2 }");
+		var reader = new BufferedReader("link = { ck3=ck3Reason ir=impReason ir=impReason2 }");
 		var mapper = new DeathReasonMapper(reader);
 		var ck3Reason1 = mapper.GetCK3ReasonForImperatorReason("impReason");
 		var ck3Reason2 = mapper.GetCK3ReasonForImperatorReason("impReason2");
@@ -30,8 +30,8 @@ public class DeathReasonMapperTests {
 	}
 	[Fact]
 	public void CorrectRuleMatches() {
-		const string input = "link = { ck3 = ck3Reason imp = impReason }\n" +
-		    "link = { ck3 = ck3Reason2 imp = impReason2 }";
+		const string input = "link = { ck3=ck3Reason ir=impReason }\n" +
+		    "link = { ck3=ck3Reason2 ir=impReason2 }";
 		var reader = new BufferedReader(input);
 		var mapper = new DeathReasonMapper(reader);
 		var ck3Reason2 = mapper.GetCK3ReasonForImperatorReason("impReason2");
@@ -41,7 +41,7 @@ public class DeathReasonMapperTests {
 	[Fact]
 	public void MappingsWithNoCK3ReasonAreIgnored() {
 		var reader = new BufferedReader(
-			"link = { imp = impReason }"
+			"link = { ir=impReason }"
 		);
 		var mapper = new DeathReasonMapper(reader);
 

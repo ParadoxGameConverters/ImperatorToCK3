@@ -3,11 +3,13 @@ using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
+using ZLinq;
 
 namespace ImperatorToCK3.Mappers.Region;
 
-public class CK3RegionMapper {
+internal sealed class CK3RegionMapper {
+	public IReadOnlyDictionary<string, CK3Region> Regions => regions;
+
 	public CK3RegionMapper() { }
 	public CK3RegionMapper(ModFilesystem ck3ModFS, Title.LandedTitles landedTitles) {
 		Logger.Info("Initializing Geography...");
@@ -17,11 +19,11 @@ public class CK3RegionMapper {
 		Logger.IncrementProgress();
 	}
 	public void LoadRegions(ModFilesystem ck3ModFS, Title.LandedTitles landedTitles) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		RegisterRegionKeys(parser);
 
 		var regionsFolderPath = Path.Combine("map_data", "geographical_regions");
-		parser.ParseGameFolder(regionsFolderPath, ck3ModFS, "txt", true);
+		parser.ParseGameFolder(regionsFolderPath, ck3ModFS, "txt", recursive: true);
 
 		var islandRegionFilePath = Path.Combine("map_data", "island_region.txt");
 		parser.ParseGameFile(islandRegionFilePath, ck3ModFS);
@@ -32,10 +34,23 @@ public class CK3RegionMapper {
 				counties[title.Id] = title;
 			} else if (titleRank == TitleRank.duchy) {
 				duchies[title.Id] = title;
+			} else if (titleRank == TitleRank.kingdom) {
+				kingdoms[title.Id] = title;
 			}
 		}
 
 		LinkRegions();
+		
+		// Log duchies that don't have any de jure counties.
+		// Such duchies should probably be removed from the regions.
+		var validDeJureDuchyIds = landedTitles.GetDeJureDuchies().AsValueEnumerable().Select(d => d.Id).ToFrozenSet();
+		foreach (var region in regions.Values) {
+			foreach (var regionDuchyId in region.Duchies.Keys) {
+				if (!validDeJureDuchyIds.Contains(regionDuchyId)) {
+					Logger.Debug($"Region {region.Name} contains duchy {regionDuchyId} which has no de jure counties!");
+				}
+			}
+		}
 	}
 	public bool ProvinceIsInRegion(ulong provinceId, string regionName) {
 		if (regions.TryGetValue(regionName, out var region)) {
@@ -48,7 +63,7 @@ public class CK3RegionMapper {
 		}
 
 		// And sometimes they don't mean what people think they mean at all.
-		return counties.TryGetValue(regionName, out var county) && county.CountyProvinces.Contains(provinceId);
+		return counties.TryGetValue(regionName, out var county) && county.CountyProvinceIds.AsValueEnumerable().Contains(provinceId);
 	}
 	public bool RegionNameIsValid(string regionName) {
 		if (regions.ContainsKey(regionName)) {
@@ -68,7 +83,7 @@ public class CK3RegionMapper {
 	}
 	public string? GetParentCountyName(ulong provinceId) {
 		foreach (var (countyName, county) in counties) {
-			if (county.CountyProvinces.Contains(provinceId)) {
+			if (county.CountyProvinceIds.AsValueEnumerable().Contains(provinceId)) {
 				return countyName;
 			}
 		}
@@ -84,15 +99,6 @@ public class CK3RegionMapper {
 		Logger.Warn($"CK3 province ID {provinceId} has no parent duchy name!");
 		return null;
 	}
-	public string? GetParentRegionName(ulong provinceId) {
-		foreach (var (regionName, region) in regions) {
-			if (region.ContainsProvince(provinceId)) {
-				return regionName;
-			}
-		}
-		Logger.Warn($"CK3 province ID {provinceId} has no parent region name!");
-		return null;
-	}
 
 	private void RegisterRegionKeys(Parser parser) {
 		parser.RegisterRegex(CommonRegexes.String, (reader, regionName) => {
@@ -102,10 +108,11 @@ public class CK3RegionMapper {
 	}
 	private void LinkRegions() {
 		foreach (var region in regions.Values) {
-			region.LinkRegions(regions, duchies, counties);
+			region.LinkRegions(regions, kingdoms, duchies, counties);
 		}
 	}
-	private readonly Dictionary<string, CK3Region> regions = new();
-	private readonly Dictionary<string, Title> duchies = new();
-	private readonly Dictionary<string, Title> counties = new();
+	private readonly Dictionary<string, CK3Region> regions = [];
+	private readonly Dictionary<string, Title> kingdoms = [];
+	private readonly Dictionary<string, Title> duchies = [];
+	private readonly Dictionary<string, Title> counties = [];
 }

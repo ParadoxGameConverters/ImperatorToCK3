@@ -1,13 +1,14 @@
 using commonItems;
 using commonItems.Collections;
 using commonItems.Serialization;
+using commonItems.SourceGenerators;
 using ImperatorToCK3.CK3.Characters;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ImperatorToCK3.CK3.Armies;
 
-public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
+[SerializationByProperties]
+internal sealed partial class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 	[NonSerialized] public string Id { get; }
 
 	[SerializedName("can_recruit")] public StringOfItem CanRecruit { get; private set; } = new("{}");
@@ -16,22 +17,22 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 	[SerializedName("buy_cost")] public MenAtArmsCost? BuyCost { get; set; }
 	[SerializedName("low_maintenance_cost")] public MenAtArmsCost? LowMaintenanceCost { get; set; }
 	[SerializedName("high_maintenance_cost")] public MenAtArmsCost? HighMaintenanceCost { get; set; }
+	[SerializedName("provision_cost")] public double? ProvisionCost { get; set; }
 
-	[NonSerialized] private Dictionary<string, StringOfItem> attributes = new();
+	[SerializeOnlyValue] private Dictionary<string, StringOfItem> Attributes { get; } = [];
 	[NonSerialized] public bool ToBeOutputted { get; } = false;
 
 	public MenAtArmsType(string id, BufferedReader typeReader, ScriptValueCollection scriptValues) {
 		Id = id;
 
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("stack", reader => Stack = reader.GetInt());
 		parser.RegisterKeyword("can_recruit", reader => CanRecruit = reader.GetStringOfItem());
 		parser.RegisterKeyword("buy_cost", costReader => BuyCost = new MenAtArmsCost(costReader, scriptValues));
 		parser.RegisterKeyword("low_maintenance_cost", costReader => LowMaintenanceCost = new MenAtArmsCost(costReader, scriptValues));
 		parser.RegisterKeyword("high_maintenance_cost", costReader => HighMaintenanceCost = new MenAtArmsCost(costReader, scriptValues));
-		parser.RegisterRegex(CommonRegexes.String, (reader, keyword) => {
-			attributes[keyword] = reader.GetStringOfItem();
-		});
+		parser.RegisterKeyword("provision_cost", costReader => ProvisionCost = costReader.GetDouble());
+		parser.RegisterRegex(CommonRegexes.String, (r, keyword) => Attributes[keyword] = r.GetStringOfItem());
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(typeReader);
 	}
@@ -56,22 +57,12 @@ public class MenAtArmsType : IIdentifiable<string>, IPDXSerializable {
 		if (baseType.HighMaintenanceCost is not null) {
 			HighMaintenanceCost = baseType.HighMaintenanceCost * stackRatio;
 		}
-
-		attributes = new Dictionary<string, StringOfItem>(baseType.attributes);
-		if (!baseType.attributes.ContainsKey("icon")) {
-			attributes["icon"] = new StringOfItem(baseType.Id);
+		if (baseType.ProvisionCost is not null) {
+			ProvisionCost = baseType.ProvisionCost.Value * stackRatio;
 		}
 
-		attributes["ai_quality"] = new StringOfItem("{ value=1 }");
-	}
-
-	public string Serialize(string indent, bool withBraces) {
-		var sb = new StringBuilder();
-		sb.AppendLine("{");
-		sb.Append((this as IPDXSerializable).SerializeMembers(indent + '\t'));
-		sb.Append('\t').AppendLine(PDXSerializer.Serialize(attributes, indent + '\t', withBraces: false));
-		sb.AppendLine("}");
-
-		return sb.ToString();
+		Attributes = new Dictionary<string, StringOfItem>(baseType.Attributes) {
+			["ai_quality"] = new StringOfItem("{ value=1 }"),
+		};
 	}
 }

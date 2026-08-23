@@ -1,6 +1,8 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Titles;
+using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
@@ -16,41 +18,47 @@ namespace ImperatorToCK3.UnitTests.Mappers.Religion;
 public class ReligionMappingTests {
 	private const string ImperatorRoot = "TestFiles/Imperator/root";
 	private static readonly ModFilesystem irModFS = new(ImperatorRoot, Array.Empty<Mod>());
+	private static readonly MapData irMapData = new(irModFS);
 	private static readonly AreaCollection areas = new();
-	private static readonly ImperatorRegionMapper irRegionMapper = new(irModFS, areas);
+	private static readonly ImperatorRegionMapper irRegionMapper = new(areas, irMapData);
 	private const string ck3Path = "TestFiles/regions/ReligionMappingTests";
 	private string CK3Root => Path.Combine(ck3Path, "game");
+	private static readonly ColorFactory colorFactory = new();
+	
+	public ReligionMappingTests() {
+		irRegionMapper.LoadRegions(irModFS, colorFactory);
+	}
 
 	[Fact]
 	public void RegularMatchOnSimpleReligion() {
-		var reader = new BufferedReader("ck3 = flemish imp = dutch");
+		var reader = new BufferedReader("ck3 = flemish ir = dutch");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Equal("flemish", mapping.Match("dutch", 0, 0, null, new Configuration(), irRegionMapper, new CK3RegionMapper()));
+		Assert.Equal("flemish", mapping.Match("dutch", null, null, null, null, new Configuration(), irRegionMapper, new CK3RegionMapper()));
 	}
 
 	[Fact]
 	public void MatchOnProvince() {
-		var reader = new BufferedReader("ck3 = dutch imp = german ck3Province = 17");
+		var reader = new BufferedReader("ck3 = dutch ir = german ck3Province = 17");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Equal("dutch", mapping.Match("german", 17, 0, null, new Configuration(), irRegionMapper, new CK3RegionMapper()));
+		Assert.Equal("dutch", mapping.Match("german", null, 17, null, null, new Configuration(), irRegionMapper, new CK3RegionMapper()));
 	}
 
 	[Fact]
 	public void MatchOnProvinceFailsForWrongProvince() {
-		var reader = new BufferedReader("ck3 = dutch imp = german ck3Province = 17");
+		var reader = new BufferedReader("ck3 = dutch ir = german ck3Province = 17");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Null(mapping.Match("german", 19, 0, null, new Configuration(), irRegionMapper, new CK3RegionMapper()));
+		Assert.Null(mapping.Match("german", null, 19, null, null, new Configuration(), irRegionMapper, new CK3RegionMapper()));
 	}
 
 	[Fact]
 	public void MatchOnProvinceFailsForNoProvince() {
-		var reader = new BufferedReader("ck3 = dutch imp = german ck3Province = 17");
+		var reader = new BufferedReader("ck3 = dutch ir = german ck3Province = 17");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Null(mapping.Match("german", 0, 0, null, new Configuration(), irRegionMapper, new CK3RegionMapper()));
+		Assert.Null(mapping.Match("german", null, null, null, null, new Configuration(), irRegionMapper, new CK3RegionMapper()));
 	}
 
 	[Fact]
@@ -61,15 +69,15 @@ public class ReligionMappingTests {
 			"k_ugada = { d_wakaba = { c_athens = { b_athens = { province = 79 } } } } \n" +
 			"k_ghef = { d_hujhu = { c_defff = { b_newbarony2 = { province = 4 } } } } \n"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 
 		var ck3ModFS = new ModFilesystem(CK3Root, new List<Mod>());
 		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
-		var reader = new BufferedReader("ck3 = dutch imp = german ck3Region = test_region1");
+		var reader = new BufferedReader("ck3 = dutch ir = german ck3Region = test_region1");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Equal("dutch", mapping.Match("german", 4, 0, null, new Configuration(), irRegionMapper, ck3RegionMapper));
+		Assert.Equal("dutch", mapping.Match("german", null, 4, null, null, new Configuration(), irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -80,15 +88,15 @@ public class ReligionMappingTests {
 			"k_ugada = { d_wakaba = { } } \n" +
 			"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } } } } \n"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 
 		var ck3ModFS = new ModFilesystem(CK3Root, new List<Mod>());
 		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
-		var reader = new BufferedReader("ck3 = dutch imp = german ck3Region = test_region1");
+		var reader = new BufferedReader("ck3 = dutch ir = german ck3Region = test_region1");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Null(mapping.Match("german", 79, 0, null, new Configuration(), irRegionMapper, ck3RegionMapper));
+		Assert.Null(mapping.Match("german", null, 79, null, null, new Configuration(), irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -99,15 +107,15 @@ public class ReligionMappingTests {
 			"k_ugada = { d_wakaba = { } } \n" +
 			"k_ghef = { d_hujhu = { } } \n"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 
 		var ck3ModFS = new ModFilesystem(CK3Root, new List<Mod>());
 		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
-		var reader = new BufferedReader("ck3 = dutch imp = german ck3Region = test_region3");
+		var reader = new BufferedReader("ck3 = dutch ir = german ck3Region = test_region3");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Null(mapping.Match("german", 17, 0, null, new Configuration(), irRegionMapper, ck3RegionMapper));
+		Assert.Null(mapping.Match("german", null, 17, null, null, new Configuration(), irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
@@ -118,50 +126,90 @@ public class ReligionMappingTests {
 			"k_ugada = { d_wakaba = { } } \n" +
 			"k_ghef = { d_hujhu = { c_defff = { b_cringe = { province = 6 } b_newbarony2 = { province = 4 } } } } \n"
 		);
-		landedTitles.LoadTitles(landedTitlesReader);
+		landedTitles.LoadTitles(landedTitlesReader, colorFactory);
 
 		var ck3ModFS = new ModFilesystem(CK3Root, new List<Mod>());
 		ck3RegionMapper.LoadRegions(ck3ModFS, landedTitles);
 
-		var reader = new BufferedReader("ck3 = dutch imp = german ck3Region = d_hujhu");
+		var reader = new BufferedReader("ck3 = dutch ir = german ck3Region = d_hujhu");
 		var mapping = ReligionMapping.Parse(reader);
 
-		Assert.Null(mapping.Match("german", 0, 0, null, new Configuration(), irRegionMapper, ck3RegionMapper));
+		Assert.Null(mapping.Match("german", null, null, null, null, new Configuration(), irRegionMapper, ck3RegionMapper));
 	}
 
 	[Fact]
 	public void HeresiesInHistoricalAreasValueCorrectlyMatchesYes() {
-		var reader = new BufferedReader("ck3=dutch imp=german heresiesInHistoricalAreas=yes");
+		var reader = new BufferedReader("ck3=dutch ir=german heresiesInHistoricalAreas=yes");
 		var mapping = ReligionMapping.Parse(reader);
 		var config = new Configuration { HeresiesInHistoricalAreas = true };
 
-		Assert.Equal("dutch", mapping.Match("german", 0, 0, null, config, irRegionMapper, new CK3RegionMapper()));
+		Assert.Equal("dutch", mapping.Match("german", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
 	}
 
 	[Fact]
 	public void HeresiesInHistoricalAreasValueCorrectlyMismatchesYes() {
-		var reader = new BufferedReader("ck3=dutch imp=german heresiesInHistoricalAreas=yes");
+		var reader = new BufferedReader("ck3=dutch ir=german heresiesInHistoricalAreas=yes");
 		var mapping = ReligionMapping.Parse(reader);
 		var config = new Configuration { HeresiesInHistoricalAreas = false };
 
-		Assert.Null(mapping.Match("german", 0, 0, null, config, irRegionMapper, new CK3RegionMapper()));
+		Assert.Null(mapping.Match("german", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
 	}
 
 	[Fact]
 	public void HeresiesInHistoricalAreasValueCorrectlyMatchesNo() {
-		var reader = new BufferedReader("ck3=dutch imp=german heresiesInHistoricalAreas=no");
+		var reader = new BufferedReader("ck3=dutch ir=german heresiesInHistoricalAreas=no");
 		var mapping = ReligionMapping.Parse(reader);
 		var config = new Configuration { HeresiesInHistoricalAreas = false };
 
-		Assert.Equal("dutch", mapping.Match("german", 0, 0, null, config, irRegionMapper, new CK3RegionMapper()));
+		Assert.Equal("dutch", mapping.Match("german", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
 	}
 
 	[Fact]
 	public void HeresiesInHistoricalAreasValueCorrectlyMismatchesNo() {
-		var reader = new BufferedReader("ck3=dutch imp=german heresiesInHistoricalAreas=no");
+		var reader = new BufferedReader("ck3=dutch ir=german heresiesInHistoricalAreas=no");
 		var mapping = ReligionMapping.Parse(reader);
 		var config = new Configuration { HeresiesInHistoricalAreas = true };
 
-		Assert.Null(mapping.Match("german", 0, 0, null, config, irRegionMapper, new CK3RegionMapper()));
+		Assert.Null(mapping.Match("german", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
+	}
+
+	[Fact]
+	public void DateIsCorrectlyUsedAsTrigger() {
+		var orthodoxReader = new BufferedReader("ck3=orthodox ir=christian date_gte=1054.7.16");
+		var orthodoxMapping = ReligionMapping.Parse(orthodoxReader);
+		
+		var chalcedonianReader = new BufferedReader("ck3=chalcedonian ir=christian");
+		var chalcedonianMapping = ReligionMapping.Parse(chalcedonianReader);
+		
+		// date after the schism
+		var config = new Configuration { CK3BookmarkDate = new Date(1066, 9, 15) };
+		Assert.Equal("orthodox", orthodoxMapping.Match("christian", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
+		// fallback to chalcedonian should also work
+		Assert.Equal("chalcedonian", chalcedonianMapping.Match("christian", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
+		
+		// date of the schism
+		config = new Configuration { CK3BookmarkDate = new Date(1054, 7, 16) };
+		Assert.Equal("orthodox", orthodoxMapping.Match("christian", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
+		Assert.Equal("chalcedonian", chalcedonianMapping.Match("christian", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
+		
+		// date before the schism
+		config = new Configuration { CK3BookmarkDate = new Date(1000, 0, 0) };
+		Assert.Null(orthodoxMapping.Match("christian", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
+		Assert.Equal("chalcedonian", chalcedonianMapping.Match("christian", null, null, null, null, config, irRegionMapper, new CK3RegionMapper()));
+	}
+	
+	[Theory]
+	[InlineData("roman", "orthodox")]
+	[InlineData("greek", "orthodox")]
+	[InlineData("briton", null)]
+	[InlineData("armenian", null)]
+	[InlineData(null, null)]
+	public void MappingWithSpecifiedCK3CulturesCorrectlyMatches(string? ck3CultureId, string? expectedMatchedFaith) {
+		var reader = new BufferedReader(
+			"ck3=orthodox ir=christian ir=nicene ir=orthodox ck3Culture=roman ck3Culture=greek"
+		);
+		var mapping = ReligionMapping.Parse(reader);
+
+		Assert.Equal(expectedMatchedFaith, mapping.Match("nicene", ck3CultureId, 56, 49, null, new Configuration(), irRegionMapper, new CK3RegionMapper()));
 	}
 }

@@ -1,33 +1,57 @@
-using commonItems;
 using commonItems.Collections;
-using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator.Countries;
 using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.Provinces;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.Immutable;
 
 namespace ImperatorToCK3.Imperator.States;
 
-public class State : IIdentifiable<ulong> {
+internal sealed class State : IIdentifiable<ulong> {
 	public ulong Id { get; }
-	private ulong capitalProvinceId;
-	public Area Area { get; private set; } = null!;
-	public Country Country { get; private set; } = null!;
+	private readonly ulong capitalProvinceId;
+	public Area Area { get; }
+	public Country Country { get; }
 
-	public State(ulong id, BufferedReader stateReader, IdObjectCollection<string, Area> areas, CountryCollection countries) {
+	public State(ulong id, StateData stateData) {
 		Id = id;
-
-		var parser = new Parser();
-		parser.RegisterKeyword("capital", reader => capitalProvinceId = reader.GetULong());
-		parser.RegisterKeyword("area", reader => Area = areas[reader.GetString()]);
-		parser.RegisterKeyword("country", reader => Country = countries[reader.GetULong()]);
-		parser.IgnoreAndStoreUnregisteredItems(IgnoredKeywords);
-		parser.ParseStream(stateReader);
+		
+		capitalProvinceId = stateData.CapitalProvinceId;
+		Area = stateData.Area!;
+		Country = stateData.Country!;
 	}
 
-	public Province CapitalProvince => Area.Provinces.First(p => p.Id == capitalProvinceId);
-	public IEnumerable<Province> Provinces => Area.Provinces.Where(p => p.State?.Id == Id);
+	public Province CapitalProvince {
+		get {
+			if (capitalProvince is not null) {
+				return capitalProvince;
+			}
+			if (Area.TryGetProvince(capitalProvinceId, out var areaProvince)) {
+				capitalProvince = areaProvince;
+				return areaProvince;
+			}
+			throw new KeyNotFoundException($"Capital province {capitalProvinceId} was not found in area {Area.Id} for state {Id}.");
+		}
+	}
 
-	public static IgnoredKeywordsSet IgnoredKeywords { get; } = new();
+	public IEnumerable<Province> Provinces {
+		get {
+			if (provinces is not null) {
+				return provinces;
+			}
+
+			var stateProvinces = ImmutableArray.CreateBuilder<Province>();
+			foreach (var province in Area.Provinces) {
+				if (province.State?.Id == Id) {
+					stateProvinces.Add(province);
+				}
+			}
+
+			provinces = stateProvinces.ToImmutable();
+			return provinces;
+		}
+	}
+
+	private Province? capitalProvince;
+	private ImmutableArray<Province>? provinces;
 }

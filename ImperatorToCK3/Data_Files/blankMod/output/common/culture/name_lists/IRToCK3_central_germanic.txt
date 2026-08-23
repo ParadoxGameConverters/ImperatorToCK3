@@ -34,7 +34,8 @@
 		Hraugmund Hraugram Hraugric Hroco Ingast Ingbald Inger Ingmund
 		Ingoht Ingoleik Ingomar Ingram Ingrand Ingrauc Ingric Ingsun
 		Inguiomer Ingwald Laikwald Leigmund Leikbolad Leikrauc Leko
-		Malact Malleik Mallobald Mallobaudes Mallovendus Malo Malobald
+		Malact Malleik Mallobald_collision_fix Mallobaudes Mallovendus Malo Malobald # In CK3 there's a hash collision between the keys "Mallobald" and "laamp_base_contract_schemes.2541.e.tt.employer_has_trait.paranoid", so the key "Mallobald" has been changed to "Mallobald_collision_fix".
+
 		Malogan Malogast Maloger Malogund Maloram Malorand Malorauc
 		Maloric Malowind Malwald Marcobold Marcogan Marcogast Marcoger
 		Marcogund Marcoleik Marcomer Marcomund Marcoram Marcorauc
@@ -178,7 +179,7 @@ name_list_pemis = {
 		{ "dynnp_von" "dynn_Koltern" }
 		{ "dynnp_von" "dynn_Felpe" }
 		{ "dynnp_von" "dynn_A_re" }
-		{ "dynnp_von" "dynn_Stojnfurt" }
+		{ "dynnp_von" "dynn_S_tojnfurt" }
 		{ "dynnp_von" "dynn_TeklAEpurk" }
 		{ "dynnp_von" "dynn_Ravensperk" }
 		{ "dynnp_von" "dynn_FeY_e" }
@@ -209,11 +210,11 @@ name_list_pemis = {
 		{ "dynnp_von" "dynn_PommAEn" }
 		{ "dynnp_von" "dynn_RykAE" }
 		{ "dynnp_von" "dynn_FittAEperk" }
-		{ "dynnp_von" "dynn_State" }
+		{ "dynnp_von" "dynn_S_tate" }
 		{ "dynnp_von" "dynn_SachsAE" }
 		{ "dynn_Prunsfik" }
 		{ "dynn_Ytulfink" }
-		{ "dynnp_von" "dynn_Stat" }
+		{ "dynnp_von" "dynn_S_tat" }
 		{ "dynnp_von" "dynn_Rinkelhojm" }
 		{ "dynn_FullAEpunt" }
 		{ "dynnp_von" "dynn_Melln" }

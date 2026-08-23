@@ -2,11 +2,11 @@
 
 namespace ImperatorToCK3.Imperator.Provinces;
 
-public class ProvinceName {
+internal sealed class ProvinceName {
 	public string Name { get; private set; } = "";
 
 	public ProvinceName(BufferedReader reader) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		RegisterKeys(parser);
 		parser.ParseStream(reader);
 	}

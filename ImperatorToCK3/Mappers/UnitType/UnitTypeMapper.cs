@@ -1,19 +1,20 @@
 using commonItems;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 
 namespace ImperatorToCK3.Mappers.UnitType;
 
-public class UnitTypeMapper {
-	private readonly Dictionary<string, string?> unitTypeMap = new(); // imperator -> ck3
+internal sealed class UnitTypeMapper {
+	private readonly Dictionary<string, string?> unitTypeMap = []; // imperator -> ck3
 
 	public UnitTypeMapper(string mappingsFilePath) {
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: true);
 		parser.RegisterKeyword("link", mappingReader => {
 			var impList = new List<string>();
 			string? ck3Type = null;
 
-			var mappingParser = new Parser();
-			mappingParser.RegisterKeyword("imp", reader=>impList.Add(reader.GetString()));
+			var mappingParser = new Parser(implicitVariableHandling: true);
+			mappingParser.RegisterKeyword("ir", reader=>impList.Add(reader.GetString()));
 			mappingParser.RegisterKeyword("ck3", reader=>ck3Type=reader.GetString());
 			mappingParser.RegisterRegex(CommonRegexes.Catchall, ParserHelpers.IgnoreAndLogItem);
 			mappingParser.ParseStream(mappingReader);
@@ -27,10 +28,10 @@ public class UnitTypeMapper {
 	}
 
 	public string? Match(string imperatorUnitType) {
-		return unitTypeMap.GetValueOrDefault(imperatorUnitType, null);
+		return unitTypeMap.GetValueOrDefault(imperatorUnitType, defaultValue: null);
 	}
 
-	public IDictionary<string, int> GetMenPerCK3UnitType(IDictionary<string, int> menPerImperatorUnitType) {
+	public Dictionary<string, int> GetMenPerCK3UnitType(FrozenDictionary<string, int> menPerImperatorUnitType) {
 		var toReturn = new Dictionary<string, int>();
 
 		foreach (var (imperatorType, imperatorMen) in menPerImperatorUnitType) {
@@ -39,10 +40,8 @@ public class UnitTypeMapper {
 				continue;
 			}
 
-			if (toReturn.ContainsKey(ck3Type)) {
+			if (!toReturn.TryAdd(ck3Type, imperatorMen)) {
 				toReturn[ck3Type] += imperatorMen;
-			} else {
-				toReturn[ck3Type] = imperatorMen;
 			}
 		}
 

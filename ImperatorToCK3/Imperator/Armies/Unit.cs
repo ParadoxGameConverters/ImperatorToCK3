@@ -2,28 +2,28 @@
 using commonItems.Collections;
 using commonItems.Localization;
 using ImperatorToCK3.CommonUtils;
+using System.Collections.Frozen;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace ImperatorToCK3.Imperator.Armies;
 
-public class Unit : IIdentifiable<ulong> {
+internal sealed class Unit : IIdentifiable<ulong> {
 	public ulong Id { get; }
 	public bool IsArmy { get; private set; } = true;
 	public bool IsLegion { get; private set; } = false;
 	public ulong CountryId { get; set; }
-	public ulong LeaderId { get; set; } // character id
+	public ulong? LeaderId { get; set; } // character id
 	public ulong Location { get; set; } // province id
-	private List<ulong> CohortIds { get; } = new();
+	private List<ulong> CohortIds { get; } = [];
 
 	public LocBlock? LocalizedName { get; private set; }
-	public IDictionary<string, int> MenPerUnitType { get; }
+	public FrozenDictionary<string, int> MenPerUnitType { get; }
 
-	public Unit(ulong id, BufferedReader legionReader, UnitCollection unitCollection, LocDB locDB, Defines defines) {
+	public Unit(ulong id, BufferedReader legionReader, UnitCollection unitCollection, LocDB irLocDB, ImperatorDefines defines) {
 		Id = id;
 
-		var parser = new Parser();
-		parser.RegisterKeyword("unit_name", reader => LocalizedName = GetLocalizedName(reader, locDB));
+		var parser = new Parser(implicitVariableHandling: false);
+		parser.RegisterKeyword("unit_name", reader => LocalizedName = GetLocalizedName(reader, irLocDB));
 		parser.RegisterKeyword("is_army", reader => IsArmy = reader.GetBool());
 		parser.RegisterKeyword("country", reader => CountryId = reader.GetULong());
 		parser.RegisterKeyword("leader", reader => LeaderId = reader.GetULong());
@@ -36,10 +36,10 @@ public class Unit : IIdentifiable<ulong> {
 		parser.IgnoreAndStoreUnregisteredItems(IgnoredTokens);
 		parser.ParseStream(legionReader);
 
-		MenPerUnitType = GetMenPerUnitType(unitCollection, defines);
+		MenPerUnitType = CalculateMenPerUnitType(CohortIds, unitCollection.Subunits, defines.CohortSize);
 	}
 
-	private static LocBlock? GetLocalizedName(BufferedReader unitNameReader, LocDB locDB) {
+	private static LocBlock? GetLocalizedName(BufferedReader unitNameReader, LocDB irLocDB) {
 		string? name = null;
 		int ordinal = 1;
 		string? family = null;
@@ -47,12 +47,12 @@ public class Unit : IIdentifiable<ulong> {
 		LocBlock? baseNameLocBlock = null;
 
 		// parse name block
-		var parser = new Parser();
+		var parser = new Parser(implicitVariableHandling: false);
 		parser.RegisterKeyword("name", reader => name = reader.GetString());
 		parser.RegisterKeyword("ordinal", reader => ordinal = reader.GetInt());
 		parser.RegisterKeyword("family", reader => family = reader.GetString());
 		parser.RegisterKeyword("governorship", reader => governorship = reader.GetString());
-		parser.RegisterKeyword("base", reader => baseNameLocBlock = GetLocalizedName(reader, locDB));
+		parser.RegisterKeyword("base", reader => baseNameLocBlock = GetLocalizedName(reader, irLocDB));
 		parser.IgnoreAndLogUnregisteredItems();
 		parser.ParseStream(unitNameReader);
 
@@ -60,7 +60,7 @@ public class Unit : IIdentifiable<ulong> {
 		if (name is null) {
 			return null;
 		}
-		var rawLoc = locDB.GetLocBlockForKey(name);
+		var rawLoc = irLocDB.GetLocBlockForKey(name);
 		if (rawLoc is null) {
 			return null;
 		}
@@ -83,13 +83,36 @@ public class Unit : IIdentifiable<ulong> {
 		return nameLocBlock;
 	}
 
-	private IDictionary<string, int> GetMenPerUnitType(UnitCollection unitCollection, Defines defines) {
-		var cohortSize = defines.CohortSize;
+	internal static FrozenDictionary<string, int> CalculateMenPerUnitType(IReadOnlyCollection<ulong> cohortIds, IdObjectCollection<ulong, Subunit> subunits, int cohortSize) {
+		if (cohortIds.Count == 0) {
+			return FrozenDictionary<string, int>.Empty;
+		}
 
-		return unitCollection.Subunits.Where(s => CohortIds.Contains(s.Id))
-			.GroupBy(s=>s.Type)
-			.ToDictionary(g => g.Key, g => (int)g.Sum(s => cohortSize * s.Strength));
+		var menPerUnitType = new Dictionary<string, float>();
+		foreach (var cohortId in cohortIds) {
+			if (!subunits.TryGetValue(cohortId, out var subunit)) {
+				continue;
+			}
+
+			var menInCohort = cohortSize * subunit.Strength;
+			if (menPerUnitType.TryGetValue(subunit.Type, out var currentMen)) {
+				menPerUnitType[subunit.Type] = currentMen + menInCohort;
+			} else {
+				menPerUnitType[subunit.Type] = menInCohort;
+			}
+		}
+
+		if (menPerUnitType.Count == 0) {
+			return FrozenDictionary<string, int>.Empty;
+		}
+
+		var frozenReadyDict = new Dictionary<string, int>(menPerUnitType.Count);
+		foreach (var (unitType, men) in menPerUnitType) {
+			frozenReadyDict[unitType] = (int)men;
+		}
+
+		return frozenReadyDict.ToFrozenDictionary();
 	}
 
-	public static IgnoredKeywordsSet IgnoredTokens { get; } = new();
+	public static IgnoredKeywordsSet IgnoredTokens { get; } = [];
 }

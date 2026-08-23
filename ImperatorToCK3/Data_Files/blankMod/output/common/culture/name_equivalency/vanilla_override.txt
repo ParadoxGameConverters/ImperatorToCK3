@@ -87,7 +87,13 @@ theobald_male = {
 	# converter
 	Theobold Theodobald
 }
-
+jacob_male = {
+	# vanilla
+	Chaacko Chaime Giacomo Giacopo Hamish Iacob Iacobus Iacopo Iago Iakobos Iakov Jaakoppi Jacco Jacme Jacob Jacopo Jacopu Jacques Jagu Jaime JA_kob Jakob Jaksa Jakub Jakue Jakusz James JA_picu Jaques Jaume KO_pke Lapo Puccio SE_amas Yaakov Ya_qob Ya_qub Yaqub
+	
+	# converter
+    Jacop Kepke
+}
 
 
 # FEMALE
