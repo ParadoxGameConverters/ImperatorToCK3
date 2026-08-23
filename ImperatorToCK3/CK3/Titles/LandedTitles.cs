@@ -637,7 +637,7 @@ internal sealed partial class Title {
 			return (independentCountries.ToImmutable(), subjects.ToImmutable());
 		}
 
-		private int ImportSubjects(CountryCollection imperatorCountries, IReadOnlyDictionary<ulong, Dependency> dependenciesBySubjectId,
+		private int ImportSubjects(CountryCollection imperatorCountries, Dictionary<ulong, Dependency> dependenciesBySubjectId,
 			TagTitleMapper tagTitleMapper, LocDB irLocDB, CK3LocDB ck3LocDB, ProvinceMapper provinceMapper, CoaMapper coaMapper,
 			GovernmentMapper governmentMapper, SuccessionLawMapper successionLawMapper, DefiniteFormMapper definiteFormMapper,
 			ReligionMapper religionMapper, CultureMapper cultureMapper, NicknameMapper nicknameMapper,
