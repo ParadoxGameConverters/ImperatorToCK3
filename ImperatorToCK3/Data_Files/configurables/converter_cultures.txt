@@ -25,7 +25,7 @@ gelonian = {
 	parents = { hellenic_greek scythian }
 	#created = -600.1.1 #needs to be BC
 	created = 2.1.1 # BC dates are not supported here as of CK3 1.15
-	ethos = ethos_bellicose
+	ethos = ethos_communal # Per Herodotus (Histories 4.108-109) the Geloni were a Greek-descended people living alongside the Budini, farming grain and gardens in the great wooden city of Gelonus - and they abandoned and burned their city rather than face the Persian invasion, so bellicose did not suit them
 	head_determination = head_determination_domain
 
 	name_list = name_list_scythian #might consider adding in ancient greek well)
@@ -509,7 +509,7 @@ luwian = { # https://en.wikipedia.org/wiki/Luwians
 	heritage = heritage_anatolian
 	language = language_luwian
 	martial_custom = martial_custom_male_only
-	ethos = ethos_communal # Tribal society
+	ethos = ethos_courtly # The Luwians lived in palace-centered kingdoms - Bronze Age Arzawa and its successor states, later the Neo-Hittite dynastic city-states such as Carchemish - bound to overlords through treaty diplomacy rather than tribal communal structures
 	head_determination = head_determination_domain
 	house_coa_frame = house_frame_02
 	house_coa_mask_offset = { 0.0 0.055 }
@@ -699,7 +699,7 @@ kizzuwatnan = { # Ancient Bronze Age people of Cilicia, hybrids between Hurrians
 	heritage = heritage_anatolian
 	language = language_luwian
 	martial_custom = martial_custom_male_only
-	ethos = ethos_communal # Tribal society
+	ethos = ethos_spiritual # Kizzuwatna was dominated by the great temple-state of Kummanni (Comana), whose priesthood of Shaushga rivaled the crown in power, and its Hurrian-influenced purification rituals shaped the Hittite state religion
 	head_determination = head_determination_domain
 	house_coa_frame = house_frame_02
 	house_coa_mask_offset = { 0.0 0.055 }
@@ -784,7 +784,7 @@ phrygian = {
 	heritage = heritage_anatolian
 	language = language_phrygian
 	martial_custom = martial_custom_male_only
-	ethos = ethos_bellicose # Involved in multiple wars before, during and after the existence of the Phrygian Kingdom in 7th Century BC
+	ethos = ethos_spiritual # Phrygia was the homeland of the Great Mother (Matar/Cybele) cult, with renowned sanctuaries at Pessinus and Midas City; the Phrygians are remembered chiefly for their religion and music (the Marsyas myth) rather than warfare
 	head_determination = head_determination_domain
 	house_coa_frame = house_frame_02
 	house_coa_mask_offset = { 0.0 0.055 }
@@ -1270,7 +1270,7 @@ hellenic_greek = { # Now used to represent non-Romanized Greeks
 
 	color = { 0.58 0.74 0.95 }
 
-	ethos = ethos_bureaucratic
+	ethos = ethos_egalitarian # Polis civilization: citizen assemblies, sortition, elected magistracies and (most famously in Athens) democracy made civic equality the defining value of the pre-Roman Greeks, in contrast to the bureaucratic imperial model of their eastern neighbours
 	head_determination = head_determination_domain
 	# TFE uses its own hellenistic heritage in place of the byzantine heritage
 	MOD_DEPENDENT = {
@@ -1867,8 +1867,7 @@ judajca = {
 		tradition_warriors_of_the_dry
 		tradition_hereditary_hierarchy
 	}
-	ethos = ethos_courtly
-
+	ethos = ethos_communal # Diaspora Jewish communities endured as exceptionally close-knit minorities bound together by synagogue life and mutual aid, making communal a far better fit than court ceremonial
 	name_list = name_list_roman
 	name_list = name_list_hebrew
 
@@ -2145,7 +2144,7 @@ celtic_pannonian = {
 		tradition_adaptive_skirmishing
 	}
 
-	ethos = ethos_stoic
+	ethos = ethos_bellicose # The Celtic peoples of the Middle Danube (Scordisci, Taurisci, Boii) lived by war - fielding the warbands that sacked Delphi and raiding Macedonia and Greece for generations
 
 	name_list = name_list_gaulish
 
@@ -2182,7 +2181,7 @@ celtiberian = {
 		tradition_adaptive_skirmishing
 	}
 
-	ethos = ethos_stoic
+	ethos = ethos_bellicose # Celebrated as the finest mercenaries of the western Mediterranean, hired by Carthage and Rome alike, and hardened by centuries of guerrilla warfare against both
 
 	name_list = name_list_gaulish
 
@@ -2221,7 +2220,7 @@ belgae = {
 		tradition_adaptive_skirmishing
 	}
 
-	ethos = ethos_stoic
+	ethos = ethos_bellicose # Caesar judged the Belgae "the bravest of the Gauls" (horum omnium fortissimi sunt Belgae), and they resisted his conquest the hardest
 
 	name_list = name_list_gaulish
 
@@ -2258,7 +2257,7 @@ gallic = {
 		tradition_adaptive_skirmishing
 	}
 
-	ethos = ethos_stoic
+	ethos = ethos_bellicose # Warrior society famed for single combat, headhunting and mercenary service abroad - Gallic bands sacked Rome in 390 BC and raided Delphi in 279 BC
 
 	name_list = name_list_gaulish
 
@@ -2293,7 +2292,7 @@ lusoiberian = { # https://en.wikipedia.org/wiki/Lusitanians
 	house_coa_mask_offset = { 0.0 0.055 }
 	house_coa_mask_scale = { 0.9 0.9 }
 
-	ethos = ethos_stoic
+	ethos = ethos_bellicose # Remembered above all for Viriathus' years-long guerrilla war against Rome and the relentless raiding of Hispania
 	traditions = {
 		tradition_hit_and_run
 		tradition_adaptive_skirmishing
@@ -3698,7 +3697,7 @@ thracian = {
 	clothing_gfx = { byzantine_clothing_gfx }
 	unit_gfx = { eastern_unit_gfx }
 
-	ethos = ethos_stoic
+	ethos = ethos_bellicose # Herodotus (5.3) reckoned the Thracians would be invincible if ever united under one ruler; they were famed as peltasts and mercenaries across the Greek world and lived in near-constant intertribal warfare
 }
 
 dacian = {
