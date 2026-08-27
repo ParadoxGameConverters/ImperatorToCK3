@@ -1074,8 +1074,11 @@ per_sheklesh = {  # Egyptian Italy from BA to I:R
 
 	name_list = name_list_ancient_egyptian
 	MOD_DEPENDENT = {
-		IF @[tfe|wtwsms] = {
+		IF tfe = {
 			heritage = heritage_kemetic
+		} ELSE_IF wtwsms = {
+			# WtWSMS 0.2.x no longer defines heritage_kemetic.
+			heritage = heritage_egyptian
 		} ELSE = {
 			heritage = heritage_egyptian
 		}
@@ -1113,8 +1116,11 @@ niwt_ipt = {  # Egyptian Carthage from BA to I:R
 
 	name_list = name_list_ancient_egyptian
 	MOD_DEPENDENT = {
-		IF @[tfe|wtwsms] = {
+		IF tfe = {
 			heritage = heritage_kemetic
+		} ELSE_IF wtwsms = {
+			# WtWSMS 0.2.x no longer defines heritage_kemetic.
+			heritage = heritage_egyptian
 		} ELSE = {
 			heritage = heritage_egyptian
 		}
