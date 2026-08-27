@@ -1,4 +1,4 @@
-﻿# Add mod-specific stuff inside MOD_DEPENDENT = { IF @[wtwsms] = {} } blocks.
+# Add mod-specific stuff inside MOD_DEPENDENT = { IF @[wtwsms] = {} } blocks.
 # WtWSMS uses (broadest->specific): heritage_family (multiple allowed) -> heritage_group (multiple allowed); optionally also allows heritage_kulturbund (multiple allowed)
 # ROA uses (broadest->specific): heritage_family (multiple allowed) -> heritage_group (multiple allowed); optionally also allows heritage_kulturbund
 # TFE uses (broadest->specific): heritage_family -> heritage_group
@@ -33,7 +33,6 @@ heritage_nuragic = {
 heritage_anatolian = {
     REPLACED_BY = {
 		tfe = { heritage_anatolian }
-		wtwsms = { heritage_anatolian }
 		vanilla_ck3 = { heritage_anatolian }
 	}
 	MOD_DEPENDENT = {
@@ -48,7 +47,13 @@ heritage_anatolian = {
 				heritage_family_mediterranean = yes
 			}
 		}
-	}
+		ELSE_IF wtwsms = {
+		parameters = {
+		heritage_group_balko_anatolian = yes
+		heritage_family_european = yes
+		heritage_family_west_asian = yes
+		}
+	}}
 	type = heritage
 	is_shown = {
 		heritage_is_shown_trigger = {
@@ -687,10 +692,18 @@ heritage_occitan = {
 heritage_loloish = { # Will worry about CCU parameters once relevant mods are updated
     REPLACED_BY = {
     	tfe = { heritage_loloish }
-		wtwsms = { heritage_loloish }
 		roa = { heritage_loloish }
     	vanilla_ck3 = { heritage_loloish }
     }
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				heritage_group_greater_chinese = yes
+				heritage_family_east_asian = yes
+			}
+		}
+	}
 
 	type = heritage
 	is_shown = {
@@ -704,10 +717,19 @@ heritage_loloish = { # Will worry about CCU parameters once relevant mods are up
 heritage_baiyue = { # Will worry about CCU parameters once relevant mods are updated
     REPLACED_BY = {
     	tfe = { heritage_baiyue }
-		wtwsms = { heritage_baiyue }
 		roa = { heritage_baiyue }
     	vanilla_ck3 = { heritage_baiyue }
     }
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				heritage_group_greater_chinese = yes
+				heritage_family_east_asian = yes
+				heritage_family_southeast_asian = yes
+			}
+		}
+	}
 
 	type = heritage
 	is_shown = {
@@ -721,10 +743,18 @@ heritage_baiyue = { # Will worry about CCU parameters once relevant mods are upd
 heritage_dongyi = { # Will worry about CCU parameters once relevant mods are updated
     REPLACED_BY = {
     	tfe = { heritage_dongyi }
-		wtwsms = { heritage_dongyi }
 		roa = { heritage_dongyi }
     	vanilla_ck3 = { heritage_dongyi }
     }
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				heritage_group_greater_chinese = yes
+				heritage_family_east_asian = yes
+			}
+		}
+	}
 
 	type = heritage
 	is_shown = {
@@ -738,10 +768,19 @@ heritage_dongyi = { # Will worry about CCU parameters once relevant mods are upd
 heritage_alasiyan = { # Will worry about CCU parameters once relevant mods are updated
     REPLACED_BY = {
     	tfe = { heritage_alasiyan }
-		wtwsms = { heritage_alasiyan }
 		roa = { heritage_alasiyan }
     	vanilla_ck3 = { heritage_alasiyan }
     }
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				heritage_group_afro_asian = yes
+				heritage_group_west_asian = yes
+				heritage_family_west_asian = yes
+			}
+		}
+	}
 
 	type = heritage
 	is_shown = {

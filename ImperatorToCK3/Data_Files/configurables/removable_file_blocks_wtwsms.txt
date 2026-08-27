@@ -17,165 +17,333 @@
 # OTHERWISE THE BLOCK WON'T BE REMOVED!
 
 
-"common/on_action/BP_game_starts/476/BP_476_start_feb.txt" = {
-	# Anachronistic
+"common/on_action/BP_on_actions/BP_game_starts/476/BP_476_start_feb.txt" = {
+	# Anachronistic character setup (Odoacer house head, hardcoded diarchies).
 	{
-BP_character_events_476 = {
+BP_character_events_476_feb = {
 	effect = {
-		#Persian Emperors start with negative prestige because of Wuzurgan, so flip it
-		character:180624 = {
-			add_prestige = {
-				value = character:180624.prestige
-				multiply = 1.5
-			}
-		}
-		
 		#Odoacer should be his house head; being the younger sibling and landless blocks that
 		character:55 = {
 			this.house = { set_house_head = prev }
 		}
 		
-		#Fire specific date events for characters
-		character:93 = { #Genseric of the Vandals
-			save_scope_as = geneseric
-			#Vandals have lots of Roman slaves at start
-			trigger_event = { id = bp_historical_flavor.0001 days = 1 }
-		}
-		
-		#Gylericus should be bishop of Salona
-		character:175110 = {
-			if = {
-				limit = { NOT = { is_employer_of = character:74419 } }
-				character:74419 = { set_employer = character:175110 }
-			}
-			assign_councillor_type = {
-				type = councillor_court_chaplain
-				target = character:74419
-				remove_existing_councillor = yes
-			}
-		}
-		
 		#Diarchies
 		
-		#David of Rheged has Saint Patrick as a Regent; we can't make him a court chaplain anymore, so this is the second-best thing
-		character:8 = { designate_diarch = character:109758 }
 		#Ensure Orestes is Regent for Romulus and make it rather entrenched
 		character:96054 = { designate_diarch = character:96055 }
 		remove_generated_diarch_consequences_effect = {
 			NEW_DIARCH = character:96055
 			LIEGE = character:96054
 		}
+		#Romulus is not crowned at his age, but give him a smidge of legitimacy
+		if = {
+			limit = { has_dlc_feature = coronations }
+			character:96054 = { add_realm_law_skip_effects = uncrowned }
+		}
 		
 		#Entrench Diarchies and adjust senate approval
-		trigger_event = { id = BP_maintenance_events.0002 }
+		trigger_event = { id = BP_maintenance_events.1000 days = 1 }
 	}
 }
 	} # end of block
+	# Hardcoded alliance between historical title holders.
 	{
-		BP_character_events_476
-	} # end of block
-
-	# Anachronistic
-	{
-		#k_armenia
-		title:d_gugark = { set_de_jure_liege_title = title:k_armenia }
-		title:d_tayk = { set_de_jure_liege_title = title:k_armenia }
-		#e_persia
-		title:d_gortyene = { set_de_jure_liege_title = title:k_asoristan }
-		title:d_kwrtstan = { set_de_jure_liege_title = title:k_persia }
-		title:d_exilarch = { set_de_jure_liege_title = title:k_asoristan }
-		#Put specific kingdoms within specific empires where it makes sense
-		title:k_rheged = { set_de_jure_liege_title = title:e_britannia }
-		#Persia
-		title:k_mazandaran = { set_de_jure_liege_title = title:e_persia }
-		#Religious titles
-		create_title_and_vassal_change = {
-			type = swear_fealty
-			save_scope_as = change
-			add_claim_on_loss = no
-		}
-		title:d_manichean.holder = {
-			change_liege = {
-				liege = title:e_persia.holder
-				change = scope:change
-			}
-		}
-		resolve_title_and_vassal_change = scope:change
-	} # end of block
-
-	# Anachronistic
-	{
-#Warfare
-BP_create_theodoric_armies_476 = {
+BP_character_events_476_feb_DLC = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
 	effect = {
-		character:63 = {
-			create_theodoric_army_effect = { LOCATION = 3682 }
+		#Orestes and Romulus are allied
+		title:e_magister_military_wre.holder = {
+			create_alliance = {
+				target = title:h_western_roman_empire.holder
+				allied_through_owner = title:e_magister_military_wre.holder
+				allied_through_target = title:h_western_roman_empire.holder
+			}
 		}
 	}
 }
 	} # end of block
+	# Legitimacy fixes keyed to unconverted historical holders.
 	{
-		BP_create_theodoric_armies_476
+BP_setup_legitimacy_476_feb = {
+	effect = {
+		#Romulus should be fairly illegitimate
+		title:h_western_roman_empire.holder = { add_legitimacy = -5000 }
+		title:h_western_roman_empire.holder = { add_legitimacy = 500 }
+		#Basilicus should be fairly illegitimate
+		title:h_eastern_roman_empire.holder = { add_legitimacy = -5000 }
+		title:h_eastern_roman_empire.holder = { add_legitimacy = 500 }
+	}
+}
+## Legal Stuff
 	} # end of block
-
-	# Anachronistic
+	# Roman-diarchy law on an unconverted historical holder.
 	{
-		#Vache voluntarily abidcated with Persian pressure, so prevent any claims from him
-		character:159589 = { every_claim = { prev = { remove_claim = prev } } }
-		#Emnetzur and Ultzindur shouldn't get any claims to Hunnic titles
-		character:HunnicEmnetzur = { every_claim = { prev = { remove_claim = prev } } }
-		character:HunnicUltzindur = { every_claim = { prev = { remove_claim = prev } } }
-		#Odoacer only gets a claim to Skiria
-		character:55 = {
-			every_claim = {
-				limit = { NOT = { this = title:k_skiria } }
-				prev = { remove_claim = prev }
+BP_setup_realm_laws_476_feb_DLC = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
+	effect = {
+		#Roman Diarchy Laws
+		title:h_western_roman_empire.holder = { add_realm_law_skip_effects = roman_marshal_law }
+	}
+}
+	} # end of block
+	# State-faith hardcode on an unconverted historical title.
+	{
+BP_starting_state_faiths_476_feb_DLC = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
+	effect = {
+		title:h_eastern_roman_empire = { set_state_faith = faith:nicene }
+	}
+}
+	} # end of block
+	# Senator/consul traits for hardcoded historical characters.
+	{
+BP_senate_476_feb = {
+	effect = {
+		#Western Emperor and Consuls
+		character:RufiusAggeriusFestus = { #Rufius Aggerius Festus
+			add_trait = senator_west
+			add_character_modifier = roman_consul_west
+			set_global_variable = {
+				name = west_consul
+				value = this
 			}
 		}
-		#Hunulf gets no claims
-		character:41720 = { every_claim = { prev = { remove_claim = prev } } }
-		#Armatus gets no claims
-		character:1100013 = { every_claim = { prev = { remove_claim = prev } } }
-		#Remove the ability of the Iazyges to start claim Gepidia
-		character:60 = { every_claim = { prev = { remove_claim = prev } } }
-		#Burgundia and Visigothica should not get claims on Prince-Bishoprics
-		title:k_visigoths.holder = {
-			every_claim = {
-				limit = { this.holder = { government_has_flag = government_is_theocracy } }
-				prev = { remove_claim = prev }
+		character:96054 = { #Romulus
+			add_trait = senator_west
+			#Approved by the Senate and can't ask again
+			set_variable = already_asked_the_senate
+			#add_character_modifier = approved_by_the_senate
+		}
+		#Eastern Emperor and Consuls
+		character:145226 = { #Basilicus
+			add_trait = senator_east
+			add_character_modifier = roman_consul_east
+			set_global_variable = {
+				name = east_consul
+				value = this
+			}
+			#Approved by the Senate and can't ask again
+			set_variable = already_asked_the_senate
+			#add_character_modifier = approved_by_the_senate
+		}
+	}
+}
+	} # end of block
+	# Roman-admin council assignment via hardcoded titles.
+	{
+BP_setup_roman_council_476_feb = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
+	effect = {
+		#WRE
+		title:h_western_roman_empire.holder = {
+			make_councilor_of_type_if_not_already_effect = {
+				TARGET_CHAR = title:e_magister_military_wre.holder
+				POSITION = councillor_marshal_roman
+			}
+			make_councilor_of_type_if_not_already_effect = {
+				TARGET_CHAR = title:e_magister_offices_wre.holder
+				POSITION = councillor_chancellor_roman
 			}
 		}
-		title:k_burgundians.holder = {
-			every_claim = {
-				limit = { this.holder = { government_has_flag = government_is_theocracy } }
-				prev = { remove_claim = prev }
+		title:e_magister_offices_wre.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_ministry_civilian_value
 			}
 		}
+		title:e_magister_military_wre.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_ministry_military_value
+			}
+		}
+		
+		#ERE
+		title:h_eastern_roman_empire.holder = {
+			make_councilor_of_type_if_not_already_effect = {
+				TARGET_CHAR = title:e_magister_military_ere.holder
+				POSITION = councillor_marshal_roman
+			}
+			make_councilor_of_type_if_not_already_effect = {
+				TARGET_CHAR = title:e_magister_offices_ere.holder
+				POSITION = councillor_chancellor_roman
+			}
+		}
+		title:e_magister_offices_ere.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_ministry_civilian_value
+			}
+		}
+		title:e_magister_military_ere.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_ministry_military_value
+			}
+		}
+	}
+}
+	} # end of block
+	# MAA regiments granted to hardcoded historical title holders.
+	{
+BP_set_armies_476_feb_DLC = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
+	effect = {
+		title:h_western_roman_empire.holder = {
+			title:h_western_roman_empire = { every_title_maa_regiment = { destroy_maa_regiment = yes } }
+			every_maa_regiment = { destroy_maa_regiment = yes }
+			create_maa_regiment = {
+				type = praetorian
+				check_can_recruit = no
+				size = 3
+				title = title:h_western_roman_empire
+			}
+			create_maa_regiment = {
+				type = roman_light_infantry
+				check_can_recruit = no
+				size = 3
+				title = title:h_western_roman_empire
+			}
+			create_maa_regiment = {
+				type = roman_heavy_cavalry
+				check_can_recruit = no
+				size = 2
+				title = title:h_western_roman_empire
+			}
+		}
+		title:e_magister_military_wre.holder = {
+			create_maa_regiment = {
+				type = roman_heavy_infantry
+				check_can_recruit = no
+				size = 4
+				title = title:e_magister_military_wre
+			}
+			create_maa_regiment = {
+				type = roman_light_infantry
+				check_can_recruit = no
+				size = 4
+				title = title:e_magister_military_wre
+			}
+			create_maa_regiment = {
+				type = roman_heavy_cavalry
+				check_can_recruit = no
+				size = 2
+				title = title:e_magister_military_wre
+			}
+			create_maa_regiment = {
+				type = ballista
+				check_can_recruit = no
+				size = 1
+				title = title:e_magister_military_wre
+			}
+		}
+		title:e_magister_military_ere.holder = {
+			#Create the ERE MM Army
+			create_maa_regiment = {
+				type = roman_heavy_infantry
+				check_can_recruit = no
+				size = 8
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = roman_heavy_infantry
+				check_can_recruit = no
+				size = 8
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = roman_light_infantry
+				check_can_recruit = no
+				size = 8
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = bowmen
+				check_can_recruit = no
+				size = 8
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = pikemen_unit
+				check_can_recruit = no
+				size = 6
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = pikemen_unit
+				check_can_recruit = no
+				size = 6
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = roman_heavy_cavalry
+				check_can_recruit = no
+				size = 5
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = light_horsemen
+				check_can_recruit = no
+				size = 5
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = ballista
+				check_can_recruit = no
+				size = 5
+				title = title:e_magister_military_ere
+			}
+		}
+		title:k_soissons.holder = {
+			title:k_soissons = { every_title_maa_regiment = { destroy_maa_regiment = yes } }
+			create_maa_regiment = {
+				type = roman_heavy_infantry
+				check_can_recruit = no
+				size = 5
+				title = title:k_soissons
+			}
+			create_maa_regiment = {
+				type = roman_light_infantry
+				check_can_recruit = no
+				size = 5
+				title = title:k_soissons
+			}
+			create_maa_regiment = {
+				type = bowmen
+				check_can_recruit = no
+				size = 5
+				title = title:k_soissons
+			}
+			create_maa_regiment = {
+				type = pikemen_unit
+				check_can_recruit = no
+				size = 5
+				title = title:k_soissons
+			}
+		}
+	}
+}
+	} # end of block
+	# Employer assignment for a hardcoded historical character.
+	{
+BP_set_employers_476_feb_no_DLC = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = no }
+	#Otherwise landed chars should be sent to employers
+	effect = {
+		character:1100013 = { set_employer = character:145226 } #Basilicus
+	}
+}
 	} # end of block
 }
 
-
-"common/on_action/BP_game_starts/476/BP_476_start_oct.txt" = {
+"common/on_action/BP_on_actions/BP_game_starts/476/BP_476_start_oct.txt" = {
+	# Anachronistic character setup (hardcoded peace treaties, legitimacy, diarchy maintenance event).
 	{
 BP_character_events_476_oct = {
 	effect = {
-		#Persian Emperors start with negative prestige because of Wuzurgan, so flip it
-		character:180624 = {
-			add_prestige = {
-				value = character:180624.prestige
-				multiply = 1.5
-			}
-		}
-		
-		#Fire specific date events for characters
-		character:93 = { #Genseric of the Vandals
-			save_scope_as = geneseric
-			#Vandals have lots of Roman slaves at start
-			trigger_event = { id = bp_historical_flavor.0001 days = 1 }
-		}
-		
 		#Odoacer gets some peace treaties
 		character:55 = {
+			add_legitimacy = 850
 			#Visigoths
 			add_truce_both_ways = { character = character:30 years = 10 name = odoacer_peace_visigoths }
 			add_truce_both_ways = { character = character:190066 years = 10 name = odoacer_peace_visigoths }
@@ -186,39 +354,350 @@ BP_character_events_476_oct = {
 			add_truce_both_ways = { character = character:175110 years = 10 name = odoacer_peace_wre }
 		}
 		
-		#Gylericus should be bishop of Salona
-		character:175110 = {
-			if = {
-				limit = { NOT = { is_employer_of = character:74419 } }
-				character:74419 = { set_employer = character:175110 }
-			}
-			assign_councillor_type = {
-				type = councillor_court_chaplain
-				target = character:74419
-				remove_existing_councillor = yes
-			}
-		}
-		
-		#Nepos should have his capital in Splatum
-		character:175110 = { set_realm_capital = title:c_cetina }
-		
 		#Diarchies
 		
-		#David of Rheged has Saint Patrick as a Regent; we can't make him a court chaplain anymore, so this is the second-best thing
-		character:8 = { designate_diarch = character:109758 }
-		
 		#Entrench Diarchies and adjust senate approval
-		trigger_event = { id = BP_maintenance_events.0002 }
+		trigger_event = { id = BP_maintenance_events.1000 }
 	}
 }
 	} # end of block
+	# Historically-specific claim stripping (Romulus).
 	{
-		BP_character_events_476_oct
+BP_remove_claims_476_oct = {
+	effect = {
+		#Remove Romulus' claims
+		character:96054 = { every_claim = { prev = { remove_claim = prev } } }
+	}
+}
 	} # end of block
-
-	# Anachronistic
+	# Legitimacy fixes keyed to unconverted historical holders.
 	{
-BP_setup_vassal_contracts_476_oct = {
+BP_setup_legitimacy_476_oct = {
+	effect = {
+		#Odoacer should be semi-legitimate
+		title:h_italy.holder = { add_legitimacy = -5000 }
+		title:h_italy.holder = { add_legitimacy = 500 }
+		#Zeno should be fairly illegitimate
+		title:h_eastern_roman_empire.holder = { add_legitimacy = -5000 }
+		title:h_eastern_roman_empire.holder = { add_legitimacy = 500 }
+	}
+}
+	} # end of block
+	# Roman-admin/minority-rule laws applied to hardcoded historical states.
+	{
+BP_setup_realm_laws_476_oct_DLC = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
+	effect = {
+		#Roman Diarchy/Minority Laws
+		title:h_western_roman_empire.holder = { add_realm_law_skip_effects = roman_chancellor_law }
+		#Barbarian State Roman Orientations
+		title:h_italy.holder = {
+			add_law_if_not_has_it_propagate_minority_law_effect = { LAW = non_roman_minority_rule_law_3 }
+			remove_variable = non_roman_minority_rule_law_cooldown
+		}
+	}
+}
+	} # end of block
+	# Roman-admin obligations on a hardcoded historical duchy.
+	{
+BP_setup_vassal_contracts_476_oct_DLC = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
+	effect = {
+		#Italia
+		title:d_umbria.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_military_value
+			}
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_military_landed
+				level = roman_administrative_military_landed_0
+			}
+		}
+	}
+}
+	} # end of block
+	# Senator/consul traits for hardcoded historical characters.
+	{
+BP_senate_476_oct = {
+	effect = {
+		#Western Emperor and Consuls
+		character:RufiusAggeriusFestus = { #Rufius Aggerius Festus
+			add_trait = senator_west
+			add_character_modifier = roman_consul_west
+			set_global_variable = {
+				name = west_consul
+				value = this
+			}
+		}
+		character:55 = { #Odoacer
+			set_variable = already_asked_the_senate
+			#Approved by the Senate and can't ask again
+			#add_character_modifier = approved_by_the_senate
+		}
+		#Eastern Emperor and Consuls
+		character:70515 = { #Zeno
+			add_trait = senator_east
+			add_character_modifier = roman_consul_east
+			set_global_variable = {
+				name = east_consul
+				value = this
+			}
+			#Approved by the Senate and can't ask again
+			set_variable = already_asked_the_senate
+			#add_character_modifier = approved_by_the_senate
+		}
+	}
+}
+	} # end of block
+	# Roman-admin council assignment via hardcoded titles/characters.
+	{
+BP_setup_roman_council_476_oct = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
+	effect = {
+		#Set Various Roman Offices
+		title:h_western_roman_empire.holder ?= {
+			#Populate Nepos' realm with a few characters so he can fill his council
+			add_more_wre_courtiers_effect = yes
+		}
+		title:h_western_roman_empire.holder = { fire_councillor_skip_effects = cp:councillor_chancellor_roman }
+		title:e_magister_military_wre.holder ?= {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_ministry_military_value
+			}
+		}
+		
+		title:h_eastern_roman_empire.holder ?= {
+			make_councilor_of_type_if_not_already_effect = {
+				TARGET_CHAR = title:e_magister_military_ere.holder
+				POSITION = councillor_marshal_roman
+			}
+			make_councilor_of_type_if_not_already_effect = {
+				TARGET_CHAR = title:e_magister_offices_ere.holder
+				POSITION = councillor_chancellor_roman
+			}
+			assign_councillor_type = {
+				type = councillor_chancellor_roman
+				target = character:PLRE2_Felix_17
+				remove_existing_councillor = yes
+			}
+		}
+		title:e_magister_offices_ere.holder ?= {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_ministry_civilian_value
+			}
+		}
+		title:e_magister_military_ere.holder ?= {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_ministry_military_value
+			}
+		}
+		
+		#Italia
+		title:h_italy.holder = {
+			make_councilor_of_type_if_not_already_effect = {
+				TARGET_CHAR = title:e_magister_offices_italy.holder
+				POSITION = councillor_chancellor_roman
+			}
+			make_councilor_of_type_if_not_already_effect = {
+				TARGET_CHAR = title:e_magister_military_italy.holder
+				POSITION = councillor_marshal_roman
+			}
+		}
+		title:e_magister_offices_italy.holder ?= {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_ministry_civilian_value
+			}
+		}
+		title:e_magister_military_italy.holder ?= {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_ministry_military_value
+			}
+		}
+	}
+}
+	} # end of block
+	# MAA regiments granted to hardcoded historical title holders.
+	{
+BP_set_armies_476_oct_DLC = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
+	effect = {
+		title:h_western_roman_empire.holder = {
+			title:h_western_roman_empire = { every_title_maa_regiment = { destroy_maa_regiment = yes } }
+			create_maa_regiment = {
+				type = roman_heavy_infantry
+				check_can_recruit = no
+				size = 3
+				title = title:h_western_roman_empire
+			}
+			create_maa_regiment = {
+				type = roman_light_infantry
+				check_can_recruit = no
+				size = 3
+				title = title:h_western_roman_empire
+			}
+			create_maa_regiment = {
+				type = light_horsemen
+				check_can_recruit = no
+				size = 1
+				title = title:h_western_roman_empire
+			}
+			create_maa_regiment = {
+				type = ballista
+				check_can_recruit = no
+				size = 1
+				title = title:h_western_roman_empire
+			}
+		}
+		title:e_magister_military_ere.holder = {
+			#Create the WRE MM Army
+			create_maa_regiment = {
+				type = roman_heavy_infantry
+				check_can_recruit = no
+				size = 8
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = roman_heavy_infantry
+				check_can_recruit = no
+				size = 8
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = akritai
+				check_can_recruit = no
+				size = 8
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = bowmen
+				check_can_recruit = no
+				size = 8
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = skoutatoi
+				check_can_recruit = no
+				size = 6
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = skoutatoi
+				check_can_recruit = no
+				size = 6
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = light_horsemen
+				check_can_recruit = no
+				size = 5
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = light_horsemen
+				check_can_recruit = no
+				size = 5
+				title = title:e_magister_military_ere
+			}
+			create_maa_regiment = {
+				type = ballista
+				check_can_recruit = no
+				size = 5
+				title = title:e_magister_military_ere
+			}
+		}
+		title:k_soissons.holder = {
+			title:k_soissons = { every_title_maa_regiment = { destroy_maa_regiment = yes } }
+			create_maa_regiment = {
+				type = roman_heavy_infantry
+				check_can_recruit = no
+				size = 5
+				title = title:k_soissons
+			}
+			create_maa_regiment = {
+				type = roman_light_infantry
+				check_can_recruit = no
+				size = 3
+				title = title:k_soissons
+			}
+			create_maa_regiment = {
+				type = bowmen
+				check_can_recruit = no
+				size = 2
+				title = title:k_soissons
+			}
+			create_maa_regiment = {
+				type = pikemen_unit
+				check_can_recruit = no
+				size = 2
+				title = title:k_soissons
+			}
+		}
+		title:e_magister_military_italy.holder = {
+			create_maa_regiment = {
+				type = armored_footmen
+				check_can_recruit = no
+				size = 8
+				title = title:e_magister_military_italy
+			}
+			create_maa_regiment = {
+				type = light_footmen
+				check_can_recruit = no
+				size = 8
+				title = title:e_magister_military_italy
+			}
+			create_maa_regiment = {
+				type = bowmen
+				check_can_recruit = no
+				size = 6
+				title = title:e_magister_military_italy
+			}
+			create_maa_regiment = {
+				type = pikemen_unit
+				check_can_recruit = no
+				size = 6
+				title = title:e_magister_military_italy
+			}
+			create_maa_regiment = {
+				type = light_horsemen
+				check_can_recruit = no
+				size = 3
+				title = title:e_magister_military_italy
+			}
+			create_maa_regiment = {
+				type = onager
+				check_can_recruit = no
+				size = 2
+				title = title:e_magister_military_italy
+			}
+		}
+	}
+}
+	} # end of block
+	# Domicile relocation of a hardcoded historical character.
+	{
+BP_place_specific_domiciles_476_oct = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
+	effect = {
+		#Romulus Augustulus' retires to Naples
+		title:c_nf_roman_dynn_Caecina = {
+			set_capital_county = title:c_napoli
+			this.holder.domicile ?= { move_domicile = title:b_napoli.title_province }
+		}
+	}
+}
+	} # end of block
+}
+
+"common/on_action/BP_on_actions/BP_game_starts/476/BP_476_start.txt" = {
+	# Vassal contract hardcodes keyed to unconverted realm layout.
+	{
+BP_setup_vassal_contracts_476 = {
 	effect = {
 		every_ruler = {
 			if = { #k_mazandaran always has great rights
@@ -268,7 +747,7 @@ BP_setup_vassal_contracts_476_oct = {
 					liege.primary_title = title:e_rajastan
 					primary_title.tier >= tier_duchy
 					NOT = { this.primary_title = title:e_rajastan } #Excluded the holder of rajasthan (not a vassal)
-					government_has_flag = government_uses_rajamandala_authority
+					government_has_flag = government_is_rajamandala
 				}
 				debug_log_scopes = no
 				vassal_contract_set_obligation_level = {
@@ -282,7 +761,7 @@ BP_setup_vassal_contracts_476_oct = {
 			}
 			if = { #Non-Zoros have religious freedom in Asoristan
 				limit = {
-					this.top_liege.primary_title ?= title:e_persia
+					this.top_liege.primary_title ?= title:h_persia
 					NOT = { this.religion = this.liege.religion }
 					OR = {
 						this.capital_county.kingdom = title:k_asoristan
@@ -309,13 +788,9 @@ BP_setup_vassal_contracts_476_oct = {
 	}
 }
 	} # end of block
+	# Static de jure liege fixes that conflict with converted de jure.
 	{
-		BP_setup_vassal_contracts_476_oct
-	} # end of block
-
-	# Anachronistic
-	{
-		#k_armenia
+#k_armenia
 		title:d_gugark = { set_de_jure_liege_title = title:k_armenia }
 		title:d_tayk = { set_de_jure_liege_title = title:k_armenia }
 		#e_persia
@@ -324,8 +799,6 @@ BP_setup_vassal_contracts_476_oct = {
 		title:d_exilarch = { set_de_jure_liege_title = title:k_asoristan }
 		#Put specific kingdoms within specific empires where it makes sense
 		title:k_rheged = { set_de_jure_liege_title = title:e_britannia }
-		#Persia
-		title:k_mazandaran = { set_de_jure_liege_title = title:e_persia }
 		#Religious titles
 		create_title_and_vassal_change = {
 			type = swear_fealty
@@ -334,16 +807,17 @@ BP_setup_vassal_contracts_476_oct = {
 		}
 		title:d_manichean.holder = {
 			change_liege = {
-				liege = title:e_persia.holder
+				liege = title:h_persia.holder
 				change = scope:change
 			}
 		}
 		resolve_title_and_vassal_change = scope:change
 	} # end of block
-	
-	# Anachronistic
+	# Historically-specific claim stripping.
 	{
-		#Vache voluntarily abidcated with Persian pressure, so prevent any claims from him
+BP_remove_claims_476 = {
+	effect = {
+		#Vache voluntarily abdicated with Persian pressure, so prevent any claims from him
 		character:159589 = { every_claim = { prev = { remove_claim = prev } } }
 		#Emnetzur and Ultzindur shouldn't get any claims to Hunnic titles
 		character:HunnicEmnetzur = { every_claim = { prev = { remove_claim = prev } } }
@@ -374,189 +848,603 @@ BP_setup_vassal_contracts_476_oct = {
 				prev = { remove_claim = prev }
 			}
 		}
-		#Remove Romulus' claims
-		character:96054 = { every_claim = { prev = { remove_claim = prev } } }
+	}
+}
 	} # end of block
-
-	# Anachronistic
+	# Theodoric's army spawning at a hardcoded location.
 	{
-		#k_armenia
-		title:d_gugark = { set_de_jure_liege_title = title:k_armenia }
-		title:d_tayk = { set_de_jure_liege_title = title:k_armenia }
-		#e_persia
-		title:d_gortyene = { set_de_jure_liege_title = title:k_asoristan }
-		title:d_kwrtstan = { set_de_jure_liege_title = title:k_persia }
-		title:d_exilarch = { set_de_jure_liege_title = title:k_asoristan }
-		#Put specific kingdoms within specific empires where it makes sense
-		title:k_rheged = { set_de_jure_liege_title = title:e_britannia }
-		#Persia
-		title:k_mazandaran = { set_de_jure_liege_title = title:e_persia }
-		#Religious titles
-		create_title_and_vassal_change = {
-			type = swear_fealty
-			save_scope_as = change
-			add_claim_on_loss = no
+BP_create_theodoric_armies_476 = {
+	effect = {
+		character:63 = {
+			create_theodoric_army_effect = { LOCATION = 3682 }
 		}
-		title:d_manichean.holder = {
-			change_liege = {
-				liege = title:e_persia.holder
-				change = scope:change
+	}
+}
+	} # end of block
+	# Legitimacy fixes keyed to unconverted historical holders.
+	{
+BP_setup_legitimacy_476 = {
+	effect = {
+		#Persia should be considered legitimate
+		title:h_persia.holder = { add_legitimacy = -5000 }
+		title:h_persia.holder = { add_legitimacy = 1200 }
+		#Nepos should be legitimate
+		title:k_dalmatia.holder = { add_legitimacy = -5000 }
+		title:k_dalmatia.holder = { add_legitimacy = 500 }
+		#Euric should be legitimate
+		title:k_visigoths.holder = { add_legitimacy = -5000 }
+		title:k_visigoths.holder = { add_legitimacy = 500 }
+		#Hermeric should be legitimate
+		title:k_suebia.holder = { add_legitimacy = -5000 }
+		title:k_suebia.holder = { add_legitimacy = 500 }
+		#Geseric should be legitimate
+		title:k_vandalica.holder = { add_legitimacy = -5000 }
+		title:k_vandalica.holder = { add_legitimacy = 500 }
+	}
+}
+	} # end of block
+	# Realm-law setup for hardcoded historical realms.
+	{
+BP_setup_realm_laws_476 = {
+	effect = {
+		#Setup h_persia's clerical/shah authority
+		#Initially strong Clerical Influence and somewhat decent Secular Authority
+		title:h_persia.holder = {
+			if = {
+				limit = { NOT = { has_realm_law = clerical_influence_1 } }
+				add_realm_law_skip_effects = clerical_influence_1
+				remove_variable = clerical_influence_cooldown
+			}
+			if = {
+				limit = { NOT = { has_realm_law = iranian_dynastic_authority_1 } }
+				add_realm_law_skip_effects = iranian_dynastic_authority_1
+				remove_variable = crown_authority_cooldown
 			}
 		}
-		resolve_title_and_vassal_change = scope:change
+		#To give the danes proper Tributaries
+		title:d_danes.holder = { add_realm_law_skip_effects = tribal_authority_1 }
+	}
+}
 	} # end of block
-
-	# Anachronistic
+	# Roman-admin realm laws applied to hardcoded historical states.
 	{
-		#Vache voluntarily abidcated with Persian pressure, so prevent any claims from him
-		character:159589 = { every_claim = { prev = { remove_claim = prev } } }
-		#Emnetzur and Ultzindur shouldn't get any claims to Hunnic titles
-		character:HunnicEmnetzur = { every_claim = { prev = { remove_claim = prev } } }
-		character:HunnicUltzindur = { every_claim = { prev = { remove_claim = prev } } }
-		#Odoacer only gets a claim to Skiria
-		character:55 = {
-			every_claim = {
-				limit = { NOT = { this = title:k_skiria } }
-				prev = { remove_claim = prev }
-			}
-		}
-		#Hunulf gets no claims
-		character:41720 = { every_claim = { prev = { remove_claim = prev } } }
-		#Armatus gets no claims
-		character:1100013 = { every_claim = { prev = { remove_claim = prev } } }
-		#Remove the ability of the Iazyges to start claim Gepidia
-		character:60 = { every_claim = { prev = { remove_claim = prev } } }
-		#Burgundia and Visigothica should not get claims on Prince-Bishoprics
+BP_setup_realm_laws_476_DLC = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
+	effect = {
+		#Roman Diarchy Laws
+		title:h_eastern_roman_empire.holder = { add_realm_law_skip_effects = roman_chancellor_law }
+		#Barbarian State Roman Orientations
 		title:k_visigoths.holder = {
-			every_claim = {
-				limit = { this.holder = { government_has_flag = government_is_theocracy } }
-				prev = { remove_claim = prev }
-			}
+			add_law_if_not_has_it_propagate_minority_law_effect = { LAW = non_roman_minority_rule_law_2 }
+			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_salary_40 }
+			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_military_40 }
+			remove_variable = non_roman_minority_rule_law_cooldown
+		}
+		title:k_suebia.holder = {
+			add_law_if_not_has_it_propagate_minority_law_effect = { LAW = non_roman_minority_rule_law_2 }
+			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_salary_40 }
+			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_military_40 }
+			remove_variable = non_roman_minority_rule_law_cooldown
 		}
 		title:k_burgundians.holder = {
-			every_claim = {
-				limit = { this.holder = { government_has_flag = government_is_theocracy } }
-				prev = { remove_claim = prev }
+			add_law_if_not_has_it_propagate_minority_law_effect = { LAW = non_roman_minority_rule_law_3 }
+			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_salary_40 }
+			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_military_40 }
+			remove_variable = non_roman_minority_rule_law_cooldown
+		}
+		title:k_vandalica.holder = {
+			add_law_if_not_has_it_propagate_minority_law_effect = { LAW = non_roman_minority_rule_law_0 }
+			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_salary_40 }
+			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_military_40 }
+			remove_variable = non_roman_minority_rule_law_cooldown
+		}
+		title:k_altava.holder = {
+			add_law_if_not_has_it_propagate_minority_law_effect = { LAW = non_roman_minority_rule_law_3 }
+			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_salary_40 }
+			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_military_40 }
+			remove_variable = non_roman_minority_rule_law_cooldown
+		}
+		title:d_auresia.holder = {
+			add_law_if_not_has_it_propagate_minority_law_effect = { LAW = non_roman_minority_rule_law_3 }
+			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_salary_40 }
+			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_military_40 }
+			remove_variable = non_roman_minority_rule_law_cooldown
+		}
+		title:d_triveria.holder = {
+			add_law_if_not_has_it_propagate_minority_law_effect = { LAW = non_roman_minority_rule_law_4 }
+			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_salary_40 }
+			add_law_if_not_has_it_skip_effects_effect = { LAW = budget_allocation_military_40 }
+			remove_variable = non_roman_minority_rule_law_cooldown
+		}
+	}
+}
+	} # end of block
+	# Roman-admin theme obligations on hardcoded historical duchies.
+	{
+BP_setup_vassal_contracts_476_DLC = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
+	effect = {
+		#Remnant Limitanei
+		title:d_noricum_ripense.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_limitanei_value
 			}
 		}
-		#Remove Romulus' claims
-		character:96054 = { every_claim = { prev = { remove_claim = prev } } }
+		title:d_moesia_prima.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_limitanei_value
+			}
+		}
+		title:d_verodunum.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_limitanei_value
+			}
+		}
+		title:d_noviodunum.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_limitanei_value
+			}
+		}
+		
+		##### Sub-Roman Military Titles
+		
+		#Vandalica
+		title:d_numidia.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_military_value
+			}
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_military_landed
+				level = roman_administrative_military_landed_0
+			}
+		}
+		title:d_caesariensis.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_military_value
+			}
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_military_landed
+				level = roman_administrative_military_landed_0
+			}
+		}
+		
+		#Visigothica
+		title:d_catalonia.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_military_value
+			}
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_military_landed
+				level = roman_administrative_military_landed_0
+			}
+		}
+		title:d_upper_durius.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_military_value
+			}
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_military_landed
+				level = roman_administrative_military_landed_0
+			}
+		}
+		title:d_toletum.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_military_value
+			}
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_military_landed
+				level = roman_administrative_military_landed_0
+			}
+		}
+		title:d_novempopulana.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_military_value
+			}
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_military_landed
+				level = roman_administrative_military_landed_0
+			}
+		}
+		title:d_aquitanica_secunda.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_military_value
+			}
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_military_landed
+				level = roman_administrative_military_landed_0
+			}
+		}
+		
+		#Suebia
+		title:d_suebi_hermengegarius.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_military_value
+			}
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_military_landed
+				level = roman_administrative_military_landed_0
+			}
+		}
+		
+		#Burgundia
+		title:d_alpes_poeninae.holder = {
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_themes
+				level = roman_admin_theme_military_value
+			}
+			vassal_contract_set_obligation_level = {
+				type = roman_administrative_military_landed
+				level = roman_administrative_military_landed_0
+			}
+		}
+	}
+}
+	} # end of block
+	# Capital county fix for a hardcoded historical title.
+	{
+BP_setup_capitals_476 = {
+	effect = {
+		title:d_werle = {
+			set_capital_county = title:c_mecklenburg
+		}
+	}
+}
+	} # end of block
+	# Council assignment keyed to hardcoded historical characters.
+	{
+BP_setup_other_councils_476 = {
+	effect = {
+		#PLRE2 Gamuth was a steward-type role under Gaiseric
+		title:k_vandalica.holder = {
+			make_councilor_of_type_if_not_already_effect = {
+				TARGET_CHAR = character:36066
+				POSITION = councillor_steward
+			}
+		}
+	}
+}
+	} # end of block
+	# Roman-admin border MAA regiments on hardcoded historical duchies.
+	{
+BP_setup_roman_border_troops_476_DLC = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
+	effect = {
+		title:d_noricum_ripense.holder = {
+			title:d_noricum_ripense = { every_title_maa_regiment = { destroy_maa_regiment = yes } }
+			create_maa_regiment = {
+				type = bowmen
+				check_can_recruit = no
+				size = 2
+				title = title:d_noricum_ripense
+			}
+			create_maa_regiment = {
+				type = light_footmen
+				check_can_recruit = no
+				size = 2
+				title = title:d_noricum_ripense
+			}
+			create_maa_regiment = {
+				type = light_horsemen
+				check_can_recruit = no
+				size = 1
+				title = title:d_noricum_ripense
+			}
+		}
+		title:d_moesia_prima.holder = {
+			title:d_moesia_prima = { every_title_maa_regiment = { destroy_maa_regiment = yes } }
+			create_maa_regiment = {
+				type = bowmen
+				check_can_recruit = no
+				size = 2
+				title = title:d_moesia_prima
+			}
+			create_maa_regiment = {
+				type = light_footmen
+				check_can_recruit = no
+				size = 2
+				title = title:d_moesia_prima
+			}
+			create_maa_regiment = {
+				type = light_horsemen
+				check_can_recruit = no
+				size = 1
+				title = title:d_moesia_prima
+			}
+		}
+		title:d_celtica.holder = {
+			title:d_celtica = { every_title_maa_regiment = { destroy_maa_regiment = yes } }
+			create_maa_regiment = {
+				type = bowmen
+				check_can_recruit = no
+				size = 2
+				title = title:d_celtica
+			}
+			create_maa_regiment = {
+				type = light_footmen
+				check_can_recruit = no
+				size = 2
+				title = title:d_celtica
+			}
+			create_maa_regiment = {
+				type = light_horsemen
+				check_can_recruit = no
+				size = 1
+				title = title:d_celtica
+			}
+		}
+		title:d_verodunum.holder = {
+			title:d_verodunum = { every_title_maa_regiment = { destroy_maa_regiment = yes } }
+			create_maa_regiment = {
+				type = bowmen
+				check_can_recruit = no
+				size = 2
+				title = title:d_verodunum
+			}
+			create_maa_regiment = {
+				type = light_footmen
+				check_can_recruit = no
+				size = 2
+				title = title:d_verodunum
+			}
+			create_maa_regiment = {
+				type = light_horsemen
+				check_can_recruit = no
+				size = 1
+				title = title:d_verodunum
+			}
+		}
+	}
+}
+	} # end of block
+	# Federate MAA regiments on a hardcoded historical duchy.
+	{
+BP_setup_federate_troops_476_DLC = {
+	trigger = { BP_has_dlc_necessary_for_roman_admin_governments_trigger = yes }
+	effect = {
+		title:d_orleans.holder = {
+			title:d_orleans = { every_title_maa_regiment = { destroy_maa_regiment = yes } }
+			create_maa_regiment = {
+				type = light_horsemen
+				check_can_recruit = no
+				size = 2
+				title = title:d_orleans
+			}
+			create_maa_regiment = {
+				type = horse_archers
+				check_can_recruit = no
+				size = 2
+				title = title:d_orleans
+			}
+			create_maa_regiment = {
+				type = light_footmen
+				check_can_recruit = no
+				size = 2
+				title = title:d_orleans
+			}
+		}
+	}
+}
 	} # end of block
 }
 
-
-"common/on_action/000_BP_game_start.txt" = {
-	# Anachronistic
+"common/on_action/BP_on_actions/BP_game_starts/BP_global_gamestart.txt" = {
+	# Historical de jure reshaping by date; conflicts with conversion.
 	{
-create_BP_artifacts = {
+if = { #Aetius lands the Alans of Orleans; basically proto-Orelans duchy
+			limit = { current_date >= 442.1.1 }
+			title:d_orleans = { set_de_jure_liege_title = title:k_lugdunensis }
+			title:c_chartres = { set_de_jure_liege_title = title:d_orleans }
+			title:c_vendome = { set_de_jure_liege_title = title:d_orleans }
+			title:c_blois = { set_de_jure_liege_title = title:d_orleans }
+			title:c_orleans = { set_de_jure_liege_title = title:d_orleans }
+		}
+	} # end of block
+	# Barony holder takeovers by hardcoded historical bishops.
+	{
+create_title_and_vassal_change = {
+			type = granted
+			save_scope_as = give_bishops_their_titles
+		}
+		#Bishops of Vienne
+		title:b_vienne = {
+			if = {
+				limit = {
+					current_date >= 475.1.1
+					current_date <  494.1.1
+				}
+				change_title_holder = {
+					holder = character:1007001 # Hesychius
+					change = scope:give_bishops_their_titles
+					government_base = character:1900009
+				}
+			}
+			else_if = {
+				limit = {
+					current_date >= 494.1.1
+					current_date <  519.1.1
+				}
+				change_title_holder = {
+					holder = character:190011 # Avitus
+					change = scope:give_bishops_their_titles
+					government_base = character:1900009
+				}
+			}
+		}
+		#Bishops of Lyon
+		title:b_villars = {
+			if = {
+				limit = {
+					current_date >= 434.1.1
+					current_date <  449.1.1
+				}
+				change_title_holder = {
+					holder = character:1001106 # Eucherius
+					change = scope:give_bishops_their_titles
+					government_base = character:1900009
+				}
+			}
+			else_if = {
+				limit = {
+					current_date >= 456.1.1
+					current_date <  494.1.1
+				}
+				change_title_holder = {
+					holder = character:1001105 # Patiens
+					change = scope:give_bishops_their_titles
+					government_base = character:1900009
+				}
+			}
+			else_if = {
+				limit = {
+					current_date >= 494.1.1
+					current_date <  501.1.1
+				}
+				change_title_holder = {
+					holder = character:RusticusOfLyon # Rusticus
+					change = scope:give_bishops_their_titles
+					government_base = character:1900009
+				}
+			}
+			else_if = {
+				limit = {
+					current_date >= 514.1.1
+					current_date <  524.1.1
+				}
+				change_title_holder = {
+					holder = character:Viventiolus # Viventiolus
+					change = scope:give_bishops_their_titles
+					government_base = character:1900009
+				}
+			}
+			else_if = {
+				limit = {
+					current_date >= 542.1.1
+					current_date <  549.1.1
+				}
+				change_title_holder = {
+					holder = character:LeontiusOfLyon # Leontius of Lyon
+					change = scope:give_bishops_their_titles
+					government_base = character:1900009
+				}
+			}
+			else_if = {
+				limit = {
+					current_date >= 549.1.1
+					current_date <  552.1.1
+				}
+				change_title_holder = {
+					holder = character:SacerdosOfLyon # Sacerdos
+					change = scope:give_bishops_their_titles
+					government_base = character:1900009
+				}
+			}
+			else_if = {
+				limit = {
+					current_date >= 552.1.1
+					current_date <  573.1.1
+				}
+				change_title_holder = {
+					holder = character:NicetiusOfLyon # Nicetius
+					change = scope:give_bishops_their_titles
+					government_base = character:1900009
+				}
+			}
+		}
+		#Bishop of Besacon
+		title:b_ornans = {
+			if = {
+				limit = {
+					current_date >= 445.1.1
+					current_date <  480.1.1
+				}
+				change_title_holder = {
+					holder = character:1001107 # Antidius
+					change = scope:give_bishops_their_titles
+					government_base = character:1900009
+				}
+			}
+		}
+		#Bishop of Bordeaux
+		title:b_fronsac = {
+			if = {
+				limit = {
+					current_date >= 475.1.1
+					current_date <  485.1.1
+				}
+				change_title_holder = {
+					holder = character:1001109 # Amelius
+					change = scope:give_bishops_their_titles
+					government_base = character:1900009
+				}
+			}
+		}
+		#Bishop of Valence
+		title:b_valence = {
+			if = {
+				limit = {
+					current_date >= 442.1.1
+					current_date <  486.1.1
+				}
+				change_title_holder = {
+					holder = character:CariathoOfValence # CariathoOfValence
+					change = scope:give_bishops_their_titles
+					government_base = character:1900009
+				}
+			}
+			else_if = {
+				limit = {
+					current_date >= 486.1.1
+					current_date <  520.1.1
+				}
+				change_title_holder = {
+					holder = character:ApollinarisOfValence # ApollinarisOfValence
+					change = scope:give_bishops_their_titles
+					government_base = character:1900009
+				}
+			}
+		}
+		
+		resolve_title_and_vassal_change = scope:give_bishops_their_titles
+	} # end of block
+	# Historical title law changes by date; conflicts with conversion.
+	{
+if = { #Visigoths adopt elective
+			limit = { current_date >= 531.1.1 }
+			title:k_visigoths = { add_title_law = feudal_elective_succession_law }
+		}
+	} # end of block
+	# Grants kingdoms to the unconverted Persian hegemon title holder.
+	{
+give_persian_hegemon_its_kingdoms = {
 	effect = {
 		if = {
-			limit = { has_dlc_feature = royal_court }
-			#Tooth of the Buddha
-			title:k_lanka.holder = {
-				save_scope_as = the_holder
-				create_artifact = {
-					name = tooth_of_the_buddha
-					description = tooth_of_the_buddha_desc
-					history = { type = created_before_history }
-					type = pedestal
-					template = buddhism_artifact_template
-					quality = 999
-					decaying = no
-					modifier = tooth_of_the_buddha_modifier
-					visuals = bone
-					save_scope_as = tooth_of_the_buddha_scope
-				}
-				scope:tooth_of_the_buddha_scope = {
-					set_variable = { # required to track usability for template
-						name = saint_bone_faith
-						value = scope:the_holder.faith
-					}
-				}
-			}
-			title:e_byzantium.holder = {
-				create_artifact = {
-					name = nail_of_the_true_cross
-					description = nail_of_the_true_cross_desc
-					history = { type = created_before_history }
-					type = pedestal
-					template = christian_relic_template
-					quality = 999
-					decaying = no
-					modifier = nail_of_the_true_cross_modifier
-					visuals = reliquary
-				}
-			}
-			title:e_persia.holder = {
-				create_artifact = {
-					name = branch_of_the_keshmar_cypress
-					description = branch_of_the_keshmar_cypress_desc
-					history = { type = created_before_history }
-					type = pedestal
-					template = zoroastrian_relic_template
-					quality = 999
-					decaying = no
-					modifier = branch_of_the_keshmar_cypress_modifier
-					visuals = flowers
-				}
+			limit = { exists = title:h_persia.holder }
+			title:h_persia.holder = {
+				get_title = title:k_asoristan
+				get_title = title:k_makran
+				get_title = title:k_persia
+				get_title = title:k_daylam
+				get_title = title:k_parthia
 			}
 		}
 	}
 }
 	} # end of block
-
+	# Historical capital changes for specific time periods; conflicts with conversion.
 	{
-create_BP_artifacts
-	} # end of block
-
-	# Anachronistic
-	{
-		#Handle edge cases:
-		character:109769 ?= { set_character_faith_history = faith:nicene } #Make Erikos the Massalian Nicene
-		title:d_raetia_curiensis.holder ?= { set_character_faith_history = faith:nicene }
-	} # end of block
-
-
-	# Anachronistic
-	{
-## Family Stuff
-set_historical_dynasty_renown = {
-	effect = {
-		#Iranian Houses
-		dynasty:10424228 = { add_dynasty_prestige_level = 2 } #Ispahbudhan of Tabaristan and Gurgan
-		dynasty:10424226 = { add_dynasty_prestige_level = 2 } #Waraz of East Khoristan
-			#house_karen_pahlav #Karen (fine as is)
-		dynasty:1029027 = { add_dynasty_prestige_level = 2 } #Mihran of Ray
-		dynasty:10424229 = { add_dynasty_prestige_level = 2 } #Spandiyadh of Ray
-		dynasty:10424230 = { add_dynasty_prestige_level = 2 } #Zik of Adurbadagan
-		dynasty:1042143 = { add_dynasty_prestige_level = 2 } #Suren of Sakastan
-		dynasty:1029100 = { add_dynasty_prestige_level = 1 } #Sassanids
-		#Dead Dynasties; Re-evaluate all of these as dynasty tree is filled out for increased accuracy
-		dynasty:israelite_dynn_herodian = { add_dynasty_prestige_level = 1 }
-		dynasty:iranian_dynn_achaemenid = { add_dynasty_prestige_level = 4 }
-		dynasty:bactrian_dynn_orontid = { add_dynasty_prestige_level = 4 }
-		dynasty:104246212 = { add_dynasty_prestige_level = 3 } #Seleucid
-		dynasty:macedonian_dynn_Argead = { add_dynasty_prestige_level = 10 } #Alexander the Great
-		dynasty:macedonian_dynasty_ptolemaid = { add_dynasty_prestige_level = 10 } #Ptolemids
-	}
-}
-	} # end of block
-	{
-		#Family Stuff
-		set_historical_dynasty_renown
-	} # end of block
-
-	# Anachronistic
-	{
-		character:175110 = { add_character_flag = do_not_generate_starting_family } #No kids for Nepos
-	} # end of block
-}
-
-
-"common/on_action/BP_game_starts/BP_global_gamestart.txt" = {
-	# Anachronistic
-	{
-		#Capital changes for specific time periods
+#Capital changes for specific time periods
 		title:k_ostrogoths.holder = {
 			if = {
 				limit = { current_date < 488.1.1 }
@@ -590,12 +1478,6 @@ set_historical_dynasty_renown = {
 				set_realm_capital = title:c_udabhanda
 			}
 		}
-		title:k_caucasian_albania.holder = {
-			if = {
-				limit = { current_date < 500.1.1 }
-				set_realm_capital = title:c_shaki
-			}
-		}
 		title:e_hunnic_empire.holder = {
 			if = {
 				limit = { current_date > 469.1.1 }
@@ -605,56 +1487,144 @@ set_historical_dynasty_renown = {
 	} # end of block
 }
 
-
-"common/scripted_character_templates/00_pool_repopulation_character_templates_BP_overwrite.txt" = {
-	# Prevent random Christian characters being generated.
+"common/on_action/BP_on_actions/000_BP_game_start.txt" = {
+	# Relics granted to holders of hardcoded historical titles.
+	# (also removes the generic Gurzil artifact branch - acceptable trade-off for simplicity)
 	{
-				5 = {
-					set_character_faith = faith:nestorian
+create_BP_artifacts = {
+	effect = {
+		if = {
+			limit = { has_dlc_feature = royal_court }
+			#Tooth of the Buddha
+			title:k_lanka.holder ?= {
+				save_scope_as = the_holder
+				create_artifact = {
+					name = tooth_of_the_buddha
+					description = tooth_of_the_buddha_desc
+					history = { type = created_before_history }
+					type = pedestal
+					template = buddhism_artifact_template
+					quality = 999
+					decaying = no
+					modifier = tooth_of_the_buddha_modifier
+					visuals = bone
+					save_scope_as = tooth_of_the_buddha_scope
 				}
-	}
-	{
-		else_if = {
-			limit = {
-				culture = culture:assyrian
+				scope:tooth_of_the_buddha_scope = {
+					set_variable = { # required to track usability for template
+						name = saint_bone_faith
+						value = scope:the_holder.faith
+					}
+				}
 			}
-			set_character_faith = faith:nestorian
+			title:h_eastern_roman_empire.holder ?= {
+				create_artifact = {
+					name = nail_of_the_true_cross
+					description = nail_of_the_true_cross_desc
+					history = { type = created_before_history }
+					type = pedestal
+					template = christian_relic_template
+					quality = 999
+					decaying = no
+					modifier = nail_of_the_true_cross_modifier
+					visuals = reliquary
+				}
+			}
+			title:h_persia.holder ?= {
+				create_artifact = {
+					name = branch_of_the_keshmar_cypress
+					description = branch_of_the_keshmar_cypress_desc
+					history = { type = created_before_history }
+					type = pedestal
+					template = zoroastrian_relic_template
+					quality = 999
+					decaying = no
+					modifier = branch_of_the_keshmar_cypress_modifier
+					visuals = pedestal_branch_relic_zoroastr
+				}
+				create_artifact_pedestal_al_jabal_effect = { OWNER = this }
+			}
+		}
+		# Available without Royal Court
+		# Give Gurzils to the Laguntans
+		every_ruler = {
+			limit = {
+				is_independent_ruler = yes
+				faith = faith:gurzil
+				highest_held_title_tier >= tier_duchy
+				OR = {
+					government_has_flag = government_is_tribal
+					government_has_flag = government_is_nomadic
+				}
+			}
+			create_artifact = {
+				name = gurzil_image
+				description = gurzil_image_desc
+				history = { type = created_before_history }
+				type = miscellaneous_when_not_court
+				template = gurzil_template
+				quality = 40
+				modifier = gurzil_image_modifier
+				visuals = animal_figurine
+			}
 		}
 	}
 }
-
-
-"common/on_action/BP_game_starts/476/BP_476_minorities.txt" = {
-	# Anachronistic
+	} # end of block
+	# Forcing a hardcoded character/title holder onto the Nicene faith makes no sense in a converted world.
 	{
-		#Roman Empire
-		BP_minorities_476_northwest_africa
-		BP_minorities_476_oriens_cilicia
-		BP_minorities_476_caucuses
-		BP_minorities_476_anatolia
-		BP_minorities_476_european_byzantium
-		BP_minorities_476_egypt
-		BP_minorities_476_britannia
-		BP_minorities_476_gaul
-		BP_minorities_476_italy
-		BP_minorities_476_illyria
-		BP_minorities_476_hispania
-		
-		#Persia
-		BP_minorities_476_asoritsan_khuzestan
-		BP_minorities_476_iran
-		BP_minorities_476_bactria
-		
-		#Elsewhere
-		BP_minorities_476_taurica
-		BP_minorities_476_east_africa
-		BP_minorities_476_tartaria
-	}
+#Handle edge cases:
+		title:d_raetia_curiensis.holder ?= { set_character_faith_history = faith:nicene }
+	} # end of block
 }
 
+"common/on_action/BP_on_actions/BP_senate_on_actions.txt" = {
+	# References historical dynasties that don't make sense for a converted game.
+	{
+#Senatorial Families (West)
+		dynasty:1042312 = { make_west_senate_family_effect = yes } #Anicii Gens
+		dynasty:1022222 = { make_west_senate_family_effect = yes } #Decii Gens
+		dynasty:1042302 = { make_west_senate_family_effect = yes } #Symmachi Gens
+		dynasty:1042324 = { make_west_senate_family_effect = yes } #Rufii Gens
+		dynasty:1042365 = { make_west_senate_family_effect = yes } #Rufinii Gens
+		dynasty:1042300 = { make_west_senate_family_effect = yes } #Acilii Gens
+		dynasty:romano_gallic_dynasty_vettius = { make_west_senate_family_effect = yes } #Vettii Gens
+		dynasty:romano_african_dynasty_vettius = { make_west_senate_family_effect = yes } #Vettii Gens
+		#dynasty:roman_dynasty_vibius = { make_west_senate_family_effect = yes } #Vibii Gens
+		dynasty:romano_gallic_dynasty_pontius = { make_west_senate_family_effect = yes } #Pontii Gens
+		dynasty:romano_gallic_dynasty_decimius = { make_west_senate_family_effect = yes } #Decimii Gens
+		dynasty:105861 = { make_west_senate_family_effect = yes } #Turcii Gens
+		dynasty:1042320 = { make_west_senate_family_effect = yes } #Egnatii Gens
+		#Imperial Gens
+		dynasty:1022195 = { make_west_senate_family_effect = yes } #Constantini Gens
+		dynasty:1042315 = { make_west_senate_family_effect = yes } #Theodesii Gens
+		
+		#Romano-Gallic Dynasties
+		dynasty:roman_dynn_ferreolus = { make_west_senate_family_effect = yes } #Ferreoli Gens
+		dynasty:1042298 = { make_west_senate_family_effect = yes } #Avitus Gens
+		dynasty:1042301 = { make_west_senate_family_effect = yes } #Apollinarii Gens
+		dynasty:104246202 = { make_west_senate_family_effect = yes } #Ennodii Gens
+		
+		#Senatorial Families (East)
+		dynasty:1042535 = { make_east_senate_family_effect = yes } #Areobindus Gens
+		dynasty:13100023 = { make_east_senate_family_effect = yes } #Pomponii Gens
+		#Imperial Gens
+		dynasty:1022189 = { make_east_senate_family_effect = yes } #Venerius Gens
+		dynasty:1022188 = { make_east_senate_family_effect = yes } #Leonid Gens
+		#### Taken from Eastern Roman Consuls
+		#dynasty:1042365 = { make_east_senate_family_effect = yes } #Family of Gennadius Avienus (ca. 450) #Should be Constantinople Senate at later bookmarks
+		dynasty:104246209 = { make_east_senate_family_effect = yes } #Family of F. Taurus Celemntinus Armonius Clementinus
+		
+		#Build list of families that should _not_ be given land; namely the Romano-Gallic Families
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:roman_dynn_ferreolus }
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:1042298 }
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:1042301 }
+		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:104246202 }
+	} # end of block
+}
 
-"common/on_action/sea_bp_minority_game_start.txt" = {
-	# Anachronistic
+"common/on_action/BP_on_actions/sea_bp_minority_game_start.txt" = {
+	# Anachronistic minority effects applied to all bookmarks.
 	{
 #AKA, Minorities that are true for all bookmarks
 BP_set_minorities_universal = {
@@ -958,60 +1928,62 @@ BP_set_minorities_universal = {
 	}
 }
 	} # end of block
+	# Invocation of the removed on_action.
 	{
-		BP_set_minorities_universal
+BP_set_minorities_universal
 	} # end of block
 }
 
-
-"common/on_action/BP_senate_on_actions.txt" = {
-	# References historical dynasties that don't make sense for a converted game.
+"common/on_action/BP_on_actions/BP_game_starts/476/BP_476_minorities.txt" = {
+	# Anachronistic minorities setup.
 	{
-		#Senatorial Families (West)
-		dynasty:1042312 = { make_west_senate_family_effect = yes } #Anicii Gens
-		dynasty:1022222 = { make_west_senate_family_effect = yes } #Decii Gens
-		dynasty:1042302 = { make_west_senate_family_effect = yes } #Symmachi Gens
-		dynasty:1042324 = { make_west_senate_family_effect = yes } #Rufii Gens
-		dynasty:1042365 = { make_west_senate_family_effect = yes } #Rufinii Gens
-		dynasty:1042300 = { make_west_senate_family_effect = yes } #Acilii Gens
-		dynasty:romano_gallic_dynasty_vettius = { make_west_senate_family_effect = yes } #Vettii Gens
-		dynasty:romano_african_dynasty_vettius = { make_west_senate_family_effect = yes } #Vettii Gens
-		#dynasty:roman_dynasty_vibius = { make_west_senate_family_effect = yes } #Vibii Gens
-		dynasty:romano_gallic_dynasty_pontius = { make_west_senate_family_effect = yes } #Pontii Gens
-		dynasty:romano_gallic_dynasty_decimius = { make_west_senate_family_effect = yes } #Decimii Gens
-		dynasty:105861 = { make_west_senate_family_effect = yes } #Turcii Gens
-		dynasty:1042320 = { make_west_senate_family_effect = yes } #Egnatii Gens
-		#Imperial Gens
-		dynasty:1022195 = { make_west_senate_family_effect = yes } #Constantini Gens
-		dynasty:1042315 = { make_west_senate_family_effect = yes } #Theodesii Gens
+#Roman Empire
+		BP_minorities_476_northwest_africa
+		BP_minorities_476_oriens_cilicia
+		BP_minorities_476_caucuses
+		BP_minorities_476_anatolia
+		BP_minorities_476_european_byzantium
+		BP_minorities_476_egypt
+		BP_minorities_476_britannia
+		BP_minorities_476_gaul
+		BP_minorities_476_italy
+		BP_minorities_476_illyria
+		BP_minorities_476_hispania
 		
-		#Romano-Gallic Dynasties
-		dynasty:roman_dynn_ferreolus = { make_west_senate_family_effect = yes } #Ferreoli Gens
-		dynasty:1042298 = { make_west_senate_family_effect = yes } #Avitus Gens
-		dynasty:1042301 = { make_west_senate_family_effect = yes } #Apollinarii Gens
-		dynasty:104246202 = { make_west_senate_family_effect = yes } #Ennodii Gens
+		#Persia
+		BP_minorities_476_asoritsan_khuzestan
+		BP_minorities_476_iran
+		BP_minorities_476_bactria
 		
-		#Senatorial Families (East)
-		dynasty:1042535 = { make_east_senate_family_effect = yes } #Areobindus Gens
-		dynasty:13100023 = { make_east_senate_family_effect = yes } #Pomponii Gens
-		#Imperial Gens
-		dynasty:1022189 = { make_east_senate_family_effect = yes } #Venerius Gens
-		dynasty:1022188 = { make_east_senate_family_effect = yes } #Leonid Gens
-		#### Taken from Eastern Roman Consuls
-		#dynasty:1042365 = { make_east_senate_family_effect = yes } #Family of Gennadius Avienus (ca. 450) #Should be Constantinople Senate at later bookmarks
-		dynasty:104246209 = { make_east_senate_family_effect = yes } #Family of F. Taurus Celemntinus Armonius Clementinus
-		
-		#Build list of familes that should _not_ be given land; namely the Romano-Gallic Families
-		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:roman_dynn_ferreolus }
-		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:1042298 }
-		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:1042301 }
-		add_to_global_variable_list = { name = families_that_should_not_have_land target = dynasty:104246202 }
-	}
+		#Elsewhere
+		BP_minorities_476_taurica
+		BP_minorities_476_east_africa
+		BP_minorities_476_tartaria
+	} # end of block
+}
+
+"common/scripted_character_templates/00_pool_repopulation_character_templates_BP_overwrite.txt" = {
+	# Prevent random Christian characters being generated.
+	{
+5 = {
+					set_character_faith = faith:nestorian
+				}
+	} # end of block
+	# Prevent random Christian characters being generated.
+	{
+else_if = {
+			limit = {
+				culture = culture:assyrian
+			}
+			set_character_faith = faith:nestorian
+		}
+	} # end of block
 }
 
 "common/customizable_localization/BP_special_character_descriptions.txt" = {
+	# References hardcoded historical characters.
 	{
-	#476 Characters
+#476 Characters
 	text = {
 		trigger = { #Julius Nepos 476 description
 			this = character:175110
@@ -1032,9 +2004,9 @@ BP_set_minorities_universal = {
 		localization_key = BP_onkokwo
 	}
 	} # end of block
-
+	# References hardcoded historical characters.
 	{
-			NOR = {
+NOR = {
 				this = character:IgboIgbo000
 				this = character:175110
 				this = character:145226
@@ -1042,11 +2014,10 @@ BP_set_minorities_universal = {
 	} # end of block
 }
 
-
 "common/decisions/BP_claim_kingdom_decisions.txt" = {
-	# Anachronistic
+	# Anachronistic AI modifier.
 	{
-		modifier = { #AI Hazkert will not do this
+modifier = { #AI Hazkert will not do this
 			add = -10000
 			root = character:159590
 		}
