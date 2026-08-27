@@ -3,6 +3,7 @@ using commonItems.Collections;
 using commonItems.Colors;
 using commonItems.Localization;
 using commonItems.Mods;
+using ImageMagick;
 using ImperatorToCK3;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Cultures;
@@ -560,6 +561,228 @@ public class BookmarkOutputterTests {
 		} finally {
 			TryDeleteDir(Path.Combine("output", OutputModName));
 			TryDeleteDir(tempDir);
+		}
+	}
+
+	[Fact]
+	public void SeparatePositionsReturnsEarlyWhenAlreadySeparated() {
+		var positions = new List<(double X, double Y)> {
+			(150, 150),
+			(1770, 930),
+			(1000, 500)
+		};
+		var original = new List<(double X, double Y)>(positions);
+
+		BookmarkOutputter.SeparatePositions(positions);
+
+		Assert.Equal(original[0], positions[0]);
+		Assert.Equal(original[1], positions[1]);
+		Assert.Equal(original[2], positions[2]);
+	}
+
+	[Fact]
+	public async Task OutputBookmarkCreatesBookmarkFileAndMapWithAndWithoutAEP() {
+		var tempDir = CreateTempDir("bookmark_output");
+		var outputModName = OutputModName + "_full";
+		try {
+			var mapRoot = await CreateMapRootAsync(tempDir);
+			await CreateFlatmapAsync(mapRoot);
+
+			var mapData = new MapData(new ModFilesystem(mapRoot, Array.Empty<Mod>()));
+
+			var characters = new CharacterCollection();
+			var holder = new Character("char_bm", "BookmarkHolder", new Date(700, 1, 1), characters);
+			characters.AddOrReplace(holder);
+			holder.SetFaithId("faith_test", new Date(700, 1, 1));
+			holder.SetCultureId("culture_test", new Date(700, 1, 1));
+
+			var landedTitles = new Title.LandedTitles();
+			landedTitles.LoadTitles(new BufferedReader("""
+				c_bm_county = {
+					color = { 10 20 30 }
+					b_bm_barony = { province = 1 }
+				}
+				"""), new ColorFactory());
+			var county = landedTitles["c_bm_county"];
+			county.SetHolder(holder, ConversionDate);
+			// Mark as player country via reflection
+			typeof(Title).GetProperty("PlayerCountry", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic)!
+				.SetValue(county, true);
+			county.SetGovernment("feudal_government", ConversionDate);
+
+			// Create world via uninitialized object
+			var world = (ImperatorToCK3.CK3.World)System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(typeof(ImperatorToCK3.CK3.World));
+			SetWorldField(world, "MapData", mapData);
+			SetWorldField(world, "LandedTitles", landedTitles);
+			SetWorldField(world, "Characters", characters);
+			SetWorldField(world, "ModFS", new ModFilesystem(mapRoot, Array.Empty<Mod>()));
+			// ProvincePositions for GetClampedMeanPosition
+			var posDict = new System.Collections.Generic.Dictionary<ulong, ProvincePosition> {
+				[1] = ProvincePosition.Parse(new BufferedReader("id=1 position={ 2048.0 0.0 2048.0 }"))
+			};
+			// Inject into mapData's provincePositions via reflection
+			var provPosField = typeof(MapData).GetField("provincePositions", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!;
+			var dict = (System.Collections.Generic.Dictionary<ulong, ProvincePosition>)provPosField.GetValue(mapData)!;
+			dict[1] = posDict[1];
+
+			var config = new Configuration { OutputModName = outputModName, CK3BookmarkDate = ConversionDate };
+			// Ensure output directories
+			Directory.CreateDirectory(Path.Combine("output", outputModName, "common", "bookmarks", "bookmarks"));
+			Directory.CreateDirectory(Path.Combine("output", outputModName, "common", "bookmarks", "groups"));
+			Directory.CreateDirectory(Path.Combine("output", outputModName, "common", "bookmark_portraits"));
+			Directory.CreateDirectory(Path.Combine("output", outputModName, "gfx", "interface", "bookmarks"));
+
+			var ck3LocDB = new TestCK3LocDB();
+			ck3LocDB.AddLocForLanguage("char_bm", "english", "BookmarkHolder");
+
+			await BookmarkOutputter.OutputBookmark(world, config, ck3LocDB);
+
+			var bookmarkPath = Path.Combine("output", outputModName, "common", "bookmarks", "bookmarks", "00_bookmarks.txt");
+			Assert.True(File.Exists(bookmarkPath));
+			var bookmarkText = await File.ReadAllTextAsync(bookmarkPath, TestContext.Current.CancellationToken);
+			Assert.Contains("bm_converted = {", bookmarkText);
+			Assert.Contains("c_bm_county", bookmarkText);
+
+			var mapPathDds = Path.Combine("output", outputModName, "gfx", "interface", "bookmarks", "bm_converted.dds");
+			Assert.True(File.Exists(mapPathDds));
+			var mapPathPng = Path.Combine("output", outputModName, "gfx", "interface", "bookmarks", "bm_converted.png");
+			Assert.False(File.Exists(mapPathPng));
+
+			// Test with AEP enabled - should create dummy AEP file
+			var configAEP = new Configuration { OutputModName = outputModName, CK3BookmarkDate = ConversionDate };
+			// Set active mod flag to include aep via reflection
+			var flagsField = typeof(Configuration).GetField("activeCK3ModFlags", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+			if (flagsField != null) {
+				var flags = (System.Collections.Generic.HashSet<string>)flagsField.GetValue(configAEP)!;
+				flags.Add("aep");
+			} else {
+				// Fallback: set via property if exists
+				var prop = typeof(Configuration).GetProperty("SelectedCK3Mods");
+				if (prop != null) {
+					// not needed, just test the branch by setting AsiaExpansionProjectEnabled via reflection on computed property
+				}
+			}
+			// Force AsiaExpansionProjectEnabled to true by setting the underlying flag set
+			// The property checks activeCK3ModFlags.Contains("aep"), so we set that
+			var activeFlags = (System.Collections.Generic.HashSet<string>)typeof(Configuration).GetField("activeCK3ModFlags", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!.GetValue(configAEP)!;
+			activeFlags.Add("aep");
+
+			await BookmarkOutputter.OutputBookmark(world, configAEP, ck3LocDB);
+			var aepPath = Path.Combine("output", outputModName, "common", "bookmarks", "bookmarks", "00_AEP_bookmarks.txt");
+			Assert.True(File.Exists(aepPath));
+		} finally {
+			TryDeleteDir(Path.Combine("output", outputModName));
+			TryDeleteDir(tempDir);
+		}
+	}
+
+	[Fact]
+	public async Task OutputBookmarkThrowsWhenProvincesMapMissing() {
+		var tempDir = CreateTempDir("bookmark_missing_provinces");
+		var outputModName = OutputModName + "_missingProv";
+		try {
+			var mapRoot = Path.Combine(tempDir, "mod");
+			Directory.CreateDirectory(Path.Combine(mapRoot, "map_data"));
+			await File.WriteAllTextAsync(Path.Combine(mapRoot, "map_data", "default.map"), "definitions=\"definition.csv\"\nprovinces=\"provinces.png\"", TestContext.Current.CancellationToken);
+			await File.WriteAllTextAsync(Path.Combine(mapRoot, "map_data", "definition.csv"), "#province;red;green;blue;name;x\n1;255;0;0;land;x", TestContext.Current.CancellationToken);
+			// Intentionally do NOT create provinces.png
+
+			var mapData = new MapData(new ModFilesystem(mapRoot, Array.Empty<Mod>()));
+
+			var world = (ImperatorToCK3.CK3.World)System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(typeof(ImperatorToCK3.CK3.World));
+			SetWorldField(world, "MapData", mapData);
+			SetWorldField(world, "LandedTitles", new Title.LandedTitles());
+			SetWorldField(world, "Characters", new CharacterCollection());
+			SetWorldField(world, "ModFS", new ModFilesystem(mapRoot, Array.Empty<Mod>()));
+
+			var config = new Configuration { OutputModName = outputModName, CK3BookmarkDate = ConversionDate };
+			Directory.CreateDirectory(Path.Combine("output", outputModName, "common", "bookmarks", "bookmarks"));
+			Directory.CreateDirectory(Path.Combine("output", outputModName, "common", "bookmarks", "groups"));
+			Directory.CreateDirectory(Path.Combine("output", outputModName, "common", "bookmark_portraits"));
+			Directory.CreateDirectory(Path.Combine("output", outputModName, "gfx", "interface", "bookmarks"));
+
+			var ck3LocDB = new TestCK3LocDB();
+			await Assert.ThrowsAsync<FileNotFoundException>(() => BookmarkOutputter.OutputBookmark(world, config, ck3LocDB));
+		} finally {
+			TryDeleteDir(Path.Combine("output", outputModName));
+			TryDeleteDir(tempDir);
+		}
+	}
+
+	[Fact]
+	public async Task OutputBookmarkThrowsWhenFlatmapMissing() {
+		var tempDir = CreateTempDir("bookmark_missing_flatmap");
+		var outputModName = OutputModName + "_missingFlat";
+		try {
+			var mapRoot = await CreateMapRootAsync(tempDir);
+			// Do not create flatmap
+
+			var mapData = new MapData(new ModFilesystem(mapRoot, Array.Empty<Mod>()));
+
+			var world = (ImperatorToCK3.CK3.World)System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject(typeof(ImperatorToCK3.CK3.World));
+			SetWorldField(world, "MapData", mapData);
+			SetWorldField(world, "LandedTitles", new Title.LandedTitles());
+			SetWorldField(world, "Characters", new CharacterCollection());
+			SetWorldField(world, "ModFS", new ModFilesystem(mapRoot, Array.Empty<Mod>()));
+
+			var config = new Configuration { OutputModName = outputModName, CK3BookmarkDate = ConversionDate };
+			Directory.CreateDirectory(Path.Combine("output", outputModName, "common", "bookmarks", "bookmarks"));
+			Directory.CreateDirectory(Path.Combine("output", outputModName, "common", "bookmarks", "groups"));
+			Directory.CreateDirectory(Path.Combine("output", outputModName, "common", "bookmark_portraits"));
+			Directory.CreateDirectory(Path.Combine("output", outputModName, "gfx", "interface", "bookmarks"));
+
+			var ck3LocDB = new TestCK3LocDB();
+			await Assert.ThrowsAsync<FileNotFoundException>(() => BookmarkOutputter.OutputBookmark(world, config, ck3LocDB));
+		} finally {
+			TryDeleteDir(Path.Combine("output", outputModName));
+			TryDeleteDir(tempDir);
+		}
+	}
+
+	private static void SetWorldField(ImperatorToCK3.CK3.World world, string fieldName, object value) {
+		var type = typeof(ImperatorToCK3.CK3.World);
+		var field = type.GetField($"<{fieldName}>k__BackingField", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+		if (field == null) {
+			field = type.GetField(fieldName, System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Public);
+		}
+		field!.SetValue(world, value);
+	}
+
+	private static async Task CreateFlatmapAsync(string modRoot) {
+		var dir = Path.Combine(modRoot, "gfx", "map", "terrain", "flat_maps");
+		Directory.CreateDirectory(dir);
+		var flatmapPath = Path.Combine(dir, "flatmap.dds");
+		using var image = new MagickImage(new MagickColor(50, 60, 70), 5, 5);
+		await Task.Run(() => image.Write(flatmapPath));
+	}
+
+	[Fact]
+	public async Task AddTitleToBookmarkScreenCopiesExistingLocWhenFound() {
+		try {
+			Directory.CreateDirectory(Path.Combine("output", OutputModName, "common", "bookmark_portraits"));
+			var config = new Configuration { OutputModName = OutputModName, CK3BookmarkDate = ConversionDate };
+
+			var characters = new CharacterCollection();
+			var holder = new Character("char_found", "FoundName", new Date(700, 1, 1), characters);
+			characters.AddOrReplace(holder);
+			holder.SetFaithId("faith_test", ConversionDate);
+			holder.SetCultureId("culture_test", ConversionDate);
+
+			var cRome = CreateRomeCounty(holder);
+			cRome.SetGovernment("feudal_government", ConversionDate);
+
+			var ck3LocDB = new TestCK3LocDB();
+			ck3LocDB.AddLocForLanguage("FoundName", "english", "Found English Loc");
+			ck3LocDB.AddLocForLanguage("FoundName", "french", "Found French Loc");
+
+			var sb = new System.Text.StringBuilder();
+			await BookmarkOutputter.AddTitleToBookmarkScreen(cRome, sb, holder.Id, characters, ck3LocDB, (540, 540), config);
+
+			Assert.True(ck3LocDB.TryGetValue($"bm_converted_{holder.Id}", out var loc));
+			Assert.Equal("Found English Loc", loc["english"]);
+			Assert.Equal("Found French Loc", loc["french"]);
+		} finally {
+			TryDeleteDir(Path.Combine("output", OutputModName));
 		}
 	}
 }

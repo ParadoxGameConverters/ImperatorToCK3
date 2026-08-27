@@ -1,0 +1,4 @@
+test_version = {
+	# Land province mapped to two non-land provinces (plural warning). Province 9 has no definition, so it counts as water.
+	link = { imp = 1 ck3 = 2 ck3 = 9 }
+}

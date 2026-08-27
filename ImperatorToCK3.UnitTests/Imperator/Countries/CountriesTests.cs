@@ -119,4 +119,40 @@ public class CountriesTests {
 
 		Assert.Contains("[DEBUG] Families without definition: 10", output.ToString());
 	}
+
+	[Fact]
+	public void AllCountryTypesCanBeSet() {
+		var reader = new BufferedReader(
+			"={\n" +
+			"1={country_type=real}\n" +
+			"2={country_type=rebels}\n" +
+			"3={country_type=pirates}\n" +
+			"4={country_type=barbarians}\n" +
+			"5={country_type=mercenaries}\n" +
+			"}\n"
+		);
+		var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+		countries.LoadCountries(reader);
+
+		Assert.Equal(ImperatorToCK3.Imperator.Countries.CountryType.real, countries[1].CountryType);
+		Assert.Equal(ImperatorToCK3.Imperator.Countries.CountryType.rebels, countries[2].CountryType);
+		Assert.Equal(ImperatorToCK3.Imperator.Countries.CountryType.pirates, countries[3].CountryType);
+		Assert.Equal(ImperatorToCK3.Imperator.Countries.CountryType.barbarians, countries[4].CountryType);
+		Assert.Equal(ImperatorToCK3.Imperator.Countries.CountryType.mercenaries, countries[5].CountryType);
+	}
+
+	[Fact]
+	public void UnrecognizedCountryTypeDefaultsToReal() {
+		var output = new StringWriter();
+		Console.SetOut(output);
+
+		var reader = new BufferedReader(
+			"={42={country_type=aliens}}\n"
+		);
+		var countries = new ImperatorToCK3.Imperator.Countries.CountryCollection();
+		countries.LoadCountries(reader);
+
+		Assert.Equal(ImperatorToCK3.Imperator.Countries.CountryType.real, countries[42].CountryType);
+		Assert.Contains("[ERROR] Unrecognized country type: aliens, defaulting to real.", output.ToString());
+	}
 }

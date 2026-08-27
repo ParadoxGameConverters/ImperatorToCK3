@@ -1,4 +1,4 @@
-﻿# Add mod-specific stuff inside MOD_DEPENDENT = { IF @[wtwsms] = {} } blocks.
+# Add mod-specific stuff inside MOD_DEPENDENT = { IF @[wtwsms] = {} } blocks.
 # WtWSMS uses (broadest->specific): language_family -> language_branch -> language_group (optional) -> language_dialect_continuum (optional, multiple allowed); optionally also allows language_creole and language_union
 # ROA uses (broadest->specific): language_family -> language_branch -> language_group (optional) -> language_dialect_continuum (optional, multiple allowed); optionally also allows language_creole and language_union
 # TFE uses (broadest->specific): language_family -> language_group
@@ -345,9 +345,18 @@ language_phrygian = {
 language_kemetic = {
     REPLACED_BY = {
 		tfe = { language_kemetic }
-		wtwsms = { language_kemetic }
 		roa = { language_egyptian }
 		vanilla_ck3 = { language_egyptian }
+	}
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_dialect_continuum_kemetic = yes
+				language_branch_egyptian = yes
+				language_family_afro_asiatic = yes
+			}
+		}
 	}
 
 	type = language
@@ -1152,7 +1161,6 @@ language_punic = {
 			language_punic
 			language_phoenician # TFE uses language_phoenician for the punic culture.
 		}
-		wtwsms = { language_punic }
 		vanilla_ck3 = { language_punic }
 	}
 
@@ -1163,7 +1171,13 @@ language_punic = {
 				language_family_afro_asiatic = yes
 			}
 		}
-	}
+		ELSE_IF wtwsms = {
+		parameters = {
+		language_group_northwest_semitic = yes
+		language_branch_semitic = yes
+		language_family_afro_asiatic = yes
+		}
+	}}
 
 	type = language
 	is_shown = {
@@ -2807,7 +2821,6 @@ language_sabaki = {
 # TFE doesn't give this language group/family parameters, so I'm adding them here just to get rid of the converter errors.
 language_north_dravidian = {
     REPLACED_BY = {
-		wtwsms = { language_north_dravidian }
 		roa = { language_north_dravidian }
 		vanilla_ck3 = { language_north_dravidian }
 	}
@@ -2825,7 +2838,13 @@ language_north_dravidian = {
 				language_family_dravidian = yes
 			}
 		}
-	}
+		ELSE_IF wtwsms = {
+		parameters = {
+		language_branch_north_dravidian = yes
+		language_family_dravidian = yes
+		language_union_indian = yes
+		}
+	}}
 
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -2921,7 +2940,6 @@ language_burusho = {
 # TFE doesn't give this language group/family parameters, so I'm adding them here just to get rid of the converter errors.
 language_kordofanian = {
     REPLACED_BY = {
-		wtwsms = { language_kordofanian }
 		roa = { language_kordofanian }
 		vanilla_ck3 = { language_kordofanian }
 	}
@@ -2939,7 +2957,12 @@ language_kordofanian = {
 				language_family_nilo_saharan = yes
 			}
 		}
-	}
+		ELSE_IF wtwsms = {
+		parameters = {
+		language_branch_kordofanian = yes
+		language_family_atlantic_congo = yes
+		}
+	}}
 
 	MOD_DEPENDENT = {
 		IF tfe = {
@@ -2978,9 +3001,17 @@ language_kordofanian = {
 language_bashu = { # Will worry about CCU parameters once relevant mods are updated
     REPLACED_BY = {
 		tfe = { language_bashu }
-		wtwsms = { language_bashu }
 		roa = { language_bashu }
 		vanilla_ck3 = { language_bashu }
+	}
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_sinitic = yes
+				language_family_sino_tibetan = yes
+			}
+		}
 	}
 
 	type = language
@@ -3003,9 +3034,17 @@ language_bashu = { # Will worry about CCU parameters once relevant mods are upda
 language_tujian = { # Will worry about CCU parameters once relevant mods are updated
     REPLACED_BY = {
 		tfe = { language_tujian }
-		wtwsms = { language_tujian }
 		roa = { language_tujian }
 		vanilla_ck3 = { language_tujian }
+	}
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_sinitic = yes
+				language_family_sino_tibetan = yes
+			}
+		}
 	}
 
 	type = language
@@ -3028,9 +3067,17 @@ language_tujian = { # Will worry about CCU parameters once relevant mods are upd
 language_bai = { # Will worry about CCU parameters once relevant mods are updated
     REPLACED_BY = {
 		tfe = { language_bai }
-		wtwsms = { language_bai }
 		roa = { language_bai }
 		vanilla_ck3 = { language_bai }
+	}
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_sinitic = yes
+				language_family_sino_tibetan = yes
+			}
+		}
 	}
 
 	type = language
@@ -3053,9 +3100,17 @@ language_bai = { # Will worry about CCU parameters once relevant mods are update
 language_baiyue = { # Will worry about CCU parameters once relevant mods are updated
     REPLACED_BY = {
 		tfe = { language_baiyue }
-		wtwsms = { language_baiyue }
 		roa = { language_baiyue }
 		vanilla_ck3 = { language_baiyue }
+	}
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_sinitic = yes
+				language_family_sino_tibetan = yes
+			}
+		}
 	}
 
 	type = language
@@ -3078,9 +3133,17 @@ language_baiyue = { # Will worry about CCU parameters once relevant mods are upd
 language_dongyi = { # Will worry about CCU parameters once relevant mods are updated
     REPLACED_BY = {
 		tfe = { language_dongyi }
-		wtwsms = { language_dongyi }
 		roa = { language_dongyi }
 		vanilla_ck3 = { language_dongyi }
+	}
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_sinitic = yes
+				language_family_sino_tibetan = yes
+			}
+		}
 	}
 
 	type = language
@@ -3103,9 +3166,17 @@ language_dongyi = { # Will worry about CCU parameters once relevant mods are upd
 language_yi = { # Will worry about CCU parameters once relevant mods are updated
     REPLACED_BY = {
 		tfe = { language_yi }
-		wtwsms = { language_yi }
 		roa = { language_yi }
 		vanilla_ck3 = { language_yi }
+	}
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			parameters = {
+				language_branch_sinitic = yes
+				language_family_sino_tibetan = yes
+			}
+		}
 	}
 
 	type = language

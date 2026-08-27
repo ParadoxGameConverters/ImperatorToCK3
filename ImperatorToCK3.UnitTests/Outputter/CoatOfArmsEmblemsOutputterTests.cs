@@ -69,6 +69,50 @@ public class CoatOfArmsEmblemsOutputterTests {
 		}
 	}
 
+	[Fact]
+	public async Task ColoredEmblemWriteFailureIsHandledGracefully() {
+		var tempRoot = CreateTempDir();
+		try {
+			var modRoot = Path.Combine(tempRoot, "imperator");
+			var outputModPath = Path.Combine(tempRoot, "outputMod");
+			CreateEmblemDirectories(modRoot);
+			// Intentionally do NOT create output directories to cause Write to fail with DirectoryNotFoundException
+			Directory.CreateDirectory(outputModPath);
+
+			var coloredInputPath = Path.Combine(modRoot, "gfx", "coat_of_arms", "colored_emblems", "colored_test.png");
+			CreateSolidPng(coloredInputPath, new MagickColor(10, 20, 30));
+
+			// Should not throw, just log warning and skip
+			await CoatOfArmsEmblemsOutputter.CopyEmblems(outputModPath, new ModFilesystem(modRoot, Array.Empty<Mod>()));
+
+			Assert.False(File.Exists(Path.Combine(outputModPath, "gfx", "coat_of_arms", "colored_emblems", "colored_test.png")));
+		} finally {
+			TryDeleteDir(tempRoot);
+		}
+	}
+
+	[Fact]
+	public async Task TexturedEmblemCopyFailureIsHandledGracefully() {
+		var tempRoot = CreateTempDir();
+		try {
+			var modRoot = Path.Combine(tempRoot, "imperator");
+			var outputModPath = Path.Combine(tempRoot, "outputMod");
+			CreateEmblemDirectories(modRoot);
+			// Create only colored output dir, not textured, to cause copy to fail
+			Directory.CreateDirectory(Path.Combine(outputModPath, "gfx", "coat_of_arms", "colored_emblems"));
+			Directory.CreateDirectory(outputModPath);
+
+			var texturedInputPath = Path.Combine(modRoot, "gfx", "coat_of_arms", "textured_emblems", "textured_test.png");
+			CreateSolidPng(texturedInputPath, new MagickColor(40, 50, 60));
+
+			await CoatOfArmsEmblemsOutputter.CopyEmblems(outputModPath, new ModFilesystem(modRoot, Array.Empty<Mod>()));
+
+			Assert.False(File.Exists(Path.Combine(outputModPath, "gfx", "coat_of_arms", "textured_emblems", "textured_test.png")));
+		} finally {
+			TryDeleteDir(tempRoot);
+		}
+	}
+
 	private static void CreateSolidPng(string path, MagickColor color) {
 		using var image = new MagickImage(color, 1, 1);
 		image.Write(path);

@@ -1,0 +1,4 @@
+head_gene = {
+	ir_template_1 = ck3_template_1
+	ir_template_2 = ck3_template_2
+}

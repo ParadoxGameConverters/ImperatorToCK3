@@ -4,19 +4,19 @@
 # <file name> = {
 # 	replace = {
 # 		before = {
-# 			some original code			
+# 			some original code
 # 		}
 # 		after = {
-# 			some modified code			
+# 			some modified code
 # 		}
 # 	}
 #
 # 	replace = {
 # 		before = {
-# 			some original code 2		
+# 			some original code 2
 # 		}
 # 		after = {
-# 			some modified code 2		
+# 			some modified code 2
 # 		}
 # 	}
 # }
@@ -26,14 +26,235 @@
 # OTHERWISE THE BLOCKS WON'T BE MODIFIED!
 
 "common/defines/00_defines_BP_overwrite.txt" = {
-    # Add the converter's eremitic_government to the government types.
-    replace = {
-        before = {
-		"rajamandala_government" #REMOVE ME!!!!
-        } # end of before
-        after = {
-        "rajamandala_government", #REMOVE ME!!!!
-        "eremitic_government"
-        } # end of after
-    }
+	# Add the converter's eremitic_government to the government types.
+	replace = {
+		before = {
+"rajamandala_government"
+		} # end of before
+		after = {
+"rajamandala_government"
+		"eremitic_government"
+		} # end of after
+	}
+}
+
+"common/on_action/BP_on_actions/BP_game_starts/476/BP_476_start_feb.txt" = {
+	# Remove anachronistic on_action invocations:
+	replace = {
+		before = {
+		BP_character_events_476_feb
+		BP_character_events_476_feb_DLC
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_setup_legitimacy_476_feb
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_setup_realm_laws_476_feb_DLC
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_starting_state_faiths_476_feb_DLC
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_senate_476_feb
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_setup_roman_council_476_feb
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_set_armies_476_feb_DLC
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_set_employers_476_feb_no_DLC
+		} # end of before
+		after = {
+		} # end of after
+	}
+}
+
+"common/on_action/BP_on_actions/BP_game_starts/476/BP_476_start_oct.txt" = {
+	replace = {
+		before = {
+		BP_character_events_476_oct
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_remove_claims_476_oct
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_setup_legitimacy_476_oct
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_setup_realm_laws_476_oct_DLC
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_setup_vassal_contracts_476_oct_DLC
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_senate_476_oct
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_setup_roman_council_476_oct
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_set_armies_476_oct_DLC
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_place_specific_domiciles_476_oct
+		} # end of before
+		after = {
+		} # end of after
+	}
+}
+
+"common/on_action/BP_on_actions/BP_game_starts/476/BP_476_start.txt" = {
+	replace = {
+		before = {
+		BP_character_events_476
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_setup_vassal_contracts_476
+		BP_setup_vassal_contracts_476_DLC
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_remove_claims_476
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_create_theodoric_armies_476
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_setup_legitimacy_476
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_setup_realm_laws_476
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_setup_capitals_476
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_setup_other_councils_476
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_setup_roman_border_troops_476_DLC
+		} # end of before
+		after = {
+		} # end of after
+	}
+	replace = {
+		before = {
+		BP_setup_federate_troops_476_DLC
+		} # end of before
+		after = {
+		} # end of after
+	}
+}
+
+"common/on_action/BP_on_actions/BP_game_starts/BP_global_gamestart.txt" = {
+	replace = {
+		before = {
+		give_persian_hegemon_its_kingdoms
+		} # end of before
+		after = {
+		} # end of after
+	}
+}
+
+"common/on_action/BP_on_actions/000_BP_game_start.txt" = {
+	replace = {
+		before = {
+		create_BP_artifacts
+		} # end of before
+		after = {
+		} # end of after
+	}
 }

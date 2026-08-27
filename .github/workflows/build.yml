@@ -80,3 +80,7 @@ jobs:
       working-directory: ImperatorToCK3
       run: |
         dotnet build
+    - name: "Build docs generator"
+      working-directory: DocsGenerator
+      run: |
+        dotnet build
