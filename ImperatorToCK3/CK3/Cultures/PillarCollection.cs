@@ -103,7 +103,7 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 		
 		// Perform some non-breaking validation.
 		if (pillar.Type == "heritage") {
-			if (ck3ModFlags["wtwsms"] || ck3ModFlags["tfe"] || ck3ModFlags["roa"]) {
+			if (IsModActive(ck3ModFlags, "wtwsms") || IsModActive(ck3ModFlags, "tfe") || IsModActive(ck3ModFlags, "roa")) {
 				if (!pillar.Parameters.AsValueEnumerable().Any(p => p.Key.StartsWith("heritage_family_"))) {
 					Logger.Warn($"Heritage {pillarId} is missing required heritage_family parameter!");
 				}
@@ -113,17 +113,17 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 			}
 		}
 		if (pillar.Type == "language") {
-			if (ck3ModFlags["wtwsms"] || ck3ModFlags["tfe"] || ck3ModFlags["roa"]) {
+			if (IsModActive(ck3ModFlags, "wtwsms") || IsModActive(ck3ModFlags, "tfe") || IsModActive(ck3ModFlags, "roa")) {
 				if (!pillar.Parameters.AsValueEnumerable().Any(p => p.Key.StartsWith("language_family_"))) {
 					Logger.Warn($"Language {pillarId} is missing required language_family parameter!");
 				}
 			}
-			if (ck3ModFlags["wtwsms"] || ck3ModFlags["roa"]) {
+			if (IsModActive(ck3ModFlags, "wtwsms") || IsModActive(ck3ModFlags, "roa")) {
 				if (!pillar.Parameters.AsValueEnumerable().Any(p => p.Key.StartsWith("language_branch_"))) {
 					Logger.Warn($"Language {pillarId} is missing required language_branch parameter!");
 				}
 			}
-			if (ck3ModFlags["tfe"]) {
+			if (IsModActive(ck3ModFlags, "tfe")) {
 				if (!pillar.Parameters.AsValueEnumerable().Any(p => p.Key.StartsWith("language_group_"))) {
 					Logger.Warn($"Language {pillarId} is missing required language_group parameter!");
 				}
@@ -179,4 +179,8 @@ internal sealed class PillarCollection : IdObjectCollection<string, Pillar> {
 	private readonly Dictionary<string, Pillar> languagesById = new(StringComparer.Ordinal);
 	
 	private readonly IgnoredKeywordsSet ignoredModFlags = [];
+
+	private static bool IsModActive(OrderedDictionary<string, bool> flags, string modId) {
+		return flags.ContainsKey(modId) && flags[modId];
+	}
 }

@@ -515,7 +515,17 @@ internal sealed class World {
 
 		// Let's locate, verify and potentially update those mods immediately.
 		ModLoader modLoader = new();
-		modLoader.LoadMods(Directory.GetParent(config.CK3ModsPath)!.FullName, incomingCK3Mods, config.CK3Version, throwForOutOfDateMods: true);
+		string? parentDir = null;
+		try {
+			parentDir = Directory.GetParent(config.CK3ModsPath)?.FullName;
+		} catch (ArgumentException ex) {
+			Logger.Warn($"Invalid CK3 mods path: {config.CK3ModsPath}: {ex.Message}");
+		}
+		if (parentDir is null) {
+			Logger.Warn($"CK3 mods path has no parent: {config.CK3ModsPath}");
+			parentDir = config.CK3ModsPath;
+		}
+		modLoader.LoadMods(parentDir, incomingCK3Mods, config.CK3Version, throwForOutOfDateMods: true);
 		
 		// Add modLoader's UsableMods to LoadedMods.
 		LoadedMods.AddRange(modLoader.UsableMods);

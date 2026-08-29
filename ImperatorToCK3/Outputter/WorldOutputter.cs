@@ -7,6 +7,7 @@ using DotLiquid;
 using ImperatorToCK3.CK3;
 using ImperatorToCK3.CK3.Legends;
 using ImperatorToCK3.CommonUtils;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -109,6 +110,10 @@ internal static class WorldOutputter {
 		// For example, this will convert file.txt.liquid to file.txt and loc.yml.liquid to loc.yml.
 		var liquidFiles = Directory.GetFiles(outputPath, "*.liquid", SearchOption.AllDirectories);
 		foreach (var liquidFilePath in liquidFiles) {
+			if (!liquidFilePath.EndsWith(".liquid", StringComparison.OrdinalIgnoreCase) || liquidFilePath.Length < 7) {
+				Logger.Warn($"Skipping unexpected liquid file path: {liquidFilePath}");
+				continue;
+			}
 			var liquidText = File.ReadAllText(liquidFilePath);
 			var template = Template.Parse(liquidText);
 			var result = template.Render(liquidVariables, CultureInfo.InvariantCulture);

@@ -3,6 +3,7 @@ using ImperatorToCK3.CommonUtils.Map;
 using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Xunit;
 
 namespace ImperatorToCK3.UnitTests.CK3.Map;
@@ -60,5 +61,44 @@ public class ProvinceDefinitionsTests {
 		// this definition.csv has a line with quoted province id
 		var ck3ModFs = new ModFilesystem(ck3Root, new List<Mod>());
 		Assert.Throws<FormatException>(() => new ProvinceDefinitions().LoadDefinitions("definition.csv", ck3ModFs));
+	}
+
+	[Fact]
+	public void DuplicateProvinceId_DoesNotThrow() {
+		string tempRoot = Path.Combine(Path.GetTempPath(), "ProvDefDupTest", Guid.NewGuid().ToString("N"));
+		string mapDataDir = Path.Combine(tempRoot, "map_data");
+		Directory.CreateDirectory(mapDataDir);
+		File.WriteAllText(Path.Combine(mapDataDir, "definition.csv"), """
+			# comment
+			1;10;20;30;x;
+			1;40;50;60;x;
+			2;70;80;90;x;
+			""");
+		var modFs = new ModFilesystem(tempRoot, new List<Mod>());
+		var provDefs = new ProvinceDefinitions();
+		Exception? ex = Record.Exception(() => provDefs.LoadDefinitions("definition.csv", modFs));
+		Assert.Null(ex);
+		Assert.Equal(2, provDefs.Count);
+		// Last duplicate should overwrite
+		Assert.True(provDefs.ProvinceToColorDict.TryGetValue(1, out Rgb24 color));
+		Assert.Equal(new Rgb24(40, 50, 60), color);
+		try { Directory.Delete(tempRoot, recursive: true); } catch { }
+	}
+
+	[Fact]
+	public void DuplicateProvinceColor_DoesNotThrow() {
+		string tempRoot = Path.Combine(Path.GetTempPath(), "ProvDefDupColorTest", Guid.NewGuid().ToString("N"));
+		string mapDataDir = Path.Combine(tempRoot, "map_data");
+		Directory.CreateDirectory(mapDataDir);
+		File.WriteAllText(Path.Combine(mapDataDir, "definition.csv"), """
+			# comment
+			1;10;20;30;x;
+			2;10;20;30;x;
+			""");
+		var modFs = new ModFilesystem(tempRoot, new List<Mod>());
+		var provDefs = new ProvinceDefinitions();
+		Exception? ex = Record.Exception(() => provDefs.LoadDefinitions("definition.csv", modFs));
+		Assert.Null(ex);
+		try { Directory.Delete(tempRoot, recursive: true); } catch { }
 	}
 }

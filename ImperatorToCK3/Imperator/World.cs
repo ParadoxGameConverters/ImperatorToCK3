@@ -700,8 +700,11 @@ internal partial class World {
 		return reader => {
 			var playedCountryBlocParser = new Parser(implicitVariableHandling: false);
 			playedCountryBlocParser.RegisterKeyword("country", countryReader => {
-				var countryId = countryReader.GetULong();
-				var country = Countries[countryId];
+				ulong countryId = countryReader.GetULong();
+				if (!Countries.TryGetValue(countryId, out Country? country)) {
+					Logger.Warn($"Played country {countryId} not found!");
+					return;
+				}
 				country.PlayerCountry = true;
 				playerCountriesToLog.Add(country.Tag);
 			});
@@ -851,9 +854,13 @@ internal partial class World {
 				Logger.Warn(noCountryIdWarning);
 				return;
 			}
-			var countryId = rulerTerm.PreImperatorRuler.Country.Id;
-			Countries[countryId].RulerTerms.Add(rulerTerm);
-			if (preImperatorRulerTerms.TryGetValue(countryId, out var list)) {
+			ulong countryId = rulerTerm.PreImperatorRuler.Country.Id;
+			if (!Countries.TryGetValue(countryId, out Country? countryForTerm)) {
+				Logger.Warn($"Pre-Imperator ruler term references missing country {countryId}!");
+				return;
+			}
+			countryForTerm.RulerTerms.Add(rulerTerm);
+			if (preImperatorRulerTerms.TryGetValue(countryId, out System.Collections.Generic.List<RulerTerm>? list)) {
 				list.Add(rulerTerm);
 			} else {
 				preImperatorRulerTerms[countryId] = [rulerTerm];
@@ -1005,7 +1012,7 @@ internal partial class World {
 			throw new InvalidDataException($"Read only {bytesReadCount}bytes.");
 		}
 		saveType = SaveType.Plaintext;
-		for (var i = 0; i < 65_533; ++i) {
+		for (int i = 2; i < 65_533; ++i) {
 			if (BitConverter.ToUInt32(bigBuf, i) == 0x04034B50 && BitConverter.ToUInt16(bigBuf, i - 2) == 4) {
 				saveType = SaveType.CompressedEncoded;
 			}

@@ -1,5 +1,6 @@
 using commonItems;
 using ImperatorToCK3.CK3;
+using System;
 using System.Collections.Generic;
 using Xunit;
 
@@ -189,5 +190,53 @@ public class ParserExtensionsTests {
 		parser.ParseStream(blocReader);
 
 		Assert.Null(value);
+	}
+
+	[Fact]
+	public void UnknownSimpleModFlag_DoesNotThrowAndTakesElseBranch() {
+		OrderedDictionary<string, bool> ck3ModFlags = new() {{"wtwsms", false}, {"vanilla_ck3", true},};
+
+		var blocReader = new BufferedReader(
+			"""
+			MOD_DEPENDENT = {
+				IF unknown_mod = {
+					value = 1
+				} ELSE = {
+					value = 2
+				}
+			}
+			""");
+
+		int? value = null;
+		var parser = new Parser();
+		parser.RegisterModDependentBloc(ck3ModFlags);
+		parser.RegisterKeyword("value", reader => value = reader.GetInt());
+		Exception? ex = Record.Exception(() => parser.ParseStream(blocReader));
+		Assert.Null(ex);
+		Assert.Equal(2, value);
+	}
+
+	[Fact]
+	public void MissingWtwsmsFlag_DoesNotThrowInModDependentBloc() {
+		OrderedDictionary<string, bool> ck3ModFlags = new() {{"vanilla_ck3", true},};
+
+		var blocReader = new BufferedReader(
+			"""
+			MOD_DEPENDENT = {
+				IF wtwsms = {
+					value = 1
+				} ELSE = {
+					value = 2
+				}
+			}
+			""");
+
+		int? value = null;
+		var parser = new Parser();
+		parser.RegisterModDependentBloc(ck3ModFlags);
+		parser.RegisterKeyword("value", reader => value = reader.GetInt());
+		Exception? ex = Record.Exception(() => parser.ParseStream(blocReader));
+		Assert.Null(ex);
+		Assert.Equal(2, value);
 	}
 }

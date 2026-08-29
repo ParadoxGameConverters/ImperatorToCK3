@@ -36,7 +36,8 @@ internal static class FileTweaker {
 			}
 		}
 
-		bool isVanilla = config.GetCK3ModFlags()["vanilla_ck3"];
+		OrderedDictionary<string, bool> ck3ModFlagsForVanilla = config.GetCK3ModFlags();
+		bool isVanilla = ck3ModFlagsForVanilla.ContainsKey("vanilla_ck3") && ck3ModFlagsForVanilla["vanilla_ck3"];
 		Logger.Info("Reading unneeded parts of vanilla files...");
 		ReadPartsOfFileToRemove(partsToModifyPerFile, "configurables/removable_file_blocks.txt", warnIfNotFound: isVanilla);
 		Logger.Info("Reading parts of vanilla files to modify...");
