@@ -94,7 +94,11 @@ internal sealed partial class Title {
 		private void CleanUpTitlesHavingInvalidCapitalCounties() {
 			// Cleanup for titles having invalid capital counties.
 			var validTitleIds = this.Select(t => t.Id).ToFrozenSet();
-			var placeholderCountyId = validTitleIds.Order().First(t => t.StartsWith("c_"));
+			var placeholderCountyId = validTitleIds.Order().FirstOrDefault(t => t.StartsWith("c_"));
+			if (placeholderCountyId is null) {
+				Logger.Warn("No county title found to use as placeholder capital!");
+				return;
+			}
 			foreach (var title in this.Where(t => t.Rank > TitleRank.county)) {
 				if (title.CapitalCountyId is null && !title.Landless) {
 					// For landed titles, the game will generate capitals.
@@ -491,8 +495,11 @@ internal sealed partial class Title {
 					} else if (liegeTitle.GetHolderId(date) == "0") {
 						// Instead of removing the liege entry, see if the liege title has a holder at a later date,
 						// and move the liege entry to that date.
-						liegeTitle.History.Fields.TryGetValue("holder", out var liegeHolderField);
-						Date? laterDate = liegeHolderField?.DateToEntriesDict
+						if (!liegeTitle.History.Fields.TryGetValue("holder", out var liegeHolderField)) {
+							liegeField.DateToEntriesDict.Remove(date);
+							continue;
+						}
+						Date? laterDate = liegeHolderField.DateToEntriesDict
 							.Where(kvp => kvp.Key > date && kvp.Key <= ck3BookmarkDate && kvp.Value.Count != 0 && kvp.Value[^1].Value.ToString() != "0")
 							.OrderBy(kvp => kvp.Key)
 							.Select(kvp => (Date?)kvp.Key)
