@@ -1,7 +1,6 @@
 using AwesomeAssertions;
 using commonItems;
 using commonItems.Colors;
-using commonItems.Mods;
 using ImperatorToCK3.CK3.Characters;
 using ImperatorToCK3.CK3.Titles;
 using System;
@@ -16,12 +15,6 @@ public class LandedTitlesExceptionTests {
 
 	[Fact]
 	public void CleanUpHistory_ShouldNotThrow_WhenLiegeHasNoHolderField() {
-		// Reproduces the original bug: Sequence contains no elements / NullReferenceException
-		// when CleanUpHistory tries to find a later holder date for a liege title that has
-		// no holder field at all.
-		// Before fix: Min on empty collection or Where on null holder field throws.
-		// After fix: should handle gracefully and remove the invalid liege entry.
-
 		var titles = new Title.LandedTitles();
 		// Create liege title with no holder history at all.
 		var liegeTitle = titles.Add("k_liege");
@@ -83,7 +76,6 @@ public class LandedTitlesExceptionTests {
 
 	[Fact]
 	public void CleanUpTitlesHavingInvalidCapitalCounties_ShouldNotThrow_WhenNoCountyExists() {
-		// Reproduces placeholder bug: First(t => t.StartsWith("c_")) throws when no c_ titles exist.
 		var titles = new Title.LandedTitles();
 		titles.LoadTitles(new BufferedReader("e_empire = { capital = c_nonexistent }"), colorFactory);
 		titles.LoadTitles(new BufferedReader("k_kingdom = { capital = c_nonexistent }"), colorFactory);
