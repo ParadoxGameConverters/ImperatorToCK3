@@ -133,10 +133,9 @@ internal sealed class MapData {
 	}
 
 	private ulong[] GetStaticWaterProvinceIds() {
-		return ProvinceDefinitions
+		return [.. ProvinceDefinitions
 			.Where(p => p.IsStaticWater)
-			.Select(p => p.Id)
-			.ToArray();
+			.Select(p => p.Id)];
 	}
 
 	private Dictionary<ulong, ulong> BuildWaterBodiesDict(ulong[] staticWaterProvinceIds) {
@@ -278,15 +277,6 @@ internal sealed class MapData {
 	// 	return false;
 	// }
 
-	private bool IsStaticWater(ulong provinceId) {
-		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
-			return province.IsStaticWater;
-		}
-
-		Logger.Warn($"Province {provinceId} has no definition!");
-		return false;
-	}
-
 	private bool IsRiver(ulong provinceId) {
 		if (ProvinceDefinitions.TryGetValue(provinceId, out var province)) {
 			return province.IsRiver;
@@ -331,34 +321,8 @@ internal sealed class MapData {
 	}
 
 	private void DetermineNeighbors(Image<Rgb24> provincesMap, ProvinceDefinitions provinceDefinitions) {
-		var height = provincesMap.Height;
-		var width = provincesMap.Width;
-		for (var y = 0; y < height; ++y) {
-			for (var x = 0; x < width; ++x) {
-				var position = new Point(x, y);
-
-				var centerColor = GetCenterColor(position, provincesMap);
-				var aboveColor = GetAboveColor(position, provincesMap);
-				var belowColor = GetBelowColor(position, height, provincesMap);
-				var leftColor = GetLeftColor(position, provincesMap);
-				var rightColor = GetRightColor(position, width, provincesMap);
-
-				if (!centerColor.Equals(aboveColor)) {
-					HandleNeighbor(centerColor, aboveColor, provinceDefinitions);
-				}
-
-				if (!centerColor.Equals(rightColor)) {
-					HandleNeighbor(centerColor, rightColor, provinceDefinitions);
-				}
-
-				if (!centerColor.Equals(belowColor)) {
-					HandleNeighbor(centerColor, belowColor, provinceDefinitions);
-				}
-
-				if (!centerColor.Equals(leftColor)) {
-					HandleNeighbor(centerColor, leftColor, provinceDefinitions);
-				}
-			}
+		foreach (var (provinceId, neighbors) in BuildNeighborsDict(provincesMap, provinceDefinitions.ColorToProvinceDict)) {
+			NeighborsDict[provinceId] = neighbors;
 		}
 	}
 
@@ -390,73 +354,69 @@ internal sealed class MapData {
 		}
 	}
 
-	private static Rgb24 GetCenterColor(Point position, Image<Rgb24> provincesMap) {
-		return GetPixelColor(position, provincesMap);
-	}
-
-	private static Rgb24 GetAboveColor(Point position, Image<Rgb24> provincesMap) {
-		int y = position.Y;
-		if (y > 0) {
-			--y;
-		}
-
-		return GetPixelColor(new(position.X, y), provincesMap);
-	}
-
-	private static Rgb24 GetBelowColor(Point position, int height, Image<Rgb24> provincesMap) {
-		int y = position.Y;
-		if (y < height - 1) {
-			++y;
-		}
-
-		return GetPixelColor(new(position.X, y), provincesMap);
-	}
-
-	private static Rgb24 GetLeftColor(Point position, Image<Rgb24> provincesMap) {
-		int x = position.X;
-		if (x > 0) {
-			--x;
-		}
-
-		return GetPixelColor(new(x, position.Y), provincesMap);
-	}
-
-	private static Rgb24 GetRightColor(Point position, int width, Image<Rgb24> provincesMap) {
-		int x = position.X;
-		if (x < width - 1) {
-			++x;
-		}
-
-		return GetPixelColor(new(x, position.Y), provincesMap);
-	}
-
 	private static Rgb24 GetPixelColor(Point position, Image<Rgb24> provincesMap) {
 		return provincesMap[position.X, position.Y];
 	}
 
-	private void HandleNeighbor(
+	// Determines province neighbors from the provinces bitmap.
+	// Iterates row spans instead of pixel indexers and handles each adjacency pair once
+	// (adding it in both directions), which produces the same symmetric neighbor dictionary
+	// as the previous 4-direction implementation.
+	internal static Dictionary<ulong, HashSet<ulong>> BuildNeighborsDict(
+		Image<Rgb24> provincesMap,
+		IReadOnlyDictionary<Rgb24, ulong> colorToProvinceDict
+	) {
+		var neighborsDict = new Dictionary<ulong, HashSet<ulong>>();
+		provincesMap.ProcessPixelRows(pixelAccessor => {
+			var width = pixelAccessor.Width;
+			Span<Rgb24> previousRow = default;
+			for (var y = 0; y < pixelAccessor.Height; ++y) {
+				var row = pixelAccessor.GetRowSpan(y);
+				for (var x = 0; x < width; ++x) {
+					var centerColor = row[x];
+					if (x + 1 < width) {
+						AddNeighborPair(centerColor, row[x + 1], colorToProvinceDict, neighborsDict);
+					}
+					if (previousRow.Length > 0) {
+						AddNeighborPair(centerColor, previousRow[x], colorToProvinceDict, neighborsDict);
+					}
+				}
+				previousRow = row;
+			}
+		});
+		return neighborsDict;
+	}
+
+	private static void AddNeighborPair(
 		Rgb24 centerColor,
 		Rgb24 otherColor,
-		ProvinceDefinitions provinceDefinitions
+		IReadOnlyDictionary<Rgb24, ulong> colorToProvinceDict,
+		Dictionary<ulong, HashSet<ulong>> neighborsDict
 	) {
-		if (!provinceDefinitions.ColorToProvinceDict.TryGetValue(centerColor, out ulong centerProvince)) {
+		if (centerColor.Equals(otherColor)) {
+			return;
+		}
+
+		if (!colorToProvinceDict.TryGetValue(centerColor, out ulong centerProvince)) {
 			Logger.Warn($"Province not found for color {centerColor}!");
 			return;
 		}
 
-		if (!provinceDefinitions.ColorToProvinceDict.TryGetValue(otherColor, out ulong otherProvince)) {
+		if (!colorToProvinceDict.TryGetValue(otherColor, out ulong otherProvince)) {
 			Logger.Warn($"Province not found for color {otherColor}!");
 			return;
 		}
 
-		AddNeighbor(centerProvince, otherProvince);
-	}
-
-	private void AddNeighbor(ulong mainProvince, ulong neighborProvince) {
-		if (NeighborsDict.TryGetValue(mainProvince, out var neighbors)) {
-			neighbors.Add(neighborProvince);
+		if (neighborsDict.TryGetValue(centerProvince, out var neighbors)) {
+			neighbors.Add(otherProvince);
 		} else {
-			NeighborsDict[mainProvince] = [neighborProvince];
+			neighborsDict[centerProvince] = [otherProvince];
+		}
+
+		if (neighborsDict.TryGetValue(otherProvince, out var reverseNeighbors)) {
+			reverseNeighbors.Add(centerProvince);
+		} else {
+			neighborsDict[otherProvince] = [centerProvince];
 		}
 	}
 
@@ -466,48 +426,61 @@ internal sealed class MapData {
 	}
 
 	public bool AreProvinceGroupsAdjacentByLand(FrozenSet<ulong> group1, FrozenSet<ulong> group2) {
+		// Check if any province of group1 directly neighbors a province of group2.
+		foreach (var province in group1) {
+			if (!NeighborsDict.TryGetValue(province, out var neighbors)) {
+				continue;
+			}
+			foreach (var neighbor in neighbors) {
+				if (group2.Contains(neighbor)) {
+					return true;
+				}
+			}
+		}
+
+		// Check if any province of group1 is adjacent (via adjacencies.csv) to a province of group2.
+		foreach (var province in group1) {
+			if (!provinceAdjacencies.TryGetValue(province, out var adjacencies)) {
+				continue;
+			}
+			foreach (var adjacency in adjacencies) {
+				if (group2.Contains(adjacency)) {
+					return true;
+				}
+			}
+		}
+
+		// Check if group1 neighbors river provinces adjacent to group2.
 		var group1Neighbors = new HashSet<ulong>();
 		foreach (var province in group1) {
 			if (NeighborsDict.TryGetValue(province, out var neighbors)) {
 				group1Neighbors.UnionWith(neighbors);
 			}
 		}
-		if (group1Neighbors.Overlaps(group2)) {
-			return true;
-		}
-
-		var group1Adjacencies = new HashSet<ulong>();
-		foreach (var province in group1) {
-			if (provinceAdjacencies.TryGetValue(province, out var adjacencies)) {
-				group1Adjacencies.UnionWith(adjacencies);
+		var group2RiverProvinceNeighbors = new HashSet<ulong>();
+		foreach (var province in group2) {
+			if (!NeighborsDict.TryGetValue(province, out var neighbors)) {
+				continue;
+			}
+			foreach (var neighbor in neighbors) {
+				if (IsRiver(neighbor)) {
+					group2RiverProvinceNeighbors.Add(neighbor);
+				}
 			}
 		}
-		if (group1Adjacencies.Overlaps(group2)) {
-			return true;
-		}
-
-		var group2RiverProvinceNeighbors = group2
-			.SelectMany(provId => NeighborsDict.TryGetValue(provId, out var neighbors) ? neighbors : [])
-			.Where(IsRiver)
-			.ToFrozenSet();
-		if (group1Neighbors.Overlaps(group2RiverProvinceNeighbors)) {
-			return true;
-		}
-
-		return false;
+		return group1Neighbors.Overlaps(group2RiverProvinceNeighbors);
 	}
 
 	// Function for checking if two land provinces are connected to the same water body.
 	public bool AreProvinceGroupsConnectedByWaterBody(FrozenSet<ulong> group1, FrozenSet<ulong> group2) {
+		// waterBodiesDict contains exactly the static water provinces, so a successful lookup
+		// implies the province is static water.
 		var group1WaterBodies = new HashSet<ulong>();
 		foreach (var provId in group1) {
 			if (!NeighborsDict.TryGetValue(provId, out var neighbors)) {
 				continue;
 			}
 			foreach (var neighbor in neighbors) {
-				if (!IsStaticWater(neighbor)) {
-					continue;
-				}
 				if (waterBodiesDict.TryGetValue(neighbor, out var waterBodyId)) {
 					group1WaterBodies.Add(waterBodyId);
 				}
@@ -522,9 +495,6 @@ internal sealed class MapData {
 				continue;
 			}
 			foreach (var neighbor in neighbors) {
-				if (!IsStaticWater(neighbor)) {
-					continue;
-				}
 				if (waterBodiesDict.TryGetValue(neighbor, out var waterBodyId) && group1WaterBodies.Contains(waterBodyId)) {
 					return true;
 				}
