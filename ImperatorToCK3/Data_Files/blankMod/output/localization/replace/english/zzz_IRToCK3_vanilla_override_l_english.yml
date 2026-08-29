@@ -162,3 +162,15 @@
 
  # Removing anachronistic reference to Hannibal in Restore Carthage event
  major_decisions.3300.desc: "From the salted earth a new empire arises, restored to its former glory. Before long, the merchant ships will fill the harbors with riches and the dominion of the Mediterranean Sea will be ours.\n\nWhere many before me fell in bitter defeat, I shall rise to reclaim our legacy. Once more the world will know the true power of Carthage.\n\nMuch work is yet to be done, but for now I stand #EMP victorious! #!"
+
+ # "Aurelian Walls" are named after Emperor Aurelian (270-275 AD) and "Theodosian Walls" after Emperor Theodosius II (early 5th century), both anachronistic for a megacampaign starting in 300 BC. Use generic location-based names instead.
+ building_type_aurelian_walls_01:0 "The Walls of Rome"
+ building_type_aurelian_walls_01_desc:1 "Mighty walls encircle the seven hills of Rome, providing formidable defense to the Eternal City. Expanded and strengthened over generations, they stand as a testament to Rome's enduring power."
+ building_aurelian_walls_01:0 "Walls of Rome"
+ building_aurelian_walls_01_desc:0 "$building_type_aurelian_walls_01_desc$"
+ building_aurelian_walls_destination_desc: "Encircling the seven hills, the [GetBuilding('aurelian_walls_01').GetName] stand firm against time and turmoil. Expanded and fortified over generations, these ancient defenses encase a history rich and complex, a bastion of Rome's enduring legacy."
+ building_type_theodosian_walls_01:0 "The Walls of Byzantion"
+ building_type_theodosian_walls_01_desc:1 "Great walls protect the city on the Bosporus, counted among the most formidable fortifications built by human hands. Their towering presence and multiple layers speak of a city prepared for any siege."
+ building_theodosian_walls_01:0 "Walls of Byzantion"
+ building_theodosian_walls_01_desc:0 "$building_type_theodosian_walls_01_desc$"
+ building_theodosian_walls_destination_desc: "The imposing [GetBuilding('theodosian_walls_01').GetName], guarding the straits between Europe and Asia, are a marvel of engineering. Their towering presence and multiple layers speak of a city long prepared for any siege."
