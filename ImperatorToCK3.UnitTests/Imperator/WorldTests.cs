@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using System.Reflection;
+using commonItems;
+using commonItems.Collections;
 using ImperatorToCK3.CommonUtils;
 using ImperatorToCK3.Imperator;
 using ImperatorToCK3.UnitTests.TestHelpers;
@@ -259,5 +261,58 @@ public sealed class WorldTests : IDisposable {
 			.GetField("_stagedMeltedSavePath", BindingFlags.Instance | BindingFlags.NonPublic)!
 			.GetValue(world);
 		Assert.Null(fieldValue);
+	}
+
+	[Fact]
+	public void VerifySave_DoesNotThrowArgumentOutOfRangeForSmallHeader() {
+		string savePath = Path.Combine(tempRoot, "verify_test.rome");
+		// Create a 65536-byte save that starts with SAV and newline.
+		byte[] data = new byte[65536];
+		data[0] = (byte)'S';
+		data[1] = (byte)'A';
+		data[2] = (byte)'V';
+		data[3] = (byte)'1';
+		data[4] = (byte)'\n';
+		// Leave rest as zeros. Previously loop i=0 with i-2 would throw.
+		File.WriteAllBytes(savePath, data);
+
+		var method = typeof(World).GetMethod("VerifySave", BindingFlags.Instance | BindingFlags.NonPublic);
+		Assert.NotNull(method);
+		Exception? ex = Record.Exception(() => method!.Invoke(world, [savePath]));
+		// Should not throw ArgumentOutOfRangeException (fixed loop starts at 2). May throw InvalidDataException for other reasons, but not ArgumentOutOfRange.
+		Assert.True(ex is null || ex.InnerException is not ArgumentOutOfRangeException, $"Unexpected ArgumentOutOfRange: {ex}");
+	}
+
+	[Fact]
+	public void LoadPlayerCountries_WithUnknownCountryId_DoesNotThrow() {
+		OrderedSet<string> log = [];
+		var method = typeof(World).GetMethod("LoadPlayerCountries", BindingFlags.Instance | BindingFlags.NonPublic);
+		Assert.NotNull(method);
+		object? delObj = method!.Invoke(world, [log]);
+		Assert.NotNull(delObj);
+		Delegate del = (Delegate)delObj!;
+		// Reader contains a country id that doesn't exist.
+		var reader = new BufferedReader("country=999999");
+		Exception? ex = Record.Exception(() => del.DynamicInvoke(reader));
+		Assert.Null(ex);
+		Assert.Empty(log);
+	}
+
+	[Fact]
+	public void ParsePreImperatorRulers_WithMissingCountry_DoesNotThrow() {
+		string tempFile = Path.Combine(tempRoot, "chars_prehistory_test.txt");
+		File.WriteAllText(tempFile, """
+			ruler = {
+				country = 999999
+				name = "Test Ruler"
+				tag = TAG
+				character = 123
+				start_date = 1.1.1
+			}
+			""");
+		var method = typeof(World).GetMethod("ParsePreImperatorRulers", BindingFlags.Instance | BindingFlags.NonPublic);
+		Assert.NotNull(method);
+		Exception? ex = Record.Exception(() => method!.Invoke(world, [tempFile, "warn"]));
+		Assert.Null(ex);
 	}
 }

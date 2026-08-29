@@ -28,7 +28,11 @@ public static class ParserExtensions {
 			return Convert.ToBoolean(value);
 		} else {
 			// Otherwise the token is expected to be a mod flag name.
-			return ck3ModFlags[conditionLexeme];
+			if (ck3ModFlags.ContainsKey(conditionLexeme)) {
+				return ck3ModFlags[conditionLexeme];
+			}
+			Logger.Warn($"Unknown CK3 mod flag: {conditionLexeme}");
+			return false;
 		}
 	}
 	public static void RegisterModDependentBloc(this Parser parser, OrderedDictionary<string, bool> ck3ModFlags) {

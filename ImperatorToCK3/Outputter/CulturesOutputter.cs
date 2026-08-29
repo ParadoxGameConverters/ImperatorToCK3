@@ -101,7 +101,7 @@ internal static class CulturesOutputter {
 
 		OutputLanguageFamilyParameters(ck3ModFlags, nodes, languageFamilyParameters, scriptedEffectsPath, fileName, fileText);
 		// As of 2025-06-18, only WtWSMS and ROA use the language_branch parameter type.
-		if (ck3ModFlags["wtwsms"] || ck3ModFlags["roa"]) {
+		if (IsModActive(ck3ModFlags, "wtwsms") || IsModActive(ck3ModFlags, "roa")) {
 			OutputLanguageBranchParameters(nodes, languageBranchParameters, scriptedEffectsPath, fileName);
 		}
 		OutputLanguageGroupParameters(ck3ModFlags, nodes, languageGroupParameters, scriptedEffectsPath, fileName, fileText);
@@ -110,7 +110,7 @@ internal static class CulturesOutputter {
 
 		// For WtWSMS, add the heritage and language parameters to common/scripted_guis/ccu_error_suppression.txt.
 		// This is what WtWSMS does for the parameters it adds.
-		if (ck3ModFlags["wtwsms"]) {
+		if (IsModActive(ck3ModFlags, "wtwsms")) {
 			OutputCCUErrorSuppression(outputModPath, ck3ModFS, heritageFamilyParameters, heritageGroupParameters, languageFamilyParameters, languageBranchParameters, languageGroupParameters);
 		}
 	}
@@ -181,9 +181,9 @@ internal static class CulturesOutputter {
 		OrderedSet<string> languageGroupParameters, string scriptedEffectsPath, string fileName, string fileText)
 	{
 		Node? groupEffectNode = null;
-		if (ck3ModFlags["wtwsms"] || ck3ModFlags["roa"]) {
+		if (IsModActive(ck3ModFlags, "wtwsms") || IsModActive(ck3ModFlags, "roa")) {
 			groupEffectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_language_group_effect");
-		} else if (ck3ModFlags["tfe"]) {
+		} else if (IsModActive(ck3ModFlags, "tfe")) {
 			groupEffectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_culture");
 		}
 		
@@ -192,7 +192,7 @@ internal static class CulturesOutputter {
 			return;
 		}
 		string[] groupEffectNodeStrings;
-		if (ck3ModFlags["wtwsms"] || ck3ModFlags["roa"]) {
+		if (IsModActive(ck3ModFlags, "wtwsms") || IsModActive(ck3ModFlags, "roa")) {
 			groupEffectNodeStrings = languageGroupParameters.Select(param =>
 				$$"""
 				    else_if = {
@@ -200,7 +200,7 @@ internal static class CulturesOutputter {
 				    	set_variable = { name = language_group value = flag:{{param}} }
 				    } 
 				  """).ToArray();
-		} else if (ck3ModFlags["tfe"]) {
+		} else if (IsModActive(ck3ModFlags, "tfe")) {
 			// Only start searching for available numbers from 100, because there are some existing entries in the file. 
 			int newVariableValue = 100;
 			while (fileText.Contains($"set_variable = {{ name = language_group value = {newVariableValue} }}")) {
@@ -217,7 +217,7 @@ internal static class CulturesOutputter {
 			groupEffectNodeStrings = [];
 		}
 		
-		if (ck3ModFlags["tfe"]) {
+		if (IsModActive(ck3ModFlags, "tfe")) {
 			AddChildrenToNodeAfterLastChildContainingText(groupEffectNode, scriptedEffectsPath, fileName, groupEffectNodeStrings, "name = language_group");
 		} else {
 			AddChildrenToNode(groupEffectNode, scriptedEffectsPath, fileName, groupEffectNodeStrings);
@@ -227,9 +227,9 @@ internal static class CulturesOutputter {
 	private static void OutputLanguageFamilyParameters(OrderedDictionary<string, bool> ck3ModFlags, Node[] nodes, OrderedSet<string> languageFamilyParameters,
 		string scriptedEffectsPath, string fileName, string fileText) {
 		Node? effectNode = null;
-		if (ck3ModFlags["wtwsms"] || ck3ModFlags["roa"]) {
+		if (IsModActive(ck3ModFlags, "wtwsms") || IsModActive(ck3ModFlags, "roa")) {
 			effectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_language_family_effect");
-		} else if (ck3ModFlags["tfe"]) {
+		} else if (IsModActive(ck3ModFlags, "tfe")) {
 			effectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_culture");
 		}
 		
@@ -239,7 +239,7 @@ internal static class CulturesOutputter {
 		}
 		
 		string[] effectNodeStrings;
-		if (ck3ModFlags["wtwsms"] || ck3ModFlags["roa"]) {
+		if (IsModActive(ck3ModFlags, "wtwsms") || IsModActive(ck3ModFlags, "roa")) {
 			effectNodeStrings = languageFamilyParameters.Select(param =>
 				$$"""
 				  else_if = {
@@ -247,7 +247,7 @@ internal static class CulturesOutputter {
 				      set_variable = { name = language_family value = flag:{{param}} }
 				  } 
 				  """).ToArray();
-		} else if (ck3ModFlags["tfe"]) {
+		} else if (IsModActive(ck3ModFlags, "tfe")) {
 			// Only start searching for available numbers from 100, because there are some existing entries in the file. 
 			int newVariableValue = 100;
 			while (fileText.Contains($"set_variable = {{ name = language_family value = {newVariableValue} }}")) {
@@ -264,7 +264,7 @@ internal static class CulturesOutputter {
 			effectNodeStrings = [];
 		}
 		
-		if (ck3ModFlags["tfe"]) {
+		if (IsModActive(ck3ModFlags, "tfe")) {
 			AddChildrenToNodeAfterLastChildContainingText(effectNode, scriptedEffectsPath, fileName, effectNodeStrings, "name = language_family");
 		} else {
 			AddChildrenToNode(effectNode, scriptedEffectsPath, fileName, effectNodeStrings);
@@ -275,9 +275,9 @@ internal static class CulturesOutputter {
 		OrderedSet<string> heritageGroupParameters, string scriptedEffectsPath, string fileName, string fileText)
 	{
 		Node? effectNode = null;
-		if (ck3ModFlags["wtwsms"] || ck3ModFlags["roa"]) {
+		if (IsModActive(ck3ModFlags, "wtwsms") || IsModActive(ck3ModFlags, "roa")) {
 			effectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_heritage_group_effect");
-		} else if (ck3ModFlags["tfe"]) {
+		} else if (IsModActive(ck3ModFlags, "tfe")) {
 			effectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_culture");
 		}
 		
@@ -288,7 +288,7 @@ internal static class CulturesOutputter {
 		
 		// WtWSMS and RoA use variable lists, TFE sets a single variable.
 		string[] heritageGroupEffectNodeStrings;
-		if (ck3ModFlags["wtwsms"] || ck3ModFlags["roa"]) {
+		if (IsModActive(ck3ModFlags, "wtwsms") || IsModActive(ck3ModFlags, "roa")) {
 			heritageGroupEffectNodeStrings = heritageGroupParameters.Select(param =>
 				$$"""
 				   	if = {
@@ -296,7 +296,7 @@ internal static class CulturesOutputter {
 				   		add_to_variable_list = { name = heritage_group target = flag:{{param}} }
 				   	}
 				  """).ToArray();
-		} else if (ck3ModFlags["tfe"]) {
+		} else if (IsModActive(ck3ModFlags, "tfe")) {
 			// Only start searching for available numbers from 100, because there are some existing entries in the file. 
 			int newVariableValue = 100;
 			while (fileText.Contains($"set_variable = {{ name = heritage_group value = {newVariableValue} }}")) {
@@ -313,7 +313,7 @@ internal static class CulturesOutputter {
 			heritageGroupEffectNodeStrings = [];
 		}
 		
-		if (ck3ModFlags["tfe"]) {
+		if (IsModActive(ck3ModFlags, "tfe")) {
 			AddChildrenToNodeAfterLastChildContainingText(effectNode, scriptedEffectsPath, fileName, heritageGroupEffectNodeStrings, "name = heritage_group");
 		} else {
 			AddChildrenToNode(effectNode, scriptedEffectsPath, fileName, heritageGroupEffectNodeStrings);
@@ -325,9 +325,9 @@ internal static class CulturesOutputter {
 	{
 		// There is a difference in the heritage group effect formats between WtWSMS and RoA/TFE.
 		Node? effectNode = null;
-		if (ck3ModFlags["wtwsms"] || ck3ModFlags["roa"]) {
+		if (IsModActive(ck3ModFlags, "wtwsms") || IsModActive(ck3ModFlags, "roa")) {
 			effectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_heritage_family_effect");
-		} else if (ck3ModFlags["tfe"]) {
+		} else if (IsModActive(ck3ModFlags, "tfe")) {
 			effectNode = nodes.FirstOrDefault(n => n.Key == "ccu_initialize_culture");
 		}
 		
@@ -338,7 +338,7 @@ internal static class CulturesOutputter {
 
 		// WtWSMS and RoA use variable lists, TFE sets a single variable.
 		string[] heritageFamilyEffectNodeStrings;
-		if (ck3ModFlags["wtwsms"] || ck3ModFlags["roa"]) {
+		if (IsModActive(ck3ModFlags, "wtwsms") || IsModActive(ck3ModFlags, "roa")) {
 			heritageFamilyEffectNodeStrings = heritageFamilyParameters.Select(param =>
 				$$"""
 				    if = {
@@ -346,7 +346,7 @@ internal static class CulturesOutputter {
 				    	add_to_variable_list = { name = heritage_family target = flag:{{param}} }
 				    }
 				  """).ToArray();
-		} else if (ck3ModFlags["tfe"]) {
+		} else if (IsModActive(ck3ModFlags, "tfe")) {
 			// Only start searching for available numbers from 100, because there are some existing entries in the file. 
 			int newVariableValue = 100;
 			while (fileText.Contains($"set_variable = {{ name = heritage_group value = {newVariableValue} }}")) {
@@ -363,7 +363,7 @@ internal static class CulturesOutputter {
 			heritageFamilyEffectNodeStrings = [];
 		}
 		
-		if (ck3ModFlags["tfe"]) {
+		if (IsModActive(ck3ModFlags, "tfe")) {
 			AddChildrenToNodeAfterLastChildContainingText(effectNode, scriptedEffectsPath, fileName, heritageFamilyEffectNodeStrings, "name = heritage_family");
 		} else {
 			AddChildrenToNode(effectNode, scriptedEffectsPath, fileName, heritageFamilyEffectNodeStrings);
@@ -525,8 +525,12 @@ internal static class CulturesOutputter {
 		foreach (var param in heritageFamilyParameters) {
 			newContent.AppendLine(
 				$$"""
-						  		if = { limit = { var:temp = flag:{{param}} } set_variable = { name = temp value = flag:{{param}} } }
-						  """);
+				  		if = { limit = { var:temp = flag:{{param}} } set_variable = { name = temp value = flag:{{param}} } }
+				  """);
 		}
+	}
+
+	private static bool IsModActive(OrderedDictionary<string, bool> flags, string modId) {
+		return flags.ContainsKey(modId) && flags[modId];
 	}
 }

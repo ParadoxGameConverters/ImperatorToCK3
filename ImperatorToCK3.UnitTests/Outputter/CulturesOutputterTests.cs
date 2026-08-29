@@ -555,4 +555,18 @@ public class CulturesOutputterTests {
 			// Best-effort cleanup only.
 		}
 	}
+
+	[Fact]
+	public void IsModActiveHelper_ReturnsFalseForMissingKey() {
+		OrderedDictionary<string, bool> flags = new() { ["tfe"] = true };
+		// Use reflection to test private helper IsModActive
+		var method = typeof(CulturesOutputter).GetMethod("IsModActive", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+		Assert.NotNull(method);
+		bool resultWtwsms = (bool)method!.Invoke(null, [flags, "wtwsms"])!;
+		bool resultTfe = (bool)method.Invoke(null, [flags, "tfe"])!;
+		bool resultMissing = (bool)method.Invoke(null, [flags, "nonexistent"])!;
+		Assert.False(resultWtwsms);
+		Assert.True(resultTfe);
+		Assert.False(resultMissing);
+	}
 }

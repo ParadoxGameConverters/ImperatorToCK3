@@ -148,6 +148,10 @@ internal sealed class PortraitData {
 
 	private void SetEyeColorPaletteCoordinates(byte[] decodedDnaStr) {
 		const int eyeColorPaletteXIndex = 8;
+		if (decodedDnaStr.Length <= eyeColorPaletteXIndex + 3) {
+			Logger.Warn($"DNA string is too short for eye color palette coordinates!");
+			return;
+		}
 
 		EyeColorPaletteCoordinates.X = decodedDnaStr[eyeColorPaletteXIndex] * 2;
 		EyeColorPaletteCoordinates.Y = decodedDnaStr[eyeColorPaletteXIndex + 1] * 2;
@@ -157,6 +161,10 @@ internal sealed class PortraitData {
 
 	private void SetSkinColorPaletteCoordinates(byte[] decodedDnaStr) {
 		const int skinColorPaletteXIndex = 4;
+		if (decodedDnaStr.Length <= skinColorPaletteXIndex + 3) {
+			Logger.Warn($"DNA string is too short for skin color palette coordinates!");
+			return;
+		}
 
 		SkinColorPaletteCoordinates.X = decodedDnaStr[skinColorPaletteXIndex] * 2;
 		SkinColorPaletteCoordinates.Y = decodedDnaStr[skinColorPaletteXIndex + 1] * 2;
@@ -166,6 +174,10 @@ internal sealed class PortraitData {
 
 	private void SetHairColorPaletteCoordinates(byte[] decodedDnaStr) {
 		const int hairColorPaletteXIndex = 0;
+		if (decodedDnaStr.Length <= hairColorPaletteXIndex + 3) {
+			Logger.Warn($"DNA string is too short for hair color palette coordinates!");
+			return;
+		}
 
 		HairColorPaletteCoordinates.X = decodedDnaStr[hairColorPaletteXIndex] * 2;
 		HairColorPaletteCoordinates.Y = decodedDnaStr[hairColorPaletteXIndex + 1] * 2;
