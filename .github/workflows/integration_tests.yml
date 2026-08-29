@@ -77,13 +77,13 @@ jobs:
         repository: LT-Rascek/CK3_Validator
         path: ck3-validator
 
-    - name: "Setup Python"
-      uses: actions/setup-python@v7
-      with:
-        python-version: "3.12"
-
     - name: "Validate generated mod with CK3 Validator"
       run: |
+        # Use the Python pre-installed on the self-hosted runner instead of
+        # actions/setup-python, whose install step fails because the runner
+        # account lacks permission to write into the actions toolcache.
+        python --version
+        where python
         # Checks encoding and localization file naming of the generated mod.
         # The wrapper adapts the upstream POSIX-only scripts to Windows paths.
         python tools/ck3_validator/run_ck3_validator.py "$env:GITHUB_WORKSPACE\Release\ImperatorToCK3\output\test_save" "$env:GITHUB_WORKSPACE\ck3-validator"
