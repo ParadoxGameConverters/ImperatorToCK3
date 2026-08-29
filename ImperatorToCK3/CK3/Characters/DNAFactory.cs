@@ -474,11 +474,40 @@ internal sealed class DNAFactory {
 		}
 
 		// Find the closest color in the CK3 palette with the 3D distance formula.
-		var closestPair = ck3ColorToCoordinatesDict
-			.MinBy(d => Math.Pow(d.Key.R - irColor.R, 2) + Math.Pow(d.Key.G - irColor.G, 2) + Math.Pow(d.Key.B - irColor.B, 2));
-		var closestColorCoordinates = closestPair.Value;
+		var closestColorCoordinates = FindClosestColor(irColor, ck3ColorToCoordinatesDict);
 		ck3ColorToCoordinatesDict[irColor] = closestColorCoordinates;
 		return closestColorCoordinates;
+	}
+
+	// Finds the CK3 palette color closest to the given color with the 3D distance formula.
+	// Uses exact integer distance math and first-minimum semantics, equivalent to the previous
+	// MinBy implementation but without per-element Math.Pow and delegate overhead.
+	internal static DNA.PaletteCoordinates FindClosestColor(
+		IMagickColor<ushort> irColor,
+		ConcurrentDictionary<IMagickColor<ushort>, DNA.PaletteCoordinates> ck3ColorToCoordinatesDict
+	) {
+		IMagickColor<ushort>? closestColor = null;
+		var closestCoordinates = default(DNA.PaletteCoordinates);
+		long closestDistanceSquared = long.MaxValue;
+		foreach (var pair in ck3ColorToCoordinatesDict) {
+			var key = pair.Key;
+			long redDelta = key.R - irColor.R;
+			long greenDelta = key.G - irColor.G;
+			long blueDelta = key.B - irColor.B;
+			long distanceSquared = (redDelta * redDelta) + (greenDelta * greenDelta) + (blueDelta * blueDelta);
+			if (distanceSquared < closestDistanceSquared) {
+				closestDistanceSquared = distanceSquared;
+				closestColor = key;
+				closestCoordinates = pair.Value;
+				if (distanceSquared == 0) {
+					break; // cannot get closer than an exact match
+				}
+			}
+		}
+		if (closestColor is null) {
+			throw new InvalidOperationException("Sequence contains no elements."); // match MinBy behavior on empty input
+		}
+		return closestCoordinates;
 	}
 
 	private static void ConvertEyeAccessories(
