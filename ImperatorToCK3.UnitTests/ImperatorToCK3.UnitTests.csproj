@@ -44,6 +44,7 @@
 	<ItemGroup>
 		<ConfigurableFiles Include="..\ImperatorToCK3/Data_Files/configurables/imperator_mods.txt" />
 		<ConfigurableFiles Include="..\ImperatorToCK3/Data_Files/configurables/ck3_mods.txt" />
+		<ConfigurableFiles Include="TestFiles/configurables/provinces_prehistory.txt" />
 	</ItemGroup>
 	<Target Name="CopyCustomContent" AfterTargets="Build">
 		<Copy SourceFiles="@(RakalyBinaryFiles)" DestinationFolder="$(OutDir)\Resources\rakaly\%(RecursiveDir)" SkipUnchangedFiles="true" />

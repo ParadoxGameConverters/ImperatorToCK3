@@ -188,4 +188,62 @@ public class ReligionCollectionTests {
 		religions.LoadConverterFaiths("TestFiles/configurables/optional_faiths.liquid", colorFactory, liquidVariables: new Hash());
 		Assert.Contains(religions.Faiths, r => r.Id == "berber_pagan");
 	}
+
+	[Fact]
+	public void ChristianAndIslamicSyncretismTenetsAreRemovedFromReligionsAndFaiths() {
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var reader = new BufferedReader(
+			"doctrine=tenet_christian_syncretism " +
+			"doctrine=tenet_islamic_syncretism " +
+			"doctrine=tenet_normal " +
+			"faiths={ " +
+			"  faith_a={ doctrine=tenet_christian_syncretism doctrine=tenet_islamic_syncretism doctrine=tenet_faith_normal } " +
+			"  faith_b={ doctrine=tenet_islamic_syncretism } " +
+			"}");
+		var religion = new ImperatorToCK3.CK3.Religions.Religion("religion_x", reader, religions, colorFactory);
+		religions.AddOrReplace(religion);
+
+		religions.RemoveChristianAndIslamicSyncretismFromAllFaiths();
+
+		religion.DoctrineIds.Should().NotContain(new[] { "tenet_christian_syncretism", "tenet_islamic_syncretism" });
+		religion.DoctrineIds.Should().Contain("tenet_normal");
+
+		var faithA = religion.Faiths["faith_a"];
+		faithA.DoctrineIds.Should().NotContain(new[] { "tenet_christian_syncretism", "tenet_islamic_syncretism" });
+		faithA.DoctrineIds.Should().Contain("tenet_faith_normal");
+
+		var faithB = religion.Faiths["faith_b"];
+		faithB.DoctrineIds.Should().NotContain("tenet_islamic_syncretism");
+	}
+
+	[Fact]
+	public void ConverterHolySitesAreLoaded() {
+		var titles = new Title.LandedTitles();
+		titles.LoadTitles(new BufferedReader(
+			"c_testcounty={ b_testbarony={province=1} } c_testcounty2={ b_testbarony2={province=2} }"),
+			colorFactory);
+
+		var religions = new ReligionCollection(titles);
+		religions.LoadConverterHolySites("TestFiles/configurables/converter_holy_sites_test.txt");
+
+		religions.HolySites.ContainsKey("hs_test1").Should().BeTrue();
+		religions.HolySites["hs_test1"].IsFromConverter.Should().BeTrue();
+		religions.HolySites["hs_test1"].CountyId.Should().Be("c_testcounty");
+		religions.HolySites["hs_test1"].BaronyId.Should().Be("b_testbarony");
+
+		religions.HolySites.ContainsKey("hs_test2").Should().BeTrue();
+		religions.HolySites["hs_test2"].IsFromConverter.Should().BeTrue();
+		religions.HolySites["hs_test2"].CountyId.Should().Be("c_testcounty2");
+	}
+
+	[Fact]
+	public void DoctrinesAreLoaded() {
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		religions.LoadDoctrines(ck3ModFS);
+
+		religions.DoctrineGroups.ContainsKey("doctrine_group_a").Should().BeTrue();
+		religions.DoctrineGroups["doctrine_group_a"].DoctrineIds.Should()
+			.BeEquivalentTo(new[] { "doctrine_a1", "doctrine_a2" });
+		religions.DoctrineGroups.ContainsKey("doctrine_group_b").Should().BeTrue();
+	}
 }

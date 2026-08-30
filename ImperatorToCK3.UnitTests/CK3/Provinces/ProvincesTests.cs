@@ -1,4 +1,5 @@
-﻿using commonItems;
+﻿using AwesomeAssertions;
+using commonItems;
 using commonItems.Colors;
 using commonItems.Mods;
 using ImperatorToCK3.CK3.Cultures;
@@ -76,6 +77,59 @@ public class ProvincesTests {
 				Assert.Equal("faith_a", prov.GetFaithId("840.1.1"));
 			}
 		);
+	}
+
+	[Fact]
+	public void LoadPrehistory_UpdatesExistingProvincesAndIgnoresMissingOnes() {
+		var provinces = new ProvinceCollection {
+			new(6057),
+			new(1561),
+			new(1)
+		};
+
+		provinces.LoadPrehistory();
+
+		provinces[6057].GetCultureId(ck3BookmarkDate).Should().Be("prehistory_culture_a");
+		provinces[1561].GetCultureId(ck3BookmarkDate).Should().Be("prehistory_culture_b");
+		// Province 1 is not mentioned in the prehistory file, so it stays untouched.
+		provinces[1].GetCultureId(ck3BookmarkDate).Should().BeNull();
+		// Province 9999 from the prehistory file is not in the collection and is ignored.
+		provinces.ContainsKey(9999).Should().BeFalse();
+	}
+
+	[Fact]
+	public void ImportVanillaProvinces_LoadsHistoryAndRemovesInvalidFaithAndCulture() {
+		var provinces = new ProvinceCollection();
+		var provinceDefinitions = new ProvinceDefinitions();
+		provinceDefinitions.Add(new ProvinceDefinition(1));
+		provinceDefinitions.Add(new ProvinceDefinition(2));
+		provinceDefinitions.Add(new ProvinceDefinition(4));
+
+		var ck3VanillaModFs = new ModFilesystem("TestFiles/CK3ProvincesVanillaTests", new List<Mod>());
+
+		var titles = new Title.LandedTitles();
+		var religions = new ImperatorToCK3.CK3.Religions.ReligionCollection(titles);
+		var religion = new ImperatorToCK3.CK3.Religions.Religion("r",
+			new BufferedReader("faiths={ valid_faith={} }"), religions, colorFactory);
+		religions.AddOrReplace(religion);
+
+		var cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory, []), []);
+		cultures.Add(new Culture("valid_culture",
+			new CultureData { Color = colorFactory.GetColor(new BufferedReader("rgb { 42 42 42 }")) }));
+
+		provinces.ImportVanillaProvinces(ck3VanillaModFs, provinceDefinitions, religions, cultures);
+
+		// Province 1: valid culture kept, invalid faith removed.
+		provinces[1].GetCultureId(ck3BookmarkDate).Should().Be("valid_culture");
+		provinces[1].GetFaithId(ck3BookmarkDate).Should().BeNull();
+
+		// Province 2: invalid culture removed, valid faith kept.
+		provinces[2].GetCultureId(ck3BookmarkDate).Should().BeNull();
+		provinces[2].GetFaithId(ck3BookmarkDate).Should().Be("valid_faith");
+
+		// Province 4: no unique history, copied from province 1 via province_mapping (cleaned history).
+		provinces[4].GetCultureId(ck3BookmarkDate).Should().Be("valid_culture");
+		provinces[4].GetFaithId(ck3BookmarkDate).Should().BeNull();
 	}
 
 	[Fact]

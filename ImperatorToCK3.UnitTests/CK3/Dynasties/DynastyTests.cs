@@ -249,4 +249,106 @@ public class DynastyTests {
 		             }
 		             """, serialized);
 	}
+
+	[Fact]
+	public void Dynasty_ConstructorFromCharacter_SetsIdAndNameFromCharacterId() {
+		var ck3Characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
+		var ck3Character = new Character("ck3char", "Marcus", BookmarkDate, ck3Characters);
+
+		var dynasty = new Dynasty(
+			ck3Character,
+			"cornelii",
+			[],
+			new CulturesDB(),
+			new LocDB("english"),
+			new TestCK3LocDB(),
+			BookmarkDate
+		);
+
+		Assert.Equal("dynn_irtock3_from_ck3char", dynasty.Id);
+		Assert.Equal("dynn_irtock3_from_ck3char", dynasty.Name);
+		Assert.True(dynasty.FromImperator);
+	}
+
+	[Fact]
+	public void Dynasty_ConstructorFromCharacter_SetsCultureFromCharacter() {
+		var ck3Characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
+		var ck3Character = new Character("ck3char", "Marcus", BookmarkDate, ck3Characters);
+		ck3Character.SetCultureId("latin", null);
+
+		var dynasty = new Dynasty(
+			ck3Character,
+			"cornelii",
+			[],
+			new CulturesDB(),
+			new LocDB("english"),
+			new TestCK3LocDB(),
+			BookmarkDate
+		);
+
+		Assert.Equal("latin", dynasty.CultureId);
+	}
+
+	[Fact]
+	public void Dynasty_ConstructorFromCharacter_SetsCharacterDynastyId() {
+		var ck3Characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
+		var ck3Character = new Character("ck3char", "Marcus", BookmarkDate, ck3Characters);
+
+		var dynasty = new Dynasty(
+			ck3Character,
+			"cornelii",
+			[],
+			new CulturesDB(),
+			new LocDB("english"),
+			new TestCK3LocDB(),
+			BookmarkDate
+		);
+
+		Assert.Equal(dynasty.Id, ck3Character.GetDynastyId(BookmarkDate));
+	}
+
+	[Fact]
+	public void Dynasty_ConstructorFromCharacter_CopiesLocalizationFromFamilyName() {
+		var ck3Characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
+		var ck3Character = new Character("ck3char", "Marcus", BookmarkDate, ck3Characters);
+
+		var irLocDB = new LocDB("english");
+		var irLoc = irLocDB.AddLocBlock("cornelii");
+		irLoc["english"] = "Cornelii";
+
+		var ck3LocDB = new TestCK3LocDB();
+		var dynasty = new Dynasty(
+			ck3Character,
+			"cornelii",
+			[],
+			new CulturesDB(),
+			irLocDB,
+			ck3LocDB,
+			BookmarkDate
+		);
+
+		Assert.Equal("Cornelii", ck3LocDB.GetLocBlockForKey(dynasty.Id)!["english"]);
+	}
+
+	[Fact]
+	public void Dynasty_ConstructorFromCharacter_AppendsCounterWhenHashCollides() {
+		var ck3Characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
+		var ck3Character = new Character("ck3char", "Marcus", BookmarkDate, ck3Characters);
+
+		var ck3LocDB = new TestCK3LocDB();
+		// Pre-register a loc block whose key hashes to the same value as the base dynasty id.
+		ck3LocDB.GetOrCreateLocBlock("dynn_irtock3_from_ck3char");
+
+		var dynasty = new Dynasty(
+			ck3Character,
+			"cornelii",
+			[],
+			new CulturesDB(),
+			new LocDB("english"),
+			ck3LocDB,
+			BookmarkDate
+		);
+
+		Assert.Equal("dynn_irtock3_from_ck3char_0", dynasty.Id);
+	}
 }

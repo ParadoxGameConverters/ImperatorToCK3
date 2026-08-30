@@ -1,0 +1,10 @@
+# Test prehistory file for ProvinceCollectionTests.
+6057 = {
+	culture = prehistory_culture_a
+}
+1561 = {
+	culture = prehistory_culture_b
+}
+9999 = {
+	culture = prehistory_culture_c
+}

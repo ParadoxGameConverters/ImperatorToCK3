@@ -1,0 +1,11 @@
+hs_test1 = {
+	county = c_testcounty
+	barony = b_testbarony
+	character_modifier = {
+		name = holy_site_test_effect
+		monthly_piety_gain_mult = 0.2
+	}
+}
+hs_test2 = {
+	county = c_testcounty2
+}
