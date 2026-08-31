@@ -324,7 +324,6 @@ public class LandedTitlesTests {
 			nicknameMapper,
 			provinceMapper,
 			deathReasonMapper,
-			dnaFactory,
 			new TestCK3LocDB(),
 			conversionDate,
 			config
