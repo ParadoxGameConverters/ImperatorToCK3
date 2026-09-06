@@ -928,7 +928,13 @@ internal partial class World {
 				if (loc is null) {
 					continue;
 				}
-				
+
+				// The substitution regex cannot match without '$': skip plain locs
+				// without paying for regex matching.
+				if (!loc.Contains('$')) {
+					continue;
+				}
+
 				ReplaceSubstitutionKeysInLoc(locBlock, language, loc);
 			}
 		}

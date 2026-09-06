@@ -6,9 +6,14 @@ namespace ImperatorToCK3.CommonUtils;
 
 internal sealed class DiffHistoryField : IHistoryField {
 	public string Id { get; }
-	public List<KeyValuePair<string, object>> InitialEntries { get; } = [];
 
-	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; } = new();
+	private List<KeyValuePair<string, object>>? initialEntries;
+	// Lazily allocated: most fields never get entries, and one history object
+	// is created per character/province/title during conversion.
+	public List<KeyValuePair<string, object>> InitialEntries => initialEntries ??= [];
+
+	private SortedDictionary<Date, List<KeyValuePair<string, object>>>? dateToEntriesDict;
+	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict => dateToEntriesDict ??= [];
 
 	private readonly OrderedSet<string> insertKeywords;
 	private readonly OrderedSet<string> removeKeywords;
@@ -22,7 +27,9 @@ internal sealed class DiffHistoryField : IHistoryField {
 		Id = baseField.Id;
 		insertKeywords = new OrderedSet<string>(baseField.insertKeywords);
 		removeKeywords = new OrderedSet<string>(baseField.removeKeywords);
-		InitialEntries = new List<KeyValuePair<string, object>>(baseField.InitialEntries);
+		foreach (var entry in baseField.InitialEntries) {
+			InitialEntries.Add(entry);
+		}
 		foreach (var (date, entries) in baseField.DateToEntriesDict) {
 			DateToEntriesDict[date] = new List<KeyValuePair<string, object>>(entries);
 		}
