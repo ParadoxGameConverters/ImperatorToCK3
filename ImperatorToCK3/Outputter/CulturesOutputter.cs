@@ -30,25 +30,47 @@ internal static class CulturesOutputter {
 		for (var i = 0; i < culturesList.Count; ++i) {
 			indexById[culturesList[i].Id] = i;
 		}
-		for (var i = 0; i < culturesList.Count; ++i) {
-			var culture = culturesList[i];
-			
+		// A swap moves the last parent before its child; the swapped-in culture is then
+		// rechecked at the same index so multi-level chains (child before parent before
+		// grandparent) get fully ordered. Each swap strictly reduces the ancestor-depth-weighted
+		// position sum in acyclic graphs, so this terminates; the cap below only guards
+		// against parent cycles.
+		var swaps = 0;
+		var maxSwaps = culturesList.Count * culturesList.Count;
+		var cycleWarned = false;
+		var pos = 0;
+		while (pos < culturesList.Count) {
+			var culture = culturesList[pos];
+
 			if (culture.ParentCultureIds.Count == 0) {
+				++pos;
 				continue;
 			}
-			
+
 			var lastParentIndex = -1;
 			foreach (var parentId in culture.ParentCultureIds) {
 				if (indexById.TryGetValue(parentId, out var parentIndex) && parentIndex > lastParentIndex) {
 					lastParentIndex = parentIndex;
 				}
 			}
-			if (lastParentIndex > i) {
+			if (lastParentIndex > pos) {
+				if (swaps >= maxSwaps) {
+					if (!cycleWarned) {
+						Logger.Warn($"Possible culture parent cycle detected involving {culture.Id}, skipping further reordering.");
+						cycleWarned = true;
+					}
+					++pos;
+					continue;
+				}
 				var other = culturesList[lastParentIndex];
-				(culturesList[i], culturesList[lastParentIndex]) = (other, culture);
+				(culturesList[pos], culturesList[lastParentIndex]) = (other, culture);
 				indexById[culture.Id] = lastParentIndex;
-				indexById[other.Id] = i;
+				indexById[other.Id] = pos;
+				++swaps;
+				// Recheck the swapped-in culture at this index.
+				continue;
 			}
+			++pos;
 		}
 		
 		// Output cultures grouped by heritage.
