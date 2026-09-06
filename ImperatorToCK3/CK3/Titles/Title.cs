@@ -1650,23 +1650,26 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	// used by county titles only
-	[commonItems.Serialization.NonSerialized] public List<ulong> CountyProvinceIds {
+	[commonItems.Serialization.NonSerialized] public IReadOnlyList<ulong> CountyProvinceIds {
 		get {
 			// Cached because this property is queried per province in hot loops
 			// (outputters, region checks). Invalidated when de jure vassals change.
-			if (cachedCountyProvinceIds is null) {
-				var provinceIds = new List<ulong>();
-				foreach (var vassal in deJureVassals) {
-					if (vassal.Rank == TitleRank.barony && vassal.ProvinceId.HasValue) {
-						provinceIds.Add(vassal.ProvinceId.Value);
-					}
-				}
-				cachedCountyProvinceIds = provinceIds;
-			}
-			return cachedCountyProvinceIds;
+			// Immutable, so callers cannot corrupt the cached state.
+			cachedCountyProvinceIds ??= BuildCountyProvinceIds();
+			return cachedCountyProvinceIds.Value;
 		}
 	}
-	private List<ulong>? cachedCountyProvinceIds;
+	private ImmutableArray<ulong>? cachedCountyProvinceIds;
+
+	private ImmutableArray<ulong> BuildCountyProvinceIds() {
+		var builder = ImmutableArray.CreateBuilder<ulong>();
+		foreach (var vassal in deJureVassals) {
+			if (vassal.Rank == TitleRank.barony && vassal.ProvinceId.HasValue) {
+				builder.Add(vassal.ProvinceId.Value);
+			}
+		}
+		return builder.ToImmutable();
+	}
 
 	private void InvalidateCountyProvinceIdsCache() {
 		cachedCountyProvinceIds = null;

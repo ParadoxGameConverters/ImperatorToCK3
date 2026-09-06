@@ -27,11 +27,16 @@ internal sealed class DiffHistoryField : IHistoryField {
 		Id = baseField.Id;
 		insertKeywords = new OrderedSet<string>(baseField.insertKeywords);
 		removeKeywords = new OrderedSet<string>(baseField.removeKeywords);
-		foreach (var entry in baseField.InitialEntries) {
-			InitialEntries.Add(entry);
+		// Copy from the backing fields (not the lazy properties) so cloning
+		// an empty field allocates nothing on either instance.
+		if (baseField.initialEntries is { Count: > 0 } sourceInitialEntries) {
+			initialEntries = new List<KeyValuePair<string, object>>(sourceInitialEntries);
 		}
-		foreach (var (date, entries) in baseField.DateToEntriesDict) {
-			DateToEntriesDict[date] = new List<KeyValuePair<string, object>>(entries);
+		if (baseField.dateToEntriesDict is { Count: > 0 } sourceDatedEntries) {
+			dateToEntriesDict = new SortedDictionary<Date, List<KeyValuePair<string, object>>>();
+			foreach (var (date, entries) in sourceDatedEntries) {
+				dateToEntriesDict[date] = new List<KeyValuePair<string, object>>(entries);
+			}
 		}
 	}
 

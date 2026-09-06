@@ -30,11 +30,16 @@ internal sealed class LiteralHistoryField : IHistoryField {
 	private LiteralHistoryField(LiteralHistoryField baseField) {
 		Id = baseField.Id;
 		setterKeywords = new OrderedSet<string>(baseField.setterKeywords);
-		foreach (var entry in baseField.InitialEntries) {
-			InitialEntries.Add(entry);
+		// Copy from the backing fields (not the lazy properties) so cloning
+		// an empty field allocates nothing on either instance.
+		if (baseField.initialEntries is { Count: > 0 } sourceInitialEntries) {
+			initialEntries = new List<KeyValuePair<string, object>>(sourceInitialEntries);
 		}
-		foreach (var (date, entries) in baseField.DateToEntriesDict) {
-			DateToEntriesDict[date] = new List<KeyValuePair<string, object>>(entries);
+		if (baseField.dateToEntriesDict is { Count: > 0 } sourceDatedEntries) {
+			dateToEntriesDict = new SortedDictionary<Date, List<KeyValuePair<string, object>>>();
+			foreach (var (date, entries) in sourceDatedEntries) {
+				dateToEntriesDict[date] = new List<KeyValuePair<string, object>>(entries);
+			}
 		}
 	}
 
