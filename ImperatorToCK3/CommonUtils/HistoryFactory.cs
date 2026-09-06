@@ -1,6 +1,7 @@
 ﻿using commonItems;
 using commonItems.Collections;
 using commonItems.Mods;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -193,18 +194,21 @@ internal sealed class HistoryFactory {
 	}
 
 	public static object GetValue(string str) {
+		// Check for a collection first: strings starting with '{' can never parse as numbers,
+		// and this avoids the TrimStart() allocation on the common int/string paths.
+		var trimmed = str.AsSpan().TrimStart();
+		if (!trimmed.IsEmpty && trimmed[0] == '{') {
+			var collectionReader = new BufferedReader(str);
+			var strings = collectionReader.GetStrings();
+			return strings;
+		}
+
 		if (int.TryParse(str, out int intValue)) {
 			return intValue;
 		}
 
 		if (double.TryParse(str, out double doubleValue)) {
 			return doubleValue;
-		}
-
-		if (str.TrimStart().StartsWith('{')) {
-			var collectionReader = new BufferedReader(str);
-			var strings = collectionReader.GetStrings();
-			return strings;
 		}
 
 		return str;
