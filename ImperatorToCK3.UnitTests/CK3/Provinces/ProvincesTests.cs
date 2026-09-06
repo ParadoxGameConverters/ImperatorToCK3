@@ -133,6 +133,34 @@ public class ProvincesTests {
 	}
 
 	[Fact]
+	public void ImportVanillaProvinces_SkipsZeroIdAndBrokenMappings() {
+		var provinces = new ProvinceCollection();
+		var provinceDefinitions = new ProvinceDefinitions();
+		provinceDefinitions.Add(new ProvinceDefinition(0)); // should be skipped
+		provinceDefinitions.Add(new ProvinceDefinition(1));
+
+		var ck3VanillaModFs = new ModFilesystem("TestFiles/CK3ProvincesVanillaMappingEdgeTests", new List<Mod>());
+
+		var titles = new Title.LandedTitles();
+		var religions = new ImperatorToCK3.CK3.Religions.ReligionCollection(titles);
+		var religion = new ImperatorToCK3.CK3.Religions.Religion("r",
+			new BufferedReader("faiths={ valid_faith={} }"), religions, colorFactory);
+		religions.AddOrReplace(religion);
+
+		var cultures = new CultureCollection(colorFactory, new PillarCollection(colorFactory, []), []);
+		cultures.Add(new Culture("valid_culture",
+			new CultureData { Color = colorFactory.GetColor(new BufferedReader("rgb { 42 42 42 }")) }));
+
+		provinces.ImportVanillaProvinces(ck3VanillaModFs, provinceDefinitions, religions, cultures);
+
+		// Province 0 is skipped, mapping 5=999 has missing base, mapping 999=1 has missing new province.
+		Assert.False(provinces.ContainsKey(0));
+		Assert.Single(provinces);
+		provinces[1].GetCultureId(ck3BookmarkDate).Should().Be("valid_culture");
+		provinces[1].GetFaithId(ck3BookmarkDate).Should().Be("valid_faith");
+	}
+
+	[Fact]
 	public void PrimaryImperatorProvinceIsProperlyDeterminedForCK3Province() {
 		var conversionDate = new Date(476, 1, 1);
 		var config = new Configuration { CK3BookmarkDate = conversionDate };

@@ -1,0 +1,9 @@
+c_quoted_gov = {
+	government = "quoted_government"
+}
+c_string_dev = {
+	800.1.1 = { change_development_level = 15 }
+}
+c_invalid_dev = {
+	800.1.1 = { change_development_level = high }
+}

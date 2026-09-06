@@ -7,12 +7,15 @@ using ImperatorToCK3.CK3.Religions;
 using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.CommonUtils.Map;
 using ImperatorToCK3.Imperator.Geography;
+using ImperatorToCK3.Mappers.CoA;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Government;
 using ImperatorToCK3.Mappers.Nickname;
 using ImperatorToCK3.Mappers.Province;
 using ImperatorToCK3.Mappers.Region;
 using ImperatorToCK3.Mappers.Religion;
+using ImperatorToCK3.Mappers.SuccessionLaw;
+using ImperatorToCK3.Mappers.TagTitle;
 using ImperatorToCK3.UnitTests.TestHelpers;
 using Xunit;
 using System;
@@ -140,6 +143,52 @@ public class RulerTermTests {
 	}
 
 	[Fact]
+	public void GovernmentUsesTitleCountryCultureWhenCountryIsLinked() {
+		var country = ImperatorToCK3.Imperator.Countries.Country.Parse(
+			new BufferedReader("= { tag = SPA primary_culture=spartan capital=420 }"),
+			69
+		);
+
+		Directory.CreateDirectory("configurables");
+		File.WriteAllText("configurables/government_map.txt", "link = {ir=dictatorship ck3=feudal_government }");
+		var govMapper = new GovernmentMapper(ck3GovernmentIds: ["feudal_government"]);
+		File.Delete("configurables/government_map.txt"); // cleanup
+
+		var landedTitles = new Title.LandedTitles();
+		var testTitle = landedTitles.Add("k_test_title");
+		testTitle.InitializeFromTag(
+			country,
+			dependency: null,
+			new ImperatorToCK3.Imperator.Countries.CountryCollection(),
+			new LocDB("english"),
+			new TestCK3LocDB(),
+			new ProvinceMapper(),
+			new CoaMapper(),
+			govMapper,
+			new SuccessionLawMapper(),
+			new DefiniteFormMapper(),
+			new ReligionMapper(new ReligionCollection(landedTitles), irRegionMapper, new CK3RegionMapper()),
+			new CultureMapper(irRegionMapper, new CK3RegionMapper(), cultures),
+			new NicknameMapper("TestFiles/configurables/nickname_map.txt"),
+			new ImperatorToCK3.CK3.Characters.CharacterCollection(),
+			new Date(500, 2, 3, AUC: true),
+			new Configuration(),
+			enabledCK3Dlcs: Array.Empty<string>()
+		);
+
+		var impRulerTerm = ImperatorToCK3.Imperator.Countries.RulerTerm.Parse(new BufferedReader(
+			"character = 69 " +
+			"start_date = 500.2.3 " +
+			"government = dictatorship"
+		));
+		var ck3RulerTerm = CreateCk3RulerTerm(impRulerTerm,
+			new ImperatorToCK3.CK3.Characters.CharacterCollection(), testTitle);
+
+		Assert.Equal("imperator69", ck3RulerTerm.CharacterId);
+		Assert.Equal("feudal_government", ck3RulerTerm.Government);
+	}
+
+	[Fact]
 	public void GovernmentStaysNullWhenImperatorGovernmentIsNull() {
 		var reader = new BufferedReader(
 			"character = 69 " +
@@ -233,6 +282,15 @@ public class RulerTermTests {
 		ImperatorToCK3.Imperator.Countries.RulerTerm impRulerTerm,
 		ImperatorToCK3.CK3.Characters.CharacterCollection ck3Characters
 	) {
+		var testTitle = new Title.LandedTitles().Add("k_test_title");
+		return CreateCk3RulerTerm(impRulerTerm, ck3Characters, testTitle);
+	}
+
+	private ImperatorToCK3.CK3.Titles.RulerTerm CreateCk3RulerTerm(
+		ImperatorToCK3.Imperator.Countries.RulerTerm impRulerTerm,
+		ImperatorToCK3.CK3.Characters.CharacterCollection ck3Characters,
+		Title testTitle
+	) {
 		Directory.CreateDirectory("configurables");
 		File.WriteAllText("configurables/government_map.txt", "link = {ir=dictatorship ck3=feudal_government }");
 		var govMapper = new GovernmentMapper(ck3GovernmentIds: ["feudal_government"]);
@@ -249,7 +307,6 @@ public class RulerTermTests {
 			ck3RegionMapper
 		);
 
-		var testTitle = landedTitles.Add("k_test_title");
 		return new ImperatorToCK3.CK3.Titles.RulerTerm(
 			testTitle,
 			impRulerTerm,

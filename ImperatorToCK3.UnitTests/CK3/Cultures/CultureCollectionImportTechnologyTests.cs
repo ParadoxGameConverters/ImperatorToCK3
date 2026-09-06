@@ -239,8 +239,7 @@ public class CultureCollectionImportTechnologyTests {
 	}
 
 	[Fact]
-	public void CountryWithUnmappedCultureIsSkipped() {
-		var cultures = new TestCK3CultureCollection();
+	public void CountryWithUnmappedCultureIsSkipped() {		var cultures = new TestCK3CultureCollection();
 		cultures.GenerateTestCulture("roman");
 		cultures.AddInnovationId("innovation_garrison");
 
@@ -256,6 +255,89 @@ public class CultureCollectionImportTechnologyTests {
 
 			Assert.Empty(cultures["roman"].InnovationsFromImperator);
 			Assert.Empty(cultures["roman"].InnovationProgressesFromImperator);
+		} finally {
+			DeleteInnovationsMapFile();
+		}
+	}
+
+	[Fact]
+	public void MonarchCultureIsUsedWhenPrimaryCultureIsMissing() {
+		var cultures = new TestCK3CultureCollection();
+		cultures.GenerateTestCulture("greek");
+		cultures.AddInnovationId("innovation_garrison");
+
+		var cultureMapper = GetCultureMapper(cultures, "link = { ck3 = greek ir = greek }");
+
+		try {
+			WriteInnovationsMapFile("link = { ir = inv_garrison_1 ck3 = innovation_garrison }");
+
+			var country = Country.Parse(new BufferedReader(
+				"monarch = 99\nactive_inventions = { 1 0 0 0 0 }"
+			), 1);
+			var monarch = new ImperatorToCK3.Imperator.Characters.Character(99) {
+				Culture = "greek"
+			};
+			country.TryLinkMonarch(monarch);
+			var countries = new CountryCollection { country };
+			ImportTechnology(cultures, countries, cultureMapper);
+
+			Assert.Contains("innovation_garrison", cultures["greek"].InnovationsFromImperator);
+		} finally {
+			DeleteInnovationsMapFile();
+		}
+	}
+
+	[Fact]
+	public void CountryWithoutAnyCultureLogsWarningAndIsSkipped() {
+		var cultures = new TestCK3CultureCollection();
+		cultures.GenerateTestCulture("roman");
+		cultures.AddInnovationId("innovation_garrison");
+
+		var cultureMapper = GetCultureMapper(cultures, "link = { ck3 = roman ir = roman }");
+
+		try {
+			WriteInnovationsMapFile("link = { ir = inv_garrison_1 ck3 = innovation_garrison }");
+
+			var countries = new CountryCollection {
+				Country.Parse(new BufferedReader("tag = QQQ\nactive_inventions = { 1 0 0 0 0 }"), 1),
+				Country.Parse(new BufferedReader("tag = RRR\ncountry_type = rebels\nactive_inventions = { 1 0 0 0 0 }"), 2),
+			};
+
+			var output = new StringWriter();
+			Console.SetOut(output);
+			ImportTechnology(cultures, countries, cultureMapper);
+
+			Assert.Contains("Failed to get primary or monarch culture", output.ToString());
+			Assert.Empty(cultures["roman"].InnovationsFromImperator);
+		} finally {
+			DeleteInnovationsMapFile();
+		}
+	}
+
+	[Fact]
+	public void CapitalProvinceIsUsedForCultureMapping() {
+		var cultures = new TestCK3CultureCollection();
+		cultures.GenerateTestCulture("roman");
+		cultures.AddInnovationId("innovation_garrison");
+
+		var cultureMapper = GetCultureMapper(cultures, "link = { ck3 = roman ir = roman }");
+
+		var provinceMapper = new ProvinceMapper();
+		var provinceMappingsFile = "configurables/temp_province_mappings_culture_test.txt";
+		File.WriteAllText(provinceMappingsFile, "test_version = { link={imp=420 ck3=1} }");
+		try {
+			provinceMapper.LoadMappings(provinceMappingsFile);
+			WriteInnovationsMapFile("link = { ir = inv_garrison_1 ck3 = innovation_garrison }");
+
+			var countries = new CountryCollection {
+				Country.Parse(new BufferedReader(
+					"primary_culture = roman\ncapital = 420\nactive_inventions = { 1 0 0 0 0 }"
+				), 1),
+			};
+			cultures.ImportTechnology(countries, cultureMapper, provinceMapper, inventionsDB,
+				new LocDB("english"), new Hash());
+
+			Assert.Contains("innovation_garrison", cultures["roman"].InnovationsFromImperator);
 		} finally {
 			DeleteInnovationsMapFile();
 		}
