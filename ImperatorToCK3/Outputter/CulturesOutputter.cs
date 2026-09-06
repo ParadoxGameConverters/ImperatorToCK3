@@ -24,8 +24,12 @@ internal static class CulturesOutputter {
 		var culturesList = cultures.ToList();
 		
 		// Make sure parent cultures are output before their children.
-		// For every culture, check the last index of a parent culture in the list.
-		// If the last parent's index is greater than the current culture's index, swap the two.
+		// Each culture's position is tracked by ID, so parent lookups are O(1)
+		// instead of a full-list scan per culture (O(N^2) overall).
+		var indexById = new Dictionary<string, int>(culturesList.Count);
+		for (var i = 0; i < culturesList.Count; ++i) {
+			indexById[culturesList[i].Id] = i;
+		}
 		for (var i = 0; i < culturesList.Count; ++i) {
 			var culture = culturesList[i];
 			
@@ -33,9 +37,17 @@ internal static class CulturesOutputter {
 				continue;
 			}
 			
-			var lastParentIndex = culturesList.FindLastIndex(c => culture.ParentCultureIds.Contains(c.Id));
+			var lastParentIndex = -1;
+			foreach (var parentId in culture.ParentCultureIds) {
+				if (indexById.TryGetValue(parentId, out var parentIndex) && parentIndex > lastParentIndex) {
+					lastParentIndex = parentIndex;
+				}
+			}
 			if (lastParentIndex > i) {
-				(culturesList[i], culturesList[lastParentIndex]) = (culturesList[lastParentIndex], culturesList[i]);
+				var other = culturesList[lastParentIndex];
+				(culturesList[i], culturesList[lastParentIndex]) = (other, culture);
+				indexById[culture.Id] = lastParentIndex;
+				indexById[other.Id] = i;
 			}
 		}
 		
