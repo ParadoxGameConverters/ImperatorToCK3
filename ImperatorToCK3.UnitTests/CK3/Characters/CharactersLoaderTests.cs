@@ -56,4 +56,31 @@ public class CharactersLoaderTests {
 			}
 		}
 	}
+
+	[Fact]
+	public void LoadCK3Characters_FixesCharactersSetAsTheirOwnParents() {
+		var tempRoot = Path.Combine(Path.GetTempPath(), "CharactersLoaderTests", Guid.NewGuid().ToString());
+		try {
+			var charDir = Path.Combine(tempRoot, "history", "characters");
+			Directory.CreateDirectory(charDir);
+
+			File.WriteAllText(Path.Combine(charDir, "chars.txt"),
+				"char_self_father = { father = char_self_father 900.1.1 = { birth = yes } }\n" +
+				"char_self_mother = { female = yes mother = char_self_mother 900.1.1 = { birth = yes } }\n"
+			);
+
+			var modFS = new ModFilesystem(tempRoot, Array.Empty<Mod>());
+			var characters = new CharacterCollection();
+			characters.LoadCK3Characters(modFS, new Date(1000, 1, 1));
+
+			var selfFather = characters["char_self_father"];
+			Assert.Null(selfFather.Father);
+			var selfMother = characters["char_self_mother"];
+			Assert.Null(selfMother.Mother);
+		} finally {
+			try { Directory.Delete(tempRoot, recursive: true); } catch {
+				// Failure to delete the temp directory can be ignored.
+			}
+		}
+	}
 }

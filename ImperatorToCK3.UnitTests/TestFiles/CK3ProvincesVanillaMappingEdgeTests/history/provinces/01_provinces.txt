@@ -1,0 +1,4 @@
+1 = {
+	culture = valid_culture
+	faith = valid_faith
+}

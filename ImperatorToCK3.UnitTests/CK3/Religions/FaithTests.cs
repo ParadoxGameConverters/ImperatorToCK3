@@ -258,4 +258,15 @@ public class FaithTests {
 
 		Assert.False(faith.HasDoctrine("does_not_exist_anywhere"));
 	}
+
+	[Fact]
+	public void Serialize_WithoutBraces_OmitsOuterBraces() {
+		var faith = new Faith("bare_faith", new FaithData(), testReligion);
+
+		var withoutBraces = faith.Serialize(indent: "", withBraces: false);
+		Assert.StartsWith("localization={", withoutBraces.TrimStart());
+
+		var withBraces = faith.Serialize(indent: "", withBraces: true);
+		Assert.StartsWith("{", withBraces.TrimStart());
+	}
 }

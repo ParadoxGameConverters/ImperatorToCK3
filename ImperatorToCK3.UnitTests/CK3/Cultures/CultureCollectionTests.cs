@@ -135,8 +135,7 @@ public class CultureCollectionTests {
 	}
 
 	[Fact]
-	public void WarnAboutCircularParentsLogsWarningWhenParentCultureIsNotFound() {
-		var cultures = new TestCK3CultureCollection();
+	public void WarnAboutCircularParentsLogsWarningWhenParentCultureIsNotFound() {		var cultures = new TestCK3CultureCollection();
 		// "french" has "roman" as its parent, but "roman" is not in the collection.
 		cultures.GenerateTestCulture("french", "heritage_latin");
 		cultures["french"].ParentCultureIds.Add("roman");
@@ -150,5 +149,116 @@ public class CultureCollectionTests {
 
 		// The missing parent doesn't make the culture its own ancestor, so no error is logged.
 		Assert.DoesNotContain("[ERROR]", outputString);
+	}
+
+	[Fact]
+	public void CulturesWithMissingHeritageLanguageOrNameListAreSkipped() {
+		var tempFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".txt");
+		try {
+			File.WriteAllText(tempFile, """
+				good_culture = {
+					color = rgb { 10 20 30 }
+					heritage = test_heritage
+					language = test_language
+					name_list = test_name_list
+				}
+				culture_without_heritage = {
+					heritage = missing_heritage
+					language = test_language
+					name_list = test_name_list
+				}
+				culture_without_language = {
+					heritage = test_heritage
+					language = missing_language
+					name_list = test_name_list
+				}
+				culture_without_namelist = {
+					heritage = test_heritage
+					language = test_language
+					name_list = missing_name_list
+				}
+				""");
+
+			var cultures = new TestCK3CultureCollection();
+			cultures.AddPillar(new("test_heritage", new() { Type = "heritage" }));
+			cultures.AddPillar(new("test_language", new() { Type = "language" }));
+			cultures.AddNameList(new ImperatorToCK3.CK3.Cultures.NameList("test_name_list", new BufferedReader()));
+
+			var output = new StringWriter();
+			Console.SetOut(output);
+			cultures.LoadConverterCultures(tempFile);
+			var log = output.ToString();
+
+			Assert.True(cultures.ContainsKey("good_culture"));
+			Assert.False(cultures.ContainsKey("culture_without_heritage"));
+			Assert.False(cultures.ContainsKey("culture_without_language"));
+			Assert.False(cultures.ContainsKey("culture_without_namelist"));
+			Assert.Contains("has no valid heritage defined! Skipping.", log);
+			Assert.Contains("has no valid language defined! Skipping.", log);
+			Assert.Contains("has no name list defined! Skipping.", log);
+		} finally {
+			File.Delete(tempFile);
+		}
+	}
+
+	[Fact]
+	public void InvalidatedCulturesAreSkippedAndOptionalOnesAreLoaded() {
+		var tempFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".txt");
+		try {
+			File.WriteAllText(tempFile, """
+				existing_culture = {
+					heritage = test_heritage
+					language = test_language
+					name_list = test_name_list
+				}
+				invalidated_culture = {
+					INVALIDATED_BY = { vanilla_ck3 = { existing_culture } }
+					heritage = test_heritage
+					language = test_language
+					name_list = test_name_list
+				}
+				optional_culture = {
+					INVALIDATED_BY = { vanilla_ck3 = { nonexistent_culture } }
+					heritage = test_heritage
+					language = test_language
+					name_list = test_name_list
+				}
+				""");
+
+			var cultures = new TestCK3CultureCollection();
+			cultures.AddPillar(new("test_heritage", new() { Type = "heritage" }));
+			cultures.AddPillar(new("test_language", new() { Type = "language" }));
+			cultures.AddNameList(new ImperatorToCK3.CK3.Cultures.NameList("test_name_list", new BufferedReader()));
+			cultures.LoadConverterCultures(tempFile);
+
+			Assert.True(cultures.ContainsKey("existing_culture"));
+			Assert.False(cultures.ContainsKey("invalidated_culture"));
+			Assert.True(cultures.ContainsKey("optional_culture"));
+		} finally {
+			File.Delete(tempFile);
+		}
+	}
+
+	[Fact]
+	public void LoadInnovationIds_LoadsIdsFromModFilesystem() {
+		var tempRoot = Path.Combine(Path.GetTempPath(), "CultureInnovationIdsTests", Guid.NewGuid().ToString("N"));
+		try {
+			Directory.CreateDirectory(Path.Combine(tempRoot, "common", "culture", "innovations"));
+			File.WriteAllText(
+				Path.Combine(tempRoot, "common", "culture", "innovations", "innovations.txt"),
+				"innovation_test_1 = {}\ninnovation_test_2 = {}\n");
+			var modFS = new ModFilesystem(tempRoot, Array.Empty<Mod>());
+
+			var cultures = new TestCK3CultureCollection();
+			cultures.LoadInnovationIds(modFS);
+
+			var idsField = typeof(CultureCollection).GetField("InnovationIds",
+				System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)!;
+			var ids = (System.Collections.Generic.HashSet<string>)idsField.GetValue(cultures)!;
+			Assert.Contains("innovation_test_1", ids);
+			Assert.Contains("innovation_test_2", ids);
+		} finally {
+			Directory.Delete(tempRoot, recursive: true);
+		}
 	}
 }

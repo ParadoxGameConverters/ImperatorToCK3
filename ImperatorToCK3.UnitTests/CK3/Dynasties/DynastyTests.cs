@@ -331,8 +331,7 @@ public class DynastyTests {
 	}
 
 	[Fact]
-	public void Dynasty_ConstructorFromCharacter_AppendsCounterWhenHashCollides() {
-		var ck3Characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
+	public void Dynasty_ConstructorFromCharacter_AppendsCounterWhenHashCollides() {		var ck3Characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
 		var ck3Character = new Character("ck3char", "Marcus", BookmarkDate, ck3Characters);
 
 		var ck3LocDB = new TestCK3LocDB();
@@ -350,5 +349,115 @@ public class DynastyTests {
 		);
 
 		Assert.Equal("dynn_irtock3_from_ck3char_0", dynasty.Id);
+	}
+
+	[Fact]
+	public void CultureIsBasedOnSecondMemberWhenFirstHasNoCK3Character() {
+		var characters = new CharacterCollection();
+		var family = Family.Parse(new BufferedReader("member = { 21 22 23 }"), 45);
+		var member1 = new ImperatorToCK3.Imperator.Characters.Character(21) {
+			Culture = "roman"
+		};
+		characters.Add(member1);
+		family.AddMember(member1);
+		var memberWithoutCK3Character = new ImperatorToCK3.Imperator.Characters.Character(23) {
+			Culture = "parthian"
+		};
+		characters.Add(memberWithoutCK3Character);
+		family.AddMember(memberWithoutCK3Character);
+		var member2 = new ImperatorToCK3.Imperator.Characters.Character(22) {
+			Culture = "akan"
+		};
+		characters.Add(member2);
+		family.AddMember(member2);
+
+		var cultureMapper = new CultureMapper(
+			new BufferedReader("link={ir=akan ck3=akan}"),
+			IRRegionMapper,
+			new CK3RegionMapper(),
+			Cultures
+		);
+		new CK3CharacterBuilder()
+			.WithCultureMapper(cultureMapper)
+			.WithImperatorCharacter(member2)
+			.Build();
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper,
+			new LocDB("english"), new TestCK3LocDB(), BookmarkDate);
+
+		Assert.Equal("akan", dynasty.CultureId);
+	}
+
+	[Fact]
+	public void CultureFallsBackToFamilyCultureMapping() {
+		var characters = new CharacterCollection();
+		var family = Family.Parse(new BufferedReader("culture = roman"), 45);
+
+		var cultureMapper = new CultureMapper(
+			new BufferedReader("link={ir=roman ck3=latin}"),
+			IRRegionMapper,
+			new CK3RegionMapper(),
+			Cultures
+		);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), cultureMapper,
+			new LocDB("english"), new TestCK3LocDB(), BookmarkDate);
+
+		Assert.Equal("latin", dynasty.CultureId);
+	}
+
+	[Fact]
+	public void CultureWarnsWhenItCannotBeDetermined() {
+		var characters = new CharacterCollection();
+		var family = Family.Parse(new BufferedReader("culture = unknown_culture"), 45);
+
+		var output = new System.IO.StringWriter();
+		System.Console.SetOut(output);
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper,
+			new LocDB("english"), new TestCK3LocDB(), BookmarkDate);
+
+		Assert.Null(dynasty.CultureId);
+		Assert.Contains("Couldn't determine culture for dynasty", output.ToString());
+	}
+
+	[Fact]
+	public void FamilyNameFromMemberIsUsedWhenLocKeyIsEmpty() {
+		var characters = new CharacterCollection();
+		var family = Family.Parse(new BufferedReader("member = { 21 22 }"), 45);
+		var memberWithoutFamilyName = ImperatorToCK3.Imperator.Characters.Character.Parse(
+			new BufferedReader("= { }"), "21", null);
+		characters.Add(memberWithoutFamilyName);
+		family.AddMember(memberWithoutFamilyName);
+		var memberWithFamilyName = ImperatorToCK3.Imperator.Characters.Character.Parse(
+			new BufferedReader("= { family_name = Smith }"), "22", null);
+		characters.Add(memberWithFamilyName);
+		family.AddMember(memberWithFamilyName);
+
+		var ck3LocDB = new TestCK3LocDB();
+		var dynasty = new Dynasty(family, characters, new CulturesDB(), CultureMapper,
+			new LocDB("english"), ck3LocDB, BookmarkDate);
+
+		Assert.Equal("Smith", ck3LocDB.GetLocBlockForKey(dynasty.Id)!["english"]);
+	}
+
+	[Fact]
+	public void Dynasty_ConstructorFromCharacter_SetsCultureFromFather() {
+		var ck3Characters = new ImperatorToCK3.CK3.Characters.CharacterCollection();
+		var father = new Character("ck3father", "Marcus", BookmarkDate, ck3Characters);
+		father.SetCultureId("latin", null);
+		var ck3Character = new Character("ck3char", "Titus", BookmarkDate, ck3Characters);
+		ck3Characters.Add(father);
+		ck3Characters.Add(ck3Character);
+		ck3Character.Father = father;
+
+		var dynasty = new Dynasty(
+			ck3Character,
+			"cornelii",
+			[],
+			new CulturesDB(),
+			new LocDB("english"),
+			new TestCK3LocDB(),
+			BookmarkDate
+		);
+
+		Assert.Equal("latin", dynasty.CultureId);
 	}
 }
