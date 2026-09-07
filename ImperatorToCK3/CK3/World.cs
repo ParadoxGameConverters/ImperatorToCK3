@@ -1098,9 +1098,29 @@ internal sealed class World {
 		}
 
 		var provincePositions = MapData.ProvincePositions;
-		var provincesWithValidFaith = Provinces
-			.Where(p => !provincesOfReligion.Contains(p) && p.GetFaithId(date) is not null && !MapData.IsImpassable(p.Id))
-			.ToArray();
+
+		// Resolve candidate positions once into parallel arrays to avoid
+		// per-pair dictionary lookups inside the distance loop (O(remaining x candidates)).
+		var candidateProvinces = new List<Province>();
+		var candidateXs = new List<double>();
+		var candidateYs = new List<double>();
+		foreach (var candidate in Provinces) {
+			if (provincesOfReligion.Contains(candidate)) {
+				continue;
+			}
+			if (candidate.GetFaithId(date) is null || MapData.IsImpassable(candidate.Id)) {
+				continue;
+			}
+			if (!provincePositions.TryGetValue(candidate.Id, out var candidatePosition)) {
+				Logger.Warn($"Province {candidate.Id} has no position defined!");
+				continue;
+			}
+
+			candidateProvinces.Add(candidate);
+			candidateXs.Add(candidatePosition.X);
+			candidateYs.Add(candidatePosition.Y);
+		}
+
 		foreach (var province in provincesOfReligion.ToArray()) {
 			if (!provincePositions.TryGetValue(province.Id, out var provincePosition)) {
 				Logger.Warn($"Province {province.Id} has no position defined!");
@@ -1109,21 +1129,16 @@ internal sealed class World {
 
 			Province? closestValidProvince = null;
 			double shortestDistanceSquared = double.MaxValue;
-			foreach (var candidateProvince in provincesWithValidFaith) {
-				if (!provincePositions.TryGetValue(candidateProvince.Id, out var candidatePosition)) {
-					Logger.Warn($"Province {candidateProvince.Id} has no position defined!");
-					continue;
-				}
-
-				var xDiff = provincePosition.X - candidatePosition.X;
-				var yDiff = provincePosition.Y - candidatePosition.Y;
+			for (var i = 0; i < candidateProvinces.Count; ++i) {
+				var xDiff = provincePosition.X - candidateXs[i];
+				var yDiff = provincePosition.Y - candidateYs[i];
 				var distanceSquared = (xDiff * xDiff) + (yDiff * yDiff);
 				if (distanceSquared == 0 || distanceSquared >= shortestDistanceSquared) {
 					continue;
 				}
 
 				shortestDistanceSquared = distanceSquared;
-				closestValidProvince = candidateProvince;
+				closestValidProvince = candidateProvinces[i];
 			}
 			if (closestValidProvince is null) {
 				continue;
