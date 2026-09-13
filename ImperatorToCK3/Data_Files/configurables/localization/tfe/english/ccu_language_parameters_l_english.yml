@@ -9,6 +9,10 @@
  culture_parameter_language_group_pre_greek: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Pre-Greek [language_group|E]"
  culture_parameter_language_group_hatti: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Hattian [language_group|E]"
  culture_parameter_language_group_burusho: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Burusho [language_group|E]"
+ culture_parameter_language_group_bai: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Bai [language_group|E]"
+ culture_parameter_language_group_lolo_burmese: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Lolo-Burmese [language_group|E]"
+ culture_parameter_language_group_dongyi: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Dongyi [language_group|E]"
+ culture_parameter_language_group_tujia: "#P +[EmptyScope.ScriptValue('same_language_group_cultural_acceptance')|0]#! [cultural_acceptance_baseline|E] with Cultures sharing the Tujian [language_group|E]"
 
 
  # Language families
