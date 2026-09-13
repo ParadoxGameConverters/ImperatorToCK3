@@ -130,6 +130,46 @@ public class DecisionsOutputterTests {
 		}
 	}
 
+	[Fact]
+	public async Task ReturnsWithoutThrowingWhenDecisionFileIsEmpty() {
+		var tempRoot = CreateTempDir();
+		try {
+			var outputModPath = Path.Combine(tempRoot, "outputMod");
+			WriteDecisionFile(outputModPath, string.Empty);
+
+			var exception = await Record.ExceptionAsync(() => DecisionsOutputter.TweakERERestorationDecision(
+				CreateTitlesWithByzantium(),
+				new ModFilesystem(Path.Combine(tempRoot, "ck3"), Array.Empty<Mod>()),
+				outputModPath));
+
+			Assert.Null(exception);
+			Assert.Equal(string.Empty, await ReadOutputDecisionFile(outputModPath));
+		} finally {
+			TryDeleteDir(tempRoot);
+		}
+	}
+
+	[Fact]
+	public async Task ReturnsWithoutThrowingWhenDecisionFileIsUnparseable() {
+		var tempRoot = CreateTempDir();
+		try {
+			var outputModPath = Path.Combine(tempRoot, "outputMod");
+			var originalText = "{{{{{{ not a valid script file ======";
+			WriteDecisionFile(outputModPath, originalText);
+
+			var exception = await Record.ExceptionAsync(() => DecisionsOutputter.TweakERERestorationDecision(
+				CreateTitlesWithByzantium(),
+				new ModFilesystem(Path.Combine(tempRoot, "ck3"), Array.Empty<Mod>()),
+				outputModPath));
+
+			Assert.Null(exception);
+			var actualText = await ReadOutputDecisionFile(outputModPath);
+			Assert.DoesNotContain("e_byzantium.previous_holder", actualText);
+		} finally {
+			TryDeleteDir(tempRoot);
+		}
+	}
+
 	private static Title.LandedTitles CreateTitlesWithByzantium() {
 		var titles = new Title.LandedTitles();
 		titles.Add("e_byzantium");
