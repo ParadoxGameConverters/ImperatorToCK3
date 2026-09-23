@@ -25,7 +25,7 @@ converter_roa_out_of_scope_region = {
 {% endif %}
 
 
-{% unless wtwsms %}
+{% unless wtwsms or tfe %}
 ###############
 ## Out of scope Indonesia
 ###############
@@ -122,19 +122,6 @@ irtock3_de_jure_region_e_zhongyuan = {
 	}
 }
 
-irtock3_de_jure_region_e_yongliang = {
-	duchies = {
-		# k_guannei
-		d_yongxing d_fengxiang d_jinshang d_binning d_fufang d_jingyuan d_qincheng d_xingfeng
-
-		# k_hexi
-		d_hexi d_longyou d_qilian d_gansu d_guasha
-
-		# k_xia
-		d_shuofang d_xiasui d_tiande d_langshan d_xiutu d_juyan
-	}
-}
-
 irtock3_de_jure_region_e_jingyang = {
 	duchies = {
 		# k_jiangdong
@@ -206,6 +193,26 @@ irtock3_de_jure_region_h_china = {
 }
 {% endunless %}
 
+{% unless wtwsms %} # TFE has part of this
+irtock3_de_jure_region_e_yongliang = {
+	duchies = {
+		{% if tfe %}
+		# TFE uses these titles
+		d_guiyi d_jiuquan d_yijinai d_ganzhou d_qilin d_shanzhou d_liangzhou d_zhenfan d_wuluhai
+		{% else %}
+		# k_guannei
+		d_yongxing d_fengxiang d_jinshang d_binning d_fufang d_jingyuan d_qincheng d_xingfeng
+
+		# k_hexi
+		d_hexi d_longyou d_qilian d_gansu d_guasha
+
+		# k_xia
+		d_shuofang d_xiasui d_tiande d_langshan d_xiutu d_juyan
+		{% endif %}
+	}
+}
+{% endunless %}
+
 ###############################
 ### Regions to have always have
 ###############################
@@ -262,47 +269,67 @@ irtock3_rome_empire_division_britannia = {
 		d_iceland
 		{% endunless %}
 	}
-{% if wtwsms %}
+	
+	{% if wtwsms %}
 	kingdoms = { k_iceland }
-{% endif %}
+	{% endif %}
 }
 
 irtock3_rome_empire_division_galliarum = {
 	duchies = {
 		d_luxembourg d_upper_lorraine d_bar d_julich d_champagne d_brabant d_valois d_burgundy d_flanders d_upper_burgundy d_normandy d_transjurania d_orleans d_anjou d_berry d_savoie d_currezia d_dauphine d_bourbon d_brittany d_provence d_auvergne d_poitou d_languedoc d_toulouse d_aquitaine d_gascogne d_armagnac d_barcelona d_viscaya d_aragon d_navarra d_valencia d_cantabria d_asturias d_castilla d_leon d_toledo d_murcia d_galicia d_cordoba d_porto d_granada d_badajoz d_coimbra d_sevilla d_beja d_rif d_algarve d_fes d_mallorca
-{% if wtwsms %}
+		
+		{% if wtwsms %}
 		d_tingitana
-{% endif %}
+		{% endif %}
+
+		{% if tfe %} # TFE has different de jure setup
+		d_alsace
+		{% endif %}
 	}
-{% if wtwsms %}
+	
+	{% if wtwsms %}
 	kingdoms = { k_gallaecia k_lusitania k_baetica k_cartaginensis k_lugdunensis k_belgica k_germania_inferior k_maxima_sequanorum }
-{% endif %}
+	{% endif %}
+	
+	{% if tfe %} # TFE has different de jure setup
+	counties = {
+		c_zeeland c_guelders c_cologne c_koblenz c_mainz c_worms c_speyer c_kaiserslautern
+	}
+	{% endif %}
 }
 
 irtock3_rome_empire_division_germania = {
 	duchies = {
-		d_angria d_westfalen d_frisia d_utrecht d_holstein d_ostfalen d_nordmark d_lower_lorraine d_hesse d_anhalt d_thuringia d_holland d_ostmark d_west_franconia d_east_franconia d_meissen d_lausitz d_nordgau d_bohemia d_alsace d_swabia d_bavaria d_augsburg d_salzburg d_osterreich d_moravia
+		d_angria d_westfalen d_frisia d_holstein d_ostfalen d_nordmark d_hesse d_anhalt d_thuringia d_ostmark d_east_franconia d_meissen d_lausitz d_nordgau d_bohemia d_swabia d_bavaria d_augsburg d_salzburg d_osterreich d_moravia
 
 		{% if tfe %}
 		# TFE uses this duchy in Bohemia
 		d_freistadt
-		{% else %}
-		# TFE doesn't have this title
-		d_gelre
+		{% else %} # TFE either doesn't use these titles, or changes their de jure setup
+		d_gelre d_holland d_utrecht d_lower_lorraine d_west_franconia d_alsace
 		{% endif %}
 	}
-{% if wtwsms %}
+	
+	{% if wtwsms %}
 	kingdoms = { k_raetia k_vindelicia k_danubia }
-{% endif %}
+	{% endif %}
+	
+	{% if tfe %} # TFE has different de jure setup
+	counties = {
+		c_holland c_westfriesland c_zutphen c_arnhem c_groningen c_oversticht c_nedersticht c_dortmund c_arnsberg c_mark c_bergh c_sayn c_frankfurt c_klingenberg c_erbach c_vaihingen c_durne
+	}
+	{% endif %}
 }
 
 irtock3_rome_empire_division_italiae = {
 	duchies = {
 		d_tyrol d_lombardia d_verona d_emilia d_venice d_friuli d_carinthia d_romagna d_piedmonte d_toscana d_genoa d_istria d_ancona d_pisa d_spoleto d_latium d_capua d_benevento d_apulia d_salerno d_calabria d_sicily d_corsica d_sardinia d_tlemcen d_tahert d_alger d_zab d_bejaia d_kroumerie d_kairouan d_tunis d_jerid d_gabes d_tripolitania d_syrte
 	}
-{% if wtwsms %}
+	
+	{% if wtwsms %}
 	kingdoms = { k_africa }
-{% endif %}
+	{% endif %}
 }
 
 irtock3_rome_empire_division_libya_interior = {
@@ -338,29 +365,59 @@ irtock3_rome_empire_division_aethiopia = {
 
 irtock3_rome_empire_division_orientis = {
 	duchies = {
-		d_thrace d_optimatoi d_philippopolis d_opsikion d_strymon d_dobrudja d_turnovo d_aegean_islands d_thracesia d_anatolia d_bucellaria d_ephese d_paphlagonia d_cappadocia d_cibyrrhaeot d_charsianon d_armeniac d_cilicia d_sebasteia d_chaldia d_mesopotamia d_edessa d_tao-klarjeti d_antioch d_abkhazia d_aleppo d_diyarmudar d_georgia d_homs d_lebanon d_palmyra d_damascus d_urdunn d_palestine d_oultrejourdain d_sinai d_cairo d_delta d_al-said d_alexandria d_al-wahat d_cyrenaica d_eastern_desert d_cyprus
-{% if wtwsms %}
+		d_thrace d_optimatoi d_philippopolis d_opsikion d_dobrudja d_turnovo d_aegean_islands d_thracesia d_anatolia d_bucellaria d_ephese d_paphlagonia d_cappadocia d_cibyrrhaeot d_charsianon d_armeniac d_cilicia d_sebasteia d_chaldia d_mesopotamia d_edessa d_tao-klarjeti d_antioch d_abkhazia d_aleppo d_diyarmudar d_georgia d_homs d_lebanon d_palmyra d_damascus d_urdunn d_palestine d_oultrejourdain d_sinai d_cairo d_delta d_al-said d_alexandria d_al-wahat d_cyrenaica d_eastern_desert d_cyprus
+		
+		{% if wtwsms %}
 		d_armenia_prima d_armenia_secunda
-{% endif %}
+		{% endif %}
+
+		{% if tfe %} # TFE has different de jure setup
+		d_amman d_adrianopolis d_melitene d_sophene d_western_armenia
+		{% else %}
+		d_strymon
+		{% endif %}
 	}
-{% if wtwsms %}
+
+	{% if wtwsms %}
 	kingdoms = { k_thrace k_byzantium k_lazica }
-{% endif %}
+	{% endif %}
+
+	{% if tfe %} # TFE uses different de jure setup
+	counties = {
+		c_mosynopolis c_maan c_al_aqabah
+	}
+	{% endif %}
 }
 
 irtock3_rome_empire_division_illyrici = {
 	duchies = {
 		d_steyermark d_gyor d_slavonia d_krain d_somogy d_lower_bosna d_croatia d_syrmia d_bosna d_macva d_usora d_dalmatia d_rashka d_vidin d_duklja d_bulgaria d_ragusa d_dyrrachion d_thessalonika d_epirus d_thessaly d_cephalonia d_athens d_achaia d_krete
 	}
-{% if wtwsms %}
+	
+	{% if wtwsms %}
 	kingdoms = { k_moesia_superior k_pannonia }
-{% endif %}
+	{% endif %}
+
+	{% if tfe %}
+	# TFE uses different de jure setup
+	counties = {
+		c_visegrad c_szekesfehervar c_sredets c_velbazhd c_pirin c_serres c_strumica c_ohrid
+	}
+	{% endif %}
 }
 
 irtock3_rome_empire_division_pannonia = {
 	duchies = {
-		d_transylvanian_alps d_muntenia d_oltenia d_transylvania d_moldova d_bugeac d_bukovina d_bihar d_temes d_transcarpathia d_visegrad d_bacs d_ungvar d_nyitra
+		d_transylvanian_alps d_muntenia d_oltenia d_transylvania d_moldova d_bugeac d_bukovina d_bihar d_temes d_transcarpathia d_bacs d_ungvar d_nyitra
+
+		{% unless tfe %}
+		d_visegrad # TFE uses different de jure setup
+		{% endunless %}
 	}
+
+	{% if tfe %}
+	counties = { c_hewes c_komarom } # TFE uses different de jure setup
+	{% endif %}
 }
 
 irtock3_rome_empire_division_vistulia = {
@@ -372,42 +429,73 @@ irtock3_rome_empire_division_vistulia = {
 irtock3_rome_empire_division_fennia = {
 	duchies = {
 		d_latgalians d_livonia d_novgorod d_esthonia d_polotsk d_vepsia d_luki d_smolensk d_minsk d_opolye d_chudia d_vologda d_nizhny_novgorod d_karachev d_novosil d_biarmia d_ryazan d_ustyug
+
+		{% if tfe %}
+		# TFE uses this title
+		d_pihkova
+		{% endif %}
 	}
-{% if wtwsms %}
+
+	{% if wtwsms %}
 	kingdoms = { k_bjarmaland }
-{% endif %}
+	{% endif %}
 }
 
 irtock3_rome_empire_division_scandia = {
 	duchies = {
 		d_svealand d_bergslagen d_ostergotland d_norrland d_finland d_smaland d_vastergotland d_dalir d_jamtland d_viken d_karelia d_savo d_pohjanmaa d_skane d_trandalog d_aarjetje d_vuovdisamieana d_halogaland d_duortnoseatnu d_giemajohka d_sjaelland d_agder d_vestlandi d_guoldat d_slesvig d_jylland d_gotland
 	}
-{% if wtwsms %}
+	
+	{% if wtwsms %}
 	kingdoms = { k_norway k_sapmi k_finland }
-{% endif %}
+	{% endif %}
 }
 
 irtock3_rome_empire_division_arabia = {
 	duchies = {
-		d_kufa d_basra d_jawf d_najd d_bahrain d_yamama d_medina d_amman d_al-hasa d_shammar d_mecca d_asir d_oman d_sanaa d_jawf-al-yamani d_taizz d_hadramawt d_mahra d_socotra
+		d_kufa d_basra d_jawf d_najd d_bahrain d_yamama d_medina d_al-hasa d_mecca d_asir d_oman d_sanaa d_jawf-al-yamani d_taizz d_hadramawt d_mahra d_socotra
+
+		{% unless tfe %}
+		# TFE has different de jure setup
+		d_amman d_shammar
+		{% endunless %}
 	}
+
+	{% if tfe %} # TFE uses different de jure setup
+	counties = { c_tabuk c_wajh c_tayma }
+	{% endif %}
 }
 
 irtock3_rome_empire_division_persia = {
 	duchies = {
-		d_vaspurakan d_greater_armenia d_azerbaijan d_diyarbakr d_kurdistan d_diyarrabia d_hamadan d_shirvan d_daylam d_kermanshah d_samarra d_euphrates d_rayy d_isfahan d_khuzestan d_baghdad d_tabaristan d_nishapur d_wasit d_yazd d_gurgan d_fars d_kohestan d_kirman d_herat d_nasa d_sistan d_jabal_kufs d_merv d_hormuz d_makran d_ghur d_zabulistan d_balkh d_kabul
+		d_vaspurakan d_greater_armenia d_azerbaijan d_diyarbakr d_kurdistan d_diyarrabia d_shirvan d_daylam d_kermanshah d_samarra d_euphrates d_rayy d_isfahan d_khuzestan d_baghdad d_tabaristan d_nishapur d_wasit d_yazd d_gurgan d_fars d_kohestan d_kirman d_herat d_nasa d_sistan d_jabal_kufs d_merv d_hormuz d_makran d_ghur d_zabulistan d_balkh d_kabul
+
+		{% if tfe %}
+		# TFE uses these titles
+		d_caspin d_media d_turan d_adrashir_khwarrah d_shapur_khwarrah
+		{% else %}
+		# TFE doesn't have this title
+		d_hamadan
+		{% endif %}
 	}
-{% if wtwsms %}
+
+	{% if wtwsms %}
 	kingdoms = { k_caucasian_albania }
-{% endif %}
+	{% endif %}
+
+	{% if tfe %}
+	# Needed because of TFE's de jure changes
+	counties = { c_aran c_hereti }
+	{% endif %}
 }
 
 irtock3_rome_empire_division_sarmatia = {
 	duchies = {
 		d_kiev d_chernigov d_pereyaslavl d_yedisan d_kizilyedisan d_levedia d_red_levedia d_crimea d_tana d_don_valley d_azov d_khazaria d_alania d_itil d_ciscaucasia d_atyrau d_pecheneg d_aqtobe d_mugodzhar_hills
-{% unless wtwsms %}
+
+		{% unless wtwsms %}
 		d_manatau
-{% endunless %}
+		{% endunless %}
 	}
 }
 
@@ -420,27 +508,34 @@ irtock3_rome_empire_division_uralia_interior = {
 irtock3_rome_empire_division_uralia_ulterior = {
 	duchies = {
 		d_ostyaki d_kurgan d_ishim d_pelym d_kush-murun d_sibir d_konda d_kazym d_tara d_vasyugan_mire d_kazakh d_lanikaz d_baraba_steppe d_kulyndy_steppe d_ala_tau d_salair
-{% unless wtwsms %}
+
+		{% unless wtwsms %}
 		d_tobol-ishim d_atbasar d_aley d_altaishan
-{% endunless %}
+		{% endunless %}
 	}
 }
 
 irtock3_rome_empire_division_tartaria = {
 	duchies = {
 		d_zhetysu d_ili-alatau d_alakol d_tarbagatai d_betpa d_kentarlau d_karkaraly d_gurbantunggut d_semey d_altay d_karabas d_kara_khoja d_saryarka d_karashar d_naiman_gobi d_turgay
-{% unless wtwsms %}
+		{% unless wtwsms %}
 		d_jinghiz d_beshbalik d_degelen d_akaltay d_tokumbay d_qyzylsaryarka d_kokturgay d_loulan
-{% endunless %}
+		{% endunless %}
+
+		{% if tfe or wtwsms %}
+		# TFE/WtWSMS use this title
+		d_kucha
+		{% endif %}
 	}
 }
 
 irtock3_rome_empire_division_parthia = {
 	duchies = {
 		d_kashgar d_badakhshan d_pamir d_ferghana d_khuttal d_chah d_osrushana d_muyunkum d_soghd d_syr_darya d_khorezm d_aral_il d_uzboy d_jemba d_barsuki d_transcaspiana
-{% unless wtwsms %}
+
+		{% unless wtwsms %}
 		d_talas_alatau d_aral_karakum d_garabogazkol
-{% endunless %}
+		{% endunless %}
 	}
 }
 
@@ -458,10 +553,20 @@ irtock3_rome_empire_division_india_intra_gangem = {
 
 irtock3_rome_empire_division_india_extra_gangem = {
 	duchies = {
-		d_sriksetra d_ramannadesa d_arakan d_tagaung d_pagan
-{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
+		d_sriksetra d_arakan d_tagaung d_pagan
+
+		{% unless wtwsms or tfe %}
+		# WtWSMS/TFE don't have these titles yet
 		d_MAL_langkasuka d_MAL_pahang d_tun_sun d_lop_buri d_sukhothai d_haripunjaya d_angkor_borey d_angkor d_mukdahan d_muang_sua d_mongnai d_phonsavan d_yongchang d_sipsongpanna d_baigaur d_vyadhapura d_ratanakiri d_tengchong d_indrapura d_vijaya
-{% endunless %}
+		{% endunless %}
+
+		{% if tfe %}
+		# TFE uses these titles
+		d_pegu d_thaton
+		{% else %}
+		# TFE doesn't have this title
+		d_ramannadesa
+		{% endif %}
 	}
 }
 
@@ -470,20 +575,6 @@ irtock3_rome_empire_division_magna_taprobana = {
 		d_lata d_anupa d_nasikya d_devagiri d_rattapadi d_konkana d_vidharba d_warangal d_kalyani d_racakonda d_daksina_kosala d_vengi d_dandakaranya d_raichur_doab d_udayagiri d_nulambavadi d_chera_nadu d_tondai_nadu d_gangavadi d_kalinga d_pandya_nadu d_tosali d_chola_nadu d_sinhala d_dakhina_desa d_ruhunu
 	}
 }
-
-{% unless wtwsms or tfe %} # WtWSMS/TFE don't have playable East Asia yet.
-irtock3_rome_empire_division_insulae_remotae = {
-	duchies = {
-		d_JAV_mataram d_JAV_taruma d_IDO_bali d_SUM_palembang d_SUM_minangkabau d_SUM_jambi d_IDO_lesser_sunda d_SUM_riau d_SUM_aceh d_IDO_timor d_nias d_handumans d_PHI_tondo d_PHI_ilocana d_PHI_cagayan d_PHI_sandao d_PHI_visayas d_BOR_barune d_PHI_butuan d_PHI_maguindanao d_BOR_kutai d_BOR_santubong d_BOR_tanjungpura d_BOR_nan_sarunai d_liuqiu d_SuMa_luwu d_SuMa_konawe d_SuMa_tompotika d_SuMa_minahasa d_SuMa_maluku d_SuMa_halmahera d_papua
-	}
-}
-
-irtock3_rome_empire_division_insulae_solis = {
-	duchies = {
-		d_sahaliyan d_menas d_sum d_hitakami d_nushiro d_hokurikudo d_east_bando d_tosando d_west_bando d_tokaido d_east_sanindo d_kinai d_nankaido d_east_sanyodo d_west_sanindo d_west_sanyodo d_north_saikaido d_south_saikaido d_tamna d_ruucuu
-	}
-}
-{% endunless %}
 
 irtock3_rome_empire_division_septentrionalis_deserti = {
 	duchies = {
@@ -502,6 +593,18 @@ irtock3_rome_empire_division_septentrionalis_deserti = {
 }
 
 {% unless wtwsms or tfe %} # WtWSMS/TFE don't have playable East Asia yet.
+irtock3_rome_empire_division_insulae_remotae = {
+	duchies = {
+		d_JAV_mataram d_JAV_taruma d_IDO_bali d_SUM_palembang d_SUM_minangkabau d_SUM_jambi d_IDO_lesser_sunda d_SUM_riau d_SUM_aceh d_IDO_timor d_nias d_handumans d_PHI_tondo d_PHI_ilocana d_PHI_cagayan d_PHI_sandao d_PHI_visayas d_BOR_barune d_PHI_butuan d_PHI_maguindanao d_BOR_kutai d_BOR_santubong d_BOR_tanjungpura d_BOR_nan_sarunai d_liuqiu d_SuMa_luwu d_SuMa_konawe d_SuMa_tompotika d_SuMa_minahasa d_SuMa_maluku d_SuMa_halmahera d_papua
+	}
+}
+
+irtock3_rome_empire_division_insulae_solis = {
+	duchies = {
+		d_sahaliyan d_menas d_sum d_hitakami d_nushiro d_hokurikudo d_east_bando d_tosando d_west_bando d_tokaido d_east_sanindo d_kinai d_nankaido d_east_sanyodo d_west_sanindo d_west_sanyodo d_north_saikaido d_south_saikaido d_tamna d_ruucuu
+	}
+}
+
 irtock3_rome_empire_division_serica_ultima = {
 	duchies = {
 		d_BAL_parhae d_BAL_cheolli d_BAL_moe_su d_BAL_dongpyeong d_BAL_southern_balhae d_BAL_yeojintang d_SW_sushenguo d_BAL_buyeo d_BAL_amnok_jangryeong d_BAL_anwon d_BAL_hoewon d_LIAO_shangjing d_SW_ruzheguo d_yukju d_SW_puyudao d_LIAO_dongjing d_liaoxi d_bukgye d_donggye d_gyoju d_eman_boli d_eman_sikhotebei d_SW_qingxingan d_SW_heicheziguo d_LIAO_linhuang d_gaeseong d_gwangju d_LIAO_zhongjing d_SW_lingxiguo d_haeju d_eman_amar d_eman_samagero d_SW_dashiweiguo d_gyeongju d_chungju d_eman_bureya d_eman_nivkhia d_jinju d_jeonju d_yanyun_yuyi d_naju
@@ -531,10 +634,17 @@ irtock3_rome_empire_division_serica_septentrionalis = {
 		d_dongji d_shanguo d_heyang d_zhenghua d_chenxu d_hezhong d_zelu d_biansong d_xingming d_yuncao d_hedong d_weibo d_xusi d_chengde d_yanhai d_yanmen d_cangjing d_yideng d_yingmo d_ziqing d_xinan d_yunshuo d_youzhou d_sanggan
 	}
 }
+{% endunless %}
 
+{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 irtock3_rome_empire_division_serica_deserti = {
 	duchies = {
+		{% if tfe %}
+		# TFE uses these titles
+		d_guiyi d_jiuquan d_yijinai d_ganzhou d_qilin d_shanzhou d_liangzhou d_zhenfan d_wuluhai
+		{% else %}
 		d_yongxing d_fengxiang d_jinshang d_binning d_xingfeng d_jingyuan d_fufang d_qincheng d_shuofang d_xiasui d_hexi d_longyou d_xiutu d_langshan d_qilian d_tiande d_gansu d_juyan d_guasha
+		{% endif %}
 	}
 }
 {% endunless %}

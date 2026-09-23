@@ -1704,8 +1704,78 @@ irtock3_form_prefecture_magna_taprobana_decision = {
 	}
 }
 
+# irtock3_rome_empire_division_septentrionalis_deserti: "Septentrionalis Deserti"
+irtock3_form_prefecture_septentrionalis_deserti_decision = {
+	picture = {
+		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
+	}
+	desc = irtock3_form_prefecture_desc
+	selection_tooltip = irtock3_form_prefecture_decision_tooltip
+	confirm_text = irtock3_form_prefecture_decision_confirm
+	decision_group_type = roman
 
-{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
+    ai_check_interval_by_tier = {
+		barony = 0
+		county = 0
+		duchy = 0
+		kingdom = 0
+		empire = 0
+		hegemony = @form_prefecture_decision_check_interval
+	}
+
+	is_shown = {
+		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_septentrionalis_deserti }
+	}
+
+	is_valid = {
+		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_septentrionalis_deserti }
+	}
+
+	is_valid_showing_failures_only = {
+		is_landed = yes
+		is_capable_adult = yes
+		is_imprisoned = no
+		is_at_war = no
+		# No need to check if top liege, hegemony is the highest tier.
+	}
+
+	cost = {
+		gold = {
+			value = 1200
+			if = {
+				limit = {
+					OR = {
+						government_has_flag = government_is_nomadic
+						has_treasury = yes
+					}
+				}
+				multiply = 0
+			}
+		}
+		treasury = {
+			value = 1200
+			if = {
+				limit = {
+					has_treasury = no
+				}
+				multiply = 0
+			}
+		}
+		prestige = {
+			value = 0
+			if = {
+				limit = { government_has_flag = government_is_nomadic }
+				add = 2000
+			}
+		}
+	}
+
+	effect = {
+		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_septentrionalis_deserti }
+	}
+}
+
+{% unless wtwsms or tfe %} # WtWSMS/TFE don't have playable East Asia yet.
 # irtock3_rome_empire_division_insulae_remotae: "Insulae Remotae"
 irtock3_form_prefecture_insulae_remotae_decision = {
 	picture = {
@@ -1847,80 +1917,7 @@ irtock3_form_prefecture_insulae_solis_decision = {
 		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_insulae_solis }
 	}
 }
-{% endunless %}
 
-# irtock3_rome_empire_division_septentrionalis_deserti: "Septentrionalis Deserti"
-irtock3_form_prefecture_septentrionalis_deserti_decision = {
-	picture = {
-		reference = "gfx/interface/illustrations/decisions/ep3_decision_roman_restoration.dds"
-	}
-	desc = irtock3_form_prefecture_desc
-	selection_tooltip = irtock3_form_prefecture_decision_tooltip
-	confirm_text = irtock3_form_prefecture_decision_confirm
-	decision_group_type = roman
-
-    ai_check_interval_by_tier = {
-		barony = 0
-		county = 0
-		duchy = 0
-		kingdom = 0
-		empire = 0
-		hegemony = @form_prefecture_decision_check_interval
-	}
-
-	is_shown = {
-		irtock3_form_prefecture_is_shown_trigger = { REGION = irtock3_rome_empire_division_septentrionalis_deserti }
-	}
-
-	is_valid = {
-		irtock3_form_prefecture_is_valid_trigger = { REGION = irtock3_rome_empire_division_septentrionalis_deserti }
-	}
-
-	is_valid_showing_failures_only = {
-		is_landed = yes
-		is_capable_adult = yes
-		is_imprisoned = no
-		is_at_war = no
-		# No need to check if top liege, hegemony is the highest tier.
-	}
-
-	cost = {
-		gold = {
-			value = 1200
-			if = {
-				limit = {
-					OR = {
-						government_has_flag = government_is_nomadic
-						has_treasury = yes
-					}
-				}
-				multiply = 0
-			}
-		}
-		treasury = {
-			value = 1200
-			if = {
-				limit = {
-					has_treasury = no
-				}
-				multiply = 0
-			}
-		}
-		prestige = {
-			value = 0
-			if = {
-				limit = { government_has_flag = government_is_nomadic }
-				add = 2000
-			}
-		}
-	}
-
-	effect = {
-		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_septentrionalis_deserti }
-	}
-}
-
-{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 # irtock3_rome_empire_division_serica_ultima: "Serica Ultima"
 irtock3_form_prefecture_serica_ultima_decision = {
 	picture = {
@@ -2275,7 +2272,9 @@ irtock3_form_prefecture_serica_septentrionalis_decision = {
 		irtock3_form_roman_prefecture_effect = { REGION = irtock3_rome_empire_division_serica_septentrionalis }
 	}
 }
+{% endunless %}
 
+{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 # irtock3_rome_empire_division_serica_deserti: "Serica Deserti"
 irtock3_form_prefecture_serica_deserti_decision = {
 	picture = {
