@@ -622,7 +622,7 @@ internal sealed class World {
 		FrozenSet<Governorship> countyLevelGovernorshipsSet = countyLevelGovernorships.ToFrozenSet();
 
 		foreach (var county in LandedTitles.Counties) {
-			if (county.NobleFamily == true) {
+			if (county.NobleFamily == true || county.Landless == true) {
 				continue;
 			}
 			if (county.CapitalBaronyProvinceId is null) {
@@ -1226,7 +1226,7 @@ internal sealed class World {
 		var date = config.CK3BookmarkDate;
 		List<Title> unheldCounties = [];
 		foreach (var county in LandedTitles.Counties) {
-			if (county.NobleFamily == true) {
+			if (county.NobleFamily == true || county.Landless == true) {
 				continue;
 			}
 
