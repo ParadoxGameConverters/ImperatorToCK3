@@ -7,9 +7,14 @@ namespace ImperatorToCK3.CommonUtils;
 
 internal sealed class SimpleHistoryField : IHistoryField {
 	public string Id { get; }
-	public List<KeyValuePair<string, object>> InitialEntries { get; } = []; // every entry is a <setter, value> pair
 
-	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict { get; } = [];
+	private List<KeyValuePair<string, object>>? initialEntries; // every entry is a <setter, value> pair
+	// Lazily allocated: most fields never get entries, and one history object
+	// is created per character/province/title during conversion.
+	public List<KeyValuePair<string, object>> InitialEntries => initialEntries ??= [];
+
+	private SortedDictionary<Date, List<KeyValuePair<string, object>>>? dateToEntriesDict;
+	public SortedDictionary<Date, List<KeyValuePair<string, object>>> DateToEntriesDict => dateToEntriesDict ??= [];
 
 	private readonly OrderedSet<string> setterKeywords;
 
@@ -24,9 +29,16 @@ internal sealed class SimpleHistoryField : IHistoryField {
 	private SimpleHistoryField(SimpleHistoryField baseField) {
 		Id = baseField.Id;
 		setterKeywords = new OrderedSet<string>(baseField.setterKeywords);
-		InitialEntries = new List<KeyValuePair<string, object>>(baseField.InitialEntries);
-		foreach (var (date, entries) in baseField.DateToEntriesDict) {
-			DateToEntriesDict[date] = new List<KeyValuePair<string, object>>(entries);
+		// Copy from the backing fields (not the lazy properties) so cloning
+		// an empty field allocates nothing on either instance.
+		if (baseField.initialEntries is { Count: > 0 } sourceInitialEntries) {
+			initialEntries = new List<KeyValuePair<string, object>>(sourceInitialEntries);
+		}
+		if (baseField.dateToEntriesDict is { Count: > 0 } sourceDatedEntries) {
+			dateToEntriesDict = new SortedDictionary<Date, List<KeyValuePair<string, object>>>();
+			foreach (var (date, entries) in sourceDatedEntries) {
+				dateToEntriesDict[date] = new List<KeyValuePair<string, object>>(entries);
+			}
 		}
 	}
 

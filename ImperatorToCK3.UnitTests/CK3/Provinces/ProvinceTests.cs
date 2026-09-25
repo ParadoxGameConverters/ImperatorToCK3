@@ -12,10 +12,10 @@ using ImperatorToCK3.Imperator.Geography;
 using ImperatorToCK3.Imperator.States;
 using ImperatorToCK3.Mappers.Culture;
 using ImperatorToCK3.Mappers.Region;
-using ImperatorToCK3.Mappers.Religion;
-using ImperatorToCK3.UnitTests.TestHelpers;
+using ImperatorToCK3.Mappers.Religion;using ImperatorToCK3.UnitTests.TestHelpers;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using Xunit;
 using System;
@@ -52,6 +52,118 @@ public class ProvinceTests {
 		Assert.Equal("orthodox", province.GetFaithId(ck3BookmarkDate));
 		province.SetCultureId("roman", ck3BookmarkDate);
 		Assert.Equal("roman", province.GetCultureId(ck3BookmarkDate));
+	}
+
+	[Fact]
+	public void ImperatorProvincesContainPrimaryAndSecondarySources() {
+		// ImperatorProvinces is cached on first access, so use separate instances.
+		Assert.Empty(new Province(1).ImperatorProvinces);
+
+		var provinceWithPrimary = new Province(2);
+		var primary = new ImperatorToCK3.Imperator.Provinces.Province(10);
+		provinceWithPrimary.PrimaryImperatorProvince = primary;
+		Assert.Equal(primary, Assert.Single(provinceWithPrimary.ImperatorProvinces));
+	}
+
+	private Province InitializeProvinceFromImperator(
+		ImperatorToCK3.Imperator.Provinces.Province primarySource,
+		OrderedSet<ImperatorToCK3.Imperator.Provinces.Province> secondarySources,
+		CultureMapper cultureMapper,
+		ReligionMapper religionMapper) {
+		var ck3Province = new Province(100);
+		ck3Province.InitializeFromImperator(
+			primarySource,
+			secondarySources,
+			new Title.LandedTitles(),
+			cultureMapper,
+			religionMapper,
+			ck3BookmarkDate,
+			new Configuration()
+		);
+		return ck3Province;
+	}
+
+	private static ImperatorToCK3.Imperator.Provinces.Province MakeIRProvince(
+		ulong id, string culture, string religionId, Country? owner = null) {
+		return new ImperatorToCK3.Imperator.Provinces.Province(id) {
+			Culture = culture,
+			ReligionId = religionId,
+			OwnerCountry = owner
+		};
+	}
+
+	private (CultureMapper, ReligionMapper) MakeLinkedMappers() {
+		if (!Cultures.ContainsKey("roman")) {
+			Cultures.GenerateTestCulture("roman");
+		}
+		var cultureMapper = new CultureMapper(
+			new BufferedReader("link = { ir=roman ck3=roman }"),
+			IRRegionMapper,
+			new CK3RegionMapper(),
+			Cultures);
+		var ck3Religions = new ReligionCollection(new Title.LandedTitles());
+		var religion = new Religion("test_religion",
+			new BufferedReader("faiths={ hellenic={} }"), ck3Religions, new ColorFactory());
+		ck3Religions.AddOrReplace(religion);
+		var religionMapper = new ReligionMapper(
+			new BufferedReader("link={ir=hellenic ck3=hellenic}"),
+			ck3Religions,
+			IRRegionMapper,
+			new CK3RegionMapper());
+		return (cultureMapper, religionMapper);
+	}
+
+	[Fact]
+	public void PrimaryReligionAndCultureAreUsedWhenMapped() {
+		var (cultureMapper, religionMapper) = MakeLinkedMappers();
+		var primary = MakeIRProvince(1, "roman", "hellenic");
+
+		var ck3Province = InitializeProvinceFromImperator(primary, [], cultureMapper, religionMapper);
+
+		Assert.Equal("hellenic", ck3Province.GetFaithId(ck3BookmarkDate));
+		Assert.Equal("roman", ck3Province.GetCultureId(ck3BookmarkDate));
+	}
+
+	[Fact]
+	public void SecondaryReligionAndCultureAreUsedWhenPrimaryIsUnmapped() {
+		var (cultureMapper, religionMapper) = MakeLinkedMappers();
+		var primary = MakeIRProvince(1, "unmapped_culture", "unmapped_faith");
+		var secondary = MakeIRProvince(2, "roman", "hellenic");
+
+		var ck3Province = InitializeProvinceFromImperator(
+			primary, [secondary], cultureMapper, religionMapper);
+
+		Assert.Equal("hellenic", ck3Province.GetFaithId(ck3BookmarkDate));
+		Assert.Equal("roman", ck3Province.GetCultureId(ck3BookmarkDate));
+	}
+
+	[Fact]
+	public void CountryReligionAndCultureAreUsedAsFallback() {
+		var (cultureMapper, religionMapper) = MakeLinkedMappers();
+		var owner = Country.Parse(new BufferedReader(
+			"= { religion=hellenic primary_culture=roman }"), 1);
+		var primary = MakeIRProvince(1, "unmapped_culture", "unmapped_faith", owner);
+
+		var ck3Province = InitializeProvinceFromImperator(primary, [], cultureMapper, religionMapper);
+
+		Assert.Equal("hellenic", ck3Province.GetFaithId(ck3BookmarkDate));
+		Assert.Equal("roman", ck3Province.GetCultureId(ck3BookmarkDate));
+	}
+
+	[Fact]
+	public void FaithAndCultureStayEmptyWhenNothingIsMapped() {
+		var (cultureMapper, religionMapper) = MakeLinkedMappers();
+		var primary = MakeIRProvince(1, "unmapped_culture", "unmapped_faith");
+
+		var output = new StringWriter();
+		Console.SetOut(output);
+		var ck3Province = InitializeProvinceFromImperator(primary, [], cultureMapper, religionMapper);
+		var log = output.ToString();
+
+		Assert.Null(ck3Province.GetFaithId(ck3BookmarkDate));
+		Assert.Null(ck3Province.GetCultureId(ck3BookmarkDate));
+		Assert.Contains("Couldn't determine faith", log);
+		Assert.Contains("Couldn't determine culture", log);
 	}
 
 	[Fact]

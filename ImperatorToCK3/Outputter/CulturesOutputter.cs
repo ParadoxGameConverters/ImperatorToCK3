@@ -24,19 +24,53 @@ internal static class CulturesOutputter {
 		var culturesList = cultures.ToList();
 		
 		// Make sure parent cultures are output before their children.
-		// For every culture, check the last index of a parent culture in the list.
-		// If the last parent's index is greater than the current culture's index, swap the two.
+		// Each culture's position is tracked by ID, so parent lookups are O(1)
+		// instead of a full-list scan per culture (O(N^2) overall).
+		var indexById = new Dictionary<string, int>(culturesList.Count);
 		for (var i = 0; i < culturesList.Count; ++i) {
-			var culture = culturesList[i];
-			
+			indexById[culturesList[i].Id] = i;
+		}
+		// A swap moves the last parent before its child; the swapped-in culture is then
+		// rechecked at the same index so multi-level chains (child before parent before
+		// grandparent) get fully ordered. Each swap strictly reduces the ancestor-depth-weighted
+		// position sum in acyclic graphs, so this terminates; the cap below only guards
+		// against parent cycles.
+		var swaps = 0;
+		var maxSwaps = culturesList.Count * culturesList.Count;
+		var cycleWarned = false;
+		var pos = 0;
+		while (pos < culturesList.Count) {
+			var culture = culturesList[pos];
+
 			if (culture.ParentCultureIds.Count == 0) {
+				++pos;
 				continue;
 			}
-			
-			var lastParentIndex = culturesList.FindLastIndex(c => culture.ParentCultureIds.Contains(c.Id));
-			if (lastParentIndex > i) {
-				(culturesList[i], culturesList[lastParentIndex]) = (culturesList[lastParentIndex], culturesList[i]);
+
+			var lastParentIndex = -1;
+			foreach (var parentId in culture.ParentCultureIds) {
+				if (indexById.TryGetValue(parentId, out var parentIndex) && parentIndex > lastParentIndex) {
+					lastParentIndex = parentIndex;
+				}
 			}
+			if (lastParentIndex > pos) {
+				if (swaps >= maxSwaps) {
+					if (!cycleWarned) {
+						Logger.Warn($"Possible culture parent cycle detected involving {culture.Id}, skipping further reordering.");
+						cycleWarned = true;
+					}
+					++pos;
+					continue;
+				}
+				var other = culturesList[lastParentIndex];
+				(culturesList[pos], culturesList[lastParentIndex]) = (other, culture);
+				indexById[culture.Id] = lastParentIndex;
+				indexById[other.Id] = pos;
+				++swaps;
+				// Recheck the swapped-in culture at this index.
+				continue;
+			}
+			++pos;
 		}
 		
 		// Output cultures grouped by heritage.

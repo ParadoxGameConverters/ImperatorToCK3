@@ -61,6 +61,17 @@ public class PillarTests {
 	}
 
 	[Fact]
+	public void PillarParametersAreExposed() {
+		var data = new PillarData {
+			Type = "t",
+			Parameters = new() { ["key1"] = "val1" }
+		};
+		var pillar = new Pillar("p", data);
+
+		Assert.Equal("val1", pillar.Parameters["key1"]);
+	}
+
+	[Fact]
 	public void Serialize_WithoutBracesColorAndNoParameters() {
 		var data = new PillarData {
 			Type = "t",

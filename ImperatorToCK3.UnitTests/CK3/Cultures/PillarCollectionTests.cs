@@ -1,5 +1,7 @@
 ﻿using commonItems;
+using commonItems.Colors;
 using commonItems.Mods;
+using DotLiquid;
 using ImperatorToCK3.CK3.Cultures;
 using System;
 using System.Collections.Generic;
@@ -56,5 +58,205 @@ public class PillarCollectionTests {
 		Exception? ex2 = Record.Exception(() => collection2.LoadPillars(tempModFS, vanillaOnly));
 		// Should not throw KeyNotFoundException for wtwsms/roa/tfe
 		Assert.True(ex2 is null || ex2 is not System.Collections.Generic.KeyNotFoundException);
+	}
+
+	[Fact]
+	public void InvalidatedPillarIsMergedIntoExistingPillar() {
+		var tempRoot = CreateTempPillarsDir(
+			"h_other = { type = heritage }\n" +
+			"h_old = { type = heritage }\n" +
+			"h_new = { REPLACED_BY = { vanilla_ck3 = { h_nonexistent h_old } } type = heritage }\n"
+		);
+		try {
+			OrderedDictionary<string, bool> emptyFlags = [];
+			var collection = new PillarCollection(new ColorFactory(), emptyFlags);
+			collection.LoadConverterPillars(tempRoot, emptyFlags, new Hash());
+
+			// h_new was invalidated by h_old.
+			Assert.Same(collection["h_old"], collection.GetHeritageForId("h_new"));
+			Assert.Null(collection.GetHeritageForId("missing_heritage"));
+
+			// Pillars added directly are found by scanning the collection.
+			collection.AddOrReplace(new Pillar("h_scan", new PillarData { Type = "heritage" }));
+			Assert.Equal("h_scan", collection.GetHeritageForId("h_scan")?.Id);
+		} finally {
+			Directory.Delete(tempRoot, recursive: true);
+		}
+	}
+
+	[Fact]
+	public void InvalidatingIdsFromInactiveModFlagAreIgnored() {
+		var tempRoot = CreateTempPillarsDir(
+			"h_old = { type = heritage }\n" +
+			"h_new = { REPLACED_BY = { mymod = { h_old } } type = heritage }\n"
+		);
+		try {
+			OrderedDictionary<string, bool> flags = new() { ["mymod"] = false };
+			var collection = new PillarCollection(new ColorFactory(), flags);
+			collection.LoadConverterPillars(tempRoot, flags, new Hash());
+
+			// mymod is inactive, so h_new is loaded normally instead of being merged.
+			Assert.Equal("h_new", collection.GetHeritageForId("h_new")?.Id);
+		} finally {
+			Directory.Delete(tempRoot, recursive: true);
+		}
+	}
+
+	[Fact]
+	public void InvalidatingIdsFromActiveModFlagAreApplied() {
+		var tempRoot = CreateTempPillarsDir(
+			"h_old = { type = heritage }\n" +
+			"h_new = { REPLACED_BY = { mymod = { h_old } } type = heritage }\n"
+		);
+		try {
+			OrderedDictionary<string, bool> flags = new() { ["mymod"] = true };
+			var collection = new PillarCollection(new ColorFactory(), flags);
+			collection.LoadConverterPillars(tempRoot, flags, new Hash());
+
+			Assert.Same(collection["h_old"], collection.GetHeritageForId("h_new"));
+		} finally {
+			Directory.Delete(tempRoot, recursive: true);
+		}
+	}
+
+	[Fact]
+	public void GetLanguageForId_FindsScannedAndCachedPillars() {
+		var collection = new PillarCollection(new ColorFactory(), []);
+		collection.AddOrReplace(new Pillar("lang_x", new PillarData { Type = "language" }));
+
+		// First call scans the collection, second call uses the cache.
+		Assert.Equal("lang_x", collection.GetLanguageForId("lang_x")?.Id);
+		Assert.Equal("lang_x", collection.GetLanguageForId("lang_x")?.Id);
+		Assert.Null(collection.GetLanguageForId("missing_language"));
+	}
+
+	[Theory]
+	[InlineData("wtwsms")]
+	[InlineData("tfe")]
+	[InlineData("roa")]
+	public void HeritageWithoutRequiredParametersLogsWarnings(string activeFlag) {
+		var tempRoot = CreateTempPillarsDir("h_test = { type = heritage }\n");
+		try {
+			OrderedDictionary<string, bool> flags = new() { [activeFlag] = true };
+			var collection = new PillarCollection(new ColorFactory(), flags);
+
+			var consoleOut = new StringWriter();
+			Console.SetOut(consoleOut);
+			collection.LoadConverterPillars(tempRoot, flags, new Hash());
+
+			var log = consoleOut.ToString();
+			Assert.Contains("Heritage h_test is missing required heritage_family parameter!", log);
+			Assert.Contains("Heritage h_test is missing required heritage_group parameter!", log);
+		} finally {
+			Directory.Delete(tempRoot, recursive: true);
+		}
+	}
+
+	[Theory]
+	[InlineData("wtwsms")]
+	[InlineData("tfe")]
+	[InlineData("roa")]
+	public void LanguageWithoutRequiredParametersLogsWarnings(string activeFlag) {
+		var tempRoot = CreateTempPillarsDir("l_test = { type = language }\n");
+		try {
+			OrderedDictionary<string, bool> flags = new() { [activeFlag] = true };
+			var collection = new PillarCollection(new ColorFactory(), flags);
+
+			var consoleOut = new StringWriter();
+			Console.SetOut(consoleOut);
+			collection.LoadConverterPillars(tempRoot, flags, new Hash());
+
+			var log = consoleOut.ToString();
+			if (activeFlag == "tfe") {
+				Assert.Contains("Language l_test is missing required language_family parameter!", log);
+				Assert.Contains("Language l_test is missing required language_group parameter!", log);
+			} else {
+				Assert.Contains("Language l_test is missing required language_family parameter!", log);
+				Assert.Contains("Language l_test is missing required language_branch parameter!", log);
+			}
+		} finally {
+			Directory.Delete(tempRoot, recursive: true);
+		}
+	}
+
+	[Fact]
+	public void HeritageWithOnlyGroupParameterSkipsGroupWarning() {
+		var tempRoot = CreateTempPillarsDir(
+			"h_test = { type = heritage parameters = { heritage_group_test = yes } }\n");
+		try {
+			OrderedDictionary<string, bool> flags = new() { ["tfe"] = true };
+			var collection = new PillarCollection(new ColorFactory(), flags);
+
+			var consoleOut = new StringWriter();
+			Console.SetOut(consoleOut);
+			collection.LoadConverterPillars(tempRoot, flags, new Hash());
+
+			var log = consoleOut.ToString();
+			Assert.Contains("Heritage h_test is missing required heritage_family parameter!", log);
+			Assert.DoesNotContain("heritage_group", log);
+		} finally {
+			Directory.Delete(tempRoot, recursive: true);
+		}
+	}
+
+	[Fact]
+	public void HeritageWithOnlyFamilyParameterSkipsFamilyWarning() {		var tempRoot = CreateTempPillarsDir(
+			"h_test = { type = heritage parameters = { heritage_family_test = yes } }\n");
+		try {
+			OrderedDictionary<string, bool> flags = new() { ["tfe"] = true };
+			var collection = new PillarCollection(new ColorFactory(), flags);
+
+			var consoleOut = new StringWriter();
+			Console.SetOut(consoleOut);
+			collection.LoadConverterPillars(tempRoot, flags, new Hash());
+
+			var log = consoleOut.ToString();
+			Assert.DoesNotContain("heritage_family", log);
+			Assert.Contains("Heritage h_test is missing required heritage_group parameter!", log);
+		} finally {
+			Directory.Delete(tempRoot, recursive: true);
+		}
+	}
+
+	[Fact]
+	public void LanguageWithAllParametersLogsNoWarnings() {
+		var tempRoot = CreateTempPillarsDir(
+			"l_test = { type = language parameters = { language_family_test = yes language_branch_test = yes language_group_test = yes } }\n");
+		try {
+			OrderedDictionary<string, bool> flags = new() { ["wtwsms"] = true, ["tfe"] = true };
+			var collection = new PillarCollection(new ColorFactory(), flags);
+
+			var consoleOut = new StringWriter();
+			Console.SetOut(consoleOut);
+			collection.LoadConverterPillars(tempRoot, flags, new Hash());
+
+			Assert.DoesNotContain("missing required", consoleOut.ToString());
+		} finally {
+			Directory.Delete(tempRoot, recursive: true);
+		}
+	}
+
+	[Fact]
+	public void PillarOfOtherTypeSkipsHeritageAndLanguageValidation() {
+		var tempRoot = CreateTempPillarsDir("p_test = { type = ethnicity }\n");
+		try {
+			OrderedDictionary<string, bool> flags = new() { ["tfe"] = true };
+			var collection = new PillarCollection(new ColorFactory(), flags);
+
+			var consoleOut = new StringWriter();
+			Console.SetOut(consoleOut);
+			collection.LoadConverterPillars(tempRoot, flags, new Hash());
+
+			Assert.DoesNotContain("missing required", consoleOut.ToString());
+			Assert.Equal("ethnicity", collection["p_test"].Type);
+		} finally {
+			Directory.Delete(tempRoot, recursive: true);
+		}
+	}
+
+	private static string CreateTempPillarsDir(string fileContent) {		string tempRoot = Path.Combine(Path.GetTempPath(), "PillarCollectionTests", Guid.NewGuid().ToString("N"));
+		Directory.CreateDirectory(tempRoot);
+		File.WriteAllText(Path.Combine(tempRoot, "pillars.txt"), fileContent);
+		return tempRoot;
 	}
 }

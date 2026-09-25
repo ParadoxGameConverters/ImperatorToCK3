@@ -8,6 +8,7 @@ using ImperatorToCK3.CK3.Titles;
 using ImperatorToCK3.Imperator.Pops;
 using ImperatorToCK3.Mappers.HolySiteEffect;
 using System;
+using System.IO;
 using System.Linq;
 using Xunit;
 using ReligionCollection = ImperatorToCK3.CK3.Religions.ReligionCollection;
@@ -245,5 +246,63 @@ public class ReligionCollectionTests {
 		religions.DoctrineGroups["doctrine_group_a"].DoctrineIds.Should()
 			.BeEquivalentTo(new[] { "doctrine_a1", "doctrine_a2" });
 		religions.DoctrineGroups.ContainsKey("doctrine_group_b").Should().BeTrue();
+	}
+
+	[Fact]
+	public void MissingDoctrinesAreReplacedWithFallbacks() {
+		var tempRoot = Path.Combine(Path.GetTempPath(), "ReligionFallbackTests", Guid.NewGuid().ToString("N"));
+		try {
+			Directory.CreateDirectory(Path.Combine(tempRoot, "common", "religion", "doctrine_group_types"));
+			File.WriteAllText(
+				Path.Combine(tempRoot, "common", "religion", "doctrine_group_types", "groups.txt"),
+				"doctrine_theism = { doctrine_types = { doctrine_other doctrine_polytheist } }\n" +
+				"doctrine_coronation = { doctrine_types = { doctrine_no_anointment } }\n" +
+				"doctrine_funeral = { doctrine_types = { doctrine_funeral_stoic } }\n" +
+				"doctrine_pilgrimage = { doctrine_types = { doctrine_pilgrimage_encouraged } }\n");
+			var faithsFile = Path.Combine(tempRoot, "faiths.liquid");
+			File.WriteAllText(faithsFile,
+				"test_religion = { faiths = { bare_faith = { } } }\n");
+
+			var religions = new ReligionCollection(new Title.LandedTitles());
+			religions.LoadDoctrines(new ModFilesystem(tempRoot, Array.Empty<Mod>()));
+			religions.LoadConverterFaiths(faithsFile, colorFactory, liquidVariables: new Hash());
+
+			var faith = religions.GetFaith("bare_faith");
+			Assert.NotNull(faith);
+			faith.DoctrineIds.Should().Contain(new[] {
+				"doctrine_polytheist",
+				"doctrine_no_anointment",
+				"doctrine_funeral_stoic",
+				"doctrine_pilgrimage_encouraged"
+			});
+		} finally {
+			Directory.Delete(tempRoot, recursive: true);
+		}
+	}
+
+	[Fact]
+	public void ReplaceableHolySitesWarnOnUnexpectedValuesAndMissingFaiths() {
+		var tempFile = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName() + ".txt");
+		try {
+			File.WriteAllText(tempFile,
+				"religion_a_faith = { site1 }\n" +
+				"missing_faith = all\n" +
+				"religion_b_faith = 5\n");
+
+			var religions = new ReligionCollection(new Title.LandedTitles());
+			religions.LoadReligions(ck3ModFS, colorFactory);
+
+			var output = new StringWriter();
+			Console.SetOut(output);
+			religions.LoadReplaceableHolySites(tempFile);
+			var log = output.ToString();
+
+			religions.ReplaceableHolySitesByFaith["religion_a_faith"].Should().BeEquivalentTo("site1");
+			Assert.DoesNotContain("religion_b_faith", religions.ReplaceableHolySitesByFaith.Keys);
+			log.Should().Contain("Unexpected value: 5");
+			log.Should().Contain("Replaceable holy sites not loaded for missing faiths: missing_faith");
+		} finally {
+			File.Delete(tempFile);
+		}
 	}
 }

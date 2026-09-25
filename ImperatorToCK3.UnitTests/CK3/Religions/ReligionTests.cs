@@ -207,8 +207,7 @@ public class ReligionTests {
 	}
 
 	[Fact]
-	public void FaithAttributesAreParsedAndStored() {
-		// Arrange: Create a religion with a faith that has custom attributes (not specially handled keywords)
+	public void FaithAttributesAreParsedAndStored() {		// Arrange: Create a religion with a faith that has custom attributes (not specially handled keywords)
 		var reader = new BufferedReader(@"{
 			faiths = {
 				test_faith = {
@@ -234,5 +233,18 @@ public class ReligionTests {
 			"special_mechanic = yes",
 			"localization={"
 		);
+	}
+
+	[Fact]
+	public void Serialize_WithoutBraces_OmitsOuterBraces() {
+		var reader = new BufferedReader("{ doctrine = doctrine_no_head }");
+		var religions = new ReligionCollection(new Title.LandedTitles());
+		var religion = new Religion("test_religion", reader, religions, new ColorFactory());
+
+		var withoutBraces = religion.Serialize(indent: "", withBraces: false);
+		Assert.StartsWith("doctrine=doctrine_no_head", withoutBraces.TrimStart());
+
+		var withBraces = religion.Serialize(indent: "", withBraces: true);
+		Assert.StartsWith("{", withBraces.TrimStart());
 	}
 }

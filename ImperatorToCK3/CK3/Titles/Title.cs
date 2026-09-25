@@ -1015,8 +1015,10 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 				return;
 			}
 			deJureLiege?.deJureVassals.Remove(Id);
+			deJureLiege?.InvalidateCountyProvinceIdsCache();
 			deJureLiege = value;
 			value?.deJureVassals.AddOrReplace(this);
+			value?.InvalidateCountyProvinceIdsCache();
 		}
 	}
 	public Title? GetDeFactoLiege(Date date) { // direct de facto liege title
@@ -1648,9 +1650,30 @@ internal sealed partial class Title : IPDXSerializable, IIdentifiable<string> {
 	}
 
 	// used by county titles only
-	[commonItems.Serialization.NonSerialized] public IEnumerable<ulong> CountyProvinceIds => DeJureVassals
-		.Where(v => v.Rank == TitleRank.barony && v.ProvinceId.HasValue)
-		.Select(v => v.ProvinceId!.Value);
+	[commonItems.Serialization.NonSerialized] public IReadOnlyList<ulong> CountyProvinceIds {
+		get {
+			// Cached because this property is queried per province in hot loops
+			// (outputters, region checks). Invalidated when de jure vassals change.
+			// Immutable, so callers cannot corrupt the cached state.
+			cachedCountyProvinceIds ??= BuildCountyProvinceIds();
+			return cachedCountyProvinceIds.Value;
+		}
+	}
+	private ImmutableArray<ulong>? cachedCountyProvinceIds;
+
+	private ImmutableArray<ulong> BuildCountyProvinceIds() {
+		var builder = ImmutableArray.CreateBuilder<ulong>();
+		foreach (var vassal in deJureVassals) {
+			if (vassal.Rank == TitleRank.barony && vassal.ProvinceId.HasValue) {
+				builder.Add(vassal.ProvinceId.Value);
+			}
+		}
+		return builder.ToImmutable();
+	}
+
+	private void InvalidateCountyProvinceIdsCache() {
+		cachedCountyProvinceIds = null;
+	}
 	[commonItems.Serialization.NonSerialized] private string CapitalBaronyId { get; set; } = string.Empty; // used when parsing inside county to save first barony
 	[commonItems.Serialization.NonSerialized] public ulong? CapitalBaronyProvinceId { get; private set; } // county barony's province; 0 is not a valid barony ID
 

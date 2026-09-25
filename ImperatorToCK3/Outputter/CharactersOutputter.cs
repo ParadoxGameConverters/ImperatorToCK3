@@ -45,7 +45,10 @@ internal static class CharactersOutputter {
 		await using var charactersFromIROutput = FileHelper.OpenWriteWithRetries(pathForCharactersFromIR);
 		foreach (var character in charactersFromIR) {
 			CharacterOutputter.WriteCharacter(sb, character, conversionDate, ck3BookmarkDate);
-			await charactersFromIROutput.WriteAsync(sb.ToString());
+			// Write chunks directly to avoid an intermediate full-size string allocation per character.
+			foreach (var chunk in sb.GetChunks()) {
+				await charactersFromIROutput.WriteAsync(chunk);
+			}
 			sb.Clear();
 		}
 
@@ -54,7 +57,9 @@ internal static class CharactersOutputter {
 		await using var charactersFromCK3Output = FileHelper.OpenWriteWithRetries(pathForCharactersFromCK3, Encoding.UTF8);
 		foreach (var character in charactersFromCK3) {
 			CharacterOutputter.WriteCharacter(sb, character, conversionDate, ck3BookmarkDate);
-			await charactersFromCK3Output.WriteAsync(sb.ToString());
+			foreach (var chunk in sb.GetChunks()) {
+				await charactersFromCK3Output.WriteAsync(chunk);
+			}
 			sb.Clear();
 		}
 
@@ -101,7 +106,9 @@ internal static class CharactersOutputter {
 			sb.AppendLine("\tenabled=yes");
 			sb.AppendLine("}");
 
-			await output.WriteAsync(sb.ToString());
+			foreach (var chunk in sb.GetChunks()) {
+				await output.WriteAsync(chunk);
+			}
 			sb.Clear();
 		}
 	}

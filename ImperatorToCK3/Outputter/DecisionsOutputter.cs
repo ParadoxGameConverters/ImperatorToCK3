@@ -4,6 +4,7 @@ using CWTools.CSharp;
 using CWTools.Parser;
 using CWTools.Process;
 using ImperatorToCK3.CK3.Titles;
+using System;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -34,12 +35,27 @@ internal static class DecisionsOutputter {
 			Logger.Warn($"Can't find {relativeDecisionsFilePath}!");
 			return;
 		}
+		Logger.Debug($"Tweaking ERE restoration decision in {decisionsFilePath}.");
 
+		try {
+			await TweakDecisionFile(decisionsFilePath, outputModPath, relativeDecisionsFilePath);
+		} catch (Exception ex) {
+			Logger.Debug($"Exception while tweaking ERE restoration decision: {ex}");
+			Logger.Warn($"Failed to tweak ERE restoration decision in {decisionsFilePath}! The decision will be left as is.");
+		}
+	}
+
+	private static async Task TweakDecisionFile(string decisionsFilePath, string outputModPath, string relativeDecisionsFilePath) {
 		Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 		var fileName = Path.GetFileName(decisionsFilePath);
 
 		var text = await File.ReadAllTextAsync(decisionsFilePath);
+		if (string.IsNullOrWhiteSpace(text)) {
+			Logger.Warn($"Decision file {decisionsFilePath} is empty! The ERE restoration decision will be left as is.");
+			return;
+		}
+
 		var parsed = Parsers.ParseScriptFile(fileName, text);
 		var decisionsFile = parsed.GetResult();
 
@@ -72,6 +88,10 @@ internal static class DecisionsOutputter {
 
 		// Output the modified file with UTF8-BOM encoding.
 		var outputFilePath = Path.Join(outputModPath, relativeDecisionsFilePath);
+		var outputDir = Path.GetDirectoryName(outputFilePath);
+		if (outputDir is not null) {
+			Directory.CreateDirectory(outputDir);
+		}
 		await File.WriteAllTextAsync(outputFilePath, sb.ToString(), Encoding.UTF8);
 	}
 }

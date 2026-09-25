@@ -74,6 +74,65 @@ public class CulturesOutputterTests {
 	}
 
 	[Fact]
+	public async Task OutputCultures_OrdersMultiLevelParentChainsBeforeDescendants() {
+		var tempDir = CreateTempDir();
+		try {
+			var outputModPath = Path.Combine(tempDir, "output");
+			var culturesPath = Path.Combine(outputModPath, "common", "culture", "cultures");
+			Directory.CreateDirectory(culturesPath);
+
+			var config = new Configuration();
+			var ck3ModFS = new ModFilesystem(outputModPath, Array.Empty<Mod>());
+
+			var ck3ModFlags = new OrderedDictionary<string, bool>();
+			var pillarCollection = new PillarCollection(new ColorFactory(), ck3ModFlags);
+			var heritage = new Pillar("heritage_test", new PillarData { Type = "heritage" });
+			var language = new Pillar("language_test", new PillarData { Type = "language" });
+			pillarCollection.AddOrReplace(heritage);
+			pillarCollection.AddOrReplace(language);
+
+			var cultureCollection = new CultureCollection(new ColorFactory(), pillarCollection, ck3ModFlags);
+
+			var nameList = new NameList("test_namelist", new BufferedReader("male_names = { testname }"));
+
+			Culture MakeCulture(string id, string? parentId) {
+				var data = new CultureData {
+					Color = new Color(1, 2, 3),
+					Heritage = heritage,
+					Language = language
+				};
+				data.NameLists.Add(nameList);
+				if (parentId is not null) {
+					data.ParentCultureIds.Add(parentId);
+				}
+				return new Culture(id, data);
+			}
+
+			// Insert a 3-level chain in reverse order: leaf, mid, grand.
+			cultureCollection.AddOrReplace(MakeCulture("leaf", "mid"));
+			cultureCollection.AddOrReplace(MakeCulture("mid", "grand"));
+			cultureCollection.AddOrReplace(MakeCulture("grand", null));
+
+			await CulturesOutputter.OutputCultures(outputModPath, cultureCollection, ck3ModFS, config, new Date(867, 1, 1));
+
+			var outputFile = Path.Combine(culturesPath, "heritage_test.txt");
+			Assert.True(File.Exists(outputFile));
+
+			var output = await File.ReadAllTextAsync(outputFile, TestContext.Current.CancellationToken);
+			var grandIndex = output.IndexOf("grand =", StringComparison.Ordinal);
+			var midIndex = output.IndexOf("mid =", StringComparison.Ordinal);
+			var leafIndex = output.IndexOf("leaf =", StringComparison.Ordinal);
+			Assert.True(grandIndex >= 0);
+			Assert.True(midIndex >= 0);
+			Assert.True(leafIndex >= 0);
+			Assert.True(grandIndex < midIndex);
+			Assert.True(midIndex < leafIndex);
+		} finally {
+			TryDeleteDir(tempDir);
+		}
+	}
+
+	[Fact]
 	public async Task OutputCultures_OutputsCCUParameters_WhenConfigured() {
 		var tempDir = CreateTempDir();
 		try {
