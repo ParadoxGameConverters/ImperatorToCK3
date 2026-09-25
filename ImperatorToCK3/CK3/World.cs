@@ -564,6 +564,7 @@ internal sealed class World {
 
 		bool ck3HasRajasOfAsia = config.RajasOfAsiaEnabled;
 		bool ck3HasAEP = config.AsiaExpansionProjectEnabled;
+		bool ck3HasTFE = config.FallenEagleEnabled;
 
 		string mappingsToUse;
 		if (irHasTI && ck3HasRajasOfAsia) {
@@ -574,6 +575,8 @@ internal sealed class World {
 			mappingsToUse = "terra_indomita_to_vanilla_ck3";
 		} else if (config.WhenTheWorldStoppedMakingSenseEnabled) {
 			mappingsToUse = "invictus_to_wtwsms";
+		} else if (ck3HasTFE) {
+			mappingsToUse = "invictus_to_tfe";
 		} else if (config is {InvictusDetected: true, Invictus1_7Detected: true}) {
 			mappingsToUse = "invictus_1_7_to_vanilla_ck3";
 		} else if (config.InvictusDetected) {
@@ -622,7 +625,7 @@ internal sealed class World {
 		FrozenSet<Governorship> countyLevelGovernorshipsSet = countyLevelGovernorships.ToFrozenSet();
 
 		foreach (var county in LandedTitles.Counties) {
-			if (county.NobleFamily == true) {
+			if (county.NobleFamily == true || county.Landless == true) {
 				continue;
 			}
 			if (county.CapitalBaronyProvinceId is null) {
@@ -1241,7 +1244,7 @@ internal sealed class World {
 		var date = config.CK3BookmarkDate;
 		List<Title> unheldCounties = [];
 		foreach (var county in LandedTitles.Counties) {
-			if (county.NobleFamily == true) {
+			if (county.NobleFamily == true || county.Landless == true) {
 				continue;
 			}
 

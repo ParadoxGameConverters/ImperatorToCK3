@@ -689,17 +689,18 @@ heritage_occitan = {
 	}
 }
 
-heritage_loloish = { # Will worry about CCU parameters once relevant mods are updated
+heritage_loloish = {
     REPLACED_BY = {
     	tfe = { heritage_loloish }
 		roa = { heritage_loloish }
+		wtwsms = { heritage_loloish }
     	vanilla_ck3 = { heritage_loloish }
     }
 
 	MOD_DEPENDENT = {
-		IF wtwsms = {
+		IF @[wtwsms|tfe] = {
 			parameters = {
-				heritage_group_greater_chinese = yes
+				heritage_group_lolo_burmese = yes
 				heritage_family_east_asian = yes
 			}
 		}
@@ -714,10 +715,11 @@ heritage_loloish = { # Will worry about CCU parameters once relevant mods are up
 	audio_parameter = sea
 }
 
-heritage_baiyue = { # Will worry about CCU parameters once relevant mods are updated
+heritage_baiyue = {
     REPLACED_BY = {
     	tfe = { heritage_baiyue }
 		roa = { heritage_baiyue }
+		wtwsms = { heritage_baiyue }
     	vanilla_ck3 = { heritage_baiyue }
     }
 
@@ -727,6 +729,12 @@ heritage_baiyue = { # Will worry about CCU parameters once relevant mods are upd
 				heritage_group_greater_chinese = yes
 				heritage_family_east_asian = yes
 				heritage_family_southeast_asian = yes
+			}
+		}
+		ELSE_IF tfe = {
+			parameters = {
+				heritage_group_chinese = yes
+				heritage_family_east_asian = yes
 			}
 		}
 	}
@@ -740,10 +748,11 @@ heritage_baiyue = { # Will worry about CCU parameters once relevant mods are upd
 	audio_parameter = sea
 }
 
-heritage_dongyi = { # Will worry about CCU parameters once relevant mods are updated
+heritage_dongyi = {
     REPLACED_BY = {
     	tfe = { heritage_dongyi }
 		roa = { heritage_dongyi }
+		wtwsms = { heritage_dongyi }
     	vanilla_ck3 = { heritage_dongyi }
     }
 
@@ -751,6 +760,12 @@ heritage_dongyi = { # Will worry about CCU parameters once relevant mods are upd
 		IF wtwsms = {
 			parameters = {
 				heritage_group_greater_chinese = yes
+				heritage_family_east_asian = yes
+			}
+		}
+		ELSE_IF tfe = {
+			parameters = {
+				heritage_group_chinese = yes
 				heritage_family_east_asian = yes
 			}
 		}
@@ -765,19 +780,25 @@ heritage_dongyi = { # Will worry about CCU parameters once relevant mods are upd
 	audio_parameter = sea
 }
 
-heritage_alasiyan = { # Will worry about CCU parameters once relevant mods are updated
+heritage_alasiyan = {
     REPLACED_BY = {
     	tfe = { heritage_alasiyan }
 		roa = { heritage_alasiyan }
+		wtwsms = { heritage_alasiyan }
     	vanilla_ck3 = { heritage_alasiyan }
     }
 
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			parameters = {
-				heritage_group_afro_asian = yes
 				heritage_group_west_asian = yes
 				heritage_family_west_asian = yes
+			}
+		}
+		ELSE_IF tfe = {
+			parameters = {
+				heritage_group_levantine = yes
+				heritage_family_middle_eastern = yes
 			}
 		}
 	}
