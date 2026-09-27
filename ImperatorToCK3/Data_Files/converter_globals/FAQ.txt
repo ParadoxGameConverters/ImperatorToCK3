@@ -61,6 +61,14 @@ A: You might need to remove the quarantine from the converter by executing this 
 Q: When starting conversion, conversion immediately fails, not producing anything.
 A: It's probably caused by your antivirus. Add the converter files to your antivirus' exclusion list. If you don't know how to, completely disable the antivirus. If this doesn't help, upload your save and log.txt to this thread, specifying your active antivirus.
 
+Q: The conversion fails instantly with "Access to the path '...configurables\version.txt' is denied".
+A: The converter cannot read its own files, so nothing is wrong with your save. In the log, look for the "File access diagnostics" block, and at the "likely cause" line at its end:
+- "folder permission problem" - a Deny rule is in the way. Check the properties -> security tab of the folder the converter is installed in.
+- "network drive or a mapped share" - install the converter on the local drive, for example in C:\Games\ImperatorToCK3.
+- "security software" - add the converter folder to your antivirus' exclusion list, or temporarily disable it.
+- "drive or file is not available" - you are on a removable or network drive that is no longer connected, or on a cloud-synced folder whose files were not downloaded. Reconnect it, or copy the converter to a plain local folder.
+In general: install the converter in a plain local folder such as C:\Games\ImperatorToCK3, add that folder to your antivirus' exclusion list, and download the converter again rather than copying it out of an archive.
+
 Q: I loaded my mod, but nothing changed. What's wrong?
 A: Is the mod enabled in the launcher? If so, then CK3 refused to load it due to possible errors. Respond to this thread and upload your save, log.txt from the converter directory, and errors.log from My Documents\Paradox Interactive\Crusader Kings III\logs so we may debug.
 

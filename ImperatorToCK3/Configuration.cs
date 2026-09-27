@@ -62,7 +62,14 @@ internal sealed class Configuration {
 		if (!File.Exists(configurationPath)) {
 			throw new ConverterException($"{configurationPath} not found! Run ConverterFrontend to generate it.");
 		}
-		parser.ParseFile(configurationPath);
+		try {
+			parser.ParseFile(configurationPath);
+		} catch (Exception ex) when (ex is UnauthorizedAccessException or IOException) {
+			// The configuration file is the frontend's, but an unreadable file here is still most
+			// likely a folder permission or antivirus problem rather than a conversion problem.
+			InstallationDiagnostics.LogFileAccessDiagnostics(configurationPath, ex);
+			throw;
+		}
 
 		SetOutputName();
 		VerifyImperatorPath();
