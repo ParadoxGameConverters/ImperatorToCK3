@@ -312,8 +312,22 @@ internal static class InstallationDiagnostics {
 	/// not a certainty: the point is to point the reporter at the next thing to check.
 	/// </summary>
 	internal static string BuildVerdict(int hResult, AccessProbeResults probes) {
-		var win32Code = hResult & 0xFFFF;
+		// The helpers are consulted in order of how conclusive each cause is, so the most specific
+		// explanation wins over the more speculative ones.
+		return VerdictFromErrorCode(hResult & 0xFFFF) ??
+		       VerdictFromFileAttributes(probes) ??
+		       VerdictFromFileState(probes) ??
+		       VerdictFromFolderAccess(probes) ??
+		       NoProbeExplainsIt;
+	}
 
+	private const string NoProbeExplainsIt =
+		"no probe explains the failure. Security software is still the most likely cause; adding the " +
+		"converter folder to the antivirus' exclusion list and reinstalling to a plain local folder is " +
+		"the next step worth trying.";
+
+	/// <summary>Causes the operating system names outright, which outrank anything inferred.</summary>
+	private static string? VerdictFromErrorCode(int win32Code) {
 		if (win32Code is 32 or 33) {
 			return "another program holds the file open. An on-access virus scanner is the usual suspect, " +
 			       "and adding the converter folder to the antivirus' exclusion list normally fixes it.";
@@ -322,9 +336,18 @@ internal static class InstallationDiagnostics {
 			return "Windows refused the access by policy. Group policy, ransomware protection or a hardened " +
 			       "security product is blocking the converter.";
 		}
-		if (win32Code == 21 || probes.IsOffline) {
-			return "the volume or the file is not available right now: a disconnected or removable drive, or " +
-			       "a cloud file that has not been downloaded. Reconnect or download it, then retry.";
+		if (win32Code == 21) {
+			return "the volume is not available right now: a disconnected or removable drive. Reconnect it, " +
+			       "then retry.";
+		}
+		return null;
+	}
+
+	/// <summary>Causes the file's own attributes give away.</summary>
+	private static string? VerdictFromFileAttributes(AccessProbeResults probes) {
+		if (probes.IsOffline) {
+			return "the file is not present on the volume, either because a cloud file has not been " +
+			       "downloaded or because the volume went away. Download or reconnect it, then retry.";
 		}
 		if (probes.IsEncrypted) {
 			return "the file is EFS-encrypted and the account running the converter has no matching " +
@@ -340,6 +363,11 @@ internal static class InstallationDiagnostics {
 			       "allow the executable to run while denying access to the individual files next to it. Move " +
 			       "the converter to a local folder.";
 		}
+		return null;
+	}
+
+	/// <summary>Causes deduced from whether the file and its folder could be reached at all.</summary>
+	private static string? VerdictFromFileState(AccessProbeResults probes) {
 		if (!probes.FileExists && !probes.CouldListDirectory) {
 			return probes.DirectoryMissing
 				? "neither the file nor the folder holding it exist, so the converter's own files are missing " +
@@ -348,25 +376,27 @@ internal static class InstallationDiagnostics {
 				  "almost certainly has no permission on its own folder. Check that folder's properties -> " +
 				  "security tab.";
 		}
-		if (probes.FileExists && !probes.CouldRead && probes.HasDenyRules) {
-			return "the file exists and is listed, opening it is denied, and the folder does carry Deny access " +
-			       "rules, so this is a folder permission problem. The rules are logged above.";
-		}
 		if (probes.FileExists && !probes.CouldRead) {
-			return "the file exists and is listed, but opening it is denied without a matching Deny rule, " +
-			       "which points at security software intercepting the converter.";
+			return probes.HasDenyRules
+				? "the file exists and is listed, opening it is denied, and the folder does carry Deny access " +
+				  "rules, so this is a folder permission problem. The rules are logged above."
+				: "the file exists and is listed, but opening it is denied without a matching Deny rule, " +
+				  "which points at security software intercepting the converter.";
 		}
 		if (!probes.FileExists) {
 			return "the file does not exist. Either the converter's files are incomplete, or the path is " +
 			       "resolved differently than expected; compare the logged path with the working directory.";
 		}
+		return null;
+	}
+
+	/// <summary>Causes that only the converter's own need for write access reveals.</summary>
+	private static string? VerdictFromFolderAccess(AccessProbeResults probes) {
 		if (!probes.CouldWriteToDirectory) {
 			return "the file can be read but the converter cannot write next to it. The converter needs write " +
 			       "access to its own folder for its temporary files.";
 		}
-		return "no probe explains the failure. Security software is still the most likely cause; adding the " +
-		       "converter folder to the antivirus' exclusion list and reinstalling to a plain local folder is " +
-		       "the next step worth trying.";
+		return null;
 	}
 
 	/// <summary>Outcome of every probe taken for one inaccessible file.</summary>

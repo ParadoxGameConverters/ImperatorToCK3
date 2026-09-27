@@ -220,6 +220,15 @@ public class InstallationDiagnosticsTests {
 	}
 
 	[Fact]
+	public void BuildVerdict_BlamesAnUndownloadedFileWhenItIsOffline() {
+		var verdict = BuildVerdict(unchecked((int)0x80070005),
+			Probes(fileExists: true, couldRead: false, isOffline: true));
+
+		Assert.Contains("not present on the volume", verdict);
+		Assert.Contains("downloaded", verdict);
+	}
+
+	[Fact]
 	public void BuildVerdict_BlamesEfsEncryption() {
 		var verdict = BuildVerdict(unchecked((int)0x80070005),
 			Probes(fileExists: true, couldRead: false, isEncrypted: true));
