@@ -218,7 +218,7 @@ public class InstallationDiagnosticsTests {
 	[Fact]
 	public void BuildVerdict_BlamesSecuritySoftwareWhenADenialHasNoDenyRule() {
 		var verdict = BuildVerdict(unchecked((int)0x80070005),
-			Probes(fileExists: true, couldRead: false, hasDenyRules: false));
+			Probes(fileExists: true, couldRead: false));
 
 		Assert.Contains("security software", verdict);
 	}
@@ -258,7 +258,7 @@ public class InstallationDiagnosticsTests {
 	[Fact]
 	public void BuildVerdict_BlamesTheNetworkDrive() {
 		var verdict = BuildVerdict(unchecked((int)0x80070005),
-			Probes(fileExists: true, couldRead: false, isNetworkDrive: true));
+			Probes(fileExists: true, couldRead: false, isOnNetworkDrive: true));
 
 		Assert.Contains("network drive", verdict);
 	}
@@ -266,7 +266,7 @@ public class InstallationDiagnosticsTests {
 	[Fact]
 	public void BuildVerdict_BlamesAMissingFile() {
 		var verdict = BuildVerdict(unchecked((int)0x80070005),
-			Probes(fileExists: false, couldRead: false, couldListDirectory: true));
+			Probes(fileExists: false, couldRead: false));
 
 		Assert.Contains("does not exist", verdict);
 	}
@@ -282,17 +282,17 @@ public class InstallationDiagnosticsTests {
 	[Fact]
 	public void BuildVerdict_FallsBackToSecuritySoftware() {
 		var verdict = BuildVerdict(unchecked((int)0x80070005),
-			Probes(fileExists: true, couldRead: true, couldWriteToDirectory: true));
+			Probes(fileExists: true, couldRead: true));
 
 		Assert.Contains("no probe explains the failure", verdict);
 	}
 
 	private static AccessProbeResults Probes(bool fileExists, bool couldRead, bool couldListDirectory = true,
 		bool couldWriteToDirectory = true, bool hasDenyRules = false, bool isEncrypted = false,
-		bool isReparsePoint = false, bool isOffline = false, bool isNetworkDrive = false,
+		bool isReparsePoint = false, bool isOffline = false, bool isOnNetworkDrive = false,
 		bool directoryAccessDenied = false, bool directoryMissing = false) {
 		return new AccessProbeResults(fileExists, couldRead, couldListDirectory, couldWriteToDirectory,
-			hasDenyRules, isEncrypted, isReparsePoint, isOffline, isNetworkDrive, directoryAccessDenied,
+			hasDenyRules, isEncrypted, isReparsePoint, isOffline, isOnNetworkDrive, directoryAccessDenied,
 			directoryMissing);
 	}
 }
