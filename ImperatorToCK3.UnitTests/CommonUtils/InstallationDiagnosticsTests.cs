@@ -67,13 +67,24 @@ public class InstallationDiagnosticsTests {
 	}
 
 	[Fact]
-	public void DescribePathShape_ReportsLengthAndComponentCount() {
+	public void DescribePathShape_ReportsLengthAndLongestComponent() {
 		var description = DescribePathShape(@"S:\Games\ImperatorToCK3\configurables\version.txt");
 
 		Assert.Contains("length 49", description);
-		Assert.Contains("4 components below the root", description);
 		Assert.Contains("longest 14 characters", description);
-		// The drive letter must not be mistaken for a component Windows would silently trim.
+	}
+
+	[Fact]
+	public void DescribePathShape_ExcludesTheDriveLetterFromTheComponents() {
+		// A drive letter ends in a colon, which is one of the characters Windows silently strips, so
+		// counting it as a component would report every ordinary path as unsafe. Only Windows has a drive
+		// to exclude: on Unix the same string is one relative name, and there is no root to remove.
+		var description = DescribePathShape(@"S:\Games\ImperatorToCK3\configurables\version.txt");
+
+		if (OperatingSystem.IsWindows()) {
+			Assert.Contains("4 components below the root", description);
+			Assert.Contains("a drive letter", description);
+		}
 		Assert.DoesNotContain("end in a space or a dot", description);
 	}
 
@@ -217,6 +228,15 @@ public class InstallationDiagnosticsTests {
 		var verdict = BuildVerdict(unchecked((int)0x80070015), Probes(fileExists: false, couldRead: false));
 
 		Assert.Contains("not available right now", verdict);
+	}
+
+	[Fact]
+	public void BuildVerdict_BlamesAnUndownloadedFileWhenItIsOffline() {
+		var verdict = BuildVerdict(unchecked((int)0x80070005),
+			Probes(fileExists: true, couldRead: false, isOffline: true));
+
+		Assert.Contains("not present on the volume", verdict);
+		Assert.Contains("downloaded", verdict);
 	}
 
 	[Fact]
