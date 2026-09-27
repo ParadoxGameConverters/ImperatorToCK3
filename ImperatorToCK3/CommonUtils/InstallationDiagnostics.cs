@@ -356,7 +356,7 @@ internal static class InstallationDiagnostics {
 			return "the file is a reparse point, meaning a symlink or a cloud/antivirus placeholder. Its link " +
 			       "target is logged above; reinstalling to a plain local folder avoids the problem.";
 		}
-		if (probes.IsNetworkDrive) {
+		if (probes.IsOnNetworkDrive) {
 			return "the file sits on a network drive or a mapped share, where the share's permissions can " +
 			       "allow the executable to run while denying access to the individual files next to it. Move " +
 			       "the converter to a local folder.";
@@ -400,7 +400,7 @@ internal static class InstallationDiagnostics {
 	/// <summary>Outcome of every probe taken for one inaccessible file.</summary>
 	internal readonly record struct AccessProbeResults(bool FileExists, bool CouldRead, bool CouldListDirectory,
 		bool CouldWriteToDirectory, bool HasDenyRules, bool IsEncrypted, bool IsReparsePoint, bool IsOffline,
-		bool IsNetworkDrive, bool DirectoryAccessDenied = false, bool DirectoryMissing = false);
+		bool IsOnNetworkDrive, bool DirectoryAccessDenied = false, bool DirectoryMissing = false);
 
 	/// <summary>
 	/// One access rule, flattened into a platform-neutral shape so that nothing outside this file has
@@ -515,7 +515,7 @@ internal static class InstallationDiagnostics {
 			IsEncrypted: fileExists && HasAttribute(fullPath, FileAttributes.Encrypted),
 			IsReparsePoint: fileExists && HasAttribute(fullPath, FileAttributes.ReparsePoint),
 			IsOffline: fileExists && HasAttribute(fullPath, FileAttributes.Offline),
-			IsNetworkDrive: IsNetworkDrive(fullPath),
+			IsOnNetworkDrive: IsNetworkDrive(fullPath),
 			DirectoryAccessDenied: directoryAccessDenied,
 			DirectoryMissing: directoryMissing);
 
