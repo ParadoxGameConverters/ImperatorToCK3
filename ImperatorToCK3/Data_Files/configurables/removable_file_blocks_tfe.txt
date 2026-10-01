@@ -263,15 +263,15 @@
 					}
 				}
 			}
-			# Zeno drops from roman_authority_3 → roman_authority_1 (Beholden Rule).
-			# The Patriciate's very existence reflects the fractured imperial
-			# authority of the 470s — Aspar, then Illus, ran the East. Must fire
-			# BEFORE try_start_diarchy: the Patriciate `end` block trips on
-			# roman_authority_3, so authority_3 → immediate dissolution.
+			# Zeno starts at roman_authority_2 (Delegated Dominate). The Patriciate
+			# reflects the fractured imperial authority of the 470s — Aspar, then
+			# Illus, ran the East. Must fire BEFORE try_start_diarchy: the Patriciate
+			# `end` block trips on roman_authority_3, so authority_3 → immediate
+			# dissolution (authority_2 is below that threshold, so the diarchy holds).
 			if = {
 				limit = { character:70515 = { is_alive = yes } }
 				character:70515 = {
-					tfe_set_roman_authority_effect = { LEVEL = 1 }
+					tfe_set_roman_authority_effect = { LEVEL = 2 }
 				}
 			}
 			# Illus as Patrician of Zeno. Historical: Isaurian magister officiorum
@@ -1068,7 +1068,12 @@ garamantes_flavour_effect = {
 				create_confederation = {
 					name = saxon_confederation_name_setup
 				}
+				confederation = {
+					set_confederation_color = { 60 30 32 }
+					set_coa = title:k_saxony
+				}
 				scope:new_confederation = {
+					add_confederation_member = title:d_holstein.holder
 					add_confederation_member = title:c_tecklenburg.holder
 					add_confederation_member = title:c_oldenburg.holder
 					add_confederation_member = title:c_minden.holder
@@ -1093,6 +1098,10 @@ garamantes_flavour_effect = {
 			title:c_osnabruck.holder = {
 				create_confederation = {
 					name = saxon_confederation_name_setup
+				}
+				confederation = {
+					set_confederation_color = { 60 30 32 }
+					set_coa = title:k_saxony
 				}
 				scope:new_confederation = {
 					add_confederation_member = title:c_tecklenburg.holder
@@ -1123,6 +1132,10 @@ garamantes_flavour_effect = {
 			title:c_osnabruck.holder = {
 				create_confederation = {
 					name = saxon_confederation_name_setup
+				}
+				confederation = {
+					set_confederation_color = { 60 30 32 }
+					set_coa = title:k_saxony
 				}
 				scope:new_confederation = {
 					add_confederation_member = title:c_tecklenburg.holder
@@ -1158,6 +1171,10 @@ garamantes_flavour_effect = {
 			title:c_osnabruck.holder = {
 				create_confederation = {
 					name = saxon_confederation_name_setup
+				}
+				confederation = {
+					set_confederation_color = { 60 30 32 }
+					set_coa = title:k_saxony
 				}
 				scope:new_confederation = {
 					add_confederation_member = title:c_tecklenburg.holder
@@ -1233,7 +1250,7 @@ garamantes_flavour_effect = {
 					add_confederation_member = title:c_falkenstein.holder
 					add_confederation_member = title:c_passau.holder
 					add_confederation_member = title:c_waldkirchen.holder
-					add_confederation_member = title:c_hallstatt.holder
+					add_confederation_member = title:c_linz.holder
 				}
 			}
 		}
@@ -1254,6 +1271,69 @@ garamantes_flavour_effect = {
 					add_confederation_member = title:c_calafat.holder
 					add_confederation_member = title:c_nikopolis.holder
 					add_confederation_member = title:c_turnovo.holder
+				}
+			}
+		}
+		#Ripuarian Frankish Confederation set up
+		if = {
+			limit = {
+				game_start_date >= 361.1.1
+				game_start_date <= 396.1.1
+			}
+			title:d_bructeria.holder = {
+				create_confederation = {
+					name = ripuarian_frankish_confederation_name_setup
+				}
+				confederation = {
+					set_confederation_color = { 30 30 62 }
+					set_coa = title:d_bructeria
+				}
+				scope:new_confederation = {
+					add_confederation_member = title:c_munster.holder
+					add_confederation_member = title:c_kassel.holder
+				}
+			}
+		}
+		#Salian Frankish Confederation set up
+		if = {
+			limit = {
+				game_start_date >= 361.1.1
+				game_start_date <= 396.1.1
+			}
+			title:k_franks.holder = {
+				create_confederation = {
+					name = salian_frankish_confederation_name_setup
+				}
+				confederation = {
+					set_confederation_color = { 30 35 92 }
+					set_coa = title:k_franks
+				}
+				scope:new_confederation = {
+					add_confederation_member = title:c_arnhem.holder
+					add_confederation_member = title:c_oversticht.holder
+				}
+			}
+		}
+		#Silingi Vandalic Confederation set up
+		if = {
+			limit = {
+				game_start_date >= 361.1.1
+				game_start_date <= 396.1.1
+			}
+			title:d_silingi_vandals.holder = {
+				create_confederation = {
+					name = silingi_vandalic_confederation_name_setup
+				}
+				confederation = {
+					set_confederation_color = { 60 50 47 }
+					set_coa = title:d_silingi_vandals
+				}
+				scope:new_confederation = {
+					add_confederation_member = title:c_cottbus.holder
+					add_confederation_member = title:c_dresden.holder
+					add_confederation_member = title:c_meissen.holder
+					add_confederation_member = title:c_gorlitz.holder
+					add_confederation_member = title:c_grunberg.holder
 				}
 			}
 		}
@@ -6863,9 +6943,11 @@ set_minorities_game_start = {
 			limit = {
 				current_date >= 400.1.1
 				NOT = { has_global_variable = radagaisus_has_invaded }
+				# Radagaisus's invasion runs as a Mass Migration; with the Mass Migrations rule Off there is none.
+				NOT = { has_game_rule = tfe_great_migrations_off }
 				current_date <= 410.1.1
 				NOT = { exists = title:k_goths.holder }
-				character:radagaisian_02 = {
+				character:radagaisian_02 ?= {
 					is_alive = yes
 				}
 			}
@@ -7604,12 +7686,7 @@ on_TFE_east_asia_start = {
 # scope:title = the title that changes hands
 # scope:previous_holder = previous holder. Might be dead
 on_title_gain = {
-	effect = {
-		trigger_event = {
-			id = liang.0010 # Meng Min passes away and Li Gao becomes governor of Dunhuang
-			days = 1
-		}
-	}
+	on_actions = { TFE_liang_li_gao_governor_on_title_gain }
 }
 
 # A title is inherited by a character
@@ -7617,6 +7694,18 @@ on_title_gain = {
 # scope:title = the title that changes hands
 # scope:previous_holder = previous holder. Should be dead
 on_title_gain_inheritance = {
+	on_actions = { TFE_liang_li_gao_governor_on_title_gain }
+}
+
+# title_on_actions.txt defines the effect of on_title_gain / on_title_gain_inheritance, and only
+# one effect per on_action survives, so this runs as a child on_action. liang.0010 re-checks its own trigger.
+TFE_liang_li_gao_governor_on_title_gain = {
+	trigger = {
+		scope:title = title:d_guasha
+		game_start_date > 385.1.1
+		game_start_date < 400.1.1
+		NOT = { has_global_variable = TFE_li_gao_becomes_governor }
+	}
 	effect = {
 		trigger_event = {
 			id = liang.0010 # Meng Min passes away and Li Gao becomes governor of Dunhuang
@@ -8499,12 +8588,6 @@ end_gothic_war_early_effect = {
                 exists = character:73683
                 this = character:73683
             }
-             modifier = {
-                add = 999
-                exists = this
-                exists = character:vandals_003
-                this = character:vandals_003
-            }
 	}
 	{
              modifier = {
@@ -9235,241 +9318,6 @@ cb_gothic_wars = {
 }
 	}
 	{
-radagaisus_invasion_cb = {
-	group = event
-
-	allowed_for_character = {
-	}
-
-	allowed_against_character = {
-		scope:attacker = {
-			ALL_FALSE = {
-				top_liege = scope:defender.top_liege
-				liege = scope:defender
-			}
-		}
-	}
-
-	combine_into_one = yes
-
-	target_titles = all
-	target_title_tier = all
-	target_de_jure_regions_above = yes
-	ignore_effect = change_title_holder
-	ai_only_against_neighbors = yes
-	defender_ticking_warscore_delay = { years = 2 }
-
-	white_peace_possible = no
-
-	valid_to_start = {
-		always = no
-	}
-
-	should_invalidate = {
-		NOT = {
-			any_in_list = {
-				list = target_titles
-				any_in_de_jure_hierarchy = {
-					tier = tier_county
-					holder = {
-						OR = {
-							this = scope:defender
-							target_is_liege_or_above = scope:defender
-						}
-					}
-				}
-			}
-		}
-	}
-
-	on_invalidated_desc = msg_religious_war_invalidation_region_message
-
-	on_invalidated = {
-	}
-
-	cost = {
-	}
-
-	on_declaration = {
-		on_declared_war = yes
-	}
-
-	on_victory_desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = { scope:attacker = { is_local_player = yes } }
-				desc = radagaisus_invasion_victory_desc_attacker
-			}
-			triggered_desc = {
-				trigger = { scope:defender = { is_local_player = yes } }
-				desc = radagaisus_invasion_victory_desc_defender
-			}
-			desc = radagaisus_invasion_victory_desc
-		}
-	}
-
-	on_victory = {
-        #EP2 accolade glory gain for winning against higher ranked enemy
-		scope:attacker = { accolade_attacker_war_end_glory_gain_high_effect = yes }
-		scope:attacker = { show_pow_release_message_effect = yes }
-		scope:defender = {
-			trigger_event = {
-				id = gothic_wars.0014
-				days = 1
-			}
-		}
-
-		create_title_and_vassal_change = {
-			type = conquest_holy_war
-			save_scope_as = change
-			add_claim_on_loss = yes
-		}
-		# go through the dejure hierarchy under target titles, transfer titles with same or worse tolerance holders (their religion equaly or less tolerated than the defender's),
-		# take the holder as vassal otherwise and don't go deeper
-		every_in_list = {
-			list = target_titles
-			custom_tooltip = RELIGIOUS_CB_TITLE
-
-			conquest_cb_title_transfer = {
-				RELIGIOUS_WAR = yes
-			}
-		}
-
-		every_in_list = {
-			list = vassals_taken
-			change_liege = {
-				liege = scope:attacker
-				change = scope:change
-			}
-		}
-		
-		every_in_list = {
-			list = titles_taken
-			change_title_holder = {
-				holder = scope:attacker
-				change = scope:change
-				take_baronies = yes
-			}
-		}
-
-		resolve_title_and_vassal_change = scope:change
-
-		# Prestige Progress for the Attacker
-		every_in_list = {
-			list = target_titles
-			scope:attacker = {
-				add_prestige_experience = medium_prestige_value
-			}
-		}
-
-		# Allies on both sides get full prestige value for helping in the war, based on their war participation.
-		modify_allies_of_participants_fame_values = {
-			WINNER = scope:attacker
-			FAME_BASE = medium_prestige_value
-			IS_RELIGIOUS_WAR = no
-			WINNER_ALLY_FAME_SCALE = 1
-			LOSER_ALLY_FAME_SCALE = 1
-		}
-
-		# Truce
-		add_truce_attacker_victory_effect = yes
-
-		# FP1: note the victory for future memorialisation via stele (if applicable)
-		scope:attacker = { fp1_remember_recent_conquest_victory_effect = yes }
-	}
-
-	on_white_peace_desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = { scope:attacker = { is_local_player = yes } }
-				desc = radagaisus_invasion_white_peace_desc_attacker
-			}
-			triggered_desc = {
-				trigger = { scope:defender = { is_local_player = yes } }
-				desc = radagaisus_invasion_white_peace_desc_defender
-			}
-			desc = radagaisus_invasion_white_peace_desc
-		}
-	}
-
-	on_defeat_desc = {
-		first_valid = {
-			triggered_desc = {
-				trigger = { scope:attacker = { is_local_player = yes } }
-				desc = radagaisus_invasion_defeat_desc_attacker
-			}
-			triggered_desc = {
-				trigger = { scope:defender = { is_local_player = yes } }
-				desc = radagaisus_invasion_defeat_desc_defender
-			}
-			desc = radagaisus_invasion_defeat_desc
-		}
-	}
-
-	on_defeat = {
-        #EP2 accolade glory gain for winning against higher ranked enemy
-		scope:defender = { accolade_attacker_war_end_glory_gain_high_effect = yes }
-		scope:attacker = { show_pow_release_message_effect = yes }
-
-		if = {
-			limit = {
-				exists = title:k_visigoths.holder
-			}
-			goths_flee_effect = yes
-		}
-
-		# Prestige loss for the attacker
-		scope:attacker = {
-			save_temporary_scope_as = loser
-			pay_short_term_gold_reparations_effect = {
-				GOLD_VALUE = 5
-			}
-			add_prestige = {
-				value = major_prestige_value
-				multiply = -1.0
-			}
-		}
-
-		# Prestige for Defender
-		scope:defender = {
-			add_prestige_war_defender_effect = {
-				PRESTIGE_VALUE = major_prestige_value
-			}
-		}
-
-		# Allies on both sides get full prestige value for helping in the war, based on their war participation.
-		modify_allies_of_participants_fame_values = {
-			WINNER = scope:defender
-			FAME_BASE = medium_prestige_value
-			IS_RELIGIOUS_WAR = no
-			WINNER_ALLY_FAME_SCALE = 1
-			LOSER_ALLY_FAME_SCALE = 1
-		}
-
-		lost_radagaisus_invasion_effect = yes
-
-		add_truce_attacker_defeat_effect = yes
-		on_lost_aggression_war_discontent_loss = yes
-	}
-
-	transfer_behavior = transfer
-
-	on_primary_attacker_death = inherit
-	on_primary_defender_death = inherit
-
-	attacker_allies_inherit = yes
-	defender_allies_inherit = yes
-
-	war_name = RADAGAISUS_INVASION_NAME
-	war_name_base = RADAGAISUS_INVASION_NAME_BASE
-	cb_name = RADAGAISUS_INVASION_CB_NAME
-
-	use_de_jure_wargoal_only = yes
-	
-	interface_priority = 100
-}
-	}
-	{
 cb_gothic_wars_amalasuntha = {
 	group = event
 	#white_peace_possible = no 
@@ -9512,7 +9360,7 @@ cb_gothic_wars_amalasuntha = {
 		}
 		scope:attacker = {
 			spawn_army = {
-				name = "Ostrogothic Defenders"
+				name = tfe_ostrogothic_defenders
 				levies = 750
 				men_at_arms = {
 					type = light_footmen
@@ -11774,152 +11622,141 @@ gothic_duchy_conquest_cb = {
 
 "common/scripted_effects/TFE_invasion_effects.txt" = {
 	{
+# Radagaisus is taken captive after his invasion fails: by Stilicho if he lives, who then has him executed
+# (gothic_wars.0016), otherwise (or if Stilicho cannot hold him) by the war's defender. scope:defender is
+# native to the war-end hooks.
 lost_radagaisus_invasion_effect = {
-	if = {
-		limit = {
-			exists = title:k_goths.holder
-		}
-		title:k_goths.holder = {
-			if = { # Imprison them if they aren't imprisoned.
-				limit = {
-					is_imprisoned = no
-					character:900062 = {
-						is_alive = yes
-					}
-				}
-				
+	character:radagaisian_02 ?= {
+		if = {
+			limit = {
+				is_alive = yes
+				is_imprisoned = no
+			}
+			if = {
+				limit = { character:900062 ?= { is_alive = yes } }
 				hard_imprison_character_effect = {
 					TARGET = this
 					IMPRISONER = character:900062
 				}
-				trigger_event = {
-					id = gothic_wars.0016
-					days = 7
-				}
 			}
-			else = {
+			if = {
 				limit = {
 					is_imprisoned = no
+					exists = scope:defender
 				}
 				hard_imprison_character_effect = {
 					TARGET = this
 					IMPRISONER = scope:defender
 				}
 			}
+			if = {
+				limit = {
+					is_imprisoned = yes
+					imprisoner ?= character:900062
+				}
+				trigger_event = {
+					id = gothic_wars.0016
+					days = 7
+				}
+			}
 		}
 	}
 }
 	}
 
 	{
+# Radagaisus's Mass Migration ended without victory (defeat or white peace): the Visigoths weigh a claim on
+# Italy, Radagaisus is taken captive, and the Gothic crown is given up. Called from germanic_mass_migration_cb's
+# war-end hooks when the war carries tfe_is_historical_migration_war.
+radagaisus_migration_defeat_effect = {
+	goths_flee_effect = yes
+	lost_radagaisus_invasion_effect = yes
+	radagaisus_abandon_effect = yes
+}
+	}
+
+	{
+# The Gothic crown is given up whenever Radagaisus's migration ends without winning land (muster lapsed or
+# leader died, launch refused, war invalidated, lost or white-peaced). Acts on whoever holds k_goths — Radagaisus,
+# or an heir who inherited it mid-migration — as long as they are landless, so no King of the Goths is left
+# without a realm or a war. The 500 gold, dread and disease immunity he was granted stay with him.
+radagaisus_abandon_effect = {
+	character:radagaisian_02 ?= {
+		remove_character_modifier = TFE_king_of_the_goths_modifier
+		if = {
+			limit = { has_variable = tfe_gm_spawn_province }
+			remove_variable = tfe_gm_spawn_province
+		}
+	}
+	title:k_goths.holder ?= {
+		if = {
+			limit = { is_landed = no }
+			destroy_title = title:k_goths
+		}
+	}
+}
+	}
+
+	{
+# Radagaisus's invasion of Italy (c. 405-406), run as a historical Mass Migration against Italia
+# Annonaria. Called from gothic_wars.0011 (scope none) while the Mass Migrations rule is on and Radagaisus
+# lives. When the migration can actually start (Italia Annonaria held within a Roman emperor's realm,
+# Radagaisus free and capable, k_goths unheld, the global lock free) it fires gothic_wars.0027 on him, which
+# crowns him and opens the muster with root = Radagaisus (the Mass Migration effects key everything on root).
+# Otherwise gothic_wars.0011 is retried monthly until 410.
 spawn_radagaisus_character_effect = {
-	title:c_hewes.title_province = {
-		save_scope_as = radagaisus_birthplace
-	}
-
-	character:radagaisian_02 = {
-		# Make temporarily immune to disease
-		add_character_flag = {
-			flag = immune_to_disease
-			years = 15
-		}
-		save_scope_as = radagaisus
-
-		add_gold = 500
-		add_prestige = 2500
-		add_dread = high_dread
-		add_character_modifier = {
-			modifier = TFE_king_of_the_goths_modifier
-		}
-		create_the_gothic_kingdom_effect = yes
-	}
-
-	radagaisus_find_target_titles_effect = yes
-
-	every_player = {
-		if = {
-			limit = {
-				OR = {
-					exists = title:e_western_roman_empire.holder
-				}
-				NOR = {
-					THIS = scope:radagaisus
-					THIS = title:e_western_roman_empire.holder
-				}
-			}
-			trigger_event = gothic_wars.0012
-		}
-		if = {
-			limit = {
-				OR = {
-					AND = {
-						exists = title:e_western_roman_empire.holder
-						THIS = title:e_western_roman_empire.holder
-					}
-					AND = {
-						exists = title:e_western_roman_empire.holder
-						THIS = title:e_western_roman_empire.holder
-					}
-				}
-			}
-			trigger_event = gothic_wars.0013
-		}
-	}
-}
-	}
-
-	{
-radagaisus_find_target_titles_effect = {
 	if = {
 		limit = {
-			exists = title:k_italia_suburbicariae
-			exists = title:k_italia_annonariae
-			OR = {
-				title:k_italia_suburbicariae.holder.top_liege.primary_title = title:e_western_roman_empire
-				title:k_italia_suburbicariae.holder.top_liege.primary_title = title:h_roman_empire
+			NOT = { has_game_rule = tfe_great_migrations_off }
+			character:radagaisian_02 ?= { is_alive = yes }
+		}
+		if = {
+			limit = { radagaisus_can_start_migration_trigger = yes }
+			character:radagaisian_02 ?= { trigger_event = gothic_wars.0027 }
+		}
+		else_if = {
+			limit = { current_date < 410.1.1 }
+			trigger_event = {
+				id = gothic_wars.0011
+				days = 30
 			}
-		}
-		title:k_italia_suburbicariae.holder.top_liege = {
-			save_scope_as = target_one
-		}
-	}
-	if = {
-		limit = {
-			exists = scope:target_one
-		}
-		radagaisus_declare_war_for_target_title_effect = yes
-	}
-}
-
-radagaisus_declare_war_for_target_title_effect = {
-	save_scope_as = war_leader
-	if = {
-		limit = { exists = scope:target_one }
-		scope:radagaisus = {
-			start_war = {
-				cb = radagaisus_invasion_cb
-				target = scope:target_one
-				target_title = title:k_italia_annonariae
-				target_title = title:k_italia_suburbicariae
-			}
-		}
-		scope:radagaisus = {
-			spawn_gothic_troops_effect = yes
 		}
 	}
 	else = {
-		debug_log = "Failed to find a valid war target for Radagaisus!"
+		debug_log = "Radagaisus: no Mass Migration (Mass Migrations rule Off, or Radagaisus is dead)."
+	}
+}
+	}
+
+	{
+# The Sack of Rome (410). Run in the sacking king's scope (root = Alaric). Plunder +
+# prestige + dread to him, Rome's development collapses under a lasting "Sacked" modifier,
+# and word of the fall races to every Roman emperor. Galla Placidia's capture is handled
+# by the calling option (it is offered as a choice, not forced here).
+tfe_sack_of_rome_effect = {
+	add_gold = 1000
+	add_prestige = 500
+	add_dread = 25
+	if = {
+		limit = { exists = title:c_roma }
+		title:c_roma = {
+			change_development_level = -5
+			add_county_modifier = { modifier = rome_sacked  years = 5 }
+		}
+	}
+	hidden_effect = {
+		every_ruler = {
+			limit = { is_roman_emperor_trigger = yes }
+			trigger_event = { id = gothic_wars.0008  days = 1 }
+		}
 	}
 }
 	}
 
 	{
 goths_flee_effect = {
-	title:k_visigoths.holder = {
+	title:k_visigoths.holder ?= {
 		save_scope_as = visigothic_king
-	}
-
-	scope:visigothic_king = {
 		trigger_event = {
 			id = gothic_wars.0015
 			days = 1
@@ -11927,7 +11764,179 @@ goths_flee_effect = {
 	}
 }
 	}
+
+	{
+# Crown Radagaisus the landless, tribal King of the Goths (k_goths), choose his host's staging province and
+# open his historical Mass Migration. root = Radagaisus (from gothic_wars.0027).
+radagaisus_crown_and_start_effect = {
+	save_scope_as = radagaisus
+	# Make temporarily immune to disease
+	add_character_flag = {
+		flag = immune_to_disease
+		years = 15
+	}
+	add_gold = 500
+	add_prestige = 2500
+	add_dread = high_dread
+	add_character_modifier = {
+		modifier = TFE_king_of_the_goths_modifier
+	}
+	create_the_gothic_kingdom_effect = yes
+	radagaisus_pick_staging_province_effect = yes
+	tfe_great_migration_start_historical_effect = yes
 }
+	}
+
+	{
+# The staging ground where Radagaisus's host spawns when the migration marches (var:tfe_gm_spawn_province,
+# read by germanic_mass_migration_cb): the Carpathian-basin county nearest to Italia Annonaria outside any
+# Roman emperor's realm, else the nearest one at all. His own capital_province cannot serve: k_goths is
+# landless, so it falls back to the title's static capital, Rome. Requires scope:radagaisus.
+radagaisus_pick_staging_province_effect = {
+	title:k_italia_annonariae.title_province = { save_scope_as = radagaisus_target_province }
+	if = {
+		limit = {
+			any_county_in_region = {
+				region = custom_carpathia
+				NOT = { holder.top_liege ?= { is_roman_emperor_trigger = yes } }
+			}
+		}
+		ordered_county_in_region = {
+			region = custom_carpathia
+			limit = { NOT = { holder.top_liege ?= { is_roman_emperor_trigger = yes } } }
+			order_by = {
+				value = 0
+				subtract = "title_province.squared_distance(scope:radagaisus_target_province)"
+			}
+			save_scope_as = radagaisus_staging_county
+		}
+	}
+	else_if = {
+		limit = { any_county_in_region = { region = custom_carpathia } }
+		ordered_county_in_region = {
+			region = custom_carpathia
+			order_by = {
+				value = 0
+				subtract = "title_province.squared_distance(scope:radagaisus_target_province)"
+			}
+			save_scope_as = radagaisus_staging_county
+		}
+	}
+	scope:radagaisus = {
+		if = {
+			limit = { exists = scope:radagaisus_staging_county }
+			set_variable = { name = tfe_gm_spawn_province  value = scope:radagaisus_staging_county.title_province }
+		}
+		else = {
+			set_variable = { name = tfe_gm_spawn_province  value = title:c_hewes.title_province }
+		}
+	}
+}
+	}
+
+	{
+create_the_gothic_kingdom_effect = {
+	save_scope_as = gothic_king
+
+	#Create the title
+	create_title_and_vassal_change = {
+		type = created
+		save_scope_as = title_change
+		add_claim_on_loss = no
+	}
+	title:k_goths = {
+		change_title_holder = {
+			holder = scope:gothic_king
+			change = scope:title_change
+		}
+	}
+	resolve_title_and_vassal_change = scope:title_change
+
+	assert_if = {
+		limit = { NOT = { exists = title:k_goths } }
+		text = "Kingdom of the Goths title was not created!"
+	}
+
+	hidden_effect = { set_primary_title_to = title:k_goths }
+	# k_goths is landless, so nothing else gives its holder a government; the Mass Migration needs a tribal
+	# leader.
+	change_government = tribal_government
+}
+	}
+
+	{
+spawn_smaller_gothic_troops_effect = {
+	spawn_army = {
+		uses_supply = no
+		inheritable = no
+		name = radagaisus_event_troops
+		levies = {
+			value = 1000
+		}
+		men_at_arms = {
+			type = light_footmen
+			stacks = 3
+		}
+		men_at_arms = {
+			type = light_horsemen
+			stacks = 2
+		}
+		location = capital_province
+	}
+	spawn_army = {
+		uses_supply = no
+		inheritable = no
+		name = radagaisus_event_troops
+		levies = {
+			value = 1000
+		}
+		men_at_arms = {
+			type = light_footmen
+			stacks = 3
+		}
+		men_at_arms = {
+			type = light_horsemen
+			stacks = 2
+		}
+		location = capital_province
+	}
+	spawn_army = {
+		uses_supply = no
+		inheritable = no
+		name = radagaisus_event_troops
+		levies = {
+			value = 1000
+		}
+		men_at_arms = {
+			type = light_footmen
+			stacks = 3
+		}
+		men_at_arms = {
+			type = light_horsemen
+			stacks = 2
+		}
+		location = capital_province
+	}
+	spawn_army = {
+		uses_supply = no
+		inheritable = no
+		name = radagaisus_event_troops
+		levies = {
+			value = 1000
+		}
+		men_at_arms = {
+			type = light_footmen
+			stacks = 3
+		}
+		men_at_arms = {
+			type = light_horsemen
+			stacks = 2
+		}
+		location = capital_province
+	}
+}
+	}
+} # End "common/scripted_effects/TFE_invasion_effects.txt"
 
 "common/decisions/TFE_major_decisions_south_asia.txt" = {
 	{
@@ -13097,109 +13106,6 @@ press_the_ostrogoths_decision = {
 	}
 }
 	}
-
-	{
-liberate_the_roman_south_decision = {
-	picture = {
-		reference = "gfx/interface/illustrations/decisions/decision_roman_dux.dds"
-	}
-	decision_group_type = roman
-
-	desc = liberate_the_roman_south_decision_desc
-	selection_tooltip = liberate_the_roman_south_decision_tooltip
-
-	ai_goal = yes
-
-	is_shown = {
-		game_start_date = 476.9.4
-		NOT = {  #Can only do it once.
-			is_target_in_global_variable_list = {
-				name = unavailable_unique_decisions
-				target = flag:liberate_the_roman_south_decision
-			}
-		}
-		culture = { has_cultural_pillar = heritage_latin }
-		has_title = title:k_france
-	}
-
-	is_valid = {  
-		OR = {
-			has_title = title:k_france
-			has_title = title:e_france
-		}
-		completely_controls = title:k_aquitaine
-		completely_controls = title:k_burgundy
-		culture = { has_cultural_pillar = heritage_latin }
-	}
-
-	is_valid_showing_failures_only = {
-		is_imprisoned = no
-	}
-
-	effect = {
-		title:k_aquitaine = {
-			set_title_name = k_septem_provinciae
-			
-		}
-		title:k_burgundy = {
-			every_in_de_jure_hierarchy = {
-				limit = {
-					tier = tier_duchy
-				}
-				set_de_jure_liege_title = title:k_aquitaine
-			}
-		}
-		add_to_global_variable_list = {
-			name = unavailable_unique_decisions
-			target = flag:liberate_the_roman_south_decision
-		}
-		custom_tooltip = liberate_desc1
-		hidden_effect = {
-			title:k_aquitaine = {
-				every_de_jure_county = {
-					limit = {
-						culture = {
-							NOT = {
-								has_cultural_pillar = heritage_latin
-							}
-						}
-					}
-					random = {
-						chance = 75
-						set_county_culture = root.culture
-					}
-				}
-			}
-			title:k_burgundy = {
-				every_de_jure_county = {
-					limit = {
-						culture = {
-							NOT = {
-								has_cultural_pillar = heritage_latin
-							}
-						}
-					}
-					random = {
-						chance = 75
-						set_county_culture = root.culture
-					}
-				}
-			}
-		}
-		
-	}
-
-	ai_potential = {
-		always = yes
-	}
-	cost = {
-		prestige = 1000
-	}
-	ai_will_do = {
-		base = 100
-	}
-}
-	}
 }
 
 
@@ -14093,12 +13999,6 @@ beards_scripted_characters = {
              modifier = {
                 add = 999
                 exists = this
-                exists = character:vandals_003
-                this = character:vandals_003
-            }
-             modifier = {
-                add = 999
-                exists = this
                 exists = character:greek_20 #Proklos
                 this = character:greek_20 #Proklos
             }
@@ -14348,7 +14248,7 @@ headgear_scripted_characters = {
 				NOT = { AND = { is_ruler = yes has_government = mercenary_government } }
 				NOT = { has_government = republic_government }
 				NOT = { has_government = theocracy_government }
-				NOT = { is_roman_emperor_trigger = yes }
+				NOT = { tfe_portrait_roman_emperor_trigger = yes }
 				culture = {
 					OR = {
 						has_cultural_pillar = heritage_latin
@@ -14878,6 +14778,29 @@ gothic_wars.0011 = {
 		spawn_radagaisus_character_effect = yes
 	}
 }
+
+# Radagaisus is crowned King of the Goths and his historical Mass Migration opens. Hidden. root = Radagaisus,
+# fired by spawn_radagaisus_character_effect once the migration can start; re-checked here in case the lock
+# was taken in between, in which case gothic_wars.0011 retries.
+gothic_wars.0027 = {
+	type = character_event
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = { radagaisus_can_start_migration_trigger = yes }
+			radagaisus_crown_and_start_effect = yes
+		}
+		else_if = {
+			limit = { current_date < 410.1.1 }
+			trigger_event = {
+				id = gothic_wars.0011
+				days = 30
+			}
+		}
+	}
+}
+
 ## Radagaisus notification event global - Hróð
 gothic_wars.0012 = {
 	type = character_event
@@ -14890,56 +14813,12 @@ gothic_wars.0012 = {
 		animation = rage 
 	}
 	right_portrait = {
-		character = title:e_western_roman_empire.holder
+		character = title:k_italia_annonariae.holder.top_liege
 		animation = fear
 	}
 
 	option = {
 		name = gothic_wars_0012.a
-	}
-}
-## Radagaisus notification event for defender - Hróð
-gothic_wars.0013 = {
-	type = character_event
-	theme = war
-	title = gothic_wars_0012.t
-	desc = gothic_wars_0013.desc
-
-	left_portrait = {
-		character = character:radagaisian_02
-		animation = rage 
-	}
-	right_portrait = {
-		character = ROOT
-		animation = fear
-	}
-
-	option = {
-		name = gothic_wars_0013.a
-	}
-}
-## Defender event if Radagaisus wins - Hróð
-gothic_wars.0014 = {
-	type = character_event
-	theme = war
-	title = gothic_wars_0012.t
-	desc = gothic_wars_0014.desc
-
-	left_portrait = {
-		character = character:radagaisian_02
-		animation = personality_bold
-	}
-	right_portrait = {
-		character = scope:defender
-		animation = shame
-	}
-
-	option = {
-		name = gothic_wars_0014.a
-		scope:defender = {
-			add_pressed_claim = title:k_italia_annonariae
-			add_pressed_claim = title:k_italia_suburbicariae
-		}
 	}
 }
 ## Event for the Visigothic King if Radagaisus loses - Hróð
@@ -14974,7 +14853,7 @@ gothic_wars.0015 = {
 				}
 			}
 		}
-		title:e_byzantium.holder = {
+		title:e_byzantium.holder ?= {
 			add_opinion = {
 				target = scope:visigothic_king
 				modifier = angry_opinion
@@ -14984,14 +14863,20 @@ gothic_wars.0015 = {
 		spawn_smaller_gothic_troops_effect = yes
 		ai_chance = {
 			base = 50
-
-			opinion_modifier = {
-				if = {
-					exists = scope:visigothic_king.liege
+			# A king who resents his liege reaches for Italy; one who values him holds back.
+			modifier = {
+				add = 25
+				scope:visigothic_king = {
+					exists = liege
+					opinion = { target = liege  value <= -25 }
 				}
-				who = scope:visigothic_king
-				opinion_target = scope:visigothic_king.liege
-				multiplier = 1
+			}
+			modifier = {
+				add = -25
+				scope:visigothic_king = {
+					exists = liege
+					opinion = { target = liege  value >= 25 }
+				}
 			}
 		}
 	}
@@ -15007,7 +14892,7 @@ gothic_wars.0015 = {
 				}
 			}
 		}
-		title:e_byzantium.holder = {
+		title:e_byzantium.holder ?= {
 			add_opinion = {
 				target = scope:visigothic_king
 				modifier = pleased_opinion
@@ -15016,42 +14901,724 @@ gothic_wars.0015 = {
 		}
 		ai_chance = {
 			base = 50
-
-			opinion_modifier = {
-				if = {
-					exists = scope:visigothic_king.liege
+			# A king who values his liege sides with Rome; one who resents him does not.
+			modifier = {
+				add = 25
+				scope:visigothic_king = {
+					exists = liege
+					opinion = { target = liege  value >= 25 }
 				}
-				who = scope:visigothic_king
-				opinion_target = scope:visigothic_king.liege
-				multiplier = 1
+			}
+			modifier = {
+				add = -25
+				scope:visigothic_king = {
+					exists = liege
+					opinion = { target = liege  value <= -25 }
+				}
 			}
 		}
 	}
 }
 ## Event for Radagaisus' execution - Hróð
+# root = Radagaisus, imprisoned by lost_radagaisus_invasion_effect; his captor executes him.
 gothic_wars.0016 = {
+	type = character_event
+	hidden = yes
+
+	trigger = {
+		is_alive = yes
+		is_imprisoned = yes
+		exists = imprisoner
+	}
+
+	immediate = {
+		save_scope_as = radagaisus_victim
+		imprisoner = { save_scope_as = radagaisus_executioner }
+		execute_opinion_effect = { VICTIM = scope:radagaisus_victim  EXECUTIONER = scope:radagaisus_executioner }
+		death = {
+			death_reason = death_execution
+			killer = scope:radagaisus_executioner
+		}
+	}
+}
+	}
+
+	{
+gothic_wars.0019 = {
+	type = character_event
+	theme = war
+	title = gothic_wars_0019.t
+	desc = gothic_wars_0019.desc
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	option = {
+		name = gothic_wars_0019.a
+		custom_tooltip = gothic_wars_0019.a.tt
+		hidden_effect = { start_suebi_migration_effect = yes }
+		spawn_army = {
+			name = tfe_suebic_migrators
+			levies = 1000
+			men_at_arms = {
+				type = bowmen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_horsemen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_footmen
+				stacks = 2
+			}
+			location = province:4147
+			inheritable = no
+		}
+		spawn_army = {
+			name = tfe_suebic_migrators
+			levies = 1000
+			men_at_arms = {
+				type = bowmen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_horsemen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_footmen
+				stacks = 2
+			}
+			location = province:4147
+			inheritable = no
+		}
+		spawn_army = {
+			name = tfe_suebic_migrators
+			levies = 1000
+			men_at_arms = {
+				type = bowmen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_horsemen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_footmen
+				stacks = 2
+			}
+			location = province:4147
+			inheritable = yes
+		}
+		spawn_army = {
+			name = tfe_suebic_migrators
+			levies = 1000
+			men_at_arms = {
+				type = bowmen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_horsemen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_footmen
+				stacks = 2
+			}
+			location = province:4147
+			inheritable = yes
+		}
+		ai_chance = { base = 100 }
+	}
+	option = {
+		name = gothic_wars_0019.b
+		ai_chance = { base = 0 }
+	}
+}
+
+gothic_wars.0020 = {
+	type = character_event
+	theme = war
+	title = gothic_wars_0019.t
+	desc = gothic_wars_0019.desc
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	option = {
+		name = gothic_wars_0019.a
+		custom_tooltip = gothic_wars_0019.a.tt
+		hidden_effect = { start_hasdingi_migration_effect = yes }
+		spawn_army = {
+			name = tfe_vandal_migrators
+			levies = 1000
+			men_at_arms = {
+				type = bowmen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_horsemen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_footmen
+				stacks = 2
+			}
+			location = root.capital_province
+			inheritable = no
+		}
+		spawn_army = {
+			name = tfe_vandal_migrators
+			levies = 1000
+			men_at_arms = {
+				type = bowmen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_horsemen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_footmen
+				stacks = 2
+			}
+			location = root.capital_province
+			inheritable = yes
+		}
+		ai_chance = { base = 100 }
+	}
+	option = {
+		name = gothic_wars_0019.b
+		ai_chance = { base = 0 }
+	}
+}
+
+gothic_wars.0021 = {
+	type = character_event
+	theme = war
+	title = gothic_wars_0019.t
+	desc = gothic_wars_0019.desc
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	option = {
+		name = gothic_wars_0019.a
+		custom_tooltip = gothic_wars_0019.a.tt
+		hidden_effect = { start_silingi_migration_effect = yes }
+		spawn_army = {
+			name = tfe_vandal_migrators
+			levies = 1000
+			men_at_arms = {
+				type = bowmen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_horsemen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_footmen
+				stacks = 2
+			}
+			location = root.capital_province
+			inheritable = no
+		}
+		spawn_army = {
+			name = tfe_vandal_migrators
+			levies = 1000
+			men_at_arms = {
+				type = bowmen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_horsemen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_footmen
+				stacks = 2
+			}
+			location = root.capital_province
+			inheritable = yes
+		}
+		ai_chance = { base = 100 }
+	}
+	option = {
+		name = gothic_wars_0019.b
+		ai_chance = { base = 0 }
+	}
+}
+
+gothic_wars.0022 = {
 	scope = none
 	hidden = yes
 
-	# Execution
 	immediate = {
-		title:k_goths.holder = {
-			death = {
-				death_reason = death_execution
-				killer = IMPRISONER
-			}
-		}
-		scope:dead = {
-			every_close_family_member = {
-				limit = { NOT = { this = IMPRISONER } }
-				add_opinion = {
-					modifier = pleased_opinion
-					opinion = 30
-					target = IMPRISONER
+		spawn_suebi_character_effect = yes
+		create_dynamic_title = {
+			tier = duchy
+			name = {
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							faith = { has_doctrine = doctrine_gender_male_dominated }
+						}
+						desc = tfe_suebic_migrators
+					}
+					#Fallback, just in case.
+					desc = tfe_suebic_migrators
 				}
 			}
 		}
-		execute_opinion_effect = { VICTIM = title:k_goths.holder EXECUTIONER = IMPRISONER }
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:new_title = {
+			set_capital_county = title:c_zatec
+			set_landless_title = yes
+			set_destroy_on_gain_same_tier = yes
+			set_no_automatic_claims = yes
+			set_can_be_named_after_dynasty = no
+			change_title_holder = {
+				holder = scope:suebi_king
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+		scope:new_title = {
+			generate_coa = yes
+			set_variable = {
+				name = temporary_title
+				value = yes
+			}
+		}
+		scope:suebi_king = {
+			add_prestige = 1500
+			trigger_event = gothic_wars.0019
+		}
+	}
+}
+
+gothic_wars.0023 = {
+	scope = none
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				any_ruler = {
+					culture = culture:vandal
+					is_at_war = no
+					OR = {
+						is_independent_ruler = yes
+						AND = {
+							NOT = { culture = liege.culture }
+							NOT = { culture = top_liege.culture }
+						}
+					}
+				}
+			}
+			random_ruler = {
+				limit = {
+					culture = culture:vandal
+					is_at_war = no
+					OR = {
+						is_independent_ruler = yes
+						AND = {
+							NOT = { culture = liege.culture }
+							NOT = { culture = top_liege.culture }
+						}
+					}
+				}
+				save_scope_as = vandal_king1
+				weight = {
+					base = 1
+					modifier = {
+						add = 100
+						has_title = title:d_hasdingi_vandals
+					}
+				}
+			}
+			scope:vandal_king1 = {
+				trigger_event = gothic_wars.0020
+			}
+		}
+		else = {
+			spawn_vandal1_character_effect = yes
+			create_dynamic_title = {
+				tier = duchy
+				name = {
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								faith = { has_doctrine = doctrine_gender_male_dominated }
+							}
+							desc = tfe_vandal_migrators
+						}
+						#Fallback, just in case.
+						desc = tfe_vandal_migrators
+					}
+				}
+			}
+			create_title_and_vassal_change = {
+				type = created
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			scope:new_title = {
+				set_capital_county = title:c_komarom
+				set_landless_title = yes
+				set_destroy_on_gain_same_tier = yes
+				set_no_automatic_claims = yes
+				set_can_be_named_after_dynasty = no
+				change_title_holder = {
+					holder = scope:vandal_king1
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+			scope:new_title = {
+				generate_coa = yes
+				set_variable = {
+					name = temporary_title
+					value = yes
+				}
+			}
+			scope:vandal_king1 = {
+				add_prestige = 1500
+				spawn_army = {
+					name = tfe_vandal_migrators
+					levies = 1000
+					men_at_arms = {
+						type = bowmen
+						stacks = 2
+					}
+					men_at_arms = {
+						type = light_horsemen
+						stacks = 2
+					}
+					men_at_arms = {
+						type = light_footmen
+						stacks = 2
+					}
+					location = province:522
+					inheritable = no
+				}
+				spawn_army = {
+					name = tfe_vandal_migrators
+					levies = 1000
+					men_at_arms = {
+						type = bowmen
+						stacks = 2
+					}
+					men_at_arms = {
+						type = light_horsemen
+						stacks = 2
+					}
+					men_at_arms = {
+						type = light_footmen
+						stacks = 2
+					}
+					location = province:522
+					inheritable = yes
+				}
+				trigger_event = gothic_wars.0020
+			}
+		}
+	}
+}
+
+gothic_wars.0024 = {
+	scope = none
+	hidden = yes
+
+	immediate = {
+		if = {
+			limit = {
+				any_ruler = {
+					culture = culture:vandal
+					is_at_war = no
+					NOT = { this = scope:vandal_king1 }
+					OR = {
+						is_independent_ruler = yes
+						AND = {
+							NOT = { culture = liege.culture }
+							NOT = { culture = top_liege.culture }
+						}
+					}
+				}
+			}
+			random_ruler = {
+				limit = {
+					culture = culture:vandal
+					is_at_war = no
+					NOT = { this = scope:vandal_king1 }
+					OR = {
+						is_independent_ruler = yes
+						AND = {
+							NOT = { culture = liege.culture }
+							NOT = { culture = top_liege.culture }
+						}
+					}
+				}
+				save_scope_as = vandal_king2
+				weight = {
+					base = 1
+					modifier = {
+						add = 100
+						has_title = title:d_silingi_vandals
+					}
+				}
+			}
+			scope:vandal_king2 = {
+				trigger_event = gothic_wars.0021
+			}
+		}
+		else = {
+			spawn_vandal2_character_effect = yes
+			create_dynamic_title = {
+				tier = duchy
+				name = {
+					first_valid = {
+						triggered_desc = {
+							trigger = {
+								faith = { has_doctrine = doctrine_gender_male_dominated }
+							}
+							desc = tfe_vandal_migrators
+						}
+						#Fallback, just in case.
+						desc = tfe_vandal_migrators
+					}
+				}
+			}
+			create_title_and_vassal_change = {
+				type = created
+				save_scope_as = change
+				add_claim_on_loss = no
+			}
+			scope:new_title = {
+				set_capital_county = title:c_spreewald
+				set_landless_title = yes
+				set_destroy_on_gain_same_tier = yes
+				set_no_automatic_claims = yes
+				set_can_be_named_after_dynasty = no
+				change_title_holder = {
+					holder = scope:vandal_king2
+					change = scope:change
+				}
+			}
+			resolve_title_and_vassal_change = scope:change
+			scope:new_title = {
+				generate_coa = yes
+				set_variable = {
+					name = temporary_title
+					value = yes
+				}
+			}
+			scope:vandal_king2 = {
+				add_prestige = 1500
+				spawn_army = {
+					name = tfe_vandal_migrators
+					levies = 1000
+					men_at_arms = {
+						type = bowmen
+						stacks = 2
+					}
+					men_at_arms = {
+						type = light_horsemen
+						stacks = 2
+					}
+					men_at_arms = {
+						type = light_footmen
+						stacks = 2
+					}
+					location = province:3140
+					inheritable = no
+				}
+				spawn_army = {
+					name = tfe_vandal_migrators
+					levies = 1000
+					men_at_arms = {
+						type = bowmen
+						stacks = 2
+					}
+					men_at_arms = {
+						type = light_horsemen
+						stacks = 2
+					}
+					men_at_arms = {
+						type = light_footmen
+						stacks = 2
+					}
+					location = province:3140
+					inheritable = yes
+				}
+				trigger_event = gothic_wars.0021
+			}
+		}
+	}
+}
+
+gothic_wars.0025 = {
+	scope = none
+	hidden = yes
+
+	immediate = {
+		spawn_alan_character_effect = yes
+		create_dynamic_title = {
+			tier = duchy
+			name = {
+				first_valid = {
+					triggered_desc = {
+						trigger = {
+							faith = { has_doctrine = doctrine_gender_male_dominated }
+						}
+						desc = tfe_alan_migrators
+					}
+					#Fallback, just in case.
+					desc = tfe_alan_migrators
+				}
+			}
+		}
+		create_title_and_vassal_change = {
+			type = created
+			save_scope_as = change
+			add_claim_on_loss = no
+		}
+		scope:new_title = {
+			set_capital_county = title:c_breisgau
+			set_landless_title = yes
+			set_destroy_on_gain_same_tier = yes
+			set_no_automatic_claims = yes
+			set_can_be_named_after_dynasty = no
+			change_title_holder = {
+				holder = scope:alan_king
+				change = scope:change
+			}
+		}
+		resolve_title_and_vassal_change = scope:change
+		scope:new_title = {
+			generate_coa = yes
+			set_variable = {
+				name = temporary_title
+				value = yes
+			}
+		}
+		scope:alan_king = {
+			add_prestige = 1500
+			trigger_event = gothic_wars.0026
+		}
+	}
+}
+
+gothic_wars.0026 = {
+	type = character_event
+	theme = war
+	title = gothic_wars_0019.t
+	desc = gothic_wars_0019.desc
+
+	left_portrait = {
+		character = root
+		animation = personality_bold
+	}
+
+	immediate = {
+		root = {
+			save_scope_as = alan_king
+		}
+	}
+
+	option = {
+		name = gothic_wars_0019.a
+		custom_tooltip = gothic_wars_0019.a.tt
+		hidden_effect = { start_alan_migration_effect = yes }
+		spawn_army = {
+			name = tfe_alan_migrators
+			levies = 1000
+			men_at_arms = {
+				type = bowmen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_horsemen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_footmen
+				stacks = 2
+			}
+			location = province:2751
+			inheritable = no
+		}
+		spawn_army = {
+			name = tfe_alan_migrators
+			levies = 1000
+			men_at_arms = {
+				type = bowmen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = horse_archers
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_footmen
+				stacks = 2
+			}
+			location = province:2751
+			inheritable = no
+		}
+		spawn_army = {
+			name = tfe_alan_migrators
+			levies = 1000
+			men_at_arms = {
+				type = bowmen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_horsemen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_footmen
+				stacks = 2
+			}
+			location = province:2751
+			inheritable = yes
+		}
+		spawn_army = {
+			name = tfe_alan_migrators
+			levies = 1000
+			men_at_arms = {
+				type = bowmen
+				stacks = 2
+			}
+			men_at_arms = {
+				type = horse_archers
+				stacks = 2
+			}
+			men_at_arms = {
+				type = light_footmen
+				stacks = 2
+			}
+			location = province:2751
+			inheritable = yes
+		}
+		ai_chance = { base = 100 }
+	}
+	option = {
+		name = gothic_wars_0019.b
+		ai_chance = { base = 0 }
 	}
 }
 	}
@@ -15282,6 +15849,7 @@ liang.0010 = {
 		}
 		if = {
 			limit = {
+				is_ai = no
 				scope:li_gao = {
 					is_ai = yes
 				}
@@ -18831,9 +19399,7 @@ palace_khawarnaq = {
 	# The event about the division of the Roman Empire should not mention Diocletian.
 	{
 	immediate = {
-		character:145241 = {
-			save_scope_as = diocletian
-		}
+		character:145241 ?= { save_scope_as = diocletian }
 	}
 	}
 
@@ -18931,71 +19497,6 @@ lower_right_portrait = character:900962
 	}
 }
 
-"events/steppe_events.txt" = {
-	{
-steppe.6666 = {
-	scope = none
-	hidden = yes
-
-	immediate = {
-		debug_log = "Attila spawns!"
-		debug_log_date = yes
-		spawn_attila_character_effect = yes
-		set_global_variable = {
-			name = attila_spawn
-			value = yes
-		}
-		title:e_hunnic_empire.holder = {
-			save_scope_as = khan
-		}
-		scope:attila = {
-			copy_inheritable_appearance_from = character:990000
-			add_trait = the_hun
-			change_age = -3
-			give_nickname = nick_the_hun
-			set_character_faith = scope:khan.faith
-			set_culture = scope:khan.culture
-			if = {
-				limit = {
-					scope:khan = {
-						is_female = no
-					}
-				}
-				set_father = scope:khan
-				set_house = scope:khan.house
-			}
-			if = {
-				limit = {
-					scope:khan = {
-						is_female = yes
-					}
-				}
-				set_mother = scope:khan
-				set_house = scope:khan.house
-			}
-			scope:khan = {
-				set_designated_heir = scope:attila
-				add_courtier = scope:attila
-			}
-			#Doesn't work
-			#add_martial_skill = 10
-			#add_diplomacy_skill = 5
-			#add_intrigue_skill = 5
-			#add_stewardship_skill = 5
-			#add_prowess_skill = 10
-		}
-		every_player = {
-			trigger_event = {
-				id = steppe.0011
-			}
-		}	
-	}
-
-
-}
-	}
-}
-
 "events/tfe_culture_events.txt" = {
 	{
 		modifier = {
@@ -19089,237 +19590,7 @@ on_senate_start_italy = {
 		title:c_roma.holder.top_liege ?= {
 			save_scope_as = roma_liege
 		}
-		if = {
-			limit = {
-				exists = scope:roma_liege
-				scope:roma_liege = { NOT = { government_has_flag = government_is_roman_imperial } }
-			}
-			while = {
-				count = 6
-				create_character = {
-					culture = title:c_roma.culture
-					gender = male
-					age = { 35 50 }
-					dynasty = generate
-					trait = low_senator
-					faith = scope:roma_liege.faith
-					employer = scope:roma_liege
-					save_scope_as = senator
-				}
-				scope:senator = {
-					add_to_global_variable_list = {
-						name = low_senate_italy
-						target = THIS
-					}
-					add_to_global_variable_list = {
-						name = all_senate_italy
-						target = THIS
-					}
-					if = {
-						limit = {
-							scope:roma_liege.primary_title ?= { is_titular = no }
-						}
-						add_pressed_claim = scope:roma_liege.primary_title
-					}
-					decide_senate_idea = yes
-					if = {
-						limit = {
-							is_alive = yes
-							NOT = { any_held_title = { is_noble_family_title = yes } }
-							liege ?= { government_allows = administrative }
-						}
-						create_noble_family_effect = { GOVERNMENT_GIVER = top_liege }
-						domicile ?= { set_up_domicile_estate_effect = yes }
-						if = {
-							limit = { liege ?= { has_government = administrative_government } }
-							change_government = administrative_government
-						}
-						else_if = {
-							limit = { liege ?= { has_government = roman_government } }
-							change_government = roman_government
-						}
-						else_if = {
-							limit = { liege ?= { has_government = imperial_cult_government } }
-							change_government = imperial_cult_government
-						}
-					}
-				}
-			}
-			while = {
-				count = 10
-				create_character = {
-					culture = title:c_roma.culture
-					gender = male
-					age = { 35 50 }
-					dynasty = generate
-					trait = senator
-					faith = scope:roma_liege.faith
-					employer = scope:roma_liege
-					save_scope_as = senator
-				}
-				scope:senator = {
-					add_to_global_variable_list = {
-						name = senate_italy
-						target = THIS
-					}
-					add_to_global_variable_list = {
-						name = all_senate_italy
-						target = THIS
-					}
-					if = {
-						limit = {
-							scope:roma_liege.primary_title ?= { is_titular = no }
-						}
-						add_pressed_claim = scope:roma_liege.primary_title
-					}
-					decide_senate_idea = yes
-					if = {
-						limit = {
-							is_alive = yes
-							NOT = { any_held_title = { is_noble_family_title = yes } }
-							liege ?= { government_allows = administrative }
-						}
-						create_noble_family_effect = { GOVERNMENT_GIVER = top_liege }
-						domicile ?= { set_up_domicile_estate_effect = yes }
-						if = {
-							limit = { liege ?= { has_government = administrative_government } }
-							change_government = administrative_government
-						}
-						else_if = {
-							limit = { liege ?= { has_government = roman_government } }
-							change_government = roman_government
-						}
-						else_if = {
-							limit = { liege ?= { has_government = imperial_cult_government } }
-							change_government = imperial_cult_government
-						}
-					}
-				}
-			}
-			while = {
-				count = 5
-				create_character = {
-					culture = title:c_roma.culture
-					gender = male
-					age = { 35 50 }
-					dynasty = generate
-					trait = high_senator
-					faith = scope:roma_liege.faith
-					employer = scope:roma_liege
-					save_scope_as = senator
-				}
-				scope:senator = {
-					add_to_global_variable_list = {
-						name = high_senate_italy
-						target = THIS
-					}
-					add_to_global_variable_list = {
-						name = all_senate_italy
-						target = THIS
-					}
-					if = {
-						limit = {
-							scope:roma_liege.primary_title ?= { is_titular = no }
-						}
-						add_pressed_claim = scope:roma_liege.primary_title
-					}
-					decide_senate_idea = yes
-					if = {
-						limit = {
-							is_alive = yes
-							NOT = { any_held_title = { is_noble_family_title = yes } }
-							liege ?= { government_allows = administrative }
-						}
-						create_noble_family_effect = { GOVERNMENT_GIVER = top_liege }
-						domicile ?= { set_up_domicile_estate_effect = yes }
-						if = {
-							limit = { liege ?= { has_government = administrative_government } }
-							change_government = administrative_government
-						}
-						else_if = {
-							limit = { liege ?= { has_government = roman_government } }
-							change_government = roman_government
-						}
-						else_if = {
-							limit = { liege ?= { has_government = imperial_cult_government } }
-							change_government = imperial_cult_government
-						}
-					}
-				}
-			}
-		}
-		every_in_global_list = {
-			variable = low_senate_italy
-			limit = { is_alive = yes }
-			random_list = {
-				33 = {
-					add_to_global_variable_list = {
-						name = aristocratic_senate_italy
-						target = THIS
-					}
-				}
-				33 = {
-					add_to_global_variable_list = {
-						name = populist_senate_italy
-						target = THIS
-					}
-				}
-				33 = {
-					add_to_global_variable_list = {
-						name = traditionalist_senate_italy
-						target = THIS
-					}
-				}
-			}
-		}
-		every_in_global_list = {
-			variable = senate_italy
-			limit = { is_alive = yes }
-			random_list = {
-				33 = {
-					add_to_global_variable_list = {
-						name = aristocratic_senate_italy
-						target = THIS
-					}
-				}
-				33 = {
-					add_to_global_variable_list = {
-						name = populist_senate_italy
-						target = THIS
-					}
-				}
-				33 = {
-					add_to_global_variable_list = {
-						name = traditionalist_senate_italy
-						target = THIS
-					}
-				}
-			}
-		}
-		every_in_global_list = {
-			variable = high_senate_italy
-			limit = { is_alive = yes }
-			random_list = {
-				33 = {
-					add_to_global_variable_list = {
-						name = aristocratic_senate_italy
-						target = THIS
-					}
-				}
-				33 = {
-					add_to_global_variable_list = {
-						name = populist_senate_italy
-						target = THIS
-					}
-				}
-				33 = {
-					add_to_global_variable_list = {
-						name = traditionalist_senate_italy
-						target = THIS
-					}
-				}
-			}
-		}
+		tfe_reconcile_senate_membership_effect = yes
 		set_global_variable = {
 			name = aristocratic_senate_italy_gold
 			value = 1000
@@ -19350,7 +19621,7 @@ on_senate_start_italy = {
 		}
 		scope:roma_liege ?= {
 			add_character_modifier = taxing_rights_senate_admin
-			add_character_modifier = exclusion_senate_mil
+			add_character_modifier = tfe_senate_fiscus_mil
 			add_character_modifier = regular_senate_legislation
 		}
 	}
@@ -19376,237 +19647,7 @@ on_senate_start_eastern = {
 		title:c_byzantion.holder.top_liege ?= {
 			save_scope_as = byzantion_liege
 		}
-		if = {
-			limit = {
-				exists = scope:byzantion_liege
-				scope:byzantion_liege = { NOT = { government_has_flag = government_is_roman_imperial } }
-			}
-			while = {
-				count = 6
-				create_character = {
-					culture = scope:byzantion_liege.culture
-					gender = male
-					age = { 35 50 }
-					dynasty = generate
-					trait = low_senator
-					faith = scope:byzantion_liege.faith
-					employer = scope:byzantion_liege
-					save_scope_as = senator
-				}
-				scope:senator = {
-					add_to_global_variable_list = {
-						name = low_senate_eastern
-						target = THIS
-					}
-					add_to_global_variable_list = {
-						name = all_senate_eastern
-						target = THIS
-					}
-					if = {
-						limit = {
-							scope:byzantion_liege.primary_title ?= { is_titular = no }
-						}
-						add_pressed_claim = scope:byzantion_liege.primary_title
-					}
-					decide_senate_idea = yes
-					if = {
-						limit = {
-							is_alive = yes
-							NOT = { any_held_title = { is_noble_family_title = yes } }
-							liege ?= { government_allows = administrative }
-						}
-						create_noble_family_effect = { GOVERNMENT_GIVER = top_liege }
-						domicile ?= { set_up_domicile_estate_effect = yes }
-						if = {
-							limit = { liege ?= { has_government = administrative_government } }
-							change_government = administrative_government
-						}
-						else_if = {
-							limit = { liege ?= { has_government = roman_government } }
-							change_government = roman_government
-						}
-						else_if = {
-							limit = { liege ?= { has_government = imperial_cult_government } }
-							change_government = imperial_cult_government
-						}
-					}
-				}
-			}
-			while = {
-				count = 10
-				create_character = {
-					culture = scope:byzantion_liege.culture
-					gender = male
-					age = { 35 50 }
-					dynasty = generate
-					trait = senator
-					faith = scope:byzantion_liege.faith
-					employer = scope:byzantion_liege
-					save_scope_as = senator
-				}
-				scope:senator = {
-					add_to_global_variable_list = {
-						name = senate_eastern
-						target = THIS
-					}
-					add_to_global_variable_list = {
-						name = all_senate_eastern
-						target = THIS
-					}
-					if = {
-						limit = {
-							scope:byzantion_liege.primary_title ?= { is_titular = no }
-						}
-						add_pressed_claim = scope:byzantion_liege.primary_title
-					}
-					decide_senate_idea = yes
-					if = {
-						limit = {
-							is_alive = yes
-							NOT = { any_held_title = { is_noble_family_title = yes } }
-							liege ?= { government_allows = administrative }
-						}
-						create_noble_family_effect = { GOVERNMENT_GIVER = top_liege }
-						domicile ?= { set_up_domicile_estate_effect = yes }
-						if = {
-							limit = { liege ?= { has_government = administrative_government } }
-							change_government = administrative_government
-						}
-						else_if = {
-							limit = { liege ?= { has_government = roman_government } }
-							change_government = roman_government
-						}
-						else_if = {
-							limit = { liege ?= { has_government = imperial_cult_government } }
-							change_government = imperial_cult_government
-						}
-					}
-				}
-			}
-			while = {
-				count = 5
-				create_character = {
-					culture = scope:byzantion_liege.culture
-					gender = male
-					age = { 35 50 }
-					dynasty = generate
-					trait = high_senator
-					faith = scope:byzantion_liege.faith
-					employer = scope:byzantion_liege
-					save_scope_as = senator
-				}
-				scope:senator = {
-					add_to_global_variable_list = {
-						name = high_senate_eastern
-						target = THIS
-					}
-					add_to_global_variable_list = {
-						name = all_senate_eastern
-						target = THIS
-					}
-					if = {
-						limit = {
-							scope:byzantion_liege.primary_title ?= { is_titular = no }
-						}
-						add_pressed_claim = scope:byzantion_liege.primary_title
-					}
-					decide_senate_idea = yes
-					if = {
-						limit = {
-							is_alive = yes
-							NOT = { any_held_title = { is_noble_family_title = yes } }
-							liege ?= { government_allows = administrative }
-						}
-						create_noble_family_effect = { GOVERNMENT_GIVER = top_liege }
-						domicile ?= { set_up_domicile_estate_effect = yes }
-						if = {
-							limit = { liege ?= { has_government = administrative_government } }
-							change_government = administrative_government
-						}
-						else_if = {
-							limit = { liege ?= { has_government = roman_government } }
-							change_government = roman_government
-						}
-						else_if = {
-							limit = { liege ?= { has_government = imperial_cult_government } }
-							change_government = imperial_cult_government
-						}
-					}
-				}
-			}
-		}
-		every_in_global_list = {
-			variable = low_senate_eastern
-			limit = { is_alive = yes }
-			random_list = {
-				33 = {
-					add_to_global_variable_list = {
-						name = aristocratic_senate_eastern
-						target = THIS
-					}
-				}
-				33 = {
-					add_to_global_variable_list = {
-						name = populist_senate_eastern
-						target = THIS
-					}
-				}
-				33 = {
-					add_to_global_variable_list = {
-						name = traditionalist_senate_eastern
-						target = THIS
-					}
-				}
-			}
-		}
-		every_in_global_list = {
-			variable = senate_eastern
-			limit = { is_alive = yes }
-			random_list = {
-				33 = {
-					add_to_global_variable_list = {
-						name = aristocratic_senate_eastern
-						target = THIS
-					}
-				}
-				33 = {
-					add_to_global_variable_list = {
-						name = populist_senate_eastern
-						target = THIS
-					}
-				}
-				33 = {
-					add_to_global_variable_list = {
-						name = traditionalist_senate_eastern
-						target = THIS
-					}
-				}
-			}
-		}
-		every_in_global_list = {
-			variable = high_senate_eastern
-			limit = { is_alive = yes }
-			random_list = {
-				33 = {
-					add_to_global_variable_list = {
-						name = aristocratic_senate_eastern
-						target = THIS
-					}
-				}
-				33 = {
-					add_to_global_variable_list = {
-						name = populist_senate_eastern
-						target = THIS
-					}
-				}
-				33 = {
-					add_to_global_variable_list = {
-						name = traditionalist_senate_eastern
-						target = THIS
-					}
-				}
-			}
-		}
+		tfe_reconcile_senate_membership_effect = yes
 		set_global_variable = {
 			name = aristocratic_senate_eastern_gold
 			value = 1000
@@ -19637,7 +19678,7 @@ on_senate_start_eastern = {
 		}
 		scope:byzantion_liege ?= {
 			add_character_modifier = taxing_rights_senate_admin
-			add_character_modifier = exclusion_senate_mil
+			add_character_modifier = tfe_senate_fiscus_mil
 			add_character_modifier = regular_senate_legislation
 		}
 	}
@@ -19689,27 +19730,6 @@ on_senate_yearly = {
 						NOT = { has_character_modifier = absolute_senate_admin }
 					}
 					add_character_modifier = absolute_senate_admin
-				}
-				if = {
-					limit = {
-						global_var:italy_senate_military = flag:exclusion
-						NOT = { has_character_modifier = exclusion_senate_mil }
-					}
-					add_character_modifier = exclusion_senate_mil
-				}
-				else_if = {
-					limit = {
-						global_var:italy_senate_military = flag:regular
-						NOT = { has_character_modifier = regular_senate_mil }
-					}
-					add_character_modifier = regular_senate_mil
-				}
-				else_if = {
-					limit = {
-						global_var:italy_senate_military = flag:retinue
-						NOT = { has_character_modifier = retinue_senate_mil }
-					}
-					add_character_modifier = retinue_senate_mil
 				}
 				if = {
 					limit = {
@@ -19777,27 +19797,6 @@ on_senate_yearly_eastern = {
 				}
 				if = {
 					limit = {
-						global_var:eastern_senate_military = flag:exclusion
-						NOT = { has_character_modifier = exclusion_senate_mil }
-					}
-					add_character_modifier = exclusion_senate_mil
-				}
-				else_if = {
-					limit = {
-						global_var:eastern_senate_military = flag:regular
-						NOT = { has_character_modifier = regular_senate_mil }
-					}
-					add_character_modifier = regular_senate_mil
-				}
-				else_if = {
-					limit = {
-						global_var:eastern_senate_military = flag:retinue
-						NOT = { has_character_modifier = retinue_senate_mil }
-					}
-					add_character_modifier = retinue_senate_mil
-				}
-				if = {
-					limit = {
 						global_var:eastern_senate_legistlation = flag:no_legislation
 						NOT = { has_character_modifier = no_senate_legislation }
 					}
@@ -19826,525 +19825,6 @@ on_senate_yearly_eastern = {
 	}
 }
 
-on_title_gain = {
-	on_actions = { senate_on_title_gain }
-	on_actions = { senate_on_title_gain_eastern }
-}
-
-senate_on_title_gain = {
-	effect = {
-		if = {
-			limit = {
-				is_alive = yes
-				is_target_in_global_variable_list = {
-					name = all_senate_italy
-					target = THIS
-				}
-				scope:title = { is_noble_family_title = no }
-			}
-			if = {
-				limit = { has_trait = low_senator }
-				remove_trait = low_senator
-				add_trait = former_senator
-				title:c_roma.holder.top_liege ?= {
-					if = {
-						limit = { has_claim_on = prev.primary_title }
-						remove_claim = prev.primary_title
-					}
-					if = {
-						limit = {
-							any_courtier = {
-								is_alive = yes
-								has_trait = training_senator
-								age >= 35
-							}
-						}
-						random_courtier = {
-							limit = {
-								is_alive = yes
-								has_trait = training_senator
-								age >= 35
-							}
-							save_scope_as = new_senator
-						}
-					}
-					else = {
-						create_character = {
-							culture = title:c_roma.culture
-							gender = male
-							age = { 35 50 }
-							dynasty = generate
-							trait = low_senator
-							faith = prev.faith
-							employer = prev
-							save_scope_as = new_senator
-						}
-					}
-				}
-				remove_list_global_variable = {
-					name = low_senate_italy
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = all_senate_italy
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = aristocratic_senate_italy
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = populist_senate_italy
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = traditionalist_senate_italy
-					target = THIS
-				}
-				scope:new_senator = {
-					remove_trait = training_senator
-					add_trait = low_senator
-					add_to_global_variable_list = {
-						name = low_senate_italy
-						target = THIS
-					}
-					add_to_global_variable_list = {
-						name = all_senate_italy
-						target = THIS
-					}
-					title:c_roma.holder.top_liege ?= {
-						save_scope_as = senate_top_liege
-						if = {
-							limit = { primary_title ?= { is_titular = no } }
-							scope:new_senator = { add_pressed_claim = scope:senate_top_liege.primary_title }
-						}
-					}
-					decide_senate_party = yes
-					decide_senate_idea = yes
-				}
-			}
-			else_if = {
-				limit = { has_trait = senator }
-				remove_trait = senator
-				add_trait = former_senator
-				title:c_roma.holder.top_liege ?= {
-					if = {
-						limit = { has_claim_on = prev.primary_title }
-						remove_claim = prev.primary_title
-					}
-				}
-				remove_list_global_variable = {
-					name = senate_italy
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = all_senate_italy
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = aristocratic_senate_italy
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = populist_senate_italy
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = traditionalist_senate_italy
-					target = THIS
-				}
-				random_in_global_list = {
-					variable = low_senate_italy
-					limit = { is_alive = yes }
-					remove_trait = low_senator
-					add_trait = senator
-					remove_list_global_variable = {
-						name = low_senate_italy
-						target = THIS
-					}
-					add_to_global_variable_list = {
-						name = senate_italy
-						target = THIS
-					}
-					title:c_roma.holder.top_liege ?= {
-						save_scope_as = senate_top_liege
-						create_character = {
-							culture = title:c_roma.culture
-							gender = male
-							age = { 35 50 }
-							dynasty = generate
-							trait = low_senator
-							faith = prev.faith
-							employer = prev
-							save_scope_as = new_senator
-						}
-						scope:new_senator = {
-							add_to_global_variable_list = {
-								name = low_senate_italy
-								target = THIS
-							}
-							add_to_global_variable_list = {
-								name = all_senate_italy
-								target = THIS
-							}
-							if = {
-								limit = { scope:senate_top_liege.primary_title ?= { is_titular = no } }
-								add_pressed_claim = scope:senate_top_liege.primary_title
-							}
-							decide_senate_party = yes
-							decide_senate_idea = yes
-						}
-					}
-				}
-			}
-			else_if = {
-				limit = { has_trait = high_senator }
-				remove_trait = high_senator
-				add_trait = former_senator
-				title:c_roma.holder.top_liege ?= {
-					if = {
-						limit = { has_claim_on = prev.primary_title }
-						remove_claim = prev.primary_title
-					}
-				}
-				remove_list_global_variable = {
-					name = high_senate_italy
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = all_senate_italy
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = aristocratic_senate_italy
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = populist_senate_italy
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = traditionalist_senate_italy
-					target = THIS
-				}
-				random_in_global_list = {
-					variable = senate_italy
-					limit = { is_alive = yes }
-					remove_trait = senator
-					add_trait = high_senator
-					remove_list_global_variable = {
-						name = senate_italy
-						target = THIS
-					}
-					add_to_global_variable_list = {
-						name = high_senate_italy
-						target = THIS
-					}
-					random_in_global_list = {
-						variable = low_senate_italy
-						limit = { is_alive = yes }
-						remove_trait = low_senator
-						add_trait = senator
-						remove_list_global_variable = {
-							name = low_senate_italy
-							target = THIS
-						}
-						add_to_global_variable_list = {
-							name = senate_italy
-							target = THIS
-						}
-						title:c_roma.holder.top_liege ?= {
-							save_scope_as = senate_top_liege
-							create_character = {
-								culture = title:c_roma.culture
-								gender = male
-								age = { 35 50 }
-								dynasty = generate
-								trait = low_senator
-								faith = prev.faith
-								employer = prev
-								save_scope_as = new_senator
-							}
-							scope:new_senator = {
-								add_to_global_variable_list = {
-									name = low_senate_italy
-									target = THIS
-								}
-								add_to_global_variable_list = {
-									name = all_senate_italy
-									target = THIS
-								}
-								if = {
-									limit = { scope:senate_top_liege.primary_title ?= { is_titular = no } }
-									add_pressed_claim = scope:senate_top_liege.primary_title
-								}
-								decide_senate_party = yes
-								decide_senate_idea = yes
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
-senate_on_title_gain_eastern = {
-	effect = {
-		if = {
-			limit = {
-				is_alive = yes
-				is_target_in_global_variable_list = {
-					name = all_senate_eastern
-					target = THIS
-				}
-				scope:title = { is_noble_family_title = no }
-			}
-			if = {
-				limit = { has_trait = low_senator }
-				remove_trait = low_senator
-				add_trait = former_senator
-				title:c_byzantion.holder.top_liege ?= {
-					if = {
-						limit = { has_claim_on = prev.primary_title }
-						remove_claim = prev.primary_title
-					}
-					if = {
-						limit = {
-							any_courtier = {
-								is_alive = yes
-								has_trait = training_senator
-								age >= 35
-							}
-						}
-						random_courtier = {
-							limit = {
-								is_alive = yes
-								has_trait = training_senator
-								age >= 35
-							}
-							save_scope_as = new_senator
-						}
-					}
-					else = {
-						create_character = {
-							culture = title:c_byzantion.culture
-							gender = male
-							age = { 35 50 }
-							dynasty = generate
-							trait = low_senator
-							faith = prev.faith
-							employer = prev
-							save_scope_as = new_senator
-						}
-					}
-				}
-				remove_list_global_variable = {
-					name = low_senate_eastern
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = all_senate_eastern
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = aristocratic_senate_eastern
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = populist_senate_eastern
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = traditionalist_senate_eastern
-					target = THIS
-				}
-				scope:new_senator = {
-					remove_trait = training_senator
-					add_trait = low_senator
-					add_to_global_variable_list = {
-						name = low_senate_eastern
-						target = THIS
-					}
-					add_to_global_variable_list = {
-						name = all_senate_eastern
-						target = THIS
-					}
-					title:c_byzantion.holder.top_liege ?= {
-						save_scope_as = senate_top_liege
-						if = {
-							limit = { primary_title ?= { is_titular = no } }
-							scope:new_senator = { add_pressed_claim = scope:senate_top_liege.primary_title }
-						}
-					}
-					decide_senate_party = yes
-					decide_senate_idea = yes
-				}
-			}
-			else_if = {
-				limit = { has_trait = senator }
-				remove_trait = senator
-				add_trait = former_senator
-				title:c_byzantion.holder.top_liege ?= {
-					if = {
-						limit = { has_claim_on = prev.primary_title }
-						remove_claim = prev.primary_title
-					}
-				}
-				remove_list_global_variable = {
-					name = senate_eastern
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = all_senate_eastern
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = aristocratic_senate_eastern
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = populist_senate_eastern
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = traditionalist_senate_eastern
-					target = THIS
-				}
-				random_in_global_list = {
-					variable = low_senate_eastern
-					limit = { is_alive = yes }
-					remove_trait = low_senator
-					add_trait = senator
-					remove_list_global_variable = {
-						name = low_senate_eastern
-						target = THIS
-					}
-					add_to_global_variable_list = {
-						name = senate_eastern
-						target = THIS
-					}
-					title:c_byzantion.holder.top_liege ?= {
-						save_scope_as = senate_top_liege
-						create_character = {
-							culture = title:c_byzantion.culture
-							gender = male
-							age = { 35 50 }
-							dynasty = generate
-							trait = low_senator
-							faith = prev.faith
-							employer = prev
-							save_scope_as = new_senator
-						}
-						scope:new_senator = {
-							add_to_global_variable_list = {
-								name = low_senate_eastern
-								target = THIS
-							}
-							add_to_global_variable_list = {
-								name = all_senate_eastern
-								target = THIS
-							}
-							if = {
-								limit = { scope:senate_top_liege.primary_title ?= { is_titular = no } }
-								add_pressed_claim = scope:senate_top_liege.primary_title
-							}
-							decide_senate_party = yes
-							decide_senate_idea = yes
-						}
-					}
-				}
-			}
-			else_if = {
-				limit = { has_trait = high_senator }
-				remove_trait = high_senator
-				add_trait = former_senator
-				title:c_byzantion.holder.top_liege ?= {
-					if = {
-						limit = { has_claim_on = prev.primary_title }
-						remove_claim = prev.primary_title
-					}
-				}
-				remove_list_global_variable = {
-					name = high_senate_eastern
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = all_senate_eastern
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = aristocratic_senate_eastern
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = populist_senate_eastern
-					target = THIS
-				}
-				remove_list_global_variable = {
-					name = traditionalist_senate_eastern
-					target = THIS
-				}
-				random_in_global_list = {
-					variable = senate_eastern
-					limit = { is_alive = yes }
-					remove_trait = senator
-					add_trait = high_senator
-					remove_list_global_variable = {
-						name = senate_eastern
-						target = THIS
-					}
-					add_to_global_variable_list = {
-						name = high_senate_eastern
-						target = THIS
-					}
-					random_in_global_list = {
-						variable = low_senate_eastern
-						limit = { is_alive = yes }
-						remove_trait = low_senator
-						add_trait = senator
-						remove_list_global_variable = {
-							name = low_senate_eastern
-							target = THIS
-						}
-						add_to_global_variable_list = {
-							name = senate_eastern
-							target = THIS
-						}
-						title:c_byzantion.holder.top_liege ?= {
-							save_scope_as = senate_top_liege
-							create_character = {
-								culture = title:c_byzantion.culture
-								gender = male
-								age = { 35 50 }
-								dynasty = generate
-								trait = low_senator
-								faith = prev.faith
-								employer = prev
-								save_scope_as = new_senator
-							}
-							scope:new_senator = {
-								add_to_global_variable_list = {
-									name = low_senate_eastern
-									target = THIS
-								}
-								add_to_global_variable_list = {
-									name = all_senate_eastern
-									target = THIS
-								}
-								if = {
-									limit = { scope:senate_top_liege.primary_title ?= { is_titular = no } }
-									add_pressed_claim = scope:senate_top_liege.primary_title
-								}
-								decide_senate_party = yes
-								decide_senate_idea = yes
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-}
 
 #senate use money
 on_senate_20_years = {
@@ -21278,6 +20758,7 @@ on_senate_lol_italy = {
 					is_alive = yes
 					access_to_italian_senate = yes
 				}
+				title:c_roma = { save_scope_as = tfe_senate_seat }
 				if = {
 					limit = {
 						OR = {
@@ -21481,6 +20962,7 @@ on_senate_lol_eastern = {
 					is_alive = yes
 					access_to_eastern_senate = yes
 				}
+				title:c_byzantion = { save_scope_as = tfe_senate_seat }
 				if = {
 					limit = {
 						OR = {
@@ -21718,8 +21200,6 @@ on_game_start = {
 	on_actions = {
 		on_senate_tasks
 		on_senate_tasks_eastern
-		on_senate_tasks_2_years
-		on_senate_tasks_2_years_eastern
 	}
 }
 
@@ -21733,14 +21213,7 @@ on_senate_tasks = {
 						is_alive = yes
 						access_to_italian_senate = yes
 					}
-				}
-				decide_new_task = yes
-				if = {
-					limit = { global_var:italy_senate_tasks = flag:conquer }
-					trigger_event = {
-						id = senate.0005
-						days = 1
-					}
+					decide_new_task = yes
 				}
 			}
 		}
@@ -21748,61 +21221,6 @@ on_senate_tasks = {
 	on_actions = {
 		delay = { days = { 3650 3750 } }
 		on_senate_tasks
-	}
-}
-
-on_senate_tasks_2_years = {
-	effect = {
-		title:c_roma.holder.top_liege ?= {
-			if = {
-				limit = {
-					is_alive = yes
-					access_to_italian_senate = yes
-				}
-				if = {
-					limit = {
-						global_var:italy_senate_tasks = flag:conquer
-						global_var:italy_senate_conquer = { is_alive = no }
-					}
-					trigger_event = {
-						id = senate.0005
-						days = 1
-					}
-				}
-				else_if = {
-					limit = {
-						global_var:italy_senate_tasks = flag:convert_culture
-						global_var:italy_senate_convert_culture_county = { culture = prev.culture }
-					}
-					trigger_event = {
-						id = senate.0001
-						days = 1
-					}
-					set_global_variable = {
-						name = italy_senate_tasks
-						value = flag:none
-					}
-				}
-				else_if = {
-					limit = {
-						global_var:italy_senate_tasks = flag:convert_faith
-						global_var:italy_senate_convert_faith_county = { faith = prev.faith }
-					}
-					trigger_event = {
-						id = senate.0002
-						days = 1
-					}
-					set_global_variable = {
-						name = italy_senate_tasks
-						value = flag:none
-					}
-				}
-			}
-		}
-	}
-	on_actions = {
-		delay = { years = 2 }
-		on_senate_tasks_2_years
 	}
 }
 
@@ -21817,13 +21235,6 @@ on_senate_tasks_eastern = {
 						access_to_eastern_senate = yes
 					}
 					decide_new_task_eastern = yes
-					if = {
-						limit = { global_var:eastern_senate_tasks = flag:conquer }
-						trigger_event = {
-							id = senate.0007
-							days = 1
-						}
-					}
 				}
 			}
 		}
@@ -21831,61 +21242,6 @@ on_senate_tasks_eastern = {
 	on_actions = {
 		delay = { days = { 3650 3750 } }
 		on_senate_tasks_eastern
-	}
-}
-
-on_senate_tasks_2_years_eastern = {
-	effect = {
-		title:c_byzantion.holder.top_liege ?= {
-			if = {
-				limit = {
-					is_alive = yes
-					access_to_eastern_senate = yes
-				}
-				if = {
-					limit = {
-						global_var:eastern_senate_tasks = flag:conquer
-						global_var:eastern_senate_conquer = { is_alive = no }
-					}
-					trigger_event = {
-						id = senate.0007
-						days = 1
-					}
-				}
-				else_if = {
-					limit = {
-						global_var:eastern_senate_tasks = flag:convert_culture
-						global_var:eastern_senate_convert_culture_county = { culture = prev.culture }
-					}
-					trigger_event = {
-						id = senate.0001
-						days = 1
-					}
-					set_global_variable = {
-						name = eastern_senate_tasks
-						value = flag:none
-					}
-				}
-				else_if = {
-					limit = {
-						global_var:eastern_senate_tasks = flag:convert_faith
-						global_var:eastern_senate_convert_faith_county = { faith = prev.faith }
-					}
-					trigger_event = {
-						id = senate.0002
-						days = 1
-					}
-					set_global_variable = {
-						name = eastern_senate_tasks
-						value = flag:none
-					}
-				}
-			}
-		}
-	}
-	on_actions = {
-		delay = { years = 2 }
-		on_senate_tasks_2_years_eastern
 	}
 }
 	}
@@ -22119,6 +21475,10 @@ restore_holy_roman_empire_decision = {
 	is_shown = {
 		always = no
 	}
+	### END TFE EDIT
+
+	### TFE EDIT — also block the AI path (is_shown only hides from players)
+	ai_potential = { always = no }
 	### END TFE EDIT
 
 	is_valid = {
@@ -24415,7 +23775,7 @@ establish_the_old_north = {
 # Domination
 struggle_eastern_iranian_ending_domination_decision = {
 	picture = {
-		reference = "gfx/interface/illustrations/decisions/decision_dehqan.dds"
+		reference = "gfx/interface/illustrations/decisions/decision_eran.dds"
 	}
 	extra_picture = "gfx/interface/illustrations/struggle_decisions_buttons/decision_dehqan.dds"
 	decision_group_type = major
@@ -24443,7 +23803,7 @@ struggle_eastern_iranian_ending_domination_decision = {
 		}
 
 		custom_tooltip = {
-			text = struggle_ending_decision_correct_involvement_tt
+			text = struggle_eastern_iranian_ending_correct_involvement_tt
 			any_character_struggle = {
 				involvement = involved
 				is_struggle_type = eastern_iranian_struggle
@@ -24453,7 +23813,7 @@ struggle_eastern_iranian_ending_domination_decision = {
 		prestige_level >= 4
 		highest_held_title_tier >= tier_kingdom
 
-		# Control at least 75% of the struggle region
+		# Control more than 75% of the struggle region
 		custom_tooltip = {
 			text = struggle_eastern_iranian_ending_domination_region_tt
 			struggle_eastern_iranian_ending_domination_percent_region_trigger = yes
@@ -24465,7 +23825,7 @@ struggle_eastern_iranian_ending_domination_decision = {
 		# 	culture = { has_cultural_pillar = heritage_tocharian } # East Iranians
 		# }
 
-		# No other realm controls more than 20% of the region
+		# No other independent involved ruler controls more than 20% of the region
 		custom_tooltip = {
 			text = struggle_eastern_iranian_ending_domination_decision_region_tt
 			NOT = {
@@ -24478,7 +23838,7 @@ struggle_eastern_iranian_ending_domination_decision = {
 						save_temporary_scope_as = eastern_iranian_region_realm
 						any_county_in_region = {
 							region = TFE_eastern_iranian_struggle_region
-							percent > fp2_struggle_hostility_region_percent_decimal_value
+							percent > struggle_eastern_iranian_ending_rival_percent_decimal_value
 							holder.top_liege = scope:eastern_iranian_region_realm
 						}
 					}
@@ -24556,7 +23916,7 @@ struggle_eastern_iranian_ending_silk_road_decision = {
 		}
 
 		custom_tooltip = {
-			text = struggle_ending_decision_correct_involvement_tt
+			text = struggle_eastern_iranian_ending_correct_involvement_tt
 			any_character_struggle = {
 				involvement = involved
 				is_struggle_type = eastern_iranian_struggle
@@ -24566,13 +23926,13 @@ struggle_eastern_iranian_ending_silk_road_decision = {
 		prestige_level >= 4
 		highest_held_title_tier >= tier_kingdom
 
-		# Control at least 40% of the struggle region
+		# Control more than 40% of the struggle region
 		custom_tooltip = {
 			text = struggle_eastern_iranian_ending_silk_road_region_tt
 			struggle_eastern_iranian_ending_silk_road_percent_region_trigger = yes
 		}
 
-		# Own at least 5 counties in the struggle region with 80 development, including your capital
+		# Hold at least 5 counties in the struggle region with at least 60 development, including your capital
 		custom_tooltip = {
 			text = struggle_eastern_iranian_ending_silk_road_county_req_tt
 			capital_county = {
@@ -24597,27 +23957,6 @@ struggle_eastern_iranian_ending_silk_road_decision = {
 		# OR = {
 		# 	culture = { has_cultural_pillar = heritage_iranian } # West Iranians
 		# 	culture = { has_cultural_pillar = heritage_tocharian } # East Iranians
-		# }
-
-		# No other realm controls more than 20% of the region
-		# custom_tooltip = {
-		# 	text = struggle_eastern_iranian_ending_total_victory_decision_region_tt
-		# 	NOT = {
-		# 		struggle:roman_persian_struggle = {
-		# 			any_involved_ruler = {
-		# 				NOT = { this = root }
-		# 				is_independent_ruler = yes
-		# 				exists = primary_title
-		# 				primary_title = { is_mercenary_company = no }
-		# 				save_temporary_scope_as = eastern_iranian_region_realm
-		# 				any_county_in_region = {
-		# 					region = TFE_eastern_iranian_struggle_region
-		# 					percent > fp2_struggle_hostility_region_percent_decimal_value
-		# 					holder.top_liege = scope:eastern_iranian_region_realm
-		# 				}
-		# 			}
-		# 		}
-		# 	}
 		# }
 
 	}
@@ -24689,7 +24028,7 @@ struggle_eastern_iranian_ending_compromise_decision = {
 		}
 
 		custom_tooltip = {
-			text = struggle_ending_decision_correct_involvement_tt
+			text = struggle_eastern_iranian_ending_correct_involvement_tt
 			any_character_struggle = {
 				involvement = involved
 				is_struggle_type = eastern_iranian_struggle
@@ -24699,20 +24038,20 @@ struggle_eastern_iranian_ending_compromise_decision = {
 		OR = {
 			# Exalted among Men or higher
 			prestige_level >= very_high_prestige_level
-			# Hold and completely control a de jure kingdom of Hispania
+			# Hold and completely control a kingdom with land in the Eastern Iranian region
 			custom_tooltip = {
 				text = struggle_eastern_iranian_ending_compromise_decision_kingdom_tt
 				tfe_struggle_ending_hold_de_jure_kingdom_trigger_persia = yes
 			}
 		}
 
-		# Control less than 50% of Iberia
+		# Control less than 50% of the Eastern Iranian region
 		custom_tooltip = {
 			text = struggle_eastern_iranian_ending_compromise_decision_region_tt
 			tfe_struggle_ending_percent_persia_trigger = yes
 		}
 
-		# No one else controls more than 50% of Iberia
+		# No other involved independent ruler controls more than 50% of the Eastern Iranian region
 		custom_tooltip = {
 			text = struggle_eastern_iranian_ending_compromise_decision_other_region_tt
 			tfe_struggle_ending_other_percent_persia_trigger = yes
@@ -24720,7 +24059,7 @@ struggle_eastern_iranian_ending_compromise_decision = {
 
 		# No Independent Involved rulers are at war with each other
 		custom_tooltip = {
-			text = struggle_iberia_ending_compromise_truce_tt
+			text = struggle_eastern_iranian_ending_compromise_truce_tt
 			NOT = {
 				struggle:eastern_iranian_struggle = {
 					any_involved_ruler = {
@@ -24755,7 +24094,7 @@ struggle_eastern_iranian_ending_compromise_decision = {
 								root = { has_strong_hook = scope:this_character }
 								opinion = {
 									target = root
-									value >= struggle_iberia_ending_compromise_decision_opinion_value
+									value >= struggle_persia_ending_compromise_decision_opinion_value
 								}
 							}
 						}
@@ -24781,7 +24120,7 @@ struggle_eastern_iranian_ending_compromise_decision = {
 				text = struggle_eastern_iranian_ending_compromise_decision_interloper_tt
 				any_county_in_region = {
 					region = TFE_eastern_iranian_struggle_region
-					percent > fp2_struggle_compromise_uninvolved_percent_decimal_value
+					percent > persia_struggle_compromise_uninvolved_percent_decimal_value
 					holder.top_liege = {
 						NOT = {
 							any_character_struggle = {
@@ -25104,21 +24443,17 @@ tfe_eastern_iranian_struggle_starting_events = {
 
 "common/scripted_effects/TFE_eastern_iranian_struggle_scripted_effects.txt" = {
 	{
-TFE_eastern_iranian_struggle_ending_involved_list_effect = {
-	save_scope_as = struggle_ender
-	struggle:eastern_iranian_struggle = {
-		every_involved_ruler = {
-			limit = {
-				is_independent_ruler = yes
-				primary_title = { is_mercenary_company = no }
-			}
-			add_to_list = struggle_involvees
+# Eastern Iranian Struggle AI Agenda - applied when assigning intent to involved rulers
+eastern_iranian_struggle_apply_ai_agenda_effect = {
+	add_character_flag = {
+		flag = agenda_towards_$INTENT$
+	}
+	root = {
+		change_variable = {
+			name = agents_for_$INTENT$
+			add = 1
 		}
 	}
-	# Add all involved cultures with counties to a list, for war checks
-	TFE_eastern_iranian_struggle_ending_culture_list_effect = yes
-	# Add all involved faiths with counties to a list, for marriage and holy war checks
-	TFE_eastern_iranian_struggle_ending_faith_list_effect = yes
 }
 
 # Add all Involved cultures with counties to a list
@@ -25133,48 +24468,6 @@ TFE_eastern_iranian_struggle_ending_culture_list_effect = {
 		add_to_global_variable_list = {
 			name = TFE_eastern_iranian_struggle_ending_culture_list
 			target = scope:culture_scope
-		}
-	}
-}
-
-# Add all Involved independent rulers to a list
-TFE_eastern_iranian_struggle_ending_involved_list_effect = {
-	save_scope_as = struggle_ender
-	struggle:eastern_iranian_struggle = {
-		every_involved_ruler = {
-			limit = {
-				is_independent_ruler = yes
-				primary_title = { is_mercenary_company = no }
-			}
-			add_to_list = struggle_involvees
-		}
-	}
-	# Add all involved cultures with counties to a list, for war checks
-	TFE_eastern_iranian_struggle_ending_culture_list_effect = yes
-	# Add all involved faiths with counties to a list, for marriage and holy war checks
-	TFE_eastern_iranian_struggle_ending_faith_list_effect = yes
-}
-
-# Add all Involved faiths with counties to a list
-TFE_eastern_iranian_struggle_ending_faith_list_effect = {
-	every_religion_global = {
-		limit = {
-			any_faith = {
-				save_temporary_scope_as = this_faith
-				struggle:eastern_iranian_struggle = { is_faith_involved_in_struggle = scope:this_faith }
-				num_county_followers > 0
-			}
-		}
-		every_faith = {
-			limit = {
-				struggle:eastern_iranian_struggle = { is_faith_involved_in_struggle = prev }
-				num_county_followers > 0
-			}
-			save_scope_as = faith_scope
-			add_to_global_variable_list = {
-				name = TFE_eastern_iranian_struggle_ending_faith_list
-				target = scope:faith_scope
-			}
 		}
 	}
 }
@@ -26298,7 +25591,7 @@ persia_struggle_compromise_distribute_kingdoms_to_neighbouring_empires_effect = 
 						any_this_title_or_de_jure_above = { is_in_list = new_empire_list }
 					}
 					weight = {
-						modifier = { # Value one from Iberia for small empire
+						modifier = { # Small-empire weighting
 							add = {
 								value = 2
 								subtract = {
@@ -26371,7 +25664,7 @@ persia_struggle_compromise_distribute_kingdoms_to_neighbouring_empires_effect = 
 						any_this_title_or_de_jure_above = { is_in_list = new_empire_list }
 					}
 					weight = {
-						modifier = { # Value one from Iberia for small empire
+						modifier = { # Small-empire weighting
 							add = {
 								value = 2
 								subtract = {
@@ -26547,7 +25840,7 @@ struggle_ending_other_percent_eastern_iranian_trigger = {
 				primary_title = { is_mercenary_company = no }
 				any_county_in_region = {
 					region = TFE_eastern_iranian_struggle_region
-					percent > fp2_struggle_compromise_involved_percent_decimal_value
+					percent > persia_struggle_compromise_involved_percent_decimal_value
 					holder.top_liege = prev
 				}
 			}
@@ -26567,7 +25860,7 @@ tfe_struggle_ending_other_percent_persia_trigger = {
 				primary_title = { is_mercenary_company = no }
 				any_county_in_region = {
 					region = TFE_eastern_iranian_struggle_region
-					percent > fp2_struggle_compromise_involved_percent_decimal_value
+					percent > persia_struggle_compromise_involved_percent_decimal_value
 					holder.top_liege = prev
 				}
 			}
@@ -26961,7 +26254,11 @@ form_the_hre_TFE = {
 
 	ai_check_interval = 250
 
+	# The HRE is anachronistic for the Fallen Eagle timeframe; decision disabled for player and AI
+	ai_potential = { always = no }
+
 	is_shown = {
+		always = no
 		is_ruler = yes
 		is_landed_or_landless_administrative = yes
 		highest_held_title_tier >= tier_kingdom
