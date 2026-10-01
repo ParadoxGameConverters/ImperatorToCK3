@@ -1536,6 +1536,7 @@ internal sealed class World {
 			{"dlc027.dlc", "celestial_court_attire"},
 			{"dlc028.dlc", "symbols_of_authority"},
 			{"dlc029.dlc", "songs_of_the_realm"},
+			{"dlc030.dlc", "by_god_alone"},
 		};
 		
 		var dlcFiles = Directory.GetFiles(dlcFolderPath, "*.dlc", SearchOption.AllDirectories);
