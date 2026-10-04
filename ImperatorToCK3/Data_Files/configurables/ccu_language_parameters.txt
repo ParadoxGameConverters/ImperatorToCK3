@@ -14,7 +14,8 @@ language_families = {
 			language_family_gutian
 			language_family_pre_greek
 			language_family_hatti
-    	} ELSE_IF roa = {
+    	}
+		ELSE_IF roa = {
 			language_family_paleo_sardinian
 			language_family_tyrsenian
 			language_family_sumerian
@@ -22,7 +23,8 @@ language_families = {
 			language_family_gutian
 			language_family_pre_greek
 			language_family_hatti
-		} ELSE_IF tfe = {
+		}
+		ELSE_IF tfe = {
 			language_family_paleo_sardinian
 			language_family_kra_dai
 			language_family_sumerian
@@ -48,6 +50,10 @@ language_branches = {
 			language_branch_gutian
 			language_branch_pre_greek
 			language_branch_hatti
+			language_branch_bai
+			language_branch_lolo_burmese
+			language_branch_dongyi
+			language_branch_tujia
 		}
 		ELSE_IF roa = {
 			language_branch_nuragic
@@ -70,7 +76,8 @@ language_groups = {
 			language_group_sabellic
 			language_group_celto_italic
 			language_group_daco_thracian
-		} ELSE_IF tfe = {
+		}
+		ELSE_IF tfe = {
 			language_group_tai
 			language_group_nuragic
 			language_group_italic
@@ -80,7 +87,12 @@ language_groups = {
 			language_group_pre_greek
 			language_group_hatti
 			language_group_burusho
-		} ELSE_IF wtwsms = {
+			language_group_bai
+			language_group_lolo_burmese
+			language_group_dongyi
+			language_group_tujia
+		}
+		ELSE_IF wtwsms = {
 			language_group_sabellic
 			language_group_celto_italic
 		}
