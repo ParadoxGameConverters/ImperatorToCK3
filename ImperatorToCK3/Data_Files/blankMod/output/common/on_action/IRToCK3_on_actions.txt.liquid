@@ -999,22 +999,160 @@ IRToCK3_game_start_onaction_effects = {
 		##########################
 		{% if tfe %}
 		# TFE
-		## Setup variables for Roman diocese titles so they can properly be restored later
-		title:k_italia_suburbicariae = { set_variable = { name = diocese_restoration_stage value = 0 } }
-		title:k_italia_annonariae = { set_variable = { name = diocese_restoration_stage value = 0 } }
-		title:k_pannonia = { set_variable = { name = diocese_restoration_stage value = 0 } }
-		title:k_hispania = { set_variable = { name = diocese_restoration_stage value = 0 } }
-		title:k_septem_provinciae = { set_variable = { name = diocese_restoration_stage value = 0 } }
-		title:k_gallia = { set_variable = { name = diocese_restoration_stage value = 0 } }
-		title:k_britannia = { set_variable = { name = diocese_restoration_stage value = 0 } }
-		title:k_africae = { set_variable = { name = diocese_restoration_stage value = 0 } }
-		title:k_thracia = { set_variable = { name = diocese_restoration_stage value = 0 } }
-		title:k_asiae = { set_variable = { name = diocese_restoration_stage value = 0 } }
-		title:k_pontus_roman = { set_variable = { name = diocese_restoration_stage value = 0 } }
-		title:k_orientis = { set_variable = { name = diocese_restoration_stage value = 0 } }
-		title:k_aegyptus = { set_variable = { name = diocese_restoration_stage value = 0 } }
-		title:k_macedon = { set_variable = { name = diocese_restoration_stage value = 0 } }
-		title:k_daciae = { set_variable = { name = diocese_restoration_stage value = 0 } }
+		## Setup Roman Diocese titles
+		### Some diocese have variables set tracking whether they split from Rome or not, so those will get set before the effect checks if the diocese should be setup, since those effects will change the variables accordingly if they should be setup
+
+		### k_italia_suburbicariae   italia_suburbicariae_diocese_region
+		set_global_variable = {
+			name = italia_suburbicariae_dejure_split
+			value = yes
+		}
+		irtock3_tfe_setup_diocese_game_start = {
+			DIOCESE = title:k_italia_suburbicariae
+			PREFECTURE = title:e_prafectura_italia
+			REGION = italia_suburbicariae_diocese_region
+			EFFECT = dejure_shift_restore_italia_suburbicariae_effect
+		}
+
+		### k_italia_annonariae   italia_annonariae_diocese_region
+		set_global_variable = {
+			name = italia_annonariae_dejure_split
+			value = yes
+		}
+		irtock3_tfe_setup_diocese_game_start = {
+			DIOCESE = title:k_italia_annonariae
+			PREFECTURE = title:e_prafectura_italia
+			REGION = italia_annonariae_diocese_region
+			EFFECT = dejure_shift_restore_italia_annonariae_effect
+		}
+
+		### k_africae   africae_diocese_region
+		set_global_variable = {
+			name = africae_dejure_split
+			value = yes
+		}
+		irtock3_tfe_setup_diocese_game_start = {
+			DIOCESE = title:k_africae
+			PREFECTURE = title:e_prafectura_italia
+			REGION = africae_diocese_region
+			EFFECT = dejure_shift_restore_africae_effect
+		}
+
+		### k_hispania   hispania_diocese_region
+		set_global_variable = {
+			name = hispania_dejure_split
+			value = yes
+		}
+		irtock3_tfe_setup_diocese_game_start = {
+			DIOCESE = title:k_hispania
+			PREFECTURE = title:e_prafectura_gallia
+			REGION = hispania_diocese_region
+			EFFECT = dejure_shift_restore_hispania_effect
+		}
+
+		### k_septem_provinciae   septem_provinciae_diocese_region
+		set_global_variable = {
+			name = septem_provinciae_dejure_split
+			value = yes
+		}
+		irtock3_tfe_setup_diocese_game_start = {
+			DIOCESE = title:k_septem_provinciae
+			PREFECTURE = title:e_prafectura_gallia
+			REGION = septem_provinciae_diocese_region
+			EFFECT = dejure_shift_restore_septem_provinciae_effect
+		}
+
+		### k_gallia   gallia_diocese_region
+		set_global_variable = {
+			name = gallia_dejure_split
+			value = yes
+		}
+		irtock3_tfe_setup_diocese_game_start = {
+			DIOCESE = title:k_gallia
+			PREFECTURE = title:e_prafectura_gallia
+			REGION = gallia_diocese_region
+			EFFECT = dejure_shift_restore_gallia_effect
+		}
+
+		### k_britannia   britannia_diocese_region
+		set_global_variable = {
+			name = britannia_dejure_split
+			value = yes
+		}
+		irtock3_tfe_setup_diocese_game_start = {
+			DIOCESE = title:k_britannia
+			PREFECTURE = title:e_prafectura_gallia
+			REGION = britannia_diocese_region
+			EFFECT = dejure_shift_restore_britannia_effect
+		}
+
+		### k_thracia   thracia_diocese_region
+		irtock3_tfe_setup_diocese_game_start = {
+			DIOCESE = title:k_thracia
+			PREFECTURE = title:e_prafectura_oriens
+			REGION = thracia_diocese_region
+			EFFECT = dejure_shift_restore_thracia_effect
+		}
+
+		### k_asiae   asiae_diocese_region
+		irtock3_tfe_setup_diocese_game_start = {
+			DIOCESE = title:k_asiae
+			PREFECTURE = title:e_prafectura_oriens
+			REGION = asiae_diocese_region
+			EFFECT = dejure_shift_restore_asiae_effect
+		}
+
+		### k_pontus_roman   pontica_diocese_region
+		irtock3_tfe_setup_diocese_game_start = {
+			DIOCESE = title:k_pontus_roman
+			PREFECTURE = title:e_prafectura_oriens
+			REGION = pontica_diocese_region
+			EFFECT = dejure_shift_restore_pontica_effect
+		}
+
+		### k_orientis   orientis_diocese_region
+		irtock3_tfe_setup_diocese_game_start = {
+			DIOCESE = title:k_orientis
+			PREFECTURE = title:e_prafectura_oriens
+			REGION = orientis_diocese_region
+			EFFECT = dejure_shift_restore_orientis_effect
+		}
+
+		### k_aegyptus   aegyptus_diocese_region
+		irtock3_tfe_setup_diocese_game_start = {
+			DIOCESE = title:k_aegyptus
+			PREFECTURE = title:e_prafectura_oriens
+			REGION = aegyptus_diocese_region
+			EFFECT = dejure_shift_restore_aegyptus_effect
+		}
+
+		### k_pannonia   illyricum_pannoniae_diocese_region
+		set_global_variable = {
+			name = illyricum_dejure_split
+			value = yes
+		}
+		irtock3_tfe_setup_diocese_game_start = {
+			DIOCESE = title:k_pannonia
+			PREFECTURE = title:e_prafectura_illyricum
+			REGION = illyricum_pannoniae_diocese_region
+			EFFECT = dejure_shift_restore_pannonia_effect
+		}
+
+		### k_macedon   macedon_diocese_region
+		irtock3_tfe_setup_diocese_game_start = {
+			DIOCESE = title:k_macedon
+			PREFECTURE = title:e_prafectura_illyricum
+			REGION = macedon_diocese_region
+			EFFECT = dejure_shift_restore_macedon_effect
+		}
+
+		### k_daciae   daciae_diocese_region
+		irtock3_tfe_setup_diocese_game_start = {
+			DIOCESE = title:k_daciae
+			PREFECTURE = title:e_prafectura_illyricum
+			REGION = daciae_diocese_region
+			EFFECT = dejure_shift_restore_daciae_effect
+		}
 		{% endif %}
 
 		# Government Setup
