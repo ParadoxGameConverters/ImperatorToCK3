@@ -315,7 +315,7 @@ irtock3_rome_empire_division_germania = {
 		d_freistadt
 		{% else %} # TFE either doesn't use these titles, or changes their de jure setup
 		d_gelre d_holland d_utrecht d_lower_lorraine d_west_franconia d_alsace
-		d_mazovia d_kuyavia d_lesser_poland
+		d_kuyavia d_lesser_poland
 		d_bavaria d_augsburg d_salzburg d_osterreich
 		{% endif %}
 	}
@@ -349,7 +349,7 @@ irtock3_rome_empire_division_italiae = {
 	}
 	{% else %}
 	duchies = {
-		d_tyrol d_lombardia d_verona d_emilia d_venice d_friuli d_carinthia d_romagna d_piedmonte d_toscana d_genoa d_istria d_ancona d_pisa d_spoleto d_latium d_capua d_benevento d_apulia d_salerno d_calabria d_sicily d_corsica d_sardinia d_tlemcen d_tahert d_alger d_zab d_bejaia d_kroumerie d_kairouan d_tunis d_jerid d_gabes d_tripolitania d_syrte
+		d_tyrol d_lombardia d_verona d_emilia d_venice d_friuli d_carinthia d_romagna d_piedmonte d_toscana d_genoa d_istria d_ancona d_pisa d_spoleto d_latium d_capua d_benevento d_apulia d_salerno d_calabria d_sicily d_corsica d_sardinia d_tlemcen d_tahert d_alger d_zab d_bejaia d_kroumerie d_kairouan d_tunis d_gabes d_tripolitania d_syrte
 	}
 	
 	{% if wtwsms %}
@@ -362,6 +362,10 @@ irtock3_rome_empire_division_italiae = {
 irtock3_rome_empire_division_libya_interior = {
 	duchies = {
 		d_marrakesh d_tafilalt d_sous d_zammour d_touat d_taghaza d_tadmekka d_mzab d_timbuktu d_adrar d_ghat d_mema d_kawkaw d_kawar d_jenne d_tagant d_takrur d_upper_gurma d_fezzan d_tibesti d_yatenga d_wagadu d_kaniaga d_diafunu d_silla d_lower_gurma d_bobo d_manding d_bambuk d_djolof d_dendi d_air d_wuli d_futa_jalon d_kaabu d_loma d_kasa d_canarias
+		
+		{% unless tfe %}
+		d_jerid
+		{% endunless %}
 	}
 }
 
@@ -403,7 +407,7 @@ irtock3_rome_empire_division_orientis = {
 	counties = { c_manbij c_arpha c_gabitha c_nablus c_maan }
 	{% else %}
 	duchies = {
-		d_thrace d_optimatoi d_philippopolis d_opsikion d_dobrudja d_turnovo d_aegean_islands d_thracesia d_anatolia d_bucellaria d_ephese d_paphlagonia d_cappadocia d_cibyrrhaeot d_charsianon d_armeniac d_cilicia d_sebasteia d_chaldia d_mesopotamia d_edessa d_tao-klarjeti d_antioch d_aleppo d_diyarmudar d_homs d_lebanon d_palmyra d_damascus d_urdunn d_palestine d_oultrejourdain d_sinai d_cairo d_delta d_al-said d_alexandria d_al-wahat d_cyrenaica d_eastern_desert d_cyprus d_strymon
+		d_thrace d_optimatoi d_philippopolis d_opsikion d_dobrudja d_turnovo d_aegean_islands d_thracesia d_anatolia d_bucellaria d_ephese d_paphlagonia d_cappadocia d_cibyrrhaeot d_charsianon d_armeniac d_cilicia d_sebasteia d_chaldia d_mesopotamia d_edessa d_antioch d_aleppo d_diyarmudar d_homs d_lebanon d_palmyra d_damascus d_urdunn d_palestine d_oultrejourdain d_sinai d_cairo d_delta d_al-said d_alexandria d_al-wahat d_cyrenaica d_eastern_desert d_cyprus d_strymon
 		
 		{% if wtwsms %}
 		d_armenia_prima d_armenia_secunda
@@ -457,6 +461,10 @@ irtock3_rome_empire_division_vistulia = {
 		d_prussia d_masuria d_samogitia d_volhynia d_cherven_cities d_lithuanians d_grodno d_pinsk d_halych d_courland d_turov
 		d_polotsk d_minsk d_smolensk d_karachev d_novosil
 		d_kiev d_chernigov d_pereyaslavl
+
+		{% unless tfe %}
+		d_mazovia # The area this duchy covers outside of TFE extends too far outside of Germania
+		{% endunless %}
 	}
 
 	{% if tfe %}
@@ -514,7 +522,7 @@ irtock3_rome_empire_division_persia = {
 		d_caspin d_media d_turan d_adrashir_khwarrah d_shapur_khwarrah d_western_armenia
 		{% else %}
 		# TFE doesn't have this title
-		d_hamadan
+		d_hamadan d_tao-klarjeti
 		d_diyarbakr d_diyarrabia
 		{% endif %}
 	}
@@ -562,7 +570,7 @@ irtock3_rome_empire_division_uralia_ulterior = {
 irtock3_rome_empire_division_tartaria = {
 	duchies = {
 		d_zhetysu d_ili-alatau d_alakol d_tarbagatai d_betpa d_kentarlau d_karkaraly d_gurbantunggut d_semey d_altay d_karabas d_kara_khoja d_saryarka d_karashar d_naiman_gobi d_turgay
-		
+
 		{% unless wtwsms %}
 		d_jinghiz d_beshbalik d_degelen d_akaltay d_tokumbay d_qyzylsaryarka d_kokturgay d_loulan
 		{% endunless %}
