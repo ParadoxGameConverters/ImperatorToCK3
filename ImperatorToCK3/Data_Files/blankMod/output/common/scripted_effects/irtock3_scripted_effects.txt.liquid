@@ -282,7 +282,11 @@ irtock3_setup_governments = {
 		# Need to know exactly what rulers might get involved in the Dynastic Cycle
 		if = {
 			limit = {
-				NOT = { global_var:irtock3_enabled = flag:wtwsms } # Only relevant if not using a mod that excludes East Asia
+				# Only relevant if not using a mod that excludes East Asia
+				NOR = {
+					global_var:irtock3_enabled ?= flag:wtwsms
+					global_var:irtock3_enabled ?= flag:tfe
+				}
 				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
 				exists = situation:dynastic_cycle
 				top_liege = this # Needs to be independent
@@ -311,6 +315,11 @@ irtock3_setup_governments = {
 		# Need to know exactly which rulers are Ritsuryo at game start, to determine if anyone, and who, will start the game off as the "Japanese Imperial Dynasty"
 		else_if = { # Independent Rulers
 			limit = {
+				# Only relevant if not using a mod that excludes East Asia
+				NOR = {
+					global_var:irtock3_enabled ?= flag:wtwsms
+					global_var:irtock3_enabled ?= flag:tfe
+				}
 				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
 				top_liege = this # Needs to be independent
 				government_is_japanese_trigger = yes
@@ -329,6 +338,11 @@ irtock3_setup_governments = {
 		}
 		else_if = { # Vassal Feudal Rulers under a Japanese-government liege
 			limit = {
+				# Only relevant if not using a mod that excludes East Asia
+				NOR = {
+					global_var:irtock3_enabled ?= flag:wtwsms
+					global_var:irtock3_enabled ?= flag:tfe
+				}
 				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
 				top_liege != this # Needs to be a vassal
 				any_liege_or_above = { government_is_japanese_trigger = yes } # Need to be under a Japanese-government liege
@@ -397,8 +411,12 @@ irtock3_setup_governments = {
 		# Converter can't use geographical location as conditions for government mappings, and a lot of the region is out-of-scope, so handling Wanua needs to be handled through CK3 script
 		else_if = {
 			limit = {
+				# Only relevant if not using a mod that excludes East Asia
+				NOR = {
+					global_var:irtock3_enabled ?= flag:wtwsms
+					global_var:irtock3_enabled ?= flag:tfe
+				}
 				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
-				NOT = { global_var:irtock3_enabled = flag:wtwsms } # Shouldn't even check this block if using a mod that doesn't even include the region
 				OR = { # Monarchies/Republics shouldn't become Wanua
 					has_government = tribal_government
 					has_government = nomad_government # Imperator migratory tribes might convert as this
@@ -1083,7 +1101,10 @@ irtock3_setup_governments = {
 	# Shouldn't run if using a mod that doesn't include East Asia
 	if = {
 		limit = {
-			NOT = { global_var:irtock3_enabled = flag:wtwsms }
+			NOR = {
+				global_var:irtock3_enabled ?= flag:wtwsms
+				global_var:irtock3_enabled ?= flag:tfe
+			}
 		}
 
 		# Until a better setup is determined, make every empire where at least half of the de jure counties beneath it are Chinese be de jure under h_china, and then make sure that land is added to the Dynastic Cycle situation
@@ -3946,17 +3967,6 @@ irtock3_split_rome_empire_region_effect = {
 				name = prefecture_region
 				value = geographical_region:$REGION$
 			}
-
-			# If the title being used is a base game title, need to possibly change names and set variables accordingly
-			if = {
-				limit = { has_variable = base_game_prefecture_title }
-				set_variable = rome_praetorian_prefecture # To indicate this empire title is being used as a praetorian prefecture for Rome for things like localization reset later
-				# Because of how Persia's name is setup to change, need to include that as a special case here
-				if = {
-					limit = { this = title:e_persia }
-					set_definitive_form = no
-				}
-			}
 		}
 
 		# Make sure to remove variables from other titles used for this region
@@ -3966,7 +3976,6 @@ irtock3_split_rome_empire_region_effect = {
 				variable = rome_dynamic_empire_region_$REGION$
 				if = {
 					limit = { this != scope:new_title }
-					remove_variable = rome_praetorian_prefecture
 					remove_variable = prefecture_region
 					reset_title_name = yes
 				}
@@ -4091,17 +4100,6 @@ irtock3_form_roman_prefecture_effect = {
 				name = prefecture_region
 				value = geographical_region:$REGION$
 			}
-
-			# If the title being used is a base game title, need to possibly change names and set variables accordingly
-			if = {
-				limit = { has_variable = base_game_prefecture_title }
-				set_variable = rome_praetorian_prefecture # To indicate this empire title is being used as a praetorian prefecture for Rome for things like localization reset later
-				# Because of how Persia's name is setup to change, need to include that as a special case here
-				if = {
-					limit = { this = title:e_persia }
-					set_definitive_form = no
-				}
-			}
 		}
 
 		# Make sure to remove variables from other titles used for this region
@@ -4111,7 +4109,6 @@ irtock3_form_roman_prefecture_effect = {
 				variable = rome_dynamic_empire_region_$REGION$
 				if = {
 					limit = { this != scope:new_title }
-					remove_variable = rome_praetorian_prefecture
 					remove_variable = prefecture_region
 					reset_title_name = yes
 				}
@@ -4124,6 +4121,8 @@ irtock3_form_roman_prefecture_effect = {
 			limit = {
 				# Needs a kingdom to drift
 				kingdom ?= {
+					# Shouldn't bother checking for kingdoms already set to be added
+					NOT = { is_in_list = additional_de_jure_kingdoms }
 					# No need to check kingdoms already under the new prefecture
 					trigger_if = {
 						limit = { exists = empire }
@@ -4735,17 +4734,6 @@ irtock3_setup_roman_prefectures_game_start = {
 				name = prefecture_region
 				value = geographical_region:irtock3_rome_empire_division_$REGION$
 			}
-
-			# If the title being used is a base game title, need to possibly change names and set variables accordingly
-			if = {
-				limit = { has_variable = base_game_prefecture_title }
-				set_variable = rome_praetorian_prefecture # To indicate this empire title is being used as a praetorian prefecture for Rome for things like localization reset later
-				# Because of how Persia's name is setup to change, need to include that as a special case here
-				if = {
-					limit = { this = title:e_persia }
-					set_definitive_form = no
-				}
-			}
 		}
 	}
 
@@ -4892,3 +4880,37 @@ irtock3_assign_china_imperator_name_effect = {
 		}
 	}
 }
+
+
+
+
+
+{% if tfe %}
+# This scripted effect is to easily allow the TFE diocese titles to be setup under their corresponding praetorian prefecture, and be given de jure land if a rome hegemony starts the game completely controlling their region
+# INPUTS:
+## $DIOCESE$ - The diocese title being setup
+## $PREFECTURE$ - The Praetorian Prefecture title the diocese is going under
+## $REGION$ - The geographical_region region associated with the diocese
+## $EFFECT$ - This is the scripted effect setup by TFE to make all of the relevant de jure changes for the diocese
+irtock3_tfe_setup_diocese_game_start = {
+	$DIOCESE$ = { set_de_jure_liege_title = $PREFECTURE$ }
+
+	# Because of the way the Prefecture titles get setup at game start, any empires generated by the converter for hegemonies should automatically be replaced by their corresponding base game titles if the hegemony is Rome/WRE/ERE, so simply checking if the given prefecture title is titular or not and covers the region completely should be enough to determine whether the diocese should be setup
+	if = {
+		limit = {
+			$PREFECTURE$ = { is_titular = no }
+			any_county_in_region = {
+				region = $REGION$
+				count = all
+				empire ?= $PREFECTURE$
+			}
+		}
+		$EFFECT$ = yes
+		$DIOCESE$ = { set_variable = { name = diocese_restoration_stage value = 2 } }
+	}
+	# Otherwise, the diocese shouldn't be setup, but it needs the proper variable so it can be restored later
+	else = {
+		$DIOCESE$ = { set_variable = { name = diocese_restoration_stage value = 0 } }
+	}
+}
+{% endif %}

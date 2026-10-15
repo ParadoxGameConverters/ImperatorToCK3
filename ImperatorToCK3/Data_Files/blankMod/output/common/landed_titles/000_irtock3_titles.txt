@@ -246,6 +246,837 @@ d_rome = {
 	}
 }
 
+{% unless tfe %} # TFE has their own equivalent titles
+e_roman_prefecture_galliarum = {
+	color = { 109 98 28 }
+
+	capital = c_trier
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_italiae = {
+	color = { 221 176 88 }
+
+	capital = c_roma
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_orientis = {
+	color = { 145 98 60 }
+
+	capital = c_antiocheia # Historically, the capital would be c_byzantion, but if we allow the prefecture titles to be created, that might cause issues with the ERE
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_illyrici = {
+	color = { 177 36 89 }
+
+	capital = c_szerem
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_britannia = {
+	color = { 200 20 20 }
+
+	capital = c_essex # Colchester (capital of c_essex) served as Roman Britain's first capital, later c_middlesex (London)
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+{% endunless %}
+
+e_roman_prefecture_germania = {
+	color = { 185 162 152 }
+
+	capital = c_wurzburg # Site of Roman fort, and TFE uses it for k_germania
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_libya_interior = {
+	color = { 201 52 35 }
+
+	capital = c_marrakesh
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_libya_ulterior = {
+	color = { 213 180 0 }
+
+	capital = c_niani
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_aethiopia = {
+	color = { 178 108 54 }
+
+	capital = c_lasta
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_pannonia = {
+	color = { 201 94 28 }
+
+	capital = c_campulung
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_vistulia = {
+	color = { 85 122 116 }
+
+	capital = c_volodymyr
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_fennia = {
+	color = { 177 90 0 }
+
+	capital = c_reval
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_scandia = {
+	color = { 83 100 151 }
+
+	capital = c_sjaelland
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_arabia = {
+	color = { 59 122 68 }
+
+	capital = c_medina
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_persia = {
+	color = { 57 194 184 }
+
+	capital = c_baghdad # Around where the capitals of the Sassanids & Seleucids were
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_sarmatia = {
+	color = { 217 146 8 }
+
+	capital = c_kerch # Bosporan Kingdom
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_uralia_interior = {
+	color = { 109 68 56 }
+
+	capital = c_bolghar
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_uralia_ulterior = {
+	color = { 197 172 200 }
+
+	capital = c_tyumen
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_tartaria = {
+	color = { 197 6 4 }
+
+	capital = c_turgay
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_parthia = {
+	color = { 44 104 54 }
+
+	capital = c_mangyshlak
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_imoan_montem = {
+	color = { 233 34 0 }
+
+	capital = c_lhasa
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_india_intra_gangem = {
+	color = { 213 110 62 }
+
+	capital = c_kanyakubja
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_india_extra_gangem = {
+	color = { 161 26 150 }
+
+	capital = c_pegu
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_magna_taprobana = {
+	color = { 178 110 44 }
+
+	capital = c_phiti
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_septentrionalis_deserti = {
+	color = { 105 74 192 }
+
+	capital = c_karakorum
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_insulae_remotae = {
+	color = { 121 19 12 }
+
+	capital = c_SUM_palembang
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_insulae_solis = {
+	color = { 237 82 204 }
+
+	capital = c_yamashiro
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_serica_ultima = {
+	color = { 41 142 72 }
+
+	capital = c_LIAO_shenyang
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_serica_meridiana = {
+	color = { 33 98 17 }
+
+	capital = c_guangzhou_1
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_serica_occidens = {
+	color = { 81 122 152 }
+
+	capital = c_chengdu
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_serica_orientalis = {
+	color = { 169 34 32 }
+
+	capital = c_jiangning
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_serica_septentrionalis = {
+	color = { 217 162 8 }
+
+	capital = c_bianzhou
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
+e_roman_prefecture_serica_deserti = {
+	color = { 177 146 152 }
+
+	{% if tfe %} # As of now, TFE uses this as the capital county for the only kingdom under e_yongliang
+	capital = c_guazhou
+	{% else %}
+	capital = c_jingzhao
+	{% endif %}
+	ruler_uses_title_name = no
+	can_be_named_after_dynasty = no
+	de_jure_drift_disabled = yes
+
+	ai_primary_priority = {
+		if = {
+			limit = {
+				culture = {
+					OR = {
+						this = culture:roman
+						any_parent_culture_or_above = { this = culture:roman }
+					}
+				}
+			}
+			add = @correct_culture_primary_score
+		}
+	}
+
+	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
+}
+
 ####################
 ### Other Titles ###
 ####################

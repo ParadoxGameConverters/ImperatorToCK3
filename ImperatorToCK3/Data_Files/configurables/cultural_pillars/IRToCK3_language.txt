@@ -2998,10 +2998,11 @@ language_kordofanian = {
 	color = { 96 55 48 }
 }
 
-language_bashu = { # Will worry about CCU parameters once relevant mods are updated
+language_bashu = {
     REPLACED_BY = {
 		tfe = { language_bashu }
 		roa = { language_bashu }
+		wtwsms = { language_bashu }
 		vanilla_ck3 = { language_bashu }
 	}
 
@@ -3009,6 +3010,11 @@ language_bashu = { # Will worry about CCU parameters once relevant mods are upda
 		IF wtwsms = {
 			parameters = {
 				language_branch_sinitic = yes
+				language_family_sino_tibetan = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				language_group_sinitic = yes
 				language_family_sino_tibetan = yes
 			}
 		}
@@ -3020,28 +3026,73 @@ language_bashu = { # Will worry about CCU parameters once relevant mods are upda
 			LANGUAGE = language_bashu
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_bashu }
-			multiply = 10
+
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_bashu }
+					multiply = same_language_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_sinitic }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_sino_tibetan }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_bashu }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_sinitic }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_sino_tibetan }
+					multiply = 2.5
+				}
+			}
+		} ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_bashu }
+					multiply = 10
+				}
+			}
 		}
 	}
 
 	color = { 107 153 126 }
 }
 
-language_tujian = { # Will worry about CCU parameters once relevant mods are updated
+language_tujian = {
     REPLACED_BY = {
 		tfe = { language_tujian }
-		roa = { language_tujian }
+		roa = { language_tujia }
+		wtwsms = { language_tujian }
 		vanilla_ck3 = { language_tujian }
 	}
 
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			parameters = {
-				language_branch_sinitic = yes
+				language_branch_tujia = yes
+				language_family_sino_tibetan = yes
+			}
+		}
+		ELSE_IF tfe = {
+			parameters = {
+				language_group_tujia = yes
 				language_family_sino_tibetan = yes
 			}
 		}
@@ -3053,28 +3104,72 @@ language_tujian = { # Will worry about CCU parameters once relevant mods are upd
 			LANGUAGE = language_tujian
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_tujian }
-			multiply = 10
+
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_tujian }
+					multiply = same_language_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_tujia }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_sino_tibetan }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_tujian }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_tujia }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_sino_tibetan }
+					multiply = 2.5
+				}
+			}
+		} ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_tujian }
+					multiply = 10
+				}
+			}
 		}
 	}
 
 	color = { 141 186 119 }
 }
 
-language_bai = { # Will worry about CCU parameters once relevant mods are updated
+language_bai = {
     REPLACED_BY = {
 		tfe = { language_bai }
 		roa = { language_bai }
+		wtwsms = { language_bai }
 		vanilla_ck3 = { language_bai }
 	}
 
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			parameters = {
-				language_branch_sinitic = yes
+				language_branch_bai = yes
+				language_family_sino_tibetan = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				language_group_bai = yes
 				language_family_sino_tibetan = yes
 			}
 		}
@@ -3086,29 +3181,72 @@ language_bai = { # Will worry about CCU parameters once relevant mods are update
 			LANGUAGE = language_bai
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_bai }
-			multiply = 10
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_bai }
+					multiply = same_language_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_bai }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_sino_tibetan }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_bai }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_bai }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_sino_tibetan }
+					multiply = 2.5
+				}
+			}
+		} ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_bai }
+					multiply = 10
+				}
+			}
 		}
 	}
 
 	color = { 0.9 0.4 0.1 }
 }
 
-language_baiyue = { # Will worry about CCU parameters once relevant mods are updated
+language_baiyue = {
     REPLACED_BY = {
 		tfe = { language_baiyue }
 		roa = { language_baiyue }
+		wtwsms = { language_baiyue }
 		vanilla_ck3 = { language_baiyue }
 	}
 
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			parameters = {
-				language_branch_sinitic = yes
-				language_family_sino_tibetan = yes
+				language_branch_mon_khmer = yes
+				language_family_austro_asiatic = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				language_group_mon_khmer = yes
+				language_family_austroasiatic = yes
 			}
 		}
 	}
@@ -3119,28 +3257,72 @@ language_baiyue = { # Will worry about CCU parameters once relevant mods are upd
 			LANGUAGE = language_baiyue
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_baiyue }
-			multiply = 10
+
+	# It's possible Baiyue was an Austroasiatic language, so going off what the mods use for Vietic
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_baiyue }
+					multiply = same_language_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_mon_khmer }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_austro_asiatic }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_baiyue }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_mon_khmer }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_austroasiatic }
+					multiply = 2.5
+				}
+			}
+		} ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_baiyue }
+					multiply = 10
+				}
+			}
 		}
 	}
 
 	color = { 13 59 128 }
 }
 
-language_dongyi = { # Will worry about CCU parameters once relevant mods are updated
+language_dongyi = {
     REPLACED_BY = {
 		tfe = { language_dongyi }
 		roa = { language_dongyi }
+		wtwsms = { language_dongyi }
 		vanilla_ck3 = { language_dongyi }
 	}
 
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			parameters = {
-				language_branch_sinitic = yes
+				language_branch_dongyi = yes
+				language_family_sino_tibetan = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				language_group_dongyi = yes
 				language_family_sino_tibetan = yes
 			}
 		}
@@ -3152,28 +3334,72 @@ language_dongyi = { # Will worry about CCU parameters once relevant mods are upd
 			LANGUAGE = language_dongyi
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_dongyi }
-			multiply = 10
+
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_dongyi }
+					multiply = same_language_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_dongyi }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_sino_tibetan }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_dongyi }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_dongyi }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_sino_tibetan }
+					multiply = 2.5
+				}
+			}
+		} ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_dongyi }
+					multiply = 10
+				}
+			}
 		}
 	}
 
 	color = { 193 230 46 }
 }
 
-language_yi = { # Will worry about CCU parameters once relevant mods are updated
+language_yi = {
     REPLACED_BY = {
 		tfe = { language_yi }
 		roa = { language_yi }
+		wtwsms = { language_yi }
 		vanilla_ck3 = { language_yi }
 	}
 
 	MOD_DEPENDENT = {
 		IF wtwsms = {
 			parameters = {
-				language_branch_sinitic = yes
+				language_branch_lolo_burmese = yes
+				language_family_sino_tibetan = yes
+			}
+		} ELSE_IF tfe = {
+			parameters = {
+				language_group_lolo_burmese = yes
 				language_family_sino_tibetan = yes
 			}
 		}
@@ -3185,11 +3411,48 @@ language_yi = { # Will worry about CCU parameters once relevant mods are updated
 			LANGUAGE = language_yi
 		}
 	}
-	ai_will_do = {
-		value = 10
-		if = {
-			limit = { has_cultural_pillar = language_yi }
-			multiply = 10
+
+	MOD_DEPENDENT = {
+		IF wtwsms = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_yi }
+					multiply = same_language_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_branch_lolo_burmese }
+					multiply = same_language_branch_choice_factor
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_sino_tibetan }
+					multiply = same_language_family_choice_factor
+				}
+			}
+		} ELSE_IF tfe = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_yi }
+					multiply = 10
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_group_lolo_burmese }
+					multiply = 5
+				}
+				else_if = {
+					limit = { has_cultural_parameter = language_family_sino_tibetan }
+					multiply = 2.5
+				}
+			}
+		} ELSE = {
+			ai_will_do = {
+				value = 10
+				if = {
+					limit = { has_cultural_pillar = language_yi }
+					multiply = 10
+				}
+			}
 		}
 	}
 
