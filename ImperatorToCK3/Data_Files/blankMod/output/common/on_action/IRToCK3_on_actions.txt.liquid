@@ -999,6 +999,77 @@ IRToCK3_game_start_onaction_effects = {
 		##########################
 		{% if tfe %}
 		# TFE
+		## Intitial de jure changes, to try and make sure things are as similar to TFE as possible
+		title:d_viennensis_roman = { set_de_jure_liege_title = title:k_septem_provinciae }
+		title:e_byzantium = { set_de_jure_liege_title = title:h_roman_empire }
+		title:e_western_roman_empire = { set_de_jure_liege_title = title:h_roman_empire }
+		title:e_prafectura_gallia = { set_de_jure_liege_title = title:h_roman_empire }
+		title:e_prafectura_italia = { set_de_jure_liege_title = title:h_roman_empire }
+		title:e_prafectura_illyricum = { set_de_jure_liege_title = title:h_roman_empire }
+		title:e_prafectura_oriens = { set_de_jure_liege_title = title:h_roman_empire }
+		title:k_minister_prafectura_illyricum = { set_de_jure_liege_title = title:e_byzantium }
+		title:k_minister_magister_officiorum = { set_de_jure_liege_title = title:e_byzantium }
+		title:k_minister_comes_sacrarum_largitionum = { set_de_jure_liege_title = title:e_byzantium }
+		title:k_minister_quaestor_sacri_palatii = { set_de_jure_liege_title = title:e_byzantium }
+		title:k_minister_primicerius_notariorum = { set_de_jure_liege_title = title:e_byzantium }
+		title:k_minister_magister_militum_praesentalis = { set_de_jure_liege_title = title:e_byzantium }
+		title:k_minister_comes_domesticorum = { set_de_jure_liege_title = title:e_byzantium }
+		title:k_minister_praepositus_sacri_cubiculi = { set_de_jure_liege_title = title:e_byzantium }
+		title:k_augusta_byzantium = { set_de_jure_liege_title = title:e_byzantium }
+		title:k_mm_illyricum = { set_de_jure_liege_title = title:e_byzantium }
+		title:k_mm_thraciae = { set_de_jure_liege_title = title:e_byzantium }
+		title:k_mm_orientem = { set_de_jure_liege_title = title:e_byzantium }
+		title:k_mm_aegypti = { set_de_jure_liege_title = title:e_byzantium }
+		title:k_mm_armeniam = { set_de_jure_liege_title = title:e_byzantium }
+		title:k_minister_prafectura_oriens = { set_de_jure_liege_title = title:e_byzantium }
+		title:k_minister_prafectura_gallia = { set_de_jure_liege_title = title:e_western_roman_empire }
+		title:k_comes_galliae = { set_de_jure_liege_title = title:e_western_roman_empire }
+		title:k_comes_britanniae = { set_de_jure_liege_title = title:e_western_roman_empire }
+		title:k_minister_prafectura_italia = { set_de_jure_liege_title = title:e_western_roman_empire }
+		title:k_minister_magister_utriusque_militiae = { set_de_jure_liege_title = title:e_western_roman_empire }
+		title:k_minister_wre_praepositus_sacri_cubiculi = { set_de_jure_liege_title = title:e_western_roman_empire }
+		title:k_minister_wre_magister_officiorum = { set_de_jure_liege_title = title:e_western_roman_empire }
+		title:k_minister_wre_primicerius_notariorum = { set_de_jure_liege_title = title:e_western_roman_empire }
+		title:k_minister_wre_comes_domesticorum = { set_de_jure_liege_title = title:e_western_roman_empire }
+		title:k_minister_wre_comes_sacrarum_largitionum = { set_de_jure_liege_title = title:e_western_roman_empire }
+		title:k_minister_wre_quaestor_sacri_palatii = { set_de_jure_liege_title = title:e_western_roman_empire }
+		title:k_augusta_western_roman_empire = { set_de_jure_liege_title = title:e_western_roman_empire }
+		title:k_comes_illyrici = { set_de_jure_liege_title = title:e_western_roman_empire }
+		title:k_comes_africae = { set_de_jure_liege_title = title:e_western_roman_empire }
+		title:k_britannia = { set_de_jure_liege_title = title:e_prafectura_gallia }
+		title:k_hispania = { set_de_jure_liege_title = title:e_prafectura_gallia }
+		title:k_septem_provinciae = { set_de_jure_liege_title = title:e_prafectura_gallia }
+		title:k_gallia = { set_de_jure_liege_title = title:e_prafectura_gallia }
+		title:k_italia_annonariae = { set_de_jure_liege_title = title:e_prafectura_italia }
+		title:k_italia_suburbicariae = { set_de_jure_liege_title = title:e_prafectura_italia }
+		title:k_africae = { set_de_jure_liege_title = title:e_prafectura_italia }
+		title:k_daciae = { set_de_jure_liege_title = title:e_prafectura_illyricum }
+		title:k_macedon = { set_de_jure_liege_title = title:e_prafectura_illyricum }
+		title:k_pannonia = { set_de_jure_liege_title = title:e_prafectura_illyricum }
+		title:k_thracia = { set_de_jure_liege_title = title:e_prafectura_oriens }
+		title:k_orientis = { set_de_jure_liege_title = title:e_prafectura_oriens }
+		title:k_asiae = { set_de_jure_liege_title = title:e_prafectura_oriens }
+		title:k_aegyptus = { set_de_jure_liege_title = title:e_prafectura_oriens }
+		title:k_pontus_roman = { set_de_jure_liege_title = title:e_prafectura_oriens }
+		title:d_tobruk = { set_de_jure_liege_title = title:k_aegyptus }
+		title:d_hellespontus = { set_de_jure_liege_title = title:k_asiae }
+		title:d_caria = { set_de_jure_liege_title = title:k_asiae }
+		title:d_lycia = { set_de_jure_liege_title = title:k_asiae }
+		title:d_phyrgia_pacatiana = { set_de_jure_liege_title = title:k_asiae }
+		title:d_phyrgia_salutaris = { set_de_jure_liege_title = title:k_asiae }
+		title:d_pisidia = { set_de_jure_liege_title = title:k_asiae }
+		title:d_palestina_prima = { set_de_jure_liege_title = title:k_orientis }
+		title:d_salutaris = { set_de_jure_liege_title = title:k_orientis }
+		title:d_isauria = { set_de_jure_liege_title = title:k_orientis }
+		title:d_cilicia_secunda = { set_de_jure_liege_title = title:k_orientis }
+		title:d_pannonia_valeria = { set_de_jure_liege_title = title:k_pannonia }
+		title:d_macedonia_salutaris = { set_de_jure_liege_title = title:k_macedon }
+		title:d_germania_prima = { set_de_jure_liege_title = title:k_gallia }
+		title:d_lugdunensis_prima = { set_de_jure_liege_title = title:k_gallia }
+		title:d_lugdunensis_senonia = { set_de_jure_liege_title = title:k_gallia }
+		title:d_lugdunensis_tertia = { set_de_jure_liege_title = title:k_gallia }
+		title:d_alpes_poenninae_roman = { set_de_jure_liege_title = title:k_gallia }
+
 		## Setup Roman Diocese titles
 		### Some diocese have variables set tracking whether they split from Rome or not, so those will get set before the effect checks if the diocese should be setup, since those effects will change the variables accordingly if they should be setup
 

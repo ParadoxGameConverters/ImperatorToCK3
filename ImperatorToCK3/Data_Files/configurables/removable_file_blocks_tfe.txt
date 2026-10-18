@@ -5465,7 +5465,21 @@ set_minorities_game_start = {
 }
 
 "common/on_action/government_change_on_actions.txt" = {
+	# Most of this government setup is being handled by the converter's game start effects
 	{
+on_government_change_start = {
+	effect = {
+		if = {
+			limit = {
+				title:e_persia = {
+					is_title_created = yes
+				}
+			}
+			title:e_persia.holder ?= {
+				every_vassal_or_below = {
+					limit = {
+						is_alive = yes
+						has_government = feudal_government
 						NOT = {
 							THIS = character:persian_armenia_01
 						}
@@ -5484,8 +5498,22 @@ set_minorities_game_start = {
 						NOT = {
 							THIS = character:159892
 						}
-	}
-	{
+					}
+					change_government = eranshar_government
+				}
+			}
+		}
+		if = {
+			limit = {
+				has_dlc_feature = khans_of_the_steppe
+				title:e_caspian-pontic_steppe = {
+					is_title_created = yes
+				}
+			}
+			title:e_caspian-pontic_steppe.holder ?= {
+				change_government = nomad_government
+			}
+		}
 		if = {
 			limit = {
 				has_dlc_feature = khans_of_the_steppe
@@ -5571,6 +5599,38 @@ set_minorities_game_start = {
 				}
 			}
 		}
+		title:e_rajastan = {
+			every_in_de_jure_hierarchy = {
+				limit = {
+					is_title_created = yes
+				}
+				holder ?= {
+					if = {
+						limit = {
+							is_alive = yes
+							culture ?= {
+								has_cultural_tradition = tradition_gana_sangha
+							}
+							government_has_flag = government_is_tribal
+						}
+						change_government = gana_sangha_government
+						primary_title = {
+							add_title_law = gana_sangha_elective_succession_law
+						}
+					}
+				}
+			}
+		}
+	}
+}
+	}
+	{
+on_game_start = {
+	on_actions = {
+		on_romanesque_government_start
+		on_government_change_start
+	}
+}
 	}
 }
 

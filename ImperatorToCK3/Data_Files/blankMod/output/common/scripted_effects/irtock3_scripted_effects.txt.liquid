@@ -276,11 +276,112 @@ irtock3_setup_governments = {
 	every_ruler = {
 		# Handling this through if/else_if statements to prevent one block from overwriting the effects of another
 
+		#######################
+		### Mod Governments ###
+		#######################
+		# Some mods have certain governments that need to be properly setup at game start
+		if = {
+			limit = {
+				# In order to make sure all relevant mod governments are considered, this will check if the character meets the conditions for at least one of them first, then the effect block will further determine which one to actually setup
+				# Make sure the conditions in this OR block for each government type match the conditions in their corresponding IF block below
+				OR = {
+					# TFE
+					{% if tfe %}
+					## Roman Imperial
+					### Characters given the Roman/Romanesque governments that are in a "roman empire title" realm should be given the Roman Imperial government
+					top_liege = { # This will properly account for the Emperor themselves and their vassals
+						any_held_title = {
+							OR = {
+								is_roman_emperor_title_trigger = yes
+								# TFE doesn't use hegemonies for the WRE/ERE, so if someone converts holding those, we need to make sure they are properly changed to the empire titles to work with TFE's mechanics
+								this = title:h_eastern_roman_empire
+								this = title:h_western_roman_empire
+							}
+						}
+					}
+					# TFE always forces someone who gets a "roman emperor title" to become Roman Imperial, regardless of their current government
+
+					## Ērānīg
+					### Iranian-Heritage rulers that hold Persia should be given the Ērānīg government
+					AND = {
+						# Being a bit lenient, just checking that the top liege is Iranian and has Persia, since that seems to be how TFE handles setting Persia up
+						top_liege = { # This will be enough to account for the person holding Persia and their vassals as well
+							has_title = title:e_persia
+							culture = { has_cultural_pillar = heritage_iranian }
+						}
+						NOR = { # Don't want them to magically become centralized if they were some sort of tribal in Imperator
+							government_has_flag = government_is_tribal
+							government_has_flag = government_is_nomadic
+							government_has_flag = government_is_herder
+						}
+					}
+					{% else %}
+					## TFE not loaded
+					always = no
+					{% endif %}
+				}
+			}
+
+			# TFE
+			{% if tfe %}
+			## Roman Imperial
+			if = {
+				limit = {
+					top_liege = {
+						any_held_title = {
+							OR = {
+								is_roman_emperor_title_trigger = yes
+								this = title:h_eastern_roman_empire
+								this = title:h_western_roman_empire
+							}
+						}
+					}
+				}
+
+				if = {
+					limit = { has_dlc_feature = roads_to_power }
+					TFE_change_to_roman_imperial_government_effect = yes
+				}
+
+				# Save the person actually holding the Roman emperor title to a list so their realms can be setup below
+				if = {
+					limit = {
+						any_held_title = {
+							OR = {
+								is_roman_emperor_title_trigger = yes
+								this = title:h_eastern_roman_empire
+								this = title:h_western_roman_empire
+							}
+						}
+					}
+					add_to_list = tfe_roman_emperors_list
+				}
+			}
+			
+			## Ērānīg
+			if = {
+				limit = {
+					top_liege = {
+						has_title = title:e_persia
+						culture = { has_cultural_pillar = heritage_iranian }
+					}
+					NOR = {
+						government_has_flag = government_is_tribal
+						government_has_flag = government_is_nomadic
+						government_has_flag = government_is_herder
+					}
+				}
+				change_government = eranshar_government
+			}
+			{% else %}
+			## TFE not loaded
+			{% endif %}
+		}
 		######################
 		### Chinese Rulers ###
 		######################
 		# Need to know exactly what rulers might get involved in the Dynastic Cycle
-		if = {
+		else_if = {
 			limit = {
 				# Only relevant if not using a mod that excludes East Asia
 				NOR = {
@@ -2711,6 +2812,104 @@ irtock3_setup_governments = {
 		}
 	}
 
+	{% if tfe %}
+	######################
+	### TFE Rome Setup ###
+	######################
+	# Roman empire realms require a little setup to work with TFE
+	if = {
+		limit = {
+			any_in_list = { list = tfe_roman_emperors_list }
+		}
+
+		every_in_list = {
+			list = tfe_roman_emperors_list
+			save_scope_as = roman_emperor_scope
+
+			# If they happen to have the hegemony WRE/ERE titles, they need to be destroyed and replaced with the empire equivalent, since TFE doesn't use the hegemonies
+			if = {
+				limit = {
+					OR = {
+						has_title = title:h_eastern_roman_empire
+						has_title = title:h_western_roman_empire
+					}
+				}
+
+				# If any of their vassals are empires, destroy the empire titles so there are no issues
+				every_vassal = {
+					limit = { highest_held_title_tier = tier_empire }
+					save_scope_as = vassal_temp
+					every_held_title = {
+						title_tier = empire
+						scope:vassal_temp = { destroy_title = prev }
+					}
+					clear_saved_scope = vassal_temp
+				}
+
+				# Give them their respective title
+				create_title_and_vassal_change = {
+					type = created
+					save_scope_as = change
+					add_claim_on_loss = yes
+				}
+				if = {
+					limit = { has_title = title:h_eastern_roman_empire }
+					title:e_byzantium = {
+						change_title_holder = {
+							holder = scope:roman_emperor_scope
+							change = scope:change
+						}
+					}
+				}
+				if = {
+					limit = { has_title = title:h_western_roman_empire }
+					title:e_western_roman_empire = {
+						change_title_holder = {
+							holder = scope:roman_emperor_scope
+							change = scope:change
+						}
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+
+				# Destroy the hegemonies, and make sure their new empire is their primary title
+				if = {
+					limit = { has_title = title:h_eastern_roman_empire }
+					destroy_title = title:h_eastern_roman_empire
+					set_primary_title_to = title:e_byzantium
+					
+					if = {
+						limit = {
+							has_government = roman_imperial_government
+							title:e_byzantium = {
+								NOT = { has_title_law = imperial_elective_succession_law }
+							}
+						}
+						title:e_byzantium = { add_title_law = imperial_elective_succession_law }
+					}
+				}
+				if = {
+					limit = { has_title = title:h_western_roman_empire }
+					destroy_title = title:h_western_roman_empire
+					set_primary_title_to = title:e_western_roman_empire
+					
+					if = {
+						limit = {
+							has_government = roman_imperial_government
+							title:e_western_roman_empire = {
+								NOT = { has_title_law = imperial_elective_succession_law }
+							}
+						}
+						title:e_western_roman_empire = { add_title_law = imperial_elective_succession_law }
+					}
+				}
+			}
+		}
+	}
+
+	# TFE has this on_action trigger at game start to setup roman-government realms, but to make sure it doesn't conflict with the converter's government setup effect, instead having it trigger at the end here
+	trigger_event = { on_action = on_romanesque_government_start }
+	{% endif %}
 
 	## Finally, recalculate the culture heads
 	recalculate_cultural_heads_of_type = herd
@@ -4015,6 +4214,11 @@ irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			target = title:$EMPIRE$
 		}
 	}
+
+	{% if tfe %}
+	# TFE has all prefecture titles always be de jure under h_roman_empire
+	set_de_jure_liege_title = title:h_roman_empire
+	{% endif %}
 }
 
 
@@ -4652,6 +4856,48 @@ irtock3_setup_roman_prefectures_game_start = {
 		}
 	}
 
+	{% if tfe %}
+	# TFE handles the Rome titles and prefectures differently than how the converter currently does, so they need to be setup differently as well
+	# Merge all converter-generated empire titles for prefectures into the actual predefined prefecture title being used
+	if = {
+		limit = {
+			has_global_variable_list = rome_dynamic_empire_region_irtock3_rome_empire_division_$REGION$
+			any_in_global_list = {
+				variable = rome_dynamic_empire_region_irtock3_rome_empire_division_$REGION$
+				has_variable = base_game_prefecture_title
+			}
+		}
+
+		random_in_global_list = {
+			variable = rome_dynamic_empire_region_irtock3_rome_empire_division_$REGION$
+			limit = { has_variable = base_game_prefecture_title }
+			save_scope_as = prefecture_empire
+		}
+
+		if = {
+			limit = {
+				any_in_list = { list = region_empires }
+			}
+
+			every_in_list = {
+				list = region_empires
+				every_in_de_jure_hierarchy = {
+					limit = { tier = tier_kingdom }
+					set_de_jure_liege_title = scope:prefecture_empire
+				}
+				holder ?= { destroy_title = prev }
+			}
+		}
+
+		# This variable is mainly for some converter stuff currently setup
+		scope:prefecture_empire ?= {
+			set_variable = {
+				name = prefecture_region
+				value = geographical_region:irtock3_rome_empire_division_$REGION$
+			}
+		}
+	}
+	{% else %}
 	# Of the empires in the list, choose the one with the most land in the region
 	if = {
 		limit = {
@@ -4736,6 +4982,7 @@ irtock3_setup_roman_prefectures_game_start = {
 			}
 		}
 	}
+	{% endif %}
 
 	# Clean up
 	if = {

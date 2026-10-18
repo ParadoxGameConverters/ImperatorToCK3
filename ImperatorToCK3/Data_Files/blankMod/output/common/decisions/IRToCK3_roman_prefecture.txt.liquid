@@ -1,6 +1,6 @@
-﻿@form_prefecture_decision_check_interval = 30
+﻿{% unless tfe %} # For now, disabling for TFE since they have their own equivalent content to this, but only for historical regions, so need to figure out how to best integrate the rest of the map
+@form_prefecture_decision_check_interval = 30
 
-{% unless tfe %} # For now, disabling for TFE since they have their own equivalent content to this, but only for historical regions, so need to figure out how to best integrate the rest of the map
 # irtock3_rome_empire_division_britannia: "Britannia"
 irtock3_form_prefecture_britannia_decision = {
 	picture = {
