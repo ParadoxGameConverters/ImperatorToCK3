@@ -5148,8 +5148,8 @@ irtock3_tfe_setup_diocese_game_start = {
 			$PREFECTURE$ = { is_titular = no }
 			any_county_in_region = {
 				region = $REGION$
-				count = all
-				empire ?= $PREFECTURE$
+				percent >= 0.9 # Just need to control *most* of the region
+				hegemony ?= title:h_roman_empire
 			}
 		}
 		$EFFECT$ = yes
