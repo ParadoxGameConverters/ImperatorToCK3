@@ -54,9 +54,7 @@ on_primary_title_change = {
 on_title_gain = {
 	on_actions = {
 		IRToCK3_ritsuryo_multiple_empires
-		IRToCK3_rome_praetorian_prefecture_name_reset
 		IRToCK3_change_persia_name
-		IRToCK3_rome_vassal_naming_flavor
 	}
 }
 
@@ -66,25 +64,6 @@ on_title_gain = {
 on_title_destroyed = {
 	on_actions = {
 		IRToCK3_reset_persia_name
-		IRToCK3_rome_vassal_naming_flavor
-	}
-}
-
-# root = the old holder
-# scope:title = the title that changes hands
-# scope:new_holder = new holder.
-on_title_lost = {
-	on_actions = {
-		IRToCK3_rome_vassal_naming_flavor
-	}
-}
-
-# root = vassal changing their status
-# scope:old_liege = the previous liege of the vassal
-# It is also fired for rulers gaining independence, those can be identified by checking current liege
-on_vassal_change = {
-	on_actions = {
-		IRToCK3_rome_vassal_naming_flavor
 	}
 }
 
@@ -182,207 +161,269 @@ IRToCK3_game_start_onaction_effects = {
 		####################################
 		### Roman Praetorian Prefectures ###
 		####################################
-		## Base game titles that are going to be used as potential Roman Praetorian Prefecture titles need to be added to their relevant global variable lists
+		## Make sure the empire WRE/ERE titles are de jure under h_roman_empire, which should also make h_roman_empire non-titular if someone converted with these titles
+		title:e_byzantium = { set_de_jure_liege_title = title:h_roman_empire }
+		title:e_western_roman_empire = { set_de_jure_liege_title = title:h_roman_empire }
+
+		## These are predefined titles that are going to be used as potential Roman Praetorian Prefecture titles
+		{% unless tfe %} # TFE has Britannia in Galliarum
 		# Britannia
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_britannia
-			EMPIRE = e_britannia
+			EMPIRE = e_roman_prefecture_britannia
+		}
+		{% endunless %}
+		# Galliarum
+		irtock3_gamestart_add_title_to_prefecture_region_effect = {
+			REGION = irtock3_rome_empire_division_galliarum
+			{% if tfe %}
+			EMPIRE = e_prafectura_gallia
+			{% else %}
+			EMPIRE = e_roman_prefecture_galliarum
+			{% endif %}
 		}
 		# Germania
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_germania
-			EMPIRE = e_germany
+			EMPIRE = e_roman_prefecture_germania
 		}
 		# Italiae
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_italiae
-			EMPIRE = e_italy
+			{% if tfe %}
+			EMPIRE = e_prafectura_italia
+			{% else %}
+			EMPIRE = e_roman_prefecture_italiae
+			{% endif %}
+		}
+		# Libya Interior
+		irtock3_gamestart_add_title_to_prefecture_region_effect = {
+			REGION = irtock3_rome_empire_division_libya_interior
+			EMPIRE = e_roman_prefecture_libya_interior
+		}
+		# Libya Ulterior
+		irtock3_gamestart_add_title_to_prefecture_region_effect = {
+			REGION = irtock3_rome_empire_division_libya_ulterior
+			EMPIRE = e_roman_prefecture_libya_ulterior
+		}
+		# Aethiopia
+		irtock3_gamestart_add_title_to_prefecture_region_effect = {
+			REGION = irtock3_rome_empire_division_aethiopia
+			EMPIRE = e_roman_prefecture_aethiopia
 		}
 		# Orientis
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_orientis
-			EMPIRE = e_oriens
+			{% if tfe %}
+			EMPIRE = e_prafectura_oriens
+			{% else %}
+			EMPIRE = e_roman_prefecture_orientis
+			{% endif %}
 		}
 		# Illyria
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_illyrici
-			EMPIRE = e_illyria
+			{% if tfe %}
+			EMPIRE = e_prafectura_illyricum
+			{% else %}
+			EMPIRE = e_roman_prefecture_illyrici
+			{% endif %}
 		}
 		# Pannonia
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_pannonia
-			EMPIRE = e_carpathia
+			EMPIRE = e_roman_prefecture_pannonia
+		}
+		# Vistulia
+		irtock3_gamestart_add_title_to_prefecture_region_effect = {
+			REGION = irtock3_rome_empire_division_vistulia
+			EMPIRE = e_roman_prefecture_vistulia
+		}
+		# Fennia
+		irtock3_gamestart_add_title_to_prefecture_region_effect = {
+			REGION = irtock3_rome_empire_division_fennia
+			EMPIRE = e_roman_prefecture_fennia
 		}
 		# Scandia
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_scandia
-			EMPIRE = e_scandinavia
+			EMPIRE = e_roman_prefecture_scandia
 		}
 		# Arabia
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_arabia
-			EMPIRE = e_arabia
+			EMPIRE = e_roman_prefecture_arabia
 		}
 		# Persia
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_persia
-			EMPIRE = e_persia
+			EMPIRE = e_roman_prefecture_persia
 		}
 		# Sarmatia
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_sarmatia
-			EMPIRE = e_caspian-pontic_steppe
+			EMPIRE = e_roman_prefecture_sarmatia
 		}
 		# Uralia Interior
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_uralia_interior
-			EMPIRE = e_volga-ural
+			EMPIRE = e_roman_prefecture_uralia_interior
 		}
 		# Uralia Ulterior
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_uralia_ulterior
-			EMPIRE = e_siberia
+			EMPIRE = e_roman_prefecture_uralia_ulterior
 		}
 		# Tartaria
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_tartaria
-			EMPIRE = e_tartaria
+			EMPIRE = e_roman_prefecture_tartaria
 		}
 		# Parthia
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_parthia
-			EMPIRE = e_turan
+			EMPIRE = e_roman_prefecture_parthia
 		}
 		# Imoan Montem
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_imoan_montem
-			EMPIRE = e_tibet
+			EMPIRE = e_roman_prefecture_imoan_montem
 		}
-{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
+		# India Intra Gangem
+		irtock3_gamestart_add_title_to_prefecture_region_effect = {
+			REGION = irtock3_rome_empire_division_india_intra_gangem
+			EMPIRE = e_roman_prefecture_india_intra_gangem
+		}
+		# India Extra Gangem
+		irtock3_gamestart_add_title_to_prefecture_region_effect = {
+			REGION = irtock3_rome_empire_division_india_extra_gangem
+			EMPIRE = e_roman_prefecture_india_extra_gangem
+		}
+		# Magna Taprobana
+		irtock3_gamestart_add_title_to_prefecture_region_effect = {
+			REGION = irtock3_rome_empire_division_magna_taprobana
+			EMPIRE = e_roman_prefecture_magna_taprobana
+		}
+		# Septentrionalis Deserti
+		irtock3_gamestart_add_title_to_prefecture_region_effect = {
+			REGION = irtock3_rome_empire_division_septentrionalis_deserti
+			EMPIRE = e_roman_prefecture_septentrionalis_deserti
+		}
+		
+		{% unless wtwsms or tfe %} # WtWSMS/TFE don't have playable East Asia yet.
 		# Insulae Remotae
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_insulae_remotae
-			EMPIRE = e_nusantara
+			EMPIRE = e_roman_prefecture_insulae_remotae
 		}
 		# Insulae Solis
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_insulae_solis
-			EMPIRE = e_japan
-		}
-{% endunless %}
-		# Septentrionalis Deserti
+			EMPIRE = e_roman_prefecture_insulae_solis
+		}	
+		# Serica Ultima
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
-			REGION = irtock3_rome_empire_division_septentrionalis_deserti
-			EMPIRE = e_mongolia
-		}
-{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.		
+			REGION = irtock3_rome_empire_division_serica_ultima
+			EMPIRE = e_roman_prefecture_serica_ultima
+		}		
 		# Serica Meridiana
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_serica_meridiana
-			EMPIRE = e_lingnan
+			EMPIRE = e_roman_prefecture_serica_meridiana
 		}
 		# Serica Occidens
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_serica_occidens
-			EMPIRE = e_liangyi
+			EMPIRE = e_roman_prefecture_serica_occidens
 		}
 		# Serica Orientalis
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_serica_orientalis
-			EMPIRE = e_jingyang
+			EMPIRE = e_roman_prefecture_serica_orientalis
 		}
 		# Serica Septentrionalis
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_serica_septentrionalis
-			EMPIRE = e_zhongyuan
+			EMPIRE = e_roman_prefecture_serica_septentrionalis
 		}
+		{% endunless %}
+		
+		{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
 		# Serica Deserti
 		irtock3_gamestart_add_title_to_prefecture_region_effect = {
 			REGION = irtock3_rome_empire_division_serica_deserti
-			EMPIRE = e_yongliang
+			EMPIRE = e_roman_prefecture_serica_deserti
 		}
-{% endunless %}
+		{% endunless %}
 
-		## If a hegemony Rome title exists at game start, need to make sure it's de jure empires are properly setup as Praetorian Prefectures
+
+		{% if tfe %}
+		# TFE Prefecture/Diocese setup (want it done before the regular Prefecture setup effect to try and hopefully fix weird de jure messes from odd governorship borders)
+		irtock3_tfe_rome_prefecture_setup = yes
+		{% endif %}
+
+		## If h_roman_empire isn't titular, need to make sure it's de jure empires are properly setup as Praetorian Prefectures
 		if = {
 			limit = {
-				OR = {
-					title:h_roman_empire = { is_titular = no }
-					title:h_western_roman_empire = { is_titular = no }
-					title:h_eastern_roman_empire = { is_titular = no }
+				title:h_roman_empire = { is_titular = no }
+			}
+
+			### Get a list of all kingdoms de jure under h_roman_empire
+			title:h_roman_empire = {
+				every_in_de_jure_hierarchy = {
+					limit = {
+						tier = tier_kingdom
+						is_titular = no
+					}
+					add_to_list = roman_kingdoms
 				}
 			}
 
-			# Britannia
-			irtock3_setup_roman_prefectures_game_start = { REGION = britannia }
-			# Gallarium
-			irtock3_setup_roman_prefectures_game_start = { REGION = galliarum }
-			# Germania
-			irtock3_setup_roman_prefectures_game_start = { REGION = germania }
-			# Italiae
-			irtock3_setup_roman_prefectures_game_start = { REGION = italiae }
-			# Libya Interior
-			irtock3_setup_roman_prefectures_game_start = { REGION = libya_interior }
-			# Libya Ulterior
-			irtock3_setup_roman_prefectures_game_start = { REGION = libya_ulterior }
-			# Aethiopia
-			irtock3_setup_roman_prefectures_game_start = { REGION = aethiopia }
-			# Orientis
-			irtock3_setup_roman_prefectures_game_start = { REGION = orientis }
-			# Illyria
-			irtock3_setup_roman_prefectures_game_start = { REGION = illyrici }
-			# Pannonia
-			irtock3_setup_roman_prefectures_game_start = { REGION = pannonia }
-			# Vistulia
-			irtock3_setup_roman_prefectures_game_start = { REGION = vistulia }
-			# Fennia
-			irtock3_setup_roman_prefectures_game_start = { REGION = fennia }
-			# Scandia
-			irtock3_setup_roman_prefectures_game_start = { REGION = scandia }
-			# Arabia
-			irtock3_setup_roman_prefectures_game_start = { REGION = arabia }
-			# Persia
-			irtock3_setup_roman_prefectures_game_start = { REGION = persia }
-			# Sarmatia
-			irtock3_setup_roman_prefectures_game_start = { REGION = sarmatia }
-			# Uralia Interior
-			irtock3_setup_roman_prefectures_game_start = { REGION = uralia_interior }
-			# Uralia Ulterior
-			irtock3_setup_roman_prefectures_game_start = { REGION = uralia_ulterior }
-			# Tartaria
-			irtock3_setup_roman_prefectures_game_start = { REGION = tartaria }
-			# Parthia
-			irtock3_setup_roman_prefectures_game_start = { REGION = parthia }
-			# Imoan Montem
-			irtock3_setup_roman_prefectures_game_start = { REGION = imoan_montem }
-			# India Intra Gangem
-			irtock3_setup_roman_prefectures_game_start = { REGION = india_intra_gangem }
-			# India Extra Gangem
-			irtock3_setup_roman_prefectures_game_start = { REGION = india_extra_gangem }
-			# Magna Taprobana
-			irtock3_setup_roman_prefectures_game_start = { REGION = magna_taprobana }
-{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
-			# Insulae Remotae
-			irtock3_setup_roman_prefectures_game_start = { REGION = insulae_remotae }
-			# Insulae Solis
-			irtock3_setup_roman_prefectures_game_start = { REGION = insulae_solis }
-{% endunless %}
-			# Septentrionalis Deserti
-			irtock3_setup_roman_prefectures_game_start = { REGION = septentrionalis_deserti }
-{% unless wtwsms %} # WtWSMS doesn't have playable East Asia yet.
-			# Serica Ultima
-			irtock3_setup_roman_prefectures_game_start = { REGION = serica_ultima }
-			# Serica Meridiana
-			irtock3_setup_roman_prefectures_game_start = { REGION = serica_meridiana }
-			# Serica Occidens
-			irtock3_setup_roman_prefectures_game_start = { REGION = serica_occidens }
-			# Serica Orientalis
-			irtock3_setup_roman_prefectures_game_start = { REGION = serica_orientalis }
-			# Serica Septentrionalis
-			irtock3_setup_roman_prefectures_game_start = { REGION = serica_septentrionalis }
-			# Serica Deserti
-			irtock3_setup_roman_prefectures_game_start = { REGION = serica_deserti }
-{% endunless %}
+			### Go through all of the kingdoms and determine which Prefecture region they are most associated with
+			every_in_list = {
+				list = roman_kingdoms
+				save_scope_as = roman_kingdom_scope
+				
+				ordered_in_global_list = {
+					variable = rome_prefecture_titles
+					limit = {
+						has_variable = prefecture_region
+						var:prefecture_region = { save_temporary_scope_as = region_temp }
+						scope:roman_kingdom_scope = {
+							any_de_jure_county = {
+								title_province = { geographical_region = scope:region_temp }
+							}
+						}
+					} # Just to make sure it's properly setup
+					order_by = {
+						value = 0
+						save_temporary_scope_as = prefecture_temp
+						scope:roman_kingdom_scope = {
+							# Every county in the region should add to the score
+							every_de_jure_county = {
+								limit = {
+									title_province = { geographical_region = scope:prefecture_temp.var:prefecture_region }
+								}
+								add = 10
+							}
+							# If the capital county is in the region, add a little score so that on the off chance the kingdom is split between two regions, the one with the capital is chosen
+							if = {
+								limit = {
+									title_capital_county.title_province = { geographical_region = scope:prefecture_temp.var:prefecture_region }
+								}
+								add = 1
+							}
+						}
+					}
+					max = 1
+					save_scope_as = roman_prefecture
+				}
+
+				set_de_jure_liege_title = scope:roman_prefecture
+
+				clear_saved_scope = roman_kingdom_scope
+				clear_saved_scope = roman_prefecture
+			}
 		}
 
 		## If anyone holds the Rome hegemony titles at game start, they should have the Augustus trait and naming flag, and their vassals should get flags so their titles are properly named as well
@@ -391,19 +432,6 @@ IRToCK3_game_start_onaction_effects = {
 			title:h_roman_empire.holder = {
 				add_trait = augustus
 				set_variable = uses_custom_caesar_flavourization
-				
-				every_vassal_or_below = {
-					limit = {
-						any_held_title = {
-							OR = {
-								target_is_de_jure_liege_or_above = title:h_roman_empire
-								target_is_de_jure_liege_or_above = title:h_western_roman_empire
-								target_is_de_jure_liege_or_above = title:h_eastern_roman_empire
-							}
-						}
-					}
-					set_variable = use_roman_vassal_naming_flag
-				}
 			}
 		}
 		if = {
@@ -411,19 +439,6 @@ IRToCK3_game_start_onaction_effects = {
 			title:h_western_roman_empire.holder = {
 				add_trait = augustus
 				set_variable = uses_custom_caesar_flavourization
-				
-				every_vassal_or_below = {
-					limit = {
-						any_held_title = {
-							OR = {
-								target_is_de_jure_liege_or_above = title:h_roman_empire
-								target_is_de_jure_liege_or_above = title:h_western_roman_empire
-								target_is_de_jure_liege_or_above = title:h_eastern_roman_empire
-							}
-						}
-					}
-					set_variable = use_roman_vassal_naming_flag
-				}
 			}
 		}
 		if = {
@@ -431,19 +446,6 @@ IRToCK3_game_start_onaction_effects = {
 			title:h_eastern_roman_empire.holder = {
 				add_trait = augustus
 				set_variable = uses_custom_caesar_flavourization
-				
-				every_vassal_or_below = {
-					limit = {
-						any_held_title = {
-							OR = {
-								target_is_de_jure_liege_or_above = title:h_roman_empire
-								target_is_de_jure_liege_or_above = title:h_western_roman_empire
-								target_is_de_jure_liege_or_above = title:h_eastern_roman_empire
-							}
-						}
-					}
-					set_variable = use_roman_vassal_naming_flag
-				}
 			}
 		}
 
@@ -461,17 +463,12 @@ IRToCK3_game_start_onaction_effects = {
 
 		# Makes sure Persia is properly named at game start
 		title:e_persia = {
+			reset_title_name = yes
+			set_definitive_form = yes
 			if = {
-				limit = {
-					NOT = { custom_title_name = irtock3_rome_empire_division_persia }
-				}
-				reset_title_name = yes
-				set_definitive_form = yes
-				if = {
-					limit = { exists = holder.house }
-					holder.house = { save_scope_as = new_persia_house }
-					set_title_name_dynamic = new_persia_empire_name
-				}
+				limit = { exists = holder.house }
+				holder.house = { save_scope_as = new_persia_house }
+				set_title_name_dynamic = new_persia_empire_name
 			}
 		}
 
@@ -525,7 +522,7 @@ IRToCK3_game_start_onaction_effects = {
 			}
 		}
 
-		{% unless wtwsms %}
+		{% unless wtwsms or tfe %}
 		#################
 		### Indonesia ###
 		#################
@@ -807,7 +804,7 @@ IRToCK3_game_start_onaction_effects = {
 				}
 			}
 		}
-		{% endunless %}
+
 
 		#################
 		### Silk Road ###
@@ -861,17 +858,6 @@ IRToCK3_game_start_onaction_effects = {
 			}
 		}
 
-		###########################
-		### Sinophilic Cultures ###
-		###########################
-		# In a converted save, there is no guarantee that most cultures were properly influenced enough to be considered "Sinophilic"
-		every_culture_global = {
-			limit = {
-				this != culture:dongyi
-				has_cultural_tradition = tradition_sinophilic
-			}
-			remove_culture_tradition = tradition_sinophilic
-		}
 
 		###########################
 		### China De Jure Setup ###
@@ -922,10 +908,41 @@ IRToCK3_game_start_onaction_effects = {
 				}
 			}
 		}
+		{% endunless %}
 
-		
+
+		###########################
+		### Sinophilic Cultures ###
+		###########################
+		# In a converted save, there is no guarantee that most cultures were properly influenced enough to be considered "Sinophilic"
+		every_culture_global = {
+			limit = {
+				this != culture:dongyi
+				has_cultural_tradition = tradition_sinophilic
+			}
+			remove_culture_tradition = tradition_sinophilic
+		}
+
+
 		# Government Setup
 		irtock3_setup_governments = yes
+
+
+		##########################
+		### Mod-Specific Setup ###
+		##########################
+		{% if tfe %}
+		# TFE
+
+		### Make sure all of the setup Diocese titles are properly given holders, and any Imperator governorships are destroyed, when relevant
+		every_in_list = {
+			list = setup_diocese_titles
+			save_scope_as = diocese_title_scope
+
+			
+		}
+
+		{% endif %}
 	}
 }
 
@@ -933,6 +950,7 @@ IRToCK3_game_start_after_lobby_onaction_effects = {
 	effect = {
 		every_player = { trigger_event = welcome.1 } # This event so far just notifies the players of the game rules added by the converter, and any relevant mods to use
 
+		{% unless wtwsms or tfe %} # WtWSMS/TFE don't have playable East Asia yet.
 		##########################
 		## Dynastic Cycle Setup ##
 		##########################
@@ -978,6 +996,7 @@ IRToCK3_game_start_after_lobby_onaction_effects = {
 				trigger_event = tgp_dynastic_cycle.0051
 			}
 		}
+		{% endunless %}
 	}
 }
 
@@ -1369,41 +1388,9 @@ IRToCK3_roman_empire_decline_effect = {
 	}
 }
 
-# This on_action will be used to reset the name of the base game titles being used as Roman Praetorian Prefectures
-IRToCK3_rome_praetorian_prefecture_name_reset = {
-	trigger = {
-		save_temporary_scope_as = ruler_temp
-		scope:title ?= {
-			has_variable = rome_praetorian_prefecture
-			trigger_if = {
-				limit = {
-					has_variable = rome_praetorian_prefecture_house
-					exists = scope:ruler_temp.house
-				}
-				NOT = { scope:ruler_temp.house = var:rome_praetorian_prefecture_house }
-			}
-		}
-		top_liege = { is_roman_emperor_trigger = no } # A prefecture's name should potentially be reset if it is no longer under an active Rome title
-	}
-	effect = {
-		trigger_event = {
-			id = irtock3_roman_events.2
-			days = 3 # Delayed because if a player had the title and died, their heir would get the event and make a choice before the player actually takes control of that character
-		}
-	}
-}
-
 # This on_action makes sure the name of Persia changes properly whenever somone new gets it
 IRToCK3_change_persia_name = {
-	trigger = {
-		scope:title = title:e_persia
-		title:e_persia = {
-			NOR = {
-				has_variable = rome_praetorian_prefecture
-				custom_title_name = irtock3_rome_empire_division_persia # If Persia was made a praetorian prefecture, but became independent and its ruler chose to permanently keep its "Roman" name, it should still be using this loc key even if it doesn't have the above variable, so this shouldn't be changed
-			}
-		}
-	}
+	trigger = { scope:title = title:e_persia }
 	effect = {
 		# If the character is lowborn, it should revert back to "Persian Empire" instead of keeping whatever name it had before
 		if = {
@@ -1434,58 +1421,11 @@ IRToCK3_change_persia_name = {
 
 # This on_action makes sure the name of Persia is properly reset back to "Persian Empire" when its destroyed
 IRToCK3_reset_persia_name = {
-	trigger = {
-		scope:landed_title = title:e_persia
-		title:e_persia = {
-			NOR = {
-				has_variable = rome_praetorian_prefecture
-				custom_title_name = irtock3_rome_empire_division_persia # If Persia was made a praetorian prefecture, but became independent and its ruler chose to permanently keep its "Roman" name, it should still be using this loc key even if it doesn't have the above variable, so this shouldn't be changed
-			}
-		}
-	}
+	trigger = { scope:landed_title = title:e_persia }
 	effect = {
 		title:e_persia = {
 			reset_title_name = yes
 			set_definitive_form = yes
-		}
-	}
-}
-
-# This on_action makes sure de jure vassals under a Rome hegemony title get their proper flavor names
-IRToCK3_rome_vassal_naming_flavor = {
-	trigger = {
-		# To prevent this from impacting performance as much as possible, should only trigger if you are the vassal of a Rome hegemony title, or already have the relevant variable set
-		OR = {
-			# Already have variable set (so may lose it)
-			has_variable = use_roman_vassal_naming_flag
-
-			# Are a vassal under a Rome hegemony title
-			any_liege_or_above = {
-				OR = {
-					has_title = title:h_roman_empire
-					has_title = title:h_western_roman_empire
-					has_title = title:h_eastern_roman_empire
-				}
-			}
-		}
-	}
-	effect = {
-		# If you are a vassal under a Rome hegemony title, you should gain the variable to indicate you can use the custom Rome vassal name flavor
-		if = {
-			limit = {
-				exists = liege
-				any_liege_or_above = {
-					OR = {
-						has_title = title:h_roman_empire
-						has_title = title:h_western_roman_empire
-						has_title = title:h_eastern_roman_empire
-					}
-				}
-			}
-			set_variable = use_roman_vassal_naming_flag
-		}
-		else = {
-			remove_variable = use_roman_vassal_naming_flag
 		}
 	}
 }

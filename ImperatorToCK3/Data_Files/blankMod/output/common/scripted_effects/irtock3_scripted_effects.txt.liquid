@@ -276,13 +276,118 @@ irtock3_setup_governments = {
 	every_ruler = {
 		# Handling this through if/else_if statements to prevent one block from overwriting the effects of another
 
+		#######################
+		### Mod Governments ###
+		#######################
+		# Some mods have certain governments that need to be properly setup at game start
+		if = {
+			limit = {
+				# In order to make sure all relevant mod governments are considered, this will check if the character meets the conditions for at least one of them first, then the effect block will further determine which one to actually setup
+				# Make sure the conditions in this OR block for each government type match the conditions in their corresponding IF block below
+				OR = {
+					# TFE
+					{% if tfe %}
+					## Roman Imperial
+					### Characters given the Roman/Romanesque governments that are in a "roman empire title" realm should be given the Roman Imperial government
+					top_liege = { # This will properly account for the Emperor themselves and their vassals
+						any_held_title = {
+							OR = {
+								is_roman_emperor_title_trigger = yes
+								# TFE doesn't use hegemonies for the WRE/ERE, so if someone converts holding those, we need to make sure they are properly changed to the empire titles to work with TFE's mechanics
+								this = title:h_eastern_roman_empire
+								this = title:h_western_roman_empire
+							}
+						}
+					}
+					# TFE always forces someone who gets a "roman emperor title" to become Roman Imperial, regardless of their current government
+
+					## Ērānīg
+					### Iranian-Heritage rulers that hold Persia should be given the Ērānīg government
+					AND = {
+						# Being a bit lenient, just checking that the top liege is Iranian and has Persia, since that seems to be how TFE handles setting Persia up
+						top_liege = { # This will be enough to account for the person holding Persia and their vassals as well
+							has_title = title:e_persia
+							culture = { has_cultural_pillar = heritage_iranian }
+						}
+						NOR = { # Don't want them to magically become centralized if they were some sort of tribal in Imperator
+							government_has_flag = government_is_tribal
+							government_has_flag = government_is_nomadic
+							government_has_flag = government_is_herder
+						}
+					}
+					{% else %}
+					## TFE not loaded
+					always = no
+					{% endif %}
+				}
+			}
+
+			# TFE
+			{% if tfe %}
+			## Roman Imperial
+			if = {
+				limit = {
+					top_liege = {
+						any_held_title = {
+							OR = {
+								is_roman_emperor_title_trigger = yes
+								this = title:h_eastern_roman_empire
+								this = title:h_western_roman_empire
+							}
+						}
+					}
+				}
+
+				if = {
+					limit = { has_dlc_feature = roads_to_power }
+					TFE_change_to_roman_imperial_government_effect = yes
+				}
+
+				# Save the person actually holding the Roman emperor title to a list so their realms can be setup below
+				if = {
+					limit = {
+						any_held_title = {
+							OR = {
+								is_roman_emperor_title_trigger = yes
+								this = title:h_eastern_roman_empire
+								this = title:h_western_roman_empire
+							}
+						}
+					}
+					add_to_list = tfe_roman_emperors_list
+				}
+			}
+			
+			## Ērānīg
+			if = {
+				limit = {
+					top_liege = {
+						has_title = title:e_persia
+						culture = { has_cultural_pillar = heritage_iranian }
+					}
+					NOR = {
+						government_has_flag = government_is_tribal
+						government_has_flag = government_is_nomadic
+						government_has_flag = government_is_herder
+					}
+				}
+				change_government = eranshar_government
+			}
+			{% else %}
+			## TFE not loaded
+			{% endif %}
+		}
 		######################
 		### Chinese Rulers ###
 		######################
 		# Need to know exactly what rulers might get involved in the Dynastic Cycle
-		if = {
+		else_if = {
 			limit = {
-				NOT = { global_var:irtock3_enabled = flag:wtwsms } # Only relevant if not using a mod that excludes East Asia
+				# Only relevant if not using a mod that excludes East Asia
+				NOR = {
+					global_var:irtock3_enabled ?= flag:wtwsms
+					global_var:irtock3_enabled ?= flag:tfe
+				}
 				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
 				exists = situation:dynastic_cycle
 				top_liege = this # Needs to be independent
@@ -311,6 +416,11 @@ irtock3_setup_governments = {
 		# Need to know exactly which rulers are Ritsuryo at game start, to determine if anyone, and who, will start the game off as the "Japanese Imperial Dynasty"
 		else_if = { # Independent Rulers
 			limit = {
+				# Only relevant if not using a mod that excludes East Asia
+				NOR = {
+					global_var:irtock3_enabled ?= flag:wtwsms
+					global_var:irtock3_enabled ?= flag:tfe
+				}
 				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
 				top_liege = this # Needs to be independent
 				government_is_japanese_trigger = yes
@@ -329,6 +439,11 @@ irtock3_setup_governments = {
 		}
 		else_if = { # Vassal Feudal Rulers under a Japanese-government liege
 			limit = {
+				# Only relevant if not using a mod that excludes East Asia
+				NOR = {
+					global_var:irtock3_enabled ?= flag:wtwsms
+					global_var:irtock3_enabled ?= flag:tfe
+				}
 				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
 				top_liege != this # Needs to be a vassal
 				any_liege_or_above = { government_is_japanese_trigger = yes } # Need to be under a Japanese-government liege
@@ -397,8 +512,12 @@ irtock3_setup_governments = {
 		# Converter can't use geographical location as conditions for government mappings, and a lot of the region is out-of-scope, so handling Wanua needs to be handled through CK3 script
 		else_if = {
 			limit = {
+				# Only relevant if not using a mod that excludes East Asia
+				NOR = {
+					global_var:irtock3_enabled ?= flag:wtwsms
+					global_var:irtock3_enabled ?= flag:tfe
+				}
 				has_tgp_dlc_trigger = yes # Need to have All Under Heaven
-				NOT = { global_var:irtock3_enabled = flag:wtwsms } # Shouldn't even check this block if using a mod that doesn't even include the region
 				OR = { # Monarchies/Republics shouldn't become Wanua
 					has_government = tribal_government
 					has_government = nomad_government # Imperator migratory tribes might convert as this
@@ -1083,7 +1202,10 @@ irtock3_setup_governments = {
 	# Shouldn't run if using a mod that doesn't include East Asia
 	if = {
 		limit = {
-			NOT = { global_var:irtock3_enabled = flag:wtwsms }
+			NOR = {
+				global_var:irtock3_enabled ?= flag:wtwsms
+				global_var:irtock3_enabled ?= flag:tfe
+			}
 		}
 
 		# Until a better setup is determined, make every empire where at least half of the de jure counties beneath it are Chinese be de jure under h_china, and then make sure that land is added to the Dynastic Cycle situation
@@ -2690,6 +2812,104 @@ irtock3_setup_governments = {
 		}
 	}
 
+	{% if tfe %}
+	######################
+	### TFE Rome Setup ###
+	######################
+	# Roman empire realms require a little setup to work with TFE
+	if = {
+		limit = {
+			any_in_list = { list = tfe_roman_emperors_list }
+		}
+
+		every_in_list = {
+			list = tfe_roman_emperors_list
+			save_scope_as = roman_emperor_scope
+
+			# If they happen to have the hegemony WRE/ERE titles, they need to be destroyed and replaced with the empire equivalent, since TFE doesn't use the hegemonies
+			if = {
+				limit = {
+					OR = {
+						has_title = title:h_eastern_roman_empire
+						has_title = title:h_western_roman_empire
+					}
+				}
+
+				# If any of their vassals are empires, destroy the empire titles so there are no issues
+				every_vassal = {
+					limit = { highest_held_title_tier = tier_empire }
+					save_scope_as = vassal_temp
+					every_held_title = {
+						title_tier = empire
+						scope:vassal_temp = { destroy_title = prev }
+					}
+					clear_saved_scope = vassal_temp
+				}
+
+				# Give them their respective title
+				create_title_and_vassal_change = {
+					type = created
+					save_scope_as = change
+					add_claim_on_loss = yes
+				}
+				if = {
+					limit = { has_title = title:h_eastern_roman_empire }
+					title:e_byzantium = {
+						change_title_holder = {
+							holder = scope:roman_emperor_scope
+							change = scope:change
+						}
+					}
+				}
+				if = {
+					limit = { has_title = title:h_western_roman_empire }
+					title:e_western_roman_empire = {
+						change_title_holder = {
+							holder = scope:roman_emperor_scope
+							change = scope:change
+						}
+					}
+				}
+				resolve_title_and_vassal_change = scope:change
+
+				# Destroy the hegemonies, and make sure their new empire is their primary title
+				if = {
+					limit = { has_title = title:h_eastern_roman_empire }
+					destroy_title = title:h_eastern_roman_empire
+					set_primary_title_to = title:e_byzantium
+					
+					if = {
+						limit = {
+							has_government = roman_imperial_government
+							title:e_byzantium = {
+								NOT = { has_title_law = imperial_elective_succession_law }
+							}
+						}
+						title:e_byzantium = { add_title_law = imperial_elective_succession_law }
+					}
+				}
+				if = {
+					limit = { has_title = title:h_western_roman_empire }
+					destroy_title = title:h_western_roman_empire
+					set_primary_title_to = title:e_western_roman_empire
+					
+					if = {
+						limit = {
+							has_government = roman_imperial_government
+							title:e_western_roman_empire = {
+								NOT = { has_title_law = imperial_elective_succession_law }
+							}
+						}
+						title:e_western_roman_empire = { add_title_law = imperial_elective_succession_law }
+					}
+				}
+			}
+		}
+	}
+
+	# TFE has this on_action trigger at game start to setup roman-government realms, but to make sure it doesn't conflict with the converter's government setup effect, instead having it trigger at the end here
+	trigger_event = { on_action = on_romanesque_government_start }
+	{% endif %}
 
 	## Finally, recalculate the culture heads
 	recalculate_cultural_heads_of_type = herd
@@ -3946,17 +4166,6 @@ irtock3_split_rome_empire_region_effect = {
 				name = prefecture_region
 				value = geographical_region:$REGION$
 			}
-
-			# If the title being used is a base game title, need to possibly change names and set variables accordingly
-			if = {
-				limit = { has_variable = base_game_prefecture_title }
-				set_variable = rome_praetorian_prefecture # To indicate this empire title is being used as a praetorian prefecture for Rome for things like localization reset later
-				# Because of how Persia's name is setup to change, need to include that as a special case here
-				if = {
-					limit = { this = title:e_persia }
-					set_definitive_form = no
-				}
-			}
 		}
 
 		# Make sure to remove variables from other titles used for this region
@@ -3966,7 +4175,6 @@ irtock3_split_rome_empire_region_effect = {
 				variable = rome_dynamic_empire_region_$REGION$
 				if = {
 					limit = { this != scope:new_title }
-					remove_variable = rome_praetorian_prefecture
 					remove_variable = prefecture_region
 					reset_title_name = yes
 				}
@@ -4000,9 +4208,17 @@ irtock3_gamestart_add_title_to_prefecture_region_effect = {
 		limit = {
 			title:$EMPIRE$ ?= { tier = tier_empire }
 		}
-		title:$EMPIRE$ = { set_variable = base_game_prefecture_title } # This indicates that this title in the list is a base game title, not one that was dynamically created
+		title:$EMPIRE$ = {
+			set_variable = {
+				name = prefecture_region
+				value = geographical_region:$REGION$
+			}
+			# The Prefectures should always start de jure under h_roman_empire
+			set_de_jure_liege_title = title:h_roman_empire
+		}
+		# Tracking exactly which titles are being used for prefecture titles for other converter content
 		add_to_global_variable_list = {
-			name = rome_dynamic_empire_region_$REGION$
+			name = rome_prefecture_titles
 			target = title:$EMPIRE$
 		}
 	}
@@ -4091,17 +4307,6 @@ irtock3_form_roman_prefecture_effect = {
 				name = prefecture_region
 				value = geographical_region:$REGION$
 			}
-
-			# If the title being used is a base game title, need to possibly change names and set variables accordingly
-			if = {
-				limit = { has_variable = base_game_prefecture_title }
-				set_variable = rome_praetorian_prefecture # To indicate this empire title is being used as a praetorian prefecture for Rome for things like localization reset later
-				# Because of how Persia's name is setup to change, need to include that as a special case here
-				if = {
-					limit = { this = title:e_persia }
-					set_definitive_form = no
-				}
-			}
 		}
 
 		# Make sure to remove variables from other titles used for this region
@@ -4111,7 +4316,6 @@ irtock3_form_roman_prefecture_effect = {
 				variable = rome_dynamic_empire_region_$REGION$
 				if = {
 					limit = { this != scope:new_title }
-					remove_variable = rome_praetorian_prefecture
 					remove_variable = prefecture_region
 					reset_title_name = yes
 				}
@@ -4124,6 +4328,8 @@ irtock3_form_roman_prefecture_effect = {
 			limit = {
 				# Needs a kingdom to drift
 				kingdom ?= {
+					# Shouldn't bother checking for kingdoms already set to be added
+					NOT = { is_in_list = additional_de_jure_kingdoms }
 					# No need to check kingdoms already under the new prefecture
 					trigger_if = {
 						limit = { exists = empire }
@@ -4525,23 +4731,17 @@ irtock3_set_government_from_ruler = {
 				scope:new_government_character = { change_government = japan_administrative_government }
 			}
 			{% if tfe %}
-			imperial_government = {
-				scope:new_government_character = { change_government = imperial_government }
+			manorial_government = {
+				scope:new_government_character = { change_government = manorial_government }
 			}
-			autocratic_government = {
-				scope:new_government_character = { change_government = autocratic_government }
+			roman_imperial_government = {
+				scope:new_government_character = { change_government = roman_imperial_government }
 			}
-			autocratic_government_ep3 = {
-				scope:new_government_character = { change_government = autocratic_government_ep3 }
-			}
-			legion_government = {
-				scope:new_government_character = { change_government = legion_government }
+			romanesque_government = {
+				scope:new_government_character = { change_government = romanesque_government }
 			}
 			roman_government = {
 				scope:new_government_character = { change_government = roman_government }
-			}
-			imperial_cult_government = {
-				scope:new_government_character = { change_government = imperial_cult_government }
 			}
 			city_state_government = {
 				scope:new_government_character = { change_government = city_state_government }
@@ -4595,171 +4795,6 @@ irtock3_set_government_from_ruler = {
 			{% endif %}
 		}
 	}
-}
-
-
-# This scripted_effect is to be used at game start if any of the hegemony Rome titles have land, to make sure their de jure empires are properly setup as praetorian prefectures
-# INPUTS:
-## $REGION$ - The region being checked (It will be setup so that the 'irtock3_rome_empire_division_' part of the region name is removed)
-irtock3_setup_roman_prefectures_game_start = {
-	# Get a list of every relevant empire title in the region
-	## Because of how the Imperator regions overlap with the converter's CK3 prefecture regions, it is quite possible for the converter's dynamic hegemony empires to not cover enough of their respective regions to use that as a condition
-	if = {
-		limit = {
-			title:h_roman_empire = { is_titular = no }
-		}
-		if = {
-			limit = { exists = title:e_IRTOCK3_hegemony_h_roman_empire_$REGION$ }
-			title:e_IRTOCK3_hegemony_h_roman_empire_$REGION$ = {
-				add_to_list = region_empires
-				# Make sure the empire title is added to the global list of potential titles for the region
-				add_to_global_variable_list = {
-					name = rome_dynamic_empire_region_irtock3_rome_empire_division_$REGION$
-					target = this
-				}
-			}
-		}
-	}
-	if = {
-		limit = {
-			title:h_western_roman_empire = { is_titular = no }
-		}
-		if = {
-			limit = { exists = title:e_IRTOCK3_hegemony_h_western_roman_empire_$REGION$ }
-			title:e_IRTOCK3_hegemony_h_western_roman_empire_$REGION$ = {
-				add_to_list = region_empires
-				# Make sure the empire title is added to the global list of potential titles for the region
-				add_to_global_variable_list = {
-					name = rome_dynamic_empire_region_irtock3_rome_empire_division_$REGION$
-					target = this
-				}
-			}
-		}
-	}
-	if = {
-		limit = {
-			title:h_eastern_roman_empire = { is_titular = no }
-		}
-		if = {
-			limit = { exists = title:e_IRTOCK3_hegemony_h_eastern_roman_empire_$REGION$ }
-			title:e_IRTOCK3_hegemony_h_eastern_roman_empire_$REGION$ = {
-				add_to_list = region_empires
-				# Make sure the empire title is added to the global list of potential titles for the region
-				add_to_global_variable_list = {
-					name = rome_dynamic_empire_region_irtock3_rome_empire_division_$REGION$
-					target = this
-				}
-			}
-		}
-	}
-
-	# Of the empires in the list, choose the one with the most land in the region
-	if = {
-		limit = {
-			any_in_list = { list = region_empires }
-		}
-
-		ordered_in_list = {
-			list = region_empires
-			order_by = {
-				value = 0
-				every_de_jure_county = {
-					if = {
-						limit = {
-							title_province = { geographical_region = irtock3_rome_empire_division_$REGION$ }
-						}
-						add = 1
-					}
-				}
-			}
-			max = 1
-			save_scope_as = prefecture_empire
-		}
-	}
-
-	# Setup that empire as the praetorian prefecture for the region
-	if = {
-		limit = { exists = scope:prefecture_empire }
-
-		# Check if there happens to be a base game title that could be used instead
-		if = {
-			limit = {
-				has_global_variable_list = rome_dynamic_empire_region_irtock3_rome_empire_division_$REGION$
-				any_in_global_list = {
-					variable = rome_dynamic_empire_region_irtock3_rome_empire_division_$REGION$
-					has_variable = base_game_prefecture_title
-					this != scope:prefecture_empire
-					is_titular = yes
-				}
-			}
-
-			random_in_global_list = {
-				variable = rome_dynamic_empire_region_irtock3_rome_empire_division_$REGION$
-				limit = {
-					has_variable = base_game_prefecture_title
-					this != scope:prefecture_empire
-					is_titular = yes
-				}
-				save_scope_as = new_empire_title
-			}
-
-			scope:prefecture_empire = {
-				every_in_de_jure_hierarchy = {
-					limit = { tier = tier_kingdom }
-					set_de_jure_liege_title = scope:new_empire_title
-				}
-			}
-
-			if = {
-				limit = { exists = scope:prefecture_empire.holder }
-				scope:prefecture_empire.holder = {
-					get_title = scope:new_empire_title
-					destroy_title = scope:prefecture_empire
-					set_primary_title_to = scope:new_empire_title
-				}
-			}
-
-			scope:new_empire_title = {
-				set_de_jure_liege_title = scope:prefecture_empire.hegemony
-				save_scope_as = prefecture_empire
-			}
-			clear_saved_scope = new_empire_title
-		}
-
-		# Give the empire title it's variables
-		scope:prefecture_empire = {
-			set_title_name = irtock3_rome_empire_division_$REGION$
-
-			# Save what region this title is associated with
-			set_variable = {
-				name = prefecture_region
-				value = geographical_region:irtock3_rome_empire_division_$REGION$
-			}
-
-			# If the title being used is a base game title, need to possibly change names and set variables accordingly
-			if = {
-				limit = { has_variable = base_game_prefecture_title }
-				set_variable = rome_praetorian_prefecture # To indicate this empire title is being used as a praetorian prefecture for Rome for things like localization reset later
-				# Because of how Persia's name is setup to change, need to include that as a special case here
-				if = {
-					limit = { this = title:e_persia }
-					set_definitive_form = no
-				}
-			}
-		}
-	}
-
-	# Clean up
-	if = {
-		limit = {
-			any_in_list = { list = region_empires }
-		}
-		every_in_list = {
-			list = region_empires
-			remove_from_list = region_empires
-		}
-	}
-	clear_saved_scope = prefecture_empire
 }
 
 
@@ -4892,3 +4927,492 @@ irtock3_assign_china_imperator_name_effect = {
 		}
 	}
 }
+
+
+
+
+
+{% if tfe %}
+# This scripted effect is to easily allow the TFE diocese titles to be setup under their corresponding praetorian prefecture, and be given de jure land if a rome hegemony starts the game completely controlling their region
+# INPUTS:
+## $DIOCESE$ - The diocese title being setup
+## $PREFECTURE$ - The Praetorian Prefecture title the diocese is going under
+## $REGION$ - The geographical_region region associated with the diocese
+## $EFFECT$ - This is the scripted effect setup by TFE to make all of the relevant de jure changes for the diocese
+irtock3_tfe_setup_diocese_game_start = {
+	$DIOCESE$ = { set_de_jure_liege_title = $PREFECTURE$ }
+
+	# Because of the way the Prefecture titles get setup at game start, any empires generated by the converter for hegemonies should automatically be replaced by their corresponding base game titles if the hegemony is Rome/WRE/ERE, so simply checking if the given prefecture title is titular or not and covers the region completely should be enough to determine whether the diocese should be setup
+	if = {
+		limit = {
+			any_county_in_region = {
+				region = $REGION$
+				percent >= 0.9 # Just need to control *most* of the region
+				hegemony ?= title:h_roman_empire
+			}
+		}
+		$EFFECT$ = yes
+		$DIOCESE$ = {
+			set_variable = { name = diocese_restoration_stage value = 2 }
+			add_to_list = setup_diocese_titles
+		}
+	}
+	# Otherwise, the diocese shouldn't be setup, but it needs the proper variable so it can be restored later
+	else = {
+		$DIOCESE$ = { set_variable = { name = diocese_restoration_stage value = 0 } }
+	}
+}
+
+# This effect is to handle a lot of the de jure setup for TFE's Prefectures and Diocese on game start
+irtock3_tfe_rome_prefecture_setup = {
+	## Intitial de jure changes, to try and make sure things are as similar to TFE as possible
+	title:d_viennensis_roman = { set_de_jure_liege_title = title:k_septem_provinciae }
+	title:e_prafectura_gallia = { set_de_jure_liege_title = title:h_roman_empire }
+	title:e_prafectura_italia = { set_de_jure_liege_title = title:h_roman_empire }
+	title:e_prafectura_illyricum = { set_de_jure_liege_title = title:h_roman_empire }
+	title:e_prafectura_oriens = { set_de_jure_liege_title = title:h_roman_empire }
+	title:k_minister_prafectura_illyricum = { set_de_jure_liege_title = title:e_byzantium }
+	title:k_minister_magister_officiorum = { set_de_jure_liege_title = title:e_byzantium }
+	title:k_minister_comes_sacrarum_largitionum = { set_de_jure_liege_title = title:e_byzantium }
+	title:k_minister_quaestor_sacri_palatii = { set_de_jure_liege_title = title:e_byzantium }
+	title:k_minister_primicerius_notariorum = { set_de_jure_liege_title = title:e_byzantium }
+	title:k_minister_magister_militum_praesentalis = { set_de_jure_liege_title = title:e_byzantium }
+	title:k_minister_comes_domesticorum = { set_de_jure_liege_title = title:e_byzantium }
+	title:k_minister_praepositus_sacri_cubiculi = { set_de_jure_liege_title = title:e_byzantium }
+	title:k_augusta_byzantium = { set_de_jure_liege_title = title:e_byzantium }
+	title:k_mm_illyricum = { set_de_jure_liege_title = title:e_byzantium }
+	title:k_mm_thraciae = { set_de_jure_liege_title = title:e_byzantium }
+	title:k_mm_orientem = { set_de_jure_liege_title = title:e_byzantium }
+	title:k_mm_aegypti = { set_de_jure_liege_title = title:e_byzantium }
+	title:k_mm_armeniam = { set_de_jure_liege_title = title:e_byzantium }
+	title:k_minister_prafectura_oriens = { set_de_jure_liege_title = title:e_byzantium }
+	title:k_minister_prafectura_gallia = { set_de_jure_liege_title = title:e_western_roman_empire }
+	title:k_comes_galliae = { set_de_jure_liege_title = title:e_western_roman_empire }
+	title:k_comes_britanniae = { set_de_jure_liege_title = title:e_western_roman_empire }
+	title:k_minister_prafectura_italia = { set_de_jure_liege_title = title:e_western_roman_empire }
+	title:k_minister_magister_utriusque_militiae = { set_de_jure_liege_title = title:e_western_roman_empire }
+	title:k_minister_wre_praepositus_sacri_cubiculi = { set_de_jure_liege_title = title:e_western_roman_empire }
+	title:k_minister_wre_magister_officiorum = { set_de_jure_liege_title = title:e_western_roman_empire }
+	title:k_minister_wre_primicerius_notariorum = { set_de_jure_liege_title = title:e_western_roman_empire }
+	title:k_minister_wre_comes_domesticorum = { set_de_jure_liege_title = title:e_western_roman_empire }
+	title:k_minister_wre_comes_sacrarum_largitionum = { set_de_jure_liege_title = title:e_western_roman_empire }
+	title:k_minister_wre_quaestor_sacri_palatii = { set_de_jure_liege_title = title:e_western_roman_empire }
+	title:k_augusta_western_roman_empire = { set_de_jure_liege_title = title:e_western_roman_empire }
+	title:k_comes_illyrici = { set_de_jure_liege_title = title:e_western_roman_empire }
+	title:k_comes_africae = { set_de_jure_liege_title = title:e_western_roman_empire }
+	title:k_britannia = { set_de_jure_liege_title = title:e_prafectura_gallia }
+	title:k_hispania = { set_de_jure_liege_title = title:e_prafectura_gallia }
+	title:k_septem_provinciae = { set_de_jure_liege_title = title:e_prafectura_gallia }
+	title:k_gallia = { set_de_jure_liege_title = title:e_prafectura_gallia }
+	title:k_italia_annonariae = { set_de_jure_liege_title = title:e_prafectura_italia }
+	title:k_italia_suburbicariae = { set_de_jure_liege_title = title:e_prafectura_italia }
+	title:k_africae = { set_de_jure_liege_title = title:e_prafectura_italia }
+	title:k_daciae = { set_de_jure_liege_title = title:e_prafectura_illyricum }
+	title:k_macedon = { set_de_jure_liege_title = title:e_prafectura_illyricum }
+	title:k_pannonia = { set_de_jure_liege_title = title:e_prafectura_illyricum }
+	title:k_thracia = { set_de_jure_liege_title = title:e_prafectura_oriens }
+	title:k_orientis = { set_de_jure_liege_title = title:e_prafectura_oriens }
+	title:k_asiae = { set_de_jure_liege_title = title:e_prafectura_oriens }
+	title:k_aegyptus = { set_de_jure_liege_title = title:e_prafectura_oriens }
+	title:k_pontus_roman = { set_de_jure_liege_title = title:e_prafectura_oriens }
+	title:d_tobruk = { set_de_jure_liege_title = title:k_aegyptus }
+	title:d_hellespontus = { set_de_jure_liege_title = title:k_asiae }
+	title:d_caria = { set_de_jure_liege_title = title:k_asiae }
+	title:d_lycia = { set_de_jure_liege_title = title:k_asiae }
+	title:d_phyrgia_pacatiana = { set_de_jure_liege_title = title:k_asiae }
+	title:d_phyrgia_salutaris = { set_de_jure_liege_title = title:k_asiae }
+	title:d_pisidia = { set_de_jure_liege_title = title:k_asiae }
+	title:d_palestina_prima = { set_de_jure_liege_title = title:k_orientis }
+	title:d_salutaris = { set_de_jure_liege_title = title:k_orientis }
+	title:d_isauria = { set_de_jure_liege_title = title:k_orientis }
+	title:d_cilicia_secunda = { set_de_jure_liege_title = title:k_orientis }
+	title:d_pannonia_valeria = { set_de_jure_liege_title = title:k_pannonia }
+	title:d_macedonia_salutaris = { set_de_jure_liege_title = title:k_macedon }
+	title:d_germania_prima = { set_de_jure_liege_title = title:k_gallia }
+	title:d_lugdunensis_prima = { set_de_jure_liege_title = title:k_gallia }
+	title:d_lugdunensis_senonia = { set_de_jure_liege_title = title:k_gallia }
+	title:d_lugdunensis_tertia = { set_de_jure_liege_title = title:k_gallia }
+	title:d_alpes_poenninae_roman = { set_de_jure_liege_title = title:k_gallia }
+
+	## Setup Roman Diocese titles
+	### Some diocese have variables set tracking whether they split from Rome or not, so those will get set before the effect checks if the diocese should be setup, since those effects will change the variables accordingly if they should be setup
+
+	### k_italia_suburbicariae   italia_suburbicariae_diocese_region
+	set_global_variable = {
+		name = italia_suburbicariae_dejure_split
+		value = yes
+	}
+	irtock3_tfe_setup_diocese_game_start = {
+		DIOCESE = title:k_italia_suburbicariae
+		PREFECTURE = title:e_prafectura_italia
+		REGION = italia_suburbicariae_diocese_region
+		EFFECT = dejure_shift_restore_italia_suburbicariae_effect
+	}
+
+	### k_italia_annonariae   italia_annonariae_diocese_region
+	set_global_variable = {
+		name = italia_annonariae_dejure_split
+		value = yes
+	}
+	irtock3_tfe_setup_diocese_game_start = {
+		DIOCESE = title:k_italia_annonariae
+		PREFECTURE = title:e_prafectura_italia
+		REGION = italia_annonariae_diocese_region
+		EFFECT = dejure_shift_restore_italia_annonariae_effect
+	}
+
+	### k_africae   africae_diocese_region
+	set_global_variable = {
+		name = africae_dejure_split
+		value = yes
+	}
+	irtock3_tfe_setup_diocese_game_start = {
+		DIOCESE = title:k_africae
+		PREFECTURE = title:e_prafectura_italia
+		REGION = africae_diocese_region
+		EFFECT = dejure_shift_restore_africae_effect
+	}
+
+	### k_hispania   hispania_diocese_region
+	set_global_variable = {
+		name = hispania_dejure_split
+		value = yes
+	}
+	irtock3_tfe_setup_diocese_game_start = {
+		DIOCESE = title:k_hispania
+		PREFECTURE = title:e_prafectura_gallia
+		REGION = hispania_diocese_region
+		EFFECT = dejure_shift_restore_hispania_effect
+	}
+
+	### k_septem_provinciae   septem_provinciae_diocese_region
+	set_global_variable = {
+		name = septem_provinciae_dejure_split
+		value = yes
+	}
+	irtock3_tfe_setup_diocese_game_start = {
+		DIOCESE = title:k_septem_provinciae
+		PREFECTURE = title:e_prafectura_gallia
+		REGION = septem_provinciae_diocese_region
+		EFFECT = dejure_shift_restore_septem_provinciae_effect
+	}
+
+	### k_gallia   gallia_diocese_region
+	set_global_variable = {
+		name = gallia_dejure_split
+		value = yes
+	}
+	irtock3_tfe_setup_diocese_game_start = {
+		DIOCESE = title:k_gallia
+		PREFECTURE = title:e_prafectura_gallia
+		REGION = gallia_diocese_region
+		EFFECT = dejure_shift_restore_gallia_effect
+	}
+	#### Due to de jure changes from TFE, some titles aren't properly drifted over, so that's being handled here
+	title:c_dortmund = { set_de_jure_liege_title = title:d_bructeria }
+	title:c_arnsberg = { set_de_jure_liege_title = title:d_bructeria }
+	title:c_mark = { set_de_jure_liege_title = title:d_bructeria }
+	title:c_bergh = { set_de_jure_liege_title = title:d_bructeria }
+	title:c_sayn = { set_de_jure_liege_title = title:d_bructeria }
+	#### Bructeria might not have a proper de jure kingdom setup, so try to find an appropriate one for now
+	if = {
+		limit = {
+			NOT = { exists = title:d_bructeria.kingdom }
+		}
+		title:d_bructeria = {
+			random_title_to_title_neighboring_kingdom = {
+				# Prefer it's default de jure kingdom
+				limit = { this = title:k_cheruscia }
+				# Otherwise, prefer a kingdom on the Eastern side of the Rhine
+				alternative_limit = {
+					OR = {
+						AND = {
+							title:c_munster.kingdom ?= this
+							exists = title:c_munster.empire
+						}
+						AND = {
+							title:c_nassau.kingdom ?= this
+							exists = title:c_nassau.empire
+						}
+					}
+				}
+				# Otherwise, just choose a neighboring kingdom that hopefully isn't k_gallia
+				alternative_limit = { this != title:k_gallia }
+				# If nothing else, just choose something neighboring it
+				alternative_limit = { always = yes }
+				save_scope_as = new_kingdom
+			}
+			set_de_jure_liege_title = scope:new_kingdom
+		}
+	}
+
+	### Germania   k_germania   custom_roman_germania (gets put under Galliarum Prefecture; might change to converter's Germania Prefecture title)
+	#### TFE require that the Diocese of Gallia or Italia Annonariae be setup to take this decision, so requiring that as well
+	if = {
+		limit = {
+			OR = {
+				title:k_gallia.var:diocese_restoration_stage ?= 2
+				title:k_italia_annonariae.var:diocese_restoration_stage ?= 2
+			}
+			any_county_in_region = {
+				region = custom_roman_germania
+				percent >= 0.9 # Just need to control *most* of the region
+				hegemony ?= title:h_roman_empire
+			}
+		}
+		dejure_shift_create_germania_effect = yes
+
+		title:d_roman_frisia = { set_de_jure_liege_title = title:k_germania }
+		title:d_roman_alemannia = { set_de_jure_liege_title = title:k_germania }
+		title:d_roman_sicambria = { set_de_jure_liege_title = title:k_germania }
+		title:d_visurgia_inferior = { set_de_jure_liege_title = title:k_germania }
+		title:d_visurgia_superior = { set_de_jure_liege_title = title:k_germania }
+		title:d_albia_inferior = { set_de_jure_liege_title = title:k_germania }
+		title:d_albia_superior = { set_de_jure_liege_title = title:k_germania }
+		title:d_gabretia = { set_de_jure_liege_title = title:k_germania }
+		title:d_menum = { set_de_jure_liege_title = title:k_germania }
+		title:k_germania = {
+			set_de_jure_liege_title = title:e_prafectura_gallia
+			add_to_list = setup_diocese_titles
+		}
+		
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:created_province_of_germania
+		}
+	}
+
+	### k_britannia   britannia_diocese_region
+	set_global_variable = {
+		name = britannia_dejure_split
+		value = yes
+	}
+	irtock3_tfe_setup_diocese_game_start = {
+		DIOCESE = title:k_britannia
+		PREFECTURE = title:e_prafectura_gallia
+		REGION = britannia_diocese_region
+		EFFECT = dejure_shift_restore_britannia_effect
+	}
+	#### Due to de jure changes from TFE, some titles aren't properly drifted over, so that's being handled here
+	title:c_northumberland = { set_de_jure_liege_title = title:d_lothian }
+	if = {
+		limit = { title:k_britannia.var:diocese_restoration_stage ?= 2 } # This means the diocese was properly setup under the prefecture
+		title:d_northumberland = { set_de_jure_liege_title = title:k_britannia }
+	}
+
+	### Caledonia & Hibernia (adds onto k_britannia)
+	#### TFE requires that k_britannia already be setup when taking these decisions, so requiring that here too
+	if = {
+		limit = { title:k_britannia.var:diocese_restoration_stage ?= 2 }
+		
+		if = {
+			limit = {
+				any_county_in_region = {
+					region = custom_roman_caledonia
+					percent >= 0.9 # Just need to control *most* of the region
+					hegemony ?= title:h_roman_empire
+				}
+			}
+			dejure_shift_create_caledonia_effect = yes
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:created_province_of_caledonia
+			}
+		}
+
+		if = {
+			limit = {
+				any_county_in_region = {
+					region = custom_roman_hibernia
+					percent >= 0.9 # Just need to control *most* of the region
+					hegemony ?= title:h_roman_empire
+				}
+			}
+			dejure_shift_create_hibernia_effect = yes
+			add_to_global_variable_list = {
+				name = unavailable_unique_decisions
+				target = flag:created_province_of_hibernia
+			}
+		}
+	}
+
+	### k_thracia   thracia_diocese_region
+	irtock3_tfe_setup_diocese_game_start = {
+		DIOCESE = title:k_thracia
+		PREFECTURE = title:e_prafectura_oriens
+		REGION = thracia_diocese_region
+		EFFECT = dejure_shift_restore_thracia_effect
+	}
+	#### Due to de jure changes from TFE, some titles aren't properly drifted over, so that's being handled here
+	title:c_rhodopes = { set_de_jure_liege_title = title:d_strymon }
+
+	### k_asiae   asiae_diocese_region
+	irtock3_tfe_setup_diocese_game_start = {
+		DIOCESE = title:k_asiae
+		PREFECTURE = title:e_prafectura_oriens
+		REGION = asiae_diocese_region
+		EFFECT = dejure_shift_restore_asiae_effect
+	}
+	#### Due to de jure changes from TFE, some titles aren't properly drifted over, so that's being handled here
+	title:c_selge = { set_de_jure_liege_title = title:d_cibyrrhaeot }
+	title:c_lycia = { set_de_jure_liege_title = title:d_lycia }
+	title:c_pisidia = { set_de_jure_liege_title = title:d_pisidia }
+	title:c_philomelium = { set_de_jure_liege_title = title:d_pisidia }
+	title:c_chonae = { set_de_jure_liege_title = title:d_caria }
+	title:c_caria = { set_de_jure_liege_title = title:d_caria }
+	title:c_hadrianeia = { set_de_jure_liege_title = title:d_phyrgia_pacatiana }
+	title:c_pacatiana = { set_de_jure_liege_title = title:d_phyrgia_salutaris }
+	title:c_prusa = { set_de_jure_liege_title = title:d_phyrgia_salutaris }
+	title:c_nikaea = { set_de_jure_liege_title = title:d_hellespontus }
+	title:c_mysia = { set_de_jure_liege_title = title:d_hellespontus }
+	title:c_abydos = { set_de_jure_liege_title = title:d_hellespontus }
+
+	### k_pontus_roman   pontica_diocese_region
+	irtock3_tfe_setup_diocese_game_start = {
+		DIOCESE = title:k_pontus_roman
+		PREFECTURE = title:e_prafectura_oriens
+		REGION = pontica_diocese_region
+		EFFECT = dejure_shift_restore_pontica_effect
+	}
+	#### Due to de jure changes from TFE, some titles aren't properly drifted over, so that's being handled here
+	title:c_bithynia = { set_de_jure_liege_title = title:d_opsikion }
+	title:c_tarsos = { set_de_jure_liege_title = title:d_opsikion }
+	title:c_honorias = { set_de_jure_liege_title = title:d_honorias }
+	title:c_phrygia = { set_de_jure_liege_title = title:d_galatia_salutaris }
+	title:c_galatia_salutaris = { set_de_jure_liege_title = title:d_galatia_salutaris }
+	title:c_kyzistra = { set_de_jure_liege_title = title:d_cappadocia }
+	title:c_lycandus = { set_de_jure_liege_title = title:d_melitene }
+	title:c_arsamosata = { set_de_jure_liege_title = title:d_melitene }
+	title:c_bakriya = { set_de_jure_liege_title = title:d_sophene }
+	title:c_mayyafariqin = { set_de_jure_liege_title = title:d_sophene }
+
+	### k_orientis   orientis_diocese_region
+	irtock3_tfe_setup_diocese_game_start = {
+		DIOCESE = title:k_orientis
+		PREFECTURE = title:e_prafectura_oriens
+		REGION = orientis_diocese_region
+		EFFECT = dejure_shift_restore_orientis_effect
+	}
+	#### Due to de jure changes from TFE, some titles aren't properly drifted over, so that's being handled here
+	title:c_seleucia = { set_de_jure_liege_title = title:d_isauria }
+	title:c_alexandretta = { set_de_jure_liege_title = title:d_cilicia_secunda }
+	title:c_tall_hamid = { set_de_jure_liege_title = title:d_cilicia_secunda }
+	title:c_harran = { set_de_jure_liege_title = title:d_edessa }
+	title:c_dausar = { set_de_jure_liege_title = title:d_edessa }
+	title:c_raqqa = { set_de_jure_liege_title = title:d_edessa }
+	title:c_khabur = { set_de_jure_liege_title = title:d_edessa }
+	title:c_upper_khabur = { set_de_jure_liege_title = title:d_diyarbakr }
+	title:c_hakkari = { set_de_jure_liege_title = title:d_kurdistan }
+	title:c_tall_fafan = { set_de_jure_liege_title = title:d_kurdistan }
+	title:c_acre = { set_de_jure_liege_title = title:d_lebanon }
+	title:c_ghazza = { set_de_jure_liege_title = title:d_palestina_prima }
+	title:c_jerusalem = { set_de_jure_liege_title = title:d_palestina_prima }
+	title:c_jaffa = { set_de_jure_liege_title = title:d_palestina_prima }
+	title:c_nablus = { set_de_jure_liege_title = title:d_palestina_prima }
+	title:c_jilat = { set_de_jure_liege_title = title:d_salutaris }
+	title:c_kerak = { set_de_jure_liege_title = title:d_salutaris }
+	title:c_negev = { set_de_jure_liege_title = title:d_salutaris }
+	title:c_al_aqabah = { set_de_jure_liege_title = title:d_salutaris }
+	title:c_maan = { set_de_jure_liege_title = title:d_salutaris }
+	title:c_firaun = { set_de_jure_liege_title = title:d_salutaris }
+	title:c_sinai = { set_de_jure_liege_title = title:d_salutaris }
+
+	### k_aegyptus   aegyptus_diocese_region
+	irtock3_tfe_setup_diocese_game_start = {
+		DIOCESE = title:k_aegyptus
+		PREFECTURE = title:e_prafectura_oriens
+		REGION = aegyptus_diocese_region
+		EFFECT = dejure_shift_restore_aegyptus_effect
+	}
+	#### Due to de jure changes from TFE, some titles aren't properly drifted over, so that's being handled here
+	title:c_tobruk = { set_de_jure_liege_title = title:d_tobruk }
+	title:c_sullum = { set_de_jure_liege_title = title:d_tobruk }
+	title:c_siwa = { set_de_jure_liege_title = title:d_tobruk }
+	title:c_giza = { set_de_jure_liege_title = title:d_alexandria }
+	title:c_al-buhaira = { set_de_jure_liege_title = title:d_alexandria }
+	title:c_al-gharbiya = { set_de_jure_liege_title = title:d_alexandria }
+	title:c_cairo = { set_de_jure_liege_title = title:d_delta }
+	title:c_ushmun = { set_de_jure_liege_title = title:d_al-wahat }
+	title:c_bahnasa = { set_de_jure_liege_title = title:d_al-wahat }
+	title:c_fayyum = { set_de_jure_liege_title = title:d_al-wahat }
+	title:c_kharga = { set_de_jure_liege_title = title:d_al-said }
+	title:c_dakhla = { set_de_jure_liege_title = title:d_al-said }
+	title:c_qusayr = { set_de_jure_liege_title = title:d_al-said }
+	title:c_jabal_quzlum = { set_de_jure_liege_title = title:d_al-said }
+
+	### k_pannonia   illyricum_pannoniae_diocese_region
+	set_global_variable = {
+		name = illyricum_dejure_split
+		value = yes
+	}
+	irtock3_tfe_setup_diocese_game_start = {
+		DIOCESE = title:k_pannonia
+		PREFECTURE = title:e_prafectura_illyricum
+		REGION = illyricum_pannoniae_diocese_region
+		EFFECT = dejure_shift_restore_pannonia_effect
+	}
+	#### Due to de jure changes from TFE, some titles aren't properly drifted over, so that's being handled here
+	if = {
+		limit = { title:k_pannonia.var:diocese_restoration_stage ?= 2 } # This means the diocese was properly setup under the prefecture
+		title:c_lienz = { set_de_jure_liege_title = title:d_carinthia }
+	}
+
+	### k_macedon   macedon_diocese_region
+	irtock3_tfe_setup_diocese_game_start = {
+		DIOCESE = title:k_macedon
+		PREFECTURE = title:e_prafectura_illyricum
+		REGION = macedon_diocese_region
+		EFFECT = dejure_shift_restore_macedon_effect
+	}
+	#### Due to de jure changes from TFE, some titles aren't properly drifted over, so that's being handled here
+	title:c_ohrid = { set_de_jure_liege_title = title:d_thessalonika }
+	title:c_serres = { set_de_jure_liege_title = title:d_thessalonika }
+	title:c_skopje = { set_de_jure_liege_title = title:d_macedonia_salutaris }
+	title:c_strumica = { set_de_jure_liege_title = title:d_macedonia_salutaris }
+	title:c_pirin = { set_de_jure_liege_title = title:d_macedonia_salutaris }
+	title:c_aetolia = { set_de_jure_liege_title = title:d_achaia }
+	title:c_cephalonia = { set_de_jure_liege_title = title:d_epirus }
+	title:c_buthrotum = { set_de_jure_liege_title = title:d_epirus }
+	title:c_avlonas = { set_de_jure_liege_title = title:d_epirus }
+
+	### k_daciae   daciae_diocese_region [MOESIA]
+	irtock3_tfe_setup_diocese_game_start = {
+		DIOCESE = title:k_daciae
+		PREFECTURE = title:e_prafectura_illyricum
+		REGION = daciae_diocese_region
+		EFFECT = dejure_shift_restore_daciae_effect
+	}
+	#### Due to de jure changes from TFE, some titles aren't properly drifted over, so that's being handled here
+	title:c_rashka = { set_de_jure_liege_title = title:d_bulgaria }
+	title:c_naissus = { set_de_jure_liege_title = title:d_dacia_mediterrania }
+	
+	### Dacia   k_roman_dacia   custom_roman_dacia (Proper; TFE calls the above Diocese of Moesia "Dacia" until the decision to restore this diocese is taken)
+	#### TFE requires that either the Diocese of Pannonia or Moesia is properly setup, so requiring that as well
+	if = {
+		limit = {
+			OR = {
+				title:k_daciae.var:diocese_restoration_stage ?= 2
+				title:k_pannonia.var:diocese_restoration_stage ?= 2
+			}
+			any_county_in_region = {
+				region = custom_roman_dacia
+				percent >= 0.9 # Just need to control *most* of the region
+				hegemony ?= title:h_roman_empire
+			}
+		}
+		dejure_shift_create_dacia_effect = yes
+		title:d_malvensis = { set_de_jure_liege_title = title:k_roman_dacia }
+		title:d_apulensis = { set_de_jure_liege_title = title:k_roman_dacia }
+		title:d_porolissensis = { set_de_jure_liege_title = title:k_roman_dacia }
+		title:k_roman_dacia = {
+			set_de_jure_liege_title = title:e_prafectura_illyricum # Might change this to the converter's Pannonia Prefecture empire title
+			add_to_list = setup_diocese_titles
+		}
+		add_to_global_variable_list = {
+			name = unavailable_unique_decisions
+			target = flag:created_province_of_dacia
+		}
+		title:k_daciae = { set_title_name = MOESIA }
+	}
+}
+{% endif %}
