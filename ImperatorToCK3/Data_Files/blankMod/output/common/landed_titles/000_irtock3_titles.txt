@@ -246,7 +246,6 @@ d_rome = {
 	}
 }
 
-{% unless tfe %} # TFE has their own equivalent titles
 e_roman_prefecture_galliarum = {
 	color = { 109 98 28 }
 
@@ -371,7 +370,6 @@ e_roman_prefecture_britannia = {
 
 	can_create = { always = no } # Still figuring out exactly how Praetorian Prefectures should be handled; for now, copying TFE which prevents them being created normally
 }
-{% endunless %}
 
 e_roman_prefecture_germania = {
 	color = { 185 162 152 }
